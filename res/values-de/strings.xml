@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="app_name">Camp Fahrplan</string>
+	<string name="OK">OK</string>
+	<string name="dlg_certificate_message_fmt">Aufbau einer gesicherten Verbindung nicht
+		möglich.\n(%s)</string>
+	<string name="dlg_invalid_certificate_title">Unbekanntes Zertifikat</string>
+	<string name="dlg_invalid_certificate_accept">Zertifikat akzeptieren</string>
+	<string name="dlg_invalid_certificate_reject">Zertifikat ablehnen</string>
+	<string name="dlg_invalid_certificate_could_not_apply">Zertifikat konnte nicht übernommen werden.</string>
+	<string name="dlg_err_connection_failed">Verbindungsfehler</string>
+	<string name="dlg_err_failed_wrong_password">Das Kennwort ist falsch.</string>
+	<string name="dlg_err_failed_unknown_host">Unbekannte Adresse:\n%s</string>
+	<string name="dlg_err_failed_wrong_http_credentials">Ungültige HTTP Authentisierung</string>
+	<string name="dlg_err_failed_timeout">Server antwortet nicht (Zeitüberschreitung).
+	</string>
+	<string name="dlg_err_failed_connect_failure">Unbekannter Verbindungsfehler</string>
+	<string name="dlg_err_failed_encoding_failure">Encodingfehler</string>
+	<string name="dlg_err_failed_parse_failure">Kann Antwort nicht dekodieren.</string>
+	<string name="dlg_err_failed_ssl_failure">SSL Fehler</string>
+	<string name="refresh">Aktualisieren</string>
+	<string name="progress_loading_data">Hole Fahrplan...</string>
+	<string name="progress_processing_data">Verarbeite Fahrplan...</string>
+	<string name="load_data">Laden</string>
+	<string name="choose_day">Tag wählen</string>
+	<string name="day">Tag</string>
+	<string name="about">Info</string>
+	<string name="fahrplan">Fahrplan</string>
+	<string name="appVersion">App Version </string>
+	<string name="aktualisiert_auf">Aktualisiert auf %s</string>
+	<string name="settings">Einstellungen</string>
+	<string name="alarms">Alarme</string>
+	<string name="delete">Löschen</string>
+	<string name="alarm_prompt">Erinnerung</string>
+	<string-array name="alarm_array">
+		<item>zur Startzeit</item>
+		<item>5 Minuten</item>
+		<item>10 Minuten</item>
+		<item>15 Minuten</item>
+		<item>30 Minuten</item>
+		<item>45 Minuten</item>
+		<item>60 Minuten</item>
+	</string-array>
+	<string name="choose_alarm_time">Wähle die Alarmzeit:</string>
+	<string name="setup_alarm">Alarm einstellen</string>
+	<string name="reminders">Erinnerungen</string>
+	<string name="reminder">Erinnerung</string>
+	<string name="feedback">Feedback</string>
+	<string name="delete_all">Alle löschen</string>
+	<string name="reminder_ringtone">Erinnerungston</string>
+	<string name="insistent_alarm">Dauerhafter Alarm</string>
+	<string name="usage">Hinweis:\n\nLange auf Vortrag tippen um Erinnerung einzustellen.</string>
+	<string name="toggle_highlight">Markierung an/aus</string>
+	<string name="set_alarm">Alarm setzen</string>
+	<string name="copyright_notes">Copyright 2011 Daniel Dorau. Portions Copyright 2008-2011 The K-9 Dog Walkers and 2006-2011 the Android Open Source Project.</string>
+</resources>

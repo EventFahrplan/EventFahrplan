@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="match_parent"
+	android:layout_height="match_parent" android:orientation="vertical"
+	android:background="#000000" xmlns:android="http://schemas.android.com/apk/res/android">
+	<LinearLayout android:id="@+id/roomNameLandscape"
+		android:orientation="horizontal" android:layout_width="match_parent"
+		android:layout_height="wrap_content" android:layout_alignParentTop="true">
+		<TextView android:layout_height="wrap_content"
+			android:layout_width="25dp" android:text=""></TextView>
+		<TextView android:textColor="#ffffff" android:layout_height="wrap_content"
+			android:layout_gravity="center" android:text="Kourou"
+			android:textStyle="bold" android:textSize="11sp"
+			android:layout_weight="1" android:layout_width="wrap_content"
+			android:gravity="center"></TextView>
+		<TextView android:textColor="#ffffff" android:layout_height="wrap_content"
+			android:layout_gravity="center" android:text="Baikonur"
+			android:textStyle="bold" android:textSize="11sp"
+			android:layout_weight="1" android:layout_width="wrap_content"
+			android:gravity="center"></TextView>
+<!--	<TextView android:textColor="#ffffff" android:layout_height="wrap_content"
+			android:layout_gravity="center" android:text="Saal 3"
+			android:textStyle="bold" android:textSize="11sp"
+			android:layout_weight="1" android:layout_width="wrap_content"
+			android:gravity="center"></TextView>-->
+	</LinearLayout>
+	<ScrollView android:id="@+id/scrollView1"
+		android:layout_width="fill_parent" android:layout_height="fill_parent"
+		android:layout_below="@+id/roomNameLandscape" xmlns:android="http://schemas.android.com/apk/res/android"
+		android:fadingEdge="none">
+		<LinearLayout android:id="@+id/linearLayout1"
+			android:layout_width="match_parent" android:layout_height="match_parent"
+			android:orientation="horizontal">
+			<LinearLayout android:id="@+id/times_layout"
+				android:layout_width="wrap_content" android:layout_height="match_parent"
+				android:orientation="vertical" android:background="#ffaaaaaa">
+			</LinearLayout>
+
+			<LinearLayout android:id="@+id/scrollContainer"
+				android:layout_width="match_parent" android:layout_height="match_parent"
+				android:orientation="horizontal" android:background="#222222">
+				<LinearLayout android:id="@+id/raum1"
+					android:layout_width="wrap_content" android:layout_weight="1"
+					android:layout_height="match_parent" android:orientation="vertical">
+				</LinearLayout>
+				<LinearLayout android:id="@+id/raum2"
+					android:layout_width="wrap_content" android:layout_weight="1"
+					android:layout_height="match_parent" android:orientation="vertical">
+				</LinearLayout>
+<!-- 			<LinearLayout android:id="@+id/raum3"
+					android:layout_width="wrap_content" android:layout_weight="1"
+					android:layout_height="match_parent" android:orientation="vertical">
+				</LinearLayout>-->
+			</LinearLayout>
+		</LinearLayout>
+	</ScrollView>
+	<LinearLayout android:id="@+id/statusLine"
+		android:layout_width="match_parent" android:layout_height="wrap_content"
+		android:background="#B0000000" android:layout_alignParentBottom="true">
+		<TextView android:text="TextView2" android:layout_width="match_parent"
+			android:layout_gravity="bottom" android:layout_height="wrap_content"
+			android:textSize="12sp" android:textColor="#fff" android:gravity="center_horizontal"
+			android:id="@+id/statusLineText"></TextView>
+	</LinearLayout>
+</RelativeLayout>

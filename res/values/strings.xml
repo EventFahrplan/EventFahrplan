@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="app_name">Camp Schedule</string>
+	<string name="OK">OK</string>
+	<string name="dlg_certificate_message_fmt">Failed to establish secure connection.\n(%s)</string>
+	<string name="dlg_invalid_certificate_title">Unknown certificate</string>
+	<string name="dlg_invalid_certificate_accept">Accept certificate</string>
+	<string name="dlg_invalid_certificate_reject">Deny certificate</string>
+	<string name="dlg_invalid_certificate_could_not_apply">Certificate could not be added.</string>
+	<string name="dlg_err_connection_failed">Connection failure</string>
+	<string name="dlg_err_failed_wrong_password">Wrong password</string>
+	<string name="dlg_err_failed_unknown_host">Unknown address:\n%s</string>
+	<string name="dlg_err_failed_wrong_http_credentials">Invalid HTTP Authentication</string>
+	<string name="dlg_err_failed_timeout">Server doesn\'t respond (Timeout).
+	</string>
+	<string name="dlg_err_failed_connect_failure">Unknown connection failure</string>
+	<string name="dlg_err_failed_encoding_failure">Encoding failure</string>
+	<string name="dlg_err_failed_parse_failure">Couldn\'t parse response</string>
+	<string name="dlg_err_failed_ssl_failure">SSL failure</string>
+	<string name="refresh">Refresh</string>
+	<string name="progress_loading_data">Get schedule...</string>
+	<string name="progress_processing_data">Processing schedule...</string>
+	<string name="load_data">Load</string>
+	<string name="choose_day">Choose day</string>
+	<string name="day">Day</string>
+	<string name="about">Info</string>
+	<string name="fahrplan">Schedule</string>
+	<string name="appVersion">App Version </string>
+	<string name="aktualisiert_auf">Updated to %s</string>
+	<string name="settings">Settings</string>
+	<string name="alarms">Alarms</string>
+	<string name="delete">Delete</string>
+	<string name="alarm_prompt">Reminder</string>
+	<string-array name="alarm_array">
+		<item>at start time</item>
+		<item>5 Minutes</item>
+		<item>10 Minutes</item>
+		<item>15 Minutes</item>
+		<item>30 Minutes</item>
+		<item>45 Minutes</item>
+		<item>60 Minutes</item>
+	</string-array>
+	<string name="choose_alarm_time">Choose alarm time:</string>
+	<string name="setup_alarm">Set alarm</string>
+	<string name="reminders">Reminders</string>
+	<string name="reminder">Reminder</string>
+	<string name="feedback">Feedback</string>
+	<string name="delete_all">Delete all</string>
+	<string name="reminder_ringtone">Alarm Tone</string>
+	<string name="insistent_alarm">Insistent Alarm</string>
+	<string name="usage">Note:\n\nLong-Press on a Lecture to set an alarm.</string>
+	<string name="toggle_highlight">Marker on/off</string>
+	<string name="set_alarm">Set alarm</string>
+	<string name="copyright_notes">Copyright 2011 Daniel Dorau. Portions Copyright 2008-2011 The K-9 Dog Walkers and 2006-2011 the Android Open Source Project.</string>
+</resources>

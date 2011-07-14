@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+      android:versionCode="1"
+      android:versionName="1.0" package="nerd.tuxmobil.fahrplan.camp11">
+    <uses-sdk android:targetSdkVersion="8" android:minSdkVersion="7"/>
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <uses-permission android:name="android.permission.VIBRATE"></uses-permission>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"></uses-permission>
+
+    <application android:icon="@drawable/icon" android:label="@string/app_name" android:name="MyApp">
+        <activity android:label="@string/app_name" android:name="Fahrplan">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name="EventDetail" android:configChanges="keyboardHidden|orientation"></activity>
+        <activity android:configChanges="keyboardHidden|orientation" android:name="AlarmList" android:label="@string/reminders"></activity>
+        <receiver android:name="AlarmReceiver">
+        </receiver>
+        <receiver android:name="onBootReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"></action>
+            </intent-filter>
+        </receiver>
+        <activity android:name="Prefs"></activity>
+
+    </application>
+</manifest>
