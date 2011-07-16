@@ -763,7 +763,7 @@ public class Fahrplan extends Activity implements response_callback,
 					.setText(getString(R.string.appVersion)
 							+ " "
 							+ getApplicationContext().getPackageManager()
-									.getPackageInfo("de.machtnix.fahrplan.camp11", 0).versionName);
+									.getPackageInfo("nerd.tuxmobil.fahrplan.camp11", 0).versionName);
 		} catch (NameNotFoundException e) {
 			e.printStackTrace();
 			text.setText("");
