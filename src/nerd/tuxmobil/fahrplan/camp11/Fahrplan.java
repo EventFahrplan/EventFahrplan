@@ -99,8 +99,8 @@ public class Fahrplan extends Activity implements response_callback,
 		trackColors.put("Community", R.drawable.community_event_border);
 		trackColors.put("Culture", R.drawable.culture_event_border);
 		trackColors.put("Science", R.drawable.science_event_border);
-		trackColors.put("Misc", R.drawable.science_event_border);
-		trackColors.put("Hacker Space Program", R.drawable.science_event_border);
+		trackColors.put("Misc", R.drawable.misc_event_border);
+		trackColors.put("Hacker Space Program", R.drawable.hacker_space_program_event_border);
 		
 		trackColorsHi = new HashMap<String, Integer>();
 		trackColorsHi.put("Hacking", R.drawable.hacking_event_border_highlight);
@@ -109,8 +109,8 @@ public class Fahrplan extends Activity implements response_callback,
 		trackColorsHi.put("Community", R.drawable.community_event_border_highlight);
 		trackColorsHi.put("Culture", R.drawable.culture_event_border_highlight);
 		trackColorsHi.put("Science", R.drawable.science_event_border_highlight);
-		trackColorsHi.put("Misc", R.drawable.science_event_border_highlight);
-		trackColorsHi.put("Hacker Space Program", R.drawable.science_event_border_highlight);
+		trackColorsHi.put("Misc", R.drawable.misc_event_border_highlight);
+		trackColorsHi.put("Hacker Space Program", R.drawable.hacker_space_program_event_border_highlight);
 
 		final TextView leftText = (TextView) findViewById(R.id.title_left_text);
 		dayTextView = (TextView) findViewById(R.id.title_right_text);
