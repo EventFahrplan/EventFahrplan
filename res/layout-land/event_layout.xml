@@ -3,9 +3,12 @@
 	android:layout_width="match_parent" android:layout_height="wrap_content"
 	android:orientation="vertical" android:padding="10dp"
 	android:background="@drawable/event_border">
+    <RelativeLayout android:layout_height="wrap_content" android:layout_width="match_parent" android:id="@+id/relativeLayout1" android:gravity="bottom" android:layout_gravity="bottom">
 	<TextView android:text="TextView" android:id="@+id/event_title"
 		android:layout_width="wrap_content" android:layout_height="wrap_content"
-		android:textStyle="bold" android:textColor="#000000" android:textSize="12sp"></TextView>
+		android:textStyle="bold" android:textColor="#000000" android:textSize="12sp" android:layout_alignParentLeft="true"></TextView>
+	<ImageView android:src="@drawable/bell" android:id="@+id/bell" android:layout_alignParentRight="true" android:scaleType="centerInside" android:layout_alignParentTop="true" android:paddingTop="6dp" android:layout_height="14dp" android:layout_width="14dp"></ImageView>
+	</RelativeLayout>
 	<TextView android:text="TextView" android:id="@+id/event_subtitle"
 		android:layout_width="wrap_content" android:layout_height="fill_parent"
 		android:layout_weight="1" android:textColor="#000000" android:textSize="9sp"></TextView>

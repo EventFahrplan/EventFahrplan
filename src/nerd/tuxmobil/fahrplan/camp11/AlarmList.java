@@ -34,9 +34,9 @@ public class AlarmList extends ListActivity {
 
 		setContentView(R.layout.alarms);
 
-		AlarmsDBOpenHelper lecturesDB = new AlarmsDBOpenHelper(this);
+		AlarmsDBOpenHelper alarmsDB = new AlarmsDBOpenHelper(this);
 
-		db = lecturesDB.getReadableDatabase();
+		db = alarmsDB.getReadableDatabase();
 		Cursor cursor;
 
 		try {
@@ -63,6 +63,8 @@ public class AlarmList extends ListActivity {
 		this.setListAdapter(mAdapter);
 
 		registerForContextMenu(getListView());
+		
+		setResult(RESULT_CANCELED);
 	}
 
 	@Override
@@ -78,6 +80,7 @@ public class AlarmList extends ListActivity {
 		switch (menuItemIndex) {
 		case 0:
 			delete_alarm(info.position);
+			setResult(RESULT_OK);
 			break;
 		}
 		return true;

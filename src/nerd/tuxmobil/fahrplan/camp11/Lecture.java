@@ -20,6 +20,7 @@ public class Lecture {
 	public String links;
 	public String date;
 	public boolean highlight;
+	public boolean has_alarm;
 	
 	public Lecture(String lecture_id) {
 		title = "";
@@ -39,6 +40,7 @@ public class Lecture {
 		date = "";
 		this.lecture_id = lecture_id;
 		highlight = false;
+		has_alarm = false;
 	}
 
 	public static int parseStartTime(String text) {

@@ -38,6 +38,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
@@ -69,10 +70,12 @@ public class Fahrplan extends Activity implements response_callback,
 	private Animation slideDownOut;
 	private TextView statusLineText;
 	private LecturesDBOpenHelper lecturesDB;
+	private AlarmsDBOpenHelper alarmDB;
 	private MetaDBOpenHelper metaDB;
 	private SQLiteDatabase metadb = null;
 	private SQLiteDatabase lecturedb = null;
 	private SQLiteDatabase highlightdb = null;
+	private SQLiteDatabase alarmdb = null;
 	private HashMap<String, Integer> trackColorsHi;
 	private HighlightDBOpenHelper highlightDB;
 	public static final String PREFS_NAME = "settings";
@@ -142,6 +145,7 @@ public class Fahrplan extends Activity implements response_callback,
 		lecturesDB = new LecturesDBOpenHelper(this);
 		metaDB = new MetaDBOpenHelper(this);
 		highlightDB = new HighlightDBOpenHelper(this);
+		alarmDB = new AlarmsDBOpenHelper(this);
 
 		loadMeta();
 
@@ -208,6 +212,7 @@ public class Fahrplan extends Activity implements response_callback,
 		if (metadb != null) metadb.close();
 		if (lecturedb != null) lecturedb.close();
 		if (highlightdb != null) highlightdb.close();
+		if (alarmdb != null) alarmdb.close();
 	}
 
 	@Override
@@ -278,7 +283,7 @@ public class Fahrplan extends Activity implements response_callback,
 			return true;
 		case R.id.item_alarms:
 			intent = new Intent(this, AlarmList.class);
-			startActivity(intent);
+			startActivityForResult(intent, MyApp.ALARMLIST);
 			return true;
 		case R.id.item_settings:
 			intent = new Intent(this, Prefs.class);
@@ -304,6 +309,19 @@ public class Fahrplan extends Activity implements response_callback,
 				.format("%s %d", getString(R.string.day), day));
 	}
 
+	private void setBell(Lecture lecture)
+	{
+		final ScrollView parent = (ScrollView)findViewById(R.id.scrollView1);
+		View v = parent.findViewWithTag(lecture);
+		ImageView bell = (ImageView)v.findViewById(R.id.bell);
+		
+		if (lecture.has_alarm) {
+			bell.setVisibility(View.VISIBLE);
+		} else {
+			bell.setVisibility(View.GONE);
+		}
+	}
+	
 	private void scrollTo(String lecture_id) {
 		int height;
 		switch (getResources().getConfiguration().orientation) {
@@ -528,6 +546,12 @@ public class Fahrplan extends Activity implements response_callback,
 				}
 				View event = inflater.inflate(R.layout.event_layout, null);
 				int height = (int) (standardHeight * (lecture.duration / 15) * scale);
+				ImageView bell = (ImageView) event.findViewById(R.id.bell);
+				if (lecture.has_alarm) {
+					bell.setVisibility(View.VISIBLE);
+				} else {
+					bell.setVisibility(View.GONE);
+				}
 				room.addView(event, LayoutParams.MATCH_PARENT, height);
 				TextView title = (TextView) event
 						.findViewById(R.id.event_title);
@@ -586,6 +610,8 @@ public class Fahrplan extends Activity implements response_callback,
 			e.printStackTrace();
 			lecturedb.close();
 			lecturedb = null;
+			highlightdb.close();
+			highlightdb = null;
 			return;
 		}
 		try {
@@ -651,8 +677,47 @@ public class Fahrplan extends Activity implements response_callback,
 			hCursor.moveToNext();
 		}
 		hCursor.close();
+		
+		loadAlarms();
 	}
 
+	private void loadAlarms() {
+		Cursor alarmCursor;
+		
+		for (Lecture lecture : MyApp.lectureList) {
+			lecture.has_alarm = false;
+		}
+			
+		if (alarmdb == null) {
+			alarmdb = alarmDB.getReadableDatabase();
+		}
+		try {
+			alarmCursor = alarmdb.query("alarms", AlarmsDBOpenHelper.allcolumns,
+					null, null, null,
+					null, null);
+		} catch (SQLiteException e) {
+			e.printStackTrace();
+			alarmdb.close();
+			alarmdb = null;
+			return;
+		}
+		Log.d(LOG_TAG, "Got " + alarmCursor.getCount() + " alarm rows.");
+		
+		alarmCursor.moveToFirst();
+		while (!alarmCursor.isAfterLast()) {
+			String lecture_id = alarmCursor.getString(4);
+			Log.d(LOG_TAG, "lecture "+lecture_id+" has alarm");
+			
+			for (Lecture lecture : MyApp.lectureList) {
+				if (lecture.lecture_id.equals(lecture_id)) {
+					lecture.has_alarm = true;
+				}
+			}
+			alarmCursor.moveToNext();
+		}
+		alarmCursor.close();
+	}
+	
 	private void loadMeta() {
 		if (metadb == null) {
 			metadb = metaDB.getReadableDatabase();
@@ -810,6 +875,57 @@ public class Fahrplan extends Activity implements response_callback,
 	private int[] alarm_times = { 0, 5, 10, 15, 30, 45, 60 };
 	private View contextMenuView;
 	
+	public void deleteAlarm(Lecture lecture) {
+		AlarmsDBOpenHelper alarmDB = new AlarmsDBOpenHelper(this);
+		SQLiteDatabase db = alarmDB.getWritableDatabase();
+		Cursor cursor;
+		
+		try {
+		cursor = db.query("alarms", AlarmsDBOpenHelper.allcolumns,
+					"eventid=?", new String[] { lecture.lecture_id }, null,
+					null, null);
+		} catch (SQLiteException e) {
+			e.printStackTrace();
+			Log.d(LOG_TAG,"failure on alarm query");
+			db.close();
+			return;
+		} 
+		
+		if (cursor.getCount() == 0) {
+			db.close();
+			cursor.close();
+			Log.d(LOG_TAG, "alarm for " + lecture.lecture_id + " not found");
+			return;
+		}
+		
+		cursor.moveToFirst();
+		
+		Intent intent = new Intent(this, AlarmReceiver.class);
+		String lecture_id = cursor.getString(4);
+		intent.putExtra("lecture_id", lecture_id);
+		int day = cursor.getInt(6);
+		intent.putExtra("day", day);
+		String title = cursor.getString(1);
+		intent.putExtra("title", title);
+		long startTime = cursor.getLong(5);
+		intent.putExtra("startTime", startTime);
+		// delete any previous alarms of this lecture
+		db.delete("alarms", "eventid=?", new String[] { lecture.lecture_id });
+		db.close();
+		
+		intent.setAction("de.machtnix.fahrplan.ALARM");
+		intent.setData(Uri.parse("alarm://"+lecture.lecture_id));
+		
+		AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+		PendingIntent pendingintent = PendingIntent.getBroadcast(this, Integer.parseInt(lecture.lecture_id), intent, 0);
+		
+		// Cancel any existing alarms for this lecture
+		alarmManager.cancel(pendingintent);
+		
+		lecture.has_alarm = false;
+		setBell(lecture);
+	}
+	
 	public void addAlarm(View v, int alarmTime) {
 		Lecture lecture = (Lecture) v.getTag();
 		Time time = lecture.getTime();
@@ -861,6 +977,9 @@ public class Fahrplan extends Activity implements response_callback,
 
 		db.insert("alarms", null, values);
 		db.close();
+		
+		lecture.has_alarm = true;
+		setBell(lecture);
 	}
 	
 	public void writeHighlight(Lecture lecture) {
@@ -907,6 +1026,9 @@ public class Fahrplan extends Activity implements response_callback,
 		case 1:
 			getAlarmTimeDialog(contextMenuView);
 			break;
+		case 2:
+			deleteAlarm(lecture);
+			break;
 		}
 		return true;
 	}
@@ -917,6 +1039,31 @@ public class Fahrplan extends Activity implements response_callback,
 		menu.add(0, 0, 0, getString(R.string.toggle_highlight));
 		menu.add(0, 1, 1, getString(R.string.set_alarm));
 		contextMenuView = v;
+		Lecture lecture = (Lecture)contextMenuView.getTag();
+		if (lecture.has_alarm) {
+			menu.add(0, 2, 2, getString(R.string.delete_alarm));
+		}
 	}
 
+	public void refreshViews() {
+		for (Lecture lecture : MyApp.lectureList) {
+			setBell(lecture);
+		}
+	}
+	
+	public void onActivityResult(int requestCode, int resultCode, Intent intent)
+	{
+		super.onActivityResult(requestCode, resultCode, intent);
+
+		switch (requestCode) {
+			case MyApp.ALARMLIST:
+				Log.d(LOG_TAG, "Return from AlarmList with result " + resultCode);
+				if (resultCode == RESULT_OK) {
+					Log.d(LOG_TAG, "Reload alarms");
+					loadAlarms();
+					refreshViews();
+				}
+				break;
+		}
+	}
 }
