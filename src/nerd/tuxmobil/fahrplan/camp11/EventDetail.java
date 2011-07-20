@@ -27,7 +27,7 @@ public class EventDetail extends Activity {
 	private String event_id;
 	private String title;
 	private int startTime;
-	private static String feedbackURL = "https://cccv.pentabarf.org/feedback/27C3/event/"; // + 4302.en.html
+	private static String feedbackURL = "https://cccv.pentabarf.org/feedback/Camp 2011/event/"; // + 4302.en.html
 	private Locale locale;
 	
     @Override
@@ -84,9 +84,8 @@ public class EventDetail extends Activity {
     
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
-		// disabled until feedback URL is published
-//		MenuInflater mi = new MenuInflater(getApplication());
-//		mi.inflate(R.menu.detailmenu, menu);
+		MenuInflater mi = new MenuInflater(getApplication());
+		mi.inflate(R.menu.detailmenu, menu);
 		return true;
 	}
 
