@@ -664,8 +664,6 @@ public class Fahrplan extends Activity implements response_callback,
 		if (cursor.getCount() == 0) {
 			// evtl. Datenbankreset wg. DB Formatänderung -> neu laden
 			cursor.close();
-			Log.d(LOG_TAG,"fetch on loading empty lecture list");
-			fetchFahrplan();
 			return;
 		}
 		
