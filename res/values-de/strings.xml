@@ -52,6 +52,7 @@
 	<string name="usage">Hinweis:\n\nLange auf Vortrag tippen um Erinnerung einzustellen.</string>
 	<string name="toggle_highlight">Markierung an/aus</string>
 	<string name="set_alarm">Alarm setzen</string>
-	<string name="copyright_notes">Copyright 2011 Daniel Dorau. Portions Copyright 2008-2011 The K-9 Dog Walkers and 2006-2011 the Android Open Source Project.</string>
+	<string name="copyright_notes">Copyright 2011 Daniel Dorau. Portions Copyright 2008-2011 The K-9 Dog Walkers, 2010 Johan Nilsson and 2006-2011 the Android Open Source Project.</string>
 	<string name="delete_alarm">Alarm löschen</string>
+	<string name="today">heute</string>
 </resources>

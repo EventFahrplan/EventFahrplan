@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout android:layout_width="match_parent"
 	android:layout_height="match_parent" android:orientation="vertical"
-	android:background="#000000" xmlns:android="http://schemas.android.com/apk/res/android">
+	android:background="#000000" xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res/nerd.tuxmobil.fahrplan.camp11">
+	
+	<com.markupartist.android.widget.ActionBar 
+    	android:id="@+id/actionbar"
+    	app:title="@string/app_name"
+    	style="@style/ActionBar"
+    	android:layout_alignParentTop="true" 
+	/>
 	<LinearLayout android:id="@+id/roomNameLandscape"
 		android:orientation="horizontal" android:layout_width="match_parent"
-		android:layout_height="wrap_content" android:layout_alignParentTop="true">
+		android:layout_height="wrap_content" android:layout_below="@id/actionbar">
 		<TextView android:layout_height="wrap_content"
 			android:layout_width="25dp" android:text=""></TextView>
 		<TextView android:textColor="#ffffff" android:layout_height="wrap_content"

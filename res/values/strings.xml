@@ -51,6 +51,7 @@
 	<string name="usage">Note:\n\nLong-Press on a Lecture to set an alarm.</string>
 	<string name="toggle_highlight">Marker on/off</string>
 	<string name="set_alarm">Set alarm</string>
-	<string name="copyright_notes">Copyright 2011 Daniel Dorau. Portions Copyright 2008-2011 The K-9 Dog Walkers and 2006-2011 the Android Open Source Project.</string>
+	<string name="copyright_notes">Copyright 2011 Daniel Dorau. Portions Copyright 2008-2011 The K-9 Dog Walkers, 2010 Johan Nilsson and 2006-2011 the Android Open Source Project.</string>
 	<string name="delete_alarm">Clear alarm</string>
+	<string name="today">today</string>
 </resources>

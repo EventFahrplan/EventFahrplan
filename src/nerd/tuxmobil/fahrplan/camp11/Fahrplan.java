@@ -3,6 +3,9 @@ package nerd.tuxmobil.fahrplan.camp11;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.markupartist.android.widget.ActionBar;
+import com.markupartist.android.widget.ActionBar.Action;
+
 import nerd.tuxmobil.fahrplan.camp11.CustomHttpClient.HTTP_STATUS;
 import nerd.tuxmobil.fahrplan.camp11.MyApp.TASKS;
 import android.app.Activity;
@@ -31,16 +34,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -59,14 +59,13 @@ public class Fahrplan extends Activity implements response_callback,
 	private int lastLectureEnd = 0;
 	private HashMap<String, Integer> trackColors;
 	private int day = 1;
-	private TextView dayTextView;
+	private View dayTextView;
 	public static Context context = null;
 	public static String[] rooms = { "Kourou", "Baikonur" };
 	private FahrplanParser parser;
-	private ProgressBar progressSpinner;
 	private LinearLayout statusBar;
 	private Animation slideUpIn;
-	private ImageButton refreshBtn;
+	private View refreshBtn;
 	private Animation slideDownOut;
 	private TextView statusLineText;
 	private LecturesDBOpenHelper lecturesDB;
@@ -79,17 +78,17 @@ public class Fahrplan extends Activity implements response_callback,
 	private HashMap<String, Integer> trackColorsHi;
 	private HighlightDBOpenHelper highlightDB;
 	public static final String PREFS_NAME = "settings";
+	private ActionBar actionBar = null;
 
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		context = this;
-		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
-		// requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+//		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 		setContentView(R.layout.main);
-		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,
-				R.layout.custom_title);
+//		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,
+//				R.layout.custom_title);
 		global = (MyApp) getApplicationContext();
 		fetcher = new FetchFahrplan();
 		parser = new FahrplanParser();
@@ -115,23 +114,54 @@ public class Fahrplan extends Activity implements response_callback,
 		trackColorsHi.put("Misc", R.drawable.misc_event_border_highlight);
 		trackColorsHi.put("Hacker Space Program", R.drawable.hacker_space_program_event_border_highlight);
 
-		final TextView leftText = (TextView) findViewById(R.id.title_left_text);
-		dayTextView = (TextView) findViewById(R.id.title_right_text);
-		leftText.setText(getString(R.string.app_name));
+        actionBar = (ActionBar) findViewById(R.id.actionbar);
+        
+        dayTextView = actionBar.addAction(new Action() {
+            @Override
+            public void performAction(View view) {
+            	chooseDay();
+            }
+            @Override
+            public int getDrawable() {
+                return 0;
+            }
+            @Override
+            public String getText() {
+                return getString(R.string.day);
+            }
+        });
+        
+        actionBar.addAction(new Action() {
+            @Override
+            public void performAction(View view) {
+            	refreshBtn = view;
+            	fetchFahrplan();
+            }
+            @Override
+            public int getDrawable() {
+                return R.drawable.refresh_btn;
+            }
+            @Override
+            public String getText() {
+                return null;
+            }
+        });
+        
+//		final TextView leftText = (TextView) findViewById(R.id.title_left_text);
+//		dayTextView = (TextView) findViewById(R.id.title_right_text);
+//		leftText.setText(getString(R.string.app_name));
 		statusLineText = (TextView) findViewById(R.id.statusLineText);
 
-		progressSpinner = (ProgressBar) findViewById(R.id.leadProgressBar);
-		progressSpinner.setVisibility(View.GONE);
 		statusBar = (LinearLayout) findViewById(R.id.statusLine);
 		statusBar.setVisibility(View.GONE);
-		refreshBtn = (ImageButton) findViewById(R.id.refresh_button);
-		refreshBtn.setOnClickListener(new OnClickListener() {
+//		refreshBtn = (ImageButton) findViewById(R.id.refresh_button);
+/*		refreshBtn.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				fetchFahrplan();
 			}
-		});
+		});*/
 
 		slideUpIn = AnimationUtils.loadAnimation(this, R.anim.slide_up_in);
 		slideDownOut = AnimationUtils
@@ -148,6 +178,7 @@ public class Fahrplan extends Activity implements response_callback,
 		alarmDB = new AlarmsDBOpenHelper(this);
 
 		loadMeta();
+		loadDays();
 
 		Intent intent = getIntent();
 		String lecture_id = intent.getStringExtra("lecture_id");
@@ -193,7 +224,7 @@ public class Fahrplan extends Activity implements response_callback,
 					.setText(getString(R.string.progress_processing_data));
 			if (statusBar.getVisibility() != View.VISIBLE) {
 				refreshBtn.setVisibility(View.GONE);
-				progressSpinner.setVisibility(View.VISIBLE);
+				actionBar.setProgressBarVisibility(View.VISIBLE);
 				statusBar.setVisibility(View.VISIBLE);
 				statusBar.startAnimation(slideUpIn);
 			}
@@ -250,7 +281,7 @@ public class Fahrplan extends Activity implements response_callback,
 					R.string.progress_loading_data), true);
 		} else {
 			refreshBtn.setVisibility(View.GONE);
-			progressSpinner.setVisibility(View.VISIBLE);
+			actionBar.setProgressBarVisibility(View.VISIBLE);
 			statusLineText.setText(getString(R.string.progress_loading_data));
 			statusBar.setVisibility(View.VISIBLE);
 			statusBar.startAnimation(slideUpIn);
@@ -305,8 +336,9 @@ public class Fahrplan extends Activity implements response_callback,
 		fillTimes();
 		fillRoom("Kourou", R.id.raum1);
 		fillRoom("Baikonur", R.id.raum2);
-		dayTextView.setText(String
-				.format("%s %d", getString(R.string.day), day));
+//		dayTextView.setText(String
+//				.format("%s %d", getString(R.string.day), day));
+		actionBar.updateText(dayTextView, String.format("%s %d", getString(R.string.day), day));
 	}
 
 	private void setBell(Lecture lecture)
@@ -373,12 +405,33 @@ public class Fahrplan extends Activity implements response_callback,
 	
 	private void chooseDay() {
 		CharSequence items[] = new CharSequence[MyApp.numdays];
+		Time now = new Time();
+		now.setToNow();
+		StringBuilder currentDate = new StringBuilder();
+		currentDate.append(String.format("%d", now.year));
+		currentDate.append("-");
+		currentDate.append(String.format("%02d", now.month + 1));
+		currentDate.append("-");
+		currentDate.append(String.format("%02d", now.monthDay));
+		
+		Log.d(LOG_TAG, "today is " + currentDate.toString());
+
 		for (int i = 0; i < MyApp.numdays; i++) {
 			StringBuilder sb = new StringBuilder();
 			sb.append(getString(R.string.day)).append(" ").append(i + 1);
+			for (DateList d : MyApp.dateList) {
+				if (d.dayIdx == (i + 1)) {
+					Log.d(LOG_TAG, "date of day " + sb.toString() + " is " + d.date);
+					if (currentDate.toString().equals(d.date)) {
+						sb.append(" - ");
+						sb.append(getString(R.string.today));
+					}
+					break;
+				}
+			}
 			items[i] = sb.toString();
 		}
-
+		
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle(getString(R.string.choose_day));
 		builder.setItems(items, new DialogInterface.OnClickListener() {
@@ -407,7 +460,7 @@ public class Fahrplan extends Activity implements response_callback,
 				if (MyApp.numdays == 0) {
 					progress.dismiss();
 				} else {
-					progressSpinner.setVisibility(View.GONE);
+					actionBar.setProgressBarVisibility(View.GONE);
 					statusBar.startAnimation(slideDownOut);
 					statusBar.setVisibility(View.GONE);
 					refreshBtn.setVisibility(View.VISIBLE);
@@ -429,7 +482,7 @@ public class Fahrplan extends Activity implements response_callback,
 			if (MyApp.numdays == 0) {
 				progress.dismiss();
 			} else {
-				progressSpinner.setVisibility(View.GONE);
+				actionBar.setProgressBarVisibility(View.GONE);
 				statusBar.startAnimation(slideDownOut);
 				statusBar.setVisibility(View.GONE);
 				refreshBtn.setVisibility(View.VISIBLE);
@@ -589,6 +642,50 @@ public class Fahrplan extends Activity implements response_callback,
 		}
 	}
 
+	private void loadDays() {
+		MyApp.dateList = new ArrayList<DateList>();
+		
+		if (lecturedb == null) {
+			lecturedb = lecturesDB.getReadableDatabase();
+		}
+		Cursor cursor;
+		
+		try {
+			cursor = lecturedb.query("lectures", LecturesDBOpenHelper.allcolumns,
+					null, null, null,
+					null, null);
+		} catch (SQLiteException e) {
+			e.printStackTrace();
+			lecturedb.close();
+			lecturedb = null;
+			return;
+		}
+		
+		if (cursor.getCount() == 0) {
+			// evtl. Datenbankreset wg. DB Formatänderung -> neu laden
+			cursor.close();
+			Log.d(LOG_TAG,"fetch on loading empty lecture list");
+			fetchFahrplan();
+			return;
+		}
+		
+		cursor.moveToFirst();
+		while (!cursor.isAfterLast()) {
+			int day = cursor.getInt(3);
+			String date = cursor.getString(14);
+
+			if (DateList.dateInList(MyApp.dateList, day) == false) {
+				MyApp.dateList.add(new DateList(day, date));
+			}
+			cursor.moveToNext();
+		}
+		cursor.close();
+		
+		for (DateList dayL : MyApp.dateList) {
+			Log.d(LOG_TAG, "date day " + dayL.dayIdx + " = " + dayL.date);
+		}
+	}
+	
 	private void loadLectureList(int day, boolean force) {
 		Log.d(LOG_TAG, "load lectures of day " + day);
 
@@ -777,7 +874,7 @@ public class Fahrplan extends Activity implements response_callback,
 		MyApp.fahrplan_xml = null;
 		boolean refreshDisplay = false;
 		if (result) {
-			if ((MyApp.numdays == 0) && (!version.equals(MyApp.version))) {
+			if ((MyApp.numdays == 0) || (!version.equals(MyApp.version))) {
 				refreshDisplay = true;
 			}
 		} else {
@@ -787,7 +884,7 @@ public class Fahrplan extends Activity implements response_callback,
 		if (MyApp.numdays == 0) {
 			progress.dismiss();
 		} else {
-			progressSpinner.setVisibility(View.GONE);
+			actionBar.setProgressBarVisibility(View.GONE);
 			statusBar.startAnimation(slideDownOut);
 			statusBar.setVisibility(View.GONE);
 			refreshBtn.setVisibility(View.VISIBLE);
@@ -795,6 +892,7 @@ public class Fahrplan extends Activity implements response_callback,
 		
 		if (refreshDisplay) {
 			loadMeta();
+			loadDays();
 			SharedPreferences prefs = getSharedPreferences(PREFS_NAME, 0);
 			day = prefs.getInt("displayDay", 1);
 			if (day > MyApp.numdays) {

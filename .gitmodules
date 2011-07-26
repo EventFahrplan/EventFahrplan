@@ -1,0 +1,3 @@
+[submodule "libs/ActionBar"]
+	path = libs/ActionBar
+	url = git@github.com:tuxmobil/android-actionbar.git

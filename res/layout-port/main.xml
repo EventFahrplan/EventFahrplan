@@ -1,11 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout android:layout_width="match_parent"
 	android:layout_height="match_parent" android:orientation="vertical"
-	android:background="#000000" xmlns:android="http://schemas.android.com/apk/res/android">
+	android:background="#000000" xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res/nerd.tuxmobil.fahrplan.camp11"
+	>
+
+	<com.markupartist.android.widget.ActionBar 
+    	android:id="@+id/actionbar"
+    	app:title="@string/app_name"
+    	style="@style/ActionBar"
+    	android:layout_alignParentTop="true" 
+	/>	
 	<TextView android:textColor="#ffffff" android:id="@+id/roomName"
 		android:layout_height="wrap_content" android:layout_gravity="center"
 		android:text=""
-		android:textStyle="bold" android:textSize="11sp" android:layout_alignParentTop="true" android:gravity="center" android:layout_width="match_parent"></TextView>
+		android:textStyle="bold" android:textSize="11sp" android:gravity="center" android:layout_width="match_parent"
+		android:layout_below="@id/actionbar"></TextView>
 	<nerd.tuxmobil.fahrplan.camp11.CustomScrollView
 		android:id="@+id/scrollView1" android:layout_width="fill_parent"
 		android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android"

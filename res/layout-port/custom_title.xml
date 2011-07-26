@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!-- <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:id="@+id/screen" android:layout_width="match_parent"
 	android:layout_height="match_parent" android:orientation="vertical"
 	android:gravity="center_vertical">
@@ -22,4 +22,11 @@
 		style="?android:attr/progressBarStyleSmall" android:layout_width="wrap_content"
 		android:layout_height="wrap_content" android:layout_centerVertical="true"
 		android:paddingLeft="3dip" android:layout_alignParentRight="true"></ProgressBar>
-</RelativeLayout>
+</RelativeLayout>-->
+<com.markupartist.android.widget.ActionBar 
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res/nerd.tuxmobil.fahrplan.camp11"
+    android:id="@+id/actionbar"
+    app:title="@string/app_name"
+    style="@style/ActionBar"
+/>
