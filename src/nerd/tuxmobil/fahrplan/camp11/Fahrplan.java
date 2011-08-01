@@ -129,12 +129,15 @@ public class Fahrplan extends Activity implements response_callback,
             public String getText() {
                 return getString(R.string.day);
             }
+            
+            @Override
+            public void ready(View view) {
+            }
         });
         
         actionBar.addAction(new Action() {
             @Override
             public void performAction(View view) {
-            	refreshBtn = view;
             	fetchFahrplan();
             }
             @Override
@@ -144,6 +147,11 @@ public class Fahrplan extends Activity implements response_callback,
             @Override
             public String getText() {
                 return null;
+            }
+            
+            @Override
+            public void ready(View view) {
+            	refreshBtn = view;
             }
         });
         
@@ -870,14 +878,7 @@ public class Fahrplan extends Activity implements response_callback,
 		Log.d(LOG_TAG, "parseDone: " + result);
 		MyApp.task_running = TASKS.NONE;
 		MyApp.fahrplan_xml = null;
-		boolean refreshDisplay = false;
-		if (result) {
-			if ((MyApp.numdays == 0) || (!version.equals(MyApp.version))) {
-				refreshDisplay = true;
-			}
-		} else {
-			// FIXME Fehlermeldung;
-		}
+		
 		setProgressBarIndeterminateVisibility(false);
 		if (MyApp.numdays == 0) {
 			progress.dismiss();
@@ -887,21 +888,26 @@ public class Fahrplan extends Activity implements response_callback,
 			statusBar.setVisibility(View.GONE);
 			refreshBtn.setVisibility(View.VISIBLE);
 		}
-		
-		if (refreshDisplay) {
-			loadMeta();
-			loadDays();
-			SharedPreferences prefs = getSharedPreferences(PREFS_NAME, 0);
-			day = prefs.getInt("displayDay", 1);
-			if (day > MyApp.numdays) {
-				day = 1;
+		if (result) {
+			if ((MyApp.numdays == 0) || (!version.equals(MyApp.version))) {
+				loadMeta();
+				loadDays();
+				SharedPreferences prefs = getSharedPreferences(PREFS_NAME, 0);
+				day = prefs.getInt("displayDay", 1);
+				if (day > MyApp.numdays) {
+					day = 1;
+				}
+				viewDay(true);
+				final Toast done = Toast.makeText(global
+						.getApplicationContext(), String.format(
+						getString(R.string.aktualisiert_auf), version),
+						Toast.LENGTH_LONG);
+				done.show();
+			} else {
+				viewDay(false);
 			}
-			viewDay(true);
-			final Toast done = Toast.makeText(global
-					.getApplicationContext(), String.format(
-					getString(R.string.aktualisiert_auf), version),
-					Toast.LENGTH_LONG);
-			done.show();
+		} else {
+			// FIXME Fehlermeldung;
 		}
 	}
 
