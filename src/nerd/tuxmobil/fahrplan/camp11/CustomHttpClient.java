@@ -37,7 +37,8 @@ public class CustomHttpClient {
 		HTTP_CANNOT_PARSE_CONTENT,
 		HTTP_ENTITY_ENCODING_FAILURE,
 		HTTP_WRONG_HTTP_CREDENTIALS, 
-		HTTP_CONNECT_TIMEOUT
+		HTTP_CONNECT_TIMEOUT,
+		HTTP_CANCELLED
 	}
 	
 	private static String httpCredentials = "";

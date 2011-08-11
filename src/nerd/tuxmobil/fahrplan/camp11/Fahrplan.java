@@ -93,6 +93,7 @@ public class Fahrplan extends Activity implements response_callback,
 		fetcher = new FetchFahrplan();
 		parser = new FahrplanParser();
 		scale = getResources().getDisplayMetrics().density;
+		progress = null;
 
 		trackColors = new HashMap<String, Integer>();
 		trackColors.put("Hacking", R.drawable.hacking_event_border);
@@ -200,6 +201,7 @@ public class Fahrplan extends Activity implements response_callback,
 		switch (MyApp.task_running) {
 		case FETCH:
 			Log.d(LOG_TAG, "fetch was pending, restart");
+			MyApp.task_running = TASKS.NONE;
 			fetchFahrplan();
 			viewDay(false);
 			break;
@@ -225,8 +227,8 @@ public class Fahrplan extends Activity implements response_callback,
 	public void parseFahrplan() {
 		if (MyApp.numdays == 0) {
 			// initial load
-			progress.setMessage(getResources().getString(
-					R.string.progress_processing_data));
+			progress = ProgressDialog.show(this, "", getResources().getString(
+					R.string.progress_processing_data), true);
 		} else {
 			statusLineText
 					.setText(getString(R.string.progress_processing_data));
@@ -252,6 +254,10 @@ public class Fahrplan extends Activity implements response_callback,
 		if (lecturedb != null) lecturedb.close();
 		if (highlightdb != null) highlightdb.close();
 		if (alarmdb != null) alarmdb.close();
+		if (progress != null) {
+			progress.dismiss();
+			progress = null;
+		}
 	}
 
 	@Override
@@ -283,19 +289,24 @@ public class Fahrplan extends Activity implements response_callback,
 	}
 
 	public void fetchFahrplan() {
-		if (MyApp.numdays == 0) {
-			// initial load
-			progress = ProgressDialog.show(this, "", getResources().getString(
-					R.string.progress_loading_data), true);
+		if (MyApp.task_running == TASKS.NONE) {
+			MyApp.task_running = TASKS.FETCH;
+			fetcher.fetch(this, "/camp/2011/Fahrplan/schedule.en.xml", global);
+			if (MyApp.numdays == 0) {
+				// initial load
+				Log.d(LOG_TAG, "fetchFahrplan with numdays == 0");
+				progress = ProgressDialog.show(this, "", getResources().getString(
+						R.string.progress_loading_data), true);
+			} else {
+				refreshBtn.setVisibility(View.GONE);
+				actionBar.setProgressBarVisibility(View.VISIBLE);
+				statusLineText.setText(getString(R.string.progress_loading_data));
+				statusBar.setVisibility(View.VISIBLE);
+				statusBar.startAnimation(slideUpIn);
+			}
 		} else {
-			refreshBtn.setVisibility(View.GONE);
-			actionBar.setProgressBarVisibility(View.VISIBLE);
-			statusLineText.setText(getString(R.string.progress_loading_data));
-			statusBar.setVisibility(View.VISIBLE);
-			statusBar.startAnimation(slideUpIn);
+			Log.d(LOG_TAG, "fetch already in progress");
 		}
-		MyApp.task_running = TASKS.FETCH;
-		fetcher.fetch(this, "/camp/2011/Fahrplan/schedule.en.xml", global);
 	}
 
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -464,41 +475,72 @@ public class Fahrplan extends Activity implements response_callback,
 		MyApp.task_running = TASKS.NONE;
 		if (status != HTTP_STATUS.HTTP_OK) {
 			switch (status) {
-			case HTTP_LOGIN_FAIL_UNTRUSTED_CERTIFICATE: {
-				if (MyApp.numdays == 0) {
+				case HTTP_CANCELLED:
+					break;
+				case HTTP_LOGIN_FAIL_UNTRUSTED_CERTIFICATE: {
+					UntrustedCertDialogs.acceptKeyDialog(
+							R.string.dlg_certificate_message_fmt, this,
+							new cert_accepted() {
+	
+								@Override
+								public void cert_accepted() {
+									Log.d(LOG_TAG, "fetch on cert accepted.");
+									fetchFahrplan();
+								}
+							}, (Object) null);
+				}
+				break;
+			}
+			CustomHttpClient.showHttpError(this, global, status);
+			if (MyApp.numdays == 0) {
+				if (progress != null) {
 					progress.dismiss();
+					progress = null;
+				}
+			} else {
+				actionBar.setProgressBarVisibility(View.GONE);
+				statusBar.startAnimation(slideDownOut);
+				statusBar.setVisibility(View.GONE);
+				refreshBtn.setVisibility(View.VISIBLE);			
+				if (MyApp.numdays == 0) {
+					if (progress != null) {
+						progress.dismiss();
+						progress = null;
+					}
 				} else {
 					actionBar.setProgressBarVisibility(View.GONE);
 					statusBar.startAnimation(slideDownOut);
 					statusBar.setVisibility(View.GONE);
 					refreshBtn.setVisibility(View.VISIBLE);
 				}
-				UntrustedCertDialogs.acceptKeyDialog(
-						R.string.dlg_certificate_message_fmt, this,
-						new cert_accepted() {
-
-							@Override
-							public void cert_accepted() {
-								Log.d(LOG_TAG, "fetch on cert accepted.");
-								fetchFahrplan();
-							}
-						}, (Object) null);
 			}
-				break;
-			}
-			CustomHttpClient.showHttpError(this, global, status);
-			if (MyApp.numdays == 0) {
+			setProgressBarIndeterminateVisibility(false);
+			return;
+		}
+		Log.d(LOG_TAG, "yehhahh");
+		if (MyApp.numdays == 0) {
+			if (progress != null) {
 				progress.dismiss();
+				progress = null;
+			}
+		} else {
+			actionBar.setProgressBarVisibility(View.GONE);
+			statusBar.startAnimation(slideDownOut);
+			statusBar.setVisibility(View.GONE);
+			refreshBtn.setVisibility(View.VISIBLE);			
+			if (MyApp.numdays == 0) {
+				if (progress != null) {
+					progress.dismiss();
+					progress = null;
+				}
 			} else {
 				actionBar.setProgressBarVisibility(View.GONE);
 				statusBar.startAnimation(slideDownOut);
 				statusBar.setVisibility(View.GONE);
 				refreshBtn.setVisibility(View.VISIBLE);
 			}
-			setProgressBarIndeterminateVisibility(false);
-			return;
 		}
-		Log.d(LOG_TAG, "yehhahh");
+		setProgressBarIndeterminateVisibility(false);
 
 		MyApp.fahrplan_xml = response;
 		parseFahrplan();
@@ -881,7 +923,10 @@ public class Fahrplan extends Activity implements response_callback,
 		
 		setProgressBarIndeterminateVisibility(false);
 		if (MyApp.numdays == 0) {
-			progress.dismiss();
+			if (progress != null) {
+				progress.dismiss();
+				progress = null;
+			}
 		} else {
 			actionBar.setProgressBarVisibility(View.GONE);
 			statusBar.startAnimation(slideDownOut);

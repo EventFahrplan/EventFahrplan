@@ -17,7 +17,8 @@ public class MyApp extends Application {
 	enum TASKS {
 		NONE,
 		FETCH,
-		PARSE
+		PARSE, 
+		FETCH_CANCELLED
 	}
 	
 	// requestCodes für startActivityForResult
