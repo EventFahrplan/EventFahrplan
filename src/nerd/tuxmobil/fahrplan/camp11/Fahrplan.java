@@ -47,8 +47,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.LinearLayout.LayoutParams;
 
-public class Fahrplan extends Activity implements response_callback,
-		OnClickListener, parser_callback {
+public class Fahrplan extends Activity implements OnClickListener {
 	private MyApp global;
 	private ProgressDialog progress = null;
 	private String LOG_TAG = "Fahrplan";
@@ -84,14 +83,20 @@ public class Fahrplan extends Activity implements response_callback,
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
 		context = this;
-//		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 		setContentView(R.layout.main);
-//		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,
-//				R.layout.custom_title);
 		global = (MyApp) getApplicationContext();
-		fetcher = new FetchFahrplan();
-		parser = new FahrplanParser();
+		if (MyApp.fetcher == null) {
+			fetcher = new FetchFahrplan();
+		} else {
+			fetcher = MyApp.fetcher;
+		}
+		if (MyApp.parser == null) {
+			parser = new FahrplanParser(getApplicationContext());
+		} else {
+			parser = MyApp.parser;
+		}
 		scale = getResources().getDisplayMetrics().density;
 		progress = null;
 
@@ -156,21 +161,10 @@ public class Fahrplan extends Activity implements response_callback,
             }
         });
         
-//		final TextView leftText = (TextView) findViewById(R.id.title_left_text);
-//		dayTextView = (TextView) findViewById(R.id.title_right_text);
-//		leftText.setText(getString(R.string.app_name));
 		statusLineText = (TextView) findViewById(R.id.statusLineText);
 
 		statusBar = (LinearLayout) findViewById(R.id.statusLine);
 		statusBar.setVisibility(View.GONE);
-//		refreshBtn = (ImageButton) findViewById(R.id.refresh_button);
-/*		refreshBtn.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				fetchFahrplan();
-			}
-		});*/
 
 		slideUpIn = AnimationUtils.loadAnimation(this, R.anim.slide_up_in);
 		slideDownOut = AnimationUtils
@@ -198,16 +192,18 @@ public class Fahrplan extends Activity implements response_callback,
 			Log.d(LOG_TAG,"day "+day);
 		}
 		
+		MyApp.fetcher.setActivity(this);	// save current activity and trigger possible completion event
+		MyApp.parser.setActivity(this);		// save current activity and trigger possible completion event
+		
 		switch (MyApp.task_running) {
 		case FETCH:
 			Log.d(LOG_TAG, "fetch was pending, restart");
-			MyApp.task_running = TASKS.NONE;
-			fetchFahrplan();
+			showFetchingStatus();
 			viewDay(false);
 			break;
 		case PARSE:
 			Log.d(LOG_TAG, "parse was pending, restart");
-			parseFahrplan();
+			showParsingStatus();
 			break;
 		case NONE:
 			if (MyApp.numdays == 0) {
@@ -224,7 +220,7 @@ public class Fahrplan extends Activity implements response_callback,
 		}
 	}
 
-	public void parseFahrplan() {
+	public void showParsingStatus() {
 		if (MyApp.numdays == 0) {
 			// initial load
 			progress = ProgressDialog.show(this, "", getResources().getString(
@@ -239,17 +235,24 @@ public class Fahrplan extends Activity implements response_callback,
 				statusBar.startAnimation(slideUpIn);
 			}
 		}
-
+	}
+	
+	public void parseFahrplan() {
+		showParsingStatus();
 		MyApp.task_running = TASKS.PARSE;
-		parser.parse(this, MyApp.fahrplan_xml, global);
+		parser.parse(MyApp.fahrplan_xml);
 	}
 
 	@Override
 	public void onDestroy() {
 		Log.d(LOG_TAG, "onDestroy");
 		super.onDestroy();
-		fetcher.cancel();
-		parser.cancel();
+		if (MyApp.fetcher != null) {
+			MyApp.fetcher.setActivity(null);
+		}
+		if (MyApp.parser != null) {
+			MyApp.parser.setActivity(null);
+		}
 		if (metadb != null) metadb.close();
 		if (lecturedb != null) lecturedb.close();
 		if (highlightdb != null) highlightdb.close();
@@ -288,22 +291,26 @@ public class Fahrplan extends Activity implements response_callback,
 		return true;
 	}
 
+	public void showFetchingStatus() {
+		if (MyApp.numdays == 0) {
+			// initial load
+			Log.d(LOG_TAG, "fetchFahrplan with numdays == 0");
+			progress = ProgressDialog.show(this, "", getResources().getString(
+					R.string.progress_loading_data), true);
+		} else {
+			refreshBtn.setVisibility(View.GONE);
+			actionBar.setProgressBarVisibility(View.VISIBLE);
+			statusLineText.setText(getString(R.string.progress_loading_data));
+			statusBar.setVisibility(View.VISIBLE);
+			statusBar.startAnimation(slideUpIn);
+		}
+	}
+	
 	public void fetchFahrplan() {
 		if (MyApp.task_running == TASKS.NONE) {
 			MyApp.task_running = TASKS.FETCH;
-			fetcher.fetch(this, "/camp/2011/Fahrplan/schedule.en.xml", global);
-			if (MyApp.numdays == 0) {
-				// initial load
-				Log.d(LOG_TAG, "fetchFahrplan with numdays == 0");
-				progress = ProgressDialog.show(this, "", getResources().getString(
-						R.string.progress_loading_data), true);
-			} else {
-				refreshBtn.setVisibility(View.GONE);
-				actionBar.setProgressBarVisibility(View.VISIBLE);
-				statusLineText.setText(getString(R.string.progress_loading_data));
-				statusBar.setVisibility(View.VISIBLE);
-				statusBar.startAnimation(slideUpIn);
-			}
+			showFetchingStatus();
+			fetcher.fetch("/camp/2011/Fahrplan/schedule.en.xml");
 		} else {
 			Log.d(LOG_TAG, "fetch already in progress");
 		}
@@ -469,7 +476,6 @@ public class Fahrplan extends Activity implements response_callback,
 		alert.show();
 	}
 
-	@Override
 	public void onGotResponse(HTTP_STATUS status, String response) {
 		Log.d(LOG_TAG, "Response... " + status);
 		MyApp.task_running = TASKS.NONE;
@@ -915,9 +921,8 @@ public class Fahrplan extends Activity implements response_callback,
 		startActivity(intent);
 	}
 
-	@Override
 	public void onParseDone(Boolean result, String version) {
-		Log.d(LOG_TAG, "parseDone: " + result);
+		Log.d(LOG_TAG, "parseDone: " + result + " , numdays="+MyApp.numdays);
 		MyApp.task_running = TASKS.NONE;
 		MyApp.fahrplan_xml = null;
 		

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import org.xmlpull.v1.XmlPullParser;
 
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -12,19 +13,19 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.util.Xml;
 
-interface parser_callback {
-	void onParseDone(Boolean result, String version);
-}
-
 public class FahrplanParser {
 	private parser task;
+	private Activity activity;
+	private Context context;
 	
-	public FahrplanParser() {
+	public FahrplanParser(Context context) {
 		task = null;
+		MyApp.parser = this;
+		this.context = context;
 	}
 
-	public void parse(parser_callback cb, String fahrplan, MyApp global) {
-		task = new parser(cb, global);
+	public void parse(String fahrplan) {
+		task = new parser(activity, context);
 		task.execute(fahrplan);
 	}
 	
@@ -32,26 +33,44 @@ public class FahrplanParser {
 	{
 		if (task != null) task.cancel(false);
 	}
+	
+	public void setActivity(Activity activity) {
+		this.activity = activity;
+		if (task != null) {
+			task.setActivity(activity);
+		}
+	}
 }
 
 class parser extends AsyncTask<String, Void, Boolean> {
-	private parser_callback callback;
-	private MyApp global;
 	private String LOG_TAG = "ParseFahrplan";
 	private ArrayList<Lecture> lectures;
 	private MetaInfo meta;
 	private MetaDBOpenHelper metaDB;
 	private SQLiteDatabase db;
+	private Activity activity;
+	private boolean completed;
+	private boolean result;
+	private Context context;
 
-	public parser(parser_callback cb, MyApp global) {
-		this.global = global;
-		this.callback = cb;
+	public parser(Activity activity, Context context) {
+		this.activity = activity;
+		this.completed = false;
 		this.db = null;
+		this.context = context;
+	}
+
+	public void setActivity(Activity activity) {
+		this.activity = activity;
+		
+		if (completed && (activity != null)) {
+			notifyActivity();
+		}
 	}
 
 	protected Boolean doInBackground(String... args) {
 
-		return parseFahrplan(args[0], (Context)this.callback);
+		return parseFahrplan(args[0]);
 
 	}
 	
@@ -60,8 +79,18 @@ class parser extends AsyncTask<String, Void, Boolean> {
 		if (db != null) db.close();
 	}
 
+	private void notifyActivity() {
+		((Fahrplan)activity).onParseDone(result, meta.version);
+		completed = false;
+	}
+	
 	protected void onPostExecute(Boolean result) {
-		this.callback.onParseDone(result, meta.version);
+		completed = true;
+		this.result = result;
+		
+		if (activity != null) {
+			notifyActivity();
+		}
 	}
 
 	public void storeMeta(Context context, MetaInfo meta) {
@@ -111,7 +140,7 @@ class parser extends AsyncTask<String, Void, Boolean> {
 		db.close();
 	}
 
-	private Boolean parseFahrplan(String fahrplan, Context context) {
+	private Boolean parseFahrplan(String fahrplan) {
 		XmlPullParser parser = Xml.newPullParser();
 		try {
 			parser.setInput(new StringReader(fahrplan));

@@ -13,6 +13,8 @@ public class MyApp extends Application {
 	public static String title;
 	public static String subtitle;
 	public static ArrayList<DateList> dateList = null;
+	public static FetchFahrplan fetcher = null;
+	public static FahrplanParser parser = null;
 	
 	enum TASKS {
 		NONE,

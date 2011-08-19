@@ -21,39 +21,55 @@ import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 
+import android.app.Activity;
 import android.os.AsyncTask;
 import android.util.Log;
 
-interface response_callback {
-	void onGotResponse(HTTP_STATUS status, String response);
-}
 
 public class FetchFahrplan {
 	private fetcher task;
+	private Activity activity;
 	
 	public FetchFahrplan() {
 		task = null;
+		MyApp.fetcher = this;
 	}
 
-	public void fetch(response_callback cb, String arg, MyApp global) {
-		task = new fetcher(cb, global);
+	public void fetch(String arg) {
+		task = new fetcher(this.activity);
 		task.execute(arg);
 	}
 	
 	public void cancel() {
 		if (task != null) task.cancel(true);
 	}
+	
+	public void setActivity(Activity activity) {
+		this.activity = activity;
+		if (task != null) {
+			task.setActivity(activity);
+		}
+	}
 }
 
 class fetcher extends AsyncTask<String, Void, HTTP_STATUS> {
-	private response_callback callback;
-	private MyApp global;
 	private String responseStr;
 	private String LOG_TAG = "FetchFahrplan";
+	private Activity activity;
+	private boolean completed;
+	private HTTP_STATUS status;
 
-	public fetcher(response_callback cb, MyApp global) {
-		this.global = global;
-		this.callback = cb;
+	public fetcher(Activity activity) {
+		this.activity = activity;
+		this.completed = false;
+	}
+
+	public void setActivity(Activity activity) {
+		this.activity = activity;
+		
+		if (completed && (activity != null)) {
+			notifyActivity();
+		}
 	}
 
 	protected HTTP_STATUS doInBackground(String... args) {
@@ -68,13 +84,23 @@ class fetcher extends AsyncTask<String, Void, HTTP_STATUS> {
 	}
 
 	protected void onPostExecute(HTTP_STATUS status) {
+		completed = true;
+		this.status = status;
+		
+		if (activity != null) {
+			notifyActivity();
+		}
+	}
+	
+	private void notifyActivity() {
 		if (status == HTTP_STATUS.HTTP_OK) {
 			Log.d(LOG_TAG, "fetch done successfully");
-			this.callback.onGotResponse(status, responseStr);
+			((Fahrplan)activity).onGotResponse(status, responseStr);
 		} else {
 			Log.d(LOG_TAG, "fetch failed");
-			this.callback.onGotResponse(status, null);
+			((Fahrplan)activity).onGotResponse(status, null);
 		}
+		completed = false;		// notifiy only once
 	}
 
 	private HTTP_STATUS fetchthis(String addr, String arg) {
