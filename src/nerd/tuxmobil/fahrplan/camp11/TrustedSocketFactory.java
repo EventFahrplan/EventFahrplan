@@ -5,6 +5,8 @@ import org.apache.http.conn.ConnectTimeoutException;
 import org.apache.http.conn.scheme.LayeredSocketFactory;
 import org.apache.http.params.HttpParams;
 
+//import android.util.Log;
+
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
@@ -16,6 +18,7 @@ import java.net.UnknownHostException;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.ArrayList;
 
 
 // copied from K9-Mail
@@ -61,6 +64,26 @@ public class TrustedSocketFactory implements LayeredSocketFactory {
                                   port,
                                   autoClose
                               );
+        String supported_suites[] = sslSocket.getSupportedCipherSuites();
+        String wanted_suites[] = { 	"TLS_RSA_WITH_AES_128_CBC_SHA", 
+        		                   	"TLS_RSA_WITH_AES_256_CBC_SHA", 
+        		                   	"TLS_DHE_RSA_WITH_AES_128_CBC_SHA",
+									"TLS_DHE_RSA_WITH_AES_256_CBC_SHA",
+									"TLS_DHE_DSS_WITH_AES_128_CBC_SHA",
+									"TLS_DHE_DSS_WITH_AES_256_CBC_SHA"
+						        };
+        ArrayList<String> wanted_supported_suites = new ArrayList<String>();
+        
+        for (String suite:wanted_suites) {
+//	        Log.d("TrustedSocketFactory", "ciphers: "+suite);
+	        for (String supported:supported_suites) {
+	        	if (suite.equals(supported)) { wanted_supported_suites.add(suite); }
+	        }
+        }
+//        for (String suite:wanted_supported_suites.toArray(new String[]{})) {
+//	        Log.d("TrustedSocketFactory", "using ciphers: "+suite);
+//        }
+        sslSocket.setEnabledCipherSuites(wanted_supported_suites.toArray(new String[]{}));
         //hostnameVerifier.verify(host, sslSocket);
         // verifyHostName() didn't blowup - good!
         return sslSocket;
