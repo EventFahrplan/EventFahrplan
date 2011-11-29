@@ -1,4 +1,4 @@
-package nerd.tuxmobil.fahrplan.camp11;
+package nerd.tuxmobil.fahrplan.congress;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,8 +6,8 @@ import java.util.HashMap;
 import com.markupartist.android.widget.ActionBar;
 import com.markupartist.android.widget.ActionBar.Action;
 
-import nerd.tuxmobil.fahrplan.camp11.CustomHttpClient.HTTP_STATUS;
-import nerd.tuxmobil.fahrplan.camp11.MyApp.TASKS;
+import nerd.tuxmobil.fahrplan.congress.CustomHttpClient.HTTP_STATUS;
+import nerd.tuxmobil.fahrplan.congress.MyApp.TASKS;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
@@ -60,7 +60,7 @@ public class Fahrplan extends Activity implements OnClickListener {
 	private int day = 1;
 	private View dayTextView;
 	public static Context context = null;
-	public static String[] rooms = { "Kourou", "Baikonur" };
+	public static String[] rooms = { "Saal 1", "Saal 2", "Saal 3" };
 	private FahrplanParser parser;
 	private LinearLayout statusBar;
 	private Animation slideUpIn;
@@ -108,7 +108,8 @@ public class Fahrplan extends Activity implements OnClickListener {
 		trackColors.put("Culture", R.drawable.culture_event_border);
 		trackColors.put("Science", R.drawable.science_event_border);
 		trackColors.put("Misc", R.drawable.misc_event_border);
-		trackColors.put("Hacker Space Program", R.drawable.hacker_space_program_event_border);
+		trackColors.put("Show", R.drawable.science_event_border);
+		trackColors.put("Society and Politics", R.drawable.science_event_border);
 		
 		trackColorsHi = new HashMap<String, Integer>();
 		trackColorsHi.put("Hacking", R.drawable.hacking_event_border_highlight);
@@ -118,7 +119,8 @@ public class Fahrplan extends Activity implements OnClickListener {
 		trackColorsHi.put("Culture", R.drawable.culture_event_border_highlight);
 		trackColorsHi.put("Science", R.drawable.science_event_border_highlight);
 		trackColorsHi.put("Misc", R.drawable.misc_event_border_highlight);
-		trackColorsHi.put("Hacker Space Program", R.drawable.hacker_space_program_event_border_highlight);
+		trackColorsHi.put("Show", R.drawable.science_event_border_highlight);
+		trackColorsHi.put("Society and Politics", R.drawable.science_event_border_highlight);
 
         actionBar = (ActionBar) findViewById(R.id.actionbar);
         
@@ -310,7 +312,7 @@ public class Fahrplan extends Activity implements OnClickListener {
 		if (MyApp.task_running == TASKS.NONE) {
 			MyApp.task_running = TASKS.FETCH;
 			showFetchingStatus();
-			fetcher.fetch("/camp/2011/Fahrplan/schedule.en.xml");
+			fetcher.fetch("/congress/2011/Fahrplan/schedule.de.xml");
 		} else {
 			Log.d(LOG_TAG, "fetch already in progress");
 		}
@@ -360,8 +362,9 @@ public class Fahrplan extends Activity implements OnClickListener {
 		updateRoomTitle(0);
 
 		fillTimes();
-		fillRoom("Kourou", R.id.raum1);
-		fillRoom("Baikonur", R.id.raum2);
+		fillRoom("Saal 1", R.id.raum1);
+		fillRoom("Saal 2", R.id.raum2);
+		fillRoom("Saal 3", R.id.raum3);
 //		dayTextView.setText(String
 //				.format("%s %d", getString(R.string.day), day));
 		actionBar.updateText(dayTextView, String.format("%s %d", getString(R.string.day), day));
@@ -980,7 +983,7 @@ public class Fahrplan extends Activity implements OnClickListener {
 					.setText(getString(R.string.appVersion)
 							+ " "
 							+ getApplicationContext().getPackageManager()
-									.getPackageInfo("nerd.tuxmobil.fahrplan.camp11", 0).versionName);
+									.getPackageInfo("nerd.tuxmobil.fahrplan.congress", 0).versionName);
 		} catch (NameNotFoundException e) {
 			e.printStackTrace();
 			text.setText("");

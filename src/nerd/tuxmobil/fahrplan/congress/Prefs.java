@@ -1,4 +1,4 @@
-package nerd.tuxmobil.fahrplan.camp11;
+package nerd.tuxmobil.fahrplan.congress;
 
 import android.graphics.Color;
 import android.os.Bundle;

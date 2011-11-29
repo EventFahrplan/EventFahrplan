@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-      package="nerd.tuxmobil.fahrplan.camp11" android:versionCode="6" android:versionName="1.05">
+      package="nerd.tuxmobil.fahrplan.congress" android:versionCode="6" android:versionName="1.05">
     <uses-sdk android:targetSdkVersion="8" android:minSdkVersion="7"/>
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
     <uses-permission android:name="android.permission.VIBRATE"></uses-permission>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"></uses-permission>
 
-    <application android:icon="@drawable/icon" android:label="@string/app_name" android:name="MyApp">
+    <application android:icon="@drawable/icon" android:label="@string/app_name" android:name="nerd.tuxmobil.fahrplan.congress.MyApp">
         <activity android:label="@string/app_name" android:name="Fahrplan" android:theme="@android:style/Theme.NoTitleBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -17,12 +17,12 @@
         <activity android:configChanges="keyboardHidden|orientation" android:name="AlarmList" android:label="@string/reminders"></activity>
         <receiver android:name="AlarmReceiver">
         </receiver>
-        <receiver android:name="onBootReceiver">
+        <receiver android:name="nerd.tuxmobil.fahrplan.congress.onBootReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"></action>
             </intent-filter>
         </receiver>
-        <activity android:name="Prefs"></activity>
+        <activity android:name="nerd.tuxmobil.fahrplan.congress.Prefs"></activity>
 
     </application>
 </manifest>

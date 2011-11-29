@@ -1,5 +1,5 @@
 
-package nerd.tuxmobil.fahrplan.camp11;
+package nerd.tuxmobil.fahrplan.congress;
 
 import android.app.Application;
 import android.content.Context;

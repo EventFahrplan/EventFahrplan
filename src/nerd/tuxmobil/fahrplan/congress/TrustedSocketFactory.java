@@ -1,6 +1,7 @@
-package nerd.tuxmobil.fahrplan.camp11;
+package nerd.tuxmobil.fahrplan.congress;
 
-import nerd.tuxmobil.fahrplan.camp11.TrustManagerFactory;
+import nerd.tuxmobil.fahrplan.congress.TrustManagerFactory;
+
 import org.apache.http.conn.ConnectTimeoutException;
 import org.apache.http.conn.scheme.LayeredSocketFactory;
 import org.apache.http.params.HttpParams;

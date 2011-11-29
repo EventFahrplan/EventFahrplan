@@ -25,7 +25,7 @@
 </RelativeLayout>-->
 <com.markupartist.android.widget.ActionBar 
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:app="http://schemas.android.com/apk/res/nerd.tuxmobil.fahrplan.camp11"
+	xmlns:app="http://schemas.android.com/apk/res/nerd.tuxmobil.fahrplan.congress"
     android:id="@+id/actionbar"
     app:title="@string/app_name"
     style="@style/ActionBar"

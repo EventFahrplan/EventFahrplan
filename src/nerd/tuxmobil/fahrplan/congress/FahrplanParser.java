@@ -1,4 +1,4 @@
-package nerd.tuxmobil.fahrplan.camp11;
+package nerd.tuxmobil.fahrplan.congress;
 
 import java.io.StringReader;
 import java.util.ArrayList;

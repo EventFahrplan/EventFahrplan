@@ -1,4 +1,4 @@
-package nerd.tuxmobil.fahrplan.camp11;
+package nerd.tuxmobil.fahrplan.congress;
 
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;

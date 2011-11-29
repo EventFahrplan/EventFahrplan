@@ -2,7 +2,7 @@
 <RelativeLayout android:layout_width="match_parent"
 	android:layout_height="match_parent" android:orientation="vertical"
 	android:background="#000000" xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:app="http://schemas.android.com/apk/res/nerd.tuxmobil.fahrplan.camp11"
+	xmlns:app="http://schemas.android.com/apk/res/nerd.tuxmobil.fahrplan.congress"
 	>
 
 	<com.markupartist.android.widget.ActionBar 
@@ -16,7 +16,7 @@
 		android:text=""
 		android:textStyle="bold" android:textSize="11sp" android:gravity="center" android:layout_width="match_parent"
 		android:layout_below="@id/actionbar"></TextView>
-	<nerd.tuxmobil.fahrplan.camp11.CustomScrollView
+	<nerd.tuxmobil.fahrplan.congress.CustomScrollView
 		android:id="@+id/scrollView1" android:layout_width="fill_parent"
 		android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android"
 		android:layout_below="@+id/roomName">
@@ -27,7 +27,7 @@
 				android:layout_width="wrap_content" android:layout_height="match_parent"
 				android:orientation="vertical" android:background="#ffaaaaaa">
 			</LinearLayout>
-			<nerd.tuxmobil.fahrplan.camp11.HorizontalSnapScrollView
+			<nerd.tuxmobil.fahrplan.congress.HorizontalSnapScrollView
 				android:id="@+id/horizScroller" android:layout_width="wrap_content"
 				android:layout_height="match_parent" android:fadingEdge="none"
 				android:scrollbars="none" android:background="#222222">
@@ -43,14 +43,14 @@
 						android:layout_width="285dp" android:layout_height="match_parent"
 						android:orientation="vertical">
 					</LinearLayout>
-<!--				<LinearLayout android:id="@+id/raum3"
+					<LinearLayout android:id="@+id/raum3"
 						android:layout_width="285dp" android:layout_height="match_parent"
 						android:orientation="vertical">
-					</LinearLayout> -->
+					</LinearLayout>
 				</LinearLayout>
-			</nerd.tuxmobil.fahrplan.camp11.HorizontalSnapScrollView>
+			</nerd.tuxmobil.fahrplan.congress.HorizontalSnapScrollView>
 		</LinearLayout>
-	</nerd.tuxmobil.fahrplan.camp11.CustomScrollView>
+	</nerd.tuxmobil.fahrplan.congress.CustomScrollView>
 	<LinearLayout android:id="@+id/statusLine"
 		android:layout_width="match_parent" android:layout_height="wrap_content"
 		android:background="#B0000000" android:layout_alignParentBottom="true">

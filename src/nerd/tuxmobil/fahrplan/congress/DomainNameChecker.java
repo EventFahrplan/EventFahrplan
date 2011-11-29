@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package nerd.tuxmobil.fahrplan.camp11;
+package nerd.tuxmobil.fahrplan.congress;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
