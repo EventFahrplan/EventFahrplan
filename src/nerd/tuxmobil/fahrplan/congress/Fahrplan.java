@@ -27,6 +27,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.format.Time;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -78,6 +79,7 @@ public class Fahrplan extends Activity implements OnClickListener {
 	private HighlightDBOpenHelper highlightDB;
 	public static final String PREFS_NAME = "settings";
 	private ActionBar actionBar = null;
+	private int screenWidth = 0;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -98,6 +100,23 @@ public class Fahrplan extends Activity implements OnClickListener {
 			parser = MyApp.parser;
 		}
 		scale = getResources().getDisplayMetrics().density;
+		screenWidth = (int) (getResources().getDisplayMetrics().widthPixels / scale);
+		Log.d(LOG_TAG, "screen width = " + screenWidth);
+		screenWidth -= 35;	// Breite für Zeitenspalte
+		switch (getResources().getConfiguration().orientation) {
+			case Configuration.ORIENTATION_PORTRAIT:
+				int width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 
+	                     (float) screenWidth, getResources().getDisplayMetrics());
+				LinearLayout l = (LinearLayout) findViewById(R.id.raum1);
+				LayoutParams p = (LayoutParams) l.getLayoutParams();
+				p.width = width;
+				l.setLayoutParams(p);
+				l = (LinearLayout) findViewById(R.id.raum2);
+				l.setLayoutParams(p);
+				l = (LinearLayout) findViewById(R.id.raum3);
+				l.setLayoutParams(p);
+				break;
+		}
 		progress = null;
 
 		trackColors = new HashMap<String, Integer>();

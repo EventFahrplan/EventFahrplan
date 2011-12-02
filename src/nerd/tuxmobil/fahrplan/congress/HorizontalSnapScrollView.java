@@ -14,6 +14,7 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
 	private int activeItem = 0;
 	private int xStart;
 	private float scale;
+	private int screenWidth;
 	
 	class YScrollDetector extends SimpleOnGestureListener {
 	    @Override
@@ -58,7 +59,7 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
 	}
 	
 	public void scrollToColumn(int col) {
-		int scrollTo = (int)(col * (285 * scale));
+		int scrollTo = (int)(col * (screenWidth * scale));
 	    smoothScrollTo(scrollTo, 0);
         Fahrplan.updateRoomTitle(col);
         activeItem = col;
@@ -68,6 +69,8 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
 	    super(context, attrs);
 	    gestureDetector = new GestureDetector(new YScrollDetector());
 		scale = getResources().getDisplayMetrics().density;
+		screenWidth = (int) (getResources().getDisplayMetrics().widthPixels / scale);
+		screenWidth -= 35;	// Breite für Zeitenspalte
 	    setOnTouchListener(new View.OnTouchListener() {
 	    	
 	            public boolean onTouch(View v, MotionEvent event) {
@@ -77,7 +80,7 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
 	                    // steigender Zahl der Spalten, da schon zu früh zu (int)
 	                    // gecastet wird.
 	                    // Workaround: Breite hier vorgeben (285dp) und selber skalieren
-	                    int itemWidth = (int)(285 * scale);
+	                    int itemWidth = (int)(screenWidth * scale);
 	                    int distance = scrollX - xStart;
 	                    int newItem = activeItem;
 	                    if (Math.abs(distance) > (itemWidth/3)) {
