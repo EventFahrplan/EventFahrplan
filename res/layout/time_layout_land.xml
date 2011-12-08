@@ -4,6 +4,6 @@
 	android:orientation="vertical" android:background="@drawable/border">
 <TextView android:text="09:15" android:id="@+id/time"
 	android:textColor="#ffffff"
-	android:layout_height="wrap_content" android:layout_width="25dp"
+	android:layout_height="wrap_content" android:layout_width="30dp"
 	android:textSize="8sp" android:padding="2dp" android:gravity="center"></TextView>
 </LinearLayout>

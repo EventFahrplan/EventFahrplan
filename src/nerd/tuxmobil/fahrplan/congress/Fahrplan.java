@@ -105,16 +105,19 @@ public class Fahrplan extends Activity implements OnClickListener {
 		screenWidth -= 35;	// Breite für Zeitenspalte
 		switch (getResources().getConfiguration().orientation) {
 			case Configuration.ORIENTATION_PORTRAIT:
-				int width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 
-	                     (float) screenWidth, getResources().getDisplayMetrics());
-				LinearLayout l = (LinearLayout) findViewById(R.id.raum1);
-				LayoutParams p = (LayoutParams) l.getLayoutParams();
-				p.width = width;
-				l.setLayoutParams(p);
-				l = (LinearLayout) findViewById(R.id.raum2);
-				l.setLayoutParams(p);
-				l = (LinearLayout) findViewById(R.id.raum3);
-				l.setLayoutParams(p);
+				if (findViewById(R.id.horizScroller) != null) {
+					int width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 
+		                     (float) screenWidth, getResources().getDisplayMetrics());
+					Log.d(LOG_TAG, "adjust column width to " + width);
+					LinearLayout l = (LinearLayout) findViewById(R.id.raum1);
+					LayoutParams p = (LayoutParams) l.getLayoutParams();
+					p.width = width;
+					l.setLayoutParams(p);
+					l = (LinearLayout) findViewById(R.id.raum2);
+					l.setLayoutParams(p);
+					l = (LinearLayout) findViewById(R.id.raum3);
+					l.setLayoutParams(p);
+				}
 				break;
 		}
 		progress = null;
@@ -407,11 +410,11 @@ public class Fahrplan extends Activity implements OnClickListener {
 		switch (getResources().getConfiguration().orientation) {
 		case Configuration.ORIENTATION_LANDSCAPE:
 			Log.d(LOG_TAG, "landscape");
-			height = (int) (30 * scale);
+			height = (int) (getResources().getInteger(R.integer.box_height) * scale);
 			break;
 		default:
 			Log.d(LOG_TAG, "other orientation");
-			height = (int) (40 * scale);
+			height = (int) (getResources().getInteger(R.integer.box_height) * scale);
 			break;
 		}
 		for (Lecture lecture : MyApp.lectureList) {
@@ -604,11 +607,11 @@ public class Fahrplan extends Activity implements OnClickListener {
 		switch (getResources().getConfiguration().orientation) {
 		case Configuration.ORIENTATION_LANDSCAPE:
 			Log.d(LOG_TAG, "landscape");
-			height = (int) (30 * scale);
+			height = (int) (getResources().getInteger(R.integer.box_height) * scale);
 			break;
 		default:
 			Log.d(LOG_TAG, "other orientation");
-			height = (int) (40 * scale);
+			height = (int) (getResources().getInteger(R.integer.box_height) * scale);
 			break;
 		}
 
@@ -658,12 +661,12 @@ public class Fahrplan extends Activity implements OnClickListener {
 		switch (getResources().getConfiguration().orientation) {
 		case Configuration.ORIENTATION_LANDSCAPE:
 			Log.d(LOG_TAG, "landscape");
-			standardHeight = 30;
+			standardHeight = getResources().getInteger(R.integer.box_height);
 			padding = (int) (8 * scale);
 			break;
 		default:
 			Log.d(LOG_TAG, "other orientation");
-			standardHeight = 40;
+			standardHeight = getResources().getInteger(R.integer.box_height);
 			padding = (int) (10 * scale);
 			break;
 		}
