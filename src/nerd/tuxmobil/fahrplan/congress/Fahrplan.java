@@ -21,6 +21,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.net.Uri;
@@ -1141,19 +1142,26 @@ public class Fahrplan extends Activity implements OnClickListener {
 		SQLiteDatabase db = alarmDB.getWritableDatabase();
 		
 		// delete any previous alarms of this lecture
-		db.delete("alarms", "eventid=?", new String[] { lecture.lecture_id });
-		
-		ContentValues values = new ContentValues();
-
-		values.put("eventid", Integer.parseInt(lecture.lecture_id));
-		values.put("title", lecture.title);
-		values.put("time", when);
-		values.put("timeText", time.format("%Y-%m-%d %H:%M"));
-		values.put("displayTime", startTime);
-		values.put("day", lecture.day);
-
-		db.insert("alarms", null, values);
-		db.close();
+		try {
+			db.beginTransaction();
+			db.delete("alarms", "eventid=?", new String[] { lecture.lecture_id });
+			
+			ContentValues values = new ContentValues();
+	
+			values.put("eventid", Integer.parseInt(lecture.lecture_id));
+			values.put("title", lecture.title);
+			values.put("time", when);
+			values.put("timeText", time.format("%Y-%m-%d %H:%M"));
+			values.put("displayTime", startTime);
+			values.put("day", lecture.day);
+	
+			db.insert("alarms", null, values);
+			db.setTransactionSuccessful();
+		} catch (SQLException e) {
+		} finally {
+			db.endTransaction();
+			db.close();
+		}
 		
 		lecture.has_alarm = true;
 		setBell(lecture);
@@ -1164,15 +1172,22 @@ public class Fahrplan extends Activity implements OnClickListener {
 
 		SQLiteDatabase db = highlightDB.getWritableDatabase();
 		
-		db.delete("highlight", "eventid=?", new String[] { lecture.lecture_id });
-		
-		ContentValues values = new ContentValues();
-
-		values.put("eventid", Integer.parseInt(lecture.lecture_id));
-		values.put("highlight", lecture.highlight ? 1 : 0);
-
-		db.insert("highlight", null, values);
-		db.close();
+		try {
+			db.beginTransaction();
+			db.delete("highlight", "eventid=?", new String[] { lecture.lecture_id });
+			
+			ContentValues values = new ContentValues();
+	
+			values.put("eventid", Integer.parseInt(lecture.lecture_id));
+			values.put("highlight", lecture.highlight ? 1 : 0);
+	
+			db.insert("highlight", null, values);
+			db.setTransactionSuccessful();
+		} catch (SQLException e) {
+		} finally {
+			db.endTransaction();
+			db.close();
+		}
 	}
 	
 	public boolean onContextItemSelected(MenuItem item) {

@@ -8,6 +8,7 @@ import org.xmlpull.v1.XmlPullParser;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -100,14 +101,21 @@ class parser extends AsyncTask<String, Void, Boolean> {
 		db = metaDB.getWritableDatabase();
 		ContentValues values = new ContentValues();
 
-		db.delete("meta", null, null);
-		values.put("numdays", meta.numdays);
-		values.put("version", meta.version);
-		values.put("title", meta.title);
-		values.put("subtitle", meta.subtitle);
-
-		db.insert("meta", null, values);
-		db.close();
+		try {
+			db.beginTransaction();
+			db.delete("meta", null, null);
+			values.put("numdays", meta.numdays);
+			values.put("version", meta.version);
+			values.put("title", meta.title);
+			values.put("subtitle", meta.subtitle);
+	
+			db.insert("meta", null, values);
+			db.setTransactionSuccessful();
+		} catch (SQLException e) {
+		} finally {
+			db.endTransaction();
+			db.close();
+		}
 	}
 
 	public void storeLectureList(Context context, ArrayList<Lecture> lectures) {
@@ -115,29 +123,36 @@ class parser extends AsyncTask<String, Void, Boolean> {
 		LecturesDBOpenHelper lecturesDB = new LecturesDBOpenHelper(context);
 
 		db = lecturesDB.getWritableDatabase();
-		db.delete("lectures", null, null);
-		for (Lecture lecture : lectures) {
-			if (isCancelled()) break;
-			ContentValues values = new ContentValues();
-			values.put("event_id", lecture.lecture_id);
-			values.put("title", lecture.title);
-			values.put("subtitle", lecture.subtitle);
-			values.put("day", lecture.day);
-			values.put("room", lecture.room);
-			values.put("start", lecture.startTime);
-			values.put("duration", lecture.duration);
-			values.put("speakers", lecture.speakers);
-			values.put("track", lecture.track);
-			values.put("type", lecture.type);
-			values.put("lang", lecture.lang);
-			values.put("abstract", lecture.abstractt);
-			values.put("descr", lecture.description);
-			values.put("links", lecture.links);
-			values.put("relStart", lecture.relStartTime);
-			values.put("date", lecture.date);
-			db.insert("lectures", null, values);
+		try {
+			db.beginTransaction();
+			db.delete("lectures", null, null);
+			for (Lecture lecture : lectures) {
+				if (isCancelled()) break;
+				ContentValues values = new ContentValues();
+				values.put("event_id", lecture.lecture_id);
+				values.put("title", lecture.title);
+				values.put("subtitle", lecture.subtitle);
+				values.put("day", lecture.day);
+				values.put("room", lecture.room);
+				values.put("start", lecture.startTime);
+				values.put("duration", lecture.duration);
+				values.put("speakers", lecture.speakers);
+				values.put("track", lecture.track);
+				values.put("type", lecture.type);
+				values.put("lang", lecture.lang);
+				values.put("abstract", lecture.abstractt);
+				values.put("descr", lecture.description);
+				values.put("links", lecture.links);
+				values.put("relStart", lecture.relStartTime);
+				values.put("date", lecture.date);
+				db.insert("lectures", null, values);
+			}
+			db.setTransactionSuccessful();
+		} catch (SQLException e) {
+		} finally {
+			db.endTransaction();
+			db.close();
 		}
-		db.close();
 	}
 
 	private Boolean parseFahrplan(String fahrplan) {
