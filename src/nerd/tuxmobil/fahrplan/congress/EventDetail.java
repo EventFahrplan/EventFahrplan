@@ -1,19 +1,12 @@
 package nerd.tuxmobil.fahrplan.congress;
 
 import java.util.Locale;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import android.app.Activity;
-import android.content.ContentValues;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
-import android.text.util.Linkify;
-import android.text.util.Linkify.TransformFilter;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -26,7 +19,6 @@ public class EventDetail extends Activity {
 	private final String LOG_TAG = "Detail";
 	private String event_id;
 	private String title;
-	private int startTime;
 	private static String feedbackURL = "https://cccv.pentabarf.org/feedback/28C3/event/"; // + 4302.en.html
 	private Locale locale;
 	
@@ -40,7 +32,6 @@ public class EventDetail extends Activity {
         locale = getResources().getConfiguration().locale;
      
         event_id = intent.getStringExtra("eventid");
-        startTime = intent.getIntExtra("time", 0);
         
         TextView t = (TextView)findViewById(R.id.title);
         title = intent.getStringExtra("title");

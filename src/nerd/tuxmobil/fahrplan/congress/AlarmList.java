@@ -21,7 +21,6 @@ import android.widget.SimpleCursorAdapter;
 
 public class AlarmList extends ListActivity {
 	private MyApp global;
-	private AlarmList context;
 	private SQLiteDatabase db;
 	private SimpleCursorAdapter mAdapter;
 
@@ -30,7 +29,6 @@ public class AlarmList extends ListActivity {
 		super.onCreate(savedInstanceState);
 
 		global = (MyApp) getApplicationContext();
-		context = this;
 
 		setContentView(R.layout.alarms);
 

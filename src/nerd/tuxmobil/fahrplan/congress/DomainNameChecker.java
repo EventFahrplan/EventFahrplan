@@ -25,7 +25,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
-import java.util.Vector;
 
 /**
  * Implements basic domain-name validation as specified by RFC2818.

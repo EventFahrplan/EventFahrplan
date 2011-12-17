@@ -1,6 +1,5 @@
 package nerd.tuxmobil.fahrplan.congress;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 
