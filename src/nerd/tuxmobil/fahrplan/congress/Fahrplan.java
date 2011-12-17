@@ -103,7 +103,7 @@ public class Fahrplan extends Activity implements OnClickListener {
 		scale = getResources().getDisplayMetrics().density;
 		screenWidth = (int) (getResources().getDisplayMetrics().widthPixels / scale);
 		Log.d(LOG_TAG, "screen width = " + screenWidth);
-		screenWidth -= 35;	// Breite für Zeitenspalte
+		screenWidth -= 38;	// Breite für Zeitenspalte
 		switch (getResources().getConfiguration().orientation) {
 			case Configuration.ORIENTATION_PORTRAIT:
 				if (findViewById(R.id.horizScroller) != null) {

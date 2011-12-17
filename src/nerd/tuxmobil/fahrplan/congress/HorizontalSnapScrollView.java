@@ -70,7 +70,7 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
 	    gestureDetector = new GestureDetector(new YScrollDetector());
 		scale = getResources().getDisplayMetrics().density;
 		screenWidth = (int) (getResources().getDisplayMetrics().widthPixels / scale);
-		screenWidth -= 35;	// Breite für Zeitenspalte
+		screenWidth -= 38;	// Breite für Zeitenspalte
 	    setOnTouchListener(new View.OnTouchListener() {
 	    	
 	            public boolean onTouch(View v, MotionEvent event) {
