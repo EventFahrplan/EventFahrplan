@@ -133,6 +133,7 @@ public class AlarmList extends ListActivity {
 			for (int i = 0; i < count; i++) {
 				delete_alarm(0);
 			}
+			setResult(RESULT_OK);
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
