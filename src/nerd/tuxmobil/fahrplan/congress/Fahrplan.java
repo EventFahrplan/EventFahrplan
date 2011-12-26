@@ -376,6 +376,7 @@ public class Fahrplan extends Activity implements OnClickListener {
 	}
 
 	private void viewDay(boolean reload) {
+//		Log.d(LOG_TAG, "viewDay("+reload+")");
 		loadLectureList(day, reload);
 		scanDayLectures();
 		HorizontalSnapScrollView scroller = (HorizontalSnapScrollView) findViewById(R.id.horizScroller);
@@ -391,8 +392,85 @@ public class Fahrplan extends Activity implements OnClickListener {
 //		dayTextView.setText(String
 //				.format("%s %d", getString(R.string.day), day));
 		actionBar.updateText(dayTextView, String.format("%s %d", getString(R.string.day), day));
+		scrollToCurrent(day);
 	}
 
+	/**
+	 * jump to current time or lecture, if we are on today's lecture list
+	 * @param day
+	 */
+	private void scrollToCurrent(int day) {
+		int height;
+//		Log.d(LOG_TAG, "lectureListDay: " + MyApp.lectureListDay);
+		if (MyApp.lectureListDay != DateList.getIndexOfToday(MyApp.dateList, MyApp.dayChangeHour, MyApp.dayChangeMinute)) return;
+		Time now = new Time();
+		now.setToNow();
+		HorizontalSnapScrollView horiz = null;
+		
+		switch (getResources().getConfiguration().orientation) {
+		case Configuration.ORIENTATION_LANDSCAPE:
+			height = (int) (getResources().getInteger(R.integer.box_height) * scale);
+			break;
+		default:
+			height = (int) (getResources().getInteger(R.integer.box_height) * scale);
+			horiz = (HorizontalSnapScrollView)findViewById(R.id.horizScroller);
+			break;
+		}
+		
+		int col = -1;
+		if (horiz != null) {
+			col = horiz.getColumn();
+			Log.d(LOG_TAG, "y pos  = " + col);
+		}
+		int time = firstLectureStart;
+		int printTime = time;
+		int scrollAmount = 0;
+		
+		if (!((((now.hour * 60) + now.minute) < firstLectureStart) && DateList.sameDay(now, MyApp.lectureListDay, MyApp.dateList))) {
+			while (time < lastLectureEnd) {
+				int hour = printTime / 60;
+				int minute = printTime % 60;
+				if ((now.hour == hour) && (now.minute >= minute)
+						&& (now.minute < (minute + 15))) {
+					break;
+				} else {
+					scrollAmount += height;
+				}
+				time += 15;
+				printTime = time;
+				if (printTime >= (24 * 60)) {
+					printTime -= (24 * 60);
+				}
+			}
+			
+			for (Lecture l : MyApp.lectureList) {
+				if ((l.day == day) && (l.startTime <= time) && (l.startTime + l.duration > time)) {
+					if ((col == -1) || ((col >= 0) && (l.room.equals(rooms[col])))) {
+						Log.d(LOG_TAG, l.title);
+						Log.d(LOG_TAG, time + " " + l.startTime + "/" + l.duration);
+						scrollAmount -= ((time - l.startTime)/15) * height;
+						time = l.startTime;
+					}
+				}
+			}
+		} else {
+//			Log.d(LOG_TAG, "we are before "+firstLectureStart+" "+((now.hour * 60) + now.minute));
+		}
+		
+//		Log.d(LOG_TAG, "scrolltoCurrent to "+scrollAmount);
+		
+		final int pos = scrollAmount;
+		final ScrollView scrollView = (ScrollView)findViewById(R.id.scrollView1);
+		scrollView.scrollTo(0, scrollAmount);
+		scrollView.post(new Runnable() {
+			
+			@Override
+			public void run() {
+				scrollView.scrollTo(0, pos);						
+			}
+		});
+	}
+	
 	private void setBell(Lecture lecture)
 	{
 		final ScrollView parent = (ScrollView)findViewById(R.id.scrollView1);
@@ -914,6 +992,9 @@ public class Fahrplan extends Activity implements OnClickListener {
 		MyApp.version = "";
 		MyApp.title = "";
 		MyApp.subtitle = "";
+		MyApp.dayChangeHour = 4;
+		MyApp.dayChangeMinute = 0;
+		
 		if (cursor.getCount() > 0) {
 			cursor.moveToFirst();
 			if (cursor.getColumnCount() > 0)
@@ -924,6 +1005,10 @@ public class Fahrplan extends Activity implements OnClickListener {
 				MyApp.title = cursor.getString(2);
 			if (cursor.getColumnCount() > 3)
 				MyApp.subtitle = cursor.getString(3);
+			if (cursor.getColumnCount() > 4)
+				MyApp.dayChangeHour = cursor.getInt(4);
+			if (cursor.getColumnCount() > 5)
+				MyApp.dayChangeMinute = cursor.getInt(5);
 		}
 
 		Log.d(LOG_TAG, "loadMeta: numdays=" + MyApp.numdays + " version:"

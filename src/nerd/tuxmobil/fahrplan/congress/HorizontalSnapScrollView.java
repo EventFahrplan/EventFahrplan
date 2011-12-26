@@ -16,6 +16,15 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
 	private float scale;
 	private int screenWidth;
 	
+	/**
+	 * get currently displayed column index
+	 * 
+	 * @return index (0..n)
+	 */
+	public int getColumn() {
+		return activeItem;
+	}
+	
 	class YScrollDetector extends SimpleOnGestureListener {
 	    @Override
 	    public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {

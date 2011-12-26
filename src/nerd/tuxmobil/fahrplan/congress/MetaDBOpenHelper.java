@@ -6,16 +6,18 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class MetaDBOpenHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     private static final String META_TABLE_NAME = "meta";
     private static final String META_TABLE_CREATE =
                 "CREATE TABLE " + META_TABLE_NAME + " (" +
                 "numdays INTEGER, " +
                 "version TEXT, "+
                 "title TEXT, "+
-                "subtitle TEXT);";
+                "subtitle TEXT, "+
+                "day_change_hour INTEGER, "+
+                "day_change_minute INTEGER);";
     
-    public static final String[] allcolumns = { "numdays", "version", "title", "subtitle"
+    public static final String[] allcolumns = { "numdays", "version", "title", "subtitle", "day_change_hour", "day_change_minute"
     };
 
     MetaDBOpenHelper(Context context) {
@@ -29,7 +31,9 @@ public class MetaDBOpenHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + META_TABLE_NAME);
-        onCreate(db);
+		if ((oldVersion < 2) && (newVersion >= 2)) {
+			db.execSQL("ALTER TABLE meta ADD COLUMN day_change_hour INTEGER DEFAULT 4");
+			db.execSQL("ALTER TABLE meta ADD COLUMN day_change_minute INTEGER DEFAULT 0");
+		}
 	}
 }

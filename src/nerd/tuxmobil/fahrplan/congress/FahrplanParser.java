@@ -108,6 +108,8 @@ class parser extends AsyncTask<String, Void, Boolean> {
 			values.put("version", meta.version);
 			values.put("title", meta.title);
 			values.put("subtitle", meta.subtitle);
+			values.put("day_change_hour", meta.dayChangeHour);
+			values.put("day_change_minute", meta.dayChangeMinute);
 	
 			db.insert("meta", null, values);
 			db.setTransactionSuccessful();
