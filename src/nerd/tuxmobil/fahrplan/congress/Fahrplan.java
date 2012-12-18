@@ -81,12 +81,14 @@ public class Fahrplan extends Activity implements OnClickListener {
 	public static final String PREFS_NAME = "settings";
 	private ActionBar actionBar = null;
 	private int screenWidth = 0;
+	private Typeface boldCondensed;
 
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
+		boldCondensed = Typeface.createFromAsset(getAssets(), "Roboto-BoldCondensed.ttf");
 		context = this;
 		setContentView(R.layout.main);
 		global = (MyApp) getApplicationContext();
@@ -768,6 +770,7 @@ public class Fahrplan extends Activity implements OnClickListener {
 				room.addView(event, LayoutParams.MATCH_PARENT, height);
 				TextView title = (TextView) event
 						.findViewById(R.id.event_title);
+				title.setTypeface(boldCondensed);
 				title.setText(lecture.title);
 				title = (TextView) event.findViewById(R.id.event_subtitle);
 				title.setText(lecture.subtitle);
