@@ -45,7 +45,7 @@ public class UntrustedCertDialogs {
 		md.update(der);
 		byte[] digest = md.digest();
 		StringBuilder hash = new StringBuilder();
-		
+
 		for (int i = 0; i < digest.length; i++) {
 			hash.append(String.format("%02x", (0xFF & digest[i])));
 			if (i < (digest.length-1)) hash.append(" ");
@@ -72,16 +72,17 @@ public class UntrustedCertDialogs {
 		}
 
 		StringBuffer chainInfo = new StringBuffer(100);
-		for (int i = 0; i < chain.length; i++) {
+		int chain_len = (chain == null ? 0 : chain.length);
+		for (int i = 0; i < chain_len; i++) {
 			// display certificate chain information
 			chainInfo.append("Certificate chain[" + i + "]:\n");
 			chainInfo.append("Subject: " + chain[i].getSubjectDN().toString()).append("\n");
 			chainInfo.append("Issuer: " + chain[i].getIssuerDN().toString()).append("\n");
-			chainInfo.append("Issued On: " + String.format("%02d.%02d.%04d", 
+			chainInfo.append("Issued On: " + String.format("%02d.%02d.%04d",
 					chain[i].getNotBefore().getDate(),
 					chain[i].getNotBefore().getMonth()+1,
 					chain[i].getNotBefore().getYear()+1900)).append("\n");
-			chainInfo.append("Expires On: " + String.format("%02d.%02d.%04d", 
+			chainInfo.append("Expires On: " + String.format("%02d.%02d.%04d",
 					chain[i].getNotAfter().getDate(),
 					chain[i].getNotAfter().getMonth()+1,
 					chain[i].getNotAfter().getYear()+1900)).append("\n");
