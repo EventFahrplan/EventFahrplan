@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="app_name">28C3 Schedule</string>
+	<string name="app_name">29C3 Schedule</string>
 	<string name="OK">OK</string>
 	<string name="dlg_certificate_message_fmt">Failed to establish secure connection.\n(%s)</string>
 	<string name="dlg_invalid_certificate_title">Unknown certificate</string>

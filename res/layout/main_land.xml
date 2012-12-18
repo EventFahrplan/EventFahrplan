@@ -21,12 +21,12 @@
 			android:layout_weight="1" android:layout_width="wrap_content"
 			android:gravity="center"></TextView>
 		<TextView android:textColor="#ffffff" android:layout_height="wrap_content"
-			android:layout_gravity="center" android:text="Saal 2"
+			android:layout_gravity="center" android:text="Saal 4"
 			android:textStyle="bold" android:textSize="11sp"
 			android:layout_weight="1" android:layout_width="wrap_content"
 			android:gravity="center"></TextView>
 		<TextView android:textColor="#ffffff" android:layout_height="wrap_content"
-			android:layout_gravity="center" android:text="Saal 3"
+			android:layout_gravity="center" android:text="Saal 6"
 			android:textStyle="bold" android:textSize="11sp"
 			android:layout_weight="1" android:layout_width="wrap_content"
 			android:gravity="center"></TextView>

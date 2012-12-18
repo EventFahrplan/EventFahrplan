@@ -62,7 +62,7 @@ public class Fahrplan extends Activity implements OnClickListener {
 	private int day = 1;
 	private View dayTextView;
 	public static Context context = null;
-	public static String[] rooms = { "Saal 1", "Saal 2", "Saal 3" };
+	public static String[] rooms = { "Saal 1", "Saal 4", "Saal 6" };
 	private FahrplanParser parser;
 	private LinearLayout statusBar;
 	private Animation slideUpIn;
@@ -325,24 +325,27 @@ public class Fahrplan extends Activity implements OnClickListener {
 			progress = ProgressDialog.show(this, "", getResources().getString(
 					R.string.progress_loading_data), true);
 		} else {
-			refreshBtn.setVisibility(View.GONE);
-			actionBar.setProgressBarVisibility(View.VISIBLE);
+/*
+refreshBtn.setVisibility(View.GONE);
+actionBar.setProgressBarVisibility(View.VISIBLE);
+*/
 			statusLineText.setText(getString(R.string.progress_loading_data));
 			statusBar.setVisibility(View.VISIBLE);
 			statusBar.startAnimation(slideUpIn);
 		}
 	}
-	
+
 	public void fetchFahrplan() {
 		if (MyApp.task_running == TASKS.NONE) {
 			MyApp.task_running = TASKS.FETCH;
 			showFetchingStatus();
-			fetcher.fetch("/congress/2011/Fahrplan/schedule.de.xml");
+			fetcher.fetch("/congress/2012/Fahrplan/schedule.de.xml");
 		} else {
 			Log.d(LOG_TAG, "fetch already in progress");
 		}
 	}
 
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		Intent intent;
 		switch (item.getItemId()) {
