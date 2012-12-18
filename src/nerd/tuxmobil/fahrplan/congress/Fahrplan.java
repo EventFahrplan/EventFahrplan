@@ -731,7 +731,7 @@ public class Fahrplan extends Activity implements OnClickListener {
 		}
 		return padding;
 	}
-	
+
 	private void fillRoom(String roomName, int roomId) {
 		LinearLayout room = (LinearLayout) findViewById(roomId);
 		room.removeAllViews();
@@ -742,12 +742,12 @@ public class Fahrplan extends Activity implements OnClickListener {
 		switch (getResources().getConfiguration().orientation) {
 		case Configuration.ORIENTATION_LANDSCAPE:
 			Log.d(LOG_TAG, "landscape");
-			standardHeight = getResources().getInteger(R.integer.box_height);
+			standardHeight = (int) (getResources().getInteger(R.integer.box_height) * scale);
 			padding = (int) (8 * scale);
 			break;
 		default:
 			Log.d(LOG_TAG, "other orientation");
-			standardHeight = getResources().getInteger(R.integer.box_height);
+			standardHeight = (int) (getResources().getInteger(R.integer.box_height) * scale);
 			padding = (int) (10 * scale);
 			break;
 		}
@@ -756,11 +756,11 @@ public class Fahrplan extends Activity implements OnClickListener {
 				if (lecture.relStartTime > endTime) {
 					View event = new View(this);
 					int height = (int) (standardHeight
-							* ((lecture.relStartTime - endTime) / 15) * scale);
+							* (lecture.relStartTime - endTime) / 15);
 					room.addView(event, LayoutParams.MATCH_PARENT, height);
 				}
 				View event = inflater.inflate(R.layout.event_layout, null);
-				int height = (int) (standardHeight * (lecture.duration / 15) * scale);
+				int height = standardHeight * (lecture.duration / 15);
 				ImageView bell = (ImageView) event.findViewById(R.id.bell);
 				if (lecture.has_alarm) {
 					bell.setVisibility(View.VISIBLE);
