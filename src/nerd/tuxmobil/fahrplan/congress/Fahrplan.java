@@ -744,7 +744,6 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 				Integer drawable;
 				if (lecture.highlight) {
 					drawable = trackColorsHi.get(lecture.track);
-					padding += (int)(2 * scale);
 				} else {
 					drawable = trackColors.get(lecture.track);
 				}
@@ -1252,7 +1251,6 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 				drawable = trackColorsHi.get(lecture.track);
 				lecture.highlight = true;
 				writeHighlight(lecture);
-				padding += (int)(2 * scale);
 			}
 			if (drawable != null) {
 				contextMenuView.setBackgroundResource(drawable);
