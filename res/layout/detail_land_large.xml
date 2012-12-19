@@ -3,7 +3,13 @@
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="match_parent"
   android:layout_height="match_parent" android:background="#ffffff">
-    <LinearLayout android:layout_width="match_parent" android:id="@+id/linearLayout1" android:layout_height="match_parent" android:orientation="vertical" android:padding="10dp">
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="32dp" >
 
         <TextView
             android:id="@+id/title"
@@ -19,7 +25,6 @@
             android:id="@+id/subtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingBottom="3dp"
             android:text="TextView"
             android:textColor="#000000"
             android:textSize="24sp" >
@@ -29,19 +34,20 @@
             android:id="@+id/speakers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingBottom="10dp"
+            android:paddingBottom="16dp"
+            android:paddingTop="16dp"
             android:text="TextView"
+            android:textAllCaps="true"
             android:textColor="#000000"
-            android:textSize="20sp"
-            android:textStyle="italic"
-            android:typeface="serif" >
+            android:textSize="20sp" >
+
 </TextView>
 
         <TextView
             android:id="@+id/abstractt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingBottom="7dp"
+            android:paddingBottom="8dp"
             android:text="TextView"
             android:textColor="#000000"
             android:textSize="20sp"
@@ -52,7 +58,7 @@
             android:id="@+id/description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingBottom="7dp"
+            android:paddingBottom="16dp"
             android:text="TextView"
             android:textColor="#000000"
             android:textSize="20sp" >
@@ -62,7 +68,7 @@
             android:id="@+id/linksSection"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingBottom="3dp"
+            android:paddingBottom="8dp"
             android:text="Links"
             android:textColor="#000000"
             android:textSize="20sp"
