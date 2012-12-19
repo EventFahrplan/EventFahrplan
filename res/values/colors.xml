@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="fahrplan_background">#000532</color>
-    <color name="standard_event_bg">#ccc</color>
+    <color name="standard_event_bg">#ddd</color>
 </resources>
