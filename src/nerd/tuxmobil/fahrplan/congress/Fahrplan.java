@@ -344,11 +344,8 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 
 		fillTimes();
 		fillRoom("Saal 1", R.id.raum1);
-		fillRoom("Saal 2", R.id.raum2);
-		fillRoom("Saal 3", R.id.raum3);
-//		dayTextView.setText(String
-//				.format("%s %d", getString(R.string.day), day));
-		actionBar.updateText(dayTextView, String.format("%s %d", getString(R.string.day), day));
+		fillRoom("Saal 4", R.id.raum2);
+		fillRoom("Saal 6", R.id.raum3);
 		scrollToCurrent(day);
 	}
 
