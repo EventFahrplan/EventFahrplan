@@ -24,6 +24,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.format.Time;
@@ -80,6 +81,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 	public static final String PREFS_NAME = "settings";
 	private int screenWidth = 0;
 	private Typeface boldCondensed;
+	private Typeface light;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -87,8 +89,17 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 
 		boldCondensed = Typeface.createFromAsset(getAssets(), "Roboto-BoldCondensed.ttf");
+		light = Typeface.createFromAsset(getAssets(), "Roboto-Light.ttf");
 		context = this;
 		setContentView(R.layout.main);
+		TextView roomName = (TextView)findViewById(R.id.roomName);
+		if (roomName != null) roomName.setTypeface(light);
+		roomName = (TextView)findViewById(R.id.roomName1);
+		if (roomName != null) roomName.setTypeface(light);
+		roomName = (TextView)findViewById(R.id.roomName2);
+		if (roomName != null) roomName.setTypeface(light);
+		roomName = (TextView)findViewById(R.id.roomName3);
+		if (roomName != null) roomName.setTypeface(light);
 		global = (MyApp) getApplicationContext();
 		if (MyApp.fetcher == null) {
 			fetcher = new FetchFahrplan();
