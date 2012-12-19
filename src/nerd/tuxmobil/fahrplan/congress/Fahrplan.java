@@ -135,27 +135,27 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 		progress = null;
 
 		trackColors = new HashMap<String, Integer>();
-		trackColors.put("Hacking", R.drawable.hacking_event_border);
-		trackColors.put("Society", R.drawable.society_event_border);
-		trackColors.put("Making", R.drawable.making_event_border);
-		trackColors.put("Community", R.drawable.community_event_border);
-		trackColors.put("Culture", R.drawable.culture_event_border);
-		trackColors.put("Science", R.drawable.science_event_border);
-		trackColors.put("Misc", R.drawable.misc_event_border);
-		trackColors.put("Show", R.drawable.science_event_border);
-		trackColors.put("Society and Politics", R.drawable.science_event_border);
+//		trackColors.put("Hacking", R.drawable.hacking_event_border);
+//		trackColors.put("Society", R.drawable.society_event_border);
+//		trackColors.put("Making", R.drawable.making_event_border);
+//		trackColors.put("Community", R.drawable.community_event_border);
+//		trackColors.put("Culture", R.drawable.culture_event_border);
+//		trackColors.put("Science", R.drawable.science_event_border);
+//		trackColors.put("Misc", R.drawable.misc_event_border);
+//		trackColors.put("Show", R.drawable.science_event_border);
+//		trackColors.put("Society and Politics", R.drawable.science_event_border);
 		trackColors.put("", R.drawable.event_border);
 
 		trackColorsHi = new HashMap<String, Integer>();
-		trackColorsHi.put("Hacking", R.drawable.hacking_event_border_highlight);
-		trackColorsHi.put("Society", R.drawable.society_event_border_highlight);
-		trackColorsHi.put("Making", R.drawable.making_event_border_highlight);
-		trackColorsHi.put("Community", R.drawable.community_event_border_highlight);
-		trackColorsHi.put("Culture", R.drawable.culture_event_border_highlight);
-		trackColorsHi.put("Science", R.drawable.science_event_border_highlight);
-		trackColorsHi.put("Misc", R.drawable.misc_event_border_highlight);
-		trackColorsHi.put("Show", R.drawable.science_event_border_highlight);
-		trackColorsHi.put("Society and Politics", R.drawable.science_event_border_highlight);
+//		trackColorsHi.put("Hacking", R.drawable.hacking_event_border_highlight);
+//		trackColorsHi.put("Society", R.drawable.society_event_border_highlight);
+//		trackColorsHi.put("Making", R.drawable.making_event_border_highlight);
+//		trackColorsHi.put("Community", R.drawable.community_event_border_highlight);
+//		trackColorsHi.put("Culture", R.drawable.culture_event_border_highlight);
+//		trackColorsHi.put("Science", R.drawable.science_event_border_highlight);
+//		trackColorsHi.put("Misc", R.drawable.misc_event_border_highlight);
+//		trackColorsHi.put("Show", R.drawable.science_event_border_highlight);
+//		trackColorsHi.put("Society and Politics", R.drawable.science_event_border_highlight);
 		trackColorsHi.put("", R.drawable.event_border_highlight);
 
 		statusLineText = (TextView) findViewById(R.id.statusLineText);
@@ -743,9 +743,11 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 
 				Integer drawable;
 				if (lecture.highlight) {
-					drawable = trackColorsHi.get(lecture.track);
+//					drawable = trackColorsHi.get(lecture.track);
+					drawable = trackColorsHi.get("");
 				} else {
-					drawable = trackColors.get(lecture.track);
+//					drawable = trackColors.get(lecture.track);
+					drawable = trackColors.get("");
 				}
 				if (drawable != null) {
 					event.setBackgroundResource(drawable);
@@ -1244,11 +1246,13 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 			Integer drawable;
 			int padding = getEventPadding();
 			if (lecture.highlight) {
-				drawable = trackColors.get(lecture.track);
+//				drawable = trackColors.get(lecture.track);
+				drawable = trackColors.get("");
 				lecture.highlight = false;
 				writeHighlight(lecture);
 			} else {
-				drawable = trackColorsHi.get(lecture.track);
+//				drawable = trackColorsHi.get(lecture.track);
+				drawable = trackColorsHi.get("");
 				lecture.highlight = true;
 				writeHighlight(lecture);
 			}
