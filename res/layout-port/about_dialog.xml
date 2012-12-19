@@ -5,10 +5,17 @@
 		android:orientation="vertical"
 		android:layout_width="fill_parent" android:layout_height="fill_parent"
 		android:layout_gravity="top" android:padding="10dp">
-		<ImageView android:layout_height="wrap_content"
-			android:layout_width="wrap_content" android:id="@+id/imageView1"
-			android:src="@drawable/rocket_dialog" android:layout_gravity="center"
-			android:paddingBottom="15dp"></ImageView>
+
+		<ImageView
+		    android:id="@+id/imageView1"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_gravity="center"
+		    android:layout_marginTop="16dp"
+		    android:paddingBottom="15dp"
+		    android:src="@drawable/dialog_logo" >
+
+</ImageView>
 		<TextView android:id="@+id/eventTitle" android:layout_width="wrap_content"
 			android:textColor="#FFF" android:textSize="16sp" android:text="Title"
 			android:layout_height="wrap_content" android:gravity="center|top"
@@ -29,11 +36,33 @@
 		android:layout_width="fill_parent"
 		android:layout_height="1dp"
 		android:background="#313131"/>
-		<TextView android:layout_width="wrap_content" android:paddingTop="10dp" android:paddingBottom="10dp" android:layout_height="wrap_content" android:id="@+id/textView1" android:text="@string/usage" android:singleLine="false"></TextView>
+
+		<TextView
+		    android:id="@+id/textView1"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:paddingBottom="10dp"
+		    android:paddingLeft="16dp"
+		    android:paddingRight="16dp"
+		    android:paddingTop="10dp"
+		    android:singleLine="false"
+		    android:text="@string/usage" >
+
+</TextView>
 		<View xmlns:android="http://schemas.android.com/apk/res/android" 
 		android:layout_width="fill_parent"
 		android:layout_height="1dp"
 		android:background="#313131"/>
-		<TextView android:layout_width="wrap_content" android:paddingTop="10dp" android:layout_height="wrap_content" android:text="@string/copyright_notes" android:singleLine="false"></TextView>
+
+		<TextView
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:paddingLeft="16dp"
+		    android:paddingRight="16dp"
+		    android:paddingTop="10dp"
+		    android:singleLine="false"
+		    android:text="@string/copyright_notes" >
+
+</TextView>
 	</LinearLayout>
 </ScrollView>
