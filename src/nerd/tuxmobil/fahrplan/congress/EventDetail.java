@@ -1,6 +1,11 @@
 package nerd.tuxmobil.fahrplan.congress;
 
 import java.util.Locale;
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
@@ -8,13 +13,10 @@ import android.os.Bundle;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-public class EventDetail extends Activity {
+public class EventDetail extends SherlockActivity {
 
 	private final String LOG_TAG = "Detail";
 	private String event_id;

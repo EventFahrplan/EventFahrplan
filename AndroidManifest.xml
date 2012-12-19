@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="nerd.tuxmobil.fahrplan.congress" android:versionCode="12" android:versionName="1.11">
-    <uses-sdk android:targetSdkVersion="8" android:minSdkVersion="7"/>
+    <uses-sdk android:targetSdkVersion="17" android:minSdkVersion="7"/>
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
     <uses-permission android:name="android.permission.VIBRATE"></uses-permission>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"></uses-permission>
 
-    <application android:icon="@drawable/icon" android:label="@string/app_name" android:name="nerd.tuxmobil.fahrplan.congress.MyApp">
-        <activity android:label="@string/app_name" android:name="Fahrplan" android:theme="@android:style/Theme.NoTitleBar">
+    <application android:icon="@drawable/ic_launcher" android:label="@string/app_name" android:name="nerd.tuxmobil.fahrplan.congress.MyApp" android:theme="@style/Theme.notmydepartment" android:logo="@drawable/ic_actionbar_logo">
+        <activity android:label="@string/fahrplan" android:name="Fahrplan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

@@ -1,5 +1,10 @@
 package nerd.tuxmobil.fahrplan.congress;
 
+import com.actionbarsherlock.app.SherlockListActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+
 import android.app.AlarmManager;
 import android.app.ListActivity;
 import android.app.PendingIntent;
@@ -11,15 +16,12 @@ import android.database.sqlite.SQLiteException;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.ContextMenu;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
 import android.widget.SimpleCursorAdapter;
 
-public class AlarmList extends ListActivity {
+public class AlarmList extends SherlockListActivity {
 	private MyApp global;
 	private SQLiteDatabase db;
 	private SimpleCursorAdapter mAdapter;
@@ -61,7 +63,7 @@ public class AlarmList extends ListActivity {
 		this.setListAdapter(mAdapter);
 
 		registerForContextMenu(getListView());
-		
+
 		setResult(RESULT_CANCELED);
 	}
 
@@ -71,7 +73,8 @@ public class AlarmList extends ListActivity {
 		db.close();
 	}
 
-	public boolean onContextItemSelected(MenuItem item) {
+	@Override
+	public boolean onContextItemSelected(android.view.MenuItem item) {
 		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item
 				.getMenuInfo();
 		int menuItemIndex = item.getItemId();
@@ -93,7 +96,7 @@ public class AlarmList extends ListActivity {
 
 	public void delete_alarm(int position) {
 		Cursor cursor = (Cursor) getListAdapter().getItem(position);
-		
+
 		Intent intent = new Intent(this, AlarmReceiver.class);
 		String lecture_id = cursor.getString(4);
 		intent.putExtra("lecture_id", lecture_id);
@@ -103,20 +106,20 @@ public class AlarmList extends ListActivity {
 		intent.putExtra("title", title);
 		long startTime = cursor.getLong(5);
 		intent.putExtra("startTime", startTime);
-		
+
 		intent.setAction("de.machtnix.fahrplan.ALARM");
 		intent.setData(Uri.parse("alarm://"+lecture_id));
-		
+
 		AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
 		PendingIntent pendingintent = PendingIntent.getBroadcast(this, Integer.parseInt(lecture_id), intent, 0);
 		alarmManager.cancel(pendingintent);
-		
+
 		String id = cursor.getString(0);
 		db.delete("alarms","_id = ?", new String[]{id});
 		cursor.requery();
 		mAdapter.notifyDataSetChanged();
 	}
-	
+
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
 		MenuInflater mi = new MenuInflater(getApplication());

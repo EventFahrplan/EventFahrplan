@@ -3,12 +3,12 @@
 <!-- <item android:id="@+id/item_refresh" android:titleCondensed="@string/refresh" android:title="@string/refresh"></item>
 	<item android:id="@+id/item_load" android:titleCondensed="@string/load_data"
 		android:title="@string/load_data"></item>-->
-	<item android:id="@+id/item_choose_day" android:titleCondensed="@string/choose_day"
-		android:title="@string/load_data" android:icon="@drawable/ic_menu_calendar"></item>
+	<item android:id="@+id/item_choose_day" android:title="@string/choose_day" android:icon="@drawable/ic_action_calendar" android:showAsAction="ifRoom"></item><item android:id="@+id/item_refresh" android:title="@string/refresh" android:icon="@drawable/ic_action_refresh" android:showAsAction="ifRoom"></item>
 	<item android:id="@+id/item_alarms" android:titleCondensed="@string/alarms"
 		android:title="@string/alarms" android:icon="@drawable/ic_menu_alarmclock"></item>
 	<item android:id="@+id/item_settings" android:titleCondensed="@string/settings"
-		android:title="@string/settings" android:icon="@drawable/ic_menu_settings"></item>
+		android:title="@string/settings" android:showAsAction="never" android:icon="@drawable/ic_menu_settings"></item>
 	<item android:id="@+id/item_about" android:titleCondensed="@string/about"
 		android:title="@string/about" android:icon="@drawable/ic_menu_about"></item>
+	
 </menu>

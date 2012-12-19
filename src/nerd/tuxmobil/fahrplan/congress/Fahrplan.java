@@ -3,8 +3,8 @@ package nerd.tuxmobil.fahrplan.congress;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.markupartist.android.widget.ActionBar;
-import com.markupartist.android.widget.ActionBar.Action;
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockActivity;
 
 import nerd.tuxmobil.fahrplan.congress.CustomHttpClient.HTTP_STATUS;
 import nerd.tuxmobil.fahrplan.congress.MyApp.TASKS;
@@ -31,9 +31,9 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -49,7 +49,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.LinearLayout.LayoutParams;
 
-public class Fahrplan extends Activity implements OnClickListener {
+public class Fahrplan extends SherlockActivity implements OnClickListener {
 	private MyApp global;
 	private ProgressDialog progress = null;
 	private String LOG_TAG = "Fahrplan";
@@ -66,7 +66,6 @@ public class Fahrplan extends Activity implements OnClickListener {
 	private FahrplanParser parser;
 	private LinearLayout statusBar;
 	private Animation slideUpIn;
-	private View refreshBtn;
 	private Animation slideDownOut;
 	private TextView statusLineText;
 	private LecturesDBOpenHelper lecturesDB;
@@ -79,7 +78,6 @@ public class Fahrplan extends Activity implements OnClickListener {
 	private HashMap<String, Integer> trackColorsHi;
 	private HighlightDBOpenHelper highlightDB;
 	public static final String PREFS_NAME = "settings";
-	private ActionBar actionBar = null;
 	private int screenWidth = 0;
 	private Typeface boldCondensed;
 
@@ -109,7 +107,7 @@ public class Fahrplan extends Activity implements OnClickListener {
 		switch (getResources().getConfiguration().orientation) {
 			case Configuration.ORIENTATION_PORTRAIT:
 				if (findViewById(R.id.horizScroller) != null) {
-					int width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 
+					int width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
 		                     (float) screenWidth, getResources().getDisplayMetrics());
 					Log.d(LOG_TAG, "adjust column width to " + width);
 					LinearLayout l = (LinearLayout) findViewById(R.id.raum1);
@@ -147,47 +145,6 @@ public class Fahrplan extends Activity implements OnClickListener {
 		trackColorsHi.put("Show", R.drawable.science_event_border_highlight);
 		trackColorsHi.put("Society and Politics", R.drawable.science_event_border_highlight);
 
-        actionBar = (ActionBar) findViewById(R.id.actionbar);
-        
-        dayTextView = actionBar.addAction(new Action() {
-            @Override
-            public void performAction(View view) {
-            	chooseDay();
-            }
-            @Override
-            public int getDrawable() {
-                return 0;
-            }
-            @Override
-            public String getText() {
-                return getString(R.string.day);
-            }
-            
-            @Override
-            public void ready(View view) {
-            }
-        });
-        
-        actionBar.addAction(new Action() {
-            @Override
-            public void performAction(View view) {
-            	fetchFahrplan();
-            }
-            @Override
-            public int getDrawable() {
-                return R.drawable.refresh_btn;
-            }
-            @Override
-            public String getText() {
-                return null;
-            }
-            
-            @Override
-            public void ready(View view) {
-            	refreshBtn = view;
-            }
-        });
-        
 		statusLineText = (TextView) findViewById(R.id.statusLineText);
 
 		statusBar = (LinearLayout) findViewById(R.id.statusLine);
@@ -212,16 +169,16 @@ public class Fahrplan extends Activity implements OnClickListener {
 
 		Intent intent = getIntent();
 		String lecture_id = intent.getStringExtra("lecture_id");
-		
+
 		if (lecture_id != null) {
 			Log.d(LOG_TAG,"Open with lecture_id "+lecture_id);
 			day = intent.getIntExtra("day", day);
 			Log.d(LOG_TAG,"day "+day);
 		}
-		
+
 		MyApp.fetcher.setActivity(this);	// save current activity and trigger possible completion event
 		MyApp.parser.setActivity(this);		// save current activity and trigger possible completion event
-		
+
 		switch (MyApp.task_running) {
 		case FETCH:
 			Log.d(LOG_TAG, "fetch was pending, restart");
@@ -241,7 +198,7 @@ public class Fahrplan extends Activity implements OnClickListener {
 			}
 			break;
 		}
-		
+
 		if (lecture_id != null) {
 			scrollTo(lecture_id);
 		}
@@ -256,14 +213,12 @@ public class Fahrplan extends Activity implements OnClickListener {
 			statusLineText
 					.setText(getString(R.string.progress_processing_data));
 			if (statusBar.getVisibility() != View.VISIBLE) {
-				refreshBtn.setVisibility(View.GONE);
-				actionBar.setProgressBarVisibility(View.VISIBLE);
 				statusBar.setVisibility(View.VISIBLE);
 				statusBar.startAnimation(slideUpIn);
 			}
 		}
 	}
-	
+
 	public void parseFahrplan() {
 		showParsingStatus();
 		MyApp.task_running = TASKS.PARSE;
@@ -311,9 +266,10 @@ public class Fahrplan extends Activity implements OnClickListener {
 		}
 	}
 
+	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
-		MenuInflater mi = new MenuInflater(getApplication());
+		MenuInflater mi = getSupportMenuInflater();
 		mi.inflate(R.menu.mainmenu, menu);
 		return true;
 	}
@@ -325,10 +281,6 @@ public class Fahrplan extends Activity implements OnClickListener {
 			progress = ProgressDialog.show(this, "", getResources().getString(
 					R.string.progress_loading_data), true);
 		} else {
-/*
-refreshBtn.setVisibility(View.GONE);
-actionBar.setProgressBarVisibility(View.VISIBLE);
-*/
 			statusLineText.setText(getString(R.string.progress_loading_data));
 			statusBar.setVisibility(View.VISIBLE);
 			statusBar.startAnimation(slideUpIn);
@@ -349,10 +301,10 @@ actionBar.setProgressBarVisibility(View.VISIBLE);
 	public boolean onOptionsItemSelected(MenuItem item) {
 		Intent intent;
 		switch (item.getItemId()) {
-		/*
 		case R.id.item_refresh:
 			fetchFahrplan();
 			return true;
+		/*
 		case R.id.item_load:
 			loadMeta();
 			SharedPreferences prefs = getSharedPreferences(PREFS_NAME, 0);
@@ -411,7 +363,7 @@ actionBar.setProgressBarVisibility(View.VISIBLE);
 		Time now = new Time();
 		now.setToNow();
 		HorizontalSnapScrollView horiz = null;
-		
+
 		switch (getResources().getConfiguration().orientation) {
 		case Configuration.ORIENTATION_LANDSCAPE:
 			height = (int) (getResources().getInteger(R.integer.box_height) * scale);
@@ -421,7 +373,7 @@ actionBar.setProgressBarVisibility(View.VISIBLE);
 			horiz = (HorizontalSnapScrollView)findViewById(R.id.horizScroller);
 			break;
 		}
-		
+
 		int col = -1;
 		if (horiz != null) {
 			col = horiz.getColumn();
@@ -430,7 +382,7 @@ actionBar.setProgressBarVisibility(View.VISIBLE);
 		int time = firstLectureStart;
 		int printTime = time;
 		int scrollAmount = 0;
-		
+
 		if (!((((now.hour * 60) + now.minute) < firstLectureStart) && DateList.sameDay(now, MyApp.lectureListDay, MyApp.dateList))) {
 			while (time < lastLectureEnd) {
 				int hour = printTime / 60;
@@ -447,7 +399,7 @@ actionBar.setProgressBarVisibility(View.VISIBLE);
 					printTime -= (24 * 60);
 				}
 			}
-			
+
 			for (Lecture l : MyApp.lectureList) {
 				if ((l.day == day) && (l.startTime <= time) && (l.startTime + l.duration > time)) {
 					if ((col == -1) || ((col >= 0) && (l.room.equals(rooms[col])))) {
@@ -461,34 +413,34 @@ actionBar.setProgressBarVisibility(View.VISIBLE);
 		} else {
 //			Log.d(LOG_TAG, "we are before "+firstLectureStart+" "+((now.hour * 60) + now.minute));
 		}
-		
+
 //		Log.d(LOG_TAG, "scrolltoCurrent to "+scrollAmount);
-		
+
 		final int pos = scrollAmount;
 		final ScrollView scrollView = (ScrollView)findViewById(R.id.scrollView1);
 		scrollView.scrollTo(0, scrollAmount);
 		scrollView.post(new Runnable() {
-			
+
 			@Override
 			public void run() {
-				scrollView.scrollTo(0, pos);						
+				scrollView.scrollTo(0, pos);
 			}
 		});
 	}
-	
+
 	private void setBell(Lecture lecture)
 	{
 		final ScrollView parent = (ScrollView)findViewById(R.id.scrollView1);
 		View v = parent.findViewWithTag(lecture);
 		ImageView bell = (ImageView)v.findViewById(R.id.bell);
-		
+
 		if (lecture.has_alarm) {
 			bell.setVisibility(View.VISIBLE);
 		} else {
 			bell.setVisibility(View.GONE);
 		}
 	}
-	
+
 	private void scrollTo(String lecture_id) {
 		int height;
 		switch (getResources().getConfiguration().orientation) {
@@ -507,10 +459,10 @@ actionBar.setProgressBarVisibility(View.VISIBLE);
 				final int pos = (lecture.relStartTime - firstLectureStart)/15 * height;
 				Log.d(LOG_TAG, "position is "+pos);
 				parent.post(new Runnable() {
-					
+
 					@Override
 					public void run() {
-						parent.scrollTo(0, pos);						
+						parent.scrollTo(0, pos);
 					}
 				});
 				if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
@@ -521,7 +473,7 @@ actionBar.setProgressBarVisibility(View.VISIBLE);
 								Log.d(LOG_TAG,"scroll horiz to "+i);
 								final int hpos = i;
 								horiz.post(new Runnable() {
-									
+
 									@Override
 									public void run() {
 										horiz.scrollToColumn(hpos);
@@ -531,13 +483,13 @@ actionBar.setProgressBarVisibility(View.VISIBLE);
 							}
 						}
 					}
-					
+
 				}
 				break;
 			}
 		}
 	}
-	
+
 	private void chooseDay() {
 		CharSequence items[] = new CharSequence[MyApp.numdays];
 		Time now = new Time();
@@ -548,7 +500,7 @@ actionBar.setProgressBarVisibility(View.VISIBLE);
 		currentDate.append(String.format("%02d", now.month + 1));
 		currentDate.append("-");
 		currentDate.append(String.format("%02d", now.monthDay));
-		
+
 		Log.d(LOG_TAG, "today is " + currentDate.toString());
 
 		for (int i = 0; i < MyApp.numdays; i++) {
@@ -566,7 +518,7 @@ actionBar.setProgressBarVisibility(View.VISIBLE);
 			}
 			items[i] = sb.toString();
 		}
-		
+
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle(getString(R.string.choose_day));
 		builder.setItems(items, new DialogInterface.OnClickListener() {
@@ -596,7 +548,7 @@ actionBar.setProgressBarVisibility(View.VISIBLE);
 					UntrustedCertDialogs.acceptKeyDialog(
 							R.string.dlg_certificate_message_fmt, this,
 							new cert_accepted() {
-	
+
 								@Override
 								public void cert_accepted() {
 									Log.d(LOG_TAG, "fetch on cert accepted.");
@@ -613,20 +565,16 @@ actionBar.setProgressBarVisibility(View.VISIBLE);
 					progress = null;
 				}
 			} else {
-				actionBar.setProgressBarVisibility(View.GONE);
 				statusBar.startAnimation(slideDownOut);
 				statusBar.setVisibility(View.GONE);
-				refreshBtn.setVisibility(View.VISIBLE);			
 				if (MyApp.numdays == 0) {
 					if (progress != null) {
 						progress.dismiss();
 						progress = null;
 					}
 				} else {
-					actionBar.setProgressBarVisibility(View.GONE);
 					statusBar.startAnimation(slideDownOut);
 					statusBar.setVisibility(View.GONE);
-					refreshBtn.setVisibility(View.VISIBLE);
 				}
 			}
 			setProgressBarIndeterminateVisibility(false);
@@ -639,20 +587,16 @@ actionBar.setProgressBarVisibility(View.VISIBLE);
 				progress = null;
 			}
 		} else {
-			actionBar.setProgressBarVisibility(View.GONE);
 			statusBar.startAnimation(slideDownOut);
 			statusBar.setVisibility(View.GONE);
-			refreshBtn.setVisibility(View.VISIBLE);			
 			if (MyApp.numdays == 0) {
 				if (progress != null) {
 					progress.dismiss();
 					progress = null;
 				}
 			} else {
-				actionBar.setProgressBarVisibility(View.GONE);
 				statusBar.startAnimation(slideDownOut);
 				statusBar.setVisibility(View.GONE);
-				refreshBtn.setVisibility(View.VISIBLE);
 			}
 		}
 		setProgressBarIndeterminateVisibility(false);
@@ -810,12 +754,12 @@ actionBar.setProgressBarVisibility(View.VISIBLE);
 
 	private void loadDays() {
 		MyApp.dateList = new ArrayList<DateList>();
-		
+
 		if (lecturedb == null) {
 			lecturedb = lecturesDB.getReadableDatabase();
 		}
 		Cursor cursor;
-		
+
 		try {
 			cursor = lecturedb.query("lectures", LecturesDBOpenHelper.allcolumns,
 					null, null, null,
@@ -826,13 +770,13 @@ actionBar.setProgressBarVisibility(View.VISIBLE);
 			lecturedb = null;
 			return;
 		}
-		
+
 		if (cursor.getCount() == 0) {
 			// evtl. Datenbankreset wg. DB Formatänderung -> neu laden
 			cursor.close();
 			return;
 		}
-		
+
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {
 			int day = cursor.getInt(3);
@@ -844,12 +788,12 @@ actionBar.setProgressBarVisibility(View.VISIBLE);
 			cursor.moveToNext();
 		}
 		cursor.close();
-		
+
 		for (DateList dayL : MyApp.dateList) {
 			Log.d(LOG_TAG, "date day " + dayL.dayIdx + " = " + dayL.date);
 		}
 	}
-	
+
 	private void loadLectureList(int day, boolean force) {
 		Log.d(LOG_TAG, "load lectures of day " + day);
 
@@ -889,7 +833,7 @@ actionBar.setProgressBarVisibility(View.VISIBLE);
 		}
 		Log.d(LOG_TAG, "Got " + cursor.getCount() + " rows.");
 		Log.d(LOG_TAG, "Got " + hCursor.getCount() + " highlight rows.");
-		
+
 		if (cursor.getCount() == 0) {
 			// evtl. Datenbankreset wg. DB Formatänderung -> neu laden
 			cursor.close();
@@ -897,7 +841,7 @@ actionBar.setProgressBarVisibility(View.VISIBLE);
 			fetchFahrplan();
 			return;
 		}
-		
+
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {
 			Lecture lecture = new Lecture(cursor.getString(0));
@@ -923,13 +867,13 @@ actionBar.setProgressBarVisibility(View.VISIBLE);
 		}
 		cursor.close();
 		MyApp.lectureListDay = day;
-		
+
 		hCursor.moveToFirst();
 		while (!hCursor.isAfterLast()) {
 			String lecture_id = hCursor.getString(1);
 			int highlighted = hCursor.getInt(2);
 			Log.d(LOG_TAG, "lecture "+lecture_id+" is hightlighted:"+highlighted);
-			
+
 			for (Lecture lecture : MyApp.lectureList) {
 				if (lecture.lecture_id.equals(lecture_id)) {
 					lecture.highlight = (highlighted == 1 ? true : false);
@@ -938,17 +882,17 @@ actionBar.setProgressBarVisibility(View.VISIBLE);
 			hCursor.moveToNext();
 		}
 		hCursor.close();
-		
+
 		loadAlarms();
 	}
 
 	private void loadAlarms() {
 		Cursor alarmCursor;
-		
+
 		for (Lecture lecture : MyApp.lectureList) {
 			lecture.has_alarm = false;
 		}
-			
+
 		if (alarmdb == null) {
 			alarmdb = alarmDB.getReadableDatabase();
 		}
@@ -963,12 +907,12 @@ actionBar.setProgressBarVisibility(View.VISIBLE);
 			return;
 		}
 		Log.d(LOG_TAG, "Got " + alarmCursor.getCount() + " alarm rows.");
-		
+
 		alarmCursor.moveToFirst();
 		while (!alarmCursor.isAfterLast()) {
 			String lecture_id = alarmCursor.getString(4);
 			Log.d(LOG_TAG, "lecture "+lecture_id+" has alarm");
-			
+
 			for (Lecture lecture : MyApp.lectureList) {
 				if (lecture.lecture_id.equals(lecture_id)) {
 					lecture.has_alarm = true;
@@ -978,7 +922,7 @@ actionBar.setProgressBarVisibility(View.VISIBLE);
 		}
 		alarmCursor.close();
 	}
-	
+
 	private void loadMeta() {
 		if (metadb == null) {
 			metadb = metaDB.getReadableDatabase();
@@ -1000,7 +944,7 @@ actionBar.setProgressBarVisibility(View.VISIBLE);
 		MyApp.subtitle = "";
 		MyApp.dayChangeHour = 4;
 		MyApp.dayChangeMinute = 0;
-		
+
 		if (cursor.getCount() > 0) {
 			cursor.moveToFirst();
 			if (cursor.getColumnCount() > 0)
@@ -1042,7 +986,7 @@ actionBar.setProgressBarVisibility(View.VISIBLE);
 		Log.d(LOG_TAG, "parseDone: " + result + " , numdays="+MyApp.numdays);
 		MyApp.task_running = TASKS.NONE;
 		MyApp.fahrplan_xml = null;
-		
+
 		setProgressBarIndeterminateVisibility(false);
 		if (MyApp.numdays == 0) {
 			if (progress != null) {
@@ -1050,10 +994,8 @@ actionBar.setProgressBarVisibility(View.VISIBLE);
 				progress = null;
 			}
 		} else {
-			actionBar.setProgressBarVisibility(View.GONE);
 			statusBar.startAnimation(slideDownOut);
 			statusBar.setVisibility(View.GONE);
-			refreshBtn.setVisibility(View.VISIBLE);
 		}
 		if (result) {
 			if ((MyApp.numdays == 0) || (!version.equals(MyApp.version))) {
@@ -1124,10 +1066,10 @@ actionBar.setProgressBarVisibility(View.VISIBLE);
 						android.R.layout.simple_spinner_item);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinner.setAdapter(adapter);
-		
+
 		TextView msg = (TextView)layout.findViewById(R.id.message);
 		msg.setText(R.string.choose_alarm_time);
-		
+
 		new AlertDialog.Builder(this).setTitle(R.string.setup_alarm).setView(layout)
 				.setPositiveButton(android.R.string.ok,
 						new DialogInterface.OnClickListener() {
@@ -1143,12 +1085,12 @@ actionBar.setProgressBarVisibility(View.VISIBLE);
 
 	private int[] alarm_times = { 0, 5, 10, 15, 30, 45, 60 };
 	private View contextMenuView;
-	
+
 	public void deleteAlarm(Lecture lecture) {
 		AlarmsDBOpenHelper alarmDB = new AlarmsDBOpenHelper(this);
 		SQLiteDatabase db = alarmDB.getWritableDatabase();
 		Cursor cursor;
-		
+
 		try {
 		cursor = db.query("alarms", AlarmsDBOpenHelper.allcolumns,
 					"eventid=?", new String[] { lecture.lecture_id }, null,
@@ -1158,17 +1100,17 @@ actionBar.setProgressBarVisibility(View.VISIBLE);
 			Log.d(LOG_TAG,"failure on alarm query");
 			db.close();
 			return;
-		} 
-		
+		}
+
 		if (cursor.getCount() == 0) {
 			db.close();
 			cursor.close();
 			Log.d(LOG_TAG, "alarm for " + lecture.lecture_id + " not found");
 			return;
 		}
-		
+
 		cursor.moveToFirst();
-		
+
 		Intent intent = new Intent(this, AlarmReceiver.class);
 		String lecture_id = cursor.getString(4);
 		intent.putExtra("lecture_id", lecture_id);
@@ -1181,71 +1123,71 @@ actionBar.setProgressBarVisibility(View.VISIBLE);
 		// delete any previous alarms of this lecture
 		db.delete("alarms", "eventid=?", new String[] { lecture.lecture_id });
 		db.close();
-		
+
 		intent.setAction("de.machtnix.fahrplan.ALARM");
 		intent.setData(Uri.parse("alarm://"+lecture.lecture_id));
-		
+
 		AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
 		PendingIntent pendingintent = PendingIntent.getBroadcast(this, Integer.parseInt(lecture.lecture_id), intent, 0);
-		
+
 		// Cancel any existing alarms for this lecture
 		alarmManager.cancel(pendingintent);
-		
+
 		lecture.has_alarm = false;
 		setBell(lecture);
 	}
-	
+
 	public void addAlarm(View v, int alarmTime) {
 		Lecture lecture = (Lecture) v.getTag();
 		Time time = lecture.getTime();
 		long startTime = time.normalize(true);
 		long when = time.normalize(true) - (alarm_times[alarmTime] * 60 * 1000);
-		
+
 		// DEBUG
 		// when = System.currentTimeMillis() + (30 * 1000);
-		
+
 		time.set(when);
 		Log.d(LOG_TAG, "Alarm time: "+when);
-		
-		
+
+
 		Intent intent = new Intent(this, AlarmReceiver.class);
 		intent.putExtra("lecture_id", lecture.lecture_id);
 		intent.putExtra("day", lecture.day);
 		intent.putExtra("title", lecture.title);
 		intent.putExtra("startTime", startTime);
-		
+
 		intent.setAction("de.machtnix.fahrplan.ALARM");
 		intent.setData(Uri.parse("alarm://"+lecture.lecture_id));
-		
+
 		AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
 		PendingIntent pendingintent = PendingIntent.getBroadcast(this, Integer.parseInt(lecture.lecture_id), intent, 0);
-		
+
 		// Cancel any existing alarms for this lecture
 		alarmManager.cancel(pendingintent);
-		
+
 		// Set new alarm
 		alarmManager.set(AlarmManager.RTC_WAKEUP, when, pendingintent);
-		
+
 		// write to DB
-		
+
 		AlarmsDBOpenHelper alarmDB = new AlarmsDBOpenHelper(this);
 
 		SQLiteDatabase db = alarmDB.getWritableDatabase();
-		
+
 		// delete any previous alarms of this lecture
 		try {
 			db.beginTransaction();
 			db.delete("alarms", "eventid=?", new String[] { lecture.lecture_id });
-			
+
 			ContentValues values = new ContentValues();
-	
+
 			values.put("eventid", Integer.parseInt(lecture.lecture_id));
 			values.put("title", lecture.title);
 			values.put("time", when);
 			values.put("timeText", time.format("%Y-%m-%d %H:%M"));
 			values.put("displayTime", startTime);
 			values.put("day", lecture.day);
-	
+
 			db.insert("alarms", null, values);
 			db.setTransactionSuccessful();
 		} catch (SQLException e) {
@@ -1253,25 +1195,25 @@ actionBar.setProgressBarVisibility(View.VISIBLE);
 			db.endTransaction();
 			db.close();
 		}
-		
+
 		lecture.has_alarm = true;
 		setBell(lecture);
 	}
-	
+
 	public void writeHighlight(Lecture lecture) {
 		HighlightDBOpenHelper highlightDB = new HighlightDBOpenHelper(this);
 
 		SQLiteDatabase db = highlightDB.getWritableDatabase();
-		
+
 		try {
 			db.beginTransaction();
 			db.delete("highlight", "eventid=?", new String[] { lecture.lecture_id });
-			
+
 			ContentValues values = new ContentValues();
-	
+
 			values.put("eventid", Integer.parseInt(lecture.lecture_id));
 			values.put("highlight", lecture.highlight ? 1 : 0);
-	
+
 			db.insert("highlight", null, values);
 			db.setTransactionSuccessful();
 		} catch (SQLException e) {
@@ -1280,13 +1222,14 @@ actionBar.setProgressBarVisibility(View.VISIBLE);
 			db.close();
 		}
 	}
-	
-	public boolean onContextItemSelected(MenuItem item) {
+
+	@Override
+	public boolean onContextItemSelected(android.view.MenuItem item) {
 		int menuItemIndex = item.getItemId();
 		Lecture lecture = (Lecture)contextMenuView.getTag();
-		
+
 		Log.d(LOG_TAG,"clicked on "+((Lecture)contextMenuView.getTag()).lecture_id);
-		
+
 		switch (menuItemIndex) {
 		case 0:
 			Integer drawable;
@@ -1333,7 +1276,7 @@ actionBar.setProgressBarVisibility(View.VISIBLE);
 			setBell(lecture);
 		}
 	}
-	
+
 	public void onActivityResult(int requestCode, int resultCode, Intent intent)
 	{
 		super.onActivityResult(requestCode, resultCode, intent);

@@ -2,17 +2,13 @@
 <RelativeLayout android:layout_width="match_parent"
 	android:layout_height="match_parent" android:orientation="vertical"
 	android:background="#000000" xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:app="http://schemas.android.com/apk/res/nerd.tuxmobil.fahrplan.congress">
+	>
 	
-	<com.markupartist.android.widget.ActionBar 
-    	android:id="@+id/actionbar"
-    	app:title="@string/app_name"
-    	style="@style/ActionBar"
-    	android:layout_alignParentTop="true" 
-	/>
 	<LinearLayout android:id="@+id/roomNameLandscape"
 		android:orientation="horizontal" android:layout_width="match_parent"
-		android:layout_height="wrap_content" android:layout_below="@id/actionbar">
+		android:layout_height="wrap_content"
+    	android:layout_alignParentTop="true" 
+		>
 		<TextView android:layout_height="wrap_content"
 			android:layout_width="25dp" android:text=""></TextView>
 
@@ -66,7 +62,7 @@
 
 			<LinearLayout android:id="@+id/scrollContainer"
 				android:layout_width="match_parent" android:layout_height="match_parent"
-				android:orientation="horizontal" android:background="#222222">
+				android:orientation="horizontal" android:background="@color/fahrplan_background">
 				<LinearLayout android:id="@+id/raum1"
 					android:layout_width="wrap_content" android:layout_weight="1"
 					android:layout_height="match_parent" android:orientation="vertical">
@@ -94,6 +90,7 @@
 		    android:gravity="center_horizontal"
 		    android:text="TextView2"
 		    android:textColor="#fff"
+			android:padding="6dp"
 		    android:textSize="20sp" >
 </TextView>
 	</LinearLayout>
