@@ -13,6 +13,7 @@
 			android:shape="rectangle">
 			<solid android:color="@color/standard_event_bg" />
 			<corners android:radius="12dp"/>
+			<stroke android:width="3dip" android:color="#fff"></stroke>
 			<!-- <stroke android:width="1dip" android:color="#AAAAAA" />-->
 		</shape>
 	</item>

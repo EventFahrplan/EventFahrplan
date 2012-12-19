@@ -133,7 +133,8 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 		trackColors.put("Misc", R.drawable.misc_event_border);
 		trackColors.put("Show", R.drawable.science_event_border);
 		trackColors.put("Society and Politics", R.drawable.science_event_border);
-		
+		trackColors.put("", R.drawable.event_border);
+
 		trackColorsHi = new HashMap<String, Integer>();
 		trackColorsHi.put("Hacking", R.drawable.hacking_event_border_highlight);
 		trackColorsHi.put("Society", R.drawable.society_event_border_highlight);
@@ -144,6 +145,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 		trackColorsHi.put("Misc", R.drawable.misc_event_border_highlight);
 		trackColorsHi.put("Show", R.drawable.science_event_border_highlight);
 		trackColorsHi.put("Society and Politics", R.drawable.science_event_border_highlight);
+		trackColorsHi.put("", R.drawable.event_border_highlight);
 
 		statusLineText = (TextView) findViewById(R.id.statusLineText);
 
