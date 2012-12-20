@@ -9,10 +9,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:paddingBottom="24dp"
-        android:paddingLeft="96dp"
-        android:paddingRight="96dp"
-        android:paddingTop="32dp" >
+        android:paddingBottom="32dp"
+        android:paddingLeft="64dp"
+        android:paddingRight="64dp"
+        android:paddingTop="48dp" >
 
         <TextView
             android:id="@+id/title"
@@ -55,6 +55,7 @@
             android:textColor="#000000"
             android:textSize="16sp"
             android:textStyle="bold" >
+
 </TextView>
 
         <TextView
@@ -65,6 +66,7 @@
             android:text="TextView"
             android:textColor="#000000"
             android:textSize="16sp" >
+
 </TextView>
 
         <TextView
@@ -76,6 +78,7 @@
             android:textColor="#000000"
             android:textSize="16sp"
             android:textStyle="bold" >
+
 </TextView>
 
         <TextView
@@ -85,6 +88,7 @@
             android:text="Links"
             android:textColor="#000000"
             android:textSize="16sp" >
+
 </TextView>
         
     </LinearLayout>
