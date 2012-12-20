@@ -14,8 +14,5 @@
      limitations under the License.
 -->
 <resources>
-    <dimen name="actionbar_height">35dip</dimen>
-    <dimen name="actionbar_item_height">35dip</dimen>
-    <dimen name="actionbar_item_width">35dip</dimen>
     <item type="integer" name="box_height">40</item>
 </resources>
