@@ -8,6 +8,7 @@ import com.actionbarsherlock.app.SherlockActivity;
 
 import nerd.tuxmobil.fahrplan.congress.CustomHttpClient.HTTP_STATUS;
 import nerd.tuxmobil.fahrplan.congress.MyApp.TASKS;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
@@ -26,7 +27,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.CalendarContract;
+import android.text.format.DateFormat;
 import android.text.format.Time;
 import android.util.Log;
 import android.util.TypedValue;
@@ -217,6 +221,32 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 		if (lecture_id != null) {
 			scrollTo(lecture_id);
 		}
+	}
+
+	@SuppressLint("NewApi")
+	public void addToCalender(Lecture l) {
+		Intent intent = new Intent(Intent.ACTION_INSERT, CalendarContract.Events.CONTENT_URI);
+
+		intent.putExtra(CalendarContract.Events.TITLE, l.title);
+		intent.putExtra(CalendarContract.Events.EVENT_LOCATION, l.room);
+
+		Time time = l.getTime();
+		long when = time.normalize(true);
+		intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, when);
+		intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, when + (l.duration * 60000));
+		startActivity(intent);
+	}
+
+	public void share(Lecture l) {
+		Intent sendIntent = new Intent();
+		sendIntent.setAction(Intent.ACTION_SEND);
+		StringBuilder sb = new StringBuilder();
+		Time time = l.getTime();
+		sb.append(l.title).append("\n").append(DateFormat.format("E, MMMM dd, yyyy hh:mm", time.toMillis(true)));
+		sb.append(", ").append(l.room).append("\n\n").append("http://events.ccc.de/congress/2012/Fahrplan/events/").append(l.lecture_id).append(".en.html");
+		sendIntent.putExtra(Intent.EXTRA_TEXT, sb.toString());
+		sendIntent.setType("text/plain");
+		startActivity(sendIntent);
 	}
 
 	public void showParsingStatus() {
@@ -1255,6 +1285,12 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 		case 2:
 			deleteAlarm(lecture);
 			break;
+		case 3:
+			addToCalender(lecture);
+			break;
+		case 4:
+			share(lecture);
+			break;
 		}
 		return true;
 	}
@@ -1269,6 +1305,10 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 		if (lecture.has_alarm) {
 			menu.add(0, 2, 2, getString(R.string.delete_alarm));
 		}
+		if (Build.VERSION.SDK_INT >= 14) {
+			menu.add(0, 3, 3, getString(R.string.addToCalendar));
+		}
+		menu.add(0, 4, 4, getString(R.string.share));
 	}
 
 	public void refreshViews() {
