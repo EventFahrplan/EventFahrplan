@@ -35,6 +35,8 @@ import android.view.LayoutInflater;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.SubMenu;
+
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -60,7 +62,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 	private int firstLectureStart = 0;
 	private int lastLectureEnd = 0;
 	private HashMap<String, Integer> trackColors;
-	private int day = 1;
+	private int mDay = 1;
 	private View dayTextView;
 	public static Context context = null;
 	public static String[] rooms = { "Saal 1", "Saal 4", "Saal 6" };
@@ -167,7 +169,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 		slideDownOut = AnimationUtils
 				.loadAnimation(this, R.anim.slide_down_out);
 		SharedPreferences prefs = getSharedPreferences(PREFS_NAME, 0);
-		day = prefs.getInt("displayDay", 1);
+		mDay = prefs.getInt("displayDay", 1);
 
 		inflater = (LayoutInflater) this
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -185,8 +187,8 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 
 		if (lecture_id != null) {
 			Log.d(LOG_TAG,"Open with lecture_id "+lecture_id);
-			day = intent.getIntExtra("day", day);
-			Log.d(LOG_TAG,"day "+day);
+			mDay = intent.getIntExtra("day", mDay);
+			Log.d(LOG_TAG,"day "+mDay);
 		}
 
 		MyApp.fetcher.setActivity(this);	// save current activity and trigger possible completion event
@@ -263,6 +265,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 		Log.d(LOG_TAG, "onResume");
 		super.onResume();
 		fillTimes();
+		supportInvalidateOptionsMenu();
 	}
 
 	public static void updateRoomTitle(int room) {
@@ -284,6 +287,34 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 		super.onCreateOptionsMenu(menu);
 		MenuInflater mi = getSupportMenuInflater();
 		mi.inflate(R.menu.mainmenu, menu);
+		SubMenu submenu = menu.findItem(R.id.item_choose_day).getSubMenu();
+		Time now = new Time();
+		now.setToNow();
+		StringBuilder currentDate = new StringBuilder();
+		currentDate.append(String.format("%d", now.year));
+		currentDate.append("-");
+		currentDate.append(String.format("%02d", now.month + 1));
+		currentDate.append("-");
+		currentDate.append(String.format("%02d", now.monthDay));
+
+		Log.d(LOG_TAG, "today is " + currentDate.toString());
+
+		for (int i = 0; i < MyApp.numdays; i++) {
+			StringBuilder sb = new StringBuilder();
+			sb.append(getString(R.string.day)).append(" ").append(i + 1);
+			for (DateList d : MyApp.dateList) {
+				if (d.dayIdx == (i + 1)) {
+					Log.d(LOG_TAG, "date of day " + sb.toString() + " is " + d.date);
+					if (currentDate.toString().equals(d.date)) {
+						sb.append(" - ");
+						sb.append(getString(R.string.today));
+					}
+					break;
+				}
+			}
+			submenu.add(Menu.NONE, i, 0, sb.toString());
+		}
+
 		return true;
 	}
 
@@ -317,19 +348,6 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 		case R.id.item_refresh:
 			fetchFahrplan();
 			return true;
-		/*
-		case R.id.item_load:
-			loadMeta();
-			SharedPreferences prefs = getSharedPreferences(PREFS_NAME, 0);
-			day = prefs.getInt("displayDay", 1);
-			if (day > MyApp.numdays) {
-				day = 1;
-			}
-			viewDay(true);
-			return true;*/
-		case R.id.item_choose_day:
-			chooseDay();
-			return true;
 		case R.id.item_about:
 			aboutDialog();
 			return true;
@@ -341,13 +359,18 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 			intent = new Intent(this, Prefs.class);
 			startActivity(intent);
 			return true;
+		default:
+			if ((item.getItemId() >= 0) && (item.getItemId() < MyApp.numdays)) {
+				chooseDay(item.getItemId());
+				return true;
+			}
 		}
 		return super.onOptionsItemSelected(item);
 	}
 
 	private void viewDay(boolean reload) {
 //		Log.d(LOG_TAG, "viewDay("+reload+")");
-		loadLectureList(day, reload);
+		loadLectureList(mDay, reload);
 		scanDayLectures();
 		HorizontalSnapScrollView scroller = (HorizontalSnapScrollView) findViewById(R.id.horizScroller);
 		if (scroller != null) {
@@ -359,7 +382,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 		fillRoom("Saal 1", R.id.raum1);
 		fillRoom("Saal 4", R.id.raum2);
 		fillRoom("Saal 6", R.id.raum3);
-		scrollToCurrent(day);
+		scrollToCurrent(mDay);
 	}
 
 	/**
@@ -500,51 +523,15 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 		}
 	}
 
-	private void chooseDay() {
-		CharSequence items[] = new CharSequence[MyApp.numdays];
-		Time now = new Time();
-		now.setToNow();
-		StringBuilder currentDate = new StringBuilder();
-		currentDate.append(String.format("%d", now.year));
-		currentDate.append("-");
-		currentDate.append(String.format("%02d", now.month + 1));
-		currentDate.append("-");
-		currentDate.append(String.format("%02d", now.monthDay));
+	private void chooseDay(int chosenDay) {
+		mDay = chosenDay + 1;
+		SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+		SharedPreferences.Editor editor = settings.edit();
+		editor.putInt("displayDay", mDay);
 
-		Log.d(LOG_TAG, "today is " + currentDate.toString());
+		editor.commit();
 
-		for (int i = 0; i < MyApp.numdays; i++) {
-			StringBuilder sb = new StringBuilder();
-			sb.append(getString(R.string.day)).append(" ").append(i + 1);
-			for (DateList d : MyApp.dateList) {
-				if (d.dayIdx == (i + 1)) {
-					Log.d(LOG_TAG, "date of day " + sb.toString() + " is " + d.date);
-					if (currentDate.toString().equals(d.date)) {
-						sb.append(" - ");
-						sb.append(getString(R.string.today));
-					}
-					break;
-				}
-			}
-			items[i] = sb.toString();
-		}
-
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle(getString(R.string.choose_day));
-		builder.setItems(items, new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int item) {
-				day = item + 1;
-				SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-				SharedPreferences.Editor editor = settings.edit();
-				editor.putInt("displayDay", day);
-
-				editor.commit();
-
-				viewDay(true);
-			}
-		});
-		AlertDialog alert = builder.create();
-		alert.show();
+		viewDay(true);
 	}
 
 	public void onGotResponse(HTTP_STATUS status, String response) {
@@ -1013,9 +1000,9 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 				loadMeta();
 				loadDays();
 				SharedPreferences prefs = getSharedPreferences(PREFS_NAME, 0);
-				day = prefs.getInt("displayDay", 1);
-				if (day > MyApp.numdays) {
-					day = 1;
+				mDay = prefs.getInt("displayDay", 1);
+				if (mDay > MyApp.numdays) {
+					mDay = 1;
 				}
 				viewDay(true);
 				final Toast done = Toast.makeText(global
@@ -1029,6 +1016,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 		} else {
 			// FIXME Fehlermeldung;
 		}
+		supportInvalidateOptionsMenu();
 	}
 
 	void aboutDialog() {
