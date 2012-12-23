@@ -11,6 +11,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
@@ -99,10 +100,24 @@ public class EventDetail extends SherlockActivity {
 		super.onCreateOptionsMenu(menu);
 		MenuInflater mi = new MenuInflater(getApplication());
 		mi.inflate(R.menu.detailmenu, menu);
+		if (Build.VERSION.SDK_INT < 14) {
+			MenuItem item = menu.findItem(R.id.item_add_to_calendar);
+			if (item != null) item.setVisible(false);
+		}
 		return true;
 	}
 
+	private Lecture eventid2Lecture(String event_id) {
+		for (Lecture lecture : MyApp.lectureList) {
+			if (lecture.lecture_id.equals(event_id)) {
+				return lecture;
+			}
+		}
+		return null;
+	}
+
 	public boolean onOptionsItemSelected(MenuItem item) {
+		Lecture l;
 		switch (item.getItemId()) {
 		case R.id.item_feedback:
 			StringBuilder sb = new StringBuilder();
@@ -117,6 +132,14 @@ public class EventDetail extends SherlockActivity {
 			Uri uri = Uri.parse(sb.toString());
 			Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 			startActivity(intent);
+			return true;
+		case R.id.item_share:
+			l = eventid2Lecture(event_id);
+			if (l != null) Fahrplan.share(this, l);
+			return true;
+		case R.id.item_add_to_calendar:
+			l = eventid2Lecture(event_id);
+			if (l != null) Fahrplan.addToCalender(this, l);
 			return true;
 		}
 		return super.onOptionsItemSelected(item);

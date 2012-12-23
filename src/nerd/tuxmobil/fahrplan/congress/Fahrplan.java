@@ -224,7 +224,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 	}
 
 	@SuppressLint("NewApi")
-	public void addToCalender(Lecture l) {
+	public static void addToCalender(Context context, Lecture l) {
 		Intent intent = new Intent(Intent.ACTION_INSERT, CalendarContract.Events.CONTENT_URI);
 
 		intent.putExtra(CalendarContract.Events.TITLE, l.title);
@@ -234,10 +234,10 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 		long when = time.normalize(true);
 		intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, when);
 		intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, when + (l.duration * 60000));
-		startActivity(intent);
+		context.startActivity(intent);
 	}
 
-	public void share(Lecture l) {
+	public static void share(Context context, Lecture l) {
 		Intent sendIntent = new Intent();
 		sendIntent.setAction(Intent.ACTION_SEND);
 		StringBuilder sb = new StringBuilder();
@@ -246,7 +246,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 		sb.append(", ").append(l.room).append("\n\n").append("http://events.ccc.de/congress/2012/Fahrplan/events/").append(l.lecture_id).append(".en.html");
 		sendIntent.putExtra(Intent.EXTRA_TEXT, sb.toString());
 		sendIntent.setType("text/plain");
-		startActivity(sendIntent);
+		context.startActivity(sendIntent);
 	}
 
 	public void showParsingStatus() {
@@ -1286,10 +1286,10 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 			deleteAlarm(lecture);
 			break;
 		case 3:
-			addToCalender(lecture);
+			addToCalender(this, lecture);
 			break;
 		case 4:
-			share(lecture);
+			share(this, lecture);
 			break;
 		}
 		return true;
@@ -1299,11 +1299,12 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 			ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
 		menu.add(0, 0, 0, getString(R.string.toggle_highlight));
-		menu.add(0, 1, 1, getString(R.string.set_alarm));
 		contextMenuView = v;
 		Lecture lecture = (Lecture)contextMenuView.getTag();
 		if (lecture.has_alarm) {
 			menu.add(0, 2, 2, getString(R.string.delete_alarm));
+		} else {
+			menu.add(0, 1, 1, getString(R.string.set_alarm));
 		}
 		if (Build.VERSION.SDK_INT >= 14) {
 			menu.add(0, 3, 3, getString(R.string.addToCalendar));
