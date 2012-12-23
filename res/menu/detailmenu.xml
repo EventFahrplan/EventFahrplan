@@ -3,4 +3,6 @@
 	<item android:title="@string/feedback" android:titleCondensed="@string/feedback" android:id="@+id/item_feedback" android:icon="@drawable/ic_action_feedback" android:showAsAction="ifRoom"></item>
 	<item android:id="@+id/item_add_to_calendar" android:title="@string/addToCalendar" android:icon="@drawable/ic_action_add_to_calendar" android:showAsAction="ifRoom"></item>
 	<item android:id="@+id/item_share" android:title="@string/share" android:icon="@drawable/ic_action_share" android:showAsAction="ifRoom"></item>
+	<item android:id="@+id/item_fav" android:title="@string/toggle_highlight" android:icon="@drawable/ic_action_unfav" android:showAsAction="ifRoom"></item>
+	<item android:id="@+id/item_unfav" android:title="@string/toggle_highlight" android:icon="@drawable/ic_action_fav" android:visible="false" android:showAsAction="ifRoom"></item>
 </menu>

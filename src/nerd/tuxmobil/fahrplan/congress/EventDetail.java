@@ -31,6 +31,7 @@ public class EventDetail extends SherlockActivity {
 	private Typeface light;
 	private Typeface regular;
 	private Typeface bold;
+	private Lecture lecture;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,6 +48,7 @@ public class EventDetail extends SherlockActivity {
         locale = getResources().getConfiguration().locale;
 
         event_id = intent.getStringExtra("eventid");
+        lecture = eventid2Lecture(event_id);
 
         TextView t = (TextView)findViewById(R.id.title);
         title = intent.getStringExtra("title");
@@ -94,15 +96,25 @@ public class EventDetail extends SherlockActivity {
         	l.setVisibility(View.GONE);
         	t.setVisibility(View.GONE);
         }
+        setResult(RESULT_CANCELED);
     }
 
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
 		MenuInflater mi = new MenuInflater(getApplication());
 		mi.inflate(R.menu.detailmenu, menu);
+		MenuItem item;
 		if (Build.VERSION.SDK_INT < 14) {
-			MenuItem item = menu.findItem(R.id.item_add_to_calendar);
+			item = menu.findItem(R.id.item_add_to_calendar);
 			if (item != null) item.setVisible(false);
+		}
+		if (lecture != null) {
+			if (lecture.highlight) {
+				item = menu.findItem(R.id.item_fav);
+				if (item != null) item.setVisible(false);
+				item = menu.findItem(R.id.item_unfav);
+				if (item != null) item.setVisible(true);
+			}
 		}
 		return true;
 	}
@@ -140,6 +152,18 @@ public class EventDetail extends SherlockActivity {
 		case R.id.item_add_to_calendar:
 			l = eventid2Lecture(event_id);
 			if (l != null) Fahrplan.addToCalender(this, l);
+			return true;
+		case R.id.item_fav:
+			lecture.highlight = true;
+			Fahrplan.writeHighlight(this, lecture);
+			supportInvalidateOptionsMenu();
+			setResult(RESULT_OK);
+			return true;
+		case R.id.item_unfav:
+			lecture.highlight = false;
+			Fahrplan.writeHighlight(this, lecture);
+			supportInvalidateOptionsMenu();
+			setResult(RESULT_OK);
 			return true;
 		}
 		return super.onOptionsItemSelected(item);

@@ -706,6 +706,22 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 		return padding;
 	}
 
+	private void setLectureBackground(Lecture lecture, View view) {
+		Integer drawable;
+		int padding = getEventPadding();
+		if (lecture.highlight) {
+//					drawable = trackColorsHi.get(lecture.track);
+			drawable = trackColorsHi.get("");
+		} else {
+//					drawable = trackColors.get(lecture.track);
+			drawable = trackColors.get("");
+		}
+		if (drawable != null) {
+			view.setBackgroundResource(drawable);
+			view.setPadding(padding, padding, padding, padding);
+		}
+	}
+
 	private void fillRoom(String roomName, int roomId) {
 		LinearLayout room = (LinearLayout) findViewById(roomId);
 		room.removeAllViews();
@@ -717,12 +733,10 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 		case Configuration.ORIENTATION_LANDSCAPE:
 			Log.d(LOG_TAG, "landscape");
 			standardHeight = (int) (getResources().getInteger(R.integer.box_height) * scale);
-			padding = (int) (8 * scale);
 			break;
 		default:
 			Log.d(LOG_TAG, "other orientation");
 			standardHeight = (int) (getResources().getInteger(R.integer.box_height) * scale);
-			padding = (int) (10 * scale);
 			break;
 		}
 		for (Lecture lecture : MyApp.lectureList) {
@@ -758,18 +772,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 				}
 				title.setText(sb.toString());
 
-				Integer drawable;
-				if (lecture.highlight) {
-//					drawable = trackColorsHi.get(lecture.track);
-					drawable = trackColorsHi.get("");
-				} else {
-//					drawable = trackColors.get(lecture.track);
-					drawable = trackColors.get("");
-				}
-				if (drawable != null) {
-					event.setBackgroundResource(drawable);
-					event.setPadding(padding, padding, padding, padding);
-				}
+				setLectureBackground(lecture, event);
 				event.setOnClickListener(this);
 				event.setLongClickable(true);
 //				event.setOnLongClickListener(this);
@@ -1007,7 +1010,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 		intent.putExtra("links", lecture.links);
 		intent.putExtra("eventid", lecture.lecture_id);
 		intent.putExtra("time", lecture.startTime);
-		startActivity(intent);
+		startActivityForResult(intent, MyApp.EVENTVIEW);
 	}
 
 	public void onParseDone(Boolean result, String version) {
@@ -1229,8 +1232,8 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 		setBell(lecture);
 	}
 
-	public void writeHighlight(Lecture lecture) {
-		HighlightDBOpenHelper highlightDB = new HighlightDBOpenHelper(this);
+	public static void writeHighlight(Context context, Lecture lecture) {
+		HighlightDBOpenHelper highlightDB = new HighlightDBOpenHelper(context);
 
 		SQLiteDatabase db = highlightDB.getWritableDatabase();
 
@@ -1267,12 +1270,12 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 //				drawable = trackColors.get(lecture.track);
 				drawable = trackColors.get("");
 				lecture.highlight = false;
-				writeHighlight(lecture);
+				writeHighlight(this, lecture);
 			} else {
 //				drawable = trackColorsHi.get(lecture.track);
 				drawable = trackColorsHi.get("");
 				lecture.highlight = true;
-				writeHighlight(lecture);
+				writeHighlight(this, lecture);
 			}
 			if (drawable != null) {
 				contextMenuView.setBackgroundResource(drawable);
@@ -1312,9 +1315,19 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 		menu.add(0, 4, 4, getString(R.string.share));
 	}
 
+	private View getLectureView(Lecture lecture) {
+		final ScrollView parent = (ScrollView)findViewById(R.id.scrollView1);
+		View v = parent.findViewWithTag(lecture);
+		return v;
+	}
+
 	public void refreshViews() {
 		for (Lecture lecture : MyApp.lectureList) {
 			setBell(lecture);
+			View v = getLectureView(lecture);
+			if (v != null) {
+				setLectureBackground(lecture, v);
+			}
 		}
 	}
 
@@ -1324,7 +1337,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 
 		switch (requestCode) {
 			case MyApp.ALARMLIST:
-				Log.d(LOG_TAG, "Return from AlarmList with result " + resultCode);
+			case MyApp.EVENTVIEW:
 				if (resultCode == RESULT_OK) {
 					Log.d(LOG_TAG, "Reload alarms");
 					loadAlarms();
@@ -1333,4 +1346,5 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 				break;
 		}
 	}
+
 }

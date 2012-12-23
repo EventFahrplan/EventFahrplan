@@ -15,23 +15,24 @@ public class MyApp extends Application {
 	public static ArrayList<DateList> dateList = null;
 	public static FetchFahrplan fetcher = null;
 	public static FahrplanParser parser = null;
-	
+
 	enum TASKS {
 		NONE,
 		FETCH,
-		PARSE, 
+		PARSE,
 		FETCH_CANCELLED
 	}
-	
+
 	// requestCodes für startActivityForResult
 	final public static int ALARMLIST = 1;
-	
+	final public static int EVENTVIEW = 2;
+
 	public static TASKS task_running = TASKS.NONE;
 	public static String fahrplan_xml;
 	public static int lectureListDay = 0;
 	public static int dayChangeHour;
 	public static int dayChangeMinute;
-	
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -39,5 +40,5 @@ public class MyApp extends Application {
         task_running = TASKS.NONE;
         lectureList = null;
     }
-    
+
 }
