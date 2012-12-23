@@ -27,24 +27,20 @@
         android:title="@string/delete_alarm"
         android:visible="false">
     </item>
-    <item
-        android:id="@+id/item_share"
-        android:icon="@drawable/ic_action_share"
-        android:showAsAction="ifRoom"
-        android:title="@string/share">
-    </item>
+    
     <item
         android:id="@+id/item_fav"
         android:icon="@drawable/ic_action_unfav"
         android:showAsAction="ifRoom"
-        android:title="@string/toggle_highlight">
+        android:title="@string/flag_as_favorite">
     </item>
     <item
         android:id="@+id/item_unfav"
         android:icon="@drawable/ic_action_fav"
         android:showAsAction="ifRoom"
-        android:title="@string/toggle_highlight"
+        android:title="@string/unflag_as_favorite"
         android:visible="false">
+    </item><item android:id="@+id/item_share" android:icon="@drawable/ic_action_share" android:showAsAction="ifRoom" android:title="@string/share">
     </item>
 
 </menu>

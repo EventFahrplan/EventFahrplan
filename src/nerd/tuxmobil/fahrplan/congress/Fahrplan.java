@@ -1300,9 +1300,13 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
-		menu.add(0, 0, 0, getString(R.string.toggle_highlight));
 		contextMenuView = v;
-		Lecture lecture = (Lecture)contextMenuView.getTag();
+		Lecture lecture = (Lecture)v.getTag();
+		if (lecture.highlight) {
+			menu.add(0, 0, 0, getString(R.string.unflag_as_favorite));
+		} else {
+			menu.add(0, 0, 0, getString(R.string.flag_as_favorite));
+		}
 		if (lecture.has_alarm) {
 			menu.add(0, 2, 2, getString(R.string.delete_alarm));
 		} else {
