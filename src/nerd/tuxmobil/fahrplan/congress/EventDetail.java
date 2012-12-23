@@ -8,6 +8,8 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.net.Uri;
@@ -16,7 +18,11 @@ import android.os.Bundle;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 public class EventDetail extends SherlockActivity {
@@ -115,6 +121,12 @@ public class EventDetail extends SherlockActivity {
 				item = menu.findItem(R.id.item_unfav);
 				if (item != null) item.setVisible(true);
 			}
+			if (lecture.has_alarm) {
+				item = menu.findItem(R.id.item_set_alarm);
+				if (item != null) item.setVisible(false);
+				item = menu.findItem(R.id.item_clear_alarm);
+				if (item != null) item.setVisible(true);
+			}
 		}
 		return true;
 	}
@@ -126,6 +138,37 @@ public class EventDetail extends SherlockActivity {
 			}
 		}
 		return null;
+	}
+
+	void setAlarmDialog(final Lecture lecture) {
+
+		LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+		View layout = inflater.inflate(R.layout.reminder_dialog,
+				(ViewGroup) findViewById(R.id.layout_root));
+
+		final Spinner spinner = (Spinner) layout.findViewById(R.id.spinner);
+		ArrayAdapter<CharSequence> adapter = ArrayAdapter
+				.createFromResource(this, R.array.alarm_array,
+						android.R.layout.simple_spinner_item);
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spinner.setAdapter(adapter);
+
+		TextView msg = (TextView)layout.findViewById(R.id.message);
+		msg.setText(R.string.choose_alarm_time);
+
+		new AlertDialog.Builder(this).setTitle(R.string.setup_alarm).setView(layout)
+				.setPositiveButton(android.R.string.ok,
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog,
+									int which) {
+								int alarm = spinner.getSelectedItemPosition();
+								Log.d(LOG_TAG, "alarm chosen: "+alarm);
+								Fahrplan.addAlarm(EventDetail.this, lecture, alarm);
+								supportInvalidateOptionsMenu();
+								setResult(RESULT_OK);
+							}
+						}).setNegativeButton(android.R.string.cancel, null)
+				.create().show();
 	}
 
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -162,6 +205,14 @@ public class EventDetail extends SherlockActivity {
 		case R.id.item_unfav:
 			lecture.highlight = false;
 			Fahrplan.writeHighlight(this, lecture);
+			supportInvalidateOptionsMenu();
+			setResult(RESULT_OK);
+			return true;
+		case R.id.item_set_alarm:
+			setAlarmDialog(lecture);
+			return true;
+		case R.id.item_clear_alarm:
+			Fahrplan.deleteAlarm(this, lecture);
 			supportInvalidateOptionsMenu();
 			setResult(RESULT_OK);
 			return true;

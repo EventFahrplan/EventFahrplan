@@ -1086,7 +1086,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 						}).create().show();
 	}
 
-	void getAlarmTimeDialog(final View v) {
+	void getAlarmTimeDialog(final Lecture lecture) {
 
 		LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
 		View layout = inflater.inflate(R.layout.reminder_dialog,
@@ -1109,17 +1109,17 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 									int which) {
 								int alarm = spinner.getSelectedItemPosition();
 								Log.d(LOG_TAG, "alarm chosen: "+alarm);
-								addAlarm(v, alarm);
+								addAlarm(Fahrplan.this, lecture, alarm);
+								setBell(lecture);
 							}
 						}).setNegativeButton(android.R.string.cancel, null)
 				.create().show();
 	}
 
-	private int[] alarm_times = { 0, 5, 10, 15, 30, 45, 60 };
 	private View contextMenuView;
 
-	public void deleteAlarm(Lecture lecture) {
-		AlarmsDBOpenHelper alarmDB = new AlarmsDBOpenHelper(this);
+	public static void deleteAlarm(Context context, Lecture lecture) {
+		AlarmsDBOpenHelper alarmDB = new AlarmsDBOpenHelper(context);
 		SQLiteDatabase db = alarmDB.getWritableDatabase();
 		Cursor cursor;
 
@@ -1129,7 +1129,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 					null, null);
 		} catch (SQLiteException e) {
 			e.printStackTrace();
-			Log.d(LOG_TAG,"failure on alarm query");
+			Log.d("delete alarm","failure on alarm query");
 			db.close();
 			return;
 		}
@@ -1137,13 +1137,13 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 		if (cursor.getCount() == 0) {
 			db.close();
 			cursor.close();
-			Log.d(LOG_TAG, "alarm for " + lecture.lecture_id + " not found");
+			Log.d("delete_alarm", "alarm for " + lecture.lecture_id + " not found");
 			return;
 		}
 
 		cursor.moveToFirst();
 
-		Intent intent = new Intent(this, AlarmReceiver.class);
+		Intent intent = new Intent(context, AlarmReceiver.class);
 		String lecture_id = cursor.getString(4);
 		intent.putExtra("lecture_id", lecture_id);
 		int day = cursor.getInt(6);
@@ -1159,30 +1159,29 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 		intent.setAction("de.machtnix.fahrplan.ALARM");
 		intent.setData(Uri.parse("alarm://"+lecture.lecture_id));
 
-		AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-		PendingIntent pendingintent = PendingIntent.getBroadcast(this, Integer.parseInt(lecture.lecture_id), intent, 0);
+		AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+		PendingIntent pendingintent = PendingIntent.getBroadcast(context, Integer.parseInt(lecture.lecture_id), intent, 0);
 
 		// Cancel any existing alarms for this lecture
 		alarmManager.cancel(pendingintent);
 
 		lecture.has_alarm = false;
-		setBell(lecture);
 	}
 
-	public void addAlarm(View v, int alarmTime) {
-		Lecture lecture = (Lecture) v.getTag();
+	public static void addAlarm(Context context, Lecture lecture, int alarmTime) {
 		Time time = lecture.getTime();
 		long startTime = time.normalize(true);
+		int[] alarm_times = { 0, 5, 10, 15, 30, 45, 60 };
 		long when = time.normalize(true) - (alarm_times[alarmTime] * 60 * 1000);
 
 		// DEBUG
 		// when = System.currentTimeMillis() + (30 * 1000);
 
 		time.set(when);
-		Log.d(LOG_TAG, "Alarm time: "+when);
+		Log.d("addAlarm", "Alarm time: "+when);
 
 
-		Intent intent = new Intent(this, AlarmReceiver.class);
+		Intent intent = new Intent(context, AlarmReceiver.class);
 		intent.putExtra("lecture_id", lecture.lecture_id);
 		intent.putExtra("day", lecture.day);
 		intent.putExtra("title", lecture.title);
@@ -1191,8 +1190,8 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 		intent.setAction("de.machtnix.fahrplan.ALARM");
 		intent.setData(Uri.parse("alarm://"+lecture.lecture_id));
 
-		AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-		PendingIntent pendingintent = PendingIntent.getBroadcast(this, Integer.parseInt(lecture.lecture_id), intent, 0);
+		AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+		PendingIntent pendingintent = PendingIntent.getBroadcast(context, Integer.parseInt(lecture.lecture_id), intent, 0);
 
 		// Cancel any existing alarms for this lecture
 		alarmManager.cancel(pendingintent);
@@ -1202,7 +1201,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 
 		// write to DB
 
-		AlarmsDBOpenHelper alarmDB = new AlarmsDBOpenHelper(this);
+		AlarmsDBOpenHelper alarmDB = new AlarmsDBOpenHelper(context);
 
 		SQLiteDatabase db = alarmDB.getWritableDatabase();
 
@@ -1229,7 +1228,6 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 		}
 
 		lecture.has_alarm = true;
-		setBell(lecture);
 	}
 
 	public static void writeHighlight(Context context, Lecture lecture) {
@@ -1283,10 +1281,11 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 			}
 			break;
 		case 1:
-			getAlarmTimeDialog(contextMenuView);
+			getAlarmTimeDialog(lecture);
 			break;
 		case 2:
-			deleteAlarm(lecture);
+			deleteAlarm(this, lecture);
+			setBell(lecture);
 			break;
 		case 3:
 			addToCalender(this, lecture);

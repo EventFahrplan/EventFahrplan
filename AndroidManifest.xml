@@ -13,7 +13,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="EventDetail" android:configChanges="keyboardHidden|orientation" android:label="@string/fahrplan"></activity>
+        <activity android:name="EventDetail" android:configChanges="keyboardHidden|orientation" android:label="@string/fahrplan" android:uiOptions="splitActionBarWhenNarrow"></activity>
         <activity android:configChanges="keyboardHidden|orientation" android:name="AlarmList" android:label="@string/reminders"></activity>
         <receiver android:name="AlarmReceiver">
         </receiver>
