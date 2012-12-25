@@ -59,7 +59,7 @@ import android.widget.LinearLayout.LayoutParams;
 public class Fahrplan extends SherlockActivity implements OnClickListener {
 	private MyApp global;
 	private ProgressDialog progress = null;
-	private String LOG_TAG = "Fahrplan";
+	private static String LOG_TAG = "Fahrplan";
 	private FetchFahrplan fetcher;
 	private float scale;
 	private LayoutInflater inflater;
@@ -75,15 +75,9 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 	private Animation slideUpIn;
 	private Animation slideDownOut;
 	private TextView statusLineText;
-	private LecturesDBOpenHelper lecturesDB;
-	private AlarmsDBOpenHelper alarmDB;
 	private MetaDBOpenHelper metaDB;
 	private SQLiteDatabase metadb = null;
-	private SQLiteDatabase lecturedb = null;
-	private SQLiteDatabase highlightdb = null;
-	private SQLiteDatabase alarmdb = null;
 	private HashMap<String, Integer> trackColorsHi;
-	private HighlightDBOpenHelper highlightDB;
 	public static final String PREFS_NAME = "settings";
 	private int screenWidth = 0;
 	private Typeface boldCondensed;
@@ -178,10 +172,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 		inflater = (LayoutInflater) this
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-		lecturesDB = new LecturesDBOpenHelper(this);
 		metaDB = new MetaDBOpenHelper(this);
-		highlightDB = new HighlightDBOpenHelper(this);
-		alarmDB = new AlarmsDBOpenHelper(this);
 
 		loadMeta();
 		loadDays();
@@ -281,9 +272,6 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 			MyApp.parser.setActivity(null);
 		}
 		if (metadb != null) metadb.close();
-		if (lecturedb != null) lecturedb.close();
-		if (highlightdb != null) highlightdb.close();
-		if (alarmdb != null) alarmdb.close();
 		if (progress != null) {
 			progress.dismiss();
 			progress = null;
@@ -400,7 +388,10 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 
 	private void viewDay(boolean reload) {
 //		Log.d(LOG_TAG, "viewDay("+reload+")");
-		loadLectureList(mDay, reload);
+		if (loadLectureList(this, mDay, reload) == false) {
+			Log.d(LOG_TAG,"fetch on loading empty lecture list");
+			fetchFahrplan();
+		}
 		scanDayLectures();
 		HorizontalSnapScrollView scroller = (HorizontalSnapScrollView) findViewById(R.id.horizScroller);
 		if (scroller != null) {
@@ -785,10 +776,9 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 
 	private void loadDays() {
 		MyApp.dateList = new ArrayList<DateList>();
+		LecturesDBOpenHelper lecturesDB = new LecturesDBOpenHelper(context);
 
-		if (lecturedb == null) {
-			lecturedb = lecturesDB.getReadableDatabase();
-		}
+		SQLiteDatabase lecturedb = lecturesDB.getReadableDatabase();
 		Cursor cursor;
 
 		try {
@@ -798,13 +788,15 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 		} catch (SQLiteException e) {
 			e.printStackTrace();
 			lecturedb.close();
-			lecturedb = null;
+			lecturesDB.close();
 			return;
 		}
 
 		if (cursor.getCount() == 0) {
 			// evtl. Datenbankreset wg. DB Formatänderung -> neu laden
 			cursor.close();
+			lecturesDB.close();
+			lecturedb.close();
 			return;
 		}
 
@@ -823,18 +815,22 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 		for (DateList dayL : MyApp.dateList) {
 			Log.d(LOG_TAG, "date day " + dayL.dayIdx + " = " + dayL.date);
 		}
+		lecturesDB.close();
+		lecturedb.close();
 	}
 
-	private void loadLectureList(int day, boolean force) {
+	public static boolean loadLectureList(Context context, int day, boolean force) {
 		Log.d(LOG_TAG, "load lectures of day " + day);
 
-		if (lecturedb == null) {
-			lecturedb = lecturesDB.getReadableDatabase();
-		}
-		if (highlightdb == null) {
-			highlightdb = highlightDB.getReadableDatabase();
-		}
-		if ((force == false) && (MyApp.lectureList != null) && (MyApp.lectureListDay == day)) return;
+		if ((force == false) && (MyApp.lectureList != null) && (MyApp.lectureListDay == day)) return true;
+
+		SQLiteDatabase lecturedb = null;
+		LecturesDBOpenHelper lecturesDB = new LecturesDBOpenHelper(context);
+		lecturedb = lecturesDB.getReadableDatabase();
+
+		HighlightDBOpenHelper highlightDB = new HighlightDBOpenHelper(context);
+		SQLiteDatabase highlightdb = highlightDB.getReadableDatabase();
+
 		MyApp.lectureList = new ArrayList<Lecture>();
 		Cursor cursor, hCursor;
 
@@ -845,10 +841,9 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 		} catch (SQLiteException e) {
 			e.printStackTrace();
 			lecturedb.close();
-			lecturedb = null;
 			highlightdb.close();
-			highlightdb = null;
-			return;
+			lecturesDB.close();
+			return false;
 		}
 		try {
 			hCursor = highlightdb.query("highlight", HighlightDBOpenHelper.allcolumns,
@@ -857,20 +852,19 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 		} catch (SQLiteException e) {
 			e.printStackTrace();
 			lecturedb.close();
-			lecturedb = null;
 			highlightdb.close();
-			highlightdb = null;
-			return;
+			lecturesDB.close();
+			return false;
 		}
 		Log.d(LOG_TAG, "Got " + cursor.getCount() + " rows.");
 		Log.d(LOG_TAG, "Got " + hCursor.getCount() + " highlight rows.");
 
 		if (cursor.getCount() == 0) {
-			// evtl. Datenbankreset wg. DB Formatänderung -> neu laden
 			cursor.close();
-			Log.d(LOG_TAG,"fetch on loading empty lecture list");
-			fetchFahrplan();
-			return;
+			lecturedb.close();
+			highlightdb.close();
+			lecturesDB.close();
+			return false;
 		}
 
 		cursor.moveToFirst();
@@ -914,19 +908,25 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 		}
 		hCursor.close();
 
-		loadAlarms();
+		loadAlarms(context);
+
+		highlightdb.close();
+		lecturedb.close();
+		lecturesDB.close();
+		return true;
 	}
 
-	private void loadAlarms() {
+	public static void loadAlarms(Context context) {
 		Cursor alarmCursor;
+		SQLiteDatabase alarmdb = null;
 
 		for (Lecture lecture : MyApp.lectureList) {
 			lecture.has_alarm = false;
 		}
 
-		if (alarmdb == null) {
-			alarmdb = alarmDB.getReadableDatabase();
-		}
+		AlarmsDBOpenHelper alarmDB = new AlarmsDBOpenHelper(context);
+		alarmdb = alarmDB.getReadableDatabase();
+
 		try {
 			alarmCursor = alarmdb.query("alarms", AlarmsDBOpenHelper.allcolumns,
 					null, null, null,
@@ -935,6 +935,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 			e.printStackTrace();
 			alarmdb.close();
 			alarmdb = null;
+			alarmDB.close();
 			return;
 		}
 		Log.d(LOG_TAG, "Got " + alarmCursor.getCount() + " alarm rows.");
@@ -952,6 +953,8 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 			alarmCursor.moveToNext();
 		}
 		alarmCursor.close();
+		alarmdb.close();
+		alarmDB.close();
 	}
 
 	private void loadMeta() {
@@ -1010,6 +1013,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 		intent.putExtra("links", lecture.links);
 		intent.putExtra("eventid", lecture.lecture_id);
 		intent.putExtra("time", lecture.startTime);
+		intent.putExtra("day", mDay);
 		startActivityForResult(intent, MyApp.EVENTVIEW);
 	}
 
@@ -1343,7 +1347,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 			case MyApp.EVENTVIEW:
 				if (resultCode == RESULT_OK) {
 					Log.d(LOG_TAG, "Reload alarms");
-					loadAlarms();
+					loadAlarms(this);
 					refreshViews();
 				}
 				break;

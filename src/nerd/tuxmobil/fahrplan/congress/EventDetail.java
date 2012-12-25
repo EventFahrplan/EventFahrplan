@@ -38,6 +38,7 @@ public class EventDetail extends SherlockActivity {
 	private Typeface regular;
 	private Typeface bold;
 	private Lecture lecture;
+	private int day;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,7 +54,9 @@ public class EventDetail extends SherlockActivity {
 
         locale = getResources().getConfiguration().locale;
 
+        day = intent.getIntExtra("day", 0);
         event_id = intent.getStringExtra("eventid");
+        Fahrplan.loadLectureList(this, day, false);
         lecture = eventid2Lecture(event_id);
 
         TextView t = (TextView)findViewById(R.id.title);
@@ -132,6 +135,7 @@ public class EventDetail extends SherlockActivity {
 	}
 
 	private Lecture eventid2Lecture(String event_id) {
+		if (MyApp.lectureList == null) return null;
 		for (Lecture lecture : MyApp.lectureList) {
 			if (lecture.lecture_id.equals(event_id)) {
 				return lecture;
@@ -198,13 +202,13 @@ public class EventDetail extends SherlockActivity {
 			return true;
 		case R.id.item_fav:
 			lecture.highlight = true;
-			Fahrplan.writeHighlight(this, lecture);
+			if (lecture != null) Fahrplan.writeHighlight(this, lecture);
 			supportInvalidateOptionsMenu();
 			setResult(RESULT_OK);
 			return true;
 		case R.id.item_unfav:
 			lecture.highlight = false;
-			Fahrplan.writeHighlight(this, lecture);
+			if (lecture != null) Fahrplan.writeHighlight(this, lecture);
 			supportInvalidateOptionsMenu();
 			setResult(RESULT_OK);
 			return true;
@@ -212,7 +216,7 @@ public class EventDetail extends SherlockActivity {
 			setAlarmDialog(lecture);
 			return true;
 		case R.id.item_clear_alarm:
-			Fahrplan.deleteAlarm(this, lecture);
+			if (lecture != null) Fahrplan.deleteAlarm(this, lecture);
 			supportInvalidateOptionsMenu();
 			setResult(RESULT_OK);
 			return true;
