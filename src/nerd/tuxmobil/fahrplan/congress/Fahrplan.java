@@ -484,9 +484,12 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 
 	private void setBell(Lecture lecture)
 	{
-		final ScrollView parent = (ScrollView)findViewById(R.id.scrollView1);
+		ScrollView parent = (ScrollView)findViewById(R.id.scrollView1);
+		if (parent == null)	return;
 		View v = parent.findViewWithTag(lecture);
+		if (v == null) return;
 		ImageView bell = (ImageView)v.findViewById(R.id.bell);
+		if (bell == null) return;
 
 		if (lecture.has_alarm) {
 			bell.setVisibility(View.VISIBLE);
@@ -1323,7 +1326,8 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 	}
 
 	private View getLectureView(Lecture lecture) {
-		final ScrollView parent = (ScrollView)findViewById(R.id.scrollView1);
+		ScrollView parent = (ScrollView)findViewById(R.id.scrollView1);
+		if (parent == null) return null;
 		View v = parent.findViewWithTag(lecture);
 		return v;
 	}
