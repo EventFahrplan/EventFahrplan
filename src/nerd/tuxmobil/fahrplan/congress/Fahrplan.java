@@ -69,7 +69,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 	private int mDay = 1;
 	private View dayTextView;
 	public static Context context = null;
-	public static String[] rooms = { "Saal 1", "Saal 4", "Saal 6" };
+	public static String[] rooms = { "Saal 1", "Saal 4", "Saal 6", "Saal 17" };
 	private FahrplanParser parser;
 	private LinearLayout statusBar;
 	private Animation slideUpIn;
@@ -100,6 +100,8 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 		if (roomName != null) roomName.setTypeface(light);
 		roomName = (TextView)findViewById(R.id.roomName3);
 		if (roomName != null) roomName.setTypeface(light);
+		roomName = (TextView)findViewById(R.id.roomName4);
+		if (roomName != null) roomName.setTypeface(light);
 		global = (MyApp) getApplicationContext();
 		if (MyApp.fetcher == null) {
 			fetcher = new FetchFahrplan();
@@ -128,6 +130,8 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 					l = (LinearLayout) findViewById(R.id.raum2);
 					l.setLayoutParams(p);
 					l = (LinearLayout) findViewById(R.id.raum3);
+					l.setLayoutParams(p);
+					l = (LinearLayout) findViewById(R.id.raum4);
 					l.setLayoutParams(p);
 				}
 				break;
@@ -403,6 +407,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 		fillRoom("Saal 1", R.id.raum1);
 		fillRoom("Saal 4", R.id.raum2);
 		fillRoom("Saal 6", R.id.raum3);
+		fillRoom("Saal 17", R.id.raum4);
 		scrollToCurrent(mDay);
 	}
 

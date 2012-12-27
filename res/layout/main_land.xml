@@ -29,6 +29,12 @@
 			android:layout_weight="1" android:layout_width="wrap_content"
 			android:id="@+id/roomName3"
 			android:gravity="center"></TextView>
+		<TextView android:textColor="#ffffff" android:layout_height="wrap_content"
+			android:layout_gravity="center" android:text="Saal 17"
+			android:textStyle="bold" android:textSize="12sp"
+			android:layout_weight="1" android:layout_width="wrap_content"
+			android:id="@+id/roomName4"
+			android:gravity="center"></TextView>
 	</LinearLayout>
 	<ScrollView android:id="@+id/scrollView1"
 		android:layout_width="fill_parent" android:layout_height="fill_parent"
@@ -37,25 +43,59 @@
 		<LinearLayout android:id="@+id/linearLayout1"
 			android:layout_width="match_parent" android:layout_height="match_parent"
 			android:orientation="horizontal">
-			<LinearLayout android:id="@+id/times_layout"
-				android:layout_width="wrap_content" android:layout_height="match_parent"
-				android:orientation="vertical" android:background="#ffaaaaaa">
+
+			<LinearLayout
+			    android:id="@+id/times_layout"
+			    android:layout_width="wrap_content"
+			    android:layout_height="match_parent"
+			    android:layout_weight="0"
+			    android:background="#ffaaaaaa"
+			    android:orientation="vertical" >
+
 			</LinearLayout>
 
-			<LinearLayout android:id="@+id/scrollContainer"
-				android:layout_width="match_parent" android:layout_height="match_parent"
-				android:orientation="horizontal" android:background="@color/fahrplan_background">
-				<LinearLayout android:id="@+id/raum1"
-					android:layout_width="wrap_content" android:layout_weight="1"
-					android:layout_height="match_parent" android:orientation="vertical">
+			<LinearLayout
+			    android:id="@+id/scrollContainer"
+			    android:layout_width="wrap_content"
+			    android:layout_height="match_parent"
+			    android:layout_weight="1"
+			    android:background="@color/fahrplan_background"
+			    android:orientation="horizontal" >
+
+				<LinearLayout
+				    android:id="@+id/raum1"
+				    android:layout_width="0dp"
+				    android:layout_height="match_parent"
+				    android:layout_weight="1"
+				    android:orientation="vertical" >
+
 				</LinearLayout>
-				<LinearLayout android:id="@+id/raum2"
-					android:layout_width="wrap_content" android:layout_weight="1"
-					android:layout_height="match_parent" android:orientation="vertical">
+
+				<LinearLayout
+				    android:id="@+id/raum2"
+				    android:layout_width="0dp"
+				    android:layout_height="match_parent"
+				    android:layout_weight="1"
+				    android:orientation="vertical" >
+
 				</LinearLayout>
-	 			<LinearLayout android:id="@+id/raum3"
-					android:layout_width="wrap_content" android:layout_weight="1"
-					android:layout_height="match_parent" android:orientation="vertical">
+
+	 			<LinearLayout
+	 			    android:id="@+id/raum3"
+	 			    android:layout_width="0dp"
+	 			    android:layout_height="match_parent"
+	 			    android:layout_weight="1"
+	 			    android:orientation="vertical" >
+
+				</LinearLayout>
+
+	 			<LinearLayout
+	 			    android:id="@+id/raum4"
+	 			    android:layout_width="0dp"
+	 			    android:layout_height="match_parent"
+	 			    android:layout_weight="1"
+	 			    android:orientation="vertical" >
+
 				</LinearLayout>
 			</LinearLayout>
 		</LinearLayout>

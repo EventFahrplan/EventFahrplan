@@ -42,6 +42,10 @@
 						android:layout_width="285dp" android:layout_height="match_parent"
 						android:orientation="vertical">
 					</LinearLayout>
+					<LinearLayout android:id="@+id/raum4"
+						android:layout_width="285dp" android:layout_height="match_parent"
+						android:orientation="vertical">
+					</LinearLayout>
 				</LinearLayout>
 			</nerd.tuxmobil.fahrplan.congress.HorizontalSnapScrollView>
 		</LinearLayout>
