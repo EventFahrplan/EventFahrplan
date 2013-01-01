@@ -1,13 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-
-    <item
-        android:id="@+id/item_choose_day"
-        android:icon="@drawable/ic_action_calendar"
-        android:showAsAction="ifRoom"
-        android:title="@string/choose_day">
-        <menu></menu>
-    </item>
     <item
         android:id="@+id/item_refresh"
         android:icon="@drawable/ic_action_refresh"

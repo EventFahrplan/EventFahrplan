@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
 import com.actionbarsherlock.app.SherlockActivity;
 
 import nerd.tuxmobil.fahrplan.congress.CustomHttpClient.HTTP_STATUS;
@@ -56,7 +57,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.LinearLayout.LayoutParams;
 
-public class Fahrplan extends SherlockActivity implements OnClickListener {
+public class Fahrplan extends SherlockActivity implements OnClickListener, OnNavigationListener {
 	private MyApp global;
 	private ProgressDialog progress = null;
 	private static String LOG_TAG = "Fahrplan";
@@ -190,6 +191,9 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 			Log.d(LOG_TAG,"day "+mDay);
 		}
 
+		if (MyApp.numdays > 0) {
+			build_navigation_menu();
+		}
 		MyApp.fetcher.setActivity(this);	// save current activity and trigger possible completion event
 		MyApp.parser.setActivity(this);		// save current activity and trigger possible completion event
 
@@ -309,34 +313,6 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 		super.onCreateOptionsMenu(menu);
 		MenuInflater mi = getSupportMenuInflater();
 		mi.inflate(R.menu.mainmenu, menu);
-		SubMenu submenu = menu.findItem(R.id.item_choose_day).getSubMenu();
-		Time now = new Time();
-		now.setToNow();
-		StringBuilder currentDate = new StringBuilder();
-		currentDate.append(String.format("%d", now.year));
-		currentDate.append("-");
-		currentDate.append(String.format("%02d", now.month + 1));
-		currentDate.append("-");
-		currentDate.append(String.format("%02d", now.monthDay));
-
-		Log.d(LOG_TAG, "today is " + currentDate.toString());
-
-		for (int i = 0; i < MyApp.numdays; i++) {
-			StringBuilder sb = new StringBuilder();
-			sb.append(getString(R.string.day)).append(" ").append(i + 1);
-			for (DateList d : MyApp.dateList) {
-				if (d.dayIdx == (i + 1)) {
-					Log.d(LOG_TAG, "date of day " + sb.toString() + " is " + d.date);
-					if (currentDate.toString().equals(d.date)) {
-						sb.append(" - ");
-						sb.append(getString(R.string.today));
-					}
-					break;
-				}
-			}
-			submenu.add(Menu.NONE, i, 0, sb.toString());
-		}
-
 		return true;
 	}
 
@@ -382,10 +358,6 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 			startActivity(intent);
 			return true;
 		default:
-			if ((item.getItemId() >= 0) && (item.getItemId() < MyApp.numdays)) {
-				chooseDay(item.getItemId());
-				return true;
-			}
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -411,9 +383,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 		scrollToCurrent(mDay);
 		ActionBar actionbar = getSupportActionBar();
 		if (actionbar != null) {
-			StringBuilder sb = new StringBuilder();
-			sb.append(getString(R.string.fahrplan)).append(" - ").append(getString(R.string.day)).append(" ").append(mDay);
-			actionbar.setTitle(sb.toString());
+			actionbar.setSelectedNavigationItem(mDay-1);
 		}
 	}
 
@@ -1031,6 +1001,43 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 		startActivityForResult(intent, MyApp.EVENTVIEW);
 	}
 
+	public void build_navigation_menu() {
+		Time now = new Time();
+		now.setToNow();
+		StringBuilder currentDate = new StringBuilder();
+		currentDate.append(String.format("%d", now.year));
+		currentDate.append("-");
+		currentDate.append(String.format("%02d", now.month + 1));
+		currentDate.append("-");
+		currentDate.append(String.format("%02d", now.monthDay));
+
+		Log.d(LOG_TAG, "today is " + currentDate.toString());
+
+		String[] days_menu = new String[MyApp.numdays];
+		for (int i = 0; i < MyApp.numdays; i++) {
+			StringBuilder sb = new StringBuilder();
+			sb.append(getString(R.string.day)).append(" ").append(i + 1);
+			for (DateList d : MyApp.dateList) {
+				if (d.dayIdx == (i + 1)) {
+					Log.d(LOG_TAG, "date of day " + sb.toString() + " is " + d.date);
+					if (currentDate.toString().equals(d.date)) {
+						sb.append(" - ");
+						sb.append(getString(R.string.today));
+					}
+					break;
+				}
+			}
+			days_menu[i] = sb.toString();
+		}
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+		ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,
+		    R.layout.sherlock_spinner_dropdown_item, days_menu);
+		arrayAdapter.setDropDownViewResource(R.layout.sherlock_spinner_dropdown_item);
+		actionBar.setListNavigationCallbacks(arrayAdapter, this);
+		actionBar.setDisplayShowTitleEnabled(false);
+	}
+
 	public void onParseDone(Boolean result, String version) {
 		Log.d(LOG_TAG, "parseDone: " + result + " , numdays="+MyApp.numdays);
 		MyApp.task_running = TASKS.NONE;
@@ -1068,6 +1075,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 			// FIXME Fehlermeldung;
 		}
 		supportInvalidateOptionsMenu();
+		build_navigation_menu();
 	}
 
 	void aboutDialog() {
@@ -1367,6 +1375,15 @@ public class Fahrplan extends SherlockActivity implements OnClickListener {
 				}
 				break;
 		}
+	}
+
+	@Override
+	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+		if (itemPosition < MyApp.numdays) {
+			chooseDay(itemPosition);
+			return true;
+		}
+		return false;
 	}
 
 }
