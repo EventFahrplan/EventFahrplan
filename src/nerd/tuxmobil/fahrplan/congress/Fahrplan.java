@@ -1079,8 +1079,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 	}
 
 	void aboutDialog() {
-		LayoutInflater inflater = (LayoutInflater) getApplicationContext()
-				.getSystemService(LAYOUT_INFLATER_SERVICE);
+		LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
 		View layout = inflater.inflate(R.layout.about_dialog,
 				(ViewGroup) findViewById(R.id.layout_root));
 
