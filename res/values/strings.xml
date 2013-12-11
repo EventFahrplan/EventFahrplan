@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="app_name">29C3 Schedule</string>
+	<string name="app_name">30C3 Schedule</string>
 	<string name="OK">OK</string>
 	<string name="dlg_certificate_message_fmt">Failed to establish secure connection.\n(%s)</string>
 	<string name="dlg_invalid_certificate_title">Unknown certificate</string>
@@ -50,7 +50,7 @@
 	<string name="insistent_alarm">Insistent Alarm</string>
 	<string name="usage">Note:\n\nLong-Press on a Lecture to set an alarm.</string>
 	<string name="set_alarm">Set alarm</string>
-	<string name="copyright_notes">Copyright 2012 Daniel Dorau. Portions Copyright 2008-2011 The K-9 Dog Walkers and 2006-2012 the Android Open Source Project.</string>
+	<string name="copyright_notes">Copyright 2013 Daniel Dorau. Portions Copyright 2008-2011 The K-9 Dog Walkers and 2006-2013 the Android Open Source Project.</string>
 	<string name="delete_alarm">Clear alarm</string>
 	<string name="today">today</string>
 	<string name="addToCalendar">Add to calendar</string>

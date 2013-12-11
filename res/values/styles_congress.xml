@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- File created by the Android Action Bar Style Generator
+
+     Copyright (C) 2011 The Android Open Source Project
+     Copyright (C) 2012 readyState Software Ltd
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+  
+          http://www.apache.org/licenses/LICENSE-2.0
+  
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<resources>
+
+    <style name="Theme.Congress" parent="@style/Theme.Sherlock">
+        <item name="actionBarItemBackground">@drawable/selectable_background_congress</item>
+        <item name="popupMenuStyle">@style/PopupMenu.Congress</item>
+        <item name="dropDownListViewStyle">@style/DropDownListView.Congress</item>
+        <item name="actionBarTabStyle">@style/ActionBarTabStyle.Congress</item>
+        <item name="actionDropDownStyle">@style/DropDownNav.Congress</item>
+        <item name="actionBarStyle">@style/ActionBar.Solid.Congress</item>
+        <item name="actionModeBackground">@drawable/cab_background_top_congress</item>
+        <item name="actionModeSplitBackground">@drawable/cab_background_bottom_congress</item>
+        <item name="actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Congress</item>
+
+        
+    </style>
+
+    <style name="ActionBar.Solid.Congress" parent="@style/Widget.Sherlock.ActionBar.Solid">
+        <item name="background">@drawable/ab_solid_congress</item>
+        <item name="backgroundStacked">@drawable/ab_stacked_solid_congress</item>
+        <item name="backgroundSplit">@drawable/ab_bottom_solid_congress</item>
+        <item name="progressBarStyle">@style/ProgressBar.Congress</item>
+    </style>
+
+    <style name="ActionBar.Transparent.Congress" parent="@style/Widget.Sherlock.ActionBar">
+        <item name="background">@drawable/ab_transparent_congress</item>
+        <item name="progressBarStyle">@style/ProgressBar.Congress</item>
+    </style>
+	
+    <style name="PopupMenu.Congress" parent="@style/Widget.Sherlock.ListPopupWindow">	
+        <item name="android:popupBackground">@drawable/menu_dropdown_panel_congress</item>	
+    </style>
+	
+    <style name="DropDownListView.Congress" parent="@style/Widget.Sherlock.ListView.DropDown">
+        <item name="android:listSelector">@drawable/selectable_background_congress</item>
+    </style>
+
+    <style name="ActionBarTabStyle.Congress" parent="@style/Widget.Sherlock.ActionBar.TabView">
+        <item name="android:background">@drawable/tab_indicator_ab_congress</item>
+    </style>
+	
+    <style name="DropDownNav.Congress" parent="@style/Widget.Sherlock.Spinner.DropDown.ActionBar">
+        <item name="android:background">@drawable/spinner_background_ab_congress</item>
+        <item name="android:popupBackground">@drawable/menu_dropdown_panel_congress</item>
+        <item name="android:dropDownSelector">@drawable/selectable_background_congress</item>
+    </style>
+    
+    <style name="ProgressBar.Congress" parent="@style/Widget.Sherlock.ProgressBar.Horizontal">
+        <item name="android:progressDrawable">@drawable/progress_horizontal_congress</item>
+    </style>
+    
+    <style name="ActionButton.CloseMode.Congress" parent="@style/Widget.Sherlock.ActionButton.CloseMode">
+        <item name="android:background">@drawable/btn_cab_done_congress</item>
+    </style>
+    
+    <!-- this style is only referenced in a Light.DarkActionBar based theme -->
+    <style name="Theme.Congress.Widget" parent="@style/Theme.Sherlock">
+        <item name="popupMenuStyle">@style/PopupMenu.Congress</item>
+        <item name="dropDownListViewStyle">@style/DropDownListView.Congress</item>
+    </style>
+
+</resources>
