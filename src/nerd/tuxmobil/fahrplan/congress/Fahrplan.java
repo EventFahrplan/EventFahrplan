@@ -31,8 +31,10 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.CalendarContract;
+import android.text.Html;
 import android.text.format.DateFormat;
 import android.text.format.Time;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.ContextMenu;
@@ -1101,6 +1103,10 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 			e.printStackTrace();
 			text.setText("");
 		}
+
+		TextView logo_copyright = (TextView)layout.findViewById(R.id.copyright_logo);
+		logo_copyright.setText(Html.fromHtml(getString(R.string.copyright_logo)));
+		logo_copyright.setMovementMethod(LinkMovementMethod.getInstance());
 
 		new AlertDialog.Builder(this).setTitle(getString(R.string.app_name))
 				.setView(layout).setPositiveButton(android.R.string.ok,
