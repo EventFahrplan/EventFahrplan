@@ -1059,6 +1059,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 			if ((MyApp.numdays == 0) || (!version.equals(MyApp.version))) {
 				loadMeta();
 				loadDays();
+				build_navigation_menu();
 				SharedPreferences prefs = getSharedPreferences(PREFS_NAME, 0);
 				mDay = prefs.getInt("displayDay", 1);
 				if (mDay > MyApp.numdays) {
@@ -1077,7 +1078,6 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 			// FIXME Fehlermeldung;
 		}
 		supportInvalidateOptionsMenu();
-		build_navigation_menu();
 	}
 
 	void aboutDialog() {
