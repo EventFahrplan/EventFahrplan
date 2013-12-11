@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="nerd.tuxmobil.fahrplan.congress" android:versionCode="19" android:versionName="1.25">
-    <uses-sdk android:targetSdkVersion="17" android:minSdkVersion="7"/>
+    <uses-sdk android:targetSdkVersion="19" android:minSdkVersion="7"/>
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
     <uses-permission android:name="android.permission.VIBRATE"></uses-permission>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"></uses-permission>
