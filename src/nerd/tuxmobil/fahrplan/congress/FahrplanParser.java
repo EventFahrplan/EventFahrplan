@@ -25,9 +25,9 @@ public class FahrplanParser {
 		this.context = context;
 	}
 
-	public void parse(String fahrplan) {
+	public void parse(String fahrplan, String eTag) {
 		task = new parser(activity, context);
-		task.execute(fahrplan);
+		task.execute(fahrplan, eTag);
 	}
 
 	public void cancel()
@@ -71,7 +71,7 @@ class parser extends AsyncTask<String, Void, Boolean> {
 
 	protected Boolean doInBackground(String... args) {
 
-		return parseFahrplan(args[0]);
+		return parseFahrplan(args[0], args[1]);
 
 	}
 
@@ -110,6 +110,7 @@ class parser extends AsyncTask<String, Void, Boolean> {
 			values.put("subtitle", meta.subtitle);
 			values.put("day_change_hour", meta.dayChangeHour);
 			values.put("day_change_minute", meta.dayChangeMinute);
+			values.put("etag", meta.eTag);
 
 			db.insert("meta", null, values);
 			db.setTransactionSuccessful();
@@ -157,7 +158,7 @@ class parser extends AsyncTask<String, Void, Boolean> {
 		}
 	}
 
-	private Boolean parseFahrplan(String fahrplan) {
+	private Boolean parseFahrplan(String fahrplan, String eTag) {
 		XmlPullParser parser = Xml.newPullParser();
 		try {
 			parser.setInput(new StringReader(fahrplan));
@@ -305,6 +306,7 @@ class parser extends AsyncTask<String, Void, Boolean> {
 			if (isCancelled()) return false;
 			storeLectureList(context, lectures);
 			if (isCancelled()) return false;
+			meta.eTag = eTag;
 			storeMeta(context, meta);
 			return true;
 		} catch (Exception e) {

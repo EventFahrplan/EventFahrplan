@@ -32,6 +32,7 @@ public class MyApp extends Application {
 	public static int lectureListDay = 0;
 	public static int dayChangeHour;
 	public static int dayChangeMinute;
+	public static String eTag;
 
     @Override
     public void onCreate() {

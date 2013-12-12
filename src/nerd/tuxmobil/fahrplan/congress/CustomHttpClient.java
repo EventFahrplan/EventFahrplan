@@ -24,6 +24,7 @@ import android.net.http.*;
 import android.os.Build;
 import android.util.Base64;
 import android.util.Log;
+import android.widget.Toast;
 
 public class CustomHttpClient {
 
@@ -36,24 +37,25 @@ public class CustomHttpClient {
 		HTTP_SSL_SETUP_FAILURE,
 		HTTP_CANNOT_PARSE_CONTENT,
 		HTTP_ENTITY_ENCODING_FAILURE,
-		HTTP_WRONG_HTTP_CREDENTIALS, 
+		HTTP_WRONG_HTTP_CREDENTIALS,
 		HTTP_CONNECT_TIMEOUT,
-		HTTP_CANCELLED
+		HTTP_CANCELLED,
+		HTTP_NOT_MODIFIED
 	}
-	
+
 	private static String httpCredentials = "";
 	private static SSLException lastSSLException = null;
 
 	public static HttpClient createHttpClient(String addr, boolean secure, int https_port)
 			throws KeyManagementException, NoSuchAlgorithmException {
-		
+
 		Log.d("CustomHttpClient", addr + " " + secure + " " + https_port);
-		
+
 		HttpClient client;
-		
+
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO) {
 			client = AndroidHttpClient.newInstance("FahrplanDroid");
-	
+
 			SchemeRegistry scheme = client.getConnectionManager()
 					.getSchemeRegistry();
 			scheme.unregister("https");
@@ -94,15 +96,15 @@ public class CustomHttpClient {
 		}
 		return httpCredentials;
 	}
-	
+
 	public static void setSSLException(SSLException e) {
 		lastSSLException = e;
 	}
-	
+
 	public static SSLException getSSLException() {
 		return lastSSLException;
 	}
-	
+
 	public static void showErrorDialog(final Activity ctx, final int msgTitle, final int msgText, final Object... args) {
 		new AlertDialog.Builder(ctx).setTitle(
 				ctx.getString(msgTitle))
@@ -119,27 +121,27 @@ public class CustomHttpClient {
 	public static String getAddr() {
 		return "events.ccc.de";
 	}
-	
+
 	public static String normalize_addr(String addr) {
 		if (addr.contains(":")) {
 			return addr.split(":")[0];
 		}
 		return addr;
 	}
-	
+
 	public static int getHttpsPort() {
 		int port;
 		port = 443;
 		return port;
 	}
-	
+
 	public static void close(HttpClient client) {
 		if (client == null) return;
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO) {
-			((AndroidHttpClient)client).close(); 
+			((AndroidHttpClient)client).close();
 		}
 	}
-	
+
 	public static void showHttpError(final Activity ctx, MyApp global, HTTP_STATUS status) {
 		switch (status) {
 				case HTTP_LOGIN_FAIL_WRONG_PASSWORD:
@@ -181,6 +183,9 @@ public class CustomHttpClient {
 					CustomHttpClient.showErrorDialog(ctx,
 							R.string.dlg_err_connection_failed,
 							R.string.dlg_err_failed_ssl_failure, (Object) null);
+					break;
+				case HTTP_NOT_MODIFIED:
+					Toast.makeText(ctx, R.string.uptodate, Toast.LENGTH_SHORT).show();
 					break;
 		}
 	}

@@ -29,21 +29,21 @@ import android.util.Log;
 public class FetchFahrplan {
 	private fetcher task;
 	private Activity activity;
-	
+
 	public FetchFahrplan() {
 		task = null;
 		MyApp.fetcher = this;
 	}
 
-	public void fetch(String arg) {
+	public void fetch(String arg, String eTag) {
 		task = new fetcher(this.activity);
-		task.execute(arg);
+		task.execute(arg, eTag);
 	}
-	
+
 	public void cancel() {
 		if (task != null) task.cancel(true);
 	}
-	
+
 	public void setActivity(Activity activity) {
 		this.activity = activity;
 		if (task != null) {
@@ -54,6 +54,7 @@ public class FetchFahrplan {
 
 class fetcher extends AsyncTask<String, Void, HTTP_STATUS> {
 	private String responseStr;
+	private String eTagStr;
 	private String LOG_TAG = "FetchFahrplan";
 	private Activity activity;
 	private boolean completed;
@@ -66,7 +67,7 @@ class fetcher extends AsyncTask<String, Void, HTTP_STATUS> {
 
 	public void setActivity(Activity activity) {
 		this.activity = activity;
-		
+
 		if (completed && (activity != null)) {
 			notifyActivity();
 		}
@@ -75,7 +76,7 @@ class fetcher extends AsyncTask<String, Void, HTTP_STATUS> {
 	protected HTTP_STATUS doInBackground(String... args) {
 		String box = CustomHttpClient.getAddr();
 
-		return fetchthis(box, args[0]);
+		return fetchthis(box, args[0], args[1]);
 
 	}
 
@@ -86,24 +87,24 @@ class fetcher extends AsyncTask<String, Void, HTTP_STATUS> {
 	protected void onPostExecute(HTTP_STATUS status) {
 		completed = true;
 		this.status = status;
-		
+
 		if (activity != null) {
 			notifyActivity();
 		}
 	}
-	
+
 	private void notifyActivity() {
 		if (status == HTTP_STATUS.HTTP_OK) {
 			Log.d(LOG_TAG, "fetch done successfully");
-			((Fahrplan)activity).onGotResponse(status, responseStr);
+			((Fahrplan)activity).onGotResponse(status, responseStr, eTagStr);
 		} else {
 			Log.d(LOG_TAG, "fetch failed");
-			((Fahrplan)activity).onGotResponse(status, null);
+			((Fahrplan)activity).onGotResponse(status, null, eTagStr);
 		}
 		completed = false;		// notifiy only once
 	}
 
-	private HTTP_STATUS fetchthis(String addr, String arg) {
+	private HTTP_STATUS fetchthis(String addr, String arg, String eTag) {
 		HttpClient client;
 		try {
 			client = CustomHttpClient.createHttpClient(CustomHttpClient
@@ -118,9 +119,11 @@ class fetcher extends AsyncTask<String, Void, HTTP_STATUS> {
 		String address = "https://" + addr + arg;
 
 		Log.d("Fetch", address);
+		Log.d("Fetch", "ETag: "+eTag);
 		HttpGet getRequest = new HttpGet(address);
 
 		getRequest.addHeader("Accept-Encoding", "gzip");
+		if ((eTag != null) && (eTag.length() > 0)) getRequest.addHeader("If-None-Match", eTag);
 
 		HttpResponse response = null;
 
@@ -152,6 +155,8 @@ class fetcher extends AsyncTask<String, Void, HTTP_STATUS> {
 			CustomHttpClient.close(client);
 			if (statusCode == 401)
 				return HTTP_STATUS.HTTP_WRONG_HTTP_CREDENTIALS;
+			if (statusCode == 304)
+				return HTTP_STATUS.HTTP_NOT_MODIFIED;
 			return HTTP_STATUS.HTTP_COULD_NOT_CONNECT;
 		}
 
@@ -185,6 +190,14 @@ class fetcher extends AsyncTask<String, Void, HTTP_STATUS> {
 				CustomHttpClient.close(client);
 				return HTTP_STATUS.HTTP_CANNOT_PARSE_CONTENT;
 			}
+		}
+		Header eTagHdr = response.getFirstHeader("ETag");
+		if (eTagHdr != null) {
+			Log.d(LOG_TAG, "ETag: " + eTagHdr.getValue());
+			eTagStr = eTagHdr.getValue();
+		} else {
+			Log.d(LOG_TAG, "ETag missing?");
+			eTagStr = null;
 		}
 		BufferedReader reader = new BufferedReader(new InputStreamReader(
 				instream));

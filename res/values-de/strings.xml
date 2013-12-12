@@ -58,4 +58,5 @@
 	<string name="share">Teilen</string>
 	<string name="flag_as_favorite">Als wichtig markieren</string>
 	<string name="unflag_as_favorite">Wichtig Markierung entfernen</string>
+	<string name="uptodate">Fahrplan ist aktuell.</string>
 </resources>

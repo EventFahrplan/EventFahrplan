@@ -268,7 +268,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 	public void parseFahrplan() {
 		showParsingStatus();
 		MyApp.task_running = TASKS.PARSE;
-		parser.parse(MyApp.fahrplan_xml);
+		parser.parse(MyApp.fahrplan_xml, MyApp.eTag);
 	}
 
 	@Override
@@ -335,7 +335,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 		if (MyApp.task_running == TASKS.NONE) {
 			MyApp.task_running = TASKS.FETCH;
 			showFetchingStatus();
-			fetcher.fetch("/congress/2013/Fahrplan/schedule.xml");
+			fetcher.fetch("/congress/2013/Fahrplan/schedule.xml", MyApp.eTag);
 		} else {
 			Log.d(LOG_TAG, "fetch already in progress");
 		}
@@ -541,7 +541,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 		viewDay(true);
 	}
 
-	public void onGotResponse(HTTP_STATUS status, String response) {
+	public void onGotResponse(HTTP_STATUS status, String response, String eTagStr) {
 		Log.d(LOG_TAG, "Response... " + status);
 		MyApp.task_running = TASKS.NONE;
 		if (status != HTTP_STATUS.HTTP_OK) {
@@ -606,6 +606,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 		setProgressBarIndeterminateVisibility(false);
 
 		MyApp.fahrplan_xml = response;
+		MyApp.eTag = eTagStr;
 		parseFahrplan();
 	}
 
@@ -964,6 +965,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 		MyApp.subtitle = "";
 		MyApp.dayChangeHour = 4;
 		MyApp.dayChangeMinute = 0;
+		MyApp.eTag = null;
 
 		if (cursor.getCount() > 0) {
 			cursor.moveToFirst();
@@ -979,10 +981,12 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 				MyApp.dayChangeHour = cursor.getInt(4);
 			if (cursor.getColumnCount() > 5)
 				MyApp.dayChangeMinute = cursor.getInt(5);
+			if (cursor.getColumnCount() > 6)
+				MyApp.eTag = cursor.getString(6);
 		}
 
 		Log.d(LOG_TAG, "loadMeta: numdays=" + MyApp.numdays + " version:"
-				+ MyApp.version + " " + MyApp.title);
+				+ MyApp.version + " " + MyApp.title + " " + MyApp.eTag);
 		cursor.close();
 	}
 

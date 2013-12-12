@@ -7,7 +7,8 @@ public class MetaInfo {
 	public String subtitle;
 	public int dayChangeHour;
 	public int dayChangeMinute;
-	
+	public String eTag;
+
 	public MetaInfo() {
 		numdays = 0;
 		version = "";
@@ -15,5 +16,6 @@ public class MetaInfo {
 		subtitle = "";
 		dayChangeHour = 4;
 		dayChangeMinute = 0;
+		eTag = "";
 	}
 }
