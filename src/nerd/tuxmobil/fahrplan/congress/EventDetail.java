@@ -30,7 +30,7 @@ public class EventDetail extends SherlockActivity {
 	private final String LOG_TAG = "Detail";
 	private String event_id;
 	private String title;
-	private static String feedbackURL = "https://cccv.pentabarf.org/feedback/29C3/event/"; // + 4302.en.html
+	private static String feedbackURL = "https://cccv.pentabarf.org/feedback/30C3/event/"; // + 4302.en.html
 	private Locale locale;
 	private Typeface boldCondensed;
 	private Typeface black;

@@ -166,7 +166,7 @@ class parser extends AsyncTask<String, Void, Boolean> {
 			int numdays = 0;
 			String room = null;
 			int day = 0;
-			int dayChangeTime = 0;
+			int dayChangeTime = 600; // hardcoded as not provided
 			String date = "";
 			while (eventType != XmlPullParser.END_DOCUMENT && !done && !isCancelled()) {
 				String name = null;

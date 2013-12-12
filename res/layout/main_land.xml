@@ -18,19 +18,19 @@
 			android:id="@+id/roomName1"
 			android:gravity="center"></TextView>
 		<TextView android:textColor="#ffffff" android:layout_height="wrap_content"
-			android:layout_gravity="center" android:text="Saal 4"
+			android:layout_gravity="center" android:text="Saal 2"
 			android:textStyle="bold" android:textSize="12sp"
 			android:layout_weight="1" android:layout_width="wrap_content"
 			android:id="@+id/roomName2"
 			android:gravity="center"></TextView>
 		<TextView android:textColor="#ffffff" android:layout_height="wrap_content"
-			android:layout_gravity="center" android:text="Saal 6"
+			android:layout_gravity="center" android:text="Saal G"
 			android:textStyle="bold" android:textSize="12sp"
 			android:layout_weight="1" android:layout_width="wrap_content"
 			android:id="@+id/roomName3"
 			android:gravity="center"></TextView>
 		<TextView android:textColor="#ffffff" android:layout_height="wrap_content"
-			android:layout_gravity="center" android:text="Saal 17"
+			android:layout_gravity="center" android:text="Saal 6"
 			android:textStyle="bold" android:textSize="12sp"
 			android:layout_weight="1" android:layout_width="wrap_content"
 			android:id="@+id/roomName4"

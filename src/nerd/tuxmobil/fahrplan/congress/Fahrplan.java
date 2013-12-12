@@ -72,7 +72,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 	private int mDay = 1;
 	private View dayTextView;
 	public static Context context = null;
-	public static String[] rooms = { "Saal 1", "Saal 4", "Saal 6", "Saal 17" };
+	public static String[] rooms = { "Saal 1", "Saal 2", "Saal G", "Saal 6" };
 	private FahrplanParser parser;
 	private LinearLayout statusBar;
 	private Animation slideUpIn;
@@ -244,7 +244,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 		StringBuilder sb = new StringBuilder();
 		Time time = l.getTime();
 		sb.append(l.title).append("\n").append(DateFormat.format("E, MMMM dd, yyyy hh:mm", time.toMillis(true)));
-		sb.append(", ").append(l.room).append("\n\n").append("http://events.ccc.de/congress/2012/Fahrplan/events/").append(l.lecture_id).append(".en.html");
+		sb.append(", ").append(l.room).append("\n\n").append("http://events.ccc.de/congress/2013/Fahrplan/events/").append(l.lecture_id).append(".en.html");
 		sendIntent.putExtra(Intent.EXTRA_TEXT, sb.toString());
 		sendIntent.setType("text/plain");
 		context.startActivity(sendIntent);
@@ -335,7 +335,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 		if (MyApp.task_running == TASKS.NONE) {
 			MyApp.task_running = TASKS.FETCH;
 			showFetchingStatus();
-			fetcher.fetch("/congress/2012/Fahrplan/schedule.de.xml");
+			fetcher.fetch("/congress/2013/Fahrplan/schedule.xml");
 		} else {
 			Log.d(LOG_TAG, "fetch already in progress");
 		}
@@ -379,9 +379,9 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 
 		fillTimes();
 		fillRoom("Saal 1", R.id.raum1);
-		fillRoom("Saal 4", R.id.raum2);
-		fillRoom("Saal 6", R.id.raum3);
-		fillRoom("Saal 17", R.id.raum4);
+		fillRoom("Saal 2", R.id.raum2);
+		fillRoom("Saal G", R.id.raum3);
+		fillRoom("Saal 6", R.id.raum4);
 		scrollToCurrent(mDay);
 		ActionBar actionbar = getSupportActionBar();
 		if (actionbar != null) {
