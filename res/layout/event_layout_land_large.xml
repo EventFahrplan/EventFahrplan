@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent" android:layout_height="wrap_content"
+	android:orientation="vertical" android:padding="10dp"
+	android:background="@drawable/event_border">
+	<RelativeLayout android:layout_height="wrap_content"
+		android:layout_width="match_parent" android:id="@+id/relativeLayout1"
+		android:gravity="bottom" android:layout_gravity="bottom">
+
+		<TextView
+		    android:id="@+id/event_title"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_alignParentLeft="true"
+		    android:layout_toLeftOf="@+id/bell"
+		    android:text="The Atari 2600 Video Computer"
+		    android:textColor="#000000"
+		    android:textSize="20sp"
+		    android:textStyle="bold" >
+</TextView>
+		<ImageView android:src="@drawable/bell" android:id="@+id/bell"
+			android:layout_alignParentRight="true" android:scaleType="fitEnd"
+			android:layout_alignParentTop="true" android:paddingTop="6dp"
+			android:layout_height="14dp" android:layout_width="17dp"></ImageView>
+	</RelativeLayout>
+
+	<TextView
+	    android:id="@+id/event_subtitle"
+	    android:layout_width="wrap_content"
+	    android:layout_height="fill_parent"
+	    android:layout_weight="1"
+	    android:text="TextView"
+	    android:textColor="#000000"
+	    android:textSize="15sp" >
+</TextView>
+	<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="match_parent" android:gravity="bottom" android:layout_height="wrap_content">
+
+		<TextView
+		    android:id="@+id/event_track"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_alignParentRight="true"
+		    android:singleLine="true"
+		    android:text="TextView"
+		    android:textColor="#000000"
+		    android:textSize="13sp" >
+</TextView>
+
+		<TextView
+		    android:id="@+id/event_speakers"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_alignParentLeft="true"
+		    android:layout_toLeftOf="@id/event_track"
+		    android:ellipsize="end"
+		    android:paddingRight="10dp"
+		    android:singleLine="true"
+		    android:text="speakers"
+		    android:textColor="#000000"
+		    android:textSize="13sp" >
+</TextView>
+	</RelativeLayout>
+</LinearLayout>

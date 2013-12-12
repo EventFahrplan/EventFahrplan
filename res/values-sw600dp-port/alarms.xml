@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<item type="layout" name="alarms">
+	    @layout/alarms_large
+	</item>
+    
+</resources>
