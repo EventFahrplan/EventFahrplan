@@ -51,6 +51,7 @@
             android:paddingBottom="8dp"
             android:text="TextView"
             android:textColor="#000000"
+            android:lineSpacingMultiplier="1.1"
             android:textStyle="bold" >
 </TextView>
 
@@ -60,6 +61,7 @@
             android:layout_height="wrap_content"
             android:paddingBottom="16dp"
             android:text="TextView"
+            android:lineSpacingMultiplier="1.1"
             android:textColor="#000000" >
 </TextView>
 
