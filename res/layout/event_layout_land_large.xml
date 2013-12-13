@@ -31,9 +31,11 @@
 	    android:layout_weight="1"
 	    android:text="TextView"
 	    android:textColor="#000000"
-	    android:textSize="15sp" >
-</TextView>
-	<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:textSize="15sp"
+	    android:fontFamily="sans-serif-light" 
+	    />
+
+	<RelativeLayout
 		android:layout_width="match_parent" android:gravity="bottom" android:layout_height="wrap_content">
 
 		<TextView
@@ -44,8 +46,8 @@
 		    android:singleLine="true"
 		    android:text="TextView"
 		    android:textColor="#000000"
-		    android:textSize="13sp" >
-</TextView>
+			android:fontFamily="sans-serif-condensed"
+		    android:textSize="13sp" />
 
 		<TextView
 		    android:id="@+id/event_speakers"
@@ -58,7 +60,7 @@
 		    android:singleLine="true"
 		    android:text="speakers"
 		    android:textColor="#000000"
-		    android:textSize="13sp" >
-</TextView>
+			android:fontFamily="sans-serif-condensed"
+		    android:textSize="13sp" />
 	</RelativeLayout>
 </LinearLayout>
