@@ -38,7 +38,7 @@ public class MetaDBOpenHelper extends SQLiteOpenHelper {
 		}
 
 		if ((oldVersion < 3) && (newVersion >= 3)) {
-			db.execSQL("ALTER TABLE meta ADD COLUMN meta TEXT DEFAULT ''");
+			db.execSQL("ALTER TABLE meta ADD COLUMN etag TEXT DEFAULT ''");
 		}
 	}
 }
