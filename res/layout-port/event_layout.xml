@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_height="wrap_content" android:orientation="vertical"
-	android:padding="10dp" android:background="@drawable/event_border"
+	android:padding="10dp" android:background="@drawable/event_border_default"
 	android:layout_width="match_parent">
 	<RelativeLayout android:layout_height="wrap_content"
 		android:layout_width="match_parent" android:id="@+id/relativeLayout1"
@@ -18,7 +18,6 @@
 	</RelativeLayout>
 	<TextView android:text="TextView" android:id="@+id/event_subtitle"
 		android:layout_width="wrap_content" android:layout_height="fill_parent"
-		android:fontFamily="sans-serif-light"
 		android:textSize="12sp" android:layout_weight="1" android:textColor="#000000"/>
 	<RelativeLayout 
 		android:layout_width="match_parent" android:gravity="bottom" android:layout_height="wrap_content">
@@ -27,7 +26,6 @@
 			android:singleLine="true"
 			android:textColor="#000000"
 			android:layout_alignParentRight="true"
-			android:fontFamily="sans-serif-condensed"
 			android:layout_height="wrap_content"/>
 		<TextView android:id="@+id/event_speakers"
 		    android:text="speakers"
@@ -37,7 +35,6 @@
 			android:ellipsize="end" android:layout_alignParentLeft="true"
 			android:layout_toLeftOf="@id/event_track"
 			android:paddingRight="10dp"
-			android:fontFamily="sans-serif-condensed"
 			/>
 	</RelativeLayout>
 </LinearLayout>
