@@ -142,27 +142,25 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 		progress = null;
 
 		trackColors = new HashMap<String, Integer>();
-//		trackColors.put("Hacking", R.drawable.hacking_event_border);
-//		trackColors.put("Society", R.drawable.society_event_border);
-//		trackColors.put("Making", R.drawable.making_event_border);
-//		trackColors.put("Community", R.drawable.community_event_border);
-//		trackColors.put("Culture", R.drawable.culture_event_border);
-//		trackColors.put("Science", R.drawable.science_event_border);
-//		trackColors.put("Misc", R.drawable.misc_event_border);
-//		trackColors.put("Show", R.drawable.science_event_border);
-//		trackColors.put("Society and Politics", R.drawable.science_event_border);
-		trackColors.put("", R.drawable.event_border);
+		trackColors.put("Art & Beauty", R.drawable.event_border_default_art_beauty);
+		trackColors.put("CCC", R.drawable.event_border_default_ccc);
+		trackColors.put("Entertainment", R.drawable.event_border_default_entertainment);
+		trackColors.put("Ethics, Society & Politics", R.drawable.event_border_default_ethics_society_politics);
+		trackColors.put("Hardware & Making", R.drawable.event_border_default_hardware_making);
+		trackColors.put("Other", R.drawable.event_border_default_other);
+		trackColors.put("Science & Engineering", R.drawable.event_border_default_science_engineering);
+		trackColors.put("Security & Safety", R.drawable.event_border_default_security_safety);
+		trackColors.put("", R.drawable.event_border_default);
 
 		trackColorsHi = new HashMap<String, Integer>();
-//		trackColorsHi.put("Hacking", R.drawable.hacking_event_border_highlight);
-//		trackColorsHi.put("Society", R.drawable.society_event_border_highlight);
-//		trackColorsHi.put("Making", R.drawable.making_event_border_highlight);
-//		trackColorsHi.put("Community", R.drawable.community_event_border_highlight);
-//		trackColorsHi.put("Culture", R.drawable.culture_event_border_highlight);
-//		trackColorsHi.put("Science", R.drawable.science_event_border_highlight);
-//		trackColorsHi.put("Misc", R.drawable.misc_event_border_highlight);
-//		trackColorsHi.put("Show", R.drawable.science_event_border_highlight);
-//		trackColorsHi.put("Society and Politics", R.drawable.science_event_border_highlight);
+		trackColorsHi.put("Art & Beauty", R.drawable.event_border_highlight_art_beauty);
+		trackColorsHi.put("CCC", R.drawable.event_border_highlight_ccc);
+		trackColorsHi.put("Entertainment", R.drawable.event_border_highlight_entertainment);
+		trackColorsHi.put("Ethics, Society & Politics", R.drawable.event_border_highlight_ethics_society_politics);
+		trackColorsHi.put("Hardware & Making", R.drawable.event_border_highlight_hardware_making);
+		trackColorsHi.put("Other", R.drawable.event_border_highlight_other);
+		trackColorsHi.put("Science & Engineering", R.drawable.event_border_highlight_science_engineering);
+		trackColorsHi.put("Security & Safety", R.drawable.event_border_highlight_security_safety);
 		trackColorsHi.put("", R.drawable.event_border_highlight);
 
 		statusLineText = (TextView) findViewById(R.id.statusLineText);
@@ -688,11 +686,9 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 		Integer drawable;
 		int padding = getEventPadding();
 		if (lecture.highlight) {
-//					drawable = trackColorsHi.get(lecture.track);
-			drawable = trackColorsHi.get("");
+			drawable = trackColorsHi.get(lecture.track);
 		} else {
-//					drawable = trackColors.get(lecture.track);
-			drawable = trackColors.get("");
+			drawable = trackColors.get(lecture.track);
 		}
 		if (drawable != null) {
 			view.setBackgroundResource(drawable);
@@ -1300,13 +1296,11 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 			Integer drawable;
 			int padding = getEventPadding();
 			if (lecture.highlight) {
-//				drawable = trackColors.get(lecture.track);
-				drawable = trackColors.get("");
+				drawable = trackColors.get(lecture.track);
 				lecture.highlight = false;
 				writeHighlight(this, lecture);
 			} else {
-//				drawable = trackColorsHi.get(lecture.track);
-				drawable = trackColorsHi.get("");
+				drawable = trackColorsHi.get(lecture.track);
 				lecture.highlight = true;
 				writeHighlight(this, lecture);
 			}
