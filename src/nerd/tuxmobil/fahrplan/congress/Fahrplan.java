@@ -426,7 +426,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 						&& (now.minute < (minute + 15))) {
 					break;
 				} else {
-					scrollAmount += height;
+					scrollAmount += (height * 3);
 				}
 				time += 15;
 				printTime = time;
@@ -440,7 +440,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 					if ((col == -1) || ((col >= 0) && (l.room.equals(rooms[col])))) {
 						Log.d(LOG_TAG, l.title);
 						Log.d(LOG_TAG, time + " " + l.startTime + "/" + l.duration);
-						scrollAmount -= ((time - l.startTime)/15) * height;
+						scrollAmount -= ((time - l.startTime)/5) * height;
 						time = l.startTime;
 					}
 				}
@@ -494,7 +494,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 		for (Lecture lecture : MyApp.lectureList) {
 			if (lecture_id.equals(lecture.lecture_id)) {
 				final ScrollView parent = (ScrollView)findViewById(R.id.scrollView1);
-				final int pos = (lecture.relStartTime - firstLectureStart)/15 * height;
+				final int pos = (lecture.relStartTime - firstLectureStart)/5 * height;
 				Log.d(LOG_TAG, "position is "+pos);
 				parent.post(new Runnable() {
 
@@ -658,7 +658,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 			} else {
 				event = inflater.inflate(R.layout.time_layout, null);
 			}
-			timeSpalte.addView(event, LayoutParams.MATCH_PARENT, height);
+			timeSpalte.addView(event, LayoutParams.MATCH_PARENT, height * 3);
 			TextView title = (TextView) event.findViewById(R.id.time);
 			title.setText(sb.toString());
 			time += 15;
@@ -718,11 +718,11 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 				if (lecture.relStartTime > endTime) {
 					View event = new View(this);
 					int height = (int) (standardHeight
-							* (lecture.relStartTime - endTime) / 15);
+							* (lecture.relStartTime - endTime) / 5);
 					room.addView(event, LayoutParams.MATCH_PARENT, height);
 				}
 				View event = inflater.inflate(R.layout.event_layout, null);
-				int height = standardHeight * (lecture.duration / 15);
+				int height = (int) (standardHeight * (lecture.duration / 5));
 				ImageView bell = (ImageView) event.findViewById(R.id.bell);
 				if (lecture.has_alarm) {
 					bell.setVisibility(View.VISIBLE);
