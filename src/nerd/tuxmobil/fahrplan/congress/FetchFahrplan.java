@@ -25,10 +25,13 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.util.Log;
 
+interface OnDownloadCompleteListener {
+	public void onGotResponse(HTTP_STATUS status, String response, String eTagStr);
+}
 
 public class FetchFahrplan {
 	private fetcher task;
-	private Activity activity;
+	private OnDownloadCompleteListener listener;
 
 	public FetchFahrplan() {
 		task = null;
@@ -36,7 +39,7 @@ public class FetchFahrplan {
 	}
 
 	public void fetch(String arg, String eTag) {
-		task = new fetcher(this.activity);
+		task = new fetcher(this.listener);
 		task.execute(arg, eTag);
 	}
 
@@ -44,10 +47,10 @@ public class FetchFahrplan {
 		if (task != null) task.cancel(true);
 	}
 
-	public void setActivity(Activity activity) {
-		this.activity = activity;
+	public void setListener(OnDownloadCompleteListener listener) {
+		this.listener = listener;
 		if (task != null) {
-			task.setActivity(activity);
+			task.setListener(listener);
 		}
 	}
 }
@@ -56,19 +59,19 @@ class fetcher extends AsyncTask<String, Void, HTTP_STATUS> {
 	private String responseStr;
 	private String eTagStr;
 	private String LOG_TAG = "FetchFahrplan";
-	private Activity activity;
+	private OnDownloadCompleteListener listener;
 	private boolean completed;
 	private HTTP_STATUS status;
 
-	public fetcher(Activity activity) {
-		this.activity = activity;
+	public fetcher(OnDownloadCompleteListener listener) {
+		this.listener = listener;
 		this.completed = false;
 	}
 
-	public void setActivity(Activity activity) {
-		this.activity = activity;
+	public void setListener(OnDownloadCompleteListener listener) {
+		this.listener = listener;
 
-		if (completed && (activity != null)) {
+		if (completed && (listener != null)) {
 			notifyActivity();
 		}
 	}
@@ -88,7 +91,7 @@ class fetcher extends AsyncTask<String, Void, HTTP_STATUS> {
 		completed = true;
 		this.status = status;
 
-		if (activity != null) {
+		if (listener != null) {
 			notifyActivity();
 		}
 	}
@@ -96,10 +99,10 @@ class fetcher extends AsyncTask<String, Void, HTTP_STATUS> {
 	private void notifyActivity() {
 		if (status == HTTP_STATUS.HTTP_OK) {
 			MyApp.LogDebug(LOG_TAG, "fetch done successfully");
-			((Fahrplan)activity).onGotResponse(status, responseStr, eTagStr);
+			listener.onGotResponse(status, responseStr, eTagStr);
 		} else {
 			MyApp.LogDebug(LOG_TAG, "fetch failed");
-			((Fahrplan)activity).onGotResponse(status, null, eTagStr);
+			listener.onGotResponse(status, null, eTagStr);
 		}
 		completed = false;		// notifiy only once
 	}

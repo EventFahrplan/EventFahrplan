@@ -13,9 +13,14 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.util.Xml;
 
+interface OnParseCompleteListener
+{
+	public void onParseDone(Boolean result, String version);
+}
+
 public class FahrplanParser {
 	private parser task;
-	private Activity activity;
+	private OnParseCompleteListener listener;
 	private Context context;
 
 	public FahrplanParser(Context context) {
@@ -25,7 +30,7 @@ public class FahrplanParser {
 	}
 
 	public void parse(String fahrplan, String eTag) {
-		task = new parser(activity, context);
+		task = new parser(listener, context);
 		task.execute(fahrplan, eTag);
 	}
 
@@ -34,10 +39,10 @@ public class FahrplanParser {
 		if (task != null) task.cancel(false);
 	}
 
-	public void setActivity(Activity activity) {
-		this.activity = activity;
+	public void setListener(OnParseCompleteListener listener) {
+		this.listener = listener;
 		if (task != null) {
-			task.setActivity(activity);
+			task.setListener(listener);
 		}
 	}
 }
@@ -48,22 +53,22 @@ class parser extends AsyncTask<String, Void, Boolean> {
 	private MetaInfo meta;
 	private MetaDBOpenHelper metaDB;
 	private SQLiteDatabase db;
-	private Activity activity;
+	private OnParseCompleteListener listener;
 	private boolean completed;
 	private boolean result;
 	private Context context;
 
-	public parser(Activity activity, Context context) {
-		this.activity = activity;
+	public parser(OnParseCompleteListener listener, Context context) {
+		this.listener = listener;
 		this.completed = false;
 		this.db = null;
 		this.context = context;
 	}
 
-	public void setActivity(Activity activity) {
-		this.activity = activity;
+	public void setListener(OnParseCompleteListener listener) {
+		this.listener = listener;
 
-		if (completed && (activity != null)) {
+		if (completed && (listener != null)) {
 			notifyActivity();
 		}
 	}
@@ -80,7 +85,7 @@ class parser extends AsyncTask<String, Void, Boolean> {
 	}
 
 	private void notifyActivity() {
-		((Fahrplan)activity).onParseDone(result, meta.version);
+		listener.onParseDone(result, meta.version);
 		completed = false;
 	}
 
@@ -88,7 +93,7 @@ class parser extends AsyncTask<String, Void, Boolean> {
 		completed = true;
 		this.result = result;
 
-		if (activity != null) {
+		if (listener != null) {
 			notifyActivity();
 		}
 	}

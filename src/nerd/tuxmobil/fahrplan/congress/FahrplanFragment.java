@@ -5,48 +5,30 @@ import java.util.HashMap;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
-import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.app.SherlockFragment;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 
-import nerd.tuxmobil.fahrplan.congress.CustomHttpClient.HTTP_STATUS;
-import nerd.tuxmobil.fahrplan.congress.MyApp.TASKS;
-import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlarmManager;
 import android.app.AlertDialog;
-import android.app.PendingIntent;
-import android.app.ProgressDialog;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
 import android.database.Cursor;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.CalendarContract;
-import android.text.Html;
-import android.text.format.DateFormat;
 import android.text.format.Time;
-import android.text.method.LinkMovementMethod;
 import android.util.TypedValue;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnClickListener;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -56,11 +38,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.LinearLayout.LayoutParams;
 
-public class Fahrplan extends SherlockActivity implements OnClickListener, OnNavigationListener {
+public class FahrplanFragment extends SherlockFragment implements OnClickListener, OnNavigationListener, OnParseCompleteListener {
 	private MyApp global;
-	private ProgressDialog progress = null;
 	private static String LOG_TAG = "Fahrplan";
-	private FetchFahrplan fetcher;
 	private float scale;
 	private LayoutInflater inflater;
 	private int firstLectureStart = 0;
@@ -70,73 +50,65 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 	private View dayTextView;
 	public static Context context = null;
 	public static String[] rooms = { "Saal 1", "Saal 2", "Saal G", "Saal 6" };
-	private FahrplanParser parser;
-	private LinearLayout statusBar;
-	private Animation slideUpIn;
-	private Animation slideDownOut;
-	private TextView statusLineText;
-	private MetaDBOpenHelper metaDB;
-	private SQLiteDatabase metadb = null;
 	private HashMap<String, Integer> trackColorsHi;
 	public static final String PREFS_NAME = "settings";
 	private int screenWidth = 0;
 	private Typeface boldCondensed;
 	private Typeface light;
 
-	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		boldCondensed = Typeface.createFromAsset(getAssets(), "Roboto-BoldCondensed.ttf");
-		light = Typeface.createFromAsset(getAssets(), "Roboto-Light.ttf");
-		context = this;
-		setContentView(R.layout.main);
-		TextView roomName = (TextView)findViewById(R.id.roomName);
+		setHasOptionsMenu(true);
+		boldCondensed = Typeface.createFromAsset(getSherlockActivity().getAssets(), "Roboto-BoldCondensed.ttf");
+		light = Typeface.createFromAsset(getSherlockActivity().getAssets(), "Roboto-Light.ttf");
+		context = getSherlockActivity();
+	}
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		return inflater.inflate(R.layout.schedule, container, false);
+	}
+
+	@Override
+	public void onViewCreated(View view, Bundle savedInstanceState) {
+		super.onViewCreated(view, savedInstanceState);
+
+		TextView roomName = (TextView)view.findViewById(R.id.roomName);
 		if (roomName != null) roomName.setTypeface(light);
-		roomName = (TextView)findViewById(R.id.roomName1);
+		roomName = (TextView)view.findViewById(R.id.roomName1);
 		if (roomName != null) roomName.setTypeface(light);
-		roomName = (TextView)findViewById(R.id.roomName2);
+		roomName = (TextView)view.findViewById(R.id.roomName2);
 		if (roomName != null) roomName.setTypeface(light);
-		roomName = (TextView)findViewById(R.id.roomName3);
+		roomName = (TextView)view.findViewById(R.id.roomName3);
 		if (roomName != null) roomName.setTypeface(light);
-		roomName = (TextView)findViewById(R.id.roomName4);
+		roomName = (TextView)view.findViewById(R.id.roomName4);
 		if (roomName != null) roomName.setTypeface(light);
-		global = (MyApp) getApplicationContext();
-		if (MyApp.fetcher == null) {
-			fetcher = new FetchFahrplan();
-		} else {
-			fetcher = MyApp.fetcher;
-		}
-		if (MyApp.parser == null) {
-			parser = new FahrplanParser(getApplicationContext());
-		} else {
-			parser = MyApp.parser;
-		}
+		global = (MyApp) getSherlockActivity().getApplicationContext();
 		scale = getResources().getDisplayMetrics().density;
 		screenWidth = (int) (getResources().getDisplayMetrics().widthPixels / scale);
 		MyApp.LogDebug(LOG_TAG, "screen width = " + screenWidth);
 		screenWidth -= 38;	// Breite für Zeitenspalte
 		switch (getResources().getConfiguration().orientation) {
 			case Configuration.ORIENTATION_PORTRAIT:
-				if (findViewById(R.id.horizScroller) != null) {
+				if (view.findViewById(R.id.horizScroller) != null) {
 					int width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
 		                     (float) screenWidth, getResources().getDisplayMetrics());
 					MyApp.LogDebug(LOG_TAG, "adjust column width to " + width);
-					LinearLayout l = (LinearLayout) findViewById(R.id.raum1);
+					LinearLayout l = (LinearLayout) view.findViewById(R.id.raum1);
 					LayoutParams p = (LayoutParams) l.getLayoutParams();
 					p.width = width;
 					l.setLayoutParams(p);
-					l = (LinearLayout) findViewById(R.id.raum2);
+					l = (LinearLayout) view.findViewById(R.id.raum2);
 					l.setLayoutParams(p);
-					l = (LinearLayout) findViewById(R.id.raum3);
+					l = (LinearLayout) view.findViewById(R.id.raum3);
 					l.setLayoutParams(p);
-					l = (LinearLayout) findViewById(R.id.raum4);
+					l = (LinearLayout) view.findViewById(R.id.raum4);
 					l.setLayoutParams(p);
 				}
 				break;
 		}
-		progress = null;
 
 		trackColors = new HashMap<String, Integer>();
 		trackColors.put("Art & Beauty", R.drawable.event_border_default_art_beauty);
@@ -160,26 +132,12 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 		trackColorsHi.put("Security & Safety", R.drawable.event_border_highlight_security_safety);
 		trackColorsHi.put("", R.drawable.event_border_highlight);
 
-		statusLineText = (TextView) findViewById(R.id.statusLineText);
-
-		statusBar = (LinearLayout) findViewById(R.id.statusLine);
-		statusBar.setVisibility(View.GONE);
-
-		slideUpIn = AnimationUtils.loadAnimation(this, R.anim.slide_up_in);
-		slideDownOut = AnimationUtils
-				.loadAnimation(this, R.anim.slide_down_out);
-		SharedPreferences prefs = getSharedPreferences(PREFS_NAME, 0);
+		SharedPreferences prefs = getSherlockActivity().getSharedPreferences(PREFS_NAME, 0);
 		mDay = prefs.getInt("displayDay", 1);
 
-		inflater = (LayoutInflater) this
-				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		inflater = (LayoutInflater) getSherlockActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-		metaDB = new MetaDBOpenHelper(this);
-
-		loadMeta();
-		loadDays();
-
-		Intent intent = getIntent();
+		Intent intent = getSherlockActivity().getIntent();
 		String lecture_id = intent.getStringExtra("lecture_id");
 
 		if (lecture_id != null) {
@@ -191,24 +149,19 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 		if (MyApp.numdays > 0) {
 			build_navigation_menu();
 		}
-		MyApp.fetcher.setActivity(this);	// save current activity and trigger possible completion event
-		MyApp.parser.setActivity(this);		// save current activity and trigger possible completion event
+		MyApp.fetcher.setListener((OnDownloadCompleteListener)getSherlockActivity());	// save current activity and trigger possible completion event
+		MyApp.parser.setListener((OnParseCompleteListener)getSherlockActivity());		// save current activity and trigger possible completion event
 
 		switch (MyApp.task_running) {
 		case FETCH:
 			MyApp.LogDebug(LOG_TAG, "fetch was pending, restart");
-			showFetchingStatus();
-			viewDay(false);
+			if (MyApp.numdays != 0) viewDay(false);
 			break;
 		case PARSE:
 			MyApp.LogDebug(LOG_TAG, "parse was pending, restart");
-			showParsingStatus();
 			break;
 		case NONE:
-			if (MyApp.numdays == 0) {
-				MyApp.LogDebug(LOG_TAG,"fetch in onCreate bc. numdays==0");
-				fetchFahrplan();
-			} else {
+			if (MyApp.numdays != 0) {
 				viewDay(lecture_id != null);	// auf jeden Fall reload, wenn mit Lecture ID gestartet
 			}
 			break;
@@ -219,67 +172,15 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 		}
 	}
 
-	@SuppressLint("NewApi")
-	public static void addToCalender(Context context, Lecture l) {
-		Intent intent = new Intent(Intent.ACTION_INSERT, CalendarContract.Events.CONTENT_URI);
-
-		intent.putExtra(CalendarContract.Events.TITLE, l.title);
-		intent.putExtra(CalendarContract.Events.EVENT_LOCATION, l.room);
-
-		Time time = l.getTime();
-		long when = time.normalize(true);
-		intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, when);
-		intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, when + (l.duration * 60000));
-		context.startActivity(intent);
-	}
-
-	public static void share(Context context, Lecture l) {
-		Intent sendIntent = new Intent();
-		sendIntent.setAction(Intent.ACTION_SEND);
-		StringBuilder sb = new StringBuilder();
-		Time time = l.getTime();
-		sb.append(l.title).append("\n").append(DateFormat.format("E, MMMM dd, yyyy hh:mm", time.toMillis(true)));
-		sb.append(", ").append(l.room).append("\n\n").append("http://events.ccc.de/congress/2013/Fahrplan/events/").append(l.lecture_id).append(".en.html");
-		sendIntent.putExtra(Intent.EXTRA_TEXT, sb.toString());
-		sendIntent.setType("text/plain");
-		context.startActivity(sendIntent);
-	}
-
-	public void showParsingStatus() {
-		if (MyApp.numdays == 0) {
-			// initial load
-			progress = ProgressDialog.show(this, "", getResources().getString(
-					R.string.progress_processing_data), true);
-		} else {
-			statusLineText
-					.setText(getString(R.string.progress_processing_data));
-			if (statusBar.getVisibility() != View.VISIBLE) {
-				statusBar.setVisibility(View.VISIBLE);
-				statusBar.startAnimation(slideUpIn);
-			}
-		}
-	}
-
-	public void parseFahrplan() {
-		showParsingStatus();
-		MyApp.task_running = TASKS.PARSE;
-		parser.parse(MyApp.fahrplan_xml, MyApp.eTag);
-	}
-
 	@Override
 	public void onDestroy() {
 		MyApp.LogDebug(LOG_TAG, "onDestroy");
 		super.onDestroy();
 		if (MyApp.fetcher != null) {
-			MyApp.fetcher.setActivity(null);
+			MyApp.fetcher.setListener(null);
 		}
 		if (MyApp.parser != null) {
-			MyApp.parser.setActivity(null);
-		}
-		if (metadb != null) metadb.close();
-		if (progress != null) {
-			progress.dismiss();
-			progress = null;
+			MyApp.parser.setListener(null);
 		}
 	}
 
@@ -288,7 +189,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 		MyApp.LogDebug(LOG_TAG, "onResume");
 		super.onResume();
 		fillTimes();
-		supportInvalidateOptionsMenu();
+		getSherlockActivity().supportInvalidateOptionsMenu();
 	}
 
 	public static void updateRoomTitle(int room) {
@@ -305,68 +206,16 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 		}
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		super.onCreateOptionsMenu(menu);
-		MenuInflater mi = getSupportMenuInflater();
-		mi.inflate(R.menu.mainmenu, menu);
-		return true;
-	}
-
-	public void showFetchingStatus() {
-		if (MyApp.numdays == 0) {
-			// initial load
-			MyApp.LogDebug(LOG_TAG, "fetchFahrplan with numdays == 0");
-			progress = ProgressDialog.show(this, "", getResources().getString(
-					R.string.progress_loading_data), true);
-		} else {
-			statusLineText.setText(getString(R.string.progress_loading_data));
-			statusBar.setVisibility(View.VISIBLE);
-			statusBar.startAnimation(slideUpIn);
-		}
-	}
-
-	public void fetchFahrplan() {
-		if (MyApp.task_running == TASKS.NONE) {
-			MyApp.task_running = TASKS.FETCH;
-			showFetchingStatus();
-			fetcher.fetch("/congress/2013/Fahrplan/schedule.xml", MyApp.eTag);
-		} else {
-			MyApp.LogDebug(LOG_TAG, "fetch already in progress");
-		}
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		Intent intent;
-		switch (item.getItemId()) {
-		case R.id.item_refresh:
-			fetchFahrplan();
-			return true;
-		case R.id.item_about:
-			aboutDialog();
-			return true;
-		case R.id.item_alarms:
-			intent = new Intent(this, AlarmList.class);
-			startActivityForResult(intent, MyApp.ALARMLIST);
-			return true;
-		case R.id.item_settings:
-			intent = new Intent(this, Prefs.class);
-			startActivity(intent);
-			return true;
-		default:
-		}
-		return super.onOptionsItemSelected(item);
-	}
-
 	private void viewDay(boolean reload) {
 //		Log.d(LOG_TAG, "viewDay("+reload+")");
-		if (loadLectureList(this, mDay, reload) == false) {
+
+		if (loadLectureList(getSherlockActivity(), mDay, reload) == false) {
 			MyApp.LogDebug(LOG_TAG,"fetch on loading empty lecture list");
-			fetchFahrplan();
+		// FIXME
+//			fetchFahrplan();
 		}
 		scanDayLectures();
-		HorizontalSnapScrollView scroller = (HorizontalSnapScrollView) findViewById(R.id.horizScroller);
+		HorizontalSnapScrollView scroller = (HorizontalSnapScrollView) getView().findViewById(R.id.horizScroller);
 		if (scroller != null) {
 			scroller.scrollTo(0, 0);
 		}
@@ -378,7 +227,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 		fillRoom("Saal G", R.id.raum3);
 		fillRoom("Saal 6", R.id.raum4);
 		scrollToCurrent(mDay);
-		ActionBar actionbar = getSupportActionBar();
+		ActionBar actionbar = getSherlockActivity().getSupportActionBar();
 		if (actionbar != null) {
 			actionbar.setSelectedNavigationItem(mDay-1);
 		}
@@ -402,7 +251,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 			break;
 		default:
 			height = (int) (getResources().getInteger(R.integer.box_height) * scale);
-			horiz = (HorizontalSnapScrollView)findViewById(R.id.horizScroller);
+			horiz = (HorizontalSnapScrollView)getView().findViewById(R.id.horizScroller);
 			break;
 		}
 
@@ -449,7 +298,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 //		Log.d(LOG_TAG, "scrolltoCurrent to "+scrollAmount);
 
 		final int pos = scrollAmount;
-		final ScrollView scrollView = (ScrollView)findViewById(R.id.scrollView1);
+		final ScrollView scrollView = (ScrollView)getView().findViewById(R.id.scrollView1);
 		scrollView.scrollTo(0, scrollAmount);
 		scrollView.post(new Runnable() {
 
@@ -462,7 +311,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 
 	private void setBell(Lecture lecture)
 	{
-		ScrollView parent = (ScrollView)findViewById(R.id.scrollView1);
+		ScrollView parent = (ScrollView)getView().findViewById(R.id.scrollView1);
 		if (parent == null)	return;
 		View v = parent.findViewWithTag(lecture);
 		if (v == null) return;
@@ -490,7 +339,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 		}
 		for (Lecture lecture : MyApp.lectureList) {
 			if (lecture_id.equals(lecture.lecture_id)) {
-				final ScrollView parent = (ScrollView)findViewById(R.id.scrollView1);
+				final ScrollView parent = (ScrollView)getView().findViewById(R.id.scrollView1);
 				final int pos = (lecture.relStartTime - firstLectureStart)/5 * height;
 				MyApp.LogDebug(LOG_TAG, "position is "+pos);
 				parent.post(new Runnable() {
@@ -501,7 +350,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 					}
 				});
 				if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
-					final HorizontalSnapScrollView horiz = (HorizontalSnapScrollView)findViewById(R.id.horizScroller);
+					final HorizontalSnapScrollView horiz = (HorizontalSnapScrollView)getView().findViewById(R.id.horizScroller);
 					if (horiz != null) {
 						for (int i = 0; i < rooms.length; i++) {
 							if (rooms[i].equals(lecture.room)) {
@@ -527,82 +376,13 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 
 	private void chooseDay(int chosenDay) {
 		mDay = chosenDay + 1;
-		SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+		SharedPreferences settings = getSherlockActivity().getSharedPreferences(PREFS_NAME, 0);
 		SharedPreferences.Editor editor = settings.edit();
 		editor.putInt("displayDay", mDay);
 
 		editor.commit();
 
 		viewDay(true);
-	}
-
-	public void onGotResponse(HTTP_STATUS status, String response, String eTagStr) {
-		MyApp.LogDebug(LOG_TAG, "Response... " + status);
-		MyApp.task_running = TASKS.NONE;
-		if (status != HTTP_STATUS.HTTP_OK) {
-			switch (status) {
-				case HTTP_CANCELLED:
-					break;
-				case HTTP_LOGIN_FAIL_UNTRUSTED_CERTIFICATE: {
-					UntrustedCertDialogs.acceptKeyDialog(
-							R.string.dlg_certificate_message_fmt, this,
-							new cert_accepted() {
-
-								@Override
-								public void cert_accepted() {
-									MyApp.LogDebug(LOG_TAG, "fetch on cert accepted.");
-									fetchFahrplan();
-								}
-							}, (Object) null);
-				}
-				break;
-			}
-			CustomHttpClient.showHttpError(this, global, status);
-			if (MyApp.numdays == 0) {
-				if (progress != null) {
-					progress.dismiss();
-					progress = null;
-				}
-			} else {
-				statusBar.startAnimation(slideDownOut);
-				statusBar.setVisibility(View.GONE);
-				if (MyApp.numdays == 0) {
-					if (progress != null) {
-						progress.dismiss();
-						progress = null;
-					}
-				} else {
-					statusBar.startAnimation(slideDownOut);
-					statusBar.setVisibility(View.GONE);
-				}
-			}
-			setProgressBarIndeterminateVisibility(false);
-			return;
-		}
-		MyApp.LogDebug(LOG_TAG, "yehhahh");
-		if (MyApp.numdays == 0) {
-			if (progress != null) {
-				progress.dismiss();
-				progress = null;
-			}
-		} else {
-			statusBar.startAnimation(slideDownOut);
-			statusBar.setVisibility(View.GONE);
-			if (MyApp.numdays == 0) {
-				if (progress != null) {
-					progress.dismiss();
-					progress = null;
-				}
-			} else {
-				statusBar.startAnimation(slideDownOut);
-				statusBar.setVisibility(View.GONE);
-			}
-		}
-		setProgressBarIndeterminateVisibility(false);
-
-		MyApp.fahrplan_xml = response;
-		MyApp.eTag = eTagStr;
-		parseFahrplan();
 	}
 
 	private void scanDayLectures() {
@@ -625,7 +405,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 	private void fillTimes() {
 		int time = firstLectureStart;
 		int printTime = time;
-		LinearLayout timeSpalte = (LinearLayout) findViewById(R.id.times_layout);
+		LinearLayout timeSpalte = (LinearLayout) getView().findViewById(R.id.times_layout);
 		timeSpalte.removeAllViews();
 		int height;
 		Time now = new Time();
@@ -694,7 +474,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 	}
 
 	private void fillRoom(String roomName, int roomId) {
-		LinearLayout room = (LinearLayout) findViewById(roomId);
+		LinearLayout room = (LinearLayout) getView().findViewById(roomId);
 		room.removeAllViews();
 		int endTime = firstLectureStart;
 		int padding = getEventPadding();
@@ -713,7 +493,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 		for (Lecture lecture : MyApp.lectureList) {
 			if (roomName.equals(lecture.room)) {
 				if (lecture.relStartTime > endTime) {
-					View event = new View(this);
+					View event = new View(getSherlockActivity());
 					int height = (int) (standardHeight
 							* (lecture.relStartTime - endTime) / 5);
 					room.addView(event, LayoutParams.MATCH_PARENT, height);
@@ -752,51 +532,6 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 				endTime = lecture.relStartTime + lecture.duration;
 			}
 		}
-	}
-
-	private void loadDays() {
-		MyApp.dateList = new ArrayList<DateList>();
-		LecturesDBOpenHelper lecturesDB = new LecturesDBOpenHelper(context);
-
-		SQLiteDatabase lecturedb = lecturesDB.getReadableDatabase();
-		Cursor cursor;
-
-		try {
-			cursor = lecturedb.query("lectures", LecturesDBOpenHelper.allcolumns,
-					null, null, null,
-					null, null);
-		} catch (SQLiteException e) {
-			e.printStackTrace();
-			lecturedb.close();
-			lecturesDB.close();
-			return;
-		}
-
-		if (cursor.getCount() == 0) {
-			// evtl. Datenbankreset wg. DB Formatänderung -> neu laden
-			cursor.close();
-			lecturesDB.close();
-			lecturedb.close();
-			return;
-		}
-
-		cursor.moveToFirst();
-		while (!cursor.isAfterLast()) {
-			int day = cursor.getInt(3);
-			String date = cursor.getString(14);
-
-			if (DateList.dateInList(MyApp.dateList, day) == false) {
-				MyApp.dateList.add(new DateList(day, date));
-			}
-			cursor.moveToNext();
-		}
-		cursor.close();
-
-		for (DateList dayL : MyApp.dateList) {
-			MyApp.LogDebug(LOG_TAG, "date day " + dayL.dayIdx + " = " + dayL.date);
-		}
-		lecturesDB.close();
-		lecturedb.close();
 	}
 
 	public static boolean loadLectureList(Context context, int day, boolean force) {
@@ -937,57 +672,11 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 		alarmDB.close();
 	}
 
-	private void loadMeta() {
-		if (metadb == null) {
-			metadb = metaDB.getReadableDatabase();
-		}
-		Cursor cursor;
-		try {
-			cursor = metadb.query("meta", MetaDBOpenHelper.allcolumns, null, null,
-					null, null, null);
-		} catch (SQLiteException e) {
-			e.printStackTrace();
-			metadb.close();
-			metadb = null;
-			return;
-		}
-
-		MyApp.numdays = 0;
-		MyApp.version = "";
-		MyApp.title = "";
-		MyApp.subtitle = "";
-		MyApp.dayChangeHour = 4;
-		MyApp.dayChangeMinute = 0;
-		MyApp.eTag = null;
-
-		if (cursor.getCount() > 0) {
-			cursor.moveToFirst();
-			if (cursor.getColumnCount() > 0)
-				MyApp.numdays = cursor.getInt(0);
-			if (cursor.getColumnCount() > 1)
-				MyApp.version = cursor.getString(1);
-			if (cursor.getColumnCount() > 2)
-				MyApp.title = cursor.getString(2);
-			if (cursor.getColumnCount() > 3)
-				MyApp.subtitle = cursor.getString(3);
-			if (cursor.getColumnCount() > 4)
-				MyApp.dayChangeHour = cursor.getInt(4);
-			if (cursor.getColumnCount() > 5)
-				MyApp.dayChangeMinute = cursor.getInt(5);
-			if (cursor.getColumnCount() > 6)
-				MyApp.eTag = cursor.getString(6);
-		}
-
-		MyApp.LogDebug(LOG_TAG, "loadMeta: numdays=" + MyApp.numdays + " version:"
-				+ MyApp.version + " " + MyApp.title + " " + MyApp.eTag);
-		cursor.close();
-	}
-
 	@Override
 	public void onClick(View v) {
 		Lecture lecture = (Lecture) v.getTag();
 		MyApp.LogDebug(LOG_TAG, "Click on " + lecture.title);
-		Intent intent = new Intent(this, EventDetail.class);
+		Intent intent = new Intent(getSherlockActivity(), EventDetail.class);
 		intent.putExtra("title", lecture.title);
 		intent.putExtra("subtitle", lecture.subtitle);
 		intent.putExtra("abstract", lecture.abstractt);
@@ -1028,9 +717,9 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 			}
 			days_menu[i] = sb.toString();
 		}
-		ActionBar actionBar = getSupportActionBar();
+		ActionBar actionBar = getSherlockActivity().getSupportActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-		ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,
+		ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getSherlockActivity(),
 		    R.layout.sherlock_spinner_dropdown_item, days_menu);
 		arrayAdapter.setDropDownViewResource(R.layout.sherlock_spinner_dropdown_item);
 		actionBar.setListNavigationCallbacks(arrayAdapter, this);
@@ -1038,26 +727,12 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 	}
 
 	public void onParseDone(Boolean result, String version) {
-		MyApp.LogDebug(LOG_TAG, "parseDone: " + result + " , numdays="+MyApp.numdays);
-		MyApp.task_running = TASKS.NONE;
-		MyApp.fahrplan_xml = null;
-
-		setProgressBarIndeterminateVisibility(false);
-		if (MyApp.numdays == 0) {
-			if (progress != null) {
-				progress.dismiss();
-				progress = null;
-			}
-		} else {
-			statusBar.startAnimation(slideDownOut);
-			statusBar.setVisibility(View.GONE);
-		}
 		if (result) {
 			if ((MyApp.numdays == 0) || (!version.equals(MyApp.version))) {
-				loadMeta();
-				loadDays();
+				FahrplanMisc.loadMeta(getSherlockActivity());
+				FahrplanMisc.loadDays(getSherlockActivity());
 				build_navigation_menu();
-				SharedPreferences prefs = getSharedPreferences(PREFS_NAME, 0);
+				SharedPreferences prefs = getSherlockActivity().getSharedPreferences(PREFS_NAME, 0);
 				mDay = prefs.getInt("displayDay", 1);
 				if (mDay > MyApp.numdays) {
 					mDay = 1;
@@ -1074,55 +749,18 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 		} else {
 			// FIXME Fehlermeldung;
 		}
-		supportInvalidateOptionsMenu();
-	}
-
-	void aboutDialog() {
-		LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
-		View layout = inflater.inflate(R.layout.about_dialog,
-				(ViewGroup) findViewById(R.id.layout_root));
-
-		TextView text = (TextView) layout.findViewById(R.id.eventVersion);
-		text.setText(getString(R.string.fahrplan) + " " + MyApp.version);
-		text = (TextView) layout.findViewById(R.id.eventTitle);
-		text.setText(MyApp.title);
-		MyApp.LogDebug(LOG_TAG, "title:" + MyApp.title);
-		text = (TextView) layout.findViewById(R.id.eventSubtitle);
-		text.setText(MyApp.subtitle);
-		text = (TextView) layout.findViewById(R.id.appVersion);
-		try {
-			text
-					.setText(getString(R.string.appVersion)
-							+ " "
-							+ getApplicationContext().getPackageManager()
-									.getPackageInfo("nerd.tuxmobil.fahrplan.congress", 0).versionName);
-		} catch (NameNotFoundException e) {
-			e.printStackTrace();
-			text.setText("");
-		}
-
-		TextView logo_copyright = (TextView)layout.findViewById(R.id.copyright_logo);
-		logo_copyright.setText(Html.fromHtml(getString(R.string.copyright_logo)));
-		logo_copyright.setMovementMethod(LinkMovementMethod.getInstance());
-
-		new AlertDialog.Builder(this).setTitle(getString(R.string.app_name))
-				.setView(layout).setPositiveButton(android.R.string.ok,
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-									int which) {
-							}
-						}).create().show();
+		getSherlockActivity().supportInvalidateOptionsMenu();
 	}
 
 	void getAlarmTimeDialog(final Lecture lecture) {
 
-		LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+		LayoutInflater inflater = (LayoutInflater) getSherlockActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View layout = inflater.inflate(R.layout.reminder_dialog,
-				(ViewGroup) findViewById(R.id.layout_root));
+				(ViewGroup) getView().findViewById(R.id.layout_root));
 
 		final Spinner spinner = (Spinner) layout.findViewById(R.id.spinner);
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter
-				.createFromResource(this, R.array.alarm_array,
+				.createFromResource(getSherlockActivity(), R.array.alarm_array,
 						android.R.layout.simple_spinner_item);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinner.setAdapter(adapter);
@@ -1130,14 +768,14 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 		TextView msg = (TextView)layout.findViewById(R.id.message);
 		msg.setText(R.string.choose_alarm_time);
 
-		new AlertDialog.Builder(this).setTitle(R.string.setup_alarm).setView(layout)
+		new AlertDialog.Builder(getSherlockActivity()).setTitle(R.string.setup_alarm).setView(layout)
 				.setPositiveButton(android.R.string.ok,
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog,
 									int which) {
 								int alarm = spinner.getSelectedItemPosition();
 								MyApp.LogDebug(LOG_TAG, "alarm chosen: "+alarm);
-								addAlarm(Fahrplan.this, lecture, alarm);
+								FahrplanMisc.addAlarm(getSherlockActivity(), lecture, alarm);
 								setBell(lecture);
 							}
 						}).setNegativeButton(android.R.string.cancel, null)
@@ -1145,141 +783,6 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 	}
 
 	private View contextMenuView;
-
-	public static void deleteAlarm(Context context, Lecture lecture) {
-		AlarmsDBOpenHelper alarmDB = new AlarmsDBOpenHelper(context);
-		SQLiteDatabase db = alarmDB.getWritableDatabase();
-		Cursor cursor;
-
-		try {
-		cursor = db.query("alarms", AlarmsDBOpenHelper.allcolumns,
-					"eventid=?", new String[] { lecture.lecture_id }, null,
-					null, null);
-		} catch (SQLiteException e) {
-			e.printStackTrace();
-			MyApp.LogDebug("delete alarm","failure on alarm query");
-			db.close();
-			return;
-		}
-
-		if (cursor.getCount() == 0) {
-			db.close();
-			cursor.close();
-			MyApp.LogDebug("delete_alarm", "alarm for " + lecture.lecture_id + " not found");
-			return;
-		}
-
-		cursor.moveToFirst();
-
-		Intent intent = new Intent(context, AlarmReceiver.class);
-		String lecture_id = cursor.getString(4);
-		intent.putExtra("lecture_id", lecture_id);
-		int day = cursor.getInt(6);
-		intent.putExtra("day", day);
-		String title = cursor.getString(1);
-		intent.putExtra("title", title);
-		long startTime = cursor.getLong(5);
-		intent.putExtra("startTime", startTime);
-		// delete any previous alarms of this lecture
-		db.delete("alarms", "eventid=?", new String[] { lecture.lecture_id });
-		db.close();
-
-		intent.setAction("de.machtnix.fahrplan.ALARM");
-		intent.setData(Uri.parse("alarm://"+lecture.lecture_id));
-
-		AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-		PendingIntent pendingintent = PendingIntent.getBroadcast(context, Integer.parseInt(lecture.lecture_id), intent, 0);
-
-		// Cancel any existing alarms for this lecture
-		alarmManager.cancel(pendingintent);
-
-		lecture.has_alarm = false;
-	}
-
-	public static void addAlarm(Context context, Lecture lecture, int alarmTime) {
-		Time time = lecture.getTime();
-		long startTime = time.normalize(true);
-		int[] alarm_times = { 0, 5, 10, 15, 30, 45, 60 };
-		long when = time.normalize(true) - (alarm_times[alarmTime] * 60 * 1000);
-
-		// DEBUG
-		// when = System.currentTimeMillis() + (30 * 1000);
-
-		time.set(when);
-		MyApp.LogDebug("addAlarm", "Alarm time: "+when);
-
-
-		Intent intent = new Intent(context, AlarmReceiver.class);
-		intent.putExtra("lecture_id", lecture.lecture_id);
-		intent.putExtra("day", lecture.day);
-		intent.putExtra("title", lecture.title);
-		intent.putExtra("startTime", startTime);
-
-		intent.setAction("de.machtnix.fahrplan.ALARM");
-		intent.setData(Uri.parse("alarm://"+lecture.lecture_id));
-
-		AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-		PendingIntent pendingintent = PendingIntent.getBroadcast(context, Integer.parseInt(lecture.lecture_id), intent, 0);
-
-		// Cancel any existing alarms for this lecture
-		alarmManager.cancel(pendingintent);
-
-		// Set new alarm
-		alarmManager.set(AlarmManager.RTC_WAKEUP, when, pendingintent);
-
-		// write to DB
-
-		AlarmsDBOpenHelper alarmDB = new AlarmsDBOpenHelper(context);
-
-		SQLiteDatabase db = alarmDB.getWritableDatabase();
-
-		// delete any previous alarms of this lecture
-		try {
-			db.beginTransaction();
-			db.delete("alarms", "eventid=?", new String[] { lecture.lecture_id });
-
-			ContentValues values = new ContentValues();
-
-			values.put("eventid", Integer.parseInt(lecture.lecture_id));
-			values.put("title", lecture.title);
-			values.put("time", when);
-			values.put("timeText", time.format("%Y-%m-%d %H:%M"));
-			values.put("displayTime", startTime);
-			values.put("day", lecture.day);
-
-			db.insert("alarms", null, values);
-			db.setTransactionSuccessful();
-		} catch (SQLException e) {
-		} finally {
-			db.endTransaction();
-			db.close();
-		}
-
-		lecture.has_alarm = true;
-	}
-
-	public static void writeHighlight(Context context, Lecture lecture) {
-		HighlightDBOpenHelper highlightDB = new HighlightDBOpenHelper(context);
-
-		SQLiteDatabase db = highlightDB.getWritableDatabase();
-
-		try {
-			db.beginTransaction();
-			db.delete("highlight", "eventid=?", new String[] { lecture.lecture_id });
-
-			ContentValues values = new ContentValues();
-
-			values.put("eventid", Integer.parseInt(lecture.lecture_id));
-			values.put("highlight", lecture.highlight ? 1 : 0);
-
-			db.insert("highlight", null, values);
-			db.setTransactionSuccessful();
-		} catch (SQLException e) {
-		} finally {
-			db.endTransaction();
-			db.close();
-		}
-	}
 
 	@Override
 	public boolean onContextItemSelected(android.view.MenuItem item) {
@@ -1295,11 +798,11 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 			if (lecture.highlight) {
 				drawable = trackColors.get(lecture.track);
 				lecture.highlight = false;
-				writeHighlight(this, lecture);
+				FahrplanMisc.writeHighlight(getSherlockActivity(), lecture);
 			} else {
 				drawable = trackColorsHi.get(lecture.track);
 				lecture.highlight = true;
-				writeHighlight(this, lecture);
+				FahrplanMisc.writeHighlight(getSherlockActivity(), lecture);
 			}
 			if (drawable != null) {
 				contextMenuView.setBackgroundResource(drawable);
@@ -1310,14 +813,14 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 			getAlarmTimeDialog(lecture);
 			break;
 		case 2:
-			deleteAlarm(this, lecture);
+			FahrplanMisc.deleteAlarm(getSherlockActivity(), lecture);
 			setBell(lecture);
 			break;
 		case 3:
-			addToCalender(this, lecture);
+			FahrplanMisc.addToCalender(getSherlockActivity(), lecture);
 			break;
 		case 4:
-			share(this, lecture);
+			FahrplanMisc.share(getSherlockActivity(), lecture);
 			break;
 		}
 		return true;
@@ -1345,7 +848,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 	}
 
 	private View getLectureView(Lecture lecture) {
-		ScrollView parent = (ScrollView)findViewById(R.id.scrollView1);
+		ScrollView parent = (ScrollView)getView().findViewById(R.id.scrollView1);
 		if (parent == null) return null;
 		View v = parent.findViewWithTag(lecture);
 		return v;
@@ -1368,9 +871,9 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 		switch (requestCode) {
 			case MyApp.ALARMLIST:
 			case MyApp.EVENTVIEW:
-				if (resultCode == RESULT_OK) {
+				if (resultCode == SherlockFragmentActivity.RESULT_OK) {
 					MyApp.LogDebug(LOG_TAG, "Reload alarms");
-					loadAlarms(this);
+					loadAlarms(getSherlockActivity());
 					refreshViews();
 				}
 				break;

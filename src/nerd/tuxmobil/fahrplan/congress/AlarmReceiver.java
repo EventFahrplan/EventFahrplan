@@ -38,7 +38,7 @@ public final class AlarmReceiver extends BroadcastReceiver {
         notify.icon = R.drawable.ic_notification;
         notify.when = when;
 
-        Intent notificationIntent = new Intent(context, Fahrplan.class);
+        Intent notificationIntent = new Intent(context, MainActivity.class);
         notificationIntent.putExtra("lecture_id", lecture_id);
         notificationIntent.putExtra("day", day);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);

@@ -70,7 +70,7 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
 	public void scrollToColumn(int col) {
 		int scrollTo = (int)(col * (screenWidth * scale));
 	    smoothScrollTo(scrollTo, 0);
-        Fahrplan.updateRoomTitle(col);
+        FahrplanFragment.updateRoomTitle(col);
         activeItem = col;
 	}
 

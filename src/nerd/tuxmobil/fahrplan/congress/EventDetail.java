@@ -54,7 +54,7 @@ public class EventDetail extends SherlockActivity {
 
         day = intent.getIntExtra("day", 0);
         event_id = intent.getStringExtra("eventid");
-        Fahrplan.loadLectureList(this, day, false);
+        FahrplanFragment.loadLectureList(this, day, false);
         lecture = eventid2Lecture(event_id);
 
         TextView t = (TextView)findViewById(R.id.title);
@@ -165,7 +165,7 @@ public class EventDetail extends SherlockActivity {
 									int which) {
 								int alarm = spinner.getSelectedItemPosition();
 								MyApp.LogDebug(LOG_TAG, "alarm chosen: "+alarm);
-								Fahrplan.addAlarm(EventDetail.this, lecture, alarm);
+								FahrplanMisc.addAlarm(EventDetail.this, lecture, alarm);
 								supportInvalidateOptionsMenu();
 								setResult(RESULT_OK);
 							}
@@ -192,21 +192,21 @@ public class EventDetail extends SherlockActivity {
 			return true;
 		case R.id.item_share:
 			l = eventid2Lecture(event_id);
-			if (l != null) Fahrplan.share(this, l);
+			if (l != null) FahrplanMisc.share(this, l);
 			return true;
 		case R.id.item_add_to_calendar:
 			l = eventid2Lecture(event_id);
-			if (l != null) Fahrplan.addToCalender(this, l);
+			if (l != null) FahrplanMisc.addToCalender(this, l);
 			return true;
 		case R.id.item_fav:
 			lecture.highlight = true;
-			if (lecture != null) Fahrplan.writeHighlight(this, lecture);
+			if (lecture != null) FahrplanMisc.writeHighlight(this, lecture);
 			supportInvalidateOptionsMenu();
 			setResult(RESULT_OK);
 			return true;
 		case R.id.item_unfav:
 			lecture.highlight = false;
-			if (lecture != null) Fahrplan.writeHighlight(this, lecture);
+			if (lecture != null) FahrplanMisc.writeHighlight(this, lecture);
 			supportInvalidateOptionsMenu();
 			setResult(RESULT_OK);
 			return true;
@@ -214,7 +214,7 @@ public class EventDetail extends SherlockActivity {
 			setAlarmDialog(lecture);
 			return true;
 		case R.id.item_clear_alarm:
-			if (lecture != null) Fahrplan.deleteAlarm(this, lecture);
+			if (lecture != null) FahrplanMisc.deleteAlarm(this, lecture);
 			supportInvalidateOptionsMenu();
 			setResult(RESULT_OK);
 			return true;

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<item type="layout" name="main">
-	    @layout/main_land
+	<item type="layout" name="main_layout">
+	    @layout/main_layout_land
 	</item>
     
 </resources>
