@@ -51,7 +51,7 @@
 	<string name="insistent_alarm">Dauerhafter Alarm</string>
 	<string name="usage">Hinweis:\n\nLange auf Vortrag tippen um Erinnerung einzustellen.</string>
 	<string name="set_alarm">Alarm setzen</string>
-	<string name="copyright_notes">Copyright 2013 Daniel Dorau. Portions Copyright 2008-2011 The K-9 Dog Walkers and 2006-2013 the Android Open Source Project.</string>
+	<string name="copyright_notes">Copyright 2013 Daniel Dorau.\nCopyright 2013 SubOptimal, entropynil.\nPortions Copyright 2008-2011 The K-9 Dog Walkers and 2006-2013 the Android Open Source Project.</string>
 	<string name="delete_alarm">Alarm löschen</string>
 	<string name="today">heute</string>
 	<string name="addToCalendar">Zum Kalender hinzufügen</string>

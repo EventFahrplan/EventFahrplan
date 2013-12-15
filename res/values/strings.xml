@@ -50,7 +50,7 @@
 	<string name="insistent_alarm">Insistent Alarm</string>
 	<string name="usage">Note:\n\nLong-Press on a Lecture to set an alarm.</string>
 	<string name="set_alarm">Set alarm</string>
-	<string name="copyright_notes">Copyright 2013 Daniel Dorau. Portions Copyright 2008-2011 The K-9 Dog Walkers and 2006-2013 the Android Open Source Project.</string>
+	<string name="copyright_notes">Copyright 2013 Daniel Dorau.\nCopyright 2013 SubOptimal, entropynil.\nPortions Copyright 2008-2011 The K-9 Dog Walkers and 2006-2013 the Android Open Source Project.</string>
 	<string name="copyright_logo">30C3 artwork by <![CDATA[<a href="http://evelynschubert.com/">Evelyn Schubert</a>]]> licensed under <![CDATA[<a href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US">CC BY-SA 3.0</a>]]></string>
 	<string name="delete_alarm">Clear alarm</string>
 	<string name="today">today</string>
