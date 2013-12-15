@@ -177,6 +177,10 @@ class parser extends AsyncTask<String, Void, Boolean> {
 					break;
 				case XmlPullParser.START_TAG:
 					name = parser.getName();
+					if (name.equals("version")) {
+						parser.next();
+						meta.version = new String(parser.getText());
+					}
 					if (name.equals("day")) {
 						day = Integer.parseInt(parser.getAttributeValue(null,
 								"index"));
