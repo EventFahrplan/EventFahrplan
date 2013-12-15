@@ -1,14 +1,19 @@
 CampFahrplan
 
-CampFahrplan allows you to view the schedule of 2011 Chaos Communcation Camp's conference schedule,
-set reminders and read the abstract of each lecture.
+CampFahrplan is a viewer for schedules of Chaos Computer Club e.V. events such as
+Chaos Communication Camp or Chaos Communication Congress.
+  
+In addition to an daily overview of talks, the app lets you read the abstracts, 
+highlight talks, add a talk to your calendar, share talks with others, and 
+set reminders within the app.
 
 
 Portions Copyright 2008-2011 The K-9 Dog Walkers and 2006-2011 the Android Open Source Project.
 
 LICENSE
 
-   Copyright 2011 Daniel Dorau
+   Copyright 2011-2013 Daniel Dorau
+   Copyright 2013 SubOptimal, entropynil
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
