@@ -55,7 +55,7 @@ public final class TrustManagerFactory {
         private final String mHost;
 
         private SecureX509TrustManager(String host) {
-        	Log.d("TrustManagerFactory", "SecureX509TrustManager("+host+")");
+        	MyApp.LogDebug("TrustManagerFactory", "SecureX509TrustManager("+host+")");
             mHost = host;
         }
 
@@ -165,7 +165,7 @@ public final class TrustManagerFactory {
     }
 
     public static X509TrustManager get(String host, boolean secure) {
-    	Log.d(LOG_TAG, "get " + host + " "  + secure);
+    	MyApp.LogDebug(LOG_TAG, "get " + host + " "  + secure);
         return secure ? SecureX509TrustManager.getInstance(host) :
                unsecureTrustManager;
     }

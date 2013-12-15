@@ -23,7 +23,6 @@ import android.content.DialogInterface;
 import android.net.http.*;
 import android.os.Build;
 import android.util.Base64;
-import android.util.Log;
 import android.widget.Toast;
 
 public class CustomHttpClient {
@@ -49,7 +48,7 @@ public class CustomHttpClient {
 	public static HttpClient createHttpClient(String addr, boolean secure, int https_port)
 			throws KeyManagementException, NoSuchAlgorithmException {
 
-		Log.d("CustomHttpClient", addr + " " + secure + " " + https_port);
+		MyApp.LogDebug("CustomHttpClient", addr + " " + secure + " " + https_port);
 
 		HttpClient client;
 

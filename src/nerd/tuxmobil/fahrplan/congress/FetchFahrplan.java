@@ -81,7 +81,7 @@ class fetcher extends AsyncTask<String, Void, HTTP_STATUS> {
 	}
 
 	protected void onCancelled() {
-		Log.d(LOG_TAG, "fetch cancelled");
+		MyApp.LogDebug(LOG_TAG, "fetch cancelled");
 	}
 
 	protected void onPostExecute(HTTP_STATUS status) {
@@ -95,10 +95,10 @@ class fetcher extends AsyncTask<String, Void, HTTP_STATUS> {
 
 	private void notifyActivity() {
 		if (status == HTTP_STATUS.HTTP_OK) {
-			Log.d(LOG_TAG, "fetch done successfully");
+			MyApp.LogDebug(LOG_TAG, "fetch done successfully");
 			((Fahrplan)activity).onGotResponse(status, responseStr, eTagStr);
 		} else {
-			Log.d(LOG_TAG, "fetch failed");
+			MyApp.LogDebug(LOG_TAG, "fetch failed");
 			((Fahrplan)activity).onGotResponse(status, null, eTagStr);
 		}
 		completed = false;		// notifiy only once
@@ -118,8 +118,8 @@ class fetcher extends AsyncTask<String, Void, HTTP_STATUS> {
 
 		String address = "https://" + addr + arg;
 
-		Log.d("Fetch", address);
-		Log.d("Fetch", "ETag: "+eTag);
+		MyApp.LogDebug("Fetch", address);
+		MyApp.LogDebug("Fetch", "ETag: "+eTag);
 		HttpGet getRequest = new HttpGet(address);
 
 		getRequest.addHeader("Accept-Encoding", "gzip");
@@ -193,10 +193,10 @@ class fetcher extends AsyncTask<String, Void, HTTP_STATUS> {
 		}
 		Header eTagHdr = response.getFirstHeader("ETag");
 		if (eTagHdr != null) {
-			Log.d(LOG_TAG, "ETag: " + eTagHdr.getValue());
+			MyApp.LogDebug(LOG_TAG, "ETag: " + eTagHdr.getValue());
 			eTagStr = eTagHdr.getValue();
 		} else {
-			Log.d(LOG_TAG, "ETag missing?");
+			MyApp.LogDebug(LOG_TAG, "ETag missing?");
 			eTagStr = null;
 		}
 		BufferedReader reader = new BufferedReader(new InputStreamReader(
@@ -216,7 +216,7 @@ class fetcher extends AsyncTask<String, Void, HTTP_STATUS> {
 
 		responseStr = sb.toString();
 
-		// Log.d("Fetch", "got Response " + responseStr);
+		// MyApp.LogDebug("Fetch", "got Response " + responseStr);
 		try {
 			instream.close();
 		} catch (IOException e) {

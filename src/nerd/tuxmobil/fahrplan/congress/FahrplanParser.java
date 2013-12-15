@@ -11,7 +11,6 @@ import android.content.Context;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.util.Xml;
 
 public class FahrplanParser {
@@ -76,7 +75,7 @@ class parser extends AsyncTask<String, Void, Boolean> {
 	}
 
 	protected void onCancelled() {
-		Log.d(LOG_TAG, "parse cancelled");
+		MyApp.LogDebug(LOG_TAG, "parse cancelled");
 		if (db != null) db.close();
 	}
 
@@ -95,7 +94,7 @@ class parser extends AsyncTask<String, Void, Boolean> {
 	}
 
 	public void storeMeta(Context context, MetaInfo meta) {
-		Log.d(LOG_TAG, "storeMeta");
+		MyApp.LogDebug(LOG_TAG, "storeMeta");
 		metaDB = new MetaDBOpenHelper(context);
 
 		db = metaDB.getWritableDatabase();
@@ -122,7 +121,7 @@ class parser extends AsyncTask<String, Void, Boolean> {
 	}
 
 	public void storeLectureList(Context context, ArrayList<Lecture> lectures) {
-		Log.d(LOG_TAG, "storeLectureList");
+		MyApp.LogDebug(LOG_TAG, "storeLectureList");
 		LecturesDBOpenHelper lecturesDB = new LecturesDBOpenHelper(context);
 
 		db = lecturesDB.getWritableDatabase();

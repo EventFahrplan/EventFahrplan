@@ -17,7 +17,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -94,7 +93,7 @@ public class EventDetail extends SherlockActivity {
         t.setTypeface(regular);
 
         if (links.length() > 0) {
-        	Log.d(LOG_TAG, "show links");
+        	MyApp.LogDebug(LOG_TAG, "show links");
         	l.setVisibility(View.VISIBLE);
         	t.setVisibility(View.VISIBLE);
         	links = links.replaceAll("\\),", ")<br>");
@@ -166,7 +165,7 @@ public class EventDetail extends SherlockActivity {
 							public void onClick(DialogInterface dialog,
 									int which) {
 								int alarm = spinner.getSelectedItemPosition();
-								Log.d(LOG_TAG, "alarm chosen: "+alarm);
+								MyApp.LogDebug(LOG_TAG, "alarm chosen: "+alarm);
 								Fahrplan.addAlarm(EventDetail.this, lecture, alarm);
 								supportInvalidateOptionsMenu();
 								setResult(RESULT_OK);

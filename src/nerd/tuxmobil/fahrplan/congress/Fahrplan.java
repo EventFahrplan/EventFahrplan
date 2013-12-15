@@ -35,7 +35,6 @@ import android.text.Html;
 import android.text.format.DateFormat;
 import android.text.format.Time;
 import android.text.method.LinkMovementMethod;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -118,14 +117,14 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 		}
 		scale = getResources().getDisplayMetrics().density;
 		screenWidth = (int) (getResources().getDisplayMetrics().widthPixels / scale);
-		Log.d(LOG_TAG, "screen width = " + screenWidth);
+		MyApp.LogDebug(LOG_TAG, "screen width = " + screenWidth);
 		screenWidth -= 38;	// Breite für Zeitenspalte
 		switch (getResources().getConfiguration().orientation) {
 			case Configuration.ORIENTATION_PORTRAIT:
 				if (findViewById(R.id.horizScroller) != null) {
 					int width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
 		                     (float) screenWidth, getResources().getDisplayMetrics());
-					Log.d(LOG_TAG, "adjust column width to " + width);
+					MyApp.LogDebug(LOG_TAG, "adjust column width to " + width);
 					LinearLayout l = (LinearLayout) findViewById(R.id.raum1);
 					LayoutParams p = (LayoutParams) l.getLayoutParams();
 					p.width = width;
@@ -186,9 +185,9 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 		String lecture_id = intent.getStringExtra("lecture_id");
 
 		if (lecture_id != null) {
-			Log.d(LOG_TAG,"Open with lecture_id "+lecture_id);
+			MyApp.LogDebug(LOG_TAG,"Open with lecture_id "+lecture_id);
 			mDay = intent.getIntExtra("day", mDay);
-			Log.d(LOG_TAG,"day "+mDay);
+			MyApp.LogDebug(LOG_TAG,"day "+mDay);
 		}
 
 		if (MyApp.numdays > 0) {
@@ -199,17 +198,17 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 
 		switch (MyApp.task_running) {
 		case FETCH:
-			Log.d(LOG_TAG, "fetch was pending, restart");
+			MyApp.LogDebug(LOG_TAG, "fetch was pending, restart");
 			showFetchingStatus();
 			viewDay(false);
 			break;
 		case PARSE:
-			Log.d(LOG_TAG, "parse was pending, restart");
+			MyApp.LogDebug(LOG_TAG, "parse was pending, restart");
 			showParsingStatus();
 			break;
 		case NONE:
 			if (MyApp.numdays == 0) {
-				Log.d(LOG_TAG,"fetch in onCreate bc. numdays==0");
+				MyApp.LogDebug(LOG_TAG,"fetch in onCreate bc. numdays==0");
 				fetchFahrplan();
 			} else {
 				viewDay(lecture_id != null);	// auf jeden Fall reload, wenn mit Lecture ID gestartet
@@ -271,7 +270,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 
 	@Override
 	public void onDestroy() {
-		Log.d(LOG_TAG, "onDestroy");
+		MyApp.LogDebug(LOG_TAG, "onDestroy");
 		super.onDestroy();
 		if (MyApp.fetcher != null) {
 			MyApp.fetcher.setActivity(null);
@@ -288,7 +287,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 
 	@Override
 	public void onResume() {
-		Log.d(LOG_TAG, "onResume");
+		MyApp.LogDebug(LOG_TAG, "onResume");
 		super.onResume();
 		fillTimes();
 		supportInvalidateOptionsMenu();
@@ -319,7 +318,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 	public void showFetchingStatus() {
 		if (MyApp.numdays == 0) {
 			// initial load
-			Log.d(LOG_TAG, "fetchFahrplan with numdays == 0");
+			MyApp.LogDebug(LOG_TAG, "fetchFahrplan with numdays == 0");
 			progress = ProgressDialog.show(this, "", getResources().getString(
 					R.string.progress_loading_data), true);
 		} else {
@@ -335,7 +334,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 			showFetchingStatus();
 			fetcher.fetch("/congress/2013/Fahrplan/schedule.xml", MyApp.eTag);
 		} else {
-			Log.d(LOG_TAG, "fetch already in progress");
+			MyApp.LogDebug(LOG_TAG, "fetch already in progress");
 		}
 	}
 
@@ -365,7 +364,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 	private void viewDay(boolean reload) {
 //		Log.d(LOG_TAG, "viewDay("+reload+")");
 		if (loadLectureList(this, mDay, reload) == false) {
-			Log.d(LOG_TAG,"fetch on loading empty lecture list");
+			MyApp.LogDebug(LOG_TAG,"fetch on loading empty lecture list");
 			fetchFahrplan();
 		}
 		scanDayLectures();
@@ -412,7 +411,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 		int col = -1;
 		if (horiz != null) {
 			col = horiz.getColumn();
-			Log.d(LOG_TAG, "y pos  = " + col);
+			MyApp.LogDebug(LOG_TAG, "y pos  = " + col);
 		}
 		int time = firstLectureStart;
 		int printTime = time;
@@ -438,8 +437,8 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 			for (Lecture l : MyApp.lectureList) {
 				if ((l.day == day) && (l.startTime <= time) && (l.startTime + l.duration > time)) {
 					if ((col == -1) || ((col >= 0) && (l.room.equals(rooms[col])))) {
-						Log.d(LOG_TAG, l.title);
-						Log.d(LOG_TAG, time + " " + l.startTime + "/" + l.duration);
+						MyApp.LogDebug(LOG_TAG, l.title);
+						MyApp.LogDebug(LOG_TAG, time + " " + l.startTime + "/" + l.duration);
 						scrollAmount -= ((time - l.startTime)/5) * height;
 						time = l.startTime;
 					}
@@ -483,11 +482,11 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 		int height;
 		switch (getResources().getConfiguration().orientation) {
 		case Configuration.ORIENTATION_LANDSCAPE:
-			Log.d(LOG_TAG, "landscape");
+			MyApp.LogDebug(LOG_TAG, "landscape");
 			height = (int) (getResources().getInteger(R.integer.box_height) * scale);
 			break;
 		default:
-			Log.d(LOG_TAG, "other orientation");
+			MyApp.LogDebug(LOG_TAG, "other orientation");
 			height = (int) (getResources().getInteger(R.integer.box_height) * scale);
 			break;
 		}
@@ -495,7 +494,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 			if (lecture_id.equals(lecture.lecture_id)) {
 				final ScrollView parent = (ScrollView)findViewById(R.id.scrollView1);
 				final int pos = (lecture.relStartTime - firstLectureStart)/5 * height;
-				Log.d(LOG_TAG, "position is "+pos);
+				MyApp.LogDebug(LOG_TAG, "position is "+pos);
 				parent.post(new Runnable() {
 
 					@Override
@@ -508,7 +507,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 					if (horiz != null) {
 						for (int i = 0; i < rooms.length; i++) {
 							if (rooms[i].equals(lecture.room)) {
-								Log.d(LOG_TAG,"scroll horiz to "+i);
+								MyApp.LogDebug(LOG_TAG,"scroll horiz to "+i);
 								final int hpos = i;
 								horiz.post(new Runnable() {
 
@@ -540,7 +539,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 	}
 
 	public void onGotResponse(HTTP_STATUS status, String response, String eTagStr) {
-		Log.d(LOG_TAG, "Response... " + status);
+		MyApp.LogDebug(LOG_TAG, "Response... " + status);
 		MyApp.task_running = TASKS.NONE;
 		if (status != HTTP_STATUS.HTTP_OK) {
 			switch (status) {
@@ -553,7 +552,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 
 								@Override
 								public void cert_accepted() {
-									Log.d(LOG_TAG, "fetch on cert accepted.");
+									MyApp.LogDebug(LOG_TAG, "fetch on cert accepted.");
 									fetchFahrplan();
 								}
 							}, (Object) null);
@@ -582,7 +581,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 			setProgressBarIndeterminateVisibility(false);
 			return;
 		}
-		Log.d(LOG_TAG, "yehhahh");
+		MyApp.LogDebug(LOG_TAG, "yehhahh");
 		if (MyApp.numdays == 0) {
 			if (progress != null) {
 				progress.dismiss();
@@ -637,11 +636,11 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 
 		switch (getResources().getConfiguration().orientation) {
 		case Configuration.ORIENTATION_LANDSCAPE:
-			Log.d(LOG_TAG, "landscape");
+			MyApp.LogDebug(LOG_TAG, "landscape");
 			height = (int) (getResources().getInteger(R.integer.box_height) * scale);
 			break;
 		default:
-			Log.d(LOG_TAG, "other orientation");
+			MyApp.LogDebug(LOG_TAG, "other orientation");
 			height = (int) (getResources().getInteger(R.integer.box_height) * scale);
 			break;
 		}
@@ -705,11 +704,11 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 
 		switch (getResources().getConfiguration().orientation) {
 		case Configuration.ORIENTATION_LANDSCAPE:
-			Log.d(LOG_TAG, "landscape");
+			MyApp.LogDebug(LOG_TAG, "landscape");
 			standardHeight = (int) (getResources().getInteger(R.integer.box_height) * scale);
 			break;
 		default:
-			Log.d(LOG_TAG, "other orientation");
+			MyApp.LogDebug(LOG_TAG, "other orientation");
 			standardHeight = (int) (getResources().getInteger(R.integer.box_height) * scale);
 			break;
 		}
@@ -796,14 +795,14 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 		cursor.close();
 
 		for (DateList dayL : MyApp.dateList) {
-			Log.d(LOG_TAG, "date day " + dayL.dayIdx + " = " + dayL.date);
+			MyApp.LogDebug(LOG_TAG, "date day " + dayL.dayIdx + " = " + dayL.date);
 		}
 		lecturesDB.close();
 		lecturedb.close();
 	}
 
 	public static boolean loadLectureList(Context context, int day, boolean force) {
-		Log.d(LOG_TAG, "load lectures of day " + day);
+		MyApp.LogDebug(LOG_TAG, "load lectures of day " + day);
 
 		if ((force == false) && (MyApp.lectureList != null) && (MyApp.lectureListDay == day)) return true;
 
@@ -839,8 +838,8 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 			lecturesDB.close();
 			return false;
 		}
-		Log.d(LOG_TAG, "Got " + cursor.getCount() + " rows.");
-		Log.d(LOG_TAG, "Got " + hCursor.getCount() + " highlight rows.");
+		MyApp.LogDebug(LOG_TAG, "Got " + cursor.getCount() + " rows.");
+		MyApp.LogDebug(LOG_TAG, "Got " + hCursor.getCount() + " highlight rows.");
 
 		if (cursor.getCount() == 0) {
 			cursor.close();
@@ -880,7 +879,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 		while (!hCursor.isAfterLast()) {
 			String lecture_id = hCursor.getString(1);
 			int highlighted = hCursor.getInt(2);
-			Log.d(LOG_TAG, "lecture "+lecture_id+" is hightlighted:"+highlighted);
+			MyApp.LogDebug(LOG_TAG, "lecture "+lecture_id+" is hightlighted:"+highlighted);
 
 			for (Lecture lecture : MyApp.lectureList) {
 				if (lecture.lecture_id.equals(lecture_id)) {
@@ -921,12 +920,12 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 			alarmDB.close();
 			return;
 		}
-		Log.d(LOG_TAG, "Got " + alarmCursor.getCount() + " alarm rows.");
+		MyApp.LogDebug(LOG_TAG, "Got " + alarmCursor.getCount() + " alarm rows.");
 
 		alarmCursor.moveToFirst();
 		while (!alarmCursor.isAfterLast()) {
 			String lecture_id = alarmCursor.getString(4);
-			Log.d(LOG_TAG, "lecture "+lecture_id+" has alarm");
+			MyApp.LogDebug(LOG_TAG, "lecture "+lecture_id+" has alarm");
 
 			for (Lecture lecture : MyApp.lectureList) {
 				if (lecture.lecture_id.equals(lecture_id)) {
@@ -981,7 +980,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 				MyApp.eTag = cursor.getString(6);
 		}
 
-		Log.d(LOG_TAG, "loadMeta: numdays=" + MyApp.numdays + " version:"
+		MyApp.LogDebug(LOG_TAG, "loadMeta: numdays=" + MyApp.numdays + " version:"
 				+ MyApp.version + " " + MyApp.title + " " + MyApp.eTag);
 		cursor.close();
 	}
@@ -989,7 +988,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 	@Override
 	public void onClick(View v) {
 		Lecture lecture = (Lecture) v.getTag();
-		Log.d(LOG_TAG, "Click on " + lecture.title);
+		MyApp.LogDebug(LOG_TAG, "Click on " + lecture.title);
 		Intent intent = new Intent(this, EventDetail.class);
 		intent.putExtra("title", lecture.title);
 		intent.putExtra("subtitle", lecture.subtitle);
@@ -1013,7 +1012,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 		currentDate.append("-");
 		currentDate.append(String.format("%02d", now.monthDay));
 
-		Log.d(LOG_TAG, "today is " + currentDate.toString());
+		MyApp.LogDebug(LOG_TAG, "today is " + currentDate.toString());
 
 		String[] days_menu = new String[MyApp.numdays];
 		for (int i = 0; i < MyApp.numdays; i++) {
@@ -1021,7 +1020,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 			sb.append(getString(R.string.day)).append(" ").append(i + 1);
 			for (DateList d : MyApp.dateList) {
 				if (d.dayIdx == (i + 1)) {
-					Log.d(LOG_TAG, "date of day " + sb.toString() + " is " + d.date);
+					MyApp.LogDebug(LOG_TAG, "date of day " + sb.toString() + " is " + d.date);
 					if (currentDate.toString().equals(d.date)) {
 						sb.append(" - ");
 						sb.append(getString(R.string.today));
@@ -1041,7 +1040,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 	}
 
 	public void onParseDone(Boolean result, String version) {
-		Log.d(LOG_TAG, "parseDone: " + result + " , numdays="+MyApp.numdays);
+		MyApp.LogDebug(LOG_TAG, "parseDone: " + result + " , numdays="+MyApp.numdays);
 		MyApp.task_running = TASKS.NONE;
 		MyApp.fahrplan_xml = null;
 
@@ -1089,7 +1088,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 		text.setText(getString(R.string.fahrplan) + " " + MyApp.version);
 		text = (TextView) layout.findViewById(R.id.eventTitle);
 		text.setText(MyApp.title);
-		Log.d(LOG_TAG, "title:" + MyApp.title);
+		MyApp.LogDebug(LOG_TAG, "title:" + MyApp.title);
 		text = (TextView) layout.findViewById(R.id.eventSubtitle);
 		text.setText(MyApp.subtitle);
 		text = (TextView) layout.findViewById(R.id.appVersion);
@@ -1139,7 +1138,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 							public void onClick(DialogInterface dialog,
 									int which) {
 								int alarm = spinner.getSelectedItemPosition();
-								Log.d(LOG_TAG, "alarm chosen: "+alarm);
+								MyApp.LogDebug(LOG_TAG, "alarm chosen: "+alarm);
 								addAlarm(Fahrplan.this, lecture, alarm);
 								setBell(lecture);
 							}
@@ -1160,7 +1159,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 					null, null);
 		} catch (SQLiteException e) {
 			e.printStackTrace();
-			Log.d("delete alarm","failure on alarm query");
+			MyApp.LogDebug("delete alarm","failure on alarm query");
 			db.close();
 			return;
 		}
@@ -1168,7 +1167,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 		if (cursor.getCount() == 0) {
 			db.close();
 			cursor.close();
-			Log.d("delete_alarm", "alarm for " + lecture.lecture_id + " not found");
+			MyApp.LogDebug("delete_alarm", "alarm for " + lecture.lecture_id + " not found");
 			return;
 		}
 
@@ -1209,7 +1208,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 		// when = System.currentTimeMillis() + (30 * 1000);
 
 		time.set(when);
-		Log.d("addAlarm", "Alarm time: "+when);
+		MyApp.LogDebug("addAlarm", "Alarm time: "+when);
 
 
 		Intent intent = new Intent(context, AlarmReceiver.class);
@@ -1289,7 +1288,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 		int menuItemIndex = item.getItemId();
 		Lecture lecture = (Lecture)contextMenuView.getTag();
 
-		Log.d(LOG_TAG,"clicked on "+((Lecture)contextMenuView.getTag()).lecture_id);
+		MyApp.LogDebug(LOG_TAG,"clicked on "+((Lecture)contextMenuView.getTag()).lecture_id);
 
 		switch (menuItemIndex) {
 		case 0:
@@ -1372,7 +1371,7 @@ public class Fahrplan extends SherlockActivity implements OnClickListener, OnNav
 			case MyApp.ALARMLIST:
 			case MyApp.EVENTVIEW:
 				if (resultCode == RESULT_OK) {
-					Log.d(LOG_TAG, "Reload alarms");
+					MyApp.LogDebug(LOG_TAG, "Reload alarms");
 					loadAlarms(this);
 					refreshViews();
 				}

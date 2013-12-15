@@ -3,10 +3,11 @@ package nerd.tuxmobil.fahrplan.congress;
 import java.util.ArrayList;
 
 import android.app.Application;
+import android.util.Log;
 
 public class MyApp extends Application {
 	public static Application app = null;
-	public static boolean DEBUG = true;
+	public static boolean DEBUG = false;
 	public static ArrayList<Lecture> lectureList = null;
 	public static int numdays;
 	public static String version;
@@ -42,4 +43,9 @@ public class MyApp extends Application {
         lectureList = null;
     }
 
+	public static void LogDebug(String tag, String message) {
+		if (DEBUG == true) {
+			Log.d(tag, message);
+		}
+	}
 }
