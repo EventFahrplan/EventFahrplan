@@ -38,6 +38,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.LinearLayout.LayoutParams;
 
+interface OnRefreshEventMarers {
+	public void refreshEventMarkers();
+}
+
 public class FahrplanFragment extends SherlockFragment implements OnClickListener, OnNavigationListener, OnParseCompleteListener {
 	private MyApp global;
 	private static String LOG_TAG = "Fahrplan";
@@ -676,17 +680,10 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 	public void onClick(View v) {
 		Lecture lecture = (Lecture) v.getTag();
 		MyApp.LogDebug(LOG_TAG, "Click on " + lecture.title);
-		Intent intent = new Intent(getSherlockActivity(), EventDetail.class);
-		intent.putExtra("title", lecture.title);
-		intent.putExtra("subtitle", lecture.subtitle);
-		intent.putExtra("abstract", lecture.abstractt);
-		intent.putExtra("descr", lecture.description);
-		intent.putExtra("spkr", lecture.speakers.replaceAll(";", ", "));
-		intent.putExtra("links", lecture.links);
-		intent.putExtra("eventid", lecture.lecture_id);
-		intent.putExtra("time", lecture.startTime);
-		intent.putExtra("day", mDay);
-		startActivityForResult(intent, MyApp.EVENTVIEW);
+		MainActivity main = (MainActivity) getSherlockActivity();
+		if (main != null) {
+			main.openLectureDetail(lecture, mDay);
+		}
 	}
 
 	public void build_navigation_menu() {
@@ -864,20 +861,10 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 		}
 	}
 
-	public void onActivityResult(int requestCode, int resultCode, Intent intent)
-	{
-		super.onActivityResult(requestCode, resultCode, intent);
-
-		switch (requestCode) {
-			case MyApp.ALARMLIST:
-			case MyApp.EVENTVIEW:
-				if (resultCode == SherlockFragmentActivity.RESULT_OK) {
-					MyApp.LogDebug(LOG_TAG, "Reload alarms");
-					loadAlarms(getSherlockActivity());
-					refreshViews();
-				}
-				break;
-		}
+	public void refreshEventMarkers() {
+		MyApp.LogDebug(LOG_TAG, "Reload alarms");
+		loadAlarms(getSherlockActivity());
+		refreshViews();
 	}
 
 	@Override

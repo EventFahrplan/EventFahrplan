@@ -24,10 +24,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.LinearLayout;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
-public class MainActivity extends SherlockFragmentActivity implements OnParseCompleteListener, OnDownloadCompleteListener {
+public class MainActivity extends SherlockFragmentActivity implements OnParseCompleteListener, OnDownloadCompleteListener, OnCloseDetailListener, OnRefreshEventMarers {
 
 	private static final String LOG_TAG = "MainActivity";
 	private FetchFahrplan fetcher;
@@ -92,6 +92,14 @@ public class MainActivity extends SherlockFragmentActivity implements OnParseCom
 			fragmentTransaction.commit();
 		}
 
+		if (findViewById(R.id.detail) == null) {
+			FragmentManager fm = getSupportFragmentManager();
+			Fragment detail = fm.findFragmentByTag("detail");
+			if (detail != null) {
+				FragmentTransaction ft = fm.beginTransaction();
+				ft.remove(detail).commit();
+			}
+		}
 	}
 
 	public void parseFahrplan() {
@@ -300,6 +308,78 @@ public class MainActivity extends SherlockFragmentActivity implements OnParseCom
 		default:
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	public void openLectureDetail(Lecture lecture, int mDay) {
+		FrameLayout sidePane = (FrameLayout) findViewById(R.id.detail);
+		MyApp.LogDebug(LOG_TAG, "openLectureDetail sidePane="+sidePane);
+		if (sidePane != null) {
+			sidePane.setVisibility(View.VISIBLE);
+			FragmentManager fm = getSupportFragmentManager();
+			FragmentTransaction fragmentTransaction = fm.beginTransaction();
+			EventDetailFragment ev = new EventDetailFragment();
+			Bundle args = new Bundle();
+			args.putString("title", lecture.title);
+			args.putString("subtitle", lecture.subtitle);
+			args.putString("abstract", lecture.abstractt);
+			args.putString("descr", lecture.description);
+			args.putString("spkr", lecture.speakers.replaceAll(";", ", "));
+			args.putString("links", lecture.links);
+			args.putString("eventid", lecture.lecture_id);
+			args.putInt("time", lecture.startTime);
+			args.putInt("day", mDay);
+			args.putBoolean("sidepane", true);
+			ev.setArguments(args);
+			fragmentTransaction.replace(R.id.detail, ev, "detail");
+			fragmentTransaction.commit();
+		} else {
+			Intent intent = new Intent(this, EventDetail.class);
+			intent.putExtra("title", lecture.title);
+			intent.putExtra("subtitle", lecture.subtitle);
+			intent.putExtra("abstract", lecture.abstractt);
+			intent.putExtra("descr", lecture.description);
+			intent.putExtra("spkr", lecture.speakers.replaceAll(";", ", "));
+			intent.putExtra("links", lecture.links);
+			intent.putExtra("eventid", lecture.lecture_id);
+			intent.putExtra("time", lecture.startTime);
+			intent.putExtra("day", mDay);
+			startActivityForResult(intent, MyApp.EVENTVIEW);
+		}
+	}
+
+	@Override
+	public void closeDetailView() {
+		View sidePane = findViewById(R.id.detail);
+		if (sidePane != null) sidePane.setVisibility(View.GONE);
+		FragmentManager fm = getSupportFragmentManager();
+		Fragment fragment = fm.findFragmentByTag("detail");
+		if (fragment != null) {
+			FragmentTransaction fragmentTransaction = fm.beginTransaction();
+			fragmentTransaction.remove(fragment).commit();
+		}
+	}
+
+	@Override
+	public void refreshEventMarkers() {
+		FragmentManager fm = getSupportFragmentManager();
+		Fragment fragment = fm.findFragmentByTag("schedule");
+		if (fragment != null) {
+			((FahrplanFragment)fragment).refreshEventMarkers();
+		}
+	}
+
+	public void onActivityResult(int requestCode, int resultCode, Intent intent)
+	{
+		super.onActivityResult(requestCode, resultCode, intent);
+
+		switch (requestCode) {
+			case MyApp.ALARMLIST:
+			case MyApp.EVENTVIEW:
+				if (resultCode == SherlockFragmentActivity.RESULT_OK) {
+					refreshEventMarkers();
+				}
+				break;
+		}
 	}
 
 }
