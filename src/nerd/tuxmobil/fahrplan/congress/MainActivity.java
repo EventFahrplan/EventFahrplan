@@ -7,6 +7,7 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.Window;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -22,8 +23,6 @@ import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -33,16 +32,14 @@ public class MainActivity extends SherlockFragmentActivity implements OnParseCom
 	private FetchFahrplan fetcher;
 	private FahrplanParser parser;
 	private ProgressDialog progress = null;
-	private TextView statusLineText;
-	private LinearLayout statusBar;
-	private Animation slideUpIn;
-	private Animation slideDownOut;
 	private MyApp global;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		MyApp.LogDebug(LOG_TAG, "onCreate");
+		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		setContentView(R.layout.main_layout);
 		if (MyApp.fetcher == null) {
 			fetcher = new FetchFahrplan();
@@ -56,13 +53,6 @@ public class MainActivity extends SherlockFragmentActivity implements OnParseCom
 		}
 		progress = null;
 		global = (MyApp) getApplicationContext();
-		statusLineText = (TextView) findViewById(R.id.statusLineText);
-
-		statusBar = (LinearLayout) findViewById(R.id.statusLine);
-		statusBar.setVisibility(View.GONE);
-
-		slideUpIn = AnimationUtils.loadAnimation(this, R.anim.slide_up_in);
-		slideDownOut = AnimationUtils.loadAnimation(this, R.anim.slide_down_out);
 
 		FahrplanMisc.loadMeta(this);
 		FahrplanMisc.loadDays(this);
@@ -111,6 +101,12 @@ public class MainActivity extends SherlockFragmentActivity implements OnParseCom
 	public void onGotResponse(HTTP_STATUS status, String response, String eTagStr) {
 		MyApp.LogDebug(LOG_TAG, "Response... " + status);
 		MyApp.task_running = TASKS.NONE;
+		if (MyApp.numdays == 0) {
+			if (progress != null) {
+				progress.dismiss();
+				progress = null;
+			}
+		}
 		if (status != HTTP_STATUS.HTTP_OK) {
 			switch (status) {
 				case HTTP_CANCELLED:
@@ -130,40 +126,10 @@ public class MainActivity extends SherlockFragmentActivity implements OnParseCom
 				break;
 			}
 			CustomHttpClient.showHttpError(this, global, status);
-			if (MyApp.numdays == 0) {
-				if (progress != null) {
-					progress.dismiss();
-					progress = null;
-				}
-			} else {
-				statusBar.startAnimation(slideDownOut);
-				statusBar.setVisibility(View.GONE);
-				if (MyApp.numdays == 0) {
-					if (progress != null) {
-						progress.dismiss();
-						progress = null;
-					}
-				}
-			}
 			setProgressBarIndeterminateVisibility(false);
 			return;
 		}
 		MyApp.LogDebug(LOG_TAG, "yehhahh");
-		if (MyApp.numdays == 0) {
-			if (progress != null) {
-				progress.dismiss();
-				progress = null;
-			}
-		} else {
-			statusBar.startAnimation(slideDownOut);
-			statusBar.setVisibility(View.GONE);
-			if (MyApp.numdays == 0) {
-				if (progress != null) {
-					progress.dismiss();
-					progress = null;
-				}
-			}
-		}
 		setProgressBarIndeterminateVisibility(false);
 
 		MyApp.fahrplan_xml = response;
@@ -183,11 +149,8 @@ public class MainActivity extends SherlockFragmentActivity implements OnParseCom
 				progress.dismiss();
 				progress = null;
 			}
-		} else {
-			MyApp.LogDebug(LOG_TAG, "hide status");
-			statusBar.startAnimation(slideDownOut);
-			statusBar.setVisibility(View.GONE);
 		}
+		setProgressBarIndeterminateVisibility(false);
 		FragmentManager fm = getSupportFragmentManager();
 		Fragment fragment = fm.findFragmentByTag("schedule");
 		if ((fragment != null) && (fragment instanceof OnParseCompleteListener)) {
@@ -203,9 +166,7 @@ public class MainActivity extends SherlockFragmentActivity implements OnParseCom
 					R.string.progress_loading_data), true);
 		} else {
 			MyApp.LogDebug(LOG_TAG, "show fetch status");
-			statusLineText.setText(getString(R.string.progress_loading_data));
-			statusBar.setVisibility(View.VISIBLE);
-			statusBar.startAnimation(slideUpIn);
+			setProgressBarIndeterminateVisibility(true);
 		}
 	}
 
@@ -216,11 +177,7 @@ public class MainActivity extends SherlockFragmentActivity implements OnParseCom
 					R.string.progress_processing_data), true);
 		} else {
 			MyApp.LogDebug(LOG_TAG, "show parse status");
-			statusLineText.setText(getString(R.string.progress_processing_data));
-			if (statusBar.getVisibility() != View.VISIBLE) {
-				statusBar.setVisibility(View.VISIBLE);
-				statusBar.startAnimation(slideUpIn);
-			}
+			setProgressBarIndeterminateVisibility(true);
 		}
 	}
 
