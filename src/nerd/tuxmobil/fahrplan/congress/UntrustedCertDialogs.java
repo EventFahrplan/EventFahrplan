@@ -9,6 +9,9 @@ import java.security.cert.X509Certificate;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.TextView;
 
 
 interface cert_accepted {
@@ -89,9 +92,10 @@ public class UntrustedCertDialogs {
 			chainInfo.append("SHA1 Fingerprint: " + getFingerPrint(chain[i])).append("\n");
 		}
 
-		new AlertDialog.Builder(ctx).setTitle(
-				ctx.getString(R.string.dlg_invalid_certificate_title)).setMessage(
-				ctx.getString(msgResId, exMessage) + " " + chainInfo.toString())
+		LayoutInflater inflater = ctx.getLayoutInflater();
+
+		AlertDialog.Builder builder = new AlertDialog.Builder(ctx).setTitle(
+				ctx.getString(R.string.dlg_invalid_certificate_title))
 				.setCancelable(true).setPositiveButton(
 						ctx.getString(R.string.dlg_invalid_certificate_accept),
 						new DialogInterface.OnClickListener() {
@@ -116,7 +120,11 @@ public class UntrustedCertDialogs {
 							public void onClick(DialogInterface dialog,
 									int which) {
 							}
-						}).show();
+						});
+		View msgView = inflater.inflate(R.layout.cert_dialog, null);
+		((TextView)msgView.findViewById(R.id.cert)).setText(ctx.getString(msgResId, exMessage) + "\n\n" + chainInfo.toString());
+		builder.setView(msgView);
+		builder.show();
 	}
 
 }
