@@ -60,4 +60,5 @@
 	<string name="unflag_as_favorite">Wichtig Markierung entfernen</string>
 	<string name="uptodate">Fahrplan ist aktuell.</string>
 	<string name="close_detail">Detailansicht schließen</string>
+	<string name="pref_auto_download">Automatische Updates</string>
 </resources>
