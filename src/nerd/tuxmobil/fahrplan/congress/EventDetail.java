@@ -26,7 +26,7 @@ public class EventDetail extends SherlockFragmentActivity {
 			args.putString("subtitle", intent.getStringExtra("subtitle"));
 			args.putString("abstract", intent.getStringExtra("abstract"));
 			args.putString("descr", intent.getStringExtra("descr"));
-			args.putString("spkr", intent.getStringExtra("skpr"));
+			args.putString("spkr", intent.getStringExtra("spkr"));
 			args.putString("links", intent.getStringExtra("links"));
 			args.putString("eventid", intent.getStringExtra("eventid"));
 			args.putInt("time", intent.getIntExtra("time", 0));
