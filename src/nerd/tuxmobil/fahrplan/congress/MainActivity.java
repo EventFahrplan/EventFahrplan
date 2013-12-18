@@ -13,12 +13,16 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Html;
+import android.text.format.Time;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -70,7 +74,7 @@ public class MainActivity extends SherlockFragmentActivity implements OnParseCom
 		case NONE:
 			if (MyApp.numdays == 0) {
 				MyApp.LogDebug(LOG_TAG,"fetch in onCreate bc. numdays==0");
-				fetchFahrplan();
+				fetchFahrplan(this);
 			}
 			break;
 		}
@@ -95,6 +99,7 @@ public class MainActivity extends SherlockFragmentActivity implements OnParseCom
 	public void parseFahrplan() {
 		showParsingStatus();
 		MyApp.task_running = TASKS.PARSE;
+		parser.setListener(this);
 		parser.parse(MyApp.fahrplan_xml, MyApp.eTag);
 	}
 
@@ -106,6 +111,15 @@ public class MainActivity extends SherlockFragmentActivity implements OnParseCom
 				progress.dismiss();
 				progress = null;
 			}
+		}
+		if ((status == HTTP_STATUS.HTTP_OK) || (status == HTTP_STATUS.HTTP_NOT_MODIFIED)) {
+			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+			Time now = new Time();
+			now.setToNow();
+			long millis = now.toMillis(true);
+			Editor edit = prefs.edit();
+			edit.putLong("last_fetch", millis);
+			edit.commit();
 		}
 		if (status != HTTP_STATUS.HTTP_OK) {
 			switch (status) {
@@ -119,7 +133,7 @@ public class MainActivity extends SherlockFragmentActivity implements OnParseCom
 								@Override
 								public void cert_accepted() {
 									MyApp.LogDebug(LOG_TAG, "fetch on cert accepted.");
-									fetchFahrplan();
+									fetchFahrplan(MainActivity.this);
 								}
 							}, (Object) null);
 				}
@@ -181,11 +195,12 @@ public class MainActivity extends SherlockFragmentActivity implements OnParseCom
 		}
 	}
 
-	public void fetchFahrplan() {
+	public void fetchFahrplan(OnDownloadCompleteListener completeListener) {
 		if (MyApp.task_running == TASKS.NONE) {
 			MyApp.task_running = TASKS.FETCH;
 			showFetchingStatus();
-			fetcher.fetch("/congress/2013/Fahrplan/schedule.xml", MyApp.eTag);
+			fetcher.setListener(completeListener);
+			fetcher.fetch(MyApp.schedulePath, MyApp.eTag);
 		} else {
 			MyApp.LogDebug(LOG_TAG, "fetch already in progress");
 		}
@@ -249,7 +264,7 @@ public class MainActivity extends SherlockFragmentActivity implements OnParseCom
 		Intent intent;
 		switch (item.getItemId()) {
 		case R.id.item_refresh:
-			fetchFahrplan();
+			fetchFahrplan(this);
 			return true;
 		case R.id.item_about:
 			aboutDialog();

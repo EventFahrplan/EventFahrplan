@@ -5,10 +5,12 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.text.format.Time;
 
 public final class onBootReceiver extends BroadcastReceiver {
@@ -56,8 +58,8 @@ public final class onBootReceiver extends BroadcastReceiver {
 				alarmintent.putExtra("day", day);
 				alarmintent.putExtra("title", title);
 				alarmintent.putExtra("startTime", startTime);
+				alarmintent.setAction(AlarmReceiver.ALARM_LECTURE);
 
-				alarmintent.setAction("de.machtnix.fahrplan.ALARM");
 				alarmintent.setData(Uri.parse("alarm://"+lecture_id));
 
 				PendingIntent pendingintent = PendingIntent.getBroadcast(context, Integer.parseInt(lecture_id), alarmintent, 0);
@@ -79,5 +81,25 @@ public final class onBootReceiver extends BroadcastReceiver {
 		}
 		cursor.close();
 		db.close();
+
+		if (ConnectivityStateReceiver.isEnabled(context)) ConnectivityStateReceiver.disableReceiver(context);
+
+		// start auto updates
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+		boolean do_auto_updates = prefs.getBoolean("auto_update", false);
+		if (do_auto_updates) {
+			long last_fetch = prefs.getLong("last_fetch", 0);
+			long now_millis;
+			now.setToNow();
+			now_millis = now.toMillis(true);
+
+			long interval = FahrplanMisc.setUpdateAlarm(context, true);
+
+			MyApp.LogDebug(LOG_TAG, "now: " + now_millis + ", last_fetch: " + last_fetch);
+			if ((interval > 0) && (now_millis - last_fetch >= interval)) {
+				Intent updateIntent = new Intent(context, UpdateService.class);
+				context.startService(updateIntent);
+			}
+		}
     }
 }

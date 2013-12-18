@@ -153,8 +153,6 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 		if (MyApp.numdays > 0) {
 			build_navigation_menu();
 		}
-		MyApp.fetcher.setListener((OnDownloadCompleteListener)getSherlockActivity());	// save current activity and trigger possible completion event
-		MyApp.parser.setListener((OnParseCompleteListener)getSherlockActivity());		// save current activity and trigger possible completion event
 
 		switch (MyApp.task_running) {
 		case FETCH:

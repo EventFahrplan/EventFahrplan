@@ -210,8 +210,8 @@ public class FahrplanMisc {
 		intent.putExtra("day", lecture.day);
 		intent.putExtra("title", lecture.title);
 		intent.putExtra("startTime", startTime);
+		intent.setAction(AlarmReceiver.ALARM_LECTURE);
 
-		intent.setAction("de.machtnix.fahrplan.ALARM");
 		intent.setData(Uri.parse("alarm://"+lecture.lecture_id));
 
 		AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
@@ -275,6 +275,65 @@ public class FahrplanMisc {
 			db.endTransaction();
 			db.close();
 		}
+	}
+
+	public static long setUpdateAlarm(Context context, boolean initial) {
+		AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+
+		Intent alarmintent = new Intent(context, AlarmReceiver.class);
+		alarmintent.setAction(AlarmReceiver.ALARM_UPDATE);
+
+		PendingIntent pendingintent = PendingIntent.getBroadcast(context, 0, alarmintent, 0);
+
+		MyApp.LogDebug(LOG_TAG, "set update alarm");
+		long next_fetch;
+		long interval;
+		Time t = new Time();
+		t.setToNow();
+		long now = t.toMillis(true);
+
+		if ((now >= MyApp.first_day_start) && (now < MyApp.last_day_end)) {
+			interval = 2 * AlarmManager.INTERVAL_HOUR;
+			next_fetch = now + interval;
+		} if (now >= MyApp.last_day_end) {
+			MyApp.LogDebug(LOG_TAG, "cancel alarm post congress");
+			alarmManager.cancel(pendingintent);
+			return 0;
+		} else {
+			interval = AlarmManager.INTERVAL_DAY;
+			next_fetch = now + interval;
+		}
+
+		if ((now < MyApp.first_day_start) && ((now + AlarmManager.INTERVAL_DAY) >= MyApp.first_day_start)) {
+			next_fetch = MyApp.first_day_start;
+			interval = 2 * AlarmManager.INTERVAL_HOUR;
+			if (!initial) {
+				MyApp.LogDebug(LOG_TAG, "update alarm to interval " + interval + ", next in " + (next_fetch-now));
+				alarmManager.cancel(pendingintent);
+				alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, next_fetch, interval, pendingintent);
+			}
+		}
+
+		if (initial) {
+			MyApp.LogDebug(LOG_TAG, "set initial alarm to interval " + interval + ", next in " + (next_fetch-now));
+			alarmManager.cancel(pendingintent);
+			alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, next_fetch, interval, pendingintent);
+		}
+
+		return interval;
+	}
+
+	public static void clearUpdateAlarm(Context context) {
+		AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+
+		Intent alarmintent = new Intent(context, AlarmReceiver.class);
+		alarmintent.setAction(AlarmReceiver.ALARM_UPDATE);
+
+		PendingIntent pendingintent = PendingIntent.getBroadcast(context, 0, alarmintent, 0);
+
+		MyApp.LogDebug(LOG_TAG, "clear update alarm");
+
+		alarmManager.cancel(pendingintent);
 	}
 
 }

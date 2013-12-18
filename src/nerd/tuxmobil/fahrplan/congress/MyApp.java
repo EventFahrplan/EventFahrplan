@@ -16,6 +16,9 @@ public class MyApp extends Application {
 	public static ArrayList<DateList> dateList = null;
 	public static FetchFahrplan fetcher = null;
 	public static FahrplanParser parser = null;
+	public static String schedulePath = "/congress/2013/Fahrplan/schedule.xml";
+	public static long first_day_start = 1388098800000l;
+	public static long last_day_end = 1388444400000l;
 
 	enum TASKS {
 		NONE,
