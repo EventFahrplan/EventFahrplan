@@ -23,7 +23,7 @@ import android.text.format.Time;
 import android.view.View;
 import android.widget.FrameLayout;
 
-public class MainActivity extends SherlockFragmentActivity implements OnParseCompleteListener, OnDownloadCompleteListener, OnCloseDetailListener, OnRefreshEventMarers {
+public class MainActivity extends SherlockFragmentActivity implements OnParseCompleteListener, OnDownloadCompleteListener, OnCloseDetailListener, OnRefreshEventMarers, OnCertAccepted {
 
 	private static final String LOG_TAG = "MainActivity";
 	private FetchFahrplan fetcher;
@@ -66,7 +66,7 @@ public class MainActivity extends SherlockFragmentActivity implements OnParseCom
 			showParsingStatus();
 			break;
 		case NONE:
-			if (MyApp.numdays == 0) {
+			if ((MyApp.numdays == 0) && (savedInstanceState == null)) {
 				MyApp.LogDebug(LOG_TAG,"fetch in onCreate bc. numdays==0");
 				fetchFahrplan(this);
 			}
@@ -119,19 +119,12 @@ public class MainActivity extends SherlockFragmentActivity implements OnParseCom
 			switch (status) {
 				case HTTP_CANCELLED:
 					break;
-				case HTTP_LOGIN_FAIL_UNTRUSTED_CERTIFICATE: {
-					UntrustedCertDialogs.acceptKeyDialog(
-							R.string.dlg_certificate_message_fmt, this,
-							new cert_accepted() {
-
-								@Override
-								public void cert_accepted() {
-									MyApp.LogDebug(LOG_TAG, "fetch on cert accepted.");
-									fetchFahrplan(MainActivity.this);
-								}
-							}, (Object) null);
-				}
-				break;
+				case HTTP_LOGIN_FAIL_UNTRUSTED_CERTIFICATE:
+					CertificateDialogFragment dlg = new CertificateDialogFragment();
+					Bundle args = new Bundle();
+					args.putInt("msgResId", R.string.dlg_certificate_message_fmt);
+					dlg.show(getSupportFragmentManager(), "cert_dlg");
+					break;
 			}
 			CustomHttpClient.showHttpError(this, global, status);
 			setProgressBarIndeterminateVisibility(false);
@@ -316,6 +309,12 @@ public class MainActivity extends SherlockFragmentActivity implements OnParseCom
 				}
 				break;
 		}
+	}
+
+	@Override
+	public void cert_accepted() {
+		MyApp.LogDebug(LOG_TAG, "fetch on cert accepted.");
+		fetchFahrplan(MainActivity.this);
 	}
 
 }

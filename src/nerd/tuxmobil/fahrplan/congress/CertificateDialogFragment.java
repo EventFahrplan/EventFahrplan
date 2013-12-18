@@ -6,19 +6,31 @@ import java.security.cert.CertificateEncodingException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 
+import com.actionbarsherlock.app.SherlockDialogFragment;
+
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
-
-interface cert_accepted {
+interface OnCertAccepted {
 	void cert_accepted();
 }
 
-public class UntrustedCertDialogs {
+public class CertificateDialogFragment extends SherlockDialogFragment {
+
+	private OnCertAccepted listener;
+	private X509Certificate[] chain;
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		listener = (OnCertAccepted)activity;
+	}
 
 	private static void showErrorDialog(final int msgResId, final Activity ctx, final Object... args) {
 		new AlertDialog.Builder(ctx).setTitle(
@@ -56,8 +68,9 @@ public class UntrustedCertDialogs {
 		return hash.toString();
 	}
 
-	public static void acceptKeyDialog(final int msgResId, final Activity ctx, final cert_accepted accept_callback, final Object... args) {
-		final X509Certificate[] chain = TrustManagerFactory.getLastCertChain();
+	@Override
+	public Dialog onCreateDialog(Bundle savedInstanceState) {
+		chain = TrustManagerFactory.getLastCertChain();
 		String exMessage = "Unknown Error";
 
 		Exception ex = ((Exception) CustomHttpClient.getSSLException());
@@ -92,39 +105,36 @@ public class UntrustedCertDialogs {
 			chainInfo.append("SHA1 Fingerprint: " + getFingerPrint(chain[i])).append("\n");
 		}
 
-		LayoutInflater inflater = ctx.getLayoutInflater();
+		AlertDialog.Builder builder = new AlertDialog.Builder(getSherlockActivity())
+			.setTitle(getString(R.string.dlg_invalid_certificate_title))
+			.setCancelable(true).setPositiveButton(getString(R.string.dlg_invalid_certificate_accept),
 
-		AlertDialog.Builder builder = new AlertDialog.Builder(ctx).setTitle(
-				ctx.getString(R.string.dlg_invalid_certificate_title))
-				.setCancelable(true).setPositiveButton(
-						ctx.getString(R.string.dlg_invalid_certificate_accept),
 						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-									int which) {
+							public void onClick(DialogInterface dialog, int which) {
 								try {
-									TrustManagerFactory
-											.addCertificateChain(chain);
-									if (accept_callback != null) {
-										accept_callback.cert_accepted();
+									TrustManagerFactory.addCertificateChain(chain);
+									if (listener != null) {
+										listener.cert_accepted();
 									}
 								} catch (CertificateException e) {
-									showErrorDialog(
-											R.string.dlg_certificate_message_fmt, ctx,
-											e.getMessage() == null ? "" : e
-													.getMessage());
+									showErrorDialog(R.string.dlg_certificate_message_fmt, getSherlockActivity(),
+											e.getMessage() == null ? "" : e.getMessage());
 								}
 							}
-						}).setNegativeButton(
-						ctx.getString(R.string.dlg_invalid_certificate_reject),
+						})
+			.setNegativeButton(getString(R.string.dlg_invalid_certificate_reject),
+
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog,
 									int which) {
 							}
 						});
+
+		LayoutInflater inflater = getSherlockActivity().getLayoutInflater();
 		View msgView = inflater.inflate(R.layout.cert_dialog, null);
-		((TextView)msgView.findViewById(R.id.cert)).setText(ctx.getString(msgResId, exMessage) + "\n\n" + chainInfo.toString());
+		((TextView)msgView.findViewById(R.id.cert)).setText(getString(R.string.dlg_certificate_message_fmt, exMessage) + "\n\n" + chainInfo.toString());
 		builder.setView(msgView);
-		builder.show();
+		return builder.create();
 	}
 
 }
