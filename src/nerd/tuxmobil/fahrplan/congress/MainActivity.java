@@ -157,7 +157,6 @@ public class MainActivity extends SherlockFragmentActivity implements OnParseCom
 		MyApp.task_running = TASKS.NONE;
 		MyApp.fahrplan_xml = null;
 
-		setProgressBarIndeterminateVisibility(false);
 		if (MyApp.numdays == 0) {
 			if (progress != null) {
 				progress.dismiss();
