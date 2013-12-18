@@ -45,6 +45,7 @@ public class MainActivity extends SherlockFragmentActivity implements OnParseCom
 		MyApp.LogDebug(LOG_TAG, "onCreate");
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		setContentView(R.layout.main_layout);
+		getSupportActionBar().setTitle(R.string.fahrplan);
 		if (MyApp.fetcher == null) {
 			fetcher = new FetchFahrplan();
 		} else {
