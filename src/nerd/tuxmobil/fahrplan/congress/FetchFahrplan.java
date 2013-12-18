@@ -21,7 +21,6 @@ import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 
-import android.app.Activity;
 import android.os.AsyncTask;
 import android.util.Log;
 
