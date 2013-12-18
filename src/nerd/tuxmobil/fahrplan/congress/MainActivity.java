@@ -3,6 +3,7 @@ package nerd.tuxmobil.fahrplan.congress;
 import nerd.tuxmobil.fahrplan.congress.CustomHttpClient.HTTP_STATUS;
 import nerd.tuxmobil.fahrplan.congress.MyApp.TASKS;
 
+import com.actionbarsherlock.app.SherlockDialogFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -224,39 +225,10 @@ public class MainActivity extends SherlockFragmentActivity implements OnParseCom
 	}
 
 	void aboutDialog() {
-		LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-		View layout = inflater.inflate(R.layout.about_dialog, (ViewGroup) findViewById(R.id.layout_root));
-
-		TextView text = (TextView) layout.findViewById(R.id.eventVersion);
-		text.setText(getString(R.string.fahrplan) + " " + MyApp.version);
-		text = (TextView) layout.findViewById(R.id.eventTitle);
-		text.setText(MyApp.title);
-		MyApp.LogDebug(LOG_TAG, "title:" + MyApp.title);
-		text = (TextView) layout.findViewById(R.id.eventSubtitle);
-		text.setText(MyApp.subtitle);
-		text = (TextView) layout.findViewById(R.id.appVersion);
-		try {
-			text
-					.setText(getString(R.string.appVersion)
-							+ " "
-							+ getApplicationContext().getPackageManager()
-									.getPackageInfo("nerd.tuxmobil.fahrplan.congress", 0).versionName);
-		} catch (NameNotFoundException e) {
-			e.printStackTrace();
-			text.setText("");
-		}
-
-		TextView logo_copyright = (TextView)layout.findViewById(R.id.copyright_logo);
-		logo_copyright.setText(Html.fromHtml(getString(R.string.copyright_logo)));
-		logo_copyright.setMovementMethod(LinkMovementMethod.getInstance());
-
-		new AlertDialog.Builder(this).setTitle(getString(R.string.app_name))
-				.setView(layout).setPositiveButton(android.R.string.ok,
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-									int which) {
-							}
-						}).create().show();
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+		ft.addToBackStack(null);
+		SherlockDialogFragment about = new AboutDialog();
+		about.show(ft, "about");
 	}
 
 	@Override
