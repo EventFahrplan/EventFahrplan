@@ -2,7 +2,6 @@ package nerd.tuxmobil.fahrplan.congress;
 
 import java.util.Locale;
 
-import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
