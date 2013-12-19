@@ -742,9 +742,20 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 				viewDay(false);
 			}
 		} else {
-			// FIXME Fehlermeldung;
+			Toast.makeText(global.getApplicationContext(),
+					getParsingErrorMessage(version),
+					Toast.LENGTH_LONG).show();
 		}
 		getSherlockActivity().supportInvalidateOptionsMenu();
+	}
+
+	private String getParsingErrorMessage(final String version) {
+		if (version == null || version.length() < 1) {
+			return getString(R.string.parsing_error_generic);
+		}
+		else {
+			return getString(R.string.parsing_error_with_version, version);
+		}
 	}
 
 	void getAlarmTimeDialog(final Lecture lecture) {
