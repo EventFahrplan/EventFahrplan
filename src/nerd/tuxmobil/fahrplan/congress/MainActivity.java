@@ -38,6 +38,7 @@ public class MainActivity extends SherlockFragmentActivity implements OnParseCom
 		MyApp.LogDebug(LOG_TAG, "onCreate");
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		setContentView(R.layout.main_layout);
+		setSupportProgressBarIndeterminateVisibility(false);
 		getSupportActionBar().setTitle(R.string.fahrplan);
 		if (MyApp.fetcher == null) {
 			fetcher = new FetchFahrplan();
@@ -127,11 +128,11 @@ public class MainActivity extends SherlockFragmentActivity implements OnParseCom
 					break;
 			}
 			CustomHttpClient.showHttpError(this, global, status);
-			setProgressBarIndeterminateVisibility(false);
+			setSupportProgressBarIndeterminateVisibility(false);
 			return;
 		}
 		MyApp.LogDebug(LOG_TAG, "yehhahh");
-		setProgressBarIndeterminateVisibility(false);
+		setSupportProgressBarIndeterminateVisibility(false);
 
 		MyApp.fahrplan_xml = response;
 		MyApp.eTag = eTagStr;
@@ -150,7 +151,7 @@ public class MainActivity extends SherlockFragmentActivity implements OnParseCom
 				progress = null;
 			}
 		}
-		setProgressBarIndeterminateVisibility(false);
+		setSupportProgressBarIndeterminateVisibility(false);
 		FragmentManager fm = getSupportFragmentManager();
 		Fragment fragment = fm.findFragmentByTag("schedule");
 		if ((fragment != null) && (fragment instanceof OnParseCompleteListener)) {
@@ -166,7 +167,7 @@ public class MainActivity extends SherlockFragmentActivity implements OnParseCom
 					R.string.progress_loading_data), true);
 		} else {
 			MyApp.LogDebug(LOG_TAG, "show fetch status");
-			setProgressBarIndeterminateVisibility(true);
+			setSupportProgressBarIndeterminateVisibility(true);
 		}
 	}
 
@@ -177,7 +178,7 @@ public class MainActivity extends SherlockFragmentActivity implements OnParseCom
 					R.string.progress_processing_data), true);
 		} else {
 			MyApp.LogDebug(LOG_TAG, "show parse status");
-			setProgressBarIndeterminateVisibility(true);
+			setSupportProgressBarIndeterminateVisibility(true);
 		}
 	}
 
