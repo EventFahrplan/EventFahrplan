@@ -152,6 +152,7 @@ class parser extends AsyncTask<String, Void, Boolean> {
 				values.put("links", lecture.links);
 				values.put("relStart", lecture.relStartTime);
 				values.put("date", lecture.date);
+				values.put("dateUTC", lecture.dateUTC);
 				db.insert("lectures", null, values);
 			}
 			db.setTransactionSuccessful();
@@ -260,6 +261,11 @@ class parser extends AsyncTask<String, Void, Boolean> {
 								} else if (name.equals("duration")) {
 									parser.next();
 									if (parser.getText() != null) lecture.duration = Lecture.parseDuration(parser.getText());
+								} else if (name.equals("date")) {
+									parser.next();
+									if (parser.getText() != null) {
+										lecture.dateUTC = Lecture.parseDateTime(parser.getText());
+									}
 								}
 								break;
 							}

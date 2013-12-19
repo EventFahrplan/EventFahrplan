@@ -135,8 +135,13 @@ public class FahrplanMisc {
 		intent.putExtra(CalendarContract.Events.TITLE, l.title);
 		intent.putExtra(CalendarContract.Events.EVENT_LOCATION, l.room);
 
-		Time time = l.getTime();
-		long when = time.normalize(true);
+		long when;
+		if (l.dateUTC > 0) {
+			when = l.dateUTC;
+		} else {
+			Time time = l.getTime();
+			when = time.normalize(true);
+		}
 		intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, when);
 		intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, when + (l.duration * 60000));
 		context.startActivity(intent);
@@ -193,10 +198,20 @@ public class FahrplanMisc {
 	}
 
 	public static void addAlarm(Context context, Lecture lecture, int alarmTime) {
-		Time time = lecture.getTime();
-		long startTime = time.normalize(true);
-		int[] alarm_times = { 0, 5, 10, 15, 30, 45, 60 };
-		long when = time.normalize(true) - (alarm_times[alarmTime] * 60 * 1000);
+		int[] alarm_times = { 0, 5, 10, 15, 30, 5, 60 };
+		long when;
+		Time time;
+		long startTime;
+		if (lecture.dateUTC > 0) {
+			when = lecture.dateUTC;
+			startTime = lecture.dateUTC;
+			time = new Time();
+		} else {
+			time = lecture.getTime();
+			startTime = time.normalize(true);
+			when = time.normalize(true);
+		}
+		when -= (alarm_times[alarmTime] * 60 * 1000);
 
 		// DEBUG
 		// when = System.currentTimeMillis() + (30 * 1000);

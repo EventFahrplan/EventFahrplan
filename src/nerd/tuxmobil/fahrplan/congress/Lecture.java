@@ -1,5 +1,9 @@
 package nerd.tuxmobil.fahrplan.congress;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import android.text.format.Time;
 
 public class Lecture {
@@ -21,7 +25,8 @@ public class Lecture {
 	public String date;
 	public boolean highlight;
 	public boolean has_alarm;
-	
+	public long dateUTC;
+
 	public Lecture(String lecture_id) {
 		title = "";
 		subtitle = "";
@@ -41,6 +46,7 @@ public class Lecture {
 		this.lecture_id = lecture_id;
 		highlight = false;
 		has_alarm = false;
+		dateUTC = 0;
 	}
 
 	public static int parseStartTime(String text) {
@@ -52,7 +58,7 @@ public class Lecture {
 		String time[] = text.split(":");
 		return Integer.parseInt(time[0])*60 + Integer.parseInt(time[1]);
 	}
-	
+
 	public Time getTime() {
 		Time t = new Time();
 		String[] splitDate = date.split("-");
@@ -62,7 +68,19 @@ public class Lecture {
 		t.monthDay = Integer.parseInt(splitDate[2]);
 		t.hour = relStartTime / 60;
 		t.minute = relStartTime % 60;
-		
+
 		return t;
+	}
+
+	public static long parseDateTime(String text) {
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+		Date date;
+		try {
+			date = df.parse(text);
+			return date.getTime();
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return 0;
 	}
 }

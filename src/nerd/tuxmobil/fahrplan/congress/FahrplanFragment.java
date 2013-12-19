@@ -603,6 +603,7 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 			lecture.relStartTime = cursor.getInt(13);
 			lecture.date = cursor.getString(14);
 			lecture.links = cursor.getString(15);
+			lecture.dateUTC = cursor.getLong(16);
 
 			MyApp.lectureList.add(lecture);
 			cursor.moveToNext();
