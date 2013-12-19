@@ -140,6 +140,7 @@ public class EventDetailFragment extends SherlockFragment {
 	        	l.setVisibility(View.GONE);
 	        	t.setVisibility(View.GONE);
 	        }
+	        getSherlockActivity().supportInvalidateOptionsMenu();
     	}
         getSherlockActivity().setResult(SherlockFragmentActivity.RESULT_CANCELED);
     }
