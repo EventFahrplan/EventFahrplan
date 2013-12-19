@@ -30,6 +30,7 @@
 	<string name="settings">Settings</string>
 	<string name="alarms">Alarms</string>
 	<string name="delete">Delete</string>
+	<string name="event_online">Event online</string>
 	<string name="alarm_prompt">Reminder</string>
 	<string-array name="alarm_array">
 		<item>at start time</item>

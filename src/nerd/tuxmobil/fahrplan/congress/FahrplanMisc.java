@@ -128,6 +128,16 @@ public class FahrplanMisc {
 		context.startActivity(sendIntent);
 	}
 
+	public static String getEventUrl(final Context context, final String eventId) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(context.getString(R.string.schedule_domain_part));
+		sb.append(context.getString(R.string.schedule_part));
+		// TODO The event url can be localized by providing individual values
+		// for `schedule_event_part` in `values` and `values-de`.
+		sb.append(context.getString(R.string.schedule_event_part, eventId));
+		return sb.toString();
+	}
+
 	@SuppressLint("NewApi")
 	public static void addToCalender(Context context, Lecture l) {
 		Intent intent = new Intent(Intent.ACTION_INSERT, CalendarContract.Events.CONTENT_URI);

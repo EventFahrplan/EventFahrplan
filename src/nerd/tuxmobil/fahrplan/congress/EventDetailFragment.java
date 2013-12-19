@@ -140,6 +140,16 @@ public class EventDetailFragment extends SherlockFragment {
 	        	l.setVisibility(View.GONE);
 	        	t.setVisibility(View.GONE);
 	        }
+
+	        final TextView eventOnlineSection = (TextView) view.findViewById(R.id.eventOnlineSection);
+	        eventOnlineSection.setTypeface(bold);
+	        final TextView eventOnlineLink = (TextView) view.findViewById(R.id.eventOnline);
+	        eventOnlineLink.setTypeface(regular);
+	        final String eventUrl = FahrplanMisc.getEventUrl(getActivity(), event_id);
+	        final String eventLink = "<a href=\"" + eventUrl + "\">" + eventUrl + "</a>";
+	        eventOnlineLink.setText(Html.fromHtml(eventLink), TextView.BufferType.SPANNABLE);
+	        eventOnlineLink.setMovementMethod(new LinkMovementMethod());
+
 	        getSherlockActivity().supportInvalidateOptionsMenu();
     	}
         getSherlockActivity().setResult(SherlockFragmentActivity.RESULT_CANCELED);

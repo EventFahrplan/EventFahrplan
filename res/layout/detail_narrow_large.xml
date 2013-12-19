@@ -84,7 +84,28 @@
             android:id="@+id/links"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingBottom="16dp"
             android:text="Links"
+            android:textSize="16sp"
+            android:textColor="#000000" >
+        </TextView>
+
+        <TextView
+            android:id="@+id/eventOnlineSection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="8dp"
+            android:text="@string/event_online"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:textStyle="bold" >
+        </TextView>
+
+        <TextView
+            android:id="@+id/eventOnline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="eventOnline"
             android:textSize="16sp"
             android:textColor="#000000" >
         </TextView>
