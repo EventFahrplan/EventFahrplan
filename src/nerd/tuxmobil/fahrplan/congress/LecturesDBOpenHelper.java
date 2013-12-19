@@ -3,7 +3,6 @@ package nerd.tuxmobil.fahrplan.congress;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 public class LecturesDBOpenHelper extends SQLiteOpenHelper {
 

@@ -1,6 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Application;
 import android.util.Log;
@@ -8,7 +9,7 @@ import android.util.Log;
 public class MyApp extends Application {
 	public static Application app = null;
 	public static boolean DEBUG = false;
-	public static ArrayList<Lecture> lectureList = null;
+	public static List<Lecture> lectureList = null;
 	public static int numdays;
 	public static String version;
 	public static String title;

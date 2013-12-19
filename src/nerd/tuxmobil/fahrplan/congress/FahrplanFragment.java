@@ -1,13 +1,12 @@
 package nerd.tuxmobil.fahrplan.congress;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
-
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
 import com.actionbarsherlock.app.SherlockFragment;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -387,21 +386,42 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 		viewDay(true);
 	}
 
+	private int minutesOfDay(long dateUTC) {
+		Time t = new Time();
+		t.set(dateUTC);
+		return (t.hour * 60) + t.minute;
+	}
+
 	private void scanDayLectures() {
-		firstLectureStart = -1;
+		Lecture l = MyApp.lectureList.get(0);	// they are sorted already
+		long end = 0;
+		if (l.dateUTC > 0) {
+			firstLectureStart = minutesOfDay(l.dateUTC);
+		} else {
+			firstLectureStart = l.relStartTime;
+		}
 		lastLectureEnd = -1;
 		for (Lecture lecture : MyApp.lectureList) {
-			if (firstLectureStart == -1) {
-				firstLectureStart = lecture.relStartTime;
-			} else if (lecture.relStartTime < firstLectureStart) {
-				firstLectureStart = lecture.relStartTime;
-			}
-			if (lastLectureEnd == -1) {
-				lastLectureEnd = lecture.relStartTime + lecture.duration;
-			} else if ((lecture.relStartTime + lecture.duration) > lastLectureEnd) {
-				lastLectureEnd = lecture.relStartTime + lecture.duration;
+			if (l.dateUTC > 0) {
+				if (end == 0) {
+					end = lecture.dateUTC + (lecture.duration * 60000);
+				} else if ((lecture.dateUTC + (lecture.duration * 60000)) > end) {
+					end = lecture.dateUTC + (lecture.duration * 60000);
+				}
+			} else {
+				if (lastLectureEnd == -1) {
+					lastLectureEnd = lecture.relStartTime + lecture.duration;
+				} else if ((lecture.relStartTime + lecture.duration) > lastLectureEnd) {
+					lastLectureEnd = lecture.relStartTime + lecture.duration;
+				}
 			}
 		}
+		if (end > 0) {
+			lastLectureEnd = minutesOfDay(end);
+			if (lastLectureEnd < firstLectureStart) lastLectureEnd += (24 * 60);
+		}
+		MyApp.LogDebug(LOG_TAG, "firstLectureStart=" + firstLectureStart);
+		MyApp.LogDebug(LOG_TAG, "lastLectureEnd=" + lastLectureEnd);
 	}
 
 	private void fillTimes() {
@@ -481,6 +501,7 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 		int endTime = firstLectureStart;
 		int padding = getEventPadding();
 		int standardHeight;
+		int startTime;
 
 		switch (getResources().getConfiguration().orientation) {
 		case Configuration.ORIENTATION_LANDSCAPE:
@@ -494,10 +515,14 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 		}
 		for (Lecture lecture : MyApp.lectureList) {
 			if (roomName.equals(lecture.room)) {
-				if (lecture.relStartTime > endTime) {
+				if (lecture.dateUTC > 0) {
+					startTime = minutesOfDay(lecture.dateUTC);
+					if (startTime < endTime) startTime += (24*60);
+				} else startTime = lecture.relStartTime;
+				if (startTime > endTime) {
 					View event = new View(getSherlockActivity());
 					int height = (int) (standardHeight
-							* (lecture.relStartTime - endTime) / 5);
+							* (startTime - endTime) / 5);
 					room.addView(event, LayoutParams.MATCH_PARENT, height);
 				}
 				View event = inflater.inflate(R.layout.event_layout, null);
@@ -531,7 +556,7 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 //				event.setOnLongClickListener(this);
 				event.setOnCreateContextMenuListener(this);
 				event.setTag(lecture);
-				endTime = lecture.relStartTime + lecture.duration;
+				endTime = startTime + lecture.duration;
 			}
 		}
 	}
@@ -610,6 +635,19 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 		}
 		cursor.close();
 		MyApp.lectureListDay = day;
+
+		if ((MyApp.lectureList.size() > 0) && (MyApp.lectureList.get(0).dateUTC > 0)) {
+			Collections.sort(MyApp.lectureList, new Comparator<Lecture>() {
+
+				@Override
+				public int compare(Lecture lhs, Lecture rhs) {
+					if (lhs.dateUTC < rhs.dateUTC) return -1;
+					if (lhs.dateUTC > rhs.dateUTC) return 1;
+					return 0;
+				}
+
+			});
+		}
 
 		hCursor.moveToFirst();
 		while (!hCursor.isAfterLast()) {

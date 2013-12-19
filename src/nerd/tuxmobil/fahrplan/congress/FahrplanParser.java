@@ -1,16 +1,19 @@
 package nerd.tuxmobil.fahrplan.congress;
 
 import java.io.StringReader;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import org.xmlpull.v1.XmlPullParser;
 
-import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
+import android.text.format.Time;
 import android.util.Xml;
 
 interface OnParseCompleteListener
@@ -191,6 +194,7 @@ class parser extends AsyncTask<String, Void, Boolean> {
 						day = Integer.parseInt(parser.getAttributeValue(null,
 								"index"));
 						date = parser.getAttributeValue(null, "date");
+						dayChangeTime = getDayChange(parser.getAttributeValue(null, "end"));
 						if (day > numdays) { numdays = day; }
 					}
 					if (name.equals("room")) {
@@ -327,5 +331,20 @@ class parser extends AsyncTask<String, Void, Boolean> {
 			e.printStackTrace();
 			return false;
 		}
+	}
+
+	private int getDayChange(String attributeValue) {
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+		Date date;
+		try {
+			date = df.parse(attributeValue);
+			long timeUTC = date.getTime();
+			Time t = new Time();
+			t.set(timeUTC);
+			return (t.hour * 60) + t.minute;
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return 600;	// default
 	}
 }
