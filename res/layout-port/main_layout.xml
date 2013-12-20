@@ -8,25 +8,4 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <LinearLayout
-        android:id="@+id/statusLine"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:visibility="gone"
-        android:background="#B0000000" >
-
-        <TextView
-            android:id="@+id/statusLineText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:gravity="center_horizontal"
-            android:padding="4dp"
-            android:text="TextView2"
-            android:textColor="#fff"
-            android:textSize="14sp" >
-        </TextView>
-    </LinearLayout>
-
 </RelativeLayout>
