@@ -6,15 +6,15 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.GestureDetector.SimpleOnGestureListener;
+import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
 
 
 public class HorizontalSnapScrollView extends HorizontalScrollView {
+	private static final String LOG_TAG = "HorizontalScrollView";
 	private GestureDetector gestureDetector;
 	private int activeItem = 0;
 	private int xStart;
-	private float scale;
-	private int screenWidth;
 
 	/**
 	 * get currently displayed column index
@@ -26,6 +26,7 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
 	}
 
 	class YScrollDetector extends SimpleOnGestureListener {
+
 	    @Override
 	    public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
 	        try {
@@ -42,8 +43,8 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
 
 	    @Override
 	    public boolean onDown(MotionEvent e) {
-    		xStart = getScrollX();
-    		activeItem = xStart/getMeasuredWidth();
+    		xStart = (int) e.getX();
+//    		MyApp.LogDebug(LOG_TAG, "onDown xStart:"+xStart+" getMeasuredWidth:"+getMeasuredWidth());
     		return super.onDown(e);
 	    }
 	}
@@ -68,7 +69,10 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
 	}
 
 	public void scrollToColumn(int col) {
-		int scrollTo = (int)(col * (screenWidth * scale));
+		int max = (getChildAt(0).getMeasuredWidth()-getMeasuredWidth())/getMeasuredWidth();
+		if ((col < 0) || (col > max)) col = activeItem;
+		int scrollTo = col * getMeasuredWidth();
+//		MyApp.LogDebug(LOG_TAG, "scroll to " + scrollTo + " " + getChildAt(0).getMeasuredWidth());
 	    smoothScrollTo(scrollTo, 0);
         FahrplanFragment.updateRoomTitle(col);
         activeItem = col;
@@ -77,26 +81,20 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
 	public HorizontalSnapScrollView(Context context, AttributeSet attrs) {
 	    super(context, attrs);
 	    gestureDetector = new GestureDetector(new YScrollDetector());
-		scale = getResources().getDisplayMetrics().density;
-		screenWidth = (int) (getResources().getDisplayMetrics().widthPixels / scale);
-		screenWidth -= 38;	// Breite für Zeitenspalte
 	    setOnTouchListener(new View.OnTouchListener() {
 
 	            public boolean onTouch(View v, MotionEvent event) {
 	                if (event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_CANCEL ){
-	                    int scrollX = getScrollX();
-	                    // Berechnung mit getMeasuredWidth() führt zu Rundungsfehlern bei
-	                    // steigender Zahl der Spalten, da schon zu früh zu (int)
-	                    // gecastet wird.
-	                    // Workaround: Breite hier vorgeben (285dp) und selber skalieren
-	                    int itemWidth = (int)(screenWidth * scale);
+	                    int scrollX = (int) event.getX();
+	                    int itemWidth = getMeasuredWidth();
 	                    int distance = scrollX - xStart;
+//	                    MyApp.LogDebug(LOG_TAG, "item width:" + itemWidth + " scrollX:" + scrollX + " distance:" + distance + " activeItem:" + activeItem);
 	                    int newItem = activeItem;
 	                    if (Math.abs(distance) > (itemWidth/4)) {
 		                    if (distance > 0) {
-		                    	newItem = activeItem + 1;
-		                    } else {
 		                    	newItem = activeItem - 1;
+		                    } else {
+		                    	newItem = activeItem + 1;
 		                    }
 	                    }
 	                    scrollToColumn(newItem);
@@ -108,4 +106,19 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
 	            }
 	        });
 	    }
+
+	@Override
+	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+		MyApp.LogDebug(LOG_TAG, "onSizeChanged " + oldw + ", " + oldh + ", " + w + ", " + h);
+		super.onSizeChanged(w, h, oldw, oldh);
+		ViewGroup container = (ViewGroup) getChildAt(0);
+		int childs = container.getChildCount();
+		for (int i = 0; i < childs; i++) {
+			ViewGroup c = (ViewGroup) container.getChildAt(i);
+			ViewGroup.LayoutParams p = c.getLayoutParams();
+			p.width = w;
+			c.setLayoutParams(p);
+		}
+	}
+
 }

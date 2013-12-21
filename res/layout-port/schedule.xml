@@ -31,21 +31,17 @@
 					android:layout_width="match_parent" android:layout_height="match_parent"
 					android:orientation="horizontal">
 					<LinearLayout android:id="@+id/raum1"
-						android:layout_width="285dp" android:layout_height="match_parent"
-						android:orientation="vertical">
-					</LinearLayout>
+						android:layout_width="wrap_content" android:layout_height="match_parent"
+						android:orientation="vertical"/>
 					<LinearLayout android:id="@+id/raum2"
-						android:layout_width="285dp" android:layout_height="match_parent"
-						android:orientation="vertical">
-					</LinearLayout>
+						android:layout_width="wrap_content" android:layout_height="match_parent"
+						android:orientation="vertical"/>
 					<LinearLayout android:id="@+id/raum3"
-						android:layout_width="285dp" android:layout_height="match_parent"
-						android:orientation="vertical">
-					</LinearLayout>
+						android:layout_width="wrap_content" android:layout_height="match_parent"
+						android:orientation="vertical"/>
 					<LinearLayout android:id="@+id/raum4"
-						android:layout_width="285dp" android:layout_height="match_parent"
-						android:orientation="vertical">
-					</LinearLayout>
+						android:layout_width="wrap_content" android:layout_height="match_parent"
+						android:orientation="vertical"/>
 				</LinearLayout>
 			</nerd.tuxmobil.fahrplan.congress.HorizontalSnapScrollView>
 		</LinearLayout>
