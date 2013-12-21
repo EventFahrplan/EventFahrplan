@@ -68,4 +68,5 @@
 		kannst du über das entsprechende Symbol in der ActionBar
 		für jeden Eintrag eine individuelle Erinnerung festlegen.
 	</string>
+	<string name="add_to_calendar_failed">Hinzufügen zu Kalendar fehlgeschlagen.</string>
 </resources>

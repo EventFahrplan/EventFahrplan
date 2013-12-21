@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.ActivityNotFoundException;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -16,6 +17,7 @@ import android.net.Uri;
 import android.provider.CalendarContract;
 import android.text.format.DateFormat;
 import android.text.format.Time;
+import android.widget.Toast;
 
 public class FahrplanMisc {
 
@@ -154,7 +156,18 @@ public class FahrplanMisc {
 		}
 		intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, when);
 		intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, when + (l.duration * 60000));
-		context.startActivity(intent);
+		try {
+			context.startActivity(intent);
+			return;
+		} catch (ActivityNotFoundException e) {
+		}
+		intent.setAction(Intent.ACTION_EDIT);
+		try {
+			context.startActivity(intent);
+			return;
+		} catch (ActivityNotFoundException e) {
+			Toast.makeText(context, R.string.add_to_calendar_failed, Toast.LENGTH_LONG).show();
+		}
 	}
 
 	public static void deleteAlarm(Context context, Lecture lecture) {

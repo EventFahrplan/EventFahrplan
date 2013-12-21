@@ -69,4 +69,5 @@
 		can set up individual alarms for each item in the schedule.
 		Just press the alarm icon in the action bar.
 	</string>
+	<string name="add_to_calendar_failed">Adding event to calendar failed.</string>
 </resources>
