@@ -4,14 +4,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.NavUtils;
+import android.support.v4.app.TaskStackBuilder;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.MenuItem;
 
 public class EventDetail extends SherlockFragmentActivity {
 
 	@Override
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         setContentView(R.layout.detail_frame);
         Intent intent = getIntent();
@@ -35,5 +39,28 @@ public class EventDetail extends SherlockFragmentActivity {
 			fragmentTransaction.replace(R.id.detail, ev, "detail");
 			fragmentTransaction.commit();
 		}
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    switch (item.getItemId()) {
+	        case android.R.id.home:
+	            Intent upIntent = NavUtils.getParentActivityIntent(this);
+	            if (NavUtils.shouldUpRecreateTask(this, upIntent)) {
+	                // This activity is NOT part of this app's task, so create a new task
+	                // when navigating up, with a synthesized back stack.
+	                TaskStackBuilder.create(this)
+	                        // Add all of this activity's parents to the back stack
+	                        .addNextIntentWithParentStack(upIntent)
+	                        // Navigate up to the closest parent
+	                        .startActivities();
+	            } else {
+	                // This activity is part of this app's task, so simply
+	                // navigate up to the logical parent activity.
+	                NavUtils.navigateUpTo(this, upIntent);
+	            }
+	            return true;
+        }
+		return super.onOptionsItemSelected(item);
 	}
 }
