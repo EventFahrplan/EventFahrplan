@@ -1,6 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import android.app.Application;
@@ -20,6 +21,8 @@ public class MyApp extends Application {
 	public static String schedulePath = "/congress/2013/Fahrplan/schedule.xml";
 	public static long first_day_start = 1388098800000l;
 	public static long last_day_end = 1388444400000l;
+	public static int room_count = 0;
+	public static HashMap<String, Integer> roomsMap = new HashMap<String, Integer>();
 
 	enum TASKS {
 		NONE,

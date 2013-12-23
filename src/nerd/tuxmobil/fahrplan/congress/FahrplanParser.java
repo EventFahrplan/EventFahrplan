@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 import org.xmlpull.v1.XmlPullParser;
 
@@ -156,6 +157,7 @@ class parser extends AsyncTask<String, Void, Boolean> {
 				values.put("relStart", lecture.relStartTime);
 				values.put("date", lecture.date);
 				values.put("dateUTC", lecture.dateUTC);
+				values.put("room_idx", lecture.room_index);
 				db.insert("lectures", null, values);
 			}
 			db.setTransactionSuccessful();
@@ -177,6 +179,9 @@ class parser extends AsyncTask<String, Void, Boolean> {
 			int day = 0;
 			int dayChangeTime = 600; // hardcoded as not provided
 			String date = "";
+			int room_index = 0;
+			int room_map_index = 0;
+			HashMap<String, Integer> roomsMap = new HashMap<String, Integer>();
 			while (eventType != XmlPullParser.END_DOCUMENT && !done && !isCancelled()) {
 				String name = null;
 				switch (eventType) {
@@ -199,6 +204,13 @@ class parser extends AsyncTask<String, Void, Boolean> {
 					}
 					if (name.equals("room")) {
 						room = new String(parser.getAttributeValue(null, "name"));
+						if (!roomsMap.containsKey(room)) {
+							roomsMap.put(room, room_index);
+							room_map_index = room_index;
+							room_index++;
+						} else {
+							room_map_index = roomsMap.get(room);
+						}
 					}
 					if (name.equalsIgnoreCase("event")) {
 						String id = parser.getAttributeValue(null, "id");
@@ -206,6 +218,8 @@ class parser extends AsyncTask<String, Void, Boolean> {
 						lecture.day = day;
 						lecture.room = room;
 						lecture.date = date;
+						lecture.room_index = room_map_index;
+						MyApp.LogDebug(LOG_TAG, "room " + room + " with index " + room_map_index);
 						eventType = parser.next();
 						boolean lecture_done = false;
 						while (eventType != XmlPullParser.END_DOCUMENT

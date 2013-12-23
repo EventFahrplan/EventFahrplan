@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Map.Entry;
+import java.util.Set;
+
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
 import com.actionbarsherlock.app.SherlockFragment;
@@ -22,8 +25,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.format.Time;
 import android.view.ContextMenu;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnClickListener;
@@ -52,7 +58,7 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 	private int mDay = 1;
 	private View dayTextView;
 	public static Context context = null;
-	public static String[] rooms = { "Saal 1", "Saal 2", "Saal G", "Saal 6" };
+	public static String[] rooms = { "Saal 1", "Saal 2", "Saal G", "Saal 6", "Saal 17", "Lounge" };
 	private HashMap<String, Integer> trackColorsHi;
 	public static final String PREFS_NAME = "settings";
 	private int screenWidth = 0;
@@ -60,6 +66,7 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 	private Typeface light;
 	private View contextMenuView;
 	private int columnWidthSaved;
+	private int columnWidth;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -80,50 +87,26 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 
-		TextView roomName = (TextView)view.findViewById(R.id.roomName);
-		if (roomName != null) roomName.setTypeface(light);
-		roomName = (TextView)view.findViewById(R.id.roomName1);
-		if (roomName != null) roomName.setTypeface(light);
-		roomName = (TextView)view.findViewById(R.id.roomName2);
-		if (roomName != null) roomName.setTypeface(light);
-		roomName = (TextView)view.findViewById(R.id.roomName3);
-		if (roomName != null) roomName.setTypeface(light);
-		roomName = (TextView)view.findViewById(R.id.roomName4);
-		if (roomName != null) roomName.setTypeface(light);
 		global = (MyApp) getSherlockActivity().getApplicationContext();
 		scale = getResources().getDisplayMetrics().density;
 		screenWidth = getResources().getDisplayMetrics().widthPixels;
 		MyApp.LogDebug(LOG_TAG, "screen width = " + screenWidth);
-		int max_cols = getResources().getInteger(R.integer.max_cols);
-		MyApp.LogDebug(LOG_TAG, "max cols: " + max_cols);
 		MyApp.LogDebug(LOG_TAG, "time width " + getResources().getDimension(R.dimen.time_width));
-		int width = (int) ((screenWidth - getResources().getDimension(R.dimen.time_width))/max_cols);	// Breite für Zeitenspalte
-		if (view.findViewById(R.id.horizScroller) != null) {
-			MyApp.LogDebug(LOG_TAG, "adjust column width to " + width);
-			LinearLayout l = (LinearLayout) view.findViewById(R.id.raum1);
-			LayoutParams p = (LayoutParams) l.getLayoutParams();
-			p.width = width;
-			l.setLayoutParams(p);
-			l = (LinearLayout) view.findViewById(R.id.raum2);
-			l.setLayoutParams(p);
-			l = (LinearLayout) view.findViewById(R.id.raum3);
-			l.setLayoutParams(p);
-			l = (LinearLayout) view.findViewById(R.id.raum4);
-			l.setLayoutParams(p);
-		}
+		screenWidth -= getResources().getDimension(R.dimen.time_width);
+		int max_cols = HorizontalSnapScrollView.calcMaxCols(getResources(), screenWidth);
+		MyApp.LogDebug(LOG_TAG, "max cols: " + max_cols);
+		columnWidth = (int) ((float)screenWidth/max_cols);	// Breite für Zeitenspalte
 		HorizontalScrollView roomScroller = (HorizontalScrollView) view.findViewById(R.id.roomScroller);
 		if (roomScroller != null) {
 			HorizontalSnapScrollView snapScroller = (HorizontalSnapScrollView) view.findViewById(R.id.horizScroller);
 			if (snapScroller != null) snapScroller.setChildScroller(roomScroller);
-			View v;
-			int numChilds = ((ViewGroup)roomScroller.getChildAt(0)).getChildCount();
+			roomScroller.setOnTouchListener(new OnTouchListener() {
 
-			for (int i = 0; i < numChilds; i++) {
-				v = ((ViewGroup)roomScroller.getChildAt(0)).getChildAt(i);
-				LinearLayout.LayoutParams p = (LinearLayout.LayoutParams) v.getLayoutParams();
-				p.width = width;
-				v.setLayoutParams(p);
-			}
+				@Override
+				public boolean onTouch(View v, MotionEvent event) {
+					return true;
+				}
+			});
 		}
 
 		trackColors = new HashMap<String, Integer>();
@@ -206,20 +189,6 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 		getSherlockActivity().supportInvalidateOptionsMenu();
 	}
 
-	public static void updateRoomTitle(int room) {
-		if (context != null) {
-			TextView roomName = (TextView) ((Activity) context)
-					.findViewById(R.id.roomName);
-			if (roomName != null) {
-				try {
-					roomName.setText(rooms[room]);
-				} catch (ArrayIndexOutOfBoundsException e) {
-					roomName.setText(String.format("unknown %d", room));
-				}
-			}
-		}
-	}
-
 	private void viewDay(boolean reload) {
 //		Log.d(LOG_TAG, "viewDay("+reload+")");
 
@@ -233,17 +202,60 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 		if (scroller != null) {
 			scroller.scrollTo(0, 0);
 		}
-		updateRoomTitle(0);
+		HorizontalScrollView roomScroller = (HorizontalScrollView) getView().findViewById(R.id.roomScroller);
+		if (scroller != null) addRoomColumns(scroller);
+		if (roomScroller != null) addRoomTitleViews(roomScroller);
 
 		fillTimes();
-		fillRoom("Saal 1", R.id.raum1);
-		fillRoom("Saal 2", R.id.raum2);
-		fillRoom("Saal G", R.id.raum3);
-		fillRoom("Saal 6", R.id.raum4);
+		for (int i = 0; i < MyApp.room_count; i++) {
+			fillRoom((ViewGroup) scroller.getChildAt(0), i);
+		}
 		scrollToCurrent(mDay);
 		ActionBar actionbar = getSherlockActivity().getSupportActionBar();
 		if (actionbar != null) {
 			actionbar.setSelectedNavigationItem(mDay-1);
+		}
+	}
+
+	private void addRoomColumns(HorizontalSnapScrollView scroller) {
+		LinearLayout root = (LinearLayout) scroller.getChildAt(0);
+		int childCount = root.getChildCount();
+		while (childCount > 0) {
+			root.removeViewAt(0);
+			childCount--;
+		}
+		if (scroller.getColumnWidth() != 0) columnWidth = scroller.getColumnWidth();	//update pre-calculated width with actual layout
+		for (int i = 0; i < MyApp.room_count; i++) {
+			LinearLayout roomLayout = new LinearLayout(context);
+			LinearLayout.LayoutParams p = new LayoutParams(columnWidth, LayoutParams.MATCH_PARENT, 1);
+			roomLayout.setOrientation(LinearLayout.VERTICAL);
+			roomLayout.setLayoutParams(p);
+			root.addView(roomLayout);
+		}
+	}
+
+	private void addRoomTitleViews(HorizontalScrollView scroller) {
+		LinearLayout root = (LinearLayout) scroller.getChildAt(0);
+		int childCount = root.getChildCount();
+		while (childCount > 0) {
+			root.removeViewAt(0);
+			childCount--;
+		}
+		Set<Entry<String, Integer>> roomTitleSet = MyApp.roomsMap.entrySet();
+		int textSize = getResources().getInteger(R.integer.room_title_size);
+		for (int i = 0; i < MyApp.room_count; i++) {
+			TextView roomTitle = new TextView(context);
+			LinearLayout.LayoutParams p = new LayoutParams(columnWidth, LayoutParams.WRAP_CONTENT, 1);
+			p.gravity = Gravity.CENTER;
+			roomTitle.setLayoutParams(p);
+			roomTitle.setGravity(Gravity.CENTER);
+			roomTitle.setTypeface(light);
+			for (Entry<String, Integer> entry : roomTitleSet) {
+				if (entry.getValue() == i) { roomTitle.setText(entry.getKey()); break; }
+			}
+			roomTitle.setTextColor(0xffffffff);
+			roomTitle.setTextSize(textSize);
+			root.addView(roomTitle);
 		}
 	}
 
@@ -297,7 +309,7 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 
 			for (Lecture l : MyApp.lectureList) {
 				if ((l.day == day) && (l.startTime <= time) && (l.startTime + l.duration > time)) {
-					if ((col == -1) || ((col >= 0) && (l.room.equals(rooms[col])))) {
+					if ((col == -1) || ((col >= 0) && (l.room_index == col))) {
 						MyApp.LogDebug(LOG_TAG, l.title);
 						MyApp.LogDebug(LOG_TAG, time + " " + l.startTime + "/" + l.duration);
 						scrollAmount -= ((time - l.startTime)/5) * height;
@@ -366,20 +378,15 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 				if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
 					final HorizontalSnapScrollView horiz = (HorizontalSnapScrollView)getView().findViewById(R.id.horizScroller);
 					if (horiz != null) {
-						for (int i = 0; i < rooms.length; i++) {
-							if (rooms[i].equals(lecture.room)) {
-								MyApp.LogDebug(LOG_TAG,"scroll horiz to "+i);
-								final int hpos = i;
-								horiz.post(new Runnable() {
+						MyApp.LogDebug(LOG_TAG,"scroll horiz to "+lecture.room_index);
+						final int hpos = lecture.room_index;
+						horiz.post(new Runnable() {
 
-									@Override
-									public void run() {
-										horiz.scrollToColumn(hpos);
-									}
-								});
-								break;
+							@Override
+							public void run() {
+								horiz.scrollToColumn(hpos, false);
 							}
-						}
+						});
 					}
 
 				}
@@ -508,8 +515,8 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 		}
 	}
 
-	private void fillRoom(String roomName, int roomId) {
-		LinearLayout room = (LinearLayout) getView().findViewById(roomId);
+	private void fillRoom(ViewGroup root, int roomIdx) {
+		LinearLayout room = (LinearLayout) root.getChildAt(roomIdx);
 		room.removeAllViews();
 		int endTime = firstLectureStart;
 		int padding = getEventPadding();
@@ -527,7 +534,7 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 			break;
 		}
 		for (Lecture lecture : MyApp.lectureList) {
-			if (roomName.equals(lecture.room)) {
+			if (lecture.room_index == roomIdx) {
 				if (lecture.dateUTC > 0) {
 					startTime = minutesOfDay(lecture.dateUTC);
 					if (startTime < endTime) startTime += (24*60);
@@ -642,12 +649,39 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 			lecture.date = cursor.getString(14);
 			lecture.links = cursor.getString(15);
 			lecture.dateUTC = cursor.getLong(16);
+			lecture.room_index = cursor.getInt(17);
 
 			MyApp.lectureList.add(lecture);
 			cursor.moveToNext();
 		}
 		cursor.close();
 		MyApp.lectureListDay = day;
+
+		MyApp.roomsMap.clear();
+		for (Lecture lecture : MyApp.lectureList) {
+			if (!MyApp.roomsMap.containsKey(lecture.room)) {
+				if (!MyApp.roomsMap.containsValue(lecture.room_index)) {
+					MyApp.roomsMap.put(lecture.room, lecture.room_index);
+				} else {
+					// upgrade from DB without room_index
+					int new_index;
+					for (new_index = 0; new_index < rooms.length; new_index++) {
+						if (lecture.room.equals(rooms[new_index])) break;
+					}
+					if (new_index == rooms.length) {
+						new_index = 0;
+						while (MyApp.roomsMap.containsValue(new_index)) new_index++;
+					}
+					MyApp.roomsMap.put(lecture.room, new_index);
+					MyApp.LogDebug(LOG_TAG, "Upgrade room " + lecture.room + " to index " + new_index);
+					lecture.room_index = new_index;
+				}
+			}
+			// upgrade
+			if (lecture.room_index == 0) lecture.room_index = MyApp.roomsMap.get(lecture.room);
+		}
+		MyApp.room_count = MyApp.roomsMap.size();
+		MyApp.LogDebug(LOG_TAG, "room count = " + MyApp.room_count);
 
 		if ((MyApp.lectureList.size() > 0) && (MyApp.lectureList.get(0).dateUTC > 0)) {
 			Collections.sort(MyApp.lectureList, new Comparator<Lecture>() {

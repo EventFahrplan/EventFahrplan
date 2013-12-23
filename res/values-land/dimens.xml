@@ -21,4 +21,5 @@
     <item type="integer" name="max_cols">4</item>
     <dimen name="time_width">30dp</dimen>
     <item type="integer" name="min_width_dip">140</item>
+    <item type="integer" name="room_title_size">12</item>
 </resources>

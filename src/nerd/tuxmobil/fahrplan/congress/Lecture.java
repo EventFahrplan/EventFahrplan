@@ -26,6 +26,7 @@ public class Lecture {
 	public boolean highlight;
 	public boolean has_alarm;
 	public long dateUTC;
+	public int room_index;
 
 	public Lecture(String lecture_id) {
 		title = "";
@@ -47,6 +48,7 @@ public class Lecture {
 		highlight = false;
 		has_alarm = false;
 		dateUTC = 0;
+		room_index = 0;
 	}
 
 	public static int parseStartTime(String text) {
