@@ -244,8 +244,13 @@ public class MainActivity extends SherlockFragmentActivity implements OnParseCom
 		FrameLayout sidePane = (FrameLayout) findViewById(R.id.detail);
 		MyApp.LogDebug(LOG_TAG, "openLectureDetail sidePane="+sidePane);
 		if (sidePane != null) {
-			sidePane.setVisibility(View.VISIBLE);
+			HorizontalSnapScrollView hs = (HorizontalSnapScrollView) findViewById(R.id.horizScroller);
 			FragmentManager fm = getSupportFragmentManager();
+			FahrplanFragment fpf = (FahrplanFragment) fm.findFragmentByTag("schedule");
+			if (fpf != null) {
+				fpf.saveColumnWidth();
+			}
+			sidePane.setVisibility(View.VISIBLE);
 			FragmentTransaction fragmentTransaction = fm.beginTransaction();
 			EventDetailFragment ev = new EventDetailFragment();
 			Bundle args = new Bundle();
@@ -284,6 +289,10 @@ public class MainActivity extends SherlockFragmentActivity implements OnParseCom
 		FragmentManager fm = getSupportFragmentManager();
 		Fragment fragment = fm.findFragmentByTag("detail");
 		if (fragment != null) {
+			int max_cols = getResources().getInteger(R.integer.max_cols);
+			HorizontalSnapScrollView hs = (HorizontalSnapScrollView) findViewById(R.id.horizScroller);
+			FahrplanFragment fpf = (FahrplanFragment) fm.findFragmentByTag("schedule");
+			if (fpf != null) fpf.restoreColumnWidth();
 			FragmentTransaction fragmentTransaction = fm.beginTransaction();
 			fragmentTransaction.remove(fragment).commit();
 		}

@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
+import android.widget.LinearLayout;
 
 
 public class HorizontalSnapScrollView extends HorizontalScrollView {
@@ -15,6 +16,9 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
 	private GestureDetector gestureDetector;
 	private int activeItem = 0;
 	private int xStart;
+	private int itemWidth;
+	private HorizontalScrollView roomNames = null;
+	private int max_cols;
 
 	/**
 	 * get currently displayed column index
@@ -69,10 +73,11 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
 	}
 
 	public void scrollToColumn(int col) {
-		int max = (getChildAt(0).getMeasuredWidth()-getMeasuredWidth())/getMeasuredWidth();
-		if ((col < 0) || (col > max)) col = activeItem;
-		int scrollTo = col * getMeasuredWidth();
-//		MyApp.LogDebug(LOG_TAG, "scroll to " + scrollTo + " " + getChildAt(0).getMeasuredWidth());
+		int max = (getChildAt(0).getMeasuredWidth()-itemWidth)/itemWidth;
+		if (col < 0) col = 0;
+		if (col > max) col = max;
+		int scrollTo = col * itemWidth;
+//		MyApp.LogDebug(LOG_TAG, "scroll to col " + col + "/" + scrollTo + " " + getChildAt(0).getMeasuredWidth());
 	    smoothScrollTo(scrollTo, 0);
         FahrplanFragment.updateRoomTitle(col);
         activeItem = col;
@@ -80,21 +85,23 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
 
 	public HorizontalSnapScrollView(Context context, AttributeSet attrs) {
 	    super(context, attrs);
+		max_cols = getResources().getInteger(R.integer.max_cols);
 	    gestureDetector = new GestureDetector(new YScrollDetector());
 	    setOnTouchListener(new View.OnTouchListener() {
 
 	            public boolean onTouch(View v, MotionEvent event) {
 	                if (event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_CANCEL ){
 	                    int scrollX = (int) event.getX();
-	                    int itemWidth = getMeasuredWidth();
 	                    int distance = scrollX - xStart;
 //	                    MyApp.LogDebug(LOG_TAG, "item width:" + itemWidth + " scrollX:" + scrollX + " distance:" + distance + " activeItem:" + activeItem);
 	                    int newItem = activeItem;
 	                    if (Math.abs(distance) > (itemWidth/4)) {
+	                    	int col_dist = (int) Math.ceil(Math.abs((float)distance)/itemWidth);
+//	                    	MyApp.LogDebug(LOG_TAG, "col dist: " + col_dist);
 		                    if (distance > 0) {
-		                    	newItem = activeItem - 1;
+		                    	newItem = activeItem - col_dist;
 		                    } else {
-		                    	newItem = activeItem + 1;
+		                    	newItem = activeItem + col_dist;
 		                    }
 	                    }
 	                    scrollToColumn(newItem);
@@ -107,18 +114,59 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
 	        });
 	    }
 
+	private int calcMaxCols(int availPixels) {
+		int max_cols = getResources().getInteger(R.integer.max_cols);
+		int min_dip = getResources().getInteger(R.integer.min_width_dip);
+		float scale = getResources().getDisplayMetrics().density;
+		MyApp.LogDebug(LOG_TAG, "calcMaxCols: avail " + availPixels + " min dip " + min_dip);
+		int dip;
+		do {
+			dip = (int) ((((float)availPixels)/max_cols)/scale);
+			MyApp.LogDebug(LOG_TAG, "calcMaxCols: " + dip + " on " + max_cols + " cols.");
+			max_cols--;
+		} while ((dip < min_dip) && (max_cols > 0));
+		return max_cols + 1;
+	}
+
 	@Override
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-		MyApp.LogDebug(LOG_TAG, "onSizeChanged " + oldw + ", " + oldh + ", " + w + ", " + h);
+		MyApp.LogDebug(LOG_TAG, "onSizeChanged " + oldw + ", " + oldh + ", " + w + ", " + h + " getMW:" + getMeasuredWidth());
+		max_cols = calcMaxCols(w);
+		itemWidth = Math.round((float)w/max_cols);
+		float scale = getResources().getDisplayMetrics().density;
+		MyApp.LogDebug(LOG_TAG, "item width: " + itemWidth + " " + ((float)itemWidth)/scale + "dp");
 		super.onSizeChanged(w, h, oldw, oldh);
 		ViewGroup container = (ViewGroup) getChildAt(0);
 		int childs = container.getChildCount();
 		for (int i = 0; i < childs; i++) {
 			ViewGroup c = (ViewGroup) container.getChildAt(i);
 			ViewGroup.LayoutParams p = c.getLayoutParams();
-			p.width = w;
+			p.width = itemWidth;
 			c.setLayoutParams(p);
 		}
+
+		if (roomNames != null) {
+			View v;
+			int numChilds = ((ViewGroup)roomNames.getChildAt(0)).getChildCount();
+
+			for (int i = 0; i < numChilds; i++) {
+				v = ((ViewGroup)roomNames.getChildAt(0)).getChildAt(i);
+				LinearLayout.LayoutParams p = (LinearLayout.LayoutParams) v.getLayoutParams();
+				p.width = itemWidth;
+				v.setLayoutParams(p);
+			}
+		}
+	}
+
+	@Override
+	protected void onScrollChanged(int l, int t, int oldl, int oldt) {
+		super.onScrollChanged(l, t, oldl, oldt);
+		if (roomNames != null) roomNames.scrollTo(l, 0);
+	}
+
+	public void setChildScroller(HorizontalScrollView h) {
+		MyApp.LogDebug(LOG_TAG, "roomNames="+h);
+		roomNames = h;
 	}
 
 }

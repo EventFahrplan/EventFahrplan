@@ -21,7 +21,6 @@ import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.format.Time;
-import android.util.TypedValue;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +28,7 @@ import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -58,6 +58,8 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 	private int screenWidth = 0;
 	private Typeface boldCondensed;
 	private Typeface light;
+	private View contextMenuView;
+	private int columnWidthSaved;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -90,27 +92,38 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 		if (roomName != null) roomName.setTypeface(light);
 		global = (MyApp) getSherlockActivity().getApplicationContext();
 		scale = getResources().getDisplayMetrics().density;
-		screenWidth = (int) (getResources().getDisplayMetrics().widthPixels / scale);
+		screenWidth = getResources().getDisplayMetrics().widthPixels;
 		MyApp.LogDebug(LOG_TAG, "screen width = " + screenWidth);
-		screenWidth -= 38;	// Breite für Zeitenspalte
-		switch (getResources().getConfiguration().orientation) {
-			case Configuration.ORIENTATION_PORTRAIT:
-				if (view.findViewById(R.id.horizScroller) != null) {
-					int width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-		                     (float) screenWidth, getResources().getDisplayMetrics());
-					MyApp.LogDebug(LOG_TAG, "adjust column width to " + width);
-					LinearLayout l = (LinearLayout) view.findViewById(R.id.raum1);
-					LayoutParams p = (LayoutParams) l.getLayoutParams();
-					p.width = width;
-					l.setLayoutParams(p);
-					l = (LinearLayout) view.findViewById(R.id.raum2);
-					l.setLayoutParams(p);
-					l = (LinearLayout) view.findViewById(R.id.raum3);
-					l.setLayoutParams(p);
-					l = (LinearLayout) view.findViewById(R.id.raum4);
-					l.setLayoutParams(p);
-				}
-				break;
+		int max_cols = getResources().getInteger(R.integer.max_cols);
+		MyApp.LogDebug(LOG_TAG, "max cols: " + max_cols);
+		MyApp.LogDebug(LOG_TAG, "time width " + getResources().getDimension(R.dimen.time_width));
+		int width = (int) ((screenWidth - getResources().getDimension(R.dimen.time_width))/max_cols);	// Breite für Zeitenspalte
+		if (view.findViewById(R.id.horizScroller) != null) {
+			MyApp.LogDebug(LOG_TAG, "adjust column width to " + width);
+			LinearLayout l = (LinearLayout) view.findViewById(R.id.raum1);
+			LayoutParams p = (LayoutParams) l.getLayoutParams();
+			p.width = width;
+			l.setLayoutParams(p);
+			l = (LinearLayout) view.findViewById(R.id.raum2);
+			l.setLayoutParams(p);
+			l = (LinearLayout) view.findViewById(R.id.raum3);
+			l.setLayoutParams(p);
+			l = (LinearLayout) view.findViewById(R.id.raum4);
+			l.setLayoutParams(p);
+		}
+		HorizontalScrollView roomScroller = (HorizontalScrollView) view.findViewById(R.id.roomScroller);
+		if (roomScroller != null) {
+			HorizontalSnapScrollView snapScroller = (HorizontalSnapScrollView) view.findViewById(R.id.horizScroller);
+			if (snapScroller != null) snapScroller.setChildScroller(roomScroller);
+			View v;
+			int numChilds = ((ViewGroup)roomScroller.getChildAt(0)).getChildCount();
+
+			for (int i = 0; i < numChilds; i++) {
+				v = ((ViewGroup)roomScroller.getChildAt(0)).getChildAt(i);
+				LinearLayout.LayoutParams p = (LinearLayout.LayoutParams) v.getLayoutParams();
+				p.width = width;
+				v.setLayoutParams(p);
+			}
 		}
 
 		trackColors = new HashMap<String, Integer>();
@@ -827,8 +840,6 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 				.create().show();
 	}
 
-	private View contextMenuView;
-
 	@Override
 	public boolean onContextItemSelected(android.view.MenuItem item) {
 		int menuItemIndex = item.getItemId();
@@ -922,6 +933,28 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 			return true;
 		}
 		return false;
+	}
+
+	public void saveColumnWidth() {
+		HorizontalSnapScrollView hs = (HorizontalSnapScrollView) getView().findViewById(R.id.horizScroller);
+		if (hs == null) return;
+		LinearLayout l = (LinearLayout) ((ViewGroup)hs.getChildAt(0)).getChildAt(0);
+		LinearLayout.LayoutParams p = (LayoutParams) l.getLayoutParams();
+		columnWidthSaved = p.width;
+		MyApp.LogDebug(LOG_TAG, "saved column width " + p.width);
+	}
+
+	public void restoreColumnWidth() {
+		MyApp.LogDebug(LOG_TAG, "restore column width " + columnWidthSaved);
+		HorizontalSnapScrollView hs = (HorizontalSnapScrollView) getView().findViewById(R.id.horizScroller);
+		if (hs == null) return;
+		int num_childs = ((ViewGroup)hs.getChildAt(0)).getChildCount();
+		for (int i = 0; i < num_childs; i++) {
+			LinearLayout l = (LinearLayout) ((ViewGroup)hs.getChildAt(0)).getChildAt(i);
+			LinearLayout.LayoutParams p = (LayoutParams) l.getLayoutParams();
+			p.width = columnWidthSaved;
+			l.setLayoutParams(p);
+		}
 	}
 
 }

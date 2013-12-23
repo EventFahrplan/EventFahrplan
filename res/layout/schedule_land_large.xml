@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout android:layout_width="match_parent"
 	android:layout_height="match_parent" android:orientation="vertical"
-	android:background="#000000" xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:android="http://schemas.android.com/apk/res/android"
 	>
 	
 	<LinearLayout android:id="@+id/roomNameLandscape"
@@ -9,61 +9,72 @@
 		android:layout_height="wrap_content"
     	android:layout_alignParentTop="true" 
 		>
+		
 		<TextView android:layout_height="wrap_content"
-			android:layout_width="25dp" android:text=""></TextView>
+			android:layout_width="@dimen/time_width" android:text="" />
 
-		<TextView
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:layout_gravity="center"
-		    android:layout_weight="1"
-		    android:gravity="center"
-		    android:text="Saal 1"
-		    android:textColor="#ffffff"
-		    android:textSize="16sp"
-			android:id="@+id/roomName1"
-		    android:textStyle="bold" >
-		</TextView>
+	    <HorizontalScrollView android:id="@+id/roomScroller"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content" >
+			<LinearLayout 
+				android:orientation="horizontal"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content" >
 
-		<TextView
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:layout_gravity="center"
-		    android:layout_weight="1"
-		    android:gravity="center"
-		    android:text="Saal 2"
-		    android:textColor="#ffffff"
-		    android:textSize="16sp"
-			android:id="@+id/roomName2"
-		    android:textStyle="bold" >
-		</TextView>
-
-		<TextView
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:layout_gravity="center"
-		    android:layout_weight="1"
-		    android:gravity="center"
-		    android:text="Saal G"
-		    android:textColor="#ffffff"
-		    android:textSize="16sp"
-			android:id="@+id/roomName3"
-		    android:textStyle="bold" >
-		</TextView>
-		<TextView
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:layout_gravity="center"
-		    android:layout_weight="1"
-		    android:gravity="center"
-		    android:text="Saal 6"
-		    android:textColor="#ffffff"
-		    android:textSize="16sp"
-			android:id="@+id/roomName4"
-		    android:textStyle="bold" >
-		</TextView>
+				<TextView
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:layout_gravity="center"
+				    android:layout_weight="1"
+				    android:gravity="center"
+				    android:text="Saal 1"
+				    android:textColor="#ffffff"
+				    android:textSize="16sp"
+					android:id="@+id/roomName1"
+				    android:textStyle="bold" >
+				</TextView>
+		
+				<TextView
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:layout_gravity="center"
+				    android:layout_weight="1"
+				    android:gravity="center"
+				    android:text="Saal 2"
+				    android:textColor="#ffffff"
+				    android:textSize="16sp"
+					android:id="@+id/roomName2"
+				    android:textStyle="bold" >
+				</TextView>
+		
+				<TextView
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:layout_gravity="center"
+				    android:layout_weight="1"
+				    android:gravity="center"
+				    android:text="Saal G"
+				    android:textColor="#ffffff"
+				    android:textSize="16sp"
+					android:id="@+id/roomName3"
+				    android:textStyle="bold" >
+				</TextView>
+				<TextView
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:layout_gravity="center"
+				    android:layout_weight="1"
+				    android:gravity="center"
+				    android:text="Saal 6"
+				    android:textColor="#ffffff"
+				    android:textSize="16sp"
+					android:id="@+id/roomName4"
+				    android:textStyle="bold" >
+				</TextView>
+			</LinearLayout>
+		</HorizontalScrollView>
 	</LinearLayout>
-	<ScrollView android:id="@+id/scrollView1"
+	<nerd.tuxmobil.fahrplan.congress.CustomScrollView android:id="@+id/scrollView1"
 		android:layout_width="fill_parent" android:layout_height="fill_parent"
 		android:layout_below="@+id/roomNameLandscape" 
 		android:fadingEdge="none">
@@ -81,6 +92,10 @@
 
 			</LinearLayout>
 
+			<nerd.tuxmobil.fahrplan.congress.HorizontalSnapScrollView
+				android:id="@+id/horizScroller" android:layout_width="wrap_content"
+				android:layout_height="match_parent" android:fadingEdge="none"
+				android:scrollbars="none" android:background="@color/fahrplan_background">
 			<LinearLayout
 			    android:id="@+id/scrollContainer"
 			    android:layout_width="0dp"
@@ -125,6 +140,7 @@
 
 				</LinearLayout>
 			</LinearLayout>
+			</nerd.tuxmobil.fahrplan.congress.HorizontalSnapScrollView>
 		</LinearLayout>
-	</ScrollView>
+	</nerd.tuxmobil.fahrplan.congress.CustomScrollView>
 </RelativeLayout>
