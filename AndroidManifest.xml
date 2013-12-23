@@ -15,10 +15,10 @@
             </intent-filter>
         </activity>
         <activity android:name="EventDetail" android:configChanges="keyboardHidden|orientation" android:label="@string/fahrplan" android:uiOptions="splitActionBarWhenNarrow"
-            android:parentActivityName="MainActivity">
+            android:parentActivityName="nerd.tuxmobil.fahrplan.congress.MainActivity">
         	<meta-data
             	android:name="android.support.PARENT_ACTIVITY"
-            	android:value="MainActivity" />
+            	android:value="nerd.tuxmobil.fahrplan.congress.MainActivity" />
         </activity>
         <activity android:configChanges="keyboardHidden|orientation" android:name="AlarmList" android:label="@string/reminders"></activity>
         <receiver android:name="AlarmReceiver">
