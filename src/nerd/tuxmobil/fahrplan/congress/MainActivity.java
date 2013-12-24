@@ -203,6 +203,20 @@ public class MainActivity extends SherlockFragmentActivity implements OnParseCom
 	}
 
 	@Override
+	protected void onPause() {
+		if (MyApp.fetcher != null) MyApp.fetcher.setListener(null);
+		if (MyApp.parser != null) MyApp.parser.setListener(null);
+		super.onPause();
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		if (MyApp.fetcher != null) MyApp.fetcher.setListener(this);
+		if (MyApp.parser != null) MyApp.parser.setListener(this);
+	}
+
+	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
 		MenuInflater mi = getSupportMenuInflater();
