@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 
@@ -240,8 +241,9 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 			roomTitle.setLayoutParams(p);
 			roomTitle.setGravity(Gravity.CENTER);
 			roomTitle.setTypeface(light);
+			int v = MyApp.roomList.get(i);
 			for (Entry<String, Integer> entry : roomTitleSet) {
-				if (entry.getValue() == i) { roomTitle.setText(entry.getKey()); break; }
+				if (entry.getValue() == v) { roomTitle.setText(entry.getKey()); break; }
 			}
 			roomTitle.setTextColor(0xffffffff);
 			roomTitle.setTextSize(textSize);
@@ -299,7 +301,7 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 
 			for (Lecture l : MyApp.lectureList) {
 				if ((l.day == day) && (l.startTime <= time) && (l.startTime + l.duration > time)) {
-					if ((col == -1) || ((col >= 0) && (l.room_index == col))) {
+					if ((col == -1) || ((col >= 0) && (l.room_index == MyApp.roomList.get(col)))) {
 						MyApp.LogDebug(LOG_TAG, l.title);
 						MyApp.LogDebug(LOG_TAG, time + " " + l.startTime + "/" + l.duration);
 						scrollAmount -= ((time - l.startTime)/5) * height;
@@ -369,7 +371,7 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 					final HorizontalSnapScrollView horiz = (HorizontalSnapScrollView)getView().findViewById(R.id.horizScroller);
 					if (horiz != null) {
 						MyApp.LogDebug(LOG_TAG,"scroll horiz to "+lecture.room_index);
-						final int hpos = lecture.room_index;
+						final int hpos = MyApp.roomList.keyAt(MyApp.roomList.indexOfValue(lecture.room_index));
 						horiz.post(new Runnable() {
 
 							@Override
@@ -512,6 +514,7 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 		int padding = getEventPadding();
 		int standardHeight;
 		int startTime;
+		int room_index = MyApp.roomList.get(roomIdx);
 
 		switch (getResources().getConfiguration().orientation) {
 		case Configuration.ORIENTATION_LANDSCAPE:
@@ -524,7 +527,7 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 			break;
 		}
 		for (Lecture lecture : MyApp.lectureList) {
-			if (lecture.room_index == roomIdx) {
+			if (lecture.room_index == room_index) {
 				if (lecture.dateUTC > 0) {
 					startTime = minutesOfDay(lecture.dateUTC);
 					if (startTime < endTime) startTime += (24*60);
@@ -648,6 +651,7 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 		MyApp.lectureListDay = day;
 
 		MyApp.roomsMap.clear();
+		MyApp.roomList.clear();
 		for (Lecture lecture : MyApp.lectureList) {
 			if (!MyApp.roomsMap.containsKey(lecture.room)) {
 				if (!MyApp.roomsMap.containsValue(lecture.room_index)) {
@@ -672,6 +676,14 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 		}
 		MyApp.room_count = MyApp.roomsMap.size();
 		MyApp.LogDebug(LOG_TAG, "room count = " + MyApp.room_count);
+		List<Integer> rooms = new ArrayList<Integer>(MyApp.roomsMap.values());
+		Collections.sort(rooms);
+		int k = 0;
+		for (Integer v : rooms) {
+			MyApp.LogDebug(LOG_TAG, "room column " + k + " is room " + v);
+			MyApp.roomList.append(k, v);
+			k++;
+		}
 
 		if ((MyApp.lectureList.size() > 0) && (MyApp.lectureList.get(0).dateUTC > 0)) {
 			Collections.sort(MyApp.lectureList, new Comparator<Lecture>() {

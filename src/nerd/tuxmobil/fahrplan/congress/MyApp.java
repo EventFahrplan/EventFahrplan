@@ -6,6 +6,7 @@ import java.util.List;
 
 import android.app.Application;
 import android.util.Log;
+import android.util.SparseIntArray;
 
 public class MyApp extends Application {
 	public static Application app = null;
@@ -41,6 +42,7 @@ public class MyApp extends Application {
 	public static int dayChangeHour;
 	public static int dayChangeMinute;
 	public static String eTag;
+	public static SparseIntArray roomList = new SparseIntArray();
 
     @Override
     public void onCreate() {
