@@ -66,6 +66,7 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 	private Typeface light;
 	private View contextMenuView;
 	private int columnWidth;
+	private String lecture_id;	// started with lecture_id
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -136,7 +137,7 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 		inflater = (LayoutInflater) getSherlockActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
 		Intent intent = getSherlockActivity().getIntent();
-		String lecture_id = intent.getStringExtra("lecture_id");
+		lecture_id = intent.getStringExtra("lecture_id");
 
 		if (lecture_id != null) {
 			MyApp.LogDebug(LOG_TAG,"Open with lecture_id "+lecture_id);
@@ -258,6 +259,7 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 	private void scrollToCurrent(int day) {
 		int height;
 //		Log.d(LOG_TAG, "lectureListDay: " + MyApp.lectureListDay);
+		if (lecture_id != null) return;
 		if (MyApp.lectureListDay != DateList.getIndexOfToday(MyApp.dateList, MyApp.dayChangeHour, MyApp.dayChangeMinute)) return;
 		Time now = new Time();
 		now.setToNow();
@@ -367,20 +369,17 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 						parent.scrollTo(0, pos);
 					}
 				});
-				if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
-					final HorizontalSnapScrollView horiz = (HorizontalSnapScrollView)getView().findViewById(R.id.horizScroller);
-					if (horiz != null) {
-						MyApp.LogDebug(LOG_TAG,"scroll horiz to "+lecture.room_index);
-						final int hpos = MyApp.roomList.keyAt(MyApp.roomList.indexOfValue(lecture.room_index));
-						horiz.post(new Runnable() {
+				final HorizontalSnapScrollView horiz = (HorizontalSnapScrollView)getView().findViewById(R.id.horizScroller);
+				if (horiz != null) {
+					final int hpos = MyApp.roomList.keyAt(MyApp.roomList.indexOfValue(lecture.room_index));
+					MyApp.LogDebug(LOG_TAG,"scroll horiz to "+hpos);
+					horiz.post(new Runnable() {
 
-							@Override
-							public void run() {
-								horiz.scrollToColumn(hpos, false);
-							}
-						});
-					}
-
+						@Override
+						public void run() {
+							horiz.scrollToColumn(hpos, false);
+						}
+					});
 				}
 				break;
 			}
