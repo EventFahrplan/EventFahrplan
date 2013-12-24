@@ -10,7 +10,6 @@ import java.util.Set;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
 import com.actionbarsherlock.app.SherlockFragment;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -65,7 +64,6 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 	private Typeface boldCondensed;
 	private Typeface light;
 	private View contextMenuView;
-	private int columnWidthSaved;
 	private int columnWidth;
 
 	@Override
@@ -219,11 +217,7 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 
 	private void addRoomColumns(HorizontalSnapScrollView scroller) {
 		LinearLayout root = (LinearLayout) scroller.getChildAt(0);
-		int childCount = root.getChildCount();
-		while (childCount > 0) {
-			root.removeViewAt(0);
-			childCount--;
-		}
+		root.removeAllViews();
 		if (scroller.getColumnWidth() != 0) columnWidth = scroller.getColumnWidth();	//update pre-calculated width with actual layout
 		for (int i = 0; i < MyApp.room_count; i++) {
 			LinearLayout roomLayout = new LinearLayout(context);
@@ -236,11 +230,7 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 
 	private void addRoomTitleViews(HorizontalScrollView scroller) {
 		LinearLayout root = (LinearLayout) scroller.getChildAt(0);
-		int childCount = root.getChildCount();
-		while (childCount > 0) {
-			root.removeViewAt(0);
-			childCount--;
-		}
+		root.removeAllViews();
 		Set<Entry<String, Integer>> roomTitleSet = MyApp.roomsMap.entrySet();
 		int textSize = getResources().getInteger(R.integer.room_title_size);
 		for (int i = 0; i < MyApp.room_count; i++) {
@@ -967,28 +957,6 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 			return true;
 		}
 		return false;
-	}
-
-	public void saveColumnWidth() {
-		HorizontalSnapScrollView hs = (HorizontalSnapScrollView) getView().findViewById(R.id.horizScroller);
-		if (hs == null) return;
-		LinearLayout l = (LinearLayout) ((ViewGroup)hs.getChildAt(0)).getChildAt(0);
-		LinearLayout.LayoutParams p = (LayoutParams) l.getLayoutParams();
-		columnWidthSaved = p.width;
-		MyApp.LogDebug(LOG_TAG, "saved column width " + p.width);
-	}
-
-	public void restoreColumnWidth() {
-		MyApp.LogDebug(LOG_TAG, "restore column width " + columnWidthSaved);
-		HorizontalSnapScrollView hs = (HorizontalSnapScrollView) getView().findViewById(R.id.horizScroller);
-		if (hs == null) return;
-		int num_childs = ((ViewGroup)hs.getChildAt(0)).getChildCount();
-		for (int i = 0; i < num_childs; i++) {
-			LinearLayout l = (LinearLayout) ((ViewGroup)hs.getChildAt(0)).getChildAt(i);
-			LinearLayout.LayoutParams p = (LayoutParams) l.getLayoutParams();
-			p.width = columnWidthSaved;
-			l.setLayoutParams(p);
-		}
 	}
 
 }
