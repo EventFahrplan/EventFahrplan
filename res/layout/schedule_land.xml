@@ -44,12 +44,12 @@
 			</LinearLayout>
 
 			<nerd.tuxmobil.fahrplan.congress.HorizontalSnapScrollView
-				android:id="@+id/horizScroller" android:layout_width="wrap_content"
+				android:id="@+id/horizScroller" android:layout_width="match_parent"
 				android:layout_height="match_parent" android:fadingEdge="none"
 				android:scrollbars="none" android:background="@color/fahrplan_background">
 			<LinearLayout
 			    android:id="@+id/scrollContainer"
-			    android:layout_width="wrap_content"
+			    android:layout_width="match_parent"
 			    android:layout_height="match_parent"
 			    android:layout_weight="1"
 			    android:background="@color/fahrplan_background"
