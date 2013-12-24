@@ -526,7 +526,8 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 			standardHeight = (int) (getResources().getInteger(R.integer.box_height) * scale);
 			break;
 		}
-		for (Lecture lecture : MyApp.lectureList) {
+		for (int idx = 0; idx < MyApp.lectureList.size(); idx++) {
+			Lecture lecture = MyApp.lectureList.get(idx);
 			if (lecture.room_index == room_index) {
 				if (lecture.dateUTC > 0) {
 					startTime = minutesOfDay(lecture.dateUTC);
@@ -538,6 +539,24 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 							* (startTime - endTime) / 5);
 					room.addView(event, LayoutParams.MATCH_PARENT, height);
 				}
+
+				// fix overlapping events
+				Lecture next = null;
+				for (int next_idx = idx+1; next_idx < MyApp.lectureList.size(); next_idx++) {
+					next = MyApp.lectureList.get(next_idx);
+					if (next.room_index == room_index) break;
+					next = null;
+				}
+				if (next != null) {
+					if (next.dateUTC > 0) {
+						if (lecture.dateUTC + (lecture.duration * 60000) > next.dateUTC) {
+							MyApp.LogDebug(LOG_TAG, lecture.title + " collides with " + next.title);
+							lecture.duration = (int) ((next.dateUTC - lecture.dateUTC)/60000);
+						}
+					}
+				}
+
+
 				View event = inflater.inflate(R.layout.event_layout, null);
 				int height = (int) (standardHeight * (lecture.duration / 5));
 				ImageView bell = (ImageView) event.findViewById(R.id.bell);
