@@ -12,8 +12,21 @@
         android:paddingBottom="32dp"
         android:paddingLeft="48dp"
         android:paddingRight="48dp"
-        android:paddingTop="48dp" >
+        android:paddingTop="24dp" >
 
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:paddingBottom="16dp"
+            android:text="TextView"
+            android:textAllCaps="true"
+            android:textColor="@color/lightgray"
+            android:textSize="13sp"
+            android:fontFamily="sans-serif-light"
+            android:typeface="normal" />
+        
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"

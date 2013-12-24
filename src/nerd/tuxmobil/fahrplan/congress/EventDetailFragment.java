@@ -1,5 +1,8 @@
 package nerd.tuxmobil.fahrplan.congress;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 import com.actionbarsherlock.app.SherlockFragment;
@@ -98,7 +101,14 @@ public class EventDetailFragment extends SherlockFragment {
 	        FahrplanFragment.loadLectureList(getSherlockActivity(), day, false);
 	        lecture = eventid2Lecture(event_id);
 
-	        TextView t = (TextView)view.findViewById(R.id.title);
+	        TextView t;
+	        t = (TextView)view.findViewById(R.id.date);
+	        if (lecture.dateUTC > 0) {
+	        	DateFormat df = SimpleDateFormat.getDateTimeInstance(SimpleDateFormat.SHORT, SimpleDateFormat.SHORT);
+	        	t.setText(df.format(new Date(lecture.dateUTC)));
+	        } else t.setText("");
+
+	        t = (TextView)view.findViewById(R.id.title);
 	        t.setTypeface(boldCondensed);
 	        t.setText(title);
 
