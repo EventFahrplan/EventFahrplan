@@ -50,5 +50,12 @@ public class AboutDialog extends SherlockDialogFragment {
 		logo_copyright.setText(Html.fromHtml(getString(R.string.copyright_logo)));
 		logo_copyright.setMovementMethod(LinkMovementMethod.getInstance());
 
+		TextView sourceCode = (TextView)view.findViewById(R.id.source_code);
+		sourceCode.setText(Html.fromHtml(getString(R.string.source_code)));
+		sourceCode.setMovementMethod(LinkMovementMethod.getInstance());
+
+		TextView issues = (TextView)view.findViewById(R.id.issues);
+		issues.setText(Html.fromHtml(getString(R.string.issues)));
+		issues.setMovementMethod(LinkMovementMethod.getInstance());
 	}
 }
