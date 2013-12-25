@@ -14,6 +14,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
+import android.support.v4.app.TaskStackBuilder;
 import android.view.ContextMenu;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -28,6 +30,7 @@ public class AlarmList extends SherlockListActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 		global = (MyApp) getApplicationContext();
 
@@ -135,6 +138,8 @@ public class AlarmList extends SherlockListActivity {
 			}
 			setResult(RESULT_OK);
 			return true;
+		case android.R.id.home:
+			return ActivityHelper.navigateUp(this);
 		}
 		return super.onOptionsItemSelected(item);
 	}

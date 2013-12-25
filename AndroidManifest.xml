@@ -20,7 +20,15 @@
             	android:name="android.support.PARENT_ACTIVITY"
             	android:value="nerd.tuxmobil.fahrplan.congress.MainActivity" />
         </activity>
-        <activity android:configChanges="keyboardHidden|orientation" android:name="AlarmList" android:label="@string/reminders"></activity>
+        <activity
+            android:configChanges="keyboardHidden|orientation"
+            android:name="AlarmList"
+            android:label="@string/reminders"
+            android:parentActivityName="nerd.tuxmobil.fahrplan.congress.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="nerd.tuxmobil.fahrplan.congress.MainActivity" />
+        </activity>
         <receiver android:name="AlarmReceiver">
         </receiver>
         <receiver android:name="nerd.tuxmobil.fahrplan.congress.onBootReceiver">
