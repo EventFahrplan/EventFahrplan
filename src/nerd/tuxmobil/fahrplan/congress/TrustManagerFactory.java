@@ -79,25 +79,22 @@ public final class TrustManagerFactory {
         public void checkServerTrusted(X509Certificate[] chain, String authType)
         throws CertificateException {
             TrustManagerFactory.setLastCertChain(chain);
+            if (!DomainNameChecker.match(chain[0], mHost)) {
+                throw new CertificateDomainMismatchException("Certificate domain name does not match "
+                                               + mHost);
+            }
             try {
             	/* erst den localTrustManager nehmen, da selbst signierte Zert. der Normalfall
             	 * sein werden
             	 */
+            	MyApp.LogDebug(LOG_TAG, "trying localTrustManager");
                 localTrustManager.checkServerTrusted(new X509Certificate[] {chain[0]}, authType);
             } catch (CertificateException e) {
-                defaultTrustManager.checkServerTrusted(chain, authType);
-            }
-            if (!DomainNameChecker.match(chain[0], mHost)) {
-                try {
-                    String dn = chain[0].getSubjectDN().toString();
-                    if ((dn != null) && (dn.equalsIgnoreCase(keyStore.getCertificateAlias(chain[0])))) {
-                        return;
-                    }
-                } catch (KeyStoreException e) {
-                    throw new CertificateException("Certificate cannot be verified; KeyStore Exception: " + e);
-                }
-                throw new CertificateException("Certificate domain name does not match "
-                                               + mHost);
+            	/* Hier Fallback auf vertrauenswürdige CAs in Android */
+
+            	/* SSL Pinning, keiner CA vertrauen */
+            	Log.d(LOG_TAG, "trying defaultTrustManager");
+            	defaultTrustManager.checkServerTrusted(chain, authType);
             }
         }
 
