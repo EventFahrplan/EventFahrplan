@@ -98,7 +98,29 @@
             android:singleLine="false"
             android:linksClickable="true"
             android:text="" />
-        
+
+        <TextView
+            android:id="@+id/source_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:linksClickable="true"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="10dp"
+            android:singleLine="false"
+            android:text="" />
+
+        <TextView
+            android:id="@+id/issues"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:linksClickable="true"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="10dp"
+            android:singleLine="false"
+            android:text="" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

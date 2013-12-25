@@ -53,6 +53,12 @@
 	<string name="set_alarm">Set alarm</string>
 	<string name="copyright_notes">Copyright 2013 Daniel Dorau.\nCopyright 2013 SubOptimal, entropynil, johnjohndoe.\nPortions Copyright 2008-2011 The K-9 Dog Walkers and 2006-2013 the Android Open Source Project.</string>
 	<string name="copyright_logo">30C3 artwork by <![CDATA[<a href="http://evelynschubert.com/">Evelyn Schubert</a>]]> licensed under <![CDATA[<a href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US">CC BY-SA 3.0</a>]]></string>
+	<string name="source_code">
+		<![CDATA[<a href="http://github.com/tuxmobil/CampFahrplan">Source code</a>]]>
+	</string>
+	<string name="issues">
+		<![CDATA[<a href="http://github.com/tuxmobil/CampFahrplan/issues">Issues or feature requests</a>]]>
+	</string>
 	<string name="delete_alarm">Clear alarm</string>
 	<string name="today">today</string>
 	<string name="addToCalendar">Add to calendar</string>
