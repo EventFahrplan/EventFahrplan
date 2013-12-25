@@ -51,6 +51,7 @@ public class EventDetailFragment extends SherlockFragment {
 	private String abstractt;
 	private String descr;
 	private String links;
+	private String room;
 	private Boolean sidePane = false;
 	private boolean hasArguments = false;
 
@@ -81,6 +82,7 @@ public class EventDetailFragment extends SherlockFragment {
         abstractt = args.getString("abstract");
         descr = args.getString("descr");
         links = args.getString("links");
+        room = args.getString("room");
         sidePane = args.getBoolean("sidepane", false);
         hasArguments = true;
     }
@@ -105,7 +107,7 @@ public class EventDetailFragment extends SherlockFragment {
 	        t = (TextView)view.findViewById(R.id.date);
 	        if (lecture.dateUTC > 0) {
 	        	DateFormat df = SimpleDateFormat.getDateTimeInstance(SimpleDateFormat.SHORT, SimpleDateFormat.SHORT);
-	        	t.setText(df.format(new Date(lecture.dateUTC)));
+	        	t.setText(df.format(new Date(lecture.dateUTC)) + " - " + room);
 	        } else t.setText("");
 
 	        t = (TextView)view.findViewById(R.id.title);

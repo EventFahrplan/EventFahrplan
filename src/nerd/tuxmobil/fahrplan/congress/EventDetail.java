@@ -35,6 +35,7 @@ public class EventDetail extends SherlockFragmentActivity {
 			args.putString("eventid", intent.getStringExtra("eventid"));
 			args.putInt("time", intent.getIntExtra("time", 0));
 			args.putInt("day", intent.getIntExtra("day", 0));
+			args.putString("room", intent.getStringExtra("room"));
 			ev.setArguments(args);
 			fragmentTransaction.replace(R.id.detail, ev, "detail");
 			fragmentTransaction.commit();

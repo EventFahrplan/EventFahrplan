@@ -272,6 +272,7 @@ public class MainActivity extends SherlockFragmentActivity implements OnParseCom
 			args.putString("eventid", lecture.lecture_id);
 			args.putInt("time", lecture.startTime);
 			args.putInt("day", mDay);
+			args.putString("room", lecture.room);
 			args.putBoolean("sidepane", true);
 			ev.setArguments(args);
 			fragmentTransaction.replace(R.id.detail, ev, "detail");
@@ -287,6 +288,7 @@ public class MainActivity extends SherlockFragmentActivity implements OnParseCom
 			intent.putExtra("eventid", lecture.lecture_id);
 			intent.putExtra("time", lecture.startTime);
 			intent.putExtra("day", mDay);
+			intent.putExtra("room", lecture.room);
 			startActivityForResult(intent, MyApp.EVENTVIEW);
 		}
 	}
