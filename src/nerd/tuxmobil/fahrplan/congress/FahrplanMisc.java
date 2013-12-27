@@ -124,7 +124,7 @@ public class FahrplanMisc {
 		StringBuilder sb = new StringBuilder();
 		Time time = l.getTime();
 		sb.append(l.title).append("\n").append(DateFormat.format("E, MMMM dd, yyyy hh:mm", time.toMillis(true)));
-		sb.append(", ").append(l.room).append("\n\n").append("http://events.ccc.de/congress/2013/Fahrplan/events/").append(l.lecture_id).append(".en.html");
+		sb.append(", ").append(l.room).append("\n\n").append("http://events.ccc.de/congress/2013/Fahrplan/events/").append(l.lecture_id).append(".html");
 		sendIntent.putExtra(Intent.EXTRA_TEXT, sb.toString());
 		sendIntent.setType("text/plain");
 		context.startActivity(sendIntent);
