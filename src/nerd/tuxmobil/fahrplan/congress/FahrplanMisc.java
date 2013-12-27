@@ -335,7 +335,7 @@ public class FahrplanMisc {
 		if ((now >= MyApp.first_day_start) && (now < MyApp.last_day_end)) {
 			interval = 2 * AlarmManager.INTERVAL_HOUR;
 			next_fetch = now + interval;
-		} if (now >= MyApp.last_day_end) {
+		} else if (now >= MyApp.last_day_end) {
 			MyApp.LogDebug(LOG_TAG, "cancel alarm post congress");
 			alarmManager.cancel(pendingintent);
 			return 0;
