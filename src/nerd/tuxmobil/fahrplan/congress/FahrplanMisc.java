@@ -228,7 +228,7 @@ public class FahrplanMisc {
 		lecture.has_alarm = false;
 	}
 
-	public static void addAlarm(Context context, Lecture lecture, int alarmTime) {
+	public static void addAlarm(Context context, Lecture lecture, int alarmTimesIndex) {
 		int[] alarm_times = { 0, 5, 10, 15, 30, 45, 60 };
 		long when;
 		Time time;
@@ -242,7 +242,7 @@ public class FahrplanMisc {
 			startTime = time.normalize(true);
 			when = time.normalize(true);
 		}
-		when -= (alarm_times[alarmTime] * 60 * 1000);
+		when -= (alarm_times[alarmTimesIndex] * 60 * 1000);
 
 		// DEBUG
 		// when = System.currentTimeMillis() + (30 * 1000);
