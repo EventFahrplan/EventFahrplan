@@ -221,7 +221,7 @@ public class FahrplanMisc {
 	}
 
 	public static void addAlarm(Context context, Lecture lecture, int alarmTime) {
-		int[] alarm_times = { 0, 5, 10, 15, 30, 5, 60 };
+		int[] alarm_times = { 0, 5, 10, 15, 30, 45, 60 };
 		long when;
 		Time time;
 		long startTime;
