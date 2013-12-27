@@ -264,6 +264,7 @@ class parser extends AsyncTask<String, Void, Boolean> {
 									String url = parser.getAttributeValue(null, "href");
 									parser.next();
 									String urlname = parser.getText();
+									if (!url.contains("://")) { url = "http://" + url; }
 									StringBuilder sb = new StringBuilder();
 									if (lecture.links.length() > 0) {
 										sb.append(lecture.links);
