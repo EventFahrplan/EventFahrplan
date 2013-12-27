@@ -77,4 +77,12 @@
         <item name="dropDownListViewStyle">@style/DropDownListView.Congress</item>
     </style>
 
+    <style name="AlarmList.Icon" parent="@android:style/TextAppearance.Medium">
+        <item name="android:layout_width">@dimen/alarm_list_icon_width</item>
+        <item name="android:layout_height">@dimen/alarm_list_icon_height</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/alarm_list_icon_layer</item>
+        <item name="android:text">0</item>
+    </style>
+
 </resources>

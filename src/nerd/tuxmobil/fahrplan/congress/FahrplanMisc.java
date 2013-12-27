@@ -269,6 +269,8 @@ public class FahrplanMisc {
 		// Set new alarm
 		alarmManager.set(AlarmManager.RTC_WAKEUP, when, pendingintent);
 
+		int alarmTimeInMin = alarm_times[alarmTimesIndex];
+
 		// write to DB
 
 		AlarmsDBOpenHelper alarmDB = new AlarmsDBOpenHelper(context);
@@ -284,6 +286,7 @@ public class FahrplanMisc {
 
 			values.put(AlarmsTable.Columns.EVENT_ID, Integer.parseInt(lecture.lecture_id));
 			values.put(AlarmsTable.Columns.EVENT_TITLE, lecture.title);
+			values.put(AlarmsTable.Columns.ALARM_TIME_IN_MIN, alarmTimeInMin);
 			values.put(AlarmsTable.Columns.TIME, when);
 			values.put(AlarmsTable.Columns.TIME_TEXT, time.format("%Y-%m-%d %H:%M"));
 			values.put(AlarmsTable.Columns.DISPLAY_TIME, startTime);
