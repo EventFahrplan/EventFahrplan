@@ -1,6 +1,9 @@
 package nerd.tuxmobil.fahrplan.congress;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import nerd.tuxmobil.fahrplan.congress.FahrplanContract.AlarmsTable;
 import android.annotation.SuppressLint;
@@ -16,7 +19,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.net.Uri;
 import android.provider.CalendarContract;
-import android.text.format.DateFormat;
 import android.text.format.Time;
 import android.widget.Toast;
 
@@ -124,7 +126,7 @@ public class FahrplanMisc {
 		sendIntent.setAction(Intent.ACTION_SEND);
 		StringBuilder sb = new StringBuilder();
 		Time time = l.getTime();
-		sb.append(l.title).append("\n").append(DateFormat.format("E, MMMM dd, yyyy hh:mm", time.toMillis(true)));
+		sb.append(l.title).append("\n").append(SimpleDateFormat.getDateTimeInstance(SimpleDateFormat.FULL, SimpleDateFormat.SHORT).format(new Date(time.toMillis(true))));
 		sb.append(", ").append(l.room).append("\n\n");
 		final String eventUrl = getEventUrl(context, l.lecture_id);
 		sb.append(eventUrl);
@@ -300,7 +302,8 @@ public class FahrplanMisc {
 			values.put(AlarmsTable.Columns.EVENT_TITLE, lecture.title);
 			values.put(AlarmsTable.Columns.ALARM_TIME_IN_MIN, alarmTimeInMin);
 			values.put(AlarmsTable.Columns.TIME, when);
-			values.put(AlarmsTable.Columns.TIME_TEXT, time.format("%Y-%m-%d %H:%M"));
+			DateFormat df = SimpleDateFormat.getDateTimeInstance(SimpleDateFormat.SHORT, SimpleDateFormat.SHORT);
+			values.put(AlarmsTable.Columns.TIME_TEXT, df.format(new Date(when)));
 			values.put(AlarmsTable.Columns.DISPLAY_TIME, startTime);
 			values.put(AlarmsTable.Columns.DAY, lecture.day);
 
