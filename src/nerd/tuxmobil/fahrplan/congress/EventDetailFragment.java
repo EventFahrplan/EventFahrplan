@@ -37,7 +37,7 @@ public class EventDetailFragment extends SherlockFragment {
 	private final String LOG_TAG = "Detail";
 	private String event_id;
 	private String title;
-	private static String feedbackURL = "https://cccv.pentabarf.org/feedback/30C3/event/"; // + 4302.en.html
+	private static String feedbackURL = "https://frab.cccv.de/en/30C3/public/events/%s/feedback/new";
 	private Locale locale;
 	private Typeface boldCondensed;
 	private Typeface black;
@@ -249,16 +249,7 @@ public class EventDetailFragment extends SherlockFragment {
 		Lecture l;
 		switch (item.getItemId()) {
 		case R.id.item_feedback:
-			StringBuilder sb = new StringBuilder();
-			sb.append(feedbackURL);
-			sb.append(event_id).append(".");
-			if (locale.getLanguage().equals("de")) {
-				sb.append("de");
-			} else {
-				sb.append("en");
-			}
-			sb.append(".html");
-			Uri uri = Uri.parse(sb.toString());
+			Uri uri = Uri.parse(String.format(feedbackURL, event_id));
 			Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 			startActivity(intent);
 			return true;
