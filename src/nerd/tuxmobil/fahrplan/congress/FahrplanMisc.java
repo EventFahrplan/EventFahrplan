@@ -142,6 +142,16 @@ public class FahrplanMisc {
 		return sb.toString();
 	}
 
+	public static String getCalendarDescription(final Context context, final Lecture lecture) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(lecture.description);
+		sb.append("\n\n");
+		final String eventOnline = context.getString(R.string.event_online);
+		sb.append(eventOnline + ": ");
+		sb.append(getEventUrl(context, lecture.lecture_id));
+		return sb.toString();
+	}
+
 	@SuppressLint("NewApi")
 	public static void addToCalender(Context context, Lecture l) {
 		Intent intent = new Intent(Intent.ACTION_INSERT, CalendarContract.Events.CONTENT_URI);
@@ -158,6 +168,8 @@ public class FahrplanMisc {
 		}
 		intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, when);
 		intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, when + (l.duration * 60000));
+		final String description = getCalendarDescription(context, l);
+		intent.putExtra(CalendarContract.Events.DESCRIPTION, description);
 		try {
 			context.startActivity(intent);
 			return;
