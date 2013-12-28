@@ -2,6 +2,7 @@ package nerd.tuxmobil.fahrplan.congress;
 
 import java.util.ArrayList;
 
+import nerd.tuxmobil.fahrplan.congress.FahrplanContract.AlarmsTable;
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -190,9 +191,14 @@ public class FahrplanMisc {
 		Cursor cursor;
 
 		try {
-		cursor = db.query("alarms", AlarmsDBOpenHelper.allcolumns,
-					"eventid=?", new String[] { lecture.lecture_id }, null,
-					null, null);
+		cursor = db.query(
+				AlarmsTable.NAME,
+				AlarmsDBOpenHelper.allcolumns,
+				AlarmsTable.Columns.EVENT_ID + "=?",
+				new String[] { lecture.lecture_id },
+				null,
+				null,
+				null);
 		} catch (SQLiteException e) {
 			e.printStackTrace();
 			MyApp.LogDebug("delete alarm","failure on alarm query");
@@ -219,7 +225,7 @@ public class FahrplanMisc {
 		long startTime = cursor.getLong(5);
 		intent.putExtra("startTime", startTime);
 		// delete any previous alarms of this lecture
-		db.delete("alarms", "eventid=?", new String[] { lecture.lecture_id });
+		db.delete(AlarmsTable.NAME, AlarmsTable.Columns.EVENT_ID + "=?", new String[] { lecture.lecture_id });
 		db.close();
 
 		intent.setAction("de.machtnix.fahrplan.ALARM");
@@ -234,7 +240,7 @@ public class FahrplanMisc {
 		lecture.has_alarm = false;
 	}
 
-	public static void addAlarm(Context context, Lecture lecture, int alarmTime) {
+	public static void addAlarm(Context context, Lecture lecture, int alarmTimesIndex) {
 		int[] alarm_times = { 0, 5, 10, 15, 30, 45, 60 };
 		long when;
 		Time time;
@@ -248,7 +254,7 @@ public class FahrplanMisc {
 			startTime = time.normalize(true);
 			when = time.normalize(true);
 		}
-		when -= (alarm_times[alarmTime] * 60 * 1000);
+		when -= (alarm_times[alarmTimesIndex] * 60 * 1000);
 
 		// DEBUG
 		// when = System.currentTimeMillis() + (30 * 1000);
@@ -275,6 +281,8 @@ public class FahrplanMisc {
 		// Set new alarm
 		alarmManager.set(AlarmManager.RTC_WAKEUP, when, pendingintent);
 
+		int alarmTimeInMin = alarm_times[alarmTimesIndex];
+
 		// write to DB
 
 		AlarmsDBOpenHelper alarmDB = new AlarmsDBOpenHelper(context);
@@ -284,18 +292,19 @@ public class FahrplanMisc {
 		// delete any previous alarms of this lecture
 		try {
 			db.beginTransaction();
-			db.delete("alarms", "eventid=?", new String[] { lecture.lecture_id });
+			db.delete(AlarmsTable.NAME, AlarmsTable.Columns.EVENT_ID + "=?", new String[] { lecture.lecture_id });
 
 			ContentValues values = new ContentValues();
 
-			values.put("eventid", Integer.parseInt(lecture.lecture_id));
-			values.put("title", lecture.title);
-			values.put("time", when);
-			values.put("timeText", time.format("%Y-%m-%d %H:%M"));
-			values.put("displayTime", startTime);
-			values.put("day", lecture.day);
+			values.put(AlarmsTable.Columns.EVENT_ID, Integer.parseInt(lecture.lecture_id));
+			values.put(AlarmsTable.Columns.EVENT_TITLE, lecture.title);
+			values.put(AlarmsTable.Columns.ALARM_TIME_IN_MIN, alarmTimeInMin);
+			values.put(AlarmsTable.Columns.TIME, when);
+			values.put(AlarmsTable.Columns.TIME_TEXT, time.format("%Y-%m-%d %H:%M"));
+			values.put(AlarmsTable.Columns.DISPLAY_TIME, startTime);
+			values.put(AlarmsTable.Columns.DAY, lecture.day);
 
-			db.insert("alarms", null, values);
+			db.insert(AlarmsTable.NAME, null, values);
 			db.setTransactionSuccessful();
 		} catch (SQLException e) {
 		} finally {

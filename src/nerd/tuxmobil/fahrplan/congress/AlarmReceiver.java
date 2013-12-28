@@ -1,5 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress;
 
+import nerd.tuxmobil.fahrplan.congress.FahrplanContract.AlarmsTable;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -62,7 +63,7 @@ public final class AlarmReceiver extends BroadcastReceiver {
 			AlarmsDBOpenHelper lecturesDB = new AlarmsDBOpenHelper(context);
 
 			SQLiteDatabase db = lecturesDB.getReadableDatabase();
-			db.delete("alarms", "eventid=?", new String[] { lecture_id });
+			db.delete(AlarmsTable.NAME, AlarmsTable.Columns.EVENT_ID + "=?", new String[] { lecture_id });
 
 			db.close();
     	} else if (intent.getAction().equals(ALARM_UPDATE)) {

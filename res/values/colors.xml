@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <color name="fahrplan_background">#003339</color>
     <color name="standard_event_bg">#ddd</color>
     <color name="lightgray">#505050</color>
+    <color name="alarm_list_icon_default_fill_color">#ddd</color>
+    <color name="alarm_list_icon_default_stroke_color">#003339</color>
+
 </resources>

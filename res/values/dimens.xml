@@ -17,6 +17,9 @@
     <item type="integer" name="box_height">13</item>
     <item type="integer" name="max_cols">1</item>
     <dimen name="time_width">38dp</dimen>
+    <dimen name="alarm_list_icon_stroke_width">2dp</dimen>
+    <dimen name="alarm_list_icon_width">40dp</dimen>
+    <dimen name="alarm_list_icon_height">@dimen/alarm_list_icon_width</dimen>
     <item type="integer" name="min_width_dip">160</item>
     <item type="integer" name="room_title_size">14</item>
 </resources>

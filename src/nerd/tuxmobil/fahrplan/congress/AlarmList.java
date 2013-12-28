@@ -16,6 +16,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
+import android.support.v4.widget.CursorAdapter;
 import android.view.ContextMenu;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -25,7 +26,7 @@ import android.widget.SimpleCursorAdapter;
 public class AlarmList extends SherlockListActivity {
 	private MyApp global;
 	private SQLiteDatabase db;
-	private SimpleCursorAdapter mAdapter;
+	private CursorAdapter mAdapter;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -51,15 +52,7 @@ public class AlarmList extends SherlockListActivity {
 		}
 		startManagingCursor(cursor);
 
-		// the desired columns to be bound
-		String[] columns = new String[] { "title", "timeText" };
-		// the XML defined views which the data will be bound to
-		int[] to = new int[] { R.id.title, R.id.time };
-
-		// create the adapter using the cursor pointing to the desired data as
-		// well as the layout information
-		mAdapter = new SimpleCursorAdapter(this, R.layout.alarm_list_item,
-				cursor, columns, to);
+		mAdapter = new AlarmCursorAdapter(this, cursor, 0);
 
 		// set this adapter as your ListActivity's adapter
 		this.setListAdapter(mAdapter);
