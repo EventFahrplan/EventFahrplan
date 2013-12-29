@@ -1,5 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress;
 
+import nerd.tuxmobil.fahrplan.congress.FahrplanContract.AlarmsTable;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -26,7 +27,7 @@ public final class onBootReceiver extends BroadcastReceiver {
 		Cursor cursor;
 
 		try {
-			cursor = db.query("alarms", AlarmsDBOpenHelper.allcolumns,
+			cursor = db.query(AlarmsTable.NAME, AlarmsDBOpenHelper.allcolumns,
 					null, null, null, null, null);
 		} catch (SQLiteException e) {
 			e.printStackTrace();
@@ -74,7 +75,7 @@ public final class onBootReceiver extends BroadcastReceiver {
 				MyApp.LogDebug(LOG_TAG, "remove alarm from DB ");
 
 				String id = cursor.getString(0);
-				db.delete("alarms","_id = ?", new String[]{id});
+				db.delete(AlarmsTable.NAME, AlarmsTable.Columns.ID + " = ?", new String[]{id});
 			}
 
 			cursor.moveToNext();

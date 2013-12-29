@@ -1,5 +1,8 @@
 package nerd.tuxmobil.fahrplan.congress;
 
+import nerd.tuxmobil.fahrplan.congress.FahrplanContract.AlarmsTable;
+import nerd.tuxmobil.fahrplan.congress.FahrplanContract.AlarmsTable.Columns;
+
 import com.actionbarsherlock.app.SherlockListActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -43,8 +46,8 @@ public class AlarmList extends SherlockListActivity {
 		Cursor cursor;
 
 		try {
-			cursor = db.query("alarms", AlarmsDBOpenHelper.allcolumns, null,
-					null, null, null, "time");
+			cursor = db.query(AlarmsTable.NAME, AlarmsDBOpenHelper.allcolumns, null,
+					null, null, null, Columns.TIME);
 		} catch (SQLiteException e) {
 			e.printStackTrace();
 			db.close();
@@ -110,7 +113,7 @@ public class AlarmList extends SherlockListActivity {
 		alarmManager.cancel(pendingintent);
 
 		String id = cursor.getString(0);
-		db.delete("alarms","_id = ?", new String[]{id});
+		db.delete(AlarmsTable.NAME, Columns.ID + " = ?", new String[]{id});
 		cursor.requery();
 		mAdapter.notifyDataSetChanged();
 	}

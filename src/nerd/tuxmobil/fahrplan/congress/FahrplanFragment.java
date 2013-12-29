@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import nerd.tuxmobil.fahrplan.congress.FahrplanContract.AlarmsTable;
 import nerd.tuxmobil.fahrplan.congress.FahrplanContract.HighlightsTable;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -768,7 +769,7 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 		alarmdb = alarmDB.getReadableDatabase();
 
 		try {
-			alarmCursor = alarmdb.query("alarms", AlarmsDBOpenHelper.allcolumns,
+			alarmCursor = alarmdb.query(AlarmsTable.NAME, AlarmsDBOpenHelper.allcolumns,
 					null, null, null,
 					null, null);
 		} catch (SQLiteException e) {
