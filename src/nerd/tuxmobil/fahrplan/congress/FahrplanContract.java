@@ -23,4 +23,21 @@ public interface FahrplanContract {
 
 	}
 
+	public interface HighlightsTable {
+
+		public static final String NAME = "highlight";
+
+		public interface Columns {
+			public static final String ID = "_id";
+			public static final String EVENT_ID = "eventid";
+			public static final String HIGHLIGHT = "highlight";
+		}
+
+		public interface Values {
+			public static final int HIGHLIGHT_STATE_OFF = 0;
+			public static final int HIGHLIGHT_STATE_ON = 1;
+		}
+
+	}
+
 }

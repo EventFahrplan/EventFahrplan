@@ -8,9 +8,12 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import nerd.tuxmobil.fahrplan.congress.FahrplanContract.HighlightsTable;
+
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
 import com.actionbarsherlock.app.SherlockFragment;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -631,7 +634,7 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 			return false;
 		}
 		try {
-			hCursor = highlightdb.query("highlight", HighlightDBOpenHelper.allcolumns,
+			hCursor = highlightdb.query(HighlightsTable.NAME, HighlightDBOpenHelper.allcolumns,
 					null, null, null,
 					null, null);
 		} catch (SQLiteException e) {
@@ -733,12 +736,12 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 		hCursor.moveToFirst();
 		while (!hCursor.isAfterLast()) {
 			String lecture_id = hCursor.getString(1);
-			int highlighted = hCursor.getInt(2);
-			MyApp.LogDebug(LOG_TAG, "lecture "+lecture_id+" is hightlighted:"+highlighted);
+			int highlightState = hCursor.getInt(2);
+			MyApp.LogDebug(LOG_TAG, "lecture "+lecture_id+" is hightlighted:" + highlightState);
 
 			for (Lecture lecture : MyApp.lectureList) {
 				if (lecture.lecture_id.equals(lecture_id)) {
-					lecture.highlight = (highlighted == 1 ? true : false);
+					lecture.highlight = (highlightState == HighlightsTable.Values.HIGHLIGHT_STATE_ON ? true : false);
 				}
 			}
 			hCursor.moveToNext();

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import nerd.tuxmobil.fahrplan.congress.FahrplanContract.AlarmsTable;
+import nerd.tuxmobil.fahrplan.congress.FahrplanContract.HighlightsTable;
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -325,14 +326,15 @@ public class FahrplanMisc {
 
 		try {
 			db.beginTransaction();
-			db.delete("highlight", "eventid=?", new String[] { lecture.lecture_id });
+			db.delete(HighlightsTable.NAME, HighlightsTable.Columns.EVENT_ID + "=?", new String[] { lecture.lecture_id });
 
 			ContentValues values = new ContentValues();
 
-			values.put("eventid", Integer.parseInt(lecture.lecture_id));
-			values.put("highlight", lecture.highlight ? 1 : 0);
+			values.put(HighlightsTable.Columns.EVENT_ID, Integer.parseInt(lecture.lecture_id));
+			int highlightState = lecture.highlight ? HighlightsTable.Values.HIGHLIGHT_STATE_ON : HighlightsTable.Values.HIGHLIGHT_STATE_OFF;
+			values.put(HighlightsTable.Columns.HIGHLIGHT, highlightState);
 
-			db.insert("highlight", null, values);
+			db.insert(HighlightsTable.NAME, null, values);
 			db.setTransactionSuccessful();
 		} catch (SQLException e) {
 		} finally {
