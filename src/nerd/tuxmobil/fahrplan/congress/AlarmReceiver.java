@@ -25,11 +25,11 @@ public final class AlarmReceiver extends BroadcastReceiver {
 		MyApp.LogDebug(LOG_TAG, "action " + intent.getAction());
 
     	if (intent.getAction().equals(ALARM_LECTURE)) {
-	    	String lecture_id = intent.getStringExtra("lecture_id");
+	    	String lecture_id = intent.getStringExtra(BundleKeys.ALARM_DELETE_LECTURE_ID);
 	    	int lid = Integer.parseInt(lecture_id);
-	    	int day = intent.getIntExtra("day", 1);
-	    	long when = intent.getLongExtra("startTime", System.currentTimeMillis());
-	    	String title = intent.getStringExtra("title");
+	    	int day = intent.getIntExtra(BundleKeys.ALARM_DELETE_DAY, 1);
+	    	long when = intent.getLongExtra(BundleKeys.ALARM_DELETE_START_TIME, System.currentTimeMillis());
+	    	String title = intent.getStringExtra(BundleKeys.ALARM_DELETE_TITLE);
 	        //Toast.makeText(context, "Alarm worked.", Toast.LENGTH_LONG).show();
 	        NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 	        Notification notify = new Notification();

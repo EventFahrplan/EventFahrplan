@@ -221,14 +221,16 @@ public class FahrplanMisc {
 		cursor.moveToFirst();
 
 		Intent intent = new Intent(context, AlarmReceiver.class);
+
 		String lecture_id = cursor.getString(5);
-		intent.putExtra("lecture_id", lecture_id);
+		intent.putExtra(BundleKeys.ALARM_DELETE_LECTURE_ID, lecture_id);
 		int day = cursor.getInt(7);
-		intent.putExtra("day", day);
+		intent.putExtra(BundleKeys.ALARM_DELETE_DAY, day);
 		String title = cursor.getString(1);
-		intent.putExtra("title", title);
+		intent.putExtra(BundleKeys.ALARM_DELETE_TITLE, title);
 		long startTime = cursor.getLong(3);
-		intent.putExtra("startTime", startTime);
+		intent.putExtra(BundleKeys.ALARM_DELETE_START_TIME, startTime);
+
 		// delete any previous alarms of this lecture
 		db.delete(AlarmsTable.NAME, AlarmsTable.Columns.EVENT_ID + "=?", new String[] { lecture.lecture_id });
 		db.close();
@@ -269,10 +271,10 @@ public class FahrplanMisc {
 
 
 		Intent intent = new Intent(context, AlarmReceiver.class);
-		intent.putExtra("lecture_id", lecture.lecture_id);
-		intent.putExtra("day", lecture.day);
-		intent.putExtra("title", lecture.title);
-		intent.putExtra("startTime", startTime);
+		intent.putExtra(BundleKeys.ALARM_ADD_LECTURE_ID, lecture.lecture_id);
+		intent.putExtra(BundleKeys.ALARM_ADD_DAY, lecture.day);
+		intent.putExtra(BundleKeys.ALARM_ADD_TITLE, lecture.title);
+		intent.putExtra(BundleKeys.ALARM_ADD_START_TIME, startTime);
 		intent.setAction(AlarmReceiver.ALARM_LECTURE);
 
 		intent.setData(Uri.parse("alarm://"+lecture.lecture_id));
