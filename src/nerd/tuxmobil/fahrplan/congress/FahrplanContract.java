@@ -40,4 +40,43 @@ public interface FahrplanContract {
 
 	}
 
+	public interface LecturesTable {
+
+		public static final String NAME = "lectures";
+
+		public interface Columns {
+			public static final String EVENT_ID = "event_id";
+			public static final String TITLE = "title";
+			public static final String SUBTITLE = "subtitle";
+			public static final String DAY = "day";
+			public static final String ROOM = "room";
+			public static final String START = "start";
+			public static final String DURATION = "duration";
+			public static final String SPEAKERS = "speakers";
+			public static final String TRACK = "track";
+			public static final String TYPE = "type";
+			public static final String LANG = "lang";
+			public static final String ABSTRACT = "abstract";
+			public static final String DESCR = "descr";
+			public static final String REL_START = "relStart";
+			public static final String DATE = "date";
+			public static final String LINKS = "links";
+			public static final String DATE_UTC = "dateUTC";
+			public static final String ROOM_IDX = "room_idx";
+			public static final String REC_LICENSE = "rec_license";
+			public static final String REC_OPTOUT = "rec_optout";
+		}
+
+		public interface Defaults {
+			public static final int DATE_UTC_DEFAULT = 0;
+			public static final int ROOM_IDX_DEFAULT = 0;
+		}
+
+		public interface Values {
+			public static final int REC_OPTOUT_OFF = 0;
+			public static final int REC_OPTOUT_ON = 1;
+		}
+
+	}
+
 }

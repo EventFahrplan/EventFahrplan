@@ -10,6 +10,7 @@ import java.util.Set;
 
 import nerd.tuxmobil.fahrplan.congress.FahrplanContract.AlarmsTable;
 import nerd.tuxmobil.fahrplan.congress.FahrplanContract.HighlightsTable;
+import nerd.tuxmobil.fahrplan.congress.FahrplanContract.LecturesTable;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
@@ -624,9 +625,9 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 		Cursor cursor, hCursor;
 
 		try {
-			cursor = lecturedb.query("lectures", LecturesDBOpenHelper.allcolumns,
-					"day=?", new String[] { String.format("%d", day) }, null,
-					null, "relStart");
+			cursor = lecturedb.query(LecturesTable.NAME, LecturesDBOpenHelper.allcolumns,
+					LecturesTable.Columns.DAY + "=?", new String[] { String.format("%d", day) }, null,
+					null, LecturesTable.Columns.REL_START);
 		} catch (SQLiteException e) {
 			e.printStackTrace();
 			lecturedb.close();
@@ -678,7 +679,7 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 			lecture.dateUTC = cursor.getLong(16);
 			lecture.room_index = cursor.getInt(17);
 			lecture.recordingLicense = cursor.getString(18);
-			lecture.recordingOptOut = cursor.getInt(19) == 0 ? false : true;
+			lecture.recordingOptOut = cursor.getInt(19) == FahrplanContract.LecturesTable.Values.REC_OPTOUT_OFF ? false : true;
 
 			MyApp.lectureList.add(lecture);
 			cursor.moveToNext();

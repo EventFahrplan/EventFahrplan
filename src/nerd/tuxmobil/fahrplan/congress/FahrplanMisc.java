@@ -7,6 +7,7 @@ import java.util.Date;
 
 import nerd.tuxmobil.fahrplan.congress.FahrplanContract.AlarmsTable;
 import nerd.tuxmobil.fahrplan.congress.FahrplanContract.HighlightsTable;
+import nerd.tuxmobil.fahrplan.congress.FahrplanContract.LecturesTable;
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -35,7 +36,7 @@ public class FahrplanMisc {
 		Cursor cursor;
 
 		try {
-			cursor = lecturedb.query("lectures", LecturesDBOpenHelper.allcolumns,
+			cursor = lecturedb.query(LecturesTable.NAME, LecturesDBOpenHelper.allcolumns,
 					null, null, null,
 					null, null);
 		} catch (SQLiteException e) {

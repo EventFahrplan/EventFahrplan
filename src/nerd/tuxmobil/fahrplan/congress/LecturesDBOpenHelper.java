@@ -1,43 +1,64 @@
 package nerd.tuxmobil.fahrplan.congress;
 
+import nerd.tuxmobil.fahrplan.congress.FahrplanContract.LecturesTable;
+import nerd.tuxmobil.fahrplan.congress.FahrplanContract.LecturesTable.Columns;
+import nerd.tuxmobil.fahrplan.congress.FahrplanContract.LecturesTable.Values;
+import nerd.tuxmobil.fahrplan.congress.FahrplanContract.LecturesTable.Defaults;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class LecturesDBOpenHelper extends SQLiteOpenHelper {
 
-	private final String LOG_TAG = "DBHelper";
     private static final int DATABASE_VERSION = 4;
-    private static final String LECTURES_TABLE_NAME = "lectures";
     private static final String LECTURES_TABLE_CREATE =
-                "CREATE TABLE " + LECTURES_TABLE_NAME + " (" +
-                "event_id TEXT, " +
-                "title TEXT, " +
-                "subtitle TEXT, " +
-                "day INTEGER, " +
-                "room STRING, " +
-                "start INTEGER, " +
-                "duration INTEGER, " +
-                "speakers STRING, " +
-                "track STRING, " +
-                "type STRING, " +
-                "lang STRING, " +
-                "abstract STRING, " +
-                "descr STRING, " +
-                "relStart INTEGER, " +
-                "date STRING, " +
-                "links STRING, " +
-                "dateUTC INTEGER, " +
-                "room_idx INTEGER, " +
-                "rec_license STRING, " +
-                "rec_optout INTEGER);";
+                "CREATE TABLE " + LecturesTable.NAME + " (" +
+                Columns.EVENT_ID + " TEXT, " +
+                Columns.TITLE + " TEXT, " +
+                Columns.SUBTITLE + " TEXT, " +
+                Columns.DAY + " INTEGER, " +
+                Columns.ROOM + " STRING, " +
+                Columns.START + " INTEGER, " +
+                Columns.DURATION + " INTEGER, " +
+                Columns.SPEAKERS + " STRING, " +
+                Columns.TRACK + " STRING, " +
+                Columns.TYPE + " STRING, " +
+                Columns.LANG + " STRING, " +
+                Columns.ABSTRACT + " STRING, " +
+                Columns.DESCR + " STRING, " +
+                Columns.REL_START + " INTEGER, " +
+                Columns.DATE + " STRING, " +
+                Columns.LINKS + " STRING, " +
+                Columns.DATE_UTC + " INTEGER, " +
+                Columns.ROOM_IDX + " INTEGER, " +
+                Columns.REC_LICENSE + " STRING, " +
+                Columns.REC_OPTOUT + " INTEGER);";
 
-    public static final String[] allcolumns = { "event_id", "title", "subtitle", "day", "room", "start",
-    	"duration", "speakers", "track", "type", "lang", "abstract", "descr", "relStart", "date", "links", "dateUTC", "room_idx", "rec_license", "rec_optout"
+    public static final String[] allcolumns = {
+    	Columns.EVENT_ID,
+    	Columns.TITLE,
+    	Columns.SUBTITLE,
+    	Columns.DAY,
+    	Columns.ROOM,
+    	Columns.START,
+    	Columns.DURATION,
+    	Columns.SPEAKERS,
+    	Columns.TRACK,
+    	Columns.TYPE,
+    	Columns.LANG,
+    	Columns.ABSTRACT,
+    	Columns.DESCR,
+    	Columns.REL_START,
+    	Columns.DATE,
+    	Columns.LINKS,
+    	Columns.DATE_UTC,
+    	Columns.ROOM_IDX,
+        Columns.REC_LICENSE,
+        Columns.REC_OPTOUT
     };
 
     LecturesDBOpenHelper(Context context) {
-        super(context, "lectures", null, DATABASE_VERSION);
+        super(context, LecturesTable.NAME, null, DATABASE_VERSION);
     }
 
     @Override
@@ -48,14 +69,21 @@ public class LecturesDBOpenHelper extends SQLiteOpenHelper {
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		if ((oldVersion < 2) && (newVersion >= 2)) {
-			db.execSQL("ALTER TABLE lectures ADD COLUMN dateUTC INTEGER DEFAULT 0");
+			db.execSQL("ALTER TABLE " + LecturesTable.NAME +
+				" ADD COLUMN " + Columns.DATE_UTC + " INTEGER DEFAULT " +
+				Defaults.DATE_UTC_DEFAULT);
 		}
 		if ((oldVersion < 3) && (newVersion >= 3)) {
-			db.execSQL("ALTER TABLE lectures ADD COLUMN room_idx INTEGER DEFAULT 0");
+			db.execSQL("ALTER TABLE " + LecturesTable.NAME +
+				" ADD COLUMN " + Columns.ROOM_IDX + " INTEGER DEFAULT " +
+				Defaults.ROOM_IDX_DEFAULT);
 		}
 		if ((oldVersion < 4) && (newVersion >= 4)) {
-			db.execSQL("ALTER TABLE lectures ADD COLUMN rec_license STRING DEFAULT ''");
-			db.execSQL("ALTER TABLE lectures ADD COLUMN rec_optout INTEGER DEFAULT 0");
+			db.execSQL("ALTER TABLE " + LecturesTable.NAME +
+                " ADD COLUMN " + Columns.REC_LICENSE + " STRING DEFAULT ''");
+			db.execSQL("ALTER TABLE " + LecturesTable.NAME +
+                " ADD COLUMN " + Columns.REC_OPTOUT  + " INTEGER DEFAULT " +
+                Values.REC_OPTOUT_OFF);
 		}
 	}
 }
