@@ -10,6 +10,7 @@ import java.util.HashMap;
 import nerd.tuxmobil.fahrplan.congress.FahrplanContract.LecturesTable;
 import nerd.tuxmobil.fahrplan.congress.FahrplanContract.LecturesTable.Columns;
 import nerd.tuxmobil.fahrplan.congress.FahrplanContract.LecturesTable.Values;
+import nerd.tuxmobil.fahrplan.congress.FahrplanContract.MetasTable;
 
 import org.xmlpull.v1.XmlPullParser;
 
@@ -115,16 +116,16 @@ class parser extends AsyncTask<String, Void, Boolean> {
 
 		try {
 			db.beginTransaction();
-			db.delete("meta", null, null);
-			values.put("numdays", meta.numdays);
-			values.put("version", meta.version);
-			values.put("title", meta.title);
-			values.put("subtitle", meta.subtitle);
-			values.put("day_change_hour", meta.dayChangeHour);
-			values.put("day_change_minute", meta.dayChangeMinute);
-			values.put("etag", meta.eTag);
+			db.delete(MetasTable.NAME, null, null);
+			values.put(MetasTable.Columns.NUM_DAYS, meta.numdays);
+			values.put(MetasTable.Columns.VERSION, meta.version);
+			values.put(MetasTable.Columns.TITLE, meta.title);
+			values.put(MetasTable.Columns.SUBTITLE, meta.subtitle);
+			values.put(MetasTable.Columns.DAY_CHANGE_HOUR, meta.dayChangeHour);
+			values.put(MetasTable.Columns.DAY_CHANGE_MINUTE, meta.dayChangeMinute);
+			values.put(MetasTable.Columns.ETAG, meta.eTag);
 
-			db.insert("meta", null, values);
+			db.insert(MetasTable.NAME, null, values);
 			db.setTransactionSuccessful();
 		} catch (SQLException e) {
 		} finally {

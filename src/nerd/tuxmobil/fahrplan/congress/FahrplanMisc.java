@@ -8,6 +8,7 @@ import java.util.Date;
 import nerd.tuxmobil.fahrplan.congress.FahrplanContract.AlarmsTable;
 import nerd.tuxmobil.fahrplan.congress.FahrplanContract.HighlightsTable;
 import nerd.tuxmobil.fahrplan.congress.FahrplanContract.LecturesTable;
+import nerd.tuxmobil.fahrplan.congress.FahrplanContract.MetasTable;
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -79,7 +80,7 @@ public class FahrplanMisc {
 
 		Cursor cursor;
 		try {
-			cursor = metadb.query("meta", MetaDBOpenHelper.allcolumns, null, null,
+			cursor = metadb.query(MetasTable.NAME, MetaDBOpenHelper.allcolumns, null, null,
 					null, null, null);
 		} catch (SQLiteException e) {
 			e.printStackTrace();
@@ -89,12 +90,12 @@ public class FahrplanMisc {
 			return;
 		}
 
-		MyApp.numdays = 0;
+		MyApp.numdays = MetasTable.Defaults.NUM_DAYS_DEFAULT;;
 		MyApp.version = "";
 		MyApp.title = "";
 		MyApp.subtitle = "";
-		MyApp.dayChangeHour = 4;
-		MyApp.dayChangeMinute = 0;
+		MyApp.dayChangeHour = MetasTable.Defaults.DAY_CHANGE_HOUR_DEFAULT;
+		MyApp.dayChangeMinute = MetasTable.Defaults.DAY_CHANGE_MINUTE_DEFAULT;
 		MyApp.eTag = null;
 
 		if (cursor.getCount() > 0) {

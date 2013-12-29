@@ -2,6 +2,29 @@ package nerd.tuxmobil.fahrplan.congress;
 
 public interface FahrplanContract {
 
+	public interface MetasTable {
+
+		public static final String NAME = "meta";
+
+		public interface Columns {
+			public static final String NUM_DAYS = "numdays";
+			public static final String VERSION = "version";
+			public static final String TITLE = "title";
+			public static final String SUBTITLE = "subtitle";
+			public static final String DAY_CHANGE_HOUR = "day_change_hour";
+			public static final String DAY_CHANGE_MINUTE = "day_change_minute";
+			public static final String ETAG = "etag";
+		}
+
+		public interface Defaults {
+			public static final int NUM_DAYS_DEFAULT = 0;
+			public static final int DAY_CHANGE_HOUR_DEFAULT = 4;
+			public static final int DAY_CHANGE_MINUTE_DEFAULT = 0;
+			public static final String ETAG_DEFAULT = "''";
+		}
+
+	}
+
 	public interface AlarmsTable {
 
 		public static final String NAME = "alarms";
