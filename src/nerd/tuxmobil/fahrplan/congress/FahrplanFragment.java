@@ -765,7 +765,7 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 
 		alarmCursor.moveToFirst();
 		while (!alarmCursor.isAfterLast()) {
-			String lecture_id = alarmCursor.getString(4);
+			String lecture_id = alarmCursor.getString(5);
 			MyApp.LogDebug(LOG_TAG, "lecture "+lecture_id+" has alarm");
 
 			for (Lecture lecture : MyApp.lectureList) {
