@@ -334,4 +334,17 @@ public class MainActivity extends SherlockFragmentActivity implements OnParseCom
 		fetchFahrplan(MainActivity.this);
 	}
 
+	@Override
+	public void onBackPressed() {
+		FragmentManager fm = getSupportFragmentManager();
+		Fragment detail = fm.findFragmentByTag("detail");
+		if (detail != null) {
+			fm.beginTransaction().remove(detail).commit();
+			View sidePane = findViewById(R.id.detail);
+			if (sidePane != null) sidePane.setVisibility(View.GONE);
+			supportInvalidateOptionsMenu();
+		} else {
+			finish();
+		}
+	}
 }
