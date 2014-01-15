@@ -23,7 +23,7 @@ import android.text.format.Time;
 import android.view.View;
 import android.widget.FrameLayout;
 
-public class MainActivity extends SherlockFragmentActivity implements OnParseCompleteListener, OnDownloadCompleteListener, OnCloseDetailListener, OnRefreshEventMarers, OnCertAccepted {
+public class MainActivity extends SherlockFragmentActivity implements OnParseCompleteListener, OnDownloadCompleteListener, OnCloseDetailListener, OnRefreshEventMarkers, OnCertAccepted {
 
 	private static final String LOG_TAG = "MainActivity";
 	private FetchFahrplan fetcher;

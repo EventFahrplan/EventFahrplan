@@ -43,7 +43,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.LinearLayout.LayoutParams;
 
-interface OnRefreshEventMarers {
+interface OnRefreshEventMarkers {
 	public void refreshEventMarkers();
 }
 

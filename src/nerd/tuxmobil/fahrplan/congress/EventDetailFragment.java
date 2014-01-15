@@ -240,8 +240,8 @@ public class EventDetailFragment extends SherlockFragment {
 
 	public void refreshEventMarkers() {
 		SherlockFragmentActivity activity = getSherlockActivity();
-		if ((activity != null) && (activity instanceof OnRefreshEventMarers)) {
-			((OnRefreshEventMarers)activity).refreshEventMarkers();
+		if ((activity != null) && (activity instanceof OnRefreshEventMarkers)) {
+			((OnRefreshEventMarkers)activity).refreshEventMarkers();
 		}
 	}
 
