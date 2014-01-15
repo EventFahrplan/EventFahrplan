@@ -17,7 +17,7 @@
      limitations under the License.
 -->
 
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <style name="Theme.Congress" parent="@style/Theme.Sherlock">
         <item name="actionBarItemBackground">@drawable/selectable_background_congress</item>
@@ -38,11 +38,13 @@
         <item name="backgroundStacked">@drawable/ab_stacked_solid_congress</item>
         <item name="backgroundSplit">@drawable/ab_bottom_solid_congress</item>
         <item name="progressBarStyle">@style/ProgressBar.Congress</item>
+        <item name="indeterminateProgressStyle">@style/ActivityIndicator</item>
     </style>
 
     <style name="ActionBar.Transparent.Congress" parent="@style/Widget.Sherlock.ActionBar">
         <item name="background">@drawable/ab_transparent_congress</item>
         <item name="progressBarStyle">@style/ProgressBar.Congress</item>
+        <item name="indeterminateProgressStyle">@style/ActivityIndicator</item>
     </style>
 	
     <style name="PopupMenu.Congress" parent="@style/Widget.Sherlock.ListPopupWindow">	
@@ -83,6 +85,13 @@
         <item name="android:gravity">center</item>
         <item name="android:background">@drawable/alarm_list_icon_layer</item>
         <item name="android:text">0</item>
+    </style>
+    
+    <style name="ActivityIndicator" parent="@android:style/Widget.ProgressBar">
+        <item name="android:minWidth">48dp</item>
+        <item name="android:maxWidth">48dp</item>
+        <item name="android:minHeight">32dp</item>
+        <item name="android:maxHeight">32dp</item>
     </style>
 
 </resources>

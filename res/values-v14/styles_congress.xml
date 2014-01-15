@@ -38,17 +38,26 @@
         <item name="android:backgroundStacked">@drawable/ab_stacked_solid_congress</item>
         <item name="android:backgroundSplit">@drawable/ab_bottom_solid_congress</item>
         <item name="android:progressBarStyle">@style/ProgressBar.Congress</item>
+        <item name="android:indeterminateProgressStyle">@style/ActivityIndicator</item>
     </style>
 
     <style name="ActionBar.Transparent.Congress" parent="@style/Widget.Sherlock.ActionBar">
         <item name="android:background">@drawable/ab_transparent_congress</item>
         <item name="android:progressBarStyle">@style/ProgressBar.Congress</item>
+        <item name="android:indeterminateProgressStyle">@style/ActivityIndicator</item>
     </style>
     
     <!-- this style is only referenced in a Light.DarkActionBar based theme -->
     <style name="Theme.Congress.Widget" parent="@style/Theme.Sherlock">
         <item name="android:popupMenuStyle">@style/PopupMenu.Congress</item>
         <item name="android:dropDownListViewStyle">@style/DropDownListView.Congress</item>
+    </style>
+
+    <style name="ActivityIndicator" parent="@android:style/Widget.Holo.ProgressBar">
+        <item name="android:minWidth">48dp</item>
+        <item name="android:maxWidth">48dp</item>
+        <item name="android:minHeight">32dp</item>
+        <item name="android:maxHeight">32dp</item>
     </style>
 
 </resources>
