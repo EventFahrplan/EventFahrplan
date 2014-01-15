@@ -21,6 +21,8 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
 	private HorizontalScrollView roomNames = null;
 	private int max_cols;
 
+    private static final int SWIPE_MIN_DISTANCE = 5;
+    private static final int SWIPE_THRESHOLD_VELOCITY = 2800;
 	/**
 	 * get currently displayed column index
 	 *
@@ -33,20 +35,6 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
 	class YScrollDetector extends SimpleOnGestureListener {
 
 	    @Override
-	    public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-	        try {
-	            if (Math.abs(distanceX) > Math.abs(distanceY)) {
-	                return true;
-	            } else {
-	                return false;
-	            }
-	        } catch (Exception e) {
-	            // nothing
-	        }
-	        return false;
-	    }
-
-	    @Override
 	    public boolean onDown(MotionEvent e) {
     		xStart = (int) e.getX();
 //    		MyApp.LogDebug(LOG_TAG, "onDown xStart:"+xStart+" getMeasuredWidth:"+getMeasuredWidth());
@@ -54,6 +42,29 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
     		activeItem = Math.round(ofs);
     		return super.onDown(e);
 	    }
+
+	    @Override
+	    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+			float scale = getResources().getDisplayMetrics().density;
+			int columns = (int) Math.ceil((Math.abs(velocityX/scale)/SWIPE_THRESHOLD_VELOCITY)*3);
+//	    	MyApp.LogDebug(LOG_TAG, "onFling " + velocityX + "/" + velocityY + " " + velocityX/scale + " " + columns);
+            try {
+                //right to left
+                if ((e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE) && (Math.abs(velocityX/scale) > SWIPE_THRESHOLD_VELOCITY)) {
+                	scrollToColumn(activeItem + columns, false);
+                    return true;
+                }
+                //left to right
+                else if ((e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE) && (Math.abs(velocityX/scale) > SWIPE_THRESHOLD_VELOCITY)) {
+                	scrollToColumn(activeItem - columns, false);
+                    return true;
+                }
+            } catch (Exception e) {
+                    MyApp.LogDebug(LOG_TAG, "There was an error processing the Fling event:" + e.getMessage());
+            }
+            return super.onFling(e1, e2, velocityX, velocityY);
+	    }
+
 	}
 
 	@Override
@@ -63,16 +74,9 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
 
 	@Override
 	public boolean onInterceptTouchEvent(MotionEvent ev) {
-	    //Call super first because it does some hidden motion event handling
 	    boolean result = super.onInterceptTouchEvent(ev);
-	    //Now see if we are scrolling vertically with the custom gesture detector
-	    if (gestureDetector.onTouchEvent(ev)) {
-	        return result;
-	    }
-	    //If not scrolling vertically (more y than x), don't hijack the event.
-	    else {
-	        return false;
-	    }
+	    gestureDetector.onTouchEvent(ev);
+	    return result;
 	}
 
 	public void scrollToColumn(int col, boolean fast) {
@@ -80,10 +84,18 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
 		if (itemWidth == 0) max = 0; else max = (getChildAt(0).getMeasuredWidth()-itemWidth)/itemWidth;
 		if (col < 0) col = 0;
 		if (col > max) col = max;
-		int scrollTo = col * itemWidth;
+		final int scrollTo = col * itemWidth;
 		MyApp.LogDebug(LOG_TAG, "scroll to col " + col + "/" + scrollTo + " " + getChildAt(0).getMeasuredWidth());
 		if (!fast) {
-		    smoothScrollTo(scrollTo, 0);
+			this.post(new Runnable() {
+
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+				    smoothScrollTo(scrollTo, 0);
+
+				}
+			});
 		} else {
 			scrollTo(scrollTo, 0);
 			if (roomNames != null) roomNames.scrollTo(scrollTo, 0);
@@ -99,7 +111,12 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
 	    setOnTouchListener(new View.OnTouchListener() {
 
 	            public boolean onTouch(View v, MotionEvent event) {
-	                if (event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_CANCEL ){
+//	            	return false;
+	            	MyApp.LogDebug(LOG_TAG, "onTouch");
+	            	if (gestureDetector.onTouchEvent(event)) {
+//	            		MyApp.LogDebug(LOG_TAG, "gesture detector consumed event");
+	            		return false;
+	            	} else if (event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_CANCEL ){
 	                    int scrollX = (int) event.getX();
 	                    int distance = scrollX - xStart;
 	                    MyApp.LogDebug(LOG_TAG, "item width:" + itemWidth + " scrollX:" + scrollX + " distance:" + distance + " activeItem:" + activeItem);
@@ -167,18 +184,15 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
 	}
 
 	public void setChildScroller(HorizontalScrollView h) {
-		MyApp.LogDebug(LOG_TAG, "roomNames="+h);
 		roomNames = h;
 	}
 
 	public int getColumnWidth() {
-		MyApp.LogDebug(LOG_TAG, "getColumnWidth: " + itemWidth);
 		return itemWidth;
 	}
 
 	@Override
 	protected void onLayout(boolean changed, int l, int t, int r, int b) {
-		MyApp.LogDebug(LOG_TAG, "onLayout " + changed + "/" + l + "/" + r);
 		super.onLayout(changed, l, t, r, b);
 		scrollToColumn(activeItem, true);
 	}
@@ -212,5 +226,4 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
 		}
 		scrollToColumn(activeItem, true);
 	}
-
 }
