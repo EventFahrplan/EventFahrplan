@@ -110,6 +110,11 @@ public class EventDetailFragment extends SherlockFragment {
 	        	t.setText(df.format(new Date(lecture.dateUTC)) + " - " + room);
 	        } else t.setText("");
 
+	        t = (TextView)view.findViewById(R.id.lectureid);
+	        if (t != null) {
+	        	t.setText("ID: " + event_id);
+	        }
+
 	        t = (TextView)view.findViewById(R.id.title);
 	        t.setTypeface(boldCondensed);
 	        t.setText(title);
