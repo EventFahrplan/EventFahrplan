@@ -206,7 +206,6 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 		if (scroller != null) addRoomColumns(scroller);
 		if (roomScroller != null) addRoomTitleViews(roomScroller);
 
-		fillTimes();
 		for (int i = 0; i < MyApp.room_count; i++) {
 			fillRoom((ViewGroup) scroller.getChildAt(0), i);
 		}
@@ -839,6 +838,7 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 					mDay = 1;
 				}
 				viewDay(true);
+				fillTimes();
 				final Toast done = Toast.makeText(global
 						.getApplicationContext(), String.format(
 						getString(R.string.aktualisiert_auf), version),
