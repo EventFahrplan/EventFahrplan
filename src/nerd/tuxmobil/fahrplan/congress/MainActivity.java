@@ -76,9 +76,11 @@ public class MainActivity extends SherlockFragmentActivity implements OnParseCom
 
 		if (findViewById(R.id.schedule) != null) {
 			FragmentManager fm = getSupportFragmentManager();
-			FragmentTransaction fragmentTransaction = fm.beginTransaction();
-			fragmentTransaction.replace(R.id.schedule, new FahrplanFragment(), "schedule");
-			fragmentTransaction.commit();
+			if (fm.findFragmentByTag("schedule") == null) {
+				FragmentTransaction fragmentTransaction = fm.beginTransaction();
+				fragmentTransaction.replace(R.id.schedule, new FahrplanFragment(), "schedule");
+				fragmentTransaction.commit();
+			}
 		}
 
 		if (findViewById(R.id.detail) == null) {
