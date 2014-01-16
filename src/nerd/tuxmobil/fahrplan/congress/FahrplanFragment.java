@@ -903,21 +903,14 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 
 		switch (menuItemIndex) {
 		case 0:
-			Integer drawable;
-			int padding = getEventPadding();
 			if (lecture.highlight) {
-				drawable = trackColors.get(lecture.track);
 				lecture.highlight = false;
 				FahrplanMisc.writeHighlight(getSherlockActivity(), lecture);
 			} else {
-				drawable = trackColorsHi.get(lecture.track);
 				lecture.highlight = true;
 				FahrplanMisc.writeHighlight(getSherlockActivity(), lecture);
 			}
-			if (drawable != null) {
-				contextMenuView.setBackgroundResource(drawable);
-				contextMenuView.setPadding(padding, padding, padding, padding);
-			}
+			setLectureBackground(lecture, contextMenuView);
 			break;
 		case 1:
 			getAlarmTimeDialog(lecture);
