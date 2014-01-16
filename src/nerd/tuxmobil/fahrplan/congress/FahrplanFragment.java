@@ -386,14 +386,15 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 	}
 
 	private void chooseDay(int chosenDay) {
-		mDay = chosenDay + 1;
-		SharedPreferences settings = getSherlockActivity().getSharedPreferences(PREFS_NAME, 0);
-		SharedPreferences.Editor editor = settings.edit();
-		editor.putInt("displayDay", mDay);
+		if ((chosenDay + 1) != mDay) {
+			mDay = chosenDay + 1;
+			SharedPreferences settings = getSherlockActivity().getSharedPreferences(PREFS_NAME, 0);
+			SharedPreferences.Editor editor = settings.edit();
+			editor.putInt("displayDay", mDay);
+			editor.commit();
 
-		editor.commit();
-
-		viewDay(true);
+			viewDay(true);
+		}
 	}
 
 	private int minutesOfDay(long dateUTC) {
