@@ -514,6 +514,8 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 		int standardHeight;
 		int startTime;
 		int room_index = MyApp.roomList.get(roomIdx);
+		View event = null;
+		int margin;
 
 		switch (getResources().getConfiguration().orientation) {
 		case Configuration.ORIENTATION_LANDSCAPE:
@@ -533,11 +535,14 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 					if (startTime < endTime) startTime += (24*60);
 				} else startTime = lecture.relStartTime;
 				if (startTime > endTime) {
-					View event = new View(getSherlockActivity());
-					int height = (int) (standardHeight
-							* (startTime - endTime) / 5);
-					room.addView(event, LayoutParams.MATCH_PARENT, height);
-				}
+					margin = (int) (standardHeight * (startTime - endTime) / 5);
+					if (event != null) {
+						LayoutParams lp = (LayoutParams) event.getLayoutParams();
+						lp.bottomMargin = margin;
+						event.setLayoutParams(lp);
+						margin = 0;
+					}
+				} else margin = 0;
 
 				// fix overlapping events
 				Lecture next = null;
@@ -556,7 +561,7 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 				}
 
 
-				View event = inflater.inflate(R.layout.event_layout, null);
+				event = inflater.inflate(R.layout.event_layout, null);
 				int height = (int) (standardHeight * (lecture.duration / 5));
 				ImageView bell = (ImageView) event.findViewById(R.id.bell);
 				if (lecture.has_alarm) {
@@ -565,6 +570,9 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 					bell.setVisibility(View.GONE);
 				}
 				room.addView(event, LayoutParams.MATCH_PARENT, height);
+				LayoutParams lp = (LayoutParams) event.getLayoutParams();
+				lp.topMargin = margin;
+				event.setLayoutParams(lp);
 				TextView title = (TextView) event
 						.findViewById(R.id.event_title);
 				title.setTypeface(boldCondensed);
