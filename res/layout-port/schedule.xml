@@ -8,6 +8,7 @@
 		android:orientation="horizontal"
     	android:layout_alignParentTop="true" 
 		android:layout_width="match_parent"
+	    android:background="#000"
 		android:layout_height="wrap_content" >
 
 		<TextView android:layout_height="wrap_content"

@@ -4,11 +4,13 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	>
 	
-	<LinearLayout android:id="@+id/roomNameLandscape"
-		android:orientation="horizontal"
-    	android:layout_alignParentTop="true" 
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content" >
+	<LinearLayout
+	    android:id="@+id/roomNameLandscape"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentTop="true"
+	    android:background="#000"
+	    android:orientation="horizontal" >
 
 		<TextView android:layout_height="wrap_content"
 			android:layout_width="@dimen/time_width" android:text="" />
@@ -38,7 +40,6 @@
 			    android:layout_width="wrap_content"
 			    android:layout_height="match_parent"
 			    android:layout_weight="0"
-			    android:background="#ffaaaaaa"
 			    android:orientation="vertical" >
 
 			</LinearLayout>
