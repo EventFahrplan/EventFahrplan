@@ -158,6 +158,8 @@ class parser extends AsyncTask<String, Void, Boolean> {
 				values.put("date", lecture.date);
 				values.put("dateUTC", lecture.dateUTC);
 				values.put("room_idx", lecture.room_index);
+				values.put("rec_license", lecture.recordingLicense);
+				values.put("rec_optout", lecture.recordingOptOut ? 1 : 0);
 				db.insert("lectures", null, values);
 			}
 			db.setTransactionSuccessful();
@@ -284,6 +286,32 @@ class parser extends AsyncTask<String, Void, Boolean> {
 									parser.next();
 									if (parser.getText() != null) {
 										lecture.dateUTC = Lecture.parseDateTime(parser.getText());
+									}
+								} else if (name.equals("recording")) {
+									eventType = parser.next();
+									boolean recording_done = false;
+									while (eventType != XmlPullParser.END_DOCUMENT
+											&& !recording_done && !isCancelled()) {
+										switch (eventType) {
+										case XmlPullParser.END_TAG:
+											name = parser.getName();
+											if (name.equals("recording")) {
+												recording_done = true;
+											}
+											break;
+										case XmlPullParser.START_TAG:
+											name = parser.getName();
+											if (name.equals("license")) {
+												parser.next();
+												if (parser.getText() != null) lecture.recordingLicense = parser.getText();
+											} else if (name.equals("optout")) {
+												parser.next();
+												if (parser.getText() != null) lecture.recordingOptOut = Boolean.valueOf(parser.getText());
+											}
+											break;
+										}
+										if (recording_done) break;
+										eventType = parser.next();
 									}
 								}
 								break;

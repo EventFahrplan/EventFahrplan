@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class LecturesDBOpenHelper extends SQLiteOpenHelper {
 
 	private final String LOG_TAG = "DBHelper";
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 4;
     private static final String LECTURES_TABLE_NAME = "lectures";
     private static final String LECTURES_TABLE_CREATE =
                 "CREATE TABLE " + LECTURES_TABLE_NAME + " (" +
@@ -28,10 +28,12 @@ public class LecturesDBOpenHelper extends SQLiteOpenHelper {
                 "date STRING, " +
                 "links STRING, " +
                 "dateUTC INTEGER, " +
-                "room_idx INTEGER);";
+                "room_idx INTEGER, " +
+                "rec_license STRING, " +
+                "rec_optout INTEGER);";
 
     public static final String[] allcolumns = { "event_id", "title", "subtitle", "day", "room", "start",
-    	"duration", "speakers", "track", "type", "lang", "abstract", "descr", "relStart", "date", "links", "dateUTC", "room_idx"
+    	"duration", "speakers", "track", "type", "lang", "abstract", "descr", "relStart", "date", "links", "dateUTC", "room_idx", "rec_license", "rec_optout"
     };
 
     LecturesDBOpenHelper(Context context) {
@@ -50,6 +52,10 @@ public class LecturesDBOpenHelper extends SQLiteOpenHelper {
 		}
 		if ((oldVersion < 3) && (newVersion >= 3)) {
 			db.execSQL("ALTER TABLE lectures ADD COLUMN room_idx INTEGER DEFAULT 0");
+		}
+		if ((oldVersion < 4) && (newVersion >= 4)) {
+			db.execSQL("ALTER TABLE lectures ADD COLUMN rec_license STRING DEFAULT ''");
+			db.execSQL("ALTER TABLE lectures ADD COLUMN rec_optout INTEGER DEFAULT 0");
 		}
 	}
 }

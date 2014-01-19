@@ -3,19 +3,39 @@
 	android:layout_width="match_parent" android:layout_height="wrap_content"
 	android:orientation="vertical" android:padding="10dp"
 	android:background="@drawable/event_border_default">
-	<RelativeLayout android:layout_height="wrap_content"
+	<LinearLayout android:layout_height="wrap_content"
 		android:layout_width="match_parent" android:id="@+id/relativeLayout1"
-		android:gravity="bottom" android:layout_gravity="bottom">
+		android:orientation="horizontal">
 		<TextView android:text="TextView" android:id="@+id/event_title"
-			android:layout_width="wrap_content" android:layout_height="wrap_content"
+			android:layout_width="0dp" android:layout_height="wrap_content"
 			android:textStyle="bold" android:textColor="#000000"
-			android:textSize="12sp" android:layout_alignParentLeft="true"
-			android:layout_toLeftOf="@+id/bell"></TextView>
-		<ImageView android:src="@drawable/bell" android:id="@+id/bell"
-			android:layout_alignParentRight="true" android:scaleType="fitEnd"
-			android:layout_alignParentTop="true" android:paddingTop="6dp"
-			android:layout_height="14dp" android:layout_width="17dp"></ImageView>
-	</RelativeLayout>
+			android:textSize="12sp" android:layout_weight="1"
+			/>
+
+        <ImageView
+            android:id="@+id/novideo"
+            android:layout_width="wrap_content"
+            android:layout_height="9sp"
+            android:layout_marginLeft="3dp"
+            android:adjustViewBounds="true"
+            android:baselineAlignBottom="true"
+            android:scaleType="fitEnd"
+            android:src="@drawable/ic_novideo" >
+
+        </ImageView>
+
+		<ImageView
+		    android:id="@+id/bell"
+		    android:layout_width="wrap_content"
+		    android:layout_height="9sp"
+            android:layout_marginLeft="3dp"
+		    android:adjustViewBounds="true"
+		    android:baselineAlignBottom="true"
+		    android:scaleType="fitEnd"
+		    android:src="@drawable/bell" >
+
+</ImageView>
+	</LinearLayout>
 	<TextView android:text="TextView" android:id="@+id/event_subtitle"
 		android:layout_width="wrap_content" android:layout_height="fill_parent"
 		android:layout_weight="1" android:textColor="#000000"
