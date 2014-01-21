@@ -2,6 +2,11 @@ package nerd.tuxmobil.fahrplan.congress;
 
 public interface FahrplanContract {
 
+	public interface FragmentTags {
+		public static final String DETAIL = "detail";
+		public static final String SCHEDULE = "schedule";
+	}
+
 	public interface MetasTable {
 
 		public static final String NAME = "meta";

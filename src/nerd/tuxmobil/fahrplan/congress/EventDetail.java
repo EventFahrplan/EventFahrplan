@@ -1,5 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress;
 
+import nerd.tuxmobil.fahrplan.congress.FahrplanContract.FragmentTags;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -37,7 +38,7 @@ public class EventDetail extends SherlockFragmentActivity {
 			args.putInt(BundleKeys.EVENT_DAY, intent.getIntExtra(BundleKeys.EVENT_DAY, 0));
 			args.putString(BundleKeys.EVENT_ROOM, intent.getStringExtra(BundleKeys.EVENT_ROOM));
 			ev.setArguments(args);
-			fragmentTransaction.replace(R.id.detail, ev, "detail");
+			fragmentTransaction.replace(R.id.detail, ev, FragmentTags.DETAIL);
 			fragmentTransaction.commit();
 		}
 	}

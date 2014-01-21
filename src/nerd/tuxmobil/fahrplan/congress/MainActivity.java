@@ -1,6 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress;
 
 import nerd.tuxmobil.fahrplan.congress.CustomHttpClient.HTTP_STATUS;
+import nerd.tuxmobil.fahrplan.congress.FahrplanContract.FragmentTags;
 import nerd.tuxmobil.fahrplan.congress.MyApp.TASKS;
 
 import com.actionbarsherlock.app.SherlockDialogFragment;
@@ -76,16 +77,16 @@ public class MainActivity extends SherlockFragmentActivity implements OnParseCom
 
 		if (findViewById(R.id.schedule) != null) {
 			FragmentManager fm = getSupportFragmentManager();
-			if (fm.findFragmentByTag("schedule") == null) {
+			if (fm.findFragmentByTag(FragmentTags.SCHEDULE) == null) {
 				FragmentTransaction fragmentTransaction = fm.beginTransaction();
-				fragmentTransaction.replace(R.id.schedule, new FahrplanFragment(), "schedule");
+				fragmentTransaction.replace(R.id.schedule, new FahrplanFragment(), FragmentTags.SCHEDULE);
 				fragmentTransaction.commit();
 			}
 		}
 
 		if (findViewById(R.id.detail) == null) {
 			FragmentManager fm = getSupportFragmentManager();
-			Fragment detail = fm.findFragmentByTag("detail");
+			Fragment detail = fm.findFragmentByTag(FragmentTags.DETAIL);
 			if (detail != null) {
 				FragmentTransaction ft = fm.beginTransaction();
 				ft.remove(detail).commit();
@@ -155,7 +156,7 @@ public class MainActivity extends SherlockFragmentActivity implements OnParseCom
 		}
 		setSupportProgressBarIndeterminateVisibility(false);
 		FragmentManager fm = getSupportFragmentManager();
-		Fragment fragment = fm.findFragmentByTag("schedule");
+		Fragment fragment = fm.findFragmentByTag(FragmentTags.SCHEDULE);
 		if ((fragment != null) && (fragment instanceof OnParseCompleteListener)) {
 			((OnParseCompleteListener)fragment).onParseDone(result, version);
 		}
@@ -277,7 +278,7 @@ public class MainActivity extends SherlockFragmentActivity implements OnParseCom
 			args.putString(BundleKeys.EVENT_ROOM, lecture.room);
 			args.putBoolean(BundleKeys.SIDEPANE, true);
 			ev.setArguments(args);
-			fragmentTransaction.replace(R.id.detail, ev, "detail");
+			fragmentTransaction.replace(R.id.detail, ev, FragmentTags.DETAIL);
 			fragmentTransaction.commit();
 		} else {
 			Intent intent = new Intent(this, EventDetail.class);
@@ -300,7 +301,7 @@ public class MainActivity extends SherlockFragmentActivity implements OnParseCom
 		View sidePane = findViewById(R.id.detail);
 		if (sidePane != null) sidePane.setVisibility(View.GONE);
 		FragmentManager fm = getSupportFragmentManager();
-		Fragment fragment = fm.findFragmentByTag("detail");
+		Fragment fragment = fm.findFragmentByTag(FragmentTags.DETAIL);
 		if (fragment != null) {
 			FragmentTransaction fragmentTransaction = fm.beginTransaction();
 			fragmentTransaction.remove(fragment).commit();
@@ -310,7 +311,7 @@ public class MainActivity extends SherlockFragmentActivity implements OnParseCom
 	@Override
 	public void refreshEventMarkers() {
 		FragmentManager fm = getSupportFragmentManager();
-		Fragment fragment = fm.findFragmentByTag("schedule");
+		Fragment fragment = fm.findFragmentByTag(FragmentTags.SCHEDULE);
 		if (fragment != null) {
 			((FahrplanFragment)fragment).refreshEventMarkers();
 		}
@@ -339,7 +340,7 @@ public class MainActivity extends SherlockFragmentActivity implements OnParseCom
 	@Override
 	public void onBackPressed() {
 		FragmentManager fm = getSupportFragmentManager();
-		Fragment detail = fm.findFragmentByTag("detail");
+		Fragment detail = fm.findFragmentByTag(FragmentTags.DETAIL);
 		if (detail != null) {
 			fm.beginTransaction().remove(detail).commit();
 			View sidePane = findViewById(R.id.detail);
