@@ -595,7 +595,7 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 				title.setText(sb.toString());
 				View recordingOptOut = event.findViewById(R.id.novideo);
 				if (recordingOptOut != null) {
-					if (lecture.recordingOptOut) recordingOptOut.setVisibility(View.VISIBLE); else recordingOptOut.setVisibility(View.GONE);
+					recordingOptOut.setVisibility(lecture.recordingOptOut ? View.VISIBLE : View.GONE);
 				}
 
 				setLectureBackground(lecture, event);
@@ -679,7 +679,7 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 			lecture.dateUTC = cursor.getLong(16);
 			lecture.room_index = cursor.getInt(17);
 			lecture.recordingLicense = cursor.getString(18);
-			lecture.recordingOptOut = cursor.getInt(19) == FahrplanContract.LecturesTable.Values.REC_OPTOUT_OFF ? false : true;
+			lecture.recordingOptOut = cursor.getInt(19) == LecturesTable.Values.REC_OPTOUT_OFF ? Lecture.RECORDING_OPTOUT_OFF : Lecture.RECORDING_OPTOUT_ON;
 
 			MyApp.lectureList.add(lecture);
 			cursor.moveToNext();
