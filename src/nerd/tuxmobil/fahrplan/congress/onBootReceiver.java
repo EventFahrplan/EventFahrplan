@@ -48,10 +48,10 @@ public final class onBootReceiver extends BroadcastReceiver {
 
 			if (now.before(alarm)) {
 				// set alarm
-				String lecture_id = cursor.getString(4);
-				int day = cursor.getInt(6);
+				String lecture_id = cursor.getString(5);
+				int day = cursor.getInt(7);
 				String title = cursor.getString(1);
-				long startTime = cursor.getLong(5);
+				long startTime = cursor.getLong(3);
 
 				Intent alarmintent = new Intent(context, AlarmReceiver.class);
 				alarmintent.putExtra("lecture_id", lecture_id);
