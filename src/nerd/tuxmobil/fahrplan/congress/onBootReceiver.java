@@ -44,15 +44,15 @@ public final class onBootReceiver extends BroadcastReceiver {
 
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {
-			long alarmTime = cursor.getLong(2);
+			long alarmTime = cursor.getLong(cursor.getColumnIndex(AlarmsTable.Columns.ALARM_TIME_IN_MIN));
 			alarm.set(alarmTime);
 
 			if (now.before(alarm)) {
 				// set alarm
-				String lecture_id = cursor.getString(5);
-				int day = cursor.getInt(7);
-				String title = cursor.getString(1);
-				long startTime = cursor.getLong(3);
+				String lecture_id = cursor.getString(cursor.getColumnIndex(AlarmsTable.Columns.EVENT_ID));
+				int day = cursor.getInt(cursor.getColumnIndex(AlarmsTable.Columns.DAY));
+				String title = cursor.getString(cursor.getColumnIndex(AlarmsTable.Columns.EVENT_TITLE));
+				long startTime = cursor.getLong(cursor.getColumnIndex(AlarmsTable.Columns.TIME));
 
 				Intent alarmintent = new Intent(context, AlarmReceiver.class);
 				alarmintent.putExtra("lecture_id", lecture_id);

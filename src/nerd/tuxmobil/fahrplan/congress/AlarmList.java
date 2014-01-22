@@ -1,6 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress;
 
 import nerd.tuxmobil.fahrplan.congress.FahrplanContract.AlarmsTable;
+import nerd.tuxmobil.fahrplan.congress.FahrplanContract.LecturesTable;
 import nerd.tuxmobil.fahrplan.congress.FahrplanContract.AlarmsTable.Columns;
 
 import com.actionbarsherlock.app.SherlockListActivity;
@@ -97,13 +98,13 @@ public class AlarmList extends SherlockListActivity {
 
 		Intent intent = new Intent(this, AlarmReceiver.class);
 
-		String lecture_id = cursor.getString(5);
+		String lecture_id = cursor.getString(cursor.getColumnIndex(AlarmsTable.Columns.EVENT_ID));
 		intent.putExtra(BundleKeys.ALARM_DELETE_LECTURE_ID, lecture_id);
-		int day = cursor.getInt(7);
+		int day = cursor.getInt(cursor.getColumnIndex(AlarmsTable.Columns.DAY));
 		intent.putExtra(BundleKeys.ALARM_DELETE_DAY, day);
-		String title = cursor.getString(1);
+		String title = cursor.getString(cursor.getColumnIndex(AlarmsTable.Columns.EVENT_TITLE));
 		intent.putExtra(BundleKeys.ALARM_DELETE_TITLE, title);
-		long startTime = cursor.getLong(3);
+		long startTime = cursor.getLong(cursor.getColumnIndex(AlarmsTable.Columns.TIME));
 		intent.putExtra(BundleKeys.ALARM_DELETE_START_TIME, startTime);
 
 		intent.setAction("de.machtnix.fahrplan.ALARM");
@@ -113,7 +114,7 @@ public class AlarmList extends SherlockListActivity {
 		PendingIntent pendingintent = PendingIntent.getBroadcast(this, Integer.parseInt(lecture_id), intent, 0);
 		alarmManager.cancel(pendingintent);
 
-		String id = cursor.getString(0);
+		String id = cursor.getString(cursor.getColumnIndex(AlarmsTable.Columns.ID));
 		db.delete(AlarmsTable.NAME, Columns.ID + " = ?", new String[]{id});
 		cursor.requery();
 		mAdapter.notifyDataSetChanged();

@@ -57,8 +57,8 @@ public class FahrplanMisc {
 
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {
-			int day = cursor.getInt(3);
-			String date = cursor.getString(14);
+			int day = cursor.getInt(cursor.getColumnIndex(LecturesTable.Columns.DAY));
+			String date = cursor.getString(cursor.getColumnIndex(LecturesTable.Columns.DATE));
 
 			if (DateList.dateInList(MyApp.dateList, day) == false) {
 				MyApp.dateList.add(new DateList(day, date));
@@ -100,20 +100,27 @@ public class FahrplanMisc {
 
 		if (cursor.getCount() > 0) {
 			cursor.moveToFirst();
-			if (cursor.getColumnCount() > 0)
-				MyApp.numdays = cursor.getInt(0);
-			if (cursor.getColumnCount() > 1)
-				MyApp.version = cursor.getString(1);
-			if (cursor.getColumnCount() > 2)
-				MyApp.title = cursor.getString(2);
-			if (cursor.getColumnCount() > 3)
-				MyApp.subtitle = cursor.getString(3);
-			if (cursor.getColumnCount() > 4)
-				MyApp.dayChangeHour = cursor.getInt(4);
-			if (cursor.getColumnCount() > 5)
-				MyApp.dayChangeMinute = cursor.getInt(5);
-			if (cursor.getColumnCount() > 6)
-				MyApp.eTag = cursor.getString(6);
+			int columnIndexNumDays = cursor.getColumnIndex(MetasTable.Columns.NUM_DAYS);
+			if (cursor.getColumnCount() > columnIndexNumDays)
+				MyApp.numdays = cursor.getInt(columnIndexNumDays);
+			int columIndexVersion = cursor.getColumnIndex(MetasTable.Columns.VERSION);
+			if (cursor.getColumnCount() > columIndexVersion)
+				MyApp.version = cursor.getString(columIndexVersion);
+			int columnIndexTitle = cursor.getColumnIndex(MetasTable.Columns.TITLE);
+			if (cursor.getColumnCount() > columnIndexTitle)
+				MyApp.title = cursor.getString(columnIndexTitle);
+			int columnIndexSubTitle = cursor.getColumnIndex(MetasTable.Columns.SUBTITLE);
+			if (cursor.getColumnCount() > columnIndexSubTitle)
+				MyApp.subtitle = cursor.getString(columnIndexSubTitle);
+			int columnIndexDayChangeHour = cursor.getColumnIndex(MetasTable.Columns.DAY_CHANGE_HOUR);
+			if (cursor.getColumnCount() > columnIndexDayChangeHour)
+				MyApp.dayChangeHour = cursor.getInt(columnIndexDayChangeHour);
+			int columnIndexDayChangeMinute = cursor.getColumnIndex(MetasTable.Columns.DAY_CHANGE_MINUTE);
+			if (cursor.getColumnCount() > columnIndexDayChangeMinute)
+				MyApp.dayChangeMinute = cursor.getInt(columnIndexDayChangeMinute);
+			int columnIndexEtag = cursor.getColumnIndex(MetasTable.Columns.ETAG);
+			if (cursor.getColumnCount() > columnIndexEtag)
+				MyApp.eTag = cursor.getString(columnIndexEtag);
 		}
 
 		MyApp.LogDebug(LOG_TAG, "loadMeta: numdays=" + MyApp.numdays + " version:"
@@ -222,13 +229,13 @@ public class FahrplanMisc {
 
 		Intent intent = new Intent(context, AlarmReceiver.class);
 
-		String lecture_id = cursor.getString(5);
+		String lecture_id = cursor.getString(cursor.getColumnIndex(AlarmsTable.Columns.EVENT_ID));
 		intent.putExtra(BundleKeys.ALARM_DELETE_LECTURE_ID, lecture_id);
-		int day = cursor.getInt(7);
+		int day = cursor.getInt(cursor.getColumnIndex(AlarmsTable.Columns.DAY));
 		intent.putExtra(BundleKeys.ALARM_DELETE_DAY, day);
-		String title = cursor.getString(1);
+		String title = cursor.getString(cursor.getColumnIndex(AlarmsTable.Columns.EVENT_TITLE));
 		intent.putExtra(BundleKeys.ALARM_DELETE_TITLE, title);
-		long startTime = cursor.getLong(3);
+		long startTime = cursor.getLong(cursor.getColumnIndex(AlarmsTable.Columns.TIME));
 		intent.putExtra(BundleKeys.ALARM_DELETE_START_TIME, startTime);
 
 		// delete any previous alarms of this lecture
