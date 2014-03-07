@@ -1,4 +1,5 @@
 CampFahrplan
+============
 
 CampFahrplan is a viewer for schedules of Chaos Computer Club e.V. events such as
 Chaos Communication Camp or Chaos Communication Congress.
@@ -6,6 +7,20 @@ Chaos Communication Camp or Chaos Communication Congress.
 In addition to an daily overview of talks, the app lets you read the abstracts, 
 highlight talks, add a talk to your calendar, share talks with others, and 
 set reminders within the app.
+
+
+How to get the thing running?
+-----------------------------
+
+The project has a dependency to ActionBarSherlock.
+If you are using Eclipse follow these steps to reference the library:
+
+1. Download the library archive and extract it into your workspace folder.
+2. Import the library project named "actionbarsherlock" as an Android application project into the Eclipse.
+3. Reference the library within the CampFahrplan project:
+   Open the context menu on the project root, then select: Properties / Android / Add ..
+4. Update the Android Support Library on both projects so they use the same version:
+   Open the context menu on the project root, then select: Android Tools / Add Support Library ...
 
 
 Portions Copyright 2008-2011 The K-9 Dog Walkers and 2006-2011 the Android Open Source Project.
