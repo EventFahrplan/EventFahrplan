@@ -1,10 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress;
 
 import java.io.StringReader;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 
 import nerd.tuxmobil.fahrplan.congress.FahrplanContract.LecturesTable;
@@ -19,7 +16,6 @@ import android.content.Context;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
-import android.text.format.Time;
 import android.util.Xml;
 
 interface OnParseCompleteListener
@@ -203,10 +199,11 @@ class parser extends AsyncTask<String, Void, Boolean> {
 						meta.version = new String(parser.getText());
 					}
 					if (name.equals("day")) {
-						day = Integer.parseInt(parser.getAttributeValue(null,
-								"index"));
+						String index = parser.getAttributeValue(null, "index");
+						day = Integer.parseInt(index);
 						date = parser.getAttributeValue(null, "date");
-						dayChangeTime = getDayChange(parser.getAttributeValue(null, "end"));
+						String end = parser.getAttributeValue(null, "end");
+						dayChangeTime = DateHelper.getDayChange(end);
 						if (day > numdays) { numdays = day; }
 					}
 					if (name.equals("room")) {
@@ -290,7 +287,7 @@ class parser extends AsyncTask<String, Void, Boolean> {
 								} else if (name.equals("date")) {
 									parser.next();
 									if (parser.getText() != null) {
-										lecture.dateUTC = Lecture.parseDateTime(parser.getText());
+										lecture.dateUTC = DateHelper.getDateTime(parser.getText());
 									}
 								} else if (name.equals("recording")) {
 									eventType = parser.next();
@@ -381,18 +378,4 @@ class parser extends AsyncTask<String, Void, Boolean> {
 		}
 	}
 
-	private int getDayChange(String attributeValue) {
-		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
-		Date date;
-		try {
-			date = df.parse(attributeValue);
-			long timeUTC = date.getTime();
-			Time t = new Time();
-			t.set(timeUTC);
-			return (t.hour * 60) + t.minute;
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		return 600;	// default
-	}
 }
