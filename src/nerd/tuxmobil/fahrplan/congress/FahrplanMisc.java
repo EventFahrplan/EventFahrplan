@@ -259,22 +259,25 @@ public class FahrplanMisc {
 		long when;
 		Time time;
 		long startTime;
-		if (lecture.dateUTC > 0) {
-			when = lecture.dateUTC;
-			startTime = lecture.dateUTC;
+		long startTimeInSeconds = lecture.dateUTC;
+
+		if (startTimeInSeconds > 0) {
+			when = startTimeInSeconds;
+			startTime = startTimeInSeconds;
 			time = new Time();
 		} else {
 			time = lecture.getTime();
 			startTime = time.normalize(true);
 			when = time.normalize(true);
 		}
-		when -= (alarm_times[alarmTimesIndex] * 60 * 1000);
+		long alarmTimeDiffInSeconds = alarm_times[alarmTimesIndex] * 60 * 1000;
+		when -= alarmTimeDiffInSeconds;
 
 		// DEBUG
 		// when = System.currentTimeMillis() + (30 * 1000);
 
 		time.set(when);
-		MyApp.LogDebug("addAlarm", "Alarm time: "+when);
+		MyApp.LogDebug("addAlarm", "Alarm time: " + time.format("%Y-%m-%dT%H:%M:%S%z") + ", in seconds: " + when);
 
 
 		Intent intent = new Intent(context, AlarmReceiver.class);
