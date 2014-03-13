@@ -9,6 +9,16 @@ import android.text.format.Time;
 
 public class DateHelper {
 
+	/**
+	 * Returns a formatted time string.
+	 * Try this pattern for readable output: %Y-%m-%dT%H:%M:%S%z
+	 */
+	public static String getFormattedTime(long timeInSeconds, final String pattern) {
+		Time time = new Time();
+		time.set(timeInSeconds);
+		return time.format(pattern);
+	}
+
 	public static int getDayChange(String attributeValue) {
 		assert(attributeValue != null);
 		String pattern = attributeValue.length() > 10 ? "yyyy-MM-dd'T'HH:mm:ssZ" : "yyyy-MM-dd";
