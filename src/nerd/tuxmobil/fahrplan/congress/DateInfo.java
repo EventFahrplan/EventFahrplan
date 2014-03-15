@@ -1,7 +1,5 @@
 package nerd.tuxmobil.fahrplan.congress;
 
-import java.util.ArrayList;
-
 import android.text.format.Time;
 
 public class DateInfo {
@@ -11,13 +9,6 @@ public class DateInfo {
 	public DateInfo(int dayIdx, String date) {
 		this.dayIdx = dayIdx;
 		this.date = date;
-	}
-
-	public static boolean dateInList(ArrayList<DateInfo> list, int dayIdx) {
-		for (DateInfo date : list) {
-			if (date.dayIdx == dayIdx) return true;
-		}
-		return false;
 	}
 
 	@Override
