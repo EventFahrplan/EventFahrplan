@@ -9,6 +9,12 @@ import android.text.format.Time;
 
 public class DateHelper {
 
+	public static boolean dateIsWithinRange(Date date, Date[] dateRange) {
+		Date oldest = dateRange[0];
+		Date newest = dateRange[1];
+		return ((date.equals(oldest) || date.after(oldest)) && (date.equals(newest) || date.before(newest)));
+	}
+
 	public static String getFormattedDate(Time time) {
 		StringBuilder date = new StringBuilder();
 		date.append(String.format("%d", time.year));
@@ -27,6 +33,22 @@ public class DateHelper {
 		Time time = new Time();
 		time.set(timeInSeconds);
 		return time.format(pattern);
+	}
+
+	/**
+	 * Returns a formatted date string.
+	 * This pattern is used: yyyy-MM-dd'T'HH:mm:ssZ
+	 */
+	public static String getFormattedDate(final Date date) {
+		return getFormattedDate(date, "yyyy-MM-dd'T'HH:mm:ssZ");
+	}
+
+	/**
+	 * Returns a formatted date string.
+	 */
+	public static String getFormattedDate(final Date date, final String pattern) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat(pattern, Locale.US);
+		return dateFormat.format(date);
 	}
 
 	public static int getDayChange(String attributeValue) {

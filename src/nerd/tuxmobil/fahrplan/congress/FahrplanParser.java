@@ -79,9 +79,12 @@ class parser extends AsyncTask<String, Void, Boolean> {
 	}
 
 	protected Boolean doInBackground(String... args) {
-
-		return parseFahrplan(args[0], args[1]);
-
+		boolean parsingSuccessful = parseFahrplan(args[0], args[1]);
+		DateFieldValidation dateFieldValidation = new DateFieldValidation(context);
+		boolean dateFieldValidationSuccessful = dateFieldValidation.validate();
+		dateFieldValidation.printValidationErrors();
+		// TODO Clear database on validation failure.
+		return parsingSuccessful && dateFieldValidationSuccessful;
 	}
 
 	protected void onCancelled() {
