@@ -264,7 +264,7 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 		int height;
 //		Log.d(LOG_TAG, "lectureListDay: " + MyApp.lectureListDay);
 		if (lecture_id != null) return;
-		if (MyApp.lectureListDay != DateInfo.getIndexOfToday(MyApp.dateInfos, MyApp.dayChangeHour, MyApp.dayChangeMinute)) return;
+		if (MyApp.lectureListDay != MyApp.dateInfos.getIndexOfToday(MyApp.dayChangeHour, MyApp.dayChangeMinute)) return;
 		Time now = new Time();
 		now.setToNow();
 		HorizontalSnapScrollView horiz = null;

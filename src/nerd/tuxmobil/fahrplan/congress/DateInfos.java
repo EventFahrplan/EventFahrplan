@@ -155,4 +155,38 @@ public class DateInfos implements List<DateInfo> {
 		return false;
 	}
 
+	/**
+	 * Returns the index of today
+	 * @param hourOfDayChange Hour of day change (all lectures which start before count to the previous day)
+	 * @param minuteOfDayChange Minute of day change
+	 * @return dayIndex if found, -1 otherwise
+	 */
+	public int getIndexOfToday(int hourOfDayChange, int minuteOfDayChange) {
+		if (mDateInfos == null || mDateInfos.isEmpty()) {
+			return -1;
+		}
+		Time today = new Time();
+		today.setToNow();
+		today.hour -= hourOfDayChange;
+		today.minute -= minuteOfDayChange;
+
+		today.normalize(true);
+
+		StringBuilder currentDate = new StringBuilder();
+		currentDate.append(String.format("%d", today.year));
+		currentDate.append("-");
+		currentDate.append(String.format("%02d", today.month + 1));
+		currentDate.append("-");
+		currentDate.append(String.format("%02d", today.monthDay));
+
+		int dayIndex = -1;
+		for (DateInfo dateInfo : mDateInfos) {
+			dayIndex = dateInfo.getDayIndex(currentDate.toString());
+			if (dayIndex != -1) {
+				return dayIndex;
+			}
+		}
+		return dayIndex;
+	}
+
 }
