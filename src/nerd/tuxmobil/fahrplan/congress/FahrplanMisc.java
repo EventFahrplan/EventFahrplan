@@ -2,7 +2,6 @@ package nerd.tuxmobil.fahrplan.congress;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 
 import nerd.tuxmobil.fahrplan.congress.FahrplanContract.AlarmsTable;
@@ -30,7 +29,7 @@ public class FahrplanMisc {
 	private static final String LOG_TAG = "FahrplanMisc";
 
 	static void loadDays(Context context) {
-		MyApp.dateList = new ArrayList<DateList>();
+		MyApp.dateList = new DateInfos();
 		LecturesDBOpenHelper lecturesDB = new LecturesDBOpenHelper(context);
 
 		SQLiteDatabase lecturedb = lecturesDB.getReadableDatabase();
@@ -60,8 +59,9 @@ public class FahrplanMisc {
 			int day = cursor.getInt(cursor.getColumnIndex(LecturesTable.Columns.DAY));
 			String date = cursor.getString(cursor.getColumnIndex(LecturesTable.Columns.DATE));
 
-			if (DateList.dateInList(MyApp.dateList, day) == false) {
-				MyApp.dateList.add(new DateList(day, date));
+			DateList dateItem = new DateList(day, date);
+			if (!MyApp.dateList.contains(dateItem)) {
+				MyApp.dateList.add(dateItem);
 			}
 			cursor.moveToNext();
 		}

@@ -14,7 +14,7 @@ public class MyApp extends Application {
 	public static String version;
 	public static String title;
 	public static String subtitle;
-	public static ArrayList<DateList> dateList = null;
+	public static DateInfos dateList = null;
 	public static FetchFahrplan fetcher = null;
 	public static FahrplanParser parser = null;
 	public static String schedulePath = "/congress/2013/Fahrplan/schedule.xml";

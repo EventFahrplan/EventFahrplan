@@ -20,15 +20,31 @@ public class DateList {
 		return false;
 	}
 	
+	@Override
+	public boolean equals(Object object) {
+		if (object instanceof DateList) {
+			DateList date = (DateList)object;
+			return super.equals(object) &&
+					date.dayIdx == dayIdx &&
+					date.date.equals(date);
+		}
+		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		return super.hashCode() * 13 | dayIdx + date.hashCode() * 7;
+	}
+
 	/**
-	 * 
-	 * @param list	DateList list
+	 * Returns the index of today
+	 * @param dateInfos List of dates
 	 * @param hourOfDayChange Hour of day change (all lectures which start before count to the previous day)
 	 * @param minuteOfDayChange Minute of day change
 	 * @return dayIndex if found, -1 otherwise
 	 */
-	public static int getIndexOfToday(ArrayList<DateList> list, int hourOfDayChange, int minuteOfDayChange) {
-		if (list == null) return -1;
+	public static int getIndexOfToday(DateInfos dateInfos, int hourOfDayChange, int minuteOfDayChange) {
+		if (dateInfos == null || dateInfos.isEmpty()) return -1;
 		Time today = new Time();
 		today.setToNow();
 		today.hour -= hourOfDayChange;
@@ -43,13 +59,13 @@ public class DateList {
 		currentDate.append("-");
 		currentDate.append(String.format("%02d", today.monthDay));
 		
-		for (DateList d : list) {
+		for (DateList d : dateInfos) {
 			if (d.date.equals(currentDate.toString())) return d.dayIdx;
 		}
 		return -1;
 	}
 
-	public static boolean sameDay(Time today, int lectureListDay, ArrayList<DateList> list) {
+	public static boolean sameDay(Time today, int lectureListDay, DateInfos dateInfos) {
 		StringBuilder currentDate = new StringBuilder();
 		currentDate.append(String.format("%d", today.year));
 		currentDate.append("-");
@@ -57,9 +73,10 @@ public class DateList {
 		currentDate.append("-");
 		currentDate.append(String.format("%02d", today.monthDay));
 		
-		for (DateList d : list) {
+		for (DateList d : dateInfos) {
 			if ((d.dayIdx == lectureListDay) && (d.date.equals(currentDate.toString()))) return true;
 		}
 		return false;
 	}
+
 }
