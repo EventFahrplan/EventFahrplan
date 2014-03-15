@@ -69,18 +69,4 @@ public class DateInfo {
 		return dayIndex;
 	}
 
-	public static boolean sameDay(Time today, int lectureListDay, DateInfos dateInfos) {
-		StringBuilder currentDate = new StringBuilder();
-		currentDate.append(String.format("%d", today.year));
-		currentDate.append("-");
-		currentDate.append(String.format("%02d", today.month + 1));
-		currentDate.append("-");
-		currentDate.append(String.format("%02d", today.monthDay));
-
-		for (DateInfo dateInfo : dateInfos) {
-			if ((dateInfo.dayIdx == lectureListDay) && (dateInfo.date.equals(currentDate.toString()))) return true;
-		}
-		return false;
-	}
-
 }

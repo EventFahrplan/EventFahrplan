@@ -288,7 +288,7 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 		int printTime = time;
 		int scrollAmount = 0;
 
-		if (!((((now.hour * 60) + now.minute) < firstLectureStart) && DateInfo.sameDay(now, MyApp.lectureListDay, MyApp.dateInfos))) {
+		if (!((((now.hour * 60) + now.minute) < firstLectureStart) && MyApp.dateInfos.sameDay(now, MyApp.lectureListDay))) {
 			while (time < lastLectureEnd) {
 				int hour = printTime / 60;
 				int minute = printTime % 60;

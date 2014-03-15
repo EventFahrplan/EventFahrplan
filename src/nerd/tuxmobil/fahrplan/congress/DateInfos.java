@@ -6,6 +6,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
+import android.text.format.Time;
+
 public class DateInfos implements List<DateInfo> {
 
 	protected List<DateInfo> mDateInfos;
@@ -134,6 +136,23 @@ public class DateInfos implements List<DateInfo> {
 	@Override
 	public <T> T[] toArray(T[] array) {
 		throw new UnsupportedOperationException("Not yet implemented");
+	}
+
+	public boolean sameDay(Time today, int lectureListDay) {
+		StringBuilder currentDate = new StringBuilder();
+		currentDate.append(String.format("%d", today.year));
+		currentDate.append("-");
+		currentDate.append(String.format("%02d", today.month + 1));
+		currentDate.append("-");
+		currentDate.append(String.format("%02d", today.monthDay));
+
+		for (DateInfo dateInfo : mDateInfos) {
+			if ((dateInfo.dayIdx == lectureListDay) &&
+				(dateInfo.date.equals(currentDate.toString()))) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }
