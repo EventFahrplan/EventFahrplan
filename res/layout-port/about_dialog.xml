@@ -66,10 +66,8 @@
             android:text="Version" >
         </TextView>
 
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:background="#313131" />
+        <include
+            layout="@layout/horizontal_line" />
 
         <TextView
             android:id="@+id/textView1"
@@ -83,10 +81,8 @@
             android:text="@string/usage" >
         </TextView>
 
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:background="#313131" />
+        <include
+            layout="@layout/horizontal_line" />
 
         <TextView
             android:id="@+id/copyright_logo"
