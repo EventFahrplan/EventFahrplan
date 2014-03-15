@@ -831,7 +831,7 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 			sb.append(getString(R.string.day)).append(" ").append(i + 1);
 			for (DateInfo dateInfo : MyApp.dateInfos) {
 				if (dateInfo.dayIdx == (i + 1)) {
-					MyApp.LogDebug(LOG_TAG, "date of day " + sb.toString() + " is " + dateInfo.date);
+					MyApp.LogDebug(LOG_TAG, "DateInfo of day '" + sb.toString() + "': " + dateInfo);
 					if (currentDate.toString().equals(dateInfo.date)) {
 						sb.append(" - ");
 						sb.append(getString(R.string.today));

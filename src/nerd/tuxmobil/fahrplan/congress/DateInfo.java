@@ -36,6 +36,11 @@ public class DateInfo {
 		return super.hashCode() * 13 | dayIdx + date.hashCode() * 7;
 	}
 
+	@Override
+	public String toString() {
+		return "dayIndex = " + dayIdx + ", date = " + date;
+	}
+
 	/**
 	 * Returns the index of today
 	 * @param dateInfos List of dates

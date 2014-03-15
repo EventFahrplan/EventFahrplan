@@ -68,7 +68,7 @@ public class FahrplanMisc {
 		cursor.close();
 
 		for (DateInfo dateInfo : MyApp.dateInfos) {
-			MyApp.LogDebug(LOG_TAG, "date day " + dateInfo.dayIdx + " = " + dateInfo.date);
+			MyApp.LogDebug(LOG_TAG, "DateInfo: " + dateInfo);
 		}
 		lecturesDB.close();
 		lecturedb.close();
