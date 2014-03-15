@@ -11,6 +11,10 @@ public class DateInfo {
 		this.date = date;
 	}
 
+	public int getDayIndex(String date) {
+		return this.date.equals(date) ? dayIdx : -1;
+	}
+
 	@Override
 	public boolean equals(Object object) {
 		if (object instanceof DateInfo) {
@@ -55,10 +59,14 @@ public class DateInfo {
 		currentDate.append("-");
 		currentDate.append(String.format("%02d", today.monthDay));
 
+		int dayIndex = -1;
 		for (DateInfo dateInfo : dateInfos) {
-			if (dateInfo.date.equals(currentDate.toString())) return dateInfo.dayIdx;
+			dayIndex = dateInfo.getDayIndex(currentDate.toString());
+			if (dayIndex != -1) {
+				return dayIndex;
+			}
 		}
-		return -1;
+		return dayIndex;
 	}
 
 	public static boolean sameDay(Time today, int lectureListDay, DateInfos dateInfos) {
