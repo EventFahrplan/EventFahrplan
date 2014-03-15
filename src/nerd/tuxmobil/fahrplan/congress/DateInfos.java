@@ -139,16 +139,10 @@ public class DateInfos implements List<DateInfo> {
 	}
 
 	public boolean sameDay(Time today, int lectureListDay) {
-		StringBuilder currentDate = new StringBuilder();
-		currentDate.append(String.format("%d", today.year));
-		currentDate.append("-");
-		currentDate.append(String.format("%02d", today.month + 1));
-		currentDate.append("-");
-		currentDate.append(String.format("%02d", today.monthDay));
-
+		String currentDate = DateHelper.getFormattedDate(today);
 		for (DateInfo dateInfo : mDateInfos) {
 			if ((dateInfo.dayIdx == lectureListDay) &&
-				(dateInfo.date.equals(currentDate.toString()))) {
+				(dateInfo.date.equals(currentDate))) {
 				return true;
 			}
 		}
@@ -172,16 +166,11 @@ public class DateInfos implements List<DateInfo> {
 
 		today.normalize(true);
 
-		StringBuilder currentDate = new StringBuilder();
-		currentDate.append(String.format("%d", today.year));
-		currentDate.append("-");
-		currentDate.append(String.format("%02d", today.month + 1));
-		currentDate.append("-");
-		currentDate.append(String.format("%02d", today.monthDay));
+		String currentDate = DateHelper.getFormattedDate(today);
 
 		int dayIndex = -1;
 		for (DateInfo dateInfo : mDateInfos) {
-			dayIndex = dateInfo.getDayIndex(currentDate.toString());
+			dayIndex = dateInfo.getDayIndex(currentDate);
 			if (dayIndex != -1) {
 				return dayIndex;
 			}

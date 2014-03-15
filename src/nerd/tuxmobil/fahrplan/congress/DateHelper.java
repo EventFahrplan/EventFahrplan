@@ -9,6 +9,16 @@ import android.text.format.Time;
 
 public class DateHelper {
 
+	public static String getFormattedDate(Time time) {
+		StringBuilder date = new StringBuilder();
+		date.append(String.format("%d", time.year));
+		date.append("-");
+		date.append(String.format("%02d", time.month + 1));
+		date.append("-");
+		date.append(String.format("%02d", time.monthDay));
+		return date.toString();
+	}
+
 	/**
 	 * Returns a formatted time string.
 	 * Try this pattern for readable output: %Y-%m-%dT%H:%M:%S%z
