@@ -64,8 +64,8 @@ public class DateInfo {
 		currentDate.append("-");
 		currentDate.append(String.format("%02d", today.monthDay));
 
-		for (DateInfo d : dateInfos) {
-			if (d.date.equals(currentDate.toString())) return d.dayIdx;
+		for (DateInfo dateInfo : dateInfos) {
+			if (dateInfo.date.equals(currentDate.toString())) return dateInfo.dayIdx;
 		}
 		return -1;
 	}
@@ -78,8 +78,8 @@ public class DateInfo {
 		currentDate.append("-");
 		currentDate.append(String.format("%02d", today.monthDay));
 
-		for (DateInfo d : dateInfos) {
-			if ((d.dayIdx == lectureListDay) && (d.date.equals(currentDate.toString()))) return true;
+		for (DateInfo dateInfo : dateInfos) {
+			if ((dateInfo.dayIdx == lectureListDay) && (dateInfo.date.equals(currentDate.toString()))) return true;
 		}
 		return false;
 	}
