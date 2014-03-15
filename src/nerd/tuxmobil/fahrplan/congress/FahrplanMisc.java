@@ -29,7 +29,7 @@ public class FahrplanMisc {
 	private static final String LOG_TAG = "FahrplanMisc";
 
 	static void loadDays(Context context) {
-		MyApp.dateList = new DateInfos();
+		MyApp.dateInfos = new DateInfos();
 		LecturesDBOpenHelper lecturesDB = new LecturesDBOpenHelper(context);
 
 		SQLiteDatabase lecturedb = lecturesDB.getReadableDatabase();
@@ -60,15 +60,15 @@ public class FahrplanMisc {
 			String date = cursor.getString(cursor.getColumnIndex(LecturesTable.Columns.DATE));
 
 			DateInfo dateItem = new DateInfo(day, date);
-			if (!MyApp.dateList.contains(dateItem)) {
-				MyApp.dateList.add(dateItem);
+			if (!MyApp.dateInfos.contains(dateItem)) {
+				MyApp.dateInfos.add(dateItem);
 			}
 			cursor.moveToNext();
 		}
 		cursor.close();
 
-		for (DateInfo dayL : MyApp.dateList) {
-			MyApp.LogDebug(LOG_TAG, "date day " + dayL.dayIdx + " = " + dayL.date);
+		for (DateInfo dateInfo : MyApp.dateInfos) {
+			MyApp.LogDebug(LOG_TAG, "date day " + dateInfo.dayIdx + " = " + dateInfo.date);
 		}
 		lecturesDB.close();
 		lecturedb.close();
