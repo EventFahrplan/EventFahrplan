@@ -59,7 +59,7 @@ public class FahrplanMisc {
 			int day = cursor.getInt(cursor.getColumnIndex(LecturesTable.Columns.DAY));
 			String date = cursor.getString(cursor.getColumnIndex(LecturesTable.Columns.DATE));
 
-			DateList dateItem = new DateList(day, date);
+			DateInfo dateItem = new DateInfo(day, date);
 			if (!MyApp.dateList.contains(dateItem)) {
 				MyApp.dateList.add(dateItem);
 			}
@@ -67,7 +67,7 @@ public class FahrplanMisc {
 		}
 		cursor.close();
 
-		for (DateList dayL : MyApp.dateList) {
+		for (DateInfo dayL : MyApp.dateList) {
 			MyApp.LogDebug(LOG_TAG, "date day " + dayL.dayIdx + " = " + dayL.date);
 		}
 		lecturesDB.close();

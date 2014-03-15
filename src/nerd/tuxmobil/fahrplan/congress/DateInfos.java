@@ -6,31 +6,31 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
-public class DateInfos implements List<DateList> {
+public class DateInfos implements List<DateInfo> {
 
-	protected List<DateList> mDateInfos;
+	protected List<DateInfo> mDateInfos;
 
 	public DateInfos() {
-		mDateInfos = new ArrayList<DateList>();
+		mDateInfos = new ArrayList<DateInfo>();
 	}
 
 	@Override
-	public boolean add(DateList date) {
+	public boolean add(DateInfo date) {
 		return mDateInfos.add(date);
 	}
 
 	@Override
-	public void add(int location, DateList date) {
+	public void add(int location, DateInfo date) {
 		mDateInfos.add(location, date);
 	}
 
 	@Override
-	public boolean addAll(Collection<? extends DateList> dates) {
+	public boolean addAll(Collection<? extends DateInfo> dates) {
 		return addAll(dates);
 	}
 
 	@Override
-	public boolean addAll(int location, Collection<? extends DateList> dates) {
+	public boolean addAll(int location, Collection<? extends DateInfo> dates) {
 		return addAll(location, dates);
 	}
 
@@ -41,7 +41,7 @@ public class DateInfos implements List<DateList> {
 
 	@Override
 	public boolean contains(Object object) {
-		if (!(object instanceof DateList)) {
+		if (!(object instanceof DateInfo)) {
 			return false;
 		}
 		return mDateInfos.contains(object);
@@ -53,11 +53,11 @@ public class DateInfos implements List<DateList> {
 	}
 
 	@Override
-	public DateList get(int location) {
+	public DateInfo get(int location) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
-	public List<DateList> getAll() {
+	public List<DateInfo> getAll() {
 		return mDateInfos;
 	}
 
@@ -72,7 +72,7 @@ public class DateInfos implements List<DateList> {
 	}
 
 	@Override
-	public Iterator<DateList> iterator() {
+	public Iterator<DateInfo> iterator() {
 		return mDateInfos.iterator();
 	}
 
@@ -82,17 +82,17 @@ public class DateInfos implements List<DateList> {
 	}
 
 	@Override
-	public ListIterator<DateList> listIterator() {
+	public ListIterator<DateInfo> listIterator() {
 		return mDateInfos.listIterator();
 	}
 
 	@Override
-	public ListIterator<DateList> listIterator(int location) {
+	public ListIterator<DateInfo> listIterator(int location) {
 		return mDateInfos.listIterator(location);
 	}
 
 	@Override
-	public DateList remove(int location) {
+	public DateInfo remove(int location) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -112,7 +112,7 @@ public class DateInfos implements List<DateList> {
 	}
 
 	@Override
-	public DateList set(int location, DateList date) {
+	public DateInfo set(int location, DateInfo date) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -122,7 +122,7 @@ public class DateInfos implements List<DateList> {
 	}
 
 	@Override
-	public List<DateList> subList(int start, int end) {
+	public List<DateInfo> subList(int start, int end) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
