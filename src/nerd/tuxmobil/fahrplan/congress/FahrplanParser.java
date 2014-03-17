@@ -84,7 +84,7 @@ class parser extends AsyncTask<String, Void, Boolean> {
 		boolean dateFieldValidationSuccessful = dateFieldValidation.validate();
 		dateFieldValidation.printValidationErrors();
 		// TODO Clear database on validation failure.
-		return parsingSuccessful && dateFieldValidationSuccessful;
+		return parsingSuccessful; //&& dateFieldValidationSuccessful;
 	}
 
 	protected void onCancelled() {
