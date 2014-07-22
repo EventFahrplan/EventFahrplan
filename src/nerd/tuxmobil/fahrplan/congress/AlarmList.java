@@ -99,13 +99,13 @@ public class AlarmList extends SherlockListActivity {
 		Intent intent = new Intent(this, AlarmReceiver.class);
 
 		String lecture_id = cursor.getString(cursor.getColumnIndex(AlarmsTable.Columns.EVENT_ID));
-		intent.putExtra(BundleKeys.ALARM_DELETE_LECTURE_ID, lecture_id);
+		intent.putExtra(BundleKeys.ALARM_LECTURE_ID, lecture_id);
 		int day = cursor.getInt(cursor.getColumnIndex(AlarmsTable.Columns.DAY));
-		intent.putExtra(BundleKeys.ALARM_DELETE_DAY, day);
+		intent.putExtra(BundleKeys.ALARM_DAY, day);
 		String title = cursor.getString(cursor.getColumnIndex(AlarmsTable.Columns.EVENT_TITLE));
-		intent.putExtra(BundleKeys.ALARM_DELETE_TITLE, title);
+		intent.putExtra(BundleKeys.ALARM_TITLE, title);
 		long startTime = cursor.getLong(cursor.getColumnIndex(AlarmsTable.Columns.TIME));
-		intent.putExtra(BundleKeys.ALARM_DELETE_START_TIME, startTime);
+		intent.putExtra(BundleKeys.ALARM_START_TIME, startTime);
 
 		intent.setAction("de.machtnix.fahrplan.ALARM");
 		intent.setData(Uri.parse("alarm://"+lecture_id));
