@@ -1,5 +1,9 @@
 package nerd.tuxmobil.fahrplan.congress;
 
+import nerd.tuxmobil.fahrplan.congress.FahrplanContract.AlarmsTable;
+import nerd.tuxmobil.fahrplan.congress.FahrplanContract.LecturesTable;
+import nerd.tuxmobil.fahrplan.congress.FahrplanContract.AlarmsTable.Columns;
+
 import com.actionbarsherlock.app.SherlockListActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -43,8 +47,8 @@ public class AlarmList extends SherlockListActivity {
 		Cursor cursor;
 
 		try {
-			cursor = db.query("alarms", AlarmsDBOpenHelper.allcolumns, null,
-					null, null, null, "time");
+			cursor = db.query(AlarmsTable.NAME, AlarmsDBOpenHelper.allcolumns, null,
+					null, null, null, Columns.TIME);
 		} catch (SQLiteException e) {
 			e.printStackTrace();
 			db.close();
@@ -93,14 +97,15 @@ public class AlarmList extends SherlockListActivity {
 		Cursor cursor = (Cursor) getListAdapter().getItem(position);
 
 		Intent intent = new Intent(this, AlarmReceiver.class);
-		String lecture_id = cursor.getString(5);
-		intent.putExtra("lecture_id", lecture_id);
-		int day = cursor.getInt(7);
-		intent.putExtra("day", day);
-		String title = cursor.getString(1);
-		intent.putExtra("title", title);
-		long startTime = cursor.getLong(3);
-		intent.putExtra("startTime", startTime);
+
+		String lecture_id = cursor.getString(cursor.getColumnIndex(AlarmsTable.Columns.EVENT_ID));
+		intent.putExtra(BundleKeys.ALARM_DELETE_LECTURE_ID, lecture_id);
+		int day = cursor.getInt(cursor.getColumnIndex(AlarmsTable.Columns.DAY));
+		intent.putExtra(BundleKeys.ALARM_DELETE_DAY, day);
+		String title = cursor.getString(cursor.getColumnIndex(AlarmsTable.Columns.EVENT_TITLE));
+		intent.putExtra(BundleKeys.ALARM_DELETE_TITLE, title);
+		long startTime = cursor.getLong(cursor.getColumnIndex(AlarmsTable.Columns.TIME));
+		intent.putExtra(BundleKeys.ALARM_DELETE_START_TIME, startTime);
 
 		intent.setAction("de.machtnix.fahrplan.ALARM");
 		intent.setData(Uri.parse("alarm://"+lecture_id));
@@ -109,8 +114,8 @@ public class AlarmList extends SherlockListActivity {
 		PendingIntent pendingintent = PendingIntent.getBroadcast(this, Integer.parseInt(lecture_id), intent, 0);
 		alarmManager.cancel(pendingintent);
 
-		String id = cursor.getString(0);
-		db.delete("alarms","_id = ?", new String[]{id});
+		String id = cursor.getString(cursor.getColumnIndex(AlarmsTable.Columns.ID));
+		db.delete(AlarmsTable.NAME, Columns.ID + " = ?", new String[]{id});
 		cursor.requery();
 		mAdapter.notifyDataSetChanged();
 	}

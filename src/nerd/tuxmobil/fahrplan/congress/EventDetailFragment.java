@@ -74,16 +74,16 @@ public class EventDetailFragment extends SherlockFragment {
     @Override
     public void setArguments(Bundle args) {
     	super.setArguments(args);
-        day = args.getInt("day", 0);
-        event_id = args.getString("eventid");
-        title = args.getString("title");
-        subtitle = args.getString("subtitle");
-        spkr = args.getString("spkr");
-        abstractt = args.getString("abstract");
-        descr = args.getString("descr");
-        links = args.getString("links");
-        room = args.getString("room");
-        sidePane = args.getBoolean("sidepane", false);
+        day = args.getInt(BundleKeys.EVENT_DAY, 0);
+        event_id = args.getString(BundleKeys.EVENT_ID);
+        title = args.getString(BundleKeys.EVENT_TITLE);
+        subtitle = args.getString(BundleKeys.EVENT_SUBTITLE);
+        spkr = args.getString(BundleKeys.EVENT_SPEAKERS);
+        abstractt = args.getString(BundleKeys.EVENT_ABSTRACT);
+        descr = args.getString(BundleKeys.EVENT_DESCRIPTION);
+        links = args.getString(BundleKeys.EVENT_LINKS);
+        room = args.getString(BundleKeys.EVENT_ROOM);
+        sidePane = args.getBoolean(BundleKeys.SIDEPANE, false);
         hasArguments = true;
     }
 

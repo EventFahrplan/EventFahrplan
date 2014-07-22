@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import nerd.tuxmobil.fahrplan.congress.FahrplanContract.AlarmsTable;
+import nerd.tuxmobil.fahrplan.congress.FahrplanContract.HighlightsTable;
+import nerd.tuxmobil.fahrplan.congress.FahrplanContract.LecturesTable;
+import nerd.tuxmobil.fahrplan.congress.FahrplanContract.MetasTable;
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -34,7 +37,7 @@ public class FahrplanMisc {
 		Cursor cursor;
 
 		try {
-			cursor = lecturedb.query("lectures", LecturesDBOpenHelper.allcolumns,
+			cursor = lecturedb.query(LecturesTable.NAME, LecturesDBOpenHelper.allcolumns,
 					null, null, null,
 					null, null);
 		} catch (SQLiteException e) {
@@ -54,8 +57,8 @@ public class FahrplanMisc {
 
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {
-			int day = cursor.getInt(3);
-			String date = cursor.getString(14);
+			int day = cursor.getInt(cursor.getColumnIndex(LecturesTable.Columns.DAY));
+			String date = cursor.getString(cursor.getColumnIndex(LecturesTable.Columns.DATE));
 
 			if (DateList.dateInList(MyApp.dateList, day) == false) {
 				MyApp.dateList.add(new DateList(day, date));
@@ -77,7 +80,7 @@ public class FahrplanMisc {
 
 		Cursor cursor;
 		try {
-			cursor = metadb.query("meta", MetaDBOpenHelper.allcolumns, null, null,
+			cursor = metadb.query(MetasTable.NAME, MetaDBOpenHelper.allcolumns, null, null,
 					null, null, null);
 		} catch (SQLiteException e) {
 			e.printStackTrace();
@@ -87,30 +90,37 @@ public class FahrplanMisc {
 			return;
 		}
 
-		MyApp.numdays = 0;
+		MyApp.numdays = MetasTable.Defaults.NUM_DAYS_DEFAULT;;
 		MyApp.version = "";
 		MyApp.title = "";
 		MyApp.subtitle = "";
-		MyApp.dayChangeHour = 4;
-		MyApp.dayChangeMinute = 0;
+		MyApp.dayChangeHour = MetasTable.Defaults.DAY_CHANGE_HOUR_DEFAULT;
+		MyApp.dayChangeMinute = MetasTable.Defaults.DAY_CHANGE_MINUTE_DEFAULT;
 		MyApp.eTag = null;
 
 		if (cursor.getCount() > 0) {
 			cursor.moveToFirst();
-			if (cursor.getColumnCount() > 0)
-				MyApp.numdays = cursor.getInt(0);
-			if (cursor.getColumnCount() > 1)
-				MyApp.version = cursor.getString(1);
-			if (cursor.getColumnCount() > 2)
-				MyApp.title = cursor.getString(2);
-			if (cursor.getColumnCount() > 3)
-				MyApp.subtitle = cursor.getString(3);
-			if (cursor.getColumnCount() > 4)
-				MyApp.dayChangeHour = cursor.getInt(4);
-			if (cursor.getColumnCount() > 5)
-				MyApp.dayChangeMinute = cursor.getInt(5);
-			if (cursor.getColumnCount() > 6)
-				MyApp.eTag = cursor.getString(6);
+			int columnIndexNumDays = cursor.getColumnIndex(MetasTable.Columns.NUM_DAYS);
+			if (cursor.getColumnCount() > columnIndexNumDays)
+				MyApp.numdays = cursor.getInt(columnIndexNumDays);
+			int columIndexVersion = cursor.getColumnIndex(MetasTable.Columns.VERSION);
+			if (cursor.getColumnCount() > columIndexVersion)
+				MyApp.version = cursor.getString(columIndexVersion);
+			int columnIndexTitle = cursor.getColumnIndex(MetasTable.Columns.TITLE);
+			if (cursor.getColumnCount() > columnIndexTitle)
+				MyApp.title = cursor.getString(columnIndexTitle);
+			int columnIndexSubTitle = cursor.getColumnIndex(MetasTable.Columns.SUBTITLE);
+			if (cursor.getColumnCount() > columnIndexSubTitle)
+				MyApp.subtitle = cursor.getString(columnIndexSubTitle);
+			int columnIndexDayChangeHour = cursor.getColumnIndex(MetasTable.Columns.DAY_CHANGE_HOUR);
+			if (cursor.getColumnCount() > columnIndexDayChangeHour)
+				MyApp.dayChangeHour = cursor.getInt(columnIndexDayChangeHour);
+			int columnIndexDayChangeMinute = cursor.getColumnIndex(MetasTable.Columns.DAY_CHANGE_MINUTE);
+			if (cursor.getColumnCount() > columnIndexDayChangeMinute)
+				MyApp.dayChangeMinute = cursor.getInt(columnIndexDayChangeMinute);
+			int columnIndexEtag = cursor.getColumnIndex(MetasTable.Columns.ETAG);
+			if (cursor.getColumnCount() > columnIndexEtag)
+				MyApp.eTag = cursor.getString(columnIndexEtag);
 		}
 
 		MyApp.LogDebug(LOG_TAG, "loadMeta: numdays=" + MyApp.numdays + " version:"
@@ -218,14 +228,16 @@ public class FahrplanMisc {
 		cursor.moveToFirst();
 
 		Intent intent = new Intent(context, AlarmReceiver.class);
-		String lecture_id = cursor.getString(5);
-		intent.putExtra("lecture_id", lecture_id);
-		int day = cursor.getInt(7);
-		intent.putExtra("day", day);
-		String title = cursor.getString(1);
-		intent.putExtra("title", title);
-		long startTime = cursor.getLong(3);
-		intent.putExtra("startTime", startTime);
+
+		String lecture_id = cursor.getString(cursor.getColumnIndex(AlarmsTable.Columns.EVENT_ID));
+		intent.putExtra(BundleKeys.ALARM_DELETE_LECTURE_ID, lecture_id);
+		int day = cursor.getInt(cursor.getColumnIndex(AlarmsTable.Columns.DAY));
+		intent.putExtra(BundleKeys.ALARM_DELETE_DAY, day);
+		String title = cursor.getString(cursor.getColumnIndex(AlarmsTable.Columns.EVENT_TITLE));
+		intent.putExtra(BundleKeys.ALARM_DELETE_TITLE, title);
+		long startTime = cursor.getLong(cursor.getColumnIndex(AlarmsTable.Columns.TIME));
+		intent.putExtra(BundleKeys.ALARM_DELETE_START_TIME, startTime);
+
 		// delete any previous alarms of this lecture
 		db.delete(AlarmsTable.NAME, AlarmsTable.Columns.EVENT_ID + "=?", new String[] { lecture.lecture_id });
 		db.close();
@@ -266,10 +278,10 @@ public class FahrplanMisc {
 
 
 		Intent intent = new Intent(context, AlarmReceiver.class);
-		intent.putExtra("lecture_id", lecture.lecture_id);
-		intent.putExtra("day", lecture.day);
-		intent.putExtra("title", lecture.title);
-		intent.putExtra("startTime", startTime);
+		intent.putExtra(BundleKeys.ALARM_ADD_LECTURE_ID, lecture.lecture_id);
+		intent.putExtra(BundleKeys.ALARM_ADD_DAY, lecture.day);
+		intent.putExtra(BundleKeys.ALARM_ADD_TITLE, lecture.title);
+		intent.putExtra(BundleKeys.ALARM_ADD_START_TIME, startTime);
 		intent.setAction(AlarmReceiver.ALARM_LECTURE);
 
 		intent.setData(Uri.parse("alarm://"+lecture.lecture_id));
@@ -325,14 +337,15 @@ public class FahrplanMisc {
 
 		try {
 			db.beginTransaction();
-			db.delete("highlight", "eventid=?", new String[] { lecture.lecture_id });
+			db.delete(HighlightsTable.NAME, HighlightsTable.Columns.EVENT_ID + "=?", new String[] { lecture.lecture_id });
 
 			ContentValues values = new ContentValues();
 
-			values.put("eventid", Integer.parseInt(lecture.lecture_id));
-			values.put("highlight", lecture.highlight ? 1 : 0);
+			values.put(HighlightsTable.Columns.EVENT_ID, Integer.parseInt(lecture.lecture_id));
+			int highlightState = lecture.highlight ? HighlightsTable.Values.HIGHLIGHT_STATE_ON : HighlightsTable.Values.HIGHLIGHT_STATE_OFF;
+			values.put(HighlightsTable.Columns.HIGHLIGHT, highlightState);
 
-			db.insert("highlight", null, values);
+			db.insert(HighlightsTable.NAME, null, values);
 			db.setTransactionSuccessful();
 		} catch (SQLException e) {
 		} finally {

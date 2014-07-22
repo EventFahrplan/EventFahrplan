@@ -7,6 +7,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
+import nerd.tuxmobil.fahrplan.congress.FahrplanContract.LecturesTable;
+import nerd.tuxmobil.fahrplan.congress.FahrplanContract.LecturesTable.Columns;
+import nerd.tuxmobil.fahrplan.congress.FahrplanContract.LecturesTable.Values;
+import nerd.tuxmobil.fahrplan.congress.FahrplanContract.MetasTable;
+
 import org.xmlpull.v1.XmlPullParser;
 
 import android.content.ContentValues;
@@ -111,16 +116,16 @@ class parser extends AsyncTask<String, Void, Boolean> {
 
 		try {
 			db.beginTransaction();
-			db.delete("meta", null, null);
-			values.put("numdays", meta.numdays);
-			values.put("version", meta.version);
-			values.put("title", meta.title);
-			values.put("subtitle", meta.subtitle);
-			values.put("day_change_hour", meta.dayChangeHour);
-			values.put("day_change_minute", meta.dayChangeMinute);
-			values.put("etag", meta.eTag);
+			db.delete(MetasTable.NAME, null, null);
+			values.put(MetasTable.Columns.NUM_DAYS, meta.numdays);
+			values.put(MetasTable.Columns.VERSION, meta.version);
+			values.put(MetasTable.Columns.TITLE, meta.title);
+			values.put(MetasTable.Columns.SUBTITLE, meta.subtitle);
+			values.put(MetasTable.Columns.DAY_CHANGE_HOUR, meta.dayChangeHour);
+			values.put(MetasTable.Columns.DAY_CHANGE_MINUTE, meta.dayChangeMinute);
+			values.put(MetasTable.Columns.ETAG, meta.eTag);
 
-			db.insert("meta", null, values);
+			db.insert(MetasTable.NAME, null, values);
 			db.setTransactionSuccessful();
 		} catch (SQLException e) {
 		} finally {
@@ -136,31 +141,31 @@ class parser extends AsyncTask<String, Void, Boolean> {
 		db = lecturesDB.getWritableDatabase();
 		try {
 			db.beginTransaction();
-			db.delete("lectures", null, null);
+			db.delete(LecturesTable.NAME, null, null);
 			for (Lecture lecture : lectures) {
 				if (isCancelled()) break;
 				ContentValues values = new ContentValues();
-				values.put("event_id", lecture.lecture_id);
-				values.put("title", lecture.title);
-				values.put("subtitle", lecture.subtitle);
-				values.put("day", lecture.day);
-				values.put("room", lecture.room);
-				values.put("start", lecture.startTime);
-				values.put("duration", lecture.duration);
-				values.put("speakers", lecture.speakers);
-				values.put("track", lecture.track);
-				values.put("type", lecture.type);
-				values.put("lang", lecture.lang);
-				values.put("abstract", lecture.abstractt);
-				values.put("descr", lecture.description);
-				values.put("links", lecture.links);
-				values.put("relStart", lecture.relStartTime);
-				values.put("date", lecture.date);
-				values.put("dateUTC", lecture.dateUTC);
-				values.put("room_idx", lecture.room_index);
-				values.put("rec_license", lecture.recordingLicense);
-				values.put("rec_optout", lecture.recordingOptOut ? 1 : 0);
-				db.insert("lectures", null, values);
+				values.put(Columns.EVENT_ID, lecture.lecture_id);
+				values.put(Columns.TITLE, lecture.title);
+				values.put(Columns.SUBTITLE, lecture.subtitle);
+				values.put(Columns.DAY, lecture.day);
+				values.put(Columns.ROOM, lecture.room);
+				values.put(Columns.START, lecture.startTime);
+				values.put(Columns.DURATION, lecture.duration);
+				values.put(Columns.SPEAKERS, lecture.speakers);
+				values.put(Columns.TRACK, lecture.track);
+				values.put(Columns.TYPE, lecture.type);
+				values.put(Columns.LANG, lecture.lang);
+				values.put(Columns.ABSTRACT, lecture.abstractt);
+				values.put(Columns.DESCR, lecture.description);
+				values.put(Columns.LINKS, lecture.links);
+				values.put(Columns.REL_START, lecture.relStartTime);
+				values.put(Columns.DATE, lecture.date);
+				values.put(Columns.DATE_UTC, lecture.dateUTC);
+				values.put(Columns.ROOM_IDX, lecture.room_index);
+				values.put(Columns.REC_LICENSE, lecture.recordingLicense);
+				values.put(Columns.REC_OPTOUT, lecture.recordingOptOut ? Values.REC_OPTOUT_ON : Values.REC_OPTOUT_OFF);
+				db.insert(LecturesTable.NAME, null, values);
 			}
 			db.setTransactionSuccessful();
 		} catch (SQLException e) {

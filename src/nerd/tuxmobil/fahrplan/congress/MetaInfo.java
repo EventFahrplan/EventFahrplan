@@ -1,5 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress;
 
+import nerd.tuxmobil.fahrplan.congress.FahrplanContract.MetasTable;
+
 public class MetaInfo {
 	public int numdays;
 	public String version;
@@ -10,12 +12,12 @@ public class MetaInfo {
 	public String eTag;
 
 	public MetaInfo() {
-		numdays = 0;
+		numdays = MetasTable.Defaults.NUM_DAYS_DEFAULT;
 		version = "";
 		title = "";
 		subtitle = "";
-		dayChangeHour = 4;
-		dayChangeMinute = 0;
+		dayChangeHour = MetasTable.Defaults.DAY_CHANGE_HOUR_DEFAULT;
+		dayChangeMinute = MetasTable.Defaults.DAY_CHANGE_MINUTE_DEFAULT;
 		eTag = "";
 	}
 }

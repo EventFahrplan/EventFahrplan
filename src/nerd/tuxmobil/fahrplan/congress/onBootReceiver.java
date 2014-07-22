@@ -1,5 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress;
 
+import nerd.tuxmobil.fahrplan.congress.FahrplanContract.AlarmsTable;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -26,7 +27,7 @@ public final class onBootReceiver extends BroadcastReceiver {
 		Cursor cursor;
 
 		try {
-			cursor = db.query("alarms", AlarmsDBOpenHelper.allcolumns,
+			cursor = db.query(AlarmsTable.NAME, AlarmsDBOpenHelper.allcolumns,
 					null, null, null, null, null);
 		} catch (SQLiteException e) {
 			e.printStackTrace();
@@ -43,15 +44,15 @@ public final class onBootReceiver extends BroadcastReceiver {
 
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {
-			long alarmTime = cursor.getLong(2);
+			long alarmTime = cursor.getLong(cursor.getColumnIndex(AlarmsTable.Columns.ALARM_TIME_IN_MIN));
 			alarm.set(alarmTime);
 
 			if (now.before(alarm)) {
 				// set alarm
-				String lecture_id = cursor.getString(5);
-				int day = cursor.getInt(7);
-				String title = cursor.getString(1);
-				long startTime = cursor.getLong(3);
+				String lecture_id = cursor.getString(cursor.getColumnIndex(AlarmsTable.Columns.EVENT_ID));
+				int day = cursor.getInt(cursor.getColumnIndex(AlarmsTable.Columns.DAY));
+				String title = cursor.getString(cursor.getColumnIndex(AlarmsTable.Columns.EVENT_TITLE));
+				long startTime = cursor.getLong(cursor.getColumnIndex(AlarmsTable.Columns.TIME));
 
 				Intent alarmintent = new Intent(context, AlarmReceiver.class);
 				alarmintent.putExtra("lecture_id", lecture_id);
@@ -74,7 +75,7 @@ public final class onBootReceiver extends BroadcastReceiver {
 				MyApp.LogDebug(LOG_TAG, "remove alarm from DB ");
 
 				String id = cursor.getString(0);
-				db.delete("alarms","_id = ?", new String[]{id});
+				db.delete(AlarmsTable.NAME, AlarmsTable.Columns.ID + " = ?", new String[]{id});
 			}
 
 			cursor.moveToNext();

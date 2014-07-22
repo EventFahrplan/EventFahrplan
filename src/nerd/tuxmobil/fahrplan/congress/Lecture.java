@@ -30,6 +30,9 @@ public class Lecture {
 	public String recordingLicense;
 	public boolean recordingOptOut;
 
+	public static final boolean RECORDING_OPTOUT_ON = true;
+	public static final boolean RECORDING_OPTOUT_OFF = false;
+
 	public Lecture(String lecture_id) {
 		title = "";
 		subtitle = "";
@@ -52,7 +55,7 @@ public class Lecture {
 		dateUTC = 0;
 		room_index = 0;
 		recordingLicense = "";
-		recordingOptOut = false;
+		recordingOptOut = RECORDING_OPTOUT_OFF;
 	}
 
 	public static int parseStartTime(String text) {

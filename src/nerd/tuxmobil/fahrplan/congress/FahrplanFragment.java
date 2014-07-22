@@ -8,9 +8,14 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import nerd.tuxmobil.fahrplan.congress.FahrplanContract.AlarmsTable;
+import nerd.tuxmobil.fahrplan.congress.FahrplanContract.HighlightsTable;
+import nerd.tuxmobil.fahrplan.congress.FahrplanContract.LecturesTable;
+
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
 import com.actionbarsherlock.app.SherlockFragment;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -590,7 +595,7 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 				title.setText(sb.toString());
 				View recordingOptOut = event.findViewById(R.id.novideo);
 				if (recordingOptOut != null) {
-					if (lecture.recordingOptOut) recordingOptOut.setVisibility(View.VISIBLE); else recordingOptOut.setVisibility(View.GONE);
+					recordingOptOut.setVisibility(lecture.recordingOptOut ? View.VISIBLE : View.GONE);
 				}
 
 				setLectureBackground(lecture, event);
@@ -620,9 +625,9 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 		Cursor cursor, hCursor;
 
 		try {
-			cursor = lecturedb.query("lectures", LecturesDBOpenHelper.allcolumns,
-					"day=?", new String[] { String.format("%d", day) }, null,
-					null, "relStart");
+			cursor = lecturedb.query(LecturesTable.NAME, LecturesDBOpenHelper.allcolumns,
+					LecturesTable.Columns.DAY + "=?", new String[] { String.format("%d", day) }, null,
+					null, LecturesTable.Columns.REL_START);
 		} catch (SQLiteException e) {
 			e.printStackTrace();
 			lecturedb.close();
@@ -631,7 +636,7 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 			return false;
 		}
 		try {
-			hCursor = highlightdb.query("highlight", HighlightDBOpenHelper.allcolumns,
+			hCursor = highlightdb.query(HighlightsTable.NAME, HighlightDBOpenHelper.allcolumns,
 					null, null, null,
 					null, null);
 		} catch (SQLiteException e) {
@@ -654,27 +659,27 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {
-			Lecture lecture = new Lecture(cursor.getString(0));
+			Lecture lecture = new Lecture(cursor.getString(cursor.getColumnIndex(LecturesTable.Columns.EVENT_ID)));
 
-			lecture.title = cursor.getString(1);
-			lecture.subtitle = cursor.getString(2);
-			lecture.day = cursor.getInt(3);
-			lecture.room = cursor.getString(4);
-			lecture.startTime = cursor.getInt(5);
-			lecture.duration = cursor.getInt(6);
-			lecture.speakers = cursor.getString(7);
-			lecture.track = cursor.getString(8);
-			lecture.type = cursor.getString(9);
-			lecture.lang = cursor.getString(10);
-			lecture.abstractt = cursor.getString(11);
-			lecture.description = cursor.getString(12);
-			lecture.relStartTime = cursor.getInt(13);
-			lecture.date = cursor.getString(14);
-			lecture.links = cursor.getString(15);
-			lecture.dateUTC = cursor.getLong(16);
-			lecture.room_index = cursor.getInt(17);
-			lecture.recordingLicense = cursor.getString(18);
-			lecture.recordingOptOut = cursor.getInt(19) == 0 ? false : true;
+			lecture.title = cursor.getString(cursor.getColumnIndex(LecturesTable.Columns.TITLE));
+			lecture.subtitle = cursor.getString(cursor.getColumnIndex(LecturesTable.Columns.SUBTITLE));
+			lecture.day = cursor.getInt(cursor.getColumnIndex(LecturesTable.Columns.DAY));
+			lecture.room = cursor.getString(cursor.getColumnIndex(LecturesTable.Columns.ROOM));
+			lecture.startTime = cursor.getInt(cursor.getColumnIndex(LecturesTable.Columns.START));
+			lecture.duration = cursor.getInt(cursor.getColumnIndex(LecturesTable.Columns.DURATION));
+			lecture.speakers = cursor.getString(cursor.getColumnIndex(LecturesTable.Columns.SPEAKERS));
+			lecture.track = cursor.getString(cursor.getColumnIndex(LecturesTable.Columns.TRACK));
+			lecture.type = cursor.getString(cursor.getColumnIndex(LecturesTable.Columns.TYPE));
+			lecture.lang = cursor.getString(cursor.getColumnIndex(LecturesTable.Columns.LANG));
+			lecture.abstractt = cursor.getString(cursor.getColumnIndex(LecturesTable.Columns.ABSTRACT));
+			lecture.description = cursor.getString(cursor.getColumnIndex(LecturesTable.Columns.DESCR));
+			lecture.relStartTime = cursor.getInt(cursor.getColumnIndex(LecturesTable.Columns.REL_START));
+			lecture.date = cursor.getString(cursor.getColumnIndex(LecturesTable.Columns.DATE));
+			lecture.links = cursor.getString(cursor.getColumnIndex(LecturesTable.Columns.LINKS));
+			lecture.dateUTC = cursor.getLong(cursor.getColumnIndex(LecturesTable.Columns.DATE_UTC));
+			lecture.room_index = cursor.getInt(cursor.getColumnIndex(LecturesTable.Columns.ROOM_IDX));
+			lecture.recordingLicense = cursor.getString(cursor.getColumnIndex(LecturesTable.Columns.REC_LICENSE));
+			lecture.recordingOptOut = cursor.getInt(cursor.getColumnIndex(LecturesTable.Columns.REC_OPTOUT)) == LecturesTable.Values.REC_OPTOUT_OFF ? Lecture.RECORDING_OPTOUT_OFF : Lecture.RECORDING_OPTOUT_ON;
 
 			MyApp.lectureList.add(lecture);
 			cursor.moveToNext();
@@ -732,13 +737,13 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 
 		hCursor.moveToFirst();
 		while (!hCursor.isAfterLast()) {
-			String lecture_id = hCursor.getString(1);
-			int highlighted = hCursor.getInt(2);
-			MyApp.LogDebug(LOG_TAG, "lecture "+lecture_id+" is hightlighted:"+highlighted);
+			String lecture_id = hCursor.getString(hCursor.getColumnIndex(HighlightsTable.Columns.EVENT_ID));
+			int highlightState = hCursor.getInt(hCursor.getColumnIndex(HighlightsTable.Columns.HIGHLIGHT));
+			MyApp.LogDebug(LOG_TAG, "lecture "+lecture_id+" is hightlighted:" + highlightState);
 
 			for (Lecture lecture : MyApp.lectureList) {
 				if (lecture.lecture_id.equals(lecture_id)) {
-					lecture.highlight = (highlighted == 1 ? true : false);
+					lecture.highlight = (highlightState == HighlightsTable.Values.HIGHLIGHT_STATE_ON ? true : false);
 				}
 			}
 			hCursor.moveToNext();
@@ -765,7 +770,7 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 		alarmdb = alarmDB.getReadableDatabase();
 
 		try {
-			alarmCursor = alarmdb.query("alarms", AlarmsDBOpenHelper.allcolumns,
+			alarmCursor = alarmdb.query(AlarmsTable.NAME, AlarmsDBOpenHelper.allcolumns,
 					null, null, null,
 					null, null);
 		} catch (SQLiteException e) {
@@ -779,7 +784,7 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 
 		alarmCursor.moveToFirst();
 		while (!alarmCursor.isAfterLast()) {
-			String lecture_id = alarmCursor.getString(5);
+			String lecture_id = alarmCursor.getString(alarmCursor.getColumnIndex(AlarmsTable.Columns.EVENT_ID));
 			MyApp.LogDebug(LOG_TAG, "lecture "+lecture_id+" has alarm");
 
 			for (Lecture lecture : MyApp.lectureList) {

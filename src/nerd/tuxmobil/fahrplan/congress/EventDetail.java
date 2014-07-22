@@ -1,5 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress;
 
+import nerd.tuxmobil.fahrplan.congress.FahrplanContract.FragmentTags;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -26,18 +27,18 @@ public class EventDetail extends SherlockFragmentActivity {
 			FragmentTransaction fragmentTransaction = fm.beginTransaction();
 			EventDetailFragment ev = new EventDetailFragment();
 			Bundle args = new Bundle();
-			args.putString("title", intent.getStringExtra("title"));
-			args.putString("subtitle", intent.getStringExtra("subtitle"));
-			args.putString("abstract", intent.getStringExtra("abstract"));
-			args.putString("descr", intent.getStringExtra("descr"));
-			args.putString("spkr", intent.getStringExtra("spkr"));
-			args.putString("links", intent.getStringExtra("links"));
-			args.putString("eventid", intent.getStringExtra("eventid"));
-			args.putInt("time", intent.getIntExtra("time", 0));
-			args.putInt("day", intent.getIntExtra("day", 0));
-			args.putString("room", intent.getStringExtra("room"));
+			args.putString(BundleKeys.EVENT_TITLE, intent.getStringExtra(BundleKeys.EVENT_TITLE));
+			args.putString(BundleKeys.EVENT_SUBTITLE, intent.getStringExtra(BundleKeys.EVENT_SUBTITLE));
+			args.putString(BundleKeys.EVENT_ABSTRACT, intent.getStringExtra(BundleKeys.EVENT_ABSTRACT));
+			args.putString(BundleKeys.EVENT_DESCRIPTION, intent.getStringExtra(BundleKeys.EVENT_DESCRIPTION));
+			args.putString(BundleKeys.EVENT_SPEAKERS, intent.getStringExtra(BundleKeys.EVENT_SPEAKERS));
+			args.putString(BundleKeys.EVENT_LINKS, intent.getStringExtra(BundleKeys.EVENT_LINKS));
+			args.putString(BundleKeys.EVENT_ID, intent.getStringExtra(BundleKeys.EVENT_ID));
+			args.putInt(BundleKeys.EVENT_TIME, intent.getIntExtra(BundleKeys.EVENT_TIME, 0));
+			args.putInt(BundleKeys.EVENT_DAY, intent.getIntExtra(BundleKeys.EVENT_DAY, 0));
+			args.putString(BundleKeys.EVENT_ROOM, intent.getStringExtra(BundleKeys.EVENT_ROOM));
 			ev.setArguments(args);
-			fragmentTransaction.replace(R.id.detail, ev, "detail");
+			fragmentTransaction.replace(R.id.detail, ev, FragmentTags.DETAIL);
 			fragmentTransaction.commit();
 		}
 	}
