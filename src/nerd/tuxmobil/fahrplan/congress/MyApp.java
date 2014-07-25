@@ -18,7 +18,9 @@ public class MyApp extends Application {
 	public static FetchFahrplan fetcher = null;
 	public static FahrplanParser parser = null;
 	public static String schedulePath = "/congress/2013/Fahrplan/schedule.xml";
+	// Ruby: Date.new(2013,12,27).to_time.to_i
 	public static long first_day_start = 1388098800000l;
+	// Ruby: Date.new(2013,12,31).to_time.to_i
 	public static long last_day_end = 1388444400000l;
 	public static int room_count = 0;
 	public static HashMap<String, Integer> roomsMap = new HashMap<String, Integer>();
