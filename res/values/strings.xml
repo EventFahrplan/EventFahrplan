@@ -59,6 +59,9 @@
 	<string name="issues">
 		<![CDATA[<a href="http://github.com/tuxmobil/CampFahrplan/issues">Issues or feature requests</a>]]>
 	</string>
+	<string name="google_play_store">
+		<![CDATA[<a href="https://play.google.com/store/apps/details?id=nerd.tuxmobil.fahrplan.congress">Google PlayStore listing</a>]]>
+	</string>
 	<string name="delete_alarm">Clear alarm</string>
 	<string name="today">today</string>
 	<string name="addToCalendar">Add to calendar</string>

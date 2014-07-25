@@ -57,5 +57,9 @@ public class AboutDialog extends SherlockDialogFragment {
 		TextView issues = (TextView)view.findViewById(R.id.issues);
 		issues.setText(Html.fromHtml(getString(R.string.issues)));
 		issues.setMovementMethod(LinkMovementMethod.getInstance());
+
+		TextView googlePlayStore = (TextView)view.findViewById(R.id.google_play_store);
+		googlePlayStore.setText(Html.fromHtml(getString(R.string.google_play_store)));
+		googlePlayStore.setMovementMethod(LinkMovementMethod.getInstance());
 	}
 }
