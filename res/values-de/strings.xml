@@ -52,6 +52,9 @@
 	<string name="insistent_alarm">Dauerhafter Alarm</string>
 	<string name="usage">Hinweis:\n\nLange auf Vortrag tippen um Erinnerung einzustellen.</string>
 	<string name="set_alarm">Alarm setzen</string>
+	<string name="conference_url">
+		<![CDATA[<a href="http://events.ccc.de/congress/2013/">http://events.ccc.de/congress/2013/</a>]]>
+	</string>
 	<string name="libraries">
 		Die Anwendung nutzt folgende Bibliotheken: ActionBarSherlock,
 		Google Support Library v4

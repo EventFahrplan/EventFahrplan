@@ -50,6 +50,16 @@
         </TextView>
 
         <TextView
+            android:id="@+id/conference_url"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:linksClickable="true"
+            android:paddingBottom="10dp"
+            android:singleLine="false"
+            android:text="" />
+
+        <TextView
             android:id="@+id/eventVersion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
