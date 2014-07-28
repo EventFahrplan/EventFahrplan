@@ -2,25 +2,15 @@ package nerd.tuxmobil.fahrplan.congress;
 
 public interface BundleKeys {
 
-	// Add alarm
-    public static final String ALARM_ADD_LECTURE_ID =
-            "nerd.tuxmobil.fahrplan.congress.ALARM_ADD_LECTURE_ID";
-    public static final String ALARM_ADD_DAY =
-            "nerd.tuxmobil.fahrplan.congress.ALARM_ADD_DAY";
-    public static final String ALARM_ADD_TITLE =
-            "nerd.tuxmobil.fahrplan.congress.ALARM_ADD_TITLE";
-    public static final String ALARM_ADD_START_TIME =
-            "nerd.tuxmobil.fahrplan.congress.ALARM_ADD_START_TIME";
-
-	// Delete alarm
-    public static final String ALARM_DELETE_LECTURE_ID =
-    		"nerd.tuxmobil.fahrplan.congress.ALARM_DELETE_LECTURE_ID";
-	public static final String ALARM_DELETE_DAY =
-			"nerd.tuxmobil.fahrplan.congress.ALARM_DELETE_DAY";
-	public static final String ALARM_DELETE_TITLE =
-			"nerd.tuxmobil.fahrplan.congress.ALARM_DELETE_TITLE";
-	public static final String ALARM_DELETE_START_TIME =
-			"nerd.tuxmobil.fahrplan.congress.ALARM_DELETE_START_TIME";
+	// Add + delete alarm
+    public static final String ALARM_LECTURE_ID =
+            "nerd.tuxmobil.fahrplan.congress.ALARM_LECTURE_ID";
+    public static final String ALARM_DAY =
+            "nerd.tuxmobil.fahrplan.congress.ALARM_DAY";
+    public static final String ALARM_TITLE =
+            "nerd.tuxmobil.fahrplan.congress.ALARM_TITLE";
+    public static final String ALARM_START_TIME =
+            "nerd.tuxmobil.fahrplan.congress.ALARM_START_TIME";
 
 	// Event
     public static final String EVENT_TITLE =
