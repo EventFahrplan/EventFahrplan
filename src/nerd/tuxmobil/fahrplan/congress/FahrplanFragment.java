@@ -759,6 +759,10 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 	}
 
 	public static void loadAlarms(Context context) {
+		if (MyApp.lectureList == null) {
+			return;
+		}
+
 		Cursor alarmCursor;
 		SQLiteDatabase alarmdb = null;
 
@@ -978,6 +982,9 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 	}
 
 	public void refreshViews() {
+		if (MyApp.lectureList == null) {
+			return;
+		}
 		for (Lecture lecture : MyApp.lectureList) {
 			setBell(lecture);
 			View v = getLectureView(lecture);
