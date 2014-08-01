@@ -50,6 +50,10 @@ public class AboutDialog extends SherlockDialogFragment {
 		logo_copyright.setText(Html.fromHtml(getString(R.string.copyright_logo)));
 		logo_copyright.setMovementMethod(LinkMovementMethod.getInstance());
 
+		TextView conferenceUrl = (TextView)view.findViewById(R.id.conference_url);
+		conferenceUrl.setText(Html.fromHtml(getString(R.string.conference_url)));
+		conferenceUrl.setMovementMethod(LinkMovementMethod.getInstance());
+
 		TextView sourceCode = (TextView)view.findViewById(R.id.source_code);
 		sourceCode.setText(Html.fromHtml(getString(R.string.source_code)));
 		sourceCode.setMovementMethod(LinkMovementMethod.getInstance());
@@ -57,5 +61,9 @@ public class AboutDialog extends SherlockDialogFragment {
 		TextView issues = (TextView)view.findViewById(R.id.issues);
 		issues.setText(Html.fromHtml(getString(R.string.issues)));
 		issues.setMovementMethod(LinkMovementMethod.getInstance());
+
+		TextView googlePlayStore = (TextView)view.findViewById(R.id.google_play_store);
+		googlePlayStore.setText(Html.fromHtml(getString(R.string.google_play_store)));
+		googlePlayStore.setMovementMethod(LinkMovementMethod.getInstance());
 	}
 }

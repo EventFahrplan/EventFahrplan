@@ -211,7 +211,7 @@ class fetcher extends AsyncTask<String, Void, HTTP_STATUS> {
 				sb.append(line).append("\n");
 			}
 		} catch (IOException e) {
-			Log.e(LOG_TAG, "Exception reading line");
+			Log.e(LOG_TAG, "Exception reading line: " + line);
 			CustomHttpClient.close(client);
 			return HTTP_STATUS.HTTP_CANNOT_PARSE_CONTENT;
 		}
