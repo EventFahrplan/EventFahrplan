@@ -50,9 +50,6 @@ public class DateHelper {
 	}
 
 	protected static Date getDate(final String text, final String pattern) {
-		if (pattern.length() == 10) {
-			throw new IllegalStateException("text = " + text + ", pattern = " + pattern);
-		}
 		SimpleDateFormat dateFormat = new SimpleDateFormat(pattern, Locale.US);
 		Date date = null;
 		try {
