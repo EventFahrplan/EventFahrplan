@@ -261,14 +261,6 @@ public class FahrplanMisc {
 		long startTime;
 		long startTimeInSeconds = lecture.dateUTC;
 
-		// Check if lecture start time is in the future
-		long timeNow = System.currentTimeMillis();
-		if (startTimeInSeconds < timeNow) {
-			String formattedLectureStartTime = DateHelper.getFormattedTime(startTimeInSeconds, "%Y-%m-%dT%H:%M:%S%z");
-			throw new IllegalStateException(
-					"The start time of the lecture " + lecture.lecture_id + " is in the past: " + formattedLectureStartTime);
-		}
-
 		if (startTimeInSeconds > 0) {
 			when = startTimeInSeconds;
 			startTime = startTimeInSeconds;
