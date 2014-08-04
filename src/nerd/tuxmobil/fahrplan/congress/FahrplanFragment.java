@@ -264,7 +264,7 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 		int height;
 //		Log.d(LOG_TAG, "lectureListDay: " + MyApp.lectureListDay);
 		if (lecture_id != null) return;
-		if (MyApp.lectureListDay != DateList.getIndexOfToday(MyApp.dateList, MyApp.dayChangeHour, MyApp.dayChangeMinute)) return;
+		if (MyApp.lectureListDay != MyApp.dateInfos.getIndexOfToday(MyApp.dayChangeHour, MyApp.dayChangeMinute)) return;
 		Time now = new Time();
 		now.setToNow();
 		HorizontalSnapScrollView horiz = null;
@@ -288,7 +288,7 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 		int printTime = time;
 		int scrollAmount = 0;
 
-		if (!((((now.hour * 60) + now.minute) < firstLectureStart) && DateList.sameDay(now, MyApp.lectureListDay, MyApp.dateList))) {
+		if (!((((now.hour * 60) + now.minute) < firstLectureStart) && MyApp.dateInfos.sameDay(now, MyApp.lectureListDay))) {
 			while (time < lastLectureEnd) {
 				int hour = printTime / 60;
 				int minute = printTime % 60;
@@ -829,10 +829,10 @@ public class FahrplanFragment extends SherlockFragment implements OnClickListene
 		for (int i = 0; i < MyApp.numdays; i++) {
 			StringBuilder sb = new StringBuilder();
 			sb.append(getString(R.string.day)).append(" ").append(i + 1);
-			for (DateList d : MyApp.dateList) {
-				if (d.dayIdx == (i + 1)) {
-					MyApp.LogDebug(LOG_TAG, "date of day " + sb.toString() + " is " + d.date);
-					if (currentDate.toString().equals(d.date)) {
+			for (DateInfo dateInfo : MyApp.dateInfos) {
+				if (dateInfo.dayIdx == (i + 1)) {
+					MyApp.LogDebug(LOG_TAG, "DateInfo of day '" + sb.toString() + "': " + dateInfo);
+					if (currentDate.toString().equals(dateInfo.date)) {
 						sb.append(" - ");
 						sb.append(getString(R.string.today));
 					}

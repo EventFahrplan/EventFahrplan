@@ -81,15 +81,4 @@ public class Lecture {
 		return t;
 	}
 
-	public static long parseDateTime(String text) {
-		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
-		Date date;
-		try {
-			date = df.parse(text);
-			return date.getTime();
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		return 0;
-	}
 }
