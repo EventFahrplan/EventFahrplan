@@ -80,11 +80,13 @@ class parser extends AsyncTask<String, Void, Boolean> {
 
 	protected Boolean doInBackground(String... args) {
 		boolean parsingSuccessful = parseFahrplan(args[0], args[1]);
-		DateFieldValidation dateFieldValidation = new DateFieldValidation(context);
-		boolean dateFieldValidationSuccessful = dateFieldValidation.validate();
-		dateFieldValidation.printValidationErrors();
-		// TODO Clear database on validation failure.
-		return parsingSuccessful; //&& dateFieldValidationSuccessful;
+		if (parsingSuccessful) {
+			DateFieldValidation dateFieldValidation = new DateFieldValidation(context);
+			dateFieldValidation.validate();
+			dateFieldValidation.printValidationErrors();
+			// TODO Clear database on validation failure.
+		}
+		return parsingSuccessful;
 	}
 
 	protected void onCancelled() {
@@ -206,6 +208,10 @@ class parser extends AsyncTask<String, Void, Boolean> {
 						day = Integer.parseInt(index);
 						date = parser.getAttributeValue(null, "date");
 						String end = parser.getAttributeValue(null, "end");
+						if (end == null) {
+							MyApp.LogDebug(LOG_TAG, "Current day: date = " + date + ", index = " + day);
+							throw new MissingXmlAttributeException("day", "end");
+						}
 						dayChangeTime = DateHelper.getDayChange(end);
 						if (day > numdays) { numdays = day; }
 					}
