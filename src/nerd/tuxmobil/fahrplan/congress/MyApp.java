@@ -1,7 +1,11 @@
 package nerd.tuxmobil.fahrplan.congress;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.TimeZone;
+
 import android.app.Application;
 import android.util.Log;
 import android.util.SparseIntArray;
@@ -18,10 +22,8 @@ public class MyApp extends Application {
 	public static FetchFahrplan fetcher = null;
 	public static FahrplanParser parser = null;
 	public static String schedulePath = "/congress/2013/Fahrplan/schedule.xml";
-	// Ruby: Date.new(2013,12,27).to_time.to_i
-	public static long first_day_start = 1388098800000l;
-	// Ruby: Date.new(2013,12,31).to_time.to_i
-	public static long last_day_end = 1388444400000l;
+	public static long first_day_start = getMilliseconds("Europe/Paris", 2013, 12, 27);
+	public static long last_day_end = getMilliseconds("Europe/Paris", 2013, 12, 31);
 	public static int room_count = 0;
 	public static HashMap<String, Integer> roomsMap = new HashMap<String, Integer>();
 
@@ -50,6 +52,15 @@ public class MyApp extends Application {
         app = this;
         task_running = TASKS.NONE;
         lectureList = null;
+    }
+
+    private static long getMilliseconds(String timeZoneId, int year, int month, int day) {
+    	TimeZone zone = TimeZone.getTimeZone(timeZoneId);
+        Calendar calendar = new GregorianCalendar(zone);
+        int zeroBasedMonth = month - 1;
+        calendar.set(year, zeroBasedMonth, day, 0, 0, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return calendar.getTimeInMillis();
     }
 
 	public static void LogDebug(String tag, String message) {
