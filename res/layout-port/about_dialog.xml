@@ -57,6 +57,7 @@
             android:linksClickable="true"
             android:paddingBottom="10dp"
             android:singleLine="false"
+            style="@style/TextViewLinks"
             android:text="" />
 
         <TextView
@@ -114,6 +115,7 @@
             android:paddingRight="16dp"
             android:paddingTop="10dp"
             android:singleLine="false"
+            style="@style/TextViewLinks"
             android:text="" />
 
         <TextView
@@ -125,6 +127,7 @@
             android:paddingRight="16dp"
             android:paddingTop="10dp"
             android:singleLine="false"
+            style="@style/TextViewLinks"
             android:text="" />
 
         <TextView
@@ -137,6 +140,7 @@
             android:paddingRight="16dp"
             android:paddingTop="10dp"
             android:singleLine="false"
+            style="@style/TextViewLinks"
             android:text="" />
 
         <include
