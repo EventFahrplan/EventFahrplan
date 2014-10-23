@@ -1,0 +1,5 @@
+signing.PRODUCTFLAVOR-release.keystoreFilePath=/home/USERNAME/.android/PRODUCTFLAVOR-release-key.keystore
+signing.PRODUCTFLAVOR-release.keystorePassword=PASSWORD
+signing.PRODUCTFLAVOR-release.keyAlias=PRODUCTFLAVOR
+signing.PRODUCTFLAVOR-release.keyPassword=ANOTHERPASSWORD
+
