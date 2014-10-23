@@ -5,6 +5,8 @@ android {
     buildToolsVersion "21.0.2"
 
     defaultConfig {
+        versionCode 29
+        versionName "1.29.5"
         applicationId "nerd.tuxmobil.fahrplan.congress"
         minSdkVersion 8
         targetSdkVersion 19

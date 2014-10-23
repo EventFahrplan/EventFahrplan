@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="nerd.tuxmobil.fahrplan.congress"
-          android:versionCode="29"
-          android:versionName="1.29.5">
-
-    <uses-sdk
-            android:targetSdkVersion="19"
-            android:minSdkVersion="8"/>
+          package="nerd.tuxmobil.fahrplan.congress">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.VIBRATE"/>
