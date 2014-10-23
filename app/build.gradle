@@ -35,6 +35,11 @@ android {
     }
 
     buildTypes {
+        debug {
+            versionNameSuffix "-DEBUG"
+            applicationIdSuffix ".debug"
+            zipAlign true
+        }
         release {
             zipAlign true
             runProguard true
