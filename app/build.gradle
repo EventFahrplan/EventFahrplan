@@ -10,6 +10,17 @@ android {
         applicationId "nerd.tuxmobil.fahrplan.congress"
         minSdkVersion 8
         targetSdkVersion 19
+        project.ext.set("archivesBaseName", "Fahrplan");
+    }
+
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            def file = output.outputFile
+            if (file != null && file.name.endsWith('.apk')) {
+                def fileName = file.name.replace(".apk", "-" + versionName + ".apk")
+                output.outputFile = new File(file.parent, fileName)
+            }
+        }
     }
 
     buildTypes {
