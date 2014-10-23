@@ -26,11 +26,20 @@
     <color name="event_border_highlight">@color/event_border_default</color>
     <color name="event_border_highlight_art_beauty">@color/event_border_default_art_beauty</color>
     <color name="event_border_highlight_ccc">@color/event_border_default_ccc</color>
-    <color name="event_border_highlight_entertainment">@color/event_border_default_entertainment</color>
-    <color name="event_border_highlight_ethics_society_politics">@color/event_border_default_ethics_society_politics</color>
-    <color name="event_border_highlight_hardware_making">@color/event_border_default_hardware_making</color>
+    <color name="event_border_highlight_entertainment">@color/event_border_default_entertainment
+    </color>
+    <color name="event_border_highlight_ethics_society_politics">
+        @color/event_border_default_ethics_society_politics
+    </color>
+    <color name="event_border_highlight_hardware_making">
+        @color/event_border_default_hardware_making
+    </color>
     <color name="event_border_highlight_other">@color/event_border_default_other</color>
-    <color name="event_border_highlight_science_engineering">@color/event_border_default_science_engineering</color>
-    <color name="event_border_highlight_security_safety">@color/event_border_default_security_safety</color>
+    <color name="event_border_highlight_science_engineering">
+        @color/event_border_default_science_engineering
+    </color>
+    <color name="event_border_highlight_security_safety">
+        @color/event_border_default_security_safety
+    </color>
 
 </resources>

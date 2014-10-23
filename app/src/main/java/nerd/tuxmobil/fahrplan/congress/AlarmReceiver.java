@@ -1,6 +1,5 @@
 package nerd.tuxmobil.fahrplan.congress;
 
-import nerd.tuxmobil.fahrplan.congress.FahrplanContract.AlarmsTable;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -12,63 +11,73 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 
+import nerd.tuxmobil.fahrplan.congress.FahrplanContract.AlarmsTable;
+
 public final class AlarmReceiver extends BroadcastReceiver {
 
     public static final String ALARM_LECTURE = "nerd.tuxmobil.fahrplan.congress.ALARM_LECTURE";
-	public static final String ALARM_UPDATE = "nerd.tuxmobil.fahrplan.congress.ALARM_UPDATE";
-	private static final String LOG_TAG = "AlarmReceiver";
 
-	@Override
+    public static final String ALARM_UPDATE = "nerd.tuxmobil.fahrplan.congress.ALARM_UPDATE";
+
+    private static final String LOG_TAG = "AlarmReceiver";
+
+    @Override
     public void onReceive(Context context, Intent intent) {
 
-		MyApp.LogDebug(LOG_TAG,	"got alarm");
-		MyApp.LogDebug(LOG_TAG, "action " + intent.getAction());
+        MyApp.LogDebug(LOG_TAG, "got alarm");
+        MyApp.LogDebug(LOG_TAG, "action " + intent.getAction());
 
-    	if (intent.getAction().equals(ALARM_LECTURE)) {
-	    	String lecture_id = intent.getStringExtra(BundleKeys.ALARM_LECTURE_ID);
-	    	int lid = Integer.parseInt(lecture_id);
-	    	int day = intent.getIntExtra(BundleKeys.ALARM_DAY, 1);
-	    	long when = intent.getLongExtra(BundleKeys.ALARM_START_TIME, System.currentTimeMillis());
-	    	String title = intent.getStringExtra(BundleKeys.ALARM_TITLE);
-	        //Toast.makeText(context, "Alarm worked.", Toast.LENGTH_LONG).show();
-	        NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-	        Notification notify = new Notification();
+        if (intent.getAction().equals(ALARM_LECTURE)) {
+            String lecture_id = intent.getStringExtra(BundleKeys.ALARM_LECTURE_ID);
+            int lid = Integer.parseInt(lecture_id);
+            int day = intent.getIntExtra(BundleKeys.ALARM_DAY, 1);
+            long when = intent
+                    .getLongExtra(BundleKeys.ALARM_START_TIME, System.currentTimeMillis());
+            String title = intent.getStringExtra(BundleKeys.ALARM_TITLE);
+            //Toast.makeText(context, "Alarm worked.", Toast.LENGTH_LONG).show();
+            NotificationManager nm = (NotificationManager) context
+                    .getSystemService(Context.NOTIFICATION_SERVICE);
+            Notification notify = new Notification();
 
-			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 
-			notify.sound = Uri.parse(prefs.getString("reminder_tone", ""));
-			boolean insistent = prefs.getBoolean("insistent", false);
-			MyApp.LogDebug("alarm", "insistent is "+insistent);
-	        notify.flags = Notification.FLAG_AUTO_CANCEL;
-	        if (insistent) {
-	        	notify.flags |= Notification.FLAG_INSISTENT;
-	        }
-			MyApp.LogDebug("alarm", "flags: "+notify.flags);
-	        notify.defaults = Notification.DEFAULT_LIGHTS | Notification.DEFAULT_VIBRATE;
-			MyApp.LogDebug("alarm", "url: "+prefs.getString("reminder_tone",""));
-	        notify.icon = R.drawable.ic_notification;
-	        notify.when = when;
+            notify.sound = Uri.parse(prefs.getString("reminder_tone", ""));
+            boolean insistent = prefs.getBoolean("insistent", false);
+            MyApp.LogDebug("alarm", "insistent is " + insistent);
+            notify.flags = Notification.FLAG_AUTO_CANCEL;
+            if (insistent) {
+                notify.flags |= Notification.FLAG_INSISTENT;
+            }
+            MyApp.LogDebug("alarm", "flags: " + notify.flags);
+            notify.defaults = Notification.DEFAULT_LIGHTS | Notification.DEFAULT_VIBRATE;
+            MyApp.LogDebug("alarm", "url: " + prefs.getString("reminder_tone", ""));
+            notify.icon = R.drawable.ic_notification;
+            notify.when = when;
 
-	        Intent notificationIntent = new Intent(context, MainActivity.class);
-	        notificationIntent.putExtra("lecture_id", lecture_id);
-	        notificationIntent.putExtra("day", day);
-	        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
-	        PendingIntent contentIntent = PendingIntent.getActivity(context, lid, notificationIntent, PendingIntent.FLAG_ONE_SHOT);
-	        notify.setLatestEventInfo(context, context.getString(R.string.reminder), title, contentIntent);
+            Intent notificationIntent = new Intent(context, MainActivity.class);
+            notificationIntent.putExtra("lecture_id", lecture_id);
+            notificationIntent.putExtra("day", day);
+            notificationIntent.setFlags(
+                    Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+            PendingIntent contentIntent = PendingIntent
+                    .getActivity(context, lid, notificationIntent, PendingIntent.FLAG_ONE_SHOT);
+            notify.setLatestEventInfo(context, context.getString(R.string.reminder), title,
+                    contentIntent);
 
-	        nm.notify(1, notify);
+            nm.notify(1, notify);
 
-	        // Clear from alarmDB
+            // Clear from alarmDB
 
-			AlarmsDBOpenHelper lecturesDB = new AlarmsDBOpenHelper(context);
+            AlarmsDBOpenHelper lecturesDB = new AlarmsDBOpenHelper(context);
 
-			SQLiteDatabase db = lecturesDB.getReadableDatabase();
-			db.delete(AlarmsTable.NAME, AlarmsTable.Columns.EVENT_ID + "=?", new String[] { lecture_id });
+            SQLiteDatabase db = lecturesDB.getReadableDatabase();
+            db.delete(AlarmsTable.NAME, AlarmsTable.Columns.EVENT_ID + "=?",
+                    new String[]{lecture_id});
 
-			db.close();
-    	} else if (intent.getAction().equals(ALARM_UPDATE)) {
-			Intent updateIntent = new Intent(context, UpdateService.class);
-			context.startService(updateIntent);
-    	}
+            db.close();
+        } else if (intent.getAction().equals(ALARM_UPDATE)) {
+            Intent updateIntent = new Intent(context, UpdateService.class);
+            context.startService(updateIntent);
+        }
     }
 }

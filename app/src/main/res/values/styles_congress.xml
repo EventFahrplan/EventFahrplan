@@ -45,11 +45,11 @@
         <item name="progressBarStyle">@style/ProgressBar.Congress</item>
         <item name="indeterminateProgressStyle">@style/ActivityIndicator</item>
     </style>
-	
-    <style name="PopupMenu.Congress" parent="@style/Widget.Sherlock.ListPopupWindow">	
-        <item name="android:popupBackground">@drawable/menu_dropdown_panel_congress</item>	
+
+    <style name="PopupMenu.Congress" parent="@style/Widget.Sherlock.ListPopupWindow">
+        <item name="android:popupBackground">@drawable/menu_dropdown_panel_congress</item>
     </style>
-	
+
     <style name="DropDownListView.Congress" parent="@style/Widget.Sherlock.ListView.DropDown">
         <item name="android:listSelector">@drawable/selectable_background_congress</item>
     </style>
@@ -57,21 +57,21 @@
     <style name="ActionBarTabStyle.Congress" parent="@style/Widget.Sherlock.ActionBar.TabView">
         <item name="android:background">@drawable/tab_indicator_ab_congress</item>
     </style>
-	
+
     <style name="DropDownNav.Congress" parent="@style/Widget.Sherlock.Spinner.DropDown.ActionBar">
         <item name="android:background">@drawable/spinner_background_ab_congress</item>
         <item name="android:popupBackground">@drawable/menu_dropdown_panel_congress</item>
         <item name="android:dropDownSelector">@drawable/selectable_background_congress</item>
     </style>
-    
+
     <style name="ProgressBar.Congress" parent="@style/Widget.Sherlock.ProgressBar.Horizontal">
         <item name="android:progressDrawable">@drawable/progress_horizontal_congress</item>
     </style>
-    
+
     <style name="ActionButton.CloseMode.Congress" parent="@style/Widget.Sherlock.ActionButton.CloseMode">
         <item name="android:background">@drawable/btn_cab_done_congress</item>
     </style>
-    
+
     <style name="TextViewLinks">
         <item name="android:textColorLink">@color/text_link_color</item>
     </style>
@@ -90,7 +90,7 @@
         <item name="android:background">@drawable/alarm_list_icon_layer</item>
         <item name="android:text">0</item>
     </style>
-    
+
     <style name="ActivityIndicator" parent="@android:style/Widget.ProgressBar">
         <item name="android:minWidth">48dp</item>
         <item name="android:maxWidth">48dp</item>

@@ -16,25 +16,27 @@ public class Prefs extends PreferenceActivity {
 
         // Load the preferences from an XML resource
         addPreferencesFromResource(R.xml.prefs);
-        findPreference("auto_update").setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+        findPreference("auto_update")
+                .setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 
-			@Override
-			public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    @Override
+                    public boolean onPreferenceChange(Preference preference, Object newValue) {
 
-				SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(Prefs.this);
+                        SharedPreferences prefs = PreferenceManager
+                                .getDefaultSharedPreferences(Prefs.this);
 
-				Editor edit = prefs.edit();
-				edit.putBoolean("auto_update", (Boolean)newValue);
-				edit.commit();
+                        Editor edit = prefs.edit();
+                        edit.putBoolean("auto_update", (Boolean) newValue);
+                        edit.commit();
 
-				if ((Boolean)newValue) {
-					FahrplanMisc.setUpdateAlarm(Prefs.this, true);
-				} else {
-					FahrplanMisc.clearUpdateAlarm(Prefs.this);
-				}
-				return true;
-			}
-		});
+                        if ((Boolean) newValue) {
+                            FahrplanMisc.setUpdateAlarm(Prefs.this, true);
+                        } else {
+                            FahrplanMisc.clearUpdateAlarm(Prefs.this);
+                        }
+                        return true;
+                    }
+                });
     }
 
 }

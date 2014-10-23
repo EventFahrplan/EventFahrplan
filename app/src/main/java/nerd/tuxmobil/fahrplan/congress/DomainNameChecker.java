@@ -18,8 +18,8 @@ package nerd.tuxmobil.fahrplan.congress;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.security.cert.X509Certificate;
 import java.security.cert.CertificateParsingException;
+import java.security.cert.X509Certificate;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -32,7 +32,9 @@ import javax.security.auth.x500.X500Principal;
  * Implements basic domain-name validation as specified by RFC2818.
  */
 public class DomainNameChecker {
+
     private static Pattern QUICK_IP_PATTERN;
+
     static {
         try {
             QUICK_IP_PATTERN = Pattern.compile("^[a-f0-9\\.:]+$");
@@ -41,17 +43,17 @@ public class DomainNameChecker {
     }
 
     private static final int ALT_DNS_NAME = 2;
+
     private static final int ALT_IPA_NAME = 7;
-	private static final String LOG_TAG = "DomainNameChecker";
+
+    private static final String LOG_TAG = "DomainNameChecker";
 
     /**
      * Checks the site certificate against the domain name of the site being
      * visited
      *
-     * @param certificate
-     *            The certificate to check
-     * @param thisDomain
-     *            The domain name of the site being visited
+     * @param certificate The certificate to check
+     * @param thisDomain  The domain name of the site being visited
      * @return True iff if there is a domain match as specified by RFC2818
      */
     public static boolean match(X509Certificate certificate, String thisDomain) {
@@ -83,7 +85,7 @@ public class DomainNameChecker {
             rval = QUICK_IP_PATTERN.matcher(domain).matches();
             if (rval) {
                 rval = domain.equals(InetAddress.getByName(domain)
-                                     .getHostAddress());
+                        .getHostAddress());
             }
         } catch (UnknownHostException e) {
             String errorMessage = e.getMessage();
@@ -92,7 +94,7 @@ public class DomainNameChecker {
             }
 
             MyApp.LogDebug(LOG_TAG, "DomainNameChecker.isIpAddress(): "
-                      + errorMessage);
+                    + errorMessage);
 
             rval = false;
         }
@@ -104,38 +106,37 @@ public class DomainNameChecker {
      * Checks the site certificate against the IP domain name of the site being
      * visited
      *
-     * @param certificate
-     *            The certificate to check
-     * @param thisDomain
-     *            The DNS domain name of the site being visited
+     * @param certificate The certificate to check
+     * @param thisDomain  The DNS domain name of the site being visited
      * @return True iff if there is a domain match as specified by RFC2818
      */
     private static boolean matchIpAddress(X509Certificate certificate, String thisDomain) {
         MyApp.LogDebug(LOG_TAG, "DomainNameChecker.matchIpAddress(): this domain: " + thisDomain);
 
-		InetAddress[] ipAddr;
+        InetAddress[] ipAddr;
         try {
-			ipAddr = InetAddress.getAllByName(thisDomain);
-		} catch (UnknownHostException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-			return false;
-		}
+            ipAddr = InetAddress.getAllByName(thisDomain);
+        } catch (UnknownHostException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+            return false;
+        }
 
-		String reverseDNS = ipAddr[0].getHostName();
-        MyApp.LogDebug(LOG_TAG, "DomainNameChecker.matchIpAddress(): reverse address: " + reverseDNS);
+        String reverseDNS = ipAddr[0].getHostName();
+        MyApp.LogDebug(LOG_TAG,
+                "DomainNameChecker.matchIpAddress(): reverse address: " + reverseDNS);
 
         /* IP Adresse in Zertifikat suchen */
         try {
             Collection<?> subjectAltNames = certificate.getSubjectAlternativeNames();
             if (subjectAltNames != null) {
                 for (Object subjectAltName : subjectAltNames) {
-                    List<?> altNameEntry = (List<?>)(subjectAltName);
+                    List<?> altNameEntry = (List<?>) (subjectAltName);
                     if ((altNameEntry != null) && (2 <= altNameEntry.size())) {
-                        Integer altNameType = (Integer)(altNameEntry.get(0));
+                        Integer altNameType = (Integer) (altNameEntry.get(0));
                         if (altNameType != null) {
                             if (altNameType == ALT_IPA_NAME) {
-                                String altName = (String)(altNameEntry.get(1));
+                                String altName = (String) (altNameEntry.get(1));
                                 if (altName != null) {
                                     if (MyApp.DEBUG) {
                                         MyApp.LogDebug(LOG_TAG, "alternative IP: " + altName);
@@ -153,8 +154,8 @@ public class DomainNameChecker {
         }
 
         if (!reverseDNS.equals(thisDomain)) {
-        	// reverse lookup erfolgreich
-        	return match(certificate, reverseDNS);
+            // reverse lookup erfolgreich
+            return match(certificate, reverseDNS);
         }
 
         return false;
@@ -164,27 +165,25 @@ public class DomainNameChecker {
      * Checks the site certificate against the DNS domain name of the site being
      * visited
      *
-     * @param certificate
-     *            The certificate to check
-     * @param thisDomain
-     *            The DNS domain name of the site being visited
+     * @param certificate The certificate to check
+     * @param thisDomain  The DNS domain name of the site being visited
      * @return True iff if there is a domain match as specified by RFC2818
      */
     private static boolean matchDns(X509Certificate certificate, String thisDomain) {
-    	MyApp.LogDebug(LOG_TAG, "matchDns cert vs "+thisDomain);
+        MyApp.LogDebug(LOG_TAG, "matchDns cert vs " + thisDomain);
         boolean hasDns = false;
         try {
             Collection<?> subjectAltNames = certificate.getSubjectAlternativeNames();
             if (subjectAltNames != null) {
                 Iterator<?> i = subjectAltNames.iterator();
                 while (i.hasNext()) {
-                    List<?> altNameEntry = (List<?>)(i.next());
+                    List<?> altNameEntry = (List<?>) (i.next());
                     if ((altNameEntry != null) && (2 <= altNameEntry.size())) {
-                        Integer altNameType = (Integer)(altNameEntry.get(0));
+                        Integer altNameType = (Integer) (altNameEntry.get(0));
                         if (altNameType != null) {
                             if (altNameType.intValue() == ALT_DNS_NAME) {
                                 hasDns = true;
-                                String altName = (String)(altNameEntry.get(1));
+                                String altName = (String) (altNameEntry.get(1));
                                 if (altName != null) {
                                     if (matchDns(thisDomain, altName)) {
                                         return true;
@@ -195,18 +194,18 @@ public class DomainNameChecker {
                     }
                 }
             } else {
-            	MyApp.LogDebug(LOG_TAG, "no SubjectAltNames, looking for SubjectDN");
-            	X500Principal dn = certificate.getSubjectX500Principal();
-            	String name = dn.getName(X500Principal.CANONICAL);
-            	String[] splitNames = name.split(",");
-            	for (int i = 0; i < splitNames.length; i++) {
-            		MyApp.LogDebug(LOG_TAG, splitNames[i]);
-	            	if ((splitNames[i].length() > 3) && (splitNames[i].startsWith("cn="))) {
-		                if ((dn != null) && matchDns(thisDomain, splitNames[i].substring(3))) {
-		                    return true;
-		                }
-	            	}
-            	}
+                MyApp.LogDebug(LOG_TAG, "no SubjectAltNames, looking for SubjectDN");
+                X500Principal dn = certificate.getSubjectX500Principal();
+                String name = dn.getName(X500Principal.CANONICAL);
+                String[] splitNames = name.split(",");
+                for (int i = 0; i < splitNames.length; i++) {
+                    MyApp.LogDebug(LOG_TAG, splitNames[i]);
+                    if ((splitNames[i].length() > 3) && (splitNames[i].startsWith("cn="))) {
+                        if ((dn != null) && matchDns(thisDomain, splitNames[i].substring(3))) {
+                            return true;
+                        }
+                    }
+                }
             }
         } catch (CertificateParsingException e) {
             // one way we can get here is if an alternative name starts with
@@ -220,7 +219,7 @@ public class DomainNameChecker {
                 }
 
                 MyApp.LogDebug(LOG_TAG, "DomainNameChecker.matchDns(): "
-                      + errorMessage);
+                        + errorMessage);
             }
         }
 
@@ -228,16 +227,14 @@ public class DomainNameChecker {
     }
 
     /**
-     * @param thisDomain
-     *            The domain name of the site being visited
-     * @param thatDomain
-     *            The domain name from the certificate
+     * @param thisDomain The domain name of the site being visited
+     * @param thatDomain The domain name from the certificate
      * @return True iff thisDomain matches thatDomain as specified by RFC2818
      */
     private static boolean matchDns(String thisDomain, String thatDomain) {
         MyApp.LogDebug(LOG_TAG, "DomainNameChecker.matchDns():"
-                  + " this domain: " + thisDomain + " that domain: "
-                  + thatDomain);
+                + " this domain: " + thisDomain + " that domain: "
+                + thatDomain);
 
         if ((thisDomain == null) || (thisDomain.length() == 0)
                 || (thatDomain == null) || (thatDomain.length() == 0)) {
@@ -269,7 +266,7 @@ public class DomainNameChecker {
                                 // (d) OR we have a *-component match:
                                 // f*.com matches foo.com but not bar.com
                                 rval = domainTokenMatch(thisDomainTokens[0],
-                                                        thatDomainTokens[0]);
+                                        thatDomainTokens[0]);
                             }
                         }
 
@@ -283,13 +280,11 @@ public class DomainNameChecker {
     }
 
     /**
-     * @param thisDomainToken
-     *            The domain token from the current domain name
-     * @param thatDomainToken
-     *            The domain token from the certificate
+     * @param thisDomainToken The domain token from the current domain name
+     * @param thatDomainToken The domain token from the certificate
      * @return True iff thisDomainToken matches thatDomainToken, using the
-     *         wildcard match as specified by RFC2818-3.1. For example, f*.com
-     *         must match foo.com but not bar.com
+     * wildcard match as specified by RFC2818-3.1. For example, f*.com
+     * must match foo.com but not bar.com
      */
     private static boolean domainTokenMatch(String thisDomainToken, String thatDomainToken) {
         if ((thisDomainToken != null) && (thatDomainToken != null)) {
@@ -300,7 +295,7 @@ public class DomainNameChecker {
                     String suffix = thatDomainToken.substring(starIndex + 1);
 
                     return thisDomainToken.startsWith(prefix)
-                           && thisDomainToken.endsWith(suffix);
+                            && thisDomainToken.endsWith(suffix);
                 }
             }
         }

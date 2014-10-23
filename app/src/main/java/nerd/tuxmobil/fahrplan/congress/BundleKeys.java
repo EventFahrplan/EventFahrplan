@@ -2,7 +2,7 @@ package nerd.tuxmobil.fahrplan.congress;
 
 public interface BundleKeys {
 
-	// Add + delete alarm
+    // Add + delete alarm
     public static final String ALARM_LECTURE_ID =
             "nerd.tuxmobil.fahrplan.congress.ALARM_LECTURE_ID";
     public static final String ALARM_DAY =
@@ -12,7 +12,7 @@ public interface BundleKeys {
     public static final String ALARM_START_TIME =
             "nerd.tuxmobil.fahrplan.congress.ALARM_START_TIME";
 
-	// Event
+    // Event
     public static final String EVENT_TITLE =
             "nerd.tuxmobil.fahrplan.congress.EVENT_TITLE";
     public static final String EVENT_SUBTITLE =

@@ -7,7 +7,7 @@ import android.support.v4.app.TaskStackBuilder;
 
 public class ActivityHelper {
 
-	public static boolean navigateUp(final Activity activity) {
+    public static boolean navigateUp(final Activity activity) {
         Intent upIntent = NavUtils.getParentActivityIntent(activity);
         if (NavUtils.shouldUpRecreateTask(activity, upIntent)) {
             // This activity is NOT part of this app's task, so create a new task
@@ -15,7 +15,7 @@ public class ActivityHelper {
             TaskStackBuilder.create(activity)
                     // Add all of this activity's parents to the back stack
                     .addNextIntentWithParentStack(upIntent)
-                    // Navigate up to the closest parent
+                            // Navigate up to the closest parent
                     .startActivities();
         } else {
             // This activity is part of this app's task, so simply
@@ -23,6 +23,6 @@ public class ActivityHelper {
             NavUtils.navigateUpTo(activity, upIntent);
         }
         return true;
-	}
+    }
 
 }

@@ -27,8 +27,10 @@
         <item name="android:actionDropDownStyle">@style/DropDownNav.Congress</item>
         <item name="android:actionBarStyle">@style/ActionBar.Solid.Congress</item>
         <item name="android:actionModeBackground">@drawable/cab_background_top_congress</item>
-        <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_congress</item>
-        <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Congress</item>
+        <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_congress
+        </item>
+        <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Congress
+        </item>
         <item name="android:textColorLink">@color/text_link_color</item>
     </style>
 
@@ -45,7 +47,7 @@
         <item name="android:progressBarStyle">@style/ProgressBar.Congress</item>
         <item name="android:indeterminateProgressStyle">@style/ActivityIndicator</item>
     </style>
-    
+
     <!-- this style is only referenced in a Light.DarkActionBar based theme -->
     <style name="Theme.Congress.Widget" parent="@style/Theme.Sherlock">
         <item name="android:popupMenuStyle">@style/PopupMenu.Congress</item>

@@ -1,173 +1,173 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/layout_root"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content" >
+            android:id="@+id/layout_root"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_gravity="top"
-        android:orientation="vertical"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:paddingTop="16dp"
-        android:paddingBottom="16dp" 
-        >
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="top"
+            android:orientation="vertical"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            >
 
         <ImageView
-            android:id="@+id/imageView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="16dp"
-            android:paddingBottom="15dp"
-            android:src="@drawable/dialog_logo" >
+                android:id="@+id/imageView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="16dp"
+                android:paddingBottom="15dp"
+                android:src="@drawable/dialog_logo">
         </ImageView>
 
         <TextView
-            android:id="@+id/eventTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center|top"
-            android:paddingBottom="5dp"
-            android:text="Title"
-            android:textColor="#FFF"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+                android:id="@+id/eventTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center|top"
+                android:paddingBottom="5dp"
+                android:text="Title"
+                android:textColor="#FFF"
+                android:textSize="16sp"
+                android:textStyle="bold"/>
 
         <TextView
-            android:id="@+id/eventSubtitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:paddingBottom="10dp"
-            android:text="Subtitle"
-            android:textColor="#FFF"
-            android:textStyle="italic"
-            android:typeface="serif" >
+                android:id="@+id/eventSubtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:paddingBottom="10dp"
+                android:text="Subtitle"
+                android:textColor="#FFF"
+                android:textStyle="italic"
+                android:typeface="serif">
         </TextView>
 
         <TextView
-            android:id="@+id/conference_url"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:linksClickable="true"
-            android:paddingBottom="10dp"
-            android:singleLine="false"
-            style="@style/TextViewLinks"
-            android:text="" />
+                android:id="@+id/conference_url"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:linksClickable="true"
+                android:paddingBottom="10dp"
+                android:singleLine="false"
+                style="@style/TextViewLinks"
+                android:text=""/>
 
         <TextView
-            android:id="@+id/eventVersion"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Version" >
+                android:id="@+id/eventVersion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Version">
         </TextView>
 
         <TextView
-            android:id="@+id/appVersion"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:paddingBottom="15dp"
-            android:text="Version" >
-        </TextView>
-
-        <include
-            layout="@layout/horizontal_line" />
-
-        <TextView
-            android:id="@+id/textView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingBottom="10dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingTop="10dp"
-            android:singleLine="false"
-            android:text="@string/usage" >
+                android:id="@+id/appVersion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:paddingBottom="15dp"
+                android:text="Version">
         </TextView>
 
         <include
-            layout="@layout/horizontal_line" />
+                layout="@layout/horizontal_line"/>
 
         <TextView
-            android:id="@+id/copyright_logo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingTop="10dp"
-            android:singleLine="false"
-            android:linksClickable="true"
-            android:text="" />
-
-        <TextView
-            android:id="@+id/source_code"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:linksClickable="true"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingTop="10dp"
-            android:singleLine="false"
-            style="@style/TextViewLinks"
-            android:text="" />
-
-        <TextView
-            android:id="@+id/issues"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:linksClickable="true"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingTop="10dp"
-            android:singleLine="false"
-            style="@style/TextViewLinks"
-            android:text="" />
-
-        <TextView
-            android:id="@+id/google_play_store"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:linksClickable="true"
-            android:paddingBottom="10dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingTop="10dp"
-            android:singleLine="false"
-            style="@style/TextViewLinks"
-            android:text="" />
-
-        <include
-            layout="@layout/horizontal_line" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingBottom="10dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingTop="10dp"
-            android:singleLine="false"
-            android:text="@string/libraries" >
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="10dp"
+                android:singleLine="false"
+                android:text="@string/usage">
         </TextView>
 
         <include
-            layout="@layout/horizontal_line" />
+                layout="@layout/horizontal_line"/>
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingTop="10dp"
-            android:singleLine="false"
-            android:text="@string/copyright_notes" >
+                android:id="@+id/copyright_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="10dp"
+                android:singleLine="false"
+                android:linksClickable="true"
+                android:text=""/>
+
+        <TextView
+                android:id="@+id/source_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:linksClickable="true"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="10dp"
+                android:singleLine="false"
+                style="@style/TextViewLinks"
+                android:text=""/>
+
+        <TextView
+                android:id="@+id/issues"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:linksClickable="true"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="10dp"
+                android:singleLine="false"
+                style="@style/TextViewLinks"
+                android:text=""/>
+
+        <TextView
+                android:id="@+id/google_play_store"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:linksClickable="true"
+                android:paddingBottom="10dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="10dp"
+                android:singleLine="false"
+                style="@style/TextViewLinks"
+                android:text=""/>
+
+        <include
+                layout="@layout/horizontal_line"/>
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="10dp"
+                android:singleLine="false"
+                android:text="@string/libraries">
+        </TextView>
+
+        <include
+                layout="@layout/horizontal_line"/>
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="10dp"
+                android:singleLine="false"
+                android:text="@string/copyright_notes">
         </TextView>
 
     </LinearLayout>

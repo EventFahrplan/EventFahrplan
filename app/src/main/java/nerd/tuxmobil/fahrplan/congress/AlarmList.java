@@ -1,9 +1,5 @@
 package nerd.tuxmobil.fahrplan.congress;
 
-import nerd.tuxmobil.fahrplan.congress.FahrplanContract.AlarmsTable;
-import nerd.tuxmobil.fahrplan.congress.FahrplanContract.LecturesTable;
-import nerd.tuxmobil.fahrplan.congress.FahrplanContract.AlarmsTable.Columns;
-
 import com.actionbarsherlock.app.SherlockListActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -18,128 +14,132 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
-import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.widget.CursorAdapter;
 import android.view.ContextMenu;
-import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.View;
 import android.widget.AdapterView;
-import android.widget.SimpleCursorAdapter;
+
+import nerd.tuxmobil.fahrplan.congress.FahrplanContract.AlarmsTable;
+import nerd.tuxmobil.fahrplan.congress.FahrplanContract.AlarmsTable.Columns;
 
 public class AlarmList extends SherlockListActivity {
-	private MyApp global;
-	private SQLiteDatabase db;
-	private CursorAdapter mAdapter;
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    private MyApp global;
 
-		global = (MyApp) getApplicationContext();
+    private SQLiteDatabase db;
 
-		setContentView(R.layout.alarms);
+    private CursorAdapter mAdapter;
 
-		AlarmsDBOpenHelper alarmsDB = new AlarmsDBOpenHelper(this);
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-		db = alarmsDB.getReadableDatabase();
-		Cursor cursor;
+        global = (MyApp) getApplicationContext();
 
-		try {
-			cursor = db.query(AlarmsTable.NAME, AlarmsDBOpenHelper.allcolumns, null,
-					null, null, null, Columns.TIME);
-		} catch (SQLiteException e) {
-			e.printStackTrace();
-			db.close();
-			return;
-		}
-		startManagingCursor(cursor);
+        setContentView(R.layout.alarms);
 
-		mAdapter = new AlarmCursorAdapter(this, cursor, 0);
+        AlarmsDBOpenHelper alarmsDB = new AlarmsDBOpenHelper(this);
 
-		// set this adapter as your ListActivity's adapter
-		this.setListAdapter(mAdapter);
+        db = alarmsDB.getReadableDatabase();
+        Cursor cursor;
 
-		registerForContextMenu(getListView());
+        try {
+            cursor = db.query(AlarmsTable.NAME, AlarmsDBOpenHelper.allcolumns, null,
+                    null, null, null, Columns.TIME);
+        } catch (SQLiteException e) {
+            e.printStackTrace();
+            db.close();
+            return;
+        }
+        startManagingCursor(cursor);
 
-		setResult(RESULT_CANCELED);
-	}
+        mAdapter = new AlarmCursorAdapter(this, cursor, 0);
 
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		db.close();
-	}
+        // set this adapter as your ListActivity's adapter
+        this.setListAdapter(mAdapter);
 
-	@Override
-	public boolean onContextItemSelected(android.view.MenuItem item) {
-		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item
-				.getMenuInfo();
-		int menuItemIndex = item.getItemId();
-		switch (menuItemIndex) {
-		case 0:
-			delete_alarm(info.position);
-			setResult(RESULT_OK);
-			break;
-		}
-		return true;
-	}
+        registerForContextMenu(getListView());
 
-	public void onCreateContextMenu(ContextMenu menu, View v,
-			ContextMenuInfo menuInfo) {
-		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
-		super.onCreateContextMenu(menu, v, menuInfo);
-		menu.add(0, 0, 0, global.getString(R.string.delete));
-	}
+        setResult(RESULT_CANCELED);
+    }
 
-	public void delete_alarm(int position) {
-		Cursor cursor = (Cursor) getListAdapter().getItem(position);
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        db.close();
+    }
 
-		Intent intent = new Intent(this, AlarmReceiver.class);
+    @Override
+    public boolean onContextItemSelected(android.view.MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item
+                .getMenuInfo();
+        int menuItemIndex = item.getItemId();
+        switch (menuItemIndex) {
+            case 0:
+                delete_alarm(info.position);
+                setResult(RESULT_OK);
+                break;
+        }
+        return true;
+    }
 
-		String lecture_id = cursor.getString(cursor.getColumnIndex(AlarmsTable.Columns.EVENT_ID));
-		intent.putExtra(BundleKeys.ALARM_LECTURE_ID, lecture_id);
-		int day = cursor.getInt(cursor.getColumnIndex(AlarmsTable.Columns.DAY));
-		intent.putExtra(BundleKeys.ALARM_DAY, day);
-		String title = cursor.getString(cursor.getColumnIndex(AlarmsTable.Columns.EVENT_TITLE));
-		intent.putExtra(BundleKeys.ALARM_TITLE, title);
-		long startTime = cursor.getLong(cursor.getColumnIndex(AlarmsTable.Columns.TIME));
-		intent.putExtra(BundleKeys.ALARM_START_TIME, startTime);
+    public void onCreateContextMenu(ContextMenu menu, View v,
+            ContextMenuInfo menuInfo) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+        super.onCreateContextMenu(menu, v, menuInfo);
+        menu.add(0, 0, 0, global.getString(R.string.delete));
+    }
 
-		intent.setAction("de.machtnix.fahrplan.ALARM");
-		intent.setData(Uri.parse("alarm://"+lecture_id));
+    public void delete_alarm(int position) {
+        Cursor cursor = (Cursor) getListAdapter().getItem(position);
 
-		AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-		PendingIntent pendingintent = PendingIntent.getBroadcast(this, Integer.parseInt(lecture_id), intent, 0);
-		alarmManager.cancel(pendingintent);
+        Intent intent = new Intent(this, AlarmReceiver.class);
 
-		String id = cursor.getString(cursor.getColumnIndex(AlarmsTable.Columns.ID));
-		db.delete(AlarmsTable.NAME, Columns.ID + " = ?", new String[]{id});
-		cursor.requery();
-		mAdapter.notifyDataSetChanged();
-	}
+        String lecture_id = cursor.getString(cursor.getColumnIndex(AlarmsTable.Columns.EVENT_ID));
+        intent.putExtra(BundleKeys.ALARM_LECTURE_ID, lecture_id);
+        int day = cursor.getInt(cursor.getColumnIndex(AlarmsTable.Columns.DAY));
+        intent.putExtra(BundleKeys.ALARM_DAY, day);
+        String title = cursor.getString(cursor.getColumnIndex(AlarmsTable.Columns.EVENT_TITLE));
+        intent.putExtra(BundleKeys.ALARM_TITLE, title);
+        long startTime = cursor.getLong(cursor.getColumnIndex(AlarmsTable.Columns.TIME));
+        intent.putExtra(BundleKeys.ALARM_START_TIME, startTime);
 
-	public boolean onCreateOptionsMenu(Menu menu) {
-		super.onCreateOptionsMenu(menu);
-		MenuInflater mi = new MenuInflater(getApplication());
-		mi.inflate(R.menu.alarmmenu, menu);
-		return true;
-	}
+        intent.setAction("de.machtnix.fahrplan.ALARM");
+        intent.setData(Uri.parse("alarm://" + lecture_id));
 
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case R.id.item_clear_all_alarms:
-			int count = getListAdapter().getCount();
-			for (int i = 0; i < count; i++) {
-				delete_alarm(0);
-			}
-			setResult(RESULT_OK);
-			return true;
-		case android.R.id.home:
-			return ActivityHelper.navigateUp(this);
-		}
-		return super.onOptionsItemSelected(item);
-	}
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        PendingIntent pendingintent = PendingIntent
+                .getBroadcast(this, Integer.parseInt(lecture_id), intent, 0);
+        alarmManager.cancel(pendingintent);
+
+        String id = cursor.getString(cursor.getColumnIndex(AlarmsTable.Columns.ID));
+        db.delete(AlarmsTable.NAME, Columns.ID + " = ?", new String[]{id});
+        cursor.requery();
+        mAdapter.notifyDataSetChanged();
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        MenuInflater mi = new MenuInflater(getApplication());
+        mi.inflate(R.menu.alarmmenu, menu);
+        return true;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.item_clear_all_alarms:
+                int count = getListAdapter().getCount();
+                for (int i = 0; i < count; i++) {
+                    delete_alarm(0);
+                }
+                setResult(RESULT_OK);
+                return true;
+            case android.R.id.home:
+                return ActivityHelper.navigateUp(this);
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 }
