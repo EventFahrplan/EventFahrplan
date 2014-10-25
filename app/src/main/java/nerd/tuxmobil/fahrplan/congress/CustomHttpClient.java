@@ -156,7 +156,8 @@ public class CustomHttpClient {
             case HTTP_DNS_FAILURE:
                 CustomHttpClient.showErrorDialog(ctx,
                         R.string.dlg_err_connection_failed,
-                        R.string.dlg_err_failed_unknown_host, CustomHttpClient.getAddr());
+                        R.string.dlg_err_failed_unknown_host,
+                        BuildConfig.SCHEDULE_DOMAIN);
                 break;
             case HTTP_WRONG_HTTP_CREDENTIALS:
                 CustomHttpClient.showErrorDialog(ctx,

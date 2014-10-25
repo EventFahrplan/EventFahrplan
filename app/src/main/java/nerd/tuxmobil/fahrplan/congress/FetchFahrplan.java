@@ -87,7 +87,7 @@ class fetcher extends AsyncTask<String, Void, HTTP_STATUS> {
     }
 
     protected HTTP_STATUS doInBackground(String... args) {
-        String box = CustomHttpClient.getAddr();
+        String box = BuildConfig.SCHEDULE_DOMAIN;
 
         return fetchthis(box, args[0], args[1]);
 
@@ -129,7 +129,8 @@ class fetcher extends AsyncTask<String, Void, HTTP_STATUS> {
             return HTTP_STATUS.HTTP_SSL_SETUP_FAILURE;
         }
 
-        String address = "https://" + addr + arg;
+        String protocol = BuildConfig.SCHEDULE_SUPPORTS_HTTPS ? "https://" : "http://";
+        String address = protocol + addr + arg;
 
         MyApp.LogDebug("Fetch", address);
         MyApp.LogDebug("Fetch", "ETag: " + eTag);

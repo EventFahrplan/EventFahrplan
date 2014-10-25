@@ -2,7 +2,6 @@ package nerd.tuxmobil.fahrplan.congress;
 
 import com.actionbarsherlock.app.SherlockDialogFragment;
 
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.text.Html;
@@ -36,16 +35,8 @@ public class AboutDialog extends SherlockDialogFragment {
         text = (TextView) view.findViewById(R.id.eventSubtitle);
         text.setText(MyApp.subtitle);
         text = (TextView) view.findViewById(R.id.appVersion);
-        try {
-            text
-                    .setText(getString(R.string.appVersion)
-                            + " "
-                            + getSherlockActivity().getPackageManager()
-                            .getPackageInfo("nerd.tuxmobil.fahrplan.congress", 0).versionName);
-        } catch (NameNotFoundException e) {
-            e.printStackTrace();
-            text.setText("");
-        }
+        String appVersionText = getString(R.string.appVersion, BuildConfig.VERSION_NAME);
+        text.setText(appVersionText);
 
         TextView logo_copyright = (TextView) view.findViewById(R.id.copyright_logo);
         logo_copyright.setText(Html.fromHtml(getString(R.string.copyright_logo)));
