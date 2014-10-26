@@ -2,6 +2,9 @@
 <resources>
 
     <style name="Theme.Congress" parent="@style/Theme.Sherlock">
+        <item name="android:listChoiceIndicatorMultiple">
+            @drawable/congress_btn_check_holo_light
+        </item>
         <item name="android:textColorLink">@color/text_link_color</item>
     </style>
 </resources>
