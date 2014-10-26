@@ -49,7 +49,7 @@
     <string name="delete_all">Alle löschen</string>
     <string name="reminder_ringtone">Erinnerungston</string>
     <string name="insistent_alarm">Dauerhafter Alarm</string>
-    <string name="usage">Hinweis:\n\nLange auf Vortrag tippen um Erinnerung einzustellen.</string>
+    <string name="usage">Hinweis:\n\nLange auf Vortrag tippen, um Erinnerung einzustellen.</string>
     <string name="set_alarm">Alarm setzen</string>
 	<string name="libraries">
 		Die Anwendung nutzt folgende Bibliotheken: ActionBarSherlock,

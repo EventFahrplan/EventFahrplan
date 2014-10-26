@@ -48,7 +48,7 @@
     <string name="delete_all">Delete all</string>
     <string name="reminder_ringtone">Alarm Tone</string>
     <string name="insistent_alarm">Insistent Alarm</string>
-    <string name="usage">Note:\n\nLong-Press on a Lecture to set an alarm.</string>
+    <string name="usage">Note:\n\nLong-press on a lecture to set an alarm.</string>
     <string name="set_alarm">Set alarm</string>
 	<string name="libraries">
 		This application uses the following libraries: ActionBarSherlock,
