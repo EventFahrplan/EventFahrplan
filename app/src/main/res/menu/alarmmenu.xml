@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+            android:title="@string/delete_all"
+            android:titleCondensed="@string/delete_all"
+            android:id="@+id/item_clear_all_alarms"
+            android:icon="@drawable/ic_menu_delete"></item>
+</menu>

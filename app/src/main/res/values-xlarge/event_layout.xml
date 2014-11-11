@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item type="layout" name="event_layout">
+        @layout/event_layout_land_large
+    </item>
+
+</resources>

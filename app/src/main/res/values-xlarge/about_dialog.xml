@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item type="layout" name="about_dialog">
+        @layout/about_dialog_land
+    </item>
+
+</resources>

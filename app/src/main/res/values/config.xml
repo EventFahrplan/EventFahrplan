@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:ignore="MissingTranslation">
+
+    <!-- http://events.ccc.de -->
+    <string name="schedule_domain_part">http://events.ccc.de</string>
+
+    <!-- /congress/2013/Fahrplan -->
+    <string name="schedule_part">/congress/2013/Fahrplan</string>
+
+    <!-- /events/5622.html -->
+    <string name="schedule_event_part">/events/%1$s.html</string>
+
+</resources>

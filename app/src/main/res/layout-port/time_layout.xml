@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+          android:text="09:15"
+          android:id="@+id/time"
+          android:textColor="#ffffff"
+          android:layout_height="match_parent"
+          android:layout_width="@dimen/time_width"
+          android:background="@drawable/border"
+          android:textSize="11sp"
+          android:padding="3dp"
+          android:gravity="top|center"></TextView>

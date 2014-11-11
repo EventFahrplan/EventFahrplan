@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+            android:id="@+id/alarm_list_icon_shape"
+            android:drawable="@drawable/alarm_list_icon_shape"/>
+
+</layer-list>

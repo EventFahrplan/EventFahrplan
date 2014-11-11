@@ -1,0 +1,70 @@
+apply plugin: 'com.android.application'
+
+Properties props = new Properties()
+File gradlePropertiesFile = file("gradle.properties")
+if (!gradlePropertiesFile.exists()) {
+    throw new IllegalStateException(
+            "Please create the file 'gradle.properties' before " +
+                    "importing the project. Do not forget to add custom values!"
+    )
+}
+props.load(new FileInputStream(gradlePropertiesFile))
+
+
+
+android {
+    compileSdkVersion 19
+    buildToolsVersion "21.1.1"
+
+    defaultConfig {
+        versionCode 29
+        versionName "1.29.5"
+        minSdkVersion 8
+        targetSdkVersion 19
+        project.ext.set("archivesBaseName", "Fahrplan");
+    }
+
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            def file = output.outputFile
+            if (file != null && file.name.endsWith('.apk')) {
+                def fileName = file.name.replace(".apk", "-" + versionName + ".apk")
+                output.outputFile = new File(file.parent, fileName)
+            }
+        }
+    }
+
+    buildTypes {
+        debug {
+            versionNameSuffix "-DEBUG"
+            applicationIdSuffix ".debug"
+            zipAlignEnabled true
+        }
+        release {
+            zipAlignEnabled true
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-project.txt'
+        }
+    }
+
+    signingConfigs {
+        ccc30c3 {
+            storeFile file(props['signing.ccc30c3-release.keystoreFilePath'])
+            storePassword props['signing.ccc30c3-release.keystorePassword']
+            keyAlias props['signing.ccc30c3-release.keyAlias']
+            keyPassword props['signing.ccc30c3-release.keyPassword']
+        }
+    }
+
+    productFlavors {
+        ccc30c3 {
+            applicationId "nerd.tuxmobil.fahrplan.congress"
+            signingConfig signingConfigs.ccc30c3
+        }
+    }
+}
+
+dependencies {
+    compile 'com.android.support:support-v4:19.1.0'
+    compile 'com.actionbarsherlock:actionbarsherlock:4.4.0@aar'
+}

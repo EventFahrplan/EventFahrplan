@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">30C3 Schedule</string>
+    <string name="OK">OK</string>
+    <string name="dlg_certificate_message_fmt">Failed to establish secure connection.\n(%s)</string>
+    <string name="dlg_invalid_certificate_title">Unknown certificate</string>
+    <string name="dlg_invalid_certificate_accept">Accept certificate</string>
+    <string name="dlg_invalid_certificate_reject">Deny certificate</string>
+    <string name="dlg_invalid_certificate_could_not_apply">Certificate could not be added.</string>
+    <string name="dlg_err_connection_failed">Connection failure</string>
+    <string name="dlg_err_failed_wrong_password">Wrong password</string>
+    <string name="dlg_err_failed_unknown_host">Unknown address:\n%s</string>
+    <string name="dlg_err_failed_wrong_http_credentials">Invalid HTTP Authentication</string>
+	<string name="dlg_err_failed_timeout">Server doesn\'t respond (Timeout).
+	</string>
+    <string name="dlg_err_failed_connect_failure">Unknown connection failure</string>
+    <string name="dlg_err_failed_encoding_failure">Encoding failure</string>
+    <string name="dlg_err_failed_parse_failure">Couldn\'t parse response</string>
+    <string name="dlg_err_failed_ssl_failure">SSL failure</string>
+    <string name="refresh">Refresh</string>
+    <string name="progress_loading_data">Get schedule...</string>
+    <string name="progress_processing_data">Processing schedule...</string>
+    <string name="load_data">Load</string>
+    <string name="choose_day">Choose day</string>
+    <string name="day">Day</string>
+    <string name="about">Info</string>
+    <string name="fahrplan">Schedule</string>
+    <string name="appVersion">App Version </string>
+    <string name="aktualisiert_auf">Updated to %s</string>
+    <string name="settings">Settings</string>
+    <string name="alarms">Alarms</string>
+    <string name="delete">Delete</string>
+    <string name="event_online">Event online</string>
+    <string name="alarm_prompt">Reminder</string>
+    <string-array name="alarm_array">
+        <item>at start time</item>
+        <item>5 Minutes</item>
+        <item>10 Minutes</item>
+        <item>15 Minutes</item>
+        <item>30 Minutes</item>
+        <item>45 Minutes</item>
+        <item>60 Minutes</item>
+    </string-array>
+    <string name="choose_alarm_time">Choose alarm time:</string>
+    <string name="setup_alarm">Set alarm</string>
+    <string name="reminders">Reminders</string>
+    <string name="reminder">Reminder</string>
+    <string name="feedback">Feedback</string>
+    <string name="delete_all">Delete all</string>
+    <string name="reminder_ringtone">Alarm Tone</string>
+    <string name="insistent_alarm">Insistent Alarm</string>
+    <string name="usage">Note:\n\nLong-Press on a Lecture to set an alarm.</string>
+    <string name="set_alarm">Set alarm</string>
+	<string name="conference_url">
+		<![CDATA[<a href="http://events.ccc.de/congress/2013/">http://events.ccc.de/congress/2013/</a>]]>
+	</string>
+	<string name="libraries">
+		This application uses the following libraries: ActionBarSherlock,
+		Google Support Library v4
+	</string>
+    <string name="copyright_notes">Copyright 2014 Daniel Dorau.\nCopyright 2014 SubOptimal, entropynil, johnjohndoe.\nPortions Copyright 2008-2011 The K-9 Dog Walkers and 2006-2013 the Android Open Source Project.</string>
+    <string name="copyright_logo">30C3 artwork by <![CDATA[<a href="http://evelynschubert.com/">Evelyn Schubert</a>]]> licensed under <![CDATA[<a href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US">CC BY-SA 3.0</a>]]></string>
+	<string name="source_code">
+		<![CDATA[<a href="http://github.com/tuxmobil/CampFahrplan">Source code</a>]]>
+	</string>
+	<string name="issues">
+		<![CDATA[<a href="http://github.com/tuxmobil/CampFahrplan/issues">Issues or feature requests</a>]]>
+	</string>
+	<string name="google_play_store">
+		<![CDATA[<a href="https://play.google.com/store/apps/details?id=nerd.tuxmobil.fahrplan.congress">Google PlayStore listing</a>]]>
+	</string>
+    <string name="delete_alarm">Clear alarm</string>
+    <string name="today">today</string>
+    <string name="addToCalendar">Add to calendar</string>
+    <string name="share">Share</string>
+    <string name="flag_as_favorite">Flag as important</string>
+    <string name="unflag_as_favorite">Remove important flag</string>
+    <string name="uptodate">Schedule is up to date.</string>
+    <string name="close_detail">Close detail view</string>
+    <string name="pref_auto_download">Automatic updates</string>
+    <string name="parsing_error_generic">Unknown error while parsing schedule</string>
+    <string name="parsing_error_with_version">Parsing error for schedule version %s</string>
+	<string name="alarms_empty">
+		There are no alarms to display. Please note that you
+		can set up individual alarms for each item in the schedule.
+		Just press the alarm icon in the action bar.
+	</string>
+    <string name="add_to_calendar_failed">Adding event to calendar failed.</string>
+</resources>

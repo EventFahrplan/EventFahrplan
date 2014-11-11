@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@drawable/event_border_default"
+              android:orientation="vertical"
+              android:padding="10dp">
+
+    <LinearLayout
+            android:id="@+id/relativeLayout1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+        <TextView
+                android:id="@+id/event_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:layout_weight="1"
+                android:textStyle="bold">
+        </TextView>
+
+        <ImageView
+                android:id="@+id/novideo"
+                android:layout_width="wrap_content"
+                android:layout_height="13sp"
+                android:layout_marginLeft="3dp"
+                android:adjustViewBounds="true"
+                android:baselineAlignBottom="true"
+                android:scaleType="fitEnd"
+                android:src="@drawable/ic_novideo">
+
+        </ImageView>
+
+        <ImageView
+                android:id="@+id/bell"
+                android:layout_width="wrap_content"
+                android:layout_height="13sp"
+                android:layout_marginLeft="3dp"
+                android:adjustViewBounds="true"
+                android:baselineAlignBottom="true"
+                android:scaleType="fitEnd"
+                android:src="@drawable/bell">
+
+        </ImageView>
+    </LinearLayout>
+
+    <TextView
+            android:id="@+id/event_subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:fontFamily="sans-serif-light"
+            android:text="TextView"
+            android:textColor="#000000"
+            android:textSize="12sp"/>
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="bottom">
+
+        <TextView
+                android:id="@+id/event_track"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:fontFamily="sans-serif-condensed"
+                android:singleLine="true"
+                android:text="TextView"
+                android:textColor="#000000"
+                android:textSize="11sp"/>
+
+        <TextView
+                android:id="@+id/event_speakers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_toLeftOf="@id/event_track"
+                android:ellipsize="end"
+                android:fontFamily="sans-serif-condensed"
+                android:paddingRight="10dp"
+                android:singleLine="true"
+                android:text="speakers"
+                android:textColor="#000000"
+                android:textSize="11sp"/>
+    </RelativeLayout>
+
+</LinearLayout>

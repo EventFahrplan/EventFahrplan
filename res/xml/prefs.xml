@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen
-  xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory android:title="@string/reminders">
-        <RingtonePreference android:title="@string/reminder_ringtone" android:key="reminder_tone" android:ringtoneType="notification|alarm" android:showDefault="true" android:showSilent="true"></RingtonePreference>
-        <CheckBoxPreference android:title="@string/insistent_alarm" android:key="insistent"></CheckBoxPreference>
-        
-    </PreferenceCategory><CheckBoxPreference android:key="auto_update" android:title="@string/pref_auto_download" android:defaultValue="false"/>
-</PreferenceScreen>
