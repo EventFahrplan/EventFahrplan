@@ -60,6 +60,18 @@ android {
         ccc30c3 {
             applicationId "nerd.tuxmobil.fahrplan.congress"
             signingConfig signingConfigs.ccc30c3
+            buildConfigField "String", "SCHEDULE_DOMAIN", '"events.ccc.de"'
+            buildConfigField "String", "SCHEDULE_DOMAIN_PART", '"http://events.ccc.de"'
+            buildConfigField "String", "SCHEDULE_EVENT_PART", '"/events/%1$s.html"'
+            buildConfigField "String", "SCHEDULE_PART", '"/congress/2013/Fahrplan"'
+            buildConfigField "String", "SCHEDULE_PATH", '"/congress/2013/Fahrplan/schedule.xml"'
+            buildConfigField "int", "SCHEDULE_FIRST_DAY_START_YEAR", "2013"
+            buildConfigField "int", "SCHEDULE_FIRST_DAY_START_MONTH", "12"
+            buildConfigField "int", "SCHEDULE_FIRST_DAY_START_DAY", "27"
+            buildConfigField "int", "SCHEDULE_LAST_DAY_END_YEAR", "2013"
+            buildConfigField "int", "SCHEDULE_LAST_DAY_END_MONTH", "12"
+            buildConfigField "int", "SCHEDULE_LAST_DAY_END_DAY", "31"
+            buildConfigField "boolean", "SCHEDULE_SUPPORTS_HTTPS", "true"
         }
     }
 }

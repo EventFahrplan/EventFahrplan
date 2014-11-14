@@ -53,8 +53,10 @@ interface OnRefreshEventMarkers {
     public void refreshEventMarkers();
 }
 
-public class FahrplanFragment extends SherlockFragment
-        implements OnClickListener, OnNavigationListener, OnParseCompleteListener {
+public class FahrplanFragment extends SherlockFragment implements
+        OnClickListener,
+        OnNavigationListener,
+        OnParseCompleteListener {
 
     private MyApp global;
 
@@ -76,7 +78,14 @@ public class FahrplanFragment extends SherlockFragment
 
     public static Context context = null;
 
-    public static String[] rooms = {"Saal 1", "Saal 2", "Saal G", "Saal 6", "Saal 17", "Lounge"};
+    public static String[] rooms = {
+            "Saal 1",
+            "Saal 2",
+            "Saal G",
+            "Saal 6",
+            "Saal 17",
+            "Lounge"
+    };
 
     private HashMap<String, Integer> trackColorsHi;
 
@@ -99,9 +108,10 @@ public class FahrplanFragment extends SherlockFragment
         super.onCreate(savedInstanceState);
 
         setHasOptionsMenu(true);
-        boldCondensed = Typeface
-                .createFromAsset(getSherlockActivity().getAssets(), "Roboto-BoldCondensed.ttf");
-        light = Typeface.createFromAsset(getSherlockActivity().getAssets(), "Roboto-Light.ttf");
+        boldCondensed = Typeface.createFromAsset(
+                getSherlockActivity().getAssets(), "Roboto-BoldCondensed.ttf");
+        light = Typeface.createFromAsset(
+                getSherlockActivity().getAssets(), "Roboto-Light.ttf");
         context = getSherlockActivity();
     }
 
@@ -123,12 +133,12 @@ public class FahrplanFragment extends SherlockFragment
         screenWidth -= getResources().getDimension(R.dimen.time_width);
         int max_cols = HorizontalSnapScrollView.calcMaxCols(getResources(), screenWidth);
         MyApp.LogDebug(LOG_TAG, "max cols: " + max_cols);
-        columnWidth = (int) ((float) screenWidth / max_cols);        // Breite für Zeitenspalte
-        HorizontalScrollView roomScroller = (HorizontalScrollView) view
-                .findViewById(R.id.roomScroller);
+        columnWidth = (int) ((float) screenWidth / max_cols); // Width for the row column
+        HorizontalScrollView roomScroller =
+                (HorizontalScrollView) view.findViewById(R.id.roomScroller);
         if (roomScroller != null) {
-            HorizontalSnapScrollView snapScroller = (HorizontalSnapScrollView) view
-                    .findViewById(R.id.horizScroller);
+            HorizontalSnapScrollView snapScroller =
+                    (HorizontalSnapScrollView) view.findViewById(R.id.horizScroller);
             if (snapScroller != null) {
                 snapScroller.setChildScroller(roomScroller);
             }
@@ -142,30 +152,44 @@ public class FahrplanFragment extends SherlockFragment
         }
 
         trackColors = new HashMap<String, Integer>();
-        trackColors.put("Art & Beauty", R.drawable.event_border_default_art_beauty);
-        trackColors.put("CCC", R.drawable.event_border_default_ccc);
-        trackColors.put("Entertainment", R.drawable.event_border_default_entertainment);
+        trackColors.put("Art & Beauty",
+                R.drawable.event_border_default_art_beauty);
+        trackColors.put("CCC",
+                R.drawable.event_border_default_ccc);
+        trackColors.put("Entertainment",
+                R.drawable.event_border_default_entertainment);
         trackColors.put("Ethics, Society & Politics",
                 R.drawable.event_border_default_ethics_society_politics);
-        trackColors.put("Hardware & Making", R.drawable.event_border_default_hardware_making);
-        trackColors.put("Other", R.drawable.event_border_default_other);
-        trackColors
-                .put("Science & Engineering", R.drawable.event_border_default_science_engineering);
-        trackColors.put("Security & Safety", R.drawable.event_border_default_security_safety);
-        trackColors.put("", R.drawable.event_border_default);
+        trackColors.put("Hardware & Making",
+                R.drawable.event_border_default_hardware_making);
+        trackColors.put("Other",
+                R.drawable.event_border_default_other);
+        trackColors.put("Science & Engineering",
+                R.drawable.event_border_default_science_engineering);
+        trackColors.put("Security & Safety",
+                R.drawable.event_border_default_security_safety);
+        trackColors.put("",
+                R.drawable.event_border_default);
 
         trackColorsHi = new HashMap<String, Integer>();
-        trackColorsHi.put("Art & Beauty", R.drawable.event_border_highlight_art_beauty);
-        trackColorsHi.put("CCC", R.drawable.event_border_highlight_ccc);
-        trackColorsHi.put("Entertainment", R.drawable.event_border_highlight_entertainment);
+        trackColorsHi.put("Art & Beauty",
+                R.drawable.event_border_highlight_art_beauty);
+        trackColorsHi.put("CCC",
+                R.drawable.event_border_highlight_ccc);
+        trackColorsHi.put("Entertainment",
+                R.drawable.event_border_highlight_entertainment);
         trackColorsHi.put("Ethics, Society & Politics",
                 R.drawable.event_border_highlight_ethics_society_politics);
-        trackColorsHi.put("Hardware & Making", R.drawable.event_border_highlight_hardware_making);
-        trackColorsHi.put("Other", R.drawable.event_border_highlight_other);
+        trackColorsHi.put("Hardware & Making",
+                R.drawable.event_border_highlight_hardware_making);
+        trackColorsHi.put("Other",
+                R.drawable.event_border_highlight_other);
         trackColorsHi.put("Science & Engineering",
                 R.drawable.event_border_highlight_science_engineering);
-        trackColorsHi.put("Security & Safety", R.drawable.event_border_highlight_security_safety);
-        trackColorsHi.put("", R.drawable.event_border_highlight);
+        trackColorsHi.put("Security & Safety",
+                R.drawable.event_border_highlight_security_safety);
+        trackColorsHi.put("",
+                R.drawable.event_border_highlight);
 
         SharedPreferences prefs = getSherlockActivity().getSharedPreferences(PREFS_NAME, 0);
         mDay = prefs.getInt("displayDay", 1);
@@ -198,8 +222,8 @@ public class FahrplanFragment extends SherlockFragment
                 break;
             case NONE:
                 if (MyApp.numdays != 0) {
-                    viewDay(lecture_id
-                            != null);        // auf jeden Fall reload, wenn mit Lecture ID gestartet
+                    // auf jeden Fall reload, wenn mit Lecture ID gestartet
+                    viewDay(lecture_id != null);
                 }
                 break;
         }
@@ -230,21 +254,21 @@ public class FahrplanFragment extends SherlockFragment
     }
 
     private void viewDay(boolean reload) {
-//		Log.d(LOG_TAG, "viewDay("+reload+")");
+        // Log.d(LOG_TAG, "viewDay(" + reload + ")");
 
         if (loadLectureList(getSherlockActivity(), mDay, reload) == false) {
             MyApp.LogDebug(LOG_TAG, "fetch on loading empty lecture list");
             // FIXME
-//			fetchFahrplan();
+            // fetchFahrplan();
         }
         scanDayLectures();
-        HorizontalSnapScrollView scroller = (HorizontalSnapScrollView) getView()
-                .findViewById(R.id.horizScroller);
+        HorizontalSnapScrollView scroller =
+                (HorizontalSnapScrollView) getView().findViewById(R.id.horizScroller);
         if (scroller != null) {
             scroller.scrollTo(0, 0);
         }
-        HorizontalScrollView roomScroller = (HorizontalScrollView) getView()
-                .findViewById(R.id.roomScroller);
+        HorizontalScrollView roomScroller =
+                (HorizontalScrollView) getView().findViewById(R.id.roomScroller);
         if (scroller != null) {
             addRoomColumns(scroller);
         }
@@ -266,13 +290,13 @@ public class FahrplanFragment extends SherlockFragment
         LinearLayout root = (LinearLayout) scroller.getChildAt(0);
         root.removeAllViews();
         if (scroller.getColumnWidth() != 0) {
-            columnWidth = scroller
-                    .getColumnWidth();        //update pre-calculated width with actual layout
+            // update pre-calculated width with actual layout
+            columnWidth = scroller.getColumnWidth();
         }
         for (int i = 0; i < MyApp.room_count; i++) {
             LinearLayout roomLayout = new LinearLayout(context);
-            LinearLayout.LayoutParams p = new LayoutParams(columnWidth, LayoutParams.MATCH_PARENT,
-                    1);
+            LinearLayout.LayoutParams p = new LayoutParams(
+                    columnWidth, LayoutParams.MATCH_PARENT, 1);
             roomLayout.setOrientation(LinearLayout.VERTICAL);
             roomLayout.setLayoutParams(p);
             root.addView(roomLayout);
@@ -286,8 +310,8 @@ public class FahrplanFragment extends SherlockFragment
         int textSize = getResources().getInteger(R.integer.room_title_size);
         for (int i = 0; i < MyApp.room_count; i++) {
             TextView roomTitle = new TextView(context);
-            LinearLayout.LayoutParams p = new LayoutParams(columnWidth, LayoutParams.WRAP_CONTENT,
-                    1);
+            LinearLayout.LayoutParams p = new LayoutParams(
+                    columnWidth, LayoutParams.WRAP_CONTENT, 1);
             p.gravity = Gravity.CENTER;
             roomTitle.setLayoutParams(p);
             roomTitle.setGravity(Gravity.CENTER);
@@ -310,12 +334,12 @@ public class FahrplanFragment extends SherlockFragment
      */
     private void scrollToCurrent(int day) {
         int height;
-//		Log.d(LOG_TAG, "lectureListDay: " + MyApp.lectureListDay);
+        // Log.d(LOG_TAG, "lectureListDay: " + MyApp.lectureListDay);
         if (lecture_id != null) {
             return;
         }
-        if (MyApp.lectureListDay != MyApp.dateInfos
-                .getIndexOfToday(MyApp.dayChangeHour, MyApp.dayChangeMinute)) {
+        if (MyApp.lectureListDay != MyApp.dateInfos.getIndexOfToday(
+                MyApp.dayChangeHour, MyApp.dayChangeMinute)) {
             return;
         }
         Time now = new Time();
@@ -341,8 +365,8 @@ public class FahrplanFragment extends SherlockFragment
         int printTime = time;
         int scrollAmount = 0;
 
-        if (!((((now.hour * 60) + now.minute) < firstLectureStart) && MyApp.dateInfos
-                .sameDay(now, MyApp.lectureListDay))) {
+        if (!((((now.hour * 60) + now.minute) < firstLectureStart) &&
+                MyApp.dateInfos.sameDay(now, MyApp.lectureListDay))) {
             while (time < lastLectureEnd) {
                 int hour = printTime / 60;
                 int minute = printTime % 60;
@@ -370,10 +394,10 @@ public class FahrplanFragment extends SherlockFragment
                 }
             }
         } else {
-//			Log.d(LOG_TAG, "we are before "+firstLectureStart+" "+((now.hour * 60) + now.minute));
+            // Log.d(LOG_TAG, "we are before " + firstLectureStart + " " + ((now.hour * 60) + now.minute));
         }
 
-//		Log.d(LOG_TAG, "scrolltoCurrent to "+scrollAmount);
+        // Log.d(LOG_TAG, "scrolltoCurrent to " + scrollAmount);
 
         final int pos = scrollAmount;
         final ScrollView scrollView = (ScrollView) getView().findViewById(R.id.scrollView1);
@@ -432,11 +456,11 @@ public class FahrplanFragment extends SherlockFragment
                         parent.scrollTo(0, pos);
                     }
                 });
-                final HorizontalSnapScrollView horiz = (HorizontalSnapScrollView) getView()
-                        .findViewById(R.id.horizScroller);
+                final HorizontalSnapScrollView horiz =
+                        (HorizontalSnapScrollView) getView().findViewById(R.id.horizScroller);
                 if (horiz != null) {
-                    final int hpos = MyApp.roomList
-                            .keyAt(MyApp.roomList.indexOfValue(lecture.room_index));
+                    final int hpos = MyApp.roomList.keyAt(
+                            MyApp.roomList.indexOfValue(lecture.room_index));
                     MyApp.LogDebug(LOG_TAG, "scroll horiz to " + hpos);
                     horiz.post(new Runnable() {
 
@@ -458,7 +482,6 @@ public class FahrplanFragment extends SherlockFragment
             SharedPreferences.Editor editor = settings.edit();
             editor.putInt("displayDay", mDay);
             editor.commit();
-
             viewDay(true);
         }
     }
@@ -470,7 +493,7 @@ public class FahrplanFragment extends SherlockFragment
     }
 
     private void scanDayLectures() {
-        Lecture l = MyApp.lectureList.get(0);        // they are sorted already
+        Lecture l = MyApp.lectureList.get(0); // they are already sorted
         long end = 0;
         if (l.dateUTC > 0) {
             firstLectureStart = minutesOfDay(l.dateUTC);
@@ -648,8 +671,7 @@ public class FahrplanFragment extends SherlockFragment
                 LayoutParams lp = (LayoutParams) event.getLayoutParams();
                 lp.topMargin = margin;
                 event.setLayoutParams(lp);
-                TextView title = (TextView) event
-                        .findViewById(R.id.event_title);
+                TextView title = (TextView) event.findViewById(R.id.event_title);
                 title.setTypeface(boldCondensed);
                 title.setText(lecture.title);
                 title = (TextView) event.findViewById(R.id.event_subtitle);
@@ -665,14 +687,14 @@ public class FahrplanFragment extends SherlockFragment
                 title.setText(sb.toString());
                 View recordingOptOut = event.findViewById(R.id.novideo);
                 if (recordingOptOut != null) {
-                    recordingOptOut
-                            .setVisibility(lecture.recordingOptOut ? View.VISIBLE : View.GONE);
+                    recordingOptOut.setVisibility(
+                            lecture.recordingOptOut ? View.VISIBLE : View.GONE);
                 }
 
                 setLectureBackground(lecture, event);
                 event.setOnClickListener(this);
                 event.setLongClickable(true);
-//				event.setOnLongClickListener(this);
+                // event.setOnLongClickListener(this);
                 event.setOnCreateContextMenuListener(this);
                 event.setTag(lecture);
                 endTime = startTime + lecture.duration;
@@ -698,9 +720,12 @@ public class FahrplanFragment extends SherlockFragment
         Cursor cursor, hCursor;
 
         try {
-            cursor = lecturedb.query(LecturesTable.NAME, LecturesDBOpenHelper.allcolumns,
-                    LecturesTable.Columns.DAY + "=?", new String[]{String.format("%d", day)}, null,
-                    null, LecturesTable.Columns.REL_START);
+            cursor = lecturedb.query(
+                    LecturesTable.NAME,
+                    LecturesDBOpenHelper.allcolumns,
+                    LecturesTable.Columns.DAY + "=?",
+                    new String[]{String.format("%d", day)},
+                    null, null, LecturesTable.Columns.REL_START);
         } catch (SQLiteException e) {
             e.printStackTrace();
             lecturedb.close();
@@ -709,9 +734,10 @@ public class FahrplanFragment extends SherlockFragment
             return false;
         }
         try {
-            hCursor = highlightdb.query(HighlightsTable.NAME, HighlightDBOpenHelper.allcolumns,
-                    null, null, null,
-                    null, null);
+            hCursor = highlightdb.query(
+                    HighlightsTable.NAME,
+                    HighlightDBOpenHelper.allcolumns,
+                    null, null, null, null, null);
         } catch (SQLiteException e) {
             e.printStackTrace();
             lecturedb.close();
@@ -732,38 +758,49 @@ public class FahrplanFragment extends SherlockFragment
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            Lecture lecture = new Lecture(
-                    cursor.getString(cursor.getColumnIndex(LecturesTable.Columns.EVENT_ID)));
-
-            lecture.title = cursor.getString(cursor.getColumnIndex(LecturesTable.Columns.TITLE));
-            lecture.subtitle = cursor
-                    .getString(cursor.getColumnIndex(LecturesTable.Columns.SUBTITLE));
-            lecture.day = cursor.getInt(cursor.getColumnIndex(LecturesTable.Columns.DAY));
-            lecture.room = cursor.getString(cursor.getColumnIndex(LecturesTable.Columns.ROOM));
-            lecture.startTime = cursor.getInt(cursor.getColumnIndex(LecturesTable.Columns.START));
-            lecture.duration = cursor.getInt(cursor.getColumnIndex(LecturesTable.Columns.DURATION));
-            lecture.speakers = cursor
-                    .getString(cursor.getColumnIndex(LecturesTable.Columns.SPEAKERS));
-            lecture.track = cursor.getString(cursor.getColumnIndex(LecturesTable.Columns.TRACK));
-            lecture.type = cursor.getString(cursor.getColumnIndex(LecturesTable.Columns.TYPE));
-            lecture.lang = cursor.getString(cursor.getColumnIndex(LecturesTable.Columns.LANG));
-            lecture.abstractt = cursor
-                    .getString(cursor.getColumnIndex(LecturesTable.Columns.ABSTRACT));
-            lecture.description = cursor
-                    .getString(cursor.getColumnIndex(LecturesTable.Columns.DESCR));
-            lecture.relStartTime = cursor
-                    .getInt(cursor.getColumnIndex(LecturesTable.Columns.REL_START));
-            lecture.date = cursor.getString(cursor.getColumnIndex(LecturesTable.Columns.DATE));
-            lecture.links = cursor.getString(cursor.getColumnIndex(LecturesTable.Columns.LINKS));
-            lecture.dateUTC = cursor.getLong(cursor.getColumnIndex(LecturesTable.Columns.DATE_UTC));
-            lecture.room_index = cursor
-                    .getInt(cursor.getColumnIndex(LecturesTable.Columns.ROOM_IDX));
-            lecture.recordingLicense = cursor
-                    .getString(cursor.getColumnIndex(LecturesTable.Columns.REC_LICENSE));
-            lecture.recordingOptOut =
-                    cursor.getInt(cursor.getColumnIndex(LecturesTable.Columns.REC_OPTOUT))
-                            == LecturesTable.Values.REC_OPTOUT_OFF ? Lecture.RECORDING_OPTOUT_OFF
-                            : Lecture.RECORDING_OPTOUT_ON;
+            Lecture lecture = new Lecture(cursor.getString(
+                    cursor.getColumnIndex(LecturesTable.Columns.EVENT_ID)));
+            lecture.title = cursor.getString(
+                    cursor.getColumnIndex(LecturesTable.Columns.TITLE));
+            lecture.subtitle = cursor.getString(
+                    cursor.getColumnIndex(LecturesTable.Columns.SUBTITLE));
+            lecture.day = cursor.getInt(
+                    cursor.getColumnIndex(LecturesTable.Columns.DAY));
+            lecture.room = cursor.getString(
+                    cursor.getColumnIndex(LecturesTable.Columns.ROOM));
+            lecture.startTime = cursor.getInt(
+                    cursor.getColumnIndex(LecturesTable.Columns.START));
+            lecture.duration = cursor.getInt(
+                    cursor.getColumnIndex(LecturesTable.Columns.DURATION));
+            lecture.speakers = cursor.getString(
+                    cursor.getColumnIndex(LecturesTable.Columns.SPEAKERS));
+            lecture.track = cursor.getString(
+                    cursor.getColumnIndex(LecturesTable.Columns.TRACK));
+            lecture.type = cursor.getString(
+                    cursor.getColumnIndex(LecturesTable.Columns.TYPE));
+            lecture.lang = cursor.getString(
+                    cursor.getColumnIndex(LecturesTable.Columns.LANG));
+            lecture.abstractt = cursor.getString(
+                    cursor.getColumnIndex(LecturesTable.Columns.ABSTRACT));
+            lecture.description = cursor.getString(
+                    cursor.getColumnIndex(LecturesTable.Columns.DESCR));
+            lecture.relStartTime = cursor.getInt(
+                    cursor.getColumnIndex(LecturesTable.Columns.REL_START));
+            lecture.date = cursor.getString(
+                    cursor.getColumnIndex(LecturesTable.Columns.DATE));
+            lecture.links = cursor.getString(
+                    cursor.getColumnIndex(LecturesTable.Columns.LINKS));
+            lecture.dateUTC = cursor.getLong(
+                    cursor.getColumnIndex(LecturesTable.Columns.DATE_UTC));
+            lecture.room_index = cursor.getInt(
+                    cursor.getColumnIndex(LecturesTable.Columns.ROOM_IDX));
+            lecture.recordingLicense = cursor.getString(
+                    cursor.getColumnIndex(LecturesTable.Columns.REC_LICENSE));
+            lecture.recordingOptOut = cursor.getInt(
+                    cursor.getColumnIndex(LecturesTable.Columns.REC_OPTOUT))
+                    == LecturesTable.Values.REC_OPTOUT_OFF
+                    ? Lecture.RECORDING_OPTOUT_OFF
+                    : Lecture.RECORDING_OPTOUT_ON;
 
             MyApp.lectureList.add(lecture);
             cursor.moveToNext();
@@ -832,16 +869,16 @@ public class FahrplanFragment extends SherlockFragment
 
         hCursor.moveToFirst();
         while (!hCursor.isAfterLast()) {
-            String lecture_id = hCursor
-                    .getString(hCursor.getColumnIndex(HighlightsTable.Columns.EVENT_ID));
-            int highlightState = hCursor
-                    .getInt(hCursor.getColumnIndex(HighlightsTable.Columns.HIGHLIGHT));
+            String lecture_id = hCursor.getString(
+                    hCursor.getColumnIndex(HighlightsTable.Columns.EVENT_ID));
+            int highlightState = hCursor.getInt(
+                    hCursor.getColumnIndex(HighlightsTable.Columns.HIGHLIGHT));
             MyApp.LogDebug(LOG_TAG, "lecture " + lecture_id + " is hightlighted:" + highlightState);
 
             for (Lecture lecture : MyApp.lectureList) {
                 if (lecture.lecture_id.equals(lecture_id)) {
-                    lecture.highlight = (highlightState == HighlightsTable.Values.HIGHLIGHT_STATE_ON
-                            ? true : false);
+                    lecture.highlight = (highlightState
+                            == HighlightsTable.Values.HIGHLIGHT_STATE_ON ? true : false);
                 }
             }
             hCursor.moveToNext();
@@ -872,7 +909,9 @@ public class FahrplanFragment extends SherlockFragment
         alarmdb = alarmDB.getReadableDatabase();
 
         try {
-            alarmCursor = alarmdb.query(AlarmsTable.NAME, AlarmsDBOpenHelper.allcolumns,
+            alarmCursor = alarmdb.query(
+                    AlarmsTable.NAME,
+                    AlarmsDBOpenHelper.allcolumns,
                     null, null, null,
                     null, null);
         } catch (SQLiteException e) {
@@ -886,8 +925,8 @@ public class FahrplanFragment extends SherlockFragment
 
         alarmCursor.moveToFirst();
         while (!alarmCursor.isAfterLast()) {
-            String lecture_id = alarmCursor
-                    .getString(alarmCursor.getColumnIndex(AlarmsTable.Columns.EVENT_ID));
+            String lecture_id = alarmCursor.getString(
+                    alarmCursor.getColumnIndex(AlarmsTable.Columns.EVENT_ID));
             MyApp.LogDebug(LOG_TAG, "lecture " + lecture_id + " has alarm");
 
             for (Lecture lecture : MyApp.lectureList) {
@@ -962,16 +1001,17 @@ public class FahrplanFragment extends SherlockFragment
                 }
                 viewDay(true);
                 fillTimes();
-                final Toast done = Toast.makeText(global
-                                .getApplicationContext(), String.format(
-                                getString(R.string.aktualisiert_auf), version),
+                final Toast done = Toast.makeText(
+                        global.getApplicationContext(),
+                        String.format(getString(R.string.aktualisiert_auf), version),
                         Toast.LENGTH_LONG);
                 done.show();
             } else {
                 viewDay(false);
             }
         } else {
-            Toast.makeText(global.getApplicationContext(),
+            Toast.makeText(
+                    global.getApplicationContext(),
                     getParsingErrorMessage(version),
                     Toast.LENGTH_LONG).show();
         }
@@ -994,9 +1034,10 @@ public class FahrplanFragment extends SherlockFragment
                 (ViewGroup) getView().findViewById(R.id.layout_root));
 
         final Spinner spinner = (Spinner) layout.findViewById(R.id.spinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter
-                .createFromResource(getSherlockActivity(), R.array.alarm_array,
-                        android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                getSherlockActivity(),
+                R.array.alarm_array,
+                android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
 

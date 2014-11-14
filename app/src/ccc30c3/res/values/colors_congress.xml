@@ -18,5 +18,5 @@
 -->
 
 <resources>
-    <color name="pressed_congress">#CCffffff</color>
+    <color name="pressed_congress">#CC0099AB</color>
 </resources>
