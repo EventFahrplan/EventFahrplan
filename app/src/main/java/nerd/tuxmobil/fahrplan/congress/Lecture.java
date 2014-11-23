@@ -52,6 +52,19 @@ public class Lecture {
 
     public static final boolean RECORDING_OPTOUT_OFF = false;
 
+    public boolean changed_title;
+    public boolean changed_subtitle;
+    public boolean changed_room;
+    public boolean changed_day;
+    public boolean changed_time;
+    public boolean changed_duration;
+    public boolean changed_speakers;
+    public boolean changed_recordingOptOut;
+    public boolean changed_language;
+    public boolean changed_track;
+    public boolean changed_isNew;
+    public boolean changed_isCanceled;
+
     public Lecture(String lecture_id) {
         title = "";
         subtitle = "";
@@ -75,6 +88,18 @@ public class Lecture {
         room_index = 0;
         recordingLicense = "";
         recordingOptOut = RECORDING_OPTOUT_OFF;
+        changed_title = false;
+        changed_subtitle = false;
+        changed_room = false;
+        changed_day = false;
+        changed_speakers = false;
+        changed_recordingOptOut = false;
+        changed_language = false;
+        changed_track = false;
+        changed_isNew = false;
+        changed_time = false;
+        changed_duration = false;
+        changed_isCanceled = false;
     }
 
     public static int parseStartTime(String text) {
@@ -100,4 +125,52 @@ public class Lecture {
         return t;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Lecture lecture = (Lecture) o;
+
+        if (day != lecture.day) return false;
+        if (duration != lecture.duration) return false;
+        if (recordingOptOut != lecture.recordingOptOut) return false;
+        if (startTime != lecture.startTime) return false;
+        if (date != null ? !date.equals(lecture.date) : lecture.date != null) return false;
+        if (lang != null ? !lang.equals(lecture.lang) : lecture.lang != null) return false;
+        if (!lecture_id.equals(lecture.lecture_id)) return false;
+        if (recordingLicense != null ? !recordingLicense.equals(lecture.recordingLicense) : lecture.recordingLicense != null)
+            return false;
+        if (room != null ? !room.equals(lecture.room) : lecture.room != null) return false;
+        if (speakers != null ? !speakers.equals(lecture.speakers) : lecture.speakers != null)
+            return false;
+        if (subtitle != null ? !subtitle.equals(lecture.subtitle) : lecture.subtitle != null)
+            return false;
+        if (!title.equals(lecture.title)) return false;
+        if (track != null ? !track.equals(lecture.track) : lecture.track != null) return false;
+        if (type != null ? !type.equals(lecture.type) : lecture.type != null) return false;
+        if (dateUTC != lecture.dateUTC) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = title.hashCode();
+        result = 31 * result + (subtitle != null ? subtitle.hashCode() : 0);
+        result = 31 * result + day;
+        result = 31 * result + (room != null ? room.hashCode() : 0);
+        result = 31 * result + startTime;
+        result = 31 * result + duration;
+        result = 31 * result + (speakers != null ? speakers.hashCode() : 0);
+        result = 31 * result + (track != null ? track.hashCode() : 0);
+        result = 31 * result + lecture_id.hashCode();
+        result = 31 * result + (type != null ? type.hashCode() : 0);
+        result = 31 * result + (lang != null ? lang.hashCode() : 0);
+        result = 31 * result + (date != null ? date.hashCode() : 0);
+        result = 31 * result + (recordingLicense != null ? recordingLicense.hashCode() : 0);
+        result = 31 * result + (recordingOptOut ? 1 : 0);
+        result = 31 * result + (int) dateUTC;
+        return result;
+    }
 }
