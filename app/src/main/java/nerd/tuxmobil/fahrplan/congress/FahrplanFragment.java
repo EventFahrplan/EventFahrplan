@@ -483,6 +483,7 @@ public class FahrplanFragment extends SherlockFragment implements
             editor.putInt("displayDay", mDay);
             editor.commit();
             viewDay(true);
+            fillTimes();
         }
     }
 
