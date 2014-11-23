@@ -443,6 +443,7 @@ class parser extends AsyncTask<String, Void, Boolean> {
             if (isCancelled()) {
                 return false;
             }
+            setChangedFlags(lectures);
             storeLectureList(context, lectures);
             if (isCancelled()) {
                 return false;
@@ -454,6 +455,10 @@ class parser extends AsyncTask<String, Void, Boolean> {
             e.printStackTrace();
             return false;
         }
+    }
+
+    private void setChangedFlags(ArrayList<Lecture> lectures) {
+        ArrayList<Lecture> oldLectures;
     }
 
 }
