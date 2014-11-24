@@ -173,4 +173,19 @@ public class Lecture {
         result = 31 * result + (int) dateUTC;
         return result;
     }
+
+    public void cancel() {
+        changed_isCanceled = true;
+        changed_title = false;
+        changed_subtitle = false;
+        changed_room = false;
+        changed_day = false;
+        changed_speakers = false;
+        changed_recordingOptOut = false;
+        changed_language = false;
+        changed_track = false;
+        changed_isNew = false;
+        changed_time = false;
+        changed_duration = false;
+    }
 }
