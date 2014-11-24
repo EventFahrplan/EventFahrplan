@@ -710,103 +710,10 @@ public class FahrplanFragment extends SherlockFragment implements
             return true;
         }
 
-        SQLiteDatabase lecturedb = null;
-        LecturesDBOpenHelper lecturesDB = new LecturesDBOpenHelper(context);
-        lecturedb = lecturesDB.getReadableDatabase();
+        MyApp.lectureList = FahrplanMisc.loadLectures(context, day);
+        if (MyApp.lectureList == null) return false;
 
-        HighlightDBOpenHelper highlightDB = new HighlightDBOpenHelper(context);
-        SQLiteDatabase highlightdb = highlightDB.getReadableDatabase();
-
-        MyApp.lectureList = new ArrayList<Lecture>();
-        Cursor cursor, hCursor;
-
-        try {
-            cursor = lecturedb.query(
-                    LecturesTable.NAME,
-                    LecturesDBOpenHelper.allcolumns,
-                    LecturesTable.Columns.DAY + "=?",
-                    new String[]{String.format("%d", day)},
-                    null, null, LecturesTable.Columns.REL_START);
-        } catch (SQLiteException e) {
-            e.printStackTrace();
-            lecturedb.close();
-            highlightdb.close();
-            lecturesDB.close();
-            return false;
         }
-        try {
-            hCursor = highlightdb.query(
-                    HighlightsTable.NAME,
-                    HighlightDBOpenHelper.allcolumns,
-                    null, null, null, null, null);
-        } catch (SQLiteException e) {
-            e.printStackTrace();
-            lecturedb.close();
-            highlightdb.close();
-            lecturesDB.close();
-            return false;
-        }
-        MyApp.LogDebug(LOG_TAG, "Got " + cursor.getCount() + " rows.");
-        MyApp.LogDebug(LOG_TAG, "Got " + hCursor.getCount() + " highlight rows.");
-
-        if (cursor.getCount() == 0) {
-            cursor.close();
-            lecturedb.close();
-            highlightdb.close();
-            lecturesDB.close();
-            return false;
-        }
-
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            Lecture lecture = new Lecture(cursor.getString(
-                    cursor.getColumnIndex(LecturesTable.Columns.EVENT_ID)));
-            lecture.title = cursor.getString(
-                    cursor.getColumnIndex(LecturesTable.Columns.TITLE));
-            lecture.subtitle = cursor.getString(
-                    cursor.getColumnIndex(LecturesTable.Columns.SUBTITLE));
-            lecture.day = cursor.getInt(
-                    cursor.getColumnIndex(LecturesTable.Columns.DAY));
-            lecture.room = cursor.getString(
-                    cursor.getColumnIndex(LecturesTable.Columns.ROOM));
-            lecture.startTime = cursor.getInt(
-                    cursor.getColumnIndex(LecturesTable.Columns.START));
-            lecture.duration = cursor.getInt(
-                    cursor.getColumnIndex(LecturesTable.Columns.DURATION));
-            lecture.speakers = cursor.getString(
-                    cursor.getColumnIndex(LecturesTable.Columns.SPEAKERS));
-            lecture.track = cursor.getString(
-                    cursor.getColumnIndex(LecturesTable.Columns.TRACK));
-            lecture.type = cursor.getString(
-                    cursor.getColumnIndex(LecturesTable.Columns.TYPE));
-            lecture.lang = cursor.getString(
-                    cursor.getColumnIndex(LecturesTable.Columns.LANG));
-            lecture.abstractt = cursor.getString(
-                    cursor.getColumnIndex(LecturesTable.Columns.ABSTRACT));
-            lecture.description = cursor.getString(
-                    cursor.getColumnIndex(LecturesTable.Columns.DESCR));
-            lecture.relStartTime = cursor.getInt(
-                    cursor.getColumnIndex(LecturesTable.Columns.REL_START));
-            lecture.date = cursor.getString(
-                    cursor.getColumnIndex(LecturesTable.Columns.DATE));
-            lecture.links = cursor.getString(
-                    cursor.getColumnIndex(LecturesTable.Columns.LINKS));
-            lecture.dateUTC = cursor.getLong(
-                    cursor.getColumnIndex(LecturesTable.Columns.DATE_UTC));
-            lecture.room_index = cursor.getInt(
-                    cursor.getColumnIndex(LecturesTable.Columns.ROOM_IDX));
-            lecture.recordingLicense = cursor.getString(
-                    cursor.getColumnIndex(LecturesTable.Columns.REC_LICENSE));
-            lecture.recordingOptOut = cursor.getInt(
-                    cursor.getColumnIndex(LecturesTable.Columns.REC_OPTOUT))
-                    == LecturesTable.Values.REC_OPTOUT_OFF
-                    ? Lecture.RECORDING_OPTOUT_OFF
-                    : Lecture.RECORDING_OPTOUT_ON;
-
-            MyApp.lectureList.add(lecture);
-            cursor.moveToNext();
-        }
-        cursor.close();
         MyApp.lectureListDay = day;
 
         MyApp.roomsMap.clear();
@@ -868,29 +775,8 @@ public class FahrplanFragment extends SherlockFragment implements
             });
         }
 
-        hCursor.moveToFirst();
-        while (!hCursor.isAfterLast()) {
-            String lecture_id = hCursor.getString(
-                    hCursor.getColumnIndex(HighlightsTable.Columns.EVENT_ID));
-            int highlightState = hCursor.getInt(
-                    hCursor.getColumnIndex(HighlightsTable.Columns.HIGHLIGHT));
-            MyApp.LogDebug(LOG_TAG, "lecture " + lecture_id + " is hightlighted:" + highlightState);
-
-            for (Lecture lecture : MyApp.lectureList) {
-                if (lecture.lecture_id.equals(lecture_id)) {
-                    lecture.highlight = (highlightState
-                            == HighlightsTable.Values.HIGHLIGHT_STATE_ON ? true : false);
-                }
-            }
-            hCursor.moveToNext();
-        }
-        hCursor.close();
-
         loadAlarms(context);
 
-        highlightdb.close();
-        lecturedb.close();
-        lecturesDB.close();
         return true;
     }
 

@@ -28,6 +28,7 @@ import nerd.tuxmobil.fahrplan.congress.FahrplanContract.MetasTable;
 public class FahrplanMisc {
 
     private static final String LOG_TAG = "FahrplanMisc";
+    private static final int ALL_DAYS = -1;
 
     static void loadDays(Context context) {
         MyApp.dateInfos = new DateInfos();
@@ -443,4 +444,135 @@ public class FahrplanMisc {
         alarmManager.cancel(pendingintent);
     }
 
+    public static LectureList loadLectures(Context context, int day) {
+        MyApp.LogDebug(LOG_TAG, "load lectures of day " + day);
+
+        SQLiteDatabase lecturedb = null;
+        LecturesDBOpenHelper lecturesDB = new LecturesDBOpenHelper(context);
+        lecturedb = lecturesDB.getReadableDatabase();
+
+        HighlightDBOpenHelper highlightDB = new HighlightDBOpenHelper(context);
+        SQLiteDatabase highlightdb = highlightDB.getReadableDatabase();
+
+        LectureList lectures = new LectureList();
+        Cursor cursor, hCursor;
+        boolean allDays;
+
+        if (day == ALL_DAYS) {
+            allDays = true;
+        } else {
+            allDays = false;
+        }
+
+        try {
+            cursor = lecturedb.query(
+                    LecturesTable.NAME,
+                    LecturesDBOpenHelper.allcolumns,
+                    allDays ? null : (LecturesTable.Columns.DAY + "=?"),
+                    allDays ? null : (new String[]{String.format("%d", day)}),
+                    null, null, LecturesTable.Columns.REL_START);
+        } catch (SQLiteException e) {
+            e.printStackTrace();
+            lecturedb.close();
+            highlightdb.close();
+            lecturesDB.close();
+            return null;
+        }
+        try {
+            hCursor = highlightdb.query(
+                    HighlightsTable.NAME,
+                    HighlightDBOpenHelper.allcolumns,
+                    null, null, null, null, null);
+        } catch (SQLiteException e) {
+            e.printStackTrace();
+            lecturedb.close();
+            highlightdb.close();
+            lecturesDB.close();
+            return null;
+        }
+        MyApp.LogDebug(LOG_TAG, "Got " + cursor.getCount() + " rows.");
+        MyApp.LogDebug(LOG_TAG, "Got " + hCursor.getCount() + " highlight rows.");
+
+        if (cursor.getCount() == 0) {
+            cursor.close();
+            lecturedb.close();
+            highlightdb.close();
+            lecturesDB.close();
+            return null;
+        }
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            Lecture lecture = new Lecture(cursor.getString(
+                    cursor.getColumnIndex(LecturesTable.Columns.EVENT_ID)));
+            lecture.title = cursor.getString(
+                    cursor.getColumnIndex(LecturesTable.Columns.TITLE));
+            lecture.subtitle = cursor.getString(
+                    cursor.getColumnIndex(LecturesTable.Columns.SUBTITLE));
+            lecture.day = cursor.getInt(
+                    cursor.getColumnIndex(LecturesTable.Columns.DAY));
+            lecture.room = cursor.getString(
+                    cursor.getColumnIndex(LecturesTable.Columns.ROOM));
+            lecture.startTime = cursor.getInt(
+                    cursor.getColumnIndex(LecturesTable.Columns.START));
+            lecture.duration = cursor.getInt(
+                    cursor.getColumnIndex(LecturesTable.Columns.DURATION));
+            lecture.speakers = cursor.getString(
+                    cursor.getColumnIndex(LecturesTable.Columns.SPEAKERS));
+            lecture.track = cursor.getString(
+                    cursor.getColumnIndex(LecturesTable.Columns.TRACK));
+            lecture.type = cursor.getString(
+                    cursor.getColumnIndex(LecturesTable.Columns.TYPE));
+            lecture.lang = cursor.getString(
+                    cursor.getColumnIndex(LecturesTable.Columns.LANG));
+            lecture.abstractt = cursor.getString(
+                    cursor.getColumnIndex(LecturesTable.Columns.ABSTRACT));
+            lecture.description = cursor.getString(
+                    cursor.getColumnIndex(LecturesTable.Columns.DESCR));
+            lecture.relStartTime = cursor.getInt(
+                    cursor.getColumnIndex(LecturesTable.Columns.REL_START));
+            lecture.date = cursor.getString(
+                    cursor.getColumnIndex(LecturesTable.Columns.DATE));
+            lecture.links = cursor.getString(
+                    cursor.getColumnIndex(LecturesTable.Columns.LINKS));
+            lecture.dateUTC = cursor.getLong(
+                    cursor.getColumnIndex(LecturesTable.Columns.DATE_UTC));
+            lecture.room_index = cursor.getInt(
+                    cursor.getColumnIndex(LecturesTable.Columns.ROOM_IDX));
+            lecture.recordingLicense = cursor.getString(
+                    cursor.getColumnIndex(LecturesTable.Columns.REC_LICENSE));
+            lecture.recordingOptOut = cursor.getInt(
+                    cursor.getColumnIndex(LecturesTable.Columns.REC_OPTOUT))
+                    == LecturesTable.Values.REC_OPTOUT_OFF
+                    ? Lecture.RECORDING_OPTOUT_OFF
+                    : Lecture.RECORDING_OPTOUT_ON;
+
+            lectures.add(lecture);
+            cursor.moveToNext();
+        }
+        cursor.close();
+
+        hCursor.moveToFirst();
+        while (!hCursor.isAfterLast()) {
+            String lecture_id = hCursor.getString(
+                    hCursor.getColumnIndex(HighlightsTable.Columns.EVENT_ID));
+            int highlightState = hCursor.getInt(
+                    hCursor.getColumnIndex(HighlightsTable.Columns.HIGHLIGHT));
+            MyApp.LogDebug(LOG_TAG, "lecture " + lecture_id + " is hightlighted:" + highlightState);
+
+            for (Lecture lecture : lectures) {
+                if (lecture.lecture_id.equals(lecture_id)) {
+                    lecture.highlight = (highlightState
+                            == HighlightsTable.Values.HIGHLIGHT_STATE_ON ? true : false);
+                }
+            }
+            hCursor.moveToNext();
+        }
+        hCursor.close();
+
+        highlightdb.close();
+        lecturedb.close();
+        lecturesDB.close();
+        return lectures;
+    }
 }
