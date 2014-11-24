@@ -11,7 +11,7 @@ import nerd.tuxmobil.fahrplan.congress.FahrplanContract.LecturesTable.Values;
 
 public class LecturesDBOpenHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 5;
 
     private static final String LECTURES_TABLE_CREATE =
             "CREATE TABLE " + LecturesTable.NAME + " (" +
@@ -34,7 +34,19 @@ public class LecturesDBOpenHelper extends SQLiteOpenHelper {
                     Columns.DATE_UTC + " INTEGER, " +
                     Columns.ROOM_IDX + " INTEGER, " +
                     Columns.REC_LICENSE + " STRING, " +
-                    Columns.REC_OPTOUT + " INTEGER);";
+                    Columns.REC_OPTOUT + " INTEGER," +
+                    Columns.CHANGED_TITLE + " INTEGER," +
+                    Columns.CHANGED_SUBTITLE + " INTEGER," +
+                    Columns.CHANGED_ROOM + " INTEGER," +
+                    Columns.CHANGED_DAY + " INTEGER," +
+                    Columns.CHANGED_SPEAKERS + " INTEGER," +
+                    Columns.CHANGED_RECORDING_OPTOUT + " INTEGER," +
+                    Columns.CHANGED_LANGUAGE + " INTEGER," +
+                    Columns.CHANGED_TRACK + " INTEGER," +
+                    Columns.CHANGED_IS_NEW + " INTEGER," +
+                    Columns.CHANGED_TIME + " INTEGER," +
+                    Columns.CHANGED_DURATION + " INTEGER," +
+                    Columns.CHANGED_IS_CANCELED + " INTEGER)";
 
     public static final String[] allcolumns = {
             Columns.EVENT_ID,
@@ -56,7 +68,19 @@ public class LecturesDBOpenHelper extends SQLiteOpenHelper {
             Columns.DATE_UTC,
             Columns.ROOM_IDX,
             Columns.REC_LICENSE,
-            Columns.REC_OPTOUT
+            Columns.REC_OPTOUT,
+            Columns.CHANGED_TITLE,
+            Columns.CHANGED_SUBTITLE,
+            Columns.CHANGED_ROOM,
+            Columns.CHANGED_DAY,
+            Columns.CHANGED_SPEAKERS,
+            Columns.CHANGED_RECORDING_OPTOUT,
+            Columns.CHANGED_LANGUAGE,
+            Columns.CHANGED_TRACK,
+            Columns.CHANGED_IS_NEW,
+            Columns.CHANGED_TIME,
+            Columns.CHANGED_DURATION,
+            Columns.CHANGED_IS_CANCELED
     };
 
     LecturesDBOpenHelper(Context context) {
@@ -86,6 +110,20 @@ public class LecturesDBOpenHelper extends SQLiteOpenHelper {
             db.execSQL("ALTER TABLE " + LecturesTable.NAME +
                     " ADD COLUMN " + Columns.REC_OPTOUT + " INTEGER DEFAULT " +
                     Values.REC_OPTOUT_OFF);
+        }
+        if ((oldVersion < 5) && (newVersion >= 5)) {
+            db.execSQL("ALTER TABLE " + LecturesTable.NAME + " ADD COLUMN " + Columns.CHANGED_TITLE + " INTEGER DEFAULT " + 0);
+            db.execSQL("ALTER TABLE " + LecturesTable.NAME + " ADD COLUMN " + Columns.CHANGED_SUBTITLE + " INTEGER DEFAULT " + 0);
+            db.execSQL("ALTER TABLE " + LecturesTable.NAME + " ADD COLUMN " + Columns.CHANGED_ROOM + " INTEGER DEFAULT " + 0);
+            db.execSQL("ALTER TABLE " + LecturesTable.NAME + " ADD COLUMN " + Columns.CHANGED_DAY + " INTEGER DEFAULT " + 0);
+            db.execSQL("ALTER TABLE " + LecturesTable.NAME + " ADD COLUMN " + Columns.CHANGED_SPEAKERS + " INTEGER DEFAULT " + 0);
+            db.execSQL("ALTER TABLE " + LecturesTable.NAME + " ADD COLUMN " + Columns.CHANGED_RECORDING_OPTOUT + " INTEGER DEFAULT " + 0);
+            db.execSQL("ALTER TABLE " + LecturesTable.NAME + " ADD COLUMN " + Columns.CHANGED_LANGUAGE + " INTEGER DEFAULT " + 0);
+            db.execSQL("ALTER TABLE " + LecturesTable.NAME + " ADD COLUMN " + Columns.CHANGED_TRACK + " INTEGER DEFAULT " + 0);
+            db.execSQL("ALTER TABLE " + LecturesTable.NAME + " ADD COLUMN " + Columns.CHANGED_IS_NEW + " INTEGER DEFAULT " + 0);
+            db.execSQL("ALTER TABLE " + LecturesTable.NAME + " ADD COLUMN " + Columns.CHANGED_TIME + " INTEGER DEFAULT " + 0);
+            db.execSQL("ALTER TABLE " + LecturesTable.NAME + " ADD COLUMN " + Columns.CHANGED_DURATION + " INTEGER DEFAULT " + 0);
+            db.execSQL("ALTER TABLE " + LecturesTable.NAME + " ADD COLUMN " + Columns.CHANGED_IS_CANCELED + " INTEGER DEFAULT " + 0);
         }
     }
 }

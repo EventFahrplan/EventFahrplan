@@ -115,6 +115,18 @@ public interface FahrplanContract {
             public static final String ROOM_IDX = "room_idx";                        // 17
             public static final String REC_LICENSE = "rec_license";        // 18
             public static final String REC_OPTOUT = "rec_optout";                // 19
+            public static final String CHANGED_TITLE = "changed_title";                     // 20
+            public static final String CHANGED_SUBTITLE = "changed_subtitle";               // 21
+            public static final String CHANGED_ROOM = "changed_room";                       // 22
+            public static final String CHANGED_DAY = "changed_day";                         // 23
+            public static final String CHANGED_SPEAKERS = "changed_speakers";               // 24
+            public static final String CHANGED_RECORDING_OPTOUT = "changed_recording_optout"; // 25
+            public static final String CHANGED_LANGUAGE = "changed_language";               // 26
+            public static final String CHANGED_TRACK = "changed_track";                     // 27
+            public static final String CHANGED_IS_NEW = "changed_is_new";                   // 28
+            public static final String CHANGED_TIME = "changed_time";                       // 29
+            public static final String CHANGED_DURATION = "changed_duration";               // 30
+            public static final String CHANGED_IS_CANCELED = "changed_is_canceled" ;        // 31
         }
 
         public interface Defaults {

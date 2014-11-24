@@ -184,6 +184,18 @@ class parser extends AsyncTask<String, Void, Boolean> {
                 values.put(Columns.REC_LICENSE, lecture.recordingLicense);
                 values.put(Columns.REC_OPTOUT,
                         lecture.recordingOptOut ? Values.REC_OPTOUT_ON : Values.REC_OPTOUT_OFF);
+                values.put(Columns.CHANGED_TITLE, lecture.changed_title);
+                values.put(Columns.CHANGED_SUBTITLE, lecture.changed_subtitle);
+                values.put(Columns.CHANGED_ROOM, lecture.changed_room);
+                values.put(Columns.CHANGED_DAY, lecture.changed_day);
+                values.put(Columns.CHANGED_SPEAKERS, lecture.changed_speakers);
+                values.put(Columns.CHANGED_RECORDING_OPTOUT, lecture.changed_recordingOptOut);
+                values.put(Columns.CHANGED_LANGUAGE, lecture.changed_language);
+                values.put(Columns.CHANGED_TRACK, lecture.changed_track);
+                values.put(Columns.CHANGED_IS_NEW, lecture.changed_isNew);
+                values.put(Columns.CHANGED_TIME, lecture.changed_time);
+                values.put(Columns.CHANGED_DURATION, lecture.changed_duration);
+                values.put(Columns.CHANGED_IS_CANCELED, lecture.changed_isCanceled);
                 db.insert(LecturesTable.NAME, null, values);
             }
             db.setTransactionSuccessful();
