@@ -710,7 +710,7 @@ public class FahrplanFragment extends SherlockFragment implements
             return true;
         }
 
-        MyApp.lectureList = FahrplanMisc.loadLectures(context, day);
+        MyApp.lectureList = FahrplanMisc.loadLecturesForDayIndex(context, day);
         if (MyApp.lectureList == null) return false;
 
         int lectureIndex = MyApp.lectureList.size() - 1;

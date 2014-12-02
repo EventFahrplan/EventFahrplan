@@ -472,7 +472,7 @@ class parser extends AsyncTask<String, Void, Boolean> {
     private void setChangedFlags(LectureList lectures) {
         LectureList oldLectures;
 
-        oldLectures = FahrplanMisc.loadLectures(this.context, -1);
+        oldLectures = FahrplanMisc.loadLecturesForAllDays(this.context);
         if (oldLectures == null) return;
 
         int lectureIndex = oldLectures.size()-1;

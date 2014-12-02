@@ -444,7 +444,18 @@ public class FahrplanMisc {
         alarmManager.cancel(pendingintent);
     }
 
-    public static LectureList loadLectures(Context context, int day) {
+    public static LectureList loadLecturesForAllDays(Context context) {
+        return loadLecturesForDayIndex(context, ALL_DAYS);
+    }
+
+    /**
+     * Load all Lectures from the DB on the day specified
+     *
+     * @param context The Android Context
+     * @param day The day to load lectures for (0..), or -1 for all days
+     * @return ArrayList of Lecture objects
+     */
+    public static LectureList loadLecturesForDayIndex(Context context, int day) {
         MyApp.LogDebug(LOG_TAG, "load lectures of day " + day);
 
         SQLiteDatabase lecturedb = null;
@@ -587,4 +598,54 @@ public class FahrplanMisc {
         lecturesDB.close();
         return lectures;
     }
+
+    public static int getChangedLectureCount(LectureList list, boolean favsOnly) {
+        int count = 0;
+        for (int lectureIndex = 0; lectureIndex < list.size(); lectureIndex++) {
+            Lecture l = list.get(lectureIndex);
+            if (l.isChanged() && ((!favsOnly) || (l.highlight))) {
+                count++;
+            }
+        }
+        MyApp.LogDebug(LOG_TAG, "getChangedLectureCount " + favsOnly + ":" + count);
+        return count;
+    }
+
+    public static int getNewLectureCount(LectureList list, boolean favsOnly) {
+        int count = 0;
+        for (int lectureIndex = 0; lectureIndex < list.size(); lectureIndex++) {
+            Lecture l = list.get(lectureIndex);
+            if ((l.changed_isNew) && ((!favsOnly) || (l.highlight))) count++;
+            lectureIndex--;
+        }
+        MyApp.LogDebug(LOG_TAG, "getNewLectureCount " + favsOnly + ":" + count);
+        return count;
+    }
+
+    public static int getCancelledLectureCount(LectureList list, boolean favsOnly) {
+        int count = 0;
+        for (int lectureIndex = 0; lectureIndex < list.size(); lectureIndex++) {
+            Lecture l = list.get(lectureIndex);
+            if ((l.changed_isCanceled) && ((!favsOnly) || (l.highlight))) count++;
+            lectureIndex--;
+        }
+        MyApp.LogDebug(LOG_TAG, "getCancelledLectureCount " + favsOnly + ":" + count);
+        return count;
+    }
+
+    public static LectureList readChanges(Context context) {
+        MyApp.LogDebug(LOG_TAG, "readChanges");
+        LectureList changesList = FahrplanMisc.loadLecturesForAllDays(context);
+        int lectureIndex = changesList.size() - 1;
+        while (lectureIndex >= 0) {
+            Lecture l = changesList.get(lectureIndex);
+            if (!l.isChanged() && !l.changed_isCanceled && !l.changed_isNew ) {
+                changesList.remove(l);
+            }
+            lectureIndex--;
+        }
+        MyApp.LogDebug(LOG_TAG, changesList.size() + " lectures changed.");
+        return changesList;
+    }
+
 }

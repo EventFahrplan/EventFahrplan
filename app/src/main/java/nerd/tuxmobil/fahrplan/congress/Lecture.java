@@ -188,4 +188,16 @@ public class Lecture {
         changed_time = false;
         changed_duration = false;
     }
+
+    public boolean isChanged() {
+        if ((changed_day || changed_duration ||
+                changed_language || changed_recordingOptOut ||
+                changed_room || changed_speakers || changed_subtitle ||
+                changed_time || changed_title || changed_track)) {
+            return true;
+        }
+        return false;
+    }
+
+
 }
