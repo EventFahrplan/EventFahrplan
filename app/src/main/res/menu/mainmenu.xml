@@ -26,5 +26,10 @@
             android:title="@string/about"
             android:titleCondensed="@string/about">
     </item>
+    <item
+        android:id="@+id/item_changes"
+        android:title="@string/schedule_changes"
+        android:titleCondensed="@string/schedule_changes">
+    </item>
 
 </menu>

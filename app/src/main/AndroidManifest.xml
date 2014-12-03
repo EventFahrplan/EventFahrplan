@@ -61,5 +61,9 @@
             </intent-filter>
         </receiver>
 
+        <activity
+            android:name="nerd.tuxmobil.fahrplan.congress.ChangeListActivity"
+            android:label="@string/schedule_changes" >
+        </activity>
     </application>
 </manifest>

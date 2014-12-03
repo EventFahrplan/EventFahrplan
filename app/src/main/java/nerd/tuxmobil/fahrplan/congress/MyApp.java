@@ -57,8 +57,8 @@ public class MyApp extends Application {
 
     // requestCodes für startActivityForResult
     final public static int ALARMLIST = 1;
-
     final public static int EVENTVIEW = 2;
+    final public static int CHANGELOG = 3;
 
     public static TASKS task_running = TASKS.NONE;
 

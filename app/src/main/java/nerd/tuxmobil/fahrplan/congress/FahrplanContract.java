@@ -8,6 +8,7 @@ public interface FahrplanContract {
 
         public static final String DETAIL = "detail";
         public static final String SCHEDULE = "schedule";
+        public static final String CHANGES = "changes";
     }
 
     public interface MetasTable {
