@@ -101,6 +101,9 @@ public class MainActivity extends SherlockFragmentActivity
                 ft.remove(detail).commit();
             }
         }
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        if (prefs.getBoolean(BundleKeys.PREFS_CHANGES_SEEN, true) == false) changesDialog();
     }
 
     public void parseFahrplan() {
@@ -173,6 +176,9 @@ public class MainActivity extends SherlockFragmentActivity
         if ((fragment != null) && (fragment instanceof ChangeListFragment)) {
             ((ChangeListFragment) fragment).onRefresh();
         }
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        if (prefs.getBoolean(BundleKeys.PREFS_CHANGES_SEEN, true) == false) changesDialog();
     }
 
     public void showFetchingStatus() {
@@ -246,6 +252,21 @@ public class MainActivity extends SherlockFragmentActivity
         MenuInflater mi = getSupportMenuInflater();
         mi.inflate(R.menu.mainmenu, menu);
         return true;
+    }
+
+    void changesDialog() {
+        LectureList changedLectures = FahrplanMisc.readChanges(this);
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.addToBackStack(null);
+        SherlockDialogFragment about = ChangesDialog.newInstance(
+                MyApp.version,
+                FahrplanMisc.getChangedLectureCount(changedLectures, false),
+                FahrplanMisc.getNewLectureCount(changedLectures, false),
+                FahrplanMisc.getCancelledLectureCount(changedLectures, false),
+                FahrplanMisc.getChangedLectureCount(changedLectures, true) +
+                FahrplanMisc.getNewLectureCount(changedLectures, true) +
+                FahrplanMisc.getCancelledLectureCount(changedLectures, true));
+        about.show(ft, "changesDialog");
     }
 
     void aboutDialog() {

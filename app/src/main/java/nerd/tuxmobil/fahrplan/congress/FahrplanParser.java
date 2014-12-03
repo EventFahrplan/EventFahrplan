@@ -4,9 +4,11 @@ import org.xmlpull.v1.XmlPullParser;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.util.Xml;
 
 import java.io.StringReader;
@@ -471,6 +473,7 @@ class parser extends AsyncTask<String, Void, Boolean> {
 
     private void setChangedFlags(LectureList lectures) {
         LectureList oldLectures;
+        boolean changed = false;
 
         oldLectures = FahrplanMisc.loadLecturesForAllDays(this.context);
         if (oldLectures == null) return;
@@ -490,6 +493,7 @@ class parser extends AsyncTask<String, Void, Boolean> {
             if (oldLecture == null) {
                 newLecture.changed_isNew = true;
                 MyApp.LogDebug(LOG_TAG, "lecture " + newLecture.title + " is new.");
+                changed = true;
                 continue;
             }
 
@@ -501,42 +505,52 @@ class parser extends AsyncTask<String, Void, Boolean> {
             if (!(newLecture.title.equals(oldLecture.title))) {
                 newLecture.changed_title = true;
                 MyApp.LogDebug(LOG_TAG, "title changed to " + newLecture.title);
+                changed = true;
             }
             if (!(newLecture.subtitle.equals(oldLecture.subtitle))) {
                 newLecture.changed_subtitle = true;
                 MyApp.LogDebug(LOG_TAG, "subtitle changed to " + newLecture.subtitle);
+                changed = true;
             }
             if (!(newLecture.speakers.equals(oldLecture.speakers))) {
                 newLecture.changed_speakers = true;
                 MyApp.LogDebug(LOG_TAG, "speakers changed to " + newLecture.speakers);
+                changed = true;
             }
             if (!(newLecture.lang.equals(oldLecture.lang))) {
                 newLecture.changed_language = true;
                 MyApp.LogDebug(LOG_TAG, "lang changed to " + newLecture.lang);
+                changed = true;
             }
             if (!(newLecture.room.equals(oldLecture.room))) {
                 newLecture.changed_room = true;
                 MyApp.LogDebug(LOG_TAG, "room changed to " + newLecture.room);
+                changed = true;
             }
             if (!(newLecture.track.equals(oldLecture.track))) {
                 newLecture.changed_track = true;
                 MyApp.LogDebug(LOG_TAG, "track changed to " + newLecture.track);
+                changed = true;
             }
             if (newLecture.recordingOptOut != oldLecture.recordingOptOut) {
                 newLecture.changed_recordingOptOut = true;
                 MyApp.LogDebug(LOG_TAG, "recordingOptOut changed to " + newLecture.recordingOptOut);
+                changed = true;
             }
             if (newLecture.day != oldLecture.day) {
                 newLecture.changed_day = true;
                 MyApp.LogDebug(LOG_TAG, "day changed to " + newLecture.day);
+                changed = true;
             }
             if (newLecture.startTime != oldLecture.startTime) {
                 newLecture.changed_time = true;
                 MyApp.LogDebug(LOG_TAG, "startTime changed to " + newLecture.startTime);
+                changed = true;
             }
             if (newLecture.duration != oldLecture.duration) {
                 newLecture.changed_duration = true;
                 MyApp.LogDebug(LOG_TAG, "duration changed to " + newLecture.duration);
+                changed = true;
             }
 
             oldLectures.remove(oldLecture);
@@ -547,6 +561,14 @@ class parser extends AsyncTask<String, Void, Boolean> {
             oldLecture.cancel();
             lectures.add(oldLecture);
             MyApp.LogDebug(LOG_TAG, "lecture " + oldLecture.title + " was canceled.");
+            changed = true;
+        }
+
+        if (changed) {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.context);
+            SharedPreferences.Editor edit = prefs.edit();
+            edit.putBoolean(BundleKeys.PREFS_CHANGES_SEEN, false);
+            edit.commit();
         }
     }
 
