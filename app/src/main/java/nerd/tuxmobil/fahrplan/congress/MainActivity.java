@@ -303,7 +303,7 @@ public class MainActivity extends SherlockFragmentActivity
                     FragmentManager fm = getSupportFragmentManager();
                     sidePane.setVisibility(View.VISIBLE);
                     FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                    ChangeListFragment changes = new ChangeListFragment();
+                    ChangeListFragment changes = ChangeListFragment.newInstance(true);
                     fragmentTransaction.replace(R.id.detail, changes, FragmentTags.CHANGES);
                     fragmentTransaction.addToBackStack(FragmentTags.CHANGES);
                     fragmentTransaction.commit();

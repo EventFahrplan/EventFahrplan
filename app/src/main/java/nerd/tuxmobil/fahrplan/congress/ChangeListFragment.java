@@ -1,7 +1,9 @@
 package nerd.tuxmobil.fahrplan.congress;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +30,7 @@ public class ChangeListFragment extends SherlockListFragment {
     private static final String LOG_TAG = "ChangeListFragment";
     private OnLectureListClick mListener;
     private LectureList changesList;
+    private boolean sidePane = false;
 
     /**
      * The fragment's ListView/GridView.
@@ -40,8 +43,11 @@ public class ChangeListFragment extends SherlockListFragment {
      */
     private LectureArrayAdapter mAdapter;
 
-    public static ChangeListFragment newInstance() {
+    public static ChangeListFragment newInstance(boolean sidePane) {
         ChangeListFragment fragment = new ChangeListFragment();
+        Bundle args = new Bundle();
+        args.putBoolean(BundleKeys.SIDEPANE, sidePane);
+        fragment.setArguments(args);
         return fragment;
     }
 
@@ -56,6 +62,11 @@ public class ChangeListFragment extends SherlockListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Bundle args = getArguments();
+        if (args != null) {
+            sidePane = args.getBoolean(BundleKeys.SIDEPANE);
+        }
+
         changesList = FahrplanMisc.readChanges(getSherlockActivity());
 
         mAdapter = new LectureArrayAdapter(getActivity(), changesList);
@@ -65,12 +76,16 @@ public class ChangeListFragment extends SherlockListFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_lecture_list, container, false);
 
-        if (getSherlockActivity() instanceof MainActivity) {
-            TextView title = (TextView) view.findViewById(R.id.title);
-            title.setVisibility(View.VISIBLE);
-            title.setText(R.string.schedule_changes);
+        final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(),
+                R.style.Theme_Sherlock_Light);
+
+        LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
+        View view;
+        if (sidePane) {
+            view = localInflater.inflate(R.layout.fragment_lecture_list_narrow, container, false);
+        } else {
+            view = localInflater.inflate(R.layout.fragment_lecture_list, container, false);
         }
 
         // Set the adapter
