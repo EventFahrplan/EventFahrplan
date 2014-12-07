@@ -2,20 +2,16 @@ package nerd.tuxmobil.fahrplan.congress;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockListFragment;
-
-import nerd.tuxmobil.fahrplan.congress.R;
 
 
 /**
@@ -125,7 +121,7 @@ public class ChangeListFragment extends SherlockListFragment {
             // Notify the active callbacks interface (the activity, if the
             // fragment is attached to one) that an item has been selected.
             Lecture clicked = changesList.get(position);
-            if (clicked.changed_isCanceled) return;
+            if (clicked.changedIsCanceled) return;
             mListener.onLectureListClick(clicked);
         }
     }

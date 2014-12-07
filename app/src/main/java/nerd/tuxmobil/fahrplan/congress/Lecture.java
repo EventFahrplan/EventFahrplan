@@ -52,18 +52,18 @@ public class Lecture {
 
     public static final boolean RECORDING_OPTOUT_OFF = false;
 
-    public boolean changed_title;
-    public boolean changed_subtitle;
-    public boolean changed_room;
-    public boolean changed_day;
-    public boolean changed_time;
-    public boolean changed_duration;
-    public boolean changed_speakers;
-    public boolean changed_recordingOptOut;
-    public boolean changed_language;
-    public boolean changed_track;
-    public boolean changed_isNew;
-    public boolean changed_isCanceled;
+    public boolean changedTitle;
+    public boolean changedSubtitle;
+    public boolean changedRoom;
+    public boolean changedDay;
+    public boolean changedTime;
+    public boolean changedDuration;
+    public boolean changedSpeakers;
+    public boolean changedRecordingOptOut;
+    public boolean changedLanguage;
+    public boolean changedTrack;
+    public boolean changedIsNew;
+    public boolean changedIsCanceled;
 
     public Lecture(String lecture_id) {
         title = "";
@@ -88,18 +88,18 @@ public class Lecture {
         room_index = 0;
         recordingLicense = "";
         recordingOptOut = RECORDING_OPTOUT_OFF;
-        changed_title = false;
-        changed_subtitle = false;
-        changed_room = false;
-        changed_day = false;
-        changed_speakers = false;
-        changed_recordingOptOut = false;
-        changed_language = false;
-        changed_track = false;
-        changed_isNew = false;
-        changed_time = false;
-        changed_duration = false;
-        changed_isCanceled = false;
+        changedTitle = false;
+        changedSubtitle = false;
+        changedRoom = false;
+        changedDay = false;
+        changedSpeakers = false;
+        changedRecordingOptOut = false;
+        changedLanguage = false;
+        changedTrack = false;
+        changedIsNew = false;
+        changedTime = false;
+        changedDuration = false;
+        changedIsCanceled = false;
     }
 
     public static int parseStartTime(String text) {
@@ -139,7 +139,8 @@ public class Lecture {
         if (date != null ? !date.equals(lecture.date) : lecture.date != null) return false;
         if (lang != null ? !lang.equals(lecture.lang) : lecture.lang != null) return false;
         if (!lecture_id.equals(lecture.lecture_id)) return false;
-        if (recordingLicense != null ? !recordingLicense.equals(lecture.recordingLicense) : lecture.recordingLicense != null)
+        if (recordingLicense != null ? !recordingLicense.equals(lecture.recordingLicense) :
+                lecture.recordingLicense != null)
             return false;
         if (room != null ? !room.equals(lecture.room) : lecture.room != null) return false;
         if (speakers != null ? !speakers.equals(lecture.speakers) : lecture.speakers != null)
@@ -175,25 +176,25 @@ public class Lecture {
     }
 
     public void cancel() {
-        changed_isCanceled = true;
-        changed_title = false;
-        changed_subtitle = false;
-        changed_room = false;
-        changed_day = false;
-        changed_speakers = false;
-        changed_recordingOptOut = false;
-        changed_language = false;
-        changed_track = false;
-        changed_isNew = false;
-        changed_time = false;
-        changed_duration = false;
+        changedIsCanceled = true;
+        changedTitle = false;
+        changedSubtitle = false;
+        changedRoom = false;
+        changedDay = false;
+        changedSpeakers = false;
+        changedRecordingOptOut = false;
+        changedLanguage = false;
+        changedTrack = false;
+        changedIsNew = false;
+        changedTime = false;
+        changedDuration = false;
     }
 
     public boolean isChanged() {
-        if ((changed_day || changed_duration ||
-                changed_language || changed_recordingOptOut ||
-                changed_room || changed_speakers || changed_subtitle ||
-                changed_time || changed_title || changed_track)) {
+        if ((changedDay || changedDuration ||
+                changedLanguage || changedRecordingOptOut ||
+                changedRoom || changedSpeakers || changedSubtitle ||
+                changedTime || changedTitle || changedTrack)) {
             return true;
         }
         return false;

@@ -90,7 +90,7 @@ public class LectureArrayAdapter extends ArrayAdapter<Lecture> {
         viewHolder.time.setText(tf.format(new Date(l.dateUTC)));
         viewHolder.room.setText(l.room);
         viewHolder.duration.setText(String.valueOf(l.duration) + " min.");
-        if (l.changed_isNew) {
+        if (l.changedIsNew) {
             setTextStyleNew(viewHolder.title);
             setTextStyleNew(viewHolder.subtitle);
             setTextStyleNew(viewHolder.speakers);
@@ -99,7 +99,7 @@ public class LectureArrayAdapter extends ArrayAdapter<Lecture> {
             setTextStyleNew(viewHolder.time);
             setTextStyleNew(viewHolder.room);
             setTextStyleNew(viewHolder.duration);
-        } else if (l.changed_isCanceled) {
+        } else if (l.changedIsCanceled) {
             setTextStyleCanceled(viewHolder.title);
             setTextStyleCanceled(viewHolder.subtitle);
             setTextStyleCanceled(viewHolder.speakers);
@@ -109,32 +109,32 @@ public class LectureArrayAdapter extends ArrayAdapter<Lecture> {
             setTextStyleCanceled(viewHolder.room);
             setTextStyleCanceled(viewHolder.duration);
         } else {
-            if (l.changed_title) {
+            if (l.changedTitle) {
                 setTextStyleChanged(viewHolder.title);
                 if (l.title.length() == 0) viewHolder.title.setText(context.getText(R.string.dash));
             }
-            if (l.changed_subtitle) {
+            if (l.changedSubtitle) {
                 setTextStyleChanged(viewHolder.subtitle);
                 if (l.subtitle.length() == 0) viewHolder.subtitle.setText(context.getText(R.string.dash));
             }
-            if (l.changed_speakers) {
+            if (l.changedSpeakers) {
                 setTextStyleChanged(viewHolder.speakers);
                 if (l.speakers.length() == 0) viewHolder.speakers.setText(context.getText(R.string.dash));
             }
-            if (l.changed_language) {
+            if (l.changedLanguage) {
                 setTextStyleChanged(viewHolder.lang);
                 if (l.lang.length() == 0) viewHolder.lang.setText(context.getText(R.string.dash));
             }
-            if (l.changed_day) {
+            if (l.changedDay) {
                 setTextStyleChanged(viewHolder.day);
             }
-            if (l.changed_time) {
+            if (l.changedTime) {
                 setTextStyleChanged(viewHolder.time);
             }
-            if (l.changed_room) {
+            if (l.changedRoom) {
                 setTextStyleChanged(viewHolder.room);
             }
-            if (l.changed_duration) {
+            if (l.changedDuration) {
                 setTextStyleChanged(viewHolder.duration);
             }
         }

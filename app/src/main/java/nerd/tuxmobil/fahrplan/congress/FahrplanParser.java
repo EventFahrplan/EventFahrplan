@@ -186,18 +186,18 @@ class parser extends AsyncTask<String, Void, Boolean> {
                 values.put(Columns.REC_LICENSE, lecture.recordingLicense);
                 values.put(Columns.REC_OPTOUT,
                         lecture.recordingOptOut ? Values.REC_OPTOUT_ON : Values.REC_OPTOUT_OFF);
-                values.put(Columns.CHANGED_TITLE, lecture.changed_title);
-                values.put(Columns.CHANGED_SUBTITLE, lecture.changed_subtitle);
-                values.put(Columns.CHANGED_ROOM, lecture.changed_room);
-                values.put(Columns.CHANGED_DAY, lecture.changed_day);
-                values.put(Columns.CHANGED_SPEAKERS, lecture.changed_speakers);
-                values.put(Columns.CHANGED_RECORDING_OPTOUT, lecture.changed_recordingOptOut);
-                values.put(Columns.CHANGED_LANGUAGE, lecture.changed_language);
-                values.put(Columns.CHANGED_TRACK, lecture.changed_track);
-                values.put(Columns.CHANGED_IS_NEW, lecture.changed_isNew);
-                values.put(Columns.CHANGED_TIME, lecture.changed_time);
-                values.put(Columns.CHANGED_DURATION, lecture.changed_duration);
-                values.put(Columns.CHANGED_IS_CANCELED, lecture.changed_isCanceled);
+                values.put(Columns.CHANGED_TITLE, lecture.changedTitle);
+                values.put(Columns.CHANGED_SUBTITLE, lecture.changedSubtitle);
+                values.put(Columns.CHANGED_ROOM, lecture.changedRoom);
+                values.put(Columns.CHANGED_DAY, lecture.changedDay);
+                values.put(Columns.CHANGED_SPEAKERS, lecture.changedSpeakers);
+                values.put(Columns.CHANGED_RECORDING_OPTOUT, lecture.changedRecordingOptOut);
+                values.put(Columns.CHANGED_LANGUAGE, lecture.changedLanguage);
+                values.put(Columns.CHANGED_TRACK, lecture.changedTrack);
+                values.put(Columns.CHANGED_IS_NEW, lecture.changedIsNew);
+                values.put(Columns.CHANGED_TIME, lecture.changedTime);
+                values.put(Columns.CHANGED_DURATION, lecture.changedDuration);
+                values.put(Columns.CHANGED_IS_CANCELED, lecture.changedIsCanceled);
                 db.insert(LecturesTable.NAME, null, values);
             }
             db.setTransactionSuccessful();
@@ -481,7 +481,7 @@ class parser extends AsyncTask<String, Void, Boolean> {
         int lectureIndex = oldLectures.size()-1;
         while (lectureIndex >= 0) {
             Lecture l = oldLectures.get(lectureIndex);
-            if (l.changed_isCanceled) oldLectures.remove(lectureIndex);
+            if (l.changedIsCanceled) oldLectures.remove(lectureIndex);
             lectureIndex--;
         }
 
@@ -491,7 +491,7 @@ class parser extends AsyncTask<String, Void, Boolean> {
             Lecture oldLecture = oldLectures.getLecture(newLecture.lecture_id);
 
             if (oldLecture == null) {
-                newLecture.changed_isNew = true;
+                newLecture.changedIsNew = true;
                 MyApp.LogDebug(LOG_TAG, "lecture " + newLecture.title + " is new.");
                 changed = true;
                 continue;
@@ -503,52 +503,52 @@ class parser extends AsyncTask<String, Void, Boolean> {
             }
 
             if (!(newLecture.title.equals(oldLecture.title))) {
-                newLecture.changed_title = true;
+                newLecture.changedTitle = true;
                 MyApp.LogDebug(LOG_TAG, "title changed to " + newLecture.title);
                 changed = true;
             }
             if (!(newLecture.subtitle.equals(oldLecture.subtitle))) {
-                newLecture.changed_subtitle = true;
+                newLecture.changedSubtitle = true;
                 MyApp.LogDebug(LOG_TAG, "subtitle changed to " + newLecture.subtitle);
                 changed = true;
             }
             if (!(newLecture.speakers.equals(oldLecture.speakers))) {
-                newLecture.changed_speakers = true;
+                newLecture.changedSpeakers = true;
                 MyApp.LogDebug(LOG_TAG, "speakers changed to " + newLecture.speakers);
                 changed = true;
             }
             if (!(newLecture.lang.equals(oldLecture.lang))) {
-                newLecture.changed_language = true;
+                newLecture.changedLanguage = true;
                 MyApp.LogDebug(LOG_TAG, "lang changed to " + newLecture.lang);
                 changed = true;
             }
             if (!(newLecture.room.equals(oldLecture.room))) {
-                newLecture.changed_room = true;
+                newLecture.changedRoom = true;
                 MyApp.LogDebug(LOG_TAG, "room changed to " + newLecture.room);
                 changed = true;
             }
             if (!(newLecture.track.equals(oldLecture.track))) {
-                newLecture.changed_track = true;
+                newLecture.changedTrack = true;
                 MyApp.LogDebug(LOG_TAG, "track changed to " + newLecture.track);
                 changed = true;
             }
             if (newLecture.recordingOptOut != oldLecture.recordingOptOut) {
-                newLecture.changed_recordingOptOut = true;
+                newLecture.changedRecordingOptOut = true;
                 MyApp.LogDebug(LOG_TAG, "recordingOptOut changed to " + newLecture.recordingOptOut);
                 changed = true;
             }
             if (newLecture.day != oldLecture.day) {
-                newLecture.changed_day = true;
+                newLecture.changedDay = true;
                 MyApp.LogDebug(LOG_TAG, "day changed to " + newLecture.day);
                 changed = true;
             }
             if (newLecture.startTime != oldLecture.startTime) {
-                newLecture.changed_time = true;
+                newLecture.changedTime = true;
                 MyApp.LogDebug(LOG_TAG, "startTime changed to " + newLecture.startTime);
                 changed = true;
             }
             if (newLecture.duration != oldLecture.duration) {
-                newLecture.changed_duration = true;
+                newLecture.changedDuration = true;
                 MyApp.LogDebug(LOG_TAG, "duration changed to " + newLecture.duration);
                 changed = true;
             }

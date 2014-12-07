@@ -45,8 +45,6 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import nerd.tuxmobil.fahrplan.congress.FahrplanContract.AlarmsTable;
-import nerd.tuxmobil.fahrplan.congress.FahrplanContract.HighlightsTable;
-import nerd.tuxmobil.fahrplan.congress.FahrplanContract.LecturesTable;
 
 interface OnRefreshEventMarkers {
 
@@ -716,7 +714,7 @@ public class FahrplanFragment extends SherlockFragment implements
         int lectureIndex = MyApp.lectureList.size() - 1;
         while (lectureIndex >= 0) {
             Lecture l = MyApp.lectureList.get(lectureIndex);
-            if (l.changed_isCanceled) MyApp.lectureList.remove(lectureIndex);
+            if (l.changedIsCanceled) MyApp.lectureList.remove(lectureIndex);
             lectureIndex--;
         }
         MyApp.lectureListDay = day;

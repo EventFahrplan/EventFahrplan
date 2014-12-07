@@ -557,18 +557,18 @@ public class FahrplanMisc {
                     == LecturesTable.Values.REC_OPTOUT_OFF
                     ? Lecture.RECORDING_OPTOUT_OFF
                     : Lecture.RECORDING_OPTOUT_ON;
-            lecture.changed_title = cursor.getInt(cursor.getColumnIndex(LecturesTable.Columns.CHANGED_TITLE)) != 0;
-            lecture.changed_subtitle = cursor.getInt(cursor.getColumnIndex(LecturesTable.Columns.CHANGED_SUBTITLE)) != 0;
-            lecture.changed_room = cursor.getInt(cursor.getColumnIndex(LecturesTable.Columns.CHANGED_ROOM)) != 0;
-            lecture.changed_day = cursor.getInt(cursor.getColumnIndex(LecturesTable.Columns.CHANGED_DAY)) != 0;
-            lecture.changed_speakers = cursor.getInt(cursor.getColumnIndex(LecturesTable.Columns.CHANGED_SPEAKERS)) != 0;
-            lecture.changed_recordingOptOut = cursor.getInt(cursor.getColumnIndex(LecturesTable.Columns.CHANGED_RECORDING_OPTOUT)) != 0;
-            lecture.changed_language = cursor.getInt(cursor.getColumnIndex(LecturesTable.Columns.CHANGED_LANGUAGE)) != 0;
-            lecture.changed_track = cursor.getInt(cursor.getColumnIndex(LecturesTable.Columns.CHANGED_TRACK)) != 0;
-            lecture.changed_isNew = cursor.getInt(cursor.getColumnIndex(LecturesTable.Columns.CHANGED_IS_NEW)) != 0;
-            lecture.changed_time = cursor.getInt(cursor.getColumnIndex(LecturesTable.Columns.CHANGED_TIME)) != 0;
-            lecture.changed_duration = cursor.getInt(cursor.getColumnIndex(LecturesTable.Columns.CHANGED_DURATION)) != 0;
-            lecture.changed_isCanceled = cursor.getInt(cursor.getColumnIndex(LecturesTable.Columns.CHANGED_IS_CANCELED)) != 0;
+            lecture.changedTitle = cursor.getInt(cursor.getColumnIndex(LecturesTable.Columns.CHANGED_TITLE)) != 0;
+            lecture.changedSubtitle = cursor.getInt(cursor.getColumnIndex(LecturesTable.Columns.CHANGED_SUBTITLE)) != 0;
+            lecture.changedRoom = cursor.getInt(cursor.getColumnIndex(LecturesTable.Columns.CHANGED_ROOM)) != 0;
+            lecture.changedDay = cursor.getInt(cursor.getColumnIndex(LecturesTable.Columns.CHANGED_DAY)) != 0;
+            lecture.changedSpeakers = cursor.getInt(cursor.getColumnIndex(LecturesTable.Columns.CHANGED_SPEAKERS)) != 0;
+            lecture.changedRecordingOptOut = cursor.getInt(cursor.getColumnIndex(LecturesTable.Columns.CHANGED_RECORDING_OPTOUT)) != 0;
+            lecture.changedLanguage = cursor.getInt(cursor.getColumnIndex(LecturesTable.Columns.CHANGED_LANGUAGE)) != 0;
+            lecture.changedTrack = cursor.getInt(cursor.getColumnIndex(LecturesTable.Columns.CHANGED_TRACK)) != 0;
+            lecture.changedIsNew = cursor.getInt(cursor.getColumnIndex(LecturesTable.Columns.CHANGED_IS_NEW)) != 0;
+            lecture.changedTime = cursor.getInt(cursor.getColumnIndex(LecturesTable.Columns.CHANGED_TIME)) != 0;
+            lecture.changedDuration = cursor.getInt(cursor.getColumnIndex(LecturesTable.Columns.CHANGED_DURATION)) != 0;
+            lecture.changedIsCanceled = cursor.getInt(cursor.getColumnIndex(LecturesTable.Columns.CHANGED_IS_CANCELED)) != 0;
 
             lectures.add(lecture);
             cursor.moveToNext();
@@ -615,7 +615,7 @@ public class FahrplanMisc {
         int count = 0;
         for (int lectureIndex = 0; lectureIndex < list.size(); lectureIndex++) {
             Lecture l = list.get(lectureIndex);
-            if ((l.changed_isNew) && ((!favsOnly) || (l.highlight))) count++;
+            if ((l.changedIsNew) && ((!favsOnly) || (l.highlight))) count++;
             lectureIndex--;
         }
         MyApp.LogDebug(LOG_TAG, "getNewLectureCount " + favsOnly + ":" + count);
@@ -626,7 +626,7 @@ public class FahrplanMisc {
         int count = 0;
         for (int lectureIndex = 0; lectureIndex < list.size(); lectureIndex++) {
             Lecture l = list.get(lectureIndex);
-            if ((l.changed_isCanceled) && ((!favsOnly) || (l.highlight))) count++;
+            if ((l.changedIsCanceled) && ((!favsOnly) || (l.highlight))) count++;
             lectureIndex--;
         }
         MyApp.LogDebug(LOG_TAG, "getCancelledLectureCount " + favsOnly + ":" + count);
@@ -639,7 +639,7 @@ public class FahrplanMisc {
         int lectureIndex = changesList.size() - 1;
         while (lectureIndex >= 0) {
             Lecture l = changesList.get(lectureIndex);
-            if (!l.isChanged() && !l.changed_isCanceled && !l.changed_isNew ) {
+            if (!l.isChanged() && !l.changedIsCanceled && !l.changedIsNew) {
                 changesList.remove(l);
             }
             lectureIndex--;
