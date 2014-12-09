@@ -39,6 +39,10 @@ public class UpdateService extends IntentService
         MyApp.task_running = TASKS.NONE;
         MyApp.fahrplan_xml = null;
 
+        LectureList changesList = FahrplanMisc.readChanges(this);
+        String changesTxt = getResources().getQuantityString(R.plurals.changes_notification,
+                changesList.size(), changesList.size());
+
         // update complete, show notification
         MyApp.LogDebug(LOG_TAG, "background update complete");
 
@@ -60,7 +64,9 @@ public class UpdateService extends IntentService
                 .setContentTitle(getString(R.string.app_name))
                 .setDefaults(Notification.DEFAULT_LIGHTS).setSmallIcon(R.drawable.ic_notification)
                 .setSound(Uri.parse(prefs.getString("reminder_tone", "")))
-                .setContentIntent(contentIntent).build();
+                .setContentIntent(contentIntent)
+                .setSubText(changesTxt)
+                .build();
 
         nm.notify(2, notify);
 

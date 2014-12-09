@@ -26,7 +26,7 @@ import nerd.tuxmobil.fahrplan.congress.MyApp.TASKS;
 
 public class MainActivity extends SherlockFragmentActivity
         implements OnParseCompleteListener, OnDownloadCompleteListener, OnCloseDetailListener,
-        OnRefreshEventMarkers, OnCertAccepted {
+        OnRefreshEventMarkers, OnCertAccepted, ChangeListFragment.OnLectureListClick, FragmentManager.OnBackStackChangedListener {
 
     private static final String LOG_TAG = "MainActivity";
 
@@ -81,6 +81,8 @@ public class MainActivity extends SherlockFragmentActivity
                 break;
         }
 
+        getSupportFragmentManager().addOnBackStackChangedListener(this);
+
         if (findViewById(R.id.schedule) != null) {
             FragmentManager fm = getSupportFragmentManager();
             if (fm.findFragmentByTag(FragmentTags.SCHEDULE) == null) {
@@ -99,6 +101,9 @@ public class MainActivity extends SherlockFragmentActivity
                 ft.remove(detail).commit();
             }
         }
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        if (prefs.getBoolean(BundleKeys.PREFS_CHANGES_SEEN, true) == false) changesDialog();
     }
 
     public void parseFahrplan() {
@@ -167,6 +172,13 @@ public class MainActivity extends SherlockFragmentActivity
         if ((fragment != null) && (fragment instanceof OnParseCompleteListener)) {
             ((OnParseCompleteListener) fragment).onParseDone(result, version);
         }
+        fragment = fm.findFragmentByTag(FragmentTags.CHANGES);
+        if ((fragment != null) && (fragment instanceof ChangeListFragment)) {
+            ((ChangeListFragment) fragment).onRefresh();
+        }
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        if (prefs.getBoolean(BundleKeys.PREFS_CHANGES_SEEN, true) == false) changesDialog();
     }
 
     public void showFetchingStatus() {
@@ -242,6 +254,21 @@ public class MainActivity extends SherlockFragmentActivity
         return true;
     }
 
+    void changesDialog() {
+        LectureList changedLectures = FahrplanMisc.readChanges(this);
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.addToBackStack(null);
+        SherlockDialogFragment about = ChangesDialog.newInstance(
+                MyApp.version,
+                FahrplanMisc.getChangedLectureCount(changedLectures, false),
+                FahrplanMisc.getNewLectureCount(changedLectures, false),
+                FahrplanMisc.getCancelledLectureCount(changedLectures, false),
+                FahrplanMisc.getChangedLectureCount(changedLectures, true) +
+                FahrplanMisc.getNewLectureCount(changedLectures, true) +
+                FahrplanMisc.getCancelledLectureCount(changedLectures, true));
+        about.show(ft, "changesDialog");
+    }
+
     void aboutDialog() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.addToBackStack(null);
@@ -266,6 +293,21 @@ public class MainActivity extends SherlockFragmentActivity
             case R.id.item_settings:
                 intent = new Intent(this, Prefs.class);
                 startActivity(intent);
+                return true;
+            case R.id.item_changes:
+                FrameLayout sidePane = (FrameLayout) findViewById(R.id.detail);
+                if (sidePane == null) {
+                    intent = new Intent(this, ChangeListActivity.class);
+                    startActivityForResult(intent, MyApp.CHANGELOG);
+                } else {
+                    FragmentManager fm = getSupportFragmentManager();
+                    sidePane.setVisibility(View.VISIBLE);
+                    FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                    ChangeListFragment changes = ChangeListFragment.newInstance(true);
+                    fragmentTransaction.replace(R.id.detail, changes, FragmentTags.CHANGES);
+                    fragmentTransaction.addToBackStack(FragmentTags.CHANGES);
+                    fragmentTransaction.commit();
+                }
                 return true;
             default:
         }
@@ -294,6 +336,7 @@ public class MainActivity extends SherlockFragmentActivity
             args.putBoolean(BundleKeys.SIDEPANE, true);
             ev.setArguments(args);
             fragmentTransaction.replace(R.id.detail, ev, FragmentTags.DETAIL);
+            fragmentTransaction.addToBackStack(FragmentTags.DETAIL);
             fragmentTransaction.commit();
         } else {
             Intent intent = new Intent(this, EventDetail.class);
@@ -340,6 +383,7 @@ public class MainActivity extends SherlockFragmentActivity
         switch (requestCode) {
             case MyApp.ALARMLIST:
             case MyApp.EVENTVIEW:
+            case MyApp.CHANGELOG:
                 if (resultCode == SherlockFragmentActivity.RESULT_OK) {
                     refreshEventMarkers();
                 }
@@ -354,18 +398,20 @@ public class MainActivity extends SherlockFragmentActivity
     }
 
     @Override
-    public void onBackPressed() {
+    public void onLectureListClick(Lecture lecture) {
+        if (lecture != null) openLectureDetail(lecture, lecture.day );
+    }
+
+    @Override
+    public void onBackStackChanged() {
         FragmentManager fm = getSupportFragmentManager();
-        Fragment detail = fm.findFragmentByTag(FragmentTags.DETAIL);
-        if (detail != null) {
-            fm.beginTransaction().remove(detail).commit();
+        Fragment pane = fm.findFragmentById(R.id.detail);
+        if (pane == null) {
             View sidePane = findViewById(R.id.detail);
-            if (sidePane != null) {
+            if (sidePane != null)  {
                 sidePane.setVisibility(View.GONE);
             }
-            supportInvalidateOptionsMenu();
-        } else {
-            finish();
         }
+        supportInvalidateOptionsMenu();
     }
 }

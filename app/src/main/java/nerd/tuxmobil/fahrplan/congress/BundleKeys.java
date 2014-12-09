@@ -38,4 +38,19 @@ public interface BundleKeys {
     public static final String SIDEPANE =
             "nerd.tuxmobil.fahrplan.congress.SIDEPANE";
 
+    // Changes dialog
+    public static final String CHANGES_DLG_NUM_CHANGED =
+            "nerd.tuxmobil.fahrplan.congress.ChangesDialog.NUM_CHANGES";
+    public static final String CHANGES_DLG_NUM_NEW =
+            "nerd.tuxmobil.fahrplan.congress.ChangesDialog.NUM_NEW";
+    public static final String CHANGES_DLG_NUM_CANCELLED =
+            "nerd.tuxmobil.fahrplan.congress.ChangesDialog.NUM_CANCELLED";
+    public static final String CHANGES_DLG_NUM_MARKED =
+            "nerd.tuxmobil.fahrplan.congress.ChangesDialog.NUM_MARKED";
+    public static final String CHANGES_DLG_VERSION =
+            "nerd.tuxmobil.fahrplan.congress.ChangesDialog.VERSION";
+
+    // Shared Preferences
+    public static final String PREFS_CHANGES_SEEN =
+            "nerd.tuxmobil.fahrplan.congress.Prefs.CHANGES_SEEN";
 }

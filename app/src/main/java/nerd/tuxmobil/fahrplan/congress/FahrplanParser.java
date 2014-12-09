@@ -4,9 +4,11 @@ import org.xmlpull.v1.XmlPullParser;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.util.Xml;
 
 import java.io.StringReader;
@@ -60,7 +62,7 @@ class parser extends AsyncTask<String, Void, Boolean> {
 
     private String LOG_TAG = "ParseFahrplan";
 
-    private ArrayList<Lecture> lectures;
+    private LectureList lectures;
 
     private MetaInfo meta;
 
@@ -184,6 +186,18 @@ class parser extends AsyncTask<String, Void, Boolean> {
                 values.put(Columns.REC_LICENSE, lecture.recordingLicense);
                 values.put(Columns.REC_OPTOUT,
                         lecture.recordingOptOut ? Values.REC_OPTOUT_ON : Values.REC_OPTOUT_OFF);
+                values.put(Columns.CHANGED_TITLE, lecture.changedTitle);
+                values.put(Columns.CHANGED_SUBTITLE, lecture.changedSubtitle);
+                values.put(Columns.CHANGED_ROOM, lecture.changedRoom);
+                values.put(Columns.CHANGED_DAY, lecture.changedDay);
+                values.put(Columns.CHANGED_SPEAKERS, lecture.changedSpeakers);
+                values.put(Columns.CHANGED_RECORDING_OPTOUT, lecture.changedRecordingOptOut);
+                values.put(Columns.CHANGED_LANGUAGE, lecture.changedLanguage);
+                values.put(Columns.CHANGED_TRACK, lecture.changedTrack);
+                values.put(Columns.CHANGED_IS_NEW, lecture.changedIsNew);
+                values.put(Columns.CHANGED_TIME, lecture.changedTime);
+                values.put(Columns.CHANGED_DURATION, lecture.changedDuration);
+                values.put(Columns.CHANGED_IS_CANCELED, lecture.changedIsCanceled);
                 db.insert(LecturesTable.NAME, null, values);
             }
             db.setTransactionSuccessful();
@@ -212,7 +226,7 @@ class parser extends AsyncTask<String, Void, Boolean> {
                 String name = null;
                 switch (eventType) {
                     case XmlPullParser.START_DOCUMENT:
-                        lectures = new ArrayList<Lecture>();
+                        lectures = new LectureList();
                         meta = new MetaInfo();
                         break;
                     case XmlPullParser.START_TAG:
@@ -443,6 +457,7 @@ class parser extends AsyncTask<String, Void, Boolean> {
             if (isCancelled()) {
                 return false;
             }
+            setChangedFlags(lectures);
             storeLectureList(context, lectures);
             if (isCancelled()) {
                 return false;
@@ -453,6 +468,107 @@ class parser extends AsyncTask<String, Void, Boolean> {
         } catch (Exception e) {
             e.printStackTrace();
             return false;
+        }
+    }
+
+    private void setChangedFlags(LectureList lectures) {
+        LectureList oldLectures;
+        boolean changed = false;
+
+        oldLectures = FahrplanMisc.loadLecturesForAllDays(this.context);
+        if (oldLectures == null) return;
+
+        int lectureIndex = oldLectures.size()-1;
+        while (lectureIndex >= 0) {
+            Lecture l = oldLectures.get(lectureIndex);
+            if (l.changedIsCanceled) oldLectures.remove(lectureIndex);
+            lectureIndex--;
+        }
+
+        lectureIndex = 0;
+        for (lectureIndex = 0; lectureIndex < lectures.size(); lectureIndex++) {
+            Lecture newLecture = lectures.get(lectureIndex);
+            Lecture oldLecture = oldLectures.getLecture(newLecture.lecture_id);
+
+            if (oldLecture == null) {
+                newLecture.changedIsNew = true;
+                MyApp.LogDebug(LOG_TAG, "lecture " + newLecture.title + " is new.");
+                changed = true;
+                continue;
+            }
+
+            if (oldLecture.equals(newLecture)) {
+                oldLectures.remove(oldLecture);
+                continue;
+            }
+
+            if (!(newLecture.title.equals(oldLecture.title))) {
+                newLecture.changedTitle = true;
+                MyApp.LogDebug(LOG_TAG, "title changed to " + newLecture.title);
+                changed = true;
+            }
+            if (!(newLecture.subtitle.equals(oldLecture.subtitle))) {
+                newLecture.changedSubtitle = true;
+                MyApp.LogDebug(LOG_TAG, "subtitle changed to " + newLecture.subtitle);
+                changed = true;
+            }
+            if (!(newLecture.speakers.equals(oldLecture.speakers))) {
+                newLecture.changedSpeakers = true;
+                MyApp.LogDebug(LOG_TAG, "speakers changed to " + newLecture.speakers);
+                changed = true;
+            }
+            if (!(newLecture.lang.equals(oldLecture.lang))) {
+                newLecture.changedLanguage = true;
+                MyApp.LogDebug(LOG_TAG, "lang changed to " + newLecture.lang);
+                changed = true;
+            }
+            if (!(newLecture.room.equals(oldLecture.room))) {
+                newLecture.changedRoom = true;
+                MyApp.LogDebug(LOG_TAG, "room changed to " + newLecture.room);
+                changed = true;
+            }
+            if (!(newLecture.track.equals(oldLecture.track))) {
+                newLecture.changedTrack = true;
+                MyApp.LogDebug(LOG_TAG, "track changed to " + newLecture.track);
+                changed = true;
+            }
+            if (newLecture.recordingOptOut != oldLecture.recordingOptOut) {
+                newLecture.changedRecordingOptOut = true;
+                MyApp.LogDebug(LOG_TAG, "recordingOptOut changed to " + newLecture.recordingOptOut);
+                changed = true;
+            }
+            if (newLecture.day != oldLecture.day) {
+                newLecture.changedDay = true;
+                MyApp.LogDebug(LOG_TAG, "day changed to " + newLecture.day);
+                changed = true;
+            }
+            if (newLecture.startTime != oldLecture.startTime) {
+                newLecture.changedTime = true;
+                MyApp.LogDebug(LOG_TAG, "startTime changed to " + newLecture.startTime);
+                changed = true;
+            }
+            if (newLecture.duration != oldLecture.duration) {
+                newLecture.changedDuration = true;
+                MyApp.LogDebug(LOG_TAG, "duration changed to " + newLecture.duration);
+                changed = true;
+            }
+
+            oldLectures.remove(oldLecture);
+        }
+
+        for (lectureIndex = 0; lectureIndex < oldLectures.size(); lectureIndex++) {
+            Lecture oldLecture = oldLectures.get(lectureIndex);
+            oldLecture.cancel();
+            lectures.add(oldLecture);
+            MyApp.LogDebug(LOG_TAG, "lecture " + oldLecture.title + " was canceled.");
+            changed = true;
+        }
+
+        if (changed) {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.context);
+            SharedPreferences.Editor edit = prefs.edit();
+            edit.putBoolean(BundleKeys.PREFS_CHANGES_SEEN, false);
+            edit.commit();
         }
     }
 

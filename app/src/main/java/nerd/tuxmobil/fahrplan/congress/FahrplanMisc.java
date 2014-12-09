@@ -28,6 +28,7 @@ import nerd.tuxmobil.fahrplan.congress.FahrplanContract.MetasTable;
 public class FahrplanMisc {
 
     private static final String LOG_TAG = "FahrplanMisc";
+    private static final int ALL_DAYS = -1;
 
     static void loadDays(Context context) {
         MyApp.dateInfos = new DateInfos();
@@ -441,6 +442,210 @@ public class FahrplanMisc {
         MyApp.LogDebug(LOG_TAG, "clear update alarm");
 
         alarmManager.cancel(pendingintent);
+    }
+
+    public static LectureList loadLecturesForAllDays(Context context) {
+        return loadLecturesForDayIndex(context, ALL_DAYS);
+    }
+
+    /**
+     * Load all Lectures from the DB on the day specified
+     *
+     * @param context The Android Context
+     * @param day The day to load lectures for (0..), or -1 for all days
+     * @return ArrayList of Lecture objects
+     */
+    public static LectureList loadLecturesForDayIndex(Context context, int day) {
+        MyApp.LogDebug(LOG_TAG, "load lectures of day " + day);
+
+        SQLiteDatabase lecturedb = null;
+        LecturesDBOpenHelper lecturesDB = new LecturesDBOpenHelper(context);
+        lecturedb = lecturesDB.getReadableDatabase();
+
+        HighlightDBOpenHelper highlightDB = new HighlightDBOpenHelper(context);
+        SQLiteDatabase highlightdb = highlightDB.getReadableDatabase();
+
+        LectureList lectures = new LectureList();
+        Cursor cursor, hCursor;
+        boolean allDays;
+
+        if (day == ALL_DAYS) {
+            allDays = true;
+        } else {
+            allDays = false;
+        }
+
+        try {
+            cursor = lecturedb.query(
+                    LecturesTable.NAME,
+                    LecturesDBOpenHelper.allcolumns,
+                    allDays ? null : (LecturesTable.Columns.DAY + "=?"),
+                    allDays ? null : (new String[]{String.format("%d", day)}),
+                    null, null, LecturesTable.Columns.REL_START);
+        } catch (SQLiteException e) {
+            e.printStackTrace();
+            lecturedb.close();
+            highlightdb.close();
+            lecturesDB.close();
+            return null;
+        }
+        try {
+            hCursor = highlightdb.query(
+                    HighlightsTable.NAME,
+                    HighlightDBOpenHelper.allcolumns,
+                    null, null, null, null, null);
+        } catch (SQLiteException e) {
+            e.printStackTrace();
+            lecturedb.close();
+            highlightdb.close();
+            lecturesDB.close();
+            return null;
+        }
+        MyApp.LogDebug(LOG_TAG, "Got " + cursor.getCount() + " rows.");
+        MyApp.LogDebug(LOG_TAG, "Got " + hCursor.getCount() + " highlight rows.");
+
+        if (cursor.getCount() == 0) {
+            cursor.close();
+            lecturedb.close();
+            highlightdb.close();
+            lecturesDB.close();
+            return null;
+        }
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            Lecture lecture = new Lecture(cursor.getString(
+                    cursor.getColumnIndex(LecturesTable.Columns.EVENT_ID)));
+            lecture.title = cursor.getString(
+                    cursor.getColumnIndex(LecturesTable.Columns.TITLE));
+            lecture.subtitle = cursor.getString(
+                    cursor.getColumnIndex(LecturesTable.Columns.SUBTITLE));
+            lecture.day = cursor.getInt(
+                    cursor.getColumnIndex(LecturesTable.Columns.DAY));
+            lecture.room = cursor.getString(
+                    cursor.getColumnIndex(LecturesTable.Columns.ROOM));
+            lecture.startTime = cursor.getInt(
+                    cursor.getColumnIndex(LecturesTable.Columns.START));
+            lecture.duration = cursor.getInt(
+                    cursor.getColumnIndex(LecturesTable.Columns.DURATION));
+            lecture.speakers = cursor.getString(
+                    cursor.getColumnIndex(LecturesTable.Columns.SPEAKERS));
+            lecture.track = cursor.getString(
+                    cursor.getColumnIndex(LecturesTable.Columns.TRACK));
+            lecture.type = cursor.getString(
+                    cursor.getColumnIndex(LecturesTable.Columns.TYPE));
+            lecture.lang = cursor.getString(
+                    cursor.getColumnIndex(LecturesTable.Columns.LANG));
+            lecture.abstractt = cursor.getString(
+                    cursor.getColumnIndex(LecturesTable.Columns.ABSTRACT));
+            lecture.description = cursor.getString(
+                    cursor.getColumnIndex(LecturesTable.Columns.DESCR));
+            lecture.relStartTime = cursor.getInt(
+                    cursor.getColumnIndex(LecturesTable.Columns.REL_START));
+            lecture.date = cursor.getString(
+                    cursor.getColumnIndex(LecturesTable.Columns.DATE));
+            lecture.links = cursor.getString(
+                    cursor.getColumnIndex(LecturesTable.Columns.LINKS));
+            lecture.dateUTC = cursor.getLong(
+                    cursor.getColumnIndex(LecturesTable.Columns.DATE_UTC));
+            lecture.room_index = cursor.getInt(
+                    cursor.getColumnIndex(LecturesTable.Columns.ROOM_IDX));
+            lecture.recordingLicense = cursor.getString(
+                    cursor.getColumnIndex(LecturesTable.Columns.REC_LICENSE));
+            lecture.recordingOptOut = cursor.getInt(
+                    cursor.getColumnIndex(LecturesTable.Columns.REC_OPTOUT))
+                    == LecturesTable.Values.REC_OPTOUT_OFF
+                    ? Lecture.RECORDING_OPTOUT_OFF
+                    : Lecture.RECORDING_OPTOUT_ON;
+            lecture.changedTitle = cursor.getInt(cursor.getColumnIndex(LecturesTable.Columns.CHANGED_TITLE)) != 0;
+            lecture.changedSubtitle = cursor.getInt(cursor.getColumnIndex(LecturesTable.Columns.CHANGED_SUBTITLE)) != 0;
+            lecture.changedRoom = cursor.getInt(cursor.getColumnIndex(LecturesTable.Columns.CHANGED_ROOM)) != 0;
+            lecture.changedDay = cursor.getInt(cursor.getColumnIndex(LecturesTable.Columns.CHANGED_DAY)) != 0;
+            lecture.changedSpeakers = cursor.getInt(cursor.getColumnIndex(LecturesTable.Columns.CHANGED_SPEAKERS)) != 0;
+            lecture.changedRecordingOptOut = cursor.getInt(cursor.getColumnIndex(LecturesTable.Columns.CHANGED_RECORDING_OPTOUT)) != 0;
+            lecture.changedLanguage = cursor.getInt(cursor.getColumnIndex(LecturesTable.Columns.CHANGED_LANGUAGE)) != 0;
+            lecture.changedTrack = cursor.getInt(cursor.getColumnIndex(LecturesTable.Columns.CHANGED_TRACK)) != 0;
+            lecture.changedIsNew = cursor.getInt(cursor.getColumnIndex(LecturesTable.Columns.CHANGED_IS_NEW)) != 0;
+            lecture.changedTime = cursor.getInt(cursor.getColumnIndex(LecturesTable.Columns.CHANGED_TIME)) != 0;
+            lecture.changedDuration = cursor.getInt(cursor.getColumnIndex(LecturesTable.Columns.CHANGED_DURATION)) != 0;
+            lecture.changedIsCanceled = cursor.getInt(cursor.getColumnIndex(LecturesTable.Columns.CHANGED_IS_CANCELED)) != 0;
+
+            lectures.add(lecture);
+            cursor.moveToNext();
+        }
+        cursor.close();
+
+        hCursor.moveToFirst();
+        while (!hCursor.isAfterLast()) {
+            String lecture_id = hCursor.getString(
+                    hCursor.getColumnIndex(HighlightsTable.Columns.EVENT_ID));
+            int highlightState = hCursor.getInt(
+                    hCursor.getColumnIndex(HighlightsTable.Columns.HIGHLIGHT));
+            MyApp.LogDebug(LOG_TAG, "lecture " + lecture_id + " is hightlighted:" + highlightState);
+
+            for (Lecture lecture : lectures) {
+                if (lecture.lecture_id.equals(lecture_id)) {
+                    lecture.highlight = (highlightState
+                            == HighlightsTable.Values.HIGHLIGHT_STATE_ON ? true : false);
+                }
+            }
+            hCursor.moveToNext();
+        }
+        hCursor.close();
+
+        highlightdb.close();
+        lecturedb.close();
+        lecturesDB.close();
+        return lectures;
+    }
+
+    public static int getChangedLectureCount(LectureList list, boolean favsOnly) {
+        int count = 0;
+        for (int lectureIndex = 0; lectureIndex < list.size(); lectureIndex++) {
+            Lecture l = list.get(lectureIndex);
+            if (l.isChanged() && ((!favsOnly) || (l.highlight))) {
+                count++;
+            }
+        }
+        MyApp.LogDebug(LOG_TAG, "getChangedLectureCount " + favsOnly + ":" + count);
+        return count;
+    }
+
+    public static int getNewLectureCount(LectureList list, boolean favsOnly) {
+        int count = 0;
+        for (int lectureIndex = 0; lectureIndex < list.size(); lectureIndex++) {
+            Lecture l = list.get(lectureIndex);
+            if ((l.changedIsNew) && ((!favsOnly) || (l.highlight))) count++;
+            lectureIndex--;
+        }
+        MyApp.LogDebug(LOG_TAG, "getNewLectureCount " + favsOnly + ":" + count);
+        return count;
+    }
+
+    public static int getCancelledLectureCount(LectureList list, boolean favsOnly) {
+        int count = 0;
+        for (int lectureIndex = 0; lectureIndex < list.size(); lectureIndex++) {
+            Lecture l = list.get(lectureIndex);
+            if ((l.changedIsCanceled) && ((!favsOnly) || (l.highlight))) count++;
+            lectureIndex--;
+        }
+        MyApp.LogDebug(LOG_TAG, "getCancelledLectureCount " + favsOnly + ":" + count);
+        return count;
+    }
+
+    public static LectureList readChanges(Context context) {
+        MyApp.LogDebug(LOG_TAG, "readChanges");
+        LectureList changesList = FahrplanMisc.loadLecturesForAllDays(context);
+        int lectureIndex = changesList.size() - 1;
+        while (lectureIndex >= 0) {
+            Lecture l = changesList.get(lectureIndex);
+            if (!l.isChanged() && !l.changedIsCanceled && !l.changedIsNew) {
+                changesList.remove(l);
+            }
+            lectureIndex--;
+        }
+        MyApp.LogDebug(LOG_TAG, changesList.size() + " lectures changed.");
+        return changesList;
     }
 
 }
