@@ -616,7 +616,6 @@ public class FahrplanMisc {
         for (int lectureIndex = 0; lectureIndex < list.size(); lectureIndex++) {
             Lecture l = list.get(lectureIndex);
             if ((l.changedIsNew) && ((!favsOnly) || (l.highlight))) count++;
-            lectureIndex--;
         }
         MyApp.LogDebug(LOG_TAG, "getNewLectureCount " + favsOnly + ":" + count);
         return count;
@@ -627,7 +626,6 @@ public class FahrplanMisc {
         for (int lectureIndex = 0; lectureIndex < list.size(); lectureIndex++) {
             Lecture l = list.get(lectureIndex);
             if ((l.changedIsCanceled) && ((!favsOnly) || (l.highlight))) count++;
-            lectureIndex--;
         }
         MyApp.LogDebug(LOG_TAG, "getCancelledLectureCount " + favsOnly + ":" + count);
         return count;
