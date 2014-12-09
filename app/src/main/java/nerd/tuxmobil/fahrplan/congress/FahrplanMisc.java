@@ -481,7 +481,7 @@ public class FahrplanMisc {
                     LecturesDBOpenHelper.allcolumns,
                     allDays ? null : (LecturesTable.Columns.DAY + "=?"),
                     allDays ? null : (new String[]{String.format("%d", day)}),
-                    null, null, LecturesTable.Columns.REL_START);
+                    null, null, LecturesTable.Columns.DATE_UTC);
         } catch (SQLiteException e) {
             e.printStackTrace();
             lecturedb.close();
