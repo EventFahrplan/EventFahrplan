@@ -80,11 +80,11 @@
     <string name="no_changes">Keine Fahrplanänderungen</string>
     <string name="schedule_changes">Fahrplanänderungen</string>
     <string name="changes_dlg_text1">Der Fahrplan wurde aktualisiert auf Version \'<xliff:g id="version" example="Final">%1$s\</xliff:g>'. Es gibt Änderungen in <xliff:g id="num_changes" example="3 Vorträgen">%2$s</xliff:g>, <xliff:g id="num_new" example="2 sind">%3$s</xliff:g> neu, <xliff:g id="num_canceled" example="1 ist">%4$s</xliff:g> gestrichen.</string>
-    <string name="changes_dlg_text2">Die Änderungen betreffen <xliff:g id="num_marked" example="2">%1$d</xliff:g> der markierten Voträge.</string>
+    <string name="changes_dlg_text2">Die Änderungen betreffen <xliff:g id="num_marked" example="2">%1$d</xliff:g> der markierten Vorträge.</string>
 
     <plurals name="numberOfLectures">
         <item quantity="one">%d Vortrag</item>
-        <item quantity="other">%d Voträgen</item>
+        <item quantity="other">%d Vorträgen</item>
     </plurals>
     <plurals name="being">
         <item quantity="one">%d ist</item>
@@ -92,6 +92,6 @@
     </plurals>
     <plurals name="changes_notification">
         <item quantity="one">%d Vortrag wurde geändert.</item>
-        <item quantity="other">%d Voträge wurden geändert.</item>
+        <item quantity="other">%d Vorträge wurden geändert.</item>
     </plurals>
 </resources>
