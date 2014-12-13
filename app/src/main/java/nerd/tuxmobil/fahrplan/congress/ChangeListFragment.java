@@ -3,6 +3,7 @@ package nerd.tuxmobil.fahrplan.congress;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.ListFragment;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +14,6 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.actionbarsherlock.app.SherlockListFragment;
 
 
 /**
@@ -25,7 +25,7 @@ import com.actionbarsherlock.app.SherlockListFragment;
  * Activities containing this fragment MUST implement the {@link OnLectureListClick}
  * interface.
  */
-public class ChangeListFragment extends SherlockListFragment {
+public class ChangeListFragment extends ListFragment {
 
     private static final String LOG_TAG = "ChangeListFragment";
     private OnLectureListClick mListener;
@@ -67,7 +67,7 @@ public class ChangeListFragment extends SherlockListFragment {
             sidePane = args.getBoolean(BundleKeys.SIDEPANE);
         }
 
-        changesList = FahrplanMisc.readChanges(getSherlockActivity());
+        changesList = FahrplanMisc.readChanges(getActivity());
 
         mAdapter = new LectureArrayAdapter(getActivity(), changesList);
         MyApp.LogDebug(LOG_TAG, "onCreate, " + changesList.size() + " changes");
@@ -78,7 +78,7 @@ public class ChangeListFragment extends SherlockListFragment {
                              Bundle savedInstanceState) {
 
         final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(),
-                R.style.Theme_Sherlock_Light);
+                R.style.Theme_AppCompat_Light);
 
         LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
         View view;
@@ -113,7 +113,7 @@ public class ChangeListFragment extends SherlockListFragment {
     }
 
     public void onRefresh() {
-        LectureList updatedChanges = FahrplanMisc.readChanges(getSherlockActivity());
+        LectureList updatedChanges = FahrplanMisc.readChanges(getActivity());
         changesList.clear();
         changesList.addAll(updatedChanges);
         mAdapter.notifyDataSetChanged();

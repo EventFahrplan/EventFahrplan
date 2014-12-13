@@ -1,16 +1,15 @@
 package nerd.tuxmobil.fahrplan.congress;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.MenuItem;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBarActivity;
+import android.view.MenuItem;
 
 import nerd.tuxmobil.fahrplan.congress.FahrplanContract.FragmentTags;
 
-public class EventDetail extends SherlockFragmentActivity {
+public class EventDetail extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle arg0) {

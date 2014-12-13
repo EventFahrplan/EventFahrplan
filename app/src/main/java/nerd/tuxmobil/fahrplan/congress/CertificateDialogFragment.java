@@ -1,12 +1,11 @@
 package nerd.tuxmobil.fahrplan.congress;
 
-import com.actionbarsherlock.app.SherlockDialogFragment;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -22,7 +21,7 @@ interface OnCertAccepted {
     void cert_accepted();
 }
 
-public class CertificateDialogFragment extends SherlockDialogFragment {
+public class CertificateDialogFragment extends DialogFragment {
 
     private OnCertAccepted listener;
 
@@ -110,7 +109,7 @@ public class CertificateDialogFragment extends SherlockDialogFragment {
             chainInfo.append("SHA1 Fingerprint: " + getFingerPrint(chain[i])).append("\n");
         }
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getSherlockActivity())
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
                 .setTitle(getString(R.string.dlg_invalid_certificate_title))
                 .setCancelable(true)
                 .setPositiveButton(getString(R.string.dlg_invalid_certificate_accept),
@@ -126,7 +125,7 @@ public class CertificateDialogFragment extends SherlockDialogFragment {
                                     }
                                 } catch (CertificateException e) {
                                     showErrorDialog(R.string.dlg_certificate_message_fmt,
-                                            getSherlockActivity(),
+                                            getActivity(),
                                             e.getMessage() == null ? "" : e.getMessage());
                                 }
                             }
@@ -139,7 +138,7 @@ public class CertificateDialogFragment extends SherlockDialogFragment {
                             }
                         });
 
-        LayoutInflater inflater = getSherlockActivity().getLayoutInflater();
+        LayoutInflater inflater = getActivity().getLayoutInflater();
         View msgView = inflater.inflate(R.layout.cert_dialog, null);
         ((TextView) msgView.findViewById(R.id.cert)).setText(
                 getString(R.string.dlg_certificate_message_fmt, exMessage) + "\n\n" + chainInfo

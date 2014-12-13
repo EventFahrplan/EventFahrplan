@@ -1,20 +1,15 @@
 package nerd.tuxmobil.fahrplan.congress;
 
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
-import android.text.Html;
-import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.actionbarsherlock.app.SherlockDialogFragment;
-
-public class ChangesDialog extends SherlockDialogFragment {
+public class ChangesDialog extends DialogFragment {
 
     private int changed;
     private int added;
@@ -22,7 +17,8 @@ public class ChangesDialog extends SherlockDialogFragment {
     private int marked_affected;
     private String version;
 
-    public static ChangesDialog newInstance(String version, int changed, int added, int cancelled, int marked) {
+    public static ChangesDialog newInstance(String version, int changed, int added,
+                                            int cancelled, int marked) {
         ChangesDialog dialog = new ChangesDialog();
         Bundle args = new Bundle();
         args.putInt(BundleKeys.CHANGES_DLG_NUM_CHANGED, changed);
@@ -58,16 +54,17 @@ public class ChangesDialog extends SherlockDialogFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        TextView changes1 = (TextView)view.findViewById(R.id.changes_dlg_text);
+        TextView changes1 = (TextView) view.findViewById(R.id.changes_dlg_text);
         changes1.setText(getString(R.string.changes_dlg_text1, version,
                 getResources().getQuantityString(R.plurals.numberOfLectures, changed, changed),
                 getResources().getQuantityString(R.plurals.being, added, added),
                 getResources().getQuantityString(R.plurals.being, cancelled, cancelled)));
 
-        TextView changes2 = (TextView)view.findViewById(R.id.changes_dlg_text2);
+        TextView changes2 = (TextView) view.findViewById(R.id.changes_dlg_text2);
         changes2.setText(getString(R.string.changes_dlg_text2, marked_affected));
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getSherlockActivity());
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences
+                (getActivity());
         SharedPreferences.Editor edit = prefs.edit();
         edit.putBoolean(BundleKeys.PREFS_CHANGES_SEEN, true);
         edit.commit();

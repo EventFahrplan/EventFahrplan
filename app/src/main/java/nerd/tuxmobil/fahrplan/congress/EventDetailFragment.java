@@ -1,11 +1,5 @@
 package nerd.tuxmobil.fahrplan.congress;
 
-import com.actionbarsherlock.app.SherlockFragment;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -14,9 +8,14 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -33,7 +32,7 @@ interface OnCloseDetailListener {
     public void closeDetailView();
 }
 
-public class EventDetailFragment extends SherlockFragment {
+public class EventDetailFragment extends Fragment {
 
     private final String LOG_TAG = "Detail";
 
@@ -115,16 +114,16 @@ public class EventDetailFragment extends SherlockFragment {
 
         if (hasArguments) {
             boldCondensed = Typeface
-                    .createFromAsset(getSherlockActivity().getAssets(), "Roboto-BoldCondensed.ttf");
-            black = Typeface.createFromAsset(getSherlockActivity().getAssets(), "Roboto-Black.ttf");
-            light = Typeface.createFromAsset(getSherlockActivity().getAssets(), "Roboto-Light.ttf");
+                    .createFromAsset(getActivity().getAssets(), "Roboto-BoldCondensed.ttf");
+            black = Typeface.createFromAsset(getActivity().getAssets(), "Roboto-Black.ttf");
+            light = Typeface.createFromAsset(getActivity().getAssets(), "Roboto-Light.ttf");
             regular = Typeface
-                    .createFromAsset(getSherlockActivity().getAssets(), "Roboto-Regular.ttf");
-            bold = Typeface.createFromAsset(getSherlockActivity().getAssets(), "Roboto-Bold.ttf");
+                    .createFromAsset(getActivity().getAssets(), "Roboto-Regular.ttf");
+            bold = Typeface.createFromAsset(getActivity().getAssets(), "Roboto-Bold.ttf");
 
             locale = getResources().getConfiguration().locale;
 
-            FahrplanFragment.loadLectureList(getSherlockActivity(), day, false);
+            FahrplanFragment.loadLectureList(getActivity(), day, false);
             lecture = eventid2Lecture(event_id);
 
             TextView t;
@@ -198,9 +197,9 @@ public class EventDetailFragment extends SherlockFragment {
             eventOnlineLink.setText(Html.fromHtml(eventLink), TextView.BufferType.SPANNABLE);
             eventOnlineLink.setMovementMethod(new LinkMovementMethod());
 
-            getSherlockActivity().supportInvalidateOptionsMenu();
+            getActivity().supportInvalidateOptionsMenu();
         }
-        getSherlockActivity().setResult(SherlockFragmentActivity.RESULT_CANCELED);
+        getActivity().setResult(FragmentActivity.RESULT_CANCELED);
     }
 
     @Override
@@ -258,14 +257,14 @@ public class EventDetailFragment extends SherlockFragment {
 
     void setAlarmDialog(final Lecture lecture) {
 
-        LayoutInflater inflater = (LayoutInflater) getSherlockActivity()
+        LayoutInflater inflater = (LayoutInflater) getActivity()
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View layout = inflater.inflate(R.layout.reminder_dialog,
                 (ViewGroup) getView().findViewById(R.id.layout_root));
 
         final Spinner spinner = (Spinner) layout.findViewById(R.id.spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter
-                .createFromResource(getSherlockActivity(), R.array.alarm_array,
+                .createFromResource(getActivity(), R.array.alarm_array,
                         android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
@@ -273,7 +272,7 @@ public class EventDetailFragment extends SherlockFragment {
         TextView msg = (TextView) layout.findViewById(R.id.message);
         msg.setText(R.string.choose_alarm_time);
 
-        new AlertDialog.Builder(getSherlockActivity()).setTitle(R.string.setup_alarm)
+        new AlertDialog.Builder(getActivity()).setTitle(R.string.setup_alarm)
                 .setView(layout)
                 .setPositiveButton(android.R.string.ok,
                         new DialogInterface.OnClickListener() {
@@ -281,9 +280,9 @@ public class EventDetailFragment extends SherlockFragment {
                                     int which) {
                                 int alarm = spinner.getSelectedItemPosition();
                                 MyApp.LogDebug(LOG_TAG, "alarm chosen: " + alarm);
-                                FahrplanMisc.addAlarm(getSherlockActivity(), lecture, alarm);
-                                getSherlockActivity().supportInvalidateOptionsMenu();
-                                getSherlockActivity().setResult(SherlockFragmentActivity.RESULT_OK);
+                                FahrplanMisc.addAlarm(getActivity(), lecture, alarm);
+                                getActivity().supportInvalidateOptionsMenu();
+                                getActivity().setResult(FragmentActivity.RESULT_OK);
                                 refreshEventMarkers();
                             }
                         }).setNegativeButton(android.R.string.cancel, null)
@@ -291,7 +290,7 @@ public class EventDetailFragment extends SherlockFragment {
     }
 
     public void refreshEventMarkers() {
-        SherlockFragmentActivity activity = getSherlockActivity();
+        FragmentActivity activity = getActivity();
         if ((activity != null) && (activity instanceof OnRefreshEventMarkers)) {
             ((OnRefreshEventMarkers) activity).refreshEventMarkers();
         }
@@ -308,31 +307,31 @@ public class EventDetailFragment extends SherlockFragment {
             case R.id.item_share:
                 l = eventid2Lecture(event_id);
                 if (l != null) {
-                    FahrplanMisc.share(getSherlockActivity(), l);
+                    FahrplanMisc.share(getActivity(), l);
                 }
                 return true;
             case R.id.item_add_to_calendar:
                 l = eventid2Lecture(event_id);
                 if (l != null) {
-                    FahrplanMisc.addToCalender(getSherlockActivity(), l);
+                    FahrplanMisc.addToCalender(getActivity(), l);
                 }
                 return true;
             case R.id.item_fav:
                 lecture.highlight = true;
                 if (lecture != null) {
-                    FahrplanMisc.writeHighlight(getSherlockActivity(), lecture);
+                    FahrplanMisc.writeHighlight(getActivity(), lecture);
                 }
-                getSherlockActivity().supportInvalidateOptionsMenu();
-                getSherlockActivity().setResult(SherlockFragmentActivity.RESULT_OK);
+                getActivity().supportInvalidateOptionsMenu();
+                getActivity().setResult(FragmentActivity.RESULT_OK);
                 refreshEventMarkers();
                 return true;
             case R.id.item_unfav:
                 lecture.highlight = false;
                 if (lecture != null) {
-                    FahrplanMisc.writeHighlight(getSherlockActivity(), lecture);
+                    FahrplanMisc.writeHighlight(getActivity(), lecture);
                 }
-                getSherlockActivity().supportInvalidateOptionsMenu();
-                getSherlockActivity().setResult(SherlockFragmentActivity.RESULT_OK);
+                getActivity().supportInvalidateOptionsMenu();
+                getActivity().setResult(FragmentActivity.RESULT_OK);
                 refreshEventMarkers();
                 return true;
             case R.id.item_set_alarm:
@@ -340,14 +339,14 @@ public class EventDetailFragment extends SherlockFragment {
                 return true;
             case R.id.item_clear_alarm:
                 if (lecture != null) {
-                    FahrplanMisc.deleteAlarm(getSherlockActivity(), lecture);
+                    FahrplanMisc.deleteAlarm(getActivity(), lecture);
                 }
-                getSherlockActivity().supportInvalidateOptionsMenu();
-                getSherlockActivity().setResult(SherlockFragmentActivity.RESULT_OK);
+                getActivity().supportInvalidateOptionsMenu();
+                getActivity().setResult(FragmentActivity.RESULT_OK);
                 refreshEventMarkers();
                 return true;
             case R.id.item_close:
-                SherlockFragmentActivity activity = getSherlockActivity();
+                FragmentActivity activity = getActivity();
                 if ((activity != null) && (activity instanceof OnCloseDetailListener)) {
                     ((OnCloseDetailListener) activity).closeDetailView();
                 }

@@ -13,14 +13,14 @@ props.load(new FileInputStream(gradlePropertiesFile))
 
 
 android {
-    compileSdkVersion 19
+    compileSdkVersion 21
     buildToolsVersion "21.1.1"
 
     defaultConfig {
         versionCode 29
         versionName "1.29.5"
-        minSdkVersion 8
-        targetSdkVersion 19
+        minSdkVersion 14
+        targetSdkVersion 21
         project.ext.set("archivesBaseName", "Fahrplan");
     }
 
@@ -99,6 +99,5 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:support-v4:19.1.0'
-    compile 'com.actionbarsherlock:actionbarsherlock:4.4.0@aar'
+    compile "com.android.support:appcompat-v7:21.0.+"
 }

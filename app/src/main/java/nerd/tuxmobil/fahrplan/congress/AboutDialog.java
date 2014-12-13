@@ -1,7 +1,5 @@
 package nerd.tuxmobil.fahrplan.congress;
 
-import com.actionbarsherlock.app.SherlockDialogFragment;
-
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.text.Html;
@@ -11,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-public class AboutDialog extends SherlockDialogFragment {
+public class AboutDialog extends DialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

@@ -1,9 +1,5 @@
 package nerd.tuxmobil.fahrplan.congress;
 
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
-import com.actionbarsherlock.app.SherlockFragment;
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -16,11 +12,15 @@ import android.database.sqlite.SQLiteException;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.text.format.Time;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -51,9 +51,9 @@ interface OnRefreshEventMarkers {
     public void refreshEventMarkers();
 }
 
-public class FahrplanFragment extends SherlockFragment implements
+public class FahrplanFragment extends Fragment implements
         OnClickListener,
-        OnNavigationListener,
+        ActionBar.OnNavigationListener,
         OnParseCompleteListener {
 
     private MyApp global;
@@ -107,10 +107,10 @@ public class FahrplanFragment extends SherlockFragment implements
 
         setHasOptionsMenu(true);
         boldCondensed = Typeface.createFromAsset(
-                getSherlockActivity().getAssets(), "Roboto-BoldCondensed.ttf");
+                getActivity().getAssets(), "Roboto-BoldCondensed.ttf");
         light = Typeface.createFromAsset(
-                getSherlockActivity().getAssets(), "Roboto-Light.ttf");
-        context = getSherlockActivity();
+                getActivity().getAssets(), "Roboto-Light.ttf");
+        context = getActivity();
     }
 
     @Override
@@ -123,7 +123,7 @@ public class FahrplanFragment extends SherlockFragment implements
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        global = (MyApp) getSherlockActivity().getApplicationContext();
+        global = (MyApp) getActivity().getApplicationContext();
         scale = getResources().getDisplayMetrics().density;
         screenWidth = getResources().getDisplayMetrics().widthPixels;
         MyApp.LogDebug(LOG_TAG, "screen width = " + screenWidth);
@@ -155,10 +155,10 @@ public class FahrplanFragment extends SherlockFragment implements
         SharedPreferences prefs = getActivity().getSharedPreferences(PREFS_NAME, 0);
         mDay = prefs.getInt("displayDay", 1);
 
-        inflater = (LayoutInflater) getSherlockActivity()
+        inflater = (LayoutInflater) getActivity()
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        Intent intent = getSherlockActivity().getIntent();
+        Intent intent = getActivity().getIntent();
         lecture_id = intent.getStringExtra("lecture_id");
 
         if (lecture_id != null) {
@@ -211,13 +211,13 @@ public class FahrplanFragment extends SherlockFragment implements
         MyApp.LogDebug(LOG_TAG, "onResume");
         super.onResume();
         fillTimes();
-        getSherlockActivity().supportInvalidateOptionsMenu();
+        getActivity().supportInvalidateOptionsMenu();
     }
 
     private void viewDay(boolean reload) {
         // Log.d(LOG_TAG, "viewDay(" + reload + ")");
 
-        if (loadLectureList(getSherlockActivity(), mDay, reload) == false) {
+        if (loadLectureList(getActivity(), mDay, reload) == false) {
             MyApp.LogDebug(LOG_TAG, "fetch on loading empty lecture list");
             // FIXME
             // fetchFahrplan();
@@ -241,7 +241,7 @@ public class FahrplanFragment extends SherlockFragment implements
             fillRoom((ViewGroup) scroller.getChildAt(0), i);
         }
         scrollToCurrent(mDay);
-        ActionBar actionbar = getSherlockActivity().getSupportActionBar();
+        ActionBar actionbar = ((ActionBarActivity)getActivity()).getSupportActionBar();
         if (actionbar != null) {
             actionbar.setSelectedNavigationItem(mDay - 1);
         }
@@ -439,7 +439,7 @@ public class FahrplanFragment extends SherlockFragment implements
     private void chooseDay(int chosenDay) {
         if ((chosenDay + 1) != mDay) {
             mDay = chosenDay + 1;
-            SharedPreferences settings = getSherlockActivity().getSharedPreferences(PREFS_NAME, 0);
+            SharedPreferences settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
             SharedPreferences.Editor editor = settings.edit();
             editor.putInt("displayDay", mDay);
             editor.commit();
@@ -549,9 +549,9 @@ public class FahrplanFragment extends SherlockFragment implements
         Integer drawable;
         int padding = getEventPadding();
         if (lecture.highlight) {
-            drawable = trackColorsHi.get(lecture.track);
+            drawable = trackBackgroundsHi.get(lecture.track);
         } else {
-            drawable = trackColors.get(lecture.track);
+            drawable = trackBackgrounds.get(lecture.track);
         }
         if (drawable != null) {
             view.setBackgroundResource(drawable);
@@ -798,7 +798,7 @@ public class FahrplanFragment extends SherlockFragment implements
     public void onClick(View v) {
         Lecture lecture = (Lecture) v.getTag();
         MyApp.LogDebug(LOG_TAG, "Click on " + lecture.title);
-        MainActivity main = (MainActivity) getSherlockActivity();
+        MainActivity main = (MainActivity) getActivity();
         if (main != null) {
             main.openLectureDetail(lecture, mDay);
         }
@@ -832,22 +832,25 @@ public class FahrplanFragment extends SherlockFragment implements
             }
             days_menu[i] = sb.toString();
         }
-        ActionBar actionBar = getSherlockActivity().getSupportActionBar();
+        ActionBar actionBar = ((ActionBarActivity)getActivity()).getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getSherlockActivity(),
-                R.layout.sherlock_spinner_dropdown_item, days_menu);
-        arrayAdapter.setDropDownViewResource(R.layout.sherlock_spinner_dropdown_item);
+        ArrayAdapter<String> arrayAdapter =
+                new ArrayAdapter<String>(((ActionBarActivity) getActivity()).getSupportActionBar().getThemedContext(),
+                R.layout.support_simple_spinner_dropdown_item_large, days_menu);
+        arrayAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_list_item);
         actionBar.setListNavigationCallbacks(arrayAdapter, this);
-        actionBar.setDisplayShowTitleEnabled(false);
+//        actionBar.setDisplayShowTitleEnabled(false);
+//        Spinner spinner = (Spinner)getActivity().findViewById(R.id.spinner_toolbar);
+//        spinner.setAdapter(arrayAdapter);
     }
 
     public void onParseDone(Boolean result, String version) {
         if (result) {
             if ((MyApp.numdays == 0) || (!version.equals(MyApp.version))) {
-                FahrplanMisc.loadMeta(getSherlockActivity());
-                FahrplanMisc.loadDays(getSherlockActivity());
+                FahrplanMisc.loadMeta(getActivity());
+                FahrplanMisc.loadDays(getActivity());
                 build_navigation_menu();
-                SharedPreferences prefs = getSherlockActivity().getSharedPreferences(PREFS_NAME, 0);
+                SharedPreferences prefs = getActivity().getSharedPreferences(PREFS_NAME, 0);
                 mDay = prefs.getInt("displayDay", 1);
                 if (mDay > MyApp.numdays) {
                     mDay = 1;
@@ -868,7 +871,7 @@ public class FahrplanFragment extends SherlockFragment implements
                     getParsingErrorMessage(version),
                     Toast.LENGTH_LONG).show();
         }
-        getSherlockActivity().supportInvalidateOptionsMenu();
+        getActivity().supportInvalidateOptionsMenu();
     }
 
     private String getParsingErrorMessage(final String version) {
@@ -881,14 +884,14 @@ public class FahrplanFragment extends SherlockFragment implements
 
     void getAlarmTimeDialog(final Lecture lecture) {
 
-        LayoutInflater inflater = (LayoutInflater) getSherlockActivity()
+        LayoutInflater inflater = (LayoutInflater) getActivity()
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View layout = inflater.inflate(R.layout.reminder_dialog,
                 (ViewGroup) getView().findViewById(R.id.layout_root));
 
         final Spinner spinner = (Spinner) layout.findViewById(R.id.spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-                getSherlockActivity(),
+                getActivity(),
                 R.array.alarm_array,
                 android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -897,7 +900,7 @@ public class FahrplanFragment extends SherlockFragment implements
         TextView msg = (TextView) layout.findViewById(R.id.message);
         msg.setText(R.string.choose_alarm_time);
 
-        new AlertDialog.Builder(getSherlockActivity()).setTitle(R.string.setup_alarm)
+        new AlertDialog.Builder(getActivity()).setTitle(R.string.setup_alarm)
                 .setView(layout)
                 .setPositiveButton(android.R.string.ok,
                         new DialogInterface.OnClickListener() {
@@ -905,7 +908,7 @@ public class FahrplanFragment extends SherlockFragment implements
                                     int which) {
                                 int alarm = spinner.getSelectedItemPosition();
                                 MyApp.LogDebug(LOG_TAG, "alarm chosen: " + alarm);
-                                FahrplanMisc.addAlarm(getSherlockActivity(), lecture, alarm);
+                                FahrplanMisc.addAlarm(getActivity(), lecture, alarm);
                                 setBell(lecture);
                             }
                         }).setNegativeButton(android.R.string.cancel, null)
@@ -913,7 +916,7 @@ public class FahrplanFragment extends SherlockFragment implements
     }
 
     @Override
-    public boolean onContextItemSelected(android.view.MenuItem item) {
+    public boolean onContextItemSelected(MenuItem item) {
         int menuItemIndex = item.getItemId();
         Lecture lecture = (Lecture) contextMenuView.getTag();
 
@@ -923,10 +926,10 @@ public class FahrplanFragment extends SherlockFragment implements
             case 0:
                 if (lecture.highlight) {
                     lecture.highlight = false;
-                    FahrplanMisc.writeHighlight(getSherlockActivity(), lecture);
+                    FahrplanMisc.writeHighlight(getActivity(), lecture);
                 } else {
                     lecture.highlight = true;
-                    FahrplanMisc.writeHighlight(getSherlockActivity(), lecture);
+                    FahrplanMisc.writeHighlight(getActivity(), lecture);
                 }
                 setLectureBackground(lecture, contextMenuView);
                 break;
@@ -934,14 +937,14 @@ public class FahrplanFragment extends SherlockFragment implements
                 getAlarmTimeDialog(lecture);
                 break;
             case 2:
-                FahrplanMisc.deleteAlarm(getSherlockActivity(), lecture);
+                FahrplanMisc.deleteAlarm(getActivity(), lecture);
                 setBell(lecture);
                 break;
             case 3:
-                FahrplanMisc.addToCalender(getSherlockActivity(), lecture);
+                FahrplanMisc.addToCalender(getActivity(), lecture);
                 break;
             case 4:
-                FahrplanMisc.share(getSherlockActivity(), lecture);
+                FahrplanMisc.share(getActivity(), lecture);
                 break;
         }
         return true;
@@ -992,7 +995,7 @@ public class FahrplanFragment extends SherlockFragment implements
 
     public void refreshEventMarkers() {
         MyApp.LogDebug(LOG_TAG, "Reload alarms");
-        loadAlarms(getSherlockActivity());
+        loadAlarms(getActivity());
         refreshViews();
     }
 

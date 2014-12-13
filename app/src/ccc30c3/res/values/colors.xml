@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <color name="colorPrimary">#5b5b5b</color>
+    <color name="colorPrimaryDark">#494949</color>
     <color name="fahrplan_background">#003339</color>
     <color name="text_link_color">#007280</color>
     <color name="lightgray">#505050</color>

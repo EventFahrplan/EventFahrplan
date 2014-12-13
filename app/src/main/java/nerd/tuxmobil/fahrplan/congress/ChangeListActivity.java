@@ -2,18 +2,15 @@ package nerd.tuxmobil.fahrplan.congress;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
-
 import nerd.tuxmobil.fahrplan.congress.R;
 
-public class ChangeListActivity extends SherlockFragmentActivity implements ChangeListFragment.OnLectureListClick {
+public class ChangeListActivity extends ActionBarActivity implements ChangeListFragment.OnLectureListClick {
 
     private static final String LOG_TAG = "ChangeListActivity";
 

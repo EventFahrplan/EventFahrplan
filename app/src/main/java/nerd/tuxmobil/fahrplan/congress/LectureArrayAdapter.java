@@ -21,7 +21,7 @@ public class LectureArrayAdapter extends ArrayAdapter<Lecture> {
 
     public LectureArrayAdapter(Context context, List<Lecture> list) {
         super(context, R.layout.lecture_change_row, list);
-        this.context = new ContextThemeWrapper(context, R.style.Theme_Sherlock_Light);
+        this.context = new ContextThemeWrapper(context, R.style.Theme_AppCompat_Light);
         this.list = list;
     }
 

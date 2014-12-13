@@ -19,74 +19,33 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="Theme.Congress" parent="@style/Theme.Sherlock">
-        <item name="actionBarItemBackground">@drawable/selectable_background_congress</item>
-        <item name="popupMenuStyle">@style/PopupMenu.Congress</item>
-        <item name="dropDownListViewStyle">@style/DropDownListView.Congress</item>
-        <item name="actionBarTabStyle">@style/ActionBarTabStyle.Congress</item>
-        <item name="actionDropDownStyle">@style/DropDownNav.Congress</item>
-        <item name="actionBarStyle">@style/ActionBar.Solid.Congress</item>
-        <item name="actionModeBackground">@drawable/cab_background_top_congress</item>
-        <item name="actionModeSplitBackground">@drawable/cab_background_bottom_congress</item>
-        <item name="actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Congress</item>
-        <item name="android:checkboxStyle">@style/CheckBoxCongress</item>
-        <item name="android:textColorLink">@color/text_link_color</item>
+    <style name="Theme.Congress" parent="Theme.AppCompat">
+        <!-- Set AppCompat’s actionBarStyle -->
+        <!--<item name="actionBarStyle">@style/MyActionBarStyle</item>-->
+
+        <!-- Set AppCompat’s color theming attrs -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+
+        <!-- The rest of your attributes -->
+        <!--<item name="spinnerDropDownItemStyle">@style/MySpinnerDropDownItemStyle</item>-->
+        <item name="actionDropDownStyle">@style/MyActionDropDownStyle</item>
     </style>
 
-    <style name="ActionBar.Solid.Congress" parent="@style/Widget.Sherlock.ActionBar.Solid">
-        <item name="background">@drawable/ab_solid_congress</item>
-        <item name="backgroundStacked">@drawable/ab_stacked_solid_congress</item>
-        <item name="backgroundSplit">@drawable/ab_bottom_solid_congress</item>
-        <item name="progressBarStyle">@style/ProgressBar.Congress</item>
-        <item name="indeterminateProgressStyle">@style/ActivityIndicator</item>
+    <style name="MyActionDropDownStyle" parent="Widget.AppCompat.Spinner.DropDown.ActionBar">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Widget.ActionBar.Title
+        </item>
+        <!--<item name="android:background">@android:color/black</item>-->
+        <item name="android:textColor">@android:color/holo_red_dark</item>
     </style>
 
-    <style name="ActionBar.Transparent.Congress" parent="@style/Widget.Sherlock.ActionBar">
-        <item name="background">@drawable/ab_transparent_congress</item>
-        <item name="progressBarStyle">@style/ProgressBar.Congress</item>
-        <item name="indeterminateProgressStyle">@style/ActivityIndicator</item>
+    <style name="MySpinnerDropDownItemStyle" parent="Widget.AppCompat.DropDownItem.Spinner">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Widget.ActionBar.Title
+        </item>
     </style>
 
-    <style name="PopupMenu.Congress" parent="@style/Widget.Sherlock.ListPopupWindow">
-        <item name="android:popupBackground">@drawable/menu_dropdown_panel_congress</item>
-    </style>
-
-    <style name="DropDownListView.Congress" parent="@style/Widget.Sherlock.ListView.DropDown">
-        <item name="android:listSelector">@drawable/selectable_background_congress</item>
-    </style>
-
-    <style name="ActionBarTabStyle.Congress" parent="@style/Widget.Sherlock.ActionBar.TabView">
-        <item name="android:background">@drawable/tab_indicator_ab_congress</item>
-    </style>
-
-    <style name="DropDownNav.Congress" parent="@style/Widget.Sherlock.Spinner.DropDown.ActionBar">
-        <item name="android:background">@drawable/spinner_background_ab_congress</item>
-        <item name="android:popupBackground">@drawable/menu_dropdown_panel_congress</item>
-        <item name="android:dropDownSelector">@drawable/selectable_background_congress</item>
-    </style>
-
-    <style name="ProgressBar.Congress" parent="@style/Widget.Sherlock.ProgressBar.Horizontal">
-        <item name="android:progressDrawable">@drawable/progress_horizontal_congress</item>
-    </style>
-
-    <style name="ActionButton.CloseMode.Congress" parent="@style/Widget.Sherlock.ActionButton.CloseMode">
-        <item name="android:background">@drawable/btn_cab_done_congress</item>
-    </style>
-
-    <style name="CheckBoxCongress" parent="android:Widget.CompoundButton.CheckBox">
-        <item name="android:button">@drawable/congress_btn_check_holo_light</item>
-    </style>
-
-    <style name="TextViewLinks">
-        <item name="android:textColorLink">@color/text_link_color</item>
-    </style>
-
-    <!-- this style is only referenced in a Light.DarkActionBar based theme -->
-    <style name="Theme.Congress.Widget" parent="@style/Theme.Sherlock">
-        <item name="popupMenuStyle">@style/PopupMenu.Congress</item>
-        <item name="dropDownListViewStyle">@style/DropDownListView.Congress</item>
-        <item name="android:checkboxStyle">@style/CheckBoxCongress</item>
-        <item name="android:textColorLink">@color/text_link_color</item>
+    <style name="MySpinnerDropDownItemListStyle" parent="Widget.AppCompat.DropDownItem.Spinner">
+        <item name="android:paddingLeft">16dp</item>
     </style>
 
     <style name="AlarmList.Icon" parent="@android:style/TextAppearance.Medium">
@@ -110,6 +69,10 @@
     </style>
 
     <style name="ScheduleListSecondary" parent="@android:style/TextAppearance.Small">
+    </style>
+
+    <style name="TextViewLinks">
+        <item name="android:textColorLink">@color/text_link_color</item>
     </style>
 
 </resources>

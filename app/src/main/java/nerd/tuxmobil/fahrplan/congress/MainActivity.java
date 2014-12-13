@@ -1,30 +1,30 @@
 package nerd.tuxmobil.fahrplan.congress;
 
-import com.actionbarsherlock.app.SherlockDialogFragment;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.view.Window;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.format.Time;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.FrameLayout;
 
 import nerd.tuxmobil.fahrplan.congress.CustomHttpClient.HTTP_STATUS;
 import nerd.tuxmobil.fahrplan.congress.FahrplanContract.FragmentTags;
 import nerd.tuxmobil.fahrplan.congress.MyApp.TASKS;
 
-public class MainActivity extends SherlockFragmentActivity
+public class MainActivity extends ActionBarActivity
         implements OnParseCompleteListener, OnDownloadCompleteListener, OnCloseDetailListener,
         OnRefreshEventMarkers, OnCertAccepted, ChangeListFragment.OnLectureListClick, FragmentManager.OnBackStackChangedListener {
 
@@ -43,10 +43,13 @@ public class MainActivity extends SherlockFragmentActivity
         super.onCreate(savedInstanceState);
 
         MyApp.LogDebug(LOG_TAG, "onCreate");
-        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+        supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.main_layout);
         setSupportProgressBarIndeterminateVisibility(false);
         getSupportActionBar().setTitle(R.string.fahrplan);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayUseLogoEnabled(true);
+        getSupportActionBar().setLogo(R.drawable.ic_actionbar_logo);
         if (MyApp.fetcher == null) {
             fetcher = new FetchFahrplan();
         } else {
@@ -249,7 +252,7 @@ public class MainActivity extends SherlockFragmentActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
-        MenuInflater mi = getSupportMenuInflater();
+        MenuInflater mi = getMenuInflater();
         mi.inflate(R.menu.mainmenu, menu);
         return true;
     }
@@ -258,7 +261,7 @@ public class MainActivity extends SherlockFragmentActivity
         LectureList changedLectures = FahrplanMisc.readChanges(this);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.addToBackStack(null);
-        SherlockDialogFragment about = ChangesDialog.newInstance(
+        DialogFragment about = ChangesDialog.newInstance(
                 MyApp.version,
                 FahrplanMisc.getChangedLectureCount(changedLectures, false),
                 FahrplanMisc.getNewLectureCount(changedLectures, false),
@@ -272,7 +275,7 @@ public class MainActivity extends SherlockFragmentActivity
     void aboutDialog() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.addToBackStack(null);
-        SherlockDialogFragment about = new AboutDialog();
+        DialogFragment about = new AboutDialog();
         about.show(ft, "about");
     }
 
@@ -384,7 +387,7 @@ public class MainActivity extends SherlockFragmentActivity
             case MyApp.ALARMLIST:
             case MyApp.EVENTVIEW:
             case MyApp.CHANGELOG:
-                if (resultCode == SherlockFragmentActivity.RESULT_OK) {
+                if (resultCode == ActionBarActivity.RESULT_OK) {
                     refreshEventMarkers();
                 }
                 break;
