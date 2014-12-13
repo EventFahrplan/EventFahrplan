@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:top="1dp"
+        android:left="3dp"
+        android:right="1dp">
+        <shape xmlns:android="http://schemas.android.com/apk/res/android"
+               android:shape="rectangle">
+            <solid android:color="@color/event_border_highlight_science_engineering"/>
+            <corners android:radius="10dp"/>
+        </shape>
+    </item>
+    <item android:right="1dp">
+        <bitmap
+            android:src="@drawable/ic_marker"
+            android:gravity="bottom|right"/>
+    </item>
+</layer-list>
+

@@ -19,4 +19,35 @@
 
 <resources>
     <color name="pressed_congress">#CC0099AB</color>
+
+    <!-- Default state -->
+    <color name="event_border_default">#ddd</color>
+    <color name="event_border_default_art_beauty">#FF61FF</color>
+    <color name="event_border_default_ccc">#5E71FF</color>
+    <color name="event_border_default_entertainment">#DDDDDD</color>
+    <color name="event_border_default_ethics_society_politics">#5EFD7B</color>
+    <color name="event_border_default_hardware_making">#E9FF7B</color>
+    <color name="event_border_default_other">#FE5F64</color>
+    <color name="event_border_default_science_engineering">#FEAD6F</color>
+    <color name="event_border_default_security_safety">#60FBFF</color>
+
+    <!-- Highlight state -->
+    <color name="event_border_highlight">@color/event_border_default</color>
+    <color name="event_border_highlight_art_beauty">@color/event_border_default_art_beauty</color>
+    <color name="event_border_highlight_ccc">@color/event_border_default_ccc</color>
+    <color name="event_border_highlight_entertainment">@color/event_border_default_entertainment
+    </color>
+    <color name="event_border_highlight_ethics_society_politics">
+        @color/event_border_default_ethics_society_politics
+    </color>
+    <color name="event_border_highlight_hardware_making">
+        @color/event_border_default_hardware_making
+    </color>
+    <color name="event_border_highlight_other">@color/event_border_default_other</color>
+    <color name="event_border_highlight_science_engineering">
+        @color/event_border_default_science_engineering
+    </color>
+    <color name="event_border_highlight_security_safety">
+        @color/event_border_default_security_safety
+    </color>
 </resources>

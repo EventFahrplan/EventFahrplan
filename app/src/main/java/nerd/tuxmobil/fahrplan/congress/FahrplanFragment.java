@@ -68,7 +68,7 @@ public class FahrplanFragment extends SherlockFragment implements
 
     private int lastLectureEnd = 0;
 
-    private HashMap<String, Integer> trackColors;
+    private HashMap<String, Integer> trackBackgrounds;
 
     private int mDay = 1;
 
@@ -85,7 +85,7 @@ public class FahrplanFragment extends SherlockFragment implements
             "Lounge"
     };
 
-    private HashMap<String, Integer> trackColorsHi;
+    private HashMap<String, Integer> trackBackgroundsHi;
 
     public static final String PREFS_NAME = "settings";
 
@@ -149,47 +149,10 @@ public class FahrplanFragment extends SherlockFragment implements
             });
         }
 
-        trackColors = new HashMap<String, Integer>();
-        trackColors.put("Art & Beauty",
-                R.drawable.event_border_default_art_beauty);
-        trackColors.put("CCC",
-                R.drawable.event_border_default_ccc);
-        trackColors.put("Entertainment",
-                R.drawable.event_border_default_entertainment);
-        trackColors.put("Ethics, Society & Politics",
-                R.drawable.event_border_default_ethics_society_politics);
-        trackColors.put("Hardware & Making",
-                R.drawable.event_border_default_hardware_making);
-        trackColors.put("Other",
-                R.drawable.event_border_default_other);
-        trackColors.put("Science & Engineering",
-                R.drawable.event_border_default_science_engineering);
-        trackColors.put("Security & Safety",
-                R.drawable.event_border_default_security_safety);
-        trackColors.put("",
-                R.drawable.event_border_default);
+        trackBackgrounds = TrackBackgrounds.getTrackBackgroundNormal(getActivity());
+        trackBackgroundsHi = TrackBackgrounds.getTrackBackgroundHighLight(getActivity());
 
-        trackColorsHi = new HashMap<String, Integer>();
-        trackColorsHi.put("Art & Beauty",
-                R.drawable.event_border_highlight_art_beauty);
-        trackColorsHi.put("CCC",
-                R.drawable.event_border_highlight_ccc);
-        trackColorsHi.put("Entertainment",
-                R.drawable.event_border_highlight_entertainment);
-        trackColorsHi.put("Ethics, Society & Politics",
-                R.drawable.event_border_highlight_ethics_society_politics);
-        trackColorsHi.put("Hardware & Making",
-                R.drawable.event_border_highlight_hardware_making);
-        trackColorsHi.put("Other",
-                R.drawable.event_border_highlight_other);
-        trackColorsHi.put("Science & Engineering",
-                R.drawable.event_border_highlight_science_engineering);
-        trackColorsHi.put("Security & Safety",
-                R.drawable.event_border_highlight_security_safety);
-        trackColorsHi.put("",
-                R.drawable.event_border_highlight);
-
-        SharedPreferences prefs = getSherlockActivity().getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences prefs = getActivity().getSharedPreferences(PREFS_NAME, 0);
         mDay = prefs.getInt("displayDay", 1);
 
         inflater = (LayoutInflater) getSherlockActivity()
