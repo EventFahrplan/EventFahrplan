@@ -94,4 +94,5 @@
         <item quantity="other">%d lectures have been changed.</item>
     </plurals>
     <string name="dash" translatable="false"><xliff:g id="dash">—</xliff:g></string>
+    <string name="general_settings">General</string>
 </resources>

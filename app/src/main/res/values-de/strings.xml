@@ -94,4 +94,5 @@
         <item quantity="one">%d Vortrag wurde geändert.</item>
         <item quantity="other">%d Vorträge wurden geändert.</item>
     </plurals>
+    <string name="general_settings">Allgemein</string>
 </resources>

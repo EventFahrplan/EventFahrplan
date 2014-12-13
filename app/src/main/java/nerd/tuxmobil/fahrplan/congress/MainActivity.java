@@ -294,7 +294,7 @@ public class MainActivity extends ActionBarActivity
                 startActivityForResult(intent, MyApp.ALARMLIST);
                 return true;
             case R.id.item_settings:
-                intent = new Intent(this, Prefs.class);
+                intent = new Intent(this, SettingsActivity.class);
                 startActivity(intent);
                 return true;
             case R.id.item_changes:

@@ -50,8 +50,8 @@
         </receiver>
 
         <activity
-                android:name="nerd.tuxmobil.fahrplan.congress.Prefs"
-                android:label="@string/fahrplan"/>
+                android:name="nerd.tuxmobil.fahrplan.congress.SettingsActivity"
+                android:label="@string/settings"/>
         <service
                 android:name="UpdateService"
                 android:exported="false"/>
