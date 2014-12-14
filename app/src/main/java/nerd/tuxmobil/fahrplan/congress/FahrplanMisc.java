@@ -634,6 +634,7 @@ public class FahrplanMisc {
     public static LectureList readChanges(Context context) {
         MyApp.LogDebug(LOG_TAG, "readChanges");
         LectureList changesList = FahrplanMisc.loadLecturesForAllDays(context);
+        if (changesList == null) return null;
         int lectureIndex = changesList.size() - 1;
         while (lectureIndex >= 0) {
             Lecture l = changesList.get(lectureIndex);
