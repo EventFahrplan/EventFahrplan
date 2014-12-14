@@ -1,6 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress;
 
 import android.support.v7.app.ActionBarActivity;
+import android.view.View;
 import android.widget.HeaderViewListAdapter;
 import android.widget.ListView;
 
@@ -33,6 +34,18 @@ public abstract class ActionBarListActivity extends ActionBarActivity {
             return ((HeaderViewListAdapter) adapter).getWrappedAdapter();
         } else {
             return adapter;
+        }
+    }
+
+    @Override
+    public void setContentView(int layoutResID) {
+        super.setContentView(layoutResID);
+        if (mListView == null) {
+            mListView = (ListView) findViewById(android.R.id.list);
+        }
+        View emptyView = findViewById(android.R.id.empty);
+        if (emptyView != null) {
+            mListView.setEmptyView(emptyView);
         }
     }
 }
