@@ -104,9 +104,6 @@ public class MainActivity extends ActionBarActivity
                 ft.remove(detail).commit();
             }
         }
-
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        if (prefs.getBoolean(BundleKeys.PREFS_CHANGES_SEEN, true) == false) changesDialog();
     }
 
     public void parseFahrplan() {
@@ -247,6 +244,8 @@ public class MainActivity extends ActionBarActivity
         if (MyApp.parser != null) {
             MyApp.parser.setListener(this);
         }
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        if (prefs.getBoolean(BundleKeys.PREFS_CHANGES_SEEN, true) == false) changesDialog();
     }
 
     @Override
