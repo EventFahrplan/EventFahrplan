@@ -79,6 +79,7 @@ public class AlarmList extends ActionBarListActivity {
             case 0:
                 delete_alarm(info.position);
                 setResult(RESULT_OK);
+                FahrplanFragment.loadAlarms(this);
                 break;
         }
         return true;
@@ -133,6 +134,7 @@ public class AlarmList extends ActionBarListActivity {
                 for (int i = 0; i < count; i++) {
                     delete_alarm(0);
                 }
+                FahrplanFragment.loadAlarms(this);
                 setResult(RESULT_OK);
                 return true;
             case android.R.id.home:

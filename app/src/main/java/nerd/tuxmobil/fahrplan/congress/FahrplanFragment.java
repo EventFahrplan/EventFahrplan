@@ -995,7 +995,6 @@ public class FahrplanFragment extends Fragment implements
 
     public void refreshEventMarkers() {
         MyApp.LogDebug(LOG_TAG, "Reload alarms");
-        loadAlarms(getActivity());
         refreshViews();
     }
 
