@@ -5,7 +5,7 @@
         <CheckBoxPreference
             android:key="auto_update"
             android:title="@string/pref_auto_download"
-            android:defaultValue="false"/>
+            android:defaultValue="true"/>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/reminders">
         <RingtonePreference
