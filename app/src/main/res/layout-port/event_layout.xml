@@ -17,7 +17,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="TextView"
-                android:textColor="#000000"
+                android:textColor="@color/event_title"
                 android:textSize="16sp"
                 android:layout_weight="1"
                 android:textStyle="bold">
@@ -29,7 +29,7 @@
                 android:layout_height="13sp"
                 android:layout_marginLeft="3dp"
                 android:adjustViewBounds="true"
-                android:baselineAlignBottom="true"
+                android:baseline="12sp"
                 android:scaleType="fitEnd"
                 android:src="@drawable/ic_novideo">
 
@@ -41,7 +41,7 @@
                 android:layout_height="13sp"
                 android:layout_marginLeft="3dp"
                 android:adjustViewBounds="true"
-                android:baselineAlignBottom="true"
+                android:baseline="12sp"
                 android:scaleType="fitEnd"
                 android:src="@drawable/bell">
 
@@ -55,7 +55,7 @@
             android:layout_weight="1"
             android:fontFamily="sans-serif-light"
             android:text="TextView"
-            android:textColor="#000000"
+            android:textColor="@color/event_title"
             android:textSize="12sp"/>
 
     <RelativeLayout
@@ -71,7 +71,7 @@
                 android:fontFamily="sans-serif-condensed"
                 android:singleLine="true"
                 android:text="TextView"
-                android:textColor="#000000"
+                android:textColor="@color/event_title"
                 android:textSize="11sp"/>
 
         <TextView
@@ -85,7 +85,7 @@
                 android:paddingRight="10dp"
                 android:singleLine="true"
                 android:text="speakers"
-                android:textColor="#000000"
+                android:textColor="@color/event_title"
                 android:textSize="11sp"/>
     </RelativeLayout>
 
