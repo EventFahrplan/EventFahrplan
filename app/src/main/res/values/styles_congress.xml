@@ -26,6 +26,23 @@
         <!-- Set AppCompat’s color theming attrs -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:colorAccent">@color/colorAccent</item>
+
+        <!-- The rest of your attributes -->
+        <!--<item name="spinnerDropDownItemStyle">@style/MySpinnerDropDownItemStyle</item>-->
+        <item name="actionDropDownStyle">@style/MyActionDropDownStyle</item>
+    </style>
+
+    <style name="Theme.Congress.NoActionBar" parent="Theme.AppCompat.NoActionBar">
+        <!-- Set AppCompat’s actionBarStyle -->
+        <!--<item name="actionBarStyle">@style/MyActionBarStyle</item>-->
+
+        <!-- Set AppCompat’s color theming attrs -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:colorAccent">@color/colorAccent</item>
 
         <!-- The rest of your attributes -->
         <!--<item name="spinnerDropDownItemStyle">@style/MySpinnerDropDownItemStyle</item>-->
