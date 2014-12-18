@@ -886,11 +886,6 @@ public class FahrplanFragment extends Fragment implements
                 }
                 viewDay(true);
                 fillTimes();
-                final Toast done = Toast.makeText(
-                        global.getApplicationContext(),
-                        String.format(getString(R.string.aktualisiert_auf), version),
-                        Toast.LENGTH_LONG);
-                done.show();
             } else {
                 viewDay(false);
             }
