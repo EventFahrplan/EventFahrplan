@@ -10,10 +10,5 @@
             <corners android:radius="6dp"/>
         </shape>
     </item>
-    <item android:right="1dp">
-        <bitmap
-            android:src="@drawable/ic_marker"
-            android:gravity="bottom|right"/>
-    </item>
 </layer-list>
 

@@ -12,10 +12,5 @@
             <!-- <stroke android:width="1dip" android:color="#AAAAAA" />-->
         </shape>
     </item>
-    <item android:right="1dp">
-        <bitmap
-            android:src="@drawable/ic_marker"
-            android:gravity="bottom|right"/>
-    </item>
 </layer-list>
 
