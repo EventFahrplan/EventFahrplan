@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 
 import nerd.tuxmobil.fahrplan.congress.CustomHttpClient.HTTP_STATUS;
 import nerd.tuxmobil.fahrplan.congress.FahrplanContract.FragmentTags;
@@ -37,15 +38,18 @@ public class MainActivity extends ActionBarActivity
     private ProgressDialog progress = null;
 
     private MyApp global;
+    private ProgressBar progressBar = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         MyApp.LogDebug(LOG_TAG, "onCreate");
-        supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.main_layout);
-        setSupportProgressBarIndeterminateVisibility(false);
+        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+        progressBar = (ProgressBar)findViewById(R.id.progress);
+        setSupportActionBar(toolbar);
+
         getSupportActionBar().setTitle(R.string.fahrplan);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayUseLogoEnabled(true);
@@ -143,11 +147,11 @@ public class MainActivity extends ActionBarActivity
                     break;
             }
             CustomHttpClient.showHttpError(this, global, status);
-            setSupportProgressBarIndeterminateVisibility(false);
+            progressBar.setVisibility(View.INVISIBLE);
             return;
         }
         MyApp.LogDebug(LOG_TAG, "yehhahh");
-        setSupportProgressBarIndeterminateVisibility(false);
+        progressBar.setVisibility(View.INVISIBLE);
 
         MyApp.fahrplan_xml = response;
         MyApp.eTag = eTagStr;
@@ -166,7 +170,7 @@ public class MainActivity extends ActionBarActivity
                 progress = null;
             }
         }
-        setSupportProgressBarIndeterminateVisibility(false);
+        progressBar.setVisibility(View.INVISIBLE);
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentByTag(FragmentTags.SCHEDULE);
         if ((fragment != null) && (fragment instanceof OnParseCompleteListener)) {
@@ -189,7 +193,7 @@ public class MainActivity extends ActionBarActivity
                     R.string.progress_loading_data), true);
         } else {
             MyApp.LogDebug(LOG_TAG, "show fetch status");
-            setSupportProgressBarIndeterminateVisibility(true);
+            progressBar.setVisibility(View.VISIBLE);
         }
     }
 
@@ -200,7 +204,7 @@ public class MainActivity extends ActionBarActivity
                     R.string.progress_processing_data), true);
         } else {
             MyApp.LogDebug(LOG_TAG, "show parse status");
-            setSupportProgressBarIndeterminateVisibility(true);
+            progressBar.setVisibility(View.VISIBLE);
         }
     }
 

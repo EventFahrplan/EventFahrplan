@@ -4,8 +4,30 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
+    <android.support.v7.widget.Toolbar
+        android:layout_alignParentTop="true"
+        android:id="@+id/toolbar"
+        app:contentInsetStart="24dp"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:elevation="8dp"
+        android:minHeight="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"/>
+
+    <ProgressBar
+        android:id="@+id/progress"
+        android:layout_width="match_parent"
+        style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_height="16dp"
+        android:layout_below="@id/toolbar"
+        android:layout_marginTop="-10dp"
+        android:visibility="gone"
+        android:elevation="8dp"
+        android:indeterminate="true"/>
+
     <FrameLayout
         android:id="@+id/schedule"
+        android:layout_below="@id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />
