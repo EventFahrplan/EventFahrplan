@@ -161,12 +161,14 @@ public class EventDetailFragment extends Fragment {
             abstractt = abstractt
                     .replaceAll("\\[(.*?)\\]\\(([^ \\)]+).*?\\)", "<a href=\"$2\">$1</a>");
             t.setText(Html.fromHtml(abstractt), TextView.BufferType.SPANNABLE);
+            t.setLinkTextColor(getResources().getColor(R.color.text_link_color));
             t.setMovementMethod(new LinkMovementMethod());
 
             t = (TextView) view.findViewById(R.id.description);
             t.setTypeface(regular);
             descr = descr.replaceAll("\\[(.*?)\\]\\(([^ \\)]+).*?\\)", "<a href=\"$2\">$1</a>");
             t.setText(Html.fromHtml(descr), TextView.BufferType.SPANNABLE);
+            t.setLinkTextColor(getResources().getColor(R.color.text_link_color));
             t.setMovementMethod(new LinkMovementMethod());
 
             TextView l = (TextView) view.findViewById(R.id.linksSection);
@@ -181,6 +183,7 @@ public class EventDetailFragment extends Fragment {
                 links = links.replaceAll("\\),", ")<br>");
                 links = links.replaceAll("\\[(.*?)\\]\\(([^ \\)]+).*?\\)", "<a href=\"$2\">$1</a>");
                 t.setText(Html.fromHtml(links), TextView.BufferType.SPANNABLE);
+                t.setLinkTextColor(getResources().getColor(R.color.text_link_color));
                 t.setMovementMethod(new LinkMovementMethod());
             } else {
                 l.setVisibility(View.GONE);
@@ -196,6 +199,7 @@ public class EventDetailFragment extends Fragment {
             final String eventLink = "<a href=\"" + eventUrl + "\">" + eventUrl + "</a>";
             eventOnlineLink.setText(Html.fromHtml(eventLink), TextView.BufferType.SPANNABLE);
             eventOnlineLink.setMovementMethod(new LinkMovementMethod());
+            eventOnlineLink.setLinkTextColor(getResources().getColor(R.color.text_link_color));
 
             getActivity().supportInvalidateOptionsMenu();
         }
