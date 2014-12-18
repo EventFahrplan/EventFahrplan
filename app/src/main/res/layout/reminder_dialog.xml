@@ -5,14 +5,17 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:id="@+id/layout_root"
-        android:padding="15dp">
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
+        android:paddingBottom="16dp"
+        android:paddingTop="16dp">
 
     <TextView
             android:text="TextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/message"
-            android:paddingBottom="10dp"></TextView>
+            android:paddingBottom="8dp"></TextView>
 
     <Spinner
             android:layout_width="match_parent"
