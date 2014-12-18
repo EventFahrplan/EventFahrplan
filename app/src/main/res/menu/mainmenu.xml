@@ -14,6 +14,11 @@
             android:titleCondensed="@string/alarms">
     </item>
     <item
+        android:id="@+id/item_changes"
+        android:title="@string/schedule_changes"
+        android:titleCondensed="@string/schedule_changes">
+    </item>
+    <item
             android:id="@+id/item_settings"
             android:icon="@drawable/ic_menu_settings"
             app:showAsAction="never"
@@ -26,11 +31,6 @@
             android:orderInCategory="1"
             android:title="@string/about"
             android:titleCondensed="@string/about">
-    </item>
-    <item
-        android:id="@+id/item_changes"
-        android:title="@string/schedule_changes"
-        android:titleCondensed="@string/schedule_changes">
     </item>
 
 </menu>
