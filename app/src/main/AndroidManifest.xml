@@ -65,6 +65,7 @@
 
         <activity
             android:name="nerd.tuxmobil.fahrplan.congress.ChangeListActivity"
+            android:theme="@style/Theme.Congress.NoActionBar"
             android:label="@string/schedule_changes" >
         </activity>
     </application>
