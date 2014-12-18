@@ -35,7 +35,7 @@ public class ChangeListFragment extends ListFragment {
     /**
      * The fragment's ListView/GridView.
      */
-    private AbsListView mListView;
+    private ListView mListView;
 
     /**
      * The Adapter which will be used to populate the ListView/GridView with
@@ -81,15 +81,20 @@ public class ChangeListFragment extends ListFragment {
                 R.style.Theme_AppCompat_Light);
 
         LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
-        View view;
+        View view, header;
         if (sidePane) {
             view = localInflater.inflate(R.layout.fragment_lecture_list_narrow, container, false);
+            mListView = (ListView) view.findViewById(android.R.id.list);
+            header = localInflater.inflate(R.layout.changes_header, null, false);
         } else {
             view = localInflater.inflate(R.layout.fragment_lecture_list, container, false);
+            mListView = (ListView) view.findViewById(android.R.id.list);
+            header = localInflater.inflate(R.layout.header_empty, null, false);
         }
+        mListView.addHeaderView(header);
+        mListView.setHeaderDividersEnabled(false);
 
         // Set the adapter
-        mListView = (AbsListView) view.findViewById(android.R.id.list);
         ((AdapterView<ListAdapter>) mListView).setAdapter(mAdapter);
 
         return view;
@@ -135,6 +140,7 @@ public class ChangeListFragment extends ListFragment {
         if (null != mListener) {
             // Notify the active callbacks interface (the activity, if the
             // fragment is attached to one) that an item has been selected.
+            position--;
             Lecture clicked = changesList.get(position);
             if (clicked.changedIsCanceled) return;
             mListener.onLectureListClick(clicked);

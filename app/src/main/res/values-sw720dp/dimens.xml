@@ -18,4 +18,5 @@
     <item type="integer" name="max_cols">6</item>
     <dimen name="time_width">40dp</dimen>
     <dimen name="list_pane_leftright_padding">32dp</dimen>
+    <dimen name="header_height">32dp</dimen>
 </resources>
