@@ -100,6 +100,8 @@ public class FahrplanFragment extends Fragment implements
     private int columnWidth;
 
     private String lecture_id;        // started with lecture_id
+    private HashMap<String, Integer> trackAccentColors;
+    private HashMap<String, Integer> trackAccentColorsHighlight;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -151,6 +153,8 @@ public class FahrplanFragment extends Fragment implements
 
         trackBackgrounds = TrackBackgrounds.getTrackBackgroundNormal(getActivity());
         trackBackgroundsHi = TrackBackgrounds.getTrackBackgroundHighLight(getActivity());
+        trackAccentColors = TrackBackgrounds.getTrackAccentColorNormal(getActivity());
+        trackAccentColorsHighlight = TrackBackgrounds.getTrackAccentColorHighlight(getActivity());
 
         SharedPreferences prefs = getActivity().getSharedPreferences(PREFS_NAME, 0);
         mDay = prefs.getInt("displayDay", 1);
@@ -545,6 +549,30 @@ public class FahrplanFragment extends Fragment implements
         return padding;
     }
 
+    private void setLectureTextColor(Lecture lecture, View view) {
+        TextView track = (TextView) view.findViewById(R.id.event_track);
+        TextView title = (TextView) view.findViewById(R.id.event_title);
+        TextView subtitle = (TextView) view.findViewById(R.id.event_subtitle);
+        TextView speakers = (TextView) view.findViewById(R.id.event_speakers);
+        Integer color;
+        if (lecture.highlight) {
+            color =  trackAccentColorsHighlight.get(lecture.track);
+            title.setTextColor(getResources().getColor(R.color.event_title_highlight));
+            subtitle.setTextColor(getResources().getColor(R.color.event_title_highlight));
+            speakers.setTextColor(getResources().getColor(R.color.event_title_highlight));
+        } else {
+            color =  trackAccentColors.get(lecture.track);
+            title.setTextColor(getResources().getColor(R.color.event_title));
+            subtitle.setTextColor(getResources().getColor(R.color.event_title));
+            speakers.setTextColor(getResources().getColor(R.color.event_title));
+        }
+        if (color == null) {
+            track.setTextColor(getResources().getColor(R.color.event_title));
+        } else {
+            track.setTextColor(getResources().getColor(color));
+        }
+    }
+
     private void setLectureBackground(Lecture lecture, View view) {
         Integer drawable;
         int padding = getEventPadding();
@@ -654,6 +682,7 @@ public class FahrplanFragment extends Fragment implements
                 }
 
                 setLectureBackground(lecture, event);
+                setLectureTextColor(lecture, event);
                 event.setOnClickListener(this);
                 event.setLongClickable(true);
                 // event.setOnLongClickListener(this);
@@ -932,6 +961,7 @@ public class FahrplanFragment extends Fragment implements
                     FahrplanMisc.writeHighlight(getActivity(), lecture);
                 }
                 setLectureBackground(lecture, contextMenuView);
+                setLectureTextColor(lecture, contextMenuView);
                 break;
             case 1:
                 getAlarmTimeDialog(lecture);
