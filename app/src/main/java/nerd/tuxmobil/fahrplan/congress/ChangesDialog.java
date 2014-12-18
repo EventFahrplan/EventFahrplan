@@ -1,12 +1,20 @@
 package nerd.tuxmobil.fahrplan.congress;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class ChangesDialog extends DialogFragment {
@@ -31,12 +39,6 @@ public class ChangesDialog extends DialogFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.changes_dialog, container, false);
-    }
-
-    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle args = getArguments();
@@ -47,27 +49,44 @@ public class ChangesDialog extends DialogFragment {
             marked_affected = args.getInt(BundleKeys.CHANGES_DLG_NUM_MARKED);
             version = args.getString(BundleKeys.CHANGES_DLG_VERSION);
         }
-        setStyle(DialogFragment.STYLE_NO_TITLE, getTheme());
     }
 
+    @NonNull
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
+                .setTitle(getString(R.string.schedule_udpate))
+                .setPositiveButton(getString(android.R.string.yes),
 
-        TextView changes1 = (TextView) view.findViewById(R.id.changes_dlg_text);
-        changes1.setText(getString(R.string.changes_dlg_text1, version,
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences
+                                        (getActivity());
+                                SharedPreferences.Editor edit = prefs.edit();
+                                edit.putBoolean(BundleKeys.PREFS_CHANGES_SEEN, true);
+                                edit.commit();
+                            }
+                        });
+
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        View msgView = inflater.inflate(R.layout.changes_dialog, null);
+        TextView changes1 = (TextView) msgView.findViewById(R.id.changes_dlg_text);
+        SpannableStringBuilder span = new SpannableStringBuilder();
+        span.append(getString(R.string.changes_dlg_text1));
+        span.append(" ");
+        int spanStart = span.length();
+        span.append(version);
+        span.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorAccent)),
+                spanStart, span.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        span.append(getString(R.string.changes_dlg_text2, version,
                 getResources().getQuantityString(R.plurals.numberOfLectures, changed, changed),
                 getResources().getQuantityString(R.plurals.being, added, added),
                 getResources().getQuantityString(R.plurals.being, cancelled, cancelled)));
+        changes1.setText(span);
 
-        TextView changes2 = (TextView) view.findViewById(R.id.changes_dlg_text2);
-        changes2.setText(getString(R.string.changes_dlg_text2, marked_affected));
-
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences
-                (getActivity());
-        SharedPreferences.Editor edit = prefs.edit();
-        edit.putBoolean(BundleKeys.PREFS_CHANGES_SEEN, true);
-        edit.commit();
+        TextView changes2 = (TextView) msgView.findViewById(R.id.changes_dlg_text2);
+        changes2.setText(getString(R.string.changes_dlg_text3, marked_affected));
+        builder.setView(msgView);
+        return builder.create();
     }
-
 }

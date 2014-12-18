@@ -77,8 +77,9 @@
     <string name="add_to_calendar_failed">Adding event to calendar failed.</string>
     <string name="no_changes">No schedule changes</string>
     <string name="schedule_changes">Schedule changes</string>
-    <string name="changes_dlg_text1">The schedule has been updated to version \'<xliff:g id="version" example="Final">%1$s</xliff:g>\'. There are changes in <xliff:g id="num_changes" example="3 lectures">%2$s</xliff:g>, <xliff:g id="num_new" example="2 are">%3$s</xliff:g> new, <xliff:g id="num_canceled" example="1 is">%4$s</xliff:g> cancelled.</string>
-    <string name="changes_dlg_text2">The changes affect <xliff:g id="num_marked" example="2">%1$d</xliff:g> of your marked lectures.</string>
+    <string name="changes_dlg_text1">The schedule has been updated to</string>
+    <string name="changes_dlg_text2">. There are changes in <xliff:g id="num_changes" example="3 lectures">%2$s</xliff:g>, <xliff:g id="num_new" example="2 are">%3$s</xliff:g> new, <xliff:g id="num_canceled" example="1 is">%4$s</xliff:g> cancelled.</string>
+    <string name="changes_dlg_text3">The changes affect <xliff:g id="num_marked" example="2">%1$d</xliff:g> of your marked lectures.</string>
 
     <plurals name="numberOfLectures">
         <item quantity="one">%d lecture</item>
@@ -94,4 +95,5 @@
     </plurals>
     <string name="dash" translatable="false"><xliff:g id="dash">—</xliff:g></string>
     <string name="general_settings">General</string>
+    <string name="schedule_udpate">Schedule update</string>
 </resources>
