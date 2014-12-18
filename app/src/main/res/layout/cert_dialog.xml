@@ -11,8 +11,12 @@
                 android:id="@+id/cert"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="16dp"
+                android:paddingLeft="24dp"
+                android:paddingRight="24dp"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
                 android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="12sp"
                 />
 
     </LinearLayout>

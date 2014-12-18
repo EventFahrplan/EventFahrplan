@@ -3,9 +3,9 @@
     <string name="OK">OK</string>
 	<string name="dlg_certificate_message_fmt">Aufbau einer gesicherten Verbindung nicht
 		möglich.\n(%s)</string>
-    <string name="dlg_invalid_certificate_title">Unbekanntes Zertifikat</string>
-    <string name="dlg_invalid_certificate_accept">Zertifikat akzeptieren</string>
-    <string name="dlg_invalid_certificate_reject">Zertifikat ablehnen</string>
+    <string name="dlg_invalid_certificate_title">Unbekanntem Zertifikat vertrauen?</string>
+    <string name="dlg_invalid_certificate_accept">Akzeptieren</string>
+    <string name="dlg_invalid_certificate_reject">Ablehnen</string>
     <string name="dlg_invalid_certificate_could_not_apply">Zertifikat konnte nicht übernommen werden.</string>
     <string name="dlg_err_connection_failed">Verbindungsfehler</string>
     <string name="dlg_err_failed_wrong_password">Das Kennwort ist falsch.</string>

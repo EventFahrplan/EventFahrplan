@@ -112,7 +112,7 @@ public class CertificateDialogFragment extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
                 .setTitle(getString(R.string.dlg_invalid_certificate_title))
                 .setCancelable(true)
-                .setPositiveButton(getString(R.string.dlg_invalid_certificate_accept),
+                .setPositiveButton(getString(android.R.string.yes),
 
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
@@ -130,7 +130,7 @@ public class CertificateDialogFragment extends DialogFragment {
                                 }
                             }
                         })
-                .setNegativeButton(getString(R.string.dlg_invalid_certificate_reject),
+                .setNegativeButton(getString(android.R.string.no),
 
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,
