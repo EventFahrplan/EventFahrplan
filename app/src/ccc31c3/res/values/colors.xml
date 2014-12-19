@@ -8,7 +8,7 @@
     <color name="text_link_color">#ff6464b3</color>
     <color name="lightgray">#505050</color>
     <color name="alarm_list_icon_default_fill_color">#ddd</color>
-    <color name="alarm_list_icon_default_stroke_color">#007280</color>
+    <color name="alarm_list_icon_default_stroke_color">#906de1</color>
     <color name="alarm_list_icon_text_color">#000000</color>
     <color name="lecture_background">#ffffff</color>
     <color name="lecture_detailbar_background">#eee</color>
