@@ -39,6 +39,7 @@ public class MainActivity extends ActionBarActivity
 
     private MyApp global;
     private ProgressBar progressBar = null;
+    private boolean showUpdateAction = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -148,10 +149,14 @@ public class MainActivity extends ActionBarActivity
             }
             CustomHttpClient.showHttpError(this, global, status);
             progressBar.setVisibility(View.INVISIBLE);
+            showUpdateAction = true;
+            supportInvalidateOptionsMenu();
             return;
         }
         MyApp.LogDebug(LOG_TAG, "yehhahh");
         progressBar.setVisibility(View.INVISIBLE);
+        showUpdateAction = true;
+        supportInvalidateOptionsMenu();
 
         MyApp.fahrplan_xml = response;
         MyApp.eTag = eTagStr;
@@ -171,6 +176,8 @@ public class MainActivity extends ActionBarActivity
             }
         }
         progressBar.setVisibility(View.INVISIBLE);
+        showUpdateAction = true;
+        supportInvalidateOptionsMenu();
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentByTag(FragmentTags.SCHEDULE);
         if ((fragment != null) && (fragment instanceof OnParseCompleteListener)) {
@@ -194,6 +201,8 @@ public class MainActivity extends ActionBarActivity
         } else {
             MyApp.LogDebug(LOG_TAG, "show fetch status");
             progressBar.setVisibility(View.VISIBLE);
+            showUpdateAction = false;
+            supportInvalidateOptionsMenu();
         }
     }
 
@@ -205,6 +214,8 @@ public class MainActivity extends ActionBarActivity
         } else {
             MyApp.LogDebug(LOG_TAG, "show parse status");
             progressBar.setVisibility(View.VISIBLE);
+            showUpdateAction = false;
+            supportInvalidateOptionsMenu();
         }
     }
 
@@ -257,6 +268,10 @@ public class MainActivity extends ActionBarActivity
         super.onCreateOptionsMenu(menu);
         MenuInflater mi = getMenuInflater();
         mi.inflate(R.menu.mainmenu, menu);
+        MenuItem item = menu.findItem(R.id.item_refresh);
+        if (item != null) {
+            item.setVisible(showUpdateAction);
+        }
         return true;
     }
 
