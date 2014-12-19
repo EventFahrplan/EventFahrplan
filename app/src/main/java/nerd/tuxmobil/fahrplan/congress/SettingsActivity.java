@@ -53,6 +53,22 @@ public class SettingsActivity extends ActionBarActivity {
                             return true;
                         }
                     });
+
+
+            findPreference("schedule_url").setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+
+
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    SharedPreferences prefs = PreferenceManager
+                            .getDefaultSharedPreferences(getActivity());
+
+                    SharedPreferences.Editor edit = prefs.edit();
+                    edit.putString(BundleKeys.PREFS_SCHEDULE_URL, (String)newValue);
+                    edit.commit();
+                    return true;
+                }
+            });
         }
     }
 }

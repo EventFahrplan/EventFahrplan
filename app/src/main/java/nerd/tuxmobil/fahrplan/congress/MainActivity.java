@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import nerd.tuxmobil.fahrplan.congress.CustomHttpClient.HTTP_STATUS;
 import nerd.tuxmobil.fahrplan.congress.FahrplanContract.FragmentTags;
@@ -118,7 +119,7 @@ public class MainActivity extends ActionBarActivity
         parser.parse(MyApp.fahrplan_xml, MyApp.eTag);
     }
 
-    public void onGotResponse(HTTP_STATUS status, String response, String eTagStr) {
+    public void onGotResponse(HTTP_STATUS status, String response, String eTagStr, String host) {
         MyApp.LogDebug(LOG_TAG, "Response... " + status);
         MyApp.task_running = TASKS.NONE;
         if (MyApp.numdays == 0) {
@@ -147,7 +148,7 @@ public class MainActivity extends ActionBarActivity
                     dlg.show(getSupportFragmentManager(), "cert_dlg");
                     break;
             }
-            CustomHttpClient.showHttpError(this, global, status);
+            CustomHttpClient.showHttpError(this, global, status, host);
             progressBar.setVisibility(View.INVISIBLE);
             showUpdateAction = true;
             supportInvalidateOptionsMenu();
@@ -220,11 +221,36 @@ public class MainActivity extends ActionBarActivity
     }
 
     public void fetchFahrplan(OnDownloadCompleteListener completeListener) {
+        String protocol;
+        String domain;
+        String path;
+
         if (MyApp.task_running == TASKS.NONE) {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+            String alternateURL = prefs.getString(BundleKeys.PREFS_SCHEDULE_URL, null);
+            if ((alternateURL != null) && (alternateURL.length() > 0)) {
+                String[] url = alternateURL.split("\\/+", 3);
+                for (int i = 0; i < url.length; i++) {
+                    MyApp.LogDebug(LOG_TAG, "split URL: " + url[i]);
+                }
+                if (url.length < 2) {
+                    Toast.makeText(this, R.string.invalid_url, Toast.LENGTH_LONG).show();
+                    return;
+                }
+                protocol = url[0]+"//";
+                domain = url[1];
+                path = "/";
+                if (url.length > 2) { path = path + url[2]; }
+            } else {
+                protocol = BuildConfig.SCHEDULE_SUPPORTS_HTTPS ? "https://" : "http://";
+                domain = BuildConfig.SCHEDULE_DOMAIN;
+                path = MyApp.schedulePath;
+            }
+
             MyApp.task_running = TASKS.FETCH;
             showFetchingStatus();
             fetcher.setListener(completeListener);
-            fetcher.fetch(MyApp.schedulePath, MyApp.eTag);
+            fetcher.fetch(protocol, domain, path, MyApp.eTag);
         } else {
             MyApp.LogDebug(LOG_TAG, "fetch already in progress");
         }

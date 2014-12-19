@@ -146,7 +146,7 @@ public class CustomHttpClient {
         }
     }
 
-    public static void showHttpError(final Activity ctx, MyApp global, HTTP_STATUS status) {
+    public static void showHttpError(final Activity ctx, MyApp global, HTTP_STATUS status, String host) {
         switch (status) {
             case HTTP_LOGIN_FAIL_WRONG_PASSWORD:
                 CustomHttpClient.showErrorDialog(ctx,
@@ -157,7 +157,7 @@ public class CustomHttpClient {
                 CustomHttpClient.showErrorDialog(ctx,
                         R.string.dlg_err_connection_failed,
                         R.string.dlg_err_failed_unknown_host,
-                        BuildConfig.SCHEDULE_DOMAIN);
+                        host);
                 break;
             case HTTP_WRONG_HTTP_CREDENTIALS:
                 CustomHttpClient.showErrorDialog(ctx,

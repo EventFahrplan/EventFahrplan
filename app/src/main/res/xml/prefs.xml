@@ -6,6 +6,11 @@
             android:key="auto_update"
             android:title="@string/pref_auto_download"
             android:defaultValue="true"/>
+        <EditTextPreference
+            android:key="schedule_url"
+            android:title="@string/schedule_url"
+            android:hint="https://yourhost/schedule.xml"
+            />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/reminders">
         <RingtonePreference

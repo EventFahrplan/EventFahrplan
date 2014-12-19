@@ -53,4 +53,6 @@ public interface BundleKeys {
     // Shared Preferences
     public static final String PREFS_CHANGES_SEEN =
             "nerd.tuxmobil.fahrplan.congress.Prefs.CHANGES_SEEN";
+    public static final String PREFS_SCHEDULE_URL =
+            "nerd.tuxmobil.fahrplan.congress.Prefs.SCHEDULE_URL";
 }

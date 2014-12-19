@@ -26,7 +26,7 @@ import nerd.tuxmobil.fahrplan.congress.CustomHttpClient.HTTP_STATUS;
 
 interface OnDownloadCompleteListener {
 
-    public void onGotResponse(HTTP_STATUS status, String response, String eTagStr);
+    public void onGotResponse(HTTP_STATUS status, String response, String eTagStr, String host);
 }
 
 public class FetchFahrplan {
@@ -40,9 +40,9 @@ public class FetchFahrplan {
         MyApp.fetcher = this;
     }
 
-    public void fetch(String arg, String eTag) {
+    public void fetch(String protocol, String addr, String path, String eTag) {
         task = new fetcher(this.listener);
-        task.execute(arg, eTag);
+        task.execute(protocol, addr, path, eTag);
     }
 
     public void cancel() {
@@ -72,6 +72,7 @@ class fetcher extends AsyncTask<String, Void, HTTP_STATUS> {
     private boolean completed;
 
     private HTTP_STATUS status;
+    private String host;
 
     public fetcher(OnDownloadCompleteListener listener) {
         this.listener = listener;
@@ -87,10 +88,8 @@ class fetcher extends AsyncTask<String, Void, HTTP_STATUS> {
     }
 
     protected HTTP_STATUS doInBackground(String... args) {
-        String box = BuildConfig.SCHEDULE_DOMAIN;
-
-        return fetchthis(box, args[0], args[1]);
-
+        host = args[1];
+        return fetchthis(args[0], args[1], args[2], args[3]);
     }
 
     protected void onCancelled() {
@@ -109,15 +108,15 @@ class fetcher extends AsyncTask<String, Void, HTTP_STATUS> {
     private void notifyActivity() {
         if (status == HTTP_STATUS.HTTP_OK) {
             MyApp.LogDebug(LOG_TAG, "fetch done successfully");
-            listener.onGotResponse(status, responseStr, eTagStr);
+            listener.onGotResponse(status, responseStr, eTagStr, host);
         } else {
             MyApp.LogDebug(LOG_TAG, "fetch failed");
-            listener.onGotResponse(status, null, eTagStr);
+            listener.onGotResponse(status, null, eTagStr, host);
         }
         completed = false;                // notifiy only once
     }
 
-    private HTTP_STATUS fetchthis(String addr, String arg, String eTag) {
+    private HTTP_STATUS fetchthis(String protocol, String addr, String arg, String eTag) {
         HttpClient client;
         try {
             client = CustomHttpClient.createHttpClient(CustomHttpClient
@@ -129,7 +128,6 @@ class fetcher extends AsyncTask<String, Void, HTTP_STATUS> {
             return HTTP_STATUS.HTTP_SSL_SETUP_FAILURE;
         }
 
-        String protocol = BuildConfig.SCHEDULE_SUPPORTS_HTTPS ? "https://" : "http://";
         String address = protocol + addr + arg;
 
         MyApp.LogDebug("Fetch", address);

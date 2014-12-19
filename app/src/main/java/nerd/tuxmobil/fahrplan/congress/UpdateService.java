@@ -84,7 +84,7 @@ public class UpdateService extends IntentService
         parser.parse(MyApp.fahrplan_xml, MyApp.eTag);
     }
 
-    public void onGotResponse(HTTP_STATUS status, String response, String eTagStr) {
+    public void onGotResponse(HTTP_STATUS status, String response, String eTagStr, String host) {
         MyApp.LogDebug(LOG_TAG, "Response... " + status);
         MyApp.task_running = TASKS.NONE;
         if ((status == HTTP_STATUS.HTTP_OK) || (status == HTTP_STATUS.HTTP_NOT_MODIFIED)) {
@@ -108,10 +108,32 @@ public class UpdateService extends IntentService
     }
 
     private void fetchFahrplan(OnDownloadCompleteListener completeListener) {
+        String protocol;
+        String domain;
+        String path;
+
         if (MyApp.task_running == TASKS.NONE) {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+            String alternateURL = prefs.getString(BundleKeys.PREFS_SCHEDULE_URL, null);
+            if ((alternateURL != null) && (alternateURL.length() > 0)) {
+                String[] url = alternateURL.split("\\/+", 3);
+                for (int i = 0; i < url.length; i++) {
+                    MyApp.LogDebug(LOG_TAG, "split URL: " + url[i]);
+                }
+                protocol = url[0] + "//";
+                domain = url[1];
+                path = "/";
+                if (url.length > 2) { path = path + url[2]; }
+
+            } else {
+                protocol = BuildConfig.SCHEDULE_SUPPORTS_HTTPS ? "https://" : "http://";
+                domain = BuildConfig.SCHEDULE_DOMAIN;
+                path = MyApp.schedulePath;
+            }
+
             MyApp.task_running = TASKS.FETCH;
             fetcher.setListener(completeListener);
-            fetcher.fetch(MyApp.schedulePath, MyApp.eTag);
+            fetcher.fetch(protocol, domain, path, MyApp.eTag);
         } else {
             MyApp.LogDebug(LOG_TAG, "fetch already in progress");
         }

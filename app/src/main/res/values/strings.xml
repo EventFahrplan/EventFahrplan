@@ -98,4 +98,6 @@
     <string name="schedule_udpate">Schedule update</string>
     <string name="action_show_starred_lectures">Show favorites</string>
     <string name="starred_lectures">Favorites</string>
+    <string name="schedule_url">Alternate Schedule URL</string>
+    <string name="invalid_url">Invalid URL</string>
 </resources>
