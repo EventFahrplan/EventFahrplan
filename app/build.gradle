@@ -78,6 +78,7 @@ android {
             buildConfigField "int", "SCHEDULE_LAST_DAY_END_MONTH", "12"
             buildConfigField "int", "SCHEDULE_LAST_DAY_END_DAY", "31"
             buildConfigField "boolean", "SCHEDULE_SUPPORTS_HTTPS", "true"
+            buildConfigField "String", "SCHEDULE_FEEDBACK_URL", '"https://frab.cccv.de/en/30C3/public/events/%s/feedback/new"'
         }
         ccc31c3 {
             applicationId "nerd.tuxmobil.fahrplan.congress"
@@ -94,6 +95,7 @@ android {
             buildConfigField "int", "SCHEDULE_LAST_DAY_END_MONTH", "12"
             buildConfigField "int", "SCHEDULE_LAST_DAY_END_DAY", "31"
             buildConfigField "boolean", "SCHEDULE_SUPPORTS_HTTPS", "true"
+            buildConfigField "String", "SCHEDULE_FEEDBACK_URL", '"https://frab.cccv.de/en/31C3/public/events/%s/feedback/new"'
         }
     }
 }

@@ -40,8 +40,7 @@ public class EventDetailFragment extends Fragment {
 
     private String title;
 
-    private static String feedbackURL
-            = "https://frab.cccv.de/en/30C3/public/events/%s/feedback/new";
+    private static String feedbackURL = BuildConfig.SCHEDULE_FEEDBACK_URL;
 
     private Locale locale;
 
