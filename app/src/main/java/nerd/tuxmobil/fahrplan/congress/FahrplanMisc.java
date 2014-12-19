@@ -602,6 +602,7 @@ public class FahrplanMisc {
 
     public static int getChangedLectureCount(LectureList list, boolean favsOnly) {
         int count = 0;
+        if (list == null) return 0;
         for (int lectureIndex = 0; lectureIndex < list.size(); lectureIndex++) {
             Lecture l = list.get(lectureIndex);
             if (l.isChanged() && ((!favsOnly) || (l.highlight))) {
@@ -614,6 +615,7 @@ public class FahrplanMisc {
 
     public static int getNewLectureCount(LectureList list, boolean favsOnly) {
         int count = 0;
+        if (list == null) return 0;
         for (int lectureIndex = 0; lectureIndex < list.size(); lectureIndex++) {
             Lecture l = list.get(lectureIndex);
             if ((l.changedIsNew) && ((!favsOnly) || (l.highlight))) count++;
@@ -624,6 +626,7 @@ public class FahrplanMisc {
 
     public static int getCancelledLectureCount(LectureList list, boolean favsOnly) {
         int count = 0;
+        if (list == null) return 0;
         for (int lectureIndex = 0; lectureIndex < list.size(); lectureIndex++) {
             Lecture l = list.get(lectureIndex);
             if ((l.changedIsCanceled) && ((!favsOnly) || (l.highlight))) count++;

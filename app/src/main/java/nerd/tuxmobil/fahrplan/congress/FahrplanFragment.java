@@ -459,6 +459,7 @@ public class FahrplanFragment extends Fragment implements
     }
 
     private void scanDayLectures() {
+        if ((MyApp.lectureList == null) || (MyApp.lectureList.size() == 0)) return;
         Lecture l = MyApp.lectureList.get(0); // they are already sorted
         long end = 0;
         if (l.dateUTC > 0) {

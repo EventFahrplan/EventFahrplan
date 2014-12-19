@@ -55,6 +55,8 @@ public class DateFieldValidation {
             lectureCursor = db
                     .query(LecturesTable.NAME, null, null, null, null, null, Columns.DATE);
 
+            if (lectureCursor.getCount() == 0) return true;
+
             // Prepare time range (first day)
             lectureCursor.moveToFirst();
             String firstDateString = lectureCursor
