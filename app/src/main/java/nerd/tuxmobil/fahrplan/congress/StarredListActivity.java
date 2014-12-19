@@ -4,16 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.os.Build;
 
-import nerd.tuxmobil.fahrplan.congress.R;
+public class StarredListActivity extends ActionBarActivity implements AbstractListFragment.OnLectureListClick {
 
-public class ChangeListActivity extends ActionBarActivity implements AbstractListFragment.OnLectureListClick {
-
-    private static final String LOG_TAG = "ChangeListActivity";
+    private static final String LOG_TAG = "StarredListActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +17,7 @@ public class ChangeListActivity extends ActionBarActivity implements AbstractLis
         setSupportActionBar(toolbar);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new ChangeListFragment())
+                    .add(R.id.container, new StarredListFragment())
                     .commit();
             MyApp.LogDebug(LOG_TAG, "onCreate fragment created");
         }

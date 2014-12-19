@@ -13,6 +13,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.net.Uri;
 import android.provider.CalendarContract;
+import android.support.v4.app.FragmentActivity;
 import android.text.format.Time;
 import android.widget.Toast;
 
@@ -647,4 +648,18 @@ public class FahrplanMisc {
         return changesList;
     }
 
+    public static LectureList getStarredLectures(Context context) {
+        LectureList starredList = FahrplanMisc.loadLecturesForAllDays(context);
+        if (starredList == null) return null;
+        int lectureIndex = starredList.size() - 1;
+        while (lectureIndex >= 0) {
+            Lecture l = starredList.get(lectureIndex);
+            if (!l.highlight) {
+                starredList.remove(l);
+            }
+            lectureIndex--;
+        }
+        MyApp.LogDebug(LOG_TAG, starredList.size() + " lectures starred.");
+        return starredList;
+    }
 }

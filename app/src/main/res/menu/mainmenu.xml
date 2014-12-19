@@ -19,6 +19,11 @@
         android:titleCondensed="@string/schedule_changes">
     </item>
     <item
+        android:id="@+id/item_starred_list"
+        android:title="@string/action_show_starred_lectures"
+        android:titleCondensed="@string/action_show_starred_lectures">
+    </item>
+    <item
             android:id="@+id/item_settings"
             android:icon="@drawable/ic_menu_settings"
             app:showAsAction="never"

@@ -22,11 +22,11 @@ import android.widget.ListView;
  * Activities containing this fragment MUST implement the {@link OnLectureListClick}
  * interface.
  */
-public class ChangeListFragment extends AbstractListFragment {
+public class StarredListFragment extends AbstractListFragment {
 
-    private static final String LOG_TAG = "ChangeListFragment";
+    private static final String LOG_TAG = "StarredListFragment";
     private OnLectureListClick mListener;
-    private LectureList changesList;
+    private LectureList starredList;
     private boolean sidePane = false;
 
     /**
@@ -38,10 +38,10 @@ public class ChangeListFragment extends AbstractListFragment {
      * The Adapter which will be used to populate the ListView/GridView with
      * Views.
      */
-    private LectureChangesArrayAdapter mAdapter;
+    private LectureArrayAdapter mAdapter;
 
-    public static ChangeListFragment newInstance(boolean sidePane) {
-        ChangeListFragment fragment = new ChangeListFragment();
+    public static StarredListFragment newInstance(boolean sidePane) {
+        StarredListFragment fragment = new StarredListFragment();
         Bundle args = new Bundle();
         args.putBoolean(BundleKeys.SIDEPANE, sidePane);
         fragment.setArguments(args);
@@ -52,7 +52,7 @@ public class ChangeListFragment extends AbstractListFragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public ChangeListFragment() {
+    public StarredListFragment() {
     }
 
     @Override
@@ -64,10 +64,10 @@ public class ChangeListFragment extends AbstractListFragment {
             sidePane = args.getBoolean(BundleKeys.SIDEPANE);
         }
 
-        changesList = FahrplanMisc.readChanges(getActivity());
+        starredList = FahrplanMisc.getStarredLectures(getActivity());
 
-        mAdapter = new LectureChangesArrayAdapter(getActivity(), changesList);
-        MyApp.LogDebug(LOG_TAG, "onCreate, " + changesList.size() + " changes");
+        mAdapter = new LectureArrayAdapter(getActivity(), starredList);
+        MyApp.LogDebug(LOG_TAG, "onCreate, " + starredList.size() + " changes");
     }
 
     @Override
@@ -82,7 +82,7 @@ public class ChangeListFragment extends AbstractListFragment {
         if (sidePane) {
             view = localInflater.inflate(R.layout.fragment_lecture_list_narrow, container, false);
             mListView = (ListView) view.findViewById(android.R.id.list);
-            header = localInflater.inflate(R.layout.changes_header, null, false);
+            header = localInflater.inflate(R.layout.starred_header, null, false);
         } else {
             view = localInflater.inflate(R.layout.fragment_lecture_list, container, false);
             mListView = (ListView) view.findViewById(android.R.id.list);
@@ -116,8 +116,8 @@ public class ChangeListFragment extends AbstractListFragment {
 
     public void onRefresh() {
         LectureList updatedChanges = FahrplanMisc.readChanges(getActivity());
-        changesList.clear();
-        changesList.addAll(updatedChanges);
+        starredList.clear();
+        starredList.addAll(updatedChanges);
         mAdapter.notifyDataSetChanged();
     }
 
@@ -128,7 +128,7 @@ public class ChangeListFragment extends AbstractListFragment {
             // Notify the active callbacks interface (the activity, if the
             // fragment is attached to one) that an item has been selected.
             position--;
-            Lecture clicked = changesList.get(position);
+            Lecture clicked = starredList.get(position);
             if (clicked.changedIsCanceled) return;
             mListener.onLectureListClick(clicked);
         }

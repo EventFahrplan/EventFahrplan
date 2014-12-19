@@ -14,12 +14,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-public class LectureArrayAdapter extends ArrayAdapter<Lecture> {
+public class LectureChangesArrayAdapter extends ArrayAdapter<Lecture> {
 
     private final Context context;
     private final List<Lecture> list;
 
-    public LectureArrayAdapter(Context context, List<Lecture> list) {
+    public LectureChangesArrayAdapter(Context context, List<Lecture> list) {
         super(context, R.layout.lecture_change_row, list);
         this.context = new ContextThemeWrapper(context, R.style.Theme_AppCompat_Light);
         this.list = list;
@@ -28,6 +28,19 @@ public class LectureArrayAdapter extends ArrayAdapter<Lecture> {
     private void resetTextStyle(TextView textView, int style) {
         textView.setTextAppearance(context, style);
         textView.setPaintFlags(textView.getPaintFlags() & ~Paint.STRIKE_THRU_TEXT_FLAG);
+    }
+
+    private void setTextStyleChanged(TextView textView) {
+        textView.setTextColor(context.getResources().getColor(R.color.schedule_change));
+    }
+
+    private void setTextStyleNew(TextView textView) {
+        textView.setTextColor(context.getResources().getColor(R.color.schedule_change_new));
+    }
+
+    private void setTextStyleCanceled(TextView textView) {
+        textView.setTextColor(context.getResources().getColor(R.color.schedule_change_canceled));
+        textView.setPaintFlags(textView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
     }
 
     @Override
@@ -82,6 +95,56 @@ public class LectureArrayAdapter extends ArrayAdapter<Lecture> {
         viewHolder.time.setText(tf.format(new Date(l.dateUTC)));
         viewHolder.room.setText(l.room);
         viewHolder.duration.setText(String.valueOf(l.duration) + " min.");
+        if (l.changedIsNew) {
+            setTextStyleNew(viewHolder.title);
+            setTextStyleNew(viewHolder.subtitle);
+            setTextStyleNew(viewHolder.speakers);
+            setTextStyleNew(viewHolder.lang);
+            setTextStyleNew(viewHolder.day);
+            setTextStyleNew(viewHolder.time);
+            setTextStyleNew(viewHolder.room);
+            setTextStyleNew(viewHolder.duration);
+        } else if (l.changedIsCanceled) {
+            setTextStyleCanceled(viewHolder.title);
+            setTextStyleCanceled(viewHolder.subtitle);
+            setTextStyleCanceled(viewHolder.speakers);
+            setTextStyleCanceled(viewHolder.lang);
+            setTextStyleCanceled(viewHolder.day);
+            setTextStyleCanceled(viewHolder.time);
+            setTextStyleCanceled(viewHolder.room);
+            setTextStyleCanceled(viewHolder.duration);
+        } else {
+            if (l.changedTitle) {
+                setTextStyleChanged(viewHolder.title);
+                if (l.title.length() == 0) viewHolder.title.setText(context.getText(R.string.dash));
+            }
+            if (l.changedSubtitle) {
+                setTextStyleChanged(viewHolder.subtitle);
+                if (l.subtitle.length() == 0)
+                    viewHolder.subtitle.setText(context.getText(R.string.dash));
+            }
+            if (l.changedSpeakers) {
+                setTextStyleChanged(viewHolder.speakers);
+                if (l.speakers.length() == 0)
+                    viewHolder.speakers.setText(context.getText(R.string.dash));
+            }
+            if (l.changedLanguage) {
+                setTextStyleChanged(viewHolder.lang);
+                if (l.lang.length() == 0) viewHolder.lang.setText(context.getText(R.string.dash));
+            }
+            if (l.changedDay) {
+                setTextStyleChanged(viewHolder.day);
+            }
+            if (l.changedTime) {
+                setTextStyleChanged(viewHolder.time);
+            }
+            if (l.changedRoom) {
+                setTextStyleChanged(viewHolder.room);
+            }
+            if (l.changedDuration) {
+                setTextStyleChanged(viewHolder.duration);
+            }
+        }
 
         return rowView;
     }

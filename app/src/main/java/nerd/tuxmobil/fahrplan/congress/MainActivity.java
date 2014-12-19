@@ -27,7 +27,7 @@ import nerd.tuxmobil.fahrplan.congress.MyApp.TASKS;
 
 public class MainActivity extends ActionBarActivity
         implements OnParseCompleteListener, OnDownloadCompleteListener, OnCloseDetailListener,
-        OnRefreshEventMarkers, OnCertAccepted, ChangeListFragment.OnLectureListClick, FragmentManager.OnBackStackChangedListener {
+        OnRefreshEventMarkers, OnCertAccepted, AbstractListFragment.OnLectureListClick, FragmentManager.OnBackStackChangedListener {
 
     private static final String LOG_TAG = "MainActivity";
 
@@ -312,6 +312,21 @@ public class MainActivity extends ActionBarActivity
                     ChangeListFragment changes = ChangeListFragment.newInstance(true);
                     fragmentTransaction.replace(R.id.detail, changes, FragmentTags.CHANGES);
                     fragmentTransaction.addToBackStack(FragmentTags.CHANGES);
+                    fragmentTransaction.commit();
+                }
+                return true;
+            case R.id.item_starred_list:
+                sidePane = (FrameLayout) findViewById(R.id.detail);
+                if (sidePane == null) {
+                    intent = new Intent(this, StarredListActivity.class);
+                    startActivityForResult(intent, MyApp.STARRED);
+                } else {
+                    FragmentManager fm = getSupportFragmentManager();
+                    sidePane.setVisibility(View.VISIBLE);
+                    FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                    StarredListFragment starred = StarredListFragment.newInstance(true);
+                    fragmentTransaction.replace(R.id.detail, starred, FragmentTags.STARRED);
+                    fragmentTransaction.addToBackStack(FragmentTags.STARRED);
                     fragmentTransaction.commit();
                 }
                 return true;
