@@ -302,18 +302,21 @@ public class MainActivity extends ActionBarActivity
     }
 
     void changesDialog() {
-        LectureList changedLectures = FahrplanMisc.readChanges(this);
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.addToBackStack(null);
-        DialogFragment about = ChangesDialog.newInstance(
-                MyApp.version,
-                FahrplanMisc.getChangedLectureCount(changedLectures, false),
-                FahrplanMisc.getNewLectureCount(changedLectures, false),
-                FahrplanMisc.getCancelledLectureCount(changedLectures, false),
-                FahrplanMisc.getChangedLectureCount(changedLectures, true) +
-                FahrplanMisc.getNewLectureCount(changedLectures, true) +
-                FahrplanMisc.getCancelledLectureCount(changedLectures, true));
-        about.show(ft, "changesDialog");
+        FragmentManager fm = getSupportFragmentManager();
+        Fragment fragment = fm.findFragmentByTag("changesDialog");
+
+        if (fragment == null) {
+            LectureList changedLectures = FahrplanMisc.readChanges(this);
+            DialogFragment about = ChangesDialog.newInstance(
+                    MyApp.version,
+                    FahrplanMisc.getChangedLectureCount(changedLectures, false),
+                    FahrplanMisc.getNewLectureCount(changedLectures, false),
+                    FahrplanMisc.getCancelledLectureCount(changedLectures, false),
+                    FahrplanMisc.getChangedLectureCount(changedLectures, true) +
+                            FahrplanMisc.getNewLectureCount(changedLectures, true) +
+                            FahrplanMisc.getCancelledLectureCount(changedLectures, true));
+            about.show(getSupportFragmentManager(), "changesDialog");
+        }
     }
 
     void aboutDialog() {
