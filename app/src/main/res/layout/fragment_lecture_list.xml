@@ -15,7 +15,8 @@
         android:paddingRight="@dimen/activity_padding"
         android:layout_marginLeft="-16dp"
         android:layout_marginRight="-16dp"
-        android:scrollbarStyle="outsideInset"
+        android:scrollbarStyle="outsideOverlay"
+        tools:listitem="@layout/lecture_change_row"
         android:layout_height="wrap_content"/>
 
     <TextView

@@ -10,10 +10,11 @@
 
     <ListView
         android:id="@android:id/list"
-        android:scrollbarStyle="outsideInset"
+        android:scrollbarStyle="outsideOverlay"
         android:layout_width="match_parent"
         android:paddingLeft="@dimen/list_pane_leftright_padding"
         android:paddingRight="@dimen/list_pane_leftright_padding"
+        tools:listitem="@layout/lecture_change_row"
         android:layout_height="wrap_content"/>
 
     <TextView
