@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.SparseBooleanArray;
+import android.view.ActionMode;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -11,6 +13,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -25,7 +28,8 @@ import android.widget.ListView;
  * Activities containing this fragment MUST implement the {@link OnLectureListClick}
  * interface.
  */
-public class StarredListFragment extends AbstractListFragment {
+public class StarredListFragment extends AbstractListFragment implements AbsListView
+        .MultiChoiceModeListener {
 
     private static final String LOG_TAG = "StarredListFragment";
     private OnLectureListClick mListener;
@@ -98,6 +102,9 @@ public class StarredListFragment extends AbstractListFragment {
         // Set the adapter
         ((AdapterView<ListAdapter>) mListView).setAdapter(mAdapter);
 
+        mListView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE_MODAL);
+        mListView.setMultiChoiceModeListener(this);
+
         return view;
     }
 
@@ -151,29 +158,82 @@ public class StarredListFragment extends AbstractListFragment {
             case R.id.item_clear_all:
                 int count = starredList.size();
                 for (int i = 0; i < count; i++) {
-                    Lecture l = starredList.get(0);
-                    l.highlight = false;
-                    FahrplanMisc.writeHighlight(getActivity(), l);
-                    if (MyApp.lectureList != null) {
-                        for (int j = 0; j < MyApp.lectureList.size(); j++) {
-                            Lecture lecture = MyApp.lectureList.get(j);
-                            if (lecture.lecture_id.equals(l.lecture_id)) {
-                                lecture.highlight = false;
-                                break;
-                            }
-                        }
-                    }
-                    starredList.remove(0);
+                    deleteItem(0);
                 }
-                FragmentActivity activity = getActivity();
-                if (activity instanceof MainActivity) {
-                    ((MainActivity) activity).refreshEventMarkers();
-                }
-                mAdapter.notifyDataSetChanged();
+                refreshViews();
                 return true;
             case android.R.id.home:
                 return ActivityHelper.navigateUp(getActivity());
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
+
+    }
+
+    @Override
+    public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+        MenuInflater inflater = mode.getMenuInflater();
+        inflater.inflate(R.menu.starred_list_context_menu, menu);
+        mode.setTitle(getString(R.string.choose_to_delete));
+        return true;
+    }
+
+    @Override
+    public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.item_delete:
+                deleteItems(mListView.getCheckedItemPositions());
+                refreshViews();
+                mode.finish();
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    private void deleteItem(int index) {
+        Lecture l = starredList.get(index);
+        l.highlight = false;
+        FahrplanMisc.writeHighlight(getActivity(), l);
+        if (MyApp.lectureList != null) {
+            for (int j = 0; j < MyApp.lectureList.size(); j++) {
+                Lecture lecture = MyApp.lectureList.get(j);
+                if (lecture.lecture_id.equals(l.lecture_id)) {
+                    lecture.highlight = false;
+                    break;
+                }
+            }
+        }
+        starredList.remove(index);
+    }
+
+    private void deleteItems(SparseBooleanArray checkedItemPositions) {
+        for (int id = starredList.size()-1; id >= 0; id--) {
+            if (checkedItemPositions.get(id + 1)) {			// + 1 due to HeaderView
+                deleteItem(id);
+            }
+        }
+    }
+
+    private void refreshViews() {
+        FragmentActivity activity = getActivity();
+        if (activity instanceof MainActivity) {
+            ((MainActivity) activity).refreshEventMarkers();
+        }
+        mAdapter.notifyDataSetChanged();
+        getActivity().setResult(FragmentActivity.RESULT_OK);
+    }
+
+    @Override
+    public void onDestroyActionMode(ActionMode mode) {
+
     }
 }

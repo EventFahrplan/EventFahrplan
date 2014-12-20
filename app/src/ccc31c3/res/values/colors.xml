@@ -6,6 +6,7 @@
     <color name="colorAccent">#906de1</color>
     <color name="fahrplan_background">#1a1a1a</color>
     <color name="text_link_color">#ff6464b3</color>
+    <color name="multi_choice_background">#402424b3</color>
     <color name="text_link_color_dark">#ff7979d1</color>
     <color name="lightgray">#505050</color>
     <color name="alarm_list_icon_default_fill_color">#ddd</color>

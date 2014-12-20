@@ -101,4 +101,5 @@
     <string name="starred_lectures">Favorites</string>
     <string name="schedule_url">Alternative Schedule URL</string>
     <string name="invalid_url">Invalid URL</string>
+    <string name="choose_to_delete">Select lectures</string>
 </resources>

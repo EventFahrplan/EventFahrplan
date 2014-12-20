@@ -101,4 +101,5 @@
     <string name="schedule_url">Alternative Fahrplan URL</string>
     <string name="invalid_url">Ungültige URL</string>
     <string name="no_favorites">Keine markierten Vorträge</string>
+    <string name="choose_to_delete">Wähle Vorträge</string>
 </resources>
