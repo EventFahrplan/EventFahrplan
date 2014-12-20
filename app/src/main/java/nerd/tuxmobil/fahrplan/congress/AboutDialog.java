@@ -38,23 +38,27 @@ public class AboutDialog extends DialogFragment {
 
         TextView logo_copyright = (TextView) view.findViewById(R.id.copyright_logo);
         logo_copyright.setText(Html.fromHtml(getString(R.string.copyright_logo)));
-        logo_copyright.setLinkTextColor(getResources().getColor(R.color.text_link_color));
+        logo_copyright.setLinkTextColor(getResources().getColor(R.color.text_link_color_dark));
         logo_copyright.setMovementMethod(LinkMovementMethod.getInstance());
 
         TextView conferenceUrl = (TextView) view.findViewById(R.id.conference_url);
         conferenceUrl.setText(Html.fromHtml(getString(R.string.conference_url)));
         conferenceUrl.setMovementMethod(LinkMovementMethod.getInstance());
+        conferenceUrl.setLinkTextColor(getResources().getColor(R.color.text_link_color_dark));
 
         TextView sourceCode = (TextView) view.findViewById(R.id.source_code);
         sourceCode.setText(Html.fromHtml(getString(R.string.source_code)));
         sourceCode.setMovementMethod(LinkMovementMethod.getInstance());
+        sourceCode.setLinkTextColor(getResources().getColor(R.color.text_link_color_dark));
 
         TextView issues = (TextView) view.findViewById(R.id.issues);
         issues.setText(Html.fromHtml(getString(R.string.issues)));
         issues.setMovementMethod(LinkMovementMethod.getInstance());
+        issues.setLinkTextColor(getResources().getColor(R.color.text_link_color_dark));
 
         TextView googlePlayStore = (TextView) view.findViewById(R.id.google_play_store);
         googlePlayStore.setText(Html.fromHtml(getString(R.string.google_play_store)));
         googlePlayStore.setMovementMethod(LinkMovementMethod.getInstance());
+        googlePlayStore.setLinkTextColor(getResources().getColor(R.color.text_link_color_dark));
     }
 }
