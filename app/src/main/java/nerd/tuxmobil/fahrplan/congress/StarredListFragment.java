@@ -80,11 +80,11 @@ public class StarredListFragment extends AbstractListFragment {
         LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
         View view, header;
         if (sidePane) {
-            view = localInflater.inflate(R.layout.fragment_lecture_list_narrow, container, false);
+            view = localInflater.inflate(R.layout.fragment_favorites_list_narrow, container, false);
             mListView = (ListView) view.findViewById(android.R.id.list);
             header = localInflater.inflate(R.layout.starred_header, null, false);
         } else {
-            view = localInflater.inflate(R.layout.fragment_lecture_list, container, false);
+            view = localInflater.inflate(R.layout.fragment_favorites_list, container, false);
             mListView = (ListView) view.findViewById(android.R.id.list);
             header = localInflater.inflate(R.layout.header_empty, null, false);
         }
@@ -115,9 +115,9 @@ public class StarredListFragment extends AbstractListFragment {
     }
 
     public void onRefresh() {
-        LectureList updatedChanges = FahrplanMisc.readChanges(getActivity());
+        LectureList starred = FahrplanMisc.getStarredLectures(getActivity());
         starredList.clear();
-        starredList.addAll(updatedChanges);
+        starredList.addAll(starred);
         mAdapter.notifyDataSetChanged();
     }
 

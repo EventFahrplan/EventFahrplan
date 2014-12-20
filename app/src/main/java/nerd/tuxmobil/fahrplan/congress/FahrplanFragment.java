@@ -958,6 +958,10 @@ public class FahrplanFragment extends Fragment implements
                 }
                 setLectureBackground(lecture, contextMenuView);
                 setLectureTextColor(lecture, contextMenuView);
+                MainActivity main = (MainActivity) getActivity();
+                if (main != null) {
+                    main.refreshFavoriteList();
+                }
                 break;
             case 1:
                 getAlarmTimeDialog(lecture);

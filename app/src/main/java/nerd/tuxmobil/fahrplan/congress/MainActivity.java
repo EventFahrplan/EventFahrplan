@@ -479,4 +479,12 @@ public class MainActivity extends ActionBarActivity
         }
         supportInvalidateOptionsMenu();
     }
+
+    public void refreshFavoriteList() {
+        FragmentManager fm = getSupportFragmentManager();
+        StarredListFragment favoriteFragment = (StarredListFragment)fm.findFragmentByTag(FragmentTags.STARRED);
+        if (favoriteFragment != null) {
+            favoriteFragment.onRefresh();
+        }
+    }
 }
