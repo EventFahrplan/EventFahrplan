@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.text.DateFormat;
@@ -53,6 +54,8 @@ public class LectureArrayAdapter extends ArrayAdapter<Lecture> {
             viewHolder.time = (TextView) rowView.findViewById(R.id.time);
             viewHolder.room = (TextView) rowView.findViewById(R.id.room);
             viewHolder.duration = (TextView) rowView.findViewById(R.id.duration);
+            viewHolder.video = (ImageView) rowView.findViewById(R.id.video);
+            viewHolder.novideo = (ImageView) rowView.findViewById(R.id.no_video);
             rowView.setTag(viewHolder);
         } else {
             rowView = convertView;
@@ -82,6 +85,8 @@ public class LectureArrayAdapter extends ArrayAdapter<Lecture> {
         viewHolder.time.setText(tf.format(new Date(l.dateUTC)));
         viewHolder.room.setText(l.room);
         viewHolder.duration.setText(String.valueOf(l.duration) + " min.");
+        viewHolder.video.setVisibility(View.GONE);
+        viewHolder.novideo.setVisibility(View.GONE);
 
         return rowView;
     }
@@ -95,5 +100,7 @@ public class LectureArrayAdapter extends ArrayAdapter<Lecture> {
         TextView time;
         TextView room;
         TextView duration;
+        ImageView novideo;
+        ImageView video;
     }
 }
