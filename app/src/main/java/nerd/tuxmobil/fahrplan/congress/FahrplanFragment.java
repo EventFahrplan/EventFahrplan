@@ -1019,6 +1019,7 @@ public class FahrplanFragment extends Fragment implements
             View v = getLectureView(lecture);
             if (v != null) {
                 setLectureBackground(lecture, v);
+                setLectureTextColor(lecture, v);
             }
         }
     }

@@ -3,9 +3,12 @@ package nerd.tuxmobil.fahrplan.congress;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.ListFragment;
+import android.support.v4.app.FragmentActivity;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -64,6 +67,7 @@ public class StarredListFragment extends AbstractListFragment {
             sidePane = args.getBoolean(BundleKeys.SIDEPANE);
         }
 
+        setHasOptionsMenu(true);
         starredList = FahrplanMisc.getStarredLectures(getActivity());
 
         mAdapter = new LectureArrayAdapter(getActivity(), starredList);
@@ -129,8 +133,47 @@ public class StarredListFragment extends AbstractListFragment {
             // fragment is attached to one) that an item has been selected.
             position--;
             Lecture clicked = starredList.get(position);
-            if (clicked.changedIsCanceled) return;
+            if (clicked.changedIsCanceled) {
+                return;
+            }
             mListener.onLectureListClick(clicked);
         }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.starred_list_menu, menu);
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.item_clear_all:
+                int count = starredList.size();
+                for (int i = 0; i < count; i++) {
+                    Lecture l = starredList.get(0);
+                    l.highlight = false;
+                    FahrplanMisc.writeHighlight(getActivity(), l);
+                    if (MyApp.lectureList != null) {
+                        for (int j = 0; j < MyApp.lectureList.size(); j++) {
+                            Lecture lecture = MyApp.lectureList.get(j);
+                            if (lecture.lecture_id.equals(l.lecture_id)) {
+                                lecture.highlight = false;
+                                break;
+                            }
+                        }
+                    }
+                    starredList.remove(0);
+                }
+                FragmentActivity activity = getActivity();
+                if (activity instanceof MainActivity) {
+                    ((MainActivity) activity).refreshEventMarkers();
+                }
+                mAdapter.notifyDataSetChanged();
+                return true;
+            case android.R.id.home:
+                return ActivityHelper.navigateUp(getActivity());
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
