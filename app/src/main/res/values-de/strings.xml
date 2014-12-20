@@ -100,4 +100,5 @@
     <string name="starred_lectures">Favoriten</string>
     <string name="schedule_url">Alternative Fahrplan URL</string>
     <string name="invalid_url">Ungültige URL</string>
+    <string name="no_favorites">Keine markierten Vorträge</string>
 </resources>

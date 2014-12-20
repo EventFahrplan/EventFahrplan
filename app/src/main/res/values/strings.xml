@@ -76,6 +76,7 @@
 	</string>
     <string name="add_to_calendar_failed">Adding event to calendar failed.</string>
     <string name="no_changes">No schedule changes</string>
+    <string name="no_favorites">No favorite lectures</string>
     <string name="schedule_changes">Schedule changes</string>
     <string name="changes_dlg_text1">The schedule has been updated to</string>
     <string name="changes_dlg_text2">. There are changes in <xliff:g id="num_changes" example="3 lectures">%2$s</xliff:g>, <xliff:g id="num_new" example="2 are">%3$s</xliff:g> new, <xliff:g id="num_canceled" example="1 is">%4$s</xliff:g> cancelled.</string>
@@ -98,6 +99,6 @@
     <string name="schedule_udpate">Schedule update</string>
     <string name="action_show_starred_lectures">Show favorites</string>
     <string name="starred_lectures">Favorites</string>
-    <string name="schedule_url">Alternate Schedule URL</string>
+    <string name="schedule_url">Alternative Schedule URL</string>
     <string name="invalid_url">Invalid URL</string>
 </resources>
