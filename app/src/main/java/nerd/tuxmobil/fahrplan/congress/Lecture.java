@@ -200,5 +200,8 @@ public class Lecture {
         return false;
     }
 
+    public String getFormattedSpeakers() {
+        return speakers.replaceAll(";", ", ");
+    }
 
 }

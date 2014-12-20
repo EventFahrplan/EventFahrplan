@@ -92,7 +92,7 @@ public class LectureChangesArrayAdapter extends ArrayAdapter<Lecture> {
         Lecture l = list.get(position);
         viewHolder.title.setText(l.title);
         viewHolder.subtitle.setText(l.subtitle);
-        viewHolder.speakers.setText(l.speakers);
+        viewHolder.speakers.setText(l.getFormattedSpeakers());
         viewHolder.lang.setText(l.lang);
         viewHolder.day.setText(df.format(new Date(l.dateUTC)));
         viewHolder.time.setText(tf.format(new Date(l.dateUTC)));
