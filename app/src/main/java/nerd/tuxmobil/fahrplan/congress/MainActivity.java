@@ -345,22 +345,10 @@ public class MainActivity extends ActionBarActivity
                 startActivity(intent);
                 return true;
             case R.id.item_changes:
-                FrameLayout sidePane = (FrameLayout) findViewById(R.id.detail);
-                if (sidePane == null) {
-                    intent = new Intent(this, ChangeListActivity.class);
-                    startActivityForResult(intent, MyApp.CHANGELOG);
-                } else {
-                    FragmentManager fm = getSupportFragmentManager();
-                    sidePane.setVisibility(View.VISIBLE);
-                    FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                    ChangeListFragment changes = ChangeListFragment.newInstance(true);
-                    fragmentTransaction.replace(R.id.detail, changes, FragmentTags.CHANGES);
-                    fragmentTransaction.addToBackStack(FragmentTags.CHANGES);
-                    fragmentTransaction.commit();
-                }
+                openLectureChanges();
                 return true;
             case R.id.item_starred_list:
-                sidePane = (FrameLayout) findViewById(R.id.detail);
+                FrameLayout sidePane = (FrameLayout) findViewById(R.id.detail);
                 if (sidePane == null) {
                     intent = new Intent(this, StarredListActivity.class);
                     startActivityForResult(intent, MyApp.STARRED);
@@ -485,6 +473,22 @@ public class MainActivity extends ActionBarActivity
         StarredListFragment favoriteFragment = (StarredListFragment)fm.findFragmentByTag(FragmentTags.STARRED);
         if (favoriteFragment != null) {
             favoriteFragment.onRefresh();
+        }
+    }
+
+    public void openLectureChanges() {
+        FrameLayout sidePane = (FrameLayout) findViewById(R.id.detail);
+        if (sidePane == null) {
+            Intent intent = new Intent(this, ChangeListActivity.class);
+            startActivityForResult(intent, MyApp.CHANGELOG);
+        } else {
+            FragmentManager fm = getSupportFragmentManager();
+            sidePane.setVisibility(View.VISIBLE);
+            FragmentTransaction fragmentTransaction = fm.beginTransaction();
+            ChangeListFragment changes = ChangeListFragment.newInstance(true);
+            fragmentTransaction.replace(R.id.detail, changes, FragmentTags.CHANGES);
+            fragmentTransaction.addToBackStack(FragmentTags.CHANGES);
+            fragmentTransaction.commit();
         }
     }
 }

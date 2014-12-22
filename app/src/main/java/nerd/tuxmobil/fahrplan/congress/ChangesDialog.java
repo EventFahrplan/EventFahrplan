@@ -35,6 +35,7 @@ public class ChangesDialog extends DialogFragment {
         args.putInt(BundleKeys.CHANGES_DLG_NUM_MARKED, marked);
         args.putString(BundleKeys.CHANGES_DLG_VERSION, version);
         dialog.setArguments(args);
+        dialog.setCancelable(false);
         return dialog;
     }
 
@@ -56,9 +57,25 @@ public class ChangesDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
                 .setTitle(getString(R.string.schedule_udpate))
-                .setPositiveButton(getString(android.R.string.yes),
+                .setPositiveButton(R.string.btn_dlg_browse,
 
                         new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences
+                                        (getActivity());
+                                SharedPreferences.Editor edit = prefs.edit();
+                                edit.putBoolean(BundleKeys.PREFS_CHANGES_SEEN, true);
+                                edit.commit();
+
+                                FragmentActivity activity = getActivity();
+                                if (activity instanceof MainActivity) {
+                                    ((MainActivity)activity).openLectureChanges();
+                                }
+                            }
+                        })
+                .setNegativeButton(R.string.btn_dlg_later,
+                        new DialogInterface.OnClickListener() {
+                            @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences
                                         (getActivity());
