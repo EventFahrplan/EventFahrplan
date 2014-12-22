@@ -437,6 +437,7 @@ public class MainActivity extends ActionBarActivity
             case MyApp.ALARMLIST:
             case MyApp.EVENTVIEW:
             case MyApp.CHANGELOG:
+            case MyApp.STARRED:
                 if (resultCode == ActionBarActivity.RESULT_OK) {
                     refreshEventMarkers();
                 }
