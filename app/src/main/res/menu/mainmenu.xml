@@ -8,6 +8,13 @@
             android:title="@string/refresh">
     </item>
     <item
+        android:id="@+id/item_starred_list"
+        android:title="@string/action_show_starred_lectures"
+        android:titleCondensed="@string/action_show_starred_lectures"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_action_action_list">
+    </item>
+    <item
             android:id="@+id/item_alarms"
             android:icon="@drawable/ic_menu_alarmclock"
             android:title="@string/alarms"
@@ -17,11 +24,6 @@
         android:id="@+id/item_changes"
         android:title="@string/schedule_changes"
         android:titleCondensed="@string/schedule_changes">
-    </item>
-    <item
-        android:id="@+id/item_starred_list"
-        android:title="@string/action_show_starred_lectures"
-        android:titleCondensed="@string/action_show_starred_lectures">
     </item>
     <item
             android:id="@+id/item_settings"
