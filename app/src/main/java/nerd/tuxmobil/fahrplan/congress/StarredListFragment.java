@@ -110,6 +110,27 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
     }
 
     @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        Time now = new Time();
+        now.setToNow();
+        long nowMillis = now.toMillis(true);
+
+        int i;
+        int numSeperators = 0;
+        for (i = 0; i < starredList.size(); i++) {
+            Lecture lecture = starredList.get(i);
+            if (lecture.dateUTC + (lecture.duration * 60000) > nowMillis) {
+                numSeperators = lecture.day;
+                break;
+            }
+        }
+        if ((i > 0) && (i < starredList.size())) {
+            mListView.setSelection(i+1+numSeperators);
+        }
+    }
+
+    @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
