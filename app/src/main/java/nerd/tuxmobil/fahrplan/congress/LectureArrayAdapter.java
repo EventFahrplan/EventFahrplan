@@ -41,6 +41,11 @@ public class LectureArrayAdapter extends ArrayAdapter<Lecture> {
         textView.setTextAppearance(context, style);
     }
 
+    private void setTextStylePast(TextView textView) {
+        textView.setTextColor(this.context.getResources().getColor(R.color
+                .schedule_change_canceled));
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View rowView = null;
@@ -109,6 +114,16 @@ public class LectureArrayAdapter extends ArrayAdapter<Lecture> {
                 resetTextStyle(viewHolder.duration, R.style.ScheduleListSecondary);
 
                 Lecture l = list.get(mMapper.get(position));
+                if (l.dateUTC + (l.duration * 60000) < now.toMillis(true)) {
+                    setTextStylePast(viewHolder.title);
+                    setTextStylePast(viewHolder.subtitle);
+                    setTextStylePast(viewHolder.speakers);
+                    setTextStylePast(viewHolder.lang);
+                    setTextStylePast(viewHolder.day);
+                    setTextStylePast(viewHolder.time);
+                    setTextStylePast(viewHolder.room);
+                    setTextStylePast(viewHolder.duration);
+                }
 
                 viewHolder.title.setText(l.title);
                 viewHolder.subtitle.setText(l.subtitle);
