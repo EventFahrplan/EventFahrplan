@@ -102,4 +102,5 @@
     <string name="invalid_url">Ungültige URL</string>
     <string name="no_favorites">Keine markierten Vorträge</string>
     <string name="choose_to_delete">Wähle Vorträge</string>
+    <string name="day_seperator">Tag <xliff:g id="day_of_congress" example="2">%1$d</xliff:g> - <xliff:g id="date_of_congress_day" example="29.12.2014">%2$s</xliff:g></string>
 </resources>

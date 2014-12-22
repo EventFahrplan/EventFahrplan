@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item type="layout" name="lecture_list_seperator">
+        @layout/lecture_list_seperator_land_large
+    </item>
+
+</resources>

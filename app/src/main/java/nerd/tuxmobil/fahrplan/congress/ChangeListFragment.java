@@ -128,7 +128,7 @@ public class ChangeListFragment extends AbstractListFragment {
             // Notify the active callbacks interface (the activity, if the
             // fragment is attached to one) that an item has been selected.
             position--;
-            Lecture clicked = changesList.get(position);
+            Lecture clicked = changesList.get(mAdapter.getMapper().get(position));
             if (clicked.changedIsCanceled) return;
             mListener.onLectureListClick(clicked);
         }

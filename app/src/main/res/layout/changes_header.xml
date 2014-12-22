@@ -11,10 +11,8 @@
         android:textAppearance="@android:style/TextAppearance.Large"
         android:textStyle="bold"
         android:textColor="@android:color/secondary_text_light"
-        android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:paddingTop="32dp"
-        android:paddingBottom="24dp"
         android:fontFamily="sans-serif-light"
         android:text="@string/schedule_changes"
         />

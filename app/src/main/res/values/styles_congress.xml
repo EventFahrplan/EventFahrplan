@@ -84,6 +84,12 @@
         <item name="android:maxHeight">32dp</item>
     </style>
 
+    <style name="ScheduleListSeperator" parent="@android:style/TextAppearance.Small">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/text_link_color</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
     <style name="ScheduleListPrimary" parent="@android:style/TextAppearance.Medium">
         <item name="android:textStyle">bold</item>
         <item name="android:fontFamily">sans-serif-condensed</item>

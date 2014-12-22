@@ -102,4 +102,5 @@
     <string name="schedule_url">Alternative Schedule URL</string>
     <string name="invalid_url">Invalid URL</string>
     <string name="choose_to_delete">Select lectures</string>
+    <string name="day_seperator">Day <xliff:g id="day_of_congress" example="2">%1$d</xliff:g> - <xliff:g id="date_of_congress_day" example="29.12.2014">%2$s</xliff:g></string>
 </resources>
