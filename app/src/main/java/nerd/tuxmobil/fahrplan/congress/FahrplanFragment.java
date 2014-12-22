@@ -36,6 +36,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialogCompat;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -925,7 +927,7 @@ public class FahrplanFragment extends Fragment implements
         TextView msg = (TextView) layout.findViewById(R.id.message);
         msg.setText(R.string.choose_alarm_time);
 
-        new AlertDialog.Builder(getActivity()).setTitle(R.string.setup_alarm)
+        new MaterialDialogCompat.Builder(getActivity()).setTitle(R.string.setup_alarm)
                 .setView(layout)
                 .setPositiveButton(android.R.string.ok,
                         new DialogInterface.OnClickListener() {

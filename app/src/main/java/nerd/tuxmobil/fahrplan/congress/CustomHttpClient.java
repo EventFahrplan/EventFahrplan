@@ -20,6 +20,8 @@ import android.os.Build;
 import android.util.Base64;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialogCompat;
+
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 
@@ -108,7 +110,7 @@ public class CustomHttpClient {
 
     public static void showErrorDialog(final Activity ctx, final int msgTitle, final int msgText,
             final Object... args) {
-        new AlertDialog.Builder(ctx).setTitle(
+        new MaterialDialogCompat.Builder(ctx).setTitle(
                 ctx.getString(msgTitle))
                 .setMessage(ctx.getString(msgText, args))
                 .setPositiveButton(ctx.getString(R.string.OK),

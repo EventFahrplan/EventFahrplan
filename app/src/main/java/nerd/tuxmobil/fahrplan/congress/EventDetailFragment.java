@@ -22,6 +22,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialogCompat;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -275,7 +277,7 @@ public class EventDetailFragment extends Fragment {
         TextView msg = (TextView) layout.findViewById(R.id.message);
         msg.setText(R.string.choose_alarm_time);
 
-        new AlertDialog.Builder(getActivity()).setTitle(R.string.setup_alarm)
+        new MaterialDialogCompat.Builder(getActivity()).setTitle(R.string.setup_alarm)
                 .setView(layout)
                 .setPositiveButton(android.R.string.ok,
                         new DialogInterface.OnClickListener() {

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentActivity;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
@@ -16,6 +17,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.afollestad.materialdialogs.MaterialDialogCompat;
 
 public class ChangesDialog extends DialogFragment {
 
@@ -55,7 +58,7 @@ public class ChangesDialog extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
+        MaterialDialogCompat.Builder builder = new MaterialDialogCompat.Builder(getActivity())
                 .setTitle(getString(R.string.schedule_udpate))
                 .setPositiveButton(R.string.btn_dlg_browse,
 

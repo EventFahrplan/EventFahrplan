@@ -34,6 +34,7 @@
         <item name="actionDropDownStyle">@style/MyActionDropDownStyle</item>
         <item name="windowActionModeOverlay">true</item>
         <item name="android:actionModeBackground">@color/colorPrimary</item>
+        <item name="md_dark_theme">true</item>
     </style>
 
     <style name="Theme.Congress.NoActionBar" parent="Theme.AppCompat.NoActionBar">
@@ -51,6 +52,7 @@
         <item name="actionDropDownStyle">@style/MyActionDropDownStyle</item>
         <item name="windowActionModeOverlay">true</item>
         <item name="android:actionModeBackground">@color/colorPrimary</item>
+        <item name="md_dark_theme">true</item>
     </style>
 
     <style name="MyActionDropDownStyle" parent="Widget.AppCompat.Spinner.DropDown.ActionBar">

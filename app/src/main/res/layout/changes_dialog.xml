@@ -3,10 +3,7 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:paddingLeft="24dp"
-              android:paddingTop="24dp"
-              android:paddingRight="24dp"
-              android:paddingBottom="8dp">
+              >
 
     <TextView
         android:layout_width="wrap_content"
@@ -21,7 +18,6 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/changes_dlg_text3"
-        android:id="@+id/changes_dlg_text2"
-        android:layout_marginBottom="16dp"/>
+        android:id="@+id/changes_dlg_text2" />
 
 </LinearLayout>

@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialogCompat;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateEncodingException;
@@ -35,7 +37,7 @@ public class CertificateDialogFragment extends DialogFragment {
 
     private static void showErrorDialog(final int msgResId, final Activity ctx,
             final Object... args) {
-        new AlertDialog.Builder(ctx).setTitle(
+        new MaterialDialogCompat.Builder(ctx).setTitle(
                 ctx.getString(R.string.dlg_invalid_certificate_could_not_apply))
                 .setMessage(ctx.getString(msgResId, args))
                 .setPositiveButton(ctx.getString(R.string.OK),
@@ -109,7 +111,7 @@ public class CertificateDialogFragment extends DialogFragment {
             chainInfo.append("SHA1 Fingerprint: " + getFingerPrint(chain[i])).append("\n");
         }
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
+        MaterialDialogCompat.Builder builder = new MaterialDialogCompat.Builder(getActivity())
                 .setTitle(getString(R.string.dlg_invalid_certificate_title))
                 .setCancelable(true)
                 .setPositiveButton(getString(android.R.string.yes),
