@@ -104,7 +104,6 @@
                 android:paddingTop="10dp"
                 android:singleLine="false"
                 android:linksClickable="true"
-                android:visibility="gone"
                 android:text=""/>
 
         <TextView
