@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.preference.PreferenceManager;
+import android.support.v4.app.NotificationCompat;
 
 import nerd.tuxmobil.fahrplan.congress.FahrplanContract.AlarmsTable;
 
@@ -40,19 +41,7 @@ public final class AlarmReceiver extends BroadcastReceiver {
             Notification notify = new Notification();
 
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-
-            notify.sound = Uri.parse(prefs.getString("reminder_tone", ""));
             boolean insistent = prefs.getBoolean("insistent", false);
-            MyApp.LogDebug("alarm", "insistent is " + insistent);
-            notify.flags = Notification.FLAG_AUTO_CANCEL;
-            if (insistent) {
-                notify.flags |= Notification.FLAG_INSISTENT;
-            }
-            MyApp.LogDebug("alarm", "flags: " + notify.flags);
-            notify.defaults = Notification.DEFAULT_LIGHTS | Notification.DEFAULT_VIBRATE;
-            MyApp.LogDebug("alarm", "url: " + prefs.getString("reminder_tone", ""));
-            notify.icon = R.drawable.ic_notification;
-            notify.when = when;
 
             Intent notificationIntent = new Intent(context, MainActivity.class);
             notificationIntent.putExtra("lecture_id", lecture_id);
@@ -61,8 +50,22 @@ public final class AlarmReceiver extends BroadcastReceiver {
                     Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
             PendingIntent contentIntent = PendingIntent
                     .getActivity(context, lid, notificationIntent, PendingIntent.FLAG_ONE_SHOT);
-            notify.setLatestEventInfo(context, context.getString(R.string.reminder), title,
-                    contentIntent);
+
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
+            notify = builder.setSound(Uri.parse(prefs.getString("reminder_tone", "")))
+                    .setAutoCancel(true)
+                    .setDefaults(Notification.DEFAULT_LIGHTS | Notification.DEFAULT_VIBRATE)
+                    .setSmallIcon(R.drawable.ic_notification)
+                    .setColor(context.getResources().getColor(R.color.colorAccent))
+                    .setContentIntent(contentIntent)
+                    .setContentText(context.getString(R.string.reminder))
+                    .setContentTitle(title)
+                    .setWhen(when).build();
+
+            MyApp.LogDebug("alarm", "insistent is " + insistent);
+            if (insistent) {
+                notify.flags |= Notification.FLAG_INSISTENT;
+            }
 
             nm.notify(1, notify);
 

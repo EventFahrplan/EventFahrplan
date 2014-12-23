@@ -66,6 +66,7 @@ public class UpdateService extends IntentService
                 .setSound(Uri.parse(prefs.getString("reminder_tone", "")))
                 .setContentIntent(contentIntent)
                 .setSubText(changesTxt)
+                .setColor(getResources().getColor(R.color.colorAccent))
                 .build();
 
         nm.notify(2, notify);
