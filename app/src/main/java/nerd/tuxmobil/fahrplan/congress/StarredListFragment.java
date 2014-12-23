@@ -117,16 +117,16 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
         long nowMillis = now.toMillis(true);
 
         int i;
-        int numSeperators = 0;
+        int numSeparators = 0;
         for (i = 0; i < starredList.size(); i++) {
             Lecture lecture = starredList.get(i);
             if (lecture.dateUTC + (lecture.duration * 60000) > nowMillis) {
-                numSeperators = lecture.day;
+                numSeparators = lecture.day;
                 break;
             }
         }
         if ((i > 0) && (i < starredList.size())) {
-            mListView.setSelection(i+1+numSeperators);
+            mListView.setSelection(i+1+numSeparators);
         }
     }
 
