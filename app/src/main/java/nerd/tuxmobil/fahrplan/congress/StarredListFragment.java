@@ -109,9 +109,7 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
         return view;
     }
 
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    private void jumpOverPastLectures() {
         Time now = new Time();
         now.setToNow();
         long nowMillis = now.toMillis(true);
@@ -128,6 +126,12 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
         if ((i > 0) && (i < starredList.size())) {
             mListView.setSelection(i+1+numSeparators);
         }
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        jumpOverPastLectures();
     }
 
     @Override
