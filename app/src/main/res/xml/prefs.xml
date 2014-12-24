@@ -11,6 +11,10 @@
             android:title="@string/schedule_url"
             android:hint="https://yourhost/schedule.xml"
             />
+        <CheckBoxPreference
+            android:key="alternative_highlight"
+            android:title="@string/alternative_highlight"
+            android:defaultValue="false" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/reminders">
         <RingtonePreference

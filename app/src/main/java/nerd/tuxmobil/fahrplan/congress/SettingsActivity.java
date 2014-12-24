@@ -1,5 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.Preference;
@@ -69,6 +70,27 @@ public class SettingsActivity extends ActionBarActivity {
                     return true;
                 }
             });
+
+            findPreference("alternative_highlight")
+                    .setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+
+                        @Override
+                        public boolean onPreferenceChange(Preference preference, Object newValue) {
+
+                            SharedPreferences prefs = PreferenceManager
+                                    .getDefaultSharedPreferences(getActivity());
+
+                            SharedPreferences.Editor edit = prefs.edit();
+                            edit.putBoolean(BundleKeys.PREFS_ALTERNATIVE_HIGHLIGHT, (Boolean) newValue);
+                            edit.apply();
+
+                            Intent redrawIntent = new Intent();
+                            redrawIntent.putExtra(BundleKeys.PREFS_ALTERNATIVE_HIGHLIGHT, true);
+                            getActivity().setResult(ActionBarActivity.RESULT_OK, redrawIntent);
+
+                            return true;
+                        }
+                    });
         }
     }
 }

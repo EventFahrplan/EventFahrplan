@@ -105,4 +105,5 @@
     <string name="day_seperator">Day <xliff:g id="day_of_congress" example="2">%1$d</xliff:g> - <xliff:g id="date_of_congress_day" example="29.12.2014">%2$s</xliff:g></string>
     <string name="btn_dlg_browse">Browse</string>
     <string name="btn_dlg_later">Later</string>
+    <string name="alternative_highlight">Alternative highlighting</string>
 </resources>

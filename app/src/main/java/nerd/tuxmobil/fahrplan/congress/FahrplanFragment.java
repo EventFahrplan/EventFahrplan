@@ -12,6 +12,7 @@ import android.database.sqlite.SQLiteException;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -153,12 +154,19 @@ public class FahrplanFragment extends Fragment implements
             });
         }
 
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         trackBackgrounds = TrackBackgrounds.getTrackBackgroundNormal(getActivity());
-        trackBackgroundsHi = TrackBackgrounds.getTrackBackgroundHighLight(getActivity());
+        if (prefs.getBoolean(BundleKeys.PREFS_ALTERNATIVE_HIGHLIGHT, false)) {
+            MyApp.LogDebug(LOG_TAG, "alternative highlight");
+            trackBackgroundsHi = TrackBackgrounds.getTrackBackgroundHighLightAlternative(getActivity());
+        } else {
+            MyApp.LogDebug(LOG_TAG, "normal highlight");
+            trackBackgroundsHi = TrackBackgrounds.getTrackBackgroundHighLight(getActivity());
+        }
         trackAccentColors = TrackBackgrounds.getTrackAccentColorNormal(getActivity());
         trackAccentColorsHighlight = TrackBackgrounds.getTrackAccentColorHighlight(getActivity());
 
-        SharedPreferences prefs = getActivity().getSharedPreferences(PREFS_NAME, 0);
+        prefs = getActivity().getSharedPreferences(PREFS_NAME, 0);
         mDay = prefs.getInt("displayDay", 1);
 
         inflater = (LayoutInflater) getActivity()

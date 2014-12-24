@@ -342,7 +342,7 @@ public class MainActivity extends ActionBarActivity
                 return true;
             case R.id.item_settings:
                 intent = new Intent(this, SettingsActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, MyApp.SETTINGS);
                 return true;
             case R.id.item_changes:
                 openLectureChanges();
@@ -442,6 +442,16 @@ public class MainActivity extends ActionBarActivity
                     refreshEventMarkers();
                 }
                 break;
+            case MyApp.SETTINGS:
+                if ((resultCode == ActionBarActivity.RESULT_OK) && (intent.getBooleanExtra(BundleKeys.PREFS_ALTERNATIVE_HIGHLIGHT, false))) {
+                    if (findViewById(R.id.schedule) != null) {
+                        FragmentManager fm = getSupportFragmentManager();
+                        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                        fragmentTransaction
+                                .replace(R.id.schedule, new FahrplanFragment(), FragmentTags.SCHEDULE);
+                        fragmentTransaction.commit();
+                    }
+                }
         }
     }
 

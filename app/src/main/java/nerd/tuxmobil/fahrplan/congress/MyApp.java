@@ -60,6 +60,7 @@ public class MyApp extends Application {
     final public static int EVENTVIEW = 2;
     final public static int CHANGELOG = 3;
     final public static int STARRED = 4;
+    final public static int SETTINGS = 5;
 
     public static TASKS task_running = TASKS.NONE;
 
