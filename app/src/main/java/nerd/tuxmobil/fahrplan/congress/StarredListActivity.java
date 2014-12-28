@@ -2,10 +2,12 @@ package nerd.tuxmobil.fahrplan.congress;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 
-public class StarredListActivity extends ActionBarActivity implements AbstractListFragment.OnLectureListClick {
+public class StarredListActivity extends ActionBarActivity implements AbstractListFragment
+        .OnLectureListClick, ConfirmationDialog.OnConfirmationDialogClicked {
 
     private static final String LOG_TAG = "StarredListActivity";
 
@@ -17,7 +19,7 @@ public class StarredListActivity extends ActionBarActivity implements AbstractLi
         setSupportActionBar(toolbar);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new StarredListFragment())
+                    .add(R.id.container, new StarredListFragment(), FahrplanContract.FragmentTags.STARRED)
                     .commit();
             MyApp.LogDebug(LOG_TAG, "onCreate fragment created");
         }
@@ -48,5 +50,21 @@ public class StarredListActivity extends ActionBarActivity implements AbstractLi
         if ((requestCode == MyApp.EVENTVIEW) && (resultCode == RESULT_OK)) {
             setResult(RESULT_OK);
         }
+    }
+
+    @Override
+    public void onAccepted(int dlgId) {
+        FragmentManager fm = getSupportFragmentManager();
+        StarredListFragment fragment = (StarredListFragment)fm.findFragmentByTag(FahrplanContract
+                .FragmentTags.STARRED);
+        if (fragment != null) {
+            fragment.deleteAllFavorites();
+        } else {
+            MyApp.LogDebug(LOG_TAG, "StarredListFragment not found");
+        }
+    }
+
+    @Override
+    public void onDenied(int dlgId) {
     }
 }

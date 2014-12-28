@@ -28,7 +28,8 @@ import nerd.tuxmobil.fahrplan.congress.MyApp.TASKS;
 
 public class MainActivity extends ActionBarActivity
         implements OnParseCompleteListener, OnDownloadCompleteListener, OnCloseDetailListener,
-        OnRefreshEventMarkers, OnCertAccepted, AbstractListFragment.OnLectureListClick, FragmentManager.OnBackStackChangedListener {
+        OnRefreshEventMarkers, OnCertAccepted, AbstractListFragment.OnLectureListClick, FragmentManager.OnBackStackChangedListener,
+        ConfirmationDialog.OnConfirmationDialogClicked {
 
     private static final String LOG_TAG = "MainActivity";
 
@@ -501,5 +502,23 @@ public class MainActivity extends ActionBarActivity
             fragmentTransaction.addToBackStack(FragmentTags.CHANGES);
             fragmentTransaction.commit();
         }
+    }
+
+    @Override
+    public void onAccepted(int dlgId) {
+        switch (dlgId) {
+            case 0:
+                FragmentManager fm = getSupportFragmentManager();
+                StarredListFragment fragment = (StarredListFragment)fm.findFragmentByTag(FahrplanContract
+                        .FragmentTags.STARRED);
+                if (fragment != null) {
+                    fragment.deleteAllFavorites();
+                }
+                break;
+        }
+    }
+
+    @Override
+    public void onDenied(int dlgId) {
     }
 }

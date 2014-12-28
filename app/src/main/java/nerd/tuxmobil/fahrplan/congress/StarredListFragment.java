@@ -3,7 +3,10 @@ package nerd.tuxmobil.fahrplan.congress;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.view.MenuItemCompat;
 import android.text.format.Time;
 import android.util.SparseBooleanArray;
 import android.view.ActionMode;
@@ -169,16 +172,16 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.starred_list_menu, menu);
+        MenuItem item = menu.findItem(R.id.item_clear_all);
+        if ((item != null) && ((starredList == null) || (starredList.size() == 0))) {
+            item.setVisible(false);
+        }
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.item_clear_all:
-                int count = starredList.size();
-                for (int i = 0; i < count; i++) {
-                    deleteItem(0);
-                }
-                refreshViews();
+                askToDeleteAllFavorites();
                 return true;
             case android.R.id.home:
                 return ActivityHelper.navigateUp(getActivity());
@@ -248,6 +251,7 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
         }
         mAdapter.notifyDataSetChanged();
         getActivity().setResult(FragmentActivity.RESULT_OK);
+        getActivity().supportInvalidateOptionsMenu();
     }
 
     @Override
@@ -259,5 +263,26 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
     public void onResume() {
         super.onResume();
         jumpOverPastLectures();
+    }
+
+    private void askToDeleteAllFavorites()
+    {
+        FragmentManager fm = getActivity().getSupportFragmentManager();
+        Fragment fragment = fm.findFragmentByTag(ConfirmationDialog.TAG);
+
+        if (fragment == null) {
+            ConfirmationDialog confirm = ConfirmationDialog.newInstance(0, R.string.dlg_delete_all_favorites, 0);
+            confirm.show(fm, ConfirmationDialog.TAG);
+        }
+    }
+
+    public void deleteAllFavorites() {
+        MyApp.LogDebug(LOG_TAG, "deleteAllFavorites");
+        if (starredList == null) return;
+        int count = starredList.size();
+        for (int i = 0; i < count; i++) {
+            deleteItem(0);
+        }
+        refreshViews();
     }
 }
