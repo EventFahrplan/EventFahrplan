@@ -110,6 +110,7 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
     }
 
     private void jumpOverPastLectures() {
+        if (starredList == null) return;
         Time now = new Time();
         now.setToNow();
         long nowMillis = now.toMillis(true);

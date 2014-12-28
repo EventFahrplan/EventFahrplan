@@ -196,6 +196,8 @@ public class LectureArrayAdapter extends ArrayAdapter<Lecture> {
         int lastDay = 0;
         int sepCount = 0;
 
+        if (list == null) return;
+
         DateFormat df = SimpleDateFormat.getDateInstance(SimpleDateFormat.SHORT);
 
         for (int index = 0; index < list.size(); index++) {
