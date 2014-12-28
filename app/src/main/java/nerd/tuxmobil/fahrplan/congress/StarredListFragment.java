@@ -130,12 +130,6 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        jumpOverPastLectures();
-    }
-
-    @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
@@ -259,5 +253,11 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
     @Override
     public void onDestroyActionMode(ActionMode mode) {
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        jumpOverPastLectures();
     }
 }
