@@ -221,6 +221,7 @@ class parser extends AsyncTask<String, Void, Boolean> {
             String date = "";
             int room_index = 0;
             int room_map_index = 0;
+            boolean schedule_complete = false;
             HashMap<String, Integer> roomsMap = new HashMap<String, Integer>();
             while (eventType != XmlPullParser.END_DOCUMENT && !done && !isCancelled()) {
                 String name = null;
@@ -228,6 +229,12 @@ class parser extends AsyncTask<String, Void, Boolean> {
                     case XmlPullParser.START_DOCUMENT:
                         lectures = new LectureList();
                         meta = new MetaInfo();
+                        break;
+                    case XmlPullParser.END_TAG:
+                        name = parser.getName();
+                        if (name.equals("schedule")) {
+                            schedule_complete = true;
+                        }
                         break;
                     case XmlPullParser.START_TAG:
                         name = parser.getName();
@@ -453,7 +460,7 @@ class parser extends AsyncTask<String, Void, Boolean> {
                 }
                 eventType = parser.next();
             }
-            meta.numdays = numdays;
+            if (!schedule_complete) return false;
             if (isCancelled()) {
                 return false;
             }
@@ -462,6 +469,7 @@ class parser extends AsyncTask<String, Void, Boolean> {
             if (isCancelled()) {
                 return false;
             }
+            meta.numdays = numdays;
             meta.eTag = eTag;
             storeMeta(context, meta);
             return true;
