@@ -4,7 +4,10 @@
               android:layout_width="fill_parent"
               android:layout_height="wrap_content"
               android:orientation="horizontal"
-              android:padding="10dp"
+              android:paddingTop="10dp"
+              android:paddingBottom="10dp"
+              android:paddingLeft="@dimen/list_pane_leftright_padding"
+              android:paddingRight="@dimen/list_pane_leftright_padding"
               tools:background="@android:color/holo_green_light">
 
     <TextView
