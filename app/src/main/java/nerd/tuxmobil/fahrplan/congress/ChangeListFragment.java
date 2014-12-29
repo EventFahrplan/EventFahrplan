@@ -65,6 +65,7 @@ public class ChangeListFragment extends AbstractListFragment {
         }
 
         changesList = FahrplanMisc.readChanges(getActivity());
+        if (changesList == null) changesList = new LectureList();
 
         mAdapter = new LectureChangesArrayAdapter(getActivity(), changesList);
         MyApp.LogDebug(LOG_TAG, "onCreate, " + changesList.size() + " changes");
@@ -116,8 +117,10 @@ public class ChangeListFragment extends AbstractListFragment {
 
     public void onRefresh() {
         LectureList updatedChanges = FahrplanMisc.readChanges(getActivity());
-        changesList.clear();
-        changesList.addAll(updatedChanges);
+        if (changesList != null) {
+            changesList.clear();
+            changesList.addAll(updatedChanges);
+        }
         mAdapter.notifyDataSetChanged();
     }
 

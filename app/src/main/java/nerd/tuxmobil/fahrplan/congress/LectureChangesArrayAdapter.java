@@ -243,8 +243,9 @@ public class LectureChangesArrayAdapter extends ArrayAdapter<Lecture> {
 
     @Override
     public int getCount() {
-        int count;
-        count = list.size() + mSeparatorsSet.size();
+        int count = 0;
+        if (list != null) count += list.size();
+        if (mSeparatorsSet != null) count += mSeparatorsSet.size();
         return count;
     }
 
@@ -255,6 +256,8 @@ public class LectureChangesArrayAdapter extends ArrayAdapter<Lecture> {
         int day = 0;
         int lastDay = 0;
         int sepCount = 0;
+
+        if (list == null) return;
 
         DateFormat df = SimpleDateFormat.getDateInstance(SimpleDateFormat.SHORT);
 

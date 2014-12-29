@@ -183,8 +183,9 @@ public class LectureArrayAdapter extends ArrayAdapter<Lecture> {
 
     @Override
     public int getCount() {
-        int count;
-        count = list.size() + mSeparatorsSet.size();
+        int count = 0;
+        if (list != null) count += list.size();
+        if (mSeparatorsSet != null) count += mSeparatorsSet.size();
         return count;
     }
 

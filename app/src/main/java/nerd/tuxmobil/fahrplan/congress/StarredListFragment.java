@@ -77,9 +77,10 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
 
         setHasOptionsMenu(true);
         starredList = FahrplanMisc.getStarredLectures(getActivity());
+        if (starredList == null) starredList = new LectureList();
 
         mAdapter = new LectureArrayAdapter(getActivity(), starredList);
-        MyApp.LogDebug(LOG_TAG, "onCreate, " + starredList.size() + " changes");
+        MyApp.LogDebug(LOG_TAG, "onCreate, " + starredList.size() + " favorites");
     }
 
     @Override
@@ -151,8 +152,10 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
 
     public void onRefresh() {
         LectureList starred = FahrplanMisc.getStarredLectures(getActivity());
-        starredList.clear();
-        starredList.addAll(starred);
+        if (starredList != null) {
+            starredList.clear();
+            starredList.addAll(starred);
+        }
         mAdapter.notifyDataSetChanged();
     }
 
