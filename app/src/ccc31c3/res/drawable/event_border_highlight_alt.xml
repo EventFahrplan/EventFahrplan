@@ -12,12 +12,6 @@
             <!-- <stroke android:width="1dip" android:color="#AAAAAA" />-->
         </shape>
     </item>
-    <item android:left="3dp" android:right="1dp">
-        <shape xmlns:android="http://schemas.android.com/apk/res/android"
-               android:shape="rectangle">
-            <stroke android:color="@android:color/white" android:width="2dp"/>
-            <corners android:radius="6dp"/>
-        </shape>
-    </item>
+    <item android:drawable="@drawable/event_item_selection_stroke"/>
 </layer-list>
 
