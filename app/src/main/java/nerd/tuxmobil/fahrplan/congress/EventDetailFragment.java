@@ -129,7 +129,7 @@ public class EventDetailFragment extends Fragment {
 
             TextView t;
             t = (TextView) view.findViewById(R.id.date);
-            if (lecture.dateUTC > 0) {
+            if ((lecture != null) && (lecture.dateUTC > 0)) {
                 DateFormat df = SimpleDateFormat
                         .getDateTimeInstance(SimpleDateFormat.SHORT, SimpleDateFormat.SHORT);
                 t.setText(df.format(new Date(lecture.dateUTC)) + " - " + room);
