@@ -1,21 +1,11 @@
 package nerd.tuxmobil.fahrplan.congress;
 
-import org.apache.http.HttpVersion;
 import org.apache.http.client.HttpClient;
-import org.apache.http.conn.scheme.PlainSocketFactory;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.scheme.SchemeRegistry;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpParams;
-import org.apache.http.params.HttpProtocolParams;
 
 import android.app.Activity;
-import android.content.Context;
 import android.net.http.AndroidHttpClient;
-import android.os.Build;
-import android.util.Base64;
 import android.widget.Toast;
 
 import java.security.KeyManagementException;
@@ -40,8 +30,6 @@ public class CustomHttpClient {
         HTTP_NOT_MODIFIED
     }
 
-    private static String httpCredentials = "";
-
     private static SSLException lastSSLException = null;
 
     public static HttpClient createHttpClient(String addr, boolean secure, int https_port)
@@ -49,51 +37,15 @@ public class CustomHttpClient {
 
         MyApp.LogDebug("CustomHttpClient", addr + " " + secure + " " + https_port);
 
-        HttpClient client;
+        HttpClient client = AndroidHttpClient.newInstance("FahrplanDroid");
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO) {
-            client = AndroidHttpClient.newInstance("FahrplanDroid");
+        SchemeRegistry scheme = client.getConnectionManager()
+                .getSchemeRegistry();
+        scheme.unregister("https");
+        scheme.register(new Scheme("https",
+                new TrustedSocketFactory(addr, true), https_port));
 
-            SchemeRegistry scheme = client.getConnectionManager()
-                    .getSchemeRegistry();
-            scheme.unregister("https");
-            scheme.register(new Scheme("https",
-                    new TrustedSocketFactory(addr, true), https_port));
-        } else {
-            final HttpParams params = new BasicHttpParams();
-            HttpProtocolParams.setVersion(params, HttpVersion.HTTP_1_1);
-            HttpProtocolParams.setContentCharset(params, "UTF-8");
-            HttpProtocolParams.setUserAgent(params, "FahrplanDroid");
-
-            final SchemeRegistry registry = new SchemeRegistry();
-            registry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
-            registry.register(
-                    new Scheme("https", new TrustedSocketFactory(addr, true), https_port));
-
-            final ThreadSafeClientConnManager manager =
-                    new ThreadSafeClientConnManager(params, registry);
-
-            client = new DefaultHttpClient(manager, params);
-        }
-
-        httpCredentials = "";
         return client;
-    }
-
-    public static String getHttpCredentials(Context context) {
-        if (httpCredentials.length() == 0) {
-            StringBuilder auth = new StringBuilder();
-            auth.append("user").append(":");
-            auth.append("pass");
-
-            StringBuilder sb = new StringBuilder();
-            sb.append("Basic ");
-            sb.append(Base64.encodeToString(auth.toString().getBytes(),
-                    Base64.DEFAULT));
-            sb.deleteCharAt(sb.length() - 1); // \n am Ende löschen
-            httpCredentials = sb.toString();
-        }
-        return httpCredentials;
     }
 
     public static void setSSLException(SSLException e) {
@@ -102,10 +54,6 @@ public class CustomHttpClient {
 
     public static SSLException getSSLException() {
         return lastSSLException;
-    }
-
-    public static String getAddr() {
-        return "events.ccc.de";
     }
 
     public static String normalize_addr(String addr) {
@@ -122,10 +70,7 @@ public class CustomHttpClient {
     }
 
     public static void close(HttpClient client) {
-        if (client == null) {
-            return;
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO) {
+        if (client != null) {
             ((AndroidHttpClient) client).close();
         }
     }
