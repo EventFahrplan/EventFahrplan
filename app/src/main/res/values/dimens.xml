@@ -28,6 +28,7 @@
 
     <!-- Event item parameters -->
     <dimen name="event_item_corner_radius">6dp</dimen>
+    <dimen name="event_item_top_offset">1dp</dimen>
     <dimen name="event_item_left_offset">3dp</dimen>
     <dimen name="event_item_right_offset">1dp</dimen>
     <dimen name="event_item_selection_stroke_width">2dp</dimen>
