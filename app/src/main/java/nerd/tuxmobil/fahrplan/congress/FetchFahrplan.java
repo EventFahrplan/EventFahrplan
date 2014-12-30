@@ -7,6 +7,7 @@ import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -40,9 +41,9 @@ public class FetchFahrplan {
         MyApp.fetcher = this;
     }
 
-    public void fetch(String protocol, String addr, String path, String eTag) {
+    public void fetch(String url, String eTag) {
         task = new fetcher(this.listener);
-        task.execute(protocol, addr, path, eTag);
+        task.execute(url, eTag);
     }
 
     public void cancel() {
@@ -88,8 +89,12 @@ class fetcher extends AsyncTask<String, Void, HTTP_STATUS> {
     }
 
     protected HTTP_STATUS doInBackground(String... args) {
-        host = args[1];
-        return fetchthis(args[0], args[1], args[2], args[3]);
+        String url = args[0];
+        String eTag = args[1];
+
+        host = Uri.parse(url).getHost();
+
+        return fetchthis(url, eTag);
     }
 
     protected void onCancelled() {
@@ -116,11 +121,12 @@ class fetcher extends AsyncTask<String, Void, HTTP_STATUS> {
         completed = false;                // notifiy only once
     }
 
-    private HTTP_STATUS fetchthis(String protocol, String addr, String arg, String eTag) {
+    private HTTP_STATUS fetchthis(String url, String eTag) {
+
         HttpClient client;
         try {
             client = CustomHttpClient.createHttpClient(CustomHttpClient
-                    .normalize_addr(addr), true, CustomHttpClient
+                    .normalize_addr(host), true, CustomHttpClient
                     .getHttpsPort());
         } catch (KeyManagementException e1) {
             return HTTP_STATUS.HTTP_SSL_SETUP_FAILURE;
@@ -128,11 +134,9 @@ class fetcher extends AsyncTask<String, Void, HTTP_STATUS> {
             return HTTP_STATUS.HTTP_SSL_SETUP_FAILURE;
         }
 
-        String address = protocol + addr + arg;
-
-        MyApp.LogDebug("Fetch", address);
+        MyApp.LogDebug("Fetch", url);
         MyApp.LogDebug("Fetch", "ETag: " + eTag);
-        HttpGet getRequest = new HttpGet(address);
+        HttpGet getRequest = new HttpGet(url);
 
         getRequest.addHeader("Accept-Encoding", "gzip");
         if ((eTag != null) && (eTag.length() > 0)) {

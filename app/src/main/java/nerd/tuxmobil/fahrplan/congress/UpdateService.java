@@ -13,6 +13,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
+import android.text.TextUtils;
 import android.text.format.Time;
 
 import nerd.tuxmobil.fahrplan.congress.CustomHttpClient.HTTP_STATUS;
@@ -109,32 +110,22 @@ public class UpdateService extends IntentService
     }
 
     private void fetchFahrplan(OnDownloadCompleteListener completeListener) {
-        String protocol;
-        String domain;
-        String path;
-
         if (MyApp.task_running == TASKS.NONE) {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
             String alternateURL = prefs.getString(BundleKeys.PREFS_SCHEDULE_URL, null);
-            if ((alternateURL != null) && (alternateURL.length() > 0)) {
-                String[] url = alternateURL.split("\\/+", 3);
-                for (int i = 0; i < url.length; i++) {
-                    MyApp.LogDebug(LOG_TAG, "split URL: " + url[i]);
-                }
-                protocol = url[0] + "//";
-                domain = url[1];
-                path = "/";
-                if (url.length > 2) { path = path + url[2]; }
-
+            String url;
+            if (!TextUtils.isEmpty(alternateURL)) {
+                url = alternateURL;
             } else {
-                protocol = BuildConfig.SCHEDULE_SUPPORTS_HTTPS ? "https://" : "http://";
-                domain = BuildConfig.SCHEDULE_DOMAIN;
-                path = MyApp.schedulePath;
+                String protocol = BuildConfig.SCHEDULE_SUPPORTS_HTTPS ? "https://" : "http://";
+                String domain = BuildConfig.SCHEDULE_DOMAIN;
+                String path = MyApp.schedulePath;
+                url = protocol + domain + path;
             }
 
             MyApp.task_running = TASKS.FETCH;
             fetcher.setListener(completeListener);
-            fetcher.fetch(protocol, domain, path, MyApp.eTag);
+            fetcher.fetch(url, MyApp.eTag);
         } else {
             MyApp.LogDebug(LOG_TAG, "fetch already in progress");
         }
