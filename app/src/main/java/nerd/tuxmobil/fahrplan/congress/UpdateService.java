@@ -117,10 +117,7 @@ public class UpdateService extends IntentService
             if (!TextUtils.isEmpty(alternateURL)) {
                 url = alternateURL;
             } else {
-                String protocol = BuildConfig.SCHEDULE_SUPPORTS_HTTPS ? "https://" : "http://";
-                String domain = BuildConfig.SCHEDULE_DOMAIN;
-                String path = MyApp.schedulePath;
-                url = protocol + domain + path;
+                url = BuildConfig.SCHEDULE_URL;
             }
 
             MyApp.task_running = TASKS.FETCH;
