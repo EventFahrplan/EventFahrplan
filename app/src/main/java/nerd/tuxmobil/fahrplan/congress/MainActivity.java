@@ -64,9 +64,7 @@ public class MainActivity extends AppCompatActivity implements
 
         getSupportActionBar().setTitle(R.string.fahrplan);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationIcon(R.drawable.ic_actionbar_logo);
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorActionBar)));
 
         if (MyApp.fetcher == null) {
