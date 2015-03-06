@@ -3,6 +3,7 @@ package nerd.tuxmobil.fahrplan.congress;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
+import android.text.TextUtils;
 
 import org.xmlpull.v1.XmlPullParser;
 
@@ -67,7 +68,13 @@ public class TrackBackgrounds {
 
         for (Map.Entry<String, String> entry : trackNamesMap.entrySet()) {
             String key = entry.getKey();
-            String value = prefix + "_" + entry.getValue();
+            String value = prefix;
+            // Handle empty track names
+            // key can have the value: ""
+            // See track_resource_names.xml
+            if (!TextUtils.isEmpty(key)) {
+                value += "_" + entry.getValue();
+            }
             int drawable = res.getIdentifier(value, resourceType, packageName);
             drawables.put(key, drawable);
         }
