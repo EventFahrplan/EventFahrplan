@@ -44,7 +44,7 @@
     </item>
     <item
             android:id="@+id/item_feedback"
-            android:icon="@drawable/ic_action_feedback"
+            android:icon="@drawable/ic_comment_white_24dp"
             app:showAsAction="ifRoom"
             android:title="@string/feedback"
             android:titleCondensed="@string/feedback">
