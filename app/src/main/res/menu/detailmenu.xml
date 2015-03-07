@@ -51,7 +51,7 @@
     </item>
     <item
             android:id="@+id/item_add_to_calendar"
-            android:icon="@drawable/ic_action_add_to_calendar_dark"
+            android:icon="@drawable/ic_event_white_24dp"
             app:showAsAction="ifRoom"
             android:title="@string/addToCalendar">
     </item>
