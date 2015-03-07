@@ -31,7 +31,7 @@
     </item>
     <item
             android:id="@+id/item_set_alarm"
-            android:icon="@drawable/ic_action_set_alarm"
+            android:icon="@drawable/ic_action_bell_add_white_24px"
             app:showAsAction="ifRoom"
             android:title="@string/set_alarm">
     </item>
