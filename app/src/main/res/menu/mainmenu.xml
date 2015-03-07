@@ -5,6 +5,7 @@
             android:id="@+id/item_refresh"
             android:icon="@drawable/ic_refresh_white_24dp"
             app:showAsAction="ifRoom"
+            android:orderInCategory="70"
             android:title="@string/refresh">
     </item>
     <item
@@ -31,6 +32,7 @@
     <item
             android:id="@+id/item_settings"
             android:icon="@drawable/ic_settings_white_24dp"
+            android:orderInCategory="80"
             app:showAsAction="never"
             android:title="@string/settings"
             android:titleCondensed="@string/settings">
@@ -38,7 +40,7 @@
     <item
             android:id="@+id/item_about"
             android:icon="@drawable/ic_info_outline_white_24dp"
-            android:orderInCategory="1"
+            android:orderInCategory="90"
             android:title="@string/about"
             android:titleCondensed="@string/about">
     </item>
