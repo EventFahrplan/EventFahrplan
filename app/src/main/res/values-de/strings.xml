@@ -63,8 +63,8 @@
     <string name="today">heute</string>
     <string name="addToCalendar">Zum Kalender hinzufügen</string>
     <string name="share">Teilen</string>
-    <string name="flag_as_favorite">Als wichtig markieren</string>
-    <string name="unflag_as_favorite">Wichtig Markierung entfernen</string>
+    <string name="flag_as_favorite">Zu Favoriten hinzufügen</string>
+    <string name="unflag_as_favorite">Aus Favoriten entfernen</string>
     <string name="uptodate">Fahrplan ist aktuell.</string>
     <string name="close_detail">Detailansicht schließen</string>
     <string name="pref_auto_download">Automatische Updates</string>
