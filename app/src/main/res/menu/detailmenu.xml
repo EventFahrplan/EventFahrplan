@@ -18,7 +18,7 @@
     </item>
     <item
             android:id="@+id/item_fav"
-            android:icon="@drawable/ic_action_unfav"
+            android:icon="@drawable/ic_action_star_add_white_24px"
             app:showAsAction="ifRoom"
             android:title="@string/flag_as_favorite">
     </item>
