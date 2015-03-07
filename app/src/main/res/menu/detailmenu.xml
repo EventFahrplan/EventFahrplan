@@ -37,7 +37,7 @@
     </item>
     <item
             android:id="@+id/item_clear_alarm"
-            android:icon="@drawable/ic_action_clear_alarm"
+            android:icon="@drawable/ic_action_bell_remove_white_24px"
             app:showAsAction="ifRoom"
             android:title="@string/delete_alarm"
             android:visible="false">
