@@ -8,11 +8,11 @@
             android:title="@string/refresh">
     </item>
     <item
-        android:id="@+id/item_starred_list"
-        android:title="@string/action_show_starred_lectures"
-        android:titleCondensed="@string/action_show_starred_lectures"
-        app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_action_action_list">
+            android:id="@+id/item_starred_list"
+            android:icon="@drawable/ic_action_star_list_white_24px"
+            app:showAsAction="ifRoom"
+            android:title="@string/action_show_starred_lectures"
+            android:titleCondensed="@string/action_show_starred_lectures">
     </item>
     <item
             android:id="@+id/item_alarms"
