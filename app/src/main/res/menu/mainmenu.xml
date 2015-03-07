@@ -27,7 +27,7 @@
     </item>
     <item
             android:id="@+id/item_settings"
-            android:icon="@drawable/ic_menu_settings"
+            android:icon="@drawable/ic_settings_white_24dp"
             app:showAsAction="never"
             android:title="@string/settings"
             android:titleCondensed="@string/settings">
