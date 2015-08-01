@@ -81,3 +81,7 @@ dependencies {
     compile "com.android.support:appcompat-v7:21.0.+"
     compile 'com.afollestad:material-dialogs:0.4.6'
 }
+
+repositories {
+    maven { url 'http://clinker.47deg.com/nexus/content/groups/public' }
+}
