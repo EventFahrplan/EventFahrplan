@@ -82,7 +82,7 @@ android {
             buildConfigField "String", "SCHEDULE_FEEDBACK_URL", '"https://frab.cccv.de/en/31C3/public/events/%s/feedback/new"'
         }
         camp2015 {
-            applicationId "nerd.tuxmobil.fahrplan.congress"
+            applicationId "nerd.tuxmobil.fahrplan.camp"
             signingConfig signingConfigs.camp2015
             buildConfigField "String", "SCHEDULE_DOMAIN", '"events.ccc.de"'
             buildConfigField "String", "SCHEDULE_DOMAIN_PART", '"http://events.ccc.de"'
