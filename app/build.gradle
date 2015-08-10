@@ -39,6 +39,7 @@ android {
             versionNameSuffix "-DEBUG"
             applicationIdSuffix ".debug"
             zipAlignEnabled true
+            debuggable true
         }
         release {
             zipAlignEnabled true
@@ -53,6 +54,12 @@ android {
             storePassword props['signing.ccc31c3-release.keystorePassword']
             keyAlias props['signing.ccc31c3-release.keyAlias']
             keyPassword props['signing.ccc31c3-release.keyPassword']
+        }
+        camp2015 {
+            storeFile file(props['signing.camp2015-release.keystoreFilePath'])
+            storePassword props['signing.camp2015-release.keystorePassword']
+            keyAlias props['signing.camp2015-release.keyAlias']
+            keyPassword props['signing.camp2015-release.keyPassword']
         }
     }
 
@@ -73,6 +80,23 @@ android {
             buildConfigField "int", "SCHEDULE_LAST_DAY_END_DAY", "31"
             buildConfigField "boolean", "SCHEDULE_SUPPORTS_HTTPS", "true"
             buildConfigField "String", "SCHEDULE_FEEDBACK_URL", '"https://frab.cccv.de/en/31C3/public/events/%s/feedback/new"'
+        }
+        camp2015 {
+            applicationId "nerd.tuxmobil.fahrplan.congress"
+            signingConfig signingConfigs.camp2015
+            buildConfigField "String", "SCHEDULE_DOMAIN", '"events.ccc.de"'
+            buildConfigField "String", "SCHEDULE_DOMAIN_PART", '"http://events.ccc.de"'
+            buildConfigField "String", "SCHEDULE_EVENT_PART", '"/events/%1$s.html"'
+            buildConfigField "String", "SCHEDULE_PART", '"/camp/2015/Fahrplan"'
+            buildConfigField "String", "SCHEDULE_PATH", '"/camp/2015/Fahrplan/schedule.xml"'
+            buildConfigField "int", "SCHEDULE_FIRST_DAY_START_YEAR", "2015"
+            buildConfigField "int", "SCHEDULE_FIRST_DAY_START_MONTH", "8"
+            buildConfigField "int", "SCHEDULE_FIRST_DAY_START_DAY", "13"
+            buildConfigField "int", "SCHEDULE_LAST_DAY_END_YEAR", "2015"
+            buildConfigField "int", "SCHEDULE_LAST_DAY_END_MONTH", "8"
+            buildConfigField "int", "SCHEDULE_LAST_DAY_END_DAY", "17"
+            buildConfigField "boolean", "SCHEDULE_SUPPORTS_HTTPS", "true"
+            buildConfigField "String", "SCHEDULE_FEEDBACK_URL", '"https://frab.cccv.de/en/camp2015/public/events/%s/feedback/new"'
         }
     }
 }
