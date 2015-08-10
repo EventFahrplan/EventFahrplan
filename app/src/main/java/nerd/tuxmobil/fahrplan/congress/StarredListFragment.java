@@ -101,7 +101,7 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
             mListView = (ListView) view.findViewById(android.R.id.list);
             header = localInflater.inflate(R.layout.header_empty, null, false);
         }
-        mListView.addHeaderView(header);
+        mListView.addHeaderView(header, null, false);
         mListView.setHeaderDividersEnabled(false);
 
         // Set the adapter
