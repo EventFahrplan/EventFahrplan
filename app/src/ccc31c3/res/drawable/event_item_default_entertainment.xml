@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+            android:top="@dimen/event_item_top_offset"
+            android:left="@dimen/event_item_left_offset"
+            android:right="@dimen/event_item_right_offset">
+        <shape xmlns:android="http://schemas.android.com/apk/res/android"
+               android:shape="rectangle">
+            <solid android:color="@color/event_border_default_entertainment"/>
+            <corners android:radius="@dimen/event_item_corner_radius"/>
+        </shape>
+    </item>
+</layer-list>

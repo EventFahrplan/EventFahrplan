@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+        android:color="@color/ripple_color">
+    <item android:drawable="@drawable/event_item_highlight_entertainment"/>
+    <item android:drawable="@drawable/event_item_selection_stroke"/>
+</ripple>
