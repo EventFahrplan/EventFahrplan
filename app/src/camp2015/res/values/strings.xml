@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">31C3 Schedule</string>
+    <string name="conference_url">
+        <![CDATA[<a href="http://events.ccc.de/congress/2014/">http://events.ccc.de/congress/2014/</a>]]>
+    </string>
+    <string name="source_code">
+        <![CDATA[<a href="http://github.com/tuxmobil/CampFahrplan">Source code</a>]]>
+    </string>
+    <string name="google_play_store">
+        <![CDATA[<a href="https://play.google.com/store/apps/details?id=nerd.tuxmobil.fahrplan.congress">Google PlayStore listing</a>]]>
+    </string>
+    <string name="copyright_logo">31C3 artwork by
+        <![CDATA[<a href="http://http://graphorama.de/">Sven Sedivy</a>]]>
+    </string>
+</resources>

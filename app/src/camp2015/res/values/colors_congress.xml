@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- File created by the Android Action Bar Style Generator
+
+     Copyright (C) 2011 The Android Open Source Project
+     Copyright (C) 2012 readyState Software Ltd
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<resources>
+    <color name="pressed_congress">#CC0099AB</color>
+
+    <!-- Default state -->
+    <color name="event_border_default">#ddd</color>
+    <color name="event_border_default_art_culture">#66241c</color>
+    <color name="event_border_default_ccc">#663414</color>
+    <color name="event_border_default_entertainment">#664000</color>
+    <color name="event_border_default_ethics_society_politics">#2c2048</color>
+    <color name="event_border_default_hardware_making">#281035</color>
+    <color name="event_border_default_other">#385049</color>
+    <color name="event_border_default_science">#622562</color>
+    <color name="event_border_default_security_hacking">#26492c</color>
+
+    <!-- Highlight state -->
+    <color name="event_border_highlight">@color/event_border_default</color>
+    <color name="event_border_highlight_art_culture">#ff5a46</color>
+    <color name="event_border_highlight_ccc">#ff8232</color>
+    <color name="event_border_highlight_entertainment">#ffa000</color>
+    <color name="event_border_highlight_ethics_society_politics">#6e50b4</color>
+    <color name="event_border_highlight_hardware_making">#ff561876</color>
+    <color name="event_border_highlight_other">#489d84</color>
+    <color name="event_border_highlight_science">#b846b8</color>
+    <color name="event_border_highlight_security_hacking">#2d9d42</color>
+
+    <!--Accent color-->
+    <color name="event_border_accent">#888</color>
+    <color name="event_border_accent_art_culture">#ff5a46</color>
+    <color name="event_border_accent_ccc">#ff8232</color>
+    <color name="event_border_accent_entertainment">#ffa000</color>
+    <color name="event_border_accent_ethics_society_politics">#6e50b4</color>
+    <color name="event_border_accent_hardware_making">#ff6b3491</color>
+    <color name="event_border_accent_other">#4bc29f</color>
+    <color name="event_border_accent_science">#b846b8</color>
+    <color name="event_border_accent_security_hacking">#36b94e</color>
+
+    <!--Accent color highlight-->
+    <color name="event_border_accent_highlight">#888</color>
+    <color name="event_border_accent_highlight_art_culture">#9d1100</color>
+    <color name="event_border_accent_highlight_ccc">#b14500</color>
+    <color name="event_border_accent_highlight_entertainment">#ae6600</color>
+    <color name="event_border_accent_highlight_ethics_society_politics">#462c82</color>
+    <color name="event_border_accent_highlight_hardware_making">#ffb745e8</color>
+    <color name="event_border_accent_highlight_other">#385049</color>
+    <color name="event_border_accent_highlight_science">#ffff77fc</color>
+    <color name="event_border_accent_highlight_security_hacking">#1c6028</color>
+
+    <!--Title color-->
+    <color name="event_title">#a0ffffff</color>
+    <color name="event_title_highlight">#fff</color>
+</resources>
