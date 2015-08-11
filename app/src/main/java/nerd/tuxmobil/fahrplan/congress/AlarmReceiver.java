@@ -10,6 +10,8 @@ import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.preference.PreferenceManager;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NotificationCompat;
 
 import nerd.tuxmobil.fahrplan.congress.FahrplanContract.AlarmsTable;
@@ -78,6 +80,11 @@ public final class AlarmReceiver extends BroadcastReceiver {
                     new String[]{lecture_id});
 
             db.close();
+
+            if (MainActivity.getInstance() != null) {
+                MainActivity.getInstance().reloadAlarms();
+                MainActivity.getInstance().refreshEventMarkers();
+            }
         } else if (intent.getAction().equals(ALARM_UPDATE)) {
             Intent updateIntent = new Intent(context, UpdateService.class);
             context.startService(updateIntent);

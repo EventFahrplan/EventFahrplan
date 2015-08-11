@@ -42,10 +42,13 @@ public class MainActivity extends ActionBarActivity
     private MyApp global;
     private ProgressBar progressBar = null;
     private boolean showUpdateAction = true;
+    private static MainActivity instance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        instance = this;
 
         MyApp.LogDebug(LOG_TAG, "onCreate");
         setContentView(R.layout.main_layout);
@@ -422,6 +425,13 @@ public class MainActivity extends ActionBarActivity
         }
     }
 
+    public void reloadAlarms() {
+        FragmentManager fm = getSupportFragmentManager();
+        Fragment fragment = fm.findFragmentByTag(FragmentTags.SCHEDULE);
+        if (fragment != null) {
+            ((FahrplanFragment) fragment).loadAlarms(this);
+        }
+    }
     @Override
     public void refreshEventMarkers() {
         FragmentManager fm = getSupportFragmentManager();
@@ -520,5 +530,9 @@ public class MainActivity extends ActionBarActivity
 
     @Override
     public void onDenied(int dlgId) {
+    }
+
+    public static MainActivity getInstance() {
+        return instance;
     }
 }
