@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Camp2015 Fahrplan</string>
+    <string name="app_name">Camp 2015</string>
     <string name="conference_url">
         <![CDATA[<a href="http://events.ccc.de/camp/2015/">http://events.ccc.de/camp/2015/</a>]]>
     </string>
