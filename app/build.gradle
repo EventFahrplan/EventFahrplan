@@ -18,7 +18,7 @@ android {
 
     defaultConfig {
         versionCode 34
-        versionName "1.30.4"
+        versionName "1.31.0"
         minSdkVersion 14
         targetSdkVersion 21
         project.ext.set("archivesBaseName", "Fahrplan");
