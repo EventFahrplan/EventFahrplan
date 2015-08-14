@@ -17,8 +17,8 @@ android {
     buildToolsVersion "21.1.1"
 
     defaultConfig {
-        versionCode 35
-        versionName "1.31.0"
+        versionCode 36
+        versionName "1.31.1"
         minSdkVersion 14
         targetSdkVersion 21
         project.ext.set("archivesBaseName", "Fahrplan");
