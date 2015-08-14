@@ -155,6 +155,8 @@ public class UpdateService extends IntentService
             return;
         }
 
+        FahrplanMisc.loadMeta(this);        // to load eTag
+
         if (MyApp.fetcher == null) {
             fetcher = new FetchFahrplan();
         } else {
