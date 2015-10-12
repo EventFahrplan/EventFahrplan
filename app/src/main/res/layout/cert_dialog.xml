@@ -14,7 +14,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:layout_margin="@dimen/alert_dialog_content_margin"
-                android:textSize="12sp"
+                android:textSize="@dimen/certificate_dialog_text"
                 tools:text="@string/dlg_certificate_message_fmt"
                 />
 
