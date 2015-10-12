@@ -113,21 +113,9 @@ public class CertificateDialogFragment extends DialogFragment {
                 .setTitle(getString(R.string.dlg_invalid_certificate_title))
                 .setCancelable(true)
                 .setPositiveButton(getString(android.R.string.yes),
-
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                try {
-                                    if (chain != null) {
-                                        TrustManagerFactory.addCertificateChain(chain);
-                                    }
-                                    if (listener != null) {
-                                        listener.cert_accepted();
-                                    }
-                                } catch (CertificateException e) {
-                                    showErrorDialog(R.string.dlg_certificate_message_fmt,
-                                            getActivity(),
-                                            e.getMessage() == null ? "" : e.getMessage());
-                                }
+                                onConfirm();
                             }
                         })
                 .setNegativeButton(getString(android.R.string.no),
@@ -145,6 +133,21 @@ public class CertificateDialogFragment extends DialogFragment {
                         .toString());
         builder.setView(msgView);
         return builder.create();
+    }
+
+    private void onConfirm() {
+        try {
+            if (chain != null) {
+                TrustManagerFactory.addCertificateChain(chain);
+            }
+            if (listener != null) {
+                listener.cert_accepted();
+            }
+        } catch (CertificateException e) {
+            showErrorDialog(R.string.dlg_certificate_message_fmt,
+                    getActivity(),
+                    e.getMessage() == null ? "" : e.getMessage());
+        }
     }
 
 }
