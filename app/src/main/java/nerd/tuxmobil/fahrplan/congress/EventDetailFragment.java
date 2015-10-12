@@ -272,10 +272,7 @@ public class EventDetailFragment extends Fragment {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
 
-        TextView msg = (TextView) layout.findViewById(R.id.message);
-        msg.setText(R.string.choose_alarm_time);
-
-        new AlertDialog.Builder(getActivity()).setTitle(R.string.setup_alarm)
+        new AlertDialog.Builder(getActivity()).setTitle(R.string.choose_alarm_time)
                 .setView(layout)
                 .setPositiveButton(android.R.string.ok,
                         new DialogInterface.OnClickListener() {

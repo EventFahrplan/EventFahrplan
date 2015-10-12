@@ -6,16 +6,9 @@
         android:orientation="vertical"
         android:id="@+id/layout_root">
 
-    <TextView
-            android:text="TextView"
-            android:textAppearance="@android:style/TextAppearance.Medium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/message"
-            android:paddingBottom="8dp"></TextView>
-
     <Spinner
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/alert_dialog_content_margin"
             android:id="@+id/spinner"></Spinner>
 </LinearLayout>

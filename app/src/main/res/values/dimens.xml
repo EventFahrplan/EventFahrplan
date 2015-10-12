@@ -33,4 +33,8 @@
     <dimen name="event_item_right_offset">1dp</dimen>
     <dimen name="event_item_selection_stroke_width">2dp</dimen>
 
+    <!-- Alert dialogs -->
+    <!-- See: https://www.google.de/design/spec/components/dialogs.html#dialogs-specs -->
+    <dimen name="alert_dialog_content_margin">24dp</dimen>
+
 </resources>

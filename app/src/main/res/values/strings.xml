@@ -40,8 +40,7 @@
         <item>45 Minutes</item>
         <item>60 Minutes</item>
     </string-array>
-    <string name="choose_alarm_time">Choose alarm time:</string>
-    <string name="setup_alarm">Set alarm</string>
+    <string name="choose_alarm_time">Choose alarm time</string>
     <string name="reminders">Reminders</string>
     <string name="reminder">Reminder</string>
     <string name="feedback">Feedback</string>
