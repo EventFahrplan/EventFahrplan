@@ -1,7 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -12,10 +11,10 @@ import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.AlertDialog;
 import android.text.format.Time;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -33,7 +32,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.ScrollView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,6 +58,8 @@ public class FahrplanFragment extends Fragment implements
     private MyApp global;
 
     private static String LOG_TAG = "Fahrplan";
+
+    public static final int FAHRPLAN_FRAGMENT_REQUEST_CODE = 6166;
 
     private float scale;
 
@@ -103,6 +103,8 @@ public class FahrplanFragment extends Fragment implements
     private String lecture_id;        // started with lecture_id
     private HashMap<String, Integer> trackAccentColors;
     private HashMap<String, Integer> trackAccentColorsHighlight;
+
+    private Lecture lastSelectedLecture;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -917,40 +919,37 @@ public class FahrplanFragment extends Fragment implements
         }
     }
 
-    void getAlarmTimeDialog(final Lecture lecture) {
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == FAHRPLAN_FRAGMENT_REQUEST_CODE &&
+                resultCode == AlarmTimePickerFragment.ALERT_TIME_PICKED_RESULT_CODE) {
+            int alarmTimesIndex = data.getIntExtra(
+                    AlarmTimePickerFragment.ALARM_PICKED_INTENT_KEY, 0);
+            onAlarmTimesIndexPicked(alarmTimesIndex);
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 
-        LayoutInflater inflater = (LayoutInflater) getActivity()
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View layout = inflater.inflate(R.layout.reminder_dialog,
-                (ViewGroup) getView().findViewById(R.id.layout_root));
+    private void showAlarmTimePicker() {
+        DialogFragment dialogFragment = new AlarmTimePickerFragment();
+        dialogFragment.setTargetFragment(this, FAHRPLAN_FRAGMENT_REQUEST_CODE);
+        dialogFragment.show(getActivity().getSupportFragmentManager(),
+                AlarmTimePickerFragment.FRAGMENT_TAG);
+    }
 
-        final Spinner spinner = (Spinner) layout.findViewById(R.id.spinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-                getActivity(),
-                R.array.alarm_array,
-                android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-
-        new AlertDialog.Builder(getActivity()).setTitle(R.string.choose_alarm_time)
-                .setView(layout)
-                .setPositiveButton(android.R.string.ok,
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,
-                                    int which) {
-                                int alarm = spinner.getSelectedItemPosition();
-                                MyApp.LogDebug(LOG_TAG, "alarm chosen: " + alarm);
-                                FahrplanMisc.addAlarm(getActivity(), lecture, alarm);
-                                setBell(lecture);
-                            }
-                        }).setNegativeButton(android.R.string.cancel, null)
-                .create().show();
+    private void onAlarmTimesIndexPicked(int alarmTimesIndex) {
+        if (lastSelectedLecture == null) {
+            throw new NullPointerException("Lecture is null.");
+        }
+        FahrplanMisc.addAlarm(getActivity(), lastSelectedLecture, alarmTimesIndex);
+        setBell(lastSelectedLecture);
     }
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         int menuItemIndex = item.getItemId();
         Lecture lecture = (Lecture) contextMenuView.getTag();
+        lastSelectedLecture = lecture;
 
         MyApp.LogDebug(LOG_TAG, "clicked on " + ((Lecture) contextMenuView.getTag()).lecture_id);
 
@@ -971,7 +970,7 @@ public class FahrplanFragment extends Fragment implements
                 }
                 break;
             case 1:
-                getAlarmTimeDialog(lecture);
+                showAlarmTimePicker();
                 break;
             case 2:
                 FahrplanMisc.deleteAlarm(getActivity(), lecture);
