@@ -11,24 +11,24 @@ import android.support.v7.app.AlertDialog;
 public class ConfirmationDialog extends DialogFragment {
 
     interface OnConfirmationDialogClicked {
-        void onAccepted(int dlgId);
+        void onAccepted(int dlgRequestCode);
 
-        void onDenied(int dlgId);
+        void onDenied(int dlgRequestCode);
     }
 
     public static final String BUNDLE_DLG_TITLE = "ConfirmationDialog.DLG_TITLE";
-    public static final String BUNDLE_DLG_ID = "ConfirmationDialog.DLG_ID";
+    public static final String BUNDLE_DLG_REQUEST_CODE = "ConfirmationDialog.DLG_REQUEST_CODE";
     public static final String TAG = "ConfirmationDialog.FRAGMENT_TAG";
     private int dlgTitle;
-    private int dlgId;
+    private int dlgRequestCode;
     private OnConfirmationDialogClicked listener;
 
-    public static ConfirmationDialog newInstance(@StringRes int dlgTitle, int dlgId) {
+    public static ConfirmationDialog newInstance(@StringRes int dlgTitle, int requestCode) {
         ConfirmationDialog dialog = new ConfirmationDialog();
         dialog.listener = null;
         Bundle args = new Bundle();
         args.putInt(BUNDLE_DLG_TITLE, dlgTitle);
-        args.putInt(BUNDLE_DLG_ID, dlgId);
+        args.putInt(BUNDLE_DLG_REQUEST_CODE, requestCode);
         dialog.setArguments(args);
         dialog.setCancelable(false);
         return dialog;
@@ -40,7 +40,7 @@ public class ConfirmationDialog extends DialogFragment {
         Bundle args = getArguments();
         if (args != null) {
             dlgTitle = args.getInt(BUNDLE_DLG_TITLE);
-            dlgId = args.getInt(BUNDLE_DLG_ID);
+            dlgRequestCode = args.getInt(BUNDLE_DLG_REQUEST_CODE);
         }
     }
 
@@ -52,7 +52,7 @@ public class ConfirmationDialog extends DialogFragment {
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 if (listener != null) {
-                                    listener.onAccepted(dlgId);
+                                    listener.onAccepted(dlgRequestCode);
                                 }
                             }
                         })
@@ -61,7 +61,7 @@ public class ConfirmationDialog extends DialogFragment {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 if (listener != null) {
-                                    listener.onDenied(dlgId);
+                                    listener.onDenied(dlgRequestCode);
                                 }
                             }
                         });

@@ -40,6 +40,8 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
     private LectureList starredList;
     private boolean sidePane = false;
 
+    public static final int DELETE_ALL_FAVORITES_REQUEST_CODE = 19126;
+
     /**
      * The fragment's ListView/GridView.
      */
@@ -274,7 +276,7 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
         if (fragment == null) {
             ConfirmationDialog confirm = ConfirmationDialog.newInstance(
                     R.string.dlg_delete_all_favorites,
-                    0);
+                    DELETE_ALL_FAVORITES_REQUEST_CODE);
             confirm.show(fm, ConfirmationDialog.TAG);
         }
     }

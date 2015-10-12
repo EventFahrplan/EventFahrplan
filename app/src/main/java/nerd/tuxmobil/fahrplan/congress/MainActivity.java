@@ -515,12 +515,12 @@ public class MainActivity extends ActionBarActivity
     }
 
     @Override
-    public void onAccepted(int dlgId) {
-        switch (dlgId) {
-            case 0:
+    public void onAccepted(int dlgRequestCode) {
+        switch (dlgRequestCode) {
+            case StarredListFragment.DELETE_ALL_FAVORITES_REQUEST_CODE:
                 FragmentManager fm = getSupportFragmentManager();
-                StarredListFragment fragment = (StarredListFragment)fm.findFragmentByTag(FahrplanContract
-                        .FragmentTags.STARRED);
+                StarredListFragment fragment = (StarredListFragment)fm.findFragmentByTag(
+                        FahrplanContract.FragmentTags.STARRED);
                 if (fragment != null) {
                     fragment.deleteAllFavorites();
                 }
@@ -529,7 +529,7 @@ public class MainActivity extends ActionBarActivity
     }
 
     @Override
-    public void onDenied(int dlgId) {
+    public void onDenied(int dlgRequestCode) {
     }
 
     public static MainActivity getInstance() {
