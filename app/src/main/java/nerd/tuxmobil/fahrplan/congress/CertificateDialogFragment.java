@@ -2,10 +2,10 @@ package nerd.tuxmobil.fahrplan.congress;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.support.v7.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -31,19 +31,6 @@ public class CertificateDialogFragment extends DialogFragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         listener = (OnCertAccepted) activity;
-    }
-
-    private static void showErrorDialog(final int msgResId, final Activity ctx,
-            final Object... args) {
-        new AlertDialog.Builder(ctx).setTitle(
-                ctx.getString(R.string.dlg_invalid_certificate_could_not_apply))
-                .setMessage(ctx.getString(msgResId, args))
-                .setPositiveButton(ctx.getString(R.string.OK),
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,
-                                    int which) {
-                            }
-                        }).show();
     }
 
     private static String getFingerPrint(X509Certificate cert) {
@@ -139,9 +126,12 @@ public class CertificateDialogFragment extends DialogFragment {
                 listener.cert_accepted();
             }
         } catch (CertificateException e) {
-            showErrorDialog(R.string.dlg_certificate_message_fmt,
+            String messageArguments = e.getMessage() == null ? "" : e.getMessage();
+            AlertDialogHelper.showErrorDialog(
                     getActivity(),
-                    e.getMessage() == null ? "" : e.getMessage());
+                    R.string.dlg_invalid_certificate_could_not_apply,
+                    R.string.dlg_certificate_message_fmt,
+                    messageArguments);
         }
     }
 
