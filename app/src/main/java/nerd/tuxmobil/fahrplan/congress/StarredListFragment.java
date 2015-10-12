@@ -268,13 +268,13 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
         jumpOverPastLectures();
     }
 
-    private void askToDeleteAllFavorites()
-    {
+    private void askToDeleteAllFavorites() {
         FragmentManager fm = getActivity().getSupportFragmentManager();
         Fragment fragment = fm.findFragmentByTag(ConfirmationDialog.TAG);
-
         if (fragment == null) {
-            ConfirmationDialog confirm = ConfirmationDialog.newInstance(0, R.string.dlg_delete_all_favorites, 0);
+            ConfirmationDialog confirm = ConfirmationDialog.newInstance(
+                    R.string.dlg_delete_all_favorites,
+                    0);
             confirm.show(fm, ConfirmationDialog.TAG);
         }
     }
