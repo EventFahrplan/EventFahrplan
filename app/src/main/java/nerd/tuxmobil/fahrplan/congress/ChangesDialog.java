@@ -59,30 +59,16 @@ public class ChangesDialog extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
                 .setTitle(getString(R.string.schedule_udpate))
                 .setPositiveButton(R.string.btn_dlg_browse,
-
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences
-                                        (getActivity());
-                                SharedPreferences.Editor edit = prefs.edit();
-                                edit.putBoolean(BundleKeys.PREFS_CHANGES_SEEN, true);
-                                edit.commit();
-
-                                FragmentActivity activity = getActivity();
-                                if (activity instanceof MainActivity) {
-                                    ((MainActivity)activity).openLectureChanges();
-                                }
+                                onBrowse();
                             }
                         })
                 .setNegativeButton(R.string.btn_dlg_later,
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences
-                                        (getActivity());
-                                SharedPreferences.Editor edit = prefs.edit();
-                                edit.putBoolean(BundleKeys.PREFS_CHANGES_SEEN, true);
-                                edit.commit();
+                                onLater();
                             }
                         });
 
@@ -107,4 +93,24 @@ public class ChangesDialog extends DialogFragment {
         builder.setView(msgView);
         return builder.create();
     }
+
+    private void onBrowse() {
+        flagChangesAsSeen();
+        FragmentActivity activity = getActivity();
+        if (activity instanceof MainActivity) {
+            ((MainActivity)activity).openLectureChanges();
+        }
+    }
+
+    private void onLater() {
+        flagChangesAsSeen();
+    }
+
+    private void flagChangesAsSeen() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        SharedPreferences.Editor edit = prefs.edit();
+        edit.putBoolean(BundleKeys.PREFS_CHANGES_SEEN, true);
+        edit.commit();
+    }
+
 }
