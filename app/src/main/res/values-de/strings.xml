@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="OK">OK</string>
-	<string name="dlg_certificate_message_fmt">Aufbau einer gesicherten Verbindung nicht
-		möglich.\n(%s)</string>
+	<string name="dlg_certificate_message_fmt">
+        Aufbau einer gesicherten Verbindung nicht möglich.\n
+        (<xliff:g id="error" example="Unbekannter Fehler">%s</xliff:g>)
+    </string>
     <string name="dlg_invalid_certificate_title">Unbekanntem Zertifikat vertrauen?</string>
     <string name="dlg_invalid_certificate_accept">Akzeptieren</string>
     <string name="dlg_invalid_certificate_reject">Ablehnen</string>
