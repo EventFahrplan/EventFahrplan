@@ -5,8 +5,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-
-import com.afollestad.materialdialogs.MaterialDialogCompat;
+import android.support.v7.app.AlertDialog;
 
 public class ConfirmationDialog extends DialogFragment {
 
@@ -50,7 +49,7 @@ public class ConfirmationDialog extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        MaterialDialogCompat.Builder builder = new MaterialDialogCompat.Builder(getActivity())
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
                 .setMessage(dlgText)
                 .setPositiveButton(android.R.string.yes,
 

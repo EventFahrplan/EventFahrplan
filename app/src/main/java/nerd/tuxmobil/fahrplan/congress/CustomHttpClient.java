@@ -12,15 +12,13 @@ import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.net.http.AndroidHttpClient;
 import android.os.Build;
+import android.support.v7.app.AlertDialog;
 import android.util.Base64;
 import android.widget.Toast;
-
-import com.afollestad.materialdialogs.MaterialDialogCompat;
 
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
@@ -110,7 +108,7 @@ public class CustomHttpClient {
 
     public static void showErrorDialog(final Activity ctx, final int msgTitle, final int msgText,
             final Object... args) {
-        new MaterialDialogCompat.Builder(ctx).setTitle(
+        new AlertDialog.Builder(ctx).setTitle(
                 ctx.getString(msgTitle))
                 .setMessage(ctx.getString(msgText, args))
                 .setPositiveButton(ctx.getString(R.string.OK),

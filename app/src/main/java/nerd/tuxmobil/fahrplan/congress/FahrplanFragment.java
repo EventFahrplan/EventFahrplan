@@ -1,6 +1,5 @@
 package nerd.tuxmobil.fahrplan.congress;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,6 +15,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AlertDialog;
 import android.text.format.Time;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -36,8 +36,6 @@ import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.afollestad.materialdialogs.MaterialDialogCompat;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -937,7 +935,7 @@ public class FahrplanFragment extends Fragment implements
         TextView msg = (TextView) layout.findViewById(R.id.message);
         msg.setText(R.string.choose_alarm_time);
 
-        new MaterialDialogCompat.Builder(getActivity()).setTitle(R.string.setup_alarm)
+        new AlertDialog.Builder(getActivity()).setTitle(R.string.setup_alarm)
                 .setView(layout)
                 .setPositiveButton(android.R.string.ok,
                         new DialogInterface.OnClickListener() {

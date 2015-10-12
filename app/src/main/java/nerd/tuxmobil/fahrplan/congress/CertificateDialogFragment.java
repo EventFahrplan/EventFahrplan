@@ -1,16 +1,14 @@
 package nerd.tuxmobil.fahrplan.congress;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
+import android.support.v7.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
-
-import com.afollestad.materialdialogs.MaterialDialogCompat;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -37,7 +35,7 @@ public class CertificateDialogFragment extends DialogFragment {
 
     private static void showErrorDialog(final int msgResId, final Activity ctx,
             final Object... args) {
-        new MaterialDialogCompat.Builder(ctx).setTitle(
+        new AlertDialog.Builder(ctx).setTitle(
                 ctx.getString(R.string.dlg_invalid_certificate_could_not_apply))
                 .setMessage(ctx.getString(msgResId, args))
                 .setPositiveButton(ctx.getString(R.string.OK),
@@ -111,7 +109,7 @@ public class CertificateDialogFragment extends DialogFragment {
             chainInfo.append("SHA1 Fingerprint: " + getFingerPrint(chain[i])).append("\n");
         }
 
-        MaterialDialogCompat.Builder builder = new MaterialDialogCompat.Builder(getActivity())
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
                 .setTitle(getString(R.string.dlg_invalid_certificate_title))
                 .setCancelable(true)
                 .setPositiveButton(getString(android.R.string.yes),
