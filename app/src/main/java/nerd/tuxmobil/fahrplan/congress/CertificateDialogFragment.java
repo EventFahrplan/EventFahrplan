@@ -122,9 +122,10 @@ public class CertificateDialogFragment extends DialogFragment {
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View msgView = inflater.inflate(R.layout.cert_dialog, null);
-        ((TextView) msgView.findViewById(R.id.cert)).setText(
-                getString(R.string.dlg_certificate_message_fmt, exMessage) + "\n\n" + chainInfo
-                        .toString());
+        TextView messageView = (TextView) msgView.findViewById(R.id.cert);
+        String message = getString(R.string.dlg_certificate_message_fmt, exMessage);
+        message += "\n\n" + chainInfo.toString();
+        messageView.setText(message);
         builder.setView(msgView);
         return builder.create();
     }
