@@ -3,6 +3,7 @@ package nerd.tuxmobil.fahrplan.congress;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -80,12 +81,13 @@ public class ChangesDialog extends DialogFragment {
         span.append(" ");
         int spanStart = span.length();
         span.append(version);
-        span.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorAccent)),
+        Resources resources = getResources();
+        span.setSpan(new ForegroundColorSpan(resources.getColor(R.color.colorAccent)),
                 spanStart, span.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         span.append(getString(R.string.changes_dlg_text2, version,
-                getResources().getQuantityString(R.plurals.numberOfLectures, changed, changed),
-                getResources().getQuantityString(R.plurals.being, added, added),
-                getResources().getQuantityString(R.plurals.being, cancelled, cancelled)));
+                resources.getQuantityString(R.plurals.numberOfLectures, changed, changed),
+                resources.getQuantityString(R.plurals.being, added, added),
+                resources.getQuantityString(R.plurals.being, cancelled, cancelled)));
         changes1.setText(span);
 
         TextView changes2 = (TextView) msgView.findViewById(R.id.changes_dlg_text2);
