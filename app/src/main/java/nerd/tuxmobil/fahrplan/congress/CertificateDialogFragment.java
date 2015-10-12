@@ -118,13 +118,7 @@ public class CertificateDialogFragment extends DialogFragment {
                                 onConfirm();
                             }
                         })
-                .setNegativeButton(getString(android.R.string.no),
-
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,
-                                    int which) {
-                            }
-                        });
+                .setNegativeButton(getString(android.R.string.no), null);
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View msgView = inflater.inflate(R.layout.cert_dialog, null);
