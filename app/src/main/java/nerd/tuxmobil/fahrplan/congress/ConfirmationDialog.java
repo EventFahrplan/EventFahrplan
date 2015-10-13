@@ -50,7 +50,7 @@ public class ConfirmationDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
                 .setTitle(dlgTitle)
-                .setPositiveButton(android.R.string.yes,
+                .setPositiveButton(R.string.dlg_delete_all_favorites_delete_all,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 if (listener != null) {

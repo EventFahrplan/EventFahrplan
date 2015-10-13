@@ -110,4 +110,5 @@
     <string name="btn_dlg_later">Later</string>
     <string name="alternative_highlight">Alternative highlighting</string>
     <string name="dlg_delete_all_favorites">Delete all favorites?</string>
+    <string name="dlg_delete_all_favorites_delete_all">Delete all</string>
 </resources>
