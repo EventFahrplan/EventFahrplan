@@ -65,7 +65,7 @@
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Widget.ActionBar.Title
         </item>
         <!--<item name="android:background">@android:color/black</item>-->
-        <item name="android:textColor">@android:color/holo_red_dark</item>
+        <item name="android:textColor">@color/spinner_drop_down_text</item>
     </style>
 
     <style name="MySpinnerDropDownItemStyle" parent="Widget.AppCompat.DropDownItem.Spinner">

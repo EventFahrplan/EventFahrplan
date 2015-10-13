@@ -20,4 +20,7 @@
     <color name="schedule_change_new">#00ff00</color>
     <color name="schedule_change_canceled">#808080</color>
 
+    <!-- Spinner -->
+    <color name="spinner_drop_down_text">#cc0000</color>
+
 </resources>
