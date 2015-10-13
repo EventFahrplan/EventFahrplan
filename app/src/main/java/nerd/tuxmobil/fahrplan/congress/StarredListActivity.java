@@ -3,11 +3,12 @@ package nerd.tuxmobil.fahrplan.congress;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
-public class StarredListActivity extends ActionBarActivity implements AbstractListFragment
-        .OnLectureListClick, ConfirmationDialog.OnConfirmationDialogClicked {
+public class StarredListActivity extends AppCompatActivity implements
+        AbstractListFragment.OnLectureListClick,
+        ConfirmationDialog.OnConfirmationDialogClicked {
 
     private static final String LOG_TAG = "StarredListActivity";
 

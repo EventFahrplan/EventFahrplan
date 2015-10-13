@@ -1,15 +1,16 @@
 package nerd.tuxmobil.fahrplan.congress;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
-public class SettingsActivity extends ActionBarActivity {
+public class SettingsActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = "SettingsActivity";
 
@@ -86,7 +87,7 @@ public class SettingsActivity extends ActionBarActivity {
 
                             Intent redrawIntent = new Intent();
                             redrawIntent.putExtra(BundleKeys.PREFS_ALTERNATIVE_HIGHLIGHT, true);
-                            getActivity().setResult(ActionBarActivity.RESULT_OK, redrawIntent);
+                            getActivity().setResult(Activity.RESULT_OK, redrawIntent);
 
                             return true;
                         }
