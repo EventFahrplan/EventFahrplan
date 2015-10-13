@@ -147,9 +147,7 @@ public class MainActivity extends ActionBarActivity
                     break;
                 case HTTP_LOGIN_FAIL_UNTRUSTED_CERTIFICATE:
                     CertificateDialogFragment dlg = new CertificateDialogFragment();
-                    Bundle args = new Bundle();
-                    args.putInt("msgResId", R.string.dlg_certificate_message_fmt);
-                    dlg.show(getSupportFragmentManager(), "cert_dlg");
+                    dlg.show(getSupportFragmentManager(), CertificateDialogFragment.FRAGMENT_TAG);
                     break;
             }
             CustomHttpClient.showHttpError(this, global, status, host);

@@ -24,6 +24,9 @@ interface OnCertAccepted {
 
 public class CertificateDialogFragment extends DialogFragment {
 
+    public static final String FRAGMENT_TAG =
+            BuildConfig.APPLICATION_ID + "CERTIFICATE_DIALOG_FRAGMENT_TAG";
+
     private OnCertAccepted listener;
 
     private X509Certificate[] chain;
