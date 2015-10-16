@@ -56,4 +56,9 @@
         https://events.ccc.de/congress/2013/Fahrplan/events/5610.html
     </string>
 
+    <!-- Schedule time column -->
+    <string name="placeholder_schedule_time">
+        09:15
+    </string>
+
 </resources>
