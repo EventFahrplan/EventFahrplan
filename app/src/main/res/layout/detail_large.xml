@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/lecture_background">
@@ -25,19 +26,19 @@
                     android:id="@+id/title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="TextView"
                     android:textColor="#000000"
                     android:textSize="30sp"
-                    android:textStyle="bold">
+                    android:textStyle="bold"
+                    tools:text="@string/placeholder_event_title">
             </TextView>
 
             <TextView
                     android:id="@+id/subtitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="TextView"
                     android:textColor="#000000"
-                    android:textSize="18sp">
+                    android:textSize="18sp"
+                    tools:text="@string/placeholder_event_subtitle">
             </TextView>
 
             <TextView
@@ -46,10 +47,10 @@
                     android:layout_height="wrap_content"
                     android:paddingBottom="16dp"
                     android:paddingTop="16dp"
-                    android:text="TextView"
                     android:textAllCaps="true"
                     android:textColor="#000000"
-                    android:textSize="14sp">
+                    android:textSize="14sp"
+                    tools:text="@string/placeholder_event_speakers">
             </TextView>
 
             <TextView
@@ -58,10 +59,10 @@
                     android:layout_height="wrap_content"
                     android:lineSpacingMultiplier="1.1"
                     android:paddingBottom="8dp"
-                    android:text="TextView"
                     android:textColor="#000000"
                     android:textSize="16sp"
-                    android:textStyle="bold">
+                    android:textStyle="bold"
+                    tools:text="@string/placeholder_event_abstract">
             </TextView>
 
             <TextView
@@ -70,9 +71,9 @@
                     android:layout_height="wrap_content"
                     android:lineSpacingMultiplier="1.1"
                     android:paddingBottom="16dp"
-                    android:text="TextView"
                     android:textColor="#000000"
-                    android:textSize="16sp">
+                    android:textSize="16sp"
+                    tools:text="@string/placeholder_event_description">
             </TextView>
 
             <TextView
@@ -91,9 +92,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingBottom="16dp"
-                    android:text="Links"
                     android:textColor="#000000"
-                    android:textSize="16sp">
+                    android:textSize="16sp"
+                    tools:text="@string/placeholder_event_links">
             </TextView>
 
             <TextView
@@ -111,9 +112,9 @@
                     android:id="@+id/eventOnline"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="eventOnline"
                     android:textColor="#000000"
-                    android:textSize="16sp">
+                    android:textSize="16sp"
+                    tools:text="@string/placeholder_event_online">
             </TextView>
         </LinearLayout>
     </LinearLayout>
