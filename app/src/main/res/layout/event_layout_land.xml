@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:orientation="vertical"
@@ -13,7 +14,6 @@
             android:orientation="horizontal">
 
         <TextView
-                android:text="TextView"
                 android:id="@+id/event_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -21,6 +21,7 @@
                 android:textColor="#000000"
                 android:layout_weight="1"
                 android:textSize="12sp"
+                tools:text="@string/placeholder_event_title"
                 />
 
         <ImageView
@@ -49,14 +50,14 @@
     </LinearLayout>
 
     <TextView
-            android:text="TextView"
             android:id="@+id/event_subtitle"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:textColor="#000000"
             android:fontFamily="sans-serif-light"
-            android:textSize="9sp"/>
+            android:textSize="9sp"
+            tools:text="@string/placeholder_event_subtitle"/>
 
     <RelativeLayout
             android:layout_width="match_parent"
@@ -64,7 +65,6 @@
             android:layout_height="wrap_content">
 
         <TextView
-                android:text="TextView"
                 android:id="@+id/event_track"
                 android:layout_width="wrap_content"
                 android:textSize="8sp"
@@ -72,11 +72,11 @@
                 android:textColor="#000000"
                 android:layout_alignParentRight="true"
                 android:fontFamily="sans-serif-condensed"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                tools:text="@string/placeholder_event_track"/>
 
         <TextView
                 android:id="@+id/event_speakers"
-                android:text="speakers"
                 android:layout_height="wrap_content"
                 android:textSize="8sp"
                 android:singleLine="true"
@@ -87,6 +87,7 @@
                 android:layout_toLeftOf="@id/event_track"
                 android:paddingRight="10dp"
                 android:fontFamily="sans-serif-condensed"
+                tools:text="@string/placeholder_event_speakers"
                 />
     </RelativeLayout>
 </LinearLayout>
