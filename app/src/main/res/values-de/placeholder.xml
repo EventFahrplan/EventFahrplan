@@ -70,4 +70,13 @@
         27.12.13 11:30 vorm.
     </string>
 
+    <!-- Event detail bar -->
+
+    <string name="placeholder_event_date">
+        27.12.13 11:45 VORM. - SAAL 1
+    </string>
+    <string name="placeholder_event_id">
+        ID: 5610
+    </string>
+
 </resources>

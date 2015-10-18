@@ -69,4 +69,13 @@
         12/28/13 5:10 PM
     </string>
 
+    <!-- Event detail bar -->
+
+    <string name="placeholder_event_date">
+        12/28/13 5:15 PM - REALLY LARGE ROOM
+    </string>
+    <string name="placeholder_event_id">
+        ID: 5193
+    </string>
+
 </resources>

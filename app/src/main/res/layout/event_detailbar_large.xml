@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/lecture_detailbar_background"
@@ -14,11 +15,11 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:fontFamily="sans-serif-light"
-            android:text="TextView"
             android:textAllCaps="true"
             android:textColor="@color/lecture_detailbar_text"
             android:textSize="14sp"
-            android:typeface="normal"/>
+            android:typeface="normal"
+            tools:text="@string/placeholder_event_date"/>
 
     <TextView
             android:id="@+id/lectureid"
@@ -26,10 +27,10 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:fontFamily="sans-serif-light"
-            android:text="TextView"
             android:textAllCaps="true"
             android:textColor="@color/lecture_detailbar_text"
             android:textSize="14sp"
-            android:typeface="normal"/>
+            android:typeface="normal"
+            tools:text="@string/placeholder_event_id"/>
 
 </RelativeLayout>
