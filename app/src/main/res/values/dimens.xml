@@ -38,4 +38,8 @@
     <dimen name="alert_dialog_content_margin">24dp</dimen>
     <dimen name="certificate_dialog_text">12sp</dimen>
 
+    <!-- Event detail white space -->
+    <dimen name="event_detail_section_margin_bottom">8dp</dimen>
+    <dimen name="event_detail_section_margin_top">16dp</dimen>
+
 </resources>
