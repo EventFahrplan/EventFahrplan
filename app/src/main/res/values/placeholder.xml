@@ -93,4 +93,9 @@
         ID: 5193
     </string>
 
+    <!-- Separators -->
+    <string name="placeholder_day_separator_title">
+        Day 2
+    </string>
+
 </resources>

@@ -94,4 +94,9 @@
         ID: 5610
     </string>
 
+    <!-- Separators -->
+    <string name="placeholder_day_separator_title">
+        Tag 1
+    </string>
+
 </resources>
