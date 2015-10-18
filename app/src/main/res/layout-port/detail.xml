@@ -24,7 +24,7 @@
                     android:id="@+id/title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#000000"
+                    android:textColor="@color/event_detail_text"
                     android:textSize="24sp"
                     android:textStyle="bold"
                     tools:text="@string/placeholder_event_title">
@@ -34,7 +34,7 @@
                     android:id="@+id/subtitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#000000"
+                    android:textColor="@color/event_detail_text"
                     android:textSize="16sp"
                     tools:text="@string/placeholder_event_subtitle">
             </TextView>
@@ -46,7 +46,7 @@
                     android:paddingBottom="16dp"
                     android:paddingTop="16dp"
                     android:textAllCaps="true"
-                    android:textColor="#000000"
+                    android:textColor="@color/event_detail_text"
                     android:textSize="13sp"
                     android:typeface="normal"
                     tools:text="@string/placeholder_event_speakers">
@@ -58,7 +58,7 @@
                     android:layout_height="wrap_content"
                     android:lineSpacingMultiplier="1.1"
                     android:paddingBottom="8dp"
-                    android:textColor="#000000"
+                    android:textColor="@color/event_detail_text"
                     android:textStyle="bold"
                     tools:text="@string/placeholder_event_abstract">
             </TextView>
@@ -69,7 +69,7 @@
                     android:layout_height="wrap_content"
                     android:lineSpacingMultiplier="1.1"
                     android:paddingBottom="16dp"
-                    android:textColor="#000000"
+                    android:textColor="@color/event_detail_text"
                     tools:text="@string/placeholder_event_description">
             </TextView>
 
@@ -79,7 +79,7 @@
                     android:layout_height="wrap_content"
                     android:paddingBottom="8dp"
                     android:text="@string/event_detail_section_title_links"
-                    android:textColor="#000000"
+                    android:textColor="@color/event_detail_text"
                     android:textStyle="bold">
             </TextView>
 
@@ -88,7 +88,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingBottom="16dp"
-                    android:textColor="#000000"
+                    android:textColor="@color/event_detail_text"
                     tools:text="@string/placeholder_event_links">
             </TextView>
 
@@ -98,7 +98,7 @@
                     android:layout_height="wrap_content"
                     android:paddingBottom="8dp"
                     android:text="@string/event_online"
-                    android:textColor="#000000"
+                    android:textColor="@color/event_detail_text"
                     android:textStyle="bold">
             </TextView>
 
@@ -106,7 +106,7 @@
                     android:id="@+id/eventOnline"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#000000"
+                    android:textColor="@color/event_detail_text"
                     tools:text="@string/placeholder_event_online">
             </TextView>
         </LinearLayout>

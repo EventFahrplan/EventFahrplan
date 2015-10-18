@@ -23,4 +23,9 @@
     <!-- Spinner -->
     <color name="spinner_drop_down_text">#cc0000</color>
 
+    <!-- Event detail -->
+    <color name="event_detail_text">
+        @android:color/black
+    </color>
+
 </resources>
