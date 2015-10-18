@@ -25,7 +25,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/event_detail_text"
-                    android:textSize="24sp"
+                    android:textSize="@dimen/event_detail_title"
                     android:textStyle="bold"
                     tools:text="@string/placeholder_event_title">
             </TextView>
@@ -35,7 +35,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/event_detail_text"
-                    android:textSize="16sp"
+                    android:textSize="@dimen/event_detail_subtitle"
                     tools:text="@string/placeholder_event_subtitle">
             </TextView>
 
@@ -47,7 +47,7 @@
                     android:paddingTop="@dimen/event_detail_section_margin_top"
                     android:textAllCaps="true"
                     android:textColor="@color/event_detail_text"
-                    android:textSize="13sp"
+                    android:textSize="@dimen/event_detail_speakers"
                     tools:text="@string/placeholder_event_speakers">
             </TextView>
 

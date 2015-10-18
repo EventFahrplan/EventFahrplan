@@ -19,4 +19,11 @@
     <dimen name="time_width">40dp</dimen>
     <dimen name="list_pane_leftright_padding">32dp</dimen>
     <dimen name="header_height">32dp</dimen>
+
+    <!-- Event detail text sizes -->
+    <dimen name="event_detail_text">16sp</dimen>
+    <dimen name="event_detail_title">30sp</dimen>
+    <dimen name="event_detail_subtitle">18sp</dimen>
+    <dimen name="event_detail_speakers">14sp</dimen>
+
 </resources>

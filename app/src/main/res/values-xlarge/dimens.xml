@@ -15,4 +15,11 @@
 -->
 <resources>
     <item type="integer" name="box_height">13</item>
+
+    <!-- Event detail text sizes -->
+    <dimen name="event_detail_text">16sp</dimen>
+    <dimen name="event_detail_title">30sp</dimen>
+    <dimen name="event_detail_subtitle">18sp</dimen>
+    <dimen name="event_detail_speakers">14sp</dimen>
+
 </resources>

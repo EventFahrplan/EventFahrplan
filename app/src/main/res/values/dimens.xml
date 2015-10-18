@@ -43,4 +43,10 @@
     <dimen name="event_detail_section_margin_top">16dp</dimen>
     <item name="event_detail_line_spacing_multiplier" format="float" type="dimen">1.1</item>
 
+    <!-- Event detail text sizes -->
+    <dimen name="event_detail_text">16sp</dimen> <!-- not applied in layout & layout-port -->
+    <dimen name="event_detail_title">24sp</dimen>
+    <dimen name="event_detail_subtitle">16sp</dimen>
+    <dimen name="event_detail_speakers">13sp</dimen>
+
 </resources>
