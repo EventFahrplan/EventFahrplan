@@ -41,5 +41,6 @@
     <!-- Event detail white space -->
     <dimen name="event_detail_section_margin_bottom">8dp</dimen>
     <dimen name="event_detail_section_margin_top">16dp</dimen>
+    <item name="event_detail_line_spacing_multiplier" format="float" type="dimen">1.1</item>
 
 </resources>

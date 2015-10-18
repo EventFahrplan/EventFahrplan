@@ -55,7 +55,7 @@
                     android:id="@+id/abstractt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:lineSpacingMultiplier="1.1"
+                    android:lineSpacingMultiplier="@dimen/event_detail_line_spacing_multiplier"
                     android:paddingBottom="@dimen/event_detail_section_margin_bottom"
                     android:textColor="@color/event_detail_text"
                     android:textStyle="bold"
@@ -66,7 +66,7 @@
                     android:id="@+id/description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:lineSpacingMultiplier="1.1"
+                    android:lineSpacingMultiplier="@dimen/event_detail_line_spacing_multiplier"
                     android:paddingBottom="@dimen/event_detail_section_margin_top"
                     android:textColor="@color/event_detail_text"
                     tools:text="@string/placeholder_event_description">
