@@ -33,6 +33,7 @@
     <string name="alarms">Alarme</string>
     <string name="delete">Löschen</string>
     <string name="event_online">Event online</string>
+    <string name="event_detail_section_title_links">Links</string>
     <string name="alarm_prompt">Erinnerung</string>
     <string-array name="alarm_array">
         <item>zur Startzeit</item>

@@ -80,7 +80,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingBottom="8dp"
-                    android:text="Links"
+                    android:text="@string/event_detail_section_title_links"
                     android:textColor="#000000"
                     android:textStyle="bold">
             </TextView>
