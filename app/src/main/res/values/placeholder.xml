@@ -54,6 +54,21 @@
     <string name="placeholder_event_online">
         https://events.ccc.de/congress/2013/Fahrplan/events/5193.html
     </string>
+    <string name="placeholder_event_language">
+        en
+    </string>
+    <string name="placeholder_event_day">
+        Today
+    </string>
+    <string name="placeholder_event_start_time">
+        17:15
+    </string>
+    <string name="placeholder_event_duration">
+        90 min.
+    </string>
+    <string name="placeholder_event_room">
+        REALLY LARGE ROOM
+    </string>
 
     <!-- Schedule time column -->
     <string name="placeholder_schedule_time">

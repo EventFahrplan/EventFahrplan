@@ -18,7 +18,7 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:textAppearance="@style/ScheduleListPrimary"
-            tools:text="The Exploration and Exploitation of Smartcards"
+            tools:text="@string/placeholder_event_title"
             android:id="@+id/title" />
         <ImageView
             android:id="@+id/no_video"
@@ -42,7 +42,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="@style/ScheduleListSecondary"
-        tools:text="Hacking for Fun and Profit"
+        tools:text="@string/placeholder_event_subtitle"
         android:id="@+id/subtitle"
         android:paddingBottom="8dp" />
 
@@ -55,7 +55,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textAppearance="@style/ScheduleListSecondary"
-            tools:text="Roger Rabbit"
+            tools:text="@string/placeholder_event_speakers"
             android:id="@+id/speakers"
             android:layout_weight="1" />
 
@@ -63,7 +63,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="@style/ScheduleListSecondary"
-            tools:text="lang:en"
+            tools:text="@string/placeholder_event_language"
             android:id="@+id/lang" />
     </LinearLayout>
 
@@ -76,7 +76,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="@style/ScheduleListSecondary"
-            tools:text="Today"
+            tools:text="@string/placeholder_event_day"
             android:id="@+id/day"
             android:layout_marginRight="8dp"
             android:layout_marginEnd="8dp" />
@@ -85,7 +85,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="@style/ScheduleListSecondary"
-            tools:text="13:00"
+            tools:text="@string/placeholder_event_start_time"
             android:id="@+id/time"
             android:layout_marginRight="8dp"
             android:layout_marginEnd="8dp" />
@@ -94,7 +94,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textAppearance="@style/ScheduleListSecondary"
-            tools:text="90 min"
+            tools:text="@string/placeholder_event_duration"
             android:id="@+id/duration"
             android:layout_marginRight="8dp"
             android:layout_marginEnd="8dp"
@@ -104,7 +104,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="@style/ScheduleListSecondary"
-            tools:text="Saal 1"
+            tools:text="@string/placeholder_event_room"
             android:id="@+id/room" />
     </LinearLayout>
 </nerd.tuxmobil.fahrplan.congress.CheckableLinearLayout>
