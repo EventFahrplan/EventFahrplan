@@ -16,7 +16,7 @@
 
     <FrameLayout
         android:id="@+id/container"
-        tools:context="nerd.tuxmobil.fahrplan.congress.ChangeListActivity"
+        tools:context=".ChangeListActivity"
         tools:ignore="MergeRootFrame"
         android:layout_below="@id/toolbar"
         android:layout_width="match_parent"

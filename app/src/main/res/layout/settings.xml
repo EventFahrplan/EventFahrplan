@@ -22,7 +22,7 @@
         android:layout_below="@id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="nerd.tuxmobil.fahrplan.congress.SettingsActivity"
+        tools:context=".SettingsActivity"
         tools:ignore="MergeRootFrame"/>
 
 </RelativeLayout>
