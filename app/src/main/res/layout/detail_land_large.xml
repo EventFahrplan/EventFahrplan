@@ -24,96 +24,55 @@
 
             <TextView
                     android:id="@+id/title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/event_detail_text"
-                    android:textSize="@dimen/event_detail_title"
-                    android:textStyle="bold"
+                    style="@style/EventDetailSection.Title"
                     tools:text="@string/placeholder_event_title">
             </TextView>
 
             <TextView
                     android:id="@+id/subtitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/event_detail_text"
-                    android:textSize="@dimen/event_detail_subtitle"
+                    style="@style/EventDetailSection.Subtitle"
                     tools:text="@string/placeholder_event_subtitle">
             </TextView>
 
             <TextView
                     android:id="@+id/speakers"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="@dimen/event_detail_section_margin_top"
-                    android:paddingTop="@dimen/event_detail_section_margin_top"
-                    android:textAllCaps="true"
-                    android:textColor="@color/event_detail_text"
-                    android:textSize="@dimen/event_detail_speakers"
+                    style="@style/EventDetailSection.Speakers"
                     tools:text="@string/placeholder_event_speakers">
             </TextView>
 
             <TextView
                     android:id="@+id/abstractt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:lineSpacingMultiplier="@dimen/event_detail_line_spacing_multiplier"
-                    android:paddingBottom="@dimen/event_detail_section_margin_bottom"
-                    android:textColor="@color/event_detail_text"
-                    android:textSize="@dimen/event_detail_text"
-                    android:textStyle="bold"
+                    style="@style/EventDetailSection.Header.Long"
                     tools:text="@string/placeholder_event_abstract">
             </TextView>
 
             <TextView
                     android:id="@+id/description"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:lineSpacingMultiplier="@dimen/event_detail_line_spacing_multiplier"
-                    android:paddingBottom="@dimen/event_detail_section_margin_top"
-                    android:textColor="@color/event_detail_text"
-                    android:textSize="@dimen/event_detail_text"
+                    style="@style/EventDetailSection.Long"
                     tools:text="@string/placeholder_event_description">
             </TextView>
 
             <TextView
                     android:id="@+id/linksSection"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="@dimen/event_detail_section_margin_bottom"
-                    android:text="@string/event_detail_section_title_links"
-                    android:textColor="@color/event_detail_text"
-                    android:textSize="@dimen/event_detail_text"
-                    android:textStyle="bold">
+                    style="@style/EventDetailSection.Header"
+                    android:text="@string/event_detail_section_title_links">
             </TextView>
 
             <TextView
                     android:id="@+id/links"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="@dimen/event_detail_section_margin_top"
-                    android:textColor="@color/event_detail_text"
-                    android:textSize="@dimen/event_detail_text"
+                    style="@style/EventDetailSection"
                     tools:text="@string/placeholder_event_links">
             </TextView>
 
             <TextView
                     android:id="@+id/eventOnlineSection"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="@dimen/event_detail_section_margin_bottom"
-                    android:text="@string/event_online"
-                    android:textColor="@color/event_detail_text"
-                    android:textSize="@dimen/event_detail_text"
-                    android:textStyle="bold">
+                    style="@style/EventDetailSection.Header"
+                    android:text="@string/event_online">
             </TextView>
 
             <TextView
                     android:id="@+id/eventOnline"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/event_detail_text"
-                    android:textSize="@dimen/event_detail_text"
+                    style="@style/EventDetailSection"
                     tools:text="@string/placeholder_event_online">
             </TextView>
         </LinearLayout>
