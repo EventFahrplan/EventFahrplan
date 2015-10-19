@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/event_detail_background">
@@ -20,60 +19,8 @@
                 android:padding="24dp"
                 >
 
-            <TextView
-                    android:id="@+id/title"
-                    style="@style/EventDetailSection.Title"
-                    tools:text="@string/placeholder_event_title">
-            </TextView>
+            <include layout="@layout/event_detail_content"/>
 
-            <TextView
-                    android:id="@+id/subtitle"
-                    style="@style/EventDetailSection.Subtitle"
-                    tools:text="@string/placeholder_event_subtitle">
-            </TextView>
-
-            <TextView
-                    android:id="@+id/speakers"
-                    android:textSize="@dimen/event_detail_speakers"
-                    style="@style/EventDetailSection.Speakers"
-                    tools:text="@string/placeholder_event_speakers">
-            </TextView>
-
-            <TextView
-                    android:id="@+id/abstractt"
-                style="@style/EventDetailSection.Header.Long"
-                    tools:text="@string/placeholder_event_abstract">
-            </TextView>
-
-            <TextView
-                    android:id="@+id/description"
-                    style="@style/EventDetailSection.Long"
-                    tools:text="@string/placeholder_event_description">
-            </TextView>
-
-            <TextView
-                    android:id="@+id/linksSection"
-                    style="@style/EventDetailSection.Header"
-                    android:text="@string/event_detail_section_title_links">
-            </TextView>
-
-            <TextView
-                    android:id="@+id/links"
-                    style="@style/EventDetailSection"
-                    tools:text="@string/placeholder_event_links">
-            </TextView>
-
-            <TextView
-                    android:id="@+id/eventOnlineSection"
-                    style="@style/EventDetailSection.Header"
-                    android:text="@string/event_online">
-            </TextView>
-
-            <TextView
-                    android:id="@+id/eventOnline"
-                    style="@style/EventDetailSection"
-                    tools:text="@string/placeholder_event_online">
-            </TextView>
         </LinearLayout>
     </LinearLayout>
 

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="@layout/detail">
+
+    <TextView
+        android:id="@+id/title"
+        style="@style/EventDetailSection.Title"
+        tools:text="@string/placeholder_event_title"/>
+
+    <TextView
+        android:id="@+id/subtitle"
+        style="@style/EventDetailSection.Subtitle"
+        tools:text="@string/placeholder_event_subtitle"/>
+
+    <TextView
+        android:id="@+id/speakers"
+        style="@style/EventDetailSection.Speakers"
+        android:textSize="@dimen/event_detail_speakers"
+        tools:text="@string/placeholder_event_speakers"/>
+
+    <TextView
+        android:id="@+id/abstractt"
+        style="@style/EventDetailSection.Header.Long"
+        tools:text="@string/placeholder_event_abstract"/>
+
+    <TextView
+        android:id="@+id/description"
+        style="@style/EventDetailSection.Long"
+        tools:text="@string/placeholder_event_description"/>
+
+    <TextView
+        android:id="@+id/linksSection"
+        style="@style/EventDetailSection.Header"
+        android:text="@string/event_detail_section_title_links"/>
+
+    <TextView
+        android:id="@+id/links"
+        style="@style/EventDetailSection"
+        tools:text="@string/placeholder_event_links"/>
+
+    <TextView
+        android:id="@+id/eventOnlineSection"
+        style="@style/EventDetailSection.Header"
+        android:text="@string/event_online"/>
+
+    <TextView
+        android:id="@+id/eventOnline"
+        style="@style/EventDetailSection"
+        tools:text="@string/placeholder_event_online"/>
+
+</merge>
