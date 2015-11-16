@@ -199,16 +199,18 @@ public class LectureArrayAdapter extends ArrayAdapter<Lecture> {
 
         if (list == null) return;
 
-        DateFormat df = SimpleDateFormat.getDateInstance(SimpleDateFormat.SHORT);
+        DateFormat dateFormat = SimpleDateFormat.getDateInstance(SimpleDateFormat.SHORT);
+        String daySeparator = context.getString(R.string.day_seperator);
 
         for (int index = 0; index < list.size(); index++) {
 
             Lecture l = list.get(index);
             day = l.day;
             if (day != lastDay) {
-                String sepStr = String.format(context.getString(R.string.day_seperator), day,
-                        df.format(new Date(l.dateUTC)));
-                mSeperatorStrings.add(sepStr);
+                Date date = new Date(l.dateUTC);
+                String formattedDate = dateFormat.format(date);
+                String dayDateSeparator = String.format(daySeparator, day, formattedDate);
+                mSeperatorStrings.add(dayDateSeparator);
                 lastDay = day;
                 mSeparatorsSet.add(index + sepCount);
                 mMapper.add(sepCount);
