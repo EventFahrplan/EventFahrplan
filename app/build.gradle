@@ -13,14 +13,14 @@ props.load(new FileInputStream(gradlePropertiesFile))
 
 
 android {
-    compileSdkVersion 21
+    compileSdkVersion 22
     buildToolsVersion "23.0.2"
 
     defaultConfig {
         versionCode 36
         versionName "1.31.1"
         minSdkVersion 14
-        targetSdkVersion 21
+        targetSdkVersion 22
         project.ext.set("archivesBaseName", "Fahrplan");
     }
 
