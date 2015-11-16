@@ -1,22 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="fill_parent"
               android:layout_height="wrap_content"
               android:orientation="horizontal"
-              android:padding="10dp">
+              android:paddingTop="10dp"
+              android:paddingBottom="10dp"
+              android:paddingLeft="@dimen/list_pane_leftright_padding"
+              android:paddingRight="@dimen/list_pane_leftright_padding"
+              tools:background="@android:color/holo_green_light">
 
     <TextView
             android:id="@+id/alarm_list_icon"
             style="@style/AlarmList.Icon"
             android:layout_gravity="center"
-            android:text="23"
+            tools:text="23"
             android:textColor="@color/alarm_list_icon_text_color"/>
 
     <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            tools:background="@android:color/holo_red_dark">
 
         <TextView
                 android:id="@+id/title"
@@ -24,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:paddingBottom="3dp"
-                android:text="Tralala der Titel"
+                tools:text="Tralala der Titel"
                 android:textColor="@android:color/primary_text_dark"
                 android:textSize="16sp"/>
 
@@ -32,7 +38,7 @@
                 android:id="@+id/time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="2011-12-13 12:00"
+                tools:text="2011-12-13 12:00"
                 android:textColor="@android:color/secondary_text_dark"
                 android:textSize="10sp"/>
     </LinearLayout>
