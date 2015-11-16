@@ -5,13 +5,14 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:orientation="vertical"
+        android:gravity="center"
         android:background="@color/fahrplan_background"
         tools:background="@android:color/holo_red_light">
 
     <ListView
             android:id="@android:id/android:list"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:scrollbarStyle="outsideOverlay"
             tools:listitem="@layout/alarm_list_item">
     </ListView>
