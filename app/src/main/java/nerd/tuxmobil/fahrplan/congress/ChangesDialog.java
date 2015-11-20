@@ -1,14 +1,15 @@
 package nerd.tuxmobil.fahrplan.congress;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AlertDialog;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
@@ -17,8 +18,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-
-import com.afollestad.materialdialogs.MaterialDialogCompat;
 
 public class ChangesDialog extends DialogFragment {
 
@@ -58,33 +57,19 @@ public class ChangesDialog extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        MaterialDialogCompat.Builder builder = new MaterialDialogCompat.Builder(getActivity())
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
                 .setTitle(getString(R.string.schedule_udpate))
                 .setPositiveButton(R.string.btn_dlg_browse,
-
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences
-                                        (getActivity());
-                                SharedPreferences.Editor edit = prefs.edit();
-                                edit.putBoolean(BundleKeys.PREFS_CHANGES_SEEN, true);
-                                edit.commit();
-
-                                FragmentActivity activity = getActivity();
-                                if (activity instanceof MainActivity) {
-                                    ((MainActivity)activity).openLectureChanges();
-                                }
+                                onBrowse();
                             }
                         })
                 .setNegativeButton(R.string.btn_dlg_later,
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences
-                                        (getActivity());
-                                SharedPreferences.Editor edit = prefs.edit();
-                                edit.putBoolean(BundleKeys.PREFS_CHANGES_SEEN, true);
-                                edit.commit();
+                                onLater();
                             }
                         });
 
@@ -96,12 +81,13 @@ public class ChangesDialog extends DialogFragment {
         span.append(" ");
         int spanStart = span.length();
         span.append(version);
-        span.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorAccent)),
+        Resources resources = getResources();
+        span.setSpan(new ForegroundColorSpan(resources.getColor(R.color.colorAccent)),
                 spanStart, span.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         span.append(getString(R.string.changes_dlg_text2, version,
-                getResources().getQuantityString(R.plurals.numberOfLectures, changed, changed),
-                getResources().getQuantityString(R.plurals.being, added, added),
-                getResources().getQuantityString(R.plurals.being, cancelled, cancelled)));
+                resources.getQuantityString(R.plurals.numberOfLectures, changed, changed),
+                resources.getQuantityString(R.plurals.being, added, added),
+                resources.getQuantityString(R.plurals.being, cancelled, cancelled)));
         changes1.setText(span);
 
         TextView changes2 = (TextView) msgView.findViewById(R.id.changes_dlg_text2);
@@ -109,4 +95,24 @@ public class ChangesDialog extends DialogFragment {
         builder.setView(msgView);
         return builder.create();
     }
+
+    private void onBrowse() {
+        flagChangesAsSeen();
+        FragmentActivity activity = getActivity();
+        if (activity instanceof MainActivity) {
+            ((MainActivity)activity).openLectureChanges();
+        }
+    }
+
+    private void onLater() {
+        flagChangesAsSeen();
+    }
+
+    private void flagChangesAsSeen() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        SharedPreferences.Editor edit = prefs.edit();
+        edit.putBoolean(BundleKeys.PREFS_CHANGES_SEEN, true);
+        edit.commit();
+    }
+
 }

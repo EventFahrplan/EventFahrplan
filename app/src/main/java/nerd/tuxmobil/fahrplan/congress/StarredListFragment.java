@@ -40,6 +40,8 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
     private LectureList starredList;
     private boolean sidePane = false;
 
+    public static final int DELETE_ALL_FAVORITES_REQUEST_CODE = 19126;
+
     /**
      * The fragment's ListView/GridView.
      */
@@ -268,13 +270,13 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
         jumpOverPastLectures();
     }
 
-    private void askToDeleteAllFavorites()
-    {
+    private void askToDeleteAllFavorites() {
         FragmentManager fm = getActivity().getSupportFragmentManager();
         Fragment fragment = fm.findFragmentByTag(ConfirmationDialog.TAG);
-
         if (fragment == null) {
-            ConfirmationDialog confirm = ConfirmationDialog.newInstance(0, R.string.dlg_delete_all_favorites, 0);
+            ConfirmationDialog confirm = ConfirmationDialog.newInstance(
+                    R.string.dlg_delete_all_favorites,
+                    DELETE_ALL_FAVORITES_REQUEST_CODE);
             confirm.show(fm, ConfirmationDialog.TAG);
         }
     }

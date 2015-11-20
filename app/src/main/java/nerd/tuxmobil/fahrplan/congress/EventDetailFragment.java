@@ -1,13 +1,11 @@
 package nerd.tuxmobil.fahrplan.congress;
 
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.text.Html;
@@ -18,11 +16,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
 import android.widget.TextView;
-
-import com.afollestad.materialdialogs.MaterialDialogCompat;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -37,6 +31,8 @@ interface OnCloseDetailListener {
 public class EventDetailFragment extends Fragment {
 
     private final String LOG_TAG = "Detail";
+
+    public static final int EVENT_DETAIL_FRAGMENT_REQUEST_CODE = 546;
 
     private String event_id;
 
@@ -260,38 +256,29 @@ public class EventDetailFragment extends Fragment {
         return null;
     }
 
-    void setAlarmDialog(final Lecture lecture) {
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == EVENT_DETAIL_FRAGMENT_REQUEST_CODE &&
+                resultCode == AlarmTimePickerFragment.ALERT_TIME_PICKED_RESULT_CODE) {
+            int alarmTimesIndex = data.getIntExtra(
+                    AlarmTimePickerFragment.ALARM_PICKED_INTENT_KEY, 0);
+            onAlarmTimesIndexPicked(alarmTimesIndex);
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 
-        LayoutInflater inflater = (LayoutInflater) getActivity()
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View layout = inflater.inflate(R.layout.reminder_dialog,
-                (ViewGroup) getView().findViewById(R.id.layout_root));
+    private void showAlarmTimePicker() {
+        DialogFragment dialogFragment = new AlarmTimePickerFragment();
+        dialogFragment.setTargetFragment(this, EVENT_DETAIL_FRAGMENT_REQUEST_CODE);
+        dialogFragment.show(getActivity().getSupportFragmentManager(),
+                AlarmTimePickerFragment.FRAGMENT_TAG);
+    }
 
-        final Spinner spinner = (Spinner) layout.findViewById(R.id.spinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter
-                .createFromResource(getActivity(), R.array.alarm_array,
-                        android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-
-        TextView msg = (TextView) layout.findViewById(R.id.message);
-        msg.setText(R.string.choose_alarm_time);
-
-        new MaterialDialogCompat.Builder(getActivity()).setTitle(R.string.setup_alarm)
-                .setView(layout)
-                .setPositiveButton(android.R.string.ok,
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,
-                                    int which) {
-                                int alarm = spinner.getSelectedItemPosition();
-                                MyApp.LogDebug(LOG_TAG, "alarm chosen: " + alarm);
-                                FahrplanMisc.addAlarm(getActivity(), lecture, alarm);
-                                getActivity().supportInvalidateOptionsMenu();
-                                getActivity().setResult(FragmentActivity.RESULT_OK);
-                                refreshEventMarkers();
-                            }
-                        }).setNegativeButton(android.R.string.cancel, null)
-                .create().show();
+    private void onAlarmTimesIndexPicked(int alarmTimesIndex) {
+        FahrplanMisc.addAlarm(getActivity(), lecture, alarmTimesIndex);
+        getActivity().supportInvalidateOptionsMenu();
+        getActivity().setResult(FragmentActivity.RESULT_OK);
+        refreshEventMarkers();
     }
 
     public void refreshEventMarkers() {
@@ -340,7 +327,7 @@ public class EventDetailFragment extends Fragment {
                 refreshEventMarkers();
                 return true;
             case R.id.item_set_alarm:
-                setAlarmDialog(lecture);
+                showAlarmTimePicker();
                 return true;
             case R.id.item_clear_alarm:
                 if (lecture != null) {

@@ -147,9 +147,7 @@ public class MainActivity extends ActionBarActivity
                     break;
                 case HTTP_LOGIN_FAIL_UNTRUSTED_CERTIFICATE:
                     CertificateDialogFragment dlg = new CertificateDialogFragment();
-                    Bundle args = new Bundle();
-                    args.putInt("msgResId", R.string.dlg_certificate_message_fmt);
-                    dlg.show(getSupportFragmentManager(), "cert_dlg");
+                    dlg.show(getSupportFragmentManager(), CertificateDialogFragment.FRAGMENT_TAG);
                     break;
             }
             CustomHttpClient.showHttpError(this, global, status, host);
@@ -515,12 +513,12 @@ public class MainActivity extends ActionBarActivity
     }
 
     @Override
-    public void onAccepted(int dlgId) {
-        switch (dlgId) {
-            case 0:
+    public void onAccepted(int dlgRequestCode) {
+        switch (dlgRequestCode) {
+            case StarredListFragment.DELETE_ALL_FAVORITES_REQUEST_CODE:
                 FragmentManager fm = getSupportFragmentManager();
-                StarredListFragment fragment = (StarredListFragment)fm.findFragmentByTag(FahrplanContract
-                        .FragmentTags.STARRED);
+                StarredListFragment fragment = (StarredListFragment)fm.findFragmentByTag(
+                        FahrplanContract.FragmentTags.STARRED);
                 if (fragment != null) {
                     fragment.deleteAllFavorites();
                 }
@@ -529,7 +527,7 @@ public class MainActivity extends ActionBarActivity
     }
 
     @Override
-    public void onDenied(int dlgId) {
+    public void onDenied(int dlgRequestCode) {
     }
 
     public static MainActivity getInstance() {

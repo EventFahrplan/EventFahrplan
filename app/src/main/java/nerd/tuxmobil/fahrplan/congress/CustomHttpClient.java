@@ -12,15 +12,11 @@ import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.net.http.AndroidHttpClient;
 import android.os.Build;
 import android.util.Base64;
 import android.widget.Toast;
-
-import com.afollestad.materialdialogs.MaterialDialogCompat;
 
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
@@ -108,20 +104,6 @@ public class CustomHttpClient {
         return lastSSLException;
     }
 
-    public static void showErrorDialog(final Activity ctx, final int msgTitle, final int msgText,
-            final Object... args) {
-        new MaterialDialogCompat.Builder(ctx).setTitle(
-                ctx.getString(msgTitle))
-                .setMessage(ctx.getString(msgText, args))
-                .setPositiveButton(ctx.getString(R.string.OK),
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,
-                                    int which) {
-                                //ctx.finish();
-                            }
-                        }).show();
-    }
-
     public static String getAddr() {
         return "events.ccc.de";
     }
@@ -151,43 +133,43 @@ public class CustomHttpClient {
     public static void showHttpError(final Activity ctx, MyApp global, HTTP_STATUS status, String host) {
         switch (status) {
             case HTTP_LOGIN_FAIL_WRONG_PASSWORD:
-                CustomHttpClient.showErrorDialog(ctx,
+                AlertDialogHelper.showErrorDialog(ctx,
                         R.string.dlg_err_connection_failed,
                         R.string.dlg_err_failed_wrong_password, (Object) null);
                 break;
             case HTTP_DNS_FAILURE:
-                CustomHttpClient.showErrorDialog(ctx,
+                AlertDialogHelper.showErrorDialog(ctx,
                         R.string.dlg_err_connection_failed,
                         R.string.dlg_err_failed_unknown_host,
                         host);
                 break;
             case HTTP_WRONG_HTTP_CREDENTIALS:
-                CustomHttpClient.showErrorDialog(ctx,
+                AlertDialogHelper.showErrorDialog(ctx,
                         R.string.dlg_err_connection_failed,
                         R.string.dlg_err_failed_wrong_http_credentials, (Object) null);
                 break;
             case HTTP_CONNECT_TIMEOUT:
-                CustomHttpClient.showErrorDialog(ctx,
+                AlertDialogHelper.showErrorDialog(ctx,
                         R.string.dlg_err_connection_failed,
                         R.string.dlg_err_failed_timeout, (Object) null);
                 break;
             case HTTP_COULD_NOT_CONNECT:
-                CustomHttpClient.showErrorDialog(ctx,
+                AlertDialogHelper.showErrorDialog(ctx,
                         R.string.dlg_err_connection_failed,
                         R.string.dlg_err_failed_connect_failure, (Object) null);
                 break;
             case HTTP_ENTITY_ENCODING_FAILURE:
-                CustomHttpClient.showErrorDialog(ctx,
+                AlertDialogHelper.showErrorDialog(ctx,
                         R.string.dlg_err_connection_failed,
                         R.string.dlg_err_failed_encoding_failure, (Object) null);
                 break;
             case HTTP_CANNOT_PARSE_CONTENT:
-                CustomHttpClient.showErrorDialog(ctx,
+                AlertDialogHelper.showErrorDialog(ctx,
                         R.string.dlg_err_connection_failed,
                         R.string.dlg_err_failed_parse_failure, (Object) null);
                 break;
             case HTTP_SSL_SETUP_FAILURE:
-                CustomHttpClient.showErrorDialog(ctx,
+                AlertDialogHelper.showErrorDialog(ctx,
                         R.string.dlg_err_connection_failed,
                         R.string.dlg_err_failed_ssl_failure, (Object) null);
                 break;

@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="OK">OK</string>
-    <string name="dlg_certificate_message_fmt">Failed to establish secure connection.\n(%s)</string>
+    <string name="dlg_certificate_message_fmt">
+        Failed to establish secure connection.\n
+        (<xliff:g id="error" example="Unknown Error">%s</xliff:g>)
+    </string>
     <string name="dlg_invalid_certificate_title">Trust unknown certificate?</string>
     <string name="dlg_invalid_certificate_accept">Accept </string>
     <string name="dlg_invalid_certificate_reject">Deny </string>
@@ -40,8 +43,7 @@
         <item>45 Minutes</item>
         <item>60 Minutes</item>
     </string-array>
-    <string name="choose_alarm_time">Choose alarm time:</string>
-    <string name="setup_alarm">Set alarm</string>
+    <string name="choose_alarm_time">Choose alarm time</string>
     <string name="reminders">Reminders</string>
     <string name="reminder">Reminder</string>
     <string name="feedback">Feedback</string>
@@ -51,7 +53,8 @@
     <string name="usage">Note:\n\nLong-press on a lecture to set an alarm.</string>
     <string name="set_alarm">Set alarm</string>
 	<string name="libraries">
-		This application uses the following libraries: Google Support Library v4, Google AppCompat Library v7, material-dialogs by afollestad
+		This application uses the following libraries:
+		Google Support Library v4, Google AppCompat Library v7
 	</string>
     <string name="copyright_notes">Copyright 2015 Daniel Dorau.\nCopyright 2015 SubOptimal, entropynil, johnjohndoe.\nPortions Copyright 2008-2011 The K-9 Dog Walkers and 2006-2013 the Android Open Source Project.</string>
     <string name="copyright_logo">30C3 artwork by <![CDATA[<a href="http://evelynschubert.com/">Evelyn Schubert</a>]]> licensed under <![CDATA[<a href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US">CC BY-SA 3.0</a>]]></string>
@@ -107,4 +110,5 @@
     <string name="btn_dlg_later">Later</string>
     <string name="alternative_highlight">Alternative highlighting</string>
     <string name="dlg_delete_all_favorites">Delete all favorites?</string>
+    <string name="dlg_delete_all_favorites_delete_all">Delete all</string>
 </resources>

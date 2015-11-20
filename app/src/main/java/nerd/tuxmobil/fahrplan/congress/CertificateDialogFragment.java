@@ -1,16 +1,15 @@
 package nerd.tuxmobil.fahrplan.congress;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
-
-import com.afollestad.materialdialogs.MaterialDialogCompat;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -25,6 +24,9 @@ interface OnCertAccepted {
 
 public class CertificateDialogFragment extends DialogFragment {
 
+    public static final String FRAGMENT_TAG =
+            BuildConfig.APPLICATION_ID + "CERTIFICATE_DIALOG_FRAGMENT_TAG";
+
     private OnCertAccepted listener;
 
     private X509Certificate[] chain;
@@ -33,19 +35,6 @@ public class CertificateDialogFragment extends DialogFragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         listener = (OnCertAccepted) activity;
-    }
-
-    private static void showErrorDialog(final int msgResId, final Activity ctx,
-            final Object... args) {
-        new MaterialDialogCompat.Builder(ctx).setTitle(
-                ctx.getString(R.string.dlg_invalid_certificate_could_not_apply))
-                .setMessage(ctx.getString(msgResId, args))
-                .setPositiveButton(ctx.getString(R.string.OK),
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,
-                                    int which) {
-                            }
-                        }).show();
     }
 
     private static String getFingerPrint(X509Certificate cert) {
@@ -74,6 +63,7 @@ public class CertificateDialogFragment extends DialogFragment {
         return hash.toString();
     }
 
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         chain = TrustManagerFactory.getLastCertChain();
@@ -111,42 +101,43 @@ public class CertificateDialogFragment extends DialogFragment {
             chainInfo.append("SHA1 Fingerprint: " + getFingerPrint(chain[i])).append("\n");
         }
 
-        MaterialDialogCompat.Builder builder = new MaterialDialogCompat.Builder(getActivity())
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
                 .setTitle(getString(R.string.dlg_invalid_certificate_title))
                 .setCancelable(true)
                 .setPositiveButton(getString(android.R.string.yes),
-
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                try {
-                                    if (chain != null) {
-                                        TrustManagerFactory.addCertificateChain(chain);
-                                    }
-                                    if (listener != null) {
-                                        listener.cert_accepted();
-                                    }
-                                } catch (CertificateException e) {
-                                    showErrorDialog(R.string.dlg_certificate_message_fmt,
-                                            getActivity(),
-                                            e.getMessage() == null ? "" : e.getMessage());
-                                }
+                                onConfirm();
                             }
                         })
-                .setNegativeButton(getString(android.R.string.no),
-
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,
-                                    int which) {
-                            }
-                        });
+                .setNegativeButton(getString(android.R.string.no), null);
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View msgView = inflater.inflate(R.layout.cert_dialog, null);
-        ((TextView) msgView.findViewById(R.id.cert)).setText(
-                getString(R.string.dlg_certificate_message_fmt, exMessage) + "\n\n" + chainInfo
-                        .toString());
+        TextView messageView = (TextView) msgView.findViewById(R.id.cert);
+        String message = getString(R.string.dlg_certificate_message_fmt, exMessage);
+        message += "\n\n" + chainInfo.toString();
+        messageView.setText(message);
         builder.setView(msgView);
         return builder.create();
+    }
+
+    private void onConfirm() {
+        try {
+            if (chain != null) {
+                TrustManagerFactory.addCertificateChain(chain);
+            }
+            if (listener != null) {
+                listener.cert_accepted();
+            }
+        } catch (CertificateException e) {
+            String messageArguments = e.getMessage() == null ? "" : e.getMessage();
+            AlertDialogHelper.showErrorDialog(
+                    getActivity(),
+                    R.string.dlg_invalid_certificate_could_not_apply,
+                    R.string.dlg_certificate_message_fmt,
+                    messageArguments);
+        }
     }
 
 }
