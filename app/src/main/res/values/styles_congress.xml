@@ -31,7 +31,7 @@
         <!-- The rest of your attributes -->
         <item name="actionDropDownStyle">@style/MyActionDropDownStyle</item>
         <item name="windowActionModeOverlay">true</item>
-        <item name="android:actionModeBackground">@color/colorPrimary</item>
+        <item name="actionModeBackground">@color/colorPrimary</item>
         <item name="alertDialogTheme">@style/AlertDialog</item>
     </style>
 
@@ -47,7 +47,7 @@
         <!-- The rest of your attributes -->
         <item name="actionDropDownStyle">@style/MyActionDropDownStyle</item>
         <item name="windowActionModeOverlay">true</item>
-        <item name="android:actionModeBackground">@color/colorPrimary</item>
+        <item name="actionModeBackground">@color/colorPrimary</item>
         <item name="alertDialogTheme">@style/AlertDialog</item>
     </style>
 
