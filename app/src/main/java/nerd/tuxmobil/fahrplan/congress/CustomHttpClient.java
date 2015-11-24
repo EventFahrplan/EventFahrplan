@@ -1,27 +1,19 @@
 package nerd.tuxmobil.fahrplan.congress;
 
-import org.apache.http.HttpVersion;
-import org.apache.http.client.HttpClient;
-import org.apache.http.conn.scheme.PlainSocketFactory;
-import org.apache.http.conn.scheme.Scheme;
-import org.apache.http.conn.scheme.SchemeRegistry;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpParams;
-import org.apache.http.params.HttpProtocolParams;
+import com.squareup.okhttp.OkHttpClient;
 
 import android.app.Activity;
-import android.content.Context;
-import android.net.http.AndroidHttpClient;
-import android.os.Build;
-import android.util.Base64;
 import android.widget.Toast;
 
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 
+import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLException;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
+
 
 public class CustomHttpClient {
 
@@ -40,60 +32,26 @@ public class CustomHttpClient {
         HTTP_NOT_MODIFIED
     }
 
-    private static String httpCredentials = "";
-
     private static SSLException lastSSLException = null;
 
-    public static HttpClient createHttpClient(String addr, boolean secure, int https_port)
+    public static OkHttpClient createHttpClient(String host)
             throws KeyManagementException, NoSuchAlgorithmException {
 
-        MyApp.LogDebug("CustomHttpClient", addr + " " + secure + " " + https_port);
+        OkHttpClient client = new OkHttpClient();
+        client.setSslSocketFactory(createSSLSocketFactory(host));
 
-        HttpClient client;
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO) {
-            client = AndroidHttpClient.newInstance("FahrplanDroid");
-
-            SchemeRegistry scheme = client.getConnectionManager()
-                    .getSchemeRegistry();
-            scheme.unregister("https");
-            scheme.register(new Scheme("https",
-                    new TrustedSocketFactory(addr, true), https_port));
-        } else {
-            final HttpParams params = new BasicHttpParams();
-            HttpProtocolParams.setVersion(params, HttpVersion.HTTP_1_1);
-            HttpProtocolParams.setContentCharset(params, "UTF-8");
-            HttpProtocolParams.setUserAgent(params, "FahrplanDroid");
-
-            final SchemeRegistry registry = new SchemeRegistry();
-            registry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
-            registry.register(
-                    new Scheme("https", new TrustedSocketFactory(addr, true), https_port));
-
-            final ThreadSafeClientConnManager manager =
-                    new ThreadSafeClientConnManager(params, registry);
-
-            client = new DefaultHttpClient(manager, params);
-        }
-
-        httpCredentials = "";
         return client;
     }
 
-    public static String getHttpCredentials(Context context) {
-        if (httpCredentials.length() == 0) {
-            StringBuilder auth = new StringBuilder();
-            auth.append("user").append(":");
-            auth.append("pass");
+    private static SSLSocketFactory createSSLSocketFactory(String host)
+            throws NoSuchAlgorithmException, KeyManagementException {
 
-            StringBuilder sb = new StringBuilder();
-            sb.append("Basic ");
-            sb.append(Base64.encodeToString(auth.toString().getBytes(),
-                    Base64.DEFAULT));
-            sb.deleteCharAt(sb.length() - 1); // \n am Ende löschen
-            httpCredentials = sb.toString();
-        }
-        return httpCredentials;
+        SSLContext sslContext = SSLContext.getInstance("TLS");
+        sslContext.init(null, new TrustManager[] {
+                TrustManagerFactory.get(host, true)
+        }, new SecureRandom());
+
+        return sslContext.getSocketFactory();
     }
 
     public static void setSSLException(SSLException e) {
@@ -102,32 +60,6 @@ public class CustomHttpClient {
 
     public static SSLException getSSLException() {
         return lastSSLException;
-    }
-
-    public static String getAddr() {
-        return "events.ccc.de";
-    }
-
-    public static String normalize_addr(String addr) {
-        if (addr.contains(":")) {
-            return addr.split(":")[0];
-        }
-        return addr;
-    }
-
-    public static int getHttpsPort() {
-        int port;
-        port = 443;
-        return port;
-    }
-
-    public static void close(HttpClient client) {
-        if (client == null) {
-            return;
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO) {
-            ((AndroidHttpClient) client).close();
-        }
     }
 
     public static void showHttpError(final Activity ctx, MyApp global, HTTP_STATUS status, String host) {

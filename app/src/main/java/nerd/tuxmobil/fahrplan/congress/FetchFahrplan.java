@@ -1,25 +1,20 @@
 package nerd.tuxmobil.fahrplan.congress;
 
-import org.apache.http.Header;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.text.TextUtils;
 import android.util.Log;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
-import java.util.zip.GZIPInputStream;
 
+import com.squareup.okhttp.Call;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request.Builder;
+import com.squareup.okhttp.Response;
 import javax.net.ssl.SSLException;
 
 import nerd.tuxmobil.fahrplan.congress.CustomHttpClient.HTTP_STATUS;
@@ -40,9 +35,9 @@ public class FetchFahrplan {
         MyApp.fetcher = this;
     }
 
-    public void fetch(String protocol, String addr, String path, String eTag) {
+    public void fetch(String url, String eTag) {
         task = new fetcher(this.listener);
-        task.execute(protocol, addr, path, eTag);
+        task.execute(url, eTag);
     }
 
     public void cancel() {
@@ -88,8 +83,12 @@ class fetcher extends AsyncTask<String, Void, HTTP_STATUS> {
     }
 
     protected HTTP_STATUS doInBackground(String... args) {
-        host = args[1];
-        return fetchthis(args[0], args[1], args[2], args[3]);
+        String url = args[0];
+        String eTag = args[1];
+
+        host = Uri.parse(url).getHost();
+
+        return fetchthis(url, eTag);
     }
 
     protected void onCancelled() {
@@ -116,139 +115,70 @@ class fetcher extends AsyncTask<String, Void, HTTP_STATUS> {
         completed = false;                // notifiy only once
     }
 
-    private HTTP_STATUS fetchthis(String protocol, String addr, String arg, String eTag) {
-        HttpClient client;
+    private HTTP_STATUS fetchthis(String url, String eTag) {
+        OkHttpClient client;
         try {
-            client = CustomHttpClient.createHttpClient(CustomHttpClient
-                    .normalize_addr(addr), true, CustomHttpClient
-                    .getHttpsPort());
+            client = CustomHttpClient.createHttpClient(host);
         } catch (KeyManagementException e1) {
             return HTTP_STATUS.HTTP_SSL_SETUP_FAILURE;
         } catch (NoSuchAlgorithmException e1) {
             return HTTP_STATUS.HTTP_SSL_SETUP_FAILURE;
         }
 
-        String address = protocol + addr + arg;
-
-        MyApp.LogDebug("Fetch", address);
+        MyApp.LogDebug("Fetch", url);
         MyApp.LogDebug("Fetch", "ETag: " + eTag);
-        HttpGet getRequest = new HttpGet(address);
+        Builder requestBuilder = new Builder().url(url);
 
-        getRequest.addHeader("Accept-Encoding", "gzip");
-        if ((eTag != null) && (eTag.length() > 0)) {
-            getRequest.addHeader("If-None-Match", eTag);
+        if (!TextUtils.isEmpty(eTag)) {
+            requestBuilder.addHeader("If-None-Match", eTag);
         }
 
-        HttpResponse response = null;
-
+        Response response;
         try {
-            response = client.execute(getRequest);
+            Call call = client.newCall(requestBuilder.build());
+            response = call.execute();
         } catch (SSLException e) {
             CustomHttpClient.setSSLException(e);
             e.printStackTrace();
-            CustomHttpClient.close(client);
             return HTTP_STATUS.HTTP_LOGIN_FAIL_UNTRUSTED_CERTIFICATE;
         } catch (SocketTimeoutException e) {
-            CustomHttpClient.close(client);
             return HTTP_STATUS.HTTP_CONNECT_TIMEOUT;
         } catch (UnknownHostException e) {
             e.printStackTrace();
-            CustomHttpClient.close(client);
             return HTTP_STATUS.HTTP_DNS_FAILURE;
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-            CustomHttpClient.close(client);
             return HTTP_STATUS.HTTP_COULD_NOT_CONNECT;
         }
 
-        int statusCode = response.getStatusLine().getStatusCode();
-        if (statusCode != HttpStatus.SC_OK) {
+        int statusCode = response.code();
+        if (statusCode == 304) {
+            return HTTP_STATUS.HTTP_NOT_MODIFIED;
+        }
+
+        if (statusCode != 200) {
             Log.w("Fetch", "Error " + statusCode
-                    + " while retrieving json data");
-            CustomHttpClient.close(client);
+                    + " while retrieving XML data");
             if (statusCode == 401) {
                 return HTTP_STATUS.HTTP_WRONG_HTTP_CREDENTIALS;
             }
-            if (statusCode == 304) {
-                return HTTP_STATUS.HTTP_NOT_MODIFIED;
-            }
             return HTTP_STATUS.HTTP_COULD_NOT_CONNECT;
         }
 
-        HttpEntity entity = response.getEntity();
-
-        if (entity == null) {
-            Log.w("Fetch", "empty response??");
-            CustomHttpClient.close(client);
-            return HTTP_STATUS.HTTP_CANNOT_PARSE_CONTENT;
-        }
-
-        InputStream instream;
-        try {
-            instream = entity.getContent();
-        } catch (IllegalStateException e) {
-            Log.e(LOG_TAG, "IllegalStateException getting content");
-            CustomHttpClient.close(client);
-            return HTTP_STATUS.HTTP_CANNOT_PARSE_CONTENT;
-        } catch (IOException e) {
-            Log.e(LOG_TAG, "IOException getting content");
-            CustomHttpClient.close(client);
-            return HTTP_STATUS.HTTP_CANNOT_PARSE_CONTENT;
-        }
-        Header contentEncoding = response.getFirstHeader("Content-Encoding");
-        if (contentEncoding != null
-                && contentEncoding.getValue().equalsIgnoreCase("gzip")) {
-            try {
-                instream = new GZIPInputStream(instream);
-            } catch (IOException e) {
-                e.printStackTrace();
-                CustomHttpClient.close(client);
-                return HTTP_STATUS.HTTP_CANNOT_PARSE_CONTENT;
-            }
-        }
-        Header eTagHdr = response.getFirstHeader("ETag");
-        if (eTagHdr != null) {
-            MyApp.LogDebug(LOG_TAG, "ETag: " + eTagHdr.getValue());
-            eTagStr = eTagHdr.getValue();
+        eTagStr = response.header("ETag");
+        if (eTagStr != null) {
+            MyApp.LogDebug(LOG_TAG, "ETag: " + eTagStr);
         } else {
             MyApp.LogDebug(LOG_TAG, "ETag missing?");
-            eTagStr = null;
         }
-        BufferedReader reader = new BufferedReader(new InputStreamReader(
-                instream));
-        StringBuilder sb = new StringBuilder();
 
-        String line = null;
         try {
-            while ((line = reader.readLine()) != null) {
-                sb.append(line).append("\n");
-            }
+            responseStr = response.body().string();
         } catch (IOException e) {
-            Log.e(LOG_TAG, "Exception reading line: " + line);
-            CustomHttpClient.close(client);
             return HTTP_STATUS.HTTP_CANNOT_PARSE_CONTENT;
         }
 
-        responseStr = sb.toString();
-
-        // MyApp.LogDebug("Fetch", "got Response " + responseStr);
-        try {
-            instream.close();
-        } catch (IOException e) {
-            Log.e(LOG_TAG, "Exception closing instream");
-            CustomHttpClient.close(client);
-            return HTTP_STATUS.HTTP_CANNOT_PARSE_CONTENT;
-        }
-
-		/*
-                 * try { json = new JSONObject(responseStr); } catch (JSONException e) {
-		 * Log.e(LOG_TAG, "Exception on creating JSON object"); if (client !=
-		 * null) { client.close(); } return
-		 * HTTP_STATUS.HTTP_CANNOT_PARSE_CONTENT; }
-		 */
-
-        CustomHttpClient.close(client);
         return HTTP_STATUS.HTTP_OK;
     }
 

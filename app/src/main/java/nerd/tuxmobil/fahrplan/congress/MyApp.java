@@ -32,8 +32,6 @@ public class MyApp extends Application {
 
     public static FahrplanParser parser = null;
 
-    public static String schedulePath = BuildConfig.SCHEDULE_PATH;
-
     public static long first_day_start = getMilliseconds("Europe/Paris",
             BuildConfig.SCHEDULE_FIRST_DAY_START_YEAR,
             BuildConfig.SCHEDULE_FIRST_DAY_START_MONTH,
