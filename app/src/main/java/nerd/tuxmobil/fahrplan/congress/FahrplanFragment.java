@@ -256,7 +256,7 @@ public class FahrplanFragment extends Fragment implements
         }
         scrollToCurrent(mDay);
         ActionBar actionbar = ((ActionBarActivity)getActivity()).getSupportActionBar();
-        if (actionbar != null && actionbar.getNavigationMode() == ActionBar.NAVIGATION_MODE_LIST) {
+        if (actionbar != null && MyApp.numdays > 1) {
             actionbar.setSelectedNavigationItem(mDay - 1);
         }
     }
