@@ -223,8 +223,8 @@ public class LectureArrayAdapter extends ArrayAdapter<Lecture> {
 
     @Override
     public void notifyDataSetChanged() {
-        super.notifyDataSetChanged();
         initMapper();
+        super.notifyDataSetChanged();
     }
 
     public ArrayList<Integer> getMapper() {
