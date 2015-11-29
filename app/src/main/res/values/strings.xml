@@ -20,8 +20,8 @@
     <string name="dlg_err_failed_parse_failure">Couldn\'t parse response</string>
     <string name="dlg_err_failed_ssl_failure">SSL failure</string>
     <string name="refresh">Refresh</string>
-    <string name="progress_loading_data">Get schedule...</string>
-    <string name="progress_processing_data">Processing schedule...</string>
+    <string name="progress_loading_data">Get schedule &#8230;</string>
+    <string name="progress_processing_data">Processing schedule &#8230;</string>
     <string name="load_data">Load</string>
     <string name="choose_day">Choose day</string>
     <string name="day">Day</string>
