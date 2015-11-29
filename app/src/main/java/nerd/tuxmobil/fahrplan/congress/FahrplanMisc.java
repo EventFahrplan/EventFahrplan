@@ -94,7 +94,6 @@ public class FahrplanMisc {
         }
 
         MyApp.numdays = MetasTable.Defaults.NUM_DAYS_DEFAULT;
-        ;
         MyApp.version = "";
         MyApp.title = "";
         MyApp.subtitle = "";
