@@ -34,7 +34,7 @@ public class StarredListActivity extends AppCompatActivity implements
             intent.putExtra(BundleKeys.EVENT_SUBTITLE, lecture.subtitle);
             intent.putExtra(BundleKeys.EVENT_ABSTRACT, lecture.abstractt);
             intent.putExtra(BundleKeys.EVENT_DESCRIPTION, lecture.description);
-            intent.putExtra(BundleKeys.EVENT_SPEAKERS, lecture.speakers.replaceAll(";", ", "));
+            intent.putExtra(BundleKeys.EVENT_SPEAKERS, lecture.getFormattedSpeakers());
             intent.putExtra(BundleKeys.EVENT_LINKS, lecture.links);
             intent.putExtra(BundleKeys.EVENT_ID, lecture.lecture_id);
             intent.putExtra(BundleKeys.EVENT_TIME, lecture.startTime);

@@ -678,7 +678,7 @@ public class FahrplanFragment extends Fragment implements
                 title = (TextView) event.findViewById(R.id.event_subtitle);
                 title.setText(lecture.subtitle);
                 title = (TextView) event.findViewById(R.id.event_speakers);
-                title.setText(lecture.speakers.replaceAll(";", ", "));
+                title.setText(lecture.getFormattedSpeakers());
                 title = (TextView) event.findViewById(R.id.event_track);
                 StringBuilder sb = new StringBuilder();
                 sb.append(lecture.track);
