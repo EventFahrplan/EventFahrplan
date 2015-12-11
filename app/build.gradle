@@ -61,6 +61,12 @@ android {
             keyAlias props['signing.camp2015-release.keyAlias']
             keyPassword props['signing.camp2015-release.keyPassword']
         }
+        ccc32c3 {
+            storeFile file(props['signing.ccc32c3-release.keystoreFilePath'])
+            storePassword props['signing.ccc32c3-release.keystorePassword']
+            keyAlias props['signing.ccc32c3-release.keyAlias']
+            keyPassword props['signing.ccc32c3-release.keyPassword']
+        }
     }
 
     productFlavors {
@@ -93,6 +99,21 @@ android {
             buildConfigField "int", "SCHEDULE_LAST_DAY_END_MONTH", "8"
             buildConfigField "int", "SCHEDULE_LAST_DAY_END_DAY", "17"
             buildConfigField "String", "SCHEDULE_FEEDBACK_URL", '"https://frab.cccv.de/en/camp2015/public/events/%s/feedback/new"'
+        }
+        ccc32c3 {
+            applicationId "nerd.tuxmobil.fahrplan.congress"
+            signingConfig signingConfigs.ccc32c3
+            buildConfigField "String", "SCHEDULE_URL", '"https://events.ccc.de/congress/2015/Fahrplan/schedule.xml"'
+            buildConfigField "String", "SCHEDULE_DOMAIN_PART", '"https://events.ccc.de"'
+            buildConfigField "String", "SCHEDULE_EVENT_PART", '"/events/%1$s.html"'
+            buildConfigField "String", "SCHEDULE_PART", '"/congress/2015/Fahrplan"'
+            buildConfigField "int", "SCHEDULE_FIRST_DAY_START_YEAR", "2015"
+            buildConfigField "int", "SCHEDULE_FIRST_DAY_START_MONTH", "12"
+            buildConfigField "int", "SCHEDULE_FIRST_DAY_START_DAY", "27"
+            buildConfigField "int", "SCHEDULE_LAST_DAY_END_YEAR", "2015"
+            buildConfigField "int", "SCHEDULE_LAST_DAY_END_MONTH", "12"
+            buildConfigField "int", "SCHEDULE_LAST_DAY_END_DAY", "31"
+            buildConfigField "String", "SCHEDULE_FEEDBACK_URL", '"https://frab.cccv.de/en/32C3/public/events/%s/feedback/new"'
         }
     }
 }
