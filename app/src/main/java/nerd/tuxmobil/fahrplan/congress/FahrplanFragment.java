@@ -14,7 +14,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.text.format.Time;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -255,7 +255,7 @@ public class FahrplanFragment extends Fragment implements
             fillRoom((ViewGroup) scroller.getChildAt(0), i);
         }
         scrollToCurrent(mDay);
-        ActionBar actionbar = ((ActionBarActivity)getActivity()).getSupportActionBar();
+        ActionBar actionbar = ((AppCompatActivity)getActivity()).getSupportActionBar();
         if (actionbar != null && MyApp.numdays > 1) {
             actionbar.setSelectedNavigationItem(mDay - 1);
         }
@@ -872,10 +872,10 @@ public class FahrplanFragment extends Fragment implements
             }
             days_menu[i] = sb.toString();
         }
-        ActionBar actionBar = ((ActionBarActivity)getActivity()).getSupportActionBar();
+        ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         ArrayAdapter<String> arrayAdapter =
-                new ArrayAdapter<String>(((ActionBarActivity) getActivity()).getSupportActionBar().getThemedContext(),
+                new ArrayAdapter<String>(actionBar.getThemedContext(),
                 R.layout.support_simple_spinner_dropdown_item_large, days_menu);
         arrayAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_list_item);
         actionBar.setListNavigationCallbacks(arrayAdapter, this);

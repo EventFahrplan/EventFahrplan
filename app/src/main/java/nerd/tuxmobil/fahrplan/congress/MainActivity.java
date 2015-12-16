@@ -1,5 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,7 +11,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.text.format.Time;
@@ -25,9 +26,14 @@ import nerd.tuxmobil.fahrplan.congress.CustomHttpClient.HTTP_STATUS;
 import nerd.tuxmobil.fahrplan.congress.FahrplanContract.FragmentTags;
 import nerd.tuxmobil.fahrplan.congress.MyApp.TASKS;
 
-public class MainActivity extends ActionBarActivity
-        implements OnParseCompleteListener, OnDownloadCompleteListener, OnCloseDetailListener,
-        OnRefreshEventMarkers, OnCertAccepted, AbstractListFragment.OnLectureListClick, FragmentManager.OnBackStackChangedListener,
+public class MainActivity extends AppCompatActivity implements
+        OnParseCompleteListener,
+        OnDownloadCompleteListener,
+        OnCloseDetailListener,
+        OnRefreshEventMarkers,
+        OnCertAccepted,
+        AbstractListFragment.OnLectureListClick,
+        FragmentManager.OnBackStackChangedListener,
         ConfirmationDialog.OnConfirmationDialogClicked {
 
     private static final String LOG_TAG = "MainActivity";
@@ -430,12 +436,12 @@ public class MainActivity extends ActionBarActivity
             case MyApp.EVENTVIEW:
             case MyApp.CHANGELOG:
             case MyApp.STARRED:
-                if (resultCode == ActionBarActivity.RESULT_OK) {
+                if (resultCode == Activity.RESULT_OK) {
                     refreshEventMarkers();
                 }
                 break;
             case MyApp.SETTINGS:
-                if ((resultCode == ActionBarActivity.RESULT_OK) && (intent.getBooleanExtra(BundleKeys.PREFS_ALTERNATIVE_HIGHLIGHT, false))) {
+                if ((resultCode == Activity.RESULT_OK) && (intent.getBooleanExtra(BundleKeys.PREFS_ALTERNATIVE_HIGHLIGHT, false))) {
                     if (findViewById(R.id.schedule) != null) {
                         FragmentManager fm = getSupportFragmentManager();
                         FragmentTransaction fragmentTransaction = fm.beginTransaction();

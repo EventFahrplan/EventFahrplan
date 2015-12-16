@@ -1,6 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress;
 
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.HeaderViewListAdapter;
 import android.widget.ListView;
@@ -13,7 +13,7 @@ import android.widget.ListAdapter;
  * -listactivity-in-same-act
  * +
  */
-public abstract class ActionBarListActivity extends ActionBarActivity {
+public abstract class ActionBarListActivity extends AppCompatActivity {
 
     private ListView mListView;
 

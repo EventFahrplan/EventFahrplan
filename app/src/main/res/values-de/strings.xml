@@ -20,8 +20,8 @@
     <string name="dlg_err_failed_parse_failure">Kann Antwort nicht dekodieren.</string>
     <string name="dlg_err_failed_ssl_failure">SSL Fehler</string>
     <string name="refresh">Aktualisieren</string>
-    <string name="progress_loading_data">Hole Fahrplan...</string>
-    <string name="progress_processing_data">Verarbeite Fahrplan...</string>
+    <string name="progress_loading_data">Hole Fahrplan &#8230;</string>
+    <string name="progress_processing_data">Verarbeite Fahrplan &#8230;</string>
     <string name="load_data">Laden</string>
     <string name="choose_day">Tag wählen</string>
     <string name="day">Tag</string>
