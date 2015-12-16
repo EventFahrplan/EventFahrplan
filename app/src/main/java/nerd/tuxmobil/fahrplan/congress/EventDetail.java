@@ -1,8 +1,11 @@
 package nerd.tuxmobil.fahrplan.congress;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +14,23 @@ import android.view.MenuItem;
 import nerd.tuxmobil.fahrplan.congress.FahrplanContract.FragmentTags;
 
 public class EventDetail extends AppCompatActivity {
+
+    public static void startForResult(@NonNull Activity activity,
+                                      @NonNull Lecture lecture,
+                                      int lectureDay) {
+        Intent intent = new Intent(activity, EventDetail.class);
+        intent.putExtra(BundleKeys.EVENT_TITLE, lecture.title);
+        intent.putExtra(BundleKeys.EVENT_SUBTITLE, lecture.subtitle);
+        intent.putExtra(BundleKeys.EVENT_ABSTRACT, lecture.abstractt);
+        intent.putExtra(BundleKeys.EVENT_DESCRIPTION, lecture.description);
+        intent.putExtra(BundleKeys.EVENT_SPEAKERS, lecture.getFormattedSpeakers());
+        intent.putExtra(BundleKeys.EVENT_LINKS, lecture.links);
+        intent.putExtra(BundleKeys.EVENT_ID, lecture.lecture_id);
+        intent.putExtra(BundleKeys.EVENT_TIME, lecture.startTime);
+        intent.putExtra(BundleKeys.EVENT_DAY, lectureDay);
+        intent.putExtra(BundleKeys.EVENT_ROOM, lecture.room);
+        activity.startActivityForResult(intent, MyApp.EVENTVIEW);
+    }
 
     @Override
     protected void onCreate(Bundle arg0) {
