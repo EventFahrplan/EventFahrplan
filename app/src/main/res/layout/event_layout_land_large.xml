@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="200dp"
               android:layout_height="wrap_content"
               android:background="@drawable/event_border_default"
@@ -17,10 +18,10 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:text="The Atari 2600 Video Computer"
                 android:textColor="#000000"
                 android:textSize="20sp"
-                android:textStyle="bold">
+                android:textStyle="bold"
+                tools:text="@string/placeholder_event_title">
         </TextView>
 
         <ImageView
@@ -51,10 +52,10 @@
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:text="TextView"
             android:textColor="#000000"
             android:textSize="15sp"
             android:fontFamily="sans-serif-light"
+            tools:text="@string/placeholder_event_subtitle"
             />
 
     <RelativeLayout
@@ -68,10 +69,10 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:singleLine="true"
-                android:text="TextView"
                 android:textColor="#000000"
                 android:fontFamily="sans-serif-condensed"
-                android:textSize="13sp"/>
+                android:textSize="13sp"
+                tools:text="@string/placeholder_event_track"/>
 
         <TextView
                 android:id="@+id/event_speakers"
@@ -82,9 +83,9 @@
                 android:ellipsize="end"
                 android:paddingRight="10dp"
                 android:singleLine="true"
-                android:text="speakers"
                 android:textColor="#000000"
                 android:fontFamily="sans-serif-condensed"
-                android:textSize="13sp"/>
+                android:textSize="13sp"
+                tools:text="@string/placeholder_event_speakers"/>
     </RelativeLayout>
 </LinearLayout>

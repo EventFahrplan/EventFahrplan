@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingTranslation">
+
+    <!--
+    These placeholder texts can be used to preview layouts with real content.
+    The content in the English and German XML files is different on purpose.
+    Some texts are localized (e.g. date) while others are just shorter in length.
+    -->
+
+    <string name="placeholder_event_title">
+        Hardware Attacks, Advanced ARM Exploitation, and Android Hacking
+    </string>
+    <string name="placeholder_event_subtitle">
+        Discussion of recent research, live demonstration of techniques
+    </string>
+    <string name="placeholder_event_track">
+        Security &amp; Safety
+    </string>
+    <string name="placeholder_event_abstract">
+        In this talk (which in part was delivered at Infiltrate 2013 and NoSuchCon
+        2013) we will discuss our recent research that is being rolled into our
+        Practical ARM Exploitation course (sold out at Blackhat this year and last)
+        on Linux and Android (for embedded applications and mobile devices). We
+        will also demonstrate these techniques and discuss how we were able to
+        discover them using several ARM hardware development platforms that we
+        custom built.  Where relevant we will also discuss ARM exploitation as
+        it related to Android as we wrote about in the "Android Hackers Handbook"
+        which we co-authored and will be released in October 2013.
+    </string>
+    <string name="placeholder_event_description">
+        Lastly, we will also discuss some of our most recent related hardware
+        research (to facilitate the above) which will include bus protocol
+        eavesdropping/reverse engineering, demystifying hardware debugging, and
+        surreptitiously obtaining embedded software (firmware) using hardware
+        techniques. We will demonstrate and show the supportive tools used and
+        techniques developed to perform this work and deploy them against Apple
+        MFI iAP devices, and multimedia devices using OEM implemented USB stacks.
+        (Which will briefly include our experiences around starting http://int3.cc
+        where we sell a fully assembled modified version of a hardware USB fuzzer.)
+        \n
+        \nAlong the way we will inevitably share some of the lessons we also learned
+        while completely designing the hardware (from scratch), writing the firmware,
+        and mobile apps for an embedded security device called Osprey that we hold
+        the patent for and have been publicly about publicly as a hardware vulnerability
+        assessment swiss-army-knife for researchers.
+    </string>
+    <string name="placeholder_event_speakers">
+        Stephen A. Ridley
+    </string>
+    <string name="placeholder_event_links">
+        Don\'t Stuff Beans Up Your Nose\nINT3.CC\nThe Osprey (on INT3)
+    </string>
+    <string name="placeholder_event_online">
+        https://events.ccc.de/congress/2013/Fahrplan/events/5193.html
+    </string>
+    <string name="placeholder_event_language">
+        en
+    </string>
+    <string name="placeholder_event_day">
+        Today
+    </string>
+    <string name="placeholder_event_start_time">
+        17:15
+    </string>
+    <string name="placeholder_event_duration">
+        90 min.
+    </string>
+    <string name="placeholder_event_room">
+        REALLY LARGE ROOM
+    </string>
+
+    <!-- Schedule time column -->
+    <string name="placeholder_schedule_time">
+        09:15
+    </string>
+
+    <!-- Alarm list -->
+
+    <string name="placeholder_alarm_minutes">
+        5
+    </string>
+    <string name="placeholder_alarm_time">
+        12/28/13 5:10 PM
+    </string>
+
+    <!-- Event detail bar -->
+
+    <string name="placeholder_event_date">
+        12/28/13 5:15 PM - REALLY LARGE ROOM
+    </string>
+    <string name="placeholder_event_id">
+        ID: 5193
+    </string>
+
+    <!-- Separators -->
+    <string name="placeholder_day_separator_title">
+        Day 2
+    </string>
+
+</resources>

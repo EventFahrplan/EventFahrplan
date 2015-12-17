@@ -14,8 +14,8 @@
             android:id="@+id/alarm_list_icon"
             style="@style/AlarmList.Icon"
             android:layout_gravity="center"
-            tools:text="23"
-            android:textColor="@color/alarm_list_icon_text_color"/>
+            android:textColor="@color/alarm_list_icon_text_color"
+            tools:text="@string/placeholder_alarm_minutes"/>
 
     <LinearLayout
             android:layout_width="fill_parent"
@@ -30,17 +30,17 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:paddingBottom="3dp"
-                tools:text="Tralala der Titel"
                 android:textColor="@android:color/primary_text_dark"
-                android:textSize="16sp"/>
+                android:textSize="16sp"
+                tools:text="@string/placeholder_event_title"/>
 
         <TextView
                 android:id="@+id/time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="2011-12-13 12:00"
                 android:textColor="@android:color/secondary_text_dark"
-                android:textSize="10sp"/>
+                android:textSize="10sp"
+                tools:text="@string/placeholder_alarm_time"/>
     </LinearLayout>
 
 </LinearLayout>

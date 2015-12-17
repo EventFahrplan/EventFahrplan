@@ -12,13 +12,17 @@
         android:layout_width="match_parent"
         android:minHeight="?attr/actionBarSize"
         android:elevation="8dp"
-        android:background="?attr/colorPrimary"/>
+        android:background="?attr/colorPrimary"
+        tools:background="@android:color/holo_purple"/>
 
     <FrameLayout
         android:id="@+id/container"
-        tools:context="nerd.tuxmobil.fahrplan.congress.ChangeListActivity"
-        tools:ignore="MergeRootFrame"
         android:layout_below="@id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        tools:background="@android:color/holo_green_dark"
+        tools:context=".ChangeListActivity"
+        tools:ignore="MergeRootFrame"
+        tools:layout="@layout/fragment_lecture_list"/>
+
 </RelativeLayout>

@@ -15,14 +15,16 @@
         android:layout_width="match_parent"
         android:elevation="8dp"
         android:minHeight="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"/>
+        android:background="?attr/colorPrimary"
+        tools:background="@android:color/holo_purple"/>
 
     <FrameLayout
         android:id="@+id/container"
         android:layout_below="@id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="nerd.tuxmobil.fahrplan.congress.SettingsActivity"
+        tools:background="@android:color/holo_green_dark"
+        tools:context=".SettingsActivity"
         tools:ignore="MergeRootFrame"/>
 
 </RelativeLayout>

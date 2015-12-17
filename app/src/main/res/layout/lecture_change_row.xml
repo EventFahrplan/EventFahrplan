@@ -18,7 +18,8 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:textAppearance="@style/ScheduleListPrimary"
-            tools:text="The Exploration and Exploitation of Smartcards"
+            tools:text="@string/placeholder_event_title"
+            tools:background="@android:color/holo_green_light"
             android:id="@+id/title" />
         <ImageView
             android:id="@+id/no_video"
@@ -27,7 +28,8 @@
             android:baseline="13sp"
             android:adjustViewBounds="true"
             android:layout_marginLeft="8dp"
-            android:src="@drawable/ic_change_novideo"/>
+            android:src="@drawable/ic_change_novideo"
+            tools:background="@android:color/holo_orange_dark"/>
         <ImageView
             android:id="@+id/video"
             android:layout_width="wrap_content"
@@ -35,16 +37,18 @@
             android:baseline="13sp"
             android:adjustViewBounds="true"
             android:layout_marginLeft="8dp"
-            android:src="@drawable/ic_change_video" />
+            android:src="@drawable/ic_change_video"
+            tools:background="@android:color/holo_red_dark"/>
     </LinearLayout>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="@style/ScheduleListSecondary"
-        tools:text="Hacking for Fun and Profit"
+        tools:text="@string/placeholder_event_subtitle"
         android:id="@+id/subtitle"
-        android:paddingBottom="8dp" />
+        android:paddingBottom="8dp"
+        tools:background="@android:color/holo_red_light"/>
 
     <LinearLayout
         android:orientation="horizontal"
@@ -55,16 +59,18 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textAppearance="@style/ScheduleListSecondary"
-            tools:text="Roger Rabbit"
+            tools:text="@string/placeholder_event_speakers"
             android:id="@+id/speakers"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            tools:background="@android:color/holo_green_light"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="@style/ScheduleListSecondary"
-            tools:text="lang:en"
-            android:id="@+id/lang" />
+            tools:text="@string/placeholder_event_language"
+            android:id="@+id/lang"
+            tools:background="@android:color/holo_blue_light"/>
     </LinearLayout>
 
     <LinearLayout
@@ -76,35 +82,39 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="@style/ScheduleListSecondary"
-            tools:text="Today"
+            tools:text="@string/placeholder_event_day"
             android:id="@+id/day"
             android:layout_marginRight="8dp"
-            android:layout_marginEnd="8dp" />
+            android:layout_marginEnd="8dp"
+            tools:background="@android:color/holo_blue_light"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="@style/ScheduleListSecondary"
-            tools:text="13:00"
+            tools:text="@string/placeholder_event_start_time"
             android:id="@+id/time"
             android:layout_marginRight="8dp"
-            android:layout_marginEnd="8dp" />
+            android:layout_marginEnd="8dp"
+            tools:background="@android:color/holo_red_light"/>
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textAppearance="@style/ScheduleListSecondary"
-            tools:text="90 min"
+            tools:text="@string/placeholder_event_duration"
             android:id="@+id/duration"
             android:layout_marginRight="8dp"
             android:layout_marginEnd="8dp"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            tools:background="@android:color/holo_blue_light"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="@style/ScheduleListSecondary"
-            tools:text="Saal 1"
-            android:id="@+id/room" />
+            tools:text="@string/placeholder_event_room"
+            android:id="@+id/room"
+            tools:background="@android:color/holo_red_light"/>
     </LinearLayout>
 </nerd.tuxmobil.fahrplan.congress.CheckableLinearLayout>

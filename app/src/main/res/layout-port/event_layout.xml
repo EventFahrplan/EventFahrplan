@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:background="@drawable/event_border_default"
@@ -16,11 +17,11 @@
                 android:id="@+id/event_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="TextView"
                 android:textColor="@color/event_title"
                 android:textSize="16sp"
                 android:layout_weight="1"
-                android:textStyle="bold">
+                android:textStyle="bold"
+                tools:text="@string/placeholder_event_title">
         </TextView>
 
         <ImageView
@@ -54,9 +55,9 @@
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:fontFamily="sans-serif-light"
-            android:text="TextView"
             android:textColor="@color/event_title"
-            android:textSize="12sp"/>
+            android:textSize="12sp"
+            tools:text="@string/placeholder_event_subtitle"/>
 
     <RelativeLayout
             android:layout_width="match_parent"
@@ -70,9 +71,9 @@
                 android:layout_alignParentRight="true"
                 android:fontFamily="sans-serif-condensed"
                 android:singleLine="true"
-                android:text="TextView"
                 android:textColor="@color/event_title"
-                android:textSize="11sp"/>
+                android:textSize="11sp"
+                tools:text="@string/placeholder_event_track"/>
 
         <TextView
                 android:id="@+id/event_speakers"
@@ -84,9 +85,9 @@
                 android:fontFamily="sans-serif-condensed"
                 android:paddingRight="10dp"
                 android:singleLine="true"
-                android:text="speakers"
                 android:textColor="@color/event_title"
-                android:textSize="11sp"/>
+                android:textSize="11sp"
+                tools:text="@string/placeholder_event_speakers"/>
     </RelativeLayout>
 
 </LinearLayout>

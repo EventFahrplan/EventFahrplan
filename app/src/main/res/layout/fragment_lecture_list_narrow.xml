@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@android:color/white"
-    tools:context="nerd.tuxmobil.fahrplan.congress.ChangeListFragment">
+    tools:context=".ChangeListFragment">
 
     <ListView
         android:id="@android:id/list"
