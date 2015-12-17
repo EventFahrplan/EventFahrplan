@@ -1,6 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress;
 
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +19,8 @@ public class StarredListActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_change_list);
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorActionBar)));
+
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, new StarredListFragment(), FahrplanContract.FragmentTags.STARRED)

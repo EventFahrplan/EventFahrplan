@@ -2,6 +2,7 @@
 <resources>
 
     <color name="colorPrimary">#ff44426e</color>
+    <color name="colorActionBar">#ff44426e</color>
     <color name="colorPrimaryDark">#ff272640</color>
     <color name="colorAccent">#906de1</color>
     <color name="fahrplan_background">#1a1a1a</color>
