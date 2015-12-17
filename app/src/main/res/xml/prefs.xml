@@ -10,6 +10,7 @@
             android:key="schedule_url"
             android:title="@string/schedule_url"
             android:hint="https://yourhost/schedule.xml"
+            android:inputType="textUri"
             />
         <CheckBoxPreference
             android:key="alternative_highlight"
