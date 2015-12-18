@@ -36,18 +36,7 @@ public class ChangeListActivity extends AppCompatActivity implements
     @Override
     public void onLectureListClick(Lecture lecture) {
         if (lecture != null) {
-            Intent intent = new Intent(this, EventDetail.class);
-            intent.putExtra(BundleKeys.EVENT_TITLE, lecture.title);
-            intent.putExtra(BundleKeys.EVENT_SUBTITLE, lecture.subtitle);
-            intent.putExtra(BundleKeys.EVENT_ABSTRACT, lecture.abstractt);
-            intent.putExtra(BundleKeys.EVENT_DESCRIPTION, lecture.description);
-            intent.putExtra(BundleKeys.EVENT_SPEAKERS, lecture.getFormattedSpeakers());
-            intent.putExtra(BundleKeys.EVENT_LINKS, lecture.links);
-            intent.putExtra(BundleKeys.EVENT_ID, lecture.lecture_id);
-            intent.putExtra(BundleKeys.EVENT_TIME, lecture.startTime);
-            intent.putExtra(BundleKeys.EVENT_DAY, lecture.day);
-            intent.putExtra(BundleKeys.EVENT_ROOM, lecture.room);
-            startActivityForResult(intent, MyApp.EVENTVIEW);
+            EventDetail.startForResult(this, lecture, lecture.day);
         }
     }
 
