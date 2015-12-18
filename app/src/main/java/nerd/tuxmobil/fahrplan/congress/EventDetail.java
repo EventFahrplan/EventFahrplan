@@ -76,9 +76,6 @@ public class EventDetail extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home:
-                return ActivityHelper.navigateUp(this);
-
             case R.id.item_nav:
                 final Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setData(Uri.parse("https://c3nav.de/?d=" + getRoomConvertedForC3Nav()));

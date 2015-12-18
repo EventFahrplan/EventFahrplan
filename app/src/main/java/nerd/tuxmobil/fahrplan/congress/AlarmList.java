@@ -128,6 +128,7 @@ public class AlarmList extends ActionBarListActivity {
         return true;
     }
 
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.item_clear_all_alarms:
@@ -138,8 +139,6 @@ public class AlarmList extends ActionBarListActivity {
                 FahrplanFragment.loadAlarms(this);
                 setResult(RESULT_OK);
                 return true;
-            case android.R.id.home:
-                return ActivityHelper.navigateUp(this);
         }
         return super.onOptionsItemSelected(item);
     }

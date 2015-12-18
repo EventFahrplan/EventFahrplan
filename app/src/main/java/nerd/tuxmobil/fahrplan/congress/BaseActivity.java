@@ -6,8 +6,19 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 
 public abstract class BaseActivity extends AppCompatActivity {
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                return ActivityHelper.navigateUp(this);
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     protected void addFragment(@IdRes int containerViewId,
                                @NonNull Fragment fragment,
