@@ -44,7 +44,7 @@ public class EventDetail extends BaseActivity {
             finish();
         }
 
-        if (findViewById(R.id.detail) != null) {
+        if (intent != null && findViewById(R.id.detail) != null) {
             EventDetailFragment eventDetailFragment = new EventDetailFragment();
             Bundle args = new Bundle();
             args.putString(BundleKeys.EVENT_TITLE, intent.getStringExtra(BundleKeys.EVENT_TITLE));
