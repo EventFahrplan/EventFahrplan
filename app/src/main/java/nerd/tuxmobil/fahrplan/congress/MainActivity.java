@@ -24,7 +24,6 @@ import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
 import nerd.tuxmobil.fahrplan.congress.CustomHttpClient.HTTP_STATUS;
-import nerd.tuxmobil.fahrplan.congress.FahrplanContract.FragmentTags;
 import nerd.tuxmobil.fahrplan.congress.MyApp.TASKS;
 
 public class MainActivity extends AppCompatActivity implements
@@ -107,17 +106,17 @@ public class MainActivity extends AppCompatActivity implements
 
         if (findViewById(R.id.schedule) != null) {
             FragmentManager fm = getSupportFragmentManager();
-            if (fm.findFragmentByTag(FragmentTags.SCHEDULE) == null) {
+            if (fm.findFragmentByTag(FahrplanFragment.FRAGMENT_TAG) == null) {
                 FragmentTransaction fragmentTransaction = fm.beginTransaction();
                 fragmentTransaction
-                        .replace(R.id.schedule, new FahrplanFragment(), FragmentTags.SCHEDULE);
+                        .replace(R.id.schedule, new FahrplanFragment(), FahrplanFragment.FRAGMENT_TAG);
                 fragmentTransaction.commit();
             }
         }
 
         if (findViewById(R.id.detail) == null) {
             FragmentManager fm = getSupportFragmentManager();
-            Fragment detail = fm.findFragmentByTag(FragmentTags.DETAIL);
+            Fragment detail = fm.findFragmentByTag(EventDetailFragment.FRAGMENT_TAG);
             if (detail != null) {
                 FragmentTransaction ft = fm.beginTransaction();
                 ft.remove(detail).commit();
@@ -198,11 +197,11 @@ public class MainActivity extends AppCompatActivity implements
         showUpdateAction = true;
         supportInvalidateOptionsMenu();
         FragmentManager fm = getSupportFragmentManager();
-        Fragment fragment = fm.findFragmentByTag(FragmentTags.SCHEDULE);
+        Fragment fragment = fm.findFragmentByTag(FahrplanFragment.FRAGMENT_TAG);
         if ((fragment != null) && (fragment instanceof OnParseCompleteListener)) {
             ((OnParseCompleteListener) fragment).onParseDone(result, version);
         }
-        fragment = fm.findFragmentByTag(FragmentTags.CHANGES);
+        fragment = fm.findFragmentByTag(ChangeListFragment.FRAGMENT_TAG);
         if ((fragment != null) && (fragment instanceof ChangeListFragment)) {
             ((ChangeListFragment) fragment).onRefresh();
         }
@@ -305,7 +304,7 @@ public class MainActivity extends AppCompatActivity implements
 
     void changesDialog() {
         FragmentManager fm = getSupportFragmentManager();
-        Fragment fragment = fm.findFragmentByTag("changesDialog");
+        Fragment fragment = fm.findFragmentByTag(ChangesDialog.FRAGMENT_TAG);
 
         if (fragment == null) {
             LectureList changedLectures = FahrplanMisc.readChanges(this);
@@ -317,7 +316,7 @@ public class MainActivity extends AppCompatActivity implements
                     FahrplanMisc.getChangedLectureCount(changedLectures, true) +
                             FahrplanMisc.getNewLectureCount(changedLectures, true) +
                             FahrplanMisc.getCancelledLectureCount(changedLectures, true));
-            about.show(getSupportFragmentManager(), "changesDialog");
+            about.show(getSupportFragmentManager(), ChangesDialog.FRAGMENT_TAG);
         }
     }
 
@@ -359,8 +358,8 @@ public class MainActivity extends AppCompatActivity implements
                     sidePane.setVisibility(View.VISIBLE);
                     FragmentTransaction fragmentTransaction = fm.beginTransaction();
                     StarredListFragment starred = StarredListFragment.newInstance(true);
-                    fragmentTransaction.replace(R.id.detail, starred, FragmentTags.STARRED);
-                    fragmentTransaction.addToBackStack(FragmentTags.STARRED);
+                    fragmentTransaction.replace(R.id.detail, starred, StarredListFragment.FRAGMENT_TAG);
+                    fragmentTransaction.addToBackStack(StarredListFragment.FRAGMENT_TAG);
                     fragmentTransaction.commit();
                 }
                 return true;
@@ -391,8 +390,8 @@ public class MainActivity extends AppCompatActivity implements
             args.putString(BundleKeys.EVENT_ROOM, lecture.room);
             args.putBoolean(BundleKeys.SIDEPANE, true);
             ev.setArguments(args);
-            fragmentTransaction.replace(R.id.detail, ev, FragmentTags.DETAIL);
-            fragmentTransaction.addToBackStack(FragmentTags.DETAIL);
+            fragmentTransaction.replace(R.id.detail, ev, EventDetailFragment.FRAGMENT_TAG);
+            fragmentTransaction.addToBackStack(EventDetailFragment.FRAGMENT_TAG);
             fragmentTransaction.commit();
         } else {
             EventDetail.startForResult(this, lecture, mDay);
@@ -406,7 +405,7 @@ public class MainActivity extends AppCompatActivity implements
             sidePane.setVisibility(View.GONE);
         }
         FragmentManager fm = getSupportFragmentManager();
-        Fragment fragment = fm.findFragmentByTag(FragmentTags.DETAIL);
+        Fragment fragment = fm.findFragmentByTag(EventDetailFragment.FRAGMENT_TAG);
         if (fragment != null) {
             FragmentTransaction fragmentTransaction = fm.beginTransaction();
             fragmentTransaction.remove(fragment).commit();
@@ -415,7 +414,7 @@ public class MainActivity extends AppCompatActivity implements
 
     public void reloadAlarms() {
         FragmentManager fm = getSupportFragmentManager();
-        Fragment fragment = fm.findFragmentByTag(FragmentTags.SCHEDULE);
+        Fragment fragment = fm.findFragmentByTag(FahrplanFragment.FRAGMENT_TAG);
         if (fragment != null) {
             ((FahrplanFragment) fragment).loadAlarms(this);
         }
@@ -423,7 +422,7 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void refreshEventMarkers() {
         FragmentManager fm = getSupportFragmentManager();
-        Fragment fragment = fm.findFragmentByTag(FragmentTags.SCHEDULE);
+        Fragment fragment = fm.findFragmentByTag(FahrplanFragment.FRAGMENT_TAG);
         if (fragment != null) {
             ((FahrplanFragment) fragment).refreshEventMarkers();
         }
@@ -447,7 +446,7 @@ public class MainActivity extends AppCompatActivity implements
                         FragmentManager fm = getSupportFragmentManager();
                         FragmentTransaction fragmentTransaction = fm.beginTransaction();
                         fragmentTransaction
-                                .replace(R.id.schedule, new FahrplanFragment(), FragmentTags.SCHEDULE);
+                                .replace(R.id.schedule, new FahrplanFragment(), FahrplanFragment.FRAGMENT_TAG);
                         fragmentTransaction.commit();
                     }
                 }
@@ -480,7 +479,7 @@ public class MainActivity extends AppCompatActivity implements
 
     public void refreshFavoriteList() {
         FragmentManager fm = getSupportFragmentManager();
-        StarredListFragment favoriteFragment = (StarredListFragment)fm.findFragmentByTag(FragmentTags.STARRED);
+        StarredListFragment favoriteFragment = (StarredListFragment)fm.findFragmentByTag(StarredListFragment.FRAGMENT_TAG);
         if (favoriteFragment != null) {
             favoriteFragment.onRefresh();
         }
@@ -496,8 +495,8 @@ public class MainActivity extends AppCompatActivity implements
             sidePane.setVisibility(View.VISIBLE);
             FragmentTransaction fragmentTransaction = fm.beginTransaction();
             ChangeListFragment changes = ChangeListFragment.newInstance(true);
-            fragmentTransaction.replace(R.id.detail, changes, FragmentTags.CHANGES);
-            fragmentTransaction.addToBackStack(FragmentTags.CHANGES);
+            fragmentTransaction.replace(R.id.detail, changes, ChangeListFragment.FRAGMENT_TAG);
+            fragmentTransaction.addToBackStack(ChangeListFragment.FRAGMENT_TAG);
             fragmentTransaction.commit();
         }
     }
@@ -508,7 +507,7 @@ public class MainActivity extends AppCompatActivity implements
             case StarredListFragment.DELETE_ALL_FAVORITES_REQUEST_CODE:
                 FragmentManager fm = getSupportFragmentManager();
                 StarredListFragment fragment = (StarredListFragment)fm.findFragmentByTag(
-                        FahrplanContract.FragmentTags.STARRED);
+                        StarredListFragment.FRAGMENT_TAG);
                 if (fragment != null) {
                     fragment.deleteAllFavorites();
                 }

@@ -32,6 +32,8 @@ public class EventDetailFragment extends Fragment {
 
     private final String LOG_TAG = "Detail";
 
+    public static final String FRAGMENT_TAG = "detail";
+
     public static final int EVENT_DETAIL_FRAGMENT_REQUEST_CODE = 546;
 
     private String event_id;

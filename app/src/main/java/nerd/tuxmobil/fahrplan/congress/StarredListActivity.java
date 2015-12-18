@@ -23,7 +23,7 @@ public class StarredListActivity extends AppCompatActivity implements
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new StarredListFragment(), FahrplanContract.FragmentTags.STARRED)
+                    .add(R.id.container, new StarredListFragment(), StarredListFragment.FRAGMENT_TAG)
                     .commit();
             MyApp.LogDebug(LOG_TAG, "onCreate fragment created");
         }
@@ -48,8 +48,8 @@ public class StarredListActivity extends AppCompatActivity implements
     @Override
     public void onAccepted(int dlgId) {
         FragmentManager fm = getSupportFragmentManager();
-        StarredListFragment fragment = (StarredListFragment)fm.findFragmentByTag(FahrplanContract
-                .FragmentTags.STARRED);
+        StarredListFragment fragment = (StarredListFragment)fm.findFragmentByTag(
+                StarredListFragment.FRAGMENT_TAG);
         if (fragment != null) {
             fragment.deleteAllFavorites();
         } else {

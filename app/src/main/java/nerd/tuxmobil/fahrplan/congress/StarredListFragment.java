@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.view.MenuItemCompat;
 import android.text.format.Time;
 import android.util.SparseBooleanArray;
 import android.view.ActionMode;
@@ -36,6 +35,7 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
         .MultiChoiceModeListener {
 
     private static final String LOG_TAG = "StarredListFragment";
+    public static final String FRAGMENT_TAG = "starred";
     private OnLectureListClick mListener;
     private LectureList starredList;
     private boolean sidePane = false;
@@ -272,12 +272,12 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
 
     private void askToDeleteAllFavorites() {
         FragmentManager fm = getActivity().getSupportFragmentManager();
-        Fragment fragment = fm.findFragmentByTag(ConfirmationDialog.TAG);
+        Fragment fragment = fm.findFragmentByTag(ConfirmationDialog.FRAGMENT_TAG);
         if (fragment == null) {
             ConfirmationDialog confirm = ConfirmationDialog.newInstance(
                     R.string.dlg_delete_all_favorites,
                     DELETE_ALL_FAVORITES_REQUEST_CODE);
-            confirm.show(fm, ConfirmationDialog.TAG);
+            confirm.show(fm, ConfirmationDialog.FRAGMENT_TAG);
         }
     }
 

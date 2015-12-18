@@ -13,8 +13,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import nerd.tuxmobil.fahrplan.congress.FahrplanContract.FragmentTags;
-
 public class EventDetail extends AppCompatActivity {
 
     public static void startForResult(@NonNull Activity activity,
@@ -66,7 +64,7 @@ public class EventDetail extends AppCompatActivity {
             args.putInt(BundleKeys.EVENT_DAY, intent.getIntExtra(BundleKeys.EVENT_DAY, 0));
             args.putString(BundleKeys.EVENT_ROOM, intent.getStringExtra(BundleKeys.EVENT_ROOM));
             ev.setArguments(args);
-            fragmentTransaction.replace(R.id.detail, ev, FragmentTags.DETAIL);
+            fragmentTransaction.replace(R.id.detail, ev, EventDetailFragment.FRAGMENT_TAG);
             fragmentTransaction.commit();
         }
     }
