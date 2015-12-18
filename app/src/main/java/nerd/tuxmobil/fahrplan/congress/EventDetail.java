@@ -13,7 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class EventDetail extends AppCompatActivity {
+public class EventDetail extends BaseActivity {
 
     public static void startForResult(@NonNull Activity activity,
                                       @NonNull Lecture lecture,
@@ -45,9 +45,7 @@ public class EventDetail extends AppCompatActivity {
         }
 
         if (findViewById(R.id.detail) != null) {
-            FragmentManager fm = getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fm.beginTransaction();
-            EventDetailFragment ev = new EventDetailFragment();
+            EventDetailFragment eventDetailFragment = new EventDetailFragment();
             Bundle args = new Bundle();
             args.putString(BundleKeys.EVENT_TITLE, intent.getStringExtra(BundleKeys.EVENT_TITLE));
             args.putString(BundleKeys.EVENT_SUBTITLE,
@@ -63,9 +61,9 @@ public class EventDetail extends AppCompatActivity {
             args.putInt(BundleKeys.EVENT_TIME, intent.getIntExtra(BundleKeys.EVENT_TIME, 0));
             args.putInt(BundleKeys.EVENT_DAY, intent.getIntExtra(BundleKeys.EVENT_DAY, 0));
             args.putString(BundleKeys.EVENT_ROOM, intent.getStringExtra(BundleKeys.EVENT_ROOM));
-            ev.setArguments(args);
-            fragmentTransaction.replace(R.id.detail, ev, EventDetailFragment.FRAGMENT_TAG);
-            fragmentTransaction.commit();
+            eventDetailFragment.setArguments(args);
+            replaceFragment(R.id.detail, eventDetailFragment,
+                    EventDetailFragment.FRAGMENT_TAG);
         }
     }
 

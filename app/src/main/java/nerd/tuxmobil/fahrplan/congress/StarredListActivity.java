@@ -4,10 +4,9 @@ import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
-public class StarredListActivity extends AppCompatActivity implements
+public class StarredListActivity extends BaseActivity implements
         AbstractListFragment.OnLectureListClick,
         ConfirmationDialog.OnConfirmationDialogClicked {
 
@@ -22,9 +21,8 @@ public class StarredListActivity extends AppCompatActivity implements
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorActionBar)));
 
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new StarredListFragment(), StarredListFragment.FRAGMENT_TAG)
-                    .commit();
+            addFragment(R.id.container, new StarredListFragment(),
+                    StarredListFragment.FRAGMENT_TAG);
             MyApp.LogDebug(LOG_TAG, "onCreate fragment created");
         }
     }
