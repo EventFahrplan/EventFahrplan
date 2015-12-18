@@ -111,12 +111,7 @@ public class MainActivity extends BaseActivity implements
         }
 
         if (findViewById(R.id.detail) == null) {
-            FragmentManager fm = getSupportFragmentManager();
-            Fragment detail = findFragment(EventDetailFragment.FRAGMENT_TAG);
-            if (detail != null) {
-                FragmentTransaction ft = fm.beginTransaction();
-                ft.remove(detail).commit();
-            }
+            removeFragment(EventDetailFragment.FRAGMENT_TAG);
         }
     }
 
@@ -390,12 +385,7 @@ public class MainActivity extends BaseActivity implements
         if (sidePane != null) {
             sidePane.setVisibility(View.GONE);
         }
-        FragmentManager fm = getSupportFragmentManager();
-        Fragment fragment = findFragment(EventDetailFragment.FRAGMENT_TAG);
-        if (fragment != null) {
-            FragmentTransaction fragmentTransaction = fm.beginTransaction();
-            fragmentTransaction.remove(fragment).commit();
-        }
+        removeFragment(EventDetailFragment.FRAGMENT_TAG);
     }
 
     public void reloadAlarms() {
