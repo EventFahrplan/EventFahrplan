@@ -37,4 +37,10 @@ public abstract class BaseActivity extends AppCompatActivity {
                 .commit();
     }
 
+    protected
+    @Nullable
+    Fragment findFragment(@NonNull String fragmentTag) {
+        return getSupportFragmentManager().findFragmentByTag(fragmentTag);
+    }
+
 }

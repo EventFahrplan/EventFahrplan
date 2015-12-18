@@ -104,8 +104,7 @@ public class MainActivity extends BaseActivity implements
         getSupportFragmentManager().addOnBackStackChangedListener(this);
 
         if (findViewById(R.id.schedule) != null) {
-            FragmentManager fm = getSupportFragmentManager();
-            if (fm.findFragmentByTag(FahrplanFragment.FRAGMENT_TAG) == null) {
+            if (findFragment(FahrplanFragment.FRAGMENT_TAG) == null) {
                 replaceFragment(R.id.schedule, new FahrplanFragment(),
                         FahrplanFragment.FRAGMENT_TAG);
             }
@@ -113,7 +112,7 @@ public class MainActivity extends BaseActivity implements
 
         if (findViewById(R.id.detail) == null) {
             FragmentManager fm = getSupportFragmentManager();
-            Fragment detail = fm.findFragmentByTag(EventDetailFragment.FRAGMENT_TAG);
+            Fragment detail = findFragment(EventDetailFragment.FRAGMENT_TAG);
             if (detail != null) {
                 FragmentTransaction ft = fm.beginTransaction();
                 ft.remove(detail).commit();
@@ -193,12 +192,11 @@ public class MainActivity extends BaseActivity implements
         progressBar.setVisibility(View.INVISIBLE);
         showUpdateAction = true;
         supportInvalidateOptionsMenu();
-        FragmentManager fm = getSupportFragmentManager();
-        Fragment fragment = fm.findFragmentByTag(FahrplanFragment.FRAGMENT_TAG);
+        Fragment fragment = findFragment(FahrplanFragment.FRAGMENT_TAG);
         if ((fragment != null) && (fragment instanceof OnParseCompleteListener)) {
             ((OnParseCompleteListener) fragment).onParseDone(result, version);
         }
-        fragment = fm.findFragmentByTag(ChangeListFragment.FRAGMENT_TAG);
+        fragment = findFragment(ChangeListFragment.FRAGMENT_TAG);
         if ((fragment != null) && (fragment instanceof ChangeListFragment)) {
             ((ChangeListFragment) fragment).onRefresh();
         }
@@ -300,9 +298,7 @@ public class MainActivity extends BaseActivity implements
     }
 
     void changesDialog() {
-        FragmentManager fm = getSupportFragmentManager();
-        Fragment fragment = fm.findFragmentByTag(ChangesDialog.FRAGMENT_TAG);
-
+        Fragment fragment = findFragment(ChangesDialog.FRAGMENT_TAG);
         if (fragment == null) {
             LectureList changedLectures = FahrplanMisc.readChanges(this);
             DialogFragment about = ChangesDialog.newInstance(
@@ -395,7 +391,7 @@ public class MainActivity extends BaseActivity implements
             sidePane.setVisibility(View.GONE);
         }
         FragmentManager fm = getSupportFragmentManager();
-        Fragment fragment = fm.findFragmentByTag(EventDetailFragment.FRAGMENT_TAG);
+        Fragment fragment = findFragment(EventDetailFragment.FRAGMENT_TAG);
         if (fragment != null) {
             FragmentTransaction fragmentTransaction = fm.beginTransaction();
             fragmentTransaction.remove(fragment).commit();
@@ -403,16 +399,14 @@ public class MainActivity extends BaseActivity implements
     }
 
     public void reloadAlarms() {
-        FragmentManager fm = getSupportFragmentManager();
-        Fragment fragment = fm.findFragmentByTag(FahrplanFragment.FRAGMENT_TAG);
+        Fragment fragment = findFragment(FahrplanFragment.FRAGMENT_TAG);
         if (fragment != null) {
             ((FahrplanFragment) fragment).loadAlarms(this);
         }
     }
     @Override
     public void refreshEventMarkers() {
-        FragmentManager fm = getSupportFragmentManager();
-        Fragment fragment = fm.findFragmentByTag(FahrplanFragment.FRAGMENT_TAG);
+        Fragment fragment = findFragment(FahrplanFragment.FRAGMENT_TAG);
         if (fragment != null) {
             ((FahrplanFragment) fragment).refreshEventMarkers();
         }
@@ -465,10 +459,9 @@ public class MainActivity extends BaseActivity implements
     }
 
     public void refreshFavoriteList() {
-        FragmentManager fm = getSupportFragmentManager();
-        StarredListFragment favoriteFragment = (StarredListFragment)fm.findFragmentByTag(StarredListFragment.FRAGMENT_TAG);
-        if (favoriteFragment != null) {
-            favoriteFragment.onRefresh();
+        Fragment fragment = findFragment(StarredListFragment.FRAGMENT_TAG);
+        if (fragment != null) {
+            ((StarredListFragment)fragment).onRefresh();
         }
     }
 
@@ -488,11 +481,9 @@ public class MainActivity extends BaseActivity implements
     public void onAccepted(int dlgRequestCode) {
         switch (dlgRequestCode) {
             case StarredListFragment.DELETE_ALL_FAVORITES_REQUEST_CODE:
-                FragmentManager fm = getSupportFragmentManager();
-                StarredListFragment fragment = (StarredListFragment)fm.findFragmentByTag(
-                        StarredListFragment.FRAGMENT_TAG);
+                Fragment fragment = findFragment(StarredListFragment.FRAGMENT_TAG);
                 if (fragment != null) {
-                    fragment.deleteAllFavorites();
+                    ((StarredListFragment)fragment).deleteAllFavorites();
                 }
                 break;
         }

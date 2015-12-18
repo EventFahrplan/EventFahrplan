@@ -3,7 +3,7 @@ package nerd.tuxmobil.fahrplan.congress;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 
 public class StarredListActivity extends BaseActivity implements
@@ -45,11 +45,9 @@ public class StarredListActivity extends BaseActivity implements
 
     @Override
     public void onAccepted(int dlgId) {
-        FragmentManager fm = getSupportFragmentManager();
-        StarredListFragment fragment = (StarredListFragment)fm.findFragmentByTag(
-                StarredListFragment.FRAGMENT_TAG);
+        Fragment fragment = findFragment(StarredListFragment.FRAGMENT_TAG);
         if (fragment != null) {
-            fragment.deleteAllFavorites();
+            ((StarredListFragment)fragment).deleteAllFavorites();
         } else {
             MyApp.LogDebug(LOG_TAG, "StarredListFragment not found");
         }
