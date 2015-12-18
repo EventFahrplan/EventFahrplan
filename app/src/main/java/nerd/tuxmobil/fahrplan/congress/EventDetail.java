@@ -47,7 +47,8 @@ public class EventDetail extends BaseActivity {
         if (intent != null && findViewById(R.id.detail) != null) {
             EventDetailFragment eventDetailFragment = new EventDetailFragment();
             Bundle args = new Bundle();
-            args.putString(BundleKeys.EVENT_TITLE, intent.getStringExtra(BundleKeys.EVENT_TITLE));
+            args.putString(BundleKeys.EVENT_TITLE,
+                    intent.getStringExtra(BundleKeys.EVENT_TITLE));
             args.putString(BundleKeys.EVENT_SUBTITLE,
                     intent.getStringExtra(BundleKeys.EVENT_SUBTITLE));
             args.putString(BundleKeys.EVENT_ABSTRACT,
@@ -56,11 +57,16 @@ public class EventDetail extends BaseActivity {
                     intent.getStringExtra(BundleKeys.EVENT_DESCRIPTION));
             args.putString(BundleKeys.EVENT_SPEAKERS,
                     intent.getStringExtra(BundleKeys.EVENT_SPEAKERS));
-            args.putString(BundleKeys.EVENT_LINKS, intent.getStringExtra(BundleKeys.EVENT_LINKS));
-            args.putString(BundleKeys.EVENT_ID, intent.getStringExtra(BundleKeys.EVENT_ID));
-            args.putInt(BundleKeys.EVENT_TIME, intent.getIntExtra(BundleKeys.EVENT_TIME, 0));
-            args.putInt(BundleKeys.EVENT_DAY, intent.getIntExtra(BundleKeys.EVENT_DAY, 0));
-            args.putString(BundleKeys.EVENT_ROOM, intent.getStringExtra(BundleKeys.EVENT_ROOM));
+            args.putString(BundleKeys.EVENT_LINKS,
+                    intent.getStringExtra(BundleKeys.EVENT_LINKS));
+            args.putString(BundleKeys.EVENT_ID,
+                    intent.getStringExtra(BundleKeys.EVENT_ID));
+            args.putInt(BundleKeys.EVENT_TIME,
+                    intent.getIntExtra(BundleKeys.EVENT_TIME, 0));
+            args.putInt(BundleKeys.EVENT_DAY,
+                    intent.getIntExtra(BundleKeys.EVENT_DAY, 0));
+            args.putString(BundleKeys.EVENT_ROOM,
+                    intent.getStringExtra(BundleKeys.EVENT_ROOM));
             eventDetailFragment.setArguments(args);
             replaceFragment(R.id.detail, eventDetailFragment,
                     EventDetailFragment.FRAGMENT_TAG);
