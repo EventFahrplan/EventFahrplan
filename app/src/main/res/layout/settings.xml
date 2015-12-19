@@ -1,11 +1,9 @@
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_height="match_parent"
-              android:layout_width="match_parent"
-              android:background="@color/fahrplan_background"
-              >
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/fahrplan_background">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -14,11 +12,11 @@
 
     <FrameLayout
         android:id="@+id/container"
-        android:layout_below="@id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/toolbar"
         tools:background="@android:color/holo_green_dark"
         tools:context=".SettingsActivity"
-        tools:ignore="MergeRootFrame"/>
+        tools:ignore="MergeRootFrame" />
 
 </RelativeLayout>
