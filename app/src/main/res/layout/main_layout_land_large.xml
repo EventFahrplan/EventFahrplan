@@ -5,14 +5,9 @@
                 android:layout_height="match_parent">
 
     <android.support.v7.widget.Toolbar
-        android:layout_alignParentTop="true"
         android:id="@+id/toolbar"
-        app:contentInsetStart="24dp"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:elevation="8dp"
-        android:minHeight="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"/>
+        style="@style/ToolBar"
+        app:contentInsetStart="@dimen/tool_bar_content_inset_start" />
 
     <ProgressBar
         android:id="@+id/progress"

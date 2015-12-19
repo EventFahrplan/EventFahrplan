@@ -26,6 +26,10 @@
     <dimen name="activity_padding">16dp</dimen>
     <dimen name="header_height">0dp</dimen>
 
+    <!-- Tool bar -->
+    <dimen name="tool_bar_content_inset_start">24dp</dimen>
+    <dimen name="tool_bar_elevation">8dp</dimen>
+
     <!-- Event item parameters -->
     <dimen name="event_item_corner_radius">6dp</dimen>
     <dimen name="event_item_top_offset">1dp</dimen>
