@@ -60,6 +60,15 @@
         <item name="android:minHeight">?attr/actionBarSize</item>
     </style>
 
+    <style name="ProgressBar" parent="Base.Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">16dp</item>
+        <item name="android:layout_marginTop">-10dp</item>
+        <item name="android:elevation" tools:targetApi="lollipop">@dimen/progress_bar_elevation</item>
+        <item name="android:indeterminate">true</item>
+        <item name="android:visibility">gone</item>
+    </style>
+
     <style name="AlertDialog" parent="Theme.AppCompat.Dialog.Alert">
         <item name="colorAccent">@color/alert_dialog_button_text</item>
         <item name="android:textColor">@color/alert_dialog_title</item>
@@ -88,13 +97,6 @@
         <item name="android:gravity">center</item>
         <item name="android:background">@drawable/alarm_list_icon_layer</item>
         <item name="android:text">0</item>
-    </style>
-
-    <style name="ActivityIndicator" parent="@android:style/Widget.ProgressBar">
-        <item name="android:minWidth">48dp</item>
-        <item name="android:maxWidth">48dp</item>
-        <item name="android:minHeight">32dp</item>
-        <item name="android:maxHeight">32dp</item>
     </style>
 
     <style name="ScheduleListSeperator" parent="@android:style/TextAppearance.Small">
