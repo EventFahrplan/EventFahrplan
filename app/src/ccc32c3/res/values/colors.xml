@@ -16,8 +16,8 @@
     <color name="lecture_background">#ffffff</color>
     <color name="lecture_detailbar_background">#eee</color>
     <color name="lecture_detailbar_text">#999</color>
-    <color name="schedule_change">#fff19224</color>
-    <color name="schedule_change_new">#fff19224</color>
+    <color name="schedule_change">#ffdc851f</color>
+    <color name="schedule_change_new">#ffdc851f</color>
     <color name="schedule_change_canceled">#808080</color>
     <color name="schedule_list_header_background">#eee</color>
     <color name="schedule_list_header_text">#eee</color>
