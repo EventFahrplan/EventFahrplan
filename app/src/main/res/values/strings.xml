@@ -35,15 +35,6 @@
     <string name="event_online">Event online</string>
     <string name="event_detail_section_title_links">Links</string>
     <string name="alarm_prompt">Reminder</string>
-    <string-array name="alarm_array">
-        <item>at start time</item>
-        <item>5 Minutes</item>
-        <item>10 Minutes</item>
-        <item>15 Minutes</item>
-        <item>30 Minutes</item>
-        <item>45 Minutes</item>
-        <item>60 Minutes</item>
-    </string-array>
     <string name="choose_alarm_time">Choose alarm time</string>
     <string name="reminders">Reminders</string>
     <string name="reminder">Reminder</string>
