@@ -46,7 +46,7 @@ public final class onBootReceiver extends BroadcastReceiver {
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             long alarmTime = cursor
-                    .getLong(cursor.getColumnIndex(AlarmsTable.Columns.ALARM_TIME_IN_MIN));
+                    .getLong(cursor.getColumnIndex(AlarmsTable.Columns.TIME));
             alarm.set(alarmTime);
 
             if (now.before(alarm)) {
