@@ -3,6 +3,7 @@ package nerd.tuxmobil.fahrplan.congress;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.preference.Preference;
@@ -95,6 +96,36 @@ public class SettingsActivity extends AppCompatActivity {
                             return true;
                         }
                     });
+
+            findPreference("default_alarm_time")
+                    .setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                        @Override
+                        public boolean onPreferenceChange(Preference preference, Object newValue) {
+                            Activity activity = getActivity();
+                            Resources resources = activity.getResources();
+                            SharedPreferences prefs = PreferenceManager
+                                    .getDefaultSharedPreferences(activity);
+                            SharedPreferences.Editor edit = prefs.edit();
+                            int alarmTimeValue = Integer.parseInt((String) newValue);
+                            String[] alarmTimeValues = resources.getStringArray(R.array.alarm_time_values);
+                            int defaultAlarmTimeValue = resources.getInteger(R.integer.default_alarm_time_index);
+                            int alarmTimeIndex = getAlarmTimeIndex(alarmTimeValues, alarmTimeValue, defaultAlarmTimeValue);
+                            edit.putInt(BundleKeys.PREFS_ALARM_TIME_INDEX, alarmTimeIndex);
+                            edit.commit();
+                            return true;
+                        }
+                    });
+        }
+
+        private int getAlarmTimeIndex(String[] alarmTimeValues, int alarmTimeValue, int defaultAlarmTimeValue) {
+            for (int index = 0, alarmTimeValuesLength = alarmTimeValues.length; index < alarmTimeValuesLength; index++) {
+                String alarmTimeStringValue = alarmTimeValues[index];
+                int alarmTimeIntegerValue = Integer.parseInt(alarmTimeStringValue);
+                if (alarmTimeIntegerValue == alarmTimeValue) {
+                    return index;
+                }
+            }
+            return defaultAlarmTimeValue;
         }
     }
 }

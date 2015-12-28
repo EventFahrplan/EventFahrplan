@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Synchronize with @strings/default_alarm_time_value -->
+    <integer name="default_alarm_time_index" translatable="false">2</integer>
+</resources>

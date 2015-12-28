@@ -11,6 +11,7 @@
         <item>60 minutes</item>
     </string-array>
 
+    <!-- Synchronize with @strings/default_alarm_time_value and @integers/default_alarm_time_index -->
     <string-array name="alarm_time_values" translatable="false">
         <item>0</item>
         <item>5</item>
