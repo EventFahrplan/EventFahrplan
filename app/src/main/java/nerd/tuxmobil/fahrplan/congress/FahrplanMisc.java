@@ -273,7 +273,7 @@ public class FahrplanMisc {
     }
 
     public static void addAlarm(Context context, Lecture lecture, int alarmTimesIndex) {
-        int[] alarm_times = {0, 5, 10, 15, 30, 45, 60};
+        int[] alarm_times = context.getResources().getIntArray(R.array.alarm_time_values);
         long when;
         Time time;
         long startTime;

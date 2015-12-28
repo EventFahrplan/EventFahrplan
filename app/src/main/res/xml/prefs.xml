@@ -27,5 +27,12 @@
         <CheckBoxPreference
             android:title="@string/insistent_alarm"
             android:key="insistent"/>
+        <ListPreference
+            android:key="default_alarm_time"
+            android:title="@string/default_alarm_time_dialog_title"
+            android:dialogTitle="@string/default_alarm_time_title"
+            android:entries="@array/alarm_time_titles"
+            android:entryValues="@array/alarm_time_values"
+            android:defaultValue="@string/default_alarm_time_value" />
     </PreferenceCategory>
 </PreferenceScreen>

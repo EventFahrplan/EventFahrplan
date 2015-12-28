@@ -35,16 +35,9 @@
     <string name="event_online">Event online</string>
     <string name="event_detail_section_title_links">Links</string>
     <string name="alarm_prompt">Erinnerung</string>
-    <string-array name="alarm_array">
-        <item>zur Startzeit</item>
-        <item>5 Minuten</item>
-        <item>10 Minuten</item>
-        <item>15 Minuten</item>
-        <item>30 Minuten</item>
-        <item>45 Minuten</item>
-        <item>60 Minuten</item>
-    </string-array>
     <string name="choose_alarm_time">Wähle die Alarmzeit</string>
+    <string name="default_alarm_time_title">Wähle eine Standard-Alarmzeit</string>
+    <string name="default_alarm_time_dialog_title">Standard-Alarmzeit</string>
     <string name="reminders">Erinnerungen</string>
     <string name="reminder">Erinnerung</string>
     <string name="feedback">Feedback</string>

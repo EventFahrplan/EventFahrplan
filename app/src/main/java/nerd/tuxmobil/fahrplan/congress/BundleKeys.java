@@ -57,4 +57,6 @@ public interface BundleKeys {
             "nerd.tuxmobil.fahrplan.congress.Prefs.SCHEDULE_URL";
     public static final String PREFS_ALTERNATIVE_HIGHLIGHT =
             "nerd.tuxmobil.fahrplan.congress.Prefs.ALTERNATIVE_HIGHLIGHT";
+    public static final String PREFS_ALARM_TIME_INDEX =
+            "nerd.tuxmobil.fahrplan.congress.Prefs.ALARM_TIME_INDEX";
 }

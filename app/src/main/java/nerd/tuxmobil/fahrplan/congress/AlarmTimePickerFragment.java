@@ -5,7 +5,9 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -27,11 +29,16 @@ public class AlarmTimePickerFragment extends DialogFragment {
 
     protected Spinner spinner;
 
+    protected int alarmTimeIndex;
+
 
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Context activity = getActivity();
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
+        int defaultAlarmTimeIndex = activity.getResources().getInteger(R.integer.default_alarm_time_index);
+        alarmTimeIndex = prefs.getInt(BundleKeys.PREFS_ALARM_TIME_INDEX, defaultAlarmTimeIndex);
         LayoutInflater inflater = (LayoutInflater) activity
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         @SuppressLint("InflateParams")
@@ -57,10 +64,11 @@ public class AlarmTimePickerFragment extends DialogFragment {
         spinner = (Spinner) rootView.findViewById(R.id.spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 getActivity(),
-                R.array.alarm_array,
+                R.array.alarm_time_titles,
                 android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+        spinner.setSelection(alarmTimeIndex);
     }
 
     private void passBackAlarmTimesIndex() {
