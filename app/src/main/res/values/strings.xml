@@ -67,6 +67,7 @@
     <string name="addToCalendar">Add to calendar</string>
     <string name="share">Share</string>
     <string name="flag_as_favorite">Add to favorites</string>
+    <string name="navigate">Navigate</string>
     <string name="unflag_as_favorite">Remove from favorites</string>
     <string name="uptodate">Schedule is up to date.</string>
     <string name="close_detail">Close detail view</string>

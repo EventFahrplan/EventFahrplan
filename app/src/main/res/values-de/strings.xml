@@ -111,4 +111,5 @@
     <string name="alternative_highlight">Alternative Hervorhebung</string>
     <string name="dlg_delete_all_favorites">Alle Favoriten löschen?</string>
     <string name="dlg_delete_all_favorites_delete_all">Alle löschen</string>
+    <string name="navigate">Navigiere</string>
 </resources>

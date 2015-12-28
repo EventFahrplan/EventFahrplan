@@ -1,14 +1,16 @@
 package nerd.tuxmobil.fahrplan.congress;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import nerd.tuxmobil.fahrplan.congress.FahrplanContract.FragmentTags;
@@ -70,11 +72,29 @@ public class EventDetail extends AppCompatActivity {
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        menu.findItem(R.id.item_nav).setVisible(getRoomConvertedForC3Nav() != null);
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 return ActivityHelper.navigateUp(this);
+
+            case R.id.item_nav:
+                final Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse("https://c3nav.de/?d=" + getRoomConvertedForC3Nav()));
+                startActivity(intent);
+                return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Nullable
+    private String getRoomConvertedForC3Nav() {
+        final String currentRoom = getIntent().getStringExtra(BundleKeys.EVENT_ROOM);
+        return RoomForC3NavConverter.convert(BuildConfig.VENUE, currentRoom);
     }
 }

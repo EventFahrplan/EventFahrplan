@@ -66,6 +66,7 @@ android {
             buildConfigField "String", "SCHEDULE_DOMAIN_PART", '"http://events.ccc.de"'
             buildConfigField "String", "SCHEDULE_EVENT_PART", '"/events/%1$s.html"'
             buildConfigField "String", "SCHEDULE_PART", '"/congress/2014/Fahrplan"'
+            buildConfigField "String", "VENUE", '"cch"'
             buildConfigField "int", "SCHEDULE_FIRST_DAY_START_YEAR", "2014"
             buildConfigField "int", "SCHEDULE_FIRST_DAY_START_MONTH", "12"
             buildConfigField "int", "SCHEDULE_FIRST_DAY_START_DAY", "27"
@@ -81,6 +82,7 @@ android {
             buildConfigField "String", "SCHEDULE_DOMAIN_PART", '"http://events.ccc.de"'
             buildConfigField "String", "SCHEDULE_EVENT_PART", '"/events/%1$s.html"'
             buildConfigField "String", "SCHEDULE_PART", '"/camp/2015/Fahrplan"'
+            buildConfigField "String", "VENUE", '"mildenberg"'
             buildConfigField "int", "SCHEDULE_FIRST_DAY_START_YEAR", "2015"
             buildConfigField "int", "SCHEDULE_FIRST_DAY_START_MONTH", "8"
             buildConfigField "int", "SCHEDULE_FIRST_DAY_START_DAY", "13"
@@ -96,6 +98,7 @@ android {
             buildConfigField "String", "SCHEDULE_DOMAIN_PART", '"https://events.ccc.de"'
             buildConfigField "String", "SCHEDULE_EVENT_PART", '"/events/%1$s.html"'
             buildConfigField "String", "SCHEDULE_PART", '"/congress/2015/Fahrplan"'
+            buildConfigField "String", "VENUE", '"cch"'
             buildConfigField "int", "SCHEDULE_FIRST_DAY_START_YEAR", "2015"
             buildConfigField "int", "SCHEDULE_FIRST_DAY_START_MONTH", "12"
             buildConfigField "int", "SCHEDULE_FIRST_DAY_START_DAY", "27"
@@ -110,4 +113,9 @@ android {
 dependencies {
     compile "com.android.support:appcompat-v7:23.1.1"
     compile 'com.squareup.okhttp:okhttp:2.7.0'
+
+    testCompile 'junit:junit:4.12'
+    testCompile 'com.squareup.assertj:assertj-android:1.1.1'
+    testCompile 'com.android.support:support-annotations:23.1.1'
+
 }
