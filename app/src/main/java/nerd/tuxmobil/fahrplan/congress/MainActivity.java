@@ -125,6 +125,13 @@ public class MainActivity extends AppCompatActivity implements
         }
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        MyApp.LogDebug(LOG_TAG, "onNewIntent");
+        setIntent(intent);
+    }
+
     public void parseFahrplan() {
         showParsingStatus();
         MyApp.task_running = TASKS.PARSE;
@@ -363,6 +370,7 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     public void openLectureDetail(Lecture lecture, int mDay) {
+        if (lecture == null) return;
         FrameLayout sidePane = (FrameLayout) findViewById(R.id.detail);
         MyApp.LogDebug(LOG_TAG, "openLectureDetail sidePane=" + sidePane);
         if (sidePane != null) {

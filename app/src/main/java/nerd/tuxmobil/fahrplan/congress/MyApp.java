@@ -16,7 +16,7 @@ public class MyApp extends Application {
 
     public static boolean DEBUG = false;
 
-    public static ArrayList<Lecture> lectureList = null;
+    public static LectureList lectureList = null;
 
     public static int numdays;
 
