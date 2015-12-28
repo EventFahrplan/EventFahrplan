@@ -6,7 +6,7 @@
             android:right="@dimen/event_item_right_offset">
         <shape xmlns:android="http://schemas.android.com/apk/res/android"
                android:shape="rectangle">
-            <solid android:color="@color/event_border_default"/>
+            <solid android:color="@color/event_border_highlight"/>
             <corners android:radius="@dimen/event_item_corner_radius"/>
         </shape>
     </item>
