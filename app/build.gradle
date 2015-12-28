@@ -10,8 +10,6 @@ if (!gradlePropertiesFile.exists()) {
 }
 props.load(new FileInputStream(gradlePropertiesFile))
 
-
-
 android {
     compileSdkVersion 22
     buildToolsVersion "23.0.2"
@@ -21,17 +19,8 @@ android {
         versionName "1.32.1"
         minSdkVersion 14
         targetSdkVersion 22
-        project.ext.set("archivesBaseName", "Fahrplan");
-    }
 
-    applicationVariants.all { variant ->
-        variant.outputs.each { output ->
-            def file = output.outputFile
-            if (file != null && file.name.endsWith('.apk')) {
-                def fileName = file.name.replace(".apk", "-" + versionName + ".apk")
-                output.outputFile = new File(file.parent, fileName)
-            }
-        }
+        archivesBaseName = "Fahrplan-$versionName"
     }
 
     buildTypes {
