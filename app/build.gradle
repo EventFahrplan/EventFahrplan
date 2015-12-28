@@ -11,7 +11,7 @@ if (!gradlePropertiesFile.exists()) {
 props.load(new FileInputStream(gradlePropertiesFile))
 
 android {
-    compileSdkVersion 22
+    compileSdkVersion 23
     buildToolsVersion "23.0.2"
 
     defaultConfig {
@@ -108,6 +108,6 @@ android {
 }
 
 dependencies {
-    compile "com.android.support:appcompat-v7:22.2.1"
+    compile "com.android.support:appcompat-v7:23.1.1"
     compile 'com.squareup.okhttp:okhttp:2.7.0'
 }
