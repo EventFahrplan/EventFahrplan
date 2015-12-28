@@ -105,4 +105,16 @@
     <string name="dlg_delete_all_favorites">Alle Favoriten löschen?</string>
     <string name="dlg_delete_all_favorites_delete_all">Alle löschen</string>
     <string name="navigate">Navigiere</string>
+
+    <!-- Build information -->
+    <string name="build_info_time">
+        Build-Zeit: <xliff:g id="build_time" example="2015-12-27T13:42Z">%s</xliff:g>
+    </string>
+    <string name="build_info_version_code">
+        Versions-Code: <xliff:g id="version_code" example="42">%s</xliff:g>
+    </string>
+    <string name="build_info_hash">
+        Versions-Hash: <xliff:g id="build_hash" example="e1f2g3h-dirty">%s</xliff:g>
+    </string>
+
 </resources>

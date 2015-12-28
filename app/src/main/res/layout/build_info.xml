@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+        android:id="@+id/build_time"
+        style="@style/BuildInfoItem"
+        android:layout_marginTop="10dp"
+        android:text="@string/build_info_time" />
+
+    <TextView
+        android:id="@+id/build_version_code"
+        style="@style/BuildInfoItem"
+        android:text="@string/build_info_version_code" />
+
+    <TextView
+        android:id="@+id/build_hash"
+        style="@style/BuildInfoItem"
+        android:text="@string/build_info_hash" />
+
+</merge>
