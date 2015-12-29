@@ -108,6 +108,11 @@ android {
             buildConfigField "String", "SCHEDULE_FEEDBACK_URL", '"https://frab.cccv.de/en/32C3/public/events/%s/feedback/new"'
         }
     }
+
+    lintOptions {
+        // for okio - https://github.com/square/okio/issues/58
+        warning "InvalidPackage"
+    }
 }
 
 dependencies {

@@ -17,7 +17,7 @@
      limitations under the License.
 -->
 
-<resources xmlns:android="http://schemas.android.com/apk/res/android">
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android">
 
     <style name="Theme.Congress" parent="Theme.AppCompat">
         <!-- Set AppCompat’s actionBarStyle -->
@@ -96,7 +96,7 @@
 
     <style name="ScheduleListPrimary" parent="@android:style/TextAppearance.Medium">
         <item name="android:textStyle">bold</item>
-        <item name="android:fontFamily">sans-serif-condensed</item>
+        <item name="android:fontFamily" tools:targetApi="jelly_bean">sans-serif-condensed</item>
     </style>
 
     <style name="ScheduleListSecondary" parent="@android:style/TextAppearance.Small">
