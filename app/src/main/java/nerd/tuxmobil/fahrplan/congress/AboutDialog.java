@@ -60,5 +60,19 @@ public class AboutDialog extends DialogFragment {
         googlePlayStore.setText(Html.fromHtml(getString(R.string.google_play_store)));
         googlePlayStore.setMovementMethod(LinkMovementMethod.getInstance());
         googlePlayStore.setLinkTextColor(getResources().getColor(R.color.text_link_color_dark));
+
+        // Build information
+
+        TextView buildTimeTextView = (TextView) view.findViewById(R.id.build_time);
+        String buildTimeText = getString(R.string.build_info_time, BuildConfig.BUILD_TIME);
+        buildTimeTextView.setText(buildTimeText);
+
+        TextView versionCodeTextView = (TextView) view.findViewById(R.id.build_version_code);
+        String versionCodeText = getString(R.string.build_info_version_code, "" + BuildConfig.VERSION_CODE);
+        versionCodeTextView.setText(versionCodeText);
+
+        TextView buildHashTextView = (TextView) view.findViewById(R.id.build_hash);
+        String buildHashText = getString(R.string.build_info_hash, BuildConfig.GIT_SHA);
+        buildHashTextView.setText(buildHashText);
     }
 }

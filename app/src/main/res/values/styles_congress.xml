@@ -155,4 +155,15 @@
         <item name="android:paddingTop">@dimen/event_detail_section_margin_top</item>
     </style>
 
+    <style name="BuildInfoItem">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">start</item>
+        <item name="android:layout_marginLeft">16dp</item>
+        <item name="android:layout_marginRight">16dp</item>
+        <item name="android:layout_marginStart" tools:targetApi="jelly_bean_mr1">16dp</item>
+        <item name="android:layout_marginEnd" tools:targetApi="jelly_bean_mr1">16dp</item>
+        <item name="android:gravity">center</item>
+    </style>
+
 </resources>

@@ -168,12 +168,19 @@
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingBottom="10dp"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:paddingTop="10dp"
                 android:singleLine="false"
                 android:text="@string/copyright_notes">
         </TextView>
+
+        <include
+                layout="@layout/horizontal_line"/>
+
+        <include
+                layout="@layout/build_info" />
 
     </LinearLayout>
 

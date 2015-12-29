@@ -21,6 +21,10 @@ android {
         targetSdkVersion 22
 
         archivesBaseName = "Fahrplan-$versionName"
+
+        // Build information
+        buildConfigField "String", "BUILD_TIME", "\"${buildTime()}\""
+        buildConfigField "String", "GIT_SHA", "\"${gitSha()}\""
     }
 
     buildTypes {
@@ -123,4 +127,17 @@ dependencies {
     testCompile 'com.squareup.assertj:assertj-android:1.1.1'
     testCompile 'com.android.support:support-annotations:23.1.1'
 
+}
+
+def gitSha() {
+    def res = 'git rev-parse --short HEAD'.execute([], project.rootDir).text.trim()
+    def diff = 'git diff'.execute([], project.rootDir).text.trim()
+    if (diff != null && diff.length() > 0) {
+        res += "-dirty"
+    }
+    return res
+}
+
+def buildTime() {
+    return new Date().format("yyyy-MM-dd'T'HH:mm'Z'", TimeZone.getTimeZone("UTC"))
 }
