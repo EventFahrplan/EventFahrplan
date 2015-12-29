@@ -199,60 +199,62 @@ public class FahrplanFragment extends Fragment implements
         }
     }
 
+    private void saveCurrentDay(int day) {
+        SharedPreferences settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putInt("displayDay", day);
+        editor.apply();
+    }
+
     @Override
     public void onResume() {
         MyApp.LogDebug(LOG_TAG, "onResume");
         super.onResume();
-        fillTimes();
         getActivity().supportInvalidateOptionsMenu();
 
         Intent intent = getActivity().getIntent();
-        if (intent != null) {
 
-            MyApp.LogDebug(LOG_TAG, "onResume in fragment, intent != null");
-            lecture_id = intent.getStringExtra("lecture_id");
+        lecture_id = intent.getStringExtra("lecture_id");
 
-            if (lecture_id != null) {
-                MyApp.LogDebug(LOG_TAG, "Open with lecture_id " + lecture_id);
-                mDay = intent.getIntExtra("day", mDay);
-                MyApp.LogDebug(LOG_TAG, "day " + mDay);
-            }
-
-            if (MyApp.numdays != 0) {
-                // auf jeden Fall reload, wenn mit Lecture ID gestartet
-                viewDay(lecture_id != null);
-            }
-
-            switch (MyApp.task_running) {
-                case FETCH:
-                    MyApp.LogDebug(LOG_TAG, "fetch was pending, restart");
-                    if (MyApp.numdays != 0) {
-                        viewDay(false);
-                    }
-                    break;
-                case PARSE:
-                    MyApp.LogDebug(LOG_TAG, "parse was pending, restart");
-                    break;
-                case NONE:
-                    if (MyApp.numdays != 0) {
-                        // auf jeden Fall reload, wenn mit Lecture ID gestartet
-                        viewDay(lecture_id != null);
-                    }
-                    break;
-            }
-
-            if (lecture_id != null) {
-                scrollTo(lecture_id);
-                FrameLayout sidePane = (FrameLayout) getActivity().findViewById(R.id.detail);
-                if (sidePane != null) {
-                    ((MainActivity)getActivity()).openLectureDetail(MyApp.lectureList.getLecture(lecture_id), mDay);
-                }
-            }
-            getActivity().setIntent(null);
-
-        } else {
-            MyApp.LogDebug(LOG_TAG, "onResume in fragment, intent == null");
+        if (lecture_id != null) {
+            MyApp.LogDebug(LOG_TAG, "Open with lecture_id " + lecture_id);
+            mDay = intent.getIntExtra("day", mDay);
+            MyApp.LogDebug(LOG_TAG, "day " + mDay);
+            saveCurrentDay(mDay);
         }
+
+        if (MyApp.numdays != 0) {
+            // auf jeden Fall reload, wenn mit Lecture ID gestartet
+            viewDay(lecture_id != null);
+        }
+
+        switch (MyApp.task_running) {
+            case FETCH:
+                MyApp.LogDebug(LOG_TAG, "fetch was pending, restart");
+                if (MyApp.numdays != 0) {
+                    viewDay(false);
+                }
+                break;
+            case PARSE:
+                MyApp.LogDebug(LOG_TAG, "parse was pending, restart");
+                break;
+            case NONE:
+                if (MyApp.numdays != 0) {
+                    // auf jeden Fall reload, wenn mit Lecture ID gestartet
+                    viewDay(lecture_id != null);
+                }
+                break;
+        }
+
+        if (lecture_id != null) {
+            scrollTo(lecture_id);
+            FrameLayout sidePane = (FrameLayout) getActivity().findViewById(R.id.detail);
+            if (sidePane != null) {
+                ((MainActivity)getActivity()).openLectureDetail(MyApp.lectureList.getLecture(lecture_id), mDay);
+            }
+            intent.removeExtra("lecture_id");   // jump to given lecture_id only once
+        }
+        fillTimes();
     }
 
     private void viewDay(boolean reload) {
@@ -480,10 +482,7 @@ public class FahrplanFragment extends Fragment implements
     private void chooseDay(int chosenDay) {
         if ((chosenDay + 1) != mDay) {
             mDay = chosenDay + 1;
-            SharedPreferences settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
-            SharedPreferences.Editor editor = settings.edit();
-            editor.putInt("displayDay", mDay);
-            editor.commit();
+            saveCurrentDay(mDay);
             viewDay(true);
             fillTimes();
         }
