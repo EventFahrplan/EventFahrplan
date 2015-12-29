@@ -9,6 +9,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.text.Html;
+import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -138,42 +139,74 @@ public class EventDetailFragment extends Fragment {
                 t.setText("ID: " + event_id);
             }
 
+            // Title
+
             t = (TextView) view.findViewById(R.id.title);
             t.setTypeface(boldCondensed);
             t.setText(title);
 
+            // Subtitle
+
             t = (TextView) view.findViewById(R.id.subtitle);
-            t.setText(subtitle);
-            t.setTypeface(light);
-            if (subtitle.length() == 0) {
+            if (TextUtils.isEmpty(subtitle)) {
                 t.setVisibility(View.GONE);
+            } else {
+                t.setTypeface(light);
+                t.setText(subtitle);
+                t.setVisibility(View.VISIBLE);
             }
 
+            // Speakers
+
             t = (TextView) view.findViewById(R.id.speakers);
-            t.setTypeface(black);
-            t.setText(spkr);
+            if (TextUtils.isEmpty(spkr)) {
+                t.setVisibility(View.GONE);
+            } else {
+                t.setTypeface(black);
+                t.setText(spkr);
+                t.setVisibility(View.VISIBLE);
+            }
+
+            // Abstract
 
             t = (TextView) view.findViewById(R.id.abstractt);
-            t.setTypeface(bold);
-            abstractt = abstractt
-                    .replaceAll("\\[(.*?)\\]\\(([^ \\)]+).*?\\)", "<a href=\"$2\">$1</a>");
-            t.setText(Html.fromHtml(abstractt), TextView.BufferType.SPANNABLE);
-            t.setLinkTextColor(getResources().getColor(R.color.text_link_color));
-            t.setMovementMethod(new LinkMovementMethod());
+            if (TextUtils.isEmpty(abstractt)) {
+                t.setVisibility(View.GONE);
+            } else {
+                abstractt = abstractt.replaceAll(
+                        "\\[(.*?)\\]\\(([^ \\)]+).*?\\)", "<a href=\"$2\">$1</a>");
+                t.setTypeface(bold);
+                t.setText(Html.fromHtml(abstractt), TextView.BufferType.SPANNABLE);
+                t.setLinkTextColor(getResources().getColor(R.color.text_link_color));
+                t.setMovementMethod(new LinkMovementMethod());
+                t.setVisibility(View.VISIBLE);
+            }
+
+            // Description
 
             t = (TextView) view.findViewById(R.id.description);
-            t.setTypeface(regular);
-            descr = descr.replaceAll("\\[(.*?)\\]\\(([^ \\)]+).*?\\)", "<a href=\"$2\">$1</a>");
-            t.setText(Html.fromHtml(descr), TextView.BufferType.SPANNABLE);
-            t.setLinkTextColor(getResources().getColor(R.color.text_link_color));
-            t.setMovementMethod(new LinkMovementMethod());
+            if (TextUtils.isEmpty(descr)) {
+                t.setVisibility(View.GONE);
+            } else {
+                descr = descr.replaceAll(
+                        "\\[(.*?)\\]\\(([^ \\)]+).*?\\)", "<a href=\"$2\">$1</a>");
+                t.setTypeface(regular);
+                t.setText(Html.fromHtml(descr), TextView.BufferType.SPANNABLE);
+                t.setLinkTextColor(getResources().getColor(R.color.text_link_color));
+                t.setMovementMethod(new LinkMovementMethod());
+                t.setVisibility(View.VISIBLE);
+            }
+
+            // Links
 
             TextView l = (TextView) view.findViewById(R.id.linksSection);
-            l.setTypeface(bold);
             t = (TextView) view.findViewById(R.id.links);
-            t.setTypeface(regular);
-
-            if (links.length() > 0) {
+            if (TextUtils.isEmpty(links)) {
+                l.setVisibility(View.GONE);
+                t.setVisibility(View.GONE);
+            } else {
+                l.setTypeface(bold);
+                t.setTypeface(regular);
                 MyApp.LogDebug(LOG_TAG, "show links");
                 l.setVisibility(View.VISIBLE);
                 t.setVisibility(View.VISIBLE);
@@ -182,10 +215,9 @@ public class EventDetailFragment extends Fragment {
                 t.setText(Html.fromHtml(links), TextView.BufferType.SPANNABLE);
                 t.setLinkTextColor(getResources().getColor(R.color.text_link_color));
                 t.setMovementMethod(new LinkMovementMethod());
-            } else {
-                l.setVisibility(View.GONE);
-                t.setVisibility(View.GONE);
             }
+
+            // Event online
 
             final TextView eventOnlineSection = (TextView) view
                     .findViewById(R.id.eventOnlineSection);
