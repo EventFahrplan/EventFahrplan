@@ -94,7 +94,7 @@ android {
         ccc32c3 {
             applicationId "nerd.tuxmobil.fahrplan.congress"
             signingConfig signingConfigs.ccc32c3
-            buildConfigField "String", "SCHEDULE_URL", '"https://events.ccc.de/congress/2015/Fahrplan/schedule.xml"'
+            buildConfigField "String", "SCHEDULE_URL", '"https://streaming.media.ccc.de/configs/conferences/32c3/tuxmobil.xml"'
             buildConfigField "String", "SCHEDULE_DOMAIN_PART", '"https://events.ccc.de"'
             buildConfigField "String", "SCHEDULE_EVENT_PART", '"/events/%1$s.html"'
             buildConfigField "String", "SCHEDULE_PART", '"/congress/2015/Fahrplan"'
