@@ -6,6 +6,7 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -143,8 +144,7 @@ public class EventDetailFragment extends Fragment {
             // Title
 
             t = (TextView) view.findViewById(R.id.title);
-            t.setTypeface(boldCondensed);
-            t.setText(title);
+            setUpTextView(t, boldCondensed, title);
 
             // Subtitle
 
@@ -152,9 +152,7 @@ public class EventDetailFragment extends Fragment {
             if (TextUtils.isEmpty(subtitle)) {
                 t.setVisibility(View.GONE);
             } else {
-                t.setTypeface(light);
-                t.setText(subtitle);
-                t.setVisibility(View.VISIBLE);
+                setUpTextView(t, light, subtitle);
             }
 
             // Speakers
@@ -163,9 +161,7 @@ public class EventDetailFragment extends Fragment {
             if (TextUtils.isEmpty(spkr)) {
                 t.setVisibility(View.GONE);
             } else {
-                t.setTypeface(black);
-                t.setText(spkr);
-                t.setVisibility(View.VISIBLE);
+                setUpTextView(t, black, spkr);
             }
 
             // Abstract
@@ -175,11 +171,7 @@ public class EventDetailFragment extends Fragment {
                 t.setVisibility(View.GONE);
             } else {
                 abstractt = StringUtils.getHtmlLinkFromMarkdown(abstractt);
-                t.setTypeface(bold);
-                t.setText(Html.fromHtml(abstractt), TextView.BufferType.SPANNABLE);
-                t.setLinkTextColor(getResources().getColor(R.color.text_link_color));
-                t.setMovementMethod(new LinkMovementMethod());
-                t.setVisibility(View.VISIBLE);
+                setUpHtmlTextView(t, bold, abstractt);
             }
 
             // Description
@@ -189,11 +181,7 @@ public class EventDetailFragment extends Fragment {
                 t.setVisibility(View.GONE);
             } else {
                 descr = StringUtils.getHtmlLinkFromMarkdown(descr);
-                t.setTypeface(regular);
-                t.setText(Html.fromHtml(descr), TextView.BufferType.SPANNABLE);
-                t.setLinkTextColor(getResources().getColor(R.color.text_link_color));
-                t.setMovementMethod(new LinkMovementMethod());
-                t.setVisibility(View.VISIBLE);
+                setUpHtmlTextView(t, regular, descr);
             }
 
             // Links
@@ -205,15 +193,11 @@ public class EventDetailFragment extends Fragment {
                 t.setVisibility(View.GONE);
             } else {
                 l.setTypeface(bold);
-                t.setTypeface(regular);
                 MyApp.LogDebug(LOG_TAG, "show links");
                 l.setVisibility(View.VISIBLE);
-                t.setVisibility(View.VISIBLE);
                 links = links.replaceAll("\\),", ")<br>");
                 links = StringUtils.getHtmlLinkFromMarkdown(links);
-                t.setText(Html.fromHtml(links), TextView.BufferType.SPANNABLE);
-                t.setLinkTextColor(getResources().getColor(R.color.text_link_color));
-                t.setMovementMethod(new LinkMovementMethod());
+                setUpHtmlTextView(t, regular, links);
             }
 
             // Event online
@@ -222,16 +206,32 @@ public class EventDetailFragment extends Fragment {
                     .findViewById(R.id.eventOnlineSection);
             eventOnlineSection.setTypeface(bold);
             final TextView eventOnlineLink = (TextView) view.findViewById(R.id.eventOnline);
-            eventOnlineLink.setTypeface(regular);
             final String eventUrl = FahrplanMisc.getEventUrl(activity, event_id);
             final String eventLink = "<a href=\"" + eventUrl + "\">" + eventUrl + "</a>";
-            eventOnlineLink.setText(Html.fromHtml(eventLink), TextView.BufferType.SPANNABLE);
-            eventOnlineLink.setMovementMethod(new LinkMovementMethod());
-            eventOnlineLink.setLinkTextColor(getResources().getColor(R.color.text_link_color));
+            setUpHtmlTextView(eventOnlineLink, regular, eventLink);
 
             activity.supportInvalidateOptionsMenu();
         }
         activity.setResult(FragmentActivity.RESULT_CANCELED);
+    }
+
+    private void setUpTextView(@NonNull TextView textView,
+                               @NonNull Typeface typeface,
+                               @NonNull String text) {
+        textView.setTypeface(typeface);
+        textView.setText(text);
+        textView.setVisibility(View.VISIBLE);
+    }
+
+
+    private void setUpHtmlTextView(@NonNull TextView textView,
+                                   @NonNull Typeface typeface,
+                                   @NonNull String text) {
+        textView.setTypeface(typeface);
+        textView.setText(Html.fromHtml(text), TextView.BufferType.SPANNABLE);
+        textView.setLinkTextColor(getResources().getColor(R.color.text_link_color));
+        textView.setMovementMethod(new LinkMovementMethod());
+        textView.setVisibility(View.VISIBLE);
     }
 
     @Override
