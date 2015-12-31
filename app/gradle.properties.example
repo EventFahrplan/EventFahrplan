@@ -1,5 +1,14 @@
-signing.PRODUCTFLAVOR-release.keystoreFilePath=/home/USERNAME/.android/PRODUCTFLAVOR-release-key.keystore
-signing.PRODUCTFLAVOR-release.keystorePassword=PASSWORD
-signing.PRODUCTFLAVOR-release.keyAlias=PRODUCTFLAVOR
-signing.PRODUCTFLAVOR-release.keyPassword=ANOTHERPASSWORD
+signing.ccc31c3-release.keystoreFilePath=/home/USERNAME/.android/ccc31c3-release-key.keystore
+signing.ccc31c3-release.keystorePassword="PASSWORD"
+signing.ccc31c3-release.keyAlias="ccc31c3"
+signing.ccc31c3-release.keyPassword="ANOTHERPASSWORD"
 
+signing.ccc32c3-release.keystoreFilePath=/home/USERNAME/.android/ccc32c3-release-key.keystore
+signing.ccc32c3-release.keystorePassword="PASSWORD"
+signing.ccc32c3-release.keyAlias="ccc32c3"
+signing.ccc32c3-release.keyPassword="ANOTHERPASSWORD"
+
+signing.camp2015-release.keystoreFilePath=/home/USERNAME/.android/camp2015-release-key.keystore
+signing.camp2015-release.keystorePassword="PASSWORD"
+signing.camp2015-release.keyAlias="camp2015"
+signing.camp2015-release.keyPassword="ANOTHERPASSWORD"

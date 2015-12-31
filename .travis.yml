@@ -1,0 +1,41 @@
+language: android
+
+jdk:
+  - oraclejdk8
+
+android:
+  components:
+
+    # All the build system components should be at the latest version
+    - tools
+    - platform-tools
+    - build-tools-25.0.2
+    - android-25
+
+    # The libraries we can't get from Maven Central or similar
+    - extra
+
+
+notifications:
+  email: true
+
+before_script:
+
+  # Disable services enabled by default
+  # http://docs.travis-ci.com/user/database-setup/#MySQL
+  - sudo /etc/init.d/mysql stop
+  - sudo /etc/init.d/postgresql stop
+
+  # Ensure Gradle wrapper is executable
+  - chmod +x gradlew
+
+  # Ensure signing configuration is present
+  - mv app/gradle.properties.example app/gradle.properties
+
+script:
+  - ./gradlew clean test assembleDebug
+
+addons:
+  # Fix OpenJDK builds
+  # https://github.com/travis-ci/travis-ci/issues/5227
+  hostname: short-hostname
