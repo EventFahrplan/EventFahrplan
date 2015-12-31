@@ -1,6 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress;
 
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
@@ -110,18 +111,18 @@ public class EventDetailFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        FragmentActivity activity = getActivity();
         if (hasArguments) {
-            boldCondensed = Typeface
-                    .createFromAsset(getActivity().getAssets(), "Roboto-BoldCondensed.ttf");
-            black = Typeface.createFromAsset(getActivity().getAssets(), "Roboto-Black.ttf");
-            light = Typeface.createFromAsset(getActivity().getAssets(), "Roboto-Light.ttf");
-            regular = Typeface
-                    .createFromAsset(getActivity().getAssets(), "Roboto-Regular.ttf");
-            bold = Typeface.createFromAsset(getActivity().getAssets(), "Roboto-Bold.ttf");
+            AssetManager assetManager = activity.getAssets();
+            boldCondensed = Typeface.createFromAsset(assetManager, "Roboto-BoldCondensed.ttf");
+            black = Typeface.createFromAsset(assetManager, "Roboto-Black.ttf");
+            light = Typeface.createFromAsset(assetManager, "Roboto-Light.ttf");
+            regular = Typeface.createFromAsset(assetManager, "Roboto-Regular.ttf");
+            bold = Typeface.createFromAsset(assetManager, "Roboto-Bold.ttf");
 
             locale = getResources().getConfiguration().locale;
 
-            FahrplanFragment.loadLectureList(getActivity(), day, false);
+            FahrplanFragment.loadLectureList(activity, day, false);
             lecture = eventid2Lecture(event_id);
 
             TextView t;
@@ -224,15 +225,15 @@ public class EventDetailFragment extends Fragment {
             eventOnlineSection.setTypeface(bold);
             final TextView eventOnlineLink = (TextView) view.findViewById(R.id.eventOnline);
             eventOnlineLink.setTypeface(regular);
-            final String eventUrl = FahrplanMisc.getEventUrl(getActivity(), event_id);
+            final String eventUrl = FahrplanMisc.getEventUrl(activity, event_id);
             final String eventLink = "<a href=\"" + eventUrl + "\">" + eventUrl + "</a>";
             eventOnlineLink.setText(Html.fromHtml(eventLink), TextView.BufferType.SPANNABLE);
             eventOnlineLink.setMovementMethod(new LinkMovementMethod());
             eventOnlineLink.setLinkTextColor(getResources().getColor(R.color.text_link_color));
 
-            getActivity().supportInvalidateOptionsMenu();
+            activity.supportInvalidateOptionsMenu();
         }
-        getActivity().setResult(FragmentActivity.RESULT_CANCELED);
+        activity.setResult(FragmentActivity.RESULT_CANCELED);
     }
 
     @Override
