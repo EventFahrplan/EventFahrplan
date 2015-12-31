@@ -174,8 +174,7 @@ public class EventDetailFragment extends Fragment {
             if (TextUtils.isEmpty(abstractt)) {
                 t.setVisibility(View.GONE);
             } else {
-                abstractt = abstractt.replaceAll(
-                        "\\[(.*?)\\]\\(([^ \\)]+).*?\\)", "<a href=\"$2\">$1</a>");
+                abstractt = StringUtils.getHtmlLinkFromMarkdown(abstractt);
                 t.setTypeface(bold);
                 t.setText(Html.fromHtml(abstractt), TextView.BufferType.SPANNABLE);
                 t.setLinkTextColor(getResources().getColor(R.color.text_link_color));
@@ -189,8 +188,7 @@ public class EventDetailFragment extends Fragment {
             if (TextUtils.isEmpty(descr)) {
                 t.setVisibility(View.GONE);
             } else {
-                descr = descr.replaceAll(
-                        "\\[(.*?)\\]\\(([^ \\)]+).*?\\)", "<a href=\"$2\">$1</a>");
+                descr = StringUtils.getHtmlLinkFromMarkdown(descr);
                 t.setTypeface(regular);
                 t.setText(Html.fromHtml(descr), TextView.BufferType.SPANNABLE);
                 t.setLinkTextColor(getResources().getColor(R.color.text_link_color));
@@ -212,7 +210,7 @@ public class EventDetailFragment extends Fragment {
                 l.setVisibility(View.VISIBLE);
                 t.setVisibility(View.VISIBLE);
                 links = links.replaceAll("\\),", ")<br>");
-                links = links.replaceAll("\\[(.*?)\\]\\(([^ \\)]+).*?\\)", "<a href=\"$2\">$1</a>");
+                links = StringUtils.getHtmlLinkFromMarkdown(links);
                 t.setText(Html.fromHtml(links), TextView.BufferType.SPANNABLE);
                 t.setLinkTextColor(getResources().getColor(R.color.text_link_color));
                 t.setMovementMethod(new LinkMovementMethod());
