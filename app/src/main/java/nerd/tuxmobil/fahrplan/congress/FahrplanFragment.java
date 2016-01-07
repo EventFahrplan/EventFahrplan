@@ -157,7 +157,7 @@ public class FahrplanFragment extends Fragment implements
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         trackBackgrounds = TrackBackgrounds.getTrackBackgroundNormal(getActivity());
-        if (prefs.getBoolean(BundleKeys.PREFS_ALTERNATIVE_HIGHLIGHT, false)) {
+        if (prefs.getBoolean(BundleKeys.PREFS_ALTERNATIVE_HIGHLIGHT, true)) {
             MyApp.LogDebug(LOG_TAG, "alternative highlight");
             trackBackgroundsHi = TrackBackgrounds.getTrackBackgroundHighLightAlternative(getActivity());
         } else {

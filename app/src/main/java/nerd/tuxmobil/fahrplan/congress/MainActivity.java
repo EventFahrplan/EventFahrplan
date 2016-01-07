@@ -442,7 +442,7 @@ public class MainActivity extends AppCompatActivity implements
                 }
                 break;
             case MyApp.SETTINGS:
-                if ((resultCode == Activity.RESULT_OK) && (intent.getBooleanExtra(BundleKeys.PREFS_ALTERNATIVE_HIGHLIGHT, false))) {
+                if ((resultCode == Activity.RESULT_OK) && (intent.getBooleanExtra(BundleKeys.PREFS_ALTERNATIVE_HIGHLIGHT, true))) {
                     if (findViewById(R.id.schedule) != null) {
                         FragmentManager fm = getSupportFragmentManager();
                         FragmentTransaction fragmentTransaction = fm.beginTransaction();

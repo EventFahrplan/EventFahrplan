@@ -15,7 +15,7 @@
         <CheckBoxPreference
             android:key="alternative_highlight"
             android:title="@string/alternative_highlight"
-            android:defaultValue="false" />
+            android:defaultValue="true" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/reminders">
         <RingtonePreference
