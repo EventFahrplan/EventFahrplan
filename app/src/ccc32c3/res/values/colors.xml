@@ -5,7 +5,7 @@
     <color name="colorActionBar">#383838</color>
     <color name="colorPrimaryDark">#202020</color>
     <color name="colorAccent">#f19224</color>
-    <color name="fahrplan_background">#1a1a1a</color>
+    <color name="windowBackground">#1a1a1a</color>
     <color name="text_link_color">#dc851f</color>
     <color name="multi_choice_background">#40f19224</color>
     <color name="text_link_color_dark">#ffdc851f</color>

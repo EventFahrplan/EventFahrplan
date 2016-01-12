@@ -5,7 +5,7 @@
     <color name="colorActionBar">#6C822D</color>
     <color name="colorPrimaryDark">#4D5E1F</color>
     <color name="colorAccent">#92B82A</color>
-    <color name="fahrplan_background">#1a1a1a</color>
+    <color name="windowBackground">#1a1a1a</color>
     <color name="text_link_color">#48571E</color>
     <color name="multi_choice_background">#402424b3</color>
     <color name="text_link_color_dark">#8FAD3C</color>

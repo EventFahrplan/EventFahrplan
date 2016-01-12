@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="fahrplan_background">#003339</color>
+    <color name="windowBackground">#003339</color>
     <color name="text_link_color">#33b5e5</color>
     <color name="lightgray">#505050</color>
     <color name="alarm_list_icon_default_fill_color">#ddd</color>
