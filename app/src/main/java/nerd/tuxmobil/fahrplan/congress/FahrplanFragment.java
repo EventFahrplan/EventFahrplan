@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.format.Time;
@@ -592,21 +593,22 @@ public class FahrplanFragment extends Fragment implements
         TextView subtitle = (TextView) view.findViewById(R.id.event_subtitle);
         TextView speakers = (TextView) view.findViewById(R.id.event_speakers);
         Integer color;
+        Context context = getContext();
         if (lecture.highlight) {
             color =  trackAccentColorsHighlight.get(lecture.track);
-            title.setTextColor(getResources().getColor(R.color.event_title_highlight));
-            subtitle.setTextColor(getResources().getColor(R.color.event_title_highlight));
-            speakers.setTextColor(getResources().getColor(R.color.event_title_highlight));
+            title.setTextColor(ContextCompat.getColor(context, R.color.event_title_highlight));
+            subtitle.setTextColor(ContextCompat.getColor(context, R.color.event_title_highlight));
+            speakers.setTextColor(ContextCompat.getColor(context, R.color.event_title_highlight));
         } else {
             color =  trackAccentColors.get(lecture.track);
-            title.setTextColor(getResources().getColor(R.color.event_title));
-            subtitle.setTextColor(getResources().getColor(R.color.event_title));
-            speakers.setTextColor(getResources().getColor(R.color.event_title));
+            title.setTextColor(ContextCompat.getColor(context, R.color.event_title));
+            subtitle.setTextColor(ContextCompat.getColor(context, R.color.event_title));
+            speakers.setTextColor(ContextCompat.getColor(context, R.color.event_title));
         }
         if (color == null) {
-            track.setTextColor(getResources().getColor(R.color.event_title));
+            track.setTextColor(ContextCompat.getColor(context, R.color.event_title));
         } else {
-            track.setTextColor(getResources().getColor(color));
+            track.setTextColor(ContextCompat.getColor(context, color));
         }
     }
 

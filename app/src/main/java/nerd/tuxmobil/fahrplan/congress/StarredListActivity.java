@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -19,7 +20,8 @@ public class StarredListActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_change_list);
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorActionBar)));
+        int actionBarColor = ContextCompat.getColor(this, R.color.colorActionBar);
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(actionBarColor));
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()

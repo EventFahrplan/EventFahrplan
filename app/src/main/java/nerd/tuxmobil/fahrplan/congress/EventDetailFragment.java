@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
@@ -109,18 +110,19 @@ public class EventDetailFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        FragmentActivity activity = getActivity();
         if (hasArguments) {
             boldCondensed = Typeface
-                    .createFromAsset(getActivity().getAssets(), "Roboto-BoldCondensed.ttf");
-            black = Typeface.createFromAsset(getActivity().getAssets(), "Roboto-Black.ttf");
-            light = Typeface.createFromAsset(getActivity().getAssets(), "Roboto-Light.ttf");
+                    .createFromAsset(activity.getAssets(), "Roboto-BoldCondensed.ttf");
+            black = Typeface.createFromAsset(activity.getAssets(), "Roboto-Black.ttf");
+            light = Typeface.createFromAsset(activity.getAssets(), "Roboto-Light.ttf");
             regular = Typeface
-                    .createFromAsset(getActivity().getAssets(), "Roboto-Regular.ttf");
-            bold = Typeface.createFromAsset(getActivity().getAssets(), "Roboto-Bold.ttf");
+                    .createFromAsset(activity.getAssets(), "Roboto-Regular.ttf");
+            bold = Typeface.createFromAsset(activity.getAssets(), "Roboto-Bold.ttf");
 
             locale = getResources().getConfiguration().locale;
 
-            FahrplanFragment.loadLectureList(getActivity(), day, false);
+            FahrplanFragment.loadLectureList(activity, day, false);
             lecture = eventid2Lecture(event_id);
 
             TextView t;
@@ -158,14 +160,14 @@ public class EventDetailFragment extends Fragment {
             abstractt = abstractt
                     .replaceAll("\\[(.*?)\\]\\(([^ \\)]+).*?\\)", "<a href=\"$2\">$1</a>");
             t.setText(Html.fromHtml(abstractt), TextView.BufferType.SPANNABLE);
-            t.setLinkTextColor(getResources().getColor(R.color.text_link_color));
+            t.setLinkTextColor(ContextCompat.getColor(activity, R.color.text_link_color));
             t.setMovementMethod(new LinkMovementMethod());
 
             t = (TextView) view.findViewById(R.id.description);
             t.setTypeface(regular);
             descr = descr.replaceAll("\\[(.*?)\\]\\(([^ \\)]+).*?\\)", "<a href=\"$2\">$1</a>");
             t.setText(Html.fromHtml(descr), TextView.BufferType.SPANNABLE);
-            t.setLinkTextColor(getResources().getColor(R.color.text_link_color));
+            t.setLinkTextColor(ContextCompat.getColor(activity, R.color.text_link_color));
             t.setMovementMethod(new LinkMovementMethod());
 
             TextView l = (TextView) view.findViewById(R.id.linksSection);
@@ -180,7 +182,7 @@ public class EventDetailFragment extends Fragment {
                 links = links.replaceAll("\\),", ")<br>");
                 links = links.replaceAll("\\[(.*?)\\]\\(([^ \\)]+).*?\\)", "<a href=\"$2\">$1</a>");
                 t.setText(Html.fromHtml(links), TextView.BufferType.SPANNABLE);
-                t.setLinkTextColor(getResources().getColor(R.color.text_link_color));
+                t.setLinkTextColor(ContextCompat.getColor(activity, R.color.text_link_color));
                 t.setMovementMethod(new LinkMovementMethod());
             } else {
                 l.setVisibility(View.GONE);
@@ -192,15 +194,15 @@ public class EventDetailFragment extends Fragment {
             eventOnlineSection.setTypeface(bold);
             final TextView eventOnlineLink = (TextView) view.findViewById(R.id.eventOnline);
             eventOnlineLink.setTypeface(regular);
-            final String eventUrl = FahrplanMisc.getEventUrl(getActivity(), event_id);
+            final String eventUrl = FahrplanMisc.getEventUrl(activity, event_id);
             final String eventLink = "<a href=\"" + eventUrl + "\">" + eventUrl + "</a>";
             eventOnlineLink.setText(Html.fromHtml(eventLink), TextView.BufferType.SPANNABLE);
             eventOnlineLink.setMovementMethod(new LinkMovementMethod());
-            eventOnlineLink.setLinkTextColor(getResources().getColor(R.color.text_link_color));
+            eventOnlineLink.setLinkTextColor(ContextCompat.getColor(activity, R.color.text_link_color));
 
-            getActivity().supportInvalidateOptionsMenu();
+            activity.supportInvalidateOptionsMenu();
         }
-        getActivity().setResult(FragmentActivity.RESULT_CANCELED);
+        activity.setResult(FragmentActivity.RESULT_CANCELED);
     }
 
     @Override

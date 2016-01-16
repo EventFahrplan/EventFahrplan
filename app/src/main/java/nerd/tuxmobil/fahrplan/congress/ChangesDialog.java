@@ -1,5 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -9,6 +10,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
@@ -57,7 +59,8 @@ public class ChangesDialog extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
+        Activity activity = getActivity();
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity)
                 .setTitle(getString(R.string.schedule_udpate))
                 .setPositiveButton(R.string.btn_dlg_browse,
                         new DialogInterface.OnClickListener() {
@@ -73,7 +76,7 @@ public class ChangesDialog extends DialogFragment {
                             }
                         });
 
-        LayoutInflater inflater = getActivity().getLayoutInflater();
+        LayoutInflater inflater = activity.getLayoutInflater();
         View msgView = inflater.inflate(R.layout.changes_dialog, null);
         TextView changes1 = (TextView) msgView.findViewById(R.id.changes_dlg_text);
         SpannableStringBuilder span = new SpannableStringBuilder();
@@ -82,7 +85,8 @@ public class ChangesDialog extends DialogFragment {
         int spanStart = span.length();
         span.append(version);
         Resources resources = getResources();
-        span.setSpan(new ForegroundColorSpan(resources.getColor(R.color.colorAccent)),
+        int spanColor = ContextCompat.getColor(activity, R.color.colorAccent);
+        span.setSpan(new ForegroundColorSpan(spanColor),
                 spanStart, span.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         span.append(getString(R.string.changes_dlg_text2, version,
                 resources.getQuantityString(R.plurals.numberOfLectures, changed, changed),

@@ -12,6 +12,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -67,7 +68,8 @@ public class MainActivity extends AppCompatActivity implements
 
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationIcon(R.drawable.ic_actionbar_logo);
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorActionBar)));
+        int actionBarColor = ContextCompat.getColor(this, R.color.colorActionBar);
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(actionBarColor));
 
         if (MyApp.fetcher == null) {
             fetcher = new FetchFahrplan();

@@ -1,6 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.text.format.Time;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
@@ -42,8 +43,7 @@ public class LectureArrayAdapter extends ArrayAdapter<Lecture> {
     }
 
     private void setTextStylePast(TextView textView) {
-        textView.setTextColor(this.context.getResources().getColor(R.color
-                .schedule_change_canceled));
+        textView.setTextColor(ContextCompat.getColor(context, R.color.schedule_change_canceled));
     }
 
     @Override
