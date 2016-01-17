@@ -81,23 +81,6 @@ public class TrackBackgrounds {
         return drawables;
     }
 
-    public static HashMap<String, Integer> getTrackBackgroundNormal(Context context) {
-        Map<String, String> drawableNames = getHashMapResource(context, R.xml.track_resource_names);
-        return buildTrackBackgroundHashMap(drawableNames, "event_border_default", "drawable", context);
-    }
-
-    public static HashMap<String, Integer> getTrackBackgroundHighLight(Context context) {
-        Map<String, String> drawableNames = getHashMapResource(context,
-                R.xml.track_resource_names);
-        return buildTrackBackgroundHashMap(drawableNames, "event_border_highlight", "drawable", context);
-    }
-
-    public static HashMap<String, Integer> getTrackBackgroundHighLightAlternative(Context context) {
-        Map<String, String> drawableNames = getHashMapResource(context,
-                R.xml.track_resource_names);
-        return buildTrackBackgroundHashMap(drawableNames, "event_border_highlight_alt", "drawable", context);
-    }
-
     public static HashMap<String, Integer> getTrackAccentColorNormal(Context context) {
         Map<String, String> drawableNames = getHashMapResource(context, R.xml.track_resource_names);
         return buildTrackBackgroundHashMap(drawableNames, "event_border_accent", "color", context);
@@ -107,4 +90,15 @@ public class TrackBackgrounds {
         Map<String, String> drawableNames = getHashMapResource(context, R.xml.track_resource_names);
         return buildTrackBackgroundHashMap(drawableNames, "event_border_accent_highlight", "color", context);
     }
+
+    public static HashMap<String, Integer> getTrackNameBackgroundColorDefaultPairs(Context context) {
+        Map<String, String> trackNames = getHashMapResource(context, R.xml.track_resource_names);
+        return buildTrackBackgroundHashMap(trackNames, "event_border_default", "color", context);
+    }
+
+    public static HashMap<String, Integer> getTrackNameBackgroundColorHighlightPairs(Context context) {
+        Map<String, String> trackNames = getHashMapResource(context, R.xml.track_resource_names);
+        return buildTrackBackgroundHashMap(trackNames, "event_border_highlight", "color", context);
+    }
+
 }

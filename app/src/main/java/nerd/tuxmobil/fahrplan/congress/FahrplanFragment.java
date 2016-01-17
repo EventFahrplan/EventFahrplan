@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
@@ -11,8 +12,11 @@ import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.ColorInt;
+import android.support.annotation.ColorRes;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.format.Time;
@@ -70,7 +74,9 @@ public class FahrplanFragment extends Fragment implements
 
     private int lastLectureEnd = 0;
 
-    private HashMap<String, Integer> trackBackgrounds;
+    private HashMap<String, Integer> trackNameBackgroundColorDefaultPairs;
+
+    private HashMap<String, Integer> trackNameBackgroundColorHighlightPairs;
 
     private int mDay = 1;
 
@@ -87,8 +93,6 @@ public class FahrplanFragment extends Fragment implements
             "Lounge"
     };
 
-    private HashMap<String, Integer> trackBackgroundsHi;
-
     public static final String PREFS_NAME = "settings";
 
     private int screenWidth = 0;
@@ -96,6 +100,24 @@ public class FahrplanFragment extends Fragment implements
     private Typeface boldCondensed;
 
     private Typeface light;
+
+    private int eventDrawableInsetTop;
+
+    private int eventDrawableInsetLeft;
+
+    private int eventDrawableInsetRight;
+
+    private float eventDrawableCornerRadius;
+
+    private float eventDrawableStrokeWidth;
+
+    private
+    @ColorInt
+    int eventDrawableStrokeColor;
+
+    private
+    @ColorInt
+    int eventDrawableRippleColor;
 
     private View contextMenuView;
 
@@ -117,6 +139,21 @@ public class FahrplanFragment extends Fragment implements
         light = Typeface.createFromAsset(
                 getActivity().getAssets(), "Roboto-Light.ttf");
         context = getActivity();
+        Resources resources = getResources();
+        eventDrawableInsetTop = resources.getDimensionPixelSize(
+                R.dimen.event_item_top_offset);
+        eventDrawableInsetLeft = resources.getDimensionPixelSize(
+                R.dimen.event_item_left_offset);
+        eventDrawableInsetRight = resources.getDimensionPixelSize(
+                R.dimen.event_item_right_offset);
+        eventDrawableCornerRadius = resources.getDimensionPixelSize(
+                R.dimen.event_item_corner_radius);
+        eventDrawableStrokeWidth = resources.getDimensionPixelSize(
+                R.dimen.event_item_selection_stroke_width);
+        eventDrawableStrokeColor = ContextCompat.getColor(
+                context, R.color.event_drawable_selection_stroke);
+        eventDrawableRippleColor = ContextCompat.getColor(
+                context, R.color.event_drawable_ripple);
     }
 
     @Override
@@ -155,19 +192,12 @@ public class FahrplanFragment extends Fragment implements
             });
         }
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        trackBackgrounds = TrackBackgrounds.getTrackBackgroundNormal(getActivity());
-        if (prefs.getBoolean(BundleKeys.PREFS_ALTERNATIVE_HIGHLIGHT, false)) {
-            MyApp.LogDebug(LOG_TAG, "alternative highlight");
-            trackBackgroundsHi = TrackBackgrounds.getTrackBackgroundHighLightAlternative(getActivity());
-        } else {
-            MyApp.LogDebug(LOG_TAG, "normal highlight");
-            trackBackgroundsHi = TrackBackgrounds.getTrackBackgroundHighLight(getActivity());
-        }
+        trackNameBackgroundColorDefaultPairs = TrackBackgrounds.getTrackNameBackgroundColorDefaultPairs(getActivity());
+        trackNameBackgroundColorHighlightPairs = TrackBackgrounds.getTrackNameBackgroundColorHighlightPairs(getActivity());
         trackAccentColors = TrackBackgrounds.getTrackAccentColorNormal(getActivity());
         trackAccentColorsHighlight = TrackBackgrounds.getTrackAccentColorHighlight(getActivity());
 
-        prefs = getActivity().getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences prefs = getActivity().getSharedPreferences(PREFS_NAME, 0);
         mDay = prefs.getInt("displayDay", 1);
 
         inflater = (LayoutInflater) getActivity()
@@ -586,6 +616,49 @@ public class FahrplanFragment extends Fragment implements
         return padding;
     }
 
+    private void setLectureBackground(Lecture event, View eventView) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        boolean alternativeHighlightingIsEnabled = prefs.getBoolean(
+                BundleKeys.PREFS_ALTERNATIVE_HIGHLIGHT, false);
+        boolean eventIsFavored = event.highlight;
+        @ColorRes int backgroundColorResId;
+        if (eventIsFavored) {
+            Integer colorResId = trackNameBackgroundColorHighlightPairs.get(event.track);
+            backgroundColorResId = colorResId == null ? R.color.event_border_highlight : colorResId;
+        } else {
+            Integer colorResId = trackNameBackgroundColorDefaultPairs.get(event.track);
+            backgroundColorResId = colorResId == null ? R.color.event_border_default : colorResId;
+        }
+        @ColorInt int backgroundColor = ContextCompat.getColor(getContext(), backgroundColorResId);
+        EventDrawable eventDrawable;
+        if (eventIsFavored && alternativeHighlightingIsEnabled) {
+            eventDrawable = new EventDrawable(
+                    backgroundColor,
+                    eventDrawableCornerRadius,
+                    eventDrawableRippleColor,
+                    eventDrawableStrokeColor,
+                    eventDrawableStrokeWidth);
+        } else {
+            eventDrawable = new EventDrawable(
+                    backgroundColor,
+                    eventDrawableCornerRadius,
+                    eventDrawableRippleColor);
+        }
+        eventDrawable.setLayerInset(EventDrawable.BACKGROUND_LAYER_INDEX,
+                eventDrawableInsetLeft,
+                eventDrawableInsetTop,
+                eventDrawableInsetRight,
+                0);
+        eventDrawable.setLayerInset(EventDrawable.STROKE_LAYER_INDEX,
+                eventDrawableInsetLeft,
+                eventDrawableInsetTop,
+                eventDrawableInsetRight,
+                0);
+        eventView.setBackgroundDrawable(eventDrawable);
+        int padding = getEventPadding();
+        eventView.setPadding(padding, padding, padding, padding);
+    }
+
     private void setLectureTextColor(Lecture lecture, View view) {
         TextView track = (TextView) view.findViewById(R.id.event_track);
         TextView title = (TextView) view.findViewById(R.id.event_title);
@@ -607,20 +680,6 @@ public class FahrplanFragment extends Fragment implements
             track.setTextColor(getResources().getColor(R.color.event_title));
         } else {
             track.setTextColor(getResources().getColor(color));
-        }
-    }
-
-    private void setLectureBackground(Lecture lecture, View view) {
-        Integer drawable;
-        int padding = getEventPadding();
-        if (lecture.highlight) {
-            drawable = trackBackgroundsHi.get(lecture.track);
-        } else {
-            drawable = trackBackgrounds.get(lecture.track);
-        }
-        if (drawable != null) {
-            view.setBackgroundResource(drawable);
-            view.setPadding(padding, padding, padding, padding);
         }
     }
 
