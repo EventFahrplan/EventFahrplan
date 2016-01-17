@@ -4,8 +4,7 @@
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:orientation="vertical"
-              android:padding="10dp"
-              android:background="@drawable/event_border_default">
+              android:padding="10dp">
 
     <LinearLayout
             android:layout_height="wrap_content"
