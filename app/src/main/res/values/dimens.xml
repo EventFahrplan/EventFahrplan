@@ -26,12 +26,12 @@
     <dimen name="activity_padding">16dp</dimen>
     <dimen name="header_height">0dp</dimen>
 
-    <!-- Event item parameters -->
-    <dimen name="event_item_corner_radius">6dp</dimen>
-    <dimen name="event_item_top_offset">1dp</dimen>
-    <dimen name="event_item_left_offset">3dp</dimen>
-    <dimen name="event_item_right_offset">1dp</dimen>
-    <dimen name="event_item_selection_stroke_width">2dp</dimen>
+    <!-- Event drawable parameters -->
+    <dimen name="event_drawable_corner_radius">6dp</dimen>
+    <dimen name="event_drawable_inset_top">1dp</dimen>
+    <dimen name="event_drawable_inset_left">3dp</dimen>
+    <dimen name="event_drawable_inset_right">1dp</dimen>
+    <dimen name="event_drawable_selection_stroke_width">2dp</dimen>
 
     <!-- Alert dialogs -->
     <!-- See: https://www.google.de/design/spec/components/dialogs.html#dialogs-specs -->

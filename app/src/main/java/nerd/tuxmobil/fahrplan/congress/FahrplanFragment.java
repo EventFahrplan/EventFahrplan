@@ -141,15 +141,15 @@ public class FahrplanFragment extends Fragment implements
         context = getActivity();
         Resources resources = getResources();
         eventDrawableInsetTop = resources.getDimensionPixelSize(
-                R.dimen.event_item_top_offset);
+                R.dimen.event_drawable_inset_top);
         eventDrawableInsetLeft = resources.getDimensionPixelSize(
-                R.dimen.event_item_left_offset);
+                R.dimen.event_drawable_inset_left);
         eventDrawableInsetRight = resources.getDimensionPixelSize(
-                R.dimen.event_item_right_offset);
+                R.dimen.event_drawable_inset_right);
         eventDrawableCornerRadius = resources.getDimensionPixelSize(
-                R.dimen.event_item_corner_radius);
+                R.dimen.event_drawable_corner_radius);
         eventDrawableStrokeWidth = resources.getDimensionPixelSize(
-                R.dimen.event_item_selection_stroke_width);
+                R.dimen.event_drawable_selection_stroke_width);
         eventDrawableStrokeColor = ContextCompat.getColor(
                 context, R.color.event_drawable_selection_stroke);
         eventDrawableRippleColor = ContextCompat.getColor(
