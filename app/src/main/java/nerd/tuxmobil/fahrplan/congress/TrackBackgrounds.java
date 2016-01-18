@@ -62,7 +62,7 @@ public class TrackBackgrounds {
 
     public static HashMap<String, Integer> buildTrackBackgroundHashMap(Map<String,
             String> trackNamesMap, String prefix, String resourceType, Context context) {
-        HashMap<String, Integer> drawables = new HashMap<String, Integer>();
+        HashMap<String, Integer> trackNameResourceIdPairs = new HashMap<String, Integer>();
         Resources res = context.getResources();
         String packageName = context.getPackageName();
 
@@ -75,20 +75,20 @@ public class TrackBackgrounds {
             if (!TextUtils.isEmpty(key)) {
                 value += "_" + entry.getValue();
             }
-            int drawable = res.getIdentifier(value, resourceType, packageName);
-            drawables.put(key, drawable);
+            int resourceId = res.getIdentifier(value, resourceType, packageName);
+            trackNameResourceIdPairs.put(key, resourceId);
         }
-        return drawables;
+        return trackNameResourceIdPairs;
     }
 
     public static HashMap<String, Integer> getTrackAccentColorNormal(Context context) {
-        Map<String, String> drawableNames = getHashMapResource(context, R.xml.track_resource_names);
-        return buildTrackBackgroundHashMap(drawableNames, "event_border_accent", "color", context);
+        Map<String, String> trackNames = getHashMapResource(context, R.xml.track_resource_names);
+        return buildTrackBackgroundHashMap(trackNames, "event_border_accent", "color", context);
     }
 
     public static HashMap<String, Integer> getTrackAccentColorHighlight(Context context) {
-        Map<String, String> drawableNames = getHashMapResource(context, R.xml.track_resource_names);
-        return buildTrackBackgroundHashMap(drawableNames, "event_border_accent_highlight", "color", context);
+        Map<String, String> trackNames = getHashMapResource(context, R.xml.track_resource_names);
+        return buildTrackBackgroundHashMap(trackNames, "event_border_accent_highlight", "color", context);
     }
 
     public static HashMap<String, Integer> getTrackNameBackgroundColorDefaultPairs(Context context) {
