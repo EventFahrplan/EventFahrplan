@@ -12,6 +12,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
 import android.text.format.Time;
@@ -153,6 +154,11 @@ public class UpdateService extends IntentService
         MyApp.LogDebug(LOG_TAG, "going to fetch schedule");
         FahrplanMisc.setUpdateAlarm(this, false);
         fetchFahrplan(this);
+    }
+
+    public static void start(@NonNull Context context) {
+        Intent updateIntent = new Intent(context, UpdateService.class);
+        context.startService(updateIntent);
     }
 
 }

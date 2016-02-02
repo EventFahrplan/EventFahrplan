@@ -105,8 +105,7 @@ public final class onBootReceiver extends BroadcastReceiver {
 
             MyApp.LogDebug(LOG_TAG, "now: " + now_millis + ", last_fetch: " + last_fetch);
             if ((interval > 0) && (now_millis - last_fetch >= interval)) {
-                Intent updateIntent = new Intent(context, UpdateService.class);
-                context.startService(updateIntent);
+                UpdateService.start(context);
             }
         }
     }
