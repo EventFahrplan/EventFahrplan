@@ -52,8 +52,8 @@ public class DateFieldValidation {
         try {
             // Order by "date" column relying on that the date formatted
             // in reverse order: yyyy-MM-dd'T'HH:mm:ssZ
-            lectureCursor = db
-                    .query(LecturesTable.NAME, null, null, null, null, null, Columns.DATE);
+            lectureCursor = db.query(
+                    LecturesTable.NAME, null, null, null, null, null, Columns.DATE);
 
             if (lectureCursor.getCount() == 0) return true;
 
@@ -77,8 +77,8 @@ public class DateFieldValidation {
             // defined by "date" attribute in the <day> nodes.
             lectureCursor.moveToFirst();
             while (!lectureCursor.isAfterLast()) {
-                long dateUtcInMilliseconds = lectureCursor
-                        .getLong(lectureCursor.getColumnIndex(LecturesTable.Columns.DATE_UTC));
+                long dateUtcInMilliseconds = lectureCursor.getLong(
+                        lectureCursor.getColumnIndex(LecturesTable.Columns.DATE_UTC));
                 Date dateUtc = new Date();
                 dateUtc.setTime(dateUtcInMilliseconds);
 
