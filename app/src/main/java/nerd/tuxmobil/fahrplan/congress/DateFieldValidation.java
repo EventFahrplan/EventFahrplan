@@ -59,15 +59,14 @@ public class DateFieldValidation {
 
             // Prepare time range (first day)
             lectureCursor.moveToFirst();
-            String firstDateString = lectureCursor
-                    .getString(lectureCursor.getColumnIndex(LecturesTable.Columns.DATE));
+            int dateColumnIndex = lectureCursor.getColumnIndex(Columns.DATE);
+            String firstDateString = lectureCursor.getString(dateColumnIndex);
             Date firstDate = DateHelper.getDate(firstDateString, "yyyy-MM-dd");
             String formattedFirstDate = DateHelper.getFormattedDate(firstDate);
 
             // Prepare time range (last day)
             lectureCursor.moveToLast();
-            String lastDateString = lectureCursor
-                    .getString(lectureCursor.getColumnIndex(LecturesTable.Columns.DATE));
+            String lastDateString = lectureCursor.getString(dateColumnIndex);
             Date lastDate = DateHelper.getDate(lastDateString, "yyyy-MM-dd");
             // Increment date by one day since events also happen on the last day
             // and no time information is given - only the pure date.
