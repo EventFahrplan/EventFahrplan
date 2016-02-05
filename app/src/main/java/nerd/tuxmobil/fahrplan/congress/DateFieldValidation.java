@@ -100,7 +100,9 @@ public class DateFieldValidation {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            lectureCursor.close();
+            if (lectureCursor != null) {
+                lectureCursor.close();
+            }
             db.close();
         }
 
