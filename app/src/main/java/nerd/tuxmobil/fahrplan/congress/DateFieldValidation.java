@@ -17,7 +17,7 @@ public class DateFieldValidation {
 
     protected SQLiteOpenHelper mLecturesDatabase;
 
-    protected List<ValidationError> mValidationErrors;
+    final protected List<ValidationError> mValidationErrors;
 
     public DateFieldValidation(Context context) {
         mLecturesDatabase = new LecturesDBOpenHelper(context);
@@ -107,11 +107,7 @@ public class DateFieldValidation {
         // Evaluate validation
         MyApp.LogDebug(getClass().getName(),
                 "Validation result for <date> field: " + mValidationErrors.size() + " errors.");
-        if (mValidationErrors.isEmpty()) {
-            mValidationErrors = null;
-            return true;
-        }
-        return false;
+        return mValidationErrors.isEmpty();
     }
 
 }
