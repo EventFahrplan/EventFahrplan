@@ -69,6 +69,9 @@ public class DateFieldValidation {
             String lastDateString = lectureCursor
                     .getString(lectureCursor.getColumnIndex(LecturesTable.Columns.DATE));
             Date lastDate = DateHelper.getDate(lastDateString, "yyyy-MM-dd");
+            // Increment date by one day since events also happen on the last day
+            // and no time information is given - only the pure date.
+            lastDate = DateHelper.shiftByDays(lastDate, 1);
             String formattedLastDate = DateHelper.getFormattedDate(lastDate);
 
             // Check if the time stamp in <date> is within the time range (first : last day)
