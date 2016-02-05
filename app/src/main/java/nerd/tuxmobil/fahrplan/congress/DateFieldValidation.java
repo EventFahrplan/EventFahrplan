@@ -15,7 +15,7 @@ import nerd.tuxmobil.fahrplan.congress.FahrplanContract.LecturesTable.Columns;
 
 public class DateFieldValidation {
 
-    protected SQLiteOpenHelper mLecturesDatabase;
+    final protected SQLiteOpenHelper mLecturesDatabase;
 
     final protected List<ValidationError> mValidationErrors;
 
