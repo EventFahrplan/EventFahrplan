@@ -375,7 +375,7 @@ public class MainActivity extends AppCompatActivity implements
         MyApp.LogDebug(LOG_TAG, "openLectureDetail sidePane=" + sidePane);
         if (sidePane != null) {
             FragmentManager fm = getSupportFragmentManager();
-            sidePane.setVisibility(View.VISIBLE);
+            fm.popBackStack(FragmentTags.DETAIL, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             FragmentTransaction fragmentTransaction = fm.beginTransaction();
             EventDetailFragment ev = new EventDetailFragment();
             Bundle args = new Bundle();
@@ -469,11 +469,10 @@ public class MainActivity extends AppCompatActivity implements
     public void onBackStackChanged() {
         FragmentManager fm = getSupportFragmentManager();
         Fragment pane = fm.findFragmentById(R.id.detail);
-        if (pane == null) {
-            View sidePane = findViewById(R.id.detail);
-            if (sidePane != null)  {
-                sidePane.setVisibility(View.GONE);
-            }
+        boolean paneVisible = pane != null;
+        View sidePane = findViewById(R.id.detail);
+        if (sidePane != null) {
+            sidePane.setVisibility(paneVisible ? View.VISIBLE : View.GONE);
         }
         supportInvalidateOptionsMenu();
     }
