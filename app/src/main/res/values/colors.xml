@@ -11,6 +11,9 @@
     <color name="lecture_detailbar_background">#eee</color>
     <color name="lecture_detailbar_text">#999</color>
 
+    <!-- About -->
+    <color name="about_horizontal_line">#606060</color>
+
     <!-- Alarm dialogs -->
     <color name="alert_dialog_title">@color/colorAccent</color>
     <color name="alert_dialog_button_text">@color/colorPrimary</color>

@@ -26,6 +26,9 @@
     <dimen name="activity_padding">16dp</dimen>
     <dimen name="header_height">0dp</dimen>
 
+    <!-- About -->
+    <dimen name="about_horizontal_line_height">1dp</dimen>
+
     <!-- Event item parameters -->
     <dimen name="event_item_corner_radius">6dp</dimen>
     <dimen name="event_item_top_offset">1dp</dimen>
