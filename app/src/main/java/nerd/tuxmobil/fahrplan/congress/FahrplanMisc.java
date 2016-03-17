@@ -13,6 +13,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.net.Uri;
 import android.provider.CalendarContract;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.text.format.Time;
 import android.widget.Toast;
@@ -212,7 +213,7 @@ public class FahrplanMisc {
         }
     }
 
-    public static void deleteAlarm(Context context, Lecture lecture) {
+    public static void deleteAlarm(@NonNull Context context, @NonNull Lecture lecture) {
         AlarmsDBOpenHelper alarmDB = new AlarmsDBOpenHelper(context);
         SQLiteDatabase db = alarmDB.getWritableDatabase();
         Cursor cursor;
@@ -272,7 +273,9 @@ public class FahrplanMisc {
         lecture.has_alarm = false;
     }
 
-    public static void addAlarm(Context context, Lecture lecture, int alarmTimesIndex) {
+    public static void addAlarm(@NonNull Context context,
+                                @NonNull Lecture lecture,
+                                int alarmTimesIndex) {
         int[] alarm_times = context.getResources().getIntArray(R.array.alarm_time_values);
         long when;
         Time time;
@@ -354,7 +357,7 @@ public class FahrplanMisc {
         lecture.has_alarm = true;
     }
 
-    public static void writeHighlight(Context context, Lecture lecture) {
+    public static void writeHighlight(@NonNull Context context, @NonNull Lecture lecture) {
         HighlightDBOpenHelper highlightDB = new HighlightDBOpenHelper(context);
 
         SQLiteDatabase db = highlightDB.getWritableDatabase();
