@@ -77,7 +77,6 @@ android {
             buildConfigField "int", "SCHEDULE_LAST_DAY_END_YEAR", "2014"
             buildConfigField "int", "SCHEDULE_LAST_DAY_END_MONTH", "12"
             buildConfigField "int", "SCHEDULE_LAST_DAY_END_DAY", "31"
-            buildConfigField "String", "SCHEDULE_FEEDBACK_URL", '"https://frab.cccv.de/en/31C3/public/events/%s/feedback/new"'
         }
         camp2015 {
             applicationId "nerd.tuxmobil.fahrplan.camp"
@@ -93,7 +92,6 @@ android {
             buildConfigField "int", "SCHEDULE_LAST_DAY_END_YEAR", "2015"
             buildConfigField "int", "SCHEDULE_LAST_DAY_END_MONTH", "8"
             buildConfigField "int", "SCHEDULE_LAST_DAY_END_DAY", "17"
-            buildConfigField "String", "SCHEDULE_FEEDBACK_URL", '"https://frab.cccv.de/en/camp2015/public/events/%s/feedback/new"'
         }
         ccc32c3 {
             applicationId "nerd.tuxmobil.fahrplan.congress"
@@ -109,7 +107,6 @@ android {
             buildConfigField "int", "SCHEDULE_LAST_DAY_END_YEAR", "2015"
             buildConfigField "int", "SCHEDULE_LAST_DAY_END_MONTH", "12"
             buildConfigField "int", "SCHEDULE_LAST_DAY_END_DAY", "31"
-            buildConfigField "String", "SCHEDULE_FEEDBACK_URL", '"https://frab.cccv.de/en/32C3/public/events/%s/feedback/new"'
         }
     }
 
