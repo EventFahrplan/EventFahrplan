@@ -71,18 +71,11 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         Bundle args = getArguments();
         if (args != null) {
             sidePane = args.getBoolean(BundleKeys.SIDEPANE);
         }
-
         setHasOptionsMenu(true);
-        starredList = FahrplanMisc.getStarredLectures(getActivity());
-        if (starredList == null) starredList = new LectureList();
-
-        mAdapter = new LectureArrayAdapter(getActivity(), starredList);
-        MyApp.LogDebug(LOG_TAG, "onCreate, " + starredList.size() + " favorites");
     }
 
     @Override
@@ -105,14 +98,27 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
         }
         mListView.addHeaderView(header, null, false);
         mListView.setHeaderDividersEnabled(false);
-
-        // Set the adapter
-        ((AdapterView<ListAdapter>) mListView).setAdapter(mAdapter);
-
         mListView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE_MODAL);
         mListView.setMultiChoiceModeListener(this);
-
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        initStarredList();
+        jumpOverPastLectures();
+    }
+
+    private void initStarredList() {
+        FragmentActivity activity = getActivity();
+        starredList = FahrplanMisc.getStarredLectures(activity);
+        if (starredList == null) {
+            starredList = new LectureList();
+        }
+        mAdapter = new LectureArrayAdapter(activity, starredList);
+        MyApp.LogDebug(LOG_TAG, "initStarredList: " + starredList.size() + " favorites");
+        mListView.setAdapter(mAdapter);
     }
 
     private void jumpOverPastLectures() {
@@ -262,12 +268,6 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
     @Override
     public void onDestroyActionMode(ActionMode mode) {
 
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        jumpOverPastLectures();
     }
 
     private void askToDeleteAllFavorites() {
