@@ -1,7 +1,5 @@
 package nerd.tuxmobil.fahrplan.congress;
 
-import com.squareup.okhttp.OkHttpClient;
-
 import android.app.Activity;
 import android.widget.Toast;
 
@@ -13,6 +11,9 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLException;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+
+import okhttp3.OkHttpClient;
 
 
 public class CustomHttpClient {
@@ -36,21 +37,17 @@ public class CustomHttpClient {
 
     public static OkHttpClient createHttpClient(String host)
             throws KeyManagementException, NoSuchAlgorithmException {
-
-        OkHttpClient client = new OkHttpClient();
-        client.setSslSocketFactory(createSSLSocketFactory(host));
-
-        return client;
+        OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
+        X509TrustManager trustManager = TrustManagerFactory.get(host, true);
+        clientBuilder.sslSocketFactory(createSSLSocketFactory(trustManager), trustManager);
+        return clientBuilder.build();
     }
 
-    private static SSLSocketFactory createSSLSocketFactory(String host)
+    private static SSLSocketFactory createSSLSocketFactory(TrustManager trustManager)
             throws NoSuchAlgorithmException, KeyManagementException {
-
         SSLContext sslContext = SSLContext.getInstance("TLS");
-        sslContext.init(null, new TrustManager[] {
-                TrustManagerFactory.get(host, true)
-        }, new SecureRandom());
-
+        TrustManager[] trustManagers = {trustManager};
+        sslContext.init(null, trustManagers, new SecureRandom());
         return sslContext.getSocketFactory();
     }
 
