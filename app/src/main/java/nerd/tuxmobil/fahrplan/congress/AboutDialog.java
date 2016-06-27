@@ -20,7 +20,7 @@ public class AboutDialog extends DialogFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setStyle(DialogFragment.STYLE_NO_TITLE, getTheme());
+        setStyle(DialogFragment.STYLE_NO_TITLE, R.style.Dialog);
     }
 
     @Override

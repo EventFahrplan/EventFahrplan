@@ -33,6 +33,7 @@
         <item name="windowActionModeOverlay">true</item>
         <item name="actionModeBackground">@color/colorPrimary</item>
         <item name="alertDialogTheme">@style/AlertDialog</item>
+        <item name="android:windowBackground">@color/windowBackground</item>
     </style>
 
     <style name="Theme.Congress.NoActionBar" parent="Theme.AppCompat.NoActionBar">
@@ -49,6 +50,12 @@
         <item name="windowActionModeOverlay">true</item>
         <item name="actionModeBackground">@color/colorPrimary</item>
         <item name="alertDialogTheme">@style/AlertDialog</item>
+        <item name="android:windowBackground">@color/windowBackground</item>
+    </style>
+
+    <style name="Dialog" parent="Theme.AppCompat.Dialog">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Title</item>
+        <item name="android:windowBackground">@color/windowBackground</item>
     </style>
 
     <style name="ToolBar">
@@ -73,6 +80,7 @@
         <item name="colorAccent">@color/alert_dialog_button_text</item>
         <item name="android:textColor">@color/alert_dialog_title</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Title</item>
+        <item name="android:windowBackground">@color/windowBackground</item>
     </style>
 
     <style name="MyActionDropDownStyle" parent="Widget.AppCompat.Spinner.DropDown.ActionBar">
