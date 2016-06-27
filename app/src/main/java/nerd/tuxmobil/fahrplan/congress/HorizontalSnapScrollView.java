@@ -190,13 +190,31 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
         return max_cols + 1;
     }
 
+    // FIXME: Landscape patch to expand a column to full width if there is space available
+    private static int calcMaxCols(Resources res, int availPixels, int columnsCount) {
+        int max_cols = res.getInteger(R.integer.max_cols);
+        // TODO: The next line is the relevant monkey patch
+        max_cols = (columnsCount < max_cols) ? columnsCount : max_cols;
+        // TODO: The previous line is the relevant monkey patch
+        int min_dip = res.getInteger(R.integer.min_width_dip);
+        float scale = res.getDisplayMetrics().density;
+        MyApp.LogDebug(LOG_TAG, "calcMaxCols: avail " + availPixels + " min dip " + min_dip);
+        int dip;
+        do {
+            dip = (int) ((((float) availPixels) / max_cols) / scale);
+            MyApp.LogDebug(LOG_TAG, "calcMaxCols: " + dip + " on " + max_cols + " cols.");
+            max_cols--;
+        } while ((dip < min_dip) && (max_cols > 0));
+        return max_cols + 1;
+    }
+
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         MyApp.LogDebug(LOG_TAG,
                 "onSizeChanged " + oldw + ", " + oldh + ", " + w + ", " + h + " getMW:"
                         + getMeasuredWidth());
         super.onSizeChanged(w, h, oldw, oldh);
-        max_cols = calcMaxCols(getResources(), getMeasuredWidth());
+        max_cols = calcMaxCols(getResources(), getMeasuredWidth(), MyApp.room_count);
 
         int newItemWidth = Math.round((float) getMeasuredWidth() / max_cols);
         float scale = getResources().getDisplayMetrics().density;
