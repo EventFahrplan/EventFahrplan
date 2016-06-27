@@ -19,7 +19,10 @@ import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import nerd.tuxmobil.fahrplan.congress.FahrplanContract.AlarmsTable;
 import nerd.tuxmobil.fahrplan.congress.FahrplanContract.HighlightsTable;
@@ -273,7 +276,12 @@ public class FahrplanMisc {
     }
 
     public static void addAlarm(Context context, Lecture lecture, int alarmTimesIndex) {
-        int[] alarm_times = context.getResources().getIntArray(R.array.alarm_time_values);
+        String[] alarm_times = context.getResources().getStringArray(R.array.alarm_time_values);
+        List<String> alarmTimeStrings = new ArrayList<String>(Arrays.asList(alarm_times));
+        List<Integer> alarmTimes = new ArrayList<Integer>(alarmTimeStrings.size());
+        for (String alarmTimeString : alarmTimeStrings) {
+            alarmTimes.add(Integer.parseInt(alarmTimeString));
+        }
         long when;
         Time time;
         long startTime;
@@ -288,7 +296,7 @@ public class FahrplanMisc {
             startTime = time.normalize(true);
             when = time.normalize(true);
         }
-        long alarmTimeDiffInSeconds = alarm_times[alarmTimesIndex] * 60 * 1000;
+        long alarmTimeDiffInSeconds = alarmTimes.get(alarmTimesIndex) * 60 * 1000;
         when -= alarmTimeDiffInSeconds;
 
         // DEBUG
@@ -317,7 +325,7 @@ public class FahrplanMisc {
         // Set new alarm
         alarmManager.set(AlarmManager.RTC_WAKEUP, when, pendingintent);
 
-        int alarmTimeInMin = alarm_times[alarmTimesIndex];
+        int alarmTimeInMin = alarmTimes.get(alarmTimesIndex);
 
         // write to DB
 
