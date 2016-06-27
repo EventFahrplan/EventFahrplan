@@ -15,9 +15,9 @@ import nerd.tuxmobil.fahrplan.congress.FahrplanContract.LecturesTable.Columns;
 
 public class DateFieldValidation {
 
-    protected SQLiteOpenHelper mLecturesDatabase;
+    final protected SQLiteOpenHelper mLecturesDatabase;
 
-    protected List<ValidationError> mValidationErrors;
+    final protected List<ValidationError> mValidationErrors;
 
     public DateFieldValidation(Context context) {
         mLecturesDatabase = new LecturesDBOpenHelper(context);
@@ -52,63 +52,69 @@ public class DateFieldValidation {
         try {
             // Order by "date" column relying on that the date formatted
             // in reverse order: yyyy-MM-dd'T'HH:mm:ssZ
-            lectureCursor = db
-                    .query(LecturesTable.NAME, null, null, null, null, null, Columns.DATE);
+            lectureCursor = db.query(
+                    LecturesTable.NAME, null, null, null, null, null, Columns.DATE);
 
             if (lectureCursor.getCount() == 0) return true;
 
             // Prepare time range (first day)
             lectureCursor.moveToFirst();
-            String firstDateString = lectureCursor
-                    .getString(lectureCursor.getColumnIndex(LecturesTable.Columns.DATE));
+            int dateColumnIndex = lectureCursor.getColumnIndex(Columns.DATE);
+            String firstDateString = lectureCursor.getString(dateColumnIndex);
             Date firstDate = DateHelper.getDate(firstDateString, "yyyy-MM-dd");
             String formattedFirstDate = DateHelper.getFormattedDate(firstDate);
 
             // Prepare time range (last day)
             lectureCursor.moveToLast();
-            String lastDateString = lectureCursor
-                    .getString(lectureCursor.getColumnIndex(LecturesTable.Columns.DATE));
+            String lastDateString = lectureCursor.getString(dateColumnIndex);
             Date lastDate = DateHelper.getDate(lastDateString, "yyyy-MM-dd");
+            // Increment date by one day since events also happen on the last day
+            // and no time information is given - only the pure date.
+            lastDate = DateHelper.shiftByDays(lastDate, 1);
             String formattedLastDate = DateHelper.getFormattedDate(lastDate);
 
             // Check if the time stamp in <date> is within the time range (first : last day)
             // defined by "date" attribute in the <day> nodes.
             lectureCursor.moveToFirst();
             while (!lectureCursor.isAfterLast()) {
-                long dateUtcInMilliseconds = lectureCursor
-                        .getLong(lectureCursor.getColumnIndex(LecturesTable.Columns.DATE_UTC));
-                Date dateUtc = new Date();
-                dateUtc.setTime(dateUtcInMilliseconds);
-
-                Date[] dateRange = new Date[]{firstDate, lastDate};
-                if (!DateHelper.dateIsWithinRange(dateUtc, dateRange)) {
-                    String eventId = lectureCursor.getString(
-                            lectureCursor.getColumnIndex(LecturesTable.Columns.EVENT_ID));
-                    String formattedDateUtc = DateHelper.getFormattedDate(dateUtc);
-                    String errorMessage = "Field <date> " + formattedDateUtc + " of event "
-                            + eventId +
-                            " exceeds range: [ " + formattedFirstDate + " : " + formattedLastDate
-                            + " ]";
-                    ValidationError error = new ValidationError(errorMessage);
-                    mValidationErrors.add(error);
-                }
+                validateEvent(lectureCursor, firstDate, lastDate,
+                        formattedFirstDate, formattedLastDate);
                 lectureCursor.moveToNext();
             }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            lectureCursor.close();
+            if (lectureCursor != null) {
+                lectureCursor.close();
+            }
             db.close();
         }
 
         // Evaluate validation
         MyApp.LogDebug(getClass().getName(),
                 "Validation result for <date> field: " + mValidationErrors.size() + " errors.");
-        if (mValidationErrors.isEmpty()) {
-            mValidationErrors = null;
-            return true;
+        return mValidationErrors.isEmpty();
+    }
+
+    private void validateEvent(Cursor lectureCursor, Date firstDate, Date lastDate,
+                               String formattedFirstDate, String formattedLastDate) {
+        long dateUtcInMilliseconds = lectureCursor.getLong(
+                lectureCursor.getColumnIndex(LecturesTable.Columns.DATE_UTC));
+        Date dateUtc = new Date();
+        dateUtc.setTime(dateUtcInMilliseconds);
+
+        Date[] dateRange = new Date[]{firstDate, lastDate};
+        if (!DateHelper.dateIsWithinRange(dateUtc, dateRange)) {
+            String eventId = lectureCursor.getString(
+                    lectureCursor.getColumnIndex(LecturesTable.Columns.EVENT_ID));
+            String formattedDateUtc = DateHelper.getFormattedDate(dateUtc);
+            String errorMessage = "Field <date> " + formattedDateUtc + " of event "
+                    + eventId +
+                    " exceeds range: [ " + formattedFirstDate + " : " + formattedLastDate
+                    + " ]";
+            ValidationError error = new ValidationError(errorMessage);
+            mValidationErrors.add(error);
         }
-        return false;
     }
 
 }
