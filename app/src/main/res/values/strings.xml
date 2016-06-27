@@ -44,8 +44,8 @@
     <string name="reminder">Reminder</string>
     <string name="feedback">Feedback</string>
     <string name="delete_all">Delete all</string>
-    <string name="reminder_ringtone">Alarm Tone</string>
-    <string name="insistent_alarm">Insistent Alarm</string>
+    <string name="reminder_ringtone">Alarm tone</string>
+    <string name="insistent_alarm">Insistent alarm</string>
     <string name="usage">Note:\n\nLong-press on a lecture to set an alarm.</string>
     <string name="set_alarm">Set alarm</string>
 	<string name="libraries">
@@ -99,7 +99,7 @@
     <string name="schedule_udpate">Schedule update</string>
     <string name="action_show_starred_lectures">Show favorites</string>
     <string name="starred_lectures">Favorites</string>
-    <string name="schedule_url">Alternative Schedule URL</string>
+    <string name="schedule_url">Alternative schedule URL</string>
     <string name="invalid_url">Invalid URL</string>
     <string name="choose_to_delete">Select lectures</string>
     <string name="day_seperator">Day <xliff:g id="day_of_congress" example="2">%1$d</xliff:g> - <xliff:g id="date_of_congress_day" example="29.12.2014">%2$s</xliff:g></string>
