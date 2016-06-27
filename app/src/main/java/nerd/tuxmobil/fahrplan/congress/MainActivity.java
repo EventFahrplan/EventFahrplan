@@ -355,8 +355,8 @@ public class MainActivity extends BaseActivity implements
         FrameLayout sidePane = (FrameLayout) findViewById(R.id.detail);
         MyApp.LogDebug(LOG_TAG, "openLectureDetail sidePane=" + sidePane);
         if (sidePane != null) {
-            sidePane.setVisibility(View.VISIBLE);
-            EventDetailFragment eventDetailFragment = new EventDetailFragment();
+            FragmentManager fm = getSupportFragmentManager();
+            fm.popBackStack(EventDetailFragment.FRAGMENT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             Bundle args = new Bundle();
             args.putString(BundleKeys.EVENT_TITLE, lecture.title);
             args.putString(BundleKeys.EVENT_SUBTITLE, lecture.subtitle);
@@ -369,6 +369,7 @@ public class MainActivity extends BaseActivity implements
             args.putInt(BundleKeys.EVENT_DAY, mDay);
             args.putString(BundleKeys.EVENT_ROOM, lecture.room);
             args.putBoolean(BundleKeys.SIDEPANE, true);
+            EventDetailFragment eventDetailFragment = new EventDetailFragment();
             eventDetailFragment.setArguments(args);
             replaceFragment(R.id.detail, eventDetailFragment,
                     EventDetailFragment.FRAGMENT_TAG, EventDetailFragment.FRAGMENT_TAG);
@@ -437,11 +438,10 @@ public class MainActivity extends BaseActivity implements
     public void onBackStackChanged() {
         FragmentManager fm = getSupportFragmentManager();
         Fragment pane = fm.findFragmentById(R.id.detail);
-        if (pane == null) {
-            View sidePane = findViewById(R.id.detail);
-            if (sidePane != null)  {
-                sidePane.setVisibility(View.GONE);
-            }
+        boolean paneVisible = pane != null;
+        View sidePane = findViewById(R.id.detail);
+        if (sidePane != null) {
+            sidePane.setVisibility(paneVisible ? View.VISIBLE : View.GONE);
         }
         supportInvalidateOptionsMenu();
     }
