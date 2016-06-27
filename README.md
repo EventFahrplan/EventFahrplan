@@ -39,8 +39,8 @@ Portions Copyright 2008-2011 The K-9 Dog Walkers and 2006-2011 the Android Open 
 LICENSE
 
 ```
-Copyright 2011-2015 Daniel Dorau
-Copyright 2015 SubOptimal, entropynil, johnjohndoe
+Copyright 2011-2016 Daniel Dorau
+Copyright 2016 SubOptimal, entropynil, johnjohndoe
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
