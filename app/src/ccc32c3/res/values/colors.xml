@@ -21,5 +21,6 @@
     <color name="schedule_change_canceled">#808080</color>
     <color name="schedule_list_header_background">#eee</color>
     <color name="schedule_list_header_text">#eee</color>
+    <color name="event_item_selection_stroke">@android:color/white</color>
 
 </resources>
