@@ -21,6 +21,8 @@ import android.widget.TextView;
 
 public class ChangesDialog extends DialogFragment {
 
+    public static final String FRAGMENT_TAG = "changesDialog";
+
     private int changed;
     private int added;
     private int cancelled;

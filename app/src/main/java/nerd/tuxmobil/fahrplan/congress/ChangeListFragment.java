@@ -25,6 +25,7 @@ import android.widget.ListView;
 public class ChangeListFragment extends AbstractListFragment {
 
     private static final String LOG_TAG = "ChangeListFragment";
+    public static final String FRAGMENT_TAG = "changes";
     private OnLectureListClick mListener;
     private LectureList changesList;
     private boolean sidePane = false;

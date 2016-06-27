@@ -4,14 +4,6 @@ import android.provider.BaseColumns;
 
 public interface FahrplanContract {
 
-    public interface FragmentTags {
-
-        public static final String DETAIL = "detail";
-        public static final String SCHEDULE = "schedule";
-        public static final String CHANGES = "changes";
-        public static final String STARRED = "starred";
-    }
-
     public interface MetasTable {
 
         public static final String NAME = "meta";

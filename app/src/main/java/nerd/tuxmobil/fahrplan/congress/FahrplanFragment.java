@@ -60,6 +60,8 @@ public class FahrplanFragment extends Fragment implements
 
     private static String LOG_TAG = "Fahrplan";
 
+    public static final String FRAGMENT_TAG = "schedule";
+
     public static final int FAHRPLAN_FRAGMENT_REQUEST_CODE = 6166;
 
     private float scale;

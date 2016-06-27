@@ -19,7 +19,7 @@ public class ConfirmationDialog extends DialogFragment {
 
     public static final String BUNDLE_DLG_TITLE = "ConfirmationDialog.DLG_TITLE";
     public static final String BUNDLE_DLG_REQUEST_CODE = "ConfirmationDialog.DLG_REQUEST_CODE";
-    public static final String TAG = "ConfirmationDialog.FRAGMENT_TAG";
+    public static final String FRAGMENT_TAG = "ConfirmationDialog.FRAGMENT_TAG";
     private int dlgTitle;
     private int dlgRequestCode;
     private OnConfirmationDialogClicked listener;

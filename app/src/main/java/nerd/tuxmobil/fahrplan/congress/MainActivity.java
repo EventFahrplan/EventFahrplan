@@ -12,7 +12,6 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.text.format.Time;
@@ -24,10 +23,9 @@ import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
 import nerd.tuxmobil.fahrplan.congress.CustomHttpClient.HTTP_STATUS;
-import nerd.tuxmobil.fahrplan.congress.FahrplanContract.FragmentTags;
 import nerd.tuxmobil.fahrplan.congress.MyApp.TASKS;
 
-public class MainActivity extends AppCompatActivity implements
+public class MainActivity extends BaseActivity implements
         OnParseCompleteListener,
         OnDownloadCompleteListener,
         OnCloseDetailListener,
@@ -104,22 +102,14 @@ public class MainActivity extends AppCompatActivity implements
         getSupportFragmentManager().addOnBackStackChangedListener(this);
 
         if (findViewById(R.id.schedule) != null) {
-            FragmentManager fm = getSupportFragmentManager();
-            if (fm.findFragmentByTag(FragmentTags.SCHEDULE) == null) {
-                FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                fragmentTransaction
-                        .replace(R.id.schedule, new FahrplanFragment(), FragmentTags.SCHEDULE);
-                fragmentTransaction.commit();
+            if (findFragment(FahrplanFragment.FRAGMENT_TAG) == null) {
+                replaceFragment(R.id.schedule, new FahrplanFragment(),
+                        FahrplanFragment.FRAGMENT_TAG);
             }
         }
 
         if (findViewById(R.id.detail) == null) {
-            FragmentManager fm = getSupportFragmentManager();
-            Fragment detail = fm.findFragmentByTag(FragmentTags.DETAIL);
-            if (detail != null) {
-                FragmentTransaction ft = fm.beginTransaction();
-                ft.remove(detail).commit();
-            }
+            removeFragment(EventDetailFragment.FRAGMENT_TAG);
         }
     }
 
@@ -195,12 +185,11 @@ public class MainActivity extends AppCompatActivity implements
         progressBar.setVisibility(View.INVISIBLE);
         showUpdateAction = true;
         supportInvalidateOptionsMenu();
-        FragmentManager fm = getSupportFragmentManager();
-        Fragment fragment = fm.findFragmentByTag(FragmentTags.SCHEDULE);
+        Fragment fragment = findFragment(FahrplanFragment.FRAGMENT_TAG);
         if ((fragment != null) && (fragment instanceof OnParseCompleteListener)) {
             ((OnParseCompleteListener) fragment).onParseDone(result, version);
         }
-        fragment = fm.findFragmentByTag(FragmentTags.CHANGES);
+        fragment = findFragment(ChangeListFragment.FRAGMENT_TAG);
         if ((fragment != null) && (fragment instanceof ChangeListFragment)) {
             ((ChangeListFragment) fragment).onRefresh();
         }
@@ -302,9 +291,7 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     void changesDialog() {
-        FragmentManager fm = getSupportFragmentManager();
-        Fragment fragment = fm.findFragmentByTag("changesDialog");
-
+        Fragment fragment = findFragment(ChangesDialog.FRAGMENT_TAG);
         if (fragment == null) {
             LectureList changedLectures = FahrplanMisc.readChanges(this);
             DialogFragment about = ChangesDialog.newInstance(
@@ -315,7 +302,7 @@ public class MainActivity extends AppCompatActivity implements
                     FahrplanMisc.getChangedLectureCount(changedLectures, true) +
                             FahrplanMisc.getNewLectureCount(changedLectures, true) +
                             FahrplanMisc.getCancelledLectureCount(changedLectures, true));
-            about.show(getSupportFragmentManager(), "changesDialog");
+            about.show(getSupportFragmentManager(), ChangesDialog.FRAGMENT_TAG);
         }
     }
 
@@ -353,13 +340,9 @@ public class MainActivity extends AppCompatActivity implements
                     intent = new Intent(this, StarredListActivity.class);
                     startActivityForResult(intent, MyApp.STARRED);
                 } else {
-                    FragmentManager fm = getSupportFragmentManager();
                     sidePane.setVisibility(View.VISIBLE);
-                    FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                    StarredListFragment starred = StarredListFragment.newInstance(true);
-                    fragmentTransaction.replace(R.id.detail, starred, FragmentTags.STARRED);
-                    fragmentTransaction.addToBackStack(FragmentTags.STARRED);
-                    fragmentTransaction.commit();
+                    replaceFragment(R.id.detail, StarredListFragment.newInstance(true),
+                            StarredListFragment.FRAGMENT_TAG, StarredListFragment.FRAGMENT_TAG);
                 }
                 return true;
             default:
@@ -372,10 +355,8 @@ public class MainActivity extends AppCompatActivity implements
         FrameLayout sidePane = (FrameLayout) findViewById(R.id.detail);
         MyApp.LogDebug(LOG_TAG, "openLectureDetail sidePane=" + sidePane);
         if (sidePane != null) {
-            FragmentManager fm = getSupportFragmentManager();
             sidePane.setVisibility(View.VISIBLE);
-            FragmentTransaction fragmentTransaction = fm.beginTransaction();
-            EventDetailFragment ev = new EventDetailFragment();
+            EventDetailFragment eventDetailFragment = new EventDetailFragment();
             Bundle args = new Bundle();
             args.putString(BundleKeys.EVENT_TITLE, lecture.title);
             args.putString(BundleKeys.EVENT_SUBTITLE, lecture.subtitle);
@@ -388,10 +369,9 @@ public class MainActivity extends AppCompatActivity implements
             args.putInt(BundleKeys.EVENT_DAY, mDay);
             args.putString(BundleKeys.EVENT_ROOM, lecture.room);
             args.putBoolean(BundleKeys.SIDEPANE, true);
-            ev.setArguments(args);
-            fragmentTransaction.replace(R.id.detail, ev, FragmentTags.DETAIL);
-            fragmentTransaction.addToBackStack(FragmentTags.DETAIL);
-            fragmentTransaction.commit();
+            eventDetailFragment.setArguments(args);
+            replaceFragment(R.id.detail, eventDetailFragment,
+                    EventDetailFragment.FRAGMENT_TAG, EventDetailFragment.FRAGMENT_TAG);
         } else {
             EventDetail.startForResult(this, lecture, mDay);
         }
@@ -403,25 +383,18 @@ public class MainActivity extends AppCompatActivity implements
         if (sidePane != null) {
             sidePane.setVisibility(View.GONE);
         }
-        FragmentManager fm = getSupportFragmentManager();
-        Fragment fragment = fm.findFragmentByTag(FragmentTags.DETAIL);
-        if (fragment != null) {
-            FragmentTransaction fragmentTransaction = fm.beginTransaction();
-            fragmentTransaction.remove(fragment).commit();
-        }
+        removeFragment(EventDetailFragment.FRAGMENT_TAG);
     }
 
     public void reloadAlarms() {
-        FragmentManager fm = getSupportFragmentManager();
-        Fragment fragment = fm.findFragmentByTag(FragmentTags.SCHEDULE);
+        Fragment fragment = findFragment(FahrplanFragment.FRAGMENT_TAG);
         if (fragment != null) {
             ((FahrplanFragment) fragment).loadAlarms(this);
         }
     }
     @Override
     public void refreshEventMarkers() {
-        FragmentManager fm = getSupportFragmentManager();
-        Fragment fragment = fm.findFragmentByTag(FragmentTags.SCHEDULE);
+        Fragment fragment = findFragment(FahrplanFragment.FRAGMENT_TAG);
         if (fragment != null) {
             ((FahrplanFragment) fragment).refreshEventMarkers();
         }
@@ -442,11 +415,8 @@ public class MainActivity extends AppCompatActivity implements
             case MyApp.SETTINGS:
                 if ((resultCode == Activity.RESULT_OK) && (intent.getBooleanExtra(BundleKeys.PREFS_ALTERNATIVE_HIGHLIGHT, false))) {
                     if (findViewById(R.id.schedule) != null) {
-                        FragmentManager fm = getSupportFragmentManager();
-                        FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                        fragmentTransaction
-                                .replace(R.id.schedule, new FahrplanFragment(), FragmentTags.SCHEDULE);
-                        fragmentTransaction.commit();
+                        replaceFragment(R.id.schedule, new FahrplanFragment(),
+                                FahrplanFragment.FRAGMENT_TAG);
                     }
                 }
         }
@@ -477,10 +447,9 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     public void refreshFavoriteList() {
-        FragmentManager fm = getSupportFragmentManager();
-        StarredListFragment favoriteFragment = (StarredListFragment)fm.findFragmentByTag(FragmentTags.STARRED);
-        if (favoriteFragment != null) {
-            favoriteFragment.onRefresh();
+        Fragment fragment = findFragment(StarredListFragment.FRAGMENT_TAG);
+        if (fragment != null) {
+            ((StarredListFragment)fragment).onRefresh();
         }
     }
 
@@ -490,13 +459,9 @@ public class MainActivity extends AppCompatActivity implements
             Intent intent = new Intent(this, ChangeListActivity.class);
             startActivityForResult(intent, MyApp.CHANGELOG);
         } else {
-            FragmentManager fm = getSupportFragmentManager();
             sidePane.setVisibility(View.VISIBLE);
-            FragmentTransaction fragmentTransaction = fm.beginTransaction();
-            ChangeListFragment changes = ChangeListFragment.newInstance(true);
-            fragmentTransaction.replace(R.id.detail, changes, FragmentTags.CHANGES);
-            fragmentTransaction.addToBackStack(FragmentTags.CHANGES);
-            fragmentTransaction.commit();
+            replaceFragment(R.id.detail, ChangeListFragment.newInstance(true),
+                    ChangeListFragment.FRAGMENT_TAG, ChangeListFragment.FRAGMENT_TAG);
         }
     }
 
@@ -504,11 +469,9 @@ public class MainActivity extends AppCompatActivity implements
     public void onAccepted(int dlgRequestCode) {
         switch (dlgRequestCode) {
             case StarredListFragment.DELETE_ALL_FAVORITES_REQUEST_CODE:
-                FragmentManager fm = getSupportFragmentManager();
-                StarredListFragment fragment = (StarredListFragment)fm.findFragmentByTag(
-                        FahrplanContract.FragmentTags.STARRED);
+                Fragment fragment = findFragment(StarredListFragment.FRAGMENT_TAG);
                 if (fragment != null) {
-                    fragment.deleteAllFavorites();
+                    ((StarredListFragment)fragment).deleteAllFavorites();
                 }
                 break;
         }
