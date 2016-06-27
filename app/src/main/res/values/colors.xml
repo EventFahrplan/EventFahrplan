@@ -14,6 +14,9 @@
     <!-- Tool bar -->
     <color name="tool_bar_background">@color/colorPrimary</color>
 
+    <!-- About -->
+    <color name="about_horizontal_line">#606060</color>
+
     <!-- Alarm dialogs -->
     <color name="alert_dialog_title">@color/colorAccent</color>
     <color name="alert_dialog_button_text">@color/colorPrimary</color>

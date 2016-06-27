@@ -33,6 +33,9 @@
     <!-- Progress bar -->
     <dimen name="progress_bar_elevation">@dimen/tool_bar_elevation</dimen>
 
+    <!-- About -->
+    <dimen name="about_horizontal_line_height">1dp</dimen>
+
     <!-- Event drawable parameters -->
     <dimen name="event_drawable_corner_radius">6dp</dimen>
     <dimen name="event_drawable_inset_top">1dp</dimen>
