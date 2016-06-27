@@ -19,4 +19,6 @@
 
 <resources>
     <color name="pressed_congress">#CCffffff</color>
+    <color name="event_drawable_selection_stroke">@android:color/white</color>
+    <color name="event_drawable_ripple">#aaffffff</color>
 </resources>
