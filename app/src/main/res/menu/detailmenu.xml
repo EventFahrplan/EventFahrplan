@@ -11,10 +11,10 @@
             android:visible="false">
     </item>
     <item
-        android:id="@+id/item_nav"
-        android:icon="@drawable/ic_action_navigate"
-        app:showAsAction="ifRoom"
-        android:title="@string/navigate">
+            android:id="@+id/item_nav"
+            android:icon="@drawable/ic_action_navigate"
+            app:showAsAction="ifRoom"
+            android:title="@string/navigate">
     </item>
     <item
             android:id="@+id/item_fav"

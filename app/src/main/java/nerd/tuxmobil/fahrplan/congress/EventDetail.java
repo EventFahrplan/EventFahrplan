@@ -75,7 +75,8 @@ public class EventDetail extends BaseActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        menu.findItem(R.id.item_nav).setVisible(getRoomConvertedForC3Nav() != null);
+        boolean isVisible = getRoomConvertedForC3Nav() != null;
+        menu.findItem(R.id.item_nav).setVisible(isVisible);
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -96,4 +97,5 @@ public class EventDetail extends BaseActivity {
         final String currentRoom = getIntent().getStringExtra(BundleKeys.EVENT_ROOM);
         return RoomForC3NavConverter.convert(BuildConfig.VENUE, currentRoom);
     }
+
 }

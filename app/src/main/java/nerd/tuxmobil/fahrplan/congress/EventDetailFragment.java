@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -275,6 +276,17 @@ public class EventDetailFragment extends Fragment {
                 item.setVisible(true);
             }
         }
+        item = menu.findItem(R.id.item_nav);
+        if (item != null) {
+            boolean isVisible = getRoomConvertedForC3Nav() != null;
+            item.setVisible(isVisible);
+        }
+    }
+
+    @Nullable
+    private String getRoomConvertedForC3Nav() {
+        final String currentRoom = getActivity().getIntent().getStringExtra(BundleKeys.EVENT_ROOM);
+        return RoomForC3NavConverter.convert(BuildConfig.VENUE, currentRoom);
     }
 
     private Lecture eventid2Lecture(String event_id) {
