@@ -1,14 +1,17 @@
 package nerd.tuxmobil.fahrplan.congress;
 
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.text.Html;
+import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -109,18 +112,18 @@ public class EventDetailFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        FragmentActivity activity = getActivity();
         if (hasArguments) {
-            boldCondensed = Typeface
-                    .createFromAsset(getActivity().getAssets(), "Roboto-BoldCondensed.ttf");
-            black = Typeface.createFromAsset(getActivity().getAssets(), "Roboto-Black.ttf");
-            light = Typeface.createFromAsset(getActivity().getAssets(), "Roboto-Light.ttf");
-            regular = Typeface
-                    .createFromAsset(getActivity().getAssets(), "Roboto-Regular.ttf");
-            bold = Typeface.createFromAsset(getActivity().getAssets(), "Roboto-Bold.ttf");
+            AssetManager assetManager = activity.getAssets();
+            boldCondensed = Typeface.createFromAsset(assetManager, "Roboto-BoldCondensed.ttf");
+            black = Typeface.createFromAsset(assetManager, "Roboto-Black.ttf");
+            light = Typeface.createFromAsset(assetManager, "Roboto-Light.ttf");
+            regular = Typeface.createFromAsset(assetManager, "Roboto-Regular.ttf");
+            bold = Typeface.createFromAsset(assetManager, "Roboto-Bold.ttf");
 
             locale = getResources().getConfiguration().locale;
 
-            FahrplanFragment.loadLectureList(getActivity(), day, false);
+            FahrplanFragment.loadLectureList(activity, day, false);
             lecture = eventid2Lecture(event_id);
 
             TextView t;
@@ -138,69 +141,97 @@ public class EventDetailFragment extends Fragment {
                 t.setText("ID: " + event_id);
             }
 
+            // Title
+
             t = (TextView) view.findViewById(R.id.title);
-            t.setTypeface(boldCondensed);
-            t.setText(title);
+            setUpTextView(t, boldCondensed, title);
+
+            // Subtitle
 
             t = (TextView) view.findViewById(R.id.subtitle);
-            t.setText(subtitle);
-            t.setTypeface(light);
-            if (subtitle.length() == 0) {
+            if (TextUtils.isEmpty(subtitle)) {
                 t.setVisibility(View.GONE);
+            } else {
+                setUpTextView(t, light, subtitle);
             }
+
+            // Speakers
 
             t = (TextView) view.findViewById(R.id.speakers);
-            t.setTypeface(black);
-            t.setText(spkr);
+            if (TextUtils.isEmpty(spkr)) {
+                t.setVisibility(View.GONE);
+            } else {
+                setUpTextView(t, black, spkr);
+            }
+
+            // Abstract
 
             t = (TextView) view.findViewById(R.id.abstractt);
-            t.setTypeface(bold);
-            abstractt = abstractt
-                    .replaceAll("\\[(.*?)\\]\\(([^ \\)]+).*?\\)", "<a href=\"$2\">$1</a>");
-            t.setText(Html.fromHtml(abstractt), TextView.BufferType.SPANNABLE);
-            t.setLinkTextColor(getResources().getColor(R.color.text_link_color));
-            t.setMovementMethod(new LinkMovementMethod());
+            if (TextUtils.isEmpty(abstractt)) {
+                t.setVisibility(View.GONE);
+            } else {
+                abstractt = StringUtils.getHtmlLinkFromMarkdown(abstractt);
+                setUpHtmlTextView(t, bold, abstractt);
+            }
+
+            // Description
 
             t = (TextView) view.findViewById(R.id.description);
-            t.setTypeface(regular);
-            descr = descr.replaceAll("\\[(.*?)\\]\\(([^ \\)]+).*?\\)", "<a href=\"$2\">$1</a>");
-            t.setText(Html.fromHtml(descr), TextView.BufferType.SPANNABLE);
-            t.setLinkTextColor(getResources().getColor(R.color.text_link_color));
-            t.setMovementMethod(new LinkMovementMethod());
+            if (TextUtils.isEmpty(descr)) {
+                t.setVisibility(View.GONE);
+            } else {
+                descr = StringUtils.getHtmlLinkFromMarkdown(descr);
+                setUpHtmlTextView(t, regular, descr);
+            }
+
+            // Links
 
             TextView l = (TextView) view.findViewById(R.id.linksSection);
-            l.setTypeface(bold);
             t = (TextView) view.findViewById(R.id.links);
-            t.setTypeface(regular);
-
-            if (links.length() > 0) {
-                MyApp.LogDebug(LOG_TAG, "show links");
-                l.setVisibility(View.VISIBLE);
-                t.setVisibility(View.VISIBLE);
-                links = links.replaceAll("\\),", ")<br>");
-                links = links.replaceAll("\\[(.*?)\\]\\(([^ \\)]+).*?\\)", "<a href=\"$2\">$1</a>");
-                t.setText(Html.fromHtml(links), TextView.BufferType.SPANNABLE);
-                t.setLinkTextColor(getResources().getColor(R.color.text_link_color));
-                t.setMovementMethod(new LinkMovementMethod());
-            } else {
+            if (TextUtils.isEmpty(links)) {
                 l.setVisibility(View.GONE);
                 t.setVisibility(View.GONE);
+            } else {
+                l.setTypeface(bold);
+                MyApp.LogDebug(LOG_TAG, "show links");
+                l.setVisibility(View.VISIBLE);
+                links = links.replaceAll("\\),", ")<br>");
+                links = StringUtils.getHtmlLinkFromMarkdown(links);
+                setUpHtmlTextView(t, regular, links);
             }
+
+            // Event online
 
             final TextView eventOnlineSection = (TextView) view
                     .findViewById(R.id.eventOnlineSection);
             eventOnlineSection.setTypeface(bold);
             final TextView eventOnlineLink = (TextView) view.findViewById(R.id.eventOnline);
-            eventOnlineLink.setTypeface(regular);
-            final String eventUrl = FahrplanMisc.getEventUrl(getActivity(), event_id);
+            final String eventUrl = FahrplanMisc.getEventUrl(activity, event_id);
             final String eventLink = "<a href=\"" + eventUrl + "\">" + eventUrl + "</a>";
-            eventOnlineLink.setText(Html.fromHtml(eventLink), TextView.BufferType.SPANNABLE);
-            eventOnlineLink.setMovementMethod(new LinkMovementMethod());
-            eventOnlineLink.setLinkTextColor(getResources().getColor(R.color.text_link_color));
+            setUpHtmlTextView(eventOnlineLink, regular, eventLink);
 
-            getActivity().supportInvalidateOptionsMenu();
+            activity.supportInvalidateOptionsMenu();
         }
-        getActivity().setResult(FragmentActivity.RESULT_CANCELED);
+        activity.setResult(FragmentActivity.RESULT_CANCELED);
+    }
+
+    private void setUpTextView(@NonNull TextView textView,
+                               @NonNull Typeface typeface,
+                               @NonNull String text) {
+        textView.setTypeface(typeface);
+        textView.setText(text);
+        textView.setVisibility(View.VISIBLE);
+    }
+
+
+    private void setUpHtmlTextView(@NonNull TextView textView,
+                                   @NonNull Typeface typeface,
+                                   @NonNull String text) {
+        textView.setTypeface(typeface);
+        textView.setText(Html.fromHtml(text), TextView.BufferType.SPANNABLE);
+        textView.setLinkTextColor(getResources().getColor(R.color.text_link_color));
+        textView.setMovementMethod(new LinkMovementMethod());
+        textView.setVisibility(View.VISIBLE);
     }
 
     @Override
