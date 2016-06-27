@@ -28,8 +28,7 @@ public class ConnectivityStateReceiver extends BroadcastReceiver {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
             boolean do_auto_updates = prefs.getBoolean("auto_update", false);
             if (do_auto_updates) {
-                Intent updateIntent = new Intent(context, UpdateService.class);
-                context.startService(updateIntent);
+                UpdateService.start(context);
             }
         }
     }
