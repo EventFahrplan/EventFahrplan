@@ -34,17 +34,17 @@
     <string name="delete">Löschen</string>
     <string name="event_online">Event online</string>
     <string name="event_detail_section_title_links">Links</string>
-    <string name="alarm_prompt">Erinnerung</string>
+    <string name="alarm_prompt">Alarm</string>
     <string name="choose_alarm_time">Wähle die Alarmzeit</string>
     <string name="default_alarm_time_title">Wähle eine Standard-Alarmzeit</string>
     <string name="default_alarm_time_dialog_title">Standard-Alarmzeit</string>
-    <string name="reminders">Erinnerungen</string>
-    <string name="reminder">Erinnerung</string>
+    <string name="reminders">Alarme</string>
+    <string name="reminder">Alarm</string>
     <string name="feedback">Feedback</string>
     <string name="delete_all">Alle löschen</string>
-    <string name="reminder_ringtone">Erinnerungston</string>
+    <string name="reminder_ringtone">Alarmton</string>
     <string name="insistent_alarm">Dauerhafter Alarm</string>
-    <string name="usage">Hinweis:\n\nLange auf Vortrag tippen, um Erinnerung einzustellen.</string>
+    <string name="usage">Hinweis:\n\nLange auf Vortrag tippen, um einen Alarm einzustellen.</string>
     <string name="set_alarm">Alarm setzen</string>
 	<string name="libraries">
 		Die Anwendung nutzt folgende Bibliotheken:
@@ -67,9 +67,9 @@
     <string name="parsing_error_generic">Unbekannter Fehler beim Parsen des Fahrplans</string>
     <string name="parsing_error_with_version">Fehler beim Parsen der Fahrplan-Version %s</string>
 	<string name="alarms_empty">
-		Aktuell sind keine Erinnerungen gespeichert. Im Fahrplan
+		Aktuell sind keine Alarme gespeichert. Im Fahrplan
 		kannst du über das entsprechende Symbol in der ActionBar
-		für jeden Eintrag eine individuelle Erinnerung festlegen.
+		für jeden Eintrag einen individuellen Alarm festlegen.
 	</string>
     <string name="add_to_calendar_failed">Hinzufügen zu Kalendar fehlgeschlagen.</string>
     <string name="no_changes">Keine Fahrplanänderungen</string>

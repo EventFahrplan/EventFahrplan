@@ -34,14 +34,14 @@
     <string name="delete">Delete</string>
     <string name="event_online">Event online</string>
     <string name="event_detail_section_title_links">Links</string>
-    <string name="alarm_prompt">Reminder</string>
+    <string name="alarm_prompt">Alarm</string>
     <string name="choose_alarm_time">Choose alarm time</string>
     <string name="default_alarm_time_title">Choose a default alarm time</string>
     <string name="default_alarm_time_dialog_title">Default alarm time</string>
     <!-- Synchronize with @integers/default_alarm_time_index and string-array/alarm_time_values -->
     <string name="default_alarm_time_value" translatable="false">10</string>
-    <string name="reminders">Reminders</string>
-    <string name="reminder">Reminder</string>
+    <string name="reminders">Alarms</string>
+    <string name="reminder">Alarm</string>
     <string name="feedback">Feedback</string>
     <string name="delete_all">Delete all</string>
     <string name="reminder_ringtone">Alarm Tone</string>
