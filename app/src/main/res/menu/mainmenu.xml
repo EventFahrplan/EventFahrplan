@@ -3,38 +3,41 @@
       xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
             android:id="@+id/item_refresh"
-            android:icon="@drawable/ic_action_refresh"
+            android:icon="@drawable/ic_refresh_white_24dp"
             app:showAsAction="ifRoom"
             android:title="@string/refresh">
     </item>
     <item
-        android:id="@+id/item_starred_list"
-        android:title="@string/action_show_starred_lectures"
-        android:titleCondensed="@string/action_show_starred_lectures"
-        app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_action_action_list">
+            android:id="@+id/item_starred_list"
+            android:icon="@drawable/ic_action_star_list_white_24px"
+            app:showAsAction="ifRoom"
+            android:title="@string/action_show_starred_lectures"
+            android:titleCondensed="@string/action_show_starred_lectures">
     </item>
     <item
             android:id="@+id/item_alarms"
-            android:icon="@drawable/ic_menu_alarmclock"
+            android:icon="@drawable/ic_action_bell_list_white_24px"
+            app:showAsAction="ifRoom"
             android:title="@string/alarms"
             android:titleCondensed="@string/alarms">
     </item>
     <item
-        android:id="@+id/item_changes"
-        android:title="@string/schedule_changes"
-        android:titleCondensed="@string/schedule_changes">
+            android:id="@+id/item_changes"
+            android:icon="@drawable/ic_action_healing_list_white_24px"
+            app:showAsAction="ifRoom"
+            android:title="@string/schedule_changes"
+            android:titleCondensed="@string/schedule_changes">
     </item>
     <item
             android:id="@+id/item_settings"
-            android:icon="@drawable/ic_menu_settings"
+            android:icon="@drawable/ic_settings_white_24dp"
             app:showAsAction="never"
             android:title="@string/settings"
             android:titleCondensed="@string/settings">
     </item>
     <item
             android:id="@+id/item_about"
-            android:icon="@drawable/ic_menu_about"
+            android:icon="@drawable/ic_info_outline_white_24dp"
             android:orderInCategory="1"
             android:title="@string/about"
             android:titleCondensed="@string/about">
