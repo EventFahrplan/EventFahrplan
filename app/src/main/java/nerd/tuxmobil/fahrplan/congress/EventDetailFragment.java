@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
@@ -232,7 +233,7 @@ public class EventDetailFragment extends Fragment {
                                    @NonNull String text) {
         textView.setTypeface(typeface);
         textView.setText(Html.fromHtml(text), TextView.BufferType.SPANNABLE);
-        textView.setLinkTextColor(getResources().getColor(R.color.text_link_color));
+        textView.setLinkTextColor(ContextCompat.getColor(getActivity(), R.color.text_link_color));
         textView.setMovementMethod(new LinkMovementMethod());
         textView.setVisibility(View.VISIBLE);
     }

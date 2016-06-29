@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.text.format.Time;
 
@@ -61,6 +62,7 @@ public class UpdateService extends IntentService
                 .getActivity(this, 0, notificationIntent, PendingIntent.FLAG_ONE_SHOT);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+        int reminderColor = ContextCompat.getColor(this, R.color.colorActionBar);
         notify = builder.setAutoCancel(true)
                 .setContentText(getString(R.string.aktualisiert_auf, version))
                 .setContentTitle(getString(R.string.app_name))
@@ -68,7 +70,7 @@ public class UpdateService extends IntentService
                 .setSound(Uri.parse(prefs.getString("reminder_tone", "")))
                 .setContentIntent(contentIntent)
                 .setSubText(changesTxt)
-                .setColor(getResources().getColor(R.color.colorAccent))
+                .setColor(reminderColor)
                 .build();
 
         nm.notify(2, notify);

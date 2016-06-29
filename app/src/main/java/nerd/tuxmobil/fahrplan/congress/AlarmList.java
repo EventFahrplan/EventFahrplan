@@ -10,6 +10,7 @@ import android.database.sqlite.SQLiteException;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.CursorAdapter;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -34,7 +35,8 @@ public class AlarmList extends ActionBarListActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorActionBar)));
+        int actionBarColor = ContextCompat.getColor(this, R.color.colorActionBar);
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(actionBarColor));
 
         global = (MyApp) getApplicationContext();
 

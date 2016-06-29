@@ -2,6 +2,7 @@ package nerd.tuxmobil.fahrplan.congress;
 
 import android.content.Context;
 import android.graphics.Paint;
+import android.support.v4.content.ContextCompat;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,15 +42,15 @@ public class LectureChangesArrayAdapter extends ArrayAdapter<Lecture> {
     }
 
     private void setTextStyleChanged(TextView textView) {
-        textView.setTextColor(context.getResources().getColor(R.color.schedule_change));
+        textView.setTextColor(ContextCompat.getColor(context, R.color.schedule_change));
     }
 
     private void setTextStyleNew(TextView textView) {
-        textView.setTextColor(context.getResources().getColor(R.color.schedule_change_new));
+        textView.setTextColor(ContextCompat.getColor(context, R.color.schedule_change_new));
     }
 
     private void setTextStyleCanceled(TextView textView) {
-        textView.setTextColor(context.getResources().getColor(R.color.schedule_change_canceled));
+        textView.setTextColor(ContextCompat.getColor(context, R.color.schedule_change_canceled));
         textView.setPaintFlags(textView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
     }
 

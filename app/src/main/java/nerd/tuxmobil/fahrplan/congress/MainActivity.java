@@ -12,6 +12,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.text.format.Time;
@@ -63,7 +64,8 @@ public class MainActivity extends BaseActivity implements
         getSupportActionBar().setTitle(R.string.fahrplan);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorActionBar)));
+        int actionBarColor = ContextCompat.getColor(this, R.color.colorActionBar);
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(actionBarColor));
 
         if (MyApp.fetcher == null) {
             fetcher = new FetchFahrplan();

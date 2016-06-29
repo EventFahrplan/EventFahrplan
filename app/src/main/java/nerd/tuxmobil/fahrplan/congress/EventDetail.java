@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -36,7 +37,8 @@ public class EventDetail extends BaseActivity {
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorActionBar)));
+        int actionBarColor = ContextCompat.getColor(this, R.color.colorActionBar);
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(actionBarColor));
 
         setContentView(R.layout.detail_frame);
         Intent intent = getIntent();

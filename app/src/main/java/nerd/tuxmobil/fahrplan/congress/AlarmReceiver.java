@@ -13,6 +13,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
 
 import nerd.tuxmobil.fahrplan.congress.FahrplanContract.AlarmsTable;
 
@@ -54,11 +55,12 @@ public final class AlarmReceiver extends BroadcastReceiver {
                     .getActivity(context, lid, notificationIntent, PendingIntent.FLAG_ONE_SHOT);
 
             NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
+            int reminderColor = ContextCompat.getColor(context, R.color.colorAccent);
             notify = builder.setSound(Uri.parse(prefs.getString("reminder_tone", "")))
                     .setAutoCancel(true)
                     .setDefaults(Notification.DEFAULT_LIGHTS | Notification.DEFAULT_VIBRATE)
                     .setSmallIcon(R.drawable.ic_notification)
-                    .setColor(context.getResources().getColor(R.color.colorAccent))
+                    .setColor(reminderColor)
                     .setContentIntent(contentIntent)
                     .setContentText(context.getString(R.string.reminder))
                     .setContentTitle(title)
