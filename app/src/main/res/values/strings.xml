@@ -42,7 +42,6 @@
     <string name="default_alarm_time_value" translatable="false">10</string>
     <string name="reminders">Alarms</string>
     <string name="reminder">Alarm</string>
-    <string name="feedback">Feedback</string>
     <string name="delete_all">Delete all</string>
     <string name="reminder_ringtone">Alarm tone</string>
     <string name="insistent_alarm">Insistent alarm</string>
