@@ -121,7 +121,7 @@ android {
 
 dependencies {
     compile "com.android.support:appcompat-v7:23.1.1"
-    compile 'com.squareup.okhttp:okhttp:2.7.0'
+    compile "com.squareup.okhttp3:okhttp:3.5.0"
 
     testCompile 'junit:junit:4.12'
     testCompile 'com.squareup.assertj:assertj-android:1.1.1'
