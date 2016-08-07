@@ -11,13 +11,13 @@ import java.net.UnknownHostException;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 
-import com.squareup.okhttp.Call;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request.Builder;
-import com.squareup.okhttp.Response;
 import javax.net.ssl.SSLException;
 
 import nerd.tuxmobil.fahrplan.congress.CustomHttpClient.HTTP_STATUS;
+import okhttp3.Call;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 interface OnDownloadCompleteListener {
 
@@ -127,7 +127,8 @@ class fetcher extends AsyncTask<String, Void, HTTP_STATUS> {
 
         MyApp.LogDebug("Fetch", url);
         MyApp.LogDebug("Fetch", "ETag: " + eTag);
-        Builder requestBuilder = new Builder().url(url);
+        Request.Builder requestBuilder = new Request.Builder()
+                .url(url);
 
         if (!TextUtils.isEmpty(eTag)) {
             requestBuilder.addHeader("If-None-Match", eTag);
