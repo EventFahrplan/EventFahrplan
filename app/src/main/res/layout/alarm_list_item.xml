@@ -30,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:paddingBottom="3dp"
-                android:textColor="@android:color/primary_text_dark"
+                android:textColor="?android:attr/textColorPrimary"
                 android:textSize="16sp"
                 tools:text="@string/placeholder_event_title"/>
 
@@ -38,7 +38,7 @@
                 android:id="@+id/time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@android:color/secondary_text_dark"
+                android:textColor="?android:attr/textColorSecondary"
                 android:textSize="10sp"
                 tools:text="@string/placeholder_alarm_time"/>
     </LinearLayout>
