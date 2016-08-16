@@ -242,30 +242,27 @@ public class FahrplanMisc {
         }
 
         cursor.moveToFirst();
+        String lecture_id = cursor.getString(cursor.getColumnIndex(AlarmsTable.Columns.EVENT_ID));
+        int day = cursor.getInt(cursor.getColumnIndex(AlarmsTable.Columns.DAY));
+        String title = cursor.getString(cursor.getColumnIndex(AlarmsTable.Columns.EVENT_TITLE));
+        long startTime = cursor.getLong(cursor.getColumnIndex(AlarmsTable.Columns.TIME));
 
         Intent intent = new Intent(context, AlarmReceiver.class);
-
-        String lecture_id = cursor.getString(cursor.getColumnIndex(AlarmsTable.Columns.EVENT_ID));
         intent.putExtra(BundleKeys.ALARM_LECTURE_ID, lecture_id);
-        int day = cursor.getInt(cursor.getColumnIndex(AlarmsTable.Columns.DAY));
         intent.putExtra(BundleKeys.ALARM_DAY, day);
-        String title = cursor.getString(cursor.getColumnIndex(AlarmsTable.Columns.EVENT_TITLE));
         intent.putExtra(BundleKeys.ALARM_TITLE, title);
-        long startTime = cursor.getLong(cursor.getColumnIndex(AlarmsTable.Columns.TIME));
         intent.putExtra(BundleKeys.ALARM_START_TIME, startTime);
+        intent.setAction("de.machtnix.fahrplan.ALARM");
+        intent.setData(Uri.parse("alarm://" + lecture.lecture_id));
 
         // delete any previous alarms of this lecture
         db.delete(AlarmsTable.NAME, AlarmsTable.Columns.EVENT_ID + "=?",
                 new String[]{lecture.lecture_id});
         db.close();
 
-        intent.setAction("de.machtnix.fahrplan.ALARM");
-        intent.setData(Uri.parse("alarm://" + lecture.lecture_id));
-
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        PendingIntent pendingintent = PendingIntent
-                .getBroadcast(context, Integer.parseInt(lecture.lecture_id), intent, 0);
-
+        PendingIntent pendingintent = PendingIntent.getBroadcast(
+                context, Integer.parseInt(lecture.lecture_id), intent, 0);
         // Cancel any existing alarms for this lecture
         alarmManager.cancel(pendingintent);
 
@@ -304,13 +301,11 @@ public class FahrplanMisc {
         intent.putExtra(BundleKeys.ALARM_TITLE, lecture.title);
         intent.putExtra(BundleKeys.ALARM_START_TIME, startTime);
         intent.setAction(AlarmReceiver.ALARM_LECTURE);
-
         intent.setData(Uri.parse("alarm://" + lecture.lecture_id));
 
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        PendingIntent pendingintent = PendingIntent
-                .getBroadcast(context, Integer.parseInt(lecture.lecture_id), intent, 0);
-
+        PendingIntent pendingintent = PendingIntent.getBroadcast(
+                context, Integer.parseInt(lecture.lecture_id), intent, 0);
         // Cancel any existing alarms for this lecture
         alarmManager.cancel(pendingintent);
 
