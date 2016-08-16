@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NotificationCompat;
@@ -90,4 +91,38 @@ public final class AlarmReceiver extends BroadcastReceiver {
             context.startService(updateIntent);
         }
     }
+
+    public static Intent getAddAlarmIntent(@NonNull Context context,
+                                           @NonNull String lectureId,
+                                           int day,
+                                           @NonNull String title,
+                                           long startTime) {
+        return getAlarmIntent(context, lectureId, day, title, startTime, ALARM_LECTURE);
+    }
+
+    public static Intent getDeleteAlarmIntent(@NonNull Context context,
+                                              @NonNull String lectureId,
+                                              int day,
+                                              @NonNull String title,
+                                              long startTime) {
+        String intentAction = "de.machtnix.fahrplan.ALARM";
+        return getAlarmIntent(context, lectureId, day, title, startTime, intentAction);
+    }
+
+    private static Intent getAlarmIntent(@NonNull Context context,
+                                         @NonNull String lectureId,
+                                         int day,
+                                         @NonNull String title,
+                                         long startTime,
+                                         @NonNull String intentAction) {
+        Intent intent = new Intent(context, AlarmReceiver.class);
+        intent.putExtra(BundleKeys.ALARM_LECTURE_ID, lectureId);
+        intent.putExtra(BundleKeys.ALARM_DAY, day);
+        intent.putExtra(BundleKeys.ALARM_TITLE, title);
+        intent.putExtra(BundleKeys.ALARM_START_TIME, startTime);
+        intent.setAction(intentAction);
+        intent.setData(Uri.parse("alarm://" + lectureId));
+        return intent;
+    }
+
 }

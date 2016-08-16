@@ -8,7 +8,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.CursorAdapter;
 import android.view.ContextMenu;
@@ -100,17 +99,12 @@ public class AlarmList extends ActionBarListActivity {
         String title = cursor.getString(cursor.getColumnIndex(AlarmsTable.Columns.EVENT_TITLE));
         long startTime = cursor.getLong(cursor.getColumnIndex(AlarmsTable.Columns.TIME));
 
-        Intent intent = new Intent(this, AlarmReceiver.class);
-        intent.putExtra(BundleKeys.ALARM_LECTURE_ID, lecture_id);
-        intent.putExtra(BundleKeys.ALARM_DAY, day);
-        intent.putExtra(BundleKeys.ALARM_TITLE, title);
-        intent.putExtra(BundleKeys.ALARM_START_TIME, startTime);
-        intent.setAction("de.machtnix.fahrplan.ALARM");
-        intent.setData(Uri.parse("alarm://" + lecture_id));
+        Intent deleteAlarmIntent = AlarmReceiver.getDeleteAlarmIntent(
+                this, lecture_id, day, title, startTime);
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         PendingIntent pendingintent = PendingIntent.getBroadcast(
-                this, Integer.parseInt(lecture_id), intent, 0);
+                this, Integer.parseInt(lecture_id), deleteAlarmIntent, 0);
         alarmManager.cancel(pendingintent);
 
         String id = cursor.getString(cursor.getColumnIndex(AlarmsTable.Columns.ID));

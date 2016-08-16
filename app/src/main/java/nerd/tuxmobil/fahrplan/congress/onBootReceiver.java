@@ -9,7 +9,6 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
-import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.text.format.Time;
 
@@ -59,18 +58,11 @@ public final class onBootReceiver extends BroadcastReceiver {
                 long startTime = cursor.getLong(
                         cursor.getColumnIndex(AlarmsTable.Columns.TIME));
 
-                Intent alarmintent = new Intent(context, AlarmReceiver.class);
-                alarmintent.putExtra(BundleKeys.ALARM_LECTURE_ID, lecture_id);
-                alarmintent.putExtra(BundleKeys.ALARM_DAY, day);
-                alarmintent.putExtra(BundleKeys.ALARM_TITLE, title);
-                alarmintent.putExtra(BundleKeys.ALARM_START_TIME, startTime);
-                alarmintent.setAction(AlarmReceiver.ALARM_LECTURE);
-
-                alarmintent.setData(Uri.parse("alarm://" + lecture_id));
-
+                Intent addAlarmIntent = AlarmReceiver.getAddAlarmIntent(
+                        context, lecture_id, day, title, startTime);
 
                 PendingIntent pendingintent = PendingIntent.getBroadcast(
-                        context, Integer.parseInt(lecture_id), alarmintent, 0);
+                        context, Integer.parseInt(lecture_id), addAlarmIntent, 0);
                 MyApp.LogDebug(LOG_TAG, "add alarm for " + title);
                 // Set new alarm
                 alarmManager.set(AlarmManager.RTC_WAKEUP, alarmTime, pendingintent);
