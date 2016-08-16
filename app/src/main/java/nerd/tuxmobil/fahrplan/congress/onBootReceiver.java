@@ -59,10 +59,10 @@ public final class onBootReceiver extends BroadcastReceiver {
                 long startTime = cursor.getLong(cursor.getColumnIndex(AlarmsTable.Columns.TIME));
 
                 Intent alarmintent = new Intent(context, AlarmReceiver.class);
-                alarmintent.putExtra("lecture_id", lecture_id);
-                alarmintent.putExtra("day", day);
-                alarmintent.putExtra("title", title);
-                alarmintent.putExtra("startTime", startTime);
+                alarmintent.putExtra(BundleKeys.ALARM_LECTURE_ID, lecture_id);
+                alarmintent.putExtra(BundleKeys.ALARM_DAY, day);
+                alarmintent.putExtra(BundleKeys.ALARM_TITLE, title);
+                alarmintent.putExtra(BundleKeys.ALARM_START_TIME, startTime);
                 alarmintent.setAction(AlarmReceiver.ALARM_LECTURE);
 
                 alarmintent.setData(Uri.parse("alarm://" + lecture_id));
