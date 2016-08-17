@@ -246,8 +246,14 @@ public class FahrplanMisc {
         String title = cursor.getString(cursor.getColumnIndex(AlarmsTable.Columns.EVENT_TITLE));
         long startTime = cursor.getLong(cursor.getColumnIndex(AlarmsTable.Columns.TIME));
 
-        Intent deleteAlarmIntent = AlarmReceiver.getDeleteAlarmIntent(
-                context, lecture_id, day, title, startTime);
+        Intent deleteAlarmIntent = new AlarmReceiver.AlarmIntentBuilder()
+                .setContext(context)
+                .setLectureId(lecture_id)
+                .setDay(day)
+                .setTitle(title)
+                .setStartTime(startTime)
+                .setIsDeleteAlarm()
+                .build();
 
         // delete any previous alarms of this lecture
         db.delete(AlarmsTable.NAME, AlarmsTable.Columns.EVENT_ID + "=?",
@@ -289,8 +295,14 @@ public class FahrplanMisc {
         MyApp.LogDebug("addAlarm",
                 "Alarm time: " + time.format("%Y-%m-%dT%H:%M:%S%z") + ", in seconds: " + when);
 
-        Intent addAlarmIntent = AlarmReceiver.getAddAlarmIntent(
-                context, lecture.lecture_id, lecture.day, lecture.title, startTime);
+        Intent addAlarmIntent = new AlarmReceiver.AlarmIntentBuilder()
+                .setContext(context)
+                .setLectureId(lecture.lecture_id)
+                .setDay(lecture.day)
+                .setTitle(lecture.title)
+                .setStartTime(startTime)
+                .setIsAddAlarm()
+                .build();
 
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         PendingIntent pendingintent = PendingIntent.getBroadcast(

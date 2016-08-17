@@ -58,8 +58,14 @@ public final class onBootReceiver extends BroadcastReceiver {
                 long startTime = cursor.getLong(
                         cursor.getColumnIndex(AlarmsTable.Columns.TIME));
 
-                Intent addAlarmIntent = AlarmReceiver.getAddAlarmIntent(
-                        context, lecture_id, day, title, startTime);
+                Intent addAlarmIntent = new AlarmReceiver.AlarmIntentBuilder()
+                        .setContext(context)
+                        .setLectureId(lecture_id)
+                        .setDay(day)
+                        .setTitle(title)
+                        .setStartTime(startTime)
+                        .setIsAddAlarm()
+                        .build();
 
                 PendingIntent pendingintent = PendingIntent.getBroadcast(
                         context, Integer.parseInt(lecture_id), addAlarmIntent, 0);

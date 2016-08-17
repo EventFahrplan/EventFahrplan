@@ -99,8 +99,14 @@ public class AlarmList extends ActionBarListActivity {
         String title = cursor.getString(cursor.getColumnIndex(AlarmsTable.Columns.EVENT_TITLE));
         long startTime = cursor.getLong(cursor.getColumnIndex(AlarmsTable.Columns.TIME));
 
-        Intent deleteAlarmIntent = AlarmReceiver.getDeleteAlarmIntent(
-                this, lecture_id, day, title, startTime);
+        Intent deleteAlarmIntent = new AlarmReceiver.AlarmIntentBuilder()
+                .setContext(this)
+                .setLectureId(lecture_id)
+                .setDay(day)
+                .setTitle(title)
+                .setStartTime(startTime)
+                .setIsDeleteAlarm()
+                .build();
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         PendingIntent pendingintent = PendingIntent.getBroadcast(

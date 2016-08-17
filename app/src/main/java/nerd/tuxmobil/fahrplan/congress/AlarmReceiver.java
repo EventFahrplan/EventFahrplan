@@ -92,19 +92,19 @@ public final class AlarmReceiver extends BroadcastReceiver {
         }
     }
 
-    public static Intent getAddAlarmIntent(@NonNull Context context,
-                                           @NonNull String lectureId,
-                                           int day,
-                                           @NonNull String title,
-                                           long startTime) {
+    private static Intent getAddAlarmIntent(@NonNull Context context,
+                                            @NonNull String lectureId,
+                                            int day,
+                                            @NonNull String title,
+                                            long startTime) {
         return getAlarmIntent(context, lectureId, day, title, startTime, ALARM_LECTURE);
     }
 
-    public static Intent getDeleteAlarmIntent(@NonNull Context context,
-                                              @NonNull String lectureId,
-                                              int day,
-                                              @NonNull String title,
-                                              long startTime) {
+    private static Intent getDeleteAlarmIntent(@NonNull Context context,
+                                               @NonNull String lectureId,
+                                               int day,
+                                               @NonNull String title,
+                                               long startTime) {
         String intentAction = "de.machtnix.fahrplan.ALARM";
         return getAlarmIntent(context, lectureId, day, title, startTime, intentAction);
     }
@@ -123,6 +123,82 @@ public final class AlarmReceiver extends BroadcastReceiver {
         intent.setAction(intentAction);
         intent.setData(Uri.parse("alarm://" + lectureId));
         return intent;
+    }
+
+    public static class AlarmIntentBuilder {
+
+        private Context context = null;
+        private String lectureId = null;
+        private int day = Integer.MAX_VALUE;
+        private String title = null;
+        private long startTime = Long.MIN_VALUE;
+        private boolean isAddAlarmIntent = true;
+        private boolean addMethodWasInvoked = false;
+        private boolean deleteMethodWasInvoked = false;
+
+        public AlarmIntentBuilder setContext(@NonNull Context context) {
+            this.context = context;
+            return this;
+        }
+
+        public AlarmIntentBuilder setLectureId(@NonNull String lectureId) {
+            this.lectureId = lectureId;
+            return this;
+        }
+
+        public AlarmIntentBuilder setDay(int day) {
+            this.day = day;
+            return this;
+        }
+
+        public AlarmIntentBuilder setTitle(@NonNull String title) {
+            this.title = title;
+            return this;
+        }
+
+        public AlarmIntentBuilder setStartTime(long startTime) {
+            this.startTime = startTime;
+            return this;
+        }
+
+        public AlarmIntentBuilder setIsAddAlarm() {
+            this.isAddAlarmIntent = true;
+            this.addMethodWasInvoked = true;
+            return this;
+        }
+
+        public AlarmIntentBuilder setIsDeleteAlarm() {
+            this.isAddAlarmIntent = false;
+            this.deleteMethodWasInvoked = true;
+            return this;
+        }
+
+        public Intent build() {
+            if (context == null) {
+                throw new BuilderException("Field 'context' is not set.");
+            }
+            if (lectureId == null) {
+                throw new BuilderException("Field 'lectureId' is not set.");
+            }
+            if (day == Integer.MAX_VALUE) {
+                throw new BuilderException("Field 'day' is not set.");
+            }
+            if (title == null) {
+                throw new BuilderException("Field 'title' is not set.");
+            }
+            if (startTime == Long.MIN_VALUE) {
+                throw new BuilderException("Field 'startTime' is not set.");
+            }
+            if (addMethodWasInvoked && deleteMethodWasInvoked) {
+                throw new BuilderException("Either call 'setIsAddAlarm()' OR 'setIsDeleteAlarm()' - not both.");
+            }
+            if (isAddAlarmIntent) {
+                return AlarmReceiver.getAddAlarmIntent(context, lectureId, day, title, startTime);
+            } else {
+                return AlarmReceiver.getDeleteAlarmIntent(context, lectureId, day, title, startTime);
+            }
+        }
+
     }
 
 }
