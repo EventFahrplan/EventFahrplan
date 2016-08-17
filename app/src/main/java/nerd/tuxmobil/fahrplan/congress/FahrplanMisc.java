@@ -13,6 +13,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.net.Uri;
 import android.provider.CalendarContract;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.text.format.Time;
 import android.widget.Toast;
@@ -147,10 +148,10 @@ public class FahrplanMisc {
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
         StringBuilder sb = new StringBuilder();
-        Time time = l.getTime();
+        long startTime = getLectureStartTime(l);
         sb.append(l.title).append("\n").append(SimpleDateFormat
                 .getDateTimeInstance(SimpleDateFormat.FULL, SimpleDateFormat.SHORT)
-                .format(new Date(time.toMillis(true))));
+                .format(new Date(startTime)));
         sb.append(", ").append(l.room).append("\n\n");
         final String eventUrl = getEventUrl(context, l.lecture_id);
         sb.append(eventUrl);
@@ -180,6 +181,17 @@ public class FahrplanMisc {
         return sb.toString();
     }
 
+    private static long getLectureStartTime(@NonNull Lecture lecture) {
+        long when;
+        if (lecture.dateUTC > 0) {
+            when = lecture.dateUTC;
+        } else {
+            Time time = lecture.getTime();
+            when = time.normalize(true);
+        }
+        return when;
+    }
+
     @SuppressLint("NewApi")
     public static void addToCalender(Context context, Lecture l) {
         Intent intent = new Intent(Intent.ACTION_INSERT, CalendarContract.Events.CONTENT_URI);
@@ -187,15 +199,9 @@ public class FahrplanMisc {
         intent.putExtra(CalendarContract.Events.TITLE, l.title);
         intent.putExtra(CalendarContract.Events.EVENT_LOCATION, l.room);
 
-        long when;
-        if (l.dateUTC > 0) {
-            when = l.dateUTC;
-        } else {
-            Time time = l.getTime();
-            when = time.normalize(true);
-        }
-        intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, when);
-        intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, when + (l.duration * 60000));
+        long startTime = getLectureStartTime(l);
+        intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startTime);
+        intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, startTime + (l.duration * 60000));
         final String description = getCalendarDescription(context, l);
         intent.putExtra(CalendarContract.Events.DESCRIPTION, description);
         try {
