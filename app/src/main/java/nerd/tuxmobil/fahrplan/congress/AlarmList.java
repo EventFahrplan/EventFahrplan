@@ -8,7 +8,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.CursorAdapter;
@@ -97,24 +96,23 @@ public class AlarmList extends ActionBarListActivity {
 
     public void delete_alarm(int position) {
         Cursor cursor = (Cursor) getListAdapter().getItem(position);
-
-        Intent intent = new Intent(this, AlarmReceiver.class);
-
         String lecture_id = cursor.getString(cursor.getColumnIndex(AlarmsTable.Columns.EVENT_ID));
-        intent.putExtra(BundleKeys.ALARM_LECTURE_ID, lecture_id);
         int day = cursor.getInt(cursor.getColumnIndex(AlarmsTable.Columns.DAY));
-        intent.putExtra(BundleKeys.ALARM_DAY, day);
         String title = cursor.getString(cursor.getColumnIndex(AlarmsTable.Columns.EVENT_TITLE));
-        intent.putExtra(BundleKeys.ALARM_TITLE, title);
         long startTime = cursor.getLong(cursor.getColumnIndex(AlarmsTable.Columns.TIME));
-        intent.putExtra(BundleKeys.ALARM_START_TIME, startTime);
 
-        intent.setAction("de.machtnix.fahrplan.ALARM");
-        intent.setData(Uri.parse("alarm://" + lecture_id));
+        Intent deleteAlarmIntent = new AlarmReceiver.AlarmIntentBuilder()
+                .setContext(this)
+                .setLectureId(lecture_id)
+                .setDay(day)
+                .setTitle(title)
+                .setStartTime(startTime)
+                .setIsDeleteAlarm()
+                .build();
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        PendingIntent pendingintent = PendingIntent
-                .getBroadcast(this, Integer.parseInt(lecture_id), intent, 0);
+        PendingIntent pendingintent = PendingIntent.getBroadcast(
+                this, Integer.parseInt(lecture_id), deleteAlarmIntent, 0);
         alarmManager.cancel(pendingintent);
 
         String id = cursor.getString(cursor.getColumnIndex(AlarmsTable.Columns.ID));

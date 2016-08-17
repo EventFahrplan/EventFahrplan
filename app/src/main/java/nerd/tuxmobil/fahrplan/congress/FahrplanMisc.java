@@ -11,7 +11,6 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
-import android.net.Uri;
 import android.provider.CalendarContract;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
@@ -246,30 +245,28 @@ public class FahrplanMisc {
         }
 
         cursor.moveToFirst();
-
-        Intent intent = new Intent(context, AlarmReceiver.class);
-
         String lecture_id = cursor.getString(cursor.getColumnIndex(AlarmsTable.Columns.EVENT_ID));
-        intent.putExtra(BundleKeys.ALARM_LECTURE_ID, lecture_id);
         int day = cursor.getInt(cursor.getColumnIndex(AlarmsTable.Columns.DAY));
-        intent.putExtra(BundleKeys.ALARM_DAY, day);
         String title = cursor.getString(cursor.getColumnIndex(AlarmsTable.Columns.EVENT_TITLE));
-        intent.putExtra(BundleKeys.ALARM_TITLE, title);
         long startTime = cursor.getLong(cursor.getColumnIndex(AlarmsTable.Columns.TIME));
-        intent.putExtra(BundleKeys.ALARM_START_TIME, startTime);
+
+        Intent deleteAlarmIntent = new AlarmReceiver.AlarmIntentBuilder()
+                .setContext(context)
+                .setLectureId(lecture_id)
+                .setDay(day)
+                .setTitle(title)
+                .setStartTime(startTime)
+                .setIsDeleteAlarm()
+                .build();
 
         // delete any previous alarms of this lecture
         db.delete(AlarmsTable.NAME, AlarmsTable.Columns.EVENT_ID + "=?",
                 new String[]{lecture.lecture_id});
         db.close();
 
-        intent.setAction("de.machtnix.fahrplan.ALARM");
-        intent.setData(Uri.parse("alarm://" + lecture.lecture_id));
-
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        PendingIntent pendingintent = PendingIntent
-                .getBroadcast(context, Integer.parseInt(lecture.lecture_id), intent, 0);
-
+        PendingIntent pendingintent = PendingIntent.getBroadcast(
+                context, Integer.parseInt(lecture.lecture_id), deleteAlarmIntent, 0);
         // Cancel any existing alarms for this lecture
         alarmManager.cancel(pendingintent);
 
@@ -309,19 +306,18 @@ public class FahrplanMisc {
         MyApp.LogDebug("addAlarm",
                 "Alarm time: " + time.format("%Y-%m-%dT%H:%M:%S%z") + ", in seconds: " + when);
 
-        Intent intent = new Intent(context, AlarmReceiver.class);
-        intent.putExtra(BundleKeys.ALARM_LECTURE_ID, lecture.lecture_id);
-        intent.putExtra(BundleKeys.ALARM_DAY, lecture.day);
-        intent.putExtra(BundleKeys.ALARM_TITLE, lecture.title);
-        intent.putExtra(BundleKeys.ALARM_START_TIME, startTime);
-        intent.setAction(AlarmReceiver.ALARM_LECTURE);
-
-        intent.setData(Uri.parse("alarm://" + lecture.lecture_id));
+        Intent addAlarmIntent = new AlarmReceiver.AlarmIntentBuilder()
+                .setContext(context)
+                .setLectureId(lecture.lecture_id)
+                .setDay(lecture.day)
+                .setTitle(lecture.title)
+                .setStartTime(startTime)
+                .setIsAddAlarm()
+                .build();
 
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        PendingIntent pendingintent = PendingIntent
-                .getBroadcast(context, Integer.parseInt(lecture.lecture_id), intent, 0);
-
+        PendingIntent pendingintent = PendingIntent.getBroadcast(
+                context, Integer.parseInt(lecture.lecture_id), addAlarmIntent, 0);
         // Cancel any existing alarms for this lecture
         alarmManager.cancel(pendingintent);
 
