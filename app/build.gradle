@@ -74,6 +74,7 @@ android {
             buildConfigField "int", "SCHEDULE_LAST_DAY_END_YEAR", "2015"
             buildConfigField "int", "SCHEDULE_LAST_DAY_END_MONTH", "8"
             buildConfigField "int", "SCHEDULE_LAST_DAY_END_DAY", "17"
+            buildConfigField "boolean", "SHOW_APP_DISCLAIMER", "false"
         }
         ccc32c3 {
             applicationId "nerd.tuxmobil.fahrplan.congress"
@@ -89,6 +90,7 @@ android {
             buildConfigField "int", "SCHEDULE_LAST_DAY_END_YEAR", "2015"
             buildConfigField "int", "SCHEDULE_LAST_DAY_END_MONTH", "12"
             buildConfigField "int", "SCHEDULE_LAST_DAY_END_DAY", "31"
+            buildConfigField "boolean", "SHOW_APP_DISCLAIMER", "false"
         }
     }
 

@@ -1,6 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
@@ -40,6 +41,10 @@ public class AboutDialog extends DialogFragment {
         text.setText(appVersionText);
 
         Context context = getContext();
+
+        View appDisclaimer = view.findViewById(R.id.app_disclaimer);
+        //noinspection ConstantConditions
+        appDisclaimer.setVisibility(BuildConfig.SHOW_APP_DISCLAIMER ? View.VISIBLE : View.GONE);
 
         TextView logo_copyright = (TextView) view.findViewById(R.id.copyright_logo);
         logo_copyright.setText(Html.fromHtml(getString(R.string.copyright_logo)));

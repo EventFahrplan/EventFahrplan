@@ -121,6 +121,13 @@
         Version hash: <xliff:g id="build_hash" example="e1f2g3h-dirty">%s</xliff:g>
     </string>
 
+    <!-- App disclaimer -->
+    <string name="app_disclaimer">
+        This application is based on the source code of the &#8220;Schedule&#8221; app.
+        Visitors of the annual congress and camp hosted by the Chaos Computer Club
+        use the app to keep track of the event program.
+    </string>
+
     <!-- SnackEngage -->
     <string name="snack_engage_rate_title">Everything fine?</string>
     <string name="snack_engage_rate_action">Rate the app</string>
