@@ -20,6 +20,9 @@ public class AlarmUpdaterTest {
     // 2015-12-31T00:00:00+0100, in seconds: 1451516400000
     final long LAST_DAY_END_TIME = 1451516400000L;
 
+    final ConferenceTimeFrame conferenceTimeFrame =
+            new ConferenceTimeFrame(FIRST_DAY_START_TIME, LAST_DAY_END_TIME);
+
     final long NEVER_USED = -1;
 
     AlarmUpdater alarmUpdater;
@@ -29,7 +32,7 @@ public class AlarmUpdaterTest {
 
     @Before
     public void setUp() throws Exception {
-        alarmUpdater = new AlarmUpdater(FIRST_DAY_START_TIME, LAST_DAY_END_TIME, mockListener);
+        alarmUpdater = new AlarmUpdater(conferenceTimeFrame, mockListener);
     }
 
     // Start <= Time < End

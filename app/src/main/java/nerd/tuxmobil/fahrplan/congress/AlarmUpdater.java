@@ -15,16 +15,13 @@ public class AlarmUpdater {
 
     }
 
-    private final long firstDayStartTime;
-
-    private final long lastDayEndTime;
+    private final ConferenceTimeFrame conference;
 
     private final OnAlarmUpdateListener listener;
 
-    public AlarmUpdater(long firstDayStartTime, long lastDayEndTime,
+    public AlarmUpdater(@NonNull ConferenceTimeFrame conferenceTimeFrame,
                         @NonNull OnAlarmUpdateListener listener) {
-        this.firstDayStartTime = firstDayStartTime;
-        this.lastDayEndTime = lastDayEndTime;
+        this.conference = conferenceTimeFrame;
         this.listener = listener;
     }
 
@@ -35,10 +32,10 @@ public class AlarmUpdater {
         long TWO_HOURS = 2 * AlarmManager.INTERVAL_HOUR;
         long ONE_DAY = AlarmManager.INTERVAL_DAY;
 
-        if ((time >= firstDayStartTime) && (time < lastDayEndTime)) {
+        if (conference.contains(time)) {
             interval = TWO_HOURS;
             nextFetch = time + interval;
-        } else if (time >= lastDayEndTime) {
+        } else if (conference.endsBefore(time)) {
             listener.onCancelAlarm();
             return 0;
         } else {
@@ -47,9 +44,9 @@ public class AlarmUpdater {
         }
 
         long shiftedTime = time + ONE_DAY;
-        if ((time < firstDayStartTime) && (shiftedTime >= firstDayStartTime)) {
+        if (conference.startsAfter(time) && conference.startsAtOrBefore(shiftedTime)) {
             interval = TWO_HOURS;
-            nextFetch = firstDayStartTime;
+            nextFetch = conference.getFirstDayStartTime();
             if (!initial) {
                 listener.onCancelAlarm();
                 listener.onRescheduleAlarm(interval, nextFetch);

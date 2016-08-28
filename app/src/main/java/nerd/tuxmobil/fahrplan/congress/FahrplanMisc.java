@@ -404,7 +404,7 @@ public class FahrplanMisc {
         t.setToNow();
         final long now = t.toMillis(true);
 
-        AlarmUpdater alarmUpdater = new AlarmUpdater(MyApp.first_day_start, MyApp.last_day_end,
+        AlarmUpdater alarmUpdater = new AlarmUpdater(MyApp.conferenceTimeFrame,
                 new AlarmUpdater.OnAlarmUpdateListener() {
 
                     @Override
