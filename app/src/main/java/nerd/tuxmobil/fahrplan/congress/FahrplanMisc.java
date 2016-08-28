@@ -392,58 +392,6 @@ public class FahrplanMisc {
         }
     }
 
-    public static long setUpdateAlarm(Context context, boolean initial) {
-        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-
-        Intent alarmintent = new Intent(context, AlarmReceiver.class);
-        alarmintent.setAction(AlarmReceiver.ALARM_UPDATE);
-
-        PendingIntent pendingintent = PendingIntent.getBroadcast(context, 0, alarmintent, 0);
-
-        MyApp.LogDebug(LOG_TAG, "set update alarm");
-        long next_fetch;
-        long interval;
-        Time t = new Time();
-        t.setToNow();
-        long now = t.toMillis(true);
-
-        if ((now >= MyApp.first_day_start) && (now < MyApp.last_day_end)) {
-            interval = 2 * AlarmManager.INTERVAL_HOUR;
-            next_fetch = now + interval;
-        } else if (now >= MyApp.last_day_end) {
-            MyApp.LogDebug(LOG_TAG, "cancel alarm post congress");
-            alarmManager.cancel(pendingintent);
-            return 0;
-        } else {
-            interval = AlarmManager.INTERVAL_DAY;
-            next_fetch = now + interval;
-        }
-
-        if ((now < MyApp.first_day_start) && ((now + AlarmManager.INTERVAL_DAY)
-                >= MyApp.first_day_start)) {
-            next_fetch = MyApp.first_day_start;
-            interval = 2 * AlarmManager.INTERVAL_HOUR;
-            if (!initial) {
-                MyApp.LogDebug(LOG_TAG,
-                        "update alarm to interval " + interval + ", next in " + (next_fetch - now));
-                alarmManager.cancel(pendingintent);
-                alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, next_fetch, interval,
-                        pendingintent);
-            }
-        }
-
-        if (initial) {
-            MyApp.LogDebug(LOG_TAG,
-                    "set initial alarm to interval " + interval + ", next in " + (next_fetch
-                            - now));
-            alarmManager.cancel(pendingintent);
-            alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, next_fetch, interval,
-                    pendingintent);
-        }
-
-        return interval;
-    }
-
     public static void clearUpdateAlarm(Context context) {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
@@ -455,6 +403,45 @@ public class FahrplanMisc {
         MyApp.LogDebug(LOG_TAG, "clear update alarm");
 
         alarmManager.cancel(pendingintent);
+    }
+
+    public static long setUpdateAlarm(Context context, boolean initial) {
+        final AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        Intent alarmIntent = new Intent(context, AlarmReceiver.class);
+        alarmIntent.setAction(AlarmReceiver.ALARM_UPDATE);
+        final PendingIntent pendingintent = PendingIntent.getBroadcast(context, 0, alarmIntent, 0);
+
+        MyApp.LogDebug(LOG_TAG, "set update alarm");
+        Time t = new Time();
+        t.setToNow();
+        final long now = t.toMillis(true);
+
+        AlarmUpdater alarmUpdater = new AlarmUpdater(MyApp.conferenceTimeFrame,
+                new AlarmUpdater.OnAlarmUpdateListener() {
+
+                    @Override
+                    public void onCancelAlarm() {
+                        MyApp.LogDebug(LOG_TAG, "cancel alarm post congress");
+                        alarmManager.cancel(pendingintent);
+                    }
+
+                    @Override
+                    public void onRescheduleAlarm(long interval, long nextFetch) {
+                        MyApp.LogDebug(LOG_TAG, "update alarm to interval " + interval +
+                                ", next in " + (nextFetch - now));
+                        alarmManager.setInexactRepeating(
+                                AlarmManager.RTC_WAKEUP, nextFetch, interval, pendingintent);
+                    }
+
+                    @Override
+                    public void onRescheduleInitialAlarm(long interval, long nextFetch) {
+                        MyApp.LogDebug(LOG_TAG, "set initial alarm to interval " + interval +
+                                ", next in " + (nextFetch - now));
+                        alarmManager.setInexactRepeating(
+                                AlarmManager.RTC_WAKEUP, nextFetch, interval, pendingintent);
+                    }
+                });
+        return alarmUpdater.calculateInterval(now, initial);
     }
 
     public static LectureList loadLecturesForAllDays(Context context) {

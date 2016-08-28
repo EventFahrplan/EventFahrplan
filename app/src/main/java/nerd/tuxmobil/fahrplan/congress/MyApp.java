@@ -32,15 +32,18 @@ public class MyApp extends Application {
 
     public static FahrplanParser parser = null;
 
-    public static long first_day_start = getMilliseconds("Europe/Paris",
+    private static long first_day_start = getMilliseconds("Europe/Paris",
             BuildConfig.SCHEDULE_FIRST_DAY_START_YEAR,
             BuildConfig.SCHEDULE_FIRST_DAY_START_MONTH,
             BuildConfig.SCHEDULE_FIRST_DAY_START_DAY);
 
-    public static long last_day_end = getMilliseconds("Europe/Paris",
+    private static long last_day_end = getMilliseconds("Europe/Paris",
             BuildConfig.SCHEDULE_LAST_DAY_END_YEAR,
             BuildConfig.SCHEDULE_LAST_DAY_END_MONTH,
             BuildConfig.SCHEDULE_LAST_DAY_END_DAY);
+
+    public static final ConferenceTimeFrame conferenceTimeFrame =
+            new ConferenceTimeFrame(first_day_start, last_day_end);
 
     public static int room_count = 0;
 
