@@ -20,7 +20,6 @@ import android.widget.Toast;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 
 import nerd.tuxmobil.fahrplan.congress.FahrplanContract.AlarmsTable;
 import nerd.tuxmobil.fahrplan.congress.FahrplanContract.HighlightsTable;
@@ -149,9 +148,7 @@ public class FahrplanMisc {
         sendIntent.setAction(Intent.ACTION_SEND);
         StringBuilder sb = new StringBuilder();
         Time time = l.getTime();
-        sb.append(l.title).append("\n").append(SimpleDateFormat
-                .getDateTimeInstance(SimpleDateFormat.FULL, SimpleDateFormat.SHORT, Locale.getDefault())
-                .format(new Date(time.toMillis(true))));
+        sb.append(l.title).append("\n").append(DateHelper.getFormattedDateTime(time);
         sb.append(", ").append(l.room).append("\n\n");
         final String eventUrl = getEventUrl(context, l.lecture_id);
         sb.append(eventUrl);
