@@ -109,6 +109,8 @@
     <string name="dlg_delete_all_favorites">Delete all favorites?</string>
     <string name="dlg_delete_all_favorites_delete_all">Delete all</string>
 
+    <string name="share_error_activity_not_found">No fitting app installed.</string>
+
     <!-- Build information -->
     <string name="build_info_time">
         Build time: <xliff:g id="build_time" example="2015-12-27T13:42Z">%s</xliff:g>

@@ -106,6 +106,8 @@
     <string name="dlg_delete_all_favorites_delete_all">Alle löschen</string>
     <string name="navigate">Navigiere</string>
 
+    <string name="share_error_activity_not_found">Keine passende App installiert.</string>
+
     <!-- Build information -->
     <string name="build_info_time">
         Build-Zeit: <xliff:g id="build_time" example="2015-12-27T13:42Z">%s</xliff:g>

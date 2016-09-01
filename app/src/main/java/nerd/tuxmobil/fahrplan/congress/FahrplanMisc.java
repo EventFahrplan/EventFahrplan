@@ -143,20 +143,6 @@ public class FahrplanMisc {
         metaDB.close();
     }
 
-    public static void share(Context context, Lecture l) {
-        Intent sendIntent = new Intent();
-        sendIntent.setAction(Intent.ACTION_SEND);
-        StringBuilder sb = new StringBuilder();
-        Time time = l.getTime();
-        sb.append(l.title).append("\n").append(DateHelper.getFormattedDateTime(time);
-        sb.append(", ").append(l.room).append("\n\n");
-        final String eventUrl = getEventUrl(context, l.lecture_id);
-        sb.append(eventUrl);
-        sendIntent.putExtra(Intent.EXTRA_TEXT, sb.toString());
-        sendIntent.setType("text/plain");
-        context.startActivity(sendIntent);
-    }
-
     public static String getEventUrl(final Context context, final String eventId) {
         StringBuilder sb = new StringBuilder();
         sb.append(BuildConfig.SCHEDULE_DOMAIN_PART);
