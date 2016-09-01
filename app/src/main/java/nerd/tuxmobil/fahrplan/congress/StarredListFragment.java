@@ -3,6 +3,7 @@ package nerd.tuxmobil.fahrplan.congress;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -21,6 +22,7 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 
 /**
@@ -181,10 +183,17 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
         if ((item != null) && ((starredList == null) || (starredList.size() == 0))) {
             item.setVisible(false);
         }
+        item = menu.findItem(R.id.item_share);
+        if (item != null) {
+            item.setVisible(starredList != null && !starredList.isEmpty());
+        }
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.item_share:
+                shareLectures();
+                return true;
             case R.id.item_clear_all:
                 askToDeleteAllFavorites();
                 return true;
@@ -217,6 +226,7 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
         switch (item.getItemId()) {
             case R.id.item_delete:
                 deleteItems(mListView.getCheckedItemPositions());
+                ActivityCompat.invalidateOptionsMenu(getActivity());
                 refreshViews();
                 mode.finish();
                 return true;
@@ -288,6 +298,18 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
         for (int i = 0; i < count; i++) {
             deleteItem(0);
         }
+        ActivityCompat.invalidateOptionsMenu(getActivity());
         refreshViews();
     }
+
+    private void shareLectures() {
+        String formattedLectures = SimpleLectureFormat.format(starredList);
+        if (formattedLectures != null) {
+            Context context = getContext();
+            if (!LectureSharer.shareSimple(context, formattedLectures)) {
+                Toast.makeText(context, R.string.share_error_activity_not_found, Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
 }
