@@ -8,6 +8,7 @@ import android.content.SharedPreferences.Editor;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -453,6 +454,7 @@ public class MainActivity extends BaseActivity implements
         if (fragment != null) {
             ((StarredListFragment)fragment).onRefresh();
         }
+        ActivityCompat.invalidateOptionsMenu(this);
     }
 
     public void openLectureChanges() {

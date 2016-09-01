@@ -3,6 +3,7 @@ package nerd.tuxmobil.fahrplan.congress;
 import android.support.annotation.NonNull;
 import android.text.format.Time;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -52,6 +53,12 @@ public class DateHelper {
     public static String getFormattedDate(final Date date, final String pattern) {
         SimpleDateFormat dateFormat = new SimpleDateFormat(pattern, Locale.US);
         return dateFormat.format(date);
+    }
+
+    public static String getFormattedDateTime(@NonNull Time time) {
+        DateFormat dateFormat = SimpleDateFormat.getDateTimeInstance(
+                SimpleDateFormat.FULL, SimpleDateFormat.SHORT, Locale.getDefault());
+        return dateFormat.format(new Date(time.toMillis(true)));
     }
 
     public static int getDayChange(String attributeValue) {

@@ -1,5 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Typeface;
@@ -22,6 +23,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -340,7 +342,11 @@ public class EventDetailFragment extends Fragment {
             case R.id.item_share:
                 l = eventid2Lecture(event_id);
                 if (l != null) {
-                    FahrplanMisc.share(getActivity(), l);
+                    String formattedLecture = SimpleLectureFormat.format(l);
+                    Context context = getContext();
+                    if (!LectureSharer.shareSimple(context, formattedLecture)) {
+                        Toast.makeText(context, R.string.share_error_activity_not_found, Toast.LENGTH_SHORT).show();
+                    }
                 }
                 return true;
             case R.id.item_add_to_calendar:
