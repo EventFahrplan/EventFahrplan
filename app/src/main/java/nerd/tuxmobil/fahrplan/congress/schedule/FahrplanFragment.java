@@ -62,6 +62,7 @@ import nerd.tuxmobil.fahrplan.congress.sharing.LectureSharer;
 import nerd.tuxmobil.fahrplan.congress.sharing.SimpleLectureFormat;
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
 import nerd.tuxmobil.fahrplan.congress.utils.LectureUtils;
+import nerd.tuxmobil.fahrplan.congress.BuildConfig;
 
 public class FahrplanFragment extends Fragment implements
         OnClickListener,
@@ -598,7 +599,7 @@ public class FahrplanFragment extends Fragment implements
         while (time < lastLectureEnd) {
             timeSegment = new TimeSegment(printTime);
             int timeTextLayout;
-            if (timeSegment.isMatched(now, FIFTEEN_MINUTES)) {
+            if (isToday(now) && timeSegment.isMatched(now, FIFTEEN_MINUTES)) {
                 timeTextLayout = R.layout.time_layout_now;
             } else {
                 timeTextLayout = R.layout.time_layout;
@@ -629,6 +630,10 @@ public class FahrplanFragment extends Fragment implements
                 break;
         }
         return ((int) (integer * scale)) * 3;
+    }
+
+    private boolean isToday(Time time) {
+        return time.monthDay - BuildConfig.SCHEDULE_FIRST_DAY_START_DAY == mDay - 1;
     }
 
     private int getEventPadding() {
