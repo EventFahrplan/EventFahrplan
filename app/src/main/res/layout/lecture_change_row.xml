@@ -99,14 +99,13 @@
             tools:background="@android:color/holo_red_light"/>
 
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="@style/ScheduleListSecondary"
             tools:text="@string/placeholder_event_duration"
             android:id="@+id/duration"
             android:layout_marginRight="8dp"
             android:layout_marginEnd="8dp"
-            android:layout_weight="1"
             tools:background="@android:color/holo_blue_light"/>
 
         <TextView
