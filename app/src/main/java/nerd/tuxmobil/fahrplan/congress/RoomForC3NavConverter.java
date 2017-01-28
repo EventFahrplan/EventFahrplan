@@ -22,8 +22,8 @@ public class RoomForC3NavConverter {
     }};
 
     @Nullable
-    public static String convert(@NonNull final String venue, @NonNull final String room) {
-        if (venue.toUpperCase().equals("CCH")) {
+    public static String convert(@NonNull final String venue, @Nullable final String room) {
+        if (room != null && venue.toUpperCase().equals("CCH")) {
             return CCH_MAP.get(room.toUpperCase());
         }
         return null;
