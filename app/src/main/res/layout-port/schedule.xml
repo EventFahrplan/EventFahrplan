@@ -51,7 +51,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:background="#ffaaaaaa">
+                    android:background="@color/time_column_background">
             </LinearLayout>
 
             <nerd.tuxmobil.fahrplan.congress.HorizontalSnapScrollView
