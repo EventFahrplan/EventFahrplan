@@ -75,6 +75,7 @@ android {
             buildConfigField "int", "SCHEDULE_LAST_DAY_END_MONTH", "8"
             buildConfigField "int", "SCHEDULE_LAST_DAY_END_DAY", "17"
             buildConfigField "boolean", "SHOW_APP_DISCLAIMER", "false"
+            buildConfigField "String", "TRACE_DROID_EMAIL_ADDRESS", '"ENTER_EMAIL_ADDRESS_HERE"'
         }
         ccc32c3 {
             applicationId "nerd.tuxmobil.fahrplan.congress"
@@ -91,6 +92,7 @@ android {
             buildConfigField "int", "SCHEDULE_LAST_DAY_END_MONTH", "12"
             buildConfigField "int", "SCHEDULE_LAST_DAY_END_DAY", "31"
             buildConfigField "boolean", "SHOW_APP_DISCLAIMER", "false"
+            buildConfigField "String", "TRACE_DROID_EMAIL_ADDRESS", '"ENTER_EMAIL_ADDRESS_HERE"'
         }
     }
 
@@ -122,6 +124,8 @@ dependencies {
     compile "com.android.support:appcompat-v7:$supportLibVersion"
     compile "com.squareup.okhttp3:okhttp:3.8.1"
     compile "com.github.ligi.snackengage:snackengage-playrate:0.14"
+    compile "de.cketti.mailto:email-intent-builder:1.0.0"
+    compile files("libs/TraceDroid-1.1.jar")
 
     testCompile "junit:junit:4.12"
     testCompile "com.squareup.assertj:assertj-android:1.1.1"
