@@ -1,8 +1,7 @@
 language: android
 
 jdk:
-  - oraclejdk7
-  - openjdk7
+  - oraclejdk8
 
 android:
   components:
@@ -10,8 +9,8 @@ android:
     # All the build system components should be at the latest version
     - tools
     - platform-tools
-    - build-tools-23.0.3
-    - android-23
+    - build-tools-25.0.2
+    - android-25
 
     # The libraries we can't get from Maven Central or similar
     - extra
