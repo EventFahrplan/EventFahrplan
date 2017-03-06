@@ -134,7 +134,7 @@ tasks.withType(Test) {
 }
 
 ext {
-    supportLibVersion = "25.1.0"
+    supportLibVersion = "25.2.0"
 }
 
 dependencies {
