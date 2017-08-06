@@ -1,42 +1,59 @@
-# CampFahrplan
+[![Build Status](https://travis-ci.org/EventFahrplan/EventFahrplan.svg?branch=master)](https://travis-ci.org/EventFahrplan/EventFahrplan)
 
-CampFahrplan is a viewer for schedules of [Chaos Computer Club e.V. events][ccc-events]
-such as Chaos Communication Camp or Chaos Communication Congress.
+# EventFahrplan
 
-In addition to an daily overview of talks, the app lets you read the abstracts,
-highlight talks, add a talk to your calendar, share talks with others, and
-set reminders within the app.
+EventFahrplan is a viewer for event schedules for instance
+[Chaos Computer Club e.V. events][ccc-events] such as Chaos Communication Camp
+or Chaos Communication Congress.
 
-[![Available for Android at Google Play](gfx/google-play-badge.png)][playstore]
+The app is available for Android devices.
 
-Moreover, the app is designed to consume schedule data published in a specific
-format as provided by [Pentabarf][pentabarf] or its successor [Frab][frab].
-Therefore, the app can be re-deployed for other events using the same schedule
-file format.
+
+## Features
+
+* Daily overview of events
+* Read abstracts, descriptions of events
+* Add events to favorites list
+* Export favorites list
+* Setup alarms for individual events
+* Add events to your personal calendar
+* Share a link to an event with others
+* Supported languages: English, German (event descriptions excluded)
+
+## Event data
+
+* The app is designed to consume event data published in a specific format
+as provided by [Frab][frab-github]. The file format produced by the predecessor software,
+[Pentabarf][pentabarf-github], cannot be consumed out of the box.
+* In general it is possible to re-deployed the app for other events which
+provide the same event file format.
 
 
 ## Release build / signing
 
-Before you can run a release build for your product flavor
-please create a `gradle.properties` file in the `app` module.
-A template file is provided which contains the required settings -
-see [`app/gradle.properties.example`](app/gradle.properties.example).
+Before you can run a release build for your product flavor:
+
+1. Copy [`app/gradle.properties.example`](app/gradle.properties.example) to `gradle.properties`.
+2. Edit the required settings in `gradle.properties`.
 
 
-## Contributing
+## History
 
-Contributions can be served as contextual atomic branches which should
-be rebased onto the current `HEAD` of the `master` branch. Please make
-sure to apply [automatic code formatting and organize imports][code-formatting]
-as it is provided by Android Studio and IntelliJ. To automate this a
-*checkstyle* definition will be provided in the near future.
+* The project was started as ["CampFahrplan"][campfahrplan-github] in 2011 and has been developed
+by [Daniel Dorau][tuxmobil-github]. He published the app for Chaos Communication Camp
+and Chaos Communication Congress in the following years. The app served as a digital
+schedule for thousands of users.
+* In 2013, [Tobias Preuss][johnjohndoe-github] started contributing. Soon after he
+started to redeploy the app for other events such as FOSSGIS, FrOSCon, MRMCD and
+other conferences.
+* In August 2017 the project moved to a new location and was renamed to
+["EventFahrplan"][eventfahrplan-github] to acknowledge its broader usage.
 
 
 ## Licenses
 
 Portions Copyright 2008-2011 The K-9 Dog Walkers and 2006-2011 the Android Open Source Project.
 
-LICENSE
 
 ```
 Copyright 2011-2017 Daniel Dorau
@@ -55,8 +72,11 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ```
 
+[campfahrplan-github]: https://github.com/tuxmobil/CampFahrplan
 [ccc-events]: http://events.ccc.de
-[playstore]: https://play.google.com/store/apps/details?id=nerd.tuxmobil.fahrplan.congress
-[pentabarf]: https://github.com/nevs/pentabarf
-[frab]: https://github.com/frab/frab
-[code-formatting]: http://stackoverflow.com/a/5581992/356895
+[eventfahrplan-github]: https://github.com/EventFahrplan/EventFahrplan
+[frab-github]: https://github.com/frab/frab
+[johnjohndoe-github]: https://github.com/johnjohndoe
+[pentabarf-github]: https://github.com/nevs/pentabarf
+[tuxmobil-github]: https://github.com/tuxmobil/CampFahrplan
+
