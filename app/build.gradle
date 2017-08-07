@@ -15,7 +15,7 @@ props.load(new FileInputStream(gradlePropertiesFile))
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.3"
+    buildToolsVersion "26.0.1"
 
     defaultConfig {
         versionCode 39
@@ -139,12 +139,12 @@ ext {
 
 dependencies {
     compile "com.android.support:appcompat-v7:$supportLibVersion"
-    compile "com.squareup.okhttp3:okhttp:3.7.0"
+    compile "com.squareup.okhttp3:okhttp:3.8.1"
 
     testCompile "junit:junit:4.12"
     testCompile "com.squareup.assertj:assertj-android:1.1.1"
     testCompile "com.android.support:support-annotations:$supportLibVersion"
-    testCompile "org.mockito:mockito-core:2.8.9"
+    testCompile "org.mockito:mockito-core:2.8.47"
 }
 
 def gitSha() {
