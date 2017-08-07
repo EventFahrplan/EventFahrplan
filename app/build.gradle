@@ -144,7 +144,7 @@ dependencies {
     testCompile "junit:junit:4.12"
     testCompile "com.squareup.assertj:assertj-android:1.1.1"
     testCompile "com.android.support:support-annotations:$supportLibVersion"
-    testCompile "org.mockito:mockito-core:2.8.9"
+    testCompile "org.mockito:mockito-core:2.8.47"
 }
 
 def gitSha() {
