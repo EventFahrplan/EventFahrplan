@@ -45,12 +45,6 @@ android {
     }
 
     signingConfigs {
-        ccc31c3 {
-            storeFile file(props['signing.ccc31c3-release.keystoreFilePath'])
-            storePassword props['signing.ccc31c3-release.keystorePassword']
-            keyAlias props['signing.ccc31c3-release.keyAlias']
-            keyPassword props['signing.ccc31c3-release.keyPassword']
-        }
         camp2015 {
             storeFile file(props['signing.camp2015-release.keystoreFilePath'])
             storePassword props['signing.camp2015-release.keystorePassword']
@@ -66,21 +60,6 @@ android {
     }
 
     productFlavors {
-        ccc31c3 {
-            applicationId "nerd.tuxmobil.fahrplan.congress"
-            signingConfig signingConfigs.ccc31c3
-            buildConfigField "String", "SCHEDULE_URL", '"https://events.ccc.de/congress/2014/Fahrplan/schedule.xml"'
-            buildConfigField "String", "SCHEDULE_DOMAIN_PART", '"http://events.ccc.de"'
-            buildConfigField "String", "SCHEDULE_EVENT_PART", '"/events/%1$s.html"'
-            buildConfigField "String", "SCHEDULE_PART", '"/congress/2014/Fahrplan"'
-            buildConfigField "String", "VENUE", '"cch"'
-            buildConfigField "int", "SCHEDULE_FIRST_DAY_START_YEAR", "2014"
-            buildConfigField "int", "SCHEDULE_FIRST_DAY_START_MONTH", "12"
-            buildConfigField "int", "SCHEDULE_FIRST_DAY_START_DAY", "27"
-            buildConfigField "int", "SCHEDULE_LAST_DAY_END_YEAR", "2014"
-            buildConfigField "int", "SCHEDULE_LAST_DAY_END_MONTH", "12"
-            buildConfigField "int", "SCHEDULE_LAST_DAY_END_DAY", "31"
-        }
         camp2015 {
             applicationId "nerd.tuxmobil.fahrplan.camp"
             signingConfig signingConfigs.camp2015

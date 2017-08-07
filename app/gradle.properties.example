@@ -1,8 +1,3 @@
-signing.ccc31c3-release.keystoreFilePath=/home/USERNAME/.android/ccc31c3-release-key.keystore
-signing.ccc31c3-release.keystorePassword="PASSWORD"
-signing.ccc31c3-release.keyAlias="ccc31c3"
-signing.ccc31c3-release.keyPassword="ANOTHERPASSWORD"
-
 signing.ccc32c3-release.keystoreFilePath=/home/USERNAME/.android/ccc32c3-release-key.keystore
 signing.ccc32c3-release.keystorePassword="PASSWORD"
 signing.ccc32c3-release.keyAlias="ccc32c3"
