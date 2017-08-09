@@ -24,6 +24,10 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
+import org.ligi.snackengage.SnackEngage;
+import org.ligi.snackengage.snacks.BaseSnack;
+import org.ligi.snackengage.snacks.DefaultRateSnack;
+
 import nerd.tuxmobil.fahrplan.congress.CustomHttpClient.HTTP_STATUS;
 import nerd.tuxmobil.fahrplan.congress.MyApp.TASKS;
 
@@ -114,6 +118,20 @@ public class MainActivity extends BaseActivity implements
         if (findViewById(R.id.detail) == null) {
             removeFragment(EventDetailFragment.FRAGMENT_TAG);
         }
+
+        initUserEngagement();
+    }
+
+    private void initUserEngagement() {
+        int actionColor = ContextCompat.getColor(this, R.color.colorAccent);
+        BaseSnack snack = new DefaultRateSnack()
+                .overrideTitleText(getString(R.string.snack_engage_rate_title))
+                .overrideActionText(getString(R.string.snack_engage_rate_action));
+        snack.setActionColor(actionColor);
+        SnackEngage.from(this)
+                .withSnack(snack)
+                .build()
+                .engageWhenAppropriate();
     }
 
     @Override

@@ -49,7 +49,7 @@
     <string name="set_alarm">Set alarm</string>
 	<string name="libraries">
 		This application uses the following libraries:
-		Google Support Library v4, Google AppCompat Library v7, OkHttp
+		Google Support Library v4, Google AppCompat Library v7, OkHttp, SnackEngage
 	</string>
     <string name="copyright_notes">Copyright 2017 Daniel Dorau.\nCopyright 2017 SubOptimal, entropynil, johnjohndoe.\nPortions Copyright 2008-2011 The K-9 Dog Walkers and 2006-2013 the Android Open Source Project.</string>
     <string name="copyright_logo">30C3 artwork by <![CDATA[<a href="http://evelynschubert.com/">Evelyn Schubert</a>]]> licensed under <![CDATA[<a href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US">CC BY-SA 3.0</a>]]></string>
@@ -120,5 +120,9 @@
     <string name="build_info_hash">
         Version hash: <xliff:g id="build_hash" example="e1f2g3h-dirty">%s</xliff:g>
     </string>
+
+    <!-- SnackEngage -->
+    <string name="snack_engage_rate_title">Everything fine?</string>
+    <string name="snack_engage_rate_action">Rate the app</string>
 
 </resources>
