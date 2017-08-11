@@ -22,7 +22,7 @@ import nerd.tuxmobil.fahrplan.congress.FahrplanContract.MetasTable;
 
 interface OnParseCompleteListener {
 
-    public void onParseDone(Boolean result, String version);
+    void onParseDone(Boolean result, String version);
 }
 
 public class FahrplanParser {

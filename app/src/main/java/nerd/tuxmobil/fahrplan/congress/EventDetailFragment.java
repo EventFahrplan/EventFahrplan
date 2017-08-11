@@ -31,7 +31,7 @@ import java.util.Locale;
 
 interface OnCloseDetailListener {
 
-    public void closeDetailView();
+    void closeDetailView();
 }
 
 public class EventDetailFragment extends Fragment {

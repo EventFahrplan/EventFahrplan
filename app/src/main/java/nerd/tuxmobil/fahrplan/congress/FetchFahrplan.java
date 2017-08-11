@@ -21,7 +21,7 @@ import okhttp3.Response;
 
 interface OnDownloadCompleteListener {
 
-    public void onGotResponse(HTTP_STATUS status, String response, String eTagStr, String host);
+    void onGotResponse(HTTP_STATUS status, String response, String eTagStr, String host);
 }
 
 public class FetchFahrplan {

@@ -52,7 +52,7 @@ import nerd.tuxmobil.fahrplan.congress.FahrplanContract.AlarmsTable;
 
 interface OnRefreshEventMarkers {
 
-    public void refreshEventMarkers();
+    void refreshEventMarkers();
 }
 
 public class FahrplanFragment extends Fragment implements

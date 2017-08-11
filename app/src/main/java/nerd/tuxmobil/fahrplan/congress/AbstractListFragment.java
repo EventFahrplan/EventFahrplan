@@ -21,7 +21,7 @@ public abstract class AbstractListFragment extends ListFragment {
      * activity.
      */
     public interface OnLectureListClick {
-        public void onLectureListClick(Lecture lecture);
+        void onLectureListClick(Lecture lecture);
     }
 
 }
