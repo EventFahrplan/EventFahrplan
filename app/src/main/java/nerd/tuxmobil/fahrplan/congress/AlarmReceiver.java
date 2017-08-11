@@ -14,6 +14,8 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 
+import org.ligi.tracedroid.logging.Log;
+
 import nerd.tuxmobil.fahrplan.congress.FahrplanContract.AlarmsTable;
 
 public final class AlarmReceiver extends BroadcastReceiver {
@@ -32,6 +34,7 @@ public final class AlarmReceiver extends BroadcastReceiver {
 
         if (intent.getAction().equals(ALARM_LECTURE)) {
             String lecture_id = intent.getStringExtra(BundleKeys.ALARM_LECTURE_ID);
+            Log.d(getClass().getName(), "onReceive: lecture_id: " + lecture_id + ", intent: " + intent);
             int lid = Integer.parseInt(lecture_id);
             int day = intent.getIntExtra(BundleKeys.ALARM_DAY, 1);
             long when = intent

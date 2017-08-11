@@ -49,7 +49,8 @@
     <string name="set_alarm">Set alarm</string>
 	<string name="libraries">
 		This application uses the following libraries:
-		Google Support Library v4, Google AppCompat Library v7, OkHttp, SnackEngage
+		Google Support Library v4, Google AppCompat Library v7, Email Intent Builder,
+		OkHttp, SnackEngage, TraceDroid
 	</string>
     <string name="copyright_notes">Copyright 2017 Daniel Dorau.\nCopyright 2017 SubOptimal, entropynil, johnjohndoe.\nPortions Copyright 2008-2011 The K-9 Dog Walkers and 2006-2013 the Android Open Source Project.</string>
     <string name="copyright_logo">30C3 artwork by <![CDATA[<a href="http://evelynschubert.com/">Evelyn Schubert</a>]]> licensed under <![CDATA[<a href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US">CC BY-SA 3.0</a>]]></string>
@@ -131,5 +132,30 @@
     <!-- SnackEngage -->
     <string name="snack_engage_rate_title">Everything fine?</string>
     <string name="snack_engage_rate_action">Rate the app</string>
+
+    <!-- TraceDroid -->
+    <string name="trace_droid_dialog_title">
+        Send <xliff:g id="appName" example="33C3 Schedule">%s</xliff:g> crash report &#8230;
+    </string>
+    <string name="trace_droid_dialog_message">
+        A problem with the <xliff:g id="appName" example="33C3 Schedule">%s</xliff:g> app has
+        been detected. It would be helpful if you could submit a crash report
+        so the source of the problem can be identified.
+    </string>
+    <string name="trace_droid_button_title_send">
+        Open email
+    </string>
+    <string name="trace_droid_no_email_app">
+        No compatible email app installed.
+    </string>
+    <string name="trace_droid_button_title_no">
+        No
+    </string>
+    <string name="trace_droid_button_title_later">
+        Maybe later
+    </string>
+    <string name="trace_droid_app_chooser_title">
+        Open draft with &#8230;
+    </string>
 
 </resources>
