@@ -12,6 +12,8 @@ import android.database.sqlite.SQLiteException;
 import android.preference.PreferenceManager;
 import android.text.format.Time;
 
+import org.ligi.tracedroid.logging.Log;
+
 import nerd.tuxmobil.fahrplan.congress.FahrplanContract.AlarmsTable;
 
 public final class onBootReceiver extends BroadcastReceiver {
@@ -57,6 +59,7 @@ public final class onBootReceiver extends BroadcastReceiver {
                         cursor.getColumnIndex(AlarmsTable.Columns.EVENT_TITLE));
                 long startTime = cursor.getLong(
                         cursor.getColumnIndex(AlarmsTable.Columns.TIME));
+                Log.d(getClass().getName(), "Set alarm for lecture: " + lecture_id);
 
                 Intent addAlarmIntent = new AlarmReceiver.AlarmIntentBuilder()
                         .setContext(context)

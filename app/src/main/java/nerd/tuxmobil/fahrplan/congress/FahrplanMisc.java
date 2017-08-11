@@ -16,6 +16,8 @@ import android.support.annotation.NonNull;
 import android.text.format.Time;
 import android.widget.Toast;
 
+import org.ligi.tracedroid.logging.Log;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -204,6 +206,7 @@ public class FahrplanMisc {
     }
 
     public static void deleteAlarm(@NonNull Context context, @NonNull Lecture lecture) {
+        Log.d(FahrplanMisc.class.getName(), "Delete alarm for lecture: " + lecture);
         AlarmsDBOpenHelper alarmDB = new AlarmsDBOpenHelper(context);
         SQLiteDatabase db = alarmDB.getWritableDatabase();
         Cursor cursor;
@@ -264,6 +267,8 @@ public class FahrplanMisc {
     public static void addAlarm(@NonNull Context context,
                                 @NonNull Lecture lecture,
                                 int alarmTimesIndex) {
+        Log.d(FahrplanMisc.class.getName(), "Add alarm for lecture: " + lecture +
+                ", alarmTimesIndex: " + alarmTimesIndex);
         String[] alarm_times = context.getResources().getStringArray(R.array.alarm_time_values);
         List<String> alarmTimeStrings = new ArrayList<String>(Arrays.asList(alarm_times));
         List<Integer> alarmTimes = new ArrayList<Integer>(alarmTimeStrings.size());

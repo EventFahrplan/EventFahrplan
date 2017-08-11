@@ -24,6 +24,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.ligi.tracedroid.logging.Log;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -323,6 +325,8 @@ public class EventDetailFragment extends Fragment {
     private void onAlarmTimesIndexPicked(int alarmTimesIndex) {
         if (lecture != null) {
             FahrplanMisc.addAlarm(getActivity(), lecture, alarmTimesIndex);
+        } else {
+            Log.e(getClass().getName(), "onAlarmTimesIndexPicked: lecture: null. alarmTimesIndex: " + alarmTimesIndex);
         }
         getActivity().supportInvalidateOptionsMenu();
         getActivity().setResult(FragmentActivity.RESULT_OK);

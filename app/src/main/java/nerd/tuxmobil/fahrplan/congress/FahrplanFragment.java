@@ -40,6 +40,8 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.ligi.tracedroid.logging.Log;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -1029,6 +1031,7 @@ public class FahrplanFragment extends Fragment implements
 
     private void onAlarmTimesIndexPicked(int alarmTimesIndex) {
         if (lastSelectedLecture == null) {
+            Log.e(getClass().getName(), "onAlarmTimesIndexPicked: lecture: null. alarmTimesIndex: " + alarmTimesIndex);
             throw new NullPointerException("Lecture is null.");
         }
         FahrplanMisc.addAlarm(getActivity(), lastSelectedLecture, alarmTimesIndex);
