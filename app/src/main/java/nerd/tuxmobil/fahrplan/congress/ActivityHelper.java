@@ -15,7 +15,7 @@ public class ActivityHelper {
             TaskStackBuilder.create(activity)
                     // Add all of this activity's parents to the back stack
                     .addNextIntentWithParentStack(upIntent)
-                            // Navigate up to the closest parent
+                    // Navigate up to the closest parent
                     .startActivities();
         } else {
             // This activity is part of this app's task, so simply

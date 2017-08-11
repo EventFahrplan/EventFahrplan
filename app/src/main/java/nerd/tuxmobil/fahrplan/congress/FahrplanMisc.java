@@ -13,7 +13,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.provider.CalendarContract;
 import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentActivity;
 import android.text.format.Time;
 import android.widget.Toast;
 
@@ -436,7 +435,7 @@ public class FahrplanMisc {
      * Load all Lectures from the DB on the day specified
      *
      * @param context The Android Context
-     * @param day The day to load lectures for (0..), or -1 for all days
+     * @param day     The day to load lectures for (0..), or -1 for all days
      * @return ArrayList of Lecture objects
      */
     public static LectureList loadLecturesForDayIndex(Context context, int day) {

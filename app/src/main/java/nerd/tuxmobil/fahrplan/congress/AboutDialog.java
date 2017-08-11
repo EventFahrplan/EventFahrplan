@@ -14,8 +14,9 @@ import android.widget.TextView;
 public class AboutDialog extends DialogFragment {
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater,
+                             ViewGroup container,
+                             Bundle savedInstanceState) {
         return inflater.inflate(R.layout.about_dialog, container, false);
     }
 

@@ -4,7 +4,6 @@ import android.app.Application;
 import android.util.Log;
 import android.util.SparseIntArray;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;

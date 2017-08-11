@@ -1,7 +1,5 @@
 package nerd.tuxmobil.fahrplan.congress;
 
-import org.xmlpull.v1.XmlPullParser;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -10,6 +8,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Xml;
+
+import org.xmlpull.v1.XmlPullParser;
 
 import java.io.StringReader;
 import java.util.ArrayList;
@@ -489,7 +489,7 @@ class parser extends AsyncTask<String, Void, Boolean> {
         oldLectures = FahrplanMisc.loadLecturesForAllDays(this.context);
         if (oldLectures == null) return;
 
-        int lectureIndex = oldLectures.size()-1;
+        int lectureIndex = oldLectures.size() - 1;
         while (lectureIndex >= 0) {
             Lecture l = oldLectures.get(lectureIndex);
             if (l.changedIsCanceled) oldLectures.remove(lectureIndex);

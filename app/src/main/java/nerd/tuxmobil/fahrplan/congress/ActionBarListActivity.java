@@ -2,9 +2,8 @@ package nerd.tuxmobil.fahrplan.congress;
 
 import android.view.View;
 import android.widget.HeaderViewListAdapter;
-import android.widget.ListView;
-
 import android.widget.ListAdapter;
+import android.widget.ListView;
 
 /**
  * + * Taken from http://stackoverflow

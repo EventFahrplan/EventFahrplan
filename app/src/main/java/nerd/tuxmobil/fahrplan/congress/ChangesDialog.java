@@ -17,8 +17,6 @@ import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 public class ChangesDialog extends DialogFragment {
@@ -106,7 +104,7 @@ public class ChangesDialog extends DialogFragment {
         flagChangesAsSeen();
         FragmentActivity activity = getActivity();
         if (activity instanceof MainActivity) {
-            ((MainActivity)activity).openLectureChanges();
+            ((MainActivity) activity).openLectureChanges();
         }
     }
 

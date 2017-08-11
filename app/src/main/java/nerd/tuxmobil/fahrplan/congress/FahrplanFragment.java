@@ -159,8 +159,9 @@ public class FahrplanFragment extends Fragment implements
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater,
+                             ViewGroup container,
+                             Bundle savedInstanceState) {
         return inflater.inflate(R.layout.schedule, container, false);
     }
 
@@ -282,7 +283,7 @@ public class FahrplanFragment extends Fragment implements
             scrollTo(lecture_id);
             FrameLayout sidePane = (FrameLayout) getActivity().findViewById(R.id.detail);
             if (sidePane != null) {
-                ((MainActivity)getActivity()).openLectureDetail(MyApp.lectureList.getLecture(lecture_id), mDay);
+                ((MainActivity) getActivity()).openLectureDetail(MyApp.lectureList.getLecture(lecture_id), mDay);
             }
             intent.removeExtra("lecture_id");   // jump to given lecture_id only once
         }
@@ -316,7 +317,7 @@ public class FahrplanFragment extends Fragment implements
             fillRoom((ViewGroup) scroller.getChildAt(0), i);
         }
         scrollToCurrent(mDay);
-        ActionBar actionbar = ((AppCompatActivity)getActivity()).getSupportActionBar();
+        ActionBar actionbar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         if (actionbar != null && MyApp.numdays > 1) {
             actionbar.setSelectedNavigationItem(mDay - 1);
         }
@@ -669,12 +670,12 @@ public class FahrplanFragment extends Fragment implements
         Integer color;
         Context context = getContext();
         if (lecture.highlight) {
-            color =  trackAccentColorsHighlight.get(lecture.track);
+            color = trackAccentColorsHighlight.get(lecture.track);
             title.setTextColor(ContextCompat.getColor(context, R.color.event_title_highlight));
             subtitle.setTextColor(ContextCompat.getColor(context, R.color.event_title_highlight));
             speakers.setTextColor(ContextCompat.getColor(context, R.color.event_title_highlight));
         } else {
-            color =  trackAccentColors.get(lecture.track);
+            color = trackAccentColors.get(lecture.track);
             title.setTextColor(ContextCompat.getColor(context, R.color.event_title));
             subtitle.setTextColor(ContextCompat.getColor(context, R.color.event_title));
             speakers.setTextColor(ContextCompat.getColor(context, R.color.event_title));
@@ -960,11 +961,12 @@ public class FahrplanFragment extends Fragment implements
             }
             days_menu[i] = sb.toString();
         }
-        ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-        ArrayAdapter<String> arrayAdapter =
-                new ArrayAdapter<String>(actionBar.getThemedContext(),
-                R.layout.support_simple_spinner_dropdown_item_large, days_menu);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+                actionBar.getThemedContext(),
+                R.layout.support_simple_spinner_dropdown_item_large,
+                days_menu);
         arrayAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_list_item);
         actionBar.setListNavigationCallbacks(arrayAdapter, this);
 //        actionBar.setDisplayShowTitleEnabled(false);
@@ -1078,11 +1080,10 @@ public class FahrplanFragment extends Fragment implements
         return true;
     }
 
-    public void onCreateContextMenu(ContextMenu menu, View v,
-            ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-        contextMenuView = v;
-        Lecture lecture = (Lecture) v.getTag();
+    public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, view, menuInfo);
+        contextMenuView = view;
+        Lecture lecture = (Lecture) view.getTag();
         if (lecture.highlight) {
             menu.add(0, 0, 0, getString(R.string.unflag_as_favorite));
         } else {

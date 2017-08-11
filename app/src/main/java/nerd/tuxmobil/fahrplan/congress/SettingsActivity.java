@@ -71,7 +71,7 @@ public class SettingsActivity extends BaseActivity {
                             .getDefaultSharedPreferences(getActivity());
 
                     SharedPreferences.Editor edit = prefs.edit();
-                    edit.putString(BundleKeys.PREFS_SCHEDULE_URL, (String)newValue);
+                    edit.putString(BundleKeys.PREFS_SCHEDULE_URL, (String) newValue);
                     edit.commit();
                     return true;
                 }
