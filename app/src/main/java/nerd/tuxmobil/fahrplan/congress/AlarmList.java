@@ -88,7 +88,6 @@ public class AlarmList extends ActionBarListActivity {
     }
 
     public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
-        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
         super.onCreateContextMenu(menu, view, menuInfo);
         menu.add(0, 0, 0, global.getString(R.string.delete));
     }
