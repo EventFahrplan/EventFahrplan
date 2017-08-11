@@ -9,7 +9,7 @@ public class MissingXmlAttributeException extends IllegalStateException {
      * @param missingAttributeName The name of the XML attribute which cannot be found
      */
     public MissingXmlAttributeException(final String elementName,
-            final String missingAttributeName) {
+                                        final String missingAttributeName) {
         super("The <" + elementName + "> element does not contain " +
                 "the mandatory '" + missingAttributeName + "' attribute.");
     }

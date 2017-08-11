@@ -91,15 +91,14 @@ public final class TrustManagerFactory {
                                 + mHost);
             }
             try {
-                    /* erst den localTrustManager nehmen, da selbst signierte Zert. der Normalfall
-                     * sein werden
-            	 */
+                // Try localTrustManager first, since self-signed certificates
+                // are used in most of the cases
                 MyApp.LogDebug(LOG_TAG, "trying localTrustManager");
                 localTrustManager.checkServerTrusted(new X509Certificate[]{chain[0]}, authType);
             } catch (CertificateException e) {
-            	/* Hier Fallback auf vertrauenswürdige CAs in Android */
+                /* Here fallback on to trustworthy CAs in Android */
 
-            	/* SSL Pinning, keiner CA vertrauen */
+            	/* SSL Pinning, do not trust any CA */
                 Log.d(LOG_TAG, "trying defaultTrustManager");
                 defaultTrustManager.checkServerTrusted(chain, authType);
             }

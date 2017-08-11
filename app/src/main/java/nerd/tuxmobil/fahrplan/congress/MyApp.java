@@ -4,7 +4,6 @@ import android.app.Application;
 import android.util.Log;
 import android.util.SparseIntArray;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -95,7 +94,7 @@ public class MyApp extends Application {
     }
 
     public static void LogDebug(String tag, String message) {
-        if (DEBUG == true) {
+        if (DEBUG) {
             Log.d(tag, message);
         }
     }

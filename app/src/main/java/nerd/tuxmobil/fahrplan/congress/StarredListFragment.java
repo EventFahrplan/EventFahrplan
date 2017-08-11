@@ -18,8 +18,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -139,7 +137,7 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
             }
         }
         if ((i > 0) && (i < starredList.size())) {
-            mListView.setSelection(i+1+numSeparators);
+            mListView.setSelection(i + 1 + numSeparators);
         }
     }
 
@@ -258,9 +256,9 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
     }
 
     private void deleteItems(SparseBooleanArray checkedItemPositions) {
-        for (int id = mListView.getAdapter().getCount()-1; id >= 0; id--) {
+        for (int id = mListView.getAdapter().getCount() - 1; id >= 0; id--) {
             if (checkedItemPositions.get(id)) {
-                deleteItem(mAdapter.getMapper().get(id-1));
+                deleteItem(mAdapter.getMapper().get(id - 1));
             }
         }
     }

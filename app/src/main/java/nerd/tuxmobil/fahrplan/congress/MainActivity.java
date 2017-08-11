@@ -58,8 +58,8 @@ public class MainActivity extends BaseActivity implements
 
         MyApp.LogDebug(LOG_TAG, "onCreate");
         setContentView(R.layout.main_layout);
-        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
-        progressBar = (ProgressBar)findViewById(R.id.progress);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        progressBar = (ProgressBar) findViewById(R.id.progress);
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setTitle(R.string.fahrplan);
@@ -198,7 +198,9 @@ public class MainActivity extends BaseActivity implements
         }
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        if (prefs.getBoolean(BundleKeys.PREFS_CHANGES_SEEN, true) == false) changesDialog();
+        if (!prefs.getBoolean(BundleKeys.PREFS_CHANGES_SEEN, true)) {
+            changesDialog();
+        }
     }
 
     public void showFetchingStatus() {
@@ -278,7 +280,9 @@ public class MainActivity extends BaseActivity implements
             MyApp.parser.setListener(this);
         }
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        if (prefs.getBoolean(BundleKeys.PREFS_CHANGES_SEEN, true) == false) changesDialog();
+        if (prefs.getBoolean(BundleKeys.PREFS_CHANGES_SEEN, true) == false) {
+            changesDialog();
+        }
     }
 
     @Override
@@ -396,6 +400,7 @@ public class MainActivity extends BaseActivity implements
             ((FahrplanFragment) fragment).loadAlarms(this);
         }
     }
+
     @Override
     public void refreshEventMarkers() {
         Fragment fragment = findFragment(FahrplanFragment.FRAGMENT_TAG);
@@ -434,7 +439,9 @@ public class MainActivity extends BaseActivity implements
 
     @Override
     public void onLectureListClick(Lecture lecture) {
-        if (lecture != null) openLectureDetail(lecture, lecture.day );
+        if (lecture != null) {
+            openLectureDetail(lecture, lecture.day);
+        }
     }
 
     @Override
@@ -452,7 +459,7 @@ public class MainActivity extends BaseActivity implements
     public void refreshFavoriteList() {
         Fragment fragment = findFragment(StarredListFragment.FRAGMENT_TAG);
         if (fragment != null) {
-            ((StarredListFragment)fragment).onRefresh();
+            ((StarredListFragment) fragment).onRefresh();
         }
         ActivityCompat.invalidateOptionsMenu(this);
     }
@@ -475,7 +482,7 @@ public class MainActivity extends BaseActivity implements
             case StarredListFragment.DELETE_ALL_FAVORITES_REQUEST_CODE:
                 Fragment fragment = findFragment(StarredListFragment.FRAGMENT_TAG);
                 if (fragment != null) {
-                    ((StarredListFragment)fragment).deleteAllFavorites();
+                    ((StarredListFragment) fragment).deleteAllFavorites();
                 }
                 break;
         }

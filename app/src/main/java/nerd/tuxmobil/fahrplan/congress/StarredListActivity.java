@@ -17,7 +17,7 @@ public class StarredListActivity extends BaseActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_list);
-        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         int actionBarColor = ContextCompat.getColor(this, R.color.colorActionBar);
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(actionBarColor));
@@ -49,7 +49,7 @@ public class StarredListActivity extends BaseActivity implements
     public void onAccepted(int dlgId) {
         Fragment fragment = findFragment(StarredListFragment.FRAGMENT_TAG);
         if (fragment != null) {
-            ((StarredListFragment)fragment).deleteAllFavorites();
+            ((StarredListFragment) fragment).deleteAllFavorites();
         } else {
             MyApp.LogDebug(LOG_TAG, "StarredListFragment not found");
         }
