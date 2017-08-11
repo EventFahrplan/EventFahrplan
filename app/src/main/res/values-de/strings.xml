@@ -118,6 +118,13 @@
         Versions-Hash: <xliff:g id="build_hash" example="e1f2g3h-dirty">%s</xliff:g>
     </string>
 
+    <!-- App disclaimer -->
+    <string name="app_disclaimer">
+        Diese Anwendung basiert auf dem Quellcode der &#8220;Fahrplan&#8221; App.
+        Besucher des Jahreskongress und des Camps des Chaos Computer Clubs
+        nutzen die App, um das jeweilige Veranstaltungsprogramm im Auge zu behalten.
+    </string>
+
     <!-- SnackEngage -->
     <string name="snack_engage_rate_title">Zufrieden?</string>
     <string name="snack_engage_rate_action">Bewerte die App</string>
