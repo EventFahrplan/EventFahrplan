@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/layout_root"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <LinearLayout
             android:layout_width="fill_parent"
@@ -32,10 +33,10 @@
                 android:layout_gravity="center"
                 android:gravity="center|top"
                 android:paddingBottom="5dp"
-                android:text="Title"
                 android:textColor="#FFF"
                 android:textSize="16sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                tools:text="33. Chaos Communication Congress"/>
 
         <TextView
                 android:id="@+id/eventSubtitle"
@@ -44,10 +45,10 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:paddingBottom="10dp"
-                android:text="Subtitle"
                 android:textColor="#FFF"
                 android:textStyle="italic"
-                android:typeface="serif">
+                android:typeface="serif"
+                tools:text="Works for me">
         </TextView>
 
         <TextView
@@ -60,7 +61,7 @@
                 android:paddingBottom="10dp"
                 android:singleLine="false"
                 style="@style/TextViewLinks"
-                android:text=""/>
+                tools:text="https://events.ccc.de/congress/2016"/>
 
         <TextView
                 android:id="@+id/eventVersion"
@@ -68,7 +69,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="Version">
+                tools:text="Fahrplan BAD NETWORK/FIREWALL">
         </TextView>
 
         <TextView
@@ -78,7 +79,7 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:paddingBottom="15dp"
-                android:text="Version">
+                tools:text="App Version 1.33.13">
         </TextView>
 
         <include
@@ -109,7 +110,7 @@
                 android:paddingTop="10dp"
                 android:singleLine="false"
                 android:linksClickable="true"
-                android:text=""/>
+                tools:text="@string/copyright_logo"/>
 
         <TextView
                 android:id="@+id/source_code"
@@ -121,7 +122,7 @@
                 android:paddingTop="10dp"
                 android:singleLine="false"
                 style="@style/TextViewLinks"
-                android:text=""/>
+                tools:text="@string/source_code"/>
 
         <TextView
                 android:id="@+id/issues"
@@ -133,7 +134,7 @@
                 android:paddingTop="10dp"
                 android:singleLine="false"
                 style="@style/TextViewLinks"
-                android:text=""/>
+                tools:text="@string/issues"/>
 
         <TextView
                 android:id="@+id/google_play_store"
@@ -146,7 +147,7 @@
                 android:paddingTop="10dp"
                 android:singleLine="false"
                 style="@style/TextViewLinks"
-                android:text=""/>
+                tools:text="@string/google_play_store"/>
 
         <include
                 layout="@layout/horizontal_line"/>
