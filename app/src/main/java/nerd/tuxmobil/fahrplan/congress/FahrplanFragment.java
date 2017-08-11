@@ -1105,8 +1105,7 @@ public class FahrplanFragment extends Fragment implements
         if (parent == null) {
             return null;
         }
-        View v = parent.findViewWithTag(lecture);
-        return v;
+        return parent.findViewWithTag(lecture);
     }
 
     public void refreshViews() {
