@@ -234,7 +234,7 @@ public class LectureChangesArrayAdapter extends ArrayAdapter<Lecture> {
 
     @Override
     public boolean isEnabled(int position) {
-        return mSeparatorsSet.contains(position) ? false : true;
+        return !mSeparatorsSet.contains(position);
     }
 
     @Override

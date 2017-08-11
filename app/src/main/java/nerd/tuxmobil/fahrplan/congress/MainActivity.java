@@ -198,7 +198,9 @@ public class MainActivity extends BaseActivity implements
         }
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        if (prefs.getBoolean(BundleKeys.PREFS_CHANGES_SEEN, true) == false) changesDialog();
+        if (!prefs.getBoolean(BundleKeys.PREFS_CHANGES_SEEN, true)) {
+            changesDialog();
+        }
     }
 
     public void showFetchingStatus() {
@@ -278,7 +280,9 @@ public class MainActivity extends BaseActivity implements
             MyApp.parser.setListener(this);
         }
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        if (prefs.getBoolean(BundleKeys.PREFS_CHANGES_SEEN, true) == false) changesDialog();
+        if (prefs.getBoolean(BundleKeys.PREFS_CHANGES_SEEN, true) == false) {
+            changesDialog();
+        }
     }
 
     @Override

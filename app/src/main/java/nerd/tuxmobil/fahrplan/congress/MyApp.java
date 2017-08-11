@@ -94,7 +94,7 @@ public class MyApp extends Application {
     }
 
     public static void LogDebug(String tag, String message) {
-        if (DEBUG == true) {
+        if (DEBUG) {
             Log.d(tag, message);
         }
     }

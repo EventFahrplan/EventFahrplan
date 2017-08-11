@@ -293,7 +293,7 @@ public class FahrplanFragment extends Fragment implements
     private void viewDay(boolean reload) {
         // Log.d(LOG_TAG, "viewDay(" + reload + ")");
 
-        if (loadLectureList(getActivity(), mDay, reload) == false) {
+        if (!loadLectureList(getActivity(), mDay, reload)) {
             MyApp.LogDebug(LOG_TAG, "fetch on loading empty lecture list");
             // FIXME
             // fetchFahrplan();
@@ -796,7 +796,7 @@ public class FahrplanFragment extends Fragment implements
     public static boolean loadLectureList(Context context, int day, boolean force) {
         MyApp.LogDebug(LOG_TAG, "load lectures of day " + day);
 
-        if ((force == false) && (MyApp.lectureList != null) && (MyApp.lectureListDay == day)) {
+        if (!force && MyApp.lectureList != null && MyApp.lectureListDay == day) {
             return true;
         }
 

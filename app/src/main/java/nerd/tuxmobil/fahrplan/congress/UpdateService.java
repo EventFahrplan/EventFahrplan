@@ -139,7 +139,7 @@ public class UpdateService extends IntentService
         ConnectivityManager connectivityMgr = (ConnectivityManager) getSystemService(
                 Context.CONNECTIVITY_SERVICE);
         NetworkInfo nwInfo = connectivityMgr.getActiveNetworkInfo();
-        if ((nwInfo == null) || (nwInfo.isConnected() == false)) {
+        if (nwInfo == null || !nwInfo.isConnected()) {
             MyApp.LogDebug(LOG_TAG, "not connected");
             ConnectivityStateReceiver.enableReceiver(this);
             stopSelf();

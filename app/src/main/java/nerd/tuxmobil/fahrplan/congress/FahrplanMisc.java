@@ -452,11 +452,7 @@ public class FahrplanMisc {
         Cursor cursor, hCursor;
         boolean allDays;
 
-        if (day == ALL_DAYS) {
-            allDays = true;
-        } else {
-            allDays = false;
-        }
+        allDays = day == ALL_DAYS;
 
         try {
             cursor = lecturedb.query(
@@ -568,8 +564,7 @@ public class FahrplanMisc {
 
             for (Lecture lecture : lectures) {
                 if (lecture.lecture_id.equals(lecture_id)) {
-                    lecture.highlight = (highlightState
-                            == HighlightsTable.Values.HIGHLIGHT_STATE_ON ? true : false);
+                    lecture.highlight = (highlightState == HighlightsTable.Values.HIGHLIGHT_STATE_ON);
                 }
             }
             hCursor.moveToNext();
