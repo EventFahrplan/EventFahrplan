@@ -50,7 +50,7 @@ public class SimpleLectureFormat {
         builder.append(lecture.room);
         builder.append(LINE_BREAK);
         builder.append(LINE_BREAK);
-        String eventUrl = FahrplanMisc.getEventUrl(null, lecture.lecture_id);
+        String eventUrl = FahrplanMisc.getEventUrl(lecture.lecture_id);
         builder.append(eventUrl);
     }
 

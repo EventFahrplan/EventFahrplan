@@ -147,7 +147,7 @@ public class FahrplanMisc {
         metaDB.close();
     }
 
-    public static String getEventUrl(final Context context, final String eventId) {
+    public static String getEventUrl(final String eventId) {
         StringBuilder sb = new StringBuilder();
         sb.append(BuildConfig.SCHEDULE_DOMAIN_PART);
         sb.append(BuildConfig.SCHEDULE_PART);
@@ -164,7 +164,7 @@ public class FahrplanMisc {
         sb.append("\n\n");
         final String eventOnline = context.getString(R.string.event_online);
         sb.append(eventOnline + ": ");
-        sb.append(getEventUrl(context, lecture.lecture_id));
+        sb.append(getEventUrl(lecture.lecture_id));
         return sb.toString();
     }
 

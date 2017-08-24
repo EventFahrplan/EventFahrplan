@@ -212,7 +212,7 @@ public class EventDetailFragment extends Fragment {
                     .findViewById(R.id.eventOnlineSection);
             eventOnlineSection.setTypeface(bold);
             final TextView eventOnlineLink = (TextView) view.findViewById(R.id.eventOnline);
-            final String eventUrl = FahrplanMisc.getEventUrl(activity, event_id);
+            final String eventUrl = FahrplanMisc.getEventUrl(event_id);
             final String eventLink = "<a href=\"" + eventUrl + "\">" + eventUrl + "</a>";
             setUpHtmlTextView(eventOnlineLink, regular, eventLink);
 
