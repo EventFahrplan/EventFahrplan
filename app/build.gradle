@@ -1,7 +1,11 @@
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 
+ext.set("APP_VERSION", "${gitSha()}")
+
 apply plugin: 'com.android.application'
+apply plugin: "org.sonarqube"
+apply from: "../sonarqube.gradle"
 
 Properties props = new Properties()
 File gradlePropertiesFile = file("gradle.properties")
