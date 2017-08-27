@@ -19,10 +19,10 @@ public class DateInfo {
     @Override
     public boolean equals(Object object) {
         if (object instanceof DateInfo) {
-            DateInfo date = (DateInfo) object;
+            DateInfo dateInfo = (DateInfo) object;
             return super.equals(object) &&
-                    date.dayIdx == dayIdx &&
-                    date.date.equals(date);
+                    dateInfo.dayIdx == dayIdx &&
+                    dateInfo.date.equals(date);
         }
         return false;
     }

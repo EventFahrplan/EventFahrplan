@@ -93,6 +93,7 @@ class parser extends AsyncTask<String, Void, Boolean> {
         }
     }
 
+    @Override
     protected Boolean doInBackground(String... args) {
         boolean parsingSuccessful = parseFahrplan(args[0], args[1]);
         if (parsingSuccessful) {
