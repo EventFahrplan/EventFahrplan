@@ -82,6 +82,7 @@ class fetcher extends AsyncTask<String, Void, HTTP_STATUS> {
         }
     }
 
+    @Override
     protected HTTP_STATUS doInBackground(String... args) {
         String url = args[0];
         String eTag = args[1];
