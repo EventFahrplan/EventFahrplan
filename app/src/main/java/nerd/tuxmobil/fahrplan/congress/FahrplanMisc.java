@@ -289,7 +289,7 @@ public class FahrplanMisc {
             startTime = time.normalize(true);
             when = time.normalize(true);
         }
-        long alarmTimeDiffInSeconds = alarmTimes.get(alarmTimesIndex) * 60 * 1000;
+        long alarmTimeDiffInSeconds = alarmTimes.get(alarmTimesIndex) * 60 * 1000L;
         when -= alarmTimeDiffInSeconds;
 
         // DEBUG
