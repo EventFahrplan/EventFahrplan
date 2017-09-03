@@ -38,7 +38,7 @@ public class FahrplanParser {
         void onParseDone(Boolean result, String version);
     }
 
-    private parser task;
+    private ParserTask task;
 
     private OnParseCompleteListener listener;
 
@@ -51,7 +51,7 @@ public class FahrplanParser {
     }
 
     public void parse(String fahrplan, String eTag) {
-        task = new parser(listener, context);
+        task = new ParserTask(listener, context);
         task.execute(fahrplan, eTag);
     }
 
@@ -69,7 +69,7 @@ public class FahrplanParser {
     }
 }
 
-class parser extends AsyncTask<String, Void, Boolean> {
+class ParserTask extends AsyncTask<String, Void, Boolean> {
 
     private String LOG_TAG = "ParseFahrplan";
 
@@ -89,7 +89,7 @@ class parser extends AsyncTask<String, Void, Boolean> {
 
     private Context context;
 
-    public parser(FahrplanParser.OnParseCompleteListener listener, Context context) {
+    public ParserTask(FahrplanParser.OnParseCompleteListener listener, Context context) {
         this.listener = listener;
         this.completed = false;
         this.db = null;
