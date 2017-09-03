@@ -19,12 +19,12 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-interface OnDownloadCompleteListener {
-
-    void onGotResponse(HTTP_STATUS status, String response, String eTagStr, String host);
-}
-
 public class FetchFahrplan {
+
+    public interface OnDownloadCompleteListener {
+
+        void onGotResponse(HTTP_STATUS status, String response, String eTagStr, String host);
+    }
 
     private fetcher task;
 
@@ -62,19 +62,19 @@ class fetcher extends AsyncTask<String, Void, HTTP_STATUS> {
 
     private String LOG_TAG = "FetchFahrplan";
 
-    private OnDownloadCompleteListener listener;
+    private FetchFahrplan.OnDownloadCompleteListener listener;
 
     private boolean completed;
 
     private HTTP_STATUS status;
     private String host;
 
-    public fetcher(OnDownloadCompleteListener listener) {
+    public fetcher(FetchFahrplan.OnDownloadCompleteListener listener) {
         this.listener = listener;
         this.completed = false;
     }
 
-    public void setListener(OnDownloadCompleteListener listener) {
+    public void setListener(FetchFahrplan.OnDownloadCompleteListener listener) {
         this.listener = listener;
 
         if (completed && (listener != null)) {

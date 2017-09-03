@@ -1,4 +1,4 @@
-package nerd.tuxmobil.fahrplan.congress;
+package nerd.tuxmobil.fahrplan.congress.schedule;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -10,6 +10,8 @@ import org.xmlpull.v1.XmlPullParser;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+
+import nerd.tuxmobil.fahrplan.congress.R;
 
 public class TrackBackgrounds {
 

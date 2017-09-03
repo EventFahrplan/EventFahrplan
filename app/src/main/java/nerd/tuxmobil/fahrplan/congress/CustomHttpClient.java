@@ -18,7 +18,7 @@ import okhttp3.OkHttpClient;
 
 public class CustomHttpClient {
 
-    enum HTTP_STATUS {
+    public enum HTTP_STATUS {
         HTTP_OK,
         HTTP_LOGIN_FAIL_UNTRUSTED_CERTIFICATE,
         HTTP_LOGIN_FAIL_WRONG_PASSWORD,

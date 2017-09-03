@@ -20,12 +20,12 @@ import nerd.tuxmobil.fahrplan.congress.FahrplanContract.LecturesTable.Columns;
 import nerd.tuxmobil.fahrplan.congress.FahrplanContract.LecturesTable.Values;
 import nerd.tuxmobil.fahrplan.congress.FahrplanContract.MetasTable;
 
-interface OnParseCompleteListener {
-
-    void onParseDone(Boolean result, String version);
-}
-
 public class FahrplanParser {
+
+    public interface OnParseCompleteListener {
+
+        void onParseDone(Boolean result, String version);
+    }
 
     private parser task;
 
@@ -70,7 +70,7 @@ class parser extends AsyncTask<String, Void, Boolean> {
 
     private SQLiteDatabase db;
 
-    private OnParseCompleteListener listener;
+    private FahrplanParser.OnParseCompleteListener listener;
 
     private boolean completed;
 
@@ -78,14 +78,14 @@ class parser extends AsyncTask<String, Void, Boolean> {
 
     private Context context;
 
-    public parser(OnParseCompleteListener listener, Context context) {
+    public parser(FahrplanParser.OnParseCompleteListener listener, Context context) {
         this.listener = listener;
         this.completed = false;
         this.db = null;
         this.context = context;
     }
 
-    public void setListener(OnParseCompleteListener listener) {
+    public void setListener(FahrplanParser.OnParseCompleteListener listener) {
         this.listener = listener;
 
         if (completed && (listener != null)) {

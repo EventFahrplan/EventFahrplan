@@ -18,11 +18,11 @@ import org.ligi.tracedroid.logging.Log;
 
 import nerd.tuxmobil.fahrplan.congress.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.FahrplanContract.AlarmsTable;
-import nerd.tuxmobil.fahrplan.congress.MainActivity;
 import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.UpdateService;
 import nerd.tuxmobil.fahrplan.congress.exceptions.BuilderException;
+import nerd.tuxmobil.fahrplan.congress.schedule.MainActivity;
 
 public final class AlarmReceiver extends BroadcastReceiver {
 

@@ -1,4 +1,4 @@
-package nerd.tuxmobil.fahrplan.congress;
+package nerd.tuxmobil.fahrplan.congress.schedule;
 
 import android.content.Context;
 import android.content.Intent;
@@ -50,19 +50,28 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import nerd.tuxmobil.fahrplan.congress.BundleKeys;
+import nerd.tuxmobil.fahrplan.congress.DateInfo;
 import nerd.tuxmobil.fahrplan.congress.FahrplanContract.AlarmsTable;
+import nerd.tuxmobil.fahrplan.congress.FahrplanMisc;
+import nerd.tuxmobil.fahrplan.congress.FahrplanParser;
+import nerd.tuxmobil.fahrplan.congress.Lecture;
+import nerd.tuxmobil.fahrplan.congress.LectureSharer;
+import nerd.tuxmobil.fahrplan.congress.MyApp;
+import nerd.tuxmobil.fahrplan.congress.R;
+import nerd.tuxmobil.fahrplan.congress.SimpleLectureFormat;
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmTimePickerFragment;
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmsDBOpenHelper;
-
-interface OnRefreshEventMarkers {
-
-    void refreshEventMarkers();
-}
 
 public class FahrplanFragment extends Fragment implements
         OnClickListener,
         ActionBar.OnNavigationListener,
-        OnParseCompleteListener {
+        FahrplanParser.OnParseCompleteListener {
+
+    public interface OnRefreshEventMarkers {
+
+        void refreshEventMarkers();
+    }
 
     private MyApp global;
 

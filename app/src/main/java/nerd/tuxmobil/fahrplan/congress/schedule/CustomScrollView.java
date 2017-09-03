@@ -1,4 +1,4 @@
-package nerd.tuxmobil.fahrplan.congress;
+package nerd.tuxmobil.fahrplan.congress.schedule;
 
 import android.content.Context;
 import android.util.AttributeSet;

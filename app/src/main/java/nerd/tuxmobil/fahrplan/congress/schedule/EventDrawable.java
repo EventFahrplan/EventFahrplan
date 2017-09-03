@@ -1,4 +1,4 @@
-package nerd.tuxmobil.fahrplan.congress;
+package nerd.tuxmobil.fahrplan.congress.schedule;
 
 import android.content.res.ColorStateList;
 import android.graphics.Color;

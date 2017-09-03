@@ -32,13 +32,14 @@ import java.util.Date;
 import java.util.Locale;
 
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmTimePickerFragment;
-
-interface OnCloseDetailListener {
-
-    void closeDetailView();
-}
+import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanFragment;
 
 public class EventDetailFragment extends Fragment {
+
+    public interface OnCloseDetailListener {
+
+        void closeDetailView();
+    }
 
     private final String LOG_TAG = "Detail";
 
@@ -337,8 +338,8 @@ public class EventDetailFragment extends Fragment {
 
     public void refreshEventMarkers() {
         FragmentActivity activity = getActivity();
-        if ((activity != null) && (activity instanceof OnRefreshEventMarkers)) {
-            ((OnRefreshEventMarkers) activity).refreshEventMarkers();
+        if ((activity != null) && (activity instanceof FahrplanFragment.OnRefreshEventMarkers)) {
+            ((FahrplanFragment.OnRefreshEventMarkers) activity).refreshEventMarkers();
         }
     }
 

@@ -38,7 +38,7 @@ public class FahrplanMisc {
     private static final String LOG_TAG = "FahrplanMisc";
     private static final int ALL_DAYS = -1;
 
-    static void loadDays(Context context) {
+    public static void loadDays(Context context) {
         MyApp.dateInfos = new DateInfos();
         LecturesDBOpenHelper lecturesDB = new LecturesDBOpenHelper(context);
 
@@ -84,7 +84,7 @@ public class FahrplanMisc {
         lecturedb.close();
     }
 
-    static void loadMeta(Context context) {
+    public static void loadMeta(Context context) {
         MetaDBOpenHelper metaDB = new MetaDBOpenHelper(context);
         SQLiteDatabase metadb = metaDB.getReadableDatabase();
 

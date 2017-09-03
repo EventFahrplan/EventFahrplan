@@ -29,10 +29,10 @@ import nerd.tuxmobil.fahrplan.congress.FahrplanMisc;
 import nerd.tuxmobil.fahrplan.congress.Lecture;
 import nerd.tuxmobil.fahrplan.congress.LectureList;
 import nerd.tuxmobil.fahrplan.congress.LectureSharer;
-import nerd.tuxmobil.fahrplan.congress.MainActivity;
 import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.SimpleLectureFormat;
+import nerd.tuxmobil.fahrplan.congress.schedule.MainActivity;
 
 
 /**

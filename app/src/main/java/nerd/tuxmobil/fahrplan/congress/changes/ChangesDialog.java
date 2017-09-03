@@ -20,8 +20,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import nerd.tuxmobil.fahrplan.congress.BundleKeys;
-import nerd.tuxmobil.fahrplan.congress.MainActivity;
 import nerd.tuxmobil.fahrplan.congress.R;
+import nerd.tuxmobil.fahrplan.congress.schedule.MainActivity;
 
 public class ChangesDialog extends DialogFragment {
 

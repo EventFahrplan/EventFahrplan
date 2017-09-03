@@ -17,7 +17,7 @@
                 android:label="@string/app_name"
                 android:theme="@style/Theme.Congress.NoActionBar"
                 android:launchMode="singleTop"
-                android:name="MainActivity">
+                android:name=".schedule.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -28,19 +28,19 @@
                 android:configChanges="keyboardHidden|orientation"
                 android:label="@string/fahrplan"
                 android:uiOptions="splitActionBarWhenNarrow"
-                android:parentActivityName="nerd.tuxmobil.fahrplan.congress.MainActivity">
+                android:parentActivityName="nerd.tuxmobil.fahrplan.congress.schedule.MainActivity">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
-                    android:value="nerd.tuxmobil.fahrplan.congress.MainActivity"/>
+                    android:value="nerd.tuxmobil.fahrplan.congress.schedule.MainActivity"/>
         </activity>
         <activity
                 android:configChanges="keyboardHidden|orientation"
                 android:name=".alarms.AlarmList"
                 android:label="@string/reminders"
-                android:parentActivityName="nerd.tuxmobil.fahrplan.congress.MainActivity">
+                android:parentActivityName="nerd.tuxmobil.fahrplan.congress.schedule.MainActivity">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
-                    android:value="nerd.tuxmobil.fahrplan.congress.MainActivity"/>
+                    android:value="nerd.tuxmobil.fahrplan.congress.schedule.MainActivity"/>
         </activity>
 
         <receiver android:name=".alarms.AlarmReceiver">

@@ -50,7 +50,7 @@ public class MyApp extends Application {
 
     public static HashMap<String, Integer> roomsMap = new HashMap<String, Integer>();
 
-    enum TASKS {
+    public enum TASKS {
         NONE,
         FETCH,
         PARSE,

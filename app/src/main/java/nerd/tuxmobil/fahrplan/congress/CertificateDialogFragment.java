@@ -17,12 +17,12 @@ import java.security.cert.CertificateEncodingException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 
-interface OnCertAccepted {
-
-    void cert_accepted();
-}
-
 public class CertificateDialogFragment extends DialogFragment {
+
+    public interface OnCertAccepted {
+
+        void cert_accepted();
+    }
 
     public static final String FRAGMENT_TAG =
             BuildConfig.APPLICATION_ID + "CERTIFICATE_DIALOG_FRAGMENT_TAG";

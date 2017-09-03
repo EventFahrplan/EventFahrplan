@@ -20,9 +20,11 @@ import android.text.format.Time;
 
 import nerd.tuxmobil.fahrplan.congress.CustomHttpClient.HTTP_STATUS;
 import nerd.tuxmobil.fahrplan.congress.MyApp.TASKS;
+import nerd.tuxmobil.fahrplan.congress.schedule.MainActivity;
 
-public class UpdateService extends IntentService
-        implements OnDownloadCompleteListener, OnParseCompleteListener {
+public class UpdateService extends IntentService implements
+        FetchFahrplan.OnDownloadCompleteListener,
+        FahrplanParser.OnParseCompleteListener {
 
     public UpdateService() {
         super("UpdateService");
@@ -112,7 +114,7 @@ public class UpdateService extends IntentService
         parseFahrplan();
     }
 
-    private void fetchFahrplan(OnDownloadCompleteListener completeListener) {
+    private void fetchFahrplan(FetchFahrplan.OnDownloadCompleteListener completeListener) {
         if (MyApp.task_running == TASKS.NONE) {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
             String alternateURL = prefs.getString(BundleKeys.PREFS_SCHEDULE_URL, null);

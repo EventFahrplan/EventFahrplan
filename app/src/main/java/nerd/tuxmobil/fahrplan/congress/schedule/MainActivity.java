@@ -1,4 +1,4 @@
-package nerd.tuxmobil.fahrplan.congress;
+package nerd.tuxmobil.fahrplan.congress.schedule;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -28,8 +28,26 @@ import org.ligi.snackengage.SnackEngage;
 import org.ligi.snackengage.snacks.BaseSnack;
 import org.ligi.snackengage.snacks.DefaultRateSnack;
 
+import nerd.tuxmobil.fahrplan.congress.AbstractListFragment;
+import nerd.tuxmobil.fahrplan.congress.BaseActivity;
+import nerd.tuxmobil.fahrplan.congress.BuildConfig;
+import nerd.tuxmobil.fahrplan.congress.BundleKeys;
+import nerd.tuxmobil.fahrplan.congress.CertificateDialogFragment;
+import nerd.tuxmobil.fahrplan.congress.ConfirmationDialog;
+import nerd.tuxmobil.fahrplan.congress.CustomHttpClient;
 import nerd.tuxmobil.fahrplan.congress.CustomHttpClient.HTTP_STATUS;
+import nerd.tuxmobil.fahrplan.congress.EventDetail;
+import nerd.tuxmobil.fahrplan.congress.EventDetailFragment;
+import nerd.tuxmobil.fahrplan.congress.FahrplanMisc;
+import nerd.tuxmobil.fahrplan.congress.FahrplanParser;
+import nerd.tuxmobil.fahrplan.congress.FetchFahrplan;
+import nerd.tuxmobil.fahrplan.congress.Lecture;
+import nerd.tuxmobil.fahrplan.congress.LectureList;
+import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.MyApp.TASKS;
+import nerd.tuxmobil.fahrplan.congress.R;
+import nerd.tuxmobil.fahrplan.congress.SettingsActivity;
+import nerd.tuxmobil.fahrplan.congress.TraceDroidEmailSender;
 import nerd.tuxmobil.fahrplan.congress.about.AboutDialog;
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmList;
 import nerd.tuxmobil.fahrplan.congress.changes.ChangeListActivity;
@@ -39,11 +57,11 @@ import nerd.tuxmobil.fahrplan.congress.favorites.StarredListActivity;
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListFragment;
 
 public class MainActivity extends BaseActivity implements
-        OnParseCompleteListener,
-        OnDownloadCompleteListener,
-        OnCloseDetailListener,
-        OnRefreshEventMarkers,
-        OnCertAccepted,
+        FahrplanParser.OnParseCompleteListener,
+        FetchFahrplan.OnDownloadCompleteListener,
+        EventDetailFragment.OnCloseDetailListener,
+        FahrplanFragment.OnRefreshEventMarkers,
+        CertificateDialogFragment.OnCertAccepted,
         AbstractListFragment.OnLectureListClick,
         FragmentManager.OnBackStackChangedListener,
         ConfirmationDialog.OnConfirmationDialogClicked {
@@ -216,8 +234,8 @@ public class MainActivity extends BaseActivity implements
         showUpdateAction = true;
         supportInvalidateOptionsMenu();
         Fragment fragment = findFragment(FahrplanFragment.FRAGMENT_TAG);
-        if ((fragment != null) && (fragment instanceof OnParseCompleteListener)) {
-            ((OnParseCompleteListener) fragment).onParseDone(result, version);
+        if ((fragment != null) && (fragment instanceof FahrplanParser.OnParseCompleteListener)) {
+            ((FahrplanParser.OnParseCompleteListener) fragment).onParseDone(result, version);
         }
         fragment = findFragment(ChangeListFragment.FRAGMENT_TAG);
         if ((fragment != null) && (fragment instanceof ChangeListFragment)) {
@@ -257,7 +275,7 @@ public class MainActivity extends BaseActivity implements
         }
     }
 
-    public void fetchFahrplan(OnDownloadCompleteListener completeListener) {
+    public void fetchFahrplan(FetchFahrplan.OnDownloadCompleteListener completeListener) {
         if (MyApp.task_running == TASKS.NONE) {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
             String alternateURL = prefs.getString(BundleKeys.PREFS_SCHEDULE_URL, null);

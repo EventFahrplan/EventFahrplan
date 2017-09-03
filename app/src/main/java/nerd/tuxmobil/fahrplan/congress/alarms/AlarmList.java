@@ -24,9 +24,9 @@ import org.ligi.tracedroid.logging.Log;
 import nerd.tuxmobil.fahrplan.congress.ActionBarListActivity;
 import nerd.tuxmobil.fahrplan.congress.FahrplanContract.AlarmsTable;
 import nerd.tuxmobil.fahrplan.congress.FahrplanContract.AlarmsTable.Columns;
-import nerd.tuxmobil.fahrplan.congress.FahrplanFragment;
 import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.R;
+import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanFragment;
 
 public class AlarmList extends ActionBarListActivity {
 
