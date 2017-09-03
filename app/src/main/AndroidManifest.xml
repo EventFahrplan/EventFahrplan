@@ -52,7 +52,7 @@
         </receiver>
 
         <activity
-                android:name="nerd.tuxmobil.fahrplan.congress.SettingsActivity"
+                android:name="nerd.tuxmobil.fahrplan.congress.settings.SettingsActivity"
                 android:theme="@style/Theme.Congress.NoActionBar"
                 android:label="@string/settings"/>
         <service

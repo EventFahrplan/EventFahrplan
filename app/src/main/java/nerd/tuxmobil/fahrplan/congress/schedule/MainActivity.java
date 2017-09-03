@@ -37,7 +37,6 @@ import nerd.tuxmobil.fahrplan.congress.LectureList;
 import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.MyApp.TASKS;
 import nerd.tuxmobil.fahrplan.congress.R;
-import nerd.tuxmobil.fahrplan.congress.SettingsActivity;
 import nerd.tuxmobil.fahrplan.congress.about.AboutDialog;
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmList;
 import nerd.tuxmobil.fahrplan.congress.changes.ChangeListActivity;
@@ -53,6 +52,7 @@ import nerd.tuxmobil.fahrplan.congress.net.CustomHttpClient.HTTP_STATUS;
 import nerd.tuxmobil.fahrplan.congress.net.FetchFahrplan;
 import nerd.tuxmobil.fahrplan.congress.reporting.TraceDroidEmailSender;
 import nerd.tuxmobil.fahrplan.congress.serialization.FahrplanParser;
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsActivity;
 import nerd.tuxmobil.fahrplan.congress.utils.ConfirmationDialog;
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
 
