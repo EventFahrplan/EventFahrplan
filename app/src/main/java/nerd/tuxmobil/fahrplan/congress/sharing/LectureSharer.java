@@ -1,9 +1,11 @@
-package nerd.tuxmobil.fahrplan.congress;
+package nerd.tuxmobil.fahrplan.congress.sharing;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
+
+import nerd.tuxmobil.fahrplan.congress.MyApp;
 
 public class LectureSharer {
 

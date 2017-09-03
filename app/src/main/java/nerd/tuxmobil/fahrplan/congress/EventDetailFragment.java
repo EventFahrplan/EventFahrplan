@@ -33,6 +33,8 @@ import java.util.Locale;
 
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmTimePickerFragment;
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanFragment;
+import nerd.tuxmobil.fahrplan.congress.sharing.LectureSharer;
+import nerd.tuxmobil.fahrplan.congress.sharing.SimpleLectureFormat;
 
 public class EventDetailFragment extends Fragment {
 
