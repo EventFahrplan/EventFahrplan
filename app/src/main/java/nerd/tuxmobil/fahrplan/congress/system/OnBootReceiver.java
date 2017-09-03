@@ -1,4 +1,4 @@
-package nerd.tuxmobil.fahrplan.congress;
+package nerd.tuxmobil.fahrplan.congress.system;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -15,12 +15,14 @@ import android.text.format.Time;
 import org.ligi.tracedroid.logging.Log;
 
 import nerd.tuxmobil.fahrplan.congress.FahrplanContract.AlarmsTable;
+import nerd.tuxmobil.fahrplan.congress.FahrplanMisc;
+import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmReceiver;
 import nerd.tuxmobil.fahrplan.congress.autoupdate.UpdateService;
 import nerd.tuxmobil.fahrplan.congress.net.ConnectivityStateReceiver;
 import nerd.tuxmobil.fahrplan.congress.persistence.AlarmsDBOpenHelper;
 
-public final class onBootReceiver extends BroadcastReceiver {
+public final class OnBootReceiver extends BroadcastReceiver {
 
     final String LOG_TAG = "onBoot";
 

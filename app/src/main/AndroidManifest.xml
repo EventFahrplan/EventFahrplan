@@ -45,7 +45,7 @@
 
         <receiver android:name=".alarms.AlarmReceiver">
         </receiver>
-        <receiver android:name="nerd.tuxmobil.fahrplan.congress.onBootReceiver">
+        <receiver android:name="nerd.tuxmobil.fahrplan.congress.system.OnBootReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"></action>
             </intent-filter>
