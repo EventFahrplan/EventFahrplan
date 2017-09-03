@@ -11,6 +11,8 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.TimeZone;
 
+import nerd.tuxmobil.fahrplan.congress.serialization.FahrplanParser;
+
 public class MyApp extends Application {
 
     public static Application app = null;

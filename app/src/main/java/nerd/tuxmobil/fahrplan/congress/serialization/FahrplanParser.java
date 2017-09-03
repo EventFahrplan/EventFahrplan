@@ -1,4 +1,4 @@
-package nerd.tuxmobil.fahrplan.congress;
+package nerd.tuxmobil.fahrplan.congress.serialization;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -15,12 +15,21 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import nerd.tuxmobil.fahrplan.congress.BundleKeys;
+import nerd.tuxmobil.fahrplan.congress.DateFieldValidation;
+import nerd.tuxmobil.fahrplan.congress.DateHelper;
 import nerd.tuxmobil.fahrplan.congress.FahrplanContract.LecturesTable;
 import nerd.tuxmobil.fahrplan.congress.FahrplanContract.LecturesTable.Columns;
 import nerd.tuxmobil.fahrplan.congress.FahrplanContract.LecturesTable.Values;
 import nerd.tuxmobil.fahrplan.congress.FahrplanContract.MetasTable;
+import nerd.tuxmobil.fahrplan.congress.FahrplanMisc;
+import nerd.tuxmobil.fahrplan.congress.Lecture;
+import nerd.tuxmobil.fahrplan.congress.LectureList;
+import nerd.tuxmobil.fahrplan.congress.MetaInfo;
+import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.persistence.LecturesDBOpenHelper;
 import nerd.tuxmobil.fahrplan.congress.persistence.MetaDBOpenHelper;
+import nerd.tuxmobil.fahrplan.congress.serialization.exceptions.MissingXmlAttributeException;
 
 public class FahrplanParser {
 

@@ -39,7 +39,6 @@ import nerd.tuxmobil.fahrplan.congress.CustomHttpClient.HTTP_STATUS;
 import nerd.tuxmobil.fahrplan.congress.EventDetail;
 import nerd.tuxmobil.fahrplan.congress.EventDetailFragment;
 import nerd.tuxmobil.fahrplan.congress.FahrplanMisc;
-import nerd.tuxmobil.fahrplan.congress.FahrplanParser;
 import nerd.tuxmobil.fahrplan.congress.FetchFahrplan;
 import nerd.tuxmobil.fahrplan.congress.Lecture;
 import nerd.tuxmobil.fahrplan.congress.LectureList;
@@ -55,6 +54,7 @@ import nerd.tuxmobil.fahrplan.congress.changes.ChangeListFragment;
 import nerd.tuxmobil.fahrplan.congress.changes.ChangesDialog;
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListActivity;
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListFragment;
+import nerd.tuxmobil.fahrplan.congress.serialization.FahrplanParser;
 
 public class MainActivity extends BaseActivity implements
         FahrplanParser.OnParseCompleteListener,

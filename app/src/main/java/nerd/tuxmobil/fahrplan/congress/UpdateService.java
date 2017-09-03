@@ -21,6 +21,7 @@ import android.text.format.Time;
 import nerd.tuxmobil.fahrplan.congress.CustomHttpClient.HTTP_STATUS;
 import nerd.tuxmobil.fahrplan.congress.MyApp.TASKS;
 import nerd.tuxmobil.fahrplan.congress.schedule.MainActivity;
+import nerd.tuxmobil.fahrplan.congress.serialization.FahrplanParser;
 
 public class UpdateService extends IntentService implements
         FetchFahrplan.OnDownloadCompleteListener,
