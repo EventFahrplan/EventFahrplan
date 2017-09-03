@@ -14,12 +14,14 @@
  * limitations under the License.
  */
 
-package nerd.tuxmobil.fahrplan.congress;
+package nerd.tuxmobil.fahrplan.congress.changes;
 
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.Checkable;
 import android.widget.LinearLayout;
+
+import nerd.tuxmobil.fahrplan.congress.R;
 
 public class CheckableLinearLayout extends LinearLayout implements Checkable {
 

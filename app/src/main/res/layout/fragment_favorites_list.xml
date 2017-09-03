@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@android:color/white"
-    tools:context=".ChangeListFragment">
+    tools:context=".changes.ChangeListFragment">
 
     <ListView
         android:id="@android:id/list"

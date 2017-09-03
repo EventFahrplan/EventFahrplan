@@ -1,4 +1,4 @@
-package nerd.tuxmobil.fahrplan.congress;
+package nerd.tuxmobil.fahrplan.congress.changes;
 
 import android.app.Activity;
 import android.content.Context;
@@ -11,6 +11,14 @@ import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import nerd.tuxmobil.fahrplan.congress.AbstractListFragment;
+import nerd.tuxmobil.fahrplan.congress.BundleKeys;
+import nerd.tuxmobil.fahrplan.congress.FahrplanMisc;
+import nerd.tuxmobil.fahrplan.congress.Lecture;
+import nerd.tuxmobil.fahrplan.congress.LectureList;
+import nerd.tuxmobil.fahrplan.congress.MyApp;
+import nerd.tuxmobil.fahrplan.congress.R;
+
 
 /**
  * A fragment representing a list of Items.
@@ -18,7 +26,7 @@ import android.widget.ListView;
  * Large screen devices (such as tablets) are supported by replacing the ListView
  * with a GridView.
  * <p/>
- * Activities containing this fragment MUST implement the {@link OnLectureListClick}
+ * Activities containing this fragment MUST implement the {@link AbstractListFragment.OnLectureListClick}
  * interface.
  */
 public class ChangeListFragment extends AbstractListFragment {

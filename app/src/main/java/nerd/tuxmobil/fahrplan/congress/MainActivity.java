@@ -32,6 +32,9 @@ import nerd.tuxmobil.fahrplan.congress.CustomHttpClient.HTTP_STATUS;
 import nerd.tuxmobil.fahrplan.congress.MyApp.TASKS;
 import nerd.tuxmobil.fahrplan.congress.about.AboutDialog;
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmList;
+import nerd.tuxmobil.fahrplan.congress.changes.ChangeListActivity;
+import nerd.tuxmobil.fahrplan.congress.changes.ChangeListFragment;
+import nerd.tuxmobil.fahrplan.congress.changes.ChangesDialog;
 
 public class MainActivity extends BaseActivity implements
         OnParseCompleteListener,

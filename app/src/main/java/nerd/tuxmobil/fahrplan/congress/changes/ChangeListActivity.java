@@ -1,10 +1,17 @@
-package nerd.tuxmobil.fahrplan.congress;
+package nerd.tuxmobil.fahrplan.congress.changes;
 
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
+
+import nerd.tuxmobil.fahrplan.congress.AbstractListFragment;
+import nerd.tuxmobil.fahrplan.congress.BaseActivity;
+import nerd.tuxmobil.fahrplan.congress.EventDetail;
+import nerd.tuxmobil.fahrplan.congress.Lecture;
+import nerd.tuxmobil.fahrplan.congress.MyApp;
+import nerd.tuxmobil.fahrplan.congress.R;
 
 public class ChangeListActivity extends BaseActivity implements
         AbstractListFragment.OnLectureListClick {

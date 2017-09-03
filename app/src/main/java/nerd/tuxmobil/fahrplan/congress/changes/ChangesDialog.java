@@ -1,4 +1,4 @@
-package nerd.tuxmobil.fahrplan.congress;
+package nerd.tuxmobil.fahrplan.congress.changes;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -18,6 +18,10 @@ import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
+
+import nerd.tuxmobil.fahrplan.congress.BundleKeys;
+import nerd.tuxmobil.fahrplan.congress.MainActivity;
+import nerd.tuxmobil.fahrplan.congress.R;
 
 public class ChangesDialog extends DialogFragment {
 

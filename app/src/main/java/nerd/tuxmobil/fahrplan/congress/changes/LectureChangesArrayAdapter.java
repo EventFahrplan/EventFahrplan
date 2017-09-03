@@ -1,4 +1,4 @@
-package nerd.tuxmobil.fahrplan.congress;
+package nerd.tuxmobil.fahrplan.congress.changes;
 
 import android.content.Context;
 import android.graphics.Paint;
@@ -17,6 +17,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.TreeSet;
+
+import nerd.tuxmobil.fahrplan.congress.Lecture;
+import nerd.tuxmobil.fahrplan.congress.R;
 
 public class LectureChangesArrayAdapter extends ArrayAdapter<Lecture> {
 

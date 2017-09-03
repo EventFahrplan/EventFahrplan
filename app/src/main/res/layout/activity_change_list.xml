@@ -15,7 +15,7 @@
         android:layout_height="match_parent"
         android:layout_below="@id/toolbar"
         tools:background="@android:color/holo_green_dark"
-        tools:context=".ChangeListActivity"
+        tools:context=".changes.ChangeListActivity"
         tools:ignore="MergeRootFrame"
         tools:layout="@layout/fragment_lecture_list" />
 
