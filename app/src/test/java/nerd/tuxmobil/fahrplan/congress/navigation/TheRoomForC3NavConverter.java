@@ -1,6 +1,6 @@
-import org.junit.Test;
+package nerd.tuxmobil.fahrplan.congress.navigation;
 
-import nerd.tuxmobil.fahrplan.congress.RoomForC3NavConverter;
+import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

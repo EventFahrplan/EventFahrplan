@@ -1,4 +1,4 @@
-package nerd.tuxmobil.fahrplan.congress;
+package nerd.tuxmobil.fahrplan.congress.navigation;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;

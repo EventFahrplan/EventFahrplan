@@ -11,6 +11,8 @@ import android.support.v4.content.ContextCompat;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import nerd.tuxmobil.fahrplan.congress.navigation.RoomForC3NavConverter;
+
 public class EventDetail extends BaseActivity {
 
     public static void startForResult(@NonNull Activity activity,
