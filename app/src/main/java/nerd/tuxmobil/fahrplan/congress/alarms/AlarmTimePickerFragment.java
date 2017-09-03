@@ -18,8 +18,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import nerd.tuxmobil.fahrplan.congress.BuildConfig;
-import nerd.tuxmobil.fahrplan.congress.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.R;
+import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
 
 public class AlarmTimePickerFragment extends DialogFragment {
 

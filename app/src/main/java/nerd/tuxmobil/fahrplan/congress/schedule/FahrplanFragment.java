@@ -50,10 +50,10 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import nerd.tuxmobil.fahrplan.congress.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmTimePickerFragment;
+import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.models.DateInfo;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
 import nerd.tuxmobil.fahrplan.congress.persistence.AlarmsDBOpenHelper;

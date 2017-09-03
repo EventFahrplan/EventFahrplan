@@ -29,7 +29,6 @@ import org.ligi.snackengage.snacks.BaseSnack;
 import org.ligi.snackengage.snacks.DefaultRateSnack;
 
 import nerd.tuxmobil.fahrplan.congress.BuildConfig;
-import nerd.tuxmobil.fahrplan.congress.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.MyApp.TASKS;
 import nerd.tuxmobil.fahrplan.congress.R;
@@ -40,6 +39,7 @@ import nerd.tuxmobil.fahrplan.congress.base.BaseActivity;
 import nerd.tuxmobil.fahrplan.congress.changes.ChangeListActivity;
 import nerd.tuxmobil.fahrplan.congress.changes.ChangeListFragment;
 import nerd.tuxmobil.fahrplan.congress.changes.ChangesDialog;
+import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.details.EventDetail;
 import nerd.tuxmobil.fahrplan.congress.details.EventDetailFragment;
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListActivity;

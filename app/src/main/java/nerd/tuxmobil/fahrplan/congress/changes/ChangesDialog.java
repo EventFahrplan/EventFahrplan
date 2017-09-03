@@ -19,8 +19,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
-import nerd.tuxmobil.fahrplan.congress.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.R;
+import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.schedule.MainActivity;
 
 public class ChangesDialog extends DialogFragment {

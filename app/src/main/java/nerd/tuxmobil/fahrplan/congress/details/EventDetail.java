@@ -12,10 +12,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import nerd.tuxmobil.fahrplan.congress.BuildConfig;
-import nerd.tuxmobil.fahrplan.congress.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.base.BaseActivity;
+import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
 import nerd.tuxmobil.fahrplan.congress.navigation.RoomForC3NavConverter;
 

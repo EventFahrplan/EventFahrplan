@@ -32,10 +32,10 @@ import java.util.Date;
 import java.util.Locale;
 
 import nerd.tuxmobil.fahrplan.congress.BuildConfig;
-import nerd.tuxmobil.fahrplan.congress.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmTimePickerFragment;
+import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
 import nerd.tuxmobil.fahrplan.congress.navigation.RoomForC3NavConverter;
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanFragment;

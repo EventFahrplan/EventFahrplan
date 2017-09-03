@@ -15,8 +15,8 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import nerd.tuxmobil.fahrplan.congress.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.MyApp;
+import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
 import nerd.tuxmobil.fahrplan.congress.models.LectureList;
 import nerd.tuxmobil.fahrplan.congress.models.MetaInfo;
