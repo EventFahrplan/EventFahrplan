@@ -70,7 +70,7 @@
             android:label="@string/schedule_changes" >
         </activity>
         <activity
-            android:name="nerd.tuxmobil.fahrplan.congress.StarredListActivity"
+            android:name="nerd.tuxmobil.fahrplan.congress.favorites.StarredListActivity"
             android:theme="@style/Theme.Congress.NoActionBar"
             android:label="@string/starred_lectures" >
         </activity>

@@ -11,7 +11,7 @@ import android.support.v7.app.AlertDialog;
 
 public class ConfirmationDialog extends DialogFragment {
 
-    interface OnConfirmationDialogClicked {
+    public interface OnConfirmationDialogClicked {
         void onAccepted(int dlgRequestCode);
 
         void onDenied(int dlgRequestCode);

@@ -1,4 +1,4 @@
-package nerd.tuxmobil.fahrplan.congress;
+package nerd.tuxmobil.fahrplan.congress.favorites;
 
 import android.app.Activity;
 import android.content.Context;
@@ -21,6 +21,19 @@ import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import nerd.tuxmobil.fahrplan.congress.AbstractListFragment;
+import nerd.tuxmobil.fahrplan.congress.ActivityHelper;
+import nerd.tuxmobil.fahrplan.congress.BundleKeys;
+import nerd.tuxmobil.fahrplan.congress.ConfirmationDialog;
+import nerd.tuxmobil.fahrplan.congress.FahrplanMisc;
+import nerd.tuxmobil.fahrplan.congress.Lecture;
+import nerd.tuxmobil.fahrplan.congress.LectureList;
+import nerd.tuxmobil.fahrplan.congress.LectureSharer;
+import nerd.tuxmobil.fahrplan.congress.MainActivity;
+import nerd.tuxmobil.fahrplan.congress.MyApp;
+import nerd.tuxmobil.fahrplan.congress.R;
+import nerd.tuxmobil.fahrplan.congress.SimpleLectureFormat;
+
 
 /**
  * A fragment representing a list of Items.
@@ -28,7 +41,7 @@ import android.widget.Toast;
  * Large screen devices (such as tablets) are supported by replacing the ListView
  * with a GridView.
  * <p/>
- * Activities containing this fragment MUST implement the {@link OnLectureListClick}
+ * Activities containing this fragment MUST implement the {@link AbstractListFragment.OnLectureListClick}
  * interface.
  */
 public class StarredListFragment extends AbstractListFragment implements AbsListView

@@ -35,6 +35,8 @@ import nerd.tuxmobil.fahrplan.congress.alarms.AlarmList;
 import nerd.tuxmobil.fahrplan.congress.changes.ChangeListActivity;
 import nerd.tuxmobil.fahrplan.congress.changes.ChangeListFragment;
 import nerd.tuxmobil.fahrplan.congress.changes.ChangesDialog;
+import nerd.tuxmobil.fahrplan.congress.favorites.StarredListActivity;
+import nerd.tuxmobil.fahrplan.congress.favorites.StarredListFragment;
 
 public class MainActivity extends BaseActivity implements
         OnParseCompleteListener,
