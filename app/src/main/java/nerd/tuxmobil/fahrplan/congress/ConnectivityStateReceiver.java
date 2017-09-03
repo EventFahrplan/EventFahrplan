@@ -10,6 +10,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
 
+import nerd.tuxmobil.fahrplan.congress.autoupdate.UpdateService;
+
 public class ConnectivityStateReceiver extends BroadcastReceiver {
 
     private static final String LOG_TAG = "ConnectivityStateReceiver";

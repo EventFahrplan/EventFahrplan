@@ -16,6 +16,7 @@ import org.ligi.tracedroid.logging.Log;
 
 import nerd.tuxmobil.fahrplan.congress.FahrplanContract.AlarmsTable;
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmReceiver;
+import nerd.tuxmobil.fahrplan.congress.autoupdate.UpdateService;
 import nerd.tuxmobil.fahrplan.congress.persistence.AlarmsDBOpenHelper;
 
 public final class onBootReceiver extends BroadcastReceiver {
