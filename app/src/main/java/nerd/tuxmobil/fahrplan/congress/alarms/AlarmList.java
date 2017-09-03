@@ -1,4 +1,4 @@
-package nerd.tuxmobil.fahrplan.congress;
+package nerd.tuxmobil.fahrplan.congress.alarms;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -21,8 +21,12 @@ import android.widget.AdapterView;
 
 import org.ligi.tracedroid.logging.Log;
 
+import nerd.tuxmobil.fahrplan.congress.ActionBarListActivity;
 import nerd.tuxmobil.fahrplan.congress.FahrplanContract.AlarmsTable;
 import nerd.tuxmobil.fahrplan.congress.FahrplanContract.AlarmsTable.Columns;
+import nerd.tuxmobil.fahrplan.congress.FahrplanFragment;
+import nerd.tuxmobil.fahrplan.congress.MyApp;
+import nerd.tuxmobil.fahrplan.congress.R;
 
 public class AlarmList extends ActionBarListActivity {
 

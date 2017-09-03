@@ -31,6 +31,7 @@ import org.ligi.snackengage.snacks.DefaultRateSnack;
 import nerd.tuxmobil.fahrplan.congress.CustomHttpClient.HTTP_STATUS;
 import nerd.tuxmobil.fahrplan.congress.MyApp.TASKS;
 import nerd.tuxmobil.fahrplan.congress.about.AboutDialog;
+import nerd.tuxmobil.fahrplan.congress.alarms.AlarmList;
 
 public class MainActivity extends BaseActivity implements
         OnParseCompleteListener,

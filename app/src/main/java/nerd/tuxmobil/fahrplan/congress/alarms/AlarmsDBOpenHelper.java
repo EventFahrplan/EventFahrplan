@@ -1,4 +1,4 @@
-package nerd.tuxmobil.fahrplan.congress;
+package nerd.tuxmobil.fahrplan.congress.alarms;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -33,7 +33,7 @@ public class AlarmsDBOpenHelper extends SQLiteOpenHelper {
             AlarmsTable.Columns.DAY
     };
 
-    AlarmsDBOpenHelper(Context context) {
+    public AlarmsDBOpenHelper(Context context) {
         super(context, AlarmsTable.NAME, null, DATABASE_VERSION);
     }
 

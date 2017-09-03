@@ -31,6 +31,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import nerd.tuxmobil.fahrplan.congress.alarms.AlarmTimePickerFragment;
+
 interface OnCloseDetailListener {
 
     void closeDetailView();

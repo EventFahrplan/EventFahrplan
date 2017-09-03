@@ -15,6 +15,8 @@ import android.text.format.Time;
 import org.ligi.tracedroid.logging.Log;
 
 import nerd.tuxmobil.fahrplan.congress.FahrplanContract.AlarmsTable;
+import nerd.tuxmobil.fahrplan.congress.alarms.AlarmReceiver;
+import nerd.tuxmobil.fahrplan.congress.alarms.AlarmsDBOpenHelper;
 
 public final class onBootReceiver extends BroadcastReceiver {
 

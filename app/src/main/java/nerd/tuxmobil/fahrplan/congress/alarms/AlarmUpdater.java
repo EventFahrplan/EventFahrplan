@@ -1,11 +1,13 @@
-package nerd.tuxmobil.fahrplan.congress;
+package nerd.tuxmobil.fahrplan.congress.alarms;
 
 import android.app.AlarmManager;
 import android.support.annotation.NonNull;
 
+import nerd.tuxmobil.fahrplan.congress.ConferenceTimeFrame;
+
 public class AlarmUpdater {
 
-    interface OnAlarmUpdateListener {
+    public interface OnAlarmUpdateListener {
 
         void onCancelAlarm();
 

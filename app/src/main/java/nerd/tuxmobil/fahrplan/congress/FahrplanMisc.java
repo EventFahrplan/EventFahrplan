@@ -29,6 +29,9 @@ import nerd.tuxmobil.fahrplan.congress.FahrplanContract.AlarmsTable;
 import nerd.tuxmobil.fahrplan.congress.FahrplanContract.HighlightsTable;
 import nerd.tuxmobil.fahrplan.congress.FahrplanContract.LecturesTable;
 import nerd.tuxmobil.fahrplan.congress.FahrplanContract.MetasTable;
+import nerd.tuxmobil.fahrplan.congress.alarms.AlarmReceiver;
+import nerd.tuxmobil.fahrplan.congress.alarms.AlarmUpdater;
+import nerd.tuxmobil.fahrplan.congress.alarms.AlarmsDBOpenHelper;
 
 public class FahrplanMisc {
 

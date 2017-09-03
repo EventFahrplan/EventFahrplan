@@ -35,7 +35,7 @@
         </activity>
         <activity
                 android:configChanges="keyboardHidden|orientation"
-                android:name="AlarmList"
+                android:name=".alarms.AlarmList"
                 android:label="@string/reminders"
                 android:parentActivityName="nerd.tuxmobil.fahrplan.congress.MainActivity">
             <meta-data
@@ -43,7 +43,7 @@
                     android:value="nerd.tuxmobil.fahrplan.congress.MainActivity"/>
         </activity>
 
-        <receiver android:name="AlarmReceiver">
+        <receiver android:name=".alarms.AlarmReceiver">
         </receiver>
         <receiver android:name="nerd.tuxmobil.fahrplan.congress.onBootReceiver">
             <intent-filter>
