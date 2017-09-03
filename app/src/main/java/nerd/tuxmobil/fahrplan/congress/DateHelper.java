@@ -81,7 +81,7 @@ public class DateHelper {
         return date == null ? 0 : date.getTime();
     }
 
-    protected static Date getDate(final String text, final String pattern) {
+    public static Date getDate(final String text, final String pattern) {
         SimpleDateFormat dateFormat = new SimpleDateFormat(pattern, Locale.US);
         Date date = null;
         try {
