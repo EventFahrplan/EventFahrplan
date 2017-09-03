@@ -1,4 +1,4 @@
-package nerd.tuxmobil.fahrplan.congress.alarms;
+package nerd.tuxmobil.fahrplan.congress.persistence;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

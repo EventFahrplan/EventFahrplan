@@ -22,6 +22,7 @@ import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.UpdateService;
 import nerd.tuxmobil.fahrplan.congress.exceptions.BuilderException;
+import nerd.tuxmobil.fahrplan.congress.persistence.AlarmsDBOpenHelper;
 import nerd.tuxmobil.fahrplan.congress.schedule.MainActivity;
 
 public final class AlarmReceiver extends BroadcastReceiver {

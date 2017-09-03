@@ -61,7 +61,7 @@ import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.SimpleLectureFormat;
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmTimePickerFragment;
-import nerd.tuxmobil.fahrplan.congress.alarms.AlarmsDBOpenHelper;
+import nerd.tuxmobil.fahrplan.congress.persistence.AlarmsDBOpenHelper;
 
 public class FahrplanFragment extends Fragment implements
         OnClickListener,

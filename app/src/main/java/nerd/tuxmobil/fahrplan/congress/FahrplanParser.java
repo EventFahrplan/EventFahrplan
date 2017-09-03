@@ -19,6 +19,8 @@ import nerd.tuxmobil.fahrplan.congress.FahrplanContract.LecturesTable;
 import nerd.tuxmobil.fahrplan.congress.FahrplanContract.LecturesTable.Columns;
 import nerd.tuxmobil.fahrplan.congress.FahrplanContract.LecturesTable.Values;
 import nerd.tuxmobil.fahrplan.congress.FahrplanContract.MetasTable;
+import nerd.tuxmobil.fahrplan.congress.persistence.LecturesDBOpenHelper;
+import nerd.tuxmobil.fahrplan.congress.persistence.MetaDBOpenHelper;
 
 public class FahrplanParser {
 

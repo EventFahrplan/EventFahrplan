@@ -1,4 +1,4 @@
-package nerd.tuxmobil.fahrplan.congress;
+package nerd.tuxmobil.fahrplan.congress.persistence;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -32,7 +32,7 @@ public class MetaDBOpenHelper extends SQLiteOpenHelper {
             Columns.ETAG
     };
 
-    MetaDBOpenHelper(Context context) {
+    public MetaDBOpenHelper(Context context) {
         super(context, MetasTable.NAME, null, DATABASE_VERSION);
     }
 

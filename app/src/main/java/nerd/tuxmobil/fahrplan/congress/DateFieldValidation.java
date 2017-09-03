@@ -12,6 +12,7 @@ import java.util.List;
 
 import nerd.tuxmobil.fahrplan.congress.FahrplanContract.LecturesTable;
 import nerd.tuxmobil.fahrplan.congress.FahrplanContract.LecturesTable.Columns;
+import nerd.tuxmobil.fahrplan.congress.persistence.LecturesDBOpenHelper;
 
 public class DateFieldValidation {
 

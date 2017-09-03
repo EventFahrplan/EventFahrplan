@@ -1,4 +1,4 @@
-package nerd.tuxmobil.fahrplan.congress;
+package nerd.tuxmobil.fahrplan.congress.persistence;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -23,7 +23,7 @@ public class HighlightDBOpenHelper extends SQLiteOpenHelper {
             Columns.HIGHLIGHT
     };
 
-    HighlightDBOpenHelper(Context context) {
+    public HighlightDBOpenHelper(Context context) {
         super(context, HighlightsTable.NAME, null, DATABASE_VERSION);
     }
 
