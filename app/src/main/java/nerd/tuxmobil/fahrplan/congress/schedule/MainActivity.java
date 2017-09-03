@@ -28,8 +28,6 @@ import org.ligi.snackengage.SnackEngage;
 import org.ligi.snackengage.snacks.BaseSnack;
 import org.ligi.snackengage.snacks.DefaultRateSnack;
 
-import nerd.tuxmobil.fahrplan.congress.AbstractListFragment;
-import nerd.tuxmobil.fahrplan.congress.BaseActivity;
 import nerd.tuxmobil.fahrplan.congress.BuildConfig;
 import nerd.tuxmobil.fahrplan.congress.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.MyApp;
@@ -37,6 +35,8 @@ import nerd.tuxmobil.fahrplan.congress.MyApp.TASKS;
 import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.about.AboutDialog;
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmList;
+import nerd.tuxmobil.fahrplan.congress.base.AbstractListFragment;
+import nerd.tuxmobil.fahrplan.congress.base.BaseActivity;
 import nerd.tuxmobil.fahrplan.congress.changes.ChangeListActivity;
 import nerd.tuxmobil.fahrplan.congress.changes.ChangeListFragment;
 import nerd.tuxmobil.fahrplan.congress.changes.ChangesDialog;
