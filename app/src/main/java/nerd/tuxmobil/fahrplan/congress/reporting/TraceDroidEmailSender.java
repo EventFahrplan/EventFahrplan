@@ -1,4 +1,4 @@
-package nerd.tuxmobil.fahrplan.congress;
+package nerd.tuxmobil.fahrplan.congress.reporting;
 
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -11,6 +11,8 @@ import org.ligi.tracedroid.TraceDroid;
 import org.ligi.tracedroid.collecting.TraceDroidMetaInfo;
 
 import de.cketti.mailto.EmailIntentBuilder;
+import nerd.tuxmobil.fahrplan.congress.BuildConfig;
+import nerd.tuxmobil.fahrplan.congress.R;
 
 // This class supports translation and configuration via XML files.
 // The original TraceDroidEmailSender class is available here:

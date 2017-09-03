@@ -46,7 +46,6 @@ import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.MyApp.TASKS;
 import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.SettingsActivity;
-import nerd.tuxmobil.fahrplan.congress.TraceDroidEmailSender;
 import nerd.tuxmobil.fahrplan.congress.about.AboutDialog;
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmList;
 import nerd.tuxmobil.fahrplan.congress.changes.ChangeListActivity;
@@ -54,6 +53,7 @@ import nerd.tuxmobil.fahrplan.congress.changes.ChangeListFragment;
 import nerd.tuxmobil.fahrplan.congress.changes.ChangesDialog;
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListActivity;
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListFragment;
+import nerd.tuxmobil.fahrplan.congress.reporting.TraceDroidEmailSender;
 import nerd.tuxmobil.fahrplan.congress.serialization.FahrplanParser;
 
 public class MainActivity extends BaseActivity implements
