@@ -27,7 +27,7 @@ public class FetchFahrplan {
         void onGotResponse(HTTP_STATUS status, String response, String eTagStr, String host);
     }
 
-    private fetcher task;
+    private FetchFahrplanTask task;
 
     private OnDownloadCompleteListener listener;
 
@@ -37,7 +37,7 @@ public class FetchFahrplan {
     }
 
     public void fetch(String url, String eTag) {
-        task = new fetcher(this.listener);
+        task = new FetchFahrplanTask(this.listener);
         task.execute(url, eTag);
     }
 
@@ -55,7 +55,7 @@ public class FetchFahrplan {
     }
 }
 
-class fetcher extends AsyncTask<String, Void, HTTP_STATUS> {
+class FetchFahrplanTask extends AsyncTask<String, Void, HTTP_STATUS> {
 
     private String responseStr;
 
@@ -70,7 +70,7 @@ class fetcher extends AsyncTask<String, Void, HTTP_STATUS> {
     private HTTP_STATUS status;
     private String host;
 
-    public fetcher(FetchFahrplan.OnDownloadCompleteListener listener) {
+    public FetchFahrplanTask(FetchFahrplan.OnDownloadCompleteListener listener) {
         this.listener = listener;
         this.completed = false;
     }
