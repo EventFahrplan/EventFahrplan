@@ -9,10 +9,10 @@ import android.support.v7.widget.Toolbar;
 
 import nerd.tuxmobil.fahrplan.congress.AbstractListFragment;
 import nerd.tuxmobil.fahrplan.congress.BaseActivity;
-import nerd.tuxmobil.fahrplan.congress.Lecture;
 import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.details.EventDetail;
+import nerd.tuxmobil.fahrplan.congress.models.Lecture;
 import nerd.tuxmobil.fahrplan.congress.utils.ConfirmationDialog;
 
 public class StarredListActivity extends BaseActivity implements

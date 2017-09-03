@@ -2,6 +2,8 @@ package nerd.tuxmobil.fahrplan.congress;
 
 import android.support.v4.app.ListFragment;
 
+import nerd.tuxmobil.fahrplan.congress.models.Lecture;
+
 
 /**
  * A fragment representing a list of Items.

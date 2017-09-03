@@ -11,6 +11,8 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.TimeZone;
 
+import nerd.tuxmobil.fahrplan.congress.models.DateInfos;
+import nerd.tuxmobil.fahrplan.congress.models.LectureList;
 import nerd.tuxmobil.fahrplan.congress.net.FetchFahrplan;
 import nerd.tuxmobil.fahrplan.congress.serialization.FahrplanParser;
 import nerd.tuxmobil.fahrplan.congress.utils.ConferenceTimeFrame;

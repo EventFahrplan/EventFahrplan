@@ -18,8 +18,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.TreeSet;
 
-import nerd.tuxmobil.fahrplan.congress.Lecture;
 import nerd.tuxmobil.fahrplan.congress.R;
+import nerd.tuxmobil.fahrplan.congress.models.Lecture;
 
 public class LectureChangesArrayAdapter extends ArrayAdapter<Lecture> {
 
