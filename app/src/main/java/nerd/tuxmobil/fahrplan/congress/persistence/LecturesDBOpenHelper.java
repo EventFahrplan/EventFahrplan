@@ -4,10 +4,10 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import nerd.tuxmobil.fahrplan.congress.FahrplanContract.LecturesTable;
-import nerd.tuxmobil.fahrplan.congress.FahrplanContract.LecturesTable.Columns;
-import nerd.tuxmobil.fahrplan.congress.FahrplanContract.LecturesTable.Defaults;
-import nerd.tuxmobil.fahrplan.congress.FahrplanContract.LecturesTable.Values;
+import nerd.tuxmobil.fahrplan.congress.persistence.FahrplanContract.LecturesTable;
+import nerd.tuxmobil.fahrplan.congress.persistence.FahrplanContract.LecturesTable.Columns;
+import nerd.tuxmobil.fahrplan.congress.persistence.FahrplanContract.LecturesTable.Defaults;
+import nerd.tuxmobil.fahrplan.congress.persistence.FahrplanContract.LecturesTable.Values;
 
 public class LecturesDBOpenHelper extends SQLiteOpenHelper {
 

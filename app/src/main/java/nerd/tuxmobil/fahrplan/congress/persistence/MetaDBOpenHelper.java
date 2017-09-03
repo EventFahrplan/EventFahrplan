@@ -4,9 +4,9 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import nerd.tuxmobil.fahrplan.congress.FahrplanContract.MetasTable;
-import nerd.tuxmobil.fahrplan.congress.FahrplanContract.MetasTable.Columns;
-import nerd.tuxmobil.fahrplan.congress.FahrplanContract.MetasTable.Defaults;
+import nerd.tuxmobil.fahrplan.congress.persistence.FahrplanContract.MetasTable;
+import nerd.tuxmobil.fahrplan.congress.persistence.FahrplanContract.MetasTable.Columns;
+import nerd.tuxmobil.fahrplan.congress.persistence.FahrplanContract.MetasTable.Defaults;
 
 public class MetaDBOpenHelper extends SQLiteOpenHelper {
 

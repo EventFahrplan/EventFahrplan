@@ -4,8 +4,8 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import nerd.tuxmobil.fahrplan.congress.FahrplanContract.HighlightsTable;
-import nerd.tuxmobil.fahrplan.congress.FahrplanContract.HighlightsTable.Columns;
+import nerd.tuxmobil.fahrplan.congress.persistence.FahrplanContract.HighlightsTable;
+import nerd.tuxmobil.fahrplan.congress.persistence.FahrplanContract.HighlightsTable.Columns;
 
 public class HighlightDBOpenHelper extends SQLiteOpenHelper {
 

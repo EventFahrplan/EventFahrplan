@@ -10,9 +10,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import nerd.tuxmobil.fahrplan.congress.FahrplanContract.LecturesTable;
-import nerd.tuxmobil.fahrplan.congress.FahrplanContract.LecturesTable.Columns;
 import nerd.tuxmobil.fahrplan.congress.MyApp;
+import nerd.tuxmobil.fahrplan.congress.persistence.FahrplanContract.LecturesTable;
+import nerd.tuxmobil.fahrplan.congress.persistence.FahrplanContract.LecturesTable.Columns;
 import nerd.tuxmobil.fahrplan.congress.persistence.LecturesDBOpenHelper;
 import nerd.tuxmobil.fahrplan.congress.utils.DateHelper;
 

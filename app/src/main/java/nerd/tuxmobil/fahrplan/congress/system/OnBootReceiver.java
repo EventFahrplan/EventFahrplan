@@ -14,12 +14,12 @@ import android.text.format.Time;
 
 import org.ligi.tracedroid.logging.Log;
 
-import nerd.tuxmobil.fahrplan.congress.FahrplanContract.AlarmsTable;
 import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmReceiver;
 import nerd.tuxmobil.fahrplan.congress.autoupdate.UpdateService;
 import nerd.tuxmobil.fahrplan.congress.net.ConnectivityStateReceiver;
 import nerd.tuxmobil.fahrplan.congress.persistence.AlarmsDBOpenHelper;
+import nerd.tuxmobil.fahrplan.congress.persistence.FahrplanContract.AlarmsTable;
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
 
 public final class OnBootReceiver extends BroadcastReceiver {
