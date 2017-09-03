@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package nerd.tuxmobil.fahrplan.congress;
+package nerd.tuxmobil.fahrplan.congress.net;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -27,6 +27,8 @@ import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 import javax.security.auth.x500.X500Principal;
+
+import nerd.tuxmobil.fahrplan.congress.MyApp;
 
 /**
  * Implements basic domain-name validation as specified by RFC2818.

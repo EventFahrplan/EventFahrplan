@@ -1,4 +1,4 @@
-package nerd.tuxmobil.fahrplan.congress;
+package nerd.tuxmobil.fahrplan.congress.net;
 
 import android.app.Activity;
 import android.widget.Toast;
@@ -13,6 +13,9 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import nerd.tuxmobil.fahrplan.congress.AlertDialogHelper;
+import nerd.tuxmobil.fahrplan.congress.MyApp;
+import nerd.tuxmobil.fahrplan.congress.R;
 import okhttp3.OkHttpClient;
 
 

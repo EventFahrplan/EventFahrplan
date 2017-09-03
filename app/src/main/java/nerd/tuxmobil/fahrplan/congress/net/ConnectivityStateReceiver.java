@@ -1,4 +1,4 @@
-package nerd.tuxmobil.fahrplan.congress;
+package nerd.tuxmobil.fahrplan.congress.net;
 
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -10,6 +10,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
 
+import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.autoupdate.UpdateService;
 
 public class ConnectivityStateReceiver extends BroadcastReceiver {

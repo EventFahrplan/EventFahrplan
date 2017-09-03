@@ -1,4 +1,4 @@
-package nerd.tuxmobil.fahrplan.congress;
+package nerd.tuxmobil.fahrplan.congress.net;
 
 import android.app.Application;
 import android.content.Context;
@@ -17,6 +17,9 @@ import java.util.Map;
 
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
+
+import nerd.tuxmobil.fahrplan.congress.MyApp;
+import nerd.tuxmobil.fahrplan.congress.net.exceptions.CertificateDomainMismatchException;
 
 // modified copy from K-9 Mail
 

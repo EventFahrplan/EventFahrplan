@@ -1,4 +1,4 @@
-package nerd.tuxmobil.fahrplan.congress;
+package nerd.tuxmobil.fahrplan.congress.net;
 
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -13,7 +13,8 @@ import java.security.NoSuchAlgorithmException;
 
 import javax.net.ssl.SSLException;
 
-import nerd.tuxmobil.fahrplan.congress.CustomHttpClient.HTTP_STATUS;
+import nerd.tuxmobil.fahrplan.congress.MyApp;
+import nerd.tuxmobil.fahrplan.congress.net.CustomHttpClient.HTTP_STATUS;
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;

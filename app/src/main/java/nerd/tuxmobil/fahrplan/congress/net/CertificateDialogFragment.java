@@ -1,4 +1,4 @@
-package nerd.tuxmobil.fahrplan.congress;
+package nerd.tuxmobil.fahrplan.congress.net;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -16,6 +16,10 @@ import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateEncodingException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+
+import nerd.tuxmobil.fahrplan.congress.AlertDialogHelper;
+import nerd.tuxmobil.fahrplan.congress.BuildConfig;
+import nerd.tuxmobil.fahrplan.congress.R;
 
 public class CertificateDialogFragment extends DialogFragment {
 
