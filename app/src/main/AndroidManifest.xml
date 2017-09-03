@@ -24,7 +24,7 @@
             </intent-filter>
         </activity>
         <activity
-                android:name="EventDetail"
+                android:name=".details.EventDetail"
                 android:configChanges="keyboardHidden|orientation"
                 android:label="@string/fahrplan"
                 android:uiOptions="splitActionBarWhenNarrow"
