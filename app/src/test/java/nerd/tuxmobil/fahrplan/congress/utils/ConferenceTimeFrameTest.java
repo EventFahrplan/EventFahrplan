@@ -1,4 +1,4 @@
-package nerd.tuxmobil.fahrplan.congress;
+package nerd.tuxmobil.fahrplan.congress.utils;
 
 import org.junit.Before;
 import org.junit.Test;

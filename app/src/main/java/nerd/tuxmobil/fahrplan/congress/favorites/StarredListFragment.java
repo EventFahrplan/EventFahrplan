@@ -22,10 +22,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import nerd.tuxmobil.fahrplan.congress.AbstractListFragment;
-import nerd.tuxmobil.fahrplan.congress.ActivityHelper;
 import nerd.tuxmobil.fahrplan.congress.BundleKeys;
-import nerd.tuxmobil.fahrplan.congress.ConfirmationDialog;
-import nerd.tuxmobil.fahrplan.congress.FahrplanMisc;
 import nerd.tuxmobil.fahrplan.congress.Lecture;
 import nerd.tuxmobil.fahrplan.congress.LectureList;
 import nerd.tuxmobil.fahrplan.congress.MyApp;
@@ -33,6 +30,9 @@ import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.schedule.MainActivity;
 import nerd.tuxmobil.fahrplan.congress.sharing.LectureSharer;
 import nerd.tuxmobil.fahrplan.congress.sharing.SimpleLectureFormat;
+import nerd.tuxmobil.fahrplan.congress.utils.ActivityHelper;
+import nerd.tuxmobil.fahrplan.congress.utils.ConfirmationDialog;
+import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
 
 
 /**

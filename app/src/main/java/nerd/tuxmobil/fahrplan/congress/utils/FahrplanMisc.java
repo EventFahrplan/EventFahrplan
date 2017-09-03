@@ -1,4 +1,4 @@
-package nerd.tuxmobil.fahrplan.congress;
+package nerd.tuxmobil.fahrplan.congress.utils;
 
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
@@ -25,10 +25,17 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import nerd.tuxmobil.fahrplan.congress.BuildConfig;
+import nerd.tuxmobil.fahrplan.congress.DateInfo;
+import nerd.tuxmobil.fahrplan.congress.DateInfos;
 import nerd.tuxmobil.fahrplan.congress.FahrplanContract.AlarmsTable;
 import nerd.tuxmobil.fahrplan.congress.FahrplanContract.HighlightsTable;
 import nerd.tuxmobil.fahrplan.congress.FahrplanContract.LecturesTable;
 import nerd.tuxmobil.fahrplan.congress.FahrplanContract.MetasTable;
+import nerd.tuxmobil.fahrplan.congress.Lecture;
+import nerd.tuxmobil.fahrplan.congress.LectureList;
+import nerd.tuxmobil.fahrplan.congress.MyApp;
+import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmReceiver;
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmUpdater;
 import nerd.tuxmobil.fahrplan.congress.persistence.AlarmsDBOpenHelper;

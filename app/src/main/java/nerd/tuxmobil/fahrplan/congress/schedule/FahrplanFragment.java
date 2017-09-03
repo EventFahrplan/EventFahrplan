@@ -53,7 +53,6 @@ import java.util.Set;
 import nerd.tuxmobil.fahrplan.congress.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.DateInfo;
 import nerd.tuxmobil.fahrplan.congress.FahrplanContract.AlarmsTable;
-import nerd.tuxmobil.fahrplan.congress.FahrplanMisc;
 import nerd.tuxmobil.fahrplan.congress.Lecture;
 import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.R;
@@ -62,6 +61,7 @@ import nerd.tuxmobil.fahrplan.congress.persistence.AlarmsDBOpenHelper;
 import nerd.tuxmobil.fahrplan.congress.serialization.FahrplanParser;
 import nerd.tuxmobil.fahrplan.congress.sharing.LectureSharer;
 import nerd.tuxmobil.fahrplan.congress.sharing.SimpleLectureFormat;
+import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
 
 public class FahrplanFragment extends Fragment implements
         OnClickListener,

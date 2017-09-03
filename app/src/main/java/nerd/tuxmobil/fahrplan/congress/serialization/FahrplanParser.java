@@ -16,12 +16,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import nerd.tuxmobil.fahrplan.congress.BundleKeys;
-import nerd.tuxmobil.fahrplan.congress.DateHelper;
 import nerd.tuxmobil.fahrplan.congress.FahrplanContract.LecturesTable;
 import nerd.tuxmobil.fahrplan.congress.FahrplanContract.LecturesTable.Columns;
 import nerd.tuxmobil.fahrplan.congress.FahrplanContract.LecturesTable.Values;
 import nerd.tuxmobil.fahrplan.congress.FahrplanContract.MetasTable;
-import nerd.tuxmobil.fahrplan.congress.FahrplanMisc;
 import nerd.tuxmobil.fahrplan.congress.Lecture;
 import nerd.tuxmobil.fahrplan.congress.LectureList;
 import nerd.tuxmobil.fahrplan.congress.MetaInfo;
@@ -29,6 +27,8 @@ import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.persistence.LecturesDBOpenHelper;
 import nerd.tuxmobil.fahrplan.congress.persistence.MetaDBOpenHelper;
 import nerd.tuxmobil.fahrplan.congress.serialization.exceptions.MissingXmlAttributeException;
+import nerd.tuxmobil.fahrplan.congress.utils.DateHelper;
+import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
 import nerd.tuxmobil.fahrplan.congress.validation.DateFieldValidation;
 
 public class FahrplanParser {

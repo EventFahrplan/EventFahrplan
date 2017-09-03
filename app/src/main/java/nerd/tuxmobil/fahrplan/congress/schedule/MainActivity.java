@@ -32,8 +32,6 @@ import nerd.tuxmobil.fahrplan.congress.AbstractListFragment;
 import nerd.tuxmobil.fahrplan.congress.BaseActivity;
 import nerd.tuxmobil.fahrplan.congress.BuildConfig;
 import nerd.tuxmobil.fahrplan.congress.BundleKeys;
-import nerd.tuxmobil.fahrplan.congress.ConfirmationDialog;
-import nerd.tuxmobil.fahrplan.congress.FahrplanMisc;
 import nerd.tuxmobil.fahrplan.congress.Lecture;
 import nerd.tuxmobil.fahrplan.congress.LectureList;
 import nerd.tuxmobil.fahrplan.congress.MyApp;
@@ -55,6 +53,8 @@ import nerd.tuxmobil.fahrplan.congress.net.CustomHttpClient.HTTP_STATUS;
 import nerd.tuxmobil.fahrplan.congress.net.FetchFahrplan;
 import nerd.tuxmobil.fahrplan.congress.reporting.TraceDroidEmailSender;
 import nerd.tuxmobil.fahrplan.congress.serialization.FahrplanParser;
+import nerd.tuxmobil.fahrplan.congress.utils.ConfirmationDialog;
+import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
 
 public class MainActivity extends BaseActivity implements
         FahrplanParser.OnParseCompleteListener,

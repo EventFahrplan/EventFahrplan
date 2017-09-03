@@ -13,6 +13,7 @@ import java.util.TimeZone;
 
 import nerd.tuxmobil.fahrplan.congress.net.FetchFahrplan;
 import nerd.tuxmobil.fahrplan.congress.serialization.FahrplanParser;
+import nerd.tuxmobil.fahrplan.congress.utils.ConferenceTimeFrame;
 
 public class MyApp extends Application {
 

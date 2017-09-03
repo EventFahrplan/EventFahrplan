@@ -1,4 +1,4 @@
-package nerd.tuxmobil.fahrplan.congress;
+package nerd.tuxmobil.fahrplan.congress.utils;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -8,6 +8,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
+
+import nerd.tuxmobil.fahrplan.congress.R;
 
 public class ConfirmationDialog extends DialogFragment {
 

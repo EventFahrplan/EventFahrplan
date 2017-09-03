@@ -3,7 +3,7 @@ package nerd.tuxmobil.fahrplan.congress.alarms;
 import android.app.AlarmManager;
 import android.support.annotation.NonNull;
 
-import nerd.tuxmobil.fahrplan.congress.ConferenceTimeFrame;
+import nerd.tuxmobil.fahrplan.congress.utils.ConferenceTimeFrame;
 
 public class AlarmUpdater {
 

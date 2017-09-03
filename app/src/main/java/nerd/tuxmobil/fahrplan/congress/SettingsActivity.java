@@ -12,6 +12,8 @@ import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 
+import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
+
 public class SettingsActivity extends BaseActivity {
 
     private static final String LOG_TAG = "SettingsActivity";

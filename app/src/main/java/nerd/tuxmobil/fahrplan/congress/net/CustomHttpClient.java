@@ -13,9 +13,9 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
-import nerd.tuxmobil.fahrplan.congress.AlertDialogHelper;
 import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.R;
+import nerd.tuxmobil.fahrplan.congress.utils.AlertDialogHelper;
 import okhttp3.OkHttpClient;
 
 

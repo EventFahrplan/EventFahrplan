@@ -33,16 +33,16 @@ import java.util.Locale;
 
 import nerd.tuxmobil.fahrplan.congress.BuildConfig;
 import nerd.tuxmobil.fahrplan.congress.BundleKeys;
-import nerd.tuxmobil.fahrplan.congress.FahrplanMisc;
 import nerd.tuxmobil.fahrplan.congress.Lecture;
 import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.R;
-import nerd.tuxmobil.fahrplan.congress.StringUtils;
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmTimePickerFragment;
 import nerd.tuxmobil.fahrplan.congress.navigation.RoomForC3NavConverter;
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanFragment;
 import nerd.tuxmobil.fahrplan.congress.sharing.LectureSharer;
 import nerd.tuxmobil.fahrplan.congress.sharing.SimpleLectureFormat;
+import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
+import nerd.tuxmobil.fahrplan.congress.utils.StringUtils;
 
 public class EventDetailFragment extends Fragment {
 

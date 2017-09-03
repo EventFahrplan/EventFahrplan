@@ -1,3 +1,5 @@
+package nerd.tuxmobil.fahrplan.congress.utils;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -5,8 +7,6 @@ import org.junit.runners.JUnit4;
 
 import java.util.Calendar;
 import java.util.Date;
-
-import nerd.tuxmobil.fahrplan.congress.DateHelper;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

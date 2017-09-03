@@ -17,9 +17,9 @@ import java.security.cert.CertificateEncodingException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 
-import nerd.tuxmobil.fahrplan.congress.AlertDialogHelper;
 import nerd.tuxmobil.fahrplan.congress.BuildConfig;
 import nerd.tuxmobil.fahrplan.congress.R;
+import nerd.tuxmobil.fahrplan.congress.utils.AlertDialogHelper;
 
 public class CertificateDialogFragment extends DialogFragment {
 

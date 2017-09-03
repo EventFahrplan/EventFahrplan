@@ -4,6 +4,8 @@ import android.text.format.Time;
 
 import java.util.ArrayList;
 
+import nerd.tuxmobil.fahrplan.congress.utils.DateHelper;
+
 public class DateInfos extends ArrayList<DateInfo> {
 
     private static final long serialVersionUID = 1L;
