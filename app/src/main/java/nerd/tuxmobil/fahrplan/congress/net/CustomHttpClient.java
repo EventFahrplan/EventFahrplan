@@ -13,10 +13,13 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import nerd.tuxmobil.fahrplan.congress.BuildConfig;
 import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.utils.AlertDialogHelper;
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import okhttp3.logging.HttpLoggingInterceptor.Level;
 
 
 public class CustomHttpClient {
@@ -41,6 +44,11 @@ public class CustomHttpClient {
     public static OkHttpClient createHttpClient(String host)
             throws KeyManagementException, NoSuchAlgorithmException {
         OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
+        if (BuildConfig.DEBUG) {
+            HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
+            httpLoggingInterceptor.setLevel(Level.HEADERS);
+            clientBuilder.addNetworkInterceptor(httpLoggingInterceptor);
+        }
         X509TrustManager trustManager = TrustManagerFactory.get(host, true);
         clientBuilder.sslSocketFactory(createSSLSocketFactory(trustManager), trustManager);
         return clientBuilder.build();
