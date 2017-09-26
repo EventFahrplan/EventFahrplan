@@ -183,7 +183,7 @@ public class DomainNameChecker {
                     if ((altNameEntry != null) && (2 <= altNameEntry.size())) {
                         Integer altNameType = (Integer) (altNameEntry.get(0));
                         if (altNameType != null) {
-                            if (altNameType.intValue() == ALT_DNS_NAME) {
+                            if (altNameType == ALT_DNS_NAME) {
                                 hasDns = true;
                                 String altName = (String) (altNameEntry.get(1));
                                 if (altName != null) {
