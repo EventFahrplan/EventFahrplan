@@ -21,7 +21,6 @@ import java.net.UnknownHostException;
 import java.security.cert.CertificateParsingException;
 import java.security.cert.X509Certificate;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -177,9 +176,8 @@ public class DomainNameChecker {
         try {
             Collection<?> subjectAltNames = certificate.getSubjectAlternativeNames();
             if (subjectAltNames != null) {
-                Iterator<?> i = subjectAltNames.iterator();
-                while (i.hasNext()) {
-                    List<?> altNameEntry = (List<?>) (i.next());
+                for (Object subjectAltName : subjectAltNames) {
+                    List<?> altNameEntry = (List<?>) (subjectAltName);
                     if ((altNameEntry != null) && (2 <= altNameEntry.size())) {
                         Integer altNameType = (Integer) (altNameEntry.get(0));
                         if (altNameType != null) {
