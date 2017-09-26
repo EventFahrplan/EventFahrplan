@@ -15,6 +15,9 @@ android:
     # The libraries we can't get from Maven Central or similar
     - extra
 
+branches:
+  except:
+  - /^v\..*$/ # Exclude version tags
 
 notifications:
   email: true
