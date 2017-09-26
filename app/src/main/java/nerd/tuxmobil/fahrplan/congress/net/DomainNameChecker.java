@@ -200,10 +200,10 @@ public class DomainNameChecker {
                 X500Principal dn = certificate.getSubjectX500Principal();
                 String name = dn.getName(X500Principal.CANONICAL);
                 String[] splitNames = name.split(",");
-                for (int i = 0; i < splitNames.length; i++) {
-                    MyApp.LogDebug(LOG_TAG, splitNames[i]);
-                    if ((splitNames[i].length() > 3) && (splitNames[i].startsWith("cn="))) {
-                        if ((dn != null) && matchDns(thisDomain, splitNames[i].substring(3))) {
+                for (String splitName : splitNames) {
+                    MyApp.LogDebug(LOG_TAG, splitName);
+                    if (splitName.length() > 3 && splitName.startsWith("cn=")) {
+                        if ((dn != null) && matchDns(thisDomain, splitName.substring(3))) {
                             return true;
                         }
                     }
