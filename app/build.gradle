@@ -122,7 +122,7 @@ ext {
 
 dependencies {
     compile "com.android.support:appcompat-v7:$supportLibVersion"
-    compile "com.squareup.okhttp3:okhttp:3.8.1"
+    compile "com.squareup.okhttp3:okhttp:3.9.0"
     compile "com.github.ligi.snackengage:snackengage-playrate:0.14"
     compile "de.cketti.mailto:email-intent-builder:1.0.0"
     compile files("libs/TraceDroid-1.1.jar")
@@ -130,7 +130,7 @@ dependencies {
     testCompile "junit:junit:4.12"
     testCompile "com.squareup.assertj:assertj-android:1.1.1"
     testCompile "com.android.support:support-annotations:$supportLibVersion"
-    testCompile "org.mockito:mockito-core:2.8.47"
+    testCompile "org.mockito:mockito-core:2.10.0"
 }
 
 def gitSha() {
