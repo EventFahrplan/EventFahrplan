@@ -203,7 +203,7 @@ public class DomainNameChecker {
                 for (String splitName : splitNames) {
                     MyApp.LogDebug(LOG_TAG, splitName);
                     if (splitName.length() > 3 && splitName.startsWith("cn=")) {
-                        if ((dn != null) && matchDns(thisDomain, splitName.substring(3))) {
+                        if (matchDns(thisDomain, splitName.substring(3))) {
                             return true;
                         }
                     }
