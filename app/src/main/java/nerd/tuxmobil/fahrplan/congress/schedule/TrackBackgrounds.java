@@ -64,7 +64,7 @@ public class TrackBackgrounds {
 
     public static HashMap<String, Integer> buildTrackBackgroundHashMap(Map<String,
             String> trackNamesMap, String prefix, String resourceType, Context context) {
-        HashMap<String, Integer> trackNameResourceIdPairs = new HashMap<String, Integer>();
+        HashMap<String, Integer> trackNameResourceIdPairs = new HashMap<>();
         Resources res = context.getResources();
         String packageName = context.getPackageName();
 

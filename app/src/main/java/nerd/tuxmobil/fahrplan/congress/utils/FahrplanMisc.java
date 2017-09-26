@@ -283,8 +283,8 @@ public class FahrplanMisc {
         Log.d(FahrplanMisc.class.getName(), "Add alarm for lecture: " + lecture +
                 ", alarmTimesIndex: " + alarmTimesIndex);
         String[] alarm_times = context.getResources().getStringArray(R.array.alarm_time_values);
-        List<String> alarmTimeStrings = new ArrayList<String>(Arrays.asList(alarm_times));
-        List<Integer> alarmTimes = new ArrayList<Integer>(alarmTimeStrings.size());
+        List<String> alarmTimeStrings = new ArrayList<>(Arrays.asList(alarm_times));
+        List<Integer> alarmTimes = new ArrayList<>(alarmTimeStrings.size());
         for (String alarmTimeString : alarmTimeStrings) {
             alarmTimes.add(Integer.parseInt(alarmTimeString));
         }

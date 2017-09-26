@@ -254,9 +254,9 @@ public class LectureChangesArrayAdapter extends ArrayAdapter<Lecture> {
     }
 
     private void initMapper() {
-        mSeparatorsSet = new TreeSet<Integer>();
-        mSeperatorStrings = new ArrayList<String>();
-        mMapper = new ArrayList<Integer>();
+        mSeparatorsSet = new TreeSet<>();
+        mSeperatorStrings = new ArrayList<>();
+        mMapper = new ArrayList<>();
         int day = 0;
         int lastDay = 0;
         int sepCount = 0;

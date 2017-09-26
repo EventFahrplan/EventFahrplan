@@ -54,7 +54,7 @@ public class MyApp extends Application {
 
     public static int room_count = 0;
 
-    public static HashMap<String, Integer> roomsMap = new HashMap<String, Integer>();
+    public static HashMap<String, Integer> roomsMap = new HashMap<>();
 
     public enum TASKS {
         NONE,

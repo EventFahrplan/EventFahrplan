@@ -24,7 +24,7 @@ public class DateFieldValidation {
 
     public DateFieldValidation(Context context) {
         mLecturesDatabase = new LecturesDBOpenHelper(context);
-        mValidationErrors = new ArrayList<ValidationError>();
+        mValidationErrors = new ArrayList<>();
     }
 
     /**
