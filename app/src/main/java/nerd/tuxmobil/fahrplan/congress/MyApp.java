@@ -11,6 +11,12 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.TimeZone;
 
+import nerd.tuxmobil.fahrplan.congress.models.DateInfos;
+import nerd.tuxmobil.fahrplan.congress.models.LectureList;
+import nerd.tuxmobil.fahrplan.congress.net.FetchFahrplan;
+import nerd.tuxmobil.fahrplan.congress.serialization.FahrplanParser;
+import nerd.tuxmobil.fahrplan.congress.utils.ConferenceTimeFrame;
+
 public class MyApp extends Application {
 
     public static Application app = null;
@@ -50,7 +56,7 @@ public class MyApp extends Application {
 
     public static HashMap<String, Integer> roomsMap = new HashMap<String, Integer>();
 
-    enum TASKS {
+    public enum TASKS {
         NONE,
         FETCH,
         PARSE,

@@ -17,60 +17,60 @@
                 android:label="@string/app_name"
                 android:theme="@style/Theme.Congress.NoActionBar"
                 android:launchMode="singleTop"
-                android:name="MainActivity">
+                android:name=".schedule.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
         <activity
-                android:name="EventDetail"
+                android:name=".details.EventDetail"
                 android:configChanges="keyboardHidden|orientation"
                 android:label="@string/fahrplan"
                 android:uiOptions="splitActionBarWhenNarrow"
-                android:parentActivityName="nerd.tuxmobil.fahrplan.congress.MainActivity">
+                android:parentActivityName="nerd.tuxmobil.fahrplan.congress.schedule.MainActivity">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
-                    android:value="nerd.tuxmobil.fahrplan.congress.MainActivity"/>
+                    android:value="nerd.tuxmobil.fahrplan.congress.schedule.MainActivity"/>
         </activity>
         <activity
                 android:configChanges="keyboardHidden|orientation"
-                android:name="AlarmList"
+                android:name=".alarms.AlarmList"
                 android:label="@string/reminders"
-                android:parentActivityName="nerd.tuxmobil.fahrplan.congress.MainActivity">
+                android:parentActivityName="nerd.tuxmobil.fahrplan.congress.schedule.MainActivity">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
-                    android:value="nerd.tuxmobil.fahrplan.congress.MainActivity"/>
+                    android:value="nerd.tuxmobil.fahrplan.congress.schedule.MainActivity"/>
         </activity>
 
-        <receiver android:name="AlarmReceiver">
+        <receiver android:name=".alarms.AlarmReceiver">
         </receiver>
-        <receiver android:name="nerd.tuxmobil.fahrplan.congress.onBootReceiver">
+        <receiver android:name="nerd.tuxmobil.fahrplan.congress.system.OnBootReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"></action>
             </intent-filter>
         </receiver>
 
         <activity
-                android:name="nerd.tuxmobil.fahrplan.congress.SettingsActivity"
+                android:name="nerd.tuxmobil.fahrplan.congress.settings.SettingsActivity"
                 android:theme="@style/Theme.Congress.NoActionBar"
                 android:label="@string/settings"/>
         <service
-                android:name="UpdateService"
+                android:name=".autoupdate.UpdateService"
                 android:exported="false"/>
-        <receiver android:name="ConnectivityStateReceiver">
+        <receiver android:name=".net.ConnectivityStateReceiver">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
             </intent-filter>
         </receiver>
 
         <activity
-            android:name="nerd.tuxmobil.fahrplan.congress.ChangeListActivity"
+            android:name="nerd.tuxmobil.fahrplan.congress.changes.ChangeListActivity"
             android:theme="@style/Theme.Congress.NoActionBar"
             android:label="@string/schedule_changes" >
         </activity>
         <activity
-            android:name="nerd.tuxmobil.fahrplan.congress.StarredListActivity"
+            android:name="nerd.tuxmobil.fahrplan.congress.favorites.StarredListActivity"
             android:theme="@style/Theme.Congress.NoActionBar"
             android:label="@string/starred_lectures" >
         </activity>
