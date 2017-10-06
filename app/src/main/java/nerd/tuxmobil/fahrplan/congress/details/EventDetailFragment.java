@@ -229,7 +229,7 @@ public class EventDetailFragment extends Fragment {
             final String eventLink = "<a href=\"" + eventUrl + "\">" + eventUrl + "</a>";
             setUpHtmlTextView(eventOnlineLink, regular, eventLink);
 
-            activity.supportInvalidateOptionsMenu();
+            activity.invalidateOptionsMenu();
         }
         activity.setResult(FragmentActivity.RESULT_CANCELED);
     }
@@ -341,7 +341,7 @@ public class EventDetailFragment extends Fragment {
         } else {
             Log.e(getClass().getName(), "onAlarmTimesIndexPicked: lecture: null. alarmTimesIndex: " + alarmTimesIndex);
         }
-        getActivity().supportInvalidateOptionsMenu();
+        getActivity().invalidateOptionsMenu();
         getActivity().setResult(FragmentActivity.RESULT_OK);
         refreshEventMarkers();
     }
@@ -377,7 +377,7 @@ public class EventDetailFragment extends Fragment {
                     lecture.highlight = true;
                     FahrplanMisc.writeHighlight(getActivity(), lecture);
                 }
-                getActivity().supportInvalidateOptionsMenu();
+                getActivity().invalidateOptionsMenu();
                 getActivity().setResult(FragmentActivity.RESULT_OK);
                 refreshEventMarkers();
                 return true;
@@ -386,7 +386,7 @@ public class EventDetailFragment extends Fragment {
                     lecture.highlight = false;
                     FahrplanMisc.writeHighlight(getActivity(), lecture);
                 }
-                getActivity().supportInvalidateOptionsMenu();
+                getActivity().invalidateOptionsMenu();
                 getActivity().setResult(FragmentActivity.RESULT_OK);
                 refreshEventMarkers();
                 return true;
@@ -397,7 +397,7 @@ public class EventDetailFragment extends Fragment {
                 if (lecture != null) {
                     FahrplanMisc.deleteAlarm(getActivity(), lecture);
                 }
-                getActivity().supportInvalidateOptionsMenu();
+                getActivity().invalidateOptionsMenu();
                 getActivity().setResult(FragmentActivity.RESULT_OK);
                 refreshEventMarkers();
                 return true;

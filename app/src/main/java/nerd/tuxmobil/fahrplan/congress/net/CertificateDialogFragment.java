@@ -1,7 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.net;
 
-import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -36,9 +36,9 @@ public class CertificateDialogFragment extends DialogFragment {
     private X509Certificate[] chain;
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        listener = (OnCertAccepted) activity;
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        listener = (OnCertAccepted) context;
     }
 
     private static String getFingerPrint(X509Certificate cert) {
