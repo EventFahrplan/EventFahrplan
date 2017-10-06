@@ -21,7 +21,6 @@ import java.net.UnknownHostException;
 import java.security.cert.CertificateParsingException;
 import java.security.cert.X509Certificate;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -177,13 +176,12 @@ public class DomainNameChecker {
         try {
             Collection<?> subjectAltNames = certificate.getSubjectAlternativeNames();
             if (subjectAltNames != null) {
-                Iterator<?> i = subjectAltNames.iterator();
-                while (i.hasNext()) {
-                    List<?> altNameEntry = (List<?>) (i.next());
+                for (Object subjectAltName : subjectAltNames) {
+                    List<?> altNameEntry = (List<?>) (subjectAltName);
                     if ((altNameEntry != null) && (2 <= altNameEntry.size())) {
                         Integer altNameType = (Integer) (altNameEntry.get(0));
                         if (altNameType != null) {
-                            if (altNameType.intValue() == ALT_DNS_NAME) {
+                            if (altNameType == ALT_DNS_NAME) {
                                 hasDns = true;
                                 String altName = (String) (altNameEntry.get(1));
                                 if (altName != null) {
@@ -200,10 +198,10 @@ public class DomainNameChecker {
                 X500Principal dn = certificate.getSubjectX500Principal();
                 String name = dn.getName(X500Principal.CANONICAL);
                 String[] splitNames = name.split(",");
-                for (int i = 0; i < splitNames.length; i++) {
-                    MyApp.LogDebug(LOG_TAG, splitNames[i]);
-                    if ((splitNames[i].length() > 3) && (splitNames[i].startsWith("cn="))) {
-                        if ((dn != null) && matchDns(thisDomain, splitNames[i].substring(3))) {
+                for (String splitName : splitNames) {
+                    MyApp.LogDebug(LOG_TAG, splitName);
+                    if (splitName.length() > 3 && splitName.startsWith("cn=")) {
+                        if (matchDns(thisDomain, splitName.substring(3))) {
                             return true;
                         }
                     }

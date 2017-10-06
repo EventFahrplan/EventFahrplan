@@ -857,7 +857,7 @@ public class FahrplanFragment extends Fragment implements
         }
         MyApp.room_count = MyApp.roomsMap.size();
         MyApp.LogDebug(LOG_TAG, "room count = " + MyApp.room_count);
-        List<Integer> rooms = new ArrayList<Integer>(MyApp.roomsMap.values());
+        List<Integer> rooms = new ArrayList<>(MyApp.roomsMap.values());
         Collections.sort(rooms);
         int k = 0;
         for (Integer v : rooms) {
@@ -976,7 +976,7 @@ public class FahrplanFragment extends Fragment implements
         }
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
                 actionBar.getThemedContext(),
                 R.layout.support_simple_spinner_dropdown_item_large,
                 days_menu);
