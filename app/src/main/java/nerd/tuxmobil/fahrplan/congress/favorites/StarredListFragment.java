@@ -283,7 +283,7 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
         }
         mAdapter.notifyDataSetChanged();
         getActivity().setResult(FragmentActivity.RESULT_OK);
-        getActivity().supportInvalidateOptionsMenu();
+        getActivity().invalidateOptionsMenu();
     }
 
     @Override

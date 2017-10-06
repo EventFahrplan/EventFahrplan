@@ -256,7 +256,7 @@ public class FahrplanFragment extends Fragment implements
     public void onResume() {
         MyApp.LogDebug(LOG_TAG, "onResume");
         super.onResume();
-        getActivity().supportInvalidateOptionsMenu();
+        getActivity().invalidateOptionsMenu();
 
         Intent intent = getActivity().getIntent();
 
@@ -1011,7 +1011,7 @@ public class FahrplanFragment extends Fragment implements
                     getParsingErrorMessage(version),
                     Toast.LENGTH_LONG).show();
         }
-        getActivity().supportInvalidateOptionsMenu();
+        getActivity().invalidateOptionsMenu();
     }
 
     private String getParsingErrorMessage(final String version) {
