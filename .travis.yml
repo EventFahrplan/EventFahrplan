@@ -10,7 +10,7 @@ android:
     - tools
     - platform-tools
     - build-tools-26.0.2
-    - android-25
+    - android-26
 
     # The libraries we can't get from Maven Central or similar
     - extra

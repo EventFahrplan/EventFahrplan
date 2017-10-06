@@ -14,7 +14,7 @@ if (!gradlePropertiesFile.exists()) {
 props.load(new FileInputStream(gradlePropertiesFile))
 
 android {
-    compileSdkVersion 25
+    compileSdkVersion 26
     buildToolsVersion "26.0.2"
 
     defaultConfig {
@@ -118,11 +118,12 @@ tasks.withType(Test) {
 
 ext {
     okhttpVersion = "3.9.0"
-    supportLibVersion = "25.3.1"
+    supportLibVersion = "26.1.0"
 }
 
 dependencies {
     compile "com.android.support:appcompat-v7:$supportLibVersion"
+    compile "com.android.support:design:$supportLibVersion"
     compile "com.squareup.okhttp3:okhttp:$okhttpVersion"
     compile "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
     compile "com.github.ligi.snackengage:snackengage-playrate:0.14"
