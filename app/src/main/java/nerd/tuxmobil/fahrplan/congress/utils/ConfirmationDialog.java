@@ -1,7 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.utils;
 
-import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -73,10 +73,10 @@ public class ConfirmationDialog extends DialogFragment {
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        if (activity instanceof OnConfirmationDialogClicked) {
-            listener = (OnConfirmationDialogClicked) activity;
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnConfirmationDialogClicked) {
+            listener = (OnConfirmationDialogClicked) context;
         }
     }
 }

@@ -1,6 +1,5 @@
 package nerd.tuxmobil.fahrplan.congress.favorites;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -155,12 +154,12 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
+    public void onAttach(Context context) {
+        super.onAttach(context);
         try {
-            mListener = (OnLectureListClick) activity;
+            mListener = (OnLectureListClick) context;
         } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
+            throw new ClassCastException(context.toString()
                     + " must implement OnLectureListClick");
         }
     }
