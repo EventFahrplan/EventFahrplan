@@ -9,6 +9,9 @@ or Chaos Communication Congress.
 The app is available for Android devices.
 
 
+![Screenshot of 33c3 Fahrplan on a tablet](gfx/EventFahrplan-33c3-Events-Tablet.png)
+
+
 ## Features
 
 * Daily overview of events
