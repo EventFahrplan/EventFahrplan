@@ -65,7 +65,7 @@
     <string name="navigate">Navigate</string>
     <string name="unflag_as_favorite">Remove from favorites</string>
     <string name="uptodate">Schedule is up to date.</string>
-    <string name="close_detail">Close detail view</string>
+    <string name="event_details_close">Close event details</string>
     <string name="pref_auto_download">Automatic updates</string>
     <string name="parsing_error_generic">Unknown error while parsing schedule</string>
     <string name="parsing_error_with_version">Parsing error for schedule version %s</string>

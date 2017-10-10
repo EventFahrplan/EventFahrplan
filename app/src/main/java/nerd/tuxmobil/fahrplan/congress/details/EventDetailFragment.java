@@ -283,7 +283,7 @@ public class EventDetailFragment extends Fragment {
             }
         }
         if (sidePane) {
-            item = menu.findItem(R.id.item_close);
+            item = menu.findItem(R.id.event_details_item_close);
             if (item != null) {
                 item.setVisible(true);
             }
@@ -397,7 +397,7 @@ public class EventDetailFragment extends Fragment {
                 getActivity().setResult(FragmentActivity.RESULT_OK);
                 refreshEventMarkers();
                 return true;
-            case R.id.item_close:
+            case R.id.event_details_item_close:
                 closeFragment(FRAGMENT_TAG);
                 return true;
         }
