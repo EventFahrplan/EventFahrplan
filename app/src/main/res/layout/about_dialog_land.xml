@@ -118,12 +118,16 @@
                 android:id="@+id/copyright_logo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingBottom="10dp"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:paddingTop="10dp"
                 android:singleLine="false"
                 android:linksClickable="true"
                 tools:text="@string/copyright_logo"/>
+
+        <include
+                layout="@layout/horizontal_line"/>
 
         <TextView
                 android:id="@+id/source_code"
