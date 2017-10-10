@@ -8,6 +8,7 @@ import android.content.SharedPreferences.Editor;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -53,13 +54,14 @@ import nerd.tuxmobil.fahrplan.congress.net.FetchFahrplan;
 import nerd.tuxmobil.fahrplan.congress.reporting.TraceDroidEmailSender;
 import nerd.tuxmobil.fahrplan.congress.serialization.FahrplanParser;
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsActivity;
+import nerd.tuxmobil.fahrplan.congress.sidepane.OnSidePaneCloseListener;
 import nerd.tuxmobil.fahrplan.congress.utils.ConfirmationDialog;
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
 
 public class MainActivity extends BaseActivity implements
         FahrplanParser.OnParseCompleteListener,
         FetchFahrplan.OnDownloadCompleteListener,
-        EventDetailFragment.OnCloseDetailListener,
+        OnSidePaneCloseListener,
         FahrplanFragment.OnRefreshEventMarkers,
         CertificateDialogFragment.OnCertAccepted,
         AbstractListFragment.OnLectureListClick,
@@ -423,12 +425,12 @@ public class MainActivity extends BaseActivity implements
     }
 
     @Override
-    public void closeDetailView() {
+    public void onSidePaneClose(@NonNull String fragmentTag) {
         View sidePane = findViewById(R.id.detail);
         if (sidePane != null) {
             sidePane.setVisibility(View.GONE);
         }
-        removeFragment(EventDetailFragment.FRAGMENT_TAG);
+        removeFragment(fragmentTag);
     }
 
     public void reloadAlarms() {

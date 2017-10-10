@@ -41,15 +41,11 @@ import nerd.tuxmobil.fahrplan.congress.navigation.RoomForC3NavConverter;
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanFragment;
 import nerd.tuxmobil.fahrplan.congress.sharing.LectureSharer;
 import nerd.tuxmobil.fahrplan.congress.sharing.SimpleLectureFormat;
+import nerd.tuxmobil.fahrplan.congress.sidepane.OnSidePaneCloseListener;
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
 import nerd.tuxmobil.fahrplan.congress.utils.StringUtils;
 
 public class EventDetailFragment extends Fragment {
-
-    public interface OnCloseDetailListener {
-
-        void closeDetailView();
-    }
 
     private final String LOG_TAG = "Detail";
 
@@ -402,13 +398,17 @@ public class EventDetailFragment extends Fragment {
                 refreshEventMarkers();
                 return true;
             case R.id.item_close:
-                FragmentActivity activity = getActivity();
-                if ((activity != null) && (activity instanceof OnCloseDetailListener)) {
-                    ((OnCloseDetailListener) activity).closeDetailView();
-                }
+                closeFragment(FRAGMENT_TAG);
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void closeFragment(@NonNull String fragmentTag) {
+        FragmentActivity activity = getActivity();
+        if (activity != null && activity instanceof OnSidePaneCloseListener) {
+            ((OnSidePaneCloseListener) activity).onSidePaneClose(fragmentTag);
+        }
     }
 
     @Override
