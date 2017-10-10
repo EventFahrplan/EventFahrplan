@@ -387,15 +387,7 @@ public class MainActivity extends BaseActivity implements
                 openLectureChanges();
                 return true;
             case R.id.item_starred_list:
-                FrameLayout sidePane = (FrameLayout) findViewById(R.id.detail);
-                if (sidePane == null) {
-                    intent = new Intent(this, StarredListActivity.class);
-                    startActivityForResult(intent, MyApp.STARRED);
-                } else {
-                    sidePane.setVisibility(View.VISIBLE);
-                    replaceFragment(R.id.detail, StarredListFragment.newInstance(true),
-                            StarredListFragment.FRAGMENT_TAG, StarredListFragment.FRAGMENT_TAG);
-                }
+                openFavorites();
                 return true;
             default:
         }
@@ -507,6 +499,18 @@ public class MainActivity extends BaseActivity implements
             ((StarredListFragment) fragment).onRefresh();
         }
         ActivityCompat.invalidateOptionsMenu(this);
+    }
+
+    private void openFavorites() {
+        FrameLayout sidePane = (FrameLayout) findViewById(R.id.detail);
+        if (sidePane == null) {
+            Intent intent = new Intent(this, StarredListActivity.class);
+            startActivityForResult(intent, MyApp.STARRED);
+        } else {
+            sidePane.setVisibility(View.VISIBLE);
+            replaceFragment(R.id.detail, StarredListFragment.newInstance(true),
+                    StarredListFragment.FRAGMENT_TAG, StarredListFragment.FRAGMENT_TAG);
+        }
     }
 
     public void openLectureChanges() {
