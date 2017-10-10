@@ -62,7 +62,7 @@
     <string name="flag_as_favorite">Zu Favoriten hinzufügen</string>
     <string name="unflag_as_favorite">Aus Favoriten entfernen</string>
     <string name="uptodate">Fahrplan ist aktuell.</string>
-    <string name="close_detail">Detailansicht schließen</string>
+    <string name="event_details_close">Detailansicht schließen</string>
     <string name="pref_auto_download">Automatische Updates</string>
     <string name="parsing_error_generic">Unbekannter Fehler beim Parsen des Fahrplans</string>
     <string name="parsing_error_with_version">Fehler beim Parsen der Fahrplan-Version %s</string>

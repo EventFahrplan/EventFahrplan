@@ -41,15 +41,11 @@ import nerd.tuxmobil.fahrplan.congress.navigation.RoomForC3NavConverter;
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanFragment;
 import nerd.tuxmobil.fahrplan.congress.sharing.LectureSharer;
 import nerd.tuxmobil.fahrplan.congress.sharing.SimpleLectureFormat;
+import nerd.tuxmobil.fahrplan.congress.sidepane.OnSidePaneCloseListener;
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
 import nerd.tuxmobil.fahrplan.congress.utils.StringUtils;
 
 public class EventDetailFragment extends Fragment {
-
-    public interface OnCloseDetailListener {
-
-        void closeDetailView();
-    }
 
     private final String LOG_TAG = "Detail";
 
@@ -287,7 +283,7 @@ public class EventDetailFragment extends Fragment {
             }
         }
         if (sidePane) {
-            item = menu.findItem(R.id.item_close);
+            item = menu.findItem(R.id.event_details_item_close);
             if (item != null) {
                 item.setVisible(true);
             }
@@ -401,14 +397,18 @@ public class EventDetailFragment extends Fragment {
                 getActivity().setResult(FragmentActivity.RESULT_OK);
                 refreshEventMarkers();
                 return true;
-            case R.id.item_close:
-                FragmentActivity activity = getActivity();
-                if ((activity != null) && (activity instanceof OnCloseDetailListener)) {
-                    ((OnCloseDetailListener) activity).closeDetailView();
-                }
+            case R.id.event_details_item_close:
+                closeFragment(FRAGMENT_TAG);
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void closeFragment(@NonNull String fragmentTag) {
+        FragmentActivity activity = getActivity();
+        if (activity != null && activity instanceof OnSidePaneCloseListener) {
+            ((OnSidePaneCloseListener) activity).onSidePaneClose(fragmentTag);
+        }
     }
 
     @Override

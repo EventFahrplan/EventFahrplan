@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-            android:id="@+id/item_close"
+            android:id="@+id/event_details_item_close"
             android:icon="@drawable/ic_close_white_24dp"
             app:showAsAction="always"
-            android:title="@string/close_detail"
-            android:titleCondensed="@string/close_detail"
+            android:title="@string/event_details_close"
+            android:titleCondensed="@string/event_details_close"
             android:visible="false">
     </item>
     <item

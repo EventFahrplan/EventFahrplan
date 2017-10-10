@@ -8,6 +8,8 @@ import android.content.SharedPreferences.Editor;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.IdRes;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -53,13 +55,14 @@ import nerd.tuxmobil.fahrplan.congress.net.FetchFahrplan;
 import nerd.tuxmobil.fahrplan.congress.reporting.TraceDroidEmailSender;
 import nerd.tuxmobil.fahrplan.congress.serialization.FahrplanParser;
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsActivity;
+import nerd.tuxmobil.fahrplan.congress.sidepane.OnSidePaneCloseListener;
 import nerd.tuxmobil.fahrplan.congress.utils.ConfirmationDialog;
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
 
 public class MainActivity extends BaseActivity implements
         FahrplanParser.OnParseCompleteListener,
         FetchFahrplan.OnDownloadCompleteListener,
-        EventDetailFragment.OnCloseDetailListener,
+        OnSidePaneCloseListener,
         FahrplanFragment.OnRefreshEventMarkers,
         CertificateDialogFragment.OnCertAccepted,
         AbstractListFragment.OnLectureListClick,
@@ -387,15 +390,7 @@ public class MainActivity extends BaseActivity implements
                 openLectureChanges();
                 return true;
             case R.id.item_starred_list:
-                FrameLayout sidePane = (FrameLayout) findViewById(R.id.detail);
-                if (sidePane == null) {
-                    intent = new Intent(this, StarredListActivity.class);
-                    startActivityForResult(intent, MyApp.STARRED);
-                } else {
-                    sidePane.setVisibility(View.VISIBLE);
-                    replaceFragment(R.id.detail, StarredListFragment.newInstance(true),
-                            StarredListFragment.FRAGMENT_TAG, StarredListFragment.FRAGMENT_TAG);
-                }
+                openFavorites();
                 return true;
             default:
         }
@@ -431,12 +426,12 @@ public class MainActivity extends BaseActivity implements
     }
 
     @Override
-    public void closeDetailView() {
+    public void onSidePaneClose(@NonNull String fragmentTag) {
         View sidePane = findViewById(R.id.detail);
         if (sidePane != null) {
             sidePane.setVisibility(View.GONE);
         }
-        removeFragment(EventDetailFragment.FRAGMENT_TAG);
+        removeFragment(fragmentTag);
     }
 
     public void reloadAlarms() {
@@ -491,14 +486,19 @@ public class MainActivity extends BaseActivity implements
 
     @Override
     public void onBackStackChanged() {
-        FragmentManager fm = getSupportFragmentManager();
-        Fragment pane = fm.findFragmentById(R.id.detail);
-        boolean paneVisible = pane != null;
-        View sidePane = findViewById(R.id.detail);
-        if (sidePane != null) {
-            sidePane.setVisibility(paneVisible ? View.VISIBLE : View.GONE);
-        }
+        FragmentManager manager = getSupportFragmentManager();
+        int detailView = R.id.detail;
+        toggleSidePaneVisibility(manager, detailView);
         supportInvalidateOptionsMenu();
+    }
+
+    private void toggleSidePaneVisibility(FragmentManager manager, @IdRes int detailView) {
+        Fragment fragment = manager.findFragmentById(detailView);
+        boolean found = fragment != null;
+        View sidePane = findViewById(detailView);
+        if (sidePane != null) {
+            sidePane.setVisibility(found ? View.VISIBLE : View.GONE);
+        }
     }
 
     public void refreshFavoriteList() {
@@ -507,6 +507,18 @@ public class MainActivity extends BaseActivity implements
             ((StarredListFragment) fragment).onRefresh();
         }
         ActivityCompat.invalidateOptionsMenu(this);
+    }
+
+    private void openFavorites() {
+        FrameLayout sidePane = (FrameLayout) findViewById(R.id.detail);
+        if (sidePane == null) {
+            Intent intent = new Intent(this, StarredListActivity.class);
+            startActivityForResult(intent, MyApp.STARRED);
+        } else {
+            sidePane.setVisibility(View.VISIBLE);
+            replaceFragment(R.id.detail, StarredListFragment.newInstance(true),
+                    StarredListFragment.FRAGMENT_TAG, StarredListFragment.FRAGMENT_TAG);
+        }
     }
 
     public void openLectureChanges() {
