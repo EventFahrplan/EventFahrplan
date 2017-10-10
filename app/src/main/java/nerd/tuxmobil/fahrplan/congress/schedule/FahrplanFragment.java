@@ -229,7 +229,7 @@ public class FahrplanFragment extends Fragment implements
         }
 
         if (MyApp.numdays > 1) {
-            build_navigation_menu();
+            buildNavigationMenu();
         }
     }
 
@@ -946,7 +946,7 @@ public class FahrplanFragment extends Fragment implements
         }
     }
 
-    public void build_navigation_menu() {
+    public void buildNavigationMenu() {
         Time now = new Time();
         now.setToNow();
         StringBuilder currentDate = new StringBuilder();
@@ -993,7 +993,7 @@ public class FahrplanFragment extends Fragment implements
                 FahrplanMisc.loadMeta(getActivity());
                 FahrplanMisc.loadDays(getActivity());
                 if (MyApp.numdays > 1) {
-                    build_navigation_menu();
+                    buildNavigationMenu();
                 }
                 SharedPreferences prefs = getActivity().getSharedPreferences(PREFS_NAME, 0);
                 mDay = prefs.getInt("displayDay", 1);

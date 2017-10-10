@@ -472,7 +472,7 @@ public class MainActivity extends BaseActivity implements
     }
 
     @Override
-    public void cert_accepted() {
+    public void onCertAccepted() {
         MyApp.LogDebug(LOG_TAG, "fetch on cert accepted.");
         fetchFahrplan(MainActivity.this);
     }

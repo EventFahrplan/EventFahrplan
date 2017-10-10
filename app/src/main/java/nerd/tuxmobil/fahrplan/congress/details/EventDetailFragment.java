@@ -139,7 +139,7 @@ public class EventDetailFragment extends Fragment {
             locale = getResources().getConfiguration().locale;
 
             FahrplanFragment.loadLectureList(activity, day, false);
-            lecture = eventid2Lecture(event_id);
+            lecture = eventIdToLecture(event_id);
 
             TextView t;
             t = (TextView) view.findViewById(R.id.date);
@@ -301,12 +301,12 @@ public class EventDetailFragment extends Fragment {
         return RoomForC3NavConverter.convert(BuildConfig.VENUE, currentRoom);
     }
 
-    private Lecture eventid2Lecture(String event_id) {
+    private Lecture eventIdToLecture(String eventId) {
         if (MyApp.lectureList == null) {
             return null;
         }
         for (Lecture lecture : MyApp.lectureList) {
-            if (lecture.lecture_id.equals(event_id)) {
+            if (lecture.lecture_id.equals(eventId)) {
                 return lecture;
             }
         }
@@ -353,7 +353,7 @@ public class EventDetailFragment extends Fragment {
         Lecture l;
         switch (item.getItemId()) {
             case R.id.item_share:
-                l = eventid2Lecture(event_id);
+                l = eventIdToLecture(event_id);
                 if (l != null) {
                     String formattedLecture = SimpleLectureFormat.format(l);
                     Context context = getContext();
@@ -363,7 +363,7 @@ public class EventDetailFragment extends Fragment {
                 }
                 return true;
             case R.id.item_add_to_calendar:
-                l = eventid2Lecture(event_id);
+                l = eventIdToLecture(event_id);
                 if (l != null) {
                     FahrplanMisc.addToCalender(getActivity(), l);
                 }

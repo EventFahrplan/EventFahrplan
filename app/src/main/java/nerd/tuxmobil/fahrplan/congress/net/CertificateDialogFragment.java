@@ -25,7 +25,7 @@ public class CertificateDialogFragment extends DialogFragment {
 
     public interface OnCertAccepted {
 
-        void cert_accepted();
+        void onCertAccepted();
     }
 
     public static final String FRAGMENT_TAG =
@@ -132,7 +132,7 @@ public class CertificateDialogFragment extends DialogFragment {
                 TrustManagerFactory.addCertificateChain(chain);
             }
             if (listener != null) {
-                listener.cert_accepted();
+                listener.onCertAccepted();
             }
         } catch (CertificateException e) {
             String messageArguments = e.getMessage() == null ? "" : e.getMessage();

@@ -90,7 +90,7 @@ class FetchFahrplanTask extends AsyncTask<String, Void, HTTP_STATUS> {
 
         host = Uri.parse(url).getHost();
 
-        return fetchthis(url, eTag);
+        return fetch(url, eTag);
     }
 
     protected void onCancelled() {
@@ -117,7 +117,7 @@ class FetchFahrplanTask extends AsyncTask<String, Void, HTTP_STATUS> {
         completed = false;                // notifiy only once
     }
 
-    private HTTP_STATUS fetchthis(String url, String eTag) {
+    private HTTP_STATUS fetch(String url, String eTag) {
         OkHttpClient client;
         try {
             client = CustomHttpClient.createHttpClient(host);
