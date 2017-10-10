@@ -8,6 +8,7 @@ import android.content.SharedPreferences.Editor;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
@@ -485,14 +486,19 @@ public class MainActivity extends BaseActivity implements
 
     @Override
     public void onBackStackChanged() {
-        FragmentManager fm = getSupportFragmentManager();
-        Fragment pane = fm.findFragmentById(R.id.detail);
-        boolean paneVisible = pane != null;
-        View sidePane = findViewById(R.id.detail);
-        if (sidePane != null) {
-            sidePane.setVisibility(paneVisible ? View.VISIBLE : View.GONE);
-        }
+        FragmentManager manager = getSupportFragmentManager();
+        int detailView = R.id.detail;
+        toggleSidePaneVisibility(manager, detailView);
         supportInvalidateOptionsMenu();
+    }
+
+    private void toggleSidePaneVisibility(FragmentManager manager, @IdRes int detailView) {
+        Fragment fragment = manager.findFragmentById(detailView);
+        boolean found = fragment != null;
+        View sidePane = findViewById(detailView);
+        if (sidePane != null) {
+            sidePane.setVisibility(found ? View.VISIBLE : View.GONE);
+        }
     }
 
     public void refreshFavoriteList() {
