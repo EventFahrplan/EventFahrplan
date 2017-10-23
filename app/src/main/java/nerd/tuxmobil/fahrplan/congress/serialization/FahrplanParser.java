@@ -499,7 +499,9 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
         boolean changed = false;
 
         oldLectures = FahrplanMisc.loadLecturesForAllDays(this.context);
-        if (oldLectures == null) return;
+        if (oldLectures == null) {
+            return;
+        }
 
         int lectureIndex = oldLectures.size() - 1;
         while (lectureIndex >= 0) {
