@@ -20,7 +20,6 @@ import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import nerd.tuxmobil.fahrplan.congress.MyApp;
@@ -127,9 +126,6 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
     private void initStarredList() {
         FragmentActivity activity = getActivity();
         starredList = FahrplanMisc.getStarredLectures(activity);
-        if (starredList == null) {
-            starredList = new ArrayList<>();
-        }
         mAdapter = new LectureArrayAdapter(activity, starredList);
         MyApp.LogDebug(LOG_TAG, "initStarredList: " + starredList.size() + " favorites");
         mListView.setAdapter(mAdapter);

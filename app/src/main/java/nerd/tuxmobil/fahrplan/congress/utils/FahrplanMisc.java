@@ -445,6 +445,7 @@ public class FahrplanMisc {
         return alarmUpdater.calculateInterval(now, initial);
     }
 
+    @NonNull
     public static List<Lecture> loadLecturesForAllDays(Context context) {
         return loadLecturesForDayIndex(context, ALL_DAYS);
     }
@@ -456,6 +457,7 @@ public class FahrplanMisc {
      * @param day     The day to load lectures for (0..), or -1 for all days
      * @return ArrayList of Lecture objects
      */
+    @NonNull
     public static List<Lecture> loadLecturesForDayIndex(Context context, int day) {
         MyApp.LogDebug(LOG_TAG, "load lectures of day " + day);
 
@@ -484,7 +486,7 @@ public class FahrplanMisc {
             lecturedb.close();
             highlightdb.close();
             lecturesDB.close();
-            return null;
+            return Collections.emptyList();
         }
         try {
             hCursor = highlightdb.query(
@@ -496,7 +498,7 @@ public class FahrplanMisc {
             lecturedb.close();
             highlightdb.close();
             lecturesDB.close();
-            return null;
+            return Collections.emptyList();
         }
         MyApp.LogDebug(LOG_TAG, "Got " + cursor.getCount() + " rows.");
         MyApp.LogDebug(LOG_TAG, "Got " + hCursor.getCount() + " highlight rows.");
@@ -506,7 +508,7 @@ public class FahrplanMisc {
             lecturedb.close();
             highlightdb.close();
             lecturesDB.close();
-            return null;
+            return Collections.emptyList();
         }
 
         cursor.moveToFirst();
@@ -595,9 +597,9 @@ public class FahrplanMisc {
         return lectures;
     }
 
-    public static int getChangedLectureCount(List<Lecture> list, boolean favsOnly) {
+    public static int getChangedLectureCount(@NonNull List<Lecture> list, boolean favsOnly) {
         int count = 0;
-        if (list == null) {
+        if (list.isEmpty()) {
             return 0;
         }
         for (int lectureIndex = 0; lectureIndex < list.size(); lectureIndex++) {
@@ -610,9 +612,9 @@ public class FahrplanMisc {
         return count;
     }
 
-    public static int getNewLectureCount(List<Lecture> list, boolean favsOnly) {
+    public static int getNewLectureCount(@NonNull List<Lecture> list, boolean favsOnly) {
         int count = 0;
-        if (list == null) {
+        if (list.isEmpty()) {
             return 0;
         }
         for (int lectureIndex = 0; lectureIndex < list.size(); lectureIndex++) {
@@ -623,9 +625,9 @@ public class FahrplanMisc {
         return count;
     }
 
-    public static int getCancelledLectureCount(List<Lecture> list, boolean favsOnly) {
+    public static int getCancelledLectureCount(@NonNull List<Lecture> list, boolean favsOnly) {
         int count = 0;
-        if (list == null) {
+        if (list.isEmpty()) {
             return 0;
         }
         for (int lectureIndex = 0; lectureIndex < list.size(); lectureIndex++) {
@@ -636,11 +638,12 @@ public class FahrplanMisc {
         return count;
     }
 
+    @NonNull
     public static List<Lecture> readChanges(Context context) {
         MyApp.LogDebug(LOG_TAG, "readChanges");
         List<Lecture> changesList = loadLecturesForAllDays(context);
-        if (changesList == null) {
-            return null;
+        if (changesList.isEmpty()) {
+            return changesList;
         }
         int lectureIndex = changesList.size() - 1;
         while (lectureIndex >= 0) {
@@ -654,10 +657,11 @@ public class FahrplanMisc {
         return changesList;
     }
 
+    @NonNull
     public static List<Lecture> getStarredLectures(Context context) {
         List<Lecture> starredList = loadLecturesForAllDays(context);
-        if (starredList == null) {
-            return null;
+        if (starredList.isEmpty()) {
+            return starredList;
         }
         int lectureIndex = starredList.size() - 1;
         while (lectureIndex >= 0) {

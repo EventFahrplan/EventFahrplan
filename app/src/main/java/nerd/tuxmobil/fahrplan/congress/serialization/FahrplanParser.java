@@ -500,7 +500,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
         boolean changed = false;
 
         oldLectures = FahrplanMisc.loadLecturesForAllDays(this.context);
-        if (oldLectures == null) {
+        if (oldLectures.isEmpty()) {
             return;
         }
 

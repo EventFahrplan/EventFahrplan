@@ -10,7 +10,6 @@ import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import nerd.tuxmobil.fahrplan.congress.MyApp;
@@ -74,10 +73,6 @@ public class ChangeListFragment extends AbstractListFragment {
         }
 
         changesList = FahrplanMisc.readChanges(getActivity());
-        if (changesList == null) {
-            changesList = new ArrayList<>();
-        }
-
         mAdapter = new LectureChangesArrayAdapter(getActivity(), changesList);
         MyApp.LogDebug(LOG_TAG, "onCreate, " + changesList.size() + " changes");
     }
