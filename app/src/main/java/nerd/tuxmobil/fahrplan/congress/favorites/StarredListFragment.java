@@ -20,12 +20,14 @@ import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.base.AbstractListFragment;
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
-import nerd.tuxmobil.fahrplan.congress.models.LectureList;
 import nerd.tuxmobil.fahrplan.congress.schedule.MainActivity;
 import nerd.tuxmobil.fahrplan.congress.sharing.LectureSharer;
 import nerd.tuxmobil.fahrplan.congress.sharing.SimpleLectureFormat;
@@ -49,7 +51,7 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
     private static final String LOG_TAG = "StarredListFragment";
     public static final String FRAGMENT_TAG = "starred";
     private OnLectureListClick mListener;
-    private LectureList starredList;
+    private List<Lecture> starredList;
     private boolean sidePane = false;
 
     public static final int DELETE_ALL_FAVORITES_REQUEST_CODE = 19126;
@@ -126,7 +128,7 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
         FragmentActivity activity = getActivity();
         starredList = FahrplanMisc.getStarredLectures(activity);
         if (starredList == null) {
-            starredList = new LectureList();
+            starredList = new ArrayList<>();
         }
         mAdapter = new LectureArrayAdapter(activity, starredList);
         MyApp.LogDebug(LOG_TAG, "initStarredList: " + starredList.size() + " favorites");
@@ -171,7 +173,7 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
     }
 
     public void onRefresh() {
-        LectureList starred = FahrplanMisc.getStarredLectures(getActivity());
+        List<Lecture> starred = FahrplanMisc.getStarredLectures(getActivity());
         if (starredList != null) {
             starredList.clear();
             starredList.addAll(starred);

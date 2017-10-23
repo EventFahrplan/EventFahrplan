@@ -22,6 +22,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -33,7 +34,6 @@ import nerd.tuxmobil.fahrplan.congress.alarms.AlarmUpdater;
 import nerd.tuxmobil.fahrplan.congress.models.DateInfo;
 import nerd.tuxmobil.fahrplan.congress.models.DateInfos;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
-import nerd.tuxmobil.fahrplan.congress.models.LectureList;
 import nerd.tuxmobil.fahrplan.congress.persistence.AlarmsDBOpenHelper;
 import nerd.tuxmobil.fahrplan.congress.persistence.FahrplanContract.AlarmsTable;
 import nerd.tuxmobil.fahrplan.congress.persistence.FahrplanContract.HighlightsTable;
@@ -445,7 +445,7 @@ public class FahrplanMisc {
         return alarmUpdater.calculateInterval(now, initial);
     }
 
-    public static LectureList loadLecturesForAllDays(Context context) {
+    public static List<Lecture> loadLecturesForAllDays(Context context) {
         return loadLecturesForDayIndex(context, ALL_DAYS);
     }
 
@@ -456,7 +456,7 @@ public class FahrplanMisc {
      * @param day     The day to load lectures for (0..), or -1 for all days
      * @return ArrayList of Lecture objects
      */
-    public static LectureList loadLecturesForDayIndex(Context context, int day) {
+    public static List<Lecture> loadLecturesForDayIndex(Context context, int day) {
         MyApp.LogDebug(LOG_TAG, "load lectures of day " + day);
 
         SQLiteDatabase lecturedb = null;
@@ -466,7 +466,7 @@ public class FahrplanMisc {
         HighlightDBOpenHelper highlightDB = new HighlightDBOpenHelper(context);
         SQLiteDatabase highlightdb = highlightDB.getReadableDatabase();
 
-        LectureList lectures = new LectureList();
+        List<Lecture> lectures = new ArrayList<>();
         Cursor cursor, hCursor;
         boolean allDays;
 
@@ -595,7 +595,7 @@ public class FahrplanMisc {
         return lectures;
     }
 
-    public static int getChangedLectureCount(LectureList list, boolean favsOnly) {
+    public static int getChangedLectureCount(List<Lecture> list, boolean favsOnly) {
         int count = 0;
         if (list == null) {
             return 0;
@@ -610,7 +610,7 @@ public class FahrplanMisc {
         return count;
     }
 
-    public static int getNewLectureCount(LectureList list, boolean favsOnly) {
+    public static int getNewLectureCount(List<Lecture> list, boolean favsOnly) {
         int count = 0;
         if (list == null) {
             return 0;
@@ -623,7 +623,7 @@ public class FahrplanMisc {
         return count;
     }
 
-    public static int getCancelledLectureCount(LectureList list, boolean favsOnly) {
+    public static int getCancelledLectureCount(List<Lecture> list, boolean favsOnly) {
         int count = 0;
         if (list == null) {
             return 0;
@@ -636,9 +636,9 @@ public class FahrplanMisc {
         return count;
     }
 
-    public static LectureList readChanges(Context context) {
+    public static List<Lecture> readChanges(Context context) {
         MyApp.LogDebug(LOG_TAG, "readChanges");
-        LectureList changesList = FahrplanMisc.loadLecturesForAllDays(context);
+        List<Lecture> changesList = loadLecturesForAllDays(context);
         if (changesList == null) {
             return null;
         }
@@ -654,8 +654,8 @@ public class FahrplanMisc {
         return changesList;
     }
 
-    public static LectureList getStarredLectures(Context context) {
-        LectureList starredList = FahrplanMisc.loadLecturesForAllDays(context);
+    public static List<Lecture> getStarredLectures(Context context) {
+        List<Lecture> starredList = loadLecturesForAllDays(context);
         if (starredList == null) {
             return null;
         }

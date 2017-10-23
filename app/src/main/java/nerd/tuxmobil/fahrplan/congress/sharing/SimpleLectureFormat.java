@@ -4,8 +4,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.format.Time;
 
+import java.util.List;
+
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
-import nerd.tuxmobil.fahrplan.congress.models.LectureList;
 import nerd.tuxmobil.fahrplan.congress.utils.DateHelper;
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
 
@@ -25,7 +26,7 @@ public class SimpleLectureFormat {
     }
 
     @Nullable
-    public static String format(@NonNull LectureList lectures) {
+    public static String format(@NonNull List<Lecture> lectures) {
         if (lectures.isEmpty()) {
             return null;
         }

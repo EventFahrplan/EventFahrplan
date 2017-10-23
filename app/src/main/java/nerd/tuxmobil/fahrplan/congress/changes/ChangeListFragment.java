@@ -10,12 +10,14 @@ import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.base.AbstractListFragment;
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
-import nerd.tuxmobil.fahrplan.congress.models.LectureList;
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
 
 
@@ -33,7 +35,7 @@ public class ChangeListFragment extends AbstractListFragment {
     private static final String LOG_TAG = "ChangeListFragment";
     public static final String FRAGMENT_TAG = "changes";
     private OnLectureListClick mListener;
-    private LectureList changesList;
+    private List<Lecture> changesList;
     private boolean sidePane = false;
 
     /**
@@ -73,7 +75,7 @@ public class ChangeListFragment extends AbstractListFragment {
 
         changesList = FahrplanMisc.readChanges(getActivity());
         if (changesList == null) {
-            changesList = new LectureList();
+            changesList = new ArrayList<>();
         }
 
         mAdapter = new LectureChangesArrayAdapter(getActivity(), changesList);
@@ -125,7 +127,7 @@ public class ChangeListFragment extends AbstractListFragment {
     }
 
     public void onRefresh() {
-        LectureList updatedChanges = FahrplanMisc.readChanges(getActivity());
+        List<Lecture> updatedChanges = FahrplanMisc.readChanges(getActivity());
         if (changesList != null) {
             changesList.clear();
             changesList.addAll(updatedChanges);
