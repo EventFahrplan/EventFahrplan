@@ -30,7 +30,7 @@ public final class TrustManagerFactory {
 
     private static X509TrustManager defaultTrustManager;
 
-    private static X509TrustManager unsecureTrustManager;
+    private static X509TrustManager insecureTrustManager;
 
     private static X509TrustManager localTrustManager;
 
@@ -160,7 +160,7 @@ public final class TrustManagerFactory {
         } catch (KeyStoreException e) {
             Log.e(LOG_TAG, "Key Store exception while initializing TrustManagerFactory ", e);
         }
-        unsecureTrustManager = new SimpleX509TrustManager();
+        insecureTrustManager = new SimpleX509TrustManager();
     }
 
     private TrustManagerFactory() {
@@ -168,7 +168,7 @@ public final class TrustManagerFactory {
 
     public static X509TrustManager get(String host, boolean secure) {
         MyApp.LogDebug(LOG_TAG, "get " + host + " " + secure);
-        return secure ? SecureX509TrustManager.getInstance(host) : unsecureTrustManager;
+        return secure ? SecureX509TrustManager.getInstance(host) : insecureTrustManager;
     }
 
     public static void setLastCertChain(X509Certificate[] chain) {
