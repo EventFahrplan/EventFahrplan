@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/EventFahrplan/EventFahrplan.svg?branch=master)](https://travis-ci.org/EventFahrplan/EventFahrplan) [![Apache License](http://img.shields.io/badge/license-Apache%20License%202.0-lightgrey.svg)](http://choosealicense.com/licenses/apache-2.0/) [![Dependency Status](https://www.versioneye.com/user/projects/59878ba80fb24f00600d5924/badge.svg)](https://www.versioneye.com/user/projects/59878ba80fb24f00600d5924)
+[![Build Status](https://travis-ci.org/EventFahrplan/EventFahrplan.svg?branch=master)](https://travis-ci.org/EventFahrplan/EventFahrplan) [![Apache License](http://img.shields.io/badge/license-Apache%20License%202.0-lightgrey.svg)](http://choosealicense.com/licenses/apache-2.0/)
 
 # EventFahrplan
 
