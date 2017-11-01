@@ -126,7 +126,7 @@ dependencies {
     compile "com.android.support:design:$supportLibVersion"
     compile "com.squareup.okhttp3:okhttp:$okhttpVersion"
     compile "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
-    compile "com.github.ligi.snackengage:snackengage-playrate:0.14"
+    compile "com.github.ligi.snackengage:snackengage-playrate:0.15"
     compile "de.cketti.mailto:email-intent-builder:1.0.0"
     compile files("libs/TraceDroid-1.1.jar")
 
