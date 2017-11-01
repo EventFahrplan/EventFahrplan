@@ -1,5 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress.net;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
 import android.util.Log;
@@ -41,7 +42,8 @@ public final class TrustManagerFactory {
     private static KeyStore keyStore;
 
 
-    private static class SimpleX509TrustManager implements X509TrustManager {
+    @SuppressLint("TrustAllX509TrustManager")
+    private static class InsecureX509TrustManager implements X509TrustManager {
 
         public void checkClientTrusted(X509Certificate[] chain, String authType)
                 throws CertificateException {
@@ -160,7 +162,7 @@ public final class TrustManagerFactory {
         } catch (KeyStoreException e) {
             Log.e(LOG_TAG, "Key Store exception while initializing TrustManagerFactory ", e);
         }
-        insecureTrustManager = new SimpleX509TrustManager();
+        insecureTrustManager = new InsecureX509TrustManager();
     }
 
     private TrustManagerFactory() {
