@@ -5,12 +5,9 @@ import android.widget.Toast;
 
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 
-import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLException;
 import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 import nerd.tuxmobil.fahrplan.congress.BuildConfig;
@@ -49,17 +46,10 @@ public class CustomHttpClient {
             httpLoggingInterceptor.setLevel(Level.HEADERS);
             clientBuilder.addNetworkInterceptor(httpLoggingInterceptor);
         }
-        X509TrustManager trustManager = TrustManagerFactory.get(host, true);
-        clientBuilder.sslSocketFactory(createSSLSocketFactory(trustManager), trustManager);
-        return clientBuilder.build();
-    }
 
-    private static SSLSocketFactory createSSLSocketFactory(TrustManager trustManager)
-            throws NoSuchAlgorithmException, KeyManagementException {
-        SSLContext sslContext = SSLContext.getInstance("TLS");
-        TrustManager[] trustManagers = {trustManager};
-        sslContext.init(null, trustManagers, new SecureRandom());
-        return sslContext.getSocketFactory();
+        X509TrustManager trustManager = TrustManagerFactory.get(host, true);
+        SSLSocketFactory factory = SslSocketFactory.createSSLSocketFactory(trustManager);
+        return clientBuilder.sslSocketFactory(factory, trustManager).build();
     }
 
     public static void setSSLException(SSLException e) {
