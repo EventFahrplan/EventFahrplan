@@ -9,10 +9,11 @@ import org.ligi.tracedroid.TraceDroid;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.TimeZone;
 
 import nerd.tuxmobil.fahrplan.congress.models.DateInfos;
-import nerd.tuxmobil.fahrplan.congress.models.LectureList;
+import nerd.tuxmobil.fahrplan.congress.models.Lecture;
 import nerd.tuxmobil.fahrplan.congress.net.FetchFahrplan;
 import nerd.tuxmobil.fahrplan.congress.serialization.FahrplanParser;
 import nerd.tuxmobil.fahrplan.congress.utils.ConferenceTimeFrame;
@@ -23,7 +24,7 @@ public class MyApp extends Application {
 
     public static boolean DEBUG = false;
 
-    public static LectureList lectureList = null;
+    public static List<Lecture> lectureList = null;
 
     public static int numdays;
 

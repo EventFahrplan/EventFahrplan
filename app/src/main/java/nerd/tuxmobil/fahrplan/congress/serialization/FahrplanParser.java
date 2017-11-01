@@ -14,11 +14,11 @@ import org.xmlpull.v1.XmlPullParser;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
-import nerd.tuxmobil.fahrplan.congress.models.LectureList;
 import nerd.tuxmobil.fahrplan.congress.models.MetaInfo;
 import nerd.tuxmobil.fahrplan.congress.persistence.FahrplanContract.LecturesTable;
 import nerd.tuxmobil.fahrplan.congress.persistence.FahrplanContract.LecturesTable.Columns;
@@ -29,6 +29,7 @@ import nerd.tuxmobil.fahrplan.congress.persistence.MetaDBOpenHelper;
 import nerd.tuxmobil.fahrplan.congress.serialization.exceptions.MissingXmlAttributeException;
 import nerd.tuxmobil.fahrplan.congress.utils.DateHelper;
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
+import nerd.tuxmobil.fahrplan.congress.utils.LectureUtils;
 import nerd.tuxmobil.fahrplan.congress.validation.DateFieldValidation;
 
 public class FahrplanParser {
@@ -73,7 +74,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
 
     private String LOG_TAG = "ParseFahrplan";
 
-    private LectureList lectures;
+    private List<Lecture> lectures;
 
     private MetaInfo meta;
 
@@ -164,7 +165,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
         }
     }
 
-    public void storeLectureList(Context context, ArrayList<Lecture> lectures) {
+    public void storeLectureList(Context context, List<Lecture> lectures) {
         MyApp.LogDebug(LOG_TAG, "storeLectureList");
         LecturesDBOpenHelper lecturesDB = new LecturesDBOpenHelper(context);
 
@@ -239,7 +240,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                 String name = null;
                 switch (eventType) {
                     case XmlPullParser.START_DOCUMENT:
-                        lectures = new LectureList();
+                        lectures = new ArrayList<>();
                         meta = new MetaInfo();
                         break;
                     case XmlPullParser.END_TAG:
@@ -494,12 +495,14 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
         }
     }
 
-    private void setChangedFlags(LectureList lectures) {
-        LectureList oldLectures;
+    private void setChangedFlags(List<Lecture> lectures) {
+        List<Lecture> oldLectures;
         boolean changed = false;
 
         oldLectures = FahrplanMisc.loadLecturesForAllDays(this.context);
-        if (oldLectures == null) return;
+        if (oldLectures.isEmpty()) {
+            return;
+        }
 
         int lectureIndex = oldLectures.size() - 1;
         while (lectureIndex >= 0) {
@@ -511,7 +514,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
         lectureIndex = 0;
         for (lectureIndex = 0; lectureIndex < lectures.size(); lectureIndex++) {
             Lecture newLecture = lectures.get(lectureIndex);
-            Lecture oldLecture = oldLectures.getLecture(newLecture.lecture_id);
+            Lecture oldLecture = LectureUtils.getLecture(oldLectures, newLecture.lecture_id);
 
             if (oldLecture == null) {
                 newLecture.changedIsNew = true;

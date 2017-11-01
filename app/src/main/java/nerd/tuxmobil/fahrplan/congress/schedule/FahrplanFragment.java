@@ -62,6 +62,7 @@ import nerd.tuxmobil.fahrplan.congress.serialization.FahrplanParser;
 import nerd.tuxmobil.fahrplan.congress.sharing.LectureSharer;
 import nerd.tuxmobil.fahrplan.congress.sharing.SimpleLectureFormat;
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
+import nerd.tuxmobil.fahrplan.congress.utils.LectureUtils;
 
 public class FahrplanFragment extends Fragment implements
         OnClickListener,
@@ -296,7 +297,8 @@ public class FahrplanFragment extends Fragment implements
             scrollTo(lecture_id);
             FrameLayout sidePane = (FrameLayout) getActivity().findViewById(R.id.detail);
             if (sidePane != null) {
-                ((MainActivity) getActivity()).openLectureDetail(MyApp.lectureList.getLecture(lecture_id), mDay);
+                Lecture lecture = LectureUtils.getLecture(MyApp.lectureList, lecture_id);
+                ((MainActivity) getActivity()).openLectureDetail(lecture, mDay);
             }
             intent.removeExtra("lecture_id");   // jump to given lecture_id only once
         }

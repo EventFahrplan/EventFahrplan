@@ -30,6 +30,8 @@ import org.ligi.snackengage.SnackEngage;
 import org.ligi.snackengage.snacks.BaseSnack;
 import org.ligi.snackengage.snacks.DefaultRateSnack;
 
+import java.util.List;
+
 import nerd.tuxmobil.fahrplan.congress.BuildConfig;
 import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.MyApp.TASKS;
@@ -47,7 +49,6 @@ import nerd.tuxmobil.fahrplan.congress.details.EventDetailFragment;
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListActivity;
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListFragment;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
-import nerd.tuxmobil.fahrplan.congress.models.LectureList;
 import nerd.tuxmobil.fahrplan.congress.net.CertificateDialogFragment;
 import nerd.tuxmobil.fahrplan.congress.net.CustomHttpClient;
 import nerd.tuxmobil.fahrplan.congress.net.CustomHttpClient.HTTP_STATUS;
@@ -348,7 +349,7 @@ public class MainActivity extends BaseActivity implements
     void changesDialog() {
         Fragment fragment = findFragment(ChangesDialog.FRAGMENT_TAG);
         if (fragment == null) {
-            LectureList changedLectures = FahrplanMisc.readChanges(this);
+            List<Lecture> changedLectures = FahrplanMisc.readChanges(this);
             DialogFragment about = ChangesDialog.newInstance(
                     MyApp.version,
                     FahrplanMisc.getChangedLectureCount(changedLectures, false),

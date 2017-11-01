@@ -18,12 +18,14 @@ import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.text.format.Time;
 
+import java.util.List;
+
 import nerd.tuxmobil.fahrplan.congress.BuildConfig;
 import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.MyApp.TASKS;
 import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
-import nerd.tuxmobil.fahrplan.congress.models.LectureList;
+import nerd.tuxmobil.fahrplan.congress.models.Lecture;
 import nerd.tuxmobil.fahrplan.congress.net.ConnectivityStateReceiver;
 import nerd.tuxmobil.fahrplan.congress.net.CustomHttpClient.HTTP_STATUS;
 import nerd.tuxmobil.fahrplan.congress.net.FetchFahrplan;
@@ -53,7 +55,7 @@ public class UpdateService extends IntentService implements
         MyApp.task_running = TASKS.NONE;
         MyApp.fahrplan_xml = null;
 
-        LectureList changesList = FahrplanMisc.readChanges(this);
+        List<Lecture> changesList = FahrplanMisc.readChanges(this);
         String changesTxt = getResources().getQuantityString(R.plurals.changes_notification,
                 changesList.size(), changesList.size());
 
