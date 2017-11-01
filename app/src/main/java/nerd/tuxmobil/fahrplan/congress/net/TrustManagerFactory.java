@@ -129,9 +129,6 @@ public final class TrustManagerFactory {
             }
             try {
                 keyStore.load(fis, "".toCharArray());
-                //if (fis != null) {
-                // fis.close();
-                //}
             } catch (IOException e) {
                 Log.e(LOG_TAG, "KeyStore IOException while initializing TrustManagerFactory ", e);
                 keyStore = null;
@@ -177,10 +174,6 @@ public final class TrustManagerFactory {
         MyApp.LogDebug(LOG_TAG, "get " + host + " " + secure);
         return secure ? SecureX509TrustManager.getInstance(host) :
                 unsecureTrustManager;
-    }
-
-    public static KeyStore getKeyStore() {
-        return keyStore;
     }
 
     public static void setLastCertChain(X509Certificate[] chain) {
