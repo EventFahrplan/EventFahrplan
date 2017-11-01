@@ -89,9 +89,7 @@ public final class TrustManagerFactory {
                 throws CertificateException {
             TrustManagerFactory.setLastCertChain(chain);
             if (!DomainNameChecker.match(chain[0], mHost)) {
-                throw new CertificateDomainMismatchException(
-                        "Certificate domain name does not match "
-                                + mHost);
+                throw new CertificateDomainMismatchException("Certificate domain name does not match " + mHost);
             }
             try {
                 // Try localTrustManager first, since self-signed certificates
@@ -115,11 +113,10 @@ public final class TrustManagerFactory {
 
     static {
         try {
-            javax.net.ssl.TrustManagerFactory tmf = javax.net.ssl.TrustManagerFactory
-                    .getInstance("X509");
+            javax.net.ssl.TrustManagerFactory tmf = javax.net.ssl.TrustManagerFactory.getInstance("X509");
             Application app = MyApp.app;
-            keyStoreFile = new File(
-                    app.getDir("KeyStore", Context.MODE_PRIVATE) + File.separator + "KeyStore.bks");
+            File keyStorePath = app.getDir("KeyStore", Context.MODE_PRIVATE);
+            keyStoreFile = new File(keyStorePath + File.separator + "KeyStore.bks");
             keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
             java.io.FileInputStream fis;
             try {
@@ -133,8 +130,7 @@ public final class TrustManagerFactory {
                 Log.e(LOG_TAG, "KeyStore IOException while initializing TrustManagerFactory ", e);
                 keyStore = null;
             } catch (CertificateException e) {
-                Log.e(LOG_TAG,
-                        "KeyStore CertificateException while initializing TrustManagerFactory ", e);
+                Log.e(LOG_TAG, "KeyStore CertificateException while initializing TrustManagerFactory ", e);
                 keyStore = null;
             }
             tmf.init(keyStore);
@@ -172,8 +168,7 @@ public final class TrustManagerFactory {
 
     public static X509TrustManager get(String host, boolean secure) {
         MyApp.LogDebug(LOG_TAG, "get " + host + " " + secure);
-        return secure ? SecureX509TrustManager.getInstance(host) :
-                unsecureTrustManager;
+        return secure ? SecureX509TrustManager.getInstance(host) : unsecureTrustManager;
     }
 
     public static void setLastCertChain(X509Certificate[] chain) {
@@ -186,11 +181,10 @@ public final class TrustManagerFactory {
 
     public static void addCertificateChain(X509Certificate[] chain) throws CertificateException {
         try {
-            javax.net.ssl.TrustManagerFactory tmf = javax.net.ssl.TrustManagerFactory
-                    .getInstance("X509");
+            javax.net.ssl.TrustManagerFactory tmf = javax.net.ssl.TrustManagerFactory.getInstance("X509");
             for (X509Certificate element : chain) {
-                keyStore.setCertificateEntry
-                        (element.getSubjectDN().toString(), element);
+                String alias = element.getSubjectDN().toString();
+                keyStore.setCertificateEntry(alias, element);
             }
 
             tmf.init(keyStore);
@@ -222,4 +216,5 @@ public final class TrustManagerFactory {
             Log.e(LOG_TAG, "Key Store exception while initializing TrustManagerFactory ", e);
         }
     }
+
 }
