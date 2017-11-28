@@ -59,8 +59,12 @@ android {
         }
     }
 
+    def defaultDimension = "default"
+    flavorDimensions defaultDimension
+
     productFlavors {
         camp2015 {
+            dimension defaultDimension
             applicationId "nerd.tuxmobil.fahrplan.camp"
             signingConfig signingConfigs.camp2015
             buildConfigField "String", "SCHEDULE_URL", '"https://events.ccc.de/camp/2015/Fahrplan/schedule.xml"'
@@ -78,6 +82,7 @@ android {
             buildConfigField "String", "TRACE_DROID_EMAIL_ADDRESS", '"ENTER_EMAIL_ADDRESS_HERE"'
         }
         ccc32c3 {
+            dimension defaultDimension
             applicationId "nerd.tuxmobil.fahrplan.congress"
             signingConfig signingConfigs.ccc32c3
             buildConfigField "String", "SCHEDULE_URL", '"https://streaming.media.ccc.de/configs/conferences/32c3/tuxmobil.xml"'
@@ -122,18 +127,18 @@ ext {
 }
 
 dependencies {
-    compile "com.android.support:appcompat-v7:$supportLibVersion"
-    compile "com.android.support:design:$supportLibVersion"
-    compile "com.squareup.okhttp3:okhttp:$okhttpVersion"
-    compile "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
-    compile "com.github.ligi.snackengage:snackengage-playrate:0.15"
-    compile "de.cketti.mailto:email-intent-builder:1.0.0"
-    compile files("libs/TraceDroid-1.1.jar")
+    implementation "com.android.support:appcompat-v7:$supportLibVersion"
+    implementation "com.android.support:design:$supportLibVersion"
+    implementation "com.squareup.okhttp3:okhttp:$okhttpVersion"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
+    implementation "com.github.ligi.snackengage:snackengage-playrate:0.15"
+    implementation "de.cketti.mailto:email-intent-builder:1.0.0"
+    implementation files("libs/TraceDroid-1.1.jar")
 
-    testCompile "junit:junit:4.12"
-    testCompile "com.squareup.assertj:assertj-android:1.2.0"
-    testCompile "com.android.support:support-annotations:$supportLibVersion"
-    testCompile "org.mockito:mockito-core:2.11.0"
+    testImplementation "junit:junit:4.12"
+    testImplementation "com.squareup.assertj:assertj-android:1.2.0"
+    testImplementation "com.android.support:support-annotations:$supportLibVersion"
+    testImplementation "org.mockito:mockito-core:2.11.0"
 }
 
 def gitSha() {
