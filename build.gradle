@@ -1,12 +1,27 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
+
+    ext {
+        // Plugins
+        androidGradlePluginVersion = "3.0.1"
+        gradleVersionsPluginVersion = "0.17.0"
+
+        // Libraries
+        assertjAndroidVersion = "1.2.0"
+        emailIntentBuilderVersion = "1.0.0"
+        junitVersion = "4.12"
+        mockitoVersion = "2.12.0"
+        okhttpVersion = "3.9.1"
+        snackEngageVersion = "0.15"
+        supportLibVersion = "26.1.0"
+    }
+
     repositories {
         google()
         jcenter()
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:3.0.1"
-        classpath "com.github.ben-manes:gradle-versions-plugin:0.17.0"
+        classpath "com.android.tools.build:gradle:$androidGradlePluginVersion"
+        classpath "com.github.ben-manes:gradle-versions-plugin:$gradleVersionsPluginVersion"
     }
 }
 
