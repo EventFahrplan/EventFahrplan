@@ -1,6 +1,8 @@
 buildscript {
 
     ext {
+        kotlinVersion = "1.2.20"
+
         // Plugins
         androidGradlePluginVersion = "3.0.1"
         gradleVersionsPluginVersion = "0.17.0"
@@ -25,6 +27,7 @@ buildscript {
         classpath "com.android.tools.build:gradle:$androidGradlePluginVersion"
         classpath "com.github.ben-manes:gradle-versions-plugin:$gradleVersionsPluginVersion"
         classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:$sonarQubeGradlePluginVersion"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
     }
 }
 
