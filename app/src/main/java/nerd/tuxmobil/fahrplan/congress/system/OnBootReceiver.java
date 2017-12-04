@@ -44,7 +44,7 @@ public final class OnBootReceiver extends BroadcastReceiver {
         }
 
         Time now = new Time();
-        Time alarm = new Time();
+        Time storedAlarmTime = new Time();
         now.setToNow();
         now.second += 15;
         now.normalize(true);
@@ -53,10 +53,11 @@ public final class OnBootReceiver extends BroadcastReceiver {
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             long alarmTime = cursor.getLong(cursor.getColumnIndex(AlarmsTable.Columns.TIME));
-            alarm.set(alarmTime);
+            storedAlarmTime.set(alarmTime);
 
-            if (now.before(alarm)) {
+            if (now.before(storedAlarmTime)) {
                 // set alarm
+
                 String lecture_id = cursor.getString(
                         cursor.getColumnIndex(AlarmsTable.Columns.EVENT_ID));
                 int day = cursor.getInt(
