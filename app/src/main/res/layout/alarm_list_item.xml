@@ -11,7 +11,7 @@
               tools:background="@android:color/holo_green_light">
 
     <TextView
-            android:id="@+id/alarm_list_icon"
+            android:id="@+id/alarm_badge"
             style="@style/AlarmList.Icon"
             android:layout_gravity="center"
             android:textColor="@color/alarm_list_icon_text_color"
@@ -25,7 +25,7 @@
             tools:background="@android:color/holo_red_dark">
 
         <TextView
-                android:id="@+id/title"
+                android:id="@+id/alarm_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
@@ -35,7 +35,7 @@
                 tools:text="@string/placeholder_event_title"/>
 
         <TextView
-                android:id="@+id/time"
+                android:id="@+id/alarm_start_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="?android:attr/textColorSecondary"
