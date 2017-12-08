@@ -130,7 +130,7 @@ public class AlarmList extends ActionBarListActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         MenuInflater mi = new MenuInflater(getApplication());
-        mi.inflate(R.menu.alarmmenu, menu);
+        mi.inflate(R.menu.alarms_menu, menu);
         return true;
     }
 
