@@ -137,7 +137,7 @@ public class AlarmList extends ActionBarListActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.item_clear_all_alarms:
+            case R.id.alarms_delete:
                 int count = getListAdapter().getCount();
                 for (int i = 0; i < count; i++) {
                     delete_alarm(0);
