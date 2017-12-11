@@ -102,17 +102,17 @@ public final class OnBootReceiver extends BroadcastReceiver {
 
         // start auto updates
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        boolean do_auto_updates = prefs.getBoolean("auto_update", false);
-        if (do_auto_updates) {
-            long last_fetch = prefs.getLong("last_fetch", 0);
-            long now_millis;
+        boolean doAutoUpdates = prefs.getBoolean("auto_update", false);
+        if (doAutoUpdates) {
+            long lastFetch = prefs.getLong("last_fetch", 0);
+            long nowMillis;
             now.setToNow();
-            now_millis = now.toMillis(true);
+            nowMillis = now.toMillis(true);
 
             long interval = FahrplanMisc.setUpdateAlarm(context, true);
 
-            MyApp.LogDebug(LOG_TAG, "now: " + now_millis + ", last_fetch: " + last_fetch);
-            if ((interval > 0) && (now_millis - last_fetch >= interval)) {
+            MyApp.LogDebug(LOG_TAG, "now: " + nowMillis + ", last_fetch: " + lastFetch);
+            if ((interval > 0) && (nowMillis - lastFetch >= interval)) {
                 UpdateService.start(context);
             }
         }
