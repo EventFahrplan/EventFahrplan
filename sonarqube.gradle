@@ -1,0 +1,9 @@
+sonarqube {
+    properties {
+        property "sonar.host.url", "https://sonarcloud.io"
+        property "sonar.organization", "eventfahrplan"
+        property "sonar.projectKey", "eventfahrplan"
+        property "sonar.projectName", "EventFahrplan"
+        property "sonar.projectVersion", APP_VERSION
+    }
+}
