@@ -52,7 +52,11 @@
 		Google Support Library v4, Google AppCompat Library v7, Email Intent Builder,
 		OkHttp, SnackEngage, TraceDroid
 	</string>
-    <string name="copyright_notes">Copyright 2017 Daniel Dorau.\nCopyright 2017 SubOptimal, entropynil, johnjohndoe.\nPortions Copyright 2008-2011 The K-9 Dog Walkers and 2006-2013 the Android Open Source Project.</string>
+    <string name="copyright_notes" translatable="false">
+        Copyright 2017 Daniel Dorau.
+        \nCopyright 2017 SubOptimal, entropynil, johnjohndoe.
+        \nPortions Copyright 2008-2011 The K-9 Dog Walkers and 2006-2013 the Android Open Source Project.
+    </string>
 	<string name="issues">
 		<![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan/issues">Issues or feature requests</a>]]>
 	</string>
