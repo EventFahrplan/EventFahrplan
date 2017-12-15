@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
 import android.text.Html;
+import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,7 +39,11 @@ public class AboutDialog extends DialogFragment {
         text = view.findViewById(R.id.eventTitle);
         text.setText(MyApp.title);
         text = view.findViewById(R.id.eventSubtitle);
-        text.setText(MyApp.subtitle);
+        String subtitle = MyApp.subtitle;
+        if (TextUtils.isEmpty(subtitle)) {
+            subtitle = getString(R.string.app_hardcoded_subtitle);
+        }
+        text.setText(subtitle);
         text = view.findViewById(R.id.appVersion);
         String appVersionText = getString(R.string.appVersion, BuildConfig.VERSION_NAME);
         text.setText(appVersionText);
