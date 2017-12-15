@@ -82,7 +82,7 @@ public class ChangesDialog extends DialogFragment {
 
         LayoutInflater inflater = activity.getLayoutInflater();
         View msgView = inflater.inflate(R.layout.changes_dialog, null);
-        TextView changes1 = (TextView) msgView.findViewById(R.id.changes_dlg_text);
+        TextView changes1 = msgView.findViewById(R.id.changes_dlg_text);
         SpannableStringBuilder span = new SpannableStringBuilder();
         span.append(getString(R.string.changes_dlg_text1));
         span.append(" ");
@@ -98,7 +98,7 @@ public class ChangesDialog extends DialogFragment {
                 resources.getQuantityString(R.plurals.being, cancelled, cancelled)));
         changes1.setText(span);
 
-        TextView changes2 = (TextView) msgView.findViewById(R.id.changes_dlg_text2);
+        TextView changes2 = msgView.findViewById(R.id.changes_dlg_text2);
         changes2.setText(getString(R.string.changes_dlg_text3, marked_affected));
         builder.setView(msgView);
         return builder.create();

@@ -26,7 +26,7 @@ public class SettingsActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         int actionBarColor = ContextCompat.getColor(this, R.color.colorActionBar);
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(actionBarColor));

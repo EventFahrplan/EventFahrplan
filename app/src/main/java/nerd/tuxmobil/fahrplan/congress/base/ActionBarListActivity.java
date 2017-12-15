@@ -17,7 +17,7 @@ public abstract class ActionBarListActivity extends BaseActivity {
 
     protected ListView getListView() {
         if (mListView == null) {
-            mListView = (ListView) findViewById(android.R.id.list);
+            mListView = findViewById(android.R.id.list);
         }
         return mListView;
     }
@@ -39,7 +39,7 @@ public abstract class ActionBarListActivity extends BaseActivity {
     public void setContentView(int layoutResID) {
         super.setContentView(layoutResID);
         if (mListView == null) {
-            mListView = (ListView) findViewById(android.R.id.list);
+            mListView = findViewById(android.R.id.list);
         }
         View emptyView = findViewById(android.R.id.empty);
         if (emptyView != null) {

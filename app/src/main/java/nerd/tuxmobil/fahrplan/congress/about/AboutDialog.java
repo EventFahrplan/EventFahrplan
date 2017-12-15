@@ -33,13 +33,13 @@ public class AboutDialog extends DialogFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        TextView text = (TextView) view.findViewById(R.id.eventVersion);
+        TextView text = view.findViewById(R.id.eventVersion);
         text.setText(getString(R.string.fahrplan) + " " + MyApp.version);
-        text = (TextView) view.findViewById(R.id.eventTitle);
+        text = view.findViewById(R.id.eventTitle);
         text.setText(MyApp.title);
-        text = (TextView) view.findViewById(R.id.eventSubtitle);
+        text = view.findViewById(R.id.eventSubtitle);
         text.setText(MyApp.subtitle);
-        text = (TextView) view.findViewById(R.id.appVersion);
+        text = view.findViewById(R.id.appVersion);
         String appVersionText = getString(R.string.appVersion, BuildConfig.VERSION_NAME);
         text.setText(appVersionText);
 
@@ -49,42 +49,42 @@ public class AboutDialog extends DialogFragment {
         //noinspection ConstantConditions
         appDisclaimer.setVisibility(BuildConfig.SHOW_APP_DISCLAIMER ? View.VISIBLE : View.GONE);
 
-        TextView logo_copyright = (TextView) view.findViewById(R.id.copyright_logo);
+        TextView logo_copyright = view.findViewById(R.id.copyright_logo);
         logo_copyright.setText(Html.fromHtml(getString(R.string.copyright_logo)));
         logo_copyright.setLinkTextColor(ContextCompat.getColor(context, R.color.text_link_color_dark));
         logo_copyright.setMovementMethod(LinkMovementMethod.getInstance());
 
-        TextView conferenceUrl = (TextView) view.findViewById(R.id.conference_url);
+        TextView conferenceUrl = view.findViewById(R.id.conference_url);
         conferenceUrl.setText(Html.fromHtml(getString(R.string.conference_url)));
         conferenceUrl.setMovementMethod(LinkMovementMethod.getInstance());
         conferenceUrl.setLinkTextColor(ContextCompat.getColor(context, R.color.text_link_color_dark));
 
-        TextView sourceCode = (TextView) view.findViewById(R.id.source_code);
+        TextView sourceCode = view.findViewById(R.id.source_code);
         sourceCode.setText(Html.fromHtml(getString(R.string.source_code)));
         sourceCode.setMovementMethod(LinkMovementMethod.getInstance());
         sourceCode.setLinkTextColor(ContextCompat.getColor(context, R.color.text_link_color_dark));
 
-        TextView issues = (TextView) view.findViewById(R.id.issues);
+        TextView issues = view.findViewById(R.id.issues);
         issues.setText(Html.fromHtml(getString(R.string.issues)));
         issues.setMovementMethod(LinkMovementMethod.getInstance());
         issues.setLinkTextColor(ContextCompat.getColor(context, R.color.text_link_color_dark));
 
-        TextView googlePlayStore = (TextView) view.findViewById(R.id.google_play_store);
+        TextView googlePlayStore = view.findViewById(R.id.google_play_store);
         googlePlayStore.setText(Html.fromHtml(getString(R.string.google_play_store)));
         googlePlayStore.setMovementMethod(LinkMovementMethod.getInstance());
         googlePlayStore.setLinkTextColor(ContextCompat.getColor(context, R.color.text_link_color_dark));
 
         // Build information
 
-        TextView buildTimeTextView = (TextView) view.findViewById(R.id.build_time);
+        TextView buildTimeTextView = view.findViewById(R.id.build_time);
         String buildTimeText = getString(R.string.build_info_time, BuildConfig.BUILD_TIME);
         buildTimeTextView.setText(buildTimeText);
 
-        TextView versionCodeTextView = (TextView) view.findViewById(R.id.build_version_code);
+        TextView versionCodeTextView = view.findViewById(R.id.build_version_code);
         String versionCodeText = getString(R.string.build_info_version_code, "" + BuildConfig.VERSION_CODE);
         versionCodeTextView.setText(versionCodeText);
 
-        TextView buildHashTextView = (TextView) view.findViewById(R.id.build_hash);
+        TextView buildHashTextView = view.findViewById(R.id.build_hash);
         String buildHashText = getString(R.string.build_info_hash, BuildConfig.GIT_SHA);
         buildHashTextView.setText(buildHashText);
     }

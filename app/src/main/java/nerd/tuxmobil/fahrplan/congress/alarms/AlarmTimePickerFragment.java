@@ -65,7 +65,7 @@ public class AlarmTimePickerFragment extends DialogFragment {
     }
 
     private void initializeSpinner(@NonNull View rootView) {
-        spinner = (Spinner) rootView.findViewById(R.id.spinner);
+        spinner = rootView.findViewById(R.id.spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 getActivity(),
                 R.array.alarm_time_titles,

@@ -70,22 +70,22 @@ public class LectureArrayAdapter extends ArrayAdapter<Lecture> {
                     rowView = localInflater.inflate(R.layout.lecture_change_row, parent, false);
                     viewHolder = new ViewHolder();
 
-                    viewHolder.title = (TextView) rowView.findViewById(R.id.title);
-                    viewHolder.subtitle = (TextView) rowView.findViewById(R.id.subtitle);
-                    viewHolder.speakers = (TextView) rowView.findViewById(R.id.speakers);
-                    viewHolder.lang = (TextView) rowView.findViewById(R.id.lang);
-                    viewHolder.day = (TextView) rowView.findViewById(R.id.day);
-                    viewHolder.time = (TextView) rowView.findViewById(R.id.time);
-                    viewHolder.room = (TextView) rowView.findViewById(R.id.room);
-                    viewHolder.duration = (TextView) rowView.findViewById(R.id.duration);
-                    viewHolder.video = (ImageView) rowView.findViewById(R.id.video);
-                    viewHolder.novideo = (ImageView) rowView.findViewById(R.id.no_video);
+                    viewHolder.title = rowView.findViewById(R.id.title);
+                    viewHolder.subtitle = rowView.findViewById(R.id.subtitle);
+                    viewHolder.speakers = rowView.findViewById(R.id.speakers);
+                    viewHolder.lang = rowView.findViewById(R.id.lang);
+                    viewHolder.day = rowView.findViewById(R.id.day);
+                    viewHolder.time = rowView.findViewById(R.id.time);
+                    viewHolder.room = rowView.findViewById(R.id.room);
+                    viewHolder.duration = rowView.findViewById(R.id.duration);
+                    viewHolder.video = rowView.findViewById(R.id.video);
+                    viewHolder.novideo = rowView.findViewById(R.id.no_video);
                     rowView.setTag(viewHolder);
                     break;
                 case TYPE_SEPARATOR:
                     rowView = localInflater.inflate(R.layout.lecture_list_seperator, parent, false);
                     viewHolderSeperator = new ViewHolderSeperator();
-                    viewHolderSeperator.text = (TextView) rowView.findViewById(R.id.title);
+                    viewHolderSeperator.text = rowView.findViewById(R.id.title);
                     rowView.setTag(viewHolderSeperator);
                     break;
             }

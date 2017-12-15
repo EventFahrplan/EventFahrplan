@@ -91,8 +91,8 @@ public class MainActivity extends BaseActivity implements
 
         MyApp.LogDebug(LOG_TAG, "onCreate");
         setContentView(R.layout.main_layout);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        progressBar = (ProgressBar) findViewById(R.id.progress);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        progressBar = findViewById(R.id.progress);
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setTitle(R.string.fahrplan);
@@ -400,7 +400,7 @@ public class MainActivity extends BaseActivity implements
 
     public void openLectureDetail(Lecture lecture, int mDay) {
         if (lecture == null) return;
-        FrameLayout sidePane = (FrameLayout) findViewById(R.id.detail);
+        FrameLayout sidePane = findViewById(R.id.detail);
         MyApp.LogDebug(LOG_TAG, "openLectureDetail sidePane=" + sidePane);
         if (sidePane != null) {
             FragmentManager fm = getSupportFragmentManager();
@@ -511,7 +511,7 @@ public class MainActivity extends BaseActivity implements
     }
 
     private void openFavorites() {
-        FrameLayout sidePane = (FrameLayout) findViewById(R.id.detail);
+        FrameLayout sidePane = findViewById(R.id.detail);
         if (sidePane == null) {
             Intent intent = new Intent(this, StarredListActivity.class);
             startActivityForResult(intent, MyApp.STARRED);
@@ -523,7 +523,7 @@ public class MainActivity extends BaseActivity implements
     }
 
     public void openLectureChanges() {
-        FrameLayout sidePane = (FrameLayout) findViewById(R.id.detail);
+        FrameLayout sidePane = findViewById(R.id.detail);
         if (sidePane == null) {
             Intent intent = new Intent(this, ChangeListActivity.class);
             startActivityForResult(intent, MyApp.CHANGELOG);

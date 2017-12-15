@@ -102,11 +102,11 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
         View view, header;
         if (sidePane) {
             view = localInflater.inflate(R.layout.fragment_favorites_list_narrow, container, false);
-            mListView = (ListView) view.findViewById(android.R.id.list);
+            mListView = view.findViewById(android.R.id.list);
             header = localInflater.inflate(R.layout.starred_header, null, false);
         } else {
             view = localInflater.inflate(R.layout.fragment_favorites_list, container, false);
-            mListView = (ListView) view.findViewById(android.R.id.list);
+            mListView = view.findViewById(android.R.id.list);
             header = localInflater.inflate(R.layout.header_empty, null, false);
         }
         mListView.addHeaderView(header, null, false);
