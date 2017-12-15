@@ -13,13 +13,13 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         tools:text="@string/placeholder_day_separator_title"
-        android:textAppearance="@style/ScheduleListSeperator">
+        android:textAppearance="@style/ScheduleListSeparator">
     </TextView>
 
     <ImageView
         android:id="@+id/imageView1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/seperator_bottom_line"/>
+        android:src="@drawable/separator_bottom_line"/>
 
 </LinearLayout>

@@ -153,7 +153,7 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
                     int newItem = activeItem;
                     int col_dist;
                     if (max_cols > 1) {
-                        col_dist = (int) Math.round(Math.abs((float) distance) / itemWidth);
+                        col_dist = Math.round(Math.abs((float) distance) / itemWidth);
                         MyApp.LogDebug(LOG_TAG, "col dist: " + col_dist);
                         if (distance > 0) {
                             newItem = activeItem - col_dist;

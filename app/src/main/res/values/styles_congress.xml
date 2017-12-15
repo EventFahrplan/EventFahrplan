@@ -106,7 +106,7 @@
         <item name="android:background">@drawable/alarm_list_icon_layer</item>
     </style>
 
-    <style name="ScheduleListSeperator" parent="@android:style/TextAppearance.Small">
+    <style name="ScheduleListSeparator" parent="@android:style/TextAppearance.Small">
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/text_link_color</item>
         <item name="android:textAllCaps">true</item>

@@ -142,7 +142,7 @@ public class EventDetailFragment extends Fragment {
             lecture = eventIdToLecture(event_id);
 
             TextView t;
-            t = (TextView) view.findViewById(R.id.date);
+            t = view.findViewById(R.id.date);
             if ((lecture != null) && (lecture.dateUTC > 0)) {
                 DateFormat df = SimpleDateFormat
                         .getDateTimeInstance(SimpleDateFormat.SHORT, SimpleDateFormat.SHORT);
@@ -151,19 +151,19 @@ public class EventDetailFragment extends Fragment {
                 t.setText("");
             }
 
-            t = (TextView) view.findViewById(R.id.lectureid);
+            t = view.findViewById(R.id.lectureid);
             if (t != null) {
                 t.setText("ID: " + event_id);
             }
 
             // Title
 
-            t = (TextView) view.findViewById(R.id.title);
+            t = view.findViewById(R.id.title);
             setUpTextView(t, boldCondensed, title);
 
             // Subtitle
 
-            t = (TextView) view.findViewById(R.id.subtitle);
+            t = view.findViewById(R.id.subtitle);
             if (TextUtils.isEmpty(subtitle)) {
                 t.setVisibility(View.GONE);
             } else {
@@ -172,7 +172,7 @@ public class EventDetailFragment extends Fragment {
 
             // Speakers
 
-            t = (TextView) view.findViewById(R.id.speakers);
+            t = view.findViewById(R.id.speakers);
             if (TextUtils.isEmpty(spkr)) {
                 t.setVisibility(View.GONE);
             } else {
@@ -181,7 +181,7 @@ public class EventDetailFragment extends Fragment {
 
             // Abstract
 
-            t = (TextView) view.findViewById(R.id.abstractt);
+            t = view.findViewById(R.id.abstractt);
             if (TextUtils.isEmpty(abstractt)) {
                 t.setVisibility(View.GONE);
             } else {
@@ -191,7 +191,7 @@ public class EventDetailFragment extends Fragment {
 
             // Description
 
-            t = (TextView) view.findViewById(R.id.description);
+            t = view.findViewById(R.id.description);
             if (TextUtils.isEmpty(descr)) {
                 t.setVisibility(View.GONE);
             } else {
@@ -201,8 +201,8 @@ public class EventDetailFragment extends Fragment {
 
             // Links
 
-            TextView l = (TextView) view.findViewById(R.id.linksSection);
-            t = (TextView) view.findViewById(R.id.links);
+            TextView l = view.findViewById(R.id.linksSection);
+            t = view.findViewById(R.id.links);
             if (TextUtils.isEmpty(links)) {
                 l.setVisibility(View.GONE);
                 t.setVisibility(View.GONE);
@@ -217,10 +217,10 @@ public class EventDetailFragment extends Fragment {
 
             // Event online
 
-            final TextView eventOnlineSection = (TextView) view
+            final TextView eventOnlineSection = view
                     .findViewById(R.id.eventOnlineSection);
             eventOnlineSection.setTypeface(bold);
-            final TextView eventOnlineLink = (TextView) view.findViewById(R.id.eventOnline);
+            final TextView eventOnlineLink = view.findViewById(R.id.eventOnline);
             final String eventUrl = FahrplanMisc.getEventUrl(event_id);
             final String eventLink = "<a href=\"" + eventUrl + "\">" + eventUrl + "</a>";
             setUpHtmlTextView(eventOnlineLink, regular, eventLink);

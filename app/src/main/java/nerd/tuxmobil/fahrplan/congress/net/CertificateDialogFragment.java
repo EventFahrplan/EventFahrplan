@@ -73,7 +73,7 @@ public class CertificateDialogFragment extends DialogFragment {
         chain = TrustManagerFactory.getLastCertChain();
         String exMessage = "Unknown Error";
 
-        Exception ex = ((Exception) CustomHttpClient.getSSLException());
+        Exception ex = CustomHttpClient.getSSLException();
         if (ex != null) {
             if (ex.getCause() != null) {
                 if (ex.getCause().getCause() != null) {
@@ -118,7 +118,7 @@ public class CertificateDialogFragment extends DialogFragment {
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View msgView = inflater.inflate(R.layout.cert_dialog, null);
-        TextView messageView = (TextView) msgView.findViewById(R.id.cert);
+        TextView messageView = msgView.findViewById(R.id.cert);
         String message = getString(R.string.dlg_certificate_message_fmt, exMessage);
         message += "\n\n" + chainInfo.toString();
         messageView.setText(message);

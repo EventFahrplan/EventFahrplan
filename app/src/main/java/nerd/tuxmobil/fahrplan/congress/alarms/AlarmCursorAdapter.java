@@ -26,9 +26,9 @@ public class AlarmCursorAdapter extends CursorAdapter {
         ViewHolder holder = (ViewHolder) view.getTag();
         if (holder == null) {
             holder = new ViewHolder();
-            holder.alarmTimeInMin = (TextView) view.findViewById(R.id.alarm_badge);
-            holder.title = (TextView) view.findViewById(R.id.alarm_title);
-            holder.time = (TextView) view.findViewById(R.id.alarm_start_time);
+            holder.alarmTimeInMin = view.findViewById(R.id.alarm_badge);
+            holder.title = view.findViewById(R.id.alarm_title);
+            holder.time = view.findViewById(R.id.alarm_start_time);
             view.setTag(holder);
         }
         int alarmTimeInMin = cursor.getInt(cursor.getColumnIndex(Columns.ALARM_TIME_IN_MIN));

@@ -27,7 +27,7 @@ public class LectureArrayAdapter extends ArrayAdapter<Lecture> {
     private final List<Lecture> list;
     private Time now;
     private TreeSet<Integer> mSeparatorsSet;
-    private ArrayList<String> mSeperatorStrings;
+    private ArrayList<String> mSeparatorStrings;
     private ArrayList<Integer> mMapper;
     private final static int TYPE_ITEM = 0;
     private final static int TYPE_SEPARATOR = 1;
@@ -53,7 +53,7 @@ public class LectureArrayAdapter extends ArrayAdapter<Lecture> {
     public View getView(int position, View convertView, ViewGroup parent) {
         View rowView = null;
         ViewHolder viewHolder = null;
-        ViewHolderSeperator viewHolderSeperator = null;
+        ViewHolderSeparator viewHolderSeparator = null;
         now.setToNow();
 
         int type = getItemViewType(position);
@@ -70,23 +70,23 @@ public class LectureArrayAdapter extends ArrayAdapter<Lecture> {
                     rowView = localInflater.inflate(R.layout.lecture_change_row, parent, false);
                     viewHolder = new ViewHolder();
 
-                    viewHolder.title = (TextView) rowView.findViewById(R.id.title);
-                    viewHolder.subtitle = (TextView) rowView.findViewById(R.id.subtitle);
-                    viewHolder.speakers = (TextView) rowView.findViewById(R.id.speakers);
-                    viewHolder.lang = (TextView) rowView.findViewById(R.id.lang);
-                    viewHolder.day = (TextView) rowView.findViewById(R.id.day);
-                    viewHolder.time = (TextView) rowView.findViewById(R.id.time);
-                    viewHolder.room = (TextView) rowView.findViewById(R.id.room);
-                    viewHolder.duration = (TextView) rowView.findViewById(R.id.duration);
-                    viewHolder.video = (ImageView) rowView.findViewById(R.id.video);
-                    viewHolder.novideo = (ImageView) rowView.findViewById(R.id.no_video);
+                    viewHolder.title = rowView.findViewById(R.id.title);
+                    viewHolder.subtitle = rowView.findViewById(R.id.subtitle);
+                    viewHolder.speakers = rowView.findViewById(R.id.speakers);
+                    viewHolder.lang = rowView.findViewById(R.id.lang);
+                    viewHolder.day = rowView.findViewById(R.id.day);
+                    viewHolder.time = rowView.findViewById(R.id.time);
+                    viewHolder.room = rowView.findViewById(R.id.room);
+                    viewHolder.duration = rowView.findViewById(R.id.duration);
+                    viewHolder.video = rowView.findViewById(R.id.video);
+                    viewHolder.novideo = rowView.findViewById(R.id.no_video);
                     rowView.setTag(viewHolder);
                     break;
                 case TYPE_SEPARATOR:
-                    rowView = localInflater.inflate(R.layout.lecture_list_seperator, parent, false);
-                    viewHolderSeperator = new ViewHolderSeperator();
-                    viewHolderSeperator.text = (TextView) rowView.findViewById(R.id.title);
-                    rowView.setTag(viewHolderSeperator);
+                    rowView = localInflater.inflate(R.layout.lecture_list_separator, parent, false);
+                    viewHolderSeparator = new ViewHolderSeparator();
+                    viewHolderSeparator.text = rowView.findViewById(R.id.title);
+                    rowView.setTag(viewHolderSeparator);
                     break;
             }
 
@@ -97,7 +97,7 @@ public class LectureArrayAdapter extends ArrayAdapter<Lecture> {
                     viewHolder = (ViewHolder) rowView.getTag();
                     break;
                 case TYPE_SEPARATOR:
-                    viewHolderSeperator = (ViewHolderSeperator) rowView.getTag();
+                    viewHolderSeparator = (ViewHolderSeparator) rowView.getTag();
                     break;
             }
         }
@@ -140,7 +140,7 @@ public class LectureArrayAdapter extends ArrayAdapter<Lecture> {
                 viewHolder.novideo.setVisibility(View.GONE);
                 break;
             case TYPE_SEPARATOR:
-                viewHolderSeperator.text.setText(mSeperatorStrings.get(mMapper.get(position)));
+                viewHolderSeparator.text.setText(mSeparatorStrings.get(mMapper.get(position)));
                 break;
         }
 
@@ -160,7 +160,7 @@ public class LectureArrayAdapter extends ArrayAdapter<Lecture> {
         ImageView video;
     }
 
-    static class ViewHolderSeperator {
+    static class ViewHolderSeparator {
         TextView text;
     }
 
@@ -194,7 +194,7 @@ public class LectureArrayAdapter extends ArrayAdapter<Lecture> {
 
     private void initMapper() {
         mSeparatorsSet = new TreeSet<>();
-        mSeperatorStrings = new ArrayList<>();
+        mSeparatorStrings = new ArrayList<>();
         mMapper = new ArrayList<>();
         int day = 0;
         int lastDay = 0;
@@ -203,7 +203,7 @@ public class LectureArrayAdapter extends ArrayAdapter<Lecture> {
         if (list == null) return;
 
         DateFormat dateFormat = SimpleDateFormat.getDateInstance(SimpleDateFormat.SHORT);
-        String daySeparator = context.getString(R.string.day_seperator);
+        String daySeparator = context.getString(R.string.day_separator);
 
         for (int index = 0; index < list.size(); index++) {
 
@@ -213,7 +213,7 @@ public class LectureArrayAdapter extends ArrayAdapter<Lecture> {
                 Date date = new Date(l.dateUTC);
                 String formattedDate = dateFormat.format(date);
                 String dayDateSeparator = String.format(daySeparator, day, formattedDate);
-                mSeperatorStrings.add(dayDateSeparator);
+                mSeparatorStrings.add(dayDateSeparator);
                 lastDay = day;
                 mSeparatorsSet.add(index + sepCount);
                 mMapper.add(sepCount);

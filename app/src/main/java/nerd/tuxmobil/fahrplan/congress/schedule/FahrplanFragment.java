@@ -193,10 +193,10 @@ public class FahrplanFragment extends Fragment implements
         MyApp.LogDebug(LOG_TAG, "max cols: " + max_cols);
         columnWidth = (int) ((float) screenWidth / max_cols); // Width for the row column
         HorizontalScrollView roomScroller =
-                (HorizontalScrollView) view.findViewById(R.id.roomScroller);
+                view.findViewById(R.id.roomScroller);
         if (roomScroller != null) {
             HorizontalSnapScrollView snapScroller =
-                    (HorizontalSnapScrollView) view.findViewById(R.id.horizScroller);
+                    view.findViewById(R.id.horizScroller);
             if (snapScroller != null) {
                 snapScroller.setChildScroller(roomScroller);
             }
@@ -295,7 +295,7 @@ public class FahrplanFragment extends Fragment implements
 
         if (lecture_id != null) {
             scrollTo(lecture_id);
-            FrameLayout sidePane = (FrameLayout) getActivity().findViewById(R.id.detail);
+            FrameLayout sidePane = getActivity().findViewById(R.id.detail);
             if (sidePane != null) {
                 Lecture lecture = LectureUtils.getLecture(MyApp.lectureList, lecture_id);
                 ((MainActivity) getActivity()).openLectureDetail(lecture, mDay);
@@ -315,12 +315,12 @@ public class FahrplanFragment extends Fragment implements
         }
         scanDayLectures();
         HorizontalSnapScrollView scroller =
-                (HorizontalSnapScrollView) getView().findViewById(R.id.horizScroller);
+                getView().findViewById(R.id.horizScroller);
         if (scroller != null) {
             scroller.scrollTo(0, 0);
         }
         HorizontalScrollView roomScroller =
-                (HorizontalScrollView) getView().findViewById(R.id.roomScroller);
+                getView().findViewById(R.id.roomScroller);
         if (scroller != null) {
             addRoomColumns(scroller);
         }
@@ -404,7 +404,7 @@ public class FahrplanFragment extends Fragment implements
                 break;
             default:
                 height = (int) (getResources().getInteger(R.integer.box_height) * scale);
-                horiz = (HorizontalSnapScrollView) getView().findViewById(R.id.horizScroller);
+                horiz = getView().findViewById(R.id.horizScroller);
                 break;
         }
 
@@ -452,7 +452,7 @@ public class FahrplanFragment extends Fragment implements
         // Log.d(LOG_TAG, "scrolltoCurrent to " + scrollAmount);
 
         final int pos = scrollAmount;
-        final ScrollView scrollView = (ScrollView) getView().findViewById(R.id.scrollView1);
+        final ScrollView scrollView = getView().findViewById(R.id.scrollView1);
         scrollView.scrollTo(0, scrollAmount);
         scrollView.post(new Runnable() {
 
@@ -464,7 +464,7 @@ public class FahrplanFragment extends Fragment implements
     }
 
     private void setBell(Lecture lecture) {
-        ScrollView parent = (ScrollView) getView().findViewById(R.id.scrollView1);
+        ScrollView parent = getView().findViewById(R.id.scrollView1);
         if (parent == null) {
             return;
         }
@@ -472,7 +472,7 @@ public class FahrplanFragment extends Fragment implements
         if (v == null) {
             return;
         }
-        ImageView bell = (ImageView) v.findViewById(R.id.bell);
+        ImageView bell = v.findViewById(R.id.bell);
         if (bell == null) {
             return;
         }
@@ -498,7 +498,7 @@ public class FahrplanFragment extends Fragment implements
         }
         for (Lecture lecture : MyApp.lectureList) {
             if (lecture_id.equals(lecture.lecture_id)) {
-                final ScrollView parent = (ScrollView) getView().findViewById(R.id.scrollView1);
+                final ScrollView parent = getView().findViewById(R.id.scrollView1);
                 final int pos = (lecture.relStartTime - firstLectureStart) / 5 * height;
                 MyApp.LogDebug(LOG_TAG, "position is " + pos);
                 parent.post(new Runnable() {
@@ -509,7 +509,7 @@ public class FahrplanFragment extends Fragment implements
                     }
                 });
                 final HorizontalSnapScrollView horiz =
-                        (HorizontalSnapScrollView) getView().findViewById(R.id.horizScroller);
+                        getView().findViewById(R.id.horizScroller);
                 if (horiz != null) {
                     final int hpos = MyApp.roomList.keyAt(
                             MyApp.roomList.indexOfValue(lecture.room_index));
@@ -580,7 +580,7 @@ public class FahrplanFragment extends Fragment implements
     private void fillTimes() {
         int time = firstLectureStart;
         int printTime = time;
-        LinearLayout timeSpalte = (LinearLayout) getView().findViewById(R.id.times_layout);
+        LinearLayout timeSpalte = getView().findViewById(R.id.times_layout);
         timeSpalte.removeAllViews();
         int height;
         Time now = new Time();
@@ -611,7 +611,7 @@ public class FahrplanFragment extends Fragment implements
                 event = inflater.inflate(R.layout.time_layout, null);
             }
             timeSpalte.addView(event, LayoutParams.MATCH_PARENT, height * 3);
-            TextView title = (TextView) event.findViewById(R.id.time);
+            TextView title = event.findViewById(R.id.time);
             title.setText(sb.toString());
             time += 15;
             printTime = time;
@@ -678,10 +678,10 @@ public class FahrplanFragment extends Fragment implements
     }
 
     private void setLectureTextColor(Lecture lecture, View view) {
-        TextView track = (TextView) view.findViewById(R.id.event_track);
-        TextView title = (TextView) view.findViewById(R.id.event_title);
-        TextView subtitle = (TextView) view.findViewById(R.id.event_subtitle);
-        TextView speakers = (TextView) view.findViewById(R.id.event_speakers);
+        TextView track = view.findViewById(R.id.event_track);
+        TextView title = view.findViewById(R.id.event_title);
+        TextView subtitle = view.findViewById(R.id.event_subtitle);
+        TextView speakers = view.findViewById(R.id.event_speakers);
         Integer color;
         Context context = getContext();
         if (lecture.highlight) {
@@ -735,7 +735,7 @@ public class FahrplanFragment extends Fragment implements
                     startTime = lecture.relStartTime;
                 }
                 if (startTime > endTime) {
-                    margin = (int) (standardHeight * (startTime - endTime) / 5);
+                    margin = standardHeight * (startTime - endTime) / 5;
                     if (event != null) {
                         LayoutParams lp = (LayoutParams) event.getLayoutParams();
                         lp.bottomMargin = margin;
@@ -765,8 +765,8 @@ public class FahrplanFragment extends Fragment implements
                 }
 
                 event = inflater.inflate(R.layout.event_layout, null);
-                int height = (int) (standardHeight * (lecture.duration / 5));
-                ImageView bell = (ImageView) event.findViewById(R.id.bell);
+                int height = standardHeight * (lecture.duration / 5);
+                ImageView bell = event.findViewById(R.id.bell);
                 if (lecture.has_alarm) {
                     bell.setVisibility(View.VISIBLE);
                 } else {
@@ -776,14 +776,14 @@ public class FahrplanFragment extends Fragment implements
                 LayoutParams lp = (LayoutParams) event.getLayoutParams();
                 lp.topMargin = margin;
                 event.setLayoutParams(lp);
-                TextView title = (TextView) event.findViewById(R.id.event_title);
+                TextView title = event.findViewById(R.id.event_title);
                 title.setTypeface(boldCondensed);
                 title.setText(lecture.title);
-                title = (TextView) event.findViewById(R.id.event_subtitle);
+                title = event.findViewById(R.id.event_subtitle);
                 title.setText(lecture.subtitle);
-                title = (TextView) event.findViewById(R.id.event_speakers);
+                title = event.findViewById(R.id.event_speakers);
                 title.setText(lecture.getFormattedSpeakers());
-                title = (TextView) event.findViewById(R.id.event_track);
+                title = event.findViewById(R.id.event_track);
                 StringBuilder sb = new StringBuilder();
                 sb.append(lecture.track);
                 if ((lecture.lang != null) && (lecture.lang.length() > 0)) {
@@ -1117,7 +1117,7 @@ public class FahrplanFragment extends Fragment implements
     }
 
     private View getLectureView(Lecture lecture) {
-        ScrollView parent = (ScrollView) getView().findViewById(R.id.scrollView1);
+        ScrollView parent = getView().findViewById(R.id.scrollView1);
         if (parent == null) {
             return null;
         }
