@@ -26,7 +26,7 @@ public class LectureChangesArrayAdapter extends ArrayAdapter<Lecture> {
     private final Context context;
     private final List<Lecture> list;
     private TreeSet<Integer> mSeparatorsSet;
-    private ArrayList<String> mSeperatorStrings;
+    private ArrayList<String> mSeparatorStrings;
     private ArrayList<Integer> mMapper;
     private final static int TYPE_ITEM = 0;
     private final static int TYPE_SEPARATOR = 1;
@@ -61,7 +61,7 @@ public class LectureChangesArrayAdapter extends ArrayAdapter<Lecture> {
     public View getView(int position, View convertView, ViewGroup parent) {
         View rowView = null;
         ViewHolder viewHolder = null;
-        ViewHolderSeperator viewHolderSeperator = null;
+        ViewHolderSeparator viewHolderSeparator = null;
 
         int type = getItemViewType(position);
 
@@ -90,10 +90,10 @@ public class LectureChangesArrayAdapter extends ArrayAdapter<Lecture> {
                     rowView.setTag(viewHolder);
                     break;
                 case TYPE_SEPARATOR:
-                    rowView = localInflater.inflate(R.layout.lecture_list_seperator, parent, false);
-                    viewHolderSeperator = new ViewHolderSeperator();
-                    viewHolderSeperator.text = rowView.findViewById(R.id.title);
-                    rowView.setTag(viewHolderSeperator);
+                    rowView = localInflater.inflate(R.layout.lecture_list_separator, parent, false);
+                    viewHolderSeparator = new ViewHolderSeparator();
+                    viewHolderSeparator.text = rowView.findViewById(R.id.title);
+                    rowView.setTag(viewHolderSeparator);
                     break;
             }
         } else {
@@ -103,7 +103,7 @@ public class LectureChangesArrayAdapter extends ArrayAdapter<Lecture> {
                     viewHolder = (ViewHolder) rowView.getTag();
                     break;
                 case TYPE_SEPARATOR:
-                    viewHolderSeperator = (ViewHolderSeperator) rowView.getTag();
+                    viewHolderSeparator = (ViewHolderSeparator) rowView.getTag();
                     break;
             }
         }
@@ -201,7 +201,7 @@ public class LectureChangesArrayAdapter extends ArrayAdapter<Lecture> {
                 }
                 break;
             case TYPE_SEPARATOR:
-                viewHolderSeperator.text.setText(mSeperatorStrings.get(mMapper.get(position)));
+                viewHolderSeparator.text.setText(mSeparatorStrings.get(mMapper.get(position)));
                 break;
         }
 
@@ -221,7 +221,7 @@ public class LectureChangesArrayAdapter extends ArrayAdapter<Lecture> {
         ImageView video;
     }
 
-    static class ViewHolderSeperator {
+    static class ViewHolderSeparator {
         TextView text;
     }
 
@@ -255,7 +255,7 @@ public class LectureChangesArrayAdapter extends ArrayAdapter<Lecture> {
 
     private void initMapper() {
         mSeparatorsSet = new TreeSet<>();
-        mSeperatorStrings = new ArrayList<>();
+        mSeparatorStrings = new ArrayList<>();
         mMapper = new ArrayList<>();
         int day = 0;
         int lastDay = 0;
@@ -270,9 +270,9 @@ public class LectureChangesArrayAdapter extends ArrayAdapter<Lecture> {
             Lecture l = list.get(index);
             day = l.day;
             if (day != lastDay) {
-                String sepStr = String.format(context.getString(R.string.day_seperator), day,
+                String sepStr = String.format(context.getString(R.string.day_separator), day,
                         df.format(new Date(l.dateUTC)));
-                mSeperatorStrings.add(sepStr);
+                mSeparatorStrings.add(sepStr);
                 lastDay = day;
                 mSeparatorsSet.add(index + sepCount);
                 mMapper.add(sepCount);
