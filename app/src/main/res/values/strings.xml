@@ -53,8 +53,9 @@
 		OkHttp, SnackEngage, TraceDroid
 	</string>
     <string name="copyright_notes" translatable="false">
-        Copyright 2017 Daniel Dorau.
-        \nCopyright 2017 SubOptimal, entropynil, johnjohndoe.
+        \nCopyright 2013-2017 johnjohndoe.
+        \nCopyright 2011-2015 Daniel Dorau.
+        \nContributions from Andreas Schildbach, bjoernb, cketti, entropynil, ligi, MichaelRocks, Poschi, SubOptimal.
         \nPortions Copyright 2008-2011 The K-9 Dog Walkers and 2006-2013 the Android Open Source Project.
     </string>
 	<string name="issues">
