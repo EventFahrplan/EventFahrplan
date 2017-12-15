@@ -55,12 +55,6 @@ android {
             keyAlias props['signing.camp2015-release.keyAlias']
             keyPassword props['signing.camp2015-release.keyPassword']
         }
-        ccc32c3 {
-            storeFile file(props['signing.ccc32c3-release.keystoreFilePath'])
-            storePassword props['signing.ccc32c3-release.keystorePassword']
-            keyAlias props['signing.ccc32c3-release.keyAlias']
-            keyPassword props['signing.ccc32c3-release.keyPassword']
-        }
     }
 
     def defaultDimension = "default"
@@ -82,24 +76,6 @@ android {
             buildConfigField "int", "SCHEDULE_LAST_DAY_END_YEAR", "2015"
             buildConfigField "int", "SCHEDULE_LAST_DAY_END_MONTH", "8"
             buildConfigField "int", "SCHEDULE_LAST_DAY_END_DAY", "17"
-            buildConfigField "boolean", "SHOW_APP_DISCLAIMER", "false"
-            buildConfigField "String", "TRACE_DROID_EMAIL_ADDRESS", '"ENTER_EMAIL_ADDRESS_HERE"'
-        }
-        ccc32c3 {
-            dimension defaultDimension
-            applicationId "nerd.tuxmobil.fahrplan.congress"
-            signingConfig signingConfigs.ccc32c3
-            buildConfigField "String", "SCHEDULE_URL", '"https://streaming.media.ccc.de/configs/conferences/32c3/tuxmobil.xml"'
-            buildConfigField "String", "SCHEDULE_DOMAIN_PART", '"https://events.ccc.de"'
-            buildConfigField "String", "SCHEDULE_EVENT_PART", '"/events/%1$s.html"'
-            buildConfigField "String", "SCHEDULE_PART", '"/congress/2015/Fahrplan"'
-            buildConfigField "String", "VENUE", '"cch"'
-            buildConfigField "int", "SCHEDULE_FIRST_DAY_START_YEAR", "2015"
-            buildConfigField "int", "SCHEDULE_FIRST_DAY_START_MONTH", "12"
-            buildConfigField "int", "SCHEDULE_FIRST_DAY_START_DAY", "27"
-            buildConfigField "int", "SCHEDULE_LAST_DAY_END_YEAR", "2015"
-            buildConfigField "int", "SCHEDULE_LAST_DAY_END_MONTH", "12"
-            buildConfigField "int", "SCHEDULE_LAST_DAY_END_DAY", "31"
             buildConfigField "boolean", "SHOW_APP_DISCLAIMER", "false"
             buildConfigField "String", "TRACE_DROID_EMAIL_ADDRESS", '"ENTER_EMAIL_ADDRESS_HERE"'
         }
