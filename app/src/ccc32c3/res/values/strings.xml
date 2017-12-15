@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">32C3 Schedule</string>
+    <string name="app_hardcoded_subtitle"/>
     <string name="conference_url">
         <![CDATA[<a href="http://events.ccc.de/congress/2015/">https://events.ccc.de/congress/2015/</a>]]>
     </string>
