@@ -104,7 +104,6 @@
         <item name="android:layout_height">@dimen/alarm_list_icon_height</item>
         <item name="android:gravity">center</item>
         <item name="android:background">@drawable/alarm_list_icon_layer</item>
-        <item name="android:text">0</item>
     </style>
 
     <style name="ScheduleListSeperator" parent="@android:style/TextAppearance.Small">

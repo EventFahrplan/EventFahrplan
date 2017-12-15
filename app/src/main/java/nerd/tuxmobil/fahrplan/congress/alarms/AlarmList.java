@@ -129,15 +129,15 @@ public class AlarmList extends ActionBarListActivity {
 
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
-        MenuInflater mi = new MenuInflater(getApplication());
-        mi.inflate(R.menu.alarmmenu, menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.alarms_menu, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.item_clear_all_alarms:
+            case R.id.alarms_delete:
                 int count = getListAdapter().getCount();
                 for (int i = 0; i < count; i++) {
                     delete_alarm(0);
