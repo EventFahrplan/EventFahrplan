@@ -446,7 +446,7 @@ public class FahrplanMisc {
     }
 
     @NonNull
-    public static List<Lecture> loadLecturesForAllDays(Context context) {
+    public static List<Lecture> loadLecturesForAllDays(@NonNull Context context) {
         return loadLecturesForDayIndex(context, ALL_DAYS);
     }
 
@@ -458,7 +458,7 @@ public class FahrplanMisc {
      * @return ArrayList of Lecture objects
      */
     @NonNull
-    public static List<Lecture> loadLecturesForDayIndex(Context context, int day) {
+    public static List<Lecture> loadLecturesForDayIndex(@NonNull Context context, int day) {
         MyApp.LogDebug(LOG_TAG, "load lectures of day " + day);
 
         SQLiteDatabase lecturedb = null;
@@ -658,7 +658,7 @@ public class FahrplanMisc {
     }
 
     @NonNull
-    public static List<Lecture> getStarredLectures(Context context) {
+    public static List<Lecture> getStarredLectures(@NonNull Context context) {
         List<Lecture> starredList = loadLecturesForAllDays(context);
         if (starredList.isEmpty()) {
             return starredList;

@@ -2,6 +2,7 @@ package nerd.tuxmobil.fahrplan.congress.favorites;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -168,8 +169,8 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
         mListener = null;
     }
 
-    public void onRefresh() {
-        List<Lecture> starred = FahrplanMisc.getStarredLectures(getActivity());
+    public void onRefresh(@NonNull Context context) {
+        List<Lecture> starred = FahrplanMisc.getStarredLectures(context);
         if (starredList != null) {
             starredList.clear();
             starredList.addAll(starred);
