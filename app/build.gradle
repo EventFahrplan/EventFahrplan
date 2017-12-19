@@ -132,7 +132,7 @@ dependencies {
     implementation "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
     implementation "com.github.ligi.snackengage:snackengage-playrate:$snackEngageVersion"
     implementation "de.cketti.mailto:email-intent-builder:$emailIntentBuilderVersion"
-    implementation files("libs/TraceDroid-1.1.jar")
+    implementation "org.ligi:tracedroid:$traceDroidVersion"
 
     testImplementation "junit:junit:$junitVersion"
     testImplementation "com.squareup.assertj:assertj-android:$assertjAndroidVersion"
