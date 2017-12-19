@@ -513,62 +513,7 @@ public class FahrplanMisc {
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            Lecture lecture = new Lecture(cursor.getString(
-                    cursor.getColumnIndex(LecturesTable.Columns.EVENT_ID)));
-            lecture.title = cursor.getString(
-                    cursor.getColumnIndex(LecturesTable.Columns.TITLE));
-            lecture.subtitle = cursor.getString(
-                    cursor.getColumnIndex(LecturesTable.Columns.SUBTITLE));
-            lecture.day = cursor.getInt(
-                    cursor.getColumnIndex(LecturesTable.Columns.DAY));
-            lecture.room = cursor.getString(
-                    cursor.getColumnIndex(LecturesTable.Columns.ROOM));
-            lecture.startTime = cursor.getInt(
-                    cursor.getColumnIndex(LecturesTable.Columns.START));
-            lecture.duration = cursor.getInt(
-                    cursor.getColumnIndex(LecturesTable.Columns.DURATION));
-            lecture.speakers = cursor.getString(
-                    cursor.getColumnIndex(LecturesTable.Columns.SPEAKERS));
-            lecture.track = cursor.getString(
-                    cursor.getColumnIndex(LecturesTable.Columns.TRACK));
-            lecture.type = cursor.getString(
-                    cursor.getColumnIndex(LecturesTable.Columns.TYPE));
-            lecture.lang = cursor.getString(
-                    cursor.getColumnIndex(LecturesTable.Columns.LANG));
-            lecture.abstractt = cursor.getString(
-                    cursor.getColumnIndex(LecturesTable.Columns.ABSTRACT));
-            lecture.description = cursor.getString(
-                    cursor.getColumnIndex(LecturesTable.Columns.DESCR));
-            lecture.relStartTime = cursor.getInt(
-                    cursor.getColumnIndex(LecturesTable.Columns.REL_START));
-            lecture.date = cursor.getString(
-                    cursor.getColumnIndex(LecturesTable.Columns.DATE));
-            lecture.links = cursor.getString(
-                    cursor.getColumnIndex(LecturesTable.Columns.LINKS));
-            lecture.dateUTC = cursor.getLong(
-                    cursor.getColumnIndex(LecturesTable.Columns.DATE_UTC));
-            lecture.room_index = cursor.getInt(
-                    cursor.getColumnIndex(LecturesTable.Columns.ROOM_IDX));
-            lecture.recordingLicense = cursor.getString(
-                    cursor.getColumnIndex(LecturesTable.Columns.REC_LICENSE));
-            lecture.recordingOptOut = cursor.getInt(
-                    cursor.getColumnIndex(LecturesTable.Columns.REC_OPTOUT))
-                    == LecturesTable.Values.REC_OPTOUT_OFF
-                    ? Lecture.RECORDING_OPTOUT_OFF
-                    : Lecture.RECORDING_OPTOUT_ON;
-            lecture.changedTitle = cursor.getInt(cursor.getColumnIndex(LecturesTable.Columns.CHANGED_TITLE)) != 0;
-            lecture.changedSubtitle = cursor.getInt(cursor.getColumnIndex(LecturesTable.Columns.CHANGED_SUBTITLE)) != 0;
-            lecture.changedRoom = cursor.getInt(cursor.getColumnIndex(LecturesTable.Columns.CHANGED_ROOM)) != 0;
-            lecture.changedDay = cursor.getInt(cursor.getColumnIndex(LecturesTable.Columns.CHANGED_DAY)) != 0;
-            lecture.changedSpeakers = cursor.getInt(cursor.getColumnIndex(LecturesTable.Columns.CHANGED_SPEAKERS)) != 0;
-            lecture.changedRecordingOptOut = cursor.getInt(cursor.getColumnIndex(LecturesTable.Columns.CHANGED_RECORDING_OPTOUT)) != 0;
-            lecture.changedLanguage = cursor.getInt(cursor.getColumnIndex(LecturesTable.Columns.CHANGED_LANGUAGE)) != 0;
-            lecture.changedTrack = cursor.getInt(cursor.getColumnIndex(LecturesTable.Columns.CHANGED_TRACK)) != 0;
-            lecture.changedIsNew = cursor.getInt(cursor.getColumnIndex(LecturesTable.Columns.CHANGED_IS_NEW)) != 0;
-            lecture.changedTime = cursor.getInt(cursor.getColumnIndex(LecturesTable.Columns.CHANGED_TIME)) != 0;
-            lecture.changedDuration = cursor.getInt(cursor.getColumnIndex(LecturesTable.Columns.CHANGED_DURATION)) != 0;
-            lecture.changedIsCanceled = cursor.getInt(cursor.getColumnIndex(LecturesTable.Columns.CHANGED_IS_CANCELED)) != 0;
-
+            Lecture lecture = getLecture(cursor);
             lectures.add(lecture);
             cursor.moveToNext();
         }
@@ -595,6 +540,78 @@ public class FahrplanMisc {
         lecturedb.close();
         lecturesDB.close();
         return lectures;
+    }
+
+    @NonNull
+    private static Lecture getLecture(@NonNull Cursor cursor) {
+        Lecture lecture = new Lecture(cursor.getString(
+                cursor.getColumnIndex(LecturesTable.Columns.EVENT_ID)));
+        lecture.title = cursor.getString(
+                cursor.getColumnIndex(LecturesTable.Columns.TITLE));
+        lecture.subtitle = cursor.getString(
+                cursor.getColumnIndex(LecturesTable.Columns.SUBTITLE));
+        lecture.day = cursor.getInt(
+                cursor.getColumnIndex(LecturesTable.Columns.DAY));
+        lecture.room = cursor.getString(
+                cursor.getColumnIndex(LecturesTable.Columns.ROOM));
+        lecture.startTime = cursor.getInt(
+                cursor.getColumnIndex(LecturesTable.Columns.START));
+        lecture.duration = cursor.getInt(
+                cursor.getColumnIndex(LecturesTable.Columns.DURATION));
+        lecture.speakers = cursor.getString(
+                cursor.getColumnIndex(LecturesTable.Columns.SPEAKERS));
+        lecture.track = cursor.getString(
+                cursor.getColumnIndex(LecturesTable.Columns.TRACK));
+        lecture.type = cursor.getString(
+                cursor.getColumnIndex(LecturesTable.Columns.TYPE));
+        lecture.lang = cursor.getString(
+                cursor.getColumnIndex(LecturesTable.Columns.LANG));
+        lecture.abstractt = cursor.getString(
+                cursor.getColumnIndex(LecturesTable.Columns.ABSTRACT));
+        lecture.description = cursor.getString(
+                cursor.getColumnIndex(LecturesTable.Columns.DESCR));
+        lecture.relStartTime = cursor.getInt(
+                cursor.getColumnIndex(LecturesTable.Columns.REL_START));
+        lecture.date = cursor.getString(
+                cursor.getColumnIndex(LecturesTable.Columns.DATE));
+        lecture.links = cursor.getString(
+                cursor.getColumnIndex(LecturesTable.Columns.LINKS));
+        lecture.dateUTC = cursor.getLong(
+                cursor.getColumnIndex(LecturesTable.Columns.DATE_UTC));
+        lecture.room_index = cursor.getInt(
+                cursor.getColumnIndex(LecturesTable.Columns.ROOM_IDX));
+        lecture.recordingLicense = cursor.getString(
+                cursor.getColumnIndex(LecturesTable.Columns.REC_LICENSE));
+        lecture.recordingOptOut = cursor.getInt(
+                cursor.getColumnIndex(LecturesTable.Columns.REC_OPTOUT))
+                == LecturesTable.Values.REC_OPTOUT_OFF
+                ? Lecture.RECORDING_OPTOUT_OFF
+                : Lecture.RECORDING_OPTOUT_ON;
+        lecture.changedTitle = cursor.getInt(
+                cursor.getColumnIndex(LecturesTable.Columns.CHANGED_TITLE)) != 0;
+        lecture.changedSubtitle = cursor.getInt(
+                cursor.getColumnIndex(LecturesTable.Columns.CHANGED_SUBTITLE)) != 0;
+        lecture.changedRoom = cursor.getInt(
+                cursor.getColumnIndex(LecturesTable.Columns.CHANGED_ROOM)) != 0;
+        lecture.changedDay = cursor.getInt(
+                cursor.getColumnIndex(LecturesTable.Columns.CHANGED_DAY)) != 0;
+        lecture.changedSpeakers = cursor.getInt(
+                cursor.getColumnIndex(LecturesTable.Columns.CHANGED_SPEAKERS)) != 0;
+        lecture.changedRecordingOptOut = cursor.getInt(
+                cursor.getColumnIndex(LecturesTable.Columns.CHANGED_RECORDING_OPTOUT)) != 0;
+        lecture.changedLanguage = cursor.getInt(
+                cursor.getColumnIndex(LecturesTable.Columns.CHANGED_LANGUAGE)) != 0;
+        lecture.changedTrack = cursor.getInt(
+                cursor.getColumnIndex(LecturesTable.Columns.CHANGED_TRACK)) != 0;
+        lecture.changedIsNew = cursor.getInt(
+                cursor.getColumnIndex(LecturesTable.Columns.CHANGED_IS_NEW)) != 0;
+        lecture.changedTime = cursor.getInt(
+                cursor.getColumnIndex(LecturesTable.Columns.CHANGED_TIME)) != 0;
+        lecture.changedDuration = cursor.getInt(
+                cursor.getColumnIndex(LecturesTable.Columns.CHANGED_DURATION)) != 0;
+        lecture.changedIsCanceled = cursor.getInt(
+                cursor.getColumnIndex(LecturesTable.Columns.CHANGED_IS_CANCELED)) != 0;
+        return lecture;
     }
 
     public static int getChangedLectureCount(@NonNull List<Lecture> list, boolean favsOnly) {
