@@ -3,6 +3,7 @@ package nerd.tuxmobil.fahrplan.congress.persistence;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.support.annotation.NonNull;
 
 import nerd.tuxmobil.fahrplan.congress.persistence.FahrplanContract.LecturesTable;
 import nerd.tuxmobil.fahrplan.congress.persistence.FahrplanContract.LecturesTable.Columns;
@@ -83,7 +84,7 @@ public class LecturesDBOpenHelper extends SQLiteOpenHelper {
             Columns.CHANGED_IS_CANCELED
     };
 
-    public LecturesDBOpenHelper(Context context) {
+    public LecturesDBOpenHelper(@NonNull Context context) {
         super(context, LecturesTable.NAME, null, DATABASE_VERSION);
     }
 

@@ -505,7 +505,7 @@ public class MainActivity extends BaseActivity implements
     public void refreshFavoriteList() {
         Fragment fragment = findFragment(StarredListFragment.FRAGMENT_TAG);
         if (fragment != null) {
-            ((StarredListFragment) fragment).onRefresh();
+            ((StarredListFragment) fragment).onRefresh(this);
         }
         ActivityCompat.invalidateOptionsMenu(this);
     }
