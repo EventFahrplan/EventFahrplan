@@ -14,7 +14,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
@@ -1042,10 +1041,7 @@ public class FahrplanFragment extends Fragment implements
     }
 
     private void showAlarmTimePicker() {
-        DialogFragment dialogFragment = new AlarmTimePickerFragment();
-        dialogFragment.setTargetFragment(this, FAHRPLAN_FRAGMENT_REQUEST_CODE);
-        dialogFragment.show(getActivity().getSupportFragmentManager(),
-                AlarmTimePickerFragment.FRAGMENT_TAG);
+        AlarmTimePickerFragment.show(this, FAHRPLAN_FRAGMENT_REQUEST_CODE);
     }
 
     private void onAlarmTimesIndexPicked(int alarmTimesIndex) {
