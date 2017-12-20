@@ -82,6 +82,12 @@ public class FahrplanFragment extends Fragment implements
 
     public static final int FAHRPLAN_FRAGMENT_REQUEST_CODE = 6166;
 
+    private static final int CONTEXT_MENU_ITEM_ID_FAVORITES = 0;
+    private static final int CONTEXT_MENU_ITEM_ID_SET_ALARM = 1;
+    private static final int CONTEXT_MENU_ITEM_ID_DELETE_ALARM = 2;
+    private static final int CONTEXT_MENU_ITEM_ID_ADD_TO_CALENDAR = 3;
+    private static final int CONTEXT_MENU_ITEM_ID_SHARE = 4;
+
     private float scale;
 
     private LayoutInflater inflater;
@@ -1061,7 +1067,7 @@ public class FahrplanFragment extends Fragment implements
         MyApp.LogDebug(LOG_TAG, "clicked on " + ((Lecture) contextMenuView.getTag()).lecture_id);
 
         switch (menuItemIndex) {
-            case 0:
+            case CONTEXT_MENU_ITEM_ID_FAVORITES:
                 if (lecture.highlight) {
                     lecture.highlight = false;
                     FahrplanMisc.writeHighlight(getActivity(), lecture);
@@ -1077,18 +1083,18 @@ public class FahrplanFragment extends Fragment implements
                 }
                 updateMenuItems();
                 break;
-            case 1:
+            case CONTEXT_MENU_ITEM_ID_SET_ALARM:
                 showAlarmTimePicker();
                 break;
-            case 2:
+            case CONTEXT_MENU_ITEM_ID_DELETE_ALARM:
                 FahrplanMisc.deleteAlarm(getActivity(), lecture);
                 setBell(lecture);
                 updateMenuItems();
                 break;
-            case 3:
+            case CONTEXT_MENU_ITEM_ID_ADD_TO_CALENDAR:
                 FahrplanMisc.addToCalender(getActivity(), lecture);
                 break;
-            case 4:
+            case CONTEXT_MENU_ITEM_ID_SHARE:
                 String formattedLecture = SimpleLectureFormat.format(lecture);
                 Context context = getContext();
                 if (!LectureSharer.shareSimple(context, formattedLecture)) {
@@ -1110,19 +1116,19 @@ public class FahrplanFragment extends Fragment implements
         contextMenuView = view;
         Lecture lecture = (Lecture) view.getTag();
         if (lecture.highlight) {
-            menu.add(0, 0, 0, getString(R.string.unflag_as_favorite));
+            menu.add(0, CONTEXT_MENU_ITEM_ID_FAVORITES, 0, getString(R.string.unflag_as_favorite));
         } else {
-            menu.add(0, 0, 0, getString(R.string.flag_as_favorite));
+            menu.add(0, CONTEXT_MENU_ITEM_ID_FAVORITES, 0, getString(R.string.flag_as_favorite));
         }
         if (lecture.has_alarm) {
-            menu.add(0, 2, 2, getString(R.string.delete_alarm));
+            menu.add(0, CONTEXT_MENU_ITEM_ID_DELETE_ALARM, 2, getString(R.string.delete_alarm));
         } else {
-            menu.add(0, 1, 1, getString(R.string.set_alarm));
+            menu.add(0, CONTEXT_MENU_ITEM_ID_SET_ALARM, 1, getString(R.string.set_alarm));
         }
         if (Build.VERSION.SDK_INT >= 14) {
-            menu.add(0, 3, 3, getString(R.string.addToCalendar));
+            menu.add(0, CONTEXT_MENU_ITEM_ID_ADD_TO_CALENDAR, 3, getString(R.string.addToCalendar));
         }
-        menu.add(0, 4, 4, getString(R.string.share));
+        menu.add(0, CONTEXT_MENU_ITEM_ID_SHARE, 4, getString(R.string.share));
     }
 
     private View getLectureView(Lecture lecture) {
