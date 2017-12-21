@@ -5,7 +5,7 @@
 
     <!-- Default state -->
     <color name="event_border_default">#8c8c8c</color>
-    <color name="event_border_default_art_culture">#cccc66</color>
+    <color name="event_border_default_art_culture">#b6aa04</color>
     <color name="event_border_default_ccc">#7e992e</color>
     <color name="event_border_default_entertainment">#7E992E</color>
     <color name="event_border_default_ethics_society_politics">#b359b3</color>
@@ -16,9 +16,9 @@
 
     <!-- Accent color -->
     <color name="event_border_accent">#e6e6e6</color>
-    <color name="event_border_accent_art_culture">#FFFF33</color>
-    <color name="event_border_accent_ccc">#99CC00</color>
-    <color name="event_border_accent_entertainment">#99CC00</color>
+    <color name="event_border_accent_art_culture">#cec006</color>
+    <color name="event_border_accent_ccc">#8cba02</color>
+    <color name="event_border_accent_entertainment">#8cba02</color>
     <color name="event_border_accent_ethics_society_politics">#ff4dff</color>
     <color name="event_border_accent_hardware_making">#FF6600</color>
     <color name="event_border_accent_resilience">#A41C31</color>
