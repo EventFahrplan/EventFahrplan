@@ -31,6 +31,8 @@ import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanFragment;
 
 public class AlarmList extends ActionBarListActivity {
 
+    private static final int CONTEXT_MENU_ITEM_ID_DELETE = 0;
+
     private MyApp global;
 
     private SQLiteDatabase db;
@@ -85,7 +87,7 @@ public class AlarmList extends ActionBarListActivity {
                 .getMenuInfo();
         int menuItemIndex = item.getItemId();
         switch (menuItemIndex) {
-            case 0:
+            case CONTEXT_MENU_ITEM_ID_DELETE:
                 delete_alarm(info.position);
                 setResult(RESULT_OK);
                 FahrplanFragment.loadAlarms(this);
@@ -96,7 +98,7 @@ public class AlarmList extends ActionBarListActivity {
 
     public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, view, menuInfo);
-        menu.add(0, 0, 0, global.getString(R.string.delete));
+        menu.add(0, CONTEXT_MENU_ITEM_ID_DELETE, 0, global.getString(R.string.delete));
     }
 
     public void delete_alarm(int position) {

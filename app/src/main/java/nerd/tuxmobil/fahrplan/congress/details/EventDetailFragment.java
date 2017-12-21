@@ -8,7 +8,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
@@ -325,10 +324,7 @@ public class EventDetailFragment extends Fragment {
     }
 
     private void showAlarmTimePicker() {
-        DialogFragment dialogFragment = new AlarmTimePickerFragment();
-        dialogFragment.setTargetFragment(this, EVENT_DETAIL_FRAGMENT_REQUEST_CODE);
-        dialogFragment.show(getActivity().getSupportFragmentManager(),
-                AlarmTimePickerFragment.FRAGMENT_TAG);
+        AlarmTimePickerFragment.show(this, EVENT_DETAIL_FRAGMENT_REQUEST_CODE);
     }
 
     private void onAlarmTimesIndexPicked(int alarmTimesIndex) {

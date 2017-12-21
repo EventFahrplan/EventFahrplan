@@ -87,7 +87,7 @@ public final class OnBootReceiver extends BroadcastReceiver {
 
                 MyApp.LogDebug(LOG_TAG, "remove alarm from DB ");
 
-                String id = cursor.getString(0);
+                String id = cursor.getString(cursor.getColumnIndex(AlarmsTable.Columns.ID));
                 db.delete(AlarmsTable.NAME, AlarmsTable.Columns.ID + " = ?", new String[]{id});
             }
 

@@ -35,14 +35,14 @@ public interface FahrplanContract {
 
         interface Columns {
 
-            /* 0 */ String EVENT_TITLE = "title";
-            /* 1 */ String ALARM_TIME_IN_MIN = "alarm_time_in_min";
-            /* 2 */ String TIME = "time";
-            /* 3 */ String TIME_TEXT = "timeText";
-            /* 4 */ String EVENT_ID = "eventid";
-            /* 5 */ String DISPLAY_TIME = "displayTime";
-            /* 6 */ String DAY = "day";
-            /* 7 */ String ID = "_id";
+            /* 0 */ String ID = "_id";
+            /* 1 */ String EVENT_TITLE = "title";
+            /* 2 */ String ALARM_TIME_IN_MIN = "alarm_time_in_min";
+            /* 3 */ String TIME = "time";
+            /* 4 */ String TIME_TEXT = "timeText";
+            /* 5 */ String EVENT_ID = "eventid";
+            /* 6 */ String DISPLAY_TIME = "displayTime";
+            /* 7 */ String DAY = "day";
         }
 
         interface Defaults {

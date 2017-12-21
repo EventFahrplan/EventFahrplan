@@ -11,6 +11,8 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +25,7 @@ import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
 
 public class AlarmTimePickerFragment extends DialogFragment {
 
-    public static final String FRAGMENT_TAG =
+    private static final String FRAGMENT_TAG =
             BuildConfig.APPLICATION_ID + ".ALERT_TIME_PICKER_FRAGMENT_TAG";
 
     public static final String ALARM_PICKED_INTENT_KEY =
@@ -35,6 +37,14 @@ public class AlarmTimePickerFragment extends DialogFragment {
 
     protected int alarmTimeIndex;
 
+    public static void show(@NonNull Fragment invokingFragment,
+                            int requestCode) {
+        DialogFragment dialogFragment = new AlarmTimePickerFragment();
+        dialogFragment.setTargetFragment(invokingFragment, requestCode);
+        FragmentActivity activity = invokingFragment.getActivity();
+        FragmentManager fragmentManager = activity.getSupportFragmentManager();
+        dialogFragment.show(fragmentManager, FRAGMENT_TAG);
+    }
 
     @NonNull
     @Override
