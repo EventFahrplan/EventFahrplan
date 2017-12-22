@@ -87,6 +87,8 @@ public class FahrplanFragment extends Fragment implements
     private static final int CONTEXT_MENU_ITEM_ID_ADD_TO_CALENDAR = 3;
     private static final int CONTEXT_MENU_ITEM_ID_SHARE = 4;
 
+    private static final int ONE_DAY = 24 * 60;
+
     private float scale;
 
     private LayoutInflater inflater;
@@ -435,8 +437,8 @@ public class FahrplanFragment extends Fragment implements
                 }
                 time += 15;
                 printTime = time;
-                if (printTime >= (24 * 60)) {
-                    printTime -= (24 * 60);
+                if (printTime >= ONE_DAY) {
+                    printTime -= ONE_DAY;
                 }
             }
 
@@ -575,7 +577,7 @@ public class FahrplanFragment extends Fragment implements
         if (end > 0) {
             lastLectureEnd = minutesOfDay(end);
             if (lastLectureEnd < firstLectureStart) {
-                lastLectureEnd += (24 * 60);
+                lastLectureEnd += ONE_DAY;
             }
         }
         MyApp.LogDebug(LOG_TAG, "firstLectureStart=" + firstLectureStart);
@@ -622,8 +624,8 @@ public class FahrplanFragment extends Fragment implements
             title.setText(sb.toString());
             time += 15;
             printTime = time;
-            if (printTime >= (24 * 60)) {
-                printTime -= (24 * 60);
+            if (printTime >= ONE_DAY) {
+                printTime -= ONE_DAY;
             }
         }
     }
@@ -736,7 +738,7 @@ public class FahrplanFragment extends Fragment implements
                 if (lecture.dateUTC > 0) {
                     startTime = minutesOfDay(lecture.dateUTC);
                     if (startTime < endTime) {
-                        startTime += (24 * 60);
+                        startTime += ONE_DAY;
                     }
                 } else {
                     startTime = lecture.relStartTime;
