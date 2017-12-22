@@ -590,7 +590,7 @@ public class FahrplanFragment extends Fragment implements
         int height;
         Time now = new Time();
         now.setToNow();
-        View event;
+        View timeTextView;
 
         switch (getResources().getConfiguration().orientation) {
             case Configuration.ORIENTATION_LANDSCAPE:
@@ -611,12 +611,12 @@ public class FahrplanFragment extends Fragment implements
             sb.append(String.format("%02d", minute));
             if ((now.hour == hour) && (now.minute >= minute)
                     && (now.minute < (minute + 15))) {
-                event = inflater.inflate(R.layout.time_layout_now, null);
+                timeTextView = inflater.inflate(R.layout.time_layout_now, null);
             } else {
-                event = inflater.inflate(R.layout.time_layout, null);
+                timeTextView = inflater.inflate(R.layout.time_layout, null);
             }
-            timeTextColumn.addView(event, LayoutParams.MATCH_PARENT, height * 3);
-            TextView title = event.findViewById(R.id.time);
+            timeTextColumn.addView(timeTextView, LayoutParams.MATCH_PARENT, height * 3);
+            TextView title = timeTextView.findViewById(R.id.time);
             title.setText(sb.toString());
             time += 15;
             printTime = time;
