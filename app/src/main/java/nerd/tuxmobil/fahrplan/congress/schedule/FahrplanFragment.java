@@ -585,8 +585,8 @@ public class FahrplanFragment extends Fragment implements
     private void fillTimes() {
         int time = firstLectureStart;
         int printTime = time;
-        LinearLayout timeSpalte = getView().findViewById(R.id.times_layout);
-        timeSpalte.removeAllViews();
+        LinearLayout timeTextColumn = getView().findViewById(R.id.times_layout);
+        timeTextColumn.removeAllViews();
         int height;
         Time now = new Time();
         now.setToNow();
@@ -615,7 +615,7 @@ public class FahrplanFragment extends Fragment implements
             } else {
                 event = inflater.inflate(R.layout.time_layout, null);
             }
-            timeSpalte.addView(event, LayoutParams.MATCH_PARENT, height * 3);
+            timeTextColumn.addView(event, LayoutParams.MATCH_PARENT, height * 3);
             TextView title = event.findViewById(R.id.time);
             title.setText(sb.toString());
             time += 15;
