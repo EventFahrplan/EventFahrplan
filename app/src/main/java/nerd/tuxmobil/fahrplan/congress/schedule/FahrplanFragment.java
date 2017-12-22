@@ -88,6 +88,7 @@ public class FahrplanFragment extends Fragment implements
     private static final int CONTEXT_MENU_ITEM_ID_SHARE = 4;
 
     private static final int ONE_DAY = 24 * 60;
+    private static final int FIFTEEN_MINUTES = 15;
 
     private float scale;
 
@@ -430,12 +431,12 @@ public class FahrplanFragment extends Fragment implements
                 int hour = printTime / 60;
                 int minute = printTime % 60;
                 if ((now.hour == hour) && (now.minute >= minute)
-                        && (now.minute < (minute + 15))) {
+                        && (now.minute < (minute + FIFTEEN_MINUTES))) {
                     break;
                 } else {
                     scrollAmount += (height * 3);
                 }
-                time += 15;
+                time += FIFTEEN_MINUTES;
                 printTime = time;
                 if (printTime >= ONE_DAY) {
                     printTime -= ONE_DAY;
@@ -613,7 +614,7 @@ public class FahrplanFragment extends Fragment implements
             sb.append(String.format("%02d", minute));
             int timeTextLayout;
             if ((now.hour == hour) && (now.minute >= minute)
-                    && (now.minute < (minute + 15))) {
+                    && (now.minute < (minute + FIFTEEN_MINUTES))) {
                 timeTextLayout = R.layout.time_layout_now;
             } else {
                 timeTextLayout = R.layout.time_layout;
@@ -622,7 +623,7 @@ public class FahrplanFragment extends Fragment implements
             timeTextColumn.addView(timeTextView, LayoutParams.MATCH_PARENT, height * 3);
             TextView title = timeTextView.findViewById(R.id.time);
             title.setText(sb.toString());
-            time += 15;
+            time += FIFTEEN_MINUTES;
             printTime = time;
             if (printTime >= ONE_DAY) {
                 printTime -= ONE_DAY;
