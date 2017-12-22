@@ -609,12 +609,14 @@ public class FahrplanFragment extends Fragment implements
             int minute = printTime % 60;
             sb.append(String.format("%02d", hour)).append(":");
             sb.append(String.format("%02d", minute));
+            int timeTextLayout;
             if ((now.hour == hour) && (now.minute >= minute)
                     && (now.minute < (minute + 15))) {
-                timeTextView = inflater.inflate(R.layout.time_layout_now, null);
+                timeTextLayout = R.layout.time_layout_now;
             } else {
-                timeTextView = inflater.inflate(R.layout.time_layout, null);
+                timeTextLayout = R.layout.time_layout;
             }
+            timeTextView = inflater.inflate(timeTextLayout, null);
             timeTextColumn.addView(timeTextView, LayoutParams.MATCH_PARENT, height * 3);
             TextView title = timeTextView.findViewById(R.id.time);
             title.setText(sb.toString());
