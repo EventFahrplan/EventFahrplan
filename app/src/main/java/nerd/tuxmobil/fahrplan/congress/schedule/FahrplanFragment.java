@@ -62,6 +62,7 @@ import nerd.tuxmobil.fahrplan.congress.sharing.LectureSharer;
 import nerd.tuxmobil.fahrplan.congress.sharing.SimpleLectureFormat;
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
 import nerd.tuxmobil.fahrplan.congress.utils.LectureUtils;
+import nerd.tuxmobil.fahrplan.congress.BuildConfig;
 
 public class FahrplanFragment extends Fragment implements
         OnClickListener,
@@ -86,6 +87,9 @@ public class FahrplanFragment extends Fragment implements
     private static final int CONTEXT_MENU_ITEM_ID_DELETE_ALARM = 2;
     private static final int CONTEXT_MENU_ITEM_ID_ADD_TO_CALENDAR = 3;
     private static final int CONTEXT_MENU_ITEM_ID_SHARE = 4;
+
+    private static final int ONE_DAY = 24 * 60;
+    private static final int FIFTEEN_MINUTES = 15;
 
     private float scale;
 
@@ -424,19 +428,19 @@ public class FahrplanFragment extends Fragment implements
 
         if (!((((now.hour * 60) + now.minute) < firstLectureStart) &&
                 MyApp.dateInfos.sameDay(now, MyApp.lectureListDay))) {
+
+            TimeSegment timeSegment;
             while (time < lastLectureEnd) {
-                int hour = printTime / 60;
-                int minute = printTime % 60;
-                if ((now.hour == hour) && (now.minute >= minute)
-                        && (now.minute < (minute + 15))) {
+                timeSegment = new TimeSegment(printTime);
+                if (timeSegment.isMatched(now, FIFTEEN_MINUTES)) {
                     break;
                 } else {
                     scrollAmount += (height * 3);
                 }
-                time += 15;
+                time += FIFTEEN_MINUTES;
                 printTime = time;
-                if (printTime >= (24 * 60)) {
-                    printTime -= (24 * 60);
+                if (printTime >= ONE_DAY) {
+                    printTime -= ONE_DAY;
                 }
             }
 
@@ -575,7 +579,7 @@ public class FahrplanFragment extends Fragment implements
         if (end > 0) {
             lastLectureEnd = minutesOfDay(end);
             if (lastLectureEnd < firstLectureStart) {
-                lastLectureEnd += (24 * 60);
+                lastLectureEnd += ONE_DAY;
             }
         }
         MyApp.LogDebug(LOG_TAG, "firstLectureStart=" + firstLectureStart);
@@ -585,45 +589,51 @@ public class FahrplanFragment extends Fragment implements
     private void fillTimes() {
         int time = firstLectureStart;
         int printTime = time;
-        LinearLayout timeSpalte = getView().findViewById(R.id.times_layout);
-        timeSpalte.removeAllViews();
-        int height;
+        LinearLayout timeTextColumn = getView().findViewById(R.id.times_layout);
+        timeTextColumn.removeAllViews();
         Time now = new Time();
         now.setToNow();
-        View event;
+        View timeTextView;
+        int timeTextViewHeight = getTimeTextViewHeight();
+        TimeSegment timeSegment;
+        while (time < lastLectureEnd) {
+            timeSegment = new TimeSegment(printTime);
+            int timeTextLayout;
+            if (isToday(now) && timeSegment.isMatched(now, FIFTEEN_MINUTES)) {
+                timeTextLayout = R.layout.time_layout_now;
+            } else {
+                timeTextLayout = R.layout.time_layout;
+            }
+            timeTextView = inflater.inflate(timeTextLayout, null);
+            timeTextColumn.addView(timeTextView, LayoutParams.MATCH_PARENT, timeTextViewHeight);
+            TextView title = timeTextView.findViewById(R.id.time);
+            title.setText(timeSegment.getFormattedText());
+            time += FIFTEEN_MINUTES;
+            printTime = time;
+            if (printTime >= ONE_DAY) {
+                printTime -= ONE_DAY;
+            }
+        }
+    }
 
-        switch (getResources().getConfiguration().orientation) {
+    private int getTimeTextViewHeight() {
+        int integer;
+        Resources resources = getResources();
+        switch (resources.getConfiguration().orientation) {
             case Configuration.ORIENTATION_LANDSCAPE:
                 MyApp.LogDebug(LOG_TAG, "landscape");
-                height = (int) (getResources().getInteger(R.integer.box_height) * scale);
+                integer = resources.getInteger(R.integer.box_height);
                 break;
             default:
                 MyApp.LogDebug(LOG_TAG, "other orientation");
-                height = (int) (getResources().getInteger(R.integer.box_height) * scale);
+                integer = resources.getInteger(R.integer.box_height);
                 break;
         }
+        return ((int) (integer * scale)) * 3;
+    }
 
-        while (time < lastLectureEnd) {
-            StringBuilder sb = new StringBuilder();
-            int hour = printTime / 60;
-            int minute = printTime % 60;
-            sb.append(String.format("%02d", hour)).append(":");
-            sb.append(String.format("%02d", minute));
-            if ((now.hour == hour) && (now.minute >= minute)
-                    && (now.minute < (minute + 15))) {
-                event = inflater.inflate(R.layout.time_layout_now, null);
-            } else {
-                event = inflater.inflate(R.layout.time_layout, null);
-            }
-            timeSpalte.addView(event, LayoutParams.MATCH_PARENT, height * 3);
-            TextView title = event.findViewById(R.id.time);
-            title.setText(sb.toString());
-            time += 15;
-            printTime = time;
-            if (printTime >= (24 * 60)) {
-                printTime -= (24 * 60);
-            }
-        }
+    private boolean isToday(Time time) {
+        return time.monthDay - BuildConfig.SCHEDULE_FIRST_DAY_START_DAY == mDay - 1;
     }
 
     private int getEventPadding() {
@@ -734,7 +744,7 @@ public class FahrplanFragment extends Fragment implements
                 if (lecture.dateUTC > 0) {
                     startTime = minutesOfDay(lecture.dateUTC);
                     if (startTime < endTime) {
-                        startTime += (24 * 60);
+                        startTime += ONE_DAY;
                     }
                 } else {
                     startTime = lecture.relStartTime;
