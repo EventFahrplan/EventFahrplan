@@ -11,7 +11,6 @@ import android.support.v4.content.ContextCompat;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import nerd.tuxmobil.fahrplan.congress.BuildConfig;
 import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.base.BaseActivity;
@@ -102,7 +101,7 @@ public class EventDetail extends BaseActivity {
     @Nullable
     private String getRoomConvertedForC3Nav() {
         final String currentRoom = getIntent().getStringExtra(BundleKeys.EVENT_ROOM);
-        return RoomForC3NavConverter.convert(BuildConfig.VENUE, currentRoom);
+        return RoomForC3NavConverter.convert(currentRoom);
     }
 
 }

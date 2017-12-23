@@ -30,7 +30,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import nerd.tuxmobil.fahrplan.congress.BuildConfig;
 import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmTimePickerFragment;
@@ -297,7 +296,7 @@ public class EventDetailFragment extends Fragment {
     @Nullable
     private String getRoomConvertedForC3Nav() {
         final String currentRoom = getActivity().getIntent().getStringExtra(BundleKeys.EVENT_ROOM);
-        return RoomForC3NavConverter.convert(BuildConfig.VENUE, currentRoom);
+        return RoomForC3NavConverter.convert(currentRoom);
     }
 
     private Lecture eventIdToLecture(String eventId) {

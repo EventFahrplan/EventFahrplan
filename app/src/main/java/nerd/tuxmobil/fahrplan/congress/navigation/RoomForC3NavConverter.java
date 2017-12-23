@@ -1,6 +1,5 @@
 package nerd.tuxmobil.fahrplan.congress.navigation;
 
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import java.util.HashMap;
@@ -24,8 +23,8 @@ public class RoomForC3NavConverter {
     }};
 
     @Nullable
-    public static String convert(@NonNull final String venue, @Nullable final String room) {
-        if (room != null && !EMPTY_STRING.equals(room) && venue.toUpperCase().equals("CCH")) {
+    public static String convert(@Nullable final String room) {
+        if (room != null && !EMPTY_STRING.equals(room)) {
             return ROOM_TO_C3NAV_MAPPING.get(room.toUpperCase());
         }
         return null;
