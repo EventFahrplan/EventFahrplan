@@ -427,11 +427,11 @@ public class FahrplanFragment extends Fragment implements
 
         if (!((((now.hour * 60) + now.minute) < firstLectureStart) &&
                 MyApp.dateInfos.sameDay(now, MyApp.lectureListDay))) {
+
+            TimeSegment timeSegment;
             while (time < lastLectureEnd) {
-                int hour = printTime / 60;
-                int minute = printTime % 60;
-                if ((now.hour == hour) && (now.minute >= minute)
-                        && (now.minute < (minute + FIFTEEN_MINUTES))) {
+                timeSegment = new TimeSegment(printTime);
+                if (timeSegment.isMatched(now, FIFTEEN_MINUTES)) {
                     break;
                 } else {
                     scrollAmount += (height * 3);
@@ -606,15 +606,11 @@ public class FahrplanFragment extends Fragment implements
                 break;
         }
 
+        TimeSegment timeSegment;
         while (time < lastLectureEnd) {
-            StringBuilder sb = new StringBuilder();
-            int hour = printTime / 60;
-            int minute = printTime % 60;
-            sb.append(String.format("%02d", hour)).append(":");
-            sb.append(String.format("%02d", minute));
+            timeSegment = new TimeSegment(printTime);
             int timeTextLayout;
-            if ((now.hour == hour) && (now.minute >= minute)
-                    && (now.minute < (minute + FIFTEEN_MINUTES))) {
+            if (timeSegment.isMatched(now, FIFTEEN_MINUTES)) {
                 timeTextLayout = R.layout.time_layout_now;
             } else {
                 timeTextLayout = R.layout.time_layout;
@@ -622,7 +618,7 @@ public class FahrplanFragment extends Fragment implements
             timeTextView = inflater.inflate(timeTextLayout, null);
             timeTextColumn.addView(timeTextView, LayoutParams.MATCH_PARENT, height * 3);
             TextView title = timeTextView.findViewById(R.id.time);
-            title.setText(sb.toString());
+            title.setText(timeSegment.getFormattedText());
             time += FIFTEEN_MINUTES;
             printTime = time;
             if (printTime >= ONE_DAY) {
