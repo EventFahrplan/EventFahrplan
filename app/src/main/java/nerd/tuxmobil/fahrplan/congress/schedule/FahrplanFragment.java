@@ -590,22 +590,10 @@ public class FahrplanFragment extends Fragment implements
         int printTime = time;
         LinearLayout timeTextColumn = getView().findViewById(R.id.times_layout);
         timeTextColumn.removeAllViews();
-        int height;
         Time now = new Time();
         now.setToNow();
         View timeTextView;
-
-        switch (getResources().getConfiguration().orientation) {
-            case Configuration.ORIENTATION_LANDSCAPE:
-                MyApp.LogDebug(LOG_TAG, "landscape");
-                height = (int) (getResources().getInteger(R.integer.box_height) * scale);
-                break;
-            default:
-                MyApp.LogDebug(LOG_TAG, "other orientation");
-                height = (int) (getResources().getInteger(R.integer.box_height) * scale);
-                break;
-        }
-
+        int timeTextViewHeight = getTimeTextViewHeight();
         TimeSegment timeSegment;
         while (time < lastLectureEnd) {
             timeSegment = new TimeSegment(printTime);
@@ -616,7 +604,7 @@ public class FahrplanFragment extends Fragment implements
                 timeTextLayout = R.layout.time_layout;
             }
             timeTextView = inflater.inflate(timeTextLayout, null);
-            timeTextColumn.addView(timeTextView, LayoutParams.MATCH_PARENT, height * 3);
+            timeTextColumn.addView(timeTextView, LayoutParams.MATCH_PARENT, timeTextViewHeight);
             TextView title = timeTextView.findViewById(R.id.time);
             title.setText(timeSegment.getFormattedText());
             time += FIFTEEN_MINUTES;
@@ -625,6 +613,22 @@ public class FahrplanFragment extends Fragment implements
                 printTime -= ONE_DAY;
             }
         }
+    }
+
+    private int getTimeTextViewHeight() {
+        int integer;
+        Resources resources = getResources();
+        switch (resources.getConfiguration().orientation) {
+            case Configuration.ORIENTATION_LANDSCAPE:
+                MyApp.LogDebug(LOG_TAG, "landscape");
+                integer = resources.getInteger(R.integer.box_height);
+                break;
+            default:
+                MyApp.LogDebug(LOG_TAG, "other orientation");
+                integer = resources.getInteger(R.integer.box_height);
+                break;
+        }
+        return ((int) (integer * scale)) * 3;
     }
 
     private int getEventPadding() {
