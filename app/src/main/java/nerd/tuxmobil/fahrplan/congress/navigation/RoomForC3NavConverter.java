@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class RoomForC3NavConverter {
 
-    private final static Map<String, String> ROOM_TO_C3NAV_MAPPING = new HashMap<String, String>() {{
+    private static final Map<String, String> ROOM_TO_C3NAV_MAPPING = new HashMap<String, String>() {{
         put("HALL 1", "h1");
         put("HALL 2", "h2");
         put("HALL 3", "h3");
