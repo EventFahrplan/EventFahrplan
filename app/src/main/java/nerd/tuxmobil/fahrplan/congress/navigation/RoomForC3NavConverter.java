@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class RoomForC3NavConverter {
 
-    private final static Map<String, String> CCH_MAP = new HashMap<String, String>() {{
+    private final static Map<String, String> ROOM_TO_C3NAV_MAPPING = new HashMap<String, String>() {{
         put("HALL 1", "h1");
         put("HALL 2", "h2");
         put("HALL 3", "h3");
@@ -24,7 +24,7 @@ public class RoomForC3NavConverter {
     @Nullable
     public static String convert(@NonNull final String venue, @Nullable final String room) {
         if (room != null && venue.toUpperCase().equals("CCH")) {
-            return CCH_MAP.get(room.toUpperCase());
+            return ROOM_TO_C3NAV_MAPPING.get(room.toUpperCase());
         }
         return null;
     }
