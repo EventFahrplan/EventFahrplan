@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -30,6 +31,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import nerd.tuxmobil.fahrplan.congress.BuildConfig;
 import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmTimePickerFragment;
@@ -295,7 +297,10 @@ public class EventDetailFragment extends Fragment {
 
     @Nullable
     private String getRoomConvertedForC3Nav() {
-        final String currentRoom = getActivity().getIntent().getStringExtra(BundleKeys.EVENT_ROOM);
+        String currentRoom = getActivity().getIntent().getStringExtra(BundleKeys.EVENT_ROOM);
+        if (currentRoom == null) {
+            currentRoom = room;
+        }
         return RoomForC3NavConverter.convert(currentRoom);
     }
 
@@ -395,6 +400,12 @@ public class EventDetailFragment extends Fragment {
             case R.id.event_details_item_close:
                 closeFragment(FRAGMENT_TAG);
                 return true;
+            case R.id.item_nav:
+                final Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(BuildConfig.C3NAV_URL + getRoomConvertedForC3Nav()));
+                startActivity(intent);
+                return true;
+
         }
         return super.onOptionsItemSelected(item);
     }
