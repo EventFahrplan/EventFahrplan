@@ -11,6 +11,7 @@ import android.support.v4.content.ContextCompat;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import nerd.tuxmobil.fahrplan.congress.BuildConfig;
 import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.base.BaseActivity;
@@ -91,7 +92,7 @@ public class EventDetail extends BaseActivity {
         switch (item.getItemId()) {
             case R.id.item_nav:
                 final Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse("https://c3nav.de/?d=" + getRoomConvertedForC3Nav()));
+                intent.setData(Uri.parse(BuildConfig.C3NAV_URL + getRoomConvertedForC3Nav()));
                 startActivity(intent);
                 return true;
         }
