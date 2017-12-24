@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -296,8 +297,11 @@ public class EventDetailFragment extends Fragment {
 
     @Nullable
     private String getRoomConvertedForC3Nav() {
-        final String currentRoom = getActivity().getIntent().getStringExtra(BundleKeys.EVENT_ROOM);
-        return RoomForC3NavConverter.convert(BuildConfig.VENUE, currentRoom);
+        String currentRoom = getActivity().getIntent().getStringExtra(BundleKeys.EVENT_ROOM);
+        if (currentRoom == null) {
+            currentRoom = room;
+        }
+        return RoomForC3NavConverter.convert(currentRoom);
     }
 
     private Lecture eventIdToLecture(String eventId) {
@@ -396,6 +400,12 @@ public class EventDetailFragment extends Fragment {
             case R.id.event_details_item_close:
                 closeFragment(FRAGMENT_TAG);
                 return true;
+            case R.id.item_nav:
+                final Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(BuildConfig.C3NAV_URL + getRoomConvertedForC3Nav()));
+                startActivity(intent);
+                return true;
+
         }
         return super.onOptionsItemSelected(item);
     }

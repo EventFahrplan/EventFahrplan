@@ -127,6 +127,8 @@
     <!-- SnackEngage -->
     <string name="snack_engage_rate_title">Zufrieden?</string>
     <string name="snack_engage_rate_action">Bewerte die App</string>
+    <string name="snack_engage_c3nav_title">Indoor-Navigation auf dem 34C3! Mit der c3nav-App</string>
+    <string name="snack_engage_c3nav_action">Jetzt installieren!</string>
 
     <!-- TraceDroid -->
     <string name="trace_droid_dialog_title">

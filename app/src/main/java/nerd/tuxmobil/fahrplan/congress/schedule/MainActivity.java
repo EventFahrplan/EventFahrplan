@@ -27,8 +27,12 @@ import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
 import org.ligi.snackengage.SnackEngage;
+import org.ligi.snackengage.SnackEngageBuilder;
+import org.ligi.snackengage.conditions.AfterNumberOfOpportunities;
+import org.ligi.snackengage.conditions.NeverAgainWhenClickedOnce;
 import org.ligi.snackengage.snacks.BaseSnack;
 import org.ligi.snackengage.snacks.DefaultRateSnack;
+import org.ligi.snackengage.snacks.OpenURLSnack;
 
 import java.util.List;
 
@@ -49,6 +53,7 @@ import nerd.tuxmobil.fahrplan.congress.details.EventDetailFragment;
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListActivity;
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListFragment;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
+import nerd.tuxmobil.fahrplan.congress.navigation.C3navSnack;
 import nerd.tuxmobil.fahrplan.congress.net.CertificateDialogFragment;
 import nerd.tuxmobil.fahrplan.congress.net.CustomHttpClient;
 import nerd.tuxmobil.fahrplan.congress.net.CustomHttpClient.HTTP_STATUS;
@@ -71,6 +76,7 @@ public class MainActivity extends BaseActivity implements
         ConfirmationDialog.OnConfirmationDialogClicked {
 
     private static final String LOG_TAG = "MainActivity";
+    private static final String VENUE_LEIPZIG_MESSE = "leipzig-messe";
 
     private FetchFahrplan fetcher;
 
@@ -155,11 +161,22 @@ public class MainActivity extends BaseActivity implements
 
     private void initUserEngagement() {
         int actionColor = ContextCompat.getColor(this, R.color.colorAccent);
-        BaseSnack snack = new DefaultRateSnack()
+        final BaseSnack snack = new DefaultRateSnack()
                 .overrideTitleText(getString(R.string.snack_engage_rate_title))
                 .overrideActionText(getString(R.string.snack_engage_rate_action));
         snack.setActionColor(actionColor);
-        SnackEngage.from(this)
+
+        SnackEngageBuilder snackEngageBuilder = SnackEngage.from(this);
+
+        if (VENUE_LEIPZIG_MESSE.equals(BuildConfig.VENUE)) {
+            OpenURLSnack c3navSnack = new C3navSnack(this);
+            c3navSnack.withConditions(
+                    new NeverAgainWhenClickedOnce(),
+                    new AfterNumberOfOpportunities(7));
+            snackEngageBuilder.withSnack(c3navSnack);
+        }
+
+        snackEngageBuilder
                 .withSnack(snack)
                 .build()
                 .engageWhenAppropriate();

@@ -92,7 +92,7 @@ public class EventDetail extends BaseActivity {
         switch (item.getItemId()) {
             case R.id.item_nav:
                 final Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse("https://c3nav.de/?d=" + getRoomConvertedForC3Nav()));
+                intent.setData(Uri.parse(BuildConfig.C3NAV_URL + getRoomConvertedForC3Nav()));
                 startActivity(intent);
                 return true;
         }
@@ -102,7 +102,7 @@ public class EventDetail extends BaseActivity {
     @Nullable
     private String getRoomConvertedForC3Nav() {
         final String currentRoom = getIntent().getStringExtra(BundleKeys.EVENT_ROOM);
-        return RoomForC3NavConverter.convert(BuildConfig.VENUE, currentRoom);
+        return RoomForC3NavConverter.convert(currentRoom);
     }
 
 }
