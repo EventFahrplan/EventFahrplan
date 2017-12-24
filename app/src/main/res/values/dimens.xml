@@ -33,6 +33,9 @@
     <!-- Progress bar -->
     <dimen name="progress_bar_elevation">@dimen/tool_bar_elevation</dimen>
 
+    <!-- SnackEngage -->
+    <dimen name="snack_engage_c3nav_pixel_offset">20dp</dimen>
+
     <!-- About -->
     <dimen name="about_horizontal_line_height">1dp</dimen>
 
