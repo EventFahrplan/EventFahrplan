@@ -4,7 +4,7 @@
     <color name="pressed_congress">#CCa41c31</color>
 
     <!-- Default state -->
-    <color name="event_border_default">#8c8c8c</color>
+    <color name="event_border_default">#595959</color>
     <color name="event_border_default_art_culture">#b6aa04</color>
     <color name="event_border_default_ccc">#7e992e</color>
     <color name="event_border_default_entertainment">#7E992E</color>
@@ -13,9 +13,10 @@
     <color name="event_border_default_resilience">#701e2b</color>
     <color name="event_border_default_science">#2e8499</color>
     <color name="event_border_default_security">#50257a</color>
+    <color name="event_border_default_self_organized_sessions">#3056bf</color>
 
     <!-- Accent color -->
-    <color name="event_border_accent">#e6e6e6</color>
+    <color name="event_border_accent">#8c8c8c</color>
     <color name="event_border_accent_art_culture">#cec006</color>
     <color name="event_border_accent_ccc">#8cba02</color>
     <color name="event_border_accent_entertainment">#8cba02</color>
@@ -24,6 +25,7 @@
     <color name="event_border_accent_resilience">#A41C31</color>
     <color name="event_border_accent_science">#00CCFF</color>
     <color name="event_border_accent_security">#8702ed</color>
+    <color name="event_border_accent_self_organized_sessions">#4174ff</color>
 
     <!-- Highlight state -->
     <color name="event_border_highlight">
@@ -53,6 +55,9 @@
     <color name="event_border_highlight_security">
         @color/event_border_accent_security
     </color>
+    <color name="event_border_highlight_self_organized_sessions">
+        @color/event_border_accent_self_organized_sessions
+    </color>
 
     <!-- Accent color highlight -->
     <color name="event_border_accent_highlight">
@@ -81,6 +86,9 @@
     </color>
     <color name="event_border_accent_highlight_security">
         @color/event_border_default_security
+    </color>
+    <color name="event_border_accent_highlight_self_organized_sessions">
+        @color/event_border_default_self_organized_sessions
     </color>
 
     <!-- Title color -->
