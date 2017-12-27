@@ -9,6 +9,7 @@ import java.util.List;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
 import nerd.tuxmobil.fahrplan.congress.utils.DateHelper;
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
+import nerd.tuxmobil.fahrplan.congress.wiki.WikiEventUtils;
 
 public class SimpleLectureFormat {
 
@@ -54,10 +55,12 @@ public class SimpleLectureFormat {
         builder.append(COMMA);
         builder.append(SPACE);
         builder.append(lecture.room);
-        builder.append(LINE_BREAK);
-        builder.append(LINE_BREAK);
-        String eventUrl = FahrplanMisc.getEventUrl(lecture.lecture_id);
-        builder.append(eventUrl);
+        if (!WikiEventUtils.linksContainWikiLink(lecture.getLinks())) {
+            builder.append(LINE_BREAK);
+            builder.append(LINE_BREAK);
+            String eventUrl = FahrplanMisc.getEventUrl(lecture.lecture_id);
+            builder.append(eventUrl);
+        }
     }
 
     private static void appendDivider(StringBuilder builder) {

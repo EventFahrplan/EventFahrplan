@@ -44,6 +44,7 @@ import nerd.tuxmobil.fahrplan.congress.sharing.SimpleLectureFormat;
 import nerd.tuxmobil.fahrplan.congress.sidepane.OnSidePaneCloseListener;
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
 import nerd.tuxmobil.fahrplan.congress.utils.StringUtils;
+import nerd.tuxmobil.fahrplan.congress.wiki.WikiEventUtils;
 
 public class EventDetailFragment extends Fragment {
 
@@ -217,13 +218,19 @@ public class EventDetailFragment extends Fragment {
 
             // Event online
 
-            final TextView eventOnlineSection = view
-                    .findViewById(R.id.eventOnlineSection);
+            final TextView eventOnlineSection = view.findViewById(R.id.eventOnlineSection);
             eventOnlineSection.setTypeface(bold);
             final TextView eventOnlineLink = view.findViewById(R.id.eventOnline);
-            final String eventUrl = FahrplanMisc.getEventUrl(event_id);
-            final String eventLink = "<a href=\"" + eventUrl + "\">" + eventUrl + "</a>";
-            setUpHtmlTextView(eventOnlineLink, regular, eventLink);
+            if (WikiEventUtils.linksContainWikiLink(links)) {
+                eventOnlineSection.setVisibility(View.GONE);
+                eventOnlineLink.setVisibility(View.GONE);
+            } else {
+                eventOnlineSection.setVisibility(View.VISIBLE);
+                eventOnlineLink.setVisibility(View.VISIBLE);
+                final String eventUrl = FahrplanMisc.getEventUrl(event_id);
+                final String eventLink = "<a href=\"" + eventUrl + "\">" + eventUrl + "</a>";
+                setUpHtmlTextView(eventOnlineLink, regular, eventLink);
+            }
 
             activity.invalidateOptionsMenu();
         }
