@@ -693,27 +693,18 @@ public class FahrplanFragment extends Fragment implements
     }
 
     private void setLectureTextColor(Lecture lecture, View view) {
-        TextView track = view.findViewById(R.id.event_track);
         TextView title = view.findViewById(R.id.event_title);
         TextView subtitle = view.findViewById(R.id.event_subtitle);
         TextView speakers = view.findViewById(R.id.event_speakers);
-        Integer color;
         Context context = getContext();
         if (lecture.highlight) {
-            color = trackAccentColorsHighlight.get(lecture.track);
             title.setTextColor(ContextCompat.getColor(context, R.color.event_title_highlight));
             subtitle.setTextColor(ContextCompat.getColor(context, R.color.event_title_highlight));
             speakers.setTextColor(ContextCompat.getColor(context, R.color.event_title_highlight));
         } else {
-            color = trackAccentColors.get(lecture.track);
             title.setTextColor(ContextCompat.getColor(context, R.color.event_title));
             subtitle.setTextColor(ContextCompat.getColor(context, R.color.event_title));
             speakers.setTextColor(ContextCompat.getColor(context, R.color.event_title));
-        }
-        if (color == null) {
-            track.setTextColor(ContextCompat.getColor(context, R.color.event_title));
-        } else {
-            track.setTextColor(ContextCompat.getColor(context, color));
         }
     }
 

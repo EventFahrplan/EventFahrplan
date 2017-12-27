@@ -91,6 +91,9 @@
         @color/event_border_default_self_organized_sessions
     </color>
 
+    <!-- Track color -->
+    <color name="track_name">#beffffff</color>
+
     <!-- Title color -->
     <color name="event_title">#a0ffffff</color>
     <color name="event_title_highlight">#fff</color>

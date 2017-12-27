@@ -64,6 +64,9 @@
     <color name="event_border_accent_highlight_security_hacking">#617330</color>
     <color name="event_border_accent_highlight_failosophy">#663414</color>
 
+    <!-- Track color -->
+    <color name="track_name">#c8ffffff</color>
+
     <!--Title color-->
     <color name="event_title">#a0ffffff</color>
     <color name="event_title_highlight">#fff</color>

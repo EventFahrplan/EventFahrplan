@@ -70,7 +70,7 @@
                 android:layout_alignParentRight="true"
                 android:fontFamily="sans-serif-condensed"
                 android:singleLine="true"
-                android:textColor="@color/event_title"
+                android:textColor="@color/track_name"
                 android:textSize="11sp"
                 tools:text="@string/placeholder_event_track"/>
 
