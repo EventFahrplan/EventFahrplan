@@ -90,7 +90,7 @@ android {
             dimension defaultDimension
             applicationId "info.metadude.android.congress.schedule"
             signingConfig signingConfigs.ccc34c3
-            buildConfigField "String", "SCHEDULE_URL", '"https://events.ccc.de/congress/2017/Fahrplan/schedule.xml"'
+            buildConfigField "String", "SCHEDULE_URL", '"https://raw.githubusercontent.com/voc/34C3_schedule/master/everything.schedule.xml"'
             buildConfigField "String", "SCHEDULE_DOMAIN_PART", '"https://events.ccc.de"'
             buildConfigField "String", "SCHEDULE_EVENT_PART", '"/events/%1$s.html"'
             buildConfigField "String", "SCHEDULE_PART", '"/congress/2017/Fahrplan"'
