@@ -68,7 +68,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:singleLine="true"
-                android:textColor="#000000"
+                android:textColor="@color/track_name"
                 android:fontFamily="sans-serif-condensed"
                 android:textSize="13sp"
                 tools:text="@string/placeholder_event_track"/>
