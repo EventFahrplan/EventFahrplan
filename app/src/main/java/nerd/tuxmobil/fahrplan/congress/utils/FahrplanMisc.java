@@ -42,6 +42,7 @@ import nerd.tuxmobil.fahrplan.congress.persistence.FahrplanContract.MetasTable;
 import nerd.tuxmobil.fahrplan.congress.persistence.HighlightDBOpenHelper;
 import nerd.tuxmobil.fahrplan.congress.persistence.LecturesDBOpenHelper;
 import nerd.tuxmobil.fahrplan.congress.persistence.MetaDBOpenHelper;
+import nerd.tuxmobil.fahrplan.congress.wiki.WikiEventUtils;
 
 public class FahrplanMisc {
 
@@ -175,9 +176,17 @@ public class FahrplanMisc {
         StringBuilder sb = new StringBuilder();
         sb.append(lecture.description);
         sb.append("\n\n");
-        final String eventOnline = context.getString(R.string.event_online);
-        sb.append(eventOnline + ": ");
-        sb.append(getEventUrl(lecture.lecture_id));
+        String links = lecture.getLinks();
+        if (WikiEventUtils.linksContainWikiLink(links)) {
+            links = links.replaceAll("\\),", ")<br>");
+            links = StringUtils.getHtmlLinkFromMarkdown(links);
+            sb.append(links);
+        } else {
+            String eventOnline = context.getString(R.string.event_online);
+            sb.append(eventOnline);
+            sb.append(": ");
+            sb.append(getEventUrl(lecture.lecture_id));
+        }
         return sb.toString();
     }
 

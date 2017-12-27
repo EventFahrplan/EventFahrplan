@@ -1,5 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress.models;
 
+import android.support.annotation.NonNull;
 import android.text.format.Time;
 
 public class Lecture {
@@ -100,6 +101,11 @@ public class Lecture {
         changedTime = false;
         changedDuration = false;
         changedIsCanceled = false;
+    }
+
+    @NonNull
+    public String getLinks() {
+        return links == null ? "" : links;
     }
 
     public static int parseStartTime(String text) {
