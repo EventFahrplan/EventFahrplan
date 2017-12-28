@@ -29,7 +29,7 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
 
     private HorizontalScrollView roomNames = null;
 
-    private int max_cols;
+    private int maximumColumns;
 
     private static final int SWIPE_MIN_DISTANCE = 5;
 
@@ -50,7 +50,7 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
         public boolean onDown(MotionEvent e) {
             xStart = (int) e.getX();
 //    		MyApp.LogDebug(LOG_TAG, "onDown xStart:"+xStart+" getMeasuredWidth:"+getMeasuredWidth());
-            float ofs = (float) (getScrollX() * max_cols) / getMeasuredWidth();
+            float ofs = (float) (getScrollX() * maximumColumns) / getMeasuredWidth();
             activeItem = Math.round(ofs);
             return super.onDown(e);
         }
@@ -129,7 +129,7 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
 
     public HorizontalSnapScrollView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        max_cols = getResources().getInteger(R.integer.max_cols);
+        maximumColumns = getResources().getInteger(R.integer.max_cols);
         itemWidth = 0;
         gestureDetector = new GestureDetector(new YScrollDetector());
         setOnTouchListener(new OnTouchListener());
@@ -151,14 +151,14 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
                         "item width:" + itemWidth + " scrollX:" + scrollX + " distance:"
                                 + distance + " activeItem:" + activeItem);
                 int newItem = activeItem;
-                int col_dist;
-                if (max_cols > 1) {
-                    col_dist = Math.round(Math.abs((float) distance) / itemWidth);
-                    MyApp.LogDebug(LOG_TAG, "col dist: " + col_dist);
+                int columnDistance;
+                if (maximumColumns > 1) {
+                    columnDistance = Math.round(Math.abs((float) distance) / itemWidth);
+                    MyApp.LogDebug(LOG_TAG, "column distance: " + columnDistance);
                     if (distance > 0) {
-                        newItem = activeItem - col_dist;
+                        newItem = activeItem - columnDistance;
                     } else {
-                        newItem = activeItem + col_dist;
+                        newItem = activeItem + columnDistance;
                     }
                 } else {
                     if (Math.abs(distance) > itemWidth / 4) {
@@ -214,9 +214,9 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         MyApp.LogDebug(LOG_TAG, "onSizeChanged " + oldw + ", " + oldh + ", " + w + ", " + h + " getMW:" + getMeasuredWidth());
         super.onSizeChanged(w, h, oldw, oldh);
-        max_cols = calcMaxCols(getResources(), getMeasuredWidth(), MyApp.room_count);
+        maximumColumns = calcMaxCols(getResources(), getMeasuredWidth(), MyApp.room_count);
 
-        int newItemWidth = Math.round((float) getMeasuredWidth() / max_cols);
+        int newItemWidth = Math.round((float) getMeasuredWidth() / maximumColumns);
         float scale = getResources().getDisplayMetrics().density;
 
         MyApp.LogDebug(LOG_TAG, "item width: " + newItemWidth + " " + ((float) newItemWidth) / scale + "dp");
