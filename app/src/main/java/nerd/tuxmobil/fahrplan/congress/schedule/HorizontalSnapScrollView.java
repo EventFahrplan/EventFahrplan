@@ -21,7 +21,7 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
 
     private GestureDetector gestureDetector;
 
-    private int activeItem = 0;
+    private int activeColumnIndex = 0;
 
     private int xStart;
 
@@ -41,7 +41,7 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
      * @return index (0..n)
      */
     public int getColumn() {
-        return activeItem;
+        return activeColumnIndex;
     }
 
     class YScrollDetector extends SimpleOnGestureListener {
@@ -51,7 +51,7 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
             xStart = (int) e.getX();
 //    		MyApp.LogDebug(LOG_TAG, "onDown xStart:"+xStart+" getMeasuredWidth:"+getMeasuredWidth());
             float ofs = (float) (getScrollX() * maximumColumns) / getMeasuredWidth();
-            activeItem = Math.round(ofs);
+            activeColumnIndex = Math.round(ofs);
             return super.onDown(e);
         }
 
@@ -65,12 +65,12 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
             try {
                 //right to left
                 if ((e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE) && exceedsVelocityThreshold) {
-                    scrollToColumn(activeItem + columns, false);
+                    scrollToColumn(activeColumnIndex + columns, false);
                     return true;
                 }
                 //left to right
                 else if ((e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE) && exceedsVelocityThreshold) {
-                    scrollToColumn(activeItem - columns, false);
+                    scrollToColumn(activeColumnIndex - columns, false);
                     return true;
                 }
             } catch (Exception e) {
@@ -124,7 +124,7 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
                 roomNames.scrollTo(scrollTo, 0);
             }
         }
-        activeItem = col;
+        activeColumnIndex = col;
     }
 
     public HorizontalSnapScrollView(Context context, AttributeSet attrs) {
@@ -149,23 +149,23 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
                 int distance = scrollX - xStart;
                 MyApp.LogDebug(LOG_TAG,
                         "column width:" + columnWidth + " scrollX:" + scrollX + " distance:"
-                                + distance + " activeItem:" + activeItem);
-                int newItem = activeItem;
+                                + distance + " active column index:" + activeColumnIndex);
+                int newItem = activeColumnIndex;
                 int columnDistance;
                 if (maximumColumns > 1) {
                     columnDistance = Math.round(Math.abs((float) distance) / columnWidth);
                     MyApp.LogDebug(LOG_TAG, "column distance: " + columnDistance);
                     if (distance > 0) {
-                        newItem = activeItem - columnDistance;
+                        newItem = activeColumnIndex - columnDistance;
                     } else {
-                        newItem = activeItem + columnDistance;
+                        newItem = activeColumnIndex + columnDistance;
                     }
                 } else {
                     if (Math.abs(distance) > columnWidth / 4) {
                         if (distance > 0) {
-                            newItem = activeItem - 1;
+                            newItem = activeColumnIndex - 1;
                         } else {
-                            newItem = activeItem + 1;
+                            newItem = activeColumnIndex + 1;
                         }
                     }
                 }
@@ -243,7 +243,7 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         super.onLayout(changed, l, t, r, b);
-        scrollToColumn(activeItem, true);
+        scrollToColumn(activeColumnIndex, true);
     }
 
     public void setColumnWidth(int pixels) {
@@ -276,6 +276,6 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
                 v.setLayoutParams(p);
             }
         }
-        scrollToColumn(activeItem, true);
+        scrollToColumn(activeColumnIndex, true);
     }
 }
