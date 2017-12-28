@@ -130,48 +130,50 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
         max_cols = getResources().getInteger(R.integer.max_cols);
         itemWidth = 0;
         gestureDetector = new GestureDetector(new YScrollDetector());
-        setOnTouchListener(new View.OnTouchListener() {
+        setOnTouchListener(new OnTouchListener());
+    }
 
-            public boolean onTouch(View v, MotionEvent event) {
+    private class OnTouchListener implements View.OnTouchListener {
+
+        public boolean onTouch(View v, MotionEvent event) {
 //	            	return false;
-                MyApp.LogDebug(LOG_TAG, "onTouch");
-                if (gestureDetector.onTouchEvent(event)) {
+            MyApp.LogDebug(LOG_TAG, "onTouch");
+            if (gestureDetector.onTouchEvent(event)) {
 //	            		MyApp.LogDebug(LOG_TAG, "gesture detector consumed event");
-                    return false;
-                } else if (event.getAction() == MotionEvent.ACTION_UP
-                        || event.getAction() == MotionEvent.ACTION_CANCEL) {
-                    int scrollX = (int) event.getX();
-                    int distance = scrollX - xStart;
-                    MyApp.LogDebug(LOG_TAG,
-                            "item width:" + itemWidth + " scrollX:" + scrollX + " distance:"
-                                    + distance + " activeItem:" + activeItem);
-                    int newItem = activeItem;
-                    int col_dist;
-                    if (max_cols > 1) {
-                        col_dist = Math.round(Math.abs((float) distance) / itemWidth);
-                        MyApp.LogDebug(LOG_TAG, "col dist: " + col_dist);
-                        if (distance > 0) {
-                            newItem = activeItem - col_dist;
-                        } else {
-                            newItem = activeItem + col_dist;
-                        }
+                return false;
+            } else if (event.getAction() == MotionEvent.ACTION_UP
+                    || event.getAction() == MotionEvent.ACTION_CANCEL) {
+                int scrollX = (int) event.getX();
+                int distance = scrollX - xStart;
+                MyApp.LogDebug(LOG_TAG,
+                        "item width:" + itemWidth + " scrollX:" + scrollX + " distance:"
+                                + distance + " activeItem:" + activeItem);
+                int newItem = activeItem;
+                int col_dist;
+                if (max_cols > 1) {
+                    col_dist = Math.round(Math.abs((float) distance) / itemWidth);
+                    MyApp.LogDebug(LOG_TAG, "col dist: " + col_dist);
+                    if (distance > 0) {
+                        newItem = activeItem - col_dist;
                     } else {
-                        if (Math.abs(distance) > itemWidth / 4) {
-                            if (distance > 0) {
-                                newItem = activeItem - 1;
-                            } else {
-                                newItem = activeItem + 1;
-                            }
+                        newItem = activeItem + col_dist;
+                    }
+                } else {
+                    if (Math.abs(distance) > itemWidth / 4) {
+                        if (distance > 0) {
+                            newItem = activeItem - 1;
+                        } else {
+                            newItem = activeItem + 1;
                         }
                     }
-                    scrollToColumn(newItem, false);
-
-                    return true;
-                } else {
-                    return false;
                 }
+                scrollToColumn(newItem, false);
+
+                return true;
+            } else {
+                return false;
             }
-        });
+        }
     }
 
     public static int calcMaxCols(Resources res, int availPixels) {
