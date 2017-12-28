@@ -150,26 +150,26 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
                 MyApp.LogDebug(LOG_TAG,
                         "column width:" + columnWidth + " scrollX:" + scrollX + " distance:"
                                 + distance + " active column index:" + activeColumnIndex);
-                int newItem = activeColumnIndex;
+                int columnIndex = activeColumnIndex;
                 int columnDistance;
                 if (maximumColumns > 1) {
                     columnDistance = Math.round(Math.abs((float) distance) / columnWidth);
                     MyApp.LogDebug(LOG_TAG, "column distance: " + columnDistance);
                     if (distance > 0) {
-                        newItem = activeColumnIndex - columnDistance;
+                        columnIndex = activeColumnIndex - columnDistance;
                     } else {
-                        newItem = activeColumnIndex + columnDistance;
+                        columnIndex = activeColumnIndex + columnDistance;
                     }
                 } else {
                     if (Math.abs(distance) > columnWidth / 4) {
                         if (distance > 0) {
-                            newItem = activeColumnIndex - 1;
+                            columnIndex = activeColumnIndex - 1;
                         } else {
-                            newItem = activeColumnIndex + 1;
+                            columnIndex = activeColumnIndex + 1;
                         }
                     }
                 }
-                scrollToColumn(newItem, false);
+                scrollToColumn(columnIndex, false);
 
                 return true;
             } else {
