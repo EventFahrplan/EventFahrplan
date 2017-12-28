@@ -58,16 +58,17 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
             float scale = getResources().getDisplayMetrics().density;
-            int columns = (int) Math.ceil((Math.abs(velocityX / scale) / SWIPE_THRESHOLD_VELOCITY) * 3);
+            float normalizedAbsoluteVelocityX = Math.abs(velocityX / scale);
+            int columns = (int) Math.ceil((normalizedAbsoluteVelocityX / SWIPE_THRESHOLD_VELOCITY) * 3);
 //	    	MyApp.LogDebug(LOG_TAG, "onFling " + velocityX + "/" + velocityY + " " + velocityX/scale + " " + columns);
             try {
                 //right to left
-                if ((e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE) && (Math.abs(velocityX / scale) > SWIPE_THRESHOLD_VELOCITY)) {
+                if ((e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE) && (normalizedAbsoluteVelocityX > SWIPE_THRESHOLD_VELOCITY)) {
                     scrollToColumn(activeItem + columns, false);
                     return true;
                 }
                 //left to right
-                else if ((e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE) && (Math.abs(velocityX / scale) > SWIPE_THRESHOLD_VELOCITY)) {
+                else if ((e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE) && (normalizedAbsoluteVelocityX > SWIPE_THRESHOLD_VELOCITY)) {
                     scrollToColumn(activeItem - columns, false);
                     return true;
                 }
