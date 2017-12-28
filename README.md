@@ -6,8 +6,12 @@ EventFahrplan is a viewer for event schedules for instance
 [Chaos Computer Club e.V. events][ccc-events] such as Chaos Communication Camp
 or Chaos Communication Congress.
 
-The app is available for Android devices.
+The app is available for Android devices:
 
+<a href="https://f-droid.org/packages/info.metadude.android.congress.schedule/" target="_blank">
+<img src="https://f-droid.org/badge/get-it-on.png" alt="Get it on F-Droid" height="80"/></a>
+<a href="https://play.google.com/store/apps/details?id=info.metadude.android.congress.schedule" target="_blank">
+<img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" alt="Get it on Google Play" height="80"/></a>
 
 ![Screenshot of 33c3 Fahrplan on a tablet](gfx/EventFahrplan-33c3-Events-Tablet.png)
 
