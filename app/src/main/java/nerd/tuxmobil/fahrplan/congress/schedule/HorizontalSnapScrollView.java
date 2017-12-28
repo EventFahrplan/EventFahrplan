@@ -82,8 +82,8 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent ev) {
-        return super.onTouchEvent(ev);
+    public boolean onTouchEvent(MotionEvent event) {
+        return super.onTouchEvent(event);
     }
 
     @Override
@@ -211,9 +211,9 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
     }
 
     @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        MyApp.LogDebug(LOG_TAG, "onSizeChanged " + oldw + ", " + oldh + ", " + w + ", " + h + " getMW:" + getMeasuredWidth());
-        super.onSizeChanged(w, h, oldw, oldh);
+    protected void onSizeChanged(int width, int height, int oldWidth, int oldHeight) {
+        MyApp.LogDebug(LOG_TAG, "onSizeChanged " + oldWidth + ", " + oldHeight + ", " + width + ", " + height + " getMW:" + getMeasuredWidth());
+        super.onSizeChanged(width, height, oldWidth, oldHeight);
         maximumColumns = calcMaxCols(getResources(), getMeasuredWidth(), MyApp.room_count);
 
         int newItemWidth = Math.round((float) getMeasuredWidth() / maximumColumns);
@@ -224,11 +224,11 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
     }
 
     @Override
-    protected void onScrollChanged(int l, int t, int oldl, int oldt) {
-        super.onScrollChanged(l, t, oldl, oldt);
-//		MyApp.LogDebug(LOG_TAG, "scrolled from " + oldl + " to " + l);
+    protected void onScrollChanged(int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+        super.onScrollChanged(scrollX, scrollY, oldScrollX, oldScrollY);
+//		MyApp.LogDebug(LOG_TAG, "scrolled from " + oldScrollX + " to " + scrollX);
         if (roomNames != null) {
-            roomNames.scrollTo(l, 0);
+            roomNames.scrollTo(scrollX, 0);
         }
     }
 
@@ -241,8 +241,8 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
     }
 
     @Override
-    protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        super.onLayout(changed, l, t, r, b);
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        super.onLayout(changed, left, top, right, bottom);
         scrollToColumn(activeColumnIndex, true);
     }
 
