@@ -255,8 +255,8 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
         }
 
         ViewGroup container = (ViewGroup) getChildAt(0);
-        int childs = container.getChildCount();
-        for (int i = 0; i < childs; i++) {
+        int childCount = container.getChildCount();
+        for (int i = 0; i < childCount; i++) {
             ViewGroup c = (ViewGroup) container.getChildAt(i);
             ViewGroup.LayoutParams p = c.getLayoutParams();
             p.width = columnWidth;
@@ -267,9 +267,9 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
 
         if (roomNames != null) {
             View v;
-            int numChilds = ((ViewGroup) roomNames.getChildAt(0)).getChildCount();
+            int firstRoomChildCount = ((ViewGroup) roomNames.getChildAt(0)).getChildCount();
 
-            for (int i = 0; i < numChilds; i++) {
+            for (int i = 0; i < firstRoomChildCount; i++) {
                 v = ((ViewGroup) roomNames.getChildAt(0)).getChildAt(i);
                 LinearLayout.LayoutParams p = (LinearLayout.LayoutParams) v.getLayoutParams();
                 p.width = columnWidth;
