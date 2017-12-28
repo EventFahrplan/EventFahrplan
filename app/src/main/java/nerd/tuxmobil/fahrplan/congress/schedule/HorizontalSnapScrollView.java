@@ -25,7 +25,7 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
 
     private int xStart;
 
-    private int itemWidth;
+    private int columnWidth;
 
     private HorizontalScrollView roomNames = null;
 
@@ -95,10 +95,10 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
 
     public void scrollToColumn(int col, boolean fast) {
         int max;
-        if (itemWidth == 0) {
+        if (columnWidth == 0) {
             max = 0;
         } else {
-            max = (getChildAt(0).getMeasuredWidth() - itemWidth) / itemWidth;
+            max = (getChildAt(0).getMeasuredWidth() - columnWidth) / columnWidth;
         }
         if (col < 0) {
             col = 0;
@@ -106,7 +106,7 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
         if (col > max) {
             col = max;
         }
-        final int scrollTo = col * itemWidth;
+        final int scrollTo = col * columnWidth;
         MyApp.LogDebug(LOG_TAG, "scroll to col " + col + "/" + scrollTo + " " + getChildAt(0).getMeasuredWidth());
         if (!fast) {
             this.post(new Runnable() {
@@ -130,7 +130,7 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
     public HorizontalSnapScrollView(Context context, AttributeSet attrs) {
         super(context, attrs);
         maximumColumns = getResources().getInteger(R.integer.max_cols);
-        itemWidth = 0;
+        columnWidth = 0;
         gestureDetector = new GestureDetector(new YScrollDetector());
         setOnTouchListener(new OnTouchListener());
     }
@@ -148,12 +148,12 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
                 int scrollX = (int) event.getX();
                 int distance = scrollX - xStart;
                 MyApp.LogDebug(LOG_TAG,
-                        "item width:" + itemWidth + " scrollX:" + scrollX + " distance:"
+                        "column width:" + columnWidth + " scrollX:" + scrollX + " distance:"
                                 + distance + " activeItem:" + activeItem);
                 int newItem = activeItem;
                 int columnDistance;
                 if (maximumColumns > 1) {
-                    columnDistance = Math.round(Math.abs((float) distance) / itemWidth);
+                    columnDistance = Math.round(Math.abs((float) distance) / columnWidth);
                     MyApp.LogDebug(LOG_TAG, "column distance: " + columnDistance);
                     if (distance > 0) {
                         newItem = activeItem - columnDistance;
@@ -161,7 +161,7 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
                         newItem = activeItem + columnDistance;
                     }
                 } else {
-                    if (Math.abs(distance) > itemWidth / 4) {
+                    if (Math.abs(distance) > columnWidth / 4) {
                         if (distance > 0) {
                             newItem = activeItem - 1;
                         } else {
@@ -237,7 +237,7 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
     }
 
     public int getColumnWidth() {
-        return itemWidth;
+        return columnWidth;
     }
 
     @Override
@@ -249,7 +249,7 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
     public void setColumnWidth(int pixels) {
 
         MyApp.LogDebug(LOG_TAG, "setColumnWidth " + pixels);
-        itemWidth = pixels;
+        columnWidth = pixels;
         if (pixels == 0) {
             return;
         }
@@ -259,7 +259,7 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
         for (int i = 0; i < childs; i++) {
             ViewGroup c = (ViewGroup) container.getChildAt(i);
             ViewGroup.LayoutParams p = c.getLayoutParams();
-            p.width = itemWidth;
+            p.width = columnWidth;
             c.setLayoutParams(p);
         }
         container.measure(MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED),
@@ -272,7 +272,7 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
             for (int i = 0; i < numChilds; i++) {
                 v = ((ViewGroup) roomNames.getChildAt(0)).getChildAt(i);
                 LinearLayout.LayoutParams p = (LinearLayout.LayoutParams) v.getLayoutParams();
-                p.width = itemWidth;
+                p.width = columnWidth;
                 v.setLayoutParams(p);
             }
         }
