@@ -179,35 +179,35 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
     }
 
     public static int calcMaxCols(Resources res, int availPixels) {
-        int max_cols = res.getInteger(R.integer.max_cols);
-        int min_dip = res.getInteger(R.integer.min_width_dip);
+        int maxCols = res.getInteger(R.integer.max_cols);
+        int minWidthDip = res.getInteger(R.integer.min_width_dip);
         float scale = res.getDisplayMetrics().density;
-        MyApp.LogDebug(LOG_TAG, "calcMaxCols: avail " + availPixels + " min dip " + min_dip);
+        MyApp.LogDebug(LOG_TAG, "calcMaxCols: avail " + availPixels + " min width dip " + minWidthDip);
         int dip;
         do {
-            dip = (int) ((((float) availPixels) / max_cols) / scale);
-            MyApp.LogDebug(LOG_TAG, "calcMaxCols: " + dip + " on " + max_cols + " cols.");
-            max_cols--;
-        } while ((dip < min_dip) && (max_cols > 0));
-        return max_cols + 1;
+            dip = (int) ((((float) availPixels) / maxCols) / scale);
+            MyApp.LogDebug(LOG_TAG, "calcMaxCols: " + dip + " on " + maxCols + " cols.");
+            maxCols--;
+        } while ((dip < minWidthDip) && (maxCols > 0));
+        return maxCols + 1;
     }
 
     // FIXME: Landscape patch to expand a column to full width if there is space available
     private static int calcMaxCols(Resources res, int availPixels, int columnsCount) {
-        int max_cols = res.getInteger(R.integer.max_cols);
+        int maxCols = res.getInteger(R.integer.max_cols);
         // TODO: The next line is the relevant monkey patch
-        max_cols = (columnsCount < max_cols) ? columnsCount : max_cols;
+        maxCols = (columnsCount < maxCols) ? columnsCount : maxCols;
         // TODO: The previous line is the relevant monkey patch
-        int min_dip = res.getInteger(R.integer.min_width_dip);
+        int minWidthDip = res.getInteger(R.integer.min_width_dip);
         float scale = res.getDisplayMetrics().density;
-        MyApp.LogDebug(LOG_TAG, "calcMaxCols: avail " + availPixels + " min dip " + min_dip);
+        MyApp.LogDebug(LOG_TAG, "calcMaxCols: avail " + availPixels + " min width dip " + minWidthDip);
         int dip;
         do {
-            dip = (int) ((((float) availPixels) / max_cols) / scale);
-            MyApp.LogDebug(LOG_TAG, "calcMaxCols: " + dip + " on " + max_cols + " cols.");
-            max_cols--;
-        } while ((dip < min_dip) && (max_cols > 0));
-        return max_cols + 1;
+            dip = (int) ((((float) availPixels) / maxCols) / scale);
+            MyApp.LogDebug(LOG_TAG, "calcMaxCols: " + dip + " on " + maxCols + " cols.");
+            maxCols--;
+        } while ((dip < minWidthDip) && (maxCols > 0));
+        return maxCols + 1;
     }
 
     @Override
