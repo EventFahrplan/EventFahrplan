@@ -225,6 +225,9 @@ public class FahrplanFragment extends Fragment implements
 
         SharedPreferences prefs = getActivity().getSharedPreferences(PREFS_NAME, 0);
         mDay = prefs.getInt("displayDay", 1);
+        if (mDay > MyApp.numdays) {
+            mDay = 1;
+        }
 
         inflater = (LayoutInflater) getActivity()
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -241,6 +244,9 @@ public class FahrplanFragment extends Fragment implements
         if (MyApp.numdays > 1) {
             buildNavigationMenu();
         }
+
+        // load the current day on start (even after rotating)
+        viewDay(true);
     }
 
     @Override
