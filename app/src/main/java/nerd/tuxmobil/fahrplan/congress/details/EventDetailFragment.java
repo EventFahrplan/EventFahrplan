@@ -54,6 +54,8 @@ public class EventDetailFragment extends Fragment {
 
     public static final int EVENT_DETAIL_FRAGMENT_REQUEST_CODE = 546;
 
+    private static final String SCHEDULE_FEEDBACK_URL = BuildConfig.SCHEDULE_FEEDBACK_URL;
+
     private String event_id;
 
     private String title;
@@ -359,6 +361,12 @@ public class EventDetailFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         Lecture l;
         switch (item.getItemId()) {
+            case R.id.item_feedback: {
+                Uri uri = Uri.parse(String.format(SCHEDULE_FEEDBACK_URL, event_id));
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
+                return true;
+            }
             case R.id.item_share:
                 l = eventIdToLecture(event_id);
                 if (l != null) {
