@@ -990,9 +990,6 @@ public class FahrplanFragment extends Fragment implements
                 days_menu);
         arrayAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_list_item);
         actionBar.setListNavigationCallbacks(arrayAdapter, this);
-//        actionBar.setDisplayShowTitleEnabled(false);
-//        Spinner spinner = (Spinner)getActivity().findViewById(R.id.spinner_toolbar);
-//        spinner.setAdapter(arrayAdapter);
     }
 
     public void onParseDone(Boolean result, String version) {
