@@ -66,7 +66,6 @@ import nerd.tuxmobil.fahrplan.congress.utils.LectureUtils;
 
 public class FahrplanFragment extends Fragment implements
         OnClickListener,
-        ActionBar.OnNavigationListener,
         FahrplanParser.OnParseCompleteListener {
 
     public interface OnRefreshEventMarkers {
@@ -988,7 +987,7 @@ public class FahrplanFragment extends Fragment implements
                 R.layout.support_simple_spinner_dropdown_item_large,
                 days_menu);
         arrayAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_list_item);
-        actionBar.setListNavigationCallbacks(arrayAdapter, this);
+        actionBar.setListNavigationCallbacks(arrayAdapter, new OnDaySelectedListener());
     }
 
     public void onParseDone(Boolean result, String version) {
@@ -1151,13 +1150,17 @@ public class FahrplanFragment extends Fragment implements
         refreshViews();
     }
 
-    @Override
-    public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-        if (itemPosition < MyApp.numdays) {
-            chooseDay(itemPosition);
-            return true;
+    private class OnDaySelectedListener implements ActionBar.OnNavigationListener {
+
+        @Override
+        public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+            if (itemPosition < MyApp.numdays) {
+                chooseDay(itemPosition);
+                return true;
+            }
+            return false;
         }
-        return false;
+
     }
 
 }
