@@ -1152,13 +1152,23 @@ public class FahrplanFragment extends Fragment implements
 
     private class OnDaySelectedListener implements ActionBar.OnNavigationListener {
 
+        private boolean isSynthetic = true;
+
         @Override
         public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+            if (runsAtLeastOnAndroidNougat() && isSynthetic) {
+                isSynthetic = false;
+                return true;
+            }
             if (itemPosition < MyApp.numdays) {
                 chooseDay(itemPosition);
                 return true;
             }
             return false;
+        }
+
+        private boolean runsAtLeastOnAndroidNougat() {
+            return Build.VERSION.SDK_INT > Build.VERSION_CODES.M;
         }
 
     }
