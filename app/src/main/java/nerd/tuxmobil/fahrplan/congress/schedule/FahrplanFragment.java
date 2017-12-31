@@ -49,6 +49,7 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import nerd.tuxmobil.fahrplan.congress.BuildConfig;
 import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmTimePickerFragment;
@@ -62,11 +63,9 @@ import nerd.tuxmobil.fahrplan.congress.sharing.LectureSharer;
 import nerd.tuxmobil.fahrplan.congress.sharing.SimpleLectureFormat;
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
 import nerd.tuxmobil.fahrplan.congress.utils.LectureUtils;
-import nerd.tuxmobil.fahrplan.congress.BuildConfig;
 
 public class FahrplanFragment extends Fragment implements
         OnClickListener,
-        ActionBar.OnNavigationListener,
         FahrplanParser.OnParseCompleteListener {
 
     public interface OnRefreshEventMarkers {
@@ -157,7 +156,6 @@ public class FahrplanFragment extends Fragment implements
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setHasOptionsMenu(true);
         boldCondensed = Typeface.createFromAsset(
                 getActivity().getAssets(), "Roboto-BoldCondensed.ttf");
@@ -989,10 +987,7 @@ public class FahrplanFragment extends Fragment implements
                 R.layout.support_simple_spinner_dropdown_item_large,
                 days_menu);
         arrayAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_list_item);
-        actionBar.setListNavigationCallbacks(arrayAdapter, this);
-//        actionBar.setDisplayShowTitleEnabled(false);
-//        Spinner spinner = (Spinner)getActivity().findViewById(R.id.spinner_toolbar);
-//        spinner.setAdapter(arrayAdapter);
+        actionBar.setListNavigationCallbacks(arrayAdapter, new OnDaySelectedListener());
     }
 
     public void onParseDone(Boolean result, String version) {
@@ -1155,13 +1150,27 @@ public class FahrplanFragment extends Fragment implements
         refreshViews();
     }
 
-    @Override
-    public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-        if (itemPosition < MyApp.numdays) {
-            chooseDay(itemPosition);
-            return true;
+    private class OnDaySelectedListener implements ActionBar.OnNavigationListener {
+
+        private boolean isSynthetic = true;
+
+        @Override
+        public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+            if (runsAtLeastOnAndroidNougat() && isSynthetic) {
+                isSynthetic = false;
+                return true;
+            }
+            if (itemPosition < MyApp.numdays) {
+                chooseDay(itemPosition);
+                return true;
+            }
+            return false;
         }
-        return false;
+
+        private boolean runsAtLeastOnAndroidNougat() {
+            return Build.VERSION.SDK_INT > Build.VERSION_CODES.M;
+        }
+
     }
 
 }
