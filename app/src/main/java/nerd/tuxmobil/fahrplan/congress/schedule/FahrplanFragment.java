@@ -49,6 +49,7 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import nerd.tuxmobil.fahrplan.congress.BuildConfig;
 import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmTimePickerFragment;
@@ -62,7 +63,6 @@ import nerd.tuxmobil.fahrplan.congress.sharing.LectureSharer;
 import nerd.tuxmobil.fahrplan.congress.sharing.SimpleLectureFormat;
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
 import nerd.tuxmobil.fahrplan.congress.utils.LectureUtils;
-import nerd.tuxmobil.fahrplan.congress.BuildConfig;
 
 public class FahrplanFragment extends Fragment implements
         OnClickListener,
@@ -157,7 +157,6 @@ public class FahrplanFragment extends Fragment implements
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setHasOptionsMenu(true);
         boldCondensed = Typeface.createFromAsset(
                 getActivity().getAssets(), "Roboto-BoldCondensed.ttf");
