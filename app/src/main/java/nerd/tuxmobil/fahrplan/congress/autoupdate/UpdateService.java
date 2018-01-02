@@ -18,6 +18,8 @@ import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.text.format.Time;
 
+import org.ligi.tracedroid.logging.Log;
+
 import java.util.List;
 
 import nerd.tuxmobil.fahrplan.congress.BuildConfig;
@@ -143,6 +145,7 @@ public class UpdateService extends IntentService implements
     @Override
     protected void onHandleIntent(Intent intent) {
         MyApp.LogDebug(LOG_TAG, "onHandleIntent");
+        Log.d(getClass().getName(), "intent = " + intent);
         ConnectivityManager connectivityManager =
                 (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
