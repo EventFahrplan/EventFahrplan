@@ -18,6 +18,8 @@ import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.text.format.Time;
 
+import org.ligi.tracedroid.logging.Log;
+
 import java.util.List;
 
 import nerd.tuxmobil.fahrplan.congress.BuildConfig;
@@ -59,34 +61,30 @@ public class UpdateService extends IntentService implements
         String changesTxt = getResources().getQuantityString(R.plurals.changes_notification,
                 changesList.size(), changesList.size());
 
-        // update complete, show notification
-        MyApp.LogDebug(LOG_TAG, "background update complete");
-
-        NotificationManager nm = (NotificationManager) getSystemService(
-                Context.NOTIFICATION_SERVICE);
-        Notification notify = new Notification();
-
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-
         Intent notificationIntent = new Intent(this, MainActivity.class);
         notificationIntent.setFlags(
                 Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
         PendingIntent contentIntent = PendingIntent
                 .getActivity(this, 0, notificationIntent, PendingIntent.FLAG_ONE_SHOT);
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
         int reminderColor = ContextCompat.getColor(this, R.color.colorActionBar);
-        notify = builder.setAutoCancel(true)
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String reminderTone = prefs.getString("reminder_tone", "");
+
+        Notification notification = new NotificationCompat.Builder(this)
+                .setAutoCancel(true)
                 .setContentText(getString(R.string.aktualisiert_auf, version))
                 .setContentTitle(getString(R.string.app_name))
-                .setDefaults(Notification.DEFAULT_LIGHTS).setSmallIcon(R.drawable.ic_notification)
-                .setSound(Uri.parse(prefs.getString("reminder_tone", "")))
+                .setDefaults(Notification.DEFAULT_LIGHTS)
+                .setSmallIcon(R.drawable.ic_notification)
+                .setSound(Uri.parse(reminderTone))
                 .setContentIntent(contentIntent)
                 .setSubText(changesTxt)
                 .setColor(reminderColor)
                 .build();
-
-        nm.notify(2, notify);
+        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        manager.notify(2, notification);
+        MyApp.LogDebug(LOG_TAG, "background update complete");
 
         stopSelf();
     }
@@ -130,10 +128,10 @@ public class UpdateService extends IntentService implements
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
             String alternateURL = prefs.getString(BundleKeys.PREFS_SCHEDULE_URL, null);
             String url;
-            if (!TextUtils.isEmpty(alternateURL)) {
-                url = alternateURL;
-            } else {
+            if (TextUtils.isEmpty(alternateURL)) {
                 url = BuildConfig.SCHEDULE_URL;
+            } else {
+                url = alternateURL;
             }
 
             MyApp.task_running = TASKS.FETCH;
@@ -146,13 +144,12 @@ public class UpdateService extends IntentService implements
 
     @Override
     protected void onHandleIntent(Intent intent) {
-
         MyApp.LogDebug(LOG_TAG, "onHandleIntent");
-
-        ConnectivityManager connectivityMgr = (ConnectivityManager) getSystemService(
-                Context.CONNECTIVITY_SERVICE);
-        NetworkInfo nwInfo = connectivityMgr.getActiveNetworkInfo();
-        if (nwInfo == null || !nwInfo.isConnected()) {
+        Log.d(getClass().getName(), "intent = " + intent);
+        ConnectivityManager connectivityManager =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        if (networkInfo == null || !networkInfo.isConnected()) {
             MyApp.LogDebug(LOG_TAG, "not connected");
             ConnectivityStateReceiver.enableReceiver(this);
             stopSelf();
@@ -172,8 +169,8 @@ public class UpdateService extends IntentService implements
     }
 
     public static void start(@NonNull Context context) {
-        Intent updateIntent = new Intent(context, UpdateService.class);
-        context.startService(updateIntent);
+        Intent intent = new Intent(context, UpdateService.class);
+        context.startService(intent);
     }
 
 }
