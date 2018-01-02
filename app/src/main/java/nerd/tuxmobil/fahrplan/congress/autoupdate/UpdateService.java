@@ -62,8 +62,6 @@ public class UpdateService extends IntentService implements
         // update complete, show notification
         MyApp.LogDebug(LOG_TAG, "background update complete");
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-
         Intent notificationIntent = new Intent(this, MainActivity.class);
         notificationIntent.setFlags(
                 Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
@@ -71,13 +69,16 @@ public class UpdateService extends IntentService implements
                 .getActivity(this, 0, notificationIntent, PendingIntent.FLAG_ONE_SHOT);
 
         int reminderColor = ContextCompat.getColor(this, R.color.colorActionBar);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String reminderTone = prefs.getString("reminder_tone", "");
+
         Notification notification = new NotificationCompat.Builder(this)
                 .setAutoCancel(true)
                 .setContentText(getString(R.string.aktualisiert_auf, version))
                 .setContentTitle(getString(R.string.app_name))
                 .setDefaults(Notification.DEFAULT_LIGHTS)
                 .setSmallIcon(R.drawable.ic_notification)
-                .setSound(Uri.parse(prefs.getString("reminder_tone", "")))
+                .setSound(Uri.parse(reminderTone))
                 .setContentIntent(contentIntent)
                 .setSubText(changesTxt)
                 .setColor(reminderColor)
