@@ -59,9 +59,6 @@ public class UpdateService extends IntentService implements
         String changesTxt = getResources().getQuantityString(R.plurals.changes_notification,
                 changesList.size(), changesList.size());
 
-        // update complete, show notification
-        MyApp.LogDebug(LOG_TAG, "background update complete");
-
         Intent notificationIntent = new Intent(this, MainActivity.class);
         notificationIntent.setFlags(
                 Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
@@ -85,6 +82,7 @@ public class UpdateService extends IntentService implements
                 .build();
         NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         manager.notify(2, notification);
+        MyApp.LogDebug(LOG_TAG, "background update complete");
 
         stopSelf();
     }
