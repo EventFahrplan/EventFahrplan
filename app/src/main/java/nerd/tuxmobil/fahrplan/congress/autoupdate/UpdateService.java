@@ -79,7 +79,8 @@ public class UpdateService extends IntentService implements
         notify = builder.setAutoCancel(true)
                 .setContentText(getString(R.string.aktualisiert_auf, version))
                 .setContentTitle(getString(R.string.app_name))
-                .setDefaults(Notification.DEFAULT_LIGHTS).setSmallIcon(R.drawable.ic_notification)
+                .setDefaults(Notification.DEFAULT_LIGHTS)
+                .setSmallIcon(R.drawable.ic_notification)
                 .setSound(Uri.parse(prefs.getString("reminder_tone", "")))
                 .setContentIntent(contentIntent)
                 .setSubText(changesTxt)
@@ -146,11 +147,9 @@ public class UpdateService extends IntentService implements
 
     @Override
     protected void onHandleIntent(Intent intent) {
-
         MyApp.LogDebug(LOG_TAG, "onHandleIntent");
-
-        ConnectivityManager connectivityMgr = (ConnectivityManager) getSystemService(
-                Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager connectivityMgr =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo nwInfo = connectivityMgr.getActiveNetworkInfo();
         if (nwInfo == null || !nwInfo.isConnected()) {
             MyApp.LogDebug(LOG_TAG, "not connected");
