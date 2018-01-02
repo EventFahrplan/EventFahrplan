@@ -62,10 +62,6 @@ public class UpdateService extends IntentService implements
         // update complete, show notification
         MyApp.LogDebug(LOG_TAG, "background update complete");
 
-        NotificationManager nm = (NotificationManager) getSystemService(
-                Context.NOTIFICATION_SERVICE);
-        Notification notify = new Notification();
-
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         Intent notificationIntent = new Intent(this, MainActivity.class);
@@ -74,9 +70,9 @@ public class UpdateService extends IntentService implements
         PendingIntent contentIntent = PendingIntent
                 .getActivity(this, 0, notificationIntent, PendingIntent.FLAG_ONE_SHOT);
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
         int reminderColor = ContextCompat.getColor(this, R.color.colorActionBar);
-        notify = builder.setAutoCancel(true)
+        Notification notification = new NotificationCompat.Builder(this)
+                .setAutoCancel(true)
                 .setContentText(getString(R.string.aktualisiert_auf, version))
                 .setContentTitle(getString(R.string.app_name))
                 .setDefaults(Notification.DEFAULT_LIGHTS)
@@ -86,8 +82,8 @@ public class UpdateService extends IntentService implements
                 .setSubText(changesTxt)
                 .setColor(reminderColor)
                 .build();
-
-        nm.notify(2, notify);
+        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        manager.notify(2, notification);
 
         stopSelf();
     }
