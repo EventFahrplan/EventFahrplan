@@ -128,10 +128,10 @@ public class UpdateService extends IntentService implements
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
             String alternateURL = prefs.getString(BundleKeys.PREFS_SCHEDULE_URL, null);
             String url;
-            if (!TextUtils.isEmpty(alternateURL)) {
-                url = alternateURL;
-            } else {
+            if (TextUtils.isEmpty(alternateURL)) {
                 url = BuildConfig.SCHEDULE_URL;
+            } else {
+                url = alternateURL;
             }
 
             MyApp.task_running = TASKS.FETCH;
