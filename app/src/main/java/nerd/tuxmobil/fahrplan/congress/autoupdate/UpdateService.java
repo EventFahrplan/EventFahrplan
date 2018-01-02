@@ -148,10 +148,10 @@ public class UpdateService extends IntentService implements
     @Override
     protected void onHandleIntent(Intent intent) {
         MyApp.LogDebug(LOG_TAG, "onHandleIntent");
-        ConnectivityManager connectivityMgr =
+        ConnectivityManager connectivityManager =
                 (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo nwInfo = connectivityMgr.getActiveNetworkInfo();
-        if (nwInfo == null || !nwInfo.isConnected()) {
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        if (networkInfo == null || !networkInfo.isConnected()) {
             MyApp.LogDebug(LOG_TAG, "not connected");
             ConnectivityStateReceiver.enableReceiver(this);
             stopSelf();
@@ -171,8 +171,8 @@ public class UpdateService extends IntentService implements
     }
 
     public static void start(@NonNull Context context) {
-        Intent updateIntent = new Intent(context, UpdateService.class);
-        context.startService(updateIntent);
+        Intent intent = new Intent(context, UpdateService.class);
+        context.startService(intent);
     }
 
 }
