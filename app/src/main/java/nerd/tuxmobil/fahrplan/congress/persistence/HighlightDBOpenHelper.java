@@ -11,6 +11,8 @@ public class HighlightDBOpenHelper extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
 
+    private static final String DATABASE_NAME = "highlight";
+
     private static final String HIGHLIGHT_TABLE_CREATE =
             "CREATE TABLE " + HighlightsTable.NAME + " (" +
                     Columns.ID + " INTEGER PRIMARY KEY, " +
@@ -18,7 +20,7 @@ public class HighlightDBOpenHelper extends SQLiteOpenHelper {
                     Columns.HIGHLIGHT + " INTEGER);";
 
     public HighlightDBOpenHelper(Context context) {
-        super(context, HighlightsTable.NAME, null, DATABASE_VERSION);
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override

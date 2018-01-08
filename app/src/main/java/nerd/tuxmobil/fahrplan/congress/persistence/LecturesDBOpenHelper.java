@@ -14,6 +14,8 @@ public class LecturesDBOpenHelper extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 5;
 
+    private static final String DATABASE_NAME = "lectures";
+
     private static final String LECTURES_TABLE_CREATE =
             "CREATE TABLE " + LecturesTable.NAME + " (" +
                     Columns.EVENT_ID + " TEXT, " +
@@ -50,7 +52,7 @@ public class LecturesDBOpenHelper extends SQLiteOpenHelper {
                     Columns.CHANGED_IS_CANCELED + " INTEGER)";
 
     public LecturesDBOpenHelper(@NonNull Context context) {
-        super(context, LecturesTable.NAME, null, DATABASE_VERSION);
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override

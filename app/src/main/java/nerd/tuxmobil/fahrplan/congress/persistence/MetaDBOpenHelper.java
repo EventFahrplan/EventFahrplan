@@ -12,6 +12,8 @@ public class MetaDBOpenHelper extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 3;
 
+    private static final String DATABASE_NAME = "meta";
+
     private static final String META_TABLE_CREATE =
             "CREATE TABLE " + MetasTable.NAME + " (" +
                     Columns.NUM_DAYS + " INTEGER, " +
@@ -23,7 +25,7 @@ public class MetaDBOpenHelper extends SQLiteOpenHelper {
                     Columns.ETAG + " TEXT);";
 
     public MetaDBOpenHelper(Context context) {
-        super(context, MetasTable.NAME, null, DATABASE_VERSION);
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
