@@ -123,8 +123,8 @@ public class AlarmList extends ActionBarListActivity {
                 this, Integer.parseInt(lecture_id), deleteAlarmIntent, 0);
         alarmManager.cancel(pendingintent);
 
-        String id = cursor.getString(cursor.getColumnIndex(AlarmsTable.Columns.ID));
-        db.delete(AlarmsTable.NAME, Columns.ID + " = ?", new String[]{id});
+        int alarmId = cursor.getInt(cursor.getColumnIndex(Columns.ID));
+        db.delete(AlarmsTable.NAME, Columns.ID + " = ?", new String[]{String.valueOf(alarmId)});
         cursor.requery();
         mAdapter.notifyDataSetChanged();
     }
