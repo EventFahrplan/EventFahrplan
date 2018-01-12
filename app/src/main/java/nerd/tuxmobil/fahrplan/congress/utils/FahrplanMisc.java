@@ -48,6 +48,8 @@ public class FahrplanMisc {
 
     private static final String LOG_TAG = "FahrplanMisc";
     private static final int ALL_DAYS = -1;
+    private static final DateFormat TIME_TEXT_DATE_FORMAT =
+            SimpleDateFormat.getDateTimeInstance(SimpleDateFormat.SHORT, SimpleDateFormat.SHORT);
 
     public static void loadDays(Context context) {
         MyApp.dateInfos = new DateInfos();
@@ -339,7 +341,11 @@ public class FahrplanMisc {
         // Set new alarm
         alarmManager.set(AlarmManager.RTC_WAKEUP, when, pendingintent);
 
+        String eventId = lecture.lecture_id;
+        String eventTitle = lecture.title;
         int alarmTimeInMin = alarmTimes.get(alarmTimesIndex);
+        String timeText = TIME_TEXT_DATE_FORMAT.format(new Date(when));
+        int day = lecture.day;
 
         // write to DB
 
@@ -355,15 +361,13 @@ public class FahrplanMisc {
 
             ContentValues values = new ContentValues();
 
-            values.put(AlarmsTable.Columns.EVENT_ID, Integer.parseInt(lecture.lecture_id));
-            values.put(AlarmsTable.Columns.EVENT_TITLE, lecture.title);
+            values.put(AlarmsTable.Columns.EVENT_ID, eventId);
+            values.put(AlarmsTable.Columns.EVENT_TITLE, eventTitle);
             values.put(AlarmsTable.Columns.ALARM_TIME_IN_MIN, alarmTimeInMin);
             values.put(AlarmsTable.Columns.TIME, when);
-            DateFormat df = SimpleDateFormat
-                    .getDateTimeInstance(SimpleDateFormat.SHORT, SimpleDateFormat.SHORT);
-            values.put(AlarmsTable.Columns.TIME_TEXT, df.format(new Date(when)));
+            values.put(AlarmsTable.Columns.TIME_TEXT, timeText);
             values.put(AlarmsTable.Columns.DISPLAY_TIME, startTime);
-            values.put(AlarmsTable.Columns.DAY, lecture.day);
+            values.put(AlarmsTable.Columns.DAY, day);
 
             db.insert(AlarmsTable.NAME, null, values);
             db.setTransactionSuccessful();
