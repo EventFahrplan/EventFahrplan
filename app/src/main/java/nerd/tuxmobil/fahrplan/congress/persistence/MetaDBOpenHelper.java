@@ -22,16 +22,6 @@ public class MetaDBOpenHelper extends SQLiteOpenHelper {
                     Columns.DAY_CHANGE_MINUTE + " INTEGER, " +
                     Columns.ETAG + " TEXT);";
 
-    public static final String[] allcolumns = {
-            Columns.NUM_DAYS,
-            Columns.VERSION,
-            Columns.TITLE,
-            Columns.SUBTITLE,
-            Columns.DAY_CHANGE_HOUR,
-            Columns.DAY_CHANGE_MINUTE,
-            Columns.ETAG
-    };
-
     public MetaDBOpenHelper(Context context) {
         super(context, MetasTable.NAME, null, DATABASE_VERSION);
     }

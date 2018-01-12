@@ -49,41 +49,6 @@ public class LecturesDBOpenHelper extends SQLiteOpenHelper {
                     Columns.CHANGED_DURATION + " INTEGER," +
                     Columns.CHANGED_IS_CANCELED + " INTEGER)";
 
-    public static final String[] allcolumns = {
-            Columns.EVENT_ID,
-            Columns.TITLE,
-            Columns.SUBTITLE,
-            Columns.DAY,
-            Columns.ROOM,
-            Columns.START,
-            Columns.DURATION,
-            Columns.SPEAKERS,
-            Columns.TRACK,
-            Columns.TYPE,
-            Columns.LANG,
-            Columns.ABSTRACT,
-            Columns.DESCR,
-            Columns.REL_START,
-            Columns.DATE,
-            Columns.LINKS,
-            Columns.DATE_UTC,
-            Columns.ROOM_IDX,
-            Columns.REC_LICENSE,
-            Columns.REC_OPTOUT,
-            Columns.CHANGED_TITLE,
-            Columns.CHANGED_SUBTITLE,
-            Columns.CHANGED_ROOM,
-            Columns.CHANGED_DAY,
-            Columns.CHANGED_SPEAKERS,
-            Columns.CHANGED_RECORDING_OPTOUT,
-            Columns.CHANGED_LANGUAGE,
-            Columns.CHANGED_TRACK,
-            Columns.CHANGED_IS_NEW,
-            Columns.CHANGED_TIME,
-            Columns.CHANGED_DURATION,
-            Columns.CHANGED_IS_CANCELED
-    };
-
     public LecturesDBOpenHelper(@NonNull Context context) {
         super(context, LecturesTable.NAME, null, DATABASE_VERSION);
     }

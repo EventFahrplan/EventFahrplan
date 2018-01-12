@@ -57,7 +57,7 @@ public class FahrplanMisc {
         Cursor cursor;
 
         try {
-            cursor = lecturedb.query(LecturesTable.NAME, LecturesDBOpenHelper.allcolumns,
+            cursor = lecturedb.query(LecturesTable.NAME, null,
                     null, null, null,
                     null, null);
         } catch (SQLiteException e) {
@@ -101,7 +101,7 @@ public class FahrplanMisc {
 
         Cursor cursor;
         try {
-            cursor = metadb.query(MetasTable.NAME, MetaDBOpenHelper.allcolumns, null, null,
+            cursor = metadb.query(MetasTable.NAME, null, null, null,
                     null, null, null);
         } catch (SQLiteException e) {
             e.printStackTrace();
@@ -236,7 +236,7 @@ public class FahrplanMisc {
         try {
             cursor = db.query(
                     AlarmsTable.NAME,
-                    AlarmsDBOpenHelper.allcolumns,
+                    null,
                     AlarmsTable.Columns.EVENT_ID + "=?",
                     new String[]{lecture.lecture_id},
                     null,
@@ -486,7 +486,7 @@ public class FahrplanMisc {
         try {
             cursor = lecturedb.query(
                     LecturesTable.NAME,
-                    LecturesDBOpenHelper.allcolumns,
+                    null,
                     allDays ? null : (LecturesTable.Columns.DAY + "=?"),
                     allDays ? null : (new String[]{String.format("%d", day)}),
                     null, null, LecturesTable.Columns.DATE_UTC);
@@ -500,7 +500,7 @@ public class FahrplanMisc {
         try {
             hCursor = highlightdb.query(
                     HighlightsTable.NAME,
-                    HighlightDBOpenHelper.allcolumns,
+                    null,
                     null, null, null, null, null);
         } catch (SQLiteException e) {
             e.printStackTrace();

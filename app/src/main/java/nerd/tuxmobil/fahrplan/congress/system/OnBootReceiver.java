@@ -35,7 +35,7 @@ public final class OnBootReceiver extends BroadcastReceiver {
         Cursor cursor;
 
         try {
-            cursor = db.query(AlarmsTable.NAME, AlarmsDBOpenHelper.allcolumns,
+            cursor = db.query(AlarmsTable.NAME, null,
                     null, null, null, null, null);
         } catch (SQLiteException e) {
             e.printStackTrace();

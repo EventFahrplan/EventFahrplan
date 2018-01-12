@@ -56,7 +56,7 @@ public class AlarmList extends ActionBarListActivity {
         Cursor cursor;
 
         try {
-            cursor = db.query(AlarmsTable.NAME, AlarmsDBOpenHelper.allcolumns, null,
+            cursor = db.query(AlarmsTable.NAME, null, null,
                     null, null, null, Columns.TIME);
         } catch (SQLiteException e) {
             e.printStackTrace();

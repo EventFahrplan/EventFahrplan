@@ -17,12 +17,6 @@ public class HighlightDBOpenHelper extends SQLiteOpenHelper {
                     Columns.EVENT_ID + " INTEGER," +
                     Columns.HIGHLIGHT + " INTEGER);";
 
-    public static final String[] allcolumns = {
-            Columns.ID,
-            Columns.EVENT_ID,
-            Columns.HIGHLIGHT
-    };
-
     public HighlightDBOpenHelper(Context context) {
         super(context, HighlightsTable.NAME, null, DATABASE_VERSION);
     }
