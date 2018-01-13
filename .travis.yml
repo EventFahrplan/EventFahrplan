@@ -9,6 +9,9 @@ android:
     # All the build system components should be at the latest version
     - tools
     - platform-tools
+    - tools
+    # Note that the tools section appears twice on purpose as it’s required
+    # to get the newest Android SDK tools. Source: Travis CI docs.
     - build-tools-27.0.2
     - android-26
 
