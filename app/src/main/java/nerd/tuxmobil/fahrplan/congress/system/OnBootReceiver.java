@@ -35,7 +35,7 @@ public final class OnBootReceiver extends BroadcastReceiver {
         Cursor cursor;
 
         try {
-            cursor = db.query(AlarmsTable.NAME, AlarmsDBOpenHelper.allcolumns,
+            cursor = db.query(AlarmsTable.NAME, null,
                     null, null, null, null, null);
         } catch (SQLiteException e) {
             e.printStackTrace();
@@ -87,8 +87,8 @@ public final class OnBootReceiver extends BroadcastReceiver {
 
                 MyApp.LogDebug(LOG_TAG, "remove alarm from DB ");
 
-                String id = cursor.getString(cursor.getColumnIndex(AlarmsTable.Columns.ID));
-                db.delete(AlarmsTable.NAME, AlarmsTable.Columns.ID + " = ?", new String[]{id});
+                int alarmId = cursor.getInt(cursor.getColumnIndex(AlarmsTable.Columns.ID));
+                db.delete(AlarmsTable.NAME, AlarmsTable.Columns.ID + " = ?", new String[]{String.valueOf(alarmId)});
             }
 
             cursor.moveToNext();

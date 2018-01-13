@@ -10,6 +10,8 @@ public class AlarmsDBOpenHelper extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 2;
 
+    private static final String DATABASE_NAME = "alarms";
+
     private static final String ALARMS_TABLE_CREATE =
             "CREATE TABLE " + AlarmsTable.NAME + " (" +
                     AlarmsTable.Columns.ID + " INTEGER PRIMARY KEY, " +
@@ -22,19 +24,8 @@ public class AlarmsDBOpenHelper extends SQLiteOpenHelper {
                     AlarmsTable.Columns.DISPLAY_TIME + " INTEGER," +
                     AlarmsTable.Columns.DAY + " INTEGER);";
 
-    public static final String[] allcolumns = {
-            AlarmsTable.Columns.ID,
-            AlarmsTable.Columns.EVENT_TITLE,
-            AlarmsTable.Columns.ALARM_TIME_IN_MIN,
-            AlarmsTable.Columns.TIME,
-            AlarmsTable.Columns.TIME_TEXT,
-            AlarmsTable.Columns.EVENT_ID,
-            AlarmsTable.Columns.DISPLAY_TIME,
-            AlarmsTable.Columns.DAY
-    };
-
     public AlarmsDBOpenHelper(Context context) {
-        super(context, AlarmsTable.NAME, null, DATABASE_VERSION);
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override

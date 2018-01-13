@@ -912,7 +912,7 @@ public class FahrplanFragment extends Fragment implements
         try {
             alarmCursor = alarmdb.query(
                     AlarmsTable.NAME,
-                    AlarmsDBOpenHelper.allcolumns,
+                    null,
                     null, null, null,
                     null, null);
         } catch (SQLiteException e) {
