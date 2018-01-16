@@ -253,7 +253,7 @@ public class FahrplanMisc {
         if (cursor.getCount() == 0) {
             db.close();
             cursor.close();
-            MyApp.LogDebug("delete_alarm", "alarm for " + lecture.lecture_id + " not found");
+            MyApp.LogDebug("deleteAlarm", "alarm for " + lecture.lecture_id + " not found");
             lecture.has_alarm = false;
             return;
         }
