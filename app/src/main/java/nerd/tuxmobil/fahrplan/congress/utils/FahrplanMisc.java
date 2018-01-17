@@ -482,13 +482,15 @@ public class FahrplanMisc {
         Cursor cursor, hCursor;
 
         boolean allDays = day == ALL_DAYS;
+        String selection = allDays ? null : (LecturesTable.Columns.DAY + "=?");
+        String[] selectionArgs = allDays ? null : (new String[]{String.format("%d", day)});
 
         try {
             cursor = lecturedb.query(
                     LecturesTable.NAME,
                     null,
-                    allDays ? null : (LecturesTable.Columns.DAY + "=?"),
-                    allDays ? null : (new String[]{String.format("%d", day)}),
+                    selection,
+                    selectionArgs,
                     null,
                     null,
                     LecturesTable.Columns.DATE_UTC
