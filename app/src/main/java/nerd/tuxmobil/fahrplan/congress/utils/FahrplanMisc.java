@@ -126,9 +126,9 @@ public class FahrplanMisc {
             if (cursor.getColumnCount() > columnIndexNumDays) {
                 MyApp.numdays = cursor.getInt(columnIndexNumDays);
             }
-            int columIndexVersion = cursor.getColumnIndex(MetasTable.Columns.VERSION);
-            if (cursor.getColumnCount() > columIndexVersion) {
-                MyApp.version = cursor.getString(columIndexVersion);
+            int columnIndexVersion = cursor.getColumnIndex(MetasTable.Columns.VERSION);
+            if (cursor.getColumnCount() > columnIndexVersion) {
+                MyApp.version = cursor.getString(columnIndexVersion);
             }
             int columnIndexTitle = cursor.getColumnIndex(MetasTable.Columns.TITLE);
             if (cursor.getColumnCount() > columnIndexTitle) {
@@ -544,7 +544,7 @@ public class FahrplanMisc {
                     hCursor.getColumnIndex(HighlightsTable.Columns.EVENT_ID));
             int highlightState = hCursor.getInt(
                     hCursor.getColumnIndex(HighlightsTable.Columns.HIGHLIGHT));
-            MyApp.LogDebug(LOG_TAG, "lecture " + lecture_id + " is hightlighted:" + highlightState);
+            MyApp.LogDebug(LOG_TAG, "lecture " + lecture_id + " is highlighted:" + highlightState);
 
             for (Lecture lecture : lectures) {
                 if (lecture.lecture_id.equals(lecture_id)) {
