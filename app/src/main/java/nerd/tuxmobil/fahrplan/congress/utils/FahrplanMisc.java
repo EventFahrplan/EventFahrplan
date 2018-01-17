@@ -154,7 +154,7 @@ public class FahrplanMisc {
             }
         }
 
-        MyApp.LogDebug(LOG_TAG, "loadMeta: numdays=" + MyApp.numdays + " version:"
+        MyApp.LogDebug(LOG_TAG, "loadMeta: numdays=" + MyApp.numdays + " version: "
                 + MyApp.version + " " + MyApp.title + " " + MyApp.eTag);
         cursor.close();
 
@@ -381,7 +381,6 @@ public class FahrplanMisc {
 
     public static void writeHighlight(@NonNull Context context, @NonNull Lecture lecture) {
         HighlightDBOpenHelper highlightDB = new HighlightDBOpenHelper(context);
-
         SQLiteDatabase db = highlightDB.getWritableDatabase();
 
         try {
@@ -492,7 +491,10 @@ public class FahrplanMisc {
                     null,
                     allDays ? null : (LecturesTable.Columns.DAY + "=?"),
                     allDays ? null : (new String[]{String.format("%d", day)}),
-                    null, null, LecturesTable.Columns.DATE_UTC);
+                    null,
+                    null,
+                    LecturesTable.Columns.DATE_UTC
+            );
         } catch (SQLiteException e) {
             e.printStackTrace();
             lecturedb.close();
@@ -504,7 +506,12 @@ public class FahrplanMisc {
             hCursor = highlightdb.query(
                     HighlightsTable.NAME,
                     null,
-                    null, null, null, null, null);
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+            );
         } catch (SQLiteException e) {
             e.printStackTrace();
             lecturedb.close();
