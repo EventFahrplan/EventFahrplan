@@ -472,18 +472,16 @@ public class FahrplanMisc {
     public static List<Lecture> loadLecturesForDayIndex(@NonNull Context context, int day) {
         MyApp.LogDebug(LOG_TAG, "load lectures of day " + day);
 
-        SQLiteDatabase lecturedb = null;
         LecturesDBOpenHelper lecturesDB = new LecturesDBOpenHelper(context);
-        lecturedb = lecturesDB.getReadableDatabase();
+        SQLiteDatabase lecturedb = lecturesDB.getReadableDatabase();
 
         HighlightDBOpenHelper highlightDB = new HighlightDBOpenHelper(context);
         SQLiteDatabase highlightdb = highlightDB.getReadableDatabase();
 
         List<Lecture> lectures = new ArrayList<>();
         Cursor cursor, hCursor;
-        boolean allDays;
 
-        allDays = day == ALL_DAYS;
+        boolean allDays = day == ALL_DAYS;
 
         try {
             cursor = lecturedb.query(
