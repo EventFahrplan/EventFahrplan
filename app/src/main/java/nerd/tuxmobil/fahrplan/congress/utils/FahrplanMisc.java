@@ -544,11 +544,12 @@ public class FahrplanMisc {
                     hCursor.getColumnIndex(HighlightsTable.Columns.EVENT_ID));
             int highlightState = hCursor.getInt(
                     hCursor.getColumnIndex(HighlightsTable.Columns.HIGHLIGHT));
-            MyApp.LogDebug(LOG_TAG, "lecture " + lecture_id + " is highlighted:" + highlightState);
+            boolean isHighlighted = highlightState == HighlightsTable.Values.HIGHLIGHT_STATE_ON;
+            MyApp.LogDebug(LOG_TAG, "lecture " + lecture_id + " is highlighted:" + Boolean.toString(isHighlighted));
 
             for (Lecture lecture : lectures) {
                 if (lecture.lecture_id.equals(lecture_id)) {
-                    lecture.highlight = (highlightState == HighlightsTable.Values.HIGHLIGHT_STATE_ON);
+                    lecture.highlight = isHighlighted;
                 }
             }
             hCursor.moveToNext();
