@@ -109,7 +109,6 @@ public class FahrplanMisc {
             e.printStackTrace();
             metaDB.close();
             metadb.close();
-            metadb = null;
             return;
         }
 
