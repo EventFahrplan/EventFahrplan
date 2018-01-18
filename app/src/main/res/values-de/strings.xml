@@ -16,7 +16,7 @@
     <string name="dlg_err_connection_failed">Verbindungsfehler</string>
     <string name="dlg_err_failed_wrong_password">Das Kennwort ist falsch.</string>
     <string name="dlg_err_failed_unknown_host">Unbekannte Adresse:\n%s</string>
-    <string name="dlg_err_failed_wrong_http_credentials">Ungültige HTTP Authentisierung</string>
+    <string name="dlg_err_failed_wrong_http_credentials">Ungültige HTTP Authentifizierung</string>
     <string name="dlg_err_failed_timeout">Server antwortet nicht (Zeitüberschreitung).</string>
     <string name="dlg_err_failed_connect_failure">Unbekannter Verbindungsfehler</string>
     <string name="dlg_err_failed_not_found">Ungültige Fahrplan-Adresse</string>
@@ -74,7 +74,7 @@
     <string name="flag_as_favorite">Zu Favoriten hinzufügen</string>
     <string name="unflag_as_favorite">Aus Favoriten entfernen</string>
     <string name="event_details_close">Detailansicht schließen</string>
-    <string name="pref_auto_download">Automatische Updates</string>
+    <string name="pref_auto_download">Automatische Aktualisierung</string>
     <string name="parsing_error_generic">Unbekannter Fehler beim Parsen des Fahrplans</string>
     <string name="parsing_error_with_version">Fehler beim Parsen der Fahrplan-Version %s</string>
 	<string name="alarms_empty">
@@ -82,7 +82,7 @@
 		kannst du über das entsprechende Symbol in der ActionBar
 		für jeden Eintrag einen individuellen Alarm festlegen.
 	</string>
-    <string name="add_to_calendar_failed">Hinzufügen zu Kalendar fehlgeschlagen.</string>
+    <string name="add_to_calendar_failed">Hinzufügen zum Kalendar fehlgeschlagen.</string>
     <string name="no_changes">Keine Fahrplanänderungen</string>
     <string name="schedule_changes">Fahrplanänderungen</string>
     <string name="changes_dlg_text1">Der Fahrplan wurde aktualisiert auf Version</string>
