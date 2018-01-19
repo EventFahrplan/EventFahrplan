@@ -110,12 +110,9 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
         MyApp.LogDebug(LOG_TAG, "scroll to col " + col + "/" + scrollTo + " " + getChildAt(0).getMeasuredWidth());
         if (!fast) {
             this.post(new Runnable() {
-
                 @Override
                 public void run() {
-                    // TODO Auto-generated method stub
                     smoothScrollTo(scrollTo, 0);
-
                 }
             });
         } else {
@@ -138,7 +135,6 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
     private class OnTouchListener implements View.OnTouchListener {
 
         public boolean onTouch(View v, MotionEvent event) {
-//	            	return false;
             MyApp.LogDebug(LOG_TAG, "onTouch");
             if (gestureDetector.onTouchEvent(event)) {
                 // MyApp.LogDebug(LOG_TAG, "gesture detector consumed event");
@@ -247,7 +243,6 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
     }
 
     public void setColumnWidth(int pixels) {
-
         MyApp.LogDebug(LOG_TAG, "setColumnWidth " + pixels);
         columnWidth = pixels;
         if (pixels == 0) {
