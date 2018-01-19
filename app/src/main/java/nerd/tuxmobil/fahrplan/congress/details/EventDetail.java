@@ -35,6 +35,7 @@ public class EventDetail extends BaseActivity {
         intent.putExtra(BundleKeys.EVENT_TIME, lecture.startTime);
         intent.putExtra(BundleKeys.EVENT_DAY, lectureDay);
         intent.putExtra(BundleKeys.EVENT_ROOM, lecture.room);
+        intent.putExtra(BundleKeys.EVENT_SLUG, lecture.slug);
         activity.startActivityForResult(intent, MyApp.EVENTVIEW);
     }
 
@@ -74,6 +75,8 @@ public class EventDetail extends BaseActivity {
                     intent.getIntExtra(BundleKeys.EVENT_DAY, 0));
             args.putString(BundleKeys.EVENT_ROOM,
                     intent.getStringExtra(BundleKeys.EVENT_ROOM));
+            args.putString(BundleKeys.EVENT_SLUG,
+                    intent.getStringExtra(BundleKeys.EVENT_SLUG));
             eventDetailFragment.setArguments(args);
             replaceFragment(R.id.detail, eventDetailFragment,
                     EventDetailFragment.FRAGMENT_TAG);

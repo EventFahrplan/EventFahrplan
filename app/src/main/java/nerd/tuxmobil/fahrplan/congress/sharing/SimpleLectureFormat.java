@@ -11,6 +11,8 @@ import nerd.tuxmobil.fahrplan.congress.utils.DateHelper;
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
 import nerd.tuxmobil.fahrplan.congress.wiki.WikiEventUtils;
 
+import static nerd.tuxmobil.fahrplan.congress.BuildConfig.COMPOSE_EVENT_URL_FROM_SLUG;
+
 public class SimpleLectureFormat {
 
     private static final String LINE_BREAK = "\n";
@@ -58,7 +60,8 @@ public class SimpleLectureFormat {
         if (!WikiEventUtils.linksContainWikiLink(lecture.getLinks())) {
             builder.append(LINE_BREAK);
             builder.append(LINE_BREAK);
-            String eventUrl = FahrplanMisc.getEventUrl(lecture.lecture_id);
+            String eventUrlPart = COMPOSE_EVENT_URL_FROM_SLUG ? lecture.slug : lecture.lecture_id;
+            String eventUrl = FahrplanMisc.getEventUrl(eventUrlPart);
             builder.append(eventUrl);
         }
     }

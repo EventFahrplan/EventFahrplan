@@ -85,6 +85,7 @@ android {
             buildConfigField "int", "SCHEDULE_LAST_DAY_END_MONTH", "8"
             buildConfigField "int", "SCHEDULE_LAST_DAY_END_DAY", "17"
             buildConfigField "boolean", "SHOW_APP_DISCLAIMER", "false"
+            buildConfigField "boolean", "COMPOSE_EVENT_URL_FROM_SLUG", "false"
             buildConfigField "String", "TRACE_DROID_EMAIL_ADDRESS", '"ENTER_EMAIL_ADDRESS_HERE"'
             buildConfigField "String", "SCHEDULE_FEEDBACK_URL", '"https://frab.cccv.de/en/camp2015/public/events/%s/feedback/new"'
 
@@ -105,6 +106,7 @@ android {
             buildConfigField "int", "SCHEDULE_LAST_DAY_END_MONTH", "12"
             buildConfigField "int", "SCHEDULE_LAST_DAY_END_DAY", "31"
             buildConfigField "boolean", "SHOW_APP_DISCLAIMER", "false"
+            buildConfigField "boolean", "COMPOSE_EVENT_URL_FROM_SLUG", "false"
             buildConfigField "String", "TRACE_DROID_EMAIL_ADDRESS", '"tobias.preuss+34c3@googlemail.com"'
             buildConfigField "String", "SCHEDULE_FEEDBACK_URL", '"https://frab.cccv.de/en/34C3/public/events/%s/feedback/new"'
         }

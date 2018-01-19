@@ -13,6 +13,8 @@ public class Lecture {
 
     public String room;
 
+    public String slug;
+
     public int startTime;                // minutes since day start
 
     public int duration;                // minutes
@@ -71,6 +73,7 @@ public class Lecture {
         subtitle = "";
         day = 0;
         room = "";
+        slug = "";
         startTime = 0;
         duration = 0;
         speakers = "";
