@@ -109,7 +109,6 @@ public class FahrplanMisc {
             e.printStackTrace();
             metaDB.close();
             metadb.close();
-            metadb = null;
             return;
         }
 
@@ -127,9 +126,9 @@ public class FahrplanMisc {
             if (cursor.getColumnCount() > columnIndexNumDays) {
                 MyApp.numdays = cursor.getInt(columnIndexNumDays);
             }
-            int columIndexVersion = cursor.getColumnIndex(MetasTable.Columns.VERSION);
-            if (cursor.getColumnCount() > columIndexVersion) {
-                MyApp.version = cursor.getString(columIndexVersion);
+            int columnIndexVersion = cursor.getColumnIndex(MetasTable.Columns.VERSION);
+            if (cursor.getColumnCount() > columnIndexVersion) {
+                MyApp.version = cursor.getString(columnIndexVersion);
             }
             int columnIndexTitle = cursor.getColumnIndex(MetasTable.Columns.TITLE);
             if (cursor.getColumnCount() > columnIndexTitle) {
@@ -155,7 +154,7 @@ public class FahrplanMisc {
             }
         }
 
-        MyApp.LogDebug(LOG_TAG, "loadMeta: numdays=" + MyApp.numdays + " version:"
+        MyApp.LogDebug(LOG_TAG, "loadMeta: numdays=" + MyApp.numdays + " version: "
                 + MyApp.version + " " + MyApp.title + " " + MyApp.eTag);
         cursor.close();
 
@@ -254,7 +253,7 @@ public class FahrplanMisc {
         if (cursor.getCount() == 0) {
             db.close();
             cursor.close();
-            MyApp.LogDebug("delete_alarm", "alarm for " + lecture.lecture_id + " not found");
+            MyApp.LogDebug("deleteAlarm", "alarm for " + lecture.lecture_id + " not found");
             lecture.has_alarm = false;
             return;
         }
@@ -382,7 +381,6 @@ public class FahrplanMisc {
 
     public static void writeHighlight(@NonNull Context context, @NonNull Lecture lecture) {
         HighlightDBOpenHelper highlightDB = new HighlightDBOpenHelper(context);
-
         SQLiteDatabase db = highlightDB.getWritableDatabase();
 
         try {
@@ -474,26 +472,29 @@ public class FahrplanMisc {
     public static List<Lecture> loadLecturesForDayIndex(@NonNull Context context, int day) {
         MyApp.LogDebug(LOG_TAG, "load lectures of day " + day);
 
-        SQLiteDatabase lecturedb = null;
         LecturesDBOpenHelper lecturesDB = new LecturesDBOpenHelper(context);
-        lecturedb = lecturesDB.getReadableDatabase();
+        SQLiteDatabase lecturedb = lecturesDB.getReadableDatabase();
 
         HighlightDBOpenHelper highlightDB = new HighlightDBOpenHelper(context);
         SQLiteDatabase highlightdb = highlightDB.getReadableDatabase();
 
         List<Lecture> lectures = new ArrayList<>();
         Cursor cursor, hCursor;
-        boolean allDays;
 
-        allDays = day == ALL_DAYS;
+        boolean allDays = day == ALL_DAYS;
+        String selection = allDays ? null : (LecturesTable.Columns.DAY + "=?");
+        String[] selectionArgs = allDays ? null : (new String[]{String.format("%d", day)});
 
         try {
             cursor = lecturedb.query(
                     LecturesTable.NAME,
                     null,
-                    allDays ? null : (LecturesTable.Columns.DAY + "=?"),
-                    allDays ? null : (new String[]{String.format("%d", day)}),
-                    null, null, LecturesTable.Columns.DATE_UTC);
+                    selection,
+                    selectionArgs,
+                    null,
+                    null,
+                    LecturesTable.Columns.DATE_UTC
+            );
         } catch (SQLiteException e) {
             e.printStackTrace();
             lecturedb.close();
@@ -505,7 +506,12 @@ public class FahrplanMisc {
             hCursor = highlightdb.query(
                     HighlightsTable.NAME,
                     null,
-                    null, null, null, null, null);
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+            );
         } catch (SQLiteException e) {
             e.printStackTrace();
             lecturedb.close();
@@ -538,11 +544,12 @@ public class FahrplanMisc {
                     hCursor.getColumnIndex(HighlightsTable.Columns.EVENT_ID));
             int highlightState = hCursor.getInt(
                     hCursor.getColumnIndex(HighlightsTable.Columns.HIGHLIGHT));
-            MyApp.LogDebug(LOG_TAG, "lecture " + lecture_id + " is hightlighted:" + highlightState);
+            boolean isHighlighted = highlightState == HighlightsTable.Values.HIGHLIGHT_STATE_ON;
+            MyApp.LogDebug(LOG_TAG, "lecture " + lecture_id + " is highlighted:" + Boolean.toString(isHighlighted));
 
             for (Lecture lecture : lectures) {
                 if (lecture.lecture_id.equals(lecture_id)) {
-                    lecture.highlight = (highlightState == HighlightsTable.Values.HIGHLIGHT_STATE_ON);
+                    lecture.highlight = isHighlighted;
                 }
             }
             hCursor.moveToNext();

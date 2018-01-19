@@ -88,7 +88,7 @@ public class AlarmList extends ActionBarListActivity {
         int menuItemIndex = item.getItemId();
         switch (menuItemIndex) {
             case CONTEXT_MENU_ITEM_ID_DELETE:
-                delete_alarm(info.position);
+                deleteAlarm(info.position);
                 setResult(RESULT_OK);
                 FahrplanFragment.loadAlarms(this);
                 break;
@@ -101,13 +101,13 @@ public class AlarmList extends ActionBarListActivity {
         menu.add(0, CONTEXT_MENU_ITEM_ID_DELETE, 0, global.getString(R.string.delete));
     }
 
-    public void delete_alarm(int position) {
+    public void deleteAlarm(int position) {
         Cursor cursor = (Cursor) getListAdapter().getItem(position);
         String lecture_id = cursor.getString(cursor.getColumnIndex(AlarmsTable.Columns.EVENT_ID));
         int day = cursor.getInt(cursor.getColumnIndex(AlarmsTable.Columns.DAY));
         String title = cursor.getString(cursor.getColumnIndex(AlarmsTable.Columns.EVENT_TITLE));
         long startTime = cursor.getLong(cursor.getColumnIndex(AlarmsTable.Columns.TIME));
-        Log.d(getClass().getName(), "delete_alarm: lecture: " + lecture_id);
+        Log.d(getClass().getName(), "deleteAlarm: lecture: " + lecture_id);
 
         Intent deleteAlarmIntent = new AlarmReceiver.AlarmIntentBuilder()
                 .setContext(this)
@@ -142,7 +142,7 @@ public class AlarmList extends ActionBarListActivity {
             case R.id.alarms_delete:
                 int count = getListAdapter().getCount();
                 for (int i = 0; i < count; i++) {
-                    delete_alarm(0);
+                    deleteAlarm(0);
                 }
                 FahrplanFragment.loadAlarms(this);
                 setResult(RESULT_OK);
