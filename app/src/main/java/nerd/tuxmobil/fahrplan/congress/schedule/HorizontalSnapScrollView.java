@@ -21,15 +21,15 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
 
     private GestureDetector gestureDetector;
 
-    private int activeItem = 0;
+    private int activeColumnIndex = 0;
 
     private int xStart;
 
-    private int itemWidth;
+    private int columnWidth;
 
     private HorizontalScrollView roomNames = null;
 
-    private int max_cols;
+    private int maximumColumns;
 
     private static final int SWIPE_MIN_DISTANCE = 5;
 
@@ -41,7 +41,7 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
      * @return index (0..n)
      */
     public int getColumn() {
-        return activeItem;
+        return activeColumnIndex;
     }
 
     class YScrollDetector extends SimpleOnGestureListener {
@@ -49,34 +49,32 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
         @Override
         public boolean onDown(MotionEvent e) {
             xStart = (int) e.getX();
-//    		MyApp.LogDebug(LOG_TAG, "onDown xStart:"+xStart+" getMeasuredWidth:"+getMeasuredWidth());
-            float ofs = (float) (getScrollX() * max_cols) / getMeasuredWidth();
-            activeItem = Math.round(ofs);
+//          MyApp.LogDebug(LOG_TAG, "onDown xStart: " + xStart + " getMeasuredWidth: " + getMeasuredWidth());
+            float ofs = (float) (getScrollX() * maximumColumns) / getMeasuredWidth();
+            activeColumnIndex = Math.round(ofs);
             return super.onDown(e);
         }
 
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
             float scale = getResources().getDisplayMetrics().density;
-            int columns = (int) Math
-                    .ceil((Math.abs(velocityX / scale) / SWIPE_THRESHOLD_VELOCITY) * 3);
+            float normalizedAbsoluteVelocityX = Math.abs(velocityX / scale);
+            int columns = (int) Math.ceil((normalizedAbsoluteVelocityX / SWIPE_THRESHOLD_VELOCITY) * 3);
 //	    	MyApp.LogDebug(LOG_TAG, "onFling " + velocityX + "/" + velocityY + " " + velocityX/scale + " " + columns);
+            boolean exceedsVelocityThreshold = normalizedAbsoluteVelocityX > SWIPE_THRESHOLD_VELOCITY;
             try {
                 //right to left
-                if ((e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE) && (Math.abs(velocityX / scale)
-                        > SWIPE_THRESHOLD_VELOCITY)) {
-                    scrollToColumn(activeItem + columns, false);
+                if ((e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE) && exceedsVelocityThreshold) {
+                    scrollToColumn(activeColumnIndex + columns, false);
                     return true;
                 }
                 //left to right
-                else if ((e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE) && (
-                        Math.abs(velocityX / scale) > SWIPE_THRESHOLD_VELOCITY)) {
-                    scrollToColumn(activeItem - columns, false);
+                else if ((e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE) && exceedsVelocityThreshold) {
+                    scrollToColumn(activeColumnIndex - columns, false);
                     return true;
                 }
             } catch (Exception e) {
-                MyApp.LogDebug(LOG_TAG,
-                        "There was an error processing the Fling event:" + e.getMessage());
+                MyApp.LogDebug(LOG_TAG, "There was an error processing the Fling event:" + e.getMessage());
             }
             return super.onFling(e1, e2, velocityX, velocityY);
         }
@@ -84,8 +82,8 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent ev) {
-        return super.onTouchEvent(ev);
+    public boolean onTouchEvent(MotionEvent event) {
+        return super.onTouchEvent(event);
     }
 
     @Override
@@ -97,10 +95,10 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
 
     public void scrollToColumn(int col, boolean fast) {
         int max;
-        if (itemWidth == 0) {
+        if (columnWidth == 0) {
             max = 0;
         } else {
-            max = (getChildAt(0).getMeasuredWidth() - itemWidth) / itemWidth;
+            max = (getChildAt(0).getMeasuredWidth() - columnWidth) / columnWidth;
         }
         if (col < 0) {
             col = 0;
@@ -108,17 +106,13 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
         if (col > max) {
             col = max;
         }
-        final int scrollTo = col * itemWidth;
-        MyApp.LogDebug(LOG_TAG,
-                "scroll to col " + col + "/" + scrollTo + " " + getChildAt(0).getMeasuredWidth());
+        final int scrollTo = col * columnWidth;
+        MyApp.LogDebug(LOG_TAG, "scroll to col " + col + "/" + scrollTo + " " + getChildAt(0).getMeasuredWidth());
         if (!fast) {
             this.post(new Runnable() {
-
                 @Override
                 public void run() {
-                    // TODO Auto-generated method stub
                     smoothScrollTo(scrollTo, 0);
-
                 }
             });
         } else {
@@ -127,112 +121,110 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
                 roomNames.scrollTo(scrollTo, 0);
             }
         }
-        activeItem = col;
+        activeColumnIndex = col;
     }
 
     public HorizontalSnapScrollView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        max_cols = getResources().getInteger(R.integer.max_cols);
-        itemWidth = 0;
+        maximumColumns = getResources().getInteger(R.integer.max_cols);
+        columnWidth = 0;
         gestureDetector = new GestureDetector(new YScrollDetector());
-        setOnTouchListener(new View.OnTouchListener() {
+        setOnTouchListener(new OnTouchListener());
+    }
 
-            public boolean onTouch(View v, MotionEvent event) {
-//	            	return false;
-                MyApp.LogDebug(LOG_TAG, "onTouch");
-                if (gestureDetector.onTouchEvent(event)) {
-//	            		MyApp.LogDebug(LOG_TAG, "gesture detector consumed event");
-                    return false;
-                } else if (event.getAction() == MotionEvent.ACTION_UP
-                        || event.getAction() == MotionEvent.ACTION_CANCEL) {
-                    int scrollX = (int) event.getX();
-                    int distance = scrollX - xStart;
-                    MyApp.LogDebug(LOG_TAG,
-                            "item width:" + itemWidth + " scrollX:" + scrollX + " distance:"
-                                    + distance + " activeItem:" + activeItem);
-                    int newItem = activeItem;
-                    int col_dist;
-                    if (max_cols > 1) {
-                        col_dist = Math.round(Math.abs((float) distance) / itemWidth);
-                        MyApp.LogDebug(LOG_TAG, "col dist: " + col_dist);
-                        if (distance > 0) {
-                            newItem = activeItem - col_dist;
-                        } else {
-                            newItem = activeItem + col_dist;
-                        }
+    private class OnTouchListener implements View.OnTouchListener {
+
+        public boolean onTouch(View v, MotionEvent event) {
+            MyApp.LogDebug(LOG_TAG, "onTouch");
+            if (gestureDetector.onTouchEvent(event)) {
+                // MyApp.LogDebug(LOG_TAG, "gesture detector consumed event");
+                return false;
+            } else if (event.getAction() == MotionEvent.ACTION_UP
+                    || event.getAction() == MotionEvent.ACTION_CANCEL) {
+                int scrollX = (int) event.getX();
+                int distance = scrollX - xStart;
+                MyApp.LogDebug(LOG_TAG,
+                        "column width:" + columnWidth + " scrollX:" + scrollX + " distance:"
+                                + distance + " active column index:" + activeColumnIndex);
+                int columnIndex = activeColumnIndex;
+                int columnDistance;
+                if (maximumColumns > 1) {
+                    columnDistance = Math.round(Math.abs((float) distance) / columnWidth);
+                    MyApp.LogDebug(LOG_TAG, "column distance: " + columnDistance);
+                    if (distance > 0) {
+                        columnIndex = activeColumnIndex - columnDistance;
                     } else {
-                        if (Math.abs(distance) > itemWidth / 4) {
-                            if (distance > 0) {
-                                newItem = activeItem - 1;
-                            } else {
-                                newItem = activeItem + 1;
-                            }
+                        columnIndex = activeColumnIndex + columnDistance;
+                    }
+                } else {
+                    if (Math.abs(distance) > columnWidth / 4) {
+                        if (distance > 0) {
+                            columnIndex = activeColumnIndex - 1;
+                        } else {
+                            columnIndex = activeColumnIndex + 1;
                         }
                     }
-                    scrollToColumn(newItem, false);
-
-                    return true;
-                } else {
-                    return false;
                 }
+                scrollToColumn(columnIndex, false);
+
+                return true;
+            } else {
+                return false;
             }
-        });
+        }
     }
 
     public static int calcMaxCols(Resources res, int availPixels) {
-        int max_cols = res.getInteger(R.integer.max_cols);
-        int min_dip = res.getInteger(R.integer.min_width_dip);
+        int maxCols = res.getInteger(R.integer.max_cols);
+        int minWidthDip = res.getInteger(R.integer.min_width_dip);
         float scale = res.getDisplayMetrics().density;
-        MyApp.LogDebug(LOG_TAG, "calcMaxCols: avail " + availPixels + " min dip " + min_dip);
+        MyApp.LogDebug(LOG_TAG, "calcMaxCols: avail " + availPixels + " min width dip " + minWidthDip);
         int dip;
         do {
-            dip = (int) ((((float) availPixels) / max_cols) / scale);
-            MyApp.LogDebug(LOG_TAG, "calcMaxCols: " + dip + " on " + max_cols + " cols.");
-            max_cols--;
-        } while ((dip < min_dip) && (max_cols > 0));
-        return max_cols + 1;
+            dip = (int) ((((float) availPixels) / maxCols) / scale);
+            MyApp.LogDebug(LOG_TAG, "calcMaxCols: " + dip + " on " + maxCols + " cols.");
+            maxCols--;
+        } while ((dip < minWidthDip) && (maxCols > 0));
+        return maxCols + 1;
     }
 
     // FIXME: Landscape patch to expand a column to full width if there is space available
     private static int calcMaxCols(Resources res, int availPixels, int columnsCount) {
-        int max_cols = res.getInteger(R.integer.max_cols);
+        int maxCols = res.getInteger(R.integer.max_cols);
         // TODO: The next line is the relevant monkey patch
-        max_cols = (columnsCount < max_cols) ? columnsCount : max_cols;
+        maxCols = (columnsCount < maxCols) ? columnsCount : maxCols;
         // TODO: The previous line is the relevant monkey patch
-        int min_dip = res.getInteger(R.integer.min_width_dip);
+        int minWidthDip = res.getInteger(R.integer.min_width_dip);
         float scale = res.getDisplayMetrics().density;
-        MyApp.LogDebug(LOG_TAG, "calcMaxCols: avail " + availPixels + " min dip " + min_dip);
+        MyApp.LogDebug(LOG_TAG, "calcMaxCols: avail " + availPixels + " min width dip " + minWidthDip);
         int dip;
         do {
-            dip = (int) ((((float) availPixels) / max_cols) / scale);
-            MyApp.LogDebug(LOG_TAG, "calcMaxCols: " + dip + " on " + max_cols + " cols.");
-            max_cols--;
-        } while ((dip < min_dip) && (max_cols > 0));
-        return max_cols + 1;
+            dip = (int) ((((float) availPixels) / maxCols) / scale);
+            MyApp.LogDebug(LOG_TAG, "calcMaxCols: " + dip + " on " + maxCols + " cols.");
+            maxCols--;
+        } while ((dip < minWidthDip) && (maxCols > 0));
+        return maxCols + 1;
     }
 
     @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        MyApp.LogDebug(LOG_TAG,
-                "onSizeChanged " + oldw + ", " + oldh + ", " + w + ", " + h + " getMW:"
-                        + getMeasuredWidth());
-        super.onSizeChanged(w, h, oldw, oldh);
-        max_cols = calcMaxCols(getResources(), getMeasuredWidth(), MyApp.room_count);
+    protected void onSizeChanged(int width, int height, int oldWidth, int oldHeight) {
+        MyApp.LogDebug(LOG_TAG, "onSizeChanged " + oldWidth + ", " + oldHeight + ", " + width + ", " + height + " getMW:" + getMeasuredWidth());
+        super.onSizeChanged(width, height, oldWidth, oldHeight);
+        maximumColumns = calcMaxCols(getResources(), getMeasuredWidth(), MyApp.room_count);
 
-        int newItemWidth = Math.round((float) getMeasuredWidth() / max_cols);
+        int newItemWidth = Math.round((float) getMeasuredWidth() / maximumColumns);
         float scale = getResources().getDisplayMetrics().density;
 
-        MyApp.LogDebug(LOG_TAG,
-                "item width: " + newItemWidth + " " + ((float) newItemWidth) / scale + "dp");
+        MyApp.LogDebug(LOG_TAG, "item width: " + newItemWidth + " " + ((float) newItemWidth) / scale + "dp");
         setColumnWidth(newItemWidth);
     }
 
     @Override
-    protected void onScrollChanged(int l, int t, int oldl, int oldt) {
-        super.onScrollChanged(l, t, oldl, oldt);
-//		MyApp.LogDebug(LOG_TAG, "scrolled from " + oldl + " to " + l);
+    protected void onScrollChanged(int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+        super.onScrollChanged(scrollX, scrollY, oldScrollX, oldScrollY);
+//		MyApp.LogDebug(LOG_TAG, "scrolled from " + oldScrollX + " to " + scrollX);
         if (roomNames != null) {
-            roomNames.scrollTo(l, 0);
+            roomNames.scrollTo(scrollX, 0);
         }
     }
 
@@ -241,29 +233,28 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
     }
 
     public int getColumnWidth() {
-        return itemWidth;
+        return columnWidth;
     }
 
     @Override
-    protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        super.onLayout(changed, l, t, r, b);
-        scrollToColumn(activeItem, true);
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        super.onLayout(changed, left, top, right, bottom);
+        scrollToColumn(activeColumnIndex, true);
     }
 
     public void setColumnWidth(int pixels) {
-
         MyApp.LogDebug(LOG_TAG, "setColumnWidth " + pixels);
-        itemWidth = pixels;
+        columnWidth = pixels;
         if (pixels == 0) {
             return;
         }
 
         ViewGroup container = (ViewGroup) getChildAt(0);
-        int childs = container.getChildCount();
-        for (int i = 0; i < childs; i++) {
+        int childCount = container.getChildCount();
+        for (int i = 0; i < childCount; i++) {
             ViewGroup c = (ViewGroup) container.getChildAt(i);
             ViewGroup.LayoutParams p = c.getLayoutParams();
-            p.width = itemWidth;
+            p.width = columnWidth;
             c.setLayoutParams(p);
         }
         container.measure(MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED),
@@ -271,15 +262,15 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
 
         if (roomNames != null) {
             View v;
-            int numChilds = ((ViewGroup) roomNames.getChildAt(0)).getChildCount();
+            int firstRoomChildCount = ((ViewGroup) roomNames.getChildAt(0)).getChildCount();
 
-            for (int i = 0; i < numChilds; i++) {
+            for (int i = 0; i < firstRoomChildCount; i++) {
                 v = ((ViewGroup) roomNames.getChildAt(0)).getChildAt(i);
                 LinearLayout.LayoutParams p = (LinearLayout.LayoutParams) v.getLayoutParams();
-                p.width = itemWidth;
+                p.width = columnWidth;
                 v.setLayoutParams(p);
             }
         }
-        scrollToColumn(activeItem, true);
+        scrollToColumn(activeColumnIndex, true);
     }
 }
