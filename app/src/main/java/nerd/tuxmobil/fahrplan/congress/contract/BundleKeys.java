@@ -33,6 +33,8 @@ public interface BundleKeys {
             "nerd.tuxmobil.fahrplan.congress.EVENT_DAY";
     String EVENT_ROOM =
             "nerd.tuxmobil.fahrplan.congress.EVENT_ROOM";
+    String EVENT_SLUG =
+            "nerd.tuxmobil.fahrplan.congress.EVENT_SLUG";
 
     // Side pane
     String SIDEPANE =

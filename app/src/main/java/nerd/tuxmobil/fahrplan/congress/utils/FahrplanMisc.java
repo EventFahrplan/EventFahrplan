@@ -46,6 +46,8 @@ import nerd.tuxmobil.fahrplan.congress.persistence.LecturesDBOpenHelper;
 import nerd.tuxmobil.fahrplan.congress.persistence.MetaDBOpenHelper;
 import nerd.tuxmobil.fahrplan.congress.wiki.WikiEventUtils;
 
+import static nerd.tuxmobil.fahrplan.congress.BuildConfig.COMPOSE_EVENT_URL_FROM_SLUG;
+
 public class FahrplanMisc {
 
     private static final String LOG_TAG = "FahrplanMisc";
@@ -188,7 +190,8 @@ public class FahrplanMisc {
             String eventOnline = context.getString(R.string.event_online);
             sb.append(eventOnline);
             sb.append(": ");
-            sb.append(getEventUrl(lecture.lecture_id));
+            String eventUrlPart = COMPOSE_EVENT_URL_FROM_SLUG ? lecture.slug : lecture.lecture_id;
+            sb.append(getEventUrl(eventUrlPart));
         }
         return sb.toString();
     }
@@ -534,6 +537,8 @@ public class FahrplanMisc {
                 cursor.getColumnIndex(LecturesTable.Columns.DAY));
         lecture.room = cursor.getString(
                 cursor.getColumnIndex(LecturesTable.Columns.ROOM));
+        lecture.slug = cursor.getString(
+                cursor.getColumnIndex(LecturesTable.Columns.SLUG));
         lecture.startTime = cursor.getInt(
                 cursor.getColumnIndex(LecturesTable.Columns.START));
         lecture.duration = cursor.getInt(

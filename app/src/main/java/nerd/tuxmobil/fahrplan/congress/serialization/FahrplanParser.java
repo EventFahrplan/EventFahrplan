@@ -183,6 +183,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                 values.put(Columns.SUBTITLE, lecture.subtitle);
                 values.put(Columns.DAY, lecture.day);
                 values.put(Columns.ROOM, lecture.room);
+                values.put(Columns.SLUG, lecture.slug);
                 values.put(Columns.START, lecture.startTime);
                 values.put(Columns.DURATION, lecture.duration);
                 values.put(Columns.SPEAKERS, lecture.speakers);
@@ -312,6 +313,11 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                                             parser.next();
                                             if (parser.getText() != null) {
                                                 lecture.subtitle = parser.getText();
+                                            }
+                                        } else if (name.equals("slug")) {
+                                            parser.next();
+                                            if (parser.getText() != null) {
+                                                lecture.slug = parser.getText();
                                             }
                                         } else if (name.equals("track")) {
                                             parser.next();

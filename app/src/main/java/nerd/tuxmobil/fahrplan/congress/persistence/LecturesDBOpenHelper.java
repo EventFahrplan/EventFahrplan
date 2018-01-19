@@ -12,7 +12,7 @@ import nerd.tuxmobil.fahrplan.congress.persistence.FahrplanContract.LecturesTabl
 
 public class LecturesDBOpenHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 5;
+    private static final int DATABASE_VERSION = 6;
 
     private static final String DATABASE_NAME = "lectures";
 
@@ -23,6 +23,7 @@ public class LecturesDBOpenHelper extends SQLiteOpenHelper {
                     Columns.SUBTITLE + " TEXT, " +
                     Columns.DAY + " INTEGER, " +
                     Columns.ROOM + " STRING, " +
+                    Columns.SLUG + " TEXT, " +
                     Columns.START + " INTEGER, " +
                     Columns.DURATION + " INTEGER, " +
                     Columns.SPEAKERS + " STRING, " +
@@ -92,6 +93,9 @@ public class LecturesDBOpenHelper extends SQLiteOpenHelper {
             db.execSQL("ALTER TABLE " + LecturesTable.NAME + " ADD COLUMN " + Columns.CHANGED_TIME + " INTEGER DEFAULT " + 0);
             db.execSQL("ALTER TABLE " + LecturesTable.NAME + " ADD COLUMN " + Columns.CHANGED_DURATION + " INTEGER DEFAULT " + 0);
             db.execSQL("ALTER TABLE " + LecturesTable.NAME + " ADD COLUMN " + Columns.CHANGED_IS_CANCELED + " INTEGER DEFAULT " + 0);
+        }
+        if ((oldVersion < 6) && (newVersion >= 6)) {
+            db.execSQL("ALTER TABLE " + LecturesTable.NAME + " ADD COLUMN " + Columns.SLUG + " TEXT DEFAULT ''");
         }
     }
 }
