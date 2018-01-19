@@ -31,6 +31,8 @@ public final class AlarmReceiver extends BroadcastReceiver {
 
     public static final String ALARM_UPDATE = "nerd.tuxmobil.fahrplan.congress.ALARM_UPDATE";
 
+    public static final String ALARM_DELETE = "de.machtnix.fahrplan.ALARM";
+
     private static final String LOG_TAG = "AlarmReceiver";
 
     @Override
@@ -114,8 +116,7 @@ public final class AlarmReceiver extends BroadcastReceiver {
                                                int day,
                                                @NonNull String title,
                                                long startTime) {
-        String intentAction = "de.machtnix.fahrplan.ALARM";
-        return getAlarmIntent(context, lectureId, day, title, startTime, intentAction);
+        return getAlarmIntent(context, lectureId, day, title, startTime, ALARM_DELETE);
     }
 
     private static Intent getAlarmIntent(@NonNull Context context,

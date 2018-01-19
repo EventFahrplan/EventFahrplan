@@ -14,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 
 import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.R;
+import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices;
 import nerd.tuxmobil.fahrplan.congress.base.BaseActivity;
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
@@ -61,7 +62,7 @@ public class SettingsActivity extends BaseActivity {
                             if ((Boolean) newValue) {
                                 FahrplanMisc.setUpdateAlarm(getActivity(), true);
                             } else {
-                                FahrplanMisc.clearUpdateAlarm(getActivity());
+                                AlarmServices.discardAutoUpdateAlarm(getActivity());
                             }
                             return true;
                         }

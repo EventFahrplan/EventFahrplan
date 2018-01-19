@@ -30,7 +30,9 @@ import nerd.tuxmobil.fahrplan.congress.BuildConfig;
 import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmReceiver;
+import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices;
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmUpdater;
+import nerd.tuxmobil.fahrplan.congress.extensions.Contexts;
 import nerd.tuxmobil.fahrplan.congress.models.DateInfo;
 import nerd.tuxmobil.fahrplan.congress.models.DateInfos;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
@@ -264,25 +266,12 @@ public class FahrplanMisc {
         String title = cursor.getString(cursor.getColumnIndex(AlarmsTable.Columns.EVENT_TITLE));
         long startTime = cursor.getLong(cursor.getColumnIndex(AlarmsTable.Columns.TIME));
 
-        Intent deleteAlarmIntent = new AlarmReceiver.AlarmIntentBuilder()
-                .setContext(context)
-                .setLectureId(lecture_id)
-                .setDay(day)
-                .setTitle(title)
-                .setStartTime(startTime)
-                .setIsDeleteAlarm()
-                .build();
-
         // delete any previous alarms of this lecture
         db.delete(AlarmsTable.NAME, AlarmsTable.Columns.EVENT_ID + "=?",
                 new String[]{lecture.lecture_id});
         db.close();
 
-        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        PendingIntent pendingintent = PendingIntent.getBroadcast(
-                context, Integer.parseInt(lecture.lecture_id), deleteAlarmIntent, 0);
-        // Cancel any existing alarms for this lecture
-        alarmManager.cancel(pendingintent);
+        AlarmServices.discardEventAlarm(context, lecture_id, day, title, startTime);
 
         lecture.has_alarm = false;
     }
@@ -322,23 +311,7 @@ public class FahrplanMisc {
         MyApp.LogDebug("addAlarm",
                 "Alarm time: " + time.format("%Y-%m-%dT%H:%M:%S%z") + ", in seconds: " + when);
 
-        Intent addAlarmIntent = new AlarmReceiver.AlarmIntentBuilder()
-                .setContext(context)
-                .setLectureId(lecture.lecture_id)
-                .setDay(lecture.day)
-                .setTitle(lecture.title)
-                .setStartTime(startTime)
-                .setIsAddAlarm()
-                .build();
-
-        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        PendingIntent pendingintent = PendingIntent.getBroadcast(
-                context, Integer.parseInt(lecture.lecture_id), addAlarmIntent, 0);
-        // Cancel any existing alarms for this lecture
-        alarmManager.cancel(pendingintent);
-
-        // Set new alarm
-        alarmManager.set(AlarmManager.RTC_WAKEUP, when, pendingintent);
+        AlarmServices.scheduleEventAlarm(context, lecture.lecture_id, lecture.day, lecture.title, startTime, when, true);
 
         String eventId = lecture.lecture_id;
         String eventTitle = lecture.title;
@@ -404,21 +377,8 @@ public class FahrplanMisc {
         }
     }
 
-    public static void clearUpdateAlarm(Context context) {
-        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-
-        Intent alarmintent = new Intent(context, AlarmReceiver.class);
-        alarmintent.setAction(AlarmReceiver.ALARM_UPDATE);
-
-        PendingIntent pendingintent = PendingIntent.getBroadcast(context, 0, alarmintent, 0);
-
-        MyApp.LogDebug(LOG_TAG, "clear update alarm");
-
-        alarmManager.cancel(pendingintent);
-    }
-
     public static long setUpdateAlarm(Context context, boolean initial) {
-        final AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        final AlarmManager alarmManager = Contexts.getAlarmManager(context);
         Intent alarmIntent = new Intent(context, AlarmReceiver.class);
         alarmIntent.setAction(AlarmReceiver.ALARM_UPDATE);
         final PendingIntent pendingintent = PendingIntent.getBroadcast(context, 0, alarmIntent, 0);

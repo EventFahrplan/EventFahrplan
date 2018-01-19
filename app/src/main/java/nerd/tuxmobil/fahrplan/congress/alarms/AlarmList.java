@@ -1,9 +1,5 @@
 package nerd.tuxmobil.fahrplan.congress.alarms;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
@@ -109,19 +105,7 @@ public class AlarmList extends ActionBarListActivity {
         long startTime = cursor.getLong(cursor.getColumnIndex(AlarmsTable.Columns.TIME));
         Log.d(getClass().getName(), "deleteAlarm: lecture: " + lecture_id);
 
-        Intent deleteAlarmIntent = new AlarmReceiver.AlarmIntentBuilder()
-                .setContext(this)
-                .setLectureId(lecture_id)
-                .setDay(day)
-                .setTitle(title)
-                .setStartTime(startTime)
-                .setIsDeleteAlarm()
-                .build();
-
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        PendingIntent pendingintent = PendingIntent.getBroadcast(
-                this, Integer.parseInt(lecture_id), deleteAlarmIntent, 0);
-        alarmManager.cancel(pendingintent);
+        AlarmServices.discardEventAlarm(this, lecture_id, day, title, startTime);
 
         int alarmId = cursor.getInt(cursor.getColumnIndex(Columns.ID));
         db.delete(AlarmsTable.NAME, Columns.ID + " = ?", new String[]{String.valueOf(alarmId)});
