@@ -49,7 +49,7 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
         @Override
         public boolean onDown(MotionEvent e) {
             xStart = (int) e.getX();
-//    		MyApp.LogDebug(LOG_TAG, "onDown xStart:"+xStart+" getMeasuredWidth:"+getMeasuredWidth());
+//          MyApp.LogDebug(LOG_TAG, "onDown xStart: " + xStart + " getMeasuredWidth: " + getMeasuredWidth());
             float ofs = (float) (getScrollX() * maximumColumns) / getMeasuredWidth();
             activeColumnIndex = Math.round(ofs);
             return super.onDown(e);
@@ -141,7 +141,7 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
 //	            	return false;
             MyApp.LogDebug(LOG_TAG, "onTouch");
             if (gestureDetector.onTouchEvent(event)) {
-//	            		MyApp.LogDebug(LOG_TAG, "gesture detector consumed event");
+                // MyApp.LogDebug(LOG_TAG, "gesture detector consumed event");
                 return false;
             } else if (event.getAction() == MotionEvent.ACTION_UP
                     || event.getAction() == MotionEvent.ACTION_CANCEL) {
