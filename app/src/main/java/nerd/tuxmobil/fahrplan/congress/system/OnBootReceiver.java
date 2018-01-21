@@ -13,6 +13,7 @@ import android.text.format.Time;
 import org.ligi.tracedroid.logging.Log;
 
 import nerd.tuxmobil.fahrplan.congress.MyApp;
+import nerd.tuxmobil.fahrplan.congress.alarms.AlarmReceiver;
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices;
 import nerd.tuxmobil.fahrplan.congress.autoupdate.UpdateService;
 import nerd.tuxmobil.fahrplan.congress.net.ConnectivityStateReceiver;
@@ -26,6 +27,17 @@ public final class OnBootReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        if (intent == null) {
+            return;
+        }
+        String action = intent.getAction();
+        if (action == null) {
+            return;
+        }
+        if (!action.equals(AlarmReceiver.ALARM_UPDATE)) {
+            return;
+        }
+
         MyApp.LogDebug(LOG_TAG, "onReceive (reboot)");
         AlarmsDBOpenHelper lecturesDB = new AlarmsDBOpenHelper(context);
 
