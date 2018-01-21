@@ -65,29 +65,13 @@ public final class OnBootReceiver extends BroadcastReceiver {
             storedAlarmTime.set(alarmTime);
 
             if (now.before(storedAlarmTime)) {
-                // set alarm
-
-                String lecture_id = cursor.getString(
-                        cursor.getColumnIndex(AlarmsTable.Columns.EVENT_ID));
-                int day = cursor.getInt(
-                        cursor.getColumnIndex(AlarmsTable.Columns.DAY));
-                String title = cursor.getString(
-                        cursor.getColumnIndex(AlarmsTable.Columns.EVENT_TITLE));
-                long startTime = cursor.getLong(
-                        cursor.getColumnIndex(AlarmsTable.Columns.TIME));
-
-                Log.d(getClass().getName(), "Set alarm for lecture: " + lecture_id);
-                MyApp.LogDebug(LOG_TAG, "add alarm for " + title);
-                AlarmServices.scheduleEventAlarm(context, lecture_id, day, title, startTime, alarmTime);
+                scheduleEventAlarm(context, cursor, alarmTime);
             } else {
                 // remove from DB
-
                 MyApp.LogDebug(LOG_TAG, "remove alarm from DB ");
-
                 int alarmId = cursor.getInt(cursor.getColumnIndex(AlarmsTable.Columns.ID));
                 db.delete(AlarmsTable.NAME, AlarmsTable.Columns.ID + " = ?", new String[]{String.valueOf(alarmId)});
             }
-
             cursor.moveToNext();
         }
         cursor.close();
@@ -114,4 +98,15 @@ public final class OnBootReceiver extends BroadcastReceiver {
             }
         }
     }
+
+    private void scheduleEventAlarm(Context context, Cursor cursor, long alarmTime) {
+        String eventId = cursor.getString(cursor.getColumnIndex(AlarmsTable.Columns.EVENT_ID));
+        int day = cursor.getInt(cursor.getColumnIndex(AlarmsTable.Columns.DAY));
+        String title = cursor.getString(cursor.getColumnIndex(AlarmsTable.Columns.EVENT_TITLE));
+        long startTime = cursor.getLong(cursor.getColumnIndex(AlarmsTable.Columns.TIME));
+        Log.d(getClass().getName(), "Set alarm for event: " + eventId);
+        MyApp.LogDebug(LOG_TAG, "Add alarm for " + title);
+        AlarmServices.scheduleEventAlarm(context, eventId, day, title, startTime, alarmTime);
+    }
+
 }
