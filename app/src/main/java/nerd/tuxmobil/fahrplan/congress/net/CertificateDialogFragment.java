@@ -2,7 +2,6 @@ package nerd.tuxmobil.fahrplan.congress.net;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
@@ -108,12 +107,7 @@ public class CertificateDialogFragment extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
                 .setTitle(getString(R.string.dlg_invalid_certificate_title))
                 .setCancelable(true)
-                .setPositiveButton(getString(android.R.string.yes),
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                onConfirm();
-                            }
-                        })
+                .setPositiveButton(getString(android.R.string.yes), (dialog, which) -> onConfirm())
                 .setNegativeButton(getString(android.R.string.no), null);
 
         LayoutInflater inflater = getActivity().getLayoutInflater();

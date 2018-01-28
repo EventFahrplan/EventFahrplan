@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
@@ -47,81 +46,64 @@ public class SettingsActivity extends BaseActivity {
             addPreferencesFromResource(R.xml.prefs);
 
             findPreference("auto_update")
-                    .setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                    .setOnPreferenceChangeListener((preference, newValue) -> {
+                        SharedPreferences prefs = PreferenceManager
+                                .getDefaultSharedPreferences(getActivity());
 
-                        @Override
-                        public boolean onPreferenceChange(Preference preference, Object newValue) {
+                        SharedPreferences.Editor edit = prefs.edit();
+                        edit.putBoolean("auto_update", (Boolean) newValue);
+                        edit.commit();
 
-                            SharedPreferences prefs = PreferenceManager
-                                    .getDefaultSharedPreferences(getActivity());
-
-                            SharedPreferences.Editor edit = prefs.edit();
-                            edit.putBoolean("auto_update", (Boolean) newValue);
-                            edit.commit();
-
-                            if ((Boolean) newValue) {
-                                FahrplanMisc.setUpdateAlarm(getActivity(), true);
-                            } else {
-                                AlarmServices.discardAutoUpdateAlarm(getActivity());
-                            }
-                            return true;
+                        if ((Boolean) newValue) {
+                            FahrplanMisc.setUpdateAlarm(getActivity(), true);
+                        } else {
+                            AlarmServices.discardAutoUpdateAlarm(getActivity());
                         }
+                        return true;
                     });
 
 
-            findPreference("schedule_url").setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            findPreference("schedule_url").setOnPreferenceChangeListener((preference, newValue) -> {
+                SharedPreferences prefs = PreferenceManager
+                        .getDefaultSharedPreferences(getActivity());
 
-
-                @Override
-                public boolean onPreferenceChange(Preference preference, Object newValue) {
-                    SharedPreferences prefs = PreferenceManager
-                            .getDefaultSharedPreferences(getActivity());
-
-                    SharedPreferences.Editor edit = prefs.edit();
-                    edit.putString(BundleKeys.PREFS_SCHEDULE_URL, (String) newValue);
-                    edit.commit();
-                    return true;
-                }
+                SharedPreferences.Editor edit = prefs.edit();
+                edit.putString(BundleKeys.PREFS_SCHEDULE_URL, (String) newValue);
+                edit.commit();
+                return true;
             });
 
             findPreference("alternative_highlight")
-                    .setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                    .setOnPreferenceChangeListener((preference, newValue) -> {
 
-                        @Override
-                        public boolean onPreferenceChange(Preference preference, Object newValue) {
+                        SharedPreferences prefs = PreferenceManager
+                                .getDefaultSharedPreferences(getActivity());
 
-                            SharedPreferences prefs = PreferenceManager
-                                    .getDefaultSharedPreferences(getActivity());
+                        SharedPreferences.Editor edit = prefs.edit();
+                        edit.putBoolean(BundleKeys.PREFS_ALTERNATIVE_HIGHLIGHT, (Boolean) newValue);
+                        edit.apply();
 
-                            SharedPreferences.Editor edit = prefs.edit();
-                            edit.putBoolean(BundleKeys.PREFS_ALTERNATIVE_HIGHLIGHT, (Boolean) newValue);
-                            edit.apply();
+                        Intent redrawIntent = new Intent();
+                        redrawIntent.putExtra(BundleKeys.PREFS_ALTERNATIVE_HIGHLIGHT, true);
+                        getActivity().setResult(Activity.RESULT_OK, redrawIntent);
 
-                            Intent redrawIntent = new Intent();
-                            redrawIntent.putExtra(BundleKeys.PREFS_ALTERNATIVE_HIGHLIGHT, true);
-                            getActivity().setResult(Activity.RESULT_OK, redrawIntent);
-
-                            return true;
-                        }
+                        return true;
                     });
 
             findPreference("default_alarm_time")
-                    .setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-                        @Override
-                        public boolean onPreferenceChange(Preference preference, Object newValue) {
-                            Activity activity = getActivity();
-                            Resources resources = activity.getResources();
-                            SharedPreferences prefs = PreferenceManager
-                                    .getDefaultSharedPreferences(activity);
-                            SharedPreferences.Editor edit = prefs.edit();
-                            int alarmTimeValue = Integer.parseInt((String) newValue);
-                            String[] alarmTimeValues = resources.getStringArray(R.array.alarm_time_values);
-                            int defaultAlarmTimeValue = resources.getInteger(R.integer.default_alarm_time_index);
-                            int alarmTimeIndex = getAlarmTimeIndex(alarmTimeValues, alarmTimeValue, defaultAlarmTimeValue);
-                            edit.putInt(BundleKeys.PREFS_ALARM_TIME_INDEX, alarmTimeIndex);
-                            edit.commit();
-                            return true;
-                        }
+                    .setOnPreferenceChangeListener((preference, newValue) -> {
+                        Activity activity = getActivity();
+                        Resources resources = activity.getResources();
+                        SharedPreferences prefs = PreferenceManager
+                                .getDefaultSharedPreferences(activity);
+                        SharedPreferences.Editor edit = prefs.edit();
+                        int alarmTimeValue = Integer.parseInt((String) newValue);
+                        String[] alarmTimeValues = resources.getStringArray(R.array.alarm_time_values);
+                        int defaultAlarmTimeValue = resources.getInteger(R.integer.default_alarm_time_index);
+                        int alarmTimeIndex = getAlarmTimeIndex(alarmTimeValues, alarmTimeValue, defaultAlarmTimeValue);
+                        edit.putInt(BundleKeys.PREFS_ALARM_TIME_INDEX, alarmTimeIndex);
+                        edit.commit();
+                        return true;
                     });
         }
 

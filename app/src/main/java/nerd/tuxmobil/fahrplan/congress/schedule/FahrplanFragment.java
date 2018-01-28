@@ -24,10 +24,8 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
@@ -43,7 +41,6 @@ import org.ligi.tracedroid.logging.Log;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
@@ -209,13 +206,7 @@ public class FahrplanFragment extends Fragment implements
             if (snapScroller != null) {
                 snapScroller.setChildScroller(roomScroller);
             }
-            roomScroller.setOnTouchListener(new OnTouchListener() {
-
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    return true;
-                }
-            });
+            roomScroller.setOnTouchListener((v, event) -> true);
         }
 
         trackNameBackgroundColorDefaultPairs = TrackBackgrounds.getTrackNameBackgroundColorDefaultPairs(getActivity());
@@ -461,13 +452,7 @@ public class FahrplanFragment extends Fragment implements
         final int pos = scrollAmount;
         final ScrollView scrollView = getView().findViewById(R.id.scrollView1);
         scrollView.scrollTo(0, scrollAmount);
-        scrollView.post(new Runnable() {
-
-            @Override
-            public void run() {
-                scrollView.scrollTo(0, pos);
-            }
-        });
+        scrollView.post(() -> scrollView.scrollTo(0, pos));
     }
 
     private void setBell(Lecture lecture) {
@@ -498,26 +483,14 @@ public class FahrplanFragment extends Fragment implements
                 int height = getNormalizedBoxHeight(getResources(), scale, LOG_TAG);
                 final int pos = (lecture.relStartTime - firstLectureStart) / 5 * height;
                 MyApp.LogDebug(LOG_TAG, "position is " + pos);
-                parent.post(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        parent.scrollTo(0, pos);
-                    }
-                });
+                parent.post(() -> parent.scrollTo(0, pos));
                 final HorizontalSnapScrollView horiz =
                         getView().findViewById(R.id.horizScroller);
                 if (horiz != null) {
                     final int hpos = MyApp.roomList.keyAt(
                             MyApp.roomList.indexOfValue(lecture.room_index));
                     MyApp.LogDebug(LOG_TAG, "scroll horiz to " + hpos);
-                    horiz.post(new Runnable() {
-
-                        @Override
-                        public void run() {
-                            horiz.scrollToColumn(hpos, false);
-                        }
-                    });
+                    horiz.post(() -> horiz.scrollToColumn(hpos, false));
                 }
                 break;
             }
@@ -836,19 +809,14 @@ public class FahrplanFragment extends Fragment implements
         }
 
         if ((MyApp.lectureList.size() > 0) && (MyApp.lectureList.get(0).dateUTC > 0)) {
-            Collections.sort(MyApp.lectureList, new Comparator<Lecture>() {
-
-                @Override
-                public int compare(Lecture lhs, Lecture rhs) {
-                    if (lhs.dateUTC < rhs.dateUTC) {
-                        return -1;
-                    }
-                    if (lhs.dateUTC > rhs.dateUTC) {
-                        return 1;
-                    }
-                    return 0;
+            Collections.sort(MyApp.lectureList, (lhs, rhs) -> {
+                if (lhs.dateUTC < rhs.dateUTC) {
+                    return -1;
                 }
-
+                if (lhs.dateUTC > rhs.dateUTC) {
+                    return 1;
+                }
+                return 0;
             });
         }
 

@@ -109,12 +109,7 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
         final int scrollTo = col * columnWidth;
         MyApp.LogDebug(LOG_TAG, "scroll to col " + col + "/" + scrollTo + " " + getChildAt(0).getMeasuredWidth());
         if (!fast) {
-            this.post(new Runnable() {
-                @Override
-                public void run() {
-                    smoothScrollTo(scrollTo, 0);
-                }
-            });
+            this.post(() -> smoothScrollTo(scrollTo, 0));
         } else {
             scrollTo(scrollTo, 0);
             if (roomNames != null) {
