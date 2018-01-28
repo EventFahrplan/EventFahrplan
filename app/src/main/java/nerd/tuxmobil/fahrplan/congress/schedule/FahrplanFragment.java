@@ -64,6 +64,8 @@ import nerd.tuxmobil.fahrplan.congress.sharing.SimpleLectureFormat;
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
 import nerd.tuxmobil.fahrplan.congress.utils.LectureUtils;
 
+import static nerd.tuxmobil.fahrplan.congress.extensions.Resource.getNormalizedBoxHeight;
+
 public class FahrplanFragment extends Fragment implements
         OnClickListener,
         FahrplanParser.OnParseCompleteListener {
@@ -335,10 +337,11 @@ public class FahrplanFragment extends Fragment implements
             addRoomTitleViews(roomScroller);
         }
 
+        int boxHeight = getNormalizedBoxHeight(getResources(), scale, LOG_TAG);
         for (int i = 0; i < MyApp.room_count; i++) {
-            fillRoom((ViewGroup) scroller.getChildAt(0), i);
+            fillRoom((ViewGroup) scroller.getChildAt(0), i, boxHeight);
         }
-        scrollToCurrent(mDay);
+        scrollToCurrent(mDay, boxHeight);
         ActionBar actionbar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         if (actionbar != null && MyApp.numdays > 1) {
             actionbar.setSelectedNavigationItem(mDay - 1);
@@ -391,8 +394,7 @@ public class FahrplanFragment extends Fragment implements
     /**
      * jump to current time or lecture, if we are on today's lecture list
      */
-    private void scrollToCurrent(int day) {
-        int height;
+    private void scrollToCurrent(int day, int height) {
         // Log.d(LOG_TAG, "lectureListDay: " + MyApp.lectureListDay);
         if (lecture_id != null) {
             return;
@@ -407,10 +409,8 @@ public class FahrplanFragment extends Fragment implements
 
         switch (getResources().getConfiguration().orientation) {
             case Configuration.ORIENTATION_LANDSCAPE:
-                height = (int) (getResources().getInteger(R.integer.box_height) * scale);
                 break;
             default:
-                height = (int) (getResources().getInteger(R.integer.box_height) * scale);
                 horiz = getView().findViewById(R.id.horizScroller);
                 break;
         }
@@ -492,20 +492,10 @@ public class FahrplanFragment extends Fragment implements
     }
 
     private void scrollTo(String lecture_id) {
-        int height;
-        switch (getResources().getConfiguration().orientation) {
-            case Configuration.ORIENTATION_LANDSCAPE:
-                MyApp.LogDebug(LOG_TAG, "landscape");
-                height = (int) (getResources().getInteger(R.integer.box_height) * scale);
-                break;
-            default:
-                MyApp.LogDebug(LOG_TAG, "other orientation");
-                height = (int) (getResources().getInteger(R.integer.box_height) * scale);
-                break;
-        }
         for (Lecture lecture : MyApp.lectureList) {
             if (lecture_id.equals(lecture.lecture_id)) {
                 final ScrollView parent = getView().findViewById(R.id.scrollView1);
+                int height = getNormalizedBoxHeight(getResources(), scale, LOG_TAG);
                 final int pos = (lecture.relStartTime - firstLectureStart) / 5 * height;
                 MyApp.LogDebug(LOG_TAG, "position is " + pos);
                 parent.post(new Runnable() {
@@ -592,7 +582,7 @@ public class FahrplanFragment extends Fragment implements
         Time now = new Time();
         now.setToNow();
         View timeTextView;
-        int timeTextViewHeight = getTimeTextViewHeight();
+        int timeTextViewHeight = 3 * getNormalizedBoxHeight(getResources(), scale, LOG_TAG);
         TimeSegment timeSegment;
         while (time < lastLectureEnd) {
             timeSegment = new TimeSegment(printTime);
@@ -612,22 +602,6 @@ public class FahrplanFragment extends Fragment implements
                 printTime -= ONE_DAY;
             }
         }
-    }
-
-    private int getTimeTextViewHeight() {
-        int integer;
-        Resources resources = getResources();
-        switch (resources.getConfiguration().orientation) {
-            case Configuration.ORIENTATION_LANDSCAPE:
-                MyApp.LogDebug(LOG_TAG, "landscape");
-                integer = resources.getInteger(R.integer.box_height);
-                break;
-            default:
-                MyApp.LogDebug(LOG_TAG, "other orientation");
-                integer = resources.getInteger(R.integer.box_height);
-                break;
-        }
-        return ((int) (integer * scale)) * 3;
     }
 
     private boolean isToday(Time time) {
@@ -706,27 +680,16 @@ public class FahrplanFragment extends Fragment implements
         }
     }
 
-    private void fillRoom(ViewGroup root, int roomIdx) {
+    private void fillRoom(ViewGroup root, int roomIdx, int standardHeight) {
         LinearLayout room = (LinearLayout) root.getChildAt(roomIdx);
         room.removeAllViews();
         int endTime = firstLectureStart;
         int padding = getEventPadding();
-        int standardHeight;
         int startTime;
         int room_index = MyApp.roomList.get(roomIdx);
         View event = null;
         int margin;
 
-        switch (getResources().getConfiguration().orientation) {
-            case Configuration.ORIENTATION_LANDSCAPE:
-                MyApp.LogDebug(LOG_TAG, "landscape");
-                standardHeight = (int) (getResources().getInteger(R.integer.box_height) * scale);
-                break;
-            default:
-                MyApp.LogDebug(LOG_TAG, "other orientation");
-                standardHeight = (int) (getResources().getInteger(R.integer.box_height) * scale);
-                break;
-        }
         for (int idx = 0; idx < MyApp.lectureList.size(); idx++) {
             Lecture lecture = MyApp.lectureList.get(idx);
             if (lecture.room_index == room_index) {
