@@ -2,7 +2,6 @@ package nerd.tuxmobil.fahrplan.congress.utils;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
@@ -52,23 +51,16 @@ public class ConfirmationDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
                 .setTitle(dlgTitle)
-                .setPositiveButton(R.string.dlg_delete_all_favorites_delete_all,
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                if (listener != null) {
-                                    listener.onAccepted(dlgRequestCode);
-                                }
-                            }
-                        })
-                .setNegativeButton(android.R.string.no,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                if (listener != null) {
-                                    listener.onDenied(dlgRequestCode);
-                                }
-                            }
-                        });
+                .setPositiveButton(R.string.dlg_delete_all_favorites_delete_all, (dialog, which) -> {
+                    if (listener != null) {
+                        listener.onAccepted(dlgRequestCode);
+                    }
+                })
+                .setNegativeButton(android.R.string.no, (dialog, which) -> {
+                    if (listener != null) {
+                        listener.onDenied(dlgRequestCode);
+                    }
+                });
         return builder.create();
     }
 

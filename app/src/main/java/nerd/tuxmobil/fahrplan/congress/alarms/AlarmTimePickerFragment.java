@@ -3,7 +3,6 @@ package nerd.tuxmobil.fahrplan.congress.alarms;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -64,12 +63,7 @@ public class AlarmTimePickerFragment extends DialogFragment {
         dialogBuilder
                 .setView(layout)
                 .setTitle(R.string.choose_alarm_time)
-                .setPositiveButton(android.R.string.ok,
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                passBackAlarmTimesIndex();
-                            }
-                        })
+                .setPositiveButton(android.R.string.ok, (dialog, which) -> passBackAlarmTimesIndex())
                 .setNegativeButton(android.R.string.cancel, null);
         return dialogBuilder.create();
     }

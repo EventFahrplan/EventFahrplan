@@ -116,6 +116,11 @@ android {
         // for okio - https://github.com/square/okio/issues/58
         warning "InvalidPackage"
     }
+
+    compileOptions {
+        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 tasks.withType(Test) {

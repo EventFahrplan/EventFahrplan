@@ -1,7 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress.reporting;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
@@ -44,28 +43,21 @@ public abstract class TraceDroidEmailSender {
         new AlertDialog.Builder(context)
                 .setTitle(dialogTitle)
                 .setMessage(dialogMessage)
-                .setPositiveButton(buttonTitleSend, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        Intent emailIntent = getEmailIntent(
-                                context, emailAddress, maximumStackTracesCount);
-                        if (emailIntent.resolveActivity(context.getPackageManager()) != null) {
-                            context.startActivity(Intent.createChooser(emailIntent, sendMail));
-                            TraceDroid.deleteStacktraceFiles();
-                        } else {
-                            String message = context.getString(R.string.trace_droid_no_email_app);
-                            Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                })
-                .setNegativeButton(buttonTitleNo, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
+                .setPositiveButton(buttonTitleSend, (dialog, whichButton) -> {
+                    Intent emailIntent = getEmailIntent(
+                            context, emailAddress, maximumStackTracesCount);
+                    if (emailIntent.resolveActivity(context.getPackageManager()) != null) {
+                        context.startActivity(Intent.createChooser(emailIntent, sendMail));
                         TraceDroid.deleteStacktraceFiles();
+                    } else {
+                        String message = context.getString(R.string.trace_droid_no_email_app);
+                        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
                     }
                 })
-                .setNeutralButton(buttonTitleLater, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        // Nothing to do here
-                    }
+                .setNegativeButton(buttonTitleNo, (dialog, whichButton) ->
+                        TraceDroid.deleteStacktraceFiles())
+                .setNeutralButton(buttonTitleLater, (dialog, whichButton) -> {
+                    // Nothing to do here
                 })
                 .show();
         return true;

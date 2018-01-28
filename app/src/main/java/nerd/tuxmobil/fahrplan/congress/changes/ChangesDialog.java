@@ -2,7 +2,6 @@ package nerd.tuxmobil.fahrplan.congress.changes;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -66,19 +65,8 @@ public class ChangesDialog extends DialogFragment {
         Activity activity = getActivity();
         AlertDialog.Builder builder = new AlertDialog.Builder(activity)
                 .setTitle(getString(R.string.schedule_udpate))
-                .setPositiveButton(R.string.btn_dlg_browse,
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                onBrowse();
-                            }
-                        })
-                .setNegativeButton(R.string.btn_dlg_later,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                onLater();
-                            }
-                        });
+                .setPositiveButton(R.string.btn_dlg_browse, (dialog, which) -> onBrowse())
+                .setNegativeButton(R.string.btn_dlg_later, (dialog, which) -> onLater());
 
         LayoutInflater inflater = activity.getLayoutInflater();
         View msgView = inflater.inflate(R.layout.changes_dialog, null);
