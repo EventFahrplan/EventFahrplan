@@ -308,11 +308,7 @@ public class FahrplanFragment extends Fragment implements
     private void viewDay(boolean reload) {
         // Log.d(LOG_TAG, "viewDay(" + reload + ")");
 
-        if (!loadLectureList(getActivity(), mDay, reload)) {
-            MyApp.LogDebug(LOG_TAG, "fetch on loading empty lecture list");
-            // FIXME
-            // fetchFahrplan();
-        }
+        loadLectureList(getActivity(), mDay, reload);
         scanDayLectures();
         HorizontalSnapScrollView scroller =
                 getView().findViewById(R.id.horizScroller);
