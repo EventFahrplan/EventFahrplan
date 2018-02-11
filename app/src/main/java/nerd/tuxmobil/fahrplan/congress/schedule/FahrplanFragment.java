@@ -756,12 +756,16 @@ public class FahrplanFragment extends Fragment implements
         }
 
         MyApp.lectureList = FahrplanMisc.loadLecturesForDayIndex(context, day);
-        if (MyApp.lectureList == null) return false;
+        if (MyApp.lectureList == null) {
+            return false;
+        }
 
         int lectureIndex = MyApp.lectureList.size() - 1;
         while (lectureIndex >= 0) {
             Lecture l = MyApp.lectureList.get(lectureIndex);
-            if (l.changedIsCanceled) MyApp.lectureList.remove(lectureIndex);
+            if (l.changedIsCanceled) {
+                MyApp.lectureList.remove(lectureIndex);
+            }
             lectureIndex--;
         }
         MyApp.lectureListDay = day;
