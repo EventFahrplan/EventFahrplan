@@ -314,11 +314,9 @@ public class FahrplanFragment extends Fragment implements
         HorizontalSnapScrollView scroller = layoutRoot.findViewById(R.id.horizScroller);
         if (scroller != null) {
             scroller.scrollTo(0, 0);
-        }
-        HorizontalScrollView roomScroller = layoutRoot.findViewById(R.id.roomScroller);
-        if (scroller != null) {
             addRoomColumns(scroller);
         }
+        HorizontalScrollView roomScroller = layoutRoot.findViewById(R.id.roomScroller);
         if (roomScroller != null) {
             addRoomTitleViews(roomScroller);
         }
