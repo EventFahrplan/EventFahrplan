@@ -744,16 +744,16 @@ public class FahrplanFragment extends Fragment implements
         }
     }
 
-    public static boolean loadLectureList(Context context, int day, boolean force) {
+    public static void loadLectureList(Context context, int day, boolean force) {
         MyApp.LogDebug(LOG_TAG, "load lectures of day " + day);
 
         if (!force && MyApp.lectureList != null && MyApp.lectureListDay == day) {
-            return true;
+            return;
         }
 
         MyApp.lectureList = FahrplanMisc.loadLecturesForDayIndex(context, day);
         if (MyApp.lectureList == null) {
-            return false;
+            return;
         }
 
         int lectureIndex = MyApp.lectureList.size() - 1;
@@ -821,8 +821,6 @@ public class FahrplanFragment extends Fragment implements
         }
 
         loadAlarms(context);
-
-        return true;
     }
 
     public static void loadAlarms(Context context) {
