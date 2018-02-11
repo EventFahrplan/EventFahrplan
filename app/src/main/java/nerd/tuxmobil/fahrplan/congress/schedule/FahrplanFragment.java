@@ -310,13 +310,12 @@ public class FahrplanFragment extends Fragment implements
 
         loadLectureList(getActivity(), mDay, reload);
         scanDayLectures();
-        HorizontalSnapScrollView scroller =
-                getView().findViewById(R.id.horizScroller);
+        View layoutRoot = getView();
+        HorizontalSnapScrollView scroller = layoutRoot.findViewById(R.id.horizScroller);
         if (scroller != null) {
             scroller.scrollTo(0, 0);
         }
-        HorizontalScrollView roomScroller =
-                getView().findViewById(R.id.roomScroller);
+        HorizontalScrollView roomScroller = layoutRoot.findViewById(R.id.roomScroller);
         if (scroller != null) {
             addRoomColumns(scroller);
         }
