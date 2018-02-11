@@ -329,7 +329,12 @@ public class FahrplanFragment extends Fragment implements
             fillRoom((ViewGroup) scroller.getChildAt(0), i, boxHeight);
         }
         scrollToCurrent(mDay, boxHeight);
-        ActionBar actionbar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        updateNavigationMenuSelection();
+    }
+
+    private void updateNavigationMenuSelection() {
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        ActionBar actionbar = activity.getSupportActionBar();
         if (actionbar != null && MyApp.numdays > 1) {
             actionbar.setSelectedNavigationItem(mDay - 1);
         }
