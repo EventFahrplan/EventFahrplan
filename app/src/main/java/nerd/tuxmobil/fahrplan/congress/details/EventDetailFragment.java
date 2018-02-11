@@ -347,25 +347,18 @@ public class EventDetailFragment extends Fragment {
     }
 
     private void onAlarmTimesIndexPicked(int alarmTimesIndex) {
+        FragmentActivity activity = getActivity();
         if (lecture != null) {
-            FahrplanMisc.addAlarm(getActivity(), lecture, alarmTimesIndex);
+            FahrplanMisc.addAlarm(activity, lecture, alarmTimesIndex);
         } else {
             Log.e(getClass().getName(), "onAlarmTimesIndexPicked: lecture: null. alarmTimesIndex: " + alarmTimesIndex);
         }
-        getActivity().invalidateOptionsMenu();
-        getActivity().setResult(FragmentActivity.RESULT_OK);
-        refreshEventMarkers();
-    }
-
-    public void refreshEventMarkers() {
-        FragmentActivity activity = getActivity();
-        if ((activity != null) && (activity instanceof FahrplanFragment.OnRefreshEventMarkers)) {
-            ((FahrplanFragment.OnRefreshEventMarkers) activity).refreshEventMarkers();
-        }
+        refreshUI(activity);
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
         Lecture l;
+        FragmentActivity activity = getActivity();
         switch (item.getItemId()) {
             case R.id.item_feedback: {
                 Uri uri = Uri.parse(String.format(SCHEDULE_FEEDBACK_URL, event_id));
@@ -386,37 +379,31 @@ public class EventDetailFragment extends Fragment {
             case R.id.item_add_to_calendar:
                 l = eventIdToLecture(event_id);
                 if (l != null) {
-                    FahrplanMisc.addToCalender(getActivity(), l);
+                    FahrplanMisc.addToCalender(activity, l);
                 }
                 return true;
             case R.id.item_fav:
                 if (lecture != null) {
                     lecture.highlight = true;
-                    FahrplanMisc.writeHighlight(getActivity(), lecture);
+                    FahrplanMisc.writeHighlight(activity, lecture);
                 }
-                getActivity().invalidateOptionsMenu();
-                getActivity().setResult(FragmentActivity.RESULT_OK);
-                refreshEventMarkers();
+                refreshUI(activity);
                 return true;
             case R.id.item_unfav:
                 if (lecture != null) {
                     lecture.highlight = false;
-                    FahrplanMisc.writeHighlight(getActivity(), lecture);
+                    FahrplanMisc.writeHighlight(activity, lecture);
                 }
-                getActivity().invalidateOptionsMenu();
-                getActivity().setResult(FragmentActivity.RESULT_OK);
-                refreshEventMarkers();
+                refreshUI(activity);
                 return true;
             case R.id.item_set_alarm:
                 showAlarmTimePicker();
                 return true;
             case R.id.item_clear_alarm:
                 if (lecture != null) {
-                    FahrplanMisc.deleteAlarm(getActivity(), lecture);
+                    FahrplanMisc.deleteAlarm(activity, lecture);
                 }
-                getActivity().invalidateOptionsMenu();
-                getActivity().setResult(FragmentActivity.RESULT_OK);
-                refreshEventMarkers();
+                refreshUI(activity);
                 return true;
             case R.id.event_details_item_close:
                 closeFragment(FRAGMENT_TAG);
@@ -429,6 +416,14 @@ public class EventDetailFragment extends Fragment {
 
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void refreshUI(@NonNull FragmentActivity activity) {
+        activity.invalidateOptionsMenu();
+        activity.setResult(FragmentActivity.RESULT_OK);
+        if (activity instanceof FahrplanFragment.OnRefreshEventMarkers) {
+            ((FahrplanFragment.OnRefreshEventMarkers) activity).refreshEventMarkers();
+        }
     }
 
     private void closeFragment(@NonNull String fragmentTag) {

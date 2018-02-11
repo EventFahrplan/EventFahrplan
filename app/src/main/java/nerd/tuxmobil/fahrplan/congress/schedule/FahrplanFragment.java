@@ -308,22 +308,15 @@ public class FahrplanFragment extends Fragment implements
     private void viewDay(boolean reload) {
         // Log.d(LOG_TAG, "viewDay(" + reload + ")");
 
-        if (!loadLectureList(getActivity(), mDay, reload)) {
-            MyApp.LogDebug(LOG_TAG, "fetch on loading empty lecture list");
-            // FIXME
-            // fetchFahrplan();
-        }
+        loadLectureList(getActivity(), mDay, reload);
         scanDayLectures();
-        HorizontalSnapScrollView scroller =
-                getView().findViewById(R.id.horizScroller);
+        View layoutRoot = getView();
+        HorizontalSnapScrollView scroller = layoutRoot.findViewById(R.id.horizScroller);
         if (scroller != null) {
             scroller.scrollTo(0, 0);
-        }
-        HorizontalScrollView roomScroller =
-                getView().findViewById(R.id.roomScroller);
-        if (scroller != null) {
             addRoomColumns(scroller);
         }
+        HorizontalScrollView roomScroller = layoutRoot.findViewById(R.id.roomScroller);
         if (roomScroller != null) {
             addRoomTitleViews(roomScroller);
         }
@@ -333,7 +326,12 @@ public class FahrplanFragment extends Fragment implements
             fillRoom((ViewGroup) scroller.getChildAt(0), i, boxHeight);
         }
         scrollToCurrent(mDay, boxHeight);
-        ActionBar actionbar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        updateNavigationMenuSelection();
+    }
+
+    private void updateNavigationMenuSelection() {
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        ActionBar actionbar = activity.getSupportActionBar();
         if (actionbar != null && MyApp.numdays > 1) {
             actionbar.setSelectedNavigationItem(mDay - 1);
         }
@@ -748,20 +746,24 @@ public class FahrplanFragment extends Fragment implements
         }
     }
 
-    public static boolean loadLectureList(Context context, int day, boolean force) {
+    public static void loadLectureList(Context context, int day, boolean force) {
         MyApp.LogDebug(LOG_TAG, "load lectures of day " + day);
 
         if (!force && MyApp.lectureList != null && MyApp.lectureListDay == day) {
-            return true;
+            return;
         }
 
         MyApp.lectureList = FahrplanMisc.loadLecturesForDayIndex(context, day);
-        if (MyApp.lectureList == null) return false;
+        if (MyApp.lectureList == null) {
+            return;
+        }
 
         int lectureIndex = MyApp.lectureList.size() - 1;
         while (lectureIndex >= 0) {
             Lecture l = MyApp.lectureList.get(lectureIndex);
-            if (l.changedIsCanceled) MyApp.lectureList.remove(lectureIndex);
+            if (l.changedIsCanceled) {
+                MyApp.lectureList.remove(lectureIndex);
+            }
             lectureIndex--;
         }
         MyApp.lectureListDay = day;
@@ -774,22 +776,22 @@ public class FahrplanFragment extends Fragment implements
                     MyApp.roomsMap.put(lecture.room, lecture.room_index);
                 } else {
                     // upgrade from DB without room_index
-                    int new_index;
-                    for (new_index = 0; new_index < rooms.length; new_index++) {
-                        if (lecture.room.equals(rooms[new_index])) {
+                    int newIndex;
+                    for (newIndex = 0; newIndex < rooms.length; newIndex++) {
+                        if (lecture.room.equals(rooms[newIndex])) {
                             break;
                         }
                     }
-                    if (new_index == rooms.length) {
-                        new_index = 0;
-                        while (MyApp.roomsMap.containsValue(new_index)) {
-                            new_index++;
+                    if (newIndex == rooms.length) {
+                        newIndex = 0;
+                        while (MyApp.roomsMap.containsValue(newIndex)) {
+                            newIndex++;
                         }
                     }
-                    MyApp.roomsMap.put(lecture.room, new_index);
+                    MyApp.roomsMap.put(lecture.room, newIndex);
                     MyApp.LogDebug(LOG_TAG,
-                            "Upgrade room " + lecture.room + " to index " + new_index);
-                    lecture.room_index = new_index;
+                            "Upgrade room " + lecture.room + " to index " + newIndex);
+                    lecture.room_index = newIndex;
                 }
             }
             // upgrade
@@ -821,8 +823,6 @@ public class FahrplanFragment extends Fragment implements
         }
 
         loadAlarms(context);
-
-        return true;
     }
 
     public static void loadAlarms(Context context) {
