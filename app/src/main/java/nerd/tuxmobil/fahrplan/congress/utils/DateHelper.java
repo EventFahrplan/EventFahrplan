@@ -55,10 +55,10 @@ public class DateHelper {
         return dateFormat.format(date);
     }
 
-    public static String getFormattedDateTime(@NonNull Time time) {
+    public static String getFormattedDateTime(long time) {
         DateFormat dateFormat = SimpleDateFormat.getDateTimeInstance(
                 SimpleDateFormat.FULL, SimpleDateFormat.SHORT, Locale.getDefault());
-        return dateFormat.format(new Date(time.toMillis(true)));
+        return dateFormat.format(new Date(time));
     }
 
     public static int getDayChange(String attributeValue) {
