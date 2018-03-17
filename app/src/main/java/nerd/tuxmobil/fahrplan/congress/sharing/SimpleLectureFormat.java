@@ -49,8 +49,8 @@ public class SimpleLectureFormat {
     }
 
     private static void appendLecture(StringBuilder builder, Lecture lecture) {
-        Time time = lecture.getTime();
-        String formattedTime = DateHelper.getFormattedDateTime(time);
+        long startTime = FahrplanMisc.getLectureStartTime(lecture);
+        String formattedTime = DateHelper.getFormattedDateTime(startTime);
         builder.append(lecture.title);
         builder.append(LINE_BREAK);
         builder.append(formattedTime);

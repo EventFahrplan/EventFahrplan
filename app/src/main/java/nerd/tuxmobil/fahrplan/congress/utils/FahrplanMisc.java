@@ -196,7 +196,7 @@ public class FahrplanMisc {
         return sb.toString();
     }
 
-    private static long getLectureStartTime(@NonNull Lecture lecture) {
+    public static long getLectureStartTime(@NonNull Lecture lecture) {
         long when;
         if (lecture.dateUTC > 0) {
             when = lecture.dateUTC;
