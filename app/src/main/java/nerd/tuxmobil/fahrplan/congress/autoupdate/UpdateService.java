@@ -47,8 +47,6 @@ public class UpdateService extends IntentService implements
 
     private FetchFahrplan fetcher;
 
-    final String PREFS_NAME = "settings";
-
     private FahrplanParser parser;
 
     @Override
@@ -56,10 +54,17 @@ public class UpdateService extends IntentService implements
         MyApp.LogDebug(LOG_TAG, "parseDone: " + result + " , numdays=" + MyApp.numdays);
         MyApp.task_running = TASKS.NONE;
         MyApp.fahrplan_xml = null;
-
         List<Lecture> changesList = FahrplanMisc.readChanges(this);
+        if (!changesList.isEmpty()) {
+            showScheduleUpdateNotification(version, changesList.size());
+        }
+        MyApp.LogDebug(LOG_TAG, "background update complete");
+        stopSelf();
+    }
+
+    private void showScheduleUpdateNotification(String version, int changesCount) {
         String changesTxt = getResources().getQuantityString(R.plurals.changes_notification,
-                changesList.size(), changesList.size());
+                changesCount, changesCount);
 
         Intent notificationIntent = new Intent(this, MainActivity.class);
         notificationIntent.setFlags(
@@ -71,9 +76,16 @@ public class UpdateService extends IntentService implements
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         String reminderTone = prefs.getString("reminder_tone", "");
 
+        String contentText;
+        if (TextUtils.isEmpty(version)) {
+            contentText = getString(R.string.schedule_updated);
+        } else {
+            contentText = getString(R.string.schedule_updated_to, version);
+        }
+
         Notification notification = new NotificationCompat.Builder(this)
                 .setAutoCancel(true)
-                .setContentText(getString(R.string.aktualisiert_auf, version))
+                .setContentText(contentText)
                 .setContentTitle(getString(R.string.app_name))
                 .setDefaults(Notification.DEFAULT_LIGHTS)
                 .setSmallIcon(R.drawable.ic_notification)
@@ -84,9 +96,6 @@ public class UpdateService extends IntentService implements
                 .build();
         NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         manager.notify(2, notification);
-        MyApp.LogDebug(LOG_TAG, "background update complete");
-
-        stopSelf();
     }
 
     public void parseFahrplan() {

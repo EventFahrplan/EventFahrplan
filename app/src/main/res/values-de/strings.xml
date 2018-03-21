@@ -28,7 +28,12 @@
     <string name="about">Info</string>
     <string name="fahrplan">Fahrplan</string>
     <string name="appVersion">App Version %s</string>
-    <string name="aktualisiert_auf">Aktualisiert auf %s</string>
+    <string name="schedule_updated_to">
+        Aktualisiert auf <xliff:g id="version" example="Mildenberg 2018-01-16 16:50">%s</xliff:g>
+    </string>
+    <string name="schedule_updated">
+        Der Fahrplan wurde aktualisiert.
+    </string>
     <string name="settings">Einstellungen</string>
     <string name="alarms">Alarme</string>
     <string name="delete">Löschen</string>

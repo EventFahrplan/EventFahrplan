@@ -265,7 +265,7 @@ public class MainActivity extends BaseActivity implements
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         if (!prefs.getBoolean(BundleKeys.PREFS_CHANGES_SEEN, true)) {
-            changesDialog();
+            showChangesDialog();
         }
     }
 
@@ -347,7 +347,7 @@ public class MainActivity extends BaseActivity implements
         }
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         if (prefs.getBoolean(BundleKeys.PREFS_CHANGES_SEEN, true) == false) {
-            changesDialog();
+            showChangesDialog();
         }
     }
 
@@ -363,7 +363,7 @@ public class MainActivity extends BaseActivity implements
         return true;
     }
 
-    void changesDialog() {
+    void showChangesDialog() {
         Fragment fragment = findFragment(ChangesDialog.FRAGMENT_TAG);
         if (fragment == null) {
             List<Lecture> changedLectures = FahrplanMisc.readChanges(this);
@@ -379,7 +379,7 @@ public class MainActivity extends BaseActivity implements
         }
     }
 
-    void aboutDialog() {
+    void showAboutDialog() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.addToBackStack(null);
         DialogFragment about = new AboutDialog();
@@ -394,7 +394,7 @@ public class MainActivity extends BaseActivity implements
                 fetchFahrplan(this);
                 return true;
             case R.id.item_about:
-                aboutDialog();
+                showAboutDialog();
                 return true;
             case R.id.item_alarms:
                 intent = new Intent(this, AlarmList.class);
