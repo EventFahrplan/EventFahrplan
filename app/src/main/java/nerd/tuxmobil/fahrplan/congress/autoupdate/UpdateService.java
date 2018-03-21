@@ -71,7 +71,7 @@ public class UpdateService extends IntentService implements
 
         Notification notification = new NotificationCompat.Builder(this)
                 .setAutoCancel(true)
-                .setContentText(getString(R.string.aktualisiert_auf, version))
+                .setContentText(getString(R.string.schedule_updated_to, version))
                 .setContentTitle(getString(R.string.app_name))
                 .setDefaults(Notification.DEFAULT_LIGHTS)
                 .setSmallIcon(R.drawable.ic_notification)
