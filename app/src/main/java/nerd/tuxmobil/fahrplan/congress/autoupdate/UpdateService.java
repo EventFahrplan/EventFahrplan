@@ -47,8 +47,6 @@ public class UpdateService extends IntentService implements
 
     private FetchFahrplan fetcher;
 
-    final String PREFS_NAME = "settings";
-
     private FahrplanParser parser;
 
     @Override
