@@ -31,6 +31,9 @@
     <string name="schedule_updated_to">
         Updated to <xliff:g id="version" example="Mildenberg 2018-01-16 16:50">%s</xliff:g>
     </string>
+    <string name="schedule_updated">
+        The schedule has been updated.
+    </string>
     <string name="settings">Settings</string>
     <string name="alarms">Alarms</string>
     <string name="delete">Delete</string>

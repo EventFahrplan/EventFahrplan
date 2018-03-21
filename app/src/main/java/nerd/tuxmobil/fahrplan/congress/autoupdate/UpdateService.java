@@ -69,9 +69,16 @@ public class UpdateService extends IntentService implements
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         String reminderTone = prefs.getString("reminder_tone", "");
 
+        String contentText;
+        if (TextUtils.isEmpty(version)) {
+            contentText = getString(R.string.schedule_updated);
+        } else {
+            contentText = getString(R.string.schedule_updated_to, version);
+        }
+
         Notification notification = new NotificationCompat.Builder(this)
                 .setAutoCancel(true)
-                .setContentText(getString(R.string.schedule_updated_to, version))
+                .setContentText(contentText)
                 .setContentTitle(getString(R.string.app_name))
                 .setDefaults(Notification.DEFAULT_LIGHTS)
                 .setSmallIcon(R.drawable.ic_notification)
