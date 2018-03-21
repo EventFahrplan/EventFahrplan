@@ -54,10 +54,17 @@ public class UpdateService extends IntentService implements
         MyApp.LogDebug(LOG_TAG, "parseDone: " + result + " , numdays=" + MyApp.numdays);
         MyApp.task_running = TASKS.NONE;
         MyApp.fahrplan_xml = null;
-
         List<Lecture> changesList = FahrplanMisc.readChanges(this);
+        if (!changesList.isEmpty()) {
+            showScheduleUpdateNotification(version, changesList.size());
+        }
+        MyApp.LogDebug(LOG_TAG, "background update complete");
+        stopSelf();
+    }
+
+    private void showScheduleUpdateNotification(String version, int changesCount) {
         String changesTxt = getResources().getQuantityString(R.plurals.changes_notification,
-                changesList.size(), changesList.size());
+                changesCount, changesCount);
 
         Intent notificationIntent = new Intent(this, MainActivity.class);
         notificationIntent.setFlags(
@@ -89,9 +96,6 @@ public class UpdateService extends IntentService implements
                 .build();
         NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         manager.notify(2, notification);
-        MyApp.LogDebug(LOG_TAG, "background update complete");
-
-        stopSelf();
     }
 
     public void parseFahrplan() {
