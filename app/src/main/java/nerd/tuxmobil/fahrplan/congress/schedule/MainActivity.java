@@ -379,7 +379,7 @@ public class MainActivity extends BaseActivity implements
         }
     }
 
-    void aboutDialog() {
+    void showAboutDialog() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.addToBackStack(null);
         DialogFragment about = new AboutDialog();
@@ -394,7 +394,7 @@ public class MainActivity extends BaseActivity implements
                 fetchFahrplan(this);
                 return true;
             case R.id.item_about:
-                aboutDialog();
+                showAboutDialog();
                 return true;
             case R.id.item_alarms:
                 intent = new Intent(this, AlarmList.class);
