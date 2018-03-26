@@ -21,6 +21,7 @@ import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.autoupdate.UpdateService;
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.exceptions.BuilderException;
+import nerd.tuxmobil.fahrplan.congress.extensions.Contexts;
 import nerd.tuxmobil.fahrplan.congress.persistence.AlarmsDBOpenHelper;
 import nerd.tuxmobil.fahrplan.congress.persistence.FahrplanContract.AlarmsTable;
 import nerd.tuxmobil.fahrplan.congress.schedule.MainActivity;
@@ -50,8 +51,7 @@ public final class AlarmReceiver extends BroadcastReceiver {
                     .getLongExtra(BundleKeys.ALARM_START_TIME, System.currentTimeMillis());
             String title = intent.getStringExtra(BundleKeys.ALARM_TITLE);
             //Toast.makeText(context, "Alarm worked.", Toast.LENGTH_LONG).show();
-            NotificationManager nm = (NotificationManager) context
-                    .getSystemService(Context.NOTIFICATION_SERVICE);
+            NotificationManager nm = Contexts.getNotificationManager(context);
             Notification notify = new Notification();
 
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);

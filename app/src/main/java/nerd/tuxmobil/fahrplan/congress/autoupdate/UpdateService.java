@@ -27,6 +27,7 @@ import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.MyApp.TASKS;
 import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
+import nerd.tuxmobil.fahrplan.congress.extensions.Contexts;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
 import nerd.tuxmobil.fahrplan.congress.net.ConnectivityStateReceiver;
 import nerd.tuxmobil.fahrplan.congress.net.CustomHttpClient.HTTP_STATUS;
@@ -94,7 +95,7 @@ public class UpdateService extends IntentService implements
                 .setSubText(changesTxt)
                 .setColor(reminderColor)
                 .build();
-        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager manager = Contexts.getNotificationManager(this);
         manager.notify(2, notification);
     }
 
@@ -155,8 +156,7 @@ public class UpdateService extends IntentService implements
     protected void onHandleIntent(Intent intent) {
         MyApp.LogDebug(LOG_TAG, "onHandleIntent");
         Log.d(getClass().getName(), "intent = " + intent);
-        ConnectivityManager connectivityManager =
-                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager connectivityManager = Contexts.getConnectivityManager(this);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         if (networkInfo == null || !networkInfo.isConnected()) {
             MyApp.LogDebug(LOG_TAG, "not connected");

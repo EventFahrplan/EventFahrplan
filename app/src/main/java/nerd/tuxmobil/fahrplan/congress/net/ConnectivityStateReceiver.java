@@ -12,6 +12,7 @@ import android.preference.PreferenceManager;
 
 import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.autoupdate.UpdateService;
+import nerd.tuxmobil.fahrplan.congress.extensions.Contexts;
 
 public class ConnectivityStateReceiver extends BroadcastReceiver {
 
@@ -21,8 +22,7 @@ public class ConnectivityStateReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         MyApp.LogDebug(LOG_TAG, "got Conn State event");
 
-        ConnectivityManager cm = (ConnectivityManager) context
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager cm = Contexts.getConnectivityManager(context);
         NetworkInfo networkInfo = cm.getActiveNetworkInfo();
         if ((networkInfo != null) && (networkInfo.isConnected())) {
             MyApp.LogDebug(LOG_TAG, "is connected");
