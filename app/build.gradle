@@ -1,3 +1,4 @@
+import nerd.tuxmobil.fahrplan.congress.Libs
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 
@@ -138,19 +139,19 @@ tasks.withType(Test) {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
-    implementation "com.android.support:appcompat-v7:$supportLibVersion"
-    implementation "com.android.support:design:$supportLibVersion"
-    implementation "com.squareup.okhttp3:okhttp:$okhttpVersion"
-    implementation "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
-    implementation "com.github.ligi.snackengage:snackengage-playrate:$snackEngageVersion"
-    implementation "de.cketti.mailto:email-intent-builder:$emailIntentBuilderVersion"
-    implementation "org.ligi:tracedroid:$traceDroidVersion"
+    implementation Libs.kotlinStdlib
+    implementation Libs.supportLibraryAppcompatV7
+    implementation Libs.supportLibraryDesign
+    implementation Libs.okhttp
+    implementation Libs.okhttpLoggingInterceptor
+    implementation Libs.snackengagePlayrate
+    implementation Libs.emailIntentBuilder
+    implementation Libs.tracedroid
 
-    testImplementation "junit:junit:$junitVersion"
-    testImplementation "com.squareup.assertj:assertj-android:$assertjAndroidVersion"
-    testImplementation "com.android.support:support-annotations:$supportLibVersion"
-    testImplementation "org.mockito:mockito-core:$mockitoVersion"
+    testImplementation Libs.junit
+    testImplementation Libs.assertjAndroid
+    testImplementation Libs.supportLibraryAnnotations
+    testImplementation Libs.mockitoCore
 }
 
 def gitSha() {
