@@ -8,7 +8,7 @@ object Versions {
     val emailIntentBuilder = "1.0.0"
     val gradleVersions = "0.17.0"
     val junit = "4.12"
-    val kotlin = "1.2.30"
+    val kotlin = "1.2.31"
     val mockito = "2.18.0"
     val okhttp = "3.10.0"
     val snackengage = "0.15"
