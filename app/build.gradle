@@ -21,7 +21,7 @@ props.load(new FileInputStream(gradlePropertiesFile))
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "27.0.2"
+    buildToolsVersion "27.0.3"
 
     defaultConfig {
         versionCode 44
