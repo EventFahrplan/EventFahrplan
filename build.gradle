@@ -1,33 +1,15 @@
+import nerd.tuxmobil.fahrplan.congress.GradlePlugins
+
 buildscript {
-
-    ext {
-        kotlinVersion = "1.2.20"
-
-        // Plugins
-        androidGradlePluginVersion = "3.0.1"
-        gradleVersionsPluginVersion = "0.17.0"
-        sonarQubeGradlePluginVersion = "2.6.1"
-
-        // Libraries
-        assertjAndroidVersion = "1.2.0"
-        emailIntentBuilderVersion = "1.0.0"
-        junitVersion = "4.12"
-        mockitoVersion = "2.13.0"
-        okhttpVersion = "3.9.1"
-        snackEngageVersion = "0.15"
-        supportLibVersion = "26.1.0"
-        traceDroidVersion = "1.4"
-    }
-
     repositories {
         google()
         jcenter()
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:$androidGradlePluginVersion"
-        classpath "com.github.ben-manes:gradle-versions-plugin:$gradleVersionsPluginVersion"
-        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:$sonarQubeGradlePluginVersion"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+        classpath GradlePlugins.androidGradle
+        classpath GradlePlugins.gradleVersions
+        classpath GradlePlugins.sonarQubeGradle
+        classpath GradlePlugins.kotlinGradle
     }
 }
 
