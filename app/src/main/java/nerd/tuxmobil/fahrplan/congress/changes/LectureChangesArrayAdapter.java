@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.TreeSet;
 
 import nerd.tuxmobil.fahrplan.congress.R;
+import nerd.tuxmobil.fahrplan.congress.extensions.Contexts;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
 
 public class LectureChangesArrayAdapter extends ArrayAdapter<Lecture> {
@@ -68,8 +69,7 @@ public class LectureChangesArrayAdapter extends ArrayAdapter<Lecture> {
         if (convertView == null) {
 
             // clone the inflater using the ContextThemeWrapper
-            LayoutInflater inflater = (LayoutInflater) context
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater inflater = Contexts.getLayoutInflater(context);
             LayoutInflater localInflater = inflater.cloneInContext(context);
 
             switch (type) {

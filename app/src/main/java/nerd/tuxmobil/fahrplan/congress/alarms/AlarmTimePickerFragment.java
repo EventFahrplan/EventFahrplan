@@ -21,6 +21,7 @@ import android.widget.Spinner;
 import nerd.tuxmobil.fahrplan.congress.BuildConfig;
 import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
+import nerd.tuxmobil.fahrplan.congress.extensions.Contexts;
 
 public class AlarmTimePickerFragment extends DialogFragment {
 
@@ -52,8 +53,7 @@ public class AlarmTimePickerFragment extends DialogFragment {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
         int defaultAlarmTimeIndex = activity.getResources().getInteger(R.integer.default_alarm_time_index);
         alarmTimeIndex = prefs.getInt(BundleKeys.PREFS_ALARM_TIME_INDEX, defaultAlarmTimeIndex);
-        LayoutInflater inflater = (LayoutInflater) activity
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = Contexts.getLayoutInflater(activity);
         @SuppressLint("InflateParams")
         View layout = inflater.inflate(R.layout.reminder_dialog, null, false);
         // https://possiblemobile.com/2013/05/layout-inflation-as-intended/
