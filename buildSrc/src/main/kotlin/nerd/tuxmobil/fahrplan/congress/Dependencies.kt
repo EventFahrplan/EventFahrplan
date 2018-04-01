@@ -3,7 +3,7 @@
 package nerd.tuxmobil.fahrplan.congress
 
 object Versions {
-    val androidGradle = "3.0.1"
+    val androidGradle = "3.1.0"
     val assertjAndroid = "1.2.0"
     val emailIntentBuilder = "1.0.0"
     val gradleVersions = "0.17.0"
