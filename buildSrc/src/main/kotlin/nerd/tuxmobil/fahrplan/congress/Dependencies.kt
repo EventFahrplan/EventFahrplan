@@ -12,7 +12,7 @@ object Versions {
     val mockito = "2.13.0"
     val okhttp = "3.9.1"
     val snackengage = "0.15"
-    val sonarQubeGradle = "2.6.1"
+    val sonarQubeGradle = "2.6.2"
     val supportLibrary = "26.1.0"
     val tracedroid = "1.4"
 }
