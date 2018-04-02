@@ -354,9 +354,9 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                                         } else if (name.equals("link")) {
                                             String url = parser.getAttributeValue(null, "href");
                                             parser.next();
-                                            String urlname = parser.getText();
+                                            String urlName = parser.getText();
                                             if (url == null) {
-                                                url = urlname;
+                                                url = urlName;
                                             }
                                             if (!url.contains("://")) {
                                                 url = "http://" + url;
@@ -366,7 +366,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                                                 sb.append(lecture.links);
                                                 sb.append(",");
                                             }
-                                            sb.append("[").append(urlname).append("]").append("(")
+                                            sb.append("[").append(urlName).append("]").append("(")
                                                     .append(url).append(")");
                                             lecture.links = sb.toString();
                                         } else if (name.equals("start")) {
