@@ -134,7 +134,7 @@
 
     <!-- App disclaimer -->
     <string name="app_disclaimer">
-        This application is based on the source code of the &#8220;Schedule&#8221; app.
+        This application is based on the source code of the &#8220;EventFahrplan&#8221; app.
         Visitors of the annual congress and camp hosted by the Chaos Computer Club
         use the app to keep track of the event program.
     </string>

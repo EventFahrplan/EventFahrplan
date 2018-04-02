@@ -125,7 +125,7 @@
 
     <!-- App disclaimer -->
     <string name="app_disclaimer">
-        Diese Anwendung basiert auf dem Quellcode der &#8220;Fahrplan&#8221; App.
+        Diese Anwendung basiert auf dem Quellcode der &#8220;EventFahrplan&#8221; App.
         Besucher des Jahreskongress und des Camps des Chaos Computer Clubs
         nutzen die App, um das jeweilige Veranstaltungsprogramm im Auge zu behalten.
     </string>
