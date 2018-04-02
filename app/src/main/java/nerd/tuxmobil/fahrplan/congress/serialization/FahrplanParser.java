@@ -347,9 +347,8 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                                         } else if (name.equals("person")) {
                                             parser.next();
                                             if (parser.getText() != null) {
-                                                lecture.speakers = lecture.speakers + (
-                                                        lecture.speakers.length() > 0 ? ";" : "")
-                                                        + parser.getText();
+                                                String separator = lecture.speakers.length() > 0 ? ";" : "";
+                                                lecture.speakers = lecture.speakers + separator + parser.getText();
                                             }
                                         } else if (name.equals("link")) {
                                             String url = parser.getAttributeValue(null, "href");
