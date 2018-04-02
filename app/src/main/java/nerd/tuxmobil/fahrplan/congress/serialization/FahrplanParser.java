@@ -32,6 +32,8 @@ import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
 import nerd.tuxmobil.fahrplan.congress.utils.LectureUtils;
 import nerd.tuxmobil.fahrplan.congress.validation.DateFieldValidation;
 
+import static nerd.tuxmobil.fahrplan.congress.serialization.XmlPullParsers.getSanitizedText;
+
 public class FahrplanParser {
 
     public interface OnParseCompleteListener {
@@ -254,7 +256,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                         name = parser.getName();
                         if (name.equals("version")) {
                             parser.next();
-                            meta.version = new String(parser.getText());
+                            meta.version = getSanitizedText(parser);
                         }
                         if (name.equals("day")) {
                             String index = parser.getAttributeValue(null, "index");
@@ -306,57 +308,38 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                                         name = parser.getName();
                                         if (name.equals("title")) {
                                             parser.next();
-                                            if (parser.getText() != null) {
-                                                lecture.title = parser.getText();
-                                            }
+                                            lecture.title = getSanitizedText(parser);
                                         } else if (name.equals("subtitle")) {
                                             parser.next();
-                                            if (parser.getText() != null) {
-                                                lecture.subtitle = parser.getText();
-                                            }
+                                            lecture.subtitle = getSanitizedText(parser);
                                         } else if (name.equals("slug")) {
                                             parser.next();
-                                            if (parser.getText() != null) {
-                                                lecture.slug = parser.getText();
-                                            }
+                                            lecture.slug = getSanitizedText(parser);
                                         } else if (name.equals("track")) {
                                             parser.next();
-                                            if (parser.getText() != null) {
-                                                lecture.track = parser.getText();
-                                            }
+                                            lecture.track = getSanitizedText(parser);
                                         } else if (name.equals("type")) {
                                             parser.next();
-                                            if (parser.getText() != null) {
-                                                lecture.type = parser.getText();
-                                            }
+                                            lecture.type = getSanitizedText(parser);
                                         } else if (name.equals("language")) {
                                             parser.next();
-                                            if (parser.getText() != null) {
-                                                lecture.lang = parser.getText();
-                                            }
+                                            lecture.lang = getSanitizedText(parser);
                                         } else if (name.equals("abstract")) {
                                             parser.next();
-                                            if (parser.getText() != null) {
-                                                lecture.abstractt = parser.getText();
-                                            }
+                                            lecture.abstractt = getSanitizedText(parser);
                                         } else if (name.equals("description")) {
                                             parser.next();
-                                            if (parser.getText() != null) {
-                                                lecture.description = parser.getText();
-                                            }
+                                            lecture.description = getSanitizedText(parser);
                                         } else if (name.equals("person")) {
                                             parser.next();
-                                            if (parser.getText() != null) {
-                                                lecture.speakers = lecture.speakers + (
-                                                        lecture.speakers.length() > 0 ? ";" : "")
-                                                        + parser.getText();
-                                            }
+                                            String separator = lecture.speakers.length() > 0 ? ";" : "";
+                                            lecture.speakers = lecture.speakers + separator + getSanitizedText(parser);
                                         } else if (name.equals("link")) {
                                             String url = parser.getAttributeValue(null, "href");
                                             parser.next();
-                                            String urlname = parser.getText();
+                                            String urlName = getSanitizedText(parser);
                                             if (url == null) {
-                                                url = urlname;
+                                                url = urlName;
                                             }
                                             if (!url.contains("://")) {
                                                 url = "http://" + url;
@@ -366,31 +349,22 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                                                 sb.append(lecture.links);
                                                 sb.append(",");
                                             }
-                                            sb.append("[").append(urlname).append("]").append("(")
+                                            sb.append("[").append(urlName).append("]").append("(")
                                                     .append(url).append(")");
                                             lecture.links = sb.toString();
                                         } else if (name.equals("start")) {
                                             parser.next();
-                                            if (parser.getText() != null) {
-                                                lecture.startTime = Lecture
-                                                        .parseStartTime(parser.getText());
-                                            }
+                                            lecture.startTime = Lecture.parseStartTime(getSanitizedText(parser));
                                             lecture.relStartTime = lecture.startTime;
                                             if (lecture.relStartTime < dayChangeTime) {
                                                 lecture.relStartTime += (24 * 60);
                                             }
                                         } else if (name.equals("duration")) {
                                             parser.next();
-                                            if (parser.getText() != null) {
-                                                lecture.duration = Lecture
-                                                        .parseDuration(parser.getText());
-                                            }
+                                            lecture.duration = Lecture.parseDuration(getSanitizedText(parser));
                                         } else if (name.equals("date")) {
                                             parser.next();
-                                            if (parser.getText() != null) {
-                                                lecture.dateUTC = DateHelper
-                                                        .getDateTime(parser.getText());
-                                            }
+                                            lecture.dateUTC = DateHelper.getDateTime(getSanitizedText(parser));
                                         } else if (name.equals("recording")) {
                                             eventType = parser.next();
                                             boolean recording_done = false;
@@ -407,16 +381,10 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                                                         name = parser.getName();
                                                         if (name.equals("license")) {
                                                             parser.next();
-                                                            if (parser.getText() != null) {
-                                                                lecture.recordingLicense = parser
-                                                                        .getText();
-                                                            }
+                                                            lecture.recordingLicense = getSanitizedText(parser);
                                                         } else if (name.equals("optout")) {
                                                             parser.next();
-                                                            if (parser.getText() != null) {
-                                                                lecture.recordingOptOut = Boolean
-                                                                        .valueOf(parser.getText());
-                                                            }
+                                                            lecture.recordingOptOut = Boolean.valueOf(getSanitizedText(parser));
                                                         }
                                                         break;
                                                 }
@@ -449,26 +417,19 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                                         name = parser.getName();
                                         if (name.equals("subtitle")) {
                                             parser.next();
-                                            if (parser.getText() != null) {
-                                                meta.subtitle = new String(parser.getText());
-                                            } else {
-                                                meta.subtitle = "";
-                                            }
+                                            meta.subtitle = getSanitizedText(parser);
                                         }
                                         if (name.equals("title")) {
                                             parser.next();
-                                            meta.title = new String(parser.getText());
+                                            meta.title = getSanitizedText(parser);
                                         }
                                         if (name.equals("release")) {
                                             parser.next();
-                                            meta.version = new String(parser.getText());
+                                            meta.version = getSanitizedText(parser);
                                         }
                                         if (name.equals("day_change")) {
                                             parser.next();
-                                            if (parser.getText() != null) {
-                                                dayChangeTime = Lecture
-                                                        .parseStartTime(parser.getText());
-                                            }
+                                            dayChangeTime = Lecture.parseStartTime(getSanitizedText(parser));
                                         }
                                         break;
                                 }
