@@ -58,6 +58,8 @@ public class EventDetailFragment extends Fragment {
 
     private static final String SCHEDULE_FEEDBACK_URL = BuildConfig.SCHEDULE_FEEDBACK_URL;
 
+    private static final boolean SHOW_FEEDBACK_MENU_ITEM = !TextUtils.isEmpty(SCHEDULE_FEEDBACK_URL);
+
     private String event_id;
 
     private String title;
@@ -295,6 +297,16 @@ public class EventDetailFragment extends Fragment {
                 if (item != null) {
                     item.setVisible(true);
                 }
+            }
+        }
+        item = menu.findItem(R.id.item_feedback);
+        if (SHOW_FEEDBACK_MENU_ITEM) {
+            if (item != null) {
+                item.setVisible(true);
+            }
+        } else {
+            if (item != null) {
+                item.setVisible(false);
             }
         }
         if (sidePane) {
