@@ -108,99 +108,108 @@ public class LectureChangesArrayAdapter extends ArrayAdapter<Lecture> {
 
         switch (type) {
             case TYPE_ITEM:
-                resetTextStyle(viewHolder.title, R.style.ScheduleListPrimary);
-                resetTextStyle(viewHolder.subtitle, R.style.ScheduleListSecondary);
-                resetTextStyle(viewHolder.speakers, R.style.ScheduleListSecondary);
-                resetTextStyle(viewHolder.lang, R.style.ScheduleListSecondary);
-                resetTextStyle(viewHolder.day, R.style.ScheduleListSecondary);
-                resetTextStyle(viewHolder.time, R.style.ScheduleListSecondary);
-                resetTextStyle(viewHolder.room, R.style.ScheduleListSecondary);
-                resetTextStyle(viewHolder.duration, R.style.ScheduleListSecondary);
-
-                Lecture l = list.get(mMapper.get(position));
-                viewHolder.title.setText(l.title);
-                viewHolder.subtitle.setText(l.subtitle);
-                viewHolder.speakers.setText(l.getFormattedSpeakers());
-                viewHolder.lang.setText(l.lang);
-                String dayText = DateHelper.getFormattedDate(l.dateUTC);
-                viewHolder.day.setText(dayText);
-                String timeText = DateHelper.getFormattedTime(l.dateUTC);
-                viewHolder.time.setText(timeText);
-                viewHolder.room.setText(l.room);
-                viewHolder.duration.setText(String.valueOf(l.duration) + " min.");
-                viewHolder.video.setVisibility(View.GONE);
-                viewHolder.novideo.setVisibility(View.GONE);
-
-                if (l.changedIsNew) {
-                    setTextStyleNew(viewHolder.title);
-                    setTextStyleNew(viewHolder.subtitle);
-                    setTextStyleNew(viewHolder.speakers);
-                    setTextStyleNew(viewHolder.lang);
-                    setTextStyleNew(viewHolder.day);
-                    setTextStyleNew(viewHolder.time);
-                    setTextStyleNew(viewHolder.room);
-                    setTextStyleNew(viewHolder.duration);
-                } else if (l.changedIsCanceled) {
-                    setTextStyleCanceled(viewHolder.title);
-                    setTextStyleCanceled(viewHolder.subtitle);
-                    setTextStyleCanceled(viewHolder.speakers);
-                    setTextStyleCanceled(viewHolder.lang);
-                    setTextStyleCanceled(viewHolder.day);
-                    setTextStyleCanceled(viewHolder.time);
-                    setTextStyleCanceled(viewHolder.room);
-                    setTextStyleCanceled(viewHolder.duration);
-                } else {
-                    if (l.changedTitle) {
-                        setTextStyleChanged(viewHolder.title);
-                        if (l.title.length() == 0) {
-                            viewHolder.title.setText(context.getText(R.string.dash));
-                        }
-                    }
-                    if (l.changedSubtitle) {
-                        setTextStyleChanged(viewHolder.subtitle);
-                        if (l.subtitle.length() == 0) {
-                            viewHolder.subtitle.setText(context.getText(R.string.dash));
-                        }
-                    }
-                    if (l.changedSpeakers) {
-                        setTextStyleChanged(viewHolder.speakers);
-                        if (l.speakers.length() == 0) {
-                            viewHolder.speakers.setText(context.getText(R.string.dash));
-                        }
-                    }
-                    if (l.changedLanguage) {
-                        setTextStyleChanged(viewHolder.lang);
-                        if (l.lang.length() == 0) {
-                            viewHolder.lang.setText(context.getText(R.string.dash));
-                        }
-                    }
-                    if (l.changedDay) {
-                        setTextStyleChanged(viewHolder.day);
-                    }
-                    if (l.changedTime) {
-                        setTextStyleChanged(viewHolder.time);
-                    }
-                    if (l.changedRoom) {
-                        setTextStyleChanged(viewHolder.room);
-                    }
-                    if (l.changedDuration) {
-                        setTextStyleChanged(viewHolder.duration);
-                    }
-                    if (l.changedRecordingOptOut) {
-                        if (l.recordingOptOut) {
-                            viewHolder.novideo.setVisibility(View.VISIBLE);
-                        } else {
-                            viewHolder.video.setVisibility(View.VISIBLE);
-                        }
-                    }
-                }
+                setItemContent(position, viewHolder);
                 break;
             case TYPE_SEPARATOR:
-                viewHolderSeparator.text.setText(mSeparatorStrings.get(mMapper.get(position)));
+                setSeparatorContent(position, viewHolderSeparator);
                 break;
         }
 
         return rowView;
+    }
+
+    private void setItemContent(int position, ViewHolder viewHolder) {
+        resetTextStyle(viewHolder.title, R.style.ScheduleListPrimary);
+        resetTextStyle(viewHolder.subtitle, R.style.ScheduleListSecondary);
+        resetTextStyle(viewHolder.speakers, R.style.ScheduleListSecondary);
+        resetTextStyle(viewHolder.lang, R.style.ScheduleListSecondary);
+        resetTextStyle(viewHolder.day, R.style.ScheduleListSecondary);
+        resetTextStyle(viewHolder.time, R.style.ScheduleListSecondary);
+        resetTextStyle(viewHolder.room, R.style.ScheduleListSecondary);
+        resetTextStyle(viewHolder.duration, R.style.ScheduleListSecondary);
+
+        Lecture l = list.get(mMapper.get(position));
+        viewHolder.title.setText(l.title);
+        viewHolder.subtitle.setText(l.subtitle);
+        viewHolder.speakers.setText(l.getFormattedSpeakers());
+        viewHolder.lang.setText(l.lang);
+        String dayText = DateHelper.getFormattedDate(l.dateUTC);
+        viewHolder.day.setText(dayText);
+        String timeText = DateHelper.getFormattedTime(l.dateUTC);
+        viewHolder.time.setText(timeText);
+        viewHolder.room.setText(l.room);
+        viewHolder.duration.setText(String.valueOf(l.duration) + " min.");
+        viewHolder.video.setVisibility(View.GONE);
+        viewHolder.novideo.setVisibility(View.GONE);
+
+        if (l.changedIsNew) {
+            setTextStyleNew(viewHolder.title);
+            setTextStyleNew(viewHolder.subtitle);
+            setTextStyleNew(viewHolder.speakers);
+            setTextStyleNew(viewHolder.lang);
+            setTextStyleNew(viewHolder.day);
+            setTextStyleNew(viewHolder.time);
+            setTextStyleNew(viewHolder.room);
+            setTextStyleNew(viewHolder.duration);
+        } else if (l.changedIsCanceled) {
+            setTextStyleCanceled(viewHolder.title);
+            setTextStyleCanceled(viewHolder.subtitle);
+            setTextStyleCanceled(viewHolder.speakers);
+            setTextStyleCanceled(viewHolder.lang);
+            setTextStyleCanceled(viewHolder.day);
+            setTextStyleCanceled(viewHolder.time);
+            setTextStyleCanceled(viewHolder.room);
+            setTextStyleCanceled(viewHolder.duration);
+        } else {
+            if (l.changedTitle) {
+                setTextStyleChanged(viewHolder.title);
+                if (l.title.length() == 0) {
+                    viewHolder.title.setText(context.getText(R.string.dash));
+                }
+            }
+            if (l.changedSubtitle) {
+                setTextStyleChanged(viewHolder.subtitle);
+                if (l.subtitle.length() == 0) {
+                    viewHolder.subtitle.setText(context.getText(R.string.dash));
+                }
+            }
+            if (l.changedSpeakers) {
+                setTextStyleChanged(viewHolder.speakers);
+                if (l.speakers.length() == 0) {
+                    viewHolder.speakers.setText(context.getText(R.string.dash));
+                }
+            }
+            if (l.changedLanguage) {
+                setTextStyleChanged(viewHolder.lang);
+                if (l.lang.length() == 0) {
+                    viewHolder.lang.setText(context.getText(R.string.dash));
+                }
+            }
+            if (l.changedDay) {
+                setTextStyleChanged(viewHolder.day);
+            }
+            if (l.changedTime) {
+                setTextStyleChanged(viewHolder.time);
+            }
+            if (l.changedRoom) {
+                setTextStyleChanged(viewHolder.room);
+            }
+            if (l.changedDuration) {
+                setTextStyleChanged(viewHolder.duration);
+            }
+            if (l.changedRecordingOptOut) {
+                if (l.recordingOptOut) {
+                    viewHolder.novideo.setVisibility(View.VISIBLE);
+                } else {
+                    viewHolder.video.setVisibility(View.VISIBLE);
+                }
+            }
+        }
+        return;
+    }
+
+    private void setSeparatorContent(int position, ViewHolderSeparator viewHolderSeparator) {
+        viewHolderSeparator.text.setText(mSeparatorStrings.get(mMapper.get(position)));
     }
 
     static class ViewHolder {

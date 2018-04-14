@@ -102,49 +102,57 @@ public class LectureArrayAdapter extends ArrayAdapter<Lecture> {
 
         switch (type) {
             case TYPE_ITEM:
-                resetTextStyle(viewHolder.title, R.style.ScheduleListPrimary);
-                resetTextStyle(viewHolder.subtitle, R.style.ScheduleListSecondary);
-                resetTextStyle(viewHolder.speakers, R.style.ScheduleListSecondary);
-                resetTextStyle(viewHolder.lang, R.style.ScheduleListSecondary);
-                resetTextStyle(viewHolder.day, R.style.ScheduleListSecondary);
-                resetTextStyle(viewHolder.time, R.style.ScheduleListSecondary);
-                resetTextStyle(viewHolder.room, R.style.ScheduleListSecondary);
-                resetTextStyle(viewHolder.duration, R.style.ScheduleListSecondary);
-
-                Lecture l = list.get(mMapper.get(position));
-                if (lectureTookPlace(l)) {
-                    setTextStylePast(viewHolder.title);
-                    setTextStylePast(viewHolder.subtitle);
-                    setTextStylePast(viewHolder.speakers);
-                    setTextStylePast(viewHolder.lang);
-                    setTextStylePast(viewHolder.day);
-                    setTextStylePast(viewHolder.time);
-                    setTextStylePast(viewHolder.room);
-                    setTextStylePast(viewHolder.duration);
-                }
-
-                viewHolder.title.setText(l.title);
-                viewHolder.subtitle.setText(l.subtitle);
-                viewHolder.speakers.setText(l.getFormattedSpeakers());
-                viewHolder.lang.setText(l.lang);
-                viewHolder.day.setVisibility(View.GONE);
-                String timeText = DateHelper.getFormattedTime(l.dateUTC);
-                viewHolder.time.setText(timeText);
-                viewHolder.room.setText(l.room);
-                viewHolder.duration.setText(String.valueOf(l.duration) + " min.");
-                viewHolder.video.setVisibility(View.GONE);
-                viewHolder.novideo.setVisibility(View.GONE);
+                setItemContent(position, viewHolder);
                 break;
             case TYPE_SEPARATOR:
-                viewHolderSeparator.text.setText(mSeparatorStrings.get(mMapper.get(position)));
+                setSeparatorContent(position, viewHolderSeparator);
                 break;
         }
 
         return rowView;
     }
 
+    private void setItemContent(int position, ViewHolder viewHolder) {
+        resetTextStyle(viewHolder.title, R.style.ScheduleListPrimary);
+        resetTextStyle(viewHolder.subtitle, R.style.ScheduleListSecondary);
+        resetTextStyle(viewHolder.speakers, R.style.ScheduleListSecondary);
+        resetTextStyle(viewHolder.lang, R.style.ScheduleListSecondary);
+        resetTextStyle(viewHolder.day, R.style.ScheduleListSecondary);
+        resetTextStyle(viewHolder.time, R.style.ScheduleListSecondary);
+        resetTextStyle(viewHolder.room, R.style.ScheduleListSecondary);
+        resetTextStyle(viewHolder.duration, R.style.ScheduleListSecondary);
+
+        Lecture l = list.get(mMapper.get(position));
+        if (lectureTookPlace(l)) {
+            setTextStylePast(viewHolder.title);
+            setTextStylePast(viewHolder.subtitle);
+            setTextStylePast(viewHolder.speakers);
+            setTextStylePast(viewHolder.lang);
+            setTextStylePast(viewHolder.day);
+            setTextStylePast(viewHolder.time);
+            setTextStylePast(viewHolder.room);
+            setTextStylePast(viewHolder.duration);
+        }
+
+        viewHolder.title.setText(l.title);
+        viewHolder.subtitle.setText(l.subtitle);
+        viewHolder.speakers.setText(l.getFormattedSpeakers());
+        viewHolder.lang.setText(l.lang);
+        viewHolder.day.setVisibility(View.GONE);
+        String timeText = DateHelper.getFormattedTime(l.dateUTC);
+        viewHolder.time.setText(timeText);
+        viewHolder.room.setText(l.room);
+        viewHolder.duration.setText(String.valueOf(l.duration) + " min.");
+        viewHolder.video.setVisibility(View.GONE);
+        viewHolder.novideo.setVisibility(View.GONE);
+    }
+
     private boolean lectureTookPlace(Lecture lecture) {
         return lecture.dateUTC + (lecture.duration * 60000) < now.toMillis(true);
+    }
+
+    private void setSeparatorContent(int position, ViewHolderSeparator viewHolderSeparator) {
+        viewHolderSeparator.text.setText(mSeparatorStrings.get(mMapper.get(position)));
     }
 
     static class ViewHolder {
