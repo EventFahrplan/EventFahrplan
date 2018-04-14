@@ -266,8 +266,8 @@ public class LectureChangesArrayAdapter extends ArrayAdapter<Lecture> {
             day = l.day;
             if (day != lastDay) {
                 String dateText = DateHelper.getFormattedDate(l.dateUTC);
-                String sepStr = String.format(daySeparator, day, dateText);
-                mSeparatorStrings.add(sepStr);
+                String dayDateSeparator = String.format(daySeparator, day, dateText);
+                mSeparatorStrings.add(dayDateSeparator);
                 lastDay = day;
                 mSeparatorsSet.add(index + sepCount);
                 mMapper.add(sepCount);
