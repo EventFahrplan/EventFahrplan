@@ -138,7 +138,8 @@ public class LectureChangesArrayAdapter extends ArrayAdapter<Lecture> {
         String timeText = DateHelper.getFormattedTime(l.dateUTC);
         viewHolder.time.setText(timeText);
         viewHolder.room.setText(l.room);
-        viewHolder.duration.setText(String.valueOf(l.duration) + " min.");
+        String durationText = context.getString(R.string.event_duration, l.duration);
+        viewHolder.duration.setText(durationText);
         viewHolder.video.setVisibility(View.GONE);
         viewHolder.novideo.setVisibility(View.GONE);
 
