@@ -264,13 +264,14 @@ public class LectureChangesArrayAdapter extends ArrayAdapter<Lecture> {
         if (list == null) return;
 
         DateFormat df = SimpleDateFormat.getDateInstance(SimpleDateFormat.SHORT);
+        String daySeparator = context.getString(R.string.day_separator);
 
         for (int index = 0; index < list.size(); index++) {
 
             Lecture l = list.get(index);
             day = l.day;
             if (day != lastDay) {
-                String sepStr = String.format(context.getString(R.string.day_separator), day,
+                String sepStr = String.format(daySeparator, day,
                         df.format(new Date(l.dateUTC)));
                 mSeparatorStrings.add(sepStr);
                 lastDay = day;
