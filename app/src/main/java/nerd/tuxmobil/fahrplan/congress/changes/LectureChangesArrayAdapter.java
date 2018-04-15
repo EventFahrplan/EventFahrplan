@@ -11,16 +11,14 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.TreeSet;
 
 import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.extensions.Contexts;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
+import nerd.tuxmobil.fahrplan.congress.utils.DateHelper;
 
 public class LectureChangesArrayAdapter extends ArrayAdapter<Lecture> {
 
@@ -110,11 +108,6 @@ public class LectureChangesArrayAdapter extends ArrayAdapter<Lecture> {
 
         switch (type) {
             case TYPE_ITEM:
-                DateFormat df = SimpleDateFormat
-                        .getDateInstance(SimpleDateFormat.SHORT);
-                DateFormat tf = SimpleDateFormat
-                        .getTimeInstance(SimpleDateFormat.SHORT);
-
                 resetTextStyle(viewHolder.title, R.style.ScheduleListPrimary);
                 resetTextStyle(viewHolder.subtitle, R.style.ScheduleListSecondary);
                 resetTextStyle(viewHolder.speakers, R.style.ScheduleListSecondary);
@@ -129,8 +122,10 @@ public class LectureChangesArrayAdapter extends ArrayAdapter<Lecture> {
                 viewHolder.subtitle.setText(l.subtitle);
                 viewHolder.speakers.setText(l.getFormattedSpeakers());
                 viewHolder.lang.setText(l.lang);
-                viewHolder.day.setText(df.format(new Date(l.dateUTC)));
-                viewHolder.time.setText(tf.format(new Date(l.dateUTC)));
+                String dayText = DateHelper.getFormattedDate(l.dateUTC);
+                viewHolder.day.setText(dayText);
+                String timeText = DateHelper.getFormattedTime(l.dateUTC);
+                viewHolder.time.setText(timeText);
                 viewHolder.room.setText(l.room);
                 viewHolder.duration.setText(String.valueOf(l.duration) + " min.");
                 viewHolder.video.setVisibility(View.GONE);
@@ -263,7 +258,6 @@ public class LectureChangesArrayAdapter extends ArrayAdapter<Lecture> {
 
         if (list == null) return;
 
-        DateFormat df = SimpleDateFormat.getDateInstance(SimpleDateFormat.SHORT);
         String daySeparator = context.getString(R.string.day_separator);
 
         for (int index = 0; index < list.size(); index++) {
@@ -271,8 +265,8 @@ public class LectureChangesArrayAdapter extends ArrayAdapter<Lecture> {
             Lecture l = list.get(index);
             day = l.day;
             if (day != lastDay) {
-                String sepStr = String.format(daySeparator, day,
-                        df.format(new Date(l.dateUTC)));
+                String dateText = DateHelper.getFormattedDate(l.dateUTC);
+                String sepStr = String.format(daySeparator, day, dateText);
                 mSeparatorStrings.add(sepStr);
                 lastDay = day;
                 mSeparatorsSet.add(index + sepCount);

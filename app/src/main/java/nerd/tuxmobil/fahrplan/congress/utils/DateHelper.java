@@ -39,12 +39,22 @@ public class DateHelper {
         return time.format(pattern);
     }
 
+    public static String getFormattedTime(long time) {
+        DateFormat dateFormat = SimpleDateFormat.getTimeInstance(SimpleDateFormat.SHORT);
+        return dateFormat.format(new Date(time));
+    }
+
     /**
      * Returns a formatted date string.
      * This pattern is used: yyyy-MM-dd'T'HH:mm:ssZ
      */
     public static String getFormattedDate(final Date date) {
         return getFormattedDate(date, "yyyy-MM-dd'T'HH:mm:ssZ");
+    }
+
+    public static String getFormattedDate(long time) {
+        DateFormat dateFormat = SimpleDateFormat.getDateInstance(SimpleDateFormat.SHORT);
+        return dateFormat.format(new Date(time));
     }
 
     /**
