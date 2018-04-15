@@ -112,7 +112,7 @@ public class LectureArrayAdapter extends ArrayAdapter<Lecture> {
                 resetTextStyle(viewHolder.duration, R.style.ScheduleListSecondary);
 
                 Lecture l = list.get(mMapper.get(position));
-                if (l.dateUTC + (l.duration * 60000) < now.toMillis(true)) {
+                if (lectureTookPlace(l)) {
                     setTextStylePast(viewHolder.title);
                     setTextStylePast(viewHolder.subtitle);
                     setTextStylePast(viewHolder.speakers);
@@ -141,6 +141,10 @@ public class LectureArrayAdapter extends ArrayAdapter<Lecture> {
         }
 
         return rowView;
+    }
+
+    private boolean lectureTookPlace(Lecture lecture) {
+        return lecture.dateUTC + (lecture.duration * 60000) < now.toMillis(true);
     }
 
     static class ViewHolder {
