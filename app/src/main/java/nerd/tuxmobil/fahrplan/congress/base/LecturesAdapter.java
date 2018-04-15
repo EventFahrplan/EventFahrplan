@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeSet;
 
+import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.extensions.Contexts;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
@@ -195,13 +196,15 @@ public abstract class LecturesAdapter extends ArrayAdapter<Lecture> {
             Lecture l = list.get(index);
             day = l.day;
             if (day != lastDay) {
-                String formattedDate = DateHelper.getFormattedDate(l.dateUTC);
-                String dayDateSeparator = String.format(daySeparator, day, formattedDate);
-                mSeparatorStrings.add(dayDateSeparator);
                 lastDay = day;
-                mSeparatorsSet.add(index + sepCount);
-                mMapper.add(sepCount);
-                sepCount++;
+                if (MyApp.numdays > 1) {
+                    String formattedDate = DateHelper.getFormattedDate(l.dateUTC);
+                    String dayDateSeparator = String.format(daySeparator, day, formattedDate);
+                    mSeparatorStrings.add(dayDateSeparator);
+                    mSeparatorsSet.add(index + sepCount);
+                    mMapper.add(sepCount);
+                    sepCount++;
+                }
             }
 
             mMapper.add(index);
