@@ -185,7 +185,7 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
             // Notify the active callbacks interface (the activity, if the
             // fragment is attached to one) that an item has been selected.
             position--;
-            Lecture clicked = starredList.get(mAdapter.getMapper().get(position));
+            Lecture clicked = starredList.get(mAdapter.getItemIndex(position));
             mListener.onLectureListClick(clicked);
         }
     }
@@ -269,7 +269,7 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
     private void deleteItems(SparseBooleanArray checkedItemPositions) {
         for (int id = mListView.getAdapter().getCount() - 1; id >= 0; id--) {
             if (checkedItemPositions.get(id)) {
-                deleteItem(mAdapter.getMapper().get(id - 1));
+                deleteItem(mAdapter.getItemIndex(id - 1));
             }
         }
     }
