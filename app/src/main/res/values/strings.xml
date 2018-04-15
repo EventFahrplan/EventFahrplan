@@ -113,6 +113,7 @@
     <string name="invalid_url">Invalid URL</string>
     <string name="choose_to_delete">Select lectures</string>
     <string name="day_separator">Day <xliff:g id="day_of_congress" example="2">%1$d</xliff:g> - <xliff:g id="date_of_congress_day" example="29.12.2014">%2$s</xliff:g></string>
+    <string name="event_duration"><xliff:g id="duration" example="45">%1$d</xliff:g> min.</string>
     <string name="btn_dlg_browse">Browse</string>
     <string name="btn_dlg_later">Later</string>
     <string name="alternative_highlight">Alternative highlighting</string>
