@@ -83,6 +83,11 @@ public class AboutDialog extends DialogFragment {
         googlePlayStore.setMovementMethod(movementMethod);
         googlePlayStore.setLinkTextColor(linkTextColor);
 
+        TextView dataPrivacyStatement = view.findViewById(R.id.data_privacy_statement);
+        dataPrivacyStatement.setText(Html.fromHtml(getString(R.string.about_data_privacy_statement)));
+        dataPrivacyStatement.setMovementMethod(movementMethod);
+        dataPrivacyStatement.setLinkTextColor(linkTextColor);
+
         // Build information
 
         TextView buildTimeTextView = view.findViewById(R.id.build_time);
