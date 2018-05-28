@@ -56,6 +56,9 @@
 		Google Support Library v4, Google AppCompat Library v7, Email Intent Builder,
 		OkHttp, SnackEngage, TraceDroid
 	</string>
+	<string name="about_data_privacy_statement">
+        <![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan/blob/master/DATA-PRIVACY-DE.md">Datenschutzerklärung</a>]]>
+	</string>
 	<string name="issues">
 		<![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan/issues">Fehlermeldungen und Wünsche</a>]]>
 	</string>

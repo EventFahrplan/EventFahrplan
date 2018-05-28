@@ -58,6 +58,9 @@
 		Google Support Library v4, Google AppCompat Library v7, Email Intent Builder,
 		OkHttp, SnackEngage, TraceDroid
 	</string>
+    <string name="about_data_privacy_statement">
+        <![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan/blob/master/DATA-PRIVACY-DE.md">Data privacy statement (German)</a>]]>
+    </string>
     <string name="copyright_notes" translatable="false">
         Copyright 2013-2018 johnjohndoe.
         \nCopyright 2011-2015 Daniel Dorau.
