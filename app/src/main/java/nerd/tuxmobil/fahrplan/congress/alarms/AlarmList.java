@@ -113,6 +113,11 @@ public class AlarmList extends ActionBarListActivity {
         mAdapter.notifyDataSetChanged();
     }
 
+    public void deleteAllAlarms() {
+        db.delete(AlarmsTable.NAME, null, null);
+        setListAdapter(null);
+    }
+
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         MenuInflater inflater = getMenuInflater();
@@ -124,10 +129,7 @@ public class AlarmList extends ActionBarListActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.alarms_delete:
-                int count = getListAdapter().getCount();
-                for (int i = 0; i < count; i++) {
-                    deleteAlarm(0);
-                }
+                deleteAllAlarms();
                 FahrplanFragment.loadAlarms(this);
                 setResult(RESULT_OK);
                 return true;

@@ -7,6 +7,7 @@ import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
+import android.text.method.MovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,30 +55,33 @@ public class AboutDialog extends DialogFragment {
         //noinspection ConstantConditions
         appDisclaimer.setVisibility(BuildConfig.SHOW_APP_DISCLAIMER ? View.VISIBLE : View.GONE);
 
+        int linkTextColor = ContextCompat.getColor(context, R.color.text_link_color_dark);
+        MovementMethod movementMethod = LinkMovementMethod.getInstance();
+
         TextView logo_copyright = view.findViewById(R.id.copyright_logo);
         logo_copyright.setText(Html.fromHtml(getString(R.string.copyright_logo)));
-        logo_copyright.setLinkTextColor(ContextCompat.getColor(context, R.color.text_link_color_dark));
-        logo_copyright.setMovementMethod(LinkMovementMethod.getInstance());
+        logo_copyright.setLinkTextColor(linkTextColor);
+        logo_copyright.setMovementMethod(movementMethod);
 
         TextView conferenceUrl = view.findViewById(R.id.conference_url);
         conferenceUrl.setText(Html.fromHtml(getString(R.string.conference_url)));
-        conferenceUrl.setMovementMethod(LinkMovementMethod.getInstance());
-        conferenceUrl.setLinkTextColor(ContextCompat.getColor(context, R.color.text_link_color_dark));
+        conferenceUrl.setMovementMethod(movementMethod);
+        conferenceUrl.setLinkTextColor(linkTextColor);
 
         TextView sourceCode = view.findViewById(R.id.source_code);
         sourceCode.setText(Html.fromHtml(getString(R.string.source_code)));
-        sourceCode.setMovementMethod(LinkMovementMethod.getInstance());
-        sourceCode.setLinkTextColor(ContextCompat.getColor(context, R.color.text_link_color_dark));
+        sourceCode.setMovementMethod(movementMethod);
+        sourceCode.setLinkTextColor(linkTextColor);
 
         TextView issues = view.findViewById(R.id.issues);
         issues.setText(Html.fromHtml(getString(R.string.issues)));
-        issues.setMovementMethod(LinkMovementMethod.getInstance());
-        issues.setLinkTextColor(ContextCompat.getColor(context, R.color.text_link_color_dark));
+        issues.setMovementMethod(movementMethod);
+        issues.setLinkTextColor(linkTextColor);
 
         TextView googlePlayStore = view.findViewById(R.id.google_play_store);
         googlePlayStore.setText(Html.fromHtml(getString(R.string.google_play_store)));
-        googlePlayStore.setMovementMethod(LinkMovementMethod.getInstance());
-        googlePlayStore.setLinkTextColor(ContextCompat.getColor(context, R.color.text_link_color_dark));
+        googlePlayStore.setMovementMethod(movementMethod);
+        googlePlayStore.setLinkTextColor(linkTextColor);
 
         // Build information
 

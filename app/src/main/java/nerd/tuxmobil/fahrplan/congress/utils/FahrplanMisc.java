@@ -264,19 +264,22 @@ public class FahrplanMisc {
         }
 
         cursor.moveToFirst();
-        String lecture_id = cursor.getString(cursor.getColumnIndex(AlarmsTable.Columns.EVENT_ID));
-        int day = cursor.getInt(cursor.getColumnIndex(AlarmsTable.Columns.DAY));
-        String title = cursor.getString(cursor.getColumnIndex(AlarmsTable.Columns.EVENT_TITLE));
-        long startTime = cursor.getLong(cursor.getColumnIndex(AlarmsTable.Columns.TIME));
+        discardEventAlarm(context, cursor);
 
         // delete any previous alarms of this lecture
         db.delete(AlarmsTable.NAME, AlarmsTable.Columns.EVENT_ID + "=?",
                 new String[]{lecture.lecture_id});
         db.close();
 
-        AlarmServices.discardEventAlarm(context, lecture_id, day, title, startTime);
-
         lecture.has_alarm = false;
+    }
+
+    private static void discardEventAlarm(Context context, Cursor cursor) {
+        String eventId = cursor.getString(cursor.getColumnIndex(AlarmsTable.Columns.EVENT_ID));
+        int day = cursor.getInt(cursor.getColumnIndex(AlarmsTable.Columns.DAY));
+        String title = cursor.getString(cursor.getColumnIndex(AlarmsTable.Columns.EVENT_TITLE));
+        long startTime = cursor.getLong(cursor.getColumnIndex(AlarmsTable.Columns.TIME));
+        AlarmServices.discardEventAlarm(context, eventId, day, title, startTime);
     }
 
     public static void addAlarm(@NonNull Context context,
