@@ -6,7 +6,7 @@ object Versions {
     val androidGradle = "3.1.0"
     val assertjAndroid = "1.2.0"
     val emailIntentBuilder = "1.0.0"
-    val gradleVersions = "0.17.0"
+    val gradleVersions = "0.18.0"
     val junit = "4.12"
     val kotlin = "1.2.31"
     val mockito = "2.18.0"
