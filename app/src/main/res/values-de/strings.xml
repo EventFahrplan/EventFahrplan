@@ -53,7 +53,7 @@
     <string name="set_alarm">Alarm setzen</string>
 	<string name="libraries">
 		Die Anwendung nutzt folgende Bibliotheken:
-		Google Support Library v4, Google AppCompat Library v7, Email Intent Builder,
+		Kotlin, Google Support Library v4, Google AppCompat Library v7, Email Intent Builder,
 		Espresso, OkHttp, SnackEngage, TraceDroid
 	</string>
 	<string name="about_data_privacy_statement">

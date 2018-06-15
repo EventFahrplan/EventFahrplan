@@ -29,11 +29,9 @@ import java.util.List;
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable;
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.HighlightsTable;
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.LecturesTable;
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable;
 import info.metadude.android.eventfahrplan.database.sqliteopenhelper.AlarmsDBOpenHelper;
 import info.metadude.android.eventfahrplan.database.sqliteopenhelper.HighlightDBOpenHelper;
 import info.metadude.android.eventfahrplan.database.sqliteopenhelper.LecturesDBOpenHelper;
-import info.metadude.android.eventfahrplan.database.sqliteopenhelper.MetaDBOpenHelper;
 import nerd.tuxmobil.fahrplan.congress.BuildConfig;
 import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.R;
@@ -99,71 +97,6 @@ public class FahrplanMisc {
         }
         lecturesDB.close();
         lecturedb.close();
-    }
-
-    public static void loadMeta(Context context) {
-        MetaDBOpenHelper metaDB = new MetaDBOpenHelper(context);
-        SQLiteDatabase metadb = metaDB.getReadableDatabase();
-
-        Cursor cursor;
-        try {
-            cursor = metadb.query(MetasTable.NAME, null, null, null,
-                    null, null, null);
-        } catch (SQLiteException e) {
-            e.printStackTrace();
-            metaDB.close();
-            metadb.close();
-            return;
-        }
-
-        MyApp.numdays = MetasTable.Defaults.NUM_DAYS_DEFAULT;
-        MyApp.version = "";
-        MyApp.title = "";
-        MyApp.subtitle = "";
-        MyApp.dayChangeHour = MetasTable.Defaults.DAY_CHANGE_HOUR_DEFAULT;
-        MyApp.dayChangeMinute = MetasTable.Defaults.DAY_CHANGE_MINUTE_DEFAULT;
-        MyApp.eTag = null;
-
-        if (cursor.getCount() > 0) {
-            cursor.moveToFirst();
-            int columnIndexNumDays = cursor.getColumnIndex(MetasTable.Columns.NUM_DAYS);
-            if (cursor.getColumnCount() > columnIndexNumDays) {
-                MyApp.numdays = cursor.getInt(columnIndexNumDays);
-            }
-            int columnIndexVersion = cursor.getColumnIndex(MetasTable.Columns.VERSION);
-            if (cursor.getColumnCount() > columnIndexVersion) {
-                MyApp.version = cursor.getString(columnIndexVersion);
-            }
-            int columnIndexTitle = cursor.getColumnIndex(MetasTable.Columns.TITLE);
-            if (cursor.getColumnCount() > columnIndexTitle) {
-                MyApp.title = cursor.getString(columnIndexTitle);
-            }
-            int columnIndexSubTitle = cursor.getColumnIndex(MetasTable.Columns.SUBTITLE);
-            if (cursor.getColumnCount() > columnIndexSubTitle) {
-                MyApp.subtitle = cursor.getString(columnIndexSubTitle);
-            }
-            int columnIndexDayChangeHour = cursor
-                    .getColumnIndex(MetasTable.Columns.DAY_CHANGE_HOUR);
-            if (cursor.getColumnCount() > columnIndexDayChangeHour) {
-                MyApp.dayChangeHour = cursor.getInt(columnIndexDayChangeHour);
-            }
-            int columnIndexDayChangeMinute = cursor
-                    .getColumnIndex(MetasTable.Columns.DAY_CHANGE_MINUTE);
-            if (cursor.getColumnCount() > columnIndexDayChangeMinute) {
-                MyApp.dayChangeMinute = cursor.getInt(columnIndexDayChangeMinute);
-            }
-            int columnIndexEtag = cursor.getColumnIndex(MetasTable.Columns.ETAG);
-            if (cursor.getColumnCount() > columnIndexEtag) {
-                MyApp.eTag = cursor.getString(columnIndexEtag);
-            }
-        }
-
-        MyApp.LogDebug(LOG_TAG, "loadMeta: numdays=" + MyApp.numdays + " version: "
-                + MyApp.version + " " + MyApp.title + " " + MyApp.eTag);
-        cursor.close();
-
-        metadb.close();
-        metaDB.close();
     }
 
     public static String getEventUrl(final String eventId) {

@@ -56,6 +56,7 @@ import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.extensions.Contexts;
 import nerd.tuxmobil.fahrplan.congress.models.DateInfo;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
+import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 import nerd.tuxmobil.fahrplan.congress.serialization.FahrplanParser;
 import nerd.tuxmobil.fahrplan.congress.sharing.LectureSharer;
 import nerd.tuxmobil.fahrplan.congress.sharing.SimpleLectureFormat;
@@ -229,7 +230,7 @@ public class FahrplanFragment extends Fragment implements
             MyApp.LogDebug(LOG_TAG, "day " + mDay);
         }
 
-        if (MyApp.numdays > 1) {
+        if (MyApp.meta.getNumDays() > 1) {
             buildNavigationMenu();
         }
     }
@@ -270,7 +271,7 @@ public class FahrplanFragment extends Fragment implements
             saveCurrentDay(mDay);
         }
 
-        if (MyApp.numdays != 0) {
+        if (MyApp.meta.getNumDays() != 0) {
             // auf jeden Fall reload, wenn mit Lecture ID gestartet
             viewDay(lecture_id != null);
         }
@@ -278,7 +279,7 @@ public class FahrplanFragment extends Fragment implements
         switch (MyApp.task_running) {
             case FETCH:
                 MyApp.LogDebug(LOG_TAG, "fetch was pending, restart");
-                if (MyApp.numdays != 0) {
+                if (MyApp.meta.getNumDays() != 0) {
                     viewDay(false);
                 }
                 break;
@@ -286,7 +287,7 @@ public class FahrplanFragment extends Fragment implements
                 MyApp.LogDebug(LOG_TAG, "parse was pending, restart");
                 break;
             case NONE:
-                if (MyApp.numdays != 0) {
+                if (MyApp.meta.getNumDays() != 0) {
                     // auf jeden Fall reload, wenn mit Lecture ID gestartet
                     viewDay(lecture_id != null);
                 }
@@ -332,7 +333,7 @@ public class FahrplanFragment extends Fragment implements
     private void updateNavigationMenuSelection() {
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         ActionBar actionbar = activity.getSupportActionBar();
-        if (actionbar != null && MyApp.numdays > 1) {
+        if (actionbar != null && MyApp.meta.getNumDays() > 1) {
             actionbar.setSelectedNavigationItem(mDay - 1);
         }
     }
@@ -389,7 +390,7 @@ public class FahrplanFragment extends Fragment implements
             return;
         }
         if (MyApp.lectureListDay != MyApp.dateInfos.getIndexOfToday(
-                MyApp.dayChangeHour, MyApp.dayChangeMinute)) {
+                MyApp.meta.getDayChangeHour(), MyApp.meta.getDayChangeMinute())) {
             return;
         }
         Time now = new Time();
@@ -895,8 +896,8 @@ public class FahrplanFragment extends Fragment implements
 
         MyApp.LogDebug(LOG_TAG, "today is " + currentDate.toString());
 
-        String[] days_menu = new String[MyApp.numdays];
-        for (int i = 0; i < MyApp.numdays; i++) {
+        String[] days_menu = new String[MyApp.meta.getNumDays()];
+        for (int i = 0; i < MyApp.meta.getNumDays(); i++) {
             StringBuilder sb = new StringBuilder();
             sb.append(getString(R.string.day)).append(" ").append(i + 1);
             for (DateInfo dateInfo : MyApp.dateInfos) {
@@ -923,15 +924,16 @@ public class FahrplanFragment extends Fragment implements
 
     public void onParseDone(Boolean result, String version) {
         if (result) {
-            if ((MyApp.numdays == 0) || (!version.equals(MyApp.version))) {
-                FahrplanMisc.loadMeta(getActivity());
+            if ((MyApp.meta.getNumDays() == 0) || (!version.equals(MyApp.meta.getVersion()))) {
+                AppRepository appRepository = AppRepository.Companion.getInstance(context);
+                MyApp.meta = appRepository.readMeta();
                 FahrplanMisc.loadDays(getActivity());
-                if (MyApp.numdays > 1) {
+                if (MyApp.meta.getNumDays() > 1) {
                     buildNavigationMenu();
                 }
                 SharedPreferences prefs = getActivity().getSharedPreferences(PREFS_NAME, 0);
                 mDay = prefs.getInt("displayDay", 1);
-                if (mDay > MyApp.numdays) {
+                if (mDay > MyApp.meta.getNumDays()) {
                     mDay = 1;
                 }
                 viewDay(true);
@@ -1091,7 +1093,7 @@ public class FahrplanFragment extends Fragment implements
                 isSynthetic = false;
                 return true;
             }
-            if (itemPosition < MyApp.numdays) {
+            if (itemPosition < MyApp.meta.getNumDays()) {
                 chooseDay(itemPosition);
                 return true;
             }

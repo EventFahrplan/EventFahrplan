@@ -197,7 +197,7 @@ public abstract class LecturesAdapter extends ArrayAdapter<Lecture> {
             day = l.day;
             if (day != lastDay) {
                 lastDay = day;
-                if (MyApp.numdays > 1) {
+                if (MyApp.meta.getNumDays() > 1) {
                     String formattedDate = DateHelper.getFormattedDate(l.dateUTC);
                     String dayDateSeparator = String.format(daySeparator, day, formattedDate);
                     mSeparatorStrings.add(dayDateSeparator);

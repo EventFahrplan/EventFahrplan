@@ -1,6 +1,7 @@
 import nerd.tuxmobil.fahrplan.congress.Libs
 
 apply plugin: "com.android.library"
+apply plugin: "kotlin-android"
 
 android {
     compileSdkVersion 26
@@ -20,6 +21,7 @@ android {
 }
 
 dependencies {
+    implementation Libs.kotlinStdlib
     implementation Libs.supportLibraryAnnotations
 
     androidTestImplementation Libs.assertjAndroid

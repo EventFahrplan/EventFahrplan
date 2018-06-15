@@ -19,13 +19,12 @@ import java.util.List;
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.LecturesTable;
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.LecturesTable.Columns;
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.LecturesTable.Values;
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable;
 import info.metadude.android.eventfahrplan.database.sqliteopenhelper.LecturesDBOpenHelper;
-import info.metadude.android.eventfahrplan.database.sqliteopenhelper.MetaDBOpenHelper;
 import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
-import nerd.tuxmobil.fahrplan.congress.models.MetaInfo;
+import nerd.tuxmobil.fahrplan.congress.models.Meta;
+import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 import nerd.tuxmobil.fahrplan.congress.serialization.exceptions.MissingXmlAttributeException;
 import nerd.tuxmobil.fahrplan.congress.utils.DateHelper;
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
@@ -47,14 +46,17 @@ public class FahrplanParser {
 
     private Context context;
 
-    public FahrplanParser(Context context) {
+    private AppRepository appRepository;
+
+    public FahrplanParser(Context context, AppRepository appRepository) {
         task = null;
         MyApp.parser = this;
         this.context = context;
+        this.appRepository = appRepository;
     }
 
     public void parse(String fahrplan, String eTag) {
-        task = new ParserTask(listener, context);
+        task = new ParserTask(context, appRepository, listener);
         task.execute(fahrplan, eTag);
     }
 
@@ -78,9 +80,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
 
     private List<Lecture> lectures;
 
-    private MetaInfo meta;
-
-    private MetaDBOpenHelper metaDB;
+    private Meta meta;
 
     private SQLiteDatabase db;
 
@@ -92,11 +92,14 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
 
     private Context context;
 
-    public ParserTask(FahrplanParser.OnParseCompleteListener listener, Context context) {
+    private AppRepository appRepository;
+
+    public ParserTask(Context context, AppRepository appRepository, FahrplanParser.OnParseCompleteListener listener) {
         this.listener = listener;
         this.completed = false;
         this.db = null;
         this.context = context;
+        this.appRepository = appRepository;
     }
 
     public void setListener(FahrplanParser.OnParseCompleteListener listener) {
@@ -127,7 +130,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
     }
 
     private void notifyActivity() {
-        listener.onParseDone(result, meta.version);
+        listener.onParseDone(result, meta.getVersion());
         completed = false;
     }
 
@@ -137,33 +140,6 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
 
         if (listener != null) {
             notifyActivity();
-        }
-    }
-
-    public void storeMeta(Context context, MetaInfo meta) {
-        MyApp.LogDebug(LOG_TAG, "storeMeta");
-        metaDB = new MetaDBOpenHelper(context);
-
-        db = metaDB.getWritableDatabase();
-        ContentValues values = new ContentValues();
-
-        try {
-            db.beginTransaction();
-            db.delete(MetasTable.NAME, null, null);
-            values.put(MetasTable.Columns.NUM_DAYS, meta.numdays);
-            values.put(MetasTable.Columns.VERSION, meta.version);
-            values.put(MetasTable.Columns.TITLE, meta.title);
-            values.put(MetasTable.Columns.SUBTITLE, meta.subtitle);
-            values.put(MetasTable.Columns.DAY_CHANGE_HOUR, meta.dayChangeHour);
-            values.put(MetasTable.Columns.DAY_CHANGE_MINUTE, meta.dayChangeMinute);
-            values.put(MetasTable.Columns.ETAG, meta.eTag);
-
-            db.insert(MetasTable.NAME, null, values);
-            db.setTransactionSuccessful();
-        } catch (SQLException e) {
-        } finally {
-            db.endTransaction();
-            db.close();
         }
     }
 
@@ -244,7 +220,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                 switch (eventType) {
                     case XmlPullParser.START_DOCUMENT:
                         lectures = new ArrayList<>();
-                        meta = new MetaInfo();
+                        meta = new Meta();
                         break;
                     case XmlPullParser.END_TAG:
                         name = parser.getName();
@@ -256,7 +232,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                         name = parser.getName();
                         if (name.equals("version")) {
                             parser.next();
-                            meta.version = getSanitizedText(parser);
+                            meta.setVersion(getSanitizedText(parser));
                         }
                         if (name.equals("day")) {
                             String index = parser.getAttributeValue(null, "index");
@@ -417,15 +393,15 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                                         name = parser.getName();
                                         if (name.equals("subtitle")) {
                                             parser.next();
-                                            meta.subtitle = getSanitizedText(parser);
+                                            meta.setSubtitle(getSanitizedText(parser));
                                         }
                                         if (name.equals("title")) {
                                             parser.next();
-                                            meta.title = getSanitizedText(parser);
+                                            meta.setTitle(getSanitizedText(parser));
                                         }
                                         if (name.equals("release")) {
                                             parser.next();
-                                            meta.version = getSanitizedText(parser);
+                                            meta.setVersion(getSanitizedText(parser));
                                         }
                                         if (name.equals("day_change")) {
                                             parser.next();
@@ -452,9 +428,9 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
             if (isCancelled()) {
                 return false;
             }
-            meta.numdays = numdays;
-            meta.eTag = eTag;
-            storeMeta(context, meta);
+            meta.setNumDays(numdays);
+            meta.setETag(eTag);
+            appRepository.updateMeta(meta);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
