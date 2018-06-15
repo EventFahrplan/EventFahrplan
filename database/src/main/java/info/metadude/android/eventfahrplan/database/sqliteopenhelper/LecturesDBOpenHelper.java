@@ -1,14 +1,14 @@
-package nerd.tuxmobil.fahrplan.congress.persistence;
+package info.metadude.android.eventfahrplan.database.sqliteopenhelper;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.NonNull;
 
-import nerd.tuxmobil.fahrplan.congress.persistence.FahrplanContract.LecturesTable;
-import nerd.tuxmobil.fahrplan.congress.persistence.FahrplanContract.LecturesTable.Columns;
-import nerd.tuxmobil.fahrplan.congress.persistence.FahrplanContract.LecturesTable.Defaults;
-import nerd.tuxmobil.fahrplan.congress.persistence.FahrplanContract.LecturesTable.Values;
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.LecturesTable;
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.LecturesTable.Columns;
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.LecturesTable.Defaults;
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.LecturesTable.Values;
 
 public class LecturesDBOpenHelper extends SQLiteOpenHelper {
 

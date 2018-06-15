@@ -1,12 +1,12 @@
-package nerd.tuxmobil.fahrplan.congress.persistence;
+package info.metadude.android.eventfahrplan.database.sqliteopenhelper;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import nerd.tuxmobil.fahrplan.congress.persistence.FahrplanContract.MetasTable;
-import nerd.tuxmobil.fahrplan.congress.persistence.FahrplanContract.MetasTable.Columns;
-import nerd.tuxmobil.fahrplan.congress.persistence.FahrplanContract.MetasTable.Defaults;
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable;
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns;
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Defaults;
 
 public class MetaDBOpenHelper extends SQLiteOpenHelper {
 

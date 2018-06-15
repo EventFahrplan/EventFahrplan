@@ -10,10 +10,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.LecturesTable;
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.LecturesTable.Columns;
+import info.metadude.android.eventfahrplan.database.sqliteopenhelper.LecturesDBOpenHelper;
 import nerd.tuxmobil.fahrplan.congress.MyApp;
-import nerd.tuxmobil.fahrplan.congress.persistence.FahrplanContract.LecturesTable;
-import nerd.tuxmobil.fahrplan.congress.persistence.FahrplanContract.LecturesTable.Columns;
-import nerd.tuxmobil.fahrplan.congress.persistence.LecturesDBOpenHelper;
 import nerd.tuxmobil.fahrplan.congress.utils.DateHelper;
 
 public class DateFieldValidation {

@@ -17,12 +17,12 @@ import android.widget.AdapterView;
 
 import org.ligi.tracedroid.logging.Log;
 
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable;
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns;
+import info.metadude.android.eventfahrplan.database.sqliteopenhelper.AlarmsDBOpenHelper;
 import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.base.ActionBarListActivity;
-import nerd.tuxmobil.fahrplan.congress.persistence.AlarmsDBOpenHelper;
-import nerd.tuxmobil.fahrplan.congress.persistence.FahrplanContract.AlarmsTable;
-import nerd.tuxmobil.fahrplan.congress.persistence.FahrplanContract.AlarmsTable.Columns;
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanFragment;
 
 public class AlarmList extends ActionBarListActivity {

@@ -1,0 +1,23 @@
+import nerd.tuxmobil.fahrplan.congress.Libs
+
+apply plugin: "com.android.library"
+
+android {
+    compileSdkVersion 26
+
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 21
+        versionCode 1
+        versionName "1.0.0"
+    }
+
+    compileOptions {
+        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    implementation Libs.supportLibraryAnnotations
+}

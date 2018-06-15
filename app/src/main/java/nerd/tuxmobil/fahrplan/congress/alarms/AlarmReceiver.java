@@ -16,14 +16,14 @@ import android.support.v4.content.ContextCompat;
 
 import org.ligi.tracedroid.logging.Log;
 
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable;
+import info.metadude.android.eventfahrplan.database.sqliteopenhelper.AlarmsDBOpenHelper;
 import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.autoupdate.UpdateService;
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.exceptions.BuilderException;
 import nerd.tuxmobil.fahrplan.congress.extensions.Contexts;
-import nerd.tuxmobil.fahrplan.congress.persistence.AlarmsDBOpenHelper;
-import nerd.tuxmobil.fahrplan.congress.persistence.FahrplanContract.AlarmsTable;
 import nerd.tuxmobil.fahrplan.congress.schedule.MainActivity;
 
 public final class AlarmReceiver extends BroadcastReceiver {

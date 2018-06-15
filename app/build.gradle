@@ -139,6 +139,8 @@ tasks.withType(Test) {
 }
 
 dependencies {
+    implementation project(":database")
+
     implementation Libs.kotlinStdlib
     implementation Libs.supportLibraryAppcompatV7
     implementation Libs.supportLibraryDesign

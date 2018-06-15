@@ -1,6 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress.models;
 
-import nerd.tuxmobil.fahrplan.congress.persistence.FahrplanContract.MetasTable;
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable;
 
 public class MetaInfo {
 

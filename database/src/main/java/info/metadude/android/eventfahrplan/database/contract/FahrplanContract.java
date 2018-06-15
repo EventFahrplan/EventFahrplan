@@ -1,4 +1,4 @@
-package nerd.tuxmobil.fahrplan.congress.persistence;
+package info.metadude.android.eventfahrplan.database.contract;
 
 import android.provider.BaseColumns;
 
