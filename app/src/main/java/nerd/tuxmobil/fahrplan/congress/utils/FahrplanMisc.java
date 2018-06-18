@@ -27,10 +27,8 @@ import java.util.Date;
 import java.util.List;
 
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable;
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.HighlightsTable;
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.LecturesTable;
 import info.metadude.android.eventfahrplan.database.sqliteopenhelper.AlarmsDBOpenHelper;
-import info.metadude.android.eventfahrplan.database.sqliteopenhelper.HighlightDBOpenHelper;
 import info.metadude.android.eventfahrplan.database.sqliteopenhelper.LecturesDBOpenHelper;
 import nerd.tuxmobil.fahrplan.congress.BuildConfig;
 import nerd.tuxmobil.fahrplan.congress.MyApp;
@@ -41,7 +39,9 @@ import nerd.tuxmobil.fahrplan.congress.alarms.AlarmUpdater;
 import nerd.tuxmobil.fahrplan.congress.extensions.Contexts;
 import nerd.tuxmobil.fahrplan.congress.models.DateInfo;
 import nerd.tuxmobil.fahrplan.congress.models.DateInfos;
+import nerd.tuxmobil.fahrplan.congress.models.Highlight;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
+import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 import nerd.tuxmobil.fahrplan.congress.wiki.WikiEventUtils;
 
 import static nerd.tuxmobil.fahrplan.congress.BuildConfig.COMPOSE_EVENT_URL_FROM_SLUG;
@@ -291,31 +291,6 @@ public class FahrplanMisc {
         lecture.has_alarm = true;
     }
 
-    public static void writeHighlight(@NonNull Context context, @NonNull Lecture lecture) {
-        HighlightDBOpenHelper highlightDB = new HighlightDBOpenHelper(context);
-        SQLiteDatabase db = highlightDB.getWritableDatabase();
-
-        try {
-            db.beginTransaction();
-            db.delete(HighlightsTable.NAME, HighlightsTable.Columns.EVENT_ID + "=?",
-                    new String[]{lecture.lecture_id});
-
-            ContentValues values = new ContentValues();
-
-            values.put(HighlightsTable.Columns.EVENT_ID, Integer.parseInt(lecture.lecture_id));
-            int highlightState = lecture.highlight ? HighlightsTable.Values.HIGHLIGHT_STATE_ON
-                    : HighlightsTable.Values.HIGHLIGHT_STATE_OFF;
-            values.put(HighlightsTable.Columns.HIGHLIGHT, highlightState);
-
-            db.insert(HighlightsTable.NAME, null, values);
-            db.setTransactionSuccessful();
-        } catch (SQLException e) {
-        } finally {
-            db.endTransaction();
-            db.close();
-        }
-    }
-
     public static long setUpdateAlarm(Context context, boolean initial) {
         final AlarmManager alarmManager = Contexts.getAlarmManager(context);
         Intent alarmIntent = new Intent(context, AlarmReceiver.class);
@@ -374,11 +349,9 @@ public class FahrplanMisc {
         LecturesDBOpenHelper lecturesDB = new LecturesDBOpenHelper(context);
         SQLiteDatabase lecturedb = lecturesDB.getReadableDatabase();
 
-        HighlightDBOpenHelper highlightDB = new HighlightDBOpenHelper(context);
-        SQLiteDatabase highlightdb = highlightDB.getReadableDatabase();
 
         List<Lecture> lectures = new ArrayList<>();
-        Cursor cursor, hCursor;
+        Cursor cursor;
 
         boolean allDays = day == ALL_DAYS;
         String selection = allDays ? null : (LecturesTable.Columns.DAY + "=?");
@@ -397,34 +370,14 @@ public class FahrplanMisc {
         } catch (SQLiteException e) {
             e.printStackTrace();
             lecturedb.close();
-            highlightdb.close();
-            lecturesDB.close();
-            return Collections.emptyList();
-        }
-        try {
-            hCursor = highlightdb.query(
-                    HighlightsTable.NAME,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null
-            );
-        } catch (SQLiteException e) {
-            e.printStackTrace();
-            lecturedb.close();
-            highlightdb.close();
             lecturesDB.close();
             return Collections.emptyList();
         }
         MyApp.LogDebug(LOG_TAG, "Got " + cursor.getCount() + " rows.");
-        MyApp.LogDebug(LOG_TAG, "Got " + hCursor.getCount() + " highlight rows.");
 
         if (cursor.getCount() == 0) {
             cursor.close();
             lecturedb.close();
-            highlightdb.close();
             lecturesDB.close();
             return Collections.emptyList();
         }
@@ -437,25 +390,16 @@ public class FahrplanMisc {
         }
         cursor.close();
 
-        hCursor.moveToFirst();
-        while (!hCursor.isAfterLast()) {
-            String lecture_id = hCursor.getString(
-                    hCursor.getColumnIndex(HighlightsTable.Columns.EVENT_ID));
-            int highlightState = hCursor.getInt(
-                    hCursor.getColumnIndex(HighlightsTable.Columns.HIGHLIGHT));
-            boolean isHighlighted = highlightState == HighlightsTable.Values.HIGHLIGHT_STATE_ON;
-            MyApp.LogDebug(LOG_TAG, "lecture " + lecture_id + " is highlighted:" + Boolean.toString(isHighlighted));
-
+        AppRepository appRepository = AppRepository.Companion.getInstance(context);
+        List<Highlight> highlights = appRepository.readHighlights();
+        for (Highlight highlight : highlights) {
+            MyApp.LogDebug(LOG_TAG, "highlight = " + highlight);
             for (Lecture lecture : lectures) {
-                if (lecture.lecture_id.equals(lecture_id)) {
-                    lecture.highlight = isHighlighted;
+                if (lecture.lecture_id.equals("" + highlight.getEventId())) {
+                    lecture.highlight = highlight.isHighlight();
                 }
             }
-            hCursor.moveToNext();
         }
-        hCursor.close();
-
-        highlightdb.close();
         lecturedb.close();
         lecturesDB.close();
         return lectures;

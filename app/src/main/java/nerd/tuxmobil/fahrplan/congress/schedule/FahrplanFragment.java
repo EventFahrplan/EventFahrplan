@@ -993,13 +993,8 @@ public class FahrplanFragment extends Fragment implements
 
         switch (menuItemIndex) {
             case CONTEXT_MENU_ITEM_ID_FAVORITES:
-                if (lecture.highlight) {
-                    lecture.highlight = false;
-                    FahrplanMisc.writeHighlight(getActivity(), lecture);
-                } else {
-                    lecture.highlight = true;
-                    FahrplanMisc.writeHighlight(getActivity(), lecture);
-                }
+                lecture.highlight = !lecture.highlight;
+                AppRepository.Companion.getInstance(context).updateHighlight(lecture);
                 setLectureBackground(lecture, contextMenuView);
                 setLectureTextColor(lecture, contextMenuView);
                 MainActivity main = (MainActivity) getActivity();

@@ -28,6 +28,7 @@ import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.base.AbstractListFragment;
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
+import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 import nerd.tuxmobil.fahrplan.congress.schedule.MainActivity;
 import nerd.tuxmobil.fahrplan.congress.sharing.LectureSharer;
 import nerd.tuxmobil.fahrplan.congress.sharing.SimpleLectureFormat;
@@ -253,7 +254,7 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
     private void deleteItem(int index) {
         Lecture l = starredList.get(index);
         l.highlight = false;
-        FahrplanMisc.writeHighlight(getActivity(), l);
+        AppRepository.Companion.getInstance(getActivity()).updateHighlight(l);
         if (MyApp.lectureList != null) {
             for (int j = 0; j < MyApp.lectureList.size(); j++) {
                 Lecture lecture = MyApp.lectureList.get(j);
