@@ -4,11 +4,9 @@ import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.provider.CalendarContract;
@@ -26,9 +24,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable;
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.LecturesTable;
-import info.metadude.android.eventfahrplan.database.sqliteopenhelper.AlarmsDBOpenHelper;
 import info.metadude.android.eventfahrplan.database.sqliteopenhelper.LecturesDBOpenHelper;
 import nerd.tuxmobil.fahrplan.congress.BuildConfig;
 import nerd.tuxmobil.fahrplan.congress.MyApp;
@@ -36,11 +32,14 @@ import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmReceiver;
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices;
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmUpdater;
+import nerd.tuxmobil.fahrplan.congress.dataconverters.AlarmExtensions;
 import nerd.tuxmobil.fahrplan.congress.extensions.Contexts;
+import nerd.tuxmobil.fahrplan.congress.models.Alarm;
 import nerd.tuxmobil.fahrplan.congress.models.DateInfo;
 import nerd.tuxmobil.fahrplan.congress.models.DateInfos;
 import nerd.tuxmobil.fahrplan.congress.models.Highlight;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
+import nerd.tuxmobil.fahrplan.congress.models.SchedulableAlarm;
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 import nerd.tuxmobil.fahrplan.congress.wiki.WikiEventUtils;
 
@@ -167,58 +166,23 @@ public class FahrplanMisc {
     }
 
     public static void deleteAlarm(@NonNull Context context, @NonNull Lecture lecture) {
-        Log.d(FahrplanMisc.class.getName(), "Delete alarm for lecture: " + lecture);
-        AlarmsDBOpenHelper alarmDB = new AlarmsDBOpenHelper(context);
-        SQLiteDatabase db = alarmDB.getWritableDatabase();
-        Cursor cursor;
-
-        try {
-            cursor = db.query(
-                    AlarmsTable.NAME,
-                    null,
-                    AlarmsTable.Columns.EVENT_ID + "=?",
-                    new String[]{lecture.lecture_id},
-                    null,
-                    null,
-                    null);
-        } catch (SQLiteException e) {
-            e.printStackTrace();
-            MyApp.LogDebug("delete alarm", "failure on alarm query");
-            db.close();
-            return;
+        AppRepository appRepository = AppRepository.Companion.getInstance(context);
+        String eventId = lecture.lecture_id;
+        List<Alarm> alarms = appRepository.readAlarms(eventId);
+        if (!alarms.isEmpty()) {
+            // Delete any previous alarms of this event.
+            Alarm alarm = alarms.get(0);
+            SchedulableAlarm schedulableAlarm = AlarmExtensions.toSchedulableAlarm(alarm);
+            AlarmServices.discardEventAlarm(context, schedulableAlarm);
+            appRepository.deleteAlarmForEventId(eventId);
         }
-
-        if (cursor.getCount() == 0) {
-            db.close();
-            cursor.close();
-            MyApp.LogDebug("deleteAlarm", "alarm for " + lecture.lecture_id + " not found");
-            lecture.has_alarm = false;
-            return;
-        }
-
-        cursor.moveToFirst();
-        discardEventAlarm(context, cursor);
-
-        // delete any previous alarms of this lecture
-        db.delete(AlarmsTable.NAME, AlarmsTable.Columns.EVENT_ID + "=?",
-                new String[]{lecture.lecture_id});
-        db.close();
-
         lecture.has_alarm = false;
-    }
-
-    private static void discardEventAlarm(Context context, Cursor cursor) {
-        String eventId = cursor.getString(cursor.getColumnIndex(AlarmsTable.Columns.EVENT_ID));
-        int day = cursor.getInt(cursor.getColumnIndex(AlarmsTable.Columns.DAY));
-        String title = cursor.getString(cursor.getColumnIndex(AlarmsTable.Columns.EVENT_TITLE));
-        long startTime = cursor.getLong(cursor.getColumnIndex(AlarmsTable.Columns.TIME));
-        AlarmServices.discardEventAlarm(context, eventId, day, title, startTime);
     }
 
     public static void addAlarm(@NonNull Context context,
                                 @NonNull Lecture lecture,
                                 int alarmTimesIndex) {
-        Log.d(FahrplanMisc.class.getName(), "Add alarm for lecture: " + lecture +
+        Log.d(FahrplanMisc.class.getName(), "Add alarm for lecture: " + lecture.lecture_id +
                 ", alarmTimesIndex: " + alarmTimesIndex);
         String[] alarm_times = context.getResources().getStringArray(R.array.alarm_time_values);
         List<String> alarmTimeStrings = new ArrayList<>(Arrays.asList(alarm_times));
@@ -250,44 +214,16 @@ public class FahrplanMisc {
         MyApp.LogDebug("addAlarm",
                 "Alarm time: " + time.format("%Y-%m-%dT%H:%M:%S%z") + ", in seconds: " + when);
 
-        AlarmServices.scheduleEventAlarm(context, lecture.lecture_id, lecture.day, lecture.title, startTime, when, true);
-
         String eventId = lecture.lecture_id;
         String eventTitle = lecture.title;
         int alarmTimeInMin = alarmTimes.get(alarmTimesIndex);
         String timeText = TIME_TEXT_DATE_FORMAT.format(new Date(when));
         int day = lecture.day;
 
-        // write to DB
-
-        AlarmsDBOpenHelper alarmDB = new AlarmsDBOpenHelper(context);
-
-        SQLiteDatabase db = alarmDB.getWritableDatabase();
-
-        // delete any previous alarms of this lecture
-        try {
-            db.beginTransaction();
-            db.delete(AlarmsTable.NAME, AlarmsTable.Columns.EVENT_ID + "=?",
-                    new String[]{lecture.lecture_id});
-
-            ContentValues values = new ContentValues();
-
-            values.put(AlarmsTable.Columns.EVENT_ID, eventId);
-            values.put(AlarmsTable.Columns.EVENT_TITLE, eventTitle);
-            values.put(AlarmsTable.Columns.ALARM_TIME_IN_MIN, alarmTimeInMin);
-            values.put(AlarmsTable.Columns.TIME, when);
-            values.put(AlarmsTable.Columns.TIME_TEXT, timeText);
-            values.put(AlarmsTable.Columns.DISPLAY_TIME, startTime);
-            values.put(AlarmsTable.Columns.DAY, day);
-
-            db.insert(AlarmsTable.NAME, null, values);
-            db.setTransactionSuccessful();
-        } catch (SQLException e) {
-        } finally {
-            db.endTransaction();
-            db.close();
-        }
-
+        Alarm alarm = new Alarm(alarmTimeInMin, day, startTime, eventId, eventTitle, when, timeText);
+        SchedulableAlarm schedulableAlarm = AlarmExtensions.toSchedulableAlarm(alarm);
+        AlarmServices.scheduleEventAlarm(context, schedulableAlarm, true);
+        AppRepository.Companion.getInstance(context).updateAlarm(alarm);
         lecture.has_alarm = true;
     }
 

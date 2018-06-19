@@ -7,7 +7,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -16,14 +15,13 @@ import android.support.v4.content.ContextCompat;
 
 import org.ligi.tracedroid.logging.Log;
 
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable;
-import info.metadude.android.eventfahrplan.database.sqliteopenhelper.AlarmsDBOpenHelper;
 import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.autoupdate.UpdateService;
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.exceptions.BuilderException;
 import nerd.tuxmobil.fahrplan.congress.extensions.Contexts;
+import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 import nerd.tuxmobil.fahrplan.congress.schedule.MainActivity;
 
 public final class AlarmReceiver extends BroadcastReceiver {
@@ -84,15 +82,7 @@ public final class AlarmReceiver extends BroadcastReceiver {
 
             nm.notify(1, notify);
 
-            // Clear from alarmDB
-
-            AlarmsDBOpenHelper lecturesDB = new AlarmsDBOpenHelper(context);
-
-            SQLiteDatabase db = lecturesDB.getReadableDatabase();
-            db.delete(AlarmsTable.NAME, AlarmsTable.Columns.EVENT_ID + "=?",
-                    new String[]{lecture_id});
-
-            db.close();
+            AppRepository.Companion.getInstance(context).deleteAlarmForEventId(lecture_id);
 
             if (MainActivity.getInstance() != null) {
                 MainActivity.getInstance().reloadAlarms();

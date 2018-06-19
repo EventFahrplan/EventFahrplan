@@ -47,6 +47,7 @@ public interface FahrplanContract {
 
         interface Defaults {
 
+            int DEFAULT_VALUE_ID = 0;
             int ALARM_TIME_IN_MIN_DEFAULT = -1;
         }
 

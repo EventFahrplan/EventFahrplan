@@ -5,9 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
@@ -46,14 +43,13 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable;
-import info.metadude.android.eventfahrplan.database.sqliteopenhelper.AlarmsDBOpenHelper;
 import nerd.tuxmobil.fahrplan.congress.BuildConfig;
 import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmTimePickerFragment;
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.extensions.Contexts;
+import nerd.tuxmobil.fahrplan.congress.models.Alarm;
 import nerd.tuxmobil.fahrplan.congress.models.DateInfo;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
@@ -831,47 +827,20 @@ public class FahrplanFragment extends Fragment implements
             return;
         }
 
-        Cursor alarmCursor;
-        SQLiteDatabase alarmdb = null;
-
         for (Lecture lecture : MyApp.lectureList) {
             lecture.has_alarm = false;
         }
 
-        AlarmsDBOpenHelper alarmDB = new AlarmsDBOpenHelper(context);
-        alarmdb = alarmDB.getReadableDatabase();
-
-        try {
-            alarmCursor = alarmdb.query(
-                    AlarmsTable.NAME,
-                    null,
-                    null, null, null,
-                    null, null);
-        } catch (SQLiteException e) {
-            e.printStackTrace();
-            alarmdb.close();
-            alarmdb = null;
-            alarmDB.close();
-            return;
-        }
-        MyApp.LogDebug(LOG_TAG, "Got " + alarmCursor.getCount() + " alarm rows.");
-
-        alarmCursor.moveToFirst();
-        while (!alarmCursor.isAfterLast()) {
-            String lecture_id = alarmCursor.getString(
-                    alarmCursor.getColumnIndex(AlarmsTable.Columns.EVENT_ID));
-            MyApp.LogDebug(LOG_TAG, "lecture " + lecture_id + " has alarm");
-
+        List<Alarm> alarms = AppRepository.Companion.getInstance(context).readAlarms();
+        MyApp.LogDebug(LOG_TAG, "Got " + alarms.size() + " alarm rows.");
+        for (Alarm alarm : alarms) {
+            MyApp.LogDebug(LOG_TAG, "Event " + alarm.getEventId() + " has alarm.");
             for (Lecture lecture : MyApp.lectureList) {
-                if (lecture.lecture_id.equals(lecture_id)) {
+                if (lecture.lecture_id.equals(alarm.getEventId())) {
                     lecture.has_alarm = true;
                 }
             }
-            alarmCursor.moveToNext();
         }
-        alarmCursor.close();
-        alarmdb.close();
-        alarmDB.close();
     }
 
     @Override
