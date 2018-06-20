@@ -6,9 +6,6 @@ import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
 import android.provider.CalendarContract;
 import android.support.annotation.NonNull;
 import android.text.format.Time;
@@ -20,12 +17,9 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.LecturesTable;
-import info.metadude.android.eventfahrplan.database.sqliteopenhelper.LecturesDBOpenHelper;
 import nerd.tuxmobil.fahrplan.congress.BuildConfig;
 import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.R;
@@ -54,48 +48,15 @@ public class FahrplanMisc {
 
     public static void loadDays(Context context) {
         MyApp.dateInfos = new DateInfos();
-        LecturesDBOpenHelper lecturesDB = new LecturesDBOpenHelper(context);
-
-        SQLiteDatabase lecturedb = lecturesDB.getReadableDatabase();
-        Cursor cursor;
-
-        try {
-            cursor = lecturedb.query(LecturesTable.NAME, null,
-                    null, null, null,
-                    null, null);
-        } catch (SQLiteException e) {
-            e.printStackTrace();
-            lecturedb.close();
-            lecturesDB.close();
-            return;
-        }
-
-        if (cursor.getCount() == 0) {
-            // evtl. Datenbankreset wg. DB Formatänderung -> neu laden
-            cursor.close();
-            lecturesDB.close();
-            lecturedb.close();
-            return;
-        }
-
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            int day = cursor.getInt(cursor.getColumnIndex(LecturesTable.Columns.DAY));
-            String date = cursor.getString(cursor.getColumnIndex(LecturesTable.Columns.DATE));
-
-            DateInfo dateItem = new DateInfo(day, date);
-            if (!MyApp.dateInfos.contains(dateItem)) {
-                MyApp.dateInfos.add(dateItem);
+        List<DateInfo> dateInfos = AppRepository.Companion.getInstance(context).readDateInfos();
+        for (DateInfo dateInfo : dateInfos) {
+            if (!MyApp.dateInfos.contains(dateInfo)) {
+                MyApp.dateInfos.add(dateInfo);
             }
-            cursor.moveToNext();
         }
-        cursor.close();
-
         for (DateInfo dateInfo : MyApp.dateInfos) {
             MyApp.LogDebug(LOG_TAG, "DateInfo: " + dateInfo);
         }
-        lecturesDB.close();
-        lecturedb.close();
     }
 
     public static String getEventUrl(final String eventId) {
@@ -280,53 +241,18 @@ public class FahrplanMisc {
      */
     @NonNull
     public static List<Lecture> loadLecturesForDayIndex(@NonNull Context context, int day) {
-        MyApp.LogDebug(LOG_TAG, "load lectures of day " + day);
-
-        LecturesDBOpenHelper lecturesDB = new LecturesDBOpenHelper(context);
-        SQLiteDatabase lecturedb = lecturesDB.getReadableDatabase();
-
-
-        List<Lecture> lectures = new ArrayList<>();
-        Cursor cursor;
-
-        boolean allDays = day == ALL_DAYS;
-        String selection = allDays ? null : (LecturesTable.Columns.DAY + "=?");
-        String[] selectionArgs = allDays ? null : (new String[]{String.format("%d", day)});
-
-        try {
-            cursor = lecturedb.query(
-                    LecturesTable.NAME,
-                    null,
-                    selection,
-                    selectionArgs,
-                    null,
-                    null,
-                    LecturesTable.Columns.DATE_UTC
-            );
-        } catch (SQLiteException e) {
-            e.printStackTrace();
-            lecturedb.close();
-            lecturesDB.close();
-            return Collections.emptyList();
-        }
-        MyApp.LogDebug(LOG_TAG, "Got " + cursor.getCount() + " rows.");
-
-        if (cursor.getCount() == 0) {
-            cursor.close();
-            lecturedb.close();
-            lecturesDB.close();
-            return Collections.emptyList();
-        }
-
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            Lecture lecture = getLecture(cursor);
-            lectures.add(lecture);
-            cursor.moveToNext();
-        }
-        cursor.close();
-
         AppRepository appRepository = AppRepository.Companion.getInstance(context);
+
+        List<Lecture> lectures;
+        if (day == ALL_DAYS) {
+            MyApp.LogDebug(LOG_TAG, "Loading lectures for all days.");
+            lectures = appRepository.readLecturesOrderedByDateUtc();
+        } else {
+            MyApp.LogDebug(LOG_TAG, "Loading lectures for day " + day + ".");
+            lectures = appRepository.readLecturesForDayIndexOrderedByDateUtc(day);
+        }
+        MyApp.LogDebug(LOG_TAG, "Got " + lectures.size() + " rows.");
+
         List<Highlight> highlights = appRepository.readHighlights();
         for (Highlight highlight : highlights) {
             MyApp.LogDebug(LOG_TAG, "highlight = " + highlight);
@@ -336,83 +262,7 @@ public class FahrplanMisc {
                 }
             }
         }
-        lecturedb.close();
-        lecturesDB.close();
         return lectures;
-    }
-
-    @NonNull
-    private static Lecture getLecture(@NonNull Cursor cursor) {
-        Lecture lecture = new Lecture(cursor.getString(
-                cursor.getColumnIndex(LecturesTable.Columns.EVENT_ID)));
-        lecture.title = cursor.getString(
-                cursor.getColumnIndex(LecturesTable.Columns.TITLE));
-        lecture.subtitle = cursor.getString(
-                cursor.getColumnIndex(LecturesTable.Columns.SUBTITLE));
-        lecture.day = cursor.getInt(
-                cursor.getColumnIndex(LecturesTable.Columns.DAY));
-        lecture.room = cursor.getString(
-                cursor.getColumnIndex(LecturesTable.Columns.ROOM));
-        lecture.slug = cursor.getString(
-                cursor.getColumnIndex(LecturesTable.Columns.SLUG));
-        lecture.startTime = cursor.getInt(
-                cursor.getColumnIndex(LecturesTable.Columns.START));
-        lecture.duration = cursor.getInt(
-                cursor.getColumnIndex(LecturesTable.Columns.DURATION));
-        lecture.speakers = cursor.getString(
-                cursor.getColumnIndex(LecturesTable.Columns.SPEAKERS));
-        lecture.track = cursor.getString(
-                cursor.getColumnIndex(LecturesTable.Columns.TRACK));
-        lecture.type = cursor.getString(
-                cursor.getColumnIndex(LecturesTable.Columns.TYPE));
-        lecture.lang = cursor.getString(
-                cursor.getColumnIndex(LecturesTable.Columns.LANG));
-        lecture.abstractt = cursor.getString(
-                cursor.getColumnIndex(LecturesTable.Columns.ABSTRACT));
-        lecture.description = cursor.getString(
-                cursor.getColumnIndex(LecturesTable.Columns.DESCR));
-        lecture.relStartTime = cursor.getInt(
-                cursor.getColumnIndex(LecturesTable.Columns.REL_START));
-        lecture.date = cursor.getString(
-                cursor.getColumnIndex(LecturesTable.Columns.DATE));
-        lecture.links = cursor.getString(
-                cursor.getColumnIndex(LecturesTable.Columns.LINKS));
-        lecture.dateUTC = cursor.getLong(
-                cursor.getColumnIndex(LecturesTable.Columns.DATE_UTC));
-        lecture.room_index = cursor.getInt(
-                cursor.getColumnIndex(LecturesTable.Columns.ROOM_IDX));
-        lecture.recordingLicense = cursor.getString(
-                cursor.getColumnIndex(LecturesTable.Columns.REC_LICENSE));
-        lecture.recordingOptOut = cursor.getInt(
-                cursor.getColumnIndex(LecturesTable.Columns.REC_OPTOUT))
-                == LecturesTable.Values.REC_OPTOUT_OFF
-                ? Lecture.RECORDING_OPTOUT_OFF
-                : Lecture.RECORDING_OPTOUT_ON;
-        lecture.changedTitle = cursor.getInt(
-                cursor.getColumnIndex(LecturesTable.Columns.CHANGED_TITLE)) != 0;
-        lecture.changedSubtitle = cursor.getInt(
-                cursor.getColumnIndex(LecturesTable.Columns.CHANGED_SUBTITLE)) != 0;
-        lecture.changedRoom = cursor.getInt(
-                cursor.getColumnIndex(LecturesTable.Columns.CHANGED_ROOM)) != 0;
-        lecture.changedDay = cursor.getInt(
-                cursor.getColumnIndex(LecturesTable.Columns.CHANGED_DAY)) != 0;
-        lecture.changedSpeakers = cursor.getInt(
-                cursor.getColumnIndex(LecturesTable.Columns.CHANGED_SPEAKERS)) != 0;
-        lecture.changedRecordingOptOut = cursor.getInt(
-                cursor.getColumnIndex(LecturesTable.Columns.CHANGED_RECORDING_OPTOUT)) != 0;
-        lecture.changedLanguage = cursor.getInt(
-                cursor.getColumnIndex(LecturesTable.Columns.CHANGED_LANGUAGE)) != 0;
-        lecture.changedTrack = cursor.getInt(
-                cursor.getColumnIndex(LecturesTable.Columns.CHANGED_TRACK)) != 0;
-        lecture.changedIsNew = cursor.getInt(
-                cursor.getColumnIndex(LecturesTable.Columns.CHANGED_IS_NEW)) != 0;
-        lecture.changedTime = cursor.getInt(
-                cursor.getColumnIndex(LecturesTable.Columns.CHANGED_TIME)) != 0;
-        lecture.changedDuration = cursor.getInt(
-                cursor.getColumnIndex(LecturesTable.Columns.CHANGED_DURATION)) != 0;
-        lecture.changedIsCanceled = cursor.getInt(
-                cursor.getColumnIndex(LecturesTable.Columns.CHANGED_IS_CANCELED)) != 0;
-        return lecture;
     }
 
     public static int getChangedLectureCount(@NonNull List<Lecture> list, boolean favsOnly) {

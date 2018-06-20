@@ -1,9 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.serialization;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
@@ -16,10 +14,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.LecturesTable;
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.LecturesTable.Columns;
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.LecturesTable.Values;
-import info.metadude.android.eventfahrplan.database.sqliteopenhelper.LecturesDBOpenHelper;
 import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
@@ -140,63 +134,6 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
 
         if (listener != null) {
             notifyActivity();
-        }
-    }
-
-    public void storeLectureList(Context context, List<Lecture> lectures) {
-        MyApp.LogDebug(LOG_TAG, "storeLectureList");
-        LecturesDBOpenHelper lecturesDB = new LecturesDBOpenHelper(context);
-
-        db = lecturesDB.getWritableDatabase();
-        try {
-            db.beginTransaction();
-            db.delete(LecturesTable.NAME, null, null);
-            for (Lecture lecture : lectures) {
-                if (isCancelled()) {
-                    break;
-                }
-                ContentValues values = new ContentValues();
-                values.put(Columns.EVENT_ID, lecture.lecture_id);
-                values.put(Columns.TITLE, lecture.title);
-                values.put(Columns.SUBTITLE, lecture.subtitle);
-                values.put(Columns.DAY, lecture.day);
-                values.put(Columns.ROOM, lecture.room);
-                values.put(Columns.SLUG, lecture.slug);
-                values.put(Columns.START, lecture.startTime);
-                values.put(Columns.DURATION, lecture.duration);
-                values.put(Columns.SPEAKERS, lecture.speakers);
-                values.put(Columns.TRACK, lecture.track);
-                values.put(Columns.TYPE, lecture.type);
-                values.put(Columns.LANG, lecture.lang);
-                values.put(Columns.ABSTRACT, lecture.abstractt);
-                values.put(Columns.DESCR, lecture.description);
-                values.put(Columns.LINKS, lecture.links);
-                values.put(Columns.REL_START, lecture.relStartTime);
-                values.put(Columns.DATE, lecture.date);
-                values.put(Columns.DATE_UTC, lecture.dateUTC);
-                values.put(Columns.ROOM_IDX, lecture.room_index);
-                values.put(Columns.REC_LICENSE, lecture.recordingLicense);
-                values.put(Columns.REC_OPTOUT,
-                        lecture.recordingOptOut ? Values.REC_OPTOUT_ON : Values.REC_OPTOUT_OFF);
-                values.put(Columns.CHANGED_TITLE, lecture.changedTitle);
-                values.put(Columns.CHANGED_SUBTITLE, lecture.changedSubtitle);
-                values.put(Columns.CHANGED_ROOM, lecture.changedRoom);
-                values.put(Columns.CHANGED_DAY, lecture.changedDay);
-                values.put(Columns.CHANGED_SPEAKERS, lecture.changedSpeakers);
-                values.put(Columns.CHANGED_RECORDING_OPTOUT, lecture.changedRecordingOptOut);
-                values.put(Columns.CHANGED_LANGUAGE, lecture.changedLanguage);
-                values.put(Columns.CHANGED_TRACK, lecture.changedTrack);
-                values.put(Columns.CHANGED_IS_NEW, lecture.changedIsNew);
-                values.put(Columns.CHANGED_TIME, lecture.changedTime);
-                values.put(Columns.CHANGED_DURATION, lecture.changedDuration);
-                values.put(Columns.CHANGED_IS_CANCELED, lecture.changedIsCanceled);
-                db.insert(LecturesTable.NAME, null, values);
-            }
-            db.setTransactionSuccessful();
-        } catch (SQLException e) {
-        } finally {
-            db.endTransaction();
-            db.close();
         }
     }
 
@@ -424,7 +361,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                 return false;
             }
             setChangedFlags(lectures);
-            storeLectureList(context, lectures);
+            appRepository.updateLectures(lectures);
             if (isCancelled()) {
                 return false;
             }

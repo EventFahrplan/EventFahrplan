@@ -121,8 +121,8 @@ public interface FahrplanContract {
 
         interface Values {
 
-            int REC_OPTOUT_OFF = 0;
-            int REC_OPTOUT_ON = 1;
+            int REC_OPT_OUT_OFF = 0;
+            int REC_OPT_OUT_ON = 1;
         }
 
     }

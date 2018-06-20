@@ -78,7 +78,7 @@ public class LecturesDBOpenHelper extends SQLiteOpenHelper {
                     " ADD COLUMN " + Columns.REC_LICENSE + " STRING DEFAULT ''");
             db.execSQL("ALTER TABLE " + LecturesTable.NAME +
                     " ADD COLUMN " + Columns.REC_OPTOUT + " INTEGER DEFAULT " +
-                    Values.REC_OPTOUT_OFF);
+                    Values.REC_OPT_OUT_OFF);
         }
         if ((oldVersion < 5) && (newVersion >= 5)) {
             db.execSQL("ALTER TABLE " + LecturesTable.NAME + " ADD COLUMN " + Columns.CHANGED_TITLE + " INTEGER DEFAULT " + 0);
