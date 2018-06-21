@@ -16,20 +16,28 @@ public class DateInfo {
         return this.date.equals(date) ? dayIdx : -1;
     }
 
+    @SuppressWarnings("SimplifiableIfStatement")
     @Override
-    public boolean equals(Object object) {
-        if (object instanceof DateInfo) {
-            DateInfo dateInfo = (DateInfo) object;
-            return super.equals(object) &&
-                    dateInfo.dayIdx == dayIdx &&
-                    dateInfo.date.equals(date);
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
         }
-        return false;
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        DateInfo dateInfo = (DateInfo) o;
+        if (dayIdx != dateInfo.dayIdx) {
+            return false;
+        }
+        return date != null ? date.equals(dateInfo.date) : dateInfo.date == null;
     }
 
     @Override
     public int hashCode() {
-        return super.hashCode() * 13 | dayIdx + date.hashCode() * 7;
+        int result = dayIdx;
+        result = 31 * result + (date != null ? date.hashCode() : 0);
+        return result;
     }
 
     @Override
