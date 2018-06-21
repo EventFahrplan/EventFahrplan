@@ -6,6 +6,7 @@ object Versions {
     val androidGradle = "3.1.0"
     val assertjAndroid = "1.2.0"
     val emailIntentBuilder = "1.0.0"
+    val espresso = "3.0.2"
     val gradleVersions = "0.18.0"
     val junit = "4.12"
     val kotlin = "1.2.50"
@@ -14,6 +15,7 @@ object Versions {
     val snackengage = "0.15"
     val sonarQubeGradle = "2.6.2"
     val supportLibrary = "26.1.0"
+    val testRules = "1.0.2"
     val tracedroid = "1.4"
 }
 
@@ -27,6 +29,7 @@ object GradlePlugins {
 object Libs {
     val assertjAndroid = "com.squareup.assertj:assertj-android:${Versions.assertjAndroid}"
     val emailIntentBuilder = "de.cketti.mailto:email-intent-builder:${Versions.emailIntentBuilder}"
+    val espresso = "com.android.support.test.espresso:espresso-core:${Versions.espresso}"
     val junit = "junit:junit:${Versions.junit}"
     val kotlinStdlib = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}"
     val mockitoCore = "org.mockito:mockito-core:${Versions.mockito}"
@@ -36,5 +39,6 @@ object Libs {
     val supportLibraryAnnotations = "com.android.support:support-annotations:${Versions.supportLibrary}"
     val supportLibraryAppcompatV7 = "com.android.support:appcompat-v7:${Versions.supportLibrary}"
     val supportLibraryDesign = "com.android.support:design:${Versions.supportLibrary}"
+    val testRules = "com.android.support.test:rules:${Versions.testRules}"
     val tracedroid = "org.ligi:tracedroid:${Versions.tracedroid}"
 }
