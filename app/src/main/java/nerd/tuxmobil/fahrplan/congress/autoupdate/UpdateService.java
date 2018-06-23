@@ -32,6 +32,7 @@ import nerd.tuxmobil.fahrplan.congress.models.Lecture;
 import nerd.tuxmobil.fahrplan.congress.net.ConnectivityStateReceiver;
 import nerd.tuxmobil.fahrplan.congress.net.CustomHttpClient.HTTP_STATUS;
 import nerd.tuxmobil.fahrplan.congress.net.FetchFahrplan;
+import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 import nerd.tuxmobil.fahrplan.congress.schedule.MainActivity;
 import nerd.tuxmobil.fahrplan.congress.serialization.FahrplanParser;
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
@@ -52,7 +53,7 @@ public class UpdateService extends IntentService implements
 
     @Override
     public void onParseDone(Boolean result, String version) {
-        MyApp.LogDebug(LOG_TAG, "parseDone: " + result + " , numdays=" + MyApp.numdays);
+        MyApp.LogDebug(LOG_TAG, "parseDone: " + result + " , numDays=" + MyApp.meta.getNumDays());
         MyApp.task_running = TASKS.NONE;
         MyApp.fahrplan_xml = null;
         List<Lecture> changesList = FahrplanMisc.readChanges(this);
@@ -102,12 +103,13 @@ public class UpdateService extends IntentService implements
     public void parseFahrplan() {
         MyApp.task_running = TASKS.PARSE;
         if (MyApp.parser == null) {
-            parser = new FahrplanParser(getApplicationContext());
+            AppRepository appRepository = AppRepository.Companion.getInstance(getApplicationContext());
+            parser = new FahrplanParser(getApplicationContext(), appRepository);
         } else {
             parser = MyApp.parser;
         }
         parser.setListener(this);
-        parser.parse(MyApp.fahrplan_xml, MyApp.eTag);
+        parser.parse(MyApp.fahrplan_xml, MyApp.meta.getETag());
     }
 
     public void onGotResponse(HTTP_STATUS status, String response, String eTagStr, String host) {
@@ -129,7 +131,7 @@ public class UpdateService extends IntentService implements
         }
 
         MyApp.fahrplan_xml = response;
-        MyApp.eTag = eTagStr;
+        MyApp.meta.setETag(eTagStr);
         parseFahrplan();
     }
 
@@ -146,7 +148,7 @@ public class UpdateService extends IntentService implements
 
             MyApp.task_running = TASKS.FETCH;
             fetcher.setListener(completeListener);
-            fetcher.fetch(url, MyApp.eTag);
+            fetcher.fetch(url, MyApp.meta.getETag());
         } else {
             MyApp.LogDebug(LOG_TAG, "fetch already in progress");
         }
@@ -165,7 +167,8 @@ public class UpdateService extends IntentService implements
             return;
         }
 
-        FahrplanMisc.loadMeta(this);        // to load eTag
+        AppRepository appRepository = AppRepository.Companion.getInstance(getApplicationContext());
+        MyApp.meta = appRepository.readMeta(); // to load eTag
 
         if (MyApp.fetcher == null) {
             fetcher = new FetchFahrplan();

@@ -59,6 +59,7 @@ import nerd.tuxmobil.fahrplan.congress.net.CustomHttpClient;
 import nerd.tuxmobil.fahrplan.congress.net.CustomHttpClient.HTTP_STATUS;
 import nerd.tuxmobil.fahrplan.congress.net.FetchFahrplan;
 import nerd.tuxmobil.fahrplan.congress.reporting.TraceDroidEmailSender;
+import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 import nerd.tuxmobil.fahrplan.congress.serialization.FahrplanParser;
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsActivity;
 import nerd.tuxmobil.fahrplan.congress.sidepane.OnSidePaneCloseListener;
@@ -114,15 +115,16 @@ public class MainActivity extends BaseActivity implements
         } else {
             fetcher = MyApp.fetcher;
         }
+        AppRepository appRepository = AppRepository.Companion.getInstance(this);
         if (MyApp.parser == null) {
-            parser = new FahrplanParser(getApplicationContext());
+            parser = new FahrplanParser(getApplicationContext(), appRepository);
         } else {
             parser = MyApp.parser;
         }
         progress = null;
         global = (MyApp) getApplicationContext();
 
-        FahrplanMisc.loadMeta(this);
+        MyApp.meta = appRepository.readMeta();
         FahrplanMisc.loadDays(this);
 
         MyApp.LogDebug(LOG_TAG, "task_running:" + MyApp.task_running);
@@ -136,8 +138,8 @@ public class MainActivity extends BaseActivity implements
                 showParsingStatus();
                 break;
             case NONE:
-                if ((MyApp.numdays == 0) && (savedInstanceState == null)) {
-                    MyApp.LogDebug(LOG_TAG, "fetch in onCreate bc. numdays==0");
+                if ((MyApp.meta.getNumDays() == 0) && (savedInstanceState == null)) {
+                    MyApp.LogDebug(LOG_TAG, "fetch in onCreate bc. numDays==0");
                     fetchFahrplan(this);
                 }
                 break;
@@ -193,13 +195,13 @@ public class MainActivity extends BaseActivity implements
         showParsingStatus();
         MyApp.task_running = TASKS.PARSE;
         parser.setListener(this);
-        parser.parse(MyApp.fahrplan_xml, MyApp.eTag);
+        parser.parse(MyApp.fahrplan_xml, MyApp.meta.getETag());
     }
 
     public void onGotResponse(HTTP_STATUS status, String response, String eTagStr, String host) {
         MyApp.LogDebug(LOG_TAG, "Response... " + status);
         MyApp.task_running = TASKS.NONE;
-        if (MyApp.numdays == 0) {
+        if (MyApp.meta.getNumDays() == 0) {
             if (progress != null) {
                 progress.dismiss();
                 progress = null;
@@ -235,17 +237,17 @@ public class MainActivity extends BaseActivity implements
         supportInvalidateOptionsMenu();
 
         MyApp.fahrplan_xml = response;
-        MyApp.eTag = eTagStr;
+        MyApp.meta.setETag(eTagStr);
         parseFahrplan();
     }
 
     @Override
     public void onParseDone(Boolean result, String version) {
-        MyApp.LogDebug(LOG_TAG, "parseDone: " + result + " , numdays=" + MyApp.numdays);
+        MyApp.LogDebug(LOG_TAG, "parseDone: " + result + " , numDays=" + MyApp.meta.getNumDays());
         MyApp.task_running = TASKS.NONE;
         MyApp.fahrplan_xml = null;
 
-        if (MyApp.numdays == 0) {
+        if (MyApp.meta.getNumDays() == 0) {
             if (progress != null) {
                 progress.dismiss();
                 progress = null;
@@ -270,9 +272,9 @@ public class MainActivity extends BaseActivity implements
     }
 
     public void showFetchingStatus() {
-        if (MyApp.numdays == 0) {
+        if (MyApp.meta.getNumDays() == 0) {
             // initial load
-            MyApp.LogDebug(LOG_TAG, "fetchFahrplan with numdays == 0");
+            MyApp.LogDebug(LOG_TAG, "fetchFahrplan with numDays == 0");
             progress = ProgressDialog.show(this, "", getResources().getString(
                     R.string.progress_loading_data), true);
         } else {
@@ -284,7 +286,7 @@ public class MainActivity extends BaseActivity implements
     }
 
     public void showParsingStatus() {
-        if (MyApp.numdays == 0) {
+        if (MyApp.meta.getNumDays() == 0) {
             // initial load
             progress = ProgressDialog.show(this, "", getResources().getString(
                     R.string.progress_processing_data), true);
@@ -310,7 +312,7 @@ public class MainActivity extends BaseActivity implements
             MyApp.task_running = TASKS.FETCH;
             showFetchingStatus();
             fetcher.setListener(completeListener);
-            fetcher.fetch(url, MyApp.eTag);
+            fetcher.fetch(url, MyApp.meta.getETag());
         } else {
             MyApp.LogDebug(LOG_TAG, "fetch already in progress");
         }
@@ -368,7 +370,7 @@ public class MainActivity extends BaseActivity implements
         if (fragment == null) {
             List<Lecture> changedLectures = FahrplanMisc.readChanges(this);
             DialogFragment about = ChangesDialog.newInstance(
-                    MyApp.version,
+                    MyApp.meta.getVersion(),
                     FahrplanMisc.getChangedLectureCount(changedLectures, false),
                     FahrplanMisc.getNewLectureCount(changedLectures, false),
                     FahrplanMisc.getCancelledLectureCount(changedLectures, false),

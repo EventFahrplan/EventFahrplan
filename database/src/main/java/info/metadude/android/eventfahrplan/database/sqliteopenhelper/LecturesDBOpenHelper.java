@@ -1,14 +1,14 @@
-package nerd.tuxmobil.fahrplan.congress.persistence;
+package info.metadude.android.eventfahrplan.database.sqliteopenhelper;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.NonNull;
 
-import nerd.tuxmobil.fahrplan.congress.persistence.FahrplanContract.LecturesTable;
-import nerd.tuxmobil.fahrplan.congress.persistence.FahrplanContract.LecturesTable.Columns;
-import nerd.tuxmobil.fahrplan.congress.persistence.FahrplanContract.LecturesTable.Defaults;
-import nerd.tuxmobil.fahrplan.congress.persistence.FahrplanContract.LecturesTable.Values;
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.LecturesTable;
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.LecturesTable.Columns;
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.LecturesTable.Defaults;
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.LecturesTable.Values;
 
 public class LecturesDBOpenHelper extends SQLiteOpenHelper {
 
@@ -78,7 +78,7 @@ public class LecturesDBOpenHelper extends SQLiteOpenHelper {
                     " ADD COLUMN " + Columns.REC_LICENSE + " STRING DEFAULT ''");
             db.execSQL("ALTER TABLE " + LecturesTable.NAME +
                     " ADD COLUMN " + Columns.REC_OPTOUT + " INTEGER DEFAULT " +
-                    Values.REC_OPTOUT_OFF);
+                    Values.REC_OPT_OUT_OFF);
         }
         if ((oldVersion < 5) && (newVersion >= 5)) {
             db.execSQL("ALTER TABLE " + LecturesTable.NAME + " ADD COLUMN " + Columns.CHANGED_TITLE + " INTEGER DEFAULT " + 0);

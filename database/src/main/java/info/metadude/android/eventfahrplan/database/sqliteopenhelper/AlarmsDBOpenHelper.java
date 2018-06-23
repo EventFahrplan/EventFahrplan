@@ -1,10 +1,10 @@
-package nerd.tuxmobil.fahrplan.congress.persistence;
+package info.metadude.android.eventfahrplan.database.sqliteopenhelper;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import nerd.tuxmobil.fahrplan.congress.persistence.FahrplanContract.AlarmsTable;
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable;
 
 public class AlarmsDBOpenHelper extends SQLiteOpenHelper {
 

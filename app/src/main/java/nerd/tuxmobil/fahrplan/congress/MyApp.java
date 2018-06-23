@@ -14,6 +14,7 @@ import java.util.TimeZone;
 
 import nerd.tuxmobil.fahrplan.congress.models.DateInfos;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
+import nerd.tuxmobil.fahrplan.congress.models.Meta;
 import nerd.tuxmobil.fahrplan.congress.net.FetchFahrplan;
 import nerd.tuxmobil.fahrplan.congress.serialization.FahrplanParser;
 import nerd.tuxmobil.fahrplan.congress.utils.ConferenceTimeFrame;
@@ -26,13 +27,7 @@ public class MyApp extends Application {
 
     public static List<Lecture> lectureList = null;
 
-    public static int numdays;
-
-    public static String version;
-
-    public static String title;
-
-    public static String subtitle;
+    public static Meta meta;
 
     public static DateInfos dateInfos = null;
 
@@ -76,12 +71,6 @@ public class MyApp extends Application {
     public static String fahrplan_xml;
 
     public static int lectureListDay = 0;
-
-    public static int dayChangeHour;
-
-    public static int dayChangeMinute;
-
-    public static String eTag;
 
     public static SparseIntArray roomList = new SparseIntArray();
 

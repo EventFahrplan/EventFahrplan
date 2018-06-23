@@ -38,6 +38,7 @@ import nerd.tuxmobil.fahrplan.congress.alarms.AlarmTimePickerFragment;
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
 import nerd.tuxmobil.fahrplan.congress.navigation.RoomForC3NavConverter;
+import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanFragment;
 import nerd.tuxmobil.fahrplan.congress.sharing.LectureSharer;
 import nerd.tuxmobil.fahrplan.congress.sharing.SimpleLectureFormat;
@@ -397,14 +398,14 @@ public class EventDetailFragment extends Fragment {
             case R.id.item_fav:
                 if (lecture != null) {
                     lecture.highlight = true;
-                    FahrplanMisc.writeHighlight(activity, lecture);
+                    AppRepository.Companion.getInstance(getActivity()).updateHighlight(lecture);
                 }
                 refreshUI(activity);
                 return true;
             case R.id.item_unfav:
                 if (lecture != null) {
                     lecture.highlight = false;
-                    FahrplanMisc.writeHighlight(activity, lecture);
+                    AppRepository.Companion.getInstance(getActivity()).updateHighlight(lecture);
                 }
                 refreshUI(activity);
                 return true;

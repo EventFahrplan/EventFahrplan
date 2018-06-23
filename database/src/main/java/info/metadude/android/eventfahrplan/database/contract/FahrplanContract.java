@@ -1,4 +1,4 @@
-package nerd.tuxmobil.fahrplan.congress.persistence;
+package info.metadude.android.eventfahrplan.database.contract;
 
 import android.provider.BaseColumns;
 
@@ -47,6 +47,7 @@ public interface FahrplanContract {
 
         interface Defaults {
 
+            int DEFAULT_VALUE_ID = 0;
             int ALARM_TIME_IN_MIN_DEFAULT = -1;
         }
 
@@ -120,8 +121,8 @@ public interface FahrplanContract {
 
         interface Values {
 
-            int REC_OPTOUT_OFF = 0;
-            int REC_OPTOUT_ON = 1;
+            int REC_OPT_OUT_OFF = 0;
+            int REC_OPT_OUT_ON = 1;
         }
 
     }

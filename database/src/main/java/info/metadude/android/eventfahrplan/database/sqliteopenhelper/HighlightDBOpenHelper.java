@@ -1,11 +1,11 @@
-package nerd.tuxmobil.fahrplan.congress.persistence;
+package info.metadude.android.eventfahrplan.database.sqliteopenhelper;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import nerd.tuxmobil.fahrplan.congress.persistence.FahrplanContract.HighlightsTable;
-import nerd.tuxmobil.fahrplan.congress.persistence.FahrplanContract.HighlightsTable.Columns;
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.HighlightsTable;
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.HighlightsTable.Columns;
 
 public class HighlightDBOpenHelper extends SQLiteOpenHelper {
 

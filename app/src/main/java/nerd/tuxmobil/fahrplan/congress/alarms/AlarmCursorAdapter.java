@@ -8,9 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable;
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns;
 import nerd.tuxmobil.fahrplan.congress.R;
-import nerd.tuxmobil.fahrplan.congress.persistence.FahrplanContract.AlarmsTable;
-import nerd.tuxmobil.fahrplan.congress.persistence.FahrplanContract.AlarmsTable.Columns;
 
 public class AlarmCursorAdapter extends CursorAdapter {
 

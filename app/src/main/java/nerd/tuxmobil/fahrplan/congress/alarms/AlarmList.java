@@ -17,12 +17,13 @@ import android.widget.AdapterView;
 
 import org.ligi.tracedroid.logging.Log;
 
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable;
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns;
+import info.metadude.android.eventfahrplan.database.sqliteopenhelper.AlarmsDBOpenHelper;
 import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.base.ActionBarListActivity;
-import nerd.tuxmobil.fahrplan.congress.persistence.AlarmsDBOpenHelper;
-import nerd.tuxmobil.fahrplan.congress.persistence.FahrplanContract.AlarmsTable;
-import nerd.tuxmobil.fahrplan.congress.persistence.FahrplanContract.AlarmsTable.Columns;
+import nerd.tuxmobil.fahrplan.congress.models.SchedulableAlarm;
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanFragment;
 
 public class AlarmList extends ActionBarListActivity {
@@ -104,8 +105,8 @@ public class AlarmList extends ActionBarListActivity {
         String title = cursor.getString(cursor.getColumnIndex(AlarmsTable.Columns.EVENT_TITLE));
         long startTime = cursor.getLong(cursor.getColumnIndex(AlarmsTable.Columns.TIME));
         Log.d(getClass().getName(), "deleteAlarm: lecture: " + lecture_id);
-
-        AlarmServices.discardEventAlarm(this, lecture_id, day, title, startTime);
+        SchedulableAlarm alarm = new SchedulableAlarm(day, lecture_id, title, startTime);
+        AlarmServices.discardEventAlarm(this, alarm);
 
         int alarmId = cursor.getInt(cursor.getColumnIndex(Columns.ID));
         db.delete(AlarmsTable.NAME, Columns.ID + " = ?", new String[]{String.valueOf(alarmId)});

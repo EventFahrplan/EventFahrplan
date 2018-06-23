@@ -4,21 +4,22 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
 import android.preference.PreferenceManager;
 import android.text.format.Time;
 
 import org.ligi.tracedroid.logging.Log;
 
+import java.util.List;
+
 import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmReceiver;
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices;
 import nerd.tuxmobil.fahrplan.congress.autoupdate.UpdateService;
+import nerd.tuxmobil.fahrplan.congress.dataconverters.AlarmExtensions;
+import nerd.tuxmobil.fahrplan.congress.models.Alarm;
+import nerd.tuxmobil.fahrplan.congress.models.SchedulableAlarm;
 import nerd.tuxmobil.fahrplan.congress.net.ConnectivityStateReceiver;
-import nerd.tuxmobil.fahrplan.congress.persistence.AlarmsDBOpenHelper;
-import nerd.tuxmobil.fahrplan.congress.persistence.FahrplanContract.AlarmsTable;
+import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
 
 public final class OnBootReceiver extends BroadcastReceiver {
@@ -39,19 +40,6 @@ public final class OnBootReceiver extends BroadcastReceiver {
         }
 
         MyApp.LogDebug(LOG_TAG, "onReceive (reboot)");
-        AlarmsDBOpenHelper lecturesDB = new AlarmsDBOpenHelper(context);
-
-        SQLiteDatabase db = lecturesDB.getWritableDatabase();
-        Cursor cursor;
-
-        try {
-            cursor = db.query(AlarmsTable.NAME, null,
-                    null, null, null, null, null);
-        } catch (SQLiteException e) {
-            e.printStackTrace();
-            db.close();
-            return;
-        }
 
         Time now = new Time();
         Time storedAlarmTime = new Time();
@@ -59,23 +47,19 @@ public final class OnBootReceiver extends BroadcastReceiver {
         now.second += 15;
         now.normalize(true);
 
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            long alarmTime = cursor.getLong(cursor.getColumnIndex(AlarmsTable.Columns.TIME));
-            storedAlarmTime.set(alarmTime);
-
+        AppRepository appRepository = AppRepository.Companion.getInstance(context);
+        List<Alarm> alarms = appRepository.readAlarms();
+        for (Alarm alarm : alarms) {
+            storedAlarmTime.set(alarm.getStartTime());
             if (now.before(storedAlarmTime)) {
-                scheduleEventAlarm(context, cursor, alarmTime);
+                Log.d(getClass().getName(), "Scheduling alarm for event: " + alarm.getEventId() + ", " + alarm.getEventTitle());
+                SchedulableAlarm schedulableAlarm = AlarmExtensions.toSchedulableAlarm(alarm);
+                AlarmServices.scheduleEventAlarm(context, schedulableAlarm);
             } else {
-                // remove from DB
-                MyApp.LogDebug(LOG_TAG, "remove alarm from DB ");
-                int alarmId = cursor.getInt(cursor.getColumnIndex(AlarmsTable.Columns.ID));
-                db.delete(AlarmsTable.NAME, AlarmsTable.Columns.ID + " = ?", new String[]{String.valueOf(alarmId)});
+                MyApp.LogDebug(LOG_TAG, "Deleting alarm from database: " + alarm);
+                appRepository.deleteAlarmForAlarmId(alarm.getId());
             }
-            cursor.moveToNext();
         }
-        cursor.close();
-        db.close();
 
         if (ConnectivityStateReceiver.isEnabled(context)) {
             ConnectivityStateReceiver.disableReceiver(context);
@@ -97,16 +81,6 @@ public final class OnBootReceiver extends BroadcastReceiver {
                 UpdateService.start(context);
             }
         }
-    }
-
-    private void scheduleEventAlarm(Context context, Cursor cursor, long alarmTime) {
-        String eventId = cursor.getString(cursor.getColumnIndex(AlarmsTable.Columns.EVENT_ID));
-        int day = cursor.getInt(cursor.getColumnIndex(AlarmsTable.Columns.DAY));
-        String title = cursor.getString(cursor.getColumnIndex(AlarmsTable.Columns.EVENT_TITLE));
-        long startTime = cursor.getLong(cursor.getColumnIndex(AlarmsTable.Columns.TIME));
-        Log.d(getClass().getName(), "Set alarm for event: " + eventId);
-        MyApp.LogDebug(LOG_TAG, "Add alarm for " + title);
-        AlarmServices.scheduleEventAlarm(context, eventId, day, title, startTime, alarmTime);
     }
 
 }

@@ -1,9 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.serialization;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
@@ -19,13 +17,8 @@ import java.util.List;
 import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
-import nerd.tuxmobil.fahrplan.congress.models.MetaInfo;
-import nerd.tuxmobil.fahrplan.congress.persistence.FahrplanContract.LecturesTable;
-import nerd.tuxmobil.fahrplan.congress.persistence.FahrplanContract.LecturesTable.Columns;
-import nerd.tuxmobil.fahrplan.congress.persistence.FahrplanContract.LecturesTable.Values;
-import nerd.tuxmobil.fahrplan.congress.persistence.FahrplanContract.MetasTable;
-import nerd.tuxmobil.fahrplan.congress.persistence.LecturesDBOpenHelper;
-import nerd.tuxmobil.fahrplan.congress.persistence.MetaDBOpenHelper;
+import nerd.tuxmobil.fahrplan.congress.models.Meta;
+import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 import nerd.tuxmobil.fahrplan.congress.serialization.exceptions.MissingXmlAttributeException;
 import nerd.tuxmobil.fahrplan.congress.utils.DateHelper;
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
@@ -47,14 +40,17 @@ public class FahrplanParser {
 
     private Context context;
 
-    public FahrplanParser(Context context) {
+    private AppRepository appRepository;
+
+    public FahrplanParser(Context context, AppRepository appRepository) {
         task = null;
         MyApp.parser = this;
         this.context = context;
+        this.appRepository = appRepository;
     }
 
     public void parse(String fahrplan, String eTag) {
-        task = new ParserTask(listener, context);
+        task = new ParserTask(context, appRepository, listener);
         task.execute(fahrplan, eTag);
     }
 
@@ -78,9 +74,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
 
     private List<Lecture> lectures;
 
-    private MetaInfo meta;
-
-    private MetaDBOpenHelper metaDB;
+    private Meta meta;
 
     private SQLiteDatabase db;
 
@@ -92,11 +86,14 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
 
     private Context context;
 
-    public ParserTask(FahrplanParser.OnParseCompleteListener listener, Context context) {
+    private AppRepository appRepository;
+
+    public ParserTask(Context context, AppRepository appRepository, FahrplanParser.OnParseCompleteListener listener) {
         this.listener = listener;
         this.completed = false;
         this.db = null;
         this.context = context;
+        this.appRepository = appRepository;
     }
 
     public void setListener(FahrplanParser.OnParseCompleteListener listener) {
@@ -127,7 +124,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
     }
 
     private void notifyActivity() {
-        listener.onParseDone(result, meta.version);
+        listener.onParseDone(result, meta.getVersion());
         completed = false;
     }
 
@@ -137,90 +134,6 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
 
         if (listener != null) {
             notifyActivity();
-        }
-    }
-
-    public void storeMeta(Context context, MetaInfo meta) {
-        MyApp.LogDebug(LOG_TAG, "storeMeta");
-        metaDB = new MetaDBOpenHelper(context);
-
-        db = metaDB.getWritableDatabase();
-        ContentValues values = new ContentValues();
-
-        try {
-            db.beginTransaction();
-            db.delete(MetasTable.NAME, null, null);
-            values.put(MetasTable.Columns.NUM_DAYS, meta.numdays);
-            values.put(MetasTable.Columns.VERSION, meta.version);
-            values.put(MetasTable.Columns.TITLE, meta.title);
-            values.put(MetasTable.Columns.SUBTITLE, meta.subtitle);
-            values.put(MetasTable.Columns.DAY_CHANGE_HOUR, meta.dayChangeHour);
-            values.put(MetasTable.Columns.DAY_CHANGE_MINUTE, meta.dayChangeMinute);
-            values.put(MetasTable.Columns.ETAG, meta.eTag);
-
-            db.insert(MetasTable.NAME, null, values);
-            db.setTransactionSuccessful();
-        } catch (SQLException e) {
-        } finally {
-            db.endTransaction();
-            db.close();
-        }
-    }
-
-    public void storeLectureList(Context context, List<Lecture> lectures) {
-        MyApp.LogDebug(LOG_TAG, "storeLectureList");
-        LecturesDBOpenHelper lecturesDB = new LecturesDBOpenHelper(context);
-
-        db = lecturesDB.getWritableDatabase();
-        try {
-            db.beginTransaction();
-            db.delete(LecturesTable.NAME, null, null);
-            for (Lecture lecture : lectures) {
-                if (isCancelled()) {
-                    break;
-                }
-                ContentValues values = new ContentValues();
-                values.put(Columns.EVENT_ID, lecture.lecture_id);
-                values.put(Columns.TITLE, lecture.title);
-                values.put(Columns.SUBTITLE, lecture.subtitle);
-                values.put(Columns.DAY, lecture.day);
-                values.put(Columns.ROOM, lecture.room);
-                values.put(Columns.SLUG, lecture.slug);
-                values.put(Columns.START, lecture.startTime);
-                values.put(Columns.DURATION, lecture.duration);
-                values.put(Columns.SPEAKERS, lecture.speakers);
-                values.put(Columns.TRACK, lecture.track);
-                values.put(Columns.TYPE, lecture.type);
-                values.put(Columns.LANG, lecture.lang);
-                values.put(Columns.ABSTRACT, lecture.abstractt);
-                values.put(Columns.DESCR, lecture.description);
-                values.put(Columns.LINKS, lecture.links);
-                values.put(Columns.REL_START, lecture.relStartTime);
-                values.put(Columns.DATE, lecture.date);
-                values.put(Columns.DATE_UTC, lecture.dateUTC);
-                values.put(Columns.ROOM_IDX, lecture.room_index);
-                values.put(Columns.REC_LICENSE, lecture.recordingLicense);
-                values.put(Columns.REC_OPTOUT,
-                        lecture.recordingOptOut ? Values.REC_OPTOUT_ON : Values.REC_OPTOUT_OFF);
-                values.put(Columns.CHANGED_TITLE, lecture.changedTitle);
-                values.put(Columns.CHANGED_SUBTITLE, lecture.changedSubtitle);
-                values.put(Columns.CHANGED_ROOM, lecture.changedRoom);
-                values.put(Columns.CHANGED_DAY, lecture.changedDay);
-                values.put(Columns.CHANGED_SPEAKERS, lecture.changedSpeakers);
-                values.put(Columns.CHANGED_RECORDING_OPTOUT, lecture.changedRecordingOptOut);
-                values.put(Columns.CHANGED_LANGUAGE, lecture.changedLanguage);
-                values.put(Columns.CHANGED_TRACK, lecture.changedTrack);
-                values.put(Columns.CHANGED_IS_NEW, lecture.changedIsNew);
-                values.put(Columns.CHANGED_TIME, lecture.changedTime);
-                values.put(Columns.CHANGED_DURATION, lecture.changedDuration);
-                values.put(Columns.CHANGED_IS_CANCELED, lecture.changedIsCanceled);
-                db.insert(LecturesTable.NAME, null, values);
-            }
-            db.setTransactionSuccessful();
-        } catch (SQLException e) {
-        } finally {
-            db.endTransaction();
-            db.close();
         }
     }
 
@@ -244,7 +157,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                 switch (eventType) {
                     case XmlPullParser.START_DOCUMENT:
                         lectures = new ArrayList<>();
-                        meta = new MetaInfo();
+                        meta = new Meta();
                         break;
                     case XmlPullParser.END_TAG:
                         name = parser.getName();
@@ -256,7 +169,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                         name = parser.getName();
                         if (name.equals("version")) {
                             parser.next();
-                            meta.version = getSanitizedText(parser);
+                            meta.setVersion(getSanitizedText(parser));
                         }
                         if (name.equals("day")) {
                             String index = parser.getAttributeValue(null, "index");
@@ -417,15 +330,15 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                                         name = parser.getName();
                                         if (name.equals("subtitle")) {
                                             parser.next();
-                                            meta.subtitle = getSanitizedText(parser);
+                                            meta.setSubtitle(getSanitizedText(parser));
                                         }
                                         if (name.equals("title")) {
                                             parser.next();
-                                            meta.title = getSanitizedText(parser);
+                                            meta.setTitle(getSanitizedText(parser));
                                         }
                                         if (name.equals("release")) {
                                             parser.next();
-                                            meta.version = getSanitizedText(parser);
+                                            meta.setVersion(getSanitizedText(parser));
                                         }
                                         if (name.equals("day_change")) {
                                             parser.next();
@@ -448,13 +361,13 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                 return false;
             }
             setChangedFlags(lectures);
-            storeLectureList(context, lectures);
+            appRepository.updateLectures(lectures);
             if (isCancelled()) {
                 return false;
             }
-            meta.numdays = numdays;
-            meta.eTag = eTag;
-            storeMeta(context, meta);
+            meta.setNumDays(numdays);
+            meta.setETag(eTag);
+            appRepository.updateMeta(meta);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
