@@ -176,10 +176,7 @@ public class MainActivity extends BaseActivity implements
         MyApp.LogDebug(LOG_TAG, "Response... " + status);
         MyApp.task_running = TASKS.NONE;
         if (MyApp.meta.getNumDays() == 0) {
-            if (progress != null) {
-                progress.dismiss();
-                progress = null;
-            }
+            hideProgressDialog();
         }
         if ((status == HttpStatus.HTTP_OK) || (status == HttpStatus.HTTP_NOT_MODIFIED)) {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -224,10 +221,7 @@ public class MainActivity extends BaseActivity implements
         MyApp.fahrplan_xml = null;
 
         if (MyApp.meta.getNumDays() == 0) {
-            if (progress != null) {
-                progress.dismiss();
-                progress = null;
-            }
+            hideProgressDialog();
         }
         progressBar.setVisibility(View.INVISIBLE);
         showUpdateAction = true;
@@ -295,10 +289,7 @@ public class MainActivity extends BaseActivity implements
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (progress != null) {
-            progress.dismiss();
-            progress = null;
-        }
+        hideProgressDialog();
     }
 
     @Override
@@ -471,6 +462,13 @@ public class MainActivity extends BaseActivity implements
         int detailView = R.id.detail;
         toggleSidePaneVisibility(manager, detailView);
         supportInvalidateOptionsMenu();
+    }
+
+    private void hideProgressDialog() {
+        if (progress != null) {
+            progress.dismiss();
+            progress = null;
+        }
     }
 
     private void toggleSidePaneVisibility(FragmentManager manager, @IdRes int detailView) {
