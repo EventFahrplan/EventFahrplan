@@ -28,6 +28,7 @@ import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.base.AbstractListFragment;
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
+import nerd.tuxmobil.fahrplan.congress.models.Meta;
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 import nerd.tuxmobil.fahrplan.congress.schedule.MainActivity;
 import nerd.tuxmobil.fahrplan.congress.sharing.LectureSharer;
@@ -128,7 +129,9 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
     private void initStarredList() {
         FragmentActivity activity = getActivity();
         starredList = FahrplanMisc.getStarredLectures(activity);
-        mAdapter = new LectureArrayAdapter(activity, starredList);
+        AppRepository appRepository = AppRepository.Companion.getInstance(activity);
+        Meta meta = appRepository.readMeta();
+        mAdapter = new LectureArrayAdapter(activity, starredList, meta.getNumDays());
         MyApp.LogDebug(LOG_TAG, "initStarredList: " + starredList.size() + " favorites");
         mListView.setAdapter(mAdapter);
     }

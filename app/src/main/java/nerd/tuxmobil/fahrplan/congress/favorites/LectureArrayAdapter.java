@@ -15,8 +15,8 @@ public class LectureArrayAdapter extends LecturesAdapter {
 
     private final Time now;
 
-    LectureArrayAdapter(Context context, List<Lecture> list) {
-        super(context, R.layout.lecture_change_row, list);
+    LectureArrayAdapter(Context context, List<Lecture> list, int numDays) {
+        super(context, R.layout.lecture_change_row, list, numDays);
         now = new Time();
     }
 

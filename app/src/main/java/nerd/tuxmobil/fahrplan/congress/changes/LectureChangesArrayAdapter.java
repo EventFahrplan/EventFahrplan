@@ -15,8 +15,8 @@ import nerd.tuxmobil.fahrplan.congress.utils.DateHelper;
 
 public class LectureChangesArrayAdapter extends LecturesAdapter {
 
-    LectureChangesArrayAdapter(Context context, List<Lecture> list) {
-        super(context, R.layout.lecture_change_row, list);
+    LectureChangesArrayAdapter(Context context, List<Lecture> list, int numDays) {
+        super(context, R.layout.lecture_change_row, list, numDays);
     }
 
     @Override

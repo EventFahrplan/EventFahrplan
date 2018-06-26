@@ -2,6 +2,7 @@ package nerd.tuxmobil.fahrplan.congress.changes;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,8 @@ import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.base.AbstractListFragment;
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
+import nerd.tuxmobil.fahrplan.congress.models.Meta;
+import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
 
 
@@ -70,8 +73,10 @@ public class ChangeListFragment extends AbstractListFragment {
             sidePane = args.getBoolean(BundleKeys.SIDEPANE);
         }
 
-        changesList = FahrplanMisc.readChanges(getActivity());
-        mAdapter = new LectureChangesArrayAdapter(getActivity(), changesList);
+        FragmentActivity activity = getActivity();
+        changesList = FahrplanMisc.readChanges(activity);
+        Meta meta = AppRepository.Companion.getInstance(activity).readMeta();
+        mAdapter = new LectureChangesArrayAdapter(activity, changesList, meta.getNumDays());
         MyApp.LogDebug(LOG_TAG, "onCreate, " + changesList.size() + " changes");
     }
 

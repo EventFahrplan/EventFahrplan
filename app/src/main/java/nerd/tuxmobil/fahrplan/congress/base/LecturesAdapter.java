@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeSet;
 
-import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.extensions.Contexts;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
@@ -32,14 +31,16 @@ public abstract class LecturesAdapter extends ArrayAdapter<Lecture> {
     protected final Context context;
 
     private final List<Lecture> list;
+    private final int numDays;
     private ArrayList<Integer> mMapper;
     private ArrayList<String> mSeparatorStrings;
     private TreeSet<Integer> mSeparatorsSet;
 
-    public LecturesAdapter(Context context, @LayoutRes int layout, List<Lecture> list) {
+    public LecturesAdapter(Context context, @LayoutRes int layout, List<Lecture> list, int numDays) {
         super(context, layout, list);
         this.context = new ContextThemeWrapper(context, R.style.Theme_AppCompat_Light);
         this.list = list;
+        this.numDays = numDays;
         initMapper();
     }
 
@@ -197,7 +198,7 @@ public abstract class LecturesAdapter extends ArrayAdapter<Lecture> {
             day = l.day;
             if (day != lastDay) {
                 lastDay = day;
-                if (MyApp.meta.getNumDays() > 1) {
+                if (numDays > 1) {
                     String formattedDate = DateHelper.getFormattedDate(l.dateUTC);
                     String dayDateSeparator = String.format(daySeparator, day, formattedDate);
                     mSeparatorStrings.add(dayDateSeparator);
