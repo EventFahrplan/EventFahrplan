@@ -4,7 +4,7 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent
 
 ext.set("APP_VERSION", "${gitSha()}")
 
-apply plugin: 'com.android.application'
+apply plugin: "com.android.application"
 apply plugin: "kotlin-android"
 apply plugin: "org.sonarqube"
 apply from: "../sonarqube.gradle"
