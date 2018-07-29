@@ -11,7 +11,7 @@ object Versions {
     val junit = "4.12"
     val kotlin = "1.2.51"
     val mockito = "2.20.0"
-    val okhttp = "3.10.0"
+    val okhttp = "3.11.0"
     val snackengage = "0.15"
     val sonarQubeGradle = "2.6.2"
     val supportLibrary = "26.1.0"
