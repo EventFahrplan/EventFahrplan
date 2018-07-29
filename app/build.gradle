@@ -1,3 +1,4 @@
+import nerd.tuxmobil.fahrplan.congress.Android
 import nerd.tuxmobil.fahrplan.congress.Libs
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
@@ -20,14 +21,14 @@ if (!gradlePropertiesFile.exists()) {
 props.load(new FileInputStream(gradlePropertiesFile))
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "28.0.1"
+    compileSdkVersion Android.compileSdkVersion
+    buildToolsVersion Android.buildToolsVersion
 
     defaultConfig {
         versionCode 44
         versionName "1.33.4"
-        minSdkVersion 14
-        targetSdkVersion 22
+        minSdkVersion Android.minSdkVersion
+        targetSdkVersion Android.targetSdkVersion
 
         archivesBaseName = "Fahrplan-$versionName"
 

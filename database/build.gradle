@@ -1,15 +1,16 @@
+import nerd.tuxmobil.fahrplan.congress.Android
 import nerd.tuxmobil.fahrplan.congress.Libs
 
 apply plugin: "com.android.library"
 apply plugin: "kotlin-android"
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "28.0.1"
+    compileSdkVersion Android.compileSdkVersion
+    buildToolsVersion Android.buildToolsVersion
 
     defaultConfig {
-        minSdkVersion 14
-        targetSdkVersion 22
+        minSdkVersion Android.minSdkVersion
+        targetSdkVersion Android.targetSdkVersion
         versionCode 1
         versionName "1.0.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"

@@ -19,6 +19,13 @@ object Versions {
     val tracedroid = "1.4"
 }
 
+object Android {
+    val buildToolsVersion = "28.0.1"
+    val compileSdkVersion = 26
+    val minSdkVersion = 14
+    val targetSdkVersion = 22
+}
+
 object GradlePlugins {
     val androidGradle = "com.android.tools.build:gradle:${Versions.androidGradle}"
     val gradleVersions = "com.github.ben-manes:gradle-versions-plugin:${Versions.gradleVersions}"
