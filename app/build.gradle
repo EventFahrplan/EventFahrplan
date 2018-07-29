@@ -4,7 +4,7 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent
 
 ext.set("APP_VERSION", "${gitSha()}")
 
-apply plugin: 'com.android.application'
+apply plugin: "com.android.application"
 apply plugin: "kotlin-android"
 apply plugin: "org.sonarqube"
 apply from: "../sonarqube.gradle"
@@ -21,7 +21,7 @@ props.load(new FileInputStream(gradlePropertiesFile))
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "27.0.3"
+    buildToolsVersion "28.0.1"
 
     defaultConfig {
         versionCode 44
