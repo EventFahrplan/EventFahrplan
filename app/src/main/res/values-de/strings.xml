@@ -44,7 +44,6 @@
     <string name="default_alarm_time_title">Wähle eine Standard-Alarmzeit</string>
     <string name="default_alarm_time_dialog_title">Standard-Alarmzeit</string>
     <string name="reminders">Alarme</string>
-    <string name="reminder">Alarm</string>
     <string name="feedback">Feedback</string>
     <string name="delete_all">Alle löschen</string>
     <string name="reminder_ringtone">Alarmton</string>
@@ -92,10 +91,6 @@
     <plurals name="being">
         <item quantity="one">%d ist</item>
         <item quantity="other">%d sind</item>
-    </plurals>
-    <plurals name="changes_notification">
-        <item quantity="one">%d Vortrag wurde geändert.</item>
-        <item quantity="other">%d Vorträge wurden geändert.</item>
     </plurals>
     <string name="general_settings">Allgemein</string>
     <string name="schedule_udpate">Fahrplanaktualisierung</string>
@@ -164,5 +159,22 @@
     <string name="trace_droid_app_chooser_title">
         Entwurf öffnen mit &#8230;
     </string>
+
+    <!-- Notifications -->
+    <string name="notifications_event_alarm_channel_description">
+        Von der Nutzerin für verschiedende Vorträge angelegte Alarme.
+    </string>
+    <string name="notifications_event_alarm_channel_name">Vortragsalarme</string>
+    <string name="notifications_event_alarm_content_text">Vortragsalarm</string>
+    <string name="notifications_event_alarm_content_title">@string/app_name</string>
+    <string name="notifications_schedule_update_channel_description">
+        Automatische Aktualisierung des Programms. Diese kann
+        in den Einstellungen der App konfiguriert werden.
+    </string>
+    <string name="notifications_schedule_update_channel_name">Fahrplan-Aktualisierungen</string>
+    <plurals name="notifications_schedule_changes">
+        <item quantity="one"><xliff:g id="count" example="1">%d</xliff:g> Vortrag wurde geändert.</item>
+        <item quantity="other"><xliff:g id="count" example="3">%d</xliff:g> Vorträge wurden geändert.</item>
+    </plurals>
 
 </resources>

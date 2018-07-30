@@ -46,7 +46,6 @@
     <!-- Synchronize with @integers/default_alarm_time_index and string-array/alarm_time_values -->
     <string name="default_alarm_time_value" translatable="false">10</string>
     <string name="reminders">Alarms</string>
-    <string name="reminder">Alarm</string>
     <string name="feedback">Feedback</string>
     <string name="delete_all">Delete all</string>
     <string name="reminder_ringtone">Alarm tone</string>
@@ -102,10 +101,6 @@
     <plurals name="being">
         <item quantity="one">%d is</item>
         <item quantity="other">%d are</item>
-    </plurals>
-    <plurals name="changes_notification">
-        <item quantity="one">%d lecture has changed.</item>
-        <item quantity="other">%d lectures have been changed.</item>
     </plurals>
     <string name="dash" translatable="false"><xliff:g id="dash">—</xliff:g></string>
     <string name="general_settings">General</string>
@@ -178,5 +173,21 @@
     <string name="trace_droid_app_chooser_title">
         Open draft with &#8230;
     </string>
+
+    <!-- Notifications -->
+    <string name="notifications_event_alarm_channel_description">
+        Alarms created by the user for various events.
+    </string>
+    <string name="notifications_event_alarm_channel_name">Alarms for events</string>
+    <string name="notifications_event_alarm_content_text">Alarm for event</string>
+    <string name="notifications_event_alarm_content_title">@string/app_name</string>
+    <string name="notifications_schedule_update_channel_description">
+        Automatic updates of the schedule which can be configured in the app settings.
+    </string>
+    <string name="notifications_schedule_update_channel_name">Schedule updates</string>
+    <plurals name="notifications_schedule_changes">
+        <item quantity="one"><xliff:g id="count" example="1">%d</xliff:g> lecture has changed.</item>
+        <item quantity="other"><xliff:g id="count" example="3">%d</xliff:g> lectures have been changed.</item>
+    </plurals>
 
 </resources>

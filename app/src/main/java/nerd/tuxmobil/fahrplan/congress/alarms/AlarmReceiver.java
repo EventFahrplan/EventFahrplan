@@ -1,7 +1,5 @@
 package nerd.tuxmobil.fahrplan.congress.alarms;
 
-import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -11,16 +9,14 @@ import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.content.ContextCompat;
 
 import org.ligi.tracedroid.logging.Log;
 
 import nerd.tuxmobil.fahrplan.congress.MyApp;
-import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.autoupdate.UpdateService;
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.exceptions.BuilderException;
-import nerd.tuxmobil.fahrplan.congress.extensions.Contexts;
+import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper;
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 import nerd.tuxmobil.fahrplan.congress.schedule.MainActivity;
 
@@ -49,8 +45,6 @@ public final class AlarmReceiver extends BroadcastReceiver {
                     .getLongExtra(BundleKeys.ALARM_START_TIME, System.currentTimeMillis());
             String title = intent.getStringExtra(BundleKeys.ALARM_TITLE);
             //Toast.makeText(context, "Alarm worked.", Toast.LENGTH_LONG).show();
-            NotificationManager nm = Contexts.getNotificationManager(context);
-            Notification notify = new Notification();
 
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
             boolean insistent = prefs.getBoolean("insistent", false);
@@ -63,24 +57,11 @@ public final class AlarmReceiver extends BroadcastReceiver {
             PendingIntent contentIntent = PendingIntent
                     .getActivity(context, lid, notificationIntent, PendingIntent.FLAG_ONE_SHOT);
 
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
-            int reminderColor = ContextCompat.getColor(context, R.color.colorAccent);
-            notify = builder.setSound(Uri.parse(prefs.getString("reminder_tone", "")))
-                    .setAutoCancel(true)
-                    .setDefaults(Notification.DEFAULT_LIGHTS | Notification.DEFAULT_VIBRATE)
-                    .setSmallIcon(R.drawable.ic_notification)
-                    .setColor(reminderColor)
-                    .setContentIntent(contentIntent)
-                    .setContentText(context.getString(R.string.reminder))
-                    .setContentTitle(title)
-                    .setWhen(when).build();
-
+            NotificationHelper notificationHelper = new NotificationHelper(context);
+            Uri soundUri = Uri.parse(prefs.getString("reminder_tone", ""));
+            NotificationCompat.Builder builder = notificationHelper.getEventAlarmNotificationBuilder(contentIntent, title, when, soundUri);
             MyApp.LogDebug("alarm", "insistent is " + insistent);
-            if (insistent) {
-                notify.flags |= Notification.FLAG_INSISTENT;
-            }
-
-            nm.notify(1, notify);
+            notificationHelper.notify(NotificationHelper.EVENT_ALARM_ID, builder, insistent);
 
             AppRepository.Companion.getInstance(context).deleteAlarmForEventId(lecture_id);
 

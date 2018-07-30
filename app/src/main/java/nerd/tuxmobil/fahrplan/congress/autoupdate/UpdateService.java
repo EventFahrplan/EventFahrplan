@@ -1,8 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress.autoupdate;
 
 import android.app.IntentService;
-import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -14,7 +12,6 @@ import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.text.format.Time;
 
@@ -32,6 +29,7 @@ import nerd.tuxmobil.fahrplan.congress.models.Lecture;
 import nerd.tuxmobil.fahrplan.congress.net.ConnectivityStateReceiver;
 import nerd.tuxmobil.fahrplan.congress.net.CustomHttpClient.HTTP_STATUS;
 import nerd.tuxmobil.fahrplan.congress.net.FetchFahrplan;
+import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper;
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 import nerd.tuxmobil.fahrplan.congress.schedule.MainActivity;
 import nerd.tuxmobil.fahrplan.congress.serialization.FahrplanParser;
@@ -65,18 +63,11 @@ public class UpdateService extends IntentService implements
     }
 
     private void showScheduleUpdateNotification(String version, int changesCount) {
-        String changesTxt = getResources().getQuantityString(R.plurals.changes_notification,
-                changesCount, changesCount);
-
         Intent notificationIntent = new Intent(this, MainActivity.class);
         notificationIntent.setFlags(
                 Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
         PendingIntent contentIntent = PendingIntent
                 .getActivity(this, 0, notificationIntent, PendingIntent.FLAG_ONE_SHOT);
-
-        int reminderColor = ContextCompat.getColor(this, R.color.colorActionBar);
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        String reminderTone = prefs.getString("reminder_tone", "");
 
         String contentText;
         if (TextUtils.isEmpty(version)) {
@@ -85,19 +76,13 @@ public class UpdateService extends IntentService implements
             contentText = getString(R.string.schedule_updated_to, version);
         }
 
-        Notification notification = new NotificationCompat.Builder(this)
-                .setAutoCancel(true)
-                .setContentText(contentText)
-                .setContentTitle(getString(R.string.app_name))
-                .setDefaults(Notification.DEFAULT_LIGHTS)
-                .setSmallIcon(R.drawable.ic_notification)
-                .setSound(Uri.parse(reminderTone))
-                .setContentIntent(contentIntent)
-                .setSubText(changesTxt)
-                .setColor(reminderColor)
-                .build();
-        NotificationManager manager = Contexts.getNotificationManager(this);
-        manager.notify(2, notification);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String reminderTone = prefs.getString("reminder_tone", "");
+        Uri soundUri = Uri.parse(reminderTone);
+
+        NotificationHelper notificationHelper = new NotificationHelper(this);
+        NotificationCompat.Builder builder = notificationHelper.getScheduleUpdateNotificationBuilder(contentIntent, contentText, changesCount, soundUri);
+        notificationHelper.notify(NotificationHelper.SCHEDULE_UPDATE_ID, builder);
     }
 
     public void parseFahrplan() {
