@@ -48,7 +48,10 @@ android {
         release {
             zipAlignEnabled true
             minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-project.txt'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'),
+                    'proguard-rules/proguard-project.txt',
+                    'proguard-rules/okhttp3.pro',
+                    'proguard-rules/okio.pro'
         }
     }
 
