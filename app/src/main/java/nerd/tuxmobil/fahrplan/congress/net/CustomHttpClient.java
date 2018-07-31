@@ -33,7 +33,8 @@ public class CustomHttpClient {
         HTTP_WRONG_HTTP_CREDENTIALS,
         HTTP_CONNECT_TIMEOUT,
         HTTP_CANCELLED,
-        HTTP_NOT_MODIFIED
+        HTTP_NOT_MODIFIED,
+        HTTP_NOT_FOUND
     }
 
     private static SSLException lastSSLException = null;
@@ -105,6 +106,11 @@ public class CustomHttpClient {
                 break;
             case HTTP_NOT_MODIFIED:
                 Toast.makeText(ctx, R.string.uptodate, Toast.LENGTH_SHORT).show();
+                break;
+            case HTTP_NOT_FOUND:
+                AlertDialogHelper.showErrorDialog(ctx,
+                        R.string.dlg_err_connection_failed,
+                        R.string.dlg_err_failed_not_found, (Object) null);
                 break;
         }
     }

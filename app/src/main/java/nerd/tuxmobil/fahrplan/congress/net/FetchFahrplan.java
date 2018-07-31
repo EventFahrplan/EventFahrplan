@@ -166,6 +166,9 @@ class FetchFahrplanTask extends AsyncTask<String, Void, HTTP_STATUS> {
             if (statusCode == 401) {
                 return HTTP_STATUS.HTTP_WRONG_HTTP_CREDENTIALS;
             }
+            if (statusCode == 404) {
+                return HTTP_STATUS.HTTP_NOT_FOUND;
+            }
             return HTTP_STATUS.HTTP_COULD_NOT_CONNECT;
         }
 

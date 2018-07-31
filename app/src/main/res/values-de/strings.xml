@@ -16,6 +16,7 @@
 	<string name="dlg_err_failed_timeout">Server antwortet nicht (Zeitüberschreitung).
 	</string>
     <string name="dlg_err_failed_connect_failure">Unbekannter Verbindungsfehler</string>
+    <string name="dlg_err_failed_not_found">Ungültige Fahrplan-Adresse</string>
     <string name="dlg_err_failed_encoding_failure">Encodingfehler</string>
     <string name="dlg_err_failed_parse_failure">Kann Antwort nicht dekodieren.</string>
     <string name="dlg_err_failed_ssl_failure">SSL Fehler</string>

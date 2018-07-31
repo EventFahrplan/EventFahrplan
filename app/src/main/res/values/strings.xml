@@ -16,6 +16,7 @@
 	<string name="dlg_err_failed_timeout">Server doesn\'t respond (Timeout).
 	</string>
     <string name="dlg_err_failed_connect_failure">Unknown connection failure</string>
+    <string name="dlg_err_failed_not_found">Invalid schedule URL</string>
     <string name="dlg_err_failed_encoding_failure">Encoding failure</string>
     <string name="dlg_err_failed_parse_failure">Couldn\'t parse response</string>
     <string name="dlg_err_failed_ssl_failure">SSL failure</string>
