@@ -38,7 +38,11 @@ public class AboutDialog extends DialogFragment {
         TextView text = view.findViewById(R.id.eventVersion);
         text.setText(getString(R.string.fahrplan) + " " + MyApp.meta.getVersion());
         text = view.findViewById(R.id.eventTitle);
-        text.setText(MyApp.meta.getTitle());
+        String title = MyApp.meta.getTitle();
+        if (TextUtils.isEmpty(title)) {
+            title = getString(R.string.app_name);
+        }
+        text.setText(title);
         text = view.findViewById(R.id.eventSubtitle);
         String subtitle = MyApp.meta.getSubtitle();
         if (TextUtils.isEmpty(subtitle)) {
