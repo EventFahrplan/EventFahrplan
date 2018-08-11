@@ -29,7 +29,7 @@ public class ConnectivityStateReceiver extends BroadcastReceiver {
 
             disableReceiver(context);
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-            boolean doAutoUpdates = prefs.getBoolean("auto_update", false);
+            boolean doAutoUpdates = prefs.getBoolean("auto_update", true);
             if (doAutoUpdates) {
                 UpdateService.start(context);
             }

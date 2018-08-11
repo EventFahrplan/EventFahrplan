@@ -67,7 +67,7 @@ public final class OnBootReceiver extends BroadcastReceiver {
 
         // start auto updates
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        boolean doAutoUpdates = prefs.getBoolean("auto_update", false);
+        boolean doAutoUpdates = prefs.getBoolean("auto_update", true);
         if (doAutoUpdates) {
             long lastFetch = prefs.getLong("last_fetch", 0);
             long nowMillis;
