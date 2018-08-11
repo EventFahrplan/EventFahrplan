@@ -191,4 +191,8 @@
         <item quantity="other"><xliff:g id="count" example="3">%d</xliff:g> lectures have been changed.</item>
     </plurals>
 
+    <!-- Preferences -->
+    <string name="preferences_reminder_tone_default_value" translatable="false"/>
+    <string name="preferences_schedule_url_default_value" translatable="false"/>
+
 </resources>

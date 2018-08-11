@@ -11,6 +11,7 @@ import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
 
 import nerd.tuxmobil.fahrplan.congress.MyApp;
+import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.autoupdate.UpdateService;
 import nerd.tuxmobil.fahrplan.congress.extensions.Contexts;
 
@@ -29,7 +30,8 @@ public class ConnectivityStateReceiver extends BroadcastReceiver {
 
             disableReceiver(context);
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-            boolean doAutoUpdates = prefs.getBoolean("auto_update", true);
+            boolean defaultValue = context.getResources().getBoolean(R.bool.preferences_auto_update_enabled_default_value);
+            boolean doAutoUpdates = prefs.getBoolean("auto_update", defaultValue);
             if (doAutoUpdates) {
                 UpdateService.start(context);
             }

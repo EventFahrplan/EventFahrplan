@@ -77,7 +77,8 @@ public class UpdateService extends IntentService implements
         }
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        String reminderTone = prefs.getString("reminder_tone", "");
+        String defaultReminderTone = getString(R.string.preferences_reminder_tone_default_value);
+        String reminderTone = prefs.getString("reminder_tone", defaultReminderTone);
         Uri soundUri = Uri.parse(reminderTone);
 
         NotificationHelper notificationHelper = new NotificationHelper(this);
@@ -123,7 +124,8 @@ public class UpdateService extends IntentService implements
     private void fetchFahrplan(FetchFahrplan.OnDownloadCompleteListener completeListener) {
         if (MyApp.task_running == TASKS.NONE) {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-            String alternateURL = prefs.getString(BundleKeys.PREFS_SCHEDULE_URL, null);
+            String defaultScheduleUrl = getString(R.string.preferences_schedule_url_default_value);
+            String alternateURL = prefs.getString(BundleKeys.PREFS_SCHEDULE_URL, defaultScheduleUrl);
             String url;
             if (TextUtils.isEmpty(alternateURL)) {
                 url = BuildConfig.SCHEDULE_URL;
