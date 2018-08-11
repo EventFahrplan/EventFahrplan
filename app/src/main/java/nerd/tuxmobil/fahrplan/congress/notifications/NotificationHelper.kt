@@ -15,6 +15,10 @@ import nerd.tuxmobil.fahrplan.congress.extensions.getNotificationManager
 
 internal class NotificationHelper(context: Context) : ContextWrapper(context) {
 
+    private val notificationManager: NotificationManager by lazy {
+        getNotificationManager()
+    }
+
     init {
         createNotificationChannel(EVENT_ALARM_CHANNEL_ID, eventAlarmChannelName, eventAlarmChannelDescription)
         createNotificationChannel(SCHEDULE_UPDATE_CHANNEL_ID, scheduleUpdateChannelName, scheduleUpdateChannelDescription)
@@ -105,10 +109,6 @@ internal class NotificationHelper(context: Context) : ContextWrapper(context) {
 
     private val smallIcon: Int
         get() = R.drawable.ic_notification
-
-    private val notificationManager: NotificationManager by lazy {
-        getNotificationManager()
-    }
 
     companion object {
         private const val EVENT_ALARM_CHANNEL_ID = "EVENT_ALARM_CHANNEL"
