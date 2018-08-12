@@ -5,8 +5,9 @@
         <CheckBoxPreference
             android:key="auto_update"
             android:title="@string/pref_auto_download"
-            android:defaultValue="true"/>
+            android:defaultValue="@bool/preferences_auto_update_enabled_default_value" />
         <EditTextPreference
+            android:defaultValue="@string/preferences_schedule_url_default_value"
             android:key="schedule_url"
             android:title="@string/schedule_url"
             android:hint="https://yourhost/schedule.xml"
@@ -15,16 +16,18 @@
         <CheckBoxPreference
             android:key="alternative_highlight"
             android:title="@string/alternative_highlight"
-            android:defaultValue="true" />
+            android:defaultValue="@bool/preferences_alternative_highlight_enabled_default_value" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/reminders">
         <RingtonePreference
+            android:defaultValue="@string/preferences_reminder_tone_default_value"
             android:title="@string/reminder_ringtone"
             android:key="reminder_tone"
             android:ringtoneType="notification|alarm"
             android:showDefault="true"
             android:showSilent="true"/>
         <CheckBoxPreference
+            android:defaultValue="@bool/preferences_insistent_alarm_enabled_default_value"
             android:title="@string/insistent_alarm"
             android:key="insistent"/>
         <ListPreference

@@ -13,6 +13,7 @@ import android.support.v4.app.NotificationCompat;
 import org.ligi.tracedroid.logging.Log;
 
 import nerd.tuxmobil.fahrplan.congress.MyApp;
+import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.autoupdate.UpdateService;
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.exceptions.BuilderException;
@@ -47,7 +48,8 @@ public final class AlarmReceiver extends BroadcastReceiver {
             //Toast.makeText(context, "Alarm worked.", Toast.LENGTH_LONG).show();
 
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-            boolean insistent = prefs.getBoolean("insistent", false);
+            boolean defaultValue = context.getResources().getBoolean(R.bool.preferences_insistent_alarm_enabled_default_value);
+            boolean insistent = prefs.getBoolean("insistent", defaultValue);
 
             Intent notificationIntent = new Intent(context, MainActivity.class);
             notificationIntent.putExtra("lecture_id", lecture_id);
@@ -58,7 +60,8 @@ public final class AlarmReceiver extends BroadcastReceiver {
                     .getActivity(context, lid, notificationIntent, PendingIntent.FLAG_ONE_SHOT);
 
             NotificationHelper notificationHelper = new NotificationHelper(context);
-            Uri soundUri = Uri.parse(prefs.getString("reminder_tone", ""));
+            String defaultReminderTone = context.getString(R.string.preferences_reminder_tone_default_value);
+            Uri soundUri = Uri.parse(prefs.getString("reminder_tone", defaultReminderTone));
             NotificationCompat.Builder builder = notificationHelper.getEventAlarmNotificationBuilder(contentIntent, title, when, soundUri);
             MyApp.LogDebug("alarm", "insistent is " + insistent);
             notificationHelper.notify(NotificationHelper.EVENT_ALARM_ID, builder, insistent);

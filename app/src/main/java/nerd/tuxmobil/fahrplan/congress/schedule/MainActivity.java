@@ -301,7 +301,8 @@ public class MainActivity extends BaseActivity implements
     public void fetchFahrplan(FetchFahrplan.OnDownloadCompleteListener completeListener) {
         if (MyApp.task_running == TASKS.NONE) {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-            String alternateURL = prefs.getString(BundleKeys.PREFS_SCHEDULE_URL, null);
+            String defaultScheduleUrl = getString(R.string.preferences_schedule_url_default_value);
+            String alternateURL = prefs.getString(BundleKeys.PREFS_SCHEDULE_URL, defaultScheduleUrl);
             String url;
             if (!TextUtils.isEmpty(alternateURL)) {
                 url = alternateURL;
@@ -483,10 +484,13 @@ public class MainActivity extends BaseActivity implements
                 }
                 break;
             case MyApp.SETTINGS:
-                if ((resultCode == Activity.RESULT_OK) && (intent.getBooleanExtra(BundleKeys.PREFS_ALTERNATIVE_HIGHLIGHT, true))) {
-                    if (findViewById(R.id.schedule) != null) {
-                        replaceFragment(R.id.schedule, new FahrplanFragment(),
-                                FahrplanFragment.FRAGMENT_TAG);
+                if (resultCode == Activity.RESULT_OK) {
+                    boolean defaultValue = getResources().getBoolean(R.bool.preferences_alternative_highlight_enabled_default_value);
+                    if (intent.getBooleanExtra(BundleKeys.PREFS_ALTERNATIVE_HIGHLIGHT, defaultValue)) {
+                        if (findViewById(R.id.schedule) != null) {
+                            replaceFragment(R.id.schedule, new FahrplanFragment(),
+                                    FahrplanFragment.FRAGMENT_TAG);
+                        }
                     }
                 }
         }

@@ -12,6 +12,7 @@ import org.ligi.tracedroid.logging.Log;
 import java.util.List;
 
 import nerd.tuxmobil.fahrplan.congress.MyApp;
+import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmReceiver;
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices;
 import nerd.tuxmobil.fahrplan.congress.autoupdate.UpdateService;
@@ -67,7 +68,8 @@ public final class OnBootReceiver extends BroadcastReceiver {
 
         // start auto updates
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        boolean doAutoUpdates = prefs.getBoolean("auto_update", false);
+        boolean defaultValue = context.getResources().getBoolean(R.bool.preferences_auto_update_enabled_default_value);
+        boolean doAutoUpdates = prefs.getBoolean("auto_update", defaultValue);
         if (doAutoUpdates) {
             long lastFetch = prefs.getLong("last_fetch", 0);
             long nowMillis;

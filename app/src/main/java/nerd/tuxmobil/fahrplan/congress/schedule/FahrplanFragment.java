@@ -591,8 +591,9 @@ public class FahrplanFragment extends Fragment implements
 
     private void setLectureBackground(Lecture event, View eventView) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        boolean defaultValue = getResources().getBoolean(R.bool.preferences_alternative_highlight_enabled_default_value);
         boolean alternativeHighlightingIsEnabled = prefs.getBoolean(
-                BundleKeys.PREFS_ALTERNATIVE_HIGHLIGHT, true);
+                BundleKeys.PREFS_ALTERNATIVE_HIGHLIGHT, defaultValue);
         boolean eventIsFavored = event.highlight;
         @ColorRes int backgroundColorResId;
         if (eventIsFavored) {
