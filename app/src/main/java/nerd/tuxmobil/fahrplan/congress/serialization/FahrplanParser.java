@@ -356,7 +356,9 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                 }
                 eventType = parser.next();
             }
-            if (!schedule_complete) return false;
+            if (!schedule_complete) {
+                return false;
+            }
             if (isCancelled()) {
                 return false;
             }
