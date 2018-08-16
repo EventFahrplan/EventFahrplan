@@ -391,7 +391,6 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
             lectureIndex--;
         }
 
-        lectureIndex = 0;
         for (lectureIndex = 0; lectureIndex < lectures.size(); lectureIndex++) {
             Lecture newLecture = lectures.get(lectureIndex);
             Lecture oldLecture = LectureUtils.getLecture(oldLectures, newLecture.lecture_id);
