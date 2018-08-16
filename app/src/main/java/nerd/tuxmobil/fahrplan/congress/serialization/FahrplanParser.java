@@ -2,7 +2,6 @@ package nerd.tuxmobil.fahrplan.congress.serialization;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Xml;
@@ -76,8 +75,6 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
 
     private Meta meta;
 
-    private SQLiteDatabase db;
-
     private FahrplanParser.OnParseCompleteListener listener;
 
     private boolean completed;
@@ -91,7 +88,6 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
     ParserTask(Context context, AppRepository appRepository, FahrplanParser.OnParseCompleteListener listener) {
         this.listener = listener;
         this.completed = false;
-        this.db = null;
         this.context = context;
         this.appRepository = appRepository;
     }
@@ -114,13 +110,6 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
             // TODO Clear database on validation failure.
         }
         return parsingSuccessful;
-    }
-
-    protected void onCancelled() {
-        MyApp.LogDebug(LOG_TAG, "parse cancelled");
-        if (db != null) {
-            db.close();
-        }
     }
 
     private void notifyActivity() {
