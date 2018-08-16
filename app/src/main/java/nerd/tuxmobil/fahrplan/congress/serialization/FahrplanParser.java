@@ -70,8 +70,6 @@ public class FahrplanParser {
 
 class ParserTask extends AsyncTask<String, Void, Boolean> {
 
-    private String LOG_TAG = "ParseFahrplan";
-
     private List<Lecture> lectures;
 
     private Meta meta;
@@ -168,8 +166,6 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                             date = parser.getAttributeValue(null, "date");
                             String end = parser.getAttributeValue(null, "end");
                             if (end == null) {
-                                MyApp.LogDebug(LOG_TAG,
-                                        "Current day: date = " + date + ", index = " + day);
                                 throw new MissingXmlAttributeException("day", "end");
                             }
                             dayChangeTime = DateHelper.getDayChange(end);
@@ -194,8 +190,6 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                             lecture.room = room;
                             lecture.date = date;
                             lecture.room_index = room_map_index;
-                            MyApp.LogDebug(LOG_TAG,
-                                    "room " + room + " with index " + room_map_index);
                             eventType = parser.next();
                             boolean lecture_done = false;
                             while (eventType != XmlPullParser.END_DOCUMENT
@@ -388,7 +382,6 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
 
             if (oldLecture == null) {
                 newLecture.changedIsNew = true;
-                MyApp.LogDebug(LOG_TAG, "lecture " + newLecture.title + " is new.");
                 changed = true;
                 continue;
             }
@@ -400,52 +393,42 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
 
             if (!(newLecture.title.equals(oldLecture.title))) {
                 newLecture.changedTitle = true;
-                MyApp.LogDebug(LOG_TAG, "title changed to " + newLecture.title);
                 changed = true;
             }
             if (!(newLecture.subtitle.equals(oldLecture.subtitle))) {
                 newLecture.changedSubtitle = true;
-                MyApp.LogDebug(LOG_TAG, "subtitle changed to " + newLecture.subtitle);
                 changed = true;
             }
             if (!(newLecture.speakers.equals(oldLecture.speakers))) {
                 newLecture.changedSpeakers = true;
-                MyApp.LogDebug(LOG_TAG, "speakers changed to " + newLecture.speakers);
                 changed = true;
             }
             if (!(newLecture.lang.equals(oldLecture.lang))) {
                 newLecture.changedLanguage = true;
-                MyApp.LogDebug(LOG_TAG, "lang changed to " + newLecture.lang);
                 changed = true;
             }
             if (!(newLecture.room.equals(oldLecture.room))) {
                 newLecture.changedRoom = true;
-                MyApp.LogDebug(LOG_TAG, "room changed to " + newLecture.room);
                 changed = true;
             }
             if (!(newLecture.track.equals(oldLecture.track))) {
                 newLecture.changedTrack = true;
-                MyApp.LogDebug(LOG_TAG, "track changed to " + newLecture.track);
                 changed = true;
             }
             if (newLecture.recordingOptOut != oldLecture.recordingOptOut) {
                 newLecture.changedRecordingOptOut = true;
-                MyApp.LogDebug(LOG_TAG, "recordingOptOut changed to " + newLecture.recordingOptOut);
                 changed = true;
             }
             if (newLecture.day != oldLecture.day) {
                 newLecture.changedDay = true;
-                MyApp.LogDebug(LOG_TAG, "day changed to " + newLecture.day);
                 changed = true;
             }
             if (newLecture.startTime != oldLecture.startTime) {
                 newLecture.changedTime = true;
-                MyApp.LogDebug(LOG_TAG, "startTime changed to " + newLecture.startTime);
                 changed = true;
             }
             if (newLecture.duration != oldLecture.duration) {
                 newLecture.changedDuration = true;
-                MyApp.LogDebug(LOG_TAG, "duration changed to " + newLecture.duration);
                 changed = true;
             }
 
@@ -456,7 +439,6 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
             Lecture oldLecture = oldLectures.get(lectureIndex);
             oldLecture.cancel();
             lectures.add(oldLecture);
-            MyApp.LogDebug(LOG_TAG, "lecture " + oldLecture.title + " was canceled.");
             changed = true;
         }
 
