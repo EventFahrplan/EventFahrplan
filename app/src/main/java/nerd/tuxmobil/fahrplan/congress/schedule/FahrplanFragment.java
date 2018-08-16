@@ -892,6 +892,7 @@ public class FahrplanFragment extends Fragment implements
         actionBar.setListNavigationCallbacks(arrayAdapter, new OnDaySelectedListener());
     }
 
+    @Override
     public void onParseDone(Boolean result, String version) {
         if (result) {
             if ((MyApp.meta.getNumDays() == 0) || (!version.equals(MyApp.meta.getVersion()))) {
