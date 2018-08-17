@@ -117,7 +117,7 @@ public class MainActivity extends BaseActivity implements
             fetcher = MyApp.fetcher;
         }
         if (MyApp.parser == null) {
-            parser = new FahrplanParser(getApplicationContext());
+            parser = new FahrplanParser();
         } else {
             parser = MyApp.parser;
         }

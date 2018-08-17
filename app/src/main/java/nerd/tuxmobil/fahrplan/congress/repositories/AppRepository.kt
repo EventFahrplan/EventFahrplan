@@ -66,9 +66,6 @@ class AppRepository private constructor(context: Context) {
     fun readLecturesForDayIndexOrderedByDateUtc(dayIndex: Int) =
             lecturesDatabaseRepository.queryLecturesForDayIndexOrderedByDateUtc(dayIndex).toLecturesAppModel()
 
-    fun readLecturesOrderedByDate() =
-            lecturesDatabaseRepository.queryLecturesOrderedByDate().toLecturesAppModel()
-
     fun readLecturesOrderedByDateUtc() =
             lecturesDatabaseRepository.queryLecturesOrderedByDateUtc().toLecturesAppModel()
 

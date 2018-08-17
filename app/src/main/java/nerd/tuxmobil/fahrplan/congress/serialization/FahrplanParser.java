@@ -1,6 +1,5 @@
 package nerd.tuxmobil.fahrplan.congress.serialization;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.util.Xml;
@@ -36,16 +35,13 @@ public class FahrplanParser {
 
     private OnParseCompleteListener listener;
 
-    private Context context;
-
-    public FahrplanParser(Context context) {
+    public FahrplanParser() {
         task = null;
         MyApp.parser = this;
-        this.context = context;
     }
 
     public void parse(String fahrplan, String eTag) {
-        task = new ParserTask(context, listener);
+        task = new ParserTask(listener);
         task.execute(fahrplan, eTag);
     }
 
@@ -75,12 +71,9 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
 
     private boolean result;
 
-    private Context context;
-
-    ParserTask(Context context, FahrplanParser.OnParseCompleteListener listener) {
+    ParserTask(FahrplanParser.OnParseCompleteListener listener) {
         this.listener = listener;
         this.completed = false;
-        this.context = context;
     }
 
     public void setListener(FahrplanParser.OnParseCompleteListener listener) {
@@ -95,8 +88,8 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
     protected Boolean doInBackground(String... args) {
         boolean parsingSuccessful = parseFahrplan(args[0], args[1]);
         if (parsingSuccessful) {
-            DateFieldValidation dateFieldValidation = new DateFieldValidation(context);
-            dateFieldValidation.validate();
+            DateFieldValidation dateFieldValidation = new DateFieldValidation();
+            dateFieldValidation.validate(lectures);
             dateFieldValidation.printValidationErrors();
             // TODO Clear database on validation failure.
         }

@@ -1,25 +1,22 @@
 package nerd.tuxmobil.fahrplan.congress.validation;
 
-import android.content.Context;
+import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
 import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
-import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 import nerd.tuxmobil.fahrplan.congress.utils.DateHelper;
 
 public class DateFieldValidation {
 
     private final List<ValidationError> mValidationErrors;
 
-    private final AppRepository mAppRepository;
-
-    public DateFieldValidation(Context context) {
+    public DateFieldValidation() {
         mValidationErrors = new ArrayList<>();
-        mAppRepository = AppRepository.Companion.getInstance(context);
     }
 
     /**
@@ -44,10 +41,9 @@ public class DateFieldValidation {
      * The time range is defined by the "date" attribute of
      * the "day" fields. Otherwise false is returned.
      */
-    public boolean validate() {
-        // Order by "date" column relying on that the date formatted
-        // in reverse order: yyyy-MM-dd'T'HH:mm:ssZ
-        List<Lecture> lectures = mAppRepository.readLecturesOrderedByDate();
+    public boolean validate(@NonNull List<Lecture> lectures) {
+        // Order lectures by "dateUtc" field (milliseconds)
+        Collections.sort(lectures, (lecture1, lecture2) -> Long.compare(lecture1.getDateUTC(), lecture2.getDateUTC()));
         if (lectures.isEmpty()) {
             return true;
         }

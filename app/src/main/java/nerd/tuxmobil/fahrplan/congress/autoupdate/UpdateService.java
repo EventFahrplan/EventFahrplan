@@ -108,7 +108,7 @@ public class UpdateService extends IntentService implements
     public void parseFahrplan() {
         MyApp.task_running = TASKS.PARSE;
         if (MyApp.parser == null) {
-            parser = new FahrplanParser(getApplicationContext());
+            parser = new FahrplanParser();
         } else {
             parser = MyApp.parser;
         }
