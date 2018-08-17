@@ -475,7 +475,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.context);
             SharedPreferences.Editor edit = prefs.edit();
             edit.putBoolean(BundleKeys.PREFS_CHANGES_SEEN, false);
-            edit.commit();
+            edit.apply();
         }
     }
 
