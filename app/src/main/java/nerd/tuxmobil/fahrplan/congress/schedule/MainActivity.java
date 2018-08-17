@@ -53,6 +53,7 @@ import nerd.tuxmobil.fahrplan.congress.details.EventDetailFragment;
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListActivity;
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListFragment;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
+import nerd.tuxmobil.fahrplan.congress.models.Meta;
 import nerd.tuxmobil.fahrplan.congress.navigation.C3navSnack;
 import nerd.tuxmobil.fahrplan.congress.net.CertificateDialogFragment;
 import nerd.tuxmobil.fahrplan.congress.net.CustomHttpClient;
@@ -115,15 +116,15 @@ public class MainActivity extends BaseActivity implements
         } else {
             fetcher = MyApp.fetcher;
         }
-        AppRepository appRepository = AppRepository.Companion.getInstance(this);
         if (MyApp.parser == null) {
-            parser = new FahrplanParser(getApplicationContext(), appRepository);
+            parser = new FahrplanParser(getApplicationContext());
         } else {
             parser = MyApp.parser;
         }
         progress = null;
         global = (MyApp) getApplicationContext();
 
+        AppRepository appRepository = AppRepository.Companion.getInstance(this);
         MyApp.meta = appRepository.readMeta();
         FahrplanMisc.loadDays(this);
 
@@ -239,6 +240,22 @@ public class MainActivity extends BaseActivity implements
         MyApp.fahrplan_xml = response;
         MyApp.meta.setETag(eTagStr);
         parseFahrplan();
+    }
+
+    @Override
+    public void onUpdateLectures(@NonNull List<Lecture> lectures) {
+        Fragment fragment = findFragment(FahrplanFragment.FRAGMENT_TAG);
+        if (fragment != null && fragment instanceof FahrplanParser.OnParseCompleteListener) {
+            ((FahrplanParser.OnParseCompleteListener) fragment).onUpdateLectures(lectures);
+        }
+    }
+
+    @Override
+    public void onUpdateMeta(@NonNull Meta meta) {
+        Fragment fragment = findFragment(FahrplanFragment.FRAGMENT_TAG);
+        if (fragment != null && fragment instanceof FahrplanParser.OnParseCompleteListener) {
+            ((FahrplanParser.OnParseCompleteListener) fragment).onUpdateMeta(meta);
+        }
     }
 
     @Override

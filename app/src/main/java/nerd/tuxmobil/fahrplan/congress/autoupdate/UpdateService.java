@@ -26,6 +26,7 @@ import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.extensions.Contexts;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
+import nerd.tuxmobil.fahrplan.congress.models.Meta;
 import nerd.tuxmobil.fahrplan.congress.net.ConnectivityStateReceiver;
 import nerd.tuxmobil.fahrplan.congress.net.CustomHttpClient.HTTP_STATUS;
 import nerd.tuxmobil.fahrplan.congress.net.FetchFahrplan;
@@ -48,6 +49,18 @@ public class UpdateService extends IntentService implements
     private FetchFahrplan fetcher;
 
     private FahrplanParser parser;
+
+    @Override
+    public void onUpdateLectures(@NonNull List<Lecture> lectures) {
+        AppRepository appRepository = AppRepository.Companion.getInstance(this);
+        appRepository.updateLectures(lectures);
+    }
+
+    @Override
+    public void onUpdateMeta(@NonNull Meta meta) {
+        AppRepository appRepository = AppRepository.Companion.getInstance(this);
+        appRepository.updateMeta(meta);
+    }
 
     @Override
     public void onParseDone(Boolean result, String version) {
@@ -89,8 +102,7 @@ public class UpdateService extends IntentService implements
     public void parseFahrplan() {
         MyApp.task_running = TASKS.PARSE;
         if (MyApp.parser == null) {
-            AppRepository appRepository = AppRepository.Companion.getInstance(getApplicationContext());
-            parser = new FahrplanParser(getApplicationContext(), appRepository);
+            parser = new FahrplanParser(getApplicationContext());
         } else {
             parser = MyApp.parser;
         }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.util.Xml;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -17,7 +18,6 @@ import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
 import nerd.tuxmobil.fahrplan.congress.models.Meta;
-import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 import nerd.tuxmobil.fahrplan.congress.serialization.exceptions.MissingXmlAttributeException;
 import nerd.tuxmobil.fahrplan.congress.utils.DateHelper;
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
@@ -30,6 +30,10 @@ public class FahrplanParser {
 
     public interface OnParseCompleteListener {
 
+        void onUpdateLectures(@NonNull List<Lecture> lectures);
+
+        void onUpdateMeta(@NonNull Meta meta);
+
         void onParseDone(Boolean result, String version);
     }
 
@@ -39,17 +43,14 @@ public class FahrplanParser {
 
     private Context context;
 
-    private AppRepository appRepository;
-
-    public FahrplanParser(Context context, AppRepository appRepository) {
+    public FahrplanParser(Context context) {
         task = null;
         MyApp.parser = this;
         this.context = context;
-        this.appRepository = appRepository;
     }
 
     public void parse(String fahrplan, String eTag) {
-        task = new ParserTask(context, appRepository, listener);
+        task = new ParserTask(context, listener);
         task.execute(fahrplan, eTag);
     }
 
@@ -83,13 +84,10 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
 
     private Context context;
 
-    private AppRepository appRepository;
-
-    ParserTask(Context context, AppRepository appRepository, FahrplanParser.OnParseCompleteListener listener) {
+    ParserTask(Context context, FahrplanParser.OnParseCompleteListener listener) {
         this.listener = listener;
         this.completed = false;
         this.context = context;
-        this.appRepository = appRepository;
     }
 
     public void setListener(FahrplanParser.OnParseCompleteListener listener) {
@@ -113,6 +111,10 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
     }
 
     private void notifyActivity() {
+        if (result) {
+            listener.onUpdateLectures(lectures);
+            listener.onUpdateMeta(meta);
+        }
         listener.onParseDone(result, meta.getVersion());
         completed = false;
     }
@@ -352,13 +354,11 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                 return false;
             }
             setChangedFlags(lectures);
-            appRepository.updateLectures(lectures);
             if (isCancelled()) {
                 return false;
             }
             meta.setNumDays(numdays);
             meta.setETag(eTag);
-            appRepository.updateMeta(meta);
             return true;
         } catch (Exception e) {
             e.printStackTrace();

@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
@@ -52,6 +53,7 @@ import nerd.tuxmobil.fahrplan.congress.extensions.Contexts;
 import nerd.tuxmobil.fahrplan.congress.models.Alarm;
 import nerd.tuxmobil.fahrplan.congress.models.DateInfo;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
+import nerd.tuxmobil.fahrplan.congress.models.Meta;
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 import nerd.tuxmobil.fahrplan.congress.serialization.FahrplanParser;
 import nerd.tuxmobil.fahrplan.congress.sharing.LectureSharer;
@@ -890,6 +892,18 @@ public class FahrplanFragment extends Fragment implements
                 days_menu);
         arrayAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_list_item);
         actionBar.setListNavigationCallbacks(arrayAdapter, new OnDaySelectedListener());
+    }
+
+    @Override
+    public void onUpdateLectures(@NonNull List<Lecture> lectures) {
+        AppRepository appRepository = AppRepository.Companion.getInstance(context);
+        appRepository.updateLectures(lectures);
+    }
+
+    @Override
+    public void onUpdateMeta(@NonNull Meta meta) {
+        AppRepository appRepository = AppRepository.Companion.getInstance(context);
+        appRepository.updateMeta(meta);
     }
 
     @Override
