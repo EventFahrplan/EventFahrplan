@@ -29,7 +29,7 @@ import java.util.regex.PatternSyntaxException;
 
 import javax.security.auth.x500.X500Principal;
 
-import nerd.tuxmobil.fahrplan.congress.MyApp;
+import nerd.tuxmobil.fahrplan.congress.BuildConfig;
 
 
 /**
@@ -140,7 +140,7 @@ public class DomainNameChecker {
                             if (altNameType == ALT_IPA_NAME) {
                                 String altName = (String) (altNameEntry.get(1));
                                 if (altName != null) {
-                                    if (MyApp.DEBUG) {
+                                    if (BuildConfig.DEBUG) {
                                         Log.d(LOG_TAG, "alternative IP: " + altName);
                                     }
                                     if (thisDomain.equalsIgnoreCase(altName)) {
@@ -213,7 +213,7 @@ public class DomainNameChecker {
             // '*' character, which is contrary to one interpretation of the
             // spec (a valid DNS name must start with a letter); there is no
             // good way around this, -> be strict and return false
-            if (MyApp.DEBUG) {
+            if (BuildConfig.DEBUG) {
                 String errorMessage = e.getMessage();
                 if (errorMessage == null) {
                     errorMessage = "failed to parse certificate";
