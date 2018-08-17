@@ -1,9 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.serialization;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.util.Xml;
 
@@ -15,13 +13,10 @@ import java.util.HashMap;
 import java.util.List;
 
 import nerd.tuxmobil.fahrplan.congress.MyApp;
-import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
 import nerd.tuxmobil.fahrplan.congress.models.Meta;
 import nerd.tuxmobil.fahrplan.congress.serialization.exceptions.MissingXmlAttributeException;
 import nerd.tuxmobil.fahrplan.congress.utils.DateHelper;
-import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
-import nerd.tuxmobil.fahrplan.congress.utils.LectureUtils;
 import nerd.tuxmobil.fahrplan.congress.validation.DateFieldValidation;
 
 import static nerd.tuxmobil.fahrplan.congress.serialization.XmlPullParsers.getSanitizedText;
@@ -347,106 +342,12 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
             if (isCancelled()) {
                 return false;
             }
-            setChangedFlags(lectures);
-            if (isCancelled()) {
-                return false;
-            }
             meta.setNumDays(numdays);
             meta.setETag(eTag);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
             return false;
-        }
-    }
-
-    private void setChangedFlags(List<Lecture> lectures) {
-        List<Lecture> oldLectures;
-        boolean changed = false;
-
-        oldLectures = FahrplanMisc.loadLecturesForAllDays(this.context);
-        if (oldLectures.isEmpty()) {
-            return;
-        }
-
-        int lectureIndex = oldLectures.size() - 1;
-        while (lectureIndex >= 0) {
-            Lecture l = oldLectures.get(lectureIndex);
-            if (l.changedIsCanceled) oldLectures.remove(lectureIndex);
-            lectureIndex--;
-        }
-
-        for (lectureIndex = 0; lectureIndex < lectures.size(); lectureIndex++) {
-            Lecture newLecture = lectures.get(lectureIndex);
-            Lecture oldLecture = LectureUtils.getLecture(oldLectures, newLecture.lecture_id);
-
-            if (oldLecture == null) {
-                newLecture.changedIsNew = true;
-                changed = true;
-                continue;
-            }
-
-            if (oldLecture.equals(newLecture)) {
-                oldLectures.remove(oldLecture);
-                continue;
-            }
-
-            if (!(newLecture.title.equals(oldLecture.title))) {
-                newLecture.changedTitle = true;
-                changed = true;
-            }
-            if (!(newLecture.subtitle.equals(oldLecture.subtitle))) {
-                newLecture.changedSubtitle = true;
-                changed = true;
-            }
-            if (!(newLecture.speakers.equals(oldLecture.speakers))) {
-                newLecture.changedSpeakers = true;
-                changed = true;
-            }
-            if (!(newLecture.lang.equals(oldLecture.lang))) {
-                newLecture.changedLanguage = true;
-                changed = true;
-            }
-            if (!(newLecture.room.equals(oldLecture.room))) {
-                newLecture.changedRoom = true;
-                changed = true;
-            }
-            if (!(newLecture.track.equals(oldLecture.track))) {
-                newLecture.changedTrack = true;
-                changed = true;
-            }
-            if (newLecture.recordingOptOut != oldLecture.recordingOptOut) {
-                newLecture.changedRecordingOptOut = true;
-                changed = true;
-            }
-            if (newLecture.day != oldLecture.day) {
-                newLecture.changedDay = true;
-                changed = true;
-            }
-            if (newLecture.startTime != oldLecture.startTime) {
-                newLecture.changedTime = true;
-                changed = true;
-            }
-            if (newLecture.duration != oldLecture.duration) {
-                newLecture.changedDuration = true;
-                changed = true;
-            }
-
-            oldLectures.remove(oldLecture);
-        }
-
-        for (lectureIndex = 0; lectureIndex < oldLectures.size(); lectureIndex++) {
-            Lecture oldLecture = oldLectures.get(lectureIndex);
-            oldLecture.cancel();
-            lectures.add(oldLecture);
-            changed = true;
-        }
-
-        if (changed) {
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.context);
-            SharedPreferences.Editor edit = prefs.edit();
-            edit.putBoolean(BundleKeys.PREFS_CHANGES_SEEN, false);
-            edit.apply();
         }
     }
 

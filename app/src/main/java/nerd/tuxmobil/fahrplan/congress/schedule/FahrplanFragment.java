@@ -56,6 +56,7 @@ import nerd.tuxmobil.fahrplan.congress.models.Lecture;
 import nerd.tuxmobil.fahrplan.congress.models.Meta;
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 import nerd.tuxmobil.fahrplan.congress.serialization.FahrplanParser;
+import nerd.tuxmobil.fahrplan.congress.serialization.ScheduleChanges;
 import nerd.tuxmobil.fahrplan.congress.sharing.LectureSharer;
 import nerd.tuxmobil.fahrplan.congress.sharing.SimpleLectureFormat;
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
@@ -896,7 +897,12 @@ public class FahrplanFragment extends Fragment implements
 
     @Override
     public void onUpdateLectures(@NonNull List<Lecture> lectures) {
+        List<Lecture> oldLectures = FahrplanMisc.loadLecturesForAllDays(context);
+        boolean hasChanged = ScheduleChanges.hasScheduleChanged(lectures, oldLectures);
         AppRepository appRepository = AppRepository.Companion.getInstance(context);
+        if (hasChanged) {
+            appRepository.resetChangesSeenFlag();
+        }
         appRepository.updateLectures(lectures);
     }
 

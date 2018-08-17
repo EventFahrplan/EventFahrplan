@@ -14,6 +14,7 @@ import nerd.tuxmobil.fahrplan.congress.dataconverters.*
 import nerd.tuxmobil.fahrplan.congress.models.Alarm
 import nerd.tuxmobil.fahrplan.congress.models.Lecture
 import nerd.tuxmobil.fahrplan.congress.models.Meta
+import nerd.tuxmobil.fahrplan.congress.preferences.SharedPreferencesRepository
 
 class AppRepository private constructor(context: Context) {
 
@@ -30,6 +31,8 @@ class AppRepository private constructor(context: Context) {
 
     private val metaDBOpenHelper = MetaDBOpenHelper(context)
     private val metaDatabaseRepository = MetaDatabaseRepository(metaDBOpenHelper)
+
+    private val sharedPreferencesRepository = SharedPreferencesRepository(context)
 
     @JvmOverloads
     fun readAlarms(eventId: String = "") = if (eventId.isEmpty()) {
@@ -86,5 +89,8 @@ class AppRepository private constructor(context: Context) {
         val values = metaDatabaseModel.toContentValues()
         metaDatabaseRepository.insert(values)
     }
+
+    fun resetChangesSeenFlag() =
+            sharedPreferencesRepository.setChangesSeen(false)
 
 }

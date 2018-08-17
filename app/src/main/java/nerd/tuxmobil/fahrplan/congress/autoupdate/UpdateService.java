@@ -34,6 +34,7 @@ import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper;
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 import nerd.tuxmobil.fahrplan.congress.schedule.MainActivity;
 import nerd.tuxmobil.fahrplan.congress.serialization.FahrplanParser;
+import nerd.tuxmobil.fahrplan.congress.serialization.ScheduleChanges;
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
 
 public class UpdateService extends IntentService implements
@@ -52,7 +53,12 @@ public class UpdateService extends IntentService implements
 
     @Override
     public void onUpdateLectures(@NonNull List<Lecture> lectures) {
+        List<Lecture> oldLectures = FahrplanMisc.loadLecturesForAllDays(this);
+        boolean hasChanged = ScheduleChanges.hasScheduleChanged(lectures, oldLectures);
         AppRepository appRepository = AppRepository.Companion.getInstance(this);
+        if (hasChanged) {
+            appRepository.resetChangesSeenFlag();
+        }
         appRepository.updateLectures(lectures);
     }
 
