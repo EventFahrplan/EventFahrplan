@@ -86,7 +86,6 @@ public class MainActivity extends BaseActivity implements
 
     private ProgressDialog progress = null;
 
-    private MyApp global;
     private ProgressBar progressBar = null;
     private boolean showUpdateAction = true;
     private static MainActivity instance;
@@ -122,7 +121,6 @@ public class MainActivity extends BaseActivity implements
             parser = MyApp.parser;
         }
         progress = null;
-        global = (MyApp) getApplicationContext();
 
         AppRepository appRepository = AppRepository.Companion.getInstance(this);
         MyApp.meta = appRepository.readMeta();
@@ -226,7 +224,7 @@ public class MainActivity extends BaseActivity implements
                     dlg.show(getSupportFragmentManager(), CertificateDialogFragment.FRAGMENT_TAG);
                     break;
             }
-            CustomHttpClient.showHttpError(this, global, status, host);
+            CustomHttpClient.showHttpError(this, status, host);
             progressBar.setVisibility(View.INVISIBLE);
             showUpdateAction = true;
             supportInvalidateOptionsMenu();

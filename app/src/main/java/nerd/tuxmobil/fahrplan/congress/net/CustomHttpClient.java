@@ -11,7 +11,6 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.X509TrustManager;
 
 import nerd.tuxmobil.fahrplan.congress.BuildConfig;
-import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.utils.AlertDialogHelper;
 import okhttp3.OkHttpClient;
@@ -61,7 +60,7 @@ public class CustomHttpClient {
         return lastSSLException;
     }
 
-    public static void showHttpError(final Activity ctx, MyApp global, HTTP_STATUS status, String host) {
+    public static void showHttpError(final Activity ctx, HTTP_STATUS status, String host) {
         switch (status) {
             case HTTP_LOGIN_FAIL_WRONG_PASSWORD:
                 AlertDialogHelper.showErrorDialog(ctx,
