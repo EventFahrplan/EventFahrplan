@@ -257,11 +257,11 @@ public class MainActivity extends BaseActivity implements
         showUpdateAction = true;
         supportInvalidateOptionsMenu();
         Fragment fragment = findFragment(FahrplanFragment.FRAGMENT_TAG);
-        if ((fragment != null) && (fragment instanceof FahrplanParser.OnParseCompleteListener)) {
+        if (fragment != null && fragment instanceof FahrplanParser.OnParseCompleteListener) {
             ((FahrplanParser.OnParseCompleteListener) fragment).onParseDone(result, version);
         }
         fragment = findFragment(ChangeListFragment.FRAGMENT_TAG);
-        if ((fragment != null) && (fragment instanceof ChangeListFragment)) {
+        if (fragment != null && fragment instanceof ChangeListFragment) {
             ((ChangeListFragment) fragment).onRefresh();
         }
 
