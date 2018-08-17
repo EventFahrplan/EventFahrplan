@@ -94,7 +94,7 @@ class FetchFahrplanTask extends AsyncTask<String, Void, HTTP_STATUS> {
     }
 
     protected void onCancelled() {
-        MyApp.LogDebug(LOG_TAG, "fetch cancelled");
+        Log.d(LOG_TAG, "fetch cancelled");
     }
 
     protected void onPostExecute(HTTP_STATUS status) {
@@ -108,10 +108,10 @@ class FetchFahrplanTask extends AsyncTask<String, Void, HTTP_STATUS> {
 
     private void notifyActivity() {
         if (status == HTTP_STATUS.HTTP_OK) {
-            MyApp.LogDebug(LOG_TAG, "fetch done successfully");
+            Log.d(LOG_TAG, "fetch done successfully");
             listener.onGotResponse(status, responseStr, eTagStr, host);
         } else {
-            MyApp.LogDebug(LOG_TAG, "fetch failed");
+            Log.d(LOG_TAG, "fetch failed");
             listener.onGotResponse(status, null, eTagStr, host);
         }
         completed = false; // notify only once
@@ -127,8 +127,8 @@ class FetchFahrplanTask extends AsyncTask<String, Void, HTTP_STATUS> {
             return HTTP_STATUS.HTTP_SSL_SETUP_FAILURE;
         }
 
-        MyApp.LogDebug("Fetch", url);
-        MyApp.LogDebug("Fetch", "ETag: " + eTag);
+        Log.d("Fetch", url);
+        Log.d("Fetch", "ETag: " + eTag);
         Request.Builder requestBuilder = new Request.Builder()
                 .url(url);
 
@@ -175,9 +175,9 @@ class FetchFahrplanTask extends AsyncTask<String, Void, HTTP_STATUS> {
         eTagStr = response.header("ETag");
         eTagStr = eTagStr == null ? "" : eTagStr;
         if (!eTagStr.isEmpty()) {
-            MyApp.LogDebug(LOG_TAG, "ETag: " + eTagStr);
+            Log.d(LOG_TAG, "ETag: " + eTagStr);
         } else {
-            MyApp.LogDebug(LOG_TAG, "ETag missing?");
+            Log.d(LOG_TAG, "ETag missing?");
         }
 
         try {

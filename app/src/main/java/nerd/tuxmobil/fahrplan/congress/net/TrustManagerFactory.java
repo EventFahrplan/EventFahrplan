@@ -66,7 +66,7 @@ public final class TrustManagerFactory {
         private final String mHost;
 
         private SecureX509TrustManager(String host) {
-            MyApp.LogDebug("TrustManagerFactory", "SecureX509TrustManager(" + host + ")");
+            Log.d("TrustManagerFactory", "SecureX509TrustManager(" + host + ")");
             mHost = host;
         }
 
@@ -96,12 +96,12 @@ public final class TrustManagerFactory {
             try {
                 // Try localTrustManager first, since self-signed certificates
                 // are used in most of the cases
-                MyApp.LogDebug(LOG_TAG, "trying localTrustManager");
+                Log.d(LOG_TAG, "trying localTrustManager");
                 localTrustManager.checkServerTrusted(new X509Certificate[]{chain[0]}, authType);
             } catch (CertificateException e) {
                 /* Here fallback on to trustworthy CAs in Android */
 
-            	/* SSL Pinning, do not trust any CA */
+                /* SSL Pinning, do not trust any CA */
                 Log.d(LOG_TAG, "trying defaultTrustManager");
                 defaultTrustManager.checkServerTrusted(chain, authType);
             }
@@ -169,7 +169,7 @@ public final class TrustManagerFactory {
     }
 
     public static X509TrustManager get(String host, boolean secure) {
-        MyApp.LogDebug(LOG_TAG, "get " + host + " " + secure);
+        Log.d(LOG_TAG, "get " + host + " " + secure);
         return secure ? SecureX509TrustManager.getInstance(host) : insecureTrustManager;
     }
 

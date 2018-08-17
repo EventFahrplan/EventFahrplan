@@ -1,13 +1,13 @@
 package nerd.tuxmobil.fahrplan.congress.validation;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
 import nerd.tuxmobil.fahrplan.congress.utils.DateHelper;
 
@@ -31,7 +31,7 @@ public class DateFieldValidation {
      */
     public void printValidationErrors() {
         for (ValidationError validationError : mValidationErrors) {
-            MyApp.LogDebug(getClass().getName(), validationError.toString());
+            Log.d(getClass().getName(), validationError.toString());
         }
     }
 
@@ -70,7 +70,7 @@ public class DateFieldValidation {
         }
 
         // Evaluate validation
-        MyApp.LogDebug(getClass().getName(), "Validation result for <date> field: " + mValidationErrors.size() + " errors.");
+        Log.d(getClass().getName(), "Validation result for <date> field: " + mValidationErrors.size() + " errors.");
         return mValidationErrors.isEmpty();
     }
 
