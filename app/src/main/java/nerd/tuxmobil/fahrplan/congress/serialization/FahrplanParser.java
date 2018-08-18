@@ -88,7 +88,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
 
     private AppRepository appRepository;
 
-    public ParserTask(Context context, AppRepository appRepository, FahrplanParser.OnParseCompleteListener listener) {
+    ParserTask(Context context, AppRepository appRepository, FahrplanParser.OnParseCompleteListener listener) {
         this.listener = listener;
         this.completed = false;
         this.db = null;

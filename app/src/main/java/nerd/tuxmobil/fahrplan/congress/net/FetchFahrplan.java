@@ -70,7 +70,7 @@ class FetchFahrplanTask extends AsyncTask<String, Void, HTTP_STATUS> {
     private HTTP_STATUS status;
     private String host;
 
-    public FetchFahrplanTask(FetchFahrplan.OnDownloadCompleteListener listener) {
+    FetchFahrplanTask(FetchFahrplan.OnDownloadCompleteListener listener) {
         this.listener = listener;
         this.completed = false;
     }
