@@ -63,6 +63,7 @@ import nerd.tuxmobil.fahrplan.congress.net.CertificateDialogFragment;
 import nerd.tuxmobil.fahrplan.congress.net.CustomHttpClient;
 import nerd.tuxmobil.fahrplan.congress.net.CustomHttpClient.HTTP_STATUS;
 import nerd.tuxmobil.fahrplan.congress.net.FetchFahrplan;
+import nerd.tuxmobil.fahrplan.congress.net.FetchScheduleResult;
 import nerd.tuxmobil.fahrplan.congress.reporting.TraceDroidEmailSender;
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 import nerd.tuxmobil.fahrplan.congress.serialization.FahrplanParser;
@@ -221,7 +222,8 @@ public class MainActivity extends BaseActivity implements
         parser.parse(MyApp.fahrplan_xml, MyApp.meta.getETag());
     }
 
-    public void onGotResponse(HTTP_STATUS status, String response, String eTagStr, String host) {
+    public void onGotResponse(@NonNull FetchScheduleResult fetchScheduleResult) {
+        HTTP_STATUS status = fetchScheduleResult.getHttpStatus();
         MyApp.LogDebug(LOG_TAG, "Response... " + status);
         MyApp.task_running = TASKS.NONE;
         if (MyApp.meta.getNumDays() == 0) {
@@ -248,7 +250,7 @@ public class MainActivity extends BaseActivity implements
                     dlg.show(getSupportFragmentManager(), CertificateDialogFragment.FRAGMENT_TAG);
                     break;
             }
-            CustomHttpClient.showHttpError(this, status, host);
+            CustomHttpClient.showHttpError(this, status, fetchScheduleResult.getHostName());
             progressBar.setVisibility(View.INVISIBLE);
             showUpdateAction = true;
             supportInvalidateOptionsMenu();
@@ -259,8 +261,8 @@ public class MainActivity extends BaseActivity implements
         showUpdateAction = true;
         supportInvalidateOptionsMenu();
 
-        MyApp.fahrplan_xml = response;
-        MyApp.meta.setETag(eTagStr);
+        MyApp.fahrplan_xml = fetchScheduleResult.getScheduleXml();
+        MyApp.meta.setETag(fetchScheduleResult.getETag());
         parseFahrplan();
     }
 

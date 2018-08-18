@@ -23,7 +23,7 @@ public class FetchFahrplan {
 
     public interface OnDownloadCompleteListener {
 
-        void onGotResponse(HTTP_STATUS status, String response, String eTagStr, String host);
+        void onGotResponse(@NonNull FetchScheduleResult fetchScheduleResult);
     }
 
     private FetchFahrplanTask task;
@@ -116,10 +116,10 @@ class FetchFahrplanTask extends AsyncTask<String, Void, HTTP_STATUS> {
     private void notifyActivity() {
         if (status == HTTP_STATUS.HTTP_OK) {
             Log.d(LOG_TAG, "fetch done successfully");
-            listener.onGotResponse(status, responseStr, eTagStr, host);
+            listener.onGotResponse(new FetchScheduleResult(status, responseStr, eTagStr, host));
         } else {
             Log.d(LOG_TAG, "fetch failed");
-            listener.onGotResponse(status, EMPTY_RESPONSE_STRING, eTagStr, host);
+            listener.onGotResponse(new FetchScheduleResult(status, EMPTY_RESPONSE_STRING, eTagStr, host));
         }
         completed = false; // notify only once
     }

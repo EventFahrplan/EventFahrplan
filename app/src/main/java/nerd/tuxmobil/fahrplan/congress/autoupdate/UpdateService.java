@@ -32,6 +32,7 @@ import nerd.tuxmobil.fahrplan.congress.net.ConnectivityStateReceiver;
 import nerd.tuxmobil.fahrplan.congress.net.CustomHttpClient;
 import nerd.tuxmobil.fahrplan.congress.net.CustomHttpClient.HTTP_STATUS;
 import nerd.tuxmobil.fahrplan.congress.net.FetchFahrplan;
+import nerd.tuxmobil.fahrplan.congress.net.FetchScheduleResult;
 import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper;
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 import nerd.tuxmobil.fahrplan.congress.schedule.MainActivity;
@@ -119,7 +120,8 @@ public class UpdateService extends IntentService implements
         parser.parse(MyApp.fahrplan_xml, MyApp.meta.getETag());
     }
 
-    public void onGotResponse(HTTP_STATUS status, String response, String eTagStr, String host) {
+    public void onGotResponse(@NonNull FetchScheduleResult fetchScheduleResult) {
+        HTTP_STATUS status = fetchScheduleResult.getHttpStatus();
         MyApp.LogDebug(LOG_TAG, "Response... " + status);
         MyApp.task_running = TASKS.NONE;
         if ((status == HTTP_STATUS.HTTP_OK) || (status == HTTP_STATUS.HTTP_NOT_MODIFIED)) {
@@ -137,8 +139,8 @@ public class UpdateService extends IntentService implements
             return;
         }
 
-        MyApp.fahrplan_xml = response;
-        MyApp.meta.setETag(eTagStr);
+        MyApp.fahrplan_xml = fetchScheduleResult.getScheduleXml();
+        MyApp.meta.setETag(fetchScheduleResult.getETag());
         parseFahrplan();
     }
 
