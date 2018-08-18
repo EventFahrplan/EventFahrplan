@@ -19,11 +19,9 @@ import org.ligi.tracedroid.logging.Log;
 
 import java.util.List;
 
-import nerd.tuxmobil.fahrplan.congress.BuildConfig;
 import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.MyApp.TASKS;
 import nerd.tuxmobil.fahrplan.congress.R;
-import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.extensions.Contexts;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
 import nerd.tuxmobil.fahrplan.congress.models.Meta;
@@ -141,16 +139,8 @@ public class UpdateService extends IntentService implements
 
     private void fetchFahrplan(FetchFahrplan.OnDownloadCompleteListener completeListener) {
         if (MyApp.task_running == TASKS.NONE) {
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-            String defaultScheduleUrl = getString(R.string.preferences_schedule_url_default_value);
-            String alternateURL = prefs.getString(BundleKeys.PREFS_SCHEDULE_URL, defaultScheduleUrl);
-            String url;
-            if (TextUtils.isEmpty(alternateURL)) {
-                url = BuildConfig.SCHEDULE_URL;
-            } else {
-                url = alternateURL;
-            }
-
+            AppRepository appRepository = AppRepository.Companion.getInstance(this);
+            String url = appRepository.readScheduleUrl();
             MyApp.task_running = TASKS.FETCH;
             fetcher.setListener(completeListener);
             fetcher.fetch(url, MyApp.meta.getETag());

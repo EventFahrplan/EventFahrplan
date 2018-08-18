@@ -1,6 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.repositories
 
 import android.content.Context
+import android.text.TextUtils
 import info.metadude.android.eventfahrplan.database.extensions.toContentValues
 import info.metadude.android.eventfahrplan.database.repositories.AlarmsDatabaseRepository
 import info.metadude.android.eventfahrplan.database.repositories.HighlightsDatabaseRepository
@@ -10,6 +11,7 @@ import info.metadude.android.eventfahrplan.database.sqliteopenhelper.AlarmsDBOpe
 import info.metadude.android.eventfahrplan.database.sqliteopenhelper.HighlightDBOpenHelper
 import info.metadude.android.eventfahrplan.database.sqliteopenhelper.LecturesDBOpenHelper
 import info.metadude.android.eventfahrplan.database.sqliteopenhelper.MetaDBOpenHelper
+import nerd.tuxmobil.fahrplan.congress.BuildConfig
 import nerd.tuxmobil.fahrplan.congress.dataconverters.*
 import nerd.tuxmobil.fahrplan.congress.models.Alarm
 import nerd.tuxmobil.fahrplan.congress.models.Lecture
@@ -85,6 +87,17 @@ class AppRepository private constructor(context: Context) {
         val metaDatabaseModel = meta.toMetaDatabaseModel()
         val values = metaDatabaseModel.toContentValues()
         metaDatabaseRepository.insert(values)
+    }
+
+    fun readScheduleUrl(): String {
+        val alternateScheduleUrl = sharedPreferencesRepository.getScheduleUrl()
+        val url: String
+        url = if (TextUtils.isEmpty(alternateScheduleUrl)) {
+            BuildConfig.SCHEDULE_URL
+        } else {
+            alternateScheduleUrl
+        }
+        return url
     }
 
     fun resetChangesSeenFlag() =

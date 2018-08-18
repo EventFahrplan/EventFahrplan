@@ -17,7 +17,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.text.format.Time;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -315,16 +314,8 @@ public class MainActivity extends BaseActivity implements
 
     public void fetchFahrplan(FetchFahrplan.OnDownloadCompleteListener completeListener) {
         if (MyApp.task_running == TASKS.NONE) {
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-            String defaultScheduleUrl = getString(R.string.preferences_schedule_url_default_value);
-            String alternateURL = prefs.getString(BundleKeys.PREFS_SCHEDULE_URL, defaultScheduleUrl);
-            String url;
-            if (!TextUtils.isEmpty(alternateURL)) {
-                url = alternateURL;
-            } else {
-                url = BuildConfig.SCHEDULE_URL;
-            }
-
+            AppRepository appRepository = AppRepository.Companion.getInstance(this);
+            String url = appRepository.readScheduleUrl();
             MyApp.task_running = TASKS.FETCH;
             showFetchingStatus();
             fetcher.setListener(completeListener);
