@@ -114,7 +114,7 @@ class FetchFahrplanTask extends AsyncTask<String, Void, HTTP_STATUS> {
             MyApp.LogDebug(LOG_TAG, "fetch failed");
             listener.onGotResponse(status, null, eTagStr, host);
         }
-        completed = false;                // notifiy only once
+        completed = false; // notify only once
     }
 
     private HTTP_STATUS fetch(String url, String eTag) {
