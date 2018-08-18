@@ -246,8 +246,8 @@ public class MainActivity extends BaseActivity implements
                 case HTTP_CANCELLED:
                     break;
                 case HTTP_LOGIN_FAIL_UNTRUSTED_CERTIFICATE:
-                    CertificateDialogFragment dlg = new CertificateDialogFragment();
-                    dlg.show(getSupportFragmentManager(), CertificateDialogFragment.FRAGMENT_TAG);
+                    CertificateDialogFragment dialogFragment = CertificateDialogFragment.newInstance(fetchScheduleResult.getExceptionMessage());
+                    dialogFragment.show(getSupportFragmentManager(), CertificateDialogFragment.FRAGMENT_TAG);
                     break;
             }
             CustomHttpClient.showHttpError(this, status, fetchScheduleResult.getHostName());

@@ -6,7 +6,6 @@ import android.widget.Toast;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 
-import javax.net.ssl.SSLException;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.X509TrustManager;
 
@@ -36,8 +35,6 @@ public class CustomHttpClient {
         HTTP_NOT_FOUND
     }
 
-    private static SSLException lastSSLException = null;
-
     public static OkHttpClient createHttpClient(String host)
             throws KeyManagementException, NoSuchAlgorithmException {
         OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
@@ -50,14 +47,6 @@ public class CustomHttpClient {
         X509TrustManager trustManager = TrustManagerFactory.get(host, true);
         SSLSocketFactory factory = SslSocketFactory.createSSLSocketFactory(trustManager);
         return clientBuilder.sslSocketFactory(factory, trustManager).build();
-    }
-
-    public static void setSSLException(SSLException e) {
-        lastSSLException = e;
-    }
-
-    public static SSLException getSSLException() {
-        return lastSSLException;
     }
 
     public static void showHttpError(final Activity ctx, HTTP_STATUS status, String host) {

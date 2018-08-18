@@ -75,6 +75,7 @@ class FetchFahrplanTask extends AsyncTask<String, Void, HTTP_STATUS> {
 
     private HTTP_STATUS status;
     private String host;
+    private String exceptionMessage = "";
 
     FetchFahrplanTask(@NonNull OkHttpClient okHttpClient, FetchFahrplan.OnDownloadCompleteListener listener) {
         this.okHttpClient = okHttpClient;
@@ -116,10 +117,10 @@ class FetchFahrplanTask extends AsyncTask<String, Void, HTTP_STATUS> {
     private void notifyActivity() {
         if (status == HTTP_STATUS.HTTP_OK) {
             Log.d(LOG_TAG, "fetch done successfully");
-            listener.onGotResponse(new FetchScheduleResult(status, responseStr, eTagStr, host));
+            listener.onGotResponse(new FetchScheduleResult(status, responseStr, eTagStr, host, exceptionMessage));
         } else {
             Log.d(LOG_TAG, "fetch failed");
-            listener.onGotResponse(new FetchScheduleResult(status, EMPTY_RESPONSE_STRING, eTagStr, host));
+            listener.onGotResponse(new FetchScheduleResult(status, EMPTY_RESPONSE_STRING, eTagStr, host, exceptionMessage));
         }
         completed = false; // notify only once
     }
@@ -139,7 +140,7 @@ class FetchFahrplanTask extends AsyncTask<String, Void, HTTP_STATUS> {
             Call call = okHttpClient.newCall(requestBuilder.build());
             response = call.execute();
         } catch (SSLException e) {
-            CustomHttpClient.setSSLException(e);
+            setExceptionMessage(e);
             e.printStackTrace();
             return HTTP_STATUS.HTTP_LOGIN_FAIL_UNTRUSTED_CERTIFICATE;
         } catch (SocketTimeoutException e) {
@@ -185,6 +186,18 @@ class FetchFahrplanTask extends AsyncTask<String, Void, HTTP_STATUS> {
         }
 
         return HTTP_STATUS.HTTP_OK;
+    }
+
+    private void setExceptionMessage(SSLException exception) {
+        if (exception.getCause() == null) {
+            exceptionMessage = exception.getMessage();
+        } else {
+            if (exception.getCause().getCause() == null) {
+                exceptionMessage = exception.getCause().getMessage();
+            } else {
+                exceptionMessage = exception.getCause().getCause().getMessage();
+            }
+        }
     }
 
 }

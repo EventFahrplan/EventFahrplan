@@ -7,6 +7,7 @@ data class FetchScheduleResult(
         val httpStatus: HTTP_STATUS,
         val scheduleXml: String = "",
         val eTag: String = "",
-        val hostName: String
+        val hostName: String,
+        val exceptionMessage: String = ""
 
 )
