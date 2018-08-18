@@ -1,23 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <!-- AlertDialogHelper -->
     <string name="OK">OK</string>
+
+    <!-- CertificateDialog -->
     <string name="dlg_certificate_message_fmt">
         Failed to establish secure connection.\n
         (<xliff:g id="error" example="Unknown Error">%s</xliff:g>)
     </string>
     <string name="dlg_invalid_certificate_title">Trust unknown certificate?</string>
     <string name="dlg_invalid_certificate_could_not_apply">Certificate could not be added.</string>
+
+    <!-- CustomHttpClient -->
     <string name="dlg_err_connection_failed">Connection failure</string>
     <string name="dlg_err_failed_wrong_password">Wrong password</string>
     <string name="dlg_err_failed_unknown_host">Unknown address:\n%s</string>
     <string name="dlg_err_failed_wrong_http_credentials">Invalid HTTP Authentication</string>
-	<string name="dlg_err_failed_timeout">Server doesn\'t respond (Timeout).
-	</string>
+    <string name="dlg_err_failed_timeout">Server doesn\'t respond (Timeout).</string>
     <string name="dlg_err_failed_connect_failure">Unknown connection failure</string>
     <string name="dlg_err_failed_not_found">Invalid schedule URL</string>
     <string name="dlg_err_failed_encoding_failure">Encoding failure</string>
     <string name="dlg_err_failed_parse_failure">Couldn\'t parse response</string>
     <string name="dlg_err_failed_ssl_failure">SSL failure</string>
+    <string name="uptodate">Schedule is up to date.</string>
+
+
     <string name="refresh">Refresh</string>
     <string name="progress_loading_data">Get schedule &#8230;</string>
     <string name="progress_processing_data">Processing schedule &#8230;</string>
@@ -75,7 +83,6 @@
     <string name="flag_as_favorite">Add to favorites</string>
     <string name="navigate">Navigate</string>
     <string name="unflag_as_favorite">Remove from favorites</string>
-    <string name="uptodate">Schedule is up to date.</string>
     <string name="event_details_close">Close event details</string>
     <string name="pref_auto_download">Automatic updates</string>
     <string name="parsing_error_generic">Unknown error while parsing schedule</string>
