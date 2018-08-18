@@ -59,6 +59,8 @@ public class FetchFahrplan {
 
 class FetchFahrplanTask extends AsyncTask<String, Void, HTTP_STATUS> {
 
+    private static final String EMPTY_RESPONSE_STRING = "";
+
     private final OkHttpClient okHttpClient;
 
     private String responseStr;
@@ -117,7 +119,7 @@ class FetchFahrplanTask extends AsyncTask<String, Void, HTTP_STATUS> {
             listener.onGotResponse(status, responseStr, eTagStr, host);
         } else {
             Log.d(LOG_TAG, "fetch failed");
-            listener.onGotResponse(status, null, eTagStr, host);
+            listener.onGotResponse(status, EMPTY_RESPONSE_STRING, eTagStr, host);
         }
         completed = false; // notify only once
     }
