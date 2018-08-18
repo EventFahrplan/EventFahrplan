@@ -6,8 +6,6 @@
         (<xliff:g id="error" example="Unknown Error">%s</xliff:g>)
     </string>
     <string name="dlg_invalid_certificate_title">Trust unknown certificate?</string>
-    <string name="dlg_invalid_certificate_accept">Accept </string>
-    <string name="dlg_invalid_certificate_reject">Deny </string>
     <string name="dlg_invalid_certificate_could_not_apply">Certificate could not be added.</string>
     <string name="dlg_err_connection_failed">Connection failure</string>
     <string name="dlg_err_failed_wrong_password">Wrong password</string>
