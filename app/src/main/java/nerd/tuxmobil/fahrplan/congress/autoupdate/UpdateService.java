@@ -30,7 +30,7 @@ import nerd.tuxmobil.fahrplan.congress.models.Lecture;
 import nerd.tuxmobil.fahrplan.congress.models.Meta;
 import nerd.tuxmobil.fahrplan.congress.net.ConnectivityStateReceiver;
 import nerd.tuxmobil.fahrplan.congress.net.CustomHttpClient;
-import nerd.tuxmobil.fahrplan.congress.net.CustomHttpClient.HTTP_STATUS;
+import nerd.tuxmobil.fahrplan.congress.net.HttpStatus;
 import nerd.tuxmobil.fahrplan.congress.net.FetchFahrplan;
 import nerd.tuxmobil.fahrplan.congress.net.FetchScheduleResult;
 import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper;
@@ -121,10 +121,10 @@ public class UpdateService extends IntentService implements
     }
 
     public void onGotResponse(@NonNull FetchScheduleResult fetchScheduleResult) {
-        HTTP_STATUS status = fetchScheduleResult.getHttpStatus();
+        HttpStatus status = fetchScheduleResult.getHttpStatus();
         MyApp.LogDebug(LOG_TAG, "Response... " + status);
         MyApp.task_running = TASKS.NONE;
-        if ((status == HTTP_STATUS.HTTP_OK) || (status == HTTP_STATUS.HTTP_NOT_MODIFIED)) {
+        if ((status == HttpStatus.HTTP_OK) || (status == HttpStatus.HTTP_NOT_MODIFIED)) {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
             Time now = new Time();
             now.setToNow();
@@ -133,7 +133,7 @@ public class UpdateService extends IntentService implements
             edit.putLong("last_fetch", millis);
             edit.commit();
         }
-        if (status != HTTP_STATUS.HTTP_OK) {
+        if (status != HttpStatus.HTTP_OK) {
             MyApp.LogDebug(LOG_TAG, "background update failed with " + status);
             stopSelf();
             return;
@@ -196,7 +196,7 @@ public class UpdateService extends IntentService implements
         try {
             okHttpClient = CustomHttpClient.createHttpClient(host);
         } catch (KeyManagementException | NoSuchAlgorithmException e) {
-            MyApp.LogDebug(LOG_TAG, "background update failed with " + HTTP_STATUS.HTTP_SSL_SETUP_FAILURE);
+            MyApp.LogDebug(LOG_TAG, "background update failed with " + HttpStatus.HTTP_SSL_SETUP_FAILURE);
             stopSelf();
         }
         return okHttpClient;

@@ -61,7 +61,7 @@ import nerd.tuxmobil.fahrplan.congress.models.Meta;
 import nerd.tuxmobil.fahrplan.congress.navigation.C3navSnack;
 import nerd.tuxmobil.fahrplan.congress.net.CertificateDialogFragment;
 import nerd.tuxmobil.fahrplan.congress.net.CustomHttpClient;
-import nerd.tuxmobil.fahrplan.congress.net.CustomHttpClient.HTTP_STATUS;
+import nerd.tuxmobil.fahrplan.congress.net.HttpStatus;
 import nerd.tuxmobil.fahrplan.congress.net.FetchFahrplan;
 import nerd.tuxmobil.fahrplan.congress.net.FetchScheduleResult;
 import nerd.tuxmobil.fahrplan.congress.reporting.TraceDroidEmailSender;
@@ -180,7 +180,7 @@ public class MainActivity extends BaseActivity implements
         try {
             okHttpClient = CustomHttpClient.createHttpClient(host);
         } catch (KeyManagementException | NoSuchAlgorithmException e) {
-            CustomHttpClient.showHttpError(this, HTTP_STATUS.HTTP_SSL_SETUP_FAILURE, host);
+            CustomHttpClient.showHttpError(this, HttpStatus.HTTP_SSL_SETUP_FAILURE, host);
         }
         return okHttpClient;
     }
@@ -223,7 +223,7 @@ public class MainActivity extends BaseActivity implements
     }
 
     public void onGotResponse(@NonNull FetchScheduleResult fetchScheduleResult) {
-        HTTP_STATUS status = fetchScheduleResult.getHttpStatus();
+        HttpStatus status = fetchScheduleResult.getHttpStatus();
         MyApp.LogDebug(LOG_TAG, "Response... " + status);
         MyApp.task_running = TASKS.NONE;
         if (MyApp.meta.getNumDays() == 0) {
@@ -232,7 +232,7 @@ public class MainActivity extends BaseActivity implements
                 progress = null;
             }
         }
-        if ((status == HTTP_STATUS.HTTP_OK) || (status == HTTP_STATUS.HTTP_NOT_MODIFIED)) {
+        if ((status == HttpStatus.HTTP_OK) || (status == HttpStatus.HTTP_NOT_MODIFIED)) {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
             Time now = new Time();
             now.setToNow();
@@ -241,7 +241,7 @@ public class MainActivity extends BaseActivity implements
             edit.putLong("last_fetch", millis);
             edit.commit();
         }
-        if (status != HTTP_STATUS.HTTP_OK) {
+        if (status != HttpStatus.HTTP_OK) {
             switch (status) {
                 case HTTP_CANCELLED:
                     break;

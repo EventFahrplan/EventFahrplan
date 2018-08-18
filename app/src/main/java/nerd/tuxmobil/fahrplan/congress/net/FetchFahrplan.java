@@ -13,7 +13,6 @@ import java.net.UnknownHostException;
 import javax.net.ssl.SSLException;
 
 import nerd.tuxmobil.fahrplan.congress.MyApp;
-import nerd.tuxmobil.fahrplan.congress.net.CustomHttpClient.HTTP_STATUS;
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -57,7 +56,7 @@ public class FetchFahrplan {
     }
 }
 
-class FetchFahrplanTask extends AsyncTask<String, Void, HTTP_STATUS> {
+class FetchFahrplanTask extends AsyncTask<String, Void, HttpStatus> {
 
     private static final String EMPTY_RESPONSE_STRING = "";
 
@@ -73,7 +72,7 @@ class FetchFahrplanTask extends AsyncTask<String, Void, HTTP_STATUS> {
 
     private boolean completed;
 
-    private HTTP_STATUS status;
+    private HttpStatus status;
     private String host;
     private String exceptionMessage = "";
 
@@ -92,7 +91,7 @@ class FetchFahrplanTask extends AsyncTask<String, Void, HTTP_STATUS> {
     }
 
     @Override
-    protected HTTP_STATUS doInBackground(String... args) {
+    protected HttpStatus doInBackground(String... args) {
         String url = args[0];
         String eTag = args[1];
 
@@ -105,7 +104,7 @@ class FetchFahrplanTask extends AsyncTask<String, Void, HTTP_STATUS> {
         Log.d(LOG_TAG, "fetch cancelled");
     }
 
-    protected void onPostExecute(HTTP_STATUS status) {
+    protected void onPostExecute(HttpStatus status) {
         completed = true;
         this.status = status;
 
@@ -115,7 +114,7 @@ class FetchFahrplanTask extends AsyncTask<String, Void, HTTP_STATUS> {
     }
 
     private void notifyActivity() {
-        if (status == HTTP_STATUS.HTTP_OK) {
+        if (status == HttpStatus.HTTP_OK) {
             Log.d(LOG_TAG, "fetch done successfully");
             listener.onGotResponse(new FetchScheduleResult(status, responseStr, eTagStr, host, exceptionMessage));
         } else {
@@ -125,7 +124,7 @@ class FetchFahrplanTask extends AsyncTask<String, Void, HTTP_STATUS> {
         completed = false; // notify only once
     }
 
-    private HTTP_STATUS fetch(String url, String eTag) {
+    private HttpStatus fetch(String url, String eTag) {
         Log.d("Fetch", url);
         Log.d("Fetch", "ETag: " + eTag);
         Request.Builder requestBuilder = new Request.Builder()
@@ -142,33 +141,33 @@ class FetchFahrplanTask extends AsyncTask<String, Void, HTTP_STATUS> {
         } catch (SSLException e) {
             setExceptionMessage(e);
             e.printStackTrace();
-            return HTTP_STATUS.HTTP_LOGIN_FAIL_UNTRUSTED_CERTIFICATE;
+            return HttpStatus.HTTP_LOGIN_FAIL_UNTRUSTED_CERTIFICATE;
         } catch (SocketTimeoutException e) {
-            return HTTP_STATUS.HTTP_CONNECT_TIMEOUT;
+            return HttpStatus.HTTP_CONNECT_TIMEOUT;
         } catch (UnknownHostException e) {
             e.printStackTrace();
-            return HTTP_STATUS.HTTP_DNS_FAILURE;
+            return HttpStatus.HTTP_DNS_FAILURE;
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-            return HTTP_STATUS.HTTP_COULD_NOT_CONNECT;
+            return HttpStatus.HTTP_COULD_NOT_CONNECT;
         }
 
         int statusCode = response.code();
         if (statusCode == 304) {
-            return HTTP_STATUS.HTTP_NOT_MODIFIED;
+            return HttpStatus.HTTP_NOT_MODIFIED;
         }
 
         if (statusCode != 200) {
             Log.w("Fetch", "Error " + statusCode
                     + " while retrieving XML data");
             if (statusCode == 401) {
-                return HTTP_STATUS.HTTP_WRONG_HTTP_CREDENTIALS;
+                return HttpStatus.HTTP_WRONG_HTTP_CREDENTIALS;
             }
             if (statusCode == 404) {
-                return HTTP_STATUS.HTTP_NOT_FOUND;
+                return HttpStatus.HTTP_NOT_FOUND;
             }
-            return HTTP_STATUS.HTTP_COULD_NOT_CONNECT;
+            return HttpStatus.HTTP_COULD_NOT_CONNECT;
         }
 
         eTagStr = response.header("ETag");
@@ -182,10 +181,10 @@ class FetchFahrplanTask extends AsyncTask<String, Void, HTTP_STATUS> {
         try {
             responseStr = response.body().string();
         } catch (IOException e) {
-            return HTTP_STATUS.HTTP_CANNOT_PARSE_CONTENT;
+            return HttpStatus.HTTP_CANNOT_PARSE_CONTENT;
         }
 
-        return HTTP_STATUS.HTTP_OK;
+        return HttpStatus.HTTP_OK;
     }
 
     private void setExceptionMessage(SSLException exception) {

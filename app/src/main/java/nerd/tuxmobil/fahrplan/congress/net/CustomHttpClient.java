@@ -19,22 +19,6 @@ import okhttp3.logging.HttpLoggingInterceptor.Level;
 
 public class CustomHttpClient {
 
-    public enum HTTP_STATUS {
-        HTTP_OK,
-        HTTP_LOGIN_FAIL_UNTRUSTED_CERTIFICATE,
-        HTTP_LOGIN_FAIL_WRONG_PASSWORD,
-        HTTP_DNS_FAILURE,
-        HTTP_COULD_NOT_CONNECT,
-        HTTP_SSL_SETUP_FAILURE,
-        HTTP_CANNOT_PARSE_CONTENT,
-        HTTP_ENTITY_ENCODING_FAILURE,
-        HTTP_WRONG_HTTP_CREDENTIALS,
-        HTTP_CONNECT_TIMEOUT,
-        HTTP_CANCELLED,
-        HTTP_NOT_MODIFIED,
-        HTTP_NOT_FOUND
-    }
-
     public static OkHttpClient createHttpClient(String host)
             throws KeyManagementException, NoSuchAlgorithmException {
         OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
@@ -49,7 +33,7 @@ public class CustomHttpClient {
         return clientBuilder.sslSocketFactory(factory, trustManager).build();
     }
 
-    public static void showHttpError(final Activity ctx, HTTP_STATUS status, String host) {
+    public static void showHttpError(final Activity ctx, HttpStatus status, String host) {
         switch (status) {
             case HTTP_LOGIN_FAIL_WRONG_PASSWORD:
                 AlertDialogHelper.showErrorDialog(ctx,
