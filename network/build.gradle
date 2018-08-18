@@ -1,0 +1,33 @@
+import nerd.tuxmobil.fahrplan.congress.Android
+import nerd.tuxmobil.fahrplan.congress.Libs
+
+apply plugin: "com.android.library"
+apply plugin: "kotlin-android"
+
+android {
+    compileSdkVersion Android.compileSdkVersion
+    buildToolsVersion Android.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion Android.minSdkVersion
+        targetSdkVersion Android.targetSdkVersion
+        versionCode 1
+        versionName "1.0.0"
+    }
+
+    compileOptions {
+        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+
+    implementation Libs.kotlinStdlib
+    implementation Libs.supportLibraryAnnotations
+    implementation Libs.okhttp
+
+    testImplementation Libs.junit
+    testImplementation Libs.assertjAndroid
+
+}

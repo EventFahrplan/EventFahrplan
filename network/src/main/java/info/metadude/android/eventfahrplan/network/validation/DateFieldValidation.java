@@ -1,4 +1,4 @@
-package nerd.tuxmobil.fahrplan.congress.validation;
+package info.metadude.android.eventfahrplan.network.validation;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -8,8 +8,8 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import nerd.tuxmobil.fahrplan.congress.models.Lecture;
-import nerd.tuxmobil.fahrplan.congress.utils.DateHelper;
+import info.metadude.android.eventfahrplan.network.models.Lecture;
+import info.metadude.android.eventfahrplan.network.utils.DateHelper;
 
 public class DateFieldValidation {
 
@@ -50,13 +50,13 @@ public class DateFieldValidation {
 
         // Prepare time range (first day)
         Lecture firstLecture = lectures.get(0);
-        String firstDateString = firstLecture.date;
+        String firstDateString = firstLecture.getDate();
         Date firstDate = DateHelper.getDate(firstDateString, "yyyy-MM-dd");
         String formattedFirstDate = DateHelper.getFormattedDate(firstDate);
 
         // Prepare time range (last day)
         Lecture lastLecture = lectures.get(lectures.size() - 1);
-        String lastDateString = lastLecture.date;
+        String lastDateString = lastLecture.getDate();
         Date lastDate = DateHelper.getDate(lastDateString, "yyyy-MM-dd");
         // Increment date by one day since events also happen on the last day
         // and no time information is given - only the pure date.
@@ -76,13 +76,13 @@ public class DateFieldValidation {
 
     private void validateEvent(Lecture lecture, Date firstDate, Date lastDate,
                                String formattedFirstDate, String formattedLastDate) {
-        long dateUtcInMilliseconds = lecture.dateUTC;
+        long dateUtcInMilliseconds = lecture.getDateUTC();
         Date dateUtc = new Date();
         dateUtc.setTime(dateUtcInMilliseconds);
 
         Date[] dateRange = new Date[]{firstDate, lastDate};
         if (!DateHelper.dateIsWithinRange(dateUtc, dateRange)) {
-            String eventId = lecture.lecture_id;
+            String eventId = lecture.getEventId();
             String formattedDateUtc = DateHelper.getFormattedDate(dateUtc);
             String errorMessage = "Field <date> " + formattedDateUtc + " of event "
                     + eventId +

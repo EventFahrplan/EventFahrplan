@@ -1,4 +1,4 @@
-package nerd.tuxmobil.fahrplan.congress.net;
+package info.metadude.android.eventfahrplan.network.fetching;
 
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -12,7 +12,6 @@ import java.net.UnknownHostException;
 
 import javax.net.ssl.SSLException;
 
-import nerd.tuxmobil.fahrplan.congress.MyApp;
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -29,15 +28,11 @@ public class FetchFahrplan {
 
     private OnDownloadCompleteListener listener;
 
-    private final OkHttpClient okHttpClient;
-
-    public FetchFahrplan(@NonNull OkHttpClient okHttpClient) {
-        this.okHttpClient = okHttpClient;
+    public FetchFahrplan() {
         task = null;
-        MyApp.fetcher = this;
     }
 
-    public void fetch(String url, String eTag) {
+    public void fetch(@NonNull OkHttpClient okHttpClient, String url, String eTag) {
         task = new FetchFahrplanTask(okHttpClient, this.listener);
         task.execute(url, eTag);
     }
@@ -198,5 +193,6 @@ class FetchFahrplanTask extends AsyncTask<String, Void, HttpStatus> {
             }
         }
     }
+
 
 }

@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
@@ -53,10 +52,7 @@ import nerd.tuxmobil.fahrplan.congress.extensions.Contexts;
 import nerd.tuxmobil.fahrplan.congress.models.Alarm;
 import nerd.tuxmobil.fahrplan.congress.models.DateInfo;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
-import nerd.tuxmobil.fahrplan.congress.models.Meta;
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
-import nerd.tuxmobil.fahrplan.congress.serialization.FahrplanParser;
-import nerd.tuxmobil.fahrplan.congress.serialization.ScheduleChanges;
 import nerd.tuxmobil.fahrplan.congress.sharing.LectureSharer;
 import nerd.tuxmobil.fahrplan.congress.sharing.SimpleLectureFormat;
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
@@ -64,9 +60,7 @@ import nerd.tuxmobil.fahrplan.congress.utils.LectureUtils;
 
 import static nerd.tuxmobil.fahrplan.congress.extensions.Resource.getNormalizedBoxHeight;
 
-public class FahrplanFragment extends Fragment implements
-        OnClickListener,
-        FahrplanParser.OnParseCompleteListener {
+public class FahrplanFragment extends Fragment implements OnClickListener {
 
     public interface OnRefreshEventMarkers {
 
@@ -231,18 +225,6 @@ public class FahrplanFragment extends Fragment implements
 
         if (MyApp.meta.getNumDays() > 1) {
             buildNavigationMenu();
-        }
-    }
-
-    @Override
-    public void onDestroy() {
-        MyApp.LogDebug(LOG_TAG, "onDestroy");
-        super.onDestroy();
-        if (MyApp.fetcher != null) {
-            MyApp.fetcher.setListener(null);
-        }
-        if (MyApp.parser != null) {
-            MyApp.parser.setListener(null);
         }
     }
 
@@ -895,24 +877,6 @@ public class FahrplanFragment extends Fragment implements
         actionBar.setListNavigationCallbacks(arrayAdapter, new OnDaySelectedListener());
     }
 
-    @Override
-    public void onUpdateLectures(@NonNull List<Lecture> lectures) {
-        List<Lecture> oldLectures = FahrplanMisc.loadLecturesForAllDays(context);
-        boolean hasChanged = ScheduleChanges.hasScheduleChanged(lectures, oldLectures);
-        AppRepository appRepository = AppRepository.Companion.getInstance(context);
-        if (hasChanged) {
-            appRepository.resetChangesSeenFlag();
-        }
-        appRepository.updateLectures(lectures);
-    }
-
-    @Override
-    public void onUpdateMeta(@NonNull Meta meta) {
-        AppRepository appRepository = AppRepository.Companion.getInstance(context);
-        appRepository.updateMeta(meta);
-    }
-
-    @Override
     public void onParseDone(Boolean result, String version) {
         if (result) {
             if ((MyApp.meta.getNumDays() == 0) || (!version.equals(MyApp.meta.getVersion()))) {

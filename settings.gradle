@@ -1,1 +1,1 @@
-include ':app', ':buildSrc', ':database'
+include ':app', ':buildSrc', ':database', ':network'

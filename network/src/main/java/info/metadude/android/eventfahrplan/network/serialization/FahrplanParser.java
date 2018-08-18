@@ -1,4 +1,4 @@
-package nerd.tuxmobil.fahrplan.congress.serialization;
+package info.metadude.android.eventfahrplan.network.serialization;
 
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
@@ -11,14 +11,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import nerd.tuxmobil.fahrplan.congress.MyApp;
-import nerd.tuxmobil.fahrplan.congress.models.Lecture;
-import nerd.tuxmobil.fahrplan.congress.models.Meta;
-import nerd.tuxmobil.fahrplan.congress.serialization.exceptions.MissingXmlAttributeException;
-import nerd.tuxmobil.fahrplan.congress.utils.DateHelper;
-import nerd.tuxmobil.fahrplan.congress.validation.DateFieldValidation;
-
-import static nerd.tuxmobil.fahrplan.congress.serialization.XmlPullParsers.getSanitizedText;
+import info.metadude.android.eventfahrplan.network.models.Lecture;
+import info.metadude.android.eventfahrplan.network.models.Meta;
+import info.metadude.android.eventfahrplan.network.serialization.exceptions.MissingXmlAttributeException;
+import info.metadude.android.eventfahrplan.network.utils.DateHelper;
+import info.metadude.android.eventfahrplan.network.validation.DateFieldValidation;
 
 public class FahrplanParser {
 
@@ -37,7 +34,6 @@ public class FahrplanParser {
 
     public FahrplanParser() {
         task = null;
-        MyApp.parser = this;
     }
 
     public void parse(String fahrplan, String eTag) {
@@ -146,7 +142,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                         name = parser.getName();
                         if (name.equals("version")) {
                             parser.next();
-                            meta.setVersion(getSanitizedText(parser));
+                            meta.setVersion(XmlPullParsers.getSanitizedText(parser));
                         }
                         if (name.equals("day")) {
                             String index = parser.getAttributeValue(null, "index");
@@ -173,11 +169,12 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                         }
                         if (name.equalsIgnoreCase("event")) {
                             String id = parser.getAttributeValue(null, "id");
-                            Lecture lecture = new Lecture(id);
-                            lecture.day = day;
-                            lecture.room = room;
-                            lecture.date = date;
-                            lecture.room_index = room_map_index;
+                            Lecture lecture = new Lecture();
+                            lecture.setEventId(id);
+                            lecture.setDayIndex(day);
+                            lecture.setRoom(room);
+                            lecture.setDate(date);
+                            lecture.setRoomIndex(room_map_index);
                             eventType = parser.next();
                             boolean lecture_done = false;
                             while (eventType != XmlPullParser.END_DOCUMENT
@@ -194,36 +191,36 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                                         name = parser.getName();
                                         if (name.equals("title")) {
                                             parser.next();
-                                            lecture.title = getSanitizedText(parser);
+                                            lecture.setTitle(XmlPullParsers.getSanitizedText(parser));
                                         } else if (name.equals("subtitle")) {
                                             parser.next();
-                                            lecture.subtitle = getSanitizedText(parser);
+                                            lecture.setSubtitle(XmlPullParsers.getSanitizedText(parser));
                                         } else if (name.equals("slug")) {
                                             parser.next();
-                                            lecture.slug = getSanitizedText(parser);
+                                            lecture.setSlug(XmlPullParsers.getSanitizedText(parser));
                                         } else if (name.equals("track")) {
                                             parser.next();
-                                            lecture.track = getSanitizedText(parser);
+                                            lecture.setTrack(XmlPullParsers.getSanitizedText(parser));
                                         } else if (name.equals("type")) {
                                             parser.next();
-                                            lecture.type = getSanitizedText(parser);
+                                            lecture.setType(XmlPullParsers.getSanitizedText(parser));
                                         } else if (name.equals("language")) {
                                             parser.next();
-                                            lecture.lang = getSanitizedText(parser);
+                                            lecture.setLanguage(XmlPullParsers.getSanitizedText(parser));
                                         } else if (name.equals("abstract")) {
                                             parser.next();
-                                            lecture.abstractt = getSanitizedText(parser);
+                                            lecture.setAbstractt(XmlPullParsers.getSanitizedText(parser));
                                         } else if (name.equals("description")) {
                                             parser.next();
-                                            lecture.description = getSanitizedText(parser);
+                                            lecture.setDescription(XmlPullParsers.getSanitizedText(parser));
                                         } else if (name.equals("person")) {
                                             parser.next();
-                                            String separator = lecture.speakers.length() > 0 ? ";" : "";
-                                            lecture.speakers = lecture.speakers + separator + getSanitizedText(parser);
+                                            String separator = lecture.getSpeakers().length() > 0 ? ";" : "";
+                                            lecture.setSpeakers(lecture.getSpeakers() + separator + XmlPullParsers.getSanitizedText(parser));
                                         } else if (name.equals("link")) {
                                             String url = parser.getAttributeValue(null, "href");
                                             parser.next();
-                                            String urlName = getSanitizedText(parser);
+                                            String urlName = XmlPullParsers.getSanitizedText(parser);
                                             if (url == null) {
                                                 url = urlName;
                                             }
@@ -231,26 +228,26 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                                                 url = "http://" + url;
                                             }
                                             StringBuilder sb = new StringBuilder();
-                                            if (lecture.links.length() > 0) {
-                                                sb.append(lecture.links);
+                                            if (lecture.getLinks().length() > 0) {
+                                                sb.append(lecture.getLinks());
                                                 sb.append(",");
                                             }
                                             sb.append("[").append(urlName).append("]").append("(")
                                                     .append(url).append(")");
-                                            lecture.links = sb.toString();
+                                            lecture.setLinks(sb.toString());
                                         } else if (name.equals("start")) {
                                             parser.next();
-                                            lecture.startTime = Lecture.parseStartTime(getSanitizedText(parser));
-                                            lecture.relStartTime = lecture.startTime;
-                                            if (lecture.relStartTime < dayChangeTime) {
-                                                lecture.relStartTime += (24 * 60);
+                                            lecture.setStartTime(Lecture.Companion.parseStartTime(XmlPullParsers.getSanitizedText(parser)));
+                                            lecture.setRelativeStartTime(lecture.getStartTime());
+                                            if (lecture.getRelativeStartTime() < dayChangeTime) {
+                                                lecture.setRelativeStartTime(lecture.getRelativeStartTime() + (24 * 60));
                                             }
                                         } else if (name.equals("duration")) {
                                             parser.next();
-                                            lecture.duration = Lecture.parseDuration(getSanitizedText(parser));
+                                            lecture.setDuration(Lecture.Companion.parseDuration(XmlPullParsers.getSanitizedText(parser)));
                                         } else if (name.equals("date")) {
                                             parser.next();
-                                            lecture.dateUTC = DateHelper.getDateTime(getSanitizedText(parser));
+                                            lecture.setDateUTC(DateHelper.getDateTime(XmlPullParsers.getSanitizedText(parser)));
                                         } else if (name.equals("recording")) {
                                             eventType = parser.next();
                                             boolean recording_done = false;
@@ -267,10 +264,10 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                                                         name = parser.getName();
                                                         if (name.equals("license")) {
                                                             parser.next();
-                                                            lecture.recordingLicense = getSanitizedText(parser);
+                                                            lecture.setRecordingLicense(XmlPullParsers.getSanitizedText(parser));
                                                         } else if (name.equals("optout")) {
                                                             parser.next();
-                                                            lecture.recordingOptOut = Boolean.valueOf(getSanitizedText(parser));
+                                                            lecture.setRecordingOptOut(Boolean.valueOf(XmlPullParsers.getSanitizedText(parser)));
                                                         }
                                                         break;
                                                 }
@@ -303,19 +300,19 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                                         name = parser.getName();
                                         if (name.equals("subtitle")) {
                                             parser.next();
-                                            meta.setSubtitle(getSanitizedText(parser));
+                                            meta.setSubtitle(XmlPullParsers.getSanitizedText(parser));
                                         }
                                         if (name.equals("title")) {
                                             parser.next();
-                                            meta.setTitle(getSanitizedText(parser));
+                                            meta.setTitle(XmlPullParsers.getSanitizedText(parser));
                                         }
                                         if (name.equals("release")) {
                                             parser.next();
-                                            meta.setVersion(getSanitizedText(parser));
+                                            meta.setVersion(XmlPullParsers.getSanitizedText(parser));
                                         }
                                         if (name.equals("day_change")) {
                                             parser.next();
-                                            dayChangeTime = Lecture.parseStartTime(getSanitizedText(parser));
+                                            dayChangeTime = Lecture.Companion.parseStartTime(XmlPullParsers.getSanitizedText(parser));
                                         }
                                         break;
                                 }

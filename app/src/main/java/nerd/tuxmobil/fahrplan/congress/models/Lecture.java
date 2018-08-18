@@ -111,16 +111,6 @@ public class Lecture {
         return links == null ? "" : links;
     }
 
-    public static int parseStartTime(String text) {
-        String time[] = text.split(":");
-        return Integer.parseInt(time[0]) * 60 + Integer.parseInt(time[1]);
-    }
-
-    public static int parseDuration(String text) {
-        String time[] = text.split(":");
-        return Integer.parseInt(time[0]) * 60 + Integer.parseInt(time[1]);
-    }
-
     public Time getTime() {
         Time t = new Time();
         String[] splitDate = date.split("-");

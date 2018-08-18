@@ -6,12 +6,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -20,7 +18,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.format.Time;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -36,8 +33,6 @@ import org.ligi.snackengage.snacks.BaseSnack;
 import org.ligi.snackengage.snacks.DefaultRateSnack;
 import org.ligi.snackengage.snacks.OpenURLSnack;
 
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import nerd.tuxmobil.fahrplan.congress.BuildConfig;
@@ -57,25 +52,19 @@ import nerd.tuxmobil.fahrplan.congress.details.EventDetailFragment;
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListActivity;
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListFragment;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
-import nerd.tuxmobil.fahrplan.congress.models.Meta;
 import nerd.tuxmobil.fahrplan.congress.navigation.C3navSnack;
 import nerd.tuxmobil.fahrplan.congress.net.CertificateDialogFragment;
 import nerd.tuxmobil.fahrplan.congress.net.CustomHttpClient;
-import nerd.tuxmobil.fahrplan.congress.net.HttpStatus;
-import nerd.tuxmobil.fahrplan.congress.net.FetchFahrplan;
 import nerd.tuxmobil.fahrplan.congress.net.FetchScheduleResult;
+import nerd.tuxmobil.fahrplan.congress.net.HttpStatus;
 import nerd.tuxmobil.fahrplan.congress.reporting.TraceDroidEmailSender;
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
-import nerd.tuxmobil.fahrplan.congress.serialization.FahrplanParser;
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsActivity;
 import nerd.tuxmobil.fahrplan.congress.sidepane.OnSidePaneCloseListener;
 import nerd.tuxmobil.fahrplan.congress.utils.ConfirmationDialog;
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
-import okhttp3.OkHttpClient;
 
 public class MainActivity extends BaseActivity implements
-        FahrplanParser.OnParseCompleteListener,
-        FetchFahrplan.OnDownloadCompleteListener,
         OnSidePaneCloseListener,
         FahrplanFragment.OnRefreshEventMarkers,
         CertificateDialogFragment.OnCertAccepted,
@@ -85,10 +74,6 @@ public class MainActivity extends BaseActivity implements
 
     private static final String LOG_TAG = "MainActivity";
     private static final String VENUE_LEIPZIG_MESSE = "leipzig-messe";
-
-    private FetchFahrplan fetcher;
-
-    private FahrplanParser parser;
 
     private ProgressDialog progress = null;
 
@@ -116,21 +101,6 @@ public class MainActivity extends BaseActivity implements
 
         TraceDroidEmailSender.sendStackTraces(this);
 
-        OkHttpClient okHttpClient = getOkHttpClient();
-        if (okHttpClient == null) {
-            Log.e(LOG_TAG, "OkHttpClient is null");
-            return;
-        }
-        if (MyApp.fetcher == null) {
-            fetcher = new FetchFahrplan(okHttpClient);
-        } else {
-            fetcher = MyApp.fetcher;
-        }
-        if (MyApp.parser == null) {
-            parser = new FahrplanParser();
-        } else {
-            parser = MyApp.parser;
-        }
         progress = null;
 
         AppRepository appRepository = AppRepository.Companion.getInstance(this);
@@ -150,7 +120,7 @@ public class MainActivity extends BaseActivity implements
             case NONE:
                 if ((MyApp.meta.getNumDays() == 0) && (savedInstanceState == null)) {
                     MyApp.LogDebug(LOG_TAG, "fetch in onCreate bc. numDays==0");
-                    fetchFahrplan(this);
+                    fetchFahrplan();
                 }
                 break;
         }
@@ -169,20 +139,6 @@ public class MainActivity extends BaseActivity implements
         }
 
         initUserEngagement();
-    }
-
-    @Nullable
-    private OkHttpClient getOkHttpClient() {
-        AppRepository appRepository = AppRepository.Companion.getInstance(this);
-        String url = appRepository.readScheduleUrl();
-        String host = Uri.parse(url).getHost();
-        OkHttpClient okHttpClient = null;
-        try {
-            okHttpClient = CustomHttpClient.createHttpClient(host);
-        } catch (KeyManagementException | NoSuchAlgorithmException e) {
-            CustomHttpClient.showHttpError(this, HttpStatus.HTTP_SSL_SETUP_FAILURE, host);
-        }
-        return okHttpClient;
     }
 
     private void initUserEngagement() {
@@ -213,13 +169,6 @@ public class MainActivity extends BaseActivity implements
         super.onNewIntent(intent);
         MyApp.LogDebug(LOG_TAG, "onNewIntent");
         setIntent(intent);
-    }
-
-    public void parseFahrplan() {
-        showParsingStatus();
-        MyApp.task_running = TASKS.PARSE;
-        parser.setListener(this);
-        parser.parse(MyApp.fahrplan_xml, MyApp.meta.getETag());
     }
 
     public void onGotResponse(@NonNull FetchScheduleResult fetchScheduleResult) {
@@ -263,26 +212,12 @@ public class MainActivity extends BaseActivity implements
 
         MyApp.fahrplan_xml = fetchScheduleResult.getScheduleXml();
         MyApp.meta.setETag(fetchScheduleResult.getETag());
-        parseFahrplan();
+
+        // Parser is automatically invoked when response has been received.
+        showParsingStatus();
+        MyApp.task_running = TASKS.PARSE;
     }
 
-    @Override
-    public void onUpdateLectures(@NonNull List<Lecture> lectures) {
-        Fragment fragment = findFragment(FahrplanFragment.FRAGMENT_TAG);
-        if (fragment != null && fragment instanceof FahrplanParser.OnParseCompleteListener) {
-            ((FahrplanParser.OnParseCompleteListener) fragment).onUpdateLectures(lectures);
-        }
-    }
-
-    @Override
-    public void onUpdateMeta(@NonNull Meta meta) {
-        Fragment fragment = findFragment(FahrplanFragment.FRAGMENT_TAG);
-        if (fragment != null && fragment instanceof FahrplanParser.OnParseCompleteListener) {
-            ((FahrplanParser.OnParseCompleteListener) fragment).onUpdateMeta(meta);
-        }
-    }
-
-    @Override
     public void onParseDone(Boolean result, String version) {
         MyApp.LogDebug(LOG_TAG, "parseDone: " + result + " , numDays=" + MyApp.meta.getNumDays());
         MyApp.task_running = TASKS.NONE;
@@ -298,8 +233,8 @@ public class MainActivity extends BaseActivity implements
         showUpdateAction = true;
         supportInvalidateOptionsMenu();
         Fragment fragment = findFragment(FahrplanFragment.FRAGMENT_TAG);
-        if (fragment != null && fragment instanceof FahrplanParser.OnParseCompleteListener) {
-            ((FahrplanParser.OnParseCompleteListener) fragment).onParseDone(result, version);
+        if (fragment != null) {
+            ((FahrplanFragment) fragment).onParseDone(result, version);
         }
         fragment = findFragment(ChangeListFragment.FRAGMENT_TAG);
         if (fragment != null && fragment instanceof ChangeListFragment) {
@@ -339,14 +274,19 @@ public class MainActivity extends BaseActivity implements
         }
     }
 
-    public void fetchFahrplan(FetchFahrplan.OnDownloadCompleteListener completeListener) {
+    public void fetchFahrplan() {
         if (MyApp.task_running == TASKS.NONE) {
-            AppRepository appRepository = AppRepository.Companion.getInstance(this);
-            String url = appRepository.readScheduleUrl();
             MyApp.task_running = TASKS.FETCH;
             showFetchingStatus();
-            fetcher.setListener(completeListener);
-            fetcher.fetch(url, MyApp.meta.getETag());
+            AppRepository appRepository = AppRepository.Companion.getInstance(this);
+            String url = appRepository.readScheduleUrl();
+            appRepository.loadSchedule(url, MyApp.meta.getETag(), fetchScheduleResult -> {
+                onGotResponse(fetchScheduleResult);
+                return null;
+            }, (result, version) -> {
+                onParseDone(result, version);
+                return null;
+            });
         } else {
             MyApp.LogDebug(LOG_TAG, "fetch already in progress");
         }
@@ -362,25 +302,8 @@ public class MainActivity extends BaseActivity implements
     }
 
     @Override
-    protected void onPause() {
-        if (MyApp.fetcher != null) {
-            MyApp.fetcher.setListener(null);
-        }
-        if (MyApp.parser != null) {
-            MyApp.parser.setListener(null);
-        }
-        super.onPause();
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
-        if (MyApp.fetcher != null) {
-            MyApp.fetcher.setListener(this);
-        }
-        if (MyApp.parser != null) {
-            MyApp.parser.setListener(this);
-        }
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         if (prefs.getBoolean(BundleKeys.PREFS_CHANGES_SEEN, true) == false) {
             showChangesDialog();
@@ -427,7 +350,7 @@ public class MainActivity extends BaseActivity implements
         Intent intent;
         switch (item.getItemId()) {
             case R.id.item_refresh:
-                fetchFahrplan(this);
+                fetchFahrplan();
                 return true;
             case R.id.item_about:
                 showAboutDialog();
@@ -532,7 +455,7 @@ public class MainActivity extends BaseActivity implements
     @Override
     public void onCertAccepted() {
         MyApp.LogDebug(LOG_TAG, "fetch on cert accepted.");
-        fetchFahrplan(MainActivity.this);
+        fetchFahrplan();
     }
 
     @Override
