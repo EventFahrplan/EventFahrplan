@@ -2,14 +2,13 @@ package nerd.tuxmobil.fahrplan.congress.net;
 
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 
 import java.io.IOException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
 
 import javax.net.ssl.SSLException;
 
@@ -31,13 +30,16 @@ public class FetchFahrplan {
 
     private OnDownloadCompleteListener listener;
 
-    public FetchFahrplan() {
+    private final OkHttpClient okHttpClient;
+
+    public FetchFahrplan(@NonNull OkHttpClient okHttpClient) {
+        this.okHttpClient = okHttpClient;
         task = null;
         MyApp.fetcher = this;
     }
 
     public void fetch(String url, String eTag) {
-        task = new FetchFahrplanTask(this.listener);
+        task = new FetchFahrplanTask(okHttpClient, this.listener);
         task.execute(url, eTag);
     }
 
@@ -57,6 +59,8 @@ public class FetchFahrplan {
 
 class FetchFahrplanTask extends AsyncTask<String, Void, HTTP_STATUS> {
 
+    private final OkHttpClient okHttpClient;
+
     private String responseStr;
 
     private String eTagStr = "";
@@ -70,7 +74,8 @@ class FetchFahrplanTask extends AsyncTask<String, Void, HTTP_STATUS> {
     private HTTP_STATUS status;
     private String host;
 
-    FetchFahrplanTask(FetchFahrplan.OnDownloadCompleteListener listener) {
+    FetchFahrplanTask(@NonNull OkHttpClient okHttpClient, FetchFahrplan.OnDownloadCompleteListener listener) {
+        this.okHttpClient = okHttpClient;
         this.listener = listener;
         this.completed = false;
     }
@@ -118,15 +123,6 @@ class FetchFahrplanTask extends AsyncTask<String, Void, HTTP_STATUS> {
     }
 
     private HTTP_STATUS fetch(String url, String eTag) {
-        OkHttpClient client;
-        try {
-            client = CustomHttpClient.createHttpClient(host);
-        } catch (KeyManagementException e1) {
-            return HTTP_STATUS.HTTP_SSL_SETUP_FAILURE;
-        } catch (NoSuchAlgorithmException e1) {
-            return HTTP_STATUS.HTTP_SSL_SETUP_FAILURE;
-        }
-
         Log.d("Fetch", url);
         Log.d("Fetch", "ETag: " + eTag);
         Request.Builder requestBuilder = new Request.Builder()
@@ -138,7 +134,7 @@ class FetchFahrplanTask extends AsyncTask<String, Void, HTTP_STATUS> {
 
         Response response;
         try {
-            Call call = client.newCall(requestBuilder.build());
+            Call call = okHttpClient.newCall(requestBuilder.build());
             response = call.execute();
         } catch (SSLException e) {
             CustomHttpClient.setSSLException(e);

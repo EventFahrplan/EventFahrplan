@@ -11,12 +11,15 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
 import android.text.format.Time;
 
 import org.ligi.tracedroid.logging.Log;
 
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import nerd.tuxmobil.fahrplan.congress.MyApp;
@@ -26,6 +29,7 @@ import nerd.tuxmobil.fahrplan.congress.extensions.Contexts;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
 import nerd.tuxmobil.fahrplan.congress.models.Meta;
 import nerd.tuxmobil.fahrplan.congress.net.ConnectivityStateReceiver;
+import nerd.tuxmobil.fahrplan.congress.net.CustomHttpClient;
 import nerd.tuxmobil.fahrplan.congress.net.CustomHttpClient.HTTP_STATUS;
 import nerd.tuxmobil.fahrplan.congress.net.FetchFahrplan;
 import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper;
@@ -34,6 +38,7 @@ import nerd.tuxmobil.fahrplan.congress.schedule.MainActivity;
 import nerd.tuxmobil.fahrplan.congress.serialization.FahrplanParser;
 import nerd.tuxmobil.fahrplan.congress.serialization.ScheduleChanges;
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
+import okhttp3.OkHttpClient;
 
 public class UpdateService extends IntentService implements
         FetchFahrplan.OnDownloadCompleteListener,
@@ -165,14 +170,34 @@ public class UpdateService extends IntentService implements
         AppRepository appRepository = AppRepository.Companion.getInstance(getApplicationContext());
         MyApp.meta = appRepository.readMeta(); // to load eTag
 
+        OkHttpClient okHttpClient = getOkHttpClient();
+        if (okHttpClient == null) {
+            Log.e(LOG_TAG, "OkHttpClient is null.");
+            return;
+        }
         if (MyApp.fetcher == null) {
-            fetcher = new FetchFahrplan();
+            fetcher = new FetchFahrplan(okHttpClient);
         } else {
             fetcher = MyApp.fetcher;
         }
         MyApp.LogDebug(LOG_TAG, "going to fetch schedule");
         FahrplanMisc.setUpdateAlarm(this, false);
         fetchFahrplan(this);
+    }
+
+    @Nullable
+    private OkHttpClient getOkHttpClient() {
+        AppRepository appRepository = AppRepository.Companion.getInstance(this);
+        String url = appRepository.readScheduleUrl();
+        String host = Uri.parse(url).getHost();
+        OkHttpClient okHttpClient = null;
+        try {
+            okHttpClient = CustomHttpClient.createHttpClient(host);
+        } catch (KeyManagementException | NoSuchAlgorithmException e) {
+            MyApp.LogDebug(LOG_TAG, "background update failed with " + HTTP_STATUS.HTTP_SSL_SETUP_FAILURE);
+            stopSelf();
+        }
+        return okHttpClient;
     }
 
     public static void start(@NonNull Context context) {
