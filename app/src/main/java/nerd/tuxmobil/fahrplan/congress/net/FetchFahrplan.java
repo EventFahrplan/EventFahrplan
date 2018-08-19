@@ -173,7 +173,8 @@ class FetchFahrplanTask extends AsyncTask<String, Void, HTTP_STATUS> {
         }
 
         eTagStr = response.header("ETag");
-        if (eTagStr != null) {
+        eTagStr = eTagStr == null ? "" : eTagStr;
+        if (!eTagStr.isEmpty()) {
             MyApp.LogDebug(LOG_TAG, "ETag: " + eTagStr);
         } else {
             MyApp.LogDebug(LOG_TAG, "ETag missing?");
