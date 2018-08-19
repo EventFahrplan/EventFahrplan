@@ -59,7 +59,7 @@ class FetchFahrplanTask extends AsyncTask<String, Void, HTTP_STATUS> {
 
     private String responseStr;
 
-    private String eTagStr;
+    private String eTagStr = "";
 
     private String LOG_TAG = "FetchFahrplan";
 
