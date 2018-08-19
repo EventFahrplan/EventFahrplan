@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -30,9 +31,20 @@ public class CertificateDialogFragment extends DialogFragment {
     public static final String FRAGMENT_TAG =
             BuildConfig.APPLICATION_ID + "CERTIFICATE_DIALOG_FRAGMENT_TAG";
 
+    private static final String BUNDLE_KEY_EXCEPTION_MESSAGE =
+            BuildConfig.APPLICATION_ID + ".BUNDLE_KEY_EXCEPTION_MESSAGE";
+
     private OnCertAccepted listener;
 
     private X509Certificate[] chain;
+
+    public static CertificateDialogFragment newInstance(String exceptionMessage) {
+        CertificateDialogFragment dialog = new CertificateDialogFragment();
+        Bundle args = new Bundle();
+        args.putString(BUNDLE_KEY_EXCEPTION_MESSAGE, exceptionMessage);
+        dialog.setArguments(args);
+        return dialog;
+    }
 
     @Override
     public void onAttach(Context context) {
@@ -69,22 +81,16 @@ public class CertificateDialogFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        chain = TrustManagerFactory.getLastCertChain();
-        String exMessage = "Unknown Error";
-
-        Exception ex = CustomHttpClient.getSSLException();
-        if (ex != null) {
-            if (ex.getCause() != null) {
-                if (ex.getCause().getCause() != null) {
-                    exMessage = ex.getCause().getCause().getMessage();
-
-                } else {
-                    exMessage = ex.getCause().getMessage();
-                }
-            } else {
-                exMessage = ex.getMessage();
+        Bundle args = getArguments();
+        String exceptionMessage = "Unknown Error";
+        if (args != null) {
+            String message = args.getString(BUNDLE_KEY_EXCEPTION_MESSAGE);
+            if (!TextUtils.isEmpty(message)) {
+                exceptionMessage = message;
             }
         }
+
+        chain = TrustManagerFactory.getLastCertChain();
 
         StringBuffer chainInfo = new StringBuffer(100);
         int chain_len = (chain == null ? 0 : chain.length);
@@ -113,7 +119,7 @@ public class CertificateDialogFragment extends DialogFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View msgView = inflater.inflate(R.layout.cert_dialog, null);
         TextView messageView = msgView.findViewById(R.id.cert);
-        String message = getString(R.string.dlg_certificate_message_fmt, exMessage);
+        String message = getString(R.string.dlg_certificate_message_fmt, exceptionMessage);
         message += "\n\n" + chainInfo.toString();
         messageView.setText(message);
         builder.setView(msgView);

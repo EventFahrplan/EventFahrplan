@@ -1,10 +1,7 @@
-package nerd.tuxmobil.fahrplan.congress.serialization;
+package info.metadude.android.eventfahrplan.network.serialization;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
-import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.util.Xml;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -14,22 +11,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import nerd.tuxmobil.fahrplan.congress.MyApp;
-import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
-import nerd.tuxmobil.fahrplan.congress.models.Lecture;
-import nerd.tuxmobil.fahrplan.congress.models.Meta;
-import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
-import nerd.tuxmobil.fahrplan.congress.serialization.exceptions.MissingXmlAttributeException;
-import nerd.tuxmobil.fahrplan.congress.utils.DateHelper;
-import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
-import nerd.tuxmobil.fahrplan.congress.utils.LectureUtils;
-import nerd.tuxmobil.fahrplan.congress.validation.DateFieldValidation;
-
-import static nerd.tuxmobil.fahrplan.congress.serialization.XmlPullParsers.getSanitizedText;
+import info.metadude.android.eventfahrplan.network.models.Lecture;
+import info.metadude.android.eventfahrplan.network.models.Meta;
+import info.metadude.android.eventfahrplan.network.serialization.exceptions.MissingXmlAttributeException;
+import info.metadude.android.eventfahrplan.network.utils.DateHelper;
+import info.metadude.android.eventfahrplan.network.validation.DateFieldValidation;
 
 public class FahrplanParser {
 
     public interface OnParseCompleteListener {
+
+        void onUpdateLectures(@NonNull List<Lecture> lectures);
+
+        void onUpdateMeta(@NonNull Meta meta);
 
         void onParseDone(Boolean result, String version);
     }
@@ -38,19 +32,12 @@ public class FahrplanParser {
 
     private OnParseCompleteListener listener;
 
-    private Context context;
-
-    private AppRepository appRepository;
-
-    public FahrplanParser(Context context, AppRepository appRepository) {
+    public FahrplanParser() {
         task = null;
-        MyApp.parser = this;
-        this.context = context;
-        this.appRepository = appRepository;
     }
 
     public void parse(String fahrplan, String eTag) {
-        task = new ParserTask(context, appRepository, listener);
+        task = new ParserTask(listener);
         task.execute(fahrplan, eTag);
     }
 
@@ -70,13 +57,9 @@ public class FahrplanParser {
 
 class ParserTask extends AsyncTask<String, Void, Boolean> {
 
-    private String LOG_TAG = "ParseFahrplan";
-
     private List<Lecture> lectures;
 
     private Meta meta;
-
-    private SQLiteDatabase db;
 
     private FahrplanParser.OnParseCompleteListener listener;
 
@@ -84,16 +67,9 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
 
     private boolean result;
 
-    private Context context;
-
-    private AppRepository appRepository;
-
-    public ParserTask(Context context, AppRepository appRepository, FahrplanParser.OnParseCompleteListener listener) {
+    ParserTask(FahrplanParser.OnParseCompleteListener listener) {
         this.listener = listener;
         this.completed = false;
-        this.db = null;
-        this.context = context;
-        this.appRepository = appRepository;
     }
 
     public void setListener(FahrplanParser.OnParseCompleteListener listener) {
@@ -108,22 +84,19 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
     protected Boolean doInBackground(String... args) {
         boolean parsingSuccessful = parseFahrplan(args[0], args[1]);
         if (parsingSuccessful) {
-            DateFieldValidation dateFieldValidation = new DateFieldValidation(context);
-            dateFieldValidation.validate();
+            DateFieldValidation dateFieldValidation = new DateFieldValidation();
+            dateFieldValidation.validate(lectures);
             dateFieldValidation.printValidationErrors();
             // TODO Clear database on validation failure.
         }
         return parsingSuccessful;
     }
 
-    protected void onCancelled() {
-        MyApp.LogDebug(LOG_TAG, "parse cancelled");
-        if (db != null) {
-            db.close();
-        }
-    }
-
     private void notifyActivity() {
+        if (result) {
+            listener.onUpdateLectures(lectures);
+            listener.onUpdateMeta(meta);
+        }
         listener.onParseDone(result, meta.getVersion());
         completed = false;
     }
@@ -153,7 +126,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
             boolean schedule_complete = false;
             HashMap<String, Integer> roomsMap = new HashMap<>();
             while (eventType != XmlPullParser.END_DOCUMENT && !done && !isCancelled()) {
-                String name = null;
+                String name;
                 switch (eventType) {
                     case XmlPullParser.START_DOCUMENT:
                         lectures = new ArrayList<>();
@@ -169,7 +142,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                         name = parser.getName();
                         if (name.equals("version")) {
                             parser.next();
-                            meta.setVersion(getSanitizedText(parser));
+                            meta.setVersion(XmlPullParsers.getSanitizedText(parser));
                         }
                         if (name.equals("day")) {
                             String index = parser.getAttributeValue(null, "index");
@@ -177,8 +150,6 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                             date = parser.getAttributeValue(null, "date");
                             String end = parser.getAttributeValue(null, "end");
                             if (end == null) {
-                                MyApp.LogDebug(LOG_TAG,
-                                        "Current day: date = " + date + ", index = " + day);
                                 throw new MissingXmlAttributeException("day", "end");
                             }
                             dayChangeTime = DateHelper.getDayChange(end);
@@ -198,13 +169,12 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                         }
                         if (name.equalsIgnoreCase("event")) {
                             String id = parser.getAttributeValue(null, "id");
-                            Lecture lecture = new Lecture(id);
-                            lecture.day = day;
-                            lecture.room = room;
-                            lecture.date = date;
-                            lecture.room_index = room_map_index;
-                            MyApp.LogDebug(LOG_TAG,
-                                    "room " + room + " with index " + room_map_index);
+                            Lecture lecture = new Lecture();
+                            lecture.setEventId(id);
+                            lecture.setDayIndex(day);
+                            lecture.setRoom(room);
+                            lecture.setDate(date);
+                            lecture.setRoomIndex(room_map_index);
                             eventType = parser.next();
                             boolean lecture_done = false;
                             while (eventType != XmlPullParser.END_DOCUMENT
@@ -221,36 +191,36 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                                         name = parser.getName();
                                         if (name.equals("title")) {
                                             parser.next();
-                                            lecture.title = getSanitizedText(parser);
+                                            lecture.setTitle(XmlPullParsers.getSanitizedText(parser));
                                         } else if (name.equals("subtitle")) {
                                             parser.next();
-                                            lecture.subtitle = getSanitizedText(parser);
+                                            lecture.setSubtitle(XmlPullParsers.getSanitizedText(parser));
                                         } else if (name.equals("slug")) {
                                             parser.next();
-                                            lecture.slug = getSanitizedText(parser);
+                                            lecture.setSlug(XmlPullParsers.getSanitizedText(parser));
                                         } else if (name.equals("track")) {
                                             parser.next();
-                                            lecture.track = getSanitizedText(parser);
+                                            lecture.setTrack(XmlPullParsers.getSanitizedText(parser));
                                         } else if (name.equals("type")) {
                                             parser.next();
-                                            lecture.type = getSanitizedText(parser);
+                                            lecture.setType(XmlPullParsers.getSanitizedText(parser));
                                         } else if (name.equals("language")) {
                                             parser.next();
-                                            lecture.lang = getSanitizedText(parser);
+                                            lecture.setLanguage(XmlPullParsers.getSanitizedText(parser));
                                         } else if (name.equals("abstract")) {
                                             parser.next();
-                                            lecture.abstractt = getSanitizedText(parser);
+                                            lecture.setAbstractt(XmlPullParsers.getSanitizedText(parser));
                                         } else if (name.equals("description")) {
                                             parser.next();
-                                            lecture.description = getSanitizedText(parser);
+                                            lecture.setDescription(XmlPullParsers.getSanitizedText(parser));
                                         } else if (name.equals("person")) {
                                             parser.next();
-                                            String separator = lecture.speakers.length() > 0 ? ";" : "";
-                                            lecture.speakers = lecture.speakers + separator + getSanitizedText(parser);
+                                            String separator = lecture.getSpeakers().length() > 0 ? ";" : "";
+                                            lecture.setSpeakers(lecture.getSpeakers() + separator + XmlPullParsers.getSanitizedText(parser));
                                         } else if (name.equals("link")) {
                                             String url = parser.getAttributeValue(null, "href");
                                             parser.next();
-                                            String urlName = getSanitizedText(parser);
+                                            String urlName = XmlPullParsers.getSanitizedText(parser);
                                             if (url == null) {
                                                 url = urlName;
                                             }
@@ -258,26 +228,26 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                                                 url = "http://" + url;
                                             }
                                             StringBuilder sb = new StringBuilder();
-                                            if (lecture.links.length() > 0) {
-                                                sb.append(lecture.links);
+                                            if (lecture.getLinks().length() > 0) {
+                                                sb.append(lecture.getLinks());
                                                 sb.append(",");
                                             }
                                             sb.append("[").append(urlName).append("]").append("(")
                                                     .append(url).append(")");
-                                            lecture.links = sb.toString();
+                                            lecture.setLinks(sb.toString());
                                         } else if (name.equals("start")) {
                                             parser.next();
-                                            lecture.startTime = Lecture.parseStartTime(getSanitizedText(parser));
-                                            lecture.relStartTime = lecture.startTime;
-                                            if (lecture.relStartTime < dayChangeTime) {
-                                                lecture.relStartTime += (24 * 60);
+                                            lecture.setStartTime(Lecture.Companion.parseStartTime(XmlPullParsers.getSanitizedText(parser)));
+                                            lecture.setRelativeStartTime(lecture.getStartTime());
+                                            if (lecture.getRelativeStartTime() < dayChangeTime) {
+                                                lecture.setRelativeStartTime(lecture.getRelativeStartTime() + (24 * 60));
                                             }
                                         } else if (name.equals("duration")) {
                                             parser.next();
-                                            lecture.duration = Lecture.parseDuration(getSanitizedText(parser));
+                                            lecture.setDuration(Lecture.Companion.parseDuration(XmlPullParsers.getSanitizedText(parser)));
                                         } else if (name.equals("date")) {
                                             parser.next();
-                                            lecture.dateUTC = DateHelper.getDateTime(getSanitizedText(parser));
+                                            lecture.setDateUTC(DateHelper.getDateTime(XmlPullParsers.getSanitizedText(parser)));
                                         } else if (name.equals("recording")) {
                                             eventType = parser.next();
                                             boolean recording_done = false;
@@ -294,10 +264,10 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                                                         name = parser.getName();
                                                         if (name.equals("license")) {
                                                             parser.next();
-                                                            lecture.recordingLicense = getSanitizedText(parser);
+                                                            lecture.setRecordingLicense(XmlPullParsers.getSanitizedText(parser));
                                                         } else if (name.equals("optout")) {
                                                             parser.next();
-                                                            lecture.recordingOptOut = Boolean.valueOf(getSanitizedText(parser));
+                                                            lecture.setRecordingOptOut(Boolean.valueOf(XmlPullParsers.getSanitizedText(parser)));
                                                         }
                                                         break;
                                                 }
@@ -330,19 +300,19 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                                         name = parser.getName();
                                         if (name.equals("subtitle")) {
                                             parser.next();
-                                            meta.setSubtitle(getSanitizedText(parser));
+                                            meta.setSubtitle(XmlPullParsers.getSanitizedText(parser));
                                         }
                                         if (name.equals("title")) {
                                             parser.next();
-                                            meta.setTitle(getSanitizedText(parser));
+                                            meta.setTitle(XmlPullParsers.getSanitizedText(parser));
                                         }
                                         if (name.equals("release")) {
                                             parser.next();
-                                            meta.setVersion(getSanitizedText(parser));
+                                            meta.setVersion(XmlPullParsers.getSanitizedText(parser));
                                         }
                                         if (name.equals("day_change")) {
                                             parser.next();
-                                            dayChangeTime = Lecture.parseStartTime(getSanitizedText(parser));
+                                            dayChangeTime = Lecture.Companion.parseStartTime(XmlPullParsers.getSanitizedText(parser));
                                         }
                                         break;
                                 }
@@ -356,125 +326,18 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                 }
                 eventType = parser.next();
             }
-            if (!schedule_complete) return false;
-            if (isCancelled()) {
+            if (!schedule_complete) {
                 return false;
             }
-            setChangedFlags(lectures);
-            appRepository.updateLectures(lectures);
             if (isCancelled()) {
                 return false;
             }
             meta.setNumDays(numdays);
             meta.setETag(eTag);
-            appRepository.updateMeta(meta);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
             return false;
-        }
-    }
-
-    private void setChangedFlags(List<Lecture> lectures) {
-        List<Lecture> oldLectures;
-        boolean changed = false;
-
-        oldLectures = FahrplanMisc.loadLecturesForAllDays(this.context);
-        if (oldLectures.isEmpty()) {
-            return;
-        }
-
-        int lectureIndex = oldLectures.size() - 1;
-        while (lectureIndex >= 0) {
-            Lecture l = oldLectures.get(lectureIndex);
-            if (l.changedIsCanceled) oldLectures.remove(lectureIndex);
-            lectureIndex--;
-        }
-
-        lectureIndex = 0;
-        for (lectureIndex = 0; lectureIndex < lectures.size(); lectureIndex++) {
-            Lecture newLecture = lectures.get(lectureIndex);
-            Lecture oldLecture = LectureUtils.getLecture(oldLectures, newLecture.lecture_id);
-
-            if (oldLecture == null) {
-                newLecture.changedIsNew = true;
-                MyApp.LogDebug(LOG_TAG, "lecture " + newLecture.title + " is new.");
-                changed = true;
-                continue;
-            }
-
-            if (oldLecture.equals(newLecture)) {
-                oldLectures.remove(oldLecture);
-                continue;
-            }
-
-            if (!(newLecture.title.equals(oldLecture.title))) {
-                newLecture.changedTitle = true;
-                MyApp.LogDebug(LOG_TAG, "title changed to " + newLecture.title);
-                changed = true;
-            }
-            if (!(newLecture.subtitle.equals(oldLecture.subtitle))) {
-                newLecture.changedSubtitle = true;
-                MyApp.LogDebug(LOG_TAG, "subtitle changed to " + newLecture.subtitle);
-                changed = true;
-            }
-            if (!(newLecture.speakers.equals(oldLecture.speakers))) {
-                newLecture.changedSpeakers = true;
-                MyApp.LogDebug(LOG_TAG, "speakers changed to " + newLecture.speakers);
-                changed = true;
-            }
-            if (!(newLecture.lang.equals(oldLecture.lang))) {
-                newLecture.changedLanguage = true;
-                MyApp.LogDebug(LOG_TAG, "lang changed to " + newLecture.lang);
-                changed = true;
-            }
-            if (!(newLecture.room.equals(oldLecture.room))) {
-                newLecture.changedRoom = true;
-                MyApp.LogDebug(LOG_TAG, "room changed to " + newLecture.room);
-                changed = true;
-            }
-            if (!(newLecture.track.equals(oldLecture.track))) {
-                newLecture.changedTrack = true;
-                MyApp.LogDebug(LOG_TAG, "track changed to " + newLecture.track);
-                changed = true;
-            }
-            if (newLecture.recordingOptOut != oldLecture.recordingOptOut) {
-                newLecture.changedRecordingOptOut = true;
-                MyApp.LogDebug(LOG_TAG, "recordingOptOut changed to " + newLecture.recordingOptOut);
-                changed = true;
-            }
-            if (newLecture.day != oldLecture.day) {
-                newLecture.changedDay = true;
-                MyApp.LogDebug(LOG_TAG, "day changed to " + newLecture.day);
-                changed = true;
-            }
-            if (newLecture.startTime != oldLecture.startTime) {
-                newLecture.changedTime = true;
-                MyApp.LogDebug(LOG_TAG, "startTime changed to " + newLecture.startTime);
-                changed = true;
-            }
-            if (newLecture.duration != oldLecture.duration) {
-                newLecture.changedDuration = true;
-                MyApp.LogDebug(LOG_TAG, "duration changed to " + newLecture.duration);
-                changed = true;
-            }
-
-            oldLectures.remove(oldLecture);
-        }
-
-        for (lectureIndex = 0; lectureIndex < oldLectures.size(); lectureIndex++) {
-            Lecture oldLecture = oldLectures.get(lectureIndex);
-            oldLecture.cancel();
-            lectures.add(oldLecture);
-            MyApp.LogDebug(LOG_TAG, "lecture " + oldLecture.title + " was canceled.");
-            changed = true;
-        }
-
-        if (changed) {
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.context);
-            SharedPreferences.Editor edit = prefs.edit();
-            edit.putBoolean(BundleKeys.PREFS_CHANGES_SEEN, false);
-            edit.commit();
         }
     }
 

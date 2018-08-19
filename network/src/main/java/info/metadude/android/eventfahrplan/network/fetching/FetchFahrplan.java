@@ -1,20 +1,17 @@
-package nerd.tuxmobil.fahrplan.congress.net;
+package info.metadude.android.eventfahrplan.network.fetching;
 
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 
 import java.io.IOException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
 
 import javax.net.ssl.SSLException;
 
-import nerd.tuxmobil.fahrplan.congress.MyApp;
-import nerd.tuxmobil.fahrplan.congress.net.CustomHttpClient.HTTP_STATUS;
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -24,7 +21,7 @@ public class FetchFahrplan {
 
     public interface OnDownloadCompleteListener {
 
-        void onGotResponse(HTTP_STATUS status, String response, String eTagStr, String host);
+        void onGotResponse(@NonNull FetchScheduleResult fetchScheduleResult);
     }
 
     private FetchFahrplanTask task;
@@ -33,11 +30,10 @@ public class FetchFahrplan {
 
     public FetchFahrplan() {
         task = null;
-        MyApp.fetcher = this;
     }
 
-    public void fetch(String url, String eTag) {
-        task = new FetchFahrplanTask(this.listener);
+    public void fetch(@NonNull OkHttpClient okHttpClient, String url, String eTag) {
+        task = new FetchFahrplanTask(okHttpClient, this.listener);
         task.execute(url, eTag);
     }
 
@@ -55,7 +51,11 @@ public class FetchFahrplan {
     }
 }
 
-class FetchFahrplanTask extends AsyncTask<String, Void, HTTP_STATUS> {
+class FetchFahrplanTask extends AsyncTask<String, Void, HttpStatus> {
+
+    private static final String EMPTY_RESPONSE_STRING = "";
+
+    private final OkHttpClient okHttpClient;
 
     private String responseStr;
 
@@ -67,10 +67,12 @@ class FetchFahrplanTask extends AsyncTask<String, Void, HTTP_STATUS> {
 
     private boolean completed;
 
-    private HTTP_STATUS status;
+    private HttpStatus status;
     private String host;
+    private String exceptionMessage = "";
 
-    public FetchFahrplanTask(FetchFahrplan.OnDownloadCompleteListener listener) {
+    FetchFahrplanTask(@NonNull OkHttpClient okHttpClient, FetchFahrplan.OnDownloadCompleteListener listener) {
+        this.okHttpClient = okHttpClient;
         this.listener = listener;
         this.completed = false;
     }
@@ -84,7 +86,7 @@ class FetchFahrplanTask extends AsyncTask<String, Void, HTTP_STATUS> {
     }
 
     @Override
-    protected HTTP_STATUS doInBackground(String... args) {
+    protected HttpStatus doInBackground(String... args) {
         String url = args[0];
         String eTag = args[1];
 
@@ -94,10 +96,10 @@ class FetchFahrplanTask extends AsyncTask<String, Void, HTTP_STATUS> {
     }
 
     protected void onCancelled() {
-        MyApp.LogDebug(LOG_TAG, "fetch cancelled");
+        Log.d(LOG_TAG, "fetch cancelled");
     }
 
-    protected void onPostExecute(HTTP_STATUS status) {
+    protected void onPostExecute(HttpStatus status) {
         completed = true;
         this.status = status;
 
@@ -107,28 +109,19 @@ class FetchFahrplanTask extends AsyncTask<String, Void, HTTP_STATUS> {
     }
 
     private void notifyActivity() {
-        if (status == HTTP_STATUS.HTTP_OK) {
-            MyApp.LogDebug(LOG_TAG, "fetch done successfully");
-            listener.onGotResponse(status, responseStr, eTagStr, host);
+        if (status == HttpStatus.HTTP_OK) {
+            Log.d(LOG_TAG, "fetch done successfully");
+            listener.onGotResponse(new FetchScheduleResult(status, responseStr, eTagStr, host, exceptionMessage));
         } else {
-            MyApp.LogDebug(LOG_TAG, "fetch failed");
-            listener.onGotResponse(status, null, eTagStr, host);
+            Log.d(LOG_TAG, "fetch failed");
+            listener.onGotResponse(new FetchScheduleResult(status, EMPTY_RESPONSE_STRING, eTagStr, host, exceptionMessage));
         }
-        completed = false;                // notifiy only once
+        completed = false; // notify only once
     }
 
-    private HTTP_STATUS fetch(String url, String eTag) {
-        OkHttpClient client;
-        try {
-            client = CustomHttpClient.createHttpClient(host);
-        } catch (KeyManagementException e1) {
-            return HTTP_STATUS.HTTP_SSL_SETUP_FAILURE;
-        } catch (NoSuchAlgorithmException e1) {
-            return HTTP_STATUS.HTTP_SSL_SETUP_FAILURE;
-        }
-
-        MyApp.LogDebug("Fetch", url);
-        MyApp.LogDebug("Fetch", "ETag: " + eTag);
+    private HttpStatus fetch(String url, String eTag) {
+        Log.d("Fetch", url);
+        Log.d("Fetch", "ETag: " + eTag);
         Request.Builder requestBuilder = new Request.Builder()
                 .url(url);
 
@@ -138,55 +131,68 @@ class FetchFahrplanTask extends AsyncTask<String, Void, HTTP_STATUS> {
 
         Response response;
         try {
-            Call call = client.newCall(requestBuilder.build());
+            Call call = okHttpClient.newCall(requestBuilder.build());
             response = call.execute();
         } catch (SSLException e) {
-            CustomHttpClient.setSSLException(e);
+            setExceptionMessage(e);
             e.printStackTrace();
-            return HTTP_STATUS.HTTP_LOGIN_FAIL_UNTRUSTED_CERTIFICATE;
+            return HttpStatus.HTTP_LOGIN_FAIL_UNTRUSTED_CERTIFICATE;
         } catch (SocketTimeoutException e) {
-            return HTTP_STATUS.HTTP_CONNECT_TIMEOUT;
+            return HttpStatus.HTTP_CONNECT_TIMEOUT;
         } catch (UnknownHostException e) {
             e.printStackTrace();
-            return HTTP_STATUS.HTTP_DNS_FAILURE;
+            return HttpStatus.HTTP_DNS_FAILURE;
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-            return HTTP_STATUS.HTTP_COULD_NOT_CONNECT;
+            return HttpStatus.HTTP_COULD_NOT_CONNECT;
         }
 
         int statusCode = response.code();
         if (statusCode == 304) {
-            return HTTP_STATUS.HTTP_NOT_MODIFIED;
+            return HttpStatus.HTTP_NOT_MODIFIED;
         }
 
         if (statusCode != 200) {
             Log.w("Fetch", "Error " + statusCode
                     + " while retrieving XML data");
             if (statusCode == 401) {
-                return HTTP_STATUS.HTTP_WRONG_HTTP_CREDENTIALS;
+                return HttpStatus.HTTP_WRONG_HTTP_CREDENTIALS;
             }
             if (statusCode == 404) {
-                return HTTP_STATUS.HTTP_NOT_FOUND;
+                return HttpStatus.HTTP_NOT_FOUND;
             }
-            return HTTP_STATUS.HTTP_COULD_NOT_CONNECT;
+            return HttpStatus.HTTP_COULD_NOT_CONNECT;
         }
 
         eTagStr = response.header("ETag");
         eTagStr = eTagStr == null ? "" : eTagStr;
         if (!eTagStr.isEmpty()) {
-            MyApp.LogDebug(LOG_TAG, "ETag: " + eTagStr);
+            Log.d(LOG_TAG, "ETag: " + eTagStr);
         } else {
-            MyApp.LogDebug(LOG_TAG, "ETag missing?");
+            Log.d(LOG_TAG, "ETag missing?");
         }
 
         try {
             responseStr = response.body().string();
         } catch (IOException e) {
-            return HTTP_STATUS.HTTP_CANNOT_PARSE_CONTENT;
+            return HttpStatus.HTTP_CANNOT_PARSE_CONTENT;
         }
 
-        return HTTP_STATUS.HTTP_OK;
+        return HttpStatus.HTTP_OK;
     }
+
+    private void setExceptionMessage(SSLException exception) {
+        if (exception.getCause() == null) {
+            exceptionMessage = exception.getMessage();
+        } else {
+            if (exception.getCause().getCause() == null) {
+                exceptionMessage = exception.getCause().getMessage();
+            } else {
+                exceptionMessage = exception.getCause().getCause().getMessage();
+            }
+        }
+    }
+
 
 }

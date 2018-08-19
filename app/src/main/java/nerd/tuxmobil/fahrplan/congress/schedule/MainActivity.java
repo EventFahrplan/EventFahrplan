@@ -17,7 +17,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.text.format.Time;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -56,19 +55,16 @@ import nerd.tuxmobil.fahrplan.congress.models.Lecture;
 import nerd.tuxmobil.fahrplan.congress.navigation.C3navSnack;
 import nerd.tuxmobil.fahrplan.congress.net.CertificateDialogFragment;
 import nerd.tuxmobil.fahrplan.congress.net.CustomHttpClient;
-import nerd.tuxmobil.fahrplan.congress.net.CustomHttpClient.HTTP_STATUS;
-import nerd.tuxmobil.fahrplan.congress.net.FetchFahrplan;
+import nerd.tuxmobil.fahrplan.congress.net.FetchScheduleResult;
+import nerd.tuxmobil.fahrplan.congress.net.HttpStatus;
 import nerd.tuxmobil.fahrplan.congress.reporting.TraceDroidEmailSender;
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
-import nerd.tuxmobil.fahrplan.congress.serialization.FahrplanParser;
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsActivity;
 import nerd.tuxmobil.fahrplan.congress.sidepane.OnSidePaneCloseListener;
 import nerd.tuxmobil.fahrplan.congress.utils.ConfirmationDialog;
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
 
 public class MainActivity extends BaseActivity implements
-        FahrplanParser.OnParseCompleteListener,
-        FetchFahrplan.OnDownloadCompleteListener,
         OnSidePaneCloseListener,
         FahrplanFragment.OnRefreshEventMarkers,
         CertificateDialogFragment.OnCertAccepted,
@@ -79,13 +75,8 @@ public class MainActivity extends BaseActivity implements
     private static final String LOG_TAG = "MainActivity";
     private static final String VENUE_LEIPZIG_MESSE = "leipzig-messe";
 
-    private FetchFahrplan fetcher;
-
-    private FahrplanParser parser;
-
     private ProgressDialog progress = null;
 
-    private MyApp global;
     private ProgressBar progressBar = null;
     private boolean showUpdateAction = true;
     private static MainActivity instance;
@@ -110,20 +101,9 @@ public class MainActivity extends BaseActivity implements
 
         TraceDroidEmailSender.sendStackTraces(this);
 
-        if (MyApp.fetcher == null) {
-            fetcher = new FetchFahrplan();
-        } else {
-            fetcher = MyApp.fetcher;
-        }
-        AppRepository appRepository = AppRepository.Companion.getInstance(this);
-        if (MyApp.parser == null) {
-            parser = new FahrplanParser(getApplicationContext(), appRepository);
-        } else {
-            parser = MyApp.parser;
-        }
         progress = null;
-        global = (MyApp) getApplicationContext();
 
+        AppRepository appRepository = AppRepository.Companion.getInstance(this);
         MyApp.meta = appRepository.readMeta();
         FahrplanMisc.loadDays(this);
 
@@ -140,7 +120,7 @@ public class MainActivity extends BaseActivity implements
             case NONE:
                 if ((MyApp.meta.getNumDays() == 0) && (savedInstanceState == null)) {
                     MyApp.LogDebug(LOG_TAG, "fetch in onCreate bc. numDays==0");
-                    fetchFahrplan(this);
+                    fetchFahrplan();
                 }
                 break;
         }
@@ -191,14 +171,8 @@ public class MainActivity extends BaseActivity implements
         setIntent(intent);
     }
 
-    public void parseFahrplan() {
-        showParsingStatus();
-        MyApp.task_running = TASKS.PARSE;
-        parser.setListener(this);
-        parser.parse(MyApp.fahrplan_xml, MyApp.meta.getETag());
-    }
-
-    public void onGotResponse(HTTP_STATUS status, String response, String eTagStr, String host) {
+    public void onGotResponse(@NonNull FetchScheduleResult fetchScheduleResult) {
+        HttpStatus status = fetchScheduleResult.getHttpStatus();
         MyApp.LogDebug(LOG_TAG, "Response... " + status);
         MyApp.task_running = TASKS.NONE;
         if (MyApp.meta.getNumDays() == 0) {
@@ -207,7 +181,7 @@ public class MainActivity extends BaseActivity implements
                 progress = null;
             }
         }
-        if ((status == HTTP_STATUS.HTTP_OK) || (status == HTTP_STATUS.HTTP_NOT_MODIFIED)) {
+        if ((status == HttpStatus.HTTP_OK) || (status == HttpStatus.HTTP_NOT_MODIFIED)) {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
             Time now = new Time();
             now.setToNow();
@@ -216,16 +190,16 @@ public class MainActivity extends BaseActivity implements
             edit.putLong("last_fetch", millis);
             edit.commit();
         }
-        if (status != HTTP_STATUS.HTTP_OK) {
+        if (status != HttpStatus.HTTP_OK) {
             switch (status) {
                 case HTTP_CANCELLED:
                     break;
                 case HTTP_LOGIN_FAIL_UNTRUSTED_CERTIFICATE:
-                    CertificateDialogFragment dlg = new CertificateDialogFragment();
-                    dlg.show(getSupportFragmentManager(), CertificateDialogFragment.FRAGMENT_TAG);
+                    CertificateDialogFragment dialogFragment = CertificateDialogFragment.newInstance(fetchScheduleResult.getExceptionMessage());
+                    dialogFragment.show(getSupportFragmentManager(), CertificateDialogFragment.FRAGMENT_TAG);
                     break;
             }
-            CustomHttpClient.showHttpError(this, global, status, host);
+            CustomHttpClient.showHttpError(this, status, fetchScheduleResult.getHostName());
             progressBar.setVisibility(View.INVISIBLE);
             showUpdateAction = true;
             supportInvalidateOptionsMenu();
@@ -236,12 +210,14 @@ public class MainActivity extends BaseActivity implements
         showUpdateAction = true;
         supportInvalidateOptionsMenu();
 
-        MyApp.fahrplan_xml = response;
-        MyApp.meta.setETag(eTagStr);
-        parseFahrplan();
+        MyApp.fahrplan_xml = fetchScheduleResult.getScheduleXml();
+        MyApp.meta.setETag(fetchScheduleResult.getETag());
+
+        // Parser is automatically invoked when response has been received.
+        showParsingStatus();
+        MyApp.task_running = TASKS.PARSE;
     }
 
-    @Override
     public void onParseDone(Boolean result, String version) {
         MyApp.LogDebug(LOG_TAG, "parseDone: " + result + " , numDays=" + MyApp.meta.getNumDays());
         MyApp.task_running = TASKS.NONE;
@@ -257,11 +233,11 @@ public class MainActivity extends BaseActivity implements
         showUpdateAction = true;
         supportInvalidateOptionsMenu();
         Fragment fragment = findFragment(FahrplanFragment.FRAGMENT_TAG);
-        if ((fragment != null) && (fragment instanceof FahrplanParser.OnParseCompleteListener)) {
-            ((FahrplanParser.OnParseCompleteListener) fragment).onParseDone(result, version);
+        if (fragment != null) {
+            ((FahrplanFragment) fragment).onParseDone(result, version);
         }
         fragment = findFragment(ChangeListFragment.FRAGMENT_TAG);
-        if ((fragment != null) && (fragment instanceof ChangeListFragment)) {
+        if (fragment != null && fragment instanceof ChangeListFragment) {
             ((ChangeListFragment) fragment).onRefresh();
         }
 
@@ -298,22 +274,19 @@ public class MainActivity extends BaseActivity implements
         }
     }
 
-    public void fetchFahrplan(FetchFahrplan.OnDownloadCompleteListener completeListener) {
+    public void fetchFahrplan() {
         if (MyApp.task_running == TASKS.NONE) {
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-            String defaultScheduleUrl = getString(R.string.preferences_schedule_url_default_value);
-            String alternateURL = prefs.getString(BundleKeys.PREFS_SCHEDULE_URL, defaultScheduleUrl);
-            String url;
-            if (!TextUtils.isEmpty(alternateURL)) {
-                url = alternateURL;
-            } else {
-                url = BuildConfig.SCHEDULE_URL;
-            }
-
             MyApp.task_running = TASKS.FETCH;
             showFetchingStatus();
-            fetcher.setListener(completeListener);
-            fetcher.fetch(url, MyApp.meta.getETag());
+            AppRepository appRepository = AppRepository.Companion.getInstance(this);
+            String url = appRepository.readScheduleUrl();
+            appRepository.loadSchedule(url, MyApp.meta.getETag(), fetchScheduleResult -> {
+                onGotResponse(fetchScheduleResult);
+                return null;
+            }, (result, version) -> {
+                onParseDone(result, version);
+                return null;
+            });
         } else {
             MyApp.LogDebug(LOG_TAG, "fetch already in progress");
         }
@@ -329,25 +302,8 @@ public class MainActivity extends BaseActivity implements
     }
 
     @Override
-    protected void onPause() {
-        if (MyApp.fetcher != null) {
-            MyApp.fetcher.setListener(null);
-        }
-        if (MyApp.parser != null) {
-            MyApp.parser.setListener(null);
-        }
-        super.onPause();
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
-        if (MyApp.fetcher != null) {
-            MyApp.fetcher.setListener(this);
-        }
-        if (MyApp.parser != null) {
-            MyApp.parser.setListener(this);
-        }
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         if (prefs.getBoolean(BundleKeys.PREFS_CHANGES_SEEN, true) == false) {
             showChangesDialog();
@@ -394,7 +350,7 @@ public class MainActivity extends BaseActivity implements
         Intent intent;
         switch (item.getItemId()) {
             case R.id.item_refresh:
-                fetchFahrplan(this);
+                fetchFahrplan();
                 return true;
             case R.id.item_about:
                 showAboutDialog();
@@ -499,7 +455,7 @@ public class MainActivity extends BaseActivity implements
     @Override
     public void onCertAccepted() {
         MyApp.LogDebug(LOG_TAG, "fetch on cert accepted.");
-        fetchFahrplan(MainActivity.this);
+        fetchFahrplan();
     }
 
     @Override

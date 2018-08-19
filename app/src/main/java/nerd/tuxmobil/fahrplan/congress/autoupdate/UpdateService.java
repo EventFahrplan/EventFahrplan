@@ -19,25 +19,20 @@ import org.ligi.tracedroid.logging.Log;
 
 import java.util.List;
 
-import nerd.tuxmobil.fahrplan.congress.BuildConfig;
 import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.MyApp.TASKS;
 import nerd.tuxmobil.fahrplan.congress.R;
-import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.extensions.Contexts;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
 import nerd.tuxmobil.fahrplan.congress.net.ConnectivityStateReceiver;
-import nerd.tuxmobil.fahrplan.congress.net.CustomHttpClient.HTTP_STATUS;
-import nerd.tuxmobil.fahrplan.congress.net.FetchFahrplan;
+import nerd.tuxmobil.fahrplan.congress.net.FetchScheduleResult;
+import nerd.tuxmobil.fahrplan.congress.net.HttpStatus;
 import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper;
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 import nerd.tuxmobil.fahrplan.congress.schedule.MainActivity;
-import nerd.tuxmobil.fahrplan.congress.serialization.FahrplanParser;
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
 
-public class UpdateService extends IntentService implements
-        FetchFahrplan.OnDownloadCompleteListener,
-        FahrplanParser.OnParseCompleteListener {
+public class UpdateService extends IntentService {
 
     public UpdateService() {
         super("UpdateService");
@@ -45,11 +40,6 @@ public class UpdateService extends IntentService implements
 
     final String LOG_TAG = "UpdateService";
 
-    private FetchFahrplan fetcher;
-
-    private FahrplanParser parser;
-
-    @Override
     public void onParseDone(Boolean result, String version) {
         MyApp.LogDebug(LOG_TAG, "parseDone: " + result + " , numDays=" + MyApp.meta.getNumDays());
         MyApp.task_running = TASKS.NONE;
@@ -86,22 +76,11 @@ public class UpdateService extends IntentService implements
         notificationHelper.notify(NotificationHelper.SCHEDULE_UPDATE_ID, builder);
     }
 
-    public void parseFahrplan() {
-        MyApp.task_running = TASKS.PARSE;
-        if (MyApp.parser == null) {
-            AppRepository appRepository = AppRepository.Companion.getInstance(getApplicationContext());
-            parser = new FahrplanParser(getApplicationContext(), appRepository);
-        } else {
-            parser = MyApp.parser;
-        }
-        parser.setListener(this);
-        parser.parse(MyApp.fahrplan_xml, MyApp.meta.getETag());
-    }
-
-    public void onGotResponse(HTTP_STATUS status, String response, String eTagStr, String host) {
+    public void onGotResponse(@NonNull FetchScheduleResult fetchScheduleResult) {
+        HttpStatus status = fetchScheduleResult.getHttpStatus();
         MyApp.LogDebug(LOG_TAG, "Response... " + status);
         MyApp.task_running = TASKS.NONE;
-        if ((status == HTTP_STATUS.HTTP_OK) || (status == HTTP_STATUS.HTTP_NOT_MODIFIED)) {
+        if ((status == HttpStatus.HTTP_OK) || (status == HttpStatus.HTTP_NOT_MODIFIED)) {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
             Time now = new Time();
             now.setToNow();
@@ -110,32 +89,30 @@ public class UpdateService extends IntentService implements
             edit.putLong("last_fetch", millis);
             edit.commit();
         }
-        if (status != HTTP_STATUS.HTTP_OK) {
+        if (status != HttpStatus.HTTP_OK) {
             MyApp.LogDebug(LOG_TAG, "background update failed with " + status);
             stopSelf();
             return;
         }
 
-        MyApp.fahrplan_xml = response;
-        MyApp.meta.setETag(eTagStr);
-        parseFahrplan();
+        MyApp.fahrplan_xml = fetchScheduleResult.getScheduleXml();
+        MyApp.meta.setETag(fetchScheduleResult.getETag());
+        // Parser is automatically invoked when response has been received.
+        MyApp.task_running = TASKS.PARSE;
     }
 
-    private void fetchFahrplan(FetchFahrplan.OnDownloadCompleteListener completeListener) {
+    private void fetchFahrplan() {
         if (MyApp.task_running == TASKS.NONE) {
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-            String defaultScheduleUrl = getString(R.string.preferences_schedule_url_default_value);
-            String alternateURL = prefs.getString(BundleKeys.PREFS_SCHEDULE_URL, defaultScheduleUrl);
-            String url;
-            if (TextUtils.isEmpty(alternateURL)) {
-                url = BuildConfig.SCHEDULE_URL;
-            } else {
-                url = alternateURL;
-            }
-
             MyApp.task_running = TASKS.FETCH;
-            fetcher.setListener(completeListener);
-            fetcher.fetch(url, MyApp.meta.getETag());
+            AppRepository appRepository = AppRepository.Companion.getInstance(this);
+            String url = appRepository.readScheduleUrl();
+            appRepository.loadSchedule(url, MyApp.meta.getETag(), fetchScheduleResult -> {
+                onGotResponse(fetchScheduleResult);
+                return null;
+            }, (result, version) -> {
+                onParseDone(result, version);
+                return null;
+            });
         } else {
             MyApp.LogDebug(LOG_TAG, "fetch already in progress");
         }
@@ -156,15 +133,9 @@ public class UpdateService extends IntentService implements
 
         AppRepository appRepository = AppRepository.Companion.getInstance(getApplicationContext());
         MyApp.meta = appRepository.readMeta(); // to load eTag
-
-        if (MyApp.fetcher == null) {
-            fetcher = new FetchFahrplan();
-        } else {
-            fetcher = MyApp.fetcher;
-        }
         MyApp.LogDebug(LOG_TAG, "going to fetch schedule");
         FahrplanMisc.setUpdateAlarm(this, false);
-        fetchFahrplan(this);
+        fetchFahrplan();
     }
 
     public static void start(@NonNull Context context) {

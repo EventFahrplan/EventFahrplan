@@ -6,12 +6,10 @@ import android.widget.Toast;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 
-import javax.net.ssl.SSLException;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.X509TrustManager;
 
 import nerd.tuxmobil.fahrplan.congress.BuildConfig;
-import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.utils.AlertDialogHelper;
 import okhttp3.OkHttpClient;
@@ -20,24 +18,6 @@ import okhttp3.logging.HttpLoggingInterceptor.Level;
 
 
 public class CustomHttpClient {
-
-    public enum HTTP_STATUS {
-        HTTP_OK,
-        HTTP_LOGIN_FAIL_UNTRUSTED_CERTIFICATE,
-        HTTP_LOGIN_FAIL_WRONG_PASSWORD,
-        HTTP_DNS_FAILURE,
-        HTTP_COULD_NOT_CONNECT,
-        HTTP_SSL_SETUP_FAILURE,
-        HTTP_CANNOT_PARSE_CONTENT,
-        HTTP_ENTITY_ENCODING_FAILURE,
-        HTTP_WRONG_HTTP_CREDENTIALS,
-        HTTP_CONNECT_TIMEOUT,
-        HTTP_CANCELLED,
-        HTTP_NOT_MODIFIED,
-        HTTP_NOT_FOUND
-    }
-
-    private static SSLException lastSSLException = null;
 
     public static OkHttpClient createHttpClient(String host)
             throws KeyManagementException, NoSuchAlgorithmException {
@@ -53,15 +33,7 @@ public class CustomHttpClient {
         return clientBuilder.sslSocketFactory(factory, trustManager).build();
     }
 
-    public static void setSSLException(SSLException e) {
-        lastSSLException = e;
-    }
-
-    public static SSLException getSSLException() {
-        return lastSSLException;
-    }
-
-    public static void showHttpError(final Activity ctx, MyApp global, HTTP_STATUS status, String host) {
+    public static void showHttpError(final Activity ctx, HttpStatus status, String host) {
         switch (status) {
             case HTTP_LOGIN_FAIL_WRONG_PASSWORD:
                 AlertDialogHelper.showErrorDialog(ctx,

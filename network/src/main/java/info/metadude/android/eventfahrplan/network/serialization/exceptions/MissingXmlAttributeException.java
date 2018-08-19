@@ -1,4 +1,4 @@
-package nerd.tuxmobil.fahrplan.congress.serialization.exceptions;
+package info.metadude.android.eventfahrplan.network.serialization.exceptions;
 
 public class MissingXmlAttributeException extends IllegalStateException {
 

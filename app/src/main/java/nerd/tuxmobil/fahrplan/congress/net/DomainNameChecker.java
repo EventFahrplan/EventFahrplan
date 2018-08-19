@@ -16,6 +16,8 @@
 
 package nerd.tuxmobil.fahrplan.congress.net;
 
+import android.util.Log;
+
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.security.cert.CertificateParsingException;
@@ -27,7 +29,8 @@ import java.util.regex.PatternSyntaxException;
 
 import javax.security.auth.x500.X500Principal;
 
-import nerd.tuxmobil.fahrplan.congress.MyApp;
+import nerd.tuxmobil.fahrplan.congress.BuildConfig;
+
 
 /**
  * Implements basic domain-name validation as specified by RFC2818.
@@ -60,7 +63,7 @@ public class DomainNameChecker {
     public static boolean match(X509Certificate certificate, String thisDomain) {
         if ((certificate == null) || (thisDomain == null)
                 || (thisDomain.length() == 0)) {
-            MyApp.LogDebug(LOG_TAG, "no certificate/domain");
+            Log.d(LOG_TAG, "no certificate/domain");
             return false;
         }
 
@@ -94,8 +97,7 @@ public class DomainNameChecker {
                 errorMessage = "unknown host exception";
             }
 
-            MyApp.LogDebug(LOG_TAG, "DomainNameChecker.isIpAddress(): "
-                    + errorMessage);
+            Log.d(LOG_TAG, "DomainNameChecker.isIpAddress(): " + errorMessage);
 
             rval = false;
         }
@@ -112,7 +114,7 @@ public class DomainNameChecker {
      * @return True iff if there is a domain match as specified by RFC2818
      */
     private static boolean matchIpAddress(X509Certificate certificate, String thisDomain) {
-        MyApp.LogDebug(LOG_TAG, "DomainNameChecker.matchIpAddress(): this domain: " + thisDomain);
+        Log.d(LOG_TAG, "DomainNameChecker.matchIpAddress(): this domain: " + thisDomain);
 
         InetAddress[] ipAddr;
         try {
@@ -124,8 +126,7 @@ public class DomainNameChecker {
         }
 
         String reverseDNS = ipAddr[0].getHostName();
-        MyApp.LogDebug(LOG_TAG,
-                "DomainNameChecker.matchIpAddress(): reverse address: " + reverseDNS);
+        Log.d(LOG_TAG, "DomainNameChecker.matchIpAddress(): reverse address: " + reverseDNS);
 
         /* IP Adresse in Zertifikat suchen */
         try {
@@ -139,8 +140,8 @@ public class DomainNameChecker {
                             if (altNameType == ALT_IPA_NAME) {
                                 String altName = (String) (altNameEntry.get(1));
                                 if (altName != null) {
-                                    if (MyApp.DEBUG) {
-                                        MyApp.LogDebug(LOG_TAG, "alternative IP: " + altName);
+                                    if (BuildConfig.DEBUG) {
+                                        Log.d(LOG_TAG, "alternative IP: " + altName);
                                     }
                                     if (thisDomain.equalsIgnoreCase(altName)) {
                                         return true;
@@ -171,7 +172,7 @@ public class DomainNameChecker {
      * @return True iff if there is a domain match as specified by RFC2818
      */
     private static boolean matchDns(X509Certificate certificate, String thisDomain) {
-        MyApp.LogDebug(LOG_TAG, "matchDns cert vs " + thisDomain);
+        Log.d(LOG_TAG, "matchDns cert vs " + thisDomain);
         boolean hasDns = false;
         try {
             Collection<?> subjectAltNames = certificate.getSubjectAlternativeNames();
@@ -194,12 +195,12 @@ public class DomainNameChecker {
                     }
                 }
             } else {
-                MyApp.LogDebug(LOG_TAG, "no SubjectAltNames, looking for SubjectDN");
+                Log.d(LOG_TAG, "no SubjectAltNames, looking for SubjectDN");
                 X500Principal dn = certificate.getSubjectX500Principal();
                 String name = dn.getName(X500Principal.CANONICAL);
                 String[] splitNames = name.split(",");
                 for (String splitName : splitNames) {
-                    MyApp.LogDebug(LOG_TAG, splitName);
+                    Log.d(LOG_TAG, splitName);
                     if (splitName.length() > 3 && splitName.startsWith("cn=")) {
                         if (matchDns(thisDomain, splitName.substring(3))) {
                             return true;
@@ -212,13 +213,13 @@ public class DomainNameChecker {
             // '*' character, which is contrary to one interpretation of the
             // spec (a valid DNS name must start with a letter); there is no
             // good way around this, -> be strict and return false
-            if (MyApp.DEBUG) {
+            if (BuildConfig.DEBUG) {
                 String errorMessage = e.getMessage();
                 if (errorMessage == null) {
                     errorMessage = "failed to parse certificate";
                 }
 
-                MyApp.LogDebug(LOG_TAG, "DomainNameChecker.matchDns(): "
+                Log.d(LOG_TAG, "DomainNameChecker.matchDns(): "
                         + errorMessage);
             }
         }
@@ -232,7 +233,7 @@ public class DomainNameChecker {
      * @return True iff thisDomain matches thatDomain as specified by RFC2818
      */
     private static boolean matchDns(String thisDomain, String thatDomain) {
-        MyApp.LogDebug(LOG_TAG, "DomainNameChecker.matchDns():"
+        Log.d(LOG_TAG, "DomainNameChecker.matchDns():"
                 + " this domain: " + thisDomain + " that domain: "
                 + thatDomain);
 

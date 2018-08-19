@@ -15,8 +15,6 @@ import java.util.TimeZone;
 import nerd.tuxmobil.fahrplan.congress.models.DateInfos;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
 import nerd.tuxmobil.fahrplan.congress.models.Meta;
-import nerd.tuxmobil.fahrplan.congress.net.FetchFahrplan;
-import nerd.tuxmobil.fahrplan.congress.serialization.FahrplanParser;
 import nerd.tuxmobil.fahrplan.congress.utils.ConferenceTimeFrame;
 
 public class MyApp extends Application {
@@ -30,10 +28,6 @@ public class MyApp extends Application {
     public static Meta meta;
 
     public static DateInfos dateInfos = null;
-
-    public static FetchFahrplan fetcher = null;
-
-    public static FahrplanParser parser = null;
 
     private static long first_day_start = getMilliseconds("Europe/Paris",
             BuildConfig.SCHEDULE_FIRST_DAY_START_YEAR,

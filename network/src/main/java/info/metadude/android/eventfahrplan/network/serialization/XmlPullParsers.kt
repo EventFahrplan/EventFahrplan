@@ -1,6 +1,6 @@
 @file:JvmName("XmlPullParsers")
 
-package nerd.tuxmobil.fahrplan.congress.serialization
+package info.metadude.android.eventfahrplan.network.serialization
 
 import android.support.annotation.NonNull
 import org.xmlpull.v1.XmlPullParser

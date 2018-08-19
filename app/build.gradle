@@ -144,6 +144,7 @@ tasks.withType(Test) {
 
 dependencies {
     implementation project(":database")
+    implementation project(":network")
 
     implementation Libs.kotlinStdlib
     implementation Libs.supportLibraryAppcompatV7

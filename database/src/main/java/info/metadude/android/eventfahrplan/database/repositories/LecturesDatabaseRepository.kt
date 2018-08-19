@@ -44,10 +44,6 @@ class LecturesDatabaseRepository(
                 orderBy = DATE_UTC)
     }
 
-    fun queryLecturesOrderedByDate() = query {
-        read(LecturesTable.NAME, orderBy = DATE)
-    }
-
     fun queryLecturesOrderedByDateUtc() = query {
         read(LecturesTable.NAME, orderBy = DATE_UTC)
     }
