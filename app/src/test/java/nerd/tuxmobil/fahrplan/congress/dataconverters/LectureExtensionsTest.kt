@@ -11,7 +11,7 @@ import info.metadude.android.eventfahrplan.database.models.Lecture as LectureDat
 class LectureExtensionsTest {
 
     @Test
-    fun toAlarmAppModel_toAlarmDatabaseModel() {
+    fun toLectureAppModel_toLectureDatabaseModel() {
         val lecture = LectureDatabaseModel(
                 eventId = "7331",
                 abstractt = "Lorem ipsum",
