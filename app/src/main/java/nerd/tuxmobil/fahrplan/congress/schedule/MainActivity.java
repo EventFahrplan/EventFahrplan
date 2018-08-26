@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -245,8 +246,7 @@ public class MainActivity extends BaseActivity implements
         if (MyApp.meta.getNumDays() == 0) {
             // initial load
             MyApp.LogDebug(LOG_TAG, "fetchFahrplan with numDays == 0");
-            progress = ProgressDialog.show(this, "", getResources().getString(
-                    R.string.progress_loading_data), true);
+            showProgressDialog(R.string.progress_loading_data);
         } else {
             MyApp.LogDebug(LOG_TAG, "show fetch status");
             progressBar.setVisibility(View.VISIBLE);
@@ -258,8 +258,7 @@ public class MainActivity extends BaseActivity implements
     public void showParsingStatus() {
         if (MyApp.meta.getNumDays() == 0) {
             // initial load
-            progress = ProgressDialog.show(this, "", getResources().getString(
-                    R.string.progress_processing_data), true);
+            showProgressDialog(R.string.progress_processing_data);
         } else {
             MyApp.LogDebug(LOG_TAG, "show parse status");
             progressBar.setVisibility(View.VISIBLE);
@@ -462,6 +461,10 @@ public class MainActivity extends BaseActivity implements
         int detailView = R.id.detail;
         toggleSidePaneVisibility(manager, detailView);
         supportInvalidateOptionsMenu();
+    }
+
+    private void showProgressDialog(@StringRes int message) {
+        progress = ProgressDialog.show(this, "", getResources().getString(message), true);
     }
 
     private void hideProgressDialog() {
