@@ -102,7 +102,7 @@ public class MainActivity extends BaseActivity implements
 
         TraceDroidEmailSender.sendStackTraces(this);
 
-        progress = null;
+        resetProgressDialog();
 
         AppRepository appRepository = AppRepository.Companion.getInstance(this);
         MyApp.meta = appRepository.readMeta();
@@ -470,8 +470,12 @@ public class MainActivity extends BaseActivity implements
     private void hideProgressDialog() {
         if (progress != null) {
             progress.dismiss();
-            progress = null;
+            resetProgressDialog();
         }
+    }
+
+    private void resetProgressDialog() {
+        progress = null;
     }
 
     private void toggleSidePaneVisibility(FragmentManager manager, @IdRes int detailView) {
