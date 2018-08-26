@@ -53,6 +53,7 @@ import nerd.tuxmobil.fahrplan.congress.details.EventDetailFragment;
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListActivity;
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListFragment;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
+import nerd.tuxmobil.fahrplan.congress.models.Meta;
 import nerd.tuxmobil.fahrplan.congress.navigation.C3navSnack;
 import nerd.tuxmobil.fahrplan.congress.net.CertificateDialogFragment;
 import nerd.tuxmobil.fahrplan.congress.net.CustomHttpClient;
@@ -316,8 +317,11 @@ public class MainActivity extends BaseActivity implements
         Fragment fragment = findFragment(ChangesDialog.FRAGMENT_TAG);
         if (fragment == null) {
             List<Lecture> changedLectures = FahrplanMisc.readChanges(this);
+            AppRepository appRepository = AppRepository.Companion.getInstance(this);
+            Meta meta = appRepository.readMeta();
+            String scheduleVersion = meta.getVersion();
             DialogFragment changesDialog = ChangesDialog.newInstance(
-                    MyApp.meta.getVersion(),
+                    scheduleVersion,
                     FahrplanMisc.getChangedLectureCount(changedLectures, false),
                     FahrplanMisc.getNewLectureCount(changedLectures, false),
                     FahrplanMisc.getCancelledLectureCount(changedLectures, false),
