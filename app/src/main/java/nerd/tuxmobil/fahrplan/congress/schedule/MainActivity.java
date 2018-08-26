@@ -326,7 +326,7 @@ public class MainActivity extends BaseActivity implements
         Fragment fragment = findFragment(ChangesDialog.FRAGMENT_TAG);
         if (fragment == null) {
             List<Lecture> changedLectures = FahrplanMisc.readChanges(this);
-            DialogFragment about = ChangesDialog.newInstance(
+            DialogFragment changesDialog = ChangesDialog.newInstance(
                     MyApp.meta.getVersion(),
                     FahrplanMisc.getChangedLectureCount(changedLectures, false),
                     FahrplanMisc.getNewLectureCount(changedLectures, false),
@@ -334,7 +334,7 @@ public class MainActivity extends BaseActivity implements
                     FahrplanMisc.getChangedLectureCount(changedLectures, true) +
                             FahrplanMisc.getNewLectureCount(changedLectures, true) +
                             FahrplanMisc.getCancelledLectureCount(changedLectures, true));
-            about.show(getSupportFragmentManager(), ChangesDialog.FRAGMENT_TAG);
+            changesDialog.show(getSupportFragmentManager(), ChangesDialog.FRAGMENT_TAG);
         }
     }
 
