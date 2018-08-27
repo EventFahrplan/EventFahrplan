@@ -63,15 +63,16 @@ public class SettingsActivity extends BaseActivity {
                     });
 
 
-            findPreference("schedule_url").setOnPreferenceChangeListener((preference, newValue) -> {
-                SharedPreferences prefs = PreferenceManager
-                        .getDefaultSharedPreferences(getActivity());
+            findPreference("schedule_url")
+                    .setOnPreferenceChangeListener((preference, newValue) -> {
+                        SharedPreferences prefs = PreferenceManager
+                                .getDefaultSharedPreferences(getActivity());
 
-                SharedPreferences.Editor edit = prefs.edit();
-                edit.putString(BundleKeys.PREFS_SCHEDULE_URL, (String) newValue);
-                edit.commit();
-                return true;
-            });
+                        SharedPreferences.Editor edit = prefs.edit();
+                        edit.putString(BundleKeys.PREFS_SCHEDULE_URL, (String) newValue);
+                        edit.commit();
+                        return true;
+                    });
 
             findPreference("alternative_highlight")
                     .setOnPreferenceChangeListener((preference, newValue) -> {

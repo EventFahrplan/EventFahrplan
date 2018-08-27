@@ -1,41 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
     <PreferenceCategory android:title="@string/general_settings">
+
         <CheckBoxPreference
+            android:defaultValue="@bool/preferences_auto_update_enabled_default_value"
             android:key="auto_update"
-            android:title="@string/pref_auto_download"
-            android:defaultValue="@bool/preferences_auto_update_enabled_default_value" />
+            android:title="@string/pref_auto_download" />
+
         <EditTextPreference
             android:defaultValue="@string/preferences_schedule_url_default_value"
-            android:key="schedule_url"
-            android:title="@string/schedule_url"
             android:hint="https://yourhost/schedule.xml"
             android:inputType="textUri"
-            />
+            android:key="schedule_url"
+            android:title="@string/schedule_url" />
+
         <CheckBoxPreference
+            android:defaultValue="@bool/preferences_alternative_highlight_enabled_default_value"
             android:key="alternative_highlight"
-            android:title="@string/alternative_highlight"
-            android:defaultValue="@bool/preferences_alternative_highlight_enabled_default_value" />
+            android:title="@string/alternative_highlight" />
+
     </PreferenceCategory>
+
     <PreferenceCategory android:title="@string/reminders">
+
         <RingtonePreference
             android:defaultValue="@string/preferences_reminder_tone_default_value"
-            android:title="@string/reminder_ringtone"
             android:key="reminder_tone"
             android:ringtoneType="notification|alarm"
             android:showDefault="true"
-            android:showSilent="true"/>
+            android:showSilent="true"
+            android:title="@string/reminder_ringtone" />
+
         <CheckBoxPreference
             android:defaultValue="@bool/preferences_insistent_alarm_enabled_default_value"
-            android:title="@string/insistent_alarm"
-            android:key="insistent"/>
+            android:key="insistent"
+            android:title="@string/insistent_alarm" />
+
         <ListPreference
-            android:key="default_alarm_time"
-            android:title="@string/default_alarm_time_dialog_title"
+            android:defaultValue="@string/default_alarm_time_value"
             android:dialogTitle="@string/default_alarm_time_title"
             android:entries="@array/alarm_time_titles"
             android:entryValues="@array/alarm_time_values"
-            android:defaultValue="@string/default_alarm_time_value" />
+            android:key="default_alarm_time"
+            android:title="@string/default_alarm_time_dialog_title" />
+
     </PreferenceCategory>
+
 </PreferenceScreen>
