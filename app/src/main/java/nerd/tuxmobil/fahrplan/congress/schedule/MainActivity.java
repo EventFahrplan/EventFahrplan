@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -52,6 +53,7 @@ import nerd.tuxmobil.fahrplan.congress.details.EventDetailFragment;
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListActivity;
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListFragment;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
+import nerd.tuxmobil.fahrplan.congress.models.Meta;
 import nerd.tuxmobil.fahrplan.congress.navigation.C3navSnack;
 import nerd.tuxmobil.fahrplan.congress.net.CertificateDialogFragment;
 import nerd.tuxmobil.fahrplan.congress.net.CustomHttpClient;
@@ -101,7 +103,7 @@ public class MainActivity extends BaseActivity implements
 
         TraceDroidEmailSender.sendStackTraces(this);
 
-        progress = null;
+        resetProgressDialog();
 
         AppRepository appRepository = AppRepository.Companion.getInstance(this);
         MyApp.meta = appRepository.readMeta();
@@ -176,10 +178,7 @@ public class MainActivity extends BaseActivity implements
         MyApp.LogDebug(LOG_TAG, "Response... " + status);
         MyApp.task_running = TASKS.NONE;
         if (MyApp.meta.getNumDays() == 0) {
-            if (progress != null) {
-                progress.dismiss();
-                progress = null;
-            }
+            hideProgressDialog();
         }
         if ((status == HttpStatus.HTTP_OK) || (status == HttpStatus.HTTP_NOT_MODIFIED)) {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -224,10 +223,7 @@ public class MainActivity extends BaseActivity implements
         MyApp.fahrplan_xml = null;
 
         if (MyApp.meta.getNumDays() == 0) {
-            if (progress != null) {
-                progress.dismiss();
-                progress = null;
-            }
+            hideProgressDialog();
         }
         progressBar.setVisibility(View.INVISIBLE);
         showUpdateAction = true;
@@ -251,8 +247,7 @@ public class MainActivity extends BaseActivity implements
         if (MyApp.meta.getNumDays() == 0) {
             // initial load
             MyApp.LogDebug(LOG_TAG, "fetchFahrplan with numDays == 0");
-            progress = ProgressDialog.show(this, "", getResources().getString(
-                    R.string.progress_loading_data), true);
+            showProgressDialog(R.string.progress_loading_data);
         } else {
             MyApp.LogDebug(LOG_TAG, "show fetch status");
             progressBar.setVisibility(View.VISIBLE);
@@ -264,8 +259,7 @@ public class MainActivity extends BaseActivity implements
     public void showParsingStatus() {
         if (MyApp.meta.getNumDays() == 0) {
             // initial load
-            progress = ProgressDialog.show(this, "", getResources().getString(
-                    R.string.progress_processing_data), true);
+            showProgressDialog(R.string.progress_processing_data);
         } else {
             MyApp.LogDebug(LOG_TAG, "show parse status");
             progressBar.setVisibility(View.VISIBLE);
@@ -295,10 +289,7 @@ public class MainActivity extends BaseActivity implements
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (progress != null) {
-            progress.dismiss();
-            progress = null;
-        }
+        hideProgressDialog();
     }
 
     @Override
@@ -326,15 +317,18 @@ public class MainActivity extends BaseActivity implements
         Fragment fragment = findFragment(ChangesDialog.FRAGMENT_TAG);
         if (fragment == null) {
             List<Lecture> changedLectures = FahrplanMisc.readChanges(this);
-            DialogFragment about = ChangesDialog.newInstance(
-                    MyApp.meta.getVersion(),
+            AppRepository appRepository = AppRepository.Companion.getInstance(this);
+            Meta meta = appRepository.readMeta();
+            String scheduleVersion = meta.getVersion();
+            DialogFragment changesDialog = ChangesDialog.newInstance(
+                    scheduleVersion,
                     FahrplanMisc.getChangedLectureCount(changedLectures, false),
                     FahrplanMisc.getNewLectureCount(changedLectures, false),
                     FahrplanMisc.getCancelledLectureCount(changedLectures, false),
                     FahrplanMisc.getChangedLectureCount(changedLectures, true) +
                             FahrplanMisc.getNewLectureCount(changedLectures, true) +
                             FahrplanMisc.getCancelledLectureCount(changedLectures, true));
-            about.show(getSupportFragmentManager(), ChangesDialog.FRAGMENT_TAG);
+            changesDialog.show(getSupportFragmentManager(), ChangesDialog.FRAGMENT_TAG);
         }
     }
 
@@ -471,6 +465,21 @@ public class MainActivity extends BaseActivity implements
         int detailView = R.id.detail;
         toggleSidePaneVisibility(manager, detailView);
         supportInvalidateOptionsMenu();
+    }
+
+    private void showProgressDialog(@StringRes int message) {
+        progress = ProgressDialog.show(this, "", getResources().getString(message), true);
+    }
+
+    private void hideProgressDialog() {
+        if (progress != null) {
+            progress.dismiss();
+            resetProgressDialog();
+        }
+    }
+
+    private void resetProgressDialog() {
+        progress = null;
     }
 
     private void toggleSidePaneVisibility(FragmentManager manager, @IdRes int detailView) {
