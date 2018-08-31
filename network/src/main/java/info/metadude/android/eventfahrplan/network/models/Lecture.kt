@@ -25,6 +25,7 @@ data class Lecture(
         var title: String = "",
         var track: String = "",
         var type: String = "",
+        var url: String = "",
 
         var changedDayIndex: Boolean = false,
         var changedDuration: Boolean = false,

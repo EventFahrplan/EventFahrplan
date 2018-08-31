@@ -15,6 +15,8 @@ public class Lecture {
 
     public String slug;
 
+    public String url;
+
     public int startTime;                // minutes since day start
 
     public int duration;                // minutes

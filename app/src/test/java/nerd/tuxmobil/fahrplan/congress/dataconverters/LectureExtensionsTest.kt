@@ -37,6 +37,7 @@ class LectureExtensionsTest {
                 title = "My title",
                 track = "Security & Hacking",
                 type = "tutorial",
+                url = "https://talks.mrmcd.net/2018/talk/V3FUNG",
 
                 changedDay = true,
                 changedDuration = true,
@@ -80,6 +81,7 @@ class LectureExtensionsTest {
                 title = "My title",
                 track = "Security & Hacking",
                 type = "tutorial",
+                url = "https://talks.mrmcd.net/2018/talk/V3FUNG",
 
                 changedDayIndex = true,
                 changedDuration = true,

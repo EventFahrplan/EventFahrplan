@@ -37,6 +37,7 @@ fun Lecture.toLectureDatabaseModel() = LectureDatabaseModel(
         title = title,
         track = track,
         type = type,
+        url = url,
 
         changedDay = changedDay,
         changedDuration = changedDuration,
@@ -76,6 +77,7 @@ fun Lecture.toLectureNetworkModel() = LectureNetworkModel(
         title = title,
         track = track,
         type = type,
+        url = url,
 
         changedDayIndex = changedDay,
         changedDuration = changedDuration,
@@ -116,6 +118,7 @@ fun LectureDatabaseModel.toLectureAppModel(): Lecture {
     lecture.title = title
     lecture.track = track
     lecture.type = type
+    lecture.url = url
 
     lecture.changedDay = changedDay
     lecture.changedDuration = changedDuration
@@ -158,6 +161,7 @@ fun LectureNetworkModel.toLectureAppModel(): Lecture {
     lecture.title = title
     lecture.track = track
     lecture.type = type
+    lecture.url = url
 
     lecture.changedDay = changedDayIndex
     lecture.changedDuration = changedDuration

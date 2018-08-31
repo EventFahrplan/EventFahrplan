@@ -111,6 +111,7 @@ public interface FahrplanContract {
             /* 30 */ String CHANGED_DURATION = "changed_duration";
             /* 31 */ String CHANGED_IS_CANCELED = "changed_is_canceled";
             /* 32 */ String SLUG = "slug";
+            /* 33 */ String URL = "url";
         }
 
         interface Defaults {

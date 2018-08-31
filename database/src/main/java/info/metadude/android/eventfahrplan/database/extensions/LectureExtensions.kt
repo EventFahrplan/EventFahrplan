@@ -28,6 +28,7 @@ fun Lecture.toContentValues() = ContentValues().apply {
     put(TITLE, title)
     put(TRACK, track)
     put(TYPE, type)
+    put(URL, url)
 
     put(CHANGED_DAY, changedDay)
     put(CHANGED_DURATION, changedDuration)

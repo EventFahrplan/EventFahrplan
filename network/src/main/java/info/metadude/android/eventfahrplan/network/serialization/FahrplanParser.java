@@ -198,6 +198,9 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                                         } else if (name.equals("slug")) {
                                             parser.next();
                                             lecture.setSlug(XmlPullParsers.getSanitizedText(parser));
+                                        } else if (name.equals("url")) {
+                                            parser.next();
+                                            lecture.setUrl(XmlPullParsers.getSanitizedText(parser));
                                         } else if (name.equals("track")) {
                                             parser.next();
                                             lecture.setTrack(XmlPullParsers.getSanitizedText(parser));
