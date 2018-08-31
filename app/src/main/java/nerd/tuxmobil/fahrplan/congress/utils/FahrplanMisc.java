@@ -20,7 +20,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import nerd.tuxmobil.fahrplan.congress.BuildConfig;
 import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmReceiver;
@@ -37,7 +36,6 @@ import nerd.tuxmobil.fahrplan.congress.models.SchedulableAlarm;
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 import nerd.tuxmobil.fahrplan.congress.wiki.WikiEventUtils;
 
-import static nerd.tuxmobil.fahrplan.congress.BuildConfig.COMPOSE_EVENT_URL_FROM_SLUG;
 
 public class FahrplanMisc {
 
@@ -59,17 +57,6 @@ public class FahrplanMisc {
         }
     }
 
-    public static String getEventUrl(final String eventId) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(BuildConfig.SCHEDULE_DOMAIN_PART);
-        sb.append(BuildConfig.SCHEDULE_PART);
-        // TODO The event url can be localized by providing individual values
-        // for `schedule_event_part` in `values` and `values-de`.
-        String eventPart = String.format(BuildConfig.SCHEDULE_EVENT_PART, eventId);
-        sb.append(eventPart);
-        return sb.toString();
-    }
-
     public static String getCalendarDescription(final Context context, final Lecture lecture) {
         StringBuilder sb = new StringBuilder();
         sb.append(lecture.description);
@@ -83,8 +70,8 @@ public class FahrplanMisc {
             String eventOnline = context.getString(R.string.event_online);
             sb.append(eventOnline);
             sb.append(": ");
-            String eventUrlPart = COMPOSE_EVENT_URL_FROM_SLUG ? lecture.slug : lecture.lecture_id;
-            sb.append(getEventUrl(eventUrlPart));
+            String eventUrl = new EventUrlComposer(lecture).getEventUrl();
+            sb.append(eventUrl);
         }
         return sb.toString();
     }

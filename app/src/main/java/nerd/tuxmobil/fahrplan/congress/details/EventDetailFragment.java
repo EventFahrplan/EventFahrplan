@@ -43,11 +43,11 @@ import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanFragment;
 import nerd.tuxmobil.fahrplan.congress.sharing.LectureSharer;
 import nerd.tuxmobil.fahrplan.congress.sharing.SimpleLectureFormat;
 import nerd.tuxmobil.fahrplan.congress.sidepane.OnSidePaneCloseListener;
+import nerd.tuxmobil.fahrplan.congress.utils.EventUrlComposer;
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
 import nerd.tuxmobil.fahrplan.congress.utils.StringUtils;
 import nerd.tuxmobil.fahrplan.congress.wiki.WikiEventUtils;
 
-import static nerd.tuxmobil.fahrplan.congress.BuildConfig.COMPOSE_EVENT_URL_FROM_SLUG;
 
 public class EventDetailFragment extends Fragment {
 
@@ -93,8 +93,6 @@ public class EventDetailFragment extends Fragment {
 
     private String room;
 
-    private String slug;
-
     private Boolean sidePane = false;
 
     private boolean hasArguments = false;
@@ -129,7 +127,6 @@ public class EventDetailFragment extends Fragment {
         descr = args.getString(BundleKeys.EVENT_DESCRIPTION);
         links = args.getString(BundleKeys.EVENT_LINKS);
         room = args.getString(BundleKeys.EVENT_ROOM);
-        slug = args.getString(BundleKeys.EVENT_SLUG);
         sidePane = args.getBoolean(BundleKeys.SIDEPANE, false);
         hasArguments = true;
     }
@@ -237,8 +234,7 @@ public class EventDetailFragment extends Fragment {
             } else {
                 eventOnlineSection.setVisibility(View.VISIBLE);
                 eventOnlineLink.setVisibility(View.VISIBLE);
-                String eventUrlPart = COMPOSE_EVENT_URL_FROM_SLUG ? slug : event_id;
-                final String eventUrl = FahrplanMisc.getEventUrl(eventUrlPart);
+                final String eventUrl = new EventUrlComposer(lecture).getEventUrl();
                 final String eventLink = "<a href=\"" + eventUrl + "\">" + eventUrl + "</a>";
                 setUpHtmlTextView(eventOnlineLink, regular, eventLink);
             }
