@@ -386,7 +386,6 @@ public class MainActivity extends BaseActivity implements
             args.putInt(BundleKeys.EVENT_TIME, lecture.startTime);
             args.putInt(BundleKeys.EVENT_DAY, mDay);
             args.putString(BundleKeys.EVENT_ROOM, lecture.room);
-            args.putString(BundleKeys.EVENT_SLUG, lecture.slug);
             args.putBoolean(BundleKeys.SIDEPANE, true);
             EventDetailFragment eventDetailFragment = new EventDetailFragment();
             eventDetailFragment.setArguments(args);

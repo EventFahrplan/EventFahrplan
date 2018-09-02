@@ -12,7 +12,7 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Le
 
 public class LecturesDBOpenHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 6;
+    private static final int DATABASE_VERSION = 7;
 
     private static final String DATABASE_NAME = "lectures";
 
@@ -39,6 +39,7 @@ public class LecturesDBOpenHelper extends SQLiteOpenHelper {
                     Columns.ROOM_IDX + " INTEGER, " +
                     Columns.REC_LICENSE + " STRING, " +
                     Columns.REC_OPTOUT + " INTEGER," +
+                    Columns.URL + " TEXT," +
                     Columns.CHANGED_TITLE + " INTEGER," +
                     Columns.CHANGED_SUBTITLE + " INTEGER," +
                     Columns.CHANGED_ROOM + " INTEGER," +
@@ -96,6 +97,9 @@ public class LecturesDBOpenHelper extends SQLiteOpenHelper {
         }
         if ((oldVersion < 6) && (newVersion >= 6)) {
             db.execSQL("ALTER TABLE " + LecturesTable.NAME + " ADD COLUMN " + Columns.SLUG + " TEXT DEFAULT ''");
+        }
+        if ((oldVersion < 7) && (newVersion >= 7)) {
+            db.execSQL("ALTER TABLE " + LecturesTable.NAME + " ADD COLUMN " + Columns.URL + " TEXT DEFAULT ''");
         }
     }
 }

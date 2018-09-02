@@ -36,6 +36,7 @@ class LectureExtensionsTest {
                 title = "My title",
                 track = "Security & Hacking",
                 type = "tutorial",
+                url = "https://talks.mrmcd.net/2018/talk/V3FUNG",
 
                 changedDay = true,
                 changedDuration = true,
@@ -74,6 +75,7 @@ class LectureExtensionsTest {
         assertThat(values.getAsString(TITLE)).isEqualTo("My title")
         assertThat(values.getAsString(TRACK)).isEqualTo("Security & Hacking")
         assertThat(values.getAsString(TYPE)).isEqualTo("tutorial")
+        assertThat(values.getAsString(URL)).isEqualTo("https://talks.mrmcd.net/2018/talk/V3FUNG")
 
         assertThat(values.getAsBoolean(CHANGED_DAY)).isEqualTo(true)
         assertThat(values.getAsBoolean(CHANGED_DURATION)).isEqualTo(true)

@@ -25,6 +25,7 @@ data class Lecture(
         val title: String = "",
         val track: String = "",
         val type: String = "",
+        val url: String = "",
 
         val changedDay: Boolean = false,
         val changedDuration: Boolean = false,
