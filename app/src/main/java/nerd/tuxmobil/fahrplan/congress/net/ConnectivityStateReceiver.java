@@ -19,12 +19,12 @@ public class ConnectivityStateReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.d(getClass().getName(), "got Conn State event");
+        Log.d(getClass().getName(), "Received connection state event.");
 
         ConnectivityManager cm = Contexts.getConnectivityManager(context);
         NetworkInfo networkInfo = cm.getActiveNetworkInfo();
         if ((networkInfo != null) && (networkInfo.isConnected())) {
-            Log.d(getClass().getName(), "is connected");
+            Log.d(getClass().getName(), "Network is available.");
 
             disableReceiver(context);
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
