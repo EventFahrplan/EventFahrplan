@@ -9,5 +9,5 @@ import nerd.tuxmobil.fahrplan.congress.extensions.getConnectivityManager
 fun Context.networkIsAvailable(): Boolean {
     val manager = getConnectivityManager()
     val networkInfo: NetworkInfo? = manager.activeNetworkInfo
-    return networkInfo != null && networkInfo.isConnected
+    return networkInfo != null && networkInfo.isConnectedOrConnecting
 }
