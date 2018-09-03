@@ -6,14 +6,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
 import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.autoupdate.UpdateService;
-import nerd.tuxmobil.fahrplan.congress.extensions.Contexts;
+
+import static nerd.tuxmobil.fahrplan.congress.net.Connectivity.networkIsAvailable;
 
 public class ConnectivityStateReceiver extends BroadcastReceiver {
 
@@ -21,9 +20,7 @@ public class ConnectivityStateReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Log.d(getClass().getName(), "Received connection state event.");
 
-        ConnectivityManager cm = Contexts.getConnectivityManager(context);
-        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
-        if ((networkInfo != null) && (networkInfo.isConnected())) {
+        if (networkIsAvailable(context)) {
             Log.d(getClass().getName(), "Network is available.");
 
             disableReceiver(context);
