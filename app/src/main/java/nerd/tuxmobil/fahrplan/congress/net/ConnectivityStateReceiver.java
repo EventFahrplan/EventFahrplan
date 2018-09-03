@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
@@ -16,6 +17,12 @@ import nerd.tuxmobil.fahrplan.congress.autoupdate.UpdateService;
 import static nerd.tuxmobil.fahrplan.congress.net.Connectivity.networkIsAvailable;
 
 public class ConnectivityStateReceiver extends BroadcastReceiver {
+
+    public static IntentFilter getIntentFilter() {
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        return filter;
+    }
 
     @Override
     public void onReceive(Context context, Intent intent) {

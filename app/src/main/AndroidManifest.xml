@@ -58,12 +58,7 @@
         <service
                 android:name=".autoupdate.UpdateService"
                 android:exported="false"/>
-        <receiver android:name=".net.ConnectivityStateReceiver">
-            <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
-            </intent-filter>
-        </receiver>
-
+        <receiver android:name=".net.ConnectivityStateReceiver" />
         <activity
             android:name="nerd.tuxmobil.fahrplan.congress.changes.ChangeListActivity"
             android:theme="@style/Theme.Congress.NoActionBar"
