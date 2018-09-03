@@ -37,22 +37,22 @@ public class ConnectivityStateReceiver extends BroadcastReceiver {
     }
 
     public static void disableReceiver(Context context) {
-        PackageManager manager = context.getPackageManager();
         ComponentName receiver = new ComponentName(context, ConnectivityStateReceiver.class);
+        PackageManager manager = context.getPackageManager();
         manager.setComponentEnabledSetting(receiver, PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
                 PackageManager.DONT_KILL_APP);
     }
 
     public static void enableReceiver(Context context) {
-        PackageManager manager = context.getPackageManager();
         ComponentName receiver = new ComponentName(context, ConnectivityStateReceiver.class);
+        PackageManager manager = context.getPackageManager();
         manager.setComponentEnabledSetting(receiver, PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
                 PackageManager.DONT_KILL_APP);
     }
 
     public static boolean isEnabled(Context context) {
-        PackageManager manager = context.getPackageManager();
         ComponentName receiver = new ComponentName(context, ConnectivityStateReceiver.class);
+        PackageManager manager = context.getPackageManager();
         int enabled = manager.getComponentEnabledSetting(receiver);
         switch (enabled) {
             case PackageManager.COMPONENT_ENABLED_STATE_DEFAULT:
