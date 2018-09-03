@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -18,6 +19,9 @@ public class ConnectivityStateReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        if (!ConnectivityManager.CONNECTIVITY_ACTION.equals(intent.getAction())) {
+            return;
+        }
         Log.d(getClass().getName(), "Received connection state event.");
 
         if (networkIsAvailable(context)) {
