@@ -58,7 +58,6 @@
         <service
                 android:name=".autoupdate.UpdateService"
                 android:exported="false"/>
-        <receiver android:name=".net.ConnectivityStateReceiver" />
         <activity
             android:name="nerd.tuxmobil.fahrplan.congress.changes.ChangeListActivity"
             android:theme="@style/Theme.Congress.NoActionBar"

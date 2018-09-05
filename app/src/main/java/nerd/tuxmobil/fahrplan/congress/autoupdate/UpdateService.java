@@ -19,7 +19,6 @@ import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.MyApp.TASKS;
 import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
-import nerd.tuxmobil.fahrplan.congress.net.ConnectivityStateReceiver;
 import nerd.tuxmobil.fahrplan.congress.net.FetchScheduleResult;
 import nerd.tuxmobil.fahrplan.congress.net.HttpStatus;
 import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper;
@@ -118,7 +117,6 @@ public class UpdateService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         if (!networkIsAvailable(this)) {
             MyApp.LogDebug(LOG_TAG, "Network is not available");
-            ConnectivityStateReceiver.enableReceiver(this);
             stopSelf();
             return;
         }
