@@ -6,8 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -15,14 +13,11 @@ import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
 import android.text.format.Time;
 
-import org.ligi.tracedroid.logging.Log;
-
 import java.util.List;
 
 import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.MyApp.TASKS;
 import nerd.tuxmobil.fahrplan.congress.R;
-import nerd.tuxmobil.fahrplan.congress.extensions.Contexts;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
 import nerd.tuxmobil.fahrplan.congress.net.ConnectivityStateReceiver;
 import nerd.tuxmobil.fahrplan.congress.net.FetchScheduleResult;
@@ -31,6 +26,8 @@ import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper;
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 import nerd.tuxmobil.fahrplan.congress.schedule.MainActivity;
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
+
+import static nerd.tuxmobil.fahrplan.congress.net.Connectivity.networkIsAvailable;
 
 public class UpdateService extends IntentService {
 
@@ -78,7 +75,6 @@ public class UpdateService extends IntentService {
 
     public void onGotResponse(@NonNull FetchScheduleResult fetchScheduleResult) {
         HttpStatus status = fetchScheduleResult.getHttpStatus();
-        MyApp.LogDebug(LOG_TAG, "Response... " + status);
         MyApp.task_running = TASKS.NONE;
         if ((status == HttpStatus.HTTP_OK) || (status == HttpStatus.HTTP_NOT_MODIFIED)) {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -90,7 +86,7 @@ public class UpdateService extends IntentService {
             edit.commit();
         }
         if (status != HttpStatus.HTTP_OK) {
-            MyApp.LogDebug(LOG_TAG, "background update failed with " + status);
+            MyApp.LogDebug(LOG_TAG, "Background schedule update failed. HTTP status code: " + status);
             stopSelf();
             return;
         }
@@ -114,18 +110,14 @@ public class UpdateService extends IntentService {
                 return null;
             });
         } else {
-            MyApp.LogDebug(LOG_TAG, "fetch already in progress");
+            MyApp.LogDebug(LOG_TAG, "Fetching already in progress.");
         }
     }
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        MyApp.LogDebug(LOG_TAG, "onHandleIntent");
-        Log.d(getClass().getName(), "intent = " + intent);
-        ConnectivityManager connectivityManager = Contexts.getConnectivityManager(this);
-        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-        if (networkInfo == null || !networkInfo.isConnected()) {
-            MyApp.LogDebug(LOG_TAG, "not connected");
+        if (!networkIsAvailable(this)) {
+            MyApp.LogDebug(LOG_TAG, "Network is not available");
             ConnectivityStateReceiver.enableReceiver(this);
             stopSelf();
             return;
@@ -133,7 +125,7 @@ public class UpdateService extends IntentService {
 
         AppRepository appRepository = AppRepository.Companion.getInstance(getApplicationContext());
         MyApp.meta = appRepository.readMeta(); // to load eTag
-        MyApp.LogDebug(LOG_TAG, "going to fetch schedule");
+        MyApp.LogDebug(LOG_TAG, "Fetching schedule ...");
         FahrplanMisc.setUpdateAlarm(this, false);
         fetchFahrplan();
     }
