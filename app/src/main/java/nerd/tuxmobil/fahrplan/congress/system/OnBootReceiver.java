@@ -19,7 +19,6 @@ import nerd.tuxmobil.fahrplan.congress.autoupdate.UpdateService;
 import nerd.tuxmobil.fahrplan.congress.dataconverters.AlarmExtensions;
 import nerd.tuxmobil.fahrplan.congress.models.Alarm;
 import nerd.tuxmobil.fahrplan.congress.models.SchedulableAlarm;
-import nerd.tuxmobil.fahrplan.congress.net.ConnectivityStateReceiver;
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
 
@@ -60,10 +59,6 @@ public final class OnBootReceiver extends BroadcastReceiver {
                 MyApp.LogDebug(LOG_TAG, "Deleting alarm from database: " + alarm);
                 appRepository.deleteAlarmForAlarmId(alarm.getId());
             }
-        }
-
-        if (ConnectivityStateReceiver.isEnabled(context)) {
-            ConnectivityStateReceiver.disableReceiver(context);
         }
 
         // start auto updates
