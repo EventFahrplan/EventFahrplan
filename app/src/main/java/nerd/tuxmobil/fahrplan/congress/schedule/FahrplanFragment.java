@@ -623,15 +623,11 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
         TextView subtitle = view.findViewById(R.id.event_subtitle);
         TextView speakers = view.findViewById(R.id.event_speakers);
         Context context = getContext();
-        if (lecture.highlight) {
-            title.setTextColor(ContextCompat.getColor(context, R.color.event_title_highlight));
-            subtitle.setTextColor(ContextCompat.getColor(context, R.color.event_title_highlight));
-            speakers.setTextColor(ContextCompat.getColor(context, R.color.event_title_highlight));
-        } else {
-            title.setTextColor(ContextCompat.getColor(context, R.color.event_title));
-            subtitle.setTextColor(ContextCompat.getColor(context, R.color.event_title));
-            speakers.setTextColor(ContextCompat.getColor(context, R.color.event_title));
-        }
+        int colorResId = lecture.highlight ? R.color.event_title_highlight : R.color.event_title;
+        int textColor = ContextCompat.getColor(context, colorResId);
+        title.setTextColor(textColor);
+        subtitle.setTextColor(textColor);
+        speakers.setTextColor(textColor);
     }
 
     private void fillRoom(ViewGroup root, int roomIdx, int standardHeight) {
