@@ -47,4 +47,10 @@ public class DateHelper {
         return dateFormat.format(new Date(time));
     }
 
+    public static int getMinutesOfDay(long dateUtc) {
+        Time time = new Time();
+        time.set(dateUtc);
+        return time.hour * 60 + time.minute;
+    }
+
 }

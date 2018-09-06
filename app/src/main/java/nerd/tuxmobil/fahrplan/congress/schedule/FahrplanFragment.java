@@ -486,18 +486,12 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
         }
     }
 
-    private int minutesOfDay(long dateUTC) {
-        Time t = new Time();
-        t.set(dateUTC);
-        return (t.hour * 60) + t.minute;
-    }
-
     private void scanDayLectures() {
         if ((MyApp.lectureList == null) || (MyApp.lectureList.size() == 0)) return;
         Lecture l = MyApp.lectureList.get(0); // they are already sorted
         long end = 0;
         if (l.dateUTC > 0) {
-            firstLectureStart = minutesOfDay(l.dateUTC);
+            firstLectureStart = DateHelper.getMinutesOfDay(l.dateUTC);
         } else {
             firstLectureStart = l.relStartTime;
         }
@@ -518,7 +512,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
             }
         }
         if (end > 0) {
-            lastLectureEnd = minutesOfDay(end);
+            lastLectureEnd = DateHelper.getMinutesOfDay(end);
             if (lastLectureEnd < firstLectureStart) {
                 lastLectureEnd += ONE_DAY;
             }
@@ -644,7 +638,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
             Lecture lecture = MyApp.lectureList.get(idx);
             if (lecture.room_index == room_index) {
                 if (lecture.dateUTC > 0) {
-                    startTime = minutesOfDay(lecture.dateUTC);
+                    startTime = DateHelper.getMinutesOfDay(lecture.dateUTC);
                     if (startTime < endTime) {
                         startTime += ONE_DAY;
                     }
