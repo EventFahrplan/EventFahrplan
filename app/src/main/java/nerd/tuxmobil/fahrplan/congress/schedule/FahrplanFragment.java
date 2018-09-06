@@ -50,11 +50,11 @@ import nerd.tuxmobil.fahrplan.congress.alarms.AlarmTimePickerFragment;
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.extensions.Contexts;
 import nerd.tuxmobil.fahrplan.congress.models.Alarm;
-import nerd.tuxmobil.fahrplan.congress.models.DateInfo;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 import nerd.tuxmobil.fahrplan.congress.sharing.LectureSharer;
 import nerd.tuxmobil.fahrplan.congress.sharing.SimpleLectureFormat;
+import nerd.tuxmobil.fahrplan.congress.utils.DateHelper;
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
 import nerd.tuxmobil.fahrplan.congress.utils.LectureUtils;
 
@@ -840,39 +840,21 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
     }
 
     public void buildNavigationMenu() {
-        Time now = new Time();
-        now.setToNow();
-        StringBuilder currentDate = new StringBuilder();
-        currentDate.append(String.format("%d", now.year));
-        currentDate.append("-");
-        currentDate.append(String.format("%02d", now.month + 1));
-        currentDate.append("-");
-        currentDate.append(String.format("%02d", now.monthDay));
-
-        MyApp.LogDebug(LOG_TAG, "today is " + currentDate.toString());
-
-        String[] days_menu = new String[MyApp.meta.getNumDays()];
-        for (int i = 0; i < MyApp.meta.getNumDays(); i++) {
-            StringBuilder sb = new StringBuilder();
-            sb.append(getString(R.string.day)).append(" ").append(i + 1);
-            for (DateInfo dateInfo : MyApp.dateInfos) {
-                if (dateInfo.dayIdx == (i + 1)) {
-                    MyApp.LogDebug(LOG_TAG, "DateInfo of day '" + sb.toString() + "': " + dateInfo);
-                    if (currentDate.toString().equals(dateInfo.date)) {
-                        sb.append(" - ");
-                        sb.append(getString(R.string.today));
-                    }
-                    break;
-                }
-            }
-            days_menu[i] = sb.toString();
-        }
+        String currentDate = DateHelper.getCurrentDate();
+        MyApp.LogDebug(LOG_TAG, "Today is " + currentDate);
+        String[] dayMenuEntries = NavigationMenuEntriesGenerator.getDayMenuEntries(
+                MyApp.meta.getNumDays(),
+                MyApp.dateInfos,
+                currentDate,
+                getString(R.string.day),
+                getString(R.string.today)
+        );
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
                 actionBar.getThemedContext(),
                 R.layout.support_simple_spinner_dropdown_item_large,
-                days_menu);
+                dayMenuEntries);
         arrayAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_list_item);
         actionBar.setListNavigationCallbacks(arrayAdapter, new OnDaySelectedListener());
     }
