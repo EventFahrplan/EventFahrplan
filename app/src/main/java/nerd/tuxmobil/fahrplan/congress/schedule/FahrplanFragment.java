@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
@@ -289,7 +290,11 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
         // Log.d(LOG_TAG, "viewDay(" + reload + ")");
 
         loadLectureList(getActivity(), mDay, reload);
-        scanDayLectures();
+        List<Lecture> lectures = MyApp.lectureList;
+        if (lectures != null && !lectures.isEmpty()) {
+            scanDayLectures(conference, lectures);
+            MyApp.LogDebug(LOG_TAG, "Conference = " + conference);
+        }
         View layoutRoot = getView();
         HorizontalSnapScrollView scroller = layoutRoot.findViewById(R.id.horizScroller);
         if (scroller != null) {
@@ -484,9 +489,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
         }
     }
 
-    private void scanDayLectures() {
-        List<Lecture> lectures = MyApp.lectureList;
-        if ((lectures == null) || (lectures.size() == 0)) return;
+    private void scanDayLectures(@NonNull Conference conference, @NonNull List<Lecture> lectures) {
         Lecture firstLecture = lectures.get(0); // they are already sorted
         long end = 0;
         long firstLectureDateUtc = firstLecture.dateUTC;
@@ -519,7 +522,6 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
                 conference.forwardLastEventEndsAtByOneDay();
             }
         }
-        MyApp.LogDebug(LOG_TAG, "Conference = " + conference);
     }
 
     private void fillTimes() {
