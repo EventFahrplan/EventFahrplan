@@ -487,13 +487,13 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
     private void scanDayLectures() {
         List<Lecture> lectures = MyApp.lectureList;
         if ((lectures == null) || (lectures.size() == 0)) return;
-        Lecture l = lectures.get(0); // they are already sorted
+        Lecture firstLecture = lectures.get(0); // they are already sorted
         long end = 0;
-        long firstLectureDateUtc = l.dateUTC;
+        long firstLectureDateUtc = firstLecture.dateUTC;
         if (firstLectureDateUtc > 0) {
             conference.setFirstEventStartsAt(DateHelper.getMinutesOfDay(firstLectureDateUtc));
         } else {
-            conference.setFirstEventStartsAt(l.relStartTime);
+            conference.setFirstEventStartsAt(firstLecture.relStartTime);
         }
         conference.setLastEventEndsAt(-1);
         for (Lecture lecture : lectures) {
