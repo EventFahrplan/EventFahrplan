@@ -88,9 +88,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
 
     private LayoutInflater inflater;
 
-    private int firstLectureStart = 0;
-
-    private int lastLectureEnd = 0;
+    private Conference conference = new Conference();
 
     private HashMap<String, Integer> trackNameBackgroundColorDefaultPairs;
 
@@ -391,15 +389,15 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
             col = horiz.getColumn();
             MyApp.LogDebug(LOG_TAG, "y pos  = " + col);
         }
-        int time = firstLectureStart;
+        int time = conference.getFirstEventStartsAt();
         int printTime = time;
         int scrollAmount = 0;
 
-        if (!((((now.hour * 60) + now.minute) < firstLectureStart) &&
+        if (!((((now.hour * 60) + now.minute) < conference.getFirstEventStartsAt()) &&
                 MyApp.dateInfos.sameDay(now, MyApp.lectureListDay))) {
 
             TimeSegment timeSegment;
-            while (time < lastLectureEnd) {
+            while (time < conference.getLastEventEndsAt()) {
                 timeSegment = new TimeSegment(printTime);
                 if (timeSegment.isMatched(now, FIFTEEN_MINUTES)) {
                     break;
@@ -461,7 +459,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
             if (lecture_id.equals(lecture.lecture_id)) {
                 final ScrollView parent = getView().findViewById(R.id.scrollView1);
                 int height = getNormalizedBoxHeight(getResources(), scale, LOG_TAG);
-                final int pos = (lecture.relStartTime - firstLectureStart) / 5 * height;
+                final int pos = (lecture.relStartTime - conference.getFirstEventStartsAt()) / 5 * height;
                 MyApp.LogDebug(LOG_TAG, "position is " + pos);
                 parent.post(() -> parent.scrollTo(0, pos));
                 final HorizontalSnapScrollView horiz =
@@ -491,11 +489,11 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
         Lecture l = MyApp.lectureList.get(0); // they are already sorted
         long end = 0;
         if (l.dateUTC > 0) {
-            firstLectureStart = DateHelper.getMinutesOfDay(l.dateUTC);
+            conference.setFirstEventStartsAt(DateHelper.getMinutesOfDay(l.dateUTC));
         } else {
-            firstLectureStart = l.relStartTime;
+            conference.setFirstEventStartsAt(l.relStartTime);
         }
-        lastLectureEnd = -1;
+        conference.setLastEventEndsAt(-1);
         for (Lecture lecture : MyApp.lectureList) {
             if (l.dateUTC > 0) {
                 if (end == 0) {
@@ -504,25 +502,24 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
                     end = lecture.dateUTC + (lecture.duration * 60000);
                 }
             } else {
-                if (lastLectureEnd == -1) {
-                    lastLectureEnd = lecture.relStartTime + lecture.duration;
-                } else if ((lecture.relStartTime + lecture.duration) > lastLectureEnd) {
-                    lastLectureEnd = lecture.relStartTime + lecture.duration;
+                if (conference.getLastEventEndsAt() == -1) {
+                    conference.setLastEventEndsAt(lecture.relStartTime + lecture.duration);
+                } else if ((lecture.relStartTime + lecture.duration) > conference.getLastEventEndsAt()) {
+                    conference.setLastEventEndsAt(lecture.relStartTime + lecture.duration);
                 }
             }
         }
         if (end > 0) {
-            lastLectureEnd = DateHelper.getMinutesOfDay(end);
-            if (lastLectureEnd < firstLectureStart) {
-                lastLectureEnd += ONE_DAY;
+            conference.setLastEventEndsAt(DateHelper.getMinutesOfDay(end));
+            if (conference.lastEventEndsBeforeFirstEventStarts()) {
+                conference.forwardLastEventEndsAtByOneDay();
             }
         }
-        MyApp.LogDebug(LOG_TAG, "firstLectureStart=" + firstLectureStart);
-        MyApp.LogDebug(LOG_TAG, "lastLectureEnd=" + lastLectureEnd);
+        MyApp.LogDebug(LOG_TAG, "Conference = " + conference);
     }
 
     private void fillTimes() {
-        int time = firstLectureStart;
+        int time = conference.getFirstEventStartsAt();
         int printTime = time;
         LinearLayout timeTextColumn = getView().findViewById(R.id.times_layout);
         timeTextColumn.removeAllViews();
@@ -531,7 +528,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
         View timeTextView;
         int timeTextViewHeight = 3 * getNormalizedBoxHeight(getResources(), scale, LOG_TAG);
         TimeSegment timeSegment;
-        while (time < lastLectureEnd) {
+        while (time < conference.getLastEventEndsAt()) {
             timeSegment = new TimeSegment(printTime);
             int timeTextLayout;
             if (isToday(now) && timeSegment.isMatched(now, FIFTEEN_MINUTES)) {
@@ -627,7 +624,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
     private void fillRoom(ViewGroup root, int roomIdx, int standardHeight) {
         LinearLayout room = (LinearLayout) root.getChildAt(roomIdx);
         room.removeAllViews();
-        int endTime = firstLectureStart;
+        int endTime = conference.getFirstEventStartsAt();
         int padding = getEventPadding();
         int startTime;
         int room_index = MyApp.roomList.get(roomIdx);
