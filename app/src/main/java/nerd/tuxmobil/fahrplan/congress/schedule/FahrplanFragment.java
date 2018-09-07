@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
@@ -292,7 +291,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
         loadLectureList(getActivity(), mDay, reload);
         List<Lecture> lectures = MyApp.lectureList;
         if (lectures != null && !lectures.isEmpty()) {
-            scanDayLectures(conference, lectures);
+            conference.calculateTimeFrame(lectures, DateHelper::getMinutesOfDay);
             MyApp.LogDebug(LOG_TAG, "Conference = " + conference);
         }
         View layoutRoot = getView();
@@ -486,41 +485,6 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
             saveCurrentDay(mDay);
             viewDay(true);
             fillTimes();
-        }
-    }
-
-    private void scanDayLectures(@NonNull Conference conference, @NonNull List<Lecture> lectures) {
-        Lecture firstLecture = lectures.get(0); // they are already sorted
-        long end = 0;
-        long firstLectureDateUtc = firstLecture.dateUTC;
-        if (firstLectureDateUtc > 0) {
-            conference.setFirstEventStartsAt(DateHelper.getMinutesOfDay(firstLectureDateUtc));
-        } else {
-            conference.setFirstEventStartsAt(firstLecture.relStartTime);
-        }
-        conference.setLastEventEndsAt(-1);
-        for (Lecture lecture : lectures) {
-            if (firstLectureDateUtc > 0) {
-                long lectureEndsAt = lecture.dateUTC + lecture.duration * 60000;
-                if (end == 0) {
-                    end = lectureEndsAt;
-                } else if (lectureEndsAt > end) {
-                    end = lectureEndsAt;
-                }
-            } else {
-                int lectureEndsAt = lecture.relStartTime + lecture.duration;
-                if (conference.getLastEventEndsAt() == -1) {
-                    conference.setLastEventEndsAt(lectureEndsAt);
-                } else if (lectureEndsAt > conference.getLastEventEndsAt()) {
-                    conference.setLastEventEndsAt(lectureEndsAt);
-                }
-            }
-        }
-        if (end > 0) {
-            conference.setLastEventEndsAt(DateHelper.getMinutesOfDay(end));
-            if (conference.lastEventEndsBeforeFirstEventStarts()) {
-                conference.forwardLastEventEndsAtByOneDay();
-            }
         }
     }
 

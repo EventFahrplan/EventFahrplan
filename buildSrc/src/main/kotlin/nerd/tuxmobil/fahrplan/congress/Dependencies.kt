@@ -16,6 +16,7 @@ object Versions {
     val sonarQubeGradle = "2.6.2"
     val supportLibrary = "26.1.0"
     val testRules = "1.0.2"
+    val threeTenBp = "1.3.7"
     val tracedroid = "1.4"
 }
 
@@ -47,5 +48,6 @@ object Libs {
     val supportLibraryAppcompatV7 = "com.android.support:appcompat-v7:${Versions.supportLibrary}"
     val supportLibraryDesign = "com.android.support:design:${Versions.supportLibrary}"
     val testRules = "com.android.support.test:rules:${Versions.testRules}"
+    val threeTenBp = "org.threeten:threetenbp:${Versions.threeTenBp}"
     val tracedroid = "org.ligi:tracedroid:${Versions.tracedroid}"
 }
