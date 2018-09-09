@@ -596,13 +596,13 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
         room.removeAllViews();
         int endTime = conference.getFirstEventStartsAt();
         int startTime;
-        int room_index = MyApp.roomList.get(roomIdx);
+        int roomIndex = MyApp.roomList.get(roomIdx);
         View event = null;
         int margin;
 
         for (int idx = 0; idx < MyApp.lectureList.size(); idx++) {
             Lecture lecture = MyApp.lectureList.get(idx);
-            if (lecture.room_index == room_index) {
+            if (lecture.room_index == roomIndex) {
                 if (lecture.dateUTC > 0) {
                     startTime = DateHelper.getMinutesOfDay(lecture.dateUTC);
                     if (startTime < endTime) {
@@ -625,9 +625,9 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
 
                 // fix overlapping events
                 Lecture next = null;
-                for (int next_idx = idx + 1; next_idx < MyApp.lectureList.size(); next_idx++) {
-                    next = MyApp.lectureList.get(next_idx);
-                    if (next.room_index == room_index) {
+                for (int nextIndex = idx + 1; nextIndex < MyApp.lectureList.size(); nextIndex++) {
+                    next = MyApp.lectureList.get(nextIndex);
+                    if (next.room_index == roomIndex) {
                         break;
                     }
                     next = null;
