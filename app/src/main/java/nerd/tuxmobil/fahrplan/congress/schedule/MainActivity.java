@@ -304,7 +304,7 @@ public class MainActivity extends BaseActivity implements
         super.onCreateOptionsMenu(menu);
         MenuInflater mi = getMenuInflater();
         mi.inflate(R.menu.mainmenu, menu);
-        MenuItem item = menu.findItem(R.id.item_refresh);
+        MenuItem item = menu.findItem(R.id.menu_item_refresh);
         if (item != null) {
             item.setVisible(showUpdateAction);
         }
@@ -341,24 +341,24 @@ public class MainActivity extends BaseActivity implements
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent;
         switch (item.getItemId()) {
-            case R.id.item_refresh:
+            case R.id.menu_item_refresh:
                 fetchFahrplan();
                 return true;
-            case R.id.item_about:
+            case R.id.menu_item_about:
                 showAboutDialog();
                 return true;
-            case R.id.item_alarms:
+            case R.id.menu_item_alarms:
                 intent = new Intent(this, AlarmList.class);
                 startActivityForResult(intent, MyApp.ALARMLIST);
                 return true;
-            case R.id.item_settings:
+            case R.id.menu_item_settings:
                 intent = new Intent(this, SettingsActivity.class);
                 startActivityForResult(intent, MyApp.SETTINGS);
                 return true;
-            case R.id.item_changes:
+            case R.id.menu_item_schedule_changes:
                 openLectureChanges();
                 return true;
-            case R.id.item_starred_list:
+            case R.id.menu_item_favorites:
                 openFavorites();
                 return true;
             default:

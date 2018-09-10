@@ -269,34 +269,34 @@ public class EventDetailFragment extends Fragment {
         inflater.inflate(R.menu.detailmenu, menu);
         MenuItem item;
         if (Build.VERSION.SDK_INT < 14) {
-            item = menu.findItem(R.id.item_add_to_calendar);
+            item = menu.findItem(R.id.menu_item_add_to_calendar);
             if (item != null) {
                 item.setVisible(false);
             }
         }
         if (lecture != null) {
             if (lecture.highlight) {
-                item = menu.findItem(R.id.item_fav);
+                item = menu.findItem(R.id.menu_item_flag_as_favorite);
                 if (item != null) {
                     item.setVisible(false);
                 }
-                item = menu.findItem(R.id.item_unfav);
+                item = menu.findItem(R.id.menu_item_unflag_as_favorite);
                 if (item != null) {
                     item.setVisible(true);
                 }
             }
             if (lecture.has_alarm) {
-                item = menu.findItem(R.id.item_set_alarm);
+                item = menu.findItem(R.id.menu_item_set_alarm);
                 if (item != null) {
                     item.setVisible(false);
                 }
-                item = menu.findItem(R.id.item_clear_alarm);
+                item = menu.findItem(R.id.menu_item_delete_alarm);
                 if (item != null) {
                     item.setVisible(true);
                 }
             }
         }
-        item = menu.findItem(R.id.item_feedback);
+        item = menu.findItem(R.id.menu_item_feedback);
         if (SHOW_FEEDBACK_MENU_ITEM) {
             if (item != null) {
                 item.setVisible(true);
@@ -307,12 +307,12 @@ public class EventDetailFragment extends Fragment {
             }
         }
         if (sidePane) {
-            item = menu.findItem(R.id.event_details_item_close);
+            item = menu.findItem(R.id.menu_item_close_event_details);
             if (item != null) {
                 item.setVisible(true);
             }
         }
-        item = menu.findItem(R.id.item_nav);
+        item = menu.findItem(R.id.menu_item_navigate);
         if (item != null) {
             boolean isVisible = getRoomConvertedForC3Nav() != null;
             item.setVisible(isVisible);
@@ -369,13 +369,13 @@ public class EventDetailFragment extends Fragment {
         Lecture l;
         FragmentActivity activity = getActivity();
         switch (item.getItemId()) {
-            case R.id.item_feedback: {
+            case R.id.menu_item_feedback: {
                 Uri uri = Uri.parse(String.format(SCHEDULE_FEEDBACK_URL, event_id));
                 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                 startActivity(intent);
                 return true;
             }
-            case R.id.item_share:
+            case R.id.menu_item_share_event:
                 l = eventIdToLecture(event_id);
                 if (l != null) {
                     String formattedLecture = SimpleLectureFormat.format(l);
@@ -385,39 +385,39 @@ public class EventDetailFragment extends Fragment {
                     }
                 }
                 return true;
-            case R.id.item_add_to_calendar:
+            case R.id.menu_item_add_to_calendar:
                 l = eventIdToLecture(event_id);
                 if (l != null) {
                     FahrplanMisc.addToCalender(activity, l);
                 }
                 return true;
-            case R.id.item_fav:
+            case R.id.menu_item_flag_as_favorite:
                 if (lecture != null) {
                     lecture.highlight = true;
                     AppRepository.Companion.getInstance(getActivity()).updateHighlight(lecture);
                 }
                 refreshUI(activity);
                 return true;
-            case R.id.item_unfav:
+            case R.id.menu_item_unflag_as_favorite:
                 if (lecture != null) {
                     lecture.highlight = false;
                     AppRepository.Companion.getInstance(getActivity()).updateHighlight(lecture);
                 }
                 refreshUI(activity);
                 return true;
-            case R.id.item_set_alarm:
+            case R.id.menu_item_set_alarm:
                 showAlarmTimePicker();
                 return true;
-            case R.id.item_clear_alarm:
+            case R.id.menu_item_delete_alarm:
                 if (lecture != null) {
                     FahrplanMisc.deleteAlarm(activity, lecture);
                 }
                 refreshUI(activity);
                 return true;
-            case R.id.event_details_item_close:
+            case R.id.menu_item_close_event_details:
                 closeFragment(FRAGMENT_TAG);
                 return true;
-            case R.id.item_nav:
+            case R.id.menu_item_navigate:
                 final Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setData(Uri.parse(BuildConfig.C3NAV_URL + getRoomConvertedForC3Nav()));
                 startActivity(intent);

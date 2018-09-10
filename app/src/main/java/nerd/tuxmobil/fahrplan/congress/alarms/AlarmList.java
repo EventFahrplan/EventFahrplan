@@ -129,7 +129,7 @@ public class AlarmList extends ActionBarListActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.alarms_delete:
+            case R.id.menu_item_delete_all_alarms:
                 deleteAllAlarms();
                 FahrplanFragment.loadAlarms(this);
                 setResult(RESULT_OK);

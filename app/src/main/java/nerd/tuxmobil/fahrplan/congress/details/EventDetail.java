@@ -83,14 +83,14 @@ public class EventDetail extends BaseActivity {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         boolean isVisible = getRoomConvertedForC3Nav() != null;
-        menu.findItem(R.id.item_nav).setVisible(isVisible);
+        menu.findItem(R.id.menu_item_navigate).setVisible(isVisible);
         return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.item_nav:
+            case R.id.menu_item_navigate:
                 final Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setData(Uri.parse(BuildConfig.C3NAV_URL + getRoomConvertedForC3Nav()));
                 startActivity(intent);
