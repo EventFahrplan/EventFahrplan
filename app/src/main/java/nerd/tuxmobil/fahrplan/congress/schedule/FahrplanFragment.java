@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
@@ -307,7 +308,10 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
 
         int boxHeight = getNormalizedBoxHeight(getResources(), scale, LOG_TAG);
         for (int i = 0; i < MyApp.room_count; i++) {
-            fillRoom((ViewGroup) scroller.getChildAt(0), i, boxHeight);
+            ViewGroup rootView = (ViewGroup) scroller.getChildAt(0);
+            LinearLayout roomView = (LinearLayout) rootView.getChildAt(i);
+            int roomIndex = MyApp.roomList.get(i);
+            fillRoom(roomView, roomIndex, MyApp.lectureList, boxHeight);
         }
         scrollToCurrent(mDay, boxHeight);
         updateNavigationMenuSelection();
@@ -591,17 +595,15 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
         speakers.setTextColor(textColor);
     }
 
-    private void fillRoom(ViewGroup root, int roomIdx, int standardHeight) {
-        LinearLayout room = (LinearLayout) root.getChildAt(roomIdx);
+    private void fillRoom(LinearLayout room, int roomIndex, @NonNull List<Lecture> lectures, int standardHeight) {
         room.removeAllViews();
         int endTime = conference.getFirstEventStartsAt();
         int startTime;
-        int roomIndex = MyApp.roomList.get(roomIdx);
         View event = null;
         int margin;
 
-        for (int idx = 0; idx < MyApp.lectureList.size(); idx++) {
-            Lecture lecture = MyApp.lectureList.get(idx);
+        for (int idx = 0; idx < lectures.size(); idx++) {
+            Lecture lecture = lectures.get(idx);
             if (lecture.room_index == roomIndex) {
                 if (lecture.dateUTC > 0) {
                     startTime = DateHelper.getMinutesOfDay(lecture.dateUTC);
@@ -625,8 +627,8 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
 
                 // fix overlapping events
                 Lecture next = null;
-                for (int nextIndex = idx + 1; nextIndex < MyApp.lectureList.size(); nextIndex++) {
-                    next = MyApp.lectureList.get(nextIndex);
+                for (int nextIndex = idx + 1; nextIndex < lectures.size(); nextIndex++) {
+                    next = lectures.get(nextIndex);
                     if (next.room_index == roomIndex) {
                         break;
                     }
