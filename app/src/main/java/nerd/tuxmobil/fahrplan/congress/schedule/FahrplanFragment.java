@@ -649,36 +649,34 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
                 LayoutParams lp = (LayoutParams) event.getLayoutParams();
                 lp.topMargin = margin;
                 event.setLayoutParams(lp);
-                ImageView bell = event.findViewById(R.id.bell);
-                if (lecture.has_alarm) {
-                    bell.setVisibility(View.VISIBLE);
-                } else {
-                    bell.setVisibility(View.GONE);
-                }
-                TextView title = event.findViewById(R.id.event_title);
-                title.setTypeface(boldCondensed);
-                title.setText(lecture.title);
-                title = event.findViewById(R.id.event_subtitle);
-                title.setText(lecture.subtitle);
-                title = event.findViewById(R.id.event_speakers);
-                title.setText(lecture.getFormattedSpeakers());
-                title = event.findViewById(R.id.event_track);
-                title.setText(lecture.getFormattedTrackText());
-                View recordingOptOut = event.findViewById(R.id.novideo);
-                if (recordingOptOut != null) {
-                    recordingOptOut.setVisibility(
-                            lecture.recordingOptOut ? View.VISIBLE : View.GONE);
-                }
-
-                setLectureBackground(lecture, event);
-                setLectureTextColor(lecture, event);
-                event.setOnClickListener(this);
-                event.setLongClickable(true);
-                event.setOnCreateContextMenuListener(this);
-                event.setTag(lecture);
+                updateEventView(event, lecture);
                 endTime = startTime + lecture.duration;
             }
         }
+    }
+
+    private void updateEventView(View eventView, Lecture lecture) {
+        ImageView bell = eventView.findViewById(R.id.bell);
+        bell.setVisibility(lecture.has_alarm ? View.VISIBLE : View.GONE);
+        TextView title = eventView.findViewById(R.id.event_title);
+        title.setTypeface(boldCondensed);
+        title.setText(lecture.title);
+        title = eventView.findViewById(R.id.event_subtitle);
+        title.setText(lecture.subtitle);
+        title = eventView.findViewById(R.id.event_speakers);
+        title.setText(lecture.getFormattedSpeakers());
+        title = eventView.findViewById(R.id.event_track);
+        title.setText(lecture.getFormattedTrackText());
+        View recordingOptOut = eventView.findViewById(R.id.novideo);
+        if (recordingOptOut != null) {
+            recordingOptOut.setVisibility(lecture.recordingOptOut ? View.VISIBLE : View.GONE);
+        }
+        setLectureBackground(lecture, eventView);
+        setLectureTextColor(lecture, eventView);
+        eventView.setOnClickListener(this);
+        eventView.setLongClickable(true);
+        eventView.setOnCreateContextMenuListener(this);
+        eventView.setTag(lecture);
     }
 
     public static void loadLectureList(Context context, int day, boolean force) {
