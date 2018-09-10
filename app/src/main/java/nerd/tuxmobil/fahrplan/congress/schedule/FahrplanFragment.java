@@ -645,16 +645,16 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
 
                 event = inflater.inflate(R.layout.event_layout, null);
                 int height = standardHeight * (lecture.duration / 5);
+                room.addView(event, LayoutParams.MATCH_PARENT, height);
+                LayoutParams lp = (LayoutParams) event.getLayoutParams();
+                lp.topMargin = margin;
+                event.setLayoutParams(lp);
                 ImageView bell = event.findViewById(R.id.bell);
                 if (lecture.has_alarm) {
                     bell.setVisibility(View.VISIBLE);
                 } else {
                     bell.setVisibility(View.GONE);
                 }
-                room.addView(event, LayoutParams.MATCH_PARENT, height);
-                LayoutParams lp = (LayoutParams) event.getLayoutParams();
-                lp.topMargin = margin;
-                event.setLayoutParams(lp);
                 TextView title = event.findViewById(R.id.event_title);
                 title.setTypeface(boldCondensed);
                 title.setText(lecture.title);
