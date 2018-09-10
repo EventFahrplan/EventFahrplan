@@ -6,60 +6,60 @@
             android:id="@+id/event_details_item_close"
             android:icon="@drawable/ic_close_white_24dp"
             app:showAsAction="always"
-            android:title="@string/event_details_close"
-            android:titleCondensed="@string/event_details_close"
+            android:title="@string/menu_item_title_close_event_details"
+            android:titleCondensed="@string/menu_item_title_close_event_details"
             android:visible="false">
     </item>
     <item
             android:id="@+id/item_nav"
             android:icon="@drawable/ic_action_navigate"
             app:showAsAction="ifRoom"
-            android:title="@string/navigate">
+            android:title="@string/menu_item_title_navigate">
     </item>
     <item
             android:id="@+id/item_fav"
             android:icon="@drawable/ic_action_star_add_white_24px"
             app:showAsAction="always"
-            android:title="@string/flag_as_favorite">
+            android:title="@string/menu_item_title_flag_as_favorite">
     </item>
     <item
             android:id="@+id/item_unfav"
             android:icon="@drawable/ic_action_star_remove_white_24px"
             app:showAsAction="always"
-            android:title="@string/unflag_as_favorite"
+            android:title="@string/menu_item_title_unflag_as_favorite"
             android:visible="false">
     </item>
     <item
             android:id="@+id/item_set_alarm"
             android:icon="@drawable/ic_action_bell_add_white_24px"
             app:showAsAction="always"
-            android:title="@string/set_alarm">
+            android:title="@string/menu_item_title_set_alarm">
     </item>
     <item
             android:id="@+id/item_clear_alarm"
             android:icon="@drawable/ic_action_bell_remove_white_24px"
             app:showAsAction="always"
-            android:title="@string/delete_alarm"
+            android:title="@string/menu_item_title_delete_alarm"
             android:visible="false">
     </item>
     <item
             android:id="@+id/item_feedback"
             android:icon="@drawable/ic_action_feedback"
             app:showAsAction="always"
-            android:title="@string/feedback"
-            android:titleCondensed="@string/feedback">
+            android:title="@string/menu_item_title_feedback"
+            android:titleCondensed="@string/menu_item_title_feedback">
     </item>
     <item
             android:id="@+id/item_add_to_calendar"
             android:icon="@drawable/ic_event_white_24dp"
             app:showAsAction="always"
-            android:title="@string/addToCalendar">
+            android:title="@string/menu_item_title_add_to_calendar">
     </item>
     <item
             android:id="@+id/item_share"
             android:icon="@drawable/ic_share_white_24dp"
             app:showAsAction="always"
-            android:title="@string/share">
+            android:title="@string/menu_item_title_share_event">
     </item>
 
 </menu>

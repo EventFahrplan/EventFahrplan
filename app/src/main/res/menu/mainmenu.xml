@@ -6,43 +6,43 @@
             android:icon="@drawable/ic_refresh_white_24dp"
             app:showAsAction="ifRoom"
             android:orderInCategory="70"
-            android:title="@string/refresh">
+            android:title="@string/menu_item_title_refresh">
     </item>
     <item
             android:id="@+id/item_starred_list"
             android:icon="@drawable/ic_action_star_list_white_24px"
             app:showAsAction="ifRoom"
-            android:title="@string/action_show_starred_lectures"
-            android:titleCondensed="@string/action_show_starred_lectures">
+            android:title="@string/menu_item_title_favorites"
+            android:titleCondensed="@string/menu_item_title_favorites">
     </item>
     <item
             android:id="@+id/item_alarms"
             android:icon="@drawable/ic_action_bell_list_white_24px"
             app:showAsAction="ifRoom"
-            android:title="@string/alarms"
-            android:titleCondensed="@string/alarms">
+            android:title="@string/menu_item_title_alarms"
+            android:titleCondensed="@string/menu_item_title_alarms">
     </item>
     <item
             android:id="@+id/item_changes"
             android:icon="@drawable/ic_action_healing_list_white_24px"
             app:showAsAction="ifRoom"
-            android:title="@string/schedule_changes"
-            android:titleCondensed="@string/schedule_changes">
+            android:title="@string/menu_item_title_schedule_changes"
+            android:titleCondensed="@string/menu_item_title_schedule_changes">
     </item>
     <item
             android:id="@+id/item_settings"
             android:icon="@drawable/ic_settings_white_24dp"
             android:orderInCategory="80"
             app:showAsAction="never"
-            android:title="@string/settings"
-            android:titleCondensed="@string/settings">
+            android:title="@string/menu_item_title_settings"
+            android:titleCondensed="@string/menu_item_title_settings">
     </item>
     <item
             android:id="@+id/item_about"
             android:icon="@drawable/ic_info_outline_white_24dp"
             android:orderInCategory="90"
-            android:title="@string/about"
-            android:titleCondensed="@string/about">
+            android:title="@string/menu_item_title_about"
+            android:titleCondensed="@string/menu_item_title_about">
     </item>
 
 </menu>

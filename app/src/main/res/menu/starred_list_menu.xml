@@ -6,11 +6,11 @@
             android:id="@+id/item_share"
             android:icon="@drawable/ic_share_white_24dp"
             app:showAsAction="ifRoom"
-            android:title="@string/share">
+            android:title="@string/menu_item_title_share_favorites">
     </item>
     <item
-            android:title="@string/delete_all"
-            android:titleCondensed="@string/delete_all"
+            android:title="@string/menu_item_title_delete_all"
+            android:titleCondensed="@string/menu_item_title_delete_all"
             android:id="@+id/item_clear_all"
             app:showAsAction="ifRoom"
             android:icon="@drawable/ic_delete_white_24dp"/>

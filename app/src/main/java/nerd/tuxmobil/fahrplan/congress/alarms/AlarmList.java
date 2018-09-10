@@ -95,7 +95,7 @@ public class AlarmList extends ActionBarListActivity {
 
     public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, view, menuInfo);
-        menu.add(0, CONTEXT_MENU_ITEM_ID_DELETE, 0, global.getString(R.string.delete));
+        menu.add(0, CONTEXT_MENU_ITEM_ID_DELETE, 0, global.getString(R.string.menu_item_title_delete_favorite));
     }
 
     public void deleteAlarm(int position) {

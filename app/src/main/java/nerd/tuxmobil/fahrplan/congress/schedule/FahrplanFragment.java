@@ -915,19 +915,19 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
         contextMenuView = view;
         Lecture lecture = (Lecture) view.getTag();
         if (lecture.highlight) {
-            menu.add(0, CONTEXT_MENU_ITEM_ID_FAVORITES, 0, getString(R.string.unflag_as_favorite));
+            menu.add(0, CONTEXT_MENU_ITEM_ID_FAVORITES, 0, getString(R.string.menu_item_title_unflag_as_favorite));
         } else {
-            menu.add(0, CONTEXT_MENU_ITEM_ID_FAVORITES, 0, getString(R.string.flag_as_favorite));
+            menu.add(0, CONTEXT_MENU_ITEM_ID_FAVORITES, 0, getString(R.string.menu_item_title_flag_as_favorite));
         }
         if (lecture.has_alarm) {
-            menu.add(0, CONTEXT_MENU_ITEM_ID_DELETE_ALARM, 2, getString(R.string.delete_alarm));
+            menu.add(0, CONTEXT_MENU_ITEM_ID_DELETE_ALARM, 2, getString(R.string.menu_item_title_delete_alarm));
         } else {
-            menu.add(0, CONTEXT_MENU_ITEM_ID_SET_ALARM, 1, getString(R.string.set_alarm));
+            menu.add(0, CONTEXT_MENU_ITEM_ID_SET_ALARM, 1, getString(R.string.menu_item_title_set_alarm));
         }
         if (Build.VERSION.SDK_INT >= 14) {
-            menu.add(0, CONTEXT_MENU_ITEM_ID_ADD_TO_CALENDAR, 3, getString(R.string.addToCalendar));
+            menu.add(0, CONTEXT_MENU_ITEM_ID_ADD_TO_CALENDAR, 3, getString(R.string.menu_item_title_add_to_calendar));
         }
-        menu.add(0, CONTEXT_MENU_ITEM_ID_SHARE, 4, getString(R.string.share));
+        menu.add(0, CONTEXT_MENU_ITEM_ID_SHARE, 4, getString(R.string.menu_item_title_share_event));
     }
 
     private View getLectureView(Lecture lecture) {
