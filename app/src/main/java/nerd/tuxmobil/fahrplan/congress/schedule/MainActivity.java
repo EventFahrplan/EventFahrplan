@@ -129,11 +129,9 @@ public class MainActivity extends BaseActivity implements
 
         getSupportFragmentManager().addOnBackStackChangedListener(this);
 
-        if (findViewById(R.id.schedule) != null) {
-            if (findFragment(FahrplanFragment.FRAGMENT_TAG) == null) {
-                replaceFragment(R.id.schedule, new FahrplanFragment(),
-                        FahrplanFragment.FRAGMENT_TAG);
-            }
+        if (findViewById(R.id.schedule) != null && findFragment(FahrplanFragment.FRAGMENT_TAG) == null) {
+            replaceFragment(R.id.schedule, new FahrplanFragment(),
+                    FahrplanFragment.FRAGMENT_TAG);
         }
 
         if (findViewById(R.id.detail) == null) {
@@ -436,7 +434,7 @@ public class MainActivity extends BaseActivity implements
                 if (resultCode == Activity.RESULT_OK) {
                     boolean defaultValue = getResources().getBoolean(R.bool.preferences_alternative_highlight_enabled_default_value);
                     if (intent.getBooleanExtra(BundleKeys.PREFS_ALTERNATIVE_HIGHLIGHT, defaultValue)) {
-                        if (findViewById(R.id.schedule) != null) {
+                        if (findViewById(R.id.schedule) != null && findFragment(FahrplanFragment.FRAGMENT_TAG) == null) {
                             replaceFragment(R.id.schedule, new FahrplanFragment(),
                                     FahrplanFragment.FRAGMENT_TAG);
                         }
