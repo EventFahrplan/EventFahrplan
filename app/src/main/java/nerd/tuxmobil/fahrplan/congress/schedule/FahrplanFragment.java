@@ -595,7 +595,6 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
         LinearLayout room = (LinearLayout) root.getChildAt(roomIdx);
         room.removeAllViews();
         int endTime = conference.getFirstEventStartsAt();
-        int padding = getEventPadding();
         int startTime;
         int room_index = MyApp.roomList.get(roomIdx);
         View event = null;
@@ -678,7 +677,6 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
                 setLectureTextColor(lecture, event);
                 event.setOnClickListener(this);
                 event.setLongClickable(true);
-                // event.setOnLongClickListener(this);
                 event.setOnCreateContextMenuListener(this);
                 event.setTag(lecture);
                 endTime = startTime + lecture.duration;
