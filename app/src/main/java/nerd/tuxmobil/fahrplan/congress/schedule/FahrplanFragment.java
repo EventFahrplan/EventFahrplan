@@ -661,12 +661,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
                 title = event.findViewById(R.id.event_speakers);
                 title.setText(lecture.getFormattedSpeakers());
                 title = event.findViewById(R.id.event_track);
-                StringBuilder sb = new StringBuilder();
-                sb.append(lecture.track);
-                if ((lecture.lang != null) && (lecture.lang.length() > 0)) {
-                    sb.append(" [").append(lecture.lang).append("]");
-                }
-                title.setText(sb.toString());
+                title.setText(lecture.getFormattedTrackText());
                 View recordingOptOut = event.findViewById(R.id.novideo);
                 if (recordingOptOut != null) {
                     recordingOptOut.setVisibility(
