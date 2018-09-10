@@ -99,7 +99,7 @@
     </plurals>
     <string name="general_settings">Allgemein</string>
     <string name="schedule_udpate">Fahrplanaktualisierung</string>
-    <string name="action_show_starred_lectures">Zeige Favoriten</string>
+    <string name="action_show_starred_lectures">Favoriten</string>
     <string name="starred_lectures">Favoriten</string>
     <string name="schedule_url">Alternative Fahrplan URL</string>
     <string name="invalid_url">Ungültige URL</string>
