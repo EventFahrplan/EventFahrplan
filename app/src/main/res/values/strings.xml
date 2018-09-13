@@ -1,6 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
+    <!-- Menu items -->
+    <string name="menu_item_title_about">Info</string>
+    <string name="menu_item_title_add_to_calendar">Add to calendar</string>
+    <string name="menu_item_title_alarms">Alarms</string>
+    <string name="menu_item_title_close_event_details">Close event details</string>
+    <string name="menu_item_title_flag_as_favorite">Add to favorites</string>
+    <string name="menu_item_title_unflag_as_favorite">Remove from favorites</string>
+    <string name="menu_item_title_delete_favorite">Delete</string>
+    <string name="menu_item_title_set_alarm">Set alarm</string>
+    <string name="menu_item_title_delete_alarm">Clear alarm</string>
+    <string name="menu_item_title_delete_all">Delete all</string>
+    <string name="menu_item_title_favorites">Favorites</string>
+    <string name="menu_item_title_feedback">Feedback</string>
+    <string name="menu_item_title_navigate">Navigate</string>
+    <string name="menu_item_title_refresh">Refresh</string>
+    <string name="menu_item_title_schedule_changes">@string/schedule_changes</string>
+    <string name="menu_item_title_settings">@string/settings</string>
+    <string name="menu_item_title_share_event">Share event</string>
+    <string name="menu_item_title_share_favorites">Share favorites</string>
+
     <!-- AlertDialogHelper -->
     <string name="OK">OK</string>
 
@@ -26,13 +46,11 @@
     <string name="uptodate">Schedule is up to date.</string>
 
 
-    <string name="refresh">Refresh</string>
     <string name="progress_loading_data">Get schedule &#8230;</string>
     <string name="progress_processing_data">Processing schedule &#8230;</string>
     <string name="load_data">Load</string>
     <string name="choose_day">Choose day</string>
     <string name="day">Day</string>
-    <string name="about">Info</string>
     <string name="fahrplan">Schedule</string>
     <string name="appVersion">App Version %s</string>
     <string name="schedule_updated_to">
@@ -42,8 +60,6 @@
         The schedule has been updated.
     </string>
     <string name="settings">Settings</string>
-    <string name="alarms">Alarms</string>
-    <string name="delete">Delete</string>
     <string name="event_online">Event online</string>
     <string name="event_detail_section_title_links">Links</string>
     <string name="alarm_prompt">Alarm</string>
@@ -53,12 +69,9 @@
     <!-- Synchronize with @integers/default_alarm_time_index and string-array/alarm_time_values -->
     <string name="default_alarm_time_value" translatable="false">10</string>
     <string name="reminders">Alarms</string>
-    <string name="feedback">Feedback</string>
-    <string name="delete_all">Delete all</string>
     <string name="reminder_ringtone">Alarm tone</string>
     <string name="insistent_alarm">Insistent alarm</string>
     <string name="usage">Note:\n\nLong-press on a lecture to set an alarm.</string>
-    <string name="set_alarm">Set alarm</string>
 	<string name="libraries">
 		This application uses the following libraries:
 		Kotlin, Google Support Library v4, Google AppCompat Library v7, Email Intent Builder,
@@ -76,14 +89,7 @@
 	<string name="issues">
 		<![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan/issues">Issues or feature requests</a>]]>
 	</string>
-    <string name="delete_alarm">Clear alarm</string>
     <string name="today">today</string>
-    <string name="addToCalendar">Add to calendar</string>
-    <string name="share">Share</string>
-    <string name="flag_as_favorite">Add to favorites</string>
-    <string name="navigate">Navigate</string>
-    <string name="unflag_as_favorite">Remove from favorites</string>
-    <string name="event_details_close">Close event details</string>
     <string name="pref_auto_download">Automatic updates</string>
     <string name="parsing_error_generic">Unknown error while parsing schedule</string>
     <string name="parsing_error_with_version">Parsing error for schedule version %s</string>
@@ -111,7 +117,6 @@
     <string name="dash" translatable="false"><xliff:g id="dash">—</xliff:g></string>
     <string name="general_settings">General</string>
     <string name="schedule_udpate">Schedule update</string>
-    <string name="action_show_starred_lectures">Show favorites</string>
     <string name="starred_lectures">Favorites</string>
     <string name="schedule_url">Alternative schedule URL</string>
     <string name="invalid_url">Invalid URL</string>

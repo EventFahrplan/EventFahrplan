@@ -9,6 +9,18 @@ import java.util.Locale;
 
 public class DateHelper {
 
+    /**
+     * Returns a formatted string for the current date. Pattern YYYY-MM-DD.
+     */
+    public static String getCurrentDate() {
+        Time now = new Time();
+        now.setToNow();
+        return getFormattedDate(now);
+    }
+
+    /**
+     * Returns a formatted string for the given time. Pattern YYYY-MM-DD.
+     */
     public static String getFormattedDate(Time time) {
         StringBuilder date = new StringBuilder();
         date.append(String.format("%d", time.year));
@@ -33,6 +45,12 @@ public class DateHelper {
         DateFormat dateFormat = SimpleDateFormat.getDateTimeInstance(
                 SimpleDateFormat.FULL, SimpleDateFormat.SHORT, Locale.getDefault());
         return dateFormat.format(new Date(time));
+    }
+
+    public static int getMinutesOfDay(long dateUtc) {
+        Time time = new Time();
+        time.set(dateUtc);
+        return time.hour * 60 + time.minute;
     }
 
 }

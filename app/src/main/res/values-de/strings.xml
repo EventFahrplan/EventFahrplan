@@ -1,6 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
+    <!-- Menu items -->
+    <string name="menu_item_title_about">Info</string>
+    <string name="menu_item_title_add_to_calendar">Zum Kalender hinzufügen</string>
+    <string name="menu_item_title_alarms">Alarme</string>
+    <string name="menu_item_title_close_event_details">Detailansicht schließen</string>
+    <string name="menu_item_title_flag_as_favorite">Zu Favoriten hinzufügen</string>
+    <string name="menu_item_title_unflag_as_favorite">Aus Favoriten entfernen</string>
+    <string name="menu_item_title_delete_favorite">Löschen</string>
+    <string name="menu_item_title_set_alarm">Alarm setzen</string>
+    <string name="menu_item_title_delete_alarm">Alarm löschen</string>
+    <string name="menu_item_title_delete_all">Alle löschen</string>
+    <string name="menu_item_title_favorites">Favoriten</string>
+    <string name="menu_item_title_feedback">Feedback</string>
+    <string name="menu_item_title_navigate">Navigiere</string>
+    <string name="menu_item_title_refresh">Aktualisieren</string>
+    <string name="menu_item_title_schedule_changes">@string/schedule_changes</string>
+    <string name="menu_item_title_settings">@string/settings</string>
+    <string name="menu_item_title_share_event">Vortrag teilen</string>
+    <string name="menu_item_title_share_favorites">Favoriten teilen</string>
+
     <!-- AlertDialogHelper -->
     <string name="OK">OK</string>
 
@@ -25,13 +45,11 @@
     <string name="dlg_err_failed_ssl_failure">SSL Fehler</string>
     <string name="uptodate">Fahrplan ist aktuell.</string>
 
-    <string name="refresh">Aktualisieren</string>
     <string name="progress_loading_data">Hole Fahrplan &#8230;</string>
     <string name="progress_processing_data">Verarbeite Fahrplan &#8230;</string>
     <string name="load_data">Laden</string>
     <string name="choose_day">Tag wählen</string>
     <string name="day">Tag</string>
-    <string name="about">Info</string>
     <string name="fahrplan">Fahrplan</string>
     <string name="appVersion">App Version %s</string>
     <string name="schedule_updated_to">
@@ -41,8 +59,6 @@
         Der Fahrplan wurde aktualisiert.
     </string>
     <string name="settings">Einstellungen</string>
-    <string name="alarms">Alarme</string>
-    <string name="delete">Löschen</string>
     <string name="event_online">Event online</string>
     <string name="event_detail_section_title_links">Links</string>
     <string name="alarm_prompt">Alarm</string>
@@ -50,12 +66,9 @@
     <string name="default_alarm_time_title">Wähle eine Standard-Alarmzeit</string>
     <string name="default_alarm_time_dialog_title">Standard-Alarmzeit</string>
     <string name="reminders">Alarme</string>
-    <string name="feedback">Feedback</string>
-    <string name="delete_all">Alle löschen</string>
     <string name="reminder_ringtone">Alarmton</string>
     <string name="insistent_alarm">Dauerhafter Alarm</string>
     <string name="usage">Hinweis:\n\nLange auf Vortrag tippen, um einen Alarm einzustellen.</string>
-    <string name="set_alarm">Alarm setzen</string>
 	<string name="libraries">
 		Die Anwendung nutzt folgende Bibliotheken:
 		Kotlin, Google Support Library v4, Google AppCompat Library v7, Email Intent Builder,
@@ -67,13 +80,7 @@
 	<string name="issues">
 		<![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan/issues">Fehlermeldungen und Wünsche</a>]]>
 	</string>
-    <string name="delete_alarm">Alarm löschen</string>
     <string name="today">heute</string>
-    <string name="addToCalendar">Zum Kalender hinzufügen</string>
-    <string name="share">Teilen</string>
-    <string name="flag_as_favorite">Zu Favoriten hinzufügen</string>
-    <string name="unflag_as_favorite">Aus Favoriten entfernen</string>
-    <string name="event_details_close">Detailansicht schließen</string>
     <string name="pref_auto_download">Automatische Aktualisierung</string>
     <string name="parsing_error_generic">Unbekannter Fehler beim Parsen des Fahrplans</string>
     <string name="parsing_error_with_version">Fehler beim Parsen der Fahrplan-Version %s</string>
@@ -99,7 +106,6 @@
     </plurals>
     <string name="general_settings">Allgemein</string>
     <string name="schedule_udpate">Fahrplanaktualisierung</string>
-    <string name="action_show_starred_lectures">Zeige Favoriten</string>
     <string name="starred_lectures">Favoriten</string>
     <string name="schedule_url">Alternative Fahrplan URL</string>
     <string name="invalid_url">Ungültige URL</string>
@@ -112,7 +118,6 @@
     <string name="alternative_highlight">Alternative Hervorhebung</string>
     <string name="dlg_delete_all_favorites">Alle Favoriten löschen?</string>
     <string name="dlg_delete_all_favorites_delete_all">Alle löschen</string>
-    <string name="navigate">Navigiere</string>
 
     <string name="share_error_activity_not_found">Keine passende App installiert.</string>
 

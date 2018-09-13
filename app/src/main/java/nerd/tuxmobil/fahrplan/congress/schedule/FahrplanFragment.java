@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
@@ -50,11 +51,11 @@ import nerd.tuxmobil.fahrplan.congress.alarms.AlarmTimePickerFragment;
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.extensions.Contexts;
 import nerd.tuxmobil.fahrplan.congress.models.Alarm;
-import nerd.tuxmobil.fahrplan.congress.models.DateInfo;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 import nerd.tuxmobil.fahrplan.congress.sharing.LectureSharer;
 import nerd.tuxmobil.fahrplan.congress.sharing.SimpleLectureFormat;
+import nerd.tuxmobil.fahrplan.congress.utils.DateHelper;
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
 import nerd.tuxmobil.fahrplan.congress.utils.LectureUtils;
 
@@ -88,9 +89,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
 
     private LayoutInflater inflater;
 
-    private int firstLectureStart = 0;
-
-    private int lastLectureEnd = 0;
+    private Conference conference = new Conference();
 
     private HashMap<String, Integer> trackNameBackgroundColorDefaultPairs;
 
@@ -291,7 +290,11 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
         // Log.d(LOG_TAG, "viewDay(" + reload + ")");
 
         loadLectureList(getActivity(), mDay, reload);
-        scanDayLectures();
+        List<Lecture> lectures = MyApp.lectureList;
+        if (lectures != null && !lectures.isEmpty()) {
+            conference.calculateTimeFrame(lectures, DateHelper::getMinutesOfDay);
+            MyApp.LogDebug(LOG_TAG, "Conference = " + conference);
+        }
         View layoutRoot = getView();
         HorizontalSnapScrollView scroller = layoutRoot.findViewById(R.id.horizScroller);
         if (scroller != null) {
@@ -305,7 +308,10 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
 
         int boxHeight = getNormalizedBoxHeight(getResources(), scale, LOG_TAG);
         for (int i = 0; i < MyApp.room_count; i++) {
-            fillRoom((ViewGroup) scroller.getChildAt(0), i, boxHeight);
+            ViewGroup rootView = (ViewGroup) scroller.getChildAt(0);
+            LinearLayout roomView = (LinearLayout) rootView.getChildAt(i);
+            int roomIndex = MyApp.roomList.get(i);
+            fillRoom(roomView, roomIndex, MyApp.lectureList, boxHeight);
         }
         scrollToCurrent(mDay, boxHeight);
         updateNavigationMenuSelection();
@@ -391,15 +397,15 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
             col = horiz.getColumn();
             MyApp.LogDebug(LOG_TAG, "y pos  = " + col);
         }
-        int time = firstLectureStart;
+        int time = conference.getFirstEventStartsAt();
         int printTime = time;
         int scrollAmount = 0;
 
-        if (!((((now.hour * 60) + now.minute) < firstLectureStart) &&
+        if (!((((now.hour * 60) + now.minute) < conference.getFirstEventStartsAt()) &&
                 MyApp.dateInfos.sameDay(now, MyApp.lectureListDay))) {
 
             TimeSegment timeSegment;
-            while (time < lastLectureEnd) {
+            while (time < conference.getLastEventEndsAt()) {
                 timeSegment = new TimeSegment(printTime);
                 if (timeSegment.isMatched(now, FIFTEEN_MINUTES)) {
                     break;
@@ -461,7 +467,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
             if (lecture_id.equals(lecture.lecture_id)) {
                 final ScrollView parent = getView().findViewById(R.id.scrollView1);
                 int height = getNormalizedBoxHeight(getResources(), scale, LOG_TAG);
-                final int pos = (lecture.relStartTime - firstLectureStart) / 5 * height;
+                final int pos = (lecture.relStartTime - conference.getFirstEventStartsAt()) / 5 * height;
                 MyApp.LogDebug(LOG_TAG, "position is " + pos);
                 parent.post(() -> parent.scrollTo(0, pos));
                 final HorizontalSnapScrollView horiz =
@@ -486,49 +492,8 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
         }
     }
 
-    private int minutesOfDay(long dateUTC) {
-        Time t = new Time();
-        t.set(dateUTC);
-        return (t.hour * 60) + t.minute;
-    }
-
-    private void scanDayLectures() {
-        if ((MyApp.lectureList == null) || (MyApp.lectureList.size() == 0)) return;
-        Lecture l = MyApp.lectureList.get(0); // they are already sorted
-        long end = 0;
-        if (l.dateUTC > 0) {
-            firstLectureStart = minutesOfDay(l.dateUTC);
-        } else {
-            firstLectureStart = l.relStartTime;
-        }
-        lastLectureEnd = -1;
-        for (Lecture lecture : MyApp.lectureList) {
-            if (l.dateUTC > 0) {
-                if (end == 0) {
-                    end = lecture.dateUTC + (lecture.duration * 60000);
-                } else if ((lecture.dateUTC + (lecture.duration * 60000)) > end) {
-                    end = lecture.dateUTC + (lecture.duration * 60000);
-                }
-            } else {
-                if (lastLectureEnd == -1) {
-                    lastLectureEnd = lecture.relStartTime + lecture.duration;
-                } else if ((lecture.relStartTime + lecture.duration) > lastLectureEnd) {
-                    lastLectureEnd = lecture.relStartTime + lecture.duration;
-                }
-            }
-        }
-        if (end > 0) {
-            lastLectureEnd = minutesOfDay(end);
-            if (lastLectureEnd < firstLectureStart) {
-                lastLectureEnd += ONE_DAY;
-            }
-        }
-        MyApp.LogDebug(LOG_TAG, "firstLectureStart=" + firstLectureStart);
-        MyApp.LogDebug(LOG_TAG, "lastLectureEnd=" + lastLectureEnd);
-    }
-
     private void fillTimes() {
-        int time = firstLectureStart;
+        int time = conference.getFirstEventStartsAt();
         int printTime = time;
         LinearLayout timeTextColumn = getView().findViewById(R.id.times_layout);
         timeTextColumn.removeAllViews();
@@ -537,7 +502,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
         View timeTextView;
         int timeTextViewHeight = 3 * getNormalizedBoxHeight(getResources(), scale, LOG_TAG);
         TimeSegment timeSegment;
-        while (time < lastLectureEnd) {
+        while (time < conference.getLastEventEndsAt()) {
             timeSegment = new TimeSegment(printTime);
             int timeTextLayout;
             if (isToday(now) && timeSegment.isMatched(now, FIFTEEN_MINUTES)) {
@@ -623,32 +588,25 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
         TextView subtitle = view.findViewById(R.id.event_subtitle);
         TextView speakers = view.findViewById(R.id.event_speakers);
         Context context = getContext();
-        if (lecture.highlight) {
-            title.setTextColor(ContextCompat.getColor(context, R.color.event_title_highlight));
-            subtitle.setTextColor(ContextCompat.getColor(context, R.color.event_title_highlight));
-            speakers.setTextColor(ContextCompat.getColor(context, R.color.event_title_highlight));
-        } else {
-            title.setTextColor(ContextCompat.getColor(context, R.color.event_title));
-            subtitle.setTextColor(ContextCompat.getColor(context, R.color.event_title));
-            speakers.setTextColor(ContextCompat.getColor(context, R.color.event_title));
-        }
+        int colorResId = lecture.highlight ? R.color.event_title_highlight : R.color.event_title;
+        int textColor = ContextCompat.getColor(context, colorResId);
+        title.setTextColor(textColor);
+        subtitle.setTextColor(textColor);
+        speakers.setTextColor(textColor);
     }
 
-    private void fillRoom(ViewGroup root, int roomIdx, int standardHeight) {
-        LinearLayout room = (LinearLayout) root.getChildAt(roomIdx);
+    private void fillRoom(LinearLayout room, int roomIndex, @NonNull List<Lecture> lectures, int standardHeight) {
         room.removeAllViews();
-        int endTime = firstLectureStart;
-        int padding = getEventPadding();
+        int endTime = conference.getFirstEventStartsAt();
         int startTime;
-        int room_index = MyApp.roomList.get(roomIdx);
         View event = null;
         int margin;
 
-        for (int idx = 0; idx < MyApp.lectureList.size(); idx++) {
-            Lecture lecture = MyApp.lectureList.get(idx);
-            if (lecture.room_index == room_index) {
+        for (int idx = 0; idx < lectures.size(); idx++) {
+            Lecture lecture = lectures.get(idx);
+            if (lecture.room_index == roomIndex) {
                 if (lecture.dateUTC > 0) {
-                    startTime = minutesOfDay(lecture.dateUTC);
+                    startTime = DateHelper.getMinutesOfDay(lecture.dateUTC);
                     if (startTime < endTime) {
                         startTime += ONE_DAY;
                     }
@@ -669,9 +627,9 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
 
                 // fix overlapping events
                 Lecture next = null;
-                for (int next_idx = idx + 1; next_idx < MyApp.lectureList.size(); next_idx++) {
-                    next = MyApp.lectureList.get(next_idx);
-                    if (next.room_index == room_index) {
+                for (int nextIndex = idx + 1; nextIndex < lectures.size(); nextIndex++) {
+                    next = lectures.get(nextIndex);
+                    if (next.room_index == roomIndex) {
                         break;
                     }
                     next = null;
@@ -687,46 +645,38 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
 
                 event = inflater.inflate(R.layout.event_layout, null);
                 int height = standardHeight * (lecture.duration / 5);
-                ImageView bell = event.findViewById(R.id.bell);
-                if (lecture.has_alarm) {
-                    bell.setVisibility(View.VISIBLE);
-                } else {
-                    bell.setVisibility(View.GONE);
-                }
                 room.addView(event, LayoutParams.MATCH_PARENT, height);
                 LayoutParams lp = (LayoutParams) event.getLayoutParams();
                 lp.topMargin = margin;
                 event.setLayoutParams(lp);
-                TextView title = event.findViewById(R.id.event_title);
-                title.setTypeface(boldCondensed);
-                title.setText(lecture.title);
-                title = event.findViewById(R.id.event_subtitle);
-                title.setText(lecture.subtitle);
-                title = event.findViewById(R.id.event_speakers);
-                title.setText(lecture.getFormattedSpeakers());
-                title = event.findViewById(R.id.event_track);
-                StringBuilder sb = new StringBuilder();
-                sb.append(lecture.track);
-                if ((lecture.lang != null) && (lecture.lang.length() > 0)) {
-                    sb.append(" [").append(lecture.lang).append("]");
-                }
-                title.setText(sb.toString());
-                View recordingOptOut = event.findViewById(R.id.novideo);
-                if (recordingOptOut != null) {
-                    recordingOptOut.setVisibility(
-                            lecture.recordingOptOut ? View.VISIBLE : View.GONE);
-                }
-
-                setLectureBackground(lecture, event);
-                setLectureTextColor(lecture, event);
-                event.setOnClickListener(this);
-                event.setLongClickable(true);
-                // event.setOnLongClickListener(this);
-                event.setOnCreateContextMenuListener(this);
-                event.setTag(lecture);
+                updateEventView(event, lecture);
                 endTime = startTime + lecture.duration;
             }
         }
+    }
+
+    private void updateEventView(View eventView, Lecture lecture) {
+        ImageView bell = eventView.findViewById(R.id.bell);
+        bell.setVisibility(lecture.has_alarm ? View.VISIBLE : View.GONE);
+        TextView title = eventView.findViewById(R.id.event_title);
+        title.setTypeface(boldCondensed);
+        title.setText(lecture.title);
+        title = eventView.findViewById(R.id.event_subtitle);
+        title.setText(lecture.subtitle);
+        title = eventView.findViewById(R.id.event_speakers);
+        title.setText(lecture.getFormattedSpeakers());
+        title = eventView.findViewById(R.id.event_track);
+        title.setText(lecture.getFormattedTrackText());
+        View recordingOptOut = eventView.findViewById(R.id.novideo);
+        if (recordingOptOut != null) {
+            recordingOptOut.setVisibility(lecture.recordingOptOut ? View.VISIBLE : View.GONE);
+        }
+        setLectureBackground(lecture, eventView);
+        setLectureTextColor(lecture, eventView);
+        eventView.setOnClickListener(this);
+        eventView.setLongClickable(true);
+        eventView.setOnCreateContextMenuListener(this);
+        eventView.setTag(lecture);
     }
 
     public static void loadLectureList(Context context, int day, boolean force) {
@@ -794,15 +744,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
         }
 
         if ((MyApp.lectureList.size() > 0) && (MyApp.lectureList.get(0).dateUTC > 0)) {
-            Collections.sort(MyApp.lectureList, (lhs, rhs) -> {
-                if (lhs.dateUTC < rhs.dateUTC) {
-                    return -1;
-                }
-                if (lhs.dateUTC > rhs.dateUTC) {
-                    return 1;
-                }
-                return 0;
-            });
+            Collections.sort(MyApp.lectureList, (lhs, rhs) -> Long.compare(lhs.dateUTC, rhs.dateUTC));
         }
 
         loadAlarms(context);
@@ -840,39 +782,21 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
     }
 
     public void buildNavigationMenu() {
-        Time now = new Time();
-        now.setToNow();
-        StringBuilder currentDate = new StringBuilder();
-        currentDate.append(String.format("%d", now.year));
-        currentDate.append("-");
-        currentDate.append(String.format("%02d", now.month + 1));
-        currentDate.append("-");
-        currentDate.append(String.format("%02d", now.monthDay));
-
-        MyApp.LogDebug(LOG_TAG, "today is " + currentDate.toString());
-
-        String[] days_menu = new String[MyApp.meta.getNumDays()];
-        for (int i = 0; i < MyApp.meta.getNumDays(); i++) {
-            StringBuilder sb = new StringBuilder();
-            sb.append(getString(R.string.day)).append(" ").append(i + 1);
-            for (DateInfo dateInfo : MyApp.dateInfos) {
-                if (dateInfo.dayIdx == (i + 1)) {
-                    MyApp.LogDebug(LOG_TAG, "DateInfo of day '" + sb.toString() + "': " + dateInfo);
-                    if (currentDate.toString().equals(dateInfo.date)) {
-                        sb.append(" - ");
-                        sb.append(getString(R.string.today));
-                    }
-                    break;
-                }
-            }
-            days_menu[i] = sb.toString();
-        }
+        String currentDate = DateHelper.getCurrentDate();
+        MyApp.LogDebug(LOG_TAG, "Today is " + currentDate);
+        String[] dayMenuEntries = NavigationMenuEntriesGenerator.getDayMenuEntries(
+                MyApp.meta.getNumDays(),
+                MyApp.dateInfos,
+                currentDate,
+                getString(R.string.day),
+                getString(R.string.today)
+        );
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
                 actionBar.getThemedContext(),
                 R.layout.support_simple_spinner_dropdown_item_large,
-                days_menu);
+                dayMenuEntries);
         arrayAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_list_item);
         actionBar.setListNavigationCallbacks(arrayAdapter, new OnDaySelectedListener());
     }
@@ -991,19 +915,19 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
         contextMenuView = view;
         Lecture lecture = (Lecture) view.getTag();
         if (lecture.highlight) {
-            menu.add(0, CONTEXT_MENU_ITEM_ID_FAVORITES, 0, getString(R.string.unflag_as_favorite));
+            menu.add(0, CONTEXT_MENU_ITEM_ID_FAVORITES, 0, getString(R.string.menu_item_title_unflag_as_favorite));
         } else {
-            menu.add(0, CONTEXT_MENU_ITEM_ID_FAVORITES, 0, getString(R.string.flag_as_favorite));
+            menu.add(0, CONTEXT_MENU_ITEM_ID_FAVORITES, 0, getString(R.string.menu_item_title_flag_as_favorite));
         }
         if (lecture.has_alarm) {
-            menu.add(0, CONTEXT_MENU_ITEM_ID_DELETE_ALARM, 2, getString(R.string.delete_alarm));
+            menu.add(0, CONTEXT_MENU_ITEM_ID_DELETE_ALARM, 2, getString(R.string.menu_item_title_delete_alarm));
         } else {
-            menu.add(0, CONTEXT_MENU_ITEM_ID_SET_ALARM, 1, getString(R.string.set_alarm));
+            menu.add(0, CONTEXT_MENU_ITEM_ID_SET_ALARM, 1, getString(R.string.menu_item_title_set_alarm));
         }
         if (Build.VERSION.SDK_INT >= 14) {
-            menu.add(0, CONTEXT_MENU_ITEM_ID_ADD_TO_CALENDAR, 3, getString(R.string.addToCalendar));
+            menu.add(0, CONTEXT_MENU_ITEM_ID_ADD_TO_CALENDAR, 3, getString(R.string.menu_item_title_add_to_calendar));
         }
-        menu.add(0, CONTEXT_MENU_ITEM_ID_SHARE, 4, getString(R.string.share));
+        menu.add(0, CONTEXT_MENU_ITEM_ID_SHARE, 4, getString(R.string.menu_item_title_share_event));
     }
 
     private View getLectureView(Lecture lecture) {

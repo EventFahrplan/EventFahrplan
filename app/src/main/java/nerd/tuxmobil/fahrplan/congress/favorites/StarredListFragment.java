@@ -198,11 +198,11 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.starred_list_menu, menu);
-        MenuItem item = menu.findItem(R.id.item_clear_all);
+        MenuItem item = menu.findItem(R.id.menu_item_delete_all_favorites);
         if ((item != null) && ((starredList == null) || (starredList.size() == 0))) {
             item.setVisible(false);
         }
-        item = menu.findItem(R.id.item_share);
+        item = menu.findItem(R.id.menu_item_share_favorites);
         if (item != null) {
             item.setVisible(starredList != null && !starredList.isEmpty());
         }
@@ -210,10 +210,10 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
 
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.item_share:
+            case R.id.menu_item_share_favorites:
                 shareLectures();
                 return true;
-            case R.id.item_clear_all:
+            case R.id.menu_item_delete_all_favorites:
                 askToDeleteAllFavorites();
                 return true;
             case android.R.id.home:
@@ -243,7 +243,7 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
     @Override
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.item_delete:
+            case R.id.menu_item_delete_favorite:
                 deleteItems(mListView.getCheckedItemPositions());
                 ActivityCompat.invalidateOptionsMenu(getActivity());
                 refreshViews();

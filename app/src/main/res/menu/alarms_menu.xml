@@ -2,9 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/alarms_delete"
+        android:id="@+id/menu_item_delete_all_alarms"
         android:icon="@drawable/ic_delete_white_24dp"
-        android:title="@string/delete_all"
-        android:titleCondensed="@string/delete_all" />
+        android:title="@string/menu_item_title_delete_all"
+        android:titleCondensed="@string/menu_item_title_delete_all" />
 
 </menu>
