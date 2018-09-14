@@ -6,6 +6,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 
 @RunWith(JUnit4.class)
 public class ConferenceTimeFrameTest {
@@ -21,6 +22,31 @@ public class ConferenceTimeFrameTest {
     @Before
     public void setUp() {
         conference = new ConferenceTimeFrame(FIRST_DAY_START_TIME, LAST_DAY_END_TIME);
+    }
+
+    @Test
+    public void isValidWithFirstDayThenLastDay() {
+        assertThat(conference.isValid()).isTrue();
+    }
+
+    @Test
+    public void isValidWithLastDayThenFirstDay() {
+        try {
+            new ConferenceTimeFrame(LAST_DAY_END_TIME, FIRST_DAY_START_TIME);
+            fail("Expect an IllegalStateException to be thrown.");
+        } catch (IllegalStateException e) {
+            assertThat(e.getMessage()).startsWith("Invalid conference time frame:");
+        }
+    }
+
+    @Test
+    public void isValidWithSameDayTwice() {
+        try {
+            new ConferenceTimeFrame(FIRST_DAY_START_TIME, FIRST_DAY_START_TIME);
+            fail("Expect an IllegalStateException to be thrown.");
+        } catch (Exception e) {
+            assertThat(e.getMessage()).startsWith("Invalid conference time frame:");
+        }
     }
 
     @Test

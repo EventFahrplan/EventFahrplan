@@ -9,6 +9,13 @@ public class ConferenceTimeFrame {
     public ConferenceTimeFrame(long firstDayStartTime, long lastDayEndTime) {
         this.firstDayStartTime = firstDayStartTime;
         this.lastDayEndTime = lastDayEndTime;
+        if (!isValid()) {
+            throw new IllegalStateException("Invalid conference time frame: " + this);
+        }
+    }
+
+    boolean isValid() {
+        return Long.compare(firstDayStartTime, lastDayEndTime) == -1;
     }
 
     public long getFirstDayStartTime() {
