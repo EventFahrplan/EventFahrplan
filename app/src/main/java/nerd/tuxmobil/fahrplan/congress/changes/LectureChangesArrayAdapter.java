@@ -2,6 +2,7 @@ package nerd.tuxmobil.fahrplan.congress.changes;
 
 import android.content.Context;
 import android.graphics.Paint;
+import android.support.annotation.ColorInt;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.TextView;
@@ -15,8 +16,20 @@ import nerd.tuxmobil.fahrplan.congress.utils.DateHelper;
 
 public class LectureChangesArrayAdapter extends LecturesAdapter {
 
+    @ColorInt
+    private int scheduleChangeTextColor;
+
+    @ColorInt
+    private int scheduleChangeNewTextColor;
+
+    @ColorInt
+    private int scheduleChangeCanceledTextColor;
+
     LectureChangesArrayAdapter(Context context, List<Lecture> list, int numDays) {
         super(context, R.layout.lecture_change_row, list, numDays);
+        scheduleChangeTextColor = ContextCompat.getColor(context, R.color.schedule_change);
+        scheduleChangeNewTextColor = ContextCompat.getColor(context, R.color.schedule_change_new);
+        scheduleChangeCanceledTextColor = ContextCompat.getColor(context, R.color.schedule_change_canceled);
     }
 
     @Override
@@ -26,16 +39,15 @@ public class LectureChangesArrayAdapter extends LecturesAdapter {
     }
 
     private void setTextStyleChanged(TextView textView) {
-        textView.setTextColor(ContextCompat.getColor(context, R.color.schedule_change));
+        textView.setTextColor(scheduleChangeTextColor);
     }
 
     private void setTextStyleNew(TextView textView) {
-        textView.setTextColor(ContextCompat.getColor(context, R.color.schedule_change_new));
+        textView.setTextColor(scheduleChangeNewTextColor);
     }
 
-    @Override
-    protected void setTextStyleCanceled(TextView textView) {
-        super.setTextStyleCanceled(textView);
+    private void setTextStyleCanceled(TextView textView) {
+        textView.setTextColor(scheduleChangeCanceledTextColor);
         textView.setPaintFlags(textView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
     }
 

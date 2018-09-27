@@ -19,6 +19,7 @@
     <color name="schedule_change">#728a30</color>
     <color name="schedule_change_new">#728a30</color>
     <color name="schedule_change_canceled">#808080</color>
+    <color name="favorites_past_event_text">#808080</color>
     <color name="schedule_list_header_background">#eee</color>
     <color name="schedule_list_header_text">#eee</color>
 

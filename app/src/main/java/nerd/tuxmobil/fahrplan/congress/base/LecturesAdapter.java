@@ -134,10 +134,6 @@ public abstract class LecturesAdapter extends ArrayAdapter<Lecture> {
         textView.setTextAppearance(context, style);
     }
 
-    protected void setTextStyleCanceled(TextView textView) {
-        textView.setTextColor(ContextCompat.getColor(context, R.color.schedule_change_canceled));
-    }
-
     protected abstract void initViewSetup();
 
     protected abstract void setItemContent(int position, ViewHolder viewHolder);
