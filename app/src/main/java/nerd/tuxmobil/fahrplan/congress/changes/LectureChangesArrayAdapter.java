@@ -22,10 +22,14 @@ public class LectureChangesArrayAdapter extends LecturesAdapter {
     @ColorInt
     private int scheduleChangeNewTextColor;
 
+    @ColorInt
+    private int scheduleChangeCanceledTextColor;
+
     LectureChangesArrayAdapter(Context context, List<Lecture> list, int numDays) {
         super(context, R.layout.lecture_change_row, list, numDays);
         scheduleChangeTextColor = ContextCompat.getColor(context, R.color.schedule_change);
         scheduleChangeNewTextColor = ContextCompat.getColor(context, R.color.schedule_change_new);
+        scheduleChangeCanceledTextColor = ContextCompat.getColor(context, R.color.schedule_change_canceled);
     }
 
     @Override
@@ -42,9 +46,8 @@ public class LectureChangesArrayAdapter extends LecturesAdapter {
         textView.setTextColor(scheduleChangeNewTextColor);
     }
 
-    @Override
-    protected void setTextStyleCanceled(TextView textView) {
-        super.setTextStyleCanceled(textView);
+    private void setTextStyleCanceled(TextView textView) {
+        textView.setTextColor(scheduleChangeCanceledTextColor);
         textView.setPaintFlags(textView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
     }
 

@@ -1,6 +1,8 @@
 package nerd.tuxmobil.fahrplan.congress.favorites;
 
 import android.content.Context;
+import android.support.annotation.ColorInt;
+import android.support.v4.content.ContextCompat;
 import android.text.format.Time;
 import android.view.View;
 
@@ -15,9 +17,13 @@ public class LectureArrayAdapter extends LecturesAdapter {
 
     private final Time now;
 
+    @ColorInt
+    private int pastEventTextColor;
+
     LectureArrayAdapter(Context context, List<Lecture> list, int numDays) {
         super(context, R.layout.lecture_change_row, list, numDays);
         now = new Time();
+        pastEventTextColor = ContextCompat.getColor(context, R.color.favorites_past_event_text);
     }
 
     @Override
@@ -31,14 +37,14 @@ public class LectureArrayAdapter extends LecturesAdapter {
 
         Lecture l = getLecture(position);
         if (lectureTookPlace(l)) {
-            setTextStyleCanceled(viewHolder.title);
-            setTextStyleCanceled(viewHolder.subtitle);
-            setTextStyleCanceled(viewHolder.speakers);
-            setTextStyleCanceled(viewHolder.lang);
-            setTextStyleCanceled(viewHolder.day);
-            setTextStyleCanceled(viewHolder.time);
-            setTextStyleCanceled(viewHolder.room);
-            setTextStyleCanceled(viewHolder.duration);
+            viewHolder.title.setTextColor(pastEventTextColor);
+            viewHolder.subtitle.setTextColor(pastEventTextColor);
+            viewHolder.speakers.setTextColor(pastEventTextColor);
+            viewHolder.lang.setTextColor(pastEventTextColor);
+            viewHolder.day.setTextColor(pastEventTextColor);
+            viewHolder.time.setTextColor(pastEventTextColor);
+            viewHolder.room.setTextColor(pastEventTextColor);
+            viewHolder.duration.setTextColor(pastEventTextColor);
         }
 
         viewHolder.title.setText(l.title);
