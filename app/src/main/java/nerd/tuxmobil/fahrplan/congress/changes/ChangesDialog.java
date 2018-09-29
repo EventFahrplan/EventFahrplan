@@ -64,7 +64,7 @@ public class ChangesDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Activity activity = getActivity();
         AlertDialog.Builder builder = new AlertDialog.Builder(activity)
-                .setTitle(getString(R.string.schedule_udpate))
+                .setTitle(getString(R.string.schedule_update))
                 .setPositiveButton(R.string.btn_dlg_browse, (dialog, which) -> onBrowse())
                 .setNegativeButton(R.string.btn_dlg_later, (dialog, which) -> onLater());
 

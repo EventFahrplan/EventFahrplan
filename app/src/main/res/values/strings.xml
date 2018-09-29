@@ -114,7 +114,7 @@
     </plurals>
     <string name="dash" translatable="false"><xliff:g id="dash">—</xliff:g></string>
     <string name="general_settings">General</string>
-    <string name="schedule_udpate">Schedule update</string>
+    <string name="schedule_update">Schedule update</string>
     <string name="starred_lectures">Favorites</string>
     <string name="schedule_url">Alternative schedule URL</string>
     <string name="invalid_url">Invalid URL</string>
