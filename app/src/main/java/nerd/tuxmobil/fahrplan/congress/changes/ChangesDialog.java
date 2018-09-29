@@ -29,7 +29,7 @@ public class ChangesDialog extends DialogFragment {
     private int changed;
     private int added;
     private int cancelled;
-    private int marked_affected;
+    private int markedAffected;
     private String version;
 
     public static ChangesDialog newInstance(String version, int changed, int added,
@@ -54,7 +54,7 @@ public class ChangesDialog extends DialogFragment {
             changed = args.getInt(BundleKeys.CHANGES_DLG_NUM_CHANGED);
             added = args.getInt(BundleKeys.CHANGES_DLG_NUM_NEW);
             cancelled = args.getInt(BundleKeys.CHANGES_DLG_NUM_CANCELLED);
-            marked_affected = args.getInt(BundleKeys.CHANGES_DLG_NUM_MARKED);
+            markedAffected = args.getInt(BundleKeys.CHANGES_DLG_NUM_MARKED);
             version = args.getString(BundleKeys.CHANGES_DLG_VERSION);
         }
     }
@@ -87,7 +87,7 @@ public class ChangesDialog extends DialogFragment {
         changes1.setText(span);
 
         TextView changes2 = msgView.findViewById(R.id.changes_dlg_text2);
-        changes2.setText(getString(R.string.changes_dlg_text3, marked_affected));
+        changes2.setText(getString(R.string.changes_dlg_text3, markedAffected));
         builder.setView(msgView);
         return builder.create();
     }
