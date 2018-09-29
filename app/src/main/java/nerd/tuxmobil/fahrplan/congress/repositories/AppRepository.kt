@@ -148,13 +148,11 @@ class AppRepository private constructor(val context: Context) {
 
     fun readScheduleUrl(): String {
         val alternateScheduleUrl = sharedPreferencesRepository.getScheduleUrl()
-        val url: String
-        url = if (TextUtils.isEmpty(alternateScheduleUrl)) {
+        return if (TextUtils.isEmpty(alternateScheduleUrl)) {
             BuildConfig.SCHEDULE_URL
         } else {
             alternateScheduleUrl
         }
-        return url
     }
 
     private fun resetChangesSeenFlag() =
