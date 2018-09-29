@@ -43,6 +43,22 @@
     <string name="dlg_err_failed_ssl_failure">SSL Fehler</string>
     <string name="uptodate">Fahrplan ist aktuell.</string>
 
+    <!-- Schedule changes dialog -->
+    <string name="schedule_update">Fahrplanaktualisierung</string>
+    <string name="changes_dlg_text1">Der Fahrplan wurde aktualisiert auf Version</string>
+    <string name="changes_dlg_text2">. Es gibt Änderungen in <xliff:g id="num_changes" example="3 Vorträgen">%2$s</xliff:g>, <xliff:g id="num_new" example="2 sind">%3$s</xliff:g> neu, <xliff:g id="num_canceled" example="1 ist">%4$s</xliff:g> gestrichen.</string>
+    <string name="changes_dlg_text3">Die Änderungen betreffen <xliff:g id="num_marked" example="2">%1$d</xliff:g> der markierten Vorträge.</string>
+    <plurals name="numberOfLectures">
+        <item quantity="one">%d Vortrag</item>
+        <item quantity="other">%d Vorträgen</item>
+    </plurals>
+    <plurals name="being">
+        <item quantity="one">%d ist</item>
+        <item quantity="other">%d sind</item>
+    </plurals>
+    <string name="btn_dlg_browse">Ansehen</string>
+    <string name="btn_dlg_later">Später</string>
+
     <string name="progress_loading_data">Hole Fahrplan &#8230;</string>
     <string name="progress_processing_data">Verarbeite Fahrplan &#8230;</string>
     <string name="load_data">Laden</string>
@@ -90,20 +106,8 @@
     <string name="add_to_calendar_failed">Hinzufügen zum Kalendar fehlgeschlagen.</string>
     <string name="no_changes">Keine Fahrplanänderungen</string>
     <string name="schedule_changes">Fahrplanänderungen</string>
-    <string name="changes_dlg_text1">Der Fahrplan wurde aktualisiert auf Version</string>
-    <string name="changes_dlg_text2">. Es gibt Änderungen in <xliff:g id="num_changes" example="3 Vorträgen">%2$s</xliff:g>, <xliff:g id="num_new" example="2 sind">%3$s</xliff:g> neu, <xliff:g id="num_canceled" example="1 ist">%4$s</xliff:g> gestrichen.</string>
-    <string name="changes_dlg_text3">Die Änderungen betreffen <xliff:g id="num_marked" example="2">%1$d</xliff:g> der markierten Vorträge.</string>
 
-    <plurals name="numberOfLectures">
-        <item quantity="one">%d Vortrag</item>
-        <item quantity="other">%d Vorträgen</item>
-    </plurals>
-    <plurals name="being">
-        <item quantity="one">%d ist</item>
-        <item quantity="other">%d sind</item>
-    </plurals>
     <string name="general_settings">Allgemein</string>
-    <string name="schedule_update">Fahrplanaktualisierung</string>
     <string name="starred_lectures">Favoriten</string>
     <string name="schedule_url">Alternative Fahrplan URL</string>
     <string name="invalid_url">Ungültige URL</string>
@@ -111,8 +115,6 @@
     <string name="choose_to_delete">Wähle Vorträge</string>
     <string name="day_separator">Tag <xliff:g id="day_of_congress" example="2">%1$d</xliff:g> - <xliff:g id="date_of_congress_day" example="29.12.2014">%2$s</xliff:g></string>
     <string name="event_duration"><xliff:g id="duration" example="45">%1$d</xliff:g> min.</string>
-    <string name="btn_dlg_browse">Ansehen</string>
-    <string name="btn_dlg_later">Später</string>
     <string name="alternative_highlight">Alternative Hervorhebung</string>
     <string name="dlg_delete_all_favorites">Alle Favoriten löschen?</string>
     <string name="dlg_delete_all_favorites_delete_all">Alle löschen</string>

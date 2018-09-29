@@ -43,6 +43,21 @@
     <string name="dlg_err_failed_ssl_failure">SSL failure</string>
     <string name="uptodate">Schedule is up to date.</string>
 
+    <!-- Schedule changes dialog -->
+    <string name="schedule_update">Schedule update</string>
+    <string name="changes_dlg_text1">The schedule has been updated to</string>
+    <string name="changes_dlg_text2">. There are changes in <xliff:g id="num_changes" example="3 lectures">%2$s</xliff:g>, <xliff:g id="num_new" example="2 are">%3$s</xliff:g> new, <xliff:g id="num_canceled" example="1 is">%4$s</xliff:g> cancelled.</string>
+    <string name="changes_dlg_text3">The changes affect <xliff:g id="num_marked" example="2">%1$d</xliff:g> of your marked lectures.</string>
+    <plurals name="numberOfLectures">
+        <item quantity="one">%d lecture</item>
+        <item quantity="other">%d lectures</item>
+    </plurals>
+    <plurals name="being">
+        <item quantity="one">%d is</item>
+        <item quantity="other">%d are</item>
+    </plurals>
+    <string name="btn_dlg_browse">Browse</string>
+    <string name="btn_dlg_later">Later</string>
 
     <string name="progress_loading_data">Get schedule &#8230;</string>
     <string name="progress_processing_data">Processing schedule &#8230;</string>
@@ -100,29 +115,15 @@
     <string name="no_changes">No schedule changes</string>
     <string name="no_favorites">No favorite lectures</string>
     <string name="schedule_changes">Schedule changes</string>
-    <string name="changes_dlg_text1">The schedule has been updated to</string>
-    <string name="changes_dlg_text2">. There are changes in <xliff:g id="num_changes" example="3 lectures">%2$s</xliff:g>, <xliff:g id="num_new" example="2 are">%3$s</xliff:g> new, <xliff:g id="num_canceled" example="1 is">%4$s</xliff:g> cancelled.</string>
-    <string name="changes_dlg_text3">The changes affect <xliff:g id="num_marked" example="2">%1$d</xliff:g> of your marked lectures.</string>
 
-    <plurals name="numberOfLectures">
-        <item quantity="one">%d lecture</item>
-        <item quantity="other">%d lectures</item>
-    </plurals>
-    <plurals name="being">
-        <item quantity="one">%d is</item>
-        <item quantity="other">%d are</item>
-    </plurals>
     <string name="dash" translatable="false"><xliff:g id="dash">—</xliff:g></string>
     <string name="general_settings">General</string>
-    <string name="schedule_update">Schedule update</string>
     <string name="starred_lectures">Favorites</string>
     <string name="schedule_url">Alternative schedule URL</string>
     <string name="invalid_url">Invalid URL</string>
     <string name="choose_to_delete">Select lectures</string>
     <string name="day_separator">Day <xliff:g id="day_of_congress" example="2">%1$d</xliff:g> - <xliff:g id="date_of_congress_day" example="29.12.2014">%2$s</xliff:g></string>
     <string name="event_duration"><xliff:g id="duration" example="45">%1$d</xliff:g> min.</string>
-    <string name="btn_dlg_browse">Browse</string>
-    <string name="btn_dlg_later">Later</string>
     <string name="alternative_highlight">Alternative highlighting</string>
     <string name="dlg_delete_all_favorites">Delete all favorites?</string>
     <string name="dlg_delete_all_favorites_delete_all">Delete all</string>
