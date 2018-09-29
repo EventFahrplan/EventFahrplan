@@ -64,15 +64,15 @@ public class ChangesDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Activity activity = getActivity();
         AlertDialog.Builder builder = new AlertDialog.Builder(activity)
-                .setTitle(getString(R.string.schedule_update))
-                .setPositiveButton(R.string.btn_dlg_browse, (dialog, which) -> onBrowse())
-                .setNegativeButton(R.string.btn_dlg_later, (dialog, which) -> onLater());
+                .setTitle(getString(R.string.schedule_changes_dialog_title))
+                .setPositiveButton(R.string.schedule_changes_dialog_browse, (dialog, which) -> onBrowse())
+                .setNegativeButton(R.string.schedule_changes_dialog_later, (dialog, which) -> onLater());
 
         LayoutInflater inflater = activity.getLayoutInflater();
         View msgView = inflater.inflate(R.layout.changes_dialog, null);
         TextView changes1 = msgView.findViewById(R.id.changes_dlg_text);
         SpannableStringBuilder span = new SpannableStringBuilder();
-        span.append(getString(R.string.changes_dlg_text1));
+        span.append(getString(R.string.schedule_changes_dialog_updated_to_text));
         span.append(" ");
         int spanStart = span.length();
         span.append(version);
@@ -80,14 +80,14 @@ public class ChangesDialog extends DialogFragment {
         int spanColor = ContextCompat.getColor(activity, R.color.schedule_changes_dialog_new_version_text);
         span.setSpan(new ForegroundColorSpan(spanColor),
                 spanStart, span.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        span.append(getString(R.string.changes_dlg_text2, version,
-                resources.getQuantityString(R.plurals.numberOfLectures, changed, changed),
-                resources.getQuantityString(R.plurals.being, added, added),
-                resources.getQuantityString(R.plurals.being, cancelled, cancelled)));
+        span.append(getString(R.string.schedule_changes_dialog_changed_new_cancelled_text, version,
+                resources.getQuantityString(R.plurals.schedule_changes_dialog_number_of_lectures, changed, changed),
+                resources.getQuantityString(R.plurals.schedule_changes_dialog_being, added, added),
+                resources.getQuantityString(R.plurals.schedule_changes_dialog_being, cancelled, cancelled)));
         changes1.setText(span);
 
         TextView changes2 = msgView.findViewById(R.id.changes_dlg_text2);
-        changes2.setText(getString(R.string.changes_dlg_text3, markedAffected));
+        changes2.setText(getString(R.string.schedule_changes_dialog_affected_text, markedAffected));
         builder.setView(msgView);
         return builder.create();
     }

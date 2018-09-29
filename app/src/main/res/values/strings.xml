@@ -44,20 +44,20 @@
     <string name="uptodate">Schedule is up to date.</string>
 
     <!-- Schedule changes dialog -->
-    <string name="schedule_update">Schedule update</string>
-    <string name="changes_dlg_text1">The schedule has been updated to</string>
-    <string name="changes_dlg_text2">. There are changes in <xliff:g id="num_changes" example="3 lectures">%2$s</xliff:g>, <xliff:g id="num_new" example="2 are">%3$s</xliff:g> new, <xliff:g id="num_canceled" example="1 is">%4$s</xliff:g> cancelled.</string>
-    <string name="changes_dlg_text3">The changes affect <xliff:g id="num_marked" example="2">%1$d</xliff:g> of your marked lectures.</string>
-    <plurals name="numberOfLectures">
+    <string name="schedule_changes_dialog_title">Schedule update</string>
+    <string name="schedule_changes_dialog_updated_to_text">The schedule has been updated to</string>
+    <string name="schedule_changes_dialog_changed_new_cancelled_text">. There are changes in <xliff:g id="num_changes" example="3 lectures">%2$s</xliff:g>, <xliff:g id="num_new" example="2 are">%3$s</xliff:g> new, <xliff:g id="num_canceled" example="1 is">%4$s</xliff:g> cancelled.</string>
+    <string name="schedule_changes_dialog_affected_text">The changes affect <xliff:g id="num_marked" example="2">%1$d</xliff:g> of your marked lectures.</string>
+    <plurals name="schedule_changes_dialog_number_of_lectures">
         <item quantity="one">%d lecture</item>
         <item quantity="other">%d lectures</item>
     </plurals>
-    <plurals name="being">
+    <plurals name="schedule_changes_dialog_being">
         <item quantity="one">%d is</item>
         <item quantity="other">%d are</item>
     </plurals>
-    <string name="btn_dlg_browse">Browse</string>
-    <string name="btn_dlg_later">Later</string>
+    <string name="schedule_changes_dialog_browse">Browse</string>
+    <string name="schedule_changes_dialog_later">Later</string>
 
     <string name="progress_loading_data">Get schedule &#8230;</string>
     <string name="progress_processing_data">Processing schedule &#8230;</string>
