@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/schedule_changes_dialog_updated_to_text"
-        android:id="@+id/changes_dlg_text"
+        android:id="@+id/schedule_changes_dialog_updated_to_text_view"
         android:layout_marginBottom="8dp"/>
 
     <TextView
@@ -19,6 +19,6 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/schedule_changes_dialog_affected_text"
-        android:id="@+id/changes_dlg_text2" />
+        android:id="@+id/schedule_changes_dialog_changes_text_view" />
 
 </LinearLayout>
