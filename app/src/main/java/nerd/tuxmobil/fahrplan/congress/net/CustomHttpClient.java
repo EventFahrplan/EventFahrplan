@@ -35,11 +35,6 @@ public class CustomHttpClient {
 
     public static void showHttpError(final Activity ctx, HttpStatus status, String host) {
         switch (status) {
-            case HTTP_LOGIN_FAIL_WRONG_PASSWORD:
-                AlertDialogHelper.showErrorDialog(ctx,
-                        R.string.dlg_err_connection_failed,
-                        R.string.dlg_err_failed_wrong_password, (Object) null);
-                break;
             case HTTP_DNS_FAILURE:
                 AlertDialogHelper.showErrorDialog(ctx,
                         R.string.dlg_err_connection_failed,
@@ -60,11 +55,6 @@ public class CustomHttpClient {
                 AlertDialogHelper.showErrorDialog(ctx,
                         R.string.dlg_err_connection_failed,
                         R.string.dlg_err_failed_connect_failure, (Object) null);
-                break;
-            case HTTP_ENTITY_ENCODING_FAILURE:
-                AlertDialogHelper.showErrorDialog(ctx,
-                        R.string.dlg_err_connection_failed,
-                        R.string.dlg_err_failed_encoding_failure, (Object) null);
                 break;
             case HTTP_CANNOT_PARSE_CONTENT:
                 AlertDialogHelper.showErrorDialog(ctx,

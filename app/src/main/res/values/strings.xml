@@ -34,13 +34,11 @@
 
     <!-- CustomHttpClient -->
     <string name="dlg_err_connection_failed">Connection failure</string>
-    <string name="dlg_err_failed_wrong_password">Wrong password</string>
     <string name="dlg_err_failed_unknown_host">Unknown address:\n%s</string>
     <string name="dlg_err_failed_wrong_http_credentials">Invalid HTTP Authentication</string>
     <string name="dlg_err_failed_timeout">Server doesn\'t respond (Timeout).</string>
     <string name="dlg_err_failed_connect_failure">Unknown connection failure</string>
     <string name="dlg_err_failed_not_found">Invalid schedule URL</string>
-    <string name="dlg_err_failed_encoding_failure">Encoding failure</string>
     <string name="dlg_err_failed_parse_failure">Couldn\'t parse response</string>
     <string name="dlg_err_failed_ssl_failure">SSL failure</string>
     <string name="uptodate">Schedule is up to date.</string>
