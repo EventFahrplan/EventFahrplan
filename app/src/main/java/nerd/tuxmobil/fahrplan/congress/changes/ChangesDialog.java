@@ -77,7 +77,7 @@ public class ChangesDialog extends DialogFragment {
         int spanStart = span.length();
         span.append(version);
         Resources resources = getResources();
-        int spanColor = ContextCompat.getColor(activity, R.color.colorAccent);
+        int spanColor = ContextCompat.getColor(activity, R.color.schedule_changes_dialog_new_version_text);
         span.setSpan(new ForegroundColorSpan(spanColor),
                 spanStart, span.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         span.append(getString(R.string.changes_dlg_text2, version,
