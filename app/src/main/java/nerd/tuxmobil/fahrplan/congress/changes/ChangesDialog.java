@@ -80,7 +80,7 @@ public class ChangesDialog extends DialogFragment {
         int spanColor = ContextCompat.getColor(activity, R.color.schedule_changes_dialog_new_version_text);
         span.setSpan(new ForegroundColorSpan(spanColor),
                 spanStart, span.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        span.append(getString(R.string.schedule_changes_dialog_changed_new_cancelled_text, version,
+        span.append(getString(R.string.schedule_changes_dialog_changed_new_cancelled_text,
                 resources.getQuantityString(R.plurals.schedule_changes_dialog_number_of_lectures, changed, changed),
                 resources.getQuantityString(R.plurals.schedule_changes_dialog_being, added, added),
                 resources.getQuantityString(R.plurals.schedule_changes_dialog_being, cancelled, cancelled)));
