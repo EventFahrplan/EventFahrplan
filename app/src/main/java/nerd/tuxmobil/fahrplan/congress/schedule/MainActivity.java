@@ -189,8 +189,6 @@ public class MainActivity extends BaseActivity implements
         }
         if (status != HttpStatus.HTTP_OK) {
             switch (status) {
-                case HTTP_CANCELLED:
-                    break;
                 case HTTP_LOGIN_FAIL_UNTRUSTED_CERTIFICATE:
                     CertificateDialogFragment dialogFragment = CertificateDialogFragment.newInstance(fetchScheduleResult.getExceptionMessage());
                     dialogFragment.show(getSupportFragmentManager(), CertificateDialogFragment.FRAGMENT_TAG);
