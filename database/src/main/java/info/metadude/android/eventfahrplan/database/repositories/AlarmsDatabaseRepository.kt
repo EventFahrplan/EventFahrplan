@@ -55,7 +55,7 @@ class AlarmsDatabaseRepository(
             Log.e(javaClass.name, "Failure on alarm query.")
             database.close()
             sqLiteOpenHelper.close()
-            return alarms
+            return alarms.toList()
         }
 
         if (cursor.count == 0) {
@@ -63,7 +63,7 @@ class AlarmsDatabaseRepository(
             database.close()
             sqLiteOpenHelper.close()
             Log.d(javaClass.name, "No alarms found.")
-            return alarms
+            return alarms.toList()
         }
 
         cursor.moveToFirst()
