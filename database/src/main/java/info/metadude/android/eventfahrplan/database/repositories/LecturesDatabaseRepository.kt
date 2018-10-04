@@ -116,7 +116,7 @@ class LecturesDatabaseRepository(
         cursor.close()
         close()
         sqLiteOpenHelper.close()
-        return lectures
+        return lectures.toList()
     }
 
     private val Int.isChanged
