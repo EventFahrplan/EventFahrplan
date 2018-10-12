@@ -1,6 +1,5 @@
 package nerd.tuxmobil.fahrplan.congress.autoupdate;
 
-import android.app.IntentService;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +8,7 @@ import android.content.SharedPreferences.Editor;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.v4.app.JobIntentService;
 import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
 import android.text.format.Time;
@@ -28,11 +28,9 @@ import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
 
 import static nerd.tuxmobil.fahrplan.congress.net.Connectivity.networkIsAvailable;
 
-public class UpdateService extends IntentService {
+public class UpdateService extends JobIntentService {
 
-    public UpdateService() {
-        super("UpdateService");
-    }
+    private static final int JOB_ID = 2119;
 
     final String LOG_TAG = "UpdateService";
 
@@ -114,7 +112,7 @@ public class UpdateService extends IntentService {
     }
 
     @Override
-    protected void onHandleIntent(Intent intent) {
+    protected void onHandleWork(@NonNull Intent intent) {
         if (!networkIsAvailable(this)) {
             MyApp.LogDebug(LOG_TAG, "Network is not available");
             stopSelf();
@@ -129,8 +127,7 @@ public class UpdateService extends IntentService {
     }
 
     public static void start(@NonNull Context context) {
-        Intent intent = new Intent(context, UpdateService.class);
-        context.startService(intent);
+        UpdateService.enqueueWork(context, UpdateService.class, JOB_ID, new Intent());
     }
 
 }
