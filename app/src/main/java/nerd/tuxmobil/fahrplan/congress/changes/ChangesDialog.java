@@ -73,7 +73,6 @@ public class ChangesDialog extends DialogFragment {
         TextView changes1 = msgView.findViewById(R.id.schedule_changes_dialog_updated_to_text_view);
         SpannableStringBuilder span = new SpannableStringBuilder();
         span.append(getString(R.string.schedule_changes_dialog_updated_to_text));
-        span.append(" ");
         int spanStart = span.length();
         span.append(version);
         Resources resources = getResources();
