@@ -45,8 +45,8 @@
 
     <!-- Schedule changes dialog -->
     <string name="schedule_changes_dialog_title">Fahrplanaktualisierung</string>
-    <string name="schedule_changes_dialog_updated_to_text">Der Fahrplan wurde aktualisiert auf Version\u0020</string>
-    <string name="schedule_changes_dialog_changed_new_cancelled_text">. Es gibt Änderungen in <xliff:g id="num_changes" example="3 Vorträgen">%1$s</xliff:g>, <xliff:g id="num_new" example="2 sind">%2$s</xliff:g> neu, <xliff:g id="num_canceled" example="1 ist">%3$s</xliff:g> gestrichen.</string>
+    <string name="schedule_changes_dialog_updated_to_text">Der Fahrplan wurde auf Version\u0020</string>
+    <string name="schedule_changes_dialog_changed_new_cancelled_text">\u0020aktualisiert. Es gibt Änderungen in <xliff:g id="num_changes" example="3 Vorträgen">%1$s</xliff:g>, <xliff:g id="num_new" example="2 sind">%2$s</xliff:g> neu, <xliff:g id="num_canceled" example="1 ist">%3$s</xliff:g> gestrichen.</string>
     <string name="schedule_changes_dialog_affected_text">Die Änderungen betreffen <xliff:g id="num_marked" example="2">%1$d</xliff:g> der favorisierten Vorträge.</string>
     <plurals name="schedule_changes_dialog_number_of_lectures">
         <item quantity="one">%d Vortrag</item>
