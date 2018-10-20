@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
             android:icon="@mipmap/ic_launcher"
@@ -57,7 +58,8 @@
                 android:label="@string/settings"/>
         <service
                 android:name=".autoupdate.UpdateService"
-                android:exported="false"/>
+                android:exported="false"
+                android:permission="android.permission.BIND_JOB_SERVICE"/>
         <activity
             android:name="nerd.tuxmobil.fahrplan.congress.changes.ChangeListActivity"
             android:theme="@style/Theme.Congress.NoActionBar"
