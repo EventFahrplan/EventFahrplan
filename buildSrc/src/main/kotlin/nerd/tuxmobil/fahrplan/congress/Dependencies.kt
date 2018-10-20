@@ -24,7 +24,7 @@ object Android {
     val buildToolsVersion = "28.0.3"
     val compileSdkVersion = 26
     val minSdkVersion = 14
-    val targetSdkVersion = 25
+    val targetSdkVersion = 26
 }
 
 object GradlePlugins {
