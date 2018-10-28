@@ -8,6 +8,10 @@ or Chaos Communication Congress.
 
 The app is available for Android devices.
 
+[<img src="https://f-droid.org/badge/get-it-on.png"
+      alt="Get it on F-Droid"
+      height="80">](https://f-droid.org/packages/info.metadude.android.congress.schedule/)
+
 
 ![Screenshot of 33c3 Fahrplan on a tablet](gfx/EventFahrplan-33c3-Events-Tablet.png)
 
