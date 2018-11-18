@@ -146,12 +146,12 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
         int numSeparators = 0;
         for (i = 0; i < starredList.size(); i++) {
             Lecture lecture = starredList.get(i);
-            if (lecture.dateUTC + (lecture.duration * 60000) > nowMillis) {
+            if (lecture.dateUTC + lecture.duration * 60000 > nowMillis) {
                 numSeparators = lecture.day;
                 break;
             }
         }
-        if ((i > 0) && (i < starredList.size())) {
+        if (i > 0 && i < starredList.size()) {
             mListView.setSelection(i + 1 + numSeparators);
         }
     }
@@ -199,7 +199,7 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.starred_list_menu, menu);
         MenuItem item = menu.findItem(R.id.menu_item_delete_all_favorites);
-        if ((item != null) && ((starredList == null) || (starredList.size() == 0))) {
+        if (item != null && (starredList == null || starredList.size() == 0)) {
             item.setVisible(false);
         }
         item = menu.findItem(R.id.menu_item_share_favorites);

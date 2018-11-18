@@ -75,7 +75,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
     public void setListener(FahrplanParser.OnParseCompleteListener listener) {
         this.listener = listener;
 
-        if (completed && (listener != null)) {
+        if (completed && listener != null) {
             notifyActivity();
         }
     }
@@ -243,7 +243,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                                             lecture.setStartTime(Lecture.Companion.parseStartTime(XmlPullParsers.getSanitizedText(parser)));
                                             lecture.setRelativeStartTime(lecture.getStartTime());
                                             if (lecture.getRelativeStartTime() < dayChangeTime) {
-                                                lecture.setRelativeStartTime(lecture.getRelativeStartTime() + (24 * 60));
+                                                lecture.setRelativeStartTime(lecture.getRelativeStartTime() + 24 * 60);
                                             }
                                         } else if (name.equals("duration")) {
                                             parser.next();

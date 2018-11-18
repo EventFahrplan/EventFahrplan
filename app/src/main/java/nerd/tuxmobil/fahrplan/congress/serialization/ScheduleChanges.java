@@ -38,27 +38,27 @@ public class ScheduleChanges {
                 continue;
             }
 
-            if (!(newLecture.title.equals(oldLecture.title))) {
+            if (!newLecture.title.equals(oldLecture.title)) {
                 newLecture.changedTitle = true;
                 changed = true;
             }
-            if (!(newLecture.subtitle.equals(oldLecture.subtitle))) {
+            if (!newLecture.subtitle.equals(oldLecture.subtitle)) {
                 newLecture.changedSubtitle = true;
                 changed = true;
             }
-            if (!(newLecture.speakers.equals(oldLecture.speakers))) {
+            if (!newLecture.speakers.equals(oldLecture.speakers)) {
                 newLecture.changedSpeakers = true;
                 changed = true;
             }
-            if (!(newLecture.lang.equals(oldLecture.lang))) {
+            if (!newLecture.lang.equals(oldLecture.lang)) {
                 newLecture.changedLanguage = true;
                 changed = true;
             }
-            if (!(newLecture.room.equals(oldLecture.room))) {
+            if (!newLecture.room.equals(oldLecture.room)) {
                 newLecture.changedRoom = true;
                 changed = true;
             }
-            if (!(newLecture.track.equals(oldLecture.track))) {
+            if (!newLecture.track.equals(oldLecture.track)) {
                 newLecture.changedTrack = true;
                 changed = true;
             }

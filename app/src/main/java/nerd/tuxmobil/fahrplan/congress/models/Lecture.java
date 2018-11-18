@@ -193,10 +193,10 @@ public class Lecture {
     }
 
     public boolean isChanged() {
-        return (changedDay || changedDuration ||
+        return changedDay || changedDuration ||
                 changedLanguage || changedRecordingOptOut ||
                 changedRoom || changedSpeakers || changedSubtitle ||
-                changedTime || changedTitle || changedTrack);
+                changedTime || changedTitle || changedTrack;
     }
 
     public String getFormattedSpeakers() {

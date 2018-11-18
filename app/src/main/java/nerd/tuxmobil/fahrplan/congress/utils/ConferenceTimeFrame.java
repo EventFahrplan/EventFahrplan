@@ -23,7 +23,7 @@ public class ConferenceTimeFrame {
     }
 
     public boolean contains(long time) {
-        return startsAtOrBefore(time) && (time < lastDayEndTime);
+        return startsAtOrBefore(time) && time < lastDayEndTime;
     }
 
     public boolean endsBefore(long time) {

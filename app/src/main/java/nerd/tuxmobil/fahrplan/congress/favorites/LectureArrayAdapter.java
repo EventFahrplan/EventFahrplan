@@ -62,7 +62,7 @@ public class LectureArrayAdapter extends LecturesAdapter {
     }
 
     private boolean lectureTookPlace(Lecture lecture) {
-        return lecture.dateUTC + (lecture.duration * 60000) < now.toMillis(true);
+        return lecture.dateUTC + lecture.duration * 60000 < now.toMillis(true);
     }
 
 }

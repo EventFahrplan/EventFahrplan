@@ -61,8 +61,7 @@ public class DomainNameChecker {
      * @return True iff if there is a domain match as specified by RFC2818
      */
     public static boolean match(X509Certificate certificate, String thisDomain) {
-        if ((certificate == null) || (thisDomain == null)
-                || (thisDomain.length() == 0)) {
+        if (certificate == null || thisDomain == null || thisDomain.length() == 0) {
             Log.d(LOG_TAG, "no certificate/domain");
             return false;
         }
@@ -79,7 +78,7 @@ public class DomainNameChecker {
      * @return True iff the domain name is specified as an IP address
      */
     private static boolean isIpAddress(String domain) {
-        if ((domain == null) || (domain.length() == 0)) {
+        if (domain == null || domain.length() == 0) {
             return false;
         }
 
@@ -133,12 +132,12 @@ public class DomainNameChecker {
             Collection<?> subjectAltNames = certificate.getSubjectAlternativeNames();
             if (subjectAltNames != null) {
                 for (Object subjectAltName : subjectAltNames) {
-                    List<?> altNameEntry = (List<?>) (subjectAltName);
-                    if ((altNameEntry != null) && (2 <= altNameEntry.size())) {
-                        Integer altNameType = (Integer) (altNameEntry.get(0));
+                    List<?> altNameEntry = (List<?>) subjectAltName;
+                    if (altNameEntry != null && 2 <= altNameEntry.size()) {
+                        Integer altNameType = (Integer) altNameEntry.get(0);
                         if (altNameType != null) {
                             if (altNameType == ALT_IPA_NAME) {
-                                String altName = (String) (altNameEntry.get(1));
+                                String altName = (String) altNameEntry.get(1);
                                 if (altName != null) {
                                     if (BuildConfig.DEBUG) {
                                         Log.d(LOG_TAG, "alternative IP: " + altName);
@@ -178,13 +177,13 @@ public class DomainNameChecker {
             Collection<?> subjectAltNames = certificate.getSubjectAlternativeNames();
             if (subjectAltNames != null) {
                 for (Object subjectAltName : subjectAltNames) {
-                    List<?> altNameEntry = (List<?>) (subjectAltName);
-                    if ((altNameEntry != null) && (2 <= altNameEntry.size())) {
-                        Integer altNameType = (Integer) (altNameEntry.get(0));
+                    List<?> altNameEntry = (List<?>) subjectAltName;
+                    if (altNameEntry != null && 2 <= altNameEntry.size()) {
+                        Integer altNameType = (Integer) altNameEntry.get(0);
                         if (altNameType != null) {
                             if (altNameType == ALT_DNS_NAME) {
                                 hasDns = true;
-                                String altName = (String) (altNameEntry.get(1));
+                                String altName = (String) altNameEntry.get(1);
                                 if (altName != null) {
                                     if (matchDns(thisDomain, altName)) {
                                         return true;
@@ -237,8 +236,8 @@ public class DomainNameChecker {
                 + " this domain: " + thisDomain + " that domain: "
                 + thatDomain);
 
-        if ((thisDomain == null) || (thisDomain.length() == 0)
-                || (thatDomain == null) || (thatDomain.length() == 0)) {
+        if (thisDomain == null || thisDomain.length() == 0
+                || thatDomain == null || thatDomain.length() == 0) {
             return false;
         }
 
@@ -260,7 +259,7 @@ public class DomainNameChecker {
                     if (!rval) {
                         // (c) OR we have a special *-match:
                         // Z.Y.X matches *.Y.X but does not match *.X
-                        rval = ((i == 0) && (thisDomainTokensNum == thatDomainTokensNum));
+                        rval = i == 0 && thisDomainTokensNum == thatDomainTokensNum;
                         if (rval) {
                             rval = thatDomainTokens[0].equals("*");
                             if (!rval) {
@@ -288,7 +287,7 @@ public class DomainNameChecker {
      * must match foo.com but not bar.com
      */
     private static boolean domainTokenMatch(String thisDomainToken, String thatDomainToken) {
-        if ((thisDomainToken != null) && (thatDomainToken != null)) {
+        if (thisDomainToken != null && thatDomainToken != null) {
             int starIndex = thatDomainToken.indexOf('*');
             if (starIndex >= 0) {
                 if (thatDomainToken.length() - 1 <= thisDomainToken.length()) {

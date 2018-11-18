@@ -64,24 +64,24 @@ public class LecturesDBOpenHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        if ((oldVersion < 2) && (newVersion >= 2)) {
+        if (oldVersion < 2 && newVersion >= 2) {
             db.execSQL("ALTER TABLE " + LecturesTable.NAME +
                     " ADD COLUMN " + Columns.DATE_UTC + " INTEGER DEFAULT " +
                     Defaults.DATE_UTC_DEFAULT);
         }
-        if ((oldVersion < 3) && (newVersion >= 3)) {
+        if (oldVersion < 3 && newVersion >= 3) {
             db.execSQL("ALTER TABLE " + LecturesTable.NAME +
                     " ADD COLUMN " + Columns.ROOM_IDX + " INTEGER DEFAULT " +
                     Defaults.ROOM_IDX_DEFAULT);
         }
-        if ((oldVersion < 4) && (newVersion >= 4)) {
+        if (oldVersion < 4 && newVersion >= 4) {
             db.execSQL("ALTER TABLE " + LecturesTable.NAME +
                     " ADD COLUMN " + Columns.REC_LICENSE + " STRING DEFAULT ''");
             db.execSQL("ALTER TABLE " + LecturesTable.NAME +
                     " ADD COLUMN " + Columns.REC_OPTOUT + " INTEGER DEFAULT " +
                     Values.REC_OPT_OUT_OFF);
         }
-        if ((oldVersion < 5) && (newVersion >= 5)) {
+        if (oldVersion < 5 && newVersion >= 5) {
             db.execSQL("ALTER TABLE " + LecturesTable.NAME + " ADD COLUMN " + Columns.CHANGED_TITLE + " INTEGER DEFAULT " + 0);
             db.execSQL("ALTER TABLE " + LecturesTable.NAME + " ADD COLUMN " + Columns.CHANGED_SUBTITLE + " INTEGER DEFAULT " + 0);
             db.execSQL("ALTER TABLE " + LecturesTable.NAME + " ADD COLUMN " + Columns.CHANGED_ROOM + " INTEGER DEFAULT " + 0);
@@ -95,10 +95,10 @@ public class LecturesDBOpenHelper extends SQLiteOpenHelper {
             db.execSQL("ALTER TABLE " + LecturesTable.NAME + " ADD COLUMN " + Columns.CHANGED_DURATION + " INTEGER DEFAULT " + 0);
             db.execSQL("ALTER TABLE " + LecturesTable.NAME + " ADD COLUMN " + Columns.CHANGED_IS_CANCELED + " INTEGER DEFAULT " + 0);
         }
-        if ((oldVersion < 6) && (newVersion >= 6)) {
+        if (oldVersion < 6 && newVersion >= 6) {
             db.execSQL("ALTER TABLE " + LecturesTable.NAME + " ADD COLUMN " + Columns.SLUG + " TEXT DEFAULT ''");
         }
-        if ((oldVersion < 7) && (newVersion >= 7)) {
+        if (oldVersion < 7 && newVersion >= 7) {
             db.execSQL("ALTER TABLE " + LecturesTable.NAME + " ADD COLUMN " + Columns.URL + " TEXT DEFAULT ''");
         }
     }

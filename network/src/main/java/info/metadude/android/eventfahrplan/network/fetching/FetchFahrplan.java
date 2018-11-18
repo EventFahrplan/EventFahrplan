@@ -80,7 +80,7 @@ class FetchFahrplanTask extends AsyncTask<String, Void, HttpStatus> {
     public void setListener(FetchFahrplan.OnDownloadCompleteListener listener) {
         this.listener = listener;
 
-        if (completed && (listener != null)) {
+        if (completed && listener != null) {
             notifyActivity();
         }
     }
