@@ -95,6 +95,8 @@ public class EventDetailFragment extends Fragment {
 
     private Boolean sidePane = false;
 
+    private boolean requiresScheduleReload = false;
+
     private boolean hasArguments = false;
 
     @Override
@@ -128,6 +130,7 @@ public class EventDetailFragment extends Fragment {
         links = args.getString(BundleKeys.EVENT_LINKS);
         room = args.getString(BundleKeys.EVENT_ROOM);
         sidePane = args.getBoolean(BundleKeys.SIDEPANE, false);
+        requiresScheduleReload = args.getBoolean(BundleKeys.REQUIRES_SCHEDULE_RELOAD, false);
         hasArguments = true;
     }
 
@@ -146,7 +149,7 @@ public class EventDetailFragment extends Fragment {
 
             locale = getResources().getConfiguration().locale;
 
-            FahrplanFragment.loadLectureList(activity, day, false);
+            FahrplanFragment.loadLectureList(activity, day, requiresScheduleReload);
             lecture = eventIdToLecture(event_id);
 
             TextView t;
@@ -328,16 +331,17 @@ public class EventDetailFragment extends Fragment {
         return RoomForC3NavConverter.convert(currentRoom);
     }
 
+    @NonNull
     private Lecture eventIdToLecture(String eventId) {
         if (MyApp.lectureList == null) {
-            return null;
+            throw new NullPointerException("Lecture list is null.");
         }
         for (Lecture lecture : MyApp.lectureList) {
             if (lecture.lecture_id.equals(eventId)) {
                 return lecture;
             }
         }
-        return null;
+        throw new IllegalStateException("Lecture list does not contain eventId: " + eventId);
     }
 
     @Override
@@ -377,19 +381,15 @@ public class EventDetailFragment extends Fragment {
             }
             case R.id.menu_item_share_event:
                 l = eventIdToLecture(event_id);
-                if (l != null) {
-                    String formattedLecture = SimpleLectureFormat.format(l);
-                    Context context = getContext();
-                    if (!LectureSharer.shareSimple(context, formattedLecture)) {
-                        Toast.makeText(context, R.string.share_error_activity_not_found, Toast.LENGTH_SHORT).show();
-                    }
+                String formattedLecture = SimpleLectureFormat.format(l);
+                Context context = getContext();
+                if (!LectureSharer.shareSimple(context, formattedLecture)) {
+                    Toast.makeText(context, R.string.share_error_activity_not_found, Toast.LENGTH_SHORT).show();
                 }
                 return true;
             case R.id.menu_item_add_to_calendar:
                 l = eventIdToLecture(event_id);
-                if (l != null) {
-                    FahrplanMisc.addToCalender(activity, l);
-                }
+                FahrplanMisc.addToCalender(activity, l);
                 return true;
             case R.id.menu_item_flag_as_favorite:
                 if (lecture != null) {

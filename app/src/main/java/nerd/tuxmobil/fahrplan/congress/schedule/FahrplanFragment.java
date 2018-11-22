@@ -279,7 +279,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
             FrameLayout sidePane = getActivity().findViewById(R.id.detail);
             if (sidePane != null) {
                 Lecture lecture = LectureUtils.getLecture(MyApp.lectureList, lecture_id);
-                ((MainActivity) getActivity()).openLectureDetail(lecture, mDay);
+                ((MainActivity) getActivity()).openLectureDetail(lecture, mDay, false);
             }
             intent.removeExtra("lecture_id");   // jump to given lecture_id only once
         }
@@ -777,7 +777,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
         MyApp.LogDebug(LOG_TAG, "Click on " + lecture.title);
         MainActivity main = (MainActivity) getActivity();
         if (main != null) {
-            main.openLectureDetail(lecture, mDay);
+            main.openLectureDetail(lecture, mDay, false);
         }
     }
 
