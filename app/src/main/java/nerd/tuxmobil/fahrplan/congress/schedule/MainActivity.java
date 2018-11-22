@@ -80,6 +80,7 @@ public class MainActivity extends BaseActivity implements
     private ProgressDialog progress = null;
 
     private ProgressBar progressBar = null;
+    private boolean requiresScheduleReload = false;
     private boolean showUpdateAction = true;
     private static MainActivity instance;
 
@@ -312,6 +313,7 @@ public class MainActivity extends BaseActivity implements
     void showChangesDialog() {
         Fragment fragment = findFragment(ChangesDialog.FRAGMENT_TAG);
         if (fragment == null) {
+            requiresScheduleReload = true;
             List<Lecture> changedLectures = FahrplanMisc.readChanges(this);
             AppRepository appRepository = AppRepository.Companion.getInstance(this);
             Meta meta = appRepository.readMeta();
@@ -323,7 +325,9 @@ public class MainActivity extends BaseActivity implements
                     FahrplanMisc.getCancelledLectureCount(changedLectures, false),
                     FahrplanMisc.getChangedLectureCount(changedLectures, true) +
                             FahrplanMisc.getNewLectureCount(changedLectures, true) +
-                            FahrplanMisc.getCancelledLectureCount(changedLectures, true));
+                            FahrplanMisc.getCancelledLectureCount(changedLectures, true),
+                    requiresScheduleReload
+            );
             changesDialog.show(getSupportFragmentManager(), ChangesDialog.FRAGMENT_TAG);
         }
     }
@@ -354,7 +358,7 @@ public class MainActivity extends BaseActivity implements
                 startActivityForResult(intent, MyApp.SETTINGS);
                 return true;
             case R.id.menu_item_schedule_changes:
-                openLectureChanges();
+                openLectureChanges(requiresScheduleReload);
                 return true;
             case R.id.menu_item_favorites:
                 openFavorites();
@@ -364,7 +368,7 @@ public class MainActivity extends BaseActivity implements
         return super.onOptionsItemSelected(item);
     }
 
-    public void openLectureDetail(Lecture lecture, int mDay) {
+    public void openLectureDetail(Lecture lecture, int mDay, boolean requiresScheduleReload) {
         if (lecture == null) return;
         FrameLayout sidePane = findViewById(R.id.detail);
         MyApp.LogDebug(LOG_TAG, "openLectureDetail sidePane=" + sidePane);
@@ -383,12 +387,13 @@ public class MainActivity extends BaseActivity implements
             args.putInt(BundleKeys.EVENT_DAY, mDay);
             args.putString(BundleKeys.EVENT_ROOM, lecture.room);
             args.putBoolean(BundleKeys.SIDEPANE, true);
+            args.putBoolean(BundleKeys.REQUIRES_SCHEDULE_RELOAD, requiresScheduleReload);
             EventDetailFragment eventDetailFragment = new EventDetailFragment();
             eventDetailFragment.setArguments(args);
             replaceFragment(R.id.detail, eventDetailFragment,
                     EventDetailFragment.FRAGMENT_TAG, EventDetailFragment.FRAGMENT_TAG);
         } else {
-            EventDetail.startForResult(this, lecture, mDay);
+            EventDetail.startForResult(this, lecture, mDay, requiresScheduleReload);
         }
     }
 
@@ -448,9 +453,9 @@ public class MainActivity extends BaseActivity implements
     }
 
     @Override
-    public void onLectureListClick(Lecture lecture) {
+    public void onLectureListClick(Lecture lecture, boolean requiresScheduleReload) {
         if (lecture != null) {
-            openLectureDetail(lecture, lecture.day);
+            openLectureDetail(lecture, lecture.day, requiresScheduleReload);
         }
     }
 
@@ -506,14 +511,15 @@ public class MainActivity extends BaseActivity implements
         }
     }
 
-    public void openLectureChanges() {
+    public void openLectureChanges(boolean requiresScheduleReload) {
         FrameLayout sidePane = findViewById(R.id.detail);
         if (sidePane == null) {
             Intent intent = new Intent(this, ChangeListActivity.class);
+            intent.putExtra(BundleKeys.REQUIRES_SCHEDULE_RELOAD, requiresScheduleReload);
             startActivityForResult(intent, MyApp.CHANGELOG);
         } else {
             sidePane.setVisibility(View.VISIBLE);
-            replaceFragment(R.id.detail, ChangeListFragment.newInstance(true),
+            replaceFragment(R.id.detail, ChangeListFragment.newInstance(true, requiresScheduleReload),
                     ChangeListFragment.FRAGMENT_TAG, ChangeListFragment.FRAGMENT_TAG);
         }
     }

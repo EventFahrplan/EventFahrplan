@@ -23,7 +23,8 @@ public class EventDetail extends BaseActivity {
 
     public static void startForResult(@NonNull Activity activity,
                                       @NonNull Lecture lecture,
-                                      int lectureDay) {
+                                      int lectureDay,
+                                      boolean requiresScheduleReload) {
         Intent intent = new Intent(activity, EventDetail.class);
         intent.putExtra(BundleKeys.EVENT_TITLE, lecture.title);
         intent.putExtra(BundleKeys.EVENT_SUBTITLE, lecture.subtitle);
@@ -35,6 +36,7 @@ public class EventDetail extends BaseActivity {
         intent.putExtra(BundleKeys.EVENT_TIME, lecture.startTime);
         intent.putExtra(BundleKeys.EVENT_DAY, lectureDay);
         intent.putExtra(BundleKeys.EVENT_ROOM, lecture.room);
+        intent.putExtra(BundleKeys.REQUIRES_SCHEDULE_RELOAD, requiresScheduleReload);
         activity.startActivityForResult(intent, MyApp.EVENTVIEW);
     }
 
@@ -74,6 +76,8 @@ public class EventDetail extends BaseActivity {
                     intent.getIntExtra(BundleKeys.EVENT_DAY, 0));
             args.putString(BundleKeys.EVENT_ROOM,
                     intent.getStringExtra(BundleKeys.EVENT_ROOM));
+            args.putBoolean(BundleKeys.REQUIRES_SCHEDULE_RELOAD,
+                    intent.getBooleanExtra(BundleKeys.REQUIRES_SCHEDULE_RELOAD, false));
             eventDetailFragment.setArguments(args);
             replaceFragment(R.id.detail, eventDetailFragment,
                     EventDetailFragment.FRAGMENT_TAG);

@@ -190,7 +190,7 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
             // fragment is attached to one) that an item has been selected.
             position--;
             Lecture clicked = starredList.get(mAdapter.getItemIndex(position));
-            mListener.onLectureListClick(clicked);
+            mListener.onLectureListClick(clicked, false);
         }
     }
 
