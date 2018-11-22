@@ -120,7 +120,7 @@ public class MainActivity extends BaseActivity implements
                 showParsingStatus();
                 break;
             case NONE:
-                if ((MyApp.meta.getNumDays() == 0) && (savedInstanceState == null)) {
+                if (MyApp.meta.getNumDays() == 0 && savedInstanceState == null) {
                     MyApp.LogDebug(LOG_TAG, "fetch in onCreate bc. numDays==0");
                     fetchFahrplan();
                 }
@@ -178,7 +178,7 @@ public class MainActivity extends BaseActivity implements
         if (MyApp.meta.getNumDays() == 0) {
             hideProgressDialog();
         }
-        if ((status == HttpStatus.HTTP_OK) || (status == HttpStatus.HTTP_NOT_MODIFIED)) {
+        if (status == HttpStatus.HTTP_OK || status == HttpStatus.HTTP_NOT_MODIFIED) {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
             Time now = new Time();
             now.setToNow();

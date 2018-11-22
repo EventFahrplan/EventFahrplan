@@ -96,7 +96,7 @@ public class FahrplanMisc {
 
         long startTime = getLectureStartTime(l);
         intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startTime);
-        intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, startTime + (l.duration * 60000));
+        intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, startTime + l.duration * 60000);
         final String description = getCalendarDescription(context, l);
         intent.putExtra(CalendarContract.Events.DESCRIPTION, description);
         try {
@@ -259,7 +259,7 @@ public class FahrplanMisc {
         }
         for (int lectureIndex = 0; lectureIndex < list.size(); lectureIndex++) {
             Lecture l = list.get(lectureIndex);
-            if (l.isChanged() && ((!favsOnly) || (l.highlight))) {
+            if (l.isChanged() && (!favsOnly || l.highlight)) {
                 count++;
             }
         }
@@ -274,7 +274,7 @@ public class FahrplanMisc {
         }
         for (int lectureIndex = 0; lectureIndex < list.size(); lectureIndex++) {
             Lecture l = list.get(lectureIndex);
-            if ((l.changedIsNew) && ((!favsOnly) || (l.highlight))) count++;
+            if (l.changedIsNew && (!favsOnly || l.highlight)) count++;
         }
         MyApp.LogDebug(LOG_TAG, "getNewLectureCount " + favsOnly + ":" + count);
         return count;
@@ -287,7 +287,7 @@ public class FahrplanMisc {
         }
         for (int lectureIndex = 0; lectureIndex < list.size(); lectureIndex++) {
             Lecture l = list.get(lectureIndex);
-            if ((l.changedIsCanceled) && ((!favsOnly) || (l.highlight))) count++;
+            if (l.changedIsCanceled && (!favsOnly || l.highlight)) count++;
         }
         MyApp.LogDebug(LOG_TAG, "getCancelledLectureCount " + favsOnly + ":" + count);
         return count;

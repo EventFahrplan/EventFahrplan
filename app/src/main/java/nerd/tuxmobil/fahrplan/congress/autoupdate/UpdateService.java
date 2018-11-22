@@ -73,7 +73,7 @@ public class UpdateService extends JobIntentService {
     public void onGotResponse(@NonNull FetchScheduleResult fetchScheduleResult) {
         HttpStatus status = fetchScheduleResult.getHttpStatus();
         MyApp.task_running = TASKS.NONE;
-        if ((status == HttpStatus.HTTP_OK) || (status == HttpStatus.HTTP_NOT_MODIFIED)) {
+        if (status == HttpStatus.HTTP_OK || status == HttpStatus.HTTP_NOT_MODIFIED) {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
             Time now = new Time();
             now.setToNow();

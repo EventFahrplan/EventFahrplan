@@ -35,7 +35,7 @@ public class MetaDBOpenHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        if ((oldVersion < 2) && (newVersion >= 2)) {
+        if (oldVersion < 2 && newVersion >= 2) {
             db.execSQL("ALTER TABLE " + MetasTable.NAME + " ADD COLUMN " +
                     Columns.DAY_CHANGE_HOUR + " INTEGER DEFAULT " +
                     Defaults.DAY_CHANGE_HOUR_DEFAULT);
@@ -44,7 +44,7 @@ public class MetaDBOpenHelper extends SQLiteOpenHelper {
                     Defaults.DAY_CHANGE_MINUTE_DEFAULT);
         }
 
-        if ((oldVersion < 3) && (newVersion >= 3)) {
+        if (oldVersion < 3 && newVersion >= 3) {
             db.execSQL("ALTER TABLE " + MetasTable.NAME + " ADD COLUMN " +
                     Columns.ETAG + " TEXT DEFAULT " + Defaults.ETAG_DEFAULT);
         }

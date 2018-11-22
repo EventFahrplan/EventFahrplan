@@ -35,7 +35,7 @@ public class AlarmsDBOpenHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        if ((oldVersion < 2) && (newVersion >= 2)) {
+        if (oldVersion < 2 && newVersion >= 2) {
             db.execSQL("ALTER TABLE " + AlarmsTable.NAME + " ADD " +
                     AlarmsTable.Columns.ALARM_TIME_IN_MIN + " INTEGER DEFAULT" +
                     AlarmsTable.Defaults.ALARM_TIME_IN_MIN_DEFAULT);

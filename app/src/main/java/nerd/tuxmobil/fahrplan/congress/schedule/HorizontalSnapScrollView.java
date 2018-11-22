@@ -64,12 +64,12 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
             boolean exceedsVelocityThreshold = normalizedAbsoluteVelocityX > SWIPE_THRESHOLD_VELOCITY;
             try {
                 //right to left
-                if ((e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE) && exceedsVelocityThreshold) {
+                if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE && exceedsVelocityThreshold) {
                     scrollToColumn(activeColumnIndex + columns, false);
                     return true;
                 }
                 //left to right
-                else if ((e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE) && exceedsVelocityThreshold) {
+                else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && exceedsVelocityThreshold) {
                     scrollToColumn(activeColumnIndex - columns, false);
                     return true;
                 }
@@ -179,7 +179,7 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
             dip = (int) ((((float) availPixels) / maxCols) / scale);
             MyApp.LogDebug(LOG_TAG, "calcMaxCols: " + dip + " on " + maxCols + " cols.");
             maxCols--;
-        } while ((dip < minWidthDip) && (maxCols > 0));
+        } while (dip < minWidthDip && maxCols > 0);
         return maxCols + 1;
     }
 
@@ -187,7 +187,7 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
     private static int calcMaxCols(Resources res, int availPixels, int columnsCount) {
         int maxCols = res.getInteger(R.integer.max_cols);
         // TODO: The next line is the relevant monkey patch
-        maxCols = (columnsCount < maxCols) ? columnsCount : maxCols;
+        maxCols = columnsCount < maxCols ? columnsCount : maxCols;
         // TODO: The previous line is the relevant monkey patch
         int minWidthDip = res.getInteger(R.integer.min_width_dip);
         float scale = res.getDisplayMetrics().density;
@@ -197,7 +197,7 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
             dip = (int) ((((float) availPixels) / maxCols) / scale);
             MyApp.LogDebug(LOG_TAG, "calcMaxCols: " + dip + " on " + maxCols + " cols.");
             maxCols--;
-        } while ((dip < minWidthDip) && (maxCols > 0));
+        } while (dip < minWidthDip && maxCols > 0);
         return maxCols + 1;
     }
 

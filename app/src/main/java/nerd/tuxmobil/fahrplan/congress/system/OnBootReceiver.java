@@ -74,7 +74,7 @@ public final class OnBootReceiver extends BroadcastReceiver {
             long interval = FahrplanMisc.setUpdateAlarm(context, true);
 
             MyApp.LogDebug(LOG_TAG, "now: " + nowMillis + ", last_fetch: " + lastFetch);
-            if ((interval > 0) && (nowMillis - lastFetch >= interval)) {
+            if (interval > 0 && nowMillis - lastFetch >= interval) {
                 UpdateService.start(context);
             }
         }

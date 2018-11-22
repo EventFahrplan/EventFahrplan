@@ -401,7 +401,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
         int printTime = time;
         int scrollAmount = 0;
 
-        if (!((((now.hour * 60) + now.minute) < conference.getFirstEventStartsAt()) &&
+        if (!(now.hour * 60 + now.minute < conference.getFirstEventStartsAt() &&
                 MyApp.dateInfos.sameDay(now, MyApp.lectureListDay))) {
 
             TimeSegment timeSegment;
@@ -410,7 +410,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
                 if (timeSegment.isMatched(now, FIFTEEN_MINUTES)) {
                     break;
                 } else {
-                    scrollAmount += (height * 3);
+                    scrollAmount += height * 3;
                 }
                 time += FIFTEEN_MINUTES;
                 printTime = time;
@@ -420,8 +420,8 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
             }
 
             for (Lecture l : MyApp.lectureList) {
-                if ((l.day == day) && (l.startTime <= time) && (l.startTime + l.duration > time)) {
-                    if ((col == -1) || ((col >= 0) && (l.room_index == MyApp.roomList.get(col)))) {
+                if (l.day == day && l.startTime <= time && l.startTime + l.duration > time) {
+                    if (col == -1 || col >= 0 && l.room_index == MyApp.roomList.get(col)) {
                         MyApp.LogDebug(LOG_TAG, l.title);
                         MyApp.LogDebug(LOG_TAG, time + " " + l.startTime + "/" + l.duration);
                         scrollAmount -= ((time - l.startTime) / 5) * height;
@@ -484,7 +484,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
     }
 
     private void chooseDay(int chosenDay) {
-        if ((chosenDay + 1) != mDay) {
+        if (chosenDay + 1 != mDay) {
             mDay = chosenDay + 1;
             saveCurrentDay(mDay);
             viewDay(true);
@@ -636,7 +636,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
                 }
                 if (next != null) {
                     if (next.dateUTC > 0) {
-                        if (lecture.dateUTC + (lecture.duration * 60000) > next.dateUTC) {
+                        if (lecture.dateUTC + lecture.duration * 60000 > next.dateUTC) {
                             MyApp.LogDebug(LOG_TAG, lecture.title + " collides with " + next.title);
                             lecture.duration = (int) ((next.dateUTC - lecture.dateUTC) / 60000);
                         }
@@ -743,7 +743,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
             k++;
         }
 
-        if ((MyApp.lectureList.size() > 0) && (MyApp.lectureList.get(0).dateUTC > 0)) {
+        if (MyApp.lectureList.size() > 0 && MyApp.lectureList.get(0).dateUTC > 0) {
             Collections.sort(MyApp.lectureList, (lhs, rhs) -> Long.compare(lhs.dateUTC, rhs.dateUTC));
         }
 
@@ -803,7 +803,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
 
     public void onParseDone(Boolean result, String version) {
         if (result) {
-            if ((MyApp.meta.getNumDays() == 0) || (!version.equals(MyApp.meta.getVersion()))) {
+            if (MyApp.meta.getNumDays() == 0 || !version.equals(MyApp.meta.getVersion())) {
                 AppRepository appRepository = AppRepository.Companion.getInstance(context);
                 MyApp.meta = appRepository.readMeta();
                 FahrplanMisc.loadDays(getActivity());

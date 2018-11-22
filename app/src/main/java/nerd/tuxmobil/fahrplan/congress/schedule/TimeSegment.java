@@ -30,7 +30,7 @@ class TimeSegment {
     }
 
     boolean isMatched(Time time, int offset) {
-        return time.hour == hour && time.minute >= minute && time.minute < (minute + offset);
+        return time.hour == hour && time.minute >= minute && time.minute < minute + offset;
     }
 
 }

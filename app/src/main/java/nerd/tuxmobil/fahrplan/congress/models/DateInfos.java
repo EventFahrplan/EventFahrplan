@@ -13,8 +13,8 @@ public class DateInfos extends ArrayList<DateInfo> {
     public boolean sameDay(Time today, int lectureListDay) {
         String currentDate = DateHelper.getFormattedDate(today);
         for (DateInfo dateInfo : this) {
-            if ((dateInfo.dayIdx == lectureListDay) &&
-                    (dateInfo.date.equals(currentDate))) {
+            if (dateInfo.dayIdx == lectureListDay &&
+                    dateInfo.date.equals(currentDate)) {
                 return true;
             }
         }

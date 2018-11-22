@@ -70,8 +70,8 @@ public class CertificateDialogFragment extends DialogFragment {
         StringBuilder hash = new StringBuilder();
 
         for (int i = 0; i < digest.length; i++) {
-            hash.append(String.format("%02x", (0xFF & digest[i])));
-            if (i < (digest.length - 1)) {
+            hash.append(String.format("%02x", 0xFF & digest[i]));
+            if (i < digest.length - 1) {
                 hash.append(" ");
             }
         }
@@ -93,7 +93,7 @@ public class CertificateDialogFragment extends DialogFragment {
         chain = TrustManagerFactory.getLastCertChain();
 
         StringBuffer chainInfo = new StringBuffer(100);
-        int chain_len = (chain == null ? 0 : chain.length);
+        int chain_len = chain == null ? 0 : chain.length;
         for (int i = 0; i < chain_len; i++) {
             // display certificate chain information
             chainInfo.append("Certificate chain[" + i + "]:\n");
