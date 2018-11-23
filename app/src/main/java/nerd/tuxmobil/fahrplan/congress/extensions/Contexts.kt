@@ -6,6 +6,7 @@ import android.app.AlarmManager
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Context.*
+import android.content.Intent
 import android.net.ConnectivityManager
 import android.view.LayoutInflater
 
@@ -16,3 +17,11 @@ fun Context.getConnectivityManager() = getSystemService(CONNECTIVITY_SERVICE) as
 fun Context.getLayoutInflater() = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
 fun Context.getNotificationManager() = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+
+fun Context.startActivity(intent: Intent, onActivityNotFound: () -> Unit) {
+    if (intent.resolveActivity(packageManager) == null) {
+        onActivityNotFound.invoke()
+    } else {
+        startActivity(intent)
+    }
+}

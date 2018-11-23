@@ -1,15 +1,11 @@
 package nerd.tuxmobil.fahrplan.congress.utils;
 
-import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
-import android.provider.CalendarContract;
 import android.support.annotation.NonNull;
 import android.text.format.Time;
-import android.widget.Toast;
 
 import org.ligi.tracedroid.logging.Log;
 
@@ -34,7 +30,6 @@ import nerd.tuxmobil.fahrplan.congress.models.Highlight;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
 import nerd.tuxmobil.fahrplan.congress.models.SchedulableAlarm;
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
-import nerd.tuxmobil.fahrplan.congress.wiki.WikiEventUtils;
 
 
 public class FahrplanMisc {
@@ -57,25 +52,6 @@ public class FahrplanMisc {
         }
     }
 
-    public static String getCalendarDescription(final Context context, final Lecture lecture) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(lecture.description);
-        sb.append("\n\n");
-        String links = lecture.getLinks();
-        if (WikiEventUtils.linksContainWikiLink(links)) {
-            links = links.replaceAll("\\),", ")<br>");
-            links = StringUtils.getHtmlLinkFromMarkdown(links);
-            sb.append(links);
-        } else {
-            String eventOnline = context.getString(R.string.event_online);
-            sb.append(eventOnline);
-            sb.append(": ");
-            String eventUrl = new EventUrlComposer(lecture).getEventUrl();
-            sb.append(eventUrl);
-        }
-        return sb.toString();
-    }
-
     public static long getLectureStartTime(@NonNull Lecture lecture) {
         long when;
         if (lecture.dateUTC > 0) {
@@ -85,32 +61,6 @@ public class FahrplanMisc {
             when = time.normalize(true);
         }
         return when;
-    }
-
-    @SuppressLint("NewApi")
-    public static void addToCalender(Context context, Lecture l) {
-        Intent intent = new Intent(Intent.ACTION_INSERT, CalendarContract.Events.CONTENT_URI);
-
-        intent.putExtra(CalendarContract.Events.TITLE, l.title);
-        intent.putExtra(CalendarContract.Events.EVENT_LOCATION, l.room);
-
-        long startTime = getLectureStartTime(l);
-        intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startTime);
-        intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, startTime + l.duration * 60000);
-        final String description = getCalendarDescription(context, l);
-        intent.putExtra(CalendarContract.Events.DESCRIPTION, description);
-        try {
-            context.startActivity(intent);
-            return;
-        } catch (ActivityNotFoundException e) {
-        }
-        intent.setAction(Intent.ACTION_EDIT);
-        try {
-            context.startActivity(intent);
-            return;
-        } catch (ActivityNotFoundException e) {
-            Toast.makeText(context, R.string.add_to_calendar_failed, Toast.LENGTH_LONG).show();
-        }
     }
 
     public static void deleteAlarm(@NonNull Context context, @NonNull Lecture lecture) {

@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Typeface;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -35,6 +34,7 @@ import nerd.tuxmobil.fahrplan.congress.BuildConfig;
 import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmTimePickerFragment;
+import nerd.tuxmobil.fahrplan.congress.calendar.CalendarSharing;
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
 import nerd.tuxmobil.fahrplan.congress.navigation.RoomForC3NavConverter;
@@ -271,12 +271,6 @@ public class EventDetailFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.detailmenu, menu);
         MenuItem item;
-        if (Build.VERSION.SDK_INT < 14) {
-            item = menu.findItem(R.id.menu_item_add_to_calendar);
-            if (item != null) {
-                item.setVisible(false);
-            }
-        }
         if (lecture != null) {
             if (lecture.highlight) {
                 item = menu.findItem(R.id.menu_item_flag_as_favorite);
@@ -389,7 +383,7 @@ public class EventDetailFragment extends Fragment {
                 return true;
             case R.id.menu_item_add_to_calendar:
                 l = eventIdToLecture(event_id);
-                FahrplanMisc.addToCalender(activity, l);
+                CalendarSharing.addToCalendar(l, activity);
                 return true;
             case R.id.menu_item_flag_as_favorite:
                 if (lecture != null) {
