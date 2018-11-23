@@ -48,6 +48,7 @@ import nerd.tuxmobil.fahrplan.congress.BuildConfig;
 import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmTimePickerFragment;
+import nerd.tuxmobil.fahrplan.congress.calendar.CalendarSharing;
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.extensions.Contexts;
 import nerd.tuxmobil.fahrplan.congress.models.Alarm;
@@ -891,7 +892,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
                 updateMenuItems();
                 break;
             case CONTEXT_MENU_ITEM_ID_ADD_TO_CALENDAR:
-                FahrplanMisc.addToCalender(getActivity(), lecture);
+                CalendarSharing.addToCalendar(lecture, getActivity());
                 break;
             case CONTEXT_MENU_ITEM_ID_SHARE:
                 String formattedLecture = SimpleLectureFormat.format(lecture);
@@ -924,9 +925,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
         } else {
             menu.add(0, CONTEXT_MENU_ITEM_ID_SET_ALARM, 1, getString(R.string.menu_item_title_set_alarm));
         }
-        if (Build.VERSION.SDK_INT >= 14) {
-            menu.add(0, CONTEXT_MENU_ITEM_ID_ADD_TO_CALENDAR, 3, getString(R.string.menu_item_title_add_to_calendar));
-        }
+        menu.add(0, CONTEXT_MENU_ITEM_ID_ADD_TO_CALENDAR, 3, getString(R.string.menu_item_title_add_to_calendar));
         menu.add(0, CONTEXT_MENU_ITEM_ID_SHARE, 4, getString(R.string.menu_item_title_share_event));
     }
 
