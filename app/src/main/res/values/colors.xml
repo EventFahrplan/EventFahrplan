@@ -3,7 +3,6 @@
 
     <color name="windowBackground">#003339</color>
     <color name="text_link_color">#33b5e5</color>
-    <color name="lightgray">#505050</color>
     <color name="alarm_list_icon_default_fill_color">#ddd</color>
     <color name="alarm_list_icon_default_stroke_color">#003339</color>
     <color name="alarm_list_icon_text_color">#000000</color>

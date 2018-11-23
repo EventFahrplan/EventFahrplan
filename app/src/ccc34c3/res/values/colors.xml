@@ -10,7 +10,6 @@
     <color name="text_link_color">@color/colorAccent</color>
     <color name="multi_choice_background">@color/colorAccent</color>
     <color name="text_link_color_dark">@color/colorAccent</color>
-    <color name="lightgray">#7E8B8C</color>
     <color name="alarm_list_icon_default_fill_color">@color/colorAccent</color>
     <color name="alarm_list_icon_default_stroke_color">#fff</color>
     <color name="alarm_list_icon_text_color">#000</color>
