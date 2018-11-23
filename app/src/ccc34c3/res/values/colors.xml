@@ -17,9 +17,6 @@
     <color name="lecture_background">@android:color/white</color>
     <color name="lecture_detailbar_background">#eee</color>
     <color name="lecture_detailbar_text">@color/colorAccent</color>
-    <color name="schedule_change">@color/colorAccent</color>
-    <color name="schedule_change_new">@color/colorPrimaryDark</color>
-    <color name="schedule_change_canceled">#7E8B8C</color>
     <color name="schedule_list_header_background">#eee</color>
     <color name="schedule_list_header_text">#eee</color>
     <color name="event_item_selection_stroke">@android:color/white</color>
