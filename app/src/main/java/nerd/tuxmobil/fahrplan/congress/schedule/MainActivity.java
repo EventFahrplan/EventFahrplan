@@ -28,9 +28,6 @@ import android.widget.ProgressBar;
 
 import org.ligi.snackengage.SnackEngage;
 import org.ligi.snackengage.SnackEngageBuilder;
-import org.ligi.snackengage.conditions.AfterNumberOfOpportunities;
-import org.ligi.snackengage.conditions.NeverAgainWhenClickedOnce;
-import org.ligi.snackengage.snacks.OpenURLSnack;
 
 import java.util.List;
 
@@ -143,15 +140,9 @@ public class MainActivity extends BaseActivity implements
 
     private void initUserEngagement() {
         SnackEngageBuilder snackEngageBuilder = SnackEngage.from(this);
-
         if (VENUE_LEIPZIG_MESSE.equals(BuildConfig.VENUE)) {
-            OpenURLSnack c3navSnack = new C3navSnack(this);
-            c3navSnack.withConditions(
-                    new NeverAgainWhenClickedOnce(),
-                    new AfterNumberOfOpportunities(7));
-            snackEngageBuilder.withSnack(c3navSnack);
+            snackEngageBuilder.withSnack(new C3navSnack(this));
         }
-
         snackEngageBuilder
                 .withSnack(new RateSnack(this))
                 .build()
