@@ -12,11 +12,13 @@ private const val VENUE_LEIPZIG_MESSE = "leipzig-messe"
 @Suppress("ConstantConditionIf")
 fun AppCompatActivity.initUserEngagement() {
     val snackEngageBuilder = SnackEngage.from(this)
+    if (BuildConfig.ENGAGE_GOOGLE_PLAY_RATING) {
+        snackEngageBuilder.withSnack(RateSnack(this))
+    }
     if (VENUE_LEIPZIG_MESSE == BuildConfig.VENUE) {
         snackEngageBuilder.withSnack(C3navSnack(this))
     }
     snackEngageBuilder
-            .withSnack(RateSnack(this))
             .build()
             .engageWhenAppropriate()
 }
