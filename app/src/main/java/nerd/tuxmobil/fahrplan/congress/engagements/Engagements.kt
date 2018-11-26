@@ -15,6 +15,9 @@ fun AppCompatActivity.initUserEngagement() {
     if (BuildConfig.ENGAGE_GOOGLE_PLAY_RATING) {
         snackEngageBuilder.withSnack(RateSnack(this))
     }
+    if (BuildConfig.ENGAGE_GOOGLE_BETA_TESTING) {
+        snackEngageBuilder.withSnack(GooglePlayBetaTestingSnack(this))
+    }
     if (VENUE_LEIPZIG_MESSE == BuildConfig.VENUE) {
         snackEngageBuilder.withSnack(C3navSnack(this))
     }
