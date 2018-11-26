@@ -26,12 +26,8 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
-import org.ligi.snackengage.SnackEngage;
-import org.ligi.snackengage.SnackEngageBuilder;
-
 import java.util.List;
 
-import nerd.tuxmobil.fahrplan.congress.BuildConfig;
 import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.MyApp.TASKS;
 import nerd.tuxmobil.fahrplan.congress.R;
@@ -45,12 +41,11 @@ import nerd.tuxmobil.fahrplan.congress.changes.ChangesDialog;
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.details.EventDetail;
 import nerd.tuxmobil.fahrplan.congress.details.EventDetailFragment;
-import nerd.tuxmobil.fahrplan.congress.engagements.RateSnack;
+import nerd.tuxmobil.fahrplan.congress.engagements.Engagements;
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListActivity;
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListFragment;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
 import nerd.tuxmobil.fahrplan.congress.models.Meta;
-import nerd.tuxmobil.fahrplan.congress.navigation.C3navSnack;
 import nerd.tuxmobil.fahrplan.congress.net.CertificateDialogFragment;
 import nerd.tuxmobil.fahrplan.congress.net.CustomHttpClient;
 import nerd.tuxmobil.fahrplan.congress.net.FetchScheduleResult;
@@ -71,7 +66,6 @@ public class MainActivity extends BaseActivity implements
         ConfirmationDialog.OnConfirmationDialogClicked {
 
     private static final String LOG_TAG = "MainActivity";
-    private static final String VENUE_LEIPZIG_MESSE = "leipzig-messe";
 
     private ProgressDialog progress = null;
 
@@ -135,18 +129,7 @@ public class MainActivity extends BaseActivity implements
             removeFragment(EventDetailFragment.FRAGMENT_TAG);
         }
 
-        initUserEngagement();
-    }
-
-    private void initUserEngagement() {
-        SnackEngageBuilder snackEngageBuilder = SnackEngage.from(this);
-        if (VENUE_LEIPZIG_MESSE.equals(BuildConfig.VENUE)) {
-            snackEngageBuilder.withSnack(new C3navSnack(this));
-        }
-        snackEngageBuilder
-                .withSnack(new RateSnack(this))
-                .build()
-                .engageWhenAppropriate();
+        Engagements.initUserEngagement(this);
     }
 
     @Override
