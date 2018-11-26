@@ -30,8 +30,6 @@ import org.ligi.snackengage.SnackEngage;
 import org.ligi.snackengage.SnackEngageBuilder;
 import org.ligi.snackengage.conditions.AfterNumberOfOpportunities;
 import org.ligi.snackengage.conditions.NeverAgainWhenClickedOnce;
-import org.ligi.snackengage.snacks.BaseSnack;
-import org.ligi.snackengage.snacks.DefaultRateSnack;
 import org.ligi.snackengage.snacks.OpenURLSnack;
 
 import java.util.List;
@@ -50,6 +48,7 @@ import nerd.tuxmobil.fahrplan.congress.changes.ChangesDialog;
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.details.EventDetail;
 import nerd.tuxmobil.fahrplan.congress.details.EventDetailFragment;
+import nerd.tuxmobil.fahrplan.congress.engagements.RateSnack;
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListActivity;
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListFragment;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
@@ -143,12 +142,6 @@ public class MainActivity extends BaseActivity implements
     }
 
     private void initUserEngagement() {
-        int actionColor = ContextCompat.getColor(this, R.color.colorAccent);
-        final BaseSnack snack = new DefaultRateSnack()
-                .overrideTitleText(getString(R.string.snack_engage_rate_title))
-                .overrideActionText(getString(R.string.snack_engage_rate_action));
-        snack.setActionColor(actionColor);
-
         SnackEngageBuilder snackEngageBuilder = SnackEngage.from(this);
 
         if (VENUE_LEIPZIG_MESSE.equals(BuildConfig.VENUE)) {
@@ -160,7 +153,7 @@ public class MainActivity extends BaseActivity implements
         }
 
         snackEngageBuilder
-                .withSnack(snack)
+                .withSnack(new RateSnack(this))
                 .build()
                 .engageWhenAppropriate();
     }
