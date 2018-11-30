@@ -151,6 +151,8 @@
     <!-- SnackEngage -->
     <string name="snack_engage_rate_title">Everything fine?</string>
     <string name="snack_engage_rate_action">Rate the app</string>
+    <string name="snack_engage_google_play_beta_testing_title">Power user?</string>
+    <string name="snack_engage_google_play_beta_testing_action">Become a beta tester</string>
 
     <string name="snack_engage_c3nav_url" translatable="false">
         https://play.google.com/store/apps/details?id=de.c3nav.droid
