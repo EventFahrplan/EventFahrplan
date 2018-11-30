@@ -908,7 +908,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
     private void updateMenuItems() {
         // Toggles the icon for "add/delete favorite" or "add/delete alarm".
         // Triggers EventDetailFragment.onPrepareOptionsMenu to be called
-        getActivity().supportInvalidateOptionsMenu();
+        getActivity().invalidateOptionsMenu();
     }
 
     public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
