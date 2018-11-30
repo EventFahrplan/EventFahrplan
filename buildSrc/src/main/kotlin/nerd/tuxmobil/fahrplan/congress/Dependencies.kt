@@ -10,13 +10,13 @@ object Versions {
     val gradleVersions = "0.20.0"
     val junit = "4.12"
     val kotlin = "1.2.51"
-    val mockito = "2.22.0"
-    val okhttp = "3.11.0"
+    val mockito = "2.23.0"
+    val okhttp = "3.12.0"
     val snackengage = "0.15"
     val sonarQubeGradle = "2.6.2"
     val supportLibrary = "26.1.0"
     val testRules = "1.0.2"
-    val threeTenBp = "1.3.7"
+    val threeTenBp = "1.3.8"
     val tracedroid = "1.4"
 }
 
