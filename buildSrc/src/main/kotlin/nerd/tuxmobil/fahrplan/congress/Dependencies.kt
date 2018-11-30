@@ -16,7 +16,7 @@ object Versions {
     val sonarQubeGradle = "2.6.2"
     val supportLibrary = "26.1.0"
     val testRules = "1.0.2"
-    val threeTenBp = "1.3.7"
+    val threeTenBp = "1.3.8"
     val tracedroid = "1.4"
 }
 
