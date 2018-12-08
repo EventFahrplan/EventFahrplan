@@ -34,7 +34,7 @@ android {
         // Build information
         buildConfigField "String", "BUILD_TIME", "\"${buildTime()}\""
         buildConfigField "String", "GIT_SHA", "\"${gitSha()}\""
-        buildConfigField "String", "C3NAV_URL", "\"https://34c3.c3nav.de/l/\""
+        buildConfigField "String", "C3NAV_URL", "\"https://35c3.c3nav.de/l/\""
     }
 
     buildTypes {
