@@ -6,7 +6,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -86,7 +85,7 @@ public class EventDetail extends BaseActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        boolean isVisible = getRoomConvertedForC3Nav() != null;
+        boolean isVisible = !getRoomConvertedForC3Nav().isEmpty();
         menu.findItem(R.id.menu_item_navigate).setVisible(isVisible);
         return super.onPrepareOptionsMenu(menu);
     }
@@ -103,7 +102,7 @@ public class EventDetail extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Nullable
+    @NonNull
     private String getRoomConvertedForC3Nav() {
         final String currentRoom = getIntent().getStringExtra(BundleKeys.EVENT_ROOM);
         return RoomForC3NavConverter.convert(currentRoom);

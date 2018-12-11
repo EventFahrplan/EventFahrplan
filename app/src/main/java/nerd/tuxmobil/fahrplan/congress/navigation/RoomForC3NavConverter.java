@@ -1,5 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress.navigation;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import java.util.HashMap;
@@ -40,12 +41,13 @@ public class RoomForC3NavConverter {
         put("Seminar room 14-15", "ccl-seminar-room-13");
     }};
 
-    @Nullable
+    @NonNull
     public static String convert(@Nullable final String room) {
         if (room != null && !EMPTY_STRING.equals(room)) {
-            return ROOM_TO_C3NAV_MAPPING.get(room.toUpperCase());
+            String c3navName = ROOM_TO_C3NAV_MAPPING.get(room.toUpperCase());
+            return c3navName == null ? EMPTY_STRING : c3navName;
         }
-        return null;
+        return EMPTY_STRING;
     }
 
 }

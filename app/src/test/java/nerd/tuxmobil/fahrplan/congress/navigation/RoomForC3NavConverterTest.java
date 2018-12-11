@@ -31,12 +31,12 @@ public class RoomForC3NavConverterTest {
 
     @Test
     public void convertWithNonExisting() {
-        assertThat(RoomForC3NavConverter.convert("NonExisting")).isEqualTo(null);
+        assertThat(RoomForC3NavConverter.convert("NonExisting")).isEmpty();
     }
 
     @Test
     public void convertWithNull() {
-        assertThat(RoomForC3NavConverter.convert(null)).isEqualTo(null);
+        assertThat(RoomForC3NavConverter.convert(null)).isEmpty();
     }
 
 }
