@@ -29,4 +29,14 @@ public class RoomForC3NavConverterTest {
         assertThat(RoomForC3NavConverter.convert("SAAL DIJKSTRA")).isEqualTo("hall-d");
     }
 
+    @Test
+    public void convertWithNonExisting() {
+        assertThat(RoomForC3NavConverter.convert("NonExisting")).isEmpty();
+    }
+
+    @Test
+    public void convertWithNull() {
+        assertThat(RoomForC3NavConverter.convert(null)).isEmpty();
+    }
+
 }

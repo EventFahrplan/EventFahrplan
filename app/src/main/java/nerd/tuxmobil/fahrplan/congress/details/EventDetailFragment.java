@@ -7,7 +7,6 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
@@ -311,12 +310,12 @@ public class EventDetailFragment extends Fragment {
         }
         item = menu.findItem(R.id.menu_item_navigate);
         if (item != null) {
-            boolean isVisible = getRoomConvertedForC3Nav() != null;
+            boolean isVisible = !getRoomConvertedForC3Nav().isEmpty();
             item.setVisible(isVisible);
         }
     }
 
-    @Nullable
+    @NonNull
     private String getRoomConvertedForC3Nav() {
         String currentRoom = getActivity().getIntent().getStringExtra(BundleKeys.EVENT_ROOM);
         if (currentRoom == null) {
