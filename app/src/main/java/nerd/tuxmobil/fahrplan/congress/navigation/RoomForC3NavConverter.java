@@ -17,28 +17,28 @@ public class RoomForC3NavConverter {
         put("SAAL DIJKSTRA", "hall-d");
 
         // From everything.schedule.xml
-        put("Assembly:Chaos West", "chaos-west-stage");
-        put("Assembly:Bogonauten", null);
-        put("Assembly:Haecksen", null);
-        put("Assembly:HardwareHackingArea", "hardware-hacking-area");
-        put("Assembly:Jugend hackt", "jugend-hackt");
-        put("Assembly:Milliways", "milliways");
-        put("Assembly:Open Knowledge Assembly", null);
-        put("Assembly:Physikfachschaft Rostock", null);
-        put("Assembly:TeaHouse", null);
-        put("CCL Hall 3", "ccl-hall-3");
-        put("Chaos West Stage", "chaos-west-stage");
-        put("Hall 3", "ccl-hall-3");
-        put("Hive Stage", "the-hive-stage");
-        put("Kidspace", "kidspace");
-        put("Komona Aquarius", "komona-aquarius");
-        put("Komona Blue Princess", "komona-blue-princess");
-        put("Komona Coral Reef", "komona-coral-reef");
-        put("Komona D.Ressrosa", "komona-d-ressrosa");
-        put("Lecture room 11", "ccl-lecture-room-11");
-        put("Lecture room 12", "ccl-lecture-room-12");
-        put("Seminar room 13", "ccl-seminar-room-13");
-        put("Seminar room 14-15", "ccl-seminar-room-13");
+        put("ASSEMBLY:CHAOS WEST", "chaos-west-stage");
+        put("ASSEMBLY:BOGONAUTEN", null);
+        put("ASSEMBLY:HAECKSEN", null);
+        put("ASSEMBLY:HARDWAREHACKINGAREA", "hardware-hacking-area");
+        put("ASSEMBLY:JUGEND HACKT", "jugend-hackt");
+        put("ASSEMBLY:MILLIWAYS", "milliways");
+        put("ASSEMBLY:OPEN KNOWLEDGE ASSEMBLY", null);
+        put("ASSEMBLY:PHYSIKFACHSCHAFT ROSTOCK", null);
+        put("ASSEMBLY:TEAHOUSE", null);
+        put("CCL HALL 3", "ccl-hall-3");
+        put("CHAOS WEST STAGE", "chaos-west-stage");
+        put("HALL 3", "ccl-hall-3");
+        put("HIVE STAGE", "the-hive-stage");
+        put("KIDSPACE", "kidspace");
+        put("KOMONA AQUARIUS", "komona-aquarius");
+        put("KOMONA BLUE PRINCESS", "komona-blue-princess");
+        put("KOMONA CORAL REEF", "komona-coral-reef");
+        put("KOMONA D.RESSROSA", "komona-d-ressrosa");
+        put("LECTURE ROOM 11", "ccl-lecture-room-11");
+        put("LECTURE ROOM 12", "ccl-lecture-room-12");
+        put("SEMINAR ROOM 13", "ccl-seminar-room-13");
+        put("SEMINAR ROOM 14-15", "ccl-seminar-room-13");
     }};
 
     @NonNull
