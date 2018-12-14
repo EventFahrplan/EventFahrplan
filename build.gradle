@@ -3,6 +3,7 @@ import nerd.tuxmobil.fahrplan.congress.GradlePlugins
 buildscript {
     repositories {
         google()
+        mavenCentral()
         jcenter()
     }
     dependencies {
@@ -16,6 +17,7 @@ buildscript {
 allprojects {
     repositories {
         google()
+        mavenCentral()
         maven { url "https://jitpack.io" }
         maven { url "https://plugins.gradle.org/m2/" }
         jcenter()
