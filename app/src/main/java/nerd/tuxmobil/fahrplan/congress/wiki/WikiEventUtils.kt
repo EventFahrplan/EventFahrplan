@@ -2,7 +2,9 @@
 
 package nerd.tuxmobil.fahrplan.congress.wiki
 
-private const val WIKI_LINK_PREFIX = "https://events.ccc.de/congress/2017/wiki/index.php/Session:"
+private val WIKI_LINK_REGEX by lazy {
+    Regex("(.*)(https://events.ccc.de/congress/)(\\d{4})(/wiki/index.php/Session:)(.*)")
+}
 
 /**
  * Returns true if the [receiver][this] contains a link to the
@@ -15,4 +17,4 @@ private const val WIKI_LINK_PREFIX = "https://events.ccc.de/congress/2017/wiki/i
  * is generated based on the event id.
  * Export script: https://github.com/voc/schedule
  */
-fun String.containsWikiLink() = contains(WIKI_LINK_PREFIX)
+fun String.containsWikiLink(): Boolean = matches(WIKI_LINK_REGEX)
