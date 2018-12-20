@@ -1,20 +1,25 @@
 package nerd.tuxmobil.fahrplan.congress.utils
 
-import nerd.tuxmobil.fahrplan.congress.BuildConfig.EVENT_URL
-import nerd.tuxmobil.fahrplan.congress.BuildConfig.SERVER_BACKEND_TYPE
+import nerd.tuxmobil.fahrplan.congress.BuildConfig
 import nerd.tuxmobil.fahrplan.congress.utils.ServerBackendType.*
 import nerd.tuxmobil.fahrplan.congress.models.Lecture as Event
 
-class EventUrlComposer(private val event: Event) {
+class EventUrlComposer @JvmOverloads constructor(
 
-    fun getEventUrl(): String = when (SERVER_BACKEND_TYPE) {
+        private val event: Event,
+        private val eventUrlTemplate: String = BuildConfig.EVENT_URL,
+        private val serverBackEndType: String = BuildConfig.SERVER_BACKEND_TYPE
+
+) {
+
+    fun getEventUrl(): String = when (serverBackEndType) {
         PENTABARF.name -> getComposedEventUrl(event.slug)
         FRAB.name -> getComposedEventUrl(event.lecture_id)
         PRETALX.name -> event.url
-        else -> throw NotImplementedError("Unknown server backend type: '$SERVER_BACKEND_TYPE'")
+        else -> throw NotImplementedError("Unknown server backend type: '$serverBackEndType'")
     }
 
     private fun getComposedEventUrl(eventIdentifier: String) =
-            String.format(EVENT_URL, eventIdentifier)
+            String.format(eventUrlTemplate, eventIdentifier)
 
 }
