@@ -230,7 +230,7 @@ public class EventDetailFragment extends Fragment {
             final TextView eventOnlineSection = view.findViewById(R.id.eventOnlineSection);
             eventOnlineSection.setTypeface(bold);
             final TextView eventOnlineLink = view.findViewById(R.id.eventOnline);
-            if (WikiEventUtils.linksContainWikiLink(links)) {
+            if (WikiEventUtils.containsWikiLink(links)) {
                 eventOnlineSection.setVisibility(View.GONE);
                 eventOnlineLink.setVisibility(View.GONE);
             } else {
