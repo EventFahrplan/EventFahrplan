@@ -53,6 +53,12 @@ class EventUrlComposerTest {
     }
 
     @Test
+    fun getEventUrlWithPretalxEventWithFrabBackend() {
+        assertThat(EventUrlComposer(PRETALX_EVENT, FRAB_EVENT_URL_TEMPLATE, ServerBackendType.FRAB.name)
+                .getEventUrl()).isEqualTo("https://fahrplan.chaos-west.de/35c3chaoswest/talk/KDYQEB")
+    }
+
+    @Test
     fun getEventUrlWithPretalxEventWithPretalxBackend() {
         assertThat(EventUrlComposer(PRETALX_EVENT, "", ServerBackendType.PRETALX.name)
                 .getEventUrl()).isEqualTo("https://fahrplan.chaos-west.de/35c3chaoswest/talk/KDYQEB")
