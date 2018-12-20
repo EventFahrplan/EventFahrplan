@@ -11,7 +11,7 @@ import nerd.tuxmobil.fahrplan.congress.extensions.startActivity
 import nerd.tuxmobil.fahrplan.congress.utils.EventUrlComposer
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc
 import nerd.tuxmobil.fahrplan.congress.utils.StringUtils
-import nerd.tuxmobil.fahrplan.congress.wiki.WikiEventUtils
+import nerd.tuxmobil.fahrplan.congress.wiki.containsWikiLink
 import nerd.tuxmobil.fahrplan.congress.models.Lecture as Event
 
 fun Event.addToCalendar(context: Context) {
@@ -47,7 +47,7 @@ private fun Event.getCalendarDescription(context: Context): String = with(String
     append(this@getCalendarDescription.description)
     append("\n\n")
     var links = this@getCalendarDescription.getLinks()
-    if (WikiEventUtils.linksContainWikiLink(links)) {
+    if (links.containsWikiLink()) {
         links = links.separateByHtmlLineBreaks()
         links = StringUtils.getHtmlLinkFromMarkdown(links)
         append(links)

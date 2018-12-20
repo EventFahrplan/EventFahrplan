@@ -55,7 +55,7 @@ public class SimpleLectureFormat {
         builder.append(COMMA);
         builder.append(SPACE);
         builder.append(lecture.room);
-        if (!WikiEventUtils.linksContainWikiLink(lecture.getLinks())) {
+        if (!WikiEventUtils.containsWikiLink(lecture.getLinks())) {
             builder.append(LINE_BREAK);
             builder.append(LINE_BREAK);
             String eventUrl = new EventUrlComposer(lecture).getEventUrl();
