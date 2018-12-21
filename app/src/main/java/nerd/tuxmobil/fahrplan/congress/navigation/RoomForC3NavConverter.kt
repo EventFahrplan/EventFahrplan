@@ -5,10 +5,11 @@ object RoomForC3NavConverter {
     private const val EMPTY_STRING = ""
 
     private val ROOM_TO_C3NAV_MAPPING = mapOf(
-            "SAAL ADAMS" to "hall-a",
-            "SAAL BORG" to "hall-b",
-            "SAAL CLARKE" to "hall-c",
-            "SAAL DIJKSTRA" to "hall-d",
+            "ADAMS" to "hall-a",
+            "BORG" to "hall-b",
+            "CLARKE" to "hall-c",
+            "DIJKSTRA" to "hall-d",
+            "ELIZA" to "hall-e",
 
             // From everything.schedule.xml
             "ASSEMBLY:CHAOS WEST" to "chaos-west-stage",

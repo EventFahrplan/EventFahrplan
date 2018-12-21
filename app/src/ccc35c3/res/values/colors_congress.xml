@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="pressed_congress">#CCa41c31</color>
+
+    <!-- Default state -->
+    <color name="event_border_default">#595959</color>
+    <color name="event_border_default_art_culture">#b6aa04</color>
+    <color name="event_border_default_ccc">#7e992e</color>
+    <color name="event_border_default_entertainment">#7E992E</color>
+    <color name="event_border_default_ethics_society_politics">#b359b3</color>
+    <color name="event_border_default_hardware_making">#b36836</color>
+    <color name="event_border_default_resilience">#701e2b</color>
+    <color name="event_border_default_science">#2e8499</color>
+    <color name="event_border_default_security">#50257a</color>
+    <color name="event_border_default_self_organized_sessions">#3056bf</color>
+
+    <!-- Accent color -->
+    <color name="event_border_accent">#8c8c8c</color>
+    <color name="event_border_accent_art_culture">#cec006</color>
+    <color name="event_border_accent_ccc">#8cba02</color>
+    <color name="event_border_accent_entertainment">#8cba02</color>
+    <color name="event_border_accent_ethics_society_politics">#ff4dff</color>
+    <color name="event_border_accent_hardware_making">#FF6600</color>
+    <color name="event_border_accent_resilience">#A41C31</color>
+    <color name="event_border_accent_science">#00CCFF</color>
+    <color name="event_border_accent_security">#8702ed</color>
+    <color name="event_border_accent_self_organized_sessions">#4174ff</color>
+
+    <!-- Highlight state -->
+    <color name="event_border_highlight">
+        @color/event_border_accent
+    </color>
+    <color name="event_border_highlight_art_culture">
+        @color/event_border_accent_art_culture
+    </color>
+    <color name="event_border_highlight_ccc">
+        @color/event_border_accent_ccc
+    </color>
+    <color name="event_border_highlight_entertainment">
+        @color/event_border_accent_entertainment
+    </color>
+    <color name="event_border_highlight_ethics_society_politics">
+        @color/event_border_accent_ethics_society_politics
+    </color>
+    <color name="event_border_highlight_hardware_making">
+        @color/event_border_accent_hardware_making
+    </color>
+    <color name="event_border_highlight_resilience">
+        @color/event_border_accent_resilience
+    </color>
+    <color name="event_border_highlight_science">
+        @color/event_border_accent_science
+    </color>
+    <color name="event_border_highlight_security">
+        @color/event_border_accent_security
+    </color>
+    <color name="event_border_highlight_self_organized_sessions">
+        @color/event_border_accent_self_organized_sessions
+    </color>
+
+    <!-- Accent color highlight -->
+    <color name="event_border_accent_highlight">
+        @color/event_border_default
+    </color>
+    <color name="event_border_accent_highlight_art_culture">
+        @color/event_border_default_art_culture
+    </color>
+    <color name="event_border_accent_highlight_ccc">
+        @color/event_border_default_ccc
+    </color>
+    <color name="event_border_accent_highlight_entertainment">
+        @color/event_border_default_entertainment
+    </color>
+    <color name="event_border_accent_highlight_ethics_society_politics">
+        @color/event_border_default_ethics_society_politics
+    </color>
+    <color name="event_border_accent_highlight_hardware_making">
+        @color/event_border_default_hardware_making
+    </color>
+    <color name="event_border_accent_highlight_resilience">
+        @color/event_border_default_resilience
+    </color>
+    <color name="event_border_accent_highlight_science">
+        @color/event_border_default_science
+    </color>
+    <color name="event_border_accent_highlight_security">
+        @color/event_border_default_security
+    </color>
+    <color name="event_border_accent_highlight_self_organized_sessions">
+        @color/event_border_default_self_organized_sessions
+    </color>
+
+    <!-- Track color -->
+    <color name="track_name">#beffffff</color>
+
+    <!-- Title color -->
+    <color name="event_title">#a0ffffff</color>
+    <color name="event_title_highlight">#fff</color>
+
+    <color name="event_drawable_selection_stroke">#fff</color>
+
+</resources>
