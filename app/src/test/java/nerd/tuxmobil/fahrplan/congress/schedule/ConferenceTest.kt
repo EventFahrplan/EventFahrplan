@@ -24,7 +24,7 @@ class ConferenceTest {
         with(Conference()) {
             calculateTimeFrame(listOf(opening, closing), ::minutesOfDay)
             assertThat(firstEventStartsAt).isEqualTo(1020) // -> 17:00
-            assertThat(lastEventEndsAt).isEqualTo(1035) // -> 17:15
+            assertThat(lastEventEndsAt).isEqualTo(1035 + Conference.ONE_DAY) // -> 17:15 + day switch
         }
     }
 
