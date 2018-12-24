@@ -33,6 +33,7 @@ public class EventDetail extends BaseActivity {
         intent.putExtra(BundleKeys.EVENT_LINKS, lecture.links);
         intent.putExtra(BundleKeys.EVENT_ID, lecture.lecture_id);
         intent.putExtra(BundleKeys.EVENT_TIME, lecture.startTime);
+        intent.putExtra(BundleKeys.EVENT_DURATION, lecture.duration);
         intent.putExtra(BundleKeys.EVENT_DAY, lectureDay);
         intent.putExtra(BundleKeys.EVENT_ROOM, lecture.room);
         intent.putExtra(BundleKeys.REQUIRES_SCHEDULE_RELOAD, requiresScheduleReload);
