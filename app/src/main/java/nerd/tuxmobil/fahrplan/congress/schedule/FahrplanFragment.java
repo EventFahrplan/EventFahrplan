@@ -240,11 +240,12 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
         Log.d(LOG_TAG, "onResume");
         if (MyApp.lectureList == null) {
             Log.d(LOG_TAG, "MyApp.lectureList = " + null);
-        }
-        if (MyApp.lectureList.isEmpty()) {
-            Log.d(LOG_TAG, "MyApp.lectureList is empty");
         } else {
-            Log.d(LOG_TAG, "MyApp.lectureList contains " + MyApp.lectureList.size() + " items.");
+            if (MyApp.lectureList.isEmpty()) {
+                Log.d(LOG_TAG, "MyApp.lectureList is empty");
+            } else {
+                Log.d(LOG_TAG, "MyApp.lectureList contains " + MyApp.lectureList.size() + " items.");
+            }
         }
         super.onResume();
         getActivity().invalidateOptionsMenu();
