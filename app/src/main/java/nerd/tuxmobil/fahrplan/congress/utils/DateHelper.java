@@ -4,8 +4,10 @@ import android.text.format.Time;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 public class DateHelper {
 
@@ -51,6 +53,12 @@ public class DateHelper {
         Time time = new Time();
         time.set(dateUtc);
         return time.hour * 60 + time.minute;
+    }
+
+    public static int getDayOfMonth(long dateUtc) {
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        calendar.setTimeInMillis(dateUtc);
+        return calendar.get(Calendar.DAY_OF_MONTH);
     }
 
 }

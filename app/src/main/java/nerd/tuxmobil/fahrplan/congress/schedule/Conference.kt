@@ -1,5 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.schedule
 
+import android.support.annotation.VisibleForTesting
+import nerd.tuxmobil.fahrplan.congress.utils.DateHelper
 import nerd.tuxmobil.fahrplan.congress.models.Lecture as Event
 
 data class Conference(
@@ -54,20 +56,25 @@ data class Conference(
         }
         if (end > 0) {
             lastEventEndsAt = minutesOfDay(end)
-            if (lastEventEndsBeforeFirstEventStarts()) {
+            if (isDaySwitch(firstEventDateUtc, end)) {
                 forwardLastEventEndsAtByOneDay()
             }
         }
     }
 
-    private fun lastEventEndsBeforeFirstEventStarts() = lastEventEndsAt < firstEventStartsAt
+    private fun isDaySwitch(startUtc: Long, endUtc: Long): Boolean {
+        val startDay = DateHelper.getDayOfMonth(startUtc)
+        val endDay = DateHelper.getDayOfMonth(endUtc)
+        return startDay != endDay
+    }
 
     private fun forwardLastEventEndsAtByOneDay() {
         lastEventEndsAt += ONE_DAY
     }
 
     companion object {
-        private const val ONE_DAY = 24 * 60
+        @VisibleForTesting
+        const val ONE_DAY = 24 * 60
     }
 
 }
