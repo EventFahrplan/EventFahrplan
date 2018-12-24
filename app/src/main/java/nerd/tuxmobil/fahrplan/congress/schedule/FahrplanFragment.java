@@ -237,18 +237,27 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
 
     @Override
     public void onResume() {
-        MyApp.LogDebug(LOG_TAG, "onResume");
+        Log.d(LOG_TAG, "onResume");
+        if (MyApp.lectureList == null) {
+            Log.d(LOG_TAG, "MyApp.lectureList = " + null);
+        }
+        if (MyApp.lectureList.isEmpty()) {
+            Log.d(LOG_TAG, "MyApp.lectureList is empty");
+        } else {
+            Log.d(LOG_TAG, "MyApp.lectureList contains " + MyApp.lectureList.size() + " items.");
+        }
         super.onResume();
         getActivity().invalidateOptionsMenu();
 
         Intent intent = getActivity().getIntent();
 
+        Log.d(LOG_TAG, "lecture_id = " + lecture_id);
         lecture_id = intent.getStringExtra("lecture_id");
 
         if (lecture_id != null) {
-            MyApp.LogDebug(LOG_TAG, "Open with lecture_id " + lecture_id);
+            Log.d(LOG_TAG, "Open with lecture_id " + lecture_id);
             mDay = intent.getIntExtra("day", mDay);
-            MyApp.LogDebug(LOG_TAG, "day " + mDay);
+            Log.d(LOG_TAG, "day " + mDay);
             saveCurrentDay(mDay);
         }
 
@@ -257,17 +266,19 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
             viewDay(lecture_id != null);
         }
 
+        Log.d(LOG_TAG, "MyApp.task_running = " + MyApp.task_running);
         switch (MyApp.task_running) {
             case FETCH:
-                MyApp.LogDebug(LOG_TAG, "fetch was pending, restart");
+                Log.d(LOG_TAG, "fetch was pending, restart");
                 if (MyApp.meta.getNumDays() != 0) {
                     viewDay(false);
                 }
                 break;
             case PARSE:
-                MyApp.LogDebug(LOG_TAG, "parse was pending, restart");
+                Log.d(LOG_TAG, "parse was pending, restart");
                 break;
             case NONE:
+                Log.d(LOG_TAG, "meta.getNumDays() = " + MyApp.meta.getNumDays());
                 if (MyApp.meta.getNumDays() != 0) {
                     // auf jeden Fall reload, wenn mit Lecture ID gestartet
                     viewDay(lecture_id != null);
@@ -288,7 +299,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
     }
 
     private void viewDay(boolean reload) {
-        // Log.d(LOG_TAG, "viewDay(" + reload + ")");
+        Log.d(LOG_TAG, "viewDay(" + reload + ")");
 
         loadLectureList(getActivity(), mDay, reload);
         List<Lecture> lectures = MyApp.lectureList;
@@ -321,6 +332,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
     private void updateNavigationMenuSelection() {
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         ActionBar actionbar = activity.getSupportActionBar();
+        Log.d(LOG_TAG, "MyApp.meta = " + MyApp.meta);
         if (actionbar != null && MyApp.meta.getNumDays() > 1) {
             actionbar.setSelectedNavigationItem(mDay - 1);
         }
