@@ -122,7 +122,7 @@ public class EventDetailFragment extends Fragment {
     public void setArguments(Bundle args) {
         super.setArguments(args);
         day = args.getInt(BundleKeys.EVENT_DAY, 0);
-        durationText = context.getString(R.string.event_duration, args.getString(BundleKeys.EVENT_DURATION));
+        duration = args.getString(BundleKeys.EVENT_DURATION);
         event_id = args.getString(BundleKeys.EVENT_ID);
         title = args.getString(BundleKeys.EVENT_TITLE);
         subtitle = args.getString(BundleKeys.EVENT_SUBTITLE);
