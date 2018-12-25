@@ -80,7 +80,7 @@ public class EventDetailFragment extends Fragment {
 
     private int day;
 
-    private String durationText;
+    private String eventDuration;
 
     private String subtitle;
 
