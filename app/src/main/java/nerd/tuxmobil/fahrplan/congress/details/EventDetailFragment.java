@@ -122,7 +122,7 @@ public class EventDetailFragment extends Fragment {
     public void setArguments(Bundle args) {
         super.setArguments(args);
         day = args.getInt(BundleKeys.EVENT_DAY, 0);
-        duration = args.getString(BundleKeys.EVENT_DURATION);
+        eventDuration = args.getString(BundleKeys.EVENT_DURATION);
         event_id = args.getString(BundleKeys.EVENT_ID);
         title = args.getString(BundleKeys.EVENT_TITLE);
         subtitle = args.getString(BundleKeys.EVENT_SUBTITLE);
@@ -159,7 +159,7 @@ public class EventDetailFragment extends Fragment {
             if (lecture != null && lecture.dateUTC > 0) {
                 DateFormat df = SimpleDateFormat
                         .getDateTimeInstance(SimpleDateFormat.SHORT, SimpleDateFormat.SHORT);
-                t.setText(df.format(new Date(lecture.dateUTC)) + " " + durationText + " - " + room);
+                t.setText(df.format(new Date(lecture.dateUTC)) + " " + eventDuration + " min. - " + room);
             } else {
                 t.setText("");
             }
