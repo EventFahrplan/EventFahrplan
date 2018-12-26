@@ -26,6 +26,8 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
+import org.ligi.tracedroid.logging.Log;
+
 import java.util.List;
 
 import nerd.tuxmobil.fahrplan.congress.MyApp;
@@ -112,7 +114,7 @@ public class MainActivity extends BaseActivity implements
                 break;
             case NONE:
                 if (MyApp.meta.getNumDays() == 0 && savedInstanceState == null) {
-                    MyApp.LogDebug(LOG_TAG, "fetch in onCreate bc. numDays==0");
+                    Log.d(LOG_TAG, "Fetching schedule in onCreate bc. numDays==0");
                     fetchFahrplan();
                 }
                 break;
@@ -246,7 +248,7 @@ public class MainActivity extends BaseActivity implements
                 return null;
             });
         } else {
-            MyApp.LogDebug(LOG_TAG, "fetch already in progress");
+            Log.d(LOG_TAG, "Fetching schedule already in progress.");
         }
     }
 
@@ -311,6 +313,7 @@ public class MainActivity extends BaseActivity implements
         Intent intent;
         switch (item.getItemId()) {
             case R.id.menu_item_refresh:
+                Log.d(LOG_TAG, "Menu item: Refresh");
                 fetchFahrplan();
                 return true;
             case R.id.menu_item_about:
@@ -415,7 +418,7 @@ public class MainActivity extends BaseActivity implements
 
     @Override
     public void onCertAccepted() {
-        MyApp.LogDebug(LOG_TAG, "fetch on cert accepted.");
+        Log.d(LOG_TAG, "Fetching schedule on cert accepted.");
         fetchFahrplan();
     }
 
