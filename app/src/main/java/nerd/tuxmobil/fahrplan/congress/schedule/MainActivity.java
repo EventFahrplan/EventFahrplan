@@ -30,6 +30,8 @@ import org.ligi.tracedroid.logging.Log;
 
 import java.util.List;
 
+import kotlin.Unit;
+import kotlin.jvm.functions.Function0;
 import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.MyApp.TASKS;
 import nerd.tuxmobil.fahrplan.congress.R;
@@ -73,6 +75,7 @@ public class MainActivity extends BaseActivity implements
 
     private ProgressBar progressBar = null;
     private boolean requiresScheduleReload = false;
+    private boolean shouldScrollToCurrent = true;
     private boolean showUpdateAction = true;
     private static MainActivity instance;
 
@@ -397,6 +400,10 @@ public class MainActivity extends BaseActivity implements
         switch (requestCode) {
             case MyApp.ALARMLIST:
             case MyApp.EVENTVIEW:
+                if (resultCode == Activity.RESULT_CANCELED) {
+                    shouldScrollToCurrent = false;
+                }
+                break;
             case MyApp.CHANGELOG:
             case MyApp.STARRED:
                 if (resultCode == Activity.RESULT_OK) {
@@ -508,6 +515,13 @@ public class MainActivity extends BaseActivity implements
 
     @Override
     public void onDenied(int dlgRequestCode) {
+    }
+
+    public void shouldScheduleScrollToCurrentTimeSlot(Function0<Unit> scrollToInstructions) {
+        if (shouldScrollToCurrent) {
+            scrollToInstructions.invoke();
+        }
+        shouldScrollToCurrent = true;
     }
 
     public static MainActivity getInstance() {

@@ -262,11 +262,6 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
             saveCurrentDay(mDay);
         }
 
-        if (MyApp.meta.getNumDays() != 0) {
-            // auf jeden Fall reload, wenn mit Lecture ID gestartet
-            viewDay(lecture_id != null);
-        }
-
         Log.d(LOG_TAG, "MyApp.task_running = " + MyApp.task_running);
         switch (MyApp.task_running) {
             case FETCH:
@@ -326,7 +321,10 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
             int roomIndex = MyApp.roomList.get(i);
             fillRoom(roomView, roomIndex, MyApp.lectureList, boxHeight);
         }
-        scrollToCurrent(mDay, boxHeight);
+        MainActivity.getInstance().shouldScheduleScrollToCurrentTimeSlot(() -> {
+            scrollToCurrent(mDay, boxHeight);
+            return null;
+        });
         updateNavigationMenuSelection();
     }
 
