@@ -18,6 +18,7 @@
                 android:label="@string/app_name"
                 android:theme="@style/Theme.Congress.NoActionBar"
                 android:launchMode="singleTop"
+                android:resizeableActivity="true"
                 android:name=".schedule.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -29,6 +30,7 @@
                 android:configChanges="keyboardHidden|orientation"
                 android:label="@string/fahrplan"
                 android:uiOptions="splitActionBarWhenNarrow"
+                android:resizeableActivity="true"
                 android:parentActivityName="nerd.tuxmobil.fahrplan.congress.schedule.MainActivity">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
@@ -38,6 +40,7 @@
                 android:configChanges="keyboardHidden|orientation"
                 android:name=".alarms.AlarmList"
                 android:label="@string/reminders"
+                android:resizeableActivity="true"
                 android:parentActivityName="nerd.tuxmobil.fahrplan.congress.schedule.MainActivity">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
@@ -55,7 +58,8 @@
         <activity
                 android:name="nerd.tuxmobil.fahrplan.congress.settings.SettingsActivity"
                 android:theme="@style/Theme.Congress.NoActionBar"
-                android:label="@string/settings"/>
+                android:label="@string/settings"
+                android:resizeableActivity="true" />
         <service
                 android:name=".autoupdate.UpdateService"
                 android:exported="false"
@@ -63,12 +67,14 @@
         <activity
             android:name="nerd.tuxmobil.fahrplan.congress.changes.ChangeListActivity"
             android:theme="@style/Theme.Congress.NoActionBar"
-            android:label="@string/schedule_changes" >
+            android:label="@string/schedule_changes"
+            android:resizeableActivity="true" >
         </activity>
         <activity
             android:name="nerd.tuxmobil.fahrplan.congress.favorites.StarredListActivity"
             android:theme="@style/Theme.Congress.NoActionBar"
-            android:label="@string/starred_lectures" >
+            android:label="@string/starred_lectures"
+            android:resizeableActivity="true" >
         </activity>
     </application>
 </manifest>
