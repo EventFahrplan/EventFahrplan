@@ -4,5 +4,6 @@
     <bool name="preferences_alternative_highlight_enabled_default_value">true</bool>
     <bool name="preferences_auto_update_enabled_default_value">true</bool>
     <bool name="preferences_insistent_alarm_enabled_default_value">false</bool>
+    <bool name="preferences_show_schedule_changes_default_value">true</bool>
 
 </resources>

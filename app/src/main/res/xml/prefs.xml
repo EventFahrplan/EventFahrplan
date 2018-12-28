@@ -16,9 +16,14 @@
             android:title="@string/schedule_url" />
 
         <CheckBoxPreference
-            android:defaultValue="@bool/preferences_alternative_highlight_enabled_default_value"
+            android:defaultValue="@bool/preferences_show_schedule_changes_default_value"
             android:key="alternative_highlight"
             android:title="@string/alternative_highlight" />
+
+        <CheckBoxPreference
+            android:defaultValue="@bool/preferences_auto_update_enabled_default_value"
+            android:key="show_schedule_updates"
+            android:title="@string/schedule_changes_dialog_show_notifications" />
 
     </PreferenceCategory>
 

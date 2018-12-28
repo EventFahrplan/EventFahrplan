@@ -63,4 +63,5 @@ public interface BundleKeys {
             "nerd.tuxmobil.fahrplan.congress.Prefs.ALTERNATIVE_HIGHLIGHT";
     String PREFS_ALARM_TIME_INDEX =
             "nerd.tuxmobil.fahrplan.congress.Prefs.ALARM_TIME_INDEX";
+    String PREFS_SHOW_SCHEDULE_UPDATES = "show_schedule_updates";
 }

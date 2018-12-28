@@ -188,5 +188,6 @@
         <item quantity="one"><xliff:g id="count" example="1">%d</xliff:g> Vortrag wurde geändert.</item>
         <item quantity="other"><xliff:g id="count" example="3">%d</xliff:g> Vorträge wurden geändert.</item>
     </plurals>
+    <string name="schedule_changes_dialog_show_notifications">Fahrplanänderungen anzeigen</string>
 
 </resources>

@@ -205,11 +205,7 @@ public class MainActivity extends BaseActivity implements
         if (fragment != null && fragment instanceof ChangeListFragment) {
             ((ChangeListFragment) fragment).onRefresh();
         }
-
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        if (!prefs.getBoolean(BundleKeys.PREFS_CHANGES_SEEN, true)) {
-            showChangesDialog();
-        }
+        showChangesDialogIfNecessary();
     }
 
     public void showFetchingStatus() {
@@ -264,10 +260,7 @@ public class MainActivity extends BaseActivity implements
     @Override
     protected void onResume() {
         super.onResume();
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        if (prefs.getBoolean(BundleKeys.PREFS_CHANGES_SEEN, true) == false) {
-            showChangesDialog();
-        }
+        showChangesDialogIfNecessary();
     }
 
     @Override
@@ -282,7 +275,14 @@ public class MainActivity extends BaseActivity implements
         return true;
     }
 
-    void showChangesDialog() {
+    void showChangesDialogIfNecessary() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        if (prefs.getBoolean(BundleKeys.PREFS_CHANGES_SEEN, false)) {
+            return;
+        }
+        if(!prefs.getBoolean(BundleKeys.PREFS_SHOW_SCHEDULE_UPDATES, false)) {
+            return;
+        }
         Fragment fragment = findFragment(ChangesDialog.FRAGMENT_TAG);
         if (fragment == null) {
             requiresScheduleReload = true;

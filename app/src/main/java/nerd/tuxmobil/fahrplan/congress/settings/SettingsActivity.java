@@ -40,6 +40,7 @@ public class SettingsActivity extends BaseActivity {
     }
 
     public static class SettingsFragment extends PreferenceFragment {
+
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -104,6 +105,16 @@ public class SettingsActivity extends BaseActivity {
                         int alarmTimeIndex = getAlarmTimeIndex(alarmTimeValues, alarmTimeValue, defaultAlarmTimeValue);
                         edit.putInt(BundleKeys.PREFS_ALARM_TIME_INDEX, alarmTimeIndex);
                         edit.commit();
+                        return true;
+                    });
+            findPreference(BundleKeys.PREFS_SHOW_SCHEDULE_UPDATES)
+                    .setOnPreferenceChangeListener((preference, newValue) -> {
+                        SharedPreferences prefs = PreferenceManager
+                                .getDefaultSharedPreferences(getActivity());
+
+                        SharedPreferences.Editor edit = prefs.edit();
+                        edit.putBoolean(BundleKeys.PREFS_SHOW_SCHEDULE_UPDATES, (Boolean) newValue);
+                        edit.apply();
                         return true;
                     });
         }
