@@ -280,7 +280,8 @@ public class MainActivity extends BaseActivity implements
         if (prefs.getBoolean(BundleKeys.PREFS_CHANGES_SEEN, false)) {
             return;
         }
-        if(!prefs.getBoolean(BundleKeys.PREFS_SHOW_SCHEDULE_UPDATES, false)) {
+        if(!prefs.getBoolean(BundleKeys.PREFS_SHOW_SCHEDULE_UPDATES,  getResources()
+                .getBoolean(R.bool.preferences_show_schedule_changes_default_value))) {
             return;
         }
         Fragment fragment = findFragment(ChangesDialog.FRAGMENT_TAG);

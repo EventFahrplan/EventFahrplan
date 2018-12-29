@@ -18,6 +18,7 @@ import java.util.List;
 import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.MyApp.TASKS;
 import nerd.tuxmobil.fahrplan.congress.R;
+import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
 import nerd.tuxmobil.fahrplan.congress.net.FetchScheduleResult;
 import nerd.tuxmobil.fahrplan.congress.net.HttpStatus;
@@ -39,7 +40,12 @@ public class UpdateService extends JobIntentService {
         MyApp.task_running = TASKS.NONE;
         MyApp.fahrplan_xml = null;
         List<Lecture> changesList = FahrplanMisc.readChanges(this);
-        if (!changesList.isEmpty()) {
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean shouldShowScheduleNotifications = prefs.getBoolean(BundleKeys.PREFS_SHOW_SCHEDULE_UPDATES, getResources()
+                .getBoolean(R.bool.preferences_show_schedule_changes_default_value));
+
+        if (!changesList.isEmpty() && shouldShowScheduleNotifications) {
             showScheduleUpdateNotification(version, changesList.size());
         }
         MyApp.LogDebug(LOG_TAG, "background update complete");
