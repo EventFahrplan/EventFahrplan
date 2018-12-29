@@ -285,24 +285,26 @@ public class MainActivity extends BaseActivity implements
             return;
         }
         Fragment fragment = findFragment(ChangesDialog.FRAGMENT_TAG);
-        if (fragment == null) {
-            requiresScheduleReload = true;
-            List<Lecture> changedLectures = FahrplanMisc.readChanges(this);
-            AppRepository appRepository = AppRepository.Companion.getInstance(this);
-            Meta meta = appRepository.readMeta();
-            String scheduleVersion = meta.getVersion();
-            DialogFragment changesDialog = ChangesDialog.newInstance(
-                    scheduleVersion,
-                    FahrplanMisc.getChangedLectureCount(changedLectures, false),
-                    FahrplanMisc.getNewLectureCount(changedLectures, false),
-                    FahrplanMisc.getCancelledLectureCount(changedLectures, false),
-                    FahrplanMisc.getChangedLectureCount(changedLectures, true) +
-                            FahrplanMisc.getNewLectureCount(changedLectures, true) +
-                            FahrplanMisc.getCancelledLectureCount(changedLectures, true),
-                    requiresScheduleReload
-            );
-            changesDialog.show(getSupportFragmentManager(), ChangesDialog.FRAGMENT_TAG);
+        if (fragment != null) {
+            return;
         }
+        requiresScheduleReload = true;
+        List<Lecture> changedLectures = FahrplanMisc.readChanges(this);
+        AppRepository appRepository = AppRepository.Companion.getInstance(this);
+        Meta meta = appRepository.readMeta();
+        String scheduleVersion = meta.getVersion();
+        int affectedFavoriteCount = FahrplanMisc.getChangedLectureCount(changedLectures, true) +
+                FahrplanMisc.getNewLectureCount(changedLectures, true) +
+                FahrplanMisc.getCancelledLectureCount(changedLectures, true);
+        DialogFragment changesDialog = ChangesDialog.newInstance(
+                scheduleVersion,
+                FahrplanMisc.getChangedLectureCount(changedLectures, false),
+                FahrplanMisc.getNewLectureCount(changedLectures, false),
+                FahrplanMisc.getCancelledLectureCount(changedLectures, false),
+                affectedFavoriteCount,
+                requiresScheduleReload
+                                                                );
+        changesDialog.show(getSupportFragmentManager(), ChangesDialog.FRAGMENT_TAG);
     }
 
     void showAboutDialog() {
