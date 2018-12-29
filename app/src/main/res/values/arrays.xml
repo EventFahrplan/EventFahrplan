@@ -12,6 +12,12 @@
         <item>60 minutes</item>
     </string-array>
 
+    <string-array name="show_schedule_updates_names">
+        <item>@string/schedule_changes_show_notifications_always</item>
+        <item>@string/schedule_changes_show_notifications_favorites</item>
+        <item>@string/schedule_changes_show_notifications_never</item>
+    </string-array>
+
     <!-- Synchronize with @strings/default_alarm_time_value and @integers/default_alarm_time_index -->
     <string-array name="alarm_time_values" translatable="false">
         <item>0</item>
@@ -22,6 +28,12 @@
         <item>30</item>
         <item>45</item>
         <item>60</item>
+    </string-array>
+
+    <string-array name="show_schedule_updates_values">
+        <item>@string/schedule_changes_show_notifications_always_value</item>
+        <item>@string/schedule_changes_show_notifications_favorites_value</item>
+        <item>@string/schedule_changes_show_notifications_never_value</item>
     </string-array>
 
 </resources>

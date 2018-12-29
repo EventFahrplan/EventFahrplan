@@ -189,5 +189,8 @@
         <item quantity="other"><xliff:g id="count" example="3">%d</xliff:g> Vorträge wurden geändert.</item>
     </plurals>
     <string name="schedule_changes_dialog_show_notifications">Fahrplanänderungen anzeigen</string>
+    <string name="schedule_changes_show_notifications_always">immer</string>
+    <string name="schedule_changes_show_notifications_favorites">nur Favoriten</string>
+    <string name="schedule_changes_show_notifications_never">nie</string>
 
 </resources>

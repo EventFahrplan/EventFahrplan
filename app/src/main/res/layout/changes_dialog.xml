@@ -21,10 +21,4 @@
         android:text="@string/schedule_changes_dialog_affected_text"
         android:id="@+id/schedule_changes_dialog_changes_text_view" />
 
-    <android.support.v7.widget.SwitchCompat
-        android:id="@+id/show_notifications"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:text="@string/schedule_changes_dialog_show_notifications" />
-
 </LinearLayout>

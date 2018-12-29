@@ -95,23 +95,8 @@ public class ChangesDialog extends DialogFragment {
         TextView changes2 = msgView.findViewById(R.id.schedule_changes_dialog_changes_text_view);
         changes2.setText(getString(R.string.schedule_changes_dialog_affected_text, markedAffected));
 
-        initializeShowDialogSwitch(msgView);
-
         builder.setView(msgView);
         return builder.create();
-    }
-
-    private void initializeShowDialogSwitch(View msgView) {
-        CompoundButton showChanges = msgView.findViewById(R.id.show_notifications);
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        showChanges.setChecked(prefs.getBoolean(BundleKeys.PREFS_SHOW_SCHEDULE_UPDATES,  getResources()
-                .getBoolean(R.bool.preferences_show_schedule_changes_default_value)));
-
-        showChanges.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            SharedPreferences.Editor edit = prefs.edit();
-            edit.putBoolean(BundleKeys.PREFS_SHOW_SCHEDULE_UPDATES, isChecked);
-            edit.apply();
-        });
     }
 
     private void onBrowse() {

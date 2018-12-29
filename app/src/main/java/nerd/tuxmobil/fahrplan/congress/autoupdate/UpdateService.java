@@ -41,11 +41,7 @@ public class UpdateService extends JobIntentService {
         MyApp.fahrplan_xml = null;
         List<Lecture> changesList = FahrplanMisc.readChanges(this);
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean shouldShowScheduleNotifications = prefs.getBoolean(BundleKeys.PREFS_SHOW_SCHEDULE_UPDATES, getResources()
-                .getBoolean(R.bool.preferences_show_schedule_changes_default_value));
-
-        if (!changesList.isEmpty() && shouldShowScheduleNotifications) {
+        if (!changesList.isEmpty()) {
             showScheduleUpdateNotification(version, changesList.size());
         }
         MyApp.LogDebug(LOG_TAG, "background update complete");

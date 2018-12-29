@@ -107,16 +107,6 @@ public class SettingsActivity extends BaseActivity {
                         edit.commit();
                         return true;
                     });
-            findPreference(BundleKeys.PREFS_SHOW_SCHEDULE_UPDATES)
-                    .setOnPreferenceChangeListener((preference, newValue) -> {
-                        SharedPreferences prefs = PreferenceManager
-                                .getDefaultSharedPreferences(getActivity());
-
-                        SharedPreferences.Editor edit = prefs.edit();
-                        edit.putBoolean(BundleKeys.PREFS_SHOW_SCHEDULE_UPDATES, (Boolean) newValue);
-                        edit.apply();
-                        return true;
-                    });
         }
 
         private int getAlarmTimeIndex(String[] alarmTimeValues, int alarmTimeValue, int defaultAlarmTimeValue) {

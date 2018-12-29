@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -276,26 +277,34 @@ public class MainActivity extends BaseActivity implements
     }
 
     void showChangesDialogIfNecessary() {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        if (prefs.getBoolean(BundleKeys.PREFS_CHANGES_SEEN, false)) {
-            return;
-        }
-        if(!prefs.getBoolean(BundleKeys.PREFS_SHOW_SCHEDULE_UPDATES,  getResources()
-                .getBoolean(R.bool.preferences_show_schedule_changes_default_value))) {
-            return;
-        }
         Fragment fragment = findFragment(ChangesDialog.FRAGMENT_TAG);
         if (fragment != null) {
             return;
         }
-        requiresScheduleReload = true;
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        Resources resources = getResources();
+        String dialogMode = prefs.getString(BundleKeys.PREFS_SHOW_SCHEDULE_UPDATES, resources
+                .getString(R.string.schedule_changes_show_notifications_default));
+        if (dialogMode.equals(
+                resources.getString(R.string.schedule_changes_show_notifications_never_value))) {
+            return;
+        }
+        if (prefs.getBoolean(BundleKeys.PREFS_CHANGES_SEEN, false)) {
+            return;
+        }
         List<Lecture> changedLectures = FahrplanMisc.readChanges(this);
-        AppRepository appRepository = AppRepository.Companion.getInstance(this);
-        Meta meta = appRepository.readMeta();
-        String scheduleVersion = meta.getVersion();
         int affectedFavoriteCount = FahrplanMisc.getChangedLectureCount(changedLectures, true) +
                 FahrplanMisc.getNewLectureCount(changedLectures, true) +
                 FahrplanMisc.getCancelledLectureCount(changedLectures, true);
+        if (dialogMode.equals(resources.getString(
+                R.string.schedule_changes_show_notifications_favorites_value))
+                && affectedFavoriteCount == 0) {
+            return;
+        }
+        requiresScheduleReload = true;
+        AppRepository appRepository = AppRepository.Companion.getInstance(this);
+        Meta meta = appRepository.readMeta();
+        String scheduleVersion = meta.getVersion();
         DialogFragment changesDialog = ChangesDialog.newInstance(
                 scheduleVersion,
                 FahrplanMisc.getChangedLectureCount(changedLectures, false),
