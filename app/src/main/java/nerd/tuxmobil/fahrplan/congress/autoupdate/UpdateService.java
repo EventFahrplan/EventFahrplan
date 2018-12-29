@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -41,7 +42,29 @@ public class UpdateService extends JobIntentService {
         MyApp.fahrplan_xml = null;
         List<Lecture> changesList = FahrplanMisc.readChanges(this);
 
-        if (!changesList.isEmpty()) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        Resources resources = getResources();
+        String scheduleNotificationMode =
+                prefs.getString(BundleKeys.PREFS_SHOW_SCHEDULE_UPDATES, resources
+                        .getString(R.string.schedule_changes_show_notifications_default));
+
+        boolean shouldShowNotification = true;
+        if (scheduleNotificationMode.equals(resources.getString(
+                R.string.schedule_changes_show_notifications_never_value))) {
+            shouldShowNotification = false;
+        }
+        List<Lecture> changedLectures = FahrplanMisc.readChanges(this);
+        int affectedFavoriteCount = FahrplanMisc.getChangedLectureCount(changedLectures, true) +
+                FahrplanMisc.getNewLectureCount(changedLectures, true) +
+                FahrplanMisc.getCancelledLectureCount(changedLectures, true);
+
+        if (scheduleNotificationMode.equals(resources.getString(
+                R.string.schedule_changes_show_notifications_favorites_value))
+                && affectedFavoriteCount == 0) {
+            shouldShowNotification = false;
+        }
+
+        if (!changesList.isEmpty() && shouldShowNotification) {
             showScheduleUpdateNotification(version, changesList.size());
         }
         MyApp.LogDebug(LOG_TAG, "background update complete");
