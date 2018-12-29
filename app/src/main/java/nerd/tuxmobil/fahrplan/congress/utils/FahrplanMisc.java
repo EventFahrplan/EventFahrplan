@@ -274,6 +274,9 @@ public class FahrplanMisc {
             if (!l.highlight) {
                 starredList.remove(l);
             }
+            if (l.changedIsCanceled) {
+                starredList.remove(l);
+            }
             lectureIndex--;
         }
         MyApp.LogDebug(LOG_TAG, starredList.size() + " lectures starred.");
