@@ -1,6 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.utils
 
 import nerd.tuxmobil.fahrplan.congress.BuildConfig
+import nerd.tuxmobil.fahrplan.congress.extensions.originatesFromPretalx
 import nerd.tuxmobil.fahrplan.congress.utils.ServerBackendType.*
 import nerd.tuxmobil.fahrplan.congress.models.Lecture as Event
 
@@ -20,12 +21,9 @@ class EventUrlComposer @JvmOverloads constructor(
     }
 
     private val Event.eventUrl
-        get() = if (originatesFromPretalx()) url else getComposedEventUrl(lecture_id)
+        get() = if (originatesFromPretalx) url else getComposedEventUrl(lecture_id)
 
     private fun getComposedEventUrl(eventIdentifier: String) =
             String.format(eventUrlTemplate, eventIdentifier)
-
-    private fun Event.originatesFromPretalx() =
-            !url.isNullOrEmpty() && !slug.isNullOrEmpty() && url.endsWith(slug)
 
 }
