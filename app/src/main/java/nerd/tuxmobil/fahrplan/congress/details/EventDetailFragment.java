@@ -44,6 +44,7 @@ import nerd.tuxmobil.fahrplan.congress.sharing.SimpleLectureFormat;
 import nerd.tuxmobil.fahrplan.congress.sidepane.OnSidePaneCloseListener;
 import nerd.tuxmobil.fahrplan.congress.utils.EventUrlComposer;
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
+import nerd.tuxmobil.fahrplan.congress.utils.FeedbackUrlComposer;
 import nerd.tuxmobil.fahrplan.congress.utils.StringUtils;
 import nerd.tuxmobil.fahrplan.congress.wiki.WikiEventUtils;
 
@@ -367,7 +368,9 @@ public class EventDetailFragment extends Fragment {
         FragmentActivity activity = getActivity();
         switch (item.getItemId()) {
             case R.id.menu_item_feedback: {
-                Uri uri = Uri.parse(String.format(SCHEDULE_FEEDBACK_URL, event_id));
+                l = eventIdToLecture(event_id);
+                String feedbackUrl = new FeedbackUrlComposer(l, SCHEDULE_FEEDBACK_URL).getFeedbackUrl();
+                Uri uri = Uri.parse(feedbackUrl);
                 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                 startActivity(intent);
                 return true;
