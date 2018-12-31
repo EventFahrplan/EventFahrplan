@@ -25,7 +25,4 @@
     <!-- About -->
     <color name="about_horizontal_line">#4d4d4c</color>
 
-    <!-- Favorites -->
-    <color name="favorites_past_event_text">#4d4d4c</color>
-
 </resources>
