@@ -280,4 +280,19 @@ public class FahrplanMisc {
         MyApp.LogDebug(LOG_TAG, starredList.size() + " lectures starred.");
         return starredList;
     }
+
+    @NonNull
+    public static List<Lecture> getUncanceledLectures(@NonNull AppRepository appRepository, int dayIndex) {
+        List<Lecture> lectures = FahrplanMisc.loadLecturesForDayIndex(appRepository, dayIndex);
+        int lectureIndex = lectures.size() - 1;
+        while (lectureIndex >= 0) {
+            Lecture l = lectures.get(lectureIndex);
+            if (l.changedIsCanceled) {
+                lectures.remove(lectureIndex);
+            }
+            lectureIndex--;
+        }
+        return lectures;
+    }
+
 }
