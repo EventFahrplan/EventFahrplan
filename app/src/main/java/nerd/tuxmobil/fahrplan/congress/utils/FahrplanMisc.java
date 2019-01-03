@@ -32,6 +32,8 @@ import nerd.tuxmobil.fahrplan.congress.models.Lecture;
 import nerd.tuxmobil.fahrplan.congress.models.SchedulableAlarm;
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 
+import static kotlin.collections.CollectionsKt.filterNot;
+
 
 public class FahrplanMisc {
 
@@ -250,14 +252,7 @@ public class FahrplanMisc {
         if (changesList.isEmpty()) {
             return changesList;
         }
-        int lectureIndex = changesList.size() - 1;
-        while (lectureIndex >= 0) {
-            Lecture l = changesList.get(lectureIndex);
-            if (!l.isChanged() && !l.changedIsCanceled && !l.changedIsNew) {
-                changesList.remove(l);
-            }
-            lectureIndex--;
-        }
+        changesList = filterNot(changesList, event -> !event.isChanged() && !event.changedIsCanceled && !event.changedIsNew);
         MyApp.LogDebug(LOG_TAG, changesList.size() + " lectures changed.");
         return changesList;
     }
@@ -268,17 +263,7 @@ public class FahrplanMisc {
         if (starredList.isEmpty()) {
             return starredList;
         }
-        int lectureIndex = starredList.size() - 1;
-        while (lectureIndex >= 0) {
-            Lecture l = starredList.get(lectureIndex);
-            if (!l.highlight) {
-                starredList.remove(l);
-            }
-            if (l.changedIsCanceled) {
-                starredList.remove(l);
-            }
-            lectureIndex--;
-        }
+        starredList = filterNot(starredList, event -> !event.highlight || event.changedIsCanceled);
         MyApp.LogDebug(LOG_TAG, starredList.size() + " lectures starred.");
         return starredList;
     }
@@ -286,15 +271,7 @@ public class FahrplanMisc {
     @NonNull
     public static List<Lecture> getUncanceledLectures(@NonNull AppRepository appRepository, int dayIndex) {
         List<Lecture> lectures = FahrplanMisc.loadLecturesForDayIndex(appRepository, dayIndex);
-        int lectureIndex = lectures.size() - 1;
-        while (lectureIndex >= 0) {
-            Lecture l = lectures.get(lectureIndex);
-            if (l.changedIsCanceled) {
-                lectures.remove(lectureIndex);
-            }
-            lectureIndex--;
-        }
-        return lectures;
+        return filterNot(lectures, event -> event.changedIsCanceled);
     }
 
 }
