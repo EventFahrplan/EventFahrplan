@@ -9,7 +9,7 @@ or Chaos Communication Congress.
 The app is available for Android devices.
 
 
-![Screenshot of 33c3 Fahrplan on a tablet](gfx/EventFahrplan-33c3-Events-Tablet.png)
+![Picture of the 35c3 Schedule on tablet and phone](gfx/EventFahrplan-35c3-Events-Tablet-Phone.png)
 
 
 ## Features
