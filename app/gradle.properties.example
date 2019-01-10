@@ -3,11 +3,6 @@ signing.camp2015-release.keystorePassword="PASSWORD"
 signing.camp2015-release.keyAlias="camp2015"
 signing.camp2015-release.keyPassword="ANOTHERPASSWORD"
 
-signing.ccc34c3-release.keystoreFilePath=/home/USERNAME/.android/ccc34c3-release-key.keystore
-signing.ccc34c3-release.keystorePassword="PASSWORD"
-signing.ccc34c3-release.keyAlias="ccc34c3"
-signing.ccc34c3-release.keyPassword="ANOTHERPASSWORD"
-
 signing.ccc35c3-release.keystoreFilePath=/home/USERNAME/.android/ccc35c3-release-key.keystore
 signing.ccc35c3-release.keystorePassword="PASSWORD"
 signing.ccc35c3-release.keyAlias="ccc35c3"
