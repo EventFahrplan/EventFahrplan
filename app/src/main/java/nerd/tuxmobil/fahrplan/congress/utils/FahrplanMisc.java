@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 import android.text.format.Time;
 
 import org.ligi.tracedroid.logging.Log;
@@ -31,11 +32,15 @@ import nerd.tuxmobil.fahrplan.congress.models.Lecture;
 import nerd.tuxmobil.fahrplan.congress.models.SchedulableAlarm;
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 
+import static kotlin.collections.CollectionsKt.count;
+import static kotlin.collections.CollectionsKt.filterNot;
+
 
 public class FahrplanMisc {
 
     private static final String LOG_TAG = "FahrplanMisc";
-    private static final int ALL_DAYS = -1;
+    @VisibleForTesting
+    public static final int ALL_DAYS = -1;
     private static final DateFormat TIME_TEXT_DATE_FORMAT =
             SimpleDateFormat.getDateTimeInstance(SimpleDateFormat.SHORT, SimpleDateFormat.SHORT);
 
@@ -165,21 +170,19 @@ public class FahrplanMisc {
     }
 
     @NonNull
-    public static List<Lecture> loadLecturesForAllDays(@NonNull Context context) {
-        return loadLecturesForDayIndex(context, ALL_DAYS);
+    public static List<Lecture> loadLecturesForAllDays(@NonNull AppRepository appRepository) {
+        return loadLecturesForDayIndex(appRepository, ALL_DAYS);
     }
 
     /**
      * Load all Lectures from the DB on the day specified
      *
-     * @param context The Android Context
-     * @param day     The day to load lectures for (0..), or -1 for all days
+     * @param appRepository The application repository to retrieve lectures from.
+     * @param day           The day to load lectures for (0..), or -1 for all days
      * @return ArrayList of Lecture objects
      */
     @NonNull
-    public static List<Lecture> loadLecturesForDayIndex(@NonNull Context context, int day) {
-        AppRepository appRepository = AppRepository.Companion.getInstance(context);
-
+    public static List<Lecture> loadLecturesForDayIndex(@NonNull AppRepository appRepository, int day) {
         List<Lecture> lectures;
         if (day == ALL_DAYS) {
             MyApp.LogDebug(LOG_TAG, "Loading lectures for all days.");
@@ -192,7 +195,7 @@ public class FahrplanMisc {
 
         List<Highlight> highlights = appRepository.readHighlights();
         for (Highlight highlight : highlights) {
-            MyApp.LogDebug(LOG_TAG, "highlight = " + highlight);
+            MyApp.LogDebug(LOG_TAG, highlight.toString());
             for (Lecture lecture : lectures) {
                 if (lecture.lecture_id.equals("" + highlight.getEventId())) {
                     lecture.highlight = highlight.isHighlight();
@@ -202,84 +205,51 @@ public class FahrplanMisc {
         return lectures;
     }
 
-    public static int getChangedLectureCount(@NonNull List<Lecture> list, boolean favsOnly) {
-        int count = 0;
-        if (list.isEmpty()) {
-            return 0;
-        }
-        for (int lectureIndex = 0; lectureIndex < list.size(); lectureIndex++) {
-            Lecture l = list.get(lectureIndex);
-            if (l.isChanged() && (!favsOnly || l.highlight)) {
-                count++;
-            }
-        }
-        MyApp.LogDebug(LOG_TAG, "getChangedLectureCount " + favsOnly + ":" + count);
+    public static int getChangedLectureCount(@NonNull final List<Lecture> list, boolean favsOnly) {
+        int count = count(list, event -> event.isChanged() && (!favsOnly || event.highlight));
+        MyApp.LogDebug(LOG_TAG, count + " changed lectures, favsOnly = " + favsOnly);
         return count;
     }
 
-    public static int getNewLectureCount(@NonNull List<Lecture> list, boolean favsOnly) {
-        int count = 0;
-        if (list.isEmpty()) {
-            return 0;
-        }
-        for (int lectureIndex = 0; lectureIndex < list.size(); lectureIndex++) {
-            Lecture l = list.get(lectureIndex);
-            if (l.changedIsNew && (!favsOnly || l.highlight)) count++;
-        }
-        MyApp.LogDebug(LOG_TAG, "getNewLectureCount " + favsOnly + ":" + count);
+    public static int getNewLectureCount(@NonNull final List<Lecture> list, boolean favsOnly) {
+        int count = count(list, event -> event.changedIsNew && (!favsOnly || event.highlight));
+        MyApp.LogDebug(LOG_TAG, count + " new lectures, favsOnly = " + favsOnly);
         return count;
     }
 
-    public static int getCancelledLectureCount(@NonNull List<Lecture> list, boolean favsOnly) {
-        int count = 0;
-        if (list.isEmpty()) {
-            return 0;
-        }
-        for (int lectureIndex = 0; lectureIndex < list.size(); lectureIndex++) {
-            Lecture l = list.get(lectureIndex);
-            if (l.changedIsCanceled && (!favsOnly || l.highlight)) count++;
-        }
-        MyApp.LogDebug(LOG_TAG, "getCancelledLectureCount " + favsOnly + ":" + count);
+    public static int getCancelledLectureCount(@NonNull final List<Lecture> list, boolean favsOnly) {
+        int count = count(list, event -> event.changedIsCanceled && (!favsOnly || event.highlight));
+        MyApp.LogDebug(LOG_TAG, count + " canceled lectures, favsOnly = " + favsOnly);
         return count;
     }
 
     @NonNull
-    public static List<Lecture> readChanges(Context context) {
+    public static List<Lecture> readChanges(@NonNull AppRepository appRepository) {
         MyApp.LogDebug(LOG_TAG, "readChanges");
-        List<Lecture> changesList = loadLecturesForAllDays(context);
+        List<Lecture> changesList = loadLecturesForAllDays(appRepository);
         if (changesList.isEmpty()) {
             return changesList;
         }
-        int lectureIndex = changesList.size() - 1;
-        while (lectureIndex >= 0) {
-            Lecture l = changesList.get(lectureIndex);
-            if (!l.isChanged() && !l.changedIsCanceled && !l.changedIsNew) {
-                changesList.remove(l);
-            }
-            lectureIndex--;
-        }
+        changesList = filterNot(changesList, event -> !event.isChanged() && !event.changedIsCanceled && !event.changedIsNew);
         MyApp.LogDebug(LOG_TAG, changesList.size() + " lectures changed.");
         return changesList;
     }
 
     @NonNull
-    public static List<Lecture> getStarredLectures(@NonNull Context context) {
-        List<Lecture> starredList = loadLecturesForAllDays(context);
+    public static List<Lecture> getStarredLectures(@NonNull AppRepository appRepository) {
+        List<Lecture> starredList = loadLecturesForAllDays(appRepository);
         if (starredList.isEmpty()) {
             return starredList;
         }
-        int lectureIndex = starredList.size() - 1;
-        while (lectureIndex >= 0) {
-            Lecture l = starredList.get(lectureIndex);
-            if (!l.highlight) {
-                starredList.remove(l);
-            }
-            if (l.changedIsCanceled) {
-                starredList.remove(l);
-            }
-            lectureIndex--;
-        }
+        starredList = filterNot(starredList, event -> !event.highlight || event.changedIsCanceled);
         MyApp.LogDebug(LOG_TAG, starredList.size() + " lectures starred.");
         return starredList;
     }
+
+    @NonNull
+    public static List<Lecture> getUncanceledLectures(@NonNull AppRepository appRepository, int dayIndex) {
+        List<Lecture> lectures = FahrplanMisc.loadLecturesForDayIndex(appRepository, dayIndex);
+        return filterNot(lectures, event -> event.changedIsCanceled);
+    }
+
 }

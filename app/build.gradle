@@ -184,6 +184,7 @@ dependencies {
     testImplementation Libs.assertjAndroid
     testImplementation Libs.supportLibraryAnnotations
     testImplementation Libs.mockitoCore
+    testImplementation Libs.mockitoKotlin
     testImplementation Libs.threeTenBp
 }
 

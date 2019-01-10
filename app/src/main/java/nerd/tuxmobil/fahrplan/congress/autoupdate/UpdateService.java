@@ -38,7 +38,8 @@ public class UpdateService extends JobIntentService {
         MyApp.LogDebug(LOG_TAG, "parseDone: " + result + " , numDays=" + MyApp.meta.getNumDays());
         MyApp.task_running = TASKS.NONE;
         MyApp.fahrplan_xml = null;
-        List<Lecture> changesList = FahrplanMisc.readChanges(this);
+        AppRepository appRepository = AppRepository.Companion.getInstance(this);
+        List<Lecture> changesList = FahrplanMisc.readChanges(appRepository);
         if (!changesList.isEmpty()) {
             showScheduleUpdateNotification(version, changesList.size());
         }

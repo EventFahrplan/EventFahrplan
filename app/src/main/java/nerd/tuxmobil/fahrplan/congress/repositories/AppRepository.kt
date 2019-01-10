@@ -75,7 +75,7 @@ class AppRepository private constructor(val context: Context) {
                 // Parsing
                 scheduleNetworkRepository.parseSchedule(fetchScheduleResult.scheduleXml, fetchScheduleResult.eTag,
                         onUpdateLectures = { lectures ->
-                            val oldLectures = FahrplanMisc.loadLecturesForAllDays(context)
+                            val oldLectures = FahrplanMisc.loadLecturesForAllDays(this)
                             val newLectures = lectures.toLecturesAppModel2()
                             val hasChanged = ScheduleChanges.hasScheduleChanged(newLectures, oldLectures)
                             if (hasChanged) {
