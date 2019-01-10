@@ -32,6 +32,7 @@ import nerd.tuxmobil.fahrplan.congress.models.Lecture;
 import nerd.tuxmobil.fahrplan.congress.models.SchedulableAlarm;
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 
+import static kotlin.collections.CollectionsKt.count;
 import static kotlin.collections.CollectionsKt.filterNot;
 
 
@@ -205,42 +206,19 @@ public class FahrplanMisc {
     }
 
     public static int getChangedLectureCount(@NonNull List<Lecture> list, boolean favsOnly) {
-        int count = 0;
-        if (list.isEmpty()) {
-            return 0;
-        }
-        for (int lectureIndex = 0; lectureIndex < list.size(); lectureIndex++) {
-            Lecture l = list.get(lectureIndex);
-            if (l.isChanged() && (!favsOnly || l.highlight)) {
-                count++;
-            }
-        }
+        int count = count(list, event -> event.isChanged() && (!favsOnly || event.highlight));
         MyApp.LogDebug(LOG_TAG, "getChangedLectureCount " + favsOnly + ":" + count);
         return count;
     }
 
     public static int getNewLectureCount(@NonNull List<Lecture> list, boolean favsOnly) {
-        int count = 0;
-        if (list.isEmpty()) {
-            return 0;
-        }
-        for (int lectureIndex = 0; lectureIndex < list.size(); lectureIndex++) {
-            Lecture l = list.get(lectureIndex);
-            if (l.changedIsNew && (!favsOnly || l.highlight)) count++;
-        }
+        int count = count(list, event -> event.changedIsNew && (!favsOnly || event.highlight));
         MyApp.LogDebug(LOG_TAG, "getNewLectureCount " + favsOnly + ":" + count);
         return count;
     }
 
     public static int getCancelledLectureCount(@NonNull List<Lecture> list, boolean favsOnly) {
-        int count = 0;
-        if (list.isEmpty()) {
-            return 0;
-        }
-        for (int lectureIndex = 0; lectureIndex < list.size(); lectureIndex++) {
-            Lecture l = list.get(lectureIndex);
-            if (l.changedIsCanceled && (!favsOnly || l.highlight)) count++;
-        }
+        int count = count(list, event -> event.changedIsCanceled && (!favsOnly || event.highlight));
         MyApp.LogDebug(LOG_TAG, "getCancelledLectureCount " + favsOnly + ":" + count);
         return count;
     }
