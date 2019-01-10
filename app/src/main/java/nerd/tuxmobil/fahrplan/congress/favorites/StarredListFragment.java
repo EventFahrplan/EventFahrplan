@@ -128,8 +128,8 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
 
     private void initStarredList() {
         FragmentActivity activity = getActivity();
-        starredList = FahrplanMisc.getStarredLectures(activity);
         AppRepository appRepository = AppRepository.Companion.getInstance(activity);
+        starredList = FahrplanMisc.getStarredLectures(appRepository);
         Meta meta = appRepository.readMeta();
         mAdapter = new LectureArrayAdapter(activity, starredList, meta.getNumDays());
         MyApp.LogDebug(LOG_TAG, "initStarredList: " + starredList.size() + " favorites");
@@ -174,7 +174,8 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
     }
 
     public void onRefresh(@NonNull Context context) {
-        List<Lecture> starred = FahrplanMisc.getStarredLectures(context);
+        AppRepository appRepository = AppRepository.Companion.getInstance(context);
+        List<Lecture> starred = FahrplanMisc.getStarredLectures(appRepository);
         if (starredList != null) {
             starredList.clear();
             starredList.addAll(starred);

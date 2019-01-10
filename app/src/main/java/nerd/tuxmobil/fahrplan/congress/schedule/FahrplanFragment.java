@@ -698,7 +698,8 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
             return;
         }
 
-        MyApp.lectureList = FahrplanMisc.loadLecturesForDayIndex(context, day);
+        AppRepository appRepository = AppRepository.Companion.getInstance(context);
+        MyApp.lectureList = FahrplanMisc.loadLecturesForDayIndex(appRepository, day);
         if (MyApp.lectureList == null) {
             return;
         }

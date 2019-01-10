@@ -77,8 +77,9 @@ public class ChangeListFragment extends AbstractListFragment {
         }
 
         FragmentActivity activity = getActivity();
-        changesList = FahrplanMisc.readChanges(activity);
-        Meta meta = AppRepository.Companion.getInstance(activity).readMeta();
+        AppRepository appRepository = AppRepository.Companion.getInstance(activity);
+        changesList = FahrplanMisc.readChanges(appRepository);
+        Meta meta = appRepository.readMeta();
         mAdapter = new LectureChangesArrayAdapter(activity, changesList, meta.getNumDays());
         MyApp.LogDebug(LOG_TAG, "onCreate, " + changesList.size() + " changes");
     }
@@ -128,7 +129,8 @@ public class ChangeListFragment extends AbstractListFragment {
     }
 
     public void onRefresh() {
-        List<Lecture> updatedChanges = FahrplanMisc.readChanges(getActivity());
+        AppRepository appRepository = AppRepository.Companion.getInstance(getActivity());
+        List<Lecture> updatedChanges = FahrplanMisc.readChanges(appRepository);
         if (changesList != null) {
             changesList.clear();
             changesList.addAll(updatedChanges);

@@ -165,21 +165,19 @@ public class FahrplanMisc {
     }
 
     @NonNull
-    public static List<Lecture> loadLecturesForAllDays(@NonNull Context context) {
-        return loadLecturesForDayIndex(context, ALL_DAYS);
+    public static List<Lecture> loadLecturesForAllDays(@NonNull AppRepository appRepository) {
+        return loadLecturesForDayIndex(appRepository, ALL_DAYS);
     }
 
     /**
      * Load all Lectures from the DB on the day specified
      *
-     * @param context The Android Context
-     * @param day     The day to load lectures for (0..), or -1 for all days
+     * @param appRepository The application repository to retrieve lectures from.
+     * @param day           The day to load lectures for (0..), or -1 for all days
      * @return ArrayList of Lecture objects
      */
     @NonNull
-    public static List<Lecture> loadLecturesForDayIndex(@NonNull Context context, int day) {
-        AppRepository appRepository = AppRepository.Companion.getInstance(context);
-
+    public static List<Lecture> loadLecturesForDayIndex(@NonNull AppRepository appRepository, int day) {
         List<Lecture> lectures;
         if (day == ALL_DAYS) {
             MyApp.LogDebug(LOG_TAG, "Loading lectures for all days.");
@@ -244,9 +242,9 @@ public class FahrplanMisc {
     }
 
     @NonNull
-    public static List<Lecture> readChanges(Context context) {
+    public static List<Lecture> readChanges(@NonNull AppRepository appRepository) {
         MyApp.LogDebug(LOG_TAG, "readChanges");
-        List<Lecture> changesList = loadLecturesForAllDays(context);
+        List<Lecture> changesList = loadLecturesForAllDays(appRepository);
         if (changesList.isEmpty()) {
             return changesList;
         }
@@ -263,8 +261,8 @@ public class FahrplanMisc {
     }
 
     @NonNull
-    public static List<Lecture> getStarredLectures(@NonNull Context context) {
-        List<Lecture> starredList = loadLecturesForAllDays(context);
+    public static List<Lecture> getStarredLectures(@NonNull AppRepository appRepository) {
+        List<Lecture> starredList = loadLecturesForAllDays(appRepository);
         if (starredList.isEmpty()) {
             return starredList;
         }

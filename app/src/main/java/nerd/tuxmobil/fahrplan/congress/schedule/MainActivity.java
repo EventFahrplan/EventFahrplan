@@ -286,8 +286,8 @@ public class MainActivity extends BaseActivity implements
         Fragment fragment = findFragment(ChangesDialog.FRAGMENT_TAG);
         if (fragment == null) {
             requiresScheduleReload = true;
-            List<Lecture> changedLectures = FahrplanMisc.readChanges(this);
             AppRepository appRepository = AppRepository.Companion.getInstance(this);
+            List<Lecture> changedLectures = FahrplanMisc.readChanges(appRepository);
             Meta meta = appRepository.readMeta();
             String scheduleVersion = meta.getVersion();
             DialogFragment changesDialog = ChangesDialog.newInstance(
