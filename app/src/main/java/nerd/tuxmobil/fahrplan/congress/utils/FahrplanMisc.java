@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 import android.text.format.Time;
 
 import org.ligi.tracedroid.logging.Log;
@@ -35,7 +36,8 @@ import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 public class FahrplanMisc {
 
     private static final String LOG_TAG = "FahrplanMisc";
-    private static final int ALL_DAYS = -1;
+    @VisibleForTesting
+    public static final int ALL_DAYS = -1;
     private static final DateFormat TIME_TEXT_DATE_FORMAT =
             SimpleDateFormat.getDateTimeInstance(SimpleDateFormat.SHORT, SimpleDateFormat.SHORT);
 
