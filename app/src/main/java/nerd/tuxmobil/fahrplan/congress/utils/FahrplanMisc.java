@@ -195,7 +195,7 @@ public class FahrplanMisc {
 
         List<Highlight> highlights = appRepository.readHighlights();
         for (Highlight highlight : highlights) {
-            MyApp.LogDebug(LOG_TAG, "highlight = " + highlight);
+            MyApp.LogDebug(LOG_TAG, highlight.toString());
             for (Lecture lecture : lectures) {
                 if (lecture.lecture_id.equals("" + highlight.getEventId())) {
                     lecture.highlight = highlight.isHighlight();
