@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Category general -->
+    <string name="preference_key_category_general" translatable="false">preference_key_category_general</string>
+
+    <!-- App notification settings -->
+    <string name="preference_key_app_notification_settings" translatable="false">app_notification_settings</string>
+    <string name="preference_title_app_notification_settings">Customize notifications &#8230;</string>
+
+</resources>

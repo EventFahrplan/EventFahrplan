@@ -1,13 +1,19 @@
 package nerd.tuxmobil.fahrplan.congress.settings;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.preference.Preference;
+import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 
@@ -62,6 +68,16 @@ public class SettingsActivity extends BaseActivity {
                         return true;
                     });
 
+            Preference appNotificationSettingsPreference = findPreference(getString(R.string.preference_key_app_notification_settings));
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+                PreferenceCategory categoryGeneral = (PreferenceCategory) findPreference(getString(R.string.preference_key_category_general));
+                categoryGeneral.removePreference(appNotificationSettingsPreference);
+            } else {
+                appNotificationSettingsPreference.setOnPreferenceClickListener(preference -> {
+                    launchAppNotificationSettings(preference.getContext());
+                    return true;
+                });
+            }
 
             findPreference("schedule_url")
                     .setOnPreferenceChangeListener((preference, newValue) -> {
@@ -118,5 +134,13 @@ public class SettingsActivity extends BaseActivity {
             }
             return defaultAlarmTimeValue;
         }
+
+        @TargetApi(Build.VERSION_CODES.O)
+        private void launchAppNotificationSettings(Context context) {
+            Intent intent = new Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
+            intent.putExtra(Settings.EXTRA_APP_PACKAGE, context.getPackageName());
+            startActivity(intent);
+        }
+
     }
 }
