@@ -7,8 +7,6 @@ import nerd.tuxmobil.fahrplan.congress.BuildConfig
 import nerd.tuxmobil.fahrplan.congress.navigation.C3navSnack
 import org.ligi.snackengage.SnackEngage
 
-private const val VENUE_LEIPZIG_MESSE = "leipzig-messe"
-
 @Suppress("ConstantConditionIf")
 fun AppCompatActivity.initUserEngagement() {
     val snackEngageBuilder = SnackEngage.from(this)
@@ -18,7 +16,7 @@ fun AppCompatActivity.initUserEngagement() {
     if (BuildConfig.ENGAGE_GOOGLE_BETA_TESTING) {
         snackEngageBuilder.withSnack(GooglePlayBetaTestingSnack(this))
     }
-    if (VENUE_LEIPZIG_MESSE == BuildConfig.VENUE) {
+    if (BuildConfig.ENGAGE_C3NAV_APP_INSTALLATION) {
         snackEngageBuilder.withSnack(C3navSnack(this))
     }
     snackEngageBuilder
