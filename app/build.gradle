@@ -119,6 +119,7 @@ android {
     lintOptions {
         // for okio - https://github.com/square/okio/issues/58
         warning "InvalidPackage"
+        warning "MissingDefaultResource"
     }
 
     compileOptions {
