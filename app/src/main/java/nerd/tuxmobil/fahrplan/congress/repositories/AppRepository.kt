@@ -122,6 +122,9 @@ class AppRepository private constructor(val context: Context) {
         highlightsDatabaseRepository.insert(values, lecture.lecture_id)
     }
 
+    fun readLectureByLectureId(lectureId: String) =
+            lecturesDatabaseRepository.queryLectureByLectureId(lectureId).first().toLectureAppModel()
+
     fun readLecturesForDayIndexOrderedByDateUtc(dayIndex: Int) =
             lecturesDatabaseRepository.queryLecturesForDayIndexOrderedByDateUtc(dayIndex).toLecturesAppModel()
 

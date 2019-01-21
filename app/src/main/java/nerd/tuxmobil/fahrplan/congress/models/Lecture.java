@@ -192,6 +192,23 @@ public class Lecture {
         changedDuration = false;
     }
 
+    public String getChangedStateString() {
+        return "Lecture{" +
+                "changedTitle=" + changedTitle +
+                ", changedSubtitle=" + changedSubtitle +
+                ", changedRoom=" + changedRoom +
+                ", changedDay=" + changedDay +
+                ", changedTime=" + changedTime +
+                ", changedDuration=" + changedDuration +
+                ", changedSpeakers=" + changedSpeakers +
+                ", changedRecordingOptOut=" + changedRecordingOptOut +
+                ", changedLanguage=" + changedLanguage +
+                ", changedTrack=" + changedTrack +
+                ", changedIsNew=" + changedIsNew +
+                ", changedIsCanceled=" + changedIsCanceled +
+                '}';
+    }
+
     public boolean isChanged() {
         return changedDay || changedDuration ||
                 changedLanguage || changedRecordingOptOut ||

@@ -335,7 +335,9 @@ public class EventDetailFragment extends Fragment {
                 return lecture;
             }
         }
-        throw new IllegalStateException("Lecture list does not contain eventId: " + eventId);
+        Lecture lecture = AppRepository.Companion.getInstance(getActivity()).readLectureByLectureId(eventId);
+        Log.d(LOG_TAG, lecture.lecture_id + ": " + lecture.getChangedStateString());
+        throw new IllegalStateException("Lecture list does not contain eventId: " + eventId + ", lecture: " + lecture.getChangedStateString());
     }
 
     @Override
