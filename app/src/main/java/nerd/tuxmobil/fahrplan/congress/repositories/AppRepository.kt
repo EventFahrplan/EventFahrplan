@@ -2,7 +2,6 @@ package nerd.tuxmobil.fahrplan.congress.repositories
 
 import android.content.Context
 import android.net.Uri
-import android.text.TextUtils
 import info.metadude.android.eventfahrplan.database.extensions.toContentValues
 import info.metadude.android.eventfahrplan.database.repositories.AlarmsDatabaseRepository
 import info.metadude.android.eventfahrplan.database.repositories.HighlightsDatabaseRepository
@@ -151,7 +150,7 @@ class AppRepository private constructor(val context: Context) {
 
     fun readScheduleUrl(): String {
         val alternateScheduleUrl = sharedPreferencesRepository.getScheduleUrl()
-        return if (TextUtils.isEmpty(alternateScheduleUrl)) {
+        return if (alternateScheduleUrl.isNullOrEmpty()) {
             BuildConfig.SCHEDULE_URL
         } else {
             alternateScheduleUrl
