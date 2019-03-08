@@ -61,4 +61,6 @@ private fun Event.getCalendarDescription(context: Context): String = with(String
     return toString()
 }
 
-private fun String.separateByHtmlLineBreaks() = replace("\\),".toRegex(), ")<br>")
+private fun String.separateByHtmlLineBreaks() =
+// language=regex
+        replace("\\),".toRegex(), ")<br>")

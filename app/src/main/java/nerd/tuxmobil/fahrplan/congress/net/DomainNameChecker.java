@@ -41,6 +41,7 @@ public class DomainNameChecker {
 
     static {
         try {
+            // language=regex
             QUICK_IP_PATTERN = Pattern.compile("^[a-f0-9\\.:]+$");
         } catch (PatternSyntaxException e) {
         }

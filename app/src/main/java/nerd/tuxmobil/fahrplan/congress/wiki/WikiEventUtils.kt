@@ -3,6 +3,7 @@
 package nerd.tuxmobil.fahrplan.congress.wiki
 
 private val WIKI_LINK_REGEX by lazy {
+    // language=regex
     Regex("(.*)(https://events.ccc.de/congress/)(\\d{4})(/wiki/index.php/Session:)(.*)")
 }
 
