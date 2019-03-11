@@ -1,7 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.about;
 
-import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
 import android.text.Html;
@@ -27,7 +27,7 @@ public class AboutDialog extends DialogFragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setStyle(DialogFragment.STYLE_NO_TITLE, R.style.Dialog);
     }
@@ -53,13 +53,11 @@ public class AboutDialog extends DialogFragment {
         String appVersionText = getString(R.string.appVersion, BuildConfig.VERSION_NAME);
         text.setText(appVersionText);
 
-        Context context = getContext();
-
         View appDisclaimer = view.findViewById(R.id.app_disclaimer);
         //noinspection ConstantConditions
         appDisclaimer.setVisibility(BuildConfig.SHOW_APP_DISCLAIMER ? View.VISIBLE : View.GONE);
 
-        int linkTextColor = ContextCompat.getColor(context, R.color.text_link_color_dark);
+        int linkTextColor = ContextCompat.getColor(view.getContext(), R.color.text_link_color_dark);
         MovementMethod movementMethod = LinkMovementMethod.getInstance();
 
         TextView logo_copyright = view.findViewById(R.id.copyright_logo);

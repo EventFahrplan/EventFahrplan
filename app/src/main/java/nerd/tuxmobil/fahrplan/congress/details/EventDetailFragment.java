@@ -7,6 +7,7 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
@@ -100,7 +101,7 @@ public class EventDetailFragment extends Fragment {
     private boolean hasArguments = false;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         MyApp.LogDebug(LOG_TAG, "onCreate");
@@ -261,7 +262,7 @@ public class EventDetailFragment extends Fragment {
                                    @NonNull String text) {
         textView.setTypeface(typeface);
         textView.setText(Html.fromHtml(text), TextView.BufferType.SPANNABLE);
-        textView.setLinkTextColor(ContextCompat.getColor(getActivity(), R.color.text_link_color));
+        textView.setLinkTextColor(ContextCompat.getColor(textView.getContext(), R.color.text_link_color));
         textView.setMovementMethod(new LinkMovementMethod());
         textView.setVisibility(View.VISIBLE);
     }
@@ -435,7 +436,7 @@ public class EventDetailFragment extends Fragment {
 
     private void closeFragment(@NonNull String fragmentTag) {
         FragmentActivity activity = getActivity();
-        if (activity != null && activity instanceof OnSidePaneCloseListener) {
+        if (activity instanceof OnSidePaneCloseListener) {
             ((OnSidePaneCloseListener) activity).onSidePaneClose(fragmentTag);
         }
     }

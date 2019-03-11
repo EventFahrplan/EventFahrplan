@@ -2,6 +2,7 @@ package nerd.tuxmobil.fahrplan.congress.changes;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
@@ -67,7 +68,7 @@ public class ChangeListFragment extends AbstractListFragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         Bundle args = getArguments();

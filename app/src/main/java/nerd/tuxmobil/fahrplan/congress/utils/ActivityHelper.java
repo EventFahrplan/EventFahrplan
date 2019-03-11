@@ -2,12 +2,13 @@ package nerd.tuxmobil.fahrplan.congress.utils;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
 
 public class ActivityHelper {
 
-    public static boolean navigateUp(final Activity activity) {
+    public static boolean navigateUp(@NonNull final Activity activity) {
         Intent upIntent = NavUtils.getParentActivityIntent(activity);
         if (NavUtils.shouldUpRecreateTask(activity, upIntent)) {
             // This activity is NOT part of this app's task, so create a new task

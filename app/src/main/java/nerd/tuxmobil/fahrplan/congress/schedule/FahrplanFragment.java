@@ -12,6 +12,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
@@ -148,7 +149,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
     private Lecture lastSelectedLecture;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         boldCondensed = Typeface.createFromAsset(
@@ -184,6 +185,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        Context context = view.getContext();
         global = (MyApp) getActivity().getApplicationContext();
         scale = getResources().getDisplayMetrics().density;
         screenWidth = getResources().getDisplayMetrics().widthPixels;
@@ -204,15 +206,15 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
             roomScroller.setOnTouchListener((v, event) -> true);
         }
 
-        trackNameBackgroundColorDefaultPairs = TrackBackgrounds.getTrackNameBackgroundColorDefaultPairs(getActivity());
-        trackNameBackgroundColorHighlightPairs = TrackBackgrounds.getTrackNameBackgroundColorHighlightPairs(getActivity());
-        trackAccentColors = TrackBackgrounds.getTrackAccentColorNormal(getActivity());
-        trackAccentColorsHighlight = TrackBackgrounds.getTrackAccentColorHighlight(getActivity());
+        trackNameBackgroundColorDefaultPairs = TrackBackgrounds.getTrackNameBackgroundColorDefaultPairs(context);
+        trackNameBackgroundColorHighlightPairs = TrackBackgrounds.getTrackNameBackgroundColorHighlightPairs(context);
+        trackAccentColors = TrackBackgrounds.getTrackAccentColorNormal(context);
+        trackAccentColorsHighlight = TrackBackgrounds.getTrackAccentColorHighlight(context);
 
-        SharedPreferences prefs = getActivity().getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
         mDay = prefs.getInt("displayDay", 1);
 
-        inflater = Contexts.getLayoutInflater(getActivity());
+        inflater = Contexts.getLayoutInflater(context);
 
         Intent intent = getActivity().getIntent();
         lecture_id = intent.getStringExtra("lecture_id");
@@ -599,9 +601,8 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
         TextView title = view.findViewById(R.id.event_title);
         TextView subtitle = view.findViewById(R.id.event_subtitle);
         TextView speakers = view.findViewById(R.id.event_speakers);
-        Context context = getContext();
         int colorResId = lecture.highlight ? R.color.event_title_highlight : R.color.event_title;
-        int textColor = ContextCompat.getColor(context, colorResId);
+        int textColor = ContextCompat.getColor(view.getContext(), colorResId);
         title.setTextColor(textColor);
         subtitle.setTextColor(textColor);
         speakers.setTextColor(textColor);
