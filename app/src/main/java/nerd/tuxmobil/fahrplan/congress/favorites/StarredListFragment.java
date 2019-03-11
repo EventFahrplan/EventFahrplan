@@ -5,7 +5,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.text.format.Time;
@@ -248,7 +247,7 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
             case R.id.menu_item_delete_favorite:
                 deleteItems(mListView.getCheckedItemPositions());
                 Activity activity = requireActivity();
-                ActivityCompat.invalidateOptionsMenu(activity);
+                activity.invalidateOptionsMenu();
                 refreshViews(activity);
                 mode.finish();
                 return true;
@@ -314,7 +313,7 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
             deleteItem(0);
         }
         Activity activity = requireActivity();
-        ActivityCompat.invalidateOptionsMenu(activity);
+        activity.invalidateOptionsMenu();
         refreshViews(activity);
     }
 
