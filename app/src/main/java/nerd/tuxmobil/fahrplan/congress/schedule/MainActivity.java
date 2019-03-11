@@ -202,7 +202,7 @@ public class MainActivity extends BaseActivity implements
             ((FahrplanFragment) fragment).onParseDone(result, version);
         }
         fragment = findFragment(ChangeListFragment.FRAGMENT_TAG);
-        if (fragment != null && fragment instanceof ChangeListFragment) {
+        if (fragment instanceof ChangeListFragment) {
             ((ChangeListFragment) fragment).onRefresh();
         }
 

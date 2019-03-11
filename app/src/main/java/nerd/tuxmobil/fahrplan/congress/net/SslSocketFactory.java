@@ -84,7 +84,7 @@ public class SslSocketFactory extends SSLSocketFactory {
     }
 
     private Socket enableTlsOnSocket(Socket socket) {
-        if (socket != null && socket instanceof SSLSocket) {
+        if (socket instanceof SSLSocket) {
             ((SSLSocket) socket).setEnabledProtocols(ENABLED_PROTOCOLS);
         }
         return socket;

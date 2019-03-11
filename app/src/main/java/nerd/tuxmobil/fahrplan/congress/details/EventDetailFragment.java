@@ -435,7 +435,7 @@ public class EventDetailFragment extends Fragment {
 
     private void closeFragment(@NonNull String fragmentTag) {
         FragmentActivity activity = getActivity();
-        if (activity != null && activity instanceof OnSidePaneCloseListener) {
+        if (activity instanceof OnSidePaneCloseListener) {
             ((OnSidePaneCloseListener) activity).onSidePaneClose(fragmentTag);
         }
     }
