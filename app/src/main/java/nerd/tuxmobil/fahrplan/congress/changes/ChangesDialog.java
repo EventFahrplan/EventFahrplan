@@ -9,7 +9,6 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.Spannable;
@@ -66,7 +65,7 @@ public class ChangesDialog extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        Activity activity = getActivity();
+        Activity activity = requireActivity();
         AlertDialog.Builder builder = new AlertDialog.Builder(activity)
                 .setTitle(getString(R.string.schedule_changes_dialog_title))
                 .setPositiveButton(R.string.schedule_changes_dialog_browse, (dialog, which) -> onBrowse())
@@ -97,7 +96,7 @@ public class ChangesDialog extends DialogFragment {
 
     private void onBrowse() {
         flagChangesAsSeen();
-        FragmentActivity activity = getActivity();
+        Activity activity = requireActivity();
         if (activity instanceof MainActivity) {
             ((MainActivity) activity).openLectureChanges(requiresScheduleReload);
         }
@@ -108,7 +107,7 @@ public class ChangesDialog extends DialogFragment {
     }
 
     private void flagChangesAsSeen() {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(requireContext());
         SharedPreferences.Editor edit = prefs.edit();
         edit.putBoolean(BundleKeys.PREFS_CHANGES_SEEN, true);
         edit.commit();

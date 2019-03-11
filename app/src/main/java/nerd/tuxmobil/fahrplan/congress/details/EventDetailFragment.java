@@ -1,6 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress.details;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Typeface;
@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.text.TextUtils;
@@ -139,7 +138,7 @@ public class EventDetailFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        FragmentActivity activity = getActivity();
+        Activity activity = requireActivity();
         if (hasArguments) {
             AssetManager assetManager = activity.getAssets();
             boldCondensed = Typeface.createFromAsset(assetManager, "Roboto-BoldCondensed.ttf");
@@ -245,7 +244,7 @@ public class EventDetailFragment extends Fragment {
 
             activity.invalidateOptionsMenu();
         }
-        activity.setResult(FragmentActivity.RESULT_CANCELED);
+        activity.setResult(Activity.RESULT_CANCELED);
     }
 
     private void setUpTextView(@NonNull TextView textView,
@@ -319,7 +318,7 @@ public class EventDetailFragment extends Fragment {
 
     @NonNull
     private String getRoomConvertedForC3Nav() {
-        String currentRoom = getActivity().getIntent().getStringExtra(BundleKeys.EVENT_ROOM);
+        String currentRoom = requireActivity().getIntent().getStringExtra(BundleKeys.EVENT_ROOM);
         if (currentRoom == null) {
             currentRoom = room;
         }
@@ -336,7 +335,7 @@ public class EventDetailFragment extends Fragment {
                 return lecture;
             }
         }
-        Lecture lecture = AppRepository.Companion.getInstance(getActivity()).readLectureByLectureId(eventId);
+        Lecture lecture = AppRepository.Companion.getInstance(requireContext()).readLectureByLectureId(eventId);
         Log.d(LOG_TAG, lecture.lecture_id + ": " + lecture.getChangedStateString());
         throw new IllegalStateException("Lecture list does not contain eventId: " + eventId + ", lecture: " + lecture.getChangedStateString());
     }
@@ -357,7 +356,7 @@ public class EventDetailFragment extends Fragment {
     }
 
     private void onAlarmTimesIndexPicked(int alarmTimesIndex) {
-        FragmentActivity activity = getActivity();
+        Activity activity = requireActivity();
         if (lecture != null) {
             FahrplanMisc.addAlarm(activity, lecture, alarmTimesIndex);
         } else {
@@ -368,7 +367,7 @@ public class EventDetailFragment extends Fragment {
 
     public boolean onOptionsItemSelected(MenuItem item) {
         Lecture l;
-        FragmentActivity activity = getActivity();
+        Activity activity = requireActivity();
         switch (item.getItemId()) {
             case R.id.menu_item_feedback: {
                 l = eventIdToLecture(event_id);
@@ -381,9 +380,8 @@ public class EventDetailFragment extends Fragment {
             case R.id.menu_item_share_event:
                 l = eventIdToLecture(event_id);
                 String formattedLecture = SimpleLectureFormat.format(l);
-                Context context = getContext();
-                if (!LectureSharer.shareSimple(context, formattedLecture)) {
-                    Toast.makeText(context, R.string.share_error_activity_not_found, Toast.LENGTH_SHORT).show();
+                if (!LectureSharer.shareSimple(activity, formattedLecture)) {
+                    Toast.makeText(activity, R.string.share_error_activity_not_found, Toast.LENGTH_SHORT).show();
                 }
                 return true;
             case R.id.menu_item_add_to_calendar:
@@ -393,14 +391,14 @@ public class EventDetailFragment extends Fragment {
             case R.id.menu_item_flag_as_favorite:
                 if (lecture != null) {
                     lecture.highlight = true;
-                    AppRepository.Companion.getInstance(getActivity()).updateHighlight(lecture);
+                    AppRepository.Companion.getInstance(activity).updateHighlight(lecture);
                 }
                 refreshUI(activity);
                 return true;
             case R.id.menu_item_unflag_as_favorite:
                 if (lecture != null) {
                     lecture.highlight = false;
-                    AppRepository.Companion.getInstance(getActivity()).updateHighlight(lecture);
+                    AppRepository.Companion.getInstance(activity).updateHighlight(lecture);
                 }
                 refreshUI(activity);
                 return true;
@@ -414,7 +412,7 @@ public class EventDetailFragment extends Fragment {
                 refreshUI(activity);
                 return true;
             case R.id.menu_item_close_event_details:
-                closeFragment(FRAGMENT_TAG);
+                closeFragment(activity, FRAGMENT_TAG);
                 return true;
             case R.id.menu_item_navigate:
                 final Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -426,16 +424,15 @@ public class EventDetailFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-    private void refreshUI(@NonNull FragmentActivity activity) {
+    private void refreshUI(@NonNull Activity activity) {
         activity.invalidateOptionsMenu();
-        activity.setResult(FragmentActivity.RESULT_OK);
+        activity.setResult(Activity.RESULT_OK);
         if (activity instanceof FahrplanFragment.OnRefreshEventMarkers) {
             ((FahrplanFragment.OnRefreshEventMarkers) activity).refreshEventMarkers();
         }
     }
 
-    private void closeFragment(@NonNull String fragmentTag) {
-        FragmentActivity activity = getActivity();
+    private void closeFragment(@NonNull Activity activity, @NonNull String fragmentTag) {
         if (activity instanceof OnSidePaneCloseListener) {
             ((OnSidePaneCloseListener) activity).onSidePaneClose(fragmentTag);
         }

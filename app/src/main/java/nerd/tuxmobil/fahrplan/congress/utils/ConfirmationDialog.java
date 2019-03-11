@@ -50,7 +50,7 @@ public class ConfirmationDialog extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext())
                 .setTitle(dlgTitle)
                 .setPositiveButton(R.string.dlg_delete_all_favorites_delete_all, (dialog, which) -> {
                     if (listener != null) {

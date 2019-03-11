@@ -1,12 +1,12 @@
 package nerd.tuxmobil.fahrplan.congress.favorites;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.text.format.Time;
 import android.util.SparseBooleanArray;
@@ -99,7 +99,7 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(),
+        final Context contextThemeWrapper = new ContextThemeWrapper(requireContext(),
                 R.style.Theme_AppCompat_Light);
 
         LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
@@ -128,11 +128,11 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
     }
 
     private void initStarredList() {
-        FragmentActivity activity = getActivity();
-        AppRepository appRepository = AppRepository.Companion.getInstance(activity);
+        Context context = requireContext();
+        AppRepository appRepository = AppRepository.Companion.getInstance(context);
         starredList = FahrplanMisc.getStarredLectures(appRepository);
         Meta meta = appRepository.readMeta();
-        mAdapter = new LectureArrayAdapter(activity, starredList, meta.getNumDays());
+        mAdapter = new LectureArrayAdapter(context, starredList, meta.getNumDays());
         MyApp.LogDebug(LOG_TAG, "initStarredList: " + starredList.size() + " favorites");
         mListView.setAdapter(mAdapter);
     }
@@ -219,7 +219,7 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
                 askToDeleteAllFavorites();
                 return true;
             case android.R.id.home:
-                return ActivityHelper.navigateUp(getActivity());
+                return ActivityHelper.navigateUp(requireActivity());
         }
         return super.onOptionsItemSelected(item);
     }
@@ -247,8 +247,9 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
         switch (item.getItemId()) {
             case R.id.menu_item_delete_favorite:
                 deleteItems(mListView.getCheckedItemPositions());
-                ActivityCompat.invalidateOptionsMenu(getActivity());
-                refreshViews();
+                Activity activity = requireActivity();
+                ActivityCompat.invalidateOptionsMenu(activity);
+                refreshViews(activity);
                 mode.finish();
                 return true;
             default:
@@ -259,7 +260,7 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
     private void deleteItem(int index) {
         Lecture l = starredList.get(index);
         l.highlight = false;
-        AppRepository.Companion.getInstance(getActivity()).updateHighlight(l);
+        AppRepository.Companion.getInstance(requireContext()).updateHighlight(l);
         if (MyApp.lectureList != null) {
             for (int j = 0; j < MyApp.lectureList.size(); j++) {
                 Lecture lecture = MyApp.lectureList.get(j);
@@ -280,14 +281,13 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
         }
     }
 
-    private void refreshViews() {
-        FragmentActivity activity = getActivity();
+    private void refreshViews(@NonNull Activity activity) {
         if (activity instanceof MainActivity) {
             ((MainActivity) activity).refreshEventMarkers();
         }
         mAdapter.notifyDataSetChanged();
-        getActivity().setResult(FragmentActivity.RESULT_OK);
-        getActivity().invalidateOptionsMenu();
+        activity.setResult(Activity.RESULT_OK);
+        activity.invalidateOptionsMenu();
     }
 
     @Override
@@ -296,7 +296,7 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
     }
 
     private void askToDeleteAllFavorites() {
-        FragmentManager fm = getActivity().getSupportFragmentManager();
+        FragmentManager fm = requireActivity().getSupportFragmentManager();
         Fragment fragment = fm.findFragmentByTag(ConfirmationDialog.FRAGMENT_TAG);
         if (fragment == null) {
             ConfirmationDialog confirm = ConfirmationDialog.newInstance(
@@ -313,14 +313,15 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
         for (int i = 0; i < count; i++) {
             deleteItem(0);
         }
-        ActivityCompat.invalidateOptionsMenu(getActivity());
-        refreshViews();
+        Activity activity = requireActivity();
+        ActivityCompat.invalidateOptionsMenu(activity);
+        refreshViews(activity);
     }
 
     private void shareLectures() {
         String formattedLectures = SimpleLectureFormat.format(starredList);
         if (formattedLectures != null) {
-            Context context = getContext();
+            Context context = requireContext();
             if (!LectureSharer.shareSimple(context, formattedLectures)) {
                 Toast.makeText(context, R.string.share_error_activity_not_found, Toast.LENGTH_SHORT).show();
             }

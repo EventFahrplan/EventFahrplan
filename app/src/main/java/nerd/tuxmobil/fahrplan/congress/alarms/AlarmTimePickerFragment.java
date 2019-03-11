@@ -41,7 +41,7 @@ public class AlarmTimePickerFragment extends DialogFragment {
                             int requestCode) {
         DialogFragment dialogFragment = new AlarmTimePickerFragment();
         dialogFragment.setTargetFragment(invokingFragment, requestCode);
-        FragmentActivity activity = invokingFragment.getActivity();
+        FragmentActivity activity = invokingFragment.requireActivity();
         FragmentManager fragmentManager = activity.getSupportFragmentManager();
         dialogFragment.show(fragmentManager, FRAGMENT_TAG);
     }
@@ -49,17 +49,17 @@ public class AlarmTimePickerFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        Context activity = getActivity();
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
-        int defaultAlarmTimeIndex = activity.getResources().getInteger(R.integer.default_alarm_time_index);
+        Context context = requireContext();
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        int defaultAlarmTimeIndex = context.getResources().getInteger(R.integer.default_alarm_time_index);
         alarmTimeIndex = prefs.getInt(BundleKeys.PREFS_ALARM_TIME_INDEX, defaultAlarmTimeIndex);
-        LayoutInflater inflater = Contexts.getLayoutInflater(activity);
+        LayoutInflater inflater = Contexts.getLayoutInflater(context);
         @SuppressLint("InflateParams")
         View layout = inflater.inflate(R.layout.reminder_dialog, null, false);
         // https://possiblemobile.com/2013/05/layout-inflation-as-intended/
         initializeSpinner(layout);
 
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity);
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
         dialogBuilder
                 .setView(layout)
                 .setTitle(R.string.choose_alarm_time)
