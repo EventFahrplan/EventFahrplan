@@ -262,7 +262,7 @@ public class EventDetailFragment extends Fragment {
                                    @NonNull String text) {
         textView.setTypeface(typeface);
         textView.setText(Html.fromHtml(text), TextView.BufferType.SPANNABLE);
-        textView.setLinkTextColor(ContextCompat.getColor(getActivity(), R.color.text_link_color));
+        textView.setLinkTextColor(ContextCompat.getColor(textView.getContext(), R.color.text_link_color));
         textView.setMovementMethod(new LinkMovementMethod());
         textView.setVisibility(View.VISIBLE);
     }
