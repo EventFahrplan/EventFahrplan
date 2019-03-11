@@ -3,6 +3,7 @@ package nerd.tuxmobil.fahrplan.congress.changes;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 
@@ -20,7 +21,7 @@ public class ChangeListActivity extends BaseActivity implements
     private static final String LOG_TAG = "ChangeListActivity";
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_list);
         Toolbar toolbar = findViewById(R.id.toolbar);
