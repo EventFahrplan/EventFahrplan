@@ -15,7 +15,7 @@ object Versions {
     val okhttp = "3.12.1"
     val snackengage = "0.18"
     val sonarQubeGradle = "2.7"
-    val supportLibrary = "26.1.0"
+    val supportLibrary = "27.1.1"
     val testRules = "1.0.2"
     val threeTenBp = "1.3.8"
     val tracedroid = "1.4"
@@ -23,9 +23,9 @@ object Versions {
 
 object Android {
     val buildToolsVersion = "28.0.3"
-    val compileSdkVersion = 26
+    val compileSdkVersion = 27
     val minSdkVersion = 14
-    val targetSdkVersion = 26
+    val targetSdkVersion = 27
 }
 
 object GradlePlugins {
