@@ -12,7 +12,6 @@ import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -171,13 +170,13 @@ public class MainActivity extends BaseActivity implements
             CustomHttpClient.showHttpError(this, status, fetchScheduleResult.getHostName());
             progressBar.setVisibility(View.INVISIBLE);
             showUpdateAction = true;
-            supportInvalidateOptionsMenu();
+            invalidateOptionsMenu();
             return;
         }
         MyApp.LogDebug(LOG_TAG, "yehhahh");
         progressBar.setVisibility(View.INVISIBLE);
         showUpdateAction = true;
-        supportInvalidateOptionsMenu();
+        invalidateOptionsMenu();
 
         MyApp.fahrplan_xml = fetchScheduleResult.getScheduleXml();
         MyApp.meta.setETag(fetchScheduleResult.getETag());
@@ -197,7 +196,7 @@ public class MainActivity extends BaseActivity implements
         }
         progressBar.setVisibility(View.INVISIBLE);
         showUpdateAction = true;
-        supportInvalidateOptionsMenu();
+        invalidateOptionsMenu();
         Fragment fragment = findFragment(FahrplanFragment.FRAGMENT_TAG);
         if (fragment != null) {
             ((FahrplanFragment) fragment).onParseDone(result, version);
@@ -222,7 +221,7 @@ public class MainActivity extends BaseActivity implements
             MyApp.LogDebug(LOG_TAG, "show fetch status");
             progressBar.setVisibility(View.VISIBLE);
             showUpdateAction = false;
-            supportInvalidateOptionsMenu();
+            invalidateOptionsMenu();
         }
     }
 
@@ -234,7 +233,7 @@ public class MainActivity extends BaseActivity implements
             MyApp.LogDebug(LOG_TAG, "show parse status");
             progressBar.setVisibility(View.VISIBLE);
             showUpdateAction = false;
-            supportInvalidateOptionsMenu();
+            invalidateOptionsMenu();
         }
     }
 
@@ -442,7 +441,7 @@ public class MainActivity extends BaseActivity implements
         FragmentManager manager = getSupportFragmentManager();
         int detailView = R.id.detail;
         toggleSidePaneVisibility(manager, detailView);
-        supportInvalidateOptionsMenu();
+        invalidateOptionsMenu();
     }
 
     private void showProgressDialog(@StringRes int message) {
@@ -474,7 +473,7 @@ public class MainActivity extends BaseActivity implements
         if (fragment != null) {
             ((StarredListFragment) fragment).onRefresh(this);
         }
-        ActivityCompat.invalidateOptionsMenu(this);
+        invalidateOptionsMenu();
     }
 
     private void openFavorites() {

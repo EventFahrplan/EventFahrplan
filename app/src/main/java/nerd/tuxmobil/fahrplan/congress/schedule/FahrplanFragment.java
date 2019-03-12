@@ -1,5 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress.schedule;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -69,8 +70,6 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
 
         void refreshEventMarkers();
     }
-
-    private MyApp global;
 
     private static String LOG_TAG = "Fahrplan";
 
@@ -152,11 +151,11 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        context = requireContext();
         boldCondensed = Typeface.createFromAsset(
-                getActivity().getAssets(), "Roboto-BoldCondensed.ttf");
+                context.getAssets(), "Roboto-BoldCondensed.ttf");
         light = Typeface.createFromAsset(
-                getActivity().getAssets(), "Roboto-Light.ttf");
-        context = getActivity();
+                context.getAssets(), "Roboto-Light.ttf");
         Resources resources = getResources();
         eventDrawableInsetTop = resources.getDimensionPixelSize(
                 R.dimen.event_drawable_inset_top);
@@ -169,24 +168,23 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
         eventDrawableStrokeWidth = resources.getDimensionPixelSize(
                 R.dimen.event_drawable_selection_stroke_width);
         eventDrawableStrokeColor = ContextCompat.getColor(
-                context, R.color.event_drawable_selection_stroke);
+                FahrplanFragment.context, R.color.event_drawable_selection_stroke);
         eventDrawableRippleColor = ContextCompat.getColor(
-                context, R.color.event_drawable_ripple);
+                FahrplanFragment.context, R.color.event_drawable_ripple);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater,
-                             ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.schedule, container, false);
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         Context context = view.getContext();
-        global = (MyApp) getActivity().getApplicationContext();
         scale = getResources().getDisplayMetrics().density;
         screenWidth = getResources().getDisplayMetrics().widthPixels;
         MyApp.LogDebug(LOG_TAG, "screen width = " + screenWidth);
@@ -216,7 +214,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
 
         inflater = Contexts.getLayoutInflater(context);
 
-        Intent intent = getActivity().getIntent();
+        Intent intent = requireActivity().getIntent();
         lecture_id = intent.getStringExtra("lecture_id");
 
         if (lecture_id != null) {
@@ -231,7 +229,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
     }
 
     private void saveCurrentDay(int day) {
-        SharedPreferences settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences settings = requireContext().getSharedPreferences(PREFS_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();
         editor.putInt("displayDay", day);
         editor.apply();
@@ -250,9 +248,10 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
             }
         }
         super.onResume();
-        getActivity().invalidateOptionsMenu();
+        Activity activity = requireActivity();
+        activity.invalidateOptionsMenu();
 
-        Intent intent = getActivity().getIntent();
+        Intent intent = activity.getIntent();
 
         Log.d(LOG_TAG, "lecture_id = " + lecture_id);
         lecture_id = intent.getStringExtra("lecture_id");
@@ -286,10 +285,10 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
 
         if (lecture_id != null) {
             scrollTo(lecture_id);
-            FrameLayout sidePane = getActivity().findViewById(R.id.detail);
+            FrameLayout sidePane = activity.findViewById(R.id.detail);
             if (sidePane != null) {
                 Lecture lecture = LectureUtils.getLecture(MyApp.lectureList, lecture_id);
-                ((MainActivity) getActivity()).openLectureDetail(lecture, mDay, false);
+                ((MainActivity) activity).openLectureDetail(lecture, mDay, false);
             }
             intent.removeExtra("lecture_id");   // jump to given lecture_id only once
         }
@@ -299,7 +298,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
     private void viewDay(boolean reload) {
         Log.d(LOG_TAG, "viewDay(" + reload + ")");
 
-        loadLectureList(getActivity(), mDay, reload);
+        loadLectureList(requireContext(), mDay, reload);
         List<Lecture> lectures = MyApp.lectureList;
         if (lectures != null && !lectures.isEmpty()) {
             conference.calculateTimeFrame(lectures, DateHelper::getMinutesOfDay);
@@ -331,7 +330,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
     }
 
     private void updateNavigationMenuSelection() {
-        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        AppCompatActivity activity = (AppCompatActivity) requireActivity();
         ActionBar actionbar = activity.getSupportActionBar();
         Log.d(LOG_TAG, "MyApp.meta = " + MyApp.meta);
         if (actionbar != null && MyApp.meta.getNumDays() > 1) {
@@ -554,7 +553,8 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
     }
 
     private void setLectureBackground(Lecture event, View eventView) {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        Context context = eventView.getContext();
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         boolean defaultValue = getResources().getBoolean(R.bool.preferences_alternative_highlight_enabled_default_value);
         boolean alternativeHighlightingIsEnabled = prefs.getBoolean(
                 BundleKeys.PREFS_ALTERNATIVE_HIGHLIGHT, defaultValue);
@@ -567,7 +567,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
             Integer colorResId = trackNameBackgroundColorDefaultPairs.get(event.track);
             backgroundColorResId = colorResId == null ? R.color.event_border_default : colorResId;
         }
-        @ColorInt int backgroundColor = ContextCompat.getColor(getContext(), backgroundColorResId);
+        @ColorInt int backgroundColor = ContextCompat.getColor(context, backgroundColorResId);
         EventDrawable eventDrawable;
         if (eventIsFavored && alternativeHighlightingIsEnabled) {
             eventDrawable = new EventDrawable(
@@ -780,9 +780,9 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
     public void onClick(View v) {
         Lecture lecture = (Lecture) v.getTag();
         MyApp.LogDebug(LOG_TAG, "Click on " + lecture.title);
-        MainActivity main = (MainActivity) getActivity();
-        if (main != null) {
-            main.openLectureDetail(lecture, mDay, false);
+        MainActivity mainActivity = (MainActivity) requireActivity();
+        if (mainActivity != null) {
+            mainActivity.openLectureDetail(lecture, mDay, false);
         }
     }
 
@@ -796,7 +796,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
                 getString(R.string.day),
                 getString(R.string.today)
         );
-        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        ActionBar actionBar = ((AppCompatActivity) requireActivity()).getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
                 actionBar.getThemedContext(),
@@ -807,15 +807,16 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
     }
 
     public void onParseDone(Boolean result, String version) {
+        Activity activity = requireActivity();
         if (result) {
             if (MyApp.meta.getNumDays() == 0 || !version.equals(MyApp.meta.getVersion())) {
-                AppRepository appRepository = AppRepository.Companion.getInstance(context);
+                AppRepository appRepository = AppRepository.Companion.getInstance(activity);
                 MyApp.meta = appRepository.readMeta();
-                FahrplanMisc.loadDays(getActivity());
+                FahrplanMisc.loadDays(activity);
                 if (MyApp.meta.getNumDays() > 1) {
                     buildNavigationMenu();
                 }
-                SharedPreferences prefs = getActivity().getSharedPreferences(PREFS_NAME, 0);
+                SharedPreferences prefs = activity.getSharedPreferences(PREFS_NAME, 0);
                 mDay = prefs.getInt("displayDay", 1);
                 if (mDay > MyApp.meta.getNumDays()) {
                     mDay = 1;
@@ -827,11 +828,11 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
             }
         } else {
             Toast.makeText(
-                    global.getApplicationContext(),
+                    activity,
                     getParsingErrorMessage(version),
                     Toast.LENGTH_LONG).show();
         }
-        getActivity().invalidateOptionsMenu();
+        activity.invalidateOptionsMenu();
     }
 
     private String getParsingErrorMessage(final String version) {
@@ -862,7 +863,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
             Log.e(getClass().getName(), "onAlarmTimesIndexPicked: lecture: null. alarmTimesIndex: " + alarmTimesIndex);
             throw new NullPointerException("Lecture is null.");
         }
-        FahrplanMisc.addAlarm(getActivity(), lastSelectedLecture, alarmTimesIndex);
+        FahrplanMisc.addAlarm(requireContext(), lastSelectedLecture, alarmTimesIndex);
         setBell(lastSelectedLecture);
         updateMenuItems();
     }
@@ -875,32 +876,29 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
 
         MyApp.LogDebug(LOG_TAG, "clicked on " + ((Lecture) contextMenuView.getTag()).lecture_id);
 
+        Context context = requireContext();
         switch (menuItemIndex) {
             case CONTEXT_MENU_ITEM_ID_FAVORITES:
                 lecture.highlight = !lecture.highlight;
                 AppRepository.Companion.getInstance(context).updateHighlight(lecture);
                 setLectureBackground(lecture, contextMenuView);
                 setLectureTextColor(lecture, contextMenuView);
-                MainActivity main = (MainActivity) getActivity();
-                if (main != null) {
-                    main.refreshFavoriteList();
-                }
+                ((MainActivity) context).refreshFavoriteList();
                 updateMenuItems();
                 break;
             case CONTEXT_MENU_ITEM_ID_SET_ALARM:
                 showAlarmTimePicker();
                 break;
             case CONTEXT_MENU_ITEM_ID_DELETE_ALARM:
-                FahrplanMisc.deleteAlarm(getActivity(), lecture);
+                FahrplanMisc.deleteAlarm(context, lecture);
                 setBell(lecture);
                 updateMenuItems();
                 break;
             case CONTEXT_MENU_ITEM_ID_ADD_TO_CALENDAR:
-                CalendarSharing.addToCalendar(lecture, getActivity());
+                CalendarSharing.addToCalendar(lecture, context);
                 break;
             case CONTEXT_MENU_ITEM_ID_SHARE:
                 String formattedLecture = SimpleLectureFormat.format(lecture);
-                Context context = getContext();
                 if (!LectureSharer.shareSimple(context, formattedLecture)) {
                     Toast.makeText(context, R.string.share_error_activity_not_found, Toast.LENGTH_SHORT).show();
                 }
@@ -912,7 +910,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
     private void updateMenuItems() {
         // Toggles the icon for "add/delete favorite" or "add/delete alarm".
         // Triggers EventDetailFragment.onPrepareOptionsMenu to be called
-        getActivity().invalidateOptionsMenu();
+        requireActivity().invalidateOptionsMenu();
     }
 
     public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {

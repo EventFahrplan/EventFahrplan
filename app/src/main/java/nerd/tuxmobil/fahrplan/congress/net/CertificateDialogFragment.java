@@ -1,5 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress.net;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -110,13 +111,14 @@ public class CertificateDialogFragment extends DialogFragment {
             chainInfo.append("SHA1 Fingerprint: " + getFingerPrint(chain[i])).append("\n");
         }
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
+        Activity activity = requireActivity();
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity)
                 .setTitle(getString(R.string.dlg_invalid_certificate_title))
                 .setCancelable(true)
                 .setPositiveButton(getString(android.R.string.yes), (dialog, which) -> onConfirm())
                 .setNegativeButton(getString(android.R.string.no), null);
 
-        LayoutInflater inflater = getActivity().getLayoutInflater();
+        LayoutInflater inflater = activity.getLayoutInflater();
         View msgView = inflater.inflate(R.layout.cert_dialog, null);
         TextView messageView = msgView.findViewById(R.id.cert);
         String message = getString(R.string.dlg_certificate_message_fmt, exceptionMessage);
@@ -137,7 +139,7 @@ public class CertificateDialogFragment extends DialogFragment {
         } catch (CertificateException e) {
             String messageArguments = e.getMessage() == null ? "" : e.getMessage();
             AlertDialogHelper.showErrorDialog(
-                    getActivity(),
+                    requireContext(),
                     R.string.dlg_invalid_certificate_could_not_apply,
                     R.string.dlg_certificate_message_fmt,
                     messageArguments);
