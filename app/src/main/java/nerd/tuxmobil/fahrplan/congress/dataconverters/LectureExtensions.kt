@@ -178,3 +178,10 @@ fun LectureNetworkModel.toLectureAppModel(): Lecture {
 
     return lecture
 }
+
+fun Lecture.sanitize(): Lecture {
+    if (abstractt == description) {
+        abstractt = ""
+    }
+    return this
+}
