@@ -33,6 +33,9 @@ before_script:
   # Ensure signing configuration is present
   - mv app/gradle.properties.example app/gradle.properties
 
+  # Reduce memory usage / avoid OutOfMemoryError with Gradle 4.10.3
+  - echo "org.gradle.jvmargs=-Xmx2048m -Xms512m -XX:MaxPermSize=768m" >> gradle.properties
+
 script:
   - ./gradlew clean test assembleDebug
 
