@@ -150,7 +150,7 @@ class AppRepository private constructor(val context: Context) {
 
     fun readScheduleUrl(): String {
         val alternateScheduleUrl = sharedPreferencesRepository.getScheduleUrl()
-        return if (alternateScheduleUrl.isNullOrEmpty()) {
+        return if (alternateScheduleUrl.isEmpty()) {
             BuildConfig.SCHEDULE_URL
         } else {
             alternateScheduleUrl
