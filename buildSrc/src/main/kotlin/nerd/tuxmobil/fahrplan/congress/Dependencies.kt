@@ -10,7 +10,7 @@ object Versions {
     val gradleVersions = "0.21.0"
     val junit = "4.12"
     val kotlin = "1.3.21"
-    val mockito = "2.25.0"
+    val mockito = "2.27.0"
     val mockitoKotlin = "2.1.0"
     val okhttp = "3.12.2"
     val snackengage = "0.19"
