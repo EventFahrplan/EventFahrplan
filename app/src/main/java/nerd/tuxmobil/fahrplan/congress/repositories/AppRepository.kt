@@ -54,7 +54,7 @@ class AppRepository private constructor(val context: Context) {
     ) {
 
         val scheduleUrl = readScheduleUrl()
-        val hostName = Uri.parse(scheduleUrl).host
+        val hostName = Uri.parse(scheduleUrl).host ?: throw NullPointerException("Host not present for URL: $scheduleUrl")
         val okHttpClient: OkHttpClient?
         try {
             okHttpClient = CustomHttpClient.createHttpClient(hostName)
