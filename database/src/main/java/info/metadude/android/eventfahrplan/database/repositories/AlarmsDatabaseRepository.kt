@@ -2,7 +2,6 @@ package info.metadude.android.eventfahrplan.database.repositories
 
 import android.content.ContentValues
 import android.database.Cursor
-import android.database.SQLException
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteException
 import android.util.Log
@@ -11,6 +10,7 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Al
 import info.metadude.android.eventfahrplan.database.extensions.delete
 import info.metadude.android.eventfahrplan.database.extensions.insert
 import info.metadude.android.eventfahrplan.database.extensions.read
+import info.metadude.android.eventfahrplan.database.extensions.upsert
 import info.metadude.android.eventfahrplan.database.models.Alarm
 import info.metadude.android.eventfahrplan.database.sqliteopenhelper.AlarmsDBOpenHelper
 
@@ -20,19 +20,13 @@ class AlarmsDatabaseRepository(
 
 ) {
 
-    fun insert(values: ContentValues, eventId: String) = with(sqLiteOpenHelper.writableDatabase) {
-        try {
-            beginTransaction()
+    fun insert(values: ContentValues, eventId: String) = with(sqLiteOpenHelper) {
+        writableDatabase.upsert({
             delete(AlarmsTable.NAME, EVENT_ID, eventId)
+        }, {
             insert(AlarmsTable.NAME, values)
-            setTransactionSuccessful()
-        } catch (ignore: SQLException) {
-            // Fail silently
-        } finally {
-            endTransaction()
-            close()
-            sqLiteOpenHelper.close()
-        }
+        })
+        close()
     }
 
     fun query(): List<Alarm> = query {
@@ -93,19 +87,10 @@ class AlarmsDatabaseRepository(
     }
 
     private fun delete(closeSQLiteOpenHelper: Boolean = true, query: SQLiteDatabase.() -> Int) =
-            with(sqLiteOpenHelper.writableDatabase) {
-                try {
-                    beginTransaction()
-                    query()
-                    setTransactionSuccessful()
-                } catch (ignore: SQLException) {
-                    // Fail silently
-                } finally {
-                    endTransaction()
+            with(sqLiteOpenHelper) {
+                writableDatabase.delete(query)
+                if (closeSQLiteOpenHelper) {
                     close()
-                    if (closeSQLiteOpenHelper) {
-                        sqLiteOpenHelper.close()
-                    }
                 }
             }
 

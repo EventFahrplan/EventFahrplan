@@ -2,7 +2,6 @@ package info.metadude.android.eventfahrplan.database.repositories
 
 import android.content.ContentValues
 import android.database.Cursor
-import android.database.SQLException
 import android.database.sqlite.SQLiteException
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.HighlightsTable
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.HighlightsTable.Columns.EVENT_ID
@@ -11,6 +10,7 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Hi
 import info.metadude.android.eventfahrplan.database.extensions.delete
 import info.metadude.android.eventfahrplan.database.extensions.insert
 import info.metadude.android.eventfahrplan.database.extensions.read
+import info.metadude.android.eventfahrplan.database.extensions.upsert
 import info.metadude.android.eventfahrplan.database.models.Highlight
 import info.metadude.android.eventfahrplan.database.sqliteopenhelper.HighlightDBOpenHelper
 
@@ -20,19 +20,13 @@ class HighlightsDatabaseRepository(
 
 ) {
 
-    fun insert(values: ContentValues, eventId: String) = with(sqLiteOpenHelper.writableDatabase) {
-        try {
-            beginTransaction()
+    fun insert(values: ContentValues, eventId: String) = with(sqLiteOpenHelper) {
+        writableDatabase.upsert({
             delete(HighlightsTable.NAME, EVENT_ID, eventId)
+        }, {
             insert(HighlightsTable.NAME, values)
-            setTransactionSuccessful()
-        } catch (ignore: SQLException) {
-            // Fail silently
-        } finally {
-            endTransaction()
-            close()
-            sqLiteOpenHelper.close()
-        }
+        })
+        close()
     }
 
     fun query(): List<Highlight> {

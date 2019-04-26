@@ -2,7 +2,6 @@ package info.metadude.android.eventfahrplan.database.repositories
 
 import android.content.ContentValues
 import android.database.Cursor
-import android.database.SQLException
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteException
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.LecturesTable
@@ -11,6 +10,7 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Le
 import info.metadude.android.eventfahrplan.database.extensions.delete
 import info.metadude.android.eventfahrplan.database.extensions.insert
 import info.metadude.android.eventfahrplan.database.extensions.read
+import info.metadude.android.eventfahrplan.database.extensions.transaction
 import info.metadude.android.eventfahrplan.database.models.Lecture
 import info.metadude.android.eventfahrplan.database.sqliteopenhelper.LecturesDBOpenHelper
 
@@ -20,21 +20,16 @@ class LecturesDatabaseRepository(
 
 ) {
 
-    fun insert(list: List<ContentValues>) = with(sqLiteOpenHelper.writableDatabase) {
-        try {
-            beginTransaction()
-            delete(LecturesTable.NAME)
-            list.forEach {
-                insert(LecturesTable.NAME, it)
+    fun insert(list: List<ContentValues>) = with(sqLiteOpenHelper) {
+        writableDatabase.use {
+            it.transaction {
+                delete(LecturesTable.NAME)
+                list.forEach { contentValues ->
+                    insert(LecturesTable.NAME, contentValues)
+                }
             }
-            setTransactionSuccessful()
-        } catch (ignore: SQLException) {
-            // Fail silently
-        } finally {
-            endTransaction()
-            close()
-            sqLiteOpenHelper.close()
         }
+        close()
     }
 
     fun queryLectureByLectureId(lectureId: String) = query {

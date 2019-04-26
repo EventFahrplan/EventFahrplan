@@ -33,3 +33,49 @@ fun SQLiteDatabase.delete(tableName: String, columnName: String? = null, columnV
     val whereArgs = if (columnValue == null) null else arrayOf(columnValue)
     return delete(tableName, whereClause, whereArgs)
 }
+
+/**
+ * Executes the delete [query] within a transaction and finally closes the database.
+ */
+internal fun SQLiteDatabase.delete(query: SQLiteDatabase.() -> Int) =
+        use {
+            it.transaction {
+                query()
+            }
+        }
+
+/**
+ * Executes the [delete] and the [insert] queries within a transaction and finally closes the database.
+ */
+internal fun SQLiteDatabase.upsert(delete: SQLiteDatabase.() -> Int, insert: SQLiteDatabase.() -> Long) =
+        use {
+            it.transaction {
+                delete()
+                insert()
+            }
+        }
+
+/**
+ * Runs [body] in a transaction marking it as successful if it completes without exception.
+ *
+ * @param exclusive Run in `EXCLUSIVE` mode when true, `IMMEDIATE` mode otherwise.
+ *
+ * Source: https://github.com/android/android-ktx/blob/a6df8d11e35d4ffb6ce740767ea1258f14c8e036/src/main/java/androidx/core/database/sqlite/SQLiteDatabase.kt
+ */
+internal inline fun <T> SQLiteDatabase.transaction(
+        exclusive: Boolean = true,
+        body: SQLiteDatabase.() -> T
+): T {
+    if (exclusive) {
+        beginTransaction()
+    } else {
+        beginTransactionNonExclusive()
+    }
+    try {
+        val result = body()
+        setTransactionSuccessful()
+        return result
+    } finally {
+        endTransaction()
+    }
+}
