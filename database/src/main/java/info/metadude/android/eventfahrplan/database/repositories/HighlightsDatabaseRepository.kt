@@ -7,10 +7,7 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Hi
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.HighlightsTable.Columns.EVENT_ID
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.HighlightsTable.Columns.HIGHLIGHT
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.HighlightsTable.Values.HIGHLIGHT_STATE_ON
-import info.metadude.android.eventfahrplan.database.extensions.delete
-import info.metadude.android.eventfahrplan.database.extensions.insert
-import info.metadude.android.eventfahrplan.database.extensions.read
-import info.metadude.android.eventfahrplan.database.extensions.upsert
+import info.metadude.android.eventfahrplan.database.extensions.*
 import info.metadude.android.eventfahrplan.database.models.Highlight
 import info.metadude.android.eventfahrplan.database.sqliteopenhelper.HighlightDBOpenHelper
 
@@ -44,9 +41,9 @@ class HighlightsDatabaseRepository(
 
         cursor.moveToFirst()
         while (!cursor.isAfterLast) {
-            val eventIdString = cursor.getString(cursor.getColumnIndex(EVENT_ID))
+            val eventIdString = cursor.getString(EVENT_ID)
             val eventId = Integer.parseInt(eventIdString)
-            val highlightState = cursor.getInt(cursor.getColumnIndex(HIGHLIGHT))
+            val highlightState = cursor.getInt(HIGHLIGHT)
             val isHighlighted = highlightState == HIGHLIGHT_STATE_ON
             val highlight = Highlight(eventId, isHighlighted)
             highlights.add(highlight)

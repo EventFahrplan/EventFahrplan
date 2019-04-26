@@ -7,10 +7,7 @@ import android.database.sqlite.SQLiteException
 import android.util.Log
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.*
-import info.metadude.android.eventfahrplan.database.extensions.delete
-import info.metadude.android.eventfahrplan.database.extensions.insert
-import info.metadude.android.eventfahrplan.database.extensions.read
-import info.metadude.android.eventfahrplan.database.extensions.upsert
+import info.metadude.android.eventfahrplan.database.extensions.*
 import info.metadude.android.eventfahrplan.database.models.Alarm
 import info.metadude.android.eventfahrplan.database.sqliteopenhelper.AlarmsDBOpenHelper
 
@@ -63,11 +60,11 @@ class AlarmsDatabaseRepository(
         cursor.moveToFirst()
         while (!cursor.isAfterLast) {
             var alarm = Alarm()
-            alarm = alarm.copy(id = cursor.getInt(cursor.getColumnIndex(ID)))
-            alarm = alarm.copy(day = cursor.getInt(cursor.getColumnIndex(DAY)))
-            alarm = alarm.copy(eventId = cursor.getString(cursor.getColumnIndex(EVENT_ID)))
-            alarm = alarm.copy(time = cursor.getLong(cursor.getColumnIndex(TIME)))
-            alarm = alarm.copy(title = cursor.getString(cursor.getColumnIndex(EVENT_TITLE)))
+            alarm = alarm.copy(id = cursor.getInt(ID))
+            alarm = alarm.copy(day = cursor.getInt(DAY))
+            alarm = alarm.copy(eventId = cursor.getString(EVENT_ID))
+            alarm = alarm.copy(time = cursor.getLong(TIME))
+            alarm = alarm.copy(title = cursor.getString(EVENT_TITLE))
             alarms.add(alarm)
             cursor.moveToNext()
         }
