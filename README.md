@@ -8,9 +8,18 @@ or Chaos Communication Congress.
 
 The app is available for Android devices.
 
+Bug reports, feature requests can be submitted as an [issue][issue].
+Please read the instructions in the [contribution guide](CONTRIBUTING.md) in order to contribute to this project.
 
 ![Picture of the 35c3 Schedule on tablet and phone](gfx/EventFahrplan-35c3-Events-Tablet-Phone.png)
 
+## Table of contents
+
+- [Features](#features)
+- [Event data](#event-data)
+- [Build instructions](#build-instructions)
+- [History](#history)
+- [Licenses](#licenses)
 
 ## Features
 
@@ -31,14 +40,12 @@ as provided by [Frab][frab-github]. The file format produced by the predecessor 
 * In general it is possible to re-deployed the app for other events which
 provide the same event file format.
 
+## Build instructions
 
-## Release build / signing
+Before importing this project in Android Studio.
 
-Before you can run a release build for your product flavor:
-
-1. Copy [`app/gradle.properties.example`](app/gradle.properties.example) to `gradle.properties`.
-2. Edit the required settings in `gradle.properties`.
-
+In the `app` folder make a copy of the `gradle.properties.example` file and rename it as `gradle.properties`.
+This file contains the signing information which is used in the build process.
 
 ## History
 
@@ -84,4 +91,5 @@ limitations under the License.
 [johnjohndoe-github]: https://github.com/johnjohndoe
 [pentabarf-github]: https://github.com/nevs/pentabarf
 [tuxmobil-github]: https://github.com/tuxmobil/CampFahrplan
+[issue]: https://github.com/EventFahrplan/EventFahrplan/issues
 
