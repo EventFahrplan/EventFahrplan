@@ -12,7 +12,7 @@ object Versions {
     val kotlin = "1.3.30"
     val mockito = "2.27.0"
     val mockitoKotlin = "2.1.0"
-    val okhttp = "3.12.2"
+    val okhttp = "3.12.3"
     val snackengage = "0.19"
     val sonarQubeGradle = "2.7.1"
     val supportLibrary = "27.1.1"
