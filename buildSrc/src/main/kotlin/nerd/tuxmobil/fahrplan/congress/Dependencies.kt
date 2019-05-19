@@ -14,7 +14,7 @@ object Versions {
     val mockitoKotlin = "2.1.0"
     val okhttp = "3.12.2"
     val snackengage = "0.19"
-    val sonarQubeGradle = "2.7"
+    val sonarQubeGradle = "2.7.1"
     val supportLibrary = "27.1.1"
     val testRules = "1.0.2"
     val threeTenBp = "1.4.0"
