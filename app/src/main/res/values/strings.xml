@@ -16,8 +16,8 @@
     <string name="menu_item_title_feedback">Feedback</string>
     <string name="menu_item_title_navigate">Navigate</string>
     <string name="menu_item_title_refresh">Refresh</string>
-    <string name="menu_item_title_schedule_changes">@string/schedule_changes</string>
-    <string name="menu_item_title_settings">@string/settings</string>
+    <string name="menu_item_title_schedule_changes" translatable="false">@string/schedule_changes</string>
+    <string name="menu_item_title_settings" translatable="false">@string/settings</string>
     <string name="menu_item_title_share_event">Share event</string>
     <string name="menu_item_title_share_favorites">Share favorites</string>
 
@@ -192,7 +192,7 @@
     </string>
     <string name="notifications_event_alarm_channel_name">Alarms for events</string>
     <string name="notifications_event_alarm_content_text">Alarm for event</string>
-    <string name="notifications_event_alarm_content_title">@string/app_name</string>
+    <string name="notifications_event_alarm_content_title" translatable="false">@string/app_name</string>
     <string name="notifications_schedule_update_channel_description">
         Automatic updates of the schedule which can be configured in the app settings.
     </string>
