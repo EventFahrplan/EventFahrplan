@@ -2,15 +2,12 @@ package info.metadude.android.eventfahrplan.database.repositories
 
 import android.content.ContentValues
 import android.database.Cursor
-import android.database.SQLException
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteException
 import android.util.Log
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.*
-import info.metadude.android.eventfahrplan.database.extensions.delete
-import info.metadude.android.eventfahrplan.database.extensions.insert
-import info.metadude.android.eventfahrplan.database.extensions.read
+import info.metadude.android.eventfahrplan.database.extensions.*
 import info.metadude.android.eventfahrplan.database.models.Alarm
 import info.metadude.android.eventfahrplan.database.sqliteopenhelper.AlarmsDBOpenHelper
 
@@ -20,19 +17,13 @@ class AlarmsDatabaseRepository(
 
 ) {
 
-    fun insert(values: ContentValues, eventId: String) = with(sqLiteOpenHelper.writableDatabase) {
-        try {
-            beginTransaction()
+    fun insert(values: ContentValues, eventId: String) = with(sqLiteOpenHelper) {
+        writableDatabase.upsert({
             delete(AlarmsTable.NAME, EVENT_ID, eventId)
+        }, {
             insert(AlarmsTable.NAME, values)
-            setTransactionSuccessful()
-        } catch (ignore: SQLException) {
-            // Fail silently
-        } finally {
-            endTransaction()
-            close()
-            sqLiteOpenHelper.close()
-        }
+        })
+        close()
     }
 
     fun query(): List<Alarm> = query {
@@ -69,11 +60,11 @@ class AlarmsDatabaseRepository(
         cursor.moveToFirst()
         while (!cursor.isAfterLast) {
             var alarm = Alarm()
-            alarm = alarm.copy(id = cursor.getInt(cursor.getColumnIndex(ID)))
-            alarm = alarm.copy(day = cursor.getInt(cursor.getColumnIndex(DAY)))
-            alarm = alarm.copy(eventId = cursor.getString(cursor.getColumnIndex(EVENT_ID)))
-            alarm = alarm.copy(time = cursor.getLong(cursor.getColumnIndex(TIME)))
-            alarm = alarm.copy(title = cursor.getString(cursor.getColumnIndex(EVENT_TITLE)))
+            alarm = alarm.copy(id = cursor.getInt(ID))
+            alarm = alarm.copy(day = cursor.getInt(DAY))
+            alarm = alarm.copy(eventId = cursor.getString(EVENT_ID))
+            alarm = alarm.copy(time = cursor.getLong(TIME))
+            alarm = alarm.copy(title = cursor.getString(EVENT_TITLE))
             alarms.add(alarm)
             cursor.moveToNext()
         }
@@ -93,19 +84,10 @@ class AlarmsDatabaseRepository(
     }
 
     private fun delete(closeSQLiteOpenHelper: Boolean = true, query: SQLiteDatabase.() -> Int) =
-            with(sqLiteOpenHelper.writableDatabase) {
-                try {
-                    beginTransaction()
-                    query()
-                    setTransactionSuccessful()
-                } catch (ignore: SQLException) {
-                    // Fail silently
-                } finally {
-                    endTransaction()
+            with(sqLiteOpenHelper) {
+                writableDatabase.delete(query)
+                if (closeSQLiteOpenHelper) {
                     close()
-                    if (closeSQLiteOpenHelper) {
-                        sqLiteOpenHelper.close()
-                    }
                 }
             }
 

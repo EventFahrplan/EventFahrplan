@@ -2,7 +2,6 @@ package info.metadude.android.eventfahrplan.database.repositories
 
 import android.content.ContentValues
 import android.database.Cursor
-import android.database.SQLException
 import android.database.sqlite.SQLiteException
 import android.util.Log
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable
@@ -10,6 +9,7 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Me
 import info.metadude.android.eventfahrplan.database.extensions.delete
 import info.metadude.android.eventfahrplan.database.extensions.insert
 import info.metadude.android.eventfahrplan.database.extensions.read
+import info.metadude.android.eventfahrplan.database.extensions.upsert
 import info.metadude.android.eventfahrplan.database.models.Meta
 import info.metadude.android.eventfahrplan.database.sqliteopenhelper.MetaDBOpenHelper
 
@@ -19,19 +19,13 @@ class MetaDatabaseRepository(
 
 ) {
 
-    fun insert(values: ContentValues) = with(sqLiteOpenHelper.writableDatabase) {
-        try {
-            beginTransaction()
+    fun insert(values: ContentValues) = with(sqLiteOpenHelper) {
+        writableDatabase.upsert({
             delete(MetasTable.NAME)
+        }, {
             insert(MetasTable.NAME, values)
-            setTransactionSuccessful()
-        } catch (ignore: SQLException) {
-            // Fail silently
-        } finally {
-            endTransaction()
-            close()
-            sqLiteOpenHelper.close()
-        }
+        })
+        close()
     }
 
     fun query(): Meta {
