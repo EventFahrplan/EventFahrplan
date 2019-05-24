@@ -13,7 +13,7 @@ android:
     # Note that the tools section appears twice on purpose as it’s required
     # to get the newest Android SDK tools. Source: Travis CI docs.
     - build-tools-28.0.3
-    - android-27
+    - android-28
 
     # The libraries we can't get from Maven Central or similar
     - extra
