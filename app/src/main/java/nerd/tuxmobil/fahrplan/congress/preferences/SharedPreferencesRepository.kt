@@ -17,7 +17,7 @@ class SharedPreferencesRepository(val context: Context) {
 
     fun getScheduleUrl(): String {
         val defaultScheduleUrl = context.getString(R.string.preferences_schedule_url_default_value)
-        return preferences.getString(BundleKeys.PREFS_SCHEDULE_URL, defaultScheduleUrl)
+        return preferences.getString(BundleKeys.PREFS_SCHEDULE_URL, defaultScheduleUrl)!!
     }
 
 }

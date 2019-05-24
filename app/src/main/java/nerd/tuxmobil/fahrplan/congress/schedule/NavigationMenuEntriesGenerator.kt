@@ -12,7 +12,7 @@ import nerd.tuxmobil.fahrplan.congress.models.DateInfos
  * An [IllegalArgumentException] is thrown the parameter restrictions are not met.
  *
  * @param numDays Number of days. Must be 1 or more.
- * @param dateInfos A list of [DateInfo] objects.
+ * @param dateInfos A [list of DateInfo objects][DateInfos].
  *                  The [dayIdx] of the first object must be 1.
  *                  The list cannot be null nor empty.
  * @param currentDate A formatted date string. Pattern: YYYY-MM-DD.
