@@ -2,14 +2,14 @@
 <resources>
 
     <string-array name="alarm_time_titles">
-        <item>at start time</item>
-        <item>5 minutes</item>
-        <item>10 minutes</item>
-        <item>15 minutes</item>
-        <item>20 minutes</item>
-        <item>30 minutes</item>
-        <item>45 minutes</item>
-        <item>60 minutes</item>
+        <item>@string/alarm_time_title_at_start_time</item>
+        <item>@string/alarm_time_title_5_minutes_before</item>
+        <item>@string/alarm_time_title_10_minutes_before</item>
+        <item>@string/alarm_time_title_15_minutes_before</item>
+        <item>@string/alarm_time_title_20_minutes_before</item>
+        <item>@string/alarm_time_title_30_minutes_before</item>
+        <item>@string/alarm_time_title_45_minutes_before</item>
+        <item>@string/alarm_time_title_60_minutes_before</item>
     </string-array>
 
     <!-- Synchronize with @strings/default_alarm_time_value and @integers/default_alarm_time_index -->

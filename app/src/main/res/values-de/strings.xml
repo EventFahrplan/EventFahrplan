@@ -188,4 +188,14 @@
         <item quantity="other"><xliff:g id="count" example="3">%d</xliff:g> Vorträge wurden geändert.</item>
     </plurals>
 
+    <!-- Alarm time picker -->
+    <string name="alarm_time_title_at_start_time">zur Startzeit</string>
+    <string name="alarm_time_title_5_minutes_before">5 Minuten vorher</string>
+    <string name="alarm_time_title_10_minutes_before">10 Minuten vorher</string>
+    <string name="alarm_time_title_15_minutes_before">15 Minuten vorher</string>
+    <string name="alarm_time_title_20_minutes_before">20 Minuten vorher</string>
+    <string name="alarm_time_title_30_minutes_before">30 Minuten vorher</string>
+    <string name="alarm_time_title_45_minutes_before">45 Minuten vorher</string>
+    <string name="alarm_time_title_60_minutes_before">60 Minuten vorher</string>
+
 </resources>
