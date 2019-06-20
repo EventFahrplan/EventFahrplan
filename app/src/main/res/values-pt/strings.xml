@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <!-- Menu items -->
+    <string name="menu_item_title_about">Informações</string>
+    <string name="menu_item_title_add_to_calendar">Adicionar ao calendário</string>
+    <string name="menu_item_title_alarms">Alertas</string>
+    <string name="menu_item_title_close_event_details">Fechar detalhes do evento</string>
+    <string name="menu_item_title_flag_as_favorite">Adicionar aos favoritos</string>
+    <string name="menu_item_title_unflag_as_favorite">Remover dos favoritos</string>
+    <string name="menu_item_title_delete_favorite">Remover</string>
+    <string name="menu_item_title_set_alarm">Ativar alerta</string>
+    <string name="menu_item_title_delete_alarm">Desativar alerta</string>
+    <string name="menu_item_title_delete_all">Remover tudo</string>
+    <string name="menu_item_title_favorites">Favoritos</string>
+    <string name="menu_item_title_feedback">Feedback</string>
+    <string name="menu_item_title_navigate">Navegação</string>
+    <string name="menu_item_title_refresh">Atualizar</string>
+    <string name="menu_item_title_share_event">Compartilhar evento</string>
+    <string name="menu_item_title_share_favorites">Compartilhar favoritos</string>
+
+    <!-- AlertDialogHelper -->
+    <string name="OK">OK</string>
+
+    <!-- CertificateDialog -->
+    <string name="dlg_certificate_message_fmt">
+        Falha ao estabeleter conexão segura.\n
+        (<xliff:g id="error" example="Unknown Error">%s</xliff:g>)
+    </string>
+    <string name="dlg_invalid_certificate_title">Confiar em certificado desconhecido?</string>
+    <string name="dlg_invalid_certificate_could_not_apply">O certificado não pode ser adicionado.</string>
+
+    <!-- CustomHttpClient -->
+    <string name="dlg_err_connection_failed">Falha de conexão.</string>
+    <string name="dlg_err_failed_unknown_host">Endereço desconhecido:\n%s</string>
+    <string name="dlg_err_failed_wrong_http_credentials">Autenticação HTTP inválida</string>
+    <string name="dlg_err_failed_timeout">Servidor não responde (tempo excedido).</string>
+    <string name="dlg_err_failed_connect_failure">Falha de conexão desconhecida</string>
+    <string name="dlg_err_failed_not_found">URL de cronograma inválida</string>
+    <string name="dlg_err_failed_parse_failure">Não foi possíver interpretar a resposta</string>
+    <string name="dlg_err_failed_ssl_failure">Falha de SSL</string>
+    <string name="uptodate">Cronograma está atualizado</string>
+
+    <!-- Schedule changes dialog -->
+    <string name="schedule_changes_dialog_title">Cronograma atualizado</string>
+    <string name="schedule_changes_dialog_updated_to_text">O cronograma foi atualizado para\u0020</string>
+    <string name="schedule_changes_dialog_changed_new_cancelled_text">. Há alterações em <xliff:g id="num_changes" example="3 lectures">%1$s</xliff:g>, <xliff:g id="num_new" example="2 are">%2$s</xliff:g> novos, <xliff:g id="num_canceled" example="1 is">%3$s</xliff:g> cancelados.</string>
+    <string name="schedule_changes_dialog_affected_text">As alterações afetam <xliff:g id="num_marked" example="2">%1$d</xliff:g> das suas palestras apoiadas.</string>
+    <plurals name="schedule_changes_dialog_number_of_lectures">
+        <item quantity="one">%d palestra</item>
+        <item quantity="other">%d palestras</item>
+    </plurals>
+    <plurals name="schedule_changes_dialog_being">
+        <item quantity="one">%d é</item>
+        <item quantity="other">%d são</item>
+    </plurals>
+    <string name="schedule_changes_dialog_browse">Explorar</string>
+    <string name="schedule_changes_dialog_later">Mais tarde</string>
+
+    <string name="progress_loading_data">Obtendo cronograma &#8230;</string>
+    <string name="progress_processing_data">Processando cronograma &#8230;</string>
+    <string name="load_data">Carregar</string>
+    <string name="choose_day">Escolha o dia</string>
+    <string name="day">Dia</string>
+    <string name="fahrplan">Cronograma</string>
+    <string name="appVersion">Versão do App %s</string>
+    <string name="schedule_updated_to">
+        Atualizado para <xliff:g id="version" example="Mildenberg 2018-01-16 16:50">%s</xliff:g>
+    </string>
+    <string name="schedule_updated">
+        O cronograma foi atualizado.
+    </string>
+    <string name="settings">Configurações</string>
+    <string name="event_online">Evento online</string>
+    <string name="event_detail_section_title_links">Links</string>
+    <string name="alarm_prompt">Alertas</string>
+    <string name="choose_alarm_time">Escolha o horário do alerta</string>
+    <string name="default_alarm_time_title">Escolha o horário de alerta padrão</string>
+    <string name="default_alarm_time_dialog_title">Horário padrão de alerta</string>
+    <string name="reminders">Alertas</string>
+    <string name="reminder_ringtone">Som do alarme</string>
+    <string name="insistent_alarm">Alerta persistente</string>
+    <string name="usage">Dica:\n\nMantenha pressionado na palestra para ajustar um alerta.</string>
+	<string name="libraries">
+		Esse app usa as seguintes bibliotecas:
+		Kotlin, Google Support Library v4, Google AppCompat Library v7, Email Intent Builder,
+		Espresso, OkHttp, SnackEngage, TraceDroid
+	</string>
+    <string name="about_data_privacy_statement">
+        <![CDATA[<a href=\"https://github.com/EventFahrplan/EventFahrplan/blob/master/DATA-PRIVACY-DE.md\">Declaração de privacidade (Alemão)</a>]]>
+    </string>
+    <string name="issues">
+		<![CDATA[<a href=\"https://github.com/EventFahrplan/EventFahrplan/issues\">Problemas ou pedido de funcionalidades</a>]]>
+	</string>
+    <string name="today">hoje</string>
+    <string name="pref_auto_download">Atualizações automáticas</string>
+    <string name="parsing_error_generic">Erro desconhecido ao processar cronograma</string>
+    <string name="parsing_error_with_version">Erro ao processar versão do cronograma %s</string>
+	<string name="alarms_empty">
+		Não há alarmes para exibir, Você pode configurar alarmes 
+		individuais para cada item no cronograma.
+		Basta pressionar o ícone de alarme na barra de ações   
+	</string>
+    <string name="add_to_calendar_failed">Falha ao adicionar o evento ao calendário</string>
+    <string name="no_changes">Nenhuma mudança de cronograma</string>
+    <string name="no_favorites">Nenhuma palestra favorita</string>
+    <string name="schedule_changes">Mudanças de cronograma</string>
+
+    <string name="general_settings">Geral</string>
+    <string name="starred_lectures">Favoritos</string>
+    <string name="schedule_url">URL alternativa de cronograma</string>
+    <string name="invalid_url">URL inválida</string>
+    <string name="choose_to_delete">Selecionar palestras</string>
+    <string name="day_separator">Dia <xliff:g id="day_of_congress" example="2">%1$d</xliff:g> - <xliff:g id="date_of_congress_day" example="29.12.2014">%2$s</xliff:g></string>
+    <string name="event_duration"><xliff:g id="duration" example="45">%1$d</xliff:g> min.</string>
+    <string name="alternative_highlight">Destaque alternativo</string>
+    <string name="dlg_delete_all_favorites">Remover todos os favoritos?</string>
+    <string name="dlg_delete_all_favorites_delete_all">Remover tudo</string>
+
+    <string name="share_error_activity_not_found">Aplicativo fitting não está instalado.</string>
+
+    <!-- Build information -->
+    <string name="build_info_time">
+        Tempo de build: <xliff:g id="build_time" example="2015-12-27T13:42Z">%s</xliff:g>
+    </string>
+    <string name="build_info_version_code">
+        Versão do código: <xliff:g id="version_code" example="42">%s</xliff:g>
+    </string>
+    <string name="build_info_hash">
+        Versão do hash: <xliff:g id="build_hash" example="e1f2g3h-dirty">%s</xliff:g>
+    </string>
+
+    <!-- App disclaimer -->
+    <string name="app_disclaimer">
+Esse aplicativo é baseado no código fonte do aplicativo &#8220;EventFahrplan&#8221;.
+Visitantes do congresso anual e acampamento organizado pelo Chaos Computer Club,
+usem o aplicativo para se manter atualizado com a organização do evento.
+ </string>
+
+    <!-- SnackEngage -->
+    <string name="snack_engage_rate_title">Tudo certo?</string>
+    <string name="snack_engage_rate_action">Avalie o aplicativo</string>
+    <string name="snack_engage_google_play_beta_testing_title">Usuário avançado?</string>
+    <string name="snack_engage_google_play_beta_testing_action">Torne-se um testador beta</string>
+
+    <string name="snack_engage_c3nav_title">Navegue dentro do prédio da 35C3! Com o aplicativo c3nav</string>
+    <string name="snack_engage_c3nav_action">Baixe agora!</string>
+
+    <!-- TraceDroid -->
+    <string name="trace_droid_dialog_title">
+        Enviar <xliff:g id="appName" example="33C3 Schedule">%s</xliff:g> relatório de falha &#8230;
+    </string>
+    <string name="trace_droid_dialog_message">
+        Um problema com o aplicativo <xliff:g id="appName" example="33C3 Schedule">%s</xliff:g> foi
+        encontrado. Ajude o projeto submetendo relatórios de falhas,
+       assim, a origem do problema poderá ser identificada.
+    </string>
+    <string name="trace_droid_button_title_send">
+        Abrir e-mail
+    </string>
+    <string name="trace_droid_no_email_app">
+        Nenhum aplicativo de e-mail compatível instalado.
+    </string>
+    <string name="trace_droid_button_title_no">
+        Não
+    </string>
+    <string name="trace_droid_button_title_later">
+        Talvez mais tarde
+    </string>
+    <string name="trace_droid_app_chooser_title">
+        Abrir rascunho com &#8230;
+    </string>
+
+    <!-- Notifications -->
+    <string name="notifications_event_alarm_channel_description">
+        Alarmes criados pelo usuário para vários eventos.
+    </string>
+    <string name="notifications_event_alarm_channel_name">Alertas por eventos</string>
+    <string name="notifications_event_alarm_content_text">Alerta por evento</string>
+    <string name="notifications_schedule_update_channel_description">
+        Atualizações automáticas de cronograma podem ser configuradas nas configurações do aplicativo.
+    </string>
+    <string name="notifications_schedule_update_channel_name">Atualizações no cronograma</string>
+    <plurals name="notifications_schedule_changes">
+        <item quantity="one"><xliff:g id="count" example="1">%d</xliff:g> palestra foi atualizada.</item>
+        <item quantity="other"><xliff:g id="count" example="3">%d</xliff:g> palestras foram atualizadas.</item>
+    </plurals>
+
+    </resources>
