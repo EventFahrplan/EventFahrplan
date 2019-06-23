@@ -6,7 +6,6 @@
     <color name="colorAccent">#0084b0</color>
     <color name="colorActionBar">@color/colorPrimary</color>
     <color name="windowBackground">#231f20</color>
-    <color name="fahrplan_background">#231f20</color>
     <color name="text_link_color">@color/colorAccent</color>
     <color name="multi_choice_background">#f9b000</color>
     <color name="text_link_color_dark">@color/colorAccent</color>
