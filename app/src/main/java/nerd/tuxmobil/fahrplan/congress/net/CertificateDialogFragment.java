@@ -109,6 +109,9 @@ public class CertificateDialogFragment extends DialogFragment {
                     chain[i].getNotAfter().getMonth() + 1,
                     chain[i].getNotAfter().getYear() + 1900)).append("\n");
             chainInfo.append("SHA1 Fingerprint: " + getFingerPrint(chain[i])).append("\n");
+            if (i + 1 < chain_len) {
+                chainInfo.append("\n");
+            }
         }
 
         Activity activity = requireActivity();
