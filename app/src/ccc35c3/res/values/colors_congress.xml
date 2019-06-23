@@ -98,6 +98,4 @@
     <color name="event_title">#a0ffffff</color>
     <color name="event_title_highlight">#fff</color>
 
-    <color name="event_drawable_selection_stroke">#fff</color>
-
 </resources>
