@@ -6,7 +6,6 @@
     <color name="colorAccent">#0084b0</color>
     <color name="colorActionBar">@color/colorPrimary</color>
     <color name="windowBackground">#231f20</color>
-    <color name="fahrplan_background">#231f20</color>
     <color name="text_link_color">@color/colorAccent</color>
     <color name="multi_choice_background">#f9b000</color>
     <color name="text_link_color_dark">@color/colorAccent</color>
@@ -18,7 +17,6 @@
     <color name="lecture_detailbar_text">@color/colorAccent</color>
     <color name="schedule_list_header_background">#eee</color>
     <color name="schedule_list_header_text">#eee</color>
-    <color name="event_item_selection_stroke">@android:color/white</color>
 
     <color name="alert_dialog_button_text">@color/colorAccent</color>
 
