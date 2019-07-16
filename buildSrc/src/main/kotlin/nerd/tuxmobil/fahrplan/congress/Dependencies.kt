@@ -9,7 +9,7 @@ object Android {
     const val targetSdkVersion = 27
 }
 
-private const val kotlinVersion = "1.3.31"
+private const val kotlinVersion = "1.3.41"
 
 object GradlePlugins {
 
@@ -32,7 +32,7 @@ object Libs {
         const val emailIntentBuilder = "1.0.0"
         const val espresso = "3.0.2"
         const val junit = "4.12"
-        const val mockito = "2.27.0"
+        const val mockito = "2.28.0"
         const val mockitoKotlin = "2.1.0"
         const val okhttp = "3.12.3"
         const val snackengage = "0.19"
