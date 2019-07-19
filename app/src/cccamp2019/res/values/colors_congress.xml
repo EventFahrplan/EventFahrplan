@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="pressed_congress">#CC0099AB</color>
+
+    <!-- Default state -->
+    <color name="event_border_default">#808080</color>
+    <color name="event_border_default_art_culture">#596580</color>
+    <color name="event_border_default_ccc">#996E23</color>
+    <color name="event_border_default_ethics_society_politics">#596580</color>
+    <color name="event_border_default_hardware_making">#4d5c2e</color>
+    <color name="event_border_default_other">#585858</color>
+    <color name="event_border_default_science">#6F4373</color>
+    <color name="event_border_default_security_hacking">#4d5c2e</color>
+    <color name="event_border_default_failosophy">#663414</color>
+
+    <!-- Highlight state -->
+    <color name="event_border_highlight">@color/event_border_default</color>
+    <color name="event_border_highlight_art_culture">#859BCC</color>
+    <color name="event_border_highlight_ccc">#e6a535</color>
+    <color name="event_border_highlight_ethics_society_politics">#859BCC</color>
+    <color name="event_border_highlight_hardware_making">#97b34b</color>
+    <color name="event_border_highlight_other">#a0a0a0</color>
+    <color name="event_border_highlight_science">#b873bf</color>
+    <color name="event_border_highlight_security_hacking">#97b34b</color>
+    <color name="event_border_highlight_failosophy">#cc8352</color>
+
+    <!--Accent color-->
+    <color name="event_border_accent">#888</color>
+    <color name="event_border_accent_art_culture">#8aaae6</color>
+    <color name="event_border_accent_ccc">#e6a535</color>
+    <color name="event_border_accent_ethics_society_politics">#8aaae6</color>
+    <color name="event_border_accent_hardware_making">#97b34b</color>
+    <color name="event_border_accent_other">#c7c7c7</color>
+    <color name="event_border_accent_science">#b873bf</color>
+    <color name="event_border_accent_security_hacking">#97b34b</color>
+    <color name="event_border_accent_failosophy">#cc8f64</color>
+
+    <!--Accent color highlight-->
+    <color name="event_border_accent_highlight">#888</color>
+    <color name="event_border_accent_highlight_art_culture">#475166</color>
+    <color name="event_border_accent_highlight_ccc">#996E23</color>
+    <color name="event_border_accent_highlight_ethics_society_politics">#475166</color>
+    <color name="event_border_accent_highlight_hardware_making">#617330</color>
+    <color name="event_border_accent_highlight_other">#5a5a5a</color>
+    <color name="event_border_accent_highlight_science">#732e73</color>
+    <color name="event_border_accent_highlight_security_hacking">#617330</color>
+    <color name="event_border_accent_highlight_failosophy">#663414</color>
+
+    <!-- Track color -->
+    <color name="track_name">#c8ffffff</color>
+
+    <!--Title color-->
+    <color name="event_title">#a0ffffff</color>
+    <color name="event_title_highlight">#fff</color>
+
+</resources>

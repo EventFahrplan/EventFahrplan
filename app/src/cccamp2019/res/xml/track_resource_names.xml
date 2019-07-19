@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<map linked="true">
+    <entry key="Art &amp; Culture">art_culture</entry>
+    <entry key="CCC">ccc</entry>
+    <entry key="Failosophy">failosophy</entry>
+    <entry key="Ethics, Society &amp; Politics">ethics_society_politics</entry>
+    <entry key="Hardware &amp; Making">hardware_making</entry>
+    <entry key="Science">science</entry>
+    <entry key="Security &amp; Hacking">security_hacking</entry>
+    <entry key="Other">other</entry>
+    <entry key="">other</entry>
+</map>
