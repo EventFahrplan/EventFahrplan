@@ -31,7 +31,7 @@
                 android:ellipsize="end"
                 android:paddingBottom="3dp"
                 android:textColor="?android:attr/textColorPrimary"
-                android:textSize="16sp"
+                android:textSize="@dimen/alarm_list_alarm_title_text"
                 tools:text="@string/placeholder_event_title"/>
 
         <TextView
@@ -39,7 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="?android:attr/textColorSecondary"
-                android:textSize="10sp"
+                android:textSize="@dimen/alarm_list_alarm_start_time_text"
                 tools:text="@string/placeholder_alarm_time"/>
     </LinearLayout>
 
