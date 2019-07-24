@@ -31,8 +31,7 @@ public class TrackBackgrounds {
                     if (parser.getName().equals("map")) {
                         boolean isLinked = parser.getAttributeBooleanValue(null, "linked", false);
 
-                        map = isLinked ? new LinkedHashMap<String,
-                                String>() : new HashMap<String, String>();
+                        map = isLinked ? new LinkedHashMap<>() : new HashMap<>();
                     } else if (parser.getName().equals("entry")) {
                         key = parser.getAttributeValue(null, "key");
 
