@@ -16,7 +16,7 @@ public class DateInfo {
         return this.date.equals(date) ? dayIdx : -1;
     }
 
-    @SuppressWarnings("SimplifiableIfStatement")
+    @SuppressWarnings({"SimplifiableIfStatement", "EqualsReplaceableByObjectsCall"})
     @Override
     public boolean equals(Object o) {
         if (this == o) {
