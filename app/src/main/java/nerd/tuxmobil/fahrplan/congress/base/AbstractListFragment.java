@@ -16,17 +16,18 @@ import nerd.tuxmobil.fahrplan.congress.models.Lecture;
  */
 public abstract class AbstractListFragment extends ListFragment {
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     *
-     * @param lecture                The lecture which was clicked.
-     * @param requiresScheduleReload Boolean flag to indicate whether the schedule
-     *                               must be reload from the data source or not.
-     */
     public interface OnLectureListClick {
+
+        /**
+         * This interface must be implemented by activities that contain this
+         * fragment to allow an interaction in this fragment to be communicated
+         * to the activity and potentially other fragments contained in that
+         * activity.
+         *
+         * @param lecture                The lecture which was clicked.
+         * @param requiresScheduleReload Boolean flag to indicate whether the schedule
+         *                               must be reload from the data source or not.
+         */
         void onLectureListClick(Lecture lecture, boolean requiresScheduleReload);
     }
 
