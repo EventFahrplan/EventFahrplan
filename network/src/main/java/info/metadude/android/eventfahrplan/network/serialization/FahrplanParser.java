@@ -158,7 +158,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                             }
                         }
                         if (name.equals("room")) {
-                            room = new String(parser.getAttributeValue(null, "name"));
+                            room = parser.getAttributeValue(null, "name");
                             if (!roomsMap.containsKey(room)) {
                                 roomsMap.put(room, room_index);
                                 room_map_index = room_index;
