@@ -7,12 +7,9 @@ import android.app.NotificationManager
 import android.content.Context
 import android.content.Context.*
 import android.content.Intent
-import android.net.ConnectivityManager
 import android.view.LayoutInflater
 
 fun Context.getAlarmManager() = getSystemService(ALARM_SERVICE) as AlarmManager
-
-fun Context.getConnectivityManager() = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
 
 fun Context.getLayoutInflater() = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
 

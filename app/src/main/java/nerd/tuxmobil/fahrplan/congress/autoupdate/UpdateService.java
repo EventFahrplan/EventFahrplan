@@ -19,14 +19,13 @@ import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.MyApp.TASKS;
 import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
+import nerd.tuxmobil.fahrplan.congress.net.ConnectivityObserver;
 import nerd.tuxmobil.fahrplan.congress.net.FetchScheduleResult;
 import nerd.tuxmobil.fahrplan.congress.net.HttpStatus;
 import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper;
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 import nerd.tuxmobil.fahrplan.congress.schedule.MainActivity;
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
-
-import static nerd.tuxmobil.fahrplan.congress.net.Connectivity.networkIsAvailable;
 
 public class UpdateService extends JobIntentService {
 
@@ -114,12 +113,19 @@ public class UpdateService extends JobIntentService {
 
     @Override
     protected void onHandleWork(@NonNull Intent intent) {
-        if (!networkIsAvailable(this)) {
+        ConnectivityObserver connectivityObserver = new ConnectivityObserver(this, () -> {
+            MyApp.LogDebug(LOG_TAG, "Network is available");
+            fetchSchedule();
+            return null;
+        }, () -> {
             MyApp.LogDebug(LOG_TAG, "Network is not available");
             stopSelf();
-            return;
-        }
+            return null;
+        }, true);
+        connectivityObserver.start();
+    }
 
+    private void fetchSchedule() {
         AppRepository appRepository = AppRepository.Companion.getInstance(getApplicationContext());
         MyApp.meta = appRepository.readMeta(); // to load eTag
         MyApp.LogDebug(LOG_TAG, "Fetching schedule ...");
