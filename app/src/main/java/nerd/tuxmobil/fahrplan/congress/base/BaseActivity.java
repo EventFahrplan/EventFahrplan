@@ -1,21 +1,26 @@
 package nerd.tuxmobil.fahrplan.congress.base;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.WindowManager;
 
-import nerd.tuxmobil.fahrplan.congress.net.ConnectivityStateReceiver;
+import nerd.tuxmobil.fahrplan.congress.R;
+import nerd.tuxmobil.fahrplan.congress.autoupdate.UpdateService;
+import nerd.tuxmobil.fahrplan.congress.net.ConnectivityObserver;
 import nerd.tuxmobil.fahrplan.congress.utils.ActivityHelper;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
-    private ConnectivityStateReceiver connectivityStateReceiver;
+    private ConnectivityObserver connectivityObserver;
 
     @Override
     public void onAttachedToWindow() {
@@ -26,14 +31,18 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        connectivityStateReceiver = new ConnectivityStateReceiver();
-        registerReceiver(connectivityStateReceiver, ConnectivityStateReceiver.getIntentFilter());
+        connectivityObserver = new ConnectivityObserver(this, () -> {
+            Log.d(getClass().getName(), "Network is available.");
+            startUpdateService();
+            return null;
+        });
+        connectivityObserver.start();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unregisterReceiver(connectivityStateReceiver);
+        connectivityObserver.stop();
     }
 
     @Override
@@ -44,6 +53,15 @@ public abstract class BaseActivity extends AppCompatActivity {
                 return ActivityHelper.navigateUp(this);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void startUpdateService() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean defaultValue = getResources().getBoolean(R.bool.preferences_auto_update_enabled_default_value);
+        boolean doAutoUpdates = preferences.getBoolean("auto_update", defaultValue);
+        if (doAutoUpdates) {
+            UpdateService.start(this);
+        }
     }
 
     protected void addFragment(@IdRes int containerViewId,
