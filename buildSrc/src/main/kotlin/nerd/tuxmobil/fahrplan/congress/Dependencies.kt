@@ -36,7 +36,7 @@ object Libs {
         const val mockito = "2.28.0"
         const val mockitoKotlin = "2.2.0"
         const val okhttp = "3.12.4"
-        const val snackengage = "0.19"
+        const val snackengage = "0.22"
         const val supportLibrary = "28.0.0"
         const val testRules = "1.0.2"
         const val threeTenBp = "1.4.0"
