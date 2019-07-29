@@ -13,4 +13,4 @@ fun List<LectureNetworkModel>.toLecturesAppModel2(): List<Lecture> = map(Lecture
 
 fun List<LectureDatabaseModel>.toLecturesAppModel() = map(LectureDatabaseModel::toLectureAppModel)
 
-fun List<Lecture>.sanitize() = map(Lecture::sanitize)
+fun List<Lecture>.sanitize(): List<Lecture> = map(Lecture::sanitize)
