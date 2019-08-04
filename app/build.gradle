@@ -135,7 +135,7 @@ android {
             buildConfigField "int", "SCHEDULE_LAST_DAY_END_MONTH", "8"
             buildConfigField "int", "SCHEDULE_LAST_DAY_END_DAY", "26"
             buildConfigField "boolean", "SHOW_APP_DISCLAIMER", "false"
-            buildConfigField "boolean", "ENGAGE_C3NAV_APP_INSTALLATION", "true"
+            buildConfigField "boolean", "ENGAGE_C3NAV_APP_INSTALLATION", "false"
             buildConfigField "boolean", "ENGAGE_GOOGLE_BETA_TESTING", "true"
             buildConfigField "boolean", "ENGAGE_GOOGLE_PLAY_RATING", "true"
             buildConfigField "String", "TRACE_DROID_EMAIL_ADDRESS", '"tobias.preuss+camp2019@googlemail.com"'
