@@ -13,15 +13,16 @@ class EventUrlComposer @JvmOverloads constructor(
 
 ) {
 
-    fun getEventUrl(): String = when (serverBackEndType) {
-        PENTABARF.name -> getComposedEventUrl(event.slug)
-        FRAB.name -> event.eventUrl
-        PRETALX.name -> event.url
-        else -> throw NotImplementedError("Unknown server backend type: '$serverBackEndType'")
+    fun getEventUrl(): String {
+        return event.eventUrl
     }
 
-    private val Event.eventUrl
-        get() = if (originatesFromPretalx) url else getComposedEventUrl(lecture_id)
+    private val Event.eventUrl: String get() {
+            when (serverBackEndType) {
+                    PENTABARF.name -> return getComposedEventUrl(event.slug)
+                    else -> if (url == null || url.isEmpty()) return getComposedEventUrl(lecture_id) else return url
+            }
+    }
 
     private fun getComposedEventUrl(eventIdentifier: String) =
             String.format(eventUrlTemplate, eventIdentifier)
