@@ -9,7 +9,7 @@ class EventUrlComposerTest {
     companion object {
 
         private const val FRAB_EVENT_URL_TEMPLATE =
-                "https://events.ccc.de/congress/2018/Fahrplan/events/%1\$s.html"
+                "https://fahrplan.events.ccc.de/congress/2018/Fahrplan/events/%1\$s.html"
 
         private const val PENTABARF_EVENT_URL_TEMPLATE =
                 "https://fosdem.org/2018/schedule/event/%1\$s/"
@@ -49,7 +49,7 @@ class EventUrlComposerTest {
     @Test
     fun getEventUrlWithFrabEventWithFrabBackend() {
         assertThat(EventUrlComposer(FRAB_EVENT, FRAB_EVENT_URL_TEMPLATE, ServerBackendType.FRAB.name)
-                .getEventUrl()).isEqualTo("https://events.ccc.de/congress/2018/Fahrplan/events/9985.html")
+                .getEventUrl()).isEqualTo("https://fahrplan.events.ccc.de/congress/2018/Fahrplan/events/9985.html")
     }
 
     @Test
