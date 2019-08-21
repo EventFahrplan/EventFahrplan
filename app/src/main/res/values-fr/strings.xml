@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="alarm_time_title_at_start_time">à l’heure de début</string>
+    <plurals name="notifications_schedule_changes">
+        <item quantity="one">
+            <xliff:g id="count" example="1">%d</xliff:g> conférence a été modifiée.</item>
+        <item quantity="other">
+            <xliff:g id="count" example="3">%d</xliff:g> conférences ont été modifiées.</item>
+    </plurals>
+    <string name="notifications_event_alarm_channel_description">Alertes créées par l’utilisateur·rice pour divers événements.</string>
+    <string name="snack_engage_google_play_beta_testing_title">Utilisateur·rice avancé·e \?</string>
+    <string name="share_error_activity_not_found">Aucune application appropriée n’est installée.</string>
+    <string name="choose_day">Choisissez une journée</string>
+    <string name="load_data">Charger</string>
+    <string name="schedule_changes_dialog_later">Plus tard</string>
+    <string name="schedule_changes_dialog_browse">Parcourir</string>
+    <plurals name="schedule_changes_dialog_being">
+        <item quantity="one">%d est</item>
+        <item quantity="other">%d sont</item>
+    </plurals>
+    <plurals name="schedule_changes_dialog_number_of_lectures">
+        <item quantity="one">%d conférence</item>
+        <item quantity="other">%d conférences</item>
+    </plurals>
+    <string name="schedule_changes_dialog_affected_text">Les modifications affectent <xliff:g id="num_marked" example="2">%1$d</xliff:g> de vos conférences favorites.</string>
+    <string name="schedule_changes_dialog_changed_new_cancelled_text">. Il y a eu des changement dans <xliff:g id="num_changes" example="3 lectures">%1$s</xliff:g>, <xliff:g id="num_new" example="2 are">%2$s</xliff:g> nouveau, <xliff:g id="num_canceled" example="1 is">%3$s</xliff:g> annulé.</string>
+    <string name="dlg_err_failed_ssl_failure">Échec SSL</string>
+    <string name="dlg_err_failed_wrong_http_credentials">Authentification HTTP non valide</string>
+    <string name="dlg_err_failed_unknown_host">Adresse inconnue :
+\n%s</string>
+    <string name="dlg_err_connection_failed">Échec de la connexion</string>
+    <string name="dlg_invalid_certificate_could_not_apply">Le certificat n’a pas pu être ajouté.</string>
+    <string name="dlg_invalid_certificate_title">Faire confiance au certificat inconnu \?</string>
+    <string name="OK">OK</string>
+    <string name="menu_item_title_share_favorites">Partager les favoris</string>
+    <string name="menu_item_title_share_event">Partager l’événement</string>
+    <string name="menu_item_title_navigate">Naviguer</string>
+    <string name="menu_item_title_feedback">Commentaires</string>
+    <string name="menu_item_title_favorites">Favoris</string>
+    <string name="menu_item_title_delete_all">Tout supprimer</string>
+    <string name="menu_item_title_delete_alarm">Effacer l’alerte</string>
+    <string name="alarm_time_title_60_minutes_before">60 minutes avant</string>
+    <string name="alarm_time_title_45_minutes_before">45 minutes avant</string>
+    <string name="alarm_time_title_30_minutes_before">30 minutes avant</string>
+    <string name="alarm_time_title_20_minutes_before">20 minutes avant</string>
+    <string name="alarm_time_title_15_minutes_before">15 minutes avant</string>
+    <string name="alarm_time_title_10_minutes_before">10 minutes avant</string>
+    <string name="alarm_time_title_5_minutes_before">5 minutes avant</string>
+    <string name="notifications_event_alarm_content_text">Alerte pour un événement</string>
+    <string name="notifications_event_alarm_channel_name">Alertes pour les événements</string>
+    <string name="trace_droid_app_chooser_title">Ouvrir le brouillon avec …</string>
+    <string name="trace_droid_button_title_later">Peut-être plus tard</string>
+    <string name="trace_droid_button_title_no">Non</string>
+    <string name="trace_droid_no_email_app">Aucune application de messagerie compatible n’est installée.</string>
+    <string name="snack_engage_c3nav_action">Obtenez-la maintenant !</string>
+    <string name="snack_engage_google_play_beta_testing_action">Devenir bêta-testeur</string>
+    <string name="snack_engage_rate_action">Notez l’app</string>
+    <string name="snack_engage_rate_title">Tout va bien \?</string>
+    <string name="build_info_version_code"> Code de la version : <xliff:g id="version_code" example="42">%s</xliff:g>
+    </string>
+    <string name="dlg_delete_all_favorites_delete_all">Tout supprimer</string>
+    <string name="dlg_delete_all_favorites">Supprimer tous les favoris \?</string>
+    <string name="event_duration">
+        <xliff:g id="duration" example="45">%1$d</xliff:g> min.</string>
+    <string name="day_separator">Jour <xliff:g id="day_of_congress" example="2">%1$d</xliff:g> - <xliff:g id="date_of_congress_day" example="29.12.2014">%2$s</xliff:g>
+    </string>
+    <string name="choose_to_delete">Sélectionnez des conférences</string>
+    <string name="invalid_url">URL invalide</string>
+    <string name="starred_lectures">Favoris</string>
+    <string name="general_settings">Général</string>
+    <string name="no_favorites">Aucune conférence dans les favoris</string>
+    <string name="issues">&lt;a href=https://github.com/EventFahrplan/EventFahrplan/issues&gt;Problèmes ou demandes de fonctionnalités&lt;/a&gt;</string>
+    <string name="about_data_privacy_statement">&lt;a href=https://github.com/EventFahrplan/EventFahrplan/blob/master/DATA-PRIVACY-DE.md&gt;déclaration de protection des données (en allemand)&lt;/a&gt;</string>
+    <string name="reminder_ringtone">Tonalité de l’alerte</string>
+    <string name="default_alarm_time_dialog_title">Heure par défaut de l’alerte</string>
+    <string name="default_alarm_time_title">Choisissez l’heure par défaut de l’alerte</string>
+    <string name="choose_alarm_time">Choisissez l’heure de l’alerte</string>
+    <string name="event_detail_section_title_links">Liens</string>
+    <string name="event_online">Événement en ligne</string>
+    <string name="appVersion">Version de l’application %s</string>
+    <string name="fahrplan">Calendrier</string>
+    <string name="day">Jour</string>
+    <string name="pref_auto_download">Mises à jour automatiques</string>
+    <string name="today">aujourd’hui</string>
+    <string name="insistent_alarm">Alerte insistante</string>
+    <string name="reminders">Alertes</string>
+    <string name="settings">Paramètres</string>
+    <string name="menu_item_title_refresh">Actualiser</string>
+    <string name="menu_item_title_delete_favorite">Supprimer</string>
+    <string name="menu_item_title_unflag_as_favorite">Supprimer des favoris</string>
+    <string name="menu_item_title_flag_as_favorite">Ajouter aux favoris</string>
+    <string name="menu_item_title_alarms">Alarmes</string>
+    <string name="menu_item_title_add_to_calendar">Ajouter au calendrier</string>
+    <string name="menu_item_title_about">Info</string>
+    <string name="parsing_error_with_version">Analyse de l’erreur pour le calendrier version %s</string>
+    <string name="dlg_err_failed_connect_failure">Échec lors de la connexion pour des raisons inconnues</string>
+    <string name="notifications_schedule_update_channel_description">Les mises à jour automatiques du calendrier peuvent être configurées via les paramètres de l’application.</string>
+    <string name="trace_droid_button_title_send">Ouvrir la messagerie</string>
+    <string name="trace_droid_dialog_message"> Un problème avec l’application <xliff:g id="appName" example="33C3 Schedule">%s</xliff:g> a été détecté. Il serait utile si vous pouviez envoyer un rapport de crash afin que la source du problème soit identifié. </string>
+    <string name="snack_engage_c3nav_title">La navigation interne au 35C3 ! Avec l’application c3nav</string>
+    <string name="app_disclaimer">Cette application est basée sur le code source de l’application « EventFahrplan ». Les visiteurs du congrès annuel et du camp organisé par le Chaos Computer Club utilisent cette application pour garder une trace du programme de l’événement.</string>
+    <string name="build_info_hash"> Hash de la version : <xliff:g id="build_hash" example="e1f2g3h-dirty">%s</xliff:g>
+    </string>
+    <string name="build_info_time"> Temps de construction : <xliff:g id="build_time" example="2015-12-27T13:42Z">%s</xliff:g>
+    </string>
+    <string name="alternative_highlight">Mise en évidence alternative</string>
+    <string name="add_to_calendar_failed">L’ajout de l’évènement au calendrier a échoué.</string>
+    <string name="alarms_empty">Il n’y a aucune alerte à afficher. Veuillez noter que vous pouvez définir des alarmes individuelles pour chaque élément dans le calendrier. Appuyez simplement sur l’icône de l’alerte dans la barre d’action.</string>
+    <string name="libraries">Cette application utilise les librairies suivante : Kotlin, Google Support Library v4, Google AppCompat Library v7, Email Intent Builder, Espresso, OkHttp, SnackEngage, TraceDroid</string>
+    <string name="usage">Note :
+\n
+\nAppuyez longuement sur une conférence pour définir une alerte.</string>
+    <string name="schedule_updated_to"> Mis à jour vers <xliff:g id="version" example="Mildenberg 2018-01-16 16:50">%s</xliff:g>
+    </string>
+    <string name="schedule_changes_dialog_title">Mise à jour du calendrier</string>
+    <string name="dlg_err_failed_parse_failure">Impossible d’analyser la réponse</string>
+    <string name="dlg_err_failed_timeout">Serveur ne répond pas (délai d’attente dépassé).</string>
+    <string name="dlg_certificate_message_fmt"> Échec lors de l’établissement d’une connexion sécurisée.
+\n (<xliff:g id="error" example="Unknown Error">%s</xliff:g>) </string>
+    <string name="menu_item_title_set_alarm">Réglage de l’alerte</string>
+    <string name="menu_item_title_close_event_details">Fermer les détails de l’évènement</string>
+    <string name="notifications_schedule_update_channel_name">Changements dans le calendrier</string>
+    <string name="trace_droid_dialog_title"> Envoi du rapport de crash du calendrier <xliff:g id="appName" example="33C3 Schedule">%s</xliff:g> … </string>
+    <string name="schedule_url">URL alternative du calendrier</string>
+    <string name="schedule_changes">Changements du calendrier</string>
+    <string name="no_changes">Aucun changement dans le calendrier</string>
+    <string name="parsing_error_generic">Erreur inconnue lors de l’analyse du calendrier</string>
+    <string name="schedule_updated">Le calendrier a été mis à jour.</string>
+    <string name="progress_processing_data">Traitement du calendrier …</string>
+    <string name="schedule_changes_dialog_updated_to_text">"Le calendrier a été mis à jour "</string>
+    <string name="uptodate">Le calendrier est à jour.</string>
+    <string name="dlg_err_failed_not_found">URL du calendrier invalide</string>
+    <string name="progress_loading_data">Obtention du calendrier …</string>
+</resources>
