@@ -1,8 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.utils
 
 import nerd.tuxmobil.fahrplan.congress.BuildConfig
-import nerd.tuxmobil.fahrplan.congress.extensions.originatesFromPretalx
-import nerd.tuxmobil.fahrplan.congress.utils.ServerBackendType.*
+import nerd.tuxmobil.fahrplan.congress.utils.ServerBackendType.PENTABARF
 import nerd.tuxmobil.fahrplan.congress.models.Lecture as Event
 
 class EventUrlComposer @JvmOverloads constructor(
@@ -13,16 +12,13 @@ class EventUrlComposer @JvmOverloads constructor(
 
 ) {
 
-    fun getEventUrl(): String {
-        return event.eventUrl
-    }
+    fun getEventUrl() = event.eventUrl
 
-    private val Event.eventUrl: String get() {
-            when (serverBackEndType) {
-                    PENTABARF.name -> return getComposedEventUrl(event.slug)
-                    else -> if (url == null || url.isEmpty()) return getComposedEventUrl(lecture_id) else return url
-            }
-    }
+    private val Event.eventUrl: String
+        get() = when (serverBackEndType) {
+            PENTABARF.name -> getComposedEventUrl(event.slug)
+            else -> if (url.isNullOrEmpty()) getComposedEventUrl(lecture_id) else url
+        }
 
     private fun getComposedEventUrl(eventIdentifier: String) =
             String.format(eventUrlTemplate, eventIdentifier)
