@@ -125,7 +125,7 @@ android {
             applicationId "info.metadude.android.cccamp.schedule"
             versionName "${defaultConfig.versionName} (CCCamp Edition)"
             signingConfig signingConfigs.cccamp2019
-            buildConfigField "String", "SCHEDULE_URL", '"https://events.ccc.de/camp/2019/Fahrplan/schedule.xml"'
+            buildConfigField "String", "SCHEDULE_URL", '"https://data.c3voc.de/camp2019/everything.schedule.xml"'
             buildConfigField "String", "EVENT_URL", '"http://events.ccc.de/camp/2019/Fahrplan/events/%1$s.html"'
             buildConfigField "String", "SERVER_BACKEND_TYPE", '"frab"'
             buildConfigField "int", "SCHEDULE_FIRST_DAY_START_YEAR", "2019"
