@@ -23,7 +23,7 @@
         <item quantity="other">%d conférences</item>
     </plurals>
     <string name="schedule_changes_dialog_affected_text">Les modifications affectent <xliff:g id="num_marked" example="2">%1$d</xliff:g> de vos conférences favorites.</string>
-    <string name="schedule_changes_dialog_changed_new_cancelled_text">. Il y a eu des changement dans <xliff:g id="num_changes" example="3 lectures">%1$s</xliff:g>, <xliff:g id="num_new" example="2 are">%2$s</xliff:g> nouvelle(s), <xliff:g id="num_canceled" example="1 is">%3$s</xliff:g> annulée(s).</string>
+    <string name="schedule_changes_dialog_changed_new_cancelled_text">. Il y a eu des changements dans <xliff:g id="num_changes" example="3 lectures">%1$s</xliff:g>, <xliff:g id="num_new" example="2 are">%2$s</xliff:g> nouvelle(s), <xliff:g id="num_canceled" example="1 is">%3$s</xliff:g> annulée(s).</string>
     <string name="dlg_err_failed_ssl_failure">Échec SSL</string>
     <string name="dlg_err_failed_wrong_http_credentials">Authentification HTTP non valide</string>
     <string name="dlg_err_failed_unknown_host">Adresse inconnue :
