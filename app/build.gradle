@@ -123,7 +123,7 @@ android {
         cccamp2019 {
             dimension defaultDimension
             applicationId "info.metadude.android.cccamp.schedule"
-            versionName "${defaultConfig.versionName}-CCCamp-Edition"
+            versionName "1.39.2-CCCamp-Edition"
             signingConfig signingConfigs.cccamp2019
             buildConfigField "String", "SCHEDULE_URL", '"https://data.c3voc.de/camp2019/everything.schedule.xml"'
             buildConfigField "String", "EVENT_URL", '"http://events.ccc.de/camp/2019/Fahrplan/events/%1$s.html"'
