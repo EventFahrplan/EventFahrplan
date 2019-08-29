@@ -4,7 +4,7 @@ You are very welcome to contribute to this project.
 In order to simplify the process please try to follow the following suggestions:
 
 * Create an issue to discuss your idea before you invest a lot of time into coding.
-* Fork the repository into you personal GitHub account to start working.
+* Fork the repository into your personal GitHub account to start working.
 * Create a separate branch for each topic.
 * Use contextual atomic commits.
 * Make sure each commit compiles.
