@@ -51,7 +51,7 @@ import nerd.tuxmobil.fahrplan.congress.wiki.WikiEventUtils;
 
 public class EventDetailFragment extends Fragment {
 
-    private final String LOG_TAG = "Detail";
+    private static final String LOG_TAG = "Detail";
 
     public static final String FRAGMENT_TAG = "detail";
 

@@ -31,7 +31,7 @@ public class UpdateService extends JobIntentService {
 
     private static final int JOB_ID = 2119;
 
-    final String LOG_TAG = "UpdateService";
+    private static final String LOG_TAG = "UpdateService";
 
     public void onParseDone(Boolean result, String version) {
         MyApp.LogDebug(LOG_TAG, "parseDone: " + result + " , numDays=" + MyApp.meta.getNumDays());
