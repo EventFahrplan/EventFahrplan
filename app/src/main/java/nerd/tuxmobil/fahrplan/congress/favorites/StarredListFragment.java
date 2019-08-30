@@ -200,7 +200,7 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.starred_list_menu, menu);
         MenuItem item = menu.findItem(R.id.menu_item_delete_all_favorites);
-        if (item != null && (starredList == null || starredList.size() == 0)) {
+        if (item != null && (starredList == null || starredList.isEmpty())) {
             item.setVisible(false);
         }
         item = menu.findItem(R.id.menu_item_share_favorites);

@@ -748,7 +748,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
             k++;
         }
 
-        if (MyApp.lectureList.size() > 0 && MyApp.lectureList.get(0).dateUTC > 0) {
+        if (!MyApp.lectureList.isEmpty() && MyApp.lectureList.get(0).dateUTC > 0) {
             Collections.sort(MyApp.lectureList, (lhs, rhs) -> Long.compare(lhs.dateUTC, rhs.dateUTC));
         }
 
