@@ -70,7 +70,7 @@ public class FahrplanMisc {
 
     public static void deleteAlarm(@NonNull Context context, @NonNull Lecture lecture) {
         AppRepository appRepository = AppRepository.Companion.getInstance(context);
-        String eventId = lecture.lecture_id;
+        String eventId = lecture.lectureId;
         List<Alarm> alarms = appRepository.readAlarms(eventId);
         if (!alarms.isEmpty()) {
             // Delete any previous alarms of this event.
@@ -79,13 +79,13 @@ public class FahrplanMisc {
             AlarmServices.discardEventAlarm(context, schedulableAlarm);
             appRepository.deleteAlarmForEventId(eventId);
         }
-        lecture.has_alarm = false;
+        lecture.hasAlarm = false;
     }
 
     public static void addAlarm(@NonNull Context context,
                                 @NonNull Lecture lecture,
                                 int alarmTimesIndex) {
-        Log.d(FahrplanMisc.class.getName(), "Add alarm for lecture: " + lecture.lecture_id +
+        Log.d(FahrplanMisc.class.getName(), "Add alarm for lecture: " + lecture.lectureId +
                 ", alarmTimesIndex: " + alarmTimesIndex);
         String[] alarm_times = context.getResources().getStringArray(R.array.alarm_time_values);
         List<String> alarmTimeStrings = new ArrayList<>(Arrays.asList(alarm_times));
@@ -117,7 +117,7 @@ public class FahrplanMisc {
         MyApp.LogDebug("addAlarm",
                 "Alarm time: " + time.format("%Y-%m-%dT%H:%M:%S%z") + ", in seconds: " + when);
 
-        String eventId = lecture.lecture_id;
+        String eventId = lecture.lectureId;
         String eventTitle = lecture.title;
         int alarmTimeInMin = alarmTimes.get(alarmTimesIndex);
         String timeText = TIME_TEXT_DATE_FORMAT.format(new Date(when));
@@ -127,7 +127,7 @@ public class FahrplanMisc {
         SchedulableAlarm schedulableAlarm = AlarmExtensions.toSchedulableAlarm(alarm);
         AlarmServices.scheduleEventAlarm(context, schedulableAlarm, true);
         AppRepository.Companion.getInstance(context).updateAlarm(alarm);
-        lecture.has_alarm = true;
+        lecture.hasAlarm = true;
     }
 
     public static long setUpdateAlarm(Context context, boolean initial) {
@@ -197,7 +197,7 @@ public class FahrplanMisc {
         for (Highlight highlight : highlights) {
             MyApp.LogDebug(LOG_TAG, highlight.toString());
             for (Lecture lecture : lectures) {
-                if (lecture.lecture_id.equals("" + highlight.getEventId())) {
+                if (lecture.lectureId.equals("" + highlight.getEventId())) {
                     lecture.highlight = highlight.isHighlight();
                 }
             }

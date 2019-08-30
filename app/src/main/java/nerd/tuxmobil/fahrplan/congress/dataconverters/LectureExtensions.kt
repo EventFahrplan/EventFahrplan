@@ -9,19 +9,19 @@ import info.metadude.android.eventfahrplan.network.models.Lecture as LectureNetw
 fun Lecture.toDateInfo(): DateInfo = DateInfo(day, date)
 
 fun Lecture.toHighlightDatabaseModel() = HighlightDatabaseModel(
-        eventId = Integer.parseInt(lecture_id),
+        eventId = Integer.parseInt(lectureId),
         isHighlight = highlight
 )
 
 fun Lecture.toLectureDatabaseModel() = LectureDatabaseModel(
-        eventId = lecture_id,
+        eventId = lectureId,
         abstractt = abstractt,
         date = date,
         dateUTC = dateUTC,
         dayIndex = day,
         description = description,
         duration = duration, // minutes
-        hasAlarm = has_alarm,
+        hasAlarm = hasAlarm,
         language = lang,
         links = links,
         isHighlight = highlight,
@@ -29,7 +29,7 @@ fun Lecture.toLectureDatabaseModel() = LectureDatabaseModel(
         recordingOptOut = recordingOptOut,
         relativeStartTime = relStartTime,
         room = room,
-        roomIndex = room_index,
+        roomIndex = roomIndex,
         slug = slug,
         speakers = speakers,
         startTime = startTime, // minutes since day start
@@ -54,14 +54,14 @@ fun Lecture.toLectureDatabaseModel() = LectureDatabaseModel(
 )
 
 fun Lecture.toLectureNetworkModel() = LectureNetworkModel(
-        eventId = lecture_id,
+        eventId = lectureId,
         abstractt = abstractt,
         date = date,
         dateUTC = dateUTC,
         dayIndex = day,
         description = description,
         duration = duration, // minutes
-        hasAlarm = has_alarm,
+        hasAlarm = hasAlarm,
         language = lang,
         links = links,
         isHighlight = highlight,
@@ -69,7 +69,7 @@ fun Lecture.toLectureNetworkModel() = LectureNetworkModel(
         recordingOptOut = recordingOptOut,
         relativeStartTime = relStartTime,
         room = room,
-        roomIndex = room_index,
+        roomIndex = roomIndex,
         slug = slug,
         speakers = speakers,
         startTime = startTime, // minutes since day start
@@ -102,7 +102,7 @@ fun LectureDatabaseModel.toLectureAppModel(): Lecture {
     lecture.day = dayIndex
     lecture.description = description
     lecture.duration = duration // minutes
-    lecture.has_alarm = hasAlarm
+    lecture.hasAlarm = hasAlarm
     lecture.lang = language
     lecture.links = links
     lecture.highlight = isHighlight
@@ -110,7 +110,7 @@ fun LectureDatabaseModel.toLectureAppModel(): Lecture {
     lecture.recordingOptOut = recordingOptOut
     lecture.relStartTime = relativeStartTime
     lecture.room = room
-    lecture.room_index = roomIndex
+    lecture.roomIndex = roomIndex
     lecture.slug = slug
     lecture.speakers = speakers
     lecture.startTime = startTime // minutes since day start
@@ -145,7 +145,7 @@ fun LectureNetworkModel.toLectureAppModel(): Lecture {
     lecture.day = dayIndex
     lecture.description = description
     lecture.duration = duration // minutes
-    lecture.has_alarm = hasAlarm
+    lecture.hasAlarm = hasAlarm
     lecture.lang = language
     lecture.links = links
     lecture.highlight = isHighlight
@@ -153,7 +153,7 @@ fun LectureNetworkModel.toLectureAppModel(): Lecture {
     lecture.recordingOptOut = recordingOptOut
     lecture.relStartTime = relativeStartTime
     lecture.room = room
-    lecture.room_index = roomIndex
+    lecture.roomIndex = roomIndex
     lecture.slug = slug
     lecture.speakers = speakers
     lecture.startTime = startTime // minutes since day start

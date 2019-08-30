@@ -30,7 +30,7 @@ class FeedbackUrlComposer(
     private val Event.frabScheduleFeedbackUrl
         get() =
             if (frabScheduleFeedbackUrlFormatString.isEmpty()) NO_URL
-            else String.format(frabScheduleFeedbackUrlFormatString, lecture_id)
+            else String.format(frabScheduleFeedbackUrlFormatString, lectureId)
 
     private val Event.pretalxScheduleFeedbackUrl
         get() = "$url$PRETALX_SCHEDULE_FEEDBACK_URL_SUFFIX"

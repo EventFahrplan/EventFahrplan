@@ -42,7 +42,7 @@ public class MyApp extends Application {
     public static final ConferenceTimeFrame conferenceTimeFrame =
             new ConferenceTimeFrame(first_day_start, last_day_end);
 
-    public static int room_count = 0;
+    public static int roomCount = 0;
 
     public static HashMap<String, Integer> roomsMap = new HashMap<>();
 
@@ -54,11 +54,11 @@ public class MyApp extends Application {
     }
 
     // requestCodes für startActivityForResult
-    final public static int ALARMLIST = 1;
-    final public static int EVENTVIEW = 2;
-    final public static int CHANGELOG = 3;
-    final public static int STARRED = 4;
-    final public static int SETTINGS = 5;
+    public final static int ALARMLIST = 1;
+    public final static int EVENTVIEW = 2;
+    public final static int CHANGELOG = 3;
+    public final static int STARRED = 4;
+    public final static int SETTINGS = 5;
 
     public static TASKS task_running = TASKS.NONE;
 

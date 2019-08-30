@@ -15,9 +15,9 @@ import java.util.Arrays;
 
 public class EventDrawable extends LayerDrawable {
 
-    public final static int BACKGROUND_LAYER_INDEX = 0;
+    public static final int BACKGROUND_LAYER_INDEX = 0;
 
-    public final static int STROKE_LAYER_INDEX = 1;
+    public static final int STROKE_LAYER_INDEX = 1;
 
     public EventDrawable(@ColorInt int backgroundColor, float cornerRadius,
                          @ColorInt int rippleColor) {

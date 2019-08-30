@@ -121,9 +121,9 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
             int day = 0;
             int dayChangeTime = 600; // hardcoded as not provided
             String date = "";
-            int room_index = 0;
-            int room_map_index = 0;
-            boolean schedule_complete = false;
+            int roomIndex = 0;
+            int roomMapIndex = 0;
+            boolean scheduleComplete = false;
             HashMap<String, Integer> roomsMap = new HashMap<>();
             while (eventType != XmlPullParser.END_DOCUMENT && !done && !isCancelled()) {
                 String name;
@@ -135,7 +135,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                     case XmlPullParser.END_TAG:
                         name = parser.getName();
                         if (name.equals("schedule")) {
-                            schedule_complete = true;
+                            scheduleComplete = true;
                         }
                         break;
                     case XmlPullParser.START_TAG:
@@ -160,11 +160,11 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                         if (name.equals("room")) {
                             room = parser.getAttributeValue(null, "name");
                             if (!roomsMap.containsKey(room)) {
-                                roomsMap.put(room, room_index);
-                                room_map_index = room_index;
-                                room_index++;
+                                roomsMap.put(room, roomIndex);
+                                roomMapIndex = roomIndex;
+                                roomIndex++;
                             } else {
-                                room_map_index = roomsMap.get(room);
+                                roomMapIndex = roomsMap.get(room);
                             }
                         }
                         if (name.equalsIgnoreCase("event")) {
@@ -174,17 +174,17 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                             lecture.setDayIndex(day);
                             lecture.setRoom(room);
                             lecture.setDate(date);
-                            lecture.setRoomIndex(room_map_index);
+                            lecture.setRoomIndex(roomMapIndex);
                             eventType = parser.next();
-                            boolean lecture_done = false;
+                            boolean lectureDone = false;
                             while (eventType != XmlPullParser.END_DOCUMENT
-                                    && !lecture_done && !isCancelled()) {
+                                    && !lectureDone && !isCancelled()) {
                                 switch (eventType) {
                                     case XmlPullParser.END_TAG:
                                         name = parser.getName();
                                         if (name.equals("event")) {
                                             lectures.add(lecture);
-                                            lecture_done = true;
+                                            lectureDone = true;
                                         }
                                         break;
                                     case XmlPullParser.START_TAG:
@@ -253,14 +253,14 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                                             lecture.setDateUTC(DateHelper.getDateTime(XmlPullParsers.getSanitizedText(parser)));
                                         } else if (name.equals("recording")) {
                                             eventType = parser.next();
-                                            boolean recording_done = false;
+                                            boolean recordingDone = false;
                                             while (eventType != XmlPullParser.END_DOCUMENT
-                                                    && !recording_done && !isCancelled()) {
+                                                    && !recordingDone && !isCancelled()) {
                                                 switch (eventType) {
                                                     case XmlPullParser.END_TAG:
                                                         name = parser.getName();
                                                         if (name.equals("recording")) {
-                                                            recording_done = true;
+                                                            recordingDone = true;
                                                         }
                                                         break;
                                                     case XmlPullParser.START_TAG:
@@ -274,7 +274,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                                                         }
                                                         break;
                                                 }
-                                                if (recording_done) {
+                                                if (recordingDone) {
                                                     break;
                                                 }
                                                 eventType = parser.next();
@@ -282,21 +282,21 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                                         }
                                         break;
                                 }
-                                if (lecture_done) {
+                                if (lectureDone) {
                                     break;
                                 }
                                 eventType = parser.next();
                             }
                         } else if (name.equalsIgnoreCase("conference")) {
-                            boolean conf_done = false;
+                            boolean confDone = false;
                             eventType = parser.next();
                             while (eventType != XmlPullParser.END_DOCUMENT
-                                    && !conf_done) {
+                                    && !confDone) {
                                 switch (eventType) {
                                     case XmlPullParser.END_TAG:
                                         name = parser.getName();
                                         if (name.equals("conference")) {
-                                            conf_done = true;
+                                            confDone = true;
                                         }
                                         break;
                                     case XmlPullParser.START_TAG:
@@ -319,7 +319,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                                         }
                                         break;
                                 }
-                                if (conf_done) {
+                                if (confDone) {
                                     break;
                                 }
                                 eventType = parser.next();
@@ -329,7 +329,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                 }
                 eventType = parser.next();
             }
-            if (!schedule_complete) {
+            if (!scheduleComplete) {
                 return false;
             }
             if (isCancelled()) {

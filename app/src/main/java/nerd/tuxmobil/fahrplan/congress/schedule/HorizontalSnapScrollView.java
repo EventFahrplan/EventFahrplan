@@ -205,7 +205,7 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
     protected void onSizeChanged(int width, int height, int oldWidth, int oldHeight) {
         MyApp.LogDebug(LOG_TAG, "onSizeChanged " + oldWidth + ", " + oldHeight + ", " + width + ", " + height + " getMW:" + getMeasuredWidth());
         super.onSizeChanged(width, height, oldWidth, oldHeight);
-        maximumColumns = calcMaxCols(getResources(), getMeasuredWidth(), MyApp.room_count);
+        maximumColumns = calcMaxCols(getResources(), getMeasuredWidth(), MyApp.roomCount);
 
         int newItemWidth = Math.round((float) getMeasuredWidth() / maximumColumns);
         float scale = getResources().getDisplayMetrics().density;

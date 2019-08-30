@@ -24,7 +24,7 @@ import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
 
 public final class OnBootReceiver extends BroadcastReceiver {
 
-    final String LOG_TAG = "onBoot";
+    private static final String LOG_TAG = "onBoot";
 
     @Override
     public void onReceive(Context context, Intent intent) {

@@ -70,7 +70,7 @@ public final class TrustManagerFactory {
             mHost = host;
         }
 
-        public synchronized static X509TrustManager getInstance(String host) {
+        public static synchronized X509TrustManager getInstance(String host) {
             SecureX509TrustManager trustManager;
             if (mTrustManager.containsKey(host)) {
                 trustManager = mTrustManager.get(host);

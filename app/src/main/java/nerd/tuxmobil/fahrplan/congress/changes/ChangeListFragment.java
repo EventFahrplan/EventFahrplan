@@ -92,7 +92,8 @@ public class ChangeListFragment extends AbstractListFragment {
                 R.style.Theme_AppCompat_Light);
 
         LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
-        View view, header;
+        View view;
+        View header;
         if (sidePane) {
             view = localInflater.inflate(R.layout.fragment_lecture_list_narrow, container, false);
             mListView = view.findViewById(android.R.id.list);

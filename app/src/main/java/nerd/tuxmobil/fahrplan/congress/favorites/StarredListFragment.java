@@ -102,7 +102,8 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
                 R.style.Theme_AppCompat_Light);
 
         LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
-        View view, header;
+        View view;
+        View header;
         if (sidePane) {
             view = localInflater.inflate(R.layout.fragment_favorites_list_narrow, container, false);
             mListView = view.findViewById(android.R.id.list);
@@ -200,7 +201,7 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.starred_list_menu, menu);
         MenuItem item = menu.findItem(R.id.menu_item_delete_all_favorites);
-        if (item != null && (starredList == null || starredList.size() == 0)) {
+        if (item != null && (starredList == null || starredList.isEmpty())) {
             item.setVisible(false);
         }
         item = menu.findItem(R.id.menu_item_share_favorites);
@@ -263,7 +264,7 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
         if (MyApp.lectureList != null) {
             for (int j = 0; j < MyApp.lectureList.size(); j++) {
                 Lecture lecture = MyApp.lectureList.get(j);
-                if (lecture.lecture_id.equals(l.lecture_id)) {
+                if (lecture.lectureId.equals(l.lectureId)) {
                     lecture.highlight = false;
                     break;
                 }
