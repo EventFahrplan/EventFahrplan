@@ -61,7 +61,7 @@ public class EventDetailFragment extends Fragment {
 
     private static final boolean SHOW_FEEDBACK_MENU_ITEM = !TextUtils.isEmpty(SCHEDULE_FEEDBACK_URL);
 
-    private String event_id;
+    private String eventId;
 
     private String title;
 
@@ -121,7 +121,7 @@ public class EventDetailFragment extends Fragment {
     public void setArguments(Bundle args) {
         super.setArguments(args);
         day = args.getInt(BundleKeys.EVENT_DAY, 0);
-        event_id = args.getString(BundleKeys.EVENT_ID);
+        eventId = args.getString(BundleKeys.EVENT_ID);
         title = args.getString(BundleKeys.EVENT_TITLE);
         subtitle = args.getString(BundleKeys.EVENT_SUBTITLE);
         spkr = args.getString(BundleKeys.EVENT_SPEAKERS);
@@ -150,7 +150,7 @@ public class EventDetailFragment extends Fragment {
             locale = getResources().getConfiguration().locale;
 
             FahrplanFragment.loadLectureList(activity, day, requiresScheduleReload);
-            lecture = eventIdToLecture(event_id);
+            lecture = eventIdToLecture(eventId);
 
             TextView t;
             t = view.findViewById(R.id.date);
@@ -164,7 +164,7 @@ public class EventDetailFragment extends Fragment {
 
             t = view.findViewById(R.id.lectureid);
             if (t != null) {
-                t.setText("ID: " + event_id);
+                t.setText("ID: " + eventId);
             }
 
             // Title
@@ -282,7 +282,7 @@ public class EventDetailFragment extends Fragment {
                     item.setVisible(true);
                 }
             }
-            if (lecture.has_alarm) {
+            if (lecture.hasAlarm) {
                 item = menu.findItem(R.id.menu_item_set_alarm);
                 if (item != null) {
                     item.setVisible(false);
@@ -331,12 +331,12 @@ public class EventDetailFragment extends Fragment {
             throw new NullPointerException("Lecture list is null.");
         }
         for (Lecture lecture : MyApp.lectureList) {
-            if (lecture.lecture_id.equals(eventId)) {
+            if (lecture.lectureId.equals(eventId)) {
                 return lecture;
             }
         }
         Lecture lecture = AppRepository.Companion.getInstance(requireContext()).readLectureByLectureId(eventId);
-        Log.d(LOG_TAG, lecture.lecture_id + ": " + lecture.getChangedStateString());
+        Log.d(LOG_TAG, lecture.lectureId + ": " + lecture.getChangedStateString());
         throw new IllegalStateException("Lecture list does not contain eventId: " + eventId + ", lecture: " + lecture.getChangedStateString());
     }
 
@@ -370,7 +370,7 @@ public class EventDetailFragment extends Fragment {
         Activity activity = requireActivity();
         switch (item.getItemId()) {
             case R.id.menu_item_feedback: {
-                l = eventIdToLecture(event_id);
+                l = eventIdToLecture(eventId);
                 String feedbackUrl = new FeedbackUrlComposer(l, SCHEDULE_FEEDBACK_URL).getFeedbackUrl();
                 Uri uri = Uri.parse(feedbackUrl);
                 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
@@ -378,14 +378,14 @@ public class EventDetailFragment extends Fragment {
                 return true;
             }
             case R.id.menu_item_share_event:
-                l = eventIdToLecture(event_id);
+                l = eventIdToLecture(eventId);
                 String formattedLecture = SimpleLectureFormat.format(l);
                 if (!LectureSharer.shareSimple(activity, formattedLecture)) {
                     Toast.makeText(activity, R.string.share_error_activity_not_found, Toast.LENGTH_SHORT).show();
                 }
                 return true;
             case R.id.menu_item_add_to_calendar:
-                l = eventIdToLecture(event_id);
+                l = eventIdToLecture(eventId);
                 CalendarSharing.addToCalendar(l, activity);
                 return true;
             case R.id.menu_item_flag_as_favorite:

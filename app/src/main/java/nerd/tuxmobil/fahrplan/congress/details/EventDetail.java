@@ -31,7 +31,7 @@ public class EventDetail extends BaseActivity {
         intent.putExtra(BundleKeys.EVENT_DESCRIPTION, lecture.description);
         intent.putExtra(BundleKeys.EVENT_SPEAKERS, lecture.getFormattedSpeakers());
         intent.putExtra(BundleKeys.EVENT_LINKS, lecture.links);
-        intent.putExtra(BundleKeys.EVENT_ID, lecture.lecture_id);
+        intent.putExtra(BundleKeys.EVENT_ID, lecture.lectureId);
         intent.putExtra(BundleKeys.EVENT_TIME, lecture.startTime);
         intent.putExtra(BundleKeys.EVENT_DAY, lectureDay);
         intent.putExtra(BundleKeys.EVENT_ROOM, lecture.room);

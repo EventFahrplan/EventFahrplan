@@ -42,7 +42,7 @@ public class MyApp extends Application {
     public static final ConferenceTimeFrame conferenceTimeFrame =
             new ConferenceTimeFrame(first_day_start, last_day_end);
 
-    public static int room_count = 0;
+    public static int roomCount = 0;
 
     public static HashMap<String, Integer> roomsMap = new HashMap<>();
 

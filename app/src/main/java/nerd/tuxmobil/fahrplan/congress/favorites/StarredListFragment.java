@@ -263,7 +263,7 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
         if (MyApp.lectureList != null) {
             for (int j = 0; j < MyApp.lectureList.size(); j++) {
                 Lecture lecture = MyApp.lectureList.get(j);
-                if (lecture.lecture_id.equals(l.lecture_id)) {
+                if (lecture.lectureId.equals(l.lectureId)) {
                     lecture.highlight = false;
                     break;
                 }

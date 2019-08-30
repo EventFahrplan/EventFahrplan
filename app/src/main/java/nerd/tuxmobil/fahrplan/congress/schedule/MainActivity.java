@@ -355,7 +355,7 @@ public class MainActivity extends BaseActivity implements
             args.putString(BundleKeys.EVENT_DESCRIPTION, lecture.description);
             args.putString(BundleKeys.EVENT_SPEAKERS, lecture.getFormattedSpeakers());
             args.putString(BundleKeys.EVENT_LINKS, lecture.links);
-            args.putString(BundleKeys.EVENT_ID, lecture.lecture_id);
+            args.putString(BundleKeys.EVENT_ID, lecture.lectureId);
             args.putInt(BundleKeys.EVENT_TIME, lecture.startTime);
             args.putInt(BundleKeys.EVENT_DAY, mDay);
             args.putString(BundleKeys.EVENT_ROOM, lecture.room);

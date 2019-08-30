@@ -13,7 +13,7 @@ public class LectureUtils {
     public static Lecture getLecture(@NonNull List<Lecture> lectures, @NonNull String lectureId) {
         for (int index = 0; index < lectures.size(); index++) {
             Lecture lecture = lectures.get(index);
-            if (lectureId.equals(lecture.lecture_id)) {
+            if (lectureId.equals(lecture.lectureId)) {
                 return lecture;
             }
         }

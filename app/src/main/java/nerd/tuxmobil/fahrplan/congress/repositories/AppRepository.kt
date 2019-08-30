@@ -118,7 +118,7 @@ class AppRepository private constructor(val context: Context) {
     fun updateHighlight(lecture: Lecture) {
         val highlightDatabaseModel = lecture.toHighlightDatabaseModel()
         val values = highlightDatabaseModel.toContentValues()
-        highlightsDatabaseRepository.insert(values, lecture.lecture_id)
+        highlightsDatabaseRepository.insert(values, lecture.lectureId)
     }
 
     fun readLectureByLectureId(lectureId: String) =

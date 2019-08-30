@@ -25,7 +25,7 @@ public class ScheduleChanges {
 
         for (lectureIndex = 0; lectureIndex < lectures.size(); lectureIndex++) {
             Lecture newLecture = lectures.get(lectureIndex);
-            Lecture oldLecture = LectureUtils.getLecture(oldLectures, newLecture.lecture_id);
+            Lecture oldLecture = LectureUtils.getLecture(oldLectures, newLecture.lectureId);
 
             if (oldLecture == null) {
                 newLecture.changedIsNew = true;

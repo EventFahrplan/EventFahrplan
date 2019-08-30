@@ -26,7 +26,7 @@ public class Lecture {
 
     public String track;
 
-    public String lecture_id;
+    public String lectureId;
 
     public String type;
 
@@ -44,11 +44,11 @@ public class Lecture {
 
     public boolean highlight;
 
-    public boolean has_alarm;
+    public boolean hasAlarm;
 
     public long dateUTC;
 
-    public int room_index;
+    public int roomIndex;
 
     public String recordingLicense;
 
@@ -71,7 +71,7 @@ public class Lecture {
     public boolean changedIsNew;
     public boolean changedIsCanceled;
 
-    public Lecture(String lecture_id) {
+    public Lecture(String lectureId) {
         title = "";
         subtitle = "";
         day = 0;
@@ -88,11 +88,11 @@ public class Lecture {
         relStartTime = 0;
         links = "";
         date = "";
-        this.lecture_id = lecture_id;
+        this.lectureId = lectureId;
         highlight = false;
-        has_alarm = false;
+        hasAlarm = false;
         dateUTC = 0;
-        room_index = 0;
+        roomIndex = 0;
         recordingLicense = "";
         recordingOptOut = RECORDING_OPTOUT_OFF;
         changedTitle = false;
@@ -141,7 +141,7 @@ public class Lecture {
         if (startTime != lecture.startTime) return false;
         if (date != null ? !date.equals(lecture.date) : lecture.date != null) return false;
         if (lang != null ? !lang.equals(lecture.lang) : lecture.lang != null) return false;
-        if (!lecture_id.equals(lecture.lecture_id)) return false;
+        if (!lectureId.equals(lecture.lectureId)) return false;
         if (recordingLicense != null ? !recordingLicense.equals(lecture.recordingLicense) :
                 lecture.recordingLicense != null)
             return false;
@@ -168,7 +168,7 @@ public class Lecture {
         result = 31 * result + duration;
         result = 31 * result + (speakers != null ? speakers.hashCode() : 0);
         result = 31 * result + (track != null ? track.hashCode() : 0);
-        result = 31 * result + lecture_id.hashCode();
+        result = 31 * result + lectureId.hashCode();
         result = 31 * result + (type != null ? type.hashCode() : 0);
         result = 31 * result + (lang != null ? lang.hashCode() : 0);
         result = 31 * result + (date != null ? date.hashCode() : 0);

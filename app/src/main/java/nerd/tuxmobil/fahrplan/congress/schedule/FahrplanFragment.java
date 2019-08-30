@@ -141,7 +141,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
 
     private int columnWidth;
 
-    private String lecture_id;        // started with lecture_id
+    private String lectureId;        // started with lectureId
     private HashMap<String, Integer> trackAccentColors;
     private HashMap<String, Integer> trackAccentColorsHighlight;
 
@@ -215,10 +215,10 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
         inflater = Contexts.getLayoutInflater(context);
 
         Intent intent = requireActivity().getIntent();
-        lecture_id = intent.getStringExtra("lecture_id");
+        lectureId = intent.getStringExtra("lecture_id");
 
-        if (lecture_id != null) {
-            MyApp.LogDebug(LOG_TAG, "Open with lecture_id " + lecture_id);
+        if (lectureId != null) {
+            MyApp.LogDebug(LOG_TAG, "Open with lectureId " + lectureId);
             mDay = intent.getIntExtra("day", mDay);
             MyApp.LogDebug(LOG_TAG, "day " + mDay);
         }
@@ -253,11 +253,11 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
 
         Intent intent = activity.getIntent();
 
-        Log.d(LOG_TAG, "lecture_id = " + lecture_id);
-        lecture_id = intent.getStringExtra("lecture_id");
+        Log.d(LOG_TAG, "lectureId = " + lectureId);
+        lectureId = intent.getStringExtra("lecture_id");
 
-        if (lecture_id != null) {
-            Log.d(LOG_TAG, "Open with lecture_id " + lecture_id);
+        if (lectureId != null) {
+            Log.d(LOG_TAG, "Open with lectureId " + lectureId);
             mDay = intent.getIntExtra("day", mDay);
             Log.d(LOG_TAG, "day " + mDay);
             saveCurrentDay(mDay);
@@ -278,19 +278,19 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
                 Log.d(LOG_TAG, "meta.getNumDays() = " + MyApp.meta.getNumDays());
                 if (MyApp.meta.getNumDays() != 0) {
                     // auf jeden Fall reload, wenn mit Lecture ID gestartet
-                    viewDay(lecture_id != null);
+                    viewDay(lectureId != null);
                 }
                 break;
         }
 
-        if (lecture_id != null) {
-            scrollTo(lecture_id);
+        if (lectureId != null) {
+            scrollTo(lectureId);
             FrameLayout sidePane = activity.findViewById(R.id.detail);
             if (sidePane != null) {
-                Lecture lecture = LectureUtils.getLecture(MyApp.lectureList, lecture_id);
+                Lecture lecture = LectureUtils.getLecture(MyApp.lectureList, lectureId);
                 ((MainActivity) activity).openLectureDetail(lecture, mDay, false);
             }
-            intent.removeExtra("lecture_id");   // jump to given lecture_id only once
+            intent.removeExtra("lecture_id");   // jump to given lectureId only once
         }
         fillTimes();
     }
@@ -316,7 +316,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
         }
 
         int boxHeight = getNormalizedBoxHeight(getResources(), scale, LOG_TAG);
-        for (int i = 0; i < MyApp.room_count; i++) {
+        for (int i = 0; i < MyApp.roomCount; i++) {
             ViewGroup rootView = (ViewGroup) scroller.getChildAt(0);
             LinearLayout roomView = (LinearLayout) rootView.getChildAt(i);
             int roomIndex = MyApp.roomList.get(i);
@@ -345,7 +345,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
             // update pre-calculated width with actual layout
             columnWidth = scroller.getColumnWidth();
         }
-        for (int i = 0; i < MyApp.room_count; i++) {
+        for (int i = 0; i < MyApp.roomCount; i++) {
             LinearLayout roomLayout = new LinearLayout(context);
             LinearLayout.LayoutParams p = new LayoutParams(
                     columnWidth, LayoutParams.MATCH_PARENT, 1);
@@ -360,7 +360,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
         root.removeAllViews();
         Set<Entry<String, Integer>> roomTitleSet = MyApp.roomsMap.entrySet();
         int textSize = getResources().getInteger(R.integer.room_title_size);
-        for (int i = 0; i < MyApp.room_count; i++) {
+        for (int i = 0; i < MyApp.roomCount; i++) {
             TextView roomTitle = new TextView(context);
             LinearLayout.LayoutParams p = new LayoutParams(
                     columnWidth, LayoutParams.WRAP_CONTENT, 1);
@@ -386,7 +386,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
      */
     private void scrollToCurrent(int day, int height) {
         // Log.d(LOG_TAG, "lectureListDay: " + MyApp.lectureListDay);
-        if (lecture_id != null) {
+        if (lectureId != null) {
             return;
         }
         if (MyApp.lectureListDay != MyApp.dateInfos.getIndexOfToday(
@@ -434,7 +434,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
 
             for (Lecture l : MyApp.lectureList) {
                 if (l.day == day && l.startTime <= time && l.startTime + l.duration > time) {
-                    if (col == -1 || col >= 0 && l.room_index == MyApp.roomList.get(col)) {
+                    if (col == -1 || col >= 0 && l.roomIndex == MyApp.roomList.get(col)) {
                         MyApp.LogDebug(LOG_TAG, l.title);
                         MyApp.LogDebug(LOG_TAG, time + " " + l.startTime + "/" + l.duration);
                         scrollAmount -= ((time - l.startTime) / 5) * height;
@@ -468,16 +468,16 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
             return;
         }
 
-        if (lecture.has_alarm) {
+        if (lecture.hasAlarm) {
             bell.setVisibility(View.VISIBLE);
         } else {
             bell.setVisibility(View.GONE);
         }
     }
 
-    private void scrollTo(String lecture_id) {
+    private void scrollTo(String lectureId) {
         for (Lecture lecture : MyApp.lectureList) {
-            if (lecture_id.equals(lecture.lecture_id)) {
+            if (lectureId.equals(lecture.lectureId)) {
                 final ScrollView parent = getView().findViewById(R.id.scrollView1);
                 int height = getNormalizedBoxHeight(getResources(), scale, LOG_TAG);
                 final int pos = (lecture.relStartTime - conference.getFirstEventStartsAt()) / 5 * height;
@@ -487,7 +487,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
                         getView().findViewById(R.id.horizScroller);
                 if (horiz != null) {
                     final int hpos = MyApp.roomList.keyAt(
-                            MyApp.roomList.indexOfValue(lecture.room_index));
+                            MyApp.roomList.indexOfValue(lecture.roomIndex));
                     MyApp.LogDebug(LOG_TAG, "scroll horiz to " + hpos);
                     horiz.post(() -> horiz.scrollToColumn(hpos, false));
                 }
@@ -617,7 +617,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
 
         for (int idx = 0; idx < lectures.size(); idx++) {
             Lecture lecture = lectures.get(idx);
-            if (lecture.room_index == roomIndex) {
+            if (lecture.roomIndex == roomIndex) {
                 if (lecture.dateUTC > 0) {
                     startTime = DateHelper.getMinutesOfDay(lecture.dateUTC);
                     if (startTime < endTime) {
@@ -642,7 +642,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
                 Lecture next = null;
                 for (int nextIndex = idx + 1; nextIndex < lectures.size(); nextIndex++) {
                     next = lectures.get(nextIndex);
-                    if (next.room_index == roomIndex) {
+                    if (next.roomIndex == roomIndex) {
                         break;
                     }
                     next = null;
@@ -670,7 +670,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
 
     private void updateEventView(View eventView, Lecture lecture) {
         ImageView bell = eventView.findViewById(R.id.bell);
-        bell.setVisibility(lecture.has_alarm ? View.VISIBLE : View.GONE);
+        bell.setVisibility(lecture.hasAlarm ? View.VISIBLE : View.GONE);
         TextView title = eventView.findViewById(R.id.event_title);
         title.setTypeface(boldCondensed);
         title.setText(lecture.title);
@@ -710,10 +710,10 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
         MyApp.roomList.clear();
         for (Lecture lecture : MyApp.lectureList) {
             if (!MyApp.roomsMap.containsKey(lecture.room)) {
-                if (!MyApp.roomsMap.containsValue(lecture.room_index)) {
-                    MyApp.roomsMap.put(lecture.room, lecture.room_index);
+                if (!MyApp.roomsMap.containsValue(lecture.roomIndex)) {
+                    MyApp.roomsMap.put(lecture.room, lecture.roomIndex);
                 } else {
-                    // upgrade from DB without room_index
+                    // upgrade from DB without roomIndex
                     int newIndex;
                     for (newIndex = 0; newIndex < rooms.length; newIndex++) {
                         if (lecture.room.equals(rooms[newIndex])) {
@@ -729,16 +729,16 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
                     MyApp.roomsMap.put(lecture.room, newIndex);
                     MyApp.LogDebug(LOG_TAG,
                             "Upgrade room " + lecture.room + " to index " + newIndex);
-                    lecture.room_index = newIndex;
+                    lecture.roomIndex = newIndex;
                 }
             }
             // upgrade
-            if (lecture.room_index == 0) {
-                lecture.room_index = MyApp.roomsMap.get(lecture.room);
+            if (lecture.roomIndex == 0) {
+                lecture.roomIndex = MyApp.roomsMap.get(lecture.room);
             }
         }
-        MyApp.room_count = MyApp.roomsMap.size();
-        MyApp.LogDebug(LOG_TAG, "room count = " + MyApp.room_count);
+        MyApp.roomCount = MyApp.roomsMap.size();
+        MyApp.LogDebug(LOG_TAG, "room count = " + MyApp.roomCount);
         List<Integer> rooms = new ArrayList<>(MyApp.roomsMap.values());
         Collections.sort(rooms);
         int k = 0;
@@ -761,7 +761,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
         }
 
         for (Lecture lecture : MyApp.lectureList) {
-            lecture.has_alarm = false;
+            lecture.hasAlarm = false;
         }
 
         List<Alarm> alarms = AppRepository.Companion.getInstance(context).readAlarms();
@@ -769,8 +769,8 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
         for (Alarm alarm : alarms) {
             MyApp.LogDebug(LOG_TAG, "Event " + alarm.getEventId() + " has alarm.");
             for (Lecture lecture : MyApp.lectureList) {
-                if (lecture.lecture_id.equals(alarm.getEventId())) {
-                    lecture.has_alarm = true;
+                if (lecture.lectureId.equals(alarm.getEventId())) {
+                    lecture.hasAlarm = true;
                 }
             }
         }
@@ -874,7 +874,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
         Lecture lecture = (Lecture) contextMenuView.getTag();
         lastSelectedLecture = lecture;
 
-        MyApp.LogDebug(LOG_TAG, "clicked on " + ((Lecture) contextMenuView.getTag()).lecture_id);
+        MyApp.LogDebug(LOG_TAG, "clicked on " + ((Lecture) contextMenuView.getTag()).lectureId);
 
         Context context = requireContext();
         switch (menuItemIndex) {
@@ -922,7 +922,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
         } else {
             menu.add(0, CONTEXT_MENU_ITEM_ID_FAVORITES, 0, getString(R.string.menu_item_title_flag_as_favorite));
         }
-        if (lecture.has_alarm) {
+        if (lecture.hasAlarm) {
             menu.add(0, CONTEXT_MENU_ITEM_ID_DELETE_ALARM, 2, getString(R.string.menu_item_title_delete_alarm));
         } else {
             menu.add(0, CONTEXT_MENU_ITEM_ID_SET_ALARM, 1, getString(R.string.menu_item_title_set_alarm));

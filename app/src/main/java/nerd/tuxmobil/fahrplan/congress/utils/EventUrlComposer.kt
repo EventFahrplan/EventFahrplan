@@ -17,7 +17,7 @@ class EventUrlComposer @JvmOverloads constructor(
     private val Event.eventUrl: String
         get() = when (serverBackEndType) {
             PENTABARF.name -> getComposedEventUrl(event.slug)
-            else -> if (url.isNullOrEmpty()) getComposedEventUrl(lecture_id) else url
+            else -> if (url.isNullOrEmpty()) getComposedEventUrl(lectureId) else url
         }
 
     private fun getComposedEventUrl(eventIdentifier: String) =

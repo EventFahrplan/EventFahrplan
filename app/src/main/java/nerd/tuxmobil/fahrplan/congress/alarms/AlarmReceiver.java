@@ -38,9 +38,9 @@ public final class AlarmReceiver extends BroadcastReceiver {
         MyApp.LogDebug(LOG_TAG, "action " + intent.getAction());
 
         if (intent.getAction().equals(ALARM_LECTURE)) {
-            String lecture_id = intent.getStringExtra(BundleKeys.ALARM_LECTURE_ID);
-            Log.d(getClass().getName(), "onReceive: lecture_id: " + lecture_id + ", intent: " + intent);
-            int lid = Integer.parseInt(lecture_id);
+            String lectureId = intent.getStringExtra(BundleKeys.ALARM_LECTURE_ID);
+            Log.d(getClass().getName(), "onReceive: lectureId: " + lectureId + ", intent: " + intent);
+            int lid = Integer.parseInt(lectureId);
             int day = intent.getIntExtra(BundleKeys.ALARM_DAY, 1);
             long when = intent
                     .getLongExtra(BundleKeys.ALARM_START_TIME, System.currentTimeMillis());
@@ -52,7 +52,7 @@ public final class AlarmReceiver extends BroadcastReceiver {
             boolean insistent = prefs.getBoolean("insistent", defaultValue);
 
             Intent notificationIntent = new Intent(context, MainActivity.class);
-            notificationIntent.putExtra("lecture_id", lecture_id);
+            notificationIntent.putExtra("lecture_id", lectureId);
             notificationIntent.putExtra("day", day);
             notificationIntent.setFlags(
                     Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
@@ -66,7 +66,7 @@ public final class AlarmReceiver extends BroadcastReceiver {
             MyApp.LogDebug("alarm", "insistent is " + insistent);
             notificationHelper.notify(NotificationHelper.EVENT_ALARM_ID, builder, insistent);
 
-            AppRepository.Companion.getInstance(context).deleteAlarmForEventId(lecture_id);
+            AppRepository.Companion.getInstance(context).deleteAlarmForEventId(lectureId);
 
             if (MainActivity.getInstance() != null) {
                 MainActivity.getInstance().reloadAlarms();
