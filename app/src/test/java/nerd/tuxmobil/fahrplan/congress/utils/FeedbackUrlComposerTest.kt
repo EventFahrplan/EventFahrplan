@@ -15,9 +15,9 @@ class FeedbackUrlComposerTest {
             slug = "35c3-9985-opening_ceremony"
         }
 
-        private val PRETALX_EVENT = Event("32").apply {
-            url = "https://fahrplan.chaos-west.de/35c3chaoswest/talk/KDYQEB"
-            slug = "KDYQEB"
+        private val PRETALX_EVENT = Event("202").apply {
+            url = "https://talks.mrmcd.net/2019/talk/9XL7SP/"
+            slug = "2019-202-board-games-of-medieval-europe"
         }
 
     }
@@ -37,7 +37,7 @@ class FeedbackUrlComposerTest {
     @Test
     fun getFeedbackUrlWithPretalxEventWithFrabScheduleFeedbackUrl() {
         assertThat(FeedbackUrlComposer(PRETALX_EVENT, FRAB_SCHEDULE_FEEDBACK_URL)
-                .getFeedbackUrl()).isEqualTo("https://fahrplan.chaos-west.de/35c3chaoswest/talk/KDYQEB/feedback/")
+                .getFeedbackUrl()).isEqualTo("https://talks.mrmcd.net/2019/talk/9XL7SP/feedback/")
     }
 
 }
