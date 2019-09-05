@@ -14,4 +14,7 @@
     <string name="copyright_logo">
         <![CDATA[35C3: Refreshing Memories design by Stella Schiffczyk]]>
     </string>
+    <string name="about_logo_content_description">
+        35C3 refreshing memories logo, gradient from blue to green
+    </string>
 </resources>

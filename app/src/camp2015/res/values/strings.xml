@@ -14,4 +14,7 @@
     <string name="copyright_logo">
         <![CDATA[<a href="https://events.ccc.de/camp/2015/wiki/Static:Design">cccamp15 artwork</a>]]>
     </string>
+    <string name="about_logo_content_description">
+        Camp 2015 logo which shows a tent from above, all white
+    </string>
 </resources>

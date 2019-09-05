@@ -14,4 +14,7 @@
     <string name="copyright_logo">
         <![CDATA[Design von <a href="http://www.graphorama.de">Sven Sedivy</a>]]>
     </string>
+    <string name="about_logo_content_description">
+        Chaos Communication Camp Logo, mit drei unterschiedlichen Raketen, in blau, gelb und grün
+    </string>
 </resources>

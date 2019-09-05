@@ -14,4 +14,7 @@
     <string name="copyright_logo">
         <![CDATA[Design by <a href="http://www.graphorama.de">Sven Sedivy</a>]]>
     </string>
+    <string name="about_logo_content_description">
+        Chaos Communication Camp logo, with three different rockets, in blue, yellow and green
+    </string>
 </resources>
