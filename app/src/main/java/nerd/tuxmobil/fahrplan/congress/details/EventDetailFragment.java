@@ -152,8 +152,10 @@ public class EventDetailFragment extends Fragment {
             FahrplanFragment.loadLectureList(activity, day, requiresScheduleReload);
             lecture = eventIdToLecture(eventId);
 
+            // Detailbar
+
             TextView t;
-            t = view.findViewById(R.id.date);
+            t = view.findViewById(R.id.lecture_detailbar_date_time_location);
             if (lecture != null && lecture.dateUTC > 0) {
                 DateFormat df = SimpleDateFormat
                         .getDateTimeInstance(SimpleDateFormat.SHORT, SimpleDateFormat.SHORT);
@@ -162,7 +164,7 @@ public class EventDetailFragment extends Fragment {
                 t.setText("");
             }
 
-            t = view.findViewById(R.id.lectureid);
+            t = view.findViewById(R.id.lecture_detailbar_lecture_id);
             if (t != null) {
                 t.setText("ID: " + eventId);
             }

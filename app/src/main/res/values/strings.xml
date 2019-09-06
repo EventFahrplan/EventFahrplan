@@ -86,7 +86,7 @@
     <string name="usage">Note:\n\nLong-press on a lecture to set an alarm.</string>
 	<string name="libraries">
 		This application uses the following libraries:
-		Kotlin, Google Support Library v4, Google AppCompat Library v7, Email Intent Builder,
+		Kotlin, Google Support Library, Email Intent Builder,
 		Espresso, OkHttp, SnackEngage, TraceDroid
 	</string>
     <string name="about_data_privacy_statement">

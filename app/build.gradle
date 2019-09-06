@@ -175,6 +175,7 @@ dependencies {
 
     implementation Libs.kotlinStdlib
     implementation Libs.supportLibraryAppcompatV7
+    implementation Libs.supportLibraryConstraintLayout
     implementation Libs.supportLibraryDesign
     implementation Libs.okhttp
     implementation Libs.okhttpLoggingInterceptor
