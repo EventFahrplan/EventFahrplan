@@ -64,13 +64,6 @@
             android:layout_weight="1"
             tools:background="@android:color/holo_green_light"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="@style/ScheduleListSecondary"
-            tools:text="@string/placeholder_event_language"
-            android:id="@+id/lang"
-            tools:background="@android:color/holo_blue_light"/>
     </LinearLayout>
 
     <LinearLayout
@@ -111,9 +104,21 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
             android:textAppearance="@style/ScheduleListSecondary"
             tools:text="@string/placeholder_event_room"
             android:id="@+id/room"
             tools:background="@android:color/holo_red_light"/>
+
+        <TextView
+            android:id="@+id/lang"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:textAppearance="@style/ScheduleListSecondary"
+            tools:background="@android:color/holo_blue_light"
+            tools:text="@string/placeholder_event_language" />
+
     </LinearLayout>
 </nerd.tuxmobil.fahrplan.congress.changes.CheckableLinearLayout>

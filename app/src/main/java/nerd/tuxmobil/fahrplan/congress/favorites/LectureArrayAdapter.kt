@@ -51,16 +51,16 @@ class LectureArrayAdapter internal constructor(
                 duration.setPastEventTextColor()
             }
 
-            title.text = lecture.title
-            subtitle.text = lecture.subtitle
-            speakers.text = lecture.formattedSpeakers
-            lang.text = lecture.lang
+            title.textOrHide = lecture.title
+            subtitle.textOrHide = lecture.subtitle
+            speakers.textOrHide = lecture.formattedSpeakers
+            lang.textOrHide = lecture.lang
             day.visibility = View.GONE
             val timeText = DateHelper.getFormattedTime(lecture.dateUTC)
-            time.text = timeText
-            room.text = lecture.room
+            time.textOrHide = timeText
+            room.textOrHide = lecture.room
             val durationText = context.getString(R.string.event_duration, lecture.duration)
-            duration.text = durationText
+            duration.textOrHide = durationText
             video.visibility = View.GONE
             noVideo.visibility = View.GONE
         }
@@ -70,5 +70,16 @@ class LectureArrayAdapter internal constructor(
         get() = dateUTC + duration * 60000 < now.toMillis(true)
 
     private fun TextView.setPastEventTextColor() = setTextColor(pastEventTextColor)
+
+    private var TextView.textOrHide
+        get() = this.text
+        set(value) {
+            if (value.isEmpty()) {
+                visibility = View.GONE
+            } else {
+                text = value
+                visibility = View.VISIBLE
+            }
+        }
 
 }
