@@ -183,5 +183,9 @@ fun Lecture.sanitize(): Lecture {
     if (abstractt == description) {
         abstractt = ""
     }
+    if (description.isEmpty()) {
+        description = abstractt
+        abstractt = ""
+    }
     return this
 }
