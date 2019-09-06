@@ -29,6 +29,7 @@ object Libs {
 
     private object Versions {
         const val assertjAndroid = "1.2.0"
+        const val constraintLayout = "1.1.3"
         const val emailIntentBuilder = "1.0.0"
         const val espresso = "3.0.2"
         const val junit = "4.12"
@@ -54,6 +55,7 @@ object Libs {
     const val snackengagePlayrate = "com.github.ligi.snackengage:snackengage-playrate:${Versions.snackengage}"
     const val supportLibraryAnnotations = "com.android.support:support-annotations:${Versions.supportLibrary}"
     const val supportLibraryAppcompatV7 = "com.android.support:appcompat-v7:${Versions.supportLibrary}"
+    const val supportLibraryConstraintLayout = "com.android.support.constraint:constraint-layout:${Versions.constraintLayout}"
     const val supportLibraryDesign = "com.android.support:design:${Versions.supportLibrary}"
     const val testRules = "com.android.support.test:rules:${Versions.testRules}"
     const val threeTenBp = "org.threeten:threetenbp:${Versions.threeTenBp}"
