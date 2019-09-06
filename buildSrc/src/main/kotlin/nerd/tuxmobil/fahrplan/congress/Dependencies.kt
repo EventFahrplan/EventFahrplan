@@ -15,7 +15,7 @@ object GradlePlugins {
 
     private object Versions {
         const val androidGradle = "3.4.2"
-        const val gradleVersions = "0.22.0"
+        const val gradleVersions = "0.24.0"
         const val sonarQubeGradle = "2.7.1"
     }
 
