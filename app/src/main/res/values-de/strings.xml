@@ -84,7 +84,7 @@
     <string name="usage">Hinweis:\n\nLange auf Vortrag tippen, um einen Alarm einzustellen.</string>
 	<string name="libraries">
 		Die Anwendung nutzt folgende Bibliotheken:
-		Kotlin, Google Support Library v4, Google AppCompat Library v7, Email Intent Builder,
+		Kotlin, Google Support Library, Email Intent Builder,
 		Espresso, OkHttp, SnackEngage, TraceDroid
 	</string>
 	<string name="about_data_privacy_statement">
