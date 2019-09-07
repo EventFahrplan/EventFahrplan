@@ -20,9 +20,9 @@
             android:textAppearance="@style/ScheduleListPrimary"
             tools:text="@string/placeholder_event_title"
             tools:background="@android:color/holo_green_light"
-            android:id="@+id/title" />
+            android:id="@+id/lecture_list_item_title_view" />
         <ImageView
-            android:id="@+id/no_video"
+            android:id="@+id/lecture_list_item_no_video_view"
             android:layout_width="wrap_content"
             android:layout_height="14sp"
             android:baseline="13sp"
@@ -31,7 +31,7 @@
             android:src="@drawable/ic_change_novideo"
             tools:background="@android:color/holo_orange_dark"/>
         <ImageView
-            android:id="@+id/video"
+            android:id="@+id/lecture_list_item_video_view"
             android:layout_width="wrap_content"
             android:layout_height="14sp"
             android:baseline="13sp"
@@ -46,7 +46,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="@style/ScheduleListSecondary"
         tools:text="@string/placeholder_event_subtitle"
-        android:id="@+id/subtitle"
+        android:id="@+id/lecture_list_item_subtitle_view"
         android:paddingBottom="8dp"
         tools:background="@android:color/holo_red_light"/>
 
@@ -60,7 +60,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="@style/ScheduleListSecondary"
             tools:text="@string/placeholder_event_speakers"
-            android:id="@+id/speakers"
+            android:id="@+id/lecture_list_item_speakers_view"
             android:layout_weight="1"
             tools:background="@android:color/holo_green_light"/>
 
@@ -76,7 +76,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="@style/ScheduleListSecondary"
             tools:text="@string/placeholder_event_day"
-            android:id="@+id/day"
+            android:id="@+id/lecture_list_item_day_view"
             android:layout_marginRight="8dp"
             android:layout_marginEnd="8dp"
             tools:background="@android:color/holo_blue_light"/>
@@ -86,7 +86,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="@style/ScheduleListSecondary"
             tools:text="@string/placeholder_event_start_time"
-            android:id="@+id/time"
+            android:id="@+id/lecture_list_item_time_view"
             android:layout_marginRight="8dp"
             android:layout_marginEnd="8dp"
             tools:background="@android:color/holo_red_light"/>
@@ -96,7 +96,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="@style/ScheduleListSecondary"
             tools:text="@string/placeholder_event_duration"
-            android:id="@+id/duration"
+            android:id="@+id/lecture_list_item_duration_view"
             android:layout_marginRight="8dp"
             android:layout_marginEnd="8dp"
             tools:background="@android:color/holo_blue_light"/>
@@ -108,11 +108,11 @@
             android:layout_marginRight="8dp"
             android:textAppearance="@style/ScheduleListSecondary"
             tools:text="@string/placeholder_event_room"
-            android:id="@+id/room"
+            android:id="@+id/lecture_list_item_room_view"
             tools:background="@android:color/holo_red_light"/>
 
         <TextView
-            android:id="@+id/lang"
+            android:id="@+id/lecture_list_item_language_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="end"
