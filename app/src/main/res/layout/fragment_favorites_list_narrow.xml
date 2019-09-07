@@ -15,7 +15,7 @@
         android:paddingLeft="@dimen/list_pane_leftright_padding"
         android:paddingRight="@dimen/list_pane_leftright_padding"
         tools:listitem="@layout/lecture_list_item"
-        android:layout_height="wrap_content"/>
+        android:layout_height="match_parent"/>
 
     <TextView
         android:id="@android:id/empty"
