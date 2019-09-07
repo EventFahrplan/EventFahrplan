@@ -61,7 +61,7 @@ public abstract class LecturesAdapter extends ArrayAdapter<Lecture> {
 
             switch (type) {
                 case TYPE_ITEM:
-                    rowView = localInflater.inflate(R.layout.lecture_change_row, parent, false);
+                    rowView = localInflater.inflate(R.layout.lecture_list_item, parent, false);
                     viewHolder = new ViewHolder();
 
                     viewHolder.title = rowView.findViewById(R.id.title);

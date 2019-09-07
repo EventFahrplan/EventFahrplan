@@ -26,7 +26,7 @@ public class LectureChangesArrayAdapter extends LecturesAdapter {
     private int scheduleChangeCanceledTextColor;
 
     LectureChangesArrayAdapter(Context context, List<Lecture> list, int numDays) {
-        super(context, R.layout.lecture_change_row, list, numDays);
+        super(context, R.layout.lecture_list_item, list, numDays);
         scheduleChangeTextColor = ContextCompat.getColor(context, R.color.schedule_change);
         scheduleChangeNewTextColor = ContextCompat.getColor(context, R.color.schedule_change_new);
         scheduleChangeCanceledTextColor = ContextCompat.getColor(context, R.color.schedule_change_canceled);
