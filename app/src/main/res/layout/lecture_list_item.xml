@@ -1,126 +1,213 @@
 <?xml version="1.0" encoding="utf-8"?>
 <nerd.tuxmobil.fahrplan.congress.commons.CheckableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:paddingLeft="16dp"
-    android:paddingRight="16dp"
     android:paddingTop="8dp"
+    android:paddingRight="16dp"
     android:paddingBottom="8dp">
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/lecture_list_item_title_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginBottom="0dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textAppearance="@style/ScheduleListPrimary"
+        app:layout_constraintBottom_toTopOf="@+id/lecture_list_item_subtitle_view"
+        app:layout_constraintEnd_toStartOf="@+id/lecture_list_item_video_view"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="@string/placeholder_event_title" />
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:textAppearance="@style/ScheduleListPrimary"
-            tools:text="@string/placeholder_event_title"
-            tools:background="@android:color/holo_green_light"
-            android:id="@+id/lecture_list_item_title_view" />
-        <ImageView
-            android:id="@+id/lecture_list_item_no_video_view"
-            android:layout_width="wrap_content"
-            android:layout_height="14sp"
-            android:baseline="13sp"
-            android:contentDescription="@string/lecture_list_item_no_video_content_description"
-            android:adjustViewBounds="true"
-            android:layout_marginLeft="8dp"
-            android:src="@drawable/ic_change_novideo"
-            tools:background="@android:color/holo_orange_dark"/>
-        <ImageView
-            android:id="@+id/lecture_list_item_video_view"
-            android:layout_width="wrap_content"
-            android:layout_height="14sp"
-            android:baseline="13sp"
-            android:contentDescription="@string/lecture_list_item_video_content_description"
-            android:adjustViewBounds="true"
-            android:layout_marginLeft="8dp"
-            android:src="@drawable/ic_change_video"
-            tools:background="@android:color/holo_red_dark"/>
-    </LinearLayout>
+    <ImageView
+        android:id="@+id/lecture_list_item_no_video_view"
+        android:layout_width="wrap_content"
+        android:layout_height="14sp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginBottom="0dp"
+        android:adjustViewBounds="true"
+        android:baseline="13sp"
+        android:contentDescription="@string/lecture_list_item_no_video_content_description"
+        android:src="@drawable/ic_change_novideo"
+        app:layout_constraintBottom_toTopOf="@+id/lecture_list_item_subtitle_view"
+        app:layout_constraintDimensionRatio="w,75:48"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/lecture_list_item_title_view"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/lecture_list_item_video_view"
+        android:layout_width="wrap_content"
+        android:layout_height="14sp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginBottom="0dp"
+        android:adjustViewBounds="true"
+        android:baseline="13sp"
+        android:contentDescription="@string/lecture_list_item_video_content_description"
+        android:src="@drawable/ic_change_video"
+        app:layout_constraintBottom_toTopOf="@+id/lecture_list_item_subtitle_view"
+        app:layout_constraintDimensionRatio="w,75:48"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/lecture_list_item_title_view"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/lecture_list_item_subtitle_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginBottom="0dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textAppearance="@style/ScheduleListSecondary"
+        app:layout_constraintBottom_toTopOf="@+id/lecture_list_item_whitespace"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lecture_list_item_title_view"
+        tools:text="@string/placeholder_event_subtitle" />
+
+    <Space
+        android:id="@+id/lecture_list_item_whitespace"
+        android:layout_width="0dp"
+        android:layout_height="4dp"
+        app:layout_constraintBottom_toTopOf="@+id/lecture_list_item_speakers_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lecture_list_item_subtitle_view" />
+
+    <TextView
+        android:id="@+id/lecture_list_item_speakers_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginBottom="0dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textAppearance="@style/ScheduleListSecondary"
+        app:layout_constraintBottom_toTopOf="@+id/lecture_list_item_footer_group"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lecture_list_item_whitespace"
+        tools:text="@string/placeholder_event_speakers" />
+
+    <android.support.constraint.Group
+        android:id="@+id/lecture_list_item_footer_group"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lecture_list_item_speakers_view" />
+
+    <TextView
+        android:id="@+id/lecture_list_item_day_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="0dp"
         android:textAppearance="@style/ScheduleListSecondary"
-        tools:text="@string/placeholder_event_subtitle"
-        android:id="@+id/lecture_list_item_subtitle_view"
-        android:paddingBottom="8dp"
-        tools:background="@android:color/holo_red_light"/>
+        app:layout_constraintBottom_toBottomOf="@+id/lecture_list_item_footer_group"
+        app:layout_constraintEnd_toStartOf="@+id/lecture_list_item_time_view"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/lecture_list_item_footer_group"
+        tools:text="@string/placeholder_event_day" />
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/lecture_list_item_time_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="0dp"
+        android:textAppearance="@style/ScheduleListSecondary"
+        app:layout_constraintBottom_toBottomOf="@+id/lecture_list_item_footer_group"
+        app:layout_constraintEnd_toStartOf="@+id/lecture_list_item_duration_view"
+        app:layout_constraintStart_toEndOf="@+id/lecture_list_item_day_view"
+        app:layout_constraintTop_toTopOf="@+id/lecture_list_item_footer_group"
+        tools:text="@string/placeholder_event_start_time" />
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textAppearance="@style/ScheduleListSecondary"
-            tools:text="@string/placeholder_event_speakers"
-            android:id="@+id/lecture_list_item_speakers_view"
-            android:layout_weight="1"
-            tools:background="@android:color/holo_green_light"/>
+    <TextView
+        android:id="@+id/lecture_list_item_duration_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="0dp"
+        android:gravity="end"
+        android:minWidth="55dp"
+        android:textAppearance="@style/ScheduleListSecondary"
+        app:layout_constraintBottom_toBottomOf="@+id/lecture_list_item_footer_group"
+        app:layout_constraintEnd_toStartOf="@+id/lecture_list_item_room_view"
+        app:layout_constraintStart_toEndOf="@+id/lecture_list_item_time_view"
+        app:layout_constraintTop_toTopOf="@+id/lecture_list_item_footer_group"
+        tools:text="@string/placeholder_event_duration" />
 
-    </LinearLayout>
+    <TextView
+        android:id="@+id/lecture_list_item_room_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginBottom="0dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textAppearance="@style/ScheduleListSecondary"
+        app:layout_constraintBottom_toBottomOf="@+id/lecture_list_item_footer_group"
+        app:layout_constraintEnd_toStartOf="@+id/lecture_list_item_language_view"
+        app:layout_constraintStart_toEndOf="@+id/lecture_list_item_duration_view"
+        app:layout_constraintTop_toTopOf="@+id/lecture_list_item_footer_group"
+        tools:text="@string/placeholder_event_room" />
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+    <TextView
+        android:id="@+id/lecture_list_item_language_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginBottom="0dp"
+        android:textAppearance="@style/ScheduleListSecondary"
+        app:layout_constraintBottom_toBottomOf="@+id/lecture_list_item_footer_group"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/lecture_list_item_room_view"
+        app:layout_constraintTop_toTopOf="@+id/lecture_list_item_footer_group"
+        tools:text="@string/placeholder_event_language" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="@style/ScheduleListSecondary"
-            tools:text="@string/placeholder_event_day"
-            android:id="@+id/lecture_list_item_day_view"
-            android:layout_marginRight="8dp"
-            android:layout_marginEnd="8dp"
-            tools:background="@android:color/holo_blue_light"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="@style/ScheduleListSecondary"
-            tools:text="@string/placeholder_event_start_time"
-            android:id="@+id/lecture_list_item_time_view"
-            android:layout_marginRight="8dp"
-            android:layout_marginEnd="8dp"
-            tools:background="@android:color/holo_red_light"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="@style/ScheduleListSecondary"
-            tools:text="@string/placeholder_event_duration"
-            android:id="@+id/lecture_list_item_duration_view"
-            android:layout_marginRight="8dp"
-            android:layout_marginEnd="8dp"
-            tools:background="@android:color/holo_blue_light"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:textAppearance="@style/ScheduleListSecondary"
-            tools:text="@string/placeholder_event_room"
-            android:id="@+id/lecture_list_item_room_view"
-            tools:background="@android:color/holo_red_light"/>
-
-        <TextView
-            android:id="@+id/lecture_list_item_language_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="end"
-            android:textAppearance="@style/ScheduleListSecondary"
-            tools:background="@android:color/holo_blue_light"
-            tools:text="@string/placeholder_event_language" />
-
-    </LinearLayout>
 </nerd.tuxmobil.fahrplan.congress.commons.CheckableLayout>
