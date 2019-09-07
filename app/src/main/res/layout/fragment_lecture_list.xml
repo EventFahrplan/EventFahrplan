@@ -17,7 +17,7 @@
         android:layout_marginRight="-16dp"
         android:scrollbarStyle="outsideOverlay"
         tools:listitem="@layout/lecture_list_item"
-        android:layout_height="wrap_content"/>
+        android:layout_height="match_parent"/>
 
     <TextView
         android:id="@android:id/empty"

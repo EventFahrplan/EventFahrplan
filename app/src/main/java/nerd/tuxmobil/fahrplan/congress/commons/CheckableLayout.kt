@@ -17,13 +17,13 @@
 package nerd.tuxmobil.fahrplan.congress.commons
 
 import android.content.Context
+import android.support.constraint.ConstraintLayout
 import android.util.AttributeSet
 import android.widget.Checkable
-import android.widget.LinearLayout
 
 import nerd.tuxmobil.fahrplan.congress.R
 
-class CheckableLayout : LinearLayout, Checkable {
+class CheckableLayout : ConstraintLayout, Checkable {
 
     private var mChecked = false
 
