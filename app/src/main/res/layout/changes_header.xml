@@ -8,7 +8,6 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/title"
         android:textAppearance="@android:style/TextAppearance.Large"
         android:textStyle="bold"
         android:textColor="@android:color/secondary_text_light"
