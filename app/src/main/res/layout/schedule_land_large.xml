@@ -43,7 +43,6 @@
             android:fadingEdge="none">
 
         <LinearLayout
-                android:id="@+id/linearLayout1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
@@ -66,7 +65,6 @@
                     android:scrollbars="none">
 
                 <LinearLayout
-                        android:id="@+id/scrollContainer"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
