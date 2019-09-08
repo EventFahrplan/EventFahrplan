@@ -19,7 +19,6 @@
     </TextView>
 
     <ImageView
-        android:id="@+id/imageView1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:src="@drawable/separator_bottom_line"/>
