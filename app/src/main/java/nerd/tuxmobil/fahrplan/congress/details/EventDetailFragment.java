@@ -171,12 +171,12 @@ public class EventDetailFragment extends Fragment {
 
             // Title
 
-            t = view.findViewById(R.id.title);
+            t = view.findViewById(R.id.event_detail_content_title_view);
             setUpTextView(t, boldCondensed, title);
 
             // Subtitle
 
-            t = view.findViewById(R.id.subtitle);
+            t = view.findViewById(R.id.event_detail_content_subtitle_view);
             if (TextUtils.isEmpty(subtitle)) {
                 t.setVisibility(View.GONE);
             } else {
@@ -185,7 +185,7 @@ public class EventDetailFragment extends Fragment {
 
             // Speakers
 
-            t = view.findViewById(R.id.speakers);
+            t = view.findViewById(R.id.event_detail_content_speakers_view);
             if (TextUtils.isEmpty(spkr)) {
                 t.setVisibility(View.GONE);
             } else {
@@ -194,7 +194,7 @@ public class EventDetailFragment extends Fragment {
 
             // Abstract
 
-            t = view.findViewById(R.id.abstractt);
+            t = view.findViewById(R.id.event_detail_content_abstract_view);
             if (TextUtils.isEmpty(abstractt)) {
                 t.setVisibility(View.GONE);
             } else {
@@ -204,7 +204,7 @@ public class EventDetailFragment extends Fragment {
 
             // Description
 
-            t = view.findViewById(R.id.description);
+            t = view.findViewById(R.id.event_detail_content_description_view);
             if (TextUtils.isEmpty(descr)) {
                 t.setVisibility(View.GONE);
             } else {
@@ -214,8 +214,8 @@ public class EventDetailFragment extends Fragment {
 
             // Links
 
-            TextView l = view.findViewById(R.id.linksSection);
-            t = view.findViewById(R.id.links);
+            TextView l = view.findViewById(R.id.event_detail_content_links_section_view);
+            t = view.findViewById(R.id.event_detail_content_links_view);
             if (TextUtils.isEmpty(links)) {
                 l.setVisibility(View.GONE);
                 t.setVisibility(View.GONE);
@@ -230,9 +230,9 @@ public class EventDetailFragment extends Fragment {
 
             // Event online
 
-            final TextView eventOnlineSection = view.findViewById(R.id.eventOnlineSection);
+            final TextView eventOnlineSection = view.findViewById(R.id.event_detail_content_event_online_section_view);
             eventOnlineSection.setTypeface(bold);
-            final TextView eventOnlineLink = view.findViewById(R.id.eventOnline);
+            final TextView eventOnlineLink = view.findViewById(R.id.event_detail_content_event_online_view);
             if (WikiEventUtils.containsWikiLink(links)) {
                 eventOnlineSection.setVisibility(View.GONE);
                 eventOnlineLink.setVisibility(View.GONE);

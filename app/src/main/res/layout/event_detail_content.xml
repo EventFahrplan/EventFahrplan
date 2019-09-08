@@ -4,48 +4,48 @@
     tools:showIn="@layout/detail">
 
     <TextView
-        android:id="@+id/title"
+        android:id="@+id/event_detail_content_title_view"
         style="@style/EventDetailSection.Title"
         tools:text="@string/placeholder_event_title"/>
 
     <TextView
-        android:id="@+id/subtitle"
+        android:id="@+id/event_detail_content_subtitle_view"
         style="@style/EventDetailSection.Subtitle"
         tools:text="@string/placeholder_event_subtitle"/>
 
     <TextView
-        android:id="@+id/speakers"
+        android:id="@+id/event_detail_content_speakers_view"
         style="@style/EventDetailSection.Speakers"
         android:textSize="@dimen/event_detail_speakers"
         tools:text="@string/placeholder_event_speakers"/>
 
     <TextView
-        android:id="@+id/abstractt"
+        android:id="@+id/event_detail_content_abstract_view"
         style="@style/EventDetailSection.Header.Long"
         tools:text="@string/placeholder_event_abstract"/>
 
     <TextView
-        android:id="@+id/description"
+        android:id="@+id/event_detail_content_description_view"
         style="@style/EventDetailSection.Long"
         tools:text="@string/placeholder_event_description"/>
 
     <TextView
-        android:id="@+id/linksSection"
+        android:id="@+id/event_detail_content_links_section_view"
         style="@style/EventDetailSection.Header"
         android:text="@string/event_detail_section_title_links"/>
 
     <TextView
-        android:id="@+id/links"
+        android:id="@+id/event_detail_content_links_view"
         style="@style/EventDetailSection"
         tools:text="@string/placeholder_event_links"/>
 
     <TextView
-        android:id="@+id/eventOnlineSection"
+        android:id="@+id/event_detail_content_event_online_section_view"
         style="@style/EventDetailSection.Header"
         android:text="@string/event_online"/>
 
     <TextView
-        android:id="@+id/eventOnline"
+        android:id="@+id/event_detail_content_event_online_view"
         style="@style/EventDetailSection"
         tools:text="@string/placeholder_event_online"/>
 
