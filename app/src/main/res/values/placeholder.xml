@@ -46,7 +46,7 @@
         assessment swiss-army-knife for researchers.
     </string>
     <string name="placeholder_event_speakers">
-        Stephen A. Ridley
+        Stephen A. Ridley, Ernest Ridley, Conan Ridley, Bridget Ridley, Frank Ridley
     </string>
     <string name="placeholder_event_links">
         Don\'t Stuff Beans Up Your Nose\nINT3.CC\nThe Osprey (on INT3)
@@ -64,10 +64,10 @@
         17:15
     </string>
     <string name="placeholder_event_duration">
-        90 min.
+        240 min.
     </string>
     <string name="placeholder_event_room">
-        REALLY LARGE ROOM
+        Village:Königlich Bayerisches Amtsvillage
     </string>
 
     <!-- Schedule time column -->

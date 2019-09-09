@@ -61,25 +61,25 @@ public abstract class LecturesAdapter extends ArrayAdapter<Lecture> {
 
             switch (type) {
                 case TYPE_ITEM:
-                    rowView = localInflater.inflate(R.layout.lecture_change_row, parent, false);
+                    rowView = localInflater.inflate(R.layout.lecture_list_item, parent, false);
                     viewHolder = new ViewHolder();
 
-                    viewHolder.title = rowView.findViewById(R.id.title);
-                    viewHolder.subtitle = rowView.findViewById(R.id.subtitle);
-                    viewHolder.speakers = rowView.findViewById(R.id.speakers);
-                    viewHolder.lang = rowView.findViewById(R.id.lang);
-                    viewHolder.day = rowView.findViewById(R.id.day);
-                    viewHolder.time = rowView.findViewById(R.id.time);
-                    viewHolder.room = rowView.findViewById(R.id.room);
-                    viewHolder.duration = rowView.findViewById(R.id.duration);
-                    viewHolder.video = rowView.findViewById(R.id.video);
-                    viewHolder.noVideo = rowView.findViewById(R.id.no_video);
+                    viewHolder.title = rowView.findViewById(R.id.lecture_list_item_title_view);
+                    viewHolder.subtitle = rowView.findViewById(R.id.lecture_list_item_subtitle_view);
+                    viewHolder.speakers = rowView.findViewById(R.id.lecture_list_item_speakers_view);
+                    viewHolder.lang = rowView.findViewById(R.id.lecture_list_item_language_view);
+                    viewHolder.day = rowView.findViewById(R.id.lecture_list_item_day_view);
+                    viewHolder.time = rowView.findViewById(R.id.lecture_list_item_time_view);
+                    viewHolder.room = rowView.findViewById(R.id.lecture_list_item_room_view);
+                    viewHolder.duration = rowView.findViewById(R.id.lecture_list_item_duration_view);
+                    viewHolder.video = rowView.findViewById(R.id.lecture_list_item_video_view);
+                    viewHolder.noVideo = rowView.findViewById(R.id.lecture_list_item_no_video_view);
                     rowView.setTag(viewHolder);
                     break;
                 case TYPE_SEPARATOR:
                     rowView = localInflater.inflate(R.layout.lecture_list_separator, parent, false);
                     viewHolderSeparator = new ViewHolderSeparator();
-                    viewHolderSeparator.text = rowView.findViewById(R.id.title);
+                    viewHolderSeparator.text = rowView.findViewById(R.id.lecture_list_separator_title_view);
                     rowView.setTag(viewHolderSeparator);
                     break;
                 default:

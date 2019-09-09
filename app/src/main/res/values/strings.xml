@@ -215,4 +215,8 @@
     <string name="alarm_time_title_45_minutes_before">45 minutes before</string>
     <string name="alarm_time_title_60_minutes_before">60 minutes before</string>
 
+    <!-- Lecture list item -->
+    <string name="lecture_list_item_no_video_content_description">Without video recording</string>
+    <string name="lecture_list_item_video_content_description">With video recording</string>
+
 </resources>

@@ -198,4 +198,8 @@
     <string name="alarm_time_title_45_minutes_before">45 Minuten vorher</string>
     <string name="alarm_time_title_60_minutes_before">60 Minuten vorher</string>
 
+    <!-- Lecture list item -->
+    <string name="lecture_list_item_no_video_content_description">Ohne Videoaufzeichnung</string>
+    <string name="lecture_list_item_video_content_description">Mit Videoaufzeichnung</string>
+
 </resources>
