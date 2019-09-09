@@ -9,13 +9,13 @@ object Android {
     const val targetSdkVersion = 27
 }
 
-private const val kotlinVersion = "1.3.41"
+private const val kotlinVersion = "1.3.50"
 
 object GradlePlugins {
 
     private object Versions {
         const val androidGradle = "3.4.2"
-        const val gradleVersions = "0.22.0"
+        const val gradleVersions = "0.24.0"
         const val sonarQubeGradle = "2.7.1"
     }
 
@@ -34,7 +34,7 @@ object Libs {
         const val espresso = "3.0.2"
         const val junit = "4.12"
         const val mockito = "2.28.0"
-        const val mockitoKotlin = "2.1.0"
+        const val mockitoKotlin = "2.2.0"
         const val okhttp = "3.12.3"
         const val snackengage = "0.19"
         const val supportLibrary = "27.1.1"
