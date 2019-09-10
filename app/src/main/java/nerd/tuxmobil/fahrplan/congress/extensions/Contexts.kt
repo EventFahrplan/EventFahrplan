@@ -5,15 +5,15 @@ package nerd.tuxmobil.fahrplan.congress.extensions
 import android.app.AlarmManager
 import android.app.NotificationManager
 import android.content.Context
-import android.content.Context.*
 import android.content.Intent
+import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 
-fun Context.getAlarmManager() = getSystemService(ALARM_SERVICE) as AlarmManager
+fun Context.getAlarmManager() = ContextCompat.getSystemService(this, AlarmManager::class.java)!!
 
-fun Context.getLayoutInflater() = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
+fun Context.getLayoutInflater() = ContextCompat.getSystemService(this, LayoutInflater::class.java)!!
 
-fun Context.getNotificationManager() = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+fun Context.getNotificationManager() = ContextCompat.getSystemService(this, NotificationManager::class.java)!!
 
 fun Context.startActivity(intent: Intent, onActivityNotFound: () -> Unit) {
     if (intent.resolveActivity(packageManager) == null) {
