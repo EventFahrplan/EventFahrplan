@@ -38,7 +38,6 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:fontFamily="sans-serif-light"
-        android:text="lecture id"
         android:textAllCaps="true"
         android:textColor="@color/lecture_detailbar_text"
         android:textSize="@dimen/event_detailbar_text"
