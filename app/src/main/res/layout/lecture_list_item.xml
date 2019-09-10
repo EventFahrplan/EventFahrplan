@@ -22,7 +22,6 @@
         android:ellipsize="end"
         android:maxLines="1"
         android:textAppearance="@style/ScheduleListPrimary"
-        app:layout_constraintBottom_toTopOf="@+id/lecture_list_item_subtitle_view"
         app:layout_constraintEnd_toStartOf="@+id/barrier"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -40,7 +39,6 @@
         android:layout_height="14sp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="0dp"
         android:layout_marginRight="0dp"
         android:layout_marginBottom="0dp"
@@ -48,11 +46,11 @@
         android:baseline="13sp"
         android:contentDescription="@string/lecture_list_item_no_video_content_description"
         android:src="@drawable/ic_change_novideo"
-        app:layout_constraintBottom_toTopOf="@+id/lecture_list_item_subtitle_view"
+        app:layout_constraintBottom_toBottomOf="@+id/lecture_list_item_title_view"
         app:layout_constraintDimensionRatio="w,75:48"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/barrier"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/lecture_list_item_title_view" />
 
     <ImageView
         android:id="@+id/lecture_list_item_video_view"
@@ -60,7 +58,6 @@
         android:layout_height="14sp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="0dp"
         android:layout_marginRight="0dp"
         android:layout_marginBottom="0dp"
@@ -68,11 +65,11 @@
         android:baseline="13sp"
         android:contentDescription="@string/lecture_list_item_video_content_description"
         android:src="@drawable/ic_change_video"
-        app:layout_constraintBottom_toTopOf="@+id/lecture_list_item_subtitle_view"
+        app:layout_constraintBottom_toBottomOf="@+id/lecture_list_item_title_view"
         app:layout_constraintDimensionRatio="w,75:48"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/barrier"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/lecture_list_item_title_view" />
 
     <TextView
         android:id="@+id/lecture_list_item_subtitle_view"
@@ -87,7 +84,6 @@
         android:ellipsize="end"
         android:maxLines="1"
         android:textAppearance="@style/ScheduleListSecondary"
-        app:layout_constraintBottom_toTopOf="@+id/lecture_list_item_whitespace"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lecture_list_item_title_view"
@@ -97,7 +93,6 @@
         android:id="@+id/lecture_list_item_whitespace"
         android:layout_width="0dp"
         android:layout_height="4dp"
-        app:layout_constraintBottom_toTopOf="@+id/lecture_list_item_speakers_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lecture_list_item_subtitle_view" />
@@ -115,22 +110,10 @@
         android:ellipsize="end"
         android:maxLines="1"
         android:textAppearance="@style/ScheduleListSecondary"
-        app:layout_constraintBottom_toTopOf="@+id/lecture_list_item_footer_group"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lecture_list_item_whitespace"
         tools:text="@string/placeholder_event_speakers" />
-
-    <android.support.constraint.Group
-        android:id="@+id/lecture_list_item_footer_group"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lecture_list_item_speakers_view" />
 
     <TextView
         android:id="@+id/lecture_list_item_day_view"
@@ -142,10 +125,9 @@
         android:layout_marginRight="8dp"
         android:layout_marginBottom="0dp"
         android:textAppearance="@style/ScheduleListSecondary"
-        app:layout_constraintBottom_toBottomOf="@+id/lecture_list_item_footer_group"
         app:layout_constraintEnd_toStartOf="@+id/lecture_list_item_time_view"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/lecture_list_item_footer_group"
+        app:layout_constraintTop_toBottomOf="@+id/lecture_list_item_speakers_view"
         tools:text="@string/placeholder_event_day" />
 
     <TextView
@@ -158,10 +140,9 @@
         android:layout_marginRight="8dp"
         android:layout_marginBottom="0dp"
         android:textAppearance="@style/ScheduleListSecondary"
-        app:layout_constraintBottom_toBottomOf="@+id/lecture_list_item_footer_group"
         app:layout_constraintEnd_toStartOf="@+id/lecture_list_item_duration_view"
         app:layout_constraintStart_toEndOf="@+id/lecture_list_item_day_view"
-        app:layout_constraintTop_toTopOf="@+id/lecture_list_item_footer_group"
+        app:layout_constraintTop_toBottomOf="@+id/lecture_list_item_speakers_view"
         tools:text="@string/placeholder_event_start_time" />
 
     <TextView
@@ -176,10 +157,9 @@
         android:gravity="end"
         android:minWidth="55dp"
         android:textAppearance="@style/ScheduleListSecondary"
-        app:layout_constraintBottom_toBottomOf="@+id/lecture_list_item_footer_group"
         app:layout_constraintEnd_toStartOf="@+id/lecture_list_item_room_view"
         app:layout_constraintStart_toEndOf="@+id/lecture_list_item_time_view"
-        app:layout_constraintTop_toTopOf="@+id/lecture_list_item_footer_group"
+        app:layout_constraintTop_toBottomOf="@+id/lecture_list_item_speakers_view"
         tools:text="@string/placeholder_event_duration" />
 
     <TextView
@@ -194,10 +174,9 @@
         android:ellipsize="end"
         android:maxLines="1"
         android:textAppearance="@style/ScheduleListSecondary"
-        app:layout_constraintBottom_toBottomOf="@+id/lecture_list_item_footer_group"
         app:layout_constraintEnd_toStartOf="@+id/lecture_list_item_language_view"
         app:layout_constraintStart_toEndOf="@+id/lecture_list_item_duration_view"
-        app:layout_constraintTop_toTopOf="@+id/lecture_list_item_footer_group"
+        app:layout_constraintTop_toBottomOf="@+id/lecture_list_item_speakers_view"
         tools:text="@string/placeholder_event_room" />
 
     <TextView
@@ -210,10 +189,9 @@
         android:layout_marginRight="0dp"
         android:layout_marginBottom="0dp"
         android:textAppearance="@style/ScheduleListSecondary"
-        app:layout_constraintBottom_toBottomOf="@+id/lecture_list_item_footer_group"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/lecture_list_item_room_view"
-        app:layout_constraintTop_toTopOf="@+id/lecture_list_item_footer_group"
+        app:layout_constraintTop_toBottomOf="@+id/lecture_list_item_speakers_view"
         tools:text="@string/placeholder_event_language" />
 
 </nerd.tuxmobil.fahrplan.congress.commons.CheckableLayout>
