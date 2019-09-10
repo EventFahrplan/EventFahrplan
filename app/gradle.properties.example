@@ -1,8 +1,3 @@
-signing.camp2015-release.keystoreFilePath=/home/USERNAME/.android/camp2015-release-key.keystore
-signing.camp2015-release.keystorePassword="PASSWORD"
-signing.camp2015-release.keyAlias="camp2015"
-signing.camp2015-release.keyPassword="ANOTHERPASSWORD"
-
 signing.ccc35c3-release.keystoreFilePath=/home/USERNAME/.android/ccc35c3-release-key.keystore
 signing.ccc35c3-release.keystorePassword="PASSWORD"
 signing.ccc35c3-release.keyAlias="ccc35c3"
