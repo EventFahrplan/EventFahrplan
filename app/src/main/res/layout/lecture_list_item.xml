@@ -23,10 +23,16 @@
         android:maxLines="1"
         android:textAppearance="@style/ScheduleListPrimary"
         app:layout_constraintBottom_toTopOf="@+id/lecture_list_item_subtitle_view"
-        app:layout_constraintEnd_toStartOf="@+id/lecture_list_item_video_view"
+        app:layout_constraintEnd_toStartOf="@+id/barrier"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="@string/placeholder_event_title" />
+
+    <android.support.constraint.Barrier
+        android:id="@+id/barrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="left" />
 
     <ImageView
         android:id="@+id/lecture_list_item_no_video_view"
@@ -45,7 +51,7 @@
         app:layout_constraintBottom_toTopOf="@+id/lecture_list_item_subtitle_view"
         app:layout_constraintDimensionRatio="w,75:48"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/lecture_list_item_title_view"
+        app:layout_constraintStart_toEndOf="@+id/barrier"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
@@ -65,7 +71,7 @@
         app:layout_constraintBottom_toTopOf="@+id/lecture_list_item_subtitle_view"
         app:layout_constraintDimensionRatio="w,75:48"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/lecture_list_item_title_view"
+        app:layout_constraintStart_toEndOf="@+id/barrier"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
