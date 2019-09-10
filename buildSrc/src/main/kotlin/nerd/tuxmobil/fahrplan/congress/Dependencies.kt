@@ -6,7 +6,7 @@ object Android {
     const val buildToolsVersion = "29.0.1"
     const val compileSdkVersion = 28
     const val minSdkVersion = 14
-    const val targetSdkVersion = 27
+    const val targetSdkVersion = 28
 }
 
 private const val kotlinVersion = "1.3.50"
@@ -36,8 +36,8 @@ object Libs {
         const val mockito = "2.28.0"
         const val mockitoKotlin = "2.2.0"
         const val okhttp = "3.12.4"
-        const val snackengage = "0.19"
-        const val supportLibrary = "27.1.1"
+        const val snackengage = "0.22"
+        const val supportLibrary = "28.0.0"
         const val testRules = "1.0.2"
         const val threeTenBp = "1.4.0"
         const val tracedroid = "1.4"
