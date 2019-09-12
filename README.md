@@ -30,7 +30,7 @@ Please read the instructions in the [contribution guide](CONTRIBUTING.md) in ord
 * Setup alarms for individual events
 * Add events to your personal calendar
 * Share a link to an event with others
-* Supported languages: English, German (event descriptions excluded)
+* Supported languages: English, German, French, Portuguese (event descriptions excluded)
 
 ## Event data
 
