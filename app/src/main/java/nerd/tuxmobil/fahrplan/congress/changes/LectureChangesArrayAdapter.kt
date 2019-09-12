@@ -9,6 +9,7 @@ import android.widget.TextView
 
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.base.LecturesAdapter
+import nerd.tuxmobil.fahrplan.congress.extensions.textOrHide
 import nerd.tuxmobil.fahrplan.congress.models.Lecture
 import nerd.tuxmobil.fahrplan.congress.utils.DateHelper
 
@@ -50,17 +51,17 @@ class LectureChangesArrayAdapter internal constructor(
 
         val lecture = getLecture(position)
         with(viewHolder) {
-            title.text = lecture.title
-            subtitle.text = lecture.subtitle
-            speakers.text = lecture.formattedSpeakers
-            lang.text = lecture.lang
+            title.textOrHide = lecture.title
+            subtitle.textOrHide = lecture.subtitle
+            speakers.textOrHide = lecture.formattedSpeakers
+            lang.textOrHide = lecture.lang
             val dayText = DateHelper.getFormattedDate(lecture.dateUTC)
-            day.text = dayText
+            day.textOrHide = dayText
             val timeText = DateHelper.getFormattedTime(lecture.dateUTC)
-            time.text = timeText
-            room.text = lecture.room
+            time.textOrHide = timeText
+            room.textOrHide = lecture.room
             val durationText = context.getString(R.string.event_duration, lecture.duration)
-            duration.text = durationText
+            duration.textOrHide = durationText
             video.visibility = View.GONE
             noVideo.visibility = View.GONE
 

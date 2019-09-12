@@ -9,6 +9,7 @@ import android.widget.TextView
 
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.base.LecturesAdapter
+import nerd.tuxmobil.fahrplan.congress.extensions.textOrHide
 import nerd.tuxmobil.fahrplan.congress.models.Lecture
 import nerd.tuxmobil.fahrplan.congress.utils.DateHelper
 
@@ -70,16 +71,5 @@ class LectureArrayAdapter internal constructor(
         get() = dateUTC + duration * 60000 < now.toMillis(true)
 
     private fun TextView.setPastEventTextColor() = setTextColor(pastEventTextColor)
-
-    private var TextView.textOrHide
-        get() = this.text
-        set(value) {
-            if (value.isEmpty()) {
-                visibility = View.GONE
-            } else {
-                text = value
-                visibility = View.VISIBLE
-            }
-        }
 
 }
