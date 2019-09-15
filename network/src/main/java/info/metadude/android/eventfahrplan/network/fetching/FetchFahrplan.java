@@ -9,6 +9,7 @@ import android.util.Log;
 import java.io.IOException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
+import java.net.UnknownServiceException;
 
 import javax.net.ssl.SSLException;
 
@@ -142,6 +143,9 @@ class FetchFahrplanTask extends AsyncTask<String, Void, HttpStatus> {
         } catch (UnknownHostException e) {
             e.printStackTrace();
             return HttpStatus.HTTP_DNS_FAILURE;
+        } catch (UnknownServiceException e) {
+            e.printStackTrace();
+            return HttpStatus.HTTP_CLEARTEXT_NOT_PERMITTED;
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

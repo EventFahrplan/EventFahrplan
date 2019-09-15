@@ -74,6 +74,11 @@ public class CustomHttpClient {
                         R.string.dlg_err_connection_failed,
                         R.string.dlg_err_failed_not_found, (Object) null);
                 break;
+            case HTTP_CLEARTEXT_NOT_PERMITTED:
+                AlertDialogHelper.showErrorDialog(ctx,
+                        R.string.dlg_err_connection_failed,
+                        R.string.dlg_err_failed_http_cleartext_not_permitted, (Object) null);
+                break;
         }
     }
 }
