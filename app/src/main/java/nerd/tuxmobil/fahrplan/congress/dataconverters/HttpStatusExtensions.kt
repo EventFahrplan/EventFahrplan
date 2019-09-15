@@ -14,6 +14,7 @@ fun NetworkHttpStatus.toAppHttpStatus() = when (this) {
     NetworkHttpStatus.HTTP_CONNECT_TIMEOUT -> AppHttpStatus.HTTP_CONNECT_TIMEOUT
     NetworkHttpStatus.HTTP_NOT_MODIFIED -> AppHttpStatus.HTTP_NOT_MODIFIED
     NetworkHttpStatus.HTTP_NOT_FOUND -> AppHttpStatus.HTTP_NOT_FOUND
+    NetworkHttpStatus.HTTP_CLEARTEXT_NOT_PERMITTED -> AppHttpStatus.HTTP_CLEARTEXT_NOT_PERMITTED
 }
 
 fun AppHttpStatus.toNetworkHttpStatus() = when (this) {
@@ -27,4 +28,5 @@ fun AppHttpStatus.toNetworkHttpStatus() = when (this) {
     AppHttpStatus.HTTP_CONNECT_TIMEOUT -> NetworkHttpStatus.HTTP_CONNECT_TIMEOUT
     AppHttpStatus.HTTP_NOT_MODIFIED -> NetworkHttpStatus.HTTP_NOT_MODIFIED
     AppHttpStatus.HTTP_NOT_FOUND -> NetworkHttpStatus.HTTP_NOT_FOUND
+    AppHttpStatus.HTTP_CLEARTEXT_NOT_PERMITTED -> NetworkHttpStatus.HTTP_CLEARTEXT_NOT_PERMITTED
 }
