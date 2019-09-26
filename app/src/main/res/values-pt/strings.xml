@@ -9,8 +9,8 @@
     <string name="menu_item_title_flag_as_favorite">Adicionar aos favoritos</string>
     <string name="menu_item_title_unflag_as_favorite">Remover dos favoritos</string>
     <string name="menu_item_title_delete_favorite">Remover</string>
-    <string name="menu_item_title_set_alarm">Ativar alerta</string>
-    <string name="menu_item_title_delete_alarm">Desativar alerta</string>
+    <string name="menu_item_title_set_alarm">Definir alerta</string>
+    <string name="menu_item_title_delete_alarm">Remover alerta</string>
     <string name="menu_item_title_delete_all">Remover tudo</string>
     <string name="menu_item_title_favorites">Favoritos</string>
     <string name="menu_item_title_feedback">Feedback</string>
@@ -24,7 +24,7 @@
 
     <!-- CertificateDialog -->
     <string name="dlg_certificate_message_fmt">
-        Falha ao estabeleter conexão segura.\n
+        Falha ao estabelecer conexão segura.\n
         (<xliff:g id="error" example="Unknown Error">%s</xliff:g>)
     </string>
     <string name="dlg_invalid_certificate_title">Confiar em certificado desconhecido?</string>
@@ -39,10 +39,11 @@
     <string name="dlg_err_failed_not_found">URL de cronograma inválida</string>
     <string name="dlg_err_failed_parse_failure">Não foi possíver interpretar a resposta</string>
     <string name="dlg_err_failed_ssl_failure">Falha de SSL</string>
-    <string name="uptodate">Cronograma está atualizado</string>
+    <string name="dlg_err_failed_http_cleartext_not_permitted">HTTP não é permitido. Por favor use HTTPS.</string>
+    <string name="uptodate">O cronograma está atualizado</string>
 
     <!-- Schedule changes dialog -->
-    <string name="schedule_changes_dialog_title">Cronograma atualizado</string>
+    <string name="schedule_changes_dialog_title">Atualização de cronograma</string>
     <string name="schedule_changes_dialog_updated_to_text">O cronograma foi atualizado para\u0020</string>
     <string name="schedule_changes_dialog_changed_new_cancelled_text">. Há alterações em <xliff:g id="num_changes" example="3 lectures">%1$s</xliff:g>, <xliff:g id="num_new" example="2 are">%2$s</xliff:g> novos, <xliff:g id="num_canceled" example="1 is">%3$s</xliff:g> cancelados.</string>
     <string name="schedule_changes_dialog_affected_text">As alterações afetam <xliff:g id="num_marked" example="2">%1$d</xliff:g> das suas palestras apoiadas.</string>
@@ -77,13 +78,13 @@
     <string name="default_alarm_time_title">Escolha o horário de alerta padrão</string>
     <string name="default_alarm_time_dialog_title">Horário padrão de alerta</string>
     <string name="reminders">Alertas</string>
-    <string name="reminder_ringtone">Som do alarme</string>
+    <string name="reminder_ringtone">Som do alerta</string>
     <string name="insistent_alarm">Alerta persistente</string>
     <string name="usage">Dica:\n\nMantenha pressionado na palestra para ajustar um alerta.</string>
 	<string name="libraries">
 		Esse app usa as seguintes bibliotecas:
-		Kotlin, Google Support Library v4, Google AppCompat Library v7, Email Intent Builder,
-		Espresso, OkHttp, SnackEngage, TraceDroid
+		Kotlin, Google Support Library, Email Intent Builder,
+                Espresso, OkHttp, SnackEngage e TraceDroid
 	</string>
     <string name="about_data_privacy_statement">
         <![CDATA[<a href=\"https://github.com/EventFahrplan/EventFahrplan/blob/master/DATA-PRIVACY-DE.md\">Declaração de privacidade (Alemão)</a>]]>
@@ -96,14 +97,14 @@
     <string name="parsing_error_generic">Erro desconhecido ao processar cronograma</string>
     <string name="parsing_error_with_version">Erro ao processar versão do cronograma %s</string>
 	<string name="alarms_empty">
-		Não há alarmes para exibir, Você pode configurar alarmes 
+		Não há alarmes para exibir, você pode configurar alarmes 
 		individuais para cada item no cronograma.
 		Basta pressionar o ícone de alarme na barra de ações   
 	</string>
-    <string name="add_to_calendar_failed">Falha ao adicionar o evento ao calendário</string>
+    <string name="add_to_calendar_failed">Falha ao adicionar o evento ao calendário.</string>
     <string name="no_changes">Nenhuma mudança de cronograma</string>
     <string name="no_favorites">Nenhuma palestra favorita</string>
-    <string name="schedule_changes">Mudanças de cronograma</string>
+    <string name="schedule_changes">Mudanças no cronograma</string>
 
     <string name="general_settings">Geral</string>
     <string name="starred_lectures">Favoritos</string>
@@ -131,9 +132,9 @@
 
     <!-- App disclaimer -->
     <string name="app_disclaimer">
-Esse aplicativo é baseado no código fonte do aplicativo &#8220;EventFahrplan&#8221;.
-Visitantes do congresso anual e acampamento organizado pelo Chaos Computer Club,
-usem o aplicativo para se manter atualizado com a organização do evento.
+        Esse aplicativo é baseado no código fonte do aplicativo &#8220;EventFahrplan&#8221;.
+        Visitantes do congresso anual e acampamento organizado pelo Chaos Computer Club,
+        usam o aplicativo para se manterem atualizados com a organização do evento.
  </string>
 
     <!-- SnackEngage -->
@@ -152,7 +153,7 @@ usem o aplicativo para se manter atualizado com a organização do evento.
     <string name="trace_droid_dialog_message">
         Um problema com o aplicativo <xliff:g id="appName" example="33C3 Schedule">%s</xliff:g> foi
         encontrado. Ajude o projeto submetendo relatórios de falhas,
-       assim, a origem do problema poderá ser identificada.
+        assim, a origem do problema poderá ser identificada.
     </string>
     <string name="trace_droid_button_title_send">
         Abrir e-mail
@@ -185,4 +186,18 @@ usem o aplicativo para se manter atualizado com a organização do evento.
         <item quantity="other"><xliff:g id="count" example="3">%d</xliff:g> palestras foram atualizadas.</item>
     </plurals>
 
-    </resources>
+    <!-- Alarm time picker -->
+    <string name="alarm_time_title_at_start_time">no início</string>
+    <string name="alarm_time_title_5_minutes_before">5 minutos antes</string>
+    <string name="alarm_time_title_10_minutes_before">10 minutos antes</string>
+    <string name="alarm_time_title_15_minutes_before">15 minutos antes</string>
+    <string name="alarm_time_title_20_minutes_before">20 minutos antes</string>
+    <string name="alarm_time_title_30_minutes_before">30 minutos antes</string>
+    <string name="alarm_time_title_45_minutes_before">45 minutos antes</string>
+    <string name="alarm_time_title_60_minutes_before">60 minutos antes</string>
+
+    <!-- Lecture list item -->
+    <string name="lecture_list_item_no_video_content_description">Sem gravação de vídeo</string>
+    <string name="lecture_list_item_video_content_description">Com gravação de vídeo</string>
+
+</resources>

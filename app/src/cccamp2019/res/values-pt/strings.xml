@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Acampamento 2019</string>
+    <string name="app_hardcoded_subtitle"/>
+    <string name="conference_url">
+        <![CDATA[<a href="http://events.ccc.de/camp/2019/">http://events.ccc.de/camp/2019/</a>]]>
+    </string>
+    <string name="source_code">
+        <![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan">Código fonte</a>]]>
+    </string>
+    <string name="google_play_store">
+        <![CDATA[<a href="https://play.google.com/store/apps/details?id=info.metadude.android.cccamp.schedule">Listagem da Play Store</a>]]>
+    </string>
+    <string name="copyright_logo">
+        <![CDATA[Design por <a href="http://www.graphorama.de">Sven Sedivy</a>]]>
+    </string>
+    <string name="about_logo_content_description">
+        Logo do acampamento de comunicação da Chaos, com três foguetes diferentes, em azul, amarelo e verde
+    </string>
+</resources>
