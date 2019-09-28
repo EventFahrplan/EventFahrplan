@@ -74,6 +74,7 @@ public abstract class LecturesAdapter extends ArrayAdapter<Lecture> {
                     viewHolder.duration = rowView.findViewById(R.id.lecture_list_item_duration_view);
                     viewHolder.video = rowView.findViewById(R.id.lecture_list_item_video_view);
                     viewHolder.noVideo = rowView.findViewById(R.id.lecture_list_item_no_video_view);
+                    viewHolder.withoutVideoRecording = rowView.findViewById(R.id.lecture_list_item_without_video_recording_view);
                     rowView.setTag(viewHolder);
                     break;
                 case TYPE_SEPARATOR:
@@ -127,6 +128,7 @@ public abstract class LecturesAdapter extends ArrayAdapter<Lecture> {
         resetTextStyle(viewHolder.time, R.style.ScheduleListSecondary);
         resetTextStyle(viewHolder.room, R.style.ScheduleListSecondary);
         resetTextStyle(viewHolder.duration, R.style.ScheduleListSecondary);
+        viewHolder.withoutVideoRecording.setImageResource(R.drawable.ic_without_video_recording);
     }
 
     protected void resetTextStyle(TextView textView, int style) {
@@ -228,6 +230,7 @@ public abstract class LecturesAdapter extends ArrayAdapter<Lecture> {
         public TextView duration;
         public ImageView noVideo;
         public ImageView video;
+        public ImageView withoutVideoRecording;
     }
 
     static class ViewHolderSeparator {

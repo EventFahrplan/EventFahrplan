@@ -50,6 +50,7 @@ class LectureArrayAdapter internal constructor(
                 time.setPastEventTextColor()
                 room.setPastEventTextColor()
                 duration.setPastEventTextColor()
+                withoutVideoRecording.setImageResource(R.drawable.ic_without_video_recording_took_place)
             }
 
             title.textOrHide = lecture.title
@@ -64,6 +65,7 @@ class LectureArrayAdapter internal constructor(
             duration.textOrHide = durationText
             video.visibility = View.GONE
             noVideo.visibility = View.GONE
+            withoutVideoRecording.visibility = if (lecture.recordingOptOut) View.VISIBLE else View.GONE
         }
     }
 
