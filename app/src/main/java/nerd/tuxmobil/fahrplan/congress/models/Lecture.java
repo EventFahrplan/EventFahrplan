@@ -1,8 +1,11 @@
 package nerd.tuxmobil.fahrplan.congress.models;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.text.format.Time;
+
+import nerd.tuxmobil.fahrplan.congress.R;
 
 public class Lecture {
 
@@ -228,6 +231,30 @@ public class Lecture {
             builder.append(" [").append(lang).append("]");
         }
         return builder.toString();
+    }
+
+    @NonNull
+    public String getFormattedTrackContentDescription(@NonNull Context context) {
+        StringBuilder builder = new StringBuilder();
+        builder.append(track);
+        if (!TextUtils.isEmpty(lang)) {
+            builder.append("; ").append(getLanguageContentDescription(context));
+        }
+        return builder.toString();
+    }
+
+    @NonNull
+    public String getLanguageContentDescription(@NonNull Context context) {
+        if (TextUtils.isEmpty(lang)) {
+            return context.getString(R.string.lecture_list_item_language_unknown_content_description);
+        }
+        if ("en".equals(lang)) {
+            return context.getString(R.string.lecture_list_item_language_english_content_description);
+        }
+        if ("de".equals(lang)) {
+            return context.getString(R.string.lecture_list_item_language_german_content_description);
+        }
+        return context.getString(R.string.lecture_list_item_language_undefined_content_description, lang);
     }
 
 }

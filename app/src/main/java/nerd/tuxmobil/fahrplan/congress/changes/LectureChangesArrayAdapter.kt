@@ -55,6 +55,7 @@ class LectureChangesArrayAdapter internal constructor(
             subtitle.textOrHide = lecture.subtitle
             speakers.textOrHide = lecture.formattedSpeakers
             lang.textOrHide = lecture.lang
+            lang.contentDescription = lecture.getLanguageContentDescription(context)
             val dayText = DateHelper.getFormattedDate(lecture.dateUTC)
             day.textOrHide = dayText
             val timeText = DateHelper.getFormattedTime(lecture.dateUTC)
@@ -107,6 +108,7 @@ class LectureChangesArrayAdapter internal constructor(
                     lang.setTextStyleChanged()
                     if (lecture.lang.isEmpty()) {
                         lang.text = context.getText(R.string.dash)
+                        lang.contentDescription = context.getText(R.string.lecture_list_item_language_removed_content_description)
                     }
                 }
                 if (lecture.changedDay) {

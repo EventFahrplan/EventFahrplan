@@ -57,6 +57,7 @@ class LectureArrayAdapter internal constructor(
             subtitle.textOrHide = lecture.subtitle
             speakers.textOrHide = lecture.formattedSpeakers
             lang.textOrHide = lecture.lang
+            lang.contentDescription = lecture.getLanguageContentDescription(context)
             day.visibility = View.GONE
             val timeText = DateHelper.getFormattedTime(lecture.dateUTC)
             time.textOrHide = timeText
