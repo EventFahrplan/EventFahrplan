@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="load_data">Cargar</string>
+    <string name="add_to_calendar_failed">No se pudo agregar el evento al calendario</string>
+    <string name="alarm_time_title_10_minutes_before">10 minutos antes</string>
+    <string name="alarm_time_title_15_minutes_before">15 minutos antes</string>
+    <string name="alarm_time_title_20_minutes_before">20 minutos antes</string>
+    <string name="alarm_time_title_30_minutes_before">30 minutos antes</string>
+    <string name="alarm_time_title_45_minutes_before">45 minutos antes</string>
+    <string name="alarm_time_title_5_minutes_before">5 minutos antes</string>
+    <string name="alarm_time_title_60_minutes_before">60 minutos antes</string>
+    <string name="alarm_time_title_at_start_time">Al inicio</string>
+    <string name="alarms_empty">No hay alarmas para mostrar. Nótese que se pueden poner alarmas para cada evento en el calendario. Sólo presione el ícono de alarma en la barra de acción</string>
+    <string name="alternative_highlight">Destacado alternativo</string>
+    <string name="appVersion">Versión %s de la aplicación</string>
+    <string name="app_disclaimer">Esta aplicación está basada en el código fuente de la aplicación  “EventFahrplan”. Asistentes al congreso anual y al campamento organizado por el Chaos Computer Club usan la aplicación para estar al tanto del programa del evento.</string>
+    <string name="build_info_hash">Version hash: <xliff:g example="e1f2g3h-dirty" id="build_hash">%s</xliff:g></string>
+    <string name="build_info_time">Tiempo de compilación: <xliff:g example="2015-12-27T13:42Z" id="build_time">%s</xliff:g></string>
+    <string name="build_info_version_code">Código de versión: <xliff:g example="42" id="version_code">%s</xliff:g></string>
+    <string name="choose_alarm_time">Escoja tiempo de alarma</string>
+    <string name="choose_day">Escoja el día</string>
+    <string name="event_detail_section_title_links">Vínculos</string>
+    <string name="event_online">Evento en línea</string>
+    <string name="fahrplan">Calendario</string>
+    <string name="general_settings">General</string>
+    <string name="choose_to_delete">Seleccione la conferencia</string>
+    <string name="day">Día</string>
+    <string name="day_separator">Día <xliff:g example="2" id="day_of_congress">%1$d</xliff:g> - <xliff:g example="29.12.2014" id="date_of_congress_day">%2$s</xliff:g></string>
+    <string name="default_alarm_time_dialog_title">Horario de alarma por defecto</string>
+    <string name="default_alarm_time_title">Escoja un horario de alarma por defecto</string>
+    <string name="dlg_certificate_message_fmt">No se pudo establecer una conexión segura. (<xliff:g example="Unknown Error" id="error">%s</xliff:g>)</string>
+    <string name="dlg_delete_all_favorites">Borrar todos los favoritos?</string>
+    <string name="dlg_delete_all_favorites_delete_all">Borrar todo</string>
+    <string name="dlg_err_connection_failed">Fallo de conexión</string>
+    <string name="dlg_err_failed_connect_failure">Fallo de conexión desconocido</string>
+    <string name="dlg_err_failed_http_cleartext_not_permitted">HTTP no está permitido. Por favor utilice HTTPS</string>
+    <string name="dlg_err_failed_not_found">URL de evento no válida</string>
+    <string name="dlg_err_failed_parse_failure">No se pudo procesar la respuesta</string>
+    <string name="dlg_err_failed_ssl_failure">Fallo de SSL</string>
+    <string name="dlg_err_failed_timeout">El servidor no responde</string>
+    <string name="dlg_err_failed_unknown_host">Dirección desconocida: %s</string>
+    <string name="dlg_err_failed_wrong_http_credentials">Autenticación HTTP no válida</string>
+    <string name="dlg_invalid_certificate_could_not_apply">No se pudo agregar el certificado</string>
+    <string name="dlg_invalid_certificate_title">Confiar en certificado desconocido?</string>
+    <string name="event_duration"><xliff:g example="45" id="duration">%1$d</xliff:g> min.</string>
+    <string name="insistent_alarm">Alarma persistente</string>
+    <string name="invalid_url">URL no válida</string>
+    <string name="issues"><![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan/issues">Problema o sugerencias</a>]]></string>
+    <string name="lecture_list_item_language_portuguese_content_description">Portugués</string>
+    <string name="lecture_list_item_language_english_content_description">Inglés</string>
+    <string name="lecture_list_item_language_german_content_description">Alemán</string>
+    <string name="lecture_list_item_language_removed_content_description">La información del idioma ha sido borrada</string>
+    <string name="lecture_list_item_language_undefined_content_description">Idioma: <xliff:g example="es" id="language_abbreviation">%s</xliff:g></string>
+    <string name="lecture_list_item_language_unknown_content_description">Idioma desconocido</string>
+    <string name="lecture_list_item_no_video_content_description">Sin grabación de vídeo</string>
+    <string name="lecture_list_item_video_content_description">Con grabación de vídeo</string>
+    <string name="lecture_list_item_without_video_content_description">Sin grabación de vídeo</string>
+    <string name="libraries">Esta aplicación utiliza las siguientes bibliotecas: Kotlin, Google Support Library, Email Intent Builder, Espresso, OkHttp, SnackEngage, TraceDroid</string>
+    <string name="menu_item_title_about">Información</string>
+    <string name="menu_item_title_add_to_calendar">Agregar al calendario</string>
+    <string name="menu_item_title_alarms">Alarmas</string>
+    <string name="menu_item_title_close_event_details">Detalles de cierre del evento</string>
+    <string name="menu_item_title_delete_alarm">Borrar alarma</string>
+    <string name="menu_item_title_delete_all">Borrar todo</string>
+    <string name="menu_item_title_delete_favorite">Borrar</string>
+    <string name="menu_item_title_favorites">Favoritos</string>
+    <string name="menu_item_title_feedback">Feedback</string>
+    <string name="menu_item_title_flag_as_favorite">Agregar a favoritos</string>
+    <string name="menu_item_title_navigate">Navegar</string>
+    <string name="menu_item_title_refresh">Actualizar</string>
+    <string name="menu_item_title_set_alarm">Definir alarma</string>
+    <string name="menu_item_title_share_event">Compartir evento</string>
+    <string name="menu_item_title_share_favorites">Compartir favoritos</string>
+    <string name="menu_item_title_unflag_as_favorite">Quitar de favoritos</string>
+    <string name="no_changes">Sin cambios en el calendario</string>
+    <string name="no_favorites">No hay conferencias favoritas</string>
+    <string name="notifications_event_alarm_channel_description">Alarmas creadas por el usuario para varios eventos</string>
+    <string name="notifications_event_alarm_channel_name">Alarmas para eventos</string>
+    <string name="notifications_event_alarm_content_text">Alarma para evento</string>
+    <string name="notifications_schedule_update_channel_description">Actualizaciones automáticas al calendario que pueden configurarse en los ajustes de la aplicación</string>
+    <string name="notifications_schedule_update_channel_name">Actualizaciones del calendario</string>
+    <string name="parsing_error_generic">Error desconocido mientras se procesaba el calendario</string>
+    <string name="parsing_error_with_version">Error de procesado para la versión del calendario %s</string>
+    <string name="pref_auto_download">Actualizaciones automáticas</string>
+    <string name="preference_title_app_notification_settings">Personalizar notificaciones &#8230;</string>
+    <string name="progress_loading_data">Obtener calendario &#8230;</string>
+    <string name="progress_processing_data">Procesando calendario &#8230;</string>
+    <string name="reminder_ringtone">Tono de alarma</string>
+    <string name="reminders">Alarmas</string>
+    <string name="schedule_changes">Cambios en el calendario</string>
+    <string name="schedule_changes_dialog_affected_text">Los cambios afectan <xliff:g example="2" id="num_marked">%1$d</xliff:g> de tus conferencias favoritas</string>
+    <string name="schedule_changes_dialog_browse">Explorar</string>
+    <string name="schedule_changes_dialog_changed_new_cancelled_text">. Hay cambios en <xliff:g example="3 lectures" id="num_changes">%1$s</xliff:g>, <xliff:g example="2 are" id="num_new">%2$s</xliff:g> new, <xliff:g example="1 is" id="num_canceled">%3$s</xliff:g> cancelada</string>
+    <string name="schedule_changes_dialog_later">Más tarde</string>
+    <string name="schedule_changes_dialog_title">Actulización de calendario</string>
+    <string name="schedule_changes_dialog_updated_to_text">El calendario ha sido actualizado a</string>
+    <string name="schedule_updated">El calendario ha sido actualizado</string>
+    <string name="schedule_updated_to">Actualizado a <xliff:g example="Mildenberg 2018-01-16 16:50" id="version">%s</xliff:g></string>
+    <string name="schedule_url">URL alternativa del calendario</string>
+    <string name="settings">Ajustes</string>
+    <string name="share_error_activity_not_found">No hay ninguna aplicación apropiada instalada.</string>
+    <string name="snack_engage_c3nav_action">Obtengalo ahora!</string>
+    <string name="snack_engage_c3nav_title">Navegación en el 35C3! Con la aplicación c3nav</string>
+    <string name="snack_engage_google_play_beta_testing_action">Conviértase en probador beta</string>
+    <string name="snack_engage_google_play_beta_testing_title">Usuario avanzado?</string>
+    <string name="snack_engage_rate_action">Califique la aplicación</string>
+    <string name="snack_engage_rate_title">Todo bien?</string>
+    <string name="starred_lectures">Favoritos</string>
+    <string name="today">Hoy</string>
+    <string name="trace_droid_app_chooser_title">Abrir borrador con &#8230;</string>
+    <string name="trace_droid_button_title_later">Quizás más tarde</string>
+    <string name="trace_droid_button_title_no">No</string>
+    <string name="trace_droid_button_title_send">Abrir e-mail</string>
+    <string name="trace_droid_dialog_message">Un problema con la aplicación <xliff:g example="33C3 Schedule" id="appName">%s</xliff:g> ha sido detectado. Sería útil si pudiese enviar un informe de fallo para identificar la causa del problema</string>
+    <string name="trace_droid_dialog_title">Enviar reporte de fallo <xliff:g example="33C3 Schedule" id="appName">%s</xliff:g> &#8230;</string>
+    <string name="trace_droid_no_email_app">Ninguna aplicación compatible ha sido instalada.</string>
+    <string name="uptodate">El calendario está actualizado</string>
+    <string name="usage">Nota: Presione unos segundos en una conferencia para poner alarma</string>
+    <string name="OK">De acuerdo</string>
+    <string name="about_data_privacy_statement"><![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan/blob/master/DATA-PRIVACY-DE.md">Declaración de privacidad de datos (German)</a>]]></string>
+
+</resources>
