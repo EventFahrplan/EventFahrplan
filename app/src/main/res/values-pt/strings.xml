@@ -77,12 +77,13 @@
     <string name="choose_alarm_time">Escolha o horário do alerta</string>
     <string name="default_alarm_time_title">Escolha o horário de alerta padrão</string>
     <string name="default_alarm_time_dialog_title">Horário padrão de alerta</string>
+    <!-- Synchronize with @integers/default_alarm_time_index and string-array/alarm_time_values -->
     <string name="reminders">Alertas</string>
     <string name="reminder_ringtone">Som do alerta</string>
     <string name="insistent_alarm">Alerta persistente</string>
     <string name="usage">Dica:\n\nMantenha pressionado na palestra para ajustar um alerta.</string>
 	<string name="libraries">
-		Esse app usa as seguintes bibliotecas:
+		Este aplicativo usa as seguintes bibliotecas:
 		Kotlin, Google Support Library, Email Intent Builder,
                 Espresso, OkHttp, SnackEngage e TraceDroid
 	</string>
@@ -99,7 +100,7 @@
 	<string name="alarms_empty">
 		Não há alarmes para exibir, você pode configurar alarmes 
 		individuais para cada item no cronograma.
-		Basta pressionar o ícone de alarme na barra de ações   
+		Basta pressionar o ícone de alarme na barra de ações.
 	</string>
     <string name="add_to_calendar_failed">Falha ao adicionar o evento ao calendário.</string>
     <string name="no_changes">Nenhuma mudança de cronograma</string>
@@ -197,6 +198,12 @@
     <string name="alarm_time_title_60_minutes_before">60 minutos antes</string>
 
     <!-- Lecture list item -->
+    <string name="lecture_list_item_language_portuguese_content_description">Português</string>
+    <string name="lecture_list_item_language_german_content_description">Alemão</string>
+    <string name="lecture_list_item_language_english_content_description">Inglês</string>
+    <string name="lecture_list_item_language_unknown_content_description">Idioma desconhecido</string>
+    <string name="lecture_list_item_language_undefined_content_description">Idioma: <xliff:g example="es" id="language_abbreviation">%s</xliff:g></string>
+    <string name="lecture_list_item_language_removed_content_description">A informação do idioma foi removida</string>
     <string name="lecture_list_item_no_video_content_description">Sem gravação de vídeo</string>
     <string name="lecture_list_item_video_content_description">Com gravação de vídeo</string>
     <string name="lecture_list_item_without_video_content_description">Sem gravação de vídeo</string>
