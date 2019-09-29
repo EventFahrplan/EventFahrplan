@@ -71,6 +71,27 @@
         app:layout_constraintStart_toEndOf="@+id/barrier"
         app:layout_constraintTop_toTopOf="@+id/lecture_list_item_title_view" />
 
+    <ImageView
+        android:id="@+id/lecture_list_item_without_video_recording_view"
+        android:layout_width="wrap_content"
+        android:layout_height="14sp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginBottom="0dp"
+        android:adjustViewBounds="true"
+        android:baseline="13sp"
+        android:contentDescription="@string/lecture_list_item_without_video_content_description"
+        android:src="@drawable/ic_without_video_recording"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/lecture_list_item_title_view"
+        app:layout_constraintDimensionRatio="w,75:48"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/barrier"
+        app:layout_constraintTop_toTopOf="@+id/lecture_list_item_title_view"
+        tools:visibility="visible" />
+
     <TextView
         android:id="@+id/lecture_list_item_subtitle_view"
         android:layout_width="0dp"

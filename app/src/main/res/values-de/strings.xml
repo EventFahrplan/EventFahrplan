@@ -202,5 +202,6 @@
     <!-- Lecture list item -->
     <string name="lecture_list_item_no_video_content_description">Ohne Videoaufzeichnung</string>
     <string name="lecture_list_item_video_content_description">Mit Videoaufzeichnung</string>
+    <string name="lecture_list_item_without_video_content_description">Ohne Videoaufzeichnung</string>
 
 </resources>

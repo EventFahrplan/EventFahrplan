@@ -64,6 +64,7 @@ class LectureChangesArrayAdapter internal constructor(
             duration.textOrHide = durationText
             video.visibility = View.GONE
             noVideo.visibility = View.GONE
+            withoutVideoRecording.visibility = View.GONE
 
             if (lecture.changedIsNew) {
                 title.setTextStyleNew()
