@@ -217,6 +217,11 @@
     <string name="alarm_time_title_60_minutes_before">60 minutes before</string>
 
     <!-- Lecture list item -->
+    <string name="lecture_list_item_language_german_content_description">German</string>
+    <string name="lecture_list_item_language_english_content_description">English</string>
+    <string name="lecture_list_item_language_unknown_content_description">Language unknown</string>
+    <string name="lecture_list_item_language_undefined_content_description">Language: <xliff:g id="language_abbreviation" example="es">%s</xliff:g></string>
+    <string name="lecture_list_item_language_removed_content_description">Language information has been removed</string>
     <string name="lecture_list_item_no_video_content_description">Without video recording</string>
     <string name="lecture_list_item_video_content_description">With video recording</string>
     <string name="lecture_list_item_without_video_content_description">Without video recording</string>
