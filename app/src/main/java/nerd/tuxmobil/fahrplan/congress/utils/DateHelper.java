@@ -1,7 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress.utils;
 
 import android.support.annotation.NonNull;
-import android.text.format.Time;
 
 import org.threeten.bp.Duration;
 import org.threeten.bp.LocalDate;
@@ -19,27 +18,27 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import info.metadude.android.eventfahrplan.commons.temporal.Moment;
+
 public class DateHelper {
 
     /**
      * Returns a formatted string for the current date. Pattern YYYY-MM-DD.
      */
     public static String getCurrentDate() {
-        Time now = new Time();
-        now.setToNow();
-        return getFormattedDate(now);
+        return getFormattedDate(new Moment());
     }
 
     /**
-     * Returns a formatted string for the given time. Pattern YYYY-MM-DD.
+     * Returns a formatted string for the given moment. Pattern YYYY-MM-DD.
      */
-    public static String getFormattedDate(Time time) {
+    public static String getFormattedDate(@NonNull Moment moment) {
         StringBuilder date = new StringBuilder();
-        date.append(String.format("%d", time.year));
+        date.append(String.format("%d", moment.getYear()));
         date.append("-");
-        date.append(String.format("%02d", time.month + 1));
+        date.append(String.format("%02d", moment.getMonth() + 1));
         date.append("-");
-        date.append(String.format("%02d", time.monthDay));
+        date.append(String.format("%02d", moment.getMonthDay()));
         return date.toString();
     }
 
@@ -108,9 +107,8 @@ public class DateHelper {
     }
 
     public static int getMinutesOfDay(long dateUtc) {
-        Time time = new Time();
-        time.set(dateUtc);
-        return time.hour * 60 + time.minute;
+        Moment moment = new Moment(dateUtc);
+        return moment.getHour() * 60 + moment.getMinute();
     }
 
     public static int getDayOfMonth(long dateUtc) {

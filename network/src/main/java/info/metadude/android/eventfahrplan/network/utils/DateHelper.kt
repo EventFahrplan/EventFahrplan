@@ -2,7 +2,7 @@
 
 package info.metadude.android.eventfahrplan.network.utils
 
-import android.text.format.Time
+import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -41,9 +41,8 @@ fun getDayChange(attributeValue: String): Int {
     val date = getDate(attributeValue, pattern)
             ?: return 600         // default
     val timeUTC = date.time
-    val time = Time()
-    time.set(timeUTC)
-    return time.hour * 60 + time.minute
+    val moment = Moment(timeUTC)
+    return moment.hour * 60 + moment.minute
 }
 
 fun getDate(text: String, pattern: String): Date? {

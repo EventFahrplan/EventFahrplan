@@ -5,7 +5,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.text.format.Time;
 
 import org.ligi.tracedroid.logging.Log;
 
@@ -16,6 +15,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import info.metadude.android.eventfahrplan.commons.temporal.Moment;
 import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmReceiver;
@@ -58,8 +58,8 @@ public class FahrplanMisc {
         if (lecture.dateUTC > 0) {
             when = lecture.dateUTC;
         } else {
-            Time time = lecture.getTime();
-            when = time.normalize(true);
+            Moment moment = lecture.getMoment();
+            when = moment.normalize();
         }
         return when;
     }
@@ -90,18 +90,18 @@ public class FahrplanMisc {
             alarmTimes.add(Integer.parseInt(alarmTimeString));
         }
         long when;
-        Time time;
+        Moment moment;
         long startTime;
         long startTimeInSeconds = lecture.dateUTC;
 
         if (startTimeInSeconds > 0) {
             when = startTimeInSeconds;
             startTime = startTimeInSeconds;
-            time = new Time();
+            moment = new Moment(false);
         } else {
-            time = lecture.getTime();
-            startTime = time.normalize(true);
-            when = time.normalize(true);
+            moment = lecture.getMoment();
+            startTime = moment.normalize();
+            when = moment.normalize();
         }
         long alarmTimeDiffInSeconds = alarmTimes.get(alarmTimesIndex) * 60 * 1000L;
         when -= alarmTimeDiffInSeconds;
@@ -109,9 +109,9 @@ public class FahrplanMisc {
         // DEBUG
         // when = System.currentTimeMillis() + (30 * 1000);
 
-        time.set(when);
+        moment.setToMilliseconds(when);
         MyApp.LogDebug("addAlarm",
-                "Alarm time: " + time.format("%Y-%m-%dT%H:%M:%S%z") + ", in seconds: " + when);
+                "Alarm time: " + moment.toFormattedString("%Y-%m-%dT%H:%M:%S%z") + ", in seconds: " + when);
 
         String eventId = lecture.lectureId;
         String eventTitle = lecture.title;
@@ -133,9 +133,7 @@ public class FahrplanMisc {
         final PendingIntent pendingintent = PendingIntent.getBroadcast(context, 0, alarmIntent, 0);
 
         MyApp.LogDebug(LOG_TAG, "set update alarm");
-        Time t = new Time();
-        t.setToNow();
-        final long now = t.toMillis(true);
+        final long now = new Moment().toMilliseconds();
 
         AlarmUpdater alarmUpdater = new AlarmUpdater(MyApp.conferenceTimeFrame,
                 new AlarmUpdater.OnAlarmUpdateListener() {

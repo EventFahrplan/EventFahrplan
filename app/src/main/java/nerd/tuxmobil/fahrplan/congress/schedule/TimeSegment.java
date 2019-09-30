@@ -1,8 +1,8 @@
 package nerd.tuxmobil.fahrplan.congress.schedule;
 
-import android.text.format.Time;
-
 import java.util.Locale;
+
+import info.metadude.android.eventfahrplan.commons.temporal.Moment;
 
 class TimeSegment {
 
@@ -29,8 +29,8 @@ class TimeSegment {
                 .toString();
     }
 
-    boolean isMatched(Time time, int offset) {
-        return time.hour == hour && time.minute >= minute && time.minute < minute + offset;
+    boolean isMatched(Moment moment, int offset) {
+        return moment.getHour() == hour && moment.getMinute() >= minute && moment.getMinute() < minute + offset;
     }
 
 }
