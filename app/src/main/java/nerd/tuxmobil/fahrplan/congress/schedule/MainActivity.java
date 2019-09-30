@@ -23,6 +23,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
@@ -78,6 +79,12 @@ public class MainActivity extends BaseActivity implements
     private boolean shouldScrollToCurrent = true;
     private boolean showUpdateAction = true;
     private static MainActivity instance;
+
+    @Override
+    public void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
