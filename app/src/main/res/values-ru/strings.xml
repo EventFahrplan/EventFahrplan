@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <!-- Menu items -->
+    <string name="menu_item_title_about">Информация</string>
+    <string name="menu_item_title_add_to_calendar">Добавить в календарь</string>
+    <string name="menu_item_title_alarms">Напоминания</string>
+    <string name="menu_item_title_close_event_details">Закрыть детали мероприятия</string>
+    <string name="menu_item_title_flag_as_favorite">Добавить в избранное</string>
+    <string name="menu_item_title_unflag_as_favorite">Убрать из избранного</string>
+    <string name="menu_item_title_delete_favorite">Удалить</string>
+    <string name="menu_item_title_set_alarm">Задать напоминание</string>
+    <string name="menu_item_title_delete_alarm">Очистить напоминание</string>
+    <string name="menu_item_title_delete_all">Удалить всё</string>
+    <string name="menu_item_title_favorites">Избранное</string>
+    <string name="menu_item_title_feedback">Обратная связь</string>
+    <string name="menu_item_title_navigate">Навигация</string>
+    <string name="menu_item_title_refresh">Обновить</string>
+    <string name="menu_item_title_share_event">Поделиться мероприятием</string>
+    <string name="menu_item_title_share_favorites">Поделиться избранным</string>
+
+    <!-- AlertDialogHelper -->
+    <string name="OK">ОК</string>
+
+    <!-- CertificateDialog -->
+    <string name="dlg_certificate_message_fmt">
+        Не удалось установить защищенное соединение.\n
+        (<xliff:g id="error" example="Unknown Error">%s</xliff:g>)
+    </string>
+    <string name="dlg_invalid_certificate_title">Доверять неизвестному сертификату?</string>
+    <string name="dlg_invalid_certificate_could_not_apply">Невозможно добавить сертификат.</string>
+
+    <!-- CustomHttpClient -->
+    <string name="dlg_err_connection_failed">Ошибка подключения</string>
+    <string name="dlg_err_failed_unknown_host">Неизвестный адрес:\n%s</string>
+    <string name="dlg_err_failed_wrong_http_credentials">Неверная HTTP-аутентификация</string>
+    <string name="dlg_err_failed_timeout">Сервер не отвечает (таймаут).</string>
+    <string name="dlg_err_failed_connect_failure">Неизвестная ошибка подключения</string>
+    <string name="dlg_err_failed_not_found">Неверный URL расписания</string>
+    <string name="dlg_err_failed_parse_failure">Не удалось разобрать ответ</string>
+    <string name="dlg_err_failed_ssl_failure">Ошибка SSL</string>
+    <string name="dlg_err_failed_http_cleartext_not_permitted">HTTP запрещен. Пожалуйста, используйте HTTPS.</string>
+    <string name="uptodate">Расписание обновлено</string>
+
+    <!-- Schedule changes dialog -->
+    <string name="schedule_changes_dialog_title">Обновление расписания</string>
+    <string name="schedule_changes_dialog_updated_to_text">Расписание обновлено до\u0020</string>
+    <string name="schedule_changes_dialog_changed_new_cancelled_text">. Нет изменений в <xliff:g id="num_changes" example="3 lectures">%1$s</xliff:g>, <xliff:g id="num_new" example="2 are">%2$s</xliff:g> новые, <xliff:g id="num_canceled" example="1 is">%3$s</xliff:g> отменены.</string>
+    <string name="schedule_changes_dialog_affected_text">Изменения затронули <xliff:g id="num_marked" example="2">%1$d</xliff:g> из вашего списка избранных.</string>
+    <plurals name="schedule_changes_dialog_number_of_lectures">
+        <item quantity="one">%d лекция</item>
+        <item quantity="few">%d лекции</item>
+        <item quantity="many">%d лекций</item>
+        <item quantity="other">%d лекций</item>
+    </plurals>
+    <plurals name="schedule_changes_dialog_being">
+        <item quantity="one">%d</item>
+        <item quantity="few">%d</item>
+        <item quantity="many">%d</item>
+        <item quantity="other">%d</item>
+    </plurals>
+    <string name="schedule_changes_dialog_browse">Смотреть</string>
+    <string name="schedule_changes_dialog_later">Позже</string>
+
+    <string name="progress_loading_data">Загрузка расписания &#8230;</string>
+    <string name="progress_processing_data">Обработка расписания &#8230;</string>
+    <string name="load_data">Загрузить</string>
+    <string name="choose_day">Выбрать день</string>
+    <string name="day">День</string>
+    <string name="fahrplan">Расписание</string>
+    <string name="appVersion">Версия приложения %s</string>
+    <string name="schedule_updated_to">
+        Обновлено: <xliff:g id="version" example="Mildenberg 2018-01-16 16:50">%s</xliff:g>
+    </string>
+    <string name="schedule_updated">
+        Расписание обновлено.
+    </string>
+    <string name="settings">Настройки</string>
+    <string name="event_online">Мероприятие онлайн</string>
+    <string name="event_detail_section_title_links">Ссылки</string>
+    <string name="choose_alarm_time">Выбрать время напоминания</string>
+    <string name="default_alarm_time_title">Выбрать время напоминания по умолчанию</string>
+    <string name="default_alarm_time_dialog_title">Время напоминания по умолчанию</string>
+    <!-- Synchronize with @integers/default_alarm_time_index and string-array/alarm_time_values -->
+    <string name="default_alarm_time_value" translatable="false">10</string>
+    <string name="reminders">Напоминания</string>
+    <string name="reminder_ringtone">Мелодия напоминаний</string>
+    <string name="insistent_alarm">Настойчивое напоминание</string>
+    <string name="usage">Примечание:\n\nДолгое нажатие на лекцию установит напоминание.</string>
+    <string name="libraries">
+        Это приложение использует следующие библиотеки:
+        Kotlin, Google Support Library, Email Intent Builder,
+        Espresso, OkHttp, SnackEngage, TraceDroid
+    </string>
+    <string name="about_data_privacy_statement">
+        <![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan/blob/master/DATA-PRIVACY-DE.md">Политика конфиденциальности (German)</a>]]>
+    </string>
+    <string name="issues">
+        <![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan/issues">Сообщить о проблеме или запросить функционал</a>]]>
+    </string>
+    <string name="today">сегодня</string>
+    <string name="pref_auto_download">Автоматические обновления</string>
+    <string name="parsing_error_generic">Неизвестная ошибка при разборе расписания</string>
+    <string name="parsing_error_with_version">Ошибка разбора для версии расписания %s</string>
+    <string name="alarms_empty">
+        Нет напоминаний. Пожалуйста, обратите внимание, что вы
+        можете настроить индивидуальные напоминания для каждого элемента расписания.
+        Просто нажмите на иконку будильника в панели действий.
+    </string>
+    <string name="add_to_calendar_failed">Не удалось добавить мероприятие в календарь.</string>
+    <string name="no_changes">Нет изменений в расписании</string>
+    <string name="no_favorites">Нет избранных лекций</string>
+    <string name="schedule_changes">Изменения в расписании</string>
+
+    <string name="dash" translatable="false"><xliff:g id="dash">—</xliff:g></string>
+    <string name="general_settings">Основное</string>
+    <string name="starred_lectures">Избранное</string>
+    <string name="schedule_url">Альтернативный URL расписания</string>
+    <string name="invalid_url">Некорректный URL</string>
+    <string name="choose_to_delete">Выбрать лекции</string>
+    <string name="day_separator">День <xliff:g id="day_of_congress" example="2">%1$d</xliff:g> - <xliff:g id="date_of_congress_day" example="29.12.2014">%2$s</xliff:g></string>
+    <string name="event_duration"><xliff:g id="duration" example="45">%1$d</xliff:g> мин.</string>
+    <string name="alternative_highlight">Альтернативная подсветка</string>
+    <string name="dlg_delete_all_favorites">Удалить всё избранное?</string>
+    <string name="dlg_delete_all_favorites_delete_all">Удалить всё?</string>
+
+    <string name="share_error_activity_not_found">Не установлено подходящее приложение.</string>
+
+    <!-- Build information -->
+    <string name="build_info_time">
+        Дата сборки: <xliff:g id="build_time" example="2015-12-27T13:42Z">%s</xliff:g>
+    </string>
+    <string name="build_info_version_code">
+        Код версии: <xliff:g id="version_code" example="42">%s</xliff:g>
+    </string>
+    <string name="build_info_hash">
+        Хеш версии: <xliff:g id="build_hash" example="e1f2g3h-dirty">%s</xliff:g>
+    </string>
+
+    <!-- App disclaimer -->
+    <string name="app_disclaimer">
+        Данное приложение основано на исходном коде приложения &#8220;EventFahrplan&#8221;.
+        Посетители ежегодного конгресса и лагеря, организованного Chaos Computer Club
+        используют приложение для отслеживания программы мероприятий.
+    </string>
+
+    <!-- SnackEngage -->
+    <string name="snack_engage_rate_title">Нравится приложение?</string>
+    <string name="snack_engage_rate_action">Оценить</string>
+    <string name="snack_engage_google_play_beta_testing_title">Любишь всё новое?</string>
+    <string name="snack_engage_google_play_beta_testing_action">Стать бета-тестером</string>
+
+    <string name="snack_engage_c3nav_url" translatable="false">
+        https://play.google.com/store/apps/details?id=de.c3nav.droid
+    </string>
+    <string name="snack_engage_c3nav_unique_id" translatable="false">c3nav</string>
+    <string name="snack_engage_c3nav_title">Навигация внутри 35C3! с приложением c3nav</string>
+    <string name="snack_engage_c3nav_action">Скачать сейчас!</string>
+
+    <!-- TraceDroid -->
+    <string name="trace_droid_dialog_title">
+        Отправить отчёт об ошибке <xliff:g id="appName" example="33C3 Schedule">%s</xliff:g> &#8230;
+    </string>
+    <string name="trace_droid_dialog_message">
+        Обнаружена проблема с приложением <xliff:g id="appName" example="33C3 Schedule">%s</xliff:g>.
+        Было бы полезно, если бы вы смогли предоставить отчет об ошибке,
+        чтобы можно было определить источник проблемы.
+    </string>
+    <string name="trace_droid_button_title_send">
+        Отправить E-mail
+    </string>
+    <string name="trace_droid_no_email_app">
+        Не установлено приложение для отправки E-mail.
+    </string>
+    <string name="trace_droid_button_title_no">
+        Нет
+    </string>
+    <string name="trace_droid_button_title_later">
+        Позже
+    </string>
+    <string name="trace_droid_app_chooser_title">
+        Открытый черновик с &#8230;
+    </string>
+
+    <!-- Notifications -->
+    <string name="notifications_event_alarm_channel_description">
+        Пользовательские напоминания для различных мероприятий.
+    </string>
+    <string name="notifications_event_alarm_channel_name">Напоминания для мероприятий</string>
+    <string name="notifications_event_alarm_content_text">Напоминание для мероприятия</string>
+    <string name="notifications_event_alarm_content_title" translatable="false">@string/app_name</string>
+    <string name="notifications_schedule_update_channel_description">
+        Автоматическое обновление расписания можно выбрать в настройках приложения.
+    </string>
+    <string name="notifications_schedule_update_channel_name">Обновление расписания</string>
+    <plurals name="notifications_schedule_changes">
+        <item quantity="one"><xliff:g id="count" example="1">%d</xliff:g> лекция изменена.</item>
+        <item quantity="few"><xliff:g id="count" example="2">%d</xliff:g> лекции изменены.</item>
+        <item quantity="many"><xliff:g id="count" example="3">%d</xliff:g> лекций изменено.</item>
+        <item quantity="other"><xliff:g id="count" example="3">%d</xliff:g> лекций изменено.</item>
+    </plurals>
+
+    <!-- Alarm time picker -->
+    <string name="alarm_time_title_at_start_time">в момент начала</string>
+    <string name="alarm_time_title_5_minutes_before">за 5 минут</string>
+    <string name="alarm_time_title_10_minutes_before">за 10 минут</string>
+    <string name="alarm_time_title_15_minutes_before">за 15 минут</string>
+    <string name="alarm_time_title_20_minutes_before">за 20 минут</string>
+    <string name="alarm_time_title_30_minutes_before">за 30 минут</string>
+    <string name="alarm_time_title_45_minutes_before">за 45 минут</string>
+    <string name="alarm_time_title_60_minutes_before">за 60 минут</string>
+
+    <!-- Lecture list item -->
+    <string name="lecture_list_item_language_german_content_description">Немецкий</string>
+    <string name="lecture_list_item_language_english_content_description">Английский</string>
+    <string name="lecture_list_item_language_unknown_content_description">Язык не определен</string>
+    <string name="lecture_list_item_language_undefined_content_description">Язык: <xliff:g id="language_abbreviation" example="es">%s</xliff:g></string>
+    <string name="lecture_list_item_language_removed_content_description">Информация о языке удалена</string>
+    <string name="lecture_list_item_no_video_content_description">Без видеозаписи</string>
+    <string name="lecture_list_item_video_content_description">С видеозаписью</string>
+    <string name="lecture_list_item_without_video_content_description">Без видеозаписи</string>
+
+</resources>
