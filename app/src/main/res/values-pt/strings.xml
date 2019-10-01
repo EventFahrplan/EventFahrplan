@@ -25,7 +25,7 @@
     <!-- CertificateDialog -->
     <string name="dlg_certificate_message_fmt">
         Falha ao estabelecer conexão segura.\n
-        (<xliff:g id="error" example="Unknown Error">%s</xliff:g>)
+        (<xliff:g example="Unknown Error" id="error">%s</xliff:g>)
     </string>
     <string name="dlg_invalid_certificate_title">Confiar em certificado desconhecido?</string>
     <string name="dlg_invalid_certificate_could_not_apply">O certificado não pode ser adicionado.</string>
@@ -45,8 +45,8 @@
     <!-- Schedule changes dialog -->
     <string name="schedule_changes_dialog_title">Atualização de cronograma</string>
     <string name="schedule_changes_dialog_updated_to_text">O cronograma foi atualizado para\u0020</string>
-    <string name="schedule_changes_dialog_changed_new_cancelled_text">. Há alterações em <xliff:g id="num_changes" example="3 lectures">%1$s</xliff:g>, <xliff:g id="num_new" example="2 are">%2$s</xliff:g> novos, <xliff:g id="num_canceled" example="1 is">%3$s</xliff:g> cancelados.</string>
-    <string name="schedule_changes_dialog_affected_text">As alterações afetam <xliff:g id="num_marked" example="2">%1$d</xliff:g> das suas palestras apoiadas.</string>
+    <string name="schedule_changes_dialog_changed_new_cancelled_text">. Há alterações em <xliff:g example="3 lectures" id="num_changes">%1$s</xliff:g>, <xliff:g example="2 are" id="num_new">%2$s</xliff:g> novos, <xliff:g example="1 is" id="num_canceled">%3$s</xliff:g> cancelados.</string>
+    <string name="schedule_changes_dialog_affected_text">As alterações afetam <xliff:g example="2" id="num_marked">%1$d</xliff:g> das suas palestras apoiadas.</string>
     <plurals name="schedule_changes_dialog_number_of_lectures">
         <item quantity="one">%d palestra</item>
         <item quantity="other">%d palestras</item>
@@ -66,7 +66,7 @@
     <string name="fahrplan">Cronograma</string>
     <string name="appVersion">Versão do App %s</string>
     <string name="schedule_updated_to">
-        Atualizado para <xliff:g id="version" example="Mildenberg 2018-01-16 16:50">%s</xliff:g>
+        Atualizado para <xliff:g example="Mildenberg 2018-01-16 16:50" id="version">%s</xliff:g>
     </string>
     <string name="schedule_updated">
         O cronograma foi atualizado.
@@ -82,26 +82,26 @@
     <string name="reminder_ringtone">Som do alerta</string>
     <string name="insistent_alarm">Alerta persistente</string>
     <string name="usage">Dica:\n\nMantenha pressionado na palestra para ajustar um alerta.</string>
-	<string name="libraries">
+    <string name="libraries">
 		Este aplicativo usa as seguintes bibliotecas:
 		Kotlin, Google Support Library, Email Intent Builder,
-                Espresso, OkHttp, SnackEngage e TraceDroid
+		Espresso, OkHttp, SnackEngage e TraceDroid
 	</string>
     <string name="about_data_privacy_statement">
-        <![CDATA[<a href=\"https://github.com/EventFahrplan/EventFahrplan/blob/master/DATA-PRIVACY-DE.md\">Declaração de privacidade (Alemão)</a>]]>
+        <![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan/blob/master/DATA-PRIVACY-DE.md">Declaração de privacidade (Alemão)</a>]]>
     </string>
     <string name="issues">
-		<![CDATA[<a href=\"https://github.com/EventFahrplan/EventFahrplan/issues\">Problemas ou pedido de funcionalidades</a>]]>
+		<![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan/issues">Problemas ou pedidos de funcionalidades</a>]]>
 	</string>
     <string name="today">hoje</string>
     <string name="pref_auto_download">Atualizações automáticas</string>
     <string name="parsing_error_generic">Erro desconhecido ao processar cronograma</string>
     <string name="parsing_error_with_version">Erro ao processar versão do cronograma %s</string>
-	<string name="alarms_empty">
-		Não há alarmes para exibir, você pode configurar alarmes 
+    <string name="alarms_empty">
+        Não há alarmes para exibir, você pode configurar alarmes
 		individuais para cada item no cronograma.
 		Basta pressionar o ícone de alarme na barra de ações.
-	</string>
+    </string>
     <string name="add_to_calendar_failed">Falha ao adicionar o evento ao calendário.</string>
     <string name="no_changes">Nenhuma mudança de cronograma</string>
     <string name="no_favorites">Nenhuma palestra favorita</string>
@@ -112,8 +112,8 @@
     <string name="schedule_url">URL alternativa de cronograma</string>
     <string name="invalid_url">URL inválida</string>
     <string name="choose_to_delete">Selecionar palestras</string>
-    <string name="day_separator">Dia <xliff:g id="day_of_congress" example="2">%1$d</xliff:g> - <xliff:g id="date_of_congress_day" example="29.12.2014">%2$s</xliff:g></string>
-    <string name="event_duration"><xliff:g id="duration" example="45">%1$d</xliff:g> min.</string>
+    <string name="day_separator">Dia <xliff:g example="2" id="day_of_congress">%1$d</xliff:g> - <xliff:g example="29.12.2014" id="date_of_congress_day">%2$s</xliff:g></string>
+    <string name="event_duration"><xliff:g example="45" id="duration">%1$d</xliff:g> min.</string>
     <string name="alternative_highlight">Destaque alternativo</string>
     <string name="dlg_delete_all_favorites">Remover todos os favoritos?</string>
     <string name="dlg_delete_all_favorites_delete_all">Remover tudo</string>
@@ -122,13 +122,13 @@
 
     <!-- Build information -->
     <string name="build_info_time">
-        Tempo de build: <xliff:g id="build_time" example="2015-12-27T13:42Z">%s</xliff:g>
+        Tempo de build: <xliff:g example="2015-12-27T13:42Z" id="build_time">%s</xliff:g>
     </string>
     <string name="build_info_version_code">
-        Versão do código: <xliff:g id="version_code" example="42">%s</xliff:g>
+        Versão do código: <xliff:g example="42" id="version_code">%s</xliff:g>
     </string>
     <string name="build_info_hash">
-        Versão do hash: <xliff:g id="build_hash" example="e1f2g3h-dirty">%s</xliff:g>
+        Versão do hash: <xliff:g example="e1f2g3h-dirty" id="build_hash">%s</xliff:g>
     </string>
 
     <!-- App disclaimer -->
@@ -136,7 +136,7 @@
         Esse aplicativo é baseado no código fonte do aplicativo &#8220;EventFahrplan&#8221;.
         Visitantes do congresso anual e acampamento organizado pelo Chaos Computer Club,
         usam o aplicativo para se manterem atualizados com a organização do evento.
- </string>
+    </string>
 
     <!-- SnackEngage -->
     <string name="snack_engage_rate_title">Tudo certo?</string>
@@ -149,10 +149,10 @@
 
     <!-- TraceDroid -->
     <string name="trace_droid_dialog_title">
-        Enviar <xliff:g id="appName" example="33C3 Schedule">%s</xliff:g> relatório de falha &#8230;
+        Enviar <xliff:g example="33C3 Schedule" id="appName">%s</xliff:g> relatório de falha &#8230;
     </string>
     <string name="trace_droid_dialog_message">
-        Um problema com o aplicativo <xliff:g id="appName" example="33C3 Schedule">%s</xliff:g> foi
+        Um problema com o aplicativo <xliff:g example="33C3 Schedule" id="appName">%s</xliff:g> foi
         encontrado. Ajude o projeto submetendo relatórios de falhas,
         assim, a origem do problema poderá ser identificada.
     </string>
@@ -183,8 +183,8 @@
     </string>
     <string name="notifications_schedule_update_channel_name">Atualizações no cronograma</string>
     <plurals name="notifications_schedule_changes">
-        <item quantity="one"><xliff:g id="count" example="1">%d</xliff:g> palestra foi atualizada.</item>
-        <item quantity="other"><xliff:g id="count" example="3">%d</xliff:g> palestras foram atualizadas.</item>
+        <item quantity="one"><xliff:g example="1" id="count">%d</xliff:g> palestra foi atualizada.</item>
+        <item quantity="other"><xliff:g example="3" id="count">%d</xliff:g> palestras foram atualizadas.</item>
     </plurals>
 
     <!-- Alarm time picker -->
