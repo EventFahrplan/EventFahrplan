@@ -217,6 +217,7 @@
     <string name="alarm_time_title_60_minutes_before">60 minutes before</string>
 
     <!-- Lecture list item -->
+    <string name="lecture_list_item_language_portuguese_content_description">Portuguese</string>
     <string name="lecture_list_item_language_german_content_description">German</string>
     <string name="lecture_list_item_language_english_content_description">English</string>
     <string name="lecture_list_item_language_unknown_content_description">Language unknown</string>
