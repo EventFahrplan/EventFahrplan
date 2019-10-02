@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="OK">OK</string>
+    <string name="about_data_privacy_statement">
+        <![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan/blob/master/DATA-PRIVACY-DE.md">Informativa sulla protezione dei dati (Tedesco)</a>]]>
+    </string>
+    <string name="add_to_calendar_failed">Impossibile aggiungere un evento al calendario</string>
+    <string name="alarm_time_title_10_minutes_before">10 minuti prima</string>
+    <string name="alarm_time_title_15_minutes_before">15 minuti prima</string>
+    <string name="alarm_time_title_20_minutes_before">20 minuti prima</string>
+    <string name="alarm_time_title_30_minutes_before">30 minuti prima</string>
+    <string name="alarm_time_title_45_minutes_before">45 minuti prima</string>
+    <string name="alarm_time_title_5_minutes_before">5 minuti prima</string>
+    <string name="alarm_time_title_60_minutes_before">60 minuti prima</string>
+    <string name="alarm_time_title_at_start_time">all\'ora d\'inizio</string>
+    <string name="alarms_empty">Non ci sono promemoria da visualizzare. Nota che è possibile aggiungere dei promemoria per ogni voce del programma usando l\'icona corrispondente nella barra delle azioni.</string>
+    <string name="alternative_highlight">Highlight alternativo</string>
+    <string name="appVersion">Versione dell\'applicazione %s</string>
+    <string name="app_disclaimer">Questa applicazione è basata sul codice sorgente di « EventFahrplan ». I visitatori del congresso annuale ospitato da Chaos Computer Club usano quest\'applicazione per tener traccia degli eventi in programma.</string>
+    <string name="build_info_hash">Hash della versione: <xliff:g example="e1f2g3h-dirty" id="build_hash">%s</xliff:g></string>
+    <string name="build_info_time">Data di compilazione: <xliff:g example="2015-12-27T13:42Z" id="build_time">%s</xliff:g></string>
+    <string name="choose_alarm_time">Seleziona l\'ora del promemoria</string>
+    <string name="choose_day">Seleziona il giorno</string>
+    <string name="choose_to_delete">Seleziona le conferenze</string>
+    <string name="day">Giorno</string>
+    <string name="day_separator">Giorno <xliff:g example="2" id="day_of_congress">%1$d</xliff:g> - <xliff:g example="29.12.2014" id="date_of_congress_day">%2$s</xliff:g></string>
+    <string name="default_alarm_time_dialog_title">Ora predefinita per i promemoria</string>
+    <string name="default_alarm_time_title">Si scelga un\'ora predefinita per i promemoria</string>
+    <string name="dlg_certificate_message_fmt">Impossibile stabilire una connessione sicura. (<xliff:g example="Unknown Error" id="error">%s</xliff:g>)</string>
+    <string name="dlg_delete_all_favorites">Eliminare tutti i favoriti?</string>
+    <string name="dlg_delete_all_favorites_delete_all">Eliminare tutto</string>
+    <string name="dlg_err_connection_failed">Impossibile effettuare la connessione</string>
+    <string name="dlg_err_failed_connect_failure">Errore di connessione sconosciuto</string>
+    <string name="dlg_err_failed_http_cleartext_not_permitted">Impossibile utilizzare HTTP. Si prega di utilizzare HTTPS.</string>
+    <string name="dlg_err_failed_not_found">L\'indirizzo del promemoria è sconosciuto</string>
+    <string name="dlg_err_failed_parse_failure">Impossibile interpretare la risposta</string>
+    <string name="dlg_err_failed_ssl_failure">SSL impossibile</string>
+    <string name="dlg_err_failed_timeout">Il server non ha risposto (Tempo d\'attesa scaduto)</string>
+    <string name="dlg_err_failed_unknown_host">Indirizzo sconosciuto: %s</string>
+    <string name="build_info_version_code">Versione: <xliff:g example="42" id="version_code">%s</xliff:g></string>
+    <string name="dlg_err_failed_wrong_http_credentials">Autenticazione HTTP errata</string>
+    <string name="dlg_invalid_certificate_could_not_apply">Impossibile aggiungere il certificato</string>
+    <string name="dlg_invalid_certificate_title">Fidarsi di un certificato sconosciuto</string>
+    <string name="event_detail_section_title_links">Collegamenti</string>
+    <string name="event_duration"><xliff:g example="45" id="duration">%1$d</xliff:g> min.</string>
+    <string name="event_online">Evento in linea</string>
+    <string name="fahrplan">Programma</string>
+    <string name="general_settings">Generale</string>
+    <string name="insistent_alarm">Promemoria persistente</string>
+    <string name="invalid_url">URL erroneo</string>
+    <string name="issues"><![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan/issues">Assistenza o suggerimento di nuove funzionalità</a>]]></string>
+    <string name="lecture_list_item_language_english_content_description">Inglese</string>
+    <string name="lecture_list_item_language_german_content_description">Tedesco</string>
+    <string name="lecture_list_item_language_removed_content_description">L\'informazione sulla lingua è stata rimossa</string>
+    <string name="lecture_list_item_language_undefined_content_description">Lingua: <xliff:g example="es" id="language_abbreviation">%s</xliff:g></string>
+    <string name="lecture_list_item_language_unknown_content_description">Lingua sconosciuta</string>
+    <string name="lecture_list_item_no_video_content_description">Senza registrazione video</string>
+    <string name="lecture_list_item_video_content_description">Con registrazione video</string>
+    <string name="lecture_list_item_without_video_content_description">Senza registrazione video</string>
+    <string name="libraries">Questa applicazione usa le librerie seguenti: Kotlin, Google Support Library, Email Intent Builder, Espresso, OkHttp, SnackEngage, TraceDroid</string>
+    <string name="load_data">Caricare</string>
+    <string name="menu_item_title_about">Info</string>
+    <string name="menu_item_title_add_to_calendar">Aggiungere al calendario</string>
+    <string name="menu_item_title_alarms">Promemoria</string>
+    <string name="menu_item_title_close_event_details">Chiudere i dettagli dell\'evento</string>
+    <string name="menu_item_title_delete_alarm">Cancellare il promemoria</string>
+    <string name="menu_item_title_delete_all">Rimuovere tutto</string>
+    <string name="menu_item_title_delete_favorite">Rimuovere</string>
+    <string name="menu_item_title_favorites">Favoriti</string>
+    <string name="menu_item_title_feedback">Commenti</string>
+    <string name="menu_item_title_flag_as_favorite">Aggiungere ai favoriti</string>
+    <string name="menu_item_title_navigate">Navigare</string>
+    <string name="menu_item_title_refresh">Aggiornare</string>
+    <string name="menu_item_title_set_alarm">Impostare il promemoria</string>
+    <string name="menu_item_title_share_event">Condividere l\'evento</string>
+    <string name="menu_item_title_share_favorites">Condividere i favoriti</string>
+    <string name="menu_item_title_unflag_as_favorite">Rimuovere dai favoriti</string>
+    <string name="no_changes">Nessun cambiamento di programma</string>
+    <string name="no_favorites">Nessuna conferenza tra i favoriti</string>
+    <string name="notifications_event_alarm_channel_description">Promemoria creati dall\'utente per i vari eventi.</string>
+    <string name="notifications_event_alarm_channel_name">Promemoria per gli eventi</string>
+    <string name="notifications_event_alarm_content_text">Promemoria per un evento</string>
+    <string name="notifications_schedule_update_channel_description">Gli aggiornamenti automatici dei programmi possono essere configurati nei parametri dell\'applicazione.</string>
+    <string name="notifications_schedule_update_channel_name">Aggiornamenti del programma</string>
+    <string name="parsing_error_generic">Errore sconosciuto durante l\'analisi del programma</string>
+    <string name="parsing_error_with_version">Errore durante l\'analisi del programma versione %s</string>
+    <string name="pref_auto_download">Aggiornamenti automatici</string>
+    <string name="preference_title_app_notification_settings">Preferenze per le notifiche &#8230;</string>
+    <string name="progress_loading_data">Caricamento del programma &#8230;</string>
+    <string name="progress_processing_data">Elaborazione del programma &#8230;</string>
+    <string name="reminder_ringtone">Suoneria del promemoria</string>
+    <string name="reminders">Promemoria</string>
+    <string name="schedule_changes">Cambiamenti di programma</string>
+    <string name="schedule_changes_dialog_affected_text">I cambiamenti riguardano <xliff:g example="2" id="num_marked">%1$d</xliff:g> delle tue conferenze preferite.</string>
+    <string name="schedule_changes_dialog_browse">Sfogliare</string>
+    <string name="schedule_changes_dialog_changed_new_cancelled_text">. Ci sono delle modiche per <xliff:g example="3 lectures" id="num_changes">%1$s</xliff:g>, <xliff:g example="2 are" id="num_new">%2$s</xliff:g> nuove, <xliff:g example="1 is" id="num_canceled">%3$s</xliff:g> cancellate.</string>
+    <string name="schedule_changes_dialog_later">Dopo</string>
+    <string name="schedule_changes_dialog_title">Aggiornamento del programma</string>
+    <string name="schedule_changes_dialog_updated_to_text">Il programma è stato aggiornato a </string>
+    <string name="schedule_updated">Il programma è stato aggiornato.</string>
+    <string name="schedule_updated_to">Aggiornato a <xliff:g example="Mildenberg 2018-01-16 16:50" id="version">%s</xliff:g></string>
+    <string name="schedule_url">URL alternativo del programma</string>
+    <string name="settings">Preferenze</string>
+    <string name="share_error_activity_not_found">Nessuna applicazione corrispondente installata.</string>
+    <string name="snack_engage_c3nav_action">Ottenerla subito</string>
+    <string name="snack_engage_c3nav_title">Navigazione indoor al 35C3! Con l\'app c3nav</string>
+    <string name="snack_engage_google_play_beta_testing_action">Diventare beta tester</string>
+    <string name="snack_engage_google_play_beta_testing_title">Utente Avanzato?</string>
+    <string name="snack_engage_rate_action">Valutare l\'applicazione</string>
+    <string name="snack_engage_rate_title">Tutto a posto?</string>
+    <string name="starred_lectures">Preferiti</string>
+    <string name="today">oggi</string>
+    <string name="trace_droid_app_chooser_title">Aprire la bozza con &#8230;</string>
+    <string name="trace_droid_button_title_later">Forse più tardi</string>
+    <string name="trace_droid_button_title_no">No</string>
+    <string name="trace_droid_button_title_send">Aprire le email</string>
+    <string name="trace_droid_dialog_message">Si è verificato un problema con <xliff:g example="33C3 Schedule" id="appName">%s</xliff:g>. SI prega di inviare il rapporto di errore per permetterci di identificare l\'origine del problema.</string>
+    <string name="trace_droid_dialog_title">Invio del rapporto di errore <xliff:g example="33C3 Schedule" id="appName">%s</xliff:g> &#8230;</string>
+    <string name="trace_droid_no_email_app">Nessuna applicazione compatibile installata.</string>
+    <string name="uptodate">Il programma è aggiornato.</string>
+    <string name="usage">Nota: Tenere premuto su una conferenza per aggiungerne un promemoria.</string>
+</resources>
