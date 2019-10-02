@@ -68,9 +68,10 @@ Portions Copyright 2008-2011 The K-9 Dog Walkers and 2006-2011 the Android Open 
 ```
 Copyright 2013-2019 johnjohndoe
 Copyright 2011-2015 Daniel Dorau
-Contributions from Adriano Pereira Junior, Akarsh Seggemu, Andy Scherzinger, Andreas Schildbach,
-bashtian, bjoernb, ButterflyOfFire, cacarrara, Caio Volpato, cketti, codingcatgirl, entropynil,
-koelnkalkverbot, ligi, Mateus Baptista, MichaelRocks, Noemis, Poschi, Sjors van Mierlo,
+Contributions from Adriano Pereira Junior, Akarsh Seggemu, Andrea Marziali,
+Andy Scherzinger, Andreas Schildbach, bashtian, bjoernb, ButterflyOfFire,
+cacarrara, Caio Volpato, cketti, codingcatgirl, entropynil, koelnkalkverbot,
+ligi, Mateus Baptista, MichaelRocks, Noemis, Poschi, Sjors van Mierlo,
 Stefan Medack, SubOptimal, Torsten Grote, Vladimir Alabov
 
 Licensed under the Apache License, Version 2.0 (the "License");
