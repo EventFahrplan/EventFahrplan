@@ -1,11 +1,13 @@
 package nerd.tuxmobil.fahrplan.congress.schedule;
 
 import android.app.Activity;
+import android.app.KeyguardManager;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.IdRes;
@@ -23,6 +25,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
@@ -73,11 +76,21 @@ public class MainActivity extends BaseActivity implements
 
     private ProgressDialog progress = null;
 
+    private KeyguardManager keyguardManager = null;
+
     private ProgressBar progressBar = null;
     private boolean requiresScheduleReload = false;
     private boolean shouldScrollToCurrent = true;
     private boolean showUpdateAction = true;
+    private boolean isScreenLocked = false;
+    private boolean isFavoritesInSidePane = false;
     private static MainActivity instance;
+
+    @Override
+    public void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -87,6 +100,7 @@ public class MainActivity extends BaseActivity implements
 
         MyApp.LogDebug(LOG_TAG, "onCreate");
         setContentView(R.layout.main_layout);
+        keyguardManager = (KeyguardManager) getSystemService(KEYGUARD_SERVICE);
         Toolbar toolbar = findViewById(R.id.toolbar);
         progressBar = findViewById(R.id.progress);
         setSupportActionBar(toolbar);
@@ -264,6 +278,15 @@ public class MainActivity extends BaseActivity implements
     @Override
     protected void onResume() {
         super.onResume();
+        isScreenLocked = Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN
+                ? keyguardManager.isKeyguardLocked()
+                : keyguardManager.inKeyguardRestrictedInputMode();
+
+        FrameLayout sidePane = findViewById(R.id.detail);
+        if (sidePane != null && isFavoritesInSidePane){
+            sidePane.setVisibility(isScreenLocked ? View.GONE : View.VISIBLE);
+        }
+
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         if (prefs.getBoolean(BundleKeys.PREFS_CHANGES_SEEN, true) == false) {
             showChangesDialog();
@@ -376,6 +399,9 @@ public class MainActivity extends BaseActivity implements
         if (sidePane != null) {
             sidePane.setVisibility(View.GONE);
         }
+        if (fragmentTag.equals(StarredListFragment.FRAGMENT_TAG)) {
+            isFavoritesInSidePane = false;
+        }
         removeFragment(fragmentTag);
     }
 
@@ -464,7 +490,9 @@ public class MainActivity extends BaseActivity implements
         boolean found = fragment != null;
         View sidePane = findViewById(detailView);
         if (sidePane != null) {
-            sidePane.setVisibility(found ? View.VISIBLE : View.GONE);
+            isFavoritesInSidePane = found && fragment instanceof StarredListFragment;
+            sidePane.setVisibility(isFavoritesInSidePane && isScreenLocked || !found
+                    ? View.GONE : View.VISIBLE);
         }
     }
 
@@ -481,8 +509,10 @@ public class MainActivity extends BaseActivity implements
         if (sidePane == null) {
             Intent intent = new Intent(this, StarredListActivity.class);
             startActivityForResult(intent, MyApp.STARRED);
-        } else {
+        }
+        else if(!isScreenLocked) {
             sidePane.setVisibility(View.VISIBLE);
+            isFavoritesInSidePane = true;
             replaceFragment(R.id.detail, StarredListFragment.newInstance(true),
                     StarredListFragment.FRAGMENT_TAG, StarredListFragment.FRAGMENT_TAG);
         }
