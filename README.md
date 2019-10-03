@@ -6,7 +6,9 @@ EventFahrplan is a viewer for event schedules for instance
 [Chaos Computer Club e.V. events][ccc-events] such as Chaos Communication Camp
 or Chaos Communication Congress.
 
-The app is available for Android devices.
+The app is available for Android devices. 
+
+Other [applications using EventFahrplan](/applications_using_eventfahrplan.md).
 
 Bug reports, feature requests can be submitted as an [issue][issue].
 Please read the instructions in the [contribution guide](CONTRIBUTING.md) in order to contribute to this project.
