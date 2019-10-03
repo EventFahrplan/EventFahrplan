@@ -1,0 +1,17 @@
+# Applications using EventFahrplan
+
+* <img src="/pictures/35C3 Schedule.png" alt="35C3 Schedule app logo"/> [35C3 Schedule](https://play.google.com/store/apps/details?id=info.metadude.android.congress.schedule)
+* [Bits & Bäume 2018](https://play.google.com/store/apps/details?id=info.metadude.android.bitsundbaeume.schedule)
+* [Camp Schedule 2019](https://play.google.com/store/apps/details?id=info.metadude.android.cccamp.schedule)
+* [Datenspuren 2019 Programm](https://play.google.com/store/apps/details?id=info.metadude.android.datenspuren.schedule)
+* [Droidcon Berlin 2019 Schedule (Beta)](https://play.google.com/store/apps/details?id=info.metadude.android.droidconberlin.schedule)
+* [FIfFKon 2018 Programm](https://play.google.com/store/apps/details?id=info.metadude.android.fiffkon.schedule)
+* [FOSDEM 2019 Schedule](https://play.google.com/store/apps/details?id=info.metadude.android.fosdem.schedule)
+* [FOSSGIS 2019 Programm](https://play.google.com/store/apps/details?id=info.metadude.android.fossgis.schedule)
+* [FrOSCon 2019 Programm](https://play.google.com/store/apps/details?id=info.metadude.android.froscon.schedule)
+* [GPN 2019 Fahrplan](https://play.google.com/store/apps/details?id=info.metadude.android.gpn.schedule)
+* [Hackover 2019 Fahrplan](https://play.google.com/store/apps/details?id=info.metadude.android.hackover.schedule)
+* [KotlinConf 2018 Schedule](https://play.google.com/store/apps/details?id=info.metadude.android.kotlinconf.schedule)
+* [MRMCD 2019 Fahrplan](https://play.google.com/store/apps/details?id=info.metadude.android.mrmcd.schedule)
+* [PGCon 2018 Schedule](https://play.google.com/store/apps/details?id=info.metadude.android.pgcon.schedule)
+* [taz lab 2019 Fahrplan](https://play.google.com/store/apps/details?id=info.metadude.android.tazlab.schedule)
