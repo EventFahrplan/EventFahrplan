@@ -17,4 +17,17 @@
     <string name="about_logo_content_description">
         Atualizando logotipo de memórias 35C3, gradiente do azul para o verde
     </string>
+    <string name="load_data">Carregar</string>
+    <string name="add_to_calendar_failed">Não pode adicionar evento no calendário</string>
+    <string name="alarm_time_title_10_minutes_before">10 minutos antes</string>
+    <string name="alarm_time_title_15_minutes_before">15 minutos antes</string>
+    <string name="alarm_time_title_20_minutes_before">20 minutos antes</string>
+    <string name="alarm_time_title_30_minutes_before">30 minutos antes</string>
+    <string name="alarm_time_title_45_minutes_before">45 minutos antes</string>
+    <string name="alarm_time_title_5_minutes_before">5 minutos antes</string>
+    <string name="alarm_time_title_60_minutes_before">60 minutos antes</string>
+    <string name="alarm_time_title_at_start_time">No início</string>
+    <string name="alarms_empty">Não há alarmes disponíveis. Observe que alarmes podem ser definidos para cada evento no calendário. Então pressione o ícone de alarme na barra de ação</string>
+    <string name="alternative_highlight">Alternativa destacada</string>
+    <string name="appVersion">Versão %s da aplicação</string>
 </resources>
