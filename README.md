@@ -72,7 +72,8 @@ Contributions from Adriano Pereira Junior, Akarsh Seggemu, Andrea Marziali,
 Andy Scherzinger, Andreas Schildbach, Animesh Verma, bashtian, bjoernb,
 ButterflyOfFire, cacarrara, Caio Volpato, cketti, codingcatgirl, entropynil,
 koelnkalkverbot, ligi, Mateus Baptista, MichaelRocks, Noemis, Poschi,
-Sjors van Mierlo, Stefan Medack, SubOptimal, Torsten Grote, Vladimir Alabov
+Sjors van Mierlo, Stefan Medack, SubOptimal, Torsten Grote, Victor Herasme,
+Vladimir Alabov
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
