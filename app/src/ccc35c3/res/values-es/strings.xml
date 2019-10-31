@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="about_logo_content_description">35C3 Actualizando el logotipo de memorias, de azul a verde</string>
+    <string name="app_hardcoded_subtitle">27 - 30 de Diciembre de 2018. Lepzig, Leipziger Messe</string>
+    <string name="app_name">35C3 Calendario</string>
+    <string name="conference_url"><![CDATA[<a href="https://events.ccc.de/congress/2018/wiki">https://events.ccc.de/congress/2018/wiki</a>]]></string>
+    <string name="copyright_logo"><![CDATA[35C3: Actualizando memorias. Diseño por Stella Schiffczyk]]></string>
+    <string name="google_play_store"><![CDATA[<a href="https://play.google.com/store/apps/details?id=info.metadude.android.congress.schedule">Listado de Google PlayStore </a>]]></string>
+    <string name="source_code"><![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan">Source code</a>]]></string>
+</resources>
