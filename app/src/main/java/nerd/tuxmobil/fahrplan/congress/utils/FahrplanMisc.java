@@ -41,9 +41,9 @@ public class FahrplanMisc {
     private static final DateFormat TIME_TEXT_DATE_FORMAT =
             SimpleDateFormat.getDateTimeInstance(SimpleDateFormat.SHORT, SimpleDateFormat.SHORT);
 
-    public static void loadDays(Context context) {
+    public static void loadDays(@NonNull AppRepository appRepository) {
         MyApp.dateInfos = new DateInfos();
-        List<DateInfo> dateInfos = AppRepository.Companion.getInstance(context).readDateInfos();
+        List<DateInfo> dateInfos = appRepository.readDateInfos();
         for (DateInfo dateInfo : dateInfos) {
             if (!MyApp.dateInfos.contains(dateInfo)) {
                 MyApp.dateInfos.add(dateInfo);
@@ -65,8 +65,7 @@ public class FahrplanMisc {
         return when;
     }
 
-    public static void deleteAlarm(@NonNull Context context, @NonNull Lecture lecture) {
-        AppRepository appRepository = AppRepository.Companion.getInstance(context);
+    public static void deleteAlarm(@NonNull Context context, @NonNull AppRepository appRepository, @NonNull Lecture lecture) {
         String eventId = lecture.lectureId;
         List<Alarm> alarms = appRepository.readAlarms(eventId);
         if (!alarms.isEmpty()) {
@@ -80,6 +79,7 @@ public class FahrplanMisc {
     }
 
     public static void addAlarm(@NonNull Context context,
+                                @NonNull AppRepository appRepository,
                                 @NonNull Lecture lecture,
                                 int alarmTimesIndex) {
         Log.d(FahrplanMisc.class.getName(), "Add alarm for lecture: " + lecture.lectureId +
@@ -123,7 +123,7 @@ public class FahrplanMisc {
         Alarm alarm = new Alarm(alarmTimeInMin, day, startTime, eventId, eventTitle, when, timeText);
         SchedulableAlarm schedulableAlarm = AlarmExtensions.toSchedulableAlarm(alarm);
         AlarmServices.scheduleEventAlarm(context, schedulableAlarm, true);
-        AppRepository.Companion.getInstance(context).updateAlarm(alarm);
+        appRepository.updateAlarm(alarm);
         lecture.hasAlarm = true;
     }
 

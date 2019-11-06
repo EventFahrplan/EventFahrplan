@@ -33,11 +33,12 @@ public class UpdateService extends JobIntentService {
 
     private static final String LOG_TAG = "UpdateService";
 
+    private AppRepository appRepository;
+
     public void onParseDone(Boolean result, String version) {
         MyApp.LogDebug(LOG_TAG, "parseDone: " + result + " , numDays=" + MyApp.meta.getNumDays());
         MyApp.task_running = TASKS.NONE;
         MyApp.fahrplan_xml = null;
-        AppRepository appRepository = AppRepository.Companion.getInstance(this);
         List<Lecture> changesList = FahrplanMisc.readChanges(appRepository);
         if (!changesList.isEmpty()) {
             showScheduleUpdateNotification(version, changesList.size());
@@ -97,7 +98,6 @@ public class UpdateService extends JobIntentService {
     private void fetchFahrplan() {
         if (MyApp.task_running == TASKS.NONE) {
             MyApp.task_running = TASKS.FETCH;
-            AppRepository appRepository = AppRepository.Companion.getInstance(this);
             String url = appRepository.readScheduleUrl();
             appRepository.loadSchedule(url, MyApp.meta.getETag(), fetchScheduleResult -> {
                 onGotResponse(fetchScheduleResult);
@@ -122,11 +122,11 @@ public class UpdateService extends JobIntentService {
             stopSelf();
             return null;
         }, true);
+        appRepository = AppRepository.Companion.getInstance(this);
         connectivityObserver.start();
     }
 
     private void fetchSchedule() {
-        AppRepository appRepository = AppRepository.Companion.getInstance(getApplicationContext());
         MyApp.meta = appRepository.readMeta(); // to load eTag
         MyApp.LogDebug(LOG_TAG, "Fetching schedule ...");
         FahrplanMisc.setUpdateAlarm(this, false);

@@ -78,6 +78,8 @@ public class MainActivity extends BaseActivity implements
 
     private KeyguardManager keyguardManager = null;
 
+    protected AppRepository appRepository;
+
     private ProgressBar progressBar = null;
     private boolean requiresScheduleReload = false;
     private boolean shouldScrollToCurrent = true;
@@ -100,6 +102,7 @@ public class MainActivity extends BaseActivity implements
 
         MyApp.LogDebug(LOG_TAG, "onCreate");
         setContentView(R.layout.main_layout);
+        appRepository = AppRepository.Companion.getInstance(this);
         keyguardManager = (KeyguardManager) getSystemService(KEYGUARD_SERVICE);
         Toolbar toolbar = findViewById(R.id.toolbar);
         progressBar = findViewById(R.id.progress);
@@ -115,9 +118,8 @@ public class MainActivity extends BaseActivity implements
 
         resetProgressDialog();
 
-        AppRepository appRepository = AppRepository.Companion.getInstance(this);
         MyApp.meta = appRepository.readMeta();
-        FahrplanMisc.loadDays(this);
+        FahrplanMisc.loadDays(appRepository);
 
         MyApp.LogDebug(LOG_TAG, "task_running:" + MyApp.task_running);
         switch (MyApp.task_running) {
@@ -255,7 +257,6 @@ public class MainActivity extends BaseActivity implements
         if (MyApp.task_running == TASKS.NONE) {
             MyApp.task_running = TASKS.FETCH;
             showFetchingStatus();
-            AppRepository appRepository = AppRepository.Companion.getInstance(this);
             String url = appRepository.readScheduleUrl();
             appRepository.loadSchedule(url, MyApp.meta.getETag(), fetchScheduleResult -> {
                 onGotResponse(fetchScheduleResult);
@@ -309,7 +310,6 @@ public class MainActivity extends BaseActivity implements
         Fragment fragment = findFragment(ChangesDialog.FRAGMENT_TAG);
         if (fragment == null) {
             requiresScheduleReload = true;
-            AppRepository appRepository = AppRepository.Companion.getInstance(this);
             List<Lecture> changedLectures = FahrplanMisc.readChanges(appRepository);
             Meta meta = appRepository.readMeta();
             String scheduleVersion = meta.getVersion();
@@ -408,7 +408,7 @@ public class MainActivity extends BaseActivity implements
     public void reloadAlarms() {
         Fragment fragment = findFragment(FahrplanFragment.FRAGMENT_TAG);
         if (fragment != null) {
-            ((FahrplanFragment) fragment).loadAlarms(this);
+            ((FahrplanFragment) fragment).loadAlarms(appRepository);
         }
     }
 

@@ -17,7 +17,6 @@ import nerd.tuxmobil.fahrplan.congress.base.AbstractListFragment;
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
 import nerd.tuxmobil.fahrplan.congress.models.Meta;
-import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
 
 
@@ -77,7 +76,6 @@ public class ChangeListFragment extends AbstractListFragment {
         }
 
         Context context = requireContext();
-        AppRepository appRepository = AppRepository.Companion.getInstance(context);
         changesList = FahrplanMisc.readChanges(appRepository);
         Meta meta = appRepository.readMeta();
         mAdapter = new LectureChangesArrayAdapter(context, changesList, meta.getNumDays());
@@ -130,7 +128,6 @@ public class ChangeListFragment extends AbstractListFragment {
     }
 
     public void onRefresh() {
-        AppRepository appRepository = AppRepository.Companion.getInstance(requireContext());
         List<Lecture> updatedChanges = FahrplanMisc.readChanges(appRepository);
         if (changesList != null) {
             changesList.clear();
