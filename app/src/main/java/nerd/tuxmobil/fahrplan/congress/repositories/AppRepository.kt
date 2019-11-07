@@ -2,6 +2,7 @@ package nerd.tuxmobil.fahrplan.congress.repositories
 
 import android.content.Context
 import android.net.Uri
+import android.text.format.Time
 import info.metadude.android.eventfahrplan.database.extensions.toContentValues
 import info.metadude.android.eventfahrplan.database.repositories.AlarmsDatabaseRepository
 import info.metadude.android.eventfahrplan.database.repositories.HighlightsDatabaseRepository
@@ -193,6 +194,14 @@ class AppRepository private constructor(val context: Context) {
         } else {
             alternateScheduleUrl
         }
+    }
+
+    fun readScheduleLastFetchingTime() =
+            sharedPreferencesRepository.getScheduleLastFetchedAt()
+
+    fun updateScheduleLastFetchingTime() = with(Time()) {
+        setToNow()
+        sharedPreferencesRepository.setScheduleLastFetchedAt(toMillis(true))
     }
 
     private fun resetChangesSeenFlag() =

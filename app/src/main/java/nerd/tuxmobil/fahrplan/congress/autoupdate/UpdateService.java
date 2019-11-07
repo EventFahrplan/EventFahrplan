@@ -4,14 +4,12 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.JobIntentService;
 import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
-import android.text.format.Time;
 
 import java.util.List;
 
@@ -75,13 +73,7 @@ public class UpdateService extends JobIntentService {
         HttpStatus status = fetchScheduleResult.getHttpStatus();
         MyApp.task_running = TASKS.NONE;
         if (status == HttpStatus.HTTP_OK || status == HttpStatus.HTTP_NOT_MODIFIED) {
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-            Time now = new Time();
-            now.setToNow();
-            long millis = now.toMillis(true);
-            Editor edit = prefs.edit();
-            edit.putLong("last_fetch", millis);
-            edit.commit();
+            appRepository.updateScheduleLastFetchingTime();
         }
         if (status != HttpStatus.HTTP_OK) {
             MyApp.LogDebug(LOG_TAG, "Background schedule update failed. HTTP status code: " + status);

@@ -5,7 +5,6 @@ import android.app.KeyguardManager;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,7 +19,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
-import android.text.format.Time;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -168,13 +166,7 @@ public class MainActivity extends BaseActivity implements
             hideProgressDialog();
         }
         if (status == HttpStatus.HTTP_OK || status == HttpStatus.HTTP_NOT_MODIFIED) {
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-            Time now = new Time();
-            now.setToNow();
-            long millis = now.toMillis(true);
-            Editor edit = prefs.edit();
-            edit.putLong("last_fetch", millis);
-            edit.commit();
+            appRepository.updateScheduleLastFetchingTime();
         }
         if (status != HttpStatus.HTTP_OK) {
             switch (status) {
