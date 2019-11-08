@@ -75,11 +75,12 @@ class AppRepository private constructor(val context: Context) {
 
         // Fetching
         scheduleNetworkRepository.fetchSchedule(okHttpClient, url, eTag) { fetchScheduleResult ->
-            onFetchingDone.invoke(fetchScheduleResult.toAppFetchScheduleResult())
+            val fetchResult = fetchScheduleResult.toAppFetchScheduleResult()
+            onFetchingDone.invoke(fetchResult)
 
-            if (fetchScheduleResult.isSuccessful()) {
+            if (fetchResult.isSuccessful) {
                 // Parsing
-                scheduleNetworkRepository.parseSchedule(fetchScheduleResult.scheduleXml, fetchScheduleResult.eTag,
+                scheduleNetworkRepository.parseSchedule(fetchResult.scheduleXml, fetchResult.eTag,
                         onUpdateLectures = { lectures ->
                             val oldLectures = loadLecturesForAllDays()
                             val newLectures = lectures.toLecturesAppModel2().sanitize()
