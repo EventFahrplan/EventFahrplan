@@ -83,24 +83,30 @@ class AppRepository private constructor(val context: Context) {
             if (fetchResult.isSuccessful) {
                 check(onParsingDone != {}) { "Nobody registered to receive ParseScheduleResult." }
                 // Parsing
-                scheduleNetworkRepository.parseSchedule(fetchResult.scheduleXml, fetchResult.eTag,
-                        onUpdateLectures = { lectures ->
-                            val oldLectures = loadLecturesForAllDays()
-                            val newLectures = lectures.toLecturesAppModel2().sanitize()
-                            val hasChanged = ScheduleChanges.hasScheduleChanged(newLectures, oldLectures)
-                            if (hasChanged) {
-                                resetChangesSeenFlag()
-                            }
-                            updateLectures(newLectures)
-                        },
-                        onUpdateMeta = { meta ->
-                            updateMeta(meta.toMetaAppModel())
-                        },
-                        onParsingDone = { result: Boolean, version: String ->
-                            onParsingDone(ParseScheduleResult(result, version))
-                        })
+                parseSchedule(fetchResult.scheduleXml, fetchResult.eTag, onParsingDone)
             }
         }
+    }
+
+    private fun parseSchedule(scheduleXml: String,
+                              eTag: String,
+                              onParsingDone: (parseScheduleResult: ParseScheduleResult) -> Unit) {
+        scheduleNetworkRepository.parseSchedule(scheduleXml, eTag,
+                onUpdateLectures = { lectures ->
+                    val oldLectures = loadLecturesForAllDays()
+                    val newLectures = lectures.toLecturesAppModel2().sanitize()
+                    val hasChanged = ScheduleChanges.hasScheduleChanged(newLectures, oldLectures)
+                    if (hasChanged) {
+                        resetChangesSeenFlag()
+                    }
+                    updateLectures(newLectures)
+                },
+                onUpdateMeta = { meta ->
+                    updateMeta(meta.toMetaAppModel())
+                },
+                onParsingDone = { result: Boolean, version: String ->
+                    onParsingDone(ParseScheduleResult(result, version))
+                })
     }
 
     /**
