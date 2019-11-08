@@ -204,7 +204,13 @@ class AppRepository private constructor(val context: Context) {
         sharedPreferencesRepository.setScheduleLastFetchedAt(toMillis(true))
     }
 
+    fun sawScheduleChanges() =
+            sharedPreferencesRepository.getChangesSeen()
+
+    fun updateScheduleChangesSeen(changesSeen: Boolean) =
+            sharedPreferencesRepository.setChangesSeen(changesSeen)
+
     private fun resetChangesSeenFlag() =
-            sharedPreferencesRepository.setChangesSeen(false)
+            updateScheduleChangesSeen(false)
 
 }

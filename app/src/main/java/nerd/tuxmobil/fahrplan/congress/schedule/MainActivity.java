@@ -4,11 +4,9 @@ import android.app.Activity;
 import android.app.KeyguardManager;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -214,8 +212,7 @@ public class MainActivity extends BaseActivity implements
             ((ChangeListFragment) fragment).onRefresh();
         }
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        if (!prefs.getBoolean(BundleKeys.PREFS_CHANGES_SEEN, true)) {
+        if (!appRepository.sawScheduleChanges()) {
             showChangesDialog();
         }
     }
@@ -280,8 +277,7 @@ public class MainActivity extends BaseActivity implements
             sidePane.setVisibility(isScreenLocked ? View.GONE : View.VISIBLE);
         }
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        if (prefs.getBoolean(BundleKeys.PREFS_CHANGES_SEEN, true) == false) {
+        if (!appRepository.sawScheduleChanges()) {
             showChangesDialog();
         }
     }

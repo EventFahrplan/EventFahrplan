@@ -18,6 +18,9 @@ class SharedPreferencesRepository(val context: Context) {
         apply()
     }
 
+    fun getChangesSeen() =
+            preferences.getBoolean(BundleKeys.PREFS_CHANGES_SEEN, true)
+
     fun setChangesSeen(changesSeen: Boolean) = with(preferences.edit()) {
         putBoolean(BundleKeys.PREFS_CHANGES_SEEN, changesSeen)
         apply()
