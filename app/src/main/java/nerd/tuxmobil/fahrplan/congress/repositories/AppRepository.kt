@@ -1,7 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress.repositories
 
 import android.content.Context
-import android.net.Uri
 import android.text.format.Time
 import info.metadude.android.eventfahrplan.database.extensions.toContentValues
 import info.metadude.android.eventfahrplan.database.repositories.AlarmsDatabaseRepository
@@ -19,15 +18,11 @@ import nerd.tuxmobil.fahrplan.congress.logging.Logging
 import nerd.tuxmobil.fahrplan.congress.models.Alarm
 import nerd.tuxmobil.fahrplan.congress.models.Lecture
 import nerd.tuxmobil.fahrplan.congress.models.Meta
-import nerd.tuxmobil.fahrplan.congress.net.CustomHttpClient
 import nerd.tuxmobil.fahrplan.congress.net.FetchScheduleResult
-import nerd.tuxmobil.fahrplan.congress.net.HttpStatus
 import nerd.tuxmobil.fahrplan.congress.net.ParseScheduleResult
 import nerd.tuxmobil.fahrplan.congress.preferences.SharedPreferencesRepository
 import nerd.tuxmobil.fahrplan.congress.serialization.ScheduleChanges
 import okhttp3.OkHttpClient
-import java.security.KeyManagementException
-import java.security.NoSuchAlgorithmException
 
 class AppRepository private constructor(val context: Context) {
 
@@ -57,23 +52,10 @@ class AppRepository private constructor(val context: Context) {
 
     fun loadSchedule(url: String,
                      eTag: String,
+                     okHttpClient: OkHttpClient,
                      onFetchingDone: (fetchScheduleResult: FetchScheduleResult) -> Unit,
                      onParsingDone: (parseScheduleResult: ParseScheduleResult) -> Unit
     ) {
-
-        val scheduleUrl = readScheduleUrl()
-        val hostName = Uri.parse(scheduleUrl).host ?: throw NullPointerException("Host not present for URL: $scheduleUrl")
-        val okHttpClient: OkHttpClient?
-        try {
-            okHttpClient = CustomHttpClient.createHttpClient(hostName)
-        } catch (e: KeyManagementException) {
-            onFetchingDone(FetchScheduleResult(httpStatus = HttpStatus.HTTP_SSL_SETUP_FAILURE, hostName = hostName))
-            return
-        } catch (e: NoSuchAlgorithmException) {
-            onFetchingDone(FetchScheduleResult(httpStatus = HttpStatus.HTTP_SSL_SETUP_FAILURE, hostName = hostName))
-            return
-        }
-
         check(onFetchingDone != {}) { "Nobody registered to receive FetchScheduleResult." }
         // Fetching
         scheduleNetworkRepository.fetchSchedule(okHttpClient, url, eTag) { fetchScheduleResult ->

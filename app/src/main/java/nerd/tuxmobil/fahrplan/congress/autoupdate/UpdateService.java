@@ -11,6 +11,8 @@ import android.support.v4.app.JobIntentService;
 import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
 
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import nerd.tuxmobil.fahrplan.congress.MyApp;
@@ -18,6 +20,7 @@ import nerd.tuxmobil.fahrplan.congress.MyApp.TASKS;
 import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
 import nerd.tuxmobil.fahrplan.congress.net.ConnectivityObserver;
+import nerd.tuxmobil.fahrplan.congress.net.CustomHttpClient;
 import nerd.tuxmobil.fahrplan.congress.net.FetchScheduleResult;
 import nerd.tuxmobil.fahrplan.congress.net.HttpStatus;
 import nerd.tuxmobil.fahrplan.congress.net.ParseScheduleResult;
@@ -25,6 +28,7 @@ import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper;
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 import nerd.tuxmobil.fahrplan.congress.schedule.MainActivity;
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
+import okhttp3.OkHttpClient;
 
 public class UpdateService extends JobIntentService {
 
@@ -92,15 +96,23 @@ public class UpdateService extends JobIntentService {
         if (MyApp.task_running == TASKS.NONE) {
             MyApp.task_running = TASKS.FETCH;
             String url = appRepository.readScheduleUrl();
-            appRepository.loadSchedule(url, MyApp.meta.getETag(),
-                    fetchScheduleResult -> {
-                        onGotResponse(fetchScheduleResult);
-                        return null;
-                    },
-                    parseScheduleResult -> {
-                        onParseDone(parseScheduleResult);
-                        return null;
-                    });
+            String hostName = CustomHttpClient.getHostName(url);
+            OkHttpClient okHttpClient;
+            try {
+                okHttpClient = CustomHttpClient.createHttpClient(hostName);
+                appRepository.loadSchedule(url, MyApp.meta.getETag(),
+                        okHttpClient,
+                        fetchScheduleResult -> {
+                            onGotResponse(fetchScheduleResult);
+                            return null;
+                        },
+                        parseScheduleResult -> {
+                            onParseDone(parseScheduleResult);
+                            return null;
+                        });
+            } catch (KeyManagementException | NoSuchAlgorithmException e) {
+                onGotResponse(FetchScheduleResult.createError(HttpStatus.HTTP_SSL_SETUP_FAILURE, hostName));
+            }
         } else {
             MyApp.LogDebug(LOG_TAG, "Fetching already in progress.");
         }

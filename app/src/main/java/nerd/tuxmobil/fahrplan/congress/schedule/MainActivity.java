@@ -27,6 +27,8 @@ import android.widget.ProgressBar;
 
 import org.ligi.tracedroid.logging.Log;
 
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import kotlin.Unit;
@@ -60,6 +62,7 @@ import nerd.tuxmobil.fahrplan.congress.settings.SettingsActivity;
 import nerd.tuxmobil.fahrplan.congress.sidepane.OnSidePaneCloseListener;
 import nerd.tuxmobil.fahrplan.congress.utils.ConfirmationDialog;
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
+import okhttp3.OkHttpClient;
 
 public class MainActivity extends BaseActivity implements
         OnSidePaneCloseListener,
@@ -252,15 +255,23 @@ public class MainActivity extends BaseActivity implements
             MyApp.task_running = TASKS.FETCH;
             showFetchingStatus();
             String url = appRepository.readScheduleUrl();
-            appRepository.loadSchedule(url, MyApp.meta.getETag(),
-                    fetchScheduleResult -> {
-                        onGotResponse(fetchScheduleResult);
-                        return null;
-                    },
-                    parseScheduleResult -> {
-                        onParseDone(parseScheduleResult);
-                        return null;
-                    });
+            String hostName = CustomHttpClient.getHostName(url);
+            OkHttpClient okHttpClient;
+            try {
+                okHttpClient = CustomHttpClient.createHttpClient(hostName);
+                appRepository.loadSchedule(url, MyApp.meta.getETag(),
+                        okHttpClient,
+                        fetchScheduleResult -> {
+                            onGotResponse(fetchScheduleResult);
+                            return null;
+                        },
+                        parseScheduleResult -> {
+                            onParseDone(parseScheduleResult);
+                            return null;
+                        });
+            } catch (KeyManagementException | NoSuchAlgorithmException e) {
+                onGotResponse(FetchScheduleResult.createError(HttpStatus.HTTP_SSL_SETUP_FAILURE, hostName));
+            }
         } else {
             Log.d(LOG_TAG, "Fetching schedule already in progress.");
         }
