@@ -168,13 +168,7 @@ public class MainActivity extends BaseActivity implements
             appRepository.updateScheduleLastFetchingTime();
         }
         if (status != HttpStatus.HTTP_OK) {
-            switch (status) {
-                case HTTP_LOGIN_FAIL_UNTRUSTED_CERTIFICATE:
-                    CertificateDialogFragment dialogFragment = CertificateDialogFragment.newInstance(fetchScheduleResult.getExceptionMessage());
-                    dialogFragment.show(getSupportFragmentManager(), CertificateDialogFragment.FRAGMENT_TAG);
-                    break;
-            }
-            CustomHttpClient.showHttpError(this, status, fetchScheduleResult.getHostName());
+            showErrorDialog(fetchScheduleResult.getExceptionMessage(), fetchScheduleResult.getHostName(), status);
             progressBar.setVisibility(View.INVISIBLE);
             showUpdateAction = true;
             invalidateOptionsMenu();
@@ -191,6 +185,16 @@ public class MainActivity extends BaseActivity implements
         // Parser is automatically invoked when response has been received.
         showParsingStatus();
         MyApp.task_running = TASKS.PARSE;
+    }
+
+    private void showErrorDialog(@NonNull String exceptionMessage, @NonNull String hostName, HttpStatus status) {
+        if (HttpStatus.HTTP_LOGIN_FAIL_UNTRUSTED_CERTIFICATE == status) {
+            CertificateDialogFragment.newInstance(exceptionMessage).show(
+                    getSupportFragmentManager(),
+                    CertificateDialogFragment.FRAGMENT_TAG
+            );
+        }
+        CustomHttpClient.showHttpError(this, status, hostName);
     }
 
     public void onParseDone(@NonNull ParseScheduleResult result) {
