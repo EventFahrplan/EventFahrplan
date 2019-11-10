@@ -13,16 +13,20 @@ import android.preference.Preference;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.preference.PreferenceScreen;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 
+import nerd.tuxmobil.fahrplan.congress.BuildConfig;
 import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices;
 import nerd.tuxmobil.fahrplan.congress.base.BaseActivity;
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
+import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
 
 public class SettingsActivity extends BaseActivity {
@@ -51,6 +55,7 @@ public class SettingsActivity extends BaseActivity {
         public void onCreate(@Nullable Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.prefs);
+            AppRepository appRepository = AppRepository.INSTANCE;
 
             findPreference("auto_update")
                     .setOnPreferenceChangeListener((preference, newValue) -> {
@@ -123,6 +128,20 @@ public class SettingsActivity extends BaseActivity {
                         edit.commit();
                         return true;
                     });
+
+            PreferenceScreen screen = (PreferenceScreen) findPreference(getString(R.string.preference_key_screen));
+            PreferenceCategory engelsystemCategory = (PreferenceCategory) findPreference(getString(R.string.preference_engelsystem_category_key));
+            if (BuildConfig.ENABLE_ENGELSYSTEM_SHIFTS) {
+                Preference urlPreference = findPreference(getString(R.string.preference_engelsystem_json_export_url_key));
+                urlPreference.setSummary(Html.fromHtml(getString(R.string.preference_engelsystem_json_export_url_summary)));
+                urlPreference.setOnPreferenceChangeListener((preference, newValue) -> {
+                    String url = (String) newValue;
+                    appRepository.updateEngelsystemShiftsUrl(url);
+                    return true;
+                });
+            } else {
+                screen.removePreference(engelsystemCategory);
+            }
         }
 
         private int getAlarmTimeIndex(String[] alarmTimeValues, int alarmTimeValue, int defaultAlarmTimeValue) {

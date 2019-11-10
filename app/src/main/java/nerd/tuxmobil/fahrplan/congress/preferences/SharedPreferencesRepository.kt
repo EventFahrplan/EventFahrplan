@@ -32,7 +32,8 @@ class SharedPreferencesRepository(val context: Context) {
     }
 
     fun getEngelsystemShiftsUrl(): String {
-        return preferences.getString(BundleKeys.PREFS_ENGELSYSTEM_SHIFTS_URL, "")!!
+        val defaultShiftsUrl = context.getString(R.string.preference_engelsystem_json_export_url_default_value)
+        return preferences.getString(BundleKeys.PREFS_ENGELSYSTEM_SHIFTS_URL, defaultShiftsUrl)!!
     }
 
     fun setEngelsystemShiftsUrl(url: String) = with(preferences.edit()) {
