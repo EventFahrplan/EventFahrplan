@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:key="@string/preference_key_screen">
 
@@ -59,12 +60,14 @@
         android:key="@string/preference_engelsystem_category_key"
         android:title="@string/preference_engelsystem_category_title">
 
-        <EditTextPreference
+        <nerd.tuxmobil.fahrplan.congress.preferences.ValidateableEditTextPreference
             android:defaultValue="@string/preference_engelsystem_json_export_url_default_value"
             android:hint="@string/preference_engelsystem_json_export_url_hint"
             android:inputType="textUri"
             android:key="@string/preference_engelsystem_json_export_url_key"
             android:title="@string/preference_engelsystem_json_export_url_title"
+            app:urlTypeFriendlyName="@string/preference_engelsystem_json_export_url_type_friendly_name"
+            app:validationType="engelsystemUrl"
             tools:summary="@string/preference_engelsystem_json_export_url_summary" />
 
     </PreferenceCategory>

@@ -230,4 +230,18 @@
     <string name="lecture_list_item_video_content_description">With video recording</string>
     <string name="lecture_list_item_without_video_content_description">Without video recording</string>
 
+    <!-- Validation errors -->
+    <string name="validation_error_invalid_url">
+        Invalid <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL.
+    </string>
+    <string name="validation_error_url_without_query">
+        <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL without query part.
+    </string>
+    <string name="validation_error_url_with_incomplete_query">
+        <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL with incomplete query part.
+    </string>
+    <string name="validation_error_url_without_api_key">
+        <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL without API key.
+    </string>
+
 </resources>

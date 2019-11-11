@@ -32,5 +32,8 @@
         Shifts before and after the main conference days are <u>not</u> displayed.]]>
     </string>
     <string name="preference_engelsystem_json_export_url_title" translatable="false">JSON Export URL</string>
+    <string name="preference_engelsystem_json_export_url_type_friendly_name">
+        Engelsystem
+    </string>
 
 </resources>

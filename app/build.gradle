@@ -7,6 +7,7 @@ ext.set("APP_VERSION", "${gitSha()}")
 
 apply plugin: "com.android.application"
 apply plugin: "kotlin-android"
+apply plugin: "de.mobilej.unmock"
 apply plugin: "org.sonarqube"
 apply from: "../sonarqube.gradle"
 
@@ -131,6 +132,13 @@ android {
     }
 }
 
+unMock {
+    keepStartingWith "libcore."
+    keep "android.net.Uri"
+    keep "android.util.Patterns"
+    keepAndRename "java.nio.charset.Charsets" to "xjava.nio.charset.Charsets"
+}
+
 tasks.withType(Test) {
     testLogging {
         events TestLogEvent.FAILED,
@@ -168,6 +176,8 @@ dependencies {
     testImplementation Libs.mockitoCore
     testImplementation Libs.mockitoKotlin
     testImplementation Libs.threeTenBp
+
+    unmock Libs.robolectric
 }
 
 def gitSha() {
