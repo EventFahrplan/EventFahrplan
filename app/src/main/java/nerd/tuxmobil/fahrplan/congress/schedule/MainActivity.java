@@ -53,6 +53,7 @@ import nerd.tuxmobil.fahrplan.congress.net.CertificateDialogFragment;
 import nerd.tuxmobil.fahrplan.congress.net.CustomHttpClient;
 import nerd.tuxmobil.fahrplan.congress.net.FetchScheduleResult;
 import nerd.tuxmobil.fahrplan.congress.net.HttpStatus;
+import nerd.tuxmobil.fahrplan.congress.net.ParseScheduleResult;
 import nerd.tuxmobil.fahrplan.congress.reporting.TraceDroidEmailSender;
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsActivity;
@@ -192,8 +193,8 @@ public class MainActivity extends BaseActivity implements
         MyApp.task_running = TASKS.PARSE;
     }
 
-    public void onParseDone(Boolean result, String version) {
-        MyApp.LogDebug(LOG_TAG, "parseDone: " + result + " , numDays=" + MyApp.meta.getNumDays());
+    public void onParseDone(@NonNull ParseScheduleResult result) {
+        MyApp.LogDebug(LOG_TAG, "parseDone: " + result.isSuccess() + " , numDays=" + MyApp.meta.getNumDays());
         MyApp.task_running = TASKS.NONE;
         MyApp.fahrplan_xml = null;
 
@@ -205,7 +206,7 @@ public class MainActivity extends BaseActivity implements
         invalidateOptionsMenu();
         Fragment fragment = findFragment(FahrplanFragment.FRAGMENT_TAG);
         if (fragment != null) {
-            ((FahrplanFragment) fragment).onParseDone(result, version);
+            ((FahrplanFragment) fragment).onParseDone(result);
         }
         fragment = findFragment(ChangeListFragment.FRAGMENT_TAG);
         if (fragment instanceof ChangeListFragment) {
@@ -247,13 +248,15 @@ public class MainActivity extends BaseActivity implements
             MyApp.task_running = TASKS.FETCH;
             showFetchingStatus();
             String url = appRepository.readScheduleUrl();
-            appRepository.loadSchedule(url, MyApp.meta.getETag(), fetchScheduleResult -> {
-                onGotResponse(fetchScheduleResult);
-                return null;
-            }, (result, version) -> {
-                onParseDone(result, version);
-                return null;
-            });
+            appRepository.loadSchedule(url, MyApp.meta.getETag(),
+                    fetchScheduleResult -> {
+                        onGotResponse(fetchScheduleResult);
+                        return null;
+                    },
+                    parseScheduleResult -> {
+                        onParseDone(parseScheduleResult);
+                        return null;
+                    });
         } else {
             Log.d(LOG_TAG, "Fetching schedule already in progress.");
         }

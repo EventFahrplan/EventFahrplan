@@ -22,6 +22,7 @@ import nerd.tuxmobil.fahrplan.congress.models.Meta
 import nerd.tuxmobil.fahrplan.congress.net.CustomHttpClient
 import nerd.tuxmobil.fahrplan.congress.net.FetchScheduleResult
 import nerd.tuxmobil.fahrplan.congress.net.HttpStatus
+import nerd.tuxmobil.fahrplan.congress.net.ParseScheduleResult
 import nerd.tuxmobil.fahrplan.congress.preferences.SharedPreferencesRepository
 import nerd.tuxmobil.fahrplan.congress.serialization.ScheduleChanges
 import okhttp3.OkHttpClient
@@ -57,7 +58,7 @@ class AppRepository private constructor(val context: Context) {
     fun loadSchedule(url: String,
                      eTag: String,
                      onFetchingDone: (fetchScheduleResult: FetchScheduleResult) -> Unit,
-                     onParsingDone: (result: Boolean, version: String) -> Unit
+                     onParsingDone: (parseScheduleResult: ParseScheduleResult) -> Unit
     ) {
 
         val scheduleUrl = readScheduleUrl()
@@ -94,7 +95,7 @@ class AppRepository private constructor(val context: Context) {
                             updateMeta(meta.toMetaAppModel())
                         },
                         onParsingDone = { result: Boolean, version: String ->
-                            onParsingDone(result, version)
+                            onParsingDone(ParseScheduleResult(result, version))
                         })
             }
         }

@@ -55,6 +55,7 @@ import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.extensions.Contexts;
 import nerd.tuxmobil.fahrplan.congress.models.Alarm;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
+import nerd.tuxmobil.fahrplan.congress.net.ParseScheduleResult;
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 import nerd.tuxmobil.fahrplan.congress.sharing.LectureSharer;
 import nerd.tuxmobil.fahrplan.congress.sharing.SimpleLectureFormat;
@@ -814,10 +815,10 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
         actionBar.setListNavigationCallbacks(arrayAdapter, new OnDaySelectedListener());
     }
 
-    public void onParseDone(Boolean result, String version) {
+    public void onParseDone(@NonNull ParseScheduleResult result) {
         Activity activity = requireActivity();
-        if (result) {
-            if (MyApp.meta.getNumDays() == 0 || !version.equals(MyApp.meta.getVersion())) {
+        if (result.isSuccess()) {
+            if (MyApp.meta.getNumDays() == 0 || !result.getVersion().equals(MyApp.meta.getVersion())) {
                 MyApp.meta = appRepository.readMeta();
                 FahrplanMisc.loadDays(appRepository);
                 if (MyApp.meta.getNumDays() > 1) {
@@ -836,7 +837,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
         } else {
             Toast.makeText(
                     activity,
-                    getParsingErrorMessage(version),
+                    getParsingErrorMessage(result.getVersion()),
                     Toast.LENGTH_LONG).show();
         }
         activity.invalidateOptionsMenu();
