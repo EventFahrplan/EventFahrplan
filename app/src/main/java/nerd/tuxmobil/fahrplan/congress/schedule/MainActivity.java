@@ -283,7 +283,7 @@ public class MainActivity extends BaseActivity implements
                 : keyguardManager.inKeyguardRestrictedInputMode();
 
         FrameLayout sidePane = findViewById(R.id.detail);
-        if (sidePane != null && isFavoritesInSidePane){
+        if (sidePane != null && isFavoritesInSidePane) {
             sidePane.setVisibility(isScreenLocked ? View.GONE : View.VISIBLE);
         }
 
@@ -509,8 +509,7 @@ public class MainActivity extends BaseActivity implements
         if (sidePane == null) {
             Intent intent = new Intent(this, StarredListActivity.class);
             startActivityForResult(intent, MyApp.STARRED);
-        }
-        else if(!isScreenLocked) {
+        } else if (!isScreenLocked) {
             sidePane.setVisibility(View.VISIBLE);
             isFavoritesInSidePane = true;
             replaceFragment(R.id.detail, StarredListFragment.newInstance(true),
