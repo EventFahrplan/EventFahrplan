@@ -74,12 +74,14 @@ class AppRepository private constructor(val context: Context) {
             return
         }
 
+        check(onFetchingDone != {}) { "Nobody registered to receive FetchScheduleResult." }
         // Fetching
         scheduleNetworkRepository.fetchSchedule(okHttpClient, url, eTag) { fetchScheduleResult ->
             val fetchResult = fetchScheduleResult.toAppFetchScheduleResult()
             onFetchingDone.invoke(fetchResult)
 
             if (fetchResult.isSuccessful) {
+                check(onParsingDone != {}) { "Nobody registered to receive ParseScheduleResult." }
                 // Parsing
                 scheduleNetworkRepository.parseSchedule(fetchResult.scheduleXml, fetchResult.eTag,
                         onUpdateLectures = { lectures ->
