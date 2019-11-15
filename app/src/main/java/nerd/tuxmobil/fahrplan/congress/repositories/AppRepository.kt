@@ -14,6 +14,7 @@ import info.metadude.android.eventfahrplan.database.sqliteopenhelper.MetaDBOpenH
 import info.metadude.android.eventfahrplan.network.repositories.ScheduleNetworkRepository
 import nerd.tuxmobil.fahrplan.congress.BuildConfig
 import nerd.tuxmobil.fahrplan.congress.dataconverters.*
+import nerd.tuxmobil.fahrplan.congress.logging.Logging
 import nerd.tuxmobil.fahrplan.congress.models.Alarm
 import nerd.tuxmobil.fahrplan.congress.models.Lecture
 import nerd.tuxmobil.fahrplan.congress.models.Meta
@@ -22,14 +23,19 @@ import nerd.tuxmobil.fahrplan.congress.net.FetchScheduleResult
 import nerd.tuxmobil.fahrplan.congress.net.HttpStatus
 import nerd.tuxmobil.fahrplan.congress.preferences.SharedPreferencesRepository
 import nerd.tuxmobil.fahrplan.congress.serialization.ScheduleChanges
-import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc
 import okhttp3.OkHttpClient
 import java.security.KeyManagementException
 import java.security.NoSuchAlgorithmException
 
 class AppRepository private constructor(val context: Context) {
 
-    companion object : SingletonHolder<AppRepository, Context>(::AppRepository)
+    companion object : SingletonHolder<AppRepository, Context>(::AppRepository) {
+
+        const val ALL_DAYS = -1
+
+    }
+
+    private val logging = Logging.get()
 
     private val alarmsDBOpenHelper = AlarmsDBOpenHelper(context)
     private val alarmsDatabaseRepository = AlarmsDatabaseRepository(alarmsDBOpenHelper)
@@ -74,7 +80,7 @@ class AppRepository private constructor(val context: Context) {
                 // Parsing
                 scheduleNetworkRepository.parseSchedule(fetchScheduleResult.scheduleXml, fetchScheduleResult.eTag,
                         onUpdateLectures = { lectures ->
-                            val oldLectures = FahrplanMisc.loadLecturesForAllDays(this)
+                            val oldLectures = loadLecturesForAllDays()
                             val newLectures = lectures.toLecturesAppModel2().sanitize()
                             val hasChanged = ScheduleChanges.hasScheduleChanged(newLectures, oldLectures)
                             if (hasChanged) {
@@ -90,6 +96,38 @@ class AppRepository private constructor(val context: Context) {
                         })
             }
         }
+    }
+
+    /**
+     * Loads all lectures from the database which take place on all days.
+     */
+    fun loadLecturesForAllDays() =
+            loadLecturesForDayIndex(ALL_DAYS)
+
+    /**
+     * Loads all lectures from the database which take place on the specified [day][dayIndex].
+     * All days can be loaded if -1 is passed as the [day][dayIndex].
+     */
+    fun loadLecturesForDayIndex(dayIndex: Int): List<Lecture> {
+        val lectures = if (dayIndex == ALL_DAYS) {
+            logging.d(javaClass.name, "Loading lectures for all days.")
+            readLecturesOrderedByDateUtc()
+        } else {
+            logging.d(javaClass.name, "Loading lectures for day $dayIndex.")
+            readLecturesForDayIndexOrderedByDateUtc(dayIndex)
+        }
+        logging.d(javaClass.name, "Got ${lectures.size} rows.")
+
+        val highlights = readHighlights()
+        for (highlight in highlights) {
+            logging.d(javaClass.name, "$highlight")
+            for (lecture in lectures) {
+                if (lecture.lectureId == "" + highlight.eventId) {
+                    lecture.highlight = highlight.isHighlight
+                }
+            }
+        }
+        return lectures.toList()
     }
 
     @JvmOverloads
@@ -112,7 +150,7 @@ class AppRepository private constructor(val context: Context) {
         alarmsDatabaseRepository.insert(values, alarm.eventId)
     }
 
-    fun readHighlights() =
+    private fun readHighlights() =
             highlightsDatabaseRepository.query().toHighlightsAppModel()
 
     fun updateHighlight(lecture: Lecture) {
@@ -124,10 +162,10 @@ class AppRepository private constructor(val context: Context) {
     fun readLectureByLectureId(lectureId: String) =
             lecturesDatabaseRepository.queryLectureByLectureId(lectureId).first().toLectureAppModel()
 
-    fun readLecturesForDayIndexOrderedByDateUtc(dayIndex: Int) =
+    private fun readLecturesForDayIndexOrderedByDateUtc(dayIndex: Int) =
             lecturesDatabaseRepository.queryLecturesForDayIndexOrderedByDateUtc(dayIndex).toLecturesAppModel()
 
-    fun readLecturesOrderedByDateUtc() =
+    private fun readLecturesOrderedByDateUtc() =
             lecturesDatabaseRepository.queryLecturesOrderedByDateUtc().toLecturesAppModel()
 
     fun readDateInfos() =
