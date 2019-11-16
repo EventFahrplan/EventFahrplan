@@ -86,7 +86,7 @@
     <string name="libraries">
 		Die Anwendung nutzt folgende Bibliotheken:
 		Kotlin, Google Support Library, Email Intent Builder,
-		Espresso, OkHttp, SnackEngage, TraceDroid
+		Engelsystem, Espresso, OkHttp, SnackEngage, TraceDroid
 	</string>
     <string name="about_data_privacy_statement">
         <![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan/blob/master/DATA-PRIVACY-DE.md">Datenschutzerklärung</a>]]>
@@ -98,6 +98,9 @@
     <string name="pref_auto_download">Automatische Aktualisierung</string>
     <string name="schedule_parsing_error_generic">Unbekannter Fehler beim Parsen des Fahrplans</string>
     <string name="schedule_parsing_error_with_version">Fehler beim Parsen der Fahrplan-Version %s</string>
+    <string name="engelsystem_shifts_parsing_error_generic">Unbekannter Fehler beim Parsen der Engelsystem-Schichten</string>
+    <string name="engelsystem_shifts_parsing_error_forbidden">Ungültiger API-Schlüssel für Engelsystem-Schichten</string>
+    <string name="engelsystem_shifts_parsing_error_not_found">Falsche URL für Engelsystem-Schichten</string>
     <string name="alarms_empty">
 		Aktuell sind keine Alarme gespeichert. Im Fahrplan
 		kannst du über das entsprechende Symbol in der ActionBar

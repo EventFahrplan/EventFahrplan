@@ -86,7 +86,7 @@
     <string name="libraries">
 		Deze applicatie gebruikt de volgende software-bibliotheken:
 		Kotlin, Google Support Library, Email Intent Builder,
-		Espresso, OkHttp, SnackEngage, TraceDroid
+		Engelsystem, Espresso, OkHttp, SnackEngage, TraceDroid
 	</string>
     <string name="about_data_privacy_statement">
         <![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan/blob/master/DATA-PRIVACY-DE.md">Datenschutzerklärung</a>]]>

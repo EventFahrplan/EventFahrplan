@@ -37,6 +37,7 @@ android {
         buildConfigField "String", "BUILD_TIME", "\"${buildTime()}\""
         buildConfigField "String", "GIT_SHA", "\"${gitSha()}\""
         buildConfigField "String", "C3NAV_URL", "\"https://35c3.c3nav.de/l/\""
+        buildConfigField "boolean", "ENABLE_ENGELSYSTEM_SHIFTS", "false"
     }
 
     buildTypes {
@@ -147,7 +148,10 @@ tasks.withType(Test) {
 dependencies {
     implementation project(":database")
     implementation project(":network")
+    implementation project(":engelsystem")
 
+    implementation Libs.kotlinCoroutinesAndroid
+    implementation Libs.kotlinCoroutinesCore
     implementation Libs.kotlinStdlib
     implementation Libs.supportLibraryAppcompatV7
     implementation Libs.supportLibraryConstraintLayout

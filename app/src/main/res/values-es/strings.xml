@@ -56,7 +56,7 @@
     <string name="lecture_list_item_no_video_content_description">Sin grabación de vídeo</string>
     <string name="lecture_list_item_video_content_description">Con grabación de vídeo</string>
     <string name="lecture_list_item_without_video_content_description">Sin grabación de vídeo</string>
-    <string name="libraries">Esta aplicación utiliza las siguientes bibliotecas: Kotlin, Google Support Library, Email Intent Builder, Espresso, OkHttp, SnackEngage, TraceDroid</string>
+    <string name="libraries">Esta aplicación utiliza las siguientes bibliotecas: Kotlin, Google Support Library, Email Intent Builder, Engelsystem, Espresso, OkHttp, SnackEngage, TraceDroid</string>
     <string name="menu_item_title_about">Información</string>
     <string name="menu_item_title_add_to_calendar">Agregar al calendario</string>
     <string name="menu_item_title_alarms">Alarmas</string>

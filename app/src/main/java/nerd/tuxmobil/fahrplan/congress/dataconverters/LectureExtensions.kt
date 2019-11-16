@@ -6,6 +6,13 @@ import info.metadude.android.eventfahrplan.database.models.Highlight as Highligh
 import info.metadude.android.eventfahrplan.database.models.Lecture as LectureDatabaseModel
 import info.metadude.android.eventfahrplan.network.models.Lecture as LectureNetworkModel
 
+fun Lecture.shiftRoomIndexOnDays(dayIndices: Set<Int>): Lecture {
+    if (dayIndices.contains(day)) {
+        shiftRoomIndexBy(1)
+    }
+    return this
+}
+
 fun Lecture.toDateInfo(): DateInfo = DateInfo(day, date)
 
 fun Lecture.toHighlightDatabaseModel() = HighlightDatabaseModel(
