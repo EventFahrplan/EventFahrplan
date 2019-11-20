@@ -4,7 +4,6 @@ import info.metadude.android.eventfahrplan.network.fetching.HttpStatus
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import info.metadude.android.eventfahrplan.network.fetching.FetchScheduleResult as NetworkFetchScheduleResult
-import nerd.tuxmobil.fahrplan.congress.net.FetchScheduleResult as AppFetchScheduleResult
 
 class FetchScheduleResultExtensionsTest {
 

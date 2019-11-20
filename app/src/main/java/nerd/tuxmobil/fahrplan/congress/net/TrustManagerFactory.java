@@ -45,14 +45,17 @@ public final class TrustManagerFactory {
     @SuppressLint("TrustAllX509TrustManager")
     private static class InsecureX509TrustManager implements X509TrustManager {
 
+        @Override
         public void checkClientTrusted(X509Certificate[] chain, String authType)
                 throws CertificateException {
         }
 
+        @Override
         public void checkServerTrusted(X509Certificate[] chain, String authType)
                 throws CertificateException {
         }
 
+        @Override
         public X509Certificate[] getAcceptedIssuers() {
             return null;
         }
@@ -82,11 +85,13 @@ public final class TrustManagerFactory {
             return trustManager;
         }
 
+        @Override
         public void checkClientTrusted(X509Certificate[] chain, String authType)
                 throws CertificateException {
             defaultTrustManager.checkClientTrusted(chain, authType);
         }
 
+        @Override
         public void checkServerTrusted(X509Certificate[] chain, String authType)
                 throws CertificateException {
             TrustManagerFactory.setLastCertChain(chain);
@@ -107,6 +112,7 @@ public final class TrustManagerFactory {
             }
         }
 
+        @Override
         public X509Certificate[] getAcceptedIssuers() {
             return defaultTrustManager.getAcceptedIssuers();
         }
