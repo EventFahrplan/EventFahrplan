@@ -29,7 +29,6 @@ import nerd.tuxmobil.fahrplan.congress.base.AbstractListFragment;
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
 import nerd.tuxmobil.fahrplan.congress.models.Meta;
-import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 import nerd.tuxmobil.fahrplan.congress.schedule.MainActivity;
 import nerd.tuxmobil.fahrplan.congress.sharing.LectureSharer;
 import nerd.tuxmobil.fahrplan.congress.sharing.SimpleLectureFormat;
@@ -129,7 +128,6 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
 
     private void initStarredList() {
         Context context = requireContext();
-        AppRepository appRepository = AppRepository.Companion.getInstance(context);
         starredList = FahrplanMisc.getStarredLectures(appRepository);
         Meta meta = appRepository.readMeta();
         mAdapter = new LectureArrayAdapter(context, starredList, meta.getNumDays());
@@ -175,7 +173,6 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
     }
 
     public void onRefresh(@NonNull Context context) {
-        AppRepository appRepository = AppRepository.Companion.getInstance(context);
         List<Lecture> starred = FahrplanMisc.getStarredLectures(appRepository);
         if (starredList != null) {
             starredList.clear();
@@ -260,7 +257,7 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
     private void deleteItem(int index) {
         Lecture l = starredList.get(index);
         l.highlight = false;
-        AppRepository.Companion.getInstance(requireContext()).updateHighlight(l);
+        appRepository.updateHighlight(l);
         if (MyApp.lectureList != null) {
             for (int j = 0; j < MyApp.lectureList.size(); j++) {
                 Lecture lecture = MyApp.lectureList.get(j);

@@ -10,6 +10,17 @@ class SharedPreferencesRepository(val context: Context) {
 
     private val preferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 
+    fun getScheduleLastFetchedAt() =
+            preferences.getLong(BundleKeys.PREFS_SCHEDULE_LAST_FETCHED_AT, 0)
+
+    fun setScheduleLastFetchedAt(fetchedAt: Long) = with(preferences.edit()) {
+        putLong(BundleKeys.PREFS_SCHEDULE_LAST_FETCHED_AT, fetchedAt)
+        apply()
+    }
+
+    fun getChangesSeen() =
+            preferences.getBoolean(BundleKeys.PREFS_CHANGES_SEEN, true)
+
     fun setChangesSeen(changesSeen: Boolean) = with(preferences.edit()) {
         putBoolean(BundleKeys.PREFS_CHANGES_SEEN, changesSeen)
         apply()

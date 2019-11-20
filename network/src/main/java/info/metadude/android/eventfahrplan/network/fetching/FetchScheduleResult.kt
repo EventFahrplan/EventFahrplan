@@ -8,8 +8,4 @@ data class FetchScheduleResult(
         val hostName: String,
         val exceptionMessage: String = ""
 
-) {
-
-    fun isSuccessful() = httpStatus == HttpStatus.HTTP_OK
-
-}
+)

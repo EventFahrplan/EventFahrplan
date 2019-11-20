@@ -55,6 +55,7 @@ import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.extensions.Contexts;
 import nerd.tuxmobil.fahrplan.congress.models.Alarm;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
+import nerd.tuxmobil.fahrplan.congress.net.ParseScheduleResult;
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 import nerd.tuxmobil.fahrplan.congress.sharing.LectureSharer;
 import nerd.tuxmobil.fahrplan.congress.sharing.SimpleLectureFormat;
@@ -91,6 +92,8 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
     private LayoutInflater inflater;
 
     private Conference conference = new Conference();
+
+    private AppRepository appRepository;
 
     private HashMap<String, Integer> trackNameBackgroundColorDefaultPairs;
 
@@ -146,6 +149,12 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
     private HashMap<String, Integer> trackAccentColorsHighlight;
 
     private Lecture lastSelectedLecture;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        appRepository = AppRepository.Companion.getInstance(context);
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -298,7 +307,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
     private void viewDay(boolean reload) {
         Log.d(LOG_TAG, "viewDay(" + reload + ")");
 
-        loadLectureList(requireContext(), mDay, reload);
+        loadLectureList(appRepository, mDay, reload);
         List<Lecture> lectures = MyApp.lectureList;
         if (lectures != null && !lectures.isEmpty()) {
             conference.calculateTimeFrame(lectures, DateHelper::getMinutesOfDay);
@@ -693,14 +702,13 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
         eventView.setTag(lecture);
     }
 
-    public static void loadLectureList(Context context, int day, boolean force) {
+    public static void loadLectureList(@NonNull AppRepository appRepository, int day, boolean force) {
         MyApp.LogDebug(LOG_TAG, "load lectures of day " + day);
 
         if (!force && MyApp.lectureList != null && MyApp.lectureListDay == day) {
             return;
         }
 
-        AppRepository appRepository = AppRepository.Companion.getInstance(context);
         MyApp.lectureList = FahrplanMisc.getUncanceledLectures(appRepository, day);
         if (MyApp.lectureList.isEmpty()) {
             return;
@@ -753,10 +761,10 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
             Collections.sort(MyApp.lectureList, (lhs, rhs) -> Long.compare(lhs.dateUTC, rhs.dateUTC));
         }
 
-        loadAlarms(context);
+        loadAlarms(appRepository);
     }
 
-    public static void loadAlarms(Context context) {
+    public static void loadAlarms(@NonNull AppRepository appRepository) {
         if (MyApp.lectureList == null) {
             return;
         }
@@ -765,7 +773,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
             lecture.hasAlarm = false;
         }
 
-        List<Alarm> alarms = AppRepository.Companion.getInstance(context).readAlarms();
+        List<Alarm> alarms = appRepository.readAlarms();
         MyApp.LogDebug(LOG_TAG, "Got " + alarms.size() + " alarm rows.");
         for (Alarm alarm : alarms) {
             MyApp.LogDebug(LOG_TAG, "Event " + alarm.getEventId() + " has alarm.");
@@ -807,13 +815,12 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
         actionBar.setListNavigationCallbacks(arrayAdapter, new OnDaySelectedListener());
     }
 
-    public void onParseDone(Boolean result, String version) {
+    public void onParseDone(@NonNull ParseScheduleResult result) {
         Activity activity = requireActivity();
-        if (result) {
-            if (MyApp.meta.getNumDays() == 0 || !version.equals(MyApp.meta.getVersion())) {
-                AppRepository appRepository = AppRepository.Companion.getInstance(activity);
+        if (result.isSuccess()) {
+            if (MyApp.meta.getNumDays() == 0 || !result.getVersion().equals(MyApp.meta.getVersion())) {
                 MyApp.meta = appRepository.readMeta();
-                FahrplanMisc.loadDays(activity);
+                FahrplanMisc.loadDays(appRepository);
                 if (MyApp.meta.getNumDays() > 1) {
                     buildNavigationMenu();
                 }
@@ -830,7 +837,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
         } else {
             Toast.makeText(
                     activity,
-                    getParsingErrorMessage(version),
+                    getParsingErrorMessage(result.getVersion()),
                     Toast.LENGTH_LONG).show();
         }
         activity.invalidateOptionsMenu();
@@ -864,7 +871,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
             Log.e(getClass().getName(), "onAlarmTimesIndexPicked: lecture: null. alarmTimesIndex: " + alarmTimesIndex);
             throw new NullPointerException("Lecture is null.");
         }
-        FahrplanMisc.addAlarm(requireContext(), lastSelectedLecture, alarmTimesIndex);
+        FahrplanMisc.addAlarm(requireContext(), appRepository, lastSelectedLecture, alarmTimesIndex);
         setBell(lastSelectedLecture);
         updateMenuItems();
     }
@@ -881,7 +888,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
         switch (menuItemIndex) {
             case CONTEXT_MENU_ITEM_ID_FAVORITES:
                 lecture.highlight = !lecture.highlight;
-                AppRepository.Companion.getInstance(context).updateHighlight(lecture);
+                appRepository.updateHighlight(lecture);
                 setLectureBackground(lecture, contextMenuView);
                 setLectureTextColor(lecture, contextMenuView);
                 ((MainActivity) context).refreshFavoriteList();
@@ -891,7 +898,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
                 showAlarmTimePicker();
                 break;
             case CONTEXT_MENU_ITEM_ID_DELETE_ALARM:
-                FahrplanMisc.deleteAlarm(context, lecture);
+                FahrplanMisc.deleteAlarm(context, appRepository, lecture);
                 setBell(lecture);
                 updateMenuItems();
                 break;

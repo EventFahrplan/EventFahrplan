@@ -1,9 +1,10 @@
 package nerd.tuxmobil.fahrplan.congress.base;
 
+import android.content.Context;
 import android.support.v4.app.ListFragment;
 
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
-
+import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 
 /**
  * A fragment representing a list of Items.
@@ -29,6 +30,14 @@ public abstract class AbstractListFragment extends ListFragment {
          *                               must be reload from the data source or not.
          */
         void onLectureListClick(Lecture lecture, boolean requiresScheduleReload);
+    }
+
+    protected AppRepository appRepository;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        appRepository = AppRepository.Companion.getInstance(context);
     }
 
 }

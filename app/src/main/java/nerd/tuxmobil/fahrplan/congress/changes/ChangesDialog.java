@@ -2,10 +2,8 @@ package nerd.tuxmobil.fahrplan.congress.changes;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -20,6 +18,7 @@ import android.widget.TextView;
 
 import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
+import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 import nerd.tuxmobil.fahrplan.congress.schedule.MainActivity;
 
 public class ChangesDialog extends DialogFragment {
@@ -107,10 +106,7 @@ public class ChangesDialog extends DialogFragment {
     }
 
     private void flagChangesAsSeen() {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(requireContext());
-        SharedPreferences.Editor edit = prefs.edit();
-        edit.putBoolean(BundleKeys.PREFS_CHANGES_SEEN, true);
-        edit.commit();
+        AppRepository.Companion.getInstance(requireContext()).updateScheduleChangesSeen(true);
     }
 
 }

@@ -4,12 +4,9 @@ import android.app.Activity;
 import android.app.KeyguardManager;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -20,7 +17,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
-import android.text.format.Time;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -31,6 +27,8 @@ import android.widget.ProgressBar;
 
 import org.ligi.tracedroid.logging.Log;
 
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import kotlin.Unit;
@@ -57,12 +55,14 @@ import nerd.tuxmobil.fahrplan.congress.net.CertificateDialogFragment;
 import nerd.tuxmobil.fahrplan.congress.net.CustomHttpClient;
 import nerd.tuxmobil.fahrplan.congress.net.FetchScheduleResult;
 import nerd.tuxmobil.fahrplan.congress.net.HttpStatus;
+import nerd.tuxmobil.fahrplan.congress.net.ParseScheduleResult;
 import nerd.tuxmobil.fahrplan.congress.reporting.TraceDroidEmailSender;
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsActivity;
 import nerd.tuxmobil.fahrplan.congress.sidepane.OnSidePaneCloseListener;
 import nerd.tuxmobil.fahrplan.congress.utils.ConfirmationDialog;
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
+import okhttp3.OkHttpClient;
 
 public class MainActivity extends BaseActivity implements
         OnSidePaneCloseListener,
@@ -77,6 +77,8 @@ public class MainActivity extends BaseActivity implements
     private ProgressDialog progress = null;
 
     private KeyguardManager keyguardManager = null;
+
+    protected AppRepository appRepository;
 
     private ProgressBar progressBar = null;
     private boolean requiresScheduleReload = false;
@@ -100,6 +102,7 @@ public class MainActivity extends BaseActivity implements
 
         MyApp.LogDebug(LOG_TAG, "onCreate");
         setContentView(R.layout.main_layout);
+        appRepository = AppRepository.Companion.getInstance(this);
         keyguardManager = (KeyguardManager) getSystemService(KEYGUARD_SERVICE);
         Toolbar toolbar = findViewById(R.id.toolbar);
         progressBar = findViewById(R.id.progress);
@@ -115,9 +118,8 @@ public class MainActivity extends BaseActivity implements
 
         resetProgressDialog();
 
-        AppRepository appRepository = AppRepository.Companion.getInstance(this);
         MyApp.meta = appRepository.readMeta();
-        FahrplanMisc.loadDays(this);
+        FahrplanMisc.loadDays(appRepository);
 
         MyApp.LogDebug(LOG_TAG, "task_running:" + MyApp.task_running);
         switch (MyApp.task_running) {
@@ -166,22 +168,10 @@ public class MainActivity extends BaseActivity implements
             hideProgressDialog();
         }
         if (status == HttpStatus.HTTP_OK || status == HttpStatus.HTTP_NOT_MODIFIED) {
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-            Time now = new Time();
-            now.setToNow();
-            long millis = now.toMillis(true);
-            Editor edit = prefs.edit();
-            edit.putLong("last_fetch", millis);
-            edit.commit();
+            appRepository.updateScheduleLastFetchingTime();
         }
         if (status != HttpStatus.HTTP_OK) {
-            switch (status) {
-                case HTTP_LOGIN_FAIL_UNTRUSTED_CERTIFICATE:
-                    CertificateDialogFragment dialogFragment = CertificateDialogFragment.newInstance(fetchScheduleResult.getExceptionMessage());
-                    dialogFragment.show(getSupportFragmentManager(), CertificateDialogFragment.FRAGMENT_TAG);
-                    break;
-            }
-            CustomHttpClient.showHttpError(this, status, fetchScheduleResult.getHostName());
+            showErrorDialog(fetchScheduleResult.getExceptionMessage(), fetchScheduleResult.getHostName(), status);
             progressBar.setVisibility(View.INVISIBLE);
             showUpdateAction = true;
             invalidateOptionsMenu();
@@ -200,8 +190,18 @@ public class MainActivity extends BaseActivity implements
         MyApp.task_running = TASKS.PARSE;
     }
 
-    public void onParseDone(Boolean result, String version) {
-        MyApp.LogDebug(LOG_TAG, "parseDone: " + result + " , numDays=" + MyApp.meta.getNumDays());
+    private void showErrorDialog(@NonNull String exceptionMessage, @NonNull String hostName, HttpStatus status) {
+        if (HttpStatus.HTTP_LOGIN_FAIL_UNTRUSTED_CERTIFICATE == status) {
+            CertificateDialogFragment.newInstance(exceptionMessage).show(
+                    getSupportFragmentManager(),
+                    CertificateDialogFragment.FRAGMENT_TAG
+            );
+        }
+        CustomHttpClient.showHttpError(this, status, hostName);
+    }
+
+    public void onParseDone(@NonNull ParseScheduleResult result) {
+        MyApp.LogDebug(LOG_TAG, "parseDone: " + result.isSuccess() + " , numDays=" + MyApp.meta.getNumDays());
         MyApp.task_running = TASKS.NONE;
         MyApp.fahrplan_xml = null;
 
@@ -213,15 +213,14 @@ public class MainActivity extends BaseActivity implements
         invalidateOptionsMenu();
         Fragment fragment = findFragment(FahrplanFragment.FRAGMENT_TAG);
         if (fragment != null) {
-            ((FahrplanFragment) fragment).onParseDone(result, version);
+            ((FahrplanFragment) fragment).onParseDone(result);
         }
         fragment = findFragment(ChangeListFragment.FRAGMENT_TAG);
         if (fragment instanceof ChangeListFragment) {
             ((ChangeListFragment) fragment).onRefresh();
         }
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        if (!prefs.getBoolean(BundleKeys.PREFS_CHANGES_SEEN, true)) {
+        if (!appRepository.sawScheduleChanges()) {
             showChangesDialog();
         }
     }
@@ -255,15 +254,24 @@ public class MainActivity extends BaseActivity implements
         if (MyApp.task_running == TASKS.NONE) {
             MyApp.task_running = TASKS.FETCH;
             showFetchingStatus();
-            AppRepository appRepository = AppRepository.Companion.getInstance(this);
             String url = appRepository.readScheduleUrl();
-            appRepository.loadSchedule(url, MyApp.meta.getETag(), fetchScheduleResult -> {
-                onGotResponse(fetchScheduleResult);
-                return null;
-            }, (result, version) -> {
-                onParseDone(result, version);
-                return null;
-            });
+            String hostName = CustomHttpClient.getHostName(url);
+            OkHttpClient okHttpClient;
+            try {
+                okHttpClient = CustomHttpClient.createHttpClient(hostName);
+                appRepository.loadSchedule(url, MyApp.meta.getETag(),
+                        okHttpClient,
+                        fetchScheduleResult -> {
+                            onGotResponse(fetchScheduleResult);
+                            return null;
+                        },
+                        parseScheduleResult -> {
+                            onParseDone(parseScheduleResult);
+                            return null;
+                        });
+            } catch (KeyManagementException | NoSuchAlgorithmException e) {
+                onGotResponse(FetchScheduleResult.createError(HttpStatus.HTTP_SSL_SETUP_FAILURE, hostName));
+            }
         } else {
             Log.d(LOG_TAG, "Fetching schedule already in progress.");
         }
@@ -287,8 +295,7 @@ public class MainActivity extends BaseActivity implements
             sidePane.setVisibility(isScreenLocked ? View.GONE : View.VISIBLE);
         }
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        if (prefs.getBoolean(BundleKeys.PREFS_CHANGES_SEEN, true) == false) {
+        if (!appRepository.sawScheduleChanges()) {
             showChangesDialog();
         }
     }
@@ -309,7 +316,6 @@ public class MainActivity extends BaseActivity implements
         Fragment fragment = findFragment(ChangesDialog.FRAGMENT_TAG);
         if (fragment == null) {
             requiresScheduleReload = true;
-            AppRepository appRepository = AppRepository.Companion.getInstance(this);
             List<Lecture> changedLectures = FahrplanMisc.readChanges(appRepository);
             Meta meta = appRepository.readMeta();
             String scheduleVersion = meta.getVersion();
@@ -408,7 +414,7 @@ public class MainActivity extends BaseActivity implements
     public void reloadAlarms() {
         Fragment fragment = findFragment(FahrplanFragment.FRAGMENT_TAG);
         if (fragment != null) {
-            ((FahrplanFragment) fragment).loadAlarms(this);
+            ((FahrplanFragment) fragment).loadAlarms(appRepository);
         }
     }
 

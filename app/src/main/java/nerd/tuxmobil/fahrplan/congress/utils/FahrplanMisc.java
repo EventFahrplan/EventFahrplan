@@ -27,7 +27,6 @@ import nerd.tuxmobil.fahrplan.congress.extensions.Contexts;
 import nerd.tuxmobil.fahrplan.congress.models.Alarm;
 import nerd.tuxmobil.fahrplan.congress.models.DateInfo;
 import nerd.tuxmobil.fahrplan.congress.models.DateInfos;
-import nerd.tuxmobil.fahrplan.congress.models.Highlight;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
 import nerd.tuxmobil.fahrplan.congress.models.SchedulableAlarm;
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
@@ -39,14 +38,12 @@ import static kotlin.collections.CollectionsKt.filterNot;
 public class FahrplanMisc {
 
     private static final String LOG_TAG = "FahrplanMisc";
-    @VisibleForTesting
-    public static final int ALL_DAYS = -1;
     private static final DateFormat TIME_TEXT_DATE_FORMAT =
             SimpleDateFormat.getDateTimeInstance(SimpleDateFormat.SHORT, SimpleDateFormat.SHORT);
 
-    public static void loadDays(Context context) {
+    public static void loadDays(@NonNull AppRepository appRepository) {
         MyApp.dateInfos = new DateInfos();
-        List<DateInfo> dateInfos = AppRepository.Companion.getInstance(context).readDateInfos();
+        List<DateInfo> dateInfos = appRepository.readDateInfos();
         for (DateInfo dateInfo : dateInfos) {
             if (!MyApp.dateInfos.contains(dateInfo)) {
                 MyApp.dateInfos.add(dateInfo);
@@ -68,8 +65,7 @@ public class FahrplanMisc {
         return when;
     }
 
-    public static void deleteAlarm(@NonNull Context context, @NonNull Lecture lecture) {
-        AppRepository appRepository = AppRepository.Companion.getInstance(context);
+    public static void deleteAlarm(@NonNull Context context, @NonNull AppRepository appRepository, @NonNull Lecture lecture) {
         String eventId = lecture.lectureId;
         List<Alarm> alarms = appRepository.readAlarms(eventId);
         if (!alarms.isEmpty()) {
@@ -83,6 +79,7 @@ public class FahrplanMisc {
     }
 
     public static void addAlarm(@NonNull Context context,
+                                @NonNull AppRepository appRepository,
                                 @NonNull Lecture lecture,
                                 int alarmTimesIndex) {
         Log.d(FahrplanMisc.class.getName(), "Add alarm for lecture: " + lecture.lectureId +
@@ -126,7 +123,7 @@ public class FahrplanMisc {
         Alarm alarm = new Alarm(alarmTimeInMin, day, startTime, eventId, eventTitle, when, timeText);
         SchedulableAlarm schedulableAlarm = AlarmExtensions.toSchedulableAlarm(alarm);
         AlarmServices.scheduleEventAlarm(context, schedulableAlarm, true);
-        AppRepository.Companion.getInstance(context).updateAlarm(alarm);
+        appRepository.updateAlarm(alarm);
         lecture.hasAlarm = true;
     }
 
@@ -169,42 +166,6 @@ public class FahrplanMisc {
         return alarmUpdater.calculateInterval(now, initial);
     }
 
-    @NonNull
-    public static List<Lecture> loadLecturesForAllDays(@NonNull AppRepository appRepository) {
-        return loadLecturesForDayIndex(appRepository, ALL_DAYS);
-    }
-
-    /**
-     * Load all Lectures from the DB on the day specified
-     *
-     * @param appRepository The application repository to retrieve lectures from.
-     * @param day           The day to load lectures for (0..), or -1 for all days
-     * @return ArrayList of Lecture objects
-     */
-    @NonNull
-    public static List<Lecture> loadLecturesForDayIndex(@NonNull AppRepository appRepository, int day) {
-        List<Lecture> lectures;
-        if (day == ALL_DAYS) {
-            MyApp.LogDebug(LOG_TAG, "Loading lectures for all days.");
-            lectures = appRepository.readLecturesOrderedByDateUtc();
-        } else {
-            MyApp.LogDebug(LOG_TAG, "Loading lectures for day " + day + ".");
-            lectures = appRepository.readLecturesForDayIndexOrderedByDateUtc(day);
-        }
-        MyApp.LogDebug(LOG_TAG, "Got " + lectures.size() + " rows.");
-
-        List<Highlight> highlights = appRepository.readHighlights();
-        for (Highlight highlight : highlights) {
-            MyApp.LogDebug(LOG_TAG, highlight.toString());
-            for (Lecture lecture : lectures) {
-                if (lecture.lectureId.equals("" + highlight.getEventId())) {
-                    lecture.highlight = highlight.isHighlight();
-                }
-            }
-        }
-        return lectures;
-    }
-
     public static int getChangedLectureCount(@NonNull final List<Lecture> list, boolean favsOnly) {
         int count = count(list, event -> event.isChanged() && (!favsOnly || event.highlight));
         MyApp.LogDebug(LOG_TAG, count + " changed lectures, favsOnly = " + favsOnly);
@@ -226,7 +187,7 @@ public class FahrplanMisc {
     @NonNull
     public static List<Lecture> readChanges(@NonNull AppRepository appRepository) {
         MyApp.LogDebug(LOG_TAG, "readChanges");
-        List<Lecture> changesList = loadLecturesForAllDays(appRepository);
+        List<Lecture> changesList = appRepository.loadLecturesForAllDays();
         if (changesList.isEmpty()) {
             return changesList;
         }
@@ -237,7 +198,7 @@ public class FahrplanMisc {
 
     @NonNull
     public static List<Lecture> getStarredLectures(@NonNull AppRepository appRepository) {
-        List<Lecture> starredList = loadLecturesForAllDays(appRepository);
+        List<Lecture> starredList = appRepository.loadLecturesForAllDays();
         if (starredList.isEmpty()) {
             return starredList;
         }
@@ -248,7 +209,7 @@ public class FahrplanMisc {
 
     @NonNull
     public static List<Lecture> getUncanceledLectures(@NonNull AppRepository appRepository, int dayIndex) {
-        List<Lecture> lectures = FahrplanMisc.loadLecturesForDayIndex(appRepository, dayIndex);
+        List<Lecture> lectures = appRepository.loadLecturesForDayIndex(dayIndex);
         return filterNot(lectures, event -> event.changedIsCanceled);
     }
 
