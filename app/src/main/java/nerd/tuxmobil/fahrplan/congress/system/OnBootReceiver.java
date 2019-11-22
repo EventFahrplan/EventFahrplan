@@ -47,7 +47,7 @@ public final class OnBootReceiver extends BroadcastReceiver {
         now.second += 15;
         now.normalize(true);
 
-        AppRepository appRepository = AppRepository.Companion.getInstance(context);
+        AppRepository appRepository = AppRepository.INSTANCE;
         List<Alarm> alarms = appRepository.readAlarms();
         for (Alarm alarm : alarms) {
             storedAlarmTime.set(alarm.getStartTime());

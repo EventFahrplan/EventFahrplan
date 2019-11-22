@@ -106,7 +106,7 @@ public class ChangesDialog extends DialogFragment {
     }
 
     private void flagChangesAsSeen() {
-        AppRepository.Companion.getInstance(requireContext()).updateScheduleChangesSeen(true);
+        AppRepository.INSTANCE.updateScheduleChangesSeen(true);
     }
 
 }

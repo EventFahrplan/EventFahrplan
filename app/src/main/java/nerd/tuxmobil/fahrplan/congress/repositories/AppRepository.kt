@@ -24,31 +24,54 @@ import nerd.tuxmobil.fahrplan.congress.preferences.SharedPreferencesRepository
 import nerd.tuxmobil.fahrplan.congress.serialization.ScheduleChanges
 import okhttp3.OkHttpClient
 
-class AppRepository private constructor(val context: Context) {
+object AppRepository {
 
-    companion object : SingletonHolder<AppRepository, Context>(::AppRepository) {
+    const val ALL_DAYS = -1
 
-        const val ALL_DAYS = -1
+    private lateinit var context: Context
 
+    private lateinit var logging: Logging
+
+    private lateinit var alarmsDBOpenHelper: AlarmsDBOpenHelper
+    private lateinit var alarmsDatabaseRepository: AlarmsDatabaseRepository
+
+    private lateinit var highlightDBOpenHelper: HighlightDBOpenHelper
+    private lateinit var highlightsDatabaseRepository: HighlightsDatabaseRepository
+
+    private lateinit var lecturesDBOpenHelper: LecturesDBOpenHelper
+    private lateinit var lecturesDatabaseRepository: LecturesDatabaseRepository
+
+    private lateinit var metaDBOpenHelper: MetaDBOpenHelper
+    private lateinit var metaDatabaseRepository: MetaDatabaseRepository
+
+    private lateinit var scheduleNetworkRepository: ScheduleNetworkRepository
+    private lateinit var sharedPreferencesRepository: SharedPreferencesRepository
+
+    fun initialize(
+            context: Context,
+            logging: Logging
+    ) {
+        this.context = context
+        this.logging = logging
+        initializeDatabases()
+        initializeRepositories()
     }
 
-    private val logging = Logging.get()
+    private fun initializeDatabases() {
+        alarmsDBOpenHelper = AlarmsDBOpenHelper(context)
+        alarmsDatabaseRepository = AlarmsDatabaseRepository(alarmsDBOpenHelper)
+        highlightDBOpenHelper = HighlightDBOpenHelper(context)
+        highlightsDatabaseRepository = HighlightsDatabaseRepository(highlightDBOpenHelper)
+        lecturesDBOpenHelper = LecturesDBOpenHelper(context)
+        lecturesDatabaseRepository = LecturesDatabaseRepository(lecturesDBOpenHelper)
+        metaDBOpenHelper = MetaDBOpenHelper(context)
+        metaDatabaseRepository = MetaDatabaseRepository(metaDBOpenHelper)
+    }
 
-    private val alarmsDBOpenHelper = AlarmsDBOpenHelper(context)
-    private val alarmsDatabaseRepository = AlarmsDatabaseRepository(alarmsDBOpenHelper)
-
-    private val highlightDBOpenHelper = HighlightDBOpenHelper(context)
-    private val highlightsDatabaseRepository = HighlightsDatabaseRepository(highlightDBOpenHelper)
-
-    private val lecturesDBOpenHelper = LecturesDBOpenHelper(context)
-    private val lecturesDatabaseRepository = LecturesDatabaseRepository(lecturesDBOpenHelper)
-
-    private val metaDBOpenHelper = MetaDBOpenHelper(context)
-    private val metaDatabaseRepository = MetaDatabaseRepository(metaDBOpenHelper)
-
-    private val scheduleNetworkRepository = ScheduleNetworkRepository()
-
-    private val sharedPreferencesRepository = SharedPreferencesRepository(context)
+    private fun initializeRepositories() {
+        scheduleNetworkRepository = ScheduleNetworkRepository()
+        sharedPreferencesRepository = SharedPreferencesRepository(context)
+    }
 
     fun loadSchedule(url: String,
                      eTag: String,

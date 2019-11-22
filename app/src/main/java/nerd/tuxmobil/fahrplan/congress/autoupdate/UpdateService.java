@@ -129,7 +129,7 @@ public class UpdateService extends JobIntentService {
             stopSelf();
             return null;
         }, true);
-        appRepository = AppRepository.Companion.getInstance(this);
+        appRepository = AppRepository.INSTANCE;
         connectivityObserver.start();
     }
 
