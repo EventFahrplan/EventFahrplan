@@ -51,6 +51,8 @@ public class AlarmList extends ActionBarListActivity {
 
         setContentView(R.layout.alarms);
 
+        appRepository = AppRepository.INSTANCE;
+
         AlarmsDBOpenHelper alarmsDB = new AlarmsDBOpenHelper(this);
 
         db = alarmsDB.getReadableDatabase();
