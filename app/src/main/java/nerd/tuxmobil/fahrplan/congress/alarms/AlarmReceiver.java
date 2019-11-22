@@ -66,7 +66,7 @@ public final class AlarmReceiver extends BroadcastReceiver {
             MyApp.LogDebug("alarm", "insistent is " + insistent);
             notificationHelper.notify(NotificationHelper.EVENT_ALARM_ID, builder, insistent);
 
-            AppRepository.Companion.getInstance(context).deleteAlarmForEventId(lectureId);
+            AppRepository.INSTANCE.deleteAlarmForEventId(lectureId);
 
             if (MainActivity.getInstance() != null) {
                 MainActivity.getInstance().reloadAlarms();

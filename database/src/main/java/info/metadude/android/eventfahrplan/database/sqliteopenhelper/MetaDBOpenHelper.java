@@ -3,6 +3,7 @@ package info.metadude.android.eventfahrplan.database.sqliteopenhelper;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.support.annotation.NonNull;
 
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable;
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns;
@@ -24,8 +25,8 @@ public class MetaDBOpenHelper extends SQLiteOpenHelper {
                     Columns.DAY_CHANGE_MINUTE + " INTEGER, " +
                     Columns.ETAG + " TEXT);";
 
-    public MetaDBOpenHelper(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    public MetaDBOpenHelper(@NonNull Context context) {
+        super(context.getApplicationContext(), DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override

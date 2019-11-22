@@ -8,7 +8,7 @@ import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
 
 class SharedPreferencesRepository(val context: Context) {
 
-    private val preferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+    private val preferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context.applicationContext)
 
     fun getScheduleLastFetchedAt() =
             preferences.getLong(BundleKeys.PREFS_SCHEDULE_LAST_FETCHED_AT, 0)

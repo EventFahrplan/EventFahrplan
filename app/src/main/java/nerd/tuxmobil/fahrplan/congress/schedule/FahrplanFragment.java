@@ -153,7 +153,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        appRepository = AppRepository.Companion.getInstance(context);
+        appRepository = AppRepository.INSTANCE;
     }
 
     @Override

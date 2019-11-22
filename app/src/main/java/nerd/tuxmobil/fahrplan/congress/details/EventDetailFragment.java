@@ -105,7 +105,7 @@ public class EventDetailFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        appRepository = AppRepository.Companion.getInstance(context);
+        appRepository = AppRepository.INSTANCE;
     }
 
     @Override

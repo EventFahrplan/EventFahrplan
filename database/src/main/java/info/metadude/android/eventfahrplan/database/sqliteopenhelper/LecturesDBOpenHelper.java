@@ -54,7 +54,7 @@ public class LecturesDBOpenHelper extends SQLiteOpenHelper {
                     Columns.CHANGED_IS_CANCELED + " INTEGER)";
 
     public LecturesDBOpenHelper(@NonNull Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        super(context.getApplicationContext(), DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override

@@ -12,9 +12,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.TimeZone;
 
+import nerd.tuxmobil.fahrplan.congress.logging.Logging;
 import nerd.tuxmobil.fahrplan.congress.models.DateInfos;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
 import nerd.tuxmobil.fahrplan.congress.models.Meta;
+import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 import nerd.tuxmobil.fahrplan.congress.utils.ConferenceTimeFrame;
 
 public class MyApp extends Application {
@@ -75,6 +77,10 @@ public class MyApp extends Application {
         app = this;
         task_running = TASKS.NONE;
         lectureList = null;
+        AppRepository.INSTANCE.initialize(
+                getApplicationContext(),
+                Logging.Companion.get()
+        );
     }
 
     private static long getMilliseconds(String timeZoneId, int year, int month, int day) {
