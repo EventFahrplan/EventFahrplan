@@ -33,7 +33,7 @@ object Libs {
         const val emailIntentBuilder = "2.0.0"
         const val espresso = "3.0.2"
         const val junit = "4.12"
-        const val mockito = "2.28.0"
+        const val mockito = "3.2.0"
         const val mockitoKotlin = "2.2.0"
         const val okhttp = "3.12.6"
         const val snackengage = "0.22"
