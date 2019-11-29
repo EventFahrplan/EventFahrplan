@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 
+import kotlin.Unit;
 import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.autoupdate.UpdateService;
 import nerd.tuxmobil.fahrplan.congress.net.ConnectivityObserver;
@@ -27,7 +28,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         connectivityObserver = new ConnectivityObserver(this, () -> {
             Log.d(getClass().getName(), "Network is available.");
             startUpdateService();
-            return null;
+            return Unit.INSTANCE;
         });
         connectivityObserver.start();
     }

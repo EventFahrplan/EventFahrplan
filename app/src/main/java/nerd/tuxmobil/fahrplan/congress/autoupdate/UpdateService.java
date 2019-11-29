@@ -15,6 +15,7 @@ import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
+import kotlin.Unit;
 import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.MyApp.TASKS;
 import nerd.tuxmobil.fahrplan.congress.R;
@@ -104,11 +105,11 @@ public class UpdateService extends JobIntentService {
                         okHttpClient,
                         fetchScheduleResult -> {
                             onGotResponse(fetchScheduleResult);
-                            return null;
+                            return Unit.INSTANCE;
                         },
                         parseScheduleResult -> {
                             onParseDone(parseScheduleResult);
-                            return null;
+                            return Unit.INSTANCE;
                         });
             } catch (KeyManagementException | NoSuchAlgorithmException e) {
                 onGotResponse(FetchScheduleResult.createError(HttpStatus.HTTP_SSL_SETUP_FAILURE, hostName));
@@ -123,11 +124,11 @@ public class UpdateService extends JobIntentService {
         ConnectivityObserver connectivityObserver = new ConnectivityObserver(this, () -> {
             MyApp.LogDebug(LOG_TAG, "Network is available");
             fetchSchedule();
-            return null;
+            return Unit.INSTANCE;
         }, () -> {
             MyApp.LogDebug(LOG_TAG, "Network is not available");
             stopSelf();
-            return null;
+            return Unit.INSTANCE;
         }, true);
         appRepository = AppRepository.INSTANCE;
         connectivityObserver.start();
