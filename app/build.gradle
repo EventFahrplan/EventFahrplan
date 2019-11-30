@@ -31,6 +31,8 @@ android {
         targetSdkVersion Android.targetSdkVersion
         archivesBaseName = "Fahrplan-$versionName"
 
+        vectorDrawables.useSupportLibrary = true
+
         // Build information
         buildConfigField "String", "BUILD_TIME", "\"${buildTime()}\""
         buildConfigField "String", "GIT_SHA", "\"${gitSha()}\""
