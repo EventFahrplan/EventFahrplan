@@ -164,11 +164,18 @@ public class EventDetailFragment extends Fragment {
             // Detailbar
 
             TextView t;
-            t = view.findViewById(R.id.lecture_detailbar_date_time_location);
+            t = view.findViewById(R.id.lecture_detailbar_date_time);
             if (lecture != null && lecture.dateUTC > 0) {
                 DateFormat df = SimpleDateFormat
                         .getDateTimeInstance(SimpleDateFormat.SHORT, SimpleDateFormat.SHORT);
-                t.setText(df.format(new Date(lecture.dateUTC)) + " - " + room);
+                t.setText(df.format(new Date(lecture.dateUTC)));
+            } else {
+                t.setText("");
+            }
+
+            t = view.findViewById(R.id.lecture_detailbar_location);
+            if (t != null) {
+                t.setText(room);
             } else {
                 t.setText("");
             }

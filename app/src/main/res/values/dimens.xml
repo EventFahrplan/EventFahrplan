@@ -68,5 +68,6 @@
     <dimen name="event_detail_title">24sp</dimen>
     <dimen name="event_detail_subtitle">16sp</dimen>
     <dimen name="event_detail_speakers">13sp</dimen>
+    <dimen name="event_detailbar_icon_padding">3dp</dimen>
 
 </resources>

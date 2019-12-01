@@ -42,5 +42,8 @@
     <color name="event_detail_text">
         @android:color/black
     </color>
+    <color name="event_detailbar_icon">
+        @color/colorAccent
+    </color>
 
 </resources>
