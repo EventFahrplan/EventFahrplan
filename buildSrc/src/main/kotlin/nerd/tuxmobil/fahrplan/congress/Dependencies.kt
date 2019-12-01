@@ -9,7 +9,7 @@ object Android {
     const val targetSdkVersion = 28
 }
 
-private const val kotlinVersion = "1.3.50"
+private const val kotlinVersion = "1.3.61"
 
 object GradlePlugins {
 
@@ -30,12 +30,12 @@ object Libs {
     private object Versions {
         const val assertjAndroid = "1.2.0"
         const val constraintLayout = "1.1.3"
-        const val emailIntentBuilder = "1.0.0"
+        const val emailIntentBuilder = "2.0.0"
         const val espresso = "3.0.2"
         const val junit = "4.12"
-        const val mockito = "2.28.0"
+        const val mockito = "3.2.0"
         const val mockitoKotlin = "2.2.0"
-        const val okhttp = "3.12.5"
+        const val okhttp = "3.12.6"
         const val snackengage = "0.22"
         const val supportLibrary = "28.0.0"
         const val testRules = "1.0.2"
