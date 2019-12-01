@@ -263,11 +263,11 @@ public class MainActivity extends BaseActivity implements
                         okHttpClient,
                         fetchScheduleResult -> {
                             onGotResponse(fetchScheduleResult);
-                            return null;
+                            return Unit.INSTANCE;
                         },
                         parseScheduleResult -> {
                             onParseDone(parseScheduleResult);
-                            return null;
+                            return Unit.INSTANCE;
                         });
             } catch (KeyManagementException | NoSuchAlgorithmException e) {
                 onGotResponse(FetchScheduleResult.createError(HttpStatus.HTTP_SSL_SETUP_FAILURE, hostName));

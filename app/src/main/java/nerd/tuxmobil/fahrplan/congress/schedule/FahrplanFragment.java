@@ -46,6 +46,7 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import kotlin.Unit;
 import nerd.tuxmobil.fahrplan.congress.BuildConfig;
 import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.R;
@@ -333,7 +334,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
         }
         MainActivity.getInstance().shouldScheduleScrollToCurrentTimeSlot(() -> {
             scrollToCurrent(mDay, boxHeight);
-            return null;
+            return Unit.INSTANCE;
         });
         updateNavigationMenuSelection();
     }
