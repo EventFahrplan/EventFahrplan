@@ -11,8 +11,6 @@ import android.support.v4.app.JobIntentService;
 import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
 
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import kotlin.Unit;
@@ -97,23 +95,17 @@ public class UpdateService extends JobIntentService {
         if (MyApp.task_running == TASKS.NONE) {
             MyApp.task_running = TASKS.FETCH;
             String url = appRepository.readScheduleUrl();
-            String hostName = CustomHttpClient.getHostName(url);
-            OkHttpClient okHttpClient;
-            try {
-                okHttpClient = CustomHttpClient.createHttpClient(hostName);
-                appRepository.loadSchedule(url, MyApp.meta.getETag(),
-                        okHttpClient,
-                        fetchScheduleResult -> {
-                            onGotResponse(fetchScheduleResult);
-                            return Unit.INSTANCE;
-                        },
-                        parseScheduleResult -> {
-                            onParseDone(parseScheduleResult);
-                            return Unit.INSTANCE;
-                        });
-            } catch (KeyManagementException | NoSuchAlgorithmException e) {
-                onGotResponse(FetchScheduleResult.createError(HttpStatus.HTTP_SSL_SETUP_FAILURE, hostName));
-            }
+            OkHttpClient okHttpClient = CustomHttpClient.createHttpClient();
+            appRepository.loadSchedule(url, MyApp.meta.getETag(),
+                    okHttpClient,
+                    fetchScheduleResult -> {
+                        onGotResponse(fetchScheduleResult);
+                        return Unit.INSTANCE;
+                    },
+                    parseScheduleResult -> {
+                        onParseDone(parseScheduleResult);
+                        return Unit.INSTANCE;
+                    });
         } else {
             MyApp.LogDebug(LOG_TAG, "Fetching already in progress.");
         }
