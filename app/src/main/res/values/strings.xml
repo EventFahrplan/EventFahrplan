@@ -27,7 +27,7 @@
     <!-- CertificateDialog -->
     <string name="dlg_certificate_message_fmt">
         Failed to establish secure connection.\n
-        (<xliff:g id="error" example="Unknown Error">%s</xliff:g>)
+        (<xliff:g example="Unknown Error" id="error">%s</xliff:g>)
     </string>
     <string name="dlg_invalid_certificate_title">Trust unknown certificate?</string>
     <string name="dlg_invalid_certificate_could_not_apply">Certificate could not be added.</string>
@@ -47,8 +47,8 @@
     <!-- Schedule changes dialog -->
     <string name="schedule_changes_dialog_title">Schedule update</string>
     <string name="schedule_changes_dialog_updated_to_text">The schedule has been updated to\u0020</string>
-    <string name="schedule_changes_dialog_changed_new_cancelled_text">. There are changes in <xliff:g id="num_changes" example="3 lectures">%1$s</xliff:g>, <xliff:g id="num_new" example="2 are">%2$s</xliff:g> new, <xliff:g id="num_canceled" example="1 is">%3$s</xliff:g> cancelled.</string>
-    <string name="schedule_changes_dialog_affected_text">The changes affect <xliff:g id="num_marked" example="2">%1$d</xliff:g> of your favored lectures.</string>
+    <string name="schedule_changes_dialog_changed_new_cancelled_text">. There are changes in <xliff:g example="3 lectures" id="num_changes">%1$s</xliff:g>, <xliff:g example="2 are" id="num_new">%2$s</xliff:g> new, <xliff:g example="1 is" id="num_canceled">%3$s</xliff:g> cancelled.</string>
+    <string name="schedule_changes_dialog_affected_text">The changes affect <xliff:g example="2" id="num_marked">%1$d</xliff:g> of your favored lectures.</string>
     <plurals name="schedule_changes_dialog_number_of_lectures">
         <item quantity="one">%d lecture</item>
         <item quantity="other">%d lectures</item>
@@ -68,7 +68,7 @@
     <string name="fahrplan">Schedule</string>
     <string name="appVersion">App Version %s</string>
     <string name="schedule_updated_to">
-        Updated to <xliff:g id="version" example="Mildenberg 2018-01-16 16:50">%s</xliff:g>
+        Updated to <xliff:g example="Mildenberg 2018-01-16 16:50" id="version">%s</xliff:g>
     </string>
     <string name="schedule_updated">
         The schedule has been updated.
@@ -85,7 +85,7 @@
     <string name="reminder_ringtone">Alarm tone</string>
     <string name="insistent_alarm">Insistent alarm</string>
     <string name="usage">Note:\n\nLong-press on a lecture to set an alarm.</string>
-	<string name="libraries">
+    <string name="libraries">
 		This application uses the following libraries:
 		Kotlin, Google Support Library, Email Intent Builder,
 		Espresso, OkHttp, SnackEngage, TraceDroid
@@ -99,14 +99,14 @@
         \nContributions from Adriano Pereira Junior, Akarsh Seggemu, Andrea Marziali, Andy Scherzinger, Andreas Schildbach, Animesh Verma, bashtian, bjoernb, ButterflyOfFire, cacarrara, Caio Volpato, cketti, codingcatgirl, entropynil, koelnkalkverbot, ligi, Mateus Baptista, MichaelRocks, Noemis, Poschi, Sjors van Mierlo, Stefan Medack, SubOptimal, Torsten Grote, Victor Herasme, Vladimir Alabov, Yanicka.
         \nPortions Copyright 2008-2011 The K-9 Dog Walkers and 2006-2013 the Android Open Source Project.
     </string>
-	<string name="issues">
+    <string name="issues">
 		<![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan/issues">Issues or feature requests</a>]]>
 	</string>
     <string name="today">today</string>
     <string name="pref_auto_download">Automatic updates</string>
     <string name="parsing_error_generic">Unknown error while parsing schedule</string>
     <string name="parsing_error_with_version">Parsing error for schedule version %s</string>
-	<string name="alarms_empty">
+    <string name="alarms_empty">
 		There are no alarms to display. Please note that you
 		can set up individual alarms for each item in the schedule.
 		Just press the alarm icon in the action bar.
@@ -122,8 +122,8 @@
     <string name="schedule_url">Alternative schedule URL</string>
     <string name="invalid_url">Invalid URL</string>
     <string name="choose_to_delete">Select lectures</string>
-    <string name="day_separator">Day <xliff:g id="day_of_congress" example="2">%1$d</xliff:g> - <xliff:g id="date_of_congress_day" example="29.12.2014">%2$s</xliff:g></string>
-    <string name="event_duration"><xliff:g id="duration" example="45">%1$d</xliff:g> min.</string>
+    <string name="day_separator">Day <xliff:g example="2" id="day_of_congress">%1$d</xliff:g> - <xliff:g example="29.12.2014" id="date_of_congress_day">%2$s</xliff:g></string>
+    <string name="event_duration"><xliff:g example="45" id="duration">%1$d</xliff:g> min.</string>
     <string name="alternative_highlight">Alternative highlighting</string>
     <string name="dlg_delete_all_favorites">Delete all favorites?</string>
     <string name="dlg_delete_all_favorites_delete_all">Delete all</string>
@@ -132,13 +132,13 @@
 
     <!-- Build information -->
     <string name="build_info_time">
-        Build time: <xliff:g id="build_time" example="2015-12-27T13:42Z">%s</xliff:g>
+        Build time: <xliff:g example="2015-12-27T13:42Z" id="build_time">%s</xliff:g>
     </string>
     <string name="build_info_version_code">
-        Version code: <xliff:g id="version_code" example="42">%s</xliff:g>
+        Version code: <xliff:g example="42" id="version_code">%s</xliff:g>
     </string>
     <string name="build_info_hash">
-        Version hash: <xliff:g id="build_hash" example="e1f2g3h-dirty">%s</xliff:g>
+        Version hash: <xliff:g example="e1f2g3h-dirty" id="build_hash">%s</xliff:g>
     </string>
 
     <!-- App disclaimer -->
@@ -163,10 +163,10 @@
 
     <!-- TraceDroid -->
     <string name="trace_droid_dialog_title">
-        Send <xliff:g id="appName" example="33C3 Schedule">%s</xliff:g> crash report &#8230;
+        Send <xliff:g example="33C3 Schedule" id="appName">%s</xliff:g> crash report &#8230;
     </string>
     <string name="trace_droid_dialog_message">
-        A problem with the <xliff:g id="appName" example="33C3 Schedule">%s</xliff:g> app has
+        A problem with the <xliff:g example="33C3 Schedule" id="appName">%s</xliff:g> app has
         been detected. It would be helpful if you could submit a crash report
         so the source of the problem can be identified.
     </string>
@@ -198,13 +198,13 @@
     </string>
     <string name="notifications_schedule_update_channel_name">Schedule updates</string>
     <plurals name="notifications_schedule_changes">
-        <item quantity="one"><xliff:g id="count" example="1">%d</xliff:g> lecture has changed.</item>
-        <item quantity="other"><xliff:g id="count" example="3">%d</xliff:g> lectures have been changed.</item>
+        <item quantity="one"><xliff:g example="1" id="count">%d</xliff:g> lecture has changed.</item>
+        <item quantity="other"><xliff:g example="3" id="count">%d</xliff:g> lectures have been changed.</item>
     </plurals>
 
     <!-- Preferences -->
-    <string name="preferences_reminder_tone_default_value" translatable="false"/>
-    <string name="preferences_schedule_url_default_value" translatable="false"/>
+    <string name="preferences_reminder_tone_default_value" translatable="false" />
+    <string name="preferences_schedule_url_default_value" translatable="false" />
 
     <!-- Alarm time picker -->
     <string name="alarm_time_title_at_start_time">at start time</string>
@@ -221,7 +221,7 @@
     <string name="lecture_list_item_language_german_content_description">German</string>
     <string name="lecture_list_item_language_english_content_description">English</string>
     <string name="lecture_list_item_language_unknown_content_description">Language unknown</string>
-    <string name="lecture_list_item_language_undefined_content_description">Language: <xliff:g id="language_abbreviation" example="es">%s</xliff:g></string>
+    <string name="lecture_list_item_language_undefined_content_description">Language: <xliff:g example="es" id="language_abbreviation">%s</xliff:g></string>
     <string name="lecture_list_item_language_removed_content_description">Language information has been removed</string>
     <string name="lecture_list_item_no_video_content_description">Without video recording</string>
     <string name="lecture_list_item_video_content_description">With video recording</string>

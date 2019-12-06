@@ -3,9 +3,9 @@
     <string name="alarm_time_title_at_start_time">à l’heure de début</string>
     <plurals name="notifications_schedule_changes">
         <item quantity="one">
-            <xliff:g id="count" example="1">%d</xliff:g> conférence a été modifiée.</item>
+            <xliff:g example="1" id="count">%d</xliff:g> conférence a été modifiée.</item>
         <item quantity="other">
-            <xliff:g id="count" example="3">%d</xliff:g> conférences ont été modifiées.</item>
+            <xliff:g example="3" id="count">%d</xliff:g> conférences ont été modifiées.</item>
     </plurals>
     <string name="notifications_event_alarm_channel_description">Rappels créés par l’utilisateur·rice pour divers événements.</string>
     <string name="snack_engage_google_play_beta_testing_title">Utilisateur·rice avancé·e \?</string>
@@ -22,8 +22,8 @@
         <item quantity="one">%d conférence</item>
         <item quantity="other">%d conférences</item>
     </plurals>
-    <string name="schedule_changes_dialog_affected_text">Les modifications affectent <xliff:g id="num_marked" example="2">%1$d</xliff:g> de vos conférences favorites.</string>
-    <string name="schedule_changes_dialog_changed_new_cancelled_text">. Il y a eu des changements dans <xliff:g id="num_changes" example="3 lectures">%1$s</xliff:g>, <xliff:g id="num_new" example="2 are">%2$s</xliff:g> nouvelle(s), <xliff:g id="num_canceled" example="1 is">%3$s</xliff:g> annulée(s).</string>
+    <string name="schedule_changes_dialog_affected_text">Les modifications affectent <xliff:g example="2" id="num_marked">%1$d</xliff:g> de vos conférences favorites.</string>
+    <string name="schedule_changes_dialog_changed_new_cancelled_text">. Il y a eu des changements dans <xliff:g example="3 lectures" id="num_changes">%1$s</xliff:g>, <xliff:g example="2 are" id="num_new">%2$s</xliff:g> nouvelle(s), <xliff:g example="1 is" id="num_canceled">%3$s</xliff:g> annulée(s).</string>
     <string name="dlg_err_failed_ssl_failure">Échec SSL</string>
     <string name="dlg_err_failed_wrong_http_credentials">Authentification HTTP non valide</string>
     <string name="dlg_err_failed_unknown_host">Adresse inconnue :
@@ -56,13 +56,13 @@
     <string name="snack_engage_google_play_beta_testing_action">Devenir bêta-testeur</string>
     <string name="snack_engage_rate_action">Notez l’app</string>
     <string name="snack_engage_rate_title">Tout va bien \?</string>
-    <string name="build_info_version_code"> Code de la version : <xliff:g id="version_code" example="42">%s</xliff:g>
+    <string name="build_info_version_code"> Code de la version : <xliff:g example="42" id="version_code">%s</xliff:g>
     </string>
     <string name="dlg_delete_all_favorites_delete_all">Tout supprimer</string>
     <string name="dlg_delete_all_favorites">Supprimer tous les favoris \?</string>
     <string name="event_duration">
-        <xliff:g id="duration" example="45">%1$d</xliff:g> min.</string>
-    <string name="day_separator">Jour <xliff:g id="day_of_congress" example="2">%1$d</xliff:g> - <xliff:g id="date_of_congress_day" example="29.12.2014">%2$s</xliff:g>
+        <xliff:g example="45" id="duration">%1$d</xliff:g> min.</string>
+    <string name="day_separator">Jour <xliff:g example="2" id="day_of_congress">%1$d</xliff:g> - <xliff:g example="29.12.2014" id="date_of_congress_day">%2$s</xliff:g>
     </string>
     <string name="choose_to_delete">Sélectionnez des conférences</string>
     <string name="invalid_url">URL invalide</string>
@@ -96,12 +96,12 @@
     <string name="dlg_err_failed_connect_failure">Échec lors de la connexion pour des raisons inconnues</string>
     <string name="notifications_schedule_update_channel_description">Les mises à jour automatiques du programme peuvent être configurées via les paramètres de l’application.</string>
     <string name="trace_droid_button_title_send">Ouvrir la messagerie</string>
-    <string name="trace_droid_dialog_message"> Un problème avec l’application <xliff:g id="appName" example="33C3 Schedule">%s</xliff:g> a été détecté. Il serait utile si vous pouviez envoyer un rapport de crash afin que la source du problème soit identifié. </string>
+    <string name="trace_droid_dialog_message"> Un problème avec l’application <xliff:g example="33C3 Schedule" id="appName">%s</xliff:g> a été détecté. Il serait utile si vous pouviez envoyer un rapport de crash afin que la source du problème soit identifié. </string>
     <string name="snack_engage_c3nav_title">La navigation interne au 35C3 ! Avec l’application c3nav</string>
     <string name="app_disclaimer">Cette application est basée sur le code source de l’application « EventFahrplan ». Les visiteurs du congrès annuel et du camp organisé par le Chaos Computer Club utilisent cette application pour garder une trace du programme de l’événement.</string>
-    <string name="build_info_hash"> Hash de la version : <xliff:g id="build_hash" example="e1f2g3h-dirty">%s</xliff:g>
+    <string name="build_info_hash"> Hash de la version : <xliff:g example="e1f2g3h-dirty" id="build_hash">%s</xliff:g>
     </string>
-    <string name="build_info_time"> Temps de construction : <xliff:g id="build_time" example="2015-12-27T13:42Z">%s</xliff:g>
+    <string name="build_info_time"> Temps de construction : <xliff:g example="2015-12-27T13:42Z" id="build_time">%s</xliff:g>
     </string>
     <string name="alternative_highlight">Mise en évidence alternative</string>
     <string name="add_to_calendar_failed">L’ajout de l’évènement au calendrier a échoué.</string>
@@ -110,17 +110,17 @@
     <string name="usage">Note :
 \n
 \nAppuyez longuement sur une conférence pour définir un rappel.</string>
-    <string name="schedule_updated_to"> Mis à jour vers <xliff:g id="version" example="Mildenberg 2018-01-16 16:50">%s</xliff:g>
+    <string name="schedule_updated_to"> Mis à jour vers <xliff:g example="Mildenberg 2018-01-16 16:50" id="version">%s</xliff:g>
     </string>
     <string name="schedule_changes_dialog_title">Mise à jour du programme</string>
     <string name="dlg_err_failed_parse_failure">Impossible d’analyser la réponse</string>
     <string name="dlg_err_failed_timeout">Serveur ne répond pas (délai d’attente dépassé).</string>
     <string name="dlg_certificate_message_fmt"> Échec lors de l’établissement d’une connexion sécurisée.
-\n (<xliff:g id="error" example="Unknown Error">%s</xliff:g>) </string>
+\n (<xliff:g example="Unknown Error" id="error">%s</xliff:g>) </string>
     <string name="menu_item_title_set_alarm">Réglage du rappel</string>
     <string name="menu_item_title_close_event_details">Fermer les détails de l’évènement</string>
     <string name="notifications_schedule_update_channel_name">Changements dans le programme</string>
-    <string name="trace_droid_dialog_title"> Envoi du rapport de crash du programme <xliff:g id="appName" example="33C3 Schedule">%s</xliff:g> … </string>
+    <string name="trace_droid_dialog_title"> Envoi du rapport de crash du programme <xliff:g example="33C3 Schedule" id="appName">%s</xliff:g> … </string>
     <string name="schedule_url">URL alternative du programme</string>
     <string name="schedule_changes">Changements du programme</string>
     <string name="no_changes">Aucun changement dans le programme</string>

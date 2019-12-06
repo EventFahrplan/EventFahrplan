@@ -27,7 +27,7 @@
     <!-- CertificateDialog -->
     <string name="dlg_certificate_message_fmt">
         Kan geen veilige verbinding tot stand brengen.\n
-        (<xliff:g id="error" example="Onbekende error">%s</xliff:g>)
+        (<xliff:g example="Onbekende error" id="error">%s</xliff:g>)
     </string>
     <string name="dlg_invalid_certificate_title">Onbekend certificaat vertrouwen?</string>
     <string name="dlg_invalid_certificate_could_not_apply">Certificaat kon niet worden toegevoegd.</string>
@@ -47,8 +47,8 @@
     <!-- Schedule changes dialog -->
     <string name="schedule_changes_dialog_title">Tijdschema update</string>
     <string name="schedule_changes_dialog_updated_to_text">Tijdschema is geupdate naar versie\u0020</string>
-    <string name="schedule_changes_dialog_changed_new_cancelled_text">. Er zijn updates voor <xliff:g id="num_changes" example="3 evenementen">%1$s</xliff:g>, <xliff:g id="num_new" example="2 zijn">%2$s</xliff:g> nieuw, <xliff:g id="num_canceled" example="1 is">%3$s</xliff:g> geannuleerd.</string>
-    <string name="schedule_changes_dialog_affected_text">De update betreft <xliff:g id="num_marked" example="2">%1$d</xliff:g> van uw favorieten evenementen.</string>
+    <string name="schedule_changes_dialog_changed_new_cancelled_text">. Er zijn updates voor <xliff:g example="3 evenementen" id="num_changes">%1$s</xliff:g>, <xliff:g example="2 zijn" id="num_new">%2$s</xliff:g> nieuw, <xliff:g example="1 is" id="num_canceled">%3$s</xliff:g> geannuleerd.</string>
+    <string name="schedule_changes_dialog_affected_text">De update betreft <xliff:g example="2" id="num_marked">%1$d</xliff:g> van uw favorieten evenementen.</string>
     <plurals name="schedule_changes_dialog_number_of_lectures">
         <item quantity="one">%d evenement</item>
         <item quantity="other">%d evenementen</item>
@@ -68,7 +68,7 @@
     <string name="fahrplan">Tijdschema</string>
     <string name="appVersion">App Versie %s</string>
     <string name="schedule_updated_to">
-        Aangepast naar <xliff:g id="version" example="Mildenberg 2018-01-16 16:50">%s</xliff:g>
+        Aangepast naar <xliff:g example="Mildenberg 2018-01-16 16:50" id="version">%s</xliff:g>
     </string>
     <string name="schedule_updated">
         Tijdschema is bijgewerkt.
@@ -113,8 +113,8 @@
     <string name="invalid_url">Ongeldige URL</string>
     <string name="no_favorites">Geen favorieten evenementen</string>
     <string name="choose_to_delete">Kies evenementen</string>
-    <string name="day_separator">Dag <xliff:g id="day_of_congress" example="2">%1$d</xliff:g> - <xliff:g id="date_of_congress_day" example="29.12.2014">%2$s</xliff:g></string>
-    <string name="event_duration"><xliff:g id="duration" example="45">%1$d</xliff:g> min.</string>
+    <string name="day_separator">Dag <xliff:g example="2" id="day_of_congress">%1$d</xliff:g> - <xliff:g example="29.12.2014" id="date_of_congress_day">%2$s</xliff:g></string>
+    <string name="event_duration"><xliff:g example="45" id="duration">%1$d</xliff:g> min.</string>
     <string name="alternative_highlight">Alternatieve markering</string>
     <string name="dlg_delete_all_favorites">Alle favorieten verwijderen?</string>
     <string name="dlg_delete_all_favorites_delete_all">Alles verwijderen</string>
@@ -123,13 +123,13 @@
 
     <!-- Build information -->
     <string name="build_info_time">
-        Build-tijd: <xliff:g id="build_time" example="2015-12-27T13:42Z">%s</xliff:g>
+        Build-tijd: <xliff:g example="2015-12-27T13:42Z" id="build_time">%s</xliff:g>
     </string>
     <string name="build_info_version_code">
-        Versie-Code: <xliff:g id="version_code" example="42">%s</xliff:g>
+        Versie-Code: <xliff:g example="42" id="version_code">%s</xliff:g>
     </string>
     <string name="build_info_hash">
-        Versie-Hash: <xliff:g id="build_hash" example="e1f2g3h-dirty">%s</xliff:g>
+        Versie-Hash: <xliff:g example="e1f2g3h-dirty" id="build_hash">%s</xliff:g>
     </string>
 
     <!-- App disclaimer -->
@@ -149,10 +149,10 @@
 
     <!-- TraceDroid -->
     <string name="trace_droid_dialog_title">
-        <xliff:g id="appName" example="33C3 Fahrplan">%s</xliff:g> crash-rapport versturen &#8230;
+        <xliff:g example="33C3 Fahrplan" id="appName">%s</xliff:g> crash-rapport versturen &#8230;
     </string>
     <string name="trace_droid_dialog_message">
-        Er is een probleem opgetreden met de app <xliff:g id="appName" example="33C3 Fahrplan">%s</xliff:g>.
+        Er is een probleem opgetreden met de app <xliff:g example="33C3 Fahrplan" id="appName">%s</xliff:g>.
         Het zou help vol zijn als u het crash-rapport zou kunnen delen,
         zodat we er alles aan kunnen doen om het probleem op te lossen.
     </string>
@@ -184,8 +184,8 @@
     </string>
     <string name="notifications_schedule_update_channel_name">Tijschema veranderingen</string>
     <plurals name="notifications_schedule_changes">
-        <item quantity="one"><xliff:g id="count" example="1">%d</xliff:g> evenement is aangepast.</item>
-        <item quantity="other"><xliff:g id="count" example="3">%d</xliff:g> evenementen zijn aangepast.</item>
+        <item quantity="one"><xliff:g example="1" id="count">%d</xliff:g> evenement is aangepast.</item>
+        <item quantity="other"><xliff:g example="3" id="count">%d</xliff:g> evenementen zijn aangepast.</item>
     </plurals>
 
     <!-- Alarm time picker -->
@@ -202,7 +202,7 @@
     <string name="lecture_list_item_language_german_content_description">Duits</string>
     <string name="lecture_list_item_language_english_content_description">Engels</string>
     <string name="lecture_list_item_language_unknown_content_description">Onbekende taal</string>
-    <string name="lecture_list_item_language_undefined_content_description">Taal: <xliff:g id="language_abbreviation" example="es">%s</xliff:g></string>
+    <string name="lecture_list_item_language_undefined_content_description">Taal: <xliff:g example="es" id="language_abbreviation">%s</xliff:g></string>
     <string name="lecture_list_item_language_removed_content_description">Taal informatie is verwijderd</string>
     <string name="lecture_list_item_no_video_content_description">Geen video-opname</string>
     <string name="lecture_list_item_video_content_description">Met video-opname</string>
