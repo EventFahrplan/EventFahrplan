@@ -19,6 +19,7 @@ import nerd.tuxmobil.fahrplan.congress.models.Alarm
 import nerd.tuxmobil.fahrplan.congress.models.Lecture
 import nerd.tuxmobil.fahrplan.congress.models.Meta
 import nerd.tuxmobil.fahrplan.congress.net.FetchScheduleResult
+import nerd.tuxmobil.fahrplan.congress.net.ParseResult
 import nerd.tuxmobil.fahrplan.congress.net.ParseScheduleResult
 import nerd.tuxmobil.fahrplan.congress.preferences.SharedPreferencesRepository
 import nerd.tuxmobil.fahrplan.congress.serialization.ScheduleChanges
@@ -65,7 +66,7 @@ object AppRepository {
                      eTag: String,
                      okHttpClient: OkHttpClient,
                      onFetchingDone: (fetchScheduleResult: FetchScheduleResult) -> Unit,
-                     onParsingDone: (parseScheduleResult: ParseScheduleResult) -> Unit
+                     onParsingDone: (parseScheduleResult: ParseResult) -> Unit
     ) {
         check(onFetchingDone != {}) { "Nobody registered to receive FetchScheduleResult." }
         // Fetching
@@ -83,7 +84,7 @@ object AppRepository {
 
     private fun parseSchedule(scheduleXml: String,
                               eTag: String,
-                              onParsingDone: (parseScheduleResult: ParseScheduleResult) -> Unit) {
+                              onParsingDone: (parseScheduleResult: ParseResult) -> Unit) {
         scheduleNetworkRepository.parseSchedule(scheduleXml, eTag,
                 onUpdateLectures = { lectures ->
                     val oldLectures = loadLecturesForAllDays()

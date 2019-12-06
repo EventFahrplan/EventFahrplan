@@ -53,6 +53,7 @@ import nerd.tuxmobil.fahrplan.congress.net.CertificateDialogFragment;
 import nerd.tuxmobil.fahrplan.congress.net.CustomHttpClient;
 import nerd.tuxmobil.fahrplan.congress.net.FetchScheduleResult;
 import nerd.tuxmobil.fahrplan.congress.net.HttpStatus;
+import nerd.tuxmobil.fahrplan.congress.net.ParseResult;
 import nerd.tuxmobil.fahrplan.congress.net.ParseScheduleResult;
 import nerd.tuxmobil.fahrplan.congress.reporting.TraceDroidEmailSender;
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
@@ -198,8 +199,10 @@ public class MainActivity extends BaseActivity implements
         CustomHttpClient.showHttpError(this, status, hostName);
     }
 
-    public void onParseDone(@NonNull ParseScheduleResult result) {
-        MyApp.LogDebug(LOG_TAG, "parseDone: " + result.isSuccess() + " , numDays=" + MyApp.meta.getNumDays());
+    public void onParseDone(@NonNull ParseResult result) {
+        if (result instanceof ParseScheduleResult) {
+            MyApp.LogDebug(LOG_TAG, "Parsing schedule done successfully: " + result.isSuccess() + " , numDays=" + MyApp.meta.getNumDays());
+        }
         MyApp.task_running = TASKS.NONE;
         MyApp.fahrplan_xml = null;
 

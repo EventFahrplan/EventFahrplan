@@ -22,6 +22,7 @@ import nerd.tuxmobil.fahrplan.congress.net.ConnectivityObserver;
 import nerd.tuxmobil.fahrplan.congress.net.CustomHttpClient;
 import nerd.tuxmobil.fahrplan.congress.net.FetchScheduleResult;
 import nerd.tuxmobil.fahrplan.congress.net.HttpStatus;
+import nerd.tuxmobil.fahrplan.congress.net.ParseResult;
 import nerd.tuxmobil.fahrplan.congress.net.ParseScheduleResult;
 import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper;
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
@@ -37,13 +38,13 @@ public class UpdateService extends JobIntentService {
 
     private AppRepository appRepository;
 
-    public void onParseDone(@NonNull ParseScheduleResult result) {
+    public void onParseDone(@NonNull ParseResult result) {
         MyApp.LogDebug(LOG_TAG, "parseDone: " + result.isSuccess() + " , numDays=" + MyApp.meta.getNumDays());
         MyApp.task_running = TASKS.NONE;
         MyApp.fahrplan_xml = null;
         List<Lecture> changesList = FahrplanMisc.readChanges(appRepository);
-        if (!changesList.isEmpty()) {
-            showScheduleUpdateNotification(result.getVersion(), changesList.size());
+        if (!changesList.isEmpty() && result instanceof ParseScheduleResult) {
+            showScheduleUpdateNotification(((ParseScheduleResult) result).getVersion(), changesList.size());
         }
         MyApp.LogDebug(LOG_TAG, "background update complete");
         stopSelf();

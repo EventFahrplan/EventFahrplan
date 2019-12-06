@@ -2,7 +2,7 @@ package nerd.tuxmobil.fahrplan.congress.net
 
 data class ParseScheduleResult(
 
-        val isSuccess: Boolean,
+        override val isSuccess: Boolean,
         val version: String
 
-)
+) : ParseResult

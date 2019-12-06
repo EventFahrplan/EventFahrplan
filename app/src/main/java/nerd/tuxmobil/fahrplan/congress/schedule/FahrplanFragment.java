@@ -56,6 +56,7 @@ import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.extensions.Contexts;
 import nerd.tuxmobil.fahrplan.congress.models.Alarm;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
+import nerd.tuxmobil.fahrplan.congress.net.ParseResult;
 import nerd.tuxmobil.fahrplan.congress.net.ParseScheduleResult;
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 import nerd.tuxmobil.fahrplan.congress.sharing.LectureSharer;
@@ -820,10 +821,13 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
         actionBar.setListNavigationCallbacks(arrayAdapter, new OnDaySelectedListener());
     }
 
-    public void onParseDone(@NonNull ParseScheduleResult result) {
+    public void onParseDone(@NonNull ParseResult result) {
         Activity activity = requireActivity();
         if (result.isSuccess()) {
-            if (MyApp.meta.getNumDays() == 0 || !result.getVersion().equals(MyApp.meta.getVersion())) {
+            if (MyApp.meta.getNumDays() == 0
+                    || (result instanceof ParseScheduleResult
+                    && !((ParseScheduleResult) result).getVersion().equals(MyApp.meta.getVersion()))
+            ) {
                 MyApp.meta = appRepository.readMeta();
                 FahrplanMisc.loadDays(appRepository);
                 if (MyApp.meta.getNumDays() > 1) {
@@ -840,20 +844,27 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
                 viewDay(false);
             }
         } else {
-            Toast.makeText(
-                    activity,
-                    getParsingErrorMessage(result.getVersion()),
-                    Toast.LENGTH_LONG).show();
+            String message = getParsingErrorMessage(result);
+            MyApp.LogDebug(getClass().getName(), message);
+            Toast.makeText(activity, message, Toast.LENGTH_LONG).show();
         }
         activity.invalidateOptionsMenu();
     }
 
-    private String getParsingErrorMessage(final String version) {
-        if (version == null || version.length() < 1) {
-            return getString(R.string.schedule_parsing_error_generic);
-        } else {
-            return getString(R.string.schedule_parsing_error_with_version, version);
+    private String getParsingErrorMessage(@NonNull ParseResult parseResult) {
+        String message = "";
+        if (parseResult instanceof ParseScheduleResult) {
+            String version = ((ParseScheduleResult) parseResult).getVersion();
+            if (version.isEmpty()) {
+                message = getString(R.string.schedule_parsing_error_generic);
+            } else {
+                message = getString(R.string.schedule_parsing_error_with_version, version);
+            }
         }
+        if (message.isEmpty()) {
+            throw new IllegalStateException("Unknown parsing result: " + parseResult);
+        }
+        return message;
     }
 
     @Override
