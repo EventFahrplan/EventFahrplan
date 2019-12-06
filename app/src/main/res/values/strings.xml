@@ -104,8 +104,8 @@
 	</string>
     <string name="today">today</string>
     <string name="pref_auto_download">Automatic updates</string>
-    <string name="parsing_error_generic">Unknown error while parsing schedule</string>
-    <string name="parsing_error_with_version">Parsing error for schedule version %s</string>
+    <string name="schedule_parsing_error_generic">Unknown error while parsing schedule</string>
+    <string name="schedule_parsing_error_with_version">Parsing error for schedule version %s</string>
     <string name="alarms_empty">
 		There are no alarms to display. Please note that you
 		can set up individual alarms for each item in the schedule.

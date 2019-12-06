@@ -96,8 +96,8 @@
 	</string>
     <string name="today">heute</string>
     <string name="pref_auto_download">Automatische Aktualisierung</string>
-    <string name="parsing_error_generic">Unbekannter Fehler beim Parsen des Fahrplans</string>
-    <string name="parsing_error_with_version">Fehler beim Parsen der Fahrplan-Version %s</string>
+    <string name="schedule_parsing_error_generic">Unbekannter Fehler beim Parsen des Fahrplans</string>
+    <string name="schedule_parsing_error_with_version">Fehler beim Parsen der Fahrplan-Version %s</string>
     <string name="alarms_empty">
 		Aktuell sind keine Alarme gespeichert. Im Fahrplan
 		kannst du über das entsprechende Symbol in der ActionBar

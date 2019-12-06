@@ -92,7 +92,7 @@
     <string name="menu_item_title_alarms">Rappels</string>
     <string name="menu_item_title_add_to_calendar">Ajouter au programme</string>
     <string name="menu_item_title_about">Info</string>
-    <string name="parsing_error_with_version">Analyse de l’erreur pour le programme version %s</string>
+    <string name="schedule_parsing_error_with_version">Analyse de l’erreur pour le programme version %s</string>
     <string name="dlg_err_failed_connect_failure">Échec lors de la connexion pour des raisons inconnues</string>
     <string name="notifications_schedule_update_channel_description">Les mises à jour automatiques du programme peuvent être configurées via les paramètres de l’application.</string>
     <string name="trace_droid_button_title_send">Ouvrir la messagerie</string>
@@ -124,7 +124,7 @@
     <string name="schedule_url">URL alternative du programme</string>
     <string name="schedule_changes">Changements du programme</string>
     <string name="no_changes">Aucun changement dans le programme</string>
-    <string name="parsing_error_generic">Erreur inconnue lors de l’analyse du programme</string>
+    <string name="schedule_parsing_error_generic">Erreur inconnue lors de l’analyse du programme</string>
     <string name="schedule_updated">Le programme a été mis à jour.</string>
     <string name="progress_processing_data">Traitement du programme …</string>
     <string name="schedule_changes_dialog_updated_to_text">"Le programme a été mis à jour "</string>

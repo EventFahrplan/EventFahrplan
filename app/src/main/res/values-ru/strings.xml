@@ -100,8 +100,8 @@
     </string>
     <string name="today">сегодня</string>
     <string name="pref_auto_download">Автоматические обновления</string>
-    <string name="parsing_error_generic">Неизвестная ошибка при разборе расписания</string>
-    <string name="parsing_error_with_version">Ошибка разбора для версии расписания %s</string>
+    <string name="schedule_parsing_error_generic">Неизвестная ошибка при разборе расписания</string>
+    <string name="schedule_parsing_error_with_version">Ошибка разбора для версии расписания %s</string>
     <string name="alarms_empty">
         Нет напоминаний. Пожалуйста, обратите внимание, что вы
         можете настроить индивидуальные напоминания для каждого элемента расписания.
