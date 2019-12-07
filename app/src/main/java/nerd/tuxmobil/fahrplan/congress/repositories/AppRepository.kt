@@ -32,45 +32,33 @@ object AppRepository {
 
     private lateinit var logging: Logging
 
-    private lateinit var alarmsDBOpenHelper: AlarmsDBOpenHelper
     private lateinit var alarmsDatabaseRepository: AlarmsDatabaseRepository
-
-    private lateinit var highlightDBOpenHelper: HighlightDBOpenHelper
     private lateinit var highlightsDatabaseRepository: HighlightsDatabaseRepository
-
-    private lateinit var lecturesDBOpenHelper: LecturesDBOpenHelper
     private lateinit var lecturesDatabaseRepository: LecturesDatabaseRepository
-
-    private lateinit var metaDBOpenHelper: MetaDBOpenHelper
     private lateinit var metaDatabaseRepository: MetaDatabaseRepository
 
     private lateinit var scheduleNetworkRepository: ScheduleNetworkRepository
     private lateinit var sharedPreferencesRepository: SharedPreferencesRepository
 
+    @JvmOverloads
     fun initialize(
             context: Context,
-            logging: Logging
+            logging: Logging,
+            alarmsDatabaseRepository: AlarmsDatabaseRepository = AlarmsDatabaseRepository(AlarmsDBOpenHelper(context)),
+            highlightsDatabaseRepository: HighlightsDatabaseRepository = HighlightsDatabaseRepository(HighlightDBOpenHelper(context)),
+            lecturesDatabaseRepository: LecturesDatabaseRepository = LecturesDatabaseRepository(LecturesDBOpenHelper(context)),
+            metaDatabaseRepository: MetaDatabaseRepository = MetaDatabaseRepository(MetaDBOpenHelper(context)),
+            scheduleNetworkRepository: ScheduleNetworkRepository = ScheduleNetworkRepository(),
+            sharedPreferencesRepository: SharedPreferencesRepository = SharedPreferencesRepository(context)
     ) {
         this.context = context
         this.logging = logging
-        initializeDatabases()
-        initializeRepositories()
-    }
-
-    private fun initializeDatabases() {
-        alarmsDBOpenHelper = AlarmsDBOpenHelper(context)
-        alarmsDatabaseRepository = AlarmsDatabaseRepository(alarmsDBOpenHelper)
-        highlightDBOpenHelper = HighlightDBOpenHelper(context)
-        highlightsDatabaseRepository = HighlightsDatabaseRepository(highlightDBOpenHelper)
-        lecturesDBOpenHelper = LecturesDBOpenHelper(context)
-        lecturesDatabaseRepository = LecturesDatabaseRepository(lecturesDBOpenHelper)
-        metaDBOpenHelper = MetaDBOpenHelper(context)
-        metaDatabaseRepository = MetaDatabaseRepository(metaDBOpenHelper)
-    }
-
-    private fun initializeRepositories() {
-        scheduleNetworkRepository = ScheduleNetworkRepository()
-        sharedPreferencesRepository = SharedPreferencesRepository(context)
+        this.alarmsDatabaseRepository = alarmsDatabaseRepository
+        this.highlightsDatabaseRepository = highlightsDatabaseRepository
+        this.lecturesDatabaseRepository = lecturesDatabaseRepository
+        this.metaDatabaseRepository = metaDatabaseRepository
+        this.scheduleNetworkRepository = scheduleNetworkRepository
+        this.sharedPreferencesRepository = sharedPreferencesRepository
     }
 
     fun loadSchedule(url: String,
