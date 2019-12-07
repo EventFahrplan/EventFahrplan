@@ -1,8 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress.utils
 
 import org.junit.Test
-
-import org.junit.Assert.*
 import org.assertj.core.api.Assertions.assertThat
 
 class DateHelperTest {
