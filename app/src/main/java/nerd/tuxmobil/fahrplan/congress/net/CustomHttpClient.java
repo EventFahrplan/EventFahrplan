@@ -1,15 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.net;
 
 import android.app.Activity;
-import android.net.Uri;
-import android.support.annotation.NonNull;
 import android.widget.Toast;
-
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
-
-import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.X509TrustManager;
 
 import nerd.tuxmobil.fahrplan.congress.BuildConfig;
 import nerd.tuxmobil.fahrplan.congress.R;
@@ -21,27 +13,14 @@ import okhttp3.logging.HttpLoggingInterceptor.Level;
 
 public class CustomHttpClient {
 
-    @NonNull
-    public static String getHostName(@NonNull String url) {
-        String hostName = Uri.parse(url).getHost();
-        if (hostName == null) {
-            throw new NullPointerException("Host not present for URL: " + url);
-        }
-        return hostName;
-    }
-
-    public static OkHttpClient createHttpClient(String host)
-            throws KeyManagementException, NoSuchAlgorithmException {
+    public static OkHttpClient createHttpClient() {
         OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
         if (BuildConfig.DEBUG) {
             HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
             httpLoggingInterceptor.setLevel(Level.HEADERS);
             clientBuilder.addNetworkInterceptor(httpLoggingInterceptor);
         }
-
-        X509TrustManager trustManager = TrustManagerFactory.get(host, true);
-        SSLSocketFactory factory = SslSocketFactory.createSSLSocketFactory(trustManager);
-        return clientBuilder.sslSocketFactory(factory, trustManager).build();
+        return clientBuilder.build();
     }
 
     public static void showHttpError(final Activity ctx, HttpStatus status, String host) {
