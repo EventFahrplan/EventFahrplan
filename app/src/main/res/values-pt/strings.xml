@@ -95,8 +95,8 @@
 	</string>
     <string name="today">hoje</string>
     <string name="pref_auto_download">Atualizações automáticas</string>
-    <string name="parsing_error_generic">Erro desconhecido ao processar cronograma</string>
-    <string name="parsing_error_with_version">Erro ao processar versão do cronograma %s</string>
+    <string name="schedule_parsing_error_generic">Erro desconhecido ao processar cronograma</string>
+    <string name="schedule_parsing_error_with_version">Erro ao processar versão do cronograma %s</string>
     <string name="alarms_empty">
         Não há alarmes para exibir, você pode configurar alarmes
 		individuais para cada item no cronograma.

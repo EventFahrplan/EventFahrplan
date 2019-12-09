@@ -80,8 +80,8 @@
     <string name="notifications_event_alarm_content_text">Alarma para evento</string>
     <string name="notifications_schedule_update_channel_description">Actualizaciones automáticas al calendario que pueden configurarse en los ajustes de la aplicación</string>
     <string name="notifications_schedule_update_channel_name">Actualizaciones del calendario</string>
-    <string name="parsing_error_generic">Error desconocido mientras se procesaba el calendario</string>
-    <string name="parsing_error_with_version">Error de procesado para la versión del calendario %s</string>
+    <string name="schedule_parsing_error_generic">Error desconocido mientras se procesaba el calendario</string>
+    <string name="schedule_parsing_error_with_version">Error de procesado para la versión del calendario %s</string>
     <string name="pref_auto_download">Actualizaciones automáticas</string>
     <string name="preference_title_app_notification_settings">Personalizar notificaciones &#8230;</string>
     <string name="progress_loading_data">Obtener calendario &#8230;</string>

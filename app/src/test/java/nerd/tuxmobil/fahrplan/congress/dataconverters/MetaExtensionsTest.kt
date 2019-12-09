@@ -4,7 +4,6 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import info.metadude.android.eventfahrplan.database.models.Meta as DatabaseMeta
 import info.metadude.android.eventfahrplan.network.models.Meta as NetworkMeta
-import nerd.tuxmobil.fahrplan.congress.models.Meta as AppMeta
 
 class MetaExtensionsTest {
 

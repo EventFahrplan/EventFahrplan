@@ -27,7 +27,7 @@
     <!-- CertificateDialog -->
     <string name="dlg_certificate_message_fmt">
         Aufbau einer gesicherten Verbindung nicht möglich.\n
-        (<xliff:g id="error" example="Unbekannter Fehler">%s</xliff:g>)
+        (<xliff:g example="Unbekannter Fehler" id="error">%s</xliff:g>)
     </string>
     <string name="dlg_invalid_certificate_title">Unbekanntem Zertifikat vertrauen?</string>
     <string name="dlg_invalid_certificate_could_not_apply">Zertifikat konnte nicht übernommen werden.</string>
@@ -47,8 +47,8 @@
     <!-- Schedule changes dialog -->
     <string name="schedule_changes_dialog_title">Fahrplanaktualisierung</string>
     <string name="schedule_changes_dialog_updated_to_text">Der Fahrplan wurde auf Version\u0020</string>
-    <string name="schedule_changes_dialog_changed_new_cancelled_text">\u0020aktualisiert. Es gibt Änderungen in <xliff:g id="num_changes" example="3 Vorträgen">%1$s</xliff:g>, <xliff:g id="num_new" example="2 sind">%2$s</xliff:g> neu, <xliff:g id="num_canceled" example="1 ist">%3$s</xliff:g> gestrichen.</string>
-    <string name="schedule_changes_dialog_affected_text">Die Änderungen betreffen <xliff:g id="num_marked" example="2">%1$d</xliff:g> der favorisierten Vorträge.</string>
+    <string name="schedule_changes_dialog_changed_new_cancelled_text">\u0020aktualisiert. Es gibt Änderungen in <xliff:g example="3 Vorträgen" id="num_changes">%1$s</xliff:g>, <xliff:g example="2 sind" id="num_new">%2$s</xliff:g> neu, <xliff:g example="1 ist" id="num_canceled">%3$s</xliff:g> gestrichen.</string>
+    <string name="schedule_changes_dialog_affected_text">Die Änderungen betreffen <xliff:g example="2" id="num_marked">%1$d</xliff:g> der favorisierten Vorträge.</string>
     <plurals name="schedule_changes_dialog_number_of_lectures">
         <item quantity="one">%d Vortrag</item>
         <item quantity="other">%d Vorträgen</item>
@@ -68,7 +68,7 @@
     <string name="fahrplan">Fahrplan</string>
     <string name="appVersion">App Version %s</string>
     <string name="schedule_updated_to">
-        Aktualisiert auf <xliff:g id="version" example="Mildenberg 2018-01-16 16:50">%s</xliff:g>
+        Aktualisiert auf <xliff:g example="Mildenberg 2018-01-16 16:50" id="version">%s</xliff:g>
     </string>
     <string name="schedule_updated">
         Der Fahrplan wurde aktualisiert.
@@ -83,22 +83,22 @@
     <string name="reminder_ringtone">Alarmton</string>
     <string name="insistent_alarm">Dauerhafter Alarm</string>
     <string name="usage">Hinweis:\n\nLange auf Vortrag tippen, um einen Alarm einzustellen.</string>
-	<string name="libraries">
+    <string name="libraries">
 		Die Anwendung nutzt folgende Bibliotheken:
 		Kotlin, Google Support Library, Email Intent Builder,
 		Espresso, OkHttp, SnackEngage, TraceDroid
 	</string>
-	<string name="about_data_privacy_statement">
+    <string name="about_data_privacy_statement">
         <![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan/blob/master/DATA-PRIVACY-DE.md">Datenschutzerklärung</a>]]>
 	</string>
-	<string name="issues">
+    <string name="issues">
 		<![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan/issues">Fehlermeldungen und Wünsche</a>]]>
 	</string>
     <string name="today">heute</string>
     <string name="pref_auto_download">Automatische Aktualisierung</string>
-    <string name="parsing_error_generic">Unbekannter Fehler beim Parsen des Fahrplans</string>
-    <string name="parsing_error_with_version">Fehler beim Parsen der Fahrplan-Version %s</string>
-	<string name="alarms_empty">
+    <string name="schedule_parsing_error_generic">Unbekannter Fehler beim Parsen des Fahrplans</string>
+    <string name="schedule_parsing_error_with_version">Fehler beim Parsen der Fahrplan-Version %s</string>
+    <string name="alarms_empty">
 		Aktuell sind keine Alarme gespeichert. Im Fahrplan
 		kannst du über das entsprechende Symbol in der ActionBar
 		für jeden Eintrag einen individuellen Alarm festlegen.
@@ -113,8 +113,8 @@
     <string name="invalid_url">Ungültige URL</string>
     <string name="no_favorites">Keine favorisierten Vorträge</string>
     <string name="choose_to_delete">Wähle Vorträge</string>
-    <string name="day_separator">Tag <xliff:g id="day_of_congress" example="2">%1$d</xliff:g> - <xliff:g id="date_of_congress_day" example="29.12.2014">%2$s</xliff:g></string>
-    <string name="event_duration"><xliff:g id="duration" example="45">%1$d</xliff:g> min.</string>
+    <string name="day_separator">Tag <xliff:g example="2" id="day_of_congress">%1$d</xliff:g> - <xliff:g example="29.12.2014" id="date_of_congress_day">%2$s</xliff:g></string>
+    <string name="event_duration"><xliff:g example="45" id="duration">%1$d</xliff:g> min.</string>
     <string name="alternative_highlight">Alternative Hervorhebung</string>
     <string name="dlg_delete_all_favorites">Alle Favoriten löschen?</string>
     <string name="dlg_delete_all_favorites_delete_all">Alle löschen</string>
@@ -123,13 +123,13 @@
 
     <!-- Build information -->
     <string name="build_info_time">
-        Build-Zeit: <xliff:g id="build_time" example="2015-12-27T13:42Z">%s</xliff:g>
+        Build-Zeit: <xliff:g example="2015-12-27T13:42Z" id="build_time">%s</xliff:g>
     </string>
     <string name="build_info_version_code">
-        Versions-Code: <xliff:g id="version_code" example="42">%s</xliff:g>
+        Versions-Code: <xliff:g example="42" id="version_code">%s</xliff:g>
     </string>
     <string name="build_info_hash">
-        Versions-Hash: <xliff:g id="build_hash" example="e1f2g3h-dirty">%s</xliff:g>
+        Versions-Hash: <xliff:g example="e1f2g3h-dirty" id="build_hash">%s</xliff:g>
     </string>
 
     <!-- App disclaimer -->
@@ -149,10 +149,10 @@
 
     <!-- TraceDroid -->
     <string name="trace_droid_dialog_title">
-        <xliff:g id="appName" example="33C3 Fahrplan">%s</xliff:g> Fehlerbericht senden &#8230;
+        <xliff:g example="33C3 Fahrplan" id="appName">%s</xliff:g> Fehlerbericht senden &#8230;
     </string>
     <string name="trace_droid_dialog_message">
-        Es wurde ein Problem mit der <xliff:g id="appName" example="33C3 Fahrplan">%s</xliff:g> App
+        Es wurde ein Problem mit der <xliff:g example="33C3 Fahrplan" id="appName">%s</xliff:g> App
         festgestellt. Es wäre hilfreich, wenn du einen Fehlerbericht übermitteln würdest,
         damit die Ursache des Problems identifiziert werden kann.
     </string>
@@ -185,8 +185,8 @@
     </string>
     <string name="notifications_schedule_update_channel_name">Fahrplan-Aktualisierungen</string>
     <plurals name="notifications_schedule_changes">
-        <item quantity="one"><xliff:g id="count" example="1">%d</xliff:g> Vortrag wurde geändert.</item>
-        <item quantity="other"><xliff:g id="count" example="3">%d</xliff:g> Vorträge wurden geändert.</item>
+        <item quantity="one"><xliff:g example="1" id="count">%d</xliff:g> Vortrag wurde geändert.</item>
+        <item quantity="other"><xliff:g example="3" id="count">%d</xliff:g> Vorträge wurden geändert.</item>
     </plurals>
 
     <!-- Alarm time picker -->
@@ -204,7 +204,7 @@
     <string name="lecture_list_item_language_german_content_description">Deutsch</string>
     <string name="lecture_list_item_language_english_content_description">Englisch</string>
     <string name="lecture_list_item_language_unknown_content_description">Sprache unbekannt</string>
-    <string name="lecture_list_item_language_undefined_content_description">Sprache: <xliff:g id="language_abbreviation" example="es">%s</xliff:g></string>
+    <string name="lecture_list_item_language_undefined_content_description">Sprache: <xliff:g example="es" id="language_abbreviation">%s</xliff:g></string>
     <string name="lecture_list_item_language_removed_content_description">Sprachinformation wurde entfernt</string>
     <string name="lecture_list_item_no_video_content_description">Ohne Videoaufzeichnung</string>
     <string name="lecture_list_item_video_content_description">Mit Videoaufzeichnung</string>

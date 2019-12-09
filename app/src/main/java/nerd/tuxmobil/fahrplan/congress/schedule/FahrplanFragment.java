@@ -846,9 +846,9 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
 
     private String getParsingErrorMessage(final String version) {
         if (version == null || version.length() < 1) {
-            return getString(R.string.parsing_error_generic);
+            return getString(R.string.schedule_parsing_error_generic);
         } else {
-            return getString(R.string.parsing_error_with_version, version);
+            return getString(R.string.schedule_parsing_error_with_version, version);
         }
     }
 
