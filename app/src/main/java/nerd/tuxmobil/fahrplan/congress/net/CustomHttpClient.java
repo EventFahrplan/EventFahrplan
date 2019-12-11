@@ -15,6 +15,8 @@ public class CustomHttpClient {
 
     public static OkHttpClient createHttpClient() {
         OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
+        String userAgent = BuildConfig.APPLICATION_ID + ", " + BuildConfig.VERSION_NAME;
+        clientBuilder.addNetworkInterceptor(new UserAgentInterceptor(userAgent));
         if (BuildConfig.DEBUG) {
             HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
             httpLoggingInterceptor.setLevel(Level.HEADERS);
