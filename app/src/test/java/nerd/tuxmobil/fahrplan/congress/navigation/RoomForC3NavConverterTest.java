@@ -11,7 +11,7 @@ public class RoomForC3NavConverterTest {
 
     @Test
     public void convertWithAdams() {
-        assertThat(RoomForC3NavConverter.convert("Adams")).isEqualTo("hall-a");
+        assertThat(RoomForC3NavConverter.convert("Ada")).isEqualTo("hall-a");
     }
 
     @Test
