@@ -721,15 +721,19 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
         for (Lecture lecture : MyApp.lectureList) {
             if (!MyApp.roomsMap.containsKey(lecture.room)) {
                 if (!MyApp.roomsMap.containsValue(lecture.roomIndex)) {
+                    // room name : room index
                     MyApp.roomsMap.put(lecture.room, lecture.roomIndex);
                 } else {
                     // upgrade from DB without roomIndex
                     int newIndex;
                     for (newIndex = 0; newIndex < rooms.length; newIndex++) {
+                        // Is the current room in the list of prioritized rooms?
                         if (lecture.room.equals(rooms[newIndex])) {
                             break;
                         }
                     }
+                    // Room is not in the list of prioritized rooms.
+                    // A new room index is calculated now.
                     if (newIndex == rooms.length) {
                         newIndex = 0;
                         while (MyApp.roomsMap.containsValue(newIndex)) {
