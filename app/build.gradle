@@ -71,6 +71,12 @@ android {
             keyAlias props['signing.cccamp2019-release.keyAlias']
             keyPassword props['signing.cccamp2019-release.keyPassword']
         }
+        ccc36c3 {
+            storeFile file(props['signing.ccc36c3-release.keystoreFilePath'])
+            storePassword props['signing.ccc36c3-release.keystorePassword']
+            keyAlias props['signing.ccc36c3-release.keyAlias']
+            keyPassword props['signing.ccc36c3-release.keyPassword']
+        }
     }
 
     def defaultDimension = "default"
@@ -117,6 +123,27 @@ android {
             buildConfigField "boolean", "ENGAGE_GOOGLE_PLAY_RATING", "true"
             buildConfigField "String", "TRACE_DROID_EMAIL_ADDRESS", '"tobias.preuss+camp2019@googlemail.com"'
             buildConfigField "String", "SCHEDULE_FEEDBACK_URL", '"https://frab.cccv.de/en/camp2019/public/events/%s/feedback/new"'
+        }
+        ccc36c3 {
+            dimension defaultDimension
+            applicationId "info.metadude.android.congress.schedule"
+            signingConfig signingConfigs.ccc36c3
+            buildConfigField "String", "SCHEDULE_URL", '"https://raw.githubusercontent.com/voc/36C3_schedule/master/everything.schedule.xml"'
+            buildConfigField "String", "EVENT_URL", '"https://events.ccc.de/congress/2019/Fahrplan/events/%1$s.html"'
+            buildConfigField "String", "SERVER_BACKEND_TYPE", '"frab"'
+            buildConfigField "int", "SCHEDULE_FIRST_DAY_START_YEAR", "2019"
+            buildConfigField "int", "SCHEDULE_FIRST_DAY_START_MONTH", "12"
+            buildConfigField "int", "SCHEDULE_FIRST_DAY_START_DAY", "27"
+            buildConfigField "int", "SCHEDULE_LAST_DAY_END_YEAR", "2019"
+            buildConfigField "int", "SCHEDULE_LAST_DAY_END_MONTH", "12"
+            buildConfigField "int", "SCHEDULE_LAST_DAY_END_DAY", "31"
+            buildConfigField "boolean", "SHOW_APP_DISCLAIMER", "false"
+            buildConfigField "boolean", "ENGAGE_C3NAV_APP_INSTALLATION", "true"
+            buildConfigField "boolean", "ENGAGE_GOOGLE_BETA_TESTING", "true"
+            buildConfigField "boolean", "ENGAGE_GOOGLE_PLAY_RATING", "true"
+            buildConfigField "boolean", "ENABLE_ENGELSYSTEM_SHIFTS", "true"
+            buildConfigField "String", "TRACE_DROID_EMAIL_ADDRESS", '"tobias.preuss+36c3@googlemail.com"'
+            buildConfigField "String", "SCHEDULE_FEEDBACK_URL", '"https://frab.cccv.de/en/36C3/public/events/%s/feedback/new"'
         }
     }
 
