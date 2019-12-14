@@ -15,7 +15,5 @@
     <color name="lecture_background">#ffffff</color>
     <color name="lecture_detailbar_background">#eee</color>
     <color name="lecture_detailbar_text">@color/colorAccent</color>
-    <color name="schedule_list_header_background">#eee</color>
-    <color name="schedule_list_header_text">#eee</color>
 
 </resources>
