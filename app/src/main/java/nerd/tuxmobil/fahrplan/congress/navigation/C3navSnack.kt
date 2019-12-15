@@ -18,7 +18,8 @@ class C3navSnack(private val context: Context) : OpenURLSnack(
 ) {
 
     init {
-        overrideTitleText(context.getString(R.string.snack_engage_c3nav_title))
+        val conferenceName = context.getString(R.string.conference_name)
+        overrideTitleText(context.getString(R.string.snack_engage_c3nav_title, conferenceName))
         overrideActionText(context.getString(R.string.snack_engage_c3nav_action))
         withConditions(
                 NeverAgainWhenClickedOnce(),

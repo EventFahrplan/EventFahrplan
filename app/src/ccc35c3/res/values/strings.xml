@@ -2,6 +2,7 @@
 <resources>
     <string name="app_name">35C3 Schedule</string>
     <string name="app_hardcoded_subtitle">December 27.-30. 2018, Leipzig, Leipziger Messe</string>
+    <string name="conference_name" translatable="false">35C3</string>
     <string name="conference_url">
         <![CDATA[<a href="https://events.ccc.de/congress/2018/wiki">https://events.ccc.de/congress/2018/wiki</a>]]>
     </string>
