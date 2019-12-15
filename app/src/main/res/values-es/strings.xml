@@ -101,7 +101,7 @@
     <string name="settings">Ajustes</string>
     <string name="share_error_activity_not_found">No hay ninguna aplicación apropiada instalada.</string>
     <string name="snack_engage_c3nav_action">Obtengalo ahora!</string>
-    <string name="snack_engage_c3nav_title">Navegación en el 35C3! Con la aplicación c3nav</string>
+    <string name="snack_engage_c3nav_title">Navegación en el <xliff:g example="35C3" id="conferenceName">%s</xliff:g>! Con la aplicación c3nav</string>
     <string name="snack_engage_google_play_beta_testing_action">Conviértase en probador beta</string>
     <string name="snack_engage_google_play_beta_testing_title">Usuario avanzado?</string>
     <string name="snack_engage_rate_action">Califique la aplicación</string>

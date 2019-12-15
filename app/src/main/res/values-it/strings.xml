@@ -103,7 +103,7 @@
     <string name="settings">Preferenze</string>
     <string name="share_error_activity_not_found">Nessuna applicazione corrispondente installata.</string>
     <string name="snack_engage_c3nav_action">Ottenerla subito</string>
-    <string name="snack_engage_c3nav_title">Navigazione indoor al 35C3! Con l\'app c3nav</string>
+    <string name="snack_engage_c3nav_title">Navigazione indoor al <xliff:g example="35C3" id="conferenceName">%s</xliff:g>! Con l\'app c3nav</string>
     <string name="snack_engage_google_play_beta_testing_action">Diventare beta tester</string>
     <string name="snack_engage_google_play_beta_testing_title">Utente Avanzato?</string>
     <string name="snack_engage_rate_action">Valutare l\'applicazione</string>

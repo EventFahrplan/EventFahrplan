@@ -97,7 +97,7 @@
     <string name="notifications_schedule_update_channel_description">Les mises à jour automatiques du programme peuvent être configurées via les paramètres de l’application.</string>
     <string name="trace_droid_button_title_send">Ouvrir la messagerie</string>
     <string name="trace_droid_dialog_message"> Un problème avec l’application <xliff:g example="33C3 Schedule" id="appName">%s</xliff:g> a été détecté. Il serait utile si vous pouviez envoyer un rapport de crash afin que la source du problème soit identifié. </string>
-    <string name="snack_engage_c3nav_title">La navigation interne au 35C3 ! Avec l’application c3nav</string>
+    <string name="snack_engage_c3nav_title">La navigation interne au <xliff:g example="35C3" id="conferenceName">%s</xliff:g>! Avec l’application c3nav</string>
     <string name="app_disclaimer">Cette application est basée sur le code source de l’application « EventFahrplan ». Les visiteurs du congrès annuel et du camp organisé par le Chaos Computer Club utilisent cette application pour garder une trace du programme de l’événement.</string>
     <string name="build_info_hash"> Hash de la version : <xliff:g example="e1f2g3h-dirty" id="build_hash">%s</xliff:g>
     </string>

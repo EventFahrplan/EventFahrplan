@@ -154,7 +154,7 @@
         https://play.google.com/store/apps/details?id=de.c3nav.droid
     </string>
     <string name="snack_engage_c3nav_unique_id" translatable="false">c3nav</string>
-    <string name="snack_engage_c3nav_title">Навигация внутри 35C3! с приложением c3nav</string>
+    <string name="snack_engage_c3nav_title">Навигация внутри <xliff:g example="35C3" id="conferenceName">%s</xliff:g>! с приложением c3nav</string>
     <string name="snack_engage_c3nav_action">Скачать сейчас!</string>
 
     <!-- TraceDroid -->

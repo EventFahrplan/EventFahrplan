@@ -2,6 +2,7 @@
 <resources>
     <string name="app_name">Camp 2019</string>
     <string name="app_hardcoded_subtitle"/>
+    <string name="conference_name" translatable="false">Camp 2019</string>
     <string name="conference_url">
         <![CDATA[<a href="http://events.ccc.de/camp/2019/">http://events.ccc.de/camp/2019/</a>]]>
     </string>
