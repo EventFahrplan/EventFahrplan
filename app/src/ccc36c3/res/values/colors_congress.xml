@@ -7,6 +7,7 @@
     <color name="event_border_default">#595959</color>
     <color name="event_border_default_art_culture">#AD6632</color>
     <color name="event_border_default_ccc">#756D0F</color>
+    <color name="event_border_default_engelshifts">#523023</color>
     <color name="event_border_default_entertainment">#336B22</color>
     <color name="event_border_default_ethics_society_politics">#21615C</color>
     <color name="event_border_default_hardware_making">#29728C</color>
@@ -22,6 +23,7 @@
     <color name="event_border_accent">#8c8c8c</color>
     <color name="event_border_accent_art_culture">#e08241</color>
     <color name="event_border_accent_ccc">#c2b519</color>
+    <color name="event_border_accent_engelshifts">#9F5E45</color>
     <color name="event_border_accent_entertainment">#57b73a</color>
     <color name="event_border_accent_ethics_society_politics">#3caea5</color>
     <color name="event_border_accent_hardware_making">#3fafd8</color>
@@ -42,6 +44,9 @@
     </color>
     <color name="event_border_highlight_ccc">
         @color/event_border_accent_ccc
+    </color>
+    <color name="event_border_highlight_engelshifts">
+        @color/event_border_accent_engelshifts
     </color>
     <color name="event_border_highlight_entertainment">
         @color/event_border_accent_entertainment
@@ -83,6 +88,9 @@
     </color>
     <color name="event_border_accent_highlight_ccc">
         @color/event_border_default_ccc
+    </color>
+    <color name="event_border_accent_highlight_engelshifts">
+        @color/event_border_default_engelshifts
     </color>
     <color name="event_border_accent_highlight_entertainment">
         @color/event_border_default_entertainment
