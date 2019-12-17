@@ -172,7 +172,7 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
         mListener = null;
     }
 
-    public void onRefresh(@NonNull Context context) {
+    public void onRefresh() {
         List<Lecture> starred = FahrplanMisc.getStarredLectures(appRepository);
         if (starredList != null) {
             starredList.clear();
