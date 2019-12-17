@@ -53,7 +53,10 @@ import nerd.tuxmobil.fahrplan.congress.net.CertificateDialogFragment;
 import nerd.tuxmobil.fahrplan.congress.net.CustomHttpClient;
 import nerd.tuxmobil.fahrplan.congress.net.FetchScheduleResult;
 import nerd.tuxmobil.fahrplan.congress.net.HttpStatus;
+import nerd.tuxmobil.fahrplan.congress.net.LoadShiftsResult;
+import nerd.tuxmobil.fahrplan.congress.net.ParseResult;
 import nerd.tuxmobil.fahrplan.congress.net.ParseScheduleResult;
+import nerd.tuxmobil.fahrplan.congress.net.ParseShiftsResult;
 import nerd.tuxmobil.fahrplan.congress.reporting.TraceDroidEmailSender;
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsActivity;
@@ -198,8 +201,13 @@ public class MainActivity extends BaseActivity implements
         CustomHttpClient.showHttpError(this, status, hostName);
     }
 
-    public void onParseDone(@NonNull ParseScheduleResult result) {
-        MyApp.LogDebug(LOG_TAG, "parseDone: " + result.isSuccess() + " , numDays=" + MyApp.meta.getNumDays());
+    public void onParseDone(@NonNull ParseResult result) {
+        if (result instanceof ParseScheduleResult) {
+            MyApp.LogDebug(LOG_TAG, "Parsing schedule done successfully: " + result.isSuccess() + " , numDays=" + MyApp.meta.getNumDays());
+        }
+        if (result instanceof ParseShiftsResult) {
+            MyApp.LogDebug(LOG_TAG, "Parsing Engelsystem shifts done successfully: " + result.isSuccess());
+        }
         MyApp.task_running = TASKS.NONE;
         MyApp.fahrplan_xml = null;
 
@@ -220,6 +228,17 @@ public class MainActivity extends BaseActivity implements
 
         if (!appRepository.sawScheduleChanges()) {
             showChangesDialog();
+        }
+    }
+
+    private void onLoadShiftsDone(@NonNull LoadShiftsResult result) {
+        Fragment fragment = findFragment(FahrplanFragment.FRAGMENT_TAG);
+        if (fragment != null) {
+            ((FahrplanFragment) fragment).onParseDone(ParseShiftsResult.of(result));
+        }
+        fragment = findFragment(ChangeListFragment.FRAGMENT_TAG);
+        if (fragment instanceof ChangeListFragment) {
+            ((ChangeListFragment) fragment).onRefresh();
         }
     }
 
@@ -263,6 +282,10 @@ public class MainActivity extends BaseActivity implements
                     parseScheduleResult -> {
                         onParseDone(parseScheduleResult);
                         return Unit.INSTANCE;
+                    },
+                    loadShiftsResult -> {
+                        onLoadShiftsDone(loadShiftsResult);
+                        return Unit.INSTANCE;
                     });
         } else {
             Log.d(LOG_TAG, "Fetching schedule already in progress.");
@@ -272,6 +295,7 @@ public class MainActivity extends BaseActivity implements
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        appRepository.cancelLoading();
         hideProgressDialog();
     }
 

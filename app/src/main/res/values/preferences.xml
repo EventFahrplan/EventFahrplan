@@ -1,11 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Screen -->
+    <string name="preference_key_screen" translatable="false">preferences_key_screen</string>
+
     <!-- Category general -->
     <string name="preference_key_category_general" translatable="false">preference_key_category_general</string>
 
     <!-- App notification settings -->
     <string name="preference_key_app_notification_settings" translatable="false">app_notification_settings</string>
     <string name="preference_title_app_notification_settings">Customize notifications &#8230;</string>
+
+    <!-- Category Engelsystem -->
+
+    <string name="preference_engelsystem_category_key" translatable="false">
+        preference_engelsystem_category_key
+    </string>
+    <string name="preference_engelsystem_category_title" translatable="false">Engelsystem</string>
+    <string name="preference_engelsystem_json_export_url_key" translatable="false">
+        preference_key_engelsystem_json_export_url
+    </string>
+    <string name="preference_engelsystem_json_export_url_default_value" translatable="false"/>
+    <string name="preference_engelsystem_json_export_url_hint" translatable="false">
+        https://engelsystem.de/36c3/shifts-json-export?key=YOUR_KEY
+    </string>
+    <string name="preference_engelsystem_json_export_url_summary">
+        <![CDATA[In order to see your shifts please enter your <u>personal</u> URL here.<br/><br/>
+        1. Login to your Engelsystem account.<br/>
+        2. Copy the URL behind the <u>JSON Export</u> button at your profile page.<br/>
+        3. Paste the URL here.<br/>4. Reload the data by tapping the <u>refresh</u> button in the overflow menu.<br/><br/>
+        Shifts before and after the main conference days are <u>not</u> displayed.]]>
+    </string>
+    <string name="preference_engelsystem_json_export_url_title" translatable="false">JSON Export URL</string>
+    <string name="preference_engelsystem_json_export_url_type_friendly_name">
+        Engelsystem
+    </string>
 
 </resources>

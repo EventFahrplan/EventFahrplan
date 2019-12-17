@@ -61,6 +61,10 @@ public interface BundleKeys {
             "nerd.tuxmobil.fahrplan.congress.Prefs.SCHEDULE_LAST_FETCHED_AT";
     String PREFS_SCHEDULE_URL =
             "nerd.tuxmobil.fahrplan.congress.Prefs.SCHEDULE_URL";
+    String PREFS_ENGELSYSTEM_SHIFTS_URL =
+            "nerd.tuxmobil.fahrplan.congress.Prefs.ENGELSYSTEM_SHIFTS_URL";
+    String PREFS_ENGELSYSTEM_SHIFTS_HASH =
+            "nerd.tuxmobil.fahrplan.congress.Prefs.ENGELSYSTEM_SHIFTS_HASH";
     String PREFS_ALTERNATIVE_HIGHLIGHT =
             "nerd.tuxmobil.fahrplan.congress.Prefs.ALTERNATIVE_HIGHLIGHT";
     String PREFS_ALARM_TIME_INDEX =

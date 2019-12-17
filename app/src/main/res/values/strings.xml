@@ -88,7 +88,7 @@
     <string name="libraries">
 		This application uses the following libraries:
 		Kotlin, Google Support Library, Email Intent Builder,
-		Espresso, OkHttp, SnackEngage, TraceDroid
+		Engelsystem, Espresso, OkHttp, SnackEngage, TraceDroid
 	</string>
     <string name="about_data_privacy_statement">
         <![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan/blob/master/DATA-PRIVACY-DE.md">Data privacy statement (German)</a>]]>
@@ -106,6 +106,9 @@
     <string name="pref_auto_download">Automatic updates</string>
     <string name="schedule_parsing_error_generic">Unknown error while parsing schedule</string>
     <string name="schedule_parsing_error_with_version">Parsing error for schedule version %s</string>
+    <string name="engelsystem_shifts_parsing_error_generic">Unknown error while parsing Engelsystem shifts</string>
+    <string name="engelsystem_shifts_parsing_error_forbidden">Invalid API key for Engelsystem shifts</string>
+    <string name="engelsystem_shifts_parsing_error_not_found">Wrong URL for Engelsystem shifts</string>
     <string name="alarms_empty">
 		There are no alarms to display. Please note that you
 		can set up individual alarms for each item in the schedule.
@@ -226,5 +229,19 @@
     <string name="lecture_list_item_no_video_content_description">Without video recording</string>
     <string name="lecture_list_item_video_content_description">With video recording</string>
     <string name="lecture_list_item_without_video_content_description">Without video recording</string>
+
+    <!-- Validation errors -->
+    <string name="validation_error_invalid_url">
+        Invalid <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL.
+    </string>
+    <string name="validation_error_url_without_query">
+        <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL without query part.
+    </string>
+    <string name="validation_error_url_with_incomplete_query">
+        <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL with incomplete query part.
+    </string>
+    <string name="validation_error_url_without_api_key">
+        <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL without API key.
+    </string>
 
 </resources>

@@ -6,6 +6,8 @@ interface Logging {
 
     fun d(tag: String, message: String)
 
+    fun e(tag: String, message: String)
+
     companion object {
 
         fun get(): Logging {

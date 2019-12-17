@@ -7,6 +7,7 @@ ext.set("APP_VERSION", "${gitSha()}")
 
 apply plugin: "com.android.application"
 apply plugin: "kotlin-android"
+apply plugin: "de.mobilej.unmock"
 apply plugin: "org.sonarqube"
 apply from: "../sonarqube.gradle"
 
@@ -37,6 +38,7 @@ android {
         buildConfigField "String", "BUILD_TIME", "\"${buildTime()}\""
         buildConfigField "String", "GIT_SHA", "\"${gitSha()}\""
         buildConfigField "String", "C3NAV_URL", "\"https://35c3.c3nav.de/l/\""
+        buildConfigField "boolean", "ENABLE_ENGELSYSTEM_SHIFTS", "false"
     }
 
     buildTypes {
@@ -130,6 +132,13 @@ android {
     }
 }
 
+unMock {
+    keepStartingWith "libcore."
+    keep "android.net.Uri"
+    keep "android.util.Patterns"
+    keepAndRename "java.nio.charset.Charsets" to "xjava.nio.charset.Charsets"
+}
+
 tasks.withType(Test) {
     testLogging {
         events TestLogEvent.FAILED,
@@ -147,7 +156,10 @@ tasks.withType(Test) {
 dependencies {
     implementation project(":database")
     implementation project(":network")
+    implementation project(":engelsystem")
 
+    implementation Libs.kotlinCoroutinesAndroid
+    implementation Libs.kotlinCoroutinesCore
     implementation Libs.kotlinStdlib
     implementation Libs.supportLibraryAppcompatV7
     implementation Libs.supportLibraryConstraintLayout
@@ -164,6 +176,8 @@ dependencies {
     testImplementation Libs.mockitoCore
     testImplementation Libs.mockitoKotlin
     testImplementation Libs.threeTenBp
+
+    unmock Libs.robolectric
 }
 
 def gitSha() {

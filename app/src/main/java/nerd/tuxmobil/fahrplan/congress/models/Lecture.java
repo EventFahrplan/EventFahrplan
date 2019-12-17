@@ -260,4 +260,8 @@ public class Lecture {
         return context.getString(R.string.lecture_list_item_language_undefined_content_description, lang);
     }
 
+    public void shiftRoomIndexBy(int amount) {
+        roomIndex += amount;
+    }
+
 }

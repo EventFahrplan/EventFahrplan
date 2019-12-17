@@ -10,4 +10,13 @@
         <attr name="drawableBottomCompat" format="reference" />
     </declare-styleable>
 
+    <declare-styleable name="ValidateableEditTextPreference">
+        <attr name="validationType">
+            <enum name="unknown" value="0" />
+            <enum name="url" value="1" />
+            <enum name="engelsystemUrl" value="2" />
+        </attr>
+        <attr name="urlTypeFriendlyName" format="string" />
+    </declare-styleable>
+
 </resources>

@@ -4,4 +4,15 @@
     <!-- App notification settings -->
     <string name="preference_title_app_notification_settings">Benachrichtigungen anpassen &#8230;</string>
 
+    <!-- Category Engelsystem -->
+
+    <string name="preference_engelsystem_category_title">Engelsystem</string>
+    <string name="preference_engelsystem_json_export_url_summary">
+        <![CDATA[Damit deine Schichten angezeigt werden, gib hier bitte deine <u>persönliche</u> URL ein.<br/><br/>
+        1. Melde dich beim Engelsystem an.<br/>
+        2. Kopiere die URL hinter der <u>JSON Export</u>-Schaltfläche auf deiner Profilseite.<br/>
+        3. Füge die URL hier ein.<br/>4. Lade die Daten, indem du den <u>Aktualisieren</u>-Eintrag in der Menüleiste antippst.<br/><br/>
+        Schichten vor und nach den offiziellen Konferenztagen werden <u>nicht</u> dargestellt.]]>
+    </string>
+
 </resources>

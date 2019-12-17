@@ -1,0 +1,15 @@
+import nerd.tuxmobil.fahrplan.congress.Libs
+
+apply plugin: "java-library"
+apply plugin: "kotlin"
+
+dependencies {
+    api Libs.engelsystem
+    implementation Libs.kotlinCoroutinesRetrofit
+
+    testImplementation Libs.junit
+    testImplementation Libs.truth
+}
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8

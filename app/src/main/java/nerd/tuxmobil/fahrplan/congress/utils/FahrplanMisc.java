@@ -5,7 +5,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.annotation.VisibleForTesting;
 import android.text.format.Time;
 
 import org.ligi.tracedroid.logging.Log;
@@ -187,7 +186,7 @@ public class FahrplanMisc {
     @NonNull
     public static List<Lecture> readChanges(@NonNull AppRepository appRepository) {
         MyApp.LogDebug(LOG_TAG, "readChanges");
-        List<Lecture> changesList = appRepository.loadLecturesForAllDays();
+        List<Lecture> changesList = appRepository.loadLecturesForAllDays(true);
         if (changesList.isEmpty()) {
             return changesList;
         }
@@ -198,7 +197,7 @@ public class FahrplanMisc {
 
     @NonNull
     public static List<Lecture> getStarredLectures(@NonNull AppRepository appRepository) {
-        List<Lecture> starredList = appRepository.loadLecturesForAllDays();
+        List<Lecture> starredList = appRepository.loadLecturesForAllDays(true);
         if (starredList.isEmpty()) {
             return starredList;
         }
@@ -209,7 +208,7 @@ public class FahrplanMisc {
 
     @NonNull
     public static List<Lecture> getUncanceledLectures(@NonNull AppRepository appRepository, int dayIndex) {
-        List<Lecture> lectures = appRepository.loadLecturesForDayIndex(dayIndex);
+        List<Lecture> lectures = appRepository.loadLecturesForDayIndex(dayIndex, true);
         return filterNot(lectures, event -> event.changedIsCanceled);
     }
 
