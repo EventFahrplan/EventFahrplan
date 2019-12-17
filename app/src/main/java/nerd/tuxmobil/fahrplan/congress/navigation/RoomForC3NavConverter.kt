@@ -5,7 +5,7 @@ object RoomForC3NavConverter {
     private const val EMPTY_STRING = ""
 
     private val ROOM_TO_C3NAV_MAPPING = mapOf(
-            "ADAMS" to "hall-a",
+            "ADA" to "hall-a",
             "BORG" to "hall-b",
             "CLARKE" to "hall-c",
             "DIJKSTRA" to "hall-d",
@@ -26,6 +26,7 @@ object RoomForC3NavConverter {
             "CCL SAAL 3" to "dlf-sendezentrum",
             "CHAOSZONE" to "chaoszone",
             "CHAOS WEST BÜHNE" to "chaos-west-stage",
+            "CHAOS-WEST BÜHNE" to "chaos-west-stage",
             "CHAOS WEST STAGE" to "chaos-west-stage",
             "COMPEILER" to "compeiler",
             "DISCODRAMA" to "discodrama",
@@ -41,7 +42,9 @@ object RoomForC3NavConverter {
             "OIO THEMENTISCH 3" to "oio-table3",
             "OIO THEMENTISCH 4" to "oio-table4",
             "OIO THEMENTISCH 6" to "oio-table6",
+            "OIO Stage" to "oio-arena",
             "OIO VORTRAGS-ARENA" to "oio-arena",
+            "OIO WORKSHOP" to "oio-workshop-dome",
             "OIO WORKSHOP-DOMO" to "oio-workshop-dome",
             "SEMINAR ROOM 13" to "self-organized-sessions-13",
             "SEMINAR ROOM 14-15" to "self-organized-sessions-14-15",
@@ -49,6 +52,7 @@ object RoomForC3NavConverter {
             "SHUTTER ISLAND" to "shutter-island",
             "VINTAGE COMPUTING CLUSTER" to "vintage-computing",
             "WIKIPAKAWG ESSZIMMER" to "wikipaka-dining",
+            "WIKIPAKAWG WG: ESSZIMMER" to "wikipaka-dining",
             "WIKIPAKAWG KÜCHE" to "wikipaka-kitchen",
             "UPTIME BAR" to "uptime-bar"
     )

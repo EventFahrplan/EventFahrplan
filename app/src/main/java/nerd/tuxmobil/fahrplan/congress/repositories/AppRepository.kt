@@ -33,6 +33,7 @@ object AppRepository {
     /**
      * Name used as the display title for the Engelsystem column and
      * for the database column. Do not change it!
+     * Also used in app/src/<flavor>/res/xml/track_resource_names.xml.
      */
     private const val ENGELSYSTEM_ROOM_NAME = "Engelshifts"
     const val ALL_DAYS = -1

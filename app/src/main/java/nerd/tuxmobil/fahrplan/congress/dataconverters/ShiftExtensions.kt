@@ -26,7 +26,7 @@ fun Shift.toLectureAppModel(
     startTime = minuteOfDay // minutes since day start
     title = name
     subtitle = talkTitle
-    track = "Day index = $day"
+    track = virtualRoomName
     url = talkUrl
 }
 
