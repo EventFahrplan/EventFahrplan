@@ -38,7 +38,8 @@ public class UpdateService extends JobIntentService {
 
     private static final String LOG_TAG = "UpdateService";
 
-    private AppRepository appRepository;
+    @SuppressWarnings("squid:S1170")
+    private final AppRepository appRepository = AppRepository.INSTANCE;
 
     public void onParseDone(@NonNull ParseResult result) {
         MyApp.LogDebug(LOG_TAG, "parseDone: " + result.isSuccess() + " , numDays=" + MyApp.meta.getNumDays());
@@ -133,7 +134,6 @@ public class UpdateService extends JobIntentService {
             stopSelf();
             return Unit.INSTANCE;
         }, true);
-        appRepository = AppRepository.INSTANCE;
         connectivityObserver.start();
     }
 
