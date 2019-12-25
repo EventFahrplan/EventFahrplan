@@ -190,6 +190,9 @@ fun Lecture.sanitize(): Lecture {
     if (abstractt == description) {
         abstractt = ""
     }
+    if (speakers == subtitle) {
+        subtitle = ""
+    }
     if (description.isEmpty()) {
         description = abstractt
         abstractt = ""

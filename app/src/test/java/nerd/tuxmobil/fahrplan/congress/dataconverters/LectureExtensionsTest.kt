@@ -161,4 +161,30 @@ class LectureExtensionsTest {
         assertThat(lecture.description).isEqualTo(expected.description)
     }
 
+    @Test
+    fun sanitizeWithSameSpeakersAndSubtitle() {
+        val lecture = Lecture("").apply {
+            speakers = "Luke Skywalker"
+            subtitle = "Luke Skywalker"
+        }.sanitize()
+        val expected = Lecture("").apply {
+            speakers = "Luke Skywalker"
+            subtitle = ""
+        }
+        assertThat(lecture).isEqualTo(expected)
+    }
+
+    @Test
+    fun sanitizeWithDifferentSpeakersAndAbstract() {
+        val lecture = Lecture("").apply {
+            speakers = "Darth Vader"
+            subtitle = "Lorem ipsum"
+        }.sanitize()
+        val expected = Lecture("").apply {
+            speakers = "Darth Vader"
+            subtitle = "Lorem ipsum"
+        }
+        assertThat(lecture).isEqualTo(expected)
+    }
+
 }
