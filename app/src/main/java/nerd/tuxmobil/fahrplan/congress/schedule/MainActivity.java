@@ -460,12 +460,16 @@ public class MainActivity extends BaseActivity implements
                 break;
             case MyApp.SETTINGS:
                 if (resultCode == Activity.RESULT_OK) {
-                    boolean defaultValue = getResources().getBoolean(R.bool.preferences_alternative_highlight_enabled_default_value);
-                    if (intent.getBooleanExtra(BundleKeys.PREFS_ALTERNATIVE_HIGHLIGHT, defaultValue)) {
+                    boolean isAlternativeHighlightEnabled = getResources().getBoolean(R.bool.preferences_alternative_highlight_enabled_default_value);
+                    if (intent.getBooleanExtra(BundleKeys.PREFS_ALTERNATIVE_HIGHLIGHT, isAlternativeHighlightEnabled)) {
                         if (findViewById(R.id.schedule) != null && findFragment(FahrplanFragment.FRAGMENT_TAG) == null) {
                             replaceFragment(R.id.schedule, new FahrplanFragment(),
                                     FahrplanFragment.FRAGMENT_TAG);
                         }
+                    }
+                    boolean isEngelsystemShiftsUrlUpdated = getResources().getBoolean(R.bool.bundle_key_engelsystem_shifts_url_updated_default_value);
+                    if (intent.getBooleanExtra(BundleKeys.BUNDLE_KEY_ENGELSYSTEM_SHIFTS_URL_UPDATED, isEngelsystemShiftsUrlUpdated)) {
+                        fetchFahrplan();
                     }
                 }
         }
