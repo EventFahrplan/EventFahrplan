@@ -137,6 +137,9 @@ public class SettingsActivity extends BaseActivity {
                 urlPreference.setOnPreferenceChangeListener((preference, newValue) -> {
                     String url = (String) newValue;
                     appRepository.updateEngelsystemShiftsUrl(url);
+                    Intent redrawIntent = new Intent();
+                    redrawIntent.putExtra(BundleKeys.BUNDLE_KEY_ENGELSYSTEM_SHIFTS_URL_UPDATED, true);
+                    getActivity().setResult(Activity.RESULT_OK, redrawIntent);
                     return true;
                 });
             } else {

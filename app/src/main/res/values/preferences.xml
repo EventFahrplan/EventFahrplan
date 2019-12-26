@@ -28,7 +28,7 @@
         <![CDATA[In order to see your shifts please enter your <u>personal</u> URL here.<br/><br/>
         1. Login to your Engelsystem account.<br/>
         2. Copy the URL behind the <u>JSON Export</u> button at your profile page.<br/>
-        3. Paste the URL here.<br/>4. Reload the data by tapping the <u>refresh</u> button in the overflow menu.<br/><br/>
+        3. Paste the URL here.<br/><br/>
         Shifts before and after the main conference days are <u>not</u> displayed.]]>
     </string>
     <string name="preference_engelsystem_json_export_url_title" translatable="false">JSON Export URL</string>

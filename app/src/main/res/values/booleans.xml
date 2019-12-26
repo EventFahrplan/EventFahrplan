@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <bool name="bundle_key_engelsystem_shifts_url_updated_default_value">false</bool>
     <bool name="preferences_alternative_highlight_enabled_default_value">true</bool>
     <bool name="preferences_auto_update_enabled_default_value">true</bool>
     <bool name="preferences_insistent_alarm_enabled_default_value">false</bool>
