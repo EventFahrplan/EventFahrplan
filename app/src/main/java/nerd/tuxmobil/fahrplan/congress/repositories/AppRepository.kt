@@ -201,6 +201,7 @@ object AppRepository {
                 .cropToDayRangesExtent(dayRanges)
                 .also { logging.d(javaClass.name, "Shifts filtered = ${it.size}") }
                 .toLectureAppModels(logging, ENGELSYSTEM_ROOM_NAME, dayRanges)
+                .sanitize()
         val lectures = loadLecturesForAllDays(false) // Drop all shifts before ...
                 .toMutableList()
                 // Shift rooms to make space for the Engelshifts room
