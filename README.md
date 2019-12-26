@@ -52,10 +52,11 @@ provide the same event file format.
 
 ## Build instructions
 
-Before importing this project in Android Studio.
+To start development open the project in Android Studio.
 
-In the `app` folder make a copy of the `gradle.properties.example` file and rename it as `gradle.properties`.
-This file contains the signing information which is used in the build process.
+If you want to create your own signed release builds, copy the `gradle.properties.example` file in the `app` folder
+and rename it to `gradle.properties`. This file contains the signing information which is used in the build process.
+Make sure to edit the file contents to point to your own keystore files.
 
 ## History
 
