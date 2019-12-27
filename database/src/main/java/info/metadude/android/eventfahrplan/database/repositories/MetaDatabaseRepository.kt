@@ -7,6 +7,8 @@ import android.util.Log
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.*
 import info.metadude.android.eventfahrplan.database.extensions.delete
+import info.metadude.android.eventfahrplan.database.extensions.getInt
+import info.metadude.android.eventfahrplan.database.extensions.getString
 import info.metadude.android.eventfahrplan.database.extensions.insert
 import info.metadude.android.eventfahrplan.database.extensions.read
 import info.metadude.android.eventfahrplan.database.extensions.upsert
@@ -29,7 +31,6 @@ class MetaDatabaseRepository(
     }
 
     fun query(): Meta {
-        var meta = Meta()
         val database = sqLiteOpenHelper.readableDatabase
 
         val cursor: Cursor
@@ -39,39 +40,22 @@ class MetaDatabaseRepository(
             e.printStackTrace()
             database.close()
             sqLiteOpenHelper.close()
-            return meta
+            return Meta()
         }
 
-        if (cursor.count > 0) {
+        val meta = if (cursor.count == 0) {
+            Meta()
+        } else {
             cursor.moveToFirst()
-            val columnIndexNumDays = cursor.getColumnIndex(NUM_DAYS)
-            if (cursor.columnCount > columnIndexNumDays) {
-                meta = meta.copy(numDays = cursor.getInt(columnIndexNumDays))
-            }
-            val columnIndexVersion = cursor.getColumnIndex(VERSION)
-            if (cursor.columnCount > columnIndexVersion) {
-                meta = meta.copy(version = cursor.getString(columnIndexVersion))
-            }
-            val columnIndexTitle = cursor.getColumnIndex(TITLE)
-            if (cursor.columnCount > columnIndexTitle) {
-                meta = meta.copy(title = cursor.getString(columnIndexTitle))
-            }
-            val columnIndexSubTitle = cursor.getColumnIndex(SUBTITLE)
-            if (cursor.columnCount > columnIndexSubTitle) {
-                meta = meta.copy(subtitle = cursor.getString(columnIndexSubTitle))
-            }
-            val columnIndexDayChangeHour = cursor.getColumnIndex(DAY_CHANGE_HOUR)
-            if (cursor.columnCount > columnIndexDayChangeHour) {
-                meta = meta.copy(dayChangeHour = cursor.getInt(columnIndexDayChangeHour))
-            }
-            val columnIndexDayChangeMinute = cursor.getColumnIndex(DAY_CHANGE_MINUTE)
-            if (cursor.columnCount > columnIndexDayChangeMinute) {
-                meta = meta.copy(dayChangeMinute = cursor.getInt(columnIndexDayChangeMinute))
-            }
-            val columnIndexEtag = cursor.getColumnIndex(ETAG)
-            if (cursor.columnCount > columnIndexEtag) {
-                meta = meta.copy(eTag = cursor.getString(columnIndexEtag))
-            }
+            Meta(
+                    numDays = cursor.getInt(NUM_DAYS),
+                    version = cursor.getString(VERSION),
+                    title = cursor.getString(TITLE),
+                    subtitle = cursor.getString(SUBTITLE),
+                    dayChangeHour = cursor.getInt(DAY_CHANGE_HOUR),
+                    dayChangeMinute = cursor.getInt(DAY_CHANGE_MINUTE),
+                    eTag = cursor.getString(ETAG)
+            )
         }
 
         Log.d(javaClass.name, "query(): $meta")
