@@ -279,8 +279,21 @@ object AppRepository {
         highlightsDatabaseRepository.insert(values, lecture.lectureId)
     }
 
-    fun readLectureByLectureId(lectureId: String) =
-            lecturesDatabaseRepository.queryLectureByLectureId(lectureId).first().toLectureAppModel()
+    fun readLectureByLectureId(lectureId: String): Lecture {
+        val lecture = lecturesDatabaseRepository.queryLectureByLectureId(lectureId).toLectureAppModel()
+
+        val highlight = highlightsDatabaseRepository.queryByEventId(lectureId.toInt())
+        if (highlight != null) {
+            lecture.highlight = highlight.isHighlight
+        }
+
+        val alarms = alarmsDatabaseRepository.query(lectureId)
+        if (alarms.isNotEmpty()) {
+            lecture.hasAlarm = true
+        }
+
+        return lecture
+    }
 
     private fun readLecturesForDayIndexOrderedByDateUtc(dayIndex: Int) =
             lecturesDatabaseRepository.queryLecturesForDayIndexOrderedByDateUtc(dayIndex).toLecturesAppModel()

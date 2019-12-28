@@ -158,7 +158,10 @@ public class EventDetailFragment extends Fragment {
 
             locale = getResources().getConfiguration().locale;
 
+            // TODO: Remove this after 36C3. Right now it's only kept to minimize the likelihood of
+            //  unintended behavior changes.
             FahrplanFragment.loadLectureList(appRepository, day, requiresScheduleReload);
+
             lecture = eventIdToLecture(eventId);
 
             // Detailbar
@@ -345,17 +348,7 @@ public class EventDetailFragment extends Fragment {
 
     @NonNull
     private Lecture eventIdToLecture(String eventId) {
-        if (MyApp.lectureList == null) {
-            throw new NullPointerException("Lecture list is null.");
-        }
-        for (Lecture lecture : MyApp.lectureList) {
-            if (lecture.lectureId.equals(eventId)) {
-                return lecture;
-            }
-        }
-        Lecture lecture = appRepository.readLectureByLectureId(eventId);
-        Log.d(LOG_TAG, lecture.lectureId + ": " + lecture.getChangedStateString());
-        throw new IllegalStateException("Lecture list does not contain eventId: " + eventId + ", lecture: " + lecture.getChangedStateString());
+        return appRepository.readLectureByLectureId(eventId);
     }
 
     @Override

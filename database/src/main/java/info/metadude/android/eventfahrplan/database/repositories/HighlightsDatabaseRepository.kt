@@ -56,4 +56,33 @@ class HighlightsDatabaseRepository(
         return highlights.toList()
     }
 
+    fun queryByEventId(eventId: Int): Highlight? {
+        val database = sqLiteOpenHelper.readableDatabase
+        val cursor = try {
+            database.read(
+                tableName = HighlightsTable.NAME,
+                selection = "$EVENT_ID=?",
+                selectionArgs = arrayOf(eventId.toString())
+            )
+        } catch (e: SQLiteException) {
+            database.close()
+            sqLiteOpenHelper.close()
+            return null
+        }
+
+        val highlight = cursor.use {
+            if (cursor.moveToFirst()) {
+                val highlightState = cursor.getInt(HIGHLIGHT)
+                val isHighlighted = highlightState == HIGHLIGHT_STATE_ON
+                Highlight(eventId, isHighlighted)
+            } else {
+                null
+            }
+        }
+
+        database.close()
+        sqLiteOpenHelper.close()
+        return highlight
+    }
+
 }

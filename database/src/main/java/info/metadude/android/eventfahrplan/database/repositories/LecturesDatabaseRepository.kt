@@ -33,7 +33,7 @@ class LecturesDatabaseRepository(
         read(LecturesTable.NAME,
                 selection = "$EVENT_ID=?",
                 selectionArgs = arrayOf(lectureId))
-    }
+    }.first()
 
     fun queryLecturesForDayIndexOrderedByDateUtc(dayIndex: Int) = query {
         read(LecturesTable.NAME,
