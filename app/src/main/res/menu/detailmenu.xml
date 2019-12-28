@@ -55,11 +55,35 @@
             app:showAsAction="always"
             android:title="@string/menu_item_title_add_to_calendar">
     </item>
+
+
     <item
             android:id="@+id/menu_item_share_event"
             android:icon="@drawable/ic_share_white_24dp"
             app:showAsAction="always"
+            android:visible="false"
+            android:title="@string/menu_item_title_share_event"/>
+
+    <item
+            android:id="@+id/menu_item_share_event_menu"
+            android:icon="@drawable/ic_share_white_24dp"
+            app:showAsAction="always"
+            android:visible="false"
             android:title="@string/menu_item_title_share_event">
+
+        <menu>
+            <item
+                android:id="@+id/menu_item_share_event_text"
+                android:title="@string/share_as_text"
+                app:showAsAction="never"/>
+
+
+            <item
+                android:id="@+id/menu_item_share_event_json"
+                android:title="@string/share_as_json"
+                app:showAsAction="never"/>
+        </menu>
+
     </item>
 
 </menu>

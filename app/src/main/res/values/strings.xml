@@ -20,6 +20,10 @@
     <string name="menu_item_title_settings" translatable="false">@string/settings</string>
     <string name="menu_item_title_share_event">Share event</string>
     <string name="menu_item_title_share_favorites">Share favorites</string>
+    <string name="menu_item_title_share_event_text">as text</string>
+    <string name="menu_item_title_share_event_json">as JSON (for Chaosflix)</string>
+    <string name="share_as_text">Share as text</string>
+    <string name="share_as_json">Share as JSON (for Chaosflix)</string>
 
     <!-- AlertDialogHelper -->
     <string name="OK">OK</string>

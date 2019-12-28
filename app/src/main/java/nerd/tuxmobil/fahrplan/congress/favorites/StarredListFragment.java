@@ -23,6 +23,7 @@ import android.widget.Toast;
 import java.util.List;
 
 import info.metadude.android.eventfahrplan.commons.temporal.Moment;
+import nerd.tuxmobil.fahrplan.congress.BuildConfig;
 import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.base.AbstractListFragment;
@@ -30,6 +31,7 @@ import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
 import nerd.tuxmobil.fahrplan.congress.models.Meta;
 import nerd.tuxmobil.fahrplan.congress.schedule.MainActivity;
+import nerd.tuxmobil.fahrplan.congress.sharing.JsonLectureFormat;
 import nerd.tuxmobil.fahrplan.congress.sharing.LectureSharer;
 import nerd.tuxmobil.fahrplan.congress.sharing.SimpleLectureFormat;
 import nerd.tuxmobil.fahrplan.congress.utils.ActivityHelper;
@@ -198,7 +200,11 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
         if (item != null && (starredList == null || starredList.isEmpty())) {
             item.setVisible(false);
         }
-        item = menu.findItem(R.id.menu_item_share_favorites);
+        if (BuildConfig.ENABLE_CHAOSFLIX_EXPORT) {
+            item = menu.findItem(R.id.menu_item_share_favorites_menu);
+        } else {
+            item = menu.findItem(R.id.menu_item_share_favorites);
+        }
         if (item != null) {
             item.setVisible(starredList != null && !starredList.isEmpty());
         }
@@ -207,7 +213,11 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_item_share_favorites:
+            case R.id.menu_item_share_favorites_text:
                 shareLectures();
+                return true;
+            case R.id.menu_item_share_favorites_json:
+                shareLecturesToChaosflix();
                 return true;
             case R.id.menu_item_delete_all_favorites:
                 askToDeleteAllFavorites();
@@ -313,6 +323,16 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
         if (formattedLectures != null) {
             Context context = requireContext();
             if (!LectureSharer.shareSimple(context, formattedLectures)) {
+                Toast.makeText(context, R.string.share_error_activity_not_found, Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void shareLecturesToChaosflix() {
+        String formattedLectures = JsonLectureFormat.format(starredList);
+        if (formattedLectures != null) {
+            Context context = requireContext();
+            if (!LectureSharer.shareJson(context, formattedLectures)) {
                 Toast.makeText(context, R.string.share_error_activity_not_found, Toast.LENGTH_SHORT).show();
             }
         }

@@ -40,6 +40,7 @@ Please read the instructions in the [contribution guide](CONTRIBUTING.md) in ord
 * The feedback system of [Frab][frab-github] and [Pretalx][pretalx-website]
 * [c3nav][c3nav-github] - An indoor navigation project
 * [Engelsystem][engelsystem-website] - Online tool for coordinating helpers and shifts on large events
+* [Chaosflix][chaosflix-github] - Android app for media.ccc.de, share Fahrplan favorites with Chaosflix to import them as bookmarks
 
 
 ## Event data
@@ -103,6 +104,7 @@ limitations under the License.
 [campfahrplan-github]: https://github.com/tuxmobil/CampFahrplan
 [camp-app-google-play]: https://play.google.com/store/apps/details?id=info.metadude.android.cccamp.schedule
 [ccc-events]: http://events.ccc.de
+[chaosflix-github]: https://github.com/NiciDieNase/chaosflix
 [congress-app-google-play]: https://play.google.com/store/apps/details?id=info.metadude.android.congress.schedule
 [engelsystem-website]: https://engelsystem.de
 [eventfahrplan-github]: https://github.com/EventFahrplan/EventFahrplan

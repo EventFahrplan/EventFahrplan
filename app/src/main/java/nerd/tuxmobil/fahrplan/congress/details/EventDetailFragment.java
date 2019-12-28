@@ -38,6 +38,7 @@ import nerd.tuxmobil.fahrplan.congress.models.Lecture;
 import nerd.tuxmobil.fahrplan.congress.navigation.RoomForC3NavConverter;
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanFragment;
+import nerd.tuxmobil.fahrplan.congress.sharing.JsonLectureFormat;
 import nerd.tuxmobil.fahrplan.congress.sharing.LectureSharer;
 import nerd.tuxmobil.fahrplan.congress.sharing.SimpleLectureFormat;
 import nerd.tuxmobil.fahrplan.congress.sidepane.OnSidePaneCloseListener;
@@ -339,6 +340,14 @@ public class EventDetailFragment extends Fragment {
             boolean isVisible = !getRoomConvertedForC3Nav().isEmpty();
             item.setVisible(isVisible);
         }
+        if (BuildConfig.ENABLE_CHAOSFLIX_EXPORT) {
+            item = menu.findItem(R.id.menu_item_share_event_menu);
+        } else {
+            item = menu.findItem(R.id.menu_item_share_event);
+        }
+        if (item != null) {
+            item.setVisible(true);
+        }
     }
 
     @NonNull
@@ -393,9 +402,17 @@ public class EventDetailFragment extends Fragment {
                 return true;
             }
             case R.id.menu_item_share_event:
+            case R.id.menu_item_share_event_text:
                 l = eventIdToLecture(eventId);
                 String formattedLecture = SimpleLectureFormat.format(l);
                 if (!LectureSharer.shareSimple(activity, formattedLecture)) {
+                    Toast.makeText(activity, R.string.share_error_activity_not_found, Toast.LENGTH_SHORT).show();
+                }
+                return true;
+            case R.id.menu_item_share_event_json:
+                l = eventIdToLecture(eventId);
+                String jsonLecture = JsonLectureFormat.format(l);
+                if (!LectureSharer.shareJson(activity, jsonLecture)) {
                     Toast.makeText(activity, R.string.share_error_activity_not_found, Toast.LENGTH_SHORT).show();
                 }
                 return true;
