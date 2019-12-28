@@ -170,8 +170,9 @@
     </string>
     <string name="trace_droid_dialog_message">
         A problem with the <xliff:g example="33C3 Schedule" id="appName">%s</xliff:g> app has
-        been detected. It would be helpful if you could submit a crash report
-        so the source of the problem can be identified.
+        been detected. It would be helpful if you could submit a crash report so the source of
+        the problem can be identified. It helps a lot if you can describe how and when the
+        crash happened.
     </string>
     <string name="trace_droid_button_title_send">
         Open email
