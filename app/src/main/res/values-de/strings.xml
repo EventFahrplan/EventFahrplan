@@ -156,8 +156,9 @@
     </string>
     <string name="trace_droid_dialog_message">
         Es wurde ein Problem mit der <xliff:g example="33C3 Fahrplan" id="appName">%s</xliff:g> App
-        festgestellt. Es wäre hilfreich, wenn du einen Fehlerbericht übermitteln würdest,
-        damit die Ursache des Problems identifiziert werden kann.
+        festgestellt. Es wäre hilfreich, wenn du einen Fehlerbericht übermitteln würdest, damit die
+        Ursache des Problems identifiziert werden kann. Es ist sehr hilfreich, wenn du beschreiben
+        kannst, wann und wie der Fehler aufgetreten ist.
     </string>
     <string name="trace_droid_button_title_send">
         E-Mail öffnen
