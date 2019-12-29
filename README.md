@@ -81,7 +81,7 @@ Copyright 2011-2015 Daniel Dorau
 Contributions from Adriano Pereira Junior, Akarsh Seggemu, Andrea Marziali,
 Andy Scherzinger, Andreas Schildbach, Animesh Verma, bashtian, bjoernb,
 ButterflyOfFire, cacarrara, Caio Volpato, cketti, codingcatgirl, entropynil,
-koelnkalkverbot, ligi, Mateus Baptista, MichaelRocks, Noemis, Poschi,
+ideadapt, koelnkalkverbot, ligi, Mateus Baptista, MichaelRocks, Noemis, Poschi,
 Sjors van Mierlo, Stefan Medack, SubOptimal, Torsten Grote, Victor Herasme,
 Vladimir Alabov, Yanicka
 
