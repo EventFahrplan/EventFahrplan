@@ -403,6 +403,7 @@ public class EventDetailFragment extends Fragment {
                 if (lecture != null) {
                     lecture.highlight = true;
                     appRepository.updateHighlight(lecture);
+                    appRepository.updateLecturesLegacy(lecture);
                 }
                 refreshUI(activity);
                 return true;
@@ -410,6 +411,7 @@ public class EventDetailFragment extends Fragment {
                 if (lecture != null) {
                     lecture.highlight = false;
                     appRepository.updateHighlight(lecture);
+                    appRepository.updateLecturesLegacy(lecture);
                 }
                 refreshUI(activity);
                 return true;
