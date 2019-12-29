@@ -18,6 +18,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.text.format.Time;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -378,6 +379,9 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
                     columnWidth, LayoutParams.WRAP_CONTENT, 1);
             p.gravity = Gravity.CENTER;
             roomTitle.setLayoutParams(p);
+            roomTitle.setMaxLines(1);
+            roomTitle.setEllipsize(TextUtils.TruncateAt.END);
+            roomTitle.setPadding(0, 0, getEventPadding(), 0);
             roomTitle.setGravity(Gravity.CENTER);
             roomTitle.setTypeface(light);
             int v = MyApp.roomList.get(i);
