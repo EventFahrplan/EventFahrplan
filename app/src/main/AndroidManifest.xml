@@ -51,7 +51,12 @@
         </receiver>
         <receiver android:name="nerd.tuxmobil.fahrplan.congress.system.OnBootReceiver">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"></action>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name="nerd.tuxmobil.fahrplan.congress.system.OnLocaleChangedReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.LOCALE_CHANGED" />
             </intent-filter>
         </receiver>
 
