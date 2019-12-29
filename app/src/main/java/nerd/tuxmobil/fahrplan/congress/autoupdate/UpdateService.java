@@ -7,8 +7,8 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
-import android.support.v4.app.JobIntentService;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.SafeJobIntentService;
 import android.text.TextUtils;
 
 import java.util.List;
@@ -32,7 +32,7 @@ import nerd.tuxmobil.fahrplan.congress.schedule.MainActivity;
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
 import okhttp3.OkHttpClient;
 
-public class UpdateService extends JobIntentService {
+public class UpdateService extends SafeJobIntentService {
 
     private static final int JOB_ID = 2119;
 
