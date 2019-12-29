@@ -17,6 +17,7 @@ import info.metadude.android.eventfahrplan.network.repositories.ScheduleNetworkR
 import info.metadude.kotlin.library.engelsystem.models.Shift
 import kotlinx.coroutines.Job
 import nerd.tuxmobil.fahrplan.congress.BuildConfig
+import nerd.tuxmobil.fahrplan.congress.MyApp
 import nerd.tuxmobil.fahrplan.congress.dataconverters.*
 import nerd.tuxmobil.fahrplan.congress.exceptions.AppExceptionHandler
 import nerd.tuxmobil.fahrplan.congress.logging.Logging
@@ -315,6 +316,20 @@ object AppRepository {
 
     fun readDateInfos() =
             readLecturesOrderedByDateUtc().toDateInfos()
+
+    /**
+     * Updates the legacy static lecture list.
+     * This method should be invoked when the state of a [lecture] is changed
+     * while other parts of the application such as the main screen render
+     * their views based on the [legacy static lecture list][MyApp.lectureList].
+     */
+    @Deprecated("Drop method once MyApp.lectureList is gone.")
+    fun updateLecturesLegacy(lecture: Lecture) {
+        MyApp.lectureList?.firstOrNull { lecture.lectureId == it.lectureId }?.let {
+            it.highlight = lecture.highlight
+            it.hasAlarm = lecture.hasAlarm
+        }
+    }
 
     private fun updateLectures(lectures: List<Lecture>) {
         val lecturesDatabaseModel = lectures.toLecturesDatabaseModel()
