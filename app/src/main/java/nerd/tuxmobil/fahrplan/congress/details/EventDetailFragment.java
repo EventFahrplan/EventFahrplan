@@ -171,7 +171,11 @@ public class EventDetailFragment extends Fragment {
             if (lecture != null && lecture.dateUTC > 0) {
                 DateFormat df = SimpleDateFormat
                         .getDateTimeInstance(SimpleDateFormat.SHORT, SimpleDateFormat.SHORT);
-                t.setText(df.format(new Date(lecture.dateUTC)));
+                String date = df.format(new Date(lecture.dateUTC));
+                if (lecture.duration > 0) {
+                    date += "/" + lecture.duration + " min";
+                }
+                t.setText(date);
             } else {
                 t.setText("");
             }
