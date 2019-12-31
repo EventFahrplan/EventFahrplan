@@ -4,6 +4,8 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
+import org.threeten.bp.Instant;
+
 import info.metadude.android.eventfahrplan.commons.temporal.Moment;
 import nerd.tuxmobil.fahrplan.congress.R;
 
@@ -23,7 +25,7 @@ public class Lecture {
 
     public int startTime;                // minutes since day start
 
-    public int duration;                // minutes
+    public int duration;                 // minutes
 
     public String speakers;
 
@@ -39,25 +41,23 @@ public class Lecture {
 
     public String description;
 
-    public int relStartTime;
+    public int relStartTime;             // minutes
 
     public String links;
 
-    public String date;
+    public String date;                 // YYYY-MM-DD
 
     public boolean highlight;
 
     public boolean hasAlarm;
 
-    public long dateUTC;
+    public long dateUTC;                // milliseconds
 
     public int roomIndex;
 
     public String recordingLicense;
 
     public boolean recordingOptOut;
-
-    public static final boolean RECORDING_OPTOUT_ON = true;
 
     public static final boolean RECORDING_OPTOUT_OFF = false;
 
@@ -118,13 +118,9 @@ public class Lecture {
     }
 
     public Moment getMoment() {
-        Moment moment = new Moment();
+        Moment moment = new Moment(Instant.parse(date).toEpochMilli());
+        moment.plusSeconds(relStartTime * 60);
         String[] splitDate = date.split("-");
-        moment.setYear(Integer.parseInt(splitDate[0]));
-        moment.setMonth(Integer.parseInt(splitDate[1]) - 1);
-        moment.setMonthDay(Integer.parseInt(splitDate[2]));
-        moment.setHour(relStartTime / 60);
-        moment.setMinute(relStartTime % 60);
         return moment;
     }
 

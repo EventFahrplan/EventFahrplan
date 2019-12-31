@@ -59,7 +59,7 @@ public class FahrplanMisc {
             when = lecture.dateUTC;
         } else {
             Moment moment = lecture.getMoment();
-            when = moment.normalize();
+            when = moment.toMilliseconds();
         }
         return when;
     }
@@ -92,26 +92,23 @@ public class FahrplanMisc {
         long when;
         Moment moment;
         long startTime;
-        long startTimeInSeconds = lecture.dateUTC;
+        long startTimeInMilliSec = lecture.dateUTC;
 
-        if (startTimeInSeconds > 0) {
-            when = startTimeInSeconds;
-            startTime = startTimeInSeconds;
-            moment = new Moment(false);
+        if (startTimeInMilliSec > 0) {
+            when = startTimeInMilliSec;
+            startTime = startTimeInMilliSec;
+            moment = new Moment(); // TODO created a timezone date previously ... I think that was wrong
         } else {
             moment = lecture.getMoment();
-            startTime = moment.normalize();
-            when = moment.normalize();
+            startTime = moment.toMilliseconds();
+            when = moment.toMilliseconds();
         }
         long alarmTimeDiffInSeconds = alarmTimes.get(alarmTimesIndex) * 60 * 1000L;
         when -= alarmTimeDiffInSeconds;
 
-        // DEBUG
-        // when = System.currentTimeMillis() + (30 * 1000);
-
         moment.setToMilliseconds(when);
         MyApp.LogDebug("addAlarm",
-                "Alarm time: " + moment.toFormattedString("%Y-%m-%dT%H:%M:%S%z") + ", in seconds: " + when);
+                "Alarm time: " + moment.toLocalDateTime() + ", in seconds: " + when);
 
         String eventId = lecture.lectureId;
         String eventTitle = lecture.title;

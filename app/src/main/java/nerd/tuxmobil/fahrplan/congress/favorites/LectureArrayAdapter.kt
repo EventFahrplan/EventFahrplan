@@ -26,7 +26,7 @@ class LectureArrayAdapter internal constructor(
 
 ) {
 
-    private val nowMoment = Moment(false)
+    private val nowMoment = Moment()
 
     @ColorInt
     private val pastEventTextColor = ContextCompat.getColor(context, R.color.favorites_past_event_text)

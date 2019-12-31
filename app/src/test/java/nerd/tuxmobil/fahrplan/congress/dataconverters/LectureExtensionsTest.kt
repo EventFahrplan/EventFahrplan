@@ -1,5 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress.dataconverters
 
+import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import info.metadude.android.eventfahrplan.database.models.Highlight
 import info.metadude.android.eventfahrplan.database.models.Lecture.Companion.RECORDING_OPT_OUT_ON
 import nerd.tuxmobil.fahrplan.congress.models.DateInfo
@@ -104,7 +105,7 @@ class LectureExtensionsTest {
         val lecture = Lecture("")
         lecture.date = "2015-08-13"
         lecture.day = 3
-        val dateInfo = DateInfo(3, "2015-08-13")
+        val dateInfo = DateInfo(3, Moment("2015-08-13"))
         assertThat(lecture.toDateInfo()).isEqualTo(dateInfo)
     }
 

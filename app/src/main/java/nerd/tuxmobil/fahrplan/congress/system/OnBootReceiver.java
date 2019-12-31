@@ -44,7 +44,6 @@ public final class OnBootReceiver extends BroadcastReceiver {
         Moment nowMoment = new Moment();
         Moment storedAlarmTime = new Moment();
         nowMoment.plusSeconds(15);
-        nowMoment.normalize();
 
         AppRepository appRepository = AppRepository.INSTANCE;
         List<Alarm> alarms = appRepository.readAlarms();

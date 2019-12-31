@@ -24,6 +24,8 @@ android {
 dependencies {
     implementation Libs.kotlinStdlib
     implementation Libs.tracedroid
+    api Libs.threeTenBp
+
     testImplementation Libs.junit
     testImplementation Libs.assertjAndroid
 }

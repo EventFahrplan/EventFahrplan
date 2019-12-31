@@ -2,6 +2,7 @@
 
 package nerd.tuxmobil.fahrplan.congress.schedule
 
+import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.models.DateInfos
 
 /**
@@ -15,11 +16,11 @@ import nerd.tuxmobil.fahrplan.congress.models.DateInfos
  * @param dateInfos A [list of DateInfo objects][DateInfos].
  *                  The [dayIdx] of the first object must be 1.
  *                  The list cannot be null nor empty.
- * @param currentDate A formatted date string. Pattern: YYYY-MM-DD.
+ * @param currentDate A moment instance representing the day of interest.
  * @param todayString The word "Day" in the language of choice.
  * @param todayString The word "Today" in the language of choice.
  */
-internal fun getDayMenuEntries(numDays: Int, dateInfos: DateInfos?, currentDate: String, dayString: String, todayString: String): Array<String?> {
+internal fun getDayMenuEntries(numDays: Int, dateInfos: DateInfos?, currentDate: Moment, dayString: String, todayString: String): Array<String?> {
     if (numDays < 1) {
         throw IllegalArgumentException("Invalid number of days: $numDays")
     }

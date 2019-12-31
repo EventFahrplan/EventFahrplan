@@ -22,26 +22,6 @@ import info.metadude.android.eventfahrplan.commons.temporal.Moment;
 
 public class DateHelper {
 
-    /**
-     * Returns a formatted string for the current date. Pattern YYYY-MM-DD.
-     */
-    public static String getCurrentDate() {
-        return getFormattedDate(new Moment());
-    }
-
-    /**
-     * Returns a formatted string for the given moment. Pattern YYYY-MM-DD.
-     */
-    public static String getFormattedDate(@NonNull Moment moment) {
-        StringBuilder date = new StringBuilder();
-        date.append(String.format("%d", moment.getYear()));
-        date.append("-");
-        date.append(String.format("%02d", moment.getMonth() + 1));
-        date.append("-");
-        date.append(String.format("%02d", moment.getMonthDay()));
-        return date.toString();
-    }
-
     public static String getFormattedTime(long time) {
         DateFormat dateFormat = SimpleDateFormat.getTimeInstance(SimpleDateFormat.SHORT);
         return dateFormat.format(new Date(time));
@@ -107,8 +87,7 @@ public class DateHelper {
     }
 
     public static int getMinutesOfDay(long dateUtc) {
-        Moment moment = new Moment(dateUtc);
-        return moment.getHour() * 60 + moment.getMinute();
+        return new Moment(dateUtc).getMinute();
     }
 
     public static int getDayOfMonth(long dateUtc) {
@@ -116,5 +95,4 @@ public class DateHelper {
         calendar.setTimeInMillis(dateUtc);
         return calendar.get(Calendar.DAY_OF_MONTH);
     }
-
 }
