@@ -2,7 +2,15 @@ package info.metadude.android.eventfahrplan.commons.temporal
 
 import org.threeten.bp.*
 
-// TODO Moment should be UTC and initialized with now per default
+/**
+ * An instance represents a moment in time. Most operations are UTC based, and all are immutable.
+ * Hence any manipulation creates a new instance.
+ * Timezone based dates are retrieved using {#toZonedDateTime}.
+ *
+ * E.g.
+ *
+ * > Moment().toZonedDateTime(ZoneOffset.of("GMT+1"))
+ */
 class Moment() {
 
     private constructor(instant: Instant) : this() {
@@ -14,13 +22,13 @@ class Moment() {
     }
 
     /**
-     * @param localDate must be in ISO-8601 format, e.g. "YYYY-MM-DD", which is always UTC.
+     * @param UTCDate must be in ISO-8601 format, e.g. "yyyy-MM-dd", which must be in UTC.
      * */
-    constructor(localDate: String) : this(Instant.parse(localDate).toEpochMilli())
+    constructor(UTCDate: String) : this(LocalDate.parse(UTCDate).atStartOfDay().toInstant(ZoneOffset.UTC))
 
     private var time: Instant = Instant.now() // UTC
-    private val zone: ZoneId = ZoneId.systemDefault()
-    private val millisPerDay = 86400000
+    var zone: ZoneId = ZoneId.systemDefault()
+        private set
 
     val year: Int
         get() = time.atZone(zone).year
@@ -42,9 +50,16 @@ class Moment() {
      * Example: 2019-12-31 01:30 => 2019-12-31 00:00
      */
     fun startOfDay(): Moment {
-        return Moment(LocalDate
-                .ofEpochDay(time.toEpochMilli() / millisPerDay)
+        return Moment(toUTCDateTime()
+                .toLocalDate()
                 .atStartOfDay()
+                .toInstant(ZoneOffset.UTC))
+    }
+
+    fun endOfDay(): Moment {
+        return Moment(toUTCDateTime().toLocalDate().atStartOfDay()
+                .plusDays(1)
+                .minusSeconds(1)
                 .toInstant(ZoneOffset.UTC))
     }
 
@@ -54,8 +69,12 @@ class Moment() {
 
     fun toMilliseconds() = time.toEpochMilli()
 
-    fun toLocalDateTime(): LocalDateTime {
+    fun toUTCDateTime(): LocalDateTime {
         return time.atZone(ZoneId.of("UTC")).toLocalDateTime()
+    }
+
+    fun toZonedDateTime(timeZoneOffset: ZoneOffset): ZonedDateTime {
+        return time.atZone(timeZoneOffset)
     }
 
     fun minusHours(hours: Int) {

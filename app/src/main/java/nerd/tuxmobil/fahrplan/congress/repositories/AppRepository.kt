@@ -194,9 +194,8 @@ object AppRepository {
         if (shifts.isEmpty()) {
             return
         }
-        val timeZoneOffset = shifts.first().timeZoneOffset
         val dayRanges = loadLecturesForAllDays(includeEngelsystemShifts = false)
-                .toDayRanges(timeZoneOffset)
+                .toDayRanges()
         val lecturizedShifts = shifts
                 .also { logging.d(javaClass.name, "Shifts unfiltered = ${it.size}") }
                 .cropToDayRangesExtent(dayRanges)

@@ -108,7 +108,7 @@ public class FahrplanMisc {
 
         moment.setToMilliseconds(when);
         MyApp.LogDebug("addAlarm",
-                "Alarm time: " + moment.toLocalDateTime() + ", in seconds: " + when);
+                "Alarm time: " + moment.toUTCDateTime() + ", in seconds: " + when);
 
         String eventId = lecture.lectureId;
         String eventTitle = lecture.title;

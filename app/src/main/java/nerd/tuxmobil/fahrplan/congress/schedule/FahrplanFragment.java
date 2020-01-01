@@ -806,7 +806,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
 
     public void buildNavigationMenu() {
         Moment currentDate = new Moment().startOfDay();
-        MyApp.LogDebug(LOG_TAG, "Today is " + currentDate.toLocalDateTime().toLocalDate());
+        MyApp.LogDebug(LOG_TAG, "Today is " + currentDate.toUTCDateTime().toLocalDate());
         String[] dayMenuEntries = NavigationMenuEntriesGenerator.getDayMenuEntries(
                 MyApp.meta.getNumDays(),
                 MyApp.dateInfos,

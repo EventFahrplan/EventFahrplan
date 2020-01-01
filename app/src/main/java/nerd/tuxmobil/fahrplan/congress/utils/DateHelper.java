@@ -3,20 +3,13 @@ package nerd.tuxmobil.fahrplan.congress.utils;
 import android.support.annotation.NonNull;
 
 import org.threeten.bp.Duration;
-import org.threeten.bp.LocalDate;
-import org.threeten.bp.LocalTime;
-import org.threeten.bp.ZoneOffset;
 import org.threeten.bp.ZonedDateTime;
-import org.threeten.bp.format.DateTimeFormatter;
 import org.threeten.bp.temporal.ChronoField;
-import org.threeten.bp.temporal.ChronoUnit;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-import java.util.TimeZone;
 
 import info.metadude.android.eventfahrplan.commons.temporal.Moment;
 
@@ -39,38 +32,6 @@ public class DateHelper {
     }
 
     /**
-     * Returns the LocalDate parsed from the given date string and pattern.
-     * Example "2019-08-21", "yyyy-MM-dd" -> 2019-08-21
-     */
-    public static LocalDate getLocalDate(@NonNull final String dateString, @NonNull final String pattern) {
-        return LocalDate.parse(dateString, DateTimeFormatter.ofPattern(pattern));
-    }
-
-    /**
-     * Returns the ZonedDateTime representing the start of the day.
-     * Example: 2019-08-21, +02:00 -> 2019-08-21T00:00:00+02:00
-     */
-    public static ZonedDateTime getDayStartsAtDate(@NonNull final LocalDate date, ZoneOffset timeZoneOffset) {
-        return ZonedDateTime.of(date, LocalTime.of(0, 0, 0, 0), timeZoneOffset);
-    }
-
-    /**
-     * Returns the ZonedDateTime representing the end of the day.
-     * Example: 2019-08-21T13:42:49+02:00 -> 2019-08-21T23:59:59+02:00
-     */
-    public static ZonedDateTime getDayEndsAtDate(@NonNull final ZonedDateTime date) {
-        return date
-                // Zero all time fields
-                .minusHours(date.getHour())
-                .minusMinutes(date.getMinute())
-                .minusSeconds(date.getSecond())
-                .minus(date.get(ChronoField.MILLI_OF_SECOND), ChronoUnit.MILLIS)
-                // Shift to the end of this day
-                .plusDays(1)
-                .minusSeconds(1);
-    }
-
-    /**
      * Returns the duration in minutes between the given dates.
      * Example: 2019-08-25T12:00:00+00:00, 2019-08-25T12:30:13+00:00 -> 30L
      */
@@ -90,9 +51,8 @@ public class DateHelper {
         return new Moment(dateUtc).getMinute();
     }
 
+    // TODO was utc, now zoned. But is this correct? getMinuteOfDay, getMinutesOfDay: was and still is zoned. Shouldn't all of them be UTC?
     public static int getDayOfMonth(long dateUtc) {
-        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        calendar.setTimeInMillis(dateUtc);
-        return calendar.get(Calendar.DAY_OF_MONTH);
+        return new Moment(dateUtc).getMonthDay();
     }
 }

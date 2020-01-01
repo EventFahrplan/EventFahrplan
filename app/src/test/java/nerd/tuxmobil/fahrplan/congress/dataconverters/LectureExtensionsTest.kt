@@ -110,6 +110,35 @@ class LectureExtensionsTest {
     }
 
     @Test
+    fun toDayRanges() {
+        val lecture0 = Lecture("")
+        lecture0.date = "2019-08-02"
+        lecture0.day = 2
+
+        val lecture1 = Lecture("")
+        lecture1.date = "2019-08-01"
+        lecture1.day = 1
+
+        val lecture1Copy = Lecture("")
+        lecture1Copy.date = "2019-08-01"
+        lecture1Copy.day = 1
+
+        val lectures = listOf(lecture0, lecture1, lecture1Copy)
+        val dayRanges = lectures.toDayRanges()
+
+        assertThat(dayRanges.size).isEqualTo(2)
+        assertThat(dayRanges[0].startsAt.dayOfMonth).isEqualTo(1)
+        assertThat(dayRanges[0].startsAt.hour).isEqualTo(0)
+        assertThat(dayRanges[1].startsAt.dayOfMonth).isEqualTo(2)
+        assertThat(dayRanges[1].startsAt.hour).isEqualTo(0)
+
+        assertThat(dayRanges[0].endsAt.dayOfMonth).isEqualTo(1)
+        assertThat(dayRanges[0].endsAt.hour).isEqualTo(23)
+        assertThat(dayRanges[1].endsAt.dayOfMonth).isEqualTo(2)
+        assertThat(dayRanges[1].endsAt.hour).isEqualTo(23)
+    }
+
+    @Test
     fun toHighlightDatabaseModel() {
         val lecture = Lecture("")
         lecture.lectureId = "4723"

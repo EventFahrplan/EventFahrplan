@@ -1,5 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress.models
 
+import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Test
@@ -12,9 +13,9 @@ class DayRangeTest {
 
     @Before
     fun setUp() {
-        val startsAt = ZonedDateTime.of(2019, 12, 27, 0, 0, 0, 0, ZoneOffset.UTC)
-        val endsAt = ZonedDateTime.of(2019, 12, 30, 23, 59, 59, 0, ZoneOffset.UTC)
-        dayRange = DayRange(startsAt, endsAt)
+        val day1 = Moment("2019-12-27")
+        val day2 = Moment("2019-12-30")
+        dayRange = DayRange(day1, day2)
     }
 
     @Test
@@ -36,7 +37,7 @@ class DayRangeTest {
     }
 
     @Test
-    fun containsWithDateTimBeforeEndsAt() {
+    fun containsWithDateTimeBeforeEndsAt() {
         val dateTime = ZonedDateTime.of(2019, 12, 30, 23, 59, 58, 0, ZoneOffset.UTC)
         assertThat(dayRange.contains(dateTime)).isTrue()
     }
