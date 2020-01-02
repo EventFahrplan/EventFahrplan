@@ -26,7 +26,7 @@ fun Shift.toLectureAppModel(
     relStartTime = minuteOfDay
     room = virtualRoomName
     speakers = "-"
-    startTime = minuteOfDay // minutes since day start
+    startTime = minuteOfDay  // minutes since day start
     title = name
     subtitle = talkTitle
     track = virtualRoomName

@@ -7,6 +7,8 @@ import org.threeten.bp.*
  * Hence any manipulation creates a new instance.
  * Timezone based dates are retrieved using {#toZonedDateTime}.
  *
+ * TODO make field based getters (e.g. getHour) return values relative to UTC.
+ *
  * E.g.
  *
  * > Moment().toZonedDateTime(ZoneOffset.of("GMT+1"))

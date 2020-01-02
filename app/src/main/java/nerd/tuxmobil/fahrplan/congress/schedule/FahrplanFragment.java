@@ -314,7 +314,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
         loadLectureList(appRepository, mDay, reload);
         List<Lecture> lectures = MyApp.lectureList;
         if (lectures != null && !lectures.isEmpty()) {
-            conference.calculateTimeFrame(lectures, DateHelper::getMinutesOfDay);
+            conference.calculateTimeFrame(lectures, DateHelper::getMinuteOfDay);
             MyApp.LogDebug(LOG_TAG, "Conference = " + conference);
         }
         View layoutRoot = getView();
@@ -633,7 +633,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
             Lecture lecture = lectures.get(idx);
             if (lecture.roomIndex == roomIndex) {
                 if (lecture.dateUTC > 0) {
-                    startTime = DateHelper.getMinutesOfDay(lecture.dateUTC);
+                    startTime = DateHelper.getMinuteOfDay(lecture.dateUTC);
                     if (startTime < endTime) {
                         startTime += ONE_DAY;
                     }

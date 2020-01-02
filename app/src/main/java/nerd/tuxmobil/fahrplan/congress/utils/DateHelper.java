@@ -3,6 +3,7 @@ package nerd.tuxmobil.fahrplan.congress.utils;
 import android.support.annotation.NonNull;
 
 import org.threeten.bp.Duration;
+import org.threeten.bp.ZoneId;
 import org.threeten.bp.ZonedDateTime;
 import org.threeten.bp.temporal.ChronoField;
 
@@ -40,18 +41,26 @@ public class DateHelper {
     }
 
     /**
-     * Returns the minute of the day for the given date.
-     * Example: 2019-08-27T00:06:30+00:00 -> 390
+     * Returns the minute of the day for the given zoned date time. Zone offset is respected!
+     * Note: Lecture.startTime (minutes since day start) is always based on UTC. Hence, its safe to use this method to compare with Lecture data.
+     * <p>
+     * Example: 2019-08-27T00:06:30+04:00 -> 150
      */
     public static int getMinuteOfDay(@NonNull final ZonedDateTime date) {
-        return date.get(ChronoField.MINUTE_OF_DAY);
+        return date.withZoneSameInstant(ZoneId.of("UTC")).get(ChronoField.MINUTE_OF_DAY);
     }
 
-    public static int getMinutesOfDay(long dateUtc) {
-        return new Moment(dateUtc).getMinute();
+    /**
+     * Returns the minute of the day for the given UTC timestamp. Zone offset is respected!
+     * Note: Lecture.startTime (minutes since day start) is always based on UTC. Hence, it's safe to use this method to compare with Lecture data.
+     * <p>
+     * Example: 2019-08-27T00:06:30+04:00 -> 150 => (6-4) * 60 + 30
+     */
+    public static int getMinuteOfDay(long dateUtc) {
+        return new Moment(dateUtc).toUTCDateTime().get(ChronoField.MINUTE_OF_DAY);
     }
 
-    // TODO was utc, now zoned. But is this correct? getMinuteOfDay, getMinutesOfDay: was and still is zoned. Shouldn't all of them be UTC?
+    // TODO was utc, now zoned. But is this correct? getMinuteOfDay(ZonedDateTime) were and still is zoned. Shouldn't all of them be UTC?
     public static int getDayOfMonth(long dateUtc) {
         return new Moment(dateUtc).getMonthDay();
     }

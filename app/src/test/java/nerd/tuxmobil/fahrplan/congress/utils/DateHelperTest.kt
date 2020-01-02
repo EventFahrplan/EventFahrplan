@@ -27,9 +27,14 @@ class DateHelperTest {
     }
 
     @Test
-    fun getMinutesOfDay() {
-        val startsAtDate = ZonedDateTime.of(2019, 8, 27, 6, 30, 0, 0, ZoneOffset.UTC)
-        assertThat(DateHelper.getMinuteOfDay(startsAtDate)).isEqualTo(390)
+    fun getMinuteOfDayZonedInput() {
+        val startsAtDate = ZonedDateTime.of(2019, 8, 27, 6, 30, 0, 0, ZoneOffset.ofHours(4))
+        assertThat(DateHelper.getMinuteOfDay(startsAtDate)).isEqualTo((6 - 4) * 60 + 30)
     }
 
+    @Test
+    fun getMinuteOfDayUTCInput() {
+        val startsAtDate = ZonedDateTime.of(2019, 8, 27, 6, 30, 0, 0, ZoneOffset.ofHours(4))
+        assertThat(DateHelper.getMinuteOfDay(startsAtDate.toInstant().toEpochMilli())).isEqualTo((6 - 4) * 60 + 30)
+    }
 }
