@@ -76,7 +76,7 @@ Portions Copyright 2008-2011 The K-9 Dog Walkers and 2006-2011 the Android Open 
 
 
 ```
-Copyright 2013-2019 johnjohndoe
+Copyright 2013-2020 johnjohndoe
 Copyright 2011-2015 Daniel Dorau
 Contributions from Adriano Pereira Junior, Akarsh Seggemu, Andrea Marziali,
 Andy Scherzinger, Andreas Schildbach, Animesh Verma, bashtian, bjoernb,
