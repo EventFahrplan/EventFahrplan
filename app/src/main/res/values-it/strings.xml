@@ -99,7 +99,6 @@
     <string name="schedule_changes_dialog_updated_to_text">Il programma è stato aggiornato a </string>
     <string name="schedule_updated">Il programma è stato aggiornato.</string>
     <string name="schedule_updated_to">Aggiornato a <xliff:g example="Mildenberg 2018-01-16 16:50" id="version">%s</xliff:g></string>
-    <string name="schedule_url">URL alternativo del programma</string>
     <string name="settings">Preferenze</string>
     <string name="share_error_activity_not_found">Nessuna applicazione corrispondente installata.</string>
     <string name="snack_engage_c3nav_action">Ottenerla subito</string>

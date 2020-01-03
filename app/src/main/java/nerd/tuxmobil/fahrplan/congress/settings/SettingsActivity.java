@@ -56,6 +56,7 @@ public class SettingsActivity extends BaseActivity {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.prefs);
             AppRepository appRepository = AppRepository.INSTANCE;
+            PreferenceCategory categoryGeneral = (PreferenceCategory) findPreference(getString(R.string.preference_key_category_general));
 
             findPreference("auto_update")
                     .setOnPreferenceChangeListener((preference, newValue) -> {
@@ -76,7 +77,6 @@ public class SettingsActivity extends BaseActivity {
 
             Preference appNotificationSettingsPreference = findPreference(getString(R.string.preference_key_app_notification_settings));
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-                PreferenceCategory categoryGeneral = (PreferenceCategory) findPreference(getString(R.string.preference_key_category_general));
                 categoryGeneral.removePreference(appNotificationSettingsPreference);
             } else {
                 appNotificationSettingsPreference.setOnPreferenceClickListener(preference -> {
@@ -85,16 +85,20 @@ public class SettingsActivity extends BaseActivity {
                 });
             }
 
-            findPreference("schedule_url")
-                    .setOnPreferenceChangeListener((preference, newValue) -> {
-                        SharedPreferences prefs = PreferenceManager
-                                .getDefaultSharedPreferences(getActivity());
-
-                        SharedPreferences.Editor edit = prefs.edit();
-                        edit.putString(BundleKeys.PREFS_SCHEDULE_URL, (String) newValue);
-                        edit.commit();
-                        return true;
-                    });
+            Preference scheduleUrlPreference = findPreference(getString(R.string.preference_schedule_url_key));
+            if (BuildConfig.ENABLE_ALTERNATIVE_SCHEDULE_URL) {
+                scheduleUrlPreference
+                        .setOnPreferenceChangeListener((preference, newValue) -> {
+                            String url = (String) newValue;
+                            appRepository.updateScheduleUrl(url);
+                            Intent redrawIntent = new Intent();
+                            redrawIntent.putExtra(BundleKeys.BUNDLE_KEY_SCHEDULE_URL_UPDATED, true);
+                            getActivity().setResult(Activity.RESULT_OK, redrawIntent);
+                            return true;
+                        });
+            } else {
+                categoryGeneral.removePreference(scheduleUrlPreference);
+            }
 
             findPreference("alternative_highlight")
                     .setOnPreferenceChangeListener((preference, newValue) -> {

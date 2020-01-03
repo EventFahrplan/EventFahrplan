@@ -122,7 +122,6 @@
     <string name="dash" translatable="false"><xliff:g id="dash">—</xliff:g></string>
     <string name="general_settings">General</string>
     <string name="starred_lectures">Favorites</string>
-    <string name="schedule_url">Alternative schedule URL</string>
     <string name="invalid_url">Invalid URL</string>
     <string name="choose_to_delete">Select lectures</string>
     <string name="day_separator">Day <xliff:g example="2" id="day_of_congress">%1$d</xliff:g> - <xliff:g example="29.12.2014" id="date_of_congress_day">%2$s</xliff:g></string>
@@ -208,7 +207,6 @@
 
     <!-- Preferences -->
     <string name="preferences_reminder_tone_default_value" translatable="false" />
-    <string name="preferences_schedule_url_default_value" translatable="false" />
 
     <!-- Alarm time picker -->
     <string name="alarm_time_title_at_start_time">at start time</string>

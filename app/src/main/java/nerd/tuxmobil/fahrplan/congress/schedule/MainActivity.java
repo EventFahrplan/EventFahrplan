@@ -467,8 +467,16 @@ public class MainActivity extends BaseActivity implements
                                     FahrplanFragment.FRAGMENT_TAG);
                         }
                     }
+                    boolean shouldFetchFahrplan = false;
+                    boolean isScheduleUrlUpdated = getResources().getBoolean(R.bool.bundle_key_schedule_url_updated_default_value);
+                    if (intent.getBooleanExtra(BundleKeys.BUNDLE_KEY_SCHEDULE_URL_UPDATED, isScheduleUrlUpdated)) {
+                        shouldFetchFahrplan = true;
+                    }
                     boolean isEngelsystemShiftsUrlUpdated = getResources().getBoolean(R.bool.bundle_key_engelsystem_shifts_url_updated_default_value);
                     if (intent.getBooleanExtra(BundleKeys.BUNDLE_KEY_ENGELSYSTEM_SHIFTS_URL_UPDATED, isEngelsystemShiftsUrlUpdated)) {
+                        shouldFetchFahrplan = true;
+                    }
+                    if (shouldFetchFahrplan) {
                         fetchFahrplan();
                     }
                 }

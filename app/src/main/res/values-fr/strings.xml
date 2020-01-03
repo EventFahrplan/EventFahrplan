@@ -121,7 +121,6 @@
     <string name="menu_item_title_close_event_details">Fermer les détails de l’évènement</string>
     <string name="notifications_schedule_update_channel_name">Changements dans le programme</string>
     <string name="trace_droid_dialog_title"> Envoi du rapport de crash du programme <xliff:g example="33C3 Schedule" id="appName">%s</xliff:g> … </string>
-    <string name="schedule_url">URL alternative du programme</string>
     <string name="schedule_changes">Changements du programme</string>
     <string name="no_changes">Aucun changement dans le programme</string>
     <string name="schedule_parsing_error_generic">Erreur inconnue lors de l’analyse du programme</string>
