@@ -89,6 +89,9 @@ public class SettingsActivity extends BaseActivity {
                     .setOnPreferenceChangeListener((preference, newValue) -> {
                         String url = (String) newValue;
                         appRepository.updateScheduleUrl(url);
+                        Intent redrawIntent = new Intent();
+                        redrawIntent.putExtra(BundleKeys.BUNDLE_KEY_SCHEDULE_URL_UPDATED, true);
+                        getActivity().setResult(Activity.RESULT_OK, redrawIntent);
                         return true;
                     });
 
