@@ -355,6 +355,8 @@ object AppRepository {
         }
     }
 
+    fun updateScheduleUrl(url: String) = sharedPreferencesRepository.setScheduleUrl(url)
+
     private fun readEngelsystemShiftsUrl() =
             sharedPreferencesRepository.getEngelsystemShiftsUrl()
 

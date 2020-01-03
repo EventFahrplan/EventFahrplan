@@ -87,12 +87,8 @@ public class SettingsActivity extends BaseActivity {
 
             findPreference(getString(R.string.preference_schedule_url_key))
                     .setOnPreferenceChangeListener((preference, newValue) -> {
-                        SharedPreferences prefs = PreferenceManager
-                                .getDefaultSharedPreferences(getActivity());
-
-                        SharedPreferences.Editor edit = prefs.edit();
-                        edit.putString(BundleKeys.PREFS_SCHEDULE_URL, (String) newValue);
-                        edit.commit();
+                        String url = (String) newValue;
+                        appRepository.updateScheduleUrl(url);
                         return true;
                     });
 
