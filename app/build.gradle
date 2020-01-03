@@ -38,6 +38,7 @@ android {
         buildConfigField "String", "BUILD_TIME", "\"${buildTime()}\""
         buildConfigField "String", "GIT_SHA", "\"${gitSha()}\""
         buildConfigField "String", "C3NAV_URL", "\"https://36c3.c3nav.de/l/\""
+        buildConfigField "boolean", "ENABLE_ALTERNATIVE_SCHEDULE_URL", "true"
         buildConfigField "boolean", "ENABLE_ENGELSYSTEM_SHIFTS", "false"
     }
 
