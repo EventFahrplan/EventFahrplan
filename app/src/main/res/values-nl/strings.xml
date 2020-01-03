@@ -109,7 +109,6 @@
 
     <string name="general_settings">Algemeen</string>
     <string name="starred_lectures">Favorieten</string>
-    <string name="schedule_url">Alternatieve tijdschema URL</string>
     <string name="invalid_url">Ongeldige URL</string>
     <string name="no_favorites">Geen favorieten evenementen</string>
     <string name="choose_to_delete">Kies evenementen</string>

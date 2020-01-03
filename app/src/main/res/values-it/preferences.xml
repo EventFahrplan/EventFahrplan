@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Alternative schedule URL -->
+    <string name="preference_schedule_url_title">URL alternativo del programma</string>
+
+</resources>

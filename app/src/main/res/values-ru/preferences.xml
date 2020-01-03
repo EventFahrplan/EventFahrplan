@@ -4,4 +4,7 @@
     <!-- App notification settings -->
     <string name="preference_title_app_notification_settings">Настройки уведомлений &#8230;</string>
 
+    <!-- Alternative schedule URL -->
+    <string name="preference_schedule_url_title">Альтернативный URL расписания</string>
+
 </resources>

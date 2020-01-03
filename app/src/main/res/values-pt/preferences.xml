@@ -4,4 +4,7 @@
     <!-- App notification settings -->
     <string name="preference_title_app_notification_settings">Customizar notificações &#8230;</string>
 
+    <!-- Alternative schedule URL -->
+    <string name="preference_schedule_url_title">URL alternativa de cronograma</string>
+
 </resources>

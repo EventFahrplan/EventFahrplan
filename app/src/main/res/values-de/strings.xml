@@ -112,7 +112,6 @@
 
     <string name="general_settings">Allgemein</string>
     <string name="starred_lectures">Favoriten</string>
-    <string name="schedule_url">Alternative Fahrplan URL</string>
     <string name="invalid_url">Ungültige URL</string>
     <string name="no_favorites">Keine favorisierten Vorträge</string>
     <string name="choose_to_delete">Wähle Vorträge</string>

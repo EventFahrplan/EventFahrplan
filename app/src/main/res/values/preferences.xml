@@ -7,6 +7,16 @@
     <!-- Category general -->
     <string name="preference_key_category_general" translatable="false">preference_key_category_general</string>
 
+    <!-- Alternative schedule URL -->
+    <string name="preference_schedule_url_key" translatable="false">
+        schedule_url
+    </string>
+    <string name="preference_schedule_url_default_value" translatable="false" />
+    <string name="preference_schedule_url_hint" translatable="false">
+        https://yourhost/schedule.xml
+    </string>
+    <string name="preference_schedule_url_title">Alternative schedule URL</string>
+
     <!-- App notification settings -->
     <string name="preference_key_app_notification_settings" translatable="false">app_notification_settings</string>
     <string name="preference_title_app_notification_settings">Customize notifications &#8230;</string>

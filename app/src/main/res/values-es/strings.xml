@@ -97,7 +97,6 @@
     <string name="schedule_changes_dialog_updated_to_text">El calendario ha sido actualizado a</string>
     <string name="schedule_updated">El calendario ha sido actualizado</string>
     <string name="schedule_updated_to">Actualizado a <xliff:g example="Mildenberg 2018-01-16 16:50" id="version">%s</xliff:g></string>
-    <string name="schedule_url">URL alternativa del calendario</string>
     <string name="settings">Ajustes</string>
     <string name="share_error_activity_not_found">No hay ninguna aplicación apropiada instalada.</string>
     <string name="snack_engage_c3nav_action">Obtengalo ahora!</string>
