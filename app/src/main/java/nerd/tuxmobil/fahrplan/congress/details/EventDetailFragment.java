@@ -256,11 +256,16 @@ public class EventDetailFragment extends Fragment {
                 eventOnlineSection.setVisibility(View.GONE);
                 eventOnlineLink.setVisibility(View.GONE);
             } else {
-                eventOnlineSection.setVisibility(View.VISIBLE);
-                eventOnlineLink.setVisibility(View.VISIBLE);
-                final String eventUrl = new EventUrlComposer(lecture).getEventUrl();
-                final String eventLink = "<a href=\"" + eventUrl + "\">" + eventUrl + "</a>";
-                setUpHtmlTextView(eventOnlineLink, regular, eventLink);
+                String eventUrl = new EventUrlComposer(lecture).getEventUrl();
+                if (eventUrl.isEmpty()) {
+                    eventOnlineSection.setVisibility(View.GONE);
+                    eventOnlineLink.setVisibility(View.GONE);
+                } else {
+                    eventOnlineSection.setVisibility(View.VISIBLE);
+                    eventOnlineLink.setVisibility(View.VISIBLE);
+                    String eventLink = "<a href=\"" + eventUrl + "\">" + eventUrl + "</a>";
+                    setUpHtmlTextView(eventOnlineLink, regular, eventLink);
+                }
             }
 
             activity.invalidateOptionsMenu();
