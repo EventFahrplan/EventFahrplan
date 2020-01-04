@@ -7,13 +7,16 @@ import nerd.tuxmobil.fahrplan.congress.models.DayRange
 import nerd.tuxmobil.fahrplan.congress.models.Lecture
 import nerd.tuxmobil.fahrplan.congress.utils.DateHelper
 
+// Avoid conflicts with the IDs of the main schedule.
+private const val SHIFT_ID_OFFSET = 300000;
+
 fun Shift.toLectureAppModel(
 
         logging: Logging,
         virtualRoomName: String,
         dayRanges: List<DayRange>
 
-) = Lecture("$sID").apply {
+) = Lecture("${SHIFT_ID_OFFSET + sID}").apply {
     abstractt = ""
     date = startsAtLocalDateString
     dateUTC = dateUtcMs
