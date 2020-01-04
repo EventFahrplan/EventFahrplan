@@ -1,5 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress.utils
 
+import nerd.tuxmobil.fahrplan.congress.extensions.WIKI_EVENT_TRACK_NAME
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import nerd.tuxmobil.fahrplan.congress.models.Lecture as Event
@@ -20,6 +21,11 @@ class FeedbackUrlComposerTest {
             slug = "2019-202-board-games-of-medieval-europe"
         }
 
+        private val WIKI_EVENT = Event("1346").apply {
+            track = WIKI_EVENT_TRACK_NAME
+            url = "https://events.ccc.de/congress/2019/wiki/index.php/Session:Mobile_Apps"
+        }
+
     }
 
     @Test
@@ -38,6 +44,12 @@ class FeedbackUrlComposerTest {
     fun getFeedbackUrlWithPretalxEventWithFrabScheduleFeedbackUrl() {
         assertThat(FeedbackUrlComposer(PRETALX_EVENT, FRAB_SCHEDULE_FEEDBACK_URL)
                 .getFeedbackUrl()).isEqualTo("https://talks.mrmcd.net/2019/talk/9XL7SP/feedback/")
+    }
+
+    @Test
+    fun getFeedbackUrlWithWikiEvent() {
+        assertThat(FeedbackUrlComposer(WIKI_EVENT, "")
+                .getFeedbackUrl()).isEqualTo("")
     }
 
 }
