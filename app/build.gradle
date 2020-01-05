@@ -60,12 +60,6 @@ android {
     }
 
     signingConfigs {
-        ccc35c3 {
-            storeFile file(props['signing.ccc35c3-release.keystoreFilePath'])
-            storePassword props['signing.ccc35c3-release.keystorePassword']
-            keyAlias props['signing.ccc35c3-release.keyAlias']
-            keyPassword props['signing.ccc35c3-release.keyPassword']
-        }
         cccamp2019 {
             storeFile file(props['signing.cccamp2019-release.keystoreFilePath'])
             storePassword props['signing.cccamp2019-release.keystorePassword']
@@ -84,26 +78,6 @@ android {
     flavorDimensions defaultDimension
 
     productFlavors {
-        ccc35c3 {
-            dimension defaultDimension
-            applicationId "info.metadude.android.congress.schedule"
-            signingConfig signingConfigs.ccc35c3
-            buildConfigField "String", "SCHEDULE_URL", '"https://raw.githubusercontent.com/voc/35C3_schedule/master/everything.schedule.xml"'
-            buildConfigField "String", "EVENT_URL", '"https://events.ccc.de/congress/2018/Fahrplan/events/%1$s.html"'
-            buildConfigField "String", "SERVER_BACKEND_TYPE", '"frab"'
-            buildConfigField "int", "SCHEDULE_FIRST_DAY_START_YEAR", "2018"
-            buildConfigField "int", "SCHEDULE_FIRST_DAY_START_MONTH", "12"
-            buildConfigField "int", "SCHEDULE_FIRST_DAY_START_DAY", "27"
-            buildConfigField "int", "SCHEDULE_LAST_DAY_END_YEAR", "2018"
-            buildConfigField "int", "SCHEDULE_LAST_DAY_END_MONTH", "12"
-            buildConfigField "int", "SCHEDULE_LAST_DAY_END_DAY", "31"
-            buildConfigField "boolean", "SHOW_APP_DISCLAIMER", "false"
-            buildConfigField "boolean", "ENGAGE_C3NAV_APP_INSTALLATION", "true"
-            buildConfigField "boolean", "ENGAGE_GOOGLE_BETA_TESTING", "true"
-            buildConfigField "boolean", "ENGAGE_GOOGLE_PLAY_RATING", "true"
-            buildConfigField "String", "TRACE_DROID_EMAIL_ADDRESS", '"tobias.preuss+35c3@googlemail.com"'
-            buildConfigField "String", "SCHEDULE_FEEDBACK_URL", '"https://frab.cccv.de/en/35C3/public/events/%s/feedback/new"'
-        }
         cccamp2019 {
             dimension defaultDimension
             applicationId "info.metadude.android.cccamp.schedule"
