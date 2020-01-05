@@ -11,7 +11,7 @@ The app is available for Android devices.
 Bug reports, feature requests can be submitted as an [issue][issue].
 Please read the instructions in the [contribution guide](CONTRIBUTING.md) in order to contribute to this project.
 
-![Picture of the 35c3 Schedule on tablet and phone](gfx/EventFahrplan-35c3-Events-Tablet-Phone.png)
+![Picture of the 36c3 Schedule on tablet and phone](gfx/EventFahrplan-36c3-Events-Tablet-Phone.png)
 
 ## Table of contents
 
