@@ -1,8 +1,8 @@
 package nerd.tuxmobil.fahrplan.congress.dataconverters
 
 import android.support.annotation.VisibleForTesting
+import info.metadude.android.eventfahrplan.commons.logging.Logging
 import info.metadude.kotlin.library.engelsystem.models.Shift
-import nerd.tuxmobil.fahrplan.congress.logging.Logging
 import nerd.tuxmobil.fahrplan.congress.models.DayRange
 import nerd.tuxmobil.fahrplan.congress.models.Lecture
 import nerd.tuxmobil.fahrplan.congress.utils.DateHelper

@@ -1,4 +1,4 @@
-package nerd.tuxmobil.fahrplan.congress.logging
+package info.metadude.android.eventfahrplan.commons.logging
 
 object NoLogging : Logging {
 

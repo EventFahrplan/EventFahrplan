@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.TimeZone;
 
-import nerd.tuxmobil.fahrplan.congress.logging.Logging;
+import info.metadude.android.eventfahrplan.commons.logging.Logging;
 import nerd.tuxmobil.fahrplan.congress.models.DateInfos;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
 import nerd.tuxmobil.fahrplan.congress.models.Meta;

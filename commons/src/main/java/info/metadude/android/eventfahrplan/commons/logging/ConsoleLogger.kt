@@ -1,12 +1,11 @@
-package nerd.tuxmobil.fahrplan.congress.logging
+package info.metadude.android.eventfahrplan.commons.logging
 
 import android.util.Log
-import nerd.tuxmobil.fahrplan.congress.MyApp
 
 object ConsoleLogger : Logging {
 
     override fun d(tag: String, message: String) {
-        MyApp.LogDebug(tag, message)
+        Log.d(tag, message)
     }
 
     override fun e(tag: String, message: String) {

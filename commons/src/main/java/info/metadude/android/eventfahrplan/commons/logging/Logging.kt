@@ -1,6 +1,6 @@
-package nerd.tuxmobil.fahrplan.congress.logging
+package info.metadude.android.eventfahrplan.commons.logging
 
-import nerd.tuxmobil.fahrplan.congress.BuildConfig
+import info.metadude.android.eventfahrplan.commons.BuildConfig
 
 interface Logging {
 
