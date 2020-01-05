@@ -52,11 +52,13 @@ private fun Event.getCalendarDescription(context: Context): String = with(String
         links = StringUtils.getHtmlLinkFromMarkdown(links)
         append(links)
     } else {
-        val eventOnline = context.getString(R.string.event_online)
-        append(eventOnline)
-        append(": ")
         val eventUrl = EventUrlComposer(this@getCalendarDescription).getEventUrl()
-        append(eventUrl)
+        if (eventUrl.isNotEmpty()) {
+            val eventOnline = context.getString(R.string.event_online)
+            append(eventOnline)
+            append(": ")
+            append(eventUrl)
+        }
     }
     return toString()
 }

@@ -1,5 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress.utils
 
+import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import nerd.tuxmobil.fahrplan.congress.models.Lecture as Event
@@ -27,6 +28,16 @@ class EventUrlComposerTest {
         private val PRETALX_EVENT = Event("32").apply {
             url = "https://fahrplan.chaos-west.de/35c3chaoswest/talk/KDYQEB"
             slug = "KDYQEB"
+        }
+
+        private val ENGELSYSTEM_SHIFT_EVENT_WITHOUT_URL = Event("7771").apply {
+            room = AppRepository.ENGELSYSTEM_ROOM_NAME
+            url = ""
+        }
+
+        private val ENGELSYSTEM_SHIFT_EVENT_WITH_URL = Event("7772").apply {
+            room = AppRepository.ENGELSYSTEM_ROOM_NAME
+            url = "https://helpful.to/the/angel"
         }
 
     }
@@ -62,6 +73,18 @@ class EventUrlComposerTest {
     fun getEventUrlWithPretalxEventWithPretalxBackend() {
         assertThat(EventUrlComposer(PRETALX_EVENT, "", ServerBackendType.PRETALX.name)
                 .getEventUrl()).isEqualTo("https://fahrplan.chaos-west.de/35c3chaoswest/talk/KDYQEB")
+    }
+
+    @Test
+    fun getEventUrlWithShiftEventWithUrl() {
+        assertThat(EventUrlComposer(ENGELSYSTEM_SHIFT_EVENT_WITH_URL, FRAB_EVENT_URL_TEMPLATE, ServerBackendType.FRAB.name, setOf(AppRepository.ENGELSYSTEM_ROOM_NAME))
+                .getEventUrl()).isEqualTo("https://helpful.to/the/angel")
+    }
+
+    @Test
+    fun getEventUrlWithShiftEventWithoutUrl() {
+        assertThat(EventUrlComposer(ENGELSYSTEM_SHIFT_EVENT_WITHOUT_URL, FRAB_EVENT_URL_TEMPLATE, ServerBackendType.FRAB.name, setOf(AppRepository.ENGELSYSTEM_ROOM_NAME))
+                .getEventUrl()).isEqualTo("")
     }
 
 }

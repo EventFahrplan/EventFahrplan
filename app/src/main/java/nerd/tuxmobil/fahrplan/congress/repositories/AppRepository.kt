@@ -36,7 +36,7 @@ object AppRepository {
      * for the database column. Do not change it!
      * Also used in app/src/<flavor>/res/xml/track_resource_names.xml.
      */
-    private const val ENGELSYSTEM_ROOM_NAME = "Engelshifts"
+    const val ENGELSYSTEM_ROOM_NAME = "Engelshifts"
     const val ALL_DAYS = -1
 
     private lateinit var context: Context
