@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteException
+import info.metadude.android.eventfahrplan.commons.logging.Logging
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.LecturesTable
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.LecturesTable.Columns.*
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.LecturesTable.Values.REC_OPT_OUT_OFF
@@ -13,7 +14,8 @@ import info.metadude.android.eventfahrplan.database.sqliteopenhelper.LecturesDBO
 
 class LecturesDatabaseRepository(
 
-        private val sqLiteOpenHelper: LecturesDBOpenHelper
+        private val sqLiteOpenHelper: LecturesDBOpenHelper,
+        private val logging: Logging
 
 ) {
 
@@ -29,11 +31,18 @@ class LecturesDatabaseRepository(
         close()
     }
 
-    fun queryLectureByLectureId(lectureId: String) = query {
-        read(LecturesTable.NAME,
-                selection = "$EVENT_ID=?",
-                selectionArgs = arrayOf(lectureId))
-    }.first()
+    fun queryLectureByLectureId(lectureId: String): Lecture {
+        return try {
+            query {
+                read(LecturesTable.NAME,
+                        selection = "$EVENT_ID=?",
+                        selectionArgs = arrayOf(lectureId))
+            }.first()
+        } catch (e: NoSuchElementException) {
+            logging.report(javaClass.name, "Lectures table does not contain a lecture with ID $lectureId. ${e.message}")
+            throw e
+        }
+    }
 
     fun queryLecturesForDayIndexOrderedByDateUtc(dayIndex: Int) = query {
         read(LecturesTable.NAME,

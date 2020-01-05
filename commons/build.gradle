@@ -23,4 +23,5 @@ android {
 
 dependencies {
     implementation Libs.kotlinStdlib
+    implementation Libs.tracedroid
 }
