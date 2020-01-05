@@ -187,6 +187,9 @@ fun LectureNetworkModel.toLectureAppModel(): Lecture {
 }
 
 fun Lecture.sanitize(): Lecture {
+    if (title == subtitle) {
+        subtitle = ""
+    }
     if (abstractt == description) {
         abstractt = ""
     }
