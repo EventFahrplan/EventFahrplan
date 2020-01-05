@@ -118,6 +118,32 @@ class LectureExtensionsTest {
     }
 
     @Test
+    fun sanitizeWithSameTitleAndSubtitle() {
+        val lecture = Lecture("").apply {
+            subtitle = "Lorem ipsum"
+            title = "Lorem ipsum"
+        }.sanitize()
+        val expected = Lecture("").apply {
+            subtitle = ""
+            title = "Lorem ipsum"
+        }
+        assertThat(lecture).isEqualTo(expected)
+    }
+
+    @Test
+    fun sanitizeWithDifferentTitleAndSubtitle() {
+        val lecture = Lecture("").apply {
+            subtitle = "Dolor sit amet"
+            title = "Lorem ipsum"
+        }.sanitize()
+        val expected = Lecture("").apply {
+            subtitle = "Dolor sit amet"
+            title = "Lorem ipsum"
+        }
+        assertThat(lecture).isEqualTo(expected)
+    }
+
+    @Test
     fun sanitizeWithSameAbstractAndDescription() {
         val lecture = Lecture("").apply {
             abstractt = "Lorem ipsum"
