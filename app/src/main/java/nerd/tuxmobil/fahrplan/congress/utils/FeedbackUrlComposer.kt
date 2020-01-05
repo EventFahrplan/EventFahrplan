@@ -2,6 +2,7 @@ package nerd.tuxmobil.fahrplan.congress.utils
 
 import nerd.tuxmobil.fahrplan.congress.BuildConfig
 import nerd.tuxmobil.fahrplan.congress.extensions.originatesFromPretalx
+import nerd.tuxmobil.fahrplan.congress.extensions.originatesFromWiki
 import nerd.tuxmobil.fahrplan.congress.models.Lecture as Event
 
 class FeedbackUrlComposer(
@@ -16,15 +17,20 @@ class FeedbackUrlComposer(
      * otherwise an empty string.
      *
      * The [Frab schedule feedback URL][frabScheduleFeedbackUrl] is
-     * composed from the event id. Currently, events extracted from
-     * the wiki of the Chaos Communication Congress cannot be
-     * distinguished from regular Frab events. Therefore, visiting the
-     * resulting schedule feedback URL results in an HTTP 404 error.
+     * composed from the event id.
+     * For events extracted from the wiki of the Chaos Communication Congress
+     * aka. "self organized sessions" an empty string is returned because
+     * there is no feedback system for them.
      */
-    fun getFeedbackUrl() = if (event.originatesFromPretalx) {
-        event.pretalxScheduleFeedbackUrl
-    } else {
-        event.frabScheduleFeedbackUrl
+    fun getFeedbackUrl(): String {
+        if (event.originatesFromWiki) {
+            return NO_URL
+        }
+        return if (event.originatesFromPretalx) {
+            event.pretalxScheduleFeedbackUrl
+        } else {
+            event.frabScheduleFeedbackUrl
+        }
     }
 
     private val Event.frabScheduleFeedbackUrl

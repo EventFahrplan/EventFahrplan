@@ -315,7 +315,8 @@ public class EventDetailFragment extends Fragment {
             }
         }
         item = menu.findItem(R.id.menu_item_feedback);
-        if (SHOW_FEEDBACK_MENU_ITEM) {
+        String feedbackUrl = new FeedbackUrlComposer(lecture, SCHEDULE_FEEDBACK_URL).getFeedbackUrl();
+        if (SHOW_FEEDBACK_MENU_ITEM && !TextUtils.isEmpty(feedbackUrl)) {
             if (item != null) {
                 item.setVisible(true);
             }
