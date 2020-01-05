@@ -14,7 +14,7 @@ private const val kotlinVersion = "1.3.61"
 object GradlePlugins {
 
     private object Versions {
-        const val androidGradle = "3.5.2"
+        const val androidGradle = "3.5.3"
         const val gradleVersions = "0.27.0"
         const val sonarQubeGradle = "2.8"
         const val unmockGradle = "0.7.3"
