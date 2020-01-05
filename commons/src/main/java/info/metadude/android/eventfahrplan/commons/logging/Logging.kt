@@ -8,10 +8,12 @@ interface Logging {
 
     fun e(tag: String, message: String)
 
+    fun report(tag: String, message: String)
+
     companion object {
 
         fun get(): Logging {
-            return if (BuildConfig.DEBUG) ConsoleLogger else NoLogging
+            return if (BuildConfig.DEBUG) ConsoleLogger else AlmostNoLogging
         }
 
     }

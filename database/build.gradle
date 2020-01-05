@@ -23,6 +23,8 @@ android {
 }
 
 dependencies {
+    implementation project(":commons")
+
     implementation Libs.kotlinStdlib
     implementation Libs.supportLibraryAnnotations
 

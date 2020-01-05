@@ -12,4 +12,8 @@ object ConsoleLogger : Logging {
         Log.e(tag, message)
     }
 
+    override fun report(tag: String, message: String) {
+        org.ligi.tracedroid.logging.Log.e(tag, message)
+    }
+
 }
