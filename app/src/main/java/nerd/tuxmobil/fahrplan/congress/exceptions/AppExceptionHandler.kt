@@ -1,6 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress.exceptions
 
-import nerd.tuxmobil.fahrplan.congress.logging.Logging
+import info.metadude.android.eventfahrplan.commons.logging.Logging
 import kotlin.coroutines.CoroutineContext
 
 class AppExceptionHandler(
