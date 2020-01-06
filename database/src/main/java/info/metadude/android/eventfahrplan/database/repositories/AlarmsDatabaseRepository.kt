@@ -59,12 +59,13 @@ class AlarmsDatabaseRepository(
 
         cursor.moveToFirst()
         while (!cursor.isAfterLast) {
-            var alarm = Alarm()
-            alarm = alarm.copy(id = cursor.getInt(ID))
-            alarm = alarm.copy(day = cursor.getInt(DAY))
-            alarm = alarm.copy(eventId = cursor.getString(EVENT_ID))
-            alarm = alarm.copy(time = cursor.getLong(TIME))
-            alarm = alarm.copy(title = cursor.getString(EVENT_TITLE))
+            val alarm = Alarm(
+                    id = cursor.getInt(ID),
+                    day = cursor.getInt(DAY),
+                    eventId = cursor.getString(EVENT_ID),
+                    time = cursor.getLong(TIME),
+                    title = cursor.getString(EVENT_TITLE)
+            )
             alarms.add(alarm)
             cursor.moveToNext()
         }

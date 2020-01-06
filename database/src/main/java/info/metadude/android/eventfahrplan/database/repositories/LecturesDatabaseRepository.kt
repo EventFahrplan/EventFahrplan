@@ -93,46 +93,48 @@ class LecturesDatabaseRepository(
 
         cursor.moveToFirst()
         while (!cursor.isAfterLast) {
-            var lecture = Lecture(eventId = cursor.getString(EVENT_ID))
-            lecture = lecture.copy(abstractt = cursor.getString(ABSTRACT))
-            lecture = lecture.copy(date = cursor.getString(DATE))
-            lecture = lecture.copy(dateUTC = cursor.getLong(DATE_UTC))
-            lecture = lecture.copy(dayIndex = cursor.getInt(DAY))
-            lecture = lecture.copy(description = cursor.getString(DESCR))
-            lecture = lecture.copy(duration = cursor.getInt(DURATION))
-            lecture = lecture.copy(language = cursor.getString(LANG))
-            lecture = lecture.copy(links = cursor.getString(LINKS))
-            lecture = lecture.copy(recordingLicense = cursor.getString(REC_LICENSE))
-            lecture = lecture.copy(relativeStartTime = cursor.getInt(REL_START))
-            lecture = lecture.copy(room = cursor.getString(ROOM))
-            lecture = lecture.copy(roomIndex = cursor.getInt(ROOM_IDX))
-            lecture = lecture.copy(slug = cursor.getString(SLUG))
-            lecture = lecture.copy(speakers = cursor.getString(SPEAKERS))
-            lecture = lecture.copy(subtitle = cursor.getString(SUBTITLE))
-            lecture = lecture.copy(startTime = cursor.getInt(START))
-            lecture = lecture.copy(title = cursor.getString(TITLE))
-            lecture = lecture.copy(track = cursor.getString(TRACK))
-            lecture = lecture.copy(type = cursor.getString(TYPE))
-            lecture = lecture.copy(url = cursor.getString(URL))
             val recordingOptOut =
                     if (cursor.getInt(REC_OPTOUT) == REC_OPT_OUT_OFF)
                         Lecture.RECORDING_OPT_OUT_OFF
                     else
                         Lecture.RECORDING_OPT_OUT_ON
-            lecture = lecture.copy(recordingOptOut = recordingOptOut)
 
-            lecture = lecture.copy(changedDay = cursor.getInt(CHANGED_DAY).isChanged)
-            lecture = lecture.copy(changedDuration = cursor.getInt(CHANGED_DURATION).isChanged)
-            lecture = lecture.copy(changedIsCanceled = cursor.getInt(CHANGED_IS_CANCELED).isChanged)
-            lecture = lecture.copy(changedIsNew = cursor.getInt(CHANGED_IS_NEW).isChanged)
-            lecture = lecture.copy(changedLanguage = cursor.getInt(CHANGED_LANGUAGE).isChanged)
-            lecture = lecture.copy(changedRecordingOptOut = cursor.getInt(CHANGED_RECORDING_OPTOUT).isChanged)
-            lecture = lecture.copy(changedRoom = cursor.getInt(CHANGED_ROOM).isChanged)
-            lecture = lecture.copy(changedSpeakers = cursor.getInt(CHANGED_SPEAKERS).isChanged)
-            lecture = lecture.copy(changedSubtitle = cursor.getInt(CHANGED_SUBTITLE).isChanged)
-            lecture = lecture.copy(changedTime = cursor.getInt(CHANGED_TIME).isChanged)
-            lecture = lecture.copy(changedTitle = cursor.getInt(CHANGED_TITLE).isChanged)
-            lecture = lecture.copy(changedTrack = cursor.getInt(CHANGED_TRACK).isChanged)
+            val lecture = Lecture(
+                    eventId = cursor.getString(EVENT_ID),
+                    abstractt = cursor.getString(ABSTRACT),
+                    date = cursor.getString(DATE),
+                    dateUTC = cursor.getLong(DATE_UTC),
+                    dayIndex = cursor.getInt(DAY),
+                    description = cursor.getString(DESCR),
+                    duration = cursor.getInt(DURATION),
+                    language = cursor.getString(LANG),
+                    links = cursor.getString(LINKS),
+                    recordingLicense = cursor.getString(REC_LICENSE),
+                    relativeStartTime = cursor.getInt(REL_START),
+                    room = cursor.getString(ROOM),
+                    roomIndex = cursor.getInt(ROOM_IDX),
+                    slug = cursor.getString(SLUG),
+                    speakers = cursor.getString(SPEAKERS),
+                    subtitle = cursor.getString(SUBTITLE),
+                    startTime = cursor.getInt(START),
+                    title = cursor.getString(TITLE),
+                    track = cursor.getString(TRACK),
+                    type = cursor.getString(TYPE),
+                    url = cursor.getString(URL),
+                    recordingOptOut = recordingOptOut,
+                    changedDay = cursor.getInt(CHANGED_DAY).isChanged,
+                    changedDuration = cursor.getInt(CHANGED_DURATION).isChanged,
+                    changedIsCanceled = cursor.getInt(CHANGED_IS_CANCELED).isChanged,
+                    changedIsNew = cursor.getInt(CHANGED_IS_NEW).isChanged,
+                    changedLanguage = cursor.getInt(CHANGED_LANGUAGE).isChanged,
+                    changedRecordingOptOut = cursor.getInt(CHANGED_RECORDING_OPTOUT).isChanged,
+                    changedRoom = cursor.getInt(CHANGED_ROOM).isChanged,
+                    changedSpeakers = cursor.getInt(CHANGED_SPEAKERS).isChanged,
+                    changedSubtitle = cursor.getInt(CHANGED_SUBTITLE).isChanged,
+                    changedTime = cursor.getInt(CHANGED_TIME).isChanged,
+                    changedTitle = cursor.getInt(CHANGED_TITLE).isChanged,
+                    changedTrack = cursor.getInt(CHANGED_TRACK).isChanged
+            )
             lectures.add(lecture)
             cursor.moveToNext()
         }
