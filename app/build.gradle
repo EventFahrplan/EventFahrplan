@@ -11,16 +11,6 @@ apply plugin: "de.mobilej.unmock"
 apply plugin: "org.sonarqube"
 apply from: "../sonarqube.gradle"
 
-Properties props = new Properties()
-File gradlePropertiesFile = file("gradle.properties")
-if (!gradlePropertiesFile.exists()) {
-    throw new IllegalStateException(
-            "Please create the file 'gradle.properties' before " +
-                    "importing the project. Do not forget to add custom values!"
-    )
-}
-props.load(new FileInputStream(gradlePropertiesFile))
-
 android {
     compileSdkVersion Android.compileSdkVersion
     buildToolsVersion Android.buildToolsVersion
@@ -60,18 +50,8 @@ android {
     }
 
     signingConfigs {
-        cccamp2019 {
-            storeFile file(props['signing.cccamp2019-release.keystoreFilePath'])
-            storePassword props['signing.cccamp2019-release.keystorePassword']
-            keyAlias props['signing.cccamp2019-release.keyAlias']
-            keyPassword props['signing.cccamp2019-release.keyPassword']
-        }
-        ccc36c3 {
-            storeFile file(props['signing.ccc36c3-release.keystoreFilePath'])
-            storePassword props['signing.ccc36c3-release.keystorePassword']
-            keyAlias props['signing.ccc36c3-release.keyAlias']
-            keyPassword props['signing.ccc36c3-release.keyPassword']
-        }
+        cccamp2019
+        ccc36c3
     }
 
     def defaultDimension = "default"
@@ -82,7 +62,6 @@ android {
             dimension defaultDimension
             applicationId "info.metadude.android.cccamp.schedule"
             versionName "1.41.4-CCCamp-Edition"
-            signingConfig signingConfigs.cccamp2019
             buildConfigField "String", "SCHEDULE_URL", '"https://data.c3voc.de/camp2019/everything.schedule.xml"'
             buildConfigField "String", "EVENT_URL", '"http://events.ccc.de/camp/2019/Fahrplan/events/%1$s.html"'
             buildConfigField "String", "SERVER_BACKEND_TYPE", '"frab"'
@@ -102,7 +81,6 @@ android {
         ccc36c3 {
             dimension defaultDimension
             applicationId "info.metadude.android.congress.schedule"
-            signingConfig signingConfigs.ccc36c3
             buildConfigField "String", "SCHEDULE_URL", '"https://raw.githubusercontent.com/voc/36C3_schedule/master/everything.schedule.xml"'
             buildConfigField "String", "EVENT_URL", '"https://events.ccc.de/congress/2019/Fahrplan/events/%1$s.html"'
             buildConfigField "String", "SERVER_BACKEND_TYPE", '"frab"'
@@ -119,6 +97,12 @@ android {
             buildConfigField "boolean", "ENABLE_ENGELSYSTEM_SHIFTS", "true"
             buildConfigField "String", "TRACE_DROID_EMAIL_ADDRESS", '"tobias.preuss+36c3@googlemail.com"'
             buildConfigField "String", "SCHEDULE_FEEDBACK_URL", '"https://frab.cccv.de/en/36C3/public/events/%s/feedback/new"'
+        }
+    }
+
+    productFlavors.all { flavor ->
+        if (hasSigningConfig(flavor.name)) {
+            setSigningConfig(flavor)
         }
     }
 
@@ -194,4 +178,24 @@ def gitSha() {
 
 def buildTime() {
     return new Date().format("yyyy-MM-dd'T'HH:mm'Z'", TimeZone.getTimeZone("UTC"))
+}
+
+def hasSigningConfig(String flavor) {
+    return project.hasProperty("signing.$flavor-release.keystoreFilePath") &&
+            project.hasProperty("signing.$flavor-release.keystorePassword") &&
+            project.hasProperty("signing.$flavor-release.keyAlias") &&
+            project.hasProperty("signing.$flavor-release.keyPassword")
+}
+
+def setSigningConfig(flavor) {
+    def flavorName = flavor.name
+    def props = project.getProperties()
+
+    def signingConfig = android.signingConfigs[flavorName]
+    signingConfig.storeFile file(props["signing.$flavorName-release.keystoreFilePath"])
+    signingConfig.storePassword props["signing.$flavorName-release.keystorePassword"]
+    signingConfig.keyAlias props["signing.$flavorName-release.keyAlias"]
+    signingConfig.keyPassword props["signing.$flavorName-release.keyPassword"]
+
+    flavor.signingConfig = signingConfig
 }
