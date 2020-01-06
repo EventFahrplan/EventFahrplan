@@ -9,20 +9,14 @@ class MomentTest {
 
     val Dec30_22_47_2019 = 1577746077615 // 2019-12-30T22:47:57.615Z
 
-    private fun getSystemHoursOffset(moment: Moment): Int {
-        val secondsPerHour = 3600
-        return moment.zone.rules.getOffset(moment.toUTCDateTime()).totalSeconds / secondsPerHour
-    }
-
     @Test
     fun dateTimeFieldsAreCorrectlyMapped() {
         val moment = Moment(Dec30_22_47_2019)
-        val systemHoursOffset = getSystemHoursOffset(moment)
 
         assertThat(moment.year).isEqualTo(2019)
         assertThat(moment.month).isEqualTo(12)
         assertThat(moment.monthDay).isEqualTo(30)
-        assertThat(moment.hour).isEqualTo(22 + systemHoursOffset)
+        assertThat(moment.hour).isEqualTo(22)
         assertThat(moment.minute).isEqualTo(47)
     }
 
@@ -30,12 +24,11 @@ class MomentTest {
     fun startOfDay() {
         val moment = Moment(Dec30_22_47_2019)
         val startOfDay = moment.startOfDay()
-        val systemHoursOffset = getSystemHoursOffset(moment)
 
         assertThat(startOfDay.year).isEqualTo(2019)
         assertThat(startOfDay.month).isEqualTo(12)
         assertThat(startOfDay.monthDay).isEqualTo(30)
-        assertThat(startOfDay.hour).isEqualTo(0 + systemHoursOffset)
+        assertThat(startOfDay.hour).isEqualTo(0)
         assertThat(startOfDay.minute).isEqualTo(0)
     }
 

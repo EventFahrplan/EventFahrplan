@@ -7,8 +7,6 @@ import org.threeten.bp.*
  * Hence any manipulation creates a new instance.
  * Timezone based dates are retrieved using {#toZonedDateTime}.
  *
- * TODO make field based getters (e.g. getHour) return values relative to UTC.
- *
  * E.g.
  *
  * > Moment().toZonedDateTime(ZoneOffset.of("GMT+1"))
@@ -29,19 +27,19 @@ class Moment() {
     constructor(UTCDate: String) : this(LocalDate.parse(UTCDate).atStartOfDay().toInstant(ZoneOffset.UTC))
 
     private var time: Instant = Instant.now() // UTC
-    var zone: ZoneId = ZoneId.systemDefault()
-        private set
+    private val utcZone = ZoneId.of("UTC")
 
     val year: Int
-        get() = time.atZone(zone).year
+        get() = time.atZone(utcZone).year
     val month: Int
-        get() = time.atZone(zone).monthValue
+        get() = time.atZone(utcZone).monthValue
     val monthDay: Int
-        get() = time.atZone(zone).dayOfMonth
+        get() = time.atZone(utcZone).dayOfMonth
     val hour: Int
-        get() = time.atZone(zone).hour
+        get() = time.atZone(utcZone).hour
+
     val minute: Int
-        get() = time.atZone(zone).minute
+        get() = time.atZone(utcZone).minute
 
     fun setToNow() {
         time = Instant.now()
@@ -72,7 +70,7 @@ class Moment() {
     fun toMilliseconds() = time.toEpochMilli()
 
     fun toUTCDateTime(): LocalDateTime {
-        return time.atZone(ZoneId.of("UTC")).toLocalDateTime()
+        return time.atZone(utcZone).toLocalDateTime()
     }
 
     fun toZonedDateTime(timeZoneOffset: ZoneOffset): ZonedDateTime {
@@ -102,14 +100,14 @@ class Moment() {
         other as Moment
 
         if (time != other.time) return false
-        if (zone != other.zone) return false
+        if (utcZone != other.utcZone) return false
 
         return true
     }
 
     override fun hashCode(): Int {
         var result = time.hashCode()
-        result = 31 * result + zone.hashCode()
+        result = 31 * result + utcZone.hashCode()
         return result
     }
 

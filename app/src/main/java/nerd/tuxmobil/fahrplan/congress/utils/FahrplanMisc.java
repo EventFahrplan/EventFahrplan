@@ -97,7 +97,7 @@ public class FahrplanMisc {
         if (startTimeInMilliSec > 0) {
             when = startTimeInMilliSec;
             startTime = startTimeInMilliSec;
-            moment = new Moment(); // TODO created a timezone date previously ... I think that was wrong
+            moment = new Moment();
         } else {
             moment = lecture.getMoment();
             startTime = moment.toMilliseconds();

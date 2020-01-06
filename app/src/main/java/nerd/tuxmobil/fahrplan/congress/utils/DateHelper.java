@@ -60,7 +60,6 @@ public class DateHelper {
         return new Moment(dateUtc).toUTCDateTime().get(ChronoField.MINUTE_OF_DAY);
     }
 
-    // TODO was utc, now zoned. But is this correct? getMinuteOfDay(ZonedDateTime) were and still is zoned. Shouldn't all of them be UTC?
     public static int getDayOfMonth(long dateUtc) {
         return new Moment(dateUtc).getMonthDay();
     }

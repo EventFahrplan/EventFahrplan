@@ -40,8 +40,6 @@ public class TimeSegmentTest {
         int minute = 25;
         int msOfMinute = minute * 60 * 1000;
         TimeSegment segment = new TimeSegment(minute);
-        // FIXME fails because Moment.getHour returns 1, because "UTC hour 0 plus 1 hour zone offset". Segment is not zone aware and returns hour = 0
-        // I think all date arithmetic should be done in UTC, only displayed values should be zoned.
         assertThat(segment.isMatched(new Moment(msOfMinute), 15)).isEqualTo(true);
     }
 }
