@@ -27,7 +27,6 @@ class MetaDatabaseRepository(
         }, {
             insert(MetasTable.NAME, values)
         })
-        close()
     }
 
     fun query(): Meta {
@@ -38,8 +37,6 @@ class MetaDatabaseRepository(
             cursor = database.read(MetasTable.NAME)
         } catch (e: SQLiteException) {
             e.printStackTrace()
-            database.close()
-            sqLiteOpenHelper.close()
             return Meta()
         }
 
@@ -61,8 +58,6 @@ class MetaDatabaseRepository(
         Log.d(javaClass.name, "query(): $meta")
 
         cursor.close()
-        database.close()
-        sqLiteOpenHelper.close()
 
         return meta
     }

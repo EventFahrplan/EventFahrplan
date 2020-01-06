@@ -9,6 +9,7 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Le
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.LecturesTable.Columns.*
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.LecturesTable.Values.REC_OPT_OUT_OFF
 import info.metadude.android.eventfahrplan.database.extensions.*
+import info.metadude.android.eventfahrplan.database.extensions.transaction
 import info.metadude.android.eventfahrplan.database.models.Lecture
 import info.metadude.android.eventfahrplan.database.sqliteopenhelper.LecturesDBOpenHelper
 
@@ -20,15 +21,12 @@ class LecturesDatabaseRepository(
 ) {
 
     fun insert(list: List<ContentValues>) = with(sqLiteOpenHelper) {
-        writableDatabase.use {
-            it.transaction {
-                delete(LecturesTable.NAME)
-                list.forEach { contentValues ->
-                    insert(LecturesTable.NAME, contentValues)
-                }
+        writableDatabase.transaction {
+            delete(LecturesTable.NAME)
+            list.forEach { contentValues ->
+                insert(LecturesTable.NAME, contentValues)
             }
         }
-        close()
     }
 
     fun queryLectureByLectureId(lectureId: String): Lecture {
@@ -79,15 +77,11 @@ class LecturesDatabaseRepository(
             cursor = query()
         } catch (e: SQLiteException) {
             e.printStackTrace()
-            close()
-            sqLiteOpenHelper.close()
             return lectures.toList()
         }
 
         if (cursor.count == 0) {
             cursor.close()
-            close()
-            sqLiteOpenHelper.close()
             return lectures.toList()
         }
 
@@ -139,8 +133,6 @@ class LecturesDatabaseRepository(
             cursor.moveToNext()
         }
         cursor.close()
-        close()
-        sqLiteOpenHelper.close()
         return lectures.toList()
     }
 

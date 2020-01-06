@@ -23,7 +23,6 @@ class HighlightsDatabaseRepository(
         }, {
             insert(HighlightsTable.NAME, values)
         })
-        close()
     }
 
     fun query(): List<Highlight> {
@@ -34,8 +33,6 @@ class HighlightsDatabaseRepository(
             cursor = database.read(HighlightsTable.NAME)
         } catch (e: SQLiteException) {
             e.printStackTrace()
-            database.close()
-            sqLiteOpenHelper.close()
             return highlights.toList()
         }
 
@@ -50,8 +47,6 @@ class HighlightsDatabaseRepository(
             cursor.moveToNext()
         }
         cursor.close()
-        database.close()
-        sqLiteOpenHelper.close()
 
         return highlights.toList()
     }
@@ -65,8 +60,6 @@ class HighlightsDatabaseRepository(
                 selectionArgs = arrayOf(eventId.toString())
             )
         } catch (e: SQLiteException) {
-            database.close()
-            sqLiteOpenHelper.close()
             return null
         }
 
@@ -80,8 +73,6 @@ class HighlightsDatabaseRepository(
             }
         }
 
-        database.close()
-        sqLiteOpenHelper.close()
         return highlight
     }
 

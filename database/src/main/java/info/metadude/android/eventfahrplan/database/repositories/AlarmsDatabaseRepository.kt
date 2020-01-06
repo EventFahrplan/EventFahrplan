@@ -23,7 +23,6 @@ class AlarmsDatabaseRepository(
         }, {
             insert(AlarmsTable.NAME, values)
         })
-        close()
     }
 
     fun query(): List<Alarm> = query {
@@ -44,15 +43,11 @@ class AlarmsDatabaseRepository(
         } catch (e: SQLiteException) {
             e.printStackTrace()
             Log.e(javaClass.name, "Failure on alarm query.")
-            database.close()
-            sqLiteOpenHelper.close()
             return alarms.toList()
         }
 
         if (cursor.count == 0) {
             cursor.close()
-            database.close()
-            sqLiteOpenHelper.close()
             Log.d(javaClass.name, "No alarms found.")
             return alarms.toList()
         }
@@ -70,13 +65,11 @@ class AlarmsDatabaseRepository(
             cursor.moveToNext()
         }
         cursor.close()
-        database.close()
-        sqLiteOpenHelper.close()
 
         return alarms.toList()
     }
 
-    fun deleteForAlarmId(alarmId: Int, closeSQLiteOpenHelper: Boolean) = delete(closeSQLiteOpenHelper) {
+    fun deleteForAlarmId(alarmId: Int) = delete {
         delete(AlarmsTable.NAME, ID, "$alarmId")
     }
 
@@ -84,12 +77,9 @@ class AlarmsDatabaseRepository(
         delete(AlarmsTable.NAME, EVENT_ID, eventId)
     }
 
-    private fun delete(closeSQLiteOpenHelper: Boolean = true, query: SQLiteDatabase.() -> Int) =
+    private fun delete(query: SQLiteDatabase.() -> Int) =
             with(sqLiteOpenHelper) {
                 writableDatabase.delete(query)
-                if (closeSQLiteOpenHelper) {
-                    close()
-                }
             }
 
 }
