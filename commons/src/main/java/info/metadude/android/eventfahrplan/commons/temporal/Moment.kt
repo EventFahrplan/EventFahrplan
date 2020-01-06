@@ -77,6 +77,7 @@ class Moment() {
         return time.atZone(timeZoneOffset)
     }
 
+    // TODO make immutable
     fun minusHours(hours: Int) {
         time = time.minusSeconds((hours * 3600).toLong())
     }
@@ -90,7 +91,7 @@ class Moment() {
     }
 
     fun isBefore(moment: Moment): Boolean {
-        return false// TODO time.isBefore(moment.time)
+        return time.toEpochMilli() < moment.toMilliseconds()
     }
 
     override fun equals(other: Any?): Boolean {

@@ -75,4 +75,15 @@ class MomentTest {
 
         assertThat(momentLocalDate).isEqualTo(localDate)
     }
+
+    @Test
+    fun isBefore() {
+        val moment1 = Moment()
+        val moment2 = Moment()
+        moment2.plusSeconds(1)
+
+        assertThat(moment1.isBefore(moment2)).isTrue()
+        assertThat(moment2.isBefore(moment1)).isFalse()
+        assertThat(moment1.isBefore(moment1)).isFalse()
+    }
 }
