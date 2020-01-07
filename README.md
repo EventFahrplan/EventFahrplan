@@ -3,8 +3,8 @@
 # EventFahrplan
 
 EventFahrplan is a viewer for event schedules for instance
-[Chaos Computer Club e.V. events][ccc-events] such as Chaos Communication Camp
-or Chaos Communication Congress.
+[Chaos Computer Club e.V. events][ccc-events] such as [Chaos Communication Camp][camp-app-google-play]
+or [Chaos Communication Congress][congress-app-google-play].
 
 The app is available for Android devices.
 
@@ -101,7 +101,9 @@ limitations under the License.
 
 [c3nav-github]: https://github.com/c3nav
 [campfahrplan-github]: https://github.com/tuxmobil/CampFahrplan
+[camp-app-google-play]: https://play.google.com/store/apps/details?id=info.metadude.android.cccamp.schedule
 [ccc-events]: http://events.ccc.de
+[congress-app-google-play]: https://play.google.com/store/apps/details?id=info.metadude.android.congress.schedule
 [engelsystem-website]: https://engelsystem.de
 [eventfahrplan-github]: https://github.com/EventFahrplan/EventFahrplan
 [frab-github]: https://github.com/frab/frab
@@ -110,4 +112,3 @@ limitations under the License.
 [pretalx-website]: https://pretalx.com
 [tuxmobil-github]: https://github.com/tuxmobil/CampFahrplan
 [issue]: https://github.com/EventFahrplan/EventFahrplan/issues
-
