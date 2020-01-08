@@ -63,7 +63,6 @@ public class AlarmList extends ActionBarListActivity {
                     null, null, null, Columns.TIME);
         } catch (SQLiteException e) {
             e.printStackTrace();
-            db.close();
             return;
         }
         startManagingCursor(cursor);
@@ -76,12 +75,6 @@ public class AlarmList extends ActionBarListActivity {
         registerForContextMenu(getListView());
 
         setResult(RESULT_CANCELED);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        db.close();
     }
 
     @Override

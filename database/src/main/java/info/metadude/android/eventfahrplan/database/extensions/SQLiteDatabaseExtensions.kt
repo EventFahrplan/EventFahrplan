@@ -35,24 +35,20 @@ fun SQLiteDatabase.delete(tableName: String, columnName: String? = null, columnV
 }
 
 /**
- * Executes the delete [query] within a transaction and finally closes the database.
+ * Executes the delete [query] within a transaction.
  */
 internal fun SQLiteDatabase.delete(query: SQLiteDatabase.() -> Int) =
-        use {
-            it.transaction {
-                query()
-            }
+        transaction {
+            query()
         }
 
 /**
- * Executes the [delete] and the [insert] queries within a transaction and finally closes the database.
+ * Executes the [delete] and the [insert] queries within a transaction.
  */
 internal fun SQLiteDatabase.upsert(delete: SQLiteDatabase.() -> Int, insert: SQLiteDatabase.() -> Long) =
-        use {
-            it.transaction {
-                delete()
-                insert()
-            }
+        transaction {
+            delete()
+            insert()
         }
 
 /**

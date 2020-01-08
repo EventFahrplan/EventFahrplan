@@ -258,9 +258,8 @@ object AppRepository {
         alarmsDatabaseRepository.query(eventId).toAlarmsAppModel()
     }
 
-    @JvmOverloads
-    fun deleteAlarmForAlarmId(alarmId: Int, closeSQLiteOpenHelper: Boolean = true) =
-            alarmsDatabaseRepository.deleteForAlarmId(alarmId, closeSQLiteOpenHelper)
+    fun deleteAlarmForAlarmId(alarmId: Int) =
+            alarmsDatabaseRepository.deleteForAlarmId(alarmId)
 
     fun deleteAlarmForEventId(eventId: String) =
             alarmsDatabaseRepository.deleteForEventId(eventId)
