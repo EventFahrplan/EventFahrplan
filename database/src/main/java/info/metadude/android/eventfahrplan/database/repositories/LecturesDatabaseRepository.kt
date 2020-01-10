@@ -70,30 +70,21 @@ class LecturesDatabaseRepository(
     }
 
     private fun query(query: SQLiteDatabase.() -> Cursor): List<Lecture> = with(sqLiteOpenHelper.readableDatabase) {
-        val lectures = mutableListOf<Lecture>()
-        val cursor: Cursor
-
-        try {
-            cursor = query()
+        val cursor = try {
+            query()
         } catch (e: SQLiteException) {
             e.printStackTrace()
-            return lectures.toList()
+            return emptyList()
         }
 
-        if (cursor.count == 0) {
-            cursor.close()
-            return lectures.toList()
-        }
-
-        cursor.moveToFirst()
-        while (!cursor.isAfterLast) {
+        return cursor.map {
             val recordingOptOut =
                     if (cursor.getInt(REC_OPTOUT) == REC_OPT_OUT_OFF)
                         Lecture.RECORDING_OPT_OUT_OFF
                     else
                         Lecture.RECORDING_OPT_OUT_ON
 
-            val lecture = Lecture(
+            Lecture(
                     eventId = cursor.getString(EVENT_ID),
                     abstractt = cursor.getString(ABSTRACT),
                     date = cursor.getString(DATE),
@@ -129,11 +120,7 @@ class LecturesDatabaseRepository(
                     changedTitle = cursor.getInt(CHANGED_TITLE).isChanged,
                     changedTrack = cursor.getInt(CHANGED_TRACK).isChanged
             )
-            lectures.add(lecture)
-            cursor.moveToNext()
         }
-        cursor.close()
-        return lectures.toList()
     }
 
     private val Int.isChanged
