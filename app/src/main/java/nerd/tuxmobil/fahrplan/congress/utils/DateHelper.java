@@ -10,26 +10,29 @@ import org.threeten.bp.temporal.ChronoField;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 
 import info.metadude.android.eventfahrplan.commons.temporal.Moment;
 
 public class DateHelper {
+    private static DateFormat timeShort = SimpleDateFormat.getTimeInstance(SimpleDateFormat.SHORT);
+    private static DateFormat dateShort = SimpleDateFormat.getDateInstance(SimpleDateFormat.SHORT);
+    private static DateFormat dateTimeShort = SimpleDateFormat.getDateTimeInstance(SimpleDateFormat.SHORT, SimpleDateFormat.SHORT);
+    private static DateFormat dateTimeFull = SimpleDateFormat.getDateTimeInstance(SimpleDateFormat.FULL, SimpleDateFormat.SHORT);
 
     public static String getFormattedTime(long time) {
-        DateFormat dateFormat = SimpleDateFormat.getTimeInstance(SimpleDateFormat.SHORT);
-        return dateFormat.format(new Date(time));
+        return timeShort.format(new Date(time));
     }
 
     public static String getFormattedDate(long time) {
-        DateFormat dateFormat = SimpleDateFormat.getDateInstance(SimpleDateFormat.SHORT);
-        return dateFormat.format(new Date(time));
+        return dateShort.format(new Date(time));
     }
 
     public static String getFormattedDateTime(long time) {
-        DateFormat dateFormat = SimpleDateFormat.getDateTimeInstance(
-                SimpleDateFormat.FULL, SimpleDateFormat.SHORT, Locale.getDefault());
-        return dateFormat.format(new Date(time));
+        return dateTimeFull.format(new Date(time));
+    }
+
+    public static String getFormattedDateTimeShort(long time) {
+        return dateTimeShort.format(new Date(time));
     }
 
     /**
