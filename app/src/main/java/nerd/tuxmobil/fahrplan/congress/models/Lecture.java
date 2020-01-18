@@ -12,54 +12,34 @@ import nerd.tuxmobil.fahrplan.congress.R;
 public class Lecture {
 
     public String title;
-
     public String subtitle;
-
+    public String url;
     public int day;
+    public String date;                 // YYYY-MM-DD
+    public long dateUTC;                // milliseconds
+    public int startTime;               // minutes since day start
+    public int relStartTime;            // minutes since conference start
+    public int duration;                // minutes
 
     public String room;
-
-    public String slug;
-
-    public String url;
-
-    public int startTime;                // minutes since day start
-
-    public int duration;                 // minutes
+    public int roomIndex;
 
     public String speakers;
-
     public String track;
-
     public String lectureId;
-
     public String type;
-
     public String lang;
-
+    public String slug;
     public String abstractt;
-
     public String description;
-
-    public int relStartTime;             // minutes
 
     public String links;
 
-    public String date;                 // YYYY-MM-DD
-
     public boolean highlight;
-
     public boolean hasAlarm;
 
-    public long dateUTC;                // milliseconds
-
-    public int roomIndex;
-
     public String recordingLicense;
-
     public boolean recordingOptOut;
-
-    public static final boolean RECORDING_OPTOUT_OFF = false;
 
     public boolean changedTitle;
     public boolean changedSubtitle;
@@ -73,6 +53,8 @@ public class Lecture {
     public boolean changedTrack;
     public boolean changedIsNew;
     public boolean changedIsCanceled;
+
+    private static final boolean RECORDING_OPTOUT_OFF = false;
 
     public Lecture(String lectureId) {
         title = "";
