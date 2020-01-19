@@ -1,5 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress.utils
 
+import info.metadude.android.eventfahrplan.commons.temporal.DateHelper
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import org.threeten.bp.ZoneOffset

@@ -46,6 +46,7 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import info.metadude.android.eventfahrplan.commons.temporal.DateHelper;
 import info.metadude.android.eventfahrplan.commons.temporal.Moment;
 import kotlin.Unit;
 import nerd.tuxmobil.fahrplan.congress.BuildConfig;
@@ -63,7 +64,6 @@ import nerd.tuxmobil.fahrplan.congress.net.ParseShiftsResult;
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 import nerd.tuxmobil.fahrplan.congress.sharing.LectureSharer;
 import nerd.tuxmobil.fahrplan.congress.sharing.SimpleLectureFormat;
-import nerd.tuxmobil.fahrplan.congress.utils.DateHelper;
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
 import nerd.tuxmobil.fahrplan.congress.utils.LectureUtils;
 

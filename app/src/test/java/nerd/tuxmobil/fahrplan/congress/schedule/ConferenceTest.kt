@@ -1,6 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress.schedule
 
-import nerd.tuxmobil.fahrplan.congress.utils.DateHelper
+import info.metadude.android.eventfahrplan.commons.temporal.DateHelper
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import nerd.tuxmobil.fahrplan.congress.models.Lecture as Event

@@ -1,5 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress.models
 
+import info.metadude.android.eventfahrplan.commons.temporal.DayRange
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before

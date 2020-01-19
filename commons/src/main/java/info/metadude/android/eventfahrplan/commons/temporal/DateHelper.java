@@ -1,6 +1,4 @@
-package nerd.tuxmobil.fahrplan.congress.utils;
-
-import android.support.annotation.NonNull;
+package info.metadude.android.eventfahrplan.commons.temporal;
 
 import org.threeten.bp.Duration;
 import org.threeten.bp.ZonedDateTime;
@@ -8,8 +6,6 @@ import org.threeten.bp.ZonedDateTime;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import info.metadude.android.eventfahrplan.commons.temporal.Moment;
 
 public class DateHelper {
     private static DateFormat timeShort = SimpleDateFormat.getTimeInstance(SimpleDateFormat.SHORT);
@@ -37,7 +33,7 @@ public class DateHelper {
      * Returns the duration in minutes between the given dates.
      * Example: 2019-08-25T12:00:00+00:00, 2019-08-25T12:30:13+00:00 -> 30L
      */
-    public static long getDurationMinutes(@NonNull final ZonedDateTime startsAt, @NonNull final ZonedDateTime endsAt) {
+    public static long getDurationMinutes(final ZonedDateTime startsAt, final ZonedDateTime endsAt) {
         return Duration.between(startsAt, endsAt).toMinutes();
     }
 
@@ -47,7 +43,7 @@ public class DateHelper {
      * <p>
      * Example: 2019-08-27T00:06:30+04:00 -> 150
      */
-    public static int getMinuteOfDay(@NonNull final ZonedDateTime date) {
+    public static int getMinuteOfDay(final ZonedDateTime date) {
         return new Moment(date).getMinuteOfDay();
     }
 

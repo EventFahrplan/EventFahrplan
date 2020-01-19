@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import info.metadude.android.eventfahrplan.commons.logging.Logging;
 import info.metadude.android.eventfahrplan.network.models.Lecture;
 import info.metadude.android.eventfahrplan.network.models.Meta;
 import info.metadude.android.eventfahrplan.network.serialization.exceptions.MissingXmlAttributeException;
@@ -84,7 +85,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
     protected Boolean doInBackground(String... args) {
         boolean parsingSuccessful = parseFahrplan(args[0], args[1]);
         if (parsingSuccessful) {
-            DateFieldValidation dateFieldValidation = new DateFieldValidation();
+            DateFieldValidation dateFieldValidation = new DateFieldValidation(Logging.Companion.get());
             dateFieldValidation.validate(lectures);
             dateFieldValidation.printValidationErrors();
             // TODO Clear database on validation failure.

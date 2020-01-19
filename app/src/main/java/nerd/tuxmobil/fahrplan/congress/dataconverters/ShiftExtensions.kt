@@ -2,10 +2,10 @@ package nerd.tuxmobil.fahrplan.congress.dataconverters
 
 import android.support.annotation.VisibleForTesting
 import info.metadude.android.eventfahrplan.commons.logging.Logging
+import info.metadude.android.eventfahrplan.commons.temporal.DateHelper
+import info.metadude.android.eventfahrplan.commons.temporal.DayRange
 import info.metadude.kotlin.library.engelsystem.models.Shift
-import nerd.tuxmobil.fahrplan.congress.models.DayRange
 import nerd.tuxmobil.fahrplan.congress.models.Lecture
-import nerd.tuxmobil.fahrplan.congress.utils.DateHelper
 
 // Avoid conflicts with the IDs of the main schedule.
 private const val SHIFT_ID_OFFSET = 300000;

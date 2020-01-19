@@ -1,4 +1,4 @@
-package nerd.tuxmobil.fahrplan.congress.models
+package info.metadude.android.eventfahrplan.commons.temporal
 
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import org.threeten.bp.ZoneOffset

@@ -30,5 +30,4 @@ dependencies {
 
     testImplementation Libs.junit
     testImplementation Libs.assertjAndroid
-
 }

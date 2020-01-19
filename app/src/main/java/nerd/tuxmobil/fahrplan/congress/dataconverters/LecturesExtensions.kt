@@ -1,7 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.dataconverters
 
+import info.metadude.android.eventfahrplan.commons.temporal.DayRange
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
-import nerd.tuxmobil.fahrplan.congress.models.DayRange
 import nerd.tuxmobil.fahrplan.congress.models.Lecture
 import info.metadude.android.eventfahrplan.database.models.Lecture as LectureDatabaseModel
 import info.metadude.android.eventfahrplan.network.models.Lecture as LectureNetworkModel

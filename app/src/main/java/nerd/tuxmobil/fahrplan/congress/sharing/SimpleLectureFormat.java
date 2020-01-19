@@ -5,8 +5,8 @@ import android.support.annotation.Nullable;
 
 import java.util.List;
 
+import info.metadude.android.eventfahrplan.commons.temporal.DateHelper;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
-import nerd.tuxmobil.fahrplan.congress.utils.DateHelper;
 import nerd.tuxmobil.fahrplan.congress.utils.EventUrlComposer;
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
 import nerd.tuxmobil.fahrplan.congress.wiki.WikiEventUtils;

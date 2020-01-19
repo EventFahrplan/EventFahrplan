@@ -27,6 +27,7 @@ import org.ligi.tracedroid.logging.Log;
 
 import java.util.Locale;
 
+import info.metadude.android.eventfahrplan.commons.temporal.DateHelper;
 import nerd.tuxmobil.fahrplan.congress.BuildConfig;
 import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.R;
@@ -40,7 +41,6 @@ import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanFragment;
 import nerd.tuxmobil.fahrplan.congress.sharing.LectureSharer;
 import nerd.tuxmobil.fahrplan.congress.sharing.SimpleLectureFormat;
 import nerd.tuxmobil.fahrplan.congress.sidepane.OnSidePaneCloseListener;
-import nerd.tuxmobil.fahrplan.congress.utils.DateHelper;
 import nerd.tuxmobil.fahrplan.congress.utils.EventUrlComposer;
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
 import nerd.tuxmobil.fahrplan.congress.utils.FeedbackUrlComposer;

@@ -5,12 +5,12 @@ import android.support.annotation.ColorInt
 import android.support.v4.content.ContextCompat
 import android.view.View
 import android.widget.TextView
+import info.metadude.android.eventfahrplan.commons.temporal.DateHelper
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.base.LecturesAdapter
 import nerd.tuxmobil.fahrplan.congress.extensions.textOrHide
 import nerd.tuxmobil.fahrplan.congress.models.Lecture
-import nerd.tuxmobil.fahrplan.congress.utils.DateHelper
 
 class LectureArrayAdapter internal constructor(
 

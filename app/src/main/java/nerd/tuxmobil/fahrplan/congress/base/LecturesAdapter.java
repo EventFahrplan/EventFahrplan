@@ -16,10 +16,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeSet;
 
+import info.metadude.android.eventfahrplan.commons.temporal.DateHelper;
 import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.extensions.Contexts;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
-import nerd.tuxmobil.fahrplan.congress.utils.DateHelper;
 
 public abstract class LecturesAdapter extends ArrayAdapter<Lecture> {
 
