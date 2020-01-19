@@ -3,9 +3,7 @@ package nerd.tuxmobil.fahrplan.congress.utils;
 import android.support.annotation.NonNull;
 
 import org.threeten.bp.Duration;
-import org.threeten.bp.ZoneId;
 import org.threeten.bp.ZonedDateTime;
-import org.threeten.bp.temporal.ChronoField;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -50,7 +48,7 @@ public class DateHelper {
      * Example: 2019-08-27T00:06:30+04:00 -> 150
      */
     public static int getMinuteOfDay(@NonNull final ZonedDateTime date) {
-        return date.withZoneSameInstant(ZoneId.of("UTC")).get(ChronoField.MINUTE_OF_DAY);
+        return new Moment(date).getMinuteOfDay();
     }
 
     /**
@@ -60,7 +58,7 @@ public class DateHelper {
      * Example: 2019-08-27T00:06:30+04:00 -> 150 => (6-4) * 60 + 30
      */
     public static int getMinuteOfDay(long dateUtc) {
-        return new Moment(dateUtc).toUTCDateTime().get(ChronoField.MINUTE_OF_DAY);
+        return new Moment(dateUtc).getMinuteOfDay();
     }
 
     public static int getDayOfMonth(long dateUtc) {

@@ -1,10 +1,10 @@
 package info.metadude.android.eventfahrplan.commons.temporal
 
 import org.threeten.bp.*
+import org.threeten.bp.temporal.ChronoField
 
 /**
- * An instance represents a moment in time. Most operations are UTC based, and all are immutable.
- * Hence any manipulation creates a new instance.
+ * An instance represents a moment in time. All operations are UTC based.
  * Timezone based dates are retrieved using {#toZonedDateTime}.
  *
  * E.g.
@@ -12,6 +12,9 @@ import org.threeten.bp.*
  * > Moment().toZonedDateTime(ZoneOffset.of("GMT+1"))
  */
 class Moment() {
+
+    private var time: Instant = Instant.now(Clock.systemUTC())
+    private val utcZoneOffset = ZoneOffset.UTC
 
     private constructor(instant: Instant) : this() {
         time = instant
@@ -22,27 +25,32 @@ class Moment() {
     }
 
     /**
-     * @param UTCDate must be in ISO-8601 format, e.g. "yyyy-MM-dd", which must be in UTC.
+     * @param UTCDate must be in ISO-8601 format, e.g. "yyyy-MM-dd"
      * */
     constructor(UTCDate: String) : this(LocalDate.parse(UTCDate).atStartOfDay().toInstant(ZoneOffset.UTC))
 
-    private var time: Instant = Instant.now() // UTC
-    private val utcZone = ZoneId.of("UTC")
+    constructor(date: ZonedDateTime) : this(date.withZoneSameInstant(ZoneOffset.UTC).toInstant())
 
     val year: Int
-        get() = time.atZone(utcZone).year
+        get() = time.atZone(utcZoneOffset).year
+
     val month: Int
-        get() = time.atZone(utcZone).monthValue
+        get() = time.atZone(utcZoneOffset).monthValue
+
     val monthDay: Int
-        get() = time.atZone(utcZone).dayOfMonth
+        get() = time.atZone(utcZoneOffset).dayOfMonth
+
     val hour: Int
-        get() = time.atZone(utcZone).hour
+        get() = time.atZone(utcZoneOffset).hour
 
     val minute: Int
-        get() = time.atZone(utcZone).minute
+        get() = time.atZone(utcZoneOffset).minute
+
+    val minuteOfDay: Int
+        get() = time.atZone(utcZoneOffset).get(ChronoField.MINUTE_OF_DAY);
 
     fun setToNow() {
-        time = Instant.now()
+        time = Instant.now(Clock.systemUTC())
     }
 
     /**
@@ -53,14 +61,14 @@ class Moment() {
         return Moment(toUTCDateTime()
                 .toLocalDate()
                 .atStartOfDay()
-                .toInstant(ZoneOffset.UTC))
+                .toInstant(utcZoneOffset))
     }
 
     fun endOfDay(): Moment {
-        return Moment(toUTCDateTime().toLocalDate().atStartOfDay()
-                .plusDays(1)
-                .minusSeconds(1)
-                .toInstant(ZoneOffset.UTC))
+        return Moment(toUTCDateTime()
+                .toLocalDate()
+                .atTime(LocalTime.MAX)
+                .toInstant(utcZoneOffset))
     }
 
     fun setToMilliseconds(milliseconds: Long) {
@@ -70,14 +78,13 @@ class Moment() {
     fun toMilliseconds() = time.toEpochMilli()
 
     fun toUTCDateTime(): LocalDateTime {
-        return time.atZone(utcZone).toLocalDateTime()
+        return time.atZone(utcZoneOffset).toLocalDateTime()
     }
 
     fun toZonedDateTime(timeZoneOffset: ZoneOffset): ZonedDateTime {
         return time.atZone(timeZoneOffset)
     }
 
-    // TODO make immutable
     fun minusHours(hours: Int) {
         time = time.minusSeconds((hours * 3600).toLong())
     }
@@ -101,14 +108,14 @@ class Moment() {
         other as Moment
 
         if (time != other.time) return false
-        if (utcZone != other.utcZone) return false
+        if (utcZoneOffset != other.utcZoneOffset) return false
 
         return true
     }
 
     override fun hashCode(): Int {
         var result = time.hashCode()
-        result = 31 * result + utcZone.hashCode()
+        result = 31 * result + utcZoneOffset.hashCode()
         return result
     }
 
