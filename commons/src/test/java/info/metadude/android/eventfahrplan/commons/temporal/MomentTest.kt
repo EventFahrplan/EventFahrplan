@@ -4,6 +4,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import org.threeten.bp.LocalDate
 import org.threeten.bp.ZoneOffset
+import org.threeten.bp.ZonedDateTime
 
 class MomentTest {
 
@@ -42,6 +43,24 @@ class MomentTest {
         assertThat(endOfDayUTC.dayOfMonth).isEqualTo(30)
         assertThat(endOfDayUTC.hour).isEqualTo(23)
         assertThat(endOfDayUTC.minute).isEqualTo(59)
+    }
+
+    @Test
+    fun getMinuteOfDayZonedInput() {
+        val startsAtDate = ZonedDateTime.of(2019, 8, 27, 6, 30, 0, 0, ZoneOffset.ofHours(4))
+        assertThat(Moment(startsAtDate).minuteOfDay).isEqualTo((6 - 4) * 60 + 30)
+    }
+
+    @Test
+    fun getDayOfMonthWithLeapYearDay() {
+        // Thursday, February 28, 2019 11:59:59 PM UTC
+        assertThat(Moment(1551312000000).monthDay).isEqualTo(28)
+    }
+
+    @Test
+    fun getDayOfMonthWithDayAfterLeapYear() {
+        // Friday, March 1, 2019 12:00:00 AM UTC
+        assertThat(Moment(1551398400000).monthDay).isEqualTo(1)
     }
 
     @Test

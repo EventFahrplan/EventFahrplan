@@ -46,7 +46,6 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import info.metadude.android.eventfahrplan.commons.temporal.DateHelper;
 import info.metadude.android.eventfahrplan.commons.temporal.Moment;
 import kotlin.Unit;
 import nerd.tuxmobil.fahrplan.congress.BuildConfig;
@@ -314,7 +313,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
         loadLectureList(appRepository, mDay, reload);
         List<Lecture> lectures = MyApp.lectureList;
         if (lectures != null && !lectures.isEmpty()) {
-            conference.calculateTimeFrame(lectures, DateHelper::getMinuteOfDay);
+            conference.calculateTimeFrame(lectures, dateUTC -> new Moment(dateUTC).getMinuteOfDay());
             MyApp.LogDebug(LOG_TAG, "Conference = " + conference);
         }
         View layoutRoot = getView();
@@ -633,7 +632,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
             Lecture lecture = lectures.get(idx);
             if (lecture.roomIndex == roomIndex) {
                 if (lecture.dateUTC > 0) {
-                    startTime = DateHelper.getMinuteOfDay(lecture.dateUTC);
+                    startTime = new Moment(lecture.dateUTC).getMinuteOfDay();
                     if (startTime < endTime) {
                         startTime += ONE_DAY;
                     }

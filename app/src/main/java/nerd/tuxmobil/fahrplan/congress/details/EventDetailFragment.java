@@ -27,7 +27,7 @@ import org.ligi.tracedroid.logging.Log;
 
 import java.util.Locale;
 
-import info.metadude.android.eventfahrplan.commons.temporal.DateHelper;
+import info.metadude.android.eventfahrplan.commons.temporal.DateFormatter;
 import nerd.tuxmobil.fahrplan.congress.BuildConfig;
 import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.R;
@@ -167,7 +167,7 @@ public class EventDetailFragment extends Fragment {
             TextView t;
             t = view.findViewById(R.id.lecture_detailbar_date_time);
             if (lecture != null && lecture.dateUTC > 0) {
-                t.setText(DateHelper.getFormattedDateTimeShort(lecture.dateUTC));
+                t.setText(DateFormatter.Companion.getFormattedDateTimeShort(lecture.dateUTC));
             } else {
                 t.setText("");
             }

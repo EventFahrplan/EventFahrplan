@@ -1,6 +1,5 @@
 package info.metadude.android.eventfahrplan.commons.temporal
 
-import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import org.threeten.bp.ZoneOffset
 import org.threeten.bp.ZonedDateTime
 

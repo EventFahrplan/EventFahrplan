@@ -1,7 +1,7 @@
 package info.metadude.android.eventfahrplan.network.validation
 
 import info.metadude.android.eventfahrplan.commons.logging.Logging
-import info.metadude.android.eventfahrplan.commons.temporal.DateHelper
+import info.metadude.android.eventfahrplan.commons.temporal.DateFormatter
 import info.metadude.android.eventfahrplan.commons.temporal.DayRange
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import info.metadude.android.eventfahrplan.network.models.Lecture
@@ -51,7 +51,7 @@ internal class DateFieldValidation constructor(
         val lectureDate = Moment(dateUtcInMilliseconds).toZonedDateTime(ZoneOffset.UTC)
         if (!dateRange.contains(lectureDate)) {
             val eventId = lecture.eventId
-            val formattedDateUtc = DateHelper.getFormattedDateTime(dateUtcInMilliseconds)
+            val formattedDateUtc = DateFormatter.getFormattedDateTime(dateUtcInMilliseconds)
             val errorMessage = ("Field <date> $formattedDateUtc of event $eventId exceeds range: [ ${dateRange.startsAt} : ${dateRange.endsAt} ]")
             val error = ValidationError(errorMessage)
             validationErrors.add(error)

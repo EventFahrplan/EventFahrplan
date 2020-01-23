@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeSet;
 
-import info.metadude.android.eventfahrplan.commons.temporal.DateHelper;
+import info.metadude.android.eventfahrplan.commons.temporal.DateFormatter;
 import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.extensions.Contexts;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
@@ -196,7 +196,7 @@ public abstract class LecturesAdapter extends ArrayAdapter<Lecture> {
             if (day != lastDay) {
                 lastDay = day;
                 if (numDays > 1) {
-                    String formattedDate = DateHelper.getFormattedDate(l.dateUTC);
+                    String formattedDate = DateFormatter.Companion.getFormattedDate(l.dateUTC);
                     String dayDateSeparator = String.format(daySeparator, day, formattedDate);
                     mSeparatorStrings.add(dayDateSeparator);
                     mSeparatorsSet.add(index + sepCount);

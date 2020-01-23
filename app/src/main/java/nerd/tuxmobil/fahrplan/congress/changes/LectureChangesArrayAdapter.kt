@@ -6,7 +6,7 @@ import android.support.annotation.ColorInt
 import android.support.v4.content.ContextCompat
 import android.view.View
 import android.widget.TextView
-import info.metadude.android.eventfahrplan.commons.temporal.DateHelper
+import info.metadude.android.eventfahrplan.commons.temporal.DateFormatter
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.base.LecturesAdapter
 import nerd.tuxmobil.fahrplan.congress.extensions.textOrHide
@@ -55,9 +55,9 @@ class LectureChangesArrayAdapter internal constructor(
             speakers.textOrHide = lecture.formattedSpeakers
             lang.textOrHide = lecture.lang
             lang.contentDescription = lecture.getLanguageContentDescription(context)
-            val dayText = DateHelper.getFormattedDate(lecture.dateUTC)
+            val dayText = DateFormatter.getFormattedDate(lecture.dateUTC)
             day.textOrHide = dayText
-            val timeText = DateHelper.getFormattedTime(lecture.dateUTC)
+            val timeText = DateFormatter.getFormattedTime(lecture.dateUTC)
             time.textOrHide = timeText
             room.textOrHide = lecture.room
             val durationText = context.getString(R.string.event_duration, lecture.duration)
