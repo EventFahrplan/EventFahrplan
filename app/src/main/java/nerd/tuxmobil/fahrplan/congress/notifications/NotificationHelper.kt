@@ -20,6 +20,10 @@ internal class NotificationHelper(context: Context) : ContextWrapper(context) {
     }
 
     init {
+        createChannels()
+    }
+
+    fun createChannels(){
         createNotificationChannel(EVENT_ALARM_CHANNEL_ID, eventAlarmChannelName, eventAlarmChannelDescription)
         createNotificationChannel(SCHEDULE_UPDATE_CHANNEL_ID, scheduleUpdateChannelName, scheduleUpdateChannelDescription)
     }
