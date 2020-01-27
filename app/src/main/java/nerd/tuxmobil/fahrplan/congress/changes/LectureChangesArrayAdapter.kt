@@ -55,9 +55,9 @@ class LectureChangesArrayAdapter internal constructor(
             speakers.textOrHide = lecture.formattedSpeakers
             lang.textOrHide = lecture.lang
             lang.contentDescription = lecture.getLanguageContentDescription(context)
-            val dayText = DateFormatter.getFormattedDate(lecture.dateUTC)
+            val dayText = DateFormatter.newInstance().getFormattedDate(lecture.dateUTC)
             day.textOrHide = dayText
-            val timeText = DateFormatter.getFormattedTime(lecture.dateUTC)
+            val timeText = DateFormatter.newInstance().getFormattedTime(lecture.dateUTC)
             time.textOrHide = timeText
             room.textOrHide = lecture.room
             val durationText = context.getString(R.string.event_duration, lecture.duration)

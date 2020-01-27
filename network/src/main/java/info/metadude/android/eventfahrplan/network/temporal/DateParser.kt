@@ -10,6 +10,7 @@ class DateParser {
 
     companion object {
 
+        @JvmStatic
         fun getDateTime(text: String): Long {
             if (text.length > 10) {
                 val parsed = Instant.from(DateTimeFormatter.ISO_DATE_TIME.parse(text))
@@ -22,6 +23,7 @@ class DateParser {
             }
         }
 
+        @JvmStatic
         fun getDayChange(text: String): Int {
             val timeUTC = getDateTime(text)
             return Moment(timeUTC).minuteOfDay

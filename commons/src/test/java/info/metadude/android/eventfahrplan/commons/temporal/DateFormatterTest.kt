@@ -25,49 +25,40 @@ class DateFormatterTest {
     @Test
     fun getFormattedTime() {
         Locale.setDefault(Locale("en", "US"))
-        DateFormatter.initialize()
-        assertThat(DateFormatter.getFormattedTime(timestamp)).isEqualTo("1:00 AM")
+        assertThat(DateFormatter.newInstance().getFormattedTime(timestamp)).isEqualTo("1:00 AM")
 
         Locale.setDefault(Locale("de", "DE"))
-        DateFormatter.initialize()
-        assertThat(DateFormatter.getFormattedTime(timestamp)).isEqualTo("01:00")
+        assertThat(DateFormatter.newInstance().getFormattedTime(timestamp)).isEqualTo("01:00")
 
         Locale.setDefault(Locale("de", "DE"))
         TimeZone.setDefault(TimeZone.getTimeZone("GMT+6"))
-        DateFormatter.initialize()
-        assertThat(DateFormatter.getFormattedTime(timestamp)).isEqualTo("06:00")
+        assertThat(DateFormatter.newInstance().getFormattedTime(timestamp)).isEqualTo("06:00")
     }
 
     @Test
     fun getFormattedDate() {
         Locale.setDefault(Locale.US)
-        DateFormatter.initialize()
-        assertThat(DateFormatter.getFormattedDate(timestamp)).isEqualTo("1/22/19")
+        assertThat(DateFormatter.newInstance().getFormattedDate(timestamp)).isEqualTo("1/22/19")
 
         Locale.setDefault(Locale.GERMANY)
-        DateFormatter.initialize()
-        assertThat(DateFormatter.getFormattedDate(timestamp)).isEqualTo("22.01.19")
+        assertThat(DateFormatter.newInstance().getFormattedDate(timestamp)).isEqualTo("22.01.19")
     }
 
     @Test
     fun getFormattedDateTime() {
         Locale.setDefault(Locale.US)
-        DateFormatter.initialize()
-        assertThat(DateFormatter.getFormattedDateTime(timestamp)).isEqualTo("Tuesday, January 22, 2019 1:00 AM")
+        assertThat(DateFormatter.newInstance().getFormattedDateTime(timestamp)).isEqualTo("Tuesday, January 22, 2019 1:00 AM")
 
         Locale.setDefault(Locale.GERMANY)
-        DateFormatter.initialize()
-        assertThat(DateFormatter.getFormattedDateTime(timestamp)).isEqualTo("Dienstag, 22. Januar 2019 01:00")
+        assertThat(DateFormatter.newInstance().getFormattedDateTime(timestamp)).isEqualTo("Dienstag, 22. Januar 2019 01:00")
     }
 
     @Test
     fun getFormattedDateTimeShort() {
         Locale.setDefault(Locale.US)
-        DateFormatter.initialize()
-        assertThat(DateFormatter.getFormattedDateTimeShort(timestamp)).isEqualTo("1/22/19 1:00 AM")
+        assertThat(DateFormatter.newInstance().getFormattedDateTimeShort(timestamp)).isEqualTo("1/22/19 1:00 AM")
 
         Locale.setDefault(Locale.GERMANY)
-        DateFormatter.initialize()
-        assertThat(DateFormatter.getFormattedDateTimeShort(timestamp)).isEqualTo("22.01.19 01:00")
+        assertThat(DateFormatter.newInstance().getFormattedDateTimeShort(timestamp)).isEqualTo("22.01.19 01:00")
     }
 }

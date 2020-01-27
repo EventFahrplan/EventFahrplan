@@ -153,7 +153,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                             if (end == null) {
                                 throw new MissingXmlAttributeException("day", "end");
                             }
-                            dayChangeTime = DateParser.Companion.getDayChange(end);
+                            dayChangeTime = DateParser.getDayChange(end);
                             if (day > numdays) {
                                 numdays = day;
                             }
@@ -251,7 +251,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                                             lecture.setDuration(Lecture.Companion.parseDuration(XmlPullParsers.getSanitizedText(parser)));
                                         } else if (name.equals("date")) {
                                             parser.next();
-                                            lecture.setDateUTC(DateParser.Companion.getDateTime(XmlPullParsers.getSanitizedText(parser)));
+                                            lecture.setDateUTC(DateParser.getDateTime(XmlPullParsers.getSanitizedText(parser)));
                                         } else if (name.equals("recording")) {
                                             eventType = parser.next();
                                             boolean recordingDone = false;

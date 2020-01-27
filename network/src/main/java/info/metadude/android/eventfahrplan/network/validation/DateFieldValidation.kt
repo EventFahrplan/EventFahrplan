@@ -51,8 +51,7 @@ internal class DateFieldValidation constructor(
         val lectureDate = Moment(dateUtcInMilliseconds).toZonedDateTime(ZoneOffset.UTC)
         if (!dateRange.contains(lectureDate)) {
             val eventId = lecture.eventId
-            val formattedDateUtc = DateFormatter.getFormattedDateTime(dateUtcInMilliseconds)
-            val errorMessage = ("Field <date> $formattedDateUtc of event $eventId exceeds range: [ ${dateRange.startsAt} : ${dateRange.endsAt} ]")
+            val errorMessage = ("Field <date> $lectureDate of event $eventId exceeds range: [ ${dateRange.startsAt} : ${dateRange.endsAt} ]")
             val error = ValidationError(errorMessage)
             validationErrors.add(error)
         }

@@ -167,7 +167,7 @@ public class EventDetailFragment extends Fragment {
             TextView t;
             t = view.findViewById(R.id.lecture_detailbar_date_time);
             if (lecture != null && lecture.dateUTC > 0) {
-                t.setText(DateFormatter.Companion.getFormattedDateTimeShort(lecture.dateUTC));
+                t.setText(DateFormatter.newInstance().getFormattedDateTimeShort(lecture.dateUTC));
             } else {
                 t.setText("");
             }
