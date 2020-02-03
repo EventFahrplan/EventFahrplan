@@ -9,16 +9,18 @@ class TimeSegment {
 
     private final int hour;
     private final int minute;
+    private final int minutesOfTheDay;
 
     TimeSegment(int minutesOfTheDay) {
         hour = minutesOfTheDay / MINUTES_PER_HOUR;
         minute = minutesOfTheDay % MINUTES_PER_HOUR;
+        this.minutesOfTheDay = minutesOfTheDay;
     }
 
     String getFormattedText() {
         Moment moment = new Moment().startOfDay();
-        moment.plusSeconds(minute * 60);
-        return DateFormatter.newInstance().getFormattedTime(moment.toMilliseconds());
+        moment.plusSeconds(minutesOfTheDay * 60);
+        return DateFormatter.newInstance().getFormattedTime24Hour(moment);
     }
 
     boolean isMatched(Moment moment, int offset) {

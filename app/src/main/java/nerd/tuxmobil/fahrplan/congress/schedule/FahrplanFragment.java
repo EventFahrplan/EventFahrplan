@@ -428,7 +428,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
         int printTime = time;
         int scrollAmount = 0;
 
-        if (!(nowMoment.getHour() * 60 + nowMoment.getMinute() < conference.getFirstEventStartsAt() &&
+        if (!(nowMoment.getMinuteOfDay() < conference.getFirstEventStartsAt() &&
                 MyApp.dateInfos.sameDay(nowMoment, MyApp.lectureListDay))) {
 
             TimeSegment timeSegment;

@@ -9,7 +9,8 @@ import java.util.*
 class DateFormatterTest {
     private val systemTimezone = TimeZone.getDefault()
     private val systemLocale = Locale.getDefault()
-    private val timestamp = Moment("2019-01-22").toMilliseconds()
+    private val moment = Moment("2019-01-22")
+    private val timestamp = moment.toMilliseconds()
 
     @Before
     fun resetTimeZone() {
@@ -25,14 +26,34 @@ class DateFormatterTest {
     @Test
     fun getFormattedTime() {
         Locale.setDefault(Locale("en", "US"))
+        TimeZone.setDefault(TimeZone.getTimeZone("GMT+1"))
         assertThat(DateFormatter.newInstance().getFormattedTime(timestamp)).isEqualTo("1:00 AM")
 
+        TimeZone.setDefault(TimeZone.getTimeZone("GMT+14"))
+        assertThat(DateFormatter.newInstance().getFormattedTime(timestamp)).isEqualTo("2:00 PM")
+
         Locale.setDefault(Locale("de", "DE"))
-        assertThat(DateFormatter.newInstance().getFormattedTime(timestamp)).isEqualTo("01:00")
+        assertThat(DateFormatter.newInstance().getFormattedTime(timestamp)).isEqualTo("14:00")
+
+        TimeZone.setDefault(TimeZone.getTimeZone("GMT+6"))
+        assertThat(DateFormatter.newInstance().getFormattedTime(timestamp)).isEqualTo("06:00")
+    }
+
+    @Test
+    fun getFormattedTimeNumbersOnly() {
+        Locale.setDefault(Locale("en", "US"))
+        TimeZone.setDefault(TimeZone.getTimeZone("GMT+1"))
+        assertThat(DateFormatter.newInstance().getFormattedTime24Hour(moment)).isEqualTo("01:00")
+
+        TimeZone.setDefault(TimeZone.getTimeZone("GMT+14"))
+        assertThat(DateFormatter.newInstance().getFormattedTime24Hour(moment)).isEqualTo("14:00")
 
         Locale.setDefault(Locale("de", "DE"))
         TimeZone.setDefault(TimeZone.getTimeZone("GMT+6"))
-        assertThat(DateFormatter.newInstance().getFormattedTime(timestamp)).isEqualTo("06:00")
+        assertThat(DateFormatter.newInstance().getFormattedTime24Hour(moment)).isEqualTo("06:00")
+
+        TimeZone.setDefault(TimeZone.getTimeZone("GMT+14"))
+        assertThat(DateFormatter.newInstance().getFormattedTime24Hour(moment)).isEqualTo("14:00")
     }
 
     @Test
