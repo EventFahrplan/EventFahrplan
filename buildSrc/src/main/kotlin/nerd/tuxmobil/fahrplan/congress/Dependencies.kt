@@ -47,7 +47,7 @@ object Libs {
         const val testRules = "1.0.2"
         const val threeTenBp = "1.4.0"
         const val tracedroid = "1.4"
-        const val truth = "1.0"
+        const val truth = "1.0.1"
     }
 
     const val assertjAndroid = "com.squareup.assertj:assertj-android:${Versions.assertjAndroid}"
