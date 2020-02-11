@@ -35,7 +35,7 @@ object Libs {
         const val emailIntentBuilder = "2.0.0"
         const val engelsystem = "3.1.0"
         const val espresso = "3.0.2"
-        const val junit = "4.12"
+        const val junit = "4.13"
         const val kotlinCoroutines = "1.1.1"
         const val kotlinCoroutinesRetrofit = "1.1.0"
         const val mockito = "3.2.0"
