@@ -45,7 +45,7 @@ object Libs {
         const val snackengage = "0.22"
         const val supportLibrary = "28.0.0"
         const val testRules = "1.0.2"
-        const val threeTenBp = "1.4.0"
+        const val threeTenBp = "1.4.1"
         const val tracedroid = "1.4"
         const val truth = "1.0.1"
     }
