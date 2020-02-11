@@ -17,7 +17,7 @@ object GradlePlugins {
         const val androidGradle = "3.5.3"
         const val gradleVersions = "0.27.0"
         const val sonarQubeGradle = "2.8"
-        const val unmockGradle = "0.7.3"
+        const val unmockGradle = "0.7.4"
     }
 
     const val androidGradle = "com.android.tools.build:gradle:${Versions.androidGradle}"
@@ -35,19 +35,19 @@ object Libs {
         const val emailIntentBuilder = "2.0.0"
         const val engelsystem = "3.1.0"
         const val espresso = "3.0.2"
-        const val junit = "4.12"
+        const val junit = "4.13"
         const val kotlinCoroutines = "1.1.1"
         const val kotlinCoroutinesRetrofit = "1.1.0"
         const val mockito = "3.2.0"
         const val mockitoKotlin = "2.2.0"
-        const val okhttp = "3.12.7"
+        const val okhttp = "3.12.8"
         const val robolectric = "4.3_r2-robolectric-0"
         const val snackengage = "0.22"
         const val supportLibrary = "28.0.0"
         const val testRules = "1.0.2"
-        const val threeTenBp = "1.4.0"
+        const val threeTenBp = "1.4.1"
         const val tracedroid = "1.4"
-        const val truth = "1.0"
+        const val truth = "1.0.1"
     }
 
     const val assertjAndroid = "com.squareup.assertj:assertj-android:${Versions.assertjAndroid}"
