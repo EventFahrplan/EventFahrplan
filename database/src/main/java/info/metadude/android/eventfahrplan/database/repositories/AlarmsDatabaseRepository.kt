@@ -34,39 +34,31 @@ class AlarmsDatabaseRepository(
     }
 
     private fun query(query: SQLiteDatabase.() -> Cursor): List<Alarm> {
-        val alarms = mutableListOf<Alarm>()
         val database = sqLiteOpenHelper.readableDatabase
-        val cursor: Cursor
 
-        try {
-            cursor = database.query()
+        val cursor = try {
+            database.query()
         } catch (e: SQLiteException) {
             e.printStackTrace()
             Log.e(javaClass.name, "Failure on alarm query.")
-            return alarms.toList()
+            return emptyList()
         }
 
-        if (cursor.count == 0) {
-            cursor.close()
-            Log.d(javaClass.name, "No alarms found.")
-            return alarms.toList()
-        }
-
-        cursor.moveToFirst()
-        while (!cursor.isAfterLast) {
-            val alarm = Alarm(
+        val alarms = cursor.map {
+            Alarm(
                     id = cursor.getInt(ID),
                     day = cursor.getInt(DAY),
                     eventId = cursor.getString(EVENT_ID),
                     time = cursor.getLong(TIME),
                     title = cursor.getString(EVENT_TITLE)
             )
-            alarms.add(alarm)
-            cursor.moveToNext()
         }
-        cursor.close()
 
-        return alarms.toList()
+        if (alarms.isEmpty()) {
+            Log.d(javaClass.name, "No alarms found.")
+        }
+
+        return alarms
     }
 
     fun deleteForAlarmId(alarmId: Int) = delete {

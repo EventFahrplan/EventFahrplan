@@ -39,3 +39,14 @@ inline fun Cursor.getLong(columnName: String): Long = getLong(getColumnIndexOrTh
  * @see Cursor.getString
  */
 inline fun Cursor.getString(columnName: String): String = getString(getColumnIndexOrThrow(columnName))
+
+/**
+ * Returns a list containing the results of applying the given [transform] function to each row
+ * in the [Cursor]. Closes the Cursor afterwards.
+ */
+inline fun <T> Cursor.map(transform: (Cursor) -> T): List<T> = this.use {
+    List(count) { index ->
+        moveToPosition(index)
+        transform(this)
+    }
+}
