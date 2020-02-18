@@ -106,7 +106,7 @@ object AppRepository {
                 check(onParsingDone != {}) { "Nobody registered to receive ParseScheduleResult." }
                 // Parsing
                 parseSchedule(
-                        fetchResult.scheduleXml,
+                        fetchScheduleResult.scheduleXml,
                         fetchResult.eTag,
                         okHttpClient,
                         onParsingDone,
