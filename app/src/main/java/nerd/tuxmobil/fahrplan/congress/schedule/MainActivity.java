@@ -345,10 +345,14 @@ public class MainActivity extends BaseActivity implements
     }
 
     void showAboutDialog() {
+        Meta meta = appRepository.readMeta();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.addToBackStack(null);
-        DialogFragment about = new AboutDialog();
-        about.show(ft, "about");
+        AboutDialog.newInstance(
+                meta.getVersion(),
+                meta.getSubtitle(),
+                meta.getTitle()
+        ).show(ft, "about");
     }
 
     @Override
