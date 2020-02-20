@@ -58,7 +58,7 @@ public class FahrplanMisc {
         if (lecture.dateUTC > 0) {
             when = lecture.dateUTC;
         } else {
-            Moment moment = lecture.getMoment();
+            Moment moment = lecture.getStartTimeMoment();
             when = moment.toMilliseconds();
         }
         return when;
@@ -99,7 +99,7 @@ public class FahrplanMisc {
             startTime = startTimeInMilliSec;
             moment = new Moment();
         } else {
-            moment = lecture.getMoment();
+            moment = lecture.getStartTimeMoment();
             startTime = moment.toMilliseconds();
             when = moment.toMilliseconds();
         }

@@ -4,9 +4,8 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
-import org.threeten.bp.Instant;
-
 import info.metadude.android.eventfahrplan.commons.temporal.Moment;
+import info.metadude.android.eventfahrplan.network.temporal.DateParser;
 import nerd.tuxmobil.fahrplan.congress.R;
 
 public class Lecture {
@@ -99,10 +98,9 @@ public class Lecture {
         return links == null ? "" : links;
     }
 
-    public Moment getMoment() {
-        Moment moment = new Moment(Instant.parse(date).toEpochMilli());
+    public Moment getStartTimeMoment() {
+        Moment moment = new Moment(DateParser.getDateTime(date));
         moment.plusSeconds(relStartTime * 60);
-        String[] splitDate = date.split("-");
         return moment;
     }
 
