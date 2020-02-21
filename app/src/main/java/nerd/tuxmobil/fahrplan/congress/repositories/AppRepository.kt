@@ -404,4 +404,10 @@ object AppRepository {
     private fun resetChangesSeenFlag() =
             updateScheduleChangesSeen(false)
 
+    fun readDisplayDayIndex() =
+            sharedPreferencesRepository.getDisplayDayIndex()
+
+    fun updateDisplayDayIndex(displayDayIndex: Int) =
+            sharedPreferencesRepository.setDisplayDayIndex(displayDayIndex)
+
 }

@@ -3,7 +3,6 @@ package nerd.tuxmobil.fahrplan.congress.schedule;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.os.Build;
@@ -110,8 +109,6 @@ public class FahrplanFragment extends Fragment implements View.OnClickListener, 
             "Lounge"
     };
 
-    public static final String PREFS_NAME = "settings";
-
     private Typeface light;
 
     private View contextMenuView;
@@ -170,8 +167,7 @@ public class FahrplanFragment extends Fragment implements View.OnClickListener, 
             roomScroller.setOnTouchListener((v, event) -> true);
         }
 
-        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
-        mDay = prefs.getInt("displayDay", 1);
+        mDay = appRepository.readDisplayDayIndex();
 
         inflater = Contexts.getLayoutInflater(context);
 
@@ -190,10 +186,7 @@ public class FahrplanFragment extends Fragment implements View.OnClickListener, 
     }
 
     private void saveCurrentDay(int day) {
-        SharedPreferences settings = requireContext().getSharedPreferences(PREFS_NAME, 0);
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putInt("displayDay", day);
-        editor.apply();
+        appRepository.updateDisplayDayIndex(day);
     }
 
     @Override
@@ -656,8 +649,7 @@ public class FahrplanFragment extends Fragment implements View.OnClickListener, 
                 if (MyApp.meta.getNumDays() > 1) {
                     buildNavigationMenu();
                 }
-                SharedPreferences prefs = activity.getSharedPreferences(PREFS_NAME, 0);
-                mDay = prefs.getInt("displayDay", 1);
+                mDay = appRepository.readDisplayDayIndex();
                 if (mDay > MyApp.meta.getNumDays()) {
                     mDay = 1;
                 }

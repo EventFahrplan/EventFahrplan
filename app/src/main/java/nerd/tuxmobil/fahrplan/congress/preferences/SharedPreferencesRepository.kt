@@ -10,6 +10,14 @@ class SharedPreferencesRepository(val context: Context) {
 
     private val preferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context.applicationContext)
 
+    fun getDisplayDayIndex()
+            = preferences.getInt(BundleKeys.PREFS_DISPLAY_DAY_INDEX, 1)
+
+    fun setDisplayDayIndex(displayDayIndex: Int) = with(preferences.edit()) {
+        putInt(BundleKeys.PREFS_DISPLAY_DAY_INDEX, displayDayIndex)
+        apply()
+    }
+
     fun getScheduleLastFetchedAt() =
             preferences.getLong(BundleKeys.PREFS_SCHEDULE_LAST_FETCHED_AT, 0)
 
