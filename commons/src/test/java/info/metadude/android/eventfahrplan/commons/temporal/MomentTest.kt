@@ -7,12 +7,14 @@ import org.threeten.bp.ZoneOffset
 import org.threeten.bp.ZonedDateTime
 
 class MomentTest {
-
-    val Dec30_22_47_2019 = 1577746077615 // 2019-12-30T22:47:57.615Z
+    /**
+     * Milliseconds representation of 2019-12-30T22:47:57.615Z.
+     */
+    private val DEC_30_22_47_2019 = 1577746077615
 
     @Test
     fun dateTimeFieldsAreCorrectlyMapped() {
-        val moment = Moment(Dec30_22_47_2019)
+        val moment = Moment(DEC_30_22_47_2019)
 
         assertThat(moment.year).isEqualTo(2019)
         assertThat(moment.month).isEqualTo(12)
@@ -23,7 +25,7 @@ class MomentTest {
 
     @Test
     fun startOfDay() {
-        val moment = Moment(Dec30_22_47_2019)
+        val moment = Moment(DEC_30_22_47_2019)
         val startOfDay = moment.startOfDay()
 
         assertThat(startOfDay.year).isEqualTo(2019)
@@ -35,7 +37,7 @@ class MomentTest {
 
     @Test
     fun endOfDay() {
-        val moment = Moment(Dec30_22_47_2019)
+        val moment = Moment(DEC_30_22_47_2019)
         val endOfDayUTC = moment.endOfDay().toUTCDateTime()
 
         assertThat(endOfDayUTC.year).isEqualTo(2019)
@@ -64,11 +66,11 @@ class MomentTest {
     }
 
     @Test
-    fun startOfDayVSLocalDate() {
+    fun startOfDayVsLocalDate() {
         val localDateString = "2019-12-30"
         val localDate = LocalDate.parse(localDateString)
 
-        val startOfDay = Moment(Dec30_22_47_2019).startOfDay().toUTCDateTime().toLocalDate()
+        val startOfDay = Moment(DEC_30_22_47_2019).startOfDay().toUTCDateTime().toLocalDate()
 
         assertThat(startOfDay).isEqualTo(localDate)
     }
@@ -104,5 +106,49 @@ class MomentTest {
         assertThat(moment1.isBefore(moment2)).isTrue()
         assertThat(moment2.isBefore(moment1)).isFalse()
         assertThat(moment1.isBefore(moment1)).isFalse()
+    }
+
+    @Test
+    fun plusSeconds() {
+        val moment = Moment(0)
+        moment.plusSeconds(1)
+
+        assertThat(moment.toMilliseconds()).isEqualTo(1000)
+
+        moment.plusSeconds(-1)
+        assertThat(moment.toMilliseconds()).isEqualTo(0)
+    }
+
+    @Test
+    fun plusMinutes() {
+        val moment = Moment(0)
+        moment.plusMinutes(1)
+
+        assertThat(moment.toMilliseconds()).isEqualTo(1000 * 60)
+
+        moment.plusMinutes(-1)
+        assertThat(moment.toMilliseconds()).isEqualTo(0)
+    }
+
+    @Test
+    fun minusHours() {
+        val moment = Moment(3600 * 1000)
+        moment.minusHours(1)
+
+        assertThat(moment.toMilliseconds()).isEqualTo(0)
+
+        moment.minusHours(-1)
+        assertThat(moment.toMilliseconds()).isEqualTo(3600 * 1000)
+    }
+
+    @Test
+    fun minusMinutes() {
+        val moment = Moment(60 * 1000)
+        moment.minusMinutes(1)
+
+        assertThat(moment.toMilliseconds()).isEqualTo(0)
+
+        moment.minusMinutes(-1)
+        assertThat(moment.toMilliseconds()).isEqualTo(60 * 1000)
     }
 }

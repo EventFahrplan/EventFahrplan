@@ -1,7 +1,14 @@
 package info.metadude.android.eventfahrplan.commons.temporal
 
-import org.threeten.bp.*
+import org.threeten.bp.Clock
+import org.threeten.bp.Instant
+import org.threeten.bp.LocalDate
+import org.threeten.bp.LocalDateTime
+import org.threeten.bp.LocalTime
+import org.threeten.bp.ZoneOffset
+import org.threeten.bp.ZonedDateTime
 import org.threeten.bp.temporal.ChronoField
+import org.threeten.bp.temporal.ChronoUnit
 
 /**
  * An instance represents a moment in time. All operations are UTC based.
@@ -85,16 +92,20 @@ class Moment() {
         return time.atZone(timeZoneOffset)
     }
 
-    fun minusHours(hours: Int) {
-        time = time.minusSeconds((hours * 3600).toLong())
+    fun minusHours(hours: Long) {
+        time = time.minus(hours, ChronoUnit.HOURS)
     }
 
-    fun minusMinutes(minutes: Int) {
-        time = time.minusSeconds((minutes * 60).toLong())
+    fun minusMinutes(minutes: Long) {
+        time = time.minus(minutes, ChronoUnit.MINUTES)
     }
 
-    fun plusSeconds(seconds: Int) {
-        time = time.plusSeconds(seconds.toLong())
+    fun plusSeconds(seconds: Long) {
+        time = time.plusSeconds(seconds)
+    }
+
+    fun plusMinutes(minutes: Long) {
+        time = time.plus(minutes, ChronoUnit.MINUTES)
     }
 
     fun isBefore(moment: Moment): Boolean {

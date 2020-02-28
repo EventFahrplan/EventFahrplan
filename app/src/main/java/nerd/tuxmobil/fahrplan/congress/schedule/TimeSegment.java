@@ -19,7 +19,7 @@ class TimeSegment {
 
     String getFormattedText() {
         Moment moment = new Moment().startOfDay();
-        moment.plusSeconds(minutesOfTheDay * 60);
+        moment.plusMinutes(minutesOfTheDay);
         return DateFormatter.newInstance().getFormattedTime24Hour(moment);
     }
 

@@ -100,7 +100,7 @@ public class Lecture {
 
     public Moment getStartTimeMoment() {
         Moment moment = new Moment(DateParser.getDateTime(date));
-        moment.plusSeconds(relStartTime * 60);
+        moment.plusMinutes(relStartTime);
         return moment;
     }
 
