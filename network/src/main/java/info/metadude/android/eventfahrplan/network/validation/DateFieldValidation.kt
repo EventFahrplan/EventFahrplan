@@ -1,7 +1,6 @@
 package info.metadude.android.eventfahrplan.network.validation
 
 import info.metadude.android.eventfahrplan.commons.logging.Logging
-import info.metadude.android.eventfahrplan.commons.temporal.DateFormatter
 import info.metadude.android.eventfahrplan.commons.temporal.DayRange
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import info.metadude.android.eventfahrplan.network.models.Lecture
@@ -24,8 +23,8 @@ internal class DateFieldValidation constructor(
     }
 
     /**
-     * Returns true if the timestamps in the "date" fields of each event are within a valid time range.
-     * The time range is defined by the "date" fields of first and last event (which are sorted by dateUTC field).
+     * Returns true if the timestamps in the [Lecture.date] fields of each event are within a valid time range.
+     * The time range is defined by the [Lecture.date] fields of first and last event (which are sorted by [Lecture.dateUTC]).
      */
     fun validate(lectures: List<Lecture>): Boolean {
         val sortedLectures = lectures.sortedBy { it.dateUTC }

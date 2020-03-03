@@ -6,7 +6,7 @@ import org.threeten.bp.ZonedDateTime
 /**
  * Represents a number of days. Starting at [startDay] 00:00 and ending at [endDay] 23:59:59.
  * Pass only [startDay] if your range spans only a single day.
- * */
+ */
 data class DayRange(
         val startDay: Moment,
         val endDay: Moment = startDay

@@ -27,10 +27,22 @@ class DateFormatter private constructor() {
      */
     fun getFormattedTime(time: Long): String = timeShort.format(Date(time))
 
+    /**
+     * Returns day month and year in current system locale.
+     * E.g. 1/22/19 or 22.01.19
+     */
     fun getFormattedDate(time: Long): String = dateShort.format(Date(time))
 
+    /**
+     * Returns day month, year and time in current system locale in long format.
+     * E.g. Tuesday, January 22, 2019 1:00 AM
+     */
     fun getFormattedDateTime(time: Long): String = dateTimeFull.format(Date(time))
 
+    /**
+     * Returns day month, year and time in current system locale in short format.
+     * E.g. 1/22/19 1:00 AM
+     */
     fun getFormattedDateTimeShort(time: Long): String = dateTimeShort.format(Date(time))
 
     companion object {

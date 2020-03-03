@@ -10,6 +10,12 @@ class DateParser {
 
     companion object {
 
+        /**
+         * Parses given [text] and returns its date value represented in milliseconds.
+         *
+         * @param text either ISO-8601 date and time format (e.g. 2019-01-01T00:00:00Z)
+         * or ISO-8601 date format (i.e. 2019-01-01).
+         */
         @JvmStatic
         fun getDateTime(text: String): Long {
             if (text.length > 10) {
@@ -23,6 +29,11 @@ class DateParser {
             }
         }
 
+        /**
+         * Returns [Moment.minuteOfDay] of given parse [text].
+         *
+         * @param text see [DateParser.getDateTime] for valid formats
+         */
         @JvmStatic
         fun getDayChange(text: String): Int {
             val timeUTC = getDateTime(text)
