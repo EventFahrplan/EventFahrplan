@@ -12,7 +12,5 @@ data class DateInfo(val dayIdx: Int, val date: Moment) {
      * Retrieve day index of stored date.
      * @return if given [date] matches the stored [date], returns stored [dayIdx], -1 otherwise.
      * */
-    fun getDayIndex(date: Moment): Int {
-        return if (this.date == date) dayIdx else -1
-    }
+    fun getDayIndex(date: Moment): Int = if (this.date == date) dayIdx else -1
 }

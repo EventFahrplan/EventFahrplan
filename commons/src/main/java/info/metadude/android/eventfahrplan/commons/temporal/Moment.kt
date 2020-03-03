@@ -84,13 +84,9 @@ class Moment() {
 
     fun toMilliseconds() = time.toEpochMilli()
 
-    fun toUTCDateTime(): LocalDateTime {
-        return time.atZone(utcZoneOffset).toLocalDateTime()
-    }
+    fun toUTCDateTime(): LocalDateTime = time.atZone(utcZoneOffset).toLocalDateTime()
 
-    fun toZonedDateTime(timeZoneOffset: ZoneOffset): ZonedDateTime {
-        return time.atZone(timeZoneOffset)
-    }
+    fun toZonedDateTime(timeZoneOffset: ZoneOffset): ZonedDateTime = time.atZone(timeZoneOffset)
 
     fun minusHours(hours: Long) {
         time = time.minus(hours, ChronoUnit.HOURS)
@@ -108,9 +104,7 @@ class Moment() {
         time = time.plus(minutes, ChronoUnit.MINUTES)
     }
 
-    fun isBefore(moment: Moment): Boolean {
-        return time.toEpochMilli() < moment.toMilliseconds()
-    }
+    fun isBefore(moment: Moment): Boolean = time.toEpochMilli() < moment.toMilliseconds()
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

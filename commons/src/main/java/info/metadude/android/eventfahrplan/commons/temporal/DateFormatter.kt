@@ -18,29 +18,20 @@ class DateFormatter private constructor() {
     /**
      * Returns 01:00, 14:00 etc. for all locales. Always without AM or PM postfix in 24 hour format.
      */
-    fun getFormattedTime24Hour(moment: Moment): String {
-        return timeShortNumberOnly.format(moment.toZonedDateTime(OffsetDateTime.now().offset))
-    }
+    fun getFormattedTime24Hour(moment: Moment): String =
+            timeShortNumberOnly.format(moment.toZonedDateTime(OffsetDateTime.now().offset))
 
     /**
      * Returns 01:00 AM, 02:00 PM, 14:00 etc, depending on current system locale either
      * in 24 or 12 hour format. The latter featuring AM or PM postfixes.
      */
-    fun getFormattedTime(time: Long): String {
-        return timeShort.format(Date(time))
-    }
+    fun getFormattedTime(time: Long): String = timeShort.format(Date(time))
 
-    fun getFormattedDate(time: Long): String {
-        return dateShort.format(Date(time))
-    }
+    fun getFormattedDate(time: Long): String = dateShort.format(Date(time))
 
-    fun getFormattedDateTime(time: Long): String {
-        return dateTimeFull.format(Date(time))
-    }
+    fun getFormattedDateTime(time: Long): String = dateTimeFull.format(Date(time))
 
-    fun getFormattedDateTimeShort(time: Long): String {
-        return dateTimeShort.format(Date(time))
-    }
+    fun getFormattedDateTimeShort(time: Long): String = dateTimeShort.format(Date(time))
 
     companion object {
 
