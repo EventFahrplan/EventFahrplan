@@ -3,7 +3,7 @@ package info.metadude.android.eventfahrplan.commons.temporal
 import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.format.DateTimeFormatter
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
 
 /**
  * Format timestamps according to system locale and system time zone.

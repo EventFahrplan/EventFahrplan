@@ -4,7 +4,8 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
-import java.util.*
+import java.util.Locale
+import java.util.TimeZone
 
 class DateFormatterTest {
     private val systemTimezone = TimeZone.getDefault()
