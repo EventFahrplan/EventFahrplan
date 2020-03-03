@@ -18,23 +18,21 @@ import org.threeten.bp.temporal.ChronoUnit
  *
  * > Moment().toZonedDateTime(ZoneOffset.of("GMT+1"))
  */
-class Moment() {
+data class Moment(var time: Instant) {
 
-    private var time: Instant = Instant.now(Clock.systemUTC())
     private val utcZoneOffset = ZoneOffset.UTC
 
-    private constructor(instant: Instant) : this() {
-        time = instant
-    }
+    /**
+     * Creates a time zone neutral [Moment] instance of current system clock.
+     */
+    constructor() : this(Instant.now(Clock.systemUTC()))
 
     /**
      * Creates a time zone neutral [Moment] instance from given [milliseconds].
      *
      * @param milliseconds epoch millis to create instance from
      */
-    constructor(milliseconds: Long) : this() {
-        setToMilliseconds(milliseconds)
-    }
+    constructor(milliseconds: Long) : this(Instant.ofEpochMilli(milliseconds))
 
     /**
      * Creates a time zone neutral [Moment] instance from given [UTCDate].
@@ -151,20 +149,4 @@ class Moment() {
      * Returns true if this moment is before given [moment].
      */
     fun isBefore(moment: Moment): Boolean = time.toEpochMilli() < moment.toMilliseconds()
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as Moment
-
-        if (time != other.time) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        return time.hashCode()
-    }
-
 }
