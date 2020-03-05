@@ -38,7 +38,7 @@ object Libs {
         const val junit = "4.13"
         const val kotlinCoroutines = "1.1.1"
         const val kotlinCoroutinesRetrofit = "1.1.0"
-        const val mockito = "3.2.0"
+        const val mockito = "3.3.0"
         const val mockitoKotlin = "2.2.0"
         const val okhttp = "3.12.10"
         const val robolectric = "4.3_r2-robolectric-0"
