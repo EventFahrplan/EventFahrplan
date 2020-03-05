@@ -40,7 +40,7 @@ object Libs {
         const val kotlinCoroutinesRetrofit = "1.1.0"
         const val mockito = "3.2.0"
         const val mockitoKotlin = "2.2.0"
-        const val okhttp = "3.12.8"
+        const val okhttp = "3.12.10"
         const val robolectric = "4.3_r2-robolectric-0"
         const val snackengage = "0.22"
         const val supportLibrary = "28.0.0"
