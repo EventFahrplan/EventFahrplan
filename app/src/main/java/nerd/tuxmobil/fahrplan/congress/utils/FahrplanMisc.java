@@ -179,17 +179,6 @@ public class FahrplanMisc {
     }
 
     @NonNull
-    public static List<Lecture> getStarredLectures(@NonNull AppRepository appRepository) {
-        List<Lecture> starredList = appRepository.loadLecturesForAllDays(true);
-        if (starredList.isEmpty()) {
-            return starredList;
-        }
-        starredList = filterNot(starredList, event -> !event.highlight || event.changedIsCanceled);
-        MyApp.LogDebug(LOG_TAG, starredList.size() + " lectures starred.");
-        return starredList;
-    }
-
-    @NonNull
     public static List<Lecture> getUncanceledLectures(@NonNull AppRepository appRepository, int dayIndex) {
         List<Lecture> lectures = appRepository.loadLecturesForDayIndex(dayIndex, true);
         return filterNot(lectures, event -> event.changedIsCanceled);

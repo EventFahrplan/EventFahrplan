@@ -13,26 +13,6 @@ class FahrplanMiscTest {
 
     companion object {
 
-        private val EVENT_1001 = Event("1001").apply {
-            highlight = false
-            changedIsCanceled = false
-        }
-
-        private val EVENT_1002 = Event("1002").apply {
-            highlight = true
-            changedIsCanceled = false
-        }
-
-        private val EVENT_1003 = Event("1003").apply {
-            highlight = true
-            changedIsCanceled = true
-        }
-
-        private val EVENT_1004 = Event("1004").apply {
-            highlight = false
-            changedIsCanceled = true
-        }
-
         private val EVENT_3001 = Event("3001").apply {
             changedIsCanceled = false
         }
@@ -101,27 +81,6 @@ class FahrplanMiscTest {
             changedIsCanceled = true
         }
 
-    }
-
-    @Test
-    fun getStarredLecturesWithEmptyList() {
-        val appRepository = mock<AppRepository> {
-            on { loadLecturesForAllDays(anyBoolean()) } doReturn emptyList()
-        }
-        assertThat(FahrplanMisc.getStarredLectures(appRepository)).isEmpty()
-    }
-
-    @Test
-    fun getStarredLecturesWithAllEvents() {
-        val appRepository = mock<AppRepository> {
-            val events = mutableListOf(EVENT_1001, EVENT_1002, EVENT_1003, EVENT_1004)
-            on { loadLecturesForAllDays(anyBoolean()) } doReturn events
-        }
-        val starredEvents = FahrplanMisc.getStarredLectures(appRepository)
-        assertThat(starredEvents).isNotEmpty()
-        assertThat(starredEvents.size).isEqualTo(1)
-        assertThat(starredEvents).contains(EVENT_1002)
-        assertThat(starredEvents).doesNotContain(EVENT_1001, EVENT_1003, EVENT_1004)
     }
 
     @Test

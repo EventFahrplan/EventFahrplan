@@ -213,6 +213,14 @@ object AppRepository {
     }
 
     /**
+     * Loads all lectures from the database which have been favored aka. starred but no canceled.
+     * The returned list might be empty.
+     */
+    fun loadStarredLectures() = loadLecturesForAllDays(true)
+            .filter { it.highlight && !it.changedIsCanceled }
+            .also { logging.d(javaClass.simpleName, "${it.size} lectures starred.") }
+
+    /**
      * Loads all lectures from the database which have been marked as changed, cancelled or new.
      * The returned list might be empty.
      */
@@ -224,7 +232,7 @@ object AppRepository {
      * Loads all lectures from the database which take place on all days.
      * To exclude Engelsystem shifts pass false to [includeEngelsystemShifts].
      */
-    fun loadLecturesForAllDays(includeEngelsystemShifts: Boolean) =
+    private fun loadLecturesForAllDays(includeEngelsystemShifts: Boolean) =
             loadLecturesForDayIndex(ALL_DAYS, includeEngelsystemShifts)
 
     /**

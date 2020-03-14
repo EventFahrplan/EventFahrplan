@@ -68,6 +68,30 @@ class AppRepositoryLecturesTest {
             url = "" // only initialized for toLecturesDatabaseModel()
         }
 
+        private val LECTURE_2001 = Lecture("2001").apply {
+            highlight = false
+            changedIsCanceled = false
+            url = "" // only initialized for toLecturesDatabaseModel()
+        }
+
+        private val LECTURE_2002 = Lecture("2002").apply {
+            highlight = true
+            changedIsCanceled = false
+            url = "" // only initialized for toLecturesDatabaseModel()
+        }
+
+        private val LECTURE_2003 = Lecture("2003").apply {
+            highlight = true
+            changedIsCanceled = true
+            url = "" // only initialized for toLecturesDatabaseModel()
+        }
+
+        private val LECTURE_2004 = Lecture("2004").apply {
+            highlight = false
+            changedIsCanceled = true
+            url = "" // only initialized for toLecturesDatabaseModel()
+        }
+
     }
 
     @Test
@@ -83,6 +107,22 @@ class AppRepositoryLecturesTest {
         whenever(lecturesDatabaseRepository.queryLecturesOrderedByDateUtc()) doReturn lectures.toLecturesDatabaseModel()
         val changedLectures = testableAppRepository.loadChangedLectures()
         assertThat(changedLectures).containsExactly(LECTURE_1002, LECTURE_1003, LECTURE_1004, LECTURE_1005)
+        verify(lecturesDatabaseRepository, once()).queryLecturesOrderedByDateUtc()
+    }
+
+    @Test
+    fun `loadStarredLectures passes through an empty list`() {
+        whenever(lecturesDatabaseRepository.queryLecturesOrderedByDateUtc()) doReturn emptyList()
+        assertThat(testableAppRepository.loadStarredLectures()).isEmpty()
+        verify(lecturesDatabaseRepository, once()).queryLecturesOrderedByDateUtc()
+    }
+
+    @Test
+    fun `loadStarredLectures filters out lectures which are not starred`() {
+        val lectures = listOf(LECTURE_2001, LECTURE_2002, LECTURE_2003, LECTURE_2004)
+        whenever(lecturesDatabaseRepository.queryLecturesOrderedByDateUtc()) doReturn lectures.toLecturesDatabaseModel()
+        val starredLectures = testableAppRepository.loadStarredLectures()
+        assertThat(starredLectures).containsExactly(LECTURE_2002)
         verify(lecturesDatabaseRepository, once()).queryLecturesOrderedByDateUtc()
     }
 
