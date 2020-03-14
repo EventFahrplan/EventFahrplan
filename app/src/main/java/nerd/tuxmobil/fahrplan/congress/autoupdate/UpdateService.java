@@ -45,7 +45,7 @@ public class UpdateService extends SafeJobIntentService {
         MyApp.LogDebug(LOG_TAG, "parseDone: " + result.isSuccess() + " , numDays=" + MyApp.meta.getNumDays());
         MyApp.task_running = TASKS.NONE;
         MyApp.fahrplan_xml = null;
-        List<Lecture> changesList = FahrplanMisc.readChanges(appRepository);
+        List<Lecture> changesList = appRepository.loadChangedLectures();
         if (!changesList.isEmpty() && result instanceof ParseScheduleResult) {
             showScheduleUpdateNotification(((ParseScheduleResult) result).getVersion(), changesList.size());
         }

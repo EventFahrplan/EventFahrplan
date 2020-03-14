@@ -213,6 +213,14 @@ object AppRepository {
     }
 
     /**
+     * Loads all lectures from the database which have been marked as changed, cancelled or new.
+     * The returned list might be empty.
+     */
+    fun loadChangedLectures() = loadLecturesForAllDays(true)
+            .filter { it.isChanged || it.changedIsCanceled || it.changedIsNew }
+            .also { logging.d(javaClass.simpleName, "${it.size} lectures changed.") }
+
+    /**
      * Loads all lectures from the database which take place on all days.
      * To exclude Engelsystem shifts pass false to [includeEngelsystemShifts].
      */

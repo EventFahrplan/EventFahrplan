@@ -33,36 +33,6 @@ class FahrplanMiscTest {
             changedIsCanceled = true
         }
 
-        private val EVENT_2001 = Event("2001").apply {
-            changedIsCanceled = false
-            changedTitle = false
-            changedIsNew = false
-        }
-
-        private val EVENT_2002 = Event("2002").apply {
-            changedIsCanceled = true
-            changedTitle = false
-            changedIsNew = false
-        }
-
-        private val EVENT_2003 = Event("2003").apply {
-            changedIsCanceled = false
-            changedTitle = true
-            changedIsNew = false
-        }
-
-        private val EVENT_2004 = Event("2004").apply {
-            changedIsCanceled = false
-            changedTitle = false
-            changedIsNew = true
-        }
-
-        private val EVENT_2005 = Event("2005").apply {
-            changedIsCanceled = true
-            changedTitle = true
-            changedIsNew = true
-        }
-
         private val EVENT_3001 = Event("3001").apply {
             changedIsCanceled = false
         }
@@ -152,27 +122,6 @@ class FahrplanMiscTest {
         assertThat(starredEvents.size).isEqualTo(1)
         assertThat(starredEvents).contains(EVENT_1002)
         assertThat(starredEvents).doesNotContain(EVENT_1001, EVENT_1003, EVENT_1004)
-    }
-
-    @Test
-    fun readChangesWithEmptyList() {
-        val appRepository = mock<AppRepository> {
-            on { loadLecturesForAllDays(anyBoolean()) } doReturn emptyList()
-        }
-        assertThat(FahrplanMisc.readChanges(appRepository)).isEmpty()
-    }
-
-    @Test
-    fun readChangesWithAllEvents() {
-        val appRepository = mock<AppRepository> {
-            val events = mutableListOf(EVENT_2001, EVENT_2002, EVENT_2003, EVENT_2004, EVENT_2005)
-            on { loadLecturesForAllDays(anyBoolean()) } doReturn events
-        }
-        val changedEvents = FahrplanMisc.readChanges(appRepository)
-        assertThat(changedEvents).isNotEmpty()
-        assertThat(changedEvents.size).isEqualTo(4)
-        assertThat(changedEvents).contains(EVENT_2002, EVENT_2003, EVENT_2004, EVENT_2005)
-        assertThat(changedEvents).doesNotContain(EVENT_2001)
     }
 
     @Test
