@@ -278,6 +278,10 @@ object AppRepository {
         highlightsDatabaseRepository.update(values, lecture.lectureId)
     }
 
+    fun deleteAllHighlights() {
+        highlightsDatabaseRepository.deleteAll()
+    }
+
     fun readLectureByLectureId(lectureId: String): Lecture {
         val lecture = lecturesDatabaseRepository.queryLectureByLectureId(lectureId).toLectureAppModel()
 

@@ -295,11 +295,15 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
 
     public void deleteAllFavorites() {
         MyApp.LogDebug(LOG_TAG, "deleteAllFavorites");
-        if (starredList == null) return;
-        int count = starredList.size();
-        for (int i = 0; i < count; i++) {
-            deleteItem(0);
+        if (starredList == null || starredList.isEmpty()) {
+            return;
         }
+        appRepository.deleteAllHighlights();
+        for (Lecture starredLecture : starredList) {
+            starredLecture.highlight = false;
+            appRepository.updateLecturesLegacy(starredLecture);
+        }
+        starredList.clear();
         Activity activity = requireActivity();
         activity.invalidateOptionsMenu();
         refreshViews(activity);
