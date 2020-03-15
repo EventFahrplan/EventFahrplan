@@ -266,7 +266,7 @@ object AppRepository {
     fun updateAlarm(alarm: Alarm) {
         val alarmDatabaseModel = alarm.toAlarmDatabaseModel()
         val values = alarmDatabaseModel.toContentValues()
-        alarmsDatabaseRepository.insert(values, alarm.eventId)
+        alarmsDatabaseRepository.update(values, alarm.eventId)
     }
 
     private fun readHighlights() =
@@ -275,7 +275,7 @@ object AppRepository {
     fun updateHighlight(lecture: Lecture) {
         val highlightDatabaseModel = lecture.toHighlightDatabaseModel()
         val values = highlightDatabaseModel.toContentValues()
-        highlightsDatabaseRepository.insert(values, lecture.lectureId)
+        highlightsDatabaseRepository.update(values, lecture.lectureId)
     }
 
     fun readLectureByLectureId(lectureId: String): Lecture {

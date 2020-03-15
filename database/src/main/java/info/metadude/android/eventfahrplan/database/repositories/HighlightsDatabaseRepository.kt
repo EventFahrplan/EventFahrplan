@@ -16,7 +16,7 @@ class HighlightsDatabaseRepository(
 
 ) {
 
-    fun insert(values: ContentValues, eventId: String) = with(sqLiteOpenHelper) {
+    fun update(values: ContentValues, eventId: String) = with(sqLiteOpenHelper) {
         writableDatabase.upsert({
             delete(HighlightsTable.NAME, EVENT_ID, eventId)
         }, {
