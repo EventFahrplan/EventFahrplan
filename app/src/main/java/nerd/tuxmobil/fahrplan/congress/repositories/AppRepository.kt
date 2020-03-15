@@ -242,7 +242,7 @@ object AppRepository {
         for (highlight in highlights) {
             logging.d(javaClass.simpleName, "$highlight")
             for (lecture in lectures) {
-                if (lecture.lectureId == "" + highlight.eventId) {
+                if (lecture.lectureId == "${highlight.eventId}") {
                     lecture.highlight = highlight.isHighlight
                 }
             }
