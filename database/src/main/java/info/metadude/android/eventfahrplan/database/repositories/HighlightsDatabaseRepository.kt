@@ -29,7 +29,7 @@ class HighlightsDatabaseRepository(
         val database = sqLiteOpenHelper.readableDatabase
 
         val cursor = try {
-            database.read(HighlightsTable.NAME)
+            database.read(HighlightsTable.NAME, orderBy = EVENT_ID)
         } catch (e: SQLiteException) {
             e.printStackTrace()
             return highlights.toList()
