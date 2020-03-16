@@ -2,10 +2,11 @@ package nerd.tuxmobil.fahrplan.congress.dataconverters
 
 import android.support.annotation.VisibleForTesting
 import info.metadude.android.eventfahrplan.commons.logging.Logging
+import info.metadude.android.eventfahrplan.commons.temporal.DayRange
+import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import info.metadude.kotlin.library.engelsystem.models.Shift
-import nerd.tuxmobil.fahrplan.congress.models.DayRange
 import nerd.tuxmobil.fahrplan.congress.models.Lecture
-import nerd.tuxmobil.fahrplan.congress.utils.DateHelper
+import org.threeten.bp.Duration
 
 // Avoid conflicts with the IDs of the main schedule.
 private const val SHIFT_ID_OFFSET = 300000;
@@ -26,7 +27,7 @@ fun Shift.toLectureAppModel(
     relStartTime = minuteOfDay
     room = virtualRoomName
     speakers = "-"
-    startTime = minuteOfDay // minutes since day start
+    startTime = minuteOfDay  // minutes since day start
     title = name
     subtitle = talkTitle
     track = virtualRoomName
@@ -80,10 +81,10 @@ val Shift.descriptionText: String
     }
 
 private val Shift.minuteOfDay
-    get() = DateHelper.getMinuteOfDay(startsAt)
+    get() = Moment(startsAt).minuteOfDay
 
 private val Shift.shiftDuration
-    get() = DateHelper.getDurationMinutes(startsAt, endsAt).toInt()
+    get() = Duration.between(startsAt, endsAt).toMinutes().toInt()
 
 private val Shift.startsAtLocalDate
     get() = startsAt.toLocalDate()

@@ -5,8 +5,8 @@ import android.support.annotation.Nullable;
 
 import java.util.List;
 
+import info.metadude.android.eventfahrplan.commons.temporal.DateFormatter;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
-import nerd.tuxmobil.fahrplan.congress.utils.DateHelper;
 import nerd.tuxmobil.fahrplan.congress.utils.EventUrlComposer;
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
 import nerd.tuxmobil.fahrplan.congress.wiki.WikiEventUtils;
@@ -48,7 +48,7 @@ public class SimpleLectureFormat {
 
     private static void appendLecture(StringBuilder builder, Lecture lecture) {
         long startTime = FahrplanMisc.getLectureStartTime(lecture);
-        String formattedTime = DateHelper.getFormattedDateTime(startTime);
+        String formattedTime = DateFormatter.newInstance().getFormattedDateTime(startTime);
         builder.append(lecture.title);
         builder.append(LINE_BREAK);
         builder.append(formattedTime);

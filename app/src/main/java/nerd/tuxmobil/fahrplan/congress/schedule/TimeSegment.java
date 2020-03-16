@@ -1,36 +1,30 @@
 package nerd.tuxmobil.fahrplan.congress.schedule;
 
-import android.text.format.Time;
-
-import java.util.Locale;
+import info.metadude.android.eventfahrplan.commons.temporal.DateFormatter;
+import info.metadude.android.eventfahrplan.commons.temporal.Moment;
 
 class TimeSegment {
 
-    private static final String HOUR_MINUTE_DIVIDER = ":";
-    private static final String TIME_PATTERN = "%02d";
     private static final int MINUTES_PER_HOUR = 60;
 
     private final int hour;
     private final int minute;
+    private final int minutesOfTheDay;
 
     TimeSegment(int minutesOfTheDay) {
         hour = minutesOfTheDay / MINUTES_PER_HOUR;
         minute = minutesOfTheDay % MINUTES_PER_HOUR;
+        this.minutesOfTheDay = minutesOfTheDay;
     }
 
     String getFormattedText() {
-        StringBuilder stringBuilder = new StringBuilder();
-        String formattedHour = String.format(Locale.US, TIME_PATTERN, hour);
-        String formattedMinute = String.format(Locale.US, TIME_PATTERN, minute);
-        return stringBuilder
-                .append(formattedHour)
-                .append(HOUR_MINUTE_DIVIDER)
-                .append(formattedMinute)
-                .toString();
+        Moment moment = new Moment().startOfDay();
+        moment.plusMinutes(minutesOfTheDay);
+        return DateFormatter.newInstance().getFormattedTime24Hour(moment);
     }
 
-    boolean isMatched(Time time, int offset) {
-        return time.hour == hour && time.minute >= minute && time.minute < minute + offset;
+    boolean isMatched(Moment moment, int offset) {
+        return moment.getHour() == hour && moment.getMinute() >= minute && moment.getMinute() < minute + offset;
     }
 
 }

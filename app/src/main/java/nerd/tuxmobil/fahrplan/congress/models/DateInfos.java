@@ -1,20 +1,18 @@
 package nerd.tuxmobil.fahrplan.congress.models;
 
-import android.text.format.Time;
-
 import java.util.ArrayList;
 
-import nerd.tuxmobil.fahrplan.congress.utils.DateHelper;
+import info.metadude.android.eventfahrplan.commons.temporal.Moment;
 
 public class DateInfos extends ArrayList<DateInfo> {
 
     private static final long serialVersionUID = 1L;
 
-    public boolean sameDay(Time today, int lectureListDay) {
-        String currentDate = DateHelper.getFormattedDate(today);
+    public boolean sameDay(Moment today, int lectureListDay) {
+        Moment currentDate = today.startOfDay();
         for (DateInfo dateInfo : this) {
-            if (dateInfo.dayIdx == lectureListDay &&
-                    dateInfo.date.equals(currentDate)) {
+            if (dateInfo.getDayIdx() == lectureListDay &&
+                    dateInfo.getDate().equals(currentDate)) {
                 return true;
             }
         }
@@ -33,14 +31,11 @@ public class DateInfos extends ArrayList<DateInfo> {
         if (isEmpty()) {
             return -1;
         }
-        Time today = new Time();
-        today.setToNow();
-        today.hour -= hourOfDayChange;
-        today.minute -= minuteOfDayChange;
+        Moment today = new Moment();
+        today.minusHours(hourOfDayChange);
+        today.minusMinutes(minuteOfDayChange);
 
-        today.normalize(true);
-
-        String currentDate = DateHelper.getFormattedDate(today);
+        Moment currentDate = today.startOfDay();
 
         int dayIndex = -1;
         for (DateInfo dateInfo : this) {

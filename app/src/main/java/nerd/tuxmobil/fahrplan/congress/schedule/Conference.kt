@@ -1,7 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.schedule
 
 import android.support.annotation.VisibleForTesting
-import nerd.tuxmobil.fahrplan.congress.utils.DateHelper
+import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.models.Lecture as Event
 
 data class Conference(
@@ -63,8 +63,8 @@ data class Conference(
     }
 
     private fun isDaySwitch(startUtc: Long, endUtc: Long): Boolean {
-        val startDay = DateHelper.getDayOfMonth(startUtc)
-        val endDay = DateHelper.getDayOfMonth(endUtc)
+        val startDay = Moment(startUtc).monthDay
+        val endDay = Moment(endUtc).monthDay
         return startDay != endDay
     }
 

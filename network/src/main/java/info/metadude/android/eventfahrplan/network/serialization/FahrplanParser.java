@@ -11,10 +11,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import info.metadude.android.eventfahrplan.commons.logging.Logging;
 import info.metadude.android.eventfahrplan.network.models.Lecture;
 import info.metadude.android.eventfahrplan.network.models.Meta;
 import info.metadude.android.eventfahrplan.network.serialization.exceptions.MissingXmlAttributeException;
-import info.metadude.android.eventfahrplan.network.utils.DateHelper;
+import info.metadude.android.eventfahrplan.network.temporal.DateParser;
 import info.metadude.android.eventfahrplan.network.validation.DateFieldValidation;
 
 public class FahrplanParser {
@@ -84,7 +85,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
     protected Boolean doInBackground(String... args) {
         boolean parsingSuccessful = parseFahrplan(args[0], args[1]);
         if (parsingSuccessful) {
-            DateFieldValidation dateFieldValidation = new DateFieldValidation();
+            DateFieldValidation dateFieldValidation = new DateFieldValidation(Logging.Companion.get());
             dateFieldValidation.validate(lectures);
             dateFieldValidation.printValidationErrors();
             // TODO Clear database on validation failure.
@@ -119,7 +120,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
             int numdays = 0;
             String room = null;
             int day = 0;
-            int dayChangeTime = 600; // hardcoded as not provided
+            int dayChangeTime = 600; // Only provided by Pentabarf; corresponds to 10:00 am.
             String date = "";
             int roomIndex = 0;
             int roomMapIndex = 0;
@@ -152,7 +153,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                             if (end == null) {
                                 throw new MissingXmlAttributeException("day", "end");
                             }
-                            dayChangeTime = DateHelper.getDayChange(end);
+                            dayChangeTime = DateParser.getDayChange(end);
                             if (day > numdays) {
                                 numdays = day;
                             }
@@ -250,7 +251,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                                             lecture.setDuration(Lecture.Companion.parseDuration(XmlPullParsers.getSanitizedText(parser)));
                                         } else if (name.equals("date")) {
                                             parser.next();
-                                            lecture.setDateUTC(DateHelper.getDateTime(XmlPullParsers.getSanitizedText(parser)));
+                                            lecture.setDateUTC(DateParser.getDateTime(XmlPullParsers.getSanitizedText(parser)));
                                         } else if (name.equals("recording")) {
                                             eventType = parser.next();
                                             boolean recordingDone = false;

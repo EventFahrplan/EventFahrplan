@@ -3,15 +3,14 @@ package nerd.tuxmobil.fahrplan.congress.favorites
 import android.content.Context
 import android.support.annotation.ColorInt
 import android.support.v4.content.ContextCompat
-import android.text.format.Time
 import android.view.View
 import android.widget.TextView
-
+import info.metadude.android.eventfahrplan.commons.temporal.DateFormatter
+import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.base.LecturesAdapter
 import nerd.tuxmobil.fahrplan.congress.extensions.textOrHide
 import nerd.tuxmobil.fahrplan.congress.models.Lecture
-import nerd.tuxmobil.fahrplan.congress.utils.DateHelper
 
 class LectureArrayAdapter internal constructor(
 
@@ -27,13 +26,13 @@ class LectureArrayAdapter internal constructor(
 
 ) {
 
-    private val now: Time = Time()
+    private val nowMoment = Moment()
 
     @ColorInt
     private val pastEventTextColor = ContextCompat.getColor(context, R.color.favorites_past_event_text)
 
     override fun initViewSetup() {
-        now.setToNow()
+        nowMoment.setToNow()
     }
 
     override fun setItemContent(position: Int, viewHolder: ViewHolder) {
@@ -59,7 +58,7 @@ class LectureArrayAdapter internal constructor(
             lang.textOrHide = lecture.lang
             lang.contentDescription = lecture.getLanguageContentDescription(context)
             day.visibility = View.GONE
-            val timeText = DateHelper.getFormattedTime(lecture.dateUTC)
+            val timeText = DateFormatter.newInstance().getFormattedTime(lecture.dateUTC)
             time.textOrHide = timeText
             room.textOrHide = lecture.room
             val durationText = context.getString(R.string.event_duration, lecture.duration)
@@ -71,7 +70,7 @@ class LectureArrayAdapter internal constructor(
     }
 
     private val Lecture.tookPlace
-        get() = dateUTC + duration * 60000 < now.toMillis(true)
+        get() = dateUTC + duration * 60000 < nowMoment.toMilliseconds()
 
     private fun TextView.setPastEventTextColor() = setTextColor(pastEventTextColor)
 

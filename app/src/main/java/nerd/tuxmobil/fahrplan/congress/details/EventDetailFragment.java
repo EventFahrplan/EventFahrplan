@@ -25,11 +25,9 @@ import android.widget.Toast;
 
 import org.ligi.tracedroid.logging.Log;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Locale;
 
+import info.metadude.android.eventfahrplan.commons.temporal.DateFormatter;
 import nerd.tuxmobil.fahrplan.congress.BuildConfig;
 import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.R;
@@ -169,9 +167,7 @@ public class EventDetailFragment extends Fragment {
             TextView t;
             t = view.findViewById(R.id.lecture_detailbar_date_time);
             if (lecture != null && lecture.dateUTC > 0) {
-                DateFormat df = SimpleDateFormat
-                        .getDateTimeInstance(SimpleDateFormat.SHORT, SimpleDateFormat.SHORT);
-                t.setText(df.format(new Date(lecture.dateUTC)));
+                t.setText(DateFormatter.newInstance().getFormattedDateTimeShort(lecture.dateUTC));
             } else {
                 t.setText("");
             }

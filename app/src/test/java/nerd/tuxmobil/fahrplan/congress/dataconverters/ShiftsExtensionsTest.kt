@@ -1,8 +1,8 @@
 package nerd.tuxmobil.fahrplan.congress.dataconverters
 
+import info.metadude.android.eventfahrplan.commons.temporal.DayRange
+import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import info.metadude.kotlin.library.engelsystem.models.Shift
-import nerd.tuxmobil.fahrplan.congress.models.DayRange
-import nerd.tuxmobil.fahrplan.congress.utils.DateHelper
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Test
@@ -17,9 +17,10 @@ class ShiftsExtensionsTest {
 
     @Before
     fun setUp() {
-        startsAt = ZonedDateTime.of(2019, 8, 23, 0, 0, 0, 0, ZoneOffset.UTC)
-        endsAt = DateHelper.getDayEndsAtDate(startsAt) // 23:59:59
-        dayRanges = listOf(DayRange(startsAt, endsAt))
+        val day = Moment("2019-08-23")
+        startsAt = day.toZonedDateTime(ZoneOffset.UTC)
+        endsAt = day.endOfDay().toZonedDateTime(ZoneOffset.UTC)
+        dayRanges = listOf(DayRange(day, day))
     }
 
     @Test

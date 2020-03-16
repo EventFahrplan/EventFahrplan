@@ -3,7 +3,7 @@ package nerd.tuxmobil.fahrplan.congress.serialization
 import nerd.tuxmobil.fahrplan.congress.models.Lecture
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
-import java.util.*
+import java.util.ArrayList
 
 class ScheduleChangesTest {
 

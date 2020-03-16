@@ -22,6 +22,7 @@ android {
 }
 
 dependencies {
+    implementation project(":commons")
 
     implementation Libs.kotlinStdlib
     implementation Libs.supportLibraryAnnotations
@@ -29,5 +30,4 @@ dependencies {
 
     testImplementation Libs.junit
     testImplementation Libs.assertjAndroid
-
 }

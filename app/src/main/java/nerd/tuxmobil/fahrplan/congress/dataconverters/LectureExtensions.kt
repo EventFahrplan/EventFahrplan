@@ -1,5 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress.dataconverters
 
+import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.models.DateInfo
 import nerd.tuxmobil.fahrplan.congress.models.Lecture
 import info.metadude.android.eventfahrplan.database.models.Highlight as HighlightDatabaseModel
@@ -13,7 +14,7 @@ fun Lecture.shiftRoomIndexOnDays(dayIndices: Set<Int>): Lecture {
     return this
 }
 
-fun Lecture.toDateInfo(): DateInfo = DateInfo(day, date)
+fun Lecture.toDateInfo(): DateInfo = DateInfo(day, Moment(date))
 
 fun Lecture.toHighlightDatabaseModel() = HighlightDatabaseModel(
         eventId = Integer.parseInt(lectureId),

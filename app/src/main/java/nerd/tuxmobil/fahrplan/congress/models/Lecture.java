@@ -3,63 +3,42 @@ package nerd.tuxmobil.fahrplan.congress.models;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import android.text.format.Time;
 
+import info.metadude.android.eventfahrplan.commons.temporal.Moment;
+import info.metadude.android.eventfahrplan.network.temporal.DateParser;
 import nerd.tuxmobil.fahrplan.congress.R;
 
 public class Lecture {
 
     public String title;
-
     public String subtitle;
-
-    public int day;
-
-    public String room;
-
-    public String slug;
-
     public String url;
-
-    public int startTime;                // minutes since day start
-
+    public int day;
+    public String date;                 // YYYY-MM-DD
+    public long dateUTC;                // milliseconds
+    public int startTime;               // minutes since day start
+    public int relStartTime;            // minutes since conference start
     public int duration;                // minutes
 
+    public String room;
+    public int roomIndex;
+
     public String speakers;
-
     public String track;
-
     public String lectureId;
-
     public String type;
-
     public String lang;
-
+    public String slug;
     public String abstractt;
-
     public String description;
-
-    public int relStartTime;
 
     public String links;
 
-    public String date;
-
     public boolean highlight;
-
     public boolean hasAlarm;
 
-    public long dateUTC;
-
-    public int roomIndex;
-
     public String recordingLicense;
-
     public boolean recordingOptOut;
-
-    public static final boolean RECORDING_OPTOUT_ON = true;
-
-    public static final boolean RECORDING_OPTOUT_OFF = false;
 
     public boolean changedTitle;
     public boolean changedSubtitle;
@@ -73,6 +52,8 @@ public class Lecture {
     public boolean changedTrack;
     public boolean changedIsNew;
     public boolean changedIsCanceled;
+
+    private static final boolean RECORDING_OPTOUT_OFF = false;
 
     public Lecture(String lectureId) {
         title = "";
@@ -117,17 +98,10 @@ public class Lecture {
         return links == null ? "" : links;
     }
 
-    public Time getTime() {
-        Time t = new Time();
-        String[] splitDate = date.split("-");
-        t.setToNow();
-        t.year = Integer.parseInt(splitDate[0]);
-        t.month = Integer.parseInt(splitDate[1]) - 1;
-        t.monthDay = Integer.parseInt(splitDate[2]);
-        t.hour = relStartTime / 60;
-        t.minute = relStartTime % 60;
-
-        return t;
+    public Moment getStartTimeMoment() {
+        Moment moment = new Moment(DateParser.getDateTime(date));
+        moment.plusMinutes(relStartTime);
+        return moment;
     }
 
     @SuppressWarnings("EqualsReplaceableByObjectsCall")
