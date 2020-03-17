@@ -856,7 +856,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
             }
         } else {
             String message = getParsingErrorMessage(result);
-            MyApp.LogDebug(getClass().getName(), message);
+            MyApp.LogDebug(getClass().getSimpleName(), message);
             Toast.makeText(activity, message, Toast.LENGTH_LONG).show();
         }
         activity.invalidateOptionsMenu();
@@ -907,7 +907,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
 
     private void onAlarmTimesIndexPicked(int alarmTimesIndex) {
         if (lastSelectedLecture == null) {
-            Log.e(getClass().getName(), "onAlarmTimesIndexPicked: lecture: null. alarmTimesIndex: " + alarmTimesIndex);
+            Log.e(getClass().getSimpleName(), "onAlarmTimesIndexPicked: lecture: null. alarmTimesIndex: " + alarmTimesIndex);
             throw new NullPointerException("Lecture is null.");
         }
         FahrplanMisc.addAlarm(requireContext(), appRepository, lastSelectedLecture, alarmTimesIndex);

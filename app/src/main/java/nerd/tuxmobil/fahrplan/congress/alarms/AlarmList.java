@@ -103,7 +103,7 @@ public class AlarmList extends ActionBarListActivity {
         int day = cursor.getInt(cursor.getColumnIndex(AlarmsTable.Columns.DAY));
         String title = cursor.getString(cursor.getColumnIndex(AlarmsTable.Columns.EVENT_TITLE));
         long startTime = cursor.getLong(cursor.getColumnIndex(AlarmsTable.Columns.TIME));
-        Log.d(getClass().getName(), "deleteAlarm: lecture: " + lectureId);
+        Log.d(getClass().getSimpleName(), "deleteAlarm: lecture: " + lectureId);
         SchedulableAlarm alarm = new SchedulableAlarm(day, lectureId, title, startTime);
         AlarmServices.discardEventAlarm(this, alarm);
 

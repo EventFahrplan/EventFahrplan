@@ -54,7 +54,7 @@ class MetaDatabaseRepository(
             }
         }
 
-        Log.d(javaClass.name, "query(): $meta")
+        Log.d(javaClass.simpleName, "query(): $meta")
 
         return meta
     }

@@ -155,7 +155,7 @@ object AppRepository {
         }
         val url = readEngelsystemShiftsUrl()
         if (url.isEmpty()) {
-            logging.d(javaClass.name, "Engelsystem shifts URL is empty.")
+            logging.d(javaClass.simpleName, "Engelsystem shifts URL is empty.")
             // TODO Cancel or remote shifts from database?
             return
         }
@@ -172,12 +172,12 @@ object AppRepository {
                     notifyLoadingShiftsDone(LoadShiftsResult.Success)
                 }
                 is ShiftsResult.Error -> {
-                    logging.e(javaClass.name, "ShiftsResult.Error: $result")
+                    logging.e(javaClass.simpleName, "ShiftsResult.Error: $result")
                     loadingFailed(requestIdentifier)
                     notifyLoadingShiftsDone(LoadShiftsResult.Error(result.httpStatusCode, result.exceptionMessage))
                 }
                 is ShiftsResult.Exception -> {
-                    logging.e(javaClass.name, "ShiftsResult.Exception: ${result.throwable.message}")
+                    logging.e(javaClass.simpleName, "ShiftsResult.Exception: ${result.throwable.message}")
                     result.throwable.printStackTrace()
                     notifyLoadingShiftsDone(LoadShiftsResult.Exception(result.throwable))
                 }
@@ -197,9 +197,9 @@ object AppRepository {
         val dayRanges = loadLecturesForAllDays(includeEngelsystemShifts = false)
                 .toDayRanges()
         val lecturizedShifts = shifts
-                .also { logging.d(javaClass.name, "Shifts unfiltered = ${it.size}") }
+                .also { logging.d(javaClass.simpleName, "Shifts unfiltered = ${it.size}") }
                 .cropToDayRangesExtent(dayRanges)
-                .also { logging.d(javaClass.name, "Shifts filtered = ${it.size}") }
+                .also { logging.d(javaClass.simpleName, "Shifts filtered = ${it.size}") }
                 .toLectureAppModels(logging, ENGELSYSTEM_ROOM_NAME, dayRanges)
                 .sanitize()
         val lectures = loadLecturesForAllDays(false) // Drop all shifts before ...
@@ -226,21 +226,21 @@ object AppRepository {
      */
     fun loadLecturesForDayIndex(dayIndex: Int, includeEngelsystemShifts: Boolean): List<Lecture> {
         val lectures = if (dayIndex == ALL_DAYS) {
-            logging.d(javaClass.name, "Loading lectures for all days.")
+            logging.d(javaClass.simpleName, "Loading lectures for all days.")
             if (includeEngelsystemShifts) {
                 readLecturesOrderedByDateUtc()
             } else {
                 readLecturesOrderedByDateUtcExcludingEngelsystemShifts()
             }
         } else {
-            logging.d(javaClass.name, "Loading lectures for day $dayIndex.")
+            logging.d(javaClass.simpleName, "Loading lectures for day $dayIndex.")
             readLecturesForDayIndexOrderedByDateUtc(dayIndex)
         }
-        logging.d(javaClass.name, "Got ${lectures.size} rows.")
+        logging.d(javaClass.simpleName, "Got ${lectures.size} rows.")
 
         val highlights = readHighlights()
         for (highlight in highlights) {
-            logging.d(javaClass.name, "$highlight")
+            logging.d(javaClass.simpleName, "$highlight")
             for (lecture in lectures) {
                 if (lecture.lectureId == "" + highlight.eventId) {
                     lecture.highlight = highlight.isHighlight

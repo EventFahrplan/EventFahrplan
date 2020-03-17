@@ -18,7 +18,7 @@ internal class DateFieldValidation constructor(
 
     fun printValidationErrors() {
         for (validationError in validationErrors) {
-            logging.d(javaClass.name, validationError.toString())
+            logging.d(javaClass.simpleName, validationError.toString())
         }
     }
 
@@ -41,7 +41,7 @@ internal class DateFieldValidation constructor(
         // defined by "date" attribute in the <day> nodes.
         sortedLectures.forEach { validateEvent(it, range) }
 
-        logging.d(javaClass.name, "Validation result for <date> field: " + validationErrors.size + " errors.")
+        logging.d(javaClass.simpleName, "Validation result for <date> field: " + validationErrors.size + " errors.")
         return validationErrors.isEmpty()
     }
 

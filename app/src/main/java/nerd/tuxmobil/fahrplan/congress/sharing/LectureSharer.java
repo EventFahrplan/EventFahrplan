@@ -17,7 +17,7 @@ public class LectureSharer {
         intent.setType("text/plain");
         PackageManager packageManager = context.getPackageManager();
         if (intent.resolveActivity(packageManager) == null) {
-            MyApp.LogDebug(LectureSharer.class.getName(), "No activity to handle share intent.");
+            MyApp.LogDebug(LectureSharer.class.getSimpleName(), "No activity to handle share intent.");
             return false;
         } else {
             context.startActivity(intent);
