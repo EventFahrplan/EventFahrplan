@@ -57,7 +57,7 @@ class HighlightsDatabaseRepository(
             return null
         }
 
-        val highlight = cursor.use {
+        return cursor.use {
             if (cursor.moveToFirst()) {
                 val highlightState = cursor.getInt(HIGHLIGHT)
                 val isHighlighted = highlightState == HIGHLIGHT_STATE_ON
@@ -66,8 +66,6 @@ class HighlightsDatabaseRepository(
                 null
             }
         }
-
-        return highlight
     }
 
 }
