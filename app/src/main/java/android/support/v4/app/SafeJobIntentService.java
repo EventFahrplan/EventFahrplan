@@ -14,7 +14,7 @@ public abstract class SafeJobIntentService extends JobIntentService {
             return super.dequeueWork();
         } catch (SecurityException ignore) {
             // There is not much we can do here.
-            Log.e(getClass().getName(), ignore);
+            Log.e(getClass().getSimpleName(), ignore);
         }
         return null;
     }

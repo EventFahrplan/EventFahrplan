@@ -81,7 +81,7 @@ public class FahrplanMisc {
                                 @NonNull AppRepository appRepository,
                                 @NonNull Lecture lecture,
                                 int alarmTimesIndex) {
-        Log.d(FahrplanMisc.class.getName(), "Add alarm for lecture: " + lecture.lectureId +
+        Log.d(FahrplanMisc.class.getSimpleName(), "Add alarm for lecture: " + lecture.lectureId +
                 ", alarmTimesIndex: " + alarmTimesIndex);
         String[] alarm_times = context.getResources().getStringArray(R.array.alarm_time_values);
         List<String> alarmTimeStrings = new ArrayList<>(Arrays.asList(alarm_times));

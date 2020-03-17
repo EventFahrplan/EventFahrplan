@@ -42,7 +42,7 @@ fun Shift.toLectureAppModel(
 fun Shift.oneBasedDayIndex(logging: Logging, dayRanges: List<DayRange>): Int {
     dayRanges.forEachIndexed { index, dayRange ->
         if (dayRange.contains(startsAt)) {
-            logging.d(javaClass.name, "${dayRange.startsAt} <= $startsAt < ${dayRange.endsAt} -> $talkTitle")
+            logging.d(javaClass.simpleName, "${dayRange.startsAt} <= $startsAt < ${dayRange.endsAt} -> $talkTitle")
             return index + 1
         }
     }

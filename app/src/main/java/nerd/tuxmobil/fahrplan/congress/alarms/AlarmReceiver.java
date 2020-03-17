@@ -39,7 +39,7 @@ public final class AlarmReceiver extends BroadcastReceiver {
 
         if (intent.getAction().equals(ALARM_LECTURE)) {
             String lectureId = intent.getStringExtra(BundleKeys.ALARM_LECTURE_ID);
-            Log.d(getClass().getName(), "onReceive: lectureId: " + lectureId + ", intent: " + intent);
+            Log.d(getClass().getSimpleName(), "onReceive: lectureId: " + lectureId + ", intent: " + intent);
             int lid = Integer.parseInt(lectureId);
             int day = intent.getIntExtra(BundleKeys.ALARM_DAY, 1);
             long when = intent

@@ -37,7 +37,7 @@ class LecturesDatabaseRepository(
                         selectionArgs = arrayOf(lectureId))
             }.first()
         } catch (e: NoSuchElementException) {
-            logging.report(javaClass.name, "Lectures table does not contain a lecture with ID $lectureId. ${e.message}")
+            logging.report(javaClass.simpleName, "Lectures table does not contain a lecture with ID $lectureId. ${e.message}")
             throw e
         }
     }

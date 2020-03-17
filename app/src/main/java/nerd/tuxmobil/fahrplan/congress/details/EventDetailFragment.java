@@ -373,7 +373,7 @@ public class EventDetailFragment extends Fragment {
         if (lecture != null) {
             FahrplanMisc.addAlarm(activity, appRepository, lecture, alarmTimesIndex);
         } else {
-            Log.e(getClass().getName(), "onAlarmTimesIndexPicked: lecture: null. alarmTimesIndex: " + alarmTimesIndex);
+            Log.e(getClass().getSimpleName(), "onAlarmTimesIndexPicked: lecture: null. alarmTimesIndex: " + alarmTimesIndex);
         }
         refreshUI(activity);
     }

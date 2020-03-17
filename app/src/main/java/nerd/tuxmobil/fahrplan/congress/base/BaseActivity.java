@@ -26,7 +26,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         connectivityObserver = new ConnectivityObserver(this, () -> {
-            Log.d(getClass().getName(), "Network is available.");
+            Log.d(getClass().getSimpleName(), "Network is available.");
             startUpdateService();
             return Unit.INSTANCE;
         });

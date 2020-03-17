@@ -40,7 +40,7 @@ class AlarmsDatabaseRepository(
             database.query()
         } catch (e: SQLiteException) {
             e.printStackTrace()
-            Log.e(javaClass.name, "Failure on alarm query.")
+            Log.e(javaClass.simpleName, "Failure on alarm query.")
             return emptyList()
         }
 
@@ -55,7 +55,7 @@ class AlarmsDatabaseRepository(
         }
 
         if (alarms.isEmpty()) {
-            Log.d(javaClass.name, "No alarms found.")
+            Log.d(javaClass.simpleName, "No alarms found.")
         }
 
         return alarms

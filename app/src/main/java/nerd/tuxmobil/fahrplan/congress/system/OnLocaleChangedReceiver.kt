@@ -16,7 +16,7 @@ class OnLocaleChangedReceiver : BroadcastReceiver() {
         if (action != Intent.ACTION_LOCALE_CHANGED) {
             return
         }
-        Log.d(javaClass.name, "onReceive (locale changed)")
+        Log.d(javaClass.simpleName, "onReceive (locale changed)")
 
         val notificationHelper = NotificationHelper(context)
         notificationHelper.createChannels()
