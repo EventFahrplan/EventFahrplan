@@ -6,6 +6,7 @@ import info.metadude.android.eventfahrplan.database.repositories.LecturesDatabas
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toLecturesDatabaseModel
 import nerd.tuxmobil.fahrplan.congress.models.Lecture
 import org.junit.Test
+import org.mockito.ArgumentMatchers.anyInt
 
 /**
  * Test class to deal with lectures which interact with the [LecturesDatabaseRepository].
@@ -92,6 +93,16 @@ class AppRepositoryLecturesTest {
             url = "" // only initialized for toLecturesDatabaseModel()
         }
 
+        private val LECTURE_3001 = Lecture("3001").apply {
+            changedIsCanceled = false
+            url = "" // only initialized for toLecturesDatabaseModel()
+        }
+
+        private val LECTURE_3002 = Lecture("3002").apply {
+            changedIsCanceled = true
+            url = "" // only initialized for toLecturesDatabaseModel()
+        }
+
     }
 
     @Test
@@ -124,6 +135,22 @@ class AppRepositoryLecturesTest {
         val starredLectures = testableAppRepository.loadStarredLectures()
         assertThat(starredLectures).containsExactly(LECTURE_2002)
         verify(lecturesDatabaseRepository, once()).queryLecturesOrderedByDateUtc()
+    }
+
+    @Test
+    fun `loadUncanceledLecturesForDayIndex passes through an empty list`() {
+        whenever(lecturesDatabaseRepository.queryLecturesForDayIndexOrderedByDateUtc(anyInt())) doReturn emptyList()
+        assertThat(testableAppRepository.loadUncanceledLecturesForDayIndex(0)).isEmpty()
+        verify(lecturesDatabaseRepository, once()).queryLecturesForDayIndexOrderedByDateUtc(anyInt())
+    }
+
+    @Test
+    fun `loadUncanceledLecturesForDayIndex filters out lectures which are canceled`() {
+        val lectures = listOf(LECTURE_3001, LECTURE_3002)
+        whenever(lecturesDatabaseRepository.queryLecturesForDayIndexOrderedByDateUtc(anyInt())) doReturn lectures.toLecturesDatabaseModel()
+        val uncanceledLectures = testableAppRepository.loadUncanceledLecturesForDayIndex(0)
+        assertThat(uncanceledLectures).containsExactly(LECTURE_3001)
+        verify(lecturesDatabaseRepository, once()).queryLecturesForDayIndexOrderedByDateUtc(anyInt())
     }
 
     private fun once() = times(1)

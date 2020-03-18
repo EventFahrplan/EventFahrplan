@@ -1,25 +1,12 @@
 package nerd.tuxmobil.fahrplan.congress.utils
 
-import com.nhaarman.mockitokotlin2.doReturn
-import com.nhaarman.mockitokotlin2.mock
-import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
-import org.mockito.ArgumentMatchers.anyBoolean
-import org.mockito.ArgumentMatchers.anyInt
 import nerd.tuxmobil.fahrplan.congress.models.Lecture as Event
 
 class FahrplanMiscTest {
 
     companion object {
-
-        private val EVENT_3001 = Event("3001").apply {
-            changedIsCanceled = false
-        }
-
-        private val EVENT_3002 = Event("3002").apply {
-            changedIsCanceled = true
-        }
 
         private val EVENT_4001 = Event("4001").apply {
             highlight = false
@@ -81,26 +68,6 @@ class FahrplanMiscTest {
             changedIsCanceled = true
         }
 
-    }
-
-    @Test
-    fun getUpcomingLecturesWithEmptyList() {
-        val appRepository = mock<AppRepository> {
-            on { loadLecturesForDayIndex(anyInt(), anyBoolean()) } doReturn emptyList()
-        }
-        assertThat(FahrplanMisc.getUncanceledLectures(appRepository, AppRepository.ALL_DAYS)).isEmpty()
-    }
-
-    @Test
-    fun getUpcomingLecturesWithAllEvents() {
-        val appRepository = mock<AppRepository> {
-            on { loadLecturesForDayIndex(anyInt(), anyBoolean()) } doReturn mutableListOf(EVENT_3001, EVENT_3002)
-        }
-        val upcomingEvents = FahrplanMisc.getUncanceledLectures(appRepository, AppRepository.ALL_DAYS)
-        assertThat(upcomingEvents).isNotEmpty()
-        assertThat(upcomingEvents.size).isEqualTo(1)
-        assertThat(upcomingEvents).contains(EVENT_3001)
-        assertThat(upcomingEvents).doesNotContain(EVENT_3002)
     }
 
     @Test

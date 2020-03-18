@@ -37,7 +37,7 @@ object AppRepository {
      * Also used in app/src/<flavor>/res/xml/track_resource_names.xml.
      */
     const val ENGELSYSTEM_ROOM_NAME = "Engelshifts"
-    const val ALL_DAYS = -1
+    private const val ALL_DAYS = -1
 
     private lateinit var context: Context
 
@@ -213,6 +213,14 @@ object AppRepository {
     }
 
     /**
+     * Loads all lectures from the database which have not been canceled.
+     * The returned list might be empty.
+     */
+    fun loadUncanceledLecturesForDayIndex(dayIndex: Int) = loadLecturesForDayIndex(dayIndex, true)
+            .filterNot { it.changedIsCanceled }
+            .also { logging.d(javaClass.simpleName, "${it.size} uncanceled lectures.") }
+
+    /**
      * Loads all lectures from the database which have been favored aka. starred but no canceled.
      * The returned list might be empty.
      */
@@ -240,7 +248,7 @@ object AppRepository {
      * All days can be loaded if -1 is passed as the [day][dayIndex].
      * To exclude Engelsystem shifts pass false to [includeEngelsystemShifts].
      */
-    fun loadLecturesForDayIndex(dayIndex: Int, includeEngelsystemShifts: Boolean): List<Lecture> {
+    private fun loadLecturesForDayIndex(dayIndex: Int, includeEngelsystemShifts: Boolean): List<Lecture> {
         val lectures = if (dayIndex == ALL_DAYS) {
             logging.d(javaClass.simpleName, "Loading lectures for all days.")
             if (includeEngelsystemShifts) {
