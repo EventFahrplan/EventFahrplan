@@ -253,18 +253,10 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
     }
 
     private void deleteItem(int index) {
-        Lecture l = starredList.get(index);
-        l.highlight = false;
-        appRepository.updateHighlight(l);
-        if (MyApp.lectureList != null) {
-            for (int j = 0; j < MyApp.lectureList.size(); j++) {
-                Lecture lecture = MyApp.lectureList.get(j);
-                if (lecture.lectureId.equals(l.lectureId)) {
-                    lecture.highlight = false;
-                    break;
-                }
-            }
-        }
+        Lecture starredLecture = starredList.get(index);
+        starredLecture.highlight = false;
+        appRepository.updateHighlight(starredLecture);
+        appRepository.updateLecturesLegacy(starredLecture);
         starredList.remove(index);
     }
 
