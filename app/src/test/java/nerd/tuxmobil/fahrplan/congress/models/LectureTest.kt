@@ -19,4 +19,23 @@ class LectureTest {
         assertThat(moment.monthDay).isEqualTo(27)
         assertThat(moment.year).isEqualTo(2019)
     }
+
+    @Test
+    fun `getLectureStartTime returns the "dateUTC" value when "dateUTC" is set`() {
+        val lecture = Lecture("1").apply {
+            dateUTC = 1
+            date = "2020-03-20"
+        }
+        assertThat(lecture.startTimeMilliseconds).isEqualTo(1)
+    }
+
+    @Test
+    fun `getLectureStartTime returns the "date" value when "dateUTC" is not set`() {
+        val lecture = Lecture("1").apply {
+            dateUTC = 0
+            date = "2020-03-20"
+        }
+        assertThat(lecture.startTimeMilliseconds).isEqualTo(1584662400000L)
+    }
+
 }

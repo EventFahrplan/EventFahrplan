@@ -50,17 +50,6 @@ public class FahrplanMisc {
         }
     }
 
-    public static long getLectureStartTime(@NonNull Lecture lecture) {
-        long when;
-        if (lecture.dateUTC > 0) {
-            when = lecture.dateUTC;
-        } else {
-            Moment moment = lecture.getStartTimeMoment();
-            when = moment.toMilliseconds();
-        }
-        return when;
-    }
-
     public static void deleteAlarm(@NonNull Context context, @NonNull AppRepository appRepository, @NonNull Lecture lecture) {
         String eventId = lecture.lectureId;
         List<Alarm> alarms = appRepository.readAlarms(eventId);
