@@ -25,11 +25,11 @@ public class DateInfos extends ArrayList<DateInfo> {
      * @param hourOfDayChange   Hour of day change (all lectures which start before count to the
      *                          previous day)
      * @param minuteOfDayChange Minute of day change
-     * @return dayIndex if found, -1 otherwise
+     * @return dayIndex if found, {@link DateInfo#DAY_INDEX_NOT_FOUND} otherwise.
      */
     public int getIndexOfToday(int hourOfDayChange, int minuteOfDayChange) {
         if (isEmpty()) {
-            return -1;
+            return DateInfo.DAY_INDEX_NOT_FOUND;
         }
         Moment today = new Moment();
         today.minusHours(hourOfDayChange);
@@ -37,10 +37,10 @@ public class DateInfos extends ArrayList<DateInfo> {
 
         Moment currentDate = today.startOfDay();
 
-        int dayIndex = -1;
+        int dayIndex = DateInfo.DAY_INDEX_NOT_FOUND;
         for (DateInfo dateInfo : this) {
             dayIndex = dateInfo.getDayIndex(currentDate);
-            if (dayIndex != -1) {
+            if (dayIndex != DateInfo.DAY_INDEX_NOT_FOUND) {
                 return dayIndex;
             }
         }
