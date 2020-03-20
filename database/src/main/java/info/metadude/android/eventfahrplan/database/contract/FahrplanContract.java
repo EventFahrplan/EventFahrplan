@@ -13,8 +13,8 @@ public interface FahrplanContract {
             /* 0 */ String VERSION = "version";
             /* 1 */ String TITLE = "title";
             /* 2 */ String SUBTITLE = "subtitle";
-            /* 3 */ String DAY_CHANGE_HOUR = "day_change_hour";
-            /* 4 */ String DAY_CHANGE_MINUTE = "day_change_minute";
+            /* 3 */ // Zombie: Former "day_change_hour" column.
+            /* 4 */ // Zombie: Former "day_change_minute" column.
             /* 5 */ String ETAG = "etag";
             /* 6 */ String NUM_DAYS = "numdays";
         }
@@ -22,8 +22,6 @@ public interface FahrplanContract {
         interface Defaults {
 
             int NUM_DAYS_DEFAULT = 0;
-            int DAY_CHANGE_HOUR_DEFAULT = 4;
-            int DAY_CHANGE_MINUTE_DEFAULT = 0;
             String ETAG_DEFAULT = "''";
         }
 

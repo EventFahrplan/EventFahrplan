@@ -6,8 +6,6 @@ import info.metadude.android.eventfahrplan.network.models.Meta as MetaNetworkMod
 
 
 fun Meta.toMetaDatabaseModel() = MetaDatabaseModel(
-        dayChangeHour = dayChangeHour,
-        dayChangeMinute = dayChangeMinute,
         eTag = eTag,
         numDays = numDays,
         subtitle = subtitle,
@@ -16,8 +14,6 @@ fun Meta.toMetaDatabaseModel() = MetaDatabaseModel(
 )
 
 fun Meta.toMetaNetworkModel() = MetaNetworkModel(
-        dayChangeHour = dayChangeHour,
-        dayChangeMinute = dayChangeMinute,
         eTag = eTag,
         numDays = numDays,
         subtitle = subtitle,
@@ -26,8 +22,6 @@ fun Meta.toMetaNetworkModel() = MetaNetworkModel(
 )
 
 fun MetaDatabaseModel.toMetaAppModel() = Meta(
-        dayChangeHour = dayChangeHour,
-        dayChangeMinute = dayChangeMinute,
         eTag = eTag,
         numDays = numDays,
         subtitle = subtitle,
@@ -36,8 +30,6 @@ fun MetaDatabaseModel.toMetaAppModel() = Meta(
 )
 
 fun MetaNetworkModel.toMetaAppModel() = Meta(
-        dayChangeHour = dayChangeHour,
-        dayChangeMinute = dayChangeMinute,
         eTag = eTag,
         numDays = numDays,
         subtitle = subtitle,

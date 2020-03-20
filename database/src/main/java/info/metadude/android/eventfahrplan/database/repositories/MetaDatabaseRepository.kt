@@ -45,8 +45,6 @@ class MetaDatabaseRepository(
                         version = cursor.getString(VERSION),
                         title = cursor.getString(TITLE),
                         subtitle = cursor.getString(SUBTITLE),
-                        dayChangeHour = cursor.getInt(DAY_CHANGE_HOUR),
-                        dayChangeMinute = cursor.getInt(DAY_CHANGE_MINUTE),
                         eTag = cursor.getString(ETAG)
                 )
             } else {

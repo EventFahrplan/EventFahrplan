@@ -13,8 +13,6 @@ class MetaExtensionsTest {
     @Test
     fun toContentValues() {
         val meta = Meta(
-                dayChangeHour = 13,
-                dayChangeMinute = 7,
                 eTag = "abc123",
                 numDays = 23,
                 subtitle = "My subtitle",
@@ -22,8 +20,6 @@ class MetaExtensionsTest {
                 version = "v.9.9.9"
         )
         val values = meta.toContentValues()
-        assertThat(values.getAsInteger(DAY_CHANGE_HOUR)).isEqualTo(13)
-        assertThat(values.getAsInteger(DAY_CHANGE_MINUTE)).isEqualTo(7)
         assertThat(values.getAsString(ETAG)).isEqualTo("abc123")
         assertThat(values.getAsInteger(NUM_DAYS)).isEqualTo(23)
         assertThat(values.getAsString(SUBTITLE)).isEqualTo("My subtitle")

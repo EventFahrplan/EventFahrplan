@@ -21,8 +21,6 @@ public class MetaDBOpenHelper extends SQLiteOpenHelper {
                     Columns.VERSION + " TEXT, " +
                     Columns.TITLE + " TEXT, " +
                     Columns.SUBTITLE + " TEXT, " +
-                    Columns.DAY_CHANGE_HOUR + " INTEGER, " +
-                    Columns.DAY_CHANGE_MINUTE + " INTEGER, " +
                     Columns.ETAG + " TEXT);";
 
     public MetaDBOpenHelper(@NonNull Context context) {
@@ -36,15 +34,6 @@ public class MetaDBOpenHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        if (oldVersion < 2 && newVersion >= 2) {
-            db.execSQL("ALTER TABLE " + MetasTable.NAME + " ADD COLUMN " +
-                    Columns.DAY_CHANGE_HOUR + " INTEGER DEFAULT " +
-                    Defaults.DAY_CHANGE_HOUR_DEFAULT);
-            db.execSQL("ALTER TABLE " + MetasTable.NAME + " ADD COLUMN " +
-                    Columns.DAY_CHANGE_MINUTE + " INTEGER DEFAULT " +
-                    Defaults.DAY_CHANGE_MINUTE_DEFAULT);
-        }
-
         if (oldVersion < 3 && newVersion >= 3) {
             db.execSQL("ALTER TABLE " + MetasTable.NAME + " ADD COLUMN " +
                     Columns.ETAG + " TEXT DEFAULT " + Defaults.ETAG_DEFAULT);

@@ -7,6 +7,14 @@ import info.metadude.android.eventfahrplan.commons.temporal.Moment;
 public class DateInfos extends ArrayList<DateInfo> {
 
     private static final long serialVersionUID = 1L;
+    /**
+     * Hour of day change (all lectures which start before count to the previous day).
+     */
+    private static final int DAY_CHANGE_HOUR_DEFAULT = 4;
+    /**
+     * Minute of day change.
+     */
+    private static final int DAY_CHANGE_MINUTE_DEFAULT = 0;
 
     public boolean sameDay(Moment today, int lectureListDay) {
         Moment currentDate = today.startOfDay();
@@ -20,20 +28,17 @@ public class DateInfos extends ArrayList<DateInfo> {
     }
 
     /**
-     * Returns the index of today
+     * Returns the index of today.
      *
-     * @param hourOfDayChange   Hour of day change (all lectures which start before count to the
-     *                          previous day)
-     * @param minuteOfDayChange Minute of day change
      * @return dayIndex if found, {@link DateInfo#DAY_INDEX_NOT_FOUND} otherwise.
      */
-    public int getIndexOfToday(int hourOfDayChange, int minuteOfDayChange) {
+    public int getIndexOfToday() {
         if (isEmpty()) {
             return DateInfo.DAY_INDEX_NOT_FOUND;
         }
         Moment today = new Moment();
-        today.minusHours(hourOfDayChange);
-        today.minusMinutes(minuteOfDayChange);
+        today.minusHours(DAY_CHANGE_HOUR_DEFAULT);
+        today.minusMinutes(DAY_CHANGE_MINUTE_DEFAULT);
 
         Moment currentDate = today.startOfDay();
 

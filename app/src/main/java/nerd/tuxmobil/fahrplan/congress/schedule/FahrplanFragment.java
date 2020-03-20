@@ -352,8 +352,7 @@ public class FahrplanFragment extends Fragment implements View.OnClickListener, 
         if (lectureId != null) {
             return;
         }
-        if (MyApp.lectureListDay != MyApp.dateInfos.getIndexOfToday(
-                MyApp.meta.getDayChangeHour(), MyApp.meta.getDayChangeMinute())) {
+        if (MyApp.lectureListDay != MyApp.dateInfos.getIndexOfToday()) {
             return;
         }
         Moment nowMoment = new Moment();
