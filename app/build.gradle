@@ -120,7 +120,10 @@ android {
 
 unMock {
     keepStartingWith "libcore."
+    keep "android.content.ComponentName"
+    keep "android.content.Intent"
     keep "android.net.Uri"
+    keep "android.os.Bundle"
     keep "android.util.Patterns"
     keepAndRename "java.nio.charset.Charsets" to "xjava.nio.charset.Charsets"
 }

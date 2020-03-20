@@ -68,7 +68,8 @@ public class FahrplanMisc {
             // Delete any previous alarms of this event.
             Alarm alarm = alarms.get(0);
             SchedulableAlarm schedulableAlarm = AlarmExtensions.toSchedulableAlarm(alarm);
-            AlarmServices.discardEventAlarm(context, schedulableAlarm);
+            AlarmManager alarmManager = Contexts.getAlarmManager(context);
+            new AlarmServices(alarmManager).discardEventAlarm(context, schedulableAlarm);
             appRepository.deleteAlarmForEventId(eventId);
         }
         lecture.hasAlarm = false;
@@ -115,7 +116,8 @@ public class FahrplanMisc {
 
         Alarm alarm = new Alarm(alarmTimeInMin, day, startTime, eventId, eventTitle, when, timeText);
         SchedulableAlarm schedulableAlarm = AlarmExtensions.toSchedulableAlarm(alarm);
-        AlarmServices.scheduleEventAlarm(context, schedulableAlarm, true);
+        AlarmManager alarmManager = Contexts.getAlarmManager(context);
+        new AlarmServices(alarmManager).scheduleEventAlarm(context, schedulableAlarm, true);
         appRepository.updateAlarm(alarm);
         lecture.hasAlarm = true;
     }

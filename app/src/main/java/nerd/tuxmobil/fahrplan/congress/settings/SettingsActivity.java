@@ -2,6 +2,7 @@ package nerd.tuxmobil.fahrplan.congress.settings;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -26,6 +27,7 @@ import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices;
 import nerd.tuxmobil.fahrplan.congress.base.BaseActivity;
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
+import nerd.tuxmobil.fahrplan.congress.extensions.Contexts;
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
 
@@ -70,7 +72,8 @@ public class SettingsActivity extends BaseActivity {
                         if ((Boolean) newValue) {
                             FahrplanMisc.setUpdateAlarm(getActivity(), true);
                         } else {
-                            AlarmServices.discardAutoUpdateAlarm(getActivity());
+                            AlarmManager alarmManager = Contexts.getAlarmManager(getActivity());
+                            new AlarmServices(alarmManager).discardAutoUpdateAlarm(getActivity());
                         }
                         return true;
                     });
