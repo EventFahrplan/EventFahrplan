@@ -31,7 +31,6 @@ import nerd.tuxmobil.fahrplan.congress.models.SchedulableAlarm;
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 
 import static kotlin.collections.CollectionsKt.count;
-import static kotlin.collections.CollectionsKt.filterNot;
 
 
 public class FahrplanMisc {
@@ -176,35 +175,6 @@ public class FahrplanMisc {
         int count = count(list, event -> event.changedIsCanceled && (!favsOnly || event.highlight));
         MyApp.LogDebug(LOG_TAG, count + " canceled lectures, favsOnly = " + favsOnly);
         return count;
-    }
-
-    @NonNull
-    public static List<Lecture> readChanges(@NonNull AppRepository appRepository) {
-        MyApp.LogDebug(LOG_TAG, "readChanges");
-        List<Lecture> changesList = appRepository.loadLecturesForAllDays(true);
-        if (changesList.isEmpty()) {
-            return changesList;
-        }
-        changesList = filterNot(changesList, event -> !event.isChanged() && !event.changedIsCanceled && !event.changedIsNew);
-        MyApp.LogDebug(LOG_TAG, changesList.size() + " lectures changed.");
-        return changesList;
-    }
-
-    @NonNull
-    public static List<Lecture> getStarredLectures(@NonNull AppRepository appRepository) {
-        List<Lecture> starredList = appRepository.loadLecturesForAllDays(true);
-        if (starredList.isEmpty()) {
-            return starredList;
-        }
-        starredList = filterNot(starredList, event -> !event.highlight || event.changedIsCanceled);
-        MyApp.LogDebug(LOG_TAG, starredList.size() + " lectures starred.");
-        return starredList;
-    }
-
-    @NonNull
-    public static List<Lecture> getUncanceledLectures(@NonNull AppRepository appRepository, int dayIndex) {
-        List<Lecture> lectures = appRepository.loadLecturesForDayIndex(dayIndex, true);
-        return filterNot(lectures, event -> event.changedIsCanceled);
     }
 
 }

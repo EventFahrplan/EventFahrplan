@@ -34,7 +34,6 @@ import nerd.tuxmobil.fahrplan.congress.sharing.LectureSharer;
 import nerd.tuxmobil.fahrplan.congress.sharing.SimpleLectureFormat;
 import nerd.tuxmobil.fahrplan.congress.utils.ActivityHelper;
 import nerd.tuxmobil.fahrplan.congress.utils.ConfirmationDialog;
-import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
 
 
 /**
@@ -128,7 +127,7 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
 
     private void initStarredList() {
         Context context = requireContext();
-        starredList = FahrplanMisc.getStarredLectures(appRepository);
+        starredList = appRepository.loadStarredLectures();
         Meta meta = appRepository.readMeta();
         mAdapter = new LectureArrayAdapter(context, starredList, meta.getNumDays());
         MyApp.LogDebug(LOG_TAG, "initStarredList: " + starredList.size() + " favorites");
@@ -171,7 +170,7 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
     }
 
     public void onRefresh() {
-        List<Lecture> starred = FahrplanMisc.getStarredLectures(appRepository);
+        List<Lecture> starred = appRepository.loadStarredLectures();
         if (starredList != null) {
             starredList.clear();
             starredList.addAll(starred);
@@ -253,18 +252,10 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
     }
 
     private void deleteItem(int index) {
-        Lecture l = starredList.get(index);
-        l.highlight = false;
-        appRepository.updateHighlight(l);
-        if (MyApp.lectureList != null) {
-            for (int j = 0; j < MyApp.lectureList.size(); j++) {
-                Lecture lecture = MyApp.lectureList.get(j);
-                if (lecture.lectureId.equals(l.lectureId)) {
-                    lecture.highlight = false;
-                    break;
-                }
-            }
-        }
+        Lecture starredLecture = starredList.get(index);
+        starredLecture.highlight = false;
+        appRepository.updateHighlight(starredLecture);
+        appRepository.updateLecturesLegacy(starredLecture);
         starredList.remove(index);
     }
 
@@ -303,11 +294,15 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
 
     public void deleteAllFavorites() {
         MyApp.LogDebug(LOG_TAG, "deleteAllFavorites");
-        if (starredList == null) return;
-        int count = starredList.size();
-        for (int i = 0; i < count; i++) {
-            deleteItem(0);
+        if (starredList == null || starredList.isEmpty()) {
+            return;
         }
+        appRepository.deleteAllHighlights();
+        for (Lecture starredLecture : starredList) {
+            starredLecture.highlight = false;
+            appRepository.updateLecturesLegacy(starredLecture);
+        }
+        starredList.clear();
         Activity activity = requireActivity();
         activity.invalidateOptionsMenu();
         refreshViews(activity);

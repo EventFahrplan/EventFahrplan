@@ -37,7 +37,7 @@ object AppRepository {
      * Also used in app/src/<flavor>/res/xml/track_resource_names.xml.
      */
     const val ENGELSYSTEM_ROOM_NAME = "Engelshifts"
-    const val ALL_DAYS = -1
+    private const val ALL_DAYS = -1
 
     private lateinit var context: Context
 
@@ -213,10 +213,34 @@ object AppRepository {
     }
 
     /**
+     * Loads all lectures from the database which have not been canceled.
+     * The returned list might be empty.
+     */
+    fun loadUncanceledLecturesForDayIndex(dayIndex: Int) = loadLecturesForDayIndex(dayIndex, true)
+            .filterNot { it.changedIsCanceled }
+            .also { logging.d(javaClass.simpleName, "${it.size} uncanceled lectures.") }
+
+    /**
+     * Loads all lectures from the database which have been favored aka. starred but no canceled.
+     * The returned list might be empty.
+     */
+    fun loadStarredLectures() = loadLecturesForAllDays(true)
+            .filter { it.highlight && !it.changedIsCanceled }
+            .also { logging.d(javaClass.simpleName, "${it.size} lectures starred.") }
+
+    /**
+     * Loads all lectures from the database which have been marked as changed, cancelled or new.
+     * The returned list might be empty.
+     */
+    fun loadChangedLectures() = loadLecturesForAllDays(true)
+            .filter { it.isChanged || it.changedIsCanceled || it.changedIsNew }
+            .also { logging.d(javaClass.simpleName, "${it.size} lectures changed.") }
+
+    /**
      * Loads all lectures from the database which take place on all days.
      * To exclude Engelsystem shifts pass false to [includeEngelsystemShifts].
      */
-    fun loadLecturesForAllDays(includeEngelsystemShifts: Boolean) =
+    private fun loadLecturesForAllDays(includeEngelsystemShifts: Boolean) =
             loadLecturesForDayIndex(ALL_DAYS, includeEngelsystemShifts)
 
     /**
@@ -224,7 +248,7 @@ object AppRepository {
      * All days can be loaded if -1 is passed as the [day][dayIndex].
      * To exclude Engelsystem shifts pass false to [includeEngelsystemShifts].
      */
-    fun loadLecturesForDayIndex(dayIndex: Int, includeEngelsystemShifts: Boolean): List<Lecture> {
+    private fun loadLecturesForDayIndex(dayIndex: Int, includeEngelsystemShifts: Boolean): List<Lecture> {
         val lectures = if (dayIndex == ALL_DAYS) {
             logging.d(javaClass.simpleName, "Loading lectures for all days.")
             if (includeEngelsystemShifts) {
@@ -266,7 +290,7 @@ object AppRepository {
     fun updateAlarm(alarm: Alarm) {
         val alarmDatabaseModel = alarm.toAlarmDatabaseModel()
         val values = alarmDatabaseModel.toContentValues()
-        alarmsDatabaseRepository.insert(values, alarm.eventId)
+        alarmsDatabaseRepository.update(values, alarm.eventId)
     }
 
     private fun readHighlights() =
@@ -275,7 +299,11 @@ object AppRepository {
     fun updateHighlight(lecture: Lecture) {
         val highlightDatabaseModel = lecture.toHighlightDatabaseModel()
         val values = highlightDatabaseModel.toContentValues()
-        highlightsDatabaseRepository.insert(values, lecture.lectureId)
+        highlightsDatabaseRepository.update(values, lecture.lectureId)
+    }
+
+    fun deleteAllHighlights() {
+        highlightsDatabaseRepository.deleteAll()
     }
 
     fun readLectureByLectureId(lectureId: String): Lecture {

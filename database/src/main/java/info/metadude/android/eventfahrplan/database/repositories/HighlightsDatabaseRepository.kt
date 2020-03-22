@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteException
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.HighlightsTable
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.HighlightsTable.Columns.EVENT_ID
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.HighlightsTable.Columns.HIGHLIGHT
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.HighlightsTable.Values.HIGHLIGHT_STATE_OFF
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.HighlightsTable.Values.HIGHLIGHT_STATE_ON
 import info.metadude.android.eventfahrplan.database.extensions.*
 import info.metadude.android.eventfahrplan.database.models.Highlight
@@ -16,7 +17,7 @@ class HighlightsDatabaseRepository(
 
 ) {
 
-    fun insert(values: ContentValues, eventId: String) = with(sqLiteOpenHelper) {
+    fun update(values: ContentValues, eventId: String) = with(sqLiteOpenHelper) {
         writableDatabase.upsert({
             delete(HighlightsTable.NAME, EVENT_ID, eventId)
         }, {
@@ -65,6 +66,20 @@ class HighlightsDatabaseRepository(
             } else {
                 null
             }
+        }
+    }
+
+    /**
+     * Resets the value of the [HIGHLIGHT] column to [`false`][HIGHLIGHT_STATE_OFF] for each row.
+     * Rows are not removed.
+     */
+    fun deleteAll() = with(sqLiteOpenHelper) {
+        writableDatabase.transaction {
+            updateRows(
+                    tableName = HighlightsTable.NAME,
+                    contentValues = ContentValues().apply {
+                        put(HIGHLIGHT, HIGHLIGHT_STATE_OFF)
+                    })
         }
     }
 

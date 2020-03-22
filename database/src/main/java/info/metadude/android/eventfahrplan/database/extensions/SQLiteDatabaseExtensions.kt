@@ -28,6 +28,18 @@ fun SQLiteDatabase.read(
         limit
 )
 
+fun SQLiteDatabase.updateRows(
+        tableName: String,
+        contentValues: ContentValues,
+        whereClause: String? = null,
+        whereArgs: Array<String>? = null
+): Int = update(
+        tableName,
+        contentValues,
+        whereClause,
+        whereArgs
+)
+
 fun SQLiteDatabase.delete(tableName: String, columnName: String? = null, columnValue: String? = null): Int {
     val whereClause = if (columnName == null) null else "$columnName=?"
     val whereArgs = if (columnValue == null) null else arrayOf(columnValue)

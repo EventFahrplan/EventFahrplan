@@ -713,7 +713,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
             return;
         }
 
-        MyApp.lectureList = FahrplanMisc.getUncanceledLectures(appRepository, day);
+        MyApp.lectureList = appRepository.loadUncanceledLecturesForDayIndex(day);
         if (MyApp.lectureList.isEmpty()) {
             return;
         }

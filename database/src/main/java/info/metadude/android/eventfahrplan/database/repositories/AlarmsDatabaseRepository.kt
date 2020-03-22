@@ -17,7 +17,7 @@ class AlarmsDatabaseRepository(
 
 ) {
 
-    fun insert(values: ContentValues, eventId: String) = with(sqLiteOpenHelper) {
+    fun update(values: ContentValues, eventId: String) = with(sqLiteOpenHelper) {
         writableDatabase.upsert({
             delete(AlarmsTable.NAME, EVENT_ID, eventId)
         }, {

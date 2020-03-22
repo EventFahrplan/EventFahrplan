@@ -163,6 +163,7 @@ dependencies {
     testImplementation Libs.mockitoCore
     testImplementation Libs.mockitoKotlin
     testImplementation Libs.threeTenBp
+    testImplementation Libs.truth
 
     unmock Libs.robolectric
 }
