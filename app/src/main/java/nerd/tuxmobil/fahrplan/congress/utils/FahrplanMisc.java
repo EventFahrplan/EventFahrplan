@@ -30,8 +30,6 @@ import nerd.tuxmobil.fahrplan.congress.models.Lecture;
 import nerd.tuxmobil.fahrplan.congress.models.SchedulableAlarm;
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 
-import static kotlin.collections.CollectionsKt.count;
-
 
 public class FahrplanMisc {
 
@@ -157,24 +155,6 @@ public class FahrplanMisc {
                     }
                 });
         return alarmUpdater.calculateInterval(now, initial);
-    }
-
-    public static int getChangedLectureCount(@NonNull final List<Lecture> list, boolean favsOnly) {
-        int count = count(list, event -> event.isChanged() && (!favsOnly || event.highlight));
-        MyApp.LogDebug(LOG_TAG, count + " changed lectures, favsOnly = " + favsOnly);
-        return count;
-    }
-
-    public static int getNewLectureCount(@NonNull final List<Lecture> list, boolean favsOnly) {
-        int count = count(list, event -> event.changedIsNew && (!favsOnly || event.highlight));
-        MyApp.LogDebug(LOG_TAG, count + " new lectures, favsOnly = " + favsOnly);
-        return count;
-    }
-
-    public static int getCancelledLectureCount(@NonNull final List<Lecture> list, boolean favsOnly) {
-        int count = count(list, event -> event.changedIsCanceled && (!favsOnly || event.highlight));
-        MyApp.LogDebug(LOG_TAG, count + " canceled lectures, favsOnly = " + favsOnly);
-        return count;
     }
 
 }
