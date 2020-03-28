@@ -14,7 +14,7 @@ import nerd.tuxmobil.fahrplan.congress.R;
 
 public class AlarmCursorAdapter extends CursorAdapter {
 
-    protected LayoutInflater mInflater;
+    protected final LayoutInflater mInflater;
 
     public AlarmCursorAdapter(Context context, Cursor cursor, int flags) {
         super(context, cursor, flags);

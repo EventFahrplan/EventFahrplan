@@ -29,7 +29,7 @@ public class AlarmUpdaterTest {
 
     AlarmUpdater alarmUpdater;
 
-    AlarmUpdater.OnAlarmUpdateListener mockListener =
+    final AlarmUpdater.OnAlarmUpdateListener mockListener =
             mock(AlarmUpdater.OnAlarmUpdateListener.class);
 
     @Before

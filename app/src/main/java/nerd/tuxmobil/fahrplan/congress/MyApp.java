@@ -23,7 +23,7 @@ public class MyApp extends Application {
 
     public static Application app = null;
 
-    public static boolean DEBUG = false;
+    public static final boolean DEBUG = false;
 
     public static List<Lecture> lectureList = null;
 
@@ -31,12 +31,12 @@ public class MyApp extends Application {
 
     public static DateInfos dateInfos = null;
 
-    private static long first_day_start = getMilliseconds("Europe/Paris",
+    private static final long first_day_start = getMilliseconds("Europe/Paris",
             BuildConfig.SCHEDULE_FIRST_DAY_START_YEAR,
             BuildConfig.SCHEDULE_FIRST_DAY_START_MONTH,
             BuildConfig.SCHEDULE_FIRST_DAY_START_DAY);
 
-    private static long last_day_end = getMilliseconds("Europe/Paris",
+    private static final long last_day_end = getMilliseconds("Europe/Paris",
             BuildConfig.SCHEDULE_LAST_DAY_END_YEAR,
             BuildConfig.SCHEDULE_LAST_DAY_END_MONTH,
             BuildConfig.SCHEDULE_LAST_DAY_END_DAY);
@@ -46,7 +46,7 @@ public class MyApp extends Application {
 
     public static int roomCount = 0;
 
-    public static HashMap<String, Integer> roomsMap = new HashMap<>();
+    public static final HashMap<String, Integer> roomsMap = new HashMap<>();
 
     public enum TASKS {
         NONE,
@@ -68,7 +68,7 @@ public class MyApp extends Application {
 
     public static int lectureListDay = 0;
 
-    public static SparseIntArray roomList = new SparseIntArray();
+    public static final SparseIntArray roomList = new SparseIntArray();
 
     @Override
     public void onCreate() {

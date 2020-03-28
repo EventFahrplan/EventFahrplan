@@ -75,7 +75,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
         void refreshEventMarkers();
     }
 
-    private static String LOG_TAG = "Fahrplan";
+    private static final String LOG_TAG = "Fahrplan";
 
     public static final String FRAGMENT_TAG = "schedule";
 
@@ -94,7 +94,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
 
     private LayoutInflater inflater;
 
-    private Conference conference = new Conference();
+    private final Conference conference = new Conference();
 
     private AppRepository appRepository;
 
@@ -106,7 +106,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
 
     public static Context context = null;
 
-    public static String[] rooms = {
+    public static final String[] rooms = {
             "Saal 1",
             "Saal 2",
             "Saal G",

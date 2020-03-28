@@ -62,7 +62,7 @@ class FetchFahrplanTask extends AsyncTask<String, Void, HttpStatus> {
 
     private String eTagStr = "";
 
-    private String LOG_TAG = "FetchFahrplan";
+    private final String LOG_TAG = "FetchFahrplan";
 
     private FetchFahrplan.OnDownloadCompleteListener listener;
 

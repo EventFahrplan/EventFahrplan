@@ -19,7 +19,7 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
 
     private static final String LOG_TAG = "HorizontalScrollView";
 
-    private GestureDetector gestureDetector;
+    private final GestureDetector gestureDetector;
 
     private int activeColumnIndex = 0;
 

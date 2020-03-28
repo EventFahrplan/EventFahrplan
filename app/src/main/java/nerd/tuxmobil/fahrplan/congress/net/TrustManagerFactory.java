@@ -31,7 +31,7 @@ public final class TrustManagerFactory {
 
     private static X509TrustManager defaultTrustManager;
 
-    private static X509TrustManager insecureTrustManager;
+    private static final X509TrustManager insecureTrustManager;
 
     private static X509TrustManager localTrustManager;
 
