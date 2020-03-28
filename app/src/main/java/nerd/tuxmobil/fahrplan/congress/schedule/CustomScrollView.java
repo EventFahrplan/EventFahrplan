@@ -21,11 +21,6 @@ public class CustomScrollView extends ScrollView {
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent ev) {
-        return super.onTouchEvent(ev);
-    }
-
-    @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         //Call super first because it does some hidden motion event handling
         boolean result = super.onInterceptTouchEvent(ev);
