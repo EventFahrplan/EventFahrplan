@@ -61,7 +61,7 @@ public class TrackBackgrounds {
         return map;
     }
 
-    public static HashMap<String, Integer> buildTrackBackgroundHashMap(Map<String,
+    public static Map<String, Integer> buildTrackBackgroundHashMap(Map<String,
             String> trackNamesMap, String prefix, String resourceType, Context context) {
         HashMap<String, Integer> trackNameResourceIdPairs = new HashMap<>();
         Resources res = context.getResources();
@@ -82,22 +82,22 @@ public class TrackBackgrounds {
         return trackNameResourceIdPairs;
     }
 
-    public static HashMap<String, Integer> getTrackAccentColorNormal(Context context) {
+    public static Map<String, Integer> getTrackAccentColorNormal(Context context) {
         Map<String, String> trackNames = getHashMapResource(context, R.xml.track_resource_names);
         return buildTrackBackgroundHashMap(trackNames, "event_border_accent", "color", context);
     }
 
-    public static HashMap<String, Integer> getTrackAccentColorHighlight(Context context) {
+    public static Map<String, Integer> getTrackAccentColorHighlight(Context context) {
         Map<String, String> trackNames = getHashMapResource(context, R.xml.track_resource_names);
         return buildTrackBackgroundHashMap(trackNames, "event_border_accent_highlight", "color", context);
     }
 
-    public static HashMap<String, Integer> getTrackNameBackgroundColorDefaultPairs(Context context) {
+    public static Map<String, Integer> getTrackNameBackgroundColorDefaultPairs(Context context) {
         Map<String, String> trackNames = getHashMapResource(context, R.xml.track_resource_names);
         return buildTrackBackgroundHashMap(trackNames, "event_border_default", "color", context);
     }
 
-    public static HashMap<String, Integer> getTrackNameBackgroundColorHighlightPairs(Context context) {
+    public static Map<String, Integer> getTrackNameBackgroundColorHighlightPairs(Context context) {
         Map<String, String> trackNames = getHashMapResource(context, R.xml.track_resource_names);
         return buildTrackBackgroundHashMap(trackNames, "event_border_highlight", "color", context);
     }

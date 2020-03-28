@@ -41,8 +41,8 @@ import org.ligi.tracedroid.logging.Log;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
@@ -98,9 +98,9 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
 
     private AppRepository appRepository;
 
-    private HashMap<String, Integer> trackNameBackgroundColorDefaultPairs;
+    private Map<String, Integer> trackNameBackgroundColorDefaultPairs;
 
-    private HashMap<String, Integer> trackNameBackgroundColorHighlightPairs;
+    private Map<String, Integer> trackNameBackgroundColorHighlightPairs;
 
     private int mDay = 1;
 
@@ -146,8 +146,8 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
     private int columnWidth;
 
     private String lectureId;        // started with lectureId
-    private HashMap<String, Integer> trackAccentColors;
-    private HashMap<String, Integer> trackAccentColorsHighlight;
+    private Map<String, Integer> trackAccentColors;
+    private Map<String, Integer> trackAccentColorsHighlight;
 
     private Lecture lastSelectedLecture;
 
