@@ -1,5 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.utils;
 
+import android.support.annotation.NonNull;
+
 public class ConferenceTimeFrame {
 
     private final long firstDayStartTime;
@@ -38,6 +40,7 @@ public class ConferenceTimeFrame {
         return time >= firstDayStartTime;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "firstDayStartTime = " + firstDayStartTime + ", lastDayEndTime = " + lastDayEndTime;
