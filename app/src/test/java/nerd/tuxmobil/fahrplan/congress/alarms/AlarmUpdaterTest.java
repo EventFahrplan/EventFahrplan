@@ -33,14 +33,14 @@ public class AlarmUpdaterTest {
             mock(AlarmUpdater.OnAlarmUpdateListener.class);
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         alarmUpdater = new AlarmUpdater(conferenceTimeFrame, mockListener);
     }
 
     // Start <= Time < End
 
     @Test
-    public void calculateIntervalWithTimeOfFirstDay() throws Exception {
+    public void calculateIntervalWithTimeOfFirstDay() {
         // 2015-12-27T11:30:00+0100, in seconds: 1451212200000
         long interval = alarmUpdater.calculateInterval(1451212200000L, false);
         assertThat(interval).isEqualTo(7200000L);
@@ -50,7 +50,7 @@ public class AlarmUpdaterTest {
     }
 
     @Test
-    public void calculateIntervalWithTimeOfFirstDayInitial() throws Exception {
+    public void calculateIntervalWithTimeOfFirstDayInitial() {
         // 2015-12-27T11:30:00+0100, in seconds: 1451212200000
         long interval = alarmUpdater.calculateInterval(1451212200000L, true);
         assertThat(interval).isEqualTo(7200000L);
@@ -62,7 +62,7 @@ public class AlarmUpdaterTest {
     // Time == End
 
     @Test
-    public void calculateIntervalWithTimeOfLastDayEndTime() throws Exception {
+    public void calculateIntervalWithTimeOfLastDayEndTime() {
         // 2015-12-31T00:00:00+0100, in seconds: 1451516400000
         long interval = alarmUpdater.calculateInterval(1451516400000L, false);
         assertThat(interval).isEqualTo(0);
@@ -72,7 +72,7 @@ public class AlarmUpdaterTest {
     }
 
     @Test
-    public void calculateIntervalWithTimeOfLastDayEndTimeInitial() throws Exception {
+    public void calculateIntervalWithTimeOfLastDayEndTimeInitial() {
         // 2015-12-31T00:00:00+0100, in seconds: 1451516400000
         long interval = alarmUpdater.calculateInterval(1451516400000L, true);
         assertThat(interval).isEqualTo(0);
@@ -84,7 +84,7 @@ public class AlarmUpdaterTest {
     // Time < Start, diff == 1 second
 
     @Test
-    public void calculateIntervalWithTimeOneSecondBeforeFirstDay() throws Exception {
+    public void calculateIntervalWithTimeOneSecondBeforeFirstDay() {
         // 2015-12-26T23:59:59+0100, in seconds: 1451170799000
         long interval = alarmUpdater.calculateInterval(1451170799000L, false);
         assertThat(interval).isEqualTo(7200000L);
@@ -94,7 +94,7 @@ public class AlarmUpdaterTest {
     }
 
     @Test
-    public void calculateIntervalWithTimeOneSecondBeforeFirstDayInitial() throws Exception {
+    public void calculateIntervalWithTimeOneSecondBeforeFirstDayInitial() {
         // 2015-12-26T23:59:59+0100, in seconds: 1451170799000
         long interval = alarmUpdater.calculateInterval(1451170799000L, true);
         assertThat(interval).isEqualTo(7200000L);
@@ -106,7 +106,7 @@ public class AlarmUpdaterTest {
     // Time < Start, diff == 1 day
 
     @Test
-    public void calculateIntervalWithTimeOneDayBeforeFirstDay() throws Exception {
+    public void calculateIntervalWithTimeOneDayBeforeFirstDay() {
         // 2015-12-26T00:00:00+0100, in seconds: 1451084400000
         long interval = alarmUpdater.calculateInterval(1451084400000L, false);
         assertThat(interval).isEqualTo(7200000L);
@@ -116,7 +116,7 @@ public class AlarmUpdaterTest {
     }
 
     @Test
-    public void calculateIntervalWithTimeOneDayBeforeFirstDayInitial() throws Exception {
+    public void calculateIntervalWithTimeOneDayBeforeFirstDayInitial() {
         // 2015-12-26T00:00:00+0100, in seconds: 1451084400000
         long interval = alarmUpdater.calculateInterval(1451084400000L, true);
         assertThat(interval).isEqualTo(7200000L);
@@ -128,7 +128,7 @@ public class AlarmUpdaterTest {
     // Time < Start, diff > 1 day
 
     @Test
-    public void calculateIntervalWithTimeMoreThanOneDayBeforeFirstDay() throws Exception {
+    public void calculateIntervalWithTimeMoreThanOneDayBeforeFirstDay() {
         // 2015-12-25T23:59:59+0100, in seconds: 1451084399000
         long interval = alarmUpdater.calculateInterval(1451084399000L, false);
         assertThat(interval).isEqualTo(86400000L);
@@ -139,7 +139,7 @@ public class AlarmUpdaterTest {
     }
 
     @Test
-    public void calculateIntervalWithTimeMoreThanOneDayBeforeFirstDayInitial() throws Exception {
+    public void calculateIntervalWithTimeMoreThanOneDayBeforeFirstDayInitial() {
         // 2015-12-25T23:59:59+0100, in seconds: 1451084399000
         long interval = alarmUpdater.calculateInterval(1451084399000L, true);
         assertThat(interval).isEqualTo(86400000L);
