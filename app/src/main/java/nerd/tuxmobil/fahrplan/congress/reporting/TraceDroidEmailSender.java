@@ -65,7 +65,7 @@ public abstract class TraceDroidEmailSender {
 
     @NonNull
     private static Intent getEmailIntent(@NonNull final Activity activity,
-                                         @NonNull final String recipient,
+                                         @SuppressWarnings("SameParameterValue") @NonNull final String recipient,
                                          int maximumStackTracesCount) {
         return EmailIntentBuilder.from(activity)
                 .to(recipient)
