@@ -104,8 +104,6 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
 
     private int mDay = 1;
 
-    private View dayTextView;
-
     public static Context context = null;
 
     public static String[] rooms = {
