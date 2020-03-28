@@ -94,7 +94,7 @@ public class EventDetailFragment extends Fragment {
 
     private String room;
 
-    private Boolean sidePane = false;
+    private boolean sidePane = false;
 
     private boolean requiresScheduleReload = false;
 
