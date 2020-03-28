@@ -68,10 +68,10 @@ public class AboutDialog extends DialogFragment {
         int linkTextColor = ContextCompat.getColor(view.getContext(), R.color.text_link_color_dark);
         MovementMethod movementMethod = LinkMovementMethod.getInstance();
 
-        TextView logo_copyright = view.findViewById(R.id.copyright_logo);
-        logo_copyright.setText(Html.fromHtml(getString(R.string.copyright_logo)));
-        logo_copyright.setLinkTextColor(linkTextColor);
-        logo_copyright.setMovementMethod(movementMethod);
+        TextView logoCopyright = view.findViewById(R.id.copyright_logo);
+        logoCopyright.setText(Html.fromHtml(getString(R.string.copyright_logo)));
+        logoCopyright.setLinkTextColor(linkTextColor);
+        logoCopyright.setMovementMethod(movementMethod);
 
         TextView conferenceUrl = view.findViewById(R.id.conference_url);
         conferenceUrl.setText(Html.fromHtml(getString(R.string.conference_url)));

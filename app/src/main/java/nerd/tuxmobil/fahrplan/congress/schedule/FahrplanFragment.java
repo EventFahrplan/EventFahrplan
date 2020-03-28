@@ -202,9 +202,9 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
         MyApp.LogDebug(LOG_TAG, "screen width = " + screenWidth);
         MyApp.LogDebug(LOG_TAG, "time width " + getResources().getDimension(R.dimen.time_width));
         screenWidth -= getResources().getDimension(R.dimen.time_width);
-        int max_cols = HorizontalSnapScrollView.calcMaxCols(getResources(), screenWidth);
-        MyApp.LogDebug(LOG_TAG, "max cols: " + max_cols);
-        columnWidth = (int) ((float) screenWidth / max_cols); // Width for the row column
+        int maxCols = HorizontalSnapScrollView.calcMaxCols(getResources(), screenWidth);
+        MyApp.LogDebug(LOG_TAG, "max cols: " + maxCols);
+        columnWidth = (int) ((float) screenWidth / maxCols); // Width for the row column
         HorizontalScrollView roomScroller =
                 view.findViewById(R.id.roomScroller);
         if (roomScroller != null) {
