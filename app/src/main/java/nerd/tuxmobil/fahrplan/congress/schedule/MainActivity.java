@@ -426,7 +426,7 @@ public class MainActivity extends BaseActivity implements
     public void reloadAlarms() {
         Fragment fragment = findFragment(FahrplanFragment.FRAGMENT_TAG);
         if (fragment != null) {
-            ((FahrplanFragment) fragment).loadAlarms(appRepository);
+            FahrplanFragment.loadAlarms(appRepository);
         }
     }
 
