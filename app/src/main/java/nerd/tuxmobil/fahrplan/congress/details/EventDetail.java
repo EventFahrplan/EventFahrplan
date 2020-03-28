@@ -33,7 +33,6 @@ public class EventDetail extends BaseActivity {
         intent.putExtra(BundleKeys.EVENT_SPEAKERS, lecture.getFormattedSpeakers());
         intent.putExtra(BundleKeys.EVENT_LINKS, lecture.links);
         intent.putExtra(BundleKeys.EVENT_ID, lecture.lectureId);
-        intent.putExtra(BundleKeys.EVENT_TIME, lecture.startTime);
         intent.putExtra(BundleKeys.EVENT_DAY, lectureDay);
         intent.putExtra(BundleKeys.EVENT_ROOM, lecture.room);
         intent.putExtra(BundleKeys.REQUIRES_SCHEDULE_RELOAD, requiresScheduleReload);
@@ -76,8 +75,6 @@ public class EventDetail extends BaseActivity {
                     intent.getStringExtra(BundleKeys.EVENT_LINKS));
             args.putString(BundleKeys.EVENT_ID,
                     intent.getStringExtra(BundleKeys.EVENT_ID));
-            args.putInt(BundleKeys.EVENT_TIME,
-                    intent.getIntExtra(BundleKeys.EVENT_TIME, 0));
             args.putInt(BundleKeys.EVENT_DAY,
                     intent.getIntExtra(BundleKeys.EVENT_DAY, 0));
             args.putString(BundleKeys.EVENT_ROOM,

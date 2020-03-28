@@ -27,8 +27,6 @@ public interface BundleKeys {
             "nerd.tuxmobil.fahrplan.congress.EVENT_LINKS";
     String EVENT_ID =
             "nerd.tuxmobil.fahrplan.congress.EVENT_ID";
-    String EVENT_TIME =
-            "nerd.tuxmobil.fahrplan.congress.EVENT_TIME";
     String EVENT_DAY =
             "nerd.tuxmobil.fahrplan.congress.EVENT_DAY";
     String EVENT_ROOM =
