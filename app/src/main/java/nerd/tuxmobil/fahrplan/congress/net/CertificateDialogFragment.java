@@ -100,6 +100,7 @@ public class CertificateDialogFragment extends DialogFragment {
             chainInfo.append("Certificate chain[" + i + "]:\n");
             chainInfo.append("Subject: " + chain[i].getSubjectDN().toString()).append("\n");
             chainInfo.append("Issuer: " + chain[i].getIssuerDN().toString()).append("\n");
+            // TODO Use commons.temporal.Moment class
             chainInfo.append("Issued On: " + String.format("%02d.%02d.%04d",
                     chain[i].getNotBefore().getDate(),
                     chain[i].getNotBefore().getMonth() + 1,
