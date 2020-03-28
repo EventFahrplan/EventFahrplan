@@ -798,9 +798,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
         Lecture lecture = (Lecture) v.getTag();
         MyApp.LogDebug(LOG_TAG, "Click on " + lecture.title);
         MainActivity mainActivity = (MainActivity) requireActivity();
-        if (mainActivity != null) {
-            mainActivity.openLectureDetail(lecture, mDay, false);
-        }
+        mainActivity.openLectureDetail(lecture, mDay, false);
     }
 
     public void buildNavigationMenu() {
