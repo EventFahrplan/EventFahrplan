@@ -147,7 +147,6 @@ class FetchFahrplanTask extends AsyncTask<String, Void, HttpStatus> {
             e.printStackTrace();
             return HttpStatus.HTTP_CLEARTEXT_NOT_PERMITTED;
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
             return HttpStatus.HTTP_COULD_NOT_CONNECT;
         }
