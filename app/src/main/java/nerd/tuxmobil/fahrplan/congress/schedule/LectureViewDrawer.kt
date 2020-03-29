@@ -2,6 +2,7 @@ package nerd.tuxmobil.fahrplan.congress.schedule
 
 import android.content.Context
 import android.content.res.Configuration
+import android.content.res.Configuration.ORIENTATION_LANDSCAPE
 import android.content.res.Resources
 import android.graphics.Typeface
 import android.preference.PreferenceManager
@@ -13,6 +14,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import info.metadude.android.eventfahrplan.commons.logging.Logging
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.MyApp
 import nerd.tuxmobil.fahrplan.congress.R
@@ -28,9 +30,10 @@ internal class LectureViewDrawer(context: Context,
                                  val conference: Conference
 ) {
     private val scale: Float
-    private val resources: Resources = context.resources
-    private val inflater: LayoutInflater = context.getLayoutInflater()
-    private val boldCondensed: Typeface = Typeface.createFromAsset(context.assets, "Roboto-BoldCondensed.ttf")
+    private var standardHeight: Int
+    private val resources = context.resources
+    private val inflater = context.getLayoutInflater()
+    private val boldCondensed = Typeface.createFromAsset(context.assets, "Roboto-BoldCondensed.ttf")
     private val eventDrawableInsetTop: Int
     private val eventDrawableInsetLeft: Int
     private val eventDrawableInsetRight: Int
@@ -44,10 +47,8 @@ internal class LectureViewDrawer(context: Context,
 
     private val eventPadding: Int
         get() {
-            return when (resources.configuration.orientation) {
-                Configuration.ORIENTATION_LANDSCAPE -> (8 * scale).toInt()
-                else -> (10 * scale).toInt()
-            }
+            val factor = if (resources.configuration.orientation == ORIENTATION_LANDSCAPE) 8 else 10
+            return (factor * scale).toInt()
         }
 
     init {
@@ -68,6 +69,7 @@ internal class LectureViewDrawer(context: Context,
                 FahrplanFragment.context, R.color.event_drawable_ripple)
         trackNameBackgroundColorDefaultPairs = TrackBackgrounds.getTrackNameBackgroundColorDefaultPairs(context)
         trackNameBackgroundColorHighlightPairs = TrackBackgrounds.getTrackNameBackgroundColorHighlightPairs(context)
+        standardHeight = resources.getNormalizedBoxHeight(resources.displayMetrics.density, LOG_TAG)
     }
 
     private fun updateEventView(eventView: View, lecture: Lecture) {
@@ -95,15 +97,33 @@ internal class LectureViewDrawer(context: Context,
         eventView.tag = lecture
     }
 
-    fun fillRoom(room: LinearLayout, roomIndex: Int, lectures: List<Lecture>) {
+    fun createLectureViews(room: LinearLayout, lectureLayoutParams: Map<Lecture, LinearLayout.LayoutParams>) {
         room.removeAllViews()
-        val standardHeight = resources.getNormalizedBoxHeight(resources.displayMetrics.density, LOG_TAG)
+
+        for ((lecture, params) in lectureLayoutParams) {
+            val eventView = inflater.inflate(R.layout.event_layout, null)
+            val height = standardHeight * (lecture.duration / 5)
+            room.addView(eventView, LinearLayout.LayoutParams.MATCH_PARENT, height)
+
+            val lp = eventView.layoutParams as LinearLayout.LayoutParams
+            lp.bottomMargin = params.bottomMargin
+            lp.topMargin = params.topMargin
+            eventView.layoutParams = lp
+
+            updateEventView(eventView, lecture)
+        }
+    }
+
+    fun calculateLayoutParams(roomIndex: Int, lectures: List<Lecture>): Map<Lecture, LinearLayout.LayoutParams> {
         var endTime: Int = conference.firstEventStartsAt
         var startTime: Int
-        var event: View? = null
         var margin: Int
+        var previousLecture: Lecture? = null
+        val lectureLayoutParams = mutableMapOf<Lecture, LinearLayout.LayoutParams>()
+
         for (idx in lectures.indices) {
             val lecture = lectures[idx]
+
             if (lecture.roomIndex == roomIndex) {
                 if (lecture.dateUTC > 0) {
                     startTime = Moment(lecture.dateUTC).minuteOfDay
@@ -115,10 +135,8 @@ internal class LectureViewDrawer(context: Context,
                 }
                 if (startTime > endTime) {
                     margin = standardHeight * (startTime - endTime) / 5
-                    if (event != null) {
-                        val lp = event.layoutParams as LinearLayout.LayoutParams
-                        lp.bottomMargin = margin
-                        event.layoutParams = lp
+                    if (previousLecture != null) {
+                        lectureLayoutParams[previousLecture]!!.bottomMargin = margin
                         margin = 0
                     }
                 } else {
@@ -137,21 +155,23 @@ internal class LectureViewDrawer(context: Context,
                 if (next != null) {
                     if (next.dateUTC > 0) {
                         if (lecture.dateUTC + lecture.duration * 60000 > next.dateUTC) {
-                            MyApp.LogDebug(LOG_TAG, lecture.title + " collides with " + next.title)
+                            Logging.get().d(LOG_TAG, "${lecture.title} collides with ${next.title}")
                             lecture.duration = ((next.dateUTC - lecture.dateUTC) / 60000).toInt()
                         }
                     }
                 }
-                event = inflater.inflate(R.layout.event_layout, null)
-                val height = standardHeight * (lecture.duration / 5)
-                room.addView(event, LinearLayout.LayoutParams.MATCH_PARENT, height)
-                val lp = event.layoutParams as LinearLayout.LayoutParams
-                lp.topMargin = margin
-                event.layoutParams = lp
-                updateEventView(event, lecture)
+
+                if (!lectureLayoutParams.containsKey(lecture)) {
+                    lectureLayoutParams[lecture] = LinearLayout.LayoutParams(0, 0)
+                }
+                lectureLayoutParams[lecture]!!.topMargin = margin
                 endTime = startTime + lecture.duration
+                previousLecture = lecture
             }
         }
+
+
+        return lectureLayoutParams
     }
 
     fun setLectureBackground(event: Lecture, eventView: View) {

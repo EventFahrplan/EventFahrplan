@@ -281,7 +281,7 @@ public class FahrplanFragment extends Fragment implements View.OnClickListener, 
             LinearLayout roomView = (LinearLayout) rootView.getChildAt(i);
             int roomIndex = MyApp.roomList.get(i);
             lectureViewDrawer = new LectureViewDrawer(context, this, this, conference);
-            lectureViewDrawer.fillRoom(roomView, roomIndex, lectures);
+            lectureViewDrawer.createLectureViews(roomView, lectureViewDrawer.calculateLayoutParams(roomIndex, lectures));
         }
         MainActivity.getInstance().shouldScheduleScrollToCurrentTimeSlot(() -> {
             scrollToCurrent(mDay, boxHeight);
