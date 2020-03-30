@@ -1,22 +1,18 @@
 package nerd.tuxmobil.fahrplan.congress.schedule
 
 import android.content.Context
-import android.content.res.Configuration
 import android.content.res.Configuration.ORIENTATION_LANDSCAPE
-import android.content.res.Resources
 import android.graphics.Typeface
 import android.preference.PreferenceManager
 import android.support.annotation.ColorInt
 import android.support.annotation.ColorRes
 import android.support.v4.content.ContextCompat
-import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import info.metadude.android.eventfahrplan.commons.logging.Logging
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
-import nerd.tuxmobil.fahrplan.congress.MyApp
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
 import nerd.tuxmobil.fahrplan.congress.extensions.getLayoutInflater
@@ -156,6 +152,8 @@ internal class LectureViewDrawer(context: Context,
 
     companion object {
         const val LOG_TAG = "LectureViewDrawer"
+        const val DIVISOR = 5
+        private const val MILLIS_PER_MINUTE = 60000
 
         @JvmStatic
         fun setLectureTextColor(lecture: Lecture, view: View) {
@@ -170,8 +168,8 @@ internal class LectureViewDrawer(context: Context,
         }
 
         @JvmStatic
-        fun calculateLayoutParams(roomIndex: Int, lectures: List<Lecture>, standardHeight: Int, conference: Conference): Map<Lecture, LinearLayout.LayoutParams> {
-            var endTime: Int = conference.firstEventStartsAt
+        fun calculateLayoutParams(roomIndex: Int, lectures: List<Lecture>, standardHeight: Int, conference: Conference, logging: Logging): Map<Lecture, LinearLayout.LayoutParams> {
+            var endTimePreviousLecture: Int = conference.firstEventStartsAt
             var startTime: Int
             var margin: Int
             var previousLecture: Lecture? = null
@@ -183,19 +181,20 @@ internal class LectureViewDrawer(context: Context,
                 if (lecture.roomIndex == roomIndex) {
                     if (lecture.dateUTC > 0) {
                         startTime = Moment(lecture.dateUTC).minuteOfDay
-                        if (startTime < endTime) {
+                        if (startTime < endTimePreviousLecture) {
                             startTime += Duration.ofDays(1).toMinutes().toInt()
                         }
                     } else {
                         startTime = lecture.relStartTime
                     }
-                    if (startTime > endTime) {
-                        margin = standardHeight * (startTime - endTime) / 5
+                    if (startTime > endTimePreviousLecture) {
+                        margin = standardHeight * (startTime - endTimePreviousLecture) / DIVISOR
                         if (previousLecture != null) {
-                            lectureLayoutParams[previousLecture!!]!!.bottomMargin = margin
+                            lectureLayoutParams[previousLecture]!!.bottomMargin = margin
                             margin = 0
                         }
                     } else {
+                        // first lecture
                         margin = 0
                     }
 
@@ -208,11 +207,15 @@ internal class LectureViewDrawer(context: Context,
                         }
                         next = null
                     }
+
                     if (next != null) {
                         if (next.dateUTC > 0) {
-                            if (lecture.dateUTC + lecture.duration * 60000 > next.dateUTC) {
-                                Logging.get().d(LOG_TAG, "${lecture.title} collides with ${next.title}")
-                                lecture.duration = ((next.dateUTC - lecture.dateUTC) / 60000).toInt()
+                            val endTimestamp = lecture.dateUTC + lecture.duration * MILLIS_PER_MINUTE
+                            // next starts, before current ends
+                            if (endTimestamp > next.dateUTC) {
+                                logging.d(LOG_TAG, "${lecture.title} collides with ${next.title}")
+                                // cut current at the end, to match next lectures start time
+                                lecture.duration = ((next.dateUTC - lecture.dateUTC) / MILLIS_PER_MINUTE).toInt()
                             }
                         }
                     }
@@ -220,8 +223,9 @@ internal class LectureViewDrawer(context: Context,
                     if (!lectureLayoutParams.containsKey(lecture)) {
                         lectureLayoutParams[lecture] = LinearLayout.LayoutParams(0, 0)
                     }
+
                     lectureLayoutParams[lecture]!!.topMargin = margin
-                    endTime = startTime + lecture.duration
+                    endTimePreviousLecture = startTime + lecture.duration
                     previousLecture = lecture
                 }
             }

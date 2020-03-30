@@ -42,6 +42,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import info.metadude.android.eventfahrplan.commons.logging.Logging;
 import info.metadude.android.eventfahrplan.commons.temporal.Moment;
 import kotlin.Unit;
 import nerd.tuxmobil.fahrplan.congress.BuildConfig;
@@ -283,7 +284,7 @@ public class FahrplanFragment extends Fragment implements View.OnClickListener, 
             for (int i = 0; i < MyApp.roomCount; i++) {
                 LinearLayout roomView = (LinearLayout) rootView.getChildAt(i);
                 int roomIndex = MyApp.roomList.get(i);
-                Map<Lecture, LayoutParams> lectureLayoutParams = LectureViewDrawer.calculateLayoutParams(roomIndex, lectures, boxHeight, conference);
+                Map<Lecture, LayoutParams> lectureLayoutParams = LectureViewDrawer.calculateLayoutParams(roomIndex, lectures, boxHeight, conference, Logging.Companion.get());
                 lectureViewDrawer.createLectureViews(roomView, lectureLayoutParams, boxHeight);
             }
         }
