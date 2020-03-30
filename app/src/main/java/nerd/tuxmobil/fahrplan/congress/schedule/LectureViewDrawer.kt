@@ -20,17 +20,14 @@ import nerd.tuxmobil.fahrplan.congress.MyApp
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
 import nerd.tuxmobil.fahrplan.congress.extensions.getLayoutInflater
-import nerd.tuxmobil.fahrplan.congress.extensions.getNormalizedBoxHeight
 import nerd.tuxmobil.fahrplan.congress.models.Lecture
 import org.threeten.bp.Duration
 
 internal class LectureViewDrawer(context: Context,
                                  private val onLectureClick: View.OnClickListener,
-                                 private val onCreateContextMenu: View.OnCreateContextMenuListener,
-                                 val conference: Conference
+                                 private val onCreateContextMenu: View.OnCreateContextMenuListener
 ) {
     private val scale: Float
-    private var standardHeight: Int
     private val resources = context.resources
     private val inflater = context.getLayoutInflater()
     private val boldCondensed = Typeface.createFromAsset(context.assets, "Roboto-BoldCondensed.ttf")
@@ -43,7 +40,6 @@ internal class LectureViewDrawer(context: Context,
     private val eventDrawableRippleColor: Int
     private val trackNameBackgroundColorDefaultPairs: Map<String, Int>
     private val trackNameBackgroundColorHighlightPairs: Map<String, Int>
-    private val LOG_TAG = "LectureViewDrawer"
 
     private val eventPadding: Int
         get() {
@@ -69,7 +65,6 @@ internal class LectureViewDrawer(context: Context,
                 FahrplanFragment.context, R.color.event_drawable_ripple)
         trackNameBackgroundColorDefaultPairs = TrackBackgrounds.getTrackNameBackgroundColorDefaultPairs(context)
         trackNameBackgroundColorHighlightPairs = TrackBackgrounds.getTrackNameBackgroundColorHighlightPairs(context)
-        standardHeight = resources.getNormalizedBoxHeight(resources.displayMetrics.density, LOG_TAG)
     }
 
     private fun updateEventView(eventView: View, lecture: Lecture) {
@@ -97,7 +92,7 @@ internal class LectureViewDrawer(context: Context,
         eventView.tag = lecture
     }
 
-    fun createLectureViews(room: LinearLayout, lectureLayoutParams: Map<Lecture, LinearLayout.LayoutParams>) {
+    fun createLectureViews(room: LinearLayout, lectureLayoutParams: Map<Lecture, LinearLayout.LayoutParams>, standardHeight: Int) {
         room.removeAllViews()
 
         for ((lecture, params) in lectureLayoutParams) {
@@ -112,66 +107,6 @@ internal class LectureViewDrawer(context: Context,
 
             updateEventView(eventView, lecture)
         }
-    }
-
-    fun calculateLayoutParams(roomIndex: Int, lectures: List<Lecture>): Map<Lecture, LinearLayout.LayoutParams> {
-        var endTime: Int = conference.firstEventStartsAt
-        var startTime: Int
-        var margin: Int
-        var previousLecture: Lecture? = null
-        val lectureLayoutParams = mutableMapOf<Lecture, LinearLayout.LayoutParams>()
-
-        for (idx in lectures.indices) {
-            val lecture = lectures[idx]
-
-            if (lecture.roomIndex == roomIndex) {
-                if (lecture.dateUTC > 0) {
-                    startTime = Moment(lecture.dateUTC).minuteOfDay
-                    if (startTime < endTime) {
-                        startTime += Duration.ofDays(1).toMinutes().toInt()
-                    }
-                } else {
-                    startTime = lecture.relStartTime
-                }
-                if (startTime > endTime) {
-                    margin = standardHeight * (startTime - endTime) / 5
-                    if (previousLecture != null) {
-                        lectureLayoutParams[previousLecture]!!.bottomMargin = margin
-                        margin = 0
-                    }
-                } else {
-                    margin = 0
-                }
-
-                // fix overlapping events
-                var next: Lecture? = null
-                for (nextIndex in idx + 1 until lectures.size) {
-                    next = lectures[nextIndex]
-                    if (next.roomIndex == roomIndex) {
-                        break
-                    }
-                    next = null
-                }
-                if (next != null) {
-                    if (next.dateUTC > 0) {
-                        if (lecture.dateUTC + lecture.duration * 60000 > next.dateUTC) {
-                            Logging.get().d(LOG_TAG, "${lecture.title} collides with ${next.title}")
-                            lecture.duration = ((next.dateUTC - lecture.dateUTC) / 60000).toInt()
-                        }
-                    }
-                }
-
-                if (!lectureLayoutParams.containsKey(lecture)) {
-                    lectureLayoutParams[lecture] = LinearLayout.LayoutParams(0, 0)
-                }
-                lectureLayoutParams[lecture]!!.topMargin = margin
-                endTime = startTime + lecture.duration
-                previousLecture = lecture
-            }
-        }
-
-
-        return lectureLayoutParams
     }
 
     fun setLectureBackground(event: Lecture, eventView: View) {
@@ -219,14 +154,79 @@ internal class LectureViewDrawer(context: Context,
         eventView.setPadding(padding, padding, padding, padding)
     }
 
-    fun setLectureTextColor(lecture: Lecture, view: View) {
-        val title = view.findViewById<TextView>(R.id.event_title)
-        val subtitle = view.findViewById<TextView>(R.id.event_subtitle)
-        val speakers = view.findViewById<TextView>(R.id.event_speakers)
-        val colorResId = if (lecture.highlight) R.color.event_title_highlight else R.color.event_title
-        val textColor = ContextCompat.getColor(view.context, colorResId)
-        title.setTextColor(textColor)
-        subtitle.setTextColor(textColor)
-        speakers.setTextColor(textColor)
+    companion object {
+        const val LOG_TAG = "LectureViewDrawer"
+
+        @JvmStatic
+        fun setLectureTextColor(lecture: Lecture, view: View) {
+            val title = view.findViewById<TextView>(R.id.event_title)
+            val subtitle = view.findViewById<TextView>(R.id.event_subtitle)
+            val speakers = view.findViewById<TextView>(R.id.event_speakers)
+            val colorResId = if (lecture.highlight) R.color.event_title_highlight else R.color.event_title
+            val textColor = ContextCompat.getColor(view.context, colorResId)
+            title.setTextColor(textColor)
+            subtitle.setTextColor(textColor)
+            speakers.setTextColor(textColor)
+        }
+
+        @JvmStatic
+        fun calculateLayoutParams(roomIndex: Int, lectures: List<Lecture>, standardHeight: Int, conference: Conference): Map<Lecture, LinearLayout.LayoutParams> {
+            var endTime: Int = conference.firstEventStartsAt
+            var startTime: Int
+            var margin: Int
+            var previousLecture: Lecture? = null
+            val lectureLayoutParams = mutableMapOf<Lecture, LinearLayout.LayoutParams>()
+
+            for (idx in lectures.indices) {
+                val lecture = lectures[idx]
+
+                if (lecture.roomIndex == roomIndex) {
+                    if (lecture.dateUTC > 0) {
+                        startTime = Moment(lecture.dateUTC).minuteOfDay
+                        if (startTime < endTime) {
+                            startTime += Duration.ofDays(1).toMinutes().toInt()
+                        }
+                    } else {
+                        startTime = lecture.relStartTime
+                    }
+                    if (startTime > endTime) {
+                        margin = standardHeight * (startTime - endTime) / 5
+                        if (previousLecture != null) {
+                            lectureLayoutParams[previousLecture!!]!!.bottomMargin = margin
+                            margin = 0
+                        }
+                    } else {
+                        margin = 0
+                    }
+
+                    // fix overlapping events
+                    var next: Lecture? = null
+                    for (nextIndex in idx + 1 until lectures.size) {
+                        next = lectures[nextIndex]
+                        if (next.roomIndex == roomIndex) {
+                            break
+                        }
+                        next = null
+                    }
+                    if (next != null) {
+                        if (next.dateUTC > 0) {
+                            if (lecture.dateUTC + lecture.duration * 60000 > next.dateUTC) {
+                                Logging.get().d(LOG_TAG, "${lecture.title} collides with ${next.title}")
+                                lecture.duration = ((next.dateUTC - lecture.dateUTC) / 60000).toInt()
+                            }
+                        }
+                    }
+
+                    if (!lectureLayoutParams.containsKey(lecture)) {
+                        lectureLayoutParams[lecture] = LinearLayout.LayoutParams(0, 0)
+                    }
+                    lectureLayoutParams[lecture]!!.topMargin = margin
+                    endTime = startTime + lecture.duration
+                    previousLecture = lecture
+                }
+            }
+
+            return lectureLayoutParams
+        }
     }
 }

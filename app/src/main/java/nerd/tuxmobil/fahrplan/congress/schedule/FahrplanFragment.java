@@ -274,15 +274,20 @@ public class FahrplanFragment extends Fragment implements View.OnClickListener, 
         if (roomScroller != null) {
             addRoomTitleViews(roomScroller);
         }
-
         int boxHeight = getNormalizedBoxHeight(getResources(), scale, LOG_TAG);
-        for (int i = 0; i < MyApp.roomCount; i++) {
+
+        if (lectures != null) {
+            lectureViewDrawer = new LectureViewDrawer(context, this, this);
             ViewGroup rootView = (ViewGroup) scroller.getChildAt(0);
-            LinearLayout roomView = (LinearLayout) rootView.getChildAt(i);
-            int roomIndex = MyApp.roomList.get(i);
-            lectureViewDrawer = new LectureViewDrawer(context, this, this, conference);
-            lectureViewDrawer.createLectureViews(roomView, lectureViewDrawer.calculateLayoutParams(roomIndex, lectures));
+
+            for (int i = 0; i < MyApp.roomCount; i++) {
+                LinearLayout roomView = (LinearLayout) rootView.getChildAt(i);
+                int roomIndex = MyApp.roomList.get(i);
+                Map<Lecture, LayoutParams> lectureLayoutParams = LectureViewDrawer.calculateLayoutParams(roomIndex, lectures, boxHeight, conference);
+                lectureViewDrawer.createLectureViews(roomView, lectureLayoutParams, boxHeight);
+            }
         }
+
         MainActivity.getInstance().shouldScheduleScrollToCurrentTimeSlot(() -> {
             scrollToCurrent(mDay, boxHeight);
             return Unit.INSTANCE;
@@ -735,7 +740,7 @@ public class FahrplanFragment extends Fragment implements View.OnClickListener, 
                 lecture.highlight = !lecture.highlight;
                 appRepository.updateHighlight(lecture);
                 lectureViewDrawer.setLectureBackground(lecture, contextMenuView);
-                lectureViewDrawer.setLectureTextColor(lecture, contextMenuView);
+                LectureViewDrawer.setLectureTextColor(lecture, contextMenuView);
                 ((MainActivity) context).refreshFavoriteList();
                 updateMenuItems();
                 break;
