@@ -32,14 +32,16 @@ public class ChangesDialog extends DialogFragment {
     private String version;
     private boolean requiresScheduleReload = false;
 
-    public static ChangesDialog newInstance(String version, int changed, int added,
-                                            int cancelled, int marked, boolean requiresScheduleReload) {
+    public static ChangesDialog newInstance(
+            @NonNull String version,
+            @NonNull ChangeStatistic statistic,
+            boolean requiresScheduleReload) {
         ChangesDialog dialog = new ChangesDialog();
         Bundle args = new Bundle();
-        args.putInt(BundleKeys.CHANGES_DLG_NUM_CHANGED, changed);
-        args.putInt(BundleKeys.CHANGES_DLG_NUM_NEW, added);
-        args.putInt(BundleKeys.CHANGES_DLG_NUM_CANCELLED, cancelled);
-        args.putInt(BundleKeys.CHANGES_DLG_NUM_MARKED, marked);
+        args.putInt(BundleKeys.CHANGES_DLG_NUM_CHANGED, statistic.getChangedLecturesCount());
+        args.putInt(BundleKeys.CHANGES_DLG_NUM_NEW, statistic.getNewLecturesCount());
+        args.putInt(BundleKeys.CHANGES_DLG_NUM_CANCELLED, statistic.getCanceledLecturesCount());
+        args.putInt(BundleKeys.CHANGES_DLG_NUM_MARKED, statistic.getChangedFavoritesCount());
         args.putString(BundleKeys.CHANGES_DLG_VERSION, version);
         args.putBoolean(BundleKeys.REQUIRES_SCHEDULE_RELOAD, requiresScheduleReload);
         dialog.setArguments(args);

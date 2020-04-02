@@ -40,6 +40,7 @@ import nerd.tuxmobil.fahrplan.congress.base.AbstractListFragment;
 import nerd.tuxmobil.fahrplan.congress.base.BaseActivity;
 import nerd.tuxmobil.fahrplan.congress.changes.ChangeListActivity;
 import nerd.tuxmobil.fahrplan.congress.changes.ChangeListFragment;
+import nerd.tuxmobil.fahrplan.congress.changes.ChangeStatistic;
 import nerd.tuxmobil.fahrplan.congress.changes.ChangesDialog;
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.details.EventDetail;
@@ -335,14 +336,10 @@ public class MainActivity extends BaseActivity implements
             List<Lecture> changedLectures = appRepository.loadChangedLectures();
             Meta meta = appRepository.readMeta();
             String scheduleVersion = meta.getVersion();
+            ChangeStatistic statistic = new ChangeStatistic(changedLectures);
             DialogFragment changesDialog = ChangesDialog.newInstance(
                     scheduleVersion,
-                    FahrplanMisc.getChangedLectureCount(changedLectures, false),
-                    FahrplanMisc.getNewLectureCount(changedLectures, false),
-                    FahrplanMisc.getCancelledLectureCount(changedLectures, false),
-                    FahrplanMisc.getChangedLectureCount(changedLectures, true) +
-                            FahrplanMisc.getNewLectureCount(changedLectures, true) +
-                            FahrplanMisc.getCancelledLectureCount(changedLectures, true),
+                    statistic,
                     requiresScheduleReload
             );
             changesDialog.show(getSupportFragmentManager(), ChangesDialog.FRAGMENT_TAG);
