@@ -46,6 +46,7 @@
         <item name="colorAccent">@color/colorAccent</item>
 
         <!-- The rest of your attributes -->
+        <item name="actionOverflowMenuStyle">@style/PopupMenuOverflowStyle</item>
         <item name="actionDropDownStyle">@style/MyActionDropDownStyle</item>
         <item name="windowActionModeOverlay">true</item>
         <item name="actionModeBackground">@color/colorPrimary</item>
@@ -65,6 +66,10 @@
         <item name="android:background">@color/tool_bar_background</item>
         <item name="android:elevation" tools:targetApi="lollipop">@dimen/tool_bar_elevation</item>
         <item name="android:minHeight">?attr/actionBarSize</item>
+    </style>
+
+    <style name="PopupMenuOverflowStyle" parent="@style/Widget.AppCompat.Light.PopupMenu.Overflow">
+        <item name="android:popupBackground">@color/popupBackground</item>
     </style>
 
     <style name="ProgressBar" parent="Base.Widget.AppCompat.ProgressBar.Horizontal">
