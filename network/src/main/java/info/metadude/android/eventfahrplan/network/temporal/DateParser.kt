@@ -17,16 +17,14 @@ class DateParser {
          * or ISO-8601 date format (i.e. 2019-01-01).
          */
         @JvmStatic
-        fun getDateTime(text: String): Long {
-            if (text.length > 10) {
-                val parsed = Instant.from(DateTimeFormatter.ISO_DATE_TIME.parse(text))
-                val atUTCOffset = parsed.atOffset(ZoneOffset.UTC)
-                return atUTCOffset.toEpochSecond() * 1000
-            } else {
-                val parsed = LocalDate.parse(text)
-                val atUTCOffset = parsed.atTime(0, 0).atOffset(ZoneOffset.UTC)
-                return atUTCOffset.toEpochSecond() * 1000
-            }
+        fun getDateTime(text: String) = if (text.length > 10) {
+            val parsed = Instant.from(DateTimeFormatter.ISO_DATE_TIME.parse(text))
+            val atUTCOffset = parsed.atOffset(ZoneOffset.UTC)
+            atUTCOffset.toEpochSecond() * 1000
+        } else {
+            val parsed = LocalDate.parse(text)
+            val atUTCOffset = parsed.atTime(0, 0).atOffset(ZoneOffset.UTC)
+            atUTCOffset.toEpochSecond() * 1000
         }
 
         /**

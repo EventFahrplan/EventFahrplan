@@ -49,7 +49,7 @@ class DateFormatter private constructor() {
 
         @JvmStatic
         fun newInstance(): DateFormatter {
-            return DateFormatter();
+            return DateFormatter()
         }
     }
 }

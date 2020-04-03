@@ -94,7 +94,7 @@ public class EventDetailFragment extends Fragment {
 
     private String room;
 
-    private Boolean sidePane = false;
+    private boolean sidePane = false;
 
     private boolean requiresScheduleReload = false;
 
@@ -173,14 +173,16 @@ public class EventDetailFragment extends Fragment {
             }
 
             t = view.findViewById(R.id.lecture_detailbar_location);
-            if (t != null) {
-                t.setText(room);
-            } else {
+            if (TextUtils.isEmpty(room)) {
                 t.setText("");
+            } else {
+                t.setText(room);
             }
 
             t = view.findViewById(R.id.lecture_detailbar_lecture_id);
-            if (t != null) {
+            if (TextUtils.isEmpty(eventId)) {
+                t.setText("");
+            } else {
                 t.setText("ID: " + eventId);
             }
 

@@ -19,7 +19,7 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
 
     private static final String LOG_TAG = "HorizontalScrollView";
 
-    private GestureDetector gestureDetector;
+    private final GestureDetector gestureDetector;
 
     private int activeColumnIndex = 0;
 
@@ -187,7 +187,7 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
     private static int calcMaxCols(Resources res, int availPixels, int columnsCount) {
         int maxCols = res.getInteger(R.integer.max_cols);
         // TODO: The next line is the relevant monkey patch
-        maxCols = columnsCount < maxCols ? columnsCount : maxCols;
+        maxCols = Math.min(columnsCount, maxCols);
         // TODO: The previous line is the relevant monkey patch
         int minWidthDip = res.getInteger(R.integer.min_width_dip);
         float scale = res.getDisplayMetrics().density;

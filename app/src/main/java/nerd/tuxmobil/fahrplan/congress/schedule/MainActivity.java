@@ -398,7 +398,6 @@ public class MainActivity extends BaseActivity implements
             args.putString(BundleKeys.EVENT_SPEAKERS, lecture.getFormattedSpeakers());
             args.putString(BundleKeys.EVENT_LINKS, lecture.links);
             args.putString(BundleKeys.EVENT_ID, lecture.lectureId);
-            args.putInt(BundleKeys.EVENT_TIME, lecture.startTime);
             args.putInt(BundleKeys.EVENT_DAY, mDay);
             args.putString(BundleKeys.EVENT_ROOM, lecture.room);
             args.putBoolean(BundleKeys.SIDEPANE, true);
@@ -427,7 +426,7 @@ public class MainActivity extends BaseActivity implements
     public void reloadAlarms() {
         Fragment fragment = findFragment(FahrplanFragment.FRAGMENT_TAG);
         if (fragment != null) {
-            ((FahrplanFragment) fragment).loadAlarms(appRepository);
+            FahrplanFragment.loadAlarms(appRepository);
         }
     }
 

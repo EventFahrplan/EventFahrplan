@@ -120,7 +120,6 @@ public class DomainNameChecker {
         try {
             ipAddr = InetAddress.getAllByName(thisDomain);
         } catch (UnknownHostException e1) {
-            // TODO Auto-generated catch block
             e1.printStackTrace();
             return false;
         }

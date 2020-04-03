@@ -10,7 +10,7 @@ import android.widget.ScrollView;
 
 public class CustomScrollView extends ScrollView {
 
-    private GestureDetector gestureDetector;
+    private final GestureDetector gestureDetector;
 
     View.OnTouchListener gestureListener;
 
@@ -18,11 +18,6 @@ public class CustomScrollView extends ScrollView {
         super(context, attrs);
         gestureDetector = new GestureDetector(new YScrollDetector());
         setFadingEdgeLength(0);
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent ev) {
-        return super.onTouchEvent(ev);
     }
 
     @Override

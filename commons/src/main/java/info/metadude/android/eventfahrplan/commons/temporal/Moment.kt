@@ -64,7 +64,7 @@ data class Moment(var time: Instant) {
         get() = time.atZone(utcZoneOffset).minute
 
     val minuteOfDay: Int
-        get() = time.atZone(utcZoneOffset).get(ChronoField.MINUTE_OF_DAY);
+        get() = time.atZone(utcZoneOffset).get(ChronoField.MINUTE_OF_DAY)
 
     /**
      * Set this moment instance to current system clock.

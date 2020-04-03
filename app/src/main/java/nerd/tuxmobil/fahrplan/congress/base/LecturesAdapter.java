@@ -46,7 +46,7 @@ public abstract class LecturesAdapter extends ArrayAdapter<Lecture> {
     @Override
     @NonNull
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        View rowView = null;
+        View rowView;
         ViewHolder viewHolder = null;
         ViewHolderSeparator viewHolderSeparator = null;
         initViewSetup();

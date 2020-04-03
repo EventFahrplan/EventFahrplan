@@ -12,9 +12,9 @@ public abstract class SafeJobIntentService extends JobIntentService {
     GenericWorkItem dequeueWork() {
         try {
             return super.dequeueWork();
-        } catch (SecurityException ignore) {
+        } catch (SecurityException e) {
             // There is not much we can do here.
-            Log.e(getClass().getSimpleName(), ignore);
+            Log.e(getClass().getSimpleName(), e);
         }
         return null;
     }

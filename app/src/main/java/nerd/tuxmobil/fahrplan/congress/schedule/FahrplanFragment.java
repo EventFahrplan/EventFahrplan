@@ -41,8 +41,8 @@ import org.ligi.tracedroid.logging.Log;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
@@ -75,7 +75,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
         void refreshEventMarkers();
     }
 
-    private static String LOG_TAG = "Fahrplan";
+    private static final String LOG_TAG = "Fahrplan";
 
     public static final String FRAGMENT_TAG = "schedule";
 
@@ -94,21 +94,19 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
 
     private LayoutInflater inflater;
 
-    private Conference conference = new Conference();
+    private final Conference conference = new Conference();
 
     private AppRepository appRepository;
 
-    private HashMap<String, Integer> trackNameBackgroundColorDefaultPairs;
+    private Map<String, Integer> trackNameBackgroundColorDefaultPairs;
 
-    private HashMap<String, Integer> trackNameBackgroundColorHighlightPairs;
+    private Map<String, Integer> trackNameBackgroundColorHighlightPairs;
 
     private int mDay = 1;
 
-    private View dayTextView;
-
     public static Context context = null;
 
-    public static String[] rooms = {
+    public static final String[] rooms = {
             "Saal 1",
             "Saal 2",
             "Saal G",
@@ -148,8 +146,8 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
     private int columnWidth;
 
     private String lectureId;        // started with lectureId
-    private HashMap<String, Integer> trackAccentColors;
-    private HashMap<String, Integer> trackAccentColorsHighlight;
+    private Map<String, Integer> trackAccentColors;
+    private Map<String, Integer> trackAccentColorsHighlight;
 
     private Lecture lastSelectedLecture;
 
@@ -202,9 +200,9 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
         MyApp.LogDebug(LOG_TAG, "screen width = " + screenWidth);
         MyApp.LogDebug(LOG_TAG, "time width " + getResources().getDimension(R.dimen.time_width));
         screenWidth -= getResources().getDimension(R.dimen.time_width);
-        int max_cols = HorizontalSnapScrollView.calcMaxCols(getResources(), screenWidth);
-        MyApp.LogDebug(LOG_TAG, "max cols: " + max_cols);
-        columnWidth = (int) ((float) screenWidth / max_cols); // Width for the row column
+        int maxCols = HorizontalSnapScrollView.calcMaxCols(getResources(), screenWidth);
+        MyApp.LogDebug(LOG_TAG, "max cols: " + maxCols);
+        columnWidth = (int) ((float) screenWidth / maxCols); // Width for the row column
         HorizontalScrollView roomScroller =
                 view.findViewById(R.id.roomScroller);
         if (roomScroller != null) {
@@ -798,9 +796,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
         Lecture lecture = (Lecture) v.getTag();
         MyApp.LogDebug(LOG_TAG, "Click on " + lecture.title);
         MainActivity mainActivity = (MainActivity) requireActivity();
-        if (mainActivity != null) {
-            mainActivity.openLectureDetail(lecture, mDay, false);
-        }
+        mainActivity.openLectureDetail(lecture, mDay, false);
     }
 
     public void buildNavigationMenu() {

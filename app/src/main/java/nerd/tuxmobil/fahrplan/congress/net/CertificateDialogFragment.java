@@ -94,12 +94,13 @@ public class CertificateDialogFragment extends DialogFragment {
         chain = TrustManagerFactory.getLastCertChain();
 
         StringBuffer chainInfo = new StringBuffer(100);
-        int chain_len = chain == null ? 0 : chain.length;
-        for (int i = 0; i < chain_len; i++) {
+        int chainLength = chain == null ? 0 : chain.length;
+        for (int i = 0; i < chainLength; i++) {
             // display certificate chain information
             chainInfo.append("Certificate chain[" + i + "]:\n");
             chainInfo.append("Subject: " + chain[i].getSubjectDN().toString()).append("\n");
             chainInfo.append("Issuer: " + chain[i].getIssuerDN().toString()).append("\n");
+            // TODO Use commons.temporal.Moment class
             chainInfo.append("Issued On: " + String.format("%02d.%02d.%04d",
                     chain[i].getNotBefore().getDate(),
                     chain[i].getNotBefore().getMonth() + 1,
@@ -109,7 +110,7 @@ public class CertificateDialogFragment extends DialogFragment {
                     chain[i].getNotAfter().getMonth() + 1,
                     chain[i].getNotAfter().getYear() + 1900)).append("\n");
             chainInfo.append("SHA1 Fingerprint: " + getFingerPrint(chain[i])).append("\n");
-            if (i + 1 < chain_len) {
+            if (i + 1 < chainLength) {
                 chainInfo.append("\n");
             }
         }
