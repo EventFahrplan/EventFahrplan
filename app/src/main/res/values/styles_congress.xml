@@ -47,11 +47,16 @@
 
         <!-- The rest of your attributes -->
         <item name="actionOverflowMenuStyle">@style/PopupMenuOverflowStyle</item>
+        <item name="android:contextPopupMenuStyle" tools:targetApi="N">@style/ContextPopupMenuStyle</item>
         <item name="actionDropDownStyle">@style/MyActionDropDownStyle</item>
         <item name="windowActionModeOverlay">true</item>
         <item name="actionModeBackground">@color/colorPrimary</item>
         <item name="alertDialogTheme">@style/AlertDialog</item>
         <item name="android:windowBackground">@color/windowBackground</item>
+    </style>
+
+    <style name="ContextPopupMenuStyle" parent="@style/Widget.AppCompat.Light.PopupMenu.Overflow">
+        <item name="android:popupBackground">@color/popupBackground</item>
     </style>
 
     <style name="Dialog" parent="Theme.AppCompat.Dialog">
