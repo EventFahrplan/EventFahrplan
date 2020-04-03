@@ -7,5 +7,5 @@
           android:gravity="top|center"
           android:padding="2dp"
           android:text="@string/placeholder_schedule_time"
-          android:textColor="#ffffff"
+          android:textColor="@color/schedule_time_column_item_text_normal"
           android:textSize="8sp"/>

@@ -22,6 +22,10 @@
 
     <!-- Schedule screen -->
     <color name="schedule_time_column_background">#000000</color>
+    <color name="schedule_time_column_item_background_normal">#000</color>
+    <color name="schedule_time_column_item_background_emphasized">#fff</color>
+    <color name="schedule_time_column_item_text_normal">#fff</color>
+    <color name="schedule_time_column_item_text_emphasized">#000</color>
 
     <!-- Schedule changes dialog -->
     <color name="schedule_changes_dialog_new_version_text">@color/colorAccent</color>
