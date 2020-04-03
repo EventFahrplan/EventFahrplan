@@ -34,12 +34,11 @@ public final class AlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        MyApp.LogDebug(LOG_TAG, "got alarm");
-        MyApp.LogDebug(LOG_TAG, "action " + intent.getAction());
+        MyApp.LogDebug(LOG_TAG, "Received alarm = " + intent.getAction() + ".");
 
         if (intent.getAction().equals(ALARM_LECTURE)) {
             String lectureId = intent.getStringExtra(BundleKeys.ALARM_LECTURE_ID);
-            Log.d(getClass().getSimpleName(), "onReceive: lectureId: " + lectureId + ", intent: " + intent);
+            Log.d(LOG_TAG, "lectureId = " + lectureId + ", intent = " + intent);
             int lid = Integer.parseInt(lectureId);
             int day = intent.getIntExtra(BundleKeys.ALARM_DAY, 1);
             long when = intent
@@ -63,7 +62,7 @@ public final class AlarmReceiver extends BroadcastReceiver {
             String defaultReminderTone = context.getString(R.string.preferences_reminder_tone_default_value);
             Uri soundUri = Uri.parse(prefs.getString("reminder_tone", defaultReminderTone));
             NotificationCompat.Builder builder = notificationHelper.getEventAlarmNotificationBuilder(contentIntent, title, when, soundUri);
-            MyApp.LogDebug("alarm", "insistent is " + insistent);
+            MyApp.LogDebug(LOG_TAG, "Preference 'insistent' = " + insistent + ".");
             notificationHelper.notify(NotificationHelper.EVENT_ALARM_ID, builder, insistent);
 
             AppRepository.INSTANCE.deleteAlarmForEventId(lectureId);
