@@ -26,6 +26,8 @@
     <color name="schedule_time_column_item_background_emphasized">#fff</color>
     <color name="schedule_time_column_item_text_normal">#fff</color>
     <color name="schedule_time_column_item_text_emphasized">#000</color>
+    <color name="schedule_room_name_header_background">#000</color>
+    <color name="schedule_room_name_header_text">#fff</color>
 
     <!-- Schedule changes dialog -->
     <color name="schedule_changes_dialog_new_version_text">@color/colorAccent</color>

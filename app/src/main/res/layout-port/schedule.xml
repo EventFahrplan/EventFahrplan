@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -9,13 +10,15 @@
             android:orientation="horizontal"
             android:layout_alignParentTop="true"
             android:layout_width="match_parent"
-            android:background="#000"
+            android:background="@color/schedule_room_name_header_background"
             android:layout_height="wrap_content">
 
         <TextView
                 android:layout_height="wrap_content"
                 android:layout_width="@dimen/time_width"
-                android:text=""/>
+                android:text=""
+                android:textColor="@color/schedule_room_name_header_text"
+                tools:text="Ada"/>
 
         <HorizontalScrollView
                 android:id="@+id/roomScroller"
