@@ -79,8 +79,8 @@ public class FahrplanMisc {
                                 @NonNull AppRepository appRepository,
                                 @NonNull Lecture lecture,
                                 int alarmTimesIndex) {
-        Log.d(FahrplanMisc.class.getSimpleName(), "Add alarm for lecture: " + lecture.lectureId +
-                ", alarmTimesIndex: " + alarmTimesIndex);
+        Log.d(LOG_TAG, "Add alarm for lecture = " + lecture.lectureId +
+                ", alarmTimesIndex = " + alarmTimesIndex + ".");
         String[] alarm_times = context.getResources().getStringArray(R.array.alarm_time_values);
         List<String> alarmTimeStrings = new ArrayList<>(Arrays.asList(alarm_times));
         List<Integer> alarmTimes = new ArrayList<>(alarmTimeStrings.size());
@@ -105,8 +105,7 @@ public class FahrplanMisc {
         when -= alarmTimeDiffInSeconds;
 
         moment.setToMilliseconds(when);
-        MyApp.LogDebug("addAlarm",
-                "Alarm time: " + moment.toUTCDateTime() + ", in seconds: " + when);
+        MyApp.LogDebug(LOG_TAG, "Add alarm: Time = " + moment.toUTCDateTime() + ", in seconds = " + when + ".");
 
         String eventId = lecture.lectureId;
         String eventTitle = lecture.title;
