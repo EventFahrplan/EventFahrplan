@@ -6,7 +6,6 @@
     <color name="alarm_list_icon_default_fill_color">#ddd</color>
     <color name="alarm_list_icon_default_stroke_color">#003339</color>
     <color name="alarm_list_icon_text_color">#000000</color>
-    <color name="time_column_background">#000000</color>
     <color name="lecture_background">#ffffff</color>
     <color name="lecture_detailbar_background">#eee</color>
     <color name="lecture_detailbar_text">#999</color>
@@ -20,6 +19,9 @@
     <!-- Alarm dialogs -->
     <color name="alert_dialog_title">@color/colorAccent</color>
     <color name="alert_dialog_button_text">@color/colorPrimary</color>
+
+    <!-- Schedule screen -->
+    <color name="schedule_time_column_background">#000000</color>
 
     <!-- Schedule changes dialog -->
     <color name="schedule_changes_dialog_new_version_text">@color/colorAccent</color>
