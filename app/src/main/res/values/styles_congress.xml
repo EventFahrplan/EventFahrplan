@@ -34,6 +34,7 @@
         <item name="actionModeBackground">@color/colorPrimary</item>
         <item name="alertDialogTheme">@style/AlertDialog</item>
         <item name="android:windowBackground">@color/windowBackground</item>
+        <item name="android:spinnerItemStyle">@style/SpinnerItemStyle</item>
     </style>
 
     <style name="Theme.Congress.NoActionBar" parent="Theme.AppCompat.NoActionBar">
@@ -46,11 +47,24 @@
         <item name="colorAccent">@color/colorAccent</item>
 
         <!-- The rest of your attributes -->
+        <item name="actionOverflowMenuStyle">@style/PopupMenuOverflowStyle</item>
+        <item name="android:contextPopupMenuStyle" tools:targetApi="N">@style/ContextPopupMenuStyle</item>
+        <item name="android:spinnerItemStyle">@style/SpinnerItemStyle</item>
         <item name="actionDropDownStyle">@style/MyActionDropDownStyle</item>
         <item name="windowActionModeOverlay">true</item>
         <item name="actionModeBackground">@color/colorPrimary</item>
         <item name="alertDialogTheme">@style/AlertDialog</item>
         <item name="android:windowBackground">@color/windowBackground</item>
+    </style>
+
+    <style name="ContextPopupMenuStyle" parent="@style/Widget.AppCompat.Light.PopupMenu.Overflow">
+        <item name="android:popupBackground">@color/popupBackground</item>
+    </style>
+
+    <style name="SpinnerItemStyle" parent="Widget.AppCompat.DropDownItem.Spinner">
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:foreground">?android:attr/selectableItemBackground</item>
     </style>
 
     <style name="Dialog" parent="Theme.AppCompat.Dialog">
@@ -65,6 +79,10 @@
         <item name="android:background">@color/tool_bar_background</item>
         <item name="android:elevation" tools:targetApi="lollipop">@dimen/tool_bar_elevation</item>
         <item name="android:minHeight">?attr/actionBarSize</item>
+    </style>
+
+    <style name="PopupMenuOverflowStyle" parent="@style/Widget.AppCompat.Light.PopupMenu.Overflow">
+        <item name="android:popupBackground">@color/popupBackground</item>
     </style>
 
     <style name="ProgressBar" parent="Base.Widget.AppCompat.ProgressBar.Horizontal">
@@ -97,6 +115,8 @@
 
     <style name="MySpinnerDropDownItemListStyle" parent="Widget.AppCompat.DropDownItem.Spinner">
         <item name="android:paddingLeft">16dp</item>
+        <item name="android:background">@color/popupBackground</item>
+        <item name="android:foreground">?android:attr/selectableItemBackground</item>
     </style>
 
     <style name="AlarmList.Icon" parent="@android:style/TextAppearance.Medium">
