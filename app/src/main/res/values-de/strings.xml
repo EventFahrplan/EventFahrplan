@@ -20,6 +20,10 @@
     <string name="menu_item_title_settings">@string/settings</string>
     <string name="menu_item_title_share_event">Vortrag teilen</string>
     <string name="menu_item_title_share_favorites">Favoriten teilen</string>
+    <string name="menu_item_title_share_event_text">als Text</string>
+    <string name="menu_item_title_share_event_json">als JSON (für Chaosflix)</string>
+    <string name="share_as_text">Als Text teilen</string>
+    <string name="share_as_json">Als JSON teilen (für Chaosflix)</string>
 
     <!-- AlertDialogHelper -->
     <string name="OK">OK</string>

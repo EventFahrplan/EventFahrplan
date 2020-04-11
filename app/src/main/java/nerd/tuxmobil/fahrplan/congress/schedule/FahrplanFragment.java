@@ -24,6 +24,7 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.SubMenu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -61,6 +62,7 @@ import nerd.tuxmobil.fahrplan.congress.net.ParseResult;
 import nerd.tuxmobil.fahrplan.congress.net.ParseScheduleResult;
 import nerd.tuxmobil.fahrplan.congress.net.ParseShiftsResult;
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
+import nerd.tuxmobil.fahrplan.congress.sharing.JsonLectureFormat;
 import nerd.tuxmobil.fahrplan.congress.sharing.LectureSharer;
 import nerd.tuxmobil.fahrplan.congress.sharing.SimpleLectureFormat;
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
@@ -86,6 +88,8 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
     private static final int CONTEXT_MENU_ITEM_ID_DELETE_ALARM = 2;
     private static final int CONTEXT_MENU_ITEM_ID_ADD_TO_CALENDAR = 3;
     private static final int CONTEXT_MENU_ITEM_ID_SHARE = 4;
+    private static final int CONTEXT_MENU_ITEM_ID_SHARE_TEXT = 5;
+    private static final int CONTEXT_MENU_ITEM_ID_SHARE_JSON = 6;
 
     private static final int ONE_DAY = 24 * 60;
     private static final int FIFTEEN_MINUTES = 15;
@@ -941,11 +945,22 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
                 CalendarSharing.addToCalendar(lecture, context);
                 break;
             case CONTEXT_MENU_ITEM_ID_SHARE:
+                if (BuildConfig.ENABLE_CHAOSFLIX_EXPORT) {
+                    break;
+                }
+            case CONTEXT_MENU_ITEM_ID_SHARE_TEXT:
                 String formattedLecture = SimpleLectureFormat.format(lecture);
                 if (!LectureSharer.shareSimple(context, formattedLecture)) {
                     Toast.makeText(context, R.string.share_error_activity_not_found, Toast.LENGTH_SHORT).show();
                 }
                 break;
+            case CONTEXT_MENU_ITEM_ID_SHARE_JSON:
+                String jsonFormattedLecture = JsonLectureFormat.format(lecture);
+                if (!LectureSharer.shareJson(context, jsonFormattedLecture)) {
+                    Toast.makeText(context, R.string.share_error_activity_not_found, Toast.LENGTH_SHORT).show();
+                }
+                break;
+
         }
         return true;
     }
@@ -971,7 +986,14 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
             menu.add(0, CONTEXT_MENU_ITEM_ID_SET_ALARM, 1, getString(R.string.menu_item_title_set_alarm));
         }
         menu.add(0, CONTEXT_MENU_ITEM_ID_ADD_TO_CALENDAR, 3, getString(R.string.menu_item_title_add_to_calendar));
-        menu.add(0, CONTEXT_MENU_ITEM_ID_SHARE, 4, getString(R.string.menu_item_title_share_event));
+
+        if (BuildConfig.ENABLE_CHAOSFLIX_EXPORT) {
+            SubMenu share = menu.addSubMenu(0, CONTEXT_MENU_ITEM_ID_SHARE, 4, getString(R.string.menu_item_title_share_event));
+            share.add(0, CONTEXT_MENU_ITEM_ID_SHARE_TEXT, 5, getString(R.string.menu_item_title_share_event_text));
+            share.add(0, CONTEXT_MENU_ITEM_ID_SHARE_JSON, 6, getString(R.string.menu_item_title_share_event_json));
+        } else {
+            menu.add(0, CONTEXT_MENU_ITEM_ID_SHARE, 4, getString(R.string.menu_item_title_share_event));
+        }
     }
 
     private View getLectureView(Lecture lecture) {

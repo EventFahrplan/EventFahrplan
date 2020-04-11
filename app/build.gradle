@@ -7,6 +7,7 @@ ext.set("APP_VERSION", "${gitSha()}")
 
 apply plugin: "com.android.application"
 apply plugin: "kotlin-android"
+apply plugin: "kotlin-kapt"
 apply plugin: "de.mobilej.unmock"
 apply plugin: "org.sonarqube"
 apply from: "../sonarqube.gradle"
@@ -29,6 +30,7 @@ android {
         buildConfigField "String", "GIT_SHA", "\"${gitSha()}\""
         buildConfigField "String", "C3NAV_URL", "\"https://36c3.c3nav.de/l/\""
         buildConfigField "boolean", "ENABLE_ALTERNATIVE_SCHEDULE_URL", "true"
+        buildConfigField "boolean", "ENABLE_CHAOSFLIX_EXPORT", "true"
         buildConfigField "boolean", "ENABLE_ENGELSYSTEM_SHIFTS", "false"
     }
 
@@ -159,6 +161,8 @@ dependencies {
     implementation Libs.snackengagePlayrate
     implementation Libs.emailIntentBuilder
     implementation Libs.tracedroid
+    implementation Libs.moshi
+    kapt Libs.moshiCodeGen
 
     testImplementation Libs.junit
     testImplementation Libs.assertjAndroid

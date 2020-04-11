@@ -3,11 +3,34 @@
       xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-            android:id="@+id/menu_item_share_favorites"
+            android:id="@+id/menu_item_share_favorites_menu"
+            android:title="@string/menu_item_title_share_favorites"
             android:icon="@drawable/ic_share_white_24dp"
-            app:showAsAction="ifRoom"
-            android:title="@string/menu_item_title_share_favorites">
+            android:visible="false"
+            app:showAsAction="ifRoom">
+
+    <menu>
+            <item
+                android:id="@+id/menu_item_share_favorites_text"
+                android:title="@string/share_as_text"
+                app:showAsAction="never"/>
+
+
+            <item
+                android:id="@+id/menu_item_share_favorites_json"
+                android:title="@string/share_as_json"
+                app:showAsAction="never"/>
+    </menu>
     </item>
+
+    <item
+            android:id="@+id/menu_item_share_favorites"
+            android:title="@string/menu_item_title_share_favorites"
+            android:icon="@drawable/ic_share_white_24dp"
+            android:visible="false"
+            app:showAsAction="ifRoom"/>
+
+
     <item
             android:title="@string/menu_item_title_delete_all"
             android:titleCondensed="@string/menu_item_title_delete_all"
