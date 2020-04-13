@@ -32,7 +32,7 @@
         </HorizontalScrollView>
     </LinearLayout>
 
-    <nerd.tuxmobil.fahrplan.congress.schedule.CustomScrollView
+    <ScrollView
             android:id="@+id/scrollView1"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
@@ -68,6 +68,6 @@
 
         </LinearLayout>
 
-    </nerd.tuxmobil.fahrplan.congress.schedule.CustomScrollView>
+    </ScrollView>
 
 </RelativeLayout>

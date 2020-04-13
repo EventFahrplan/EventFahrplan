@@ -46,7 +46,15 @@ public class MyApp extends Application {
 
     public static int roomCount = 0;
 
+    /**
+     * maps room title to room index
+     */
     public static final HashMap<String, Integer> roomsMap = new HashMap<>();
+
+    /**
+     * maps column index to room index
+     */
+    public static final SparseIntArray roomList = new SparseIntArray();
 
     public enum TASKS {
         NONE,
@@ -65,8 +73,6 @@ public class MyApp extends Application {
     public static TASKS task_running = TASKS.NONE;
 
     public static int lectureListDay = 0;
-
-    public static final SparseIntArray roomList = new SparseIntArray();
 
     @Override
     public void onCreate() {

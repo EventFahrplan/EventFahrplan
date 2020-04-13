@@ -12,6 +12,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -36,6 +38,7 @@ import org.threeten.bp.Duration;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -64,7 +67,7 @@ import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
 import static kotlin.collections.CollectionsKt.single;
 import static nerd.tuxmobil.fahrplan.congress.extensions.Resource.getNormalizedBoxHeight;
 
-public class FahrplanFragment extends Fragment implements View.OnClickListener, View.OnCreateContextMenuListener {
+public class FahrplanFragment extends Fragment implements LectureViewEventsHandler {
 
     public interface OnRefreshEventMarkers {
 
@@ -74,6 +77,7 @@ public class FahrplanFragment extends Fragment implements View.OnClickListener, 
     private static final String LOG_TAG = "Fahrplan";
 
     public static final String FRAGMENT_TAG = "schedule";
+
 
     public static final int FAHRPLAN_FRAGMENT_REQUEST_CODE = 6166;
 
@@ -113,13 +117,16 @@ public class FahrplanFragment extends Fragment implements View.OnClickListener, 
 
     private View contextMenuView;
 
-    private int columnWidth;
+    private int roomColumnWidth;
+    private int maxRoomColumnsVisible;
 
     private String lectureId;        // started with lectureId
 
     private Lecture lastSelectedLecture;
 
     private LectureViewDrawer lectureViewDrawer;
+
+    private Map<Integer, LectureViewColumnAdapter> adapterByRoomIndex = new HashMap<>();
 
     @Override
     public void onAttach(Context context) {
@@ -134,6 +141,7 @@ public class FahrplanFragment extends Fragment implements View.OnClickListener, 
         context = requireContext();
         light = Typeface.createFromAsset(
                 context.getAssets(), "Roboto-Light.ttf");
+        lectureViewDrawer = new LectureViewDrawer(context, this, this);
     }
 
     @Override
@@ -153,9 +161,9 @@ public class FahrplanFragment extends Fragment implements View.OnClickListener, 
         MyApp.LogDebug(LOG_TAG, "screen width = " + screenWidth);
         MyApp.LogDebug(LOG_TAG, "time width " + getResources().getDimension(R.dimen.time_width));
         screenWidth -= getResources().getDimension(R.dimen.time_width);
-        int maxCols = HorizontalSnapScrollView.calcMaxCols(getResources(), screenWidth);
-        MyApp.LogDebug(LOG_TAG, "max cols: " + maxCols);
-        columnWidth = (int) ((float) screenWidth / maxCols); // Width for the row column
+        maxRoomColumnsVisible = HorizontalSnapScrollView.calcMaxCols(getResources(), screenWidth);
+        MyApp.LogDebug(LOG_TAG, "max cols: " + maxRoomColumnsVisible);
+        roomColumnWidth = (int) ((float) screenWidth / maxRoomColumnsVisible); // TODO Assignment might be obsolete. Remove if verified.
         HorizontalScrollView roomScroller =
                 view.findViewById(R.id.roomScroller);
         if (roomScroller != null) {
@@ -249,37 +257,36 @@ public class FahrplanFragment extends Fragment implements View.OnClickListener, 
         fillTimes();
     }
 
-    private void viewDay(boolean reload) {
-        Log.d(LOG_TAG, "viewDay(" + reload + ")");
-
-        loadLectureList(appRepository, mDay, reload);
-        List<Lecture> lectures = MyApp.lectureList;
-        if (lectures != null && !lectures.isEmpty()) {
-            conference.calculateTimeFrame(lectures, dateUTC -> new Moment(dateUTC).getMinuteOfDay());
-            MyApp.LogDebug(LOG_TAG, "Conference = " + conference);
-        }
+    private void viewDay(boolean forceReload) {
+        Log.d(LOG_TAG, "viewDay(" + forceReload + ")");
         View layoutRoot = getView();
-        HorizontalSnapScrollView scroller = layoutRoot.findViewById(R.id.horizScroller);
-        if (scroller != null) {
-            scroller.scrollTo(0, 0);
-            addRoomColumns(scroller);
+        int boxHeight = getNormalizedBoxHeight(getResources(), scale, LOG_TAG);
+
+        HorizontalSnapScrollView horizontalScroller = layoutRoot.findViewById(R.id.horizScroller);
+        if (horizontalScroller != null) {
+            horizontalScroller.scrollTo(0, 0);
         }
+
+        loadLectureList(appRepository, mDay, forceReload);
+        List<Lecture> lecturesOfDay = MyApp.lectureList;
+
+        if (lecturesOfDay != null) {
+            if (!lecturesOfDay.isEmpty()) {
+                conference.calculateTimeFrame(lecturesOfDay, dateUTC -> new Moment(dateUTC).getMinuteOfDay());
+                MyApp.LogDebug(LOG_TAG, "Conference = " + conference);
+            }
+            if (horizontalScroller != null) {
+                if (horizontalScroller.getColumnWidth() != 0) {
+                    // update pre-calculated roomColumnWidth with actual layout
+                    roomColumnWidth = horizontalScroller.getColumnWidth();
+                }
+                addRoomColumns(horizontalScroller, lecturesOfDay, forceReload);
+            }
+        }
+
         HorizontalScrollView roomScroller = layoutRoot.findViewById(R.id.roomScroller);
         if (roomScroller != null) {
             addRoomTitleViews(roomScroller);
-        }
-        int boxHeight = getNormalizedBoxHeight(getResources(), scale, LOG_TAG);
-
-        if (lectures != null) {
-            lectureViewDrawer = new LectureViewDrawer(context, this, this);
-            ViewGroup rootView = (ViewGroup) scroller.getChildAt(0);
-
-            for (int i = 0; i < MyApp.roomCount; i++) {
-                LinearLayout roomView = (LinearLayout) rootView.getChildAt(i);
-                int roomIndex = MyApp.roomList.get(i);
-                Map<Lecture, LayoutParams> lectureLayoutParams = LectureViewDrawer.calculateLayoutParams(roomIndex, lectures, boxHeight, conference, Logging.Companion.get());
-                lectureViewDrawer.createLectureViews(roomView, lectureLayoutParams, boxHeight);
-            }
         }
 
         MainActivity.getInstance().shouldScheduleScrollToCurrentTimeSlot(() -> {
@@ -298,20 +305,45 @@ public class FahrplanFragment extends Fragment implements View.OnClickListener, 
         }
     }
 
-    private void addRoomColumns(HorizontalSnapScrollView scroller) {
-        LinearLayout root = (LinearLayout) scroller.getChildAt(0);
-        root.removeAllViews();
-        if (scroller.getColumnWidth() != 0) {
-            // update pre-calculated width with actual layout
-            columnWidth = scroller.getColumnWidth();
+    private void addRoomColumns(@NonNull HorizontalSnapScrollView horizontalScroller, @NonNull List<Lecture> lectures, boolean forceReload) {
+        int columnIndexLeft = horizontalScroller.getColumn();
+        int columnIndexRight = columnIndexLeft + maxRoomColumnsVisible;
+
+        // whenever possible, just update recycler views
+        if (!forceReload && !adapterByRoomIndex.isEmpty()) {
+            for (int columnIndex = columnIndexLeft; columnIndex <= columnIndexRight; columnIndex++) {
+                int roomIndex = MyApp.roomList.get(columnIndex);
+                //noinspection ConstantConditions
+                adapterByRoomIndex.get(roomIndex).notifyDataSetChanged();
+            }
+            return;
         }
-        for (int i = 0; i < MyApp.roomCount; i++) {
-            LinearLayout roomLayout = new LinearLayout(context);
-            LinearLayout.LayoutParams p = new LayoutParams(
-                    columnWidth, LayoutParams.MATCH_PARENT, 1);
-            roomLayout.setOrientation(LinearLayout.VERTICAL);
-            roomLayout.setLayoutParams(p);
-            root.addView(roomLayout);
+
+        LinearLayout columnsLayout = (LinearLayout) horizontalScroller.getChildAt(0);
+        columnsLayout.removeAllViews();
+        adapterByRoomIndex.clear();
+
+        Logging logging = Logging.Companion.get();
+        int boxHeight = getNormalizedBoxHeight(getResources(), scale, LOG_TAG);
+        LecturesByRoomIndex lecturesByRoomIndex = new LecturesByRoomIndex(lectures);
+
+        for (int columnIndex = 0; columnIndex < MyApp.roomCount; columnIndex++) {
+            int roomIndex = MyApp.roomList.get(columnIndex);
+            List<Lecture> roomLectures = lecturesByRoomIndex.get(roomIndex);
+
+            Map<Lecture, LayoutParams> layoutParamsByLecture = LectureViewDrawer.calculateLayoutParams(roomIndex, roomLectures, boxHeight, conference, logging);
+
+            RecyclerView columnRecyclerView = new RecyclerView(context);
+            columnRecyclerView.setHasFixedSize(true);
+            columnRecyclerView.setFadingEdgeLength(0);
+            columnRecyclerView.setNestedScrollingEnabled(false); // enables flinging
+            columnRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+            columnRecyclerView.setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            LectureViewColumnAdapter adapter = new LectureViewColumnAdapter(roomLectures, layoutParamsByLecture, lectureViewDrawer, this);
+            columnRecyclerView.setAdapter(adapter);
+            adapterByRoomIndex.put(roomIndex, adapter);
+
+            columnsLayout.addView(columnRecyclerView);
         }
     }
 
@@ -323,7 +355,7 @@ public class FahrplanFragment extends Fragment implements View.OnClickListener, 
         for (int i = 0; i < MyApp.roomCount; i++) {
             TextView roomTitle = new TextView(context);
             LinearLayout.LayoutParams p = new LayoutParams(
-                    columnWidth, LayoutParams.WRAP_CONTENT, 1);
+                    roomColumnWidth, LayoutParams.WRAP_CONTENT, 1);
             p.gravity = Gravity.CENTER;
             roomTitle.setLayoutParams(p);
             roomTitle.setMaxLines(1);
@@ -505,10 +537,10 @@ public class FahrplanFragment extends Fragment implements View.OnClickListener, 
         return padding;
     }
 
-    public static void loadLectureList(@NonNull AppRepository appRepository, int day, boolean force) {
+    public static void loadLectureList(@NonNull AppRepository appRepository, int day, boolean forceReload) {
         MyApp.LogDebug(LOG_TAG, "load lectures of day " + day);
 
-        if (!force && MyApp.lectureList != null && MyApp.lectureListDay == day) {
+        if (!forceReload && MyApp.lectureList != null && MyApp.lectureListDay == day) {
             return;
         }
 
