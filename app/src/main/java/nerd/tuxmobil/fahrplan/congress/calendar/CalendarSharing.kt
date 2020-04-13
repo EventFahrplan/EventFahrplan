@@ -9,7 +9,6 @@ import android.widget.Toast
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.extensions.startActivity
 import nerd.tuxmobil.fahrplan.congress.utils.EventUrlComposer
-import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc
 import nerd.tuxmobil.fahrplan.congress.utils.StringUtils
 import nerd.tuxmobil.fahrplan.congress.wiki.containsWikiLink
 import nerd.tuxmobil.fahrplan.congress.models.Lecture as Event
@@ -28,7 +27,7 @@ private fun Event.toCalendarInsertIntent(context: Context): Intent {
     val title = this.title
     val description = this.getCalendarDescription(context)
     val location = this.room
-    val startTime = FahrplanMisc.getLectureStartTime(this)
+    val startTime = startTimeMilliseconds
     val endTime = startTime + this.duration * 60000
     return Intent(Intent.ACTION_INSERT, CalendarContract.Events.CONTENT_URI).apply {
         putExtra(CalendarContract.Events.TITLE, title)

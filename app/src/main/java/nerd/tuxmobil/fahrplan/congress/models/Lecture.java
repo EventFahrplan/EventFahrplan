@@ -104,6 +104,16 @@ public class Lecture {
         return moment;
     }
 
+    /**
+     * Returns the start time in milliseconds.
+     * <p>
+     * The {@link #dateUTC} is given precedence if its value is bigger then `0`.
+     * Otherwise the start time is determined based on {@link #getStartTimeMoment}.
+     */
+    public long getStartTimeMilliseconds() {
+        return (dateUTC > 0) ? dateUTC : getStartTimeMoment().toMilliseconds();
+    }
+
     @SuppressWarnings("EqualsReplaceableByObjectsCall")
     @Override
     public boolean equals(Object o) {
