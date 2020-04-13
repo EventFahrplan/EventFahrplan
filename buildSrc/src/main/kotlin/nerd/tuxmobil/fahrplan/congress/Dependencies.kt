@@ -18,6 +18,7 @@ object GradlePlugins {
         const val gradleVersions = "0.28.0"
         const val sonarQubeGradle = "2.8"
         const val unmockGradle = "0.7.5"
+        const val androidJunitJacocoGradle = "0.16.0"
     }
 
     const val androidGradle = "com.android.tools.build:gradle:${Versions.androidGradle}"
@@ -25,6 +26,7 @@ object GradlePlugins {
     const val sonarQubeGradle = "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:${Versions.sonarQubeGradle}"
     const val kotlinGradle = "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
     const val unmockGradle = "de.mobilej.unmock:UnMockPlugin:${Versions.unmockGradle}"
+    const val androidJunitJacocoGradle = "com.vanniktech:gradle-android-junit-jacoco-plugin:${Versions.androidJunitJacocoGradle}"
 }
 
 object Libs {

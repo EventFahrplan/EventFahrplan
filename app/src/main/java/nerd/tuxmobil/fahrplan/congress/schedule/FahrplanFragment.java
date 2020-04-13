@@ -5,17 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.support.annotation.ColorInt;
-import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -26,7 +21,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
@@ -39,6 +33,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.ligi.tracedroid.logging.Log;
+import org.threeten.bp.Duration;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -47,6 +42,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import info.metadude.android.eventfahrplan.commons.logging.Logging;
 import info.metadude.android.eventfahrplan.commons.temporal.Moment;
 import kotlin.Unit;
 import nerd.tuxmobil.fahrplan.congress.BuildConfig;
@@ -54,7 +50,6 @@ import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmTimePickerFragment;
 import nerd.tuxmobil.fahrplan.congress.calendar.CalendarSharing;
-import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.extensions.Contexts;
 import nerd.tuxmobil.fahrplan.congress.models.Alarm;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
@@ -70,7 +65,7 @@ import nerd.tuxmobil.fahrplan.congress.utils.LectureUtils;
 
 import static nerd.tuxmobil.fahrplan.congress.extensions.Resource.getNormalizedBoxHeight;
 
-public class FahrplanFragment extends Fragment implements OnClickListener {
+public class FahrplanFragment extends Fragment implements View.OnClickListener, View.OnCreateContextMenuListener {
 
     public interface OnRefreshEventMarkers {
 
@@ -91,7 +86,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
     private static final int CONTEXT_MENU_ITEM_ID_SHARE_TEXT = 5;
     private static final int CONTEXT_MENU_ITEM_ID_SHARE_JSON = 6;
 
-    private static final int ONE_DAY = 24 * 60;
+    private static final int ONE_DAY = (int) Duration.ofDays(1).toMinutes();
     private static final int FIFTEEN_MINUTES = 15;
 
     private float scale;
@@ -101,10 +96,6 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
     private final Conference conference = new Conference();
 
     private AppRepository appRepository;
-
-    private Map<String, Integer> trackNameBackgroundColorDefaultPairs;
-
-    private Map<String, Integer> trackNameBackgroundColorHighlightPairs;
 
     private int mDay = 1;
 
@@ -121,39 +112,17 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
 
     public static final String PREFS_NAME = "settings";
 
-    private int screenWidth = 0;
-
-    private Typeface boldCondensed;
-
     private Typeface light;
-
-    private int eventDrawableInsetTop;
-
-    private int eventDrawableInsetLeft;
-
-    private int eventDrawableInsetRight;
-
-    private float eventDrawableCornerRadius;
-
-    private float eventDrawableStrokeWidth;
-
-    private
-    @ColorInt
-    int eventDrawableStrokeColor;
-
-    private
-    @ColorInt
-    int eventDrawableRippleColor;
 
     private View contextMenuView;
 
     private int columnWidth;
 
     private String lectureId;        // started with lectureId
-    private Map<String, Integer> trackAccentColors;
-    private Map<String, Integer> trackAccentColorsHighlight;
 
     private Lecture lastSelectedLecture;
+
+    private LectureViewDrawer lectureViewDrawer;
 
     @Override
     public void onAttach(Context context) {
@@ -166,25 +135,8 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         context = requireContext();
-        boldCondensed = Typeface.createFromAsset(
-                context.getAssets(), "Roboto-BoldCondensed.ttf");
         light = Typeface.createFromAsset(
                 context.getAssets(), "Roboto-Light.ttf");
-        Resources resources = getResources();
-        eventDrawableInsetTop = resources.getDimensionPixelSize(
-                R.dimen.event_drawable_inset_top);
-        eventDrawableInsetLeft = resources.getDimensionPixelSize(
-                R.dimen.event_drawable_inset_left);
-        eventDrawableInsetRight = resources.getDimensionPixelSize(
-                R.dimen.event_drawable_inset_right);
-        eventDrawableCornerRadius = resources.getDimensionPixelSize(
-                R.dimen.event_drawable_corner_radius);
-        eventDrawableStrokeWidth = resources.getDimensionPixelSize(
-                R.dimen.event_drawable_selection_stroke_width);
-        eventDrawableStrokeColor = ContextCompat.getColor(
-                FahrplanFragment.context, R.color.event_drawable_selection_stroke);
-        eventDrawableRippleColor = ContextCompat.getColor(
-                FahrplanFragment.context, R.color.event_drawable_ripple);
     }
 
     @Override
@@ -200,7 +152,7 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
 
         Context context = view.getContext();
         scale = getResources().getDisplayMetrics().density;
-        screenWidth = getResources().getDisplayMetrics().widthPixels;
+        int screenWidth = getResources().getDisplayMetrics().widthPixels;
         MyApp.LogDebug(LOG_TAG, "screen width = " + screenWidth);
         MyApp.LogDebug(LOG_TAG, "time width " + getResources().getDimension(R.dimen.time_width));
         screenWidth -= getResources().getDimension(R.dimen.time_width);
@@ -217,11 +169,6 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
             }
             roomScroller.setOnTouchListener((v, event) -> true);
         }
-
-        trackNameBackgroundColorDefaultPairs = TrackBackgrounds.getTrackNameBackgroundColorDefaultPairs(context);
-        trackNameBackgroundColorHighlightPairs = TrackBackgrounds.getTrackNameBackgroundColorHighlightPairs(context);
-        trackAccentColors = TrackBackgrounds.getTrackAccentColorNormal(context);
-        trackAccentColorsHighlight = TrackBackgrounds.getTrackAccentColorHighlight(context);
 
         SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
         mDay = prefs.getInt("displayDay", 1);
@@ -328,14 +275,20 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
         if (roomScroller != null) {
             addRoomTitleViews(roomScroller);
         }
-
         int boxHeight = getNormalizedBoxHeight(getResources(), scale, LOG_TAG);
-        for (int i = 0; i < MyApp.roomCount; i++) {
+
+        if (lectures != null) {
+            lectureViewDrawer = new LectureViewDrawer(context, this, this);
             ViewGroup rootView = (ViewGroup) scroller.getChildAt(0);
-            LinearLayout roomView = (LinearLayout) rootView.getChildAt(i);
-            int roomIndex = MyApp.roomList.get(i);
-            fillRoom(roomView, roomIndex, MyApp.lectureList, boxHeight);
+
+            for (int i = 0; i < MyApp.roomCount; i++) {
+                LinearLayout roomView = (LinearLayout) rootView.getChildAt(i);
+                int roomIndex = MyApp.roomList.get(i);
+                Map<Lecture, LayoutParams> lectureLayoutParams = LectureViewDrawer.calculateLayoutParams(roomIndex, lectures, boxHeight, conference, Logging.Companion.get());
+                lectureViewDrawer.createLectureViews(roomView, lectureLayoutParams, boxHeight);
+            }
         }
+
         MainActivity.getInstance().shouldScheduleScrollToCurrentTimeSlot(() -> {
             scrollToCurrent(mDay, boxHeight);
             return Unit.INSTANCE;
@@ -567,147 +520,6 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
         return padding;
     }
 
-    private void setLectureBackground(Lecture event, View eventView) {
-        Context context = eventView.getContext();
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        boolean defaultValue = getResources().getBoolean(R.bool.preferences_alternative_highlight_enabled_default_value);
-        boolean alternativeHighlightingIsEnabled = prefs.getBoolean(
-                BundleKeys.PREFS_ALTERNATIVE_HIGHLIGHT, defaultValue);
-        boolean eventIsFavored = event.highlight;
-        @ColorRes int backgroundColorResId;
-        if (eventIsFavored) {
-            Integer colorResId = trackNameBackgroundColorHighlightPairs.get(event.track);
-            backgroundColorResId = colorResId == null ? R.color.event_border_highlight : colorResId;
-        } else {
-            Integer colorResId = trackNameBackgroundColorDefaultPairs.get(event.track);
-            backgroundColorResId = colorResId == null ? R.color.event_border_default : colorResId;
-        }
-        @ColorInt int backgroundColor = ContextCompat.getColor(context, backgroundColorResId);
-        EventDrawable eventDrawable;
-        if (eventIsFavored && alternativeHighlightingIsEnabled) {
-            eventDrawable = new EventDrawable(
-                    backgroundColor,
-                    eventDrawableCornerRadius,
-                    eventDrawableRippleColor,
-                    eventDrawableStrokeColor,
-                    eventDrawableStrokeWidth);
-        } else {
-            eventDrawable = new EventDrawable(
-                    backgroundColor,
-                    eventDrawableCornerRadius,
-                    eventDrawableRippleColor);
-        }
-        eventDrawable.setLayerInset(EventDrawable.BACKGROUND_LAYER_INDEX,
-                eventDrawableInsetLeft,
-                eventDrawableInsetTop,
-                eventDrawableInsetRight,
-                0);
-        eventDrawable.setLayerInset(EventDrawable.STROKE_LAYER_INDEX,
-                eventDrawableInsetLeft,
-                eventDrawableInsetTop,
-                eventDrawableInsetRight,
-                0);
-        eventView.setBackgroundDrawable(eventDrawable);
-        int padding = getEventPadding();
-        eventView.setPadding(padding, padding, padding, padding);
-    }
-
-    private void setLectureTextColor(Lecture lecture, View view) {
-        TextView title = view.findViewById(R.id.event_title);
-        TextView subtitle = view.findViewById(R.id.event_subtitle);
-        TextView speakers = view.findViewById(R.id.event_speakers);
-        int colorResId = lecture.highlight ? R.color.event_title_highlight : R.color.event_title;
-        int textColor = ContextCompat.getColor(view.getContext(), colorResId);
-        title.setTextColor(textColor);
-        subtitle.setTextColor(textColor);
-        speakers.setTextColor(textColor);
-    }
-
-    private void fillRoom(LinearLayout room, int roomIndex, @NonNull List<Lecture> lectures, int standardHeight) {
-        room.removeAllViews();
-        int endTime = conference.getFirstEventStartsAt();
-        int startTime;
-        View event = null;
-        int margin;
-
-        for (int idx = 0; idx < lectures.size(); idx++) {
-            Lecture lecture = lectures.get(idx);
-            if (lecture.roomIndex == roomIndex) {
-                if (lecture.dateUTC > 0) {
-                    startTime = new Moment(lecture.dateUTC).getMinuteOfDay();
-                    if (startTime < endTime) {
-                        startTime += ONE_DAY;
-                    }
-                } else {
-                    startTime = lecture.relStartTime;
-                }
-                if (startTime > endTime) {
-                    margin = standardHeight * (startTime - endTime) / 5;
-                    if (event != null) {
-                        LayoutParams lp = (LayoutParams) event.getLayoutParams();
-                        lp.bottomMargin = margin;
-                        event.setLayoutParams(lp);
-                        margin = 0;
-                    }
-                } else {
-                    margin = 0;
-                }
-
-                // fix overlapping events
-                Lecture next = null;
-                for (int nextIndex = idx + 1; nextIndex < lectures.size(); nextIndex++) {
-                    next = lectures.get(nextIndex);
-                    if (next.roomIndex == roomIndex) {
-                        break;
-                    }
-                    next = null;
-                }
-                if (next != null) {
-                    if (next.dateUTC > 0) {
-                        if (lecture.dateUTC + lecture.duration * 60000 > next.dateUTC) {
-                            MyApp.LogDebug(LOG_TAG, lecture.title + " collides with " + next.title);
-                            lecture.duration = (int) ((next.dateUTC - lecture.dateUTC) / 60000);
-                        }
-                    }
-                }
-
-                event = inflater.inflate(R.layout.event_layout, null);
-                int height = standardHeight * (lecture.duration / 5);
-                room.addView(event, LayoutParams.MATCH_PARENT, height);
-                LayoutParams lp = (LayoutParams) event.getLayoutParams();
-                lp.topMargin = margin;
-                event.setLayoutParams(lp);
-                updateEventView(event, lecture);
-                endTime = startTime + lecture.duration;
-            }
-        }
-    }
-
-    private void updateEventView(View eventView, Lecture lecture) {
-        ImageView bell = eventView.findViewById(R.id.bell);
-        bell.setVisibility(lecture.hasAlarm ? View.VISIBLE : View.GONE);
-        TextView title = eventView.findViewById(R.id.event_title);
-        title.setTypeface(boldCondensed);
-        title.setText(lecture.title);
-        title = eventView.findViewById(R.id.event_subtitle);
-        title.setText(lecture.subtitle);
-        title = eventView.findViewById(R.id.event_speakers);
-        title.setText(lecture.getFormattedSpeakers());
-        title = eventView.findViewById(R.id.event_track);
-        title.setText(lecture.getFormattedTrackText());
-        title.setContentDescription(lecture.getFormattedTrackContentDescription(eventView.getContext()));
-        View recordingOptOut = eventView.findViewById(R.id.novideo);
-        if (recordingOptOut != null) {
-            recordingOptOut.setVisibility(lecture.recordingOptOut ? View.VISIBLE : View.GONE);
-        }
-        setLectureBackground(lecture, eventView);
-        setLectureTextColor(lecture, eventView);
-        eventView.setOnClickListener(this);
-        eventView.setLongClickable(true);
-        eventView.setOnCreateContextMenuListener(this);
-        eventView.setTag(lecture);
-    }
-
     public static void loadLectureList(@NonNull AppRepository appRepository, int day, boolean force) {
         MyApp.LogDebug(LOG_TAG, "load lectures of day " + day);
 
@@ -928,8 +740,8 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
             case CONTEXT_MENU_ITEM_ID_FAVORITES:
                 lecture.highlight = !lecture.highlight;
                 appRepository.updateHighlight(lecture);
-                setLectureBackground(lecture, contextMenuView);
-                setLectureTextColor(lecture, contextMenuView);
+                lectureViewDrawer.setLectureBackground(lecture, contextMenuView);
+                LectureViewDrawer.setLectureTextColor(lecture, contextMenuView);
                 ((MainActivity) context).refreshFavoriteList();
                 updateMenuItems();
                 break;
@@ -1012,8 +824,8 @@ public class FahrplanFragment extends Fragment implements OnClickListener {
             setBell(lecture);
             View v = getLectureView(lecture);
             if (v != null) {
-                setLectureBackground(lecture, v);
-                setLectureTextColor(lecture, v);
+                lectureViewDrawer.setLectureBackground(lecture, v);
+                lectureViewDrawer.setLectureTextColor(lecture, v);
             }
         }
     }
