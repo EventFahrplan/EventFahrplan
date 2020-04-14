@@ -323,15 +323,15 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
         columnsLayout.removeAllViews();
         adapterByRoomIndex.clear();
 
-        Logging logging = Logging.Companion.get();
         int boxHeight = getNormalizedBoxHeight(getResources(), scale, LOG_TAG);
         LecturesByRoomIndex lecturesByRoomIndex = new LecturesByRoomIndex(lectures);
+        LayoutCalculator layoutCalculator = new LayoutCalculator(Logging.Companion.get(), boxHeight);
 
         for (int columnIndex = 0; columnIndex < MyApp.roomCount; columnIndex++) {
             int roomIndex = MyApp.roomList.get(columnIndex);
             List<Lecture> roomLectures = lecturesByRoomIndex.get(roomIndex);
 
-            Map<Lecture, LayoutParams> layoutParamsByLecture = LectureViewDrawer.calculateLayoutParams(roomIndex, roomLectures, boxHeight, conference, logging);
+            Map<Lecture, LayoutParams> layoutParamsByLecture = layoutCalculator.calculateLayoutParams(roomIndex, roomLectures, conference);
 
             RecyclerView columnRecyclerView = new RecyclerView(context);
             columnRecyclerView.setHasFixedSize(true);

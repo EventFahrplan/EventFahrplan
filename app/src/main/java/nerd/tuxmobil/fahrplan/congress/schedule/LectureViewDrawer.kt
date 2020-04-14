@@ -8,17 +8,11 @@ import android.support.annotation.ColorInt
 import android.support.annotation.ColorRes
 import android.support.v4.content.ContextCompat
 import android.view.View
-import android.view.ViewGroup
-import android.view.ViewGroup.MarginLayoutParams
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
-import info.metadude.android.eventfahrplan.commons.logging.Logging
-import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
 import nerd.tuxmobil.fahrplan.congress.models.Lecture
-import org.threeten.bp.Duration
 
 internal class LectureViewDrawer(
     context: Context,
@@ -133,8 +127,6 @@ internal class LectureViewDrawer(
 
     companion object {
         const val LOG_TAG = "LectureViewDrawer"
-        const val DIVISOR = 5
-        private const val MILLIS_PER_MINUTE = 60000
 
         @JvmStatic
         fun setLectureTextColor(lecture: Lecture, view: View) {
@@ -147,74 +139,5 @@ internal class LectureViewDrawer(
             subtitle.setTextColor(textColor)
             speakers.setTextColor(textColor)
         }
-
-        @JvmStatic
-        fun calculateLayoutParams(roomIndex: Int, lectures: List<Lecture>, standardHeight: Int, conference: Conference, logging: Logging): Map<Lecture, LinearLayout.LayoutParams> {
-            var endTimePreviousLecture: Int = conference.firstEventStartsAt
-            var startTime: Int
-            var margin: Int
-            var previousLecture: Lecture? = null
-            val layoutParamsByLecture = mutableMapOf<Lecture, LinearLayout.LayoutParams>()
-
-            for (idx in lectures.indices) {
-                val lecture = lectures[idx]
-
-                if (lecture.roomIndex == roomIndex) {
-                    if (lecture.dateUTC > 0) {
-                        startTime = Moment(lecture.dateUTC).minuteOfDay
-                        if (startTime < endTimePreviousLecture) {
-                            startTime += Duration.ofDays(1).toMinutes().toInt()
-                        }
-                    } else {
-                        startTime = lecture.relStartTime
-                    }
-                    if (startTime > endTimePreviousLecture) {
-                        margin = standardHeight * (startTime - endTimePreviousLecture) / DIVISOR
-                        if (previousLecture != null) {
-                            layoutParamsByLecture[previousLecture]!!.bottomMargin = margin
-                            margin = 0
-                        }
-                    } else {
-                        // first lecture
-                        margin = 0
-                    }
-
-                    // fix overlapping events
-                    var next: Lecture? = null
-                    for (nextIndex in idx + 1 until lectures.size) {
-                        next = lectures[nextIndex]
-                        if (next.roomIndex == roomIndex) {
-                            break
-                        }
-                        next = null
-                    }
-
-                    if (next != null) {
-                        if (next.dateUTC > 0) {
-                            val endTimestamp = lecture.dateUTC + lecture.duration * MILLIS_PER_MINUTE
-                            // next starts, before current ends
-                            if (endTimestamp > next.dateUTC) {
-                                logging.d(LOG_TAG, "${lecture.title} collides with ${next.title}")
-                                // cut current at the end, to match next lectures start time
-                                lecture.duration = ((next.dateUTC - lecture.dateUTC) / MILLIS_PER_MINUTE).toInt()
-                            }
-                        }
-                    }
-
-                    if (!layoutParamsByLecture.containsKey(lecture)) {
-                        val height = standardHeight * (lecture.duration / DIVISOR)
-                        val marginLayoutParams = MarginLayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height)
-                        layoutParamsByLecture[lecture] = LinearLayout.LayoutParams(marginLayoutParams)
-                    }
-
-                    layoutParamsByLecture[lecture]!!.topMargin = margin
-                    endTimePreviousLecture = startTime + lecture.duration
-                    previousLecture = lecture
-                }
-            }
-
-            return layoutParamsByLecture
-        }
     }
-
 }
