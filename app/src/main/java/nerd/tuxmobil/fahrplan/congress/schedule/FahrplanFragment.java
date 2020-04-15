@@ -816,7 +816,7 @@ public class FahrplanFragment extends Fragment implements View.OnClickListener, 
             View v = getLectureView(lecture);
             if (v != null) {
                 lectureViewDrawer.setLectureBackground(lecture, v);
-                lectureViewDrawer.setLectureTextColor(lecture, v);
+                LectureViewDrawer.setLectureTextColor(lecture, v);
             }
         }
     }
