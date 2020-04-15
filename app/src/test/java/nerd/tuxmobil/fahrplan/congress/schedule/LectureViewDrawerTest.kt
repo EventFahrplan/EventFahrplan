@@ -2,8 +2,8 @@ package nerd.tuxmobil.fahrplan.congress.schedule
 
 import android.widget.LinearLayout
 import com.google.common.truth.Truth.assertThat
-import info.metadude.android.eventfahrplan.commons.logging.Logging
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
+import nerd.tuxmobil.fahrplan.congress.NoLogging
 import nerd.tuxmobil.fahrplan.congress.models.Lecture
 import nerd.tuxmobil.fahrplan.congress.schedule.LectureViewDrawer.Companion.DIVISOR
 import org.junit.Test
@@ -226,9 +226,4 @@ class LectureViewDrawerTest {
         assertThat(lectureParams.bottomMargin).isEqualTo(standardHeight * bottom / DIVISOR)
     }
 
-    object NoLogging : Logging {
-        override fun d(tag: String, message: String) = Unit
-        override fun e(tag: String, message: String) = Unit
-        override fun report(tag: String, message: String) = Unit
-    }
 }
