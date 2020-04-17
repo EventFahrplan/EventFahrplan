@@ -288,11 +288,12 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
         if (roomScroller != null) {
             addRoomTitleViews(roomScroller);
         }
-
-        MainActivity.getInstance().shouldScheduleScrollToCurrentTimeSlot(() -> {
-            scrollToCurrent(mDay, boxHeight);
-            return Unit.INSTANCE;
-        });
+        if (lecturesOfDay != null) {
+            MainActivity.getInstance().shouldScheduleScrollToCurrentTimeSlot(() -> {
+                scrollToCurrent(lecturesOfDay, mDay, boxHeight);
+                return Unit.INSTANCE;
+            });
+        }
         updateNavigationMenuSelection();
     }
 
@@ -379,7 +380,7 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
     /**
      * jump to current time or lecture, if we are on today's lecture list
      */
-    private void scrollToCurrent(int day, int height) {
+    private void scrollToCurrent(@NonNull List<Lecture> lectures, int day, int height) {
         // Log.d(LOG_TAG, "lectureListDay: " + MyApp.lectureListDay);
         if (lectureId != null) {
             return;
@@ -425,7 +426,7 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
                 }
             }
 
-            for (Lecture l : MyApp.lectureList) {
+            for (Lecture l : lectures) {
                 if (l.day == day && l.startTime <= time && l.startTime + l.duration > time) {
                     if (col == -1 || col >= 0 && l.roomIndex == MyApp.roomList.get(col)) {
                         MyApp.LogDebug(LOG_TAG, l.title);
