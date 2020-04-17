@@ -28,6 +28,9 @@
                     android:orientation="horizontal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
+
+                <!-- Room title views are added here at runtime. -->
+
             </LinearLayout>
         </HorizontalScrollView>
     </LinearLayout>

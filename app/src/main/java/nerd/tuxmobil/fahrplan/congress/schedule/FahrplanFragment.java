@@ -15,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.SparseIntArray;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Gravity;
@@ -37,12 +38,12 @@ import org.ligi.tracedroid.logging.Log;
 import org.threeten.bp.Duration;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import info.metadude.android.eventfahrplan.commons.logging.Logging;
 import info.metadude.android.eventfahrplan.commons.temporal.Moment;
@@ -286,7 +287,8 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
 
         HorizontalScrollView roomScroller = layoutRoot.findViewById(R.id.roomScroller);
         if (roomScroller != null) {
-            addRoomTitleViews(roomScroller);
+            LinearLayout roomTitlesRowLayout = (LinearLayout) roomScroller.getChildAt(0);
+            addRoomTitleViews(roomTitlesRowLayout, MyApp.roomsMap.entrySet(), MyApp.roomList);
         }
         if (lecturesOfDay != null) {
             MainActivity.getInstance().shouldScheduleScrollToCurrentTimeSlot(() -> {
@@ -348,12 +350,20 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
         }
     }
 
-    private void addRoomTitleViews(HorizontalScrollView scroller) {
-        LinearLayout root = (LinearLayout) scroller.getChildAt(0);
-        root.removeAllViews();
-        Set<Entry<String, Integer>> roomTitleSet = MyApp.roomsMap.entrySet();
+    /**
+     * Adds room title views as child views to the given {@code roomTitlesRowLayout}.
+     * Previously added child views are removed.
+     */
+    // TODO Simplify by passing list of room names.
+    private void addRoomTitleViews(
+            @NonNull LinearLayout roomTitlesRowLayout,
+            @NonNull Collection<Entry<String, Integer>> roomTitleSet,
+            @SuppressWarnings("SameParameterValue")
+            @NonNull SparseIntArray roomList
+    ) {
+        roomTitlesRowLayout.removeAllViews();
         int textSize = getResources().getInteger(R.integer.room_title_size);
-        for (int i = 0; i < MyApp.roomCount; i++) {
+        for (int i = 0; i < roomTitleSet.size(); i++) {
             TextView roomTitle = new TextView(context);
             LinearLayout.LayoutParams p = new LayoutParams(
                     roomColumnWidth, LayoutParams.WRAP_CONTENT, 1);
@@ -364,7 +374,7 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
             roomTitle.setPadding(0, 0, getEventPadding(), 0);
             roomTitle.setGravity(Gravity.CENTER);
             roomTitle.setTypeface(light);
-            int v = MyApp.roomList.get(i);
+            int v = roomList.get(i);
             for (Entry<String, Integer> entry : roomTitleSet) {
                 if (entry.getValue() == v) {
                     roomTitle.setText(entry.getKey());
@@ -373,7 +383,7 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
             }
             roomTitle.setTextColor(0xffffffff);
             roomTitle.setTextSize(textSize);
-            root.addView(roomTitle);
+            roomTitlesRowLayout.addView(roomTitle);
         }
     }
 
