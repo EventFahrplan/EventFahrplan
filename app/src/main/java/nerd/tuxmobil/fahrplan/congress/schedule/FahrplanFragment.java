@@ -60,8 +60,8 @@ import nerd.tuxmobil.fahrplan.congress.sharing.JsonLectureFormat;
 import nerd.tuxmobil.fahrplan.congress.sharing.LectureSharer;
 import nerd.tuxmobil.fahrplan.congress.sharing.SimpleLectureFormat;
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
-import nerd.tuxmobil.fahrplan.congress.utils.LectureUtils;
 
+import static kotlin.collections.CollectionsKt.single;
 import static nerd.tuxmobil.fahrplan.congress.extensions.Resource.getNormalizedBoxHeight;
 
 public class FahrplanFragment extends Fragment implements View.OnClickListener, View.OnCreateContextMenuListener {
@@ -241,10 +241,8 @@ public class FahrplanFragment extends Fragment implements View.OnClickListener, 
             scrollTo(lectureId);
             FrameLayout sidePane = activity.findViewById(R.id.detail);
             if (sidePane != null) {
-                Lecture lecture = LectureUtils.getLecture(MyApp.lectureList, lectureId);
-                if (lecture != null) {
-                    ((MainActivity) activity).openLectureDetail(lecture, mDay, false);
-                }
+                Lecture lecture = single(MyApp.lectureList, currentLecture -> lectureId.equals(currentLecture.lectureId));
+                ((MainActivity) activity).openLectureDetail(lecture, mDay, false);
             }
             intent.removeExtra("lecture_id");   // jump to given lectureId only once
         }
