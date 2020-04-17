@@ -242,7 +242,9 @@ public class FahrplanFragment extends Fragment implements View.OnClickListener, 
             FrameLayout sidePane = activity.findViewById(R.id.detail);
             if (sidePane != null) {
                 Lecture lecture = LectureUtils.getLecture(MyApp.lectureList, lectureId);
-                ((MainActivity) activity).openLectureDetail(lecture, mDay, false);
+                if (lecture != null) {
+                    ((MainActivity) activity).openLectureDetail(lecture, mDay, false);
+                }
             }
             intent.removeExtra("lecture_id");   // jump to given lectureId only once
         }
@@ -602,6 +604,9 @@ public class FahrplanFragment extends Fragment implements View.OnClickListener, 
     @Override
     public void onClick(View v) {
         Lecture lecture = (Lecture) v.getTag();
+        if (lecture == null) {
+            throw new NullPointerException("A lecture must be assigned to the 'tag' attribute of the lecture view.");
+        }
         MyApp.LogDebug(LOG_TAG, "Click on " + lecture.title);
         MainActivity mainActivity = (MainActivity) requireActivity();
         mainActivity.openLectureDetail(lecture, mDay, false);
