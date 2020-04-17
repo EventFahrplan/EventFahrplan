@@ -238,10 +238,10 @@ public class FahrplanFragment extends Fragment implements View.OnClickListener, 
         }
 
         if (lectureId != null) {
-            scrollTo(lectureId);
+            Lecture lecture = single(MyApp.lectureList, currentLecture -> lectureId.equals(currentLecture.lectureId));
+            scrollTo(lecture);
             FrameLayout sidePane = activity.findViewById(R.id.detail);
             if (sidePane != null) {
-                Lecture lecture = single(MyApp.lectureList, currentLecture -> lectureId.equals(currentLecture.lectureId));
                 ((MainActivity) activity).openLectureDetail(lecture, mDay, false);
             }
             intent.removeExtra("lecture_id");   // jump to given lectureId only once
@@ -436,24 +436,17 @@ public class FahrplanFragment extends Fragment implements View.OnClickListener, 
         }
     }
 
-    private void scrollTo(String lectureId) {
-        for (Lecture lecture : MyApp.lectureList) {
-            if (lectureId.equals(lecture.lectureId)) {
-                final ScrollView parent = getView().findViewById(R.id.scrollView1);
-                int height = getNormalizedBoxHeight(getResources(), scale, LOG_TAG);
-                final int pos = (lecture.relStartTime - conference.getFirstEventStartsAt()) / 5 * height;
-                MyApp.LogDebug(LOG_TAG, "position is " + pos);
-                parent.post(() -> parent.scrollTo(0, pos));
-                final HorizontalSnapScrollView horiz =
-                        getView().findViewById(R.id.horizScroller);
-                if (horiz != null) {
-                    final int hpos = MyApp.roomList.keyAt(
-                            MyApp.roomList.indexOfValue(lecture.roomIndex));
-                    MyApp.LogDebug(LOG_TAG, "scroll horiz to " + hpos);
-                    horiz.post(() -> horiz.scrollToColumn(hpos, false));
-                }
-                break;
-            }
+    private void scrollTo(@NonNull Lecture lecture) {
+        final ScrollView parent = getView().findViewById(R.id.scrollView1);
+        int height = getNormalizedBoxHeight(getResources(), scale, LOG_TAG);
+        final int pos = (lecture.relStartTime - conference.getFirstEventStartsAt()) / 5 * height;
+        MyApp.LogDebug(LOG_TAG, "position is " + pos);
+        parent.post(() -> parent.scrollTo(0, pos));
+        final HorizontalSnapScrollView horiz = getView().findViewById(R.id.horizScroller);
+        if (horiz != null) {
+            final int hpos = MyApp.roomList.keyAt(MyApp.roomList.indexOfValue(lecture.roomIndex));
+            MyApp.LogDebug(LOG_TAG, "scroll horiz to " + hpos);
+            horiz.post(() -> horiz.scrollToColumn(hpos, false));
         }
     }
 
