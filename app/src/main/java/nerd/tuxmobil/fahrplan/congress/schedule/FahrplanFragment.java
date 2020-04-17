@@ -277,6 +277,7 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
                 MyApp.LogDebug(LOG_TAG, "Conference = " + conference);
             }
             if (horizontalScroller != null) {
+                horizontalScroller.setRoomsCount(MyApp.roomCount);
                 if (horizontalScroller.getColumnWidth() != 0) {
                     // update pre-calculated roomColumnWidth with actual layout
                     roomColumnWidth = horizontalScroller.getColumnWidth();
