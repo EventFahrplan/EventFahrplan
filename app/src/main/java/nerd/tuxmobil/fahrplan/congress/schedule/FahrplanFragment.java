@@ -281,7 +281,7 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
                     // update pre-calculated roomColumnWidth with actual layout
                     roomColumnWidth = horizontalScroller.getColumnWidth();
                 }
-                addRoomColumns(horizontalScroller, lecturesOfDay, forceReload);
+                addRoomColumns(horizontalScroller, lecturesOfDay, MyApp.roomCount, forceReload);
             }
         }
 
@@ -308,7 +308,17 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
         }
     }
 
-    private void addRoomColumns(@NonNull HorizontalSnapScrollView horizontalScroller, @NonNull List<Lecture> lectures, boolean forceReload) {
+    /**
+     * Adds {@code roomCount} room column views as child views to the first child
+     * (which is a row layout) of the given {@code horizontalScroller} layout.
+     * Previously added child views are removed.
+     */
+    private void addRoomColumns(
+            @NonNull HorizontalSnapScrollView horizontalScroller,
+            @NonNull List<Lecture> lectures,
+            int roomCount,
+            boolean forceReload
+    ) {
         int columnIndexLeft = horizontalScroller.getColumn();
         int columnIndexRight = columnIndexLeft + maxRoomColumnsVisible;
 
@@ -330,7 +340,7 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
         LecturesByRoomIndex lecturesByRoomIndex = new LecturesByRoomIndex(lectures);
         LayoutCalculator layoutCalculator = new LayoutCalculator(Logging.Companion.get(), boxHeight);
 
-        for (int columnIndex = 0; columnIndex < MyApp.roomCount; columnIndex++) {
+        for (int columnIndex = 0; columnIndex < roomCount; columnIndex++) {
             int roomIndex = MyApp.roomList.get(columnIndex);
             List<Lecture> roomLectures = lecturesByRoomIndex.get(roomIndex);
 

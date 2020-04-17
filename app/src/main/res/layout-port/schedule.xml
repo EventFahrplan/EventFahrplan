@@ -65,6 +65,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="horizontal">
+
+                    <!-- Room column views are added here at runtime. -->
+
                 </LinearLayout>
 
             </nerd.tuxmobil.fahrplan.congress.schedule.HorizontalSnapScrollView>
