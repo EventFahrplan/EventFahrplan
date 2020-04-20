@@ -64,8 +64,6 @@ public class MyApp extends Application {
 
     public static TASKS task_running = TASKS.NONE;
 
-    public static String fahrplan_xml;
-
     public static int lectureListDay = 0;
 
     public static final SparseIntArray roomList = new SparseIntArray();

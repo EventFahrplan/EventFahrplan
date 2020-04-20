@@ -10,8 +10,6 @@ class MetaExtensionsTest {
     @Test
     fun databaseMeta_toMetaAppModel_toMetaDatabaseModel() {
         val meta = DatabaseMeta(
-                dayChangeHour = 13,
-                dayChangeMinute = 7,
                 eTag = "abc123",
                 numDays = 23,
                 subtitle = "My subtitle",
@@ -24,8 +22,6 @@ class MetaExtensionsTest {
     @Test
     fun networkMeta_toMetaAppModel_toMetaNetworkModel() {
         val meta = NetworkMeta(
-                dayChangeHour = 13,
-                dayChangeMinute = 7,
                 eTag = "abc123",
                 numDays = 23,
                 subtitle = "My subtitle",

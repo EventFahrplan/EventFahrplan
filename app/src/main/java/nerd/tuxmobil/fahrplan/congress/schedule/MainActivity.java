@@ -184,7 +184,6 @@ public class MainActivity extends BaseActivity implements
         showUpdateAction = true;
         invalidateOptionsMenu();
 
-        MyApp.fahrplan_xml = fetchScheduleResult.getScheduleXml();
         MyApp.meta.setETag(fetchScheduleResult.getETag());
 
         // Parser is automatically invoked when response has been received.
@@ -210,7 +209,6 @@ public class MainActivity extends BaseActivity implements
             MyApp.LogDebug(LOG_TAG, "Parsing Engelsystem shifts done successfully: " + result.isSuccess());
         }
         MyApp.task_running = TASKS.NONE;
-        MyApp.fahrplan_xml = null;
 
         if (MyApp.meta.getNumDays() == 0) {
             hideProgressDialog();
@@ -347,10 +345,14 @@ public class MainActivity extends BaseActivity implements
     }
 
     void showAboutDialog() {
+        Meta meta = appRepository.readMeta();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.addToBackStack(null);
-        DialogFragment about = new AboutDialog();
-        about.show(ft, "about");
+        AboutDialog.newInstance(
+                meta.getVersion(),
+                meta.getSubtitle(),
+                meta.getTitle()
+        ).show(ft, "about");
     }
 
     @Override

@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
 import android.text.Html;
-import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.method.MovementMethod;
 import android.view.LayoutInflater;
@@ -15,10 +14,39 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import nerd.tuxmobil.fahrplan.congress.BuildConfig;
-import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.R;
 
 public class AboutDialog extends DialogFragment {
+
+    private static final String BUNDLE_KEY_SCHEDULE_VERSION =
+            BuildConfig.APPLICATION_ID + ".BUNDLE_KEY_SCHEDULE_VERSION";
+    private static final String BUNDLE_KEY_SUBTITLE =
+            BuildConfig.APPLICATION_ID + ".BUNDLE_KEY_SUBTITLE";
+    private static final String BUNDLE_KEY_TITLE =
+            BuildConfig.APPLICATION_ID + ".BUNDLE_KEY_TITLE";
+
+    public static AboutDialog newInstance(
+            @NonNull String scheduleVersion,
+            @NonNull String subtitle,
+            @NonNull String title
+    ) {
+        Bundle arguments = new Bundle();
+        arguments.putString(BUNDLE_KEY_SCHEDULE_VERSION, scheduleVersion);
+        arguments.putString(BUNDLE_KEY_SUBTITLE, subtitle);
+        arguments.putString(BUNDLE_KEY_TITLE, title);
+        AboutDialog dialog = new AboutDialog();
+        dialog.setArguments(arguments);
+        return dialog;
+    }
+
+    @NonNull
+    private String scheduleVersionText = "";
+
+    @NonNull
+    private String subtitleText = "";
+
+    @NonNull
+    private String titleText = "";
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -31,14 +59,19 @@ public class AboutDialog extends DialogFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setStyle(DialogFragment.STYLE_NO_TITLE, R.style.Dialog);
+        Bundle arguments = getArguments();
+        if (arguments != null) {
+            scheduleVersionText = arguments.getString(BUNDLE_KEY_SCHEDULE_VERSION, "");
+            subtitleText = arguments.getString(BUNDLE_KEY_SUBTITLE, "");
+            titleText = arguments.getString(BUNDLE_KEY_TITLE, "");
+        }
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         TextView text = view.findViewById(R.id.eventVersion);
-        String scheduleVersionText = MyApp.meta.getVersion();
-        if (TextUtils.isEmpty(scheduleVersionText)) {
+        if (scheduleVersionText.isEmpty()) {
             text.setVisibility(View.GONE);
         } else {
             text.setVisibility(View.VISIBLE);
@@ -46,17 +79,15 @@ public class AboutDialog extends DialogFragment {
             text.setText(prefixedScheduleVersionText);
         }
         text = view.findViewById(R.id.eventTitle);
-        String title = MyApp.meta.getTitle();
-        if (TextUtils.isEmpty(title)) {
-            title = getString(R.string.app_name);
+        if (titleText.isEmpty()) {
+            titleText = getString(R.string.app_name);
         }
-        text.setText(title);
+        text.setText(titleText);
         text = view.findViewById(R.id.eventSubtitle);
-        String subtitle = MyApp.meta.getSubtitle();
-        if (TextUtils.isEmpty(subtitle)) {
-            subtitle = getString(R.string.app_hardcoded_subtitle);
+        if (subtitleText.isEmpty()) {
+            subtitleText = getString(R.string.app_hardcoded_subtitle);
         }
-        text.setText(subtitle);
+        text.setText(subtitleText);
         text = view.findViewById(R.id.appVersion);
         String appVersionText = getString(R.string.appVersion, BuildConfig.VERSION_NAME);
         text.setText(appVersionText);

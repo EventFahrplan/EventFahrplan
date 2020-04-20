@@ -106,7 +106,7 @@ object AppRepository {
                 check(onParsingDone != {}) { "Nobody registered to receive ParseScheduleResult." }
                 // Parsing
                 parseSchedule(
-                        fetchResult.scheduleXml,
+                        fetchScheduleResult.scheduleXml,
                         fetchResult.eTag,
                         okHttpClient,
                         onParsingDone,
@@ -403,5 +403,11 @@ object AppRepository {
 
     private fun resetChangesSeenFlag() =
             updateScheduleChangesSeen(false)
+
+    fun readDisplayDayIndex() =
+            sharedPreferencesRepository.getDisplayDayIndex()
+
+    fun updateDisplayDayIndex(displayDayIndex: Int) =
+            sharedPreferencesRepository.setDisplayDayIndex(displayDayIndex)
 
 }
