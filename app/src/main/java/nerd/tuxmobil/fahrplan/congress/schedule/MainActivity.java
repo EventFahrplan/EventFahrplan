@@ -184,8 +184,6 @@ public class MainActivity extends BaseActivity implements
         showUpdateAction = true;
         invalidateOptionsMenu();
 
-        MyApp.meta.setETag(fetchScheduleResult.getETag());
-
         // Parser is automatically invoked when response has been received.
         showParsingStatus();
         MyApp.task_running = TASKS.PARSE;
@@ -272,7 +270,7 @@ public class MainActivity extends BaseActivity implements
             showFetchingStatus();
             String url = appRepository.readScheduleUrl();
             OkHttpClient okHttpClient = CustomHttpClient.createHttpClient();
-            appRepository.loadSchedule(url, MyApp.meta.getETag(),
+            appRepository.loadSchedule(url,
                     okHttpClient,
                     fetchScheduleResult -> {
                         onGotResponse(fetchScheduleResult);
