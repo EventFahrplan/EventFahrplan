@@ -12,4 +12,7 @@ data class FetchScheduleResult(
     val isSuccessful
         get() = HttpStatus.HTTP_OK == httpStatus
 
+    val isNotModified
+        get() = HttpStatus.HTTP_NOT_MODIFIED == httpStatus
+
 }

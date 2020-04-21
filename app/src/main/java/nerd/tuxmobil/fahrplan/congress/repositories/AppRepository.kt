@@ -113,7 +113,7 @@ object AppRepository {
                         onLoadingShiftsDone
                 )
             }
-            if (HttpStatus.HTTP_NOT_MODIFIED == fetchResult.httpStatus) {
+            if (fetchResult.isNotModified) {
                 loadShifts(okHttpClient, onLoadingShiftsDone)
             }
         }
