@@ -12,6 +12,14 @@ public enum HttpStatus {
     HTTP_CONNECT_TIMEOUT,
     HTTP_NOT_MODIFIED,
     HTTP_NOT_FOUND,
-    HTTP_CLEARTEXT_NOT_PERMITTED
+    HTTP_CLEARTEXT_NOT_PERMITTED;
+
+    public boolean isSuccessful() {
+        return HTTP_OK.ordinal() == ordinal();
+    }
+
+    public boolean isNotModified() {
+        return HTTP_NOT_MODIFIED.ordinal() == ordinal();
+    }
 
 }

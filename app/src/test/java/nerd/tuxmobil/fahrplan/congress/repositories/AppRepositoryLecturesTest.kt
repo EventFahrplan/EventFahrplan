@@ -20,6 +20,8 @@ class AppRepositoryLecturesTest {
             initialize(
                     context = mock(),
                     logging = mock(),
+                    errorMessageHandling = mock(),
+                    exceptionHandling = mock(),
                     networkScope = mock(),
                     alarmsDatabaseRepository = mock(),
                     highlightsDatabaseRepository = mock(),

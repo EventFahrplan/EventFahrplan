@@ -46,13 +46,14 @@ import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.details.EventDetail;
 import nerd.tuxmobil.fahrplan.congress.details.EventDetailFragment;
 import nerd.tuxmobil.fahrplan.congress.engagements.Engagements;
+import nerd.tuxmobil.fahrplan.congress.errormessaging.ErrorMessage;
+import nerd.tuxmobil.fahrplan.congress.errormessaging.LocalErrorMessaging;
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListActivity;
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListFragment;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
 import nerd.tuxmobil.fahrplan.congress.models.Meta;
 import nerd.tuxmobil.fahrplan.congress.net.CertificateDialogFragment;
 import nerd.tuxmobil.fahrplan.congress.net.CustomHttpClient;
-import nerd.tuxmobil.fahrplan.congress.net.FetchScheduleResult;
 import nerd.tuxmobil.fahrplan.congress.net.HttpStatus;
 import nerd.tuxmobil.fahrplan.congress.net.LoadShiftsResult;
 import nerd.tuxmobil.fahrplan.congress.net.ParseResult;
@@ -81,6 +82,9 @@ public class MainActivity extends BaseActivity implements
     private KeyguardManager keyguardManager = null;
 
     protected AppRepository appRepository;
+
+    @Nullable
+    private LocalErrorMessaging localErrorMessaging;
 
     private ProgressBar progressBar = null;
     private boolean requiresScheduleReload = false;
@@ -162,15 +166,32 @@ public class MainActivity extends BaseActivity implements
         setIntent(intent);
     }
 
-    public void onGotResponse(@NonNull FetchScheduleResult fetchScheduleResult) {
-        HttpStatus status = fetchScheduleResult.getHttpStatus();
+    @Override
+    protected void onStart() {
+        super.onStart();
+        localErrorMessaging = new LocalErrorMessaging(this, errorMessage -> {
+            showErrorDialog(errorMessage);
+            return Unit.INSTANCE;
+        });
+        localErrorMessaging.startReceiving();
+    }
+
+    @Override
+    protected void onStop() {
+        if (localErrorMessaging != null) {
+            localErrorMessaging.stopReceiving();
+            localErrorMessaging = null;
+        }
+        super.onStop();
+    }
+
+    public void onGotResponse(@NonNull HttpStatus status) {
         MyApp.LogDebug(LOG_TAG, "Response... " + status);
         MyApp.task_running = TASKS.NONE;
         if (MyApp.meta.getNumDays() == 0) {
             hideProgressDialog();
         }
         if (status != HttpStatus.HTTP_OK) {
-            showErrorDialog(fetchScheduleResult.getExceptionMessage(), fetchScheduleResult.getHostName(), status);
             progressBar.setVisibility(View.INVISIBLE);
             showUpdateAction = true;
             invalidateOptionsMenu();
@@ -186,14 +207,14 @@ public class MainActivity extends BaseActivity implements
         MyApp.task_running = TASKS.PARSE;
     }
 
-    private void showErrorDialog(@NonNull String exceptionMessage, @NonNull String hostName, HttpStatus status) {
-        if (HttpStatus.HTTP_LOGIN_FAIL_UNTRUSTED_CERTIFICATE == status) {
-            CertificateDialogFragment.newInstance(exceptionMessage).show(
+    private void showErrorDialog(@NonNull ErrorMessage errorMessage) {
+        if (HttpStatus.HTTP_LOGIN_FAIL_UNTRUSTED_CERTIFICATE == errorMessage.getHttpStatus()) {
+            CertificateDialogFragment.newInstance(errorMessage.getExceptionMessage()).show(
                     getSupportFragmentManager(),
                     CertificateDialogFragment.FRAGMENT_TAG
             );
         }
-        CustomHttpClient.showHttpError(this, status, hostName);
+        CustomHttpClient.showHttpError(this, errorMessage.getHttpStatus(), errorMessage.getHostName());
     }
 
     public void onParseDone(@NonNull ParseResult result) {
@@ -269,8 +290,8 @@ public class MainActivity extends BaseActivity implements
             OkHttpClient okHttpClient = CustomHttpClient.createHttpClient();
             appRepository.loadSchedule(url,
                     okHttpClient,
-                    fetchScheduleResult -> {
-                        onGotResponse(fetchScheduleResult);
+                    httpStatus -> {
+                        onGotResponse(httpStatus);
                         return Unit.INSTANCE;
                     },
                     parseScheduleResult -> {

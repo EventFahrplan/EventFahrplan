@@ -20,7 +20,6 @@ import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
 import nerd.tuxmobil.fahrplan.congress.net.ConnectivityObserver;
 import nerd.tuxmobil.fahrplan.congress.net.CustomHttpClient;
-import nerd.tuxmobil.fahrplan.congress.net.FetchScheduleResult;
 import nerd.tuxmobil.fahrplan.congress.net.HttpStatus;
 import nerd.tuxmobil.fahrplan.congress.net.LoadShiftsResult;
 import nerd.tuxmobil.fahrplan.congress.net.ParseResult;
@@ -76,8 +75,7 @@ public class UpdateService extends SafeJobIntentService {
         notificationHelper.notify(NotificationHelper.SCHEDULE_UPDATE_ID, builder);
     }
 
-    public void onGotResponse(@NonNull FetchScheduleResult fetchScheduleResult) {
-        HttpStatus status = fetchScheduleResult.getHttpStatus();
+    public void onGotResponse(@NonNull HttpStatus status) {
         MyApp.task_running = TASKS.NONE;
         if (status != HttpStatus.HTTP_OK) {
             MyApp.LogDebug(LOG_TAG, "Background schedule update failed. HTTP status code: " + status);
@@ -100,8 +98,8 @@ public class UpdateService extends SafeJobIntentService {
             OkHttpClient okHttpClient = CustomHttpClient.createHttpClient();
             appRepository.loadSchedule(url,
                     okHttpClient,
-                    fetchScheduleResult -> {
-                        onGotResponse(fetchScheduleResult);
+                    httpStatus -> {
+                        onGotResponse(httpStatus);
                         return Unit.INSTANCE;
                     },
                     parseScheduleResult -> {

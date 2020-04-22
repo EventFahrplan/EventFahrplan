@@ -20,11 +20,18 @@ import kotlinx.coroutines.Job
 import nerd.tuxmobil.fahrplan.congress.BuildConfig
 import nerd.tuxmobil.fahrplan.congress.MyApp
 import nerd.tuxmobil.fahrplan.congress.dataconverters.*
+import nerd.tuxmobil.fahrplan.congress.errormessaging.AppErrorMessageHandler
+import nerd.tuxmobil.fahrplan.congress.errormessaging.ErrorMessage
+import nerd.tuxmobil.fahrplan.congress.errormessaging.ErrorMessageHandling
 import nerd.tuxmobil.fahrplan.congress.exceptions.AppExceptionHandler
+import nerd.tuxmobil.fahrplan.congress.exceptions.ExceptionHandling
 import nerd.tuxmobil.fahrplan.congress.models.Alarm
 import nerd.tuxmobil.fahrplan.congress.models.Lecture
 import nerd.tuxmobil.fahrplan.congress.models.Meta
-import nerd.tuxmobil.fahrplan.congress.net.*
+import nerd.tuxmobil.fahrplan.congress.net.HttpStatus
+import nerd.tuxmobil.fahrplan.congress.net.LoadShiftsResult
+import nerd.tuxmobil.fahrplan.congress.net.ParseResult
+import nerd.tuxmobil.fahrplan.congress.net.ParseScheduleResult
 import nerd.tuxmobil.fahrplan.congress.preferences.SharedPreferencesRepository
 import nerd.tuxmobil.fahrplan.congress.serialization.ScheduleChanges
 import okhttp3.OkHttpClient
@@ -42,6 +49,8 @@ object AppRepository {
     private lateinit var context: Context
 
     private lateinit var logging: Logging
+    private lateinit var errorMessageHandling: ErrorMessageHandling
+    private lateinit var exceptionHandling: ExceptionHandling
 
     private val parentJobs = mutableMapOf<String, Job>()
     private lateinit var networkScope: NetworkScope
@@ -59,7 +68,9 @@ object AppRepository {
     fun initialize(
             context: Context,
             logging: Logging,
-            networkScope: NetworkScope = NetworkScope.of(AppExecutionContext, AppExceptionHandler(logging)),
+            errorMessageHandling: ErrorMessageHandling = AppErrorMessageHandler(context),
+            exceptionHandling: ExceptionHandling = AppExceptionHandler(logging),
+            networkScope: NetworkScope = NetworkScope.of(AppExecutionContext, exceptionHandling),
             alarmsDatabaseRepository: AlarmsDatabaseRepository = AlarmsDatabaseRepository(AlarmsDBOpenHelper(context)),
             highlightsDatabaseRepository: HighlightsDatabaseRepository = HighlightsDatabaseRepository(HighlightDBOpenHelper(context)),
             lecturesDatabaseRepository: LecturesDatabaseRepository = LecturesDatabaseRepository(LecturesDBOpenHelper(context), logging),
@@ -70,6 +81,8 @@ object AppRepository {
     ) {
         this.context = context
         this.logging = logging
+        this.errorMessageHandling = errorMessageHandling
+        this.exceptionHandling = exceptionHandling
         this.networkScope = networkScope
         this.alarmsDatabaseRepository = alarmsDatabaseRepository
         this.highlightsDatabaseRepository = highlightsDatabaseRepository
@@ -91,22 +104,22 @@ object AppRepository {
 
     fun loadSchedule(url: String,
                      okHttpClient: OkHttpClient,
-                     onFetchingDone: (fetchScheduleResult: FetchScheduleResult) -> Unit,
+                     onFetchingDone: (httpStatus: HttpStatus) -> Unit,
                      onParsingDone: (parseScheduleResult: ParseResult) -> Unit,
                      onLoadingShiftsDone: (loadShiftsResult: LoadShiftsResult) -> Unit
     ) {
-        check(onFetchingDone != {}) { "Nobody registered to receive FetchScheduleResult." }
+        check(onFetchingDone != {}) { "Nobody registered to receive HttpStatus." }
         // Fetching
         val meta = readMeta()
         scheduleNetworkRepository.fetchSchedule(okHttpClient, url, meta.eTag) { fetchScheduleResult ->
-            val fetchResult = fetchScheduleResult.toAppFetchScheduleResult()
-            onFetchingDone.invoke(fetchResult)
+            val httpStatus = fetchScheduleResult.httpStatus
+            onFetchingDone.invoke(httpStatus.toAppHttpStatus())
 
-            if (fetchResult.isNotModified || fetchResult.isSuccessful) {
+            if (httpStatus.isNotModified || httpStatus.isSuccessful) {
                 updateScheduleLastFetchingTime()
             }
 
-            if (fetchResult.isSuccessful) {
+            if (httpStatus.isSuccessful) {
                 updateMeta(meta.copy(eTag = fetchScheduleResult.eTag))
                 check(onParsingDone != {}) { "Nobody registered to receive ParseScheduleResult." }
                 // Parsing
@@ -117,8 +130,14 @@ object AppRepository {
                         onParsingDone,
                         onLoadingShiftsDone
                 )
+            } else {
+                errorMessageHandling.onHandleErrorMessage(ErrorMessage(
+                        httpStatus = fetchScheduleResult.httpStatus.toAppHttpStatus(),
+                        exceptionMessage = fetchScheduleResult.exceptionMessage,
+                        hostName = fetchScheduleResult.hostName
+                ))
             }
-            if (fetchResult.isNotModified) {
+            if (httpStatus.isNotModified) {
                 loadShifts(okHttpClient, onLoadingShiftsDone)
             }
         }
