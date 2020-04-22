@@ -79,9 +79,6 @@ public class UpdateService extends SafeJobIntentService {
     public void onGotResponse(@NonNull FetchScheduleResult fetchScheduleResult) {
         HttpStatus status = fetchScheduleResult.getHttpStatus();
         MyApp.task_running = TASKS.NONE;
-        if (status == HttpStatus.HTTP_OK || status == HttpStatus.HTTP_NOT_MODIFIED) {
-            appRepository.updateScheduleLastFetchingTime();
-        }
         if (status != HttpStatus.HTTP_OK) {
             MyApp.LogDebug(LOG_TAG, "Background schedule update failed. HTTP status code: " + status);
             stopSelf();

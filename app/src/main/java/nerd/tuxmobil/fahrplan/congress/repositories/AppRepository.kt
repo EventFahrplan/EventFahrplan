@@ -102,6 +102,10 @@ object AppRepository {
             val fetchResult = fetchScheduleResult.toAppFetchScheduleResult()
             onFetchingDone.invoke(fetchResult)
 
+            if (fetchResult.isNotModified || fetchResult.isSuccessful) {
+                updateScheduleLastFetchingTime()
+            }
+
             if (fetchResult.isSuccessful) {
                 updateMeta(meta.copy(eTag = fetchScheduleResult.eTag))
                 check(onParsingDone != {}) { "Nobody registered to receive ParseScheduleResult." }
@@ -400,7 +404,7 @@ object AppRepository {
     fun readScheduleLastFetchingTime() =
             sharedPreferencesRepository.getScheduleLastFetchedAt()
 
-    fun updateScheduleLastFetchingTime() = with(Moment()) {
+    private fun updateScheduleLastFetchingTime() = with(Moment()) {
         sharedPreferencesRepository.setScheduleLastFetchedAt(toMilliseconds())
     }
 

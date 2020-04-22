@@ -169,9 +169,6 @@ public class MainActivity extends BaseActivity implements
         if (MyApp.meta.getNumDays() == 0) {
             hideProgressDialog();
         }
-        if (status == HttpStatus.HTTP_OK || status == HttpStatus.HTTP_NOT_MODIFIED) {
-            appRepository.updateScheduleLastFetchingTime();
-        }
         if (status != HttpStatus.HTTP_OK) {
             showErrorDialog(fetchScheduleResult.getExceptionMessage(), fetchScheduleResult.getHostName(), status);
             progressBar.setVisibility(View.INVISIBLE);
