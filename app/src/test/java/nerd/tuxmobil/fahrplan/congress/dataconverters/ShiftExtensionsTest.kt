@@ -1,9 +1,9 @@
 package nerd.tuxmobil.fahrplan.congress.dataconverters
 
-import info.metadude.android.eventfahrplan.commons.logging.Logging
 import info.metadude.android.eventfahrplan.commons.temporal.DayRange
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import info.metadude.kotlin.library.engelsystem.models.Shift
+import nerd.tuxmobil.fahrplan.congress.NoLogging
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import org.threeten.bp.ZoneOffset
@@ -97,12 +97,6 @@ class ShiftExtensionsTest {
         val dayRange = DayRange(day)
         val shift = Shift(startsAt = startsAtDate, endsAt = endsAtDate)
         assertThat(shift.toLectureAppModel(NoLogging, "", listOf(dayRange)).duration).isEqualTo(30)
-    }
-
-    object NoLogging : Logging {
-        override fun d(tag: String, message: String) = Unit
-        override fun e(tag: String, message: String) = Unit
-        override fun report(tag: String, message: String) = Unit
     }
 
 }

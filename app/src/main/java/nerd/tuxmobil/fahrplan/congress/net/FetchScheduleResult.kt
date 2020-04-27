@@ -12,12 +12,7 @@ data class FetchScheduleResult(
     val isSuccessful
         get() = HttpStatus.HTTP_OK == httpStatus
 
-    companion object {
-
-        @JvmStatic
-        fun createError(httpStatus: HttpStatus, hostName: String) =
-                FetchScheduleResult(httpStatus = httpStatus, hostName = hostName)
-
-    }
+    val isNotModified
+        get() = HttpStatus.HTTP_NOT_MODIFIED == httpStatus
 
 }

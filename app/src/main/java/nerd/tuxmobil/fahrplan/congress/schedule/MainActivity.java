@@ -385,8 +385,7 @@ public class MainActivity extends BaseActivity implements
         return super.onOptionsItemSelected(item);
     }
 
-    public void openLectureDetail(Lecture lecture, int mDay, boolean requiresScheduleReload) {
-        if (lecture == null) return;
+    public void openLectureDetail(@NonNull Lecture lecture, int mDay, boolean requiresScheduleReload) {
         FrameLayout sidePane = findViewById(R.id.detail);
         MyApp.LogDebug(LOG_TAG, "openLectureDetail sidePane=" + sidePane);
         if (sidePane != null) {

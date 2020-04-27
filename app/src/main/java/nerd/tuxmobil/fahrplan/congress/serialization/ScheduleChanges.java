@@ -5,7 +5,8 @@ import android.support.annotation.NonNull;
 import java.util.List;
 
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
-import nerd.tuxmobil.fahrplan.congress.utils.LectureUtils;
+
+import static kotlin.collections.CollectionsKt.singleOrNull;
 
 public class ScheduleChanges {
 
@@ -25,7 +26,7 @@ public class ScheduleChanges {
 
         for (lectureIndex = 0; lectureIndex < lectures.size(); lectureIndex++) {
             Lecture newLecture = lectures.get(lectureIndex);
-            Lecture oldLecture = LectureUtils.getLecture(oldLectures, newLecture.lectureId);
+            Lecture oldLecture = singleOrNull(oldLectures, lecture -> newLecture.lectureId.equals(lecture.lectureId));
 
             if (oldLecture == null) {
                 newLecture.changedIsNew = true;

@@ -60,8 +60,8 @@ import nerd.tuxmobil.fahrplan.congress.sharing.JsonLectureFormat;
 import nerd.tuxmobil.fahrplan.congress.sharing.LectureSharer;
 import nerd.tuxmobil.fahrplan.congress.sharing.SimpleLectureFormat;
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
-import nerd.tuxmobil.fahrplan.congress.utils.LectureUtils;
 
+import static kotlin.collections.CollectionsKt.single;
 import static nerd.tuxmobil.fahrplan.congress.extensions.Resource.getNormalizedBoxHeight;
 
 public class FahrplanFragment extends Fragment implements View.OnClickListener, View.OnCreateContextMenuListener {
@@ -238,10 +238,10 @@ public class FahrplanFragment extends Fragment implements View.OnClickListener, 
         }
 
         if (lectureId != null) {
-            scrollTo(lectureId);
+            Lecture lecture = single(MyApp.lectureList, currentLecture -> lectureId.equals(currentLecture.lectureId));
+            scrollTo(lecture);
             FrameLayout sidePane = activity.findViewById(R.id.detail);
             if (sidePane != null) {
-                Lecture lecture = LectureUtils.getLecture(MyApp.lectureList, lectureId);
                 ((MainActivity) activity).openLectureDetail(lecture, mDay, false);
             }
             intent.removeExtra("lecture_id");   // jump to given lectureId only once
@@ -436,24 +436,17 @@ public class FahrplanFragment extends Fragment implements View.OnClickListener, 
         }
     }
 
-    private void scrollTo(String lectureId) {
-        for (Lecture lecture : MyApp.lectureList) {
-            if (lectureId.equals(lecture.lectureId)) {
-                final ScrollView parent = getView().findViewById(R.id.scrollView1);
-                int height = getNormalizedBoxHeight(getResources(), scale, LOG_TAG);
-                final int pos = (lecture.relStartTime - conference.getFirstEventStartsAt()) / 5 * height;
-                MyApp.LogDebug(LOG_TAG, "position is " + pos);
-                parent.post(() -> parent.scrollTo(0, pos));
-                final HorizontalSnapScrollView horiz =
-                        getView().findViewById(R.id.horizScroller);
-                if (horiz != null) {
-                    final int hpos = MyApp.roomList.keyAt(
-                            MyApp.roomList.indexOfValue(lecture.roomIndex));
-                    MyApp.LogDebug(LOG_TAG, "scroll horiz to " + hpos);
-                    horiz.post(() -> horiz.scrollToColumn(hpos, false));
-                }
-                break;
-            }
+    private void scrollTo(@NonNull Lecture lecture) {
+        final ScrollView parent = getView().findViewById(R.id.scrollView1);
+        int height = getNormalizedBoxHeight(getResources(), scale, LOG_TAG);
+        final int pos = (lecture.relStartTime - conference.getFirstEventStartsAt()) / 5 * height;
+        MyApp.LogDebug(LOG_TAG, "position is " + pos);
+        parent.post(() -> parent.scrollTo(0, pos));
+        final HorizontalSnapScrollView horiz = getView().findViewById(R.id.horizScroller);
+        if (horiz != null) {
+            final int hpos = MyApp.roomList.keyAt(MyApp.roomList.indexOfValue(lecture.roomIndex));
+            MyApp.LogDebug(LOG_TAG, "scroll horiz to " + hpos);
+            horiz.post(() -> horiz.scrollToColumn(hpos, false));
         }
     }
 
@@ -602,6 +595,9 @@ public class FahrplanFragment extends Fragment implements View.OnClickListener, 
     @Override
     public void onClick(View v) {
         Lecture lecture = (Lecture) v.getTag();
+        if (lecture == null) {
+            throw new NullPointerException("A lecture must be assigned to the 'tag' attribute of the lecture view.");
+        }
         MyApp.LogDebug(LOG_TAG, "Click on " + lecture.title);
         MainActivity mainActivity = (MainActivity) requireActivity();
         mainActivity.openLectureDetail(lecture, mDay, false);
@@ -816,7 +812,7 @@ public class FahrplanFragment extends Fragment implements View.OnClickListener, 
             View v = getLectureView(lecture);
             if (v != null) {
                 lectureViewDrawer.setLectureBackground(lecture, v);
-                lectureViewDrawer.setLectureTextColor(lecture, v);
+                LectureViewDrawer.setLectureTextColor(lecture, v);
             }
         }
     }
