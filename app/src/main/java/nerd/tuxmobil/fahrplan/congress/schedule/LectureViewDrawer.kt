@@ -9,23 +9,18 @@ import android.support.annotation.ColorRes
 import android.support.v4.content.ContextCompat
 import android.view.View
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
-import info.metadude.android.eventfahrplan.commons.logging.Logging
-import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
-import nerd.tuxmobil.fahrplan.congress.extensions.getLayoutInflater
 import nerd.tuxmobil.fahrplan.congress.models.Lecture
-import org.threeten.bp.Duration
 
-internal class LectureViewDrawer(context: Context,
-                                 private val onLectureClick: View.OnClickListener,
-                                 private val onCreateContextMenu: View.OnCreateContextMenuListener
+internal class LectureViewDrawer(
+    context: Context,
+    private val onLectureClick: View.OnClickListener,
+    private val onCreateContextMenu: View.OnCreateContextMenuListener
 ) {
     private val scale: Float
     private val resources = context.resources
-    private val inflater = context.getLayoutInflater()
     private val boldCondensed = Typeface.createFromAsset(context.assets, "Roboto-BoldCondensed.ttf")
     private val eventDrawableInsetTop: Int
     private val eventDrawableInsetLeft: Int
@@ -56,14 +51,14 @@ internal class LectureViewDrawer(context: Context,
         eventDrawableStrokeWidth = resources.getDimensionPixelSize(
                 R.dimen.event_drawable_selection_stroke_width)
         eventDrawableStrokeColor = ContextCompat.getColor(
-                FahrplanFragment.context, R.color.event_drawable_selection_stroke)
+                context, R.color.event_drawable_selection_stroke)
         eventDrawableRippleColor = ContextCompat.getColor(
-                FahrplanFragment.context, R.color.event_drawable_ripple)
+                context, R.color.event_drawable_ripple)
         trackNameBackgroundColorDefaultPairs = TrackBackgrounds.getTrackNameBackgroundColorDefaultPairs(context)
         trackNameBackgroundColorHighlightPairs = TrackBackgrounds.getTrackNameBackgroundColorHighlightPairs(context)
     }
 
-    private fun updateEventView(eventView: View, lecture: Lecture) {
+    fun updateEventView(eventView: View, lecture: Lecture) {
         val bell = eventView.findViewById<ImageView>(R.id.bell)
         bell.visibility = if (lecture.hasAlarm) View.VISIBLE else View.GONE
         var title = eventView.findViewById<TextView>(R.id.event_title)
@@ -82,27 +77,7 @@ internal class LectureViewDrawer(context: Context,
         }
         setLectureBackground(lecture, eventView)
         setLectureTextColor(lecture, eventView)
-        eventView.setOnClickListener(onLectureClick)
-        eventView.setOnCreateContextMenuListener(onCreateContextMenu)
-        eventView.isLongClickable = true
         eventView.tag = lecture
-    }
-
-    fun createLectureViews(room: LinearLayout, lectureLayoutParams: Map<Lecture, LinearLayout.LayoutParams>, standardHeight: Int) {
-        room.removeAllViews()
-
-        for ((lecture, params) in lectureLayoutParams) {
-            val eventView = inflater.inflate(R.layout.event_layout, null)
-            val height = standardHeight * (lecture.duration / 5)
-            room.addView(eventView, LinearLayout.LayoutParams.MATCH_PARENT, height)
-
-            val lp = eventView.layoutParams as LinearLayout.LayoutParams
-            lp.bottomMargin = params.bottomMargin
-            lp.topMargin = params.topMargin
-            eventView.layoutParams = lp
-
-            updateEventView(eventView, lecture)
-        }
     }
 
     fun setLectureBackground(event: Lecture, eventView: View) {
@@ -152,8 +127,6 @@ internal class LectureViewDrawer(context: Context,
 
     companion object {
         const val LOG_TAG = "LectureViewDrawer"
-        const val DIVISOR = 5
-        private const val MILLIS_PER_MINUTE = 60000
 
         @JvmStatic
         fun setLectureTextColor(lecture: Lecture, view: View) {
@@ -165,72 +138,6 @@ internal class LectureViewDrawer(context: Context,
             title.setTextColor(textColor)
             subtitle.setTextColor(textColor)
             speakers.setTextColor(textColor)
-        }
-
-        @JvmStatic
-        fun calculateLayoutParams(roomIndex: Int, lectures: List<Lecture>, standardHeight: Int, conference: Conference, logging: Logging): Map<Lecture, LinearLayout.LayoutParams> {
-            var endTimePreviousLecture: Int = conference.firstEventStartsAt
-            var startTime: Int
-            var margin: Int
-            var previousLecture: Lecture? = null
-            val lectureLayoutParams = mutableMapOf<Lecture, LinearLayout.LayoutParams>()
-
-            for (idx in lectures.indices) {
-                val lecture = lectures[idx]
-
-                if (lecture.roomIndex == roomIndex) {
-                    if (lecture.dateUTC > 0) {
-                        startTime = Moment(lecture.dateUTC).minuteOfDay
-                        if (startTime < endTimePreviousLecture) {
-                            startTime += Duration.ofDays(1).toMinutes().toInt()
-                        }
-                    } else {
-                        startTime = lecture.relStartTime
-                    }
-                    if (startTime > endTimePreviousLecture) {
-                        margin = standardHeight * (startTime - endTimePreviousLecture) / DIVISOR
-                        if (previousLecture != null) {
-                            lectureLayoutParams[previousLecture]!!.bottomMargin = margin
-                            margin = 0
-                        }
-                    } else {
-                        // first lecture
-                        margin = 0
-                    }
-
-                    // fix overlapping events
-                    var next: Lecture? = null
-                    for (nextIndex in idx + 1 until lectures.size) {
-                        next = lectures[nextIndex]
-                        if (next.roomIndex == roomIndex) {
-                            break
-                        }
-                        next = null
-                    }
-
-                    if (next != null) {
-                        if (next.dateUTC > 0) {
-                            val endTimestamp = lecture.dateUTC + lecture.duration * MILLIS_PER_MINUTE
-                            // next starts, before current ends
-                            if (endTimestamp > next.dateUTC) {
-                                logging.d(LOG_TAG, "${lecture.title} collides with ${next.title}")
-                                // cut current at the end, to match next lectures start time
-                                lecture.duration = ((next.dateUTC - lecture.dateUTC) / MILLIS_PER_MINUTE).toInt()
-                            }
-                        }
-                    }
-
-                    if (!lectureLayoutParams.containsKey(lecture)) {
-                        lectureLayoutParams[lecture] = LinearLayout.LayoutParams(0, 0)
-                    }
-
-                    lectureLayoutParams[lecture]!!.topMargin = margin
-                    endTimePreviousLecture = startTime + lecture.duration
-                    previousLecture = lecture
-                }
-            }
-
-            return lectureLayoutParams
         }
     }
 }
