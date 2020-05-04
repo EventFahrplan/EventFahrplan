@@ -28,6 +28,9 @@
                     android:orientation="horizontal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
+
+                <!-- Room title views are added here at runtime. -->
+
             </LinearLayout>
         </HorizontalScrollView>
     </LinearLayout>
@@ -62,6 +65,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="horizontal">
+
+                    <!-- Room column views are added here at runtime. -->
+
                 </LinearLayout>
 
             </nerd.tuxmobil.fahrplan.congress.schedule.HorizontalSnapScrollView>

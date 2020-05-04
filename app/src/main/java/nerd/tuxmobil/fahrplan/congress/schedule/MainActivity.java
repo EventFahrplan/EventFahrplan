@@ -169,9 +169,6 @@ public class MainActivity extends BaseActivity implements
         if (MyApp.meta.getNumDays() == 0) {
             hideProgressDialog();
         }
-        if (status == HttpStatus.HTTP_OK || status == HttpStatus.HTTP_NOT_MODIFIED) {
-            appRepository.updateScheduleLastFetchingTime();
-        }
         if (status != HttpStatus.HTTP_OK) {
             showErrorDialog(fetchScheduleResult.getExceptionMessage(), fetchScheduleResult.getHostName(), status);
             progressBar.setVisibility(View.INVISIBLE);
@@ -183,8 +180,6 @@ public class MainActivity extends BaseActivity implements
         progressBar.setVisibility(View.INVISIBLE);
         showUpdateAction = true;
         invalidateOptionsMenu();
-
-        MyApp.meta.setETag(fetchScheduleResult.getETag());
 
         // Parser is automatically invoked when response has been received.
         showParsingStatus();
@@ -272,7 +267,7 @@ public class MainActivity extends BaseActivity implements
             showFetchingStatus();
             String url = appRepository.readScheduleUrl();
             OkHttpClient okHttpClient = CustomHttpClient.createHttpClient();
-            appRepository.loadSchedule(url, MyApp.meta.getETag(),
+            appRepository.loadSchedule(url,
                     okHttpClient,
                     fetchScheduleResult -> {
                         onGotResponse(fetchScheduleResult);

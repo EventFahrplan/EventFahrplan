@@ -5,14 +5,6 @@ import nerd.tuxmobil.fahrplan.congress.net.FetchScheduleResult as AppFetchSchedu
 
 fun NetworkFetchScheduleResult.toAppFetchScheduleResult() = AppFetchScheduleResult(
         httpStatus = httpStatus.toAppHttpStatus(),
-        eTag = eTag,
-        hostName = hostName,
-        exceptionMessage = exceptionMessage
-)
-
-fun AppFetchScheduleResult.toNetworkFetchScheduleResult() = NetworkFetchScheduleResult(
-        httpStatus = httpStatus.toNetworkHttpStatus(),
-        eTag = eTag,
         hostName = hostName,
         exceptionMessage = exceptionMessage
 )

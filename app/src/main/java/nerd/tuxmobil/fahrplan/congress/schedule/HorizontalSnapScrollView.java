@@ -2,6 +2,7 @@ package nerd.tuxmobil.fahrplan.congress.schedule;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.support.annotation.IntRange;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
@@ -27,9 +28,13 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
 
     private int columnWidth;
 
+    private int roomsCount = NOT_INITIALIZED;
+
     private HorizontalScrollView roomNames = null;
 
     private int maximumColumns;
+
+    private static final int NOT_INITIALIZED = Integer.MIN_VALUE;
 
     private static final int SWIPE_MIN_DISTANCE = 5;
 
@@ -91,6 +96,14 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
         boolean result = super.onInterceptTouchEvent(ev);
         gestureDetector.onTouchEvent(ev);
         return result;
+    }
+
+    /**
+     * Sets the rooms count so it can be used to calculate
+     * the room column dimensions in the next layout phase.
+     */
+    public void setRoomsCount(@IntRange(from = 1) int roomsCount) {
+        this.roomsCount = roomsCount;
     }
 
     public void scrollToColumn(int col, boolean fast) {
@@ -205,7 +218,7 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
     protected void onSizeChanged(int width, int height, int oldWidth, int oldHeight) {
         MyApp.LogDebug(LOG_TAG, "onSizeChanged " + oldWidth + ", " + oldHeight + ", " + width + ", " + height + " getMW:" + getMeasuredWidth());
         super.onSizeChanged(width, height, oldWidth, oldHeight);
-        maximumColumns = calcMaxCols(getResources(), getMeasuredWidth(), MyApp.roomCount);
+        maximumColumns = calcMaxCols(getResources(), getMeasuredWidth(), roomsCount);
 
         int newItemWidth = Math.round((float) getMeasuredWidth() / maximumColumns);
         float scale = getResources().getDisplayMetrics().density;
@@ -228,6 +241,9 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
     }
 
     public int getColumnWidth() {
+        if (roomsCount == NOT_INITIALIZED) {
+            throw new IllegalStateException("The \"roomsCount\" field must be initialized before invoking \"getColumnWidth\".");
+        }
         return columnWidth;
     }
 

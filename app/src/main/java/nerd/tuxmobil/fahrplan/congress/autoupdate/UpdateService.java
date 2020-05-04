@@ -79,16 +79,12 @@ public class UpdateService extends SafeJobIntentService {
     public void onGotResponse(@NonNull FetchScheduleResult fetchScheduleResult) {
         HttpStatus status = fetchScheduleResult.getHttpStatus();
         MyApp.task_running = TASKS.NONE;
-        if (status == HttpStatus.HTTP_OK || status == HttpStatus.HTTP_NOT_MODIFIED) {
-            appRepository.updateScheduleLastFetchingTime();
-        }
         if (status != HttpStatus.HTTP_OK) {
             MyApp.LogDebug(LOG_TAG, "Background schedule update failed. HTTP status code: " + status);
             stopSelf();
             return;
         }
 
-        MyApp.meta.setETag(fetchScheduleResult.getETag());
         // Parser is automatically invoked when response has been received.
         MyApp.task_running = TASKS.PARSE;
     }
@@ -102,7 +98,7 @@ public class UpdateService extends SafeJobIntentService {
             MyApp.task_running = TASKS.FETCH;
             String url = appRepository.readScheduleUrl();
             OkHttpClient okHttpClient = CustomHttpClient.createHttpClient();
-            appRepository.loadSchedule(url, MyApp.meta.getETag(),
+            appRepository.loadSchedule(url,
                     okHttpClient,
                     fetchScheduleResult -> {
                         onGotResponse(fetchScheduleResult);
@@ -142,7 +138,6 @@ public class UpdateService extends SafeJobIntentService {
     }
 
     private void fetchSchedule() {
-        MyApp.meta = appRepository.readMeta(); // to load eTag
         MyApp.LogDebug(LOG_TAG, "Fetching schedule ...");
         FahrplanMisc.setUpdateAlarm(this, false);
         fetchFahrplan();

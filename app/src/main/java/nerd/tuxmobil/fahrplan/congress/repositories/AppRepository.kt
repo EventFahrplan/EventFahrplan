@@ -90,7 +90,6 @@ object AppRepository {
     }
 
     fun loadSchedule(url: String,
-                     eTag: String,
                      okHttpClient: OkHttpClient,
                      onFetchingDone: (fetchScheduleResult: FetchScheduleResult) -> Unit,
                      onParsingDone: (parseScheduleResult: ParseResult) -> Unit,
@@ -98,16 +97,22 @@ object AppRepository {
     ) {
         check(onFetchingDone != {}) { "Nobody registered to receive FetchScheduleResult." }
         // Fetching
-        scheduleNetworkRepository.fetchSchedule(okHttpClient, url, eTag) { fetchScheduleResult ->
+        val meta = readMeta()
+        scheduleNetworkRepository.fetchSchedule(okHttpClient, url, meta.eTag) { fetchScheduleResult ->
             val fetchResult = fetchScheduleResult.toAppFetchScheduleResult()
             onFetchingDone.invoke(fetchResult)
 
+            if (fetchResult.isNotModified || fetchResult.isSuccessful) {
+                updateScheduleLastFetchingTime()
+            }
+
             if (fetchResult.isSuccessful) {
+                updateMeta(meta.copy(eTag = fetchScheduleResult.eTag))
                 check(onParsingDone != {}) { "Nobody registered to receive ParseScheduleResult." }
                 // Parsing
                 parseSchedule(
                         fetchScheduleResult.scheduleXml,
-                        fetchResult.eTag,
+                        fetchScheduleResult.eTag,
                         okHttpClient,
                         onParsingDone,
                         onLoadingShiftsDone
@@ -366,6 +371,14 @@ object AppRepository {
     fun readMeta() =
             metaDatabaseRepository.query().toMetaAppModel()
 
+    /**
+     * Updates the [Meta] information in the database.
+     *
+     * The [Meta.eTag] field should only be written if a network response is received
+     * with a status code of HTTP 200 (OK).
+     *
+     * See also: [HttpStatus.HTTP_OK]
+     */
     private fun updateMeta(meta: Meta) {
         val metaDatabaseModel = meta.toMetaDatabaseModel()
         val values = metaDatabaseModel.toContentValues()
@@ -391,7 +404,7 @@ object AppRepository {
     fun readScheduleLastFetchingTime() =
             sharedPreferencesRepository.getScheduleLastFetchedAt()
 
-    fun updateScheduleLastFetchingTime() = with(Moment()) {
+    private fun updateScheduleLastFetchingTime() = with(Moment()) {
         sharedPreferencesRepository.setScheduleLastFetchedAt(toMilliseconds())
     }
 
