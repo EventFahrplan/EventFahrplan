@@ -17,7 +17,7 @@ object GradlePlugins {
         const val androidGradle = "3.5.3"
         const val gradleVersions = "0.28.0"
         const val sonarQubeGradle = "2.8"
-        const val unmockGradle = "0.7.5"
+        const val unmockGradle = "0.7.6"
         const val androidJunitJacocoGradle = "0.16.0"
     }
 
