@@ -9,7 +9,7 @@ object Android {
     const val targetSdkVersion = 28
 }
 
-private const val kotlinVersion = "1.3.61"
+private const val kotlinVersion = "1.3.72"
 
 object GradlePlugins {
 
