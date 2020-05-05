@@ -10,12 +10,12 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.util.SparseArrayCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.SparseIntArray;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Gravity;
@@ -370,7 +370,7 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
             @NonNull LinearLayout roomTitlesRowLayout,
             @NonNull Collection<Entry<String, Integer>> roomTitleSet,
             @SuppressWarnings("SameParameterValue")
-            @NonNull SparseIntArray roomList
+            @NonNull SparseArrayCompat<Integer> roomList
     ) {
         roomTitlesRowLayout.removeAllViews();
         int textSize = getResources().getInteger(R.integer.room_title_size);
