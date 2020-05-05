@@ -54,7 +54,7 @@ public class MyApp extends Application {
     /**
      * maps column index to room index
      */
-    public static final SparseArrayCompat<Integer> roomList = new SparseArrayCompat<>();
+    public static SparseArrayCompat<Integer> roomList = new SparseArrayCompat<>();
 
     public enum TASKS {
         NONE,

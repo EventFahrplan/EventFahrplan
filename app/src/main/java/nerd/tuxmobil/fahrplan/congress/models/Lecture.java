@@ -21,6 +21,10 @@ public class Lecture {
     public int duration;                // minutes
 
     public String room;
+
+    // The roomIndex value is not something the UI should be concerned about. Remove this once all
+    // code is switched over from using LegacyLectureData to using ScheduleData.
+    @Deprecated
     public int roomIndex;
 
     public String speakers;
