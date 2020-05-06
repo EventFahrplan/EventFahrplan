@@ -27,7 +27,9 @@ import org.ligi.tracedroid.logging.Log;
 
 import java.util.Locale;
 
+import info.metadude.android.eventfahrplan.commons.logging.Logging;
 import info.metadude.android.eventfahrplan.commons.temporal.DateFormatter;
+import kotlin.Unit;
 import nerd.tuxmobil.fahrplan.congress.BuildConfig;
 import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.R;
@@ -159,7 +161,10 @@ public class EventDetailFragment extends Fragment {
 
             // TODO: Remove this after 36C3. Right now it's only kept to minimize the likelihood of
             //  unintended behavior changes.
-            FahrplanFragment.loadLectureList(appRepository, day, requiresScheduleReload);
+            FahrplanFragment.loadLectureList(Logging.Companion.get(), appRepository, day, requiresScheduleReload, () -> {
+                FahrplanFragment.loadAlarms(appRepository);
+                return Unit.INSTANCE;
+            });
 
             lecture = eventIdToLecture(eventId);
 

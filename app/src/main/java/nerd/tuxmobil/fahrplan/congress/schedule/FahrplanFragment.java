@@ -49,6 +49,7 @@ import java.util.Map.Entry;
 import info.metadude.android.eventfahrplan.commons.logging.Logging;
 import info.metadude.android.eventfahrplan.commons.temporal.Moment;
 import kotlin.Unit;
+import kotlin.jvm.functions.Function0;
 import nerd.tuxmobil.fahrplan.congress.BuildConfig;
 import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.R;
@@ -274,7 +275,10 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
             horizontalScroller.scrollTo(0, 0);
         }
 
-        loadLectureList(appRepository, mDay, forceReload);
+        loadLectureList(Logging.Companion.get(), appRepository, mDay, forceReload, () -> {
+            loadAlarms(appRepository);
+            return Unit.INSTANCE;
+        });
         List<Lecture> lecturesOfDay = MyApp.lectureList;
 
         if (lecturesOfDay != null) {
@@ -565,8 +569,14 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
         return padding;
     }
 
-    public static void loadLectureList(@NonNull AppRepository appRepository, int day, boolean forceReload) {
-        MyApp.LogDebug(LOG_TAG, "load lectures of day " + day);
+    public static void loadLectureList(
+            @NonNull Logging logging,
+            @NonNull AppRepository appRepository,
+            int day,
+            boolean forceReload,
+            @NonNull Function0<Unit> onDone
+    ) {
+        logging.d(LOG_TAG, "load lectures of day " + day);
 
         if (!forceReload && MyApp.lectureList != null && MyApp.lectureListDay == day) {
             return;
@@ -588,7 +598,7 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
         MyApp.roomList = legacyLectureData.getRoomList();
         MyApp.roomCount = legacyLectureData.getRoomCount();
 
-        loadAlarms(appRepository);
+        onDone.invoke();
     }
 
     public static void loadAlarms(@NonNull AppRepository appRepository) {
