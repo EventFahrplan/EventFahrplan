@@ -43,7 +43,7 @@ object Libs {
         const val mockito = "3.3.0"
         const val mockitoKotlin = "2.2.0"
         const val moshi = "1.9.2"
-        const val okhttp = "3.12.10"
+        const val okhttp = "3.12.11"
         const val robolectric = "4.3_r2-robolectric-0"
         const val snackengage = "0.22"
         const val supportLibrary = "28.0.0"
