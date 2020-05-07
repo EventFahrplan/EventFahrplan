@@ -9,15 +9,15 @@ object Android {
     const val targetSdkVersion = 28
 }
 
-private const val kotlinVersion = "1.3.61"
+private const val kotlinVersion = "1.3.72"
 
 object GradlePlugins {
 
     private object Versions {
-        const val androidGradle = "3.5.3"
+        const val androidGradle = "3.6.3"
         const val gradleVersions = "0.28.0"
         const val sonarQubeGradle = "2.8"
-        const val unmockGradle = "0.7.5"
+        const val unmockGradle = "0.7.6"
         const val androidJunitJacocoGradle = "0.16.0"
     }
 
@@ -43,12 +43,12 @@ object Libs {
         const val mockito = "3.3.0"
         const val mockitoKotlin = "2.2.0"
         const val moshi = "1.9.2"
-        const val okhttp = "3.12.10"
+        const val okhttp = "3.12.11"
         const val robolectric = "4.3_r2-robolectric-0"
         const val snackengage = "0.22"
         const val supportLibrary = "28.0.0"
         const val testRules = "1.0.2"
-        const val threeTenBp = "1.4.1"
+        const val threeTenBp = "1.4.4"
         const val tracedroid = "1.4"
         const val truth = "1.0.1"
     }
