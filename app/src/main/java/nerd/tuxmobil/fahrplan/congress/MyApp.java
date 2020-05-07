@@ -10,6 +10,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.TimeZone;
 
 import info.metadude.android.eventfahrplan.commons.logging.Logging;
@@ -49,7 +50,7 @@ public class MyApp extends Application {
     /**
      * maps room title to room index
      */
-    public static final HashMap<String, Integer> roomsMap = new HashMap<>();
+    public static final Map<String, Integer> roomsMap = new HashMap<>();
 
     /**
      * maps column index to room index
