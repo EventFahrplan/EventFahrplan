@@ -95,15 +95,13 @@ data class LayoutCalculator(val logging: Logging = Logging.get(),
             next = null
         }
 
-        if (next != null) {
-            if (next.dateUTC > 0) {
-                val endTimestamp = lecture.dateUTC + lecture.duration * MILLIS_PER_MINUTE
-                val nextStartsBeforeCurrentEnds = endTimestamp > next.dateUTC
-                if (nextStartsBeforeCurrentEnds) {
-                    logging.d(LOG_TAG, "${lecture.title} collides with ${next.title}")
-                    // cut current at the end, to match next lectures start time
-                    lecture.duration = ((next.dateUTC - lecture.dateUTC) / MILLIS_PER_MINUTE).toInt()
-                }
+        if (next != null && next.dateUTC > 0) {
+            val endTimestamp = lecture.dateUTC + lecture.duration * MILLIS_PER_MINUTE
+            val nextStartsBeforeCurrentEnds = endTimestamp > next.dateUTC
+            if (nextStartsBeforeCurrentEnds) {
+                logging.d(LOG_TAG, "${lecture.title} collides with ${next.title}")
+                // cut current at the end, to match next lectures start time
+                lecture.duration = ((next.dateUTC - lecture.dateUTC) / MILLIS_PER_MINUTE).toInt()
             }
         }
     }
