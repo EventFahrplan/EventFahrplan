@@ -210,6 +210,7 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
         }
     }
 
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_item_share_favorites:
