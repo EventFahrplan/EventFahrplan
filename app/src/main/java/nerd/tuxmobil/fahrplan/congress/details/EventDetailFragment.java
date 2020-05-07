@@ -389,6 +389,7 @@ public class EventDetailFragment extends Fragment {
         refreshUI(activity);
     }
 
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Lecture l;
         Activity activity = requireActivity();

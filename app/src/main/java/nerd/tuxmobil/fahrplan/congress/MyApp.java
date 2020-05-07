@@ -10,6 +10,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.TimeZone;
 
 import info.metadude.android.eventfahrplan.commons.logging.Logging;
@@ -31,25 +32,25 @@ public class MyApp extends Application {
 
     public static DateInfos dateInfos = null;
 
-    private static final long first_day_start = getMilliseconds("Europe/Paris",
+    private static final long FIRST_DAY_START = getMilliseconds("Europe/Paris",
             BuildConfig.SCHEDULE_FIRST_DAY_START_YEAR,
             BuildConfig.SCHEDULE_FIRST_DAY_START_MONTH,
             BuildConfig.SCHEDULE_FIRST_DAY_START_DAY);
 
-    private static final long last_day_end = getMilliseconds("Europe/Paris",
+    private static final long LAST_DAY_END = getMilliseconds("Europe/Paris",
             BuildConfig.SCHEDULE_LAST_DAY_END_YEAR,
             BuildConfig.SCHEDULE_LAST_DAY_END_MONTH,
             BuildConfig.SCHEDULE_LAST_DAY_END_DAY);
 
     public static final ConferenceTimeFrame conferenceTimeFrame =
-            new ConferenceTimeFrame(first_day_start, last_day_end);
+            new ConferenceTimeFrame(FIRST_DAY_START, LAST_DAY_END);
 
     public static int roomCount = 0;
 
     /**
      * maps room title to room index
      */
-    public static final HashMap<String, Integer> roomsMap = new HashMap<>();
+    public static final Map<String, Integer> roomsMap = new HashMap<>();
 
     /**
      * maps column index to room index
@@ -64,11 +65,11 @@ public class MyApp extends Application {
     }
 
     // requestCodes für startActivityForResult
-    public final static int ALARMLIST = 1;
-    public final static int EVENTVIEW = 2;
-    public final static int CHANGELOG = 3;
-    public final static int STARRED = 4;
-    public final static int SETTINGS = 5;
+    public static final int ALARMLIST = 1;
+    public static final int EVENTVIEW = 2;
+    public static final int CHANGELOG = 3;
+    public static final int STARRED = 4;
+    public static final int SETTINGS = 5;
 
     public static TASKS task_running = TASKS.NONE;
 

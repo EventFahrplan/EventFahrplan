@@ -94,6 +94,7 @@ public class AlarmList extends ActionBarListActivity {
         return true;
     }
 
+    @Override
     public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, view, menuInfo);
         menu.add(0, CONTEXT_MENU_ITEM_ID_DELETE, 0, global.getString(R.string.menu_item_title_delete_favorite));
@@ -121,6 +122,7 @@ public class AlarmList extends ActionBarListActivity {
         setListAdapter(null);
     }
 
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         MenuInflater inflater = getMenuInflater();
