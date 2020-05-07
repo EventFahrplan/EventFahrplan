@@ -1,8 +1,8 @@
 package nerd.tuxmobil.fahrplan.congress;
 
 import android.app.Application;
+import android.support.v4.util.SparseArrayCompat;
 import android.util.Log;
-import android.util.SparseIntArray;
 
 import org.ligi.tracedroid.TraceDroid;
 
@@ -54,7 +54,7 @@ public class MyApp extends Application {
     /**
      * maps column index to room index
      */
-    public static final SparseIntArray roomList = new SparseIntArray();
+    public static SparseArrayCompat<Integer> roomList = new SparseArrayCompat<>();
 
     public enum TASKS {
         NONE,

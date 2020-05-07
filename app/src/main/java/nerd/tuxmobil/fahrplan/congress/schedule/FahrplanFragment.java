@@ -10,12 +10,12 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.util.SparseArrayCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.SparseIntArray;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Gravity;
@@ -38,6 +38,7 @@ import org.ligi.tracedroid.logging.Log;
 import org.threeten.bp.Duration;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -60,6 +61,8 @@ import nerd.tuxmobil.fahrplan.congress.net.ParseResult;
 import nerd.tuxmobil.fahrplan.congress.net.ParseScheduleResult;
 import nerd.tuxmobil.fahrplan.congress.net.ParseShiftsResult;
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
+import nerd.tuxmobil.fahrplan.congress.repositories.LectureListTransformer;
+import nerd.tuxmobil.fahrplan.congress.repositories.LegacyLectureData;
 import nerd.tuxmobil.fahrplan.congress.sharing.JsonLectureFormat;
 import nerd.tuxmobil.fahrplan.congress.sharing.LectureSharer;
 import nerd.tuxmobil.fahrplan.congress.sharing.SimpleLectureFormat;
@@ -113,6 +116,9 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
             "Saal 17",
             "Lounge"
     };
+
+    private static final LectureListTransformer lectureListTransformer =
+            new LectureListTransformer(() -> Arrays.asList(rooms));
 
     private Typeface light;
 
@@ -370,7 +376,7 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
             @NonNull LinearLayout roomTitlesRowLayout,
             @NonNull Collection<Entry<String, Integer>> roomTitleSet,
             @SuppressWarnings("SameParameterValue")
-            @NonNull SparseIntArray roomList
+            @NonNull SparseArrayCompat<Integer> roomList
     ) {
         roomTitlesRowLayout.removeAllViews();
         int textSize = getResources().getInteger(R.integer.room_title_size);
@@ -566,61 +572,21 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
             return;
         }
 
-        MyApp.lectureList = appRepository.loadUncanceledLecturesForDayIndex(day);
+        List<Lecture> lectures = appRepository.loadUncanceledLecturesForDayIndex(day);
+
+        LegacyLectureData legacyLectureData = lectureListTransformer.legacyTransformLectureList(day, lectures);
+
+        MyApp.lectureList = legacyLectureData.getLectureList();
+        // FIXME: remove this?
         if (MyApp.lectureList.isEmpty()) {
             return;
         }
-        MyApp.lectureListDay = day;
 
+        MyApp.lectureListDay = legacyLectureData.getLectureListDay();
         MyApp.roomsMap.clear();
-        MyApp.roomList.clear();
-        for (Lecture lecture : MyApp.lectureList) {
-            if (!MyApp.roomsMap.containsKey(lecture.room)) {
-                if (!MyApp.roomsMap.containsValue(lecture.roomIndex)) {
-                    // room name : room index
-                    MyApp.roomsMap.put(lecture.room, lecture.roomIndex);
-                } else {
-                    // upgrade from DB without roomIndex
-                    int newIndex;
-                    for (newIndex = 0; newIndex < rooms.length; newIndex++) {
-                        // Is the current room in the list of prioritized rooms?
-                        if (lecture.room.equals(rooms[newIndex])) {
-                            break;
-                        }
-                    }
-                    // Room is not in the list of prioritized rooms.
-                    // A new room index is calculated now.
-                    if (newIndex == rooms.length) {
-                        newIndex = 0;
-                        while (MyApp.roomsMap.containsValue(newIndex)) {
-                            newIndex++;
-                        }
-                    }
-                    MyApp.roomsMap.put(lecture.room, newIndex);
-                    MyApp.LogDebug(LOG_TAG,
-                            "Upgrade room " + lecture.room + " to index " + newIndex);
-                    lecture.roomIndex = newIndex;
-                }
-            }
-            // upgrade
-            if (lecture.roomIndex == 0) {
-                lecture.roomIndex = MyApp.roomsMap.get(lecture.room);
-            }
-        }
-        MyApp.roomCount = MyApp.roomsMap.size();
-        MyApp.LogDebug(LOG_TAG, "room count = " + MyApp.roomCount);
-        List<Integer> rooms = new ArrayList<>(MyApp.roomsMap.values());
-        Collections.sort(rooms);
-        int k = 0;
-        for (Integer v : rooms) {
-            MyApp.LogDebug(LOG_TAG, "room column " + k + " is room " + v);
-            MyApp.roomList.append(k, v);
-            k++;
-        }
-
-        if (!MyApp.lectureList.isEmpty() && MyApp.lectureList.get(0).dateUTC > 0) {
-            Collections.sort(MyApp.lectureList, (lhs, rhs) -> Long.compare(lhs.dateUTC, rhs.dateUTC));
-        }
+        MyApp.roomsMap.putAll(legacyLectureData.getRoomsMap());
+        MyApp.roomList = legacyLectureData.getRoomList();
+        MyApp.roomCount = legacyLectureData.getRoomCount();
 
         loadAlarms(appRepository);
     }
