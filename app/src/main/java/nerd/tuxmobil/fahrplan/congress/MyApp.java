@@ -65,11 +65,11 @@ public class MyApp extends Application {
     }
 
     // requestCodes für startActivityForResult
-    public final static int ALARMLIST = 1;
-    public final static int EVENTVIEW = 2;
-    public final static int CHANGELOG = 3;
-    public final static int STARRED = 4;
-    public final static int SETTINGS = 5;
+    public static final int ALARMLIST = 1;
+    public static final int EVENTVIEW = 2;
+    public static final int CHANGELOG = 3;
+    public static final int STARRED = 4;
+    public static final int SETTINGS = 5;
 
     public static TASKS task_running = TASKS.NONE;
 
