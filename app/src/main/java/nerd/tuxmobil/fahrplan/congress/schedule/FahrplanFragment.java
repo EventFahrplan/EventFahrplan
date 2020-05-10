@@ -585,8 +585,6 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
         MyApp.roomsMap.putAll(legacyLectureData.getRoomsMap());
         MyApp.roomList = legacyLectureData.getRoomList();
         MyApp.roomCount = legacyLectureData.getRoomCount();
-
-        loadAlarms(appRepository);
     }
 
     public static void loadAlarms(@NonNull AppRepository appRepository) {

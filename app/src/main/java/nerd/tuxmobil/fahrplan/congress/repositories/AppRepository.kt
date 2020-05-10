@@ -276,6 +276,12 @@ object AppRepository {
                 }
             }
         }
+
+        val alarmEventIds = readAlarms().map { it.eventId }.toSet()
+        for (lecture in lectures) {
+            lecture.hasAlarm = lecture.lectureId in alarmEventIds
+        }
+
         return lectures.toList()
     }
 
