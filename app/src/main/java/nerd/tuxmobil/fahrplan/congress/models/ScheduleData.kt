@@ -9,4 +9,13 @@ data class ScheduleData(
 
     val roomNames: List<String>
         get() = roomDataList.map { it.roomName }
+
+    val allLectures: List<Lecture>
+        get() = roomDataList.flatMap { it.lectures }.sortedBy { it.dateUTC }
+
+    fun findLecture(lectureId: String): Lecture? {
+        return roomDataList.asSequence()
+                .flatMap { it.lectures.asSequence() }
+                .firstOrNull { it.lectureId == lectureId }
+    }
 }

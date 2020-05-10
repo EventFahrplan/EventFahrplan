@@ -28,7 +28,6 @@ import nerd.tuxmobil.fahrplan.congress.base.ActionBarListActivity;
 import nerd.tuxmobil.fahrplan.congress.extensions.Contexts;
 import nerd.tuxmobil.fahrplan.congress.models.SchedulableAlarm;
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
-import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanFragment;
 
 public class AlarmList extends ActionBarListActivity {
 
@@ -88,7 +87,7 @@ public class AlarmList extends ActionBarListActivity {
             case CONTEXT_MENU_ITEM_ID_DELETE:
                 deleteAlarm(info.position);
                 setResult(RESULT_OK);
-                FahrplanFragment.loadAlarms(appRepository);
+                appRepository.notifyAlarmsChanged();
                 break;
         }
         return true;
@@ -135,7 +134,7 @@ public class AlarmList extends ActionBarListActivity {
         switch (item.getItemId()) {
             case R.id.menu_item_delete_all_alarms:
                 deleteAllAlarms();
-                FahrplanFragment.loadAlarms(appRepository);
+                appRepository.notifyAlarmsChanged();
                 setResult(RESULT_OK);
                 return true;
         }
