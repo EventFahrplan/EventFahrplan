@@ -157,10 +157,6 @@ public class EventDetailFragment extends Fragment {
 
             locale = getResources().getConfiguration().locale;
 
-            // TODO: Remove this after 36C3. Right now it's only kept to minimize the likelihood of
-            //  unintended behavior changes.
-            FahrplanFragment.loadLectureList(appRepository, day, requiresScheduleReload);
-
             lecture = eventIdToLecture(eventId);
 
             // Detailbar
