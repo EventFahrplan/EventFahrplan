@@ -414,7 +414,8 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
         if (lectureId != null) {
             return;
         }
-        if (MyApp.lectureListDay != MyApp.dateInfos.getIndexOfToday()) {
+        int currentDayIndex = scheduleData.getDayIndex();
+        if (currentDayIndex != MyApp.dateInfos.getIndexOfToday()) {
             return;
         }
         Moment nowMoment = new Moment();
@@ -438,7 +439,7 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
         int scrollAmount = 0;
 
         if (!(nowMoment.getMinuteOfDay() < conference.getFirstEventStartsAt() &&
-                MyApp.dateInfos.sameDay(nowMoment, MyApp.lectureListDay))) {
+                MyApp.dateInfos.sameDay(nowMoment, currentDayIndex))) {
 
             TimeSegment timeSegment;
             while (time < conference.getLastEventEndsAt()) {
@@ -570,7 +571,7 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
     public void loadLectureList(@NonNull AppRepository appRepository, int day, boolean forceReload) {
         MyApp.LogDebug(LOG_TAG, "load lectures of day " + day);
 
-        if (!forceReload && MyApp.lectureList != null && MyApp.lectureListDay == day) {
+        if (!forceReload && scheduleData != null && scheduleData.getDayIndex() == day) {
             return;
         }
 
@@ -586,7 +587,6 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
             return;
         }
 
-        MyApp.lectureListDay = legacyLectureData.getLectureListDay();
         MyApp.roomsMap.clear();
         MyApp.roomsMap.putAll(legacyLectureData.getRoomsMap());
         MyApp.roomList = legacyLectureData.getRoomList();
