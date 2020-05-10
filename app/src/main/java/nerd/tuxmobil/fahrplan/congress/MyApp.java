@@ -45,11 +45,6 @@ public class MyApp extends Application {
     public static final ConferenceTimeFrame conferenceTimeFrame =
             new ConferenceTimeFrame(FIRST_DAY_START, LAST_DAY_END);
 
-    /**
-     * maps column index to room index
-     */
-    public static SparseArrayCompat<Integer> roomList = new SparseArrayCompat<>();
-
     public enum TASKS {
         NONE,
         FETCH,

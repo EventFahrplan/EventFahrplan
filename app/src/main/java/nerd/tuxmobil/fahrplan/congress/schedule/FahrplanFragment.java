@@ -330,8 +330,7 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
 
         // whenever possible, just update recycler views
         if (!forceReload && !adapterByRoomIndex.isEmpty()) {
-            for (int columnIndex = columnIndexLeft; columnIndex <= columnIndexRight; columnIndex++) {
-                int roomIndex = MyApp.roomList.get(columnIndex);
+            for (int roomIndex = columnIndexLeft; roomIndex <= columnIndexRight; roomIndex++) {
                 //noinspection ConstantConditions
                 adapterByRoomIndex.get(roomIndex).notifyDataSetChanged();
             }
@@ -346,8 +345,7 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
         LecturesByRoomIndex lecturesByRoomIndex = new LecturesByRoomIndex(lectures);
         LayoutCalculator layoutCalculator = new LayoutCalculator(Logging.Companion.get(), boxHeight);
 
-        for (int columnIndex = 0; columnIndex < roomCount; columnIndex++) {
-            int roomIndex = MyApp.roomList.get(columnIndex);
+        for (int roomIndex = 0; roomIndex < roomCount; roomIndex++) {
             List<Lecture> roomLectures = lecturesByRoomIndex.get(roomIndex);
 
             Map<Lecture, LayoutParams> layoutParamsByLecture = layoutCalculator.calculateLayoutParams(roomIndex, roomLectures, conference);
@@ -446,7 +444,7 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
 
             for (Lecture l : lectures) {
                 if (l.day == day && l.startTime <= time && l.startTime + l.duration > time) {
-                    if (col == -1 || col >= 0 && l.roomIndex == MyApp.roomList.get(col)) {
+                    if (col == -1 || col >= 0 && l.roomIndex == col) {
                         MyApp.LogDebug(LOG_TAG, l.title);
                         MyApp.LogDebug(LOG_TAG, time + " " + l.startTime + "/" + l.duration);
                         scrollAmount -= ((time - l.startTime) / 5) * height;
@@ -495,7 +493,7 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
         parent.post(() -> parent.scrollTo(0, pos));
         final HorizontalSnapScrollView horiz = getView().findViewById(R.id.horizScroller);
         if (horiz != null) {
-            final int hpos = MyApp.roomList.keyAt(MyApp.roomList.indexOfValue(lecture.roomIndex));
+            final int hpos = lecture.roomIndex;
             MyApp.LogDebug(LOG_TAG, "scroll horiz to " + hpos);
             horiz.post(() -> horiz.scrollToColumn(hpos, false));
         }
@@ -574,8 +572,6 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
         if (MyApp.lectureList.isEmpty()) {
             return;
         }
-
-        MyApp.roomList = legacyLectureData.getRoomList();
     }
 
     public static void loadAlarms(@NonNull AppRepository appRepository) {
