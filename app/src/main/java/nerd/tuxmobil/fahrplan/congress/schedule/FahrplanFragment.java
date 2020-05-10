@@ -55,6 +55,7 @@ import nerd.tuxmobil.fahrplan.congress.calendar.CalendarSharing;
 import nerd.tuxmobil.fahrplan.congress.extensions.Contexts;
 import nerd.tuxmobil.fahrplan.congress.models.Alarm;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
+import nerd.tuxmobil.fahrplan.congress.models.ScheduleData;
 import nerd.tuxmobil.fahrplan.congress.net.ParseResult;
 import nerd.tuxmobil.fahrplan.congress.net.ParseScheduleResult;
 import nerd.tuxmobil.fahrplan.congress.net.ParseShiftsResult;
@@ -124,6 +125,8 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
 
     private int roomColumnWidth;
     private int maxRoomColumnsVisible;
+
+    private ScheduleData scheduleData;
 
     private String lectureId;        // started with lectureId
 
@@ -281,12 +284,13 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
                 MyApp.LogDebug(LOG_TAG, "Conference = " + conference);
             }
             if (horizontalScroller != null) {
-                horizontalScroller.setRoomsCount(MyApp.roomCount);
+                int roomCount = scheduleData.getRoomCount();
+                horizontalScroller.setRoomsCount(roomCount);
                 if (horizontalScroller.getColumnWidth() != 0) {
                     // update pre-calculated roomColumnWidth with actual layout
                     roomColumnWidth = horizontalScroller.getColumnWidth();
                 }
-                addRoomColumns(horizontalScroller, lecturesOfDay, MyApp.roomCount, forceReload);
+                addRoomColumns(horizontalScroller, lecturesOfDay, roomCount, forceReload);
             }
         }
 
@@ -563,7 +567,7 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
         return padding;
     }
 
-    public static void loadLectureList(@NonNull AppRepository appRepository, int day, boolean forceReload) {
+    public void loadLectureList(@NonNull AppRepository appRepository, int day, boolean forceReload) {
         MyApp.LogDebug(LOG_TAG, "load lectures of day " + day);
 
         if (!forceReload && MyApp.lectureList != null && MyApp.lectureListDay == day) {
@@ -573,6 +577,8 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
         List<Lecture> lectures = appRepository.loadUncanceledLecturesForDayIndex(day);
 
         LegacyLectureData legacyLectureData = lectureListTransformer.legacyTransformLectureList(day, lectures);
+
+        scheduleData = legacyLectureData.getScheduleData();
 
         MyApp.lectureList = legacyLectureData.getLectureList();
         // FIXME: remove this?
@@ -584,7 +590,6 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
         MyApp.roomsMap.clear();
         MyApp.roomsMap.putAll(legacyLectureData.getRoomsMap());
         MyApp.roomList = legacyLectureData.getRoomList();
-        MyApp.roomCount = legacyLectureData.getRoomCount();
     }
 
     public static void loadAlarms(@NonNull AppRepository appRepository) {

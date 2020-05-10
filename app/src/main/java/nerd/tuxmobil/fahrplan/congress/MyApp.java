@@ -45,8 +45,6 @@ public class MyApp extends Application {
     public static final ConferenceTimeFrame conferenceTimeFrame =
             new ConferenceTimeFrame(FIRST_DAY_START, LAST_DAY_END);
 
-    public static int roomCount = 0;
-
     /**
      * maps room title to room index
      */
