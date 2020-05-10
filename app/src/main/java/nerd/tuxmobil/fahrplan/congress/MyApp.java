@@ -46,11 +46,6 @@ public class MyApp extends Application {
             new ConferenceTimeFrame(FIRST_DAY_START, LAST_DAY_END);
 
     /**
-     * maps room title to room index
-     */
-    public static final Map<String, Integer> roomsMap = new HashMap<>();
-
-    /**
      * maps column index to room index
      */
     public static SparseArrayCompat<Integer> roomList = new SparseArrayCompat<>();

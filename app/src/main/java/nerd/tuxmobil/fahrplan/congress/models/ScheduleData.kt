@@ -6,4 +6,7 @@ data class ScheduleData(
 ) {
     val roomCount: Int
         get() = roomDataList.size
+
+    val roomNames: List<String>
+        get() = roomDataList.map { it.roomName }
 }
