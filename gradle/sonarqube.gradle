@@ -9,5 +9,11 @@ sonarqube {
         property "sonar.projectKey", "eventfahrplan"
         property "sonar.projectName", "EventFahrplan"
         property "sonar.projectVersion", APP_VERSION
+        property "sonar.coverage.jacoco.xmlReportPaths", "app/build/jacoco/jacoco.xml"
+        property "sonar.junit.reportsPath", "app/build/test-results/*/TEST-*.xml"
+        property "sonar.links.homepage", "https://github.com/EventFahrplan/EventFahrplan/"
+        property "sonar.links.scm", "https://github.com/EventFahrplan/EventFahrplan"
+        property "sonar.links.issue", "https://github.com/EventFahrplan/EventFahrplan/issues"
+        property "sonar.links.ci", "https://travis-ci.com/github/EventFahrplan/EventFahrplan"
     }
 }

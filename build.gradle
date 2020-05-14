@@ -10,8 +10,9 @@ buildscript {
     }
     dependencies {
         classpath Plugins.android
-        classpath Plugins.androidJunitJacoco
+        //classpath Plugins.androidJunitJacoco
         classpath Plugins.dexcount
+        classpath "com.hiya:jacoco-android:0.2"
         classpath Plugins.kotlin
         classpath Plugins.ksp
         classpath Plugins.sonarQube
@@ -46,4 +47,4 @@ subprojects {
 }
 
 apply from: "gradle/versions.gradle"
-apply plugin: "com.vanniktech.android.junit.jacoco"
+

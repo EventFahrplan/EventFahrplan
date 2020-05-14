@@ -10,6 +10,7 @@ apply plugin: "kotlin-android"
 apply plugin: "com.google.devtools.ksp"
 apply plugin: "de.mobilej.unmock"
 apply plugin: "com.getkeepsafe.dexcount"
+apply plugin: "com.hiya.jacoco-android"
 apply from: "../gradle/sonarqube.gradle"
 
 android {
@@ -191,6 +192,12 @@ android {
                 "-opt-in=kotlin.RequiresOptIn"
         ]
     }
+}
+
+jacocoAndroidUnitTestReport {
+    csv.enabled false
+    html.enabled false
+    xml.enabled true
 }
 
 unMock {
