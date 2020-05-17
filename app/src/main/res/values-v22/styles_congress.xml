@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="PopupMenuOverflowStyle" parent="@style/Widget.AppCompat.Light.PopupMenu.Overflow">
+        <!--
+        Move into values/styles_congress.xml once its counterpart
+        in values-21/styles_congress.xml is gone.
+        -->
+        <item name="android:popupBackground">@color/popupBackground</item>
+    </style>
+
+</resources>
