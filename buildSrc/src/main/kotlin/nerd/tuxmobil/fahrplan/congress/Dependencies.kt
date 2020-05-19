@@ -35,6 +35,7 @@ object Libs {
         const val annotation = "1.1.0"
         const val appCompat = "1.2.0"
         const val assertjAndroid = "1.2.0"
+        const val betterLinkMovementMethod = "2.2.0" // minSdkVersion 16, see AndroidManifest
         const val constraintLayout = "1.1.3"
         const val coreKtx = "1.3.1"
         const val emailIntentBuilder = "2.0.0"
@@ -59,6 +60,7 @@ object Libs {
     const val annotation = "androidx.annotation:annotation:${Versions.annotation}"
     const val appCompat = "androidx.appcompat:appcompat:${Versions.appCompat}"
     const val assertjAndroid = "com.squareup.assertj:assertj-android:${Versions.assertjAndroid}"
+    const val betterLinkMovementMethod = "me.saket:better-link-movement-method:${Versions.betterLinkMovementMethod}"
     const val constraintLayout = "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
     const val coreKtx = "androidx.core:core-ktx:${Versions.coreKtx}"
     const val emailIntentBuilder = "de.cketti.mailto:email-intent-builder:${Versions.emailIntentBuilder}"

@@ -87,7 +87,7 @@
     <string name="usage">Примечание:\n\nДолгое нажатие на лекцию установит напоминание.</string>
     <string name="libraries">
         Это приложение использует следующие библиотеки:
-        Kotlin, Google Support Library, Email Intent Builder,
+        Kotlin, Google Support Library, BetterLinkMovementMethod, Email Intent Builder,
         Engelsystem, Espresso, OkHttp, SnackEngage, TraceDroid
     </string>
     <string name="about_data_privacy_statement">

@@ -5,6 +5,8 @@
     <color name="popupBackground">@color/colorPrimaryDark</color>
     <color name="text_link_on_light">@color/colorAccent</color>
     <color name="text_link_on_dark">@color/colorAccent</color>
+    <color name="text_link_pressed_background_on_light">#aafec700</color>
+    <color name="text_link_pressed_background_on_dark">#33fec700</color>
     <color name="alarm_list_icon_default_fill_color">#ddd</color>
     <color name="alarm_list_icon_default_stroke_color">#003339</color>
     <color name="alarm_list_icon_text_color">#000000</color>

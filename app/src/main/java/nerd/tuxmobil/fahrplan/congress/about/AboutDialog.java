@@ -1,7 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress.about;
 
 import android.os.Bundle;
-import android.text.method.LinkMovementMethod;
 import android.text.method.MovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +15,7 @@ import androidx.fragment.app.DialogFragment;
 import nerd.tuxmobil.fahrplan.congress.BuildConfig;
 import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.extensions.Strings;
+import nerd.tuxmobil.fahrplan.congress.utils.LinkMovementMethodCompat;
 
 public class AboutDialog extends DialogFragment {
 
@@ -98,7 +98,7 @@ public class AboutDialog extends DialogFragment {
         appDisclaimer.setVisibility(BuildConfig.SHOW_APP_DISCLAIMER ? View.VISIBLE : View.GONE);
 
         int linkTextColor = ContextCompat.getColor(view.getContext(), R.color.text_link_on_dark);
-        MovementMethod movementMethod = LinkMovementMethod.getInstance();
+        MovementMethod movementMethod = LinkMovementMethodCompat.getInstance();
 
         TextView logoCopyright = view.findViewById(R.id.about_copyright_logo_view);
         logoCopyright.setText(Strings.toSpanned(getString(R.string.copyright_logo)));

@@ -7,7 +7,6 @@ import android.graphics.Typeface
 import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
-import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -32,6 +31,7 @@ import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.sharing.SessionSharer
 import nerd.tuxmobil.fahrplan.congress.sidepane.OnSidePaneCloseListener
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc
+import nerd.tuxmobil.fahrplan.congress.utils.LinkMovementMethodCompat
 import nerd.tuxmobil.fahrplan.congress.utils.TypefaceFactory
 
 class SessionDetailsFragment : Fragment(), SessionDetailsViewModel.ViewActionHandler {
@@ -186,7 +186,7 @@ class SessionDetailsFragment : Fragment(), SessionDetailsViewModel.ViewActionHan
         this.typeface = typeface
         this.setText(text.toSpanned(), TextView.BufferType.SPANNABLE)
         this.setLinkTextColor(ContextCompat.getColor(context, R.color.text_link_on_light))
-        this.movementMethod = LinkMovementMethod()
+        this.movementMethod = LinkMovementMethodCompat.getInstance()
         this.isVisible = true
     }
 
