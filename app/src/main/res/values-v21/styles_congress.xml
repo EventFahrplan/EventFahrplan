@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="PopupMenuOverflowStyle" parent="@style/Widget.AppCompat.Light.PopupMenu.Overflow">
+        <!--
+        Workaround to fix visual distortion of popup menu on Android 5.0 (Lollipop)
+        See: https://issuetracker.google.com/issues/37038337, https://stackoverflow.com/a/29637669/356895
+        -->
+        <item name="android:popupBackground">@drawable/popup_background</item>
+    </style>
+
+</resources>
