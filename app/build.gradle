@@ -17,8 +17,8 @@ android {
     buildToolsVersion Android.buildToolsVersion
 
     defaultConfig {
-        versionCode 69
-        versionName "1.43.0"
+        versionCode 70
+        versionName "1.43.1"
         minSdkVersion Android.minSdkVersion
         targetSdkVersion Android.targetSdkVersion
         archivesBaseName = "Fahrplan-$versionName"
@@ -63,7 +63,7 @@ android {
         cccamp2019 {
             dimension defaultDimension
             applicationId "info.metadude.android.cccamp.schedule"
-            versionName "1.43.0-CCCamp-Edition"
+            versionName "1.43.1-CCCamp-Edition"
             buildConfigField "String", "SCHEDULE_URL", '"https://data.c3voc.de/camp2019/everything.schedule.xml"'
             buildConfigField "String", "EVENT_URL", '"http://events.ccc.de/camp/2019/Fahrplan/events/%1$s.html"'
             buildConfigField "String", "SERVER_BACKEND_TYPE", '"frab"'
