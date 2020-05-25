@@ -30,7 +30,6 @@ import nerd.tuxmobil.fahrplan.congress.base.AbstractListFragment;
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
 import nerd.tuxmobil.fahrplan.congress.models.Meta;
-import nerd.tuxmobil.fahrplan.congress.schedule.MainActivity;
 import nerd.tuxmobil.fahrplan.congress.sharing.JsonLectureFormat;
 import nerd.tuxmobil.fahrplan.congress.sharing.LectureSharer;
 import nerd.tuxmobil.fahrplan.congress.sharing.SimpleLectureFormat;
@@ -266,7 +265,7 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
         Lecture starredLecture = starredList.get(index);
         starredLecture.highlight = false;
         appRepository.updateHighlight(starredLecture);
-        appRepository.updateLecturesLegacy(starredLecture);
+        appRepository.notifyHighlightsChanged();
         starredList.remove(index);
     }
 
@@ -279,9 +278,6 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
     }
 
     private void refreshViews(@NonNull Activity activity) {
-        if (activity instanceof MainActivity) {
-            ((MainActivity) activity).refreshEventMarkers();
-        }
         mAdapter.notifyDataSetChanged();
         activity.setResult(Activity.RESULT_OK);
         activity.invalidateOptionsMenu();
@@ -309,9 +305,9 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
             return;
         }
         appRepository.deleteAllHighlights();
+        appRepository.notifyHighlightsChanged();
         for (Lecture starredLecture : starredList) {
             starredLecture.highlight = false;
-            appRepository.updateLecturesLegacy(starredLecture);
         }
         starredList.clear();
         Activity activity = requireActivity();

@@ -1,21 +1,16 @@
 package nerd.tuxmobil.fahrplan.congress;
 
 import android.app.Application;
-import android.support.v4.util.SparseArrayCompat;
 import android.util.Log;
 
 import org.ligi.tracedroid.TraceDroid;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.TimeZone;
 
 import info.metadude.android.eventfahrplan.commons.logging.Logging;
 import nerd.tuxmobil.fahrplan.congress.models.DateInfos;
-import nerd.tuxmobil.fahrplan.congress.models.Lecture;
 import nerd.tuxmobil.fahrplan.congress.models.Meta;
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 import nerd.tuxmobil.fahrplan.congress.utils.ConferenceTimeFrame;
@@ -25,8 +20,6 @@ public class MyApp extends Application {
     public static Application app = null;
 
     public static final boolean DEBUG = false;
-
-    public static List<Lecture> lectureList = null;
 
     public static Meta meta;
 
@@ -45,18 +38,6 @@ public class MyApp extends Application {
     public static final ConferenceTimeFrame conferenceTimeFrame =
             new ConferenceTimeFrame(FIRST_DAY_START, LAST_DAY_END);
 
-    public static int roomCount = 0;
-
-    /**
-     * maps room title to room index
-     */
-    public static final Map<String, Integer> roomsMap = new HashMap<>();
-
-    /**
-     * maps column index to room index
-     */
-    public static SparseArrayCompat<Integer> roomList = new SparseArrayCompat<>();
-
     public enum TASKS {
         NONE,
         FETCH,
@@ -67,13 +48,9 @@ public class MyApp extends Application {
     // requestCodes für startActivityForResult
     public static final int ALARMLIST = 1;
     public static final int EVENTVIEW = 2;
-    public static final int CHANGELOG = 3;
-    public static final int STARRED = 4;
     public static final int SETTINGS = 5;
 
     public static TASKS task_running = TASKS.NONE;
-
-    public static int lectureListDay = 0;
 
     @Override
     public void onCreate() {
@@ -81,7 +58,6 @@ public class MyApp extends Application {
         TraceDroid.init(this);
         app = this;
         task_running = TASKS.NONE;
-        lectureList = null;
         AppRepository.INSTANCE.initialize(
                 getApplicationContext(),
                 Logging.Companion.get()

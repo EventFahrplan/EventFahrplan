@@ -18,7 +18,6 @@ import info.metadude.android.eventfahrplan.network.repositories.ScheduleNetworkR
 import info.metadude.kotlin.library.engelsystem.models.Shift
 import kotlinx.coroutines.Job
 import nerd.tuxmobil.fahrplan.congress.BuildConfig
-import nerd.tuxmobil.fahrplan.congress.MyApp
 import nerd.tuxmobil.fahrplan.congress.dataconverters.*
 import nerd.tuxmobil.fahrplan.congress.exceptions.AppExceptionHandler
 import nerd.tuxmobil.fahrplan.congress.models.Alarm
@@ -54,6 +53,10 @@ object AppRepository {
     private lateinit var scheduleNetworkRepository: ScheduleNetworkRepository
     private lateinit var engelsystemNetworkRepository: EngelsystemNetworkRepository
     private lateinit var sharedPreferencesRepository: SharedPreferencesRepository
+
+    private var onLecturesChangeListener: OnLecturesChangeListener? = null
+    private var alarmsHaveChanged = false
+    private var highlightsHaveChanged = false
 
     @JvmOverloads
     fun initialize(
@@ -277,7 +280,7 @@ object AppRepository {
             }
         }
 
-        val alarmEventIds = readAlarms().map { it.eventId }.toSet()
+        val alarmEventIds = readAlarmEventIds()
         for (lecture in lectures) {
             lecture.hasAlarm = lecture.lectureId in alarmEventIds
         }
@@ -292,6 +295,8 @@ object AppRepository {
         alarmsDatabaseRepository.query(eventId).toAlarmsAppModel()
     }
 
+    fun readAlarmEventIds() = readAlarms().map { it.eventId }.toSet()
+
     fun deleteAlarmForAlarmId(alarmId: Int) =
             alarmsDatabaseRepository.deleteForAlarmId(alarmId)
 
@@ -303,6 +308,12 @@ object AppRepository {
         val values = alarmDatabaseModel.toContentValues()
         alarmsDatabaseRepository.update(values, alarm.eventId)
     }
+
+    fun readHighlightEventIds() = readHighlights()
+            .asSequence()
+            .filter { it.isHighlight }
+            .map { it.eventId.toString() }
+            .toSet()
 
     private fun readHighlights() =
             highlightsDatabaseRepository.query().toHighlightsAppModel()
@@ -353,20 +364,6 @@ object AppRepository {
 
     fun readDateInfos() =
             readLecturesOrderedByDateUtc().toDateInfos()
-
-    /**
-     * Updates the legacy static lecture list.
-     * This method should be invoked when the state of a [lecture] is changed
-     * while other parts of the application such as the main screen render
-     * their views based on the [legacy static lecture list][MyApp.lectureList].
-     */
-    @Deprecated("Drop method once MyApp.lectureList is gone.")
-    fun updateLecturesLegacy(lecture: Lecture) {
-        MyApp.lectureList?.firstOrNull { lecture.lectureId == it.lectureId }?.let {
-            it.highlight = lecture.highlight
-            it.hasAlarm = lecture.hasAlarm
-        }
-    }
 
     private fun updateLectures(lectures: List<Lecture>) {
         val lecturesDatabaseModel = lectures.toLecturesDatabaseModel()
@@ -429,4 +426,55 @@ object AppRepository {
     fun updateDisplayDayIndex(displayDayIndex: Int) =
             sharedPreferencesRepository.setDisplayDayIndex(displayDayIndex)
 
+    @Deprecated("Replace this with a push-based update mechanism")
+    fun setOnLecturesChangeListener(onLecturesChangeListener: OnLecturesChangeListener) {
+        this.onLecturesChangeListener?.let {
+            logging.e(javaClass.simpleName, "Setting a new listener while there's already one active")
+        }
+
+        if (highlightsHaveChanged) {
+            onLecturesChangeListener.onHighlightsChanged()
+            highlightsHaveChanged = false
+        }
+
+        if (alarmsHaveChanged) {
+            onLecturesChangeListener.onAlarmsChanged()
+            alarmsHaveChanged = false
+        }
+
+        this.onLecturesChangeListener = onLecturesChangeListener
+    }
+
+    @Deprecated("Replace this with a push-based update mechanism")
+    fun removeOnLecturesChangeListener(onLecturesChangeListener: OnLecturesChangeListener) {
+        if (this.onLecturesChangeListener == onLecturesChangeListener) {
+            this.onLecturesChangeListener = null
+        } else {
+            logging.e(javaClass.simpleName, "Asked to remove listener that wasn't the active listener")
+        }
+    }
+
+    @Deprecated("Users of AppRepository should not have to be responsible for triggering change notifications. " +
+            "Replace with a mechanism internal to AppRepository.")
+    fun notifyHighlightsChanged() {
+        onLecturesChangeListener.let { listener ->
+            if (listener == null) {
+                highlightsHaveChanged = true
+            } else {
+                listener.onHighlightsChanged()
+            }
+        }
+    }
+
+    @Deprecated("Users of AppRepository should not have to be responsible for triggering change notifications. " +
+            "Replace with a mechanism internal to AppRepository.")
+    fun notifyAlarmsChanged() {
+        onLecturesChangeListener.let { listener ->
+            if (listener == null) {
+                alarmsHaveChanged = true
+            } else {
+                listener.onAlarmsChanged()
+            }
+        }
+    }
 }

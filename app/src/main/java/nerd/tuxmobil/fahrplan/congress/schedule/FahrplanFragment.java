@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.util.SparseArrayCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -38,11 +37,10 @@ import org.ligi.tracedroid.logging.Log;
 import org.threeten.bp.Duration;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
+import java.util.Set;
 
 import info.metadude.android.eventfahrplan.commons.logging.Logging;
 import info.metadude.android.eventfahrplan.commons.temporal.Moment;
@@ -53,28 +51,22 @@ import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmTimePickerFragment;
 import nerd.tuxmobil.fahrplan.congress.calendar.CalendarSharing;
 import nerd.tuxmobil.fahrplan.congress.extensions.Contexts;
-import nerd.tuxmobil.fahrplan.congress.models.Alarm;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
+import nerd.tuxmobil.fahrplan.congress.models.ScheduleData;
 import nerd.tuxmobil.fahrplan.congress.net.ParseResult;
 import nerd.tuxmobil.fahrplan.congress.net.ParseScheduleResult;
 import nerd.tuxmobil.fahrplan.congress.net.ParseShiftsResult;
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
+import nerd.tuxmobil.fahrplan.congress.repositories.OnLecturesChangeListener;
 import nerd.tuxmobil.fahrplan.congress.repositories.LectureListTransformer;
-import nerd.tuxmobil.fahrplan.congress.repositories.LegacyLectureData;
 import nerd.tuxmobil.fahrplan.congress.sharing.JsonLectureFormat;
 import nerd.tuxmobil.fahrplan.congress.sharing.LectureSharer;
 import nerd.tuxmobil.fahrplan.congress.sharing.SimpleLectureFormat;
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
 
-import static kotlin.collections.CollectionsKt.single;
 import static nerd.tuxmobil.fahrplan.congress.extensions.Resource.getNormalizedBoxHeight;
 
 public class FahrplanFragment extends Fragment implements LectureViewEventsHandler {
-
-    public interface OnRefreshEventMarkers {
-
-        void refreshEventMarkers();
-    }
 
     private static final String LOG_TAG = "Fahrplan";
 
@@ -125,6 +117,8 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
     private int roomColumnWidth;
     private int maxRoomColumnsVisible;
 
+    private ScheduleData scheduleData;
+
     private String lectureId;        // started with lectureId
 
     private Lecture lastSelectedLecture;
@@ -132,6 +126,22 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
     private LectureViewDrawer lectureViewDrawer;
 
     private Map<Integer, LectureViewColumnAdapter> adapterByRoomIndex = new HashMap<>();
+
+    private final OnLecturesChangeListener onLecturesChangeListener = new OnLecturesChangeListener() {
+        @Override
+        public void onAlarmsChanged() {
+            requireActivity().runOnUiThread(() ->
+                    reloadAlarms()
+            );
+        }
+
+        @Override
+        public void onHighlightsChanged() {
+            requireActivity().runOnUiThread(() ->
+                    reloadHighlights()
+            );
+        }
+    };
 
     @Override
     public void onAttach(Context context) {
@@ -205,15 +215,6 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
     @Override
     public void onResume() {
         Log.d(LOG_TAG, "onResume");
-        if (MyApp.lectureList == null) {
-            Log.d(LOG_TAG, "MyApp.lectureList = " + null);
-        } else {
-            if (MyApp.lectureList.isEmpty()) {
-                Log.d(LOG_TAG, "MyApp.lectureList is empty");
-            } else {
-                Log.d(LOG_TAG, "MyApp.lectureList contains " + MyApp.lectureList.size() + " items.");
-            }
-        }
         super.onResume();
         Activity activity = requireActivity();
         activity.invalidateOptionsMenu();
@@ -250,16 +251,26 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
                 break;
         }
 
-        if (lectureId != null) {
-            Lecture lecture = single(MyApp.lectureList, currentLecture -> lectureId.equals(currentLecture.lectureId));
-            scrollTo(lecture);
-            FrameLayout sidePane = activity.findViewById(R.id.detail);
-            if (sidePane != null) {
-                ((MainActivity) activity).openLectureDetail(lecture, mDay, false);
+        if (lectureId != null && scheduleData != null) {
+            Lecture lecture = scheduleData.findLecture(lectureId);
+            if (lecture != null) {
+                scrollTo(lecture);
+                FrameLayout sidePane = activity.findViewById(R.id.detail);
+                if (sidePane != null) {
+                    ((MainActivity) activity).openLectureDetail(lecture, mDay, false);
+                }
             }
             intent.removeExtra("lecture_id");   // jump to given lectureId only once
         }
         fillTimes();
+
+        appRepository.setOnLecturesChangeListener(onLecturesChangeListener);
+    }
+
+    @Override
+    public void onPause() {
+        appRepository.removeOnLecturesChangeListener(onLecturesChangeListener);
+        super.onPause();
     }
 
     private void viewDay(boolean forceReload) {
@@ -273,34 +284,34 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
         }
 
         loadLectureList(appRepository, mDay, forceReload);
-        List<Lecture> lecturesOfDay = MyApp.lectureList;
+        List<Lecture> lecturesOfDay = scheduleData.getAllLectures();
 
-        if (lecturesOfDay != null) {
-            if (!lecturesOfDay.isEmpty()) {
-                conference.calculateTimeFrame(lecturesOfDay, dateUTC -> new Moment(dateUTC).getMinuteOfDay());
-                MyApp.LogDebug(LOG_TAG, "Conference = " + conference);
+        if (!lecturesOfDay.isEmpty()) {
+            // TODO: Move this to AppRepository and include the result in ScheduleData
+            conference.calculateTimeFrame(lecturesOfDay, dateUTC -> new Moment(dateUTC).getMinuteOfDay());
+            MyApp.LogDebug(LOG_TAG, "Conference = " + conference);
+        }
+        if (horizontalScroller != null) {
+            int roomCount = scheduleData.getRoomCount();
+            horizontalScroller.setRoomsCount(roomCount);
+            if (horizontalScroller.getColumnWidth() != 0) {
+                // update pre-calculated roomColumnWidth with actual layout
+                roomColumnWidth = horizontalScroller.getColumnWidth();
             }
-            if (horizontalScroller != null) {
-                horizontalScroller.setRoomsCount(MyApp.roomCount);
-                if (horizontalScroller.getColumnWidth() != 0) {
-                    // update pre-calculated roomColumnWidth with actual layout
-                    roomColumnWidth = horizontalScroller.getColumnWidth();
-                }
-                addRoomColumns(horizontalScroller, lecturesOfDay, MyApp.roomCount, forceReload);
-            }
+            addRoomColumns(horizontalScroller, lecturesOfDay, roomCount, forceReload);
         }
 
         HorizontalScrollView roomScroller = layoutRoot.findViewById(R.id.roomScroller);
         if (roomScroller != null) {
             LinearLayout roomTitlesRowLayout = (LinearLayout) roomScroller.getChildAt(0);
-            addRoomTitleViews(roomTitlesRowLayout, MyApp.roomsMap.entrySet(), MyApp.roomList);
+            addRoomTitleViews(roomTitlesRowLayout, scheduleData.getRoomNames());
         }
-        if (lecturesOfDay != null) {
-            MainActivity.getInstance().shouldScheduleScrollToCurrentTimeSlot(() -> {
-                scrollToCurrent(lecturesOfDay, mDay, boxHeight);
-                return Unit.INSTANCE;
-            });
-        }
+
+        MainActivity.getInstance().shouldScheduleScrollToCurrentTimeSlot(() -> {
+            scrollToCurrent(lecturesOfDay, mDay, boxHeight);
+            return Unit.INSTANCE;
+        });
+
         updateNavigationMenuSelection();
     }
 
@@ -329,8 +340,7 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
 
         // whenever possible, just update recycler views
         if (!forceReload && !adapterByRoomIndex.isEmpty()) {
-            for (int columnIndex = columnIndexLeft; columnIndex <= columnIndexRight; columnIndex++) {
-                int roomIndex = MyApp.roomList.get(columnIndex);
+            for (int roomIndex = columnIndexLeft; roomIndex <= columnIndexRight; roomIndex++) {
                 //noinspection ConstantConditions
                 adapterByRoomIndex.get(roomIndex).notifyDataSetChanged();
             }
@@ -345,8 +355,7 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
         LecturesByRoomIndex lecturesByRoomIndex = new LecturesByRoomIndex(lectures);
         LayoutCalculator layoutCalculator = new LayoutCalculator(Logging.Companion.get(), boxHeight);
 
-        for (int columnIndex = 0; columnIndex < roomCount; columnIndex++) {
-            int roomIndex = MyApp.roomList.get(columnIndex);
+        for (int roomIndex = 0; roomIndex < roomCount; roomIndex++) {
             List<Lecture> roomLectures = lecturesByRoomIndex.get(roomIndex);
 
             Map<Lecture, LayoutParams> layoutParamsByLecture = layoutCalculator.calculateLayoutParams(roomIndex, roomLectures, conference);
@@ -369,16 +378,13 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
      * Adds room title views as child views to the given {@code roomTitlesRowLayout}.
      * Previously added child views are removed.
      */
-    // TODO Simplify by passing list of room names.
     private void addRoomTitleViews(
             @NonNull LinearLayout roomTitlesRowLayout,
-            @NonNull Collection<Entry<String, Integer>> roomTitleSet,
-            @SuppressWarnings("SameParameterValue")
-            @NonNull SparseArrayCompat<Integer> roomList
+            @NonNull List<String> roomNames
     ) {
         roomTitlesRowLayout.removeAllViews();
         int textSize = getResources().getInteger(R.integer.room_title_size);
-        for (int i = 0; i < roomTitleSet.size(); i++) {
+        for (String roomName : roomNames) {
             TextView roomTitle = new TextView(context);
             LinearLayout.LayoutParams p = new LayoutParams(
                     roomColumnWidth, LayoutParams.WRAP_CONTENT, 1);
@@ -389,13 +395,7 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
             roomTitle.setPadding(0, 0, getEventPadding(), 0);
             roomTitle.setGravity(Gravity.CENTER);
             roomTitle.setTypeface(light);
-            int v = roomList.get(i);
-            for (Entry<String, Integer> entry : roomTitleSet) {
-                if (entry.getValue() == v) {
-                    roomTitle.setText(entry.getKey());
-                    break;
-                }
-            }
+            roomTitle.setText(roomName);
             roomTitle.setTextColor(0xffffffff);
             roomTitle.setTextSize(textSize);
             roomTitlesRowLayout.addView(roomTitle);
@@ -410,7 +410,8 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
         if (lectureId != null) {
             return;
         }
-        if (MyApp.lectureListDay != MyApp.dateInfos.getIndexOfToday()) {
+        int currentDayIndex = scheduleData.getDayIndex();
+        if (currentDayIndex != MyApp.dateInfos.getIndexOfToday()) {
             return;
         }
         Moment nowMoment = new Moment();
@@ -434,7 +435,7 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
         int scrollAmount = 0;
 
         if (!(nowMoment.getMinuteOfDay() < conference.getFirstEventStartsAt() &&
-                MyApp.dateInfos.sameDay(nowMoment, MyApp.lectureListDay))) {
+                MyApp.dateInfos.sameDay(nowMoment, currentDayIndex))) {
 
             TimeSegment timeSegment;
             while (time < conference.getLastEventEndsAt()) {
@@ -453,7 +454,7 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
 
             for (Lecture l : lectures) {
                 if (l.day == day && l.startTime <= time && l.startTime + l.duration > time) {
-                    if (col == -1 || col >= 0 && l.roomIndex == MyApp.roomList.get(col)) {
+                    if (col == -1 || col >= 0 && l.roomIndex == col) {
                         MyApp.LogDebug(LOG_TAG, l.title);
                         MyApp.LogDebug(LOG_TAG, time + " " + l.startTime + "/" + l.duration);
                         scrollAmount -= ((time - l.startTime) / 5) * height;
@@ -502,7 +503,7 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
         parent.post(() -> parent.scrollTo(0, pos));
         final HorizontalSnapScrollView horiz = getView().findViewById(R.id.horizScroller);
         if (horiz != null) {
-            final int hpos = MyApp.roomList.keyAt(MyApp.roomList.indexOfValue(lecture.roomIndex));
+            final int hpos = lecture.roomIndex;
             MyApp.LogDebug(LOG_TAG, "scroll horiz to " + hpos);
             horiz.post(() -> horiz.scrollToColumn(hpos, false));
         }
@@ -563,49 +564,42 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
         return padding;
     }
 
-    public static void loadLectureList(@NonNull AppRepository appRepository, int day, boolean forceReload) {
+    public void loadLectureList(@NonNull AppRepository appRepository, int day, boolean forceReload) {
         MyApp.LogDebug(LOG_TAG, "load lectures of day " + day);
 
-        if (!forceReload && MyApp.lectureList != null && MyApp.lectureListDay == day) {
+        if (!forceReload && scheduleData != null && scheduleData.getDayIndex() == day) {
             return;
         }
 
         List<Lecture> lectures = appRepository.loadUncanceledLecturesForDayIndex(day);
 
-        LegacyLectureData legacyLectureData = lectureListTransformer.legacyTransformLectureList(day, lectures);
-
-        MyApp.lectureList = legacyLectureData.getLectureList();
-        // FIXME: remove this?
-        if (MyApp.lectureList.isEmpty()) {
-            return;
-        }
-
-        MyApp.lectureListDay = legacyLectureData.getLectureListDay();
-        MyApp.roomsMap.clear();
-        MyApp.roomsMap.putAll(legacyLectureData.getRoomsMap());
-        MyApp.roomList = legacyLectureData.getRoomList();
-        MyApp.roomCount = legacyLectureData.getRoomCount();
+        scheduleData = lectureListTransformer.transformLectureList(day, lectures);
     }
 
-    public static void loadAlarms(@NonNull AppRepository appRepository) {
-        if (MyApp.lectureList == null) {
+    private void reloadAlarms() {
+        if (scheduleData == null) {
             return;
         }
 
-        for (Lecture lecture : MyApp.lectureList) {
-            lecture.hasAlarm = false;
+        Set<String> alarmEventIds = appRepository.readAlarmEventIds();
+        for (Lecture lecture : scheduleData.getAllLectures()) {
+            lecture.hasAlarm = alarmEventIds.contains(lecture.lectureId);
         }
 
-        List<Alarm> alarms = appRepository.readAlarms();
-        MyApp.LogDebug(LOG_TAG, "Got " + alarms.size() + " alarm rows.");
-        for (Alarm alarm : alarms) {
-            MyApp.LogDebug(LOG_TAG, "Event " + alarm.getEventId() + " has alarm.");
-            for (Lecture lecture : MyApp.lectureList) {
-                if (lecture.lectureId.equals(alarm.getEventId())) {
-                    lecture.hasAlarm = true;
-                }
-            }
+        refreshViews();
+    }
+
+    private void reloadHighlights() {
+        if (scheduleData == null) {
+            return;
         }
+
+        Set<String> highlightEventIds = appRepository.readHighlightEventIds();
+        for (Lecture lecture : scheduleData.getAllLectures()) {
+            lecture.highlight = highlightEventIds.contains(lecture.lectureId);
+        }
+
+        refreshViews();
     }
 
     @Override
@@ -819,11 +813,11 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
         return parent.findViewWithTag(lecture);
     }
 
-    public void refreshViews() {
-        if (MyApp.lectureList == null) {
+    private void refreshViews() {
+        if (scheduleData == null) {
             return;
         }
-        for (Lecture lecture : MyApp.lectureList) {
+        for (Lecture lecture : scheduleData.getAllLectures()) {
             setBell(lecture);
             View v = getLectureView(lecture);
             if (v != null) {
@@ -831,11 +825,6 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
                 LectureViewDrawer.setLectureTextColor(lecture, v);
             }
         }
-    }
-
-    public void refreshEventMarkers() {
-        MyApp.LogDebug(LOG_TAG, "Reload alarms");
-        refreshViews();
     }
 
     private class OnDaySelectedListener implements ActionBar.OnNavigationListener {

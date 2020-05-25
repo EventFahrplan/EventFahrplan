@@ -68,7 +68,6 @@ import okhttp3.OkHttpClient;
 
 public class MainActivity extends BaseActivity implements
         OnSidePaneCloseListener,
-        FahrplanFragment.OnRefreshEventMarkers,
         CertificateDialogFragment.OnCertAccepted,
         AbstractListFragment.OnLectureListClick,
         FragmentManager.OnBackStackChangedListener,
@@ -419,21 +418,6 @@ public class MainActivity extends BaseActivity implements
         removeFragment(fragmentTag);
     }
 
-    public void reloadAlarms() {
-        Fragment fragment = findFragment(FahrplanFragment.FRAGMENT_TAG);
-        if (fragment != null) {
-            FahrplanFragment.loadAlarms(appRepository);
-        }
-    }
-
-    @Override
-    public void refreshEventMarkers() {
-        Fragment fragment = findFragment(FahrplanFragment.FRAGMENT_TAG);
-        if (fragment != null) {
-            ((FahrplanFragment) fragment).refreshEventMarkers();
-        }
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
@@ -443,12 +427,6 @@ public class MainActivity extends BaseActivity implements
             case MyApp.EVENTVIEW:
                 if (resultCode == Activity.RESULT_CANCELED) {
                     shouldScrollToCurrent = false;
-                }
-                break;
-            case MyApp.CHANGELOG:
-            case MyApp.STARRED:
-                if (resultCode == Activity.RESULT_OK) {
-                    refreshEventMarkers();
                 }
                 break;
             case MyApp.SETTINGS:
@@ -535,7 +513,7 @@ public class MainActivity extends BaseActivity implements
         FrameLayout sidePane = findViewById(R.id.detail);
         if (sidePane == null) {
             Intent intent = new Intent(this, StarredListActivity.class);
-            startActivityForResult(intent, MyApp.STARRED);
+            startActivity(intent);
         } else if (!isScreenLocked) {
             sidePane.setVisibility(View.VISIBLE);
             isFavoritesInSidePane = true;
@@ -549,7 +527,7 @@ public class MainActivity extends BaseActivity implements
         if (sidePane == null) {
             Intent intent = new Intent(this, ChangeListActivity.class);
             intent.putExtra(BundleKeys.REQUIRES_SCHEDULE_RELOAD, requiresScheduleReload);
-            startActivityForResult(intent, MyApp.CHANGELOG);
+            startActivity(intent);
         } else {
             sidePane.setVisibility(View.VISIBLE);
             replaceFragment(R.id.detail, ChangeListFragment.newInstance(true, requiresScheduleReload),

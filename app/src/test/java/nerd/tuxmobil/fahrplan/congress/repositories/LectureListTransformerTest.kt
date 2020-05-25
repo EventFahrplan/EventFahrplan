@@ -1,6 +1,5 @@
 package nerd.tuxmobil.fahrplan.congress.repositories
 
-import android.support.v4.util.SparseArrayCompat
 import com.google.common.truth.Truth.assertThat
 import nerd.tuxmobil.fahrplan.congress.models.Lecture
 import org.junit.Test
@@ -74,108 +73,6 @@ class LectureListTransformerTest {
         }
     }
 
-    @Test
-    fun `lectureListDay contains proper dayIndex value`() {
-        val result = transformer.legacyTransformLectureList(dayIndex = 1, lectures = emptyList())
-
-        assertThat(result.lectureListDay).isEqualTo(1)
-    }
-
-    @Test
-    fun `lectureList contains all lectures`() {
-        val lecturesInDatabase = listOf(
-                createLecture(lectureId = "L0", roomName = "Ada", roomIndex = 0),
-                createLecture(lectureId = "L1", roomName = "Borg", roomIndex = 1),
-                createLecture(lectureId = "L2", roomName = "Clarke", roomIndex = 2)
-        )
-
-        val result = transformer.legacyTransformLectureList(dayIndex = 1, lectures = lecturesInDatabase)
-
-        val lectureIds = result.lectureList.map { it.lectureId }.toSet()
-        assertThat(lectureIds).isEqualTo(setOf("L0", "L1", "L2"))
-    }
-
-    @Test
-    fun `lectureList is sorted by dateUTC`() {
-        val lecturesInDatabase = listOf(
-                createLecture(lectureId = "L0", roomName = "Ada", roomIndex = 0, dateUTC = 300),
-                createLecture(lectureId = "L1", roomName = "Borg", roomIndex = 1, dateUTC = 100),
-                createLecture(lectureId = "L2", roomName = "Clarke", roomIndex = 2, dateUTC = 200)
-        )
-
-        val result = transformer.legacyTransformLectureList(dayIndex = 1, lectures = lecturesInDatabase)
-
-        val lectureIds = result.lectureList.map { it.lectureId }
-        assertThat(lectureIds).isEqualTo(listOf("L1", "L2", "L0"))
-    }
-
-    @Test
-    fun `roomsMap only contains rooms with lectures`() {
-        val lecturesInDatabase = listOf(
-                createLecture(lectureId = "L0", roomName = "One", roomIndex = 10),
-                createLecture(lectureId = "L1", roomName = "Two", roomIndex = 11),
-                createLecture(lectureId = "L2", roomName = "Three", roomIndex = 12)
-        )
-
-        val result = transformer.legacyTransformLectureList(dayIndex = 1, lectures = lecturesInDatabase)
-
-        val roomNames = result.roomsMap.keys.toSet()
-        assertThat(roomNames).isEqualTo(setOf("One", "Two", "Three"))
-    }
-
-    @Test
-    fun `roomsMap is using rewritten roomIndex`() {
-        val lecturesInDatabase = listOf(
-                createLecture(lectureId = "L0", roomName = "Three", roomIndex = 12),
-                createLecture(lectureId = "L1", roomName = "Two", roomIndex = 11),
-                createLecture(lectureId = "L2", roomName = "One", roomIndex = 10)
-        )
-
-        val result = transformer.legacyTransformLectureList(dayIndex = 1, lectures = lecturesInDatabase)
-
-        assertThat(result.roomsMap).isEqualTo(mapOf("One" to 0, "Two" to 1, "Three" to 2))
-    }
-
-    @Test
-    fun `roomList maps to correct room index`() {
-        val lecturesInDatabase = listOf(
-                createLecture(lectureId = "L0", roomName = "Three", roomIndex = 12),
-                createLecture(lectureId = "L1", roomName = "Two", roomIndex = 11),
-                createLecture(lectureId = "L2", roomName = "One", roomIndex = 10)
-        )
-
-        val result = transformer.legacyTransformLectureList(dayIndex = 1, lectures = lecturesInDatabase)
-
-        assertThat(result.roomList.toMap()).isEqualTo(mapOf(0 to 0, 1 to 1, 2 to 2))
-    }
-
-    @Test
-    fun `Lecture_roomIndex is updated with rewritten roomIndex`() {
-        val lecturesInDatabase = listOf(
-                createLecture(lectureId = "L0", roomName = "Three", roomIndex = 12),
-                createLecture(lectureId = "L1", roomName = "Two", roomIndex = 11),
-                createLecture(lectureId = "L2", roomName = "One", roomIndex = 10)
-        )
-
-        val result = transformer.legacyTransformLectureList(dayIndex = 1, lectures = lecturesInDatabase)
-
-        assertThat(result.lectureList.first { it.room == "One" }.roomIndex).isEqualTo(0)
-        assertThat(result.lectureList.first { it.room == "Two" }.roomIndex).isEqualTo(1)
-        assertThat(result.lectureList.first { it.room == "Three" }.roomIndex).isEqualTo(2)
-    }
-
-    @Test
-    fun `roomCount matches number of rooms`() {
-        val lecturesInDatabase = listOf(
-                createLecture(lectureId = "L0", roomName = "One", roomIndex = 10),
-                createLecture(lectureId = "L1", roomName = "Two", roomIndex = 11)
-        )
-
-        val result = transformer.legacyTransformLectureList(dayIndex = 1, lectures = lecturesInDatabase)
-
-        assertThat(result.roomCount).isEqualTo(2)
-    }
-
     private fun createLecture(
             lectureId: String,
             roomName: String,
@@ -188,9 +85,4 @@ class LectureListTransformerTest {
             this.dateUTC = dateUTC
         }
     }
-
-    private fun SparseArrayCompat<Int>.toMap() =
-            (0 until size()).map { index ->
-                keyAt(index) to valueAt(index)
-            }.toMap()
 }

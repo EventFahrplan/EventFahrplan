@@ -37,7 +37,6 @@ import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
 import nerd.tuxmobil.fahrplan.congress.navigation.RoomForC3NavConverter;
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
-import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanFragment;
 import nerd.tuxmobil.fahrplan.congress.sharing.JsonLectureFormat;
 import nerd.tuxmobil.fahrplan.congress.sharing.LectureSharer;
 import nerd.tuxmobil.fahrplan.congress.sharing.SimpleLectureFormat;
@@ -156,10 +155,6 @@ public class EventDetailFragment extends Fragment {
             bold = Typeface.createFromAsset(assetManager, "Roboto-Bold.ttf");
 
             locale = getResources().getConfiguration().locale;
-
-            // TODO: Remove this after 36C3. Right now it's only kept to minimize the likelihood of
-            //  unintended behavior changes.
-            FahrplanFragment.loadLectureList(appRepository, day, requiresScheduleReload);
 
             lecture = eventIdToLecture(eventId);
 
@@ -425,7 +420,7 @@ public class EventDetailFragment extends Fragment {
                 if (lecture != null) {
                     lecture.highlight = true;
                     appRepository.updateHighlight(lecture);
-                    appRepository.updateLecturesLegacy(lecture);
+                    appRepository.notifyHighlightsChanged();
                 }
                 refreshUI(activity);
                 return true;
@@ -433,7 +428,7 @@ public class EventDetailFragment extends Fragment {
                 if (lecture != null) {
                     lecture.highlight = false;
                     appRepository.updateHighlight(lecture);
-                    appRepository.updateLecturesLegacy(lecture);
+                    appRepository.notifyHighlightsChanged();
                 }
                 refreshUI(activity);
                 return true;
@@ -462,9 +457,6 @@ public class EventDetailFragment extends Fragment {
     private void refreshUI(@NonNull Activity activity) {
         activity.invalidateOptionsMenu();
         activity.setResult(Activity.RESULT_OK);
-        if (activity instanceof FahrplanFragment.OnRefreshEventMarkers) {
-            ((FahrplanFragment.OnRefreshEventMarkers) activity).refreshEventMarkers();
-        }
     }
 
     private void closeFragment(@NonNull Activity activity, @NonNull String fragmentTag) {

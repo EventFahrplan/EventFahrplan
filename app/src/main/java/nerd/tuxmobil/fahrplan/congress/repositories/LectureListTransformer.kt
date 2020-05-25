@@ -1,48 +1,10 @@
 package nerd.tuxmobil.fahrplan.congress.repositories
 
-import android.support.v4.util.SparseArrayCompat
 import nerd.tuxmobil.fahrplan.congress.models.Lecture
 import nerd.tuxmobil.fahrplan.congress.models.RoomData
 import nerd.tuxmobil.fahrplan.congress.models.ScheduleData
 
 class LectureListTransformer(private val prioritizedRoomProvider: PrioritizedRoomProvider) {
-
-    /**
-     * Transform data loaded from the database to a data structure that we would like to use in
-     * UI code.
-     * Then transform it to the (legacy) data structure that the UI is currently using.
-     */
-    fun legacyTransformLectureList(dayIndex: Int, lectures: List<Lecture>): LegacyLectureData {
-        val scheduleData = transformLectureList(dayIndex, lectures)
-
-        // Set Lecture.roomIndex to match the index in ScheduleData.roomDataList
-        scheduleData.roomDataList.forEachIndexed { index, roomData ->
-            roomData.lectures.forEach { it.roomIndex = index }
-        }
-
-        // Map room title to room index
-        val roomsMap = scheduleData.roomDataList
-                .mapIndexed { index, roomData -> roomData.roomName to index }
-                .toMap()
-
-        // Map column index to room index
-        // This is simple identity map (0 -> 0, 1 -> 1, etc.)
-        // Room indices provided by the database are discarded here on purpose.
-        // Future UI code which assembles room columns should not be based on these room indices.
-        val roomList = SparseArrayCompat<Int>()
-        for (index in scheduleData.roomDataList.indices) {
-            roomList.put(index, index)
-        }
-
-        return LegacyLectureData(
-                lectureListDay = dayIndex,
-                lectureList = lectures.sortedBy { it.dateUTC },
-                roomsMap = roomsMap,
-                roomList = roomList,
-                roomCount = scheduleData.roomDataList.size,
-                scheduleData = scheduleData
-        )
-    }
 
     /**
      * Transforms the given [lectures] for the given [dayIndex] into a [ScheduleData] object.
@@ -85,15 +47,3 @@ class LectureListTransformer(private val prioritizedRoomProvider: PrioritizedRoo
 interface PrioritizedRoomProvider {
     val prioritizedRooms: List<String>
 }
-
-@Deprecated("Use ScheduleData instead")
-data class LegacyLectureData(
-        val lectureListDay: Int,
-        val lectureList: List<Lecture>,
-        val roomsMap: Map<String, Int>,
-        val roomList: SparseArrayCompat<Int>,
-        val roomCount: Int,
-
-        // Also include the new data structure so we can gradually switch over to it
-        val scheduleData: ScheduleData
-)
