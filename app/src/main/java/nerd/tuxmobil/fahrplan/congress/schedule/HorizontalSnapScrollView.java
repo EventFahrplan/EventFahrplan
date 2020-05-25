@@ -186,22 +186,19 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
         }
     }
 
-    // FIXME: Landscape patch to expand a column to full width if there is space available
-    private static int calcMaxCols(Resources res, int availPixels, int columnsCount) {
-        int maxCols = res.getInteger(R.integer.max_cols);
-        // TODO: The next line is the relevant monkey patch
-        maxCols = Math.min(columnsCount, maxCols);
-        // TODO: The previous line is the relevant monkey patch
-        int minWidthDip = res.getInteger(R.integer.min_width_dip);
-        float scale = res.getDisplayMetrics().density;
-        MyApp.LogDebug(LOG_TAG, "calcMaxCols: avail " + availPixels + " min width dip " + minWidthDip);
-        int dip;
-        do {
-            dip = (int) ((((float) availPixels) / maxCols) / scale);
-            MyApp.LogDebug(LOG_TAG, "calcMaxCols: " + dip + " on " + maxCols + " cols.");
-            maxCols--;
-        } while (dip < minWidthDip && maxCols > 0);
-        return maxCols + 1;
+    private static int calcMaxCols(Resources res, int availablePixels, int columnsCount) {
+        int maxColumnsForLayout = res.getInteger(R.integer.max_cols);
+        int maxColumns = Math.min(columnsCount, maxColumnsForLayout);
+        if (maxColumns == 1) {
+            return 1;
+        }
+
+        float densityScaleFactor = res.getDisplayMetrics().density;
+        float availableDips = ((float) availablePixels) / densityScaleFactor;
+        int minColumnWidthDip = res.getInteger(R.integer.min_width_dip);
+        int minWidthColumns = (int) Math.floor(availableDips / minColumnWidthDip);
+        int columns = Math.min(minWidthColumns, maxColumns);
+        return Math.max(1, columns);
     }
 
     @Override
