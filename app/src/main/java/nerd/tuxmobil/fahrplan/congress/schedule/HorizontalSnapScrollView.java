@@ -49,6 +49,10 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
         return activeColumnIndex;
     }
 
+    public int getLastVisibleColumn() {
+        return activeColumnIndex + maximumColumns - 1;
+    }
+
     class YScrollDetector extends SimpleOnGestureListener {
 
         @Override

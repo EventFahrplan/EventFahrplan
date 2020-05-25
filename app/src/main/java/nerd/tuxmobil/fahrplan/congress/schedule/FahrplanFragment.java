@@ -115,7 +115,6 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
     private View contextMenuView;
 
     private int roomColumnWidth;
-    private int maxRoomColumnsVisible;
 
     private ScheduleData scheduleData;
 
@@ -176,7 +175,7 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
         MyApp.LogDebug(LOG_TAG, "screen width = " + screenWidth);
         MyApp.LogDebug(LOG_TAG, "time width " + getResources().getDimension(R.dimen.time_width));
         screenWidth -= getResources().getDimension(R.dimen.time_width);
-        maxRoomColumnsVisible = HorizontalSnapScrollView.calcMaxCols(getResources(), screenWidth);
+        int maxRoomColumnsVisible = HorizontalSnapScrollView.calcMaxCols(getResources(), screenWidth);
         MyApp.LogDebug(LOG_TAG, "max cols: " + maxRoomColumnsVisible);
         roomColumnWidth = (int) ((float) screenWidth / maxRoomColumnsVisible); // TODO Assignment might be obsolete. Remove if verified.
         HorizontalScrollView roomScroller =
@@ -331,7 +330,7 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
             boolean forceReload
     ) {
         int columnIndexLeft = horizontalScroller.getColumn();
-        int columnIndexRight = columnIndexLeft + maxRoomColumnsVisible;
+        int columnIndexRight = horizontalScroller.getLastVisibleColumn();
 
         // whenever possible, just update recycler views
         if (!forceReload && !adapterByRoomIndex.isEmpty()) {
