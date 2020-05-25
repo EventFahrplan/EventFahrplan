@@ -279,9 +279,7 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
         int boxHeight = getNormalizedBoxHeight(getResources(), scale, LOG_TAG);
 
         HorizontalSnapScrollView horizontalScroller = layoutRoot.findViewById(R.id.horizScroller);
-        if (horizontalScroller != null) {
-            horizontalScroller.scrollTo(0, 0);
-        }
+        horizontalScroller.scrollTo(0, 0);
 
         loadLectureList(appRepository, mDay, forceReload);
         List<Lecture> lecturesOfDay = scheduleData.getAllLectures();
@@ -291,21 +289,18 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
             conference.calculateTimeFrame(lecturesOfDay, dateUTC -> new Moment(dateUTC).getMinuteOfDay());
             MyApp.LogDebug(LOG_TAG, "Conference = " + conference);
         }
-        if (horizontalScroller != null) {
-            int roomCount = scheduleData.getRoomCount();
-            horizontalScroller.setRoomsCount(roomCount);
-            if (horizontalScroller.getColumnWidth() != 0) {
-                // update pre-calculated roomColumnWidth with actual layout
-                roomColumnWidth = horizontalScroller.getColumnWidth();
-            }
-            addRoomColumns(horizontalScroller, lecturesOfDay, roomCount, forceReload);
+
+        int roomCount = scheduleData.getRoomCount();
+        horizontalScroller.setRoomsCount(roomCount);
+        if (horizontalScroller.getColumnWidth() != 0) {
+            // update pre-calculated roomColumnWidth with actual layout
+            roomColumnWidth = horizontalScroller.getColumnWidth();
         }
+        addRoomColumns(horizontalScroller, lecturesOfDay, roomCount, forceReload);
 
         HorizontalScrollView roomScroller = layoutRoot.findViewById(R.id.roomScroller);
-        if (roomScroller != null) {
-            LinearLayout roomTitlesRowLayout = (LinearLayout) roomScroller.getChildAt(0);
-            addRoomTitleViews(roomTitlesRowLayout, scheduleData.getRoomNames());
-        }
+        LinearLayout roomTitlesRowLayout = (LinearLayout) roomScroller.getChildAt(0);
+        addRoomTitleViews(roomTitlesRowLayout, scheduleData.getRoomNames());
 
         MainActivity.getInstance().shouldScheduleScrollToCurrentTimeSlot(() -> {
             scrollToCurrent(lecturesOfDay, mDay, boxHeight);
