@@ -1,6 +1,7 @@
 ---
 name: Crash report
 about: A crash sent by mail or extracted from Google Play
+labels: "Bug report"
 
 ---
 

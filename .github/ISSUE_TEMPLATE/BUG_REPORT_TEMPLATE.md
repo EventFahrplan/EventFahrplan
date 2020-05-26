@@ -1,6 +1,7 @@
 ---
 name: Bug report
 about: Create a report to help to improve the project
+labels: "Bug report"
 
 ---
 
