@@ -244,7 +244,7 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
         scrollToColumn(activeColumnIndex, true);
     }
 
-    public void setColumnWidth(int pixels) {
+    private void setColumnWidth(int pixels) {
         MyApp.LogDebug(LOG_TAG, "setColumnWidth " + pixels);
         columnWidth = pixels;
         if (pixels == 0) {
