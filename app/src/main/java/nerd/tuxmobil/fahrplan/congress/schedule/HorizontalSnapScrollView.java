@@ -45,11 +45,11 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
      *
      * @return index (0..n)
      */
-    public int getColumn() {
+    public int getColumnIndex() {
         return activeColumnIndex;
     }
 
-    public int getLastVisibleColumn() {
+    public int getLastVisibleColumnIndex() {
         return activeColumnIndex + maximumColumns - 1;
     }
 

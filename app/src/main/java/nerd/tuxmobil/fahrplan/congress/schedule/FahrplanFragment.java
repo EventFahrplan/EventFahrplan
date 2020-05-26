@@ -317,8 +317,8 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
             int roomCount,
             boolean forceReload
     ) {
-        int columnIndexLeft = horizontalScroller.getColumn();
-        int columnIndexRight = horizontalScroller.getLastVisibleColumn();
+        int columnIndexLeft = horizontalScroller.getColumnIndex();
+        int columnIndexRight = horizontalScroller.getLastVisibleColumnIndex();
 
         // whenever possible, just update recycler views
         if (!forceReload && !adapterByRoomIndex.isEmpty()) {
@@ -410,7 +410,7 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
 
         int col = -1;
         if (horiz != null) {
-            col = horiz.getColumn();
+            col = horiz.getColumnIndex();
             MyApp.LogDebug(LOG_TAG, "y pos  = " + col);
         }
         int time = conference.getFirstEventStartsAt();
