@@ -52,6 +52,7 @@ import nerd.tuxmobil.fahrplan.congress.alarms.AlarmTimePickerFragment;
 import nerd.tuxmobil.fahrplan.congress.calendar.CalendarSharing;
 import nerd.tuxmobil.fahrplan.congress.extensions.Contexts;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
+import nerd.tuxmobil.fahrplan.congress.models.RoomData;
 import nerd.tuxmobil.fahrplan.congress.models.ScheduleData;
 import nerd.tuxmobil.fahrplan.congress.net.ParseResult;
 import nerd.tuxmobil.fahrplan.congress.net.ParseScheduleResult;
@@ -282,7 +283,7 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
 
         int roomCount = scheduleData.getRoomCount();
         horizontalScroller.setRoomsCount(roomCount);
-        addRoomColumns(horizontalScroller, lecturesOfDay, roomCount, forceReload);
+        addRoomColumns(horizontalScroller, scheduleData, forceReload);
 
         HorizontalScrollView roomScroller = layoutRoot.findViewById(R.id.roomScroller);
         LinearLayout roomTitlesRowLayout = (LinearLayout) roomScroller.getChildAt(0);
@@ -313,8 +314,7 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
      */
     private void addRoomColumns(
             @NonNull HorizontalSnapScrollView horizontalScroller,
-            @NonNull List<Lecture> lectures,
-            int roomCount,
+            @NonNull ScheduleData scheduleData,
             boolean forceReload
     ) {
         int columnIndexLeft = horizontalScroller.getColumnIndex();
@@ -334,11 +334,12 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
         adapterByRoomIndex.clear();
 
         int boxHeight = getNormalizedBoxHeight(getResources(), scale, LOG_TAG);
-        LecturesByRoomIndex lecturesByRoomIndex = new LecturesByRoomIndex(lectures);
         LayoutCalculator layoutCalculator = new LayoutCalculator(Logging.Companion.get(), boxHeight);
 
-        for (int roomIndex = 0; roomIndex < roomCount; roomIndex++) {
-            List<Lecture> roomLectures = lecturesByRoomIndex.get(roomIndex);
+        List<RoomData> roomDataList = scheduleData.getRoomDataList();
+        for (int roomIndex = 0; roomIndex < roomDataList.size(); roomIndex++) {
+            RoomData roomData = roomDataList.get(roomIndex);
+            List<Lecture> roomLectures = roomData.getLectures();
 
             Map<Lecture, LayoutParams> layoutParamsByLecture = layoutCalculator.calculateLayoutParams(roomIndex, roomLectures, conference);
 
