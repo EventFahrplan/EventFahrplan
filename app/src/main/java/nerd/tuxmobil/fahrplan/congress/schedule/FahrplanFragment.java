@@ -114,9 +114,6 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
 
     private View contextMenuView;
 
-    private int roomColumnWidth;
-    private int maxRoomColumnsVisible;
-
     private ScheduleData scheduleData;
 
     private String lectureId;        // started with lectureId
@@ -172,13 +169,6 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
 
         Context context = view.getContext();
         scale = getResources().getDisplayMetrics().density;
-        int screenWidth = getResources().getDisplayMetrics().widthPixels;
-        MyApp.LogDebug(LOG_TAG, "screen width = " + screenWidth);
-        MyApp.LogDebug(LOG_TAG, "time width " + getResources().getDimension(R.dimen.time_width));
-        screenWidth -= getResources().getDimension(R.dimen.time_width);
-        maxRoomColumnsVisible = HorizontalSnapScrollView.calcMaxCols(getResources(), screenWidth);
-        MyApp.LogDebug(LOG_TAG, "max cols: " + maxRoomColumnsVisible);
-        roomColumnWidth = (int) ((float) screenWidth / maxRoomColumnsVisible); // TODO Assignment might be obsolete. Remove if verified.
         HorizontalScrollView roomScroller =
                 view.findViewById(R.id.roomScroller);
         if (roomScroller != null) {
@@ -279,9 +269,7 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
         int boxHeight = getNormalizedBoxHeight(getResources(), scale, LOG_TAG);
 
         HorizontalSnapScrollView horizontalScroller = layoutRoot.findViewById(R.id.horizScroller);
-        if (horizontalScroller != null) {
-            horizontalScroller.scrollTo(0, 0);
-        }
+        horizontalScroller.scrollTo(0, 0);
 
         loadLectureList(appRepository, mDay, forceReload);
         List<Lecture> lecturesOfDay = scheduleData.getAllLectures();
@@ -291,21 +279,15 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
             conference.calculateTimeFrame(lecturesOfDay, dateUTC -> new Moment(dateUTC).getMinuteOfDay());
             MyApp.LogDebug(LOG_TAG, "Conference = " + conference);
         }
-        if (horizontalScroller != null) {
-            int roomCount = scheduleData.getRoomCount();
-            horizontalScroller.setRoomsCount(roomCount);
-            if (horizontalScroller.getColumnWidth() != 0) {
-                // update pre-calculated roomColumnWidth with actual layout
-                roomColumnWidth = horizontalScroller.getColumnWidth();
-            }
-            addRoomColumns(horizontalScroller, lecturesOfDay, roomCount, forceReload);
-        }
+
+        int roomCount = scheduleData.getRoomCount();
+        horizontalScroller.setRoomsCount(roomCount);
+        addRoomColumns(horizontalScroller, lecturesOfDay, roomCount, forceReload);
 
         HorizontalScrollView roomScroller = layoutRoot.findViewById(R.id.roomScroller);
-        if (roomScroller != null) {
-            LinearLayout roomTitlesRowLayout = (LinearLayout) roomScroller.getChildAt(0);
-            addRoomTitleViews(roomTitlesRowLayout, scheduleData.getRoomNames());
-        }
+        LinearLayout roomTitlesRowLayout = (LinearLayout) roomScroller.getChildAt(0);
+        int columnWidth = horizontalScroller.getColumnWidth();
+        addRoomTitleViews(roomTitlesRowLayout, columnWidth, scheduleData.getRoomNames());
 
         MainActivity.getInstance().shouldScheduleScrollToCurrentTimeSlot(() -> {
             scrollToCurrent(lecturesOfDay, mDay, boxHeight);
@@ -335,8 +317,8 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
             int roomCount,
             boolean forceReload
     ) {
-        int columnIndexLeft = horizontalScroller.getColumn();
-        int columnIndexRight = columnIndexLeft + maxRoomColumnsVisible;
+        int columnIndexLeft = horizontalScroller.getColumnIndex();
+        int columnIndexRight = horizontalScroller.getLastVisibleColumnIndex();
 
         // whenever possible, just update recycler views
         if (!forceReload && !adapterByRoomIndex.isEmpty()) {
@@ -380,6 +362,7 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
      */
     private void addRoomTitleViews(
             @NonNull LinearLayout roomTitlesRowLayout,
+            int columnWidth,
             @NonNull List<String> roomNames
     ) {
         roomTitlesRowLayout.removeAllViews();
@@ -387,7 +370,7 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
         for (String roomName : roomNames) {
             TextView roomTitle = new TextView(context);
             LinearLayout.LayoutParams p = new LayoutParams(
-                    roomColumnWidth, LayoutParams.WRAP_CONTENT, 1);
+                    columnWidth, LayoutParams.WRAP_CONTENT, 1);
             p.gravity = Gravity.CENTER;
             roomTitle.setLayoutParams(p);
             roomTitle.setMaxLines(1);
@@ -427,7 +410,7 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
 
         int col = -1;
         if (horiz != null) {
-            col = horiz.getColumn();
+            col = horiz.getColumnIndex();
             MyApp.LogDebug(LOG_TAG, "y pos  = " + col);
         }
         int time = conference.getFirstEventStartsAt();

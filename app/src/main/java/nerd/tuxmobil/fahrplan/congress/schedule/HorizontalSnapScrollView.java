@@ -45,8 +45,12 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
      *
      * @return index (0..n)
      */
-    public int getColumn() {
+    public int getColumnIndex() {
         return activeColumnIndex;
+    }
+
+    public int getLastVisibleColumnIndex() {
+        return activeColumnIndex + maximumColumns - 1;
     }
 
     class YScrollDetector extends SimpleOnGestureListener {
@@ -182,20 +186,6 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
         }
     }
 
-    public static int calcMaxCols(Resources res, int availPixels) {
-        int maxCols = res.getInteger(R.integer.max_cols);
-        int minWidthDip = res.getInteger(R.integer.min_width_dip);
-        float scale = res.getDisplayMetrics().density;
-        MyApp.LogDebug(LOG_TAG, "calcMaxCols: avail " + availPixels + " min width dip " + minWidthDip);
-        int dip;
-        do {
-            dip = (int) ((((float) availPixels) / maxCols) / scale);
-            MyApp.LogDebug(LOG_TAG, "calcMaxCols: " + dip + " on " + maxCols + " cols.");
-            maxCols--;
-        } while (dip < minWidthDip && maxCols > 0);
-        return maxCols + 1;
-    }
-
     // FIXME: Landscape patch to expand a column to full width if there is space available
     private static int calcMaxCols(Resources res, int availPixels, int columnsCount) {
         int maxCols = res.getInteger(R.integer.max_cols);
@@ -254,7 +244,7 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
         scrollToColumn(activeColumnIndex, true);
     }
 
-    public void setColumnWidth(int pixels) {
+    private void setColumnWidth(int pixels) {
         MyApp.LogDebug(LOG_TAG, "setColumnWidth " + pixels);
         columnWidth = pixels;
         if (pixels == 0) {
