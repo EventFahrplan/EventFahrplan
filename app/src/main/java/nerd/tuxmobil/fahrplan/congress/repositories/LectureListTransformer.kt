@@ -39,18 +39,8 @@ class LectureListTransformer(private val prioritizedRoomProvider: PrioritizedRoo
             }
         }
 
-        legacyRoomIndexFixup(roomDataList)
-
         return ScheduleData(dayIndex, roomDataList)
     }
-
-    private fun legacyRoomIndexFixup(roomDataList: List<RoomData>) {
-        // Set Lecture.roomIndex to match the index in ScheduleData.roomDataList
-        roomDataList.forEachIndexed { index, roomData ->
-            roomData.lectures.forEach { it.roomIndex = index }
-        }
-    }
-
 }
 
 interface PrioritizedRoomProvider {
