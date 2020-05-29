@@ -18,4 +18,8 @@ data class ScheduleData(
                 .flatMap { it.lectures.asSequence() }
                 .firstOrNull { it.lectureId == lectureId }
     }
+
+    fun findRoomIndex(lecture: Lecture): Int {
+        return roomDataList.indexOfFirst { it.roomName == lecture.room }
+    }
 }

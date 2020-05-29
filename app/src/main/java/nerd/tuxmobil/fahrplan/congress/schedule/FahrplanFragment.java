@@ -489,7 +489,7 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
         parent.post(() -> parent.scrollTo(0, pos));
         final HorizontalSnapScrollView horiz = getView().findViewById(R.id.horizScroller);
         if (horiz != null) {
-            final int hpos = lecture.roomIndex;
+            final int hpos = scheduleData.findRoomIndex(lecture);
             MyApp.LogDebug(LOG_TAG, "scroll horiz to " + hpos);
             horiz.post(() -> horiz.scrollToColumn(hpos, false));
         }
