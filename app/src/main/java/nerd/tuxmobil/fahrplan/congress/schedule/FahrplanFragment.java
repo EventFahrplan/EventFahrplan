@@ -291,7 +291,7 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
         addRoomTitleViews(roomTitlesRowLayout, columnWidth, scheduleData.getRoomNames());
 
         MainActivity.getInstance().shouldScheduleScrollToCurrentTimeSlot(() -> {
-            scrollToCurrent(lecturesOfDay, mDay, boxHeight);
+            scrollToCurrent(boxHeight);
             return Unit.INSTANCE;
         });
 
@@ -389,7 +389,7 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
     /**
      * jump to current time or lecture, if we are on today's lecture list
      */
-    private void scrollToCurrent(@NonNull List<Lecture> lectures, int day, int height) {
+    private void scrollToCurrent(int height) {
         // Log.d(LOG_TAG, "lectureListDay: " + MyApp.lectureListDay);
         if (lectureId != null) {
             return;
@@ -436,13 +436,15 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
                 }
             }
 
-            for (Lecture l : lectures) {
-                if (l.day == day && l.startTime <= time && l.startTime + l.duration > time) {
-                    if (col == -1 || col >= 0 && l.roomIndex == col) {
-                        MyApp.LogDebug(LOG_TAG, l.title);
-                        MyApp.LogDebug(LOG_TAG, time + " " + l.startTime + "/" + l.duration);
-                        scrollAmount -= ((time - l.startTime) / 5) * height;
-                        time = l.startTime;
+            List<RoomData> roomDataList = scheduleData.getRoomDataList();
+            if (col >= 0 && col < roomDataList.size()) {
+                RoomData roomData = roomDataList.get(col);
+                for (Lecture lecture : roomData.getLectures()) {
+                    if (lecture.startTime <= time && lecture.startTime + lecture.duration > time) {
+                        MyApp.LogDebug(LOG_TAG, lecture.title);
+                        MyApp.LogDebug(LOG_TAG, time + " " + lecture.startTime + "/" + lecture.duration);
+                        scrollAmount -= ((time - lecture.startTime) / 5) * height;
+                        time = lecture.startTime;
                     }
                 }
             }
