@@ -341,7 +341,7 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
             RoomData roomData = roomDataList.get(roomIndex);
             List<Lecture> roomLectures = roomData.getLectures();
 
-            Map<Lecture, LayoutParams> layoutParamsByLecture = layoutCalculator.calculateLayoutParams(roomIndex, roomLectures, conference);
+            Map<Lecture, LayoutParams> layoutParamsByLecture = layoutCalculator.calculateLayoutParams(roomLectures, conference);
 
             RecyclerView columnRecyclerView = new RecyclerView(context);
             columnRecyclerView.setHasFixedSize(true);
