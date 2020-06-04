@@ -3,6 +3,7 @@ package nerd.tuxmobil.fahrplan.congress.schedule;
 import android.content.Context;
 import android.content.res.Resources;
 import android.support.annotation.IntRange;
+import android.support.annotation.VisibleForTesting;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
@@ -191,6 +192,7 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
      * the screen density of the device and the column count of the schedule. Further limiting
      * factors are a maximum column count to be displayed and a minimum column width.
      */
+    @VisibleForTesting
     public static int calculateDisplayColumnCount(
             int availablePixels,
             int columnsCount,
