@@ -191,16 +191,18 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
      * the screen density of the device and the column count of the schedule. Further limiting
      * factors are a maximum column count to be displayed and a minimum column width.
      */
-    private static int calculateDisplayColumnCount(Resources res, int availablePixels, int columnsCount) {
-        int maxColumnCountForLayout = res.getInteger(R.integer.max_cols);
+    public static int calculateDisplayColumnCount(
+            int availablePixels,
+            int columnsCount,
+            int maxColumnCountForLayout,
+            float densityScaleFactor,
+            int minColumnWidthDip
+    ) {
         int columnCountLimit = Math.min(columnsCount, maxColumnCountForLayout);
         if (columnCountLimit == 1) {
             return 1;
         }
-
-        float densityScaleFactor = res.getDisplayMetrics().density;
         float availableDips = ((float) availablePixels) / densityScaleFactor;
-        int minColumnWidthDip = res.getInteger(R.integer.min_width_dip);
         int minWidthColumnCount = (int) Math.floor(availableDips / minColumnWidthDip);
         int columnCount = Math.min(minWidthColumnCount, columnCountLimit);
         return Math.max(1, columnCount);
@@ -210,10 +212,16 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
     protected void onSizeChanged(int width, int height, int oldWidth, int oldHeight) {
         MyApp.LogDebug(LOG_TAG, "onSizeChanged " + oldWidth + ", " + oldHeight + ", " + width + ", " + height + " getMW:" + getMeasuredWidth());
         super.onSizeChanged(width, height, oldWidth, oldHeight);
+        Resources resources = getResources();
         if (roomsCount == NOT_INITIALIZED) {
             displayColumnCount = 1;
         } else {
-            displayColumnCount = calculateDisplayColumnCount(getResources(), getMeasuredWidth(), roomsCount);
+            displayColumnCount = calculateDisplayColumnCount(
+                    getMeasuredWidth(),
+                    roomsCount,
+                    resources.getInteger(R.integer.max_cols),
+                    resources.getDisplayMetrics().density,
+                    resources.getInteger(R.integer.min_width_dip));
         }
 
         int newItemWidth = Math.round((float) getMeasuredWidth() / displayColumnCount);
