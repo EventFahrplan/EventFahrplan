@@ -56,7 +56,7 @@
 
             <nerd.tuxmobil.fahrplan.congress.schedule.HorizontalSnapScrollView
                     android:id="@+id/horizScroller"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:fadingEdge="none"
                     android:scrollbars="none">
