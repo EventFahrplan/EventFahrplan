@@ -32,7 +32,7 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
 
     private HorizontalScrollView roomNames = null;
 
-    private int maximumColumns;
+    private int displayColumnCount;
 
     private static final int NOT_INITIALIZED = Integer.MIN_VALUE;
 
@@ -50,7 +50,7 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
     }
 
     public int getLastVisibleColumnIndex() {
-        return activeColumnIndex + maximumColumns - 1;
+        return activeColumnIndex + displayColumnCount - 1;
     }
 
     class YScrollDetector extends SimpleOnGestureListener {
@@ -59,7 +59,7 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
         public boolean onDown(MotionEvent e) {
             xStart = (int) e.getX();
 //          MyApp.LogDebug(LOG_TAG, "onDown xStart: " + xStart + " getMeasuredWidth: " + getMeasuredWidth());
-            float ofs = (float) (getScrollX() * maximumColumns) / getMeasuredWidth();
+            float ofs = (float) (getScrollX() * displayColumnCount) / getMeasuredWidth();
             activeColumnIndex = Math.round(ofs);
             return super.onDown(e);
         }
@@ -138,7 +138,7 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
 
     public HorizontalSnapScrollView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        maximumColumns = getResources().getInteger(R.integer.max_cols);
+        displayColumnCount = getResources().getInteger(R.integer.max_cols);
         columnWidth = 0;
         gestureDetector = new GestureDetector(new YScrollDetector());
         setOnTouchListener(new OnTouchListener());
@@ -160,7 +160,7 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
                                 + distance + " active column index:" + activeColumnIndex);
                 int columnIndex = activeColumnIndex;
                 int columnDistance;
-                if (maximumColumns > 1) {
+                if (displayColumnCount > 1) {
                     columnDistance = Math.round(Math.abs((float) distance) / columnWidth);
                     MyApp.LogDebug(LOG_TAG, "column distance: " + columnDistance);
                     if (distance > 0) {
@@ -186,19 +186,24 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
         }
     }
 
-    private static int calcMaxCols(Resources res, int availablePixels, int columnsCount) {
-        int maxColumnsForLayout = res.getInteger(R.integer.max_cols);
-        int maxColumns = Math.min(columnsCount, maxColumnsForLayout);
-        if (maxColumns == 1) {
+    /**
+     * Calculates the number of columns to display at a time based on the physical dimensions and
+     * the screen density of the device and the column count of the schedule. Further limiting
+     * factors are a maximum column count to be displayed and a minimum column width.
+     */
+    private static int calculateDisplayColumnCount(Resources res, int availablePixels, int columnsCount) {
+        int maxColumnCountForLayout = res.getInteger(R.integer.max_cols);
+        int columnCountLimit = Math.min(columnsCount, maxColumnCountForLayout);
+        if (columnCountLimit == 1) {
             return 1;
         }
 
         float densityScaleFactor = res.getDisplayMetrics().density;
         float availableDips = ((float) availablePixels) / densityScaleFactor;
         int minColumnWidthDip = res.getInteger(R.integer.min_width_dip);
-        int minWidthColumns = (int) Math.floor(availableDips / minColumnWidthDip);
-        int columns = Math.min(minWidthColumns, maxColumns);
-        return Math.max(1, columns);
+        int minWidthColumnCount = (int) Math.floor(availableDips / minColumnWidthDip);
+        int columnCount = Math.min(minWidthColumnCount, columnCountLimit);
+        return Math.max(1, columnCount);
     }
 
     @Override
@@ -206,12 +211,12 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
         MyApp.LogDebug(LOG_TAG, "onSizeChanged " + oldWidth + ", " + oldHeight + ", " + width + ", " + height + " getMW:" + getMeasuredWidth());
         super.onSizeChanged(width, height, oldWidth, oldHeight);
         if (roomsCount == NOT_INITIALIZED) {
-            maximumColumns = 1;
+            displayColumnCount = 1;
         } else {
-            maximumColumns = calcMaxCols(getResources(), getMeasuredWidth(), roomsCount);
+            displayColumnCount = calculateDisplayColumnCount(getResources(), getMeasuredWidth(), roomsCount);
         }
 
-        int newItemWidth = Math.round((float) getMeasuredWidth() / maximumColumns);
+        int newItemWidth = Math.round((float) getMeasuredWidth() / displayColumnCount);
         float scale = getResources().getDisplayMetrics().density;
 
         MyApp.LogDebug(LOG_TAG, "item width: " + newItemWidth + " " + ((float) newItemWidth) / scale + "dp");
