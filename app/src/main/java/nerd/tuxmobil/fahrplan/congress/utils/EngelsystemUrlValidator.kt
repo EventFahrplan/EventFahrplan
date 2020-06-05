@@ -1,7 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.utils
 
 import android.net.Uri
-import android.support.annotation.StringRes
+import androidx.annotation.StringRes
 import nerd.tuxmobil.fahrplan.congress.R
 
 class EngelsystemUrlValidator(

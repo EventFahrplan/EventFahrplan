@@ -1,6 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress.dataconverters
 
-import android.support.annotation.VisibleForTesting
+import androidx.annotation.VisibleForTesting
 import info.metadude.android.eventfahrplan.commons.logging.Logging
 import info.metadude.android.eventfahrplan.commons.temporal.DayRange
 import info.metadude.android.eventfahrplan.commons.temporal.Moment

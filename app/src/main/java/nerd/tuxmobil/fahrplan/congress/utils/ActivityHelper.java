@@ -2,9 +2,10 @@ package nerd.tuxmobil.fahrplan.congress.utils;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v4.app.NavUtils;
-import android.support.v4.app.TaskStackBuilder;
+
+import androidx.annotation.NonNull;
+import androidx.core.app.NavUtils;
+import androidx.core.app.TaskStackBuilder;
 
 public class ActivityHelper {
 

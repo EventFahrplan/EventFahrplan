@@ -1,6 +1,6 @@
 package info.metadude.android.eventfahrplan.database.extensions
 
-import android.support.test.runner.AndroidJUnit4
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.*
 import info.metadude.android.eventfahrplan.database.models.Meta
 import org.assertj.core.api.Assertions.assertThat

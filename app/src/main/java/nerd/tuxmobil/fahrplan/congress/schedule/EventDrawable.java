@@ -9,7 +9,8 @@ import android.graphics.drawable.RippleDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RoundRectShape;
 import android.os.Build;
-import android.support.annotation.ColorInt;
+
+import androidx.annotation.ColorInt;
 
 import java.util.Arrays;
 

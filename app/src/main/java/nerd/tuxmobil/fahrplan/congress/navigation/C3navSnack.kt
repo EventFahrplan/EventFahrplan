@@ -1,8 +1,8 @@
 package nerd.tuxmobil.fahrplan.congress.navigation
 
 import android.content.Context
-import android.support.design.widget.Snackbar
 import android.widget.TextView
+import com.google.android.material.snackbar.Snackbar
 import nerd.tuxmobil.fahrplan.congress.R
 import org.ligi.snackengage.SnackContext
 import org.ligi.snackengage.conditions.AfterNumberOfOpportunities
@@ -30,7 +30,7 @@ class C3navSnack(private val context: Context) : OpenURLSnack(
 
     override fun createSnackBar(snackContext: SnackContext): Snackbar {
         val snackBar = super.createSnackBar(snackContext)
-        val textView = snackBar.view.findViewById<TextView>(android.support.design.R.id.snackbar_text)
+        val textView = snackBar.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text)
         textView.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.c3nav, 0, 0, 0)
         val pixelOffset = context.resources.getDimensionPixelOffset(R.dimen.snack_engage_c3nav_pixel_offset)
         textView.compoundDrawablePadding = pixelOffset

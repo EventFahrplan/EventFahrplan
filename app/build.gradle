@@ -150,23 +150,23 @@ dependencies {
     implementation project(":network")
     implementation project(":engelsystem")
 
+    implementation Libs.appCompat
+    implementation Libs.constraintLayout
+    implementation Libs.emailIntentBuilder
     implementation Libs.kotlinCoroutinesAndroid
     implementation Libs.kotlinCoroutinesCore
     implementation Libs.kotlinStdlib
-    implementation Libs.supportLibraryAppcompatV7
-    implementation Libs.supportLibraryConstraintLayout
-    implementation Libs.supportLibraryDesign
+    implementation Libs.material
+    implementation Libs.moshi
+    kapt Libs.moshiCodeGen
     implementation Libs.okhttp
     implementation Libs.okhttpLoggingInterceptor
     implementation Libs.snackengagePlayrate
-    implementation Libs.emailIntentBuilder
     implementation Libs.tracedroid
-    implementation Libs.moshi
-    kapt Libs.moshiCodeGen
 
-    testImplementation Libs.junit
+    testImplementation Libs.annotation
     testImplementation Libs.assertjAndroid
-    testImplementation Libs.supportLibraryAnnotations
+    testImplementation Libs.junit
     testImplementation Libs.mockitoCore
     testImplementation Libs.mockitoKotlin
     testImplementation Libs.threeTenBp

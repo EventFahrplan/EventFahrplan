@@ -1,6 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress.utils;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 public class ConferenceTimeFrame {
 

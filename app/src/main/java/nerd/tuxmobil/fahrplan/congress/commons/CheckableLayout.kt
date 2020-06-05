@@ -17,10 +17,9 @@
 package nerd.tuxmobil.fahrplan.congress.commons
 
 import android.content.Context
-import android.support.constraint.ConstraintLayout
 import android.util.AttributeSet
 import android.widget.Checkable
-
+import androidx.constraintlayout.widget.ConstraintLayout
 import nerd.tuxmobil.fahrplan.congress.R
 
 class CheckableLayout : ConstraintLayout, Checkable {

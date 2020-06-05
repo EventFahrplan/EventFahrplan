@@ -2,8 +2,6 @@ package nerd.tuxmobil.fahrplan.congress.schedule;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.support.annotation.IntRange;
-import android.support.annotation.VisibleForTesting;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
@@ -12,6 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
+
+import androidx.annotation.IntRange;
+import androidx.annotation.VisibleForTesting;
 
 import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.R;

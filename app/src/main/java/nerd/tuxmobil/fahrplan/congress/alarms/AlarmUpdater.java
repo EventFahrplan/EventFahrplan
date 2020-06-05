@@ -1,7 +1,8 @@
 package nerd.tuxmobil.fahrplan.congress.alarms;
 
 import android.app.AlarmManager;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 import nerd.tuxmobil.fahrplan.congress.utils.ConferenceTimeFrame;
 
