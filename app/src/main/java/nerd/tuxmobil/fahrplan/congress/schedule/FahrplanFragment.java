@@ -389,7 +389,7 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
     /**
      * jump to current time or lecture, if we are on today's lecture list
      */
-    private void scrollToCurrent(int height) {
+    private void scrollToCurrent(int boxHeight) {
         // Log.d(LOG_TAG, "lectureListDay: " + MyApp.lectureListDay);
         if (lectureId != null) {
             return;
@@ -427,7 +427,7 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
                 if (timeSegment.isMatched(nowMoment, FIFTEEN_MINUTES)) {
                     break;
                 } else {
-                    scrollAmount += height * 3;
+                    scrollAmount += boxHeight * 3;
                 }
                 time += FIFTEEN_MINUTES;
                 printTime = time;
@@ -443,7 +443,7 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
                     if (lecture.startTime <= time && lecture.startTime + lecture.duration > time) {
                         MyApp.LogDebug(LOG_TAG, lecture.title);
                         MyApp.LogDebug(LOG_TAG, time + " " + lecture.startTime + "/" + lecture.duration);
-                        scrollAmount -= ((time - lecture.startTime) / 5) * height;
+                        scrollAmount -= ((time - lecture.startTime) / 5) * boxHeight;
                         time = lecture.startTime;
                     }
                 }
