@@ -409,10 +409,10 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
                 break;
         }
 
-        int col = -1;
+        int columnIndex = -1;
         if (horiz != null) {
-            col = horiz.getColumnIndex();
-            MyApp.LogDebug(LOG_TAG, "y pos  = " + col);
+            columnIndex = horiz.getColumnIndex();
+            MyApp.LogDebug(LOG_TAG, "y pos  = " + columnIndex);
         }
         int time = conference.getFirstEventStartsAt();
         int printTime = time;
@@ -437,8 +437,8 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
             }
 
             List<RoomData> roomDataList = scheduleData.getRoomDataList();
-            if (col >= 0 && col < roomDataList.size()) {
-                RoomData roomData = roomDataList.get(col);
+            if (columnIndex >= 0 && columnIndex < roomDataList.size()) {
+                RoomData roomData = roomDataList.get(columnIndex);
                 for (Lecture lecture : roomData.getLectures()) {
                     if (lecture.startTime <= time && lecture.startTime + lecture.duration > time) {
                         MyApp.LogDebug(LOG_TAG, lecture.title);
