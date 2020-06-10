@@ -5,6 +5,7 @@ import android.widget.LinearLayout
 import info.metadude.android.eventfahrplan.commons.logging.Logging
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.models.Lecture
+import nerd.tuxmobil.fahrplan.congress.models.RoomData
 import org.threeten.bp.Duration
 import kotlin.collections.List
 import kotlin.collections.Map
@@ -25,7 +26,8 @@ data class LayoutCalculator(val logging: Logging = Logging.get(),
         return standardHeight * minutes / DIVISOR
     }
 
-    fun calculateLayoutParams(lectures: List<Lecture>, conference: Conference): Map<Lecture, LinearLayout.LayoutParams> {
+    fun calculateLayoutParams(roomData: RoomData, conference: Conference): Map<Lecture, LinearLayout.LayoutParams> {
+        val lectures = roomData.lectures
         var endTimePreviousLecture: Int = conference.firstEventStartsAt
         var startTime: Int
         var margin: Int

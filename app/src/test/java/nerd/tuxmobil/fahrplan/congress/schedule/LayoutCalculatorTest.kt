@@ -5,6 +5,7 @@ import com.google.common.truth.Truth.assertThat
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.NoLogging
 import nerd.tuxmobil.fahrplan.congress.models.Lecture
+import nerd.tuxmobil.fahrplan.congress.models.RoomData
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
@@ -33,8 +34,9 @@ class LayoutCalculatorTest {
     fun `calculateLayoutParams for empty list returns empty params`() {
         val lectures = listOf<Lecture>()
         val conference = Conference(firstEventStartsAt = 0, lastEventEndsAt = 0)
+        val roomData = lectures.toRoomData()
 
-        val layoutParams = layoutCalculator.calculateLayoutParams(lectures, conference)
+        val layoutParams = layoutCalculator.calculateLayoutParams(roomData, conference)
 
         assertThat(layoutParams).isEmpty()
     }
@@ -43,8 +45,9 @@ class LayoutCalculatorTest {
     fun `calculateLayoutParams for single lecture returns margins 0`() {
         val lectures = listOf(createLecture())
         val conference = Conference(firstEventStartsAt = 0, lastEventEndsAt = 0)
+        val roomData = lectures.toRoomData()
 
-        val layoutParams = layoutCalculator.calculateLayoutParams(lectures, conference)
+        val layoutParams = layoutCalculator.calculateLayoutParams(roomData, conference)
         val lectureParams = layoutParams[lectures.first()]
 
         assertMargins(lectureParams, 0, 0)
@@ -55,8 +58,9 @@ class LayoutCalculatorTest {
         val startTime = 10 * 60 // 10:00am
         val lectures = listOf(createLecture(date = conferenceDate, startTime = startTime))
         val conference = Conference(firstEventStartsAt = startTime, lastEventEndsAt = startTime)
+        val roomData = lectures.toRoomData()
 
-        val layoutParams = layoutCalculator.calculateLayoutParams(lectures, conference)
+        val layoutParams = layoutCalculator.calculateLayoutParams(roomData, conference)
         val lectureParams = layoutParams[lectures.first()]
 
         assertMargins(lectureParams, 0, 0)
@@ -67,8 +71,9 @@ class LayoutCalculatorTest {
         val startTime = 10 * 60 // 10:00am
         val lectures = listOf(createLecture(startTime = startTime))
         val conference = Conference(firstEventStartsAt = startTime, lastEventEndsAt = startTime)
+        val roomData = lectures.toRoomData()
 
-        val layoutParams = layoutCalculator.calculateLayoutParams(lectures, conference)
+        val layoutParams = layoutCalculator.calculateLayoutParams(roomData, conference)
         val lectureParams = layoutParams[lectures.first()]
 
         assertMargins(lectureParams, 0, 0)
@@ -85,8 +90,9 @@ class LayoutCalculatorTest {
         val lecture2 = createLecture(date = conferenceDate, startTime = startTime2)
         val lectures = listOf(lecture1, lecture2)
         val conference = Conference(firstEventStartsAt = startTime1, lastEventEndsAt = startTime2)
+        val roomData = lectures.toRoomData()
 
-        val layoutParams = layoutCalculator.calculateLayoutParams(lectures, conference)
+        val layoutParams = layoutCalculator.calculateLayoutParams(roomData, conference)
         val lecture1Params = layoutParams[lecture1]
         val secondLectureParams = layoutParams[lecture2]
 
@@ -119,8 +125,9 @@ class LayoutCalculatorTest {
         val lecture2 = createLecture(date = conferenceDate, startTime = startTime2)
         val lectures = listOf(lecture2)
         val conference = Conference(firstEventStartsAt = startTime1, lastEventEndsAt = startTime2)
+        val roomData = lectures.toRoomData()
 
-        val layoutParams = layoutCalculator.calculateLayoutParams(lectures, conference)
+        val layoutParams = layoutCalculator.calculateLayoutParams(roomData, conference)
         val secondLectureParams = layoutParams[lecture2]
         val gapMinutes = 60
 
@@ -135,12 +142,14 @@ class LayoutCalculatorTest {
 
         val lecture1 = createLecture(date = conferenceDate, startTime = startTime1, duration = duration1)
         val lecture2 = createLecture(date = conferenceDate, startTime = startTime2)
-        val lecturesInRoom0 = listOf(lecture1)
-        val lecturesInRoom1 = listOf(lecture2)
+        val lecturesInRoom1 = listOf(lecture1)
+        val lecturesInRoom2 = listOf(lecture2)
         val conference = Conference(firstEventStartsAt = startTime1, lastEventEndsAt = startTime2)
+        val roomData1 = lecturesInRoom1.toRoomData()
+        val roomData2 = lecturesInRoom2.toRoomData()
 
-        val layoutParamsRoom1 = layoutCalculator.calculateLayoutParams(lecturesInRoom0, conference)
-        val layoutParamsRoom2 = layoutCalculator.calculateLayoutParams(lecturesInRoom1, conference)
+        val layoutParamsRoom1 = layoutCalculator.calculateLayoutParams(roomData1, conference)
+        val layoutParamsRoom2 = layoutCalculator.calculateLayoutParams(roomData2, conference)
         val lecture1Params = layoutParamsRoom1[lecture1]
         val secondLectureParams = layoutParamsRoom2[lecture2]
         val gapMinutes = 5 + 60 // 5 minutes in new day. 60 minutes on previous day, from lecture1, which starts at 11am
@@ -159,8 +168,9 @@ class LayoutCalculatorTest {
         val lecture2 = createLecture(date = conferenceDate, startTime = startTime2)
         val lectures = listOf(lecture1, lecture2)
         val conference = Conference(firstEventStartsAt = startTime1, lastEventEndsAt = startTime2)
+        val roomData = lectures.toRoomData()
 
-        val layoutParams = layoutCalculator.calculateLayoutParams(lectures, conference)
+        val layoutParams = layoutCalculator.calculateLayoutParams(roomData, conference)
         val lecture1Params = layoutParams[lecture1]
         val secondLectureParams = layoutParams[lecture2]
         val gapMinutes = 30
@@ -179,8 +189,9 @@ class LayoutCalculatorTest {
         val lecture2 = createLecture(date = conferenceDate, startTime = startTime2)
         val lectures = listOf(lecture1, lecture2)
         val conference = Conference(firstEventStartsAt = startTime1, lastEventEndsAt = startTime2)
+        val roomData = lectures.toRoomData()
 
-        val layoutParams = layoutCalculator.calculateLayoutParams(lectures, conference)
+        val layoutParams = layoutCalculator.calculateLayoutParams(roomData, conference)
         val lecture1Params = layoutParams[lecture1]
         val secondLectureParams = layoutParams[lecture2]
 
@@ -196,12 +207,14 @@ class LayoutCalculatorTest {
 
         val lecture1 = createLecture(date = conferenceDate, startTime = startTime1, duration = duration1)
         val lecture2 = createLecture(date = conferenceDate, startTime = startTime2)
-        val lecturesInRoom0 = listOf(lecture1)
-        val lecturesInRoom1 = listOf(lecture2)
+        val lecturesInRoom1 = listOf(lecture1)
+        val lecturesInRoom2 = listOf(lecture2)
         val conference = Conference(firstEventStartsAt = startTime1, lastEventEndsAt = startTime2)
+        val roomData1 = lecturesInRoom1.toRoomData()
+        val roomData2 = lecturesInRoom2.toRoomData()
 
-        val layoutParamsRoom1 = layoutCalculator.calculateLayoutParams(lecturesInRoom0, conference)
-        val layoutParamsRoom2 = layoutCalculator.calculateLayoutParams(lecturesInRoom1, conference)
+        val layoutParamsRoom1 = layoutCalculator.calculateLayoutParams(roomData1, conference)
+        val layoutParamsRoom2 = layoutCalculator.calculateLayoutParams(roomData2, conference)
         val lecture1Params = layoutParamsRoom1[lecture1]
         val secondLectureParams = layoutParamsRoom2[lecture2]
 
@@ -215,4 +228,6 @@ class LayoutCalculatorTest {
         assertThat(lectureParams.bottomMargin).isEqualTo(layoutCalculator.calculateDisplayDistance(bottom))
     }
 
+    private fun List<Lecture>.toRoomData() = RoomData(roomName = "irrelevant", lectures = this)
 }
+

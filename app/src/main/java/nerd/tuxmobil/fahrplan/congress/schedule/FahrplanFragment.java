@@ -339,9 +339,8 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
         List<RoomData> roomDataList = scheduleData.getRoomDataList();
         for (int roomIndex = 0; roomIndex < roomDataList.size(); roomIndex++) {
             RoomData roomData = roomDataList.get(roomIndex);
-            List<Lecture> roomLectures = roomData.getLectures();
 
-            Map<Lecture, LayoutParams> layoutParamsByLecture = layoutCalculator.calculateLayoutParams(roomLectures, conference);
+            Map<Lecture, LayoutParams> layoutParamsByLecture = layoutCalculator.calculateLayoutParams(roomData, conference);
 
             RecyclerView columnRecyclerView = new RecyclerView(context);
             columnRecyclerView.setHasFixedSize(true);
@@ -349,6 +348,7 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
             columnRecyclerView.setNestedScrollingEnabled(false); // enables flinging
             columnRecyclerView.setLayoutManager(new LinearLayoutManager(context));
             columnRecyclerView.setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            List<Lecture> roomLectures = roomData.getLectures();
             LectureViewColumnAdapter adapter = new LectureViewColumnAdapter(roomLectures, layoutParamsByLecture, lectureViewDrawer, this);
             columnRecyclerView.setAdapter(adapter);
             adapterByRoomIndex.put(roomIndex, adapter);
