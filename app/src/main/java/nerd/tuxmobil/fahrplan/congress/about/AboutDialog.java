@@ -137,7 +137,8 @@ public class AboutDialog extends DialogFragment {
         // Build information
 
         TextView buildTimeTextView = requireViewByIdCompat(view, R.id.build_time);
-        String buildTimeText = getString(R.string.build_info_time, BuildConfig.BUILD_TIME);
+        String buildTimeValue = getString(R.string.build_time);
+        String buildTimeText = getString(R.string.build_info_time, buildTimeValue);
         buildTimeTextView.setText(buildTimeText);
 
         TextView versionCodeTextView = requireViewByIdCompat(view, R.id.build_version_code);
@@ -145,7 +146,8 @@ public class AboutDialog extends DialogFragment {
         versionCodeTextView.setText(versionCodeText);
 
         TextView buildHashTextView = requireViewByIdCompat(view, R.id.build_hash);
-        String buildHashText = getString(R.string.build_info_hash, BuildConfig.GIT_SHA);
+        String buildHashValue = getString(R.string.git_sha);
+        String buildHashText = getString(R.string.build_info_hash, buildHashValue);
         buildHashTextView.setText(buildHashText);
     }
 }
