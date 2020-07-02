@@ -5,6 +5,7 @@ import android.widget.LinearLayout
 import info.metadude.android.eventfahrplan.commons.logging.Logging
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.models.Lecture
+import nerd.tuxmobil.fahrplan.congress.models.RoomData
 import org.threeten.bp.Duration
 import kotlin.collections.List
 import kotlin.collections.Map
@@ -25,7 +26,8 @@ data class LayoutCalculator(val logging: Logging = Logging.get(),
         return standardHeight * minutes / DIVISOR
     }
 
-    fun calculateLayoutParams(roomIndex: Int, lectures: List<Lecture>, conference: Conference): Map<Lecture, LinearLayout.LayoutParams> {
+    fun calculateLayoutParams(roomData: RoomData, conference: Conference): Map<Lecture, LinearLayout.LayoutParams> {
+        val lectures = roomData.lectures
         var endTimePreviousLecture: Int = conference.firstEventStartsAt
         var startTime: Int
         var margin: Int
@@ -35,31 +37,29 @@ data class LayoutCalculator(val logging: Logging = Logging.get(),
         for (lectureIndex in lectures.indices) {
             val lecture = lectures[lectureIndex]
 
-            if (lecture.roomIndex == roomIndex) {
-                startTime = getStartTime(lecture, endTimePreviousLecture)
+            startTime = getStartTime(lecture, endTimePreviousLecture)
 
-                if (startTime > endTimePreviousLecture) {
-                    // consecutive lecture
-                    margin = calculateDisplayDistance(startTime - endTimePreviousLecture)
-                    if (previousLecture != null) {
-                        layoutParamsByLecture[previousLecture]!!.bottomMargin = margin
-                        margin = 0
-                    }
-                } else {
-                    // first lecture
+            if (startTime > endTimePreviousLecture) {
+                // consecutive lecture
+                margin = calculateDisplayDistance(startTime - endTimePreviousLecture)
+                if (previousLecture != null) {
+                    layoutParamsByLecture[previousLecture]!!.bottomMargin = margin
                     margin = 0
                 }
-
-                fixOverlappingEvents(lectureIndex, lectures, roomIndex)
-
-                if (!layoutParamsByLecture.containsKey(lecture)) {
-                    layoutParamsByLecture[lecture] = createLayoutParams(lecture)
-                }
-
-                layoutParamsByLecture[lecture]!!.topMargin = margin
-                endTimePreviousLecture = startTime + lecture.duration
-                previousLecture = lecture
+            } else {
+                // first lecture
+                margin = 0
             }
+
+            fixOverlappingEvents(lectureIndex, lectures)
+
+            if (!layoutParamsByLecture.containsKey(lecture)) {
+                layoutParamsByLecture[lecture] = createLayoutParams(lecture)
+            }
+
+            layoutParamsByLecture[lecture]!!.topMargin = margin
+            endTimePreviousLecture = startTime + lecture.duration
+            previousLecture = lecture
         }
 
         return layoutParamsByLecture
@@ -84,16 +84,9 @@ data class LayoutCalculator(val logging: Logging = Logging.get(),
         return startTime
     }
 
-    private fun fixOverlappingEvents(lectureIndex: Int, lectures: List<Lecture>, roomIndex: Int) {
+    private fun fixOverlappingEvents(lectureIndex: Int, lectures: List<Lecture>) {
         val lecture = lectures[lectureIndex]
-        var next: Lecture? = null
-        for (nextIndex in lectureIndex + 1 until lectures.size) {
-            next = lectures[nextIndex]
-            if (next.roomIndex == roomIndex) {
-                break
-            }
-            next = null
-        }
+        val next = lectures.getOrNull(lectureIndex + 1)
 
         if (next != null && next.dateUTC > 0) {
             val endTimestamp = lecture.dateUTC + lecture.duration * MILLIS_PER_MINUTE
