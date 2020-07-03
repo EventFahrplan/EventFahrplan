@@ -17,6 +17,6 @@
         tools:background="@android:color/holo_green_dark"
         tools:context=".changes.ChangeListActivity"
         tools:ignore="MergeRootFrame"
-        tools:layout="@layout/fragment_lecture_list" />
+        tools:layout="@layout/fragment_session_list" />
 
 </RelativeLayout>

@@ -21,7 +21,7 @@ class LectureChangesArrayAdapter internal constructor(
 ) : LecturesAdapter(
 
         context,
-        R.layout.lecture_list_item,
+        R.layout.session_list_item,
         list,
         numDays
 

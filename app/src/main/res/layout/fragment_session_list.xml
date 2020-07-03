@@ -10,11 +10,13 @@
 
     <ListView
         android:id="@android:id/list"
-        android:scrollbarStyle="outsideOverlay"
         android:layout_width="match_parent"
-        android:paddingLeft="@dimen/list_pane_leftright_padding"
-        android:paddingRight="@dimen/list_pane_leftright_padding"
-        tools:listitem="@layout/lecture_list_item"
+        android:paddingLeft="@dimen/activity_padding"
+        android:paddingRight="@dimen/activity_padding"
+        android:layout_marginLeft="-16dp"
+        android:layout_marginRight="-16dp"
+        android:scrollbarStyle="outsideOverlay"
+        tools:listitem="@layout/session_list_item"
         android:layout_height="match_parent"/>
 
     <TextView

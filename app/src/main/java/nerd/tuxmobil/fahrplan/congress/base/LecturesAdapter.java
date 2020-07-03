@@ -62,7 +62,7 @@ public abstract class LecturesAdapter extends ArrayAdapter<Lecture> {
 
             switch (type) {
                 case TYPE_ITEM:
-                    rowView = localInflater.inflate(R.layout.lecture_list_item, parent, false);
+                    rowView = localInflater.inflate(R.layout.session_list_item, parent, false);
                     viewHolder = new ViewHolder();
 
                     viewHolder.title = rowView.findViewById(R.id.lecture_list_item_title_view);
@@ -79,7 +79,7 @@ public abstract class LecturesAdapter extends ArrayAdapter<Lecture> {
                     rowView.setTag(viewHolder);
                     break;
                 case TYPE_SEPARATOR:
-                    rowView = localInflater.inflate(R.layout.lecture_list_separator, parent, false);
+                    rowView = localInflater.inflate(R.layout.session_list_separator, parent, false);
                     viewHolderSeparator = new ViewHolderSeparator();
                     viewHolderSeparator.text = rowView.findViewById(R.id.lecture_list_separator_title_view);
                     rowView.setTag(viewHolderSeparator);

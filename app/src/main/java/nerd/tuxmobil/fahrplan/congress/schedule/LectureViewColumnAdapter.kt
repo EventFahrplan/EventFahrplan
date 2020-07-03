@@ -27,7 +27,7 @@ internal class LectureViewColumnAdapter(
     override fun getItemCount(): Int = lectures.size
 
     override fun onCreateViewHolder(parent: ViewGroup, position: Int): EventViewHolder {
-        val eventLayout = LayoutInflater.from(parent.context).inflate(R.layout.event_layout, parent, false) as LinearLayout
+        val eventLayout = LayoutInflater.from(parent.context).inflate(R.layout.session_layout, parent, false) as LinearLayout
         eventLayout.setOnCreateContextMenuListener(eventsHandler)
         eventLayout.setOnClickListener(eventsHandler)
         return EventViewHolder(eventLayout)

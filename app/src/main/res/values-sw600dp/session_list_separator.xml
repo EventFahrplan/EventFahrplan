@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item type="layout" name="session_list_separator">
+        @layout/session_list_separator_land_large
+    </item>
+
+</resources>
