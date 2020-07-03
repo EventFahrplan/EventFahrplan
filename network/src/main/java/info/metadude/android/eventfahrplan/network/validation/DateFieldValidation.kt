@@ -3,7 +3,7 @@ package info.metadude.android.eventfahrplan.network.validation
 import info.metadude.android.eventfahrplan.commons.logging.Logging
 import info.metadude.android.eventfahrplan.commons.temporal.DayRange
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
-import info.metadude.android.eventfahrplan.network.models.Lecture
+import info.metadude.android.eventfahrplan.network.models.Session
 import org.threeten.bp.ZoneOffset
 import java.util.ArrayList
 
@@ -23,10 +23,10 @@ internal class DateFieldValidation constructor(
     }
 
     /**
-     * Returns true if the timestamps in the [Lecture.date] fields of each event are within a valid time range.
-     * The time range is defined by the [Lecture.date] fields of first and last event (which are sorted by [Lecture.dateUTC]).
+     * Returns true if the timestamps in the [Session.date] fields of each event are within a valid time range.
+     * The time range is defined by the [Session.date] fields of first and last event (which are sorted by [Session.dateUTC]).
      */
-    fun validate(lectures: List<Lecture>): Boolean {
+    fun validate(lectures: List<Session>): Boolean {
         val sortedLectures = lectures.sortedBy { it.dateUTC }
 
         if (sortedLectures.isEmpty()) {
@@ -45,7 +45,7 @@ internal class DateFieldValidation constructor(
         return validationErrors.isEmpty()
     }
 
-    private fun validateEvent(lecture: Lecture, dateRange: DayRange) {
+    private fun validateEvent(lecture: Session, dateRange: DayRange) {
         val dateUtcInMilliseconds = lecture.dateUTC
         val lectureDate = Moment(dateUtcInMilliseconds).toZonedDateTime(ZoneOffset.UTC)
         if (!dateRange.contains(lectureDate)) {

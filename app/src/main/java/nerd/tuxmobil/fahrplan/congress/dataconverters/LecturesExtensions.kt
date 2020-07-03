@@ -4,7 +4,7 @@ import info.metadude.android.eventfahrplan.commons.temporal.DayRange
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.models.Lecture
 import info.metadude.android.eventfahrplan.database.models.Session as LectureDatabaseModel
-import info.metadude.android.eventfahrplan.network.models.Lecture as LectureNetworkModel
+import info.metadude.android.eventfahrplan.network.models.Session as LectureNetworkModel
 
 fun List<Lecture>.shiftRoomIndicesOfMainSchedule(dayIndices: Set<Int>) = map {
     it.shiftRoomIndexOnDays(dayIndices)

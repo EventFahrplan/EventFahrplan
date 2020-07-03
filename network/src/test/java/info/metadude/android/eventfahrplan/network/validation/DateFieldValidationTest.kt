@@ -2,7 +2,7 @@ package info.metadude.android.eventfahrplan.network.validation
 
 import info.metadude.android.eventfahrplan.commons.logging.Logging
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
-import info.metadude.android.eventfahrplan.network.models.Lecture
+import info.metadude.android.eventfahrplan.network.models.Session
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 
@@ -17,8 +17,8 @@ class DateFieldValidationTest {
 
         val lectures = listOf(
                 // date and dateUTC do not represent the same
-                Lecture(date = "2019-01-02", dateUTC = start.toMilliseconds(), eventId = "1"),
-                Lecture(date = "2019-01-01", dateUTC = end.toMilliseconds(), eventId = "2")
+                Session(date = "2019-01-02", dateUTC = start.toMilliseconds(), eventId = "1"),
+                Session(date = "2019-01-01", dateUTC = end.toMilliseconds(), eventId = "2")
         )
 
         val isValid = validation.validate(lectures)
@@ -38,10 +38,10 @@ class DateFieldValidationTest {
         val lectures = listOf(
                 // date=jan 2 does not correspond to dateUTC field value
                 // since event 1 defines range start, this leads to a problem, if another event has valid data, but is before event 1.
-                Lecture(date = "2019-01-02", dateUTC = start.toMilliseconds(), eventId = "1"),
+                Session(date = "2019-01-02", dateUTC = start.toMilliseconds(), eventId = "1"),
                 // range starts with event 1 => event 2 is outside of the range
-                Lecture(date = "2019-01-01", dateUTC = Moment("2019-01-01").toMilliseconds(), eventId = "2"),
-                Lecture(date = "2019-01-03", dateUTC = end.toMilliseconds(), eventId = "3")
+                Session(date = "2019-01-01", dateUTC = Moment("2019-01-01").toMilliseconds(), eventId = "2"),
+                Session(date = "2019-01-03", dateUTC = end.toMilliseconds(), eventId = "3")
         )
 
         val isValid = validation.validate(lectures)
@@ -59,9 +59,9 @@ class DateFieldValidationTest {
         val end = Moment("2019-01-03")
 
         val lectures = listOf(
-                Lecture(date = "2019-01-01", dateUTC = start.toMilliseconds(), eventId = "1"),
-                Lecture(date = "2019-01-02", dateUTC = Moment("2019-01-02").toMilliseconds(), eventId = "2"),
-                Lecture(date = "2019-01-03", dateUTC = end.toMilliseconds(), eventId = "3")
+                Session(date = "2019-01-01", dateUTC = start.toMilliseconds(), eventId = "1"),
+                Session(date = "2019-01-02", dateUTC = Moment("2019-01-02").toMilliseconds(), eventId = "2"),
+                Session(date = "2019-01-03", dateUTC = end.toMilliseconds(), eventId = "3")
         )
 
         val isValid = validation.validate(lectures)
@@ -75,7 +75,7 @@ class DateFieldValidationTest {
     fun `validate - no lectures`() {
         val validation = DateFieldValidation(TestLogger)
 
-        val lectures = emptyList<Lecture>()
+        val lectures = emptyList<Session>()
 
         val isValid = validation.validate(lectures)
 
@@ -92,8 +92,8 @@ class DateFieldValidationTest {
         val end = Moment("2019-01-01")
 
         val lectures = listOf(
-                Lecture(date = "2019-01-01", dateUTC = start.toMilliseconds(), eventId = "1"),
-                Lecture(date = "2019-01-01", dateUTC = end.toMilliseconds(), eventId = "2")
+                Session(date = "2019-01-01", dateUTC = start.toMilliseconds(), eventId = "1"),
+                Session(date = "2019-01-01", dateUTC = end.toMilliseconds(), eventId = "2")
         )
 
         val isValid = validation.validate(lectures)
@@ -111,8 +111,8 @@ class DateFieldValidationTest {
         val end = Moment("2019-01-02")
 
         val lectures = listOf(
-                Lecture(date = "2019-01-01", dateUTC = start.toMilliseconds(), eventId = "1"),
-                Lecture(date = "2019-01-02", dateUTC = end.toMilliseconds(), eventId = "2")
+                Session(date = "2019-01-01", dateUTC = start.toMilliseconds(), eventId = "1"),
+                Session(date = "2019-01-02", dateUTC = end.toMilliseconds(), eventId = "2")
         )
 
         val isValid = validation.validate(lectures)

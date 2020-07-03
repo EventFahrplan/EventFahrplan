@@ -8,7 +8,7 @@ import nerd.tuxmobil.fahrplan.congress.models.Lecture
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import info.metadude.android.eventfahrplan.database.models.Session as LectureDatabaseModel
-import info.metadude.android.eventfahrplan.network.models.Lecture as LectureNetworkModel
+import info.metadude.android.eventfahrplan.network.models.Session as LectureNetworkModel
 
 class LectureExtensionsTest {
 

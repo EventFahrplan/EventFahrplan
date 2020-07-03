@@ -1,6 +1,6 @@
 package info.metadude.android.eventfahrplan.network.models
 
-data class Lecture(
+data class Session(
 
         var eventId: String = "",
         var abstractt: String = "",

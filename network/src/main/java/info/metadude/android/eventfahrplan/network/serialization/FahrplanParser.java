@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import info.metadude.android.eventfahrplan.commons.logging.Logging;
-import info.metadude.android.eventfahrplan.network.models.Lecture;
+import info.metadude.android.eventfahrplan.network.models.Session;
 import info.metadude.android.eventfahrplan.network.models.Meta;
 import info.metadude.android.eventfahrplan.network.serialization.exceptions.MissingXmlAttributeException;
 import info.metadude.android.eventfahrplan.network.temporal.DateParser;
@@ -23,7 +23,7 @@ public class FahrplanParser {
 
     public interface OnParseCompleteListener {
 
-        void onUpdateLectures(@NonNull List<Lecture> lectures);
+        void onUpdateLectures(@NonNull List<Session> lectures);
 
         void onUpdateMeta(@NonNull Meta meta);
 
@@ -59,7 +59,7 @@ public class FahrplanParser {
 
 class ParserTask extends AsyncTask<String, Void, Boolean> {
 
-    private List<Lecture> lectures;
+    private List<Session> lectures;
 
     private Meta meta;
 
@@ -171,7 +171,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                         }
                         if (name.equalsIgnoreCase("event")) {
                             String id = parser.getAttributeValue(null, "id");
-                            Lecture lecture = new Lecture();
+                            Session lecture = new Session();
                             lecture.setEventId(id);
                             lecture.setDayIndex(day);
                             lecture.setRoom(room);
@@ -242,14 +242,14 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                                             lecture.setLinks(sb.toString());
                                         } else if (name.equals("start")) {
                                             parser.next();
-                                            lecture.setStartTime(Lecture.Companion.parseStartTime(XmlPullParsers.getSanitizedText(parser)));
+                                            lecture.setStartTime(Session.Companion.parseStartTime(XmlPullParsers.getSanitizedText(parser)));
                                             lecture.setRelativeStartTime(lecture.getStartTime());
                                             if (lecture.getRelativeStartTime() < dayChangeTime) {
                                                 lecture.setRelativeStartTime(lecture.getRelativeStartTime() + 24 * 60);
                                             }
                                         } else if (name.equals("duration")) {
                                             parser.next();
-                                            lecture.setDuration(Lecture.Companion.parseDuration(XmlPullParsers.getSanitizedText(parser)));
+                                            lecture.setDuration(Session.Companion.parseDuration(XmlPullParsers.getSanitizedText(parser)));
                                         } else if (name.equals("date")) {
                                             parser.next();
                                             lecture.setDateUTC(DateParser.getDateTime(XmlPullParsers.getSanitizedText(parser)));
@@ -317,7 +317,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                                         }
                                         if (name.equals("day_change")) {
                                             parser.next();
-                                            dayChangeTime = Lecture.Companion.parseStartTime(XmlPullParsers.getSanitizedText(parser));
+                                            dayChangeTime = Session.Companion.parseStartTime(XmlPullParsers.getSanitizedText(parser));
                                         }
                                         break;
                                 }

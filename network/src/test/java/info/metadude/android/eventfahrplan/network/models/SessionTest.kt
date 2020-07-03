@@ -1,11 +1,11 @@
 package info.metadude.android.eventfahrplan.network.models
 
-import info.metadude.android.eventfahrplan.network.models.Lecture.Companion.parseDuration
-import info.metadude.android.eventfahrplan.network.models.Lecture.Companion.parseStartTime
+import info.metadude.android.eventfahrplan.network.models.Session.Companion.parseDuration
+import info.metadude.android.eventfahrplan.network.models.Session.Companion.parseStartTime
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 
-class LectureTest {
+class SessionTest {
 
     @Test
     fun parseStartTimeWith00_00() {
