@@ -4,8 +4,8 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import info.metadude.android.eventfahrplan.commons.logging.Logging
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
-import nerd.tuxmobil.fahrplan.congress.models.Lecture
 import nerd.tuxmobil.fahrplan.congress.models.RoomData
+import nerd.tuxmobil.fahrplan.congress.models.Session
 import org.threeten.bp.Duration
 import kotlin.collections.set
 
@@ -22,13 +22,13 @@ data class LayoutCalculator(val logging: Logging = Logging.get(),
         return standardHeight * minutes / DIVISOR
     }
 
-    fun calculateLayoutParams(roomData: RoomData, conference: Conference): Map<Lecture, LinearLayout.LayoutParams> {
+    fun calculateLayoutParams(roomData: RoomData, conference: Conference): Map<Session, LinearLayout.LayoutParams> {
         val lectures = roomData.lectures
         var endTimePreviousLecture: Int = conference.firstEventStartsAt
         var startTime: Int
         var margin: Int
-        var previousLecture: Lecture? = null
-        val layoutParamsByLecture = mutableMapOf<Lecture, LinearLayout.LayoutParams>()
+        var previousLecture: Session? = null
+        val layoutParamsByLecture = mutableMapOf<Session, LinearLayout.LayoutParams>()
 
         for (lectureIndex in lectures.indices) {
             val lecture = lectures[lectureIndex]
@@ -61,13 +61,13 @@ data class LayoutCalculator(val logging: Logging = Logging.get(),
         return layoutParamsByLecture
     }
 
-    private fun createLayoutParams(lecture: Lecture): LinearLayout.LayoutParams {
+    private fun createLayoutParams(lecture: Session): LinearLayout.LayoutParams {
         val height = calculateDisplayDistance(lecture.duration)
         val marginLayoutParams = ViewGroup.MarginLayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height)
         return LinearLayout.LayoutParams(marginLayoutParams)
     }
 
-    private fun getStartTime(lecture: Lecture, endTimePreviousLecture: Int): Int {
+    private fun getStartTime(lecture: Session, endTimePreviousLecture: Int): Int {
         var startTime: Int
         if (lecture.dateUTC > 0) {
             startTime = Moment(lecture.dateUTC).minuteOfDay
@@ -80,7 +80,7 @@ data class LayoutCalculator(val logging: Logging = Logging.get(),
         return startTime
     }
 
-    private fun fixOverlappingEvents(lectureIndex: Int, lectures: List<Lecture>) {
+    private fun fixOverlappingEvents(lectureIndex: Int, lectures: List<Session>) {
         val lecture = lectures[lectureIndex]
         val next = lectures.getOrNull(lectureIndex + 1)
 

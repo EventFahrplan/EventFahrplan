@@ -16,8 +16,8 @@ import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.base.AbstractListFragment;
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
-import nerd.tuxmobil.fahrplan.congress.models.Lecture;
 import nerd.tuxmobil.fahrplan.congress.models.Meta;
+import nerd.tuxmobil.fahrplan.congress.models.Session;
 
 
 /**
@@ -34,7 +34,7 @@ public class ChangeListFragment extends AbstractListFragment {
     private static final String LOG_TAG = "ChangeListFragment";
     public static final String FRAGMENT_TAG = "changes";
     private OnLectureListClick mListener;
-    private List<Lecture> changesList;
+    private List<Session> changesList;
     private boolean sidePane = false;
     private boolean requiresScheduleReload = false;
 
@@ -128,7 +128,7 @@ public class ChangeListFragment extends AbstractListFragment {
     }
 
     public void onRefresh() {
-        List<Lecture> updatedChanges = appRepository.loadChangedLectures();
+        List<Session> updatedChanges = appRepository.loadChangedLectures();
         if (changesList != null) {
             changesList.clear();
             changesList.addAll(updatedChanges);
@@ -143,7 +143,7 @@ public class ChangeListFragment extends AbstractListFragment {
             // Notify the active callbacks interface (the activity, if the
             // fragment is attached to one) that an item has been selected.
             position--;
-            Lecture clicked = changesList.get(mAdapter.getItemIndex(position));
+            Session clicked = changesList.get(mAdapter.getItemIndex(position));
             if (clicked.changedIsCanceled) return;
             mListener.onLectureListClick(clicked, requiresScheduleReload);
         }

@@ -12,7 +12,7 @@ import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
-import nerd.tuxmobil.fahrplan.congress.models.Lecture
+import nerd.tuxmobil.fahrplan.congress.models.Session
 
 internal class LectureViewDrawer(
 
@@ -59,7 +59,7 @@ internal class LectureViewDrawer(
         trackNameBackgroundColorHighlightPairs = TrackBackgrounds.getTrackNameBackgroundColorHighlightPairs(context)
     }
 
-    fun updateEventView(eventView: View, lecture: Lecture) {
+    fun updateEventView(eventView: View, lecture: Session) {
         val bell = eventView.findViewById<ImageView>(R.id.bell)
         bell.visibility = if (lecture.hasAlarm) View.VISIBLE else View.GONE
         var title = eventView.findViewById<TextView>(R.id.event_title)
@@ -81,7 +81,7 @@ internal class LectureViewDrawer(
         eventView.tag = lecture
     }
 
-    fun setLectureBackground(event: Lecture, eventView: View) {
+    fun setLectureBackground(event: Session, eventView: View) {
         val context = eventView.context
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         val defaultValue = resources.getBoolean(R.bool.preferences_alternative_highlight_enabled_default_value)
@@ -127,7 +127,7 @@ internal class LectureViewDrawer(
         const val LOG_TAG = "LectureViewDrawer"
 
         @JvmStatic
-        fun setLectureTextColor(lecture: Lecture, view: View) {
+        fun setLectureTextColor(lecture: Session, view: View) {
             val title = view.findViewById<TextView>(R.id.event_title)
             val subtitle = view.findViewById<TextView>(R.id.event_subtitle)
             val speakers = view.findViewById<TextView>(R.id.event_speakers)

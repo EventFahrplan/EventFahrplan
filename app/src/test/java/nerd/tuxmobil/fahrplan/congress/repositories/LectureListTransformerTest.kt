@@ -1,7 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.repositories
 
 import com.google.common.truth.Truth.assertThat
-import nerd.tuxmobil.fahrplan.congress.models.Lecture
+import nerd.tuxmobil.fahrplan.congress.models.Session
 import org.junit.Test
 
 class LectureListTransformerTest {
@@ -78,8 +78,8 @@ class LectureListTransformerTest {
             roomName: String,
             roomIndex: Int,
             dateUTC: Long = 0
-    ): Lecture {
-        return Lecture(lectureId).apply {
+    ): Session {
+        return Session(lectureId).apply {
             this.room = roomName
             this.roomIndex = roomIndex
             this.dateUTC = dateUTC

@@ -11,7 +11,7 @@ import nerd.tuxmobil.fahrplan.congress.extensions.startActivity
 import nerd.tuxmobil.fahrplan.congress.utils.EventUrlComposer
 import nerd.tuxmobil.fahrplan.congress.utils.StringUtils
 import nerd.tuxmobil.fahrplan.congress.wiki.containsWikiLink
-import nerd.tuxmobil.fahrplan.congress.models.Lecture as Event
+import nerd.tuxmobil.fahrplan.congress.models.Session as Event
 
 fun Event.addToCalendar(context: Context) {
     val intent = this.toCalendarInsertIntent(context)

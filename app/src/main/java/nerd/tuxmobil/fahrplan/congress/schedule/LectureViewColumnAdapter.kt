@@ -6,13 +6,13 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.RecyclerView
 import nerd.tuxmobil.fahrplan.congress.R
-import nerd.tuxmobil.fahrplan.congress.models.Lecture
+import nerd.tuxmobil.fahrplan.congress.models.Session
 
 internal interface LectureViewEventsHandler : View.OnCreateContextMenuListener, View.OnClickListener
 
 internal class LectureViewColumnAdapter(
-        private val lectures: List<Lecture>,
-        private val layoutParamsByLecture: Map<Lecture, LinearLayout.LayoutParams>,
+        private val lectures: List<Session>,
+        private val layoutParamsByLecture: Map<Session, LinearLayout.LayoutParams>,
         private val drawer: LectureViewDrawer,
         private val eventsHandler: LectureViewEventsHandler
 ) : RecyclerView.Adapter<LectureViewColumnAdapter.EventViewHolder>() {

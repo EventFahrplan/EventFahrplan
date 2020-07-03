@@ -17,13 +17,13 @@ import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.base.BaseActivity;
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
-import nerd.tuxmobil.fahrplan.congress.models.Lecture;
+import nerd.tuxmobil.fahrplan.congress.models.Session;
 import nerd.tuxmobil.fahrplan.congress.navigation.RoomForC3NavConverter;
 
 public class EventDetail extends BaseActivity {
 
     public static void startForResult(@NonNull Activity activity,
-                                      @NonNull Lecture lecture,
+                                      @NonNull Session lecture,
                                       int lectureDay,
                                       boolean requiresScheduleReload) {
         Intent intent = new Intent(activity, EventDetail.class);

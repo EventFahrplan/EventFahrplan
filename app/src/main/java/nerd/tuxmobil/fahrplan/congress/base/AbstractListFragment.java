@@ -4,7 +4,7 @@ import android.content.Context;
 
 import androidx.fragment.app.ListFragment;
 
-import nerd.tuxmobil.fahrplan.congress.models.Lecture;
+import nerd.tuxmobil.fahrplan.congress.models.Session;
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 
 /**
@@ -30,7 +30,7 @@ public abstract class AbstractListFragment extends ListFragment {
          * @param requiresScheduleReload Boolean flag to indicate whether the schedule
          *                               must be reload from the data source or not.
          */
-        void onLectureListClick(Lecture lecture, boolean requiresScheduleReload);
+        void onLectureListClick(Session lecture, boolean requiresScheduleReload);
     }
 
     protected AppRepository appRepository;

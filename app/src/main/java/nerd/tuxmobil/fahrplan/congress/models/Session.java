@@ -11,7 +11,7 @@ import info.metadude.android.eventfahrplan.network.temporal.DateParser;
 import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.repositories.LectureListTransformer;
 
-public class Lecture {
+public class Session {
 
     public String title;
     public String subtitle;
@@ -65,7 +65,7 @@ public class Lecture {
 
     private static final boolean RECORDING_OPTOUT_OFF = false;
 
-    public Lecture(String lectureId) {
+    public Session(String lectureId) {
         title = "";
         subtitle = "";
         day = 0;
@@ -130,7 +130,7 @@ public class Lecture {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Lecture lecture = (Lecture) o;
+        Session lecture = (Session) o;
 
         if (day != lecture.day) return false;
         if (duration != lecture.duration) return false;
@@ -191,7 +191,7 @@ public class Lecture {
     }
 
     public String getChangedStateString() {
-        return "Lecture{" +
+        return "Session{" +
                 "changedTitle=" + changedTitle +
                 ", changedSubtitle=" + changedSubtitle +
                 ", changedRoom=" + changedRoom +

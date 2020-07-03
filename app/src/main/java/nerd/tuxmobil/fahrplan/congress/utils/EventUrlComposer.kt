@@ -3,7 +3,7 @@ package nerd.tuxmobil.fahrplan.congress.utils
 import nerd.tuxmobil.fahrplan.congress.BuildConfig
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.utils.ServerBackendType.PENTABARF
-import nerd.tuxmobil.fahrplan.congress.models.Lecture as Event
+import nerd.tuxmobil.fahrplan.congress.models.Session as Event
 
 class EventUrlComposer @JvmOverloads constructor(
 

@@ -29,8 +29,8 @@ import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.base.AbstractListFragment;
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
-import nerd.tuxmobil.fahrplan.congress.models.Lecture;
 import nerd.tuxmobil.fahrplan.congress.models.Meta;
+import nerd.tuxmobil.fahrplan.congress.models.Session;
 import nerd.tuxmobil.fahrplan.congress.sharing.JsonLectureFormat;
 import nerd.tuxmobil.fahrplan.congress.sharing.LectureSharer;
 import nerd.tuxmobil.fahrplan.congress.sharing.SimpleLectureFormat;
@@ -53,7 +53,7 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
     private static final String LOG_TAG = "StarredListFragment";
     public static final String FRAGMENT_TAG = "starred";
     private OnLectureListClick mListener;
-    private List<Lecture> starredList;
+    private List<Session> starredList;
     private boolean sidePane = false;
 
     public static final int DELETE_ALL_FAVORITES_REQUEST_CODE = 19126;
@@ -143,7 +143,7 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
         int i;
         int numSeparators = 0;
         for (i = 0; i < starredList.size(); i++) {
-            Lecture lecture = starredList.get(i);
+            Session lecture = starredList.get(i);
             if (lecture.dateUTC + lecture.duration * 60000 > nowMillis) {
                 numSeparators = lecture.day;
                 break;
@@ -172,7 +172,7 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
     }
 
     public void onRefresh() {
-        List<Lecture> starred = appRepository.loadStarredLectures();
+        List<Session> starred = appRepository.loadStarredLectures();
         if (starredList != null) {
             starredList.clear();
             starredList.addAll(starred);
@@ -187,7 +187,7 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
             // Notify the active callbacks interface (the activity, if the
             // fragment is attached to one) that an item has been selected.
             position--;
-            Lecture clicked = starredList.get(mAdapter.getItemIndex(position));
+            Session clicked = starredList.get(mAdapter.getItemIndex(position));
             mListener.onLectureListClick(clicked, false);
         }
     }
@@ -263,7 +263,7 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
     }
 
     private void deleteItem(int index) {
-        Lecture starredLecture = starredList.get(index);
+        Session starredLecture = starredList.get(index);
         starredLecture.highlight = false;
         appRepository.updateHighlight(starredLecture);
         appRepository.notifyHighlightsChanged();
@@ -307,7 +307,7 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
         }
         appRepository.deleteAllHighlights();
         appRepository.notifyHighlightsChanged();
-        for (Lecture starredLecture : starredList) {
+        for (Session starredLecture : starredList) {
             starredLecture.highlight = false;
         }
         starredList.clear();

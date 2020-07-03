@@ -10,12 +10,12 @@ import info.metadude.android.eventfahrplan.commons.temporal.DateFormatter
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.base.LecturesAdapter
 import nerd.tuxmobil.fahrplan.congress.extensions.textOrHide
-import nerd.tuxmobil.fahrplan.congress.models.Lecture
+import nerd.tuxmobil.fahrplan.congress.models.Session
 
 class LectureChangesArrayAdapter internal constructor(
 
         context: Context,
-        list: List<Lecture>,
+        list: List<Session>,
         numDays: Int
 
 ) : LecturesAdapter(

@@ -27,8 +27,8 @@ import nerd.tuxmobil.fahrplan.congress.extensions.Contexts;
 import nerd.tuxmobil.fahrplan.congress.models.Alarm;
 import nerd.tuxmobil.fahrplan.congress.models.DateInfo;
 import nerd.tuxmobil.fahrplan.congress.models.DateInfos;
-import nerd.tuxmobil.fahrplan.congress.models.Lecture;
 import nerd.tuxmobil.fahrplan.congress.models.SchedulableAlarm;
+import nerd.tuxmobil.fahrplan.congress.models.Session;
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 
 
@@ -51,7 +51,7 @@ public class FahrplanMisc {
         }
     }
 
-    public static void deleteAlarm(@NonNull Context context, @NonNull AppRepository appRepository, @NonNull Lecture lecture) {
+    public static void deleteAlarm(@NonNull Context context, @NonNull AppRepository appRepository, @NonNull Session lecture) {
         String eventId = lecture.lectureId;
         List<Alarm> alarms = appRepository.readAlarms(eventId);
         if (!alarms.isEmpty()) {
@@ -68,7 +68,7 @@ public class FahrplanMisc {
 
     public static void addAlarm(@NonNull Context context,
                                 @NonNull AppRepository appRepository,
-                                @NonNull Lecture lecture,
+                                @NonNull Session lecture,
                                 int alarmTimesIndex) {
         Log.d(LOG_TAG, "Add alarm for lecture = " + lecture.lectureId +
                 ", alarmTimesIndex = " + alarmTimesIndex + ".");

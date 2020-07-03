@@ -4,14 +4,14 @@ import androidx.annotation.NonNull;
 
 import java.util.List;
 
-import nerd.tuxmobil.fahrplan.congress.models.Lecture;
+import nerd.tuxmobil.fahrplan.congress.models.Session;
 
 import static kotlin.collections.CollectionsKt.singleOrNull;
 
 public class ScheduleChanges {
 
-    public static boolean hasScheduleChanged(@NonNull List<Lecture> lectures,
-                                             @NonNull List<Lecture> oldLectures) {
+    public static boolean hasScheduleChanged(@NonNull List<Session> lectures,
+                                             @NonNull List<Session> oldLectures) {
         if (oldLectures.isEmpty()) {
             return false;
         }
@@ -19,14 +19,14 @@ public class ScheduleChanges {
 
         int lectureIndex = oldLectures.size() - 1;
         while (lectureIndex >= 0) {
-            Lecture l = oldLectures.get(lectureIndex);
+            Session l = oldLectures.get(lectureIndex);
             if (l.changedIsCanceled) oldLectures.remove(lectureIndex);
             lectureIndex--;
         }
 
         for (lectureIndex = 0; lectureIndex < lectures.size(); lectureIndex++) {
-            Lecture newLecture = lectures.get(lectureIndex);
-            Lecture oldLecture = singleOrNull(oldLectures, lecture -> newLecture.lectureId.equals(lecture.lectureId));
+            Session newLecture = lectures.get(lectureIndex);
+            Session oldLecture = singleOrNull(oldLectures, lecture -> newLecture.lectureId.equals(lecture.lectureId));
 
             if (oldLecture == null) {
                 newLecture.changedIsNew = true;
@@ -83,7 +83,7 @@ public class ScheduleChanges {
         }
 
         for (lectureIndex = 0; lectureIndex < oldLectures.size(); lectureIndex++) {
-            Lecture oldLecture = oldLectures.get(lectureIndex);
+            Session oldLecture = oldLectures.get(lectureIndex);
             oldLecture.cancel();
             lectures.add(oldLecture);
             changed = true;

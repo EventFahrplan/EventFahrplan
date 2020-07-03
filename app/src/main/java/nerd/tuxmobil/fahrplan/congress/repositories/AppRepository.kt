@@ -21,8 +21,8 @@ import nerd.tuxmobil.fahrplan.congress.BuildConfig
 import nerd.tuxmobil.fahrplan.congress.dataconverters.*
 import nerd.tuxmobil.fahrplan.congress.exceptions.AppExceptionHandler
 import nerd.tuxmobil.fahrplan.congress.models.Alarm
-import nerd.tuxmobil.fahrplan.congress.models.Lecture
 import nerd.tuxmobil.fahrplan.congress.models.Meta
+import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.net.*
 import nerd.tuxmobil.fahrplan.congress.preferences.SharedPreferencesRepository
 import nerd.tuxmobil.fahrplan.congress.serialization.ScheduleChanges
@@ -256,7 +256,7 @@ object AppRepository {
      * All days can be loaded if -1 is passed as the [day][dayIndex].
      * To exclude Engelsystem shifts pass false to [includeEngelsystemShifts].
      */
-    private fun loadLecturesForDayIndex(dayIndex: Int, includeEngelsystemShifts: Boolean): List<Lecture> {
+    private fun loadLecturesForDayIndex(dayIndex: Int, includeEngelsystemShifts: Boolean): List<Session> {
         val lectures = if (dayIndex == ALL_DAYS) {
             logging.d(javaClass.simpleName, "Loading lectures for all days.")
             if (includeEngelsystemShifts) {
@@ -318,7 +318,7 @@ object AppRepository {
     private fun readHighlights() =
             highlightsDatabaseRepository.query().toHighlightsAppModel()
 
-    fun updateHighlight(lecture: Lecture) {
+    fun updateHighlight(lecture: Session) {
         val highlightDatabaseModel = lecture.toHighlightDatabaseModel()
         val values = highlightDatabaseModel.toContentValues()
         highlightsDatabaseRepository.update(values, lecture.lectureId)
@@ -328,7 +328,7 @@ object AppRepository {
         highlightsDatabaseRepository.deleteAll()
     }
 
-    fun readLectureByLectureId(lectureId: String): Lecture {
+    fun readLectureByLectureId(lectureId: String): Session {
         val lecture = lecturesDatabaseRepository.querySessionBySessionId(lectureId).toLectureAppModel()
 
         val highlight = highlightsDatabaseRepository.queryBySessionId(lectureId.toInt())
@@ -365,7 +365,7 @@ object AppRepository {
     fun readDateInfos() =
             readLecturesOrderedByDateUtc().toDateInfos()
 
-    private fun updateLectures(lectures: List<Lecture>) {
+    private fun updateLectures(lectures: List<Session>) {
         val lecturesDatabaseModel = lectures.toLecturesDatabaseModel()
         val list = lecturesDatabaseModel.map { it.toContentValues() }
         lecturesDatabaseRepository.insert(list)

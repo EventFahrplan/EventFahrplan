@@ -1,26 +1,26 @@
 package nerd.tuxmobil.fahrplan.congress.serialization
 
-import nerd.tuxmobil.fahrplan.congress.models.Lecture
+import nerd.tuxmobil.fahrplan.congress.models.Session
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import java.util.ArrayList
 
 class ScheduleChangesTest {
 
-    private val oldLectures = ArrayList<Lecture>()
-    private val newLectures = ArrayList<Lecture>()
+    private val oldLectures = ArrayList<Session>()
+    private val newLectures = ArrayList<Session>()
 
     @Test
     fun hasScheduleChangedWithSameId() {
-        oldLectures.add(Lecture("lectureId3"))
-        newLectures.add(Lecture("lectureId3"))
+        oldLectures.add(Session("lectureId3"))
+        newLectures.add(Session("lectureId3"))
         assertThat(ScheduleChanges.hasScheduleChanged(newLectures, oldLectures)).isFalse()
     }
 
     @Test
     fun hasScheduleChangedWithNewId() {
-        oldLectures.add(Lecture("lectureId3"))
-        newLectures.add(Lecture("lectureId7"))
+        oldLectures.add(Session("lectureId3"))
+        newLectures.add(Session("lectureId7"))
         assertThat(ScheduleChanges.hasScheduleChanged(newLectures, oldLectures)).isTrue()
     }
 
@@ -84,9 +84,9 @@ class ScheduleChangesTest {
         newLecture.duration = 60
     }
 
-    private fun assertLectureHasChanged(modify: (oldLecture: Lecture, newLecture: Lecture) -> Unit) {
-        val oldLecture = Lecture("lectureId3")
-        val newLecture = Lecture("lectureId3")
+    private fun assertLectureHasChanged(modify: (oldLecture: Session, newLecture: Session) -> Unit) {
+        val oldLecture = Session("lectureId3")
+        val newLecture = Session("lectureId3")
         modify.invoke(oldLecture, newLecture)
         oldLectures.add(oldLecture)
         newLectures.add(newLecture)

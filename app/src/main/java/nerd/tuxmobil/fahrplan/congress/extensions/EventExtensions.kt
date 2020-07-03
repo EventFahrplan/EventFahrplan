@@ -1,6 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress.extensions
 
-import nerd.tuxmobil.fahrplan.congress.models.Lecture as Event
+import nerd.tuxmobil.fahrplan.congress.models.Session as Event
 
 /**
  * Heuristic to detect whether the event originates from Pretalx.

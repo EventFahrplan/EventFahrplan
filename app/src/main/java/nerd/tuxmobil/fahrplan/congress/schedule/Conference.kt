@@ -2,7 +2,7 @@ package nerd.tuxmobil.fahrplan.congress.schedule
 
 import androidx.annotation.VisibleForTesting
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
-import nerd.tuxmobil.fahrplan.congress.models.Lecture as Event
+import nerd.tuxmobil.fahrplan.congress.models.Session as Event
 
 data class Conference(
 

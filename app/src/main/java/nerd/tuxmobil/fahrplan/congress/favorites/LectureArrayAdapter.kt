@@ -10,12 +10,12 @@ import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.base.LecturesAdapter
 import nerd.tuxmobil.fahrplan.congress.extensions.textOrHide
-import nerd.tuxmobil.fahrplan.congress.models.Lecture
+import nerd.tuxmobil.fahrplan.congress.models.Session
 
 class LectureArrayAdapter internal constructor(
 
         context: Context,
-        list: List<Lecture>, numDays: Int
+        list: List<Session>, numDays: Int
 
 ) : LecturesAdapter(
 
@@ -69,7 +69,7 @@ class LectureArrayAdapter internal constructor(
         }
     }
 
-    private val Lecture.tookPlace
+    private val Session.tookPlace
         get() = dateUTC + duration * 60000 < nowMoment.toMilliseconds()
 
     private fun TextView.setPastEventTextColor() = setTextColor(pastEventTextColor)

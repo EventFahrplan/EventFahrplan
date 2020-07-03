@@ -5,7 +5,7 @@ import info.metadude.android.eventfahrplan.commons.logging.Logging
 import info.metadude.android.eventfahrplan.commons.temporal.DayRange
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import info.metadude.kotlin.library.engelsystem.models.Shift
-import nerd.tuxmobil.fahrplan.congress.models.Lecture
+import nerd.tuxmobil.fahrplan.congress.models.Session
 import org.threeten.bp.Duration
 
 // Avoid conflicts with the IDs of the main schedule.
@@ -17,7 +17,7 @@ fun Shift.toLectureAppModel(
         virtualRoomName: String,
         dayRanges: List<DayRange>
 
-) = Lecture("${SHIFT_ID_OFFSET + sID}").apply {
+) = Session("${SHIFT_ID_OFFSET + sID}").apply {
     abstractt = ""
     date = startsAtLocalDateString
     dateUTC = dateUtcMs

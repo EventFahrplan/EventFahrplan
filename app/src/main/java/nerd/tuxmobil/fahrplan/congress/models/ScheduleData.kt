@@ -27,16 +27,16 @@ data class ScheduleData(
         get() = roomDataList.map { it.roomName }
 
     /**
-     * Returns a list of all lectures sorted by [Lecture.dateUTC] ascending.
+     * Returns a list of all lectures sorted by [Session.dateUTC] ascending.
      * The list might be empty.
      */
-    val allLectures: List<Lecture>
+    val allLectures: List<Session>
         get() = roomDataList.flatMap { it.lectures }.sortedBy { it.dateUTC }
 
     /**
-     * Returns the first [Lecture] found which matches the given [lectureId] or `null` if not found.
+     * Returns the first [Session] found which matches the given [lectureId] or `null` if not found.
      */
-    fun findLecture(lectureId: String): Lecture? {
+    fun findLecture(lectureId: String): Session? {
         return roomDataList.asSequence()
                 .flatMap { it.lectures.asSequence() }
                 .firstOrNull { it.lectureId == lectureId }
@@ -45,7 +45,7 @@ data class ScheduleData(
     /**
      * Returns the room index of the given [lecture] or [UNKNOWN_ROOM_INDEX] if not found.
      */
-    fun findRoomIndex(lecture: Lecture): Int {
+    fun findRoomIndex(lecture: Session): Int {
         return roomDataList.indexOfFirst { it.roomName == lecture.room }
     }
 }

@@ -3,7 +3,7 @@ package nerd.tuxmobil.fahrplan.congress.utils
 import nerd.tuxmobil.fahrplan.congress.BuildConfig
 import nerd.tuxmobil.fahrplan.congress.extensions.originatesFromPretalx
 import nerd.tuxmobil.fahrplan.congress.extensions.originatesFromWiki
-import nerd.tuxmobil.fahrplan.congress.models.Lecture as Event
+import nerd.tuxmobil.fahrplan.congress.models.Session as Event
 
 class FeedbackUrlComposer(
 

@@ -35,7 +35,7 @@ import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmTimePickerFragment;
 import nerd.tuxmobil.fahrplan.congress.calendar.CalendarSharing;
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
-import nerd.tuxmobil.fahrplan.congress.models.Lecture;
+import nerd.tuxmobil.fahrplan.congress.models.Session;
 import nerd.tuxmobil.fahrplan.congress.navigation.RoomForC3NavConverter;
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 import nerd.tuxmobil.fahrplan.congress.sharing.JsonLectureFormat;
@@ -79,7 +79,7 @@ public class EventDetailFragment extends Fragment {
 
     private Typeface bold;
 
-    private Lecture lecture;
+    private Session lecture;
 
     private int day;
 
@@ -356,7 +356,7 @@ public class EventDetailFragment extends Fragment {
     }
 
     @NonNull
-    private Lecture eventIdToLecture(String eventId) {
+    private Session eventIdToLecture(String eventId) {
         return appRepository.readLectureByLectureId(eventId);
     }
 
@@ -387,7 +387,7 @@ public class EventDetailFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Lecture l;
+        Session l;
         Activity activity = requireActivity();
         switch (item.getItemId()) {
             case R.id.menu_item_feedback: {

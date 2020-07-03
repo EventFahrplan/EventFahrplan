@@ -50,8 +50,8 @@ import nerd.tuxmobil.fahrplan.congress.details.EventDetailFragment;
 import nerd.tuxmobil.fahrplan.congress.engagements.Engagements;
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListActivity;
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListFragment;
-import nerd.tuxmobil.fahrplan.congress.models.Lecture;
 import nerd.tuxmobil.fahrplan.congress.models.Meta;
+import nerd.tuxmobil.fahrplan.congress.models.Session;
 import nerd.tuxmobil.fahrplan.congress.net.CertificateDialogFragment;
 import nerd.tuxmobil.fahrplan.congress.net.CustomHttpClient;
 import nerd.tuxmobil.fahrplan.congress.net.FetchScheduleResult;
@@ -327,7 +327,7 @@ public class MainActivity extends BaseActivity implements
         Fragment fragment = findFragment(ChangesDialog.FRAGMENT_TAG);
         if (fragment == null) {
             requiresScheduleReload = true;
-            List<Lecture> changedLectures = appRepository.loadChangedLectures();
+            List<Session> changedLectures = appRepository.loadChangedLectures();
             Meta meta = appRepository.readMeta();
             String scheduleVersion = meta.getVersion();
             ChangeStatistic statistic = new ChangeStatistic(changedLectures);
@@ -381,7 +381,7 @@ public class MainActivity extends BaseActivity implements
         return super.onOptionsItemSelected(item);
     }
 
-    public void openLectureDetail(@NonNull Lecture lecture, int mDay, boolean requiresScheduleReload) {
+    public void openLectureDetail(@NonNull Session lecture, int mDay, boolean requiresScheduleReload) {
         FrameLayout sidePane = findViewById(R.id.detail);
         MyApp.LogDebug(LOG_TAG, "openLectureDetail sidePane=" + sidePane);
         if (sidePane != null) {
@@ -463,7 +463,7 @@ public class MainActivity extends BaseActivity implements
     }
 
     @Override
-    public void onLectureListClick(Lecture lecture, boolean requiresScheduleReload) {
+    public void onLectureListClick(Session lecture, boolean requiresScheduleReload) {
         if (lecture != null) {
             openLectureDetail(lecture, lecture.day, requiresScheduleReload);
         }

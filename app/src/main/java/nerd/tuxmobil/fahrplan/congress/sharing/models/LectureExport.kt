@@ -2,7 +2,7 @@ package nerd.tuxmobil.fahrplan.congress.sharing.models
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
-import nerd.tuxmobil.fahrplan.congress.models.Lecture
+import nerd.tuxmobil.fahrplan.congress.models.Session
 
 @JsonClass(generateAdapter = true)
 data class LectureExport(
@@ -23,7 +23,7 @@ data class LectureExport(
         var links: String? = null,
         var date: String? = null
 ) {
-    constructor(lecture: Lecture) : this(
+    constructor(lecture: Session) : this(
             lecture.lectureId,
             lecture.title,
             lecture.subtitle,

@@ -20,9 +20,9 @@ import java.util.TreeSet;
 import info.metadude.android.eventfahrplan.commons.temporal.DateFormatter;
 import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.extensions.Contexts;
-import nerd.tuxmobil.fahrplan.congress.models.Lecture;
+import nerd.tuxmobil.fahrplan.congress.models.Session;
 
-public abstract class LecturesAdapter extends ArrayAdapter<Lecture> {
+public abstract class LecturesAdapter extends ArrayAdapter<Session> {
 
     private static final int TYPE_ITEM = 0;
     private static final int TYPE_SEPARATOR = 1;
@@ -30,13 +30,13 @@ public abstract class LecturesAdapter extends ArrayAdapter<Lecture> {
 
     protected final Context context;
 
-    private final List<Lecture> list;
+    private final List<Session> list;
     private final int numDays;
     private ArrayList<Integer> mMapper;
     private ArrayList<String> mSeparatorStrings;
     private TreeSet<Integer> mSeparatorsSet;
 
-    public LecturesAdapter(Context context, @LayoutRes int layout, List<Lecture> list, int numDays) {
+    public LecturesAdapter(Context context, @LayoutRes int layout, List<Session> list, int numDays) {
         super(context, layout, list);
         this.context = new ContextThemeWrapper(context, R.style.Theme_AppCompat_Light);
         this.list = list;
@@ -116,7 +116,7 @@ public abstract class LecturesAdapter extends ArrayAdapter<Lecture> {
         return rowView;
     }
 
-    protected Lecture getLecture(int position) {
+    protected Session getLecture(int position) {
         return list.get(getItemIndex(position));
     }
 
@@ -192,7 +192,7 @@ public abstract class LecturesAdapter extends ArrayAdapter<Lecture> {
 
         for (int index = 0; index < list.size(); index++) {
 
-            Lecture l = list.get(index);
+            Session l = list.get(index);
             day = l.day;
             if (day != lastDay) {
                 lastDay = day;

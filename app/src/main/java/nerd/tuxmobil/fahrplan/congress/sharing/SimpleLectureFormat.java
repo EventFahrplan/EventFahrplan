@@ -6,7 +6,7 @@ import androidx.annotation.Nullable;
 import java.util.List;
 
 import info.metadude.android.eventfahrplan.commons.temporal.DateFormatter;
-import nerd.tuxmobil.fahrplan.congress.models.Lecture;
+import nerd.tuxmobil.fahrplan.congress.models.Session;
 import nerd.tuxmobil.fahrplan.congress.utils.EventUrlComposer;
 import nerd.tuxmobil.fahrplan.congress.wiki.WikiEventUtils;
 
@@ -19,14 +19,14 @@ public class SimpleLectureFormat {
 
 
     @NonNull
-    public static String format(@NonNull Lecture lecture) {
+    public static String format(@NonNull Session lecture) {
         StringBuilder builder = new StringBuilder();
         appendLecture(builder, lecture);
         return builder.toString();
     }
 
     @Nullable
-    public static String format(@NonNull List<Lecture> lectures) {
+    public static String format(@NonNull List<Session> lectures) {
         if (lectures.isEmpty()) {
             return null;
         }
@@ -36,7 +36,7 @@ public class SimpleLectureFormat {
         }
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < lecturesSize; ++i) {
-            Lecture lecture = lectures.get(i);
+            Session lecture = lectures.get(i);
             appendLecture(builder, lecture);
             if (i < lecturesSize - 1) {
                 appendDivider(builder);
@@ -45,7 +45,7 @@ public class SimpleLectureFormat {
         return builder.toString();
     }
 
-    private static void appendLecture(StringBuilder builder, Lecture lecture) {
+    private static void appendLecture(StringBuilder builder, Session lecture) {
         long startTime = lecture.getStartTimeMilliseconds();
         String formattedTime = DateFormatter.newInstance().getFormattedDateTime(startTime);
         builder.append(lecture.title);

@@ -3,11 +3,11 @@ package nerd.tuxmobil.fahrplan.congress.models
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 
-class LectureTest {
+class SessionTest {
 
     @Test
     fun getStartTimeMoment() {
-        val lecture = Lecture("1")
+        val lecture = Session("1")
         lecture.relStartTime = 121
         lecture.date = "2019-12-27"
 
@@ -22,7 +22,7 @@ class LectureTest {
 
     @Test
     fun `startTimeMilliseconds returns the "dateUTC" value when "dateUTC" is set`() {
-        val lecture = Lecture("1").apply {
+        val lecture = Session("1").apply {
             dateUTC = 1
             date = "2020-03-20"
         }
@@ -31,7 +31,7 @@ class LectureTest {
 
     @Test
     fun `startTimeMilliseconds returns the "date" value when "dateUTC" is not set`() {
-        val lecture = Lecture("1").apply {
+        val lecture = Session("1").apply {
             dateUTC = 0
             date = "2020-03-20"
         }

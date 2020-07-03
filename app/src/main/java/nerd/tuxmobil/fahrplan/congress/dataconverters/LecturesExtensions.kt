@@ -2,15 +2,15 @@ package nerd.tuxmobil.fahrplan.congress.dataconverters
 
 import info.metadude.android.eventfahrplan.commons.temporal.DayRange
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
-import nerd.tuxmobil.fahrplan.congress.models.Lecture
+import nerd.tuxmobil.fahrplan.congress.models.Session
 import info.metadude.android.eventfahrplan.database.models.Session as LectureDatabaseModel
 import info.metadude.android.eventfahrplan.network.models.Session as LectureNetworkModel
 
-fun List<Lecture>.shiftRoomIndicesOfMainSchedule(dayIndices: Set<Int>) = map {
+fun List<Session>.shiftRoomIndicesOfMainSchedule(dayIndices: Set<Int>) = map {
     it.shiftRoomIndexOnDays(dayIndices)
 }
 
-fun List<Lecture>.toDayIndices(): Set<Int> {
+fun List<Session>.toDayIndices(): Set<Int> {
     val dayIndices = HashSet<Int>()
     forEach {
         dayIndices.add(it.day)
@@ -18,11 +18,11 @@ fun List<Lecture>.toDayIndices(): Set<Int> {
     return dayIndices
 }
 
-fun List<Lecture>.toDateInfos() = map(Lecture::toDateInfo)
+fun List<Session>.toDateInfos() = map(Session::toDateInfo)
 
-fun List<Lecture>.toLecturesDatabaseModel() = map(Lecture::toLectureDatabaseModel)
+fun List<Session>.toLecturesDatabaseModel() = map(Session::toLectureDatabaseModel)
 
-fun List<Lecture>.toDayRanges(): List<DayRange> {
+fun List<Session>.toDayRanges(): List<DayRange> {
     val ranges = mutableSetOf<DayRange>()
     forEach {
         val day = Moment(it.date)
@@ -32,8 +32,8 @@ fun List<Lecture>.toDayRanges(): List<DayRange> {
     return ranges.sortedBy { it.startsAt }.toList()
 }
 
-fun List<LectureNetworkModel>.toLecturesAppModel2(): List<Lecture> = map(LectureNetworkModel::toLectureAppModel)
+fun List<LectureNetworkModel>.toLecturesAppModel2(): List<Session> = map(LectureNetworkModel::toLectureAppModel)
 
 fun List<LectureDatabaseModel>.toLecturesAppModel() = map(LectureDatabaseModel::toLectureAppModel)
 
-fun List<Lecture>.sanitize(): List<Lecture> = map(Lecture::sanitize)
+fun List<Session>.sanitize(): List<Session> = map(Session::sanitize)

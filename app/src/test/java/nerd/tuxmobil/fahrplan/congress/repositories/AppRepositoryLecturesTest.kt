@@ -4,7 +4,7 @@ import com.google.common.truth.Truth.assertThat
 import com.nhaarman.mockitokotlin2.*
 import info.metadude.android.eventfahrplan.database.repositories.SessionsDatabaseRepository
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toLecturesDatabaseModel
-import nerd.tuxmobil.fahrplan.congress.models.Lecture
+import nerd.tuxmobil.fahrplan.congress.models.Session
 import org.junit.Test
 import org.mockito.ArgumentMatchers.anyInt
 
@@ -34,71 +34,71 @@ class AppRepositoryLecturesTest {
 
     companion object {
 
-        private val LECTURE_1001 = Lecture("1001").apply {
+        private val LECTURE_1001 = Session("1001").apply {
             changedIsCanceled = false
             changedTitle = false
             changedIsNew = false
             url = "" // only initialized for toLecturesDatabaseModel()
         }
 
-        private val LECTURE_1002 = Lecture("1002").apply {
+        private val LECTURE_1002 = Session("1002").apply {
             changedIsCanceled = true
             changedTitle = false
             changedIsNew = false
             url = "" // only initialized for toLecturesDatabaseModel()
         }
 
-        private val LECTURE_1003 = Lecture("1003").apply {
+        private val LECTURE_1003 = Session("1003").apply {
             changedIsCanceled = false
             changedTitle = true
             changedIsNew = false
             url = "" // only initialized for toLecturesDatabaseModel()
         }
 
-        private val LECTURE_1004 = Lecture("1004").apply {
+        private val LECTURE_1004 = Session("1004").apply {
             changedIsCanceled = false
             changedTitle = false
             changedIsNew = true
             url = "" // only initialized for toLecturesDatabaseModel()
         }
 
-        private val LECTURE_1005 = Lecture("1005").apply {
+        private val LECTURE_1005 = Session("1005").apply {
             changedIsCanceled = true
             changedTitle = true
             changedIsNew = true
             url = "" // only initialized for toLecturesDatabaseModel()
         }
 
-        private val LECTURE_2001 = Lecture("2001").apply {
+        private val LECTURE_2001 = Session("2001").apply {
             highlight = false
             changedIsCanceled = false
             url = "" // only initialized for toLecturesDatabaseModel()
         }
 
-        private val LECTURE_2002 = Lecture("2002").apply {
+        private val LECTURE_2002 = Session("2002").apply {
             highlight = true
             changedIsCanceled = false
             url = "" // only initialized for toLecturesDatabaseModel()
         }
 
-        private val LECTURE_2003 = Lecture("2003").apply {
+        private val LECTURE_2003 = Session("2003").apply {
             highlight = true
             changedIsCanceled = true
             url = "" // only initialized for toLecturesDatabaseModel()
         }
 
-        private val LECTURE_2004 = Lecture("2004").apply {
+        private val LECTURE_2004 = Session("2004").apply {
             highlight = false
             changedIsCanceled = true
             url = "" // only initialized for toLecturesDatabaseModel()
         }
 
-        private val LECTURE_3001 = Lecture("3001").apply {
+        private val LECTURE_3001 = Session("3001").apply {
             changedIsCanceled = false
             url = "" // only initialized for toLecturesDatabaseModel()
         }
 
-        private val LECTURE_3002 = Lecture("3002").apply {
+        private val LECTURE_3002 = Session("3002").apply {
             changedIsCanceled = true
             url = "" // only initialized for toLecturesDatabaseModel()
         }

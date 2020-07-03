@@ -2,26 +2,26 @@ package nerd.tuxmobil.fahrplan.congress.dataconverters
 
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.models.DateInfo
-import nerd.tuxmobil.fahrplan.congress.models.Lecture
+import nerd.tuxmobil.fahrplan.congress.models.Session
 import info.metadude.android.eventfahrplan.database.models.Highlight as HighlightDatabaseModel
 import info.metadude.android.eventfahrplan.database.models.Session as LectureDatabaseModel
 import info.metadude.android.eventfahrplan.network.models.Session as LectureNetworkModel
 
-fun Lecture.shiftRoomIndexOnDays(dayIndices: Set<Int>): Lecture {
+fun Session.shiftRoomIndexOnDays(dayIndices: Set<Int>): Session {
     if (dayIndices.contains(day)) {
         shiftRoomIndexBy(1)
     }
     return this
 }
 
-fun Lecture.toDateInfo(): DateInfo = DateInfo(day, Moment(date))
+fun Session.toDateInfo(): DateInfo = DateInfo(day, Moment(date))
 
-fun Lecture.toHighlightDatabaseModel() = HighlightDatabaseModel(
+fun Session.toHighlightDatabaseModel() = HighlightDatabaseModel(
         sessionId = Integer.parseInt(lectureId),
         isHighlight = highlight
 )
 
-fun Lecture.toLectureDatabaseModel() = LectureDatabaseModel(
+fun Session.toLectureDatabaseModel() = LectureDatabaseModel(
         sessionId = lectureId,
         abstractt = abstractt,
         date = date,
@@ -61,7 +61,7 @@ fun Lecture.toLectureDatabaseModel() = LectureDatabaseModel(
         changedTrack = changedTrack
 )
 
-fun Lecture.toLectureNetworkModel() = LectureNetworkModel(
+fun Session.toLectureNetworkModel() = LectureNetworkModel(
         sessionId = lectureId,
         abstractt = abstractt,
         date = date,
@@ -101,8 +101,8 @@ fun Lecture.toLectureNetworkModel() = LectureNetworkModel(
         changedTrack = changedTrack
 )
 
-fun LectureDatabaseModel.toLectureAppModel(): Lecture {
-    val lecture = Lecture(sessionId)
+fun LectureDatabaseModel.toLectureAppModel(): Session {
+    val lecture = Session(sessionId)
 
     lecture.abstractt = abstractt
     lecture.date = date
@@ -144,8 +144,8 @@ fun LectureDatabaseModel.toLectureAppModel(): Lecture {
     return lecture
 }
 
-fun LectureNetworkModel.toLectureAppModel(): Lecture {
-    val lecture = Lecture(sessionId)
+fun LectureNetworkModel.toLectureAppModel(): Session {
+    val lecture = Session(sessionId)
 
     lecture.abstractt = abstractt
     lecture.date = date
@@ -187,7 +187,7 @@ fun LectureNetworkModel.toLectureAppModel(): Lecture {
     return lecture
 }
 
-fun Lecture.sanitize(): Lecture {
+fun Session.sanitize(): Session {
     if (title == subtitle) {
         subtitle = ""
     }

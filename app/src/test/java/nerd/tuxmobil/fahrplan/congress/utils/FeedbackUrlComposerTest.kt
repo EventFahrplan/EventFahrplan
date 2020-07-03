@@ -3,7 +3,7 @@ package nerd.tuxmobil.fahrplan.congress.utils
 import nerd.tuxmobil.fahrplan.congress.extensions.WIKI_EVENT_TRACK_NAME
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
-import nerd.tuxmobil.fahrplan.congress.models.Lecture as Event
+import nerd.tuxmobil.fahrplan.congress.models.Session as Event
 
 class FeedbackUrlComposerTest {
 

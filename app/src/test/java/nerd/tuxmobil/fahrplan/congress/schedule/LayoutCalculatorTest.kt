@@ -4,8 +4,8 @@ import android.widget.LinearLayout
 import com.google.common.truth.Truth.assertThat
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.NoLogging
-import nerd.tuxmobil.fahrplan.congress.models.Lecture
 import nerd.tuxmobil.fahrplan.congress.models.RoomData
+import nerd.tuxmobil.fahrplan.congress.models.Session
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
@@ -16,8 +16,8 @@ class LayoutCalculatorTest {
     private var lectureId = 0
     private val layoutCalculator = LayoutCalculator(standardHeight = 1, logging = NoLogging)
 
-    private fun createLecture(date: String? = null, startTime: Int = 0, duration: Int = 0): Lecture {
-        val lecture = Lecture((lectureId++).toString())
+    private fun createLecture(date: String? = null, startTime: Int = 0, duration: Int = 0): Session {
+        val lecture = Session((lectureId++).toString())
 
         if (date != null) {
             val dateUTC = Moment(date)
@@ -32,7 +32,7 @@ class LayoutCalculatorTest {
 
     @Test
     fun `calculateLayoutParams for empty list returns empty params`() {
-        val lectures = listOf<Lecture>()
+        val lectures = listOf<Session>()
         val conference = Conference(firstEventStartsAt = 0, lastEventEndsAt = 0)
         val roomData = lectures.toRoomData()
 
@@ -228,6 +228,6 @@ class LayoutCalculatorTest {
         assertThat(lectureParams.bottomMargin).isEqualTo(layoutCalculator.calculateDisplayDistance(bottom))
     }
 
-    private fun List<Lecture>.toRoomData() = RoomData(roomName = "irrelevant", lectures = this)
+    private fun List<Session>.toRoomData() = RoomData(roomName = "irrelevant", lectures = this)
 }
 

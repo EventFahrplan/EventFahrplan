@@ -2,7 +2,7 @@ package nerd.tuxmobil.fahrplan.congress.changes
 
 import com.google.common.truth.Truth.assertThat
 import nerd.tuxmobil.fahrplan.congress.NoLogging
-import nerd.tuxmobil.fahrplan.congress.models.Lecture
+import nerd.tuxmobil.fahrplan.congress.models.Session
 import org.junit.Test
 
 class ChangeStatisticTest {
@@ -10,61 +10,61 @@ class ChangeStatisticTest {
     companion object {
 
         private val unchangedLectures = listOf(
-                Lecture("1001").apply {
+                Session("1001").apply {
                     highlight = false
                     changedTitle = false
                 },
-                Lecture("1002").apply {
+                Session("1002").apply {
                     highlight = true
                     changedTitle = false
                 })
 
         private val changedLectures = listOf(
-                Lecture("1003").apply {
+                Session("1003").apply {
                     highlight = true
                     changedTitle = true
                 },
-                Lecture("1004").apply {
+                Session("1004").apply {
                     highlight = false
                     changedTitle = true
                 })
 
         private val oldLectures = listOf(
-                Lecture("2001").apply {
+                Session("2001").apply {
                     highlight = false
                     changedIsNew = false
                 },
-                Lecture("2002").apply {
+                Session("2002").apply {
                     highlight = true
                     changedIsNew = false
                 })
 
         private val newLectures = listOf(
-                Lecture("2003").apply {
+                Session("2003").apply {
                     highlight = true
                     changedIsNew = true
                 },
-                Lecture("2004").apply {
+                Session("2004").apply {
                     highlight = false
                     changedIsNew = true
                 })
 
         private val uncanceledLectures = listOf(
-                Lecture("3001").apply {
+                Session("3001").apply {
                     highlight = false
                     changedIsCanceled = false
                 },
-                Lecture("3002").apply {
+                Session("3002").apply {
                     highlight = true
                     changedIsCanceled = false
                 })
 
         private val canceledLectures = listOf(
-                Lecture("3003").apply {
+                Session("3003").apply {
                     highlight = true
                     changedIsCanceled = true
                 },
-                Lecture("3004").apply {
+                Session("3004").apply {
                     highlight = false
                     changedIsCanceled = true
                 })
@@ -124,6 +124,6 @@ class ChangeStatisticTest {
     }
 
     @Suppress("TestFunctionName") // Fake constructor to avoid repetition.
-    private fun ChangeStatistic(lectures: List<Lecture>) = ChangeStatistic(lectures, NoLogging)
+    private fun ChangeStatistic(lectures: List<Session>) = ChangeStatistic(lectures, NoLogging)
 
 }

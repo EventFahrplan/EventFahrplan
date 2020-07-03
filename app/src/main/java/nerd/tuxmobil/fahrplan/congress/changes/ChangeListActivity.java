@@ -14,7 +14,7 @@ import nerd.tuxmobil.fahrplan.congress.base.AbstractListFragment;
 import nerd.tuxmobil.fahrplan.congress.base.BaseActivity;
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.details.EventDetail;
-import nerd.tuxmobil.fahrplan.congress.models.Lecture;
+import nerd.tuxmobil.fahrplan.congress.models.Session;
 
 public class ChangeListActivity extends BaseActivity implements
         AbstractListFragment.OnLectureListClick {
@@ -47,7 +47,7 @@ public class ChangeListActivity extends BaseActivity implements
     }
 
     @Override
-    public void onLectureListClick(Lecture lecture, boolean requiresScheduleReload) {
+    public void onLectureListClick(Session lecture, boolean requiresScheduleReload) {
         if (lecture != null) {
             EventDetail.startForResult(this, lecture, lecture.day, requiresScheduleReload);
         }

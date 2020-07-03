@@ -1,14 +1,14 @@
 package nerd.tuxmobil.fahrplan.congress.sharing
 
 import com.google.common.truth.Truth.assertThat
-import nerd.tuxmobil.fahrplan.congress.models.Lecture
+import nerd.tuxmobil.fahrplan.congress.models.Session
 import org.junit.Test
 
 class JsonLectureFormatTest {
 
     @Test
     fun formatSingle() {
-        val lecture = Lecture("lecture1")
+        val lecture = Session("lecture1")
         val json = JsonLectureFormat.format(lecture)
         assertThat(json).isEqualTo(EXPECTED_JSON_SINGLE)
     }
@@ -16,9 +16,9 @@ class JsonLectureFormatTest {
     @Test
     fun formatList() {
         val lectures = listOf(
-                Lecture("lecture1"),
-                Lecture("lecture2"),
-                Lecture("lecture3"))
+                Session("lecture1"),
+                Session("lecture2"),
+                Session("lecture3"))
         val json = JsonLectureFormat.format(lectures)
         assertThat(json).isEqualTo(EXPECTED_JSON_LIST)
     }

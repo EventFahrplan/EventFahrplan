@@ -1,8 +1,8 @@
 package nerd.tuxmobil.fahrplan.congress.repositories
 
-import nerd.tuxmobil.fahrplan.congress.models.Lecture
 import nerd.tuxmobil.fahrplan.congress.models.RoomData
 import nerd.tuxmobil.fahrplan.congress.models.ScheduleData
+import nerd.tuxmobil.fahrplan.congress.models.Session
 
 class LectureListTransformer(private val prioritizedRoomProvider: PrioritizedRoomProvider) {
 
@@ -10,14 +10,14 @@ class LectureListTransformer(private val prioritizedRoomProvider: PrioritizedRoo
      * Transforms the given [lectures] for the given [dayIndex] into a [ScheduleData] object.
      *
      * Apart from the [dayIndex] it contains a list of room names and their associated lectures
-     * (sorted by [Lecture.dateUTC]). Rooms names are added in a defined order: room names of
+     * (sorted by [Session.dateUTC]). Rooms names are added in a defined order: room names of
      * prioritized rooms first, then all other room names in the order defined by the given lecture.
-     * After adding room names the original order [Lecture.roomIndex] is no longer of interest.
+     * After adding room names the original order [Session.roomIndex] is no longer of interest.
      */
-    fun transformLectureList(dayIndex: Int, lectures: List<Lecture>): ScheduleData {
+    fun transformLectureList(dayIndex: Int, lectures: List<Session>): ScheduleData {
         // Pre-populate the map with prioritized rooms
         val roomMap = prioritizedRoomProvider.prioritizedRooms
-                .map { it to mutableListOf<Lecture>() }
+                .map { it to mutableListOf<Session>() }
                 .toMap()
                 .toMutableMap()
 
