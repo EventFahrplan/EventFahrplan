@@ -7,14 +7,14 @@ import nerd.tuxmobil.fahrplan.congress.models.DateInfo
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
-import info.metadude.android.eventfahrplan.database.models.Session as LectureDatabaseModel
-import info.metadude.android.eventfahrplan.network.models.Session as LectureNetworkModel
+import info.metadude.android.eventfahrplan.database.models.Session as SessionDatabaseModel
+import info.metadude.android.eventfahrplan.network.models.Session as SessionNetworkModel
 
 class SessionExtensionsTest {
 
     @Test
-    fun lectureDatabaseModel_toLectureAppModel_toLectureDatabaseModel() {
-        val lecture = LectureDatabaseModel(
+    fun sessionDatabaseModel_toSessionAppModel_toSessionDatabaseModel() {
+        val session = SessionDatabaseModel(
                 sessionId = "7331",
                 abstractt = "Lorem ipsum",
                 dayIndex = 3,
@@ -53,12 +53,12 @@ class SessionExtensionsTest {
                 changedTitle = true,
                 changedTrack = true
         )
-        assertThat(lecture.toLectureAppModel().toLectureDatabaseModel()).isEqualTo(lecture)
+        assertThat(session.toSessionAppModel().toSessionDatabaseModel()).isEqualTo(session)
     }
 
     @Test
-    fun lectureNetworkModel_toLectureAppModel_toLectureNetworkModel() {
-        val lecture = LectureNetworkModel(
+    fun sessionNetworkModel_toSessionAppModel_toSessionNetworkModel() {
+        val session = SessionNetworkModel(
                 sessionId = "7331",
                 abstractt = "Lorem ipsum",
                 dayIndex = 3,
@@ -97,34 +97,34 @@ class SessionExtensionsTest {
                 changedTitle = true,
                 changedTrack = true
         )
-        assertThat(lecture.toLectureAppModel().toLectureNetworkModel()).isEqualTo(lecture)
+        assertThat(session.toSessionAppModel().toSessionNetworkModel()).isEqualTo(session)
     }
 
     @Test
     fun toDateInfo() {
-        val lecture = Session("")
-        lecture.date = "2015-08-13"
-        lecture.day = 3
+        val session = Session("")
+        session.date = "2015-08-13"
+        session.day = 3
         val dateInfo = DateInfo(3, Moment("2015-08-13"))
-        assertThat(lecture.toDateInfo()).isEqualTo(dateInfo)
+        assertThat(session.toDateInfo()).isEqualTo(dateInfo)
     }
 
     @Test
     fun toDayRanges() {
-        val lecture0 = Session("")
-        lecture0.date = "2019-08-02"
-        lecture0.day = 2
+        val session0 = Session("")
+        session0.date = "2019-08-02"
+        session0.day = 2
 
-        val lecture1 = Session("")
-        lecture1.date = "2019-08-01"
-        lecture1.day = 1
+        val session1 = Session("")
+        session1.date = "2019-08-01"
+        session1.day = 1
 
-        val lecture1Copy = Session("")
-        lecture1Copy.date = "2019-08-01"
-        lecture1Copy.day = 1
+        val session1Copy = Session("")
+        session1Copy.date = "2019-08-01"
+        session1Copy.day = 1
 
-        val lectures = listOf(lecture0, lecture1, lecture1Copy)
-        val dayRanges = lectures.toDayRanges()
+        val sessions = listOf(session0, session1, session1Copy)
+        val dayRanges = sessions.toDayRanges()
 
         assertThat(dayRanges.size).isEqualTo(2)
         assertThat(dayRanges[0].startsAt.dayOfMonth).isEqualTo(1)
@@ -140,16 +140,16 @@ class SessionExtensionsTest {
 
     @Test
     fun toHighlightDatabaseModel() {
-        val lecture = Session("")
-        lecture.lectureId = "4723"
-        lecture.highlight = true
+        val session = Session("")
+        session.sessionId = "4723"
+        session.highlight = true
         val highlight = Highlight(sessionId = 4723, isHighlight = true)
-        assertThat(lecture.toHighlightDatabaseModel()).isEqualTo(highlight)
+        assertThat(session.toHighlightDatabaseModel()).isEqualTo(highlight)
     }
 
     @Test
     fun sanitizeWithSameTitleAndSubtitle() {
-        val lecture = Session("").apply {
+        val session = Session("").apply {
             subtitle = "Lorem ipsum"
             title = "Lorem ipsum"
         }.sanitize()
@@ -157,12 +157,12 @@ class SessionExtensionsTest {
             subtitle = ""
             title = "Lorem ipsum"
         }
-        assertThat(lecture).isEqualTo(expected)
+        assertThat(session).isEqualTo(expected)
     }
 
     @Test
     fun sanitizeWithDifferentTitleAndSubtitle() {
-        val lecture = Session("").apply {
+        val session = Session("").apply {
             subtitle = "Dolor sit amet"
             title = "Lorem ipsum"
         }.sanitize()
@@ -170,12 +170,12 @@ class SessionExtensionsTest {
             subtitle = "Dolor sit amet"
             title = "Lorem ipsum"
         }
-        assertThat(lecture).isEqualTo(expected)
+        assertThat(session).isEqualTo(expected)
     }
 
     @Test
     fun sanitizeWithSameAbstractAndDescription() {
-        val lecture = Session("").apply {
+        val session = Session("").apply {
             abstractt = "Lorem ipsum"
             description = "Lorem ipsum"
         }.sanitize()
@@ -184,13 +184,13 @@ class SessionExtensionsTest {
             description = "Lorem ipsum"
         }
         // The "abstractt" and "description" fields are not part of Session#equals for some reason.
-        assertThat(lecture.abstractt).isEqualTo(expected.abstractt)
-        assertThat(lecture.description).isEqualTo(expected.description)
+        assertThat(session.abstractt).isEqualTo(expected.abstractt)
+        assertThat(session.description).isEqualTo(expected.description)
     }
 
     @Test
     fun sanitizeWithDifferentAbstractAndDescription() {
-        val lecture = Session("").apply {
+        val session = Session("").apply {
             abstractt = "Lorem ipsum"
             description = "Dolor sit amet"
         }.sanitize()
@@ -199,13 +199,13 @@ class SessionExtensionsTest {
             description = "Dolor sit amet"
         }
         // The "abstractt" and "description" fields are not part of Session#equals for some reason.
-        assertThat(lecture.abstractt).isEqualTo(expected.abstractt)
-        assertThat(lecture.description).isEqualTo(expected.description)
+        assertThat(session.abstractt).isEqualTo(expected.abstractt)
+        assertThat(session.description).isEqualTo(expected.description)
     }
 
     @Test
     fun sanitizeWithAbstractWithoutDescription() {
-        val lecture = Session("").apply {
+        val session = Session("").apply {
             abstractt = "Lorem ipsum"
             description = ""
         }.sanitize()
@@ -213,13 +213,13 @@ class SessionExtensionsTest {
             description = "Lorem ipsum"
         }
         // The "abstractt" and "description" fields are not part of Session#equals for some reason.
-        assertThat(lecture.abstractt).isEqualTo(expected.abstractt)
-        assertThat(lecture.description).isEqualTo(expected.description)
+        assertThat(session.abstractt).isEqualTo(expected.abstractt)
+        assertThat(session.description).isEqualTo(expected.description)
     }
 
     @Test
     fun sanitizeWithSameSpeakersAndSubtitle() {
-        val lecture = Session("").apply {
+        val session = Session("").apply {
             speakers = "Luke Skywalker"
             subtitle = "Luke Skywalker"
         }.sanitize()
@@ -227,12 +227,12 @@ class SessionExtensionsTest {
             speakers = "Luke Skywalker"
             subtitle = ""
         }
-        assertThat(lecture).isEqualTo(expected)
+        assertThat(session).isEqualTo(expected)
     }
 
     @Test
     fun sanitizeWithDifferentSpeakersAndAbstract() {
-        val lecture = Session("").apply {
+        val session = Session("").apply {
             speakers = "Darth Vader"
             subtitle = "Lorem ipsum"
         }.sanitize()
@@ -240,7 +240,7 @@ class SessionExtensionsTest {
             speakers = "Darth Vader"
             subtitle = "Lorem ipsum"
         }
-        assertThat(lecture).isEqualTo(expected)
+        assertThat(session).isEqualTo(expected)
     }
 
 }

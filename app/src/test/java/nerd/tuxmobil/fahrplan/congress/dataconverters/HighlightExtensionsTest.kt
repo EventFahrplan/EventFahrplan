@@ -14,7 +14,7 @@ class HighlightExtensionsTest {
                 isHighlight = true
         )
         val highlightAppModel = Highlight(
-                eventId = 2342,
+                sessionId = 2342,
                 isHighlight = true
         )
         assertThat(highlightDatabaseModel.toHighlightAppModel()).isEqualTo(highlightAppModel)

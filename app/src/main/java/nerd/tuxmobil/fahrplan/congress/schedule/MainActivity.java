@@ -71,7 +71,7 @@ import okhttp3.OkHttpClient;
 public class MainActivity extends BaseActivity implements
         OnSidePaneCloseListener,
         CertificateDialogFragment.OnCertAccepted,
-        AbstractListFragment.OnLectureListClick,
+        AbstractListFragment.OnSessionListClick,
         FragmentManager.OnBackStackChangedListener,
         ConfirmationDialog.OnConfirmationDialogClicked {
 
@@ -327,10 +327,10 @@ public class MainActivity extends BaseActivity implements
         Fragment fragment = findFragment(ChangesDialog.FRAGMENT_TAG);
         if (fragment == null) {
             requiresScheduleReload = true;
-            List<Session> changedLectures = appRepository.loadChangedLectures();
+            List<Session> sessions = appRepository.loadChangedSessions();
             Meta meta = appRepository.readMeta();
             String scheduleVersion = meta.getVersion();
-            ChangeStatistic statistic = new ChangeStatistic(changedLectures);
+            ChangeStatistic statistic = new ChangeStatistic(sessions);
             DialogFragment changesDialog = ChangesDialog.newInstance(
                     scheduleVersion,
                     statistic,
@@ -371,7 +371,7 @@ public class MainActivity extends BaseActivity implements
                 startActivityForResult(intent, MyApp.SETTINGS);
                 return true;
             case R.id.menu_item_schedule_changes:
-                openLectureChanges(requiresScheduleReload);
+                openSessionChanges(requiresScheduleReload);
                 return true;
             case R.id.menu_item_favorites:
                 openFavorites();
@@ -381,30 +381,30 @@ public class MainActivity extends BaseActivity implements
         return super.onOptionsItemSelected(item);
     }
 
-    public void openLectureDetail(@NonNull Session lecture, int mDay, boolean requiresScheduleReload) {
+    public void openSessionDetails(@NonNull Session session, int mDay, boolean requiresScheduleReload) {
         FrameLayout sidePane = findViewById(R.id.detail);
-        MyApp.LogDebug(LOG_TAG, "openLectureDetail sidePane=" + sidePane);
+        MyApp.LogDebug(LOG_TAG, "openSessionDetails sidePane=" + sidePane);
         if (sidePane != null) {
             FragmentManager fm = getSupportFragmentManager();
             fm.popBackStack(SessionDetailsFragment.FRAGMENT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             Bundle args = new Bundle();
-            args.putString(BundleKeys.EVENT_TITLE, lecture.title);
-            args.putString(BundleKeys.EVENT_SUBTITLE, lecture.subtitle);
-            args.putString(BundleKeys.EVENT_ABSTRACT, lecture.abstractt);
-            args.putString(BundleKeys.EVENT_DESCRIPTION, lecture.description);
-            args.putString(BundleKeys.EVENT_SPEAKERS, lecture.getFormattedSpeakers());
-            args.putString(BundleKeys.EVENT_LINKS, lecture.links);
-            args.putString(BundleKeys.EVENT_ID, lecture.lectureId);
-            args.putInt(BundleKeys.EVENT_DAY, mDay);
-            args.putString(BundleKeys.EVENT_ROOM, lecture.room);
+            args.putString(BundleKeys.SESSION_TITLE, session.title);
+            args.putString(BundleKeys.SESSION_SUBTITLE, session.subtitle);
+            args.putString(BundleKeys.SESSION_ABSTRACT, session.abstractt);
+            args.putString(BundleKeys.SESSION_DESCRIPTION, session.description);
+            args.putString(BundleKeys.SESSION_SPEAKERS, session.getFormattedSpeakers());
+            args.putString(BundleKeys.SESSION_LINKS, session.links);
+            args.putString(BundleKeys.SESSION_ID, session.sessionId);
+            args.putInt(BundleKeys.SESSION_DAY, mDay);
+            args.putString(BundleKeys.SESSION_ROOM, session.room);
             args.putBoolean(BundleKeys.SIDEPANE, true);
             args.putBoolean(BundleKeys.REQUIRES_SCHEDULE_RELOAD, requiresScheduleReload);
-            SessionDetailsFragment eventDetailFragment = new SessionDetailsFragment();
-            eventDetailFragment.setArguments(args);
-            replaceFragment(R.id.detail, eventDetailFragment,
+            SessionDetailsFragment fragment = new SessionDetailsFragment();
+            fragment.setArguments(args);
+            replaceFragment(R.id.detail, fragment,
                     SessionDetailsFragment.FRAGMENT_TAG, SessionDetailsFragment.FRAGMENT_TAG);
         } else {
-            SessionDetailsActivity.startForResult(this, lecture, mDay, requiresScheduleReload);
+            SessionDetailsActivity.startForResult(this, session, mDay, requiresScheduleReload);
         }
     }
 
@@ -426,7 +426,7 @@ public class MainActivity extends BaseActivity implements
 
         switch (requestCode) {
             case MyApp.ALARMLIST:
-            case MyApp.EVENTVIEW:
+            case MyApp.SESSION_VIEW:
                 if (resultCode == Activity.RESULT_CANCELED) {
                     shouldScrollToCurrent = false;
                 }
@@ -463,9 +463,9 @@ public class MainActivity extends BaseActivity implements
     }
 
     @Override
-    public void onLectureListClick(Session lecture, boolean requiresScheduleReload) {
-        if (lecture != null) {
-            openLectureDetail(lecture, lecture.day, requiresScheduleReload);
+    public void onSessionListClick(Session session, boolean requiresScheduleReload) {
+        if (session != null) {
+            openSessionDetails(session, session.day, requiresScheduleReload);
         }
     }
 
@@ -524,7 +524,7 @@ public class MainActivity extends BaseActivity implements
         }
     }
 
-    public void openLectureChanges(boolean requiresScheduleReload) {
+    public void openSessionChanges(boolean requiresScheduleReload) {
         FrameLayout sidePane = findViewById(R.id.detail);
         if (sidePane == null) {
             Intent intent = new Intent(this, ChangeListActivity.class);
@@ -566,16 +566,16 @@ public class MainActivity extends BaseActivity implements
 
     /**
      * Returns an intent to be used to launch this activity.
-     * The given parameters {@code lectureId} and {@code dayIndex} are passed along as bundle extras.
+     * The given parameters {@code sessionId} and {@code dayIndex} are passed along as bundle extras.
      */
     public static Intent createLaunchIntent(
             @NonNull Context context,
-            @NonNull String lectureId,
+            @NonNull String sessionId,
             int dayIndex
     ) {
         Intent intent = new Intent(context, MainActivity.class);
-        intent.putExtra(BundleKeys.BUNDLE_KEY_LECTURE_ALARM_LECTURE_ID, lectureId);
-        intent.putExtra(BundleKeys.BUNDLE_KEY_LECTURE_ALARM_DAY_INDEX, dayIndex);
+        intent.putExtra(BundleKeys.BUNDLE_KEY_SESSION_ALARM_SESSION_ID, sessionId);
+        intent.putExtra(BundleKeys.BUNDLE_KEY_SESSION_ALARM_DAY_INDEX, dayIndex);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
         return intent;
     }

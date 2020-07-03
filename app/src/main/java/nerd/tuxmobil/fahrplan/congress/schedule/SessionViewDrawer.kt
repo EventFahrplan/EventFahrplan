@@ -23,17 +23,17 @@ internal class SessionViewDrawer(
     private val scale: Float
     private val resources = context.resources
     private val boldCondensed = Typeface.createFromAsset(context.assets, "Roboto-BoldCondensed.ttf")
-    private val eventDrawableInsetTop: Int
-    private val eventDrawableInsetLeft: Int
-    private val eventDrawableInsetRight: Int
-    private val eventDrawableCornerRadius: Int
-    private val eventDrawableStrokeWidth: Int
-    private val eventDrawableStrokeColor: Int
-    private val eventDrawableRippleColor: Int
+    private val sessionDrawableInsetTop: Int
+    private val sessionDrawableInsetLeft: Int
+    private val sessionDrawableInsetRight: Int
+    private val sessionDrawableCornerRadius: Int
+    private val sessionDrawableStrokeWidth: Int
+    private val sessionDrawableStrokeColor: Int
+    private val sessionDrawableRippleColor: Int
     private val trackNameBackgroundColorDefaultPairs: Map<String, Int>
     private val trackNameBackgroundColorHighlightPairs: Map<String, Int>
 
-    private val eventPadding: Int
+    private val sessionPadding: Int
         get() {
             val factor = if (resources.configuration.orientation == ORIENTATION_LANDSCAPE) 8 else 10
             return (factor * scale).toInt()
@@ -41,97 +41,97 @@ internal class SessionViewDrawer(
 
     init {
         scale = resources.displayMetrics.density
-        eventDrawableInsetTop = resources.getDimensionPixelSize(
+        sessionDrawableInsetTop = resources.getDimensionPixelSize(
                 R.dimen.event_drawable_inset_top)
-        eventDrawableInsetLeft = resources.getDimensionPixelSize(
+        sessionDrawableInsetLeft = resources.getDimensionPixelSize(
                 R.dimen.event_drawable_inset_left)
-        eventDrawableInsetRight = resources.getDimensionPixelSize(
+        sessionDrawableInsetRight = resources.getDimensionPixelSize(
                 R.dimen.event_drawable_inset_right)
-        eventDrawableCornerRadius = resources.getDimensionPixelSize(
+        sessionDrawableCornerRadius = resources.getDimensionPixelSize(
                 R.dimen.event_drawable_corner_radius)
-        eventDrawableStrokeWidth = resources.getDimensionPixelSize(
+        sessionDrawableStrokeWidth = resources.getDimensionPixelSize(
                 R.dimen.event_drawable_selection_stroke_width)
-        eventDrawableStrokeColor = ContextCompat.getColor(
+        sessionDrawableStrokeColor = ContextCompat.getColor(
                 context, R.color.event_drawable_selection_stroke)
-        eventDrawableRippleColor = ContextCompat.getColor(
+        sessionDrawableRippleColor = ContextCompat.getColor(
                 context, R.color.event_drawable_ripple)
         trackNameBackgroundColorDefaultPairs = TrackBackgrounds.getTrackNameBackgroundColorDefaultPairs(context)
         trackNameBackgroundColorHighlightPairs = TrackBackgrounds.getTrackNameBackgroundColorHighlightPairs(context)
     }
 
-    fun updateEventView(eventView: View, lecture: Session) {
-        val bell = eventView.findViewById<ImageView>(R.id.bell)
-        bell.visibility = if (lecture.hasAlarm) View.VISIBLE else View.GONE
-        var title = eventView.findViewById<TextView>(R.id.event_title)
+    fun updateSessionView(sessionView: View, session: Session) {
+        val bell = sessionView.findViewById<ImageView>(R.id.bell)
+        bell.visibility = if (session.hasAlarm) View.VISIBLE else View.GONE
+        var title = sessionView.findViewById<TextView>(R.id.event_title)
         title.typeface = boldCondensed
-        title.text = lecture.title
-        title = eventView.findViewById(R.id.event_subtitle)
-        title.text = lecture.subtitle
-        title = eventView.findViewById(R.id.event_speakers)
-        title.text = lecture.formattedSpeakers
-        title = eventView.findViewById(R.id.event_track)
-        title.text = lecture.formattedTrackText
-        title.contentDescription = lecture.getFormattedTrackContentDescription(eventView.context)
-        val recordingOptOut = eventView.findViewById<View>(R.id.novideo)
+        title.text = session.title
+        title = sessionView.findViewById(R.id.event_subtitle)
+        title.text = session.subtitle
+        title = sessionView.findViewById(R.id.event_speakers)
+        title.text = session.formattedSpeakers
+        title = sessionView.findViewById(R.id.event_track)
+        title.text = session.formattedTrackText
+        title.contentDescription = session.getFormattedTrackContentDescription(sessionView.context)
+        val recordingOptOut = sessionView.findViewById<View>(R.id.novideo)
         if (recordingOptOut != null) {
-            recordingOptOut.visibility = if (lecture.recordingOptOut) View.VISIBLE else View.GONE
+            recordingOptOut.visibility = if (session.recordingOptOut) View.VISIBLE else View.GONE
         }
-        setLectureBackground(lecture, eventView)
-        setLectureTextColor(lecture, eventView)
-        eventView.tag = lecture
+        setSessionBackground(session, sessionView)
+        setSessionTextColor(session, sessionView)
+        sessionView.tag = session
     }
 
-    fun setLectureBackground(event: Session, eventView: View) {
-        val context = eventView.context
+    fun setSessionBackground(session: Session, sessionView: View) {
+        val context = sessionView.context
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         val defaultValue = resources.getBoolean(R.bool.preferences_alternative_highlight_enabled_default_value)
         val alternativeHighlightingIsEnabled = prefs.getBoolean(
                 BundleKeys.PREFS_ALTERNATIVE_HIGHLIGHT, defaultValue)
-        val eventIsFavored = event.highlight
-        @ColorRes val backgroundColorResId = if (eventIsFavored) {
-            trackNameBackgroundColorHighlightPairs[event.track] ?: R.color.event_border_highlight
+        val sessionIsFavored = session.highlight
+        @ColorRes val backgroundColorResId = if (sessionIsFavored) {
+            trackNameBackgroundColorHighlightPairs[session.track] ?: R.color.event_border_highlight
         } else {
-            trackNameBackgroundColorDefaultPairs[event.track] ?: R.color.event_border_default
+            trackNameBackgroundColorDefaultPairs[session.track] ?: R.color.event_border_default
         }
         @ColorInt val backgroundColor = ContextCompat.getColor(context, backgroundColorResId)
-        val eventDrawable: SessionDrawable
-        eventDrawable = if (eventIsFavored && alternativeHighlightingIsEnabled) {
+        val sessionDrawable: SessionDrawable
+        sessionDrawable = if (sessionIsFavored && alternativeHighlightingIsEnabled) {
             SessionDrawable(
                     backgroundColor,
-                    eventDrawableCornerRadius.toFloat(),
-                    eventDrawableRippleColor,
-                    eventDrawableStrokeColor,
-                    eventDrawableStrokeWidth.toFloat())
+                    sessionDrawableCornerRadius.toFloat(),
+                    sessionDrawableRippleColor,
+                    sessionDrawableStrokeColor,
+                    sessionDrawableStrokeWidth.toFloat())
         } else {
             SessionDrawable(
                     backgroundColor,
-                    eventDrawableCornerRadius.toFloat(),
-                    eventDrawableRippleColor)
+                    sessionDrawableCornerRadius.toFloat(),
+                    sessionDrawableRippleColor)
         }
-        eventDrawable.setLayerInset(SessionDrawable.BACKGROUND_LAYER_INDEX,
-                eventDrawableInsetLeft,
-                eventDrawableInsetTop,
-                eventDrawableInsetRight,
+        sessionDrawable.setLayerInset(SessionDrawable.BACKGROUND_LAYER_INDEX,
+                sessionDrawableInsetLeft,
+                sessionDrawableInsetTop,
+                sessionDrawableInsetRight,
                 0)
-        eventDrawable.setLayerInset(SessionDrawable.STROKE_LAYER_INDEX,
-                eventDrawableInsetLeft,
-                eventDrawableInsetTop,
-                eventDrawableInsetRight,
+        sessionDrawable.setLayerInset(SessionDrawable.STROKE_LAYER_INDEX,
+                sessionDrawableInsetLeft,
+                sessionDrawableInsetTop,
+                sessionDrawableInsetRight,
                 0)
-        eventView.setBackgroundDrawable(eventDrawable)
-        val padding = eventPadding
-        eventView.setPadding(padding, padding, padding, padding)
+        sessionView.setBackgroundDrawable(sessionDrawable)
+        val padding = sessionPadding
+        sessionView.setPadding(padding, padding, padding, padding)
     }
 
     companion object {
-        const val LOG_TAG = "LectureViewDrawer"
+        const val LOG_TAG = "SessionViewDrawer"
 
         @JvmStatic
-        fun setLectureTextColor(lecture: Session, view: View) {
+        fun setSessionTextColor(session: Session, view: View) {
             val title = view.findViewById<TextView>(R.id.event_title)
             val subtitle = view.findViewById<TextView>(R.id.event_subtitle)
             val speakers = view.findViewById<TextView>(R.id.event_speakers)
-            val colorResId = if (lecture.highlight)
+            val colorResId = if (session.highlight)
                 R.color.event_title_on_highlight_background
             else
                 R.color.event_title_on_default_background

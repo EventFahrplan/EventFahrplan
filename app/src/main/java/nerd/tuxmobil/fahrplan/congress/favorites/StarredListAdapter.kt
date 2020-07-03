@@ -29,7 +29,7 @@ class StarredListAdapter internal constructor(
     private val nowMoment = Moment()
 
     @ColorInt
-    private val pastEventTextColor = ContextCompat.getColor(context, R.color.favorites_past_event_text)
+    private val pastSessionTextColor = ContextCompat.getColor(context, R.color.favorites_past_event_text)
 
     override fun initViewSetup() {
         nowMoment.setToNow()
@@ -38,40 +38,40 @@ class StarredListAdapter internal constructor(
     override fun setItemContent(position: Int, viewHolder: ViewHolder) {
         resetItemStyles(viewHolder)
 
-        val lecture = getLecture(position)
+        val session = getSession(position)
         with(viewHolder) {
-            if (lecture.tookPlace) {
-                title.setPastEventTextColor()
-                subtitle.setPastEventTextColor()
-                speakers.setPastEventTextColor()
-                lang.setPastEventTextColor()
-                day.setPastEventTextColor()
-                time.setPastEventTextColor()
-                room.setPastEventTextColor()
-                duration.setPastEventTextColor()
+            if (session.tookPlace) {
+                title.setPastSessionTextColor()
+                subtitle.setPastSessionTextColor()
+                speakers.setPastSessionTextColor()
+                lang.setPastSessionTextColor()
+                day.setPastSessionTextColor()
+                time.setPastSessionTextColor()
+                room.setPastSessionTextColor()
+                duration.setPastSessionTextColor()
                 withoutVideoRecording.setImageResource(R.drawable.ic_without_video_recording_took_place)
             }
 
-            title.textOrHide = lecture.title
-            subtitle.textOrHide = lecture.subtitle
-            speakers.textOrHide = lecture.formattedSpeakers
-            lang.textOrHide = lecture.lang
-            lang.contentDescription = lecture.getLanguageContentDescription(context)
+            title.textOrHide = session.title
+            subtitle.textOrHide = session.subtitle
+            speakers.textOrHide = session.formattedSpeakers
+            lang.textOrHide = session.lang
+            lang.contentDescription = session.getLanguageContentDescription(context)
             day.visibility = View.GONE
-            val timeText = DateFormatter.newInstance().getFormattedTime(lecture.dateUTC)
+            val timeText = DateFormatter.newInstance().getFormattedTime(session.dateUTC)
             time.textOrHide = timeText
-            room.textOrHide = lecture.room
-            val durationText = context.getString(R.string.event_duration, lecture.duration)
+            room.textOrHide = session.room
+            val durationText = context.getString(R.string.event_duration, session.duration)
             duration.textOrHide = durationText
             video.visibility = View.GONE
             noVideo.visibility = View.GONE
-            withoutVideoRecording.visibility = if (lecture.recordingOptOut) View.VISIBLE else View.GONE
+            withoutVideoRecording.visibility = if (session.recordingOptOut) View.VISIBLE else View.GONE
         }
     }
 
     private val Session.tookPlace
         get() = dateUTC + duration * 60000 < nowMoment.toMilliseconds()
 
-    private fun TextView.setPastEventTextColor() = setTextColor(pastEventTextColor)
+    private fun TextView.setPastSessionTextColor() = setTextColor(pastSessionTextColor)
 
 }

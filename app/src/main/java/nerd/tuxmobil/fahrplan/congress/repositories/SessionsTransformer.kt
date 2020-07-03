@@ -7,34 +7,34 @@ import nerd.tuxmobil.fahrplan.congress.models.Session
 class SessionsTransformer(private val prioritizedRoomProvider: PrioritizedRoomProvider) {
 
     /**
-     * Transforms the given [lectures] for the given [dayIndex] into a [ScheduleData] object.
+     * Transforms the given [sessions] for the given [dayIndex] into a [ScheduleData] object.
      *
-     * Apart from the [dayIndex] it contains a list of room names and their associated lectures
+     * Apart from the [dayIndex] it contains a list of room names and their associated sessions
      * (sorted by [Session.dateUTC]). Rooms names are added in a defined order: room names of
-     * prioritized rooms first, then all other room names in the order defined by the given lecture.
+     * prioritized rooms first, then all other room names in the order defined by the given session.
      * After adding room names the original order [Session.roomIndex] is no longer of interest.
      */
-    fun transformLectureList(dayIndex: Int, lectures: List<Session>): ScheduleData {
+    fun transformSessions(dayIndex: Int, sessions: List<Session>): ScheduleData {
         // Pre-populate the map with prioritized rooms
         val roomMap = prioritizedRoomProvider.prioritizedRooms
                 .map { it to mutableListOf<Session>() }
                 .toMap()
                 .toMutableMap()
 
-        val sortedLectures = lectures.sortedBy { it.roomIndex }
-        for (lecture in sortedLectures) {
-            val lecturesInRoom = roomMap.getOrPut(lecture.room) { mutableListOf() }
-            lecturesInRoom.add(lecture)
+        val sortedSessions = sessions.sortedBy { it.roomIndex }
+        for (session in sortedSessions) {
+            val sessionsInRoom = roomMap.getOrPut(session.room) { mutableListOf() }
+            sessionsInRoom.add(session)
         }
 
-        val roomDataList = roomMap.mapNotNull { (roomName, lectures) ->
-            if (lectures.isEmpty()) {
-                // Drop prioritized rooms without lectures
+        val roomDataList = roomMap.mapNotNull { (roomName, sessions) ->
+            if (sessions.isEmpty()) {
+                // Drop prioritized rooms without sessions
                 null
             } else {
                 RoomData(
                         roomName = roomName,
-                        lectures = lectures.sortedBy { it.dateUTC }.toList()
+                        sessions = sessions.sortedBy { it.dateUTC }.toList()
                 )
             }
         }

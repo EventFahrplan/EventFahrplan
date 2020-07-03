@@ -23,74 +23,74 @@ data class LayoutCalculator(val logging: Logging = Logging.get(),
     }
 
     fun calculateLayoutParams(roomData: RoomData, conference: Conference): Map<Session, LinearLayout.LayoutParams> {
-        val lectures = roomData.lectures
-        var endTimePreviousLecture: Int = conference.firstEventStartsAt
+        val sessions = roomData.sessions
+        var previousSessionEndsAt: Int = conference.firstSessionStartsAt
         var startTime: Int
         var margin: Int
-        var previousLecture: Session? = null
-        val layoutParamsByLecture = mutableMapOf<Session, LinearLayout.LayoutParams>()
+        var previousSession: Session? = null
+        val layoutParamsBySession = mutableMapOf<Session, LinearLayout.LayoutParams>()
 
-        for (lectureIndex in lectures.indices) {
-            val lecture = lectures[lectureIndex]
+        for (sessionIndex in sessions.indices) {
+            val session = sessions[sessionIndex]
 
-            startTime = getStartTime(lecture, endTimePreviousLecture)
+            startTime = getStartTime(session, previousSessionEndsAt)
 
-            if (startTime > endTimePreviousLecture) {
-                // consecutive lecture
-                margin = calculateDisplayDistance(startTime - endTimePreviousLecture)
-                if (previousLecture != null) {
-                    layoutParamsByLecture[previousLecture]!!.bottomMargin = margin
+            if (startTime > previousSessionEndsAt) {
+                // consecutive session
+                margin = calculateDisplayDistance(startTime - previousSessionEndsAt)
+                if (previousSession != null) {
+                    layoutParamsBySession[previousSession]!!.bottomMargin = margin
                     margin = 0
                 }
             } else {
-                // first lecture
+                // first session
                 margin = 0
             }
 
-            fixOverlappingEvents(lectureIndex, lectures)
+            fixOverlappingSessions(sessionIndex, sessions)
 
-            if (!layoutParamsByLecture.containsKey(lecture)) {
-                layoutParamsByLecture[lecture] = createLayoutParams(lecture)
+            if (!layoutParamsBySession.containsKey(session)) {
+                layoutParamsBySession[session] = createLayoutParams(session)
             }
 
-            layoutParamsByLecture[lecture]!!.topMargin = margin
-            endTimePreviousLecture = startTime + lecture.duration
-            previousLecture = lecture
+            layoutParamsBySession[session]!!.topMargin = margin
+            previousSessionEndsAt = startTime + session.duration
+            previousSession = session
         }
 
-        return layoutParamsByLecture
+        return layoutParamsBySession
     }
 
-    private fun createLayoutParams(lecture: Session): LinearLayout.LayoutParams {
-        val height = calculateDisplayDistance(lecture.duration)
+    private fun createLayoutParams(session: Session): LinearLayout.LayoutParams {
+        val height = calculateDisplayDistance(session.duration)
         val marginLayoutParams = ViewGroup.MarginLayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height)
         return LinearLayout.LayoutParams(marginLayoutParams)
     }
 
-    private fun getStartTime(lecture: Session, endTimePreviousLecture: Int): Int {
+    private fun getStartTime(session: Session, previousSessionEndsAt: Int): Int {
         var startTime: Int
-        if (lecture.dateUTC > 0) {
-            startTime = Moment(lecture.dateUTC).minuteOfDay
-            if (startTime < endTimePreviousLecture) {
+        if (session.dateUTC > 0) {
+            startTime = Moment(session.dateUTC).minuteOfDay
+            if (startTime < previousSessionEndsAt) {
                 startTime += Duration.ofDays(1).toMinutes().toInt()
             }
         } else {
-            startTime = lecture.relStartTime
+            startTime = session.relStartTime
         }
         return startTime
     }
 
-    private fun fixOverlappingEvents(lectureIndex: Int, lectures: List<Session>) {
-        val lecture = lectures[lectureIndex]
-        val next = lectures.getOrNull(lectureIndex + 1)
+    private fun fixOverlappingSessions(sessionIndex: Int, sessions: List<Session>) {
+        val session = sessions[sessionIndex]
+        val next = sessions.getOrNull(sessionIndex + 1)
 
         if (next != null && next.dateUTC > 0) {
-            val endTimestamp = lecture.dateUTC + lecture.duration * MILLIS_PER_MINUTE
+            val endTimestamp = session.dateUTC + session.duration * MILLIS_PER_MINUTE
             val nextStartsBeforeCurrentEnds = endTimestamp > next.dateUTC
             if (nextStartsBeforeCurrentEnds) {
-                logging.d(LOG_TAG, "${lecture.title} collides with ${next.title}")
-                // cut current at the end, to match next lectures start time
-                lecture.duration = ((next.dateUTC - lecture.dateUTC) / MILLIS_PER_MINUTE).toInt()
+                logging.d(LOG_TAG, "${session.title} collides with ${next.title}")
+                // cut current at the end, to match next sessions start time
+                session.duration = ((next.dateUTC - session.dateUTC) / MILLIS_PER_MINUTE).toInt()
             }
         }
     }

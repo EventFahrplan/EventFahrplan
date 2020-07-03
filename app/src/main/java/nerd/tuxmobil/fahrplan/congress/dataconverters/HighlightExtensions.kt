@@ -4,6 +4,6 @@ import nerd.tuxmobil.fahrplan.congress.models.Highlight
 import info.metadude.android.eventfahrplan.database.models.Highlight as HighlightDatabaseModel
 
 fun HighlightDatabaseModel.toHighlightAppModel() = Highlight(
-        eventId = sessionId,
+        sessionId = sessionId,
         isHighlight = isHighlight
 )

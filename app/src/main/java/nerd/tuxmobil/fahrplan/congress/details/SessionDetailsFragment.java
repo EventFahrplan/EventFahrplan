@@ -46,7 +46,7 @@ import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
 import nerd.tuxmobil.fahrplan.congress.utils.FeedbackUrlComposer;
 import nerd.tuxmobil.fahrplan.congress.utils.SessionUrlComposer;
 import nerd.tuxmobil.fahrplan.congress.utils.StringUtils;
-import nerd.tuxmobil.fahrplan.congress.wiki.WikiEventUtils;
+import nerd.tuxmobil.fahrplan.congress.wiki.WikiSessionUtils;
 
 
 public class SessionDetailsFragment extends Fragment {
@@ -55,7 +55,7 @@ public class SessionDetailsFragment extends Fragment {
 
     public static final String FRAGMENT_TAG = "detail";
 
-    public static final int EVENT_DETAIL_FRAGMENT_REQUEST_CODE = 546;
+    public static final int SESSION_DETAILS_FRAGMENT_REQUEST_CODE = 546;
 
     private static final String SCHEDULE_FEEDBACK_URL = BuildConfig.SCHEDULE_FEEDBACK_URL;
 
@@ -63,7 +63,7 @@ public class SessionDetailsFragment extends Fragment {
 
     private AppRepository appRepository;
 
-    private String eventId;
+    private String sessionId;
 
     private String title;
 
@@ -79,7 +79,7 @@ public class SessionDetailsFragment extends Fragment {
 
     private Typeface bold;
 
-    private Session lecture;
+    private Session session;
 
     private int day;
 
@@ -128,15 +128,15 @@ public class SessionDetailsFragment extends Fragment {
     @Override
     public void setArguments(Bundle args) {
         super.setArguments(args);
-        day = args.getInt(BundleKeys.EVENT_DAY, 0);
-        eventId = args.getString(BundleKeys.EVENT_ID);
-        title = args.getString(BundleKeys.EVENT_TITLE);
-        subtitle = args.getString(BundleKeys.EVENT_SUBTITLE);
-        spkr = args.getString(BundleKeys.EVENT_SPEAKERS);
-        abstractt = args.getString(BundleKeys.EVENT_ABSTRACT);
-        descr = args.getString(BundleKeys.EVENT_DESCRIPTION);
-        links = args.getString(BundleKeys.EVENT_LINKS);
-        room = args.getString(BundleKeys.EVENT_ROOM);
+        day = args.getInt(BundleKeys.SESSION_DAY, 0);
+        sessionId = args.getString(BundleKeys.SESSION_ID);
+        title = args.getString(BundleKeys.SESSION_TITLE);
+        subtitle = args.getString(BundleKeys.SESSION_SUBTITLE);
+        spkr = args.getString(BundleKeys.SESSION_SPEAKERS);
+        abstractt = args.getString(BundleKeys.SESSION_ABSTRACT);
+        descr = args.getString(BundleKeys.SESSION_DESCRIPTION);
+        links = args.getString(BundleKeys.SESSION_LINKS);
+        room = args.getString(BundleKeys.SESSION_ROOM);
         sidePane = args.getBoolean(BundleKeys.SIDEPANE, false);
         requiresScheduleReload = args.getBoolean(BundleKeys.REQUIRES_SCHEDULE_RELOAD, false);
         hasArguments = true;
@@ -157,14 +157,14 @@ public class SessionDetailsFragment extends Fragment {
 
             locale = getResources().getConfiguration().locale;
 
-            lecture = eventIdToLecture(eventId);
+            session = sessionOf(sessionId);
 
             // Detailbar
 
             TextView t;
             t = view.findViewById(R.id.lecture_detailbar_date_time);
-            if (lecture != null && lecture.dateUTC > 0) {
-                t.setText(DateFormatter.newInstance().getFormattedDateTimeShort(lecture.dateUTC));
+            if (session != null && session.dateUTC > 0) {
+                t.setText(DateFormatter.newInstance().getFormattedDateTimeShort(session.dateUTC));
             } else {
                 t.setText("");
             }
@@ -177,10 +177,10 @@ public class SessionDetailsFragment extends Fragment {
             }
 
             t = view.findViewById(R.id.lecture_detailbar_lecture_id);
-            if (TextUtils.isEmpty(eventId)) {
+            if (TextUtils.isEmpty(sessionId)) {
                 t.setText("");
             } else {
-                t.setText("ID: " + eventId);
+                t.setText("ID: " + sessionId);
             }
 
             // Title
@@ -228,38 +228,38 @@ public class SessionDetailsFragment extends Fragment {
 
             // Links
 
-            TextView l = view.findViewById(R.id.event_detail_content_links_section_view);
+            TextView linksView = view.findViewById(R.id.event_detail_content_links_section_view);
             t = view.findViewById(R.id.event_detail_content_links_view);
             if (TextUtils.isEmpty(links)) {
-                l.setVisibility(View.GONE);
+                linksView.setVisibility(View.GONE);
                 t.setVisibility(View.GONE);
             } else {
-                l.setTypeface(bold);
+                linksView.setTypeface(bold);
                 MyApp.LogDebug(LOG_TAG, "show links");
-                l.setVisibility(View.VISIBLE);
+                linksView.setVisibility(View.VISIBLE);
                 links = links.replaceAll("\\),", ")<br>");
                 links = StringUtils.getHtmlLinkFromMarkdown(links);
                 setUpHtmlTextView(t, regular, links);
             }
 
-            // Event online
+            // Session online
 
-            final TextView eventOnlineSection = view.findViewById(R.id.event_detail_content_event_online_section_view);
-            eventOnlineSection.setTypeface(bold);
-            final TextView eventOnlineLink = view.findViewById(R.id.event_detail_content_event_online_view);
-            if (WikiEventUtils.containsWikiLink(links)) {
-                eventOnlineSection.setVisibility(View.GONE);
-                eventOnlineLink.setVisibility(View.GONE);
+            final TextView sessionOnlineSectionView = view.findViewById(R.id.event_detail_content_event_online_section_view);
+            sessionOnlineSectionView.setTypeface(bold);
+            final TextView sessionOnlineLinkView = view.findViewById(R.id.event_detail_content_event_online_view);
+            if (WikiSessionUtils.containsWikiLink(links)) {
+                sessionOnlineSectionView.setVisibility(View.GONE);
+                sessionOnlineLinkView.setVisibility(View.GONE);
             } else {
-                String eventUrl = new SessionUrlComposer(lecture).getEventUrl();
-                if (eventUrl.isEmpty()) {
-                    eventOnlineSection.setVisibility(View.GONE);
-                    eventOnlineLink.setVisibility(View.GONE);
+                String sessionUrl = new SessionUrlComposer(session).getSessionUrl();
+                if (sessionUrl.isEmpty()) {
+                    sessionOnlineSectionView.setVisibility(View.GONE);
+                    sessionOnlineLinkView.setVisibility(View.GONE);
                 } else {
-                    eventOnlineSection.setVisibility(View.VISIBLE);
-                    eventOnlineLink.setVisibility(View.VISIBLE);
-                    String eventLink = "<a href=\"" + eventUrl + "\">" + eventUrl + "</a>";
-                    setUpHtmlTextView(eventOnlineLink, regular, eventLink);
+                    sessionOnlineSectionView.setVisibility(View.VISIBLE);
+                    sessionOnlineLinkView.setVisibility(View.VISIBLE);
+                    String sessionLink = "<a href=\"" + sessionUrl + "\">" + sessionUrl + "</a>";
+                    setUpHtmlTextView(sessionOnlineLinkView, regular, sessionLink);
                 }
             }
 
@@ -292,8 +292,8 @@ public class SessionDetailsFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.detailmenu, menu);
         MenuItem item;
-        if (lecture != null) {
-            if (lecture.highlight) {
+        if (session != null) {
+            if (session.highlight) {
                 item = menu.findItem(R.id.menu_item_flag_as_favorite);
                 if (item != null) {
                     item.setVisible(false);
@@ -303,7 +303,7 @@ public class SessionDetailsFragment extends Fragment {
                     item.setVisible(true);
                 }
             }
-            if (lecture.hasAlarm) {
+            if (session.hasAlarm) {
                 item = menu.findItem(R.id.menu_item_set_alarm);
                 if (item != null) {
                     item.setVisible(false);
@@ -315,7 +315,7 @@ public class SessionDetailsFragment extends Fragment {
             }
         }
         item = menu.findItem(R.id.menu_item_feedback);
-        String feedbackUrl = new FeedbackUrlComposer(lecture, SCHEDULE_FEEDBACK_URL).getFeedbackUrl();
+        String feedbackUrl = new FeedbackUrlComposer(session, SCHEDULE_FEEDBACK_URL).getFeedbackUrl();
         if (SHOW_FEEDBACK_MENU_ITEM && !TextUtils.isEmpty(feedbackUrl)) {
             if (item != null) {
                 item.setVisible(true);
@@ -348,7 +348,7 @@ public class SessionDetailsFragment extends Fragment {
 
     @NonNull
     private String getRoomConvertedForC3Nav() {
-        String currentRoom = requireActivity().getIntent().getStringExtra(BundleKeys.EVENT_ROOM);
+        String currentRoom = requireActivity().getIntent().getStringExtra(BundleKeys.SESSION_ROOM);
         if (currentRoom == null) {
             currentRoom = room;
         }
@@ -356,13 +356,13 @@ public class SessionDetailsFragment extends Fragment {
     }
 
     @NonNull
-    private Session eventIdToLecture(String eventId) {
-        return appRepository.readLectureByLectureId(eventId);
+    private Session sessionOf(String sessionId) {
+        return appRepository.readSessionBySessionId(sessionId);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == EVENT_DETAIL_FRAGMENT_REQUEST_CODE &&
+        if (requestCode == SESSION_DETAILS_FRAGMENT_REQUEST_CODE &&
                 resultCode == AlarmTimePickerFragment.ALERT_TIME_PICKED_RESULT_CODE) {
             int alarmTimesIndex = data.getIntExtra(
                     AlarmTimePickerFragment.ALARM_PICKED_INTENT_KEY, 0);
@@ -372,27 +372,27 @@ public class SessionDetailsFragment extends Fragment {
     }
 
     private void showAlarmTimePicker() {
-        AlarmTimePickerFragment.show(this, EVENT_DETAIL_FRAGMENT_REQUEST_CODE);
+        AlarmTimePickerFragment.show(this, SESSION_DETAILS_FRAGMENT_REQUEST_CODE);
     }
 
     private void onAlarmTimesIndexPicked(int alarmTimesIndex) {
         Activity activity = requireActivity();
-        if (lecture != null) {
-            FahrplanMisc.addAlarm(activity, appRepository, lecture, alarmTimesIndex);
+        if (session != null) {
+            FahrplanMisc.addAlarm(activity, appRepository, session, alarmTimesIndex);
         } else {
-            Log.e(getClass().getSimpleName(), "onAlarmTimesIndexPicked: lecture: null. alarmTimesIndex: " + alarmTimesIndex);
+            Log.e(getClass().getSimpleName(), "onAlarmTimesIndexPicked: session: null. alarmTimesIndex: " + alarmTimesIndex);
         }
         refreshUI(activity);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Session l;
+        Session session;
         Activity activity = requireActivity();
         switch (item.getItemId()) {
             case R.id.menu_item_feedback: {
-                l = eventIdToLecture(eventId);
-                String feedbackUrl = new FeedbackUrlComposer(l, SCHEDULE_FEEDBACK_URL).getFeedbackUrl();
+                session = sessionOf(sessionId);
+                String feedbackUrl = new FeedbackUrlComposer(session, SCHEDULE_FEEDBACK_URL).getFeedbackUrl();
                 Uri uri = Uri.parse(feedbackUrl);
                 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                 startActivity(intent);
@@ -400,35 +400,35 @@ public class SessionDetailsFragment extends Fragment {
             }
             case R.id.menu_item_share_event:
             case R.id.menu_item_share_event_text:
-                l = eventIdToLecture(eventId);
-                String formattedLecture = SimpleSessionFormat.format(l);
-                if (!SessionSharer.shareSimple(activity, formattedLecture)) {
+                session = sessionOf(sessionId);
+                String formattedSession = SimpleSessionFormat.format(session);
+                if (!SessionSharer.shareSimple(activity, formattedSession)) {
                     Toast.makeText(activity, R.string.share_error_activity_not_found, Toast.LENGTH_SHORT).show();
                 }
                 return true;
             case R.id.menu_item_share_event_json:
-                l = eventIdToLecture(eventId);
-                String jsonLecture = JsonSessionFormat.format(l);
-                if (!SessionSharer.shareJson(activity, jsonLecture)) {
+                session = sessionOf(sessionId);
+                String jsonSession = JsonSessionFormat.format(session);
+                if (!SessionSharer.shareJson(activity, jsonSession)) {
                     Toast.makeText(activity, R.string.share_error_activity_not_found, Toast.LENGTH_SHORT).show();
                 }
                 return true;
             case R.id.menu_item_add_to_calendar:
-                l = eventIdToLecture(eventId);
-                CalendarSharing.addToCalendar(l, activity);
+                session = sessionOf(sessionId);
+                CalendarSharing.addToCalendar(session, activity);
                 return true;
             case R.id.menu_item_flag_as_favorite:
-                if (lecture != null) {
-                    lecture.highlight = true;
-                    appRepository.updateHighlight(lecture);
+                if (this.session != null) {
+                    this.session.highlight = true;
+                    appRepository.updateHighlight(this.session);
                     appRepository.notifyHighlightsChanged();
                 }
                 refreshUI(activity);
                 return true;
             case R.id.menu_item_unflag_as_favorite:
-                if (lecture != null) {
-                    lecture.highlight = false;
-                    appRepository.updateHighlight(lecture);
+                if (this.session != null) {
+                    this.session.highlight = false;
+                    appRepository.updateHighlight(this.session);
                     appRepository.notifyHighlightsChanged();
                 }
                 refreshUI(activity);
@@ -437,8 +437,8 @@ public class SessionDetailsFragment extends Fragment {
                 showAlarmTimePicker();
                 return true;
             case R.id.menu_item_delete_alarm:
-                if (lecture != null) {
-                    FahrplanMisc.deleteAlarm(activity, appRepository, lecture);
+                if (this.session != null) {
+                    FahrplanMisc.deleteAlarm(activity, appRepository, this.session);
                 }
                 refreshUI(activity);
                 return true;

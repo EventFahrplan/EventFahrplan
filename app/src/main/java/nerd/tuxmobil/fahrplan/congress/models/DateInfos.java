@@ -8,7 +8,7 @@ public class DateInfos extends ArrayList<DateInfo> {
 
     private static final long serialVersionUID = 1L;
     /**
-     * Hour of day change (all lectures which start before count to the previous day).
+     * Hour of day change (all sessions which start before count to the previous day).
      */
     private static final int DAY_CHANGE_HOUR_DEFAULT = 4;
     /**
@@ -16,10 +16,10 @@ public class DateInfos extends ArrayList<DateInfo> {
      */
     private static final int DAY_CHANGE_MINUTE_DEFAULT = 0;
 
-    public boolean sameDay(Moment today, int lectureListDay) {
+    public boolean sameDay(Moment today, int sessionListDay) {
         Moment currentDate = today.startOfDay();
         for (DateInfo dateInfo : this) {
-            if (dateInfo.getDayIdx() == lectureListDay &&
+            if (dateInfo.getDayIdx() == sessionListDay &&
                     dateInfo.getDate().equals(currentDate)) {
                 return true;
             }

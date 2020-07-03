@@ -5,48 +5,48 @@ import org.junit.Test
 
 class ScheduleDataTest {
 
-    private val actualLecture = Session("L42").apply { room = "Room1" }
-    private val oddLecture = Session("L78").apply { room = "Room78" }
+    private val actualSession = Session("L42").apply { room = "Room1" }
+    private val oddSession = Session("L78").apply { room = "Room78" }
 
     @Test
-    fun `roomDataList without rooms and lectures`() {
+    fun `roomDataList without rooms and sessions`() {
         val data = scheduleDataOf(emptyList())
         assertThat(data.roomCount).isEqualTo(0)
         assertThat(data.roomNames).isEqualTo(emptyList<String>())
-        assertThat(data.allLectures).isEqualTo(emptyList<Session>())
-        assertThat(data.findLecture(actualLecture.lectureId)).isNull()
-        assertThat(data.findRoomIndex(actualLecture)).isEqualTo(ScheduleData.UNKNOWN_ROOM_INDEX)
+        assertThat(data.allSessions).isEqualTo(emptyList<Session>())
+        assertThat(data.findSession(actualSession.sessionId)).isNull()
+        assertThat(data.findRoomIndex(actualSession)).isEqualTo(ScheduleData.UNKNOWN_ROOM_INDEX)
     }
 
     @Test
-    fun `roomDataList with one room without lectures`() {
+    fun `roomDataList with one room without sessions`() {
         val emptyRoom = listOf(emptyRoomOf("Room1"))
         val data = scheduleDataOf(emptyRoom)
         assertThat(data.roomCount).isEqualTo(1)
         assertThat(data.roomNames).isEqualTo(listOf("Room1"))
-        assertThat(data.allLectures).isEqualTo(emptyList<Session>())
-        assertThat(data.findLecture(actualLecture.lectureId)).isNull()
-        assertThat(data.findRoomIndex(actualLecture)).isEqualTo(0)
+        assertThat(data.allSessions).isEqualTo(emptyList<Session>())
+        assertThat(data.findSession(actualSession.sessionId)).isNull()
+        assertThat(data.findRoomIndex(actualSession)).isEqualTo(0)
     }
 
     @Test
-    fun `roomDataList with one room with one lecture queried for actual lecture`() {
-        val roomDataList = listOf(RoomData(roomName = "Room1", lectures = listOf(actualLecture)))
+    fun `roomDataList with one room with one session queried for actual session`() {
+        val roomDataList = listOf(RoomData(roomName = "Room1", sessions = listOf(actualSession)))
         val data = scheduleDataOf(roomDataList)
-        val expectedLecture = Session("L42").apply { room = "Room1" }
+        val expectedSession = Session("L42").apply { room = "Room1" }
         assertThat(data.roomCount).isEqualTo(1)
         assertThat(data.roomNames).isEqualTo(listOf("Room1"))
-        assertThat(data.allLectures).isEqualTo(listOf(expectedLecture))
-        assertThat(data.findLecture(actualLecture.lectureId)).isEqualTo(expectedLecture)
-        assertThat(data.findRoomIndex(actualLecture)).isEqualTo(0)
+        assertThat(data.allSessions).isEqualTo(listOf(expectedSession))
+        assertThat(data.findSession(actualSession.sessionId)).isEqualTo(expectedSession)
+        assertThat(data.findRoomIndex(actualSession)).isEqualTo(0)
     }
 
     @Test
-    fun `roomDataList with one room with one lecture queried for odd lecture`() {
-        val roomDataList = listOf(RoomData(roomName = "Room1", lectures = listOf(actualLecture)))
+    fun `roomDataList with one room with one session queried for odd session`() {
+        val roomDataList = listOf(RoomData(roomName = "Room1", sessions = listOf(actualSession)))
         val data = scheduleDataOf(roomDataList)
-        assertThat(data.findLecture(oddLecture.lectureId)).isNull()
-        assertThat(data.findRoomIndex(oddLecture)).isEqualTo(ScheduleData.UNKNOWN_ROOM_INDEX)
+        assertThat(data.findSession(oddSession.sessionId)).isNull()
+        assertThat(data.findRoomIndex(oddSession)).isEqualTo(ScheduleData.UNKNOWN_ROOM_INDEX)
     }
 
     @Test
@@ -60,14 +60,14 @@ class ScheduleDataTest {
     }
 
     @Test
-    fun `allLectures returns lectures sorted by dateUTC ascending`() {
-        val lecture1 = Session("L1").apply { dateUTC = 200 }
-        val lecture2 = Session("L2").apply { dateUTC = 100 }
-        val lectures = listOf(lecture1, lecture2)
-        val roomDataList = listOf(RoomData(roomName = "Room1", lectures = lectures))
+    fun `allSessions returns sessions sorted by dateUTC ascending`() {
+        val session1 = Session("L1").apply { dateUTC = 200 }
+        val session2 = Session("L2").apply { dateUTC = 100 }
+        val sessions = listOf(session1, session2)
+        val roomDataList = listOf(RoomData(roomName = "Room1", sessions = sessions))
         val data = scheduleDataOf(roomDataList)
-        assertThat(data.allLectures.first().lectureId).isEqualTo("L2")
-        assertThat(data.allLectures.last().lectureId).isEqualTo("L1")
+        assertThat(data.allSessions.first().sessionId).isEqualTo("L2")
+        assertThat(data.allSessions.last().sessionId).isEqualTo("L1")
     }
 
     private fun scheduleDataOf(roomDataList: List<RoomData>): ScheduleData {
@@ -75,7 +75,7 @@ class ScheduleDataTest {
     }
 
     private fun emptyRoomOf(roomName: String): RoomData {
-        return RoomData(roomName = roomName, lectures = emptyList())
+        return RoomData(roomName = roomName, sessions = emptyList())
     }
 
 }

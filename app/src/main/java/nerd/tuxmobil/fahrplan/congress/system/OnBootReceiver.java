@@ -54,9 +54,9 @@ public final class OnBootReceiver extends BroadcastReceiver {
         for (Alarm alarm : alarms) {
             storedAlarmTime.setToMilliseconds(alarm.getStartTime());
             if (nowMoment.isBefore(storedAlarmTime)) {
-                Log.d(getClass().getSimpleName(), "Scheduling alarm for event: " + alarm.getEventId() + ", " + alarm.getEventTitle());
+                Log.d(getClass().getSimpleName(), "Scheduling alarm for session: " + alarm.getSessionId() + ", " + alarm.getSessionTitle());
                 SchedulableAlarm schedulableAlarm = AlarmExtensions.toSchedulableAlarm(alarm);
-                alarmServices.scheduleEventAlarm(context, schedulableAlarm);
+                alarmServices.scheduleSessionAlarm(context, schedulableAlarm);
             } else {
                 MyApp.LogDebug(LOG_TAG, "Deleting alarm from database: " + alarm);
                 appRepository.deleteAlarmForAlarmId(alarm.getId());

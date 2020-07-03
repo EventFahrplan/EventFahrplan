@@ -6,8 +6,8 @@ import nerd.tuxmobil.fahrplan.congress.models.Session
 
 @JsonClass(generateAdapter = true)
 data class SessionExport(
-        @Json(name = "lecture_id")
-        var lectureId: String,
+        @Json(name = "lecture_id") // Keep "lecture_id" key for Chaosflix export.
+        var sessionId: String,
         var title: String,
         var subtitle: String = "",
         var day: Int = 0,
@@ -23,20 +23,20 @@ data class SessionExport(
         var links: String? = null,
         var date: String? = null
 ) {
-    constructor(lecture: Session) : this(
-            lecture.lectureId,
-            lecture.title,
-            lecture.subtitle,
-            lecture.day,
-            lecture.room,
-            lecture.slug,
-            lecture.url,
-            lecture.speakers,
-            lecture.track,
-            lecture.lang,
-            lecture.abstractt,
-            lecture.description,
-            lecture.links,
-            lecture.date
+    constructor(session: Session) : this(
+            session.sessionId,
+            session.title,
+            session.subtitle,
+            session.day,
+            session.room,
+            session.slug,
+            session.url,
+            session.speakers,
+            session.track,
+            session.lang,
+            session.abstractt,
+            session.description,
+            session.links,
+            session.date
     )
 }

@@ -8,12 +8,12 @@ import android.provider.CalendarContract
 import android.widget.Toast
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.extensions.startActivity
+import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.utils.SessionUrlComposer
 import nerd.tuxmobil.fahrplan.congress.utils.StringUtils
 import nerd.tuxmobil.fahrplan.congress.wiki.containsWikiLink
-import nerd.tuxmobil.fahrplan.congress.models.Session as Event
 
-fun Event.addToCalendar(context: Context) {
+fun Session.addToCalendar(context: Context) {
     val intent = this.toCalendarInsertIntent(context)
     context.startActivity(intent) {
         intent.transformToCalendarEditIntent()
@@ -23,7 +23,7 @@ fun Event.addToCalendar(context: Context) {
     }
 }
 
-private fun Event.toCalendarInsertIntent(context: Context): Intent {
+private fun Session.toCalendarInsertIntent(context: Context): Intent {
     val title = this.title
     val description = this.getCalendarDescription(context)
     val location = this.room
@@ -42,7 +42,7 @@ private fun Intent.transformToCalendarEditIntent() {
     action = Intent.ACTION_EDIT
 }
 
-private fun Event.getCalendarDescription(context: Context): String = with(StringBuilder()) {
+private fun Session.getCalendarDescription(context: Context): String = with(StringBuilder()) {
     append(this@getCalendarDescription.description)
     append("\n\n")
     var links = this@getCalendarDescription.getLinks()
@@ -51,12 +51,12 @@ private fun Event.getCalendarDescription(context: Context): String = with(String
         links = StringUtils.getHtmlLinkFromMarkdown(links)
         append(links)
     } else {
-        val eventUrl = SessionUrlComposer(this@getCalendarDescription).getEventUrl()
-        if (eventUrl.isNotEmpty()) {
-            val eventOnline = context.getString(R.string.event_online)
-            append(eventOnline)
+        val sessionUrl = SessionUrlComposer(this@getCalendarDescription).getSessionUrl()
+        if (sessionUrl.isNotEmpty()) {
+            val sessionOnlineText = context.getString(R.string.event_online)
+            append(sessionOnlineText)
             append(": ")
-            append(eventUrl)
+            append(sessionUrl)
         }
     }
     return toString()

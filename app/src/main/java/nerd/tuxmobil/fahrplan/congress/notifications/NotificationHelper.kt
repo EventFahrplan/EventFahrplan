@@ -24,17 +24,17 @@ internal class NotificationHelper(context: Context) : ContextWrapper(context) {
     }
 
     fun createChannels(){
-        createNotificationChannel(EVENT_ALARM_CHANNEL_ID, eventAlarmChannelName, eventAlarmChannelDescription)
+        createNotificationChannel(SESSION_ALARM_CHANNEL_ID, sessionAlarmChannelName, sessionAlarmChannelDescription)
         createNotificationChannel(SCHEDULE_UPDATE_CHANNEL_ID, scheduleUpdateChannelName, scheduleUpdateChannelDescription)
     }
 
-    fun getEventAlarmNotificationBuilder(
+    fun getSessionAlarmNotificationBuilder(
             contentIntent: PendingIntent,
             contentTitle: String,
             occurredAt: Long,
             sound: Uri
     ): NotificationCompat.Builder =
-            getNotificationBuilder(EVENT_ALARM_CHANNEL_ID, contentIntent, eventAlarmContentText, sound)
+            getNotificationBuilder(SESSION_ALARM_CHANNEL_ID, contentIntent, sessionAlarmContentText, sound)
                     .setCategory(NotificationCompat.CATEGORY_REMINDER)
                     .setContentTitle(contentTitle)
                     .setDefaults(Notification.DEFAULT_LIGHTS or Notification.DEFAULT_VIBRATE)
@@ -48,7 +48,7 @@ internal class NotificationHelper(context: Context) : ContextWrapper(context) {
     ): NotificationCompat.Builder =
             getNotificationBuilder(SCHEDULE_UPDATE_CHANNEL_ID, contentIntent, contentText, sound)
                     .setCategory(NotificationCompat.CATEGORY_SERVICE)
-                    .setContentTitle(eventAlarmContentTitle)
+                    .setContentTitle(sessionAlarmContentTitle)
                     .setDefaults(Notification.DEFAULT_LIGHTS)
                     .setSubText(getScheduleUpdateContentText(changesCount))
 
@@ -87,16 +87,16 @@ internal class NotificationHelper(context: Context) : ContextWrapper(context) {
                     .setSmallIcon(smallIcon)
                     .setSound(sound)
 
-    private val eventAlarmChannelDescription: String
+    private val sessionAlarmChannelDescription: String
         get() = getString(R.string.notifications_event_alarm_channel_description)
 
-    private val eventAlarmChannelName: String
+    private val sessionAlarmChannelName: String
         get() = getString(R.string.notifications_event_alarm_channel_name)
 
-    private val eventAlarmContentTitle: String
+    private val sessionAlarmContentTitle: String
         get() = getString(R.string.notifications_event_alarm_content_title)
 
-    private val eventAlarmContentText: String
+    private val sessionAlarmContentText: String
         get() = getString(R.string.notifications_event_alarm_content_text)
 
     private val scheduleUpdateChannelDescription: String
@@ -115,9 +115,9 @@ internal class NotificationHelper(context: Context) : ContextWrapper(context) {
         get() = R.drawable.ic_notification
 
     companion object {
-        private const val EVENT_ALARM_CHANNEL_ID = "EVENT_ALARM_CHANNEL"
+        private const val SESSION_ALARM_CHANNEL_ID = "EVENT_ALARM_CHANNEL"
         private const val SCHEDULE_UPDATE_CHANNEL_ID = "SCHEDULE_UPDATE_CHANNEL"
-        const val EVENT_ALARM_ID = 1
+        const val SESSION_ALARM_ID = 1
         const val SCHEDULE_UPDATE_ID = 2
     }
 

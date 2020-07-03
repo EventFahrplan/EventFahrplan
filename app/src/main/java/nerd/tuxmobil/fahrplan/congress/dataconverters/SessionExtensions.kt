@@ -4,8 +4,8 @@ import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.models.DateInfo
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import info.metadude.android.eventfahrplan.database.models.Highlight as HighlightDatabaseModel
-import info.metadude.android.eventfahrplan.database.models.Session as LectureDatabaseModel
-import info.metadude.android.eventfahrplan.network.models.Session as LectureNetworkModel
+import info.metadude.android.eventfahrplan.database.models.Session as SessionDatabaseModel
+import info.metadude.android.eventfahrplan.network.models.Session as SessionNetworkModel
 
 fun Session.shiftRoomIndexOnDays(dayIndices: Set<Int>): Session {
     if (dayIndices.contains(day)) {
@@ -17,12 +17,12 @@ fun Session.shiftRoomIndexOnDays(dayIndices: Set<Int>): Session {
 fun Session.toDateInfo(): DateInfo = DateInfo(day, Moment(date))
 
 fun Session.toHighlightDatabaseModel() = HighlightDatabaseModel(
-        sessionId = Integer.parseInt(lectureId),
+        sessionId = Integer.parseInt(sessionId),
         isHighlight = highlight
 )
 
-fun Session.toLectureDatabaseModel() = LectureDatabaseModel(
-        sessionId = lectureId,
+fun Session.toSessionDatabaseModel() = SessionDatabaseModel(
+        sessionId = sessionId,
         abstractt = abstractt,
         date = date,
         dateUTC = dateUTC,
@@ -61,8 +61,8 @@ fun Session.toLectureDatabaseModel() = LectureDatabaseModel(
         changedTrack = changedTrack
 )
 
-fun Session.toLectureNetworkModel() = LectureNetworkModel(
-        sessionId = lectureId,
+fun Session.toSessionNetworkModel() = SessionNetworkModel(
+        sessionId = sessionId,
         abstractt = abstractt,
         date = date,
         dateUTC = dateUTC,
@@ -101,90 +101,90 @@ fun Session.toLectureNetworkModel() = LectureNetworkModel(
         changedTrack = changedTrack
 )
 
-fun LectureDatabaseModel.toLectureAppModel(): Session {
-    val lecture = Session(sessionId)
+fun SessionDatabaseModel.toSessionAppModel(): Session {
+    val session = Session(sessionId)
 
-    lecture.abstractt = abstractt
-    lecture.date = date
-    lecture.dateUTC = dateUTC
-    lecture.day = dayIndex
-    lecture.description = description
-    lecture.duration = duration // minutes
-    lecture.hasAlarm = hasAlarm
-    lecture.lang = language
-    lecture.links = links
-    lecture.highlight = isHighlight
-    lecture.recordingLicense = recordingLicense
-    lecture.recordingOptOut = recordingOptOut
-    lecture.relStartTime = relativeStartTime
-    lecture.room = room
-    lecture.roomIndex = roomIndex
-    lecture.slug = slug
-    lecture.speakers = speakers
-    lecture.startTime = startTime // minutes since day start
-    lecture.subtitle = subtitle
-    lecture.title = title
-    lecture.track = track
-    lecture.type = type
-    lecture.url = url
+    session.abstractt = abstractt
+    session.date = date
+    session.dateUTC = dateUTC
+    session.day = dayIndex
+    session.description = description
+    session.duration = duration // minutes
+    session.hasAlarm = hasAlarm
+    session.lang = language
+    session.links = links
+    session.highlight = isHighlight
+    session.recordingLicense = recordingLicense
+    session.recordingOptOut = recordingOptOut
+    session.relStartTime = relativeStartTime
+    session.room = room
+    session.roomIndex = roomIndex
+    session.slug = slug
+    session.speakers = speakers
+    session.startTime = startTime // minutes since day start
+    session.subtitle = subtitle
+    session.title = title
+    session.track = track
+    session.type = type
+    session.url = url
 
-    lecture.changedDay = changedDay
-    lecture.changedDuration = changedDuration
-    lecture.changedIsCanceled = changedIsCanceled
-    lecture.changedIsNew = changedIsNew
-    lecture.changedLanguage = changedLanguage
-    lecture.changedRecordingOptOut = changedRecordingOptOut
-    lecture.changedRoom = changedRoom
-    lecture.changedSpeakers = changedSpeakers
-    lecture.changedSubtitle = changedSubtitle
-    lecture.changedTime = changedTime
-    lecture.changedTitle = changedTitle
-    lecture.changedTrack = changedTrack
+    session.changedDay = changedDay
+    session.changedDuration = changedDuration
+    session.changedIsCanceled = changedIsCanceled
+    session.changedIsNew = changedIsNew
+    session.changedLanguage = changedLanguage
+    session.changedRecordingOptOut = changedRecordingOptOut
+    session.changedRoom = changedRoom
+    session.changedSpeakers = changedSpeakers
+    session.changedSubtitle = changedSubtitle
+    session.changedTime = changedTime
+    session.changedTitle = changedTitle
+    session.changedTrack = changedTrack
 
-    return lecture
+    return session
 }
 
-fun LectureNetworkModel.toLectureAppModel(): Session {
-    val lecture = Session(sessionId)
+fun SessionNetworkModel.toSessionAppModel(): Session {
+    val session = Session(sessionId)
 
-    lecture.abstractt = abstractt
-    lecture.date = date
-    lecture.dateUTC = dateUTC
-    lecture.day = dayIndex
-    lecture.description = description
-    lecture.duration = duration // minutes
-    lecture.hasAlarm = hasAlarm
-    lecture.lang = language
-    lecture.links = links
-    lecture.highlight = isHighlight
-    lecture.recordingLicense = recordingLicense
-    lecture.recordingOptOut = recordingOptOut
-    lecture.relStartTime = relativeStartTime
-    lecture.room = room
-    lecture.roomIndex = roomIndex
-    lecture.slug = slug
-    lecture.speakers = speakers
-    lecture.startTime = startTime // minutes since day start
-    lecture.subtitle = subtitle
-    lecture.title = title
-    lecture.track = track
-    lecture.type = type
-    lecture.url = url
+    session.abstractt = abstractt
+    session.date = date
+    session.dateUTC = dateUTC
+    session.day = dayIndex
+    session.description = description
+    session.duration = duration // minutes
+    session.hasAlarm = hasAlarm
+    session.lang = language
+    session.links = links
+    session.highlight = isHighlight
+    session.recordingLicense = recordingLicense
+    session.recordingOptOut = recordingOptOut
+    session.relStartTime = relativeStartTime
+    session.room = room
+    session.roomIndex = roomIndex
+    session.slug = slug
+    session.speakers = speakers
+    session.startTime = startTime // minutes since day start
+    session.subtitle = subtitle
+    session.title = title
+    session.track = track
+    session.type = type
+    session.url = url
 
-    lecture.changedDay = changedDayIndex
-    lecture.changedDuration = changedDuration
-    lecture.changedIsCanceled = changedIsCanceled
-    lecture.changedIsNew = changedIsNew
-    lecture.changedLanguage = changedLanguage
-    lecture.changedRecordingOptOut = changedRecordingOptOut
-    lecture.changedRoom = changedRoom
-    lecture.changedSpeakers = changedSpeakers
-    lecture.changedSubtitle = changedSubtitle
-    lecture.changedTime = changedStartTime
-    lecture.changedTitle = changedTitle
-    lecture.changedTrack = changedTrack
+    session.changedDay = changedDayIndex
+    session.changedDuration = changedDuration
+    session.changedIsCanceled = changedIsCanceled
+    session.changedIsNew = changedIsNew
+    session.changedLanguage = changedLanguage
+    session.changedRecordingOptOut = changedRecordingOptOut
+    session.changedRoom = changedRoom
+    session.changedSpeakers = changedSpeakers
+    session.changedSubtitle = changedSubtitle
+    session.changedTime = changedStartTime
+    session.changedTitle = changedTitle
+    session.changedTrack = changedTrack
 
-    return lecture
+    return session
 }
 
 fun Session.sanitize(): Session {

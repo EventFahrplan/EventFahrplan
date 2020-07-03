@@ -116,7 +116,7 @@ public abstract class SessionsAdapter extends ArrayAdapter<Session> {
         return rowView;
     }
 
-    protected Session getLecture(int position) {
+    protected Session getSession(int position) {
         return list.get(getItemIndex(position));
     }
 

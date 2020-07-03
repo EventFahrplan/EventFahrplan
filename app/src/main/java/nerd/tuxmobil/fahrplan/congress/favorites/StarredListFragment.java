@@ -44,7 +44,7 @@ import nerd.tuxmobil.fahrplan.congress.utils.ConfirmationDialog;
  * Large screen devices (such as tablets) are supported by replacing the ListView
  * with a GridView.
  * <p/>
- * Activities containing this fragment MUST implement the {@link AbstractListFragment.OnLectureListClick}
+ * Activities containing this fragment MUST implement the {@link OnSessionListClick}
  * interface.
  */
 public class StarredListFragment extends AbstractListFragment implements AbsListView
@@ -52,7 +52,7 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
 
     private static final String LOG_TAG = "StarredListFragment";
     public static final String FRAGMENT_TAG = "starred";
-    private OnLectureListClick mListener;
+    private OnSessionListClick mListener;
     private List<Session> starredList;
     private boolean sidePane = false;
 
@@ -124,28 +124,28 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
     public void onResume() {
         super.onResume();
         initStarredList();
-        jumpOverPastLectures();
+        jumpOverPastSessions();
     }
 
     private void initStarredList() {
         Context context = requireContext();
-        starredList = appRepository.loadStarredLectures();
+        starredList = appRepository.loadStarredSessions();
         Meta meta = appRepository.readMeta();
         mAdapter = new StarredListAdapter(context, starredList, meta.getNumDays());
         MyApp.LogDebug(LOG_TAG, "initStarredList: " + starredList.size() + " favorites");
         mListView.setAdapter(mAdapter);
     }
 
-    private void jumpOverPastLectures() {
+    private void jumpOverPastSessions() {
         if (starredList == null) return;
         long nowMillis = new Moment().toMilliseconds();
 
         int i;
         int numSeparators = 0;
         for (i = 0; i < starredList.size(); i++) {
-            Session lecture = starredList.get(i);
-            if (lecture.dateUTC + lecture.duration * 60000 > nowMillis) {
-                numSeparators = lecture.day;
+            Session session = starredList.get(i);
+            if (session.dateUTC + session.duration * 60000 > nowMillis) {
+                numSeparators = session.day;
                 break;
             }
         }
@@ -158,10 +158,10 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            mListener = (OnLectureListClick) context;
+            mListener = (OnSessionListClick) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString()
-                    + " must implement OnLectureListClick");
+                    + " must implement OnSessionListClick");
         }
     }
 
@@ -172,7 +172,7 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
     }
 
     public void onRefresh() {
-        List<Session> starred = appRepository.loadStarredLectures();
+        List<Session> starred = appRepository.loadStarredSessions();
         if (starredList != null) {
             starredList.clear();
             starredList.addAll(starred);
@@ -188,7 +188,7 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
             // fragment is attached to one) that an item has been selected.
             position--;
             Session clicked = starredList.get(mAdapter.getItemIndex(position));
-            mListener.onLectureListClick(clicked, false);
+            mListener.onSessionListClick(clicked, false);
         }
     }
 
@@ -215,10 +215,10 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
         switch (item.getItemId()) {
             case R.id.menu_item_share_favorites:
             case R.id.menu_item_share_favorites_text:
-                shareLectures();
+                shareSessions();
                 return true;
             case R.id.menu_item_share_favorites_json:
-                shareLecturesToChaosflix();
+                shareSessionsToChaosflix();
                 return true;
             case R.id.menu_item_delete_all_favorites:
                 askToDeleteAllFavorites();
@@ -263,9 +263,9 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
     }
 
     private void deleteItem(int index) {
-        Session starredLecture = starredList.get(index);
-        starredLecture.highlight = false;
-        appRepository.updateHighlight(starredLecture);
+        Session starredSession = starredList.get(index);
+        starredSession.highlight = false;
+        appRepository.updateHighlight(starredSession);
         appRepository.notifyHighlightsChanged();
         starredList.remove(index);
     }
@@ -307,8 +307,8 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
         }
         appRepository.deleteAllHighlights();
         appRepository.notifyHighlightsChanged();
-        for (Session starredLecture : starredList) {
-            starredLecture.highlight = false;
+        for (Session starredSession : starredList) {
+            starredSession.highlight = false;
         }
         starredList.clear();
         Activity activity = requireActivity();
@@ -316,21 +316,21 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
         refreshViews(activity);
     }
 
-    private void shareLectures() {
-        String formattedLectures = SimpleSessionFormat.format(starredList);
-        if (formattedLectures != null) {
+    private void shareSessions() {
+        String formattedSession = SimpleSessionFormat.format(starredList);
+        if (formattedSession != null) {
             Context context = requireContext();
-            if (!SessionSharer.shareSimple(context, formattedLectures)) {
+            if (!SessionSharer.shareSimple(context, formattedSession)) {
                 Toast.makeText(context, R.string.share_error_activity_not_found, Toast.LENGTH_SHORT).show();
             }
         }
     }
 
-    private void shareLecturesToChaosflix() {
-        String formattedLectures = JsonSessionFormat.format(starredList);
-        if (formattedLectures != null) {
+    private void shareSessionsToChaosflix() {
+        String formattedSession = JsonSessionFormat.format(starredList);
+        if (formattedSession != null) {
             Context context = requireContext();
-            if (!SessionSharer.shareJson(context, formattedLectures)) {
+            if (!SessionSharer.shareJson(context, formattedSession)) {
                 Toast.makeText(context, R.string.share_error_activity_not_found, Toast.LENGTH_SHORT).show();
             }
         }

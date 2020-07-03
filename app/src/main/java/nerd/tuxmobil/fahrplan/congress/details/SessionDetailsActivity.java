@@ -23,21 +23,21 @@ import nerd.tuxmobil.fahrplan.congress.navigation.RoomForC3NavConverter;
 public class SessionDetailsActivity extends BaseActivity {
 
     public static void startForResult(@NonNull Activity activity,
-                                      @NonNull Session lecture,
-                                      int lectureDay,
+                                      @NonNull Session session,
+                                      int sessionDay,
                                       boolean requiresScheduleReload) {
         Intent intent = new Intent(activity, SessionDetailsActivity.class);
-        intent.putExtra(BundleKeys.EVENT_TITLE, lecture.title);
-        intent.putExtra(BundleKeys.EVENT_SUBTITLE, lecture.subtitle);
-        intent.putExtra(BundleKeys.EVENT_ABSTRACT, lecture.abstractt);
-        intent.putExtra(BundleKeys.EVENT_DESCRIPTION, lecture.description);
-        intent.putExtra(BundleKeys.EVENT_SPEAKERS, lecture.getFormattedSpeakers());
-        intent.putExtra(BundleKeys.EVENT_LINKS, lecture.links);
-        intent.putExtra(BundleKeys.EVENT_ID, lecture.lectureId);
-        intent.putExtra(BundleKeys.EVENT_DAY, lectureDay);
-        intent.putExtra(BundleKeys.EVENT_ROOM, lecture.room);
+        intent.putExtra(BundleKeys.SESSION_TITLE, session.title);
+        intent.putExtra(BundleKeys.SESSION_SUBTITLE, session.subtitle);
+        intent.putExtra(BundleKeys.SESSION_ABSTRACT, session.abstractt);
+        intent.putExtra(BundleKeys.SESSION_DESCRIPTION, session.description);
+        intent.putExtra(BundleKeys.SESSION_SPEAKERS, session.getFormattedSpeakers());
+        intent.putExtra(BundleKeys.SESSION_LINKS, session.links);
+        intent.putExtra(BundleKeys.SESSION_ID, session.sessionId);
+        intent.putExtra(BundleKeys.SESSION_DAY, sessionDay);
+        intent.putExtra(BundleKeys.SESSION_ROOM, session.room);
         intent.putExtra(BundleKeys.REQUIRES_SCHEDULE_RELOAD, requiresScheduleReload);
-        activity.startActivityForResult(intent, MyApp.EVENTVIEW);
+        activity.startActivityForResult(intent, MyApp.SESSION_VIEW);
     }
 
     @Override
@@ -60,30 +60,30 @@ public class SessionDetailsActivity extends BaseActivity {
         }
 
         if (intent != null && findViewById(R.id.detail) != null) {
-            SessionDetailsFragment eventDetailFragment = new SessionDetailsFragment();
+            SessionDetailsFragment sessionDetailsFragment = new SessionDetailsFragment();
             Bundle args = new Bundle();
-            args.putString(BundleKeys.EVENT_TITLE,
-                    intent.getStringExtra(BundleKeys.EVENT_TITLE));
-            args.putString(BundleKeys.EVENT_SUBTITLE,
-                    intent.getStringExtra(BundleKeys.EVENT_SUBTITLE));
-            args.putString(BundleKeys.EVENT_ABSTRACT,
-                    intent.getStringExtra(BundleKeys.EVENT_ABSTRACT));
-            args.putString(BundleKeys.EVENT_DESCRIPTION,
-                    intent.getStringExtra(BundleKeys.EVENT_DESCRIPTION));
-            args.putString(BundleKeys.EVENT_SPEAKERS,
-                    intent.getStringExtra(BundleKeys.EVENT_SPEAKERS));
-            args.putString(BundleKeys.EVENT_LINKS,
-                    intent.getStringExtra(BundleKeys.EVENT_LINKS));
-            args.putString(BundleKeys.EVENT_ID,
-                    intent.getStringExtra(BundleKeys.EVENT_ID));
-            args.putInt(BundleKeys.EVENT_DAY,
-                    intent.getIntExtra(BundleKeys.EVENT_DAY, 0));
-            args.putString(BundleKeys.EVENT_ROOM,
-                    intent.getStringExtra(BundleKeys.EVENT_ROOM));
+            args.putString(BundleKeys.SESSION_TITLE,
+                    intent.getStringExtra(BundleKeys.SESSION_TITLE));
+            args.putString(BundleKeys.SESSION_SUBTITLE,
+                    intent.getStringExtra(BundleKeys.SESSION_SUBTITLE));
+            args.putString(BundleKeys.SESSION_ABSTRACT,
+                    intent.getStringExtra(BundleKeys.SESSION_ABSTRACT));
+            args.putString(BundleKeys.SESSION_DESCRIPTION,
+                    intent.getStringExtra(BundleKeys.SESSION_DESCRIPTION));
+            args.putString(BundleKeys.SESSION_SPEAKERS,
+                    intent.getStringExtra(BundleKeys.SESSION_SPEAKERS));
+            args.putString(BundleKeys.SESSION_LINKS,
+                    intent.getStringExtra(BundleKeys.SESSION_LINKS));
+            args.putString(BundleKeys.SESSION_ID,
+                    intent.getStringExtra(BundleKeys.SESSION_ID));
+            args.putInt(BundleKeys.SESSION_DAY,
+                    intent.getIntExtra(BundleKeys.SESSION_DAY, 0));
+            args.putString(BundleKeys.SESSION_ROOM,
+                    intent.getStringExtra(BundleKeys.SESSION_ROOM));
             args.putBoolean(BundleKeys.REQUIRES_SCHEDULE_RELOAD,
                     intent.getBooleanExtra(BundleKeys.REQUIRES_SCHEDULE_RELOAD, false));
-            eventDetailFragment.setArguments(args);
-            replaceFragment(R.id.detail, eventDetailFragment,
+            sessionDetailsFragment.setArguments(args);
+            replaceFragment(R.id.detail, sessionDetailsFragment,
                     SessionDetailsFragment.FRAGMENT_TAG);
         }
     }
@@ -109,7 +109,7 @@ public class SessionDetailsActivity extends BaseActivity {
 
     @NonNull
     private String getRoomConvertedForC3Nav() {
-        final String currentRoom = getIntent().getStringExtra(BundleKeys.EVENT_ROOM);
+        final String currentRoom = getIntent().getStringExtra(BundleKeys.SESSION_ROOM);
         return RoomForC3NavConverter.convert(currentRoom);
     }
 

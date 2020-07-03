@@ -69,7 +69,7 @@ import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
 
 import static nerd.tuxmobil.fahrplan.congress.extensions.Resource.getNormalizedBoxHeight;
 
-public class FahrplanFragment extends Fragment implements LectureViewEventsHandler {
+public class FahrplanFragment extends Fragment implements SessionViewEventsHandler {
 
     private static final String LOG_TAG = "Fahrplan";
 
@@ -110,7 +110,7 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
             "Lounge"
     };
 
-    private static final SessionsTransformer lectureListTransformer =
+    private static final SessionsTransformer sessionsTransformer =
             new SessionsTransformer(() -> Arrays.asList(rooms));
 
     private Typeface light;
@@ -119,15 +119,15 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
 
     private ScheduleData scheduleData;
 
-    private String lectureId;        // started with lectureId
+    private String sessionId;
 
-    private Session lastSelectedLecture;
+    private Session lastSelectedSession;
 
-    private SessionViewDrawer lectureViewDrawer;
+    private SessionViewDrawer sessionViewDrawer;
 
     private Map<Integer, SessionViewColumnAdapter> adapterByRoomIndex = new HashMap<>();
 
-    private final OnSessionsChangeListener onLecturesChangeListener = new OnSessionsChangeListener() {
+    private final OnSessionsChangeListener onSessionsChangeListener = new OnSessionsChangeListener() {
         @Override
         public void onAlarmsChanged() {
             requireActivity().runOnUiThread(() ->
@@ -156,7 +156,7 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
         context = requireContext();
         light = Typeface.createFromAsset(
                 context.getAssets(), "Roboto-Light.ttf");
-        lectureViewDrawer = new SessionViewDrawer(context);
+        sessionViewDrawer = new SessionViewDrawer(context);
     }
 
     @Override
@@ -180,7 +180,7 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
             if (snapScroller != null) {
                 snapScroller.setChildScroller(roomScroller);
             }
-            roomScroller.setOnTouchListener((v, event) -> true);
+            roomScroller.setOnTouchListener((v, session) -> true);
         }
 
         mDay = appRepository.readDisplayDayIndex();
@@ -188,11 +188,11 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
         inflater = Contexts.getLayoutInflater(context);
 
         Intent intent = requireActivity().getIntent();
-        lectureId = intent.getStringExtra(BundleKeys.BUNDLE_KEY_LECTURE_ALARM_LECTURE_ID);
+        sessionId = intent.getStringExtra(BundleKeys.BUNDLE_KEY_SESSION_ALARM_SESSION_ID);
 
-        if (lectureId != null) {
-            MyApp.LogDebug(LOG_TAG, "Open with lectureId " + lectureId);
-            mDay = intent.getIntExtra(BundleKeys.BUNDLE_KEY_LECTURE_ALARM_DAY_INDEX, mDay);
+        if (sessionId != null) {
+            MyApp.LogDebug(LOG_TAG, "Open with sessionId '" + sessionId + "'.");
+            mDay = intent.getIntExtra(BundleKeys.BUNDLE_KEY_SESSION_ALARM_DAY_INDEX, mDay);
             MyApp.LogDebug(LOG_TAG, "day " + mDay);
         }
 
@@ -214,12 +214,12 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
 
         Intent intent = activity.getIntent();
 
-        Log.d(LOG_TAG, "lectureId = " + lectureId);
-        lectureId = intent.getStringExtra(BundleKeys.BUNDLE_KEY_LECTURE_ALARM_LECTURE_ID);
+        Log.d(LOG_TAG, "sessionId = " + sessionId);
+        sessionId = intent.getStringExtra(BundleKeys.BUNDLE_KEY_SESSION_ALARM_SESSION_ID);
 
-        if (lectureId != null) {
-            Log.d(LOG_TAG, "Open with lectureId " + lectureId);
-            mDay = intent.getIntExtra(BundleKeys.BUNDLE_KEY_LECTURE_ALARM_DAY_INDEX, mDay);
+        if (sessionId != null) {
+            Log.d(LOG_TAG, "Open with sessionId '" + sessionId + "'.");
+            mDay = intent.getIntExtra(BundleKeys.BUNDLE_KEY_SESSION_ALARM_DAY_INDEX, mDay);
             Log.d(LOG_TAG, "day " + mDay);
             saveCurrentDay(mDay);
         }
@@ -239,30 +239,30 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
                 Log.d(LOG_TAG, "meta.getNumDays() = " + MyApp.meta.getNumDays());
                 if (MyApp.meta.getNumDays() != 0) {
                     // auf jeden Fall reload, wenn mit Session ID gestartet
-                    viewDay(lectureId != null);
+                    viewDay(sessionId != null);
                 }
                 break;
         }
 
-        if (lectureId != null && scheduleData != null) {
-            Session lecture = scheduleData.findLecture(lectureId);
-            if (lecture != null) {
-                scrollTo(lecture);
+        if (sessionId != null && scheduleData != null) {
+            Session session = scheduleData.findSession(sessionId);
+            if (session != null) {
+                scrollTo(session);
                 FrameLayout sidePane = activity.findViewById(R.id.detail);
                 if (sidePane != null) {
-                    ((MainActivity) activity).openLectureDetail(lecture, mDay, false);
+                    ((MainActivity) activity).openSessionDetails(session, mDay, false);
                 }
             }
-            intent.removeExtra(BundleKeys.BUNDLE_KEY_LECTURE_ALARM_LECTURE_ID); // jump to given lectureId only once
+            intent.removeExtra(BundleKeys.BUNDLE_KEY_SESSION_ALARM_SESSION_ID); // jump to given sessionId only once
         }
         fillTimes();
 
-        appRepository.setOnLecturesChangeListener(onLecturesChangeListener);
+        appRepository.setOnSessionsChangeListener(onSessionsChangeListener);
     }
 
     @Override
     public void onPause() {
-        appRepository.removeOnLecturesChangeListener(onLecturesChangeListener);
+        appRepository.removeOnSessionsChangeListener(onSessionsChangeListener);
         super.onPause();
     }
 
@@ -274,12 +274,12 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
         HorizontalSnapScrollView horizontalScroller = layoutRoot.findViewById(R.id.horizScroller);
         horizontalScroller.scrollTo(0, 0);
 
-        loadLectureList(appRepository, mDay, forceReload);
-        List<Session> lecturesOfDay = scheduleData.getAllLectures();
+        loadSessions(appRepository, mDay, forceReload);
+        List<Session> sessionsOfDay = scheduleData.getAllSessions();
 
-        if (!lecturesOfDay.isEmpty()) {
+        if (!sessionsOfDay.isEmpty()) {
             // TODO: Move this to AppRepository and include the result in ScheduleData
-            conference.calculateTimeFrame(lecturesOfDay, dateUTC -> new Moment(dateUTC).getMinuteOfDay());
+            conference.calculateTimeFrame(sessionsOfDay, dateUTC -> new Moment(dateUTC).getMinuteOfDay());
             MyApp.LogDebug(LOG_TAG, "Conference = " + conference);
         }
 
@@ -342,7 +342,7 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
         for (int roomIndex = 0; roomIndex < roomDataList.size(); roomIndex++) {
             RoomData roomData = roomDataList.get(roomIndex);
 
-            Map<Session, LayoutParams> layoutParamsByLecture = layoutCalculator.calculateLayoutParams(roomData, conference);
+            Map<Session, LayoutParams> layoutParamsBySession = layoutCalculator.calculateLayoutParams(roomData, conference);
 
             RecyclerView columnRecyclerView = new RecyclerView(context);
             columnRecyclerView.setHasFixedSize(true);
@@ -350,8 +350,8 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
             columnRecyclerView.setNestedScrollingEnabled(false); // enables flinging
             columnRecyclerView.setLayoutManager(new LinearLayoutManager(context));
             columnRecyclerView.setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            List<Session> roomLectures = roomData.getLectures();
-            SessionViewColumnAdapter adapter = new SessionViewColumnAdapter(roomLectures, layoutParamsByLecture, lectureViewDrawer, this);
+            List<Session> roomSessions = roomData.getSessions();
+            SessionViewColumnAdapter adapter = new SessionViewColumnAdapter(roomSessions, layoutParamsBySession, sessionViewDrawer, this);
             columnRecyclerView.setAdapter(adapter);
             adapterByRoomIndex.put(roomIndex, adapter);
 
@@ -378,7 +378,7 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
             roomTitle.setLayoutParams(p);
             roomTitle.setMaxLines(1);
             roomTitle.setEllipsize(TextUtils.TruncateAt.END);
-            roomTitle.setPadding(0, 0, getEventPadding(), 0);
+            roomTitle.setPadding(0, 0, getSessionPadding(), 0);
             roomTitle.setGravity(Gravity.CENTER);
             roomTitle.setTypeface(light);
             roomTitle.setText(roomName);
@@ -389,11 +389,11 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
     }
 
     /**
-     * jump to current time or lecture, if we are on today's lecture list
+     * jump to current time or session, if we are on today's session list
      */
     private void scrollToCurrent(int boxHeight) {
-        // Log.d(LOG_TAG, "lectureListDay: " + MyApp.lectureListDay);
-        if (lectureId != null) {
+        // Log.d(LOG_TAG, "sessionListDay: " + MyApp.sessionListDay);
+        if (sessionId != null) {
             return;
         }
         int currentDayIndex = scheduleData.getDayIndex();
@@ -416,15 +416,15 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
             columnIndex = horiz.getColumnIndex();
             MyApp.LogDebug(LOG_TAG, "y pos  = " + columnIndex);
         }
-        int time = conference.getFirstEventStartsAt();
+        int time = conference.getFirstSessionStartsAt();
         int printTime = time;
         int scrollAmount = 0;
 
-        if (!(nowMoment.getMinuteOfDay() < conference.getFirstEventStartsAt() &&
+        if (!(nowMoment.getMinuteOfDay() < conference.getFirstSessionStartsAt() &&
                 MyApp.dateInfos.sameDay(nowMoment, currentDayIndex))) {
 
             TimeSegment timeSegment;
-            while (time < conference.getLastEventEndsAt()) {
+            while (time < conference.getLastSessionEndsAt()) {
                 timeSegment = new TimeSegment(printTime);
                 if (timeSegment.isMatched(nowMoment, FIFTEEN_MINUTES)) {
                     break;
@@ -441,17 +441,17 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
             List<RoomData> roomDataList = scheduleData.getRoomDataList();
             if (columnIndex >= 0 && columnIndex < roomDataList.size()) {
                 RoomData roomData = roomDataList.get(columnIndex);
-                for (Session lecture : roomData.getLectures()) {
-                    if (lecture.startTime <= time && lecture.startTime + lecture.duration > time) {
-                        MyApp.LogDebug(LOG_TAG, lecture.title);
-                        MyApp.LogDebug(LOG_TAG, time + " " + lecture.startTime + "/" + lecture.duration);
-                        scrollAmount -= ((time - lecture.startTime) / 5) * boxHeight;
-                        time = lecture.startTime;
+                for (Session session : roomData.getSessions()) {
+                    if (session.startTime <= time && session.startTime + session.duration > time) {
+                        MyApp.LogDebug(LOG_TAG, session.title);
+                        MyApp.LogDebug(LOG_TAG, time + " " + session.startTime + "/" + session.duration);
+                        scrollAmount -= ((time - session.startTime) / 5) * boxHeight;
+                        time = session.startTime;
                     }
                 }
             }
         } else {
-            // Log.d(LOG_TAG, "we are before " + firstLectureStart + " " + ((now.hour * 60) + now.minute));
+            // Log.d(LOG_TAG, "we are before " + firstSessionStart + " " + ((now.hour * 60) + now.minute));
         }
 
         // Log.d(LOG_TAG, "scrolltoCurrent to " + scrollAmount);
@@ -462,12 +462,12 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
         scrollView.post(() -> scrollView.scrollTo(0, pos));
     }
 
-    private void setBell(Session lecture) {
+    private void setBell(Session session) {
         ScrollView parent = getView().findViewById(R.id.scrollView1);
         if (parent == null) {
             return;
         }
-        View v = parent.findViewWithTag(lecture);
+        View v = parent.findViewWithTag(session);
         if (v == null) {
             return;
         }
@@ -476,22 +476,22 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
             return;
         }
 
-        if (lecture.hasAlarm) {
+        if (session.hasAlarm) {
             bell.setVisibility(View.VISIBLE);
         } else {
             bell.setVisibility(View.GONE);
         }
     }
 
-    private void scrollTo(@NonNull Session lecture) {
+    private void scrollTo(@NonNull Session session) {
         final ScrollView parent = getView().findViewById(R.id.scrollView1);
         int height = getNormalizedBoxHeight(getResources(), scale, LOG_TAG);
-        final int pos = (lecture.relStartTime - conference.getFirstEventStartsAt()) / 5 * height;
+        final int pos = (session.relStartTime - conference.getFirstSessionStartsAt()) / 5 * height;
         MyApp.LogDebug(LOG_TAG, "position is " + pos);
         parent.post(() -> parent.scrollTo(0, pos));
         final HorizontalSnapScrollView horiz = getView().findViewById(R.id.horizScroller);
         if (horiz != null) {
-            final int hpos = scheduleData.findRoomIndex(lecture);
+            final int hpos = scheduleData.findRoomIndex(session);
             MyApp.LogDebug(LOG_TAG, "scroll horiz to " + hpos);
             horiz.post(() -> horiz.scrollToColumn(hpos, false));
         }
@@ -507,7 +507,7 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
     }
 
     private void fillTimes() {
-        int time = conference.getFirstEventStartsAt();
+        int time = conference.getFirstSessionStartsAt();
         int printTime = time;
         LinearLayout timeTextColumn = getView().findViewById(R.id.times_layout);
         timeTextColumn.removeAllViews();
@@ -515,7 +515,7 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
         View timeTextView;
         int timeTextViewHeight = 3 * getNormalizedBoxHeight(getResources(), scale, LOG_TAG);
         TimeSegment timeSegment;
-        while (time < conference.getLastEventEndsAt()) {
+        while (time < conference.getLastSessionEndsAt()) {
             timeSegment = new TimeSegment(printTime);
             int timeTextLayout;
             if (isToday(nowMoment) && timeSegment.isMatched(nowMoment, FIFTEEN_MINUTES)) {
@@ -539,7 +539,7 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
         return moment.getMonthDay() - BuildConfig.SCHEDULE_FIRST_DAY_START_DAY == mDay - 1;
     }
 
-    private int getEventPadding() {
+    private int getSessionPadding() {
         int padding;
         switch (getResources().getConfiguration().orientation) {
             case Configuration.ORIENTATION_LANDSCAPE:
@@ -552,16 +552,16 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
         return padding;
     }
 
-    public void loadLectureList(@NonNull AppRepository appRepository, int day, boolean forceReload) {
-        MyApp.LogDebug(LOG_TAG, "load lectures of day " + day);
+    public void loadSessions(@NonNull AppRepository appRepository, int day, boolean forceReload) {
+        MyApp.LogDebug(LOG_TAG, "load sessions of day " + day);
 
         if (!forceReload && scheduleData != null && scheduleData.getDayIndex() == day) {
             return;
         }
 
-        List<Session> lectures = appRepository.loadUncanceledLecturesForDayIndex(day);
+        List<Session> sessions = appRepository.loadUncanceledSessionsForDayIndex(day);
 
-        scheduleData = lectureListTransformer.transformLectureList(day, lectures);
+        scheduleData = sessionsTransformer.transformSessions(day, sessions);
     }
 
     private void reloadAlarms() {
@@ -569,9 +569,9 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
             return;
         }
 
-        Set<String> alarmEventIds = appRepository.readAlarmEventIds();
-        for (Session lecture : scheduleData.getAllLectures()) {
-            lecture.hasAlarm = alarmEventIds.contains(lecture.lectureId);
+        Set<String> alarmSessionIds = appRepository.readAlarmSessionIds();
+        for (Session session : scheduleData.getAllSessions()) {
+            session.hasAlarm = alarmSessionIds.contains(session.sessionId);
         }
 
         refreshViews();
@@ -582,9 +582,9 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
             return;
         }
 
-        Set<String> highlightEventIds = appRepository.readHighlightEventIds();
-        for (Session lecture : scheduleData.getAllLectures()) {
-            lecture.highlight = highlightEventIds.contains(lecture.lectureId);
+        Set<String> highlightSessionIds = appRepository.readHighlightSessionIds();
+        for (Session session : scheduleData.getAllSessions()) {
+            session.highlight = highlightSessionIds.contains(session.sessionId);
         }
 
         refreshViews();
@@ -592,13 +592,13 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
 
     @Override
     public void onClick(View v) {
-        Session lecture = (Session) v.getTag();
-        if (lecture == null) {
-            throw new NullPointerException("A lecture must be assigned to the 'tag' attribute of the lecture view.");
+        Session session = (Session) v.getTag();
+        if (session == null) {
+            throw new NullPointerException("A session must be assigned to the 'tag' attribute of the session view.");
         }
-        MyApp.LogDebug(LOG_TAG, "Click on " + lecture.title);
+        MyApp.LogDebug(LOG_TAG, "Click on " + session.title);
         MainActivity mainActivity = (MainActivity) requireActivity();
-        mainActivity.openLectureDetail(lecture, mDay, false);
+        mainActivity.openSessionDetails(session, mDay, false);
     }
 
     public void buildNavigationMenu() {
@@ -703,30 +703,30 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
     }
 
     private void onAlarmTimesIndexPicked(int alarmTimesIndex) {
-        if (lastSelectedLecture == null) {
-            Log.e(getClass().getSimpleName(), "onAlarmTimesIndexPicked: lecture: null. alarmTimesIndex: " + alarmTimesIndex);
+        if (lastSelectedSession == null) {
+            Log.e(getClass().getSimpleName(), "onAlarmTimesIndexPicked: session: null. alarmTimesIndex: " + alarmTimesIndex);
             throw new NullPointerException("Session is null.");
         }
-        FahrplanMisc.addAlarm(requireContext(), appRepository, lastSelectedLecture, alarmTimesIndex);
-        setBell(lastSelectedLecture);
+        FahrplanMisc.addAlarm(requireContext(), appRepository, lastSelectedSession, alarmTimesIndex);
+        setBell(lastSelectedSession);
         updateMenuItems();
     }
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         int menuItemIndex = item.getItemId();
-        Session lecture = (Session) contextMenuView.getTag();
-        lastSelectedLecture = lecture;
+        Session session = (Session) contextMenuView.getTag();
+        lastSelectedSession = session;
 
-        MyApp.LogDebug(LOG_TAG, "clicked on " + ((Session) contextMenuView.getTag()).lectureId);
+        MyApp.LogDebug(LOG_TAG, "clicked on " + ((Session) contextMenuView.getTag()).sessionId);
 
         Context context = requireContext();
         switch (menuItemIndex) {
             case CONTEXT_MENU_ITEM_ID_FAVORITES:
-                lecture.highlight = !lecture.highlight;
-                appRepository.updateHighlight(lecture);
-                lectureViewDrawer.setLectureBackground(lecture, contextMenuView);
-                SessionViewDrawer.setLectureTextColor(lecture, contextMenuView);
+                session.highlight = !session.highlight;
+                appRepository.updateHighlight(session);
+                sessionViewDrawer.setSessionBackground(session, contextMenuView);
+                SessionViewDrawer.setSessionTextColor(session, contextMenuView);
                 ((MainActivity) context).refreshFavoriteList();
                 updateMenuItems();
                 break;
@@ -734,26 +734,26 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
                 showAlarmTimePicker();
                 break;
             case CONTEXT_MENU_ITEM_ID_DELETE_ALARM:
-                FahrplanMisc.deleteAlarm(context, appRepository, lecture);
-                setBell(lecture);
+                FahrplanMisc.deleteAlarm(context, appRepository, session);
+                setBell(session);
                 updateMenuItems();
                 break;
             case CONTEXT_MENU_ITEM_ID_ADD_TO_CALENDAR:
-                CalendarSharing.addToCalendar(lecture, context);
+                CalendarSharing.addToCalendar(session, context);
                 break;
             case CONTEXT_MENU_ITEM_ID_SHARE:
                 if (BuildConfig.ENABLE_CHAOSFLIX_EXPORT) {
                     break;
                 }
             case CONTEXT_MENU_ITEM_ID_SHARE_TEXT:
-                String formattedLecture = SimpleSessionFormat.format(lecture);
-                if (!SessionSharer.shareSimple(context, formattedLecture)) {
+                String formattedSession = SimpleSessionFormat.format(session);
+                if (!SessionSharer.shareSimple(context, formattedSession)) {
                     Toast.makeText(context, R.string.share_error_activity_not_found, Toast.LENGTH_SHORT).show();
                 }
                 break;
             case CONTEXT_MENU_ITEM_ID_SHARE_JSON:
-                String jsonFormattedLecture = JsonSessionFormat.format(lecture);
-                if (!SessionSharer.shareJson(context, jsonFormattedLecture)) {
+                String jsonFormattedSession = JsonSessionFormat.format(session);
+                if (!SessionSharer.shareJson(context, jsonFormattedSession)) {
                     Toast.makeText(context, R.string.share_error_activity_not_found, Toast.LENGTH_SHORT).show();
                 }
                 break;
@@ -771,13 +771,13 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
     public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, view, menuInfo);
         contextMenuView = view;
-        Session lecture = (Session) view.getTag();
-        if (lecture.highlight) {
+        Session session = (Session) view.getTag();
+        if (session.highlight) {
             menu.add(0, CONTEXT_MENU_ITEM_ID_FAVORITES, 0, getString(R.string.menu_item_title_unflag_as_favorite));
         } else {
             menu.add(0, CONTEXT_MENU_ITEM_ID_FAVORITES, 0, getString(R.string.menu_item_title_flag_as_favorite));
         }
-        if (lecture.hasAlarm) {
+        if (session.hasAlarm) {
             menu.add(0, CONTEXT_MENU_ITEM_ID_DELETE_ALARM, 2, getString(R.string.menu_item_title_delete_alarm));
         } else {
             menu.add(0, CONTEXT_MENU_ITEM_ID_SET_ALARM, 1, getString(R.string.menu_item_title_set_alarm));
@@ -793,24 +793,24 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
         }
     }
 
-    private View getLectureView(Session lecture) {
+    private View getSessionView(Session session) {
         ScrollView parent = getView().findViewById(R.id.scrollView1);
         if (parent == null) {
             return null;
         }
-        return parent.findViewWithTag(lecture);
+        return parent.findViewWithTag(session);
     }
 
     private void refreshViews() {
         if (scheduleData == null) {
             return;
         }
-        for (Session lecture : scheduleData.getAllLectures()) {
-            setBell(lecture);
-            View v = getLectureView(lecture);
+        for (Session session : scheduleData.getAllSessions()) {
+            setBell(session);
+            View v = getSessionView(session);
             if (v != null) {
-                lectureViewDrawer.setLectureBackground(lecture, v);
-                SessionViewDrawer.setLectureTextColor(lecture, v);
+                sessionViewDrawer.setSessionBackground(session, v);
+                SessionViewDrawer.setSessionTextColor(session, v);
             }
         }
     }

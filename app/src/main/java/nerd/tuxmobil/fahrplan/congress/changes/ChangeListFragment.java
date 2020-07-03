@@ -26,14 +26,14 @@ import nerd.tuxmobil.fahrplan.congress.models.Session;
  * Large screen devices (such as tablets) are supported by replacing the ListView
  * with a GridView.
  * <p/>
- * Activities containing this fragment MUST implement the {@link AbstractListFragment.OnLectureListClick}
+ * Activities containing this fragment MUST implement the {@link OnSessionListClick}
  * interface.
  */
 public class ChangeListFragment extends AbstractListFragment {
 
     private static final String LOG_TAG = "ChangeListFragment";
     public static final String FRAGMENT_TAG = "changes";
-    private OnLectureListClick mListener;
+    private OnSessionListClick mListener;
     private List<Session> changesList;
     private boolean sidePane = false;
     private boolean requiresScheduleReload = false;
@@ -76,7 +76,7 @@ public class ChangeListFragment extends AbstractListFragment {
         }
 
         Context context = requireContext();
-        changesList = appRepository.loadChangedLectures();
+        changesList = appRepository.loadChangedSessions();
         Meta meta = appRepository.readMeta();
         mAdapter = new ChangeListAdapter(context, changesList, meta.getNumDays());
         MyApp.LogDebug(LOG_TAG, "onCreate, " + changesList.size() + " changes");
@@ -114,10 +114,10 @@ public class ChangeListFragment extends AbstractListFragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            mListener = (OnLectureListClick) context;
+            mListener = (OnSessionListClick) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString()
-                    + " must implement OnLectureListClick");
+                    + " must implement OnSessionListClick");
         }
     }
 
@@ -128,7 +128,7 @@ public class ChangeListFragment extends AbstractListFragment {
     }
 
     public void onRefresh() {
-        List<Session> updatedChanges = appRepository.loadChangedLectures();
+        List<Session> updatedChanges = appRepository.loadChangedSessions();
         if (changesList != null) {
             changesList.clear();
             changesList.addAll(updatedChanges);
@@ -145,7 +145,7 @@ public class ChangeListFragment extends AbstractListFragment {
             position--;
             Session clicked = changesList.get(mAdapter.getItemIndex(position));
             if (clicked.changedIsCanceled) return;
-            mListener.onLectureListClick(clicked, requiresScheduleReload);
+            mListener.onSessionListClick(clicked, requiresScheduleReload);
         }
     }
 }

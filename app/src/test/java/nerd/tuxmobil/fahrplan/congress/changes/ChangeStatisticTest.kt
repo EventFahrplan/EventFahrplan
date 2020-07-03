@@ -9,7 +9,7 @@ class ChangeStatisticTest {
 
     companion object {
 
-        private val unchangedLectures = listOf(
+        private val unchangedSessions = listOf(
                 Session("1001").apply {
                     highlight = false
                     changedTitle = false
@@ -19,7 +19,7 @@ class ChangeStatisticTest {
                     changedTitle = false
                 })
 
-        private val changedLectures = listOf(
+        private val changedSessions = listOf(
                 Session("1003").apply {
                     highlight = true
                     changedTitle = true
@@ -29,7 +29,7 @@ class ChangeStatisticTest {
                     changedTitle = true
                 })
 
-        private val oldLectures = listOf(
+        private val oldSessions = listOf(
                 Session("2001").apply {
                     highlight = false
                     changedIsNew = false
@@ -39,7 +39,7 @@ class ChangeStatisticTest {
                     changedIsNew = false
                 })
 
-        private val newLectures = listOf(
+        private val newSessions = listOf(
                 Session("2003").apply {
                     highlight = true
                     changedIsNew = true
@@ -49,7 +49,7 @@ class ChangeStatisticTest {
                     changedIsNew = true
                 })
 
-        private val uncanceledLectures = listOf(
+        private val uncanceledSessions = listOf(
                 Session("3001").apply {
                     highlight = false
                     changedIsCanceled = false
@@ -59,7 +59,7 @@ class ChangeStatisticTest {
                     changedIsCanceled = false
                 })
 
-        private val canceledLectures = listOf(
+        private val canceledSessions = listOf(
                 Session("3003").apply {
                     highlight = true
                     changedIsCanceled = true
@@ -72,39 +72,39 @@ class ChangeStatisticTest {
     }
 
     @Test
-    fun `getChangedLecturesCount returns 0 for an empty list`() {
+    fun `getChangedSessionsCount returns 0 for an empty list`() {
         val statistic = ChangeStatistic(emptyList())
-        assertThat(statistic.getChangedLecturesCount()).isEqualTo(0)
+        assertThat(statistic.getChangedSessionsCount()).isEqualTo(0)
     }
 
     @Test
-    fun `getChangedLecturesCount returns the changed lectures count`() {
-        val statistic = ChangeStatistic(unchangedLectures + changedLectures)
-        assertThat(statistic.getChangedLecturesCount()).isEqualTo(changedLectures.size)
+    fun `getChangedSessionsCount returns the changed sessions count`() {
+        val statistic = ChangeStatistic(unchangedSessions + changedSessions)
+        assertThat(statistic.getChangedSessionsCount()).isEqualTo(changedSessions.size)
     }
 
     @Test
-    fun `getNewLecturesCount returns 0 for an empty list`() {
+    fun `getNewSessionsCount returns 0 for an empty list`() {
         val statistic = ChangeStatistic(emptyList())
-        assertThat(statistic.getNewLecturesCount()).isEqualTo(0)
+        assertThat(statistic.getNewSessionsCount()).isEqualTo(0)
     }
 
     @Test
-    fun `getNewLecturesCount returns the new lectures count`() {
-        val statistic = ChangeStatistic(oldLectures + newLectures)
-        assertThat(statistic.getNewLecturesCount()).isEqualTo(newLectures.size)
+    fun `getNewSessionsCount returns the new sessions count`() {
+        val statistic = ChangeStatistic(oldSessions + newSessions)
+        assertThat(statistic.getNewSessionsCount()).isEqualTo(newSessions.size)
     }
 
     @Test
-    fun `getCanceledLecturesCount returns 0 for an empty list`() {
+    fun `getCanceledSessionsCount returns 0 for an empty list`() {
         val statistic = ChangeStatistic(emptyList())
-        assertThat(statistic.getCanceledLecturesCount()).isEqualTo(0)
+        assertThat(statistic.getCanceledSessionsCount()).isEqualTo(0)
     }
 
     @Test
-    fun `getCanceledLecturesCount returns the canceled lectures count`() {
-        val statistic = ChangeStatistic(unchangedLectures + canceledLectures)
-        assertThat(statistic.getCanceledLecturesCount()).isEqualTo(canceledLectures.size)
+    fun `getCanceledSessionsCount returns the canceled sessions count`() {
+        val statistic = ChangeStatistic(unchangedSessions + canceledSessions)
+        assertThat(statistic.getCanceledSessionsCount()).isEqualTo(canceledSessions.size)
     }
 
     @Test
@@ -116,14 +116,14 @@ class ChangeStatisticTest {
     @Test
     fun `getChangedFavoritesCount returns the changed favorites count`() {
         val statistic = ChangeStatistic(
-                unchangedLectures + changedLectures +
-                        oldLectures + newLectures +
-                        uncanceledLectures + canceledLectures
+                unchangedSessions + changedSessions +
+                        oldSessions + newSessions +
+                        uncanceledSessions + canceledSessions
         )
         assertThat(statistic.getChangedFavoritesCount()).isEqualTo(3)
     }
 
     @Suppress("TestFunctionName") // Fake constructor to avoid repetition.
-    private fun ChangeStatistic(lectures: List<Session>) = ChangeStatistic(lectures, NoLogging)
+    private fun ChangeStatistic(sessions: List<Session>) = ChangeStatistic(sessions, NoLogging)
 
 }

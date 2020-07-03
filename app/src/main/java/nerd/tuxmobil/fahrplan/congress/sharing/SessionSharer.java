@@ -10,19 +10,19 @@ import nerd.tuxmobil.fahrplan.congress.MyApp;
 
 public class SessionSharer {
 
-    // String formattedLectures can be one or multiple lectures
-    public static boolean shareSimple(@NonNull Context context, @NonNull String formattedLectures) {
-        return share(context, formattedLectures, "text/plain");
+    // String formattedSessions can be one or multiple sessions
+    public static boolean shareSimple(@NonNull Context context, @NonNull String formattedSessions) {
+        return share(context, formattedSessions, "text/plain");
     }
 
-    public static boolean shareJson(@NonNull Context context, @NonNull String formattedLectures) {
-        return share(context, formattedLectures, "text/json");
+    public static boolean shareJson(@NonNull Context context, @NonNull String formattedSessions) {
+        return share(context, formattedSessions, "text/json");
     }
 
-    private static boolean share(@NonNull Context context, @NonNull String formattedLectures, @NonNull String mimeType) {
+    private static boolean share(@NonNull Context context, @NonNull String formattedSessions, @NonNull String mimeType) {
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_SEND);
-        intent.putExtra(Intent.EXTRA_TEXT, formattedLectures);
+        intent.putExtra(Intent.EXTRA_TEXT, formattedSessions);
         intent.setType(mimeType);
         PackageManager packageManager = context.getPackageManager();
         if (intent.resolveActivity(packageManager) == null) {

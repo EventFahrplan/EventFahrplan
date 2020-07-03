@@ -48,25 +48,25 @@ class ChangeListAdapter internal constructor(
     override fun setItemContent(position: Int, viewHolder: ViewHolder) {
         resetItemStyles(viewHolder)
 
-        val lecture = getLecture(position)
+        val session = getSession(position)
         with(viewHolder) {
-            title.textOrHide = lecture.title
-            subtitle.textOrHide = lecture.subtitle
-            speakers.textOrHide = lecture.formattedSpeakers
-            lang.textOrHide = lecture.lang
-            lang.contentDescription = lecture.getLanguageContentDescription(context)
-            val dayText = DateFormatter.newInstance().getFormattedDate(lecture.dateUTC)
+            title.textOrHide = session.title
+            subtitle.textOrHide = session.subtitle
+            speakers.textOrHide = session.formattedSpeakers
+            lang.textOrHide = session.lang
+            lang.contentDescription = session.getLanguageContentDescription(context)
+            val dayText = DateFormatter.newInstance().getFormattedDate(session.dateUTC)
             day.textOrHide = dayText
-            val timeText = DateFormatter.newInstance().getFormattedTime(lecture.dateUTC)
+            val timeText = DateFormatter.newInstance().getFormattedTime(session.dateUTC)
             time.textOrHide = timeText
-            room.textOrHide = lecture.room
-            val durationText = context.getString(R.string.event_duration, lecture.duration)
+            room.textOrHide = session.room
+            val durationText = context.getString(R.string.event_duration, session.duration)
             duration.textOrHide = durationText
             video.visibility = View.GONE
             noVideo.visibility = View.GONE
             withoutVideoRecording.visibility = View.GONE
 
-            if (lecture.changedIsNew) {
+            if (session.changedIsNew) {
                 title.setTextStyleNew()
                 subtitle.setTextStyleNew()
                 speakers.setTextStyleNew()
@@ -75,7 +75,7 @@ class ChangeListAdapter internal constructor(
                 time.setTextStyleNew()
                 room.setTextStyleNew()
                 duration.setTextStyleNew()
-            } else if (lecture.changedIsCanceled) {
+            } else if (session.changedIsCanceled) {
                 title.setTextStyleCanceled()
                 subtitle.setTextStyleCanceled()
                 speakers.setTextStyleCanceled()
@@ -85,45 +85,45 @@ class ChangeListAdapter internal constructor(
                 room.setTextStyleCanceled()
                 duration.setTextStyleCanceled()
             } else {
-                if (lecture.changedTitle) {
+                if (session.changedTitle) {
                     title.setTextStyleChanged()
-                    if (lecture.title.isEmpty()) {
+                    if (session.title.isEmpty()) {
                         title.text = context.getText(R.string.dash)
                     }
                 }
-                if (lecture.changedSubtitle) {
+                if (session.changedSubtitle) {
                     subtitle.setTextStyleChanged()
-                    if (lecture.subtitle.isEmpty()) {
+                    if (session.subtitle.isEmpty()) {
                         subtitle.text = context.getText(R.string.dash)
                     }
                 }
-                if (lecture.changedSpeakers) {
+                if (session.changedSpeakers) {
                     speakers.setTextStyleChanged()
-                    if (lecture.speakers.isEmpty()) {
+                    if (session.speakers.isEmpty()) {
                         speakers.text = context.getText(R.string.dash)
                     }
                 }
-                if (lecture.changedLanguage) {
+                if (session.changedLanguage) {
                     lang.setTextStyleChanged()
-                    if (lecture.lang.isEmpty()) {
+                    if (session.lang.isEmpty()) {
                         lang.text = context.getText(R.string.dash)
                         lang.contentDescription = context.getText(R.string.lecture_list_item_language_removed_content_description)
                     }
                 }
-                if (lecture.changedDay) {
+                if (session.changedDay) {
                     day.setTextStyleChanged()
                 }
-                if (lecture.changedTime) {
+                if (session.changedTime) {
                     time.setTextStyleChanged()
                 }
-                if (lecture.changedRoom) {
+                if (session.changedRoom) {
                     room.setTextStyleChanged()
                 }
-                if (lecture.changedDuration) {
+                if (session.changedDuration) {
                     duration.setTextStyleChanged()
                 }
-                if (lecture.changedRecordingOptOut) {
-                    if (lecture.recordingOptOut) {
+                if (session.changedRecordingOptOut) {
+                    if (session.recordingOptOut) {
                         noVideo.visibility = View.VISIBLE
                     } else {
                         video.visibility = View.VISIBLE

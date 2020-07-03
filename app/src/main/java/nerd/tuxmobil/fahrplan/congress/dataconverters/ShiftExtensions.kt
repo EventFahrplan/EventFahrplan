@@ -11,7 +11,7 @@ import org.threeten.bp.Duration
 // Avoid conflicts with the IDs of the main schedule.
 private const val SHIFT_ID_OFFSET = 300000
 
-fun Shift.toLectureAppModel(
+fun Shift.toSessionAppModel(
 
         logging: Logging,
         virtualRoomName: String,

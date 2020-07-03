@@ -11,6 +11,9 @@ import info.metadude.android.eventfahrplan.network.temporal.DateParser;
 import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.repositories.SessionsTransformer;
 
+/**
+ * Application model representing a lecture, a workshop or any similar time-framed happening.
+ */
 public class Session {
 
     public String title;
@@ -35,7 +38,7 @@ public class Session {
 
     public String speakers;
     public String track;
-    public String lectureId;
+    public String sessionId;
     public String type;
     public String lang;
     public String slug;
@@ -65,7 +68,7 @@ public class Session {
 
     private static final boolean RECORDING_OPTOUT_OFF = false;
 
-    public Session(String lectureId) {
+    public Session(String sessionId) {
         title = "";
         subtitle = "";
         day = 0;
@@ -82,7 +85,7 @@ public class Session {
         relStartTime = 0;
         links = "";
         date = "";
-        this.lectureId = lectureId;
+        this.sessionId = sessionId;
         highlight = false;
         hasAlarm = false;
         dateUTC = 0;
@@ -130,27 +133,27 @@ public class Session {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Session lecture = (Session) o;
+        Session session = (Session) o;
 
-        if (day != lecture.day) return false;
-        if (duration != lecture.duration) return false;
-        if (recordingOptOut != lecture.recordingOptOut) return false;
-        if (startTime != lecture.startTime) return false;
-        if (date != null ? !date.equals(lecture.date) : lecture.date != null) return false;
-        if (lang != null ? !lang.equals(lecture.lang) : lecture.lang != null) return false;
-        if (!lectureId.equals(lecture.lectureId)) return false;
-        if (recordingLicense != null ? !recordingLicense.equals(lecture.recordingLicense) :
-                lecture.recordingLicense != null)
+        if (day != session.day) return false;
+        if (duration != session.duration) return false;
+        if (recordingOptOut != session.recordingOptOut) return false;
+        if (startTime != session.startTime) return false;
+        if (date != null ? !date.equals(session.date) : session.date != null) return false;
+        if (lang != null ? !lang.equals(session.lang) : session.lang != null) return false;
+        if (!sessionId.equals(session.sessionId)) return false;
+        if (recordingLicense != null ? !recordingLicense.equals(session.recordingLicense) :
+                session.recordingLicense != null)
             return false;
-        if (room != null ? !room.equals(lecture.room) : lecture.room != null) return false;
-        if (speakers != null ? !speakers.equals(lecture.speakers) : lecture.speakers != null)
+        if (room != null ? !room.equals(session.room) : session.room != null) return false;
+        if (speakers != null ? !speakers.equals(session.speakers) : session.speakers != null)
             return false;
-        if (subtitle != null ? !subtitle.equals(lecture.subtitle) : lecture.subtitle != null)
+        if (subtitle != null ? !subtitle.equals(session.subtitle) : session.subtitle != null)
             return false;
-        if (!title.equals(lecture.title)) return false;
-        if (track != null ? !track.equals(lecture.track) : lecture.track != null) return false;
-        if (type != null ? !type.equals(lecture.type) : lecture.type != null) return false;
-        if (dateUTC != lecture.dateUTC) return false;
+        if (!title.equals(session.title)) return false;
+        if (track != null ? !track.equals(session.track) : session.track != null) return false;
+        if (type != null ? !type.equals(session.type) : session.type != null) return false;
+        if (dateUTC != session.dateUTC) return false;
 
         return true;
     }
@@ -165,7 +168,7 @@ public class Session {
         result = 31 * result + duration;
         result = 31 * result + (speakers != null ? speakers.hashCode() : 0);
         result = 31 * result + (track != null ? track.hashCode() : 0);
-        result = 31 * result + lectureId.hashCode();
+        result = 31 * result + sessionId.hashCode();
         result = 31 * result + (type != null ? type.hashCode() : 0);
         result = 31 * result + (lang != null ? lang.hashCode() : 0);
         result = 31 * result + (date != null ? date.hashCode() : 0);

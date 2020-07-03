@@ -8,7 +8,7 @@ import java.util.List;
 import info.metadude.android.eventfahrplan.commons.temporal.DateFormatter;
 import nerd.tuxmobil.fahrplan.congress.models.Session;
 import nerd.tuxmobil.fahrplan.congress.utils.SessionUrlComposer;
-import nerd.tuxmobil.fahrplan.congress.wiki.WikiEventUtils;
+import nerd.tuxmobil.fahrplan.congress.wiki.WikiSessionUtils;
 
 public class SimpleSessionFormat {
 
@@ -19,46 +19,46 @@ public class SimpleSessionFormat {
 
 
     @NonNull
-    public static String format(@NonNull Session lecture) {
+    public static String format(@NonNull Session session) {
         StringBuilder builder = new StringBuilder();
-        appendLecture(builder, lecture);
+        appendSession(builder, session);
         return builder.toString();
     }
 
     @Nullable
-    public static String format(@NonNull List<Session> lectures) {
-        if (lectures.isEmpty()) {
+    public static String format(@NonNull List<Session> sessions) {
+        if (sessions.isEmpty()) {
             return null;
         }
-        int lecturesSize = lectures.size();
-        if (lecturesSize == 1) {
-            return format(lectures.get(0));
+        int sessionsSize = sessions.size();
+        if (sessionsSize == 1) {
+            return format(sessions.get(0));
         }
         StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < lecturesSize; ++i) {
-            Session lecture = lectures.get(i);
-            appendLecture(builder, lecture);
-            if (i < lecturesSize - 1) {
+        for (int i = 0; i < sessionsSize; ++i) {
+            Session session = sessions.get(i);
+            appendSession(builder, session);
+            if (i < sessionsSize - 1) {
                 appendDivider(builder);
             }
         }
         return builder.toString();
     }
 
-    private static void appendLecture(StringBuilder builder, Session lecture) {
-        long startTime = lecture.getStartTimeMilliseconds();
+    private static void appendSession(StringBuilder builder, Session session) {
+        long startTime = session.getStartTimeMilliseconds();
         String formattedTime = DateFormatter.newInstance().getFormattedDateTime(startTime);
-        builder.append(lecture.title);
+        builder.append(session.title);
         builder.append(LINE_BREAK);
         builder.append(formattedTime);
         builder.append(COMMA);
         builder.append(SPACE);
-        builder.append(lecture.room);
-        if (!WikiEventUtils.containsWikiLink(lecture.getLinks())) {
+        builder.append(session.room);
+        if (!WikiSessionUtils.containsWikiLink(session.getLinks())) {
             builder.append(LINE_BREAK);
             builder.append(LINE_BREAK);
-            String eventUrl = new SessionUrlComposer(lecture).getEventUrl();
-            builder.append(eventUrl);
+            String sessionUrl = new SessionUrlComposer(session).getSessionUrl();
+            builder.append(sessionUrl);
         }
     }
 

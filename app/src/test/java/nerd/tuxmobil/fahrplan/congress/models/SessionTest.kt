@@ -7,11 +7,11 @@ class SessionTest {
 
     @Test
     fun getStartTimeMoment() {
-        val lecture = Session("1")
-        lecture.relStartTime = 121
-        lecture.date = "2019-12-27"
+        val session = Session("1")
+        session.relStartTime = 121
+        session.date = "2019-12-27"
 
-        val moment = lecture.startTimeMoment
+        val moment = session.startTimeMoment
         assertThat(moment.minute).isEqualTo(1)
         assertThat(moment.minuteOfDay).isEqualTo(121)
         assertThat(moment.hour).isEqualTo(2)
@@ -22,20 +22,20 @@ class SessionTest {
 
     @Test
     fun `startTimeMilliseconds returns the "dateUTC" value when "dateUTC" is set`() {
-        val lecture = Session("1").apply {
+        val session = Session("1").apply {
             dateUTC = 1
             date = "2020-03-20"
         }
-        assertThat(lecture.startTimeMilliseconds).isEqualTo(1)
+        assertThat(session.startTimeMilliseconds).isEqualTo(1)
     }
 
     @Test
     fun `startTimeMilliseconds returns the "date" value when "dateUTC" is not set`() {
-        val lecture = Session("1").apply {
+        val session = Session("1").apply {
             dateUTC = 0
             date = "2020-03-20"
         }
-        assertThat(lecture.startTimeMilliseconds).isEqualTo(1584662400000L)
+        assertThat(session.startTimeMilliseconds).isEqualTo(1584662400000L)
     }
 
 }

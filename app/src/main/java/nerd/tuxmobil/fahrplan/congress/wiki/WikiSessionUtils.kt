@@ -1,4 +1,4 @@
-@file:JvmName("WikiEventUtils")
+@file:JvmName("WikiSessionUtils")
 
 package nerd.tuxmobil.fahrplan.congress.wiki
 
@@ -12,10 +12,10 @@ private val WIKI_LINK_REGEX by lazy {
  * corresponding wiki session; Otherwise false.
  *
  * Background information: Self-organized sessions are exported
- * from the CCC wiki. The export file then contains regular events
- * plus wiki events. For wiki events the valid link to the wiki
- * is contained in the links whereas for regular events the link
- * is generated based on the event id.
+ * from the CCC wiki. The export file then contains regular sessions
+ * plus wiki sessions. For wiki sessions the valid link to the wiki
+ * is contained in the links whereas for regular sessions the link
+ * is generated based on the session id.
  * Export script: https://github.com/voc/schedule
  */
 fun String.containsWikiLink(): Boolean = matches(WIKI_LINK_REGEX)

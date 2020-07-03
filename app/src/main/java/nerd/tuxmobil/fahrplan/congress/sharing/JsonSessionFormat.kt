@@ -11,18 +11,18 @@ object JsonSessionFormat {
     private val jsonAdapter by lazy { moshi.adapter(FavoritesExport::class.java) }
 
     @JvmStatic
-    fun format(lecture: Session): String {
-        val export = FavoritesExport(listOf(SessionExport(lecture)))
+    fun format(session: Session): String {
+        val export = FavoritesExport(listOf(SessionExport(session)))
         return jsonAdapter.toJson(export)
     }
 
     @JvmStatic
-    fun format(lectures: List<Session>): String? {
+    fun format(sessions: List<Session>): String? {
         return when {
-            lectures.isEmpty() -> null
-            lectures.size == 1 -> format(lectures[0])
+            sessions.isEmpty() -> null
+            sessions.size == 1 -> format(sessions[0])
             else -> {
-                val export = FavoritesExport(lectures.map { SessionExport(it) })
+                val export = FavoritesExport(sessions.map { SessionExport(it) })
                 return jsonAdapter.toJson(export)
             }
         }
