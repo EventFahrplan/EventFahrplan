@@ -11,7 +11,7 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Le
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.LecturesTable.Defaults;
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.LecturesTable.Values;
 
-public class LecturesDBOpenHelper extends SQLiteOpenHelper {
+public class SessionsDBOpenHelper extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 9;
 
@@ -54,7 +54,7 @@ public class LecturesDBOpenHelper extends SQLiteOpenHelper {
                     Columns.CHANGED_DURATION + " INTEGER," +
                     Columns.CHANGED_IS_CANCELED + " INTEGER)";
 
-    public LecturesDBOpenHelper(@NonNull Context context) {
+    public SessionsDBOpenHelper(@NonNull Context context) {
         super(context.getApplicationContext(), DATABASE_NAME, null, DATABASE_VERSION);
     }
 

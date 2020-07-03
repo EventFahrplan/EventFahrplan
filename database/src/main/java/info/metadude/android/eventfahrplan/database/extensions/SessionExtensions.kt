@@ -4,9 +4,9 @@ import android.content.ContentValues
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.LecturesTable.Columns.*
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.LecturesTable.Values.REC_OPT_OUT_OFF
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.LecturesTable.Values.REC_OPT_OUT_ON
-import info.metadude.android.eventfahrplan.database.models.Lecture
+import info.metadude.android.eventfahrplan.database.models.Session
 
-fun Lecture.toContentValues() = ContentValues().apply {
+fun Session.toContentValues() = ContentValues().apply {
     put(EVENT_ID, eventId)
     put(ABSTRACT, abstractt)
     put(DAY, dayIndex)

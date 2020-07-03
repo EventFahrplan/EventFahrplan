@@ -2,17 +2,17 @@ package info.metadude.android.eventfahrplan.database.extensions
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.LecturesTable.Columns.*
-import info.metadude.android.eventfahrplan.database.models.Lecture
+import info.metadude.android.eventfahrplan.database.models.Session
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class LectureExtensionsTest {
+class SessionExtensionsTest {
 
     @Test
     fun toContentValues() {
-        val lecture = Lecture(
+        val lecture = Session(
                 eventId = "7331",
                 abstractt = "Lorem ipsum",
                 dayIndex = 3,
@@ -26,7 +26,7 @@ class LectureExtensionsTest {
                 links = "[Website](https://www.example.com/path)",
                 relativeStartTime = 1035,
                 recordingLicense = "CC 0",
-                recordingOptOut = Lecture.RECORDING_OPT_OUT_ON,
+                recordingOptOut = Session.RECORDING_OPT_OUT_ON,
                 room = "Simulacron-3",
                 roomIndex = 17,
                 speakers = "John Doe; Noah Doe",
@@ -65,7 +65,7 @@ class LectureExtensionsTest {
         assertThat(values.getAsString(LINKS)).isEqualTo("[Website](https://www.example.com/path)")
         assertThat(values.getAsInteger(REL_START)).isEqualTo(1035)
         assertThat(values.getAsString(REC_LICENSE)).isEqualTo("CC 0")
-        assertThat(values.getAsBoolean(REC_OPTOUT)).isEqualTo(Lecture.RECORDING_OPT_OUT_ON)
+        assertThat(values.getAsBoolean(REC_OPTOUT)).isEqualTo(Session.RECORDING_OPT_OUT_ON)
         assertThat(values.getAsString(ROOM)).isEqualTo("Simulacron-3")
         assertThat(values.getAsInteger(ROOM_IDX)).isEqualTo(17)
         assertThat(values.getAsString(SPEAKERS)).isEqualTo("John Doe; Noah Doe")

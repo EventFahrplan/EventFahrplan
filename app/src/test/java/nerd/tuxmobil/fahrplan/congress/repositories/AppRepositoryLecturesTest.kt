@@ -2,18 +2,18 @@ package nerd.tuxmobil.fahrplan.congress.repositories
 
 import com.google.common.truth.Truth.assertThat
 import com.nhaarman.mockitokotlin2.*
-import info.metadude.android.eventfahrplan.database.repositories.LecturesDatabaseRepository
+import info.metadude.android.eventfahrplan.database.repositories.SessionsDatabaseRepository
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toLecturesDatabaseModel
 import nerd.tuxmobil.fahrplan.congress.models.Lecture
 import org.junit.Test
 import org.mockito.ArgumentMatchers.anyInt
 
 /**
- * Test class to deal with lectures which interact with the [LecturesDatabaseRepository].
+ * Test class to deal with lectures which interact with the [SessionsDatabaseRepository].
  */
 class AppRepositoryLecturesTest {
 
-    private val lecturesDatabaseRepository = mock<LecturesDatabaseRepository>()
+    private val lecturesDatabaseRepository = mock<SessionsDatabaseRepository>()
 
     private val testableAppRepository: AppRepository
         get() = with(AppRepository) {

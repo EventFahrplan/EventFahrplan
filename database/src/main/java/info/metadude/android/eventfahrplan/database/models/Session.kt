@@ -1,6 +1,6 @@
 package info.metadude.android.eventfahrplan.database.models
 
-data class Lecture(
+data class Session(
 
         val eventId: String,
         val abstractt: String = "",

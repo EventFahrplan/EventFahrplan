@@ -2,12 +2,12 @@ package nerd.tuxmobil.fahrplan.congress.dataconverters
 
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import info.metadude.android.eventfahrplan.database.models.Highlight
-import info.metadude.android.eventfahrplan.database.models.Lecture.Companion.RECORDING_OPT_OUT_ON
+import info.metadude.android.eventfahrplan.database.models.Session.Companion.RECORDING_OPT_OUT_ON
 import nerd.tuxmobil.fahrplan.congress.models.DateInfo
 import nerd.tuxmobil.fahrplan.congress.models.Lecture
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
-import info.metadude.android.eventfahrplan.database.models.Lecture as LectureDatabaseModel
+import info.metadude.android.eventfahrplan.database.models.Session as LectureDatabaseModel
 import info.metadude.android.eventfahrplan.network.models.Lecture as LectureNetworkModel
 
 class LectureExtensionsTest {

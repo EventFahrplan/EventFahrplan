@@ -10,12 +10,12 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Le
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.LecturesTable.Values.REC_OPT_OUT_OFF
 import info.metadude.android.eventfahrplan.database.extensions.*
 import info.metadude.android.eventfahrplan.database.extensions.transaction
-import info.metadude.android.eventfahrplan.database.models.Lecture
-import info.metadude.android.eventfahrplan.database.sqliteopenhelper.LecturesDBOpenHelper
+import info.metadude.android.eventfahrplan.database.models.Session
+import info.metadude.android.eventfahrplan.database.sqliteopenhelper.SessionsDBOpenHelper
 
-class LecturesDatabaseRepository(
+class SessionsDatabaseRepository(
 
-        private val sqLiteOpenHelper: LecturesDBOpenHelper,
+        private val sqLiteOpenHelper: SessionsDBOpenHelper,
         private val logging: Logging
 
 ) {
@@ -29,7 +29,7 @@ class LecturesDatabaseRepository(
         }
     }
 
-    fun queryLectureByLectureId(lectureId: String): Lecture {
+    fun queryLectureByLectureId(lectureId: String): Session {
         return try {
             query {
                 read(LecturesTable.NAME,
@@ -69,7 +69,7 @@ class LecturesDatabaseRepository(
         )
     }
 
-    private fun query(query: SQLiteDatabase.() -> Cursor): List<Lecture> = with(sqLiteOpenHelper.readableDatabase) {
+    private fun query(query: SQLiteDatabase.() -> Cursor): List<Session> = with(sqLiteOpenHelper.readableDatabase) {
         val cursor = try {
             query()
         } catch (e: SQLiteException) {
@@ -80,11 +80,11 @@ class LecturesDatabaseRepository(
         return cursor.map {
             val recordingOptOut =
                     if (cursor.getInt(REC_OPTOUT) == REC_OPT_OUT_OFF)
-                        Lecture.RECORDING_OPT_OUT_OFF
+                        Session.RECORDING_OPT_OUT_OFF
                     else
-                        Lecture.RECORDING_OPT_OUT_ON
+                        Session.RECORDING_OPT_OUT_ON
 
-            Lecture(
+            Session(
                     eventId = cursor.getString(EVENT_ID),
                     abstractt = cursor.getString(ABSTRACT),
                     date = cursor.getString(DATE),
