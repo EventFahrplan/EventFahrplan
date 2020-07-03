@@ -18,7 +18,7 @@ public class HighlightDBOpenHelper extends SQLiteOpenHelper {
     private static final String HIGHLIGHT_TABLE_CREATE =
             "CREATE TABLE " + HighlightsTable.NAME + " (" +
                     Columns.ID + " INTEGER PRIMARY KEY, " +
-                    Columns.EVENT_ID + " INTEGER," +
+                    Columns.SESSION_ID + " INTEGER," +
                     Columns.HIGHLIGHT + " INTEGER);";
 
     public HighlightDBOpenHelper(@NonNull Context context) {

@@ -14,7 +14,7 @@ class AlarmExtensionsTest {
                 alarmTimeInMin = 20,
                 day = 4,
                 displayTime = 1509617700000L,
-                eventId = "5237",
+                sessionId = "5237",
                 time = 1509617700001L,
                 timeText = "02/11/2017 11:05",
                 title = "My title"

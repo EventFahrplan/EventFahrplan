@@ -15,7 +15,7 @@ class LectureExtensionsTest {
     @Test
     fun lectureDatabaseModel_toLectureAppModel_toLectureDatabaseModel() {
         val lecture = LectureDatabaseModel(
-                eventId = "7331",
+                sessionId = "7331",
                 abstractt = "Lorem ipsum",
                 dayIndex = 3,
                 date = "2015-08-13",
@@ -143,7 +143,7 @@ class LectureExtensionsTest {
         val lecture = Lecture("")
         lecture.lectureId = "4723"
         lecture.highlight = true
-        val highlight = Highlight(eventId = 4723, isHighlight = true)
+        val highlight = Highlight(sessionId = 4723, isHighlight = true)
         assertThat(lecture.toHighlightDatabaseModel()).isEqualTo(highlight)
     }
 

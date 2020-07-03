@@ -5,9 +5,9 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteException
 import info.metadude.android.eventfahrplan.commons.logging.Logging
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.LecturesTable
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.LecturesTable.Columns.*
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.LecturesTable.Values.REC_OPT_OUT_OFF
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.*
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Values.REC_OPT_OUT_OFF
 import info.metadude.android.eventfahrplan.database.extensions.*
 import info.metadude.android.eventfahrplan.database.extensions.transaction
 import info.metadude.android.eventfahrplan.database.models.Session
@@ -22,47 +22,47 @@ class SessionsDatabaseRepository(
 
     fun insert(list: List<ContentValues>) = with(sqLiteOpenHelper) {
         writableDatabase.transaction {
-            delete(LecturesTable.NAME)
+            delete(SessionsTable.NAME)
             list.forEach { contentValues ->
-                insert(LecturesTable.NAME, contentValues)
+                insert(SessionsTable.NAME, contentValues)
             }
         }
     }
 
-    fun queryLectureByLectureId(lectureId: String): Session {
+    fun querySessionBySessionId(sessionId: String): Session {
         return try {
             query {
-                read(LecturesTable.NAME,
-                        selection = "$EVENT_ID=?",
-                        selectionArgs = arrayOf(lectureId))
+                read(SessionsTable.NAME,
+                        selection = "$SESSION_ID=?",
+                        selectionArgs = arrayOf(sessionId))
             }.first()
         } catch (e: NoSuchElementException) {
-            logging.report(javaClass.simpleName, "Lectures table does not contain a lecture with ID $lectureId. ${e.message}")
+            logging.report(javaClass.simpleName, "Sessions table does not contain a session with ID '$sessionId'. ${e.message}")
             throw e
         }
     }
 
-    fun queryLecturesForDayIndexOrderedByDateUtc(dayIndex: Int) = query {
-        read(LecturesTable.NAME,
+    fun querySessionsForDayIndexOrderedByDateUtc(dayIndex: Int) = query {
+        read(SessionsTable.NAME,
                 selection = "$DAY=?",
                 selectionArgs = arrayOf(String.format("%d", dayIndex)),
                 orderBy = DATE_UTC)
     }
 
-    fun queryLecturesOrderedByDateUtc() = query {
-        read(LecturesTable.NAME, orderBy = DATE_UTC)
+    fun querySessionsOrderedByDateUtc() = query {
+        read(SessionsTable.NAME, orderBy = DATE_UTC)
     }
 
-    fun queryLecturesWithoutRoom(roomName: String) = query {
-        read(LecturesTable.NAME,
+    fun querySessionsWithoutRoom(roomName: String) = query {
+        read(SessionsTable.NAME,
                 selection = "$ROOM!=?",
                 selectionArgs = arrayOf(roomName),
                 orderBy = DATE_UTC
         )
     }
 
-    fun queryLecturesWithinRoom(roomName: String) = query {
-        read(LecturesTable.NAME,
+    fun querySessionsWithinRoom(roomName: String) = query {
+        read(SessionsTable.NAME,
                 selection = "$ROOM=?",
                 selectionArgs = arrayOf(roomName),
                 orderBy = DATE_UTC
@@ -85,7 +85,7 @@ class SessionsDatabaseRepository(
                         Session.RECORDING_OPT_OUT_ON
 
             Session(
-                    eventId = cursor.getString(EVENT_ID),
+                    sessionId = cursor.getString(SESSION_ID),
                     abstractt = cursor.getString(ABSTRACT),
                     date = cursor.getString(DATE),
                     dateUTC = cursor.getLong(DATE_UTC),

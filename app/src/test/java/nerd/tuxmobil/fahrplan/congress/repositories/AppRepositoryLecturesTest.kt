@@ -107,50 +107,50 @@ class AppRepositoryLecturesTest {
 
     @Test
     fun `loadChangedLectures passes through an empty list`() {
-        whenever(lecturesDatabaseRepository.queryLecturesOrderedByDateUtc()) doReturn emptyList()
+        whenever(lecturesDatabaseRepository.querySessionsOrderedByDateUtc()) doReturn emptyList()
         assertThat(testableAppRepository.loadChangedLectures()).isEmpty()
-        verify(lecturesDatabaseRepository, once()).queryLecturesOrderedByDateUtc()
+        verify(lecturesDatabaseRepository, once()).querySessionsOrderedByDateUtc()
     }
 
     @Test
     fun `loadChangedLectures filters out lectures which are not changed`() {
         val lectures = listOf(LECTURE_1001, LECTURE_1002, LECTURE_1003, LECTURE_1004, LECTURE_1005)
-        whenever(lecturesDatabaseRepository.queryLecturesOrderedByDateUtc()) doReturn lectures.toLecturesDatabaseModel()
+        whenever(lecturesDatabaseRepository.querySessionsOrderedByDateUtc()) doReturn lectures.toLecturesDatabaseModel()
         val changedLectures = testableAppRepository.loadChangedLectures()
         assertThat(changedLectures).containsExactly(LECTURE_1002, LECTURE_1003, LECTURE_1004, LECTURE_1005)
-        verify(lecturesDatabaseRepository, once()).queryLecturesOrderedByDateUtc()
+        verify(lecturesDatabaseRepository, once()).querySessionsOrderedByDateUtc()
     }
 
     @Test
     fun `loadStarredLectures passes through an empty list`() {
-        whenever(lecturesDatabaseRepository.queryLecturesOrderedByDateUtc()) doReturn emptyList()
+        whenever(lecturesDatabaseRepository.querySessionsOrderedByDateUtc()) doReturn emptyList()
         assertThat(testableAppRepository.loadStarredLectures()).isEmpty()
-        verify(lecturesDatabaseRepository, once()).queryLecturesOrderedByDateUtc()
+        verify(lecturesDatabaseRepository, once()).querySessionsOrderedByDateUtc()
     }
 
     @Test
     fun `loadStarredLectures filters out lectures which are not starred`() {
         val lectures = listOf(LECTURE_2001, LECTURE_2002, LECTURE_2003, LECTURE_2004)
-        whenever(lecturesDatabaseRepository.queryLecturesOrderedByDateUtc()) doReturn lectures.toLecturesDatabaseModel()
+        whenever(lecturesDatabaseRepository.querySessionsOrderedByDateUtc()) doReturn lectures.toLecturesDatabaseModel()
         val starredLectures = testableAppRepository.loadStarredLectures()
         assertThat(starredLectures).containsExactly(LECTURE_2002)
-        verify(lecturesDatabaseRepository, once()).queryLecturesOrderedByDateUtc()
+        verify(lecturesDatabaseRepository, once()).querySessionsOrderedByDateUtc()
     }
 
     @Test
     fun `loadUncanceledLecturesForDayIndex passes through an empty list`() {
-        whenever(lecturesDatabaseRepository.queryLecturesForDayIndexOrderedByDateUtc(anyInt())) doReturn emptyList()
+        whenever(lecturesDatabaseRepository.querySessionsForDayIndexOrderedByDateUtc(anyInt())) doReturn emptyList()
         assertThat(testableAppRepository.loadUncanceledLecturesForDayIndex(0)).isEmpty()
-        verify(lecturesDatabaseRepository, once()).queryLecturesForDayIndexOrderedByDateUtc(anyInt())
+        verify(lecturesDatabaseRepository, once()).querySessionsForDayIndexOrderedByDateUtc(anyInt())
     }
 
     @Test
     fun `loadUncanceledLecturesForDayIndex filters out lectures which are canceled`() {
         val lectures = listOf(LECTURE_3001, LECTURE_3002)
-        whenever(lecturesDatabaseRepository.queryLecturesForDayIndexOrderedByDateUtc(anyInt())) doReturn lectures.toLecturesDatabaseModel()
+        whenever(lecturesDatabaseRepository.querySessionsForDayIndexOrderedByDateUtc(anyInt())) doReturn lectures.toLecturesDatabaseModel()
         val uncanceledLectures = testableAppRepository.loadUncanceledLecturesForDayIndex(0)
         assertThat(uncanceledLectures).containsExactly(LECTURE_3001)
-        verify(lecturesDatabaseRepository, once()).queryLecturesForDayIndexOrderedByDateUtc(anyInt())
+        verify(lecturesDatabaseRepository, once()).querySessionsForDayIndexOrderedByDateUtc(anyInt())
     }
 
     private fun once() = times(1)

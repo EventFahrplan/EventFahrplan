@@ -2,7 +2,7 @@ package info.metadude.android.eventfahrplan.database.models
 
 data class Highlight(
 
-        val eventId: Int,
+        val sessionId: Int,
         val isHighlight: Boolean
 
 )

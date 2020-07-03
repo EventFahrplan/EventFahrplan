@@ -17,12 +17,12 @@ fun Lecture.shiftRoomIndexOnDays(dayIndices: Set<Int>): Lecture {
 fun Lecture.toDateInfo(): DateInfo = DateInfo(day, Moment(date))
 
 fun Lecture.toHighlightDatabaseModel() = HighlightDatabaseModel(
-        eventId = Integer.parseInt(lectureId),
+        sessionId = Integer.parseInt(lectureId),
         isHighlight = highlight
 )
 
 fun Lecture.toLectureDatabaseModel() = LectureDatabaseModel(
-        eventId = lectureId,
+        sessionId = lectureId,
         abstractt = abstractt,
         date = date,
         dateUTC = dateUTC,
@@ -102,7 +102,7 @@ fun Lecture.toLectureNetworkModel() = LectureNetworkModel(
 )
 
 fun LectureDatabaseModel.toLectureAppModel(): Lecture {
-    val lecture = Lecture(eventId)
+    val lecture = Lecture(sessionId)
 
     lecture.abstractt = abstractt
     lecture.date = date

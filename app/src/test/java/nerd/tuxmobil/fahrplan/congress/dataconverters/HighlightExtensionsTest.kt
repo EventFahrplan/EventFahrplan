@@ -10,7 +10,7 @@ class HighlightExtensionsTest {
     @Test
     fun toHighlightAppModel() {
         val highlightDatabaseModel = HighlightDatabaseModel(
-                eventId = 2342,
+                sessionId = 2342,
                 isHighlight = true
         )
         val highlightAppModel = Highlight(

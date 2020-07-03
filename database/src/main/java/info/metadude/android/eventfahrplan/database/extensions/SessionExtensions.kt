@@ -1,13 +1,13 @@
 package info.metadude.android.eventfahrplan.database.extensions
 
 import android.content.ContentValues
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.LecturesTable.Columns.*
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.LecturesTable.Values.REC_OPT_OUT_OFF
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.LecturesTable.Values.REC_OPT_OUT_ON
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.*
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Values.REC_OPT_OUT_OFF
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Values.REC_OPT_OUT_ON
 import info.metadude.android.eventfahrplan.database.models.Session
 
 fun Session.toContentValues() = ContentValues().apply {
-    put(EVENT_ID, eventId)
+    put(SESSION_ID, sessionId)
     put(ABSTRACT, abstractt)
     put(DAY, dayIndex)
     put(DATE, date)

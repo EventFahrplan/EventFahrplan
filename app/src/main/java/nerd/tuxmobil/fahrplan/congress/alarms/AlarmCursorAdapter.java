@@ -33,7 +33,7 @@ public class AlarmCursorAdapter extends CursorAdapter {
             view.setTag(holder);
         }
         int alarmTimeInMin = cursor.getInt(cursor.getColumnIndex(Columns.ALARM_TIME_IN_MIN));
-        String title = cursor.getString(cursor.getColumnIndex(Columns.EVENT_TITLE));
+        String title = cursor.getString(cursor.getColumnIndex(Columns.SESSION_TITLE));
         String timeText = cursor.getString(cursor.getColumnIndex(Columns.TIME_TEXT));
         if (alarmTimeInMin == AlarmsTable.Defaults.ALARM_TIME_IN_MIN_DEFAULT) {
             holder.alarmTimeInMin.setText("?");

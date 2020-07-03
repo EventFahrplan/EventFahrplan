@@ -8,8 +8,8 @@ fun Alarm.toContentValues() = ContentValues().apply {
     put(ALARM_TIME_IN_MIN, alarmTimeInMin)
     put(DAY, day)
     put(DISPLAY_TIME, displayTime)
-    put(EVENT_ID, eventId)
-    put(EVENT_TITLE, title)
+    put(SESSION_ID, sessionId)
+    put(SESSION_TITLE, title)
     put(TIME, time)
     put(TIME_TEXT, timeText)
 }

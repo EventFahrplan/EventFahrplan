@@ -301,7 +301,7 @@ object AppRepository {
             alarmsDatabaseRepository.deleteForAlarmId(alarmId)
 
     fun deleteAlarmForEventId(eventId: String) =
-            alarmsDatabaseRepository.deleteForEventId(eventId)
+            alarmsDatabaseRepository.deleteForSessionId(eventId)
 
     fun updateAlarm(alarm: Alarm) {
         val alarmDatabaseModel = alarm.toAlarmDatabaseModel()
@@ -329,9 +329,9 @@ object AppRepository {
     }
 
     fun readLectureByLectureId(lectureId: String): Lecture {
-        val lecture = lecturesDatabaseRepository.queryLectureByLectureId(lectureId).toLectureAppModel()
+        val lecture = lecturesDatabaseRepository.querySessionBySessionId(lectureId).toLectureAppModel()
 
-        val highlight = highlightsDatabaseRepository.queryByEventId(lectureId.toInt())
+        val highlight = highlightsDatabaseRepository.queryBySessionId(lectureId.toInt())
         if (highlight != null) {
             lecture.highlight = highlight.isHighlight
         }
@@ -345,13 +345,13 @@ object AppRepository {
     }
 
     private fun readLecturesForDayIndexOrderedByDateUtc(dayIndex: Int) =
-            lecturesDatabaseRepository.queryLecturesForDayIndexOrderedByDateUtc(dayIndex).toLecturesAppModel()
+            lecturesDatabaseRepository.querySessionsForDayIndexOrderedByDateUtc(dayIndex).toLecturesAppModel()
 
     private fun readLecturesOrderedByDateUtc() =
-            lecturesDatabaseRepository.queryLecturesOrderedByDateUtc().toLecturesAppModel()
+            lecturesDatabaseRepository.querySessionsOrderedByDateUtc().toLecturesAppModel()
 
     private fun readLecturesOrderedByDateUtcExcludingEngelsystemShifts() =
-            lecturesDatabaseRepository.queryLecturesWithoutRoom(ENGELSYSTEM_ROOM_NAME).toLecturesAppModel()
+            lecturesDatabaseRepository.querySessionsWithoutRoom(ENGELSYSTEM_ROOM_NAME).toLecturesAppModel()
 
     fun readLastEngelsystemShiftsHash() =
             sharedPreferencesRepository.getLastEngelsystemShiftsHash()
@@ -360,7 +360,7 @@ object AppRepository {
             sharedPreferencesRepository.setLastEngelsystemShiftsHash(hash)
 
     fun readEngelsystemShiftsHash() =
-            lecturesDatabaseRepository.queryLecturesWithinRoom(ENGELSYSTEM_ROOM_NAME).hashCode()
+            lecturesDatabaseRepository.querySessionsWithinRoom(ENGELSYSTEM_ROOM_NAME).hashCode()
 
     fun readDateInfos() =
             readLecturesOrderedByDateUtc().toDateInfos()

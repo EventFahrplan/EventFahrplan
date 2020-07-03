@@ -1,8 +1,11 @@
 package info.metadude.android.eventfahrplan.database.models
 
+/**
+ * Database model representing a lecture, a workshop or any similar time-framed happening.
+ */
 data class Session(
 
-        val eventId: String,
+        val sessionId: String,
         val abstractt: String = "",
         val dayIndex: Int = 0,
         val date: String = "",

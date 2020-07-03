@@ -1,7 +1,7 @@
 package info.metadude.android.eventfahrplan.database.extensions
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.LecturesTable.Columns.*
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.*
 import info.metadude.android.eventfahrplan.database.models.Session
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
@@ -12,8 +12,8 @@ class SessionExtensionsTest {
 
     @Test
     fun toContentValues() {
-        val lecture = Session(
-                eventId = "7331",
+        val session = Session(
+                sessionId = "7331",
                 abstractt = "Lorem ipsum",
                 dayIndex = 3,
                 date = "2015-08-13",
@@ -51,8 +51,8 @@ class SessionExtensionsTest {
                 changedTitle = true,
                 changedTrack = true
         )
-        val values = lecture.toContentValues()
-        assertThat(values.getAsInteger(EVENT_ID)).isEqualTo(7331)
+        val values = session.toContentValues()
+        assertThat(values.getAsInteger(SESSION_ID)).isEqualTo(7331)
         assertThat(values.getAsString(ABSTRACT)).isEqualTo("Lorem ipsum")
         assertThat(values.getAsInteger(DAY)).isEqualTo(3)
         assertThat(values.getAsString(DATE)).isEqualTo("2015-08-13")
