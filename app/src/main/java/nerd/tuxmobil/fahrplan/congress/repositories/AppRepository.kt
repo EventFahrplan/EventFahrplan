@@ -133,7 +133,7 @@ object AppRepository {
                               onParsingDone: (parseScheduleResult: ParseResult) -> Unit,
                               onLoadingShiftsDone: (loadShiftsResult: LoadShiftsResult) -> Unit) {
         scheduleNetworkRepository.parseSchedule(scheduleXml, eTag,
-                onUpdateLectures = { lectures ->
+                onUpdateSessions = { lectures ->
                     val oldLectures = loadLecturesForAllDays(true)
                     val newLectures = lectures.toLecturesAppModel2().sanitize()
                     val hasChanged = ScheduleChanges.hasScheduleChanged(newLectures, oldLectures)

@@ -59,7 +59,7 @@ class LectureExtensionsTest {
     @Test
     fun lectureNetworkModel_toLectureAppModel_toLectureNetworkModel() {
         val lecture = LectureNetworkModel(
-                eventId = "7331",
+                sessionId = "7331",
                 abstractt = "Lorem ipsum",
                 dayIndex = 3,
                 date = "2015-08-13",

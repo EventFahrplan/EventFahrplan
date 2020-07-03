@@ -22,11 +22,11 @@ class ScheduleNetworkRepository {
 
     fun parseSchedule(scheduleXml: String,
                       eTag: String,
-                      onUpdateLectures: (lectures: List<Session>) -> Unit,
+                      onUpdateSessions: (sessions: List<Session>) -> Unit,
                       onUpdateMeta: (meta: Meta) -> Unit,
                       onParsingDone: (result: Boolean, version: String) -> Unit) {
         parser.setListener(object : FahrplanParser.OnParseCompleteListener {
-            override fun onUpdateLectures(lectures: List<Session>) = onUpdateLectures.invoke(lectures)
+            override fun onUpdateSessions(sessions: List<Session>) = onUpdateSessions.invoke(sessions)
             override fun onUpdateMeta(meta: Meta) = onUpdateMeta.invoke(meta)
             override fun onParseDone(result: Boolean, version: String) = onParsingDone.invoke(result, version)
         })

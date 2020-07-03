@@ -1,8 +1,14 @@
 package info.metadude.android.eventfahrplan.network.models
 
+import info.metadude.android.eventfahrplan.network.serialization.FahrplanParser
+
+/**
+ * Network model representing a lecture, a workshop or any similar time-framed happening.
+ * Values in this class are parsed from a schedule XML file via [FahrplanParser].
+ */
 data class Session(
 
-        var eventId: String = "",
+        var sessionId: String = "",
         var abstractt: String = "",
         var dayIndex: Int = 0,
         var date: String = "",

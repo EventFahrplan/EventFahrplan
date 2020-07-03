@@ -62,7 +62,7 @@ fun Lecture.toLectureDatabaseModel() = LectureDatabaseModel(
 )
 
 fun Lecture.toLectureNetworkModel() = LectureNetworkModel(
-        eventId = lectureId,
+        sessionId = lectureId,
         abstractt = abstractt,
         date = date,
         dateUTC = dateUTC,
@@ -145,7 +145,7 @@ fun LectureDatabaseModel.toLectureAppModel(): Lecture {
 }
 
 fun LectureNetworkModel.toLectureAppModel(): Lecture {
-    val lecture = Lecture(eventId)
+    val lecture = Lecture(sessionId)
 
     lecture.abstractt = abstractt
     lecture.date = date
