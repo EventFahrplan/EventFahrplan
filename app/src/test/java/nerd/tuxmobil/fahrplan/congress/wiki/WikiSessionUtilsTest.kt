@@ -3,7 +3,7 @@ package nerd.tuxmobil.fahrplan.congress.wiki
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 
-class WikiEventUtilsTest {
+class WikiSessionUtilsTest {
 
     @Test
     fun linksContainWikiLinkWithEmptyString() {

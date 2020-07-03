@@ -54,7 +54,7 @@ object AppRepository {
     private lateinit var engelsystemNetworkRepository: EngelsystemNetworkRepository
     private lateinit var sharedPreferencesRepository: SharedPreferencesRepository
 
-    private var onLecturesChangeListener: OnLecturesChangeListener? = null
+    private var onLecturesChangeListener: OnSessionsChangeListener? = null
     private var alarmsHaveChanged = false
     private var highlightsHaveChanged = false
 
@@ -427,7 +427,7 @@ object AppRepository {
             sharedPreferencesRepository.setDisplayDayIndex(displayDayIndex)
 
     @Deprecated("Replace this with a push-based update mechanism")
-    fun setOnLecturesChangeListener(onLecturesChangeListener: OnLecturesChangeListener) {
+    fun setOnLecturesChangeListener(onLecturesChangeListener: OnSessionsChangeListener) {
         this.onLecturesChangeListener?.let {
             logging.e(javaClass.simpleName, "Setting a new listener while there's already one active")
         }
@@ -446,7 +446,7 @@ object AppRepository {
     }
 
     @Deprecated("Replace this with a push-based update mechanism")
-    fun removeOnLecturesChangeListener(onLecturesChangeListener: OnLecturesChangeListener) {
+    fun removeOnLecturesChangeListener(onLecturesChangeListener: OnSessionsChangeListener) {
         if (this.onLecturesChangeListener == onLecturesChangeListener) {
             this.onLecturesChangeListener = null
         } else {

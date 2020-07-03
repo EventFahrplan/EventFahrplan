@@ -38,18 +38,18 @@ import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.models.Session;
 import nerd.tuxmobil.fahrplan.congress.navigation.RoomForC3NavConverter;
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
-import nerd.tuxmobil.fahrplan.congress.sharing.JsonLectureFormat;
-import nerd.tuxmobil.fahrplan.congress.sharing.LectureSharer;
-import nerd.tuxmobil.fahrplan.congress.sharing.SimpleLectureFormat;
+import nerd.tuxmobil.fahrplan.congress.sharing.JsonSessionFormat;
+import nerd.tuxmobil.fahrplan.congress.sharing.SessionSharer;
+import nerd.tuxmobil.fahrplan.congress.sharing.SimpleSessionFormat;
 import nerd.tuxmobil.fahrplan.congress.sidepane.OnSidePaneCloseListener;
-import nerd.tuxmobil.fahrplan.congress.utils.EventUrlComposer;
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
 import nerd.tuxmobil.fahrplan.congress.utils.FeedbackUrlComposer;
+import nerd.tuxmobil.fahrplan.congress.utils.SessionUrlComposer;
 import nerd.tuxmobil.fahrplan.congress.utils.StringUtils;
 import nerd.tuxmobil.fahrplan.congress.wiki.WikiEventUtils;
 
 
-public class EventDetailFragment extends Fragment {
+public class SessionDetailsFragment extends Fragment {
 
     private static final String LOG_TAG = "Detail";
 
@@ -251,7 +251,7 @@ public class EventDetailFragment extends Fragment {
                 eventOnlineSection.setVisibility(View.GONE);
                 eventOnlineLink.setVisibility(View.GONE);
             } else {
-                String eventUrl = new EventUrlComposer(lecture).getEventUrl();
+                String eventUrl = new SessionUrlComposer(lecture).getEventUrl();
                 if (eventUrl.isEmpty()) {
                     eventOnlineSection.setVisibility(View.GONE);
                     eventOnlineLink.setVisibility(View.GONE);
@@ -401,15 +401,15 @@ public class EventDetailFragment extends Fragment {
             case R.id.menu_item_share_event:
             case R.id.menu_item_share_event_text:
                 l = eventIdToLecture(eventId);
-                String formattedLecture = SimpleLectureFormat.format(l);
-                if (!LectureSharer.shareSimple(activity, formattedLecture)) {
+                String formattedLecture = SimpleSessionFormat.format(l);
+                if (!SessionSharer.shareSimple(activity, formattedLecture)) {
                     Toast.makeText(activity, R.string.share_error_activity_not_found, Toast.LENGTH_SHORT).show();
                 }
                 return true;
             case R.id.menu_item_share_event_json:
                 l = eventIdToLecture(eventId);
-                String jsonLecture = JsonLectureFormat.format(l);
-                if (!LectureSharer.shareJson(activity, jsonLecture)) {
+                String jsonLecture = JsonSessionFormat.format(l);
+                if (!SessionSharer.shareJson(activity, jsonLecture)) {
                     Toast.makeText(activity, R.string.share_error_activity_not_found, Toast.LENGTH_SHORT).show();
                 }
                 return true;

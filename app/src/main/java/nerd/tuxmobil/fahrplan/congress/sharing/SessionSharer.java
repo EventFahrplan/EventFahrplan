@@ -8,7 +8,7 @@ import androidx.annotation.NonNull;
 
 import nerd.tuxmobil.fahrplan.congress.MyApp;
 
-public class LectureSharer {
+public class SessionSharer {
 
     // String formattedLectures can be one or multiple lectures
     public static boolean shareSimple(@NonNull Context context, @NonNull String formattedLectures) {
@@ -26,7 +26,7 @@ public class LectureSharer {
         intent.setType(mimeType);
         PackageManager packageManager = context.getPackageManager();
         if (intent.resolveActivity(packageManager) == null) {
-            MyApp.LogDebug(LectureSharer.class.getSimpleName(), "No activity to handle share intent.");
+            MyApp.LogDebug(SessionSharer.class.getSimpleName(), "No activity to handle share intent.");
             return false;
         } else {
             context.startActivity(intent);

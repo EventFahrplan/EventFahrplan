@@ -8,7 +8,7 @@ import android.provider.CalendarContract
 import android.widget.Toast
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.extensions.startActivity
-import nerd.tuxmobil.fahrplan.congress.utils.EventUrlComposer
+import nerd.tuxmobil.fahrplan.congress.utils.SessionUrlComposer
 import nerd.tuxmobil.fahrplan.congress.utils.StringUtils
 import nerd.tuxmobil.fahrplan.congress.wiki.containsWikiLink
 import nerd.tuxmobil.fahrplan.congress.models.Session as Event
@@ -51,7 +51,7 @@ private fun Event.getCalendarDescription(context: Context): String = with(String
         links = StringUtils.getHtmlLinkFromMarkdown(links)
         append(links)
     } else {
-        val eventUrl = EventUrlComposer(this@getCalendarDescription).getEventUrl()
+        val eventUrl = SessionUrlComposer(this@getCalendarDescription).getEventUrl()
         if (eventUrl.isNotEmpty()) {
             val eventOnline = context.getString(R.string.event_online)
             append(eventOnline)

@@ -60,11 +60,11 @@ import nerd.tuxmobil.fahrplan.congress.net.ParseResult;
 import nerd.tuxmobil.fahrplan.congress.net.ParseScheduleResult;
 import nerd.tuxmobil.fahrplan.congress.net.ParseShiftsResult;
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
-import nerd.tuxmobil.fahrplan.congress.repositories.LectureListTransformer;
-import nerd.tuxmobil.fahrplan.congress.repositories.OnLecturesChangeListener;
-import nerd.tuxmobil.fahrplan.congress.sharing.JsonLectureFormat;
-import nerd.tuxmobil.fahrplan.congress.sharing.LectureSharer;
-import nerd.tuxmobil.fahrplan.congress.sharing.SimpleLectureFormat;
+import nerd.tuxmobil.fahrplan.congress.repositories.OnSessionsChangeListener;
+import nerd.tuxmobil.fahrplan.congress.repositories.SessionsTransformer;
+import nerd.tuxmobil.fahrplan.congress.sharing.JsonSessionFormat;
+import nerd.tuxmobil.fahrplan.congress.sharing.SessionSharer;
+import nerd.tuxmobil.fahrplan.congress.sharing.SimpleSessionFormat;
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
 
 import static nerd.tuxmobil.fahrplan.congress.extensions.Resource.getNormalizedBoxHeight;
@@ -110,8 +110,8 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
             "Lounge"
     };
 
-    private static final LectureListTransformer lectureListTransformer =
-            new LectureListTransformer(() -> Arrays.asList(rooms));
+    private static final SessionsTransformer lectureListTransformer =
+            new SessionsTransformer(() -> Arrays.asList(rooms));
 
     private Typeface light;
 
@@ -123,11 +123,11 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
 
     private Session lastSelectedLecture;
 
-    private LectureViewDrawer lectureViewDrawer;
+    private SessionViewDrawer lectureViewDrawer;
 
-    private Map<Integer, LectureViewColumnAdapter> adapterByRoomIndex = new HashMap<>();
+    private Map<Integer, SessionViewColumnAdapter> adapterByRoomIndex = new HashMap<>();
 
-    private final OnLecturesChangeListener onLecturesChangeListener = new OnLecturesChangeListener() {
+    private final OnSessionsChangeListener onLecturesChangeListener = new OnSessionsChangeListener() {
         @Override
         public void onAlarmsChanged() {
             requireActivity().runOnUiThread(() ->
@@ -156,7 +156,7 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
         context = requireContext();
         light = Typeface.createFromAsset(
                 context.getAssets(), "Roboto-Light.ttf");
-        lectureViewDrawer = new LectureViewDrawer(context);
+        lectureViewDrawer = new SessionViewDrawer(context);
     }
 
     @Override
@@ -351,7 +351,7 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
             columnRecyclerView.setLayoutManager(new LinearLayoutManager(context));
             columnRecyclerView.setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             List<Session> roomLectures = roomData.getLectures();
-            LectureViewColumnAdapter adapter = new LectureViewColumnAdapter(roomLectures, layoutParamsByLecture, lectureViewDrawer, this);
+            SessionViewColumnAdapter adapter = new SessionViewColumnAdapter(roomLectures, layoutParamsByLecture, lectureViewDrawer, this);
             columnRecyclerView.setAdapter(adapter);
             adapterByRoomIndex.put(roomIndex, adapter);
 
@@ -726,7 +726,7 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
                 lecture.highlight = !lecture.highlight;
                 appRepository.updateHighlight(lecture);
                 lectureViewDrawer.setLectureBackground(lecture, contextMenuView);
-                LectureViewDrawer.setLectureTextColor(lecture, contextMenuView);
+                SessionViewDrawer.setLectureTextColor(lecture, contextMenuView);
                 ((MainActivity) context).refreshFavoriteList();
                 updateMenuItems();
                 break;
@@ -746,14 +746,14 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
                     break;
                 }
             case CONTEXT_MENU_ITEM_ID_SHARE_TEXT:
-                String formattedLecture = SimpleLectureFormat.format(lecture);
-                if (!LectureSharer.shareSimple(context, formattedLecture)) {
+                String formattedLecture = SimpleSessionFormat.format(lecture);
+                if (!SessionSharer.shareSimple(context, formattedLecture)) {
                     Toast.makeText(context, R.string.share_error_activity_not_found, Toast.LENGTH_SHORT).show();
                 }
                 break;
             case CONTEXT_MENU_ITEM_ID_SHARE_JSON:
-                String jsonFormattedLecture = JsonLectureFormat.format(lecture);
-                if (!LectureSharer.shareJson(context, jsonFormattedLecture)) {
+                String jsonFormattedLecture = JsonSessionFormat.format(lecture);
+                if (!SessionSharer.shareJson(context, jsonFormattedLecture)) {
                     Toast.makeText(context, R.string.share_error_activity_not_found, Toast.LENGTH_SHORT).show();
                 }
                 break;
@@ -764,7 +764,7 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
 
     private void updateMenuItems() {
         // Toggles the icon for "add/delete favorite" or "add/delete alarm".
-        // Triggers EventDetailFragment.onPrepareOptionsMenu to be called
+        // Triggers SessionDetailsFragment.onPrepareOptionsMenu to be called
         requireActivity().invalidateOptionsMenu();
     }
 
@@ -810,7 +810,7 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
             View v = getLectureView(lecture);
             if (v != null) {
                 lectureViewDrawer.setLectureBackground(lecture, v);
-                LectureViewDrawer.setLectureTextColor(lecture, v);
+                SessionViewDrawer.setLectureTextColor(lecture, v);
             }
         }
     }

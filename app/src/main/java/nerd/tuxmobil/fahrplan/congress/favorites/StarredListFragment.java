@@ -31,9 +31,9 @@ import nerd.tuxmobil.fahrplan.congress.base.AbstractListFragment;
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.models.Meta;
 import nerd.tuxmobil.fahrplan.congress.models.Session;
-import nerd.tuxmobil.fahrplan.congress.sharing.JsonLectureFormat;
-import nerd.tuxmobil.fahrplan.congress.sharing.LectureSharer;
-import nerd.tuxmobil.fahrplan.congress.sharing.SimpleLectureFormat;
+import nerd.tuxmobil.fahrplan.congress.sharing.JsonSessionFormat;
+import nerd.tuxmobil.fahrplan.congress.sharing.SessionSharer;
+import nerd.tuxmobil.fahrplan.congress.sharing.SimpleSessionFormat;
 import nerd.tuxmobil.fahrplan.congress.utils.ActivityHelper;
 import nerd.tuxmobil.fahrplan.congress.utils.ConfirmationDialog;
 
@@ -67,7 +67,7 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
      * The Adapter which will be used to populate the ListView/GridView with
      * Views.
      */
-    private LectureArrayAdapter mAdapter;
+    private StarredListAdapter mAdapter;
 
     public static StarredListFragment newInstance(boolean sidePane) {
         StarredListFragment fragment = new StarredListFragment();
@@ -131,7 +131,7 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
         Context context = requireContext();
         starredList = appRepository.loadStarredLectures();
         Meta meta = appRepository.readMeta();
-        mAdapter = new LectureArrayAdapter(context, starredList, meta.getNumDays());
+        mAdapter = new StarredListAdapter(context, starredList, meta.getNumDays());
         MyApp.LogDebug(LOG_TAG, "initStarredList: " + starredList.size() + " favorites");
         mListView.setAdapter(mAdapter);
     }
@@ -317,20 +317,20 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
     }
 
     private void shareLectures() {
-        String formattedLectures = SimpleLectureFormat.format(starredList);
+        String formattedLectures = SimpleSessionFormat.format(starredList);
         if (formattedLectures != null) {
             Context context = requireContext();
-            if (!LectureSharer.shareSimple(context, formattedLectures)) {
+            if (!SessionSharer.shareSimple(context, formattedLectures)) {
                 Toast.makeText(context, R.string.share_error_activity_not_found, Toast.LENGTH_SHORT).show();
             }
         }
     }
 
     private void shareLecturesToChaosflix() {
-        String formattedLectures = JsonLectureFormat.format(starredList);
+        String formattedLectures = JsonSessionFormat.format(starredList);
         if (formattedLectures != null) {
             Context context = requireContext();
-            if (!LectureSharer.shareJson(context, formattedLectures)) {
+            if (!SessionSharer.shareJson(context, formattedLectures)) {
                 Toast.makeText(context, R.string.share_error_activity_not_found, Toast.LENGTH_SHORT).show();
             }
         }

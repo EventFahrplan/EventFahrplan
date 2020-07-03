@@ -45,8 +45,8 @@ import nerd.tuxmobil.fahrplan.congress.changes.ChangeListFragment;
 import nerd.tuxmobil.fahrplan.congress.changes.ChangeStatistic;
 import nerd.tuxmobil.fahrplan.congress.changes.ChangesDialog;
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
-import nerd.tuxmobil.fahrplan.congress.details.EventDetail;
-import nerd.tuxmobil.fahrplan.congress.details.EventDetailFragment;
+import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsActivity;
+import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsFragment;
 import nerd.tuxmobil.fahrplan.congress.engagements.Engagements;
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListActivity;
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListFragment;
@@ -150,7 +150,7 @@ public class MainActivity extends BaseActivity implements
         }
 
         if (findViewById(R.id.detail) == null) {
-            removeFragment(EventDetailFragment.FRAGMENT_TAG);
+            removeFragment(SessionDetailsFragment.FRAGMENT_TAG);
         }
 
         Engagements.initUserEngagement(this);
@@ -386,7 +386,7 @@ public class MainActivity extends BaseActivity implements
         MyApp.LogDebug(LOG_TAG, "openLectureDetail sidePane=" + sidePane);
         if (sidePane != null) {
             FragmentManager fm = getSupportFragmentManager();
-            fm.popBackStack(EventDetailFragment.FRAGMENT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            fm.popBackStack(SessionDetailsFragment.FRAGMENT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             Bundle args = new Bundle();
             args.putString(BundleKeys.EVENT_TITLE, lecture.title);
             args.putString(BundleKeys.EVENT_SUBTITLE, lecture.subtitle);
@@ -399,12 +399,12 @@ public class MainActivity extends BaseActivity implements
             args.putString(BundleKeys.EVENT_ROOM, lecture.room);
             args.putBoolean(BundleKeys.SIDEPANE, true);
             args.putBoolean(BundleKeys.REQUIRES_SCHEDULE_RELOAD, requiresScheduleReload);
-            EventDetailFragment eventDetailFragment = new EventDetailFragment();
+            SessionDetailsFragment eventDetailFragment = new SessionDetailsFragment();
             eventDetailFragment.setArguments(args);
             replaceFragment(R.id.detail, eventDetailFragment,
-                    EventDetailFragment.FRAGMENT_TAG, EventDetailFragment.FRAGMENT_TAG);
+                    SessionDetailsFragment.FRAGMENT_TAG, SessionDetailsFragment.FRAGMENT_TAG);
         } else {
-            EventDetail.startForResult(this, lecture, mDay, requiresScheduleReload);
+            SessionDetailsActivity.startForResult(this, lecture, mDay, requiresScheduleReload);
         }
     }
 

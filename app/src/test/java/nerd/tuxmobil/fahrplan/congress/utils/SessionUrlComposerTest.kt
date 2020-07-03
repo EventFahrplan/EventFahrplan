@@ -5,7 +5,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import nerd.tuxmobil.fahrplan.congress.models.Session as Event
 
-class EventUrlComposerTest {
+class SessionUrlComposerTest {
 
     companion object {
 
@@ -45,7 +45,7 @@ class EventUrlComposerTest {
     @Test
     fun getEventUrlWithUnknownBackend() {
         try {
-            EventUrlComposer(FRAB_EVENT, "", "").getEventUrl()
+            SessionUrlComposer(FRAB_EVENT, "", "").getEventUrl()
         } catch (e: NotImplementedError) {
             assertThat(e.message).isEqualTo("Unknown server backend type: ''")
         }
@@ -53,37 +53,37 @@ class EventUrlComposerTest {
 
     @Test
     fun getEventUrlWithPentabarfEventWithPentabarfBackend() {
-        assertThat(EventUrlComposer(PENTABARF_EVENT, PENTABARF_EVENT_URL_TEMPLATE, ServerBackendType.PENTABARF.name)
+        assertThat(SessionUrlComposer(PENTABARF_EVENT, PENTABARF_EVENT_URL_TEMPLATE, ServerBackendType.PENTABARF.name)
                 .getEventUrl()).isEqualTo("https://fosdem.org/2018/schedule/event/keynotes_welcome/")
     }
 
     @Test
     fun getEventUrlWithFrabEventWithFrabBackend() {
-        assertThat(EventUrlComposer(FRAB_EVENT, FRAB_EVENT_URL_TEMPLATE, ServerBackendType.FRAB.name)
+        assertThat(SessionUrlComposer(FRAB_EVENT, FRAB_EVENT_URL_TEMPLATE, ServerBackendType.FRAB.name)
                 .getEventUrl()).isEqualTo("https://fahrplan.events.ccc.de/congress/2018/Fahrplan/events/9985.html")
     }
 
     @Test
     fun getEventUrlWithPretalxEventWithFrabBackend() {
-        assertThat(EventUrlComposer(PRETALX_EVENT, FRAB_EVENT_URL_TEMPLATE, ServerBackendType.FRAB.name)
+        assertThat(SessionUrlComposer(PRETALX_EVENT, FRAB_EVENT_URL_TEMPLATE, ServerBackendType.FRAB.name)
                 .getEventUrl()).isEqualTo("https://fahrplan.chaos-west.de/35c3chaoswest/talk/KDYQEB")
     }
 
     @Test
     fun getEventUrlWithPretalxEventWithPretalxBackend() {
-        assertThat(EventUrlComposer(PRETALX_EVENT, "", ServerBackendType.PRETALX.name)
+        assertThat(SessionUrlComposer(PRETALX_EVENT, "", ServerBackendType.PRETALX.name)
                 .getEventUrl()).isEqualTo("https://fahrplan.chaos-west.de/35c3chaoswest/talk/KDYQEB")
     }
 
     @Test
     fun getEventUrlWithShiftEventWithUrl() {
-        assertThat(EventUrlComposer(ENGELSYSTEM_SHIFT_EVENT_WITH_URL, FRAB_EVENT_URL_TEMPLATE, ServerBackendType.FRAB.name, setOf(AppRepository.ENGELSYSTEM_ROOM_NAME))
+        assertThat(SessionUrlComposer(ENGELSYSTEM_SHIFT_EVENT_WITH_URL, FRAB_EVENT_URL_TEMPLATE, ServerBackendType.FRAB.name, setOf(AppRepository.ENGELSYSTEM_ROOM_NAME))
                 .getEventUrl()).isEqualTo("https://helpful.to/the/angel")
     }
 
     @Test
     fun getEventUrlWithShiftEventWithoutUrl() {
-        assertThat(EventUrlComposer(ENGELSYSTEM_SHIFT_EVENT_WITHOUT_URL, FRAB_EVENT_URL_TEMPLATE, ServerBackendType.FRAB.name, setOf(AppRepository.ENGELSYSTEM_ROOM_NAME))
+        assertThat(SessionUrlComposer(ENGELSYSTEM_SHIFT_EVENT_WITHOUT_URL, FRAB_EVENT_URL_TEMPLATE, ServerBackendType.FRAB.name, setOf(AppRepository.ENGELSYSTEM_ROOM_NAME))
                 .getEventUrl()).isEqualTo("")
     }
 

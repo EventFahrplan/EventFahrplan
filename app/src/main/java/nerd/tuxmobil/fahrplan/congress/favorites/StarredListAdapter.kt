@@ -8,16 +8,16 @@ import androidx.core.content.ContextCompat
 import info.metadude.android.eventfahrplan.commons.temporal.DateFormatter
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.R
-import nerd.tuxmobil.fahrplan.congress.base.LecturesAdapter
+import nerd.tuxmobil.fahrplan.congress.base.SessionsAdapter
 import nerd.tuxmobil.fahrplan.congress.extensions.textOrHide
 import nerd.tuxmobil.fahrplan.congress.models.Session
 
-class LectureArrayAdapter internal constructor(
+class StarredListAdapter internal constructor(
 
         context: Context,
         list: List<Session>, numDays: Int
 
-) : LecturesAdapter(
+) : SessionsAdapter(
 
         context,
         R.layout.session_list_item,

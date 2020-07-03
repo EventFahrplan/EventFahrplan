@@ -10,12 +10,12 @@ import nerd.tuxmobil.fahrplan.congress.models.Session
 
 internal interface LectureViewEventsHandler : View.OnCreateContextMenuListener, View.OnClickListener
 
-internal class LectureViewColumnAdapter(
+internal class SessionViewColumnAdapter(
         private val lectures: List<Session>,
         private val layoutParamsByLecture: Map<Session, LinearLayout.LayoutParams>,
-        private val drawer: LectureViewDrawer,
+        private val drawer: SessionViewDrawer,
         private val eventsHandler: LectureViewEventsHandler
-) : RecyclerView.Adapter<LectureViewColumnAdapter.EventViewHolder>() {
+) : RecyclerView.Adapter<SessionViewColumnAdapter.EventViewHolder>() {
 
     override fun onBindViewHolder(viewHolder: EventViewHolder, position: Int) {
         val lecture = lectures[position]

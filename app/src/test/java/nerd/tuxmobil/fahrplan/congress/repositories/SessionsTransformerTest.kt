@@ -4,12 +4,12 @@ import com.google.common.truth.Truth.assertThat
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import org.junit.Test
 
-class LectureListTransformerTest {
+class SessionsTransformerTest {
     private val prioritizedRoomProvider = object : PrioritizedRoomProvider {
         override val prioritizedRooms = listOf("Ada", "Borg", "Clarke", "Dijkstra", "Eliza")
     }
 
-    private val transformer = LectureListTransformer(prioritizedRoomProvider)
+    private val transformer = SessionsTransformer(prioritizedRoomProvider)
 
     @Test
     fun `ScheduleData_dayIndex contains proper day value`() {

@@ -8,17 +8,17 @@ import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
 import info.metadude.android.eventfahrplan.commons.temporal.DateFormatter
 import nerd.tuxmobil.fahrplan.congress.R
-import nerd.tuxmobil.fahrplan.congress.base.LecturesAdapter
+import nerd.tuxmobil.fahrplan.congress.base.SessionsAdapter
 import nerd.tuxmobil.fahrplan.congress.extensions.textOrHide
 import nerd.tuxmobil.fahrplan.congress.models.Session
 
-class LectureChangesArrayAdapter internal constructor(
+class ChangeListAdapter internal constructor(
 
         context: Context,
         list: List<Session>,
         numDays: Int
 
-) : LecturesAdapter(
+) : SessionsAdapter(
 
         context,
         R.layout.session_list_item,

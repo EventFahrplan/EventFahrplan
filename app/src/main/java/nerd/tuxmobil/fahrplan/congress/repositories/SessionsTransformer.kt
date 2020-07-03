@@ -4,7 +4,7 @@ import nerd.tuxmobil.fahrplan.congress.models.RoomData
 import nerd.tuxmobil.fahrplan.congress.models.ScheduleData
 import nerd.tuxmobil.fahrplan.congress.models.Session
 
-class LectureListTransformer(private val prioritizedRoomProvider: PrioritizedRoomProvider) {
+class SessionsTransformer(private val prioritizedRoomProvider: PrioritizedRoomProvider) {
 
     /**
      * Transforms the given [lectures] for the given [dayIndex] into a [ScheduleData] object.

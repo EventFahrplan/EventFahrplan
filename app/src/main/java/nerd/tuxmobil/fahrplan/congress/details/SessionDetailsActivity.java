@@ -20,13 +20,13 @@ import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.models.Session;
 import nerd.tuxmobil.fahrplan.congress.navigation.RoomForC3NavConverter;
 
-public class EventDetail extends BaseActivity {
+public class SessionDetailsActivity extends BaseActivity {
 
     public static void startForResult(@NonNull Activity activity,
                                       @NonNull Session lecture,
                                       int lectureDay,
                                       boolean requiresScheduleReload) {
-        Intent intent = new Intent(activity, EventDetail.class);
+        Intent intent = new Intent(activity, SessionDetailsActivity.class);
         intent.putExtra(BundleKeys.EVENT_TITLE, lecture.title);
         intent.putExtra(BundleKeys.EVENT_SUBTITLE, lecture.subtitle);
         intent.putExtra(BundleKeys.EVENT_ABSTRACT, lecture.abstractt);
@@ -60,7 +60,7 @@ public class EventDetail extends BaseActivity {
         }
 
         if (intent != null && findViewById(R.id.detail) != null) {
-            EventDetailFragment eventDetailFragment = new EventDetailFragment();
+            SessionDetailsFragment eventDetailFragment = new SessionDetailsFragment();
             Bundle args = new Bundle();
             args.putString(BundleKeys.EVENT_TITLE,
                     intent.getStringExtra(BundleKeys.EVENT_TITLE));
@@ -84,7 +84,7 @@ public class EventDetail extends BaseActivity {
                     intent.getBooleanExtra(BundleKeys.REQUIRES_SCHEDULE_RELOAD, false));
             eventDetailFragment.setArguments(args);
             replaceFragment(R.id.detail, eventDetailFragment,
-                    EventDetailFragment.FRAGMENT_TAG);
+                    SessionDetailsFragment.FRAGMENT_TAG);
         }
     }
 

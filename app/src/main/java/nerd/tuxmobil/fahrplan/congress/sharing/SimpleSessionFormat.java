@@ -7,10 +7,10 @@ import java.util.List;
 
 import info.metadude.android.eventfahrplan.commons.temporal.DateFormatter;
 import nerd.tuxmobil.fahrplan.congress.models.Session;
-import nerd.tuxmobil.fahrplan.congress.utils.EventUrlComposer;
+import nerd.tuxmobil.fahrplan.congress.utils.SessionUrlComposer;
 import nerd.tuxmobil.fahrplan.congress.wiki.WikiEventUtils;
 
-public class SimpleLectureFormat {
+public class SimpleSessionFormat {
 
     private static final String LINE_BREAK = "\n";
     private static final String COMMA = ",";
@@ -57,7 +57,7 @@ public class SimpleLectureFormat {
         if (!WikiEventUtils.containsWikiLink(lecture.getLinks())) {
             builder.append(LINE_BREAK);
             builder.append(LINE_BREAK);
-            String eventUrl = new EventUrlComposer(lecture).getEventUrl();
+            String eventUrl = new SessionUrlComposer(lecture).getEventUrl();
             builder.append(eventUrl);
         }
     }

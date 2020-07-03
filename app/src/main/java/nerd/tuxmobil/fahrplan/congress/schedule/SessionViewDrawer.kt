@@ -14,7 +14,7 @@ import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
 import nerd.tuxmobil.fahrplan.congress.models.Session
 
-internal class LectureViewDrawer(
+internal class SessionViewDrawer(
 
         context: Context
 
@@ -94,26 +94,26 @@ internal class LectureViewDrawer(
             trackNameBackgroundColorDefaultPairs[event.track] ?: R.color.event_border_default
         }
         @ColorInt val backgroundColor = ContextCompat.getColor(context, backgroundColorResId)
-        val eventDrawable: EventDrawable
+        val eventDrawable: SessionDrawable
         eventDrawable = if (eventIsFavored && alternativeHighlightingIsEnabled) {
-            EventDrawable(
+            SessionDrawable(
                     backgroundColor,
                     eventDrawableCornerRadius.toFloat(),
                     eventDrawableRippleColor,
                     eventDrawableStrokeColor,
                     eventDrawableStrokeWidth.toFloat())
         } else {
-            EventDrawable(
+            SessionDrawable(
                     backgroundColor,
                     eventDrawableCornerRadius.toFloat(),
                     eventDrawableRippleColor)
         }
-        eventDrawable.setLayerInset(EventDrawable.BACKGROUND_LAYER_INDEX,
+        eventDrawable.setLayerInset(SessionDrawable.BACKGROUND_LAYER_INDEX,
                 eventDrawableInsetLeft,
                 eventDrawableInsetTop,
                 eventDrawableInsetRight,
                 0)
-        eventDrawable.setLayerInset(EventDrawable.STROKE_LAYER_INDEX,
+        eventDrawable.setLayerInset(SessionDrawable.STROKE_LAYER_INDEX,
                 eventDrawableInsetLeft,
                 eventDrawableInsetTop,
                 eventDrawableInsetRight,

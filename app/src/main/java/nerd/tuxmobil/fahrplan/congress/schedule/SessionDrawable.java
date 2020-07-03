@@ -14,22 +14,22 @@ import androidx.annotation.ColorInt;
 
 import java.util.Arrays;
 
-public class EventDrawable extends LayerDrawable {
+public class SessionDrawable extends LayerDrawable {
 
     public static final int BACKGROUND_LAYER_INDEX = 0;
 
     public static final int STROKE_LAYER_INDEX = 1;
 
-    public EventDrawable(@ColorInt int backgroundColor, float cornerRadius,
-                         @ColorInt int rippleColor) {
+    public SessionDrawable(@ColorInt int backgroundColor, float cornerRadius,
+                           @ColorInt int rippleColor) {
         this(backgroundColor, cornerRadius,
                 rippleColor,
                 Color.TRANSPARENT, 0);
     }
 
-    public EventDrawable(@ColorInt int backgroundColor, float cornerRadius,
-                         @ColorInt int rippleColor,
-                         @ColorInt int strokeColor, float strokeWidth) {
+    public SessionDrawable(@ColorInt int backgroundColor, float cornerRadius,
+                           @ColorInt int rippleColor,
+                           @ColorInt int strokeColor, float strokeWidth) {
         super(setupLayers(backgroundColor, cornerRadius,
                 rippleColor,
                 strokeColor, strokeWidth));

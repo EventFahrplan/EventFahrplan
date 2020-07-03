@@ -5,7 +5,7 @@ import com.squareup.moshi.JsonClass
 import nerd.tuxmobil.fahrplan.congress.models.Session
 
 @JsonClass(generateAdapter = true)
-data class LectureExport(
+data class SessionExport(
         @Json(name = "lecture_id")
         var lectureId: String,
         var title: String,

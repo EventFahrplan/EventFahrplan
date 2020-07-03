@@ -10,7 +10,7 @@ import org.junit.Test
 import info.metadude.android.eventfahrplan.database.models.Session as LectureDatabaseModel
 import info.metadude.android.eventfahrplan.network.models.Session as LectureNetworkModel
 
-class LectureExtensionsTest {
+class SessionExtensionsTest {
 
     @Test
     fun lectureDatabaseModel_toLectureAppModel_toLectureDatabaseModel() {

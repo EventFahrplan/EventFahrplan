@@ -22,7 +22,7 @@ import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.extensions.Contexts;
 import nerd.tuxmobil.fahrplan.congress.models.Session;
 
-public abstract class LecturesAdapter extends ArrayAdapter<Session> {
+public abstract class SessionsAdapter extends ArrayAdapter<Session> {
 
     private static final int TYPE_ITEM = 0;
     private static final int TYPE_SEPARATOR = 1;
@@ -36,7 +36,7 @@ public abstract class LecturesAdapter extends ArrayAdapter<Session> {
     private ArrayList<String> mSeparatorStrings;
     private TreeSet<Integer> mSeparatorsSet;
 
-    public LecturesAdapter(Context context, @LayoutRes int layout, List<Session> list, int numDays) {
+    public SessionsAdapter(Context context, @LayoutRes int layout, List<Session> list, int numDays) {
         super(context, layout, list);
         this.context = new ContextThemeWrapper(context, R.style.Theme_AppCompat_Light);
         this.list = list;

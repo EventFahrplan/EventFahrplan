@@ -11,7 +11,7 @@ import org.mockito.ArgumentMatchers.anyInt
 /**
  * Test class to deal with lectures which interact with the [SessionsDatabaseRepository].
  */
-class AppRepositoryLecturesTest {
+class AppRepositorySessionsTest {
 
     private val lecturesDatabaseRepository = mock<SessionsDatabaseRepository>()
 

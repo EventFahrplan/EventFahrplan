@@ -47,7 +47,7 @@ public class ChangeListFragment extends AbstractListFragment {
      * The Adapter which will be used to populate the ListView/GridView with
      * Views.
      */
-    private LectureChangesArrayAdapter mAdapter;
+    private ChangeListAdapter mAdapter;
 
     public static ChangeListFragment newInstance(boolean sidePane, boolean requiresScheduleReload) {
         ChangeListFragment fragment = new ChangeListFragment();
@@ -78,7 +78,7 @@ public class ChangeListFragment extends AbstractListFragment {
         Context context = requireContext();
         changesList = appRepository.loadChangedLectures();
         Meta meta = appRepository.readMeta();
-        mAdapter = new LectureChangesArrayAdapter(context, changesList, meta.getNumDays());
+        mAdapter = new ChangeListAdapter(context, changesList, meta.getNumDays());
         MyApp.LogDebug(LOG_TAG, "onCreate, " + changesList.size() + " changes");
     }
 
