@@ -16,7 +16,7 @@
     <TextView
         android:id="@+id/event_detail_content_speakers_view"
         style="@style/EventDetailSection.Speakers"
-        android:textSize="@dimen/event_detail_speakers"
+        android:textSize="@dimen/session_details_speakers"
         tools:text="@string/placeholder_event_speakers"/>
 
     <TextView

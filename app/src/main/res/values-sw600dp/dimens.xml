@@ -23,11 +23,11 @@
     <dimen name="activity_padding">80dp</dimen>
     <dimen name="header_height">16dp</dimen>
 
-    <!-- Event detail text sizes -->
-    <dimen name="event_detailbar_text">14sp</dimen>
-    <dimen name="event_detail_text">16sp</dimen>
-    <dimen name="event_detail_title">30sp</dimen>
-    <dimen name="event_detail_subtitle">18sp</dimen>
-    <dimen name="event_detail_speakers">14sp</dimen>
+    <!-- Session details text sizes -->
+    <dimen name="session_detailbar_text">14sp</dimen>
+    <dimen name="session_details_text">16sp</dimen>
+    <dimen name="session_details_title">30sp</dimen>
+    <dimen name="session_details_subtitle">18sp</dimen>
+    <dimen name="session_details_speakers">14sp</dimen>
 
 </resources>

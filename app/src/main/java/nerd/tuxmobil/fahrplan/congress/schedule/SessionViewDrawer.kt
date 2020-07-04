@@ -42,15 +42,15 @@ internal class SessionViewDrawer(
     init {
         scale = resources.displayMetrics.density
         sessionDrawableInsetTop = resources.getDimensionPixelSize(
-                R.dimen.event_drawable_inset_top)
+                R.dimen.session_drawable_inset_top)
         sessionDrawableInsetLeft = resources.getDimensionPixelSize(
-                R.dimen.event_drawable_inset_left)
+                R.dimen.session_drawable_inset_left)
         sessionDrawableInsetRight = resources.getDimensionPixelSize(
-                R.dimen.event_drawable_inset_right)
+                R.dimen.session_drawable_inset_right)
         sessionDrawableCornerRadius = resources.getDimensionPixelSize(
-                R.dimen.event_drawable_corner_radius)
+                R.dimen.session_drawable_corner_radius)
         sessionDrawableStrokeWidth = resources.getDimensionPixelSize(
-                R.dimen.event_drawable_selection_stroke_width)
+                R.dimen.session_drawable_selection_stroke_width)
         sessionDrawableStrokeColor = ContextCompat.getColor(
                 context, R.color.session_drawable_selection_stroke)
         sessionDrawableRippleColor = ContextCompat.getColor(

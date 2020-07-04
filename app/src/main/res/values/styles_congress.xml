@@ -152,8 +152,8 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/session_details_text</item>
-        <item name="android:textSize">@dimen/event_detail_text</item>
-        <item name="android:paddingBottom">@dimen/event_detail_section_margin_top</item>
+        <item name="android:textSize">@dimen/session_details_text</item>
+        <item name="android:paddingBottom">@dimen/session_details_section_margin_top</item>
     </style>
 
     <style name="EventDetailSection.Last" parent="EventDetailSection">
@@ -162,37 +162,37 @@
 
     <style name="EventDetailSection.Long" parent="EventDetailSection">
         <item name="android:lineSpacingMultiplier">
-            @dimen/event_detail_line_spacing_multiplier
+            @dimen/session_details_line_spacing_multiplier
         </item>
     </style>
 
     <style name="EventDetailSection.Header" parent="EventDetailSection">
         <item name="android:textStyle">bold</item>
-        <item name="android:paddingBottom">@dimen/event_detail_section_margin_bottom</item>
+        <item name="android:paddingBottom">@dimen/session_details_section_margin_bottom</item>
     </style>
 
     <style name="EventDetailSection.Header.Long" parent="EventDetailSection.Header">
         <item name="android:lineSpacingMultiplier">
-            @dimen/event_detail_line_spacing_multiplier
+            @dimen/session_details_line_spacing_multiplier
         </item>
     </style>
 
     <style name="EventDetailSection.Title" parent="EventDetailSection.Header">
-        <item name="android:textSize">@dimen/event_detail_title</item>
+        <item name="android:textSize">@dimen/session_details_title</item>
         <item name="android:paddingBottom">0dp</item>
     </style>
 
     <style name="EventDetailSection.Subtitle" parent="EventDetailSection">
-        <item name="android:textSize">@dimen/event_detail_subtitle</item>
+        <item name="android:textSize">@dimen/session_details_subtitle</item>
         <item name="android:paddingBottom">0dp</item>
     </style>
 
     <style name="EventDetailSection.Speakers" parent="EventDetailSection">
-        <item name="android:textSize">@dimen/event_detail_speakers</item>
+        <item name="android:textSize">@dimen/session_details_speakers</item>
         <item name="android:typeface">normal</item>
         <item name="android:textAllCaps">true</item>
-        <item name="android:paddingBottom">@dimen/event_detail_section_margin_top</item>
-        <item name="android:paddingTop">@dimen/event_detail_section_margin_top</item>
+        <item name="android:paddingBottom">@dimen/session_details_section_margin_top</item>
+        <item name="android:paddingTop">@dimen/session_details_section_margin_top</item>
     </style>
 
     <style name="BuildInfoItem">

@@ -43,12 +43,12 @@
     <!-- About -->
     <dimen name="about_horizontal_line_height">1dp</dimen>
 
-    <!-- Event drawable parameters -->
-    <dimen name="event_drawable_corner_radius">6dp</dimen>
-    <dimen name="event_drawable_inset_top">1dp</dimen>
-    <dimen name="event_drawable_inset_left">3dp</dimen>
-    <dimen name="event_drawable_inset_right">1dp</dimen>
-    <dimen name="event_drawable_selection_stroke_width">2dp</dimen>
+    <!-- Session drawable parameters -->
+    <dimen name="session_drawable_corner_radius">6dp</dimen>
+    <dimen name="session_drawable_inset_top">1dp</dimen>
+    <dimen name="session_drawable_inset_left">3dp</dimen>
+    <dimen name="session_drawable_inset_right">1dp</dimen>
+    <dimen name="session_drawable_selection_stroke_width">2dp</dimen>
 
     <!-- Alert dialogs -->
     <!-- See: https://www.google.de/design/spec/components/dialogs.html#dialogs-specs -->
@@ -57,17 +57,17 @@
     <!-- CertificateDialog -->
     <dimen name="certificate_dialog_text">12sp</dimen>
 
-    <!-- Event detail white space -->
-    <dimen name="event_detail_section_margin_bottom">8dp</dimen>
-    <dimen name="event_detail_section_margin_top">16dp</dimen>
-    <item name="event_detail_line_spacing_multiplier" format="float" type="dimen">1.1</item>
+    <!-- Session details white space -->
+    <dimen name="session_details_section_margin_bottom">8dp</dimen>
+    <dimen name="session_details_section_margin_top">16dp</dimen>
+    <item name="session_details_line_spacing_multiplier" format="float" type="dimen">1.1</item>
 
-    <!-- Event detail text sizes -->
-    <dimen name="event_detailbar_text">13sp</dimen>
-    <dimen name="event_detail_text">16sp</dimen>
-    <dimen name="event_detail_title">24sp</dimen>
-    <dimen name="event_detail_subtitle">16sp</dimen>
-    <dimen name="event_detail_speakers">13sp</dimen>
-    <dimen name="event_detailbar_icon_padding">3dp</dimen>
+    <!-- Session details text sizes -->
+    <dimen name="session_detailbar_text">13sp</dimen>
+    <dimen name="session_details_text">16sp</dimen>
+    <dimen name="session_details_title">24sp</dimen>
+    <dimen name="session_details_subtitle">16sp</dimen>
+    <dimen name="session_details_speakers">13sp</dimen>
+    <dimen name="session_detailbar_icon_padding">3dp</dimen>
 
 </resources>
