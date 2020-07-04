@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-            android:id="@+id/menu_item_close_event_details"
+            android:id="@+id/menu_item_close_session_details"
             android:icon="@drawable/ic_close_white_24dp"
             app:showAsAction="always"
             android:title="@string/menu_item_title_close_event_details"
@@ -58,14 +58,14 @@
 
 
     <item
-            android:id="@+id/menu_item_share_event"
+            android:id="@+id/menu_item_share_session"
             android:icon="@drawable/ic_share_white_24dp"
             app:showAsAction="always"
             android:visible="false"
             android:title="@string/menu_item_title_share_event"/>
 
     <item
-            android:id="@+id/menu_item_share_event_menu"
+            android:id="@+id/menu_item_share_session_menu"
             android:icon="@drawable/ic_share_white_24dp"
             app:showAsAction="always"
             android:visible="false"
@@ -73,13 +73,13 @@
 
         <menu>
             <item
-                android:id="@+id/menu_item_share_event_text"
+                android:id="@+id/menu_item_share_session_text"
                 android:title="@string/share_as_text"
                 app:showAsAction="never"/>
 
 
             <item
-                android:id="@+id/menu_item_share_event_json"
+                android:id="@+id/menu_item_share_session_json"
                 android:title="@string/share_as_json"
                 app:showAsAction="never"/>
         </menu>

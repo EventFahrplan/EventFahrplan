@@ -326,7 +326,7 @@ public class SessionDetailsFragment extends Fragment {
             }
         }
         if (sidePane) {
-            item = menu.findItem(R.id.menu_item_close_event_details);
+            item = menu.findItem(R.id.menu_item_close_session_details);
             if (item != null) {
                 item.setVisible(true);
             }
@@ -337,9 +337,9 @@ public class SessionDetailsFragment extends Fragment {
             item.setVisible(isVisible);
         }
         if (BuildConfig.ENABLE_CHAOSFLIX_EXPORT) {
-            item = menu.findItem(R.id.menu_item_share_event_menu);
+            item = menu.findItem(R.id.menu_item_share_session_menu);
         } else {
-            item = menu.findItem(R.id.menu_item_share_event);
+            item = menu.findItem(R.id.menu_item_share_session);
         }
         if (item != null) {
             item.setVisible(true);
@@ -398,15 +398,15 @@ public class SessionDetailsFragment extends Fragment {
                 startActivity(intent);
                 return true;
             }
-            case R.id.menu_item_share_event:
-            case R.id.menu_item_share_event_text:
+            case R.id.menu_item_share_session:
+            case R.id.menu_item_share_session_text:
                 session = sessionOf(sessionId);
                 String formattedSession = SimpleSessionFormat.format(session);
                 if (!SessionSharer.shareSimple(activity, formattedSession)) {
                     Toast.makeText(activity, R.string.share_error_activity_not_found, Toast.LENGTH_SHORT).show();
                 }
                 return true;
-            case R.id.menu_item_share_event_json:
+            case R.id.menu_item_share_session_json:
                 session = sessionOf(sessionId);
                 String jsonSession = JsonSessionFormat.format(session);
                 if (!SessionSharer.shareJson(activity, jsonSession)) {
@@ -442,7 +442,7 @@ public class SessionDetailsFragment extends Fragment {
                 }
                 refreshUI(activity);
                 return true;
-            case R.id.menu_item_close_event_details:
+            case R.id.menu_item_close_session_details:
                 closeFragment(activity, FRAGMENT_TAG);
                 return true;
             case R.id.menu_item_navigate:
