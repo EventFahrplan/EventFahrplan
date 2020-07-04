@@ -19,7 +19,7 @@
                 android:textColor="#000000"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                tools:text="@string/placeholder_event_title">
+                tools:text="@string/placeholder_session_title">
         </TextView>
 
         <ImageView
@@ -53,7 +53,7 @@
             android:textColor="#000000"
             android:textSize="15sp"
             android:fontFamily="sans-serif-light"
-            tools:text="@string/placeholder_event_subtitle"
+            tools:text="@string/placeholder_session_subtitle"
             />
 
     <RelativeLayout
@@ -70,7 +70,7 @@
                 android:textColor="@color/track_name"
                 android:fontFamily="sans-serif-condensed"
                 android:textSize="13sp"
-                tools:text="@string/placeholder_event_track"/>
+                tools:text="@string/placeholder_session_track"/>
 
         <TextView
                 android:id="@+id/event_speakers"
@@ -84,6 +84,6 @@
                 android:textColor="#000000"
                 android:fontFamily="sans-serif-condensed"
                 android:textSize="13sp"
-                tools:text="@string/placeholder_event_speakers"/>
+                tools:text="@string/placeholder_session_speakers"/>
     </RelativeLayout>
 </LinearLayout>

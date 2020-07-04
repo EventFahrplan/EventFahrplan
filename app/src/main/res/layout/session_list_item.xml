@@ -25,7 +25,7 @@
         app:layout_constraintEnd_toStartOf="@+id/barrier"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="@string/placeholder_event_title" />
+        tools:text="@string/placeholder_session_title" />
 
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/barrier"
@@ -108,7 +108,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lecture_list_item_title_view"
-        tools:text="@string/placeholder_event_subtitle" />
+        tools:text="@string/placeholder_session_subtitle" />
 
     <Space
         android:id="@+id/lecture_list_item_whitespace"
@@ -134,7 +134,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lecture_list_item_whitespace"
-        tools:text="@string/placeholder_event_speakers" />
+        tools:text="@string/placeholder_session_speakers" />
 
     <TextView
         android:id="@+id/lecture_list_item_day_view"
@@ -149,7 +149,7 @@
         app:layout_constraintEnd_toStartOf="@+id/lecture_list_item_time_view"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lecture_list_item_speakers_view"
-        tools:text="@string/placeholder_event_day" />
+        tools:text="@string/placeholder_session_day" />
 
     <TextView
         android:id="@+id/lecture_list_item_time_view"
@@ -164,7 +164,7 @@
         app:layout_constraintEnd_toStartOf="@+id/lecture_list_item_duration_view"
         app:layout_constraintStart_toEndOf="@+id/lecture_list_item_day_view"
         app:layout_constraintTop_toBottomOf="@+id/lecture_list_item_speakers_view"
-        tools:text="@string/placeholder_event_start_time" />
+        tools:text="@string/placeholder_session_start_time" />
 
     <TextView
         android:id="@+id/lecture_list_item_duration_view"
@@ -181,7 +181,7 @@
         app:layout_constraintEnd_toStartOf="@+id/lecture_list_item_room_view"
         app:layout_constraintStart_toEndOf="@+id/lecture_list_item_time_view"
         app:layout_constraintTop_toBottomOf="@+id/lecture_list_item_speakers_view"
-        tools:text="@string/placeholder_event_duration" />
+        tools:text="@string/placeholder_session_duration" />
 
     <TextView
         android:id="@+id/lecture_list_item_room_view"
@@ -198,7 +198,7 @@
         app:layout_constraintEnd_toStartOf="@+id/lecture_list_item_language_view"
         app:layout_constraintStart_toEndOf="@+id/lecture_list_item_duration_view"
         app:layout_constraintTop_toBottomOf="@+id/lecture_list_item_speakers_view"
-        tools:text="@string/placeholder_event_room" />
+        tools:text="@string/placeholder_session_room" />
 
     <TextView
         android:id="@+id/lecture_list_item_language_view"
@@ -213,6 +213,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/lecture_list_item_room_view"
         app:layout_constraintTop_toBottomOf="@+id/lecture_list_item_speakers_view"
-        tools:text="@string/placeholder_event_language" />
+        tools:text="@string/placeholder_session_language" />
 
 </nerd.tuxmobil.fahrplan.congress.commons.CheckableLayout>

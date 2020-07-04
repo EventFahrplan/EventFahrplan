@@ -30,7 +30,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintStart_toEndOf="@id/lecture_detailbar_location"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="@string/placeholder_event_date" />
+        tools:text="@string/placeholder_session_date" />
 
     <nerd.tuxmobil.fahrplan.congress.commons.TextViewCompat
         android:id="@+id/lecture_detailbar_location"
@@ -55,7 +55,7 @@
         app:layout_constraintEnd_toStartOf="@+id/lecture_detailbar_lecture_id"
         app:layout_constraintStart_toEndOf="@+id/lecture_detailbar_date_time"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="@string/placeholder_event_location" />
+        tools:text="@string/placeholder_session_location" />
 
     <TextView
         android:id="@+id/lecture_detailbar_lecture_id"
@@ -73,6 +73,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="@string/placeholder_event_id" />
+        tools:text="@string/placeholder_session_id" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

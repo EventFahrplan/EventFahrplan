@@ -8,16 +8,16 @@
     Some texts are localized (e.g. date) while others are just shorter in length.
     -->
 
-    <string name="placeholder_event_title">
+    <string name="placeholder_session_title">
         Hardware Attacks, Advanced ARM Exploitation, and Android Hacking
     </string>
-    <string name="placeholder_event_subtitle">
+    <string name="placeholder_session_subtitle">
         Discussion of recent research, live demonstration of techniques
     </string>
-    <string name="placeholder_event_track">
+    <string name="placeholder_session_track">
         Security &amp; Safety
     </string>
-    <string name="placeholder_event_abstract">
+    <string name="placeholder_session_abstract">
         In this talk (which in part was delivered at Infiltrate 2013 and NoSuchCon
         2013) we will discuss our recent research that is being rolled into our
         Practical ARM Exploitation course (sold out at Blackhat this year and last)
@@ -28,7 +28,7 @@
         it related to Android as we wrote about in the "Android Hackers Handbook"
         which we co-authored and will be released in October 2013.
     </string>
-    <string name="placeholder_event_description">
+    <string name="placeholder_session_description">
         Lastly, we will also discuss some of our most recent related hardware
         research (to facilitate the above) which will include bus protocol
         eavesdropping/reverse engineering, demystifying hardware debugging, and
@@ -45,28 +45,28 @@
         the patent for and have been publicly about publicly as a hardware vulnerability
         assessment swiss-army-knife for researchers.
     </string>
-    <string name="placeholder_event_speakers">
+    <string name="placeholder_session_speakers">
         Stephen A. Ridley, Ernest Ridley, Conan Ridley, Bridget Ridley, Frank Ridley
     </string>
-    <string name="placeholder_event_links">
+    <string name="placeholder_session_links">
         Don\'t Stuff Beans Up Your Nose\nINT3.CC\nThe Osprey (on INT3)
     </string>
-    <string name="placeholder_event_online">
+    <string name="placeholder_session_online">
         https://events.ccc.de/congress/2013/Fahrplan/events/5193.html
     </string>
-    <string name="placeholder_event_language">
+    <string name="placeholder_session_language">
         en
     </string>
-    <string name="placeholder_event_day">
+    <string name="placeholder_session_day">
         Today
     </string>
-    <string name="placeholder_event_start_time">
+    <string name="placeholder_session_start_time">
         17:15
     </string>
-    <string name="placeholder_event_duration">
+    <string name="placeholder_session_duration">
         240 min.
     </string>
-    <string name="placeholder_event_room">
+    <string name="placeholder_session_room">
         Village:Königlich Bayerisches Amtsvillage
     </string>
 
@@ -84,15 +84,15 @@
         12/28/13 5:10 PM
     </string>
 
-    <!-- Event detail bar -->
+    <!-- Session detail bar -->
 
-    <string name="placeholder_event_date">
+    <string name="placeholder_session_date">
         12/28/13 5:15 PM
     </string>
-    <string name="placeholder_event_location">
+    <string name="placeholder_session_location">
         REALLY LARGE ROOM
     </string>
-    <string name="placeholder_event_id">
+    <string name="placeholder_session_id">
         ID: 5193
     </string>
 

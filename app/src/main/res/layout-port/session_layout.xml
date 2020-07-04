@@ -19,7 +19,7 @@
                 android:textSize="16sp"
                 android:layout_weight="1"
                 android:textStyle="bold"
-                tools:text="@string/placeholder_event_title">
+                tools:text="@string/placeholder_session_title">
         </TextView>
 
         <ImageView
@@ -55,7 +55,7 @@
             android:fontFamily="sans-serif-light"
             android:textColor="@color/session_title_on_default_background"
             android:textSize="12sp"
-            tools:text="@string/placeholder_event_subtitle"/>
+            tools:text="@string/placeholder_session_subtitle"/>
 
     <RelativeLayout
             android:layout_width="match_parent"
@@ -71,7 +71,7 @@
                 android:singleLine="true"
                 android:textColor="@color/track_name"
                 android:textSize="11sp"
-                tools:text="@string/placeholder_event_track"/>
+                tools:text="@string/placeholder_session_track"/>
 
         <TextView
                 android:id="@+id/event_speakers"
@@ -85,7 +85,7 @@
                 android:singleLine="true"
                 android:textColor="@color/session_title_on_default_background"
                 android:textSize="11sp"
-                tools:text="@string/placeholder_event_speakers"/>
+                tools:text="@string/placeholder_session_speakers"/>
     </RelativeLayout>
 
 </LinearLayout>

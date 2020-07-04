@@ -32,7 +32,7 @@
                 android:paddingBottom="3dp"
                 android:textColor="?android:attr/textColorPrimary"
                 android:textSize="@dimen/alarm_list_alarm_title_text"
-                tools:text="@string/placeholder_event_title"/>
+                tools:text="@string/placeholder_session_title"/>
 
         <TextView
                 android:id="@+id/alarm_start_time"

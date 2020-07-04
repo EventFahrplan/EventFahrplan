@@ -8,23 +8,23 @@
     Some texts are localized (e.g. date) while others are just shorter in length.
     -->
 
-    <string name="placeholder_event_title">
+    <string name="placeholder_session_title">
         Seidenstraße
     </string>
-    <string name="placeholder_event_subtitle">
+    <string name="placeholder_session_subtitle">
         The Making of…
     </string>
-    <string name="placeholder_event_track">
+    <string name="placeholder_session_track">
         Art &amp; Beauty
     </string>
-    <string name="placeholder_event_abstract">
+    <string name="placeholder_session_abstract">
         Auf dem 30C3 wird es, neben der bisher gewohnten digitalen Infrastruktur mit
         Netz, Telefon etc. dieses Jahr auch erstmalig ein Rohrpost-System mit dem
         schönen Namen Seidenstraße geben. Als Inspiration dient die auf geschlossenen
         Drainagerohren und Staubsaugern basierende Installation OCTO der Künstlergruppe
         Telekommunisten, die einigen von der letzten transmediale bekannt sein dürfte.
     </string>
-    <string name="placeholder_event_description">
+    <string name="placeholder_session_description">
         Wir werden die Idee und Funktionsweise der Installation vorstellen, ihre
         Evolution von OCTO zur Seidenstraße als Offenes Kunstwerk, neue Features
         sowie von Entwicklung und Aufbau erzählen und vor allem, wie ihr mitmachen könnt!
@@ -46,28 +46,28 @@
         will also hold a workshop, where they will further explain concept and
         background of OCTO and open up the discussion for further input.
     </string>
-    <string name="placeholder_event_speakers">
+    <string name="placeholder_session_speakers">
         *m, Jeff Mann, frank, Diani Barreto
     </string>
-    <string name="placeholder_event_links">
+    <string name="placeholder_session_links">
         OCTO der Künstlergruppe Telekommunisten\nTelekommunisten workshop
     </string>
-    <string name="placeholder_event_online">
+    <string name="placeholder_session_online">
         https://events.ccc.de/congress/2013/Fahrplan/events/5610.html
     </string>
-    <string name="placeholder_event_language">
+    <string name="placeholder_session_language">
         de
     </string>
-    <string name="placeholder_event_day">
+    <string name="placeholder_session_day">
         Heute
     </string>
-    <string name="placeholder_event_start_time">
+    <string name="placeholder_session_start_time">
         11:45
     </string>
-    <string name="placeholder_event_duration">
+    <string name="placeholder_session_duration">
         60 min.
     </string>
-    <string name="placeholder_event_room">
+    <string name="placeholder_session_room">
         Saal 2
     </string>
 
@@ -85,12 +85,12 @@
         27.12.13 11:30 vorm.
     </string>
 
-    <!-- Event detail bar -->
+    <!-- Session detail bar -->
 
-    <string name="placeholder_event_date">
+    <string name="placeholder_session_date">
         27.12.13 11:45 VORM. - SAAL 1
     </string>
-    <string name="placeholder_event_id">
+    <string name="placeholder_session_id">
         ID: 5610
     </string>
 
