@@ -29,7 +29,7 @@ class StarredListAdapter internal constructor(
     private val nowMoment = Moment()
 
     @ColorInt
-    private val pastSessionTextColor = ContextCompat.getColor(context, R.color.favorites_past_event_text)
+    private val pastSessionTextColor = ContextCompat.getColor(context, R.color.favorites_past_session_text)
 
     override fun initViewSetup() {
         nowMoment.setToNow()

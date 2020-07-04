@@ -151,7 +151,7 @@
     <style name="EventDetailSection">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">@color/event_detail_text</item>
+        <item name="android:textColor">@color/session_details_text</item>
         <item name="android:textSize">@dimen/event_detail_text</item>
         <item name="android:paddingBottom">@dimen/event_detail_section_margin_top</item>
     </style>

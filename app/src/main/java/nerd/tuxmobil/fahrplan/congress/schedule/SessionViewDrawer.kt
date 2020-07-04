@@ -52,9 +52,9 @@ internal class SessionViewDrawer(
         sessionDrawableStrokeWidth = resources.getDimensionPixelSize(
                 R.dimen.event_drawable_selection_stroke_width)
         sessionDrawableStrokeColor = ContextCompat.getColor(
-                context, R.color.event_drawable_selection_stroke)
+                context, R.color.session_drawable_selection_stroke)
         sessionDrawableRippleColor = ContextCompat.getColor(
-                context, R.color.event_drawable_ripple)
+                context, R.color.session_drawable_ripple)
         trackNameBackgroundColorDefaultPairs = TrackBackgrounds.getTrackNameBackgroundColorDefaultPairs(context)
         trackNameBackgroundColorHighlightPairs = TrackBackgrounds.getTrackNameBackgroundColorHighlightPairs(context)
     }
@@ -132,9 +132,9 @@ internal class SessionViewDrawer(
             val subtitle = view.findViewById<TextView>(R.id.event_subtitle)
             val speakers = view.findViewById<TextView>(R.id.event_speakers)
             val colorResId = if (session.highlight)
-                R.color.event_title_on_highlight_background
+                R.color.session_title_on_highlight_background
             else
-                R.color.event_title_on_default_background
+                R.color.session_title_on_default_background
             val textColor = ContextCompat.getColor(view.context, colorResId)
             title.setTextColor(textColor)
             subtitle.setTextColor(textColor)

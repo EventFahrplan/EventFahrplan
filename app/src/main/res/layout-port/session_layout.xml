@@ -15,7 +15,7 @@
                 android:id="@+id/event_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:textColor="@color/event_title_on_default_background"
+                android:textColor="@color/session_title_on_default_background"
                 android:textSize="16sp"
                 android:layout_weight="1"
                 android:textStyle="bold"
@@ -53,7 +53,7 @@
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:fontFamily="sans-serif-light"
-            android:textColor="@color/event_title_on_default_background"
+            android:textColor="@color/session_title_on_default_background"
             android:textSize="12sp"
             tools:text="@string/placeholder_event_subtitle"/>
 
@@ -83,7 +83,7 @@
                 android:fontFamily="sans-serif-condensed"
                 android:paddingRight="10dp"
                 android:singleLine="true"
-                android:textColor="@color/event_title_on_default_background"
+                android:textColor="@color/session_title_on_default_background"
                 android:textSize="11sp"
                 tools:text="@string/placeholder_event_speakers"/>
     </RelativeLayout>
