@@ -5,48 +5,48 @@
 
     <TextView
         android:id="@+id/event_detail_content_title_view"
-        style="@style/EventDetailSection.Title"
+        style="@style/SessionDetailsSection.Title"
         tools:text="@string/placeholder_session_title"/>
 
     <TextView
         android:id="@+id/event_detail_content_subtitle_view"
-        style="@style/EventDetailSection.Subtitle"
+        style="@style/SessionDetailsSection.Subtitle"
         tools:text="@string/placeholder_session_subtitle"/>
 
     <TextView
         android:id="@+id/event_detail_content_speakers_view"
-        style="@style/EventDetailSection.Speakers"
+        style="@style/SessionDetailsSection.Speakers"
         android:textSize="@dimen/session_details_speakers"
         tools:text="@string/placeholder_session_speakers"/>
 
     <TextView
         android:id="@+id/event_detail_content_abstract_view"
-        style="@style/EventDetailSection.Header.Long"
+        style="@style/SessionDetailsSection.Header.Long"
         tools:text="@string/placeholder_session_abstract"/>
 
     <TextView
         android:id="@+id/event_detail_content_description_view"
-        style="@style/EventDetailSection.Long"
+        style="@style/SessionDetailsSection.Long"
         tools:text="@string/placeholder_session_description"/>
 
     <TextView
         android:id="@+id/event_detail_content_links_section_view"
-        style="@style/EventDetailSection.Header"
+        style="@style/SessionDetailsSection.Header"
         android:text="@string/event_detail_section_title_links"/>
 
     <TextView
         android:id="@+id/event_detail_content_links_view"
-        style="@style/EventDetailSection"
+        style="@style/SessionDetailsSection"
         tools:text="@string/placeholder_session_links"/>
 
     <TextView
         android:id="@+id/event_detail_content_event_online_section_view"
-        style="@style/EventDetailSection.Header"
+        style="@style/SessionDetailsSection.Header"
         android:text="@string/event_online"/>
 
     <TextView
         android:id="@+id/event_detail_content_event_online_view"
-        style="@style/EventDetailSection"
+        style="@style/SessionDetailsSection"
         tools:text="@string/placeholder_session_online"/>
 
 </merge>
