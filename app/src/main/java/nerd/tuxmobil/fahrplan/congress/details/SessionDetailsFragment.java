@@ -185,12 +185,12 @@ public class SessionDetailsFragment extends Fragment {
 
             // Title
 
-            t = view.findViewById(R.id.event_detail_content_title_view);
+            t = view.findViewById(R.id.session_details_content_title_view);
             setUpTextView(t, boldCondensed, title);
 
             // Subtitle
 
-            t = view.findViewById(R.id.event_detail_content_subtitle_view);
+            t = view.findViewById(R.id.session_details_content_subtitle_view);
             if (TextUtils.isEmpty(subtitle)) {
                 t.setVisibility(View.GONE);
             } else {
@@ -199,7 +199,7 @@ public class SessionDetailsFragment extends Fragment {
 
             // Speakers
 
-            t = view.findViewById(R.id.event_detail_content_speakers_view);
+            t = view.findViewById(R.id.session_details_content_speakers_view);
             if (TextUtils.isEmpty(spkr)) {
                 t.setVisibility(View.GONE);
             } else {
@@ -208,7 +208,7 @@ public class SessionDetailsFragment extends Fragment {
 
             // Abstract
 
-            t = view.findViewById(R.id.event_detail_content_abstract_view);
+            t = view.findViewById(R.id.session_details_content_abstract_view);
             if (TextUtils.isEmpty(abstractt)) {
                 t.setVisibility(View.GONE);
             } else {
@@ -218,7 +218,7 @@ public class SessionDetailsFragment extends Fragment {
 
             // Description
 
-            t = view.findViewById(R.id.event_detail_content_description_view);
+            t = view.findViewById(R.id.session_details_content_description_view);
             if (TextUtils.isEmpty(descr)) {
                 t.setVisibility(View.GONE);
             } else {
@@ -228,8 +228,8 @@ public class SessionDetailsFragment extends Fragment {
 
             // Links
 
-            TextView linksView = view.findViewById(R.id.event_detail_content_links_section_view);
-            t = view.findViewById(R.id.event_detail_content_links_view);
+            TextView linksView = view.findViewById(R.id.session_details_content_links_section_view);
+            t = view.findViewById(R.id.session_details_content_links_view);
             if (TextUtils.isEmpty(links)) {
                 linksView.setVisibility(View.GONE);
                 t.setVisibility(View.GONE);
@@ -244,9 +244,9 @@ public class SessionDetailsFragment extends Fragment {
 
             // Session online
 
-            final TextView sessionOnlineSectionView = view.findViewById(R.id.event_detail_content_event_online_section_view);
+            final TextView sessionOnlineSectionView = view.findViewById(R.id.session_details_content_session_online_section_view);
             sessionOnlineSectionView.setTypeface(bold);
-            final TextView sessionOnlineLinkView = view.findViewById(R.id.event_detail_content_event_online_view);
+            final TextView sessionOnlineLinkView = view.findViewById(R.id.session_details_content_session_online_view);
             if (WikiSessionUtils.containsWikiLink(links)) {
                 sessionOnlineSectionView.setVisibility(View.GONE);
                 sessionOnlineLinkView.setVisibility(View.GONE);
