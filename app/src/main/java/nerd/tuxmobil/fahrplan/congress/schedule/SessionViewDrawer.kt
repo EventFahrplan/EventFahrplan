@@ -60,19 +60,19 @@ internal class SessionViewDrawer(
     }
 
     fun updateSessionView(sessionView: View, session: Session) {
-        val bell = sessionView.findViewById<ImageView>(R.id.bell)
+        val bell = sessionView.findViewById<ImageView>(R.id.session_bell_view)
         bell.visibility = if (session.hasAlarm) View.VISIBLE else View.GONE
-        var title = sessionView.findViewById<TextView>(R.id.event_title)
+        var title = sessionView.findViewById<TextView>(R.id.session_title_view)
         title.typeface = boldCondensed
         title.text = session.title
-        title = sessionView.findViewById(R.id.event_subtitle)
+        title = sessionView.findViewById(R.id.session_subtitle_view)
         title.text = session.subtitle
-        title = sessionView.findViewById(R.id.event_speakers)
+        title = sessionView.findViewById(R.id.session_speakers_view)
         title.text = session.formattedSpeakers
-        title = sessionView.findViewById(R.id.event_track)
+        title = sessionView.findViewById(R.id.session_track_view)
         title.text = session.formattedTrackText
         title.contentDescription = session.getFormattedTrackContentDescription(sessionView.context)
-        val recordingOptOut = sessionView.findViewById<View>(R.id.novideo)
+        val recordingOptOut = sessionView.findViewById<View>(R.id.session_no_video_view)
         if (recordingOptOut != null) {
             recordingOptOut.visibility = if (session.recordingOptOut) View.VISIBLE else View.GONE
         }
@@ -128,9 +128,9 @@ internal class SessionViewDrawer(
 
         @JvmStatic
         fun setSessionTextColor(session: Session, view: View) {
-            val title = view.findViewById<TextView>(R.id.event_title)
-            val subtitle = view.findViewById<TextView>(R.id.event_subtitle)
-            val speakers = view.findViewById<TextView>(R.id.event_speakers)
+            val title = view.findViewById<TextView>(R.id.session_title_view)
+            val subtitle = view.findViewById<TextView>(R.id.session_subtitle_view)
+            val speakers = view.findViewById<TextView>(R.id.session_speakers_view)
             val colorResId = if (session.highlight)
                 R.color.session_title_on_highlight_background
             else

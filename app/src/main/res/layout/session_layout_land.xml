@@ -12,7 +12,7 @@
             android:orientation="horizontal">
 
         <TextView
-                android:id="@+id/event_title"
+                android:id="@+id/session_title_view"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
@@ -23,7 +23,7 @@
                 />
 
         <ImageView
-                android:id="@+id/novideo"
+                android:id="@+id/session_no_video_view"
                 android:layout_width="wrap_content"
                 android:layout_height="9sp"
                 android:layout_marginLeft="3dp"
@@ -35,7 +35,7 @@
         </ImageView>
 
         <ImageView
-                android:id="@+id/bell"
+                android:id="@+id/session_bell_view"
                 android:layout_width="wrap_content"
                 android:layout_height="9sp"
                 android:layout_marginLeft="3dp"
@@ -48,7 +48,7 @@
     </LinearLayout>
 
     <TextView
-            android:id="@+id/event_subtitle"
+            android:id="@+id/session_subtitle_view"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_weight="1"
@@ -63,7 +63,7 @@
             android:layout_height="wrap_content">
 
         <TextView
-                android:id="@+id/event_track"
+                android:id="@+id/session_track_view"
                 android:layout_width="wrap_content"
                 android:textSize="8sp"
                 android:singleLine="true"
@@ -74,7 +74,7 @@
                 tools:text="@string/placeholder_session_track"/>
 
         <TextView
-                android:id="@+id/event_speakers"
+                android:id="@+id/session_speakers_view"
                 android:layout_height="wrap_content"
                 android:textSize="8sp"
                 android:singleLine="true"
@@ -82,7 +82,7 @@
                 android:textColor="#000000"
                 android:ellipsize="end"
                 android:layout_alignParentLeft="true"
-                android:layout_toLeftOf="@id/event_track"
+                android:layout_toLeftOf="@id/session_track_view"
                 android:paddingRight="10dp"
                 android:fontFamily="sans-serif-condensed"
                 tools:text="@string/placeholder_session_speakers"

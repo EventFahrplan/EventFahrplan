@@ -12,7 +12,7 @@
             android:orientation="horizontal">
 
         <TextView
-                android:id="@+id/event_title"
+                android:id="@+id/session_title_view"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textColor="@color/session_title_on_default_background"
@@ -23,7 +23,7 @@
         </TextView>
 
         <ImageView
-                android:id="@+id/novideo"
+                android:id="@+id/session_no_video_view"
                 android:layout_width="wrap_content"
                 android:layout_height="13sp"
                 android:layout_marginLeft="3dp"
@@ -35,7 +35,7 @@
         </ImageView>
 
         <ImageView
-                android:id="@+id/bell"
+                android:id="@+id/session_bell_view"
                 android:layout_width="wrap_content"
                 android:layout_height="13sp"
                 android:layout_marginLeft="3dp"
@@ -48,7 +48,7 @@
     </LinearLayout>
 
     <TextView
-            android:id="@+id/event_subtitle"
+            android:id="@+id/session_subtitle_view"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_weight="1"
@@ -63,7 +63,7 @@
             android:gravity="bottom">
 
         <TextView
-                android:id="@+id/event_track"
+                android:id="@+id/session_track_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -74,11 +74,11 @@
                 tools:text="@string/placeholder_session_track"/>
 
         <TextView
-                android:id="@+id/event_speakers"
+                android:id="@+id/session_speakers_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:layout_toLeftOf="@id/event_track"
+                android:layout_toLeftOf="@id/session_track_view"
                 android:ellipsize="end"
                 android:fontFamily="sans-serif-condensed"
                 android:paddingRight="10dp"

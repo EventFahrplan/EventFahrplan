@@ -471,7 +471,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
         if (v == null) {
             return;
         }
-        ImageView bell = v.findViewById(R.id.bell);
+        ImageView bell = v.findViewById(R.id.session_bell_view);
         if (bell == null) {
             return;
         }
