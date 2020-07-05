@@ -162,21 +162,21 @@ public class SessionDetailsFragment extends Fragment {
             // Detailbar
 
             TextView t;
-            t = view.findViewById(R.id.lecture_detailbar_date_time);
+            t = view.findViewById(R.id.session_detailbar_date_time_view);
             if (session != null && session.dateUTC > 0) {
                 t.setText(DateFormatter.newInstance().getFormattedDateTimeShort(session.dateUTC));
             } else {
                 t.setText("");
             }
 
-            t = view.findViewById(R.id.lecture_detailbar_location);
+            t = view.findViewById(R.id.session_detailbar_location_view);
             if (TextUtils.isEmpty(room)) {
                 t.setText("");
             } else {
                 t.setText(room);
             }
 
-            t = view.findViewById(R.id.lecture_detailbar_lecture_id);
+            t = view.findViewById(R.id.session_detailbar_session_id_view);
             if (TextUtils.isEmpty(sessionId)) {
                 t.setText("");
             } else {
