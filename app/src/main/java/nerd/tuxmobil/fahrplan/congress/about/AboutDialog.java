@@ -71,7 +71,7 @@ public class AboutDialog extends DialogFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        TextView text = view.findViewById(R.id.eventVersion);
+        TextView text = view.findViewById(R.id.about_session_version_view);
         if (scheduleVersionText.isEmpty()) {
             text.setVisibility(View.GONE);
         } else {
@@ -79,53 +79,53 @@ public class AboutDialog extends DialogFragment {
             String prefixedScheduleVersionText = getString(R.string.fahrplan) + " " + scheduleVersionText;
             text.setText(prefixedScheduleVersionText);
         }
-        text = view.findViewById(R.id.eventTitle);
+        text = view.findViewById(R.id.about_session_title_view);
         if (titleText.isEmpty()) {
             titleText = getString(R.string.app_name);
         }
         text.setText(titleText);
-        text = view.findViewById(R.id.eventSubtitle);
+        text = view.findViewById(R.id.about_session_subtitle_view);
         if (subtitleText.isEmpty()) {
             subtitleText = getString(R.string.app_hardcoded_subtitle);
         }
         text.setText(subtitleText);
-        text = view.findViewById(R.id.appVersion);
+        text = view.findViewById(R.id.about_app_version_view);
         String appVersionText = getString(R.string.appVersion, BuildConfig.VERSION_NAME);
         text.setText(appVersionText);
 
-        View appDisclaimer = view.findViewById(R.id.app_disclaimer);
+        View appDisclaimer = view.findViewById(R.id.about_app_disclaimer_view);
         //noinspection ConstantConditions
         appDisclaimer.setVisibility(BuildConfig.SHOW_APP_DISCLAIMER ? View.VISIBLE : View.GONE);
 
         int linkTextColor = ContextCompat.getColor(view.getContext(), R.color.text_link_color_dark);
         MovementMethod movementMethod = LinkMovementMethod.getInstance();
 
-        TextView logoCopyright = view.findViewById(R.id.copyright_logo);
+        TextView logoCopyright = view.findViewById(R.id.about_copyright_logo_view);
         logoCopyright.setText(Html.fromHtml(getString(R.string.copyright_logo)));
         logoCopyright.setLinkTextColor(linkTextColor);
         logoCopyright.setMovementMethod(movementMethod);
 
-        TextView conferenceUrl = view.findViewById(R.id.conference_url);
+        TextView conferenceUrl = view.findViewById(R.id.about_conference_url_view);
         conferenceUrl.setText(Html.fromHtml(getString(R.string.conference_url)));
         conferenceUrl.setMovementMethod(movementMethod);
         conferenceUrl.setLinkTextColor(linkTextColor);
 
-        TextView sourceCode = view.findViewById(R.id.source_code);
+        TextView sourceCode = view.findViewById(R.id.about_source_code_view);
         sourceCode.setText(Html.fromHtml(getString(R.string.source_code)));
         sourceCode.setMovementMethod(movementMethod);
         sourceCode.setLinkTextColor(linkTextColor);
 
-        TextView issues = view.findViewById(R.id.issues);
+        TextView issues = view.findViewById(R.id.about_issues_view);
         issues.setText(Html.fromHtml(getString(R.string.issues)));
         issues.setMovementMethod(movementMethod);
         issues.setLinkTextColor(linkTextColor);
 
-        TextView googlePlayStore = view.findViewById(R.id.google_play_store);
+        TextView googlePlayStore = view.findViewById(R.id.about_google_play_view);
         googlePlayStore.setText(Html.fromHtml(getString(R.string.google_play_store)));
         googlePlayStore.setMovementMethod(movementMethod);
         googlePlayStore.setLinkTextColor(linkTextColor);
 
-        TextView dataPrivacyStatement = view.findViewById(R.id.data_privacy_statement);
+        TextView dataPrivacyStatement = view.findViewById(R.id.about_data_privacy_statement_view);
         dataPrivacyStatement.setText(Html.fromHtml(getString(R.string.about_data_privacy_statement)));
         dataPrivacyStatement.setMovementMethod(movementMethod);
         dataPrivacyStatement.setLinkTextColor(linkTextColor);
