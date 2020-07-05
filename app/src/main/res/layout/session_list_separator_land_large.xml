@@ -8,7 +8,7 @@
               android:paddingBottom="16dp">
 
     <TextView
-        android:id="@+id/lecture_list_separator_title_view"
+        android:id="@+id/session_list_separator_title_view"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
