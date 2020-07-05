@@ -60,7 +60,7 @@ class ChangeListAdapter internal constructor(
             val timeText = DateFormatter.newInstance().getFormattedTime(session.dateUTC)
             time.textOrHide = timeText
             room.textOrHide = session.room
-            val durationText = context.getString(R.string.event_duration, session.duration)
+            val durationText = context.getString(R.string.session_duration, session.duration)
             duration.textOrHide = durationText
             video.visibility = View.GONE
             noVideo.visibility = View.GONE
@@ -107,7 +107,7 @@ class ChangeListAdapter internal constructor(
                     lang.setTextStyleChanged()
                     if (session.lang.isEmpty()) {
                         lang.text = context.getText(R.string.dash)
-                        lang.contentDescription = context.getText(R.string.lecture_list_item_language_removed_content_description)
+                        lang.contentDescription = context.getText(R.string.session_list_item_language_removed_content_description)
                     }
                 }
                 if (session.changedDay) {

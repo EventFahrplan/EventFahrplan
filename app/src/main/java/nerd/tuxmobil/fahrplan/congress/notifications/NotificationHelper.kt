@@ -88,16 +88,16 @@ internal class NotificationHelper(context: Context) : ContextWrapper(context) {
                     .setSound(sound)
 
     private val sessionAlarmChannelDescription: String
-        get() = getString(R.string.notifications_event_alarm_channel_description)
+        get() = getString(R.string.notifications_session_alarm_channel_description)
 
     private val sessionAlarmChannelName: String
-        get() = getString(R.string.notifications_event_alarm_channel_name)
+        get() = getString(R.string.notifications_session_alarm_channel_name)
 
     private val sessionAlarmContentTitle: String
-        get() = getString(R.string.notifications_event_alarm_content_title)
+        get() = getString(R.string.notifications_session_alarm_content_title)
 
     private val sessionAlarmContentText: String
-        get() = getString(R.string.notifications_event_alarm_content_text)
+        get() = getString(R.string.notifications_session_alarm_content_text)
 
     private val scheduleUpdateChannelDescription: String
         get() = getString(R.string.notifications_schedule_update_channel_description)

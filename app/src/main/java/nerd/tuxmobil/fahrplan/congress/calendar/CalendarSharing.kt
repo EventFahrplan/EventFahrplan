@@ -53,7 +53,7 @@ private fun Session.getCalendarDescription(context: Context): String = with(Stri
     } else {
         val sessionUrl = SessionUrlComposer(this@getCalendarDescription).getSessionUrl()
         if (sessionUrl.isNotEmpty()) {
-            val sessionOnlineText = context.getString(R.string.event_online)
+            val sessionOnlineText = context.getString(R.string.session_details_section_title_session_online)
             append(sessionOnlineText)
             append(": ")
             append(sessionUrl)

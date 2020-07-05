@@ -243,18 +243,18 @@ public class Session {
     @NonNull
     public String getLanguageContentDescription(@NonNull Context context) {
         if (TextUtils.isEmpty(lang)) {
-            return context.getString(R.string.lecture_list_item_language_unknown_content_description);
+            return context.getString(R.string.session_list_item_language_unknown_content_description);
         }
         if ("en".equals(lang)) {
-            return context.getString(R.string.lecture_list_item_language_english_content_description);
+            return context.getString(R.string.session_list_item_language_english_content_description);
         }
         if ("de".equals(lang)) {
-            return context.getString(R.string.lecture_list_item_language_german_content_description);
+            return context.getString(R.string.session_list_item_language_german_content_description);
         }
         if ("pt".equals(lang)) {
-            return context.getString(R.string.lecture_list_item_language_portuguese_content_description);
+            return context.getString(R.string.session_list_item_language_portuguese_content_description);
         }
-        return context.getString(R.string.lecture_list_item_language_undefined_content_description, lang);
+        return context.getString(R.string.session_list_item_language_undefined_content_description, lang);
     }
 
     public void shiftRoomIndexBy(int amount) {

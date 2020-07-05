@@ -6,8 +6,8 @@
             android:id="@+id/menu_item_close_session_details"
             android:icon="@drawable/ic_close_white_24dp"
             app:showAsAction="always"
-            android:title="@string/menu_item_title_close_event_details"
-            android:titleCondensed="@string/menu_item_title_close_event_details"
+            android:title="@string/menu_item_title_close_session_details"
+            android:titleCondensed="@string/menu_item_title_close_session_details"
             android:visible="false">
     </item>
     <item
@@ -62,14 +62,14 @@
             android:icon="@drawable/ic_share_white_24dp"
             app:showAsAction="always"
             android:visible="false"
-            android:title="@string/menu_item_title_share_event"/>
+            android:title="@string/menu_item_title_share_session"/>
 
     <item
             android:id="@+id/menu_item_share_session_menu"
             android:icon="@drawable/ic_share_white_24dp"
             app:showAsAction="always"
             android:visible="false"
-            android:title="@string/menu_item_title_share_event">
+            android:title="@string/menu_item_title_share_session">
 
         <menu>
             <item

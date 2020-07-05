@@ -32,7 +32,7 @@
     <TextView
         android:id="@+id/event_detail_content_links_section_view"
         style="@style/SessionDetailsSection.Header"
-        android:text="@string/event_detail_section_title_links"/>
+        android:text="@string/session_details_section_title_links"/>
 
     <TextView
         android:id="@+id/event_detail_content_links_view"
@@ -42,7 +42,7 @@
     <TextView
         android:id="@+id/event_detail_content_event_online_section_view"
         style="@style/SessionDetailsSection.Header"
-        android:text="@string/event_online"/>
+        android:text="@string/session_details_section_title_session_online"/>
 
     <TextView
         android:id="@+id/event_detail_content_event_online_view"
