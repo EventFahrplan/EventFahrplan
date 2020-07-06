@@ -88,13 +88,10 @@ internal class LectureViewDrawer(
         val alternativeHighlightingIsEnabled = prefs.getBoolean(
                 BundleKeys.PREFS_ALTERNATIVE_HIGHLIGHT, defaultValue)
         val eventIsFavored = event.highlight
-        @ColorRes val backgroundColorResId: Int
-        backgroundColorResId = if (eventIsFavored) {
-            val colorResId = trackNameBackgroundColorHighlightPairs[event.track]
-            colorResId ?: R.color.event_border_highlight
+        @ColorRes val backgroundColorResId = if (eventIsFavored) {
+            trackNameBackgroundColorHighlightPairs[event.track] ?: R.color.event_border_highlight
         } else {
-            val colorResId = trackNameBackgroundColorDefaultPairs[event.track]
-            colorResId ?: R.color.event_border_default
+            trackNameBackgroundColorDefaultPairs[event.track] ?: R.color.event_border_default
         }
         @ColorInt val backgroundColor = ContextCompat.getColor(context, backgroundColorResId)
         val eventDrawable: EventDrawable
