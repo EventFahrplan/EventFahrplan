@@ -7,10 +7,6 @@ import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.models.Lecture
 import nerd.tuxmobil.fahrplan.congress.models.RoomData
 import org.threeten.bp.Duration
-import kotlin.collections.List
-import kotlin.collections.Map
-import kotlin.collections.indices
-import kotlin.collections.mutableMapOf
 import kotlin.collections.set
 
 data class LayoutCalculator(val logging: Logging = Logging.get(),
