@@ -21,7 +21,7 @@ class LectureTest {
     }
 
     @Test
-    fun `getLectureStartTime returns the "dateUTC" value when "dateUTC" is set`() {
+    fun `startTimeMilliseconds returns the "dateUTC" value when "dateUTC" is set`() {
         val lecture = Lecture("1").apply {
             dateUTC = 1
             date = "2020-03-20"
@@ -30,7 +30,7 @@ class LectureTest {
     }
 
     @Test
-    fun `getLectureStartTime returns the "date" value when "dateUTC" is not set`() {
+    fun `startTimeMilliseconds returns the "date" value when "dateUTC" is not set`() {
         val lecture = Lecture("1").apply {
             dateUTC = 0
             date = "2020-03-20"
