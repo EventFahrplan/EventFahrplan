@@ -15,10 +15,11 @@ import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
 import nerd.tuxmobil.fahrplan.congress.models.Lecture
 
 internal class LectureViewDrawer(
-    context: Context,
-    private val onLectureClick: View.OnClickListener,
-    private val onCreateContextMenu: View.OnCreateContextMenuListener
+
+        context: Context
+
 ) {
+
     private val scale: Float
     private val resources = context.resources
     private val boldCondensed = Typeface.createFromAsset(context.assets, "Roboto-BoldCondensed.ttf")
