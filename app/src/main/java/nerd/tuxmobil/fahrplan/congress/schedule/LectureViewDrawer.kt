@@ -134,7 +134,10 @@ internal class LectureViewDrawer(
             val title = view.findViewById<TextView>(R.id.event_title)
             val subtitle = view.findViewById<TextView>(R.id.event_subtitle)
             val speakers = view.findViewById<TextView>(R.id.event_speakers)
-            val colorResId = if (lecture.highlight) R.color.event_title_highlight else R.color.event_title
+            val colorResId = if (lecture.highlight)
+                R.color.event_title_on_highlight_background
+            else
+                R.color.event_title_on_default_background
             val textColor = ContextCompat.getColor(view.context, colorResId)
             title.setTextColor(textColor)
             subtitle.setTextColor(textColor)

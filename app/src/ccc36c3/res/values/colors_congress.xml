@@ -39,7 +39,7 @@
     <color name="track_name">#beffffff</color>
 
     <!-- Title color -->
-    <color name="event_title">#a0ffffff</color>
-    <color name="event_title_highlight">#fff</color>
+    <color name="event_title_on_default_background">#a0ffffff</color>
+    <color name="event_title_on_highlight_background">#fff</color>
 
 </resources>
