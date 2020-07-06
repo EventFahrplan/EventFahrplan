@@ -16,8 +16,6 @@
     <string name="menu_item_title_feedback">Feedback</string>
     <string name="menu_item_title_navigate">Navigiere</string>
     <string name="menu_item_title_refresh">Aktualisieren</string>
-    <string name="menu_item_title_schedule_changes">@string/schedule_changes</string>
-    <string name="menu_item_title_settings">@string/settings</string>
     <string name="menu_item_title_share_event">Vortrag teilen</string>
     <string name="menu_item_title_share_favorites">Favoriten teilen</string>
     <string name="menu_item_title_share_event_text">als Text</string>
@@ -185,7 +183,6 @@
     </string>
     <string name="notifications_event_alarm_channel_name">Vortragsalarme</string>
     <string name="notifications_event_alarm_content_text">Vortragsalarm</string>
-    <string name="notifications_event_alarm_content_title">@string/app_name</string>
     <string name="notifications_schedule_update_channel_description">
         Automatische Aktualisierung des Programms. Diese kann
         in den Einstellungen der App konfiguriert werden.

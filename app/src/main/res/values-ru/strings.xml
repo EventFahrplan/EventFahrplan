@@ -82,7 +82,6 @@
     <string name="default_alarm_time_title">Выбрать время напоминания по умолчанию</string>
     <string name="default_alarm_time_dialog_title">Время напоминания по умолчанию</string>
     <!-- Synchronize with @integers/default_alarm_time_index and string-array/alarm_time_values -->
-    <string name="default_alarm_time_value" translatable="false">10</string>
     <string name="reminders">Напоминания</string>
     <string name="reminder_ringtone">Мелодия напоминаний</string>
     <string name="insistent_alarm">Настойчивое напоминание</string>
@@ -112,7 +111,6 @@
     <string name="no_favorites">Нет избранных лекций</string>
     <string name="schedule_changes">Изменения в расписании</string>
 
-    <string name="dash" translatable="false"><xliff:g id="dash">—</xliff:g></string>
     <string name="general_settings">Основное</string>
     <string name="starred_lectures">Избранное</string>
     <string name="invalid_url">Некорректный URL</string>
@@ -149,10 +147,6 @@
     <string name="snack_engage_google_play_beta_testing_title">Любишь всё новое?</string>
     <string name="snack_engage_google_play_beta_testing_action">Стать бета-тестером</string>
 
-    <string name="snack_engage_c3nav_url" translatable="false">
-        https://play.google.com/store/apps/details?id=de.c3nav.droid
-    </string>
-    <string name="snack_engage_c3nav_unique_id" translatable="false">c3nav</string>
     <string name="snack_engage_c3nav_title">Навигация внутри <xliff:g example="35C3" id="conferenceName">%s</xliff:g>! с приложением c3nav</string>
     <string name="snack_engage_c3nav_action">Скачать сейчас!</string>
 
@@ -187,7 +181,6 @@
     </string>
     <string name="notifications_event_alarm_channel_name">Напоминания для мероприятий</string>
     <string name="notifications_event_alarm_content_text">Напоминание для мероприятия</string>
-    <string name="notifications_event_alarm_content_title" translatable="false">@string/app_name</string>
     <string name="notifications_schedule_update_channel_description">
         Автоматическое обновление расписания можно выбрать в настройках приложения.
     </string>
