@@ -12,6 +12,12 @@ public interface BundleKeys {
     String ALARM_START_TIME =
             "nerd.tuxmobil.fahrplan.congress.ALARM_START_TIME";
 
+    // Lecture alarm notification
+    String BUNDLE_KEY_LECTURE_ALARM_LECTURE_ID =
+            "lecture_id";
+    String BUNDLE_KEY_LECTURE_ALARM_DAY_INDEX =
+            "day";
+
     // Event
     String EVENT_TITLE =
             "nerd.tuxmobil.fahrplan.congress.EVENT_TITLE";

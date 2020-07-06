@@ -50,6 +50,7 @@ import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmTimePickerFragment;
 import nerd.tuxmobil.fahrplan.congress.calendar.CalendarSharing;
+import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.extensions.Contexts;
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
 import nerd.tuxmobil.fahrplan.congress.models.RoomData;
@@ -186,11 +187,11 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
         inflater = Contexts.getLayoutInflater(context);
 
         Intent intent = requireActivity().getIntent();
-        lectureId = intent.getStringExtra("lecture_id");
+        lectureId = intent.getStringExtra(BundleKeys.BUNDLE_KEY_LECTURE_ALARM_LECTURE_ID);
 
         if (lectureId != null) {
             MyApp.LogDebug(LOG_TAG, "Open with lectureId " + lectureId);
-            mDay = intent.getIntExtra("day", mDay);
+            mDay = intent.getIntExtra(BundleKeys.BUNDLE_KEY_LECTURE_ALARM_DAY_INDEX, mDay);
             MyApp.LogDebug(LOG_TAG, "day " + mDay);
         }
 
@@ -213,11 +214,11 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
         Intent intent = activity.getIntent();
 
         Log.d(LOG_TAG, "lectureId = " + lectureId);
-        lectureId = intent.getStringExtra("lecture_id");
+        lectureId = intent.getStringExtra(BundleKeys.BUNDLE_KEY_LECTURE_ALARM_LECTURE_ID);
 
         if (lectureId != null) {
             Log.d(LOG_TAG, "Open with lectureId " + lectureId);
-            mDay = intent.getIntExtra("day", mDay);
+            mDay = intent.getIntExtra(BundleKeys.BUNDLE_KEY_LECTURE_ALARM_DAY_INDEX, mDay);
             Log.d(LOG_TAG, "day " + mDay);
             saveCurrentDay(mDay);
         }
@@ -251,7 +252,7 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
                     ((MainActivity) activity).openLectureDetail(lecture, mDay, false);
                 }
             }
-            intent.removeExtra("lecture_id");   // jump to given lectureId only once
+            intent.removeExtra(BundleKeys.BUNDLE_KEY_LECTURE_ALARM_LECTURE_ID); // jump to given lectureId only once
         }
         fillTimes();
 

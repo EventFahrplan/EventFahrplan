@@ -51,8 +51,8 @@ public final class AlarmReceiver extends BroadcastReceiver {
             boolean insistent = prefs.getBoolean("insistent", defaultValue);
 
             Intent notificationIntent = new Intent(context, MainActivity.class);
-            notificationIntent.putExtra("lecture_id", lectureId);
-            notificationIntent.putExtra("day", day);
+            notificationIntent.putExtra(BundleKeys.BUNDLE_KEY_LECTURE_ALARM_LECTURE_ID, lectureId);
+            notificationIntent.putExtra(BundleKeys.BUNDLE_KEY_LECTURE_ALARM_DAY_INDEX, day);
             notificationIntent.setFlags(
                     Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
             PendingIntent contentIntent = PendingIntent
