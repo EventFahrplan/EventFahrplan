@@ -82,16 +82,6 @@ public class TrackBackgrounds {
         return trackNameResourceIdPairs;
     }
 
-    public static Map<String, Integer> getTrackAccentColorNormal(Context context) {
-        Map<String, String> trackNames = getHashMapResource(context, R.xml.track_resource_names);
-        return buildTrackBackgroundHashMap(trackNames, "event_border_accent", "color", context);
-    }
-
-    public static Map<String, Integer> getTrackAccentColorHighlight(Context context) {
-        Map<String, String> trackNames = getHashMapResource(context, R.xml.track_resource_names);
-        return buildTrackBackgroundHashMap(trackNames, "event_border_accent_highlight", "color", context);
-    }
-
     public static Map<String, Integer> getTrackNameBackgroundColorDefaultPairs(Context context) {
         Map<String, String> trackNames = getHashMapResource(context, R.xml.track_resource_names);
         return buildTrackBackgroundHashMap(trackNames, "event_border_default", "color", context);
