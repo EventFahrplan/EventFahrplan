@@ -115,7 +115,7 @@ internal class NotificationHelper(context: Context) : ContextWrapper(context) {
         get() = R.drawable.ic_notification
 
     companion object {
-        private const val SESSION_ALARM_CHANNEL_ID = "EVENT_ALARM_CHANNEL"
+        private const val SESSION_ALARM_CHANNEL_ID = "SESSION_ALARM_CHANNEL"
         private const val SCHEDULE_UPDATE_CHANNEL_ID = "SCHEDULE_UPDATE_CHANNEL"
         const val SESSION_ALARM_ID = 1
         const val SCHEDULE_UPDATE_ID = 2
