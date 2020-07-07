@@ -24,7 +24,7 @@ import nerd.tuxmobil.fahrplan.congress.schedule.MainActivity;
 
 public final class AlarmReceiver extends BroadcastReceiver {
 
-    public static final String ALARM_SESSION = "nerd.tuxmobil.fahrplan.congress.ALARM_LECTURE";
+    public static final String ALARM_SESSION = "nerd.tuxmobil.fahrplan.congress.ALARM_SESSION";
 
     public static final String ALARM_UPDATE = "nerd.tuxmobil.fahrplan.congress.ALARM_UPDATE";
 

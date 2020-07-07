@@ -4,7 +4,7 @@ public interface BundleKeys {
 
     // Add + delete alarm
     String ALARM_SESSION_ID =
-            "nerd.tuxmobil.fahrplan.congress.ALARM_LECTURE_ID";
+            "nerd.tuxmobil.fahrplan.congress.ALARM_SESSION_ID";
     String ALARM_DAY =
             "nerd.tuxmobil.fahrplan.congress.ALARM_DAY";
     String ALARM_TITLE =
@@ -14,28 +14,28 @@ public interface BundleKeys {
 
     // Session alarm notification
     String BUNDLE_KEY_SESSION_ALARM_SESSION_ID =
-            "lecture_id";
+            "nerd.tuxmobil.fahrplan.congress.SESSION_ALARM_SESSION_ID";
     String BUNDLE_KEY_SESSION_ALARM_DAY_INDEX =
-            "day";
+            "nerd.tuxmobil.fahrplan.congress.SESSION_ALARM_DAY_INDEX";
 
     String SESSION_TITLE =
-            "nerd.tuxmobil.fahrplan.congress.EVENT_TITLE";
+            "nerd.tuxmobil.fahrplan.congress.SESSION_TITLE";
     String SESSION_SUBTITLE =
-            "nerd.tuxmobil.fahrplan.congress.EVENT_SUBTITLE";
+            "nerd.tuxmobil.fahrplan.congress.SESSION_SUBTITLE";
     String SESSION_ABSTRACT =
-            "nerd.tuxmobil.fahrplan.congress.EVENT_ABSTRACT";
+            "nerd.tuxmobil.fahrplan.congress.SESSION_ABSTRACT";
     String SESSION_DESCRIPTION =
-            "nerd.tuxmobil.fahrplan.congress.EVENT_DESCRIPTION";
+            "nerd.tuxmobil.fahrplan.congress.SESSION_DESCRIPTION";
     String SESSION_SPEAKERS =
-            "nerd.tuxmobil.fahrplan.congress.EVENT_SPEAKERS";
+            "nerd.tuxmobil.fahrplan.congress.SESSION_SPEAKERS";
     String SESSION_LINKS =
-            "nerd.tuxmobil.fahrplan.congress.EVENT_LINKS";
+            "nerd.tuxmobil.fahrplan.congress.SESSION_LINKS";
     String SESSION_ID =
-            "nerd.tuxmobil.fahrplan.congress.EVENT_ID";
+            "nerd.tuxmobil.fahrplan.congress.SESSION_ID";
     String SESSION_DAY =
-            "nerd.tuxmobil.fahrplan.congress.EVENT_DAY";
+            "nerd.tuxmobil.fahrplan.congress.SESSION_DAY";
     String SESSION_ROOM =
-            "nerd.tuxmobil.fahrplan.congress.EVENT_ROOM";
+            "nerd.tuxmobil.fahrplan.congress.SESSION_ROOM";
 
     // Side pane
     String SIDEPANE =
