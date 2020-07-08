@@ -50,13 +50,9 @@ public final class AlarmReceiver extends BroadcastReceiver {
             boolean defaultValue = context.getResources().getBoolean(R.bool.preferences_insistent_alarm_enabled_default_value);
             boolean insistent = prefs.getBoolean("insistent", defaultValue);
 
-            Intent notificationIntent = new Intent(context, MainActivity.class);
-            notificationIntent.putExtra("lecture_id", lectureId);
-            notificationIntent.putExtra("day", day);
-            notificationIntent.setFlags(
-                    Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+            Intent launchIntent = MainActivity.createLaunchIntent(context, lectureId, day);
             PendingIntent contentIntent = PendingIntent
-                    .getActivity(context, lid, notificationIntent, PendingIntent.FLAG_ONE_SHOT);
+                    .getActivity(context, lid, launchIntent, PendingIntent.FLAG_ONE_SHOT);
 
             NotificationHelper notificationHelper = new NotificationHelper(context);
             String defaultReminderTone = context.getString(R.string.preferences_reminder_tone_default_value);

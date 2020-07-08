@@ -3,6 +3,7 @@ package nerd.tuxmobil.fahrplan.congress.schedule;
 import android.app.Activity;
 import android.app.KeyguardManager;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -561,4 +562,21 @@ public class MainActivity extends BaseActivity implements
     public static MainActivity getInstance() {
         return instance;
     }
+
+    /**
+     * Returns an intent to be used to launch this activity.
+     * The given parameters {@code lectureId} and {@code dayIndex} are passed along as bundle extras.
+     */
+    public static Intent createLaunchIntent(
+            @NonNull Context context,
+            @NonNull String lectureId,
+            int dayIndex
+    ) {
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.putExtra(BundleKeys.BUNDLE_KEY_LECTURE_ALARM_LECTURE_ID, lectureId);
+        intent.putExtra(BundleKeys.BUNDLE_KEY_LECTURE_ALARM_DAY_INDEX, dayIndex);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+        return intent;
+    }
+
 }
