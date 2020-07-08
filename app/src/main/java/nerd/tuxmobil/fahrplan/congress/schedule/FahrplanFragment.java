@@ -155,7 +155,7 @@ public class FahrplanFragment extends Fragment implements LectureViewEventsHandl
         context = requireContext();
         light = Typeface.createFromAsset(
                 context.getAssets(), "Roboto-Light.ttf");
-        lectureViewDrawer = new LectureViewDrawer(context, this, this);
+        lectureViewDrawer = new LectureViewDrawer(context);
     }
 
     @Override

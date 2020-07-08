@@ -51,7 +51,7 @@
     </item>
     <item
             android:id="@+id/menu_item_add_to_calendar"
-            android:icon="@drawable/ic_event_white_24dp"
+            android:icon="@drawable/ic_calendar_white_24dp"
             app:showAsAction="always"
             android:title="@string/menu_item_title_add_to_calendar">
     </item>

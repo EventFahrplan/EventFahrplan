@@ -19,115 +19,27 @@
     <color name="event_border_default_security">#914452</color>
     <color name="event_border_default_self_organized_sessions">#3056bf</color>
 
-    <!-- Accent color -->
-    <color name="event_border_accent">#8c8c8c</color>
-    <color name="event_border_accent_art_culture">#e08241</color>
-    <color name="event_border_accent_ccc">#c2b519</color>
-    <color name="event_border_accent_engelshifts">#9F5E45</color>
-    <color name="event_border_accent_entertainment">#57b73a</color>
-    <color name="event_border_accent_ethics_society_politics">#3caea5</color>
-    <color name="event_border_accent_hardware_making">#3fafd8</color>
-    <color name="event_border_accent_lightning_talks">#B1C219</color>
-    <color name="event_border_accent_music">#708C8C</color>
-    <color name="event_border_accent_queer">#B83E78</color>
-    <color name="event_border_accent_resilience">#8194e6</color>
-    <color name="event_border_accent_science">#cf87d9</color>
-    <color name="event_border_accent_security">#de697e</color>
-    <color name="event_border_accent_self_organized_sessions">#4174ff</color>
-
     <!-- Highlight state -->
-    <color name="event_border_highlight">
-        @color/event_border_accent
-    </color>
-    <color name="event_border_highlight_art_culture">
-        @color/event_border_accent_art_culture
-    </color>
-    <color name="event_border_highlight_ccc">
-        @color/event_border_accent_ccc
-    </color>
-    <color name="event_border_highlight_engelshifts">
-        @color/event_border_accent_engelshifts
-    </color>
-    <color name="event_border_highlight_entertainment">
-        @color/event_border_accent_entertainment
-    </color>
-    <color name="event_border_highlight_ethics_society_politics">
-        @color/event_border_accent_ethics_society_politics
-    </color>
-    <color name="event_border_highlight_hardware_making">
-        @color/event_border_accent_hardware_making
-    </color>
-    <color name="event_border_highlight_lightning_talks">
-        @color/event_border_accent_lightning_talks
-    </color>
-    <color name="event_border_highlight_music">
-        @color/event_border_accent_music
-    </color>
-    <color name="event_border_highlight_queer">
-        @color/event_border_accent_queer
-    </color>
-    <color name="event_border_highlight_resilience">
-        @color/event_border_accent_resilience
-    </color>
-    <color name="event_border_highlight_science">
-        @color/event_border_accent_science
-    </color>
-    <color name="event_border_highlight_security">
-        @color/event_border_accent_security
-    </color>
-    <color name="event_border_highlight_self_organized_sessions">
-        @color/event_border_accent_self_organized_sessions
-    </color>
-
-    <!-- Accent color highlight -->
-    <color name="event_border_accent_highlight">
-        @color/event_border_default
-    </color>
-    <color name="event_border_accent_highlight_art_culture">
-        @color/event_border_default_art_culture
-    </color>
-    <color name="event_border_accent_highlight_ccc">
-        @color/event_border_default_ccc
-    </color>
-    <color name="event_border_accent_highlight_engelshifts">
-        @color/event_border_default_engelshifts
-    </color>
-    <color name="event_border_accent_highlight_entertainment">
-        @color/event_border_default_entertainment
-    </color>
-    <color name="event_border_accent_highlight_ethics_society_politics">
-        @color/event_border_default_ethics_society_politics
-    </color>
-    <color name="event_border_accent_highlight_hardware_making">
-        @color/event_border_default_hardware_making
-    </color>
-    <color name="event_border_accent_highlight_lightning_talks">
-        @color/event_border_default_lightning_talks
-    </color>
-    <color name="event_border_accent_highlight_music">
-        @color/event_border_default_music
-    </color>
-    <color name="event_border_accent_highlight_queer">
-        @color/event_border_default_queer
-    </color>
-    <color name="event_border_accent_highlight_resilience">
-        @color/event_border_default_resilience
-    </color>
-    <color name="event_border_accent_highlight_science">
-        @color/event_border_default_science
-    </color>
-    <color name="event_border_accent_highlight_security">
-        @color/event_border_default_security
-    </color>
-    <color name="event_border_accent_highlight_self_organized_sessions">
-        @color/event_border_default_self_organized_sessions
-    </color>
+    <color name="event_border_highlight">#8c8c8c</color>
+    <color name="event_border_highlight_art_culture">#e08241</color>
+    <color name="event_border_highlight_ccc">#c2b519</color>
+    <color name="event_border_highlight_engelshifts">#9F5E45</color>
+    <color name="event_border_highlight_entertainment">#57b73a</color>
+    <color name="event_border_highlight_ethics_society_politics">#3caea5</color>
+    <color name="event_border_highlight_hardware_making">#3fafd8</color>
+    <color name="event_border_highlight_lightning_talks">#B1C219</color>
+    <color name="event_border_highlight_music">#708C8C</color>
+    <color name="event_border_highlight_queer">#B83E78</color>
+    <color name="event_border_highlight_resilience">#8194e6</color>
+    <color name="event_border_highlight_science">#cf87d9</color>
+    <color name="event_border_highlight_security">#de697e</color>
+    <color name="event_border_highlight_self_organized_sessions">#4174ff</color>
 
     <!-- Track color -->
     <color name="track_name">#beffffff</color>
 
     <!-- Title color -->
-    <color name="event_title">#a0ffffff</color>
-    <color name="event_title_highlight">#fff</color>
+    <color name="event_title_on_default_background">#a0ffffff</color>
+    <color name="event_title_on_highlight_background">#fff</color>
 
 </resources>

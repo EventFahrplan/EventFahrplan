@@ -15,10 +15,11 @@ import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
 import nerd.tuxmobil.fahrplan.congress.models.Lecture
 
 internal class LectureViewDrawer(
-    context: Context,
-    private val onLectureClick: View.OnClickListener,
-    private val onCreateContextMenu: View.OnCreateContextMenuListener
+
+        context: Context
+
 ) {
+
     private val scale: Float
     private val resources = context.resources
     private val boldCondensed = Typeface.createFromAsset(context.assets, "Roboto-BoldCondensed.ttf")
@@ -87,13 +88,10 @@ internal class LectureViewDrawer(
         val alternativeHighlightingIsEnabled = prefs.getBoolean(
                 BundleKeys.PREFS_ALTERNATIVE_HIGHLIGHT, defaultValue)
         val eventIsFavored = event.highlight
-        @ColorRes val backgroundColorResId: Int
-        backgroundColorResId = if (eventIsFavored) {
-            val colorResId = trackNameBackgroundColorHighlightPairs[event.track]
-            colorResId ?: R.color.event_border_highlight
+        @ColorRes val backgroundColorResId = if (eventIsFavored) {
+            trackNameBackgroundColorHighlightPairs[event.track] ?: R.color.event_border_highlight
         } else {
-            val colorResId = trackNameBackgroundColorDefaultPairs[event.track]
-            colorResId ?: R.color.event_border_default
+            trackNameBackgroundColorDefaultPairs[event.track] ?: R.color.event_border_default
         }
         @ColorInt val backgroundColor = ContextCompat.getColor(context, backgroundColorResId)
         val eventDrawable: EventDrawable
@@ -133,7 +131,10 @@ internal class LectureViewDrawer(
             val title = view.findViewById<TextView>(R.id.event_title)
             val subtitle = view.findViewById<TextView>(R.id.event_subtitle)
             val speakers = view.findViewById<TextView>(R.id.event_speakers)
-            val colorResId = if (lecture.highlight) R.color.event_title_highlight else R.color.event_title
+            val colorResId = if (lecture.highlight)
+                R.color.event_title_on_highlight_background
+            else
+                R.color.event_title_on_default_background
             val textColor = ContextCompat.getColor(view.context, colorResId)
             title.setTextColor(textColor)
             subtitle.setTextColor(textColor)
