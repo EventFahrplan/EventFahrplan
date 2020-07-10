@@ -84,12 +84,12 @@ public class TrackBackgrounds {
 
     public static Map<String, Integer> getTrackNameBackgroundColorDefaultPairs(Context context) {
         Map<String, String> trackNames = getHashMapResource(context, R.xml.track_resource_names);
-        return buildTrackBackgroundHashMap(trackNames, "event_border_default", "color", context);
+        return buildTrackBackgroundHashMap(trackNames, "track_background_default", "color", context);
     }
 
     public static Map<String, Integer> getTrackNameBackgroundColorHighlightPairs(Context context) {
         Map<String, String> trackNames = getHashMapResource(context, R.xml.track_resource_names);
-        return buildTrackBackgroundHashMap(trackNames, "event_border_highlight", "color", context);
+        return buildTrackBackgroundHashMap(trackNames, "track_background_highlight", "color", context);
     }
 
 }

@@ -89,9 +89,9 @@ internal class SessionViewDrawer(
                 BundleKeys.PREFS_ALTERNATIVE_HIGHLIGHT, defaultValue)
         val sessionIsFavored = session.highlight
         @ColorRes val backgroundColorResId = if (sessionIsFavored) {
-            trackNameBackgroundColorHighlightPairs[session.track] ?: R.color.event_border_highlight
+            trackNameBackgroundColorHighlightPairs[session.track] ?: R.color.track_background_highlight
         } else {
-            trackNameBackgroundColorDefaultPairs[session.track] ?: R.color.event_border_default
+            trackNameBackgroundColorDefaultPairs[session.track] ?: R.color.track_background_default
         }
         @ColorInt val backgroundColor = ContextCompat.getColor(context, backgroundColorResId)
         val sessionDrawable: SessionDrawable
