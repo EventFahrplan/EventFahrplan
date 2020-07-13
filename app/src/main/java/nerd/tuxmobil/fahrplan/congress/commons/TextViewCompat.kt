@@ -7,6 +7,7 @@ import android.util.AttributeSet
 import androidx.annotation.DrawableRes
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.content.withStyledAttributes
 import nerd.tuxmobil.fahrplan.congress.R
 
 
@@ -39,30 +40,30 @@ class TextViewCompat : AppCompatTextView {
         if (attrs == null) {
             return
         }
-        val attributeArray = context.obtainStyledAttributes(attrs, R.styleable.TextViewCompat)
+        context.withStyledAttributes(attrs, R.styleable.TextViewCompat) {
 
-        var drawableStart: Drawable? = null
-        var drawableEnd: Drawable? = null
-        var drawableBottom: Drawable? = null
-        var drawableTop: Drawable? = null
-        var drawableLeft: Drawable? = null
-        var drawableRight: Drawable? = null
+            var drawableStart: Drawable? = null
+            var drawableEnd: Drawable? = null
+            var drawableBottom: Drawable? = null
+            var drawableTop: Drawable? = null
+            var drawableLeft: Drawable? = null
+            var drawableRight: Drawable? = null
 
-        try {
+
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                drawableStart = attributeArray.getDrawable(R.styleable.TextViewCompat_drawableStartCompat)
-                drawableEnd = attributeArray.getDrawable(R.styleable.TextViewCompat_drawableEndCompat)
-                drawableBottom = attributeArray.getDrawable(R.styleable.TextViewCompat_drawableBottomCompat)
-                drawableTop = attributeArray.getDrawable(R.styleable.TextViewCompat_drawableTopCompat)
-                drawableLeft = attributeArray.getDrawable(R.styleable.TextViewCompat_drawableLeftCompat)
-                drawableRight = attributeArray.getDrawable(R.styleable.TextViewCompat_drawableRightCompat)
+                drawableStart = getDrawable(R.styleable.TextViewCompat_drawableStartCompat)
+                drawableEnd = getDrawable(R.styleable.TextViewCompat_drawableEndCompat)
+                drawableBottom = getDrawable(R.styleable.TextViewCompat_drawableBottomCompat)
+                drawableTop = getDrawable(R.styleable.TextViewCompat_drawableTopCompat)
+                drawableLeft = getDrawable(R.styleable.TextViewCompat_drawableLeftCompat)
+                drawableRight = getDrawable(R.styleable.TextViewCompat_drawableRightCompat)
             } else {
-                val drawableStartResId = attributeArray.getResourceId(R.styleable.TextViewCompat_drawableStartCompat, UNDEFINED)
-                val drawableEndResId = attributeArray.getResourceId(R.styleable.TextViewCompat_drawableEndCompat, UNDEFINED)
-                val drawableBottomResId = attributeArray.getResourceId(R.styleable.TextViewCompat_drawableBottomCompat, UNDEFINED)
-                val drawableTopResId = attributeArray.getResourceId(R.styleable.TextViewCompat_drawableTopCompat, UNDEFINED)
-                val drawableLeftResId = attributeArray.getResourceId(R.styleable.TextViewCompat_drawableLeftCompat, UNDEFINED)
-                val drawableRightResId = attributeArray.getResourceId(R.styleable.TextViewCompat_drawableRightCompat, UNDEFINED)
+                val drawableStartResId = getResourceId(R.styleable.TextViewCompat_drawableStartCompat, UNDEFINED)
+                val drawableEndResId = getResourceId(R.styleable.TextViewCompat_drawableEndCompat, UNDEFINED)
+                val drawableBottomResId = getResourceId(R.styleable.TextViewCompat_drawableBottomCompat, UNDEFINED)
+                val drawableTopResId = getResourceId(R.styleable.TextViewCompat_drawableTopCompat, UNDEFINED)
+                val drawableLeftResId = getResourceId(R.styleable.TextViewCompat_drawableLeftCompat, UNDEFINED)
+                val drawableRightResId = getResourceId(R.styleable.TextViewCompat_drawableRightCompat, UNDEFINED)
 
                 if (drawableStartResId != UNDEFINED) {
                     drawableStart = context.getDrawableCompat(drawableStartResId)
@@ -98,8 +99,7 @@ class TextViewCompat : AppCompatTextView {
             } else {
                 setCompoundDrawables(drawableStart, drawableTop, drawableEnd, drawableBottom)
             }
-        } finally {
-            attributeArray.recycle()
+
         }
     }
 

@@ -9,6 +9,7 @@ import android.preference.EditTextPreference
 import android.util.AttributeSet
 import android.view.View
 import androidx.annotation.RequiresApi
+import androidx.core.content.withStyledAttributes
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.utils.EngelsystemUrlValidator
 import nerd.tuxmobil.fahrplan.congress.utils.UrlValidator
@@ -40,18 +41,15 @@ class ValidateableEditTextPreference : EditTextPreference {
     private lateinit var urlTypeFriendlyName: String
 
     private fun applyAttributes(context: Context, attrs: AttributeSet?) {
-        val attributes = context.obtainStyledAttributes(attrs, R.styleable.ValidateableEditTextPreference)
-        try {
-            val type = attributes.getInt(
+        context.withStyledAttributes(attrs, R.styleable.ValidateableEditTextPreference) {
+            val type = getInt(
                     R.styleable.ValidateableEditTextPreference_validationType,
                     ValidationType.Unknown.value
             )
             validationType = ValidationType.of(type)
-            urlTypeFriendlyName = attributes.getString(
+            urlTypeFriendlyName = getString(
                     R.styleable.ValidateableEditTextPreference_urlTypeFriendlyName)
                     ?: ""
-        } finally {
-            attributes.recycle()
         }
     }
 
