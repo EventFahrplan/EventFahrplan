@@ -88,7 +88,9 @@ object AppRepository {
     }
 
     fun cancelLoading() {
-        parentJobs.values.forEach(Job::cancel)
+        parentJobs.values.forEach {
+            it.cancel()
+        }
         parentJobs.clear()
     }
 
