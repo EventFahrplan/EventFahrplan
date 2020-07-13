@@ -1,7 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.extensions
 
-import android.view.View
 import android.widget.TextView
+import androidx.core.view.isVisible
 
 /**
  * Returns the text this TextView is displaying.
@@ -11,9 +11,9 @@ var TextView.textOrHide: CharSequence
     get() = this.text
     set(value) {
         if (value.isEmpty()) {
-            visibility = View.GONE
+            isVisible = false
         } else {
             text = value
-            visibility = View.VISIBLE
+            isVisible = true
         }
     }

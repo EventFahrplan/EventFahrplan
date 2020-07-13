@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
 import nerd.tuxmobil.fahrplan.congress.models.Session
@@ -61,7 +62,7 @@ internal class SessionViewDrawer(
 
     fun updateSessionView(sessionView: View, session: Session) {
         val bell = sessionView.findViewById<ImageView>(R.id.session_bell_view)
-        bell.visibility = if (session.hasAlarm) View.VISIBLE else View.GONE
+        bell.isVisible = session.hasAlarm
         var title = sessionView.findViewById<TextView>(R.id.session_title_view)
         title.typeface = boldCondensed
         title.text = session.title
@@ -74,7 +75,7 @@ internal class SessionViewDrawer(
         title.contentDescription = session.getFormattedTrackContentDescription(sessionView.context)
         val recordingOptOut = sessionView.findViewById<View>(R.id.session_no_video_view)
         if (recordingOptOut != null) {
-            recordingOptOut.visibility = if (session.recordingOptOut) View.VISIBLE else View.GONE
+            recordingOptOut.isVisible = session.recordingOptOut
         }
         setSessionBackground(session, sessionView)
         setSessionTextColor(session, sessionView)
