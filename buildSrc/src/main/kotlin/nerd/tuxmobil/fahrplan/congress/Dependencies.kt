@@ -43,7 +43,7 @@ object Libs {
         const val junit = "4.13"
         const val kotlinCoroutines = "1.1.1"
         const val material = "1.0.0"
-        const val mockito = "3.3.0"
+        const val mockito = "3.4.0"
         const val mockitoKotlin = "2.2.0"
         const val moshi = "1.9.2"
         const val okhttp = "3.12.12"
