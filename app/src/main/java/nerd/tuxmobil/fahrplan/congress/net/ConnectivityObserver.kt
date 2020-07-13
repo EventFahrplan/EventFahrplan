@@ -9,7 +9,7 @@ import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.net.Network
 import android.os.Build
-import androidx.core.content.ContextCompat
+import androidx.core.content.getSystemService
 
 /**
  * Observes network connectivity by consulting the [ConnectivityManager].
@@ -25,7 +25,7 @@ class ConnectivityObserver @JvmOverloads constructor(
 ) {
 
     private val connectivityManager
-        get() = ContextCompat.getSystemService(context, ConnectivityManager::class.java)!!
+        get() = context.getSystemService<ConnectivityManager>()!!
 
     @Suppress("DEPRECATION")
     private val intentFilter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
