@@ -11,22 +11,22 @@ object Android {
 
 private const val kotlinVersion = "1.3.72"
 
-object GradlePlugins {
+object Plugins {
 
     private object Versions {
-        const val androidGradle = "3.6.3"
-        const val gradleVersions = "0.28.0"
-        const val sonarQubeGradle = "2.8"
-        const val unmockGradle = "0.7.6"
-        const val androidJunitJacocoGradle = "0.16.0"
+        const val android = "3.6.3"
+        const val androidJunitJacoco = "0.16.0"
+        const val sonarQube = "2.8"
+        const val unMock = "0.7.6"
+        const val versions = "0.28.0"
     }
 
-    const val androidGradle = "com.android.tools.build:gradle:${Versions.androidGradle}"
-    const val gradleVersions = "com.github.ben-manes:gradle-versions-plugin:${Versions.gradleVersions}"
-    const val sonarQubeGradle = "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:${Versions.sonarQubeGradle}"
-    const val kotlinGradle = "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
-    const val unmockGradle = "de.mobilej.unmock:UnMockPlugin:${Versions.unmockGradle}"
-    const val androidJunitJacocoGradle = "com.vanniktech:gradle-android-junit-jacoco-plugin:${Versions.androidJunitJacocoGradle}"
+    const val android = "com.android.tools.build:gradle:${Versions.android}"
+    const val androidJunitJacoco = "com.vanniktech:gradle-android-junit-jacoco-plugin:${Versions.androidJunitJacoco}"
+    const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+    const val sonarQube = "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:${Versions.sonarQube}"
+    const val unMock = "de.mobilej.unmock:UnMockPlugin:${Versions.unMock}"
+    const val versions = "com.github.ben-manes:gradle-versions-plugin:${Versions.versions}"
 }
 
 object Libs {
