@@ -4,12 +4,12 @@ import android.content.ContentValues
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteException
+import androidx.core.database.sqlite.transaction
 import info.metadude.android.eventfahrplan.commons.logging.Logging
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.*
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Values.REC_OPT_OUT_OFF
 import info.metadude.android.eventfahrplan.database.extensions.*
-import info.metadude.android.eventfahrplan.database.extensions.transaction
 import info.metadude.android.eventfahrplan.database.models.Session
 import info.metadude.android.eventfahrplan.database.sqliteopenhelper.SessionsDBOpenHelper
 

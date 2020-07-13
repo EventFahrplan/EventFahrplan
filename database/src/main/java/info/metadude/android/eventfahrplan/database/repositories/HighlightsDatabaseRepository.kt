@@ -2,6 +2,7 @@ package info.metadude.android.eventfahrplan.database.repositories
 
 import android.content.ContentValues
 import android.database.sqlite.SQLiteException
+import androidx.core.database.sqlite.transaction
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.HighlightsTable
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.HighlightsTable.Columns.HIGHLIGHT
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.HighlightsTable.Columns.SESSION_ID
