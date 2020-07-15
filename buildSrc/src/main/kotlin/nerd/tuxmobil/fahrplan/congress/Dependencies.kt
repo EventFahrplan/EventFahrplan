@@ -38,7 +38,7 @@ object Libs {
         const val constraintLayout = "1.1.3"
         const val coreKtx = "1.3.1"
         const val emailIntentBuilder = "2.0.0"
-        const val engelsystem = "3.1.0"
+        const val engelsystem = "4.0.1"
         const val espresso = "3.2.0"
         const val junit = "4.13"
         const val kotlinCoroutines = "1.1.1"
