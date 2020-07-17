@@ -6,9 +6,9 @@ import android.content.DialogInterface
 import android.os.Build
 import android.os.Bundle
 import android.preference.EditTextPreference
-import android.support.annotation.RequiresApi
 import android.util.AttributeSet
 import android.view.View
+import androidx.annotation.RequiresApi
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.utils.EngelsystemUrlValidator
 import nerd.tuxmobil.fahrplan.congress.utils.UrlValidator

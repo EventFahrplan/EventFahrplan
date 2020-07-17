@@ -1,6 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress.sidepane;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 public interface OnSidePaneCloseListener {
 

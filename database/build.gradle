@@ -13,7 +13,7 @@ android {
         targetSdkVersion Android.targetSdkVersion
         versionCode 1
         versionName "1.0.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
 
     compileOptions {
@@ -25,14 +25,10 @@ android {
 dependencies {
     implementation project(":commons")
 
+    implementation Libs.annotation
     implementation Libs.kotlinStdlib
-    implementation Libs.supportLibraryAnnotations
 
     androidTestImplementation Libs.assertjAndroid
-    androidTestImplementation(Libs.espresso) {
-        exclude group: "com.android.support", module: "support-annotations"
-    }
-    androidTestImplementation(Libs.testRules) {
-        exclude group: "com.android.support", module: "support-annotations"
-    }
+    androidTestImplementation Libs.espresso
+    androidTestImplementation Libs.testExtJunit
 }

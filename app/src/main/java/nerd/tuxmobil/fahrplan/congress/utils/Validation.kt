@@ -1,6 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress.utils
 
-import android.support.annotation.StringRes
+import androidx.annotation.StringRes
 
 interface Validation {
 

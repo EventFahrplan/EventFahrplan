@@ -1,8 +1,9 @@
 package info.metadude.android.eventfahrplan.network.serialization;
 
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
 import android.util.Xml;
+
+import androidx.annotation.NonNull;
 
 import org.xmlpull.v1.XmlPullParser;
 

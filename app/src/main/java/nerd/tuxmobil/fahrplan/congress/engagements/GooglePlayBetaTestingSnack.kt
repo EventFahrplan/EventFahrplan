@@ -1,7 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.engagements
 
 import android.content.Context
-import android.support.v4.content.ContextCompat
+import androidx.core.content.ContextCompat
 import nerd.tuxmobil.fahrplan.congress.R
 import org.ligi.snackengage.conditions.AfterNumberOfOpportunities
 import org.ligi.snackengage.conditions.NeverAgainWhenClickedOnce

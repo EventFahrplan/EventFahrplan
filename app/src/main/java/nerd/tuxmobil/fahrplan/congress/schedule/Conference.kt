@@ -1,6 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress.schedule
 
-import android.support.annotation.VisibleForTesting
+import androidx.annotation.VisibleForTesting
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.models.Lecture as Event
 

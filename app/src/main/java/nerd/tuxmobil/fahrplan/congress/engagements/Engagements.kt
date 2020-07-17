@@ -2,7 +2,7 @@
 
 package nerd.tuxmobil.fahrplan.congress.engagements
 
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import nerd.tuxmobil.fahrplan.congress.BuildConfig
 import nerd.tuxmobil.fahrplan.congress.navigation.C3navSnack
 import org.ligi.snackengage.SnackEngage

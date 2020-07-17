@@ -1,7 +1,8 @@
 package nerd.tuxmobil.fahrplan.congress.base;
 
 import android.content.Context;
-import android.support.v4.app.ListFragment;
+
+import androidx.fragment.app.ListFragment;
 
 import nerd.tuxmobil.fahrplan.congress.models.Lecture;
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;

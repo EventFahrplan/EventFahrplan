@@ -3,7 +3,8 @@ package info.metadude.android.eventfahrplan.database.sqliteopenhelper;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.HighlightsTable;
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.HighlightsTable.Columns;
