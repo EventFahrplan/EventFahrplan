@@ -36,9 +36,7 @@ import nerd.tuxmobil.fahrplan.congress.extensions.Strings;
 import nerd.tuxmobil.fahrplan.congress.models.Session;
 import nerd.tuxmobil.fahrplan.congress.navigation.RoomForC3NavConverter;
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
-import nerd.tuxmobil.fahrplan.congress.sharing.JsonSessionFormat;
 import nerd.tuxmobil.fahrplan.congress.sharing.SessionSharer;
-import nerd.tuxmobil.fahrplan.congress.sharing.SimpleSessionFormat;
 import nerd.tuxmobil.fahrplan.congress.sidepane.OnSidePaneCloseListener;
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
 import nerd.tuxmobil.fahrplan.congress.utils.FeedbackUrlComposer;
@@ -47,7 +45,8 @@ import nerd.tuxmobil.fahrplan.congress.utils.StringUtils;
 import nerd.tuxmobil.fahrplan.congress.wiki.WikiSessionUtils;
 
 
-public class SessionDetailsFragment extends Fragment {
+public class SessionDetailsFragment extends Fragment implements
+        SessionDetailsViewModel.ViewActionHandler {
 
     private static final String LOG_TAG = "Detail";
 
@@ -93,10 +92,16 @@ public class SessionDetailsFragment extends Fragment {
 
     private boolean hasArguments = false;
 
+    private SessionDetailsViewModel viewModel;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         appRepository = AppRepository.INSTANCE;
+        // TODO Move loading into the viewModel as soon as all view updated depend on the viewModel.
+        // Double check if the favorites menu icon updates correctly when being pressed.
+        session = sessionOf(sessionId);
+        viewModel = new SessionDetailsViewModel(appRepository, session, this);
     }
 
     @Override
@@ -144,8 +149,6 @@ public class SessionDetailsFragment extends Fragment {
             light = Typeface.createFromAsset(assetManager, "Roboto-Light.ttf");
             regular = Typeface.createFromAsset(assetManager, "Roboto-Regular.ttf");
             bold = Typeface.createFromAsset(assetManager, "Roboto-Bold.ttf");
-
-            session = sessionOf(sessionId);
 
             // Detailbar
 
@@ -359,10 +362,6 @@ public class SessionDetailsFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void showAlarmTimePicker() {
-        AlarmTimePickerFragment.show(this, SESSION_DETAILS_FRAGMENT_REQUEST_CODE);
-    }
-
     private void onAlarmTimesIndexPicked(int alarmTimesIndex) {
         Activity activity = requireActivity();
         if (session != null) {
@@ -375,70 +374,8 @@ public class SessionDetailsFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Session session;
-        Activity activity = requireActivity();
-        switch (item.getItemId()) {
-            case R.id.menu_item_feedback: {
-                session = sessionOf(sessionId);
-                String feedbackUrl = new FeedbackUrlComposer(session, SCHEDULE_FEEDBACK_URL).getFeedbackUrl();
-                Uri uri = Uri.parse(feedbackUrl);
-                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                startActivity(intent);
-                return true;
-            }
-            case R.id.menu_item_share_session:
-            case R.id.menu_item_share_session_text:
-                session = sessionOf(sessionId);
-                String formattedSession = SimpleSessionFormat.format(session);
-                if (!SessionSharer.shareSimple(activity, formattedSession)) {
-                    Toast.makeText(activity, R.string.share_error_activity_not_found, Toast.LENGTH_SHORT).show();
-                }
-                return true;
-            case R.id.menu_item_share_session_json:
-                session = sessionOf(sessionId);
-                String jsonSession = JsonSessionFormat.format(session);
-                if (!SessionSharer.shareJson(activity, jsonSession)) {
-                    Toast.makeText(activity, R.string.share_error_activity_not_found, Toast.LENGTH_SHORT).show();
-                }
-                return true;
-            case R.id.menu_item_add_to_calendar:
-                session = sessionOf(sessionId);
-                CalendarSharing.addToCalendar(session, activity);
-                return true;
-            case R.id.menu_item_flag_as_favorite:
-                if (this.session != null) {
-                    this.session.highlight = true;
-                    appRepository.updateHighlight(this.session);
-                    appRepository.notifyHighlightsChanged();
-                }
-                refreshUI(activity);
-                return true;
-            case R.id.menu_item_unflag_as_favorite:
-                if (this.session != null) {
-                    this.session.highlight = false;
-                    appRepository.updateHighlight(this.session);
-                    appRepository.notifyHighlightsChanged();
-                }
-                refreshUI(activity);
-                return true;
-            case R.id.menu_item_set_alarm:
-                showAlarmTimePicker();
-                return true;
-            case R.id.menu_item_delete_alarm:
-                if (this.session != null) {
-                    FahrplanMisc.deleteAlarm(activity, appRepository, this.session);
-                }
-                refreshUI(activity);
-                return true;
-            case R.id.menu_item_close_session_details:
-                closeFragment(activity, FRAGMENT_TAG);
-                return true;
-            case R.id.menu_item_navigate:
-                final Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse(BuildConfig.C3NAV_URL + getRoomConvertedForC3Nav()));
-                startActivity(intent);
-                return true;
-
+        if (viewModel.onOptionsMenuItemSelected(item.getItemId())) {
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -448,15 +385,64 @@ public class SessionDetailsFragment extends Fragment {
         activity.setResult(Activity.RESULT_OK);
     }
 
-    private void closeFragment(@NonNull Activity activity, @NonNull String fragmentTag) {
-        if (activity instanceof OnSidePaneCloseListener) {
-            ((OnSidePaneCloseListener) activity).onSidePaneClose(fragmentTag);
-        }
-    }
-
     @Override
     public void onDestroy() {
         super.onDestroy();
         MyApp.LogDebug(LOG_TAG, "onDestroy");
     }
+
+    @Override
+    public void openFeedback(@NonNull Uri uri) {
+        startActivity(new Intent(Intent.ACTION_VIEW, uri));
+    }
+
+    @Override
+    public void shareAsPlainText(@NonNull String formattedSessions) {
+        Context context = requireContext();
+        if (!SessionSharer.shareSimple(context, formattedSessions)) {
+            Toast.makeText(context, R.string.share_error_activity_not_found, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void shareAsJson(@NonNull String formattedSessions) {
+        Context context = requireContext();
+        if (!SessionSharer.shareJson(context, formattedSessions)) {
+            Toast.makeText(context, R.string.share_error_activity_not_found, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void addToCalendar(@NonNull Session session) {
+        CalendarSharing.addToCalendar(session, requireContext());
+    }
+
+    @Override
+    public void showAlarmTimePicker() {
+        AlarmTimePickerFragment.show(this, SESSION_DETAILS_FRAGMENT_REQUEST_CODE);
+    }
+
+    @Override
+    public void deleteAlarm(@NonNull Session session) {
+        FahrplanMisc.deleteAlarm(requireContext(), appRepository, session);
+    }
+
+    @Override
+    public void closeDetails() {
+        Activity activity = requireActivity();
+        if (activity instanceof OnSidePaneCloseListener) {
+            ((OnSidePaneCloseListener) activity).onSidePaneClose(FRAGMENT_TAG);
+        }
+    }
+
+    @Override
+    public void navigateToRoom(@NonNull Uri uri) {
+        startActivity(new Intent(Intent.ACTION_VIEW, uri));
+    }
+
+    @Override
+    public void refreshUI() {
+        refreshUI(requireActivity());
+    }
+
 }
