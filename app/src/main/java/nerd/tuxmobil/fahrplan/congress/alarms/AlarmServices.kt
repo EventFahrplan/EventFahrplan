@@ -22,20 +22,20 @@ class AlarmServices @JvmOverloads constructor(
 
     /**
      * Schedules the given [alarm] via the [android.app.AlarmManager].
-     * Existing alarms for the associated event are discarded if configured via [discardExisting].
+     * Existing alarms for the associated session are discarded if configured via [discardExisting].
      */
     @JvmOverloads
-    fun scheduleEventAlarm(context: Context, alarm: SchedulableAlarm, discardExisting: Boolean = false) {
+    fun scheduleSessionAlarm(context: Context, alarm: SchedulableAlarm, discardExisting: Boolean = false) {
         val intent = AlarmReceiver.AlarmIntentBuilder()
                 .setContext(context)
-                .setLectureId(alarm.eventId)
+                .setSessionId(alarm.sessionId)
                 .setDay(alarm.day)
-                .setTitle(alarm.eventTitle)
+                .setTitle(alarm.sessionTitle)
                 .setStartTime(alarm.startTime)
                 .setIsAddAlarm()
                 .build()
 
-        val requestCode = Integer.parseInt(alarm.eventId)
+        val requestCode = Integer.parseInt(alarm.sessionId)
         val pendingIntent = onPendingIntentBroadcast(context, requestCode, intent, 0)
         if (discardExisting) {
             alarmManager.cancel(pendingIntent)
@@ -46,17 +46,17 @@ class AlarmServices @JvmOverloads constructor(
     /**
      * Discards the given [alarm] via the [android.app.AlarmManager].
      */
-    fun discardEventAlarm(context: Context, alarm: SchedulableAlarm) {
+    fun discardSessionAlarm(context: Context, alarm: SchedulableAlarm) {
         val intent = AlarmReceiver.AlarmIntentBuilder()
                 .setContext(context)
-                .setLectureId(alarm.eventId)
+                .setSessionId(alarm.sessionId)
                 .setDay(alarm.day)
-                .setTitle(alarm.eventTitle)
+                .setTitle(alarm.sessionTitle)
                 .setStartTime(alarm.startTime)
                 .setIsDeleteAlarm()
                 .build()
 
-        val requestCode = Integer.parseInt(alarm.eventId)
+        val requestCode = Integer.parseInt(alarm.sessionId)
         discardAlarm(context, requestCode, intent)
     }
 

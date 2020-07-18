@@ -26,7 +26,7 @@
             </intent-filter>
         </activity>
         <activity
-                android:name=".details.EventDetail"
+                android:name=".details.SessionDetailsActivity"
                 android:configChanges="keyboardHidden|orientation"
                 android:label="@string/fahrplan"
                 android:uiOptions="splitActionBarWhenNarrow"
@@ -78,7 +78,7 @@
         <activity
             android:name="nerd.tuxmobil.fahrplan.congress.favorites.StarredListActivity"
             android:theme="@style/Theme.Congress.NoActionBar"
-            android:label="@string/starred_lectures"
+            android:label="@string/starred_sessions"
             android:resizeableActivity="true" >
         </activity>
     </application>

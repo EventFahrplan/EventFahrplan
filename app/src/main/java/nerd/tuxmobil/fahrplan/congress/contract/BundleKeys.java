@@ -3,8 +3,8 @@ package nerd.tuxmobil.fahrplan.congress.contract;
 public interface BundleKeys {
 
     // Add + delete alarm
-    String ALARM_LECTURE_ID =
-            "nerd.tuxmobil.fahrplan.congress.ALARM_LECTURE_ID";
+    String ALARM_SESSION_ID =
+            "nerd.tuxmobil.fahrplan.congress.ALARM_SESSION_ID";
     String ALARM_DAY =
             "nerd.tuxmobil.fahrplan.congress.ALARM_DAY";
     String ALARM_TITLE =
@@ -12,31 +12,30 @@ public interface BundleKeys {
     String ALARM_START_TIME =
             "nerd.tuxmobil.fahrplan.congress.ALARM_START_TIME";
 
-    // Lecture alarm notification
-    String BUNDLE_KEY_LECTURE_ALARM_LECTURE_ID =
-            "lecture_id";
-    String BUNDLE_KEY_LECTURE_ALARM_DAY_INDEX =
-            "day";
+    // Session alarm notification
+    String BUNDLE_KEY_SESSION_ALARM_SESSION_ID =
+            "nerd.tuxmobil.fahrplan.congress.SESSION_ALARM_SESSION_ID";
+    String BUNDLE_KEY_SESSION_ALARM_DAY_INDEX =
+            "nerd.tuxmobil.fahrplan.congress.SESSION_ALARM_DAY_INDEX";
 
-    // Event
-    String EVENT_TITLE =
-            "nerd.tuxmobil.fahrplan.congress.EVENT_TITLE";
-    String EVENT_SUBTITLE =
-            "nerd.tuxmobil.fahrplan.congress.EVENT_SUBTITLE";
-    String EVENT_ABSTRACT =
-            "nerd.tuxmobil.fahrplan.congress.EVENT_ABSTRACT";
-    String EVENT_DESCRIPTION =
-            "nerd.tuxmobil.fahrplan.congress.EVENT_DESCRIPTION";
-    String EVENT_SPEAKERS =
-            "nerd.tuxmobil.fahrplan.congress.EVENT_SPEAKERS";
-    String EVENT_LINKS =
-            "nerd.tuxmobil.fahrplan.congress.EVENT_LINKS";
-    String EVENT_ID =
-            "nerd.tuxmobil.fahrplan.congress.EVENT_ID";
-    String EVENT_DAY =
-            "nerd.tuxmobil.fahrplan.congress.EVENT_DAY";
-    String EVENT_ROOM =
-            "nerd.tuxmobil.fahrplan.congress.EVENT_ROOM";
+    String SESSION_TITLE =
+            "nerd.tuxmobil.fahrplan.congress.SESSION_TITLE";
+    String SESSION_SUBTITLE =
+            "nerd.tuxmobil.fahrplan.congress.SESSION_SUBTITLE";
+    String SESSION_ABSTRACT =
+            "nerd.tuxmobil.fahrplan.congress.SESSION_ABSTRACT";
+    String SESSION_DESCRIPTION =
+            "nerd.tuxmobil.fahrplan.congress.SESSION_DESCRIPTION";
+    String SESSION_SPEAKERS =
+            "nerd.tuxmobil.fahrplan.congress.SESSION_SPEAKERS";
+    String SESSION_LINKS =
+            "nerd.tuxmobil.fahrplan.congress.SESSION_LINKS";
+    String SESSION_ID =
+            "nerd.tuxmobil.fahrplan.congress.SESSION_ID";
+    String SESSION_DAY =
+            "nerd.tuxmobil.fahrplan.congress.SESSION_DAY";
+    String SESSION_ROOM =
+            "nerd.tuxmobil.fahrplan.congress.SESSION_ROOM";
 
     // Side pane
     String SIDEPANE =

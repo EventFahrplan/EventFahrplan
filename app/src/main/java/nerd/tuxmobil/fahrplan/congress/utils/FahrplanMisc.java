@@ -27,8 +27,8 @@ import nerd.tuxmobil.fahrplan.congress.extensions.Contexts;
 import nerd.tuxmobil.fahrplan.congress.models.Alarm;
 import nerd.tuxmobil.fahrplan.congress.models.DateInfo;
 import nerd.tuxmobil.fahrplan.congress.models.DateInfos;
-import nerd.tuxmobil.fahrplan.congress.models.Lecture;
 import nerd.tuxmobil.fahrplan.congress.models.SchedulableAlarm;
+import nerd.tuxmobil.fahrplan.congress.models.Session;
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 
 
@@ -51,26 +51,26 @@ public class FahrplanMisc {
         }
     }
 
-    public static void deleteAlarm(@NonNull Context context, @NonNull AppRepository appRepository, @NonNull Lecture lecture) {
-        String eventId = lecture.lectureId;
-        List<Alarm> alarms = appRepository.readAlarms(eventId);
+    public static void deleteAlarm(@NonNull Context context, @NonNull AppRepository appRepository, @NonNull Session session) {
+        String sessionId = session.sessionId;
+        List<Alarm> alarms = appRepository.readAlarms(sessionId);
         if (!alarms.isEmpty()) {
-            // Delete any previous alarms of this event.
+            // Delete any previous alarms of this session.
             Alarm alarm = alarms.get(0);
             SchedulableAlarm schedulableAlarm = AlarmExtensions.toSchedulableAlarm(alarm);
             AlarmManager alarmManager = Contexts.getAlarmManager(context);
-            new AlarmServices(alarmManager).discardEventAlarm(context, schedulableAlarm);
-            appRepository.deleteAlarmForEventId(eventId);
+            new AlarmServices(alarmManager).discardSessionAlarm(context, schedulableAlarm);
+            appRepository.deleteAlarmForSessionId(sessionId);
         }
-        lecture.hasAlarm = false;
+        session.hasAlarm = false;
         appRepository.notifyAlarmsChanged();
     }
 
     public static void addAlarm(@NonNull Context context,
                                 @NonNull AppRepository appRepository,
-                                @NonNull Lecture lecture,
+                                @NonNull Session session,
                                 int alarmTimesIndex) {
-        Log.d(LOG_TAG, "Add alarm for lecture = " + lecture.lectureId +
+        Log.d(LOG_TAG, "Add alarm for session = " + session.sessionId +
                 ", alarmTimesIndex = " + alarmTimesIndex + ".");
         String[] alarm_times = context.getResources().getStringArray(R.array.alarm_time_values);
         List<String> alarmTimeStrings = new ArrayList<>(Arrays.asList(alarm_times));
@@ -81,14 +81,14 @@ public class FahrplanMisc {
         long when;
         Moment moment;
         long startTime;
-        long startTimeInMilliSec = lecture.dateUTC;
+        long startTimeInMilliSec = session.dateUTC;
 
         if (startTimeInMilliSec > 0) {
             when = startTimeInMilliSec;
             startTime = startTimeInMilliSec;
             moment = new Moment();
         } else {
-            moment = lecture.getStartTimeMoment();
+            moment = session.getStartTimeMoment();
             startTime = moment.toMilliseconds();
             when = moment.toMilliseconds();
         }
@@ -98,18 +98,18 @@ public class FahrplanMisc {
         moment.setToMilliseconds(when);
         MyApp.LogDebug(LOG_TAG, "Add alarm: Time = " + moment.toUTCDateTime() + ", in seconds = " + when + ".");
 
-        String eventId = lecture.lectureId;
-        String eventTitle = lecture.title;
+        String sessionId = session.sessionId;
+        String sessionTitle = session.title;
         int alarmTimeInMin = alarmTimes.get(alarmTimesIndex);
         String timeText = TIME_TEXT_DATE_FORMAT.format(new Date(when));
-        int day = lecture.day;
+        int day = session.day;
 
-        Alarm alarm = new Alarm(alarmTimeInMin, day, startTime, eventId, eventTitle, when, timeText);
+        Alarm alarm = new Alarm(alarmTimeInMin, day, startTime, sessionId, sessionTitle, when, timeText);
         SchedulableAlarm schedulableAlarm = AlarmExtensions.toSchedulableAlarm(alarm);
         AlarmManager alarmManager = Contexts.getAlarmManager(context);
-        new AlarmServices(alarmManager).scheduleEventAlarm(context, schedulableAlarm, true);
+        new AlarmServices(alarmManager).scheduleSessionAlarm(context, schedulableAlarm, true);
         appRepository.updateAlarm(alarm);
-        lecture.hasAlarm = true;
+        session.hasAlarm = true;
         appRepository.notifyAlarmsChanged();
     }
 

@@ -14,7 +14,7 @@
         android:paddingRight="16dp"
         android:paddingTop="32dp"
         android:fontFamily="sans-serif-light"
-        android:text="@string/starred_lectures"
+        android:text="@string/starred_sessions"
         tools:background="@android:color/holo_blue_dark"
         tools:textColor="@android:color/white"
         />

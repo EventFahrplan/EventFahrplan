@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import info.metadude.android.eventfahrplan.commons.logging.Logging;
-import info.metadude.android.eventfahrplan.network.models.Lecture;
+import info.metadude.android.eventfahrplan.network.models.Session;
 import info.metadude.android.eventfahrplan.network.models.Meta;
 import info.metadude.android.eventfahrplan.network.serialization.exceptions.MissingXmlAttributeException;
 import info.metadude.android.eventfahrplan.network.temporal.DateParser;
@@ -23,7 +23,7 @@ public class FahrplanParser {
 
     public interface OnParseCompleteListener {
 
-        void onUpdateLectures(@NonNull List<Lecture> lectures);
+        void onUpdateSessions(@NonNull List<Session> sessions);
 
         void onUpdateMeta(@NonNull Meta meta);
 
@@ -59,7 +59,7 @@ public class FahrplanParser {
 
 class ParserTask extends AsyncTask<String, Void, Boolean> {
 
-    private List<Lecture> lectures;
+    private List<Session> sessions;
 
     private Meta meta;
 
@@ -87,7 +87,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
         boolean parsingSuccessful = parseFahrplan(args[0], args[1]);
         if (parsingSuccessful) {
             DateFieldValidation dateFieldValidation = new DateFieldValidation(Logging.Companion.get());
-            dateFieldValidation.validate(lectures);
+            dateFieldValidation.validate(sessions);
             dateFieldValidation.printValidationErrors();
             // TODO Clear database on validation failure.
         }
@@ -96,7 +96,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
 
     private void notifyActivity() {
         if (result) {
-            listener.onUpdateLectures(lectures);
+            listener.onUpdateSessions(sessions);
             listener.onUpdateMeta(meta);
         }
         listener.onParseDone(result, meta.getVersion());
@@ -131,7 +131,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                 String name;
                 switch (eventType) {
                     case XmlPullParser.START_DOCUMENT:
-                        lectures = new ArrayList<>();
+                        sessions = new ArrayList<>();
                         meta = new Meta();
                         break;
                     case XmlPullParser.END_TAG:
@@ -171,57 +171,57 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                         }
                         if (name.equalsIgnoreCase("event")) {
                             String id = parser.getAttributeValue(null, "id");
-                            Lecture lecture = new Lecture();
-                            lecture.setEventId(id);
-                            lecture.setDayIndex(day);
-                            lecture.setRoom(room);
-                            lecture.setDate(date);
-                            lecture.setRoomIndex(roomMapIndex);
+                            Session session = new Session();
+                            session.setSessionId(id);
+                            session.setDayIndex(day);
+                            session.setRoom(room);
+                            session.setDate(date);
+                            session.setRoomIndex(roomMapIndex);
                             eventType = parser.next();
-                            boolean lectureDone = false;
+                            boolean isSessionDone = false;
                             while (eventType != XmlPullParser.END_DOCUMENT
-                                    && !lectureDone && !isCancelled()) {
+                                    && !isSessionDone && !isCancelled()) {
                                 switch (eventType) {
                                     case XmlPullParser.END_TAG:
                                         name = parser.getName();
                                         if (name.equals("event")) {
-                                            lectures.add(lecture);
-                                            lectureDone = true;
+                                            sessions.add(session);
+                                            isSessionDone = true;
                                         }
                                         break;
                                     case XmlPullParser.START_TAG:
                                         name = parser.getName();
                                         if (name.equals("title")) {
                                             parser.next();
-                                            lecture.setTitle(XmlPullParsers.getSanitizedText(parser));
+                                            session.setTitle(XmlPullParsers.getSanitizedText(parser));
                                         } else if (name.equals("subtitle")) {
                                             parser.next();
-                                            lecture.setSubtitle(XmlPullParsers.getSanitizedText(parser));
+                                            session.setSubtitle(XmlPullParsers.getSanitizedText(parser));
                                         } else if (name.equals("slug")) {
                                             parser.next();
-                                            lecture.setSlug(XmlPullParsers.getSanitizedText(parser));
+                                            session.setSlug(XmlPullParsers.getSanitizedText(parser));
                                         } else if (name.equals("url")) {
                                             parser.next();
-                                            lecture.setUrl(XmlPullParsers.getSanitizedText(parser));
+                                            session.setUrl(XmlPullParsers.getSanitizedText(parser));
                                         } else if (name.equals("track")) {
                                             parser.next();
-                                            lecture.setTrack(XmlPullParsers.getSanitizedText(parser));
+                                            session.setTrack(XmlPullParsers.getSanitizedText(parser));
                                         } else if (name.equals("type")) {
                                             parser.next();
-                                            lecture.setType(XmlPullParsers.getSanitizedText(parser));
+                                            session.setType(XmlPullParsers.getSanitizedText(parser));
                                         } else if (name.equals("language")) {
                                             parser.next();
-                                            lecture.setLanguage(XmlPullParsers.getSanitizedText(parser));
+                                            session.setLanguage(XmlPullParsers.getSanitizedText(parser));
                                         } else if (name.equals("abstract")) {
                                             parser.next();
-                                            lecture.setAbstractt(XmlPullParsers.getSanitizedText(parser));
+                                            session.setAbstractt(XmlPullParsers.getSanitizedText(parser));
                                         } else if (name.equals("description")) {
                                             parser.next();
-                                            lecture.setDescription(XmlPullParsers.getSanitizedText(parser));
+                                            session.setDescription(XmlPullParsers.getSanitizedText(parser));
                                         } else if (name.equals("person")) {
                                             parser.next();
-                                            String separator = lecture.getSpeakers().length() > 0 ? ";" : "";
-                                            lecture.setSpeakers(lecture.getSpeakers() + separator + XmlPullParsers.getSanitizedText(parser));
+                                            String separator = session.getSpeakers().length() > 0 ? ";" : "";
+                                            session.setSpeakers(session.getSpeakers() + separator + XmlPullParsers.getSanitizedText(parser));
                                         } else if (name.equals("link")) {
                                             String url = parser.getAttributeValue(null, "href");
                                             parser.next();
@@ -233,26 +233,26 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                                                 url = "http://" + url;
                                             }
                                             StringBuilder sb = new StringBuilder();
-                                            if (lecture.getLinks().length() > 0) {
-                                                sb.append(lecture.getLinks());
+                                            if (session.getLinks().length() > 0) {
+                                                sb.append(session.getLinks());
                                                 sb.append(",");
                                             }
                                             sb.append("[").append(urlName).append("]").append("(")
                                                     .append(url).append(")");
-                                            lecture.setLinks(sb.toString());
+                                            session.setLinks(sb.toString());
                                         } else if (name.equals("start")) {
                                             parser.next();
-                                            lecture.setStartTime(Lecture.Companion.parseStartTime(XmlPullParsers.getSanitizedText(parser)));
-                                            lecture.setRelativeStartTime(lecture.getStartTime());
-                                            if (lecture.getRelativeStartTime() < dayChangeTime) {
-                                                lecture.setRelativeStartTime(lecture.getRelativeStartTime() + 24 * 60);
+                                            session.setStartTime(Session.Companion.parseStartTime(XmlPullParsers.getSanitizedText(parser)));
+                                            session.setRelativeStartTime(session.getStartTime());
+                                            if (session.getRelativeStartTime() < dayChangeTime) {
+                                                session.setRelativeStartTime(session.getRelativeStartTime() + 24 * 60);
                                             }
                                         } else if (name.equals("duration")) {
                                             parser.next();
-                                            lecture.setDuration(Lecture.Companion.parseDuration(XmlPullParsers.getSanitizedText(parser)));
+                                            session.setDuration(Session.Companion.parseDuration(XmlPullParsers.getSanitizedText(parser)));
                                         } else if (name.equals("date")) {
                                             parser.next();
-                                            lecture.setDateUTC(DateParser.getDateTime(XmlPullParsers.getSanitizedText(parser)));
+                                            session.setDateUTC(DateParser.getDateTime(XmlPullParsers.getSanitizedText(parser)));
                                         } else if (name.equals("recording")) {
                                             eventType = parser.next();
                                             boolean recordingDone = false;
@@ -269,10 +269,10 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                                                         name = parser.getName();
                                                         if (name.equals("license")) {
                                                             parser.next();
-                                                            lecture.setRecordingLicense(XmlPullParsers.getSanitizedText(parser));
+                                                            session.setRecordingLicense(XmlPullParsers.getSanitizedText(parser));
                                                         } else if (name.equals("optout")) {
                                                             parser.next();
-                                                            lecture.setRecordingOptOut(Boolean.valueOf(XmlPullParsers.getSanitizedText(parser)));
+                                                            session.setRecordingOptOut(Boolean.valueOf(XmlPullParsers.getSanitizedText(parser)));
                                                         }
                                                         break;
                                                 }
@@ -284,7 +284,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                                         }
                                         break;
                                 }
-                                if (lectureDone) {
+                                if (isSessionDone) {
                                     break;
                                 }
                                 eventType = parser.next();
@@ -317,7 +317,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                                         }
                                         if (name.equals("day_change")) {
                                             parser.next();
-                                            dayChangeTime = Lecture.Companion.parseStartTime(XmlPullParsers.getSanitizedText(parser));
+                                            dayChangeTime = Session.Companion.parseStartTime(XmlPullParsers.getSanitizedText(parser));
                                         }
                                         break;
                                 }

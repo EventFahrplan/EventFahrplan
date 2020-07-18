@@ -7,9 +7,9 @@
     <color name="alarm_list_icon_default_fill_color">#ddd</color>
     <color name="alarm_list_icon_default_stroke_color">#003339</color>
     <color name="alarm_list_icon_text_color">#000000</color>
-    <color name="lecture_background">#ffffff</color>
-    <color name="lecture_detailbar_background">#eee</color>
-    <color name="lecture_detailbar_text">#999</color>
+    <color name="session_background">#ffffff</color>
+    <color name="session_detailbar_background">#eee</color>
+    <color name="session_detailbar_text">#999</color>
 
     <!-- Tool bar -->
     <color name="tool_bar_background">@color/colorPrimary</color>
@@ -39,19 +39,19 @@
     <color name="schedule_change_canceled">#D32F2F</color>
 
     <!-- Favorites -->
-    <color name="favorites_past_event_text">#808080</color>
+    <color name="favorites_past_session_text">#808080</color>
 
     <!-- Spinner -->
     <color name="spinner_drop_down_text">#cc0000</color>
 
-    <!-- Event detail -->
-    <color name="event_detail_background">
-        @color/lecture_background
+    <!-- Session details -->
+    <color name="session_details_background">
+        @color/session_background
     </color>
-    <color name="event_detail_text">
+    <color name="session_details_text">
         @android:color/black
     </color>
-    <color name="event_detailbar_icon">
+    <color name="session_detailbar_icon">
         @color/colorAccent
     </color>
 

@@ -39,9 +39,9 @@ public class ChangesDialog extends DialogFragment {
             boolean requiresScheduleReload) {
         ChangesDialog dialog = new ChangesDialog();
         Bundle args = new Bundle();
-        args.putInt(BundleKeys.CHANGES_DLG_NUM_CHANGED, statistic.getChangedLecturesCount());
-        args.putInt(BundleKeys.CHANGES_DLG_NUM_NEW, statistic.getNewLecturesCount());
-        args.putInt(BundleKeys.CHANGES_DLG_NUM_CANCELLED, statistic.getCanceledLecturesCount());
+        args.putInt(BundleKeys.CHANGES_DLG_NUM_CHANGED, statistic.getChangedSessionsCount());
+        args.putInt(BundleKeys.CHANGES_DLG_NUM_NEW, statistic.getNewSessionsCount());
+        args.putInt(BundleKeys.CHANGES_DLG_NUM_CANCELLED, statistic.getCanceledSessionsCount());
         args.putInt(BundleKeys.CHANGES_DLG_NUM_MARKED, statistic.getChangedFavoritesCount());
         args.putString(BundleKeys.CHANGES_DLG_VERSION, version);
         args.putBoolean(BundleKeys.REQUIRES_SCHEDULE_RELOAD, requiresScheduleReload);
@@ -85,7 +85,7 @@ public class ChangesDialog extends DialogFragment {
         span.setSpan(new ForegroundColorSpan(spanColor),
                 spanStart, span.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         span.append(getString(R.string.schedule_changes_dialog_changed_new_cancelled_text,
-                resources.getQuantityString(R.plurals.schedule_changes_dialog_number_of_lectures, changed, changed),
+                resources.getQuantityString(R.plurals.schedule_changes_dialog_number_of_sessions, changed, changed),
                 resources.getQuantityString(R.plurals.schedule_changes_dialog_being, added, added),
                 resources.getQuantityString(R.plurals.schedule_changes_dialog_being, cancelled, cancelled)));
         changes1.setText(span);
@@ -100,7 +100,7 @@ public class ChangesDialog extends DialogFragment {
         flagChangesAsSeen();
         Activity activity = requireActivity();
         if (activity instanceof MainActivity) {
-            ((MainActivity) activity).openLectureChanges(requiresScheduleReload);
+            ((MainActivity) activity).openSessionChanges(requiresScheduleReload);
         }
     }
 

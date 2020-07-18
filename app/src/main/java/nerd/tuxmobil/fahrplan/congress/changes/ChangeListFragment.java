@@ -16,8 +16,8 @@ import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.base.AbstractListFragment;
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
-import nerd.tuxmobil.fahrplan.congress.models.Lecture;
 import nerd.tuxmobil.fahrplan.congress.models.Meta;
+import nerd.tuxmobil.fahrplan.congress.models.Session;
 
 
 /**
@@ -26,15 +26,15 @@ import nerd.tuxmobil.fahrplan.congress.models.Meta;
  * Large screen devices (such as tablets) are supported by replacing the ListView
  * with a GridView.
  * <p/>
- * Activities containing this fragment MUST implement the {@link AbstractListFragment.OnLectureListClick}
+ * Activities containing this fragment MUST implement the {@link OnSessionListClick}
  * interface.
  */
 public class ChangeListFragment extends AbstractListFragment {
 
     private static final String LOG_TAG = "ChangeListFragment";
     public static final String FRAGMENT_TAG = "changes";
-    private OnLectureListClick mListener;
-    private List<Lecture> changesList;
+    private OnSessionListClick mListener;
+    private List<Session> changesList;
     private boolean sidePane = false;
     private boolean requiresScheduleReload = false;
 
@@ -47,7 +47,7 @@ public class ChangeListFragment extends AbstractListFragment {
      * The Adapter which will be used to populate the ListView/GridView with
      * Views.
      */
-    private LectureChangesArrayAdapter mAdapter;
+    private ChangeListAdapter mAdapter;
 
     public static ChangeListFragment newInstance(boolean sidePane, boolean requiresScheduleReload) {
         ChangeListFragment fragment = new ChangeListFragment();
@@ -76,9 +76,9 @@ public class ChangeListFragment extends AbstractListFragment {
         }
 
         Context context = requireContext();
-        changesList = appRepository.loadChangedLectures();
+        changesList = appRepository.loadChangedSessions();
         Meta meta = appRepository.readMeta();
-        mAdapter = new LectureChangesArrayAdapter(context, changesList, meta.getNumDays());
+        mAdapter = new ChangeListAdapter(context, changesList, meta.getNumDays());
         MyApp.LogDebug(LOG_TAG, "onCreate, " + changesList.size() + " changes");
     }
 
@@ -93,11 +93,11 @@ public class ChangeListFragment extends AbstractListFragment {
         View view;
         View header;
         if (sidePane) {
-            view = localInflater.inflate(R.layout.fragment_lecture_list_narrow, container, false);
+            view = localInflater.inflate(R.layout.fragment_session_list_narrow, container, false);
             mListView = view.findViewById(android.R.id.list);
             header = localInflater.inflate(R.layout.changes_header, null, false);
         } else {
-            view = localInflater.inflate(R.layout.fragment_lecture_list, container, false);
+            view = localInflater.inflate(R.layout.fragment_session_list, container, false);
             mListView = view.findViewById(android.R.id.list);
             header = localInflater.inflate(R.layout.header_empty, null, false);
         }
@@ -114,10 +114,10 @@ public class ChangeListFragment extends AbstractListFragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            mListener = (OnLectureListClick) context;
+            mListener = (OnSessionListClick) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString()
-                    + " must implement OnLectureListClick");
+                    + " must implement OnSessionListClick");
         }
     }
 
@@ -128,7 +128,7 @@ public class ChangeListFragment extends AbstractListFragment {
     }
 
     public void onRefresh() {
-        List<Lecture> updatedChanges = appRepository.loadChangedLectures();
+        List<Session> updatedChanges = appRepository.loadChangedSessions();
         if (changesList != null) {
             changesList.clear();
             changesList.addAll(updatedChanges);
@@ -143,9 +143,9 @@ public class ChangeListFragment extends AbstractListFragment {
             // Notify the active callbacks interface (the activity, if the
             // fragment is attached to one) that an item has been selected.
             position--;
-            Lecture clicked = changesList.get(mAdapter.getItemIndex(position));
+            Session clicked = changesList.get(mAdapter.getItemIndex(position));
             if (clicked.changedIsCanceled) return;
-            mListener.onLectureListClick(clicked, requiresScheduleReload);
+            mListener.onSessionListClick(clicked, requiresScheduleReload);
         }
     }
 }

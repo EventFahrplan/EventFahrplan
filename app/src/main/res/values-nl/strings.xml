@@ -5,7 +5,7 @@
     <string name="menu_item_title_about">Info</string>
     <string name="menu_item_title_add_to_calendar">Toevoegen aan kalender</string>
     <string name="menu_item_title_alarms">Alarmen</string>
-    <string name="menu_item_title_close_event_details">Sluit detail weergave</string>
+    <string name="menu_item_title_close_session_details">Sluit detail weergave</string>
     <string name="menu_item_title_flag_as_favorite">Toevoegen aan favorieten</string>
     <string name="menu_item_title_unflag_as_favorite">Verwijder van favorieten</string>
     <string name="menu_item_title_delete_favorite">Verwijderen</string>
@@ -16,7 +16,7 @@
     <string name="menu_item_title_feedback">Feedback</string>
     <string name="menu_item_title_navigate">Navigeren</string>
     <string name="menu_item_title_refresh">Verversen</string>
-    <string name="menu_item_title_share_event">Deel evenement</string>
+    <string name="menu_item_title_share_session">Deel evenement</string>
     <string name="menu_item_title_share_favorites">Deel favorieten</string>
 
     <!-- AlertDialogHelper -->
@@ -47,7 +47,7 @@
     <string name="schedule_changes_dialog_updated_to_text">Tijdschema is geupdate naar versie\u0020</string>
     <string name="schedule_changes_dialog_changed_new_cancelled_text">. Er zijn updates voor <xliff:g example="3 evenementen" id="num_changes">%1$s</xliff:g>, <xliff:g example="2 zijn" id="num_new">%2$s</xliff:g> nieuw, <xliff:g example="1 is" id="num_canceled">%3$s</xliff:g> geannuleerd.</string>
     <string name="schedule_changes_dialog_affected_text">De update betreft <xliff:g example="2" id="num_marked">%1$d</xliff:g> van uw favorieten evenementen.</string>
-    <plurals name="schedule_changes_dialog_number_of_lectures">
+    <plurals name="schedule_changes_dialog_number_of_sessions">
         <item quantity="one">%d evenement</item>
         <item quantity="other">%d evenementen</item>
     </plurals>
@@ -72,8 +72,8 @@
         Tijdschema is bijgewerkt.
     </string>
     <string name="settings">Instellingen</string>
-    <string name="event_online">Evenement online</string>
-    <string name="event_detail_section_title_links">Links</string>
+    <string name="session_details_section_title_session_online">Evenement online</string>
+    <string name="session_details_section_title_links">Links</string>
     <string name="choose_alarm_time">Kies alarmtijd</string>
     <string name="default_alarm_time_title">Kies een standaard alarmtijd</string>
     <string name="default_alarm_time_dialog_title">Standaard alarmtijd</string>
@@ -106,12 +106,12 @@
     <string name="schedule_changes">Tijdschema veranderingen</string>
 
     <string name="general_settings">Algemeen</string>
-    <string name="starred_lectures">Favorieten</string>
+    <string name="starred_sessions">Favorieten</string>
     <string name="invalid_url">Ongeldige URL</string>
     <string name="no_favorites">Geen favorieten evenementen</string>
     <string name="choose_to_delete">Kies evenementen</string>
     <string name="day_separator">Dag <xliff:g example="2" id="day_of_congress">%1$d</xliff:g> - <xliff:g example="29.12.2014" id="date_of_congress_day">%2$s</xliff:g></string>
-    <string name="event_duration"><xliff:g example="45" id="duration">%1$d</xliff:g> min.</string>
+    <string name="session_duration"><xliff:g example="45" id="duration">%1$d</xliff:g> min.</string>
     <string name="alternative_highlight">Alternatieve markering</string>
     <string name="dlg_delete_all_favorites">Alle favorieten verwijderen?</string>
     <string name="dlg_delete_all_favorites_delete_all">Alles verwijderen</string>
@@ -170,11 +170,11 @@
     </string>
 
     <!-- Notifications -->
-    <string name="notifications_event_alarm_channel_description">
+    <string name="notifications_session_alarm_channel_description">
         Door de gebruiker aangemaakte alarmen voor verschillende evenementen.
     </string>
-    <string name="notifications_event_alarm_channel_name">Alarmen voor evenementen</string>
-    <string name="notifications_event_alarm_content_text">Alarm voor evenement</string>
+    <string name="notifications_session_alarm_channel_name">Alarmen voor evenementen</string>
+    <string name="notifications_session_alarm_content_text">Alarm voor evenement</string>
     <string name="notifications_schedule_update_channel_description">
         Automatische updates voor het tijdschema kunnen worden ingesteld in de instellingen.
     </string>
@@ -194,15 +194,15 @@
     <string name="alarm_time_title_45_minutes_before">45 minuten eerder</string>
     <string name="alarm_time_title_60_minutes_before">60 minuten eerder</string>
 
-    <!-- Lecture list item -->
-    <string name="lecture_list_item_language_german_content_description">Duits</string>
-    <string name="lecture_list_item_language_english_content_description">Engels</string>
-    <string name="lecture_list_item_language_unknown_content_description">Onbekende taal</string>
-    <string name="lecture_list_item_language_undefined_content_description">Taal: <xliff:g example="es" id="language_abbreviation">%s</xliff:g></string>
-    <string name="lecture_list_item_language_removed_content_description">Taal informatie is verwijderd</string>
-    <string name="lecture_list_item_no_video_content_description">Geen video-opname</string>
-    <string name="lecture_list_item_video_content_description">Met video-opname</string>
-    <string name="lecture_list_item_without_video_content_description">Zonder video-opname</string>
+    <!-- Session list item -->
+    <string name="session_list_item_language_german_content_description">Duits</string>
+    <string name="session_list_item_language_english_content_description">Engels</string>
+    <string name="session_list_item_language_unknown_content_description">Onbekende taal</string>
+    <string name="session_list_item_language_undefined_content_description">Taal: <xliff:g example="es" id="language_abbreviation">%s</xliff:g></string>
+    <string name="session_list_item_language_removed_content_description">Taal informatie is verwijderd</string>
+    <string name="session_list_item_no_video_content_description">Geen video-opname</string>
+    <string name="session_list_item_video_content_description">Met video-opname</string>
+    <string name="session_list_item_without_video_content_description">Zonder video-opname</string>
     <string name="preference_title_app_notification_settings">Meldingen aanpassen …</string>
 
 </resources>

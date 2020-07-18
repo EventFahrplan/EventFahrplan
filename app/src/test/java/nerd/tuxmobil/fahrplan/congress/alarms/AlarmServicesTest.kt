@@ -22,46 +22,46 @@ class AlarmServicesTest {
     private val alarm = SchedulableAlarm(3, "1001", "Welcome", 700)
 
     @Test
-    fun `scheduleEventAlarm invokes "cancel" then "set" when "discardExisting" is "true"`() {
+    fun `scheduleSessionAlarm invokes "cancel" then "set" when "discardExisting" is "true"`() {
         val onPendingIntentBroadcast: PendingIntentCallback = { context, requestCode, intent, flags ->
             assertThat(context).isEqualTo(mockContext)
-            assertThat(requestCode).isEqualTo(alarm.eventId.toInt())
-            assertIntentExtras(intent, AlarmReceiver.ALARM_LECTURE)
+            assertThat(requestCode).isEqualTo(alarm.sessionId.toInt())
+            assertIntentExtras(intent, AlarmReceiver.ALARM_SESSION)
             assertThat(flags).isEqualTo(0)
             pendingIntent
         }
         val alarmServices = AlarmServices(alarmManager, onPendingIntentBroadcast)
-        alarmServices.scheduleEventAlarm(mockContext, alarm, true)
+        alarmServices.scheduleSessionAlarm(mockContext, alarm, true)
         verify(alarmManager, once()).cancel(pendingIntent)
         verify(alarmManager, once()).set(AlarmManager.RTC_WAKEUP, alarm.startTime, pendingIntent)
     }
 
     @Test
-    fun `scheduleEventAlarm only invokes "set" when "discardExisting" is "false"`() {
+    fun `scheduleSessionAlarm only invokes "set" when "discardExisting" is "false"`() {
         val onPendingIntentBroadcast: PendingIntentCallback = { context, requestCode, intent, flags ->
             assertThat(context).isEqualTo(mockContext)
-            assertThat(requestCode).isEqualTo(alarm.eventId.toInt())
-            assertIntentExtras(intent, AlarmReceiver.ALARM_LECTURE)
+            assertThat(requestCode).isEqualTo(alarm.sessionId.toInt())
+            assertIntentExtras(intent, AlarmReceiver.ALARM_SESSION)
             assertThat(flags).isEqualTo(0)
             pendingIntent
         }
         val alarmServices = AlarmServices(alarmManager, onPendingIntentBroadcast)
-        alarmServices.scheduleEventAlarm(mockContext, alarm, false)
+        alarmServices.scheduleSessionAlarm(mockContext, alarm, false)
         verify(alarmManager, never()).cancel(pendingIntent)
         verify(alarmManager, once()).set(AlarmManager.RTC_WAKEUP, alarm.startTime, pendingIntent)
     }
 
     @Test
-    fun `discardEventAlarm invokes "cancel"`() {
+    fun `discardSessionAlarm invokes "cancel"`() {
         val onPendingIntentBroadcast: PendingIntentCallback = { context, requestCode, intent, flags ->
             assertThat(context).isEqualTo(mockContext)
-            assertThat(requestCode).isEqualTo(alarm.eventId.toInt())
+            assertThat(requestCode).isEqualTo(alarm.sessionId.toInt())
             assertIntentExtras(intent, AlarmReceiver.ALARM_DELETE)
             assertThat(flags).isEqualTo(0)
             pendingIntent
         }
         val alarmServices = AlarmServices(alarmManager, onPendingIntentBroadcast)
-        alarmServices.discardEventAlarm(mockContext, alarm)
+        alarmServices.discardSessionAlarm(mockContext, alarm)
         verify(alarmManager, once()).cancel(pendingIntent)
     }
 
@@ -84,12 +84,12 @@ class AlarmServicesTest {
     // TODO Move into a unit test for AlarmReceiver once it is written.
     private fun assertIntentExtras(intent: Intent, action: String) {
         assertThat(intent.getIntExtra(BundleKeys.ALARM_DAY, 9)).isEqualTo(alarm.day)
-        assertThat(intent.getStringExtra(BundleKeys.ALARM_LECTURE_ID)).isEqualTo(alarm.eventId)
+        assertThat(intent.getStringExtra(BundleKeys.ALARM_SESSION_ID)).isEqualTo(alarm.sessionId)
         assertThat(intent.getLongExtra(BundleKeys.ALARM_START_TIME, 0)).isEqualTo(alarm.startTime)
-        assertThat(intent.getStringExtra(BundleKeys.ALARM_TITLE)).isEqualTo(alarm.eventTitle)
+        assertThat(intent.getStringExtra(BundleKeys.ALARM_TITLE)).isEqualTo(alarm.sessionTitle)
         assertThat(intent.component!!.className).isEqualTo(AlarmReceiver::class.java.name)
         assertThat(intent.action).isEqualTo(action)
-        assertThat(intent.data).isEqualTo(Uri.parse("alarm://${alarm.eventId}"))
+        assertThat(intent.data).isEqualTo(Uri.parse("alarm://${alarm.sessionId}"))
     }
 
     private fun once() = times(1)

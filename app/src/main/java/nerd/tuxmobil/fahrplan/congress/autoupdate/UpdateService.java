@@ -18,7 +18,7 @@ import kotlin.Unit;
 import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.MyApp.TASKS;
 import nerd.tuxmobil.fahrplan.congress.R;
-import nerd.tuxmobil.fahrplan.congress.models.Lecture;
+import nerd.tuxmobil.fahrplan.congress.models.Session;
 import nerd.tuxmobil.fahrplan.congress.net.ConnectivityObserver;
 import nerd.tuxmobil.fahrplan.congress.net.CustomHttpClient;
 import nerd.tuxmobil.fahrplan.congress.net.FetchScheduleResult;
@@ -45,7 +45,7 @@ public class UpdateService extends SafeJobIntentService {
     public void onParseDone(@NonNull ParseResult result) {
         MyApp.LogDebug(LOG_TAG, "parseDone: " + result.isSuccess() + " , numDays=" + MyApp.meta.getNumDays());
         MyApp.task_running = TASKS.NONE;
-        List<Lecture> changesList = appRepository.loadChangedLectures();
+        List<Session> changesList = appRepository.loadChangedSessions();
         if (!changesList.isEmpty() && result instanceof ParseScheduleResult) {
             showScheduleUpdateNotification(((ParseScheduleResult) result).getVersion(), changesList.size());
         }

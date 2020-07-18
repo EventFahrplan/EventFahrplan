@@ -6,12 +6,12 @@ import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import info.metadude.android.eventfahrplan.database.extensions.toContentValues
 import info.metadude.android.eventfahrplan.database.repositories.AlarmsDatabaseRepository
 import info.metadude.android.eventfahrplan.database.repositories.HighlightsDatabaseRepository
-import info.metadude.android.eventfahrplan.database.repositories.LecturesDatabaseRepository
 import info.metadude.android.eventfahrplan.database.repositories.MetaDatabaseRepository
+import info.metadude.android.eventfahrplan.database.repositories.SessionsDatabaseRepository
 import info.metadude.android.eventfahrplan.database.sqliteopenhelper.AlarmsDBOpenHelper
 import info.metadude.android.eventfahrplan.database.sqliteopenhelper.HighlightDBOpenHelper
-import info.metadude.android.eventfahrplan.database.sqliteopenhelper.LecturesDBOpenHelper
 import info.metadude.android.eventfahrplan.database.sqliteopenhelper.MetaDBOpenHelper
+import info.metadude.android.eventfahrplan.database.sqliteopenhelper.SessionsDBOpenHelper
 import info.metadude.android.eventfahrplan.engelsystem.EngelsystemNetworkRepository
 import info.metadude.android.eventfahrplan.engelsystem.models.ShiftsResult
 import info.metadude.android.eventfahrplan.network.repositories.ScheduleNetworkRepository
@@ -21,8 +21,8 @@ import nerd.tuxmobil.fahrplan.congress.BuildConfig
 import nerd.tuxmobil.fahrplan.congress.dataconverters.*
 import nerd.tuxmobil.fahrplan.congress.exceptions.AppExceptionHandler
 import nerd.tuxmobil.fahrplan.congress.models.Alarm
-import nerd.tuxmobil.fahrplan.congress.models.Lecture
 import nerd.tuxmobil.fahrplan.congress.models.Meta
+import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.net.*
 import nerd.tuxmobil.fahrplan.congress.preferences.SharedPreferencesRepository
 import nerd.tuxmobil.fahrplan.congress.serialization.ScheduleChanges
@@ -47,14 +47,14 @@ object AppRepository {
 
     private lateinit var alarmsDatabaseRepository: AlarmsDatabaseRepository
     private lateinit var highlightsDatabaseRepository: HighlightsDatabaseRepository
-    private lateinit var lecturesDatabaseRepository: LecturesDatabaseRepository
+    private lateinit var sessionsDatabaseRepository: SessionsDatabaseRepository
     private lateinit var metaDatabaseRepository: MetaDatabaseRepository
 
     private lateinit var scheduleNetworkRepository: ScheduleNetworkRepository
     private lateinit var engelsystemNetworkRepository: EngelsystemNetworkRepository
     private lateinit var sharedPreferencesRepository: SharedPreferencesRepository
 
-    private var onLecturesChangeListener: OnLecturesChangeListener? = null
+    private var onSessionsChangeListener: OnSessionsChangeListener? = null
     private var alarmsHaveChanged = false
     private var highlightsHaveChanged = false
 
@@ -65,7 +65,7 @@ object AppRepository {
             networkScope: NetworkScope = NetworkScope.of(AppExecutionContext, AppExceptionHandler(logging)),
             alarmsDatabaseRepository: AlarmsDatabaseRepository = AlarmsDatabaseRepository(AlarmsDBOpenHelper(context)),
             highlightsDatabaseRepository: HighlightsDatabaseRepository = HighlightsDatabaseRepository(HighlightDBOpenHelper(context)),
-            lecturesDatabaseRepository: LecturesDatabaseRepository = LecturesDatabaseRepository(LecturesDBOpenHelper(context), logging),
+            sessionsDatabaseRepository: SessionsDatabaseRepository = SessionsDatabaseRepository(SessionsDBOpenHelper(context), logging),
             metaDatabaseRepository: MetaDatabaseRepository = MetaDatabaseRepository(MetaDBOpenHelper(context)),
             scheduleNetworkRepository: ScheduleNetworkRepository = ScheduleNetworkRepository(),
             engelsystemNetworkRepository: EngelsystemNetworkRepository = EngelsystemNetworkRepository(),
@@ -76,7 +76,7 @@ object AppRepository {
         this.networkScope = networkScope
         this.alarmsDatabaseRepository = alarmsDatabaseRepository
         this.highlightsDatabaseRepository = highlightsDatabaseRepository
-        this.lecturesDatabaseRepository = lecturesDatabaseRepository
+        this.sessionsDatabaseRepository = sessionsDatabaseRepository
         this.metaDatabaseRepository = metaDatabaseRepository
         this.scheduleNetworkRepository = scheduleNetworkRepository
         this.engelsystemNetworkRepository = engelsystemNetworkRepository
@@ -133,14 +133,14 @@ object AppRepository {
                               onParsingDone: (parseScheduleResult: ParseResult) -> Unit,
                               onLoadingShiftsDone: (loadShiftsResult: LoadShiftsResult) -> Unit) {
         scheduleNetworkRepository.parseSchedule(scheduleXml, eTag,
-                onUpdateLectures = { lectures ->
-                    val oldLectures = loadLecturesForAllDays(true)
-                    val newLectures = lectures.toLecturesAppModel2().sanitize()
-                    val hasChanged = ScheduleChanges.hasScheduleChanged(newLectures, oldLectures)
+                onUpdateSessions = { sessions ->
+                    val oldSessions = loadSessionsForAllDays(true)
+                    val newSessions = sessions.toSessionsAppModel2().sanitize()
+                    val hasChanged = ScheduleChanges.hasScheduleChanged(newSessions, oldSessions)
                     if (hasChanged) {
                         resetChangesSeenFlag()
                     }
-                    updateLectures(newLectures)
+                    updateSessions(newSessions)
                 },
                 onUpdateMeta = { meta ->
                     updateMeta(meta.toMetaAppModel())
@@ -202,156 +202,156 @@ object AppRepository {
         if (shifts.isEmpty()) {
             return
         }
-        val dayRanges = loadLecturesForAllDays(includeEngelsystemShifts = false)
+        val dayRanges = loadSessionsForAllDays(includeEngelsystemShifts = false)
                 .toDayRanges()
-        val lecturizedShifts = shifts
+        val sessionizedShifts = shifts
                 .also { logging.d(javaClass.simpleName, "Shifts unfiltered = ${it.size}") }
                 .cropToDayRangesExtent(dayRanges)
                 .also { logging.d(javaClass.simpleName, "Shifts filtered = ${it.size}") }
-                .toLectureAppModels(logging, ENGELSYSTEM_ROOM_NAME, dayRanges)
+                .toSessionAppModels(logging, ENGELSYSTEM_ROOM_NAME, dayRanges)
                 .sanitize()
-        val lectures = loadLecturesForAllDays(false) // Drop all shifts before ...
+        val sessions = loadSessionsForAllDays(false) // Drop all shifts before ...
                 .toMutableList()
                 // Shift rooms to make space for the Engelshifts room
-                .shiftRoomIndicesOfMainSchedule(lecturizedShifts.toDayIndices())
-                .plus(lecturizedShifts) // ... adding them again.
+                .shiftRoomIndicesOfMainSchedule(sessionizedShifts.toDayIndices())
+                .plus(sessionizedShifts) // ... adding them again.
                 .toList()
-        // TODO Detect shift changes as it happens for lectures
-        updateLectures(lectures)
+        // TODO Detect shift changes as it happens for sessions
+        updateSessions(sessions)
     }
 
     /**
-     * Loads all lectures from the database which have not been canceled.
+     * Loads all sessions from the database which have not been canceled.
      * The returned list might be empty.
      */
-    fun loadUncanceledLecturesForDayIndex(dayIndex: Int) = loadLecturesForDayIndex(dayIndex, true)
+    fun loadUncanceledSessionsForDayIndex(dayIndex: Int) = loadSessionsForDayIndex(dayIndex, true)
             .filterNot { it.changedIsCanceled }
-            .also { logging.d(javaClass.simpleName, "${it.size} uncanceled lectures.") }
+            .also { logging.d(javaClass.simpleName, "${it.size} uncanceled sessions.") }
 
     /**
-     * Loads all lectures from the database which have been favored aka. starred but no canceled.
+     * Loads all sessions from the database which have been favored aka. starred but no canceled.
      * The returned list might be empty.
      */
-    fun loadStarredLectures() = loadLecturesForAllDays(true)
+    fun loadStarredSessions() = loadSessionsForAllDays(true)
             .filter { it.highlight && !it.changedIsCanceled }
-            .also { logging.d(javaClass.simpleName, "${it.size} lectures starred.") }
+            .also { logging.d(javaClass.simpleName, "${it.size} sessions starred.") }
 
     /**
-     * Loads all lectures from the database which have been marked as changed, cancelled or new.
+     * Loads all sessions from the database which have been marked as changed, cancelled or new.
      * The returned list might be empty.
      */
-    fun loadChangedLectures() = loadLecturesForAllDays(true)
+    fun loadChangedSessions() = loadSessionsForAllDays(true)
             .filter { it.isChanged || it.changedIsCanceled || it.changedIsNew }
-            .also { logging.d(javaClass.simpleName, "${it.size} lectures changed.") }
+            .also { logging.d(javaClass.simpleName, "${it.size} sessions changed.") }
 
     /**
-     * Loads all lectures from the database which take place on all days.
+     * Loads all sessions from the database which take place on all days.
      * To exclude Engelsystem shifts pass false to [includeEngelsystemShifts].
      */
-    private fun loadLecturesForAllDays(includeEngelsystemShifts: Boolean) =
-            loadLecturesForDayIndex(ALL_DAYS, includeEngelsystemShifts)
+    private fun loadSessionsForAllDays(includeEngelsystemShifts: Boolean) =
+            loadSessionsForDayIndex(ALL_DAYS, includeEngelsystemShifts)
 
     /**
-     * Loads all lectures from the database which take place on the specified [day][dayIndex].
+     * Loads all sessions from the database which take place on the specified [day][dayIndex].
      * All days can be loaded if -1 is passed as the [day][dayIndex].
      * To exclude Engelsystem shifts pass false to [includeEngelsystemShifts].
      */
-    private fun loadLecturesForDayIndex(dayIndex: Int, includeEngelsystemShifts: Boolean): List<Lecture> {
-        val lectures = if (dayIndex == ALL_DAYS) {
-            logging.d(javaClass.simpleName, "Loading lectures for all days.")
+    private fun loadSessionsForDayIndex(dayIndex: Int, includeEngelsystemShifts: Boolean): List<Session> {
+        val sessions = if (dayIndex == ALL_DAYS) {
+            logging.d(javaClass.simpleName, "Loading sessions for all days.")
             if (includeEngelsystemShifts) {
-                readLecturesOrderedByDateUtc()
+                readSessionsOrderedByDateUtc()
             } else {
-                readLecturesOrderedByDateUtcExcludingEngelsystemShifts()
+                readSessionsOrderedByDateUtcExcludingEngelsystemShifts()
             }
         } else {
-            logging.d(javaClass.simpleName, "Loading lectures for day $dayIndex.")
-            readLecturesForDayIndexOrderedByDateUtc(dayIndex)
+            logging.d(javaClass.simpleName, "Loading sessions for day $dayIndex.")
+            readSessionsForDayIndexOrderedByDateUtc(dayIndex)
         }
-        logging.d(javaClass.simpleName, "Got ${lectures.size} rows.")
+        logging.d(javaClass.simpleName, "Got ${sessions.size} rows.")
 
         val highlights = readHighlights()
         for (highlight in highlights) {
             logging.d(javaClass.simpleName, "$highlight")
-            for (lecture in lectures) {
-                if (lecture.lectureId == "${highlight.eventId}") {
-                    lecture.highlight = highlight.isHighlight
+            for (session in sessions) {
+                if (session.sessionId == "${highlight.sessionId}") {
+                    session.highlight = highlight.isHighlight
                 }
             }
         }
 
-        val alarmEventIds = readAlarmEventIds()
-        for (lecture in lectures) {
-            lecture.hasAlarm = lecture.lectureId in alarmEventIds
+        val alarmSessionIds = readAlarmSessionIds()
+        for (session in sessions) {
+            session.hasAlarm = session.sessionId in alarmSessionIds
         }
 
-        return lectures.toList()
+        return sessions.toList()
     }
 
     @JvmOverloads
-    fun readAlarms(eventId: String = "") = if (eventId.isEmpty()) {
+    fun readAlarms(sessionId: String = "") = if (sessionId.isEmpty()) {
         alarmsDatabaseRepository.query().toAlarmsAppModel()
     } else {
-        alarmsDatabaseRepository.query(eventId).toAlarmsAppModel()
+        alarmsDatabaseRepository.query(sessionId).toAlarmsAppModel()
     }
 
-    fun readAlarmEventIds() = readAlarms().map { it.eventId }.toSet()
+    fun readAlarmSessionIds() = readAlarms().map { it.sessionId }.toSet()
 
     fun deleteAlarmForAlarmId(alarmId: Int) =
             alarmsDatabaseRepository.deleteForAlarmId(alarmId)
 
-    fun deleteAlarmForEventId(eventId: String) =
-            alarmsDatabaseRepository.deleteForEventId(eventId)
+    fun deleteAlarmForSessionId(sessionId: String) =
+            alarmsDatabaseRepository.deleteForSessionId(sessionId)
 
     fun updateAlarm(alarm: Alarm) {
         val alarmDatabaseModel = alarm.toAlarmDatabaseModel()
         val values = alarmDatabaseModel.toContentValues()
-        alarmsDatabaseRepository.update(values, alarm.eventId)
+        alarmsDatabaseRepository.update(values, alarm.sessionId)
     }
 
-    fun readHighlightEventIds() = readHighlights()
+    fun readHighlightSessionIds() = readHighlights()
             .asSequence()
             .filter { it.isHighlight }
-            .map { it.eventId.toString() }
+            .map { it.sessionId.toString() }
             .toSet()
 
     private fun readHighlights() =
             highlightsDatabaseRepository.query().toHighlightsAppModel()
 
-    fun updateHighlight(lecture: Lecture) {
-        val highlightDatabaseModel = lecture.toHighlightDatabaseModel()
+    fun updateHighlight(session: Session) {
+        val highlightDatabaseModel = session.toHighlightDatabaseModel()
         val values = highlightDatabaseModel.toContentValues()
-        highlightsDatabaseRepository.update(values, lecture.lectureId)
+        highlightsDatabaseRepository.update(values, session.sessionId)
     }
 
     fun deleteAllHighlights() {
         highlightsDatabaseRepository.deleteAll()
     }
 
-    fun readLectureByLectureId(lectureId: String): Lecture {
-        val lecture = lecturesDatabaseRepository.queryLectureByLectureId(lectureId).toLectureAppModel()
+    fun readSessionBySessionId(sessionId: String): Session {
+        val session = sessionsDatabaseRepository.querySessionBySessionId(sessionId).toSessionAppModel()
 
-        val highlight = highlightsDatabaseRepository.queryByEventId(lectureId.toInt())
+        val highlight = highlightsDatabaseRepository.queryBySessionId(sessionId.toInt())
         if (highlight != null) {
-            lecture.highlight = highlight.isHighlight
+            session.highlight = highlight.isHighlight
         }
 
-        val alarms = alarmsDatabaseRepository.query(lectureId)
+        val alarms = alarmsDatabaseRepository.query(sessionId)
         if (alarms.isNotEmpty()) {
-            lecture.hasAlarm = true
+            session.hasAlarm = true
         }
 
-        return lecture
+        return session
     }
 
-    private fun readLecturesForDayIndexOrderedByDateUtc(dayIndex: Int) =
-            lecturesDatabaseRepository.queryLecturesForDayIndexOrderedByDateUtc(dayIndex).toLecturesAppModel()
+    private fun readSessionsForDayIndexOrderedByDateUtc(dayIndex: Int) =
+            sessionsDatabaseRepository.querySessionsForDayIndexOrderedByDateUtc(dayIndex).toSessionsAppModel()
 
-    private fun readLecturesOrderedByDateUtc() =
-            lecturesDatabaseRepository.queryLecturesOrderedByDateUtc().toLecturesAppModel()
+    private fun readSessionsOrderedByDateUtc() =
+            sessionsDatabaseRepository.querySessionsOrderedByDateUtc().toSessionsAppModel()
 
-    private fun readLecturesOrderedByDateUtcExcludingEngelsystemShifts() =
-            lecturesDatabaseRepository.queryLecturesWithoutRoom(ENGELSYSTEM_ROOM_NAME).toLecturesAppModel()
+    private fun readSessionsOrderedByDateUtcExcludingEngelsystemShifts() =
+            sessionsDatabaseRepository.querySessionsWithoutRoom(ENGELSYSTEM_ROOM_NAME).toSessionsAppModel()
 
     fun readLastEngelsystemShiftsHash() =
             sharedPreferencesRepository.getLastEngelsystemShiftsHash()
@@ -360,15 +360,15 @@ object AppRepository {
             sharedPreferencesRepository.setLastEngelsystemShiftsHash(hash)
 
     fun readEngelsystemShiftsHash() =
-            lecturesDatabaseRepository.queryLecturesWithinRoom(ENGELSYSTEM_ROOM_NAME).hashCode()
+            sessionsDatabaseRepository.querySessionsWithinRoom(ENGELSYSTEM_ROOM_NAME).hashCode()
 
     fun readDateInfos() =
-            readLecturesOrderedByDateUtc().toDateInfos()
+            readSessionsOrderedByDateUtc().toDateInfos()
 
-    private fun updateLectures(lectures: List<Lecture>) {
-        val lecturesDatabaseModel = lectures.toLecturesDatabaseModel()
-        val list = lecturesDatabaseModel.map { it.toContentValues() }
-        lecturesDatabaseRepository.insert(list)
+    private fun updateSessions(sessions: List<Session>) {
+        val sessionsDatabaseModel = sessions.toSessionsDatabaseModel()
+        val list = sessionsDatabaseModel.map { it.toContentValues() }
+        sessionsDatabaseRepository.insert(list)
     }
 
     fun readMeta() =
@@ -427,28 +427,28 @@ object AppRepository {
             sharedPreferencesRepository.setDisplayDayIndex(displayDayIndex)
 
     @Deprecated("Replace this with a push-based update mechanism")
-    fun setOnLecturesChangeListener(onLecturesChangeListener: OnLecturesChangeListener) {
-        this.onLecturesChangeListener?.let {
+    fun setOnSessionsChangeListener(onSessionsChangeListener: OnSessionsChangeListener) {
+        this.onSessionsChangeListener?.let {
             logging.e(javaClass.simpleName, "Setting a new listener while there's already one active")
         }
 
         if (highlightsHaveChanged) {
-            onLecturesChangeListener.onHighlightsChanged()
+            onSessionsChangeListener.onHighlightsChanged()
             highlightsHaveChanged = false
         }
 
         if (alarmsHaveChanged) {
-            onLecturesChangeListener.onAlarmsChanged()
+            onSessionsChangeListener.onAlarmsChanged()
             alarmsHaveChanged = false
         }
 
-        this.onLecturesChangeListener = onLecturesChangeListener
+        this.onSessionsChangeListener = onSessionsChangeListener
     }
 
     @Deprecated("Replace this with a push-based update mechanism")
-    fun removeOnLecturesChangeListener(onLecturesChangeListener: OnLecturesChangeListener) {
-        if (this.onLecturesChangeListener == onLecturesChangeListener) {
-            this.onLecturesChangeListener = null
+    fun removeOnSessionsChangeListener(onSessionsChangeListener: OnSessionsChangeListener) {
+        if (this.onSessionsChangeListener == onSessionsChangeListener) {
+            this.onSessionsChangeListener = null
         } else {
             logging.e(javaClass.simpleName, "Asked to remove listener that wasn't the active listener")
         }
@@ -457,7 +457,7 @@ object AppRepository {
     @Deprecated("Users of AppRepository should not have to be responsible for triggering change notifications. " +
             "Replace with a mechanism internal to AppRepository.")
     fun notifyHighlightsChanged() {
-        onLecturesChangeListener.let { listener ->
+        onSessionsChangeListener.let { listener ->
             if (listener == null) {
                 highlightsHaveChanged = true
             } else {
@@ -469,7 +469,7 @@ object AppRepository {
     @Deprecated("Users of AppRepository should not have to be responsible for triggering change notifications. " +
             "Replace with a mechanism internal to AppRepository.")
     fun notifyAlarmsChanged() {
-        onLecturesChangeListener.let { listener ->
+        onSessionsChangeListener.let { listener ->
             if (listener == null) {
                 alarmsHaveChanged = true
             } else {

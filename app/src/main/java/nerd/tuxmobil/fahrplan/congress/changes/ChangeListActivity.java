@@ -13,11 +13,11 @@ import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.base.AbstractListFragment;
 import nerd.tuxmobil.fahrplan.congress.base.BaseActivity;
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
-import nerd.tuxmobil.fahrplan.congress.details.EventDetail;
-import nerd.tuxmobil.fahrplan.congress.models.Lecture;
+import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsActivity;
+import nerd.tuxmobil.fahrplan.congress.models.Session;
 
 public class ChangeListActivity extends BaseActivity implements
-        AbstractListFragment.OnLectureListClick {
+        AbstractListFragment.OnSessionListClick {
 
     private static final String LOG_TAG = "ChangeListActivity";
 
@@ -47,9 +47,9 @@ public class ChangeListActivity extends BaseActivity implements
     }
 
     @Override
-    public void onLectureListClick(Lecture lecture, boolean requiresScheduleReload) {
-        if (lecture != null) {
-            EventDetail.startForResult(this, lecture, lecture.day, requiresScheduleReload);
+    public void onSessionListClick(Session session, boolean requiresScheduleReload) {
+        if (session != null) {
+            SessionDetailsActivity.startForResult(this, session, session.day, requiresScheduleReload);
         }
     }
 
@@ -57,7 +57,7 @@ public class ChangeListActivity extends BaseActivity implements
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == MyApp.EVENTVIEW && resultCode == RESULT_OK) {
+        if (requestCode == MyApp.SESSION_VIEW && resultCode == RESULT_OK) {
             setResult(RESULT_OK);
         }
     }

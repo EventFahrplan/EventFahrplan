@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<nerd.tuxmobil.fahrplan.congress.commons.CheckableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="16dp"
+    android:paddingTop="8dp"
+    android:paddingRight="16dp"
+    android:paddingBottom="8dp">
+
+    <TextView
+        android:id="@+id/session_list_item_title_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginBottom="0dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textAppearance="@style/ScheduleListPrimary"
+        app:layout_constraintEnd_toStartOf="@+id/barrier"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="@string/placeholder_session_title" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="left" />
+
+    <ImageView
+        android:id="@+id/session_list_item_no_video_view"
+        android:layout_width="wrap_content"
+        android:layout_height="14sp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginBottom="0dp"
+        android:adjustViewBounds="true"
+        android:baseline="13sp"
+        android:contentDescription="@string/session_list_item_no_video_content_description"
+        android:src="@drawable/ic_change_novideo"
+        app:layout_constraintBottom_toBottomOf="@+id/session_list_item_title_view"
+        app:layout_constraintDimensionRatio="w,75:48"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/barrier"
+        app:layout_constraintTop_toTopOf="@+id/session_list_item_title_view" />
+
+    <ImageView
+        android:id="@+id/session_list_item_video_view"
+        android:layout_width="wrap_content"
+        android:layout_height="14sp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginBottom="0dp"
+        android:adjustViewBounds="true"
+        android:baseline="13sp"
+        android:contentDescription="@string/session_list_item_video_content_description"
+        android:src="@drawable/ic_change_video"
+        app:layout_constraintBottom_toBottomOf="@+id/session_list_item_title_view"
+        app:layout_constraintDimensionRatio="w,75:48"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/barrier"
+        app:layout_constraintTop_toTopOf="@+id/session_list_item_title_view" />
+
+    <ImageView
+        android:id="@+id/session_list_item_without_video_recording_view"
+        android:layout_width="wrap_content"
+        android:layout_height="14sp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginBottom="0dp"
+        android:adjustViewBounds="true"
+        android:baseline="13sp"
+        android:contentDescription="@string/session_list_item_without_video_content_description"
+        android:src="@drawable/ic_without_video_recording"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/session_list_item_title_view"
+        app:layout_constraintDimensionRatio="w,75:48"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/barrier"
+        app:layout_constraintTop_toTopOf="@+id/session_list_item_title_view"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/session_list_item_subtitle_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginBottom="0dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textAppearance="@style/ScheduleListSecondary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/session_list_item_title_view"
+        tools:text="@string/placeholder_session_subtitle" />
+
+    <Space
+        android:id="@+id/session_list_item_whitespace"
+        android:layout_width="0dp"
+        android:layout_height="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/session_list_item_subtitle_view" />
+
+    <TextView
+        android:id="@+id/session_list_item_speakers_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginBottom="0dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textAppearance="@style/ScheduleListSecondary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/session_list_item_whitespace"
+        tools:text="@string/placeholder_session_speakers" />
+
+    <TextView
+        android:id="@+id/session_list_item_day_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="0dp"
+        android:textAppearance="@style/ScheduleListSecondary"
+        app:layout_constraintEnd_toStartOf="@+id/session_list_item_time_view"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/session_list_item_speakers_view"
+        tools:text="@string/placeholder_session_day" />
+
+    <TextView
+        android:id="@+id/session_list_item_time_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="0dp"
+        android:textAppearance="@style/ScheduleListSecondary"
+        app:layout_constraintEnd_toStartOf="@+id/session_list_item_duration_view"
+        app:layout_constraintStart_toEndOf="@+id/session_list_item_day_view"
+        app:layout_constraintTop_toBottomOf="@+id/session_list_item_speakers_view"
+        tools:text="@string/placeholder_session_start_time" />
+
+    <TextView
+        android:id="@+id/session_list_item_duration_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="0dp"
+        android:gravity="end"
+        android:minWidth="55dp"
+        android:textAppearance="@style/ScheduleListSecondary"
+        app:layout_constraintEnd_toStartOf="@+id/session_list_item_room_view"
+        app:layout_constraintStart_toEndOf="@+id/session_list_item_time_view"
+        app:layout_constraintTop_toBottomOf="@+id/session_list_item_speakers_view"
+        tools:text="@string/placeholder_session_duration" />
+
+    <TextView
+        android:id="@+id/session_list_item_room_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginBottom="0dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textAppearance="@style/ScheduleListSecondary"
+        app:layout_constraintEnd_toStartOf="@+id/session_list_item_language_view"
+        app:layout_constraintStart_toEndOf="@+id/session_list_item_duration_view"
+        app:layout_constraintTop_toBottomOf="@+id/session_list_item_speakers_view"
+        tools:text="@string/placeholder_session_room" />
+
+    <TextView
+        android:id="@+id/session_list_item_language_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginBottom="0dp"
+        android:textAppearance="@style/ScheduleListSecondary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/session_list_item_room_view"
+        app:layout_constraintTop_toBottomOf="@+id/session_list_item_speakers_view"
+        tools:text="@string/placeholder_session_language" />
+
+</nerd.tuxmobil.fahrplan.congress.commons.CheckableLayout>

@@ -4,88 +4,88 @@ import androidx.annotation.NonNull;
 
 import java.util.List;
 
-import nerd.tuxmobil.fahrplan.congress.models.Lecture;
+import nerd.tuxmobil.fahrplan.congress.models.Session;
 
 import static kotlin.collections.CollectionsKt.singleOrNull;
 
 public class ScheduleChanges {
 
-    public static boolean hasScheduleChanged(@NonNull List<Lecture> lectures,
-                                             @NonNull List<Lecture> oldLectures) {
-        if (oldLectures.isEmpty()) {
+    public static boolean hasScheduleChanged(@NonNull List<Session> sessions,
+                                             @NonNull List<Session> oldSessions) {
+        if (oldSessions.isEmpty()) {
             return false;
         }
         boolean changed = false;
 
-        int lectureIndex = oldLectures.size() - 1;
-        while (lectureIndex >= 0) {
-            Lecture l = oldLectures.get(lectureIndex);
-            if (l.changedIsCanceled) oldLectures.remove(lectureIndex);
-            lectureIndex--;
+        int sessionIndex = oldSessions.size() - 1;
+        while (sessionIndex >= 0) {
+            Session session = oldSessions.get(sessionIndex);
+            if (session.changedIsCanceled) oldSessions.remove(sessionIndex);
+            sessionIndex--;
         }
 
-        for (lectureIndex = 0; lectureIndex < lectures.size(); lectureIndex++) {
-            Lecture newLecture = lectures.get(lectureIndex);
-            Lecture oldLecture = singleOrNull(oldLectures, lecture -> newLecture.lectureId.equals(lecture.lectureId));
+        for (sessionIndex = 0; sessionIndex < sessions.size(); sessionIndex++) {
+            Session newSession = sessions.get(sessionIndex);
+            Session oldSession = singleOrNull(oldSessions, session -> newSession.sessionId.equals(session.sessionId));
 
-            if (oldLecture == null) {
-                newLecture.changedIsNew = true;
+            if (oldSession == null) {
+                newSession.changedIsNew = true;
                 changed = true;
                 continue;
             }
 
-            if (oldLecture.equals(newLecture)) {
-                oldLectures.remove(oldLecture);
+            if (oldSession.equals(newSession)) {
+                oldSessions.remove(oldSession);
                 continue;
             }
 
-            if (!newLecture.title.equals(oldLecture.title)) {
-                newLecture.changedTitle = true;
+            if (!newSession.title.equals(oldSession.title)) {
+                newSession.changedTitle = true;
                 changed = true;
             }
-            if (!newLecture.subtitle.equals(oldLecture.subtitle)) {
-                newLecture.changedSubtitle = true;
+            if (!newSession.subtitle.equals(oldSession.subtitle)) {
+                newSession.changedSubtitle = true;
                 changed = true;
             }
-            if (!newLecture.speakers.equals(oldLecture.speakers)) {
-                newLecture.changedSpeakers = true;
+            if (!newSession.speakers.equals(oldSession.speakers)) {
+                newSession.changedSpeakers = true;
                 changed = true;
             }
-            if (!newLecture.lang.equals(oldLecture.lang)) {
-                newLecture.changedLanguage = true;
+            if (!newSession.lang.equals(oldSession.lang)) {
+                newSession.changedLanguage = true;
                 changed = true;
             }
-            if (!newLecture.room.equals(oldLecture.room)) {
-                newLecture.changedRoom = true;
+            if (!newSession.room.equals(oldSession.room)) {
+                newSession.changedRoom = true;
                 changed = true;
             }
-            if (!newLecture.track.equals(oldLecture.track)) {
-                newLecture.changedTrack = true;
+            if (!newSession.track.equals(oldSession.track)) {
+                newSession.changedTrack = true;
                 changed = true;
             }
-            if (newLecture.recordingOptOut != oldLecture.recordingOptOut) {
-                newLecture.changedRecordingOptOut = true;
+            if (newSession.recordingOptOut != oldSession.recordingOptOut) {
+                newSession.changedRecordingOptOut = true;
                 changed = true;
             }
-            if (newLecture.day != oldLecture.day) {
-                newLecture.changedDay = true;
+            if (newSession.day != oldSession.day) {
+                newSession.changedDay = true;
                 changed = true;
             }
-            if (newLecture.startTime != oldLecture.startTime) {
-                newLecture.changedTime = true;
+            if (newSession.startTime != oldSession.startTime) {
+                newSession.changedTime = true;
                 changed = true;
             }
-            if (newLecture.duration != oldLecture.duration) {
-                newLecture.changedDuration = true;
+            if (newSession.duration != oldSession.duration) {
+                newSession.changedDuration = true;
                 changed = true;
             }
-            oldLectures.remove(oldLecture);
+            oldSessions.remove(oldSession);
         }
 
-        for (lectureIndex = 0; lectureIndex < oldLectures.size(); lectureIndex++) {
-            Lecture oldLecture = oldLectures.get(lectureIndex);
-            oldLecture.cancel();
-            lectures.add(oldLecture);
+        for (sessionIndex = 0; sessionIndex < oldSessions.size(); sessionIndex++) {
+            Session oldSession = oldSessions.get(sessionIndex);
+            oldSession.cancel();
+            sessions.add(oldSession);
             changed = true;
         }
 

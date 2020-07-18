@@ -17,12 +17,12 @@ public class AlarmsDBOpenHelper extends SQLiteOpenHelper {
     private static final String ALARMS_TABLE_CREATE =
             "CREATE TABLE " + AlarmsTable.NAME + " (" +
                     AlarmsTable.Columns.ID + " INTEGER PRIMARY KEY, " +
-                    AlarmsTable.Columns.EVENT_TITLE + " TEXT, " +
+                    AlarmsTable.Columns.SESSION_TITLE + " TEXT, " +
                     AlarmsTable.Columns.ALARM_TIME_IN_MIN + " INTEGER DEFAULT " +
                     AlarmsTable.Defaults.ALARM_TIME_IN_MIN_DEFAULT + ", " +
                     AlarmsTable.Columns.TIME + " INTEGER, " +
                     AlarmsTable.Columns.TIME_TEXT + " STRING," +
-                    AlarmsTable.Columns.EVENT_ID + " INTEGER," +
+                    AlarmsTable.Columns.SESSION_ID + " INTEGER," +
                     AlarmsTable.Columns.DISPLAY_TIME + " INTEGER," +
                     AlarmsTable.Columns.DAY + " INTEGER);";
 

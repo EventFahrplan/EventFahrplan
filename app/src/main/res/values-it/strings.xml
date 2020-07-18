@@ -41,28 +41,28 @@
     <string name="dlg_err_failed_wrong_http_credentials">Autenticazione HTTP errata</string>
     <string name="dlg_invalid_certificate_could_not_apply">Impossibile aggiungere il certificato</string>
     <string name="dlg_invalid_certificate_title">Fidarsi di un certificato sconosciuto</string>
-    <string name="event_detail_section_title_links">Collegamenti</string>
-    <string name="event_duration"><xliff:g example="45" id="duration">%1$d</xliff:g> min.</string>
-    <string name="event_online">Evento in linea</string>
+    <string name="session_details_section_title_links">Collegamenti</string>
+    <string name="session_duration"><xliff:g example="45" id="duration">%1$d</xliff:g> min.</string>
+    <string name="session_details_section_title_session_online">Evento in linea</string>
     <string name="fahrplan">Programma</string>
     <string name="general_settings">Generale</string>
     <string name="insistent_alarm">Promemoria persistente</string>
     <string name="invalid_url">URL erroneo</string>
     <string name="issues"><![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan/issues">Assistenza o suggerimento di nuove funzionalità</a>]]></string>
-    <string name="lecture_list_item_language_english_content_description">Inglese</string>
-    <string name="lecture_list_item_language_german_content_description">Tedesco</string>
-    <string name="lecture_list_item_language_removed_content_description">L\'informazione sulla lingua è stata rimossa</string>
-    <string name="lecture_list_item_language_undefined_content_description">Lingua: <xliff:g example="es" id="language_abbreviation">%s</xliff:g></string>
-    <string name="lecture_list_item_language_unknown_content_description">Lingua sconosciuta</string>
-    <string name="lecture_list_item_no_video_content_description">Senza registrazione video</string>
-    <string name="lecture_list_item_video_content_description">Con registrazione video</string>
-    <string name="lecture_list_item_without_video_content_description">Senza registrazione video</string>
+    <string name="session_list_item_language_english_content_description">Inglese</string>
+    <string name="session_list_item_language_german_content_description">Tedesco</string>
+    <string name="session_list_item_language_removed_content_description">L\'informazione sulla lingua è stata rimossa</string>
+    <string name="session_list_item_language_undefined_content_description">Lingua: <xliff:g example="es" id="language_abbreviation">%s</xliff:g></string>
+    <string name="session_list_item_language_unknown_content_description">Lingua sconosciuta</string>
+    <string name="session_list_item_no_video_content_description">Senza registrazione video</string>
+    <string name="session_list_item_video_content_description">Con registrazione video</string>
+    <string name="session_list_item_without_video_content_description">Senza registrazione video</string>
     <string name="libraries">Questa applicazione usa le librerie seguenti: Kotlin, Google Support Library, Email Intent Builder, Engelsystem, Espresso, OkHttp, SnackEngage, TraceDroid</string>
     <string name="load_data">Caricare</string>
     <string name="menu_item_title_about">Info</string>
     <string name="menu_item_title_add_to_calendar">Aggiungere al calendario</string>
     <string name="menu_item_title_alarms">Promemoria</string>
-    <string name="menu_item_title_close_event_details">Chiudere i dettagli dell\'evento</string>
+    <string name="menu_item_title_close_session_details">Chiudere i dettagli dell\'evento</string>
     <string name="menu_item_title_delete_alarm">Cancellare il promemoria</string>
     <string name="menu_item_title_delete_all">Rimuovere tutto</string>
     <string name="menu_item_title_delete_favorite">Rimuovere</string>
@@ -72,14 +72,14 @@
     <string name="menu_item_title_navigate">Navigare</string>
     <string name="menu_item_title_refresh">Aggiornare</string>
     <string name="menu_item_title_set_alarm">Impostare il promemoria</string>
-    <string name="menu_item_title_share_event">Condividere l\'evento</string>
+    <string name="menu_item_title_share_session">Condividere l\'evento</string>
     <string name="menu_item_title_share_favorites">Condividere i favoriti</string>
     <string name="menu_item_title_unflag_as_favorite">Rimuovere dai favoriti</string>
     <string name="no_changes">Nessun cambiamento di programma</string>
     <string name="no_favorites">Nessuna conferenza tra i favoriti</string>
-    <string name="notifications_event_alarm_channel_description">Promemoria creati dall\'utente per i vari eventi.</string>
-    <string name="notifications_event_alarm_channel_name">Promemoria per gli eventi</string>
-    <string name="notifications_event_alarm_content_text">Promemoria per un evento</string>
+    <string name="notifications_session_alarm_channel_description">Promemoria creati dall\'utente per i vari eventi.</string>
+    <string name="notifications_session_alarm_channel_name">Promemoria per gli eventi</string>
+    <string name="notifications_session_alarm_content_text">Promemoria per un evento</string>
     <string name="notifications_schedule_update_channel_description">Gli aggiornamenti automatici dei programmi possono essere configurati nei parametri dell\'applicazione.</string>
     <string name="notifications_schedule_update_channel_name">Aggiornamenti del programma</string>
     <string name="schedule_parsing_error_generic">Errore sconosciuto durante l\'analisi del programma</string>
@@ -107,7 +107,7 @@
     <string name="snack_engage_google_play_beta_testing_title">Utente Avanzato?</string>
     <string name="snack_engage_rate_action">Valutare l\'applicazione</string>
     <string name="snack_engage_rate_title">Tutto a posto?</string>
-    <string name="starred_lectures">Preferiti</string>
+    <string name="starred_sessions">Preferiti</string>
     <string name="today">oggi</string>
     <string name="trace_droid_app_chooser_title">Aprire la bozza con &#8230;</string>
     <string name="trace_droid_button_title_later">Forse più tardi</string>

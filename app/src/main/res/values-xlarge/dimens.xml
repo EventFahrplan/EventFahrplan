@@ -16,11 +16,11 @@
 <resources>
     <item type="integer" name="box_height">13</item>
 
-    <!-- Event detail text sizes -->
-    <dimen name="event_detailbar_text">14sp</dimen>
-    <dimen name="event_detail_text">16sp</dimen>
-    <dimen name="event_detail_title">30sp</dimen>
-    <dimen name="event_detail_subtitle">18sp</dimen>
-    <dimen name="event_detail_speakers">14sp</dimen>
+    <!-- Session details text sizes -->
+    <dimen name="session_detailbar_text">14sp</dimen>
+    <dimen name="session_details_text">16sp</dimen>
+    <dimen name="session_details_title">30sp</dimen>
+    <dimen name="session_details_subtitle">18sp</dimen>
+    <dimen name="session_details_speakers">14sp</dimen>
 
 </resources>

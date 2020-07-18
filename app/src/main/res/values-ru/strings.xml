@@ -5,7 +5,7 @@
     <string name="menu_item_title_about">Информация</string>
     <string name="menu_item_title_add_to_calendar">Добавить в календарь</string>
     <string name="menu_item_title_alarms">Напоминания</string>
-    <string name="menu_item_title_close_event_details">Закрыть детали мероприятия</string>
+    <string name="menu_item_title_close_session_details">Закрыть детали мероприятия</string>
     <string name="menu_item_title_flag_as_favorite">Добавить в избранное</string>
     <string name="menu_item_title_unflag_as_favorite">Убрать из избранного</string>
     <string name="menu_item_title_delete_favorite">Удалить</string>
@@ -16,7 +16,7 @@
     <string name="menu_item_title_feedback">Обратная связь</string>
     <string name="menu_item_title_navigate">Навигация</string>
     <string name="menu_item_title_refresh">Обновить</string>
-    <string name="menu_item_title_share_event">Поделиться мероприятием</string>
+    <string name="menu_item_title_share_session">Поделиться мероприятием</string>
     <string name="menu_item_title_share_favorites">Поделиться избранным</string>
 
     <!-- AlertDialogHelper -->
@@ -47,7 +47,7 @@
     <string name="schedule_changes_dialog_updated_to_text">Расписание обновлено до\u0020</string>
     <string name="schedule_changes_dialog_changed_new_cancelled_text">. Нет изменений в <xliff:g example="3 lectures" id="num_changes">%1$s</xliff:g>, <xliff:g example="2 are" id="num_new">%2$s</xliff:g> новые, <xliff:g example="1 is" id="num_canceled">%3$s</xliff:g> отменены.</string>
     <string name="schedule_changes_dialog_affected_text">Изменения затронули <xliff:g example="2" id="num_marked">%1$d</xliff:g> из вашего списка избранных.</string>
-    <plurals name="schedule_changes_dialog_number_of_lectures">
+    <plurals name="schedule_changes_dialog_number_of_sessions">
         <item quantity="one">%d лекция</item>
         <item quantity="few">%d лекции</item>
         <item quantity="many">%d лекций</item>
@@ -76,8 +76,8 @@
         Расписание обновлено.
     </string>
     <string name="settings">Настройки</string>
-    <string name="event_online">Мероприятие онлайн</string>
-    <string name="event_detail_section_title_links">Ссылки</string>
+    <string name="session_details_section_title_session_online">Мероприятие онлайн</string>
+    <string name="session_details_section_title_links">Ссылки</string>
     <string name="choose_alarm_time">Выбрать время напоминания</string>
     <string name="default_alarm_time_title">Выбрать время напоминания по умолчанию</string>
     <string name="default_alarm_time_dialog_title">Время напоминания по умолчанию</string>
@@ -112,11 +112,11 @@
     <string name="schedule_changes">Изменения в расписании</string>
 
     <string name="general_settings">Основное</string>
-    <string name="starred_lectures">Избранное</string>
+    <string name="starred_sessions">Избранное</string>
     <string name="invalid_url">Некорректный URL</string>
     <string name="choose_to_delete">Выбрать лекции</string>
     <string name="day_separator">День <xliff:g example="2" id="day_of_congress">%1$d</xliff:g> - <xliff:g example="29.12.2014" id="date_of_congress_day">%2$s</xliff:g></string>
-    <string name="event_duration"><xliff:g example="45" id="duration">%1$d</xliff:g> мин.</string>
+    <string name="session_duration"><xliff:g example="45" id="duration">%1$d</xliff:g> мин.</string>
     <string name="alternative_highlight">Альтернативная подсветка</string>
     <string name="dlg_delete_all_favorites">Удалить всё избранное?</string>
     <string name="dlg_delete_all_favorites_delete_all">Удалить всё?</string>
@@ -176,11 +176,11 @@
     </string>
 
     <!-- Notifications -->
-    <string name="notifications_event_alarm_channel_description">
+    <string name="notifications_session_alarm_channel_description">
         Пользовательские напоминания для различных мероприятий.
     </string>
-    <string name="notifications_event_alarm_channel_name">Напоминания для мероприятий</string>
-    <string name="notifications_event_alarm_content_text">Напоминание для мероприятия</string>
+    <string name="notifications_session_alarm_channel_name">Напоминания для мероприятий</string>
+    <string name="notifications_session_alarm_content_text">Напоминание для мероприятия</string>
     <string name="notifications_schedule_update_channel_description">
         Автоматическое обновление расписания можно выбрать в настройках приложения.
     </string>
@@ -202,14 +202,14 @@
     <string name="alarm_time_title_45_minutes_before">за 45 минут</string>
     <string name="alarm_time_title_60_minutes_before">за 60 минут</string>
 
-    <!-- Lecture list item -->
-    <string name="lecture_list_item_language_german_content_description">Немецкий</string>
-    <string name="lecture_list_item_language_english_content_description">Английский</string>
-    <string name="lecture_list_item_language_unknown_content_description">Язык не определен</string>
-    <string name="lecture_list_item_language_undefined_content_description">Язык: <xliff:g example="es" id="language_abbreviation">%s</xliff:g></string>
-    <string name="lecture_list_item_language_removed_content_description">Информация о языке удалена</string>
-    <string name="lecture_list_item_no_video_content_description">Без видеозаписи</string>
-    <string name="lecture_list_item_video_content_description">С видеозаписью</string>
-    <string name="lecture_list_item_without_video_content_description">Без видеозаписи</string>
+    <!-- Session list item -->
+    <string name="session_list_item_language_german_content_description">Немецкий</string>
+    <string name="session_list_item_language_english_content_description">Английский</string>
+    <string name="session_list_item_language_unknown_content_description">Язык не определен</string>
+    <string name="session_list_item_language_undefined_content_description">Язык: <xliff:g example="es" id="language_abbreviation">%s</xliff:g></string>
+    <string name="session_list_item_language_removed_content_description">Информация о языке удалена</string>
+    <string name="session_list_item_no_video_content_description">Без видеозаписи</string>
+    <string name="session_list_item_video_content_description">С видеозаписью</string>
+    <string name="session_list_item_without_video_content_description">Без видеозаписи</string>
 
 </resources>

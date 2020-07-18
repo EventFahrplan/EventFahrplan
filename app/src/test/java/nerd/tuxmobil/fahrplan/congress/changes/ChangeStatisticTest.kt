@@ -2,69 +2,69 @@ package nerd.tuxmobil.fahrplan.congress.changes
 
 import com.google.common.truth.Truth.assertThat
 import nerd.tuxmobil.fahrplan.congress.NoLogging
-import nerd.tuxmobil.fahrplan.congress.models.Lecture
+import nerd.tuxmobil.fahrplan.congress.models.Session
 import org.junit.Test
 
 class ChangeStatisticTest {
 
     companion object {
 
-        private val unchangedLectures = listOf(
-                Lecture("1001").apply {
+        private val unchangedSessions = listOf(
+                Session("1001").apply {
                     highlight = false
                     changedTitle = false
                 },
-                Lecture("1002").apply {
+                Session("1002").apply {
                     highlight = true
                     changedTitle = false
                 })
 
-        private val changedLectures = listOf(
-                Lecture("1003").apply {
+        private val changedSessions = listOf(
+                Session("1003").apply {
                     highlight = true
                     changedTitle = true
                 },
-                Lecture("1004").apply {
+                Session("1004").apply {
                     highlight = false
                     changedTitle = true
                 })
 
-        private val oldLectures = listOf(
-                Lecture("2001").apply {
+        private val oldSessions = listOf(
+                Session("2001").apply {
                     highlight = false
                     changedIsNew = false
                 },
-                Lecture("2002").apply {
+                Session("2002").apply {
                     highlight = true
                     changedIsNew = false
                 })
 
-        private val newLectures = listOf(
-                Lecture("2003").apply {
+        private val newSessions = listOf(
+                Session("2003").apply {
                     highlight = true
                     changedIsNew = true
                 },
-                Lecture("2004").apply {
+                Session("2004").apply {
                     highlight = false
                     changedIsNew = true
                 })
 
-        private val uncanceledLectures = listOf(
-                Lecture("3001").apply {
+        private val uncanceledSessions = listOf(
+                Session("3001").apply {
                     highlight = false
                     changedIsCanceled = false
                 },
-                Lecture("3002").apply {
+                Session("3002").apply {
                     highlight = true
                     changedIsCanceled = false
                 })
 
-        private val canceledLectures = listOf(
-                Lecture("3003").apply {
+        private val canceledSessions = listOf(
+                Session("3003").apply {
                     highlight = true
                     changedIsCanceled = true
                 },
-                Lecture("3004").apply {
+                Session("3004").apply {
                     highlight = false
                     changedIsCanceled = true
                 })
@@ -72,39 +72,39 @@ class ChangeStatisticTest {
     }
 
     @Test
-    fun `getChangedLecturesCount returns 0 for an empty list`() {
+    fun `getChangedSessionsCount returns 0 for an empty list`() {
         val statistic = ChangeStatistic(emptyList())
-        assertThat(statistic.getChangedLecturesCount()).isEqualTo(0)
+        assertThat(statistic.getChangedSessionsCount()).isEqualTo(0)
     }
 
     @Test
-    fun `getChangedLecturesCount returns the changed lectures count`() {
-        val statistic = ChangeStatistic(unchangedLectures + changedLectures)
-        assertThat(statistic.getChangedLecturesCount()).isEqualTo(changedLectures.size)
+    fun `getChangedSessionsCount returns the changed sessions count`() {
+        val statistic = ChangeStatistic(unchangedSessions + changedSessions)
+        assertThat(statistic.getChangedSessionsCount()).isEqualTo(changedSessions.size)
     }
 
     @Test
-    fun `getNewLecturesCount returns 0 for an empty list`() {
+    fun `getNewSessionsCount returns 0 for an empty list`() {
         val statistic = ChangeStatistic(emptyList())
-        assertThat(statistic.getNewLecturesCount()).isEqualTo(0)
+        assertThat(statistic.getNewSessionsCount()).isEqualTo(0)
     }
 
     @Test
-    fun `getNewLecturesCount returns the new lectures count`() {
-        val statistic = ChangeStatistic(oldLectures + newLectures)
-        assertThat(statistic.getNewLecturesCount()).isEqualTo(newLectures.size)
+    fun `getNewSessionsCount returns the new sessions count`() {
+        val statistic = ChangeStatistic(oldSessions + newSessions)
+        assertThat(statistic.getNewSessionsCount()).isEqualTo(newSessions.size)
     }
 
     @Test
-    fun `getCanceledLecturesCount returns 0 for an empty list`() {
+    fun `getCanceledSessionsCount returns 0 for an empty list`() {
         val statistic = ChangeStatistic(emptyList())
-        assertThat(statistic.getCanceledLecturesCount()).isEqualTo(0)
+        assertThat(statistic.getCanceledSessionsCount()).isEqualTo(0)
     }
 
     @Test
-    fun `getCanceledLecturesCount returns the canceled lectures count`() {
-        val statistic = ChangeStatistic(unchangedLectures + canceledLectures)
-        assertThat(statistic.getCanceledLecturesCount()).isEqualTo(canceledLectures.size)
+    fun `getCanceledSessionsCount returns the canceled sessions count`() {
+        val statistic = ChangeStatistic(unchangedSessions + canceledSessions)
+        assertThat(statistic.getCanceledSessionsCount()).isEqualTo(canceledSessions.size)
     }
 
     @Test
@@ -116,14 +116,14 @@ class ChangeStatisticTest {
     @Test
     fun `getChangedFavoritesCount returns the changed favorites count`() {
         val statistic = ChangeStatistic(
-                unchangedLectures + changedLectures +
-                        oldLectures + newLectures +
-                        uncanceledLectures + canceledLectures
+                unchangedSessions + changedSessions +
+                        oldSessions + newSessions +
+                        uncanceledSessions + canceledSessions
         )
         assertThat(statistic.getChangedFavoritesCount()).isEqualTo(3)
     }
 
     @Suppress("TestFunctionName") // Fake constructor to avoid repetition.
-    private fun ChangeStatistic(lectures: List<Lecture>) = ChangeStatistic(lectures, NoLogging)
+    private fun ChangeStatistic(sessions: List<Session>) = ChangeStatistic(sessions, NoLogging)
 
 }

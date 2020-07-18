@@ -17,9 +17,9 @@ class AlarmsDatabaseRepository(
 
 ) {
 
-    fun update(values: ContentValues, eventId: String) = with(sqLiteOpenHelper) {
+    fun update(values: ContentValues, sessionId: String) = with(sqLiteOpenHelper) {
         writableDatabase.upsert({
-            delete(AlarmsTable.NAME, EVENT_ID, eventId)
+            delete(AlarmsTable.NAME, SESSION_ID, sessionId)
         }, {
             insert(AlarmsTable.NAME, values)
         })
@@ -29,8 +29,8 @@ class AlarmsDatabaseRepository(
         read(AlarmsTable.NAME)
     }
 
-    fun query(eventId: String): List<Alarm> = query {
-        read(AlarmsTable.NAME, selection = "$EVENT_ID=?", selectionArgs = arrayOf(eventId))
+    fun query(sessionId: String): List<Alarm> = query {
+        read(AlarmsTable.NAME, selection = "$SESSION_ID=?", selectionArgs = arrayOf(sessionId))
     }
 
     private fun query(query: SQLiteDatabase.() -> Cursor): List<Alarm> {
@@ -48,9 +48,9 @@ class AlarmsDatabaseRepository(
             Alarm(
                     id = cursor.getInt(ID),
                     day = cursor.getInt(DAY),
-                    eventId = cursor.getString(EVENT_ID),
+                    sessionId = cursor.getString(SESSION_ID),
                     time = cursor.getLong(TIME),
-                    title = cursor.getString(EVENT_TITLE)
+                    title = cursor.getString(SESSION_TITLE)
             )
         }
 
@@ -65,8 +65,8 @@ class AlarmsDatabaseRepository(
         delete(AlarmsTable.NAME, ID, "$alarmId")
     }
 
-    fun deleteForEventId(eventId: String) = delete {
-        delete(AlarmsTable.NAME, EVENT_ID, eventId)
+    fun deleteForSessionId(sessionId: String) = delete {
+        delete(AlarmsTable.NAME, SESSION_ID, sessionId)
     }
 
     private fun delete(query: SQLiteDatabase.() -> Int) =

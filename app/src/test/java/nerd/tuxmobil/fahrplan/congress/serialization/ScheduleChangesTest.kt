@@ -1,96 +1,96 @@
 package nerd.tuxmobil.fahrplan.congress.serialization
 
-import nerd.tuxmobil.fahrplan.congress.models.Lecture
+import nerd.tuxmobil.fahrplan.congress.models.Session
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import java.util.ArrayList
 
 class ScheduleChangesTest {
 
-    private val oldLectures = ArrayList<Lecture>()
-    private val newLectures = ArrayList<Lecture>()
+    private val oldSessions = ArrayList<Session>()
+    private val newSessions = ArrayList<Session>()
 
     @Test
     fun hasScheduleChangedWithSameId() {
-        oldLectures.add(Lecture("lectureId3"))
-        newLectures.add(Lecture("lectureId3"))
-        assertThat(ScheduleChanges.hasScheduleChanged(newLectures, oldLectures)).isFalse()
+        oldSessions.add(Session("sessionId3"))
+        newSessions.add(Session("sessionId3"))
+        assertThat(ScheduleChanges.hasScheduleChanged(newSessions, oldSessions)).isFalse()
     }
 
     @Test
     fun hasScheduleChangedWithNewId() {
-        oldLectures.add(Lecture("lectureId3"))
-        newLectures.add(Lecture("lectureId7"))
-        assertThat(ScheduleChanges.hasScheduleChanged(newLectures, oldLectures)).isTrue()
+        oldSessions.add(Session("sessionId3"))
+        newSessions.add(Session("sessionId7"))
+        assertThat(ScheduleChanges.hasScheduleChanged(newSessions, oldSessions)).isTrue()
     }
 
     @Test
-    fun hasScheduleChangedWithOddTitles() = assertLectureHasChanged { oldLecture, newLecture ->
-        oldLecture.title = "Old title"
-        newLecture.title = "New title"
+    fun hasScheduleChangedWithOddTitles() = assertSessionHasChanged { oldSession, newSession ->
+        oldSession.title = "Old title"
+        newSession.title = "New title"
     }
 
     @Test
-    fun hasScheduleChangedWithOddSubtitles() = assertLectureHasChanged { oldLecture, newLecture ->
-        oldLecture.subtitle = "Old subtitle"
-        newLecture.subtitle = "New subtitle"
+    fun hasScheduleChangedWithOddSubtitles() = assertSessionHasChanged { oldSession, newSession ->
+        oldSession.subtitle = "Old subtitle"
+        newSession.subtitle = "New subtitle"
     }
 
     @Test
-    fun hasScheduleChangedWithOddSpeakers() = assertLectureHasChanged { oldLecture, newLecture ->
-        oldLecture.speakers = "Old speakers"
-        newLecture.speakers = "New speakers"
+    fun hasScheduleChangedWithOddSpeakers() = assertSessionHasChanged { oldSession, newSession ->
+        oldSession.speakers = "Old speakers"
+        newSession.speakers = "New speakers"
     }
 
     @Test
-    fun hasScheduleChangedWithOddLanguages() = assertLectureHasChanged { oldLecture, newLecture ->
-        oldLecture.lang = "de"
-        newLecture.lang = "en"
+    fun hasScheduleChangedWithOddLanguages() = assertSessionHasChanged { oldSession, newSession ->
+        oldSession.lang = "de"
+        newSession.lang = "en"
     }
 
     @Test
-    fun hasScheduleChangedWithOddRooms() = assertLectureHasChanged { oldLecture, newLecture ->
-        oldLecture.room = "Room 1"
-        newLecture.room = "Room A"
+    fun hasScheduleChangedWithOddRooms() = assertSessionHasChanged { oldSession, newSession ->
+        oldSession.room = "Room 1"
+        newSession.room = "Room A"
     }
 
     @Test
-    fun hasScheduleChangedWithOddTracks() = assertLectureHasChanged { oldLecture, newLecture ->
-        oldLecture.track = "hardware"
-        newLecture.track = "software"
+    fun hasScheduleChangedWithOddTracks() = assertSessionHasChanged { oldSession, newSession ->
+        oldSession.track = "hardware"
+        newSession.track = "software"
     }
 
     @Test
-    fun hasScheduleChangedWithOddRecordingOptOut() = assertLectureHasChanged { oldLecture, newLecture ->
-        oldLecture.recordingOptOut = true
-        newLecture.recordingOptOut = false
+    fun hasScheduleChangedWithOddRecordingOptOut() = assertSessionHasChanged { oldSession, newSession ->
+        oldSession.recordingOptOut = true
+        newSession.recordingOptOut = false
     }
 
     @Test
-    fun hasScheduleChangedWithOddDays() = assertLectureHasChanged { oldLecture, newLecture ->
-        oldLecture.day = 4
-        newLecture.day = 1
+    fun hasScheduleChangedWithOddDays() = assertSessionHasChanged { oldSession, newSession ->
+        oldSession.day = 4
+        newSession.day = 1
     }
 
     @Test
-    fun hasScheduleChangedWithOddStartTimes() = assertLectureHasChanged { oldLecture, newLecture ->
-        oldLecture.startTime = 1185
-        newLecture.startTime = 1410
+    fun hasScheduleChangedWithOddStartTimes() = assertSessionHasChanged { oldSession, newSession ->
+        oldSession.startTime = 1185
+        newSession.startTime = 1410
     }
 
     @Test
-    fun hasScheduleChangedWithOddDurations() = assertLectureHasChanged { oldLecture, newLecture ->
-        oldLecture.duration = 30
-        newLecture.duration = 60
+    fun hasScheduleChangedWithOddDurations() = assertSessionHasChanged { oldSession, newSession ->
+        oldSession.duration = 30
+        newSession.duration = 60
     }
 
-    private fun assertLectureHasChanged(modify: (oldLecture: Lecture, newLecture: Lecture) -> Unit) {
-        val oldLecture = Lecture("lectureId3")
-        val newLecture = Lecture("lectureId3")
-        modify.invoke(oldLecture, newLecture)
-        oldLectures.add(oldLecture)
-        newLectures.add(newLecture)
-        assertThat(ScheduleChanges.hasScheduleChanged(newLectures, oldLectures)).isTrue()
+    private fun assertSessionHasChanged(modify: (oldSession: Session, newSession: Session) -> Unit) {
+        val oldSession = Session("sessionId3")
+        val newSession = Session("sessionId3")
+        modify.invoke(oldSession, newSession)
+        oldSessions.add(oldSession)
+        newSessions.add(newSession)
+        assertThat(ScheduleChanges.hasScheduleChanged(newSessions, oldSessions)).isTrue()
     }
 
 }

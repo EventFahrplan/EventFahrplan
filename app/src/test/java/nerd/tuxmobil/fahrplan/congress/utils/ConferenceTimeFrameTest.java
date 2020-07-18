@@ -55,7 +55,7 @@ public class ConferenceTimeFrameTest {
     }
 
     @Test
-    public void containsWithTimeWithFirstDayEvent() {
+    public void containsWithTimeWithFirstDaySession() {
         // 2015-12-27T11:30:00+0100, in seconds: 1451212200000
         assertThat(conference.contains(1451212200000L)).isTrue();
     }

@@ -5,7 +5,7 @@
     <string name="menu_item_title_about">Info</string>
     <string name="menu_item_title_add_to_calendar">Zum Kalender hinzufügen</string>
     <string name="menu_item_title_alarms">Alarme</string>
-    <string name="menu_item_title_close_event_details">Detailansicht schließen</string>
+    <string name="menu_item_title_close_session_details">Detailansicht schließen</string>
     <string name="menu_item_title_flag_as_favorite">Zu Favoriten hinzufügen</string>
     <string name="menu_item_title_unflag_as_favorite">Aus Favoriten entfernen</string>
     <string name="menu_item_title_delete_favorite">Löschen</string>
@@ -16,10 +16,10 @@
     <string name="menu_item_title_feedback">Feedback</string>
     <string name="menu_item_title_navigate">Navigiere</string>
     <string name="menu_item_title_refresh">Aktualisieren</string>
-    <string name="menu_item_title_share_event">Vortrag teilen</string>
+    <string name="menu_item_title_share_session">Vortrag teilen</string>
     <string name="menu_item_title_share_favorites">Favoriten teilen</string>
-    <string name="menu_item_title_share_event_text">als Text</string>
-    <string name="menu_item_title_share_event_json">als JSON (für Chaosflix)</string>
+    <string name="menu_item_title_share_session_text">als Text</string>
+    <string name="menu_item_title_share_session_json">als JSON (für Chaosflix)</string>
     <string name="share_as_text">Als Text teilen</string>
     <string name="share_as_json">Als JSON teilen (für Chaosflix)</string>
 
@@ -51,7 +51,7 @@
     <string name="schedule_changes_dialog_updated_to_text">Der Fahrplan wurde auf Version\u0020</string>
     <string name="schedule_changes_dialog_changed_new_cancelled_text">\u0020aktualisiert. Es gibt Änderungen in <xliff:g example="3 Vorträgen" id="num_changes">%1$s</xliff:g>, <xliff:g example="2 sind" id="num_new">%2$s</xliff:g> neu, <xliff:g example="1 ist" id="num_canceled">%3$s</xliff:g> gestrichen.</string>
     <string name="schedule_changes_dialog_affected_text">Die Änderungen betreffen <xliff:g example="2" id="num_marked">%1$d</xliff:g> der favorisierten Vorträge.</string>
-    <plurals name="schedule_changes_dialog_number_of_lectures">
+    <plurals name="schedule_changes_dialog_number_of_sessions">
         <item quantity="one">%d Vortrag</item>
         <item quantity="other">%d Vorträgen</item>
     </plurals>
@@ -76,8 +76,8 @@
         Der Fahrplan wurde aktualisiert.
     </string>
     <string name="settings">Einstellungen</string>
-    <string name="event_online">Event online</string>
-    <string name="event_detail_section_title_links">Links</string>
+    <string name="session_details_section_title_session_online">Event online</string>
+    <string name="session_details_section_title_links">Links</string>
     <string name="choose_alarm_time">Wähle die Alarmzeit</string>
     <string name="default_alarm_time_title">Wähle eine Standard-Alarmzeit</string>
     <string name="default_alarm_time_dialog_title">Standard-Alarmzeit</string>
@@ -113,12 +113,12 @@
     <string name="schedule_changes">Fahrplanänderungen</string>
 
     <string name="general_settings">Allgemein</string>
-    <string name="starred_lectures">Favoriten</string>
+    <string name="starred_sessions">Favoriten</string>
     <string name="invalid_url">Ungültige URL</string>
     <string name="no_favorites">Keine favorisierten Vorträge</string>
     <string name="choose_to_delete">Wähle Vorträge</string>
     <string name="day_separator">Tag <xliff:g example="2" id="day_of_congress">%1$d</xliff:g> - <xliff:g example="29.12.2014" id="date_of_congress_day">%2$s</xliff:g></string>
-    <string name="event_duration"><xliff:g example="45" id="duration">%1$d</xliff:g> min.</string>
+    <string name="session_duration"><xliff:g example="45" id="duration">%1$d</xliff:g> min.</string>
     <string name="alternative_highlight">Alternative Hervorhebung</string>
     <string name="dlg_delete_all_favorites">Alle Favoriten löschen?</string>
     <string name="dlg_delete_all_favorites_delete_all">Alle löschen</string>
@@ -178,11 +178,11 @@
     </string>
 
     <!-- Notifications -->
-    <string name="notifications_event_alarm_channel_description">
+    <string name="notifications_session_alarm_channel_description">
         Von der Nutzerin für verschiedende Vorträge angelegte Alarme.
     </string>
-    <string name="notifications_event_alarm_channel_name">Vortragsalarme</string>
-    <string name="notifications_event_alarm_content_text">Vortragsalarm</string>
+    <string name="notifications_session_alarm_channel_name">Vortragsalarme</string>
+    <string name="notifications_session_alarm_content_text">Vortragsalarm</string>
     <string name="notifications_schedule_update_channel_description">
         Automatische Aktualisierung des Programms. Diese kann
         in den Einstellungen der App konfiguriert werden.
@@ -203,15 +203,15 @@
     <string name="alarm_time_title_45_minutes_before">45 Minuten vorher</string>
     <string name="alarm_time_title_60_minutes_before">60 Minuten vorher</string>
 
-    <!-- Lecture list item -->
-    <string name="lecture_list_item_language_portuguese_content_description">Portugiesisch</string>
-    <string name="lecture_list_item_language_german_content_description">Deutsch</string>
-    <string name="lecture_list_item_language_english_content_description">Englisch</string>
-    <string name="lecture_list_item_language_unknown_content_description">Sprache unbekannt</string>
-    <string name="lecture_list_item_language_undefined_content_description">Sprache: <xliff:g example="es" id="language_abbreviation">%s</xliff:g></string>
-    <string name="lecture_list_item_language_removed_content_description">Sprachinformation wurde entfernt</string>
-    <string name="lecture_list_item_no_video_content_description">Ohne Videoaufzeichnung</string>
-    <string name="lecture_list_item_video_content_description">Mit Videoaufzeichnung</string>
-    <string name="lecture_list_item_without_video_content_description">Ohne Videoaufzeichnung</string>
+    <!-- Session list item -->
+    <string name="session_list_item_language_portuguese_content_description">Portugiesisch</string>
+    <string name="session_list_item_language_german_content_description">Deutsch</string>
+    <string name="session_list_item_language_english_content_description">Englisch</string>
+    <string name="session_list_item_language_unknown_content_description">Sprache unbekannt</string>
+    <string name="session_list_item_language_undefined_content_description">Sprache: <xliff:g example="es" id="language_abbreviation">%s</xliff:g></string>
+    <string name="session_list_item_language_removed_content_description">Sprachinformation wurde entfernt</string>
+    <string name="session_list_item_no_video_content_description">Ohne Videoaufzeichnung</string>
+    <string name="session_list_item_video_content_description">Mit Videoaufzeichnung</string>
+    <string name="session_list_item_without_video_content_description">Ohne Videoaufzeichnung</string>
 
 </resources>

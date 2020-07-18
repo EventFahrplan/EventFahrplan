@@ -2,62 +2,62 @@ package nerd.tuxmobil.fahrplan.congress.schedule
 
 import androidx.annotation.VisibleForTesting
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
-import nerd.tuxmobil.fahrplan.congress.models.Lecture as Event
+import nerd.tuxmobil.fahrplan.congress.models.Session
 
 data class Conference(
 
-        var firstEventStartsAt: Int = 0,
-        var lastEventEndsAt: Int = 0
+        var firstSessionStartsAt: Int = 0,
+        var lastSessionEndsAt: Int = 0
 
 ) {
 
     /**
-     * Calculates the [firstEventStartsAt] and [lastEventEndsAt] time stamps for the
-     * given sorted events.
+     * Calculates the [firstSessionStartsAt] and [lastSessionEndsAt] time stamps for the
+     * given sorted sessions.
      *
      * This methods contains specific handling for Frab and Pentabarf schedule data.
      * 09/2018: The latter can probably be dropped since unmodified Pentabarf schedule
      * data has not been consumed by the app(s) for years.
      *
-     * @param events       Sorted list of events.
+     * @param sessions     Sorted list of sessions.
      * @param minutesOfDay Function to calculate the minutes of the day for the
      *                     given UTC time stamp.
      */
-    fun calculateTimeFrame(events: List<Event>, minutesOfDay: (dateUtc: Long) -> Int) {
-        val firstEvent = events[0] // they are already sorted
+    fun calculateTimeFrame(sessions: List<Session>, minutesOfDay: (dateUtc: Long) -> Int) {
+        val firstSession = sessions[0] // they are already sorted
         var end: Long = 0
-        val firstEventDateUtc = firstEvent.dateUTC
-        firstEventStartsAt = if (firstEventDateUtc > 0) {
+        val firstSessionDateUtc = firstSession.dateUTC
+        firstSessionStartsAt = if (firstSessionDateUtc > 0) {
             // Frab
-            minutesOfDay(firstEventDateUtc)
+            minutesOfDay(firstSessionDateUtc)
         } else {
             // Pentabarf
-            firstEvent.relStartTime
+            firstSession.relStartTime
         }
-        lastEventEndsAt = -1
-        for (event in events) {
-            if (firstEventDateUtc > 0) {
+        lastSessionEndsAt = -1
+        for (session in sessions) {
+            if (firstSessionDateUtc > 0) {
                 // Frab
-                val eventEndsAt = event.dateUTC + event.duration * 60000
+                val sessionEndsAt = session.dateUTC + session.duration * 60000
                 if (end == 0L) {
-                    end = eventEndsAt
-                } else if (eventEndsAt > end) {
-                    end = eventEndsAt
+                    end = sessionEndsAt
+                } else if (sessionEndsAt > end) {
+                    end = sessionEndsAt
                 }
             } else {
                 // Pentabarf
-                val eventEndsAt = event.relStartTime + event.duration
-                if (lastEventEndsAt == -1) {
-                    lastEventEndsAt = eventEndsAt
-                } else if (eventEndsAt > lastEventEndsAt) {
-                    lastEventEndsAt = eventEndsAt
+                val sessionEndsAt = session.relStartTime + session.duration
+                if (lastSessionEndsAt == -1) {
+                    lastSessionEndsAt = sessionEndsAt
+                } else if (sessionEndsAt > lastSessionEndsAt) {
+                    lastSessionEndsAt = sessionEndsAt
                 }
             }
         }
         if (end > 0) {
-            lastEventEndsAt = minutesOfDay(end)
-            if (isDaySwitch(firstEventDateUtc, end)) {
-                forwardLastEventEndsAtByOneDay()
+            lastSessionEndsAt = minutesOfDay(end)
+            if (isDaySwitch(firstSessionDateUtc, end)) {
+                forwardLastSessionEndsAtByOneDay()
             }
         }
     }
@@ -68,8 +68,8 @@ data class Conference(
         return startDay != endDay
     }
 
-    private fun forwardLastEventEndsAtByOneDay() {
-        lastEventEndsAt += ONE_DAY
+    private fun forwardLastSessionEndsAtByOneDay() {
+        lastSessionEndsAt += ONE_DAY
     }
 
     companion object {

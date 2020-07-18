@@ -27,7 +27,7 @@
         </ImageView>
 
         <TextView
-                android:id="@+id/eventTitle"
+                android:id="@+id/about_session_title_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -39,7 +39,7 @@
                 tools:text="33. Chaos Communication Congress"/>
 
         <TextView
-                android:id="@+id/eventSubtitle"
+                android:id="@+id/about_session_subtitle_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -52,7 +52,7 @@
         </TextView>
 
         <TextView
-                android:id="@+id/conference_url"
+                android:id="@+id/about_conference_url_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -64,7 +64,7 @@
                 tools:text="https://events.ccc.de/congress/2016"/>
 
         <TextView
-                android:id="@+id/eventVersion"
+                android:id="@+id/about_session_version_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -73,7 +73,7 @@
         </TextView>
 
         <TextView
-                android:id="@+id/appVersion"
+                android:id="@+id/about_app_version_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -86,7 +86,7 @@
                 layout="@layout/horizontal_line"/>
 
         <TextView
-                android:id="@+id/textView1"
+                android:id="@+id/about_usage_note_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingBottom="10dp"
@@ -101,7 +101,7 @@
                 layout="@layout/horizontal_line" />
 
         <TextView
-                android:id="@+id/app_disclaimer"
+                android:id="@+id/about_app_disclaimer_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:linksClickable="true"
@@ -116,7 +116,7 @@
                 layout="@layout/horizontal_line"/>
 
         <TextView
-                android:id="@+id/copyright_logo"
+                android:id="@+id/about_copyright_logo_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingBottom="10dp"
@@ -131,7 +131,7 @@
                 layout="@layout/horizontal_line"/>
 
         <TextView
-                android:id="@+id/source_code"
+                android:id="@+id/about_source_code_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:linksClickable="true"
@@ -143,7 +143,7 @@
                 tools:text="@string/source_code"/>
 
         <TextView
-                android:id="@+id/issues"
+                android:id="@+id/about_issues_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:linksClickable="true"
@@ -155,7 +155,7 @@
                 tools:text="@string/issues"/>
 
         <TextView
-                android:id="@+id/google_play_store"
+                android:id="@+id/about_google_play_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:linksClickable="true"
@@ -185,7 +185,7 @@
                 layout="@layout/horizontal_line"/>
 
         <TextView
-                android:id="@+id/data_privacy_statement"
+                android:id="@+id/about_data_privacy_statement_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:linksClickable="true"

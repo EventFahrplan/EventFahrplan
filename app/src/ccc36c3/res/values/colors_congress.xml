@@ -4,42 +4,42 @@
     <color name="pressed_congress">#CCa41c31</color>
 
     <!-- Default state -->
-    <color name="event_border_default">#595959</color>
-    <color name="event_border_default_art_culture">#AD6632</color>
-    <color name="event_border_default_ccc">#756D0F</color>
-    <color name="event_border_default_engelshifts">#523023</color>
-    <color name="event_border_default_entertainment">#336B22</color>
-    <color name="event_border_default_ethics_society_politics">#21615C</color>
-    <color name="event_border_default_hardware_making">#29728C</color>
-    <color name="event_border_default_lightning_talks">#6B750F</color>
-    <color name="event_border_default_music">#334040</color>
-    <color name="event_border_default_queer">#6B2447</color>
-    <color name="event_border_default_resilience">#566299</color>
-    <color name="event_border_default_science">#86578C</color>
-    <color name="event_border_default_security">#914452</color>
-    <color name="event_border_default_self_organized_sessions">#3056bf</color>
+    <color name="track_background_default">#595959</color>
+    <color name="track_background_default_art_culture">#AD6632</color>
+    <color name="track_background_default_ccc">#756D0F</color>
+    <color name="track_background_default_engelshifts">#523023</color>
+    <color name="track_background_default_entertainment">#336B22</color>
+    <color name="track_background_default_ethics_society_politics">#21615C</color>
+    <color name="track_background_default_hardware_making">#29728C</color>
+    <color name="track_background_default_lightning_talks">#6B750F</color>
+    <color name="track_background_default_music">#334040</color>
+    <color name="track_background_default_queer">#6B2447</color>
+    <color name="track_background_default_resilience">#566299</color>
+    <color name="track_background_default_science">#86578C</color>
+    <color name="track_background_default_security">#914452</color>
+    <color name="track_background_default_self_organized_sessions">#3056bf</color>
 
     <!-- Highlight state -->
-    <color name="event_border_highlight">#8c8c8c</color>
-    <color name="event_border_highlight_art_culture">#e08241</color>
-    <color name="event_border_highlight_ccc">#c2b519</color>
-    <color name="event_border_highlight_engelshifts">#9F5E45</color>
-    <color name="event_border_highlight_entertainment">#57b73a</color>
-    <color name="event_border_highlight_ethics_society_politics">#3caea5</color>
-    <color name="event_border_highlight_hardware_making">#3fafd8</color>
-    <color name="event_border_highlight_lightning_talks">#B1C219</color>
-    <color name="event_border_highlight_music">#708C8C</color>
-    <color name="event_border_highlight_queer">#B83E78</color>
-    <color name="event_border_highlight_resilience">#8194e6</color>
-    <color name="event_border_highlight_science">#cf87d9</color>
-    <color name="event_border_highlight_security">#de697e</color>
-    <color name="event_border_highlight_self_organized_sessions">#4174ff</color>
+    <color name="track_background_highlight">#8c8c8c</color>
+    <color name="track_background_highlight_art_culture">#e08241</color>
+    <color name="track_background_highlight_ccc">#c2b519</color>
+    <color name="track_background_highlight_engelshifts">#9F5E45</color>
+    <color name="track_background_highlight_entertainment">#57b73a</color>
+    <color name="track_background_highlight_ethics_society_politics">#3caea5</color>
+    <color name="track_background_highlight_hardware_making">#3fafd8</color>
+    <color name="track_background_highlight_lightning_talks">#B1C219</color>
+    <color name="track_background_highlight_music">#708C8C</color>
+    <color name="track_background_highlight_queer">#B83E78</color>
+    <color name="track_background_highlight_resilience">#8194e6</color>
+    <color name="track_background_highlight_science">#cf87d9</color>
+    <color name="track_background_highlight_security">#de697e</color>
+    <color name="track_background_highlight_self_organized_sessions">#4174ff</color>
 
     <!-- Track color -->
     <color name="track_name">#beffffff</color>
 
     <!-- Title color -->
-    <color name="event_title_on_default_background">#a0ffffff</color>
-    <color name="event_title_on_highlight_background">#fff</color>
+    <color name="session_title_on_default_background">#a0ffffff</color>
+    <color name="session_title_on_highlight_background">#fff</color>
 
 </resources>

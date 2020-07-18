@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="@layout/detail">
+
+    <TextView
+        android:id="@+id/session_details_content_title_view"
+        style="@style/SessionDetailsSection.Title"
+        tools:text="@string/placeholder_session_title"/>
+
+    <TextView
+        android:id="@+id/session_details_content_subtitle_view"
+        style="@style/SessionDetailsSection.Subtitle"
+        tools:text="@string/placeholder_session_subtitle"/>
+
+    <TextView
+        android:id="@+id/session_details_content_speakers_view"
+        style="@style/SessionDetailsSection.Speakers"
+        android:textSize="@dimen/session_details_speakers"
+        tools:text="@string/placeholder_session_speakers"/>
+
+    <TextView
+        android:id="@+id/session_details_content_abstract_view"
+        style="@style/SessionDetailsSection.Header.Long"
+        tools:text="@string/placeholder_session_abstract"/>
+
+    <TextView
+        android:id="@+id/session_details_content_description_view"
+        style="@style/SessionDetailsSection.Long"
+        tools:text="@string/placeholder_session_description"/>
+
+    <TextView
+        android:id="@+id/session_details_content_links_section_view"
+        style="@style/SessionDetailsSection.Header"
+        android:text="@string/session_details_section_title_links"/>
+
+    <TextView
+        android:id="@+id/session_details_content_links_view"
+        style="@style/SessionDetailsSection"
+        tools:text="@string/placeholder_session_links"/>
+
+    <TextView
+        android:id="@+id/session_details_content_session_online_section_view"
+        style="@style/SessionDetailsSection.Header"
+        android:text="@string/session_details_section_title_session_online"/>
+
+    <TextView
+        android:id="@+id/session_details_content_session_online_view"
+        style="@style/SessionDetailsSection"
+        tools:text="@string/placeholder_session_online"/>
+
+</merge>

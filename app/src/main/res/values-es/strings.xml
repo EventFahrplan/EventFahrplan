@@ -20,8 +20,8 @@
     <string name="build_info_version_code">Código de versión: <xliff:g example="42" id="version_code">%s</xliff:g></string>
     <string name="choose_alarm_time">Escoja tiempo de alarma</string>
     <string name="choose_day">Escoja el día</string>
-    <string name="event_detail_section_title_links">Vínculos</string>
-    <string name="event_online">Evento en línea</string>
+    <string name="session_details_section_title_links">Vínculos</string>
+    <string name="session_details_section_title_session_online">Evento en línea</string>
     <string name="fahrplan">Calendario</string>
     <string name="general_settings">General</string>
     <string name="choose_to_delete">Seleccione la conferencia</string>
@@ -43,24 +43,24 @@
     <string name="dlg_err_failed_wrong_http_credentials">Autenticación HTTP no válida</string>
     <string name="dlg_invalid_certificate_could_not_apply">No se pudo agregar el certificado</string>
     <string name="dlg_invalid_certificate_title">Confiar en certificado desconocido?</string>
-    <string name="event_duration"><xliff:g example="45" id="duration">%1$d</xliff:g> min.</string>
+    <string name="session_duration"><xliff:g example="45" id="duration">%1$d</xliff:g> min.</string>
     <string name="insistent_alarm">Alarma persistente</string>
     <string name="invalid_url">URL no válida</string>
     <string name="issues"><![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan/issues">Problema o sugerencias</a>]]></string>
-    <string name="lecture_list_item_language_portuguese_content_description">Portugués</string>
-    <string name="lecture_list_item_language_english_content_description">Inglés</string>
-    <string name="lecture_list_item_language_german_content_description">Alemán</string>
-    <string name="lecture_list_item_language_removed_content_description">La información del idioma ha sido borrada</string>
-    <string name="lecture_list_item_language_undefined_content_description">Idioma: <xliff:g example="es" id="language_abbreviation">%s</xliff:g></string>
-    <string name="lecture_list_item_language_unknown_content_description">Idioma desconocido</string>
-    <string name="lecture_list_item_no_video_content_description">Sin grabación de vídeo</string>
-    <string name="lecture_list_item_video_content_description">Con grabación de vídeo</string>
-    <string name="lecture_list_item_without_video_content_description">Sin grabación de vídeo</string>
+    <string name="session_list_item_language_portuguese_content_description">Portugués</string>
+    <string name="session_list_item_language_english_content_description">Inglés</string>
+    <string name="session_list_item_language_german_content_description">Alemán</string>
+    <string name="session_list_item_language_removed_content_description">La información del idioma ha sido borrada</string>
+    <string name="session_list_item_language_undefined_content_description">Idioma: <xliff:g example="es" id="language_abbreviation">%s</xliff:g></string>
+    <string name="session_list_item_language_unknown_content_description">Idioma desconocido</string>
+    <string name="session_list_item_no_video_content_description">Sin grabación de vídeo</string>
+    <string name="session_list_item_video_content_description">Con grabación de vídeo</string>
+    <string name="session_list_item_without_video_content_description">Sin grabación de vídeo</string>
     <string name="libraries">Esta aplicación utiliza las siguientes bibliotecas: Kotlin, Google Support Library, Email Intent Builder, Engelsystem, Espresso, OkHttp, SnackEngage, TraceDroid</string>
     <string name="menu_item_title_about">Información</string>
     <string name="menu_item_title_add_to_calendar">Agregar al calendario</string>
     <string name="menu_item_title_alarms">Alarmas</string>
-    <string name="menu_item_title_close_event_details">Detalles de cierre del evento</string>
+    <string name="menu_item_title_close_session_details">Detalles de cierre del evento</string>
     <string name="menu_item_title_delete_alarm">Borrar alarma</string>
     <string name="menu_item_title_delete_all">Borrar todo</string>
     <string name="menu_item_title_delete_favorite">Borrar</string>
@@ -70,14 +70,14 @@
     <string name="menu_item_title_navigate">Navegar</string>
     <string name="menu_item_title_refresh">Actualizar</string>
     <string name="menu_item_title_set_alarm">Definir alarma</string>
-    <string name="menu_item_title_share_event">Compartir evento</string>
+    <string name="menu_item_title_share_session">Compartir evento</string>
     <string name="menu_item_title_share_favorites">Compartir favoritos</string>
     <string name="menu_item_title_unflag_as_favorite">Quitar de favoritos</string>
     <string name="no_changes">Sin cambios en el calendario</string>
     <string name="no_favorites">No hay conferencias favoritas</string>
-    <string name="notifications_event_alarm_channel_description">Alarmas creadas por el usuario para varios eventos</string>
-    <string name="notifications_event_alarm_channel_name">Alarmas para eventos</string>
-    <string name="notifications_event_alarm_content_text">Alarma para evento</string>
+    <string name="notifications_session_alarm_channel_description">Alarmas creadas por el usuario para varios eventos</string>
+    <string name="notifications_session_alarm_channel_name">Alarmas para eventos</string>
+    <string name="notifications_session_alarm_content_text">Alarma para evento</string>
     <string name="notifications_schedule_update_channel_description">Actualizaciones automáticas al calendario que pueden configurarse en los ajustes de la aplicación</string>
     <string name="notifications_schedule_update_channel_name">Actualizaciones del calendario</string>
     <string name="schedule_parsing_error_generic">Error desconocido mientras se procesaba el calendario</string>
@@ -105,7 +105,7 @@
     <string name="snack_engage_google_play_beta_testing_title">Usuario avanzado?</string>
     <string name="snack_engage_rate_action">Califique la aplicación</string>
     <string name="snack_engage_rate_title">Todo bien?</string>
-    <string name="starred_lectures">Favoritos</string>
+    <string name="starred_sessions">Favoritos</string>
     <string name="today">Hoy</string>
     <string name="trace_droid_app_chooser_title">Abrir borrador con &#8230;</string>
     <string name="trace_droid_button_title_later">Quizás más tarde</string>

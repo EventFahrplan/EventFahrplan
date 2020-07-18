@@ -24,7 +24,7 @@ import nerd.tuxmobil.fahrplan.congress.schedule.MainActivity;
 
 public final class AlarmReceiver extends BroadcastReceiver {
 
-    public static final String ALARM_LECTURE = "nerd.tuxmobil.fahrplan.congress.ALARM_LECTURE";
+    public static final String ALARM_SESSION = "nerd.tuxmobil.fahrplan.congress.ALARM_SESSION";
 
     public static final String ALARM_UPDATE = "nerd.tuxmobil.fahrplan.congress.ALARM_UPDATE";
 
@@ -37,10 +37,10 @@ public final class AlarmReceiver extends BroadcastReceiver {
 
         MyApp.LogDebug(LOG_TAG, "Received alarm = " + intent.getAction() + ".");
 
-        if (intent.getAction().equals(ALARM_LECTURE)) {
-            String lectureId = intent.getStringExtra(BundleKeys.ALARM_LECTURE_ID);
-            Log.d(LOG_TAG, "lectureId = " + lectureId + ", intent = " + intent);
-            int lid = Integer.parseInt(lectureId);
+        if (intent.getAction().equals(ALARM_SESSION)) {
+            String sessionId = intent.getStringExtra(BundleKeys.ALARM_SESSION_ID);
+            Log.d(LOG_TAG, "sessionId = " + sessionId + ", intent = " + intent);
+            int lid = Integer.parseInt(sessionId);
             int day = intent.getIntExtra(BundleKeys.ALARM_DAY, 1);
             long when = intent
                     .getLongExtra(BundleKeys.ALARM_START_TIME, System.currentTimeMillis());
@@ -51,19 +51,19 @@ public final class AlarmReceiver extends BroadcastReceiver {
             boolean defaultValue = context.getResources().getBoolean(R.bool.preferences_insistent_alarm_enabled_default_value);
             boolean insistent = prefs.getBoolean("insistent", defaultValue);
 
-            Intent launchIntent = MainActivity.createLaunchIntent(context, lectureId, day);
+            Intent launchIntent = MainActivity.createLaunchIntent(context, sessionId, day);
             PendingIntent contentIntent = PendingIntent
                     .getActivity(context, lid, launchIntent, PendingIntent.FLAG_ONE_SHOT);
 
             NotificationHelper notificationHelper = new NotificationHelper(context);
             String defaultReminderTone = context.getString(R.string.preferences_reminder_tone_default_value);
             Uri soundUri = Uri.parse(prefs.getString("reminder_tone", defaultReminderTone));
-            NotificationCompat.Builder builder = notificationHelper.getEventAlarmNotificationBuilder(contentIntent, title, when, soundUri);
+            NotificationCompat.Builder builder = notificationHelper.getSessionAlarmNotificationBuilder(contentIntent, title, when, soundUri);
             MyApp.LogDebug(LOG_TAG, "Preference 'insistent' = " + insistent + ".");
-            notificationHelper.notify(NotificationHelper.EVENT_ALARM_ID, builder, insistent);
+            notificationHelper.notify(NotificationHelper.SESSION_ALARM_ID, builder, insistent);
 
             AppRepository appRepository = AppRepository.INSTANCE;
-            appRepository.deleteAlarmForEventId(lectureId);
+            appRepository.deleteAlarmForSessionId(sessionId);
 
             appRepository.notifyAlarmsChanged();
         } else if (intent.getAction().equals(ALARM_UPDATE)) {
@@ -72,41 +72,41 @@ public final class AlarmReceiver extends BroadcastReceiver {
     }
 
     private static Intent getAddAlarmIntent(@NonNull Context context,
-                                            @NonNull String lectureId,
+                                            @NonNull String sessionId,
                                             int day,
                                             @NonNull String title,
                                             long startTime) {
-        return getAlarmIntent(context, lectureId, day, title, startTime, ALARM_LECTURE);
+        return getAlarmIntent(context, sessionId, day, title, startTime, ALARM_SESSION);
     }
 
     private static Intent getDeleteAlarmIntent(@NonNull Context context,
-                                               @NonNull String lectureId,
+                                               @NonNull String sessionId,
                                                int day,
                                                @NonNull String title,
                                                long startTime) {
-        return getAlarmIntent(context, lectureId, day, title, startTime, ALARM_DELETE);
+        return getAlarmIntent(context, sessionId, day, title, startTime, ALARM_DELETE);
     }
 
     private static Intent getAlarmIntent(@NonNull Context context,
-                                         @NonNull String lectureId,
+                                         @NonNull String sessionId,
                                          int day,
                                          @NonNull String title,
                                          long startTime,
                                          @NonNull String intentAction) {
         Intent intent = new Intent(context, AlarmReceiver.class);
-        intent.putExtra(BundleKeys.ALARM_LECTURE_ID, lectureId);
+        intent.putExtra(BundleKeys.ALARM_SESSION_ID, sessionId);
         intent.putExtra(BundleKeys.ALARM_DAY, day);
         intent.putExtra(BundleKeys.ALARM_TITLE, title);
         intent.putExtra(BundleKeys.ALARM_START_TIME, startTime);
         intent.setAction(intentAction);
-        intent.setData(Uri.parse("alarm://" + lectureId));
+        intent.setData(Uri.parse("alarm://" + sessionId));
         return intent;
     }
 
     public static class AlarmIntentBuilder {
 
         private Context context = null;
-        private String lectureId = null;
+        private String sessionId = null;
         private int day = Integer.MAX_VALUE;
         private String title = null;
         private long startTime = Long.MIN_VALUE;
@@ -119,8 +119,8 @@ public final class AlarmReceiver extends BroadcastReceiver {
             return this;
         }
 
-        public AlarmIntentBuilder setLectureId(@NonNull String lectureId) {
-            this.lectureId = lectureId;
+        public AlarmIntentBuilder setSessionId(@NonNull String sessionId) {
+            this.sessionId = sessionId;
             return this;
         }
 
@@ -155,8 +155,8 @@ public final class AlarmReceiver extends BroadcastReceiver {
             if (context == null) {
                 throw new BuilderException("Field 'context' is not set.");
             }
-            if (lectureId == null) {
-                throw new BuilderException("Field 'lectureId' is not set.");
+            if (sessionId == null) {
+                throw new BuilderException("Field 'sessionId' is not set.");
             }
             if (day == Integer.MAX_VALUE) {
                 throw new BuilderException("Field 'day' is not set.");
@@ -171,9 +171,9 @@ public final class AlarmReceiver extends BroadcastReceiver {
                 throw new BuilderException("Either call 'setIsAddAlarm()' OR 'setIsDeleteAlarm()' - not both.");
             }
             if (isAddAlarmIntent) {
-                return AlarmReceiver.getAddAlarmIntent(context, lectureId, day, title, startTime);
+                return AlarmReceiver.getAddAlarmIntent(context, sessionId, day, title, startTime);
             } else {
-                return AlarmReceiver.getDeleteAlarmIntent(context, lectureId, day, title, startTime);
+                return AlarmReceiver.getDeleteAlarmIntent(context, sessionId, day, title, startTime);
             }
         }
 

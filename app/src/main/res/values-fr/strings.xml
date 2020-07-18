@@ -7,7 +7,7 @@
         <item quantity="other">
             <xliff:g example="3" id="count">%d</xliff:g> conférences ont été modifiées.</item>
     </plurals>
-    <string name="notifications_event_alarm_channel_description">Rappels créés par l’utilisateur·rice pour divers événements.</string>
+    <string name="notifications_session_alarm_channel_description">Rappels créés par l’utilisateur·rice pour divers événements.</string>
     <string name="snack_engage_google_play_beta_testing_title">Utilisateur·rice avancé·e \?</string>
     <string name="share_error_activity_not_found">Aucune application appropriée n’est installée.</string>
     <string name="choose_day">Choisissez une journée</string>
@@ -18,7 +18,7 @@
         <item quantity="one">%d est</item>
         <item quantity="other">%d sont</item>
     </plurals>
-    <plurals name="schedule_changes_dialog_number_of_lectures">
+    <plurals name="schedule_changes_dialog_number_of_sessions">
         <item quantity="one">%d conférence</item>
         <item quantity="other">%d conférences</item>
     </plurals>
@@ -33,7 +33,7 @@
     <string name="dlg_invalid_certificate_title">Faire confiance au certificat inconnu \?</string>
     <string name="OK">OK</string>
     <string name="menu_item_title_share_favorites">Partager les favoris</string>
-    <string name="menu_item_title_share_event">Partager l’événement</string>
+    <string name="menu_item_title_share_session">Partager l’événement</string>
     <string name="menu_item_title_navigate">Naviguer</string>
     <string name="menu_item_title_feedback">Commentaires</string>
     <string name="menu_item_title_favorites">Favoris</string>
@@ -46,8 +46,8 @@
     <string name="alarm_time_title_15_minutes_before">15 minutes avant</string>
     <string name="alarm_time_title_10_minutes_before">10 minutes avant</string>
     <string name="alarm_time_title_5_minutes_before">5 minutes avant</string>
-    <string name="notifications_event_alarm_content_text">Rappel pour un événement</string>
-    <string name="notifications_event_alarm_channel_name">Rappels pour les événements</string>
+    <string name="notifications_session_alarm_content_text">Rappel pour un événement</string>
+    <string name="notifications_session_alarm_channel_name">Rappels pour les événements</string>
     <string name="trace_droid_app_chooser_title">Ouvrir le brouillon avec …</string>
     <string name="trace_droid_button_title_later">Peut-être plus tard</string>
     <string name="trace_droid_button_title_no">Non</string>
@@ -60,13 +60,13 @@
     </string>
     <string name="dlg_delete_all_favorites_delete_all">Tout supprimer</string>
     <string name="dlg_delete_all_favorites">Supprimer tous les favoris \?</string>
-    <string name="event_duration">
+    <string name="session_duration">
         <xliff:g example="45" id="duration">%1$d</xliff:g> min.</string>
     <string name="day_separator">Jour <xliff:g example="2" id="day_of_congress">%1$d</xliff:g> - <xliff:g example="29.12.2014" id="date_of_congress_day">%2$s</xliff:g>
     </string>
     <string name="choose_to_delete">Sélectionnez des conférences</string>
     <string name="invalid_url">URL invalide</string>
-    <string name="starred_lectures">Favoris</string>
+    <string name="starred_sessions">Favoris</string>
     <string name="general_settings">Général</string>
     <string name="no_favorites">Aucune conférence dans les favoris</string>
     <string name="issues">&lt;a href=https://github.com/EventFahrplan/EventFahrplan/issues&gt;Problèmes ou demandes de fonctionnalités&lt;/a&gt;</string>
@@ -75,8 +75,8 @@
     <string name="default_alarm_time_dialog_title">Heure par défaut du rappel</string>
     <string name="default_alarm_time_title">Choisissez l’heure par défaut du rappel</string>
     <string name="choose_alarm_time">Choisissez l’heure du rappel</string>
-    <string name="event_detail_section_title_links">Liens</string>
-    <string name="event_online">Événement en ligne</string>
+    <string name="session_details_section_title_links">Liens</string>
+    <string name="session_details_section_title_session_online">Événement en ligne</string>
     <string name="appVersion">Version de l’application %s</string>
     <string name="fahrplan">Programme</string>
     <string name="day">Jour</string>
@@ -118,7 +118,7 @@
     <string name="dlg_certificate_message_fmt"> Échec lors de l’établissement d’une connexion sécurisée.
 \n (<xliff:g example="Unknown Error" id="error">%s</xliff:g>) </string>
     <string name="menu_item_title_set_alarm">Réglage du rappel</string>
-    <string name="menu_item_title_close_event_details">Fermer les détails de l’évènement</string>
+    <string name="menu_item_title_close_session_details">Fermer les détails de l’évènement</string>
     <string name="notifications_schedule_update_channel_name">Changements dans le programme</string>
     <string name="trace_droid_dialog_title"> Envoi du rapport de crash du programme <xliff:g example="33C3 Schedule" id="appName">%s</xliff:g> … </string>
     <string name="schedule_changes">Changements du programme</string>
