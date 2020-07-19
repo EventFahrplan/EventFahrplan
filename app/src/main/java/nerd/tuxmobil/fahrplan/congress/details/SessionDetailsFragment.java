@@ -3,7 +3,6 @@ package nerd.tuxmobil.fahrplan.congress.details;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.AssetManager;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -42,6 +41,7 @@ import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
 import nerd.tuxmobil.fahrplan.congress.utils.FeedbackUrlComposer;
 import nerd.tuxmobil.fahrplan.congress.utils.SessionUrlComposer;
 import nerd.tuxmobil.fahrplan.congress.utils.StringUtils;
+import nerd.tuxmobil.fahrplan.congress.utils.TypefaceFactory;
 import nerd.tuxmobil.fahrplan.congress.wiki.WikiSessionUtils;
 
 
@@ -63,16 +63,6 @@ public class SessionDetailsFragment extends Fragment implements
     private String sessionId;
 
     private String title;
-
-    private Typeface boldCondensed;
-
-    private Typeface black;
-
-    private Typeface light;
-
-    private Typeface regular;
-
-    private Typeface bold;
 
     private Session session;
 
@@ -143,12 +133,7 @@ public class SessionDetailsFragment extends Fragment implements
 
         Activity activity = requireActivity();
         if (hasArguments) {
-            AssetManager assetManager = activity.getAssets();
-            boldCondensed = Typeface.createFromAsset(assetManager, "Roboto-BoldCondensed.ttf");
-            black = Typeface.createFromAsset(assetManager, "Roboto-Black.ttf");
-            light = Typeface.createFromAsset(assetManager, "Roboto-Light.ttf");
-            regular = Typeface.createFromAsset(assetManager, "Roboto-Regular.ttf");
-            bold = Typeface.createFromAsset(assetManager, "Roboto-Bold.ttf");
+            TypefaceFactory typefaceFactory = TypefaceFactory.getNewInstance(activity);
 
             // Detailbar
 
@@ -177,7 +162,8 @@ public class SessionDetailsFragment extends Fragment implements
             // Title
 
             t = view.findViewById(R.id.session_details_content_title_view);
-            setUpTextView(t, boldCondensed, title);
+            Typeface typeface = typefaceFactory.getTypeface(viewModel.getTitleFont());
+            setUpTextView(t, typeface, title);
 
             // Subtitle
 
@@ -185,7 +171,8 @@ public class SessionDetailsFragment extends Fragment implements
             if (TextUtils.isEmpty(subtitle)) {
                 t.setVisibility(View.GONE);
             } else {
-                setUpTextView(t, light, subtitle);
+                typeface = typefaceFactory.getTypeface(viewModel.getSubtitleFont());
+                setUpTextView(t, typeface, subtitle);
             }
 
             // Speakers
@@ -194,7 +181,8 @@ public class SessionDetailsFragment extends Fragment implements
             if (TextUtils.isEmpty(spkr)) {
                 t.setVisibility(View.GONE);
             } else {
-                setUpTextView(t, black, spkr);
+                typeface = typefaceFactory.getTypeface(viewModel.getSpeakersFont());
+                setUpTextView(t, typeface, spkr);
             }
 
             // Abstract
@@ -204,7 +192,8 @@ public class SessionDetailsFragment extends Fragment implements
                 t.setVisibility(View.GONE);
             } else {
                 abstractt = StringUtils.getHtmlLinkFromMarkdown(abstractt);
-                setUpHtmlTextView(t, bold, abstractt);
+                typeface = typefaceFactory.getTypeface(viewModel.getAbstractFont());
+                setUpHtmlTextView(t, typeface, abstractt);
             }
 
             // Description
@@ -214,7 +203,8 @@ public class SessionDetailsFragment extends Fragment implements
                 t.setVisibility(View.GONE);
             } else {
                 descr = StringUtils.getHtmlLinkFromMarkdown(descr);
-                setUpHtmlTextView(t, regular, descr);
+                typeface = typefaceFactory.getTypeface(viewModel.getDescriptionFont());
+                setUpHtmlTextView(t, typeface, descr);
             }
 
             // Links
@@ -225,18 +215,21 @@ public class SessionDetailsFragment extends Fragment implements
                 linksView.setVisibility(View.GONE);
                 t.setVisibility(View.GONE);
             } else {
-                linksView.setTypeface(bold);
+                typeface = typefaceFactory.getTypeface(viewModel.getLinksSectionFont());
+                linksView.setTypeface(typeface);
                 MyApp.LogDebug(LOG_TAG, "show links");
                 linksView.setVisibility(View.VISIBLE);
                 links = links.replaceAll("\\),", ")<br>");
                 links = StringUtils.getHtmlLinkFromMarkdown(links);
-                setUpHtmlTextView(t, regular, links);
+                typeface = typefaceFactory.getTypeface(viewModel.getLinksFont());
+                setUpHtmlTextView(t, typeface, links);
             }
 
             // Session online
 
             final TextView sessionOnlineSectionView = view.findViewById(R.id.session_details_content_session_online_section_view);
-            sessionOnlineSectionView.setTypeface(bold);
+            typeface = typefaceFactory.getTypeface(viewModel.getSessionOnlineSectionFont());
+            sessionOnlineSectionView.setTypeface(typeface);
             final TextView sessionOnlineLinkView = view.findViewById(R.id.session_details_content_session_online_view);
             if (WikiSessionUtils.containsWikiLink(links)) {
                 sessionOnlineSectionView.setVisibility(View.GONE);
@@ -250,7 +243,8 @@ public class SessionDetailsFragment extends Fragment implements
                     sessionOnlineSectionView.setVisibility(View.VISIBLE);
                     sessionOnlineLinkView.setVisibility(View.VISIBLE);
                     String sessionLink = "<a href=\"" + sessionUrl + "\">" + sessionUrl + "</a>";
-                    setUpHtmlTextView(sessionOnlineLinkView, regular, sessionLink);
+                    typeface = typefaceFactory.getTypeface(viewModel.getSessionOnlineFont());
+                    setUpHtmlTextView(sessionOnlineLinkView, typeface, sessionLink);
                 }
             }
 

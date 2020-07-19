@@ -66,6 +66,7 @@ import nerd.tuxmobil.fahrplan.congress.sharing.JsonSessionFormat;
 import nerd.tuxmobil.fahrplan.congress.sharing.SessionSharer;
 import nerd.tuxmobil.fahrplan.congress.sharing.SimpleSessionFormat;
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
+import nerd.tuxmobil.fahrplan.congress.utils.TypefaceFactory;
 
 import static nerd.tuxmobil.fahrplan.congress.extensions.Resource.getNormalizedBoxHeight;
 
@@ -154,8 +155,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         context = requireContext();
-        light = Typeface.createFromAsset(
-                context.getAssets(), "Roboto-Light.ttf");
+        light = TypefaceFactory.getNewInstance(context).getRobotoLight();
         sessionViewDrawer = new SessionViewDrawer(context);
     }
 

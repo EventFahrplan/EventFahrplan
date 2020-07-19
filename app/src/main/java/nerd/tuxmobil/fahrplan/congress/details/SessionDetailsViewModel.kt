@@ -10,6 +10,7 @@ import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.sharing.JsonSessionFormat
 import nerd.tuxmobil.fahrplan.congress.sharing.SimpleSessionFormat
 import nerd.tuxmobil.fahrplan.congress.utils.FeedbackUrlComposer
+import nerd.tuxmobil.fahrplan.congress.utils.Font
 
 class SessionDetailsViewModel @JvmOverloads constructor(
 
@@ -49,6 +50,16 @@ class SessionDetailsViewModel @JvmOverloads constructor(
         fun closeDetails()
         fun refreshUI()
     }
+
+    val abstractFont = Font.Roboto.Bold
+    val descriptionFont = Font.Roboto.Regular
+    val linksFont = Font.Roboto.Regular
+    val linksSectionFont = Font.Roboto.Bold
+    val sessionOnlineFont = Font.Roboto.Regular
+    val sessionOnlineSectionFont = Font.Roboto.Black
+    val speakersFont = Font.Roboto.Black
+    val subtitleFont = Font.Roboto.Light
+    val titleFont = Font.Roboto.BoldCondensed
 
     fun onOptionsMenuItemSelected(menuItemId: Int) = when (menuItemId) {
         R.id.menu_item_feedback -> {
