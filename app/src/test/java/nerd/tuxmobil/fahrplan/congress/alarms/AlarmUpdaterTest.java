@@ -7,9 +7,9 @@ import org.junit.runners.JUnit4;
 
 import nerd.tuxmobil.fahrplan.congress.utils.ConferenceTimeFrame;
 
+import static info.metadude.android.eventfahrplan.commons.testing.Verification.verifyInvokedNever;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 
@@ -44,9 +44,9 @@ public class AlarmUpdaterTest {
         // 2015-12-27T11:30:00+0100, in seconds: 1451212200000
         long interval = alarmUpdater.calculateInterval(1451212200000L, false);
         assertThat(interval).isEqualTo(7200000L);
-        verify(mockListener, never()).onCancelAlarm();
-        verify(mockListener, never()).onRescheduleAlarm(NEVER_USED, NEVER_USED);
-        verify(mockListener, never()).onRescheduleInitialAlarm(NEVER_USED, NEVER_USED);
+        verifyInvokedNever(mockListener).onCancelAlarm();
+        verifyInvokedNever(mockListener).onRescheduleAlarm(NEVER_USED, NEVER_USED);
+        verifyInvokedNever(mockListener).onRescheduleInitialAlarm(NEVER_USED, NEVER_USED);
     }
 
     @Test
@@ -56,7 +56,7 @@ public class AlarmUpdaterTest {
         assertThat(interval).isEqualTo(7200000L);
         verify(mockListener).onCancelAlarm();
         verify(mockListener).onRescheduleInitialAlarm(7200000L, 1451212200000L + 7200000L);
-        verify(mockListener, never()).onRescheduleAlarm(NEVER_USED, NEVER_USED);
+        verifyInvokedNever(mockListener).onRescheduleAlarm(NEVER_USED, NEVER_USED);
     }
 
     // Time == End
@@ -67,8 +67,8 @@ public class AlarmUpdaterTest {
         long interval = alarmUpdater.calculateInterval(1451516400000L, false);
         assertThat(interval).isEqualTo(0);
         verify(mockListener).onCancelAlarm();
-        verify(mockListener, never()).onRescheduleAlarm(NEVER_USED, NEVER_USED);
-        verify(mockListener, never()).onRescheduleInitialAlarm(NEVER_USED, NEVER_USED);
+        verifyInvokedNever(mockListener).onRescheduleAlarm(NEVER_USED, NEVER_USED);
+        verifyInvokedNever(mockListener).onRescheduleInitialAlarm(NEVER_USED, NEVER_USED);
     }
 
     @Test
@@ -77,8 +77,8 @@ public class AlarmUpdaterTest {
         long interval = alarmUpdater.calculateInterval(1451516400000L, true);
         assertThat(interval).isEqualTo(0);
         verify(mockListener).onCancelAlarm();
-        verify(mockListener, never()).onRescheduleAlarm(NEVER_USED, NEVER_USED);
-        verify(mockListener, never()).onRescheduleInitialAlarm(NEVER_USED, NEVER_USED);
+        verifyInvokedNever(mockListener).onRescheduleAlarm(NEVER_USED, NEVER_USED);
+        verifyInvokedNever(mockListener).onRescheduleInitialAlarm(NEVER_USED, NEVER_USED);
     }
 
     // Time < Start, diff == 1 second
@@ -90,7 +90,7 @@ public class AlarmUpdaterTest {
         assertThat(interval).isEqualTo(7200000L);
         verify(mockListener).onCancelAlarm();
         verify(mockListener).onRescheduleAlarm(7200000L, 1451170800000L);
-        verify(mockListener, never()).onRescheduleInitialAlarm(NEVER_USED, NEVER_USED);
+        verifyInvokedNever(mockListener).onRescheduleInitialAlarm(NEVER_USED, NEVER_USED);
     }
 
     @Test
@@ -100,7 +100,7 @@ public class AlarmUpdaterTest {
         assertThat(interval).isEqualTo(7200000L);
         verify(mockListener).onCancelAlarm();
         verify(mockListener).onRescheduleInitialAlarm(7200000L, 1451170800000L);
-        verify(mockListener, never()).onRescheduleAlarm(NEVER_USED, NEVER_USED);
+        verifyInvokedNever(mockListener).onRescheduleAlarm(NEVER_USED, NEVER_USED);
     }
 
     // Time < Start, diff == 1 day
@@ -112,7 +112,7 @@ public class AlarmUpdaterTest {
         assertThat(interval).isEqualTo(7200000L);
         verify(mockListener).onCancelAlarm();
         verify(mockListener).onRescheduleAlarm(7200000L, 1451170800000L);
-        verify(mockListener, never()).onRescheduleInitialAlarm(NEVER_USED, NEVER_USED);
+        verifyInvokedNever(mockListener).onRescheduleInitialAlarm(NEVER_USED, NEVER_USED);
     }
 
     @Test
@@ -122,7 +122,7 @@ public class AlarmUpdaterTest {
         assertThat(interval).isEqualTo(7200000L);
         verify(mockListener).onCancelAlarm();
         verify(mockListener).onRescheduleInitialAlarm(7200000L, 1451170800000L);
-        verify(mockListener, never()).onRescheduleAlarm(NEVER_USED, NEVER_USED);
+        verifyInvokedNever(mockListener).onRescheduleAlarm(NEVER_USED, NEVER_USED);
     }
 
     // Time < Start, diff > 1 day
@@ -133,9 +133,9 @@ public class AlarmUpdaterTest {
         long interval = alarmUpdater.calculateInterval(1451084399000L, false);
         assertThat(interval).isEqualTo(86400000L);
         // TODO Is this behavior intended?
-        verify(mockListener, never()).onCancelAlarm();
-        verify(mockListener, never()).onRescheduleAlarm(NEVER_USED, NEVER_USED);
-        verify(mockListener, never()).onRescheduleInitialAlarm(NEVER_USED, NEVER_USED);
+        verifyInvokedNever(mockListener).onCancelAlarm();
+        verifyInvokedNever(mockListener).onRescheduleAlarm(NEVER_USED, NEVER_USED);
+        verifyInvokedNever(mockListener).onRescheduleInitialAlarm(NEVER_USED, NEVER_USED);
     }
 
     @Test
@@ -145,7 +145,7 @@ public class AlarmUpdaterTest {
         assertThat(interval).isEqualTo(86400000L);
         verify(mockListener).onCancelAlarm();
         verify(mockListener).onRescheduleInitialAlarm(86400000L, 1451084399000L + 86400000L);
-        verify(mockListener, never()).onRescheduleAlarm(NEVER_USED, NEVER_USED);
+        verifyInvokedNever(mockListener).onRescheduleAlarm(NEVER_USED, NEVER_USED);
     }
 
 }

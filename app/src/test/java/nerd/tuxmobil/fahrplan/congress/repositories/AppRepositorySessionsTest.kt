@@ -1,7 +1,10 @@
 package nerd.tuxmobil.fahrplan.congress.repositories
 
 import com.google.common.truth.Truth.assertThat
-import com.nhaarman.mockitokotlin2.*
+import com.nhaarman.mockitokotlin2.doReturn
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.whenever
+import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedOnce
 import info.metadude.android.eventfahrplan.database.repositories.SessionsDatabaseRepository
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toSessionsDatabaseModel
 import nerd.tuxmobil.fahrplan.congress.models.Session
@@ -109,7 +112,7 @@ class AppRepositorySessionsTest {
     fun `loadChangedSessions passes through an empty list`() {
         whenever(sessionsDatabaseRepository.querySessionsOrderedByDateUtc()) doReturn emptyList()
         assertThat(testableAppRepository.loadChangedSessions()).isEmpty()
-        verify(sessionsDatabaseRepository, once()).querySessionsOrderedByDateUtc()
+        verifyInvokedOnce(sessionsDatabaseRepository).querySessionsOrderedByDateUtc()
     }
 
     @Test
@@ -118,14 +121,14 @@ class AppRepositorySessionsTest {
         whenever(sessionsDatabaseRepository.querySessionsOrderedByDateUtc()) doReturn sessions.toSessionsDatabaseModel()
         val changedSessions = testableAppRepository.loadChangedSessions()
         assertThat(changedSessions).containsExactly(SESSION_1002, SESSION_1003, SESSION_1004, SESSION_1005)
-        verify(sessionsDatabaseRepository, once()).querySessionsOrderedByDateUtc()
+        verifyInvokedOnce(sessionsDatabaseRepository).querySessionsOrderedByDateUtc()
     }
 
     @Test
     fun `loadStarredSessions passes through an empty list`() {
         whenever(sessionsDatabaseRepository.querySessionsOrderedByDateUtc()) doReturn emptyList()
         assertThat(testableAppRepository.loadStarredSessions()).isEmpty()
-        verify(sessionsDatabaseRepository, once()).querySessionsOrderedByDateUtc()
+        verifyInvokedOnce(sessionsDatabaseRepository).querySessionsOrderedByDateUtc()
     }
 
     @Test
@@ -134,14 +137,14 @@ class AppRepositorySessionsTest {
         whenever(sessionsDatabaseRepository.querySessionsOrderedByDateUtc()) doReturn sessions.toSessionsDatabaseModel()
         val starredSessions = testableAppRepository.loadStarredSessions()
         assertThat(starredSessions).containsExactly(SESSION_2002)
-        verify(sessionsDatabaseRepository, once()).querySessionsOrderedByDateUtc()
+        verifyInvokedOnce(sessionsDatabaseRepository).querySessionsOrderedByDateUtc()
     }
 
     @Test
     fun `loadUncanceledSessionsForDayIndex passes through an empty list`() {
         whenever(sessionsDatabaseRepository.querySessionsForDayIndexOrderedByDateUtc(anyInt())) doReturn emptyList()
         assertThat(testableAppRepository.loadUncanceledSessionsForDayIndex(0)).isEmpty()
-        verify(sessionsDatabaseRepository, once()).querySessionsForDayIndexOrderedByDateUtc(anyInt())
+        verifyInvokedOnce(sessionsDatabaseRepository).querySessionsForDayIndexOrderedByDateUtc(anyInt())
     }
 
     @Test
@@ -150,9 +153,7 @@ class AppRepositorySessionsTest {
         whenever(sessionsDatabaseRepository.querySessionsForDayIndexOrderedByDateUtc(anyInt())) doReturn sessions.toSessionsDatabaseModel()
         val uncanceledSessions = testableAppRepository.loadUncanceledSessionsForDayIndex(0)
         assertThat(uncanceledSessions).containsExactly(SESSION_3001)
-        verify(sessionsDatabaseRepository, once()).querySessionsForDayIndexOrderedByDateUtc(anyInt())
+        verifyInvokedOnce(sessionsDatabaseRepository).querySessionsForDayIndexOrderedByDateUtc(anyInt())
     }
-
-    private fun once() = times(1)
 
 }

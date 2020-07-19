@@ -7,9 +7,8 @@ import android.content.Intent
 import android.net.Uri
 import com.google.common.truth.Truth.assertThat
 import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.never
-import com.nhaarman.mockitokotlin2.times
-import com.nhaarman.mockitokotlin2.verify
+import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedNever
+import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedOnce
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
 import nerd.tuxmobil.fahrplan.congress.models.SchedulableAlarm
 import org.junit.Test
@@ -32,8 +31,8 @@ class AlarmServicesTest {
         }
         val alarmServices = AlarmServices(alarmManager, onPendingIntentBroadcast)
         alarmServices.scheduleSessionAlarm(mockContext, alarm, true)
-        verify(alarmManager, once()).cancel(pendingIntent)
-        verify(alarmManager, once()).set(AlarmManager.RTC_WAKEUP, alarm.startTime, pendingIntent)
+        verifyInvokedOnce(alarmManager).cancel(pendingIntent)
+        verifyInvokedOnce(alarmManager).set(AlarmManager.RTC_WAKEUP, alarm.startTime, pendingIntent)
     }
 
     @Test
@@ -47,8 +46,8 @@ class AlarmServicesTest {
         }
         val alarmServices = AlarmServices(alarmManager, onPendingIntentBroadcast)
         alarmServices.scheduleSessionAlarm(mockContext, alarm, false)
-        verify(alarmManager, never()).cancel(pendingIntent)
-        verify(alarmManager, once()).set(AlarmManager.RTC_WAKEUP, alarm.startTime, pendingIntent)
+        verifyInvokedNever(alarmManager).cancel(pendingIntent)
+        verifyInvokedOnce(alarmManager).set(AlarmManager.RTC_WAKEUP, alarm.startTime, pendingIntent)
     }
 
     @Test
@@ -62,7 +61,7 @@ class AlarmServicesTest {
         }
         val alarmServices = AlarmServices(alarmManager, onPendingIntentBroadcast)
         alarmServices.discardSessionAlarm(mockContext, alarm)
-        verify(alarmManager, once()).cancel(pendingIntent)
+        verifyInvokedOnce(alarmManager).cancel(pendingIntent)
     }
 
 
@@ -78,7 +77,7 @@ class AlarmServicesTest {
         }
         val alarmServices = AlarmServices(alarmManager, onPendingIntentBroadcast)
         alarmServices.discardAutoUpdateAlarm(mockContext)
-        verify(alarmManager, once()).cancel(pendingIntent)
+        verifyInvokedOnce(alarmManager).cancel(pendingIntent)
     }
 
     // TODO Move into a unit test for AlarmReceiver once it is written.
@@ -91,7 +90,5 @@ class AlarmServicesTest {
         assertThat(intent.action).isEqualTo(action)
         assertThat(intent.data).isEqualTo(Uri.parse("alarm://${alarm.sessionId}"))
     }
-
-    private fun once() = times(1)
 
 }

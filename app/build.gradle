@@ -164,11 +164,11 @@ dependencies {
     implementation Libs.snackengagePlayrate
     implementation Libs.tracedroid
 
+    testImplementation project(":commons-testing")
     testImplementation Libs.annotation
     testImplementation Libs.assertjAndroid
     testImplementation Libs.junit
     testImplementation Libs.mockitoCore
-    testImplementation Libs.mockitoKotlin
     testImplementation Libs.threeTenBp
     testImplementation Libs.truth
 
