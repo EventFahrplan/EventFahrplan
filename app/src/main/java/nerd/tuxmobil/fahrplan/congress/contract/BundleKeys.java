@@ -18,22 +18,9 @@ public interface BundleKeys {
     String BUNDLE_KEY_SESSION_ALARM_DAY_INDEX =
             "nerd.tuxmobil.fahrplan.congress.SESSION_ALARM_DAY_INDEX";
 
-    String SESSION_TITLE =
-            "nerd.tuxmobil.fahrplan.congress.SESSION_TITLE";
-    String SESSION_SUBTITLE =
-            "nerd.tuxmobil.fahrplan.congress.SESSION_SUBTITLE";
-    String SESSION_ABSTRACT =
-            "nerd.tuxmobil.fahrplan.congress.SESSION_ABSTRACT";
-    String SESSION_DESCRIPTION =
-            "nerd.tuxmobil.fahrplan.congress.SESSION_DESCRIPTION";
-    String SESSION_SPEAKERS =
-            "nerd.tuxmobil.fahrplan.congress.SESSION_SPEAKERS";
-    String SESSION_LINKS =
-            "nerd.tuxmobil.fahrplan.congress.SESSION_LINKS";
+    // Session details
     String SESSION_ID =
             "nerd.tuxmobil.fahrplan.congress.SESSION_ID";
-    String SESSION_ROOM =
-            "nerd.tuxmobil.fahrplan.congress.SESSION_ROOM";
 
     // Side pane
     String SIDEPANE =

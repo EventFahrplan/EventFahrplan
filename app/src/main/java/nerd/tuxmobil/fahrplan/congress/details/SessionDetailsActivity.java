@@ -20,14 +20,7 @@ public class SessionDetailsActivity extends BaseActivity {
     public static void startForResult(@NonNull Activity activity,
                                       @NonNull Session session) {
         Intent intent = new Intent(activity, SessionDetailsActivity.class);
-        intent.putExtra(BundleKeys.SESSION_TITLE, session.title);
-        intent.putExtra(BundleKeys.SESSION_SUBTITLE, session.subtitle);
-        intent.putExtra(BundleKeys.SESSION_ABSTRACT, session.abstractt);
-        intent.putExtra(BundleKeys.SESSION_DESCRIPTION, session.description);
-        intent.putExtra(BundleKeys.SESSION_SPEAKERS, session.getFormattedSpeakers());
-        intent.putExtra(BundleKeys.SESSION_LINKS, session.links);
         intent.putExtra(BundleKeys.SESSION_ID, session.sessionId);
-        intent.putExtra(BundleKeys.SESSION_ROOM, session.room);
         activity.startActivityForResult(intent, MyApp.SESSION_VIEW);
     }
 
@@ -53,22 +46,7 @@ public class SessionDetailsActivity extends BaseActivity {
         if (intent != null && findViewById(R.id.detail) != null) {
             SessionDetailsFragment sessionDetailsFragment = new SessionDetailsFragment();
             Bundle args = new Bundle();
-            args.putString(BundleKeys.SESSION_TITLE,
-                    intent.getStringExtra(BundleKeys.SESSION_TITLE));
-            args.putString(BundleKeys.SESSION_SUBTITLE,
-                    intent.getStringExtra(BundleKeys.SESSION_SUBTITLE));
-            args.putString(BundleKeys.SESSION_ABSTRACT,
-                    intent.getStringExtra(BundleKeys.SESSION_ABSTRACT));
-            args.putString(BundleKeys.SESSION_DESCRIPTION,
-                    intent.getStringExtra(BundleKeys.SESSION_DESCRIPTION));
-            args.putString(BundleKeys.SESSION_SPEAKERS,
-                    intent.getStringExtra(BundleKeys.SESSION_SPEAKERS));
-            args.putString(BundleKeys.SESSION_LINKS,
-                    intent.getStringExtra(BundleKeys.SESSION_LINKS));
-            args.putString(BundleKeys.SESSION_ID,
-                    intent.getStringExtra(BundleKeys.SESSION_ID));
-            args.putString(BundleKeys.SESSION_ROOM,
-                    intent.getStringExtra(BundleKeys.SESSION_ROOM));
+            args.putString(BundleKeys.SESSION_ID, intent.getStringExtra(BundleKeys.SESSION_ID));
             sessionDetailsFragment.setArguments(args);
             replaceFragment(R.id.detail, sessionDetailsFragment,
                     SessionDetailsFragment.FRAGMENT_TAG);

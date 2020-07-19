@@ -2,6 +2,7 @@ package nerd.tuxmobil.fahrplan.congress.details
 
 import android.net.Uri
 import androidx.core.net.toUri
+import info.metadude.android.eventfahrplan.commons.temporal.DateFormatter
 import nerd.tuxmobil.fahrplan.congress.BuildConfig
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.models.Session
@@ -11,6 +12,9 @@ import nerd.tuxmobil.fahrplan.congress.sharing.JsonSessionFormat
 import nerd.tuxmobil.fahrplan.congress.sharing.SimpleSessionFormat
 import nerd.tuxmobil.fahrplan.congress.utils.FeedbackUrlComposer
 import nerd.tuxmobil.fahrplan.congress.utils.Font
+import nerd.tuxmobil.fahrplan.congress.utils.SessionUrlComposer
+import nerd.tuxmobil.fahrplan.congress.utils.StringUtils
+import nerd.tuxmobil.fahrplan.congress.wiki.containsWikiLink
 
 class SessionDetailsViewModel @JvmOverloads constructor(
 
@@ -35,6 +39,15 @@ class SessionDetailsViewModel @JvmOverloads constructor(
         },
         private val toC3NavRoomName: Session.() -> String = {
             RoomForC3NavConverter.convert(this.room)
+        },
+        private val toFormattedDateUtc: Session.() -> String = {
+            DateFormatter.newInstance().getFormattedDateTimeShort(this.dateUTC)
+        },
+        private val toHtmlLink: String.() -> String = {
+            StringUtils.getHtmlLinkFromMarkdown(this)
+        },
+        private val toSessionUrl: Session.() -> String = {
+            SessionUrlComposer(this).getSessionUrl()
         }
 
 ) {
@@ -51,6 +64,53 @@ class SessionDetailsViewModel @JvmOverloads constructor(
         fun refreshUI()
     }
 
+    val hasDateUtc get() = session.dateUTC > 0
+    val formattedDateUtc get() = session.toFormattedDateUtc()
+
+    val isSessionIdEmpty get() = sessionId.isEmpty()
+    val sessionId: String get() = session.sessionId
+
+    val roomName get() = session.room ?: ""
+
+    val title get() = session.title ?: ""
+
+    val isSubtitleEmpty get() = subtitle.isEmpty()
+    val subtitle get() = session.subtitle ?: ""
+
+    val isSpeakersEmpty get() = speakers.isEmpty()
+    val speakers get() = session.speakers ?: ""
+
+    val isAbstractEmpty get() = session.abstractt.isNullOrEmpty()
+    val formattedAbstract get() = session.abstractt.toHtmlLink()
+
+    val isDescriptionEmpty get() = session.description.isNullOrEmpty()
+    val formattedDescription get() = session.description.toHtmlLink()
+
+    val isLinksEmpty get() = session.getLinks().isEmpty()
+    val formattedLinks: String
+        get() {
+            val html = session.getLinks().replace("\\),".toRegex(), ")<br>")
+            return html.toHtmlLink()
+        }
+
+    val hasWikiLinks get() = session.getLinks().containsWikiLink()
+
+    val sessionLink: String
+        get() {
+            val url = session.toSessionUrl()
+            return if (url.isEmpty()) "" else "<a href=\"$url\">$url</a>"
+        }
+
+    val isFlaggedAsFavorite get() = session.highlight
+
+    fun hasAlarm() = session.hasAlarm
+
+    val isFeedbackUrlEmpty get() = feedbackUrl.isEmpty()
+    private val feedbackUrl get() = session.toFeedbackUrl(sessionFeedbackUrlTemplate)
+
+    val isC3NavRoomNameEmpty get() = c3NavRoomName.isEmpty()
+    private val c3NavRoomName get() = session.toC3NavRoomName()
+
     val abstractFont = Font.Roboto.Bold
     val descriptionFont = Font.Roboto.Regular
     val linksFont = Font.Roboto.Regular
@@ -63,7 +123,7 @@ class SessionDetailsViewModel @JvmOverloads constructor(
 
     fun onOptionsMenuItemSelected(menuItemId: Int) = when (menuItemId) {
         R.id.menu_item_feedback -> {
-            val uri = session.toFeedbackUrl(sessionFeedbackUrlTemplate).toUri()
+            val uri = feedbackUrl.toUri()
             viewActionHandler.openFeedback(uri)
             true
         }
@@ -110,13 +170,11 @@ class SessionDetailsViewModel @JvmOverloads constructor(
             true
         }
         R.id.menu_item_navigate -> {
-            val roomName = session.toC3NavRoomName()
-            val uri = "$c3NavBaseUrl$roomName".toUri()
+            val uri = "$c3NavBaseUrl$c3NavRoomName".toUri()
             viewActionHandler.navigateToRoom(uri)
             true
         }
         else -> false
     }
-
 
 }

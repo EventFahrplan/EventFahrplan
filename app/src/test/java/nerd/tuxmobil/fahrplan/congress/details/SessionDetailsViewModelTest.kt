@@ -115,4 +115,34 @@ class SessionDetailsViewModelTest {
         verifyInvokedOnce(viewActionHandler).navigateToRoom("https://c3nav.foo/garden".toUri())
     }
 
+    @Test
+    fun `formattedLinks returns an empty string when no links are present`() {
+        assertThat(defaultViewModel.formattedLinks).isEmpty()
+    }
+
+    @Test
+    fun `formattedLinks returns HTML formatted links`() {
+        val links = "[VOC projects](https://www.voc.com/projects/),[POC](https://poc.com/QXut1XBymAk)"
+        val session = Session("S5").apply { this.links = links }
+        val viewModel = SessionDetailsViewModel(repository, session, viewActionHandler)
+        val expectedFormattedLinks = """<a href="https://www.voc.com/projects/">VOC projects</a><br><a href="https://poc.com/QXut1XBymAk">POC</a>"""
+        assertThat(viewModel.formattedLinks).isEqualTo(expectedFormattedLinks)
+    }
+
+    @Test
+    fun `sessionLink returns an empty string when no session URL is composed`() {
+        val toSessionUrl: Session.() -> String = { "" }
+        val viewModel = SessionDetailsViewModel(repository, actualSession, viewActionHandler, toSessionUrl = toSessionUrl)
+        assertThat(viewModel.sessionLink).isEmpty()
+    }
+
+    @Test
+    fun `sessionLink returns the HTML formatted session link`() {
+        val toSessionUrl: Session.() -> String = { "https://conference.net/program/${this.sessionId}.html" }
+        val session = Session("famous-talk")
+        val viewModel = SessionDetailsViewModel(repository, session, viewActionHandler, toSessionUrl = toSessionUrl)
+        val expectedSessionLink = """<a href="https://conference.net/program/famous-talk.html">https://conference.net/program/famous-talk.html</a>"""
+        assertThat(viewModel.sessionLink).isEqualTo(expectedSessionLink)
+    }
+
 }

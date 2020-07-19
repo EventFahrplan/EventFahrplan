@@ -378,14 +378,7 @@ public class MainActivity extends BaseActivity implements
             FragmentManager fm = getSupportFragmentManager();
             fm.popBackStack(SessionDetailsFragment.FRAGMENT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             Bundle args = new Bundle();
-            args.putString(BundleKeys.SESSION_TITLE, session.title);
-            args.putString(BundleKeys.SESSION_SUBTITLE, session.subtitle);
-            args.putString(BundleKeys.SESSION_ABSTRACT, session.abstractt);
-            args.putString(BundleKeys.SESSION_DESCRIPTION, session.description);
-            args.putString(BundleKeys.SESSION_SPEAKERS, session.getFormattedSpeakers());
-            args.putString(BundleKeys.SESSION_LINKS, session.links);
             args.putString(BundleKeys.SESSION_ID, session.sessionId);
-            args.putString(BundleKeys.SESSION_ROOM, session.room);
             args.putBoolean(BundleKeys.SIDEPANE, true);
             SessionDetailsFragment fragment = new SessionDetailsFragment();
             fragment.setArguments(args);

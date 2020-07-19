@@ -22,9 +22,6 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
-import org.ligi.tracedroid.logging.Log;
-
-import info.metadude.android.eventfahrplan.commons.temporal.DateFormatter;
 import nerd.tuxmobil.fahrplan.congress.BuildConfig;
 import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.R;
@@ -33,16 +30,11 @@ import nerd.tuxmobil.fahrplan.congress.calendar.CalendarSharing;
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.extensions.Strings;
 import nerd.tuxmobil.fahrplan.congress.models.Session;
-import nerd.tuxmobil.fahrplan.congress.navigation.RoomForC3NavConverter;
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 import nerd.tuxmobil.fahrplan.congress.sharing.SessionSharer;
 import nerd.tuxmobil.fahrplan.congress.sidepane.OnSidePaneCloseListener;
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
-import nerd.tuxmobil.fahrplan.congress.utils.FeedbackUrlComposer;
-import nerd.tuxmobil.fahrplan.congress.utils.SessionUrlComposer;
-import nerd.tuxmobil.fahrplan.congress.utils.StringUtils;
 import nerd.tuxmobil.fahrplan.congress.utils.TypefaceFactory;
-import nerd.tuxmobil.fahrplan.congress.wiki.WikiSessionUtils;
 
 
 public class SessionDetailsFragment extends Fragment implements
@@ -62,21 +54,7 @@ public class SessionDetailsFragment extends Fragment implements
 
     private String sessionId;
 
-    private String title;
-
     private Session session;
-
-    private String subtitle;
-
-    private String spkr;
-
-    private String abstractt;
-
-    private String descr;
-
-    private String links;
-
-    private String room;
 
     private boolean sidePane = false;
 
@@ -116,13 +94,6 @@ public class SessionDetailsFragment extends Fragment implements
     public void setArguments(Bundle args) {
         super.setArguments(args);
         sessionId = args.getString(BundleKeys.SESSION_ID);
-        title = args.getString(BundleKeys.SESSION_TITLE);
-        subtitle = args.getString(BundleKeys.SESSION_SUBTITLE);
-        spkr = args.getString(BundleKeys.SESSION_SPEAKERS);
-        abstractt = args.getString(BundleKeys.SESSION_ABSTRACT);
-        descr = args.getString(BundleKeys.SESSION_DESCRIPTION);
-        links = args.getString(BundleKeys.SESSION_LINKS);
-        room = args.getString(BundleKeys.SESSION_ROOM);
         sidePane = args.getBoolean(BundleKeys.SIDEPANE, false);
         hasArguments = true;
     }
@@ -139,79 +110,73 @@ public class SessionDetailsFragment extends Fragment implements
 
             TextView t;
             t = view.findViewById(R.id.session_detailbar_date_time_view);
-            if (session != null && session.dateUTC > 0) {
-                t.setText(DateFormatter.newInstance().getFormattedDateTimeShort(session.dateUTC));
+            if (viewModel.getHasDateUtc()) {
+                t.setText(viewModel.getFormattedDateUtc());
             } else {
                 t.setText("");
             }
 
             t = view.findViewById(R.id.session_detailbar_location_view);
-            if (TextUtils.isEmpty(room)) {
-                t.setText("");
-            } else {
-                t.setText(room);
-            }
+            t.setText(viewModel.getRoomName());
 
             t = view.findViewById(R.id.session_detailbar_session_id_view);
-            if (TextUtils.isEmpty(sessionId)) {
+            if (viewModel.isSessionIdEmpty()) {
                 t.setText("");
             } else {
-                t.setText(getString(R.string.session_details_session_id, sessionId));
+                t.setText(getString(R.string.session_details_session_id, viewModel.getSessionId()));
             }
 
             // Title
 
             t = view.findViewById(R.id.session_details_content_title_view);
             Typeface typeface = typefaceFactory.getTypeface(viewModel.getTitleFont());
-            setUpTextView(t, typeface, title);
+            setUpTextView(t, typeface, viewModel.getTitle());
 
             // Subtitle
 
             t = view.findViewById(R.id.session_details_content_subtitle_view);
-            if (TextUtils.isEmpty(subtitle)) {
+            if (viewModel.isSubtitleEmpty()) {
                 t.setVisibility(View.GONE);
             } else {
                 typeface = typefaceFactory.getTypeface(viewModel.getSubtitleFont());
-                setUpTextView(t, typeface, subtitle);
+                setUpTextView(t, typeface, viewModel.getSubtitle());
             }
 
             // Speakers
 
             t = view.findViewById(R.id.session_details_content_speakers_view);
-            if (TextUtils.isEmpty(spkr)) {
+            if (viewModel.isSpeakersEmpty()) {
                 t.setVisibility(View.GONE);
             } else {
                 typeface = typefaceFactory.getTypeface(viewModel.getSpeakersFont());
-                setUpTextView(t, typeface, spkr);
+                setUpTextView(t, typeface, viewModel.getSpeakers());
             }
 
             // Abstract
 
             t = view.findViewById(R.id.session_details_content_abstract_view);
-            if (TextUtils.isEmpty(abstractt)) {
+            if (viewModel.isAbstractEmpty()) {
                 t.setVisibility(View.GONE);
             } else {
-                abstractt = StringUtils.getHtmlLinkFromMarkdown(abstractt);
                 typeface = typefaceFactory.getTypeface(viewModel.getAbstractFont());
-                setUpHtmlTextView(t, typeface, abstractt);
+                setUpHtmlTextView(t, typeface, viewModel.getFormattedAbstract());
             }
 
             // Description
 
             t = view.findViewById(R.id.session_details_content_description_view);
-            if (TextUtils.isEmpty(descr)) {
+            if (viewModel.isDescriptionEmpty()) {
                 t.setVisibility(View.GONE);
             } else {
-                descr = StringUtils.getHtmlLinkFromMarkdown(descr);
                 typeface = typefaceFactory.getTypeface(viewModel.getDescriptionFont());
-                setUpHtmlTextView(t, typeface, descr);
+                setUpHtmlTextView(t, typeface, viewModel.getFormattedDescription());
             }
 
             // Links
 
             TextView linksView = view.findViewById(R.id.session_details_content_links_section_view);
             t = view.findViewById(R.id.session_details_content_links_view);
-            if (TextUtils.isEmpty(links)) {
+            if (viewModel.isLinksEmpty()) {
                 linksView.setVisibility(View.GONE);
                 t.setVisibility(View.GONE);
             } else {
@@ -219,10 +184,8 @@ public class SessionDetailsFragment extends Fragment implements
                 linksView.setTypeface(typeface);
                 MyApp.LogDebug(LOG_TAG, "show links");
                 linksView.setVisibility(View.VISIBLE);
-                links = links.replaceAll("\\),", ")<br>");
-                links = StringUtils.getHtmlLinkFromMarkdown(links);
                 typeface = typefaceFactory.getTypeface(viewModel.getLinksFont());
-                setUpHtmlTextView(t, typeface, links);
+                setUpHtmlTextView(t, typeface, viewModel.getFormattedLinks());
             }
 
             // Session online
@@ -231,18 +194,17 @@ public class SessionDetailsFragment extends Fragment implements
             typeface = typefaceFactory.getTypeface(viewModel.getSessionOnlineSectionFont());
             sessionOnlineSectionView.setTypeface(typeface);
             final TextView sessionOnlineLinkView = view.findViewById(R.id.session_details_content_session_online_view);
-            if (WikiSessionUtils.containsWikiLink(links)) {
+            if (viewModel.getHasWikiLinks()) {
                 sessionOnlineSectionView.setVisibility(View.GONE);
                 sessionOnlineLinkView.setVisibility(View.GONE);
             } else {
-                String sessionUrl = new SessionUrlComposer(session).getSessionUrl();
-                if (sessionUrl.isEmpty()) {
+                String sessionLink = viewModel.getSessionLink();
+                if (sessionLink.isEmpty()) {
                     sessionOnlineSectionView.setVisibility(View.GONE);
                     sessionOnlineLinkView.setVisibility(View.GONE);
                 } else {
                     sessionOnlineSectionView.setVisibility(View.VISIBLE);
                     sessionOnlineLinkView.setVisibility(View.VISIBLE);
-                    String sessionLink = "<a href=\"" + sessionUrl + "\">" + sessionUrl + "</a>";
                     typeface = typefaceFactory.getTypeface(viewModel.getSessionOnlineFont());
                     setUpHtmlTextView(sessionOnlineLinkView, typeface, sessionLink);
                 }
@@ -277,31 +239,28 @@ public class SessionDetailsFragment extends Fragment implements
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.detailmenu, menu);
         MenuItem item;
-        if (session != null) {
-            if (session.highlight) {
-                item = menu.findItem(R.id.menu_item_flag_as_favorite);
-                if (item != null) {
-                    item.setVisible(false);
-                }
-                item = menu.findItem(R.id.menu_item_unflag_as_favorite);
-                if (item != null) {
-                    item.setVisible(true);
-                }
+        if (viewModel.isFlaggedAsFavorite()) {
+            item = menu.findItem(R.id.menu_item_flag_as_favorite);
+            if (item != null) {
+                item.setVisible(false);
             }
-            if (session.hasAlarm) {
-                item = menu.findItem(R.id.menu_item_set_alarm);
-                if (item != null) {
-                    item.setVisible(false);
-                }
-                item = menu.findItem(R.id.menu_item_delete_alarm);
-                if (item != null) {
-                    item.setVisible(true);
-                }
+            item = menu.findItem(R.id.menu_item_unflag_as_favorite);
+            if (item != null) {
+                item.setVisible(true);
+            }
+        }
+        if (viewModel.hasAlarm()) {
+            item = menu.findItem(R.id.menu_item_set_alarm);
+            if (item != null) {
+                item.setVisible(false);
+            }
+            item = menu.findItem(R.id.menu_item_delete_alarm);
+            if (item != null) {
+                item.setVisible(true);
             }
         }
         item = menu.findItem(R.id.menu_item_feedback);
-        String feedbackUrl = new FeedbackUrlComposer(session, SCHEDULE_FEEDBACK_URL).getFeedbackUrl();
-        if (SHOW_FEEDBACK_MENU_ITEM && !TextUtils.isEmpty(feedbackUrl)) {
+        if (SHOW_FEEDBACK_MENU_ITEM && !viewModel.isFeedbackUrlEmpty()) {
             if (item != null) {
                 item.setVisible(true);
             }
@@ -318,7 +277,7 @@ public class SessionDetailsFragment extends Fragment implements
         }
         item = menu.findItem(R.id.menu_item_navigate);
         if (item != null) {
-            boolean isVisible = !getRoomConvertedForC3Nav().isEmpty();
+            boolean isVisible = !viewModel.isC3NavRoomNameEmpty();
             item.setVisible(isVisible);
         }
         if (BuildConfig.ENABLE_CHAOSFLIX_EXPORT) {
@@ -329,15 +288,6 @@ public class SessionDetailsFragment extends Fragment implements
         if (item != null) {
             item.setVisible(true);
         }
-    }
-
-    @NonNull
-    private String getRoomConvertedForC3Nav() {
-        String currentRoom = requireActivity().getIntent().getStringExtra(BundleKeys.SESSION_ROOM);
-        if (currentRoom == null) {
-            currentRoom = room;
-        }
-        return RoomForC3NavConverter.convert(currentRoom);
     }
 
     @NonNull
@@ -358,11 +308,7 @@ public class SessionDetailsFragment extends Fragment implements
 
     private void onAlarmTimesIndexPicked(int alarmTimesIndex) {
         Activity activity = requireActivity();
-        if (session != null) {
-            FahrplanMisc.addAlarm(activity, appRepository, session, alarmTimesIndex);
-        } else {
-            Log.e(getClass().getSimpleName(), "onAlarmTimesIndexPicked: session: null. alarmTimesIndex: " + alarmTimesIndex);
-        }
+        FahrplanMisc.addAlarm(activity, appRepository, session, alarmTimesIndex);
         refreshUI(activity);
     }
 
