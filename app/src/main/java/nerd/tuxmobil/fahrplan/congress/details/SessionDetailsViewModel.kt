@@ -19,8 +19,7 @@ import nerd.tuxmobil.fahrplan.congress.wiki.containsWikiLink
 class SessionDetailsViewModel @JvmOverloads constructor(
 
         private val repository: AppRepository,
-        // TODO Pass sessionId and load Session from AppRepository as soon as Fragment depends on ViewModel
-        private val session: Session,
+        val sessionId: String,
         private val viewActionHandler: ViewActionHandler,
 
         // Session conversion parameters
@@ -64,11 +63,13 @@ class SessionDetailsViewModel @JvmOverloads constructor(
         fun refreshUI()
     }
 
+    // Needs to be a "var" so it can be modified (highlight, hasAlarm).
+    private var session: Session = repository.readSessionBySessionId(sessionId)
+
     val hasDateUtc get() = session.dateUTC > 0
     val formattedDateUtc get() = session.toFormattedDateUtc()
 
     val isSessionIdEmpty get() = sessionId.isEmpty()
-    val sessionId: String get() = session.sessionId
 
     val roomName get() = session.room ?: ""
 
@@ -104,6 +105,9 @@ class SessionDetailsViewModel @JvmOverloads constructor(
     val isFlaggedAsFavorite get() = session.highlight
 
     fun hasAlarm() = session.hasAlarm
+    fun setHasAlarm(hasAlarm: Boolean) {
+        session.hasAlarm = hasAlarm
+    }
 
     val isFeedbackUrlEmpty get() = feedbackUrl.isEmpty()
     private val feedbackUrl get() = session.toFeedbackUrl(sessionFeedbackUrlTemplate)

@@ -54,8 +54,6 @@ public class SessionDetailsFragment extends Fragment implements
 
     private String sessionId;
 
-    private Session session;
-
     private boolean sidePane = false;
 
     private boolean hasArguments = false;
@@ -66,10 +64,7 @@ public class SessionDetailsFragment extends Fragment implements
     public void onAttach(Context context) {
         super.onAttach(context);
         appRepository = AppRepository.INSTANCE;
-        // TODO Move loading into the viewModel as soon as all view updated depend on the viewModel.
-        // Double check if the favorites menu icon updates correctly when being pressed.
-        session = sessionOf(sessionId);
-        viewModel = new SessionDetailsViewModel(appRepository, session, this);
+        viewModel = new SessionDetailsViewModel(appRepository, sessionId, this);
     }
 
     @Override
@@ -290,11 +285,6 @@ public class SessionDetailsFragment extends Fragment implements
         }
     }
 
-    @NonNull
-    private Session sessionOf(String sessionId) {
-        return appRepository.readSessionBySessionId(sessionId);
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == SESSION_DETAILS_FRAGMENT_REQUEST_CODE &&
@@ -307,8 +297,11 @@ public class SessionDetailsFragment extends Fragment implements
     }
 
     private void onAlarmTimesIndexPicked(int alarmTimesIndex) {
+        Session session = appRepository.readSessionBySessionId(sessionId);
         Activity activity = requireActivity();
         FahrplanMisc.addAlarm(activity, appRepository, session, alarmTimesIndex);
+        // Update the ViewModel session because refreshUI refers to its state.
+        viewModel.setHasAlarm(session.hasAlarm);
         refreshUI(activity);
     }
 
