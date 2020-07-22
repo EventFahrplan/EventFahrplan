@@ -1,7 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.utils
 
-import android.net.Uri
 import androidx.annotation.StringRes
+import androidx.core.net.toUri
 import nerd.tuxmobil.fahrplan.congress.R
 
 class EngelsystemUrlValidator(
@@ -22,7 +22,7 @@ class EngelsystemUrlValidator(
             errorMessage = urlValidator.getErrorMessage()
             return false
         }
-        val uri = Uri.parse(url)
+        val uri = url.toUri()
         val query = uri.query
         if (query.isNullOrEmpty()) {
             errorMessage = R.string.validation_error_url_without_query

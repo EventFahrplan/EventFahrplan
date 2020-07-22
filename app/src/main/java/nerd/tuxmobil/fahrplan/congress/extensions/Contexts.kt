@@ -7,13 +7,13 @@ import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
-import androidx.core.content.ContextCompat
+import androidx.core.content.getSystemService
 
-fun Context.getAlarmManager() = ContextCompat.getSystemService(this, AlarmManager::class.java)!!
+fun Context.getAlarmManager() = getSystemService<AlarmManager>()!!
 
-fun Context.getLayoutInflater() = ContextCompat.getSystemService(this, LayoutInflater::class.java)!!
+fun Context.getLayoutInflater() = getSystemService<LayoutInflater>()!!
 
-fun Context.getNotificationManager() = ContextCompat.getSystemService(this, NotificationManager::class.java)!!
+fun Context.getNotificationManager() = getSystemService<NotificationManager>()!!
 
 fun Context.startActivity(intent: Intent, onActivityNotFound: () -> Unit) {
     if (intent.resolveActivity(packageManager) == null) {

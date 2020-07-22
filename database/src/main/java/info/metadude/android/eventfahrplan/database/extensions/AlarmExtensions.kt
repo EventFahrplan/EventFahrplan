@@ -1,15 +1,21 @@
 package info.metadude.android.eventfahrplan.database.extensions
 
-import android.content.ContentValues
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.*
+import androidx.core.content.contentValuesOf
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.ALARM_TIME_IN_MIN
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.DAY
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.DISPLAY_TIME
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.SESSION_ID
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.SESSION_TITLE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.TIME
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.TIME_TEXT
 import info.metadude.android.eventfahrplan.database.models.Alarm
 
-fun Alarm.toContentValues() = ContentValues().apply {
-    put(ALARM_TIME_IN_MIN, alarmTimeInMin)
-    put(DAY, day)
-    put(DISPLAY_TIME, displayTime)
-    put(SESSION_ID, sessionId)
-    put(SESSION_TITLE, title)
-    put(TIME, time)
-    put(TIME_TEXT, timeText)
-}
+fun Alarm.toContentValues() = contentValuesOf(
+        ALARM_TIME_IN_MIN to alarmTimeInMin,
+        DAY to day,
+        DISPLAY_TIME to displayTime,
+        SESSION_ID to sessionId,
+        SESSION_TITLE to title,
+        TIME to time,
+        TIME_TEXT to timeText
+)

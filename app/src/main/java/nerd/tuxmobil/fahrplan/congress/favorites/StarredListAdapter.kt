@@ -1,10 +1,10 @@
 package nerd.tuxmobil.fahrplan.congress.favorites
 
 import android.content.Context
-import android.view.View
 import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import info.metadude.android.eventfahrplan.commons.temporal.DateFormatter
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.R
@@ -57,15 +57,15 @@ class StarredListAdapter internal constructor(
             speakers.textOrHide = session.formattedSpeakers
             lang.textOrHide = session.lang
             lang.contentDescription = session.getLanguageContentDescription(context)
-            day.visibility = View.GONE
+            day.isVisible = false
             val timeText = DateFormatter.newInstance().getFormattedTime(session.dateUTC)
             time.textOrHide = timeText
             room.textOrHide = session.room
             val durationText = context.getString(R.string.session_duration, session.duration)
             duration.textOrHide = durationText
-            video.visibility = View.GONE
-            noVideo.visibility = View.GONE
-            withoutVideoRecording.visibility = if (session.recordingOptOut) View.VISIBLE else View.GONE
+            video.isVisible = false
+            noVideo.isVisible = false
+            withoutVideoRecording.isVisible = session.recordingOptOut
         }
     }
 

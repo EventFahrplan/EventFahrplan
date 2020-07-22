@@ -4,7 +4,7 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
+import androidx.core.net.toUri
 import com.google.common.truth.Truth.assertThat
 import com.nhaarman.mockitokotlin2.mock
 import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedNever
@@ -88,7 +88,7 @@ class AlarmServicesTest {
         assertThat(intent.getStringExtra(BundleKeys.ALARM_TITLE)).isEqualTo(alarm.sessionTitle)
         assertThat(intent.component!!.className).isEqualTo(AlarmReceiver::class.java.name)
         assertThat(intent.action).isEqualTo(action)
-        assertThat(intent.data).isEqualTo(Uri.parse("alarm://${alarm.sessionId}"))
+        assertThat(intent.data).isEqualTo("alarm://${alarm.sessionId}".toUri())
     }
 
 }

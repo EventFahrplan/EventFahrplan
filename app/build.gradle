@@ -118,6 +118,10 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
         sourceCompatibility JavaVersion.VERSION_1_8
     }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8
+    }
 }
 
 unMock {
@@ -152,6 +156,7 @@ dependencies {
 
     implementation Libs.appCompat
     implementation Libs.constraintLayout
+    implementation Libs.coreKtx
     implementation Libs.emailIntentBuilder
     implementation Libs.kotlinCoroutinesAndroid
     implementation Libs.kotlinCoroutinesCore
