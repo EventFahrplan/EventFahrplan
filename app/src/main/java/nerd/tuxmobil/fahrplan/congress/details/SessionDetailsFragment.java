@@ -180,7 +180,7 @@ public class SessionDetailsFragment extends Fragment {
             if (TextUtils.isEmpty(sessionId)) {
                 t.setText("");
             } else {
-                t.setText("ID: " + sessionId);
+                t.setText(getString(R.string.session_details_session_id, sessionId));
             }
 
             // Title
