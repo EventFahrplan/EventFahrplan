@@ -25,8 +25,6 @@ import androidx.fragment.app.Fragment;
 
 import org.ligi.tracedroid.logging.Log;
 
-import java.util.Locale;
-
 import info.metadude.android.eventfahrplan.commons.temporal.DateFormatter;
 import nerd.tuxmobil.fahrplan.congress.BuildConfig;
 import nerd.tuxmobil.fahrplan.congress.MyApp;
@@ -66,8 +64,6 @@ public class SessionDetailsFragment extends Fragment {
     private String sessionId;
 
     private String title;
-
-    private Locale locale;
 
     private Typeface boldCondensed;
 
@@ -154,8 +150,6 @@ public class SessionDetailsFragment extends Fragment {
             light = Typeface.createFromAsset(assetManager, "Roboto-Light.ttf");
             regular = Typeface.createFromAsset(assetManager, "Roboto-Regular.ttf");
             bold = Typeface.createFromAsset(assetManager, "Roboto-Bold.ttf");
-
-            locale = getResources().getConfiguration().locale;
 
             session = sessionOf(sessionId);
 
