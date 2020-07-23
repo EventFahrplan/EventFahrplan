@@ -40,9 +40,9 @@ public class StarredListActivity extends BaseActivity implements
     }
 
     @Override
-    public void onSessionListClick(Session session, boolean requiresScheduleReload) {
+    public void onSessionListClick(Session session) {
         if (session != null) {
-            SessionDetailsActivity.startForResult(this, session, session.day, requiresScheduleReload);
+            SessionDetailsActivity.startForResult(this, session, session.day);
         }
     }
 

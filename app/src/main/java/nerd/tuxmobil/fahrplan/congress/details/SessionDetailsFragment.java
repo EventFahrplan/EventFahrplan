@@ -93,8 +93,6 @@ public class SessionDetailsFragment extends Fragment {
 
     private boolean sidePane = false;
 
-    private boolean requiresScheduleReload = false;
-
     private boolean hasArguments = false;
 
     @Override
@@ -134,7 +132,6 @@ public class SessionDetailsFragment extends Fragment {
         links = args.getString(BundleKeys.SESSION_LINKS);
         room = args.getString(BundleKeys.SESSION_ROOM);
         sidePane = args.getBoolean(BundleKeys.SIDEPANE, false);
-        requiresScheduleReload = args.getBoolean(BundleKeys.REQUIRES_SCHEDULE_RELOAD, false);
         hasArguments = true;
     }
 

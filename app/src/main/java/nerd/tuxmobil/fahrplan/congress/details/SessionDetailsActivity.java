@@ -19,8 +19,7 @@ public class SessionDetailsActivity extends BaseActivity {
 
     public static void startForResult(@NonNull Activity activity,
                                       @NonNull Session session,
-                                      int sessionDay,
-                                      boolean requiresScheduleReload) {
+                                      int sessionDay) {
         Intent intent = new Intent(activity, SessionDetailsActivity.class);
         intent.putExtra(BundleKeys.SESSION_TITLE, session.title);
         intent.putExtra(BundleKeys.SESSION_SUBTITLE, session.subtitle);
@@ -31,7 +30,6 @@ public class SessionDetailsActivity extends BaseActivity {
         intent.putExtra(BundleKeys.SESSION_ID, session.sessionId);
         intent.putExtra(BundleKeys.SESSION_DAY, sessionDay);
         intent.putExtra(BundleKeys.SESSION_ROOM, session.room);
-        intent.putExtra(BundleKeys.REQUIRES_SCHEDULE_RELOAD, requiresScheduleReload);
         activity.startActivityForResult(intent, MyApp.SESSION_VIEW);
     }
 
@@ -75,8 +73,6 @@ public class SessionDetailsActivity extends BaseActivity {
                     intent.getIntExtra(BundleKeys.SESSION_DAY, 0));
             args.putString(BundleKeys.SESSION_ROOM,
                     intent.getStringExtra(BundleKeys.SESSION_ROOM));
-            args.putBoolean(BundleKeys.REQUIRES_SCHEDULE_RELOAD,
-                    intent.getBooleanExtra(BundleKeys.REQUIRES_SCHEDULE_RELOAD, false));
             sessionDetailsFragment.setArguments(args);
             replaceFragment(R.id.detail, sessionDetailsFragment,
                     SessionDetailsFragment.FRAGMENT_TAG);

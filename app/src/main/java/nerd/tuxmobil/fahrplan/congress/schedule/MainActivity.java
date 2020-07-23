@@ -83,7 +83,6 @@ public class MainActivity extends BaseActivity implements
     protected AppRepository appRepository;
 
     private ProgressBar progressBar = null;
-    private boolean requiresScheduleReload = false;
     private boolean shouldScrollToCurrent = true;
     private boolean showUpdateAction = true;
     private boolean isScreenLocked = false;
@@ -322,16 +321,11 @@ public class MainActivity extends BaseActivity implements
     void showChangesDialog() {
         Fragment fragment = findFragment(ChangesDialog.FRAGMENT_TAG);
         if (fragment == null) {
-            requiresScheduleReload = true;
             List<Session> sessions = appRepository.loadChangedSessions();
             Meta meta = appRepository.readMeta();
             String scheduleVersion = meta.getVersion();
             ChangeStatistic statistic = new ChangeStatistic(sessions);
-            DialogFragment changesDialog = ChangesDialog.newInstance(
-                    scheduleVersion,
-                    statistic,
-                    requiresScheduleReload
-            );
+            DialogFragment changesDialog = ChangesDialog.newInstance(scheduleVersion, statistic);
             changesDialog.show(getSupportFragmentManager(), ChangesDialog.FRAGMENT_TAG);
         }
     }
@@ -367,7 +361,7 @@ public class MainActivity extends BaseActivity implements
                 startActivityForResult(intent, MyApp.SETTINGS);
                 return true;
             case R.id.menu_item_schedule_changes:
-                openSessionChanges(requiresScheduleReload);
+                openSessionChanges();
                 return true;
             case R.id.menu_item_favorites:
                 openFavorites();
@@ -377,7 +371,7 @@ public class MainActivity extends BaseActivity implements
         return super.onOptionsItemSelected(item);
     }
 
-    public void openSessionDetails(@NonNull Session session, int mDay, boolean requiresScheduleReload) {
+    public void openSessionDetails(@NonNull Session session, int mDay) {
         FrameLayout sidePane = findViewById(R.id.detail);
         MyApp.LogDebug(LOG_TAG, "openSessionDetails sidePane=" + sidePane);
         if (sidePane != null) {
@@ -394,13 +388,12 @@ public class MainActivity extends BaseActivity implements
             args.putInt(BundleKeys.SESSION_DAY, mDay);
             args.putString(BundleKeys.SESSION_ROOM, session.room);
             args.putBoolean(BundleKeys.SIDEPANE, true);
-            args.putBoolean(BundleKeys.REQUIRES_SCHEDULE_RELOAD, requiresScheduleReload);
             SessionDetailsFragment fragment = new SessionDetailsFragment();
             fragment.setArguments(args);
             replaceFragment(R.id.detail, fragment,
                     SessionDetailsFragment.FRAGMENT_TAG, SessionDetailsFragment.FRAGMENT_TAG);
         } else {
-            SessionDetailsActivity.startForResult(this, session, mDay, requiresScheduleReload);
+            SessionDetailsActivity.startForResult(this, session, mDay);
         }
     }
 
@@ -453,9 +446,9 @@ public class MainActivity extends BaseActivity implements
     }
 
     @Override
-    public void onSessionListClick(Session session, boolean requiresScheduleReload) {
+    public void onSessionListClick(Session session) {
         if (session != null) {
-            openSessionDetails(session, session.day, requiresScheduleReload);
+            openSessionDetails(session, session.day);
         }
     }
 
@@ -514,15 +507,14 @@ public class MainActivity extends BaseActivity implements
         }
     }
 
-    public void openSessionChanges(boolean requiresScheduleReload) {
+    public void openSessionChanges() {
         FrameLayout sidePane = findViewById(R.id.detail);
         if (sidePane == null) {
             Intent intent = new Intent(this, ChangeListActivity.class);
-            intent.putExtra(BundleKeys.REQUIRES_SCHEDULE_RELOAD, requiresScheduleReload);
             startActivity(intent);
         } else {
             sidePane.setVisibility(View.VISIBLE);
-            replaceFragment(R.id.detail, ChangeListFragment.newInstance(true, requiresScheduleReload),
+            replaceFragment(R.id.detail, ChangeListFragment.newInstance(true),
                     ChangeListFragment.FRAGMENT_TAG, ChangeListFragment.FRAGMENT_TAG);
         }
     }

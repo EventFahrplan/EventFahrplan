@@ -12,7 +12,6 @@ import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.base.AbstractListFragment;
 import nerd.tuxmobil.fahrplan.congress.base.BaseActivity;
-import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsActivity;
 import nerd.tuxmobil.fahrplan.congress.models.Session;
 
@@ -30,26 +29,17 @@ public class ChangeListActivity extends BaseActivity implements
         int actionBarColor = ContextCompat.getColor(this, R.color.colorActionBar);
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(actionBarColor));
 
-        boolean requiresScheduleReload = false;
-        Intent intent = getIntent();
-        if (intent != null) {
-            Bundle extras = intent.getExtras();
-            if (extras != null) {
-                requiresScheduleReload = extras.getBoolean(BundleKeys.REQUIRES_SCHEDULE_RELOAD, false);
-            }
-        }
-
         if (savedInstanceState == null) {
-            ChangeListFragment fragment = ChangeListFragment.newInstance(false, requiresScheduleReload);
+            ChangeListFragment fragment = ChangeListFragment.newInstance(false);
             addFragment(R.id.container, fragment, ChangeListFragment.FRAGMENT_TAG);
             MyApp.LogDebug(LOG_TAG, "onCreate fragment created");
         }
     }
 
     @Override
-    public void onSessionListClick(Session session, boolean requiresScheduleReload) {
+    public void onSessionListClick(Session session) {
         if (session != null) {
-            SessionDetailsActivity.startForResult(this, session, session.day, requiresScheduleReload);
+            SessionDetailsActivity.startForResult(this, session, session.day);
         }
     }
 

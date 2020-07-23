@@ -41,10 +41,6 @@ public interface BundleKeys {
     String SIDEPANE =
             "nerd.tuxmobil.fahrplan.congress.SIDEPANE";
 
-    // Schedule reload
-    String REQUIRES_SCHEDULE_RELOAD =
-            "nerd.tuxmobil.fahrplan.congress.REQUIRES_SCHEDULE_RELOAD";
-
     // Changes dialog
     String CHANGES_DLG_NUM_CHANGED =
             "nerd.tuxmobil.fahrplan.congress.ChangesDialog.NUM_CHANGES";
