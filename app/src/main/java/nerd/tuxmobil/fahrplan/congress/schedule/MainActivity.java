@@ -371,7 +371,7 @@ public class MainActivity extends BaseActivity implements
         return super.onOptionsItemSelected(item);
     }
 
-    public void openSessionDetails(@NonNull Session session, int mDay) {
+    public void openSessionDetails(@NonNull Session session) {
         FrameLayout sidePane = findViewById(R.id.detail);
         MyApp.LogDebug(LOG_TAG, "openSessionDetails sidePane=" + sidePane);
         if (sidePane != null) {
@@ -385,7 +385,6 @@ public class MainActivity extends BaseActivity implements
             args.putString(BundleKeys.SESSION_SPEAKERS, session.getFormattedSpeakers());
             args.putString(BundleKeys.SESSION_LINKS, session.links);
             args.putString(BundleKeys.SESSION_ID, session.sessionId);
-            args.putInt(BundleKeys.SESSION_DAY, mDay);
             args.putString(BundleKeys.SESSION_ROOM, session.room);
             args.putBoolean(BundleKeys.SIDEPANE, true);
             SessionDetailsFragment fragment = new SessionDetailsFragment();
@@ -393,7 +392,7 @@ public class MainActivity extends BaseActivity implements
             replaceFragment(R.id.detail, fragment,
                     SessionDetailsFragment.FRAGMENT_TAG, SessionDetailsFragment.FRAGMENT_TAG);
         } else {
-            SessionDetailsActivity.startForResult(this, session, mDay);
+            SessionDetailsActivity.startForResult(this, session);
         }
     }
 
@@ -448,7 +447,7 @@ public class MainActivity extends BaseActivity implements
     @Override
     public void onSessionListClick(Session session) {
         if (session != null) {
-            openSessionDetails(session, session.day);
+            openSessionDetails(session);
         }
     }
 

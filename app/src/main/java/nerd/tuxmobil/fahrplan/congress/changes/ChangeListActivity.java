@@ -39,7 +39,7 @@ public class ChangeListActivity extends BaseActivity implements
     @Override
     public void onSessionListClick(Session session) {
         if (session != null) {
-            SessionDetailsActivity.startForResult(this, session, session.day);
+            SessionDetailsActivity.startForResult(this, session);
         }
     }
 

@@ -32,8 +32,6 @@ public interface BundleKeys {
             "nerd.tuxmobil.fahrplan.congress.SESSION_LINKS";
     String SESSION_ID =
             "nerd.tuxmobil.fahrplan.congress.SESSION_ID";
-    String SESSION_DAY =
-            "nerd.tuxmobil.fahrplan.congress.SESSION_DAY";
     String SESSION_ROOM =
             "nerd.tuxmobil.fahrplan.congress.SESSION_ROOM";
 

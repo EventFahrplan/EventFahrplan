@@ -18,8 +18,7 @@ import nerd.tuxmobil.fahrplan.congress.models.Session;
 public class SessionDetailsActivity extends BaseActivity {
 
     public static void startForResult(@NonNull Activity activity,
-                                      @NonNull Session session,
-                                      int sessionDay) {
+                                      @NonNull Session session) {
         Intent intent = new Intent(activity, SessionDetailsActivity.class);
         intent.putExtra(BundleKeys.SESSION_TITLE, session.title);
         intent.putExtra(BundleKeys.SESSION_SUBTITLE, session.subtitle);
@@ -28,7 +27,6 @@ public class SessionDetailsActivity extends BaseActivity {
         intent.putExtra(BundleKeys.SESSION_SPEAKERS, session.getFormattedSpeakers());
         intent.putExtra(BundleKeys.SESSION_LINKS, session.links);
         intent.putExtra(BundleKeys.SESSION_ID, session.sessionId);
-        intent.putExtra(BundleKeys.SESSION_DAY, sessionDay);
         intent.putExtra(BundleKeys.SESSION_ROOM, session.room);
         activity.startActivityForResult(intent, MyApp.SESSION_VIEW);
     }
@@ -69,8 +67,6 @@ public class SessionDetailsActivity extends BaseActivity {
                     intent.getStringExtra(BundleKeys.SESSION_LINKS));
             args.putString(BundleKeys.SESSION_ID,
                     intent.getStringExtra(BundleKeys.SESSION_ID));
-            args.putInt(BundleKeys.SESSION_DAY,
-                    intent.getIntExtra(BundleKeys.SESSION_DAY, 0));
             args.putString(BundleKeys.SESSION_ROOM,
                     intent.getStringExtra(BundleKeys.SESSION_ROOM));
             sessionDetailsFragment.setArguments(args);

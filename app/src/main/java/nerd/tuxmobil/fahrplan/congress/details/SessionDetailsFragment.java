@@ -77,8 +77,6 @@ public class SessionDetailsFragment extends Fragment {
 
     private Session session;
 
-    private int day;
-
     private String subtitle;
 
     private String spkr;
@@ -122,7 +120,6 @@ public class SessionDetailsFragment extends Fragment {
     @Override
     public void setArguments(Bundle args) {
         super.setArguments(args);
-        day = args.getInt(BundleKeys.SESSION_DAY, 0);
         sessionId = args.getString(BundleKeys.SESSION_ID);
         title = args.getString(BundleKeys.SESSION_TITLE);
         subtitle = args.getString(BundleKeys.SESSION_SUBTITLE);
