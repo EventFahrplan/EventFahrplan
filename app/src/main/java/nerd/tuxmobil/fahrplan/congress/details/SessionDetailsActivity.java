@@ -3,22 +3,17 @@ package nerd.tuxmobil.fahrplan.congress.details;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
-import nerd.tuxmobil.fahrplan.congress.BuildConfig;
 import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.base.BaseActivity;
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.models.Session;
-import nerd.tuxmobil.fahrplan.congress.navigation.RoomForC3NavConverter;
 
 public class SessionDetailsActivity extends BaseActivity {
 
@@ -86,31 +81,6 @@ public class SessionDetailsActivity extends BaseActivity {
             replaceFragment(R.id.detail, sessionDetailsFragment,
                     SessionDetailsFragment.FRAGMENT_TAG);
         }
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        boolean isVisible = !getRoomConvertedForC3Nav().isEmpty();
-        menu.findItem(R.id.menu_item_navigate).setVisible(isVisible);
-        return super.onPrepareOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_item_navigate:
-                final Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse(BuildConfig.C3NAV_URL + getRoomConvertedForC3Nav()));
-                startActivity(intent);
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @NonNull
-    private String getRoomConvertedForC3Nav() {
-        final String currentRoom = getIntent().getStringExtra(BundleKeys.SESSION_ROOM);
-        return RoomForC3NavConverter.convert(currentRoom);
     }
 
 }
