@@ -16,7 +16,6 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.provider.Settings;
-import android.text.Html;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
@@ -29,6 +28,7 @@ import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices;
 import nerd.tuxmobil.fahrplan.congress.base.BaseActivity;
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.extensions.Contexts;
+import nerd.tuxmobil.fahrplan.congress.extensions.Strings;
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
 
@@ -141,7 +141,7 @@ public class SettingsActivity extends BaseActivity {
             PreferenceCategory engelsystemCategory = (PreferenceCategory) findPreference(getString(R.string.preference_engelsystem_category_key));
             if (BuildConfig.ENABLE_ENGELSYSTEM_SHIFTS) {
                 Preference urlPreference = findPreference(getString(R.string.preference_engelsystem_json_export_url_key));
-                urlPreference.setSummary(Html.fromHtml(getString(R.string.preference_engelsystem_json_export_url_summary)));
+                urlPreference.setSummary(Strings.toSpanned(getString(R.string.preference_engelsystem_json_export_url_summary)));
                 urlPreference.setOnPreferenceChangeListener((preference, newValue) -> {
                     String url = (String) newValue;
                     appRepository.updateEngelsystemShiftsUrl(url);
