@@ -67,12 +67,14 @@ class DateFormatterTest {
     }
 
     @Test
-    fun getFormattedDateTime() {
+    fun getFormattedShareable() {
         Locale.setDefault(Locale.US)
-        assertThat(DateFormatter.newInstance().getFormattedDateTime(timestamp)).isEqualTo("Tuesday, January 22, 2019 1:00 AM")
+        assertThat(DateFormatter.newInstance().getFormattedShareable(timestamp))
+                .isEqualTo("Tuesday, January 22, 2019 1:00 AM GMT+01:00")
 
         Locale.setDefault(Locale.GERMANY)
-        assertThat(DateFormatter.newInstance().getFormattedDateTime(timestamp)).isEqualTo("Dienstag, 22. Januar 2019 01:00")
+        assertThat(DateFormatter.newInstance().getFormattedShareable(timestamp))
+                .isEqualTo("Dienstag, 22. Januar 2019 01:00 GMT+01:00")
     }
 
     @Test

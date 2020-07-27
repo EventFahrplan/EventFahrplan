@@ -47,10 +47,10 @@ public class SimpleSessionFormat {
 
     private static void appendSession(StringBuilder builder, Session session) {
         long startTime = session.getStartTimeMilliseconds();
-        String formattedTime = DateFormatter.newInstance().getFormattedDateTime(startTime);
+        String shareableStartTime = DateFormatter.newInstance().getFormattedShareable(startTime);
         builder.append(session.title);
         builder.append(LINE_BREAK);
-        builder.append(formattedTime);
+        builder.append(shareableStartTime);
         builder.append(COMMA);
         builder.append(SPACE);
         builder.append(session.room);
