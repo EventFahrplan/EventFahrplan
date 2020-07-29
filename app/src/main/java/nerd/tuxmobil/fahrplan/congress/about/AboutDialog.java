@@ -1,7 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress.about;
 
 import android.os.Bundle;
-import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.text.method.MovementMethod;
 import android.view.LayoutInflater;
@@ -16,6 +15,7 @@ import androidx.fragment.app.DialogFragment;
 
 import nerd.tuxmobil.fahrplan.congress.BuildConfig;
 import nerd.tuxmobil.fahrplan.congress.R;
+import nerd.tuxmobil.fahrplan.congress.extensions.Strings;
 
 public class AboutDialog extends DialogFragment {
 
@@ -101,32 +101,32 @@ public class AboutDialog extends DialogFragment {
         MovementMethod movementMethod = LinkMovementMethod.getInstance();
 
         TextView logoCopyright = view.findViewById(R.id.about_copyright_logo_view);
-        logoCopyright.setText(Html.fromHtml(getString(R.string.copyright_logo)));
+        logoCopyright.setText(Strings.toSpanned(getString(R.string.copyright_logo)));
         logoCopyright.setLinkTextColor(linkTextColor);
         logoCopyright.setMovementMethod(movementMethod);
 
         TextView conferenceUrl = view.findViewById(R.id.about_conference_url_view);
-        conferenceUrl.setText(Html.fromHtml(getString(R.string.conference_url)));
+        conferenceUrl.setText(Strings.toSpanned(getString(R.string.conference_url)));
         conferenceUrl.setMovementMethod(movementMethod);
         conferenceUrl.setLinkTextColor(linkTextColor);
 
         TextView sourceCode = view.findViewById(R.id.about_source_code_view);
-        sourceCode.setText(Html.fromHtml(getString(R.string.source_code)));
+        sourceCode.setText(Strings.toSpanned(getString(R.string.source_code)));
         sourceCode.setMovementMethod(movementMethod);
         sourceCode.setLinkTextColor(linkTextColor);
 
         TextView issues = view.findViewById(R.id.about_issues_view);
-        issues.setText(Html.fromHtml(getString(R.string.issues)));
+        issues.setText(Strings.toSpanned(getString(R.string.issues)));
         issues.setMovementMethod(movementMethod);
         issues.setLinkTextColor(linkTextColor);
 
         TextView googlePlayStore = view.findViewById(R.id.about_google_play_view);
-        googlePlayStore.setText(Html.fromHtml(getString(R.string.google_play_store)));
+        googlePlayStore.setText(Strings.toSpanned(getString(R.string.google_play_store)));
         googlePlayStore.setMovementMethod(movementMethod);
         googlePlayStore.setLinkTextColor(linkTextColor);
 
         TextView dataPrivacyStatement = view.findViewById(R.id.about_data_privacy_statement_view);
-        dataPrivacyStatement.setText(Html.fromHtml(getString(R.string.about_data_privacy_statement)));
+        dataPrivacyStatement.setText(Strings.toSpanned(getString(R.string.about_data_privacy_statement)));
         dataPrivacyStatement.setMovementMethod(movementMethod);
         dataPrivacyStatement.setLinkTextColor(linkTextColor);
 

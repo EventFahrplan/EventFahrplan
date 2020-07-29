@@ -7,7 +7,6 @@ import android.content.res.AssetManager;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.Html;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
@@ -35,6 +34,7 @@ import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmTimePickerFragment;
 import nerd.tuxmobil.fahrplan.congress.calendar.CalendarSharing;
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
+import nerd.tuxmobil.fahrplan.congress.extensions.Strings;
 import nerd.tuxmobil.fahrplan.congress.models.Session;
 import nerd.tuxmobil.fahrplan.congress.navigation.RoomForC3NavConverter;
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
@@ -281,7 +281,7 @@ public class SessionDetailsFragment extends Fragment {
                                    @NonNull Typeface typeface,
                                    @NonNull String text) {
         textView.setTypeface(typeface);
-        textView.setText(Html.fromHtml(text), TextView.BufferType.SPANNABLE);
+        textView.setText(Strings.toSpanned(text), TextView.BufferType.SPANNABLE);
         textView.setLinkTextColor(ContextCompat.getColor(textView.getContext(), R.color.text_link_color));
         textView.setMovementMethod(new LinkMovementMethod());
         textView.setVisibility(View.VISIBLE);
