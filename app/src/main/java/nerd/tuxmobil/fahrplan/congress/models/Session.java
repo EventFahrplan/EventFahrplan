@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
+import androidx.core.util.ObjectsCompat;
 
 import info.metadude.android.eventfahrplan.commons.temporal.Moment;
 import info.metadude.android.eventfahrplan.network.serialization.FahrplanParser;
@@ -127,7 +128,7 @@ public class Session {
         return (dateUTC > 0) ? dateUTC : getStartTimeMoment().toMilliseconds();
     }
 
-    @SuppressWarnings("EqualsReplaceableByObjectsCall")
+    @SuppressWarnings("RedundantIfStatement")
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -139,20 +140,16 @@ public class Session {
         if (duration != session.duration) return false;
         if (recordingOptOut != session.recordingOptOut) return false;
         if (startTime != session.startTime) return false;
-        if (date != null ? !date.equals(session.date) : session.date != null) return false;
-        if (lang != null ? !lang.equals(session.lang) : session.lang != null) return false;
+        if (!ObjectsCompat.equals(date, session.date)) return false;
+        if (!ObjectsCompat.equals(lang, session.lang)) return false;
         if (!sessionId.equals(session.sessionId)) return false;
-        if (recordingLicense != null ? !recordingLicense.equals(session.recordingLicense) :
-                session.recordingLicense != null)
-            return false;
-        if (room != null ? !room.equals(session.room) : session.room != null) return false;
-        if (speakers != null ? !speakers.equals(session.speakers) : session.speakers != null)
-            return false;
-        if (subtitle != null ? !subtitle.equals(session.subtitle) : session.subtitle != null)
-            return false;
+        if (!ObjectsCompat.equals(recordingLicense, session.recordingLicense)) return false;
+        if (!ObjectsCompat.equals(room, session.room)) return false;
+        if (!ObjectsCompat.equals(speakers, session.speakers)) return false;
+        if (!ObjectsCompat.equals(subtitle, session.subtitle)) return false;
         if (!title.equals(session.title)) return false;
-        if (track != null ? !track.equals(session.track) : session.track != null) return false;
-        if (type != null ? !type.equals(session.type) : session.type != null) return false;
+        if (!ObjectsCompat.equals(track, session.track)) return false;
+        if (!ObjectsCompat.equals(type, session.type)) return false;
         if (dateUTC != session.dateUTC) return false;
 
         return true;
@@ -161,18 +158,18 @@ public class Session {
     @Override
     public int hashCode() {
         int result = title.hashCode();
-        result = 31 * result + (subtitle != null ? subtitle.hashCode() : 0);
+        result = 31 * result + ObjectsCompat.hashCode(subtitle);
         result = 31 * result + day;
-        result = 31 * result + (room != null ? room.hashCode() : 0);
+        result = 31 * result + ObjectsCompat.hashCode(room);
         result = 31 * result + startTime;
         result = 31 * result + duration;
-        result = 31 * result + (speakers != null ? speakers.hashCode() : 0);
-        result = 31 * result + (track != null ? track.hashCode() : 0);
+        result = 31 * result + ObjectsCompat.hashCode(speakers);
+        result = 31 * result + ObjectsCompat.hashCode(track);
         result = 31 * result + sessionId.hashCode();
-        result = 31 * result + (type != null ? type.hashCode() : 0);
-        result = 31 * result + (lang != null ? lang.hashCode() : 0);
-        result = 31 * result + (date != null ? date.hashCode() : 0);
-        result = 31 * result + (recordingLicense != null ? recordingLicense.hashCode() : 0);
+        result = 31 * result + ObjectsCompat.hashCode(type);
+        result = 31 * result + ObjectsCompat.hashCode(lang);
+        result = 31 * result + ObjectsCompat.hashCode(date);
+        result = 31 * result + ObjectsCompat.hashCode(recordingLicense);
         result = 31 * result + (recordingOptOut ? 1 : 0);
         result = 31 * result + (int) dateUTC;
         return result;
