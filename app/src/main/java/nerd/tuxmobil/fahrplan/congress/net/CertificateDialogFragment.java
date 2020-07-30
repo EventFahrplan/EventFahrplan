@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
@@ -18,7 +19,11 @@ import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateEncodingException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
+import kotlin.Pair;
 import nerd.tuxmobil.fahrplan.congress.BuildConfig;
 import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.utils.AlertDialogHelper;
@@ -38,6 +43,7 @@ public class CertificateDialogFragment extends DialogFragment {
 
     private OnCertAccepted listener;
 
+    @Nullable
     private X509Certificate[] chain;
 
     public static CertificateDialogFragment newInstance(String exceptionMessage) {
@@ -93,28 +99,19 @@ public class CertificateDialogFragment extends DialogFragment {
         }
 
         chain = TrustManagerFactory.getLastCertChain();
-
-        StringBuffer chainInfo = new StringBuffer(100);
-        int chainLength = chain == null ? 0 : chain.length;
-        for (int i = 0; i < chainLength; i++) {
-            // display certificate chain information
-            chainInfo.append("Certificate chain[" + i + "]:\n");
-            chainInfo.append("Subject: " + chain[i].getSubjectDN().toString()).append("\n");
-            chainInfo.append("Issuer: " + chain[i].getIssuerDN().toString()).append("\n");
-            // TODO Use commons.temporal.Moment class
-            chainInfo.append("Issued On: " + String.format("%02d.%02d.%04d",
-                    chain[i].getNotBefore().getDate(),
-                    chain[i].getNotBefore().getMonth() + 1,
-                    chain[i].getNotBefore().getYear() + 1900)).append("\n");
-            chainInfo.append("Expires On: " + String.format("%02d.%02d.%04d",
-                    chain[i].getNotAfter().getDate(),
-                    chain[i].getNotAfter().getMonth() + 1,
-                    chain[i].getNotAfter().getYear() + 1900)).append("\n");
-            chainInfo.append("SHA1 Fingerprint: " + getFingerPrint(chain[i])).append("\n");
-            if (i + 1 < chainLength) {
-                chainInfo.append("\n");
+        List<Pair<X509Certificate, String>> fingerprintsByCertificates;
+        if (chain == null) {
+            fingerprintsByCertificates = Collections.emptyList();
+        } else {
+            fingerprintsByCertificates = new ArrayList<>(chain.length);
+            for (X509Certificate certificate : chain) {
+                String fingerprint = getFingerPrint(certificate);
+                // Preserve the order of certificates in the chain.
+                fingerprintsByCertificates.add(new Pair<>(certificate, fingerprint));
             }
         }
+        CertificateChainFormatter certificateChainFormatter = CertificateChainFormatter.getNewInstance(
+                fingerprintsByCertificates, requireContext());
 
         Activity activity = requireActivity();
         AlertDialog.Builder builder = new AlertDialog.Builder(activity)
@@ -127,7 +124,7 @@ public class CertificateDialogFragment extends DialogFragment {
         View msgView = inflater.inflate(R.layout.cert_dialog, null);
         TextView messageView = msgView.findViewById(R.id.cert);
         String message = getString(R.string.dlg_certificate_message_fmt, exceptionMessage);
-        message += "\n\n" + chainInfo.toString();
+        message += "\n\n" + certificateChainFormatter.getCertificateChainInfo();
         messageView.setText(message);
         builder.setView(msgView);
         return builder.create();

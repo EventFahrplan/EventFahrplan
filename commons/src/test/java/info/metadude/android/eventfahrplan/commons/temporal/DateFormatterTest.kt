@@ -4,6 +4,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import java.util.Date
 import java.util.Locale
 import java.util.TimeZone
 
@@ -58,12 +59,21 @@ class DateFormatterTest {
     }
 
     @Test
-    fun getFormattedDate() {
+    fun `getFormattedDate with Long`() {
         Locale.setDefault(Locale.US)
         assertThat(DateFormatter.newInstance().getFormattedDate(timestamp)).isEqualTo("1/22/19")
 
         Locale.setDefault(Locale.GERMANY)
         assertThat(DateFormatter.newInstance().getFormattedDate(timestamp)).isEqualTo("22.01.19")
+    }
+
+    @Test
+    fun `getFormattedDate with Date`() {
+        Locale.setDefault(Locale.US)
+        assertThat(DateFormatter.newInstance().getFormattedDate(Date(timestamp))).isEqualTo("1/22/19")
+
+        Locale.setDefault(Locale.GERMANY)
+        assertThat(DateFormatter.newInstance().getFormattedDate(Date(timestamp))).isEqualTo("22.01.19")
     }
 
     @Test

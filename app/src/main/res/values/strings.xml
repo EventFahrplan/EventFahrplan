@@ -29,6 +29,26 @@
     <string name="OK">OK</string>
 
     <!-- CertificateDialog -->
+    <string name="certificate_info_headline" translatable="false">
+        Certificate chain[<xliff:g example="0" id="index">%d</xliff:g>]:
+    </string>
+    <string name="certificate_info_subject" translatable="false">
+        Subject: <xliff:g example="events.ccc.de" id="subject">%s</xliff:g>
+    </string>
+    <string name="certificate_info_issuer" translatable="false">
+        Issuer: <xliff:g example="Let's Encrypt" id="issuer">%s</xliff:g>
+    </string>
+    <string name="certificate_info_issued_on" translatable="false">
+        Issued on: <xliff:g example="12.07.2020" id="issuedOn">%s</xliff:g>
+    </string>
+    <string name="certificate_info_expires_on" translatable="false">
+        Expires on: <xliff:g example="10.10.2020" id="expiresOn">%s</xliff:g>
+    </string>
+    <string name="certificate_info_sha1_fingerprint" translatable="false">
+        SHA1 fingerprint:
+        <xliff:g example="95 36 C0 C8 6E 0B C5 AE 1F 3E 4B 37 58 D4 8E 3E DE 2F 67 E5" id="sha1">%s</xliff:g>
+    </string>
+
     <string name="dlg_certificate_message_fmt">
         Failed to establish secure connection.\n
         (<xliff:g example="Unknown Error" id="error">%s</xliff:g>)
