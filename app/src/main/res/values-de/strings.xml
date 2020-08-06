@@ -26,12 +26,11 @@
     <!-- AlertDialogHelper -->
     <string name="OK">OK</string>
 
-    <!-- CertificateDialog -->
+    <!-- CertificateErrorFragment -->
     <string name="dlg_certificate_message_fmt">
         Aufbau einer gesicherten Verbindung nicht möglich.\n
         (<xliff:g example="Unbekannter Fehler" id="error">%s</xliff:g>)
     </string>
-    <string name="dlg_invalid_certificate_title">Unbekanntem Zertifikat vertrauen?</string>
     <string name="dlg_invalid_certificate_could_not_apply">Zertifikat konnte nicht übernommen werden.</string>
 
     <!-- CustomHttpClient -->

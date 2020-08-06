@@ -17,8 +17,6 @@ import nerd.tuxmobil.fahrplan.congress.utils.ConferenceTimeFrame;
 
 public class MyApp extends Application {
 
-    public static Application app = null;
-
     public static final boolean DEBUG = false;
 
     public static Meta meta;
@@ -56,7 +54,6 @@ public class MyApp extends Application {
     public void onCreate() {
         super.onCreate();
         TraceDroid.init(this);
-        app = this;
         task_running = TASKS.NONE;
         AppRepository.INSTANCE.initialize(
                 getApplicationContext(),

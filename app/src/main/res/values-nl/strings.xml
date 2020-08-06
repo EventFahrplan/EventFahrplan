@@ -22,12 +22,11 @@
     <!-- AlertDialogHelper -->
     <string name="OK">OK</string>
 
-    <!-- CertificateDialog -->
+    <!-- CertificateErrorFragment -->
     <string name="dlg_certificate_message_fmt">
         Kan geen veilige verbinding tot stand brengen.\n
         (<xliff:g example="Onbekende error" id="error">%s</xliff:g>)
     </string>
-    <string name="dlg_invalid_certificate_title">Onbekend certificaat vertrouwen?</string>
     <string name="dlg_invalid_certificate_could_not_apply">Certificaat kon niet worden toegevoegd.</string>
 
     <!-- CustomHttpClient -->

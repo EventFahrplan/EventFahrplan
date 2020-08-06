@@ -54,9 +54,6 @@
     <!-- See: https://www.google.de/design/spec/components/dialogs.html#dialogs-specs -->
     <dimen name="alert_dialog_content_margin">24dp</dimen>
 
-    <!-- CertificateDialog -->
-    <dimen name="certificate_dialog_text">12sp</dimen>
-
     <!-- Session details white space -->
     <dimen name="session_details_section_margin_bottom">8dp</dimen>
     <dimen name="session_details_section_margin_top">16dp</dimen>

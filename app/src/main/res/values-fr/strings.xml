@@ -30,7 +30,6 @@
 \n%s</string>
     <string name="dlg_err_connection_failed">Échec de la connexion</string>
     <string name="dlg_invalid_certificate_could_not_apply">Le certificat n’a pas pu être ajouté.</string>
-    <string name="dlg_invalid_certificate_title">Faire confiance au certificat inconnu \?</string>
     <string name="OK">OK</string>
     <string name="menu_item_title_share_favorites">Partager les favoris</string>
     <string name="menu_item_title_share_session">Partager l’événement</string>

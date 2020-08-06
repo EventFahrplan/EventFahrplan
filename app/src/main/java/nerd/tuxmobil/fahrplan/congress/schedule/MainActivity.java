@@ -52,7 +52,7 @@ import nerd.tuxmobil.fahrplan.congress.favorites.StarredListActivity;
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListFragment;
 import nerd.tuxmobil.fahrplan.congress.models.Meta;
 import nerd.tuxmobil.fahrplan.congress.models.Session;
-import nerd.tuxmobil.fahrplan.congress.net.CertificateDialogFragment;
+import nerd.tuxmobil.fahrplan.congress.net.CertificateErrorFragment;
 import nerd.tuxmobil.fahrplan.congress.net.CustomHttpClient;
 import nerd.tuxmobil.fahrplan.congress.net.FetchScheduleResult;
 import nerd.tuxmobil.fahrplan.congress.net.HttpStatus;
@@ -70,7 +70,6 @@ import okhttp3.OkHttpClient;
 
 public class MainActivity extends BaseActivity implements
         OnSidePaneCloseListener,
-        CertificateDialogFragment.OnCertAccepted,
         AbstractListFragment.OnSessionListClick,
         FragmentManager.OnBackStackChangedListener,
         ConfirmationDialog.OnConfirmationDialogClicked {
@@ -189,10 +188,7 @@ public class MainActivity extends BaseActivity implements
 
     private void showErrorDialog(@NonNull String exceptionMessage, @NonNull String hostName, HttpStatus status) {
         if (HttpStatus.HTTP_LOGIN_FAIL_UNTRUSTED_CERTIFICATE == status) {
-            CertificateDialogFragment.newInstance(exceptionMessage).show(
-                    getSupportFragmentManager(),
-                    CertificateDialogFragment.FRAGMENT_TAG
-            );
+            CertificateErrorFragment.showDialog(getSupportFragmentManager(), exceptionMessage);
         }
         CustomHttpClient.showHttpError(this, status, hostName);
     }
@@ -454,12 +450,6 @@ public class MainActivity extends BaseActivity implements
                     }
                 }
         }
-    }
-
-    @Override
-    public void onCertAccepted() {
-        Log.d(LOG_TAG, "Fetching schedule on cert accepted.");
-        fetchFahrplan();
     }
 
     @Override

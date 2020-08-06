@@ -42,7 +42,6 @@
     <string name="dlg_err_failed_unknown_host">Dirección desconocida: %s</string>
     <string name="dlg_err_failed_wrong_http_credentials">Autenticación HTTP no válida</string>
     <string name="dlg_invalid_certificate_could_not_apply">No se pudo agregar el certificado</string>
-    <string name="dlg_invalid_certificate_title">Confiar en certificado desconocido?</string>
     <string name="session_duration"><xliff:g example="45" id="duration">%1$d</xliff:g> min.</string>
     <string name="insistent_alarm">Alarma persistente</string>
     <string name="invalid_url">URL no válida</string>
