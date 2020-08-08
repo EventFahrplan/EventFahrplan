@@ -1,4 +1,4 @@
-import nerd.tuxmobil.fahrplan.congress.GradlePlugins
+import nerd.tuxmobil.fahrplan.congress.Plugins
 
 buildscript {
     repositories {
@@ -7,12 +7,12 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath GradlePlugins.androidGradle
-        classpath GradlePlugins.gradleVersions
-        classpath GradlePlugins.sonarQubeGradle
-        classpath GradlePlugins.kotlinGradle
-        classpath GradlePlugins.unmockGradle
-        classpath GradlePlugins.androidJunitJacocoGradle
+        classpath Plugins.android
+        classpath Plugins.androidJunitJacoco
+        classpath Plugins.kotlin
+        classpath Plugins.sonarQube
+        classpath Plugins.unMock
+        classpath Plugins.versions
     }
 }
 
