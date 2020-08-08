@@ -23,11 +23,11 @@
     <string name="OK">OK</string>
 
     <!-- CertificateErrorFragment -->
-    <string name="dlg_certificate_message_fmt">
+    <string name="certificate_error_message">
         Kan geen veilige verbinding tot stand brengen.\n
         (<xliff:g example="Onbekende error" id="error">%s</xliff:g>)
     </string>
-    <string name="dlg_invalid_certificate_could_not_apply">Certificaat kon niet worden toegevoegd.</string>
+    <string name="certificate_error_title">Certificaat kon niet worden toegevoegd.</string>
 
     <!-- CustomHttpClient -->
     <string name="dlg_err_connection_failed">Verbindingsfout</string>

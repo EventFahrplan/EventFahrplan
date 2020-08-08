@@ -27,11 +27,11 @@
     <string name="OK">OK</string>
 
     <!-- CertificateErrorFragment -->
-    <string name="dlg_certificate_message_fmt">
+    <string name="certificate_error_message">
         Aufbau einer gesicherten Verbindung nicht möglich.\n
         (<xliff:g example="Unbekannter Fehler" id="error">%s</xliff:g>)
     </string>
-    <string name="dlg_invalid_certificate_could_not_apply">Zertifikat konnte nicht übernommen werden.</string>
+    <string name="certificate_error_title">Zertifikat konnte nicht übernommen werden.</string>
 
     <!-- CustomHttpClient -->
     <string name="dlg_err_connection_failed">Verbindungsfehler</string>

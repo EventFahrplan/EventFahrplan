@@ -26,7 +26,7 @@
     <string name="day_separator">Giorno <xliff:g example="2" id="day_of_congress">%1$d</xliff:g> - <xliff:g example="29.12.2014" id="date_of_congress_day">%2$s</xliff:g></string>
     <string name="default_alarm_time_dialog_title">Ora predefinita per i promemoria</string>
     <string name="default_alarm_time_title">Si scelga un\'ora predefinita per i promemoria</string>
-    <string name="dlg_certificate_message_fmt">Impossibile stabilire una connessione sicura. (<xliff:g example="Unknown Error" id="error">%s</xliff:g>)</string>
+    <string name="certificate_error_message">Impossibile stabilire una connessione sicura. (<xliff:g example="Unknown Error" id="error">%s</xliff:g>)</string>
     <string name="dlg_delete_all_favorites">Eliminare tutti i favoriti?</string>
     <string name="dlg_delete_all_favorites_delete_all">Eliminare tutto</string>
     <string name="dlg_err_connection_failed">Impossibile effettuare la connessione</string>
@@ -39,7 +39,7 @@
     <string name="dlg_err_failed_unknown_host">Indirizzo sconosciuto: %s</string>
     <string name="build_info_version_code">Versione: <xliff:g example="42" id="version_code">%s</xliff:g></string>
     <string name="dlg_err_failed_wrong_http_credentials">Autenticazione HTTP errata</string>
-    <string name="dlg_invalid_certificate_could_not_apply">Impossibile aggiungere il certificato</string>
+    <string name="certificate_error_title">Impossibile aggiungere il certificato</string>
     <string name="session_details_section_title_links">Collegamenti</string>
     <string name="session_duration"><xliff:g example="45" id="duration">%1$d</xliff:g> min.</string>
     <string name="session_details_section_title_session_online">Evento in linea</string>

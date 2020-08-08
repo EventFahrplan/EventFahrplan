@@ -29,7 +29,7 @@
     <string name="day_separator">Día <xliff:g example="2" id="day_of_congress">%1$d</xliff:g> - <xliff:g example="29.12.2014" id="date_of_congress_day">%2$s</xliff:g></string>
     <string name="default_alarm_time_dialog_title">Horario de alarma por defecto</string>
     <string name="default_alarm_time_title">Escoja un horario de alarma por defecto</string>
-    <string name="dlg_certificate_message_fmt">No se pudo establecer una conexión segura. (<xliff:g example="Unknown Error" id="error">%s</xliff:g>)</string>
+    <string name="certificate_error_message">No se pudo establecer una conexión segura. (<xliff:g example="Unknown Error" id="error">%s</xliff:g>)</string>
     <string name="dlg_delete_all_favorites">Borrar todos los favoritos?</string>
     <string name="dlg_delete_all_favorites_delete_all">Borrar todo</string>
     <string name="dlg_err_connection_failed">Fallo de conexión</string>
@@ -41,7 +41,7 @@
     <string name="dlg_err_failed_timeout">El servidor no responde</string>
     <string name="dlg_err_failed_unknown_host">Dirección desconocida: %s</string>
     <string name="dlg_err_failed_wrong_http_credentials">Autenticación HTTP no válida</string>
-    <string name="dlg_invalid_certificate_could_not_apply">No se pudo agregar el certificado</string>
+    <string name="certificate_error_title">No se pudo agregar el certificado</string>
     <string name="session_duration"><xliff:g example="45" id="duration">%1$d</xliff:g> min.</string>
     <string name="insistent_alarm">Alarma persistente</string>
     <string name="invalid_url">URL no válida</string>

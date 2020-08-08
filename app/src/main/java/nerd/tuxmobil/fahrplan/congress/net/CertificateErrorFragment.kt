@@ -42,8 +42,8 @@ class CertificateErrorFragment : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog =
             AlertDialogHelper.createErrorDialog(
                     requireContext(),
-                    R.string.dlg_invalid_certificate_could_not_apply,
-                    R.string.dlg_certificate_message_fmt,
+                    R.string.certificate_error_title,
+                    R.string.certificate_error_message,
                     errorMessage
             )
 
