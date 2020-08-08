@@ -56,34 +56,37 @@
             tools:text="@string/placeholder_session_subtitle"
             />
 
-    <RelativeLayout
+    <LinearLayout
             android:layout_width="match_parent"
-            android:gravity="bottom"
-            android:layout_height="wrap_content">
-
-        <TextView
-                android:id="@+id/session_track_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:singleLine="true"
-                android:textColor="@color/track_name"
-                android:fontFamily="sans-serif-condensed"
-                android:textSize="13sp"
-                tools:text="@string/placeholder_session_track"/>
+            android:layout_height="wrap_content"
+            android:gravity="bottom">
 
         <TextView
                 android:id="@+id/session_speakers_view"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_toLeftOf="@id/session_track_view"
+                android:layout_weight="0.6"
                 android:ellipsize="end"
+                android:fontFamily="sans-serif-condensed"
                 android:paddingRight="10dp"
                 android:singleLine="true"
                 android:textColor="#000000"
-                android:fontFamily="sans-serif-condensed"
                 android:textSize="13sp"
-                tools:text="@string/placeholder_session_speakers"/>
-    </RelativeLayout>
+                tools:text="@string/placeholder_session_speakers" />
+
+        <TextView
+                android:id="@+id/session_track_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.4"
+                android:ellipsize="start"
+                android:fontFamily="sans-serif-condensed"
+                android:gravity="end"
+                android:singleLine="true"
+                android:textColor="@color/track_name"
+                android:textSize="13sp"
+                tools:text="@string/placeholder_session_track" />
+
+    </LinearLayout>
+
 </LinearLayout>

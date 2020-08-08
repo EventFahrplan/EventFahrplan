@@ -57,28 +57,16 @@
             android:textSize="12sp"
             tools:text="@string/placeholder_session_subtitle"/>
 
-    <RelativeLayout
+    <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="bottom">
 
         <TextView
-                android:id="@+id/session_track_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:fontFamily="sans-serif-condensed"
-                android:singleLine="true"
-                android:textColor="@color/track_name"
-                android:textSize="11sp"
-                tools:text="@string/placeholder_session_track"/>
-
-        <TextView
                 android:id="@+id/session_speakers_view"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_toLeftOf="@id/session_track_view"
+                android:layout_weight="0.6"
                 android:ellipsize="end"
                 android:fontFamily="sans-serif-condensed"
                 android:paddingRight="10dp"
@@ -86,6 +74,20 @@
                 android:textColor="@color/session_title_on_default_background"
                 android:textSize="11sp"
                 tools:text="@string/placeholder_session_speakers"/>
-    </RelativeLayout>
+
+        <TextView
+                android:id="@+id/session_track_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.4"
+                android:ellipsize="start"
+                android:fontFamily="sans-serif-condensed"
+                android:gravity="end"
+                android:singleLine="true"
+                android:textColor="@color/track_name"
+                android:textSize="11sp"
+                tools:text="@string/placeholder_session_track"/>
+
+    </LinearLayout>
 
 </LinearLayout>
