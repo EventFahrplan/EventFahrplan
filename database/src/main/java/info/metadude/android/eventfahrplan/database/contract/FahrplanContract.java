@@ -17,6 +17,7 @@ public interface FahrplanContract {
             /* 4 */ // Zombie: Former "day_change_minute" column.
             /* 5 */ String ETAG = "etag";
             /* 6 */ String NUM_DAYS = "numdays";
+            /* 7 */ String TIME_ZONE_NAME = "time_zone_name";
         }
 
         interface Defaults {

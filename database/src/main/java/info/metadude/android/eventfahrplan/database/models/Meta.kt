@@ -7,6 +7,7 @@ data class Meta(
         val eTag: String = "",
         val numDays: Int = NUM_DAYS_DEFAULT,
         val subtitle: String = "",
+        val timeZoneName: String? = null,
         val title: String = "",
         val version: String = ""
 

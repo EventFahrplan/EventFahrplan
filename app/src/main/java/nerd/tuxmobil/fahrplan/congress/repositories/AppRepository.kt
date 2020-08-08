@@ -26,9 +26,10 @@ import nerd.tuxmobil.fahrplan.congress.models.Alarm
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.net.*
 import nerd.tuxmobil.fahrplan.congress.preferences.AlarmTonePreference
-import nerd.tuxmobil.fahrplan.congress.utils.AlarmToneConversion
 import nerd.tuxmobil.fahrplan.congress.preferences.SharedPreferencesRepository
 import nerd.tuxmobil.fahrplan.congress.serialization.ScheduleChanges
+import nerd.tuxmobil.fahrplan.congress.utils.AlarmToneConversion
+import nerd.tuxmobil.fahrplan.congress.validation.MetaValidation.validate
 import okhttp3.OkHttpClient
 
 object AppRepository {
@@ -115,7 +116,8 @@ object AppRepository {
             }
 
             if (fetchResult.isSuccessful) {
-                updateMeta(meta.copy(eTag = fetchScheduleResult.eTag))
+                val validMeta = meta.copy(eTag = fetchScheduleResult.eTag).validate()
+                updateMeta(validMeta)
                 check(onParsingDone != {}) { "Nobody registered to receive ParseScheduleResult." }
                 // Parsing
                 parseSchedule(
@@ -148,7 +150,8 @@ object AppRepository {
                     updateSessions(newSessions)
                 },
                 onUpdateMeta = { meta ->
-                    updateMeta(meta)
+                    val validMeta = meta.validate()
+                    updateMeta(validMeta)
                 },
                 onParsingDone = { result: Boolean, version: String ->
                     onParsingDone(ParseScheduleResult(result, version))

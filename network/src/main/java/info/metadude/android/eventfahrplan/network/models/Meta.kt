@@ -6,6 +6,7 @@ data class Meta(
         var numDays: Int = 0,
         var subtitle: String = "",
         var title: String = "",
+        var timeZoneName: String? = null,
         var version: String = ""
 
 )
