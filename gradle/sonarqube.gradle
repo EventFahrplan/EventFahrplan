@@ -1,3 +1,7 @@
+// SonarQube Gradle Plugin
+
+apply plugin: "org.sonarqube"
+
 sonarqube {
     properties {
         property "sonar.host.url", "https://sonarcloud.io"
