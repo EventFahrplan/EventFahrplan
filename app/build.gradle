@@ -9,8 +9,7 @@ apply plugin: "com.android.application"
 apply plugin: "kotlin-android"
 apply plugin: "kotlin-kapt"
 apply plugin: "de.mobilej.unmock"
-apply plugin: "org.sonarqube"
-apply from: "../sonarqube.gradle"
+apply from: "../gradle/sonarqube.gradle"
 
 android {
     compileSdkVersion Android.compileSdkVersion
