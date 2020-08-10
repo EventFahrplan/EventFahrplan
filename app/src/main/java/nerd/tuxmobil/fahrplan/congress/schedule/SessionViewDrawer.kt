@@ -2,7 +2,6 @@ package nerd.tuxmobil.fahrplan.congress.schedule
 
 import android.content.Context
 import android.content.res.Configuration.ORIENTATION_LANDSCAPE
-import android.graphics.Typeface
 import android.preference.PreferenceManager
 import android.view.View
 import android.widget.ImageView
@@ -14,6 +13,8 @@ import androidx.core.view.isVisible
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
 import nerd.tuxmobil.fahrplan.congress.models.Session
+import nerd.tuxmobil.fahrplan.congress.utils.Font
+import nerd.tuxmobil.fahrplan.congress.utils.TypefaceFactory
 
 internal class SessionViewDrawer(
 
@@ -23,7 +24,7 @@ internal class SessionViewDrawer(
 
     private val scale: Float
     private val resources = context.resources
-    private val boldCondensed = Typeface.createFromAsset(context.assets, "Roboto-BoldCondensed.ttf")
+    private val boldCondensed = TypefaceFactory.getNewInstance(context).getTypeface(Font.Roboto.BoldCondensed)
     private val sessionDrawableInsetTop: Int
     private val sessionDrawableInsetLeft: Int
     private val sessionDrawableInsetRight: Int

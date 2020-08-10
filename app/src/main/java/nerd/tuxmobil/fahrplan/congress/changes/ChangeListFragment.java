@@ -36,7 +36,6 @@ public class ChangeListFragment extends AbstractListFragment {
     private OnSessionListClick mListener;
     private List<Session> changesList;
     private boolean sidePane = false;
-    private boolean requiresScheduleReload = false;
 
     /**
      * The fragment's ListView/GridView.
@@ -49,11 +48,10 @@ public class ChangeListFragment extends AbstractListFragment {
      */
     private ChangeListAdapter mAdapter;
 
-    public static ChangeListFragment newInstance(boolean sidePane, boolean requiresScheduleReload) {
+    public static ChangeListFragment newInstance(boolean sidePane) {
         ChangeListFragment fragment = new ChangeListFragment();
         Bundle args = new Bundle();
         args.putBoolean(BundleKeys.SIDEPANE, sidePane);
-        args.putBoolean(BundleKeys.REQUIRES_SCHEDULE_RELOAD, requiresScheduleReload);
         fragment.setArguments(args);
         return fragment;
     }
@@ -72,7 +70,6 @@ public class ChangeListFragment extends AbstractListFragment {
         Bundle args = getArguments();
         if (args != null) {
             sidePane = args.getBoolean(BundleKeys.SIDEPANE);
-            requiresScheduleReload = args.getBoolean(BundleKeys.REQUIRES_SCHEDULE_RELOAD);
         }
 
         Context context = requireContext();
@@ -145,7 +142,7 @@ public class ChangeListFragment extends AbstractListFragment {
             position--;
             Session clicked = changesList.get(mAdapter.getItemIndex(position));
             if (clicked.changedIsCanceled) return;
-            mListener.onSessionListClick(clicked, requiresScheduleReload);
+            mListener.onSessionListClick(clicked);
         }
     }
 }

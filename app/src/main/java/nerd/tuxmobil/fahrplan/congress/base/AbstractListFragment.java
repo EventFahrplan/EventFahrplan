@@ -26,11 +26,9 @@ public abstract class AbstractListFragment extends ListFragment {
          * to the activity and potentially other fragments contained in that
          * activity.
          *
-         * @param session                The session which was clicked.
-         * @param requiresScheduleReload Boolean flag to indicate whether the schedule
-         *                               must be reload from the data source or not.
+         * @param session The session which was clicked.
          */
-        void onSessionListClick(Session session, boolean requiresScheduleReload);
+        void onSessionListClick(Session session);
     }
 
     protected AppRepository appRepository;

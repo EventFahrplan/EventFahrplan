@@ -66,6 +66,7 @@ import nerd.tuxmobil.fahrplan.congress.sharing.JsonSessionFormat;
 import nerd.tuxmobil.fahrplan.congress.sharing.SessionSharer;
 import nerd.tuxmobil.fahrplan.congress.sharing.SimpleSessionFormat;
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
+import nerd.tuxmobil.fahrplan.congress.utils.TypefaceFactory;
 
 import static nerd.tuxmobil.fahrplan.congress.extensions.Resource.getNormalizedBoxHeight;
 
@@ -154,8 +155,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         context = requireContext();
-        light = Typeface.createFromAsset(
-                context.getAssets(), "Roboto-Light.ttf");
+        light = TypefaceFactory.getNewInstance(context).getRobotoLight();
         sessionViewDrawer = new SessionViewDrawer(context);
     }
 
@@ -250,7 +250,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
                 scrollTo(session);
                 FrameLayout sidePane = activity.findViewById(R.id.detail);
                 if (sidePane != null) {
-                    ((MainActivity) activity).openSessionDetails(session, mDay, false);
+                    ((MainActivity) activity).openSessionDetails(session);
                 }
             }
             intent.removeExtra(BundleKeys.BUNDLE_KEY_SESSION_ALARM_SESSION_ID); // jump to given sessionId only once
@@ -598,7 +598,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
         }
         MyApp.LogDebug(LOG_TAG, "Click on " + session.title);
         MainActivity mainActivity = (MainActivity) requireActivity();
-        mainActivity.openSessionDetails(session, mDay, false);
+        mainActivity.openSessionDetails(session);
     }
 
     public void buildNavigationMenu() {
