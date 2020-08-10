@@ -4,6 +4,7 @@ import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.format.DateTimeFormatter
 import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.TimeZone
 
 /**
  * Format timestamps according to system locale and system time zone.
@@ -34,10 +35,16 @@ class DateFormatter private constructor() {
     fun getFormattedDate(time: Long): String = dateShort.format(Date(time))
 
     /**
-     * Returns day month, year and time in current system locale in long format.
-     * E.g. Tuesday, January 22, 2019 1:00 AM
+     * Returns a formatted string suitable for sharing it with people worldwide.
+     * It contains day, month, year and time in current system locale in long format
+     * and the associated time zone offset.
+     * E.g. Tuesday, January 22, 2019 1:00 AM GMT+01:00
      */
-    fun getFormattedDateTime(time: Long): String = dateTimeFull.format(Date(time))
+    fun getFormattedShareable(time: Long): String {
+        val timeZoneOffset = dateTimeFull.timeZone.getDisplayName(true, TimeZone.SHORT)
+        // TODO Append time zone name once it is provided. See https://github.com/EventFahrplan/EventFahrplan/pull/296.
+        return "${dateTimeFull.format(Date(time))} $timeZoneOffset"
+    }
 
     /**
      * Returns day month, year and time in current system locale in short format.
