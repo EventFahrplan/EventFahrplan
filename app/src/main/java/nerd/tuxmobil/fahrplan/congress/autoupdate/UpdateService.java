@@ -43,7 +43,8 @@ public class UpdateService extends SafeJobIntentService {
     private final AppRepository appRepository = AppRepository.INSTANCE;
 
     public void onParseDone(@NonNull ParseResult result) {
-        MyApp.LogDebug(LOG_TAG, "parseDone: " + result.isSuccess() + " , numDays=" + MyApp.meta.getNumDays());
+        int numDays = appRepository.readMeta().getNumDays();
+        MyApp.LogDebug(LOG_TAG, "parseDone: " + result.isSuccess() + " , numDays=" + numDays);
         MyApp.task_running = TASKS.NONE;
         List<Session> changesList = appRepository.loadChangedSessions();
         if (!changesList.isEmpty() && result instanceof ParseScheduleResult) {
