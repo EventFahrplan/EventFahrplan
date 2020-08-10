@@ -26,16 +26,5 @@ allprojects {
     }
 }
 
-apply plugin: "com.github.ben-manes.versions"
+apply from: "gradle/versions.gradle"
 apply plugin: "com.vanniktech.android.junit.jacoco"
-
-dependencyUpdates {
-    def isNonStable = { String version ->
-        def stableKeyword = ["RELEASE", "FINAL", "GA"].any { qualifier -> version.toUpperCase().contains(qualifier) }
-        def regex = /^[0-9,.v-]+(-r)?$/
-        return !stableKeyword && !(version ==~ regex)
-    }
-    rejectVersionIf {
-        return isNonStable(it.candidate.version)
-    }
-}
