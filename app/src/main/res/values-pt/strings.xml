@@ -22,13 +22,12 @@
     <!-- AlertDialogHelper -->
     <string name="OK">OK</string>
 
-    <!-- CertificateDialog -->
-    <string name="dlg_certificate_message_fmt">
+    <!-- CertificateErrorFragment -->
+    <string name="certificate_error_message">
         Falha ao estabelecer conexão segura.\n
         (<xliff:g example="Unknown Error" id="error">%s</xliff:g>)
     </string>
-    <string name="dlg_invalid_certificate_title">Confiar em certificado desconhecido?</string>
-    <string name="dlg_invalid_certificate_could_not_apply">O certificado não pode ser adicionado.</string>
+    <string name="certificate_error_title">O certificado não pode ser adicionado.</string>
 
     <!-- CustomHttpClient -->
     <string name="dlg_err_connection_failed">Falha de conexão.</string>

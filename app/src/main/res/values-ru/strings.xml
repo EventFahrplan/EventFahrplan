@@ -22,13 +22,12 @@
     <!-- AlertDialogHelper -->
     <string name="OK">ОК</string>
 
-    <!-- CertificateDialog -->
-    <string name="dlg_certificate_message_fmt">
+    <!-- CertificateErrorFragment -->
+    <string name="certificate_error_message">
         Не удалось установить защищенное соединение.\n
         (<xliff:g example="Unknown Error" id="error">%s</xliff:g>)
     </string>
-    <string name="dlg_invalid_certificate_title">Доверять неизвестному сертификату?</string>
-    <string name="dlg_invalid_certificate_could_not_apply">Невозможно добавить сертификат.</string>
+    <string name="certificate_error_title">Невозможно добавить сертификат.</string>
 
     <!-- CustomHttpClient -->
     <string name="dlg_err_connection_failed">Ошибка подключения</string>

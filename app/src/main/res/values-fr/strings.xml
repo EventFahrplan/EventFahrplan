@@ -29,8 +29,7 @@
     <string name="dlg_err_failed_unknown_host">Adresse inconnue :
 \n%s</string>
     <string name="dlg_err_connection_failed">Échec de la connexion</string>
-    <string name="dlg_invalid_certificate_could_not_apply">Le certificat n’a pas pu être ajouté.</string>
-    <string name="dlg_invalid_certificate_title">Faire confiance au certificat inconnu \?</string>
+    <string name="certificate_error_title">Le certificat n’a pas pu être ajouté.</string>
     <string name="OK">OK</string>
     <string name="menu_item_title_share_favorites">Partager les favoris</string>
     <string name="menu_item_title_share_session">Partager l’événement</string>
@@ -115,7 +114,7 @@
     <string name="schedule_changes_dialog_title">Mise à jour du programme</string>
     <string name="dlg_err_failed_parse_failure">Impossible d’analyser la réponse</string>
     <string name="dlg_err_failed_timeout">Serveur ne répond pas (délai d’attente dépassé).</string>
-    <string name="dlg_certificate_message_fmt"> Échec lors de l’établissement d’une connexion sécurisée.
+    <string name="certificate_error_message"> Échec lors de l’établissement d’une connexion sécurisée.
 \n (<xliff:g example="Unknown Error" id="error">%s</xliff:g>) </string>
     <string name="menu_item_title_set_alarm">Réglage du rappel</string>
     <string name="menu_item_title_close_session_details">Fermer les détails de l’évènement</string>

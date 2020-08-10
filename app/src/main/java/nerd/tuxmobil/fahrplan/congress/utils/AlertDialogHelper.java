@@ -16,11 +16,24 @@ public abstract class AlertDialogHelper {
             @StringRes final int title,
             @StringRes final int message,
             @Nullable final Object... messageArguments) {
-        new AlertDialog.Builder(context)
+        createErrorDialog(
+                context,
+                title,
+                message,
+                messageArguments)
+                .show();
+    }
+
+    public static AlertDialog createErrorDialog(
+            @NonNull final Context context,
+            @StringRes final int title,
+            @StringRes final int message,
+            @Nullable final Object... messageArguments) {
+        return new AlertDialog.Builder(context)
                 .setTitle(title)
                 .setMessage(context.getString(message, messageArguments))
                 .setPositiveButton(R.string.OK, null)
-                .show();
+                .create();
     }
 
 }

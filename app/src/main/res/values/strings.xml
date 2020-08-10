@@ -28,13 +28,12 @@
     <!-- AlertDialogHelper -->
     <string name="OK">OK</string>
 
-    <!-- CertificateDialog -->
-    <string name="dlg_certificate_message_fmt">
+    <!-- CertificateErrorFragment -->
+    <string name="certificate_error_message">
         Failed to establish secure connection.\n
         (<xliff:g example="Unknown Error" id="error">%s</xliff:g>)
     </string>
-    <string name="dlg_invalid_certificate_title">Trust unknown certificate?</string>
-    <string name="dlg_invalid_certificate_could_not_apply">Certificate could not be added.</string>
+    <string name="certificate_error_title">Certificate could not be added.</string>
 
     <!-- CustomHttpClient -->
     <string name="dlg_err_connection_failed">Connection failure</string>
