@@ -9,8 +9,12 @@ import nerd.tuxmobil.fahrplan.congress.models.Session
 import org.threeten.bp.Duration
 import kotlin.collections.set
 
-data class LayoutCalculator(val logging: Logging = Logging.get(),
-                            val standardHeight: Int) {
+data class LayoutCalculator @JvmOverloads constructor(
+
+        val standardHeight: Int,
+        val logging: Logging = Logging.get()
+
+) {
 
     private companion object {
         const val LOG_TAG = "LayoutCalculator"

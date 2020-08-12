@@ -43,7 +43,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import info.metadude.android.eventfahrplan.commons.logging.Logging;
 import info.metadude.android.eventfahrplan.commons.temporal.Moment;
 import kotlin.Unit;
 import nerd.tuxmobil.fahrplan.congress.BuildConfig;
@@ -337,7 +336,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
         adapterByRoomIndex.clear();
 
         int boxHeight = getNormalizedBoxHeight(getResources(), scale, LOG_TAG);
-        LayoutCalculator layoutCalculator = new LayoutCalculator(Logging.Companion.get(), boxHeight);
+        LayoutCalculator layoutCalculator = new LayoutCalculator(boxHeight);
 
         List<RoomData> roomDataList = scheduleData.getRoomDataList();
         for (int roomIndex = 0; roomIndex < roomDataList.size(); roomIndex++) {
