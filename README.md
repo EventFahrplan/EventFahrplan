@@ -33,7 +33,18 @@ Please read the instructions in the [contribution guide](CONTRIBUTING.md) in ord
 * Share a link to an event with others
 * Keep track of program changes
 * Automatic program updates (configurable in settings)
-* Supported languages: Dutch, English, French, German, Italian, Portuguese, Russian, Spanish (event descriptions excluded)
+
+
+### Supported languages
+*Event descriptions excluded*
+- Dutch 🇳🇱
+- English 🇺🇸
+- French 🇫🇷
+- German 🇩🇪
+- Italian 🇮🇹
+- Portuguese 🇵🇹
+- Russian 🇷🇺
+- Spanish 🇪🇸
 
 ### Optional integration
 
