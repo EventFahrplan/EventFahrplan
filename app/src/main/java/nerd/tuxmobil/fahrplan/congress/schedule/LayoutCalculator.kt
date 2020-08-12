@@ -88,7 +88,7 @@ data class LayoutCalculator(val logging: Logging = Logging.get(),
             val endTimestamp = session.dateUTC + session.duration * MILLIS_PER_MINUTE
             val nextStartsBeforeCurrentEnds = endTimestamp > next.dateUTC
             if (nextStartsBeforeCurrentEnds) {
-                logging.d(LOG_TAG, "${session.title} collides with ${next.title}")
+                logging.d(LOG_TAG, """Collision: "${session.title}" + "${next.title}"""")
                 // cut current at the end, to match next sessions start time
                 session.duration = ((next.dateUTC - session.dateUTC) / MILLIS_PER_MINUTE).toInt()
             }
