@@ -9,8 +9,12 @@ import nerd.tuxmobil.fahrplan.congress.models.Session
 import org.threeten.bp.Duration
 import kotlin.collections.set
 
-data class LayoutCalculator(val logging: Logging = Logging.get(),
-                            val standardHeight: Int) {
+data class LayoutCalculator @JvmOverloads constructor(
+
+        val standardHeight: Int,
+        val logging: Logging = Logging.get()
+
+) {
 
     private companion object {
         const val LOG_TAG = "LayoutCalculator"
@@ -88,7 +92,7 @@ data class LayoutCalculator(val logging: Logging = Logging.get(),
             val endTimestamp = session.dateUTC + session.duration * MILLIS_PER_MINUTE
             val nextStartsBeforeCurrentEnds = endTimestamp > next.dateUTC
             if (nextStartsBeforeCurrentEnds) {
-                logging.d(LOG_TAG, "${session.title} collides with ${next.title}")
+                logging.d(LOG_TAG, """Collision: "${session.title}" + "${next.title}"""")
                 // cut current at the end, to match next sessions start time
                 session.duration = ((next.dateUTC - session.dateUTC) / MILLIS_PER_MINUTE).toInt()
             }
