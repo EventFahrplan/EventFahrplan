@@ -371,15 +371,16 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
     ) {
         roomTitlesRowLayout.removeAllViews();
         int textSize = getResources().getInteger(R.integer.room_title_size);
+        LinearLayout.LayoutParams params = new LayoutParams(
+                columnWidth, LayoutParams.WRAP_CONTENT, 1);
+        params.gravity = Gravity.CENTER;
+        int paddingRight = getSessionPadding();
         for (String roomName : roomNames) {
             TextView roomTitle = new TextView(context);
-            LinearLayout.LayoutParams p = new LayoutParams(
-                    columnWidth, LayoutParams.WRAP_CONTENT, 1);
-            p.gravity = Gravity.CENTER;
-            roomTitle.setLayoutParams(p);
+            roomTitle.setLayoutParams(params);
             roomTitle.setMaxLines(1);
             roomTitle.setEllipsize(TextUtils.TruncateAt.END);
-            roomTitle.setPadding(0, 0, getSessionPadding(), 0);
+            roomTitle.setPadding(0, 0, paddingRight, 0);
             roomTitle.setGravity(Gravity.CENTER);
             roomTitle.setTypeface(light);
             roomTitle.setText(roomName);
