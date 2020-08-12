@@ -285,12 +285,12 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
 
         int roomCount = scheduleData.getRoomCount();
         horizontalScroller.setRoomsCount(roomCount);
-        addRoomColumns(horizontalScroller, scheduleData, forceReload);
 
         HorizontalScrollView roomScroller = layoutRoot.findViewById(R.id.roomScroller);
         LinearLayout roomTitlesRowLayout = (LinearLayout) roomScroller.getChildAt(0);
         int columnWidth = horizontalScroller.getColumnWidth();
         addRoomTitleViews(roomTitlesRowLayout, columnWidth, scheduleData.getRoomNames());
+        addRoomColumns(horizontalScroller, columnWidth, scheduleData, forceReload);
 
         MainActivity.getInstance().shouldScheduleScrollToCurrentTimeSlot(() -> {
             scrollToCurrent(boxHeight);
@@ -316,6 +316,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
      */
     private void addRoomColumns(
             @NonNull HorizontalSnapScrollView horizontalScroller,
+            int columnWidth,
             @NonNull ScheduleData scheduleData,
             boolean forceReload
     ) {
@@ -349,7 +350,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
             columnRecyclerView.setFadingEdgeLength(0);
             columnRecyclerView.setNestedScrollingEnabled(false); // enables flinging
             columnRecyclerView.setLayoutManager(new LinearLayoutManager(context));
-            columnRecyclerView.setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            columnRecyclerView.setLayoutParams(new RecyclerView.LayoutParams(columnWidth, ViewGroup.LayoutParams.WRAP_CONTENT));
             List<Session> roomSessions = roomData.getSessions();
             SessionViewColumnAdapter adapter = new SessionViewColumnAdapter(roomSessions, layoutParamsBySession, sessionViewDrawer, this);
             columnRecyclerView.setAdapter(adapter);
