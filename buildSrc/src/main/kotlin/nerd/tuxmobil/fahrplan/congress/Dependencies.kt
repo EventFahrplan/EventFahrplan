@@ -32,7 +32,7 @@ object Plugins {
 object Libs {
 
     private object Versions {
-        const val annotation = "1.0.0"
+        const val annotation = "1.1.0"
         const val appCompat = "1.0.0"
         const val assertjAndroid = "1.2.0"
         const val constraintLayout = "1.1.3"
