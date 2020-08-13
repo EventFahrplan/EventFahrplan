@@ -49,7 +49,7 @@ object Libs {
         const val okhttp = "3.12.12"
         const val retrofit = "2.6.4"
         const val robolectric = "4.3_r2-robolectric-0"
-        const val snackengage = "0.24"
+        const val snackengage = "0.26"
         const val testExtJunit = "1.1.1"
         const val threeTenBp = "1.4.4"
         const val tracedroid = "1.4"
