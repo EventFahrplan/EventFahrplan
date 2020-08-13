@@ -14,7 +14,7 @@ import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.utils.showWhenLockedCompat
 
-class SessionDetailsActivity : BaseActivity() {
+class SessionDetailsActivity : BaseActivity(R.layout.detail_frame) {
 
     companion object {
 
@@ -39,7 +39,6 @@ class SessionDetailsActivity : BaseActivity() {
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         val actionBarColor = ContextCompat.getColor(this, R.color.colorActionBar)
         supportActionBar!!.setBackgroundDrawable(ColorDrawable(actionBarColor))
-        setContentView(R.layout.detail_frame)
 
         val intent = this.intent
         if (intent == null) {

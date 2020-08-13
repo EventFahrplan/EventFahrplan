@@ -8,7 +8,7 @@
     android:paddingTop="4dp"
     android:paddingBottom="4dp">
 
-    <nerd.tuxmobil.fahrplan.congress.commons.TextViewCompat
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/session_detailbar_date_time_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -32,7 +32,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="@string/placeholder_session_date" />
 
-    <nerd.tuxmobil.fahrplan.congress.commons.TextViewCompat
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/session_detailbar_location_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
