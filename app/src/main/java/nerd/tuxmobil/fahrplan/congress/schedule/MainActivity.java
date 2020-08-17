@@ -403,7 +403,7 @@ public class MainActivity extends BaseActivity implements
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
 
         switch (requestCode) {
@@ -414,7 +414,7 @@ public class MainActivity extends BaseActivity implements
                 }
                 break;
             case MyApp.SETTINGS:
-                if (resultCode == Activity.RESULT_OK) {
+                if (resultCode == Activity.RESULT_OK && intent != null) {
                     boolean isAlternativeHighlightEnabled = getResources().getBoolean(R.bool.preferences_alternative_highlight_enabled_default_value);
                     if (intent.getBooleanExtra(BundleKeys.PREFS_ALTERNATIVE_HIGHLIGHT, isAlternativeHighlightEnabled)) {
                         if (findViewById(R.id.schedule) != null && findFragment(FahrplanFragment.FRAGMENT_TAG) == null) {

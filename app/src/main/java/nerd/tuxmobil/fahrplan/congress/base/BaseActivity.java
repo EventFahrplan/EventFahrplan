@@ -6,7 +6,9 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.MenuItem;
 
+import androidx.annotation.ContentView;
 import androidx.annotation.IdRes;
+import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,6 +24,15 @@ import nerd.tuxmobil.fahrplan.congress.utils.ActivityHelper;
 public abstract class BaseActivity extends AppCompatActivity {
 
     private ConnectivityObserver connectivityObserver;
+
+    public BaseActivity() {
+        super();
+    }
+
+    @ContentView
+    public BaseActivity(@LayoutRes int contentLayoutId) {
+        super(contentLayoutId);
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

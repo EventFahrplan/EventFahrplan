@@ -689,9 +689,11 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode == FAHRPLAN_FRAGMENT_REQUEST_CODE &&
-                resultCode == AlarmTimePickerFragment.ALERT_TIME_PICKED_RESULT_CODE) {
+                resultCode == AlarmTimePickerFragment.ALERT_TIME_PICKED_RESULT_CODE &&
+                data != null
+        ) {
             int alarmTimesIndex = data.getIntExtra(
                     AlarmTimePickerFragment.ALARM_PICKED_INTENT_KEY, 0);
             onAlarmTimesIndexPicked(alarmTimesIndex);

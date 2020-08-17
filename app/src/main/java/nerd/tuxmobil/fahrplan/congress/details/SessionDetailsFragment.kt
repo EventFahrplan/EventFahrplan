@@ -222,9 +222,11 @@ class SessionDetailsFragment : Fragment(), SessionDetailsViewModel.ViewActionHan
         item?.let { it.isVisible = true }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == SESSION_DETAILS_FRAGMENT_REQUEST_CODE &&
-                resultCode == AlarmTimePickerFragment.ALERT_TIME_PICKED_RESULT_CODE) {
+                resultCode == AlarmTimePickerFragment.ALERT_TIME_PICKED_RESULT_CODE &&
+                data != null
+        ) {
             val alarmTimesIndex = data.getIntExtra(
                     AlarmTimePickerFragment.ALARM_PICKED_INTENT_KEY, 0)
             onAlarmTimesIndexPicked(alarmTimesIndex)

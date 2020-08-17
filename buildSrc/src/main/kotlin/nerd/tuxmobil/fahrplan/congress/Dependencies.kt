@@ -32,8 +32,8 @@ object Plugins {
 object Libs {
 
     private object Versions {
-        const val annotation = "1.0.0"
-        const val appCompat = "1.0.0"
+        const val annotation = "1.1.0"
+        const val appCompat = "1.2.0"
         const val assertjAndroid = "1.2.0"
         const val constraintLayout = "1.1.3"
         const val coreKtx = "1.3.1"
@@ -49,7 +49,7 @@ object Libs {
         const val okhttp = "3.12.12"
         const val retrofit = "2.6.4"
         const val robolectric = "4.3_r2-robolectric-0"
-        const val snackengage = "0.23"
+        const val snackengage = "0.24"
         const val testExtJunit = "1.1.1"
         const val threeTenBp = "1.4.4"
         const val tracedroid = "1.4"
