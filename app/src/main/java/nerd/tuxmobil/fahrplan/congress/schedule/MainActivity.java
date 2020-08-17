@@ -12,7 +12,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
@@ -68,6 +67,8 @@ import nerd.tuxmobil.fahrplan.congress.utils.ConfirmationDialog;
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
 import okhttp3.OkHttpClient;
 
+import static nerd.tuxmobil.fahrplan.congress.utils.LockScreenHelper.showWhenLockedCompat;
+
 public class MainActivity extends BaseActivity implements
         OnSidePaneCloseListener,
         AbstractListFragment.OnSessionListClick,
@@ -92,7 +93,7 @@ public class MainActivity extends BaseActivity implements
     @Override
     public void onAttachedToWindow() {
         super.onAttachedToWindow();
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
+        showWhenLockedCompat(this);
     }
 
     @Override
