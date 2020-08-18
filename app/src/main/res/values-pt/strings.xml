@@ -83,7 +83,7 @@
     <string name="usage">Dica:\n\nMantenha pressionado na palestra para ajustar um alerta.</string>
     <string name="libraries">
 		Este aplicativo usa as seguintes bibliotecas:
-		Kotlin, Google Support Library, Email Intent Builder,
+		Kotlin, Google Support Library, BetterLinkMovementMethod, Email Intent Builder,
 		Espresso, OkHttp, SnackEngage e TraceDroid
 	</string>
     <string name="about_data_privacy_statement">

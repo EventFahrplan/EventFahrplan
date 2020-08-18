@@ -29,6 +29,7 @@
         <item name="colorAccent">@color/colorAccent</item>
 
         <!-- The rest of your attributes -->
+        <item name="android:textColorHighlight">@color/text_link_pressed_background_on_light</item>
         <item name="actionOverflowMenuStyle">@style/PopupMenuOverflowStyle</item>
         <item name="android:contextPopupMenuStyle" tools:targetApi="N">@style/ContextPopupMenuStyle</item>
         <item name="actionDropDownStyle">@style/MyActionDropDownStyle</item>
@@ -49,6 +50,7 @@
         <item name="colorAccent">@color/colorAccent</item>
 
         <!-- The rest of your attributes -->
+        <item name="android:textColorHighlight">@color/text_link_pressed_background_on_light</item>
         <item name="actionOverflowMenuStyle">@style/PopupMenuOverflowStyle</item>
         <item name="android:contextPopupMenuStyle" tools:targetApi="N">@style/ContextPopupMenuStyle</item>
         <item name="android:spinnerItemStyle">@style/SpinnerItemStyle</item>
@@ -71,6 +73,7 @@
 
     <style name="Dialog" parent="Theme.AppCompat.Dialog">
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Title</item>
+        <item name="android:textColorHighlight">@color/text_link_pressed_background_on_dark</item>
         <item name="android:windowBackground">@color/windowBackground</item>
     </style>
 
@@ -130,7 +133,7 @@
 
     <style name="ScheduleListSeparator" parent="@android:style/TextAppearance.Small">
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/text_link_color</item>
+        <item name="android:textColor">@color/text_link_on_light</item>
         <item name="android:textAllCaps">true</item>
     </style>
 
@@ -143,7 +146,7 @@
     </style>
 
     <style name="TextViewLinks">
-        <item name="android:textColorLink">@color/text_link_color</item>
+        <item name="android:textColorLink">@color/text_link_on_light</item>
     </style>
 
     <!-- Session details -->
