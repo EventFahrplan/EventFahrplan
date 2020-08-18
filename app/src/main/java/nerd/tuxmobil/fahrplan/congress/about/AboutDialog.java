@@ -97,7 +97,7 @@ public class AboutDialog extends DialogFragment {
         //noinspection ConstantConditions
         appDisclaimer.setVisibility(BuildConfig.SHOW_APP_DISCLAIMER ? View.VISIBLE : View.GONE);
 
-        int linkTextColor = ContextCompat.getColor(view.getContext(), R.color.text_link_color_dark);
+        int linkTextColor = ContextCompat.getColor(view.getContext(), R.color.text_link_on_dark);
         MovementMethod movementMethod = LinkMovementMethod.getInstance();
 
         TextView logoCopyright = view.findViewById(R.id.about_copyright_logo_view);

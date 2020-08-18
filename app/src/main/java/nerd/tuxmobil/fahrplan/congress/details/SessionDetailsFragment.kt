@@ -185,7 +185,7 @@ class SessionDetailsFragment : Fragment(), SessionDetailsViewModel.ViewActionHan
     private fun TextView.applyHtml(typeface: Typeface, text: String) {
         this.typeface = typeface
         this.setText(text.toSpanned(), TextView.BufferType.SPANNABLE)
-        this.setLinkTextColor(ContextCompat.getColor(context, R.color.text_link_color))
+        this.setLinkTextColor(ContextCompat.getColor(context, R.color.text_link_on_light))
         this.movementMethod = LinkMovementMethod()
         this.isVisible = true
     }

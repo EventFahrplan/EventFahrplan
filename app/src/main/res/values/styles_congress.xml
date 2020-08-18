@@ -130,7 +130,7 @@
 
     <style name="ScheduleListSeparator" parent="@android:style/TextAppearance.Small">
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/text_link_color</item>
+        <item name="android:textColor">@color/text_link_on_light</item>
         <item name="android:textAllCaps">true</item>
     </style>
 
@@ -143,7 +143,7 @@
     </style>
 
     <style name="TextViewLinks">
-        <item name="android:textColorLink">@color/text_link_color</item>
+        <item name="android:textColorLink">@color/text_link_on_light</item>
     </style>
 
     <!-- Session details -->
