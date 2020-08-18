@@ -6,9 +6,7 @@
     <color name="colorAccent">#00bb31</color>
     <color name="colorActionBar">@color/colorPrimary</color>
     <color name="windowBackground">#231f20</color>
-    <color name="text_link_color">@color/colorAccent</color>
     <color name="multi_choice_background">#fec700</color>
-    <color name="text_link_color_dark">@color/colorAccent</color>
     <color name="alarm_list_icon_default_fill_color">@android:color/transparent</color>
     <color name="alarm_list_icon_default_stroke_color">@color/colorAccent</color>
     <color name="alarm_list_icon_text_color">@color/colorAccent</color>
