@@ -2,6 +2,8 @@ package nerd.tuxmobil.fahrplan.congress.base;
 
 import android.content.Context;
 
+import androidx.annotation.CallSuper;
+import androidx.annotation.NonNull;
 import androidx.fragment.app.ListFragment;
 
 import nerd.tuxmobil.fahrplan.congress.models.Session;
@@ -34,7 +36,8 @@ public abstract class AbstractListFragment extends ListFragment {
     protected AppRepository appRepository;
 
     @Override
-    public void onAttach(Context context) {
+    @CallSuper
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         appRepository = AppRepository.INSTANCE;
     }

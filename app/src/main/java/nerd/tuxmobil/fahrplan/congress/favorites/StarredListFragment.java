@@ -16,6 +16,7 @@ import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import androidx.annotation.CallSuper;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -95,9 +96,12 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
+    @Nullable
+    public View onCreateView(
+            @NonNull LayoutInflater inflater,
+            @Nullable ViewGroup container,
+            @Nullable Bundle savedInstanceState
+    ) {
         final Context contextThemeWrapper = new ContextThemeWrapper(requireContext(),
                 R.style.Theme_AppCompat_Light);
 
@@ -155,7 +159,8 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
     }
 
     @Override
-    public void onAttach(Context context) {
+    @CallSuper
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         try {
             mListener = (OnSessionListClick) context;
@@ -181,7 +186,7 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
     }
 
     @Override
-    public void onListItemClick(ListView l, View v, int position, long id) {
+    public void onListItemClick(@NonNull ListView listView, @NonNull View itemView, int position, long id) {
         MyApp.LogDebug(LOG_TAG, "onItemClick");
         if (null != mListener) {
             // Notify the active callbacks interface (the activity, if the
@@ -193,7 +198,7 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.starred_list_menu, menu);
         MenuItem item = menu.findItem(R.id.menu_item_delete_all_favorites);
@@ -211,7 +216,7 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_item_share_favorites:
             case R.id.menu_item_share_favorites_text:
