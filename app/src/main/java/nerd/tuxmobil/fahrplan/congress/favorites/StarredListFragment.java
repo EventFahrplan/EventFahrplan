@@ -186,7 +186,7 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
     }
 
     @Override
-    public void onListItemClick(@NonNull ListView l, @NonNull View v, int position, long id) {
+    public void onListItemClick(@NonNull ListView listView, @NonNull View itemView, int position, long id) {
         MyApp.LogDebug(LOG_TAG, "onItemClick");
         if (null != mListener) {
             // Notify the active callbacks interface (the activity, if the
