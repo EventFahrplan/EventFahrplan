@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import androidx.annotation.CallSuper;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.util.List;
@@ -80,9 +82,12 @@ public class ChangeListFragment extends AbstractListFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
+    @Nullable
+    public View onCreateView(
+            @NonNull LayoutInflater inflater,
+            @Nullable ViewGroup container,
+            @Nullable Bundle savedInstanceState
+    ) {
         final Context contextThemeWrapper = new ContextThemeWrapper(requireContext(),
                 R.style.Theme_AppCompat_Light);
 
@@ -108,7 +113,8 @@ public class ChangeListFragment extends AbstractListFragment {
     }
 
     @Override
-    public void onAttach(Context context) {
+    @CallSuper
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         try {
             mListener = (OnSessionListClick) context;
@@ -119,6 +125,7 @@ public class ChangeListFragment extends AbstractListFragment {
     }
 
     @Override
+    @CallSuper
     public void onDetach() {
         super.onDetach();
         mListener = null;
@@ -134,7 +141,7 @@ public class ChangeListFragment extends AbstractListFragment {
     }
 
     @Override
-    public void onListItemClick(ListView l, View v, int position, long id) {
+    public void onListItemClick(@NonNull ListView l, @NonNull View v, int position, long id) {
         MyApp.LogDebug(LOG_TAG, "onItemClick");
         if (null != mListener) {
             // Notify the active callbacks interface (the activity, if the

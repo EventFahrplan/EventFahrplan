@@ -26,6 +26,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.CallSuper;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -144,12 +145,14 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
     };
 
     @Override
-    public void onAttach(Context context) {
+    @CallSuper
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         appRepository = AppRepository.INSTANCE;
     }
 
     @Override
+    @CallSuper
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
@@ -205,6 +208,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
     }
 
     @Override
+    @CallSuper
     public void onResume() {
         Log.d(LOG_TAG, "onResume");
         super.onResume();
@@ -260,6 +264,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
     }
 
     @Override
+    @CallSuper
     public void onPause() {
         appRepository.removeOnSessionsChangeListener(onSessionsChangeListener);
         super.onPause();
@@ -716,7 +721,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
     }
 
     @Override
-    public boolean onContextItemSelected(MenuItem item) {
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
         int menuItemIndex = item.getItemId();
         Session session = (Session) contextMenuView.getTag();
         lastSelectedSession = session;
@@ -771,7 +776,11 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
         requireActivity().invalidateOptionsMenu();
     }
 
-    public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
+    public void onCreateContextMenu(
+            @NonNull ContextMenu menu,
+            @NonNull View view,
+            @Nullable ContextMenuInfo menuInfo
+    ) {
         super.onCreateContextMenu(menu, view, menuInfo);
         contextMenuView = view;
         Session session = (Session) view.getTag();
