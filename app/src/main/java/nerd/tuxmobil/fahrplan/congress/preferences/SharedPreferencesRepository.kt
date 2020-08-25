@@ -5,7 +5,6 @@ import android.content.SharedPreferences
 import android.preference.PreferenceManager
 import androidx.core.content.edit
 import nerd.tuxmobil.fahrplan.congress.R
-import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
 
 class SharedPreferencesRepository(val context: Context) {
 
@@ -13,6 +12,7 @@ class SharedPreferencesRepository(val context: Context) {
 
         const val CHANGES_SEEN_KEY = "nerd.tuxmobil.fahrplan.congress.Prefs.CHANGES_SEEN"
         const val DISPLAY_DAY_INDEX_KEY = "nerd.tuxmobil.fahrplan.congress.Prefs.DISPLAY_DAY_INDEX"
+        const val ENGELSYSTEM_SHIFTS_HASH_KEY = "nerd.tuxmobil.fahrplan.congress.Prefs.ENGELSYSTEM_SHIFTS_HASH"
         const val SCHEDULE_LAST_FETCHED_AT_KEY = "nerd.tuxmobil.fahrplan.congress.Prefs.SCHEDULE_LAST_FETCHED_AT"
 
     }
@@ -90,10 +90,10 @@ class SharedPreferencesRepository(val context: Context) {
     }
 
     fun getLastEngelsystemShiftsHash() =
-            preferences.getInt(BundleKeys.PREFS_ENGELSYSTEM_SHIFTS_HASH, 0)
+            preferences.getInt(ENGELSYSTEM_SHIFTS_HASH_KEY, 0)
 
     fun setLastEngelsystemShiftsHash(hash: Int) = preferences.edit {
-        putInt(BundleKeys.PREFS_ENGELSYSTEM_SHIFTS_HASH, hash)
+        putInt(ENGELSYSTEM_SHIFTS_HASH_KEY, hash)
     }
 
 }
