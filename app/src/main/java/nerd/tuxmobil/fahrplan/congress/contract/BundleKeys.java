@@ -41,8 +41,6 @@ public interface BundleKeys {
     // Shared Preferences
     String BUNDLE_KEY_SCHEDULE_URL_UPDATED =
             "nerd.tuxmobil.fahrplan.congress.Prefs.SCHEDULE_URL_UPDATED";
-    String PREFS_SCHEDULE_URL =
-            "nerd.tuxmobil.fahrplan.congress.Prefs.SCHEDULE_URL";
     String BUNDLE_KEY_ENGELSYSTEM_SHIFTS_URL_UPDATED =
             "nerd.tuxmobil.fahrplan.congress.Prefs.ENGELSYSTEM_SHIFTS_URL_UPDATED";
     String PREFS_ENGELSYSTEM_SHIFTS_URL =

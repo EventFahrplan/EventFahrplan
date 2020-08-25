@@ -62,14 +62,14 @@
     <string name="preference_title_alternative_highlighting_enabled">Alternative highlighting</string>
 
     <!-- Alternative schedule URL -->
-    <string name="preference_schedule_url_key" translatable="false">
+    <string name="preference_key_alternative_schedule_url" translatable="false">
         schedule_url
     </string>
-    <string name="preference_schedule_url_default_value" translatable="false" />
-    <string name="preference_schedule_url_hint" translatable="false">
+    <string name="preference_default_value_alternative_schedule_url" translatable="false" />
+    <string name="preference_hint_alternative_schedule_url" translatable="false">
         https://yourhost/schedule.xml
     </string>
-    <string name="preference_schedule_url_title">Alternative schedule URL</string>
+    <string name="preference_title_alternative_schedule_url">Alternative schedule URL</string>
 
     <!-- App notification settings -->
     <string name="preference_key_app_notification_settings" translatable="false">app_notification_settings</string>

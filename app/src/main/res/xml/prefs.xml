@@ -18,11 +18,11 @@
             android:title="@string/preference_title_app_notification_settings" />
 
         <EditTextPreference
-            android:defaultValue="@string/preference_schedule_url_default_value"
-            android:hint="@string/preference_schedule_url_hint"
+            android:defaultValue="@string/preference_default_value_alternative_schedule_url"
+            android:hint="@string/preference_hint_alternative_schedule_url"
             android:inputType="textUri"
-            android:key="@string/preference_schedule_url_key"
-            android:title="@string/preference_schedule_url_title" />
+            android:key="@string/preference_key_alternative_schedule_url"
+            android:title="@string/preference_title_alternative_schedule_url" />
 
         <CheckBoxPreference
             android:defaultValue="@bool/preference_default_value_alternative_highlighting_enabled"

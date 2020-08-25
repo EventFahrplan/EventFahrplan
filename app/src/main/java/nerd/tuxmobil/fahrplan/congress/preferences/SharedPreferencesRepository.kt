@@ -76,13 +76,10 @@ class SharedPreferencesRepository(val context: Context) {
         putBoolean(CHANGES_SEEN_KEY, changesSeen)
     }
 
-    fun getScheduleUrl(): String {
-        val defaultScheduleUrl = context.getString(R.string.preference_schedule_url_default_value)
-        return preferences.getString(BundleKeys.PREFS_SCHEDULE_URL, defaultScheduleUrl)!!
-    }
-
-    fun setScheduleUrl(url: String) = preferences.edit {
-        putString(BundleKeys.PREFS_SCHEDULE_URL, url)
+    fun getAlternativeScheduleUrl(): String {
+        val key = context.getString(R.string.preference_key_alternative_schedule_url)
+        val defaultValue = context.getString(R.string.preference_default_value_alternative_schedule_url)
+        return preferences.getString(key, defaultValue)!!
     }
 
     fun getEngelsystemShiftsUrl(): String {

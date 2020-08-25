@@ -404,15 +404,13 @@ object AppRepository {
             sharedPreferencesRepository.isAutoUpdateEnabled()
 
     fun readScheduleUrl(): String {
-        val alternateScheduleUrl = sharedPreferencesRepository.getScheduleUrl()
+        val alternateScheduleUrl = sharedPreferencesRepository.getAlternativeScheduleUrl()
         return if (alternateScheduleUrl.isEmpty()) {
             BuildConfig.SCHEDULE_URL
         } else {
             alternateScheduleUrl
         }
     }
-
-    fun updateScheduleUrl(url: String) = sharedPreferencesRepository.setScheduleUrl(url)
 
     private fun readEngelsystemShiftsUrl() =
             sharedPreferencesRepository.getEngelsystemShiftsUrl()

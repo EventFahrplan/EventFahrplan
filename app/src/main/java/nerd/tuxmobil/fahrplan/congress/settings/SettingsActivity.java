@@ -80,19 +80,17 @@ public class SettingsActivity extends BaseActivity {
                 });
             }
 
-            Preference scheduleUrlPreference = findPreference(getString(R.string.preference_schedule_url_key));
+            Preference alternativeScheduleUrlPreference = findPreference(getString(R.string.preference_key_alternative_schedule_url));
             if (BuildConfig.ENABLE_ALTERNATIVE_SCHEDULE_URL) {
-                scheduleUrlPreference
+                alternativeScheduleUrlPreference
                         .setOnPreferenceChangeListener((preference, newValue) -> {
-                            String url = (String) newValue;
-                            appRepository.updateScheduleUrl(url);
                             Intent redrawIntent = new Intent();
                             redrawIntent.putExtra(BundleKeys.BUNDLE_KEY_SCHEDULE_URL_UPDATED, true);
                             getActivity().setResult(Activity.RESULT_OK, redrawIntent);
                             return true;
                         });
             } else {
-                categoryGeneral.removePreference(scheduleUrlPreference);
+                categoryGeneral.removePreference(alternativeScheduleUrlPreference);
             }
 
             findPreference(getResources().getString(R.string.preference_key_alternative_highlighting_enabled))

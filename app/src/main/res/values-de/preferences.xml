@@ -18,7 +18,7 @@
     <string name="preference_title_alternative_highlighting_enabled">Alternative Hervorhebung</string>
 
     <!-- Alternative schedule URL -->
-    <string name="preference_schedule_url_title">Alternative Fahrplan URL</string>
+    <string name="preference_title_alternative_schedule_url">Alternative Fahrplan URL</string>
 
     <!-- Insistent session alarms -->
     <string name="preference_title_insistent_alarms_enabled">Dauerhafter Alarm</string>
