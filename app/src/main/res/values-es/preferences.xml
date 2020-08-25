@@ -7,6 +7,9 @@
     <!-- Alarm tone -->
     <string name="preference_title_alarm_tone">Tono de alarma</string>
 
+    <!-- Alternative highlighting -->
+    <string name="preference_title_alternative_highlighting_enabled">Destacado alternativo</string>
+
     <!-- Alternative schedule URL -->
     <string name="preference_schedule_url_title">URL alternativa del calendario</string>
 

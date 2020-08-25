@@ -98,20 +98,11 @@ public class SettingsActivity extends BaseActivity {
                 categoryGeneral.removePreference(scheduleUrlPreference);
             }
 
-            findPreference("alternative_highlight")
+            findPreference(getResources().getString(R.string.preference_key_alternative_highlighting_enabled))
                     .setOnPreferenceChangeListener((preference, newValue) -> {
-
-                        SharedPreferences prefs = PreferenceManager
-                                .getDefaultSharedPreferences(getActivity());
-
-                        SharedPreferences.Editor edit = prefs.edit();
-                        edit.putBoolean(BundleKeys.PREFS_ALTERNATIVE_HIGHLIGHT, (Boolean) newValue);
-                        edit.apply();
-
                         Intent redrawIntent = new Intent();
-                        redrawIntent.putExtra(BundleKeys.PREFS_ALTERNATIVE_HIGHLIGHT, true);
+                        redrawIntent.putExtra(BundleKeys.BUNDLE_KEY_ALTERNATIVE_HIGHLIGHTING_UPDATED, true);
                         getActivity().setResult(Activity.RESULT_OK, redrawIntent);
-
                         return true;
                     });
 

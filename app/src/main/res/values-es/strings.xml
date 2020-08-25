@@ -12,7 +12,6 @@
     <string name="alarm_time_title_60_minutes_before">60 minutos antes</string>
     <string name="alarm_time_title_at_start_time">Al inicio</string>
     <string name="alarms_empty">No hay alarmas para mostrar. Nótese que se pueden poner alarmas para cada evento en el calendario. Sólo presione el ícono de alarma en la barra de acción</string>
-    <string name="alternative_highlight">Destacado alternativo</string>
     <string name="appVersion">Versión %s de la aplicación</string>
     <string name="app_disclaimer">Esta aplicación está basada en el código fuente de la aplicación  “EventFahrplan”. Asistentes al congreso anual y al campamento organizado por el Chaos Computer Club usan la aplicación para estar al tanto del programa del evento.</string>
     <string name="build_info_hash">Version hash: <xliff:g example="e1f2g3h-dirty" id="build_hash">%s</xliff:g></string>

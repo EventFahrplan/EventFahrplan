@@ -14,7 +14,6 @@
     <string name="alarm_time_title_60_minutes_before">60 minuti prima</string>
     <string name="alarm_time_title_at_start_time">all\'ora d\'inizio</string>
     <string name="alarms_empty">Non ci sono promemoria da visualizzare. Nota che è possibile aggiungere dei promemoria per ogni voce del programma usando l\'icona corrispondente nella barra delle azioni.</string>
-    <string name="alternative_highlight">Highlight alternativo</string>
     <string name="appVersion">Versione dell\'applicazione %s</string>
     <string name="app_disclaimer">Questa applicazione è basata sul codice sorgente di « EventFahrplan ». I visitatori del congresso annuale ospitato da Chaos Computer Club usano quest\'applicazione per tener traccia degli eventi in programma.</string>
     <string name="build_info_hash">Hash della versione: <xliff:g example="e1f2g3h-dirty" id="build_hash">%s</xliff:g></string>

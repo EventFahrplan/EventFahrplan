@@ -53,7 +53,7 @@ public interface BundleKeys {
             "nerd.tuxmobil.fahrplan.congress.Prefs.ENGELSYSTEM_SHIFTS_URL";
     String PREFS_ENGELSYSTEM_SHIFTS_HASH =
             "nerd.tuxmobil.fahrplan.congress.Prefs.ENGELSYSTEM_SHIFTS_HASH";
-    String PREFS_ALTERNATIVE_HIGHLIGHT =
+    String BUNDLE_KEY_ALTERNATIVE_HIGHLIGHTING_UPDATED =
             "nerd.tuxmobil.fahrplan.congress.Prefs.ALTERNATIVE_HIGHLIGHT";
     String PREFS_ALARM_TIME_INDEX =
             "nerd.tuxmobil.fahrplan.congress.Prefs.ALARM_TIME_INDEX";

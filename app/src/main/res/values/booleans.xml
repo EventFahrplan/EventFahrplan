@@ -3,6 +3,5 @@
 
     <bool name="bundle_key_schedule_url_updated_default_value">false</bool>
     <bool name="bundle_key_engelsystem_shifts_url_updated_default_value">false</bool>
-    <bool name="preferences_alternative_highlight_enabled_default_value">true</bool>
 
 </resources>

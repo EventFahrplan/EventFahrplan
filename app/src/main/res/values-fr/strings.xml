@@ -99,7 +99,6 @@
     </string>
     <string name="build_info_time"> Temps de construction : <xliff:g example="2015-12-27T13:42Z" id="build_time">%s</xliff:g>
     </string>
-    <string name="alternative_highlight">Mise en évidence alternative</string>
     <string name="add_to_calendar_failed">L’ajout de l’évènement au calendrier a échoué.</string>
     <string name="alarms_empty">Il n’y a aucun rappel à afficher. Veuillez noter que vous pouvez définir des rappels individuels pour chaque élément dans le programme. Appuyez simplement sur l’icône du rappel dans la barre d’action.</string>
     <string name="libraries">Cette application utilise les librairies suivantes : Kotlin, Google Support Library, BetterLinkMovementMethod, Email Intent Builder, Engelsystem, Espresso, OkHttp, SnackEngage, TraceDroid</string>

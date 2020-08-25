@@ -25,9 +25,9 @@
             android:title="@string/preference_schedule_url_title" />
 
         <CheckBoxPreference
-            android:defaultValue="@bool/preferences_alternative_highlight_enabled_default_value"
-            android:key="alternative_highlight"
-            android:title="@string/alternative_highlight" />
+            android:defaultValue="@bool/preference_default_value_alternative_highlighting_enabled"
+            android:key="@string/preference_key_alternative_highlighting_enabled"
+            android:title="@string/preference_title_alternative_highlighting_enabled" />
 
     </PreferenceCategory>
 

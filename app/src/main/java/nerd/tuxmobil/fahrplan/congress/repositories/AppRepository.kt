@@ -394,6 +394,9 @@ object AppRepository {
     fun readAlarmToneUri() =
             sharedPreferencesRepository.getAlarmTone().toUri()
 
+    fun readAlternativeHighlightingEnabled() =
+            sharedPreferencesRepository.isAlternativeHighlightingEnabled()
+
     fun readAutoUpdateEnabled() =
             sharedPreferencesRepository.isAutoUpdateEnabled()
 

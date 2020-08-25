@@ -109,7 +109,6 @@
     <string name="choose_to_delete">Selecionar palestras</string>
     <string name="day_separator">Dia <xliff:g example="2" id="day_of_congress">%1$d</xliff:g> - <xliff:g example="29.12.2014" id="date_of_congress_day">%2$s</xliff:g></string>
     <string name="session_duration"><xliff:g example="45" id="duration">%1$d</xliff:g> min.</string>
-    <string name="alternative_highlight">Destaque alternativo</string>
     <string name="dlg_delete_all_favorites">Remover todos os favoritos?</string>
     <string name="dlg_delete_all_favorites_delete_all">Remover tudo</string>
 
