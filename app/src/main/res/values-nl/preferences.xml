@@ -4,6 +4,10 @@
     <!-- Automatic schedule updates -->
     <string name="preference_title_auto_update_enabled">Automatisch bijwerken</string>
 
+    <!-- Alarm time index -->
+    <string name="preference_dialog_title_alarm_time">Kies een standaard alarmtijd</string>
+    <string name="preference_title_alarm_time">Standaard alarmtijd</string>
+
     <!-- Alarm tone -->
     <string name="preference_title_alarm_tone">Alarm toon</string>
 

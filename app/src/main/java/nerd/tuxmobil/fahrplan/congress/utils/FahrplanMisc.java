@@ -72,7 +72,7 @@ public class FahrplanMisc {
                                 int alarmTimesIndex) {
         Log.d(LOG_TAG, "Add alarm for session = " + session.sessionId +
                 ", alarmTimesIndex = " + alarmTimesIndex + ".");
-        String[] alarm_times = context.getResources().getStringArray(R.array.alarm_time_values);
+        String[] alarm_times = context.getResources().getStringArray(R.array.preference_entry_values_alarm_time);
         List<String> alarmTimeStrings = new ArrayList<>(Arrays.asList(alarm_times));
         List<Integer> alarmTimes = new ArrayList<>(alarmTimeStrings.size());
         for (String alarmTimeString : alarmTimeStrings) {

@@ -5,15 +5,12 @@ import android.app.Activity;
 import android.app.AlarmManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
-import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.provider.Settings;
 
@@ -106,22 +103,6 @@ public class SettingsActivity extends BaseActivity {
                         return true;
                     });
 
-            findPreference("default_alarm_time")
-                    .setOnPreferenceChangeListener((preference, newValue) -> {
-                        Activity activity = getActivity();
-                        Resources resources = activity.getResources();
-                        SharedPreferences prefs = PreferenceManager
-                                .getDefaultSharedPreferences(activity);
-                        SharedPreferences.Editor edit = prefs.edit();
-                        int alarmTimeValue = Integer.parseInt((String) newValue);
-                        String[] alarmTimeValues = resources.getStringArray(R.array.alarm_time_values);
-                        int defaultAlarmTimeValue = resources.getInteger(R.integer.default_alarm_time_index);
-                        int alarmTimeIndex = getAlarmTimeIndex(alarmTimeValues, alarmTimeValue, defaultAlarmTimeValue);
-                        edit.putInt(BundleKeys.PREFS_ALARM_TIME_INDEX, alarmTimeIndex);
-                        edit.commit();
-                        return true;
-                    });
-
             PreferenceScreen screen = (PreferenceScreen) findPreference(getString(R.string.preference_key_screen));
             PreferenceCategory engelsystemCategory = (PreferenceCategory) findPreference(getString(R.string.preference_engelsystem_category_key));
             if (BuildConfig.ENABLE_ENGELSYSTEM_SHIFTS) {
@@ -138,17 +119,6 @@ public class SettingsActivity extends BaseActivity {
             } else {
                 screen.removePreference(engelsystemCategory);
             }
-        }
-
-        private int getAlarmTimeIndex(String[] alarmTimeValues, int alarmTimeValue, int defaultAlarmTimeValue) {
-            for (int index = 0, alarmTimeValuesLength = alarmTimeValues.length; index < alarmTimeValuesLength; index++) {
-                String alarmTimeStringValue = alarmTimeValues[index];
-                int alarmTimeIntegerValue = Integer.parseInt(alarmTimeStringValue);
-                if (alarmTimeIntegerValue == alarmTimeValue) {
-                    return index;
-                }
-            }
-            return defaultAlarmTimeValue;
         }
 
         @TargetApi(Build.VERSION_CODES.O)

@@ -15,6 +15,16 @@ class SharedPreferencesRepository(val context: Context) {
         PreferenceManager.setDefaultValues(context, R.xml.prefs, false)
     }
 
+    fun getAlarmTimeIndex(): Int {
+        val key = context.getString(R.string.preference_key_alarm_time_index)
+        val defaultValue = context.getString(R.string.preference_default_value_alarm_time_value)
+        val value = preferences.getString(key, defaultValue)!!
+        val entryValues = context.resources.getStringArray(R.array.preference_entry_values_alarm_time)
+        val defaultIndex = context.resources.getInteger(R.integer.preference_default_value_alarm_time_index)
+        val index = entryValues.indexOf(value)
+        return if (index == -1) defaultIndex else index
+    }
+
     fun getAlarmTone(): String {
         val key = context.getString(R.string.preference_key_alarm_tone)
         val defaultValue = context.getString(R.string.preference_default_value_alarm_tone)

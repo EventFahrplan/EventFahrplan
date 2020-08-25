@@ -70,8 +70,6 @@
     <string name="no_favorites">Aucune conférence dans les favoris</string>
     <string name="issues">&lt;a href=https://github.com/EventFahrplan/EventFahrplan/issues&gt;Problèmes ou demandes de fonctionnalités&lt;/a&gt;</string>
     <string name="about_data_privacy_statement">&lt;a href=https://github.com/EventFahrplan/EventFahrplan/blob/master/DATA-PRIVACY-DE.md&gt;Déclaration de protection des données (en allemand)&lt;/a&gt;</string>
-    <string name="default_alarm_time_dialog_title">Heure par défaut du rappel</string>
-    <string name="default_alarm_time_title">Choisissez l’heure par défaut du rappel</string>
     <string name="choose_alarm_time">Choisissez l’heure du rappel</string>
     <string name="session_details_section_title_links">Liens</string>
     <string name="session_details_section_title_session_online">Événement en ligne</string>

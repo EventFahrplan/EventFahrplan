@@ -78,8 +78,6 @@
     <string name="session_details_section_title_session_online">Event online</string>
     <string name="session_details_section_title_links">Links</string>
     <string name="choose_alarm_time">Wähle die Alarmzeit</string>
-    <string name="default_alarm_time_title">Wähle eine Standard-Alarmzeit</string>
-    <string name="default_alarm_time_dialog_title">Standard-Alarmzeit</string>
     <string name="reminders">Alarme</string>
     <string name="usage">Hinweis:\n\nLange auf Vortrag tippen, um einen Alarm einzustellen.</string>
     <string name="libraries">

@@ -391,6 +391,9 @@ object AppRepository {
         metaDatabaseRepository.insert(values)
     }
 
+    fun readAlarmTimeIndex() =
+            sharedPreferencesRepository.getAlarmTimeIndex()
+
     fun readAlarmToneUri() =
             sharedPreferencesRepository.getAlarmTone().toUri()
 

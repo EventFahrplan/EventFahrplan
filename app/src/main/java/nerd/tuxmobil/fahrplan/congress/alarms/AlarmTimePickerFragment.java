@@ -4,9 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -22,8 +20,8 @@ import androidx.fragment.app.FragmentManager;
 
 import nerd.tuxmobil.fahrplan.congress.BuildConfig;
 import nerd.tuxmobil.fahrplan.congress.R;
-import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.extensions.Contexts;
+import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 
 public class AlarmTimePickerFragment extends DialogFragment {
 
@@ -52,9 +50,8 @@ public class AlarmTimePickerFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         Context context = requireContext();
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        int defaultAlarmTimeIndex = context.getResources().getInteger(R.integer.default_alarm_time_index);
-        alarmTimeIndex = prefs.getInt(BundleKeys.PREFS_ALARM_TIME_INDEX, defaultAlarmTimeIndex);
+        AppRepository appRepository = AppRepository.INSTANCE;
+        alarmTimeIndex = appRepository.readAlarmTimeIndex();
         LayoutInflater inflater = Contexts.getLayoutInflater(context);
         @SuppressLint("InflateParams")
         View layout = inflater.inflate(R.layout.reminder_dialog, null, false);
@@ -74,7 +71,7 @@ public class AlarmTimePickerFragment extends DialogFragment {
         spinner = rootView.findViewById(R.id.spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 rootView.getContext(),
-                R.array.alarm_time_titles,
+                R.array.preference_entries_alarm_time_titles,
                 android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);

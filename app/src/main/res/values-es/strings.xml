@@ -26,8 +26,6 @@
     <string name="choose_to_delete">Seleccione la conferencia</string>
     <string name="day">Día</string>
     <string name="day_separator">Día <xliff:g example="2" id="day_of_congress">%1$d</xliff:g> - <xliff:g example="29.12.2014" id="date_of_congress_day">%2$s</xliff:g></string>
-    <string name="default_alarm_time_dialog_title">Horario de alarma por defecto</string>
-    <string name="default_alarm_time_title">Escoja un horario de alarma por defecto</string>
     <string name="certificate_error_message">No se pudo establecer una conexión segura. (<xliff:g example="Unknown Error" id="error">%s</xliff:g>)</string>
     <string name="dlg_delete_all_favorites">Borrar todos los favoritos?</string>
     <string name="dlg_delete_all_favorites_delete_all">Borrar todo</string>

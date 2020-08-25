@@ -78,9 +78,6 @@
     <string name="session_details_section_title_session_online">Мероприятие онлайн</string>
     <string name="session_details_section_title_links">Ссылки</string>
     <string name="choose_alarm_time">Выбрать время напоминания</string>
-    <string name="default_alarm_time_title">Выбрать время напоминания по умолчанию</string>
-    <string name="default_alarm_time_dialog_title">Время напоминания по умолчанию</string>
-    <!-- Synchronize with @integers/default_alarm_time_index and string-array/alarm_time_values -->
     <string name="reminders">Напоминания</string>
     <string name="usage">Примечание:\n\nДолгое нажатие на лекцию установит напоминание.</string>
     <string name="libraries">

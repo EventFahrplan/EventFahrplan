@@ -74,8 +74,6 @@
     <string name="session_details_section_title_session_online">Evenement online</string>
     <string name="session_details_section_title_links">Links</string>
     <string name="choose_alarm_time">Kies alarmtijd</string>
-    <string name="default_alarm_time_title">Kies een standaard alarmtijd</string>
-    <string name="default_alarm_time_dialog_title">Standaard alarmtijd</string>
     <string name="reminders">Alarmen</string>
     <string name="usage">Tip:\n\nLang indrukken op een evenement om een alarm aan te zetten.</string>
     <string name="libraries">

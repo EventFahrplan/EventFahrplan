@@ -7,6 +7,10 @@
     <!-- Automatic schedule updates -->
     <string name="preference_title_auto_update_enabled">Atualizações automáticas</string>
 
+    <!-- Alarm time index -->
+    <string name="preference_dialog_title_alarm_time">Escolha o horário de alerta padrão</string>
+    <string name="preference_title_alarm_time">Horário padrão de alerta</string>
+
     <!-- Alarm tone -->
     <string name="preference_title_alarm_tone">Som do alerta</string>
 
