@@ -426,7 +426,7 @@ object AppRepository {
         sharedPreferencesRepository.setScheduleLastFetchedAt(toMilliseconds())
     }
 
-    fun sawScheduleChanges() =
+    fun readScheduleChangesSeen() =
             sharedPreferencesRepository.getChangesSeen()
 
     fun updateScheduleChangesSeen(changesSeen: Boolean) =

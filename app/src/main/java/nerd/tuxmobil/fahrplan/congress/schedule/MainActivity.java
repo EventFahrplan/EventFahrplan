@@ -217,7 +217,7 @@ public class MainActivity extends BaseActivity implements
             ((ChangeListFragment) fragment).onRefresh();
         }
 
-        if (!appRepository.sawScheduleChanges()) {
+        if (!appRepository.readScheduleChangesSeen()) {
             showChangesDialog();
         }
     }
@@ -302,7 +302,7 @@ public class MainActivity extends BaseActivity implements
             sidePane.setVisibility(isScreenLocked ? View.GONE : View.VISIBLE);
         }
 
-        if (!appRepository.sawScheduleChanges()) {
+        if (!appRepository.readScheduleChangesSeen()) {
             showChangesDialog();
         }
     }

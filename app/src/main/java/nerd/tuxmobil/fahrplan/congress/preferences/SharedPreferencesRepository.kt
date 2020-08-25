@@ -9,6 +9,12 @@ import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
 
 class SharedPreferencesRepository(val context: Context) {
 
+    private companion object {
+
+        const val CHANGES_SEEN_KEY = "nerd.tuxmobil.fahrplan.congress.Prefs.CHANGES_SEEN"
+
+    }
+
     private val preferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context.applicationContext)
 
     init {
@@ -63,10 +69,10 @@ class SharedPreferencesRepository(val context: Context) {
     }
 
     fun getChangesSeen() =
-            preferences.getBoolean(BundleKeys.PREFS_CHANGES_SEEN, true)
+            preferences.getBoolean(CHANGES_SEEN_KEY, true)
 
     fun setChangesSeen(changesSeen: Boolean) = preferences.edit {
-        putBoolean(BundleKeys.PREFS_CHANGES_SEEN, changesSeen)
+        putBoolean(CHANGES_SEEN_KEY, changesSeen)
     }
 
     fun getScheduleUrl(): String {
