@@ -49,6 +49,4 @@ public interface BundleKeys {
             "nerd.tuxmobil.fahrplan.congress.Prefs.ENGELSYSTEM_SHIFTS_HASH";
     String BUNDLE_KEY_ALTERNATIVE_HIGHLIGHTING_UPDATED =
             "nerd.tuxmobil.fahrplan.congress.Prefs.ALTERNATIVE_HIGHLIGHT";
-    String PREFS_DISPLAY_DAY_INDEX =
-            "nerd.tuxmobil.fahrplan.congress.Prefs.DISPLAY_DAY_INDEX";
 }

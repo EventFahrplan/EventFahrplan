@@ -12,6 +12,7 @@ class SharedPreferencesRepository(val context: Context) {
     private companion object {
 
         const val CHANGES_SEEN_KEY = "nerd.tuxmobil.fahrplan.congress.Prefs.CHANGES_SEEN"
+        const val DISPLAY_DAY_INDEX_KEY = "nerd.tuxmobil.fahrplan.congress.Prefs.DISPLAY_DAY_INDEX"
         const val SCHEDULE_LAST_FETCHED_AT_KEY = "nerd.tuxmobil.fahrplan.congress.Prefs.SCHEDULE_LAST_FETCHED_AT"
 
     }
@@ -50,10 +51,10 @@ class SharedPreferencesRepository(val context: Context) {
         return preferences.getBoolean(key, defaultValue)
     }
 
-    fun getDisplayDayIndex() = preferences.getInt(BundleKeys.PREFS_DISPLAY_DAY_INDEX, 1)
+    fun getDisplayDayIndex() = preferences.getInt(DISPLAY_DAY_INDEX_KEY, 1)
 
     fun setDisplayDayIndex(displayDayIndex: Int) = preferences.edit {
-        putInt(BundleKeys.PREFS_DISPLAY_DAY_INDEX, displayDayIndex)
+        putInt(DISPLAY_DAY_INDEX_KEY, displayDayIndex)
     }
 
     fun isInsistentAlarmsEnabled(): Boolean {
