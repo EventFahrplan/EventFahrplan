@@ -109,7 +109,7 @@ object AppRepository {
             onFetchingDone.invoke(fetchResult)
 
             if (fetchResult.isNotModified || fetchResult.isSuccessful) {
-                updateScheduleLastFetchingTime()
+                updateScheduleLastFetchedAt()
             }
 
             if (fetchResult.isSuccessful) {
@@ -419,10 +419,10 @@ object AppRepository {
 
     fun updateEngelsystemShiftsUrl(url: String) = sharedPreferencesRepository.setEngelsystemShiftsUrl(url)
 
-    fun readScheduleLastFetchingTime() =
+    fun readScheduleLastFetchedAt() =
             sharedPreferencesRepository.getScheduleLastFetchedAt()
 
-    private fun updateScheduleLastFetchingTime() = with(Moment()) {
+    private fun updateScheduleLastFetchedAt() = with(Moment()) {
         sharedPreferencesRepository.setScheduleLastFetchedAt(toMilliseconds())
     }
 

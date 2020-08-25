@@ -39,8 +39,6 @@ public interface BundleKeys {
             "nerd.tuxmobil.fahrplan.congress.ChangesDialog.VERSION";
 
     // Shared Preferences
-    String PREFS_SCHEDULE_LAST_FETCHED_AT =
-            "nerd.tuxmobil.fahrplan.congress.Prefs.SCHEDULE_LAST_FETCHED_AT";
     String BUNDLE_KEY_SCHEDULE_URL_UPDATED =
             "nerd.tuxmobil.fahrplan.congress.Prefs.SCHEDULE_URL_UPDATED";
     String PREFS_SCHEDULE_URL =

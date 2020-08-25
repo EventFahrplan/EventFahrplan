@@ -63,7 +63,7 @@ public final class OnBootReceiver extends BroadcastReceiver {
         // start auto updates
         boolean isAutoUpdateEnabled = appRepository.readAutoUpdateEnabled();
         if (isAutoUpdateEnabled) {
-            long lastFetchedAt = appRepository.readScheduleLastFetchingTime();
+            long lastFetchedAt = appRepository.readScheduleLastFetchedAt();
             nowMoment.setToNow();
             long nowMillis = nowMoment.toMilliseconds();
 

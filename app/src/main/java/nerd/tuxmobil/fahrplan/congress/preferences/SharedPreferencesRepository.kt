@@ -12,6 +12,7 @@ class SharedPreferencesRepository(val context: Context) {
     private companion object {
 
         const val CHANGES_SEEN_KEY = "nerd.tuxmobil.fahrplan.congress.Prefs.CHANGES_SEEN"
+        const val SCHEDULE_LAST_FETCHED_AT_KEY = "nerd.tuxmobil.fahrplan.congress.Prefs.SCHEDULE_LAST_FETCHED_AT"
 
     }
 
@@ -62,10 +63,10 @@ class SharedPreferencesRepository(val context: Context) {
     }
 
     fun getScheduleLastFetchedAt() =
-            preferences.getLong(BundleKeys.PREFS_SCHEDULE_LAST_FETCHED_AT, 0)
+            preferences.getLong(SCHEDULE_LAST_FETCHED_AT_KEY, 0)
 
     fun setScheduleLastFetchedAt(fetchedAt: Long) = preferences.edit {
-        putLong(BundleKeys.PREFS_SCHEDULE_LAST_FETCHED_AT, fetchedAt)
+        putLong(SCHEDULE_LAST_FETCHED_AT_KEY, fetchedAt)
     }
 
     fun getChangesSeen() =
