@@ -14,6 +14,7 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
 import android.provider.Settings;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
@@ -82,9 +83,7 @@ public class SettingsActivity extends BaseActivity {
             if (BuildConfig.ENABLE_ALTERNATIVE_SCHEDULE_URL) {
                 alternativeScheduleUrlPreference
                         .setOnPreferenceChangeListener((preference, newValue) -> {
-                            Intent redrawIntent = new Intent();
-                            redrawIntent.putExtra(BundleKeys.BUNDLE_KEY_SCHEDULE_URL_UPDATED, true);
-                            getActivity().setResult(Activity.RESULT_OK, redrawIntent);
+                            requestRedraw(BundleKeys.BUNDLE_KEY_SCHEDULE_URL_UPDATED);
                             return true;
                         });
             } else {
@@ -93,9 +92,7 @@ public class SettingsActivity extends BaseActivity {
 
             findPreference(getResources().getString(R.string.preference_key_alternative_highlighting_enabled))
                     .setOnPreferenceChangeListener((preference, newValue) -> {
-                        Intent redrawIntent = new Intent();
-                        redrawIntent.putExtra(BundleKeys.BUNDLE_KEY_ALTERNATIVE_HIGHLIGHTING_UPDATED, true);
-                        getActivity().setResult(Activity.RESULT_OK, redrawIntent);
+                        requestRedraw(BundleKeys.BUNDLE_KEY_ALTERNATIVE_HIGHLIGHTING_UPDATED);
                         return true;
                     });
 
@@ -105,14 +102,18 @@ public class SettingsActivity extends BaseActivity {
                 Preference urlPreference = findPreference(getString(R.string.preference_key_engelsystem_json_export_url));
                 urlPreference.setSummary(Strings.toSpanned(getString(R.string.preference_summary_engelsystem_json_export_url)));
                 urlPreference.setOnPreferenceChangeListener((preference, newValue) -> {
-                    Intent redrawIntent = new Intent();
-                    redrawIntent.putExtra(BundleKeys.BUNDLE_KEY_ENGELSYSTEM_SHIFTS_URL_UPDATED, true);
-                    getActivity().setResult(Activity.RESULT_OK, redrawIntent);
+                    requestRedraw(BundleKeys.BUNDLE_KEY_ENGELSYSTEM_SHIFTS_URL_UPDATED);
                     return true;
                 });
             } else {
                 screen.removePreference(engelsystemCategory);
             }
+        }
+
+        private void requestRedraw(@NonNull String bundleKey) {
+            Intent redrawIntent = new Intent();
+            redrawIntent.putExtra(bundleKey, true);
+            getActivity().setResult(Activity.RESULT_OK, redrawIntent);
         }
 
         @TargetApi(Build.VERSION_CODES.O)
