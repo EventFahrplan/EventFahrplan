@@ -10,4 +10,7 @@
     <!-- Alternative schedule URL -->
     <string name="preference_schedule_url_title">URL alternativa de cronograma</string>
 
+    <!-- Insistent session alarms -->
+    <string name="preference_title_insistent_alarms_enabled">Alerta persistente</string>
+
 </resources>

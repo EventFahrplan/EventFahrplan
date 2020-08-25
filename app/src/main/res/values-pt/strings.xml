@@ -79,7 +79,6 @@
     <!-- Synchronize with @integers/default_alarm_time_index and string-array/alarm_time_values -->
     <string name="reminders">Alertas</string>
     <string name="reminder_ringtone">Som do alerta</string>
-    <string name="insistent_alarm">Alerta persistente</string>
     <string name="usage">Dica:\n\nMantenha pressionado na palestra para ajustar um alerta.</string>
     <string name="libraries">
 		Este aplicativo usa as seguintes bibliotecas:

@@ -27,6 +27,12 @@ class SharedPreferencesRepository(val context: Context) {
         putInt(BundleKeys.PREFS_DISPLAY_DAY_INDEX, displayDayIndex)
     }
 
+    fun isInsistentAlarmsEnabled(): Boolean {
+        val key = context.getString(R.string.preference_key_insistent_alarms_enabled)
+        val defaultValue = context.resources.getBoolean(R.bool.preference_default_value_insistent_alarms_enabled)
+        return preferences.getBoolean(key, defaultValue)
+    }
+
     fun getScheduleLastFetchedAt() =
             preferences.getLong(BundleKeys.PREFS_SCHEDULE_LAST_FETCHED_AT, 0)
 

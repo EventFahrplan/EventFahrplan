@@ -42,9 +42,9 @@
             android:title="@string/reminder_ringtone" />
 
         <CheckBoxPreference
-            android:defaultValue="@bool/preferences_insistent_alarm_enabled_default_value"
-            android:key="insistent"
-            android:title="@string/insistent_alarm" />
+            android:defaultValue="@bool/preference_default_value_insistent_alarms_enabled"
+            android:key="@string/preference_key_insistent_alarms_enabled"
+            android:title="@string/preference_title_insistent_alarms_enabled" />
 
         <ListPreference
             android:defaultValue="@string/default_alarm_time_value"

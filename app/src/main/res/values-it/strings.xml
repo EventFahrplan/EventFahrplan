@@ -45,7 +45,6 @@
     <string name="session_details_section_title_session_online">Evento in linea</string>
     <string name="fahrplan">Programma</string>
     <string name="general_settings">Generale</string>
-    <string name="insistent_alarm">Promemoria persistente</string>
     <string name="invalid_url">URL erroneo</string>
     <string name="issues"><![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan/issues">Assistenza o suggerimento di nuove funzionalità</a>]]></string>
     <string name="session_list_item_language_english_content_description">Inglese</string>

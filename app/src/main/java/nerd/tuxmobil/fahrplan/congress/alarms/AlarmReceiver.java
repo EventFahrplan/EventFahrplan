@@ -47,9 +47,8 @@ public final class AlarmReceiver extends BroadcastReceiver {
             String title = intent.getStringExtra(BundleKeys.ALARM_TITLE);
             //Toast.makeText(context, "Alarm worked.", Toast.LENGTH_LONG).show();
 
+            AppRepository appRepository = AppRepository.INSTANCE;
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-            boolean defaultValue = context.getResources().getBoolean(R.bool.preferences_insistent_alarm_enabled_default_value);
-            boolean insistent = prefs.getBoolean("insistent", defaultValue);
 
             Intent launchIntent = MainActivity.createLaunchIntent(context, sessionId, day);
             PendingIntent contentIntent = PendingIntent
@@ -59,10 +58,10 @@ public final class AlarmReceiver extends BroadcastReceiver {
             String defaultReminderTone = context.getString(R.string.preferences_reminder_tone_default_value);
             Uri soundUri = Uri.parse(prefs.getString("reminder_tone", defaultReminderTone));
             NotificationCompat.Builder builder = notificationHelper.getSessionAlarmNotificationBuilder(contentIntent, title, when, soundUri);
-            MyApp.LogDebug(LOG_TAG, "Preference 'insistent' = " + insistent + ".");
-            notificationHelper.notify(NotificationHelper.SESSION_ALARM_ID, builder, insistent);
+            boolean isInsistentAlarmsEnabled = appRepository.readInsistentAlarmsEnabled();
+            MyApp.LogDebug(LOG_TAG, "Preference 'isInsistentAlarmsEnabled' = " + isInsistentAlarmsEnabled + ".");
+            notificationHelper.notify(NotificationHelper.SESSION_ALARM_ID, builder, isInsistentAlarmsEnabled);
 
-            AppRepository appRepository = AppRepository.INSTANCE;
             appRepository.deleteAlarmForSessionId(sessionId);
 
             appRepository.notifyAlarmsChanged();

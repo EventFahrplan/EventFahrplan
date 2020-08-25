@@ -80,7 +80,6 @@
     <string name="fahrplan">Programme</string>
     <string name="day">Jour</string>
     <string name="today">aujourd’hui</string>
-    <string name="insistent_alarm">Rappel insistant</string>
     <string name="reminders">Rappels</string>
     <string name="settings">Paramètres</string>
     <string name="menu_item_title_refresh">Actualiser</string>

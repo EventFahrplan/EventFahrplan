@@ -431,6 +431,9 @@ object AppRepository {
     fun updateDisplayDayIndex(displayDayIndex: Int) =
             sharedPreferencesRepository.setDisplayDayIndex(displayDayIndex)
 
+    fun readInsistentAlarmsEnabled() =
+            sharedPreferencesRepository.isInsistentAlarmsEnabled()
+
     @Deprecated("Replace this with a push-based update mechanism")
     fun setOnSessionsChangeListener(onSessionsChangeListener: OnSessionsChangeListener) {
         this.onSessionsChangeListener?.let {

@@ -78,7 +78,6 @@
     <string name="default_alarm_time_dialog_title">Standaard alarmtijd</string>
     <string name="reminders">Alarmen</string>
     <string name="reminder_ringtone">Alarm toon</string>
-    <string name="insistent_alarm">Aanhoudend alarm</string>
     <string name="usage">Tip:\n\nLang indrukken op een evenement om een alarm aan te zetten.</string>
     <string name="libraries">
 		Deze applicatie gebruikt de volgende software-bibliotheken:

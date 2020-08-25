@@ -7,4 +7,7 @@
     <!-- Alternative schedule URL -->
     <string name="preference_schedule_url_title">URL alternativo del programma</string>
 
+    <!-- Insistent session alarms -->
+    <string name="preference_title_insistent_alarms_enabled">Promemoria persistente</string>
+
 </resources>

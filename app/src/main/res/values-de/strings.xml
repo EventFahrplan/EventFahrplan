@@ -82,7 +82,6 @@
     <string name="default_alarm_time_dialog_title">Standard-Alarmzeit</string>
     <string name="reminders">Alarme</string>
     <string name="reminder_ringtone">Alarmton</string>
-    <string name="insistent_alarm">Dauerhafter Alarm</string>
     <string name="usage">Hinweis:\n\nLange auf Vortrag tippen, um einen Alarm einzustellen.</string>
     <string name="libraries">
 		Die Anwendung nutzt folgende Bibliotheken:

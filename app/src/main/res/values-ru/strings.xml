@@ -83,7 +83,6 @@
     <!-- Synchronize with @integers/default_alarm_time_index and string-array/alarm_time_values -->
     <string name="reminders">Напоминания</string>
     <string name="reminder_ringtone">Мелодия напоминаний</string>
-    <string name="insistent_alarm">Настойчивое напоминание</string>
     <string name="usage">Примечание:\n\nДолгое нажатие на лекцию установит напоминание.</string>
     <string name="libraries">
         Это приложение использует следующие библиотеки:
