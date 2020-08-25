@@ -26,7 +26,6 @@ import nerd.tuxmobil.fahrplan.congress.base.BaseActivity;
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.extensions.Contexts;
 import nerd.tuxmobil.fahrplan.congress.extensions.Strings;
-import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
 
 public class SettingsActivity extends BaseActivity {
@@ -55,7 +54,6 @@ public class SettingsActivity extends BaseActivity {
         public void onCreate(@Nullable Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.prefs);
-            AppRepository appRepository = AppRepository.INSTANCE;
             PreferenceCategory categoryGeneral = (PreferenceCategory) findPreference(getString(R.string.preference_key_category_general));
 
             findPreference(getResources().getString(R.string.preference_key_auto_update_enabled))
@@ -104,11 +102,9 @@ public class SettingsActivity extends BaseActivity {
             PreferenceScreen screen = (PreferenceScreen) findPreference(getString(R.string.preference_key_screen));
             PreferenceCategory engelsystemCategory = (PreferenceCategory) findPreference(getString(R.string.preference_engelsystem_category_key));
             if (BuildConfig.ENABLE_ENGELSYSTEM_SHIFTS) {
-                Preference urlPreference = findPreference(getString(R.string.preference_engelsystem_json_export_url_key));
-                urlPreference.setSummary(Strings.toSpanned(getString(R.string.preference_engelsystem_json_export_url_summary)));
+                Preference urlPreference = findPreference(getString(R.string.preference_key_engelsystem_json_export_url));
+                urlPreference.setSummary(Strings.toSpanned(getString(R.string.preference_summary_engelsystem_json_export_url)));
                 urlPreference.setOnPreferenceChangeListener((preference, newValue) -> {
-                    String url = (String) newValue;
-                    appRepository.updateEngelsystemShiftsUrl(url);
                     Intent redrawIntent = new Intent();
                     redrawIntent.putExtra(BundleKeys.BUNDLE_KEY_ENGELSYSTEM_SHIFTS_URL_UPDATED, true);
                     getActivity().setResult(Activity.RESULT_OK, redrawIntent);

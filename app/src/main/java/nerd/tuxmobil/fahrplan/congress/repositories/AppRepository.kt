@@ -415,8 +415,6 @@ object AppRepository {
     private fun readEngelsystemShiftsUrl() =
             sharedPreferencesRepository.getEngelsystemShiftsUrl()
 
-    fun updateEngelsystemShiftsUrl(url: String) = sharedPreferencesRepository.setEngelsystemShiftsUrl(url)
-
     fun readScheduleLastFetchedAt() =
             sharedPreferencesRepository.getScheduleLastFetchedAt()
 

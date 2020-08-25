@@ -61,14 +61,14 @@
         android:title="@string/preference_engelsystem_category_title">
 
         <nerd.tuxmobil.fahrplan.congress.preferences.ValidateableEditTextPreference
-            android:defaultValue="@string/preference_engelsystem_json_export_url_default_value"
-            android:hint="@string/preference_engelsystem_json_export_url_hint"
+            android:defaultValue="@string/preference_default_value_engelsystem_json_export_url"
+            android:hint="@string/preference_hint_engelsystem_json_export_url"
             android:inputType="textUri"
-            android:key="@string/preference_engelsystem_json_export_url_key"
-            android:title="@string/preference_engelsystem_json_export_url_title"
-            app:urlTypeFriendlyName="@string/preference_engelsystem_json_export_url_type_friendly_name"
+            android:key="@string/preference_key_engelsystem_json_export_url"
+            android:title="@string/preference_title_engelsystem_json_export_url"
+            app:urlTypeFriendlyName="@string/preference_url_type_friendly_name_engelsystem_json_export"
             app:validationType="engelsystemUrl"
-            tools:summary="@string/preference_engelsystem_json_export_url_summary" />
+            tools:summary="@string/preference_summary_engelsystem_json_export_url" />
 
     </PreferenceCategory>
 
