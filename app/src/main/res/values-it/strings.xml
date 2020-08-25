@@ -85,7 +85,6 @@
     <string name="preference_title_app_notification_settings">Preferenze per le notifiche &#8230;</string>
     <string name="progress_loading_data">Caricamento del programma &#8230;</string>
     <string name="progress_processing_data">Elaborazione del programma &#8230;</string>
-    <string name="reminder_ringtone">Suoneria del promemoria</string>
     <string name="reminders">Promemoria</string>
     <string name="schedule_changes">Cambiamenti di programma</string>
     <string name="schedule_changes_dialog_affected_text">I cambiamenti riguardano <xliff:g example="2" id="num_marked">%1$d</xliff:g> delle tue conferenze preferite.</string>

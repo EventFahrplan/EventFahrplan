@@ -3,9 +3,7 @@ package nerd.tuxmobil.fahrplan.congress.autoupdate;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
-import android.preference.PreferenceManager;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
@@ -68,10 +66,7 @@ public class UpdateService extends SafeJobIntentService {
             contentText = getString(R.string.schedule_updated_to, version);
         }
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        String defaultReminderTone = getString(R.string.preferences_reminder_tone_default_value);
-        String reminderTone = prefs.getString("reminder_tone", defaultReminderTone);
-        Uri soundUri = Uri.parse(reminderTone);
+        Uri soundUri = appRepository.readAlarmToneUri();
 
         NotificationHelper notificationHelper = new NotificationHelper(this);
         NotificationCompat.Builder builder = notificationHelper.getScheduleUpdateNotificationBuilder(contentIntent, contentText, changesCount, soundUri);

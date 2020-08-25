@@ -83,7 +83,6 @@
     <string name="preference_title_app_notification_settings">Personalizar notificaciones &#8230;</string>
     <string name="progress_loading_data">Obtener calendario &#8230;</string>
     <string name="progress_processing_data">Procesando calendario &#8230;</string>
-    <string name="reminder_ringtone">Tono de alarma</string>
     <string name="reminders">Alarmas</string>
     <string name="schedule_changes">Cambios en el calendario</string>
     <string name="schedule_changes_dialog_affected_text">Los cambios afectan <xliff:g example="2" id="num_marked">%1$d</xliff:g> de tus conferencias favoritas</string>

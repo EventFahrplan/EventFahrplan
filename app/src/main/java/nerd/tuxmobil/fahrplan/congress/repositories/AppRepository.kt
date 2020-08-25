@@ -1,6 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.repositories
 
 import android.content.Context
+import androidx.core.net.toUri
 import info.metadude.android.eventfahrplan.commons.logging.Logging
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import info.metadude.android.eventfahrplan.database.extensions.toContentValues
@@ -389,6 +390,9 @@ object AppRepository {
         val values = metaDatabaseModel.toContentValues()
         metaDatabaseRepository.insert(values)
     }
+
+    fun readAlarmToneUri() =
+            sharedPreferencesRepository.getAlarmTone().toUri()
 
     fun readAutoUpdateEnabled() =
             sharedPreferencesRepository.isAutoUpdateEnabled()

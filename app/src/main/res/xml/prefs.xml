@@ -34,12 +34,12 @@
     <PreferenceCategory android:title="@string/reminders">
 
         <RingtonePreference
-            android:defaultValue="@string/preferences_reminder_tone_default_value"
-            android:key="reminder_tone"
+            android:defaultValue="@string/preference_default_value_alarm_tone"
+            android:key="@string/preference_key_alarm_tone"
             android:ringtoneType="notification|alarm"
             android:showDefault="true"
             android:showSilent="true"
-            android:title="@string/reminder_ringtone" />
+            android:title="@string/preference_title_alarm_tone" />
 
         <CheckBoxPreference
             android:defaultValue="@bool/preference_default_value_insistent_alarms_enabled"

@@ -88,7 +88,6 @@
     <!-- Synchronize with @integers/default_alarm_time_index and string-array/alarm_time_values -->
     <string name="default_alarm_time_value" translatable="false">10</string>
     <string name="reminders">Alarms</string>
-    <string name="reminder_ringtone">Alarm tone</string>
     <string name="usage">Note:\n\nLong-press on a lecture to set an alarm.</string>
     <string name="libraries">
 		This application uses the following libraries:
@@ -208,9 +207,6 @@
         <item quantity="one"><xliff:g example="1" id="count">%d</xliff:g> lecture has changed.</item>
         <item quantity="other"><xliff:g example="3" id="count">%d</xliff:g> lectures have been changed.</item>
     </plurals>
-
-    <!-- Preferences -->
-    <string name="preferences_reminder_tone_default_value" translatable="false" />
 
     <!-- Alarm time picker -->
     <string name="alarm_time_title_at_start_time">at start time</string>

@@ -15,6 +15,12 @@ class SharedPreferencesRepository(val context: Context) {
         PreferenceManager.setDefaultValues(context, R.xml.prefs, false)
     }
 
+    fun getAlarmTone(): String {
+        val key = context.getString(R.string.preference_key_alarm_tone)
+        val defaultValue = context.getString(R.string.preference_default_value_alarm_tone)
+        return preferences.getString(key, defaultValue)!!
+    }
+
     fun isAutoUpdateEnabled(): Boolean {
         val key = context.getString(R.string.preference_key_auto_update_enabled)
         val defaultValue = context.resources.getBoolean(R.bool.preference_default_value_auto_update_enabled)

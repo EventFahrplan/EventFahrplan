@@ -7,6 +7,9 @@
     <!-- Automatic schedule updates -->
     <string name="preference_title_auto_update_enabled">Automatische Aktualisierung</string>
 
+    <!-- Alarm tone -->
+    <string name="preference_title_alarm_tone">Alarmton</string>
+
     <!-- Alternative schedule URL -->
     <string name="preference_schedule_url_title">Alternative Fahrplan URL</string>
 

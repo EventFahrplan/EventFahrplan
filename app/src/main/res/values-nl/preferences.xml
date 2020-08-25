@@ -4,6 +4,9 @@
     <!-- Automatic schedule updates -->
     <string name="preference_title_auto_update_enabled">Automatisch bijwerken</string>
 
+    <!-- Alarm tone -->
+    <string name="preference_title_alarm_tone">Alarm toon</string>
+
     <!-- Alternative schedule URL -->
     <string name="preference_schedule_url_title">Alternatieve tijdschema URL</string>
 

@@ -4,6 +4,9 @@
     <!-- Automatic schedule updates -->
     <string name="preference_title_auto_update_enabled">Mises à jour automatiques</string>
 
+    <!-- Alarm tone -->
+    <string name="preference_title_alarm_tone">Sonnerie du rappel</string>
+
     <!-- Alternative schedule URL -->
     <string name="preference_schedule_url_title">URL alternative du programme</string>
 

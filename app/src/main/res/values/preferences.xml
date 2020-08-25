@@ -12,6 +12,11 @@
     <bool name="preference_default_value_auto_update_enabled">true</bool>
     <string name="preference_title_auto_update_enabled">Automatic updates</string>
 
+    <!-- Alarm tone -->
+    <string name="preference_key_alarm_tone" translatable="false">reminder_tone</string>
+    <string name="preference_default_value_alarm_tone" translatable="false" />
+    <string name="preference_title_alarm_tone">Alarm tone</string>
+
     <!-- Alternative schedule URL -->
     <string name="preference_schedule_url_key" translatable="false">
         schedule_url
