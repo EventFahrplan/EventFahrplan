@@ -390,6 +390,9 @@ object AppRepository {
         metaDatabaseRepository.insert(values)
     }
 
+    fun readAutoUpdateEnabled() =
+            sharedPreferencesRepository.isAutoUpdateEnabled()
+
     fun readScheduleUrl(): String {
         val alternateScheduleUrl = sharedPreferencesRepository.getScheduleUrl()
         return if (alternateScheduleUrl.isEmpty()) {

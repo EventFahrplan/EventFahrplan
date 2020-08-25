@@ -109,7 +109,6 @@
 		<![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan/issues">Issues or feature requests</a>]]>
 	</string>
     <string name="today">today</string>
-    <string name="pref_auto_download">Automatic updates</string>
     <string name="schedule_parsing_error_generic">Unknown error while parsing schedule</string>
     <string name="schedule_parsing_error_with_version">Parsing error for schedule version %s</string>
     <string name="engelsystem_shifts_parsing_error_generic">Unknown error while parsing Engelsystem shifts</string>

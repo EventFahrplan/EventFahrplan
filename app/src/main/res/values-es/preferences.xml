@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Automatic schedule updates -->
+    <string name="preference_title_auto_update_enabled">Actualizaciones automáticas</string>
+
     <!-- Alternative schedule URL -->
     <string name="preference_schedule_url_title">URL alternativa del calendario</string>
 

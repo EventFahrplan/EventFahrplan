@@ -96,7 +96,6 @@
 		<![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan/issues">Fehlermeldungen und Wünsche</a>]]>
 	</string>
     <string name="today">heute</string>
-    <string name="pref_auto_download">Automatische Aktualisierung</string>
     <string name="schedule_parsing_error_generic">Unbekannter Fehler beim Parsen des Fahrplans</string>
     <string name="schedule_parsing_error_with_version">Fehler beim Parsen der Fahrplan-Version %s</string>
     <string name="engelsystem_shifts_parsing_error_generic">Unbekannter Fehler beim Parsen der Engelsystem-Schichten</string>

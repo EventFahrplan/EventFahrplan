@@ -9,9 +9,9 @@
         android:title="@string/general_settings">
 
         <CheckBoxPreference
-            android:defaultValue="@bool/preferences_auto_update_enabled_default_value"
-            android:key="auto_update"
-            android:title="@string/pref_auto_download" />
+            android:defaultValue="@bool/preference_default_value_auto_update_enabled"
+            android:key="@string/preference_key_auto_update_enabled"
+            android:title="@string/preference_title_auto_update_enabled" />
 
         <Preference
             android:key="@string/preference_key_app_notification_settings"

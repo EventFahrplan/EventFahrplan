@@ -97,7 +97,6 @@
         <![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan/issues">Сообщить о проблеме или запросить функционал</a>]]>
     </string>
     <string name="today">сегодня</string>
-    <string name="pref_auto_download">Автоматические обновления</string>
     <string name="schedule_parsing_error_generic">Неизвестная ошибка при разборе расписания</string>
     <string name="schedule_parsing_error_with_version">Ошибка разбора для версии расписания %s</string>
     <string name="alarms_empty">

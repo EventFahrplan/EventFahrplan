@@ -83,7 +83,6 @@
     <string name="notifications_schedule_update_channel_name">Aggiornamenti del programma</string>
     <string name="schedule_parsing_error_generic">Errore sconosciuto durante l\'analisi del programma</string>
     <string name="schedule_parsing_error_with_version">Errore durante l\'analisi del programma versione %s</string>
-    <string name="pref_auto_download">Aggiornamenti automatici</string>
     <string name="preference_title_app_notification_settings">Preferenze per le notifiche &#8230;</string>
     <string name="progress_loading_data">Caricamento del programma &#8230;</string>
     <string name="progress_processing_data">Elaborazione del programma &#8230;</string>

@@ -61,16 +61,10 @@ public class SettingsActivity extends BaseActivity {
             AppRepository appRepository = AppRepository.INSTANCE;
             PreferenceCategory categoryGeneral = (PreferenceCategory) findPreference(getString(R.string.preference_key_category_general));
 
-            findPreference("auto_update")
+            findPreference(getResources().getString(R.string.preference_key_auto_update_enabled))
                     .setOnPreferenceChangeListener((preference, newValue) -> {
-                        SharedPreferences prefs = PreferenceManager
-                                .getDefaultSharedPreferences(getActivity());
-
-                        SharedPreferences.Editor edit = prefs.edit();
-                        edit.putBoolean("auto_update", (Boolean) newValue);
-                        edit.commit();
-
-                        if ((Boolean) newValue) {
+                        Boolean isAutoUpdateEnabled = (Boolean) newValue;
+                        if (isAutoUpdateEnabled) {
                             FahrplanMisc.setUpdateAlarm(getActivity(), true);
                         } else {
                             AlarmManager alarmManager = Contexts.getAlarmManager(getActivity());

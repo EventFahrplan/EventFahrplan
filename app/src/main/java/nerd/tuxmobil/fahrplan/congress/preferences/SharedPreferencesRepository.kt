@@ -15,6 +15,12 @@ class SharedPreferencesRepository(val context: Context) {
         PreferenceManager.setDefaultValues(context, R.xml.prefs, false)
     }
 
+    fun isAutoUpdateEnabled(): Boolean {
+        val key = context.getString(R.string.preference_key_auto_update_enabled)
+        val defaultValue = context.resources.getBoolean(R.bool.preference_default_value_auto_update_enabled)
+        return preferences.getBoolean(key, defaultValue)
+    }
+
     fun getDisplayDayIndex() = preferences.getInt(BundleKeys.PREFS_DISPLAY_DAY_INDEX, 1)
 
     fun setDisplayDayIndex(displayDayIndex: Int) = preferences.edit {

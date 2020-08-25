@@ -4,6 +4,9 @@
     <!-- App notification settings -->
     <string name="preference_title_app_notification_settings">Customizar notificações &#8230;</string>
 
+    <!-- Automatic schedule updates -->
+    <string name="preference_title_auto_update_enabled">Atualizações automáticas</string>
+
     <!-- Alternative schedule URL -->
     <string name="preference_schedule_url_title">URL alternativa de cronograma</string>
 

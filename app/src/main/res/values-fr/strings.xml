@@ -79,7 +79,6 @@
     <string name="appVersion">Version de l’application %s</string>
     <string name="fahrplan">Programme</string>
     <string name="day">Jour</string>
-    <string name="pref_auto_download">Mises à jour automatiques</string>
     <string name="today">aujourd’hui</string>
     <string name="insistent_alarm">Rappel insistant</string>
     <string name="reminders">Rappels</string>

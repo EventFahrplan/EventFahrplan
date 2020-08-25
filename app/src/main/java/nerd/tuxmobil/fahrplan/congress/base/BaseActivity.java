@@ -1,8 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress.base;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.MenuItem;
 
@@ -16,9 +14,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import kotlin.Unit;
-import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.autoupdate.UpdateService;
 import nerd.tuxmobil.fahrplan.congress.net.ConnectivityObserver;
+import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 import nerd.tuxmobil.fahrplan.congress.utils.ActivityHelper;
 
 public abstract class BaseActivity extends AppCompatActivity {
@@ -62,10 +60,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     private void startUpdateService() {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean defaultValue = getResources().getBoolean(R.bool.preferences_auto_update_enabled_default_value);
-        boolean doAutoUpdates = preferences.getBoolean("auto_update", defaultValue);
-        if (doAutoUpdates) {
+        boolean isAutoUpdateEnabled = AppRepository.INSTANCE.readAutoUpdateEnabled();
+        if (isAutoUpdateEnabled) {
             UpdateService.start(this);
         }
     }
