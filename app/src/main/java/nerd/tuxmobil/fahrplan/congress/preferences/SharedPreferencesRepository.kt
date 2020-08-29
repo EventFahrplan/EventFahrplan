@@ -11,6 +11,10 @@ class SharedPreferencesRepository(val context: Context) {
 
     private val preferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context.applicationContext)
 
+    init {
+        PreferenceManager.setDefaultValues(context, R.xml.prefs, false)
+    }
+
     fun getDisplayDayIndex() = preferences.getInt(BundleKeys.PREFS_DISPLAY_DAY_INDEX, 1)
 
     fun setDisplayDayIndex(displayDayIndex: Int) = preferences.edit {
