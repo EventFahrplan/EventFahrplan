@@ -3,6 +3,7 @@ package nerd.tuxmobil.fahrplan.congress.base;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 
 import androidx.annotation.ContentView;
 import androidx.annotation.IdRes;
@@ -10,6 +11,7 @@ import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -110,6 +112,14 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Nullable
     Fragment findFragment(@NonNull String fragmentTag) {
         return getSupportFragmentManager().findFragmentByTag(fragmentTag);
+    }
+
+    /**
+     * See {@link ActivityCompat#requireViewById}.
+     */
+    @NonNull
+    protected <T extends View> T requireViewByIdCompat(@IdRes int id) {
+        return ActivityCompat.requireViewById(this, id);
     }
 
 }

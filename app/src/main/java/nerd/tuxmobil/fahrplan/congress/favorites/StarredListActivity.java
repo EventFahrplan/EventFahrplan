@@ -27,7 +27,7 @@ public class StarredListActivity extends BaseActivity implements
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_list);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = requireViewByIdCompat(R.id.toolbar);
         setSupportActionBar(toolbar);
         int actionBarColor = ContextCompat.getColor(this, R.color.colorActionBar);
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(actionBarColor));

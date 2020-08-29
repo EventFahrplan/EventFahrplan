@@ -18,7 +18,7 @@ class SettingsActivity : BaseActivity(R.layout.settings) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        val toolbar = requireViewByIdCompat<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         val actionBarColor = ContextCompat.getColor(this, R.color.colorActionBar)
         supportActionBar!!.setBackgroundDrawable(ColorDrawable(actionBarColor))
