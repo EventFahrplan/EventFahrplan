@@ -38,6 +38,8 @@ import nerd.tuxmobil.fahrplan.congress.sharing.SimpleSessionFormat;
 import nerd.tuxmobil.fahrplan.congress.utils.ActivityHelper;
 import nerd.tuxmobil.fahrplan.congress.utils.ConfirmationDialog;
 
+import static nerd.tuxmobil.fahrplan.congress.extensions.ViewExtensions.requireViewByIdCompat;
+
 
 /**
  * A fragment representing a list of Items.
@@ -110,11 +112,11 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
         View header;
         if (sidePane) {
             view = localInflater.inflate(R.layout.fragment_favorites_list_narrow, container, false);
-            mListView = view.findViewById(android.R.id.list);
+            mListView = requireViewByIdCompat(view, android.R.id.list);
             header = localInflater.inflate(R.layout.starred_header, null, false);
         } else {
             view = localInflater.inflate(R.layout.fragment_favorites_list, container, false);
-            mListView = view.findViewById(android.R.id.list);
+            mListView = requireViewByIdCompat(view, android.R.id.list);
             header = localInflater.inflate(R.layout.header_empty, null, false);
         }
         mListView.addHeaderView(header, null, false);

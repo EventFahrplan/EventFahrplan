@@ -25,6 +25,7 @@ import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmTimePickerFragment
 import nerd.tuxmobil.fahrplan.congress.calendar.addToCalendar
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
+import nerd.tuxmobil.fahrplan.congress.extensions.requireViewByIdCompat
 import nerd.tuxmobil.fahrplan.congress.extensions.toSpanned
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
@@ -87,21 +88,21 @@ class SessionDetailsFragment : Fragment(), SessionDetailsViewModel.ViewActionHan
             val typefaceFactory = TypefaceFactory.getNewInstance(activity)
 
             // Detailbar
-            var textView: TextView = view.findViewById(R.id.session_detailbar_date_time_view)
+            var textView: TextView = view.requireViewByIdCompat(R.id.session_detailbar_date_time_view)
             textView.text = if (viewModel.hasDateUtc) viewModel.formattedDateUtc else ""
 
-            textView = view.findViewById(R.id.session_detailbar_location_view)
+            textView = view.requireViewByIdCompat(R.id.session_detailbar_location_view)
             textView.text = viewModel.roomName
-            textView = view.findViewById(R.id.session_detailbar_session_id_view)
+            textView = view.requireViewByIdCompat(R.id.session_detailbar_session_id_view)
             textView.text = if (viewModel.isSessionIdEmpty) "" else getString(R.string.session_details_session_id, viewModel.sessionId)
 
             // Title
-            textView = view.findViewById(R.id.session_details_content_title_view)
+            textView = view.requireViewByIdCompat(R.id.session_details_content_title_view)
             var typeface = typefaceFactory.getTypeface(viewModel.titleFont)
             textView.applyText(typeface, viewModel.title)
 
             // Subtitle
-            textView = view.findViewById(R.id.session_details_content_subtitle_view)
+            textView = view.requireViewByIdCompat(R.id.session_details_content_subtitle_view)
             if (viewModel.isSubtitleEmpty) {
                 textView.isVisible = false
             } else {
@@ -110,7 +111,7 @@ class SessionDetailsFragment : Fragment(), SessionDetailsViewModel.ViewActionHan
             }
 
             // Speakers
-            textView = view.findViewById(R.id.session_details_content_speakers_view)
+            textView = view.requireViewByIdCompat(R.id.session_details_content_speakers_view)
             if (viewModel.isSpeakersEmpty) {
                 textView.isVisible = false
             } else {
@@ -119,7 +120,7 @@ class SessionDetailsFragment : Fragment(), SessionDetailsViewModel.ViewActionHan
             }
 
             // Abstract
-            textView = view.findViewById(R.id.session_details_content_abstract_view)
+            textView = view.requireViewByIdCompat(R.id.session_details_content_abstract_view)
             if (viewModel.isAbstractEmpty) {
                 textView.isVisible = false
             } else {
@@ -128,7 +129,7 @@ class SessionDetailsFragment : Fragment(), SessionDetailsViewModel.ViewActionHan
             }
 
             // Description
-            textView = view.findViewById(R.id.session_details_content_description_view)
+            textView = view.requireViewByIdCompat(R.id.session_details_content_description_view)
             if (viewModel.isDescriptionEmpty) {
                 textView.isVisible = false
             } else {
@@ -137,8 +138,8 @@ class SessionDetailsFragment : Fragment(), SessionDetailsViewModel.ViewActionHan
             }
 
             // Links
-            val linksView = view.findViewById<TextView>(R.id.session_details_content_links_section_view)
-            textView = view.findViewById(R.id.session_details_content_links_view)
+            val linksView = view.requireViewByIdCompat<TextView>(R.id.session_details_content_links_section_view)
+            textView = view.requireViewByIdCompat(R.id.session_details_content_links_view)
             if (viewModel.isLinksEmpty) {
                 linksView.isVisible = false
                 textView.isVisible = false
@@ -152,10 +153,10 @@ class SessionDetailsFragment : Fragment(), SessionDetailsViewModel.ViewActionHan
             }
 
             // Session online
-            val sessionOnlineSectionView = view.findViewById<TextView>(R.id.session_details_content_session_online_section_view)
+            val sessionOnlineSectionView = view.requireViewByIdCompat<TextView>(R.id.session_details_content_session_online_section_view)
             typeface = typefaceFactory.getTypeface(viewModel.sessionOnlineSectionFont)
             sessionOnlineSectionView.typeface = typeface
-            val sessionOnlineLinkView = view.findViewById<TextView>(R.id.session_details_content_session_online_view)
+            val sessionOnlineLinkView = view.requireViewByIdCompat<TextView>(R.id.session_details_content_session_online_view)
             if (viewModel.hasWikiLinks) {
                 sessionOnlineSectionView.isVisible = false
                 sessionOnlineLinkView.isVisible = false

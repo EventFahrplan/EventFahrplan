@@ -22,6 +22,8 @@ import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 import nerd.tuxmobil.fahrplan.congress.schedule.MainActivity;
 
+import static nerd.tuxmobil.fahrplan.congress.extensions.ViewExtensions.requireViewByIdCompat;
+
 public class ChangesDialog extends DialogFragment {
 
     public static final String FRAGMENT_TAG = "changesDialog";
@@ -71,7 +73,7 @@ public class ChangesDialog extends DialogFragment {
 
         LayoutInflater inflater = activity.getLayoutInflater();
         View msgView = inflater.inflate(R.layout.changes_dialog, null);
-        TextView changes1 = msgView.findViewById(R.id.schedule_changes_dialog_updated_to_text_view);
+        TextView changes1 = requireViewByIdCompat(msgView, R.id.schedule_changes_dialog_updated_to_text_view);
         SpannableStringBuilder span = new SpannableStringBuilder();
         span.append(getString(R.string.schedule_changes_dialog_updated_to_text));
         int spanStart = span.length();
@@ -86,7 +88,7 @@ public class ChangesDialog extends DialogFragment {
                 resources.getQuantityString(R.plurals.schedule_changes_dialog_being, cancelled, cancelled)));
         changes1.setText(span);
 
-        TextView changes2 = msgView.findViewById(R.id.schedule_changes_dialog_changes_text_view);
+        TextView changes2 = requireViewByIdCompat(msgView, R.id.schedule_changes_dialog_changes_text_view);
         changes2.setText(getString(R.string.schedule_changes_dialog_affected_text, markedAffected));
         builder.setView(msgView);
         return builder.create();

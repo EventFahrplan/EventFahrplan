@@ -69,6 +69,7 @@ import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
 import nerd.tuxmobil.fahrplan.congress.utils.TypefaceFactory;
 
 import static nerd.tuxmobil.fahrplan.congress.extensions.Resource.getNormalizedBoxHeight;
+import static nerd.tuxmobil.fahrplan.congress.extensions.ViewExtensions.requireViewByIdCompat;
 
 public class FahrplanFragment extends Fragment implements SessionViewEventsHandler {
 
@@ -174,16 +175,10 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
 
         Context context = view.getContext();
         scale = getResources().getDisplayMetrics().density;
-        HorizontalScrollView roomScroller =
-                view.findViewById(R.id.roomScroller);
-        if (roomScroller != null) {
-            HorizontalSnapScrollView snapScroller =
-                    view.findViewById(R.id.horizScroller);
-            if (snapScroller != null) {
-                snapScroller.setChildScroller(roomScroller);
-            }
-            roomScroller.setOnTouchListener((v, session) -> true);
-        }
+        HorizontalScrollView roomScroller = requireViewByIdCompat(view, R.id.roomScroller);
+        HorizontalSnapScrollView snapScroller = requireViewByIdCompat(view, R.id.horizScroller);
+        snapScroller.setChildScroller(roomScroller);
+        roomScroller.setOnTouchListener((v, session) -> true);
 
         mDay = appRepository.readDisplayDayIndex();
 
@@ -275,7 +270,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
         View layoutRoot = getView();
         int boxHeight = getNormalizedBoxHeight(getResources(), scale, LOG_TAG);
 
-        HorizontalSnapScrollView horizontalScroller = layoutRoot.findViewById(R.id.horizScroller);
+        HorizontalSnapScrollView horizontalScroller = requireViewByIdCompat(layoutRoot, R.id.horizScroller);
         horizontalScroller.scrollTo(0, 0);
 
         loadSessions(appRepository, mDay, forceReload);
@@ -290,7 +285,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
         int roomCount = scheduleData.getRoomCount();
         horizontalScroller.setRoomsCount(roomCount);
 
-        HorizontalScrollView roomScroller = layoutRoot.findViewById(R.id.roomScroller);
+        HorizontalScrollView roomScroller = requireViewByIdCompat(layoutRoot, R.id.roomScroller);
         LinearLayout roomTitlesRowLayout = (LinearLayout) roomScroller.getChildAt(0);
         int columnWidth = horizontalScroller.getColumnWidth();
         addRoomTitleViews(roomTitlesRowLayout, columnWidth, scheduleData.getRoomNames());
@@ -463,7 +458,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
         // Log.d(LOG_TAG, "scrolltoCurrent to " + scrollAmount);
 
         final int pos = scrollAmount;
-        final ScrollView scrollView = getView().findViewById(R.id.scrollView1);
+        final ScrollView scrollView = requireViewByIdCompat(getView(), R.id.scrollView1);
         scrollView.scrollTo(0, scrollAmount);
         scrollView.post(() -> scrollView.scrollTo(0, pos));
     }
@@ -490,7 +485,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
     }
 
     private void scrollTo(@NonNull Session session) {
-        final ScrollView parent = getView().findViewById(R.id.scrollView1);
+        final ScrollView parent = requireViewByIdCompat(getView(), R.id.scrollView1);
         int height = getNormalizedBoxHeight(getResources(), scale, LOG_TAG);
         final int pos = (session.relStartTime - conference.getFirstSessionStartsAt()) / 5 * height;
         MyApp.LogDebug(LOG_TAG, "position is " + pos);
@@ -515,7 +510,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
     private void fillTimes() {
         int time = conference.getFirstSessionStartsAt();
         int printTime = time;
-        LinearLayout timeTextColumn = getView().findViewById(R.id.times_layout);
+        LinearLayout timeTextColumn = requireViewByIdCompat(getView(), R.id.times_layout);
         timeTextColumn.removeAllViews();
         Moment nowMoment = new Moment();
         View timeTextView;
@@ -531,7 +526,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
             }
             timeTextView = inflater.inflate(timeTextLayout, null);
             timeTextColumn.addView(timeTextView, LayoutParams.MATCH_PARENT, timeTextViewHeight);
-            TextView title = timeTextView.findViewById(R.id.time);
+            TextView title = requireViewByIdCompat(timeTextView, R.id.time);
             title.setText(timeSegment.getFormattedText());
             time += FIFTEEN_MINUTES;
             printTime = time;
