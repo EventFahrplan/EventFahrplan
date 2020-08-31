@@ -196,6 +196,5 @@
     <string name="session_list_item_no_video_content_description">Geen video-opname</string>
     <string name="session_list_item_video_content_description">Met video-opname</string>
     <string name="session_list_item_without_video_content_description">Zonder video-opname</string>
-    <string name="preference_title_app_notification_settings">Meldingen aanpassen …</string>
 
 </resources>

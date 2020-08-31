@@ -77,7 +77,6 @@
     <string name="notifications_schedule_update_channel_name">Actualizaciones del calendario</string>
     <string name="schedule_parsing_error_generic">Error desconocido mientras se procesaba el calendario</string>
     <string name="schedule_parsing_error_with_version">Error de procesado para la versión del calendario %s</string>
-    <string name="preference_title_app_notification_settings">Personalizar notificaciones &#8230;</string>
     <string name="progress_loading_data">Obtener calendario &#8230;</string>
     <string name="progress_processing_data">Procesando calendario &#8230;</string>
     <string name="reminders">Alarmas</string>
