@@ -163,9 +163,6 @@
     <string name="trace_droid_button_title_later">
         Позже
     </string>
-    <string name="trace_droid_app_chooser_title">
-        Открытый черновик с &#8230;
-    </string>
 
     <!-- Notifications -->
     <string name="notifications_session_alarm_channel_description">

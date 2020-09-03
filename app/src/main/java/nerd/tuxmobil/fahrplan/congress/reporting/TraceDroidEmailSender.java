@@ -1,6 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.reporting;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.widget.Toast;
 
@@ -36,8 +37,6 @@ public abstract class TraceDroidEmailSender {
                 R.string.trace_droid_button_title_later);
         final String buttonTitleNo = context.getString(
                 R.string.trace_droid_button_title_no);
-        final String sendMail = context.getString(
-                R.string.trace_droid_app_chooser_title);
         final int maximumStackTracesCount = context.getResources().getInteger(
                 R.integer.config_trace_droid_maximum_stack_traces_count);
 
@@ -47,10 +46,10 @@ public abstract class TraceDroidEmailSender {
                 .setPositiveButton(buttonTitleSend, (dialog, whichButton) -> {
                     Intent emailIntent = getEmailIntent(
                             context, emailAddress, maximumStackTracesCount);
-                    if (emailIntent.resolveActivity(context.getPackageManager()) != null) {
-                        context.startActivity(Intent.createChooser(emailIntent, sendMail));
+                    try {
+                        context.startActivity(emailIntent);
                         TraceDroid.deleteStacktraceFiles();
-                    } else {
+                    } catch (ActivityNotFoundException e) {
                         String message = context.getString(R.string.trace_droid_no_email_app);
                         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
                     }
