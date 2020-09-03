@@ -265,9 +265,7 @@ class SessionDetailsFragment : Fragment(), SessionDetailsViewModel.ViewActionHan
 
     override fun shareAsPlainText(formattedSessions: String) {
         val context = requireContext()
-        if (!SessionSharer.shareSimple(context, formattedSessions)) {
-            Toast.makeText(context, R.string.share_error_activity_not_found, Toast.LENGTH_SHORT).show()
-        }
+        SessionSharer.shareSimple(context, formattedSessions);
     }
 
     override fun shareAsJson(formattedSessions: String) {

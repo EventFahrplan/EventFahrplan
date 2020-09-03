@@ -325,9 +325,7 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
         String formattedSession = SimpleSessionFormat.format(starredList);
         if (formattedSession != null) {
             Context context = requireContext();
-            if (!SessionSharer.shareSimple(context, formattedSession)) {
-                Toast.makeText(context, R.string.share_error_activity_not_found, Toast.LENGTH_SHORT).show();
-            }
+            SessionSharer.shareSimple(context, formattedSession);
         }
     }
 
