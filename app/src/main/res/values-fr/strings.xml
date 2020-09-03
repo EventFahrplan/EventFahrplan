@@ -70,18 +70,13 @@
     <string name="no_favorites">Aucune conférence dans les favoris</string>
     <string name="issues">&lt;a href=https://github.com/EventFahrplan/EventFahrplan/issues&gt;Problèmes ou demandes de fonctionnalités&lt;/a&gt;</string>
     <string name="about_data_privacy_statement">&lt;a href=https://github.com/EventFahrplan/EventFahrplan/blob/master/DATA-PRIVACY-DE.md&gt;Déclaration de protection des données (en allemand)&lt;/a&gt;</string>
-    <string name="reminder_ringtone">Sonnerie du rappel</string>
-    <string name="default_alarm_time_dialog_title">Heure par défaut du rappel</string>
-    <string name="default_alarm_time_title">Choisissez l’heure par défaut du rappel</string>
     <string name="choose_alarm_time">Choisissez l’heure du rappel</string>
     <string name="session_details_section_title_links">Liens</string>
     <string name="session_details_section_title_session_online">Événement en ligne</string>
     <string name="appVersion">Version de l’application %s</string>
     <string name="fahrplan">Programme</string>
     <string name="day">Jour</string>
-    <string name="pref_auto_download">Mises à jour automatiques</string>
     <string name="today">aujourd’hui</string>
-    <string name="insistent_alarm">Rappel insistant</string>
     <string name="reminders">Rappels</string>
     <string name="settings">Paramètres</string>
     <string name="menu_item_title_refresh">Actualiser</string>
@@ -102,7 +97,6 @@
     </string>
     <string name="build_info_time"> Temps de construction : <xliff:g example="2015-12-27T13:42Z" id="build_time">%s</xliff:g>
     </string>
-    <string name="alternative_highlight">Mise en évidence alternative</string>
     <string name="add_to_calendar_failed">L’ajout de l’évènement au calendrier a échoué.</string>
     <string name="alarms_empty">Il n’y a aucun rappel à afficher. Veuillez noter que vous pouvez définir des rappels individuels pour chaque élément dans le programme. Appuyez simplement sur l’icône du rappel dans la barre d’action.</string>
     <string name="libraries">Cette application utilise les librairies suivantes : Kotlin, Google Support Library, BetterLinkMovementMethod, Email Intent Builder, Engelsystem, Espresso, OkHttp, SnackEngage, TraceDroid</string>

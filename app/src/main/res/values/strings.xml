@@ -83,13 +83,7 @@
     <string name="session_details_section_title_session_online">Event online</string>
     <string name="session_details_section_title_links">Links</string>
     <string name="choose_alarm_time">Choose alarm time</string>
-    <string name="default_alarm_time_title">Choose a default alarm time</string>
-    <string name="default_alarm_time_dialog_title">Default alarm time</string>
-    <!-- Synchronize with @integers/default_alarm_time_index and string-array/alarm_time_values -->
-    <string name="default_alarm_time_value" translatable="false">10</string>
     <string name="reminders">Alarms</string>
-    <string name="reminder_ringtone">Alarm tone</string>
-    <string name="insistent_alarm">Insistent alarm</string>
     <string name="usage">Note:\n\nLong-press on a lecture to set an alarm.</string>
     <string name="libraries">
 		This application uses the following libraries:
@@ -109,7 +103,6 @@
 		<![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan/issues">Issues or feature requests</a>]]>
 	</string>
     <string name="today">today</string>
-    <string name="pref_auto_download">Automatic updates</string>
     <string name="schedule_parsing_error_generic">Unknown error while parsing schedule</string>
     <string name="schedule_parsing_error_with_version">Parsing error for schedule version %s</string>
     <string name="engelsystem_shifts_parsing_error_generic">Unknown error while parsing Engelsystem shifts</string>
@@ -132,7 +125,6 @@
     <string name="choose_to_delete">Select lectures</string>
     <string name="day_separator">Day <xliff:g example="2" id="day_of_congress">%1$d</xliff:g> - <xliff:g example="29.12.2014" id="date_of_congress_day">%2$s</xliff:g></string>
     <string name="session_duration"><xliff:g example="45" id="duration">%1$d</xliff:g> min.</string>
-    <string name="alternative_highlight">Alternative highlighting</string>
     <string name="dlg_delete_all_favorites">Delete all favorites?</string>
     <string name="dlg_delete_all_favorites_delete_all">Delete all</string>
 
@@ -210,9 +202,6 @@
         <item quantity="one"><xliff:g example="1" id="count">%d</xliff:g> lecture has changed.</item>
         <item quantity="other"><xliff:g example="3" id="count">%d</xliff:g> lectures have been changed.</item>
     </plurals>
-
-    <!-- Preferences -->
-    <string name="preferences_reminder_tone_default_value" translatable="false" />
 
     <!-- Alarm time picker -->
     <string name="alarm_time_title_at_start_time">at start time</string>

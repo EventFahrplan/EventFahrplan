@@ -12,7 +12,6 @@
     <string name="alarm_time_title_60_minutes_before">60 minutos antes</string>
     <string name="alarm_time_title_at_start_time">Al inicio</string>
     <string name="alarms_empty">No hay alarmas para mostrar. Nótese que se pueden poner alarmas para cada evento en el calendario. Sólo presione el ícono de alarma en la barra de acción</string>
-    <string name="alternative_highlight">Destacado alternativo</string>
     <string name="appVersion">Versión %s de la aplicación</string>
     <string name="app_disclaimer">Esta aplicación está basada en el código fuente de la aplicación  “EventFahrplan”. Asistentes al congreso anual y al campamento organizado por el Chaos Computer Club usan la aplicación para estar al tanto del programa del evento.</string>
     <string name="build_info_hash">Version hash: <xliff:g example="e1f2g3h-dirty" id="build_hash">%s</xliff:g></string>
@@ -27,8 +26,6 @@
     <string name="choose_to_delete">Seleccione la conferencia</string>
     <string name="day">Día</string>
     <string name="day_separator">Día <xliff:g example="2" id="day_of_congress">%1$d</xliff:g> - <xliff:g example="29.12.2014" id="date_of_congress_day">%2$s</xliff:g></string>
-    <string name="default_alarm_time_dialog_title">Horario de alarma por defecto</string>
-    <string name="default_alarm_time_title">Escoja un horario de alarma por defecto</string>
     <string name="certificate_error_message">No se pudo establecer una conexión segura. (<xliff:g example="Unknown Error" id="error">%s</xliff:g>)</string>
     <string name="dlg_delete_all_favorites">Borrar todos los favoritos?</string>
     <string name="dlg_delete_all_favorites_delete_all">Borrar todo</string>
@@ -43,7 +40,6 @@
     <string name="dlg_err_failed_wrong_http_credentials">Autenticación HTTP no válida</string>
     <string name="certificate_error_title">No se pudo agregar el certificado</string>
     <string name="session_duration"><xliff:g example="45" id="duration">%1$d</xliff:g> min.</string>
-    <string name="insistent_alarm">Alarma persistente</string>
     <string name="invalid_url">URL no válida</string>
     <string name="issues"><![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan/issues">Problema o sugerencias</a>]]></string>
     <string name="session_list_item_language_portuguese_content_description">Portugués</string>
@@ -81,11 +77,8 @@
     <string name="notifications_schedule_update_channel_name">Actualizaciones del calendario</string>
     <string name="schedule_parsing_error_generic">Error desconocido mientras se procesaba el calendario</string>
     <string name="schedule_parsing_error_with_version">Error de procesado para la versión del calendario %s</string>
-    <string name="pref_auto_download">Actualizaciones automáticas</string>
-    <string name="preference_title_app_notification_settings">Personalizar notificaciones &#8230;</string>
     <string name="progress_loading_data">Obtener calendario &#8230;</string>
     <string name="progress_processing_data">Procesando calendario &#8230;</string>
-    <string name="reminder_ringtone">Tono de alarma</string>
     <string name="reminders">Alarmas</string>
     <string name="schedule_changes">Cambios en el calendario</string>
     <string name="schedule_changes_dialog_affected_text">Los cambios afectan <xliff:g example="2" id="num_marked">%1$d</xliff:g> de tus conferencias favoritas</string>

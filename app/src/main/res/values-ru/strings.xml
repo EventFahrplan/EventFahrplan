@@ -78,12 +78,7 @@
     <string name="session_details_section_title_session_online">Мероприятие онлайн</string>
     <string name="session_details_section_title_links">Ссылки</string>
     <string name="choose_alarm_time">Выбрать время напоминания</string>
-    <string name="default_alarm_time_title">Выбрать время напоминания по умолчанию</string>
-    <string name="default_alarm_time_dialog_title">Время напоминания по умолчанию</string>
-    <!-- Synchronize with @integers/default_alarm_time_index and string-array/alarm_time_values -->
     <string name="reminders">Напоминания</string>
-    <string name="reminder_ringtone">Мелодия напоминаний</string>
-    <string name="insistent_alarm">Настойчивое напоминание</string>
     <string name="usage">Примечание:\n\nДолгое нажатие на лекцию установит напоминание.</string>
     <string name="libraries">
         Это приложение использует следующие библиотеки:
@@ -97,7 +92,6 @@
         <![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan/issues">Сообщить о проблеме или запросить функционал</a>]]>
     </string>
     <string name="today">сегодня</string>
-    <string name="pref_auto_download">Автоматические обновления</string>
     <string name="schedule_parsing_error_generic">Неизвестная ошибка при разборе расписания</string>
     <string name="schedule_parsing_error_with_version">Ошибка разбора для версии расписания %s</string>
     <string name="alarms_empty">
@@ -116,7 +110,6 @@
     <string name="choose_to_delete">Выбрать лекции</string>
     <string name="day_separator">День <xliff:g example="2" id="day_of_congress">%1$d</xliff:g> - <xliff:g example="29.12.2014" id="date_of_congress_day">%2$s</xliff:g></string>
     <string name="session_duration"><xliff:g example="45" id="duration">%1$d</xliff:g> мин.</string>
-    <string name="alternative_highlight">Альтернативная подсветка</string>
     <string name="dlg_delete_all_favorites">Удалить всё избранное?</string>
     <string name="dlg_delete_all_favorites_delete_all">Удалить всё?</string>
 

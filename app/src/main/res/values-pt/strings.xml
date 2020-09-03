@@ -74,12 +74,7 @@
     <string name="session_details_section_title_session_online">Evento online</string>
     <string name="session_details_section_title_links">Links</string>
     <string name="choose_alarm_time">Escolha o horário do alerta</string>
-    <string name="default_alarm_time_title">Escolha o horário de alerta padrão</string>
-    <string name="default_alarm_time_dialog_title">Horário padrão de alerta</string>
-    <!-- Synchronize with @integers/default_alarm_time_index and string-array/alarm_time_values -->
     <string name="reminders">Alertas</string>
-    <string name="reminder_ringtone">Som do alerta</string>
-    <string name="insistent_alarm">Alerta persistente</string>
     <string name="usage">Dica:\n\nMantenha pressionado na palestra para ajustar um alerta.</string>
     <string name="libraries">
 		Este aplicativo usa as seguintes bibliotecas:
@@ -93,7 +88,6 @@
 		<![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan/issues">Problemas ou pedidos de funcionalidades</a>]]>
 	</string>
     <string name="today">hoje</string>
-    <string name="pref_auto_download">Atualizações automáticas</string>
     <string name="schedule_parsing_error_generic">Erro desconhecido ao processar cronograma</string>
     <string name="schedule_parsing_error_with_version">Erro ao processar versão do cronograma %s</string>
     <string name="alarms_empty">
@@ -112,7 +106,6 @@
     <string name="choose_to_delete">Selecionar palestras</string>
     <string name="day_separator">Dia <xliff:g example="2" id="day_of_congress">%1$d</xliff:g> - <xliff:g example="29.12.2014" id="date_of_congress_day">%2$s</xliff:g></string>
     <string name="session_duration"><xliff:g example="45" id="duration">%1$d</xliff:g> min.</string>
-    <string name="alternative_highlight">Destaque alternativo</string>
     <string name="dlg_delete_all_favorites">Remover todos os favoritos?</string>
     <string name="dlg_delete_all_favorites_delete_all">Remover tudo</string>
 

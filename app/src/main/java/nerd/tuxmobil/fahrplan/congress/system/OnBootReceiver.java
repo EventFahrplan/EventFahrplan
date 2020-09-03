@@ -4,8 +4,6 @@ import android.app.AlarmManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 
 import org.ligi.tracedroid.logging.Log;
 
@@ -13,7 +11,6 @@ import java.util.List;
 
 import info.metadude.android.eventfahrplan.commons.temporal.Moment;
 import nerd.tuxmobil.fahrplan.congress.MyApp;
-import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmReceiver;
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices;
 import nerd.tuxmobil.fahrplan.congress.autoupdate.UpdateService;
@@ -64,11 +61,9 @@ public final class OnBootReceiver extends BroadcastReceiver {
         }
 
         // start auto updates
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        boolean defaultValue = context.getResources().getBoolean(R.bool.preferences_auto_update_enabled_default_value);
-        boolean doAutoUpdates = prefs.getBoolean("auto_update", defaultValue);
-        if (doAutoUpdates) {
-            long lastFetchedAt = appRepository.readScheduleLastFetchingTime();
+        boolean isAutoUpdateEnabled = appRepository.readAutoUpdateEnabled();
+        if (isAutoUpdateEnabled) {
+            long lastFetchedAt = appRepository.readScheduleLastFetchedAt();
             nowMoment.setToNow();
             long nowMillis = nowMoment.toMilliseconds();
 

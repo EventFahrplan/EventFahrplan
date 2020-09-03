@@ -14,7 +14,6 @@
     <string name="alarm_time_title_60_minutes_before">60 minuti prima</string>
     <string name="alarm_time_title_at_start_time">all\'ora d\'inizio</string>
     <string name="alarms_empty">Non ci sono promemoria da visualizzare. Nota che è possibile aggiungere dei promemoria per ogni voce del programma usando l\'icona corrispondente nella barra delle azioni.</string>
-    <string name="alternative_highlight">Highlight alternativo</string>
     <string name="appVersion">Versione dell\'applicazione %s</string>
     <string name="app_disclaimer">Questa applicazione è basata sul codice sorgente di « EventFahrplan ». I visitatori del congresso annuale ospitato da Chaos Computer Club usano quest\'applicazione per tener traccia degli eventi in programma.</string>
     <string name="build_info_hash">Hash della versione: <xliff:g example="e1f2g3h-dirty" id="build_hash">%s</xliff:g></string>
@@ -24,8 +23,6 @@
     <string name="choose_to_delete">Seleziona le conferenze</string>
     <string name="day">Giorno</string>
     <string name="day_separator">Giorno <xliff:g example="2" id="day_of_congress">%1$d</xliff:g> - <xliff:g example="29.12.2014" id="date_of_congress_day">%2$s</xliff:g></string>
-    <string name="default_alarm_time_dialog_title">Ora predefinita per i promemoria</string>
-    <string name="default_alarm_time_title">Si scelga un\'ora predefinita per i promemoria</string>
     <string name="certificate_error_message">Impossibile stabilire una connessione sicura. (<xliff:g example="Unknown Error" id="error">%s</xliff:g>)</string>
     <string name="dlg_delete_all_favorites">Eliminare tutti i favoriti?</string>
     <string name="dlg_delete_all_favorites_delete_all">Eliminare tutto</string>
@@ -45,7 +42,6 @@
     <string name="session_details_section_title_session_online">Evento in linea</string>
     <string name="fahrplan">Programma</string>
     <string name="general_settings">Generale</string>
-    <string name="insistent_alarm">Promemoria persistente</string>
     <string name="invalid_url">URL erroneo</string>
     <string name="issues"><![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan/issues">Assistenza o suggerimento di nuove funzionalità</a>]]></string>
     <string name="session_list_item_language_english_content_description">Inglese</string>
@@ -83,11 +79,8 @@
     <string name="notifications_schedule_update_channel_name">Aggiornamenti del programma</string>
     <string name="schedule_parsing_error_generic">Errore sconosciuto durante l\'analisi del programma</string>
     <string name="schedule_parsing_error_with_version">Errore durante l\'analisi del programma versione %s</string>
-    <string name="pref_auto_download">Aggiornamenti automatici</string>
-    <string name="preference_title_app_notification_settings">Preferenze per le notifiche &#8230;</string>
     <string name="progress_loading_data">Caricamento del programma &#8230;</string>
     <string name="progress_processing_data">Elaborazione del programma &#8230;</string>
-    <string name="reminder_ringtone">Suoneria del promemoria</string>
     <string name="reminders">Promemoria</string>
     <string name="schedule_changes">Cambiamenti di programma</string>
     <string name="schedule_changes_dialog_affected_text">I cambiamenti riguardano <xliff:g example="2" id="num_marked">%1$d</xliff:g> delle tue conferenze preferite.</string>

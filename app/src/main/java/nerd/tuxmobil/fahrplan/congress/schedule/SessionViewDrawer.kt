@@ -2,7 +2,6 @@ package nerd.tuxmobil.fahrplan.congress.schedule
 
 import android.content.Context
 import android.content.res.Configuration.ORIENTATION_LANDSCAPE
-import android.preference.PreferenceManager
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -11,14 +10,18 @@ import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import nerd.tuxmobil.fahrplan.congress.R
-import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
 import nerd.tuxmobil.fahrplan.congress.models.Session
+import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.utils.Font
 import nerd.tuxmobil.fahrplan.congress.utils.TypefaceFactory
 
-internal class SessionViewDrawer(
+internal class SessionViewDrawer @JvmOverloads constructor(
 
-        context: Context
+        context: Context,
+        private val isAlternativeHighlightingEnabled: () -> Boolean = {
+            // Must load the latest alternative highlighting value every time a session is redrawn.
+            AppRepository.readAlternativeHighlightingEnabled()
+        }
 
 ) {
 
@@ -85,10 +88,6 @@ internal class SessionViewDrawer(
 
     fun setSessionBackground(session: Session, sessionView: View) {
         val context = sessionView.context
-        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        val defaultValue = resources.getBoolean(R.bool.preferences_alternative_highlight_enabled_default_value)
-        val alternativeHighlightingIsEnabled = prefs.getBoolean(
-                BundleKeys.PREFS_ALTERNATIVE_HIGHLIGHT, defaultValue)
         val sessionIsFavored = session.highlight
         @ColorRes val backgroundColorResId = if (sessionIsFavored) {
             trackNameBackgroundColorHighlightPairs[session.track] ?: R.color.track_background_highlight
@@ -97,7 +96,7 @@ internal class SessionViewDrawer(
         }
         @ColorInt val backgroundColor = ContextCompat.getColor(context, backgroundColorResId)
         val sessionDrawable: SessionDrawable
-        sessionDrawable = if (sessionIsFavored && alternativeHighlightingIsEnabled) {
+        sessionDrawable = if (sessionIsFavored && isAlternativeHighlightingEnabled()) {
             SessionDrawable(
                     backgroundColor,
                     sessionDrawableCornerRadius.toFloat(),

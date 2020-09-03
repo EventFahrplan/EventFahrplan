@@ -217,7 +217,7 @@ public class MainActivity extends BaseActivity implements
             ((ChangeListFragment) fragment).onRefresh();
         }
 
-        if (!appRepository.sawScheduleChanges()) {
+        if (!appRepository.readScheduleChangesSeen()) {
             showChangesDialog();
         }
     }
@@ -302,7 +302,7 @@ public class MainActivity extends BaseActivity implements
             sidePane.setVisibility(isScreenLocked ? View.GONE : View.VISIBLE);
         }
 
-        if (!appRepository.sawScheduleChanges()) {
+        if (!appRepository.readScheduleChangesSeen()) {
             showChangesDialog();
         }
     }
@@ -415,8 +415,7 @@ public class MainActivity extends BaseActivity implements
                 break;
             case MyApp.SETTINGS:
                 if (resultCode == Activity.RESULT_OK && intent != null) {
-                    boolean isAlternativeHighlightEnabled = getResources().getBoolean(R.bool.preferences_alternative_highlight_enabled_default_value);
-                    if (intent.getBooleanExtra(BundleKeys.PREFS_ALTERNATIVE_HIGHLIGHT, isAlternativeHighlightEnabled)) {
+                    if (intent.getBooleanExtra(BundleKeys.BUNDLE_KEY_ALTERNATIVE_HIGHLIGHTING_UPDATED, false)) {
                         if (findViewById(R.id.schedule) != null && findFragment(FahrplanFragment.FRAGMENT_TAG) == null) {
                             replaceFragment(R.id.schedule, new FahrplanFragment(),
                                     FahrplanFragment.FRAGMENT_TAG);

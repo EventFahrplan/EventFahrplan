@@ -9,50 +9,50 @@
         android:title="@string/general_settings">
 
         <CheckBoxPreference
-            android:defaultValue="@bool/preferences_auto_update_enabled_default_value"
-            android:key="auto_update"
-            android:title="@string/pref_auto_download" />
+            android:defaultValue="@bool/preference_default_value_auto_update_enabled"
+            android:key="@string/preference_key_auto_update_enabled"
+            android:title="@string/preference_title_auto_update_enabled" />
 
         <Preference
             android:key="@string/preference_key_app_notification_settings"
             android:title="@string/preference_title_app_notification_settings" />
 
         <EditTextPreference
-            android:defaultValue="@string/preference_schedule_url_default_value"
-            android:hint="@string/preference_schedule_url_hint"
+            android:defaultValue="@string/preference_default_value_alternative_schedule_url"
+            android:hint="@string/preference_hint_alternative_schedule_url"
             android:inputType="textUri"
-            android:key="@string/preference_schedule_url_key"
-            android:title="@string/preference_schedule_url_title" />
+            android:key="@string/preference_key_alternative_schedule_url"
+            android:title="@string/preference_title_alternative_schedule_url" />
 
         <CheckBoxPreference
-            android:defaultValue="@bool/preferences_alternative_highlight_enabled_default_value"
-            android:key="alternative_highlight"
-            android:title="@string/alternative_highlight" />
+            android:defaultValue="@bool/preference_default_value_alternative_highlighting_enabled"
+            android:key="@string/preference_key_alternative_highlighting_enabled"
+            android:title="@string/preference_title_alternative_highlighting_enabled" />
 
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/reminders">
 
         <RingtonePreference
-            android:defaultValue="@string/preferences_reminder_tone_default_value"
-            android:key="reminder_tone"
+            android:defaultValue="@string/preference_default_value_alarm_tone"
+            android:key="@string/preference_key_alarm_tone"
             android:ringtoneType="notification|alarm"
             android:showDefault="true"
             android:showSilent="true"
-            android:title="@string/reminder_ringtone" />
+            android:title="@string/preference_title_alarm_tone" />
 
         <CheckBoxPreference
-            android:defaultValue="@bool/preferences_insistent_alarm_enabled_default_value"
-            android:key="insistent"
-            android:title="@string/insistent_alarm" />
+            android:defaultValue="@bool/preference_default_value_insistent_alarms_enabled"
+            android:key="@string/preference_key_insistent_alarms_enabled"
+            android:title="@string/preference_title_insistent_alarms_enabled" />
 
         <ListPreference
-            android:defaultValue="@string/default_alarm_time_value"
-            android:dialogTitle="@string/default_alarm_time_title"
-            android:entries="@array/alarm_time_titles"
-            android:entryValues="@array/alarm_time_values"
-            android:key="default_alarm_time"
-            android:title="@string/default_alarm_time_dialog_title" />
+            android:defaultValue="@string/preference_default_value_alarm_time_value"
+            android:dialogTitle="@string/preference_dialog_title_alarm_time"
+            android:entries="@array/preference_entries_alarm_time_titles"
+            android:entryValues="@array/preference_entry_values_alarm_time"
+            android:key="@string/preference_key_alarm_time_index"
+            android:title="@string/preference_title_alarm_time" />
 
     </PreferenceCategory>
 
@@ -61,14 +61,14 @@
         android:title="@string/preference_engelsystem_category_title">
 
         <nerd.tuxmobil.fahrplan.congress.preferences.ValidateableEditTextPreference
-            android:defaultValue="@string/preference_engelsystem_json_export_url_default_value"
-            android:hint="@string/preference_engelsystem_json_export_url_hint"
+            android:defaultValue="@string/preference_default_value_engelsystem_json_export_url"
+            android:hint="@string/preference_hint_engelsystem_json_export_url"
             android:inputType="textUri"
-            android:key="@string/preference_engelsystem_json_export_url_key"
-            android:title="@string/preference_engelsystem_json_export_url_title"
-            app:urlTypeFriendlyName="@string/preference_engelsystem_json_export_url_type_friendly_name"
+            android:key="@string/preference_key_engelsystem_json_export_url"
+            android:title="@string/preference_title_engelsystem_json_export_url"
+            app:urlTypeFriendlyName="@string/preference_url_type_friendly_name_engelsystem_json_export"
             app:validationType="engelsystemUrl"
-            tools:summary="@string/preference_engelsystem_json_export_url_summary" />
+            tools:summary="@string/preference_summary_engelsystem_json_export_url" />
 
     </PreferenceCategory>
 

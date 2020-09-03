@@ -4,7 +4,23 @@
     <!-- App notification settings -->
     <string name="preference_title_app_notification_settings">Customizar notificações &#8230;</string>
 
+    <!-- Automatic schedule updates -->
+    <string name="preference_title_auto_update_enabled">Atualizações automáticas</string>
+
+    <!-- Alarm time index -->
+    <string name="preference_dialog_title_alarm_time">Escolha o horário de alerta padrão</string>
+    <string name="preference_title_alarm_time">Horário padrão de alerta</string>
+
+    <!-- Alarm tone -->
+    <string name="preference_title_alarm_tone">Som do alerta</string>
+
+    <!-- Alternative highlighting -->
+    <string name="preference_title_alternative_highlighting_enabled">Destaque alternativo</string>
+
     <!-- Alternative schedule URL -->
-    <string name="preference_schedule_url_title">URL alternativa de cronograma</string>
+    <string name="preference_title_alternative_schedule_url">URL alternativa de cronograma</string>
+
+    <!-- Insistent session alarms -->
+    <string name="preference_title_insistent_alarms_enabled">Alerta persistente</string>
 
 </resources>

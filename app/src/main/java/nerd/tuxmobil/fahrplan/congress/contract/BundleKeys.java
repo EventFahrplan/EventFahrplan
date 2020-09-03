@@ -38,25 +38,11 @@ public interface BundleKeys {
     String CHANGES_DLG_VERSION =
             "nerd.tuxmobil.fahrplan.congress.ChangesDialog.VERSION";
 
-    // Shared Preferences
-    String PREFS_CHANGES_SEEN =
-            "nerd.tuxmobil.fahrplan.congress.Prefs.CHANGES_SEEN";
-    String PREFS_SCHEDULE_LAST_FETCHED_AT =
-            "nerd.tuxmobil.fahrplan.congress.Prefs.SCHEDULE_LAST_FETCHED_AT";
+    // Settings
     String BUNDLE_KEY_SCHEDULE_URL_UPDATED =
             "nerd.tuxmobil.fahrplan.congress.Prefs.SCHEDULE_URL_UPDATED";
-    String PREFS_SCHEDULE_URL =
-            "nerd.tuxmobil.fahrplan.congress.Prefs.SCHEDULE_URL";
     String BUNDLE_KEY_ENGELSYSTEM_SHIFTS_URL_UPDATED =
             "nerd.tuxmobil.fahrplan.congress.Prefs.ENGELSYSTEM_SHIFTS_URL_UPDATED";
-    String PREFS_ENGELSYSTEM_SHIFTS_URL =
-            "nerd.tuxmobil.fahrplan.congress.Prefs.ENGELSYSTEM_SHIFTS_URL";
-    String PREFS_ENGELSYSTEM_SHIFTS_HASH =
-            "nerd.tuxmobil.fahrplan.congress.Prefs.ENGELSYSTEM_SHIFTS_HASH";
-    String PREFS_ALTERNATIVE_HIGHLIGHT =
+    String BUNDLE_KEY_ALTERNATIVE_HIGHLIGHTING_UPDATED =
             "nerd.tuxmobil.fahrplan.congress.Prefs.ALTERNATIVE_HIGHLIGHT";
-    String PREFS_ALARM_TIME_INDEX =
-            "nerd.tuxmobil.fahrplan.congress.Prefs.ALARM_TIME_INDEX";
-    String PREFS_DISPLAY_DAY_INDEX =
-            "nerd.tuxmobil.fahrplan.congress.Prefs.DISPLAY_DAY_INDEX";
 }

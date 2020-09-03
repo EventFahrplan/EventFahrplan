@@ -1,6 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.repositories
 
 import android.content.Context
+import androidx.core.net.toUri
 import info.metadude.android.eventfahrplan.commons.logging.Logging
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import info.metadude.android.eventfahrplan.database.extensions.toContentValues
@@ -108,7 +109,7 @@ object AppRepository {
             onFetchingDone.invoke(fetchResult)
 
             if (fetchResult.isNotModified || fetchResult.isSuccessful) {
-                updateScheduleLastFetchingTime()
+                updateScheduleLastFetchedAt()
             }
 
             if (fetchResult.isSuccessful) {
@@ -390,8 +391,20 @@ object AppRepository {
         metaDatabaseRepository.insert(values)
     }
 
+    fun readAlarmTimeIndex() =
+            sharedPreferencesRepository.getAlarmTimeIndex()
+
+    fun readAlarmToneUri() =
+            sharedPreferencesRepository.getAlarmTone().toUri()
+
+    fun readAlternativeHighlightingEnabled() =
+            sharedPreferencesRepository.isAlternativeHighlightingEnabled()
+
+    fun readAutoUpdateEnabled() =
+            sharedPreferencesRepository.isAutoUpdateEnabled()
+
     fun readScheduleUrl(): String {
-        val alternateScheduleUrl = sharedPreferencesRepository.getScheduleUrl()
+        val alternateScheduleUrl = sharedPreferencesRepository.getAlternativeScheduleUrl()
         return if (alternateScheduleUrl.isEmpty()) {
             BuildConfig.SCHEDULE_URL
         } else {
@@ -399,21 +412,17 @@ object AppRepository {
         }
     }
 
-    fun updateScheduleUrl(url: String) = sharedPreferencesRepository.setScheduleUrl(url)
-
     private fun readEngelsystemShiftsUrl() =
             sharedPreferencesRepository.getEngelsystemShiftsUrl()
 
-    fun updateEngelsystemShiftsUrl(url: String) = sharedPreferencesRepository.setEngelsystemShiftsUrl(url)
-
-    fun readScheduleLastFetchingTime() =
+    fun readScheduleLastFetchedAt() =
             sharedPreferencesRepository.getScheduleLastFetchedAt()
 
-    private fun updateScheduleLastFetchingTime() = with(Moment()) {
+    private fun updateScheduleLastFetchedAt() = with(Moment()) {
         sharedPreferencesRepository.setScheduleLastFetchedAt(toMilliseconds())
     }
 
-    fun sawScheduleChanges() =
+    fun readScheduleChangesSeen() =
             sharedPreferencesRepository.getChangesSeen()
 
     fun updateScheduleChangesSeen(changesSeen: Boolean) =
@@ -427,6 +436,9 @@ object AppRepository {
 
     fun updateDisplayDayIndex(displayDayIndex: Int) =
             sharedPreferencesRepository.setDisplayDayIndex(displayDayIndex)
+
+    fun readInsistentAlarmsEnabled() =
+            sharedPreferencesRepository.isInsistentAlarmsEnabled()
 
     @Deprecated("Replace this with a push-based update mechanism")
     fun setOnSessionsChangeListener(onSessionsChangeListener: OnSessionsChangeListener) {

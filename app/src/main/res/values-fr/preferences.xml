@@ -1,7 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Automatic schedule updates -->
+    <string name="preference_title_auto_update_enabled">Mises à jour automatiques</string>
+
+    <!-- Alarm time index -->
+    <string name="preference_title_alarm_time">Heure par défaut du rappel</string>
+    <string name="preference_dialog_title_alarm_time">Choisissez l’heure par défaut du rappel</string>
+
+    <!-- Alarm tone -->
+    <string name="preference_title_alarm_tone">Sonnerie du rappel</string>
+
+    <!-- Alternative highlighting -->
+    <string name="preference_title_alternative_highlighting_enabled">Mise en évidence alternative</string>
+
     <!-- Alternative schedule URL -->
-    <string name="preference_schedule_url_title">URL alternative du programme</string>
+    <string name="preference_title_alternative_schedule_url">URL alternative du programme</string>
+
+    <!-- Insistent session alarms -->
+    <string name="preference_title_insistent_alarms_enabled">Rappel insistant</string>
 
 </resources>

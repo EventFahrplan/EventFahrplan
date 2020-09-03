@@ -4,12 +4,28 @@
     <!-- App notification settings -->
     <string name="preference_title_app_notification_settings">Benachrichtigungen anpassen &#8230;</string>
 
+    <!-- Automatic schedule updates -->
+    <string name="preference_title_auto_update_enabled">Automatische Aktualisierung</string>
+
+    <!-- Alarm time index -->
+    <string name="preference_dialog_title_alarm_time">Wähle eine Standard-Alarmzeit</string>
+    <string name="preference_title_alarm_time">Standard-Alarmzeit</string>
+
+    <!-- Alarm tone -->
+    <string name="preference_title_alarm_tone">Alarmton</string>
+
+    <!-- Alternative highlighting -->
+    <string name="preference_title_alternative_highlighting_enabled">Alternative Hervorhebung</string>
+
     <!-- Alternative schedule URL -->
-    <string name="preference_schedule_url_title">Alternative Fahrplan URL</string>
+    <string name="preference_title_alternative_schedule_url">Alternative Fahrplan URL</string>
+
+    <!-- Insistent session alarms -->
+    <string name="preference_title_insistent_alarms_enabled">Dauerhafter Alarm</string>
 
     <!-- Category Engelsystem -->
 
-    <string name="preference_engelsystem_json_export_url_summary">
+    <string name="preference_summary_engelsystem_json_export_url">
         <![CDATA[Damit deine Schichten angezeigt werden, gib hier bitte deine <u>persönliche</u> URL ein.<br/><br/>
         1. Melde dich beim Engelsystem an.<br/>
         2. Kopiere die URL hinter der <u>JSON Export</u>-Schaltfläche auf deiner Profilseite.<br/>

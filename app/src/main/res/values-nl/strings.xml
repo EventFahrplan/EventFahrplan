@@ -74,11 +74,7 @@
     <string name="session_details_section_title_session_online">Evenement online</string>
     <string name="session_details_section_title_links">Links</string>
     <string name="choose_alarm_time">Kies alarmtijd</string>
-    <string name="default_alarm_time_title">Kies een standaard alarmtijd</string>
-    <string name="default_alarm_time_dialog_title">Standaard alarmtijd</string>
     <string name="reminders">Alarmen</string>
-    <string name="reminder_ringtone">Alarm toon</string>
-    <string name="insistent_alarm">Aanhoudend alarm</string>
     <string name="usage">Tip:\n\nLang indrukken op een evenement om een alarm aan te zetten.</string>
     <string name="libraries">
 		Deze applicatie gebruikt de volgende software-bibliotheken:
@@ -92,7 +88,6 @@
 		<![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan/issues">Fehlermeldungen und Wünsche</a>]]>
 	</string>
     <string name="today">vandaag</string>
-    <string name="pref_auto_download">Automatisch bijwerken</string>
     <string name="schedule_parsing_error_generic">Onbekende fout tijdens verwerken tijdschema</string>
     <string name="schedule_parsing_error_with_version">Verwerkings fout voor tijdschema versie %s</string>
     <string name="alarms_empty">
@@ -111,7 +106,6 @@
     <string name="choose_to_delete">Kies evenementen</string>
     <string name="day_separator">Dag <xliff:g example="2" id="day_of_congress">%1$d</xliff:g> - <xliff:g example="29.12.2014" id="date_of_congress_day">%2$s</xliff:g></string>
     <string name="session_duration"><xliff:g example="45" id="duration">%1$d</xliff:g> min.</string>
-    <string name="alternative_highlight">Alternatieve markering</string>
     <string name="dlg_delete_all_favorites">Alle favorieten verwijderen?</string>
     <string name="dlg_delete_all_favorites_delete_all">Alles verwijderen</string>
 
@@ -202,6 +196,5 @@
     <string name="session_list_item_no_video_content_description">Geen video-opname</string>
     <string name="session_list_item_video_content_description">Met video-opname</string>
     <string name="session_list_item_without_video_content_description">Zonder video-opname</string>
-    <string name="preference_title_app_notification_settings">Meldingen aanpassen …</string>
 
 </resources>

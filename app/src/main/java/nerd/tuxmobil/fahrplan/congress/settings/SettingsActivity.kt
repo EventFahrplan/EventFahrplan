@@ -1,0 +1,34 @@
+package nerd.tuxmobil.fahrplan.congress.settings
+
+import android.graphics.drawable.ColorDrawable
+import android.os.Bundle
+import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
+import nerd.tuxmobil.fahrplan.congress.MyApp
+import nerd.tuxmobil.fahrplan.congress.R
+import nerd.tuxmobil.fahrplan.congress.base.BaseActivity
+
+class SettingsActivity : BaseActivity(R.layout.settings) {
+
+    companion object {
+
+        private const val LOG_TAG = "SettingsActivity"
+
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        val actionBarColor = ContextCompat.getColor(this, R.color.colorActionBar)
+        supportActionBar!!.setBackgroundDrawable(ColorDrawable(actionBarColor))
+
+        if (savedInstanceState == null) {
+            fragmentManager.beginTransaction()
+                    .add(R.id.container, SettingsFragment())
+                    .commit()
+            MyApp.LogDebug(LOG_TAG, "onCreate fragment created")
+        }
+    }
+
+}
