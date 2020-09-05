@@ -10,6 +10,7 @@ import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import nerd.tuxmobil.fahrplan.congress.R
+import nerd.tuxmobil.fahrplan.congress.extensions.requireViewByIdCompat
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.utils.Font
@@ -65,16 +66,16 @@ internal class SessionViewDrawer @JvmOverloads constructor(
     }
 
     fun updateSessionView(sessionView: View, session: Session) {
-        val bell = sessionView.findViewById<ImageView>(R.id.session_bell_view)
+        val bell = sessionView.requireViewByIdCompat<ImageView>(R.id.session_bell_view)
         bell.isVisible = session.hasAlarm
-        var title = sessionView.findViewById<TextView>(R.id.session_title_view)
+        var title = sessionView.requireViewByIdCompat<TextView>(R.id.session_title_view)
         title.typeface = boldCondensed
         title.text = session.title
-        title = sessionView.findViewById(R.id.session_subtitle_view)
+        title = sessionView.requireViewByIdCompat(R.id.session_subtitle_view)
         title.text = session.subtitle
-        title = sessionView.findViewById(R.id.session_speakers_view)
+        title = sessionView.requireViewByIdCompat(R.id.session_speakers_view)
         title.text = session.formattedSpeakers
-        title = sessionView.findViewById(R.id.session_track_view)
+        title = sessionView.requireViewByIdCompat(R.id.session_track_view)
         title.text = session.formattedTrackText
         title.contentDescription = session.getFormattedTrackContentDescription(sessionView.context)
         val recordingOptOut = sessionView.findViewById<View>(R.id.session_no_video_view)
@@ -129,9 +130,9 @@ internal class SessionViewDrawer @JvmOverloads constructor(
 
         @JvmStatic
         fun setSessionTextColor(session: Session, view: View) {
-            val title = view.findViewById<TextView>(R.id.session_title_view)
-            val subtitle = view.findViewById<TextView>(R.id.session_subtitle_view)
-            val speakers = view.findViewById<TextView>(R.id.session_speakers_view)
+            val title = view.requireViewByIdCompat<TextView>(R.id.session_title_view)
+            val subtitle = view.requireViewByIdCompat<TextView>(R.id.session_subtitle_view)
+            val speakers = view.requireViewByIdCompat<TextView>(R.id.session_speakers_view)
             val colorResId = if (session.highlight)
                 R.color.session_title_on_highlight_background
             else

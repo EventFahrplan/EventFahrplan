@@ -13,6 +13,8 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Al
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns;
 import nerd.tuxmobil.fahrplan.congress.R;
 
+import static nerd.tuxmobil.fahrplan.congress.extensions.ViewExtensions.requireViewByIdCompat;
+
 public class AlarmCursorAdapter extends CursorAdapter {
 
     protected final LayoutInflater mInflater;
@@ -27,9 +29,9 @@ public class AlarmCursorAdapter extends CursorAdapter {
         ViewHolder holder = (ViewHolder) view.getTag();
         if (holder == null) {
             holder = new ViewHolder();
-            holder.alarmTimeInMin = view.findViewById(R.id.alarm_badge);
-            holder.title = view.findViewById(R.id.alarm_title);
-            holder.time = view.findViewById(R.id.alarm_start_time);
+            holder.alarmTimeInMin = requireViewByIdCompat(view, R.id.alarm_badge);
+            holder.title = requireViewByIdCompat(view, R.id.alarm_title);
+            holder.time = requireViewByIdCompat(view, R.id.alarm_start_time);
             view.setTag(holder);
         }
         int alarmTimeInMin = cursor.getInt(cursor.getColumnIndex(Columns.ALARM_TIME_IN_MIN));

@@ -106,8 +106,8 @@ public class MainActivity extends BaseActivity implements
         setContentView(R.layout.main_layout);
         appRepository = AppRepository.INSTANCE;
         keyguardManager = (KeyguardManager) getSystemService(KEYGUARD_SERVICE);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        progressBar = findViewById(R.id.progress);
+        Toolbar toolbar = requireViewByIdCompat(R.id.toolbar);
+        progressBar = requireViewByIdCompat(R.id.progress);
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setTitle(R.string.fahrplan);

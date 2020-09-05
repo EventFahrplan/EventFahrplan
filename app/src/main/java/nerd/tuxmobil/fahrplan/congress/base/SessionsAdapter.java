@@ -22,6 +22,8 @@ import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.extensions.Contexts;
 import nerd.tuxmobil.fahrplan.congress.models.Session;
 
+import static nerd.tuxmobil.fahrplan.congress.extensions.ViewExtensions.requireViewByIdCompat;
+
 public abstract class SessionsAdapter extends ArrayAdapter<Session> {
 
     private static final int TYPE_ITEM = 0;
@@ -65,23 +67,23 @@ public abstract class SessionsAdapter extends ArrayAdapter<Session> {
                     rowView = localInflater.inflate(R.layout.session_list_item, parent, false);
                     viewHolder = new ViewHolder();
 
-                    viewHolder.title = rowView.findViewById(R.id.session_list_item_title_view);
-                    viewHolder.subtitle = rowView.findViewById(R.id.session_list_item_subtitle_view);
-                    viewHolder.speakers = rowView.findViewById(R.id.session_list_item_speakers_view);
-                    viewHolder.lang = rowView.findViewById(R.id.session_list_item_language_view);
-                    viewHolder.day = rowView.findViewById(R.id.session_list_item_day_view);
-                    viewHolder.time = rowView.findViewById(R.id.session_list_item_time_view);
-                    viewHolder.room = rowView.findViewById(R.id.session_list_item_room_view);
-                    viewHolder.duration = rowView.findViewById(R.id.session_list_item_duration_view);
-                    viewHolder.video = rowView.findViewById(R.id.session_list_item_video_view);
-                    viewHolder.noVideo = rowView.findViewById(R.id.session_list_item_no_video_view);
-                    viewHolder.withoutVideoRecording = rowView.findViewById(R.id.session_list_item_without_video_recording_view);
+                    viewHolder.title = requireViewByIdCompat(rowView, R.id.session_list_item_title_view);
+                    viewHolder.subtitle = requireViewByIdCompat(rowView, R.id.session_list_item_subtitle_view);
+                    viewHolder.speakers = requireViewByIdCompat(rowView, R.id.session_list_item_speakers_view);
+                    viewHolder.lang = requireViewByIdCompat(rowView, R.id.session_list_item_language_view);
+                    viewHolder.day = requireViewByIdCompat(rowView, R.id.session_list_item_day_view);
+                    viewHolder.time = requireViewByIdCompat(rowView, R.id.session_list_item_time_view);
+                    viewHolder.room = requireViewByIdCompat(rowView, R.id.session_list_item_room_view);
+                    viewHolder.duration = requireViewByIdCompat(rowView, R.id.session_list_item_duration_view);
+                    viewHolder.video = requireViewByIdCompat(rowView, R.id.session_list_item_video_view);
+                    viewHolder.noVideo = requireViewByIdCompat(rowView, R.id.session_list_item_no_video_view);
+                    viewHolder.withoutVideoRecording = requireViewByIdCompat(rowView, R.id.session_list_item_without_video_recording_view);
                     rowView.setTag(viewHolder);
                     break;
                 case TYPE_SEPARATOR:
                     rowView = localInflater.inflate(R.layout.session_list_separator, parent, false);
                     viewHolderSeparator = new ViewHolderSeparator();
-                    viewHolderSeparator.text = rowView.findViewById(R.id.session_list_separator_title_view);
+                    viewHolderSeparator.text = requireViewByIdCompat(rowView, R.id.session_list_separator_title_view);
                     rowView.setTag(viewHolderSeparator);
                     break;
                 default:

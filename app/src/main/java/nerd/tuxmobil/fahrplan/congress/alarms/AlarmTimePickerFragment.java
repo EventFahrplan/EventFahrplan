@@ -23,6 +23,8 @@ import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.extensions.Contexts;
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 
+import static nerd.tuxmobil.fahrplan.congress.extensions.ViewExtensions.requireViewByIdCompat;
+
 public class AlarmTimePickerFragment extends DialogFragment {
 
     private static final String FRAGMENT_TAG =
@@ -68,7 +70,7 @@ public class AlarmTimePickerFragment extends DialogFragment {
     }
 
     private void initializeSpinner(@NonNull View rootView) {
-        spinner = rootView.findViewById(R.id.spinner);
+        spinner = requireViewByIdCompat(rootView, R.id.spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 rootView.getContext(),
                 R.array.preference_entries_alarm_time_titles,

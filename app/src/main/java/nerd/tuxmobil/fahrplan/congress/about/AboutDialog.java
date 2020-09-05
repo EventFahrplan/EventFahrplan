@@ -17,6 +17,8 @@ import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.extensions.Strings;
 import nerd.tuxmobil.fahrplan.congress.utils.LinkMovementMethodCompat;
 
+import static nerd.tuxmobil.fahrplan.congress.extensions.ViewExtensions.requireViewByIdCompat;
+
 public class AboutDialog extends DialogFragment {
 
     private static final String BUNDLE_KEY_SCHEDULE_VERSION =
@@ -71,7 +73,7 @@ public class AboutDialog extends DialogFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        TextView text = view.findViewById(R.id.about_session_version_view);
+        TextView text = requireViewByIdCompat(view, R.id.about_session_version_view);
         if (scheduleVersionText.isEmpty()) {
             text.setVisibility(View.GONE);
         } else {
@@ -79,68 +81,68 @@ public class AboutDialog extends DialogFragment {
             String prefixedScheduleVersionText = getString(R.string.fahrplan) + " " + scheduleVersionText;
             text.setText(prefixedScheduleVersionText);
         }
-        text = view.findViewById(R.id.about_session_title_view);
+        text = requireViewByIdCompat(view, R.id.about_session_title_view);
         if (titleText.isEmpty()) {
             titleText = getString(R.string.app_name);
         }
         text.setText(titleText);
-        text = view.findViewById(R.id.about_session_subtitle_view);
+        text = requireViewByIdCompat(view, R.id.about_session_subtitle_view);
         if (subtitleText.isEmpty()) {
             subtitleText = getString(R.string.app_hardcoded_subtitle);
         }
         text.setText(subtitleText);
-        text = view.findViewById(R.id.about_app_version_view);
+        text = requireViewByIdCompat(view, R.id.about_app_version_view);
         String appVersionText = getString(R.string.appVersion, BuildConfig.VERSION_NAME);
         text.setText(appVersionText);
 
-        View appDisclaimer = view.findViewById(R.id.about_app_disclaimer_view);
+        View appDisclaimer = requireViewByIdCompat(view, R.id.about_app_disclaimer_view);
         //noinspection ConstantConditions
         appDisclaimer.setVisibility(BuildConfig.SHOW_APP_DISCLAIMER ? View.VISIBLE : View.GONE);
 
         int linkTextColor = ContextCompat.getColor(view.getContext(), R.color.text_link_on_dark);
         MovementMethod movementMethod = LinkMovementMethodCompat.getInstance();
 
-        TextView logoCopyright = view.findViewById(R.id.about_copyright_logo_view);
+        TextView logoCopyright = requireViewByIdCompat(view, R.id.about_copyright_logo_view);
         logoCopyright.setText(Strings.toSpanned(getString(R.string.copyright_logo)));
         logoCopyright.setLinkTextColor(linkTextColor);
         logoCopyright.setMovementMethod(movementMethod);
 
-        TextView conferenceUrl = view.findViewById(R.id.about_conference_url_view);
+        TextView conferenceUrl = requireViewByIdCompat(view, R.id.about_conference_url_view);
         conferenceUrl.setText(Strings.toSpanned(getString(R.string.conference_url)));
         conferenceUrl.setMovementMethod(movementMethod);
         conferenceUrl.setLinkTextColor(linkTextColor);
 
-        TextView sourceCode = view.findViewById(R.id.about_source_code_view);
+        TextView sourceCode = requireViewByIdCompat(view, R.id.about_source_code_view);
         sourceCode.setText(Strings.toSpanned(getString(R.string.source_code)));
         sourceCode.setMovementMethod(movementMethod);
         sourceCode.setLinkTextColor(linkTextColor);
 
-        TextView issues = view.findViewById(R.id.about_issues_view);
+        TextView issues = requireViewByIdCompat(view, R.id.about_issues_view);
         issues.setText(Strings.toSpanned(getString(R.string.issues)));
         issues.setMovementMethod(movementMethod);
         issues.setLinkTextColor(linkTextColor);
 
-        TextView googlePlayStore = view.findViewById(R.id.about_google_play_view);
+        TextView googlePlayStore = requireViewByIdCompat(view, R.id.about_google_play_view);
         googlePlayStore.setText(Strings.toSpanned(getString(R.string.google_play_store)));
         googlePlayStore.setMovementMethod(movementMethod);
         googlePlayStore.setLinkTextColor(linkTextColor);
 
-        TextView dataPrivacyStatement = view.findViewById(R.id.about_data_privacy_statement_view);
+        TextView dataPrivacyStatement = requireViewByIdCompat(view, R.id.about_data_privacy_statement_view);
         dataPrivacyStatement.setText(Strings.toSpanned(getString(R.string.about_data_privacy_statement)));
         dataPrivacyStatement.setMovementMethod(movementMethod);
         dataPrivacyStatement.setLinkTextColor(linkTextColor);
 
         // Build information
 
-        TextView buildTimeTextView = view.findViewById(R.id.build_time);
+        TextView buildTimeTextView = requireViewByIdCompat(view, R.id.build_time);
         String buildTimeText = getString(R.string.build_info_time, BuildConfig.BUILD_TIME);
         buildTimeTextView.setText(buildTimeText);
 
-        TextView versionCodeTextView = view.findViewById(R.id.build_version_code);
+        TextView versionCodeTextView = requireViewByIdCompat(view, R.id.build_version_code);
         String versionCodeText = getString(R.string.build_info_version_code, "" + BuildConfig.VERSION_CODE);
         versionCodeTextView.setText(versionCodeText);
 
-        TextView buildHashTextView = view.findViewById(R.id.build_hash);
+        TextView buildHashTextView = requireViewByIdCompat(view, R.id.build_hash);
         String buildHashText = getString(R.string.build_info_hash, BuildConfig.GIT_SHA);
         buildHashTextView.setText(buildHashText);
     }
