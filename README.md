@@ -75,6 +75,8 @@ provide the same event file format.
 
 To start development open the project in Android Studio.
 
+The [customization guide][customization-guide] explains in all details how to create an app for your event.
+
 If you want to create your own signed release builds, copy the `gradle.properties.example` file in the `app` folder
 and rename it to `gradle.properties`. This file contains the signing information which is used in the build process.
 Make sure to edit the file contents to point to your own keystore files.
@@ -128,6 +130,7 @@ limitations under the License.
 [ccc-events]: http://events.ccc.de
 [chaosflix-github]: https://github.com/NiciDieNase/chaosflix
 [congress-app-google-play]: https://play.google.com/store/apps/details?id=info.metadude.android.congress.schedule
+[customization-guide]: docs/CUSTOMIZING.md
 [engelsystem-website]: https://engelsystem.de
 [eventfahrplan-github]: https://github.com/EventFahrplan/EventFahrplan
 [frab-github]: https://github.com/frab/frab
