@@ -47,7 +47,6 @@
     <string name="alarm_time_title_5_minutes_before">5 minutes avant</string>
     <string name="notifications_session_alarm_content_text">Rappel pour un événement</string>
     <string name="notifications_session_alarm_channel_name">Rappels pour les événements</string>
-    <string name="trace_droid_app_chooser_title">Ouvrir le brouillon avec …</string>
     <string name="trace_droid_button_title_later">Peut-être plus tard</string>
     <string name="trace_droid_button_title_no">Non</string>
     <string name="trace_droid_no_email_app">Aucune application de messagerie compatible n’est installée.</string>
