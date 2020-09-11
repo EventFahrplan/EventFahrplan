@@ -4,6 +4,7 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.commit
 import nerd.tuxmobil.fahrplan.congress.MyApp
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.base.BaseActivity
@@ -24,9 +25,9 @@ class SettingsActivity : BaseActivity(R.layout.settings) {
         supportActionBar!!.setBackgroundDrawable(ColorDrawable(actionBarColor))
 
         if (savedInstanceState == null) {
-            fragmentManager.beginTransaction()
-                    .add(R.id.container, SettingsFragment())
-                    .commit()
+            supportFragmentManager.commit {
+                add(R.id.container, SettingsFragment())
+            }
             MyApp.LogDebug(LOG_TAG, "onCreate fragment created")
         }
     }

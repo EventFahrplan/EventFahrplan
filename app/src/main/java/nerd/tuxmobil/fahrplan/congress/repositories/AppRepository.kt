@@ -1,7 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.repositories
 
 import android.content.Context
-import androidx.core.net.toUri
+import android.net.Uri
 import info.metadude.android.eventfahrplan.commons.logging.Logging
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import info.metadude.android.eventfahrplan.database.extensions.toContentValues
@@ -25,6 +25,8 @@ import nerd.tuxmobil.fahrplan.congress.models.Alarm
 import nerd.tuxmobil.fahrplan.congress.models.Meta
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.net.*
+import nerd.tuxmobil.fahrplan.congress.preferences.AlarmTonePreference
+import nerd.tuxmobil.fahrplan.congress.utils.AlarmToneConversion
 import nerd.tuxmobil.fahrplan.congress.preferences.SharedPreferencesRepository
 import nerd.tuxmobil.fahrplan.congress.serialization.ScheduleChanges
 import okhttp3.OkHttpClient
@@ -394,8 +396,13 @@ object AppRepository {
     fun readAlarmTimeIndex() =
             sharedPreferencesRepository.getAlarmTimeIndex()
 
-    fun readAlarmToneUri() =
-            sharedPreferencesRepository.getAlarmTone().toUri()
+    /**
+     * Returns the alarm tone `Uri` or `null` for silent alarms to be used for notifications.
+     */
+    fun readAlarmToneUri(): Uri? {
+        val alarmTone = sharedPreferencesRepository.getAlarmTone()
+        return AlarmToneConversion.getNotificationIntentUri(alarmTone, AlarmTonePreference.DEFAULT_VALUE_URI)
+    }
 
     fun readAlternativeHighlightingEnabled() =
             sharedPreferencesRepository.isAlternativeHighlightingEnabled()

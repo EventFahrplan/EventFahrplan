@@ -166,6 +166,7 @@ dependencies {
     kapt Libs.moshiCodeGen
     implementation Libs.okhttp
     implementation Libs.okhttpLoggingInterceptor
+    implementation Libs.preference
     implementation Libs.snackengagePlayrate
     implementation Libs.tracedroid
 

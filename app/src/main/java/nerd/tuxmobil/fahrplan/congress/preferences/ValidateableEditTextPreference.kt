@@ -1,20 +1,33 @@
 package nerd.tuxmobil.fahrplan.congress.preferences
 
-import android.app.AlertDialog
 import android.content.Context
-import android.content.DialogInterface
 import android.os.Build
-import android.os.Bundle
-import android.preference.EditTextPreference
 import android.util.AttributeSet
-import android.view.View
+import android.widget.EditText
 import androidx.annotation.RequiresApi
 import androidx.core.content.withStyledAttributes
+import androidx.core.widget.doAfterTextChanged
+import androidx.preference.EditTextPreference
 import nerd.tuxmobil.fahrplan.congress.R
+import nerd.tuxmobil.fahrplan.congress.preferences.ValidateableEditTextPreference.ValidationType
 import nerd.tuxmobil.fahrplan.congress.utils.EngelsystemUrlValidator
 import nerd.tuxmobil.fahrplan.congress.utils.UrlValidator
 
-class ValidateableEditTextPreference : EditTextPreference {
+/**
+ * A dialog based [EditTextPreference] that shows an [EditText] in the dialog.
+ *
+ * Input text is validated via the configured [ValidationType].
+ */
+class ValidateableEditTextPreference : StyleableEditTextPreference {
+
+    private companion object {
+
+        const val URL_TYPE_FRIENDLY_NAME_DEFAULT_VALUE = ""
+
+    }
+
+    private lateinit var validationType: ValidationType
+    private lateinit var urlTypeFriendlyName: String
 
     @Suppress("unused")
     constructor(context: Context) : super(context)
@@ -37,9 +50,6 @@ class ValidateableEditTextPreference : EditTextPreference {
         applyAttributes(context, attrs)
     }
 
-    private lateinit var validationType: ValidationType
-    private lateinit var urlTypeFriendlyName: String
-
     private fun applyAttributes(context: Context, attrs: AttributeSet?) {
         context.withStyledAttributes(attrs, R.styleable.ValidateableEditTextPreference) {
             val type = getInt(
@@ -49,31 +59,23 @@ class ValidateableEditTextPreference : EditTextPreference {
             validationType = ValidationType.of(type)
             urlTypeFriendlyName = getString(
                     R.styleable.ValidateableEditTextPreference_urlTypeFriendlyName)
-                    ?: ""
+                    ?: URL_TYPE_FRIENDLY_NAME_DEFAULT_VALUE
         }
     }
 
-    override fun showDialog(state: Bundle?) {
-        super.showDialog(state)
-        if (dialog !is AlertDialog) {
-            return
-        }
-        val button = (dialog as AlertDialog).getButton(DialogInterface.BUTTON_POSITIVE)
-        editText.error = null
-        button.setOnClickListener(this::onConfirmed)
-    }
-
-    private fun onConfirmed(view: View) = with(editText) {
-        val url = text.trim().toString()
-        val validation = validationType.toValidationOf(url)
-        // Allow users to wipe their URL
-        if (url.isEmpty() || validation.isValid()) {
-            error = null
-            onClick(dialog, DialogInterface.BUTTON_POSITIVE)
-            dialog.dismiss()
-        } else {
-            error = if (validation.getErrorMessage() == null) "General validation error"
-            else view.resources.getString(validation.getErrorMessage()!!, urlTypeFriendlyName)
+    override fun onBindEditText(editText: EditText) {
+        super.onBindEditText(editText)
+        editText.doAfterTextChanged { editable ->
+            requireNotNull(editable)
+            val url = editable.toString().trim()
+            val validation = validationType.toValidation(url)
+            // Allow users to wipe their URL
+            editText.error = if (url.isEmpty() || validation.isValid()) {
+                null
+            } else {
+                if (validation.getErrorMessage() == null) "General validation error"
+                else editText.resources.getString(validation.getErrorMessage()!!, urlTypeFriendlyName)
+            }
         }
     }
 
@@ -96,7 +98,7 @@ class ValidateableEditTextPreference : EditTextPreference {
         }
     }
 
-    private fun ValidationType.toValidationOf(url: String) = when (this) {
+    private fun ValidationType.toValidation(url: String) = when (this) {
         ValidationType.Url -> UrlValidator(url)
         ValidationType.EngelsystemUrl -> EngelsystemUrlValidator(url)
         // Fails once the user submits their input. Late, but still good to know.
