@@ -11,6 +11,7 @@ import nerd.tuxmobil.fahrplan.congress.MyApp
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.base.BaseActivity
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
+import nerd.tuxmobil.fahrplan.congress.extensions.withExtras
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.utils.showWhenLockedCompat
 
@@ -20,11 +21,10 @@ class SessionDetailsActivity : BaseActivity(R.layout.detail_frame) {
 
         @JvmStatic
         fun startForResult(activity: Activity, session: Session) {
-            val extras = bundleOf(BundleKeys.SESSION_ID to session.sessionId)
-            with(Intent(activity, SessionDetailsActivity::class.java)) {
-                putExtras(extras)
-                activity.startActivityForResult(this, MyApp.SESSION_VIEW)
-            }
+            val intent = Intent(activity, SessionDetailsActivity::class.java).withExtras(
+                    BundleKeys.SESSION_ID to session.sessionId
+            )
+            activity.startActivityForResult(intent, MyApp.SESSION_VIEW)
         }
 
     }
