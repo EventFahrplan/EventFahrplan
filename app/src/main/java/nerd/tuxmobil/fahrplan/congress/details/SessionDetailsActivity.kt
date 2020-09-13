@@ -6,11 +6,11 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
-import androidx.core.os.bundleOf
 import nerd.tuxmobil.fahrplan.congress.MyApp
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.base.BaseActivity
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
+import nerd.tuxmobil.fahrplan.congress.extensions.withArguments
 import nerd.tuxmobil.fahrplan.congress.extensions.withExtras
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.utils.showWhenLockedCompat
@@ -50,8 +50,9 @@ class SessionDetailsActivity : BaseActivity(R.layout.detail_frame) {
     }
 
     private fun openDetails(sessionId: String) {
-        val args = bundleOf(BundleKeys.SESSION_ID to sessionId)
-        val fragment = SessionDetailsFragment().apply { arguments = args }
+        val fragment = SessionDetailsFragment().withArguments(
+                BundleKeys.SESSION_ID to sessionId
+        )
         replaceFragment(R.id.detail, fragment, SessionDetailsFragment.FRAGMENT_TAG)
     }
 
