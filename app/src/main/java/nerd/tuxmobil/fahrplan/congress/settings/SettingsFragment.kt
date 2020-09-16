@@ -13,13 +13,13 @@ import android.preference.PreferenceCategory
 import android.preference.PreferenceFragment
 import android.preference.PreferenceScreen
 import android.provider.Settings
-import androidx.core.os.bundleOf
 import nerd.tuxmobil.fahrplan.congress.BuildConfig
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
 import nerd.tuxmobil.fahrplan.congress.extensions.getAlarmManager
 import nerd.tuxmobil.fahrplan.congress.extensions.toSpanned
+import nerd.tuxmobil.fahrplan.congress.extensions.withExtras
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc
 
 class SettingsFragment : PreferenceFragment() {
@@ -81,15 +81,15 @@ class SettingsFragment : PreferenceFragment() {
     }
 
     private fun requestRedraw(bundleKey: String) {
-        val extras = bundleOf(bundleKey to true)
-        val redrawIntent = Intent().apply { putExtras(extras) }
+        val redrawIntent = Intent().withExtras(bundleKey to true)
         requireNotNull(activity).setResult(RESULT_OK, redrawIntent)
     }
 
     @TargetApi(Build.VERSION_CODES.O)
     private fun launchAppNotificationSettings(context: Context) {
-        val extras = bundleOf(Settings.EXTRA_APP_PACKAGE to context.packageName)
-        val intent = Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS).apply { putExtras(extras) }
+        val intent = Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS).withExtras(
+                Settings.EXTRA_APP_PACKAGE to context.packageName
+        )
         startActivity(intent)
     }
 }

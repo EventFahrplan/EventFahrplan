@@ -3,10 +3,10 @@ package nerd.tuxmobil.fahrplan.congress.net
 import android.app.Dialog
 import android.os.Bundle
 import androidx.annotation.NonNull
-import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import nerd.tuxmobil.fahrplan.congress.R
+import nerd.tuxmobil.fahrplan.congress.extensions.withArguments
 import nerd.tuxmobil.fahrplan.congress.utils.AlertDialogHelper
 
 /**
@@ -21,9 +21,9 @@ class CertificateErrorFragment : DialogFragment() {
 
         @JvmStatic
         fun showDialog(fragmentManager: FragmentManager, errorMessage: String) {
-            val fragment = CertificateErrorFragment().apply {
-                arguments = bundleOf(BUNDLE_KEY_ERROR_MESSAGE to errorMessage)
-            }
+            val fragment = CertificateErrorFragment().withArguments(
+                    BUNDLE_KEY_ERROR_MESSAGE to errorMessage
+            )
             fragment.show(fragmentManager, FRAGMENT_TAG)
         }
 

@@ -6,9 +6,9 @@ import android.content.Context
 import android.content.Intent
 import android.provider.CalendarContract
 import android.widget.Toast
-import androidx.core.os.bundleOf
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.extensions.startActivity
+import nerd.tuxmobil.fahrplan.congress.extensions.withExtras
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.utils.SessionUrlComposer
 import nerd.tuxmobil.fahrplan.congress.utils.StringUtils
@@ -30,14 +30,13 @@ private fun Session.toCalendarInsertIntent(context: Context): Intent {
     val location = this.room
     val startTime = startTimeMilliseconds
     val endTime = startTime + this.duration * 60000
-    val bundle = bundleOf(
+    return Intent(Intent.ACTION_INSERT, CalendarContract.Events.CONTENT_URI).withExtras(
             CalendarContract.Events.TITLE to title,
             CalendarContract.Events.DESCRIPTION to description,
             CalendarContract.Events.EVENT_LOCATION to location,
             CalendarContract.EXTRA_EVENT_BEGIN_TIME to startTime,
             CalendarContract.EXTRA_EVENT_END_TIME to endTime
     )
-    return Intent(Intent.ACTION_INSERT, CalendarContract.Events.CONTENT_URI).apply { putExtras(bundle) }
 }
 
 private fun Intent.transformToCalendarEditIntent() {
