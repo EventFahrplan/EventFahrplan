@@ -21,8 +21,7 @@
     <color name="about_horizontal_line">#606060</color>
 
     <!-- Alarm dialogs -->
-    <color name="alert_dialog_title">@color/colorAccent</color>
-    <color name="alert_dialog_button_text">@color/colorPrimary</color>
+    <color name="alert_dialog_button_text">@color/colorAccent</color>
 
     <!-- Schedule screen -->
     <color name="schedule_time_column_background">#000000</color>

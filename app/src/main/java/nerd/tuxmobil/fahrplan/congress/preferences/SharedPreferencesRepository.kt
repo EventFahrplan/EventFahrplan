@@ -2,8 +2,8 @@ package nerd.tuxmobil.fahrplan.congress.preferences
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.preference.PreferenceManager
 import androidx.core.content.edit
+import androidx.preference.PreferenceManager
 import nerd.tuxmobil.fahrplan.congress.R
 
 class SharedPreferencesRepository(val context: Context) {
@@ -33,10 +33,10 @@ class SharedPreferencesRepository(val context: Context) {
         return if (index == -1) defaultIndex else index
     }
 
-    fun getAlarmTone(): String {
+    fun getAlarmTone(): String? {
         val key = context.getString(R.string.preference_key_alarm_tone)
-        val defaultValue = context.getString(R.string.preference_default_value_alarm_tone)
-        return preferences.getString(key, defaultValue)!!
+        val defaultValue = AlarmTonePreference.DEFAULT_VALUE_STRING
+        return preferences.getString(key, defaultValue)
     }
 
     fun isAlternativeHighlightingEnabled(): Boolean {

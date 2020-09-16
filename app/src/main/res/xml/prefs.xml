@@ -6,45 +6,55 @@
 
     <PreferenceCategory
         android:key="@string/preference_key_category_general"
-        android:title="@string/general_settings">
+        android:title="@string/general_settings"
+        app:iconSpaceReserved="false">
 
-        <CheckBoxPreference
+        <SwitchPreferenceCompat
             android:defaultValue="@bool/preference_default_value_auto_update_enabled"
             android:key="@string/preference_key_auto_update_enabled"
-            android:title="@string/preference_title_auto_update_enabled" />
+            android:title="@string/preference_title_auto_update_enabled"
+            app:iconSpaceReserved="false" />
 
         <Preference
             android:key="@string/preference_key_app_notification_settings"
-            android:title="@string/preference_title_app_notification_settings" />
+            android:title="@string/preference_title_app_notification_settings"
+            app:iconSpaceReserved="false" />
 
-        <EditTextPreference
+        <!--
+        TODO: Use ValidateableEditTextPreference
+        see https://github.com/EventFahrplan/EventFahrplan/issues/62
+        -->
+        <nerd.tuxmobil.fahrplan.congress.preferences.StyleableEditTextPreference
             android:defaultValue="@string/preference_default_value_alternative_schedule_url"
             android:hint="@string/preference_hint_alternative_schedule_url"
             android:inputType="textUri"
             android:key="@string/preference_key_alternative_schedule_url"
-            android:title="@string/preference_title_alternative_schedule_url" />
+            android:title="@string/preference_title_alternative_schedule_url"
+            app:iconSpaceReserved="false" />
 
-        <CheckBoxPreference
+        <SwitchPreferenceCompat
             android:defaultValue="@bool/preference_default_value_alternative_highlighting_enabled"
             android:key="@string/preference_key_alternative_highlighting_enabled"
-            android:title="@string/preference_title_alternative_highlighting_enabled" />
+            android:title="@string/preference_title_alternative_highlighting_enabled"
+            app:iconSpaceReserved="false" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/reminders">
+    <PreferenceCategory
+        android:title="@string/reminders"
+        app:iconSpaceReserved="false">
 
-        <RingtonePreference
-            android:defaultValue="@string/preference_default_value_alarm_tone"
+        <!-- defaultValue is applied in AlarmTonePreference -->
+        <nerd.tuxmobil.fahrplan.congress.preferences.AlarmTonePreference
             android:key="@string/preference_key_alarm_tone"
-            android:ringtoneType="notification|alarm"
-            android:showDefault="true"
-            android:showSilent="true"
-            android:title="@string/preference_title_alarm_tone" />
+            android:title="@string/preference_title_alarm_tone"
+            app:iconSpaceReserved="false" />
 
-        <CheckBoxPreference
+        <SwitchPreferenceCompat
             android:defaultValue="@bool/preference_default_value_insistent_alarms_enabled"
             android:key="@string/preference_key_insistent_alarms_enabled"
-            android:title="@string/preference_title_insistent_alarms_enabled" />
+            android:title="@string/preference_title_insistent_alarms_enabled"
+            app:iconSpaceReserved="false" />
 
         <ListPreference
             android:defaultValue="@string/preference_default_value_alarm_time_value"
@@ -52,13 +62,15 @@
             android:entries="@array/preference_entries_alarm_time_titles"
             android:entryValues="@array/preference_entry_values_alarm_time"
             android:key="@string/preference_key_alarm_time_index"
-            android:title="@string/preference_title_alarm_time" />
+            android:title="@string/preference_title_alarm_time"
+            app:iconSpaceReserved="false" />
 
     </PreferenceCategory>
 
     <PreferenceCategory
         android:key="@string/preference_engelsystem_category_key"
-        android:title="@string/preference_engelsystem_category_title">
+        android:title="@string/preference_engelsystem_category_title"
+        app:iconSpaceReserved="false">
 
         <nerd.tuxmobil.fahrplan.congress.preferences.ValidateableEditTextPreference
             android:defaultValue="@string/preference_default_value_engelsystem_json_export_url"
@@ -66,6 +78,7 @@
             android:inputType="textUri"
             android:key="@string/preference_key_engelsystem_json_export_url"
             android:title="@string/preference_title_engelsystem_json_export_url"
+            app:iconSpaceReserved="false"
             app:urlTypeFriendlyName="@string/preference_url_type_friendly_name_engelsystem_json_export"
             app:validationType="engelsystemUrl"
             tools:summary="@string/preference_summary_engelsystem_json_export_url" />

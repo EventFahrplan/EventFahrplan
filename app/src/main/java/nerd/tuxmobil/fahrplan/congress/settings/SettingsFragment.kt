@@ -6,13 +6,15 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.preference.Preference
-import android.preference.Preference.OnPreferenceChangeListener
-import android.preference.Preference.OnPreferenceClickListener
-import android.preference.PreferenceCategory
-import android.preference.PreferenceFragment
-import android.preference.PreferenceScreen
 import android.provider.Settings
+import androidx.preference.EditTextPreference
+import androidx.preference.Preference
+import androidx.preference.Preference.OnPreferenceChangeListener
+import androidx.preference.Preference.OnPreferenceClickListener
+import androidx.preference.PreferenceCategory
+import androidx.preference.PreferenceFragmentCompat
+import androidx.preference.PreferenceScreen
+import androidx.preference.SwitchPreferenceCompat
 import nerd.tuxmobil.fahrplan.congress.BuildConfig
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices
@@ -20,28 +22,40 @@ import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
 import nerd.tuxmobil.fahrplan.congress.extensions.getAlarmManager
 import nerd.tuxmobil.fahrplan.congress.extensions.toSpanned
 import nerd.tuxmobil.fahrplan.congress.extensions.withExtras
+import nerd.tuxmobil.fahrplan.congress.preferences.AlarmTonePreference
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc
 
-class SettingsFragment : PreferenceFragment() {
+class SettingsFragment : PreferenceFragmentCompat() {
+
+    private companion object {
+
+        private const val REQUEST_CODE_ALARM_TONE = 3439
+
+    }
+
+    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+        addPreferencesFromResource(R.xml.prefs)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        addPreferencesFromResource(R.xml.prefs)
 
-        val categoryGeneral = findPreference(getString(R.string.preference_key_category_general)) as PreferenceCategory
+        val categoryGeneral = requirePreference<PreferenceCategory>(getString(R.string.preference_key_category_general))
 
-        findPreference(resources.getString(R.string.preference_key_auto_update_enabled)).onPreferenceChangeListener = OnPreferenceChangeListener { _: Preference?, newValue: Any ->
+        requirePreference<SwitchPreferenceCompat>(resources.getString(R.string.preference_key_auto_update_enabled)).onPreferenceChangeListener = OnPreferenceChangeListener { _: Preference?, newValue: Any ->
             val isAutoUpdateEnabled = newValue as Boolean
             if (isAutoUpdateEnabled) {
                 FahrplanMisc.setUpdateAlarm(activity, true)
             } else {
-                val alarmManager = activity.getAlarmManager()
-                AlarmServices(alarmManager).discardAutoUpdateAlarm(activity)
+                with(requireActivity()) {
+                    val alarmManager = getAlarmManager()
+                    AlarmServices(alarmManager).discardAutoUpdateAlarm(this)
+                }
             }
             true
         }
 
-        val appNotificationSettingsPreference = findPreference(getString(R.string.preference_key_app_notification_settings))
+        val appNotificationSettingsPreference = requirePreference<Preference>(getString(R.string.preference_key_app_notification_settings))
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
             categoryGeneral.removePreference(appNotificationSettingsPreference)
         } else {
@@ -51,7 +65,7 @@ class SettingsFragment : PreferenceFragment() {
             }
         }
 
-        val alternativeScheduleUrlPreference = findPreference(getString(R.string.preference_key_alternative_schedule_url))
+        val alternativeScheduleUrlPreference = requirePreference<EditTextPreference>(getString(R.string.preference_key_alternative_schedule_url))
         if (BuildConfig.ENABLE_ALTERNATIVE_SCHEDULE_URL) {
             alternativeScheduleUrlPreference.onPreferenceChangeListener = OnPreferenceChangeListener { _: Preference?, _: Any? ->
                 requestRedraw(BundleKeys.BUNDLE_KEY_SCHEDULE_URL_UPDATED)
@@ -61,15 +75,15 @@ class SettingsFragment : PreferenceFragment() {
             categoryGeneral.removePreference(alternativeScheduleUrlPreference)
         }
 
-        findPreference(resources.getString(R.string.preference_key_alternative_highlighting_enabled)).onPreferenceChangeListener = OnPreferenceChangeListener { _: Preference?, _: Any? ->
+        requirePreference<SwitchPreferenceCompat>(resources.getString(R.string.preference_key_alternative_highlighting_enabled)).onPreferenceChangeListener = OnPreferenceChangeListener { _: Preference?, _: Any? ->
             requestRedraw(BundleKeys.BUNDLE_KEY_ALTERNATIVE_HIGHLIGHTING_UPDATED)
             true
         }
 
-        val screen = findPreference(getString(R.string.preference_key_screen)) as PreferenceScreen
-        val engelsystemCategory = findPreference(getString(R.string.preference_engelsystem_category_key)) as PreferenceCategory
+        val screen = requirePreference<PreferenceScreen>(getString(R.string.preference_key_screen))
+        val engelsystemCategory = requirePreference<PreferenceCategory>(getString(R.string.preference_engelsystem_category_key))
         if (BuildConfig.ENABLE_ENGELSYSTEM_SHIFTS) {
-            val urlPreference = findPreference(getString(R.string.preference_key_engelsystem_json_export_url))
+            val urlPreference = requirePreference<EditTextPreference>(getString(R.string.preference_key_engelsystem_json_export_url))
             urlPreference.summary = getString(R.string.preference_summary_engelsystem_json_export_url).toSpanned()
             urlPreference.onPreferenceChangeListener = OnPreferenceChangeListener { _: Preference?, _: Any? ->
                 requestRedraw(BundleKeys.BUNDLE_KEY_ENGELSYSTEM_SHIFTS_URL_UPDATED)
@@ -77,6 +91,23 @@ class SettingsFragment : PreferenceFragment() {
             }
         } else {
             screen.removePreference(engelsystemCategory)
+        }
+    }
+
+    override fun onDisplayPreferenceDialog(preference: Preference) {
+        if (preference is AlarmTonePreference) {
+            preference.showAlarmTonePicker(this, REQUEST_CODE_ALARM_TONE)
+        } else {
+            super.onDisplayPreferenceDialog(preference)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
+        if (REQUEST_CODE_ALARM_TONE == requestCode && RESULT_OK == resultCode && intent != null) {
+            val preference = requirePreference<AlarmTonePreference>(getString(R.string.preference_key_alarm_tone))
+            preference.onAlarmTonePicked(intent)
+        } else {
+            super.onActivityResult(requestCode, resultCode, intent)
         }
     }
 
@@ -92,4 +123,12 @@ class SettingsFragment : PreferenceFragment() {
         )
         startActivity(intent)
     }
+
+    /**
+     * Returns a [Preference] for the given key or throws a [NullPointerException]
+     * if none can be found. Uses [findPreference].
+     */
+    private fun <T : Preference> requirePreference(key: CharSequence): T = findPreference(key)
+            ?: throw NullPointerException("Cannot find preference for '$key' key.")
+
 }

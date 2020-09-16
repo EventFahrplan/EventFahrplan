@@ -32,7 +32,7 @@ internal class NotificationHelper(context: Context) : ContextWrapper(context) {
             contentIntent: PendingIntent,
             contentTitle: String,
             occurredAt: Long,
-            sound: Uri
+            sound: Uri?
     ): NotificationCompat.Builder =
             getNotificationBuilder(SESSION_ALARM_CHANNEL_ID, contentIntent, sessionAlarmContentText, sound)
                     .setCategory(NotificationCompat.CATEGORY_REMINDER)
@@ -44,7 +44,7 @@ internal class NotificationHelper(context: Context) : ContextWrapper(context) {
             contentIntent: PendingIntent,
             contentText: String,
             changesCount: Int,
-            sound: Uri
+            sound: Uri?
     ): NotificationCompat.Builder =
             getNotificationBuilder(SCHEDULE_UPDATE_CHANNEL_ID, contentIntent, contentText, sound)
                     .setCategory(NotificationCompat.CATEGORY_SERVICE)
@@ -77,7 +77,7 @@ internal class NotificationHelper(context: Context) : ContextWrapper(context) {
             channelId: String,
             contentIntent: PendingIntent,
             contentText: String,
-            sound: Uri) =
+            sound: Uri?) =
             NotificationCompat.Builder(this, channelId)
                     .setAutoCancel(true)
                     .setColor(color)
