@@ -7,10 +7,16 @@ import org.threeten.bp.ZoneOffset
 import org.threeten.bp.ZonedDateTime
 
 class MomentTest {
-    /**
-     * Milliseconds representation of 2019-12-30T22:47:57.615Z.
-     */
-    private val DEC_30_22_47_2019 = 1577746077615
+
+    private companion object {
+
+        /**
+         * Milliseconds representation of 2019-12-30T22:47:57.615Z.
+         */
+        private const val DEC_30_22_47_2019 = 1577746077615
+
+    }
+
 
     @Test
     fun dateTimeFieldsAreCorrectlyMapped() {
