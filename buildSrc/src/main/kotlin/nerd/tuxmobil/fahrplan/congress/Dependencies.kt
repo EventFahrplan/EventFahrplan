@@ -18,7 +18,7 @@ object Plugins {
         const val androidJunitJacoco = "0.16.0"
         const val sonarQube = "3.0"
         const val unMock = "0.7.6"
-        const val versions = "0.29.0"
+        const val versions = "0.33.0"
     }
 
     const val android = "com.android.tools.build:gradle:${Versions.android}"
