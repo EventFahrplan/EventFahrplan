@@ -256,6 +256,7 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
 
     @Override
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+        //noinspection SwitchStatementWithTooFewBranches
         switch (item.getItemId()) {
             case R.id.menu_item_delete_favorite:
                 deleteItems(mListView.getCheckedItemPositions());

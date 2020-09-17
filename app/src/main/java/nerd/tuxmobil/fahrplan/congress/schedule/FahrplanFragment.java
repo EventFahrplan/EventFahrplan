@@ -403,7 +403,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
         }
         Moment nowMoment = new Moment();
         HorizontalSnapScrollView horiz = null;
-
+        //noinspection SwitchStatementWithTooFewBranches
         switch (getResources().getConfiguration().orientation) {
             case Configuration.ORIENTATION_LANDSCAPE:
                 break;
@@ -542,6 +542,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
 
     private int getSessionPadding() {
         int padding;
+        //noinspection SwitchStatementWithTooFewBranches
         switch (getResources().getConfiguration().orientation) {
             case Configuration.ORIENTATION_LANDSCAPE:
                 padding = (int) (8 * scale);

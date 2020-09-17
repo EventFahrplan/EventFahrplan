@@ -84,6 +84,7 @@ public class AlarmList extends ActionBarListActivity {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item
                 .getMenuInfo();
         int menuItemIndex = item.getItemId();
+        //noinspection SwitchStatementWithTooFewBranches
         switch (menuItemIndex) {
             case CONTEXT_MENU_ITEM_ID_DELETE:
                 deleteAlarm(info.position);
@@ -132,6 +133,7 @@ public class AlarmList extends ActionBarListActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        //noinspection SwitchStatementWithTooFewBranches
         switch (item.getItemId()) {
             case R.id.menu_item_delete_all_alarms:
                 deleteAllAlarms();
