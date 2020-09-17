@@ -20,9 +20,9 @@ import nerd.tuxmobil.fahrplan.congress.R;
 // https://github.com/ligi/tracedroid
 public abstract class TraceDroidEmailSender {
 
-    public static boolean sendStackTraces(@NonNull final Activity context) {
+    public static void sendStackTraces(@NonNull final Activity context) {
         if (TraceDroid.getStackTraceFiles().length < 1) {
-            return false;
+            return;
         }
 
         final String appName = context.getString(R.string.app_name);
@@ -60,7 +60,6 @@ public abstract class TraceDroidEmailSender {
                     // Nothing to do here
                 })
                 .show();
-        return true;
     }
 
     @NonNull
