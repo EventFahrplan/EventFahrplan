@@ -10,6 +10,7 @@ import static kotlin.collections.CollectionsKt.singleOrNull;
 
 public class ScheduleChanges {
 
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public static boolean hasScheduleChanged(@NonNull List<Session> sessions,
                                              @NonNull List<Session> oldSessions) {
         if (oldSessions.isEmpty()) {
