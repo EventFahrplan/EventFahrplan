@@ -272,7 +272,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                                                             session.setRecordingLicense(XmlPullParsers.getSanitizedText(parser));
                                                         } else if (name.equals("optout")) {
                                                             parser.next();
-                                                            session.setRecordingOptOut(Boolean.valueOf(XmlPullParsers.getSanitizedText(parser)));
+                                                            session.setRecordingOptOut(Boolean.parseBoolean(XmlPullParsers.getSanitizedText(parser)));
                                                         }
                                                         break;
                                                 }
