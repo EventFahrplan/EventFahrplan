@@ -266,7 +266,7 @@ class SessionDetailsFragment : Fragment(), SessionDetailsViewModel.ViewActionHan
 
     override fun shareAsPlainText(formattedSessions: String) {
         val context = requireContext()
-        SessionSharer.shareSimple(context, formattedSessions);
+        SessionSharer.shareSimple(context, formattedSessions)
     }
 
     override fun shareAsJson(formattedSessions: String) {
