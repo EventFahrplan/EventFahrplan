@@ -2,6 +2,7 @@ package nerd.tuxmobil.fahrplan.congress.net
 
 import android.app.Dialog
 import android.os.Bundle
+import androidx.annotation.MainThread
 import androidx.annotation.NonNull
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
@@ -32,6 +33,7 @@ class CertificateErrorFragment : DialogFragment() {
     @NonNull
     private lateinit var errorMessage: String
 
+    @MainThread
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -39,6 +41,7 @@ class CertificateErrorFragment : DialogFragment() {
         }
     }
 
+    @MainThread
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog =
             AlertDialogHelper.createErrorDialog(
                     requireContext(),

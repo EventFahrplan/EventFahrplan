@@ -207,6 +207,7 @@ public class Session {
                 '}';
     }
 
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public boolean isChanged() {
         return changedDay || changedDuration ||
                 changedLanguage || changedRecordingOptOut ||

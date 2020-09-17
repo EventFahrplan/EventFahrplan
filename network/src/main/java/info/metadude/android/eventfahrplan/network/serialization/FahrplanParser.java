@@ -191,6 +191,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                                         break;
                                     case XmlPullParser.START_TAG:
                                         name = parser.getName();
+                                        //noinspection IfCanBeSwitch
                                         if (name.equals("title")) {
                                             parser.next();
                                             session.setTitle(XmlPullParsers.getSanitizedText(parser));
@@ -272,7 +273,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                                                             session.setRecordingLicense(XmlPullParsers.getSanitizedText(parser));
                                                         } else if (name.equals("optout")) {
                                                             parser.next();
-                                                            session.setRecordingOptOut(Boolean.valueOf(XmlPullParsers.getSanitizedText(parser)));
+                                                            session.setRecordingOptOut(Boolean.parseBoolean(XmlPullParsers.getSanitizedText(parser)));
                                                         }
                                                         break;
                                                 }

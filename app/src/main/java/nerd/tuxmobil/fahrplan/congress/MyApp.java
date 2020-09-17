@@ -3,6 +3,8 @@ package nerd.tuxmobil.fahrplan.congress;
 import android.app.Application;
 import android.util.Log;
 
+import androidx.annotation.CallSuper;
+
 import org.ligi.tracedroid.TraceDroid;
 
 import java.util.Calendar;
@@ -50,6 +52,7 @@ public class MyApp extends Application {
 
     public static TASKS task_running = TASKS.NONE;
 
+    @CallSuper
     @Override
     public void onCreate() {
         super.onCreate();

@@ -17,6 +17,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.annotation.CallSuper;
+import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -87,6 +88,8 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
     public StarredListFragment() {
     }
 
+    @MainThread
+    @CallSuper
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -126,6 +129,8 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
         return view;
     }
 
+    @MainThread
+    @CallSuper
     @Override
     public void onResume() {
         super.onResume();
@@ -160,8 +165,9 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
         }
     }
 
-    @Override
+    @MainThread
     @CallSuper
+    @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         try {
@@ -172,6 +178,8 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
         }
     }
 
+    @MainThread
+    @CallSuper
     @Override
     public void onDetach() {
         super.onDetach();
@@ -256,6 +264,7 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
 
     @Override
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+        //noinspection SwitchStatementWithTooFewBranches
         switch (item.getItemId()) {
             case R.id.menu_item_delete_favorite:
                 deleteItems(mListView.getCheckedItemPositions());

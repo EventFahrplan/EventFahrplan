@@ -4,6 +4,8 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.CallSuper;
+import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
@@ -38,6 +40,7 @@ public class ConfirmationDialog extends DialogFragment {
         return dialog;
     }
 
+    @MainThread
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +51,7 @@ public class ConfirmationDialog extends DialogFragment {
         }
     }
 
+    @MainThread
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -66,8 +70,10 @@ public class ConfirmationDialog extends DialogFragment {
         return builder.create();
     }
 
+    @MainThread
+    @CallSuper
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         if (context instanceof OnConfirmationDialogClicked) {
             listener = (OnConfirmationDialogClicked) context;

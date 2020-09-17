@@ -513,6 +513,7 @@ public class MainActivity extends BaseActivity implements
 
     @Override
     public void onAccepted(int dlgRequestCode) {
+        //noinspection SwitchStatementWithTooFewBranches
         switch (dlgRequestCode) {
             case StarredListFragment.DELETE_ALL_FAVORITES_REQUEST_CODE:
                 Fragment fragment = findFragment(StarredListFragment.FRAGMENT_TAG);

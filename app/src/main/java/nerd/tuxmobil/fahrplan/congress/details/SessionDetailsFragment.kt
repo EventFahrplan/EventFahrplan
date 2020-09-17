@@ -15,7 +15,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
+import androidx.annotation.MainThread
+import androidx.annotation.NonNull
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -53,12 +56,16 @@ class SessionDetailsFragment : Fragment(), SessionDetailsViewModel.ViewActionHan
     private var sidePane = false
     private var hasArguments = false
 
-    override fun onAttach(context: Context) {
+    @MainThread
+    @CallSuper
+    override fun onAttach(@NonNull context: Context) {
         super.onAttach(context)
         appRepository = AppRepository
         viewModel = SessionDetailsViewModel(appRepository, sessionId, this)
     }
 
+    @MainThread
+    @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
@@ -255,6 +262,8 @@ class SessionDetailsFragment : Fragment(), SessionDetailsViewModel.ViewActionHan
         activity.setResult(Activity.RESULT_OK)
     }
 
+    @MainThread
+    @CallSuper
     override fun onDestroy() {
         super.onDestroy()
         MyApp.LogDebug(LOG_TAG, "onDestroy")
@@ -266,7 +275,7 @@ class SessionDetailsFragment : Fragment(), SessionDetailsViewModel.ViewActionHan
 
     override fun shareAsPlainText(formattedSessions: String) {
         val context = requireContext()
-        SessionSharer.shareSimple(context, formattedSessions);
+        SessionSharer.shareSimple(context, formattedSessions)
     }
 
     override fun shareAsJson(formattedSessions: String) {

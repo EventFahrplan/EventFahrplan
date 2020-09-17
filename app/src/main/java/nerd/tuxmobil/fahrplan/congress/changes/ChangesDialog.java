@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -49,6 +50,7 @@ public class ChangesDialog extends DialogFragment {
         return dialog;
     }
 
+    @MainThread
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +64,7 @@ public class ChangesDialog extends DialogFragment {
         }
     }
 
+    @MainThread
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {

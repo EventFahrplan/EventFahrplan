@@ -27,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.CallSuper;
+import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -127,7 +128,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
 
     private SessionViewDrawer sessionViewDrawer;
 
-    private Map<Integer, SessionViewColumnAdapter> adapterByRoomIndex = new HashMap<>();
+    private final Map<Integer, SessionViewColumnAdapter> adapterByRoomIndex = new HashMap<>();
 
     private final OnSessionsChangeListener onSessionsChangeListener = new OnSessionsChangeListener() {
         @Override
@@ -145,15 +146,17 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
         }
     };
 
-    @Override
+    @MainThread
     @CallSuper
+    @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         appRepository = AppRepository.INSTANCE;
     }
 
-    @Override
+    @MainThread
     @CallSuper
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
@@ -202,8 +205,9 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
         appRepository.updateDisplayDayIndex(day);
     }
 
-    @Override
+    @MainThread
     @CallSuper
+    @Override
     public void onResume() {
         Log.d(LOG_TAG, "onResume");
         super.onResume();
@@ -258,8 +262,9 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
         appRepository.setOnSessionsChangeListener(onSessionsChangeListener);
     }
 
-    @Override
+    @MainThread
     @CallSuper
+    @Override
     public void onPause() {
         appRepository.removeOnSessionsChangeListener(onSessionsChangeListener);
         super.onPause();
@@ -403,7 +408,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
         }
         Moment nowMoment = new Moment();
         HorizontalSnapScrollView horiz = null;
-
+        //noinspection SwitchStatementWithTooFewBranches
         switch (getResources().getConfiguration().orientation) {
             case Configuration.ORIENTATION_LANDSCAPE:
                 break;
@@ -542,6 +547,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
 
     private int getSessionPadding() {
         int padding;
+        //noinspection SwitchStatementWithTooFewBranches
         switch (getResources().getConfiguration().orientation) {
             case Configuration.ORIENTATION_LANDSCAPE:
                 padding = (int) (8 * scale);
