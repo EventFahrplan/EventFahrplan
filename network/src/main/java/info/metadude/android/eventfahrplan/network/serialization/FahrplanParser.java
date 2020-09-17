@@ -191,6 +191,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                                         break;
                                     case XmlPullParser.START_TAG:
                                         name = parser.getName();
+                                        //noinspection IfCanBeSwitch
                                         if (name.equals("title")) {
                                             parser.next();
                                             session.setTitle(XmlPullParsers.getSanitizedText(parser));
