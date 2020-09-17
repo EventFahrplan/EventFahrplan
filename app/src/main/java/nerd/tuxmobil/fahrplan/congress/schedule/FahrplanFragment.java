@@ -127,7 +127,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
 
     private SessionViewDrawer sessionViewDrawer;
 
-    private Map<Integer, SessionViewColumnAdapter> adapterByRoomIndex = new HashMap<>();
+    private final Map<Integer, SessionViewColumnAdapter> adapterByRoomIndex = new HashMap<>();
 
     private final OnSessionsChangeListener onSessionsChangeListener = new OnSessionsChangeListener() {
         @Override
