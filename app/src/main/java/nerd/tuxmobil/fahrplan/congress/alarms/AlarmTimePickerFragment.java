@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -48,6 +49,7 @@ public class AlarmTimePickerFragment extends DialogFragment {
         dialogFragment.show(fragmentManager, FRAGMENT_TAG);
     }
 
+    @MainThread
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {

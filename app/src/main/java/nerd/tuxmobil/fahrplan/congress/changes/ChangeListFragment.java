@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import androidx.annotation.CallSuper;
+import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -67,6 +68,8 @@ public class ChangeListFragment extends AbstractListFragment {
     public ChangeListFragment() {
     }
 
+    @MainThread
+    @CallSuper
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,8 +117,9 @@ public class ChangeListFragment extends AbstractListFragment {
         return view;
     }
 
-    @Override
+    @MainThread
     @CallSuper
+    @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         try {
@@ -126,8 +130,9 @@ public class ChangeListFragment extends AbstractListFragment {
         }
     }
 
-    @Override
+    @MainThread
     @CallSuper
+    @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;

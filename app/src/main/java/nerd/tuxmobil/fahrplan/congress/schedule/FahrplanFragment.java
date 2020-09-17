@@ -27,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.CallSuper;
+import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -145,15 +146,17 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
         }
     };
 
-    @Override
+    @MainThread
     @CallSuper
+    @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         appRepository = AppRepository.INSTANCE;
     }
 
-    @Override
+    @MainThread
     @CallSuper
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
@@ -202,8 +205,9 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
         appRepository.updateDisplayDayIndex(day);
     }
 
-    @Override
+    @MainThread
     @CallSuper
+    @Override
     public void onResume() {
         Log.d(LOG_TAG, "onResume");
         super.onResume();
@@ -258,8 +262,9 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
         appRepository.setOnSessionsChangeListener(onSessionsChangeListener);
     }
 
-    @Override
+    @MainThread
     @CallSuper
+    @Override
     public void onPause() {
         appRepository.removeOnSessionsChangeListener(onSessionsChangeListener);
         super.onPause();
