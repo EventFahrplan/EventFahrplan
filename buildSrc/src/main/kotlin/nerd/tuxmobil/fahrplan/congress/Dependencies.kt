@@ -9,13 +9,12 @@ object Android {
     const val targetSdkVersion = 29
 }
 
-private const val kotlinVersion = "1.3.72"
-
 object Plugins {
 
     private object Versions {
         const val android = "4.0.1"
         const val androidJunitJacoco = "0.16.0"
+        const val kotlin = "1.4.10"
         const val sonarQube = "3.0"
         const val unMock = "0.7.6"
         const val versions = "0.33.0"
@@ -23,7 +22,7 @@ object Plugins {
 
     const val android = "com.android.tools.build:gradle:${Versions.android}"
     const val androidJunitJacoco = "com.vanniktech:gradle-android-junit-jacoco-plugin:${Versions.androidJunitJacoco}"
-    const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+    const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
     const val sonarQube = "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:${Versions.sonarQube}"
     const val unMock = "de.mobilej.unmock:UnMockPlugin:${Versions.unMock}"
     const val versions = "com.github.ben-manes:gradle-versions-plugin:${Versions.versions}"
@@ -70,7 +69,6 @@ object Libs {
     const val junit = "junit:junit:${Versions.junit}"
     const val kotlinCoroutinesAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.kotlinCoroutines}"
     const val kotlinCoroutinesCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinCoroutines}"
-    const val kotlinStdlib = "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
     const val material = "com.google.android.material:material:${Versions.material}"
     const val mockitoCore = "org.mockito:mockito-core:${Versions.mockito}"
     const val mockitoKotlin = "com.nhaarman.mockitokotlin2:mockito-kotlin:${Versions.mockitoKotlin}"

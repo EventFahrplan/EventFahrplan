@@ -144,7 +144,6 @@ dependencies {
     implementation Libs.emailIntentBuilder
     implementation Libs.kotlinCoroutinesAndroid
     implementation Libs.kotlinCoroutinesCore
-    implementation Libs.kotlinStdlib
     implementation Libs.material
     implementation Libs.moshi
     kapt Libs.moshiCodeGen

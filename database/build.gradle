@@ -31,7 +31,6 @@ dependencies {
 
     implementation Libs.annotation
     implementation Libs.coreKtx
-    implementation Libs.kotlinStdlib
 
     androidTestImplementation Libs.assertjAndroid
     androidTestImplementation Libs.espresso
