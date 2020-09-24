@@ -82,8 +82,7 @@ class SessionDetailsFragment : Fragment(), SessionDetailsViewModel.ViewActionHan
     override fun setArguments(args: Bundle?) {
         super.setArguments(args)
         requireNotNull(args)
-        sessionId = args.getString(BundleKeys.SESSION_ID)
-                ?: throw IllegalStateException("Missing 'sessionId' argument.")
+        sessionId = args.getString(BundleKeys.SESSION_ID) ?: error("Missing 'sessionId' argument.")
         sidePane = args.getBoolean(BundleKeys.SIDEPANE, false)
         hasArguments = true
     }

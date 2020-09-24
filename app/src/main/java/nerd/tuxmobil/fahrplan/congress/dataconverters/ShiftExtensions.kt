@@ -46,7 +46,7 @@ fun Shift.oneBasedDayIndex(logging: Logging, dayRanges: List<DayRange>): Int {
             return index + 1
         }
     }
-    throw IllegalStateException("Shift start time $startsAt (${startsAt.toEpochSecond()}) exceeds all day ranges.")
+    error("Shift start time $startsAt (${startsAt.toEpochSecond()}) exceeds all day ranges.")
 }
 
 private val Shift.dateUtcMs
