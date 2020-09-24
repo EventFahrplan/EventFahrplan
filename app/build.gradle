@@ -1,7 +1,5 @@
 import nerd.tuxmobil.fahrplan.congress.Android
 import nerd.tuxmobil.fahrplan.congress.Libs
-import org.gradle.api.tasks.testing.logging.TestExceptionFormat
-import org.gradle.api.tasks.testing.logging.TestLogEvent
 
 ext.set("APP_VERSION", "${gitSha()}")
 
@@ -131,20 +129,6 @@ unMock {
     keep "android.os.Bundle"
     keep "android.util.Patterns"
     keepAndRename "java.nio.charset.Charsets" to "xjava.nio.charset.Charsets"
-}
-
-tasks.withType(Test) {
-    testLogging {
-        events TestLogEvent.FAILED,
-                TestLogEvent.PASSED,
-                TestLogEvent.SKIPPED,
-                TestLogEvent.STANDARD_ERROR,
-                TestLogEvent.STANDARD_OUT
-        exceptionFormat TestExceptionFormat.FULL
-        showCauses true
-        showExceptions true
-        showStackTraces true
-    }
 }
 
 dependencies {
