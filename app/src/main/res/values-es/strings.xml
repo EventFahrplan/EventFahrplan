@@ -13,7 +13,7 @@
     <string name="alarm_time_title_at_start_time">Al inicio</string>
     <string name="alarms_empty">No hay alarmas para mostrar. Nótese que se pueden poner alarmas para cada evento en el calendario. Sólo presione el ícono de alarma en la barra de acción</string>
     <string name="appVersion">Versión %s de la aplicación</string>
-    <string name="app_disclaimer">Esta aplicación está basada en el código fuente de la aplicación  “EventFahrplan”. Asistentes al congreso anual y al campamento organizado por el Chaos Computer Club usan la aplicación para estar al tanto del programa del evento.</string>
+    <string name="app_disclaimer">Esta aplicación está basada en el código fuente de la aplicación “EventFahrplan”. Asistentes al congreso anual y al campamento organizado por el Chaos Computer Club usan la aplicación para estar al tanto del programa del evento.</string>
     <string name="build_info_hash">Version hash: <xliff:g example="e1f2g3h-dirty" id="build_hash">%s</xliff:g></string>
     <string name="build_info_time">Tiempo de compilación: <xliff:g example="2015-12-27T13:42Z" id="build_time">%s</xliff:g></string>
     <string name="build_info_version_code">Código de versión: <xliff:g example="42" id="version_code">%s</xliff:g></string>
@@ -41,7 +41,7 @@
     <string name="certificate_error_title">No se pudo agregar el certificado</string>
     <string name="session_duration"><xliff:g example="45" id="duration">%1$d</xliff:g> min.</string>
     <string name="invalid_url">URL no válida</string>
-    <string name="issues"><![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan/issues">Problema o sugerencias</a>]]></string>
+    <string name="issues"><![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan/issues">Problemas o sugerencias</a>]]></string>
     <string name="session_list_item_language_portuguese_content_description">Portugués</string>
     <string name="session_list_item_language_english_content_description">Inglés</string>
     <string name="session_list_item_language_german_content_description">Alemán</string>
@@ -86,7 +86,7 @@
     <string name="schedule_changes_dialog_changed_new_cancelled_text">. Hay cambios en <xliff:g example="3 lectures" id="num_changes">%1$s</xliff:g>, <xliff:g example="2 are" id="num_new">%2$s</xliff:g> new, <xliff:g example="1 is" id="num_canceled">%3$s</xliff:g> cancelada</string>
     <string name="schedule_changes_dialog_later">Más tarde</string>
     <string name="schedule_changes_dialog_title">Actulización de calendario</string>
-    <string name="schedule_changes_dialog_updated_to_text">El calendario ha sido actualizado a</string>
+    <string name="schedule_changes_dialog_updated_to_text">El calendario ha sido actualizado a\u0020</string>
     <string name="schedule_updated">El calendario ha sido actualizado</string>
     <string name="schedule_updated_to">Actualizado a <xliff:g example="Mildenberg 2018-01-16 16:50" id="version">%s</xliff:g></string>
     <string name="settings">Ajustes</string>
@@ -108,6 +108,17 @@
     <string name="uptodate">El calendario está actualizado</string>
     <string name="usage">Nota: Presione unos segundos en una conferencia para poner alarma</string>
     <string name="OK">De acuerdo</string>
-    <string name="about_data_privacy_statement"><![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan/blob/master/DATA-PRIVACY-DE.md">Declaración de privacidad de datos (German)</a>]]></string>
+    <string name="about_data_privacy_statement"><![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan/blob/master/DATA-PRIVACY-DE.md">Declaración de privacidad de datos (Alemán)</a>]]></string>
+    <string name="menu_item_title_share_session_text">como texto</string>
+    <string name="menu_item_title_share_session_json">como JSON (por Chaosflix)</string>
+    <string name="share_as_text">Compartir como texto</string>
+    <string name="share_as_json">Compartir como JSON (por Chaosflix)</string>
+    <string name="engelsystem_shifts_parsing_error_generic">Error desconocido mientras se convertían turnos de Engelsystem</string>
+    <string name="engelsystem_shifts_parsing_error_forbidden">API key inválida para turnos de Engelsystem</string>
+    <string name="engelsystem_shifts_parsing_error_not_found">URL inválida para turnos de Engelsystem</string>
+    <string name="validation_error_invalid_url">URL <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> inválida.</string>
+    <string name="validation_error_url_with_incomplete_query"><xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL con parte de la query incompleta.</string>
+    <string name="validation_error_url_without_api_key"><xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL sin API key.</string>
+    <string name="validation_error_url_without_query"><xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL sin query.</string>
 
 </resources>
