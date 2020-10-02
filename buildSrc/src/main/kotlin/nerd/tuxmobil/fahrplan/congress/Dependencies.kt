@@ -36,7 +36,7 @@ object Libs {
         const val assertjAndroid = "1.2.0"
         const val betterLinkMovementMethod = "2.2.0" // minSdkVersion 16, see AndroidManifest
         const val constraintLayout = "2.0.2"
-        const val coreKtx = "1.3.1"
+        const val coreKtx = "1.3.2"
         const val emailIntentBuilder = "2.0.0"
         const val engelsystem = "4.0.1"
         const val espresso = "3.3.0"
