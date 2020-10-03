@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Camp 2019</string>
+    <string name="app_hardcoded_subtitle"/>
+    <string name="conference_url">
+        <![CDATA[<a href="http://events.ccc.de/camp/2019/">http://events.ccc.de/camp/2019/</a>]]>
+    </string>
+    <string name="source_code">
+        <![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan">ソースコード</a>]]>
+    </string>
+    <string name="google_play_store">
+        <![CDATA[<a href="https://play.google.com/store/apps/details?id=info.metadude.android.cccamp.schedule">Google PlayStoreのリスト</a>]]>
+    </string>
+    <string name="copyright_logo">
+        <![CDATA[ <a href="http://www.graphorama.de">Sven Sedivy</a>によるデザイン]]>
+    </string>
+    <string name="about_logo_content_description">
+        青、黄、緑の3つの異なるロケットを備えたChaos Communication Campロゴ
+    </string>
+</resources>
