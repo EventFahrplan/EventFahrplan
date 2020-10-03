@@ -30,7 +30,7 @@
 \n%s</string>
     <string name="dlg_err_connection_failed">Échec de la connexion</string>
     <string name="certificate_error_title">Le certificat n’a pas pu être ajouté.</string>
-    <string name="OK">OK</string>
+    <string name="OK">Ok</string>
     <string name="menu_item_title_share_favorites">Partager les favoris</string>
     <string name="menu_item_title_share_session">Partager l’événement</string>
     <string name="menu_item_title_navigate">Naviguer</string>
@@ -67,8 +67,7 @@
     <string name="starred_sessions">Favoris</string>
     <string name="general_settings">Général</string>
     <string name="no_favorites">Aucune conférence dans les favoris</string>
-    <string name="issues">&lt;a href=https://github.com/EventFahrplan/EventFahrplan/issues&gt;Problèmes ou demandes de fonctionnalités&lt;/a&gt;</string>
-    <string name="about_data_privacy_statement">&lt;a href=https://github.com/EventFahrplan/EventFahrplan/blob/master/DATA-PRIVACY-DE.md&gt;Déclaration de protection des données (en allemand)&lt;/a&gt;</string>
+    <string name="about_data_privacy_statement"><![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan/blob/master/DATA-PRIVACY-DE.md">Déclaration de protection des données (en allemand)</a>]]></string>
     <string name="choose_alarm_time">Choisissez l’heure du rappel</string>
     <string name="session_details_section_title_links">Liens</string>
     <string name="session_details_section_title_session_online">Événement en ligne</string>
@@ -85,7 +84,7 @@
     <string name="menu_item_title_alarms">Rappels</string>
     <string name="menu_item_title_add_to_calendar">Ajouter au programme</string>
     <string name="menu_item_title_about">Info</string>
-    <string name="schedule_parsing_error_with_version">Analyse de l’erreur pour le programme version %s</string>
+    <string name="schedule_parsing_error_with_version">Erreur de lecture pour le programme version %s</string>
     <string name="dlg_err_failed_connect_failure">Échec lors de la connexion pour des raisons inconnues</string>
     <string name="notifications_schedule_update_channel_description">Les mises à jour automatiques du programme peuvent être configurées via les paramètres de l’application.</string>
     <string name="trace_droid_button_title_send">Ouvrir la messagerie</string>
@@ -115,11 +114,33 @@
     <string name="trace_droid_dialog_title"> Envoi du rapport de crash du programme <xliff:g example="33C3 Schedule" id="appName">%s</xliff:g> … </string>
     <string name="schedule_changes">Changements du programme</string>
     <string name="no_changes">Aucun changement dans le programme</string>
-    <string name="schedule_parsing_error_generic">Erreur inconnue lors de l’analyse du programme</string>
+    <string name="schedule_parsing_error_generic">Erreur inconnue lors de la lecture du programme</string>
     <string name="schedule_updated">Le programme a été mis à jour.</string>
-    <string name="progress_processing_data">Traitement du programme …</string>
+    <string name="progress_processing_data">Traitement du programme &#8230;</string>
     <string name="schedule_changes_dialog_updated_to_text">"Le programme a été mis à jour "</string>
     <string name="uptodate">Le programme est à jour.</string>
     <string name="dlg_err_failed_not_found">URL du programme invalide</string>
-    <string name="progress_loading_data">Obtention du programme …</string>
+    <string name="progress_loading_data">Récupération du programme &#8230;</string>
+    <string name="menu_item_title_share_session_text">en tant que texte</string>
+    <string name="menu_item_title_share_session_json">en tant que JSON (pour Chaosflix)</string>
+    <string name="share_as_text">Partager en tant que texte</string>
+    <string name="share_as_json">Partager en tant que JSON (pour Chaosflix)</string>
+    <string name="dlg_err_failed_http_cleartext_not_permitted">HTTP n\'est pas autorisé. Veuillez utiliser HTTPS.</string>
+    <string name="engelsystem_shifts_parsing_error_generic">Erreur inconnue pendant la lecture des créneaux Engelsystem</string>
+    <string name="engelsystem_shifts_parsing_error_forbidden">Clé API invalide pour les créneaux Engelsystem</string>
+    <string name="engelsystem_shifts_parsing_error_not_found">Mauvaise URL pour les créneaux Engelsystem</string>
+    <string name="session_list_item_language_portuguese_content_description">Portugais</string>
+    <string name="session_list_item_language_german_content_description">Allemand</string>
+    <string name="session_list_item_language_english_content_description">Anglais</string>
+    <string name="session_list_item_language_unknown_content_description">Langue inconnue</string>
+    <string name="session_list_item_language_undefined_content_description">Langue : <xliff:g example="es" id="language_abbreviation">%s</xliff:g></string>
+    <string name="session_list_item_language_removed_content_description">L\'information de langue a été enlevée</string>
+    <string name="session_list_item_no_video_content_description">Sans enregistrement vidéo</string>
+    <string name="session_list_item_video_content_description">Avec enregistrement vidéo</string>
+    <string name="session_list_item_without_video_content_description">Sans enregistrement vidéo</string>
+    <string name="validation_error_invalid_url">URL invalide <xliff:g example="Engelsystem" id="urlType">%s</xliff:g>.</string>
+    <string name="validation_error_url_without_query">URL <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> sans la partie requête.</string>
+    <string name="validation_error_url_with_incomplete_query">URL <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> avec partie requête incomplète.</string>
+    <string name="validation_error_url_without_api_key">URL <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> sans clé API.</string>
+    <string name="issues"><![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan/issues">Problèmes ou demande de fonctionnalités</a>]]></string>
 </resources>
