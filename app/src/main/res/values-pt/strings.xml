@@ -8,16 +8,20 @@
     <string name="menu_item_title_close_session_details">Fechar detalhes do evento</string>
     <string name="menu_item_title_flag_as_favorite">Adicionar aos favoritos</string>
     <string name="menu_item_title_unflag_as_favorite">Remover dos favoritos</string>
-    <string name="menu_item_title_delete_favorite">Remover</string>
+    <string name="menu_item_title_delete_favorite">Excluir</string>
     <string name="menu_item_title_set_alarm">Definir alerta</string>
-    <string name="menu_item_title_delete_alarm">Remover alerta</string>
-    <string name="menu_item_title_delete_all">Remover tudo</string>
+    <string name="menu_item_title_delete_alarm">Excluir alerta</string>
+    <string name="menu_item_title_delete_all">Excluir tudo</string>
     <string name="menu_item_title_favorites">Favoritos</string>
     <string name="menu_item_title_feedback">Feedback</string>
     <string name="menu_item_title_navigate">Navegação</string>
     <string name="menu_item_title_refresh">Atualizar</string>
     <string name="menu_item_title_share_session">Compartilhar evento</string>
     <string name="menu_item_title_share_favorites">Compartilhar favoritos</string>
+    <string name="menu_item_title_share_session_text">como texto</string>
+    <string name="menu_item_title_share_session_json">como JSON (para Chaosflix)</string>
+    <string name="share_as_text">Compartilhar como texto</string>
+    <string name="share_as_json">Compartilhar como JSON (para Chaosflix)</string>
 
     <!-- AlertDialogHelper -->
     <string name="OK">OK</string>
@@ -36,16 +40,16 @@
     <string name="dlg_err_failed_timeout">Servidor não responde (tempo excedido).</string>
     <string name="dlg_err_failed_connect_failure">Falha de conexão desconhecida</string>
     <string name="dlg_err_failed_not_found">URL de cronograma inválida</string>
-    <string name="dlg_err_failed_parse_failure">Não foi possíver interpretar a resposta</string>
+    <string name="dlg_err_failed_parse_failure">Não foi possíver processar a resposta</string>
     <string name="dlg_err_failed_ssl_failure">Falha de SSL</string>
     <string name="dlg_err_failed_http_cleartext_not_permitted">HTTP não é permitido. Por favor use HTTPS.</string>
-    <string name="uptodate">O cronograma está atualizado</string>
+    <string name="uptodate">Cronograma está atualizado</string>
 
     <!-- Schedule changes dialog -->
     <string name="schedule_changes_dialog_title">Atualização de cronograma</string>
     <string name="schedule_changes_dialog_updated_to_text">O cronograma foi atualizado para\u0020</string>
     <string name="schedule_changes_dialog_changed_new_cancelled_text">. Há alterações em <xliff:g example="3 lectures" id="num_changes">%1$s</xliff:g>, <xliff:g example="2 are" id="num_new">%2$s</xliff:g> novos, <xliff:g example="1 is" id="num_canceled">%3$s</xliff:g> cancelados.</string>
-    <string name="schedule_changes_dialog_affected_text">As alterações afetam <xliff:g example="2" id="num_marked">%1$d</xliff:g> das suas palestras apoiadas.</string>
+    <string name="schedule_changes_dialog_affected_text">As alterações afetam <xliff:g example="2" id="num_marked">%1$d</xliff:g> das suas palestras favoritas.</string>
     <plurals name="schedule_changes_dialog_number_of_sessions">
         <item quantity="one">%d palestra</item>
         <item quantity="other">%d palestras</item>
@@ -79,7 +83,7 @@
     <string name="libraries">
 		Este aplicativo usa as seguintes bibliotecas:
 		Kotlin, Google Support Library, BetterLinkMovementMethod, Email Intent Builder,
-		Espresso, OkHttp, SnackEngage e TraceDroid
+		Engelsystem, Espresso, OkHttp, SnackEngage e TraceDroid
 	</string>
     <string name="about_data_privacy_statement">
         <![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan/blob/master/DATA-PRIVACY-DE.md">Declaração de privacidade (Alemão)</a>]]>
@@ -90,10 +94,13 @@
     <string name="today">hoje</string>
     <string name="schedule_parsing_error_generic">Erro desconhecido ao processar cronograma</string>
     <string name="schedule_parsing_error_with_version">Erro ao processar versão do cronograma %s</string>
+    <string name="engelsystem_shifts_parsing_error_generic">Erro desconhecido ao processar turnos no Engelsystem</string>
+    <string name="engelsystem_shifts_parsing_error_forbidden">Chave de API inválido para turnos no Engelsystem</string>
+    <string name="engelsystem_shifts_parsing_error_not_found">URL incorreta para turnos no Engelsystem</string>
     <string name="alarms_empty">
-        Não há alarmes para exibir, você pode configurar alarmes
-		individuais para cada item no cronograma.
-		Basta pressionar o ícone de alarme na barra de ações.
+        Não há alertas para exibir, você pode configurar alertas
+        individuais para cada item no cronograma.
+        Basta pressionar o ícone de alerta na barra de ações.
     </string>
     <string name="add_to_calendar_failed">Falha ao adicionar o evento ao calendário.</string>
     <string name="no_changes">Nenhuma mudança de cronograma</string>
@@ -106,8 +113,8 @@
     <string name="choose_to_delete">Selecionar palestras</string>
     <string name="day_separator">Dia <xliff:g example="2" id="day_of_congress">%1$d</xliff:g> - <xliff:g example="29.12.2014" id="date_of_congress_day">%2$s</xliff:g></string>
     <string name="session_duration"><xliff:g example="45" id="duration">%1$d</xliff:g> min.</string>
-    <string name="dlg_delete_all_favorites">Remover todos os favoritos?</string>
-    <string name="dlg_delete_all_favorites_delete_all">Remover tudo</string>
+    <string name="dlg_delete_all_favorites">Excluir todos os favoritos?</string>
+    <string name="dlg_delete_all_favorites_delete_all">Excluir tudo</string>
 
     <string name="share_error_activity_not_found">Aplicativo fitting não está instalado.</string>
 
@@ -162,7 +169,7 @@
 
     <!-- Notifications -->
     <string name="notifications_session_alarm_channel_description">
-        Alarmes criados pelo usuário para vários eventos.
+        Alertas criados pelo usuário para vários eventos.
     </string>
     <string name="notifications_session_alarm_channel_name">Alertas por eventos</string>
     <string name="notifications_session_alarm_content_text">Alerta por evento</string>
@@ -176,7 +183,7 @@
     </plurals>
 
     <!-- Alarm time picker -->
-    <string name="alarm_time_title_at_start_time">no início</string>
+    <string name="alarm_time_title_at_start_time">ao iniciar</string>
     <string name="alarm_time_title_5_minutes_before">5 minutos antes</string>
     <string name="alarm_time_title_10_minutes_before">10 minutos antes</string>
     <string name="alarm_time_title_15_minutes_before">15 minutos antes</string>
@@ -195,5 +202,19 @@
     <string name="session_list_item_no_video_content_description">Sem gravação de vídeo</string>
     <string name="session_list_item_video_content_description">Com gravação de vídeo</string>
     <string name="session_list_item_without_video_content_description">Sem gravação de vídeo</string>
+
+    <!-- Validation errors -->
+    <string name="validation_error_invalid_url">
+       URL <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> inválida.
+    </string>
+    <string name="validation_error_url_without_query">
+        <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL sem parte da consulta.
+    </string>
+    <string name="validation_error_url_with_incomplete_query">
+        <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL com parte da consulta incompleta.
+    </string>
+    <string name="validation_error_url_without_api_key">
+        <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL sem chave da API.
+    </string>
 
 </resources>
