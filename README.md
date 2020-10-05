@@ -45,6 +45,7 @@ Please read the instructions in the [contribution guide](CONTRIBUTING.md) in ord
 - Portuguese 🇵🇹
 - Russian 🇷🇺
 - Spanish 🇪🇸
+- Swedish 🇸🇪
 
 ### Optional integration
 
