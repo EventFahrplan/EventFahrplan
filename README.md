@@ -95,9 +95,10 @@ Copyright 2011-2015 Daniel Dorau
 Contributions from Adriano Pereira Junior, Akarsh Seggemu, Andrea Marziali,
 Andy Scherzinger, Andreas Schildbach, Animesh Verma, bashtian, bjoernb,
 Björn Olsson Jarl, ButterflyOfFire, cacarrara, Caio Volpato, cketti,
-codingcatgirl, entropynil, ideadapt, koelnkalkverbot, ligi, Mateus Baptista,
-Matthias Hunstock, MichaelRocks, NiciDieNase, Noemis, Poschi, Sjors van Mierlo,
-Stefan Medack, SubOptimal, Torsten Grote, Victor Herasme, Vladimir Alabov, Yanicka
+codingcatgirl, entropynil, ideadapt, koelnkalkverbot, Larissa Yasin, ligi,
+Mateus Baptista, Matthias Hunstock, MichaelRocks, NiciDieNase, Noemis,
+Poschi, Sjors van Mierlo, Stefan Medack, SubOptimal, Torsten Grote,
+Victor Herasme, Vladimir Alabov, Yanicka
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
