@@ -35,7 +35,7 @@
 
     <!-- CustomHttpClient -->
     <string name="dlg_err_connection_failed">Verbindungsfehler</string>
-    <string name="dlg_err_failed_unknown_host">Unbekannte Adresse:\n%s</string>
+    <string name="dlg_err_failed_unknown_host">Unbekannte Adresse:\n<xliff:g example="http://example.com" id="url">%s</xliff:g></string>
     <string name="dlg_err_failed_wrong_http_credentials">Ungültige HTTP Authentifizierung</string>
     <string name="dlg_err_failed_timeout">Server antwortet nicht (Zeitüberschreitung).</string>
     <string name="dlg_err_failed_connect_failure">Unbekannter Verbindungsfehler</string>
@@ -51,12 +51,12 @@
     <string name="schedule_changes_dialog_changed_new_cancelled_text">\u0020aktualisiert. Es gibt Änderungen in <xliff:g example="3 Vorträgen" id="num_changes">%1$s</xliff:g>, <xliff:g example="2 sind" id="num_new">%2$s</xliff:g> neu, <xliff:g example="1 ist" id="num_canceled">%3$s</xliff:g> gestrichen.</string>
     <string name="schedule_changes_dialog_affected_text">Die Änderungen betreffen <xliff:g example="2" id="num_marked">%1$d</xliff:g> der favorisierten Vorträge.</string>
     <plurals name="schedule_changes_dialog_number_of_sessions">
-        <item quantity="one">%d Vortrag</item>
-        <item quantity="other">%d Vorträgen</item>
+        <item quantity="one"><xliff:g example="1" id="count">%d</xliff:g> Vortrag</item>
+        <item quantity="other"><xliff:g example="9" id="count">%d</xliff:g> Vorträgen</item>
     </plurals>
     <plurals name="schedule_changes_dialog_being">
-        <item quantity="one">%d ist</item>
-        <item quantity="other">%d sind</item>
+        <item quantity="one"><xliff:g example="1" id="count">%d</xliff:g> ist</item>
+        <item quantity="other"><xliff:g example="9" id="count">%d</xliff:g> sind</item>
     </plurals>
     <string name="schedule_changes_dialog_browse">Ansehen</string>
     <string name="schedule_changes_dialog_later">Später</string>
@@ -67,7 +67,7 @@
     <string name="choose_day">Tag wählen</string>
     <string name="day">Tag</string>
     <string name="fahrplan">Fahrplan</string>
-    <string name="appVersion">App Version %s</string>
+    <string name="appVersion">App Version <xliff:g example="1.40.2" id="appVersion">%s</xliff:g></string>
     <string name="schedule_updated_to">
         Aktualisiert auf <xliff:g example="Mildenberg 2018-01-16 16:50" id="version">%s</xliff:g>
     </string>
@@ -93,7 +93,7 @@
 	</string>
     <string name="today">heute</string>
     <string name="schedule_parsing_error_generic">Unbekannter Fehler beim Parsen des Fahrplans</string>
-    <string name="schedule_parsing_error_with_version">Fehler beim Parsen der Fahrplan-Version %s</string>
+    <string name="schedule_parsing_error_with_version">Fehler beim Parsen der Fahrplan-Version <xliff:g example="0.99a" id="scheduleVersion">%s</xliff:g></string>
     <string name="engelsystem_shifts_parsing_error_generic">Unbekannter Fehler beim Parsen der Engelsystem-Schichten</string>
     <string name="engelsystem_shifts_parsing_error_forbidden">Ungültiger API-Schlüssel für Engelsystem-Schichten</string>
     <string name="engelsystem_shifts_parsing_error_not_found">Falsche URL für Engelsystem-Schichten</string>
@@ -203,5 +203,19 @@
     <string name="session_list_item_no_video_content_description">Ohne Videoaufzeichnung</string>
     <string name="session_list_item_video_content_description">Mit Videoaufzeichnung</string>
     <string name="session_list_item_without_video_content_description">Ohne Videoaufzeichnung</string>
+
+    <!-- Validation errors -->
+    <string name="validation_error_invalid_url">
+        Ungültige <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL.
+    </string>
+    <string name="validation_error_url_without_query">
+        <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL ohne Query-Teil.
+    </string>
+    <string name="validation_error_url_with_incomplete_query">
+        <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL mit unvollständigem Query-Teil.
+    </string>
+    <string name="validation_error_url_without_api_key">
+        <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL ohne API-Schlüssel.
+    </string>
 
 </resources>

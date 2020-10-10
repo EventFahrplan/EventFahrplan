@@ -90,6 +90,9 @@
     <string name="placeholder_session_date">
         27.12.13 11:45 VORM. - SAAL 1
     </string>
+    <string name="placeholder_session_location">
+        SEHR LANGER RAUM
+    </string>
     <string name="placeholder_session_id">
         ID: 5610
     </string>
