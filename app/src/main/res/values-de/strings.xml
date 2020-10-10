@@ -204,4 +204,18 @@
     <string name="session_list_item_video_content_description">Mit Videoaufzeichnung</string>
     <string name="session_list_item_without_video_content_description">Ohne Videoaufzeichnung</string>
 
+    <!-- Validation errors -->
+    <string name="validation_error_invalid_url">
+        Ungültige <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL.
+    </string>
+    <string name="validation_error_url_without_query">
+        <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL ohne Query-Teil.
+    </string>
+    <string name="validation_error_url_with_incomplete_query">
+        <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL mit unvollständigem Query-Teil.
+    </string>
+    <string name="validation_error_url_without_api_key">
+        <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL ohne API-Schlüssel.
+    </string>
+
 </resources>
