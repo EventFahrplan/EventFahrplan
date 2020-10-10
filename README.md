@@ -42,6 +42,7 @@ Please read the instructions in the [contribution guide](CONTRIBUTING.md) in ord
 - French 🇫🇷
 - German 🇩🇪
 - Italian 🇮🇹
+- Japanese 🇯🇵
 - Portuguese 🇵🇹
 - Russian 🇷🇺
 - Spanish 🇪🇸
