@@ -37,7 +37,7 @@
 
     <!-- CustomHttpClient -->
     <string name="dlg_err_connection_failed">Connection failure</string>
-    <string name="dlg_err_failed_unknown_host">Unknown address:\n%s</string>
+    <string name="dlg_err_failed_unknown_host">Unknown address:\n<xliff:g example="http://example.com" id="url">%s</xliff:g></string>
     <string name="dlg_err_failed_wrong_http_credentials">Invalid HTTP Authentication</string>
     <string name="dlg_err_failed_timeout">Server doesn\'t respond (Timeout).</string>
     <string name="dlg_err_failed_connect_failure">Unknown connection failure</string>
@@ -53,12 +53,12 @@
     <string name="schedule_changes_dialog_changed_new_cancelled_text">. There are changes in <xliff:g example="3 lectures" id="num_changes">%1$s</xliff:g>, <xliff:g example="2 are" id="num_new">%2$s</xliff:g> new, <xliff:g example="1 is" id="num_canceled">%3$s</xliff:g> cancelled.</string>
     <string name="schedule_changes_dialog_affected_text">The changes affect <xliff:g example="2" id="num_marked">%1$d</xliff:g> of your favored lectures.</string>
     <plurals name="schedule_changes_dialog_number_of_sessions">
-        <item quantity="one">%d lecture</item>
-        <item quantity="other">%d lectures</item>
+        <item quantity="one"><xliff:g example="1" id="count">%d</xliff:g> lecture</item>
+        <item quantity="other"><xliff:g example="9" id="count">%d</xliff:g> lectures</item>
     </plurals>
     <plurals name="schedule_changes_dialog_being">
-        <item quantity="one">%d is</item>
-        <item quantity="other">%d are</item>
+        <item quantity="one"><xliff:g example="1" id="count">%d</xliff:g> is</item>
+        <item quantity="other"><xliff:g example="9" id="count">%d</xliff:g> are</item>
     </plurals>
     <string name="schedule_changes_dialog_browse">Browse</string>
     <string name="schedule_changes_dialog_later">Later</string>
@@ -69,7 +69,7 @@
     <string name="choose_day">Choose day</string>
     <string name="day">Day</string>
     <string name="fahrplan">Schedule</string>
-    <string name="appVersion">App Version %s</string>
+    <string name="appVersion">App Version <xliff:g example="1.40.2" id="appVersion">%s</xliff:g></string>
     <string name="schedule_updated_to">
         Updated to <xliff:g example="Mildenberg 2018-01-16 16:50" id="version">%s</xliff:g>
     </string>
@@ -104,7 +104,7 @@
 	</string>
     <string name="today">today</string>
     <string name="schedule_parsing_error_generic">Unknown error while parsing schedule</string>
-    <string name="schedule_parsing_error_with_version">Parsing error for schedule version %s</string>
+    <string name="schedule_parsing_error_with_version">Parsing error for schedule version <xliff:g example="0.99a" id="scheduleVersion">%s</xliff:g></string>
     <string name="engelsystem_shifts_parsing_error_generic">Unknown error while parsing Engelsystem shifts</string>
     <string name="engelsystem_shifts_parsing_error_forbidden">Invalid API key for Engelsystem shifts</string>
     <string name="engelsystem_shifts_parsing_error_not_found">Wrong URL for Engelsystem shifts</string>
