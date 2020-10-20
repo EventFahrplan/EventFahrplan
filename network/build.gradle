@@ -25,7 +25,6 @@ dependencies {
     implementation project(":commons")
 
     implementation Libs.annotation
-    implementation Libs.kotlinStdlib
     implementation Libs.okhttp
 
     testImplementation Libs.junit

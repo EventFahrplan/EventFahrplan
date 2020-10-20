@@ -26,7 +26,6 @@ android {
 
 dependencies {
 
-    implementation Libs.kotlinStdlib
     api Libs.mockitoKotlin
 
 }
