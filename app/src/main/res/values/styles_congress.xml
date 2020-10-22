@@ -205,7 +205,7 @@
         <item name="android:layout_marginRight">16dp</item>
         <item name="android:layout_marginStart" tools:targetApi="jelly_bean_mr1">16dp</item>
         <item name="android:layout_marginEnd" tools:targetApi="jelly_bean_mr1">16dp</item>
-        <item name="android:gravity">center</item>
+        <item name="android:gravity">start</item>
     </style>
 
 </resources>
