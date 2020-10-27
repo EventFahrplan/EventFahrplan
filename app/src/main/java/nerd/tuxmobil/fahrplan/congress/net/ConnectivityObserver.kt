@@ -64,7 +64,7 @@ class ConnectivityObserver @JvmOverloads constructor(
                     }
                 }
 
-                override fun onLost(network: Network?) {
+                override fun onLost(network: Network) {
                     super.onLost(network)
                     onConnectionLost.invoke()
                     if (shouldStopAfterFirstResponse) {

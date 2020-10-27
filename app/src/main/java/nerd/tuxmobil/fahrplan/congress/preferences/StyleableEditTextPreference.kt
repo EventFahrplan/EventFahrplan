@@ -69,7 +69,7 @@ open class StyleableEditTextPreference : EditTextPreference {
     @CallSuper
     protected open fun onBindEditText(editText: EditText) {
         editText.hint = hint
-        editText.setSingleLine(singleLine)
+        editText.isSingleLine = singleLine
         editText.maxLines = maxLines
     }
 

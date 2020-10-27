@@ -45,7 +45,10 @@ class SessionDetailsActivity : BaseActivity(R.layout.detail_frame) {
             finish()
         }
         if (intent != null && findViewById<View?>(R.id.detail) != null) {
-            openDetails(intent.getStringExtra(BundleKeys.SESSION_ID))
+            val sessionId = requireNotNull(intent.getStringExtra(BundleKeys.SESSION_ID)) {
+                "Bundle does not contain a SESSION_ID."
+            }
+            openDetails(sessionId)
         }
     }
 
