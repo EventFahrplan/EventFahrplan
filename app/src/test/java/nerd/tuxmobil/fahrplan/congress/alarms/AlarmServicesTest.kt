@@ -22,11 +22,9 @@ class AlarmServicesTest {
 
     @Test
     fun `scheduleSessionAlarm invokes "cancel" then "set" when "discardExisting" is "true"`() {
-        val onPendingIntentBroadcast: PendingIntentCallback = { context, requestCode, intent, flags ->
+        val onPendingIntentBroadcast: PendingIntentCallback = { context, intent ->
             assertThat(context).isEqualTo(mockContext)
-            assertThat(requestCode).isEqualTo(alarm.sessionId.toInt())
             assertIntentExtras(intent, AlarmReceiver.ALARM_SESSION)
-            assertThat(flags).isEqualTo(0)
             pendingIntent
         }
         val alarmServices = AlarmServices(alarmManager, onPendingIntentBroadcast)
@@ -37,11 +35,9 @@ class AlarmServicesTest {
 
     @Test
     fun `scheduleSessionAlarm only invokes "set" when "discardExisting" is "false"`() {
-        val onPendingIntentBroadcast: PendingIntentCallback = { context, requestCode, intent, flags ->
+        val onPendingIntentBroadcast: PendingIntentCallback = { context, intent ->
             assertThat(context).isEqualTo(mockContext)
-            assertThat(requestCode).isEqualTo(alarm.sessionId.toInt())
             assertIntentExtras(intent, AlarmReceiver.ALARM_SESSION)
-            assertThat(flags).isEqualTo(0)
             pendingIntent
         }
         val alarmServices = AlarmServices(alarmManager, onPendingIntentBroadcast)
@@ -52,11 +48,9 @@ class AlarmServicesTest {
 
     @Test
     fun `discardSessionAlarm invokes "cancel"`() {
-        val onPendingIntentBroadcast: PendingIntentCallback = { context, requestCode, intent, flags ->
+        val onPendingIntentBroadcast: PendingIntentCallback = { context, intent ->
             assertThat(context).isEqualTo(mockContext)
-            assertThat(requestCode).isEqualTo(alarm.sessionId.toInt())
             assertIntentExtras(intent, AlarmReceiver.ALARM_DELETE)
-            assertThat(flags).isEqualTo(0)
             pendingIntent
         }
         val alarmServices = AlarmServices(alarmManager, onPendingIntentBroadcast)
@@ -67,12 +61,10 @@ class AlarmServicesTest {
 
     @Test
     fun `discardAutoUpdateAlarm invokes "cancel"`() {
-        val onPendingIntentBroadcast: PendingIntentCallback = { context, requestCode, intent, flags ->
+        val onPendingIntentBroadcast: PendingIntentCallback = { context, intent ->
             assertThat(context).isEqualTo(mockContext)
-            assertThat(requestCode).isEqualTo(0)
             assertThat(intent.component!!.className).isEqualTo(AlarmReceiver::class.java.name)
             assertThat(intent.action).isEqualTo(AlarmReceiver.ALARM_UPDATE)
-            assertThat(flags).isEqualTo(0)
             pendingIntent
         }
         val alarmServices = AlarmServices(alarmManager, onPendingIntentBroadcast)
