@@ -10,31 +10,31 @@ class ChangeStatisticTest {
     companion object {
 
         private val unchangedSessions = listOf(
-                Session("1001").apply {
+                Session("11111111-1111-1111-1111-111111111111").apply {
                     highlight = false
                     changedTitle = false
                 },
-                Session("1002").apply {
+                Session("11111111-1111-1111-1111-222222222222").apply {
                     highlight = true
                     changedTitle = false
                 })
 
         private val changedSessions = listOf(
-                Session("1003").apply {
+                Session("33333333-3333-3333-3333-333333333333").apply {
                     highlight = true
                     changedTitle = true
                 },
-                Session("1004").apply {
+                Session("11111111-1111-1111-1111-444444444444").apply {
                     highlight = false
                     changedTitle = true
                 })
 
         private val oldSessions = listOf(
-                Session("2001").apply {
+                Session("22222222-2222-2222-2222-111111111111").apply {
                     highlight = false
                     changedIsNew = false
                 },
-                Session("2002").apply {
+                Session("22222222-2222-2222-2222-222222222222").apply {
                     highlight = true
                     changedIsNew = false
                 })

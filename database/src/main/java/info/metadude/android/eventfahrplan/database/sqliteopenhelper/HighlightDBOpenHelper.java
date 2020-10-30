@@ -11,14 +11,14 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Hi
 
 public class HighlightDBOpenHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 4;
 
     private static final String DATABASE_NAME = "highlight";
 
     private static final String HIGHLIGHT_TABLE_CREATE =
             "CREATE TABLE " + HighlightsTable.NAME + " (" +
                     Columns.ID + " INTEGER PRIMARY KEY, " +
-                    Columns.SESSION_ID + " INTEGER," +
+                    Columns.SESSION_ID + " TEXT," +
                     Columns.HIGHLIGHT + " INTEGER);";
 
     public HighlightDBOpenHelper(@NonNull Context context) {

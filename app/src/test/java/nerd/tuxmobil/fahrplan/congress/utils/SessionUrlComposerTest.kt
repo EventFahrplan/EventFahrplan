@@ -15,27 +15,27 @@ class SessionUrlComposerTest {
         private const val PENTABARF_SESSION_URL_TEMPLATE =
                 "https://fosdem.org/2018/schedule/event/%1\$s/"
 
-        private val PENTABARF_SESSION = Session("7294").apply {
+        private val PENTABARF_SESSION = Session("11111111-1111-1111-1111-111111111111").apply {
             url = ""
             slug = "keynotes_welcome"
         }
 
-        private val FRAB_SESSION = Session("9985").apply {
+        private val FRAB_SESSION = Session("22222222-2222-2222-2222-222222222222").apply {
             url = "https://fahrplan.events.ccc.de/congress/2018/Fahrplan/events/9985.html"
             slug = "35c3-9985-opening_ceremony"
         }
 
-        private val PRETALX_SESSION = Session("32").apply {
+        private val PRETALX_SESSION = Session("33333333-3333-3333-3333-333333333333").apply {
             url = "https://fahrplan.chaos-west.de/35c3chaoswest/talk/KDYQEB"
             slug = "KDYQEB"
         }
 
-        private val ENGELSYSTEM_SHIFT_SESSION_WITHOUT_URL = Session("7771").apply {
+        private val ENGELSYSTEM_SHIFT_SESSION_WITHOUT_URL = Session("44444444-4444-4444-4444-444444444444").apply {
             room = AppRepository.ENGELSYSTEM_ROOM_NAME
             url = ""
         }
 
-        private val ENGELSYSTEM_SHIFT_SESSION_WITH_URL = Session("7772").apply {
+        private val ENGELSYSTEM_SHIFT_SESSION_WITH_URL = Session("55555555-5555-5555-5555-555555555555").apply {
             room = AppRepository.ENGELSYSTEM_ROOM_NAME
             url = "https://helpful.to/the/angel"
         }

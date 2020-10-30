@@ -18,7 +18,7 @@ class AlarmServicesTest {
     private var alarmManager = mock<AlarmManager>()
     private var mockContext = mock<Context>()
     private var pendingIntent = mock<PendingIntent>()
-    private val alarm = SchedulableAlarm(3, "1001", "Welcome", 700)
+    private val alarm = SchedulableAlarm(3, "11111111-1111-1111-1111-111111111111", "Welcome", 700)
 
     @Test
     fun `scheduleSessionAlarm invokes "cancel" then "set" when "discardExisting" is "true"`() {

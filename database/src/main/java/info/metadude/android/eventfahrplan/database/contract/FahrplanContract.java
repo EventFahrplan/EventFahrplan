@@ -23,7 +23,6 @@ public interface FahrplanContract {
         interface Defaults {
 
             int NUM_DAYS_DEFAULT = 0;
-            String ETAG_DEFAULT = "''";
         }
 
     }
@@ -39,7 +38,7 @@ public interface FahrplanContract {
             /* 2 */ String ALARM_TIME_IN_MIN = "alarm_time_in_min";
             /* 3 */ String TIME = "time";
             /* 4 */ String TIME_TEXT = "timeText";
-            /* 5 */ String SESSION_ID = "eventid"; // Keep column name to avoid database migration.
+            /* 5 */ String SESSION_ID = "session_id";
             /* 6 */ String DISPLAY_TIME = "displayTime";
             /* 7 */ String DAY = "day";
         }
@@ -58,7 +57,7 @@ public interface FahrplanContract {
 
         interface Columns {
 
-            /* 0 */ String SESSION_ID = "eventid"; // Keep column name to avoid database migration.
+            /* 0 */ String SESSION_ID = "session_id";
             /* 1 */ String HIGHLIGHT = "highlight";
             /* 2 */ String ID = "_id";
         }
@@ -85,11 +84,11 @@ public interface FahrplanContract {
 
     interface SessionsTable {
 
-        String NAME = "lectures"; // Keep table name to avoid database migration.
+        String NAME = "sessions";
 
         interface Columns extends BaseColumns {
 
-            /* 00 */ String SESSION_ID = "event_id"; // Keep column name to avoid database migration.
+            /* 00 */ String SESSION_ID = "session_id";
             /* 01 */ String TITLE = "title";
             /* 02 */ String SUBTITLE = "subtitle";
             /* 03 */ String DAY = "day";
@@ -125,16 +124,16 @@ public interface FahrplanContract {
             /* 33 */ String URL = "url";
         }
 
-        interface Defaults {
-
-            int DATE_UTC_DEFAULT = 0;
-            int ROOM_IDX_DEFAULT = 0;
-        }
-
         interface Values {
 
             int REC_OPT_OUT_OFF = 0;
             int REC_OPT_OUT_ON = 1;
+        }
+
+        interface Indices {
+
+            String SESSION_ID = "idx_session_id";
+
         }
 
     }

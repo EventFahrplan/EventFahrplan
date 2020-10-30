@@ -10,7 +10,7 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Al
 
 public class AlarmsDBOpenHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 5;
 
     private static final String DATABASE_NAME = "alarms";
 
@@ -21,8 +21,8 @@ public class AlarmsDBOpenHelper extends SQLiteOpenHelper {
                     AlarmsTable.Columns.ALARM_TIME_IN_MIN + " INTEGER DEFAULT " +
                     AlarmsTable.Defaults.ALARM_TIME_IN_MIN_DEFAULT + ", " +
                     AlarmsTable.Columns.TIME + " INTEGER, " +
-                    AlarmsTable.Columns.TIME_TEXT + " STRING," +
-                    AlarmsTable.Columns.SESSION_ID + " INTEGER," +
+                    AlarmsTable.Columns.TIME_TEXT + " TEXT," +
+                    AlarmsTable.Columns.SESSION_ID + " TEXT," +
                     AlarmsTable.Columns.DISPLAY_TIME + " INTEGER," +
                     AlarmsTable.Columns.DAY + " INTEGER);";
 
@@ -37,20 +37,7 @@ public class AlarmsDBOpenHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        if (oldVersion < 2 && newVersion >= 2) {
-            db.execSQL("ALTER TABLE " + AlarmsTable.NAME + " ADD " +
-                    AlarmsTable.Columns.ALARM_TIME_IN_MIN + " INTEGER DEFAULT" +
-                    AlarmsTable.Defaults.ALARM_TIME_IN_MIN_DEFAULT);
-        }
-        if (oldVersion < 3) {
-            // Clear database from 34C3.
-            db.execSQL("DROP TABLE IF EXISTS " + AlarmsTable.NAME);
-            onCreate(db);
-        }
-        if (oldVersion < 4) {
-            // Clear database from 35C3.
-            db.execSQL("DROP TABLE IF EXISTS " + AlarmsTable.NAME);
-            onCreate(db);
-        }
+        db.execSQL("DROP TABLE IF EXISTS " + AlarmsTable.NAME);
+        onCreate(db);
     }
 }

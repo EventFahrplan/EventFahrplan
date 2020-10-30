@@ -15,7 +15,7 @@ class SessionExtensionsTest {
     @Test
     fun sessionDatabaseModel_toSessionAppModel_toSessionDatabaseModel() {
         val session = SessionDatabaseModel(
-                sessionId = "7331",
+                sessionId = "11111111-1111-1111-1111-111111111111",
                 abstractt = "Lorem ipsum",
                 dayIndex = 3,
                 date = "2015-08-13",
@@ -59,7 +59,7 @@ class SessionExtensionsTest {
     @Test
     fun sessionNetworkModel_toSessionAppModel_toSessionNetworkModel() {
         val session = SessionNetworkModel(
-                sessionId = "7331",
+                sessionId = "11111111-1111-1111-1111-111111111111",
                 abstractt = "Lorem ipsum",
                 dayIndex = 3,
                 date = "2015-08-13",
@@ -140,10 +140,10 @@ class SessionExtensionsTest {
 
     @Test
     fun toHighlightDatabaseModel() {
-        val session = Session("")
-        session.sessionId = "4723"
-        session.highlight = true
-        val highlight = Highlight(sessionId = 4723, isHighlight = true)
+        val session = Session("11111111-1111-1111-1111-111111111111").apply {
+            highlight = true
+        }
+        val highlight = Highlight(sessionId = "11111111-1111-1111-1111-111111111111", isHighlight = true)
         assertThat(session.toHighlightDatabaseModel()).isEqualTo(highlight)
     }
 

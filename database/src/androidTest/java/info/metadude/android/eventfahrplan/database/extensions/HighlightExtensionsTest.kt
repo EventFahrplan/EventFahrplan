@@ -14,11 +14,11 @@ class HighlightExtensionsTest {
     @Test
     fun toContentValues() {
         val highlight = Highlight(
-                sessionId = 2342,
+                sessionId = "be9979c4-18bc-52bb-9480-2c0ac2782c37",
                 isHighlight = true
         )
         val values = highlight.toContentValues()
-        assertThat(values.getAsInteger(SESSION_ID)).isEqualTo(2342)
+        assertThat(values.getAsString(SESSION_ID)).isEqualTo("be9979c4-18bc-52bb-9480-2c0ac2782c37")
         assertThat(values.getAsBoolean(HIGHLIGHT)).isEqualTo(true)
     }
 

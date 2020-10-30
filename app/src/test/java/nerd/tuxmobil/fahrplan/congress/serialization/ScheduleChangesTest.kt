@@ -12,15 +12,15 @@ class ScheduleChangesTest {
 
     @Test
     fun hasScheduleChangedWithSameId() {
-        oldSessions.add(Session("sessionId3"))
-        newSessions.add(Session("sessionId3"))
+        oldSessions.add(Session("33333333-3333-3333-3333-333333333333"))
+        newSessions.add(Session("33333333-3333-3333-3333-333333333333"))
         assertThat(ScheduleChanges.hasScheduleChanged(newSessions, oldSessions)).isFalse()
     }
 
     @Test
     fun hasScheduleChangedWithNewId() {
-        oldSessions.add(Session("sessionId3"))
-        newSessions.add(Session("sessionId7"))
+        oldSessions.add(Session("33333333-3333-3333-3333-333333333333"))
+        newSessions.add(Session("77777777-7777-7777-7777-777777777777"))
         assertThat(ScheduleChanges.hasScheduleChanged(newSessions, oldSessions)).isTrue()
     }
 
@@ -85,8 +85,8 @@ class ScheduleChangesTest {
     }
 
     private fun assertSessionHasChanged(modify: (oldSession: Session, newSession: Session) -> Unit) {
-        val oldSession = Session("sessionId3")
-        val newSession = Session("sessionId3")
+        val oldSession = Session("33333333-3333-3333-3333-333333333333")
+        val newSession = Session("33333333-3333-3333-3333-333333333333")
         modify.invoke(oldSession, newSession)
         oldSessions.add(oldSession)
         newSessions.add(newSession)

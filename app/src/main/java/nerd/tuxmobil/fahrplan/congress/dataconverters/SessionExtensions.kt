@@ -17,7 +17,7 @@ fun Session.shiftRoomIndexOnDays(dayIndices: Set<Int>): Session {
 fun Session.toDateInfo(): DateInfo = DateInfo(day, Moment.parseDate(date))
 
 fun Session.toHighlightDatabaseModel() = HighlightDatabaseModel(
-        sessionId = Integer.parseInt(sessionId),
+        sessionId = sessionId,
         isHighlight = highlight
 )
 
