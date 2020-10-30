@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
@@ -551,8 +552,10 @@ public class MainActivity extends BaseActivity implements
     }
 
     /**
-     * Returns an intent to be used to launch this activity.
+     * Returns a unique intent to be used to launch this activity.
      * The given parameters {@code sessionId} and {@code dayIndex} are passed along as bundle extras.
+     * The {@code sessionId} is also used to ensure this intent is unique by definition of
+     * {@link Intent#filterEquals(Intent)}.
      */
     public static Intent createLaunchIntent(
             @NonNull Context context,
@@ -561,6 +564,7 @@ public class MainActivity extends BaseActivity implements
             int notificationId
     ) {
         Intent intent = new Intent(context, MainActivity.class);
+        intent.setData(Uri.parse("fake://" + sessionId));
         intent.putExtra(BundleKeys.BUNDLE_KEY_SESSION_ALARM_SESSION_ID, sessionId);
         intent.putExtra(BundleKeys.BUNDLE_KEY_SESSION_ALARM_DAY_INDEX, dayIndex);
         intent.putExtra(BundleKeys.BUNDLE_KEY_SESSION_ALARM_NOTIFICATION_ID, notificationId);
