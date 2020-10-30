@@ -99,8 +99,6 @@ class SessionDetailsFragment : Fragment(), SessionDetailsViewModel.ViewActionHan
 
             textView = view.requireViewByIdCompat(R.id.session_detailbar_location_view)
             textView.text = viewModel.roomName
-            textView = view.requireViewByIdCompat(R.id.session_detailbar_session_id_view)
-            textView.text = if (viewModel.isSessionIdEmpty) "" else getString(R.string.session_details_session_id, viewModel.sessionId)
 
             // Title
             textView = view.requireViewByIdCompat(R.id.session_details_content_title_view)

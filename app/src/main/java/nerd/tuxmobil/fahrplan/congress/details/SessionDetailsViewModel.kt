@@ -72,8 +72,6 @@ class SessionDetailsViewModel @JvmOverloads constructor(
     val hasDateUtc get() = session.dateUTC > 0
     val formattedDateUtc get() = session.toFormattedDateUtc()
 
-    val isSessionIdEmpty get() = sessionId.isEmpty()
-
     val roomName get() = session.room ?: ""
 
     val title get() = session.title ?: ""
