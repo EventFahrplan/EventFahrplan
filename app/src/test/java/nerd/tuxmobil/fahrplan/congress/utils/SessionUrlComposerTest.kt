@@ -15,8 +15,10 @@ class SessionUrlComposerTest {
         private const val PENTABARF_SESSION_URL_TEMPLATE =
                 "https://fosdem.org/2018/schedule/event/%1\$s/"
 
+        private const val NO_URL = ""
+
         private val PENTABARF_SESSION = Session("11111111-1111-1111-1111-111111111111").apply {
-            url = ""
+            url = NO_URL
             slug = "keynotes_welcome"
         }
 
@@ -25,17 +27,22 @@ class SessionUrlComposerTest {
             slug = "35c3-9985-opening_ceremony"
         }
 
-        private val PRETALX_SESSION = Session("33333333-3333-3333-3333-333333333333").apply {
+        private val FRAB_SESSION_WITHOUT_URL = Session("33333333-3333-3333-3333-333333333333").apply {
+            url = NO_URL
+            slug = "35c3-1925-opening_ceremony"
+        }
+
+        private val PRETALX_SESSION = Session("44444444-4444-4444-4444-444444444444").apply {
             url = "https://fahrplan.chaos-west.de/35c3chaoswest/talk/KDYQEB"
             slug = "KDYQEB"
         }
 
-        private val ENGELSYSTEM_SHIFT_SESSION_WITHOUT_URL = Session("44444444-4444-4444-4444-444444444444").apply {
+        private val ENGELSYSTEM_SHIFT_SESSION_WITHOUT_URL = Session("55555555-5555-5555-5555-555555555555").apply {
             room = AppRepository.ENGELSYSTEM_ROOM_NAME
-            url = ""
+            url = NO_URL
         }
 
-        private val ENGELSYSTEM_SHIFT_SESSION_WITH_URL = Session("55555555-5555-5555-5555-555555555555").apply {
+        private val ENGELSYSTEM_SHIFT_SESSION_WITH_URL = Session("66666666-6666-6666-6666-666666666666").apply {
             room = AppRepository.ENGELSYSTEM_ROOM_NAME
             url = "https://helpful.to/the/angel"
         }
@@ -55,6 +62,15 @@ class SessionUrlComposerTest {
     fun getSessionUrlWithPentabarfSessionWithPentabarfBackend() {
         assertThat(SessionUrlComposer(PENTABARF_SESSION, PENTABARF_SESSION_URL_TEMPLATE, ServerBackendType.PENTABARF.name)
                 .getSessionUrl()).isEqualTo("https://fosdem.org/2018/schedule/event/keynotes_welcome/")
+    }
+
+    @Test
+    fun getSessionUrlWithFrabSessionWithoutUrl() {
+        try {
+            SessionUrlComposer(FRAB_SESSION_WITHOUT_URL, FRAB_SESSION_URL_TEMPLATE, ServerBackendType.FRAB.name).getSessionUrl()
+        } catch (e: IllegalStateException) {
+            assertThat(e.message).isEqualTo("Missing 'url' value for session ${FRAB_SESSION_WITHOUT_URL.sessionId}.")
+        }
     }
 
     @Test
