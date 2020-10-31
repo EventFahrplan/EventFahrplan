@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteException
 import androidx.core.database.sqlite.transaction
 import info.metadude.android.eventfahrplan.commons.logging.Logging
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionByNotificationIdTable
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.*
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Values.REC_OPT_OUT_OFF
@@ -27,6 +28,29 @@ class SessionsDatabaseRepository(
                 insert(SessionsTable.NAME, contentValues)
             }
         }
+    }
+
+    /**
+     * Inserts the session ID into the [SessionByNotificationIdTable] and returns
+     * the newly generated notification ID which is associated with the session ID.
+     *
+     * Notification IDs are incremented automatically.
+     *
+     * [sessionIdContentValues] is expected to be composed from
+     * [SessionByNotificationIdTable.Columns.SESSION_ID] and the session ID value.
+     *
+     * See also: [android.database.sqlite.SQLiteDatabase.insert]
+     */
+    fun insertSessionId(sessionIdContentValues: ContentValues) = with(sqLiteOpenHelper) {
+        writableDatabase.insert(SessionByNotificationIdTable.NAME, sessionIdContentValues)
+    }.toInt()
+
+    /**
+     * Deletes the [SessionByNotificationIdTable] row associated with the given unique [notificationId].
+     * Returns the number of affected rows.
+     */
+    fun deleteSessionIdByNotificationId(notificationId: Int) = with(sqLiteOpenHelper) {
+        writableDatabase.delete(SessionByNotificationIdTable.NAME, SessionByNotificationIdTable.Columns._ID, "$notificationId")
     }
 
     fun querySessionBySessionId(sessionId: String): Session {
