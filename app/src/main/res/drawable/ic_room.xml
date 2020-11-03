@@ -3,10 +3,10 @@
     android:height="13dp"
     android:viewportWidth="24"
     android:viewportHeight="24">
-  <path
-      android:fillColor="@color/session_detailbar_icon"
-      android:pathData="M12,2C8.13,2 5,5.13 5,9c0,5.25 7,13 7,13s7,-7.75 7,-13c0,-3.87 -3.13,-7 -7,-7zM7,9c0,-2.76 2.24,-5 5,-5s5,2.24 5,5c0,2.88 -2.88,7.19 -5,9.88C9.92,16.21 7,11.85 7,9z"/>
-  <path
-      android:fillColor="@color/session_detailbar_icon"
-      android:pathData="M12,9m-2.5,0a2.5,2.5 0,1 1,5 0a2.5,2.5 0,1 1,-5 0"/>
+    <path
+        android:fillColor="@color/session_detailbar_icon"
+        android:pathData="M12,5.5A5.506,5.506 0,0 0,6.5 11c0,1.84 1.114,4.468 3.223,7.6 0.819,1.216 1.646,2.292 2.277,3.074 0.625,-0.774 1.442,-1.837 2.256,-3.044C16.378,15.485 17.5,12.847 17.5,11A5.506,5.506 0,0 0,12 5.5M12,4a7,7 0,0 1,7 7c0,5.25 -7,13 -7,13S5,16.25 5,11A7,7 0,0 1,12 4Z" />
+    <path
+        android:fillColor="@color/session_detailbar_icon"
+        android:pathData="M12,10.5m-2.5,0a2.5,2.5 0,1 1,5 0a2.5,2.5 0,1 1,-5 0" />
 </vector>
