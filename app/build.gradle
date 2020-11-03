@@ -45,6 +45,7 @@ android {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'),
                     'proguard-rules/proguard-project.txt',
+                    'proguard-rules/moshi.pro',
                     'proguard-rules/okhttp3.pro',
                     'proguard-rules/okio.pro'
         }
