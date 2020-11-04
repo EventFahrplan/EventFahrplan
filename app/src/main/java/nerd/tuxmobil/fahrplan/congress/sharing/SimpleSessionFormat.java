@@ -3,6 +3,8 @@ package nerd.tuxmobil.fahrplan.congress.sharing;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import org.threeten.bp.ZoneId;
+
 import java.util.List;
 
 import info.metadude.android.eventfahrplan.commons.temporal.DateFormatter;
@@ -19,25 +21,25 @@ public class SimpleSessionFormat {
 
 
     @NonNull
-    public static String format(@NonNull Session session) {
+    public static String format(@NonNull Session session, @Nullable ZoneId timeZoneId) {
         StringBuilder builder = new StringBuilder();
-        appendSession(builder, session);
+        appendSession(builder, session, timeZoneId);
         return builder.toString();
     }
 
     @Nullable
-    public static String format(@NonNull List<Session> sessions) {
+    public static String format(@NonNull List<Session> sessions, @Nullable ZoneId timeZoneId) {
         if (sessions.isEmpty()) {
             return null;
         }
         int sessionsSize = sessions.size();
         if (sessionsSize == 1) {
-            return format(sessions.get(0));
+            return format(sessions.get(0), timeZoneId);
         }
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < sessionsSize; ++i) {
             Session session = sessions.get(i);
-            appendSession(builder, session);
+            appendSession(builder, session, timeZoneId);
             if (i < sessionsSize - 1) {
                 appendDivider(builder);
             }
@@ -45,9 +47,9 @@ public class SimpleSessionFormat {
         return builder.toString();
     }
 
-    private static void appendSession(StringBuilder builder, Session session) {
+    private static void appendSession(StringBuilder builder, Session session, ZoneId timeZoneId) {
         long startTime = session.getStartTimeMilliseconds();
-        String shareableStartTime = DateFormatter.newInstance().getFormattedShareable(startTime);
+        String shareableStartTime = DateFormatter.newInstance().getFormattedShareable(startTime, timeZoneId);
         builder.append(session.title);
         builder.append(LINE_BREAK);
         builder.append(shareableStartTime);

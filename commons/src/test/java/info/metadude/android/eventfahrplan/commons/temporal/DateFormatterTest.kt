@@ -4,10 +4,17 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import org.threeten.bp.ZoneId
 import java.util.Locale
 import java.util.TimeZone
 
 class DateFormatterTest {
+
+    private companion object {
+        val NO_TIME_ZONE_ID: ZoneId? = null
+        val TIME_ZONE_EUROPE_BERLIN: ZoneId = ZoneId.of("Europe/Berlin")
+    }
+
     private val systemTimezone = TimeZone.getDefault()
     private val systemLocale = Locale.getDefault()
     private val moment = Moment("2019-01-22")
@@ -69,12 +76,21 @@ class DateFormatterTest {
     @Test
     fun getFormattedShareable() {
         Locale.setDefault(Locale.US)
-        assertThat(DateFormatter.newInstance().getFormattedShareable(timestamp))
+        assertThat(DateFormatter.newInstance().getFormattedShareable(timestamp, NO_TIME_ZONE_ID))
                 .isEqualTo("Tuesday, January 22, 2019 1:00 AM GMT+01:00")
 
         Locale.setDefault(Locale.GERMANY)
-        assertThat(DateFormatter.newInstance().getFormattedShareable(timestamp))
+        assertThat(DateFormatter.newInstance().getFormattedShareable(timestamp, NO_TIME_ZONE_ID))
                 .isEqualTo("Dienstag, 22. Januar 2019 01:00 GMT+01:00")
+
+        Locale.setDefault(Locale.US)
+        assertThat(DateFormatter.newInstance().getFormattedShareable(timestamp, TIME_ZONE_EUROPE_BERLIN))
+                .isEqualTo("Tuesday, January 22, 2019 1:00 AM CET (Europe/Berlin)")
+
+        Locale.setDefault(Locale.GERMANY)
+        assertThat(DateFormatter.newInstance().getFormattedShareable(timestamp, TIME_ZONE_EUROPE_BERLIN))
+                .isEqualTo("Dienstag, 22. Januar 2019 01:00 MEZ (Europe/Berlin)")
+
     }
 
     @Test

@@ -23,6 +23,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import org.threeten.bp.ZoneId;
+
 import java.util.List;
 
 import info.metadude.android.eventfahrplan.commons.temporal.Moment;
@@ -333,7 +335,8 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
     }
 
     private void shareSessions() {
-        String formattedSession = SimpleSessionFormat.format(starredList);
+        ZoneId timeZoneId = appRepository.readMeta().getTimeZoneId();
+        String formattedSession = SimpleSessionFormat.format(starredList, timeZoneId);
         if (formattedSession != null) {
             Context context = requireContext();
             SessionSharer.shareSimple(context, formattedSession);

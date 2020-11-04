@@ -41,18 +41,24 @@ class DateFormatter private constructor() {
 
     /**
      * Returns a formatted string suitable for sharing it with people worldwide.
-     * It contains day, month, year and time in current system locale in long format
-     * and the associated time zone offset.
-     * E.g. Tuesday, January 22, 2019 1:00 AM GMT+01:00
+     * It consists of day, month, year, time, time zone offset in the time zone of the event or
+     * in current system time zone if the former is not provided.
+     *
+     * The human readable name '{area}/{city}' of the time zone ID is appended if available.
+     *
+     * Formatting example:
+     * Tuesday, January 22, 2019 1:00 AM GMT+01:00 (Europe/Berlin)
      */
-    fun getFormattedShareable(time: Long): String {
-        // TODO: Use time zone of the event rather than the device time zone.
-        val displayTimeZone = ZoneId.systemDefault()
+    fun getFormattedShareable(time: Long, timeZoneId: ZoneId?): String {
+        val displayTimeZone = timeZoneId ?: ZoneId.systemDefault()
         val sessionStartTime = Instant.ofEpochMilli(time)
         val timeZoneOffset = timeZoneOffsetFormatter.withZone(displayTimeZone).format(sessionStartTime)
-        // TODO Append time zone name once it is provided. See https://github.com/EventFahrplan/EventFahrplan/pull/296.
         val sessionDateTime = dateFullTimeShortFormatter.withZone(displayTimeZone).format(sessionStartTime)
-        return "$sessionDateTime $timeZoneOffset"
+        var shareableText = "$sessionDateTime $timeZoneOffset"
+        if (timeZoneId != null) {
+            shareableText += " (${displayTimeZone.id})"
+        }
+        return shareableText
     }
 
     /**
