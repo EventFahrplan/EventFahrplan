@@ -15,6 +15,7 @@ import info.metadude.android.eventfahrplan.database.sqliteopenhelper.MetaDBOpenH
 import info.metadude.android.eventfahrplan.database.sqliteopenhelper.SessionsDBOpenHelper
 import info.metadude.android.eventfahrplan.engelsystem.EngelsystemNetworkRepository
 import info.metadude.android.eventfahrplan.engelsystem.models.ShiftsResult
+import info.metadude.android.eventfahrplan.network.models.Meta
 import info.metadude.android.eventfahrplan.network.repositories.ScheduleNetworkRepository
 import info.metadude.kotlin.library.engelsystem.models.Shift
 import kotlinx.coroutines.Job
@@ -22,7 +23,6 @@ import nerd.tuxmobil.fahrplan.congress.BuildConfig
 import nerd.tuxmobil.fahrplan.congress.dataconverters.*
 import nerd.tuxmobil.fahrplan.congress.exceptions.AppExceptionHandler
 import nerd.tuxmobil.fahrplan.congress.models.Alarm
-import nerd.tuxmobil.fahrplan.congress.models.Meta
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.net.*
 import nerd.tuxmobil.fahrplan.congress.preferences.AlarmTonePreference
@@ -105,7 +105,7 @@ object AppRepository {
     ) {
         check(onFetchingDone != {}) { "Nobody registered to receive FetchScheduleResult." }
         // Fetching
-        val meta = readMeta()
+        val meta = readMeta().toMetaNetworkModel()
         scheduleNetworkRepository.fetchSchedule(okHttpClient, url, meta.eTag) { fetchScheduleResult ->
             val fetchResult = fetchScheduleResult.toAppFetchScheduleResult()
             onFetchingDone.invoke(fetchResult)
@@ -148,7 +148,7 @@ object AppRepository {
                     updateSessions(newSessions)
                 },
                 onUpdateMeta = { meta ->
-                    updateMeta(meta.toMetaAppModel())
+                    updateMeta(meta)
                 },
                 onParsingDone = { result: Boolean, version: String ->
                     onParsingDone(ParseScheduleResult(result, version))

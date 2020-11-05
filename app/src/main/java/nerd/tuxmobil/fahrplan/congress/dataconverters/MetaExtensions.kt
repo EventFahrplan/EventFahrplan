@@ -1,11 +1,11 @@
 package nerd.tuxmobil.fahrplan.congress.dataconverters
 
-import nerd.tuxmobil.fahrplan.congress.models.Meta
 import info.metadude.android.eventfahrplan.database.models.Meta as MetaDatabaseModel
 import info.metadude.android.eventfahrplan.network.models.Meta as MetaNetworkModel
+import nerd.tuxmobil.fahrplan.congress.models.Meta as MetaAppModel
 
 
-fun Meta.toMetaDatabaseModel() = MetaDatabaseModel(
+fun MetaAppModel.toMetaNetworkModel() = MetaNetworkModel(
         eTag = eTag,
         numDays = numDays,
         subtitle = subtitle,
@@ -13,7 +13,7 @@ fun Meta.toMetaDatabaseModel() = MetaDatabaseModel(
         version = version
 )
 
-fun Meta.toMetaNetworkModel() = MetaNetworkModel(
+fun MetaDatabaseModel.toMetaAppModel() = MetaAppModel(
         eTag = eTag,
         numDays = numDays,
         subtitle = subtitle,
@@ -21,15 +21,7 @@ fun Meta.toMetaNetworkModel() = MetaNetworkModel(
         version = version
 )
 
-fun MetaDatabaseModel.toMetaAppModel() = Meta(
-        eTag = eTag,
-        numDays = numDays,
-        subtitle = subtitle,
-        title = title,
-        version = version
-)
-
-fun MetaNetworkModel.toMetaAppModel() = Meta(
+fun MetaNetworkModel.toMetaDatabaseModel() = MetaDatabaseModel(
         eTag = eTag,
         numDays = numDays,
         subtitle = subtitle,
