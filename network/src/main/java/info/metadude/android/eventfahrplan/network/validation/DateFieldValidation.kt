@@ -35,7 +35,7 @@ internal class DateFieldValidation constructor(
 
         val firstDateString = sortedSessions[0].date
         val lastDateString = sortedSessions.last().date
-        val range = DayRange(Moment(firstDateString), Moment(lastDateString))
+        val range = DayRange(Moment.parseDate(firstDateString), Moment.parseDate(lastDateString))
 
         // Check if the time stamp in <date> is within the time range (first : last day)
         // defined by "date" attribute in the <day> nodes.
@@ -47,7 +47,7 @@ internal class DateFieldValidation constructor(
 
     private fun validateSession(session: Session, dateRange: DayRange) {
         val dateUtcInMilliseconds = session.dateUTC
-        val sessionDate = Moment(dateUtcInMilliseconds).toZonedDateTime(ZoneOffset.UTC)
+        val sessionDate = Moment.ofEpochMilli(dateUtcInMilliseconds).toZonedDateTime(ZoneOffset.UTC)
         if (!dateRange.contains(sessionDate)) {
             val sessionId = session.sessionId
             val errorMessage = ("Field <date> '$sessionDate' of session '$sessionId' exceeds range: [ ${dateRange.startsAt} : ${dateRange.endsAt} ]")

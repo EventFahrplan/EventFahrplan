@@ -1,5 +1,6 @@
 package info.metadude.android.eventfahrplan.commons.temporal
 
+import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.toMoment
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import org.threeten.bp.LocalDate
@@ -20,7 +21,7 @@ class MomentTest {
 
     @Test
     fun dateTimeFieldsAreCorrectlyMapped() {
-        val moment = Moment(DEC_30_22_47_2019)
+        val moment = Moment.ofEpochMilli(DEC_30_22_47_2019)
 
         assertThat(moment.year).isEqualTo(2019)
         assertThat(moment.month).isEqualTo(12)
@@ -31,7 +32,7 @@ class MomentTest {
 
     @Test
     fun startOfDay() {
-        val moment = Moment(DEC_30_22_47_2019)
+        val moment = Moment.ofEpochMilli(DEC_30_22_47_2019)
         val startOfDay = moment.startOfDay()
 
         assertThat(startOfDay.year).isEqualTo(2019)
@@ -43,7 +44,7 @@ class MomentTest {
 
     @Test
     fun endOfDay() {
-        val moment = Moment(DEC_30_22_47_2019)
+        val moment = Moment.ofEpochMilli(DEC_30_22_47_2019)
         val endOfDayUTC = moment.endOfDay().toUTCDateTime()
 
         assertThat(endOfDayUTC.year).isEqualTo(2019)
@@ -56,19 +57,19 @@ class MomentTest {
     @Test
     fun getMinuteOfDayZonedInput() {
         val startsAtDate = ZonedDateTime.of(2019, 8, 27, 6, 30, 0, 0, ZoneOffset.ofHours(4))
-        assertThat(Moment(startsAtDate).minuteOfDay).isEqualTo((6 - 4) * 60 + 30)
+        assertThat(startsAtDate.toMoment().minuteOfDay).isEqualTo((6 - 4) * 60 + 30)
     }
 
     @Test
     fun getDayOfMonthWithLeapYearDay() {
         // Thursday, February 28, 2019 11:59:59 PM UTC
-        assertThat(Moment(1551312000000).monthDay).isEqualTo(28)
+        assertThat(Moment.ofEpochMilli(1551312000000).monthDay).isEqualTo(28)
     }
 
     @Test
     fun getDayOfMonthWithDayAfterLeapYear() {
         // Friday, March 1, 2019 12:00:00 AM UTC
-        assertThat(Moment(1551398400000).monthDay).isEqualTo(1)
+        assertThat(Moment.ofEpochMilli(1551398400000).monthDay).isEqualTo(1)
     }
 
     @Test
@@ -76,14 +77,14 @@ class MomentTest {
         val localDateString = "2019-12-30"
         val localDate = LocalDate.parse(localDateString)
 
-        val startOfDay = Moment(DEC_30_22_47_2019).startOfDay().toUTCDateTime().toLocalDate()
+        val startOfDay = Moment.ofEpochMilli(DEC_30_22_47_2019).startOfDay().toUTCDateTime().toLocalDate()
 
         assertThat(startOfDay).isEqualTo(localDate)
     }
 
     @Test
     fun timeZoneHasNoEffectOnMilliseconds() {
-        val nowUTC = Moment()
+        val nowUTC = Moment.now()
         val utcMillis = nowUTC.toMilliseconds()
         val utcSeconds = utcMillis / 1000
 
@@ -98,15 +99,15 @@ class MomentTest {
         val localDateString = "2019-12-31"
         val localDate = LocalDate.parse(localDateString)
 
-        val momentLocalDate = Moment(localDateString).toUTCDateTime().toLocalDate()
+        val momentLocalDate = Moment.parseDate(localDateString).toUTCDateTime().toLocalDate()
 
         assertThat(momentLocalDate).isEqualTo(localDate)
     }
 
     @Test
     fun isBefore() {
-        val moment1 = Moment()
-        val moment2 = Moment()
+        val moment1 = Moment.now()
+        val moment2 = Moment.now()
         moment2.plusSeconds(1)
 
         assertThat(moment1.isBefore(moment2)).isTrue()
@@ -116,7 +117,7 @@ class MomentTest {
 
     @Test
     fun plusSeconds() {
-        val moment = Moment(0)
+        val moment = Moment.ofEpochMilli(0)
         moment.plusSeconds(1)
 
         assertThat(moment.toMilliseconds()).isEqualTo(1000)
@@ -127,7 +128,7 @@ class MomentTest {
 
     @Test
     fun plusMinutes() {
-        val moment = Moment(0)
+        val moment = Moment.ofEpochMilli(0)
         moment.plusMinutes(1)
 
         assertThat(moment.toMilliseconds()).isEqualTo(1000 * 60)
@@ -138,7 +139,7 @@ class MomentTest {
 
     @Test
     fun minusHours() {
-        val moment = Moment(3600 * 1000)
+        val moment = Moment.ofEpochMilli(3600 * 1000)
         moment.minusHours(1)
 
         assertThat(moment.toMilliseconds()).isEqualTo(0)
@@ -149,7 +150,7 @@ class MomentTest {
 
     @Test
     fun minusMinutes() {
-        val moment = Moment(60 * 1000)
+        val moment = Moment.ofEpochMilli(60 * 1000)
         moment.minusMinutes(1)
 
         assertThat(moment.toMilliseconds()).isEqualTo(0)

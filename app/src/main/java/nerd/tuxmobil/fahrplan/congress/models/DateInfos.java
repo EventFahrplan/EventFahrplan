@@ -36,7 +36,7 @@ public class DateInfos extends ArrayList<DateInfo> {
         if (isEmpty()) {
             return DateInfo.DAY_INDEX_NOT_FOUND;
         }
-        Moment today = new Moment();
+        Moment today = Moment.now();
         today.minusHours(DAY_CHANGE_HOUR_DEFAULT);
         today.minusMinutes(DAY_CHANGE_MINUTE_DEFAULT);
 

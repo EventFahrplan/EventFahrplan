@@ -151,7 +151,7 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
 
     private void jumpOverPastSessions() {
         if (starredList == null) return;
-        long nowMillis = new Moment().toMilliseconds();
+        long nowMillis = Moment.now().toMilliseconds();
 
         int i;
         int numSeparators = 0;

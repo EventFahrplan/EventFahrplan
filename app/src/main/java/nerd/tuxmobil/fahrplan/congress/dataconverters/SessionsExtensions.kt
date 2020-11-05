@@ -25,7 +25,7 @@ fun List<Session>.toSessionsDatabaseModel() = map(Session::toSessionDatabaseMode
 fun List<Session>.toDayRanges(): List<DayRange> {
     val ranges = mutableSetOf<DayRange>()
     forEach {
-        val day = Moment(it.date)
+        val day = Moment.parseDate(it.date)
         val dayRange = DayRange(day)
         ranges.add(dayRange)
     }

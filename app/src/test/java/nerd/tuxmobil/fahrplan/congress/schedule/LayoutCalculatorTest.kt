@@ -20,7 +20,7 @@ class LayoutCalculatorTest {
         val session = Session((sessionId++).toString())
 
         if (date != null) {
-            val dateUTC = Moment(date)
+            val dateUTC = Moment.parseDate(date)
             dateUTC.plusMinutes(startTime.toLong())
             session.dateUTC = dateUTC.toMilliseconds()
         } else {

@@ -16,37 +16,11 @@ import org.threeten.bp.temporal.ChronoUnit
  *
  * E.g.
  *
- * > Moment().toZonedDateTime(ZoneOffset.of("GMT+1"))
+ * > Moment.now().toZonedDateTime(ZoneOffset.of("GMT+1"))
  */
-data class Moment(var time: Instant) {
+data class Moment private constructor(var time: Instant) {
 
     private val utcZoneOffset = ZoneOffset.UTC
-
-    /**
-     * Creates a time zone neutral [Moment] instance of current system clock.
-     */
-    constructor() : this(Instant.now(Clock.systemUTC()))
-
-    /**
-     * Creates a time zone neutral [Moment] instance from given [milliseconds].
-     *
-     * @param milliseconds epoch millis to create instance from
-     */
-    constructor(milliseconds: Long) : this(Instant.ofEpochMilli(milliseconds))
-
-    /**
-     * Creates a time zone neutral [Moment] instance from given [UTCDate].
-     *
-     * @param UTCDate must be in ISO-8601 date format, e.g. "yyyy-MM-dd"
-     */
-    constructor(UTCDate: String) : this(LocalDate.parse(UTCDate).atStartOfDay().toInstant(ZoneOffset.UTC))
-
-    /**
-     * Creates a time zone neutral [Moment] instance from given [date].
-     *
-     * @param date any zoned date time to create instance from
-     */
-    constructor(date: ZonedDateTime) : this(date.withZoneSameInstant(ZoneOffset.UTC).toInstant())
 
     val year: Int
         get() = time.atZone(utcZoneOffset).year
@@ -149,4 +123,32 @@ data class Moment(var time: Instant) {
      * Returns true if this moment is before given [moment].
      */
     fun isBefore(moment: Moment): Boolean = time.toEpochMilli() < moment.toMilliseconds()
+
+    companion object {
+        /**
+         * Creates a time zone neutral [Moment] instance of current system clock.
+         */
+        @JvmStatic
+        fun now() = Moment(Instant.now())
+
+        /**
+         * Creates a time zone neutral [Moment] instance from given [milliseconds].
+         *
+         * @param milliseconds epoch millis to create instance from
+         */
+        @JvmStatic
+        fun ofEpochMilli(milliseconds: Long) = Moment(Instant.ofEpochMilli(milliseconds))
+
+        /**
+         * Creates a time zone neutral [Moment] instance from given [utcDate].
+         *
+         * @param utcDate must be in ISO-8601 date format, i.e. "yyyy-MM-dd"
+         */
+        fun parseDate(utcDate: String) = Moment(LocalDate.parse(utcDate).atStartOfDay().toInstant(ZoneOffset.UTC))
+
+        /**
+         * Creates a time zone neutral [Moment] instance from this [ZonedDateTime].
+         */
+        fun ZonedDateTime.toMoment() = Moment(this.withZoneSameInstant(ZoneOffset.UTC).toInstant())
+    }
 }

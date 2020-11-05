@@ -14,7 +14,7 @@ class ShiftExtensionsTest {
     @Test
     fun oneBasedDayIndex_DayOne() {
         val zoneOffset = ZoneOffset.ofHours(2)
-        val day = Moment("2019-08-21")
+        val day = Moment.parseDate("2019-08-21")
         val dayRanges = listOf(DayRange(day))
 
         val shiftStart = day.toZonedDateTime(zoneOffset).plusSeconds(59)
@@ -27,8 +27,8 @@ class ShiftExtensionsTest {
     @Test
     fun oneBasedDayIndex_DayTwo() {
         val zoneOffset = ZoneOffset.ofHours(2)
-        val day1 = Moment("2019-08-21")
-        val day2 = Moment("2019-08-22")
+        val day1 = Moment.parseDate("2019-08-21")
+        val day2 = Moment.parseDate("2019-08-22")
         val dayRanges = listOf(DayRange(day1), DayRange(day2))
 
         val shiftStart = day2.toZonedDateTime(zoneOffset).plusSeconds(59)
@@ -77,7 +77,7 @@ class ShiftExtensionsTest {
 
     @Test
     fun toSessionAppModel_timeZoneHandling() {
-        val day = Moment("2019-01-02")
+        val day = Moment.parseDate("2019-01-02")
         val startsAt = day.toZonedDateTime(ZoneOffset.ofHours(4)) // 2019-01-02 04:00 with offset +4 => still  2019-01-02 00:00Z
         val shift = Shift(
                 startsAt = startsAt,
@@ -91,7 +91,7 @@ class ShiftExtensionsTest {
 
     @Test
     fun getDurationMinutes() {
-        val day = Moment("2019-08-25")
+        val day = Moment.parseDate("2019-08-25")
         val startsAtDate = ZonedDateTime.of(2019, 8, 25, 12, 0, 0, 0, ZoneOffset.UTC)
         val endsAtDate = ZonedDateTime.of(2019, 8, 25, 12, 30, 13, 0, ZoneOffset.UTC)
         val dayRange = DayRange(day)

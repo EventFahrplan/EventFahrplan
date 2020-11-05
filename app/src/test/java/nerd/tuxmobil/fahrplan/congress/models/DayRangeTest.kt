@@ -14,8 +14,8 @@ class DayRangeTest {
 
     @Before
     fun setUp() {
-        val day1 = Moment("2019-12-27")
-        val day2 = Moment("2019-12-30")
+        val day1 = Moment.parseDate("2019-12-27")
+        val day2 = Moment.parseDate("2019-12-30")
         dayRange = DayRange(day1, day2)
     }
 

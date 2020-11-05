@@ -74,7 +74,7 @@ data class LayoutCalculator @JvmOverloads constructor(
     private fun getStartTime(session: Session, previousSessionEndsAt: Int): Int {
         var startTime: Int
         if (session.dateUTC > 0) {
-            startTime = Moment(session.dateUTC).minuteOfDay
+            startTime = Moment.ofEpochMilli(session.dateUTC).minuteOfDay
             if (startTime < previousSessionEndsAt) {
                 startTime += Duration.ofDays(1).toMinutes().toInt()
             }

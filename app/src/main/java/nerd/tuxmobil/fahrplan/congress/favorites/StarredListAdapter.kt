@@ -26,7 +26,7 @@ class StarredListAdapter internal constructor(
 
 ) {
 
-    private val nowMoment = Moment()
+    private val nowMoment = Moment.now()
 
     @ColorInt
     private val pastSessionTextColor = ContextCompat.getColor(context, R.color.favorites_past_session_text)

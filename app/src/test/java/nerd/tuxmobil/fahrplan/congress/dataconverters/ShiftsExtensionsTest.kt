@@ -17,7 +17,7 @@ class ShiftsExtensionsTest {
 
     @Before
     fun setUp() {
-        val day = Moment("2019-08-23")
+        val day = Moment.parseDate("2019-08-23")
         startsAt = day.toZonedDateTime(ZoneOffset.UTC)
         endsAt = day.endOfDay().toZonedDateTime(ZoneOffset.UTC)
         dayRanges = listOf(DayRange(day, day))

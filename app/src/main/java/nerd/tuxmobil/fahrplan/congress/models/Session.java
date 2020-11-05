@@ -113,7 +113,7 @@ public class Session {
     }
 
     public Moment getStartTimeMoment() {
-        Moment moment = new Moment(DateParser.getDateTime(date));
+        Moment moment = Moment.ofEpochMilli(DateParser.getDateTime(date));
         moment.plusMinutes(relStartTime);
         return moment;
     }

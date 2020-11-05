@@ -86,7 +86,7 @@ public class FahrplanMisc {
         if (startTimeInMilliSec > 0) {
             when = startTimeInMilliSec;
             startTime = startTimeInMilliSec;
-            moment = new Moment();
+            moment = Moment.now();
         } else {
             moment = session.getStartTimeMoment();
             startTime = moment.toMilliseconds();
@@ -120,7 +120,7 @@ public class FahrplanMisc {
         final PendingIntent pendingintent = PendingIntent.getBroadcast(context, 0, alarmIntent, 0);
 
         MyApp.LogDebug(LOG_TAG, "set update alarm");
-        final long now = new Moment().toMilliseconds();
+        final long now = Moment.now().toMilliseconds();
 
         AlarmUpdater alarmUpdater = new AlarmUpdater(MyApp.conferenceTimeFrame,
                 new AlarmUpdater.OnAlarmUpdateListener() {

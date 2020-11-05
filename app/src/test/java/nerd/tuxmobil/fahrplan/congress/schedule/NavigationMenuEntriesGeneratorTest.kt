@@ -11,9 +11,9 @@ class NavigationMenuEntriesGeneratorTest {
     @Test
     fun getDayMenuEntriesWithThreeDays() {
         val dateInfoList = DateInfos()
-        dateInfoList.add(DateInfo(1, Moment("2018-11-18")))
-        dateInfoList.add(DateInfo(2, Moment("2018-11-19")))
-        dateInfoList.add(DateInfo(3, Moment("2018-11-20")))
+        dateInfoList.add(DateInfo(1, Moment.parseDate("2018-11-18")))
+        dateInfoList.add(DateInfo(2, Moment.parseDate("2018-11-19")))
+        dateInfoList.add(DateInfo(3, Moment.parseDate("2018-11-20")))
         val entries = getDayMenuEntries(3, dateInfoList, "2018-11-19")
         assertThat(entries).isNotNull()
         assertThat(entries.size).isEqualTo(3)
@@ -44,7 +44,7 @@ class NavigationMenuEntriesGeneratorTest {
     @Test
     fun getDayMenuEntriesWithOneDay() {
         val dateInfoList = DateInfos()
-        dateInfoList.add(DateInfo(1, Moment("2018-11-18")))
+        dateInfoList.add(DateInfo(1, Moment.parseDate("2018-11-18")))
         val entries = getDayMenuEntries(1, dateInfoList, "2018-11-19")
         assertThat(entries).isNotNull()
         assertThat(entries.size).isEqualTo(1)
@@ -54,7 +54,7 @@ class NavigationMenuEntriesGeneratorTest {
     @Test
     fun getDayMenuEntriesWithZeroDays() {
         val dateInfoList = DateInfos()
-        dateInfoList.add(DateInfo(1, Moment("2018-11-18")))
+        dateInfoList.add(DateInfo(1, Moment.parseDate("2018-11-18")))
         try {
             getDayMenuEntries(0, dateInfoList, "2018-11-19")
         } catch (e: IllegalArgumentException) {
@@ -65,7 +65,7 @@ class NavigationMenuEntriesGeneratorTest {
     @Test
     fun getDayMenuEntriesWithMinusOneDay() {
         val dateInfoList = DateInfos()
-        dateInfoList.add(DateInfo(1, Moment("2018-11-18")))
+        dateInfoList.add(DateInfo(1, Moment.parseDate("2018-11-18")))
         try {
             getDayMenuEntries(-1, dateInfoList, "2018-11-19")
         } catch (e: IllegalArgumentException) {
@@ -74,7 +74,7 @@ class NavigationMenuEntriesGeneratorTest {
     }
 
     private fun getDayMenuEntries(numDays: Int, dateInfos: DateInfos?, currentDate: String) =
-            getDayMenuEntries(numDays, dateInfos, Moment(currentDate), DAY_STRING, TODAY_STRING)
+            getDayMenuEntries(numDays, dateInfos, Moment.parseDate(currentDate), DAY_STRING, TODAY_STRING)
 
     companion object {
         private const val DAY_STRING = "Day"
