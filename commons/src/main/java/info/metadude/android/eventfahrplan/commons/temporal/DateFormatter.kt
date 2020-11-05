@@ -1,10 +1,11 @@
 package info.metadude.android.eventfahrplan.commons.temporal
 
+import org.threeten.bp.Instant
 import org.threeten.bp.OffsetDateTime
+import org.threeten.bp.ZoneId
 import org.threeten.bp.format.DateTimeFormatter
 import java.text.SimpleDateFormat
 import java.util.Date
-import java.util.TimeZone
 
 /**
  * Format timestamps according to system locale and system time zone.
@@ -15,6 +16,7 @@ class DateFormatter private constructor() {
     private val dateShort = SimpleDateFormat.getDateInstance(SimpleDateFormat.SHORT)
     private val dateTimeShort = SimpleDateFormat.getDateTimeInstance(SimpleDateFormat.SHORT, SimpleDateFormat.SHORT)
     private val dateTimeFull = SimpleDateFormat.getDateTimeInstance(SimpleDateFormat.FULL, SimpleDateFormat.SHORT)
+    private val timeZoneOffsetFormatter = DateTimeFormatter.ofPattern("z")
 
     /**
      * Returns 01:00, 14:00 etc. for all locales. Always without AM or PM postfix in 24 hour format.
@@ -41,7 +43,9 @@ class DateFormatter private constructor() {
      * E.g. Tuesday, January 22, 2019 1:00 AM GMT+01:00
      */
     fun getFormattedShareable(time: Long): String {
-        val timeZoneOffset = dateTimeFull.timeZone.getDisplayName(true, TimeZone.SHORT)
+        // TODO: Use time zone of the event rather than the device time zone.
+        val displayTimeZone = ZoneId.systemDefault()
+        val timeZoneOffset = timeZoneOffsetFormatter.withZone(displayTimeZone).format(Instant.ofEpochMilli(time))
         // TODO Append time zone name once it is provided. See https://github.com/EventFahrplan/EventFahrplan/pull/296.
         return "${dateTimeFull.format(Date(time))} $timeZoneOffset"
     }
