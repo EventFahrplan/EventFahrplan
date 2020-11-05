@@ -18,27 +18,25 @@ import org.threeten.bp.temporal.ChronoUnit
  *
  * > Moment.now().toZonedDateTime(ZoneOffset.of("GMT+1"))
  */
-data class Moment private constructor(var time: Instant) {
-
-    private val utcZoneOffset = ZoneOffset.UTC
+class Moment private constructor(private var time: Instant) {
 
     val year: Int
-        get() = time.atZone(utcZoneOffset).year
+        get() = time.atZone(ZoneOffset.UTC).year
 
     val month: Int
-        get() = time.atZone(utcZoneOffset).monthValue
+        get() = time.atZone(ZoneOffset.UTC).monthValue
 
     val monthDay: Int
-        get() = time.atZone(utcZoneOffset).dayOfMonth
+        get() = time.atZone(ZoneOffset.UTC).dayOfMonth
 
     val hour: Int
-        get() = time.atZone(utcZoneOffset).hour
+        get() = time.atZone(ZoneOffset.UTC).hour
 
     val minute: Int
-        get() = time.atZone(utcZoneOffset).minute
+        get() = time.atZone(ZoneOffset.UTC).minute
 
     val minuteOfDay: Int
-        get() = time.atZone(utcZoneOffset).get(ChronoField.MINUTE_OF_DAY)
+        get() = time.atZone(ZoneOffset.UTC).get(ChronoField.MINUTE_OF_DAY)
 
     /**
      * Set this moment instance to current system clock.
@@ -52,10 +50,10 @@ data class Moment private constructor(var time: Instant) {
      * Example: 2019-12-31 01:30 => 2019-12-31 00:00
      */
     fun startOfDay(): Moment {
-        return Moment(toUTCDateTime()
+        return Moment(toUtcDateTime()
                 .toLocalDate()
                 .atStartOfDay()
-                .toInstant(utcZoneOffset))
+                .toInstant(ZoneOffset.UTC))
     }
 
     /**
@@ -63,10 +61,10 @@ data class Moment private constructor(var time: Instant) {
      * Example: 2019-12-31 01:30 => 2019-12-31 23:59:59.999
      */
     fun endOfDay(): Moment {
-        return Moment(toUTCDateTime()
+        return Moment(toUtcDateTime()
                 .toLocalDate()
                 .atTime(LocalTime.MAX)
-                .toInstant(utcZoneOffset))
+                .toInstant(ZoneOffset.UTC))
     }
 
     /**
@@ -84,7 +82,7 @@ data class Moment private constructor(var time: Instant) {
     /**
      * Returns this moment as local date normalized to UTC.
      */
-    fun toUTCDateTime(): LocalDateTime = time.atZone(utcZoneOffset).toLocalDateTime()
+    fun toUtcDateTime(): LocalDateTime = time.atZone(ZoneOffset.UTC).toLocalDateTime()
 
     /**
      * Returns this moment in given [ZoneOffset].
@@ -123,6 +121,14 @@ data class Moment private constructor(var time: Instant) {
      * Returns true if this moment is before given [moment].
      */
     fun isBefore(moment: Moment): Boolean = time.toEpochMilli() < moment.toMilliseconds()
+
+    override fun equals(other: Any?): Boolean {
+        return time == (other as? Moment)?.time
+    }
+
+    override fun hashCode(): Int = time.hashCode()
+
+    override fun toString(): String = time.toString()
 
     companion object {
         /**

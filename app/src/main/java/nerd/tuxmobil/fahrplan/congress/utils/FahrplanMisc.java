@@ -96,7 +96,7 @@ public class FahrplanMisc {
         when -= alarmTimeDiffInSeconds;
 
         moment.setToMilliseconds(when);
-        MyApp.LogDebug(LOG_TAG, "Add alarm: Time = " + moment.toUTCDateTime() + ", in seconds = " + when + ".");
+        MyApp.LogDebug(LOG_TAG, "Add alarm: Time = " + moment.toUtcDateTime() + ", in seconds = " + when + ".");
 
         String sessionId = session.sessionId;
         String sessionTitle = session.title;

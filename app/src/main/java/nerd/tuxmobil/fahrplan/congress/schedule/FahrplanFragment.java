@@ -611,7 +611,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
 
     public void buildNavigationMenu() {
         Moment currentDate = Moment.now().startOfDay();
-        MyApp.LogDebug(LOG_TAG, "Today is " + currentDate.toUTCDateTime().toLocalDate());
+        MyApp.LogDebug(LOG_TAG, "Today is " + currentDate.toUtcDateTime().toLocalDate());
         String[] dayMenuEntries = NavigationMenuEntriesGenerator.getDayMenuEntries(
                 MyApp.meta.getNumDays(),
                 MyApp.dateInfos,

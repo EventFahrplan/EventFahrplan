@@ -45,7 +45,7 @@ class MomentTest {
     @Test
     fun endOfDay() {
         val moment = Moment.ofEpochMilli(DEC_30_22_47_2019)
-        val endOfDayUTC = moment.endOfDay().toUTCDateTime()
+        val endOfDayUTC = moment.endOfDay().toUtcDateTime()
 
         assertThat(endOfDayUTC.year).isEqualTo(2019)
         assertThat(endOfDayUTC.monthValue).isEqualTo(12)
@@ -77,7 +77,7 @@ class MomentTest {
         val localDateString = "2019-12-30"
         val localDate = LocalDate.parse(localDateString)
 
-        val startOfDay = Moment.ofEpochMilli(DEC_30_22_47_2019).startOfDay().toUTCDateTime().toLocalDate()
+        val startOfDay = Moment.ofEpochMilli(DEC_30_22_47_2019).startOfDay().toUtcDateTime().toLocalDate()
 
         assertThat(startOfDay).isEqualTo(localDate)
     }
@@ -99,7 +99,7 @@ class MomentTest {
         val localDateString = "2019-12-31"
         val localDate = LocalDate.parse(localDateString)
 
-        val momentLocalDate = Moment.parseDate(localDateString).toUTCDateTime().toLocalDate()
+        val momentLocalDate = Moment.parseDate(localDateString).toUtcDateTime().toLocalDate()
 
         assertThat(momentLocalDate).isEqualTo(localDate)
     }
