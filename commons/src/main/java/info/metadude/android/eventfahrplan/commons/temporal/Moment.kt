@@ -60,13 +60,6 @@ class Moment private constructor(private var time: Instant) {
     }
 
     /**
-     * Set this moment to given [milliseconds].
-     */
-    fun setToMilliseconds(milliseconds: Long) {
-        time = Instant.ofEpochMilli(milliseconds)
-    }
-
-    /**
      * Returns this moment represented as milliseconds.
      */
     fun toMilliseconds() = time.toEpochMilli()

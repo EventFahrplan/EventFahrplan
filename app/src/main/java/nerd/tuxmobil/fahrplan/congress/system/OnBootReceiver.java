@@ -41,7 +41,6 @@ public final class OnBootReceiver extends BroadcastReceiver {
         MyApp.LogDebug(LOG_TAG, "onReceive (reboot)");
 
         Moment nowMoment = Moment.now();
-        Moment storedAlarmTime = Moment.now();
         nowMoment.plusSeconds(15);
 
         AppRepository appRepository = AppRepository.INSTANCE;
@@ -49,7 +48,7 @@ public final class OnBootReceiver extends BroadcastReceiver {
         AlarmManager alarmManager = Contexts.getAlarmManager(context);
         AlarmServices alarmServices = new AlarmServices(alarmManager);
         for (Alarm alarm : alarms) {
-            storedAlarmTime.setToMilliseconds(alarm.getStartTime());
+            Moment storedAlarmTime = Moment.ofEpochMilli(alarm.getStartTime());
             if (nowMoment.isBefore(storedAlarmTime)) {
                 Log.d(getClass().getSimpleName(), "Scheduling alarm for session: " + alarm.getSessionId() + ", " + alarm.getSessionTitle());
                 SchedulableAlarm schedulableAlarm = AlarmExtensions.toSchedulableAlarm(alarm);
