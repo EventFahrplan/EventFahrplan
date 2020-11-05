@@ -40,8 +40,7 @@ public final class OnBootReceiver extends BroadcastReceiver {
 
         MyApp.LogDebug(LOG_TAG, "onReceive (reboot)");
 
-        Moment nowMoment = Moment.now();
-        nowMoment.plusSeconds(15);
+        Moment nowMoment = Moment.now().plusSeconds(15);
 
         AppRepository appRepository = AppRepository.INSTANCE;
         List<Alarm> alarms = appRepository.readAlarms();

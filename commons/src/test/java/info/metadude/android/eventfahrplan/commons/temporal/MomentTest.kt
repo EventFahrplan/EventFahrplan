@@ -106,56 +106,47 @@ class MomentTest {
 
     @Test
     fun isBefore() {
-        val moment1 = Moment.now()
-        val moment2 = Moment.now()
-        moment2.plusSeconds(1)
+        val momentOne = Moment.now()
+        val momentTwo = Moment.now().plusSeconds(1)
 
-        assertThat(moment1.isBefore(moment2)).isTrue()
-        assertThat(moment2.isBefore(moment1)).isFalse()
-        assertThat(moment1.isBefore(moment1)).isFalse()
+        assertThat(momentOne.isBefore(momentTwo)).isTrue()
+        assertThat(momentTwo.isBefore(momentOne)).isFalse()
+        assertThat(momentOne.isBefore(momentOne)).isFalse()
     }
 
     @Test
     fun plusSeconds() {
-        val moment = Moment.ofEpochMilli(0)
-        moment.plusSeconds(1)
+        val momentOne = Moment.ofEpochMilli(0).plusSeconds(1)
+        assertThat(momentOne.toMilliseconds()).isEqualTo(1000)
 
-        assertThat(moment.toMilliseconds()).isEqualTo(1000)
-
-        moment.plusSeconds(-1)
-        assertThat(moment.toMilliseconds()).isEqualTo(0)
+        val momentTwo = Moment.ofEpochMilli(1000).plusSeconds(-1)
+        assertThat(momentTwo.toMilliseconds()).isEqualTo(0)
     }
 
     @Test
     fun plusMinutes() {
-        val moment = Moment.ofEpochMilli(0)
-        moment.plusMinutes(1)
+        val momentOne = Moment.ofEpochMilli(0).plusMinutes(1)
+        assertThat(momentOne.toMilliseconds()).isEqualTo(1000 * 60)
 
-        assertThat(moment.toMilliseconds()).isEqualTo(1000 * 60)
-
-        moment.plusMinutes(-1)
-        assertThat(moment.toMilliseconds()).isEqualTo(0)
+        val momentTwo = Moment.ofEpochMilli(1000 * 60).plusMinutes(-1)
+        assertThat(momentTwo.toMilliseconds()).isEqualTo(0)
     }
 
     @Test
     fun minusHours() {
-        val moment = Moment.ofEpochMilli(3600 * 1000)
-        moment.minusHours(1)
+        val momentOne = Moment.ofEpochMilli(3600 * 1000).minusHours(1)
+        assertThat(momentOne.toMilliseconds()).isEqualTo(0)
 
-        assertThat(moment.toMilliseconds()).isEqualTo(0)
-
-        moment.minusHours(-1)
-        assertThat(moment.toMilliseconds()).isEqualTo(3600 * 1000)
+        val momentTwo = Moment.ofEpochMilli(0).minusHours(-1)
+        assertThat(momentTwo.toMilliseconds()).isEqualTo(3600 * 1000)
     }
 
     @Test
     fun minusMinutes() {
-        val moment = Moment.ofEpochMilli(60 * 1000)
-        moment.minusMinutes(1)
+        val momentOne = Moment.ofEpochMilli(60 * 1000).minusMinutes(1)
+        assertThat(momentOne.toMilliseconds()).isEqualTo(0)
 
-        assertThat(moment.toMilliseconds()).isEqualTo(0)
-
-        moment.minusMinutes(-1)
-        assertThat(moment.toMilliseconds()).isEqualTo(60 * 1000)
+        val momentTwo = Moment.ofEpochMilli(0).minusMinutes(-1)
+        assertThat(momentTwo.toMilliseconds()).isEqualTo(60 * 1000)
     }
 }

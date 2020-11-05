@@ -113,9 +113,8 @@ public class Session {
     }
 
     public Moment getStartTimeMoment() {
-        Moment moment = Moment.ofEpochMilli(DateParser.getDateTime(date));
-        moment.plusMinutes(relStartTime);
-        return moment;
+        long startOfDayTimestamp = DateParser.getDateTime(date);
+        return Moment.ofEpochMilli(startOfDayTimestamp).plusMinutes(relStartTime);
     }
 
     /**

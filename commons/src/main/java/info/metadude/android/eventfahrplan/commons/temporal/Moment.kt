@@ -17,7 +17,7 @@ import org.threeten.bp.temporal.ChronoUnit
  *
  * > Moment.now().toZonedDateTime(ZoneOffset.of("GMT+1"))
  */
-class Moment private constructor(private var time: Instant) {
+class Moment private constructor(private val time: Instant) {
 
     val year: Int
         get() = time.atZone(ZoneOffset.UTC).year
@@ -75,32 +75,24 @@ class Moment private constructor(private var time: Instant) {
     fun toZonedDateTime(timeZoneOffset: ZoneOffset): ZonedDateTime = time.atZone(timeZoneOffset)
 
     /**
-     * Subtracts given [hours] from this moment.
+     * Returns a moment with the given [hours] subtracted.
      */
-    fun minusHours(hours: Long) {
-        time = time.minus(hours, ChronoUnit.HOURS)
-    }
+    fun minusHours(hours: Long): Moment = Moment(time.minus(hours, ChronoUnit.HOURS))
 
     /**
-     * Subtracts given [minutes] from this moment.
+     * Returns a moment with the given [minutes] subtracted.
      */
-    fun minusMinutes(minutes: Long) {
-        time = time.minus(minutes, ChronoUnit.MINUTES)
-    }
+    fun minusMinutes(minutes: Long): Moment = Moment(time.minus(minutes, ChronoUnit.MINUTES))
 
     /**
-     * Adds given [seconds] to this moment.
+     * Returns a moment with the given [seconds] added.
      */
-    fun plusSeconds(seconds: Long) {
-        time = time.plusSeconds(seconds)
-    }
+    fun plusSeconds(seconds: Long): Moment = Moment(time.plusSeconds(seconds))
 
     /**
-     * Adds given [minutes] to this moment.
+     * Returns a moment with the given [minutes] added.
      */
-    fun plusMinutes(minutes: Long) {
-        time = time.plus(minutes, ChronoUnit.MINUTES)
-    }
+    fun plusMinutes(minutes: Long): Moment = Moment(time.plus(minutes, ChronoUnit.MINUTES))
 
     /**
      * Returns true if this moment is before given [moment].
