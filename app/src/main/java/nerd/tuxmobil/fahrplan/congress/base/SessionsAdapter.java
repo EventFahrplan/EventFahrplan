@@ -52,7 +52,6 @@ public abstract class SessionsAdapter extends ArrayAdapter<Session> {
         View rowView;
         ViewHolder viewHolder = null;
         ViewHolderSeparator viewHolderSeparator = null;
-        initViewSetup();
 
         int type = getItemViewType(position);
 
@@ -137,8 +136,6 @@ public abstract class SessionsAdapter extends ArrayAdapter<Session> {
     protected void resetTextStyle(TextView textView, int style) {
         textView.setTextAppearance(context, style);
     }
-
-    protected abstract void initViewSetup();
 
     protected abstract void setItemContent(int position, ViewHolder viewHolder);
 

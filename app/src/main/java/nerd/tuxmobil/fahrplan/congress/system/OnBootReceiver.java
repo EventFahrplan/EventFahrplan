@@ -64,8 +64,7 @@ public final class OnBootReceiver extends BroadcastReceiver {
         boolean isAutoUpdateEnabled = appRepository.readAutoUpdateEnabled();
         if (isAutoUpdateEnabled) {
             long lastFetchedAt = appRepository.readScheduleLastFetchedAt();
-            nowMoment.setToNow();
-            long nowMillis = nowMoment.toMilliseconds();
+            long nowMillis = Moment.now().toMilliseconds();
 
             long interval = FahrplanMisc.setUpdateAlarm(context, true);
 

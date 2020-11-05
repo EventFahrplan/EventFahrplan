@@ -1,6 +1,5 @@
 package info.metadude.android.eventfahrplan.commons.temporal
 
-import org.threeten.bp.Clock
 import org.threeten.bp.Instant
 import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalDateTime
@@ -37,13 +36,6 @@ class Moment private constructor(private var time: Instant) {
 
     val minuteOfDay: Int
         get() = time.atZone(ZoneOffset.UTC).get(ChronoField.MINUTE_OF_DAY)
-
-    /**
-     * Set this moment instance to current system clock.
-     */
-    fun setToNow() {
-        time = Instant.now(Clock.systemUTC())
-    }
 
     /**
      * Returns a copy of this moment, reset to 00:00 hours.
