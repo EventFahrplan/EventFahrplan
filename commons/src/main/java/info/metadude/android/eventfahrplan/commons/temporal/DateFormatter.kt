@@ -15,7 +15,7 @@ class DateFormatter private constructor() {
     private val timeShort = SimpleDateFormat.getTimeInstance(SimpleDateFormat.SHORT)
     private val timeShortNumberOnly = DateTimeFormatter.ofPattern("HH:mm")
     private val dateShort = SimpleDateFormat.getDateInstance(SimpleDateFormat.SHORT)
-    private val dateTimeShort = SimpleDateFormat.getDateTimeInstance(SimpleDateFormat.SHORT, SimpleDateFormat.SHORT)
+    private val dateShortTimeShortFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT, FormatStyle.SHORT)
     private val dateFullTimeShortFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL, FormatStyle.SHORT)
     private val timeZoneOffsetFormatter = DateTimeFormatter.ofPattern("z")
 
@@ -54,10 +54,12 @@ class DateFormatter private constructor() {
     }
 
     /**
-     * Returns day month, year and time in current system locale in short format.
+     * Returns day, month, year and time in current system locale in short format.
      * E.g. 1/22/19 1:00 AM
      */
-    fun getFormattedDateTimeShort(time: Long): String = dateTimeShort.format(Date(time))
+    fun getFormattedDateTimeShort(time: Long): String {
+        return dateShortTimeShortFormatter.withZone(ZoneId.systemDefault()).format(Instant.ofEpochMilli(time))
+    }
 
     companion object {
 
