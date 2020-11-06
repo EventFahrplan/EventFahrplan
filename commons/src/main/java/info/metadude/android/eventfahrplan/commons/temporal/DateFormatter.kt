@@ -4,6 +4,7 @@ import org.threeten.bp.Instant
 import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.ZoneId
 import org.threeten.bp.format.DateTimeFormatter
+import org.threeten.bp.format.FormatStyle
 import java.text.SimpleDateFormat
 import java.util.Date
 
@@ -15,7 +16,7 @@ class DateFormatter private constructor() {
     private val timeShortNumberOnly = DateTimeFormatter.ofPattern("HH:mm")
     private val dateShort = SimpleDateFormat.getDateInstance(SimpleDateFormat.SHORT)
     private val dateTimeShort = SimpleDateFormat.getDateTimeInstance(SimpleDateFormat.SHORT, SimpleDateFormat.SHORT)
-    private val dateTimeFull = SimpleDateFormat.getDateTimeInstance(SimpleDateFormat.FULL, SimpleDateFormat.SHORT)
+    private val dateFullTimeShortFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL, FormatStyle.SHORT)
     private val timeZoneOffsetFormatter = DateTimeFormatter.ofPattern("z")
 
     /**
@@ -45,9 +46,11 @@ class DateFormatter private constructor() {
     fun getFormattedShareable(time: Long): String {
         // TODO: Use time zone of the event rather than the device time zone.
         val displayTimeZone = ZoneId.systemDefault()
-        val timeZoneOffset = timeZoneOffsetFormatter.withZone(displayTimeZone).format(Instant.ofEpochMilli(time))
+        val sessionStartTime = Instant.ofEpochMilli(time)
+        val timeZoneOffset = timeZoneOffsetFormatter.withZone(displayTimeZone).format(sessionStartTime)
         // TODO Append time zone name once it is provided. See https://github.com/EventFahrplan/EventFahrplan/pull/296.
-        return "${dateTimeFull.format(Date(time))} $timeZoneOffset"
+        val sessionDateTime = dateFullTimeShortFormatter.withZone(displayTimeZone).format(sessionStartTime)
+        return "$sessionDateTime $timeZoneOffset"
     }
 
     /**
