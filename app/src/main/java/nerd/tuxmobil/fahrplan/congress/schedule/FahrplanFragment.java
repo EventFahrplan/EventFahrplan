@@ -38,6 +38,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.ligi.tracedroid.logging.Log;
 import org.threeten.bp.Duration;
+import org.threeten.bp.ZoneId;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -755,7 +756,8 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
                     break;
                 }
             case CONTEXT_MENU_ITEM_ID_SHARE_TEXT:
-                String formattedSession = SimpleSessionFormat.format(session);
+                ZoneId timeZoneId = appRepository.readMeta().getTimeZoneId();
+                String formattedSession = SimpleSessionFormat.format(session, timeZoneId);
                 SessionSharer.shareSimple(context, formattedSession);
                 break;
             case CONTEXT_MENU_ITEM_ID_SHARE_JSON:

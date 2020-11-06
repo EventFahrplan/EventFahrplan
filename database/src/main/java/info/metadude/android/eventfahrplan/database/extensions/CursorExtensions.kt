@@ -6,6 +6,7 @@
 package info.metadude.android.eventfahrplan.database.extensions
 
 import android.database.Cursor
+import androidx.core.database.getStringOrNull
 
 /**
  * Returns the value of the requested column as an integer.
@@ -39,6 +40,17 @@ inline fun Cursor.getLong(columnName: String): Long = getLong(getColumnIndexOrTh
  * @see Cursor.getString
  */
 inline fun Cursor.getString(columnName: String): String = getString(getColumnIndexOrThrow(columnName))
+
+/**
+ * Returns the value of the requested column as a string or null.
+ *
+ * The result and whether this method throws an exception when the column type is not a string type
+ * is implementation-defined.
+ *
+ * @see Cursor.getColumnIndexOrThrow
+ * @see Cursor.getStringOrNull
+ */
+inline fun Cursor.getStringOrNull(columnName: String): String? = getStringOrNull(getColumnIndexOrThrow(columnName))
 
 /**
  * Returns a list containing the results of applying the given [transform] function to each row

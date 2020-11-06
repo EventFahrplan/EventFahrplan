@@ -12,7 +12,7 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Me
 
 public class MetaDBOpenHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 5;
+    private static final int DATABASE_VERSION = 6;
 
     private static final String DATABASE_NAME = "meta";
 
@@ -22,7 +22,8 @@ public class MetaDBOpenHelper extends SQLiteOpenHelper {
                     Columns.VERSION + " TEXT, " +
                     Columns.TITLE + " TEXT, " +
                     Columns.SUBTITLE + " TEXT, " +
-                    Columns.ETAG + " TEXT);";
+                    Columns.ETAG + " TEXT, " +
+                    Columns.TIME_ZONE_NAME + " TEXT);";
 
     public MetaDBOpenHelper(@NonNull Context context) {
         super(context.getApplicationContext(), DATABASE_NAME, null, DATABASE_VERSION);
@@ -38,6 +39,10 @@ public class MetaDBOpenHelper extends SQLiteOpenHelper {
         if (oldVersion < 3 && newVersion >= 3) {
             db.execSQL("ALTER TABLE " + MetasTable.NAME + " ADD COLUMN " +
                     Columns.ETAG + " TEXT DEFAULT " + Defaults.ETAG_DEFAULT);
+        }
+        if (oldVersion < 6 && newVersion >= 6) {
+            db.execSQL("ALTER TABLE " + MetasTable.NAME + " ADD COLUMN " +
+                    Columns.TIME_ZONE_NAME + " TEXT");
         }
         if (oldVersion < 4) {
             // Clear database from 34C3.

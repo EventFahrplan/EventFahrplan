@@ -320,6 +320,10 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                                             parser.next();
                                             dayChangeTime = Session.Companion.parseStartTime(XmlPullParsers.getSanitizedText(parser));
                                         }
+                                        if (name.equals("time_zone_name")) {
+                                            parser.next();
+                                            meta.setTimeZoneName(XmlPullParsers.getSanitizedText(parser));
+                                        }
                                         break;
                                 }
                                 if (confDone) {

@@ -8,6 +8,7 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Me
 import info.metadude.android.eventfahrplan.database.extensions.delete
 import info.metadude.android.eventfahrplan.database.extensions.getInt
 import info.metadude.android.eventfahrplan.database.extensions.getString
+import info.metadude.android.eventfahrplan.database.extensions.getStringOrNull
 import info.metadude.android.eventfahrplan.database.extensions.insert
 import info.metadude.android.eventfahrplan.database.extensions.read
 import info.metadude.android.eventfahrplan.database.extensions.upsert
@@ -43,6 +44,7 @@ class MetaDatabaseRepository(
                 Meta(
                         numDays = cursor.getInt(NUM_DAYS),
                         version = cursor.getString(VERSION),
+                        timeZoneName = cursor.getStringOrNull(TIME_ZONE_NAME),
                         title = cursor.getString(TITLE),
                         subtitle = cursor.getString(SUBTITLE),
                         eTag = cursor.getString(ETAG)

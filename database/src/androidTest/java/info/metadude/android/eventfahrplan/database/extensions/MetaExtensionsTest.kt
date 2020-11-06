@@ -16,6 +16,7 @@ class MetaExtensionsTest {
                 eTag = "abc123",
                 numDays = 23,
                 subtitle = "My subtitle",
+                timeZoneName = "Europe/Berlin",
                 title = "My title",
                 version = "v.9.9.9"
         )
@@ -23,6 +24,7 @@ class MetaExtensionsTest {
         assertThat(values.getAsString(ETAG)).isEqualTo("abc123")
         assertThat(values.getAsInteger(NUM_DAYS)).isEqualTo(23)
         assertThat(values.getAsString(SUBTITLE)).isEqualTo("My subtitle")
+        assertThat(values.getAsString(TIME_ZONE_NAME)).isEqualTo("Europe/Berlin")
         assertThat(values.getAsString(TITLE)).isEqualTo("My title")
         assertThat(values.getAsString(VERSION)).isEqualTo("v.9.9.9")
     }

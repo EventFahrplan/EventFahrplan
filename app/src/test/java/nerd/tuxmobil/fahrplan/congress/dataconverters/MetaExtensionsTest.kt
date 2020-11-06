@@ -2,33 +2,53 @@ package nerd.tuxmobil.fahrplan.congress.dataconverters
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
-import info.metadude.android.eventfahrplan.database.models.Meta as DatabaseMeta
-import info.metadude.android.eventfahrplan.network.models.Meta as NetworkMeta
+import org.threeten.bp.ZoneId
+import info.metadude.android.eventfahrplan.database.models.Meta as MetaDatabaseModel
+import info.metadude.android.eventfahrplan.network.models.Meta as MetaNetworkModel
+import nerd.tuxmobil.fahrplan.congress.models.Meta as MetaAppModel
 
 class MetaExtensionsTest {
 
+    private val metaAppModel = MetaAppModel(
+            eTag = "abc123",
+            numDays = 23,
+            subtitle = "My subtitle",
+            timeZoneId = ZoneId.of("Europe/Berlin"),
+            title = "My title",
+            version = "v.9.9.9"
+    )
+
+    private val metaDatabaseModel = MetaDatabaseModel(
+            eTag = "abc123",
+            numDays = 23,
+            subtitle = "My subtitle",
+            timeZoneName = "Europe/Berlin",
+            title = "My title",
+            version = "v.9.9.9"
+    )
+
+    private val metaNetworkModel = MetaNetworkModel(
+            eTag = "abc123",
+            numDays = 23,
+            subtitle = "My subtitle",
+            timeZoneName = "Europe/Berlin",
+            title = "My title",
+            version = "v.9.9.9"
+    )
+
     @Test
-    fun databaseMeta_toMetaAppModel_toMetaDatabaseModel() {
-        val meta = DatabaseMeta(
-                eTag = "abc123",
-                numDays = 23,
-                subtitle = "My subtitle",
-                title = "My title",
-                version = "v.9.9.9"
-        )
-        assertThat(meta.toMetaAppModel().toMetaDatabaseModel()).isEqualTo(meta)
+    fun `toMetaNetworkModel converts an app into a network model`() {
+        assertThat(metaAppModel.toMetaNetworkModel()).isEqualTo(metaNetworkModel)
     }
 
     @Test
-    fun networkMeta_toMetaAppModel_toMetaNetworkModel() {
-        val meta = NetworkMeta(
-                eTag = "abc123",
-                numDays = 23,
-                subtitle = "My subtitle",
-                title = "My title",
-                version = "v.9.9.9"
-        )
-        assertThat(meta.toMetaAppModel().toMetaNetworkModel()).isEqualTo(meta)
+    fun `toMetaAppModel converts a database into an app model`() {
+        assertThat(metaDatabaseModel.toMetaAppModel()).isEqualTo(metaAppModel)
+    }
+
+    @Test
+    fun `toMetaDatabaseModel converts a network into a database model`() {
+        assertThat(metaNetworkModel.toMetaDatabaseModel()).isEqualTo(metaDatabaseModel)
     }
 
 }

@@ -15,6 +15,7 @@ import info.metadude.android.eventfahrplan.database.sqliteopenhelper.MetaDBOpenH
 import info.metadude.android.eventfahrplan.database.sqliteopenhelper.SessionsDBOpenHelper
 import info.metadude.android.eventfahrplan.engelsystem.EngelsystemNetworkRepository
 import info.metadude.android.eventfahrplan.engelsystem.models.ShiftsResult
+import info.metadude.android.eventfahrplan.network.models.Meta
 import info.metadude.android.eventfahrplan.network.repositories.ScheduleNetworkRepository
 import info.metadude.kotlin.library.engelsystem.models.Shift
 import kotlinx.coroutines.Job
@@ -22,13 +23,13 @@ import nerd.tuxmobil.fahrplan.congress.BuildConfig
 import nerd.tuxmobil.fahrplan.congress.dataconverters.*
 import nerd.tuxmobil.fahrplan.congress.exceptions.AppExceptionHandler
 import nerd.tuxmobil.fahrplan.congress.models.Alarm
-import nerd.tuxmobil.fahrplan.congress.models.Meta
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.net.*
 import nerd.tuxmobil.fahrplan.congress.preferences.AlarmTonePreference
-import nerd.tuxmobil.fahrplan.congress.utils.AlarmToneConversion
 import nerd.tuxmobil.fahrplan.congress.preferences.SharedPreferencesRepository
 import nerd.tuxmobil.fahrplan.congress.serialization.ScheduleChanges
+import nerd.tuxmobil.fahrplan.congress.utils.AlarmToneConversion
+import nerd.tuxmobil.fahrplan.congress.validation.MetaValidation.validate
 import okhttp3.OkHttpClient
 
 object AppRepository {
@@ -105,7 +106,7 @@ object AppRepository {
     ) {
         check(onFetchingDone != {}) { "Nobody registered to receive FetchScheduleResult." }
         // Fetching
-        val meta = readMeta()
+        val meta = readMeta().toMetaNetworkModel()
         scheduleNetworkRepository.fetchSchedule(okHttpClient, url, meta.eTag) { fetchScheduleResult ->
             val fetchResult = fetchScheduleResult.toAppFetchScheduleResult()
             onFetchingDone.invoke(fetchResult)
@@ -115,7 +116,8 @@ object AppRepository {
             }
 
             if (fetchResult.isSuccessful) {
-                updateMeta(meta.copy(eTag = fetchScheduleResult.eTag))
+                val validMeta = meta.copy(eTag = fetchScheduleResult.eTag).validate()
+                updateMeta(validMeta)
                 check(onParsingDone != {}) { "Nobody registered to receive ParseScheduleResult." }
                 // Parsing
                 parseSchedule(
@@ -148,7 +150,8 @@ object AppRepository {
                     updateSessions(newSessions)
                 },
                 onUpdateMeta = { meta ->
-                    updateMeta(meta.toMetaAppModel())
+                    val validMeta = meta.validate()
+                    updateMeta(validMeta)
                 },
                 onParsingDone = { result: Boolean, version: String ->
                     onParsingDone(ParseScheduleResult(result, version))

@@ -7,11 +7,13 @@ import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
 import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedOnce
 import nerd.tuxmobil.fahrplan.congress.R
+import nerd.tuxmobil.fahrplan.congress.models.Meta
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import org.junit.Before
 import org.junit.Test
 import org.mockito.ArgumentMatchers.anyString
+import org.threeten.bp.ZoneId
 
 class SessionDetailsViewModelTest {
 
@@ -19,9 +21,11 @@ class SessionDetailsViewModelTest {
     private val actualSession = Session(ACTUAL_SESSION_ID)
     private val expectedSession = Session(EXPECTED_SESSION_ID)
     private val viewActionHandler = mock<SessionDetailsViewModel.ViewActionHandler>()
+    private val meta = mock<Meta>()
     private lateinit var defaultViewModel: SessionDetailsViewModel
 
     companion object {
+        private val NO_TIME_ZONE_ID = null
         private const val UNKNOWN_MENU_ITEM_ID = Int.MIN_VALUE
         private const val SAMPLE_URL = "http://example.com"
         private const val ACTUAL_SESSION_ID = "S1"
@@ -31,6 +35,8 @@ class SessionDetailsViewModelTest {
     @Before
     fun setUp() {
         whenever(repository.readSessionBySessionId(anyString())) doReturn actualSession
+        whenever(repository.readMeta()) doReturn meta
+        whenever(meta.timeZoneId) doReturn NO_TIME_ZONE_ID
         // ViewModel must be initialized after stubbing the repository.
         defaultViewModel = SessionDetailsViewModel(repository, ACTUAL_SESSION_ID, viewActionHandler)
     }
@@ -51,7 +57,7 @@ class SessionDetailsViewModelTest {
 
     @Test
     fun `onOptionsMenuItemSelected invokes shareAsPlainText with plain text`() {
-        val toPlainText: Session.() -> String = { "An example session" }
+        val toPlainText: Session.(ZoneId?) -> String = { "An example session" }
         val viewModel = SessionDetailsViewModel(repository, ACTUAL_SESSION_ID, viewActionHandler,
                 toPlainText = toPlainText)
         assertThat(viewModel.onOptionsMenuItemSelected(R.id.menu_item_share_session)).isTrue()

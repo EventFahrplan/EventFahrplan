@@ -15,6 +15,7 @@ import nerd.tuxmobil.fahrplan.congress.utils.Font
 import nerd.tuxmobil.fahrplan.congress.utils.SessionUrlComposer
 import nerd.tuxmobil.fahrplan.congress.utils.StringUtils
 import nerd.tuxmobil.fahrplan.congress.wiki.containsWikiLink
+import org.threeten.bp.ZoneId
 
 class SessionDetailsViewModel @JvmOverloads constructor(
 
@@ -30,8 +31,8 @@ class SessionDetailsViewModel @JvmOverloads constructor(
         private val toFeedbackUrl: Session.(String) -> String = { urlTemplate ->
             FeedbackUrlComposer(this, urlTemplate).getFeedbackUrl()
         },
-        private val toPlainText: Session.() -> String = {
-            SimpleSessionFormat.format(this)
+        private val toPlainText: Session.(ZoneId?) -> String = { timeZoneId ->
+            SimpleSessionFormat.format(this, timeZoneId)
         },
         private val toJson: Session.() -> String = {
             JsonSessionFormat.format(this)
@@ -65,6 +66,8 @@ class SessionDetailsViewModel @JvmOverloads constructor(
 
     // Needs to be a "var" so it can be modified (highlight, hasAlarm).
     private var session: Session = repository.readSessionBySessionId(sessionId)
+
+    private val timeZoneId = repository.readMeta().timeZoneId
 
     val hasDateUtc get() = session.dateUTC > 0
     val formattedDateUtc get() = session.toFormattedDateUtc()
@@ -133,7 +136,7 @@ class SessionDetailsViewModel @JvmOverloads constructor(
         }
         R.id.menu_item_share_session,
         R.id.menu_item_share_session_text -> {
-            val formattedSession = session.toPlainText()
+            val formattedSession = session.toPlainText(timeZoneId)
             viewActionHandler.shareAsPlainText(formattedSession)
             true
         }
