@@ -10,7 +10,7 @@ import org.threeten.bp.format.FormatStyle
  * Format timestamps according to system locale and system time zone.
  */
 class DateFormatter private constructor() {
-    private val timeShortNumberOnly = DateTimeFormatter.ofPattern("HH:mm")
+    private val timeShortNumberOnlyFormatter = DateTimeFormatter.ofPattern("HH:mm")
     private val timeShortFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)
     private val dateShortFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)
     private val dateShortTimeShortFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT, FormatStyle.SHORT)
@@ -21,7 +21,7 @@ class DateFormatter private constructor() {
      * Returns 01:00, 14:00 etc. for all locales. Always without AM or PM postfix in 24 hour format.
      */
     fun getFormattedTime24Hour(moment: Moment): String =
-            timeShortNumberOnly.format(moment.toZonedDateTime(OffsetDateTime.now().offset))
+            timeShortNumberOnlyFormatter.format(moment.toZonedDateTime(OffsetDateTime.now().offset))
 
     /**
      * Returns 01:00 AM, 02:00 PM, 14:00 etc, depending on current system locale either
