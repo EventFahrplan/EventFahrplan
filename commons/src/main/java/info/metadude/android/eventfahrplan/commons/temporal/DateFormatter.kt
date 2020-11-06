@@ -5,15 +5,13 @@ import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.ZoneId
 import org.threeten.bp.format.DateTimeFormatter
 import org.threeten.bp.format.FormatStyle
-import java.text.SimpleDateFormat
-import java.util.Date
 
 /**
  * Format timestamps according to system locale and system time zone.
  */
 class DateFormatter private constructor() {
-    private val timeShort = SimpleDateFormat.getTimeInstance(SimpleDateFormat.SHORT)
     private val timeShortNumberOnly = DateTimeFormatter.ofPattern("HH:mm")
+    private val timeShortFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)
     private val dateShortFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)
     private val dateShortTimeShortFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT, FormatStyle.SHORT)
     private val dateFullTimeShortFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL, FormatStyle.SHORT)
@@ -29,7 +27,9 @@ class DateFormatter private constructor() {
      * Returns 01:00 AM, 02:00 PM, 14:00 etc, depending on current system locale either
      * in 24 or 12 hour format. The latter featuring AM or PM postfixes.
      */
-    fun getFormattedTime(time: Long): String = timeShort.format(Date(time))
+    fun getFormattedTime(time: Long): String {
+        return timeShortFormatter.withZone(ZoneId.systemDefault()).format(Instant.ofEpochMilli(time))
+    }
 
     /**
      * Returns day, month and year in current system locale.
