@@ -3,7 +3,7 @@ package nerd.tuxmobil.fahrplan.congress.dataconverters
 import androidx.annotation.VisibleForTesting
 import info.metadude.android.eventfahrplan.commons.logging.Logging
 import info.metadude.android.eventfahrplan.commons.temporal.DayRange
-import info.metadude.android.eventfahrplan.commons.temporal.Moment
+import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.toMoment
 import info.metadude.kotlin.library.engelsystem.models.Shift
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import org.threeten.bp.Duration
@@ -81,7 +81,7 @@ val Shift.descriptionText: String
     }
 
 private val Shift.minuteOfDay
-    get() = Moment(startsAt).minuteOfDay
+    get() = startsAt.toMoment().minuteOfDay
 
 private val Shift.shiftDuration
     get() = Duration.between(startsAt, endsAt).toMinutes().toInt()

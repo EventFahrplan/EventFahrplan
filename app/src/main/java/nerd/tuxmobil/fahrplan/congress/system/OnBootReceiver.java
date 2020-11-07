@@ -40,16 +40,14 @@ public final class OnBootReceiver extends BroadcastReceiver {
 
         MyApp.LogDebug(LOG_TAG, "onReceive (reboot)");
 
-        Moment nowMoment = new Moment();
-        Moment storedAlarmTime = new Moment();
-        nowMoment.plusSeconds(15);
+        Moment nowMoment = Moment.now().plusSeconds(15);
 
         AppRepository appRepository = AppRepository.INSTANCE;
         List<Alarm> alarms = appRepository.readAlarms();
         AlarmManager alarmManager = Contexts.getAlarmManager(context);
         AlarmServices alarmServices = new AlarmServices(alarmManager);
         for (Alarm alarm : alarms) {
-            storedAlarmTime.setToMilliseconds(alarm.getStartTime());
+            Moment storedAlarmTime = Moment.ofEpochMilli(alarm.getStartTime());
             if (nowMoment.isBefore(storedAlarmTime)) {
                 Log.d(getClass().getSimpleName(), "Scheduling alarm for session: " + alarm.getSessionId() + ", " + alarm.getSessionTitle());
                 SchedulableAlarm schedulableAlarm = AlarmExtensions.toSchedulableAlarm(alarm);
@@ -64,8 +62,7 @@ public final class OnBootReceiver extends BroadcastReceiver {
         boolean isAutoUpdateEnabled = appRepository.readAutoUpdateEnabled();
         if (isAutoUpdateEnabled) {
             long lastFetchedAt = appRepository.readScheduleLastFetchedAt();
-            nowMoment.setToNow();
-            long nowMillis = nowMoment.toMilliseconds();
+            long nowMillis = Moment.now().toMilliseconds();
 
             long interval = FahrplanMisc.setUpdateAlarm(context, true);
 

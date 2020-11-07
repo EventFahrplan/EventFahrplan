@@ -17,7 +17,7 @@ class DateFormatterTest {
 
     private val systemTimezone = TimeZone.getDefault()
     private val systemLocale = Locale.getDefault()
-    private val moment = Moment("2019-01-22")
+    private val moment = Moment.parseDate("2019-01-22")
     private val timestamp = moment.toMilliseconds()
 
     @Before

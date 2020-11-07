@@ -78,33 +78,22 @@ public class FahrplanMisc {
         for (String alarmTimeString : alarmTimeStrings) {
             alarmTimes.add(Integer.parseInt(alarmTimeString));
         }
-        long when;
-        Moment moment;
-        long startTime;
-        long startTimeInMilliSec = session.dateUTC;
 
-        if (startTimeInMilliSec > 0) {
-            when = startTimeInMilliSec;
-            startTime = startTimeInMilliSec;
-            moment = new Moment();
-        } else {
-            moment = session.getStartTimeMoment();
-            startTime = moment.toMilliseconds();
-            when = moment.toMilliseconds();
-        }
-        long alarmTimeDiffInSeconds = alarmTimes.get(alarmTimesIndex) * 60 * 1000L;
-        when -= alarmTimeDiffInSeconds;
+        long sessionStartTime = session.getStartTimeMilliseconds();
 
-        moment.setToMilliseconds(when);
-        MyApp.LogDebug(LOG_TAG, "Add alarm: Time = " + moment.toUTCDateTime() + ", in seconds = " + when + ".");
+        long alarmTimeOffset = alarmTimes.get(alarmTimesIndex) * 60 * 1000L;
+        long alarmTime = sessionStartTime - alarmTimeOffset;
+
+        Moment moment = Moment.ofEpochMilli(alarmTime);
+        MyApp.LogDebug(LOG_TAG, "Add alarm: Time = " + moment.toUtcDateTime() + ", in seconds = " + alarmTime + ".");
 
         String sessionId = session.sessionId;
         String sessionTitle = session.title;
         int alarmTimeInMin = alarmTimes.get(alarmTimesIndex);
-        String timeText = TIME_TEXT_DATE_FORMAT.format(new Date(when));
+        String timeText = TIME_TEXT_DATE_FORMAT.format(new Date(alarmTime));
         int day = session.day;
 
-        Alarm alarm = new Alarm(alarmTimeInMin, day, startTime, sessionId, sessionTitle, when, timeText);
+        Alarm alarm = new Alarm(alarmTimeInMin, day, sessionStartTime, sessionId, sessionTitle, alarmTime, timeText);
         SchedulableAlarm schedulableAlarm = AlarmExtensions.toSchedulableAlarm(alarm);
         AlarmManager alarmManager = Contexts.getAlarmManager(context);
         new AlarmServices(alarmManager).scheduleSessionAlarm(context, schedulableAlarm, true);
@@ -120,7 +109,7 @@ public class FahrplanMisc {
         final PendingIntent pendingintent = PendingIntent.getBroadcast(context, 0, alarmIntent, 0);
 
         MyApp.LogDebug(LOG_TAG, "set update alarm");
-        final long now = new Moment().toMilliseconds();
+        final long now = Moment.now().toMilliseconds();
 
         AlarmUpdater alarmUpdater = new AlarmUpdater(MyApp.conferenceTimeFrame,
                 new AlarmUpdater.OnAlarmUpdateListener() {

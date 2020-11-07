@@ -35,7 +35,7 @@ class DateParser {
         @JvmStatic
         fun getDayChange(text: String): Int {
             val timeUTC = getDateTime(text)
-            return Moment(timeUTC).minuteOfDay
+            return Moment.ofEpochMilli(timeUTC).minuteOfDay
         }
     }
 }

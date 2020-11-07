@@ -50,6 +50,6 @@ public class TimeSegmentTest {
         int minute = 25;
         int msOfMinute = minute * 60 * 1000;
         TimeSegment segment = new TimeSegment(minute);
-        assertThat(segment.isMatched(new Moment(msOfMinute), 15)).isEqualTo(true);
+        assertThat(segment.isMatched(Moment.ofEpochMilli(msOfMinute), 15)).isEqualTo(true);
     }
 }

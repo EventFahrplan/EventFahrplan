@@ -105,7 +105,7 @@ class SessionExtensionsTest {
         val session = Session("")
         session.date = "2015-08-13"
         session.day = 3
-        val dateInfo = DateInfo(3, Moment("2015-08-13"))
+        val dateInfo = DateInfo(3, Moment.parseDate("2015-08-13"))
         assertThat(session.toDateInfo()).isEqualTo(dateInfo)
     }
 

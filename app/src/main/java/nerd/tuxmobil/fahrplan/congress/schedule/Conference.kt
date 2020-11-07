@@ -63,8 +63,8 @@ data class Conference(
     }
 
     private fun isDaySwitch(startUtc: Long, endUtc: Long): Boolean {
-        val startDay = Moment(startUtc).monthDay
-        val endDay = Moment(endUtc).monthDay
+        val startDay = Moment.ofEpochMilli(startUtc).monthDay
+        val endDay = Moment.ofEpochMilli(endUtc).monthDay
         return startDay != endDay
     }
 

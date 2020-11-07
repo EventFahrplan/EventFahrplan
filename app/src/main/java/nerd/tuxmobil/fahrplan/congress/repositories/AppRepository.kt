@@ -428,7 +428,7 @@ object AppRepository {
     fun readScheduleLastFetchedAt() =
             sharedPreferencesRepository.getScheduleLastFetchedAt()
 
-    private fun updateScheduleLastFetchedAt() = with(Moment()) {
+    private fun updateScheduleLastFetchedAt() = with(Moment.now()) {
         sharedPreferencesRepository.setScheduleLastFetchedAt(toMilliseconds())
     }
 

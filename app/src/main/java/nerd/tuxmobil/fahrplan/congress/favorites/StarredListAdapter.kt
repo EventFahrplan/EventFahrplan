@@ -26,14 +26,8 @@ class StarredListAdapter internal constructor(
 
 ) {
 
-    private val nowMoment = Moment()
-
     @ColorInt
     private val pastSessionTextColor = ContextCompat.getColor(context, R.color.favorites_past_session_text)
-
-    override fun initViewSetup() {
-        nowMoment.setToNow()
-    }
 
     override fun setItemContent(position: Int, viewHolder: ViewHolder) {
         resetItemStyles(viewHolder)
@@ -70,7 +64,7 @@ class StarredListAdapter internal constructor(
     }
 
     private val Session.tookPlace
-        get() = dateUTC + duration * 60000 < nowMoment.toMilliseconds()
+        get() = dateUTC + duration * 60000 < Moment.now().toMilliseconds()
 
     private fun TextView.setPastSessionTextColor() = setTextColor(pastSessionTextColor)
 

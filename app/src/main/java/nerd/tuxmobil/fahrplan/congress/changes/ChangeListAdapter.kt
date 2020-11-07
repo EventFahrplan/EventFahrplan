@@ -41,10 +41,6 @@ class ChangeListAdapter internal constructor(
         textView.paintFlags = textView.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
     }
 
-    override fun initViewSetup() {
-        // Nothing to do here
-    }
-
     override fun setItemContent(position: Int, viewHolder: ViewHolder) {
         resetItemStyles(viewHolder)
 

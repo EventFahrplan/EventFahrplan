@@ -18,7 +18,7 @@ class ConferenceTest {
             duration = 30
         }
         with(Conference()) {
-            calculateTimeFrame(listOf(opening, closing)) { dateUTC: Long -> Moment(dateUTC).minuteOfDay }
+            calculateTimeFrame(listOf(opening, closing)) { dateUTC: Long -> Moment.ofEpochMilli(dateUTC).minuteOfDay }
             assertThat(firstSessionStartsAt).isEqualTo(17 * 60 - 2 * 60) // 17:00h -2h zone offset = 15:00h
             assertThat(lastSessionEndsAt).isEqualTo(1035 - 2 * 60 + Conference.ONE_DAY) // -> 17:15 -2h zone offset + day switch
         }
@@ -35,7 +35,7 @@ class ConferenceTest {
             duration = 30
         }
         with(Conference()) {
-            calculateTimeFrame(listOf(opening, closing)) { dateUTC: Long -> Moment(dateUTC).minuteOfDay }
+            calculateTimeFrame(listOf(opening, closing)) { dateUTC: Long -> Moment.ofEpochMilli(dateUTC).minuteOfDay }
             assertThat(firstSessionStartsAt).isEqualTo(17 * 60 - 2 * 60) // 17:00h -2h zone offset = 15:00h
             assertThat(lastSessionEndsAt).isEqualTo(18 * 60 + 30 - 2 * 60) // -> 18:00 -2h zone offset
         }
@@ -52,7 +52,7 @@ class ConferenceTest {
             relStartTime = 1070 // 17:50
         }
         with(Conference()) {
-            calculateTimeFrame(listOf(opening, closing)) { dateUTC: Long -> Moment(dateUTC).minuteOfDay }
+            calculateTimeFrame(listOf(opening, closing)) { dateUTC: Long -> Moment.ofEpochMilli(dateUTC).minuteOfDay }
             assertThat(firstSessionStartsAt).isEqualTo(570) // 09:30
             assertThat(lastSessionEndsAt).isEqualTo(1080) // 18:00
         }

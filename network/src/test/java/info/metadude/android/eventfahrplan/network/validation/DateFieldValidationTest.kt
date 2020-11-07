@@ -12,8 +12,8 @@ class DateFieldValidationTest {
     fun `validate - is invalid if one of two sessions is invalid`() {
         val validation = DateFieldValidation(TestLogger)
 
-        val start = Moment("2019-01-01")
-        val end = Moment("2019-01-01")
+        val start = Moment.parseDate("2019-01-01")
+        val end = Moment.parseDate("2019-01-01")
 
         val sessions = listOf(
                 // date and dateUTC do not represent the same
@@ -32,15 +32,15 @@ class DateFieldValidationTest {
     fun `validate - is invalid if any session outside range`() {
         val validation = DateFieldValidation(TestLogger)
 
-        val start = Moment("2019-01-01")
-        val end = Moment("2019-01-03")
+        val start = Moment.parseDate("2019-01-01")
+        val end = Moment.parseDate("2019-01-03")
 
         val sessions = listOf(
                 // date=jan 2 does not correspond to dateUTC field value
                 // since session 1 defines range start, this leads to a problem, if another session has valid data, but is before session 1.
                 Session(date = "2019-01-02", dateUTC = start.toMilliseconds(), sessionId = "1"),
                 // range starts with session 1 => session 2 is outside of the range
-                Session(date = "2019-01-01", dateUTC = Moment("2019-01-01").toMilliseconds(), sessionId = "2"),
+                Session(date = "2019-01-01", dateUTC = Moment.parseDate("2019-01-01").toMilliseconds(), sessionId = "2"),
                 Session(date = "2019-01-03", dateUTC = end.toMilliseconds(), sessionId = "3")
         )
 
@@ -55,12 +55,12 @@ class DateFieldValidationTest {
     fun `validate - all data integer`() {
         val validation = DateFieldValidation(TestLogger)
 
-        val start = Moment("2019-01-01")
-        val end = Moment("2019-01-03")
+        val start = Moment.parseDate("2019-01-01")
+        val end = Moment.parseDate("2019-01-03")
 
         val sessions = listOf(
                 Session(date = "2019-01-01", dateUTC = start.toMilliseconds(), sessionId = "1"),
-                Session(date = "2019-01-02", dateUTC = Moment("2019-01-02").toMilliseconds(), sessionId = "2"),
+                Session(date = "2019-01-02", dateUTC = Moment.parseDate("2019-01-02").toMilliseconds(), sessionId = "2"),
                 Session(date = "2019-01-03", dateUTC = end.toMilliseconds(), sessionId = "3")
         )
 
@@ -88,8 +88,8 @@ class DateFieldValidationTest {
     fun `validate - two sessions at same day`() {
         val validation = DateFieldValidation(TestLogger)
 
-        val start = Moment("2019-01-01")
-        val end = Moment("2019-01-01")
+        val start = Moment.parseDate("2019-01-01")
+        val end = Moment.parseDate("2019-01-01")
 
         val sessions = listOf(
                 Session(date = "2019-01-01", dateUTC = start.toMilliseconds(), sessionId = "1"),
@@ -107,8 +107,8 @@ class DateFieldValidationTest {
     fun `validate - two sessions on consecutive days`() {
         val validation = DateFieldValidation(TestLogger)
 
-        val start = Moment("2019-01-01")
-        val end = Moment("2019-01-02")
+        val start = Moment.parseDate("2019-01-01")
+        val end = Moment.parseDate("2019-01-02")
 
         val sessions = listOf(
                 Session(date = "2019-01-01", dateUTC = start.toMilliseconds(), sessionId = "1"),

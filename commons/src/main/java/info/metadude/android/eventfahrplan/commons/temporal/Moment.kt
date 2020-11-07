@@ -1,6 +1,5 @@
 package info.metadude.android.eventfahrplan.commons.temporal
 
-import org.threeten.bp.Clock
 import org.threeten.bp.Instant
 import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalDateTime
@@ -16,72 +15,37 @@ import org.threeten.bp.temporal.ChronoUnit
  *
  * E.g.
  *
- * > Moment().toZonedDateTime(ZoneOffset.of("GMT+1"))
+ * > Moment.now().toZonedDateTime(ZoneOffset.of("GMT+1"))
  */
-data class Moment(var time: Instant) {
-
-    private val utcZoneOffset = ZoneOffset.UTC
-
-    /**
-     * Creates a time zone neutral [Moment] instance of current system clock.
-     */
-    constructor() : this(Instant.now(Clock.systemUTC()))
-
-    /**
-     * Creates a time zone neutral [Moment] instance from given [milliseconds].
-     *
-     * @param milliseconds epoch millis to create instance from
-     */
-    constructor(milliseconds: Long) : this(Instant.ofEpochMilli(milliseconds))
-
-    /**
-     * Creates a time zone neutral [Moment] instance from given [UTCDate].
-     *
-     * @param UTCDate must be in ISO-8601 date format, e.g. "yyyy-MM-dd"
-     */
-    constructor(UTCDate: String) : this(LocalDate.parse(UTCDate).atStartOfDay().toInstant(ZoneOffset.UTC))
-
-    /**
-     * Creates a time zone neutral [Moment] instance from given [date].
-     *
-     * @param date any zoned date time to create instance from
-     */
-    constructor(date: ZonedDateTime) : this(date.withZoneSameInstant(ZoneOffset.UTC).toInstant())
+class Moment private constructor(private val time: Instant) {
 
     val year: Int
-        get() = time.atZone(utcZoneOffset).year
+        get() = time.atZone(ZoneOffset.UTC).year
 
     val month: Int
-        get() = time.atZone(utcZoneOffset).monthValue
+        get() = time.atZone(ZoneOffset.UTC).monthValue
 
     val monthDay: Int
-        get() = time.atZone(utcZoneOffset).dayOfMonth
+        get() = time.atZone(ZoneOffset.UTC).dayOfMonth
 
     val hour: Int
-        get() = time.atZone(utcZoneOffset).hour
+        get() = time.atZone(ZoneOffset.UTC).hour
 
     val minute: Int
-        get() = time.atZone(utcZoneOffset).minute
+        get() = time.atZone(ZoneOffset.UTC).minute
 
     val minuteOfDay: Int
-        get() = time.atZone(utcZoneOffset).get(ChronoField.MINUTE_OF_DAY)
-
-    /**
-     * Set this moment instance to current system clock.
-     */
-    fun setToNow() {
-        time = Instant.now(Clock.systemUTC())
-    }
+        get() = time.atZone(ZoneOffset.UTC).get(ChronoField.MINUTE_OF_DAY)
 
     /**
      * Returns a copy of this moment, reset to 00:00 hours.
      * Example: 2019-12-31 01:30 => 2019-12-31 00:00
      */
     fun startOfDay(): Moment {
-        return Moment(toUTCDateTime()
+        return Moment(toUtcDateTime()
                 .toLocalDate()
                 .atStartOfDay()
-                .toInstant(utcZoneOffset))
+                .toInstant(ZoneOffset.UTC))
     }
 
     /**
@@ -89,17 +53,10 @@ data class Moment(var time: Instant) {
      * Example: 2019-12-31 01:30 => 2019-12-31 23:59:59.999
      */
     fun endOfDay(): Moment {
-        return Moment(toUTCDateTime()
+        return Moment(toUtcDateTime()
                 .toLocalDate()
                 .atTime(LocalTime.MAX)
-                .toInstant(utcZoneOffset))
-    }
-
-    /**
-     * Set this moment to given [milliseconds].
-     */
-    fun setToMilliseconds(milliseconds: Long) {
-        time = Instant.ofEpochMilli(milliseconds)
+                .toInstant(ZoneOffset.UTC))
     }
 
     /**
@@ -110,7 +67,7 @@ data class Moment(var time: Instant) {
     /**
      * Returns this moment as local date normalized to UTC.
      */
-    fun toUTCDateTime(): LocalDateTime = time.atZone(utcZoneOffset).toLocalDateTime()
+    fun toUtcDateTime(): LocalDateTime = time.atZone(ZoneOffset.UTC).toLocalDateTime()
 
     /**
      * Returns this moment in given [ZoneOffset].
@@ -118,35 +75,63 @@ data class Moment(var time: Instant) {
     fun toZonedDateTime(timeZoneOffset: ZoneOffset): ZonedDateTime = time.atZone(timeZoneOffset)
 
     /**
-     * Subtracts given [hours] from this moment.
+     * Returns a moment with the given [hours] subtracted.
      */
-    fun minusHours(hours: Long) {
-        time = time.minus(hours, ChronoUnit.HOURS)
-    }
+    fun minusHours(hours: Long): Moment = Moment(time.minus(hours, ChronoUnit.HOURS))
 
     /**
-     * Subtracts given [minutes] from this moment.
+     * Returns a moment with the given [minutes] subtracted.
      */
-    fun minusMinutes(minutes: Long) {
-        time = time.minus(minutes, ChronoUnit.MINUTES)
-    }
+    fun minusMinutes(minutes: Long): Moment = Moment(time.minus(minutes, ChronoUnit.MINUTES))
 
     /**
-     * Adds given [seconds] to this moment.
+     * Returns a moment with the given [seconds] added.
      */
-    fun plusSeconds(seconds: Long) {
-        time = time.plusSeconds(seconds)
-    }
+    fun plusSeconds(seconds: Long): Moment = Moment(time.plusSeconds(seconds))
 
     /**
-     * Adds given [minutes] to this moment.
+     * Returns a moment with the given [minutes] added.
      */
-    fun plusMinutes(minutes: Long) {
-        time = time.plus(minutes, ChronoUnit.MINUTES)
-    }
+    fun plusMinutes(minutes: Long): Moment = Moment(time.plus(minutes, ChronoUnit.MINUTES))
 
     /**
      * Returns true if this moment is before given [moment].
      */
     fun isBefore(moment: Moment): Boolean = time.toEpochMilli() < moment.toMilliseconds()
+
+    override fun equals(other: Any?): Boolean {
+        return time == (other as? Moment)?.time
+    }
+
+    override fun hashCode(): Int = time.hashCode()
+
+    override fun toString(): String = time.toString()
+
+    companion object {
+        /**
+         * Creates a time zone neutral [Moment] instance of current system clock.
+         */
+        @JvmStatic
+        fun now() = Moment(Instant.now())
+
+        /**
+         * Creates a time zone neutral [Moment] instance from given [milliseconds].
+         *
+         * @param milliseconds epoch millis to create instance from
+         */
+        @JvmStatic
+        fun ofEpochMilli(milliseconds: Long) = Moment(Instant.ofEpochMilli(milliseconds))
+
+        /**
+         * Creates a time zone neutral [Moment] instance from given [utcDate].
+         *
+         * @param utcDate must be in ISO-8601 date format, i.e. "yyyy-MM-dd"
+         */
+        fun parseDate(utcDate: String) = Moment(LocalDate.parse(utcDate).atStartOfDay().toInstant(ZoneOffset.UTC))
+
+        /**
+         * Creates a time zone neutral [Moment] instance from this [ZonedDateTime].
+         */
+        fun ZonedDateTime.toMoment() = Moment(this.withZoneSameInstant(ZoneOffset.UTC).toInstant())
+    }
 }

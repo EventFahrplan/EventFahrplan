@@ -36,9 +36,9 @@ public class DateInfos extends ArrayList<DateInfo> {
         if (isEmpty()) {
             return DateInfo.DAY_INDEX_NOT_FOUND;
         }
-        Moment today = new Moment();
-        today.minusHours(DAY_CHANGE_HOUR_DEFAULT);
-        today.minusMinutes(DAY_CHANGE_MINUTE_DEFAULT);
+        Moment today = Moment.now()
+                .minusHours(DAY_CHANGE_HOUR_DEFAULT)
+                .minusMinutes(DAY_CHANGE_MINUTE_DEFAULT);
 
         Moment currentDate = today.startOfDay();
 

@@ -8,22 +8,22 @@ class DateInfoTest {
 
     @Test
     fun isEqualToWithUnequalDayIndex() {
-        val dateInfo1 = DateInfo(1, Moment("2018-06-23"))
-        val dateInfo2 = DateInfo(2, Moment("2018-06-23"))
+        val dateInfo1 = DateInfo(1, Moment.parseDate("2018-06-23"))
+        val dateInfo2 = DateInfo(2, Moment.parseDate("2018-06-23"))
         assertThat(dateInfo1).isNotEqualTo(dateInfo2)
     }
 
     @Test
     fun isEqualToWithUnequalDate() {
-        val dateInfo1 = DateInfo(3, Moment("2018-06-24"))
-        val dateInfo2 = DateInfo(3, Moment("2018-06-25"))
+        val dateInfo1 = DateInfo(3, Moment.parseDate("2018-06-24"))
+        val dateInfo2 = DateInfo(3, Moment.parseDate("2018-06-25"))
         assertThat(dateInfo1).isNotEqualTo(dateInfo2)
     }
 
     @Test
     fun isEqualToWithEqualObjects() {
-        val dateInfo1 = DateInfo(1, Moment("2018-06-29"))
-        val dateInfo2 = DateInfo(1, Moment("2018-06-29"))
+        val dateInfo1 = DateInfo(1, Moment.parseDate("2018-06-29"))
+        val dateInfo2 = DateInfo(1, Moment.parseDate("2018-06-29"))
         assertThat(dateInfo1).isEqualTo(dateInfo2)
     }
 
