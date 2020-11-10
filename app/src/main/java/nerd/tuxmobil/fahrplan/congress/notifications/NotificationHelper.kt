@@ -32,13 +32,15 @@ internal class NotificationHelper(context: Context) : ContextWrapper(context) {
             contentIntent: PendingIntent,
             contentTitle: String,
             occurredAt: Long,
-            sound: Uri?
+            sound: Uri?,
+            deleteIntent: PendingIntent
     ): NotificationCompat.Builder =
             getNotificationBuilder(SESSION_ALARM_CHANNEL_ID, contentIntent, sessionAlarmContentText, sound)
                     .setCategory(NotificationCompat.CATEGORY_REMINDER)
                     .setContentTitle(contentTitle)
                     .setDefaults(Notification.DEFAULT_LIGHTS or Notification.DEFAULT_VIBRATE)
                     .setWhen(occurredAt)
+                    .setDeleteIntent(deleteIntent)
 
     fun getScheduleUpdateNotificationBuilder(
             contentIntent: PendingIntent,

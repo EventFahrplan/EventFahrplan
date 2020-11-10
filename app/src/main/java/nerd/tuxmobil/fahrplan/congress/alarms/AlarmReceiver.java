@@ -25,9 +25,18 @@ public final class AlarmReceiver extends BroadcastReceiver {
 
     public static final String ALARM_UPDATE = "nerd.tuxmobil.fahrplan.congress.ALARM_UPDATE";
 
+    private static final String ALARM_DISMISSED = "nerd.tuxmobil.fahrplan.congress.ALARM_DISMISSED";
+
     public static final String ALARM_DELETE = "de.machtnix.fahrplan.ALARM";
 
     private static final String LOG_TAG = "AlarmReceiver";
+
+    private static final String BUNDLE_KEY_NOTIFICATION_ID = "BUNDLE_KEY_NOTIFICATION_ID";
+    private static final int INVALID_NOTIFICATION_ID = -1;
+    private static final int DEFAULT_REQUEST_CODE = 0;
+    private static final int NO_FLAGS = 0;
+
+    private final AppRepository appRepository = AppRepository.INSTANCE;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -44,8 +53,6 @@ public final class AlarmReceiver extends BroadcastReceiver {
             String title = intent.getStringExtra(BundleKeys.ALARM_TITLE);
             //Toast.makeText(context, "Alarm worked.", Toast.LENGTH_LONG).show();
 
-            AppRepository appRepository = AppRepository.INSTANCE;
-
             int uniqueNotificationId = appRepository.createSessionAlarmNotificationId(sessionId);
             Intent launchIntent = MainActivity.createLaunchIntent(context, sessionId, day, uniqueNotificationId);
             PendingIntent contentIntent = PendingIntent
@@ -53,7 +60,13 @@ public final class AlarmReceiver extends BroadcastReceiver {
 
             NotificationHelper notificationHelper = new NotificationHelper(context);
             Uri soundUri = appRepository.readAlarmToneUri();
-            NotificationCompat.Builder builder = notificationHelper.getSessionAlarmNotificationBuilder(contentIntent, title, when, soundUri);
+
+            Intent deleteNotificationIntent = createDeleteNotificationIntent(context, uniqueNotificationId);
+            PendingIntent deleteBroadcastIntent = PendingIntent
+                    .getBroadcast(context, DEFAULT_REQUEST_CODE, deleteNotificationIntent, NO_FLAGS);
+
+            NotificationCompat.Builder builder = notificationHelper.getSessionAlarmNotificationBuilder(
+                    contentIntent, title, when, soundUri, deleteBroadcastIntent);
             boolean isInsistentAlarmsEnabled = appRepository.readInsistentAlarmsEnabled();
             MyApp.LogDebug(LOG_TAG, "Preference 'isInsistentAlarmsEnabled' = " + isInsistentAlarmsEnabled + ".");
             notificationHelper.notify(uniqueNotificationId, builder, isInsistentAlarmsEnabled);
@@ -61,9 +74,35 @@ public final class AlarmReceiver extends BroadcastReceiver {
             appRepository.deleteAlarmForSessionId(sessionId);
 
             appRepository.notifyAlarmsChanged();
+
+        } else if (intent.getAction().equals(ALARM_DISMISSED)) {
+            onSessionAlarmNotificationDismissed(intent);
+
         } else if (intent.getAction().equals(ALARM_UPDATE)) {
             UpdateService.start(context);
         }
+    }
+
+    private void onSessionAlarmNotificationDismissed(@NonNull Intent intent) {
+        int notificationId = intent.getIntExtra(BUNDLE_KEY_NOTIFICATION_ID, INVALID_NOTIFICATION_ID);
+        if (notificationId == INVALID_NOTIFICATION_ID) {
+            throw new IllegalStateException("Bundle does not contain NOTIFICATION_ID.");
+        }
+        appRepository.deleteSessionAlarmNotificationId(notificationId);
+    }
+
+    /**
+     * Returns a unique {@link Intent} to delete the data associated with the
+     * given session alarm {@code notificationId}.
+     * The {@code Intent} is composed with a fake data URI to comply with the uniqueness rules
+     * defined by {@link Intent#filterEquals}.
+     */
+    private static Intent createDeleteNotificationIntent(@NonNull Context context, int notificationId) {
+        Intent intent = new Intent(context, AlarmReceiver.class);
+        intent.setAction(ALARM_DISMISSED);
+        intent.putExtra(BUNDLE_KEY_NOTIFICATION_ID, notificationId);
+        intent.setData(Uri.parse("fake://" + notificationId));
+        return intent;
     }
 
     private static Intent getAddAlarmIntent(@NonNull Context context,
