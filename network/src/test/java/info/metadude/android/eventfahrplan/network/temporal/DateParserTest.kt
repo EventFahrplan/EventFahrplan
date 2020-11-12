@@ -111,4 +111,45 @@ class DateParserTest {
         assertThat(DateParser.getDayChange("2020-03-29T03:00:00+02:00")).isEqualTo(60)
     }
 
+    @Test
+    fun `getMinutes returns 0 minutes for 00_00`() {
+        assertThat(DateParser.getMinutes("00:00")).isEqualTo(0)
+    }
+
+    @Test
+    fun `getMinutes returns 30 minutes for 00_30`() {
+        assertThat(DateParser.getMinutes("00:30")).isEqualTo(30)
+    }
+
+    @Test
+    fun `getMinutes returns 90 minutes for 1_30`() {
+        assertThat(DateParser.getMinutes("1:30")).isEqualTo(90)
+    }
+
+    @Test
+    fun `getMinutes returns 135 minutes for 2_15_00`() {
+        assertThat(DateParser.getMinutes("2:15:00")).isEqualTo(135)
+    }
+
+    @Test
+    fun `getMinutes returns 300 minutes for 05_00`() {
+        assertThat(DateParser.getMinutes("05:00")).isEqualTo(300)
+    }
+
+    @Test
+    fun `getMinutes returns 540 minutes for 09_00_00`() {
+        // <day_change> value from Pentabarf schedule.xml
+        assertThat(DateParser.getMinutes("09:00:00")).isEqualTo(540)
+    }
+
+    @Test
+    fun `getMinutes returns 1020 minutes for 17_00`() {
+        assertThat(DateParser.getMinutes("17:00")).isEqualTo(1020)
+    }
+
+    @Test
+    fun `getMinutes returns 1439 minutes for 23_59`() {
+        assertThat(DateParser.getMinutes("23:59")).isEqualTo(1439)
+    }
+
 }

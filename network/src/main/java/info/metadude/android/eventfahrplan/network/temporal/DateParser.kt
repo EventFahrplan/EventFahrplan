@@ -5,6 +5,7 @@ import org.threeten.bp.Instant
 import org.threeten.bp.LocalDate
 import org.threeten.bp.ZoneOffset
 import org.threeten.bp.format.DateTimeFormatter
+import org.threeten.bp.temporal.ChronoField
 
 class DateParser {
 
@@ -37,5 +38,20 @@ class DateParser {
             val timeUTC = getDateTime(text)
             return Moment.ofEpochMilli(timeUTC).minuteOfDay
         }
+
+        /**
+         * Returns an integer value representing the minutes of the given [hoursMinutes] text.
+         * Expected format of the [hoursMinutes] text is hh:mm.
+         *
+         * Examples:
+         * - 00:30 -> 30
+         * -  1:30 -> 90
+         * - 23:59 -> 1439
+         */
+        @JvmStatic
+        fun getMinutes(hoursMinutes: String): Int {
+            return DateTimeFormatter.ofPattern("H:mm[:ss]").parse(hoursMinutes).get(ChronoField.MINUTE_OF_DAY)
+        }
+
     }
 }
