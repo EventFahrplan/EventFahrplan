@@ -41,6 +41,7 @@ import nerd.tuxmobil.fahrplan.congress.sharing.SimpleSessionFormat;
 import nerd.tuxmobil.fahrplan.congress.utils.ActivityHelper;
 import nerd.tuxmobil.fahrplan.congress.utils.ConfirmationDialog;
 
+import static info.metadude.android.eventfahrplan.commons.temporal.Moment.MILLISECONDS_OF_ONE_MINUTE;
 import static nerd.tuxmobil.fahrplan.congress.extensions.ViewExtensions.requireViewByIdCompat;
 
 
@@ -157,7 +158,7 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
         int numSeparators = 0;
         for (i = 0; i < starredList.size(); i++) {
             Session session = starredList.get(i);
-            if (session.dateUTC + session.duration * 60000 > nowMillis) {
+            if (session.dateUTC + session.duration * MILLISECONDS_OF_ONE_MINUTE > nowMillis) {
                 numSeparators = session.day;
                 break;
             }

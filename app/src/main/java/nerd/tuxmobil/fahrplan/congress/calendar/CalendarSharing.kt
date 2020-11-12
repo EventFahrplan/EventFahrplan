@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.provider.CalendarContract
 import android.widget.Toast
+import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MILLISECONDS_OF_ONE_MINUTE
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.extensions.startActivity
 import nerd.tuxmobil.fahrplan.congress.extensions.withExtras
@@ -29,7 +30,7 @@ private fun Session.toCalendarInsertIntent(context: Context): Intent {
     val description = this.getCalendarDescription(context)
     val location = this.room
     val startTime = startTimeMilliseconds
-    val endTime = startTime + this.duration * 60000
+    val endTime = startTime + this.duration * MILLISECONDS_OF_ONE_MINUTE
     return Intent(Intent.ACTION_INSERT, CalendarContract.Events.CONTENT_URI).withExtras(
             CalendarContract.Events.TITLE to title,
             CalendarContract.Events.DESCRIPTION to description,

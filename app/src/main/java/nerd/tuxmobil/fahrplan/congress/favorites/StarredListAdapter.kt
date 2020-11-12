@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import info.metadude.android.eventfahrplan.commons.temporal.DateFormatter
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
+import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MILLISECONDS_OF_ONE_MINUTE
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.base.SessionsAdapter
 import nerd.tuxmobil.fahrplan.congress.extensions.textOrHide
@@ -64,7 +65,7 @@ class StarredListAdapter internal constructor(
     }
 
     private val Session.tookPlace
-        get() = dateUTC + duration * 60000 < Moment.now().toMilliseconds()
+        get() = dateUTC + duration * MILLISECONDS_OF_ONE_MINUTE < Moment.now().toMilliseconds()
 
     private fun TextView.setPastSessionTextColor() = setTextColor(pastSessionTextColor)
 

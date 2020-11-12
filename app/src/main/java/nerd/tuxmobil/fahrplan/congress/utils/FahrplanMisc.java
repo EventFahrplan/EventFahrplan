@@ -29,6 +29,8 @@ import nerd.tuxmobil.fahrplan.congress.models.SchedulableAlarm;
 import nerd.tuxmobil.fahrplan.congress.models.Session;
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 
+import static info.metadude.android.eventfahrplan.commons.temporal.Moment.MILLISECONDS_OF_ONE_MINUTE;
+
 
 public class FahrplanMisc {
 
@@ -77,7 +79,7 @@ public class FahrplanMisc {
 
         long sessionStartTime = session.getStartTimeMilliseconds();
 
-        long alarmTimeOffset = alarmTimes.get(alarmTimesIndex) * 60 * 1000L;
+        long alarmTimeOffset = alarmTimes.get(alarmTimesIndex) * (long) MILLISECONDS_OF_ONE_MINUTE;
         long alarmTime = sessionStartTime - alarmTimeOffset;
 
         Moment moment = Moment.ofEpochMilli(alarmTime);

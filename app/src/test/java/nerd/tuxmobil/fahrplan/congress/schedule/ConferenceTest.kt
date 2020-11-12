@@ -1,6 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.schedule
 
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
+import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MINUTES_OF_ONE_DAY
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
@@ -20,7 +21,7 @@ class ConferenceTest {
         with(Conference()) {
             calculateTimeFrame(listOf(opening, closing)) { dateUTC: Long -> Moment.ofEpochMilli(dateUTC).minuteOfDay }
             assertThat(firstSessionStartsAt).isEqualTo(17 * 60 - 2 * 60) // 17:00h -2h zone offset = 15:00h
-            assertThat(lastSessionEndsAt).isEqualTo(1035 - 2 * 60 + Conference.ONE_DAY) // -> 17:15 -2h zone offset + day switch
+            assertThat(lastSessionEndsAt).isEqualTo(1035 - 2 * 60 + MINUTES_OF_ONE_DAY) // -> 17:15 -2h zone offset + day switch
         }
     }
 

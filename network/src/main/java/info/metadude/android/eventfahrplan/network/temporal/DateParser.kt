@@ -1,6 +1,7 @@
 package info.metadude.android.eventfahrplan.network.temporal
 
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
+import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MILLISECONDS_OF_ONE_SECOND
 import org.threeten.bp.Instant
 import org.threeten.bp.LocalDate
 import org.threeten.bp.ZoneOffset
@@ -21,11 +22,11 @@ class DateParser {
         fun getDateTime(text: String) = if (text.length > 10) {
             val parsed = Instant.from(DateTimeFormatter.ISO_DATE_TIME.parse(text))
             val atUTCOffset = parsed.atOffset(ZoneOffset.UTC)
-            atUTCOffset.toEpochSecond() * 1000
+            atUTCOffset.toEpochSecond() * MILLISECONDS_OF_ONE_SECOND
         } else {
             val parsed = LocalDate.parse(text)
             val atUTCOffset = parsed.atTime(0, 0).atOffset(ZoneOffset.UTC)
-            atUTCOffset.toEpochSecond() * 1000
+            atUTCOffset.toEpochSecond() * MILLISECONDS_OF_ONE_SECOND
         }
 
         /**
