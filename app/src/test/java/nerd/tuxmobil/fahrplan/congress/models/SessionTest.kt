@@ -319,4 +319,22 @@ class SessionTest {
         assertThat(session.startTimeMilliseconds).isEqualTo(1584662400000L)
     }
 
+    @Test
+    fun `endsAtTime sums startTime and duration`() {
+        val session = Session("").apply {
+            startTime = 300
+            duration = 30
+        }
+        assertThat(session.endsAtTime).isEqualTo(330)
+    }
+
+    @Test
+    fun `endsAtDateUtc sums dateUTC and duration`() {
+        val session = Session("").apply {
+            dateUTC = 10_000
+            duration = 60
+        }
+        assertThat(session.endsAtDateUtc).isEqualTo(3_610_000L)
+    }
+
 }

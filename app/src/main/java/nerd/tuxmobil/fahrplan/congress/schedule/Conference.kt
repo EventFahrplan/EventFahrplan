@@ -1,7 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress.schedule
 
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
-import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MILLISECONDS_OF_ONE_MINUTE
 import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MINUTES_OF_ONE_DAY
 import nerd.tuxmobil.fahrplan.congress.models.Session
 
@@ -39,7 +38,7 @@ data class Conference(
         for (session in sessions) {
             if (firstSessionDateUtc > 0) {
                 // Frab
-                val sessionEndsAt = session.dateUTC + session.duration * MILLISECONDS_OF_ONE_MINUTE
+                val sessionEndsAt = session.endsAtDateUtc
                 if (end == 0L) {
                     end = sessionEndsAt
                 } else if (sessionEndsAt > end) {

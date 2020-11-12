@@ -89,8 +89,7 @@ data class LayoutCalculator @JvmOverloads constructor(
         val next = sessions.getOrNull(sessionIndex + 1)
 
         if (next != null && next.dateUTC > 0) {
-            val endTimestamp = session.dateUTC + session.duration * MILLISECONDS_OF_ONE_MINUTE
-            val nextStartsBeforeCurrentEnds = endTimestamp > next.dateUTC
+            val nextStartsBeforeCurrentEnds = session.endsAtDateUtc > next.dateUTC
             if (nextStartsBeforeCurrentEnds) {
                 logging.d(LOG_TAG, """Collision: "${session.title}" + "${next.title}"""")
                 // cut current at the end, to match next sessions start time

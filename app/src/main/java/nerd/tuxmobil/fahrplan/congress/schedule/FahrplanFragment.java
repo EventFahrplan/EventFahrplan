@@ -449,7 +449,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
             if (columnIndex >= 0 && columnIndex < roomDataList.size()) {
                 RoomData roomData = roomDataList.get(columnIndex);
                 for (Session session : roomData.getSessions()) {
-                    if (session.startTime <= time && session.startTime + session.duration > time) {
+                    if (session.startTime <= time && session.getEndsAtTime() > time) {
                         MyApp.LogDebug(LOG_TAG, session.title);
                         MyApp.LogDebug(LOG_TAG, time + " " + session.startTime + "/" + session.duration);
                         scrollAmount -= ((time - session.startTime) / 5) * boxHeight;
