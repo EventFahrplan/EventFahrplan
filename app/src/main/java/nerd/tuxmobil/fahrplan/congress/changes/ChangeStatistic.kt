@@ -6,12 +6,22 @@ import nerd.tuxmobil.fahrplan.congress.models.Session
 /**
  * Statistic about session changes (canceled, changed, new).
  */
-class ChangeStatistic @JvmOverloads constructor(
+class ChangeStatistic private constructor(
 
         val sessions: List<Session>,
-        val logging: Logging = Logging.get()
+        val logging: Logging
 
 ) {
+
+    companion object {
+
+        @JvmStatic
+        @JvmOverloads
+        fun of(sessions: List<Session>, logging: Logging = Logging.get()): ChangeStatistic {
+            return ChangeStatistic(sessions, logging)
+        }
+
+    }
 
     /**
      * Returns how many sessions are marked as [canceled][Session.changedIsCanceled].

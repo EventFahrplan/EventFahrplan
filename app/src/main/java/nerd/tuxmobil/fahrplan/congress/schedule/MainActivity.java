@@ -337,7 +337,7 @@ public class MainActivity extends BaseActivity implements
             List<Session> sessions = appRepository.loadChangedSessions();
             Meta meta = appRepository.readMeta();
             String scheduleVersion = meta.getVersion();
-            ChangeStatistic statistic = new ChangeStatistic(sessions);
+            ChangeStatistic statistic = ChangeStatistic.of(sessions);
             DialogFragment changesDialog = ChangesDialog.newInstance(scheduleVersion, statistic);
             changesDialog.show(getSupportFragmentManager(), ChangesDialog.FRAGMENT_TAG);
         }

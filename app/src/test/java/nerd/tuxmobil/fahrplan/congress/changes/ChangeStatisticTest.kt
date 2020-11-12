@@ -124,6 +124,6 @@ class ChangeStatisticTest {
     }
 
     @Suppress("TestFunctionName") // Fake constructor to avoid repetition.
-    private fun ChangeStatistic(sessions: List<Session>) = ChangeStatistic(sessions, NoLogging)
+    private fun ChangeStatistic(sessions: List<Session>) = ChangeStatistic.of(sessions, NoLogging)
 
 }
