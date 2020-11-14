@@ -432,7 +432,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
 
             TimeSegment timeSegment;
             while (time < conference.getLastSessionEndsAt()) {
-                timeSegment = new TimeSegment(printTime);
+                timeSegment = TimeSegment.ofMinutesOfTheDay(printTime);
                 if (timeSegment.isMatched(nowMoment, FIFTEEN_MINUTES)) {
                     break;
                 } else {
@@ -528,7 +528,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
         int timeTextViewHeight = 3 * getNormalizedBoxHeight(getResources(), scale, LOG_TAG);
         TimeSegment timeSegment;
         while (time < conference.getLastSessionEndsAt()) {
-            timeSegment = new TimeSegment(printTime);
+            timeSegment = TimeSegment.ofMinutesOfTheDay(printTime);
             int timeTextLayout;
             if (isToday(nowMoment) && timeSegment.isMatched(nowMoment, FIFTEEN_MINUTES)) {
                 timeTextLayout = R.layout.time_layout_now;
