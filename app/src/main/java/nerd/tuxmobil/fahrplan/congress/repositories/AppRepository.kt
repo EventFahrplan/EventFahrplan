@@ -2,6 +2,7 @@ package nerd.tuxmobil.fahrplan.congress.repositories
 
 import android.content.Context
 import android.net.Uri
+import info.metadude.android.eventfahrplan.commons.extensions.onFailure
 import info.metadude.android.eventfahrplan.commons.logging.Logging
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import info.metadude.android.eventfahrplan.database.extensions.toContentValues
@@ -377,6 +378,24 @@ object AppRepository {
         val sessionsDatabaseModel = sessions.toSessionsDatabaseModel()
         val list = sessionsDatabaseModel.map { it.toContentValues() }
         sessionsDatabaseRepository.insert(list)
+    }
+
+    /**
+     * Returns a unique session alarm notification ID for the given [session ID][sessionId].
+     */
+    fun createSessionAlarmNotificationId(sessionId: String): Int {
+        val values = sessionId.toContentValues()
+        return sessionsDatabaseRepository.insertSessionId(values)
+    }
+
+    /**
+     * Deletes data associated with the given session alarm [notificationId] and
+     * returns a boolean value indicating the success or failure of this operation.
+     */
+    fun deleteSessionAlarmNotificationId(notificationId: Int): Boolean {
+        return (sessionsDatabaseRepository.deleteSessionIdByNotificationId(notificationId) > 0).onFailure {
+            logging.e(javaClass.simpleName, "Failure deleting sessionId for notificationId = $notificationId")
+        }
     }
 
     fun readMeta() =

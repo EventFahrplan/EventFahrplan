@@ -76,6 +76,7 @@ public class MainActivity extends BaseActivity implements
         ConfirmationDialog.OnConfirmationDialogClicked {
 
     private static final String LOG_TAG = "MainActivity";
+    private static final int INVALID_NOTIFICATION_ID = -1;
 
     private ProgressDialog progress = null;
 
@@ -153,6 +154,8 @@ public class MainActivity extends BaseActivity implements
         }
 
         Engagements.initUserEngagement(this);
+
+        onSessionAlarmNotificationTapped(getIntent());
     }
 
     @Override
@@ -160,6 +163,14 @@ public class MainActivity extends BaseActivity implements
         super.onNewIntent(intent);
         MyApp.LogDebug(LOG_TAG, "onNewIntent");
         setIntent(intent);
+        onSessionAlarmNotificationTapped(intent);
+    }
+
+    private void onSessionAlarmNotificationTapped(@NonNull Intent intent) {
+        int notificationId = intent.getIntExtra(BundleKeys.BUNDLE_KEY_SESSION_ALARM_NOTIFICATION_ID, INVALID_NOTIFICATION_ID);
+        if (notificationId != INVALID_NOTIFICATION_ID) {
+            appRepository.deleteSessionAlarmNotificationId(notificationId);
+        }
     }
 
     public void onGotResponse(@NonNull FetchScheduleResult fetchScheduleResult) {
@@ -546,11 +557,13 @@ public class MainActivity extends BaseActivity implements
     public static Intent createLaunchIntent(
             @NonNull Context context,
             @NonNull String sessionId,
-            int dayIndex
+            int dayIndex,
+            int notificationId
     ) {
         Intent intent = new Intent(context, MainActivity.class);
         intent.putExtra(BundleKeys.BUNDLE_KEY_SESSION_ALARM_SESSION_ID, sessionId);
         intent.putExtra(BundleKeys.BUNDLE_KEY_SESSION_ALARM_DAY_INDEX, dayIndex);
+        intent.putExtra(BundleKeys.BUNDLE_KEY_SESSION_ALARM_NOTIFICATION_ID, notificationId);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
         return intent;
     }

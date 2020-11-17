@@ -1,6 +1,8 @@
 package info.metadude.android.eventfahrplan.database.extensions
 
+import android.content.ContentValues
 import androidx.core.content.contentValuesOf
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionByNotificationIdTable
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.ABSTRACT
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_DAY
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_DURATION
@@ -75,4 +77,11 @@ fun Session.toContentValues() = contentValuesOf(
         CHANGED_TIME to changedTime,
         CHANGED_TITLE to changedTitle,
         CHANGED_TRACK to changedTrack
+)
+
+/**
+ * Converts a session ID into [ContentValues].
+ */
+fun String.toContentValues() = contentValuesOf(
+        SessionByNotificationIdTable.Columns.SESSION_ID to this
 )

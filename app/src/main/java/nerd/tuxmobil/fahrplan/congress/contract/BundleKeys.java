@@ -17,6 +17,8 @@ public interface BundleKeys {
             "nerd.tuxmobil.fahrplan.congress.SESSION_ALARM_SESSION_ID";
     String BUNDLE_KEY_SESSION_ALARM_DAY_INDEX =
             "nerd.tuxmobil.fahrplan.congress.SESSION_ALARM_DAY_INDEX";
+    String BUNDLE_KEY_SESSION_ALARM_NOTIFICATION_ID =
+            "nerd.tuxmobil.fahrplan.congress.SESSION_ALARM_NOTIFICATION_ID";
 
     // Session details
     String SESSION_ID =

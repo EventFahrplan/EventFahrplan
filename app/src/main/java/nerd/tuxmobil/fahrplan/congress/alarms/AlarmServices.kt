@@ -21,7 +21,7 @@ class AlarmServices @JvmOverloads constructor(
 ) {
 
     /**
-     * Schedules the given [alarm] via the [android.app.AlarmManager].
+     * Schedules the given [alarm] via the [AlarmManager].
      * Existing alarms for the associated session are discarded if configured via [discardExisting].
      */
     @JvmOverloads
@@ -44,7 +44,7 @@ class AlarmServices @JvmOverloads constructor(
     }
 
     /**
-     * Discards the given [alarm] via the [android.app.AlarmManager].
+     * Discards the given [alarm] via the [AlarmManager].
      */
     fun discardSessionAlarm(context: Context, alarm: SchedulableAlarm) {
         val intent = AlarmReceiver.AlarmIntentBuilder()
@@ -61,7 +61,7 @@ class AlarmServices @JvmOverloads constructor(
     }
 
     /**
-     * Discards an internal alarm used for automatic schedule updates via the [android.app.AlarmManager].
+     * Discards an internal alarm used for automatic schedule updates via the [AlarmManager].
      */
     fun discardAutoUpdateAlarm(context: Context) {
         val intent = Intent(context, AlarmReceiver::class.java)

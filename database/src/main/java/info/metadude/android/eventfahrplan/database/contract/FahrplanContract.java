@@ -71,6 +71,18 @@ public interface FahrplanContract {
 
     }
 
+    interface SessionByNotificationIdTable {
+
+        String NAME = "session_by_notification_id";
+
+        interface Columns extends BaseColumns {
+
+            /* 00 */ String SESSION_ID = "session_id";
+
+        }
+
+    }
+
     interface SessionsTable {
 
         String NAME = "lectures"; // Keep table name to avoid database migration.
