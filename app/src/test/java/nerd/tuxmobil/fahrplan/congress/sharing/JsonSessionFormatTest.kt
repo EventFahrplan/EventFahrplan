@@ -23,13 +23,13 @@ class JsonSessionFormatTest {
         assertThat(json).isEqualTo(EXPECTED_JSON_LIST)
     }
 
-    companion object {
+    private companion object {
 
-        private const val EXPECTED_JSON_SINGLE = "{\"lectures\":[{\"lecture_id\":\"session1\"," +
+        const val EXPECTED_JSON_SINGLE = "{\"lectures\":[{\"lecture_id\":\"session1\"," +
                 "\"title\":\"\",\"subtitle\":\"\",\"day\":0,\"room\":\"\",\"slug\":\"\"," +
                 "\"speakers\":\"\",\"track\":\"\",\"type\":\"\",\"lang\":\"\",\"abstract\":\"\"," +
                 "\"description\":\"\",\"links\":\"\"}]}"
-        private const val EXPECTED_JSON_LIST = "{\"lectures\":[{\"lecture_id\":\"session1\"," +
+        const val EXPECTED_JSON_LIST = "{\"lectures\":[{\"lecture_id\":\"session1\"," +
                 "\"title\":\"\",\"subtitle\":\"\",\"day\":0,\"room\":\"\",\"slug\":\"\"," +
                 "\"speakers\":\"\",\"track\":\"\",\"type\":\"\",\"lang\":\"\",\"abstract\":\"\"," +
                 "\"description\":\"\",\"links\":\"\"},{\"lecture_id\":\"session2\",\"title\":\"\"," +

@@ -7,35 +7,35 @@ import org.junit.Test
 
 class SessionUrlComposerTest {
 
-    companion object {
+    private companion object {
 
-        private const val FRAB_SESSION_URL_TEMPLATE =
+        const val FRAB_SESSION_URL_TEMPLATE =
                 "https://fahrplan.events.ccc.de/congress/2018/Fahrplan/events/%1\$s.html"
 
-        private const val PENTABARF_SESSION_URL_TEMPLATE =
+        const val PENTABARF_SESSION_URL_TEMPLATE =
                 "https://fosdem.org/2018/schedule/event/%1\$s/"
 
-        private val PENTABARF_SESSION = Session("7294").apply {
+        val PENTABARF_SESSION = Session("7294").apply {
             url = ""
             slug = "keynotes_welcome"
         }
 
-        private val FRAB_SESSION = Session("9985").apply {
+        val FRAB_SESSION = Session("9985").apply {
             url = "https://fahrplan.events.ccc.de/congress/2018/Fahrplan/events/9985.html"
             slug = "35c3-9985-opening_ceremony"
         }
 
-        private val PRETALX_SESSION = Session("32").apply {
+        val PRETALX_SESSION = Session("32").apply {
             url = "https://fahrplan.chaos-west.de/35c3chaoswest/talk/KDYQEB"
             slug = "KDYQEB"
         }
 
-        private val ENGELSYSTEM_SHIFT_SESSION_WITHOUT_URL = Session("7771").apply {
+        val ENGELSYSTEM_SHIFT_SESSION_WITHOUT_URL = Session("7771").apply {
             room = AppRepository.ENGELSYSTEM_ROOM_NAME
             url = ""
         }
 
-        private val ENGELSYSTEM_SHIFT_SESSION_WITH_URL = Session("7772").apply {
+        val ENGELSYSTEM_SHIFT_SESSION_WITH_URL = Session("7772").apply {
             room = AppRepository.ENGELSYSTEM_ROOM_NAME
             url = "https://helpful.to/the/angel"
         }

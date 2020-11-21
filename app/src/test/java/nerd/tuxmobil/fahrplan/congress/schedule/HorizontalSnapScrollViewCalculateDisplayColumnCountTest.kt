@@ -20,9 +20,9 @@ class HorizontalSnapScrollViewCalculateDisplayColumnCountTest(
         @Suppress("unused") private val testDescription: String
 ) {
 
-    companion object {
+    private companion object {
 
-        private class Device(
+        class Device(
                 val title: String,
                 private val availableHeightInDip: Int,
                 private val availableWidthInDip: Int,
@@ -31,7 +31,7 @@ class HorizontalSnapScrollViewCalculateDisplayColumnCountTest(
             fun getAvailablePixel(isPortraitMode: Boolean) = if (isPortraitMode) availableHeightInDip else availableWidthInDip
         }
 
-        private fun scenario(
+        fun scenario(
                 device: Device,
                 isPortraitMode: Boolean,
                 totalColumnCount: Int,
@@ -53,36 +53,36 @@ class HorizontalSnapScrollViewCalculateDisplayColumnCountTest(
         }
 
         // Device metrics are retrieved from debugging values at the actual devices.
-        private val nexus5 = Device("Nexus 5", availableHeightInDip = 978, availableWidthInDip = 1706, screenDensity = 3.0f)
-        private val pixel2 = Device("Pixel 2", availableHeightInDip = 993, availableWidthInDip = 1731, screenDensity = 2.625f)
-        private val nexus9 = Device("Nexus 9", availableHeightInDip = 1462, availableWidthInDip = 1974, screenDensity = 2.0f)
+        val nexus5 = Device("Nexus 5", availableHeightInDip = 978, availableWidthInDip = 1706, screenDensity = 3.0f)
+        val pixel2 = Device("Pixel 2", availableHeightInDip = 993, availableWidthInDip = 1731, screenDensity = 2.625f)
+        val nexus9 = Device("Nexus 9", availableHeightInDip = 1462, availableWidthInDip = 1974, screenDensity = 2.0f)
 
         /**
          * See [R.integer.min_width_dip]
          */
-        private const val MIN_COLUMN_WIDTH_140_DIP = 140
+        const val MIN_COLUMN_WIDTH_140_DIP = 140
 
         /**
          * See [R.integer.min_width_dip]
          */
-        private const val MIN_COLUMN_WIDTH_160_DIP = 160
+        const val MIN_COLUMN_WIDTH_160_DIP = 160
 
         /**
          * See [R.integer.max_cols]
          */
-        private const val MAX_COLUMN_COUNT_FOR_LAYOUT_1 = 1
+        const val MAX_COLUMN_COUNT_FOR_LAYOUT_1 = 1
 
         /**
          * See [R.integer.max_cols]
          */
-        private const val MAX_COLUMN_COUNT_FOR_LAYOUT_4 = 4
+        const val MAX_COLUMN_COUNT_FOR_LAYOUT_4 = 4
 
         /**
          * See [R.integer.max_cols]
          */
-        private const val MAX_COLUMN_COUNT_FOR_LAYOUT_6 = 6
+        const val MAX_COLUMN_COUNT_FOR_LAYOUT_6 = 6
 
-        private fun pixel2Portrait(totalColumnCount: Int, @Suppress("SameParameterValue") calculatedColumnCount: Int) = scenario(
+        fun pixel2Portrait(totalColumnCount: Int, @Suppress("SameParameterValue") calculatedColumnCount: Int) = scenario(
                 device = pixel2,
                 isPortraitMode = true,
                 totalColumnCount = totalColumnCount,
@@ -91,7 +91,7 @@ class HorizontalSnapScrollViewCalculateDisplayColumnCountTest(
                 calculatedColumnCount = calculatedColumnCount
         )
 
-        private fun pixel2Landscape(totalColumnCount: Int, calculatedColumnCount: Int) = scenario(
+        fun pixel2Landscape(totalColumnCount: Int, calculatedColumnCount: Int) = scenario(
                 device = pixel2,
                 isPortraitMode = false,
                 totalColumnCount = totalColumnCount,
@@ -100,7 +100,7 @@ class HorizontalSnapScrollViewCalculateDisplayColumnCountTest(
                 calculatedColumnCount = calculatedColumnCount
         )
 
-        private fun nexus5Portrait(totalColumnCount: Int, @Suppress("SameParameterValue") calculatedColumnCount: Int) = scenario(
+        fun nexus5Portrait(totalColumnCount: Int, @Suppress("SameParameterValue") calculatedColumnCount: Int) = scenario(
                 device = nexus5,
                 isPortraitMode = true,
                 totalColumnCount = totalColumnCount,
@@ -109,7 +109,7 @@ class HorizontalSnapScrollViewCalculateDisplayColumnCountTest(
                 calculatedColumnCount = calculatedColumnCount
         )
 
-        private fun nexus5Landscape(totalColumnCount: Int, calculatedColumnCount: Int) = scenario(
+        fun nexus5Landscape(totalColumnCount: Int, calculatedColumnCount: Int) = scenario(
                 device = nexus5,
                 isPortraitMode = false,
                 totalColumnCount = totalColumnCount,
@@ -118,7 +118,7 @@ class HorizontalSnapScrollViewCalculateDisplayColumnCountTest(
                 calculatedColumnCount = calculatedColumnCount
         )
 
-        private fun nexus9Portrait(totalColumnCount: Int, calculatedColumnCount: Int) = scenario(
+        fun nexus9Portrait(totalColumnCount: Int, calculatedColumnCount: Int) = scenario(
                 device = nexus9,
                 isPortraitMode = true,
                 totalColumnCount = totalColumnCount,
@@ -127,7 +127,7 @@ class HorizontalSnapScrollViewCalculateDisplayColumnCountTest(
                 calculatedColumnCount = calculatedColumnCount
         )
 
-        private fun nexus9Landscape(totalColumnCount: Int, calculatedColumnCount: Int) = scenario(
+        fun nexus9Landscape(totalColumnCount: Int, calculatedColumnCount: Int) = scenario(
                 device = nexus9,
                 isPortraitMode = false,
                 totalColumnCount = totalColumnCount,

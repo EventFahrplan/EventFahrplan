@@ -41,9 +41,9 @@ class FeedbackUrlComposer(
     private val Session.pretalxScheduleFeedbackUrl
         get() = "$url$PRETALX_SCHEDULE_FEEDBACK_URL_SUFFIX"
 
-    companion object {
-        private const val NO_URL = ""
-        private const val PRETALX_SCHEDULE_FEEDBACK_URL_SUFFIX = "feedback/"
+    private companion object {
+        const val NO_URL = ""
+        const val PRETALX_SCHEDULE_FEEDBACK_URL_SUFFIX = "feedback/"
     }
 
 }

@@ -11,9 +11,9 @@ import nerd.tuxmobil.fahrplan.congress.base.BaseActivity
 
 class SettingsActivity : BaseActivity(R.layout.settings) {
 
-    companion object {
+    private companion object {
 
-        private const val LOG_TAG = "SettingsActivity"
+        const val LOG_TAG = "SettingsActivity"
 
     }
 

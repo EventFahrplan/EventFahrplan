@@ -7,21 +7,21 @@ import org.junit.Test
 
 class FeedbackUrlComposerTest {
 
-    companion object {
+    private companion object {
 
-        private const val FRAB_SCHEDULE_FEEDBACK_URL = "https://frab.cccv.de/en/35C3/public/events/%s/feedback/new"
+        const val FRAB_SCHEDULE_FEEDBACK_URL = "https://frab.cccv.de/en/35C3/public/events/%s/feedback/new"
 
-        private val FRAB_SESSION = Session("9985").apply {
+        val FRAB_SESSION = Session("9985").apply {
             url = "https://fahrplan.events.ccc.de/congress/2018/Fahrplan/events/9985.html"
             slug = "35c3-9985-opening_ceremony"
         }
 
-        private val PRETALX_SESSION = Session("202").apply {
+        val PRETALX_SESSION = Session("202").apply {
             url = "https://talks.mrmcd.net/2019/talk/9XL7SP/"
             slug = "2019-202-board-games-of-medieval-europe"
         }
 
-        private val WIKI_SESSION = Session("1346").apply {
+        val WIKI_SESSION = Session("1346").apply {
             track = WIKI_SESSION_TRACK_NAME
             url = "https://events.ccc.de/congress/2019/wiki/index.php/Session:Mobile_Apps"
         }
