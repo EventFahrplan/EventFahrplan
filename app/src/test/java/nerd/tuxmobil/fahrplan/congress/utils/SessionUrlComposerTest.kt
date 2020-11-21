@@ -15,8 +15,12 @@ class SessionUrlComposerTest {
         const val PENTABARF_SESSION_URL_TEMPLATE =
                 "https://fosdem.org/2018/schedule/event/%1\$s/"
 
+        const val NO_URL = ""
+        const val NO_SESSION_URL_TEMPLATE = ""
+        const val NO_SERVER_BACKEND_TYPE = ""
+
         val PENTABARF_SESSION = Session("7294").apply {
-            url = ""
+            url = NO_URL
             slug = "keynotes_welcome"
         }
 
@@ -32,7 +36,7 @@ class SessionUrlComposerTest {
 
         val ENGELSYSTEM_SHIFT_SESSION_WITHOUT_URL = Session("7771").apply {
             room = AppRepository.ENGELSYSTEM_ROOM_NAME
-            url = ""
+            url = NO_URL
         }
 
         val ENGELSYSTEM_SHIFT_SESSION_WITH_URL = Session("7772").apply {
@@ -45,7 +49,7 @@ class SessionUrlComposerTest {
     @Test
     fun getSessionUrlWithUnknownBackend() {
         try {
-            SessionUrlComposer(FRAB_SESSION, "", "").getSessionUrl()
+            SessionUrlComposer(FRAB_SESSION, NO_SESSION_URL_TEMPLATE, NO_SERVER_BACKEND_TYPE).getSessionUrl()
         } catch (e: NotImplementedError) {
             assertThat(e.message).isEqualTo("Unknown server backend type: ''")
         }
@@ -71,7 +75,7 @@ class SessionUrlComposerTest {
 
     @Test
     fun getSessionUrlWithPretalxSessionWithPretalxBackend() {
-        assertThat(SessionUrlComposer(PRETALX_SESSION, "", ServerBackendType.PRETALX.name)
+        assertThat(SessionUrlComposer(PRETALX_SESSION, NO_SESSION_URL_TEMPLATE, ServerBackendType.PRETALX.name)
                 .getSessionUrl()).isEqualTo("https://fahrplan.chaos-west.de/35c3chaoswest/talk/KDYQEB")
     }
 
@@ -84,7 +88,7 @@ class SessionUrlComposerTest {
     @Test
     fun getSessionUrlWithShiftSessionWithoutUrl() {
         assertThat(SessionUrlComposer(ENGELSYSTEM_SHIFT_SESSION_WITHOUT_URL, FRAB_SESSION_URL_TEMPLATE, ServerBackendType.FRAB.name, setOf(AppRepository.ENGELSYSTEM_ROOM_NAME))
-                .getSessionUrl()).isEqualTo("")
+                .getSessionUrl()).isEqualTo(NO_URL)
     }
 
 }
