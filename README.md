@@ -98,7 +98,7 @@ Andrea Marziali, Andy Scherzinger, Andreas Schildbach, Animesh Verma,
 bashtian, bjoernb, Björn Olsson Jarl, ButterflyOfFire, cacarrara,
 Caio Volpato, cketti, codingcatgirl, entropynil, ideadapt, koelnkalkverbot,
 Larissa Yasin, ligi, Mateus Baptista, Matthias Hunstock, MichaelRocks,
-Nghiem Xuan Hien, NiciDieNase, Noemis, Poschi, Sjors van Mierlo,
+Nghiem Xuan Hien, NiciDieNase, Noemis, Omicron, Poschi, Sjors van Mierlo,
 Stefan Medack, SubOptimal, Teeranai.P, Torsten Grote, Victor Herasme,
 Vladimir Alabov, Yanicka
 
