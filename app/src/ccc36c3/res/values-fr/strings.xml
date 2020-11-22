@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Programme du 36C3</string>
+    <string name="conference_url"><![CDATA[<a href="https://events.ccc.de/congress/2019/wiki">https://events.ccc.de/congress/2019/wiki</a>]]></string>
+    <string name="source_code"><![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan">Code source</a>]]></string>
+    <string name="google_play_store"><![CDATA[<a href="https://play.google.com/store/apps/details?id=info.metadude.android.congress.schedule">Page sur le PlayStore Google</a>]]></string>
+    <string name="copyright_logo"><![CDATA[36C3: Exhaustion de ressource. Conçu par <a href="http://bleeptrack.de">bleeptrack</a>]]></string>
+    <string name="about_logo_content_description">36C3: logo d\'exhaustion de ressource</string>
+    <string name="app_hardcoded_subtitle">27–30 décembre 2019, Leipzig, Leipziger Messe</string>
+</resources>
