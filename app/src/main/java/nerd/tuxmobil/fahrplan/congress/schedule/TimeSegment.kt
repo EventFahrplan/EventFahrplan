@@ -20,8 +20,10 @@ internal class TimeSegment private constructor(
 
     companion object {
 
-        // TODO Merge definition with usage in FahrplanFragment
-        private const val TIME_GRID_MINIMUM_SEGMENT_HEIGHT = 5
+        /**
+         * Represents both the minimum segment height and 5 minutes.
+         */
+        const val TIME_GRID_MINIMUM_SEGMENT_HEIGHT = 5
 
         @JvmStatic
         fun ofMinutesOfTheDay(minutesOfTheDay: Int) = TimeSegment(minutesOfTheDay)

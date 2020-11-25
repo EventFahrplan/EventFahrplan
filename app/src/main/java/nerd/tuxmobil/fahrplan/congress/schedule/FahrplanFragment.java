@@ -452,7 +452,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
                     if (session.startTime <= time && session.getEndsAtTime() > time) {
                         MyApp.LogDebug(LOG_TAG, session.title);
                         MyApp.LogDebug(LOG_TAG, time + " " + session.startTime + "/" + session.duration);
-                        scrollAmount -= ((time - session.startTime) / 5) * boxHeight;
+                        scrollAmount -= ((time - session.startTime) / TimeSegment.TIME_GRID_MINIMUM_SEGMENT_HEIGHT) * boxHeight;
                         time = session.startTime;
                     }
                 }
@@ -498,7 +498,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
         int systemOffsetMinutes = Moment.getSystemOffsetMinutes();
         // Translate start time minutes from UTC to system time zone rendered to the user.
         int startsAtMinuteSystem = startsAtMinuteUtc - systemOffsetMinutes;
-        final int pos = startsAtMinuteSystem / 5 * height;
+        final int pos = startsAtMinuteSystem / TimeSegment.TIME_GRID_MINIMUM_SEGMENT_HEIGHT * height;
         MyApp.LogDebug(LOG_TAG, "position is " + pos);
         parent.post(() -> parent.scrollTo(0, pos));
         final HorizontalSnapScrollView horiz = getView().findViewById(R.id.horizScroller);
