@@ -493,7 +493,12 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
     private void scrollTo(@NonNull Session session) {
         final ScrollView parent = requireViewByIdCompat(getView(), R.id.scrollView1);
         int height = getNormalizedBoxHeight(getResources(), scale, LOG_TAG);
-        final int pos = (session.relStartTime - conference.getFirstSessionStartsAt()) / 5 * height;
+        // TODO Replace with proper Moment based implementation as soon as possible. See code review in https://github.com/EventFahrplan/EventFahrplan/pull/347
+        int startsAtMinuteUtc = session.relStartTime - conference.getFirstSessionStartsAt();
+        int systemOffsetMinutes = Moment.getSystemOffsetMinutes();
+        // Translate start time minutes from UTC to system time zone rendered to the user.
+        int startsAtMinuteSystem = startsAtMinuteUtc - systemOffsetMinutes;
+        final int pos = startsAtMinuteSystem / 5 * height;
         MyApp.LogDebug(LOG_TAG, "position is " + pos);
         parent.post(() -> parent.scrollTo(0, pos));
         final HorizontalSnapScrollView horiz = getView().findViewById(R.id.horizScroller);
