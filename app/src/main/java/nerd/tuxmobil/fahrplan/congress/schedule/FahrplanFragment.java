@@ -163,7 +163,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
         setHasOptionsMenu(true);
         context = requireContext();
         light = TypefaceFactory.getNewInstance(context).getRobotoLight();
-        sessionViewDrawer = new SessionViewDrawer(context);
+        sessionViewDrawer = new SessionViewDrawer(context, this::getSessionPadding);
     }
 
     @Override

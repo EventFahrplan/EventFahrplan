@@ -1,7 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress.schedule
 
 import android.content.Context
-import android.content.res.Configuration.ORIENTATION_LANDSCAPE
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -19,6 +18,7 @@ import nerd.tuxmobil.fahrplan.congress.utils.TypefaceFactory
 internal class SessionViewDrawer @JvmOverloads constructor(
 
         context: Context,
+        private val getSessionPadding: () -> Int,
         private val isAlternativeHighlightingEnabled: () -> Boolean = {
             // Must load the latest alternative highlighting value every time a session is redrawn.
             AppRepository.readAlternativeHighlightingEnabled()
@@ -26,7 +26,6 @@ internal class SessionViewDrawer @JvmOverloads constructor(
 
 ) {
 
-    private val scale: Float
     private val resources = context.resources
     private val boldCondensed = TypefaceFactory.getNewInstance(context).getTypeface(Font.Roboto.BoldCondensed)
     private val sessionDrawableInsetTop: Int
@@ -39,14 +38,7 @@ internal class SessionViewDrawer @JvmOverloads constructor(
     private val trackNameBackgroundColorDefaultPairs: Map<String, Int>
     private val trackNameBackgroundColorHighlightPairs: Map<String, Int>
 
-    private val sessionPadding: Int
-        get() {
-            val factor = if (resources.configuration.orientation == ORIENTATION_LANDSCAPE) 8 else 10
-            return (factor * scale).toInt()
-        }
-
     init {
-        scale = resources.displayMetrics.density
         sessionDrawableInsetTop = resources.getDimensionPixelSize(
                 R.dimen.session_drawable_inset_top)
         sessionDrawableInsetLeft = resources.getDimensionPixelSize(
@@ -121,7 +113,7 @@ internal class SessionViewDrawer @JvmOverloads constructor(
                 sessionDrawableInsetRight,
                 0)
         sessionView.setBackgroundDrawable(sessionDrawable)
-        val padding = sessionPadding
+        val padding = getSessionPadding()
         sessionView.setPadding(padding, padding, padding, padding)
     }
 
