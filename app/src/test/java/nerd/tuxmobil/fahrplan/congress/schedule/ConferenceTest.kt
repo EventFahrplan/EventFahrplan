@@ -9,7 +9,7 @@ import org.junit.Test
 class ConferenceTest {
 
     @Test
-    fun calculateTimeFrameFromFrabData_multipleDaySpan() {
+    fun `calculateTimeFrame with frab data spanning multiple days`() {
         val opening = Session("Opening").apply {
             dateUTC = 1536332400000L // 2018-09-07T17:00:00+02:00
             duration = 30
@@ -26,7 +26,7 @@ class ConferenceTest {
     }
 
     @Test
-    fun calculateTimeFrameFromFrabData_singleDay() {
+    fun `calculateTimeFrame with frab data spanning a single day`() {
         val opening = Session("Opening").apply {
             dateUTC = 1536332400000L // 2018-09-07T17:00:00+02:00
             duration = 30
@@ -43,7 +43,7 @@ class ConferenceTest {
     }
 
     @Test
-    fun calculateTimeFrameFromPentabarfData() {
+    fun `calculateTimeFrame with Pentabarf data`() {
         val opening = Session("Opening").apply {
             duration = 25
             relStartTime = 570 // 09:30
