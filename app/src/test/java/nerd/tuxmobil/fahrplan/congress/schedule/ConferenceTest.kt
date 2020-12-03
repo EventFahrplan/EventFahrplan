@@ -1,9 +1,9 @@
 package nerd.tuxmobil.fahrplan.congress.schedule
 
+import com.google.common.truth.Truth.assertThat
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MINUTES_OF_ONE_DAY
 import nerd.tuxmobil.fahrplan.congress.models.Session
-import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 
 class ConferenceTest {
