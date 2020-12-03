@@ -23,12 +23,12 @@ class ConferenceTimeFrameTest {
     }
 
     @Test
-    fun isValidWithFirstDayThenLastDay() {
+    fun `isValid return true for first day followed by last day`() {
         assertThat(conference.isValid).isTrue()
     }
 
     @Test
-    fun isValidWithLastDayThenFirstDay() {
+    fun `isValid throws an exception for last day followed by first day`() {
         try {
             ConferenceTimeFrame(LAST_DAY_END_TIME, FIRST_DAY_START_TIME)
             fail("Expect an IllegalStateException to be thrown.")
@@ -38,7 +38,7 @@ class ConferenceTimeFrameTest {
     }
 
     @Test
-    fun isValidWithSameDayTwice() {
+    fun `isValid throws an exception for same day twice`() {
         try {
             ConferenceTimeFrame(FIRST_DAY_START_TIME, FIRST_DAY_START_TIME)
             fail("Expect an IllegalStateException to be thrown.")
@@ -48,59 +48,59 @@ class ConferenceTimeFrameTest {
     }
 
     @Test
-    fun firstDayStart() {
+    fun `firstDayStart returns the first day`() {
         assertThat(conference.firstDayStartTime).isEqualTo(FIRST_DAY_START_TIME)
     }
 
     @Test
-    fun containsWithTimeWithFirstDaySession() {
+    fun `contains returns true if time marks a session at the first day`() {
         // 2015-12-27T11:30:00+0100, in seconds: 1451212200000
         assertThat(conference.contains(1451212200000L)).isTrue()
     }
 
     @Test
-    fun containsWithOneSecondBeforeFirstDay() {
+    fun `contains returns false if time marks a session starting one second before the first day`() {
         // 2015-12-26T23:59:59+0100, in seconds: 1451170799000
         assertThat(conference.contains(1451170799000L)).isFalse()
     }
 
     @Test
-    fun containsWithTimeOfLastDay() {
+    fun `contains returns false if time marks a session at the last day end time`() {
         assertThat(conference.contains(LAST_DAY_END_TIME)).isFalse()
     }
 
     @Test
-    fun endsBeforeWithTimeOfLastDay() {
+    fun `endsBefore returns true if time marks a session at the last day end time`() {
         assertThat(conference.endsBefore(LAST_DAY_END_TIME)).isTrue()
     }
 
     @Test
-    fun endsBeforeWithTimeBeforeLastDay() {
+    fun `endsBefore returns false if time marks a session starting one second before the last day end time`() {
         assertThat(conference.endsBefore(LAST_DAY_END_TIME - 1)).isFalse()
     }
 
     @Test
-    fun startsAfterWithTimeOfFirstDay() {
+    fun `startsAfter returns false if time marks a session at the first day`() {
         assertThat(conference.startsAfter(FIRST_DAY_START_TIME)).isFalse()
     }
 
     @Test
-    fun startsAfterWithTimeBeforeFirstDay() {
+    fun `startsAfter returns true if time marks a session starting on second before the first day`() {
         assertThat(conference.startsAfter(FIRST_DAY_START_TIME - 1)).isTrue()
     }
 
     @Test
-    fun startsAtOrBeforeWithTimeOfFirstDay() {
+    fun `startsAtOrBefore returns true if time marks a session at the first day`() {
         assertThat(conference.startsAtOrBefore(FIRST_DAY_START_TIME)).isTrue()
     }
 
     @Test
-    fun startsAtOrBeforeWithTimeAfterFirstDay() {
+    fun `startsAtOrBefore returns true if time marks a session starting one second after the first day`() {
         assertThat(conference.startsAtOrBefore(FIRST_DAY_START_TIME + 1)).isTrue()
     }
 
     @Test
-    fun startsAtOrBeforeWithTimeBeforeFirstDay() {
+    fun `startsAtOrBefore returns false if time marks a session starting one second before the first day`() {
         assertThat(conference.startsAtOrBefore(FIRST_DAY_START_TIME - 1)).isFalse()
     }
 
