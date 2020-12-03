@@ -9,6 +9,13 @@ import org.junit.Test
 class ConferenceTest {
 
     @Test
+    fun `default values`() {
+        val conference = Conference()
+        assertThat(conference.firstSessionStartsAt).isEqualTo(0)
+        assertThat(conference.lastSessionEndsAt).isEqualTo(0)
+    }
+
+    @Test
     fun `calculateTimeFrame with frab data spanning multiple days`() {
         val opening = createSession("Opening", duration = 30, dateUtc = 1536332400000L) // 2018-09-07T17:00:00+02:00
         val closing = createSession("Closing", duration = 30, dateUtc = 1536504300000L) // 2018-09-09T16:45:00+02:00
@@ -24,6 +31,16 @@ class ConferenceTest {
         val (firstSessionStartsAt, lastSessionEndsAt) = createConference(opening, closing)
         assertThat(firstSessionStartsAt).isEqualTo(17 * 60 - 2 * 60) // 17:00h -2h zone offset = 15:00h
         assertThat(lastSessionEndsAt).isEqualTo(18 * 60 + 30 - 2 * 60) // -> 18:00 -2h zone offset
+    }
+
+    @Test
+    fun `calculateTimeFrame with frab data spanning a single day in non-chronological order`() {
+        val opening = createSession("Opening", duration = 30, dateUtc = 1536328800000L) // 2018-09-07T16:00:00+02:00
+        val middle = createSession("Middle", duration = 20, dateUtc = 1536332400000L) // 2018-09-07T17:00:00+02:00
+        val closing = createSession("Closing", duration = 30, dateUtc = 1536336000000L) // 2018-09-07T18:00:00+02:00
+        val (firstSessionStartsAt, lastSessionEndsAt) = createConference(opening, closing, middle)
+        assertThat(firstSessionStartsAt).isEqualTo(16 * 60 - 2 * 60) // 16:00h -2h zone offset = 14:00h
+        assertThat(lastSessionEndsAt).isEqualTo(18 * 60 + 30 - 2 * 60) // -> 18:30 -2h zone offset
     }
 
     private fun createConference(vararg sessions: Session) = Conference().apply {
