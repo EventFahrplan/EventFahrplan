@@ -9,7 +9,7 @@ class SessionTest {
 
     companion object {
 
-        fun createSession() = Session("s1").apply {
+        fun createSession() = Session("11111111-1111-1111-1111-111111111111").apply {
             title = "Lorem ipsum"
             subtitle = "Gravida arcu ac tortor"
             day = 3

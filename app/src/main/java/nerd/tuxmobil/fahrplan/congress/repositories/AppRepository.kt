@@ -283,7 +283,7 @@ object AppRepository {
         for (highlight in highlights) {
             logging.d(javaClass.simpleName, "$highlight")
             for (session in sessions) {
-                if (session.sessionId == "${highlight.sessionId}") {
+                if (session.sessionId == highlight.sessionId) {
                     session.highlight = highlight.isHighlight
                 }
             }
@@ -321,7 +321,7 @@ object AppRepository {
     fun readHighlightSessionIds() = readHighlights()
             .asSequence()
             .filter { it.isHighlight }
-            .map { it.sessionId.toString() }
+            .map { it.sessionId }
             .toSet()
 
     private fun readHighlights() =
@@ -340,7 +340,7 @@ object AppRepository {
     fun readSessionBySessionId(sessionId: String): Session {
         val session = sessionsDatabaseRepository.querySessionBySessionId(sessionId).toSessionAppModel()
 
-        val highlight = highlightsDatabaseRepository.queryBySessionId(sessionId.toInt())
+        val highlight = highlightsDatabaseRepository.queryBySessionId(sessionId)
         if (highlight != null) {
             session.highlight = highlight.isHighlight
         }

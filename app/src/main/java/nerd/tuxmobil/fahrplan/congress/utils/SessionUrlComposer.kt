@@ -16,7 +16,8 @@ class SessionUrlComposer @JvmOverloads constructor(
 
     /**
      * Returns the website URL for the [session] if it can be composed
-     * otherwise an empty string.
+     * otherwise an empty string. An exception is thrown if [Session.url] is undefined in cases
+     * where it should yield a value.
      *
      * The URL composition depends on the backend system being used for the conference.
      *
@@ -34,7 +35,7 @@ class SessionUrlComposer @JvmOverloads constructor(
                 if (specialRoomNames.contains(room)) {
                     NO_URL
                 } else {
-                    getComposedSessionUrl(sessionId)
+                    error("Missing 'url' value for session $sessionId.")
                 }
             } else {
                 url

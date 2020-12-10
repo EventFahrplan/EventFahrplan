@@ -93,9 +93,6 @@
     <string name="placeholder_session_location">
         SEHR LANGER RAUM
     </string>
-    <string name="placeholder_session_id">
-        ID: 5610
-    </string>
 
     <!-- Separators -->
     <string name="placeholder_day_separator_title">

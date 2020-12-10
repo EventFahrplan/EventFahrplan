@@ -38,8 +38,7 @@ class HighlightsDatabaseRepository(
         }
 
         return cursor.map {
-            val sessionIdString = cursor.getString(SESSION_ID)
-            val sessionId = Integer.parseInt(sessionIdString)
+            val sessionId = cursor.getString(SESSION_ID)
             val highlightState = cursor.getInt(HIGHLIGHT)
             val isHighlighted = highlightState == HIGHLIGHT_STATE_ON
 
@@ -47,13 +46,13 @@ class HighlightsDatabaseRepository(
         }
     }
 
-    fun queryBySessionId(sessionId: Int): Highlight? {
+    fun queryBySessionId(sessionId: String): Highlight? {
         val database = sqLiteOpenHelper.readableDatabase
         val cursor = try {
             database.read(
                 tableName = HighlightsTable.NAME,
                 selection = "$SESSION_ID=?",
-                selectionArgs = arrayOf(sessionId.toString())
+                selectionArgs = arrayOf(sessionId)
             )
         } catch (e: SQLiteException) {
             return null

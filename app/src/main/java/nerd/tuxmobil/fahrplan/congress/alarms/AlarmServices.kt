@@ -6,7 +6,7 @@ import android.content.Context
 import android.content.Intent
 import nerd.tuxmobil.fahrplan.congress.models.SchedulableAlarm
 
-typealias PendingIntentCallback = (Context, Int, Intent, Int) -> PendingIntent
+typealias PendingIntentCallback = (Context, Intent) -> PendingIntent
 
 /**
  * Alarm related actions such as scheduling and discarding alarms via the [AlarmManager][alarmManager].
@@ -14,11 +14,16 @@ typealias PendingIntentCallback = (Context, Int, Intent, Int) -> PendingIntent
 class AlarmServices @JvmOverloads constructor(
 
         private val alarmManager: AlarmManager,
-        private val onPendingIntentBroadcast: PendingIntentCallback = { context, requestCode, intent, flags ->
-            PendingIntent.getBroadcast(context, requestCode, intent, flags)
+        private val onPendingIntentBroadcast: PendingIntentCallback = { context, intent ->
+            PendingIntent.getBroadcast(context, DEFAULT_REQUEST_CODE, intent, NO_FLAGS)
         }
 
 ) {
+
+    private companion object {
+        const val DEFAULT_REQUEST_CODE = 0
+        const val NO_FLAGS = 0
+    }
 
     /**
      * Schedules the given [alarm] via the [AlarmManager].
@@ -35,8 +40,7 @@ class AlarmServices @JvmOverloads constructor(
                 .setIsAddAlarm()
                 .build()
 
-        val requestCode = Integer.parseInt(alarm.sessionId)
-        val pendingIntent = onPendingIntentBroadcast(context, requestCode, intent, 0)
+        val pendingIntent = onPendingIntentBroadcast(context, intent)
         if (discardExisting) {
             alarmManager.cancel(pendingIntent)
         }
@@ -55,9 +59,7 @@ class AlarmServices @JvmOverloads constructor(
                 .setStartTime(alarm.startTime)
                 .setIsDeleteAlarm()
                 .build()
-
-        val requestCode = Integer.parseInt(alarm.sessionId)
-        discardAlarm(context, requestCode, intent)
+        discardAlarm(context, intent)
     }
 
     /**
@@ -66,11 +68,11 @@ class AlarmServices @JvmOverloads constructor(
     fun discardAutoUpdateAlarm(context: Context) {
         val intent = Intent(context, AlarmReceiver::class.java)
         intent.action = AlarmReceiver.ALARM_UPDATE
-        discardAlarm(context, 0, intent)
+        discardAlarm(context, intent)
     }
 
-    private fun discardAlarm(context: Context, requestCode: Int, intent: Intent) {
-        val pendingIntent = onPendingIntentBroadcast(context, requestCode, intent, 0)
+    private fun discardAlarm(context: Context, intent: Intent) {
+        val pendingIntent = onPendingIntentBroadcast(context, intent)
         alarmManager.cancel(pendingIntent)
     }
 

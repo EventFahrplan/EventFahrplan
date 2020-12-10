@@ -13,7 +13,7 @@ class SessionExtensionsTest {
     @Test
     fun toContentValues() {
         val session = Session(
-                sessionId = "7331",
+                sessionId = "be9979c4-18bc-52bb-9480-2c0ac2782c37",
                 abstractt = "Lorem ipsum",
                 dayIndex = 3,
                 date = "2015-08-13",
@@ -52,7 +52,7 @@ class SessionExtensionsTest {
                 changedTrack = true
         )
         val values = session.toContentValues()
-        assertThat(values.getAsInteger(SESSION_ID)).isEqualTo(7331)
+        assertThat(values.getAsString(SESSION_ID)).isEqualTo("be9979c4-18bc-52bb-9480-2c0ac2782c37")
         assertThat(values.getAsString(ABSTRACT)).isEqualTo("Lorem ipsum")
         assertThat(values.getAsInteger(DAY)).isEqualTo(3)
         assertThat(values.getAsString(DATE)).isEqualTo("2015-08-13")

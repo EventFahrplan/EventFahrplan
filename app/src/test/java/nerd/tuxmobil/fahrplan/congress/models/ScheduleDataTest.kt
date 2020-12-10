@@ -5,8 +5,8 @@ import org.junit.Test
 
 class ScheduleDataTest {
 
-    private val actualSession = Session("L42").apply { room = "Room1" }
-    private val oddSession = Session("L78").apply { room = "Room78" }
+    private val actualSession = Session("11111111-1111-1111-1111-111111111111").apply { room = "Room1" }
+    private val oddSession = Session("22222222-2222-2222-2222-222222222222").apply { room = "Room78" }
 
     @Test
     fun `roomDataList without rooms and sessions`() {
@@ -33,7 +33,7 @@ class ScheduleDataTest {
     fun `roomDataList with one room with one session queried for actual session`() {
         val roomDataList = listOf(RoomData(roomName = "Room1", sessions = listOf(actualSession)))
         val data = scheduleDataOf(roomDataList)
-        val expectedSession = Session("L42").apply { room = "Room1" }
+        val expectedSession = Session("11111111-1111-1111-1111-111111111111").apply { room = "Room1" }
         assertThat(data.roomCount).isEqualTo(1)
         assertThat(data.roomNames).isEqualTo(listOf("Room1"))
         assertThat(data.allSessions).isEqualTo(listOf(expectedSession))
@@ -61,13 +61,13 @@ class ScheduleDataTest {
 
     @Test
     fun `allSessions returns sessions sorted by dateUTC ascending`() {
-        val session1 = Session("L1").apply { dateUTC = 200 }
-        val session2 = Session("L2").apply { dateUTC = 100 }
+        val session1 = Session("33333333-3333-3333-3333-333333333333").apply { dateUTC = 200 }
+        val session2 = Session("44444444-4444-4444-4444-444444444444").apply { dateUTC = 100 }
         val sessions = listOf(session1, session2)
         val roomDataList = listOf(RoomData(roomName = "Room1", sessions = sessions))
         val data = scheduleDataOf(roomDataList)
-        assertThat(data.allSessions.first().sessionId).isEqualTo("L2")
-        assertThat(data.allSessions.last().sessionId).isEqualTo("L1")
+        assertThat(data.allSessions.first().sessionId).isEqualTo("44444444-4444-4444-4444-444444444444")
+        assertThat(data.allSessions.last().sessionId).isEqualTo("33333333-3333-3333-3333-333333333333")
     }
 
     private fun scheduleDataOf(roomDataList: List<RoomData>): ScheduleData {
