@@ -12,20 +12,28 @@ class ScheduleChangesTest {
 
     @Test
     fun hasScheduleChangedWithEmptyOldSessions() {
-        assertThat(ScheduleChanges.hasScheduleChanged(newSessions, emptyList())).isFalse()
+        assertThat(ScheduleChanges.hasScheduleChanged(newSessions, mutableListOf())).isFalse()
     }
 
     @Test
     fun hasScheduleChangedWithSameId() {
-        oldSessions.add(Session("sessionId3"))
-        newSessions.add(Session("sessionId3"))
+        oldSessions.add(Session("sessionId3").apply {
+            this.url = "" // TODO Remove when replacing hasScheduleChanged.
+        })
+        newSessions.add(Session("sessionId3").apply {
+            this.url = "" // TODO Remove when replacing hasScheduleChanged.
+        })
         assertThat(ScheduleChanges.hasScheduleChanged(newSessions, oldSessions)).isFalse()
     }
 
     @Test
     fun hasScheduleChangedWithNewId() {
-        oldSessions.add(Session("sessionId3"))
-        newSessions.add(Session("sessionId7"))
+        oldSessions.add(Session("sessionId3").apply {
+            this.url = "" // TODO Remove when replacing hasScheduleChanged.
+        })
+        newSessions.add(Session("sessionId7").apply {
+            this.url = "" // TODO Remove when replacing hasScheduleChanged.
+        })
         assertThat(ScheduleChanges.hasScheduleChanged(newSessions, oldSessions)).isTrue()
     }
 
@@ -95,8 +103,12 @@ class ScheduleChangesTest {
     }
 
     private fun assertSessionHasChanged(modify: (oldSession: Session, newSession: Session) -> Unit) {
-        val oldSession = Session("sessionId3")
-        val newSession = Session("sessionId3")
+        val oldSession = Session("sessionId3").apply {
+            url = "" // TODO Remove when replacing hasScheduleChanged.
+        }
+        val newSession = Session("sessionId3").apply {
+            url = "" // TODO Remove when replacing hasScheduleChanged.
+        }
         modify.invoke(oldSession, newSession)
         oldSessions.add(oldSession)
         newSessions.add(newSession)

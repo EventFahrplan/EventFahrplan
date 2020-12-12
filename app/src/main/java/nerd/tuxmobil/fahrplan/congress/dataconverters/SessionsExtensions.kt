@@ -22,6 +22,8 @@ fun List<Session>.toDateInfos() = map(Session::toDateInfo)
 
 fun List<Session>.toSessionsDatabaseModel() = map(Session::toSessionDatabaseModel)
 
+fun List<Session>.toSessionsNetworkModel() = map(Session::toSessionNetworkModel)
+
 fun List<Session>.toDayRanges(): List<DayRange> {
     val ranges = mutableSetOf<DayRange>()
     forEach {
