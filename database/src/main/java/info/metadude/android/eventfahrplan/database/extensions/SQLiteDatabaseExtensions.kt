@@ -29,6 +29,22 @@ fun SQLiteDatabase.read(
         limit
 )
 
+fun SQLiteDatabase.updateRow(
+        tableName: String,
+        contentValues: ContentValues,
+        columnName: String? = null,
+        columnValue: String? = null
+): Int {
+    val whereClause: String? = if (columnName == null) null else "$columnName=?"
+    val whereArgs: Array<String>? = if (columnValue == null) null else arrayOf(columnValue)
+    return updateRows(
+            tableName,
+            contentValues,
+            whereClause,
+            whereArgs
+    )
+}
+
 fun SQLiteDatabase.updateRows(
         tableName: String,
         contentValues: ContentValues,

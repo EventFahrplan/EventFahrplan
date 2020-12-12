@@ -376,8 +376,8 @@ object AppRepository {
 
     private fun updateSessions(sessions: List<Session>) {
         val sessionsDatabaseModel = sessions.toSessionsDatabaseModel()
-        val list = sessionsDatabaseModel.map { it.toContentValues() }
-        sessionsDatabaseRepository.insert(list)
+        val list = sessionsDatabaseModel.map { it.sessionId to it.toContentValues() }.toTypedArray()
+        sessionsDatabaseRepository.upsertSessions(*list)
     }
 
     /**
