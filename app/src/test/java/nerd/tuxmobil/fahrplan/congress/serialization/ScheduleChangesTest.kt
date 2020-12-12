@@ -11,6 +11,11 @@ class ScheduleChangesTest {
     private val newSessions = ArrayList<Session>()
 
     @Test
+    fun hasScheduleChangedWithEmptyOldSessions() {
+        assertThat(ScheduleChanges.hasScheduleChanged(newSessions, emptyList())).isFalse()
+    }
+
+    @Test
     fun hasScheduleChangedWithSameId() {
         oldSessions.add(Session("sessionId3"))
         newSessions.add(Session("sessionId3"))
@@ -22,6 +27,11 @@ class ScheduleChangesTest {
         oldSessions.add(Session("sessionId3"))
         newSessions.add(Session("sessionId7"))
         assertThat(ScheduleChanges.hasScheduleChanged(newSessions, oldSessions)).isTrue()
+    }
+
+    @Test
+    fun hasScheduleChangedWithChangedIsCanceled() = assertSessionHasChanged { oldSession, _ ->
+        oldSession.changedIsCanceled = true
     }
 
     @Test
