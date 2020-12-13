@@ -184,7 +184,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
         snapScroller.setChildScroller(roomScroller);
         roomScroller.setOnTouchListener((v, session) -> true);
 
-        mDay = appRepository.readDisplayDayIndex();
+        mDay = appRepository.loadDisplayDayIndex();
 
         inflater = Contexts.getLayoutInflater(context);
 
@@ -577,7 +577,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
             return;
         }
 
-        Set<String> alarmSessionIds = appRepository.readAlarmSessionIds();
+        Set<String> alarmSessionIds = appRepository.loadAlarmSessionIds();
         for (Session session : scheduleData.getAllSessions()) {
             session.hasAlarm = alarmSessionIds.contains(session.sessionId);
         }
@@ -590,7 +590,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
             return;
         }
 
-        Set<String> highlightSessionIds = appRepository.readHighlightSessionIds();
+        Set<String> highlightSessionIds = appRepository.loadHighlightSessionIds();
         for (Session session : scheduleData.getAllSessions()) {
             session.highlight = highlightSessionIds.contains(session.sessionId);
         }
@@ -631,8 +631,8 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
 
     public void onParseDone(@NonNull ParseResult result) {
         Activity activity = requireActivity();
-        int lastShiftsHash = appRepository.readLastEngelsystemShiftsHash();
-        int currentShiftsHash = appRepository.readEngelsystemShiftsHash();
+        int lastShiftsHash = appRepository.loadLastEngelsystemShiftsHash();
+        int currentShiftsHash = appRepository.loadEngelsystemShiftsHash();
         MyApp.LogDebug(LOG_TAG, "Shifts hash (OLD) = " + lastShiftsHash);
         MyApp.LogDebug(LOG_TAG, "Shifts hash (NEW) = " + currentShiftsHash);
         boolean shiftsChanged = currentShiftsHash != lastShiftsHash;
@@ -645,12 +645,12 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
                     && !((ParseScheduleResult) result).getVersion().equals(MyApp.meta.getVersion()))
                     || shiftsChanged
             ) {
-                MyApp.meta = appRepository.readMeta();
+                MyApp.meta = appRepository.loadMeta();
                 FahrplanMisc.loadDays(appRepository);
                 if (MyApp.meta.getNumDays() > 1) {
                     buildNavigationMenu();
                 }
-                mDay = appRepository.readDisplayDayIndex();
+                mDay = appRepository.loadDisplayDayIndex();
                 if (mDay > MyApp.meta.getNumDays()) {
                     mDay = 1;
                 }
@@ -756,7 +756,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
                     break;
                 }
             case CONTEXT_MENU_ITEM_ID_SHARE_TEXT:
-                ZoneId timeZoneId = appRepository.readMeta().getTimeZoneId();
+                ZoneId timeZoneId = appRepository.loadMeta().getTimeZoneId();
                 String formattedSession = SimpleSessionFormat.format(session, timeZoneId);
                 SessionSharer.shareSimple(context, formattedSession);
                 break;

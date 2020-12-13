@@ -40,7 +40,7 @@ public class FahrplanMisc {
 
     public static void loadDays(@NonNull AppRepository appRepository) {
         MyApp.dateInfos = new DateInfos();
-        List<DateInfo> dateInfos = appRepository.readDateInfos();
+        List<DateInfo> dateInfos = appRepository.loadDateInfos();
         for (DateInfo dateInfo : dateInfos) {
             if (!MyApp.dateInfos.contains(dateInfo)) {
                 MyApp.dateInfos.add(dateInfo);
@@ -53,7 +53,7 @@ public class FahrplanMisc {
 
     public static void deleteAlarm(@NonNull Context context, @NonNull AppRepository appRepository, @NonNull Session session) {
         String sessionId = session.sessionId;
-        List<Alarm> alarms = appRepository.readAlarms(sessionId);
+        List<Alarm> alarms = appRepository.loadAlarms(sessionId);
         if (!alarms.isEmpty()) {
             // Delete any previous alarms of this session.
             Alarm alarm = alarms.get(0);

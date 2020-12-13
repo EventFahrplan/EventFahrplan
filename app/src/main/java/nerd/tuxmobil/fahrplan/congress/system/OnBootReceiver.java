@@ -43,7 +43,7 @@ public final class OnBootReceiver extends BroadcastReceiver {
         Moment nowMoment = Moment.now().plusSeconds(15);
 
         AppRepository appRepository = AppRepository.INSTANCE;
-        List<Alarm> alarms = appRepository.readAlarms();
+        List<Alarm> alarms = appRepository.loadAlarms();
         AlarmManager alarmManager = Contexts.getAlarmManager(context);
         AlarmServices alarmServices = new AlarmServices(alarmManager);
         for (Alarm alarm : alarms) {
@@ -59,9 +59,9 @@ public final class OnBootReceiver extends BroadcastReceiver {
         }
 
         // start auto updates
-        boolean isAutoUpdateEnabled = appRepository.readAutoUpdateEnabled();
+        boolean isAutoUpdateEnabled = appRepository.loadAutoUpdateEnabled();
         if (isAutoUpdateEnabled) {
-            long lastFetchedAt = appRepository.readScheduleLastFetchedAt();
+            long lastFetchedAt = appRepository.loadScheduleLastFetchedAt();
             long nowMillis = Moment.now().toMilliseconds();
 
             long interval = FahrplanMisc.setUpdateAlarm(context, true);

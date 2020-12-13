@@ -121,7 +121,7 @@ public class MainActivity extends BaseActivity implements
 
         resetProgressDialog();
 
-        MyApp.meta = appRepository.readMeta();
+        MyApp.meta = appRepository.loadMeta();
         FahrplanMisc.loadDays(appRepository);
 
         MyApp.LogDebug(LOG_TAG, "task_running:" + MyApp.task_running);
@@ -228,7 +228,7 @@ public class MainActivity extends BaseActivity implements
             ((ChangeListFragment) fragment).onRefresh();
         }
 
-        if (!appRepository.readScheduleChangesSeen()) {
+        if (!appRepository.loadScheduleChangesSeen()) {
             showChangesDialog();
         }
     }
@@ -273,7 +273,7 @@ public class MainActivity extends BaseActivity implements
         if (MyApp.task_running == TASKS.NONE) {
             MyApp.task_running = TASKS.FETCH;
             showFetchingStatus();
-            String url = appRepository.readScheduleUrl();
+            String url = appRepository.loadScheduleUrl();
             OkHttpClient okHttpClient = CustomHttpClient.createHttpClient();
             appRepository.loadSchedule(url,
                     okHttpClient,
@@ -313,7 +313,7 @@ public class MainActivity extends BaseActivity implements
             sidePane.setVisibility(isScreenLocked ? View.GONE : View.VISIBLE);
         }
 
-        if (!appRepository.readScheduleChangesSeen()) {
+        if (!appRepository.loadScheduleChangesSeen()) {
             showChangesDialog();
         }
     }
@@ -334,7 +334,7 @@ public class MainActivity extends BaseActivity implements
         Fragment fragment = findFragment(ChangesDialog.FRAGMENT_TAG);
         if (fragment == null) {
             List<Session> sessions = appRepository.loadChangedSessions();
-            Meta meta = appRepository.readMeta();
+            Meta meta = appRepository.loadMeta();
             String scheduleVersion = meta.getVersion();
             ChangeStatistic statistic = new ChangeStatistic(sessions);
             DialogFragment changesDialog = ChangesDialog.newInstance(scheduleVersion, statistic);
@@ -343,7 +343,7 @@ public class MainActivity extends BaseActivity implements
     }
 
     void showAboutDialog() {
-        Meta meta = appRepository.readMeta();
+        Meta meta = appRepository.loadMeta();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.addToBackStack(null);
         AboutDialog.newInstance(

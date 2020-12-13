@@ -81,7 +81,7 @@ public class ChangeListFragment extends AbstractListFragment {
 
         Context context = requireContext();
         changesList = appRepository.loadChangedSessions();
-        Meta meta = appRepository.readMeta();
+        Meta meta = appRepository.loadMeta();
         mAdapter = new ChangeListAdapter(context, changesList, meta.getNumDays());
         MyApp.LogDebug(LOG_TAG, "onCreate, " + changesList.size() + " changes");
     }

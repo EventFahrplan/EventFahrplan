@@ -41,7 +41,7 @@ public class UpdateService extends SafeJobIntentService {
     private final AppRepository appRepository = AppRepository.INSTANCE;
 
     public void onParseDone(@NonNull ParseResult result) {
-        int numDays = appRepository.readMeta().getNumDays();
+        int numDays = appRepository.loadMeta().getNumDays();
         MyApp.LogDebug(LOG_TAG, "parseDone: " + result.isSuccess() + " , numDays=" + numDays);
         MyApp.task_running = TASKS.NONE;
         List<Session> changesList = appRepository.loadChangedSessions();
@@ -66,7 +66,7 @@ public class UpdateService extends SafeJobIntentService {
             contentText = getString(R.string.schedule_updated_to, version);
         }
 
-        Uri soundUri = appRepository.readAlarmToneUri();
+        Uri soundUri = appRepository.loadAlarmToneUri();
 
         NotificationHelper notificationHelper = new NotificationHelper(this);
         NotificationCompat.Builder builder = notificationHelper.getScheduleUpdateNotificationBuilder(contentIntent, contentText, changesCount, soundUri);
@@ -93,7 +93,7 @@ public class UpdateService extends SafeJobIntentService {
     private void fetchFahrplan() {
         if (MyApp.task_running == TASKS.NONE) {
             MyApp.task_running = TASKS.FETCH;
-            String url = appRepository.readScheduleUrl();
+            String url = appRepository.loadScheduleUrl();
             OkHttpClient okHttpClient = CustomHttpClient.createHttpClient();
             appRepository.loadSchedule(url,
                     okHttpClient,

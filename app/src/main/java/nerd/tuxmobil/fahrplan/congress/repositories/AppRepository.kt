@@ -16,9 +16,7 @@ import info.metadude.android.eventfahrplan.database.sqliteopenhelper.MetaDBOpenH
 import info.metadude.android.eventfahrplan.database.sqliteopenhelper.SessionsDBOpenHelper
 import info.metadude.android.eventfahrplan.engelsystem.EngelsystemNetworkRepository
 import info.metadude.android.eventfahrplan.engelsystem.models.ShiftsResult
-import info.metadude.android.eventfahrplan.network.models.Meta
 import info.metadude.android.eventfahrplan.network.repositories.ScheduleNetworkRepository
-import info.metadude.kotlin.library.engelsystem.models.Shift
 import kotlinx.coroutines.Job
 import nerd.tuxmobil.fahrplan.congress.BuildConfig
 import nerd.tuxmobil.fahrplan.congress.dataconverters.cropToDayRangesExtent
@@ -31,19 +29,15 @@ import nerd.tuxmobil.fahrplan.congress.dataconverters.toDateInfos
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toDayIndices
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toDayRanges
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toHighlightDatabaseModel
-import nerd.tuxmobil.fahrplan.congress.dataconverters.toHighlightsAppModel
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toMetaAppModel
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toMetaDatabaseModel
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toMetaNetworkModel
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toSessionAppModel
-import nerd.tuxmobil.fahrplan.congress.dataconverters.toSessionAppModels
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toSessionsAppModel
-import nerd.tuxmobil.fahrplan.congress.dataconverters.toSessionsAppModel2
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toSessionsDatabaseModel
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toSessionsNetworkModel
 import nerd.tuxmobil.fahrplan.congress.exceptions.AppExceptionHandler
 import nerd.tuxmobil.fahrplan.congress.models.Alarm
-import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.net.FetchScheduleResult
 import nerd.tuxmobil.fahrplan.congress.net.HttpStatus
 import nerd.tuxmobil.fahrplan.congress.net.LoadShiftsResult
@@ -55,6 +49,13 @@ import nerd.tuxmobil.fahrplan.congress.serialization.ScheduleChanges.toFlaggedSe
 import nerd.tuxmobil.fahrplan.congress.utils.AlarmToneConversion
 import nerd.tuxmobil.fahrplan.congress.validation.MetaValidation.validate
 import okhttp3.OkHttpClient
+import info.metadude.android.eventfahrplan.database.models.Meta as MetaDatabaseModel
+import info.metadude.android.eventfahrplan.database.models.Session as SessionDatabaseModel
+import info.metadude.android.eventfahrplan.network.models.Meta as MetaNetworkModel
+import info.metadude.android.eventfahrplan.network.models.Session as SessionNetworkModel
+import info.metadude.kotlin.library.engelsystem.models.Shift as ShiftNetworkModel
+import nerd.tuxmobil.fahrplan.congress.models.Meta as MetaAppModel
+import nerd.tuxmobil.fahrplan.congress.models.Session as SessionAppModel
 
 object AppRepository {
 
@@ -165,11 +166,11 @@ object AppRepository {
                               onLoadingShiftsDone: (loadShiftsResult: LoadShiftsResult) -> Unit) {
         scheduleNetworkRepository.parseSchedule(scheduleXml, eTag,
                 onUpdateSessions = { sessions ->
-                    val oldSessions = loadSessionsForAllDays(true)
+                    val oldSessions = readSessionsForAllDays(true)
                     val newFlaggedSessions = sessions.toFlaggedSessions(oldSessions.toSessionsNetworkModel()) {
                         resetChangesSeenFlag()
                     }
-                    val newSessions = newFlaggedSessions.toSessionsAppModel2().sanitize()
+                    val newSessions = newFlaggedSessions.sanitize()
                     updateSessions(newSessions)
                 },
                 onUpdateMeta = { meta ->
@@ -229,19 +230,21 @@ object AppRepository {
      * Shifts which take place before or after the main conference days are omitted.
      * New [shifts] are joined with conference schedule session.
      */
-    private fun updateShifts(shifts: List<Shift>) {
+    private fun updateShifts(shifts: List<ShiftNetworkModel>) {
         if (shifts.isEmpty()) {
             return
         }
-        val dayRanges = loadSessionsForAllDays(includeEngelsystemShifts = false)
+        val dayRanges = readSessionsForAllDays(includeEngelsystemShifts = false)
+                .toSessionsNetworkModel()
                 .toDayRanges()
         val sessionizedShifts = shifts
                 .also { logging.d(javaClass.simpleName, "Shifts unfiltered = ${it.size}") }
                 .cropToDayRangesExtent(dayRanges)
                 .also { logging.d(javaClass.simpleName, "Shifts filtered = ${it.size}") }
-                .toSessionAppModels(logging, ENGELSYSTEM_ROOM_NAME, dayRanges)
+                .toSessionsNetworkModel(logging, ENGELSYSTEM_ROOM_NAME, dayRanges)
                 .sanitize()
-        val sessions = loadSessionsForAllDays(false) // Drop all shifts before ...
+        val sessions = readSessionsForAllDays(false) // Drop all shifts before ...
+                .toSessionsNetworkModel()
                 .toMutableList()
                 // Shift rooms to make space for the Engelshifts room
                 .shiftRoomIndicesOfMainSchedule(sessionizedShifts.toDayIndices())
@@ -255,39 +258,42 @@ object AppRepository {
      * Loads all sessions from the database which have not been canceled.
      * The returned list might be empty.
      */
-    fun loadUncanceledSessionsForDayIndex(dayIndex: Int) = loadSessionsForDayIndex(dayIndex, true)
+    fun loadUncanceledSessionsForDayIndex(dayIndex: Int) = readSessionsForDayIndex(dayIndex, true)
             .filterNot { it.changedIsCanceled }
+            .toSessionsAppModel()
             .also { logging.d(javaClass.simpleName, "${it.size} uncanceled sessions.") }
 
     /**
      * Loads all sessions from the database which have been favored aka. starred but no canceled.
      * The returned list might be empty.
      */
-    fun loadStarredSessions() = loadSessionsForAllDays(true)
-            .filter { it.highlight && !it.changedIsCanceled }
+    fun loadStarredSessions() = readSessionsForAllDays(true)
+            .filter { it.isHighlight && !it.changedIsCanceled }
+            .toSessionsAppModel()
             .also { logging.d(javaClass.simpleName, "${it.size} sessions starred.") }
 
     /**
      * Loads all sessions from the database which have been marked as changed, cancelled or new.
      * The returned list might be empty.
      */
-    fun loadChangedSessions() = loadSessionsForAllDays(true)
+    fun loadChangedSessions() = readSessionsForAllDays(true)
             .filter { it.isChanged || it.changedIsCanceled || it.changedIsNew }
+            .toSessionsAppModel()
             .also { logging.d(javaClass.simpleName, "${it.size} sessions changed.") }
 
     /**
-     * Loads all sessions from the database which take place on all days.
+     * Reads all sessions from the database which take place on all days.
      * To exclude Engelsystem shifts pass false to [includeEngelsystemShifts].
      */
-    private fun loadSessionsForAllDays(includeEngelsystemShifts: Boolean) =
-            loadSessionsForDayIndex(ALL_DAYS, includeEngelsystemShifts)
+    private fun readSessionsForAllDays(includeEngelsystemShifts: Boolean) =
+            readSessionsForDayIndex(ALL_DAYS, includeEngelsystemShifts)
 
     /**
-     * Loads all sessions from the database which take place on the specified [day][dayIndex].
+     * Reads all sessions from the database which take place on the specified [day][dayIndex].
      * All days can be loaded if -1 is passed as the [day][dayIndex].
      * To exclude Engelsystem shifts pass false to [includeEngelsystemShifts].
      */
-    private fun loadSessionsForDayIndex(dayIndex: Int, includeEngelsystemShifts: Boolean): List<Session> {
+    private fun readSessionsForDayIndex(dayIndex: Int, includeEngelsystemShifts: Boolean): List<SessionDatabaseModel> {
         val sessions = if (dayIndex == ALL_DAYS) {
             logging.d(javaClass.simpleName, "Loading sessions for all days.")
             if (includeEngelsystemShifts) {
@@ -302,31 +308,37 @@ object AppRepository {
         logging.d(javaClass.simpleName, "Got ${sessions.size} rows.")
 
         val highlights = readHighlights()
+        val highlightsAwareSessions = mutableListOf<SessionDatabaseModel>()
         for (highlight in highlights) {
             logging.d(javaClass.simpleName, "$highlight")
             for (session in sessions) {
-                if (session.sessionId == "${highlight.sessionId}") {
-                    session.highlight = highlight.isHighlight
+                highlightsAwareSessions += if (session.sessionId == "${highlight.sessionId}") {
+                    session.copy(isHighlight = highlight.isHighlight)
+                } else {
+                    session
                 }
             }
         }
-
-        val alarmSessionIds = readAlarmSessionIds()
-        for (session in sessions) {
-            session.hasAlarm = session.sessionId in alarmSessionIds
+        if (highlights.isEmpty() && highlightsAwareSessions.isEmpty()) {
+            highlightsAwareSessions.addAll(sessions)
         }
 
-        return sessions.toList()
+        val alarmSessionIds = loadAlarmSessionIds()
+        val alarmsAwareSessions = highlightsAwareSessions.map { it.copy(hasAlarm = it.sessionId in alarmSessionIds) }
+
+        return alarmsAwareSessions.toList()
     }
 
     @JvmOverloads
-    fun readAlarms(sessionId: String = "") = if (sessionId.isEmpty()) {
-        alarmsDatabaseRepository.query().toAlarmsAppModel()
+    fun loadAlarms(sessionId: String = "") = readAlarms(sessionId).toAlarmsAppModel()
+
+    private fun readAlarms(sessionId: String = "") = if (sessionId.isEmpty()) {
+        alarmsDatabaseRepository.query()
     } else {
-        alarmsDatabaseRepository.query(sessionId).toAlarmsAppModel()
+        alarmsDatabaseRepository.query(sessionId)
     }
 
-    fun readAlarmSessionIds() = readAlarms().map { it.sessionId }.toSet()
+    fun loadAlarmSessionIds() = readAlarms().map { it.sessionId }.toSet()
 
     fun deleteAlarmForAlarmId(alarmId: Int) =
             alarmsDatabaseRepository.deleteForAlarmId(alarmId)
@@ -340,16 +352,16 @@ object AppRepository {
         alarmsDatabaseRepository.update(values, alarm.sessionId)
     }
 
-    fun readHighlightSessionIds() = readHighlights()
+    fun loadHighlightSessionIds() = readHighlights()
             .asSequence()
             .filter { it.isHighlight }
             .map { it.sessionId.toString() }
             .toSet()
 
     private fun readHighlights() =
-            highlightsDatabaseRepository.query().toHighlightsAppModel()
+            highlightsDatabaseRepository.query()
 
-    fun updateHighlight(session: Session) {
+    fun updateHighlight(session: SessionAppModel) {
         val highlightDatabaseModel = session.toHighlightDatabaseModel()
         val values = highlightDatabaseModel.toContentValues()
         highlightsDatabaseRepository.update(values, session.sessionId)
@@ -359,44 +371,48 @@ object AppRepository {
         highlightsDatabaseRepository.deleteAll()
     }
 
-    fun readSessionBySessionId(sessionId: String): Session {
-        val session = sessionsDatabaseRepository.querySessionBySessionId(sessionId).toSessionAppModel()
+    fun loadSessionBySessionId(sessionId: String): SessionAppModel {
+        return readSessionBySessionId(sessionId).toSessionAppModel()
+    }
+
+    private fun readSessionBySessionId(sessionId: String): SessionDatabaseModel {
+        var session = sessionsDatabaseRepository.querySessionBySessionId(sessionId)
 
         val highlight = highlightsDatabaseRepository.queryBySessionId(sessionId.toInt())
         if (highlight != null) {
-            session.highlight = highlight.isHighlight
+            session = session.copy(isHighlight = highlight.isHighlight)
         }
 
         val alarms = alarmsDatabaseRepository.query(sessionId)
         if (alarms.isNotEmpty()) {
-            session.hasAlarm = true
+            session = session.copy(hasAlarm = true)
         }
 
         return session
     }
 
     private fun readSessionsForDayIndexOrderedByDateUtc(dayIndex: Int) =
-            sessionsDatabaseRepository.querySessionsForDayIndexOrderedByDateUtc(dayIndex).toSessionsAppModel()
+            sessionsDatabaseRepository.querySessionsForDayIndexOrderedByDateUtc(dayIndex)
 
     private fun readSessionsOrderedByDateUtc() =
-            sessionsDatabaseRepository.querySessionsOrderedByDateUtc().toSessionsAppModel()
+            sessionsDatabaseRepository.querySessionsOrderedByDateUtc()
 
     private fun readSessionsOrderedByDateUtcExcludingEngelsystemShifts() =
-            sessionsDatabaseRepository.querySessionsWithoutRoom(ENGELSYSTEM_ROOM_NAME).toSessionsAppModel()
+            sessionsDatabaseRepository.querySessionsWithoutRoom(ENGELSYSTEM_ROOM_NAME)
 
-    fun readLastEngelsystemShiftsHash() =
+    fun loadLastEngelsystemShiftsHash() =
             sharedPreferencesRepository.getLastEngelsystemShiftsHash()
 
     fun updateLastEngelsystemShiftsHash(hash: Int) =
             sharedPreferencesRepository.setLastEngelsystemShiftsHash(hash)
 
-    fun readEngelsystemShiftsHash() =
+    fun loadEngelsystemShiftsHash() =
             sessionsDatabaseRepository.querySessionsWithinRoom(ENGELSYSTEM_ROOM_NAME).hashCode()
 
-    fun readDateInfos() =
+    fun loadDateInfos() =
             readSessionsOrderedByDateUtc().toDateInfos()
 
-    private fun updateSessions(sessions: List<Session>) {
+    private fun updateSessions(sessions: List<SessionNetworkModel>) {
         val sessionsDatabaseModel = sessions.toSessionsDatabaseModel()
         val list = sessionsDatabaseModel.map { it.sessionId to it.toContentValues() }.toTypedArray()
         sessionsDatabaseRepository.upsertSessions(*list)
@@ -420,8 +436,11 @@ object AppRepository {
         }
     }
 
-    fun readMeta() =
-            metaDatabaseRepository.query().toMetaAppModel()
+    fun loadMeta(): MetaAppModel =
+            readMeta().toMetaAppModel()
+
+    private fun readMeta(): MetaDatabaseModel =
+            metaDatabaseRepository.query()
 
     /**
      * Updates the [Meta] information in the database.
@@ -431,30 +450,30 @@ object AppRepository {
      *
      * See also: [HttpStatus.HTTP_OK]
      */
-    private fun updateMeta(meta: Meta) {
+    private fun updateMeta(meta: MetaNetworkModel) {
         val metaDatabaseModel = meta.toMetaDatabaseModel()
         val values = metaDatabaseModel.toContentValues()
         metaDatabaseRepository.insert(values)
     }
 
-    fun readAlarmTimeIndex() =
+    fun loadAlarmTimeIndex() =
             sharedPreferencesRepository.getAlarmTimeIndex()
 
     /**
      * Returns the alarm tone `Uri` or `null` for silent alarms to be used for notifications.
      */
-    fun readAlarmToneUri(): Uri? {
+    fun loadAlarmToneUri(): Uri? {
         val alarmTone = sharedPreferencesRepository.getAlarmTone()
         return AlarmToneConversion.getNotificationIntentUri(alarmTone, AlarmTonePreference.DEFAULT_VALUE_URI)
     }
 
-    fun readAlternativeHighlightingEnabled() =
+    fun loadAlternativeHighlightingEnabled() =
             sharedPreferencesRepository.isAlternativeHighlightingEnabled()
 
-    fun readAutoUpdateEnabled() =
+    fun loadAutoUpdateEnabled() =
             sharedPreferencesRepository.isAutoUpdateEnabled()
 
-    fun readScheduleUrl(): String {
+    fun loadScheduleUrl(): String {
         val alternateScheduleUrl = sharedPreferencesRepository.getAlternativeScheduleUrl()
         return if (alternateScheduleUrl.isEmpty()) {
             BuildConfig.SCHEDULE_URL
@@ -466,14 +485,14 @@ object AppRepository {
     private fun readEngelsystemShiftsUrl() =
             sharedPreferencesRepository.getEngelsystemShiftsUrl()
 
-    fun readScheduleLastFetchedAt() =
+    fun loadScheduleLastFetchedAt() =
             sharedPreferencesRepository.getScheduleLastFetchedAt()
 
     private fun updateScheduleLastFetchedAt() = with(Moment.now()) {
         sharedPreferencesRepository.setScheduleLastFetchedAt(toMilliseconds())
     }
 
-    fun readScheduleChangesSeen() =
+    fun loadScheduleChangesSeen() =
             sharedPreferencesRepository.getChangesSeen()
 
     fun updateScheduleChangesSeen(changesSeen: Boolean) =
@@ -482,13 +501,13 @@ object AppRepository {
     private fun resetChangesSeenFlag() =
             updateScheduleChangesSeen(false)
 
-    fun readDisplayDayIndex() =
+    fun loadDisplayDayIndex() =
             sharedPreferencesRepository.getDisplayDayIndex()
 
     fun updateDisplayDayIndex(displayDayIndex: Int) =
             sharedPreferencesRepository.setDisplayDayIndex(displayDayIndex)
 
-    fun readInsistentAlarmsEnabled() =
+    fun loadInsistentAlarmsEnabled() =
             sharedPreferencesRepository.isInsistentAlarmsEnabled()
 
     @Deprecated("Replace this with a push-based update mechanism")

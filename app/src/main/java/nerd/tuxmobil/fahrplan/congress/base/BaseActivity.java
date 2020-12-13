@@ -63,7 +63,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     private void startUpdateService() {
-        boolean isAutoUpdateEnabled = AppRepository.INSTANCE.readAutoUpdateEnabled();
+        boolean isAutoUpdateEnabled = AppRepository.INSTANCE.loadAutoUpdateEnabled();
         if (isAutoUpdateEnabled) {
             UpdateService.start(this);
         }

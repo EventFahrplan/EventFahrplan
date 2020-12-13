@@ -6,10 +6,11 @@ import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
 import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedOnce
 import info.metadude.android.eventfahrplan.database.repositories.SessionsDatabaseRepository
-import nerd.tuxmobil.fahrplan.congress.dataconverters.toSessionsDatabaseModel
-import nerd.tuxmobil.fahrplan.congress.models.Session
+import nerd.tuxmobil.fahrplan.congress.dataconverters.toSessionAppModel
+import nerd.tuxmobil.fahrplan.congress.dataconverters.toSessionsAppModel
 import org.junit.Test
 import org.mockito.ArgumentMatchers.anyInt
+import info.metadude.android.eventfahrplan.database.models.Session as SessionDatabaseModel
 
 /**
  * Test class to deal with sessions which interact with the [SessionsDatabaseRepository].
@@ -37,74 +38,74 @@ class AppRepositorySessionsTest {
 
     companion object {
 
-        private val SESSION_1001 = Session("1001").apply {
-            changedIsCanceled = false
-            changedTitle = false
-            changedIsNew = false
-            url = "" // only initialized for toSessionsDatabaseModel()
-        }
+        private val SESSION_1001 = SessionDatabaseModel(
+                sessionId = "1001",
+                changedIsCanceled = false,
+                changedTitle = false,
+                changedIsNew = false
+        )
 
-        private val SESSION_1002 = Session("1002").apply {
-            changedIsCanceled = true
-            changedTitle = false
-            changedIsNew = false
-            url = "" // only initialized for toSessionsDatabaseModel()
-        }
+        private val SESSION_1002 = SessionDatabaseModel(
+                sessionId = "1002",
+                changedIsCanceled = true,
+                changedTitle = false,
+                changedIsNew = false
+        )
 
-        private val SESSION_1003 = Session("1003").apply {
-            changedIsCanceled = false
-            changedTitle = true
-            changedIsNew = false
-            url = "" // only initialized for toSessionsDatabaseModel()
-        }
+        private val SESSION_1003 = SessionDatabaseModel(
+                sessionId = "1003",
+                changedIsCanceled = false,
+                changedTitle = true,
+                changedIsNew = false
+        )
 
-        private val SESSION_1004 = Session("1004").apply {
-            changedIsCanceled = false
-            changedTitle = false
-            changedIsNew = true
-            url = "" // only initialized for toSessionsDatabaseModel()
-        }
+        private val SESSION_1004 = SessionDatabaseModel(
+                sessionId = "1004",
+                changedIsCanceled = false,
+                changedTitle = false,
+                changedIsNew = true
+        )
 
-        private val SESSION_1005 = Session("1005").apply {
-            changedIsCanceled = true
-            changedTitle = true
-            changedIsNew = true
-            url = "" // only initialized for toSessionsDatabaseModel()
-        }
+        private val SESSION_1005 = SessionDatabaseModel(
+                sessionId = "1005",
+                changedIsCanceled = true,
+                changedTitle = true,
+                changedIsNew = true,
+        )
 
-        private val SESSION_2001 = Session("2001").apply {
-            highlight = false
-            changedIsCanceled = false
-            url = "" // only initialized for toSessionsDatabaseModel()
-        }
+        private val SESSION_2001 = SessionDatabaseModel(
+                sessionId = "2001",
+                isHighlight = false,
+                changedIsCanceled = false,
+        )
 
-        private val SESSION_2002 = Session("2002").apply {
-            highlight = true
-            changedIsCanceled = false
-            url = "" // only initialized for toSessionsDatabaseModel()
-        }
+        private val SESSION_2002 = SessionDatabaseModel(
+                sessionId = "2002",
+                isHighlight = true,
+                changedIsCanceled = false,
+        )
 
-        private val SESSION_2003 = Session("2003").apply {
-            highlight = true
-            changedIsCanceled = true
-            url = "" // only initialized for toSessionsDatabaseModel()
-        }
+        private val SESSION_2003 = SessionDatabaseModel(
+                sessionId = "2003",
+                isHighlight = true,
+                changedIsCanceled = true,
+        )
 
-        private val SESSION_2004 = Session("2004").apply {
-            highlight = false
-            changedIsCanceled = true
-            url = "" // only initialized for toSessionsDatabaseModel()
-        }
+        private val SESSION_2004 = SessionDatabaseModel(
+                sessionId = "2004",
+                isHighlight = false,
+                changedIsCanceled = true,
+        )
 
-        private val SESSION_3001 = Session("3001").apply {
-            changedIsCanceled = false
-            url = "" // only initialized for toSessionsDatabaseModel()
-        }
+        private val SESSION_3001 = SessionDatabaseModel(
+                sessionId = "3001",
+                changedIsCanceled = false,
+        )
 
-        private val SESSION_3002 = Session("3002").apply {
-            changedIsCanceled = true
-            url = "" // only initialized for toSessionsDatabaseModel()
-        }
+        private val SESSION_3002 = SessionDatabaseModel(
+                sessionId = "3002",
+                changedIsCanceled = true,
+        )
 
     }
 
@@ -118,9 +119,10 @@ class AppRepositorySessionsTest {
     @Test
     fun `loadChangedSessions filters out sessions which are not changed`() {
         val sessions = listOf(SESSION_1001, SESSION_1002, SESSION_1003, SESSION_1004, SESSION_1005)
-        whenever(sessionsDatabaseRepository.querySessionsOrderedByDateUtc()) doReturn sessions.toSessionsDatabaseModel()
+        whenever(sessionsDatabaseRepository.querySessionsOrderedByDateUtc()) doReturn sessions
         val changedSessions = testableAppRepository.loadChangedSessions()
-        assertThat(changedSessions).containsExactly(SESSION_1002, SESSION_1003, SESSION_1004, SESSION_1005)
+        val expectedSessions = listOf(SESSION_1002, SESSION_1003, SESSION_1004, SESSION_1005).toSessionsAppModel()
+        assertThat(changedSessions).containsExactlyElementsIn(expectedSessions)
         verifyInvokedOnce(sessionsDatabaseRepository).querySessionsOrderedByDateUtc()
     }
 
@@ -134,9 +136,9 @@ class AppRepositorySessionsTest {
     @Test
     fun `loadStarredSessions filters out sessions which are not starred`() {
         val sessions = listOf(SESSION_2001, SESSION_2002, SESSION_2003, SESSION_2004)
-        whenever(sessionsDatabaseRepository.querySessionsOrderedByDateUtc()) doReturn sessions.toSessionsDatabaseModel()
+        whenever(sessionsDatabaseRepository.querySessionsOrderedByDateUtc()) doReturn sessions
         val starredSessions = testableAppRepository.loadStarredSessions()
-        assertThat(starredSessions).containsExactly(SESSION_2002)
+        assertThat(starredSessions).containsExactly(SESSION_2002.toSessionAppModel())
         verifyInvokedOnce(sessionsDatabaseRepository).querySessionsOrderedByDateUtc()
     }
 
@@ -150,9 +152,9 @@ class AppRepositorySessionsTest {
     @Test
     fun `loadUncanceledSessionsForDayIndex filters out sessions which are canceled`() {
         val sessions = listOf(SESSION_3001, SESSION_3002)
-        whenever(sessionsDatabaseRepository.querySessionsForDayIndexOrderedByDateUtc(anyInt())) doReturn sessions.toSessionsDatabaseModel()
+        whenever(sessionsDatabaseRepository.querySessionsForDayIndexOrderedByDateUtc(anyInt())) doReturn sessions
         val uncanceledSessions = testableAppRepository.loadUncanceledSessionsForDayIndex(0)
-        assertThat(uncanceledSessions).containsExactly(SESSION_3001)
+        assertThat(uncanceledSessions).containsExactly(SESSION_3001.toSessionAppModel())
         verifyInvokedOnce(sessionsDatabaseRepository).querySessionsForDayIndexOrderedByDateUtc(anyInt())
     }
 

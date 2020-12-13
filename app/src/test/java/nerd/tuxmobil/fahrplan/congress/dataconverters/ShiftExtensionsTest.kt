@@ -84,9 +84,9 @@ class ShiftExtensionsTest {
                 timeZoneOffset = ZoneOffset.ofHours(2) // for whatever reason someone sets timeZoneOffset different than startsAts offset
         )
         val dayRange = DayRange(day)
-        val session = shift.toSessionAppModel(NoLogging, "", listOf(dayRange))
+        val session = shift.toSessionNetworkModel(NoLogging, "", listOf(dayRange))
         assertThat(session.startTime).isEqualTo(0) // nevertheless, we still expect sessions time data to be based on UTC
-        assertThat(session.relStartTime).isEqualTo(0)
+        assertThat(session.relativeStartTime).isEqualTo(0)
     }
 
     @Test
@@ -96,7 +96,7 @@ class ShiftExtensionsTest {
         val endsAtDate = ZonedDateTime.of(2019, 8, 25, 12, 30, 13, 0, ZoneOffset.UTC)
         val dayRange = DayRange(day)
         val shift = Shift(startsAt = startsAtDate, endsAt = endsAtDate)
-        assertThat(shift.toSessionAppModel(NoLogging, "", listOf(dayRange)).duration).isEqualTo(30)
+        assertThat(shift.toSessionNetworkModel(NoLogging, "", listOf(dayRange)).duration).isEqualTo(30)
     }
 
 }

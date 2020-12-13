@@ -34,8 +34,8 @@ class SessionDetailsViewModelTest {
 
     @Before
     fun setUp() {
-        whenever(repository.readSessionBySessionId(anyString())) doReturn actualSession
-        whenever(repository.readMeta()) doReturn meta
+        whenever(repository.loadSessionBySessionId(anyString())) doReturn actualSession
+        whenever(repository.loadMeta()) doReturn meta
         whenever(meta.timeZoneId) doReturn NO_TIME_ZONE_ID
         // ViewModel must be initialized after stubbing the repository.
         defaultViewModel = SessionDetailsViewModel(repository, ACTUAL_SESSION_ID, viewActionHandler)
@@ -83,7 +83,7 @@ class SessionDetailsViewModelTest {
     fun `onOptionsMenuItemSelected flags highlight and invokes updateHighlight, notifyHighlightsChanged, refreshUI`() {
         val actualSession = Session("S2").apply { highlight = false }
         val expectedSession = Session("S2").apply { highlight = true }
-        whenever(repository.readSessionBySessionId("S2")) doReturn actualSession
+        whenever(repository.loadSessionBySessionId("S2")) doReturn actualSession
         val viewModel = SessionDetailsViewModel(repository, "S2", viewActionHandler)
         assertThat(viewModel.onOptionsMenuItemSelected(R.id.menu_item_flag_as_favorite)).isTrue()
         // TODO Simplify by comparing objects as soon as "highlight" is part of Session#equals.
@@ -97,7 +97,7 @@ class SessionDetailsViewModelTest {
     fun `onOptionsMenuItemSelected unflags highlight and invokes updateHighlight, notifyHighlightsChanged, refreshUI`() {
         val actualSession = Session("S3").apply { highlight = true }
         val expectedSession = Session("S3").apply { highlight = false }
-        whenever(repository.readSessionBySessionId("S3")) doReturn actualSession
+        whenever(repository.loadSessionBySessionId("S3")) doReturn actualSession
         val viewModel = SessionDetailsViewModel(repository, "S3", viewActionHandler)
         assertThat(viewModel.onOptionsMenuItemSelected(R.id.menu_item_unflag_as_favorite)).isTrue()
         // TODO Simplify by comparing objects as soon as "highlight" is part of Session#equals.
@@ -129,7 +129,7 @@ class SessionDetailsViewModelTest {
     @Test
     fun `onOptionsMenuItemSelected invokes navigateToRoom with URI`() {
         val actualSession = Session("S4").apply { room = "GARDEN" }
-        whenever(repository.readSessionBySessionId("S4")) doReturn actualSession
+        whenever(repository.loadSessionBySessionId("S4")) doReturn actualSession
         val toC3NavRoomName: Session.() -> String = { this.room.toLowerCase() }
         val viewModel = SessionDetailsViewModel(repository, "S4", viewActionHandler,
                 c3NavBaseUrl = "https://c3nav.foo/", toC3NavRoomName = toC3NavRoomName)
@@ -146,7 +146,7 @@ class SessionDetailsViewModelTest {
     fun `formattedLinks returns HTML formatted links`() {
         val links = "[VOC projects](https://www.voc.com/projects/),[POC](https://poc.com/QXut1XBymAk)"
         val session = Session("S5").apply { this.links = links }
-        whenever(repository.readSessionBySessionId("S5")) doReturn session
+        whenever(repository.loadSessionBySessionId("S5")) doReturn session
         val viewModel = SessionDetailsViewModel(repository, "S5", viewActionHandler)
         val expectedFormattedLinks = """<a href="https://www.voc.com/projects/">VOC projects</a><br><a href="https://poc.com/QXut1XBymAk">POC</a>"""
         assertThat(viewModel.formattedLinks).isEqualTo(expectedFormattedLinks)
@@ -163,7 +163,7 @@ class SessionDetailsViewModelTest {
     fun `sessionLink returns the HTML formatted session link`() {
         val toSessionUrl: Session.() -> String = { "https://conference.net/program/${this.sessionId}.html" }
         val session = Session("famous-talk")
-        whenever(repository.readSessionBySessionId("S7")) doReturn session
+        whenever(repository.loadSessionBySessionId("S7")) doReturn session
         val viewModel = SessionDetailsViewModel(repository, "S7", viewActionHandler, toSessionUrl = toSessionUrl)
         val expectedSessionLink = """<a href="https://conference.net/program/famous-talk.html">https://conference.net/program/famous-talk.html</a>"""
         assertThat(viewModel.sessionLink).isEqualTo(expectedSessionLink)

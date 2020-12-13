@@ -65,9 +65,9 @@ class SessionDetailsViewModel @JvmOverloads constructor(
     }
 
     // Needs to be a "var" so it can be modified (highlight, hasAlarm).
-    private var session: Session = repository.readSessionBySessionId(sessionId)
+    private var session: Session = repository.loadSessionBySessionId(sessionId)
 
-    private val timeZoneId = repository.readMeta().timeZoneId
+    private val timeZoneId = repository.loadMeta().timeZoneId
 
     val hasDateUtc get() = session.dateUTC > 0
     val formattedDateUtc get() = session.toFormattedDateUtc()

@@ -21,7 +21,7 @@ internal class SessionViewDrawer @JvmOverloads constructor(
         context: Context,
         private val isAlternativeHighlightingEnabled: () -> Boolean = {
             // Must load the latest alternative highlighting value every time a session is redrawn.
-            AppRepository.readAlternativeHighlightingEnabled()
+            AppRepository.loadAlternativeHighlightingEnabled()
         }
 
 ) {

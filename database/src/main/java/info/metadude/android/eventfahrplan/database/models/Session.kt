@@ -50,4 +50,16 @@ data class Session(
         const val RECORDING_OPT_OUT_OFF = false
     }
 
+    val isChanged
+        get() = changedDay ||
+                changedDuration ||
+                changedLanguage ||
+                changedRecordingOptOut ||
+                changedRoom ||
+                changedSpeakers ||
+                changedSubtitle ||
+                changedTime ||
+                changedTitle ||
+                changedTrack
+
 }

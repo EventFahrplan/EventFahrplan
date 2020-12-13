@@ -143,7 +143,7 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
     private void initStarredList() {
         Context context = requireContext();
         starredList = appRepository.loadStarredSessions();
-        Meta meta = appRepository.readMeta();
+        Meta meta = appRepository.loadMeta();
         mAdapter = new StarredListAdapter(context, starredList, meta.getNumDays());
         MyApp.LogDebug(LOG_TAG, "initStarredList: " + starredList.size() + " favorites");
         mListView.setAdapter(mAdapter);
@@ -335,7 +335,7 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
     }
 
     private void shareSessions() {
-        ZoneId timeZoneId = appRepository.readMeta().getTimeZoneId();
+        ZoneId timeZoneId = appRepository.loadMeta().getTimeZoneId();
         String formattedSession = SimpleSessionFormat.format(starredList, timeZoneId);
         if (formattedSession != null) {
             Context context = requireContext();

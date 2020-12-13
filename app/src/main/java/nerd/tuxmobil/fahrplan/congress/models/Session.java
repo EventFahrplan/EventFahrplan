@@ -254,8 +254,4 @@ public class Session {
         return context.getString(R.string.session_list_item_language_undefined_content_description, lang);
     }
 
-    public void shiftRoomIndexBy(int amount) {
-        roomIndex += amount;
-    }
-
 }

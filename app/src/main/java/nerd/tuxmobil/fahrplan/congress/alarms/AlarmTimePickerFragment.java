@@ -55,7 +55,7 @@ public class AlarmTimePickerFragment extends DialogFragment {
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         Context context = requireContext();
         AppRepository appRepository = AppRepository.INSTANCE;
-        alarmTimeIndex = appRepository.readAlarmTimeIndex();
+        alarmTimeIndex = appRepository.loadAlarmTimeIndex();
         LayoutInflater inflater = Contexts.getLayoutInflater(context);
         @SuppressLint("InflateParams")
         View layout = inflater.inflate(R.layout.reminder_dialog, null, false);

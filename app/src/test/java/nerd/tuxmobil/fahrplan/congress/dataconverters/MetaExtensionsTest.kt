@@ -37,8 +37,8 @@ class MetaExtensionsTest {
     )
 
     @Test
-    fun `toMetaNetworkModel converts an app into a network model`() {
-        assertThat(metaAppModel.toMetaNetworkModel()).isEqualTo(metaNetworkModel)
+    fun `toMetaNetworkModel converts an database into a network model`() {
+        assertThat(metaDatabaseModel.toMetaNetworkModel()).isEqualTo(metaNetworkModel)
     }
 
     @Test

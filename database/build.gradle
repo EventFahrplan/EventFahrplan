@@ -35,4 +35,7 @@ dependencies {
     androidTestImplementation Libs.assertjAndroid
     androidTestImplementation Libs.espresso
     androidTestImplementation Libs.testExtJunit
+
+    testImplementation Libs.junit
+    testImplementation Libs.truth
 }

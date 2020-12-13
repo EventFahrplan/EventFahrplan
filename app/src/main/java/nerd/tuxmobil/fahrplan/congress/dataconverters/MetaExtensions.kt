@@ -6,11 +6,11 @@ import info.metadude.android.eventfahrplan.network.models.Meta as MetaNetworkMod
 import nerd.tuxmobil.fahrplan.congress.models.Meta as MetaAppModel
 
 
-fun MetaAppModel.toMetaNetworkModel() = MetaNetworkModel(
+fun MetaDatabaseModel.toMetaNetworkModel() = MetaNetworkModel(
         eTag = eTag,
         numDays = numDays,
         subtitle = subtitle,
-        timeZoneName = timeZoneId?.id,
+        timeZoneName = timeZoneName,
         title = title,
         version = version
 )

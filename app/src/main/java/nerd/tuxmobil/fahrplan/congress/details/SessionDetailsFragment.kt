@@ -242,7 +242,7 @@ class SessionDetailsFragment : Fragment(), SessionDetailsViewModel.ViewActionHan
     }
 
     private fun onAlarmTimesIndexPicked(alarmTimesIndex: Int) {
-        val session = appRepository.readSessionBySessionId(sessionId)
+        val session = appRepository.loadSessionBySessionId(sessionId)
         val activity = requireActivity()
         FahrplanMisc.addAlarm(activity, appRepository, session, alarmTimesIndex)
         // Update the ViewModel session because refreshUI refers to its state.
