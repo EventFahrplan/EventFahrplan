@@ -1,9 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress.serialization
 
-import nerd.tuxmobil.fahrplan.congress.dataconverters.toSessionsAppModel2
-import nerd.tuxmobil.fahrplan.congress.dataconverters.toSessionsNetworkModel
 import info.metadude.android.eventfahrplan.network.models.Session as SessionNetworkModel
-import nerd.tuxmobil.fahrplan.congress.models.Session as SessionAppModel
 
 object ScheduleChanges {
 
@@ -121,14 +118,4 @@ object ScheduleChanges {
                 duration == session.duration
     }
 
-    @Deprecated(message = "Use toFlaggedSessions instead which does not alter the original sessions list.")
-    fun hasScheduleChanged(sessions: MutableList<SessionAppModel>, oldSessions: MutableList<SessionAppModel>): Boolean {
-        var hasChanged = false
-        val flaggedSessions = sessions.toSessionsNetworkModel().toFlaggedSessions(oldSessions.toSessionsNetworkModel()) {
-            hasChanged = true
-        }
-        sessions.clear()
-        sessions += flaggedSessions.toSessionsAppModel2()
-        return hasChanged
-    }
 }
