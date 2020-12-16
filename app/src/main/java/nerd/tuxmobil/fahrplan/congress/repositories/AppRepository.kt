@@ -2,6 +2,7 @@ package nerd.tuxmobil.fahrplan.congress.repositories
 
 import android.content.Context
 import android.net.Uri
+import android.util.Log
 import info.metadude.android.eventfahrplan.commons.extensions.onFailure
 import info.metadude.android.eventfahrplan.commons.logging.Logging
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
@@ -168,8 +169,10 @@ object AppRepository {
                 onUpdateSessions = { sessions ->
                     val oldSessions = readSessionsForAllDays(true)
                     val newFlaggedSessions = sessions.toFlaggedSessions(oldSessions.toSessionsNetworkModel()) {
+                        Log.e(javaClass.simpleName, "hasChanges = true")
                         resetChangesSeenFlag()
                     }
+                    Log.e(javaClass.simpleName, "newFlaggedSessions = ${newFlaggedSessions.size}")
                     val newSessions = newFlaggedSessions.sanitize()
                     updateSessions(newSessions)
                 },
@@ -414,7 +417,7 @@ object AppRepository {
 
     private fun updateSessions(sessions: List<SessionNetworkModel>) {
         val sessionsDatabaseModel = sessions.toSessionsDatabaseModel()
-        val list = sessionsDatabaseModel.map { it.sessionId to it.toContentValues() }.toTypedArray()
+        val list = sessionsDatabaseModel.map { it.sessionId to it.toContentValues() }.toTypedArray() // TODO sessionId -> id?
         sessionsDatabaseRepository.upsertSessions(*list)
     }
 

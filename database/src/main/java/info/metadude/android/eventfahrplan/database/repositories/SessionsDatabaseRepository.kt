@@ -88,6 +88,7 @@ class SessionsDatabaseRepository(
     /**
      * Updates or inserts sessions based on the given [contentValuesBySessionId].
      */
+    // TODO sessionId -> id?
     fun upsertSessions(vararg contentValuesBySessionId: Pair</* sessionId */ String, ContentValues>) = with(sqLiteOpenHelper) {
         writableDatabase.transaction {
             contentValuesBySessionId.forEach {
@@ -103,6 +104,7 @@ class SessionsDatabaseRepository(
      *
      * This function must be called in the context of a [transaction] block.
      */
+    // TODO sessionId -> id?
     private fun SQLiteDatabase.upsertSession(sessionId: String, contentValues: ContentValues) {
         val affectedRowsCount = updateRow(
                 tableName = SessionsTable.NAME,
@@ -174,6 +176,7 @@ class SessionsDatabaseRepository(
                         Session.RECORDING_OPT_OUT_ON
 
             Session(
+                    // TODO Add _ID?
                     sessionId = cursor.getString(SESSION_ID),
                     guid = cursor.getString(GUID),
                     abstractt = cursor.getString(ABSTRACT),

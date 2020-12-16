@@ -85,6 +85,7 @@ fun Session.toContentValues() = contentValuesOf(
 /**
  * Converts a session ID into [ContentValues].
  */
+// TODO guid?
 fun String.toContentValues() = contentValuesOf(
         SessionByNotificationIdTable.Columns.SESSION_ID to this
 )
