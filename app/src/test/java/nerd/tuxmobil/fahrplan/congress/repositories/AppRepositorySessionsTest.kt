@@ -5,6 +5,8 @@ import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
 import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedOnce
+import info.metadude.android.eventfahrplan.database.repositories.AlarmsDatabaseRepository
+import info.metadude.android.eventfahrplan.database.repositories.HighlightsDatabaseRepository
 import info.metadude.android.eventfahrplan.database.repositories.SessionsDatabaseRepository
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toSessionAppModel
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toSessionsAppModel
@@ -40,6 +42,7 @@ class AppRepositorySessionsTest {
 
         private val SESSION_1001 = SessionDatabaseModel(
                 sessionId = "1001",
+                guid = "1001",
                 changedIsCanceled = false,
                 changedTitle = false,
                 changedIsNew = false
@@ -47,6 +50,7 @@ class AppRepositorySessionsTest {
 
         private val SESSION_1002 = SessionDatabaseModel(
                 sessionId = "1002",
+                guid = "1002",
                 changedIsCanceled = true,
                 changedTitle = false,
                 changedIsNew = false
@@ -54,6 +58,7 @@ class AppRepositorySessionsTest {
 
         private val SESSION_1003 = SessionDatabaseModel(
                 sessionId = "1003",
+                guid = "1003",
                 changedIsCanceled = false,
                 changedTitle = true,
                 changedIsNew = false
@@ -61,6 +66,7 @@ class AppRepositorySessionsTest {
 
         private val SESSION_1004 = SessionDatabaseModel(
                 sessionId = "1004",
+                guid = "1004",
                 changedIsCanceled = false,
                 changedTitle = false,
                 changedIsNew = true
@@ -68,6 +74,7 @@ class AppRepositorySessionsTest {
 
         private val SESSION_1005 = SessionDatabaseModel(
                 sessionId = "1005",
+                guid = "1005",
                 changedIsCanceled = true,
                 changedTitle = true,
                 changedIsNew = true,
@@ -75,35 +82,41 @@ class AppRepositorySessionsTest {
 
         private val SESSION_2001 = SessionDatabaseModel(
                 sessionId = "2001",
+                guid = "2001",
                 isHighlight = false,
                 changedIsCanceled = false,
         )
 
         private val SESSION_2002 = SessionDatabaseModel(
                 sessionId = "2002",
+                guid = "2002",
                 isHighlight = true,
                 changedIsCanceled = false,
         )
 
         private val SESSION_2003 = SessionDatabaseModel(
                 sessionId = "2003",
+                guid = "2003",
                 isHighlight = true,
                 changedIsCanceled = true,
         )
 
         private val SESSION_2004 = SessionDatabaseModel(
                 sessionId = "2004",
+                guid = "2004",
                 isHighlight = false,
                 changedIsCanceled = true,
         )
 
         private val SESSION_3001 = SessionDatabaseModel(
                 sessionId = "3001",
+                guid = "3001",
                 changedIsCanceled = false,
         )
 
         private val SESSION_3002 = SessionDatabaseModel(
                 sessionId = "3002",
+                guid = "3002",
                 changedIsCanceled = true,
         )
 

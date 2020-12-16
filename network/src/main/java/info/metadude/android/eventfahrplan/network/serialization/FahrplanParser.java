@@ -13,8 +13,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import info.metadude.android.eventfahrplan.commons.logging.Logging;
-import info.metadude.android.eventfahrplan.network.models.Session;
 import info.metadude.android.eventfahrplan.network.models.Meta;
+import info.metadude.android.eventfahrplan.network.models.Session;
 import info.metadude.android.eventfahrplan.network.serialization.exceptions.MissingXmlAttributeException;
 import info.metadude.android.eventfahrplan.network.temporal.DateParser;
 import info.metadude.android.eventfahrplan.network.validation.DateFieldValidation;
@@ -171,8 +171,10 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                         }
                         if (name.equalsIgnoreCase("event")) {
                             String id = parser.getAttributeValue(null, "id");
+                            String guid = parser.getAttributeValue(null, "guid");
                             Session session = new Session();
                             session.setSessionId(id);
+                            session.setGuid(guid);
                             session.setDayIndex(day);
                             session.setRoom(room);
                             session.setDate(date);

@@ -17,6 +17,9 @@ import nerd.tuxmobil.fahrplan.congress.repositories.SessionsTransformer;
  */
 public class Session {
 
+    public String sessionId;
+    public String guid = "";
+
     public String title;
     public String subtitle;
     public String url;
@@ -39,7 +42,6 @@ public class Session {
 
     public String speakers;
     public String track;
-    public String sessionId;
     public String type;
     public String lang;
     public String slug;

@@ -9,6 +9,7 @@ class SessionTest {
     fun `isChanged return true if all change-properties are true`() {
         val session = Session(
                 sessionId = "s1",
+                guid = "11111111-1111-1111-1111-111111111111",
                 changedDay = true,
                 changedDuration = true,
                 changedLanguage = true,
@@ -27,6 +28,7 @@ class SessionTest {
     fun `isChanged return false if all change-properties are false`() {
         val session = Session(
                 sessionId = "s1",
+                guid = "11111111-1111-1111-1111-111111111111",
                 changedDay = false,
                 changedDuration = false,
                 changedLanguage = false,

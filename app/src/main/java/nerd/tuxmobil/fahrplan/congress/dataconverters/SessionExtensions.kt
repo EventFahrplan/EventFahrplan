@@ -27,6 +27,8 @@ fun SessionAppModel.toHighlightDatabaseModel() = HighlightDatabaseModel(
 
 fun SessionAppModel.toSessionDatabaseModel() = SessionDatabaseModel(
         sessionId = sessionId,
+        guid = guid,
+
         abstractt = abstractt,
         date = date,
         dateUTC = dateUTC,
@@ -67,6 +69,8 @@ fun SessionAppModel.toSessionDatabaseModel() = SessionDatabaseModel(
 
 fun SessionAppModel.toSessionNetworkModel() = SessionNetworkModel(
         sessionId = sessionId,
+        guid = guid,
+
         abstractt = abstractt,
         date = date,
         dateUTC = dateUTC,
@@ -107,6 +111,8 @@ fun SessionAppModel.toSessionNetworkModel() = SessionNetworkModel(
 
 fun SessionNetworkModel.toSessionDatabaseModel() = SessionDatabaseModel(
         sessionId = sessionId,
+        guid = guid,
+
         abstractt = abstractt,
         date = date,
         dateUTC = dateUTC,
@@ -147,6 +153,7 @@ fun SessionNetworkModel.toSessionDatabaseModel() = SessionDatabaseModel(
 
 fun SessionDatabaseModel.toSessionAppModel(): SessionAppModel {
     val session = SessionAppModel(sessionId)
+    session.guid = guid
 
     session.abstractt = abstractt
     session.date = date
@@ -231,6 +238,7 @@ fun SessionDatabaseModel.toSessionNetworkModel() = SessionNetworkModel(
 
 fun SessionNetworkModel.toSessionAppModel(): SessionAppModel {
     val session = SessionAppModel(sessionId)
+    session.guid = guid
 
     session.abstractt = abstractt
     session.date = date

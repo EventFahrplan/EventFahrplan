@@ -6,6 +6,7 @@ package info.metadude.android.eventfahrplan.database.models
 data class Session(
 
         val sessionId: String,
+        val guid: String,
         val abstractt: String = "",
         val dayIndex: Int = 0,
         val date: String = "",

@@ -14,6 +14,7 @@ class SessionExtensionsTest {
     fun toContentValues() {
         val session = Session(
                 sessionId = "7331",
+                guid = "11111111-1111-1111-1111-111111111111",
                 abstractt = "Lorem ipsum",
                 dayIndex = 3,
                 date = "2015-08-13",

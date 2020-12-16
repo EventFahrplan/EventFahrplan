@@ -21,7 +21,9 @@ public class SessionsDBOpenHelper extends SQLiteOpenHelper {
 
     private static final String SESSIONS_TABLE_CREATE =
             "CREATE TABLE " + SessionsTable.NAME + " (" +
+                    BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                     Columns.SESSION_ID + " TEXT, " +
+                    Columns.GUID + " TEXT NOT NULL UNIQUE, " +
                     Columns.TITLE + " TEXT, " +
                     Columns.SUBTITLE + " TEXT, " +
                     Columns.DAY + " INTEGER, " +
