@@ -5,10 +5,11 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteException
 import info.metadude.android.eventfahrplan.commons.logging.Logging
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.DAY
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.ID
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.SESSION_ID
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.GUID
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.SESSION_TITLE
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.TIME
 import info.metadude.android.eventfahrplan.database.extensions.delete
@@ -33,9 +34,9 @@ internal class RealAlarmsDatabaseRepository(
         const val LOG_TAG = "AlarmsDatabaseRepository"
     }
 
-    override fun update(values: ContentValues, sessionId: String) = with(sqLiteOpenHelper) {
+    override fun update(values: ContentValues, guid: String) = with(sqLiteOpenHelper) {
         writableDatabase.upsert({
-            delete(AlarmsTable.NAME, SESSION_ID, sessionId)
+            delete(AlarmsTable.NAME, GUID, guid)
         }, {
             insert(AlarmsTable.NAME, values)
         })
@@ -45,8 +46,8 @@ internal class RealAlarmsDatabaseRepository(
         read(AlarmsTable.NAME, orderBy = TIME)
     }
 
-    override fun query(sessionId: String): List<Alarm> = query {
-        read(AlarmsTable.NAME, selection = "$SESSION_ID=?", selectionArgs = arrayOf(sessionId))
+    override fun query(guid: String): List<Alarm> = query {
+        read(AlarmsTable.NAME, selection = "$GUID=?", selectionArgs = arrayOf(guid))
     }
 
     override fun query(query: SQLiteDatabase.() -> Cursor): List<Alarm> {
@@ -64,7 +65,7 @@ internal class RealAlarmsDatabaseRepository(
             Alarm(
                     id = cursor.getInt(ID),
                     day = cursor.getInt(DAY),
-                    sessionId = cursor.getString(SESSION_ID),
+                    guid = cursor.getString(GUID),
                     time = cursor.getLong(TIME),
                     title = cursor.getString(SESSION_TITLE)
             )
@@ -85,8 +86,8 @@ internal class RealAlarmsDatabaseRepository(
         delete(AlarmsTable.NAME, ID, "$alarmId")
     }
 
-    override fun deleteForSessionId(sessionId: String) = delete {
-        delete(AlarmsTable.NAME, SESSION_ID, sessionId)
+    override fun deleteForGuid(guid: String) = delete {
+        delete(AlarmsTable.NAME, GUID, guid)
     }
 
     override fun delete(query: SQLiteDatabase.() -> Int) =

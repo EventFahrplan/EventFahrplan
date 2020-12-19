@@ -28,8 +28,8 @@ class AlarmsActivity : BaseActivity(),
         }
     }
 
-    override fun onSessionItemClick(sessionId: String) {
-        if (AppRepository.updateSelectedSessionId(sessionId)) {
+    override fun onSessionItemClick(guid: String) {
+        if (AppRepository.updateSelectedGuid(guid)) {
             SessionDetailsActivity.start(this)
         }
     }

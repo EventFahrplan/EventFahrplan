@@ -14,15 +14,15 @@ interface SessionsDatabaseRepository {
             RealSessionsDatabaseRepository(SessionsDBOpenHelper(context), logging)
     }
 
-    fun insertSessionId(sessionIdContentValues: ContentValues): Int
-    fun deleteSessionIdByNotificationId(notificationId: Int): Int
+    fun insertGuid(guidContentValues: ContentValues): Int
+    fun deleteGuidByNotificationId(notificationId: Int): Int
 
-    fun updateSessions(
-        contentValuesBySessionId: List<Pair<String, ContentValues>>,
-        toBeDeletedSessionIds: List<String>
+    fun upsertSessions(
+        contentValuesByGuid: List<Pair<String, ContentValues>>,
+        toBeDeletedSessionGuids: List<String>
     )
 
-    fun querySessionBySessionId(sessionId: String): Session
+    fun querySessionByGuid(guid: String): Session
     fun querySessionsForDayIndexOrderedByDateUtc(dayIndex: Int): List<Session>
     fun querySessionsOrderedByDateUtc(): List<Session>
     fun querySessionsWithoutRoom(roomName: String): List<Session>

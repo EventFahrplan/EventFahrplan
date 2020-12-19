@@ -3,14 +3,14 @@ package nerd.tuxmobil.fahrplan.congress.contract
 object BundleKeys {
 
     // Add + delete alarm
-    const val ALARM_SESSION_ID = "nerd.tuxmobil.fahrplan.congress.ALARM_SESSION_ID"
+    const val ALARM_GUID = "nerd.tuxmobil.fahrplan.congress.ALARM_GUID"
     const val ALARM_DAY = "nerd.tuxmobil.fahrplan.congress.ALARM_DAY"
     const val ALARM_TITLE = "nerd.tuxmobil.fahrplan.congress.ALARM_TITLE"
     const val ALARM_START_TIME = "nerd.tuxmobil.fahrplan.congress.ALARM_START_TIME"
 
     // Session alarm notification
-    const val SESSION_ALARM_SESSION_ID =
-        "nerd.tuxmobil.fahrplan.congress.SESSION_ALARM_SESSION_ID"
+    const val SESSION_ALARM_GUID =
+        "nerd.tuxmobil.fahrplan.congress.SESSION_ALARM_GUID"
     const val SESSION_ALARM_DAY_INDEX =
         "nerd.tuxmobil.fahrplan.congress.SESSION_ALARM_DAY_INDEX"
     const val SESSION_ALARM_NOTIFICATION_ID =

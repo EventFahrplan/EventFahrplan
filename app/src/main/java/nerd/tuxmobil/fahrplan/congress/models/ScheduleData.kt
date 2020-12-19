@@ -34,12 +34,12 @@ data class ScheduleData(
         get() = roomDataList.flatMap { it.sessions }.sortedBy { it.dateUTC }
 
     /**
-     * Returns the first [Session] found which matches the given [sessionId] or `null` if not found.
+     * Returns the first [Session] found which matches the given [guid] or `null` if not found.
      */
-    fun findSession(sessionId: String): Session? {
+    fun findSession(guid: String): Session? {
         return roomDataList.asSequence()
                 .flatMap { it.sessions.asSequence() }
-                .firstOrNull { it.sessionId == sessionId }
+                .firstOrNull { it.guid == guid }
     }
 
     /**

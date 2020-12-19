@@ -90,7 +90,7 @@ class SearchViewModel(
             OnBackPress -> mutableNavigateBack.sendOneTimeEvent(Unit)
             OnBackIconClick -> searchQuery = ""
             OnSearchSubScreenBackPress -> searchQuery = ""
-            is OnSearchResultItemClick -> screenNavigation?.navigateToSessionDetails(viewEvent.sessionId)
+            is OnSearchResultItemClick -> screenNavigation?.navigateToSessionDetails(viewEvent.guid)
             is OnSearchHistoryItemClick -> searchQuery = viewEvent.searchQuery
             OnSearchHistoryClear -> searchHistoryManager.clear(viewModelScope)
             is OnSearchQueryChange -> searchQuery = viewEvent.updatedQuery

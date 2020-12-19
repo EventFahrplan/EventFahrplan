@@ -14,7 +14,7 @@ class RealSharedPreferencesRepository(val context: Context) : SharedPreferencesR
         const val DISPLAY_DAY_INDEX_KEY = "nerd.tuxmobil.fahrplan.congress.Prefs.DISPLAY_DAY_INDEX"
         const val ENGELSYSTEM_SHIFTS_HASH_KEY = "nerd.tuxmobil.fahrplan.congress.Prefs.ENGELSYSTEM_SHIFTS_HASH"
         const val SCHEDULE_LAST_FETCHED_AT_KEY = "nerd.tuxmobil.fahrplan.congress.Prefs.SCHEDULE_LAST_FETCHED_AT"
-        const val SELECTED_SESSION_ID_KEY = "nerd.tuxmobil.fahrplan.congress.Prefs.SELECTED_SESSION_ID_KEY"
+        const val SELECTED_GUID_KEY = "nerd.tuxmobil.fahrplan.congress.Prefs.SELECTED_GUID_KEY"
         const val SEARCH_HISTORY_KEY = "nerd.tuxmobil.fahrplan.congress.Prefs.SEARCH_HISTORY_KEY"
         const val SEARCH_HISTORY_SEPARATOR = ";"
 
@@ -116,11 +116,11 @@ class RealSharedPreferencesRepository(val context: Context) : SharedPreferencesR
         putInt(ENGELSYSTEM_SHIFTS_HASH_KEY, hash)
     }
 
-    override fun getSelectedSessionId() =
-        preferences.getString(SELECTED_SESSION_ID_KEY, "")!!
+    override fun getSelectedGuid() =
+        preferences.getString(SELECTED_GUID_KEY, "")!!
 
-    override fun setSelectedSessionId(sessionId: String): Boolean = preferences.edit()
-        .putString(SELECTED_SESSION_ID_KEY, sessionId)
+    override fun setSelectedGuid(guid: String): Boolean = preferences.edit()
+        .putString(SELECTED_GUID_KEY, guid)
         .commit()
 
     override fun getSearchHistory(): List<String> {

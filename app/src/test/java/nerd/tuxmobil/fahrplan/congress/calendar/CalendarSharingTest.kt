@@ -60,7 +60,7 @@ class CalendarSharingTest {
     }
 
     private fun createSession() = Session(
-        sessionId = "2342",
+        guid = "11111111-1111-1111-1111-111111112342",
         title = "Title",
         subtitle = "Subtitle",
         speakers = listOf("Speakers"),

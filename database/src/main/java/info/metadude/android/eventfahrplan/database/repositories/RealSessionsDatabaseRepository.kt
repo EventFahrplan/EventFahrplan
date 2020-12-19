@@ -27,6 +27,7 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Se
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DESCR
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DURATION
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.FEEDBACK_URL
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.GUID
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.LANG
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.LINKS
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.REC_LICENSE
@@ -35,7 +36,7 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Se
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.ROOM_IDENTIFIER
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.ROOM_INDEX
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.ROOM_NAME
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.SESSION_ID
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.GUID
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.SLUG
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.SPEAKERS
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.START
@@ -45,6 +46,7 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Se
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.TRACK
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.TYPE
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.URL
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns._ID
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Values.REC_OPT_OUT_OFF
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.ABSTRACT_NONE
@@ -111,8 +113,8 @@ import info.metadude.android.eventfahrplan.database.sqliteopenhelper.SessionsDBO
 
 internal class RealSessionsDatabaseRepository(
 
-        private val sqLiteOpenHelper: SessionsDBOpenHelper,
-        private val logging: Logging
+    private val sqLiteOpenHelper: SessionsDBOpenHelper,
+    private val logging: Logging
 
 ) : SessionsDatabaseRepository {
 
@@ -126,91 +128,96 @@ internal class RealSessionsDatabaseRepository(
      *
      * Notification IDs are incremented automatically.
      *
-     * [sessionIdContentValues] is expected to be composed from
-     * [SessionByNotificationIdTable.Columns.SESSION_ID] and the session ID value.
+     * [guidContentValues] is expected to be composed from
+     * [SessionByNotificationIdTable.Columns.GUID] and the session ID value.
      *
      * See also: [android.database.sqlite.SQLiteDatabase.insert]
      */
-    override fun insertSessionId(sessionIdContentValues: ContentValues) = with(sqLiteOpenHelper) {
-        writableDatabase.insert(SessionByNotificationIdTable.NAME, sessionIdContentValues)
+    override fun insertGuid(guidContentValues: ContentValues) = with(sqLiteOpenHelper) {
+        writableDatabase.insert(SessionByNotificationIdTable.NAME, guidContentValues)
     }.toInt()
 
     /**
      * Deletes the [SessionByNotificationIdTable] row associated with the given unique [notificationId].
      * Returns the number of affected rows.
      */
-    override fun deleteSessionIdByNotificationId(notificationId: Int) = with(sqLiteOpenHelper) {
+    override fun deleteGuidByNotificationId(notificationId: Int) = with(sqLiteOpenHelper) {
         writableDatabase.delete(SessionByNotificationIdTable.NAME, SessionByNotificationIdTable.Columns._ID, "$notificationId")
     }
 
 
     /**
-     * Updates or inserts sessions based on the given [contentValuesBySessionId].
-     * Removes all sessions identified by their [session IDs][toBeDeletedSessionIds].
+     * Updates or inserts sessions based on the given [contentValuesByGuid].
+     * Removes all sessions identified by their [session GUIDs][toBeDeletedSessionGuids].
      */
-    override fun updateSessions(
-            contentValuesBySessionId: List<Pair</* sessionId */ String, ContentValues>>,
-            toBeDeletedSessionIds: List</* sessionId */ String>
+    override fun upsertSessions(
+        contentValuesByGuid: List<Pair</* guid */ String, ContentValues>>,
+        toBeDeletedSessionGuids: List</* sessionGuid */ String>
     ) = with(sqLiteOpenHelper) {
         writableDatabase.transaction {
-            contentValuesBySessionId.forEach { (sessionId, contentValues) ->
-                upsertSession(sessionId, contentValues)
+            contentValuesByGuid.forEach { (guid, contentValues) ->
+                upsertSession(guid, contentValues)
             }
-            toBeDeletedSessionIds.forEach { toBeDeletedSessionId ->
-                deleteSession(toBeDeletedSessionId)
+            toBeDeletedSessionGuids.forEach { toBeDeletedSessionGuid ->
+                deleteSession(toBeDeletedSessionGuid)
             }
         }
     }
 
     /**
-     * Updates a session with the given [contentValues]. A row is matched by its [sessionId].
+     * Updates a session with the given [contentValues]. A row is matched by its [guid].
      * If no row was affected by the update operation then an insert operation is performed
      * assuming that the session does not exist in the table.
      *
+     * The [guid] column is used for matching an existing row because this column holds unique values
+     * and to avoid an unneeded database SELECT just to retrieve the primary key of a row.
+     *
      * This function must be called in the context of a [transaction] block.
      */
-    private fun SQLiteDatabase.upsertSession(sessionId: String, contentValues: ContentValues) {
+    private fun SQLiteDatabase.upsertSession(guid: String, contentValues: ContentValues) {
         val affectedRowsCount = updateRow(
-                tableName = SessionsTable.NAME,
-                contentValues = contentValues,
-                columnName = SESSION_ID,
-                columnValue = sessionId
+            tableName = SessionsTable.NAME,
+            contentValues = contentValues,
+            columnName = GUID,
+            columnValue = guid
         )
         if (affectedRowsCount == 0) {
             insert(
-                    tableName = SessionsTable.NAME,
-                    values = contentValues
+                tableName = SessionsTable.NAME,
+                values = contentValues
             )
         }
     }
 
     /**
-     * Delete the session identified by the given [sessionId] from the table.
+     * Delete the session identified by the given [sessionGuid] from the table.
      */
-    private fun SQLiteDatabase.deleteSession(sessionId: String) = delete(
-            tableName = SessionsTable.NAME,
-            columnName = SESSION_ID,
-            columnValue = sessionId
+    private fun SQLiteDatabase.deleteSession(sessionGuid: String) = delete(
+        tableName = SessionsTable.NAME,
+        columnName = GUID,
+        columnValue = sessionGuid
     )
 
-    override fun querySessionBySessionId(sessionId: String): Session {
+    override fun querySessionByGuid(guid: String): Session {
         return try {
             query {
                 read(SessionsTable.NAME,
-                        selection = "$SESSION_ID=?",
-                        selectionArgs = arrayOf(sessionId))
+                    // The value of "guid" is replaced with the value of the "_id"
+                    // column when the session is queried initially to guarantee a unique value.
+                    selection = "$GUID=?",
+                    selectionArgs = arrayOf(guid))
             }.first()
         } catch (e: NoSuchElementException) {
-            logging.report(LOG_TAG, "Sessions table does not contain a session with ID '$sessionId'. ${e.message}")
+            logging.report(LOG_TAG, "Sessions table does not contain a session with ID '$guid'. ${e.message}")
             throw e
         }
     }
 
     override fun querySessionsForDayIndexOrderedByDateUtc(dayIndex: Int) = query {
         read(SessionsTable.NAME,
-                selection = "$DAY=?",
-                selectionArgs = arrayOf(String.format("%d", dayIndex)),
-                orderBy = DATE_UTC)
+            selection = "$DAY=?",
+            selectionArgs = arrayOf(String.format("%d", dayIndex)),
+            orderBy = DATE_UTC)
     }
 
     override fun querySessionsOrderedByDateUtc() = query {
@@ -243,13 +250,13 @@ internal class RealSessionsDatabaseRepository(
 
         return cursor.map {
             val recordingOptOut =
-                    if (cursor.getInt(REC_OPTOUT) == REC_OPT_OUT_OFF)
-                        Session.RECORDING_OPT_OUT_OFF
-                    else
-                        Session.RECORDING_OPT_OUT_ON
+                if (cursor.getInt(REC_OPTOUT) == REC_OPT_OUT_OFF)
+                    Session.RECORDING_OPT_OUT_OFF
+                else
+                    Session.RECORDING_OPT_OUT_ON
 
             Session(
-                    sessionId = cursor.getString(SESSION_ID),
+                    guid = cursor.getString(GUID),
                     abstractt = cursor.getString(ABSTRACT),
                     dateText = cursor.getString(DATE_TEXT),
                     dateUTC = cursor.getLong(DATE_UTC),

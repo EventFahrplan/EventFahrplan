@@ -82,7 +82,7 @@ class SessionDetailsViewModelTest {
     @Test
     fun `selectedSessionParameter emits SelectedSessionParameter built from filled sample session`() = runTest {
         val session = Session(
-            sessionId = "S1",
+            guid = "11111111-1111-1111-1111-111111111111",
             dateUTC = 100,
             title = "Session title",
             subtitle = "Session subtitle",
@@ -128,7 +128,7 @@ class SessionDetailsViewModelTest {
             formattedZonedDateTimeShort = "01.11.2021 13:00",
             formattedZonedDateTimeLong = "November 1, 2021 13:00",
             roomName = "Main hall",
-            sessionId = "S1",
+            guid = "11111111-1111-1111-1111-111111111111",
             title = "Session title",
             subtitle = "Session subtitle",
             speakerNames = "Jane Doe, John Doe",
@@ -158,7 +158,7 @@ class SessionDetailsViewModelTest {
     @Test
     fun `selectedSessionParameter emits SelectedSessionParameter built from empty sample session`() = runTest {
         val session = Session(
-            sessionId = "S1",
+            guid = "11111111-1111-1111-1111-111111111111",
             dateUTC = 0,
             title = "",
             subtitle = "",
@@ -204,7 +204,7 @@ class SessionDetailsViewModelTest {
             formattedZonedDateTimeShort = "",
             formattedZonedDateTimeLong = "",
             roomName = "",
-            sessionId = "S1",
+            guid = "11111111-1111-1111-1111-111111111111",
             title = "",
             subtitle = "",
             speakerNames = "",
@@ -287,8 +287,8 @@ class SessionDetailsViewModelTest {
 
     @Test
     fun `favorSession() flags the session as a favorite and persists it`() {
-        val actualSession = Session(sessionId = "S3", isHighlight = false)
-        val expectedSession = Session(sessionId = "S3", isHighlight = true)
+        val actualSession = Session(guid = "11111111-1111-1111-1111-111111111113", isHighlight = false)
+        val expectedSession = Session(guid = "11111111-1111-1111-1111-111111111113", isHighlight = true)
         val repository = createRepository(selectedSession = actualSession)
         val viewModel = createViewModel(repository)
         viewModel.favorSession()
@@ -298,8 +298,8 @@ class SessionDetailsViewModelTest {
 
     @Test
     fun `unfavorSession() unflags the session as a favorite and persists it`() {
-        val actualSession = Session(sessionId = "S4", isHighlight = true)
-        val expectedSession = Session(sessionId = "S4", isHighlight = false)
+        val actualSession = Session(guid = "11111111-1111-1111-1111-111111111113", isHighlight = true)
+        val expectedSession = Session(guid = "11111111-1111-1111-1111-111111111114", isHighlight = false)
         val repository = createRepository(selectedSession = actualSession)
         val viewModel = createViewModel(repository)
         viewModel.unfavorSession()
@@ -433,7 +433,7 @@ class SessionDetailsViewModelTest {
     fun `navigateToRoom() posts to navigateToRoom`() = runTest {
         val repository = createRepository(
             selectedSession = Session(
-                sessionId = "S1",
+                guid = "11111111-1111-1111-1111-111111111111",
                 roomName = "Garden",
                 roomIdentifier = "",
             )
@@ -452,7 +452,7 @@ class SessionDetailsViewModelTest {
     @Test
     fun `supportsFeedback returns false if room name matches default Engelsystem room name`() = runTest {
         val session = Session(
-            sessionId = "S1",
+            guid = "11111111-1111-1111-1111-111111111111",
             roomName = "Engelshifts",
             roomIdentifier = "88888888-4444-4444-4444-121212121212",
         )

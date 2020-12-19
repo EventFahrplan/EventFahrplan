@@ -8,7 +8,7 @@ data class Alarm(
         val alarmTimeInMin: Int,
         val day: Int,
         val displayTime: Long,
-        val sessionId: String,
+        val guid: String,
         val sessionTitle: String,
         val startTime: Long,
         val timeText: String
@@ -19,7 +19,7 @@ data class Alarm(
             alarmTimeInMin: Int,
             day: Int,
             displayTime: Long,
-            sessionId: String,
+            guid: String,
             sessionTitle: String,
             startTime: Long,
             timeText: String
@@ -28,7 +28,7 @@ data class Alarm(
             alarmTimeInMin,
             day,
             displayTime,
-            sessionId,
+            guid,
             sessionTitle,
             startTime,
             timeText

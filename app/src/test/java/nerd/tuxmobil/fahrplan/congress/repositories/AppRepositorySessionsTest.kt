@@ -49,71 +49,71 @@ class AppRepositorySessionsTest {
     companion object {
 
         private val SESSION_1001 = SessionDatabaseModel(
-            sessionId = "1001",
+            guid = "11111111-1111-1111-1111-111111111001",
             changedIsCanceled = false,
             changedTitle = false,
             changedIsNew = false,
         )
 
         private val SESSION_1002 = SessionDatabaseModel(
-            sessionId = "1002",
+            guid = "11111111-1111-1111-1111-111111111002",
             changedIsCanceled = true,
             changedTitle = false,
             changedIsNew = false,
         )
 
         private val SESSION_1003 = SessionDatabaseModel(
-            sessionId = "1003",
+            guid = "11111111-1111-1111-1111-111111111003",
             changedIsCanceled = false,
             changedTitle = true,
             changedIsNew = false,
         )
 
         private val SESSION_1004 = SessionDatabaseModel(
-            sessionId = "1004",
+            guid = "11111111-1111-1111-1111-111111111004",
             changedIsCanceled = false,
             changedTitle = false,
             changedIsNew = true,
         )
 
         private val SESSION_1005 = SessionDatabaseModel(
-            sessionId = "1005",
+            guid = "11111111-1111-1111-1111-111111111005",
             changedIsCanceled = true,
             changedTitle = true,
             changedIsNew = true,
         )
 
         private val SESSION_2001 = SessionDatabaseModel(
-            sessionId = "2001",
+            guid = "11111111-1111-1111-1111-111111112001",
             isHighlight = false,
             changedIsCanceled = false,
         )
 
         private val SESSION_2002 = SessionDatabaseModel(
-            sessionId = "2002",
+            guid = "11111111-1111-1111-1111-111111112002",
             isHighlight = true,
             changedIsCanceled = false,
         )
 
         private val SESSION_2003 = SessionDatabaseModel(
-            sessionId = "2003",
+            guid = "11111111-1111-1111-1111-111111112003",
             isHighlight = true,
             changedIsCanceled = true,
         )
 
         private val SESSION_2004 = SessionDatabaseModel(
-            sessionId = "2004",
+            guid = "11111111-1111-1111-1111-111111112004",
             isHighlight = false,
             changedIsCanceled = true,
         )
 
         private val SESSION_3001 = SessionDatabaseModel(
-            sessionId = "3001",
+            guid = "11111111-1111-1111-1111-111111113001",
             changedIsCanceled = false,
         )
 
         private val SESSION_3002 = SessionDatabaseModel(
-            sessionId = "3002",
+            guid = "11111111-1111-1111-1111-111111113002",
             changedIsCanceled = true,
         )
 

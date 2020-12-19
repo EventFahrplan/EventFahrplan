@@ -470,6 +470,14 @@ object AppRepository : SearchRepository {
                 })
     }
 
+    private fun List<SessionAppModel>.distinctByGuid(): List<SessionAppModel> {
+        return distinctBy { it.guid }.also { distinctSessions ->
+            (this - distinctSessions).forEach {
+                logging.e(AppRepository.javaClass.simpleName, "Dropped non-unique session: ${it.guid}")
+            }
+        }
+    }
+
     /**
      * Loads personal shifts from the Engelsystem and joins them with the conference schedule.
      * Once loading is done (successful or not) the given [onLoadingShiftsDone] function is invoked.
@@ -564,7 +572,7 @@ object AppRepository : SearchRepository {
                 .plus(sessionizedShifts) // ... adding them again.
                 .toList()
             val toBeDeletedSessions = oldShifts
-                .filter { persisted -> sessionizedShifts.none { newOrUpdated -> persisted.sessionId == newOrUpdated.sessionId } }
+                .filter { persisted -> sessionizedShifts.none { newOrUpdated -> persisted.guid == newOrUpdated.guid } }
                 .also { logging.d(LOG_TAG, "Shifts to be removed = ${it.size}") }
             updateSessions(
                 toBeUpdatedSessions.toSessionsDatabaseModel(),
@@ -578,8 +586,8 @@ object AppRepository : SearchRepository {
      */
     @WorkerThread
     fun loadSelectedSession(): SessionAppModel {
-        val sessionId = readSelectedSessionId()
-        return readSessionBySessionId(sessionId).toSessionAppModel()
+        val guid = readSelectedGuid()
+        return readSessionByGuid(guid).toSessionAppModel()
     }
 
     /**
@@ -679,23 +687,23 @@ object AppRepository : SearchRepository {
         }
         logging.d(LOG_TAG, "Got ${sessions.size} rows.")
 
-        val highlightedSessionIds = readHighlights()
+        val highlightedGuids = readHighlights()
             .asSequence()
             .filter { it.isHighlight }
-            .map { it.sessionId.toString() }
+            .map { it.guid.toString() }
             .toSet()
 
         val highlightedSessions = sessions.map { session ->
-            if (session.sessionId in highlightedSessionIds) {
+            if (session.guid in highlightedGuids) {
                 session.copy(isHighlight = true)
             } else {
                 session
             }
         }
 
-        val alarmSessionIds = readAlarmSessionIds()
+        val alarmGuids = readAlarmGuids()
         val sessionsWithAlarms = highlightedSessions.map { session ->
-            if (session.sessionId in alarmSessionIds) {
+            if (session.guid in alarmGuids) {
                 session.copy(hasAlarm = true)
             } else {
                 session
@@ -706,13 +714,13 @@ object AppRepository : SearchRepository {
     }
 
     @WorkerThread
-    fun readAlarms(sessionId: String = "") = if (sessionId.isEmpty()) {
+    fun readAlarms(guid: String = "") = if (guid.isEmpty()) {
         alarmsDatabaseRepository.query().toAlarmsAppModel()
     } else {
-        alarmsDatabaseRepository.query(sessionId).toAlarmsAppModel()
+        alarmsDatabaseRepository.query(guid).toAlarmsAppModel()
     }
 
-    private fun readAlarmSessionIds() = readAlarms().map { it.sessionId }.toSet()
+    private fun readAlarmGuids() = readAlarms().map { it.guid }.toSet()
 
     fun deleteAlarmForAlarmId(alarmId: Int) =
             alarmsDatabaseRepository.deleteForAlarmId(alarmId).also {
@@ -728,8 +736,8 @@ object AppRepository : SearchRepository {
         }
 
     @WorkerThread
-    fun deleteAlarmForSessionId(sessionId: String) =
-        alarmsDatabaseRepository.deleteForSessionId(sessionId).also {
+    fun deleteAlarmForGuid(guid: String) =
+        alarmsDatabaseRepository.deleteForGuid(guid).also {
             refreshAlarms()
             refreshSelectedSession()
             refreshUncanceledSessions()
@@ -739,7 +747,7 @@ object AppRepository : SearchRepository {
     fun updateAlarm(alarm: Alarm) {
         val alarmDatabaseModel = alarm.toAlarmDatabaseModel()
         val values = alarmDatabaseModel.toContentValues()
-        alarmsDatabaseRepository.update(values, alarm.sessionId)
+        alarmsDatabaseRepository.update(values, alarm.guid)
         refreshAlarms()
         refreshSelectedSession()
         refreshUncanceledSessions()
@@ -752,15 +760,15 @@ object AppRepository : SearchRepository {
     fun updateHighlight(session: SessionAppModel) {
         val highlightDatabaseModel = session.toHighlightDatabaseModel()
         val values = highlightDatabaseModel.toContentValues()
-        highlightsDatabaseRepository.update(values, session.sessionId)
+        highlightsDatabaseRepository.update(values, session.guid)
         refreshStarredSessions()
         refreshSelectedSession()
         refreshUncanceledSessions()
     }
 
     @WorkerThread
-    fun deleteHighlight(sessionId: String) {
-        highlightsDatabaseRepository.delete(sessionId)
+    fun deleteHighlight(guid: String) {
+        highlightsDatabaseRepository.delete(guid)
         refreshStarredSessions()
         refreshSelectedSession()
         refreshUncanceledSessions()
@@ -774,16 +782,16 @@ object AppRepository : SearchRepository {
         refreshUncanceledSessions()
     }
 
-    private fun readSessionBySessionId(sessionId: String): SessionDatabaseModel {
+    private fun readSessionByGuid(guid: String): SessionDatabaseModel {
         val session = sessionsDatabaseRepository
-            .querySessionBySessionId(sessionId)
+            .querySessionByGuid(guid)
 
         val isHighlighted = highlightsDatabaseRepository
-            .queryBySessionId(sessionId.toInt())
+            .queryByGuid(guid)
             ?.isHighlight ?: false
 
         val hasAlarm = alarmsDatabaseRepository
-            .query(sessionId)
+            .query(guid)
             .isNotEmpty()
 
         return if (isHighlighted || hasAlarm) {
@@ -811,16 +819,16 @@ object AppRepository : SearchRepository {
     private fun readScheduleStatistic() =
         sessionsDatabaseRepository.queryScheduleStatistic()
 
-    private fun readSelectedSessionId(): String {
-        val id = sharedPreferencesRepository.getSelectedSessionId()
+    private fun readSelectedGuid(): String {
+        val id = sharedPreferencesRepository.getSelectedGuid()
         check(id.isNotEmpty()) { "Selected session is empty." }
         return id
     }
 
     @WorkerThread
-    fun updateSelectedSessionId(sessionId: String): Boolean {
-        val isSet = sharedPreferencesRepository.setSelectedSessionId(sessionId).onFailure {
-            error("Error persisting selected session ID '$sessionId'.")
+    fun updateSelectedGuid(guid: String): Boolean {
+        val isSet = sharedPreferencesRepository.setSelectedGuid(guid).onFailure {
+            error("Error persisting selected GUID '$guid'.")
         }
         return isSet.also {
             refreshSelectedSession()
@@ -842,9 +850,9 @@ object AppRepository : SearchRepository {
 
     @VisibleForTesting
     fun updateSessions(toBeUpdatedSessions: List<SessionDatabaseModel>, toBeDeletedSessions: List<SessionDatabaseModel> = emptyList()) {
-        val toBeUpdated = toBeUpdatedSessions.map { it.sessionId to it.toContentValues() }
-        val toBeDeleted = toBeDeletedSessions.map { it.sessionId }
-        sessionsDatabaseRepository.updateSessions(toBeUpdated, toBeDeleted)
+        val toBeUpdated = toBeUpdatedSessions.map { it.guid to it.toContentValues() }
+        val toBeDeleted = toBeDeletedSessions.map { it.guid }
+        sessionsDatabaseRepository.upsertSessions(toBeUpdated, toBeDeleted)
         refreshStarredSessions()
         refreshSessions()
         refreshSessionsWithoutShifts()
@@ -855,11 +863,11 @@ object AppRepository : SearchRepository {
     }
 
     /**
-     * Returns a unique session alarm notification ID for the given [session ID][sessionId].
+     * Returns a unique session alarm notification ID for the given [GUID][guid].
      */
-    fun createSessionAlarmNotificationId(sessionId: String): Int {
-        val values = sessionId.toContentValues()
-        return sessionsDatabaseRepository.insertSessionId(values)
+    fun createSessionAlarmNotificationId(guid: String): Int {
+        val values = guid.toContentValues()
+        return sessionsDatabaseRepository.insertGuid(values)
     }
 
     /**
@@ -868,8 +876,8 @@ object AppRepository : SearchRepository {
      */
     @WorkerThread
     fun deleteSessionAlarmNotificationId(notificationId: Int): Boolean {
-        return (sessionsDatabaseRepository.deleteSessionIdByNotificationId(notificationId) > 0).onFailure {
-            logging.e(LOG_TAG, "Failure deleting sessionId for notificationId = $notificationId")
+        return (sessionsDatabaseRepository.deleteGuidByNotificationId(notificationId) > 0).onFailure {
+            logging.e(LOG_TAG, "Failure deleting guid for notificationId = $notificationId")
         }
     }
 

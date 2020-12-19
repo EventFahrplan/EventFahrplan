@@ -80,19 +80,19 @@ private class InMemorySessionDatabaseRepository : SessionsDatabaseRepository {
 
     override fun queryScheduleStatistic() = scheduleStatistic
 
-    override fun updateSessions(
-        contentValuesBySessionId: List<Pair<String, ContentValues>>,
-        toBeDeletedSessionIds: List<String>) {
+    override fun upsertSessions(
+        contentValuesByGuid: List<Pair<String, ContentValues>>,
+        toBeDeletedGuids: List<String>) {
         // hardcoded in class property
     }
 
-    override fun insertSessionId(sessionIdContentValues: ContentValues) =
+    override fun insertGuid(guidContentValues: ContentValues) =
         throw NotImplementedError()
 
-    override fun deleteSessionIdByNotificationId(notificationId: Int) =
+    override fun deleteGuidByNotificationId(notificationId: Int) =
         throw NotImplementedError()
 
-    override fun querySessionBySessionId(sessionId: String) =
+    override fun querySessionByGuid(guid: String) =
         throw NotImplementedError()
 
     override fun querySessionsForDayIndexOrderedByDateUtc(dayIndex: Int) =

@@ -5,7 +5,7 @@ package info.metadude.android.eventfahrplan.database.models
  */
 data class Session(
 
-        val sessionId: String,
+        val guid: String,
         val abstractt: String = "",
         val dayIndex: Int = 0,          // XML values start with 1
         val dateText: String = "",

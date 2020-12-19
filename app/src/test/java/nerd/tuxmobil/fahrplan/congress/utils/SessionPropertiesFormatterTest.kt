@@ -118,7 +118,7 @@ class SessionPropertiesFormatterTest {
         track: String = "",
         language: String = "",
     ) = Session(
-        sessionId = "",
+        guid = "",
         speakers = speakers,
         track = track,
         language = language,

@@ -75,7 +75,7 @@ class SessionIsChangedTest {
     }
 
     private fun createSession() = Session(
-        sessionId = "",
+        guid = "",
         changedTitle = false,
         changedSubtitle = false,
         changedRoomName = false,

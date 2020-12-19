@@ -45,15 +45,15 @@ internal class AlarmsViewModel(
     }
 
     private fun navigateToSessionDetails(value: SessionAlarmParameter) {
-        screenNavigation?.navigateToSessionDetails(value.sessionId)
+        screenNavigation?.navigateToSessionDetails(value.guid)
     }
 
     private fun deleteSessionAlarm(value: SessionAlarmParameter) {
         launch {
-            repository.deleteAlarmForSessionId(value.sessionId)
+            repository.deleteAlarmForGuid(value.guid)
             val alarm = SchedulableAlarm(
                 day = value.dayIndex,
-                sessionId = value.sessionId,
+                guid = value.guid,
                 sessionTitle = value.title,
                 startTime = value.firesAt
             )

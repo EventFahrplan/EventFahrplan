@@ -12,10 +12,10 @@ interface HighlightsDatabaseRepository {
             RealHighlightsDatabaseRepository(HighlightDBOpenHelper(context))
     }
 
-    fun update(values: ContentValues, sessionId: String): Long
+    fun update(values: ContentValues, guid: String): Long
     fun query(): List<Highlight>
-    fun queryBySessionId(sessionId: Int): Highlight?
-    fun delete(sessionId: String): Int
+    fun queryByGuid(guid: String): Highlight?
+    fun delete(guid: String): Int
     fun deleteAll(): Int
 
 }

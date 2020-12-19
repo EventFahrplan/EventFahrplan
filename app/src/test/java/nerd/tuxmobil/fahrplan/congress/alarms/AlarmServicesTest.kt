@@ -56,7 +56,7 @@ class AlarmServicesTest {
         whenever(repository.readUseDeviceTimeZoneEnabled()) doReturn true
         whenever(formattingDelegate.getFormattedDateTimeShort(any(), any(), any())) doReturn "not relevant"
         val session = Session(
-            sessionId = "S1",
+            guid = "11111111-1111-1111-1111-111111111111",
             dayIndex = 1,
             title = "Title",
             dateUTC = 1536332400000L, // 2018-09-07T17:00:00+02:00
@@ -69,7 +69,7 @@ class AlarmServicesTest {
             alarmTimeInMin = 60,
             day = 1,
             displayTime = 1536332400000,
-            sessionId = "S1",
+            guid = "11111111-1111-1111-1111-111111111111",
             sessionTitle = "Title",
             startTime = 1536328800000,
             timeText = "not relevant"
@@ -82,7 +82,7 @@ class AlarmServicesTest {
         val pendingIntentDelegate = mock<PendingIntentDelegate>()
         val formattingDelegate = mock<FormattingDelegate>()
         val alarmServices = createAlarmServices(pendingIntentDelegate = pendingIntentDelegate, formattingDelegate = formattingDelegate)
-        val session = Session(sessionId = "S2", dateUTC = 1536332400000L) // 2018-09-07T17:00:00+02:00
+        val session = Session(guid = "11111111-1111-1111-1111-111111111112", dateUTC = 1536332400000L) // 2018-09-07T17:00:00+02:00
 
         try {
             alarmServices.addSessionAlarm(session, alarmTimesValues.size) // Out of bounds!
@@ -100,12 +100,12 @@ class AlarmServicesTest {
         val alarmServices = createAlarmServices(formattingDelegate = formattingDelegate)
         val alarm = Alarm(10, 2, 0, "S3", "Title", 1536332400000L, "Lorem ipsum")
         whenever(repository.readAlarms(any())) doReturn listOf(alarm)
-        val session = Session(sessionId = "S3", hasAlarm = true)
+        val session = Session(guid = "11111111-1111-1111-1111-111111111113", hasAlarm = true)
 
         alarmServices.deleteSessionAlarm(session)
         // AlarmServices invokes discardSessionAlarm() which is tested separately.
         verifyNoInteractions(formattingDelegate)
-        verifyInvokedOnce(repository).deleteAlarmForSessionId("S3")
+        verifyInvokedOnce(repository).deleteAlarmForGuid("11111111-1111-1111-1111-111111111113")
     }
 
     @Test
@@ -114,7 +114,7 @@ class AlarmServicesTest {
         val formattingDelegate = mock<FormattingDelegate>()
         val alarmServices = createAlarmServices(pendingIntentDelegate = pendingIntentDelegate, formattingDelegate = formattingDelegate)
         whenever(repository.readAlarms(any())) doReturn emptyList()
-        val session = Session(sessionId = "S4")
+        val session = Session(guid = "11111111-1111-1111-1111-111111111114")
 
         alarmServices.deleteSessionAlarm(session)
         verifyNoInteractions(pendingIntentDelegate)
@@ -193,12 +193,12 @@ class AlarmServicesTest {
     // TODO Move into a unit test for AlarmReceiver once it is written.
     private fun assertIntentExtras(intent: Intent, action: String) {
         assertThat(intent.getIntExtra(BundleKeys.ALARM_DAY, 9)).isEqualTo(alarm.day)
-        assertThat(intent.getStringExtra(BundleKeys.ALARM_SESSION_ID)).isEqualTo(alarm.sessionId)
+        assertThat(intent.getStringExtra(BundleKeys.ALARM_GUID)).isEqualTo(alarm.guid)
         assertThat(intent.getLongExtra(BundleKeys.ALARM_START_TIME, 0)).isEqualTo(alarm.startTime)
         assertThat(intent.getStringExtra(BundleKeys.ALARM_TITLE)).isEqualTo(alarm.sessionTitle)
         assertThat(intent.component!!.className).isEqualTo(AlarmReceiver::class.java.name)
         assertThat(intent.action).isEqualTo(action)
-        assertThat(intent.data).isEqualTo("alarm://${alarm.sessionId}".toUri())
+        assertThat(intent.data).isEqualTo("alarm://${alarm.guid}".toUri())
     }
 
     private fun createAlarmServices(

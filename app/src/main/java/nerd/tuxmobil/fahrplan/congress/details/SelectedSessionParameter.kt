@@ -7,7 +7,7 @@ package nerd.tuxmobil.fahrplan.congress.details
 data class SelectedSessionParameter(
 
     // Details content
-    val sessionId: String,
+    val guid: String,
 
     val hasDateUtc: Boolean,
     val formattedZonedDateTimeShort: String,

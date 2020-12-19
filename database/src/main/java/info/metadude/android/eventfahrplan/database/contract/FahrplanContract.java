@@ -39,9 +39,9 @@ public interface FahrplanContract {
             /* 1 */ String SESSION_TITLE = "title";
             /* 2 */ String ALARM_TIME_IN_MIN = "alarm_time_in_min";
             /* 3 */ String TIME = "time";
-            /* 4 */ String TIME_TEXT = "timeText";
-            /* 5 */ String SESSION_ID = "eventid"; // Keep column name to avoid database migration.
-            /* 6 */ String DISPLAY_TIME = "displayTime";
+            /* 4 */ String TIME_TEXT = "time_text";
+            /* 5 */ String GUID = "guid";
+            /* 6 */ String DISPLAY_TIME = "display_time";
             /* 7 */ String DAY = "day";
         }
 
@@ -55,11 +55,11 @@ public interface FahrplanContract {
 
     interface HighlightsTable {
 
-        String NAME = "highlight";
+        String NAME = "highlights";
 
         interface Columns {
 
-            /* 0 */ String SESSION_ID = "eventid"; // Keep column name to avoid database migration.
+            /* 0 */ String GUID = "guid";
             /* 1 */ String HIGHLIGHT = "highlight";
             /* 2 */ String ID = "_id";
         }
@@ -78,7 +78,7 @@ public interface FahrplanContract {
 
         interface Columns extends BaseColumns {
 
-            /* 00 */ String SESSION_ID = "session_id";
+            /* 00 */ String GUID = "guid";
 
         }
 
@@ -86,11 +86,10 @@ public interface FahrplanContract {
 
     interface SessionsTable {
 
-        String NAME = "lectures"; // Keep table name to avoid database migration.
+        String NAME = "sessions";
 
         interface Columns extends BaseColumns {
 
-            /* 00 */ String SESSION_ID = "event_id"; // Keep column name to avoid database migration.
             /* 01 */ String TITLE = "title";
             /* 02 */ String SUBTITLE = "subtitle";
             /* 03 */ String DAY = "day";
@@ -127,6 +126,7 @@ public interface FahrplanContract {
             /* 34 */ String TIME_ZONE_OFFSET = "time_zone_offset";
             /* 35 */ String ROOM_IDENTIFIER = "room_identifier";
             /* 36 */ String FEEDBACK_URL = "feedback_url";
+            /* 35 */ String GUID = "guid";
         }
 
         interface Defaults {

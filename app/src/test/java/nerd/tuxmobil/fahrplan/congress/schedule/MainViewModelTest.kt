@@ -229,13 +229,13 @@ class MainViewModelTest {
         val repository = createRepository(
             loadScheduleStateFlow = flowOf(ParseSuccess),
             scheduleChangesSeen = false,
-            changedSessions = listOf(SessionDatabaseModel(sessionId = "changed-01", changedIsNew = true))
+            changedSessions = listOf(SessionDatabaseModel(guid = "11111111-1111-1111-1111-111111111101", changedIsNew = true))
         )
         val viewModel = createViewModel(repository)
         viewModel.loadScheduleUiState.test {
             assertThat(awaitItem()).isEqualTo(LoadScheduleUiState.Success.ParseSuccess)
         }
-        val expectedSessions = listOf(SessionAppModel(sessionId = "changed-01", changedIsNew = true))
+        val expectedSessions = listOf(SessionAppModel(guid = "11111111-1111-1111-1111-111111111101", changedIsNew = true))
         val expectedChangeStatistic = ChangeStatistic.of(expectedSessions, logging)
         val expectedScheduleChangesParameter = ScheduleChangesParameter(scheduleVersion = "", expectedChangeStatistic)
         viewModel.scheduleChangesParameter.test {
@@ -306,7 +306,7 @@ class MainViewModelTest {
 
     @Test
     fun `openSessionDetails posts to openSessionDetails property`() = runTest {
-        val repository = createRepository(updatedSelectedSessionId = true)
+        val repository = createRepository(updatedSelectedGuid = true)
         val viewModel = createViewModel(repository)
         viewModel.openSessionDetails("S1")
         viewModel.openSessionDetails.test {
@@ -316,7 +316,7 @@ class MainViewModelTest {
 
     @Test
     fun `openSessionDetails does not post to openSessionDetails property`() = runTest {
-        val repository = createRepository(updatedSelectedSessionId = false)
+        val repository = createRepository(updatedSelectedGuid = false)
         val viewModel = createViewModel(repository)
         viewModel.openSessionDetails("S1")
         viewModel.openSessionDetails.test {
@@ -371,14 +371,14 @@ class MainViewModelTest {
         loadScheduleStateFlow: Flow<LoadScheduleState> = emptyFlow(),
         scheduleChangesSeen: Boolean = true,
         changedSessions: List<SessionDatabaseModel> = emptyList(),
-        updatedSelectedSessionId: Boolean = false,
+        updatedSelectedGuid: Boolean = false,
         alarms: List<Alarm> = emptyList()
     ) = mock<AppRepository> {
         on { loadScheduleState } doReturn loadScheduleStateFlow
         on { readScheduleChangesSeen() } doReturn scheduleChangesSeen
         on { readMeta() } doReturn Meta(version = "")
         on { loadChangedSessions() } doReturn changedSessions
-        on { updateSelectedSessionId(any()) } doReturn updatedSelectedSessionId
+        on { updateSelectedGuid(any()) } doReturn updatedSelectedGuid
         on { readAlarms(any()) } doReturn alarms
     }
 

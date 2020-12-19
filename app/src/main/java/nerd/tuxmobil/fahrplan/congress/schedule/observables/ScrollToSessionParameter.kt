@@ -9,7 +9,7 @@ import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewModel
  */
 data class ScrollToSessionParameter(
 
-    val sessionId: String,
+    val guid: String,
     val verticalPosition: Int,
     val roomIndex: Int
 

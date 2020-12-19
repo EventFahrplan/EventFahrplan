@@ -9,7 +9,7 @@ import nerd.tuxmobil.fahrplan.congress.models.Session
 import org.threeten.bp.Duration
 import kotlin.collections.set
 
-private typealias SessionId = String
+private typealias Guid = String
 
 data class LayoutCalculator(
 
@@ -27,13 +27,13 @@ data class LayoutCalculator(
         return standardHeight * minutes / DIVISOR
     }
 
-    fun calculateLayoutParams(roomData: RoomData, conference: Conference): Map<SessionId, LinearLayout.LayoutParams> {
+    fun calculateLayoutParams(roomData: RoomData, conference: Conference): Map<Guid, LinearLayout.LayoutParams> {
         val sessions = roomData.sessions
         var previousSessionEndsAt: Int = conference.firstSessionStartsAt.minuteOfDay
         var startTime: Int
         var margin: Int
         var previousSession: Session? = null
-        val layoutParamsBySession = mutableMapOf<SessionId, LinearLayout.LayoutParams>()
+        val layoutParamsBySession = mutableMapOf<Guid, LinearLayout.LayoutParams>()
 
         for ((index, session) in sessions.withIndex()) {
             startTime = getStartTime(session, previousSessionEndsAt)
@@ -42,7 +42,7 @@ data class LayoutCalculator(
                 // consecutive session
                 margin = calculateDisplayDistance(startTime - previousSessionEndsAt)
                 if (previousSession != null) {
-                    layoutParamsBySession[previousSession.sessionId]!!.bottomMargin = margin
+                    layoutParamsBySession[previousSession.guid]!!.bottomMargin = margin
                     margin = 0
                 }
             } else {
@@ -57,12 +57,12 @@ data class LayoutCalculator(
                 session
             }
 
-            val sessionId = adjustedSession.sessionId
-            if (!layoutParamsBySession.containsKey(sessionId)) {
-                layoutParamsBySession[sessionId] = createLayoutParams(adjustedSession)
+            val guid = adjustedSession.guid
+            if (!layoutParamsBySession.containsKey(guid)) {
+                layoutParamsBySession[guid] = createLayoutParams(adjustedSession)
             }
 
-            layoutParamsBySession[sessionId]!!.topMargin = margin
+            layoutParamsBySession[guid]!!.topMargin = margin
             previousSessionEndsAt = startTime + adjustedSession.duration
             previousSession = adjustedSession
         }

@@ -14,7 +14,7 @@ class AlarmExtensionsTest {
                 alarmTimeInMin = 20,
                 day = 4,
                 displayTime = 1509617700000L,
-                sessionId = "5237",
+                guid = "11111111-1111-1111-1111-111111115237",
                 time = 1509617700001L,
                 timeText = "02/11/2017 11:05",
                 title = "My title"
@@ -28,14 +28,14 @@ class AlarmExtensionsTest {
                 alarmTimeInMin = 20,
                 day = 4,
                 displayTime = 1509617700000L,
-                sessionId = "5237",
+            guid = "11111111-1111-1111-1111-111111115237",
                 sessionTitle = "My title",
                 startTime = 1509617700001L,
                 timeText = "02/11/2017 11:05"
         )
         val schedulableAlarm = SchedulableAlarm(
                 day = 4,
-                sessionId = "5237",
+            guid = "11111111-1111-1111-1111-111111115237",
                 sessionTitle = "My title",
                 startTime = 1509617700001L
         )

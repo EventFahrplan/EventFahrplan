@@ -363,7 +363,7 @@ class FahrplanViewModelTest {
         fun `fillTimes posts TimeTextViewParameter to timeTextViewParameters property`() = runTest {
             val startsAt = 1582963200000L // February 29, 2020 08:00:00 AM GMT
             val session = Session(
-                sessionId = "session-01",
+                guid = "11111111-1111-1111-1111-111111111101",
                 dateUTC = startsAt,
                 duration = 30,
                 timeZoneOffset = ZoneOffset.UTC,
@@ -660,11 +660,11 @@ class FahrplanViewModelTest {
         @Test
         fun `scrollToSession posts to scrollToSessionParameter property when session is present and matched`() =
             runTest {
-                val scheduleData = createScheduleData("session-02")
+                val scheduleData = createScheduleData("11111111-1111-1111-1111-111111111102")
                 val repository = createRepository(loadUncanceledSessionsForDayIndex = scheduleData)
                 val viewModel = createViewModel(repository)
                 viewModel.scrollToSession("session-02", boxHeight = 42)
-                val expected = ScrollToSessionParameter(sessionId = "session-02", verticalPosition = 0, roomIndex = 0)
+                val expected = ScrollToSessionParameter(guid = "11111111-1111-1111-1111-111111111102", verticalPosition = 0, roomIndex = 0)
                 viewModel.scrollToSessionParameter.test {
                     assertThat(awaitItem()).isEqualTo(expected)
                 }
@@ -696,8 +696,8 @@ class FahrplanViewModelTest {
         on { readDateInfos() } doReturn dateInfos
     }
 
-    private fun createScheduleData(sessionId: String? = null, hasAlarm: Boolean = false): ScheduleData {
-        val session = if (sessionId == null) null else Session(sessionId = sessionId, hasAlarm = hasAlarm)
+    private fun createScheduleData(guid: String? = null, hasAlarm: Boolean = false): ScheduleData {
+        val session = if (guid == null) null else Session(guid = guid, hasAlarm = hasAlarm)
         return createScheduleData(session)
     }
 
@@ -730,11 +730,11 @@ class FahrplanViewModelTest {
         runsAtLeastOnAndroidTiramisu = runsAtLeastOnAndroidTiramisu
     )
 
-    private fun createAlarm(@Suppress("SameParameterValue") sessionId: String) = Alarm(
+    private fun createAlarm(@Suppress("SameParameterValue") guid: String) = Alarm(
         alarmTimeInMin = 10,
         day = 2,
         displayTime = 0,
-        sessionId = sessionId,
+        guid = guid,
         sessionTitle = "Title",
         startTime = 1536332400000L,
         timeText = "Lorem ipsum"

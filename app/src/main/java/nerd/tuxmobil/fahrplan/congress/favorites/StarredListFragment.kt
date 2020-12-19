@@ -220,7 +220,7 @@ class StarredListFragment :
             // fragment is attached to one) that an item has been selected.
             currentPosition--
             val clicked = starredListAdapter.getSession(currentPosition)
-            onSessionListClickListener?.onSessionListClick(clicked.sessionId)
+            onSessionListClickListener?.onSessionListClick(clicked.guid)
         }
     }
 

@@ -161,9 +161,9 @@ internal class MainViewModel(
         }
     }
 
-    fun openSessionDetails(sessionId: String) {
+    fun openSessionDetails(guid: String) {
         launch {
-            val isUpdated = repository.updateSelectedSessionId(sessionId)
+            val isUpdated = repository.updateSelectedGuid(guid)
             if (isUpdated) {
                 mutableOpenSessionDetails.sendOneTimeEvent(Unit)
             }

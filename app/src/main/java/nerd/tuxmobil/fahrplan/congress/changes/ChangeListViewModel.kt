@@ -48,7 +48,7 @@ class ChangeListViewModel(
 
     fun onViewEvent(viewEvent: SessionChangeViewEvent) {
         when (viewEvent) {
-            is OnSessionChangeItemClick -> screenNavigation?.navigateToSessionDetails(viewEvent.sessionId)
+            is OnSessionChangeItemClick -> screenNavigation?.navigateToSessionDetails(viewEvent.guid)
         }
     }
 

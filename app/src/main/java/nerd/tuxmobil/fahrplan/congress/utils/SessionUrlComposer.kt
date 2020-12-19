@@ -34,13 +34,13 @@ class SessionUrlComposer(
                 if (session.roomName in specialRoomNames) {
                     NO_URL
                 } else {
-                    getComposedSessionUrl(session.sessionId)
+                    getComposedSessionUrl(session.guid)
                 }
             }
         }
 
-    private fun getComposedSessionUrl(sessionIdentifier: String) =
-            String.format(sessionUrlTemplate, sessionIdentifier)
+    private fun getComposedSessionUrl(guid: String) =
+            String.format(sessionUrlTemplate, guid)
 
     private companion object {
         const val NO_URL = ""

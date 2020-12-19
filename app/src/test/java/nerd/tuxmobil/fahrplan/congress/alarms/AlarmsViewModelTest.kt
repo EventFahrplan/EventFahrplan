@@ -52,7 +52,7 @@ class AlarmsViewModelTest {
         val repository = createRepository(
             alarmsList = listOf(
                 createAlarm(
-                    sessionId = "s0",
+                    guid = "11111111-1111-1111-1111-111111111110",
                     alarmTimeInMin = ALARM_TIME_IN_MIN,
                     alarmStartsAt = ALARM_STARTS_AT.toMilliseconds()
                 )
@@ -60,7 +60,7 @@ class AlarmsViewModelTest {
             sessionsFlow = flowOf(
                 listOf(
                     Session(
-                        sessionId = "s0",
+                        guid = "11111111-1111-1111-1111-111111111110",
                         title = "Title",
                         subtitle = "Subtitle",
                         dateUTC = SESSION_STARTS_AT.toMilliseconds(),
@@ -81,7 +81,7 @@ class AlarmsViewModelTest {
         val repository = createRepository(
             alarmsList = listOf(
                 createAlarm(
-                    sessionId = "s0",
+                    guid = "11111111-1111-1111-1111-111111111110",
                     alarmTimeInMin = ALARM_TIME_IN_MIN,
                     alarmStartsAt = ALARM_STARTS_AT.toMilliseconds()
                 )
@@ -89,7 +89,7 @@ class AlarmsViewModelTest {
             sessionsFlow = flowOf(
                 listOf(
                     Session(
-                        sessionId = "s0",
+                        guid = "11111111-1111-1111-1111-111111111110",
                         title = "Title",
                         subtitle = "Subtitle",
                         dateUTC = SESSION_STARTS_AT.toMilliseconds(),
@@ -116,7 +116,7 @@ class AlarmsViewModelTest {
             val repository = createRepository(
                 alarmsList = listOf(
                     createAlarm(
-                        sessionId = "s0",
+                        guid = "11111111-1111-1111-1111-111111111110",
                         alarmTimeInMin = ALARM_TIME_IN_MIN,
                         alarmStartsAt = ALARM_STARTS_AT.toMilliseconds()
                     )
@@ -124,7 +124,7 @@ class AlarmsViewModelTest {
                 sessionsFlow = flowOf(
                     listOf(
                         Session(
-                            sessionId = "s0",
+                            guid = "11111111-1111-1111-1111-111111111110",
                             title = "Title",
                             subtitle = "Subtitle",
                             dateUTC = SESSION_STARTS_AT.toMilliseconds(),
@@ -139,7 +139,7 @@ class AlarmsViewModelTest {
                 val success = state as Success
                 val sessionAlarmParameter = state.sessionAlarmParameters.first()
                 success.onDeleteItemClick(sessionAlarmParameter)
-                verifyInvokedOnce(repository).deleteAlarmForSessionId(any())
+                verifyInvokedOnce(repository).deleteAlarmForGuid(any())
                 verifyInvokedOnce(alarmServices).discardSessionAlarm(any())
             }
         }
@@ -181,7 +181,7 @@ class AlarmsViewModelTest {
         on { sessionsWithoutShifts } doReturn emptyFlow()
         on { readAlarms(any()) } doReturn alarmsList
         on { readUseDeviceTimeZoneEnabled() } doReturn true
-        on { deleteAlarmForSessionId(any()) } doReturn 0
+        on { deleteAlarmForGuid(any()) } doReturn 0
         on { deleteAllAlarms() } doReturn 0
     }
 
@@ -197,7 +197,7 @@ class AlarmsViewModelTest {
 
     private fun createAlarmsStateFactory(): AlarmsStateFactory {
         val parameter = mock<SessionAlarmParameter> {
-            on { sessionId } doReturn "not asserted in this test"
+            on { guid } doReturn "not asserted in this test"
             on { title } doReturn "not asserted in this test"
         }
         return mock<AlarmsStateFactory> {
@@ -207,14 +207,14 @@ class AlarmsViewModelTest {
     }
 
     private fun createAlarm(
-        sessionId: String,
+        guid: String,
         alarmTimeInMin: Int = 10,
         alarmStartsAt: Long = 1620909000000
     ) = Alarm(
         alarmTimeInMin = alarmTimeInMin,
         day = 2,
         displayTime = -1,
-        sessionId = sessionId,
+        guid = guid,
         sessionTitle = "Unused",
         startTime = alarmStartsAt,
         timeText = "Unused"
