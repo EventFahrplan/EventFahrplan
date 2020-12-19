@@ -8,9 +8,9 @@ interface SessionsDatabaseRepository {
     fun insertSessionId(sessionIdContentValues: ContentValues): Int
     fun deleteSessionIdByNotificationId(notificationId: Int): Int
 
-    fun updateSessions(
-        contentValuesBySessionId: List<Pair<String, ContentValues>>,
-        toBeDeletedSessionIds: List<String>
+    fun upsertSessions(
+        contentValuesByGuid: List<Pair<String, ContentValues>>,
+        toBeDeletedSessionGuids: List<String>
     )
 
     fun querySessionBySessionId(sessionId: String): Session

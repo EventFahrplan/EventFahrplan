@@ -276,6 +276,11 @@ class ScheduleChangesTest {
         assertThat(scheduleChanges.foundChanges).isTrue()
     }
 
-    private fun createSession(sessionId: String = "1", block: Session.() -> Unit = {}) = Session(sessionId).apply(block)
+    private fun createSession(sessionId: String = "1", block: Session.() -> Unit = {}): Session {
+        return Session(sessionId).apply {
+            guid = sessionId // shortcut for testing purpose only!
+            block()
+        }
+    }
 
 }

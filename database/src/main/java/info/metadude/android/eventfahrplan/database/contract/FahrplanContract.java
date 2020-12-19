@@ -89,6 +89,7 @@ public interface FahrplanContract {
 
         interface Columns extends BaseColumns {
 
+            @Deprecated // Value is unused. Query primary key _ID column instead.
             /* 00 */ String SESSION_ID = "event_id"; // Keep column name to avoid database migration.
             /* 01 */ String TITLE = "title";
             /* 02 */ String SUBTITLE = "subtitle";
@@ -124,6 +125,7 @@ public interface FahrplanContract {
             /* 32 */ String SLUG = "slug";
             /* 33 */ String URL = "url";
             /* 34 */ String TIME_ZONE_OFFSET = "time_zone_offset";
+            /* 35 */ String GUID = "guid";
         }
 
         interface Defaults {

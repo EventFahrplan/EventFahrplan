@@ -11,6 +11,7 @@ class SessionTest {
     companion object {
 
         fun createSession() = Session("s1").apply {
+            guid = "11111111-1111-1111-1111-111111111111"
             title = "Lorem ipsum"
             subtitle = "Gravida arcu ac tortor"
             day = 3

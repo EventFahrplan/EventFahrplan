@@ -41,7 +41,7 @@ data class ScheduleChanges private constructor(
             var sessionIndex = 0
             while (sessionIndex < newSessions.size) {
                 val newSession = newSessions[sessionIndex]
-                val oldSession = oldNotCanceledSessions.singleOrNull { oldNotCanceledSession -> newSession.sessionId == oldNotCanceledSession.sessionId }
+                val oldSession = oldNotCanceledSessions.singleOrNull { oldNotCanceledSession -> newSession.guid == oldNotCanceledSession.guid }
                 if (oldSession == null) {
                     sessionsWithChangeFlags += SessionAppModel(newSession).apply { changedIsNew = true }
                     foundChanges = true

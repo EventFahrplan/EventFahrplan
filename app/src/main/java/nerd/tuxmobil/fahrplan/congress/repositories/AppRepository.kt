@@ -708,9 +708,9 @@ object AppRepository {
 
     private fun updateSessions(toBeUpdatedSessions: List<Session>, toBeDeletedSessions: List<Session> = emptyList()) {
         val toBeUpdatedSessionsDatabaseModel = toBeUpdatedSessions.toSessionsDatabaseModel()
-        val toBeUpdated = toBeUpdatedSessionsDatabaseModel.map { it.sessionId to it.toContentValues() }
-        val toBeDeleted = toBeDeletedSessions.map { it.sessionId }
-        sessionsDatabaseRepository.updateSessions(toBeUpdated, toBeDeleted)
+        val toBeUpdated = toBeUpdatedSessionsDatabaseModel.map { it.guid to it.toContentValues() }
+        val toBeDeleted = toBeDeletedSessions.map { it.guid }
+        sessionsDatabaseRepository.upsertSessions(toBeUpdated, toBeDeleted)
         refreshStarredSessions()
         refreshSessions()
         refreshChangedSessions()
