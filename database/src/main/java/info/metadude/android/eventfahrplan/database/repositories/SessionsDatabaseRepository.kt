@@ -50,6 +50,7 @@ import info.metadude.android.eventfahrplan.database.extensions.getString
 import info.metadude.android.eventfahrplan.database.extensions.insert
 import info.metadude.android.eventfahrplan.database.extensions.map
 import info.metadude.android.eventfahrplan.database.extensions.read
+import info.metadude.android.eventfahrplan.database.extensions.updateRow
 import info.metadude.android.eventfahrplan.database.models.Session
 import info.metadude.android.eventfahrplan.database.sqliteopenhelper.SessionsDBOpenHelper
 
@@ -59,15 +60,6 @@ class SessionsDatabaseRepository(
         private val logging: Logging
 
 ) {
-
-    fun insert(list: List<ContentValues>) = with(sqLiteOpenHelper) {
-        writableDatabase.transaction {
-            delete(SessionsTable.NAME)
-            list.forEach { contentValues ->
-                insert(SessionsTable.NAME, contentValues)
-            }
-        }
-    }
 
     /**
      * Inserts the session ID into the [SessionByNotificationIdTable] and returns
@@ -90,6 +82,39 @@ class SessionsDatabaseRepository(
      */
     fun deleteSessionIdByNotificationId(notificationId: Int) = with(sqLiteOpenHelper) {
         writableDatabase.delete(SessionByNotificationIdTable.NAME, SessionByNotificationIdTable.Columns._ID, "$notificationId")
+    }
+
+    /**
+     * Updates or inserts sessions based on the given [contentValuesBySessionId].
+     */
+    fun upsertSessions(vararg contentValuesBySessionId: Pair</* sessionId */ String, ContentValues>) = with(sqLiteOpenHelper) {
+        writableDatabase.transaction {
+            contentValuesBySessionId.forEach { (sessionId, contentValues) ->
+                upsertSession(sessionId, contentValues)
+            }
+        }
+    }
+
+    /**
+     * Updates a session with the given [contentValues]. A row is matched by its [sessionId].
+     * If no row was affected by the update operation then an insert operation is performed
+     * assuming that the session does not exist in the table.
+     *
+     * This function must be called in the context of a [transaction] block.
+     */
+    private fun SQLiteDatabase.upsertSession(sessionId: String, contentValues: ContentValues) {
+        val affectedRowsCount = updateRow(
+                tableName = SessionsTable.NAME,
+                contentValues = contentValues,
+                columnName = SESSION_ID,
+                columnValue = sessionId
+        )
+        if (affectedRowsCount == 0) {
+            insert(
+                    tableName = SessionsTable.NAME,
+                    values = contentValues
+            )
+        }
     }
 
     fun querySessionBySessionId(sessionId: String): Session {
