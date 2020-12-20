@@ -50,7 +50,7 @@ import nerd.tuxmobil.fahrplan.congress.net.ParseResult
 import nerd.tuxmobil.fahrplan.congress.net.ParseScheduleResult
 import nerd.tuxmobil.fahrplan.congress.preferences.AlarmTonePreference
 import nerd.tuxmobil.fahrplan.congress.preferences.SharedPreferencesRepository
-import nerd.tuxmobil.fahrplan.congress.serialization.ScheduleChanges
+import nerd.tuxmobil.fahrplan.congress.serialization.ScheduleChanges.computeSessionsWithChangeFlags
 import nerd.tuxmobil.fahrplan.congress.utils.AlarmToneConversion
 import nerd.tuxmobil.fahrplan.congress.validation.MetaValidation.validate
 import okhttp3.OkHttpClient
@@ -166,11 +166,11 @@ object AppRepository {
                 onUpdateSessions = { sessions ->
                     val oldSessions = loadSessionsForAllDays(true)
                     val newSessions = sessions.toSessionsAppModel2().sanitize()
-                    val hasChanged = ScheduleChanges.hasScheduleChanged(newSessions, oldSessions)
-                    if (hasChanged) {
+                    val (sessionsWithChangeFlags, foundChanges) = computeSessionsWithChangeFlags(newSessions, oldSessions)
+                    if (foundChanges) {
                         resetChangesSeenFlag()
                     }
-                    updateSessions(newSessions)
+                    updateSessions(sessionsWithChangeFlags)
                 },
                 onUpdateMeta = { meta ->
                     val validMeta = meta.validate()
