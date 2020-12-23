@@ -79,6 +79,14 @@ class SessionTest {
     }
 
     @Test
+    fun `copy constructor creates a new instance`() {
+        val session1 = createSession()
+        val session2 = Session(session1)
+        assertThat(session1).isEqualTo(session2)
+        assertThat(session1).isNotSameAs(session2)
+    }
+
+    @Test
     fun `equals evaluates true for equal sessions`() {
         val session1 = createSession()
         val session2 = createSession()
@@ -243,6 +251,39 @@ class SessionTest {
         val session2 = createSession().apply { session2Modification() }
         assertThat(session1).isNotSameAs(session2)
         assertThat(session1.hashCode()).isNotEqualTo(session2.hashCode())
+    }
+
+    @Test
+    fun `cancel marks a session as canceled and resets all change other flags`() {
+        val session = Session("0").apply {
+            changedTitle = true
+            changedSubtitle = true
+            changedRoom = true
+            changedDay = true
+            changedTime = true
+            changedDuration = true
+            changedSpeakers = true
+            changedRecordingOptOut = true
+            changedLanguage = true
+            changedTrack = true
+            changedIsNew = true
+            changedIsCanceled = false
+        }
+        val canceledSession = Session("0").apply {
+            changedTitle = false
+            changedSubtitle = false
+            changedRoom = false
+            changedDay = false
+            changedTime = false
+            changedDuration = false
+            changedSpeakers = false
+            changedRecordingOptOut = false
+            changedLanguage = false
+            changedTrack = false
+            changedIsNew = false
+            changedIsCanceled = true
+        }
+        assertThat(session.apply { cancel() }).isEqualTo(canceledSession)
     }
 
     @Test

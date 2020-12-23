@@ -21,14 +21,36 @@ import info.metadude.android.eventfahrplan.network.repositories.ScheduleNetworkR
 import info.metadude.kotlin.library.engelsystem.models.Shift
 import kotlinx.coroutines.Job
 import nerd.tuxmobil.fahrplan.congress.BuildConfig
-import nerd.tuxmobil.fahrplan.congress.dataconverters.*
+import nerd.tuxmobil.fahrplan.congress.dataconverters.cropToDayRangesExtent
+import nerd.tuxmobil.fahrplan.congress.dataconverters.sanitize
+import nerd.tuxmobil.fahrplan.congress.dataconverters.shiftRoomIndicesOfMainSchedule
+import nerd.tuxmobil.fahrplan.congress.dataconverters.toAlarmDatabaseModel
+import nerd.tuxmobil.fahrplan.congress.dataconverters.toAlarmsAppModel
+import nerd.tuxmobil.fahrplan.congress.dataconverters.toAppFetchScheduleResult
+import nerd.tuxmobil.fahrplan.congress.dataconverters.toDateInfos
+import nerd.tuxmobil.fahrplan.congress.dataconverters.toDayIndices
+import nerd.tuxmobil.fahrplan.congress.dataconverters.toDayRanges
+import nerd.tuxmobil.fahrplan.congress.dataconverters.toHighlightDatabaseModel
+import nerd.tuxmobil.fahrplan.congress.dataconverters.toHighlightsAppModel
+import nerd.tuxmobil.fahrplan.congress.dataconverters.toMetaAppModel
+import nerd.tuxmobil.fahrplan.congress.dataconverters.toMetaDatabaseModel
+import nerd.tuxmobil.fahrplan.congress.dataconverters.toMetaNetworkModel
+import nerd.tuxmobil.fahrplan.congress.dataconverters.toSessionAppModel
+import nerd.tuxmobil.fahrplan.congress.dataconverters.toSessionAppModels
+import nerd.tuxmobil.fahrplan.congress.dataconverters.toSessionsAppModel
+import nerd.tuxmobil.fahrplan.congress.dataconverters.toSessionsAppModel2
+import nerd.tuxmobil.fahrplan.congress.dataconverters.toSessionsDatabaseModel
 import nerd.tuxmobil.fahrplan.congress.exceptions.AppExceptionHandler
 import nerd.tuxmobil.fahrplan.congress.models.Alarm
 import nerd.tuxmobil.fahrplan.congress.models.Session
-import nerd.tuxmobil.fahrplan.congress.net.*
+import nerd.tuxmobil.fahrplan.congress.net.FetchScheduleResult
+import nerd.tuxmobil.fahrplan.congress.net.HttpStatus
+import nerd.tuxmobil.fahrplan.congress.net.LoadShiftsResult
+import nerd.tuxmobil.fahrplan.congress.net.ParseResult
+import nerd.tuxmobil.fahrplan.congress.net.ParseScheduleResult
 import nerd.tuxmobil.fahrplan.congress.preferences.AlarmTonePreference
 import nerd.tuxmobil.fahrplan.congress.preferences.SharedPreferencesRepository
-import nerd.tuxmobil.fahrplan.congress.serialization.ScheduleChanges
+import nerd.tuxmobil.fahrplan.congress.serialization.ScheduleChanges.computeSessionsWithChangeFlags
 import nerd.tuxmobil.fahrplan.congress.utils.AlarmToneConversion
 import nerd.tuxmobil.fahrplan.congress.validation.MetaValidation.validate
 import okhttp3.OkHttpClient
@@ -144,11 +166,11 @@ object AppRepository {
                 onUpdateSessions = { sessions ->
                     val oldSessions = loadSessionsForAllDays(true)
                     val newSessions = sessions.toSessionsAppModel2().sanitize()
-                    val hasChanged = ScheduleChanges.hasScheduleChanged(newSessions, oldSessions)
-                    if (hasChanged) {
+                    val (sessionsWithChangeFlags, foundChanges) = computeSessionsWithChangeFlags(newSessions, oldSessions)
+                    if (foundChanges) {
                         resetChangesSeenFlag()
                     }
-                    updateSessions(newSessions)
+                    updateSessions(sessionsWithChangeFlags)
                 },
                 onUpdateMeta = { meta ->
                     val validMeta = meta.validate()
@@ -376,8 +398,8 @@ object AppRepository {
 
     private fun updateSessions(sessions: List<Session>) {
         val sessionsDatabaseModel = sessions.toSessionsDatabaseModel()
-        val list = sessionsDatabaseModel.map { it.toContentValues() }
-        sessionsDatabaseRepository.insert(list)
+        val list = sessionsDatabaseModel.map { it.sessionId to it.toContentValues() }.toTypedArray()
+        sessionsDatabaseRepository.upsertSessions(*list)
     }
 
     /**

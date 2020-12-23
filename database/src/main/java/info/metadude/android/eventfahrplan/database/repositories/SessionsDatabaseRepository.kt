@@ -8,9 +8,49 @@ import androidx.core.database.sqlite.transaction
 import info.metadude.android.eventfahrplan.commons.logging.Logging
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionByNotificationIdTable
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.*
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.ABSTRACT
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_DAY
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_DURATION
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_IS_CANCELED
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_IS_NEW
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_LANGUAGE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_RECORDING_OPTOUT
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_ROOM
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_SPEAKERS
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_SUBTITLE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_TIME
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_TITLE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_TRACK
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DATE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DATE_UTC
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DAY
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DESCR
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DURATION
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.LANG
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.LINKS
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.REC_LICENSE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.REC_OPTOUT
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.REL_START
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.ROOM
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.ROOM_IDX
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.SESSION_ID
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.SLUG
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.SPEAKERS
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.START
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.SUBTITLE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.TITLE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.TRACK
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.TYPE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.URL
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Values.REC_OPT_OUT_OFF
-import info.metadude.android.eventfahrplan.database.extensions.*
+import info.metadude.android.eventfahrplan.database.extensions.delete
+import info.metadude.android.eventfahrplan.database.extensions.getInt
+import info.metadude.android.eventfahrplan.database.extensions.getLong
+import info.metadude.android.eventfahrplan.database.extensions.getString
+import info.metadude.android.eventfahrplan.database.extensions.insert
+import info.metadude.android.eventfahrplan.database.extensions.map
+import info.metadude.android.eventfahrplan.database.extensions.read
+import info.metadude.android.eventfahrplan.database.extensions.updateRow
 import info.metadude.android.eventfahrplan.database.models.Session
 import info.metadude.android.eventfahrplan.database.sqliteopenhelper.SessionsDBOpenHelper
 
@@ -20,15 +60,6 @@ class SessionsDatabaseRepository(
         private val logging: Logging
 
 ) {
-
-    fun insert(list: List<ContentValues>) = with(sqLiteOpenHelper) {
-        writableDatabase.transaction {
-            delete(SessionsTable.NAME)
-            list.forEach { contentValues ->
-                insert(SessionsTable.NAME, contentValues)
-            }
-        }
-    }
 
     /**
      * Inserts the session ID into the [SessionByNotificationIdTable] and returns
@@ -51,6 +82,39 @@ class SessionsDatabaseRepository(
      */
     fun deleteSessionIdByNotificationId(notificationId: Int) = with(sqLiteOpenHelper) {
         writableDatabase.delete(SessionByNotificationIdTable.NAME, SessionByNotificationIdTable.Columns._ID, "$notificationId")
+    }
+
+    /**
+     * Updates or inserts sessions based on the given [contentValuesBySessionId].
+     */
+    fun upsertSessions(vararg contentValuesBySessionId: Pair</* sessionId */ String, ContentValues>) = with(sqLiteOpenHelper) {
+        writableDatabase.transaction {
+            contentValuesBySessionId.forEach { (sessionId, contentValues) ->
+                upsertSession(sessionId, contentValues)
+            }
+        }
+    }
+
+    /**
+     * Updates a session with the given [contentValues]. A row is matched by its [sessionId].
+     * If no row was affected by the update operation then an insert operation is performed
+     * assuming that the session does not exist in the table.
+     *
+     * This function must be called in the context of a [transaction] block.
+     */
+    private fun SQLiteDatabase.upsertSession(sessionId: String, contentValues: ContentValues) {
+        val affectedRowsCount = updateRow(
+                tableName = SessionsTable.NAME,
+                contentValues = contentValues,
+                columnName = SESSION_ID,
+                columnValue = sessionId
+        )
+        if (affectedRowsCount == 0) {
+            insert(
+                    tableName = SessionsTable.NAME,
+                    values = contentValues
+            )
+        }
     }
 
     fun querySessionBySessionId(sessionId: String): Session {

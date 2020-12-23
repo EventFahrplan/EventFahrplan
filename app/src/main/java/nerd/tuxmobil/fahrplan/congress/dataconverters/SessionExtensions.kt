@@ -61,46 +61,6 @@ fun Session.toSessionDatabaseModel() = SessionDatabaseModel(
         changedTrack = changedTrack
 )
 
-fun Session.toSessionNetworkModel() = SessionNetworkModel(
-        sessionId = sessionId,
-        abstractt = abstractt,
-        date = date,
-        dateUTC = dateUTC,
-        dayIndex = day,
-        description = description,
-        duration = duration, // minutes
-        hasAlarm = hasAlarm,
-        language = lang,
-        links = links,
-        isHighlight = highlight,
-        recordingLicense = recordingLicense,
-        recordingOptOut = recordingOptOut,
-        relativeStartTime = relStartTime,
-        room = room,
-        roomIndex = roomIndex,
-        slug = slug,
-        speakers = speakers,
-        startTime = startTime, // minutes since day start
-        subtitle = subtitle,
-        title = title,
-        track = track,
-        type = type,
-        url = url,
-
-        changedDayIndex = changedDay,
-        changedDuration = changedDuration,
-        changedIsCanceled = changedIsCanceled,
-        changedIsNew = changedIsNew,
-        changedLanguage = changedLanguage,
-        changedRecordingOptOut = changedRecordingOptOut,
-        changedRoom = changedRoom,
-        changedSpeakers = changedSpeakers,
-        changedSubtitle = changedSubtitle,
-        changedStartTime = changedTime,
-        changedTitle = changedTitle,
-        changedTrack = changedTrack
-)
-
 fun SessionDatabaseModel.toSessionAppModel(): Session {
     val session = Session(sessionId)
 

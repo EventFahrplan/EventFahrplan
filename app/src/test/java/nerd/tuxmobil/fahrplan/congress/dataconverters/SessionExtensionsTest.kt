@@ -9,6 +9,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import info.metadude.android.eventfahrplan.database.models.Session as SessionDatabaseModel
 import info.metadude.android.eventfahrplan.network.models.Session as SessionNetworkModel
+import nerd.tuxmobil.fahrplan.congress.models.Session as SessionAppModel
 
 class SessionExtensionsTest {
 
@@ -57,8 +58,8 @@ class SessionExtensionsTest {
     }
 
     @Test
-    fun sessionNetworkModel_toSessionAppModel_toSessionNetworkModel() {
-        val session = SessionNetworkModel(
+    fun sessionNetworkModel_toSessionAppModel() {
+        val sessionNetworkModel = SessionNetworkModel(
                 sessionId = "7331",
                 abstractt = "Lorem ipsum",
                 dayIndex = 3,
@@ -97,7 +98,45 @@ class SessionExtensionsTest {
                 changedTitle = true,
                 changedTrack = true
         )
-        assertThat(session.toSessionAppModel().toSessionNetworkModel()).isEqualTo(session)
+        val sessionAppModel = SessionAppModel("7331").apply {
+            abstractt = "Lorem ipsum"
+            day = 3
+            date = "2015-08-13"
+            dateUTC = 1439478900000L
+            description = "Lorem ipsum dolor sit amet"
+            duration = 45
+            hasAlarm = true
+            highlight = true
+            lang = "en"
+            links = "[Website](https://www.example.com/path)"
+            relStartTime = 1035
+            recordingLicense = "CC 0"
+            recordingOptOut = RECORDING_OPT_OUT_ON
+            room = "Simulacron-3"
+            roomIndex = 17
+            speakers = "John Doe; Noah Doe"
+            startTime = 1036
+            slug = "lorem"
+            subtitle = "My subtitle"
+            title = "My title"
+            track = "Security & Hacking"
+            type = "tutorial"
+            url = "https://talks.mrmcd.net/2018/talk/V3FUNG"
+
+            changedDay = true
+            changedDuration = true
+            changedIsCanceled = true
+            changedIsNew = true
+            changedLanguage = true
+            changedRecordingOptOut = true
+            changedRoom = true
+            changedSpeakers = true
+            changedSubtitle = true
+            changedTime = true
+            changedTitle = true
+            changedTrack = true
+        }
+        assertThat(sessionNetworkModel.toSessionAppModel()).isEqualTo(sessionAppModel)
     }
 
     @Test

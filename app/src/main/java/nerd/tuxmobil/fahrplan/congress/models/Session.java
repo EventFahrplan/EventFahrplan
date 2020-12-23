@@ -107,6 +107,46 @@ public class Session {
         changedIsCanceled = false;
     }
 
+    public Session(@NonNull Session session) {
+        this.title = session.title;
+        this.subtitle = session.subtitle;
+        this.url = session.url;
+        this.day = session.day;
+        this.date = session.date;
+        this.dateUTC = session.dateUTC;
+        this.startTime = session.startTime;
+        this.relStartTime = session.relStartTime;
+        this.duration = session.duration;
+        this.room = session.room;
+        this.roomIndex = session.roomIndex;
+        this.speakers = session.speakers;
+        this.track = session.track;
+        this.sessionId = session.sessionId;
+        this.type = session.type;
+        this.lang = session.lang;
+        this.slug = session.slug;
+        this.abstractt = session.abstractt;
+        this.description = session.description;
+        this.links = session.links;
+        this.highlight = session.highlight;
+        this.hasAlarm = session.hasAlarm;
+        this.recordingLicense = session.recordingLicense;
+        this.recordingOptOut = session.recordingOptOut;
+
+        this.changedTitle = session.changedTitle;
+        this.changedSubtitle = session.changedSubtitle;
+        this.changedRoom = session.changedRoom;
+        this.changedDay = session.changedDay;
+        this.changedTime = session.changedTime;
+        this.changedDuration = session.changedDuration;
+        this.changedSpeakers = session.changedSpeakers;
+        this.changedRecordingOptOut = session.changedRecordingOptOut;
+        this.changedLanguage = session.changedLanguage;
+        this.changedTrack = session.changedTrack;
+        this.changedIsNew = session.changedIsNew;
+        this.changedIsCanceled = session.changedIsCanceled;
+    }
+
     @NonNull
     public String getLinks() {
         return links == null ? "" : links;
