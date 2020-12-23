@@ -11,9 +11,9 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Hi
 
 public class HighlightDBOpenHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 5;
+    private static final int DATABASE_VERSION = 1;
 
-    private static final String DATABASE_NAME = "highlight";
+    private static final String DATABASE_NAME = "highlights";
 
     private static final String HIGHLIGHT_TABLE_CREATE =
             "CREATE TABLE " + HighlightsTable.NAME + " (" +
@@ -32,7 +32,7 @@ public class HighlightDBOpenHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + HighlightsTable.NAME);
-        onCreate(db);
+        // Nothing to do here.
     }
+
 }

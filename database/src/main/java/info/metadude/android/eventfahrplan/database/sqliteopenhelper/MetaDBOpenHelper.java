@@ -8,11 +8,10 @@ import androidx.annotation.NonNull;
 
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable;
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns;
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Defaults;
 
 public class MetaDBOpenHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 8;
+    private static final int DATABASE_VERSION = 1;
 
     private static final String DATABASE_NAME = "meta";
 
@@ -36,33 +35,7 @@ public class MetaDBOpenHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        if (oldVersion < 3 && newVersion >= 3) {
-            db.execSQL("ALTER TABLE " + MetasTable.NAME + " ADD COLUMN " +
-                    Columns.ETAG + " TEXT DEFAULT " + Defaults.ETAG_DEFAULT);
-        }
-        if (oldVersion < 6 && newVersion >= 6) {
-            db.execSQL("ALTER TABLE " + MetasTable.NAME + " ADD COLUMN " +
-                    Columns.TIME_ZONE_NAME + " TEXT");
-        }
-        if (oldVersion < 4) {
-            // Clear database from 34C3.
-            db.execSQL("DROP TABLE IF EXISTS " + MetasTable.NAME);
-            onCreate(db);
-        }
-        if (oldVersion < 5) {
-            // Clear database from 35C3 & Camp 2019.
-            db.execSQL("DROP TABLE IF EXISTS " + MetasTable.NAME);
-            onCreate(db);
-        }
-        if (oldVersion < 7) {
-            // Clear database from rC3 12/2020.
-            db.execSQL("DROP TABLE IF EXISTS " + MetasTable.NAME);
-            onCreate(db);
-        }
-        if (oldVersion < 8) {
-            // Clear database from rC3 NOWHERE 12/2021.
-            db.execSQL("DROP TABLE IF EXISTS " + MetasTable.NAME);
-            onCreate(db);
-        }
+        // Nothing to do here.
     }
+
 }
