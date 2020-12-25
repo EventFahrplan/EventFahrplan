@@ -4,6 +4,7 @@ import org.threeten.bp.Instant
 import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.LocalTime
+import org.threeten.bp.ZoneId
 import org.threeten.bp.ZoneOffset
 import org.threeten.bp.ZonedDateTime
 import org.threeten.bp.temporal.ChronoField
@@ -108,11 +109,28 @@ class Moment private constructor(private val time: Instant) {
     override fun toString(): String = time.toString()
 
     companion object {
+
+        /**
+         * 1 minute = 60 seconds
+         */
+        private const val SECONDS_OF_ONE_MINUTE: Int = 60
+
         /**
          * Creates a time zone neutral [Moment] instance of current system clock.
          */
         @JvmStatic
         fun now() = Moment(Instant.now())
+
+        /**
+         * Returns the amount of minutes between the UTC and the system default time zone.
+         */
+        @JvmStatic
+        fun getSystemOffsetMinutes(): Int {
+            val dateTime = LocalDateTime.now()
+            val utcDateTime = ZonedDateTime.of(dateTime, ZoneId.of("UTC"))
+            val systemDateTime = utcDateTime.withZoneSameInstant(ZoneId.systemDefault())
+            return systemDateTime.offset.totalSeconds / SECONDS_OF_ONE_MINUTE
+        }
 
         /**
          * Creates a time zone neutral [Moment] instance from given [milliseconds].

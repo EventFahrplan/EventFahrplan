@@ -6,6 +6,7 @@ import org.junit.Test
 import org.threeten.bp.LocalDate
 import org.threeten.bp.ZoneOffset
 import org.threeten.bp.ZonedDateTime
+import java.util.TimeZone
 
 class MomentTest {
 
@@ -149,4 +150,27 @@ class MomentTest {
         val momentTwo = Moment.ofEpochMilli(0).minusMinutes(-1)
         assertThat(momentTwo.toMilliseconds()).isEqualTo(60 * 1000)
     }
+
+    @Test
+    fun getSystemOffsetMinutesWithGmtPlus1() = withTimeZone("GMT+1") {
+        assertThat(Moment.getSystemOffsetMinutes()).isEqualTo(60)
+    }
+
+    @Test
+    fun getSystemOffsetMinutesWithGmt() = withTimeZone("GMT") {
+        assertThat(Moment.getSystemOffsetMinutes()).isEqualTo(0)
+    }
+
+    @Test
+    fun getSystemOffsetMinutesWithGmtMinus1() = withTimeZone("GMT-1") {
+        assertThat(Moment.getSystemOffsetMinutes()).isEqualTo(-60)
+    }
+
+    private fun withTimeZone(temporaryTimeZoneId: String, block: () -> Unit) {
+        val systemTimezone = TimeZone.getDefault()
+        TimeZone.setDefault(TimeZone.getTimeZone(temporaryTimeZoneId))
+        block()
+        TimeZone.setDefault(systemTimezone)
+    }
+
 }
