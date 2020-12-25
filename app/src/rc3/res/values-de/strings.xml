@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">rC3 Fahrplan</string>
+    <string name="app_hardcoded_subtitle">27.-30. Dezember 2020, Online</string>
+    <string name="conference_url">
+        <![CDATA[<a href="https://rc3.world">https://rc3.world</a>]]>
+    </string>
+    <string name="source_code">
+        <![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan">Quellcode</a>]]>
+    </string>
+    <string name="google_play_store">
+        <![CDATA[<a href="https://play.google.com/store/apps/details?id=info.metadude.android.rc3.schedule">Eintrag im Google PlayStore</a>]]>
+    </string>
+    <string name="copyright_logo">
+        <![CDATA[rC3. Design von <a href="https://kreatur.works">KREATUR WORKS</a>]]>
+    </string>
+    <string name="about_logo_content_description">
+        rC3 Logo
+    </string>
+</resources>

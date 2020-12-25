@@ -90,7 +90,7 @@
     </string>
     <string name="preference_default_value_engelsystem_json_export_url" translatable="false"/>
     <string name="preference_hint_engelsystem_json_export_url" translatable="false">
-        https://engelsystem.de/36c3/shifts-json-export?key=YOUR_KEY
+        https://engelsystem.de/rc3/shifts-json-export?key=YOUR_KEY
     </string>
     <string name="preference_summary_engelsystem_json_export_url">
         <![CDATA[In order to see your shifts please enter your <u>personal</u> URL here.<br/><br/>
