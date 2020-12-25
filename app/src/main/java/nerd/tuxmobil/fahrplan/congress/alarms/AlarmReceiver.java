@@ -46,7 +46,6 @@ public final class AlarmReceiver extends BroadcastReceiver {
         if (intent.getAction().equals(ALARM_SESSION)) {
             String sessionId = intent.getStringExtra(BundleKeys.ALARM_SESSION_ID);
             Log.d(LOG_TAG, "sessionId = " + sessionId + ", intent = " + intent);
-            int lid = Integer.parseInt(sessionId);
             int day = intent.getIntExtra(BundleKeys.ALARM_DAY, 1);
             long when = intent
                     .getLongExtra(BundleKeys.ALARM_START_TIME, System.currentTimeMillis());
@@ -56,7 +55,7 @@ public final class AlarmReceiver extends BroadcastReceiver {
             int uniqueNotificationId = appRepository.createSessionAlarmNotificationId(sessionId);
             Intent launchIntent = MainActivity.createLaunchIntent(context, sessionId, day, uniqueNotificationId);
             PendingIntent contentIntent = PendingIntent
-                    .getActivity(context, lid, launchIntent, PendingIntent.FLAG_ONE_SHOT);
+                    .getActivity(context, DEFAULT_REQUEST_CODE, launchIntent, PendingIntent.FLAG_ONE_SHOT);
 
             NotificationHelper notificationHelper = new NotificationHelper(context);
             Uri soundUri = appRepository.readAlarmToneUri();
