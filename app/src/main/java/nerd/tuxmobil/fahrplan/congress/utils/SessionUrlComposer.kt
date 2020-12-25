@@ -10,7 +10,10 @@ class SessionUrlComposer @JvmOverloads constructor(
         private val session: Session,
         private val sessionUrlTemplate: String = BuildConfig.EVENT_URL,
         private val serverBackEndType: String = BuildConfig.SERVER_BACKEND_TYPE,
-        private val specialRoomNames: Set<String> = setOf(AppRepository.ENGELSYSTEM_ROOM_NAME)
+        private val specialRoomNames: Set<String> = setOf(
+                AppRepository.ENGELSYSTEM_ROOM_NAME,
+                "ChaosTrawler" // rc3 2020
+        )
 
 ) {
 
