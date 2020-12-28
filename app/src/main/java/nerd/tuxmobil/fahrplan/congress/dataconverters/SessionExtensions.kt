@@ -161,5 +161,8 @@ fun Session.sanitize(): Session {
         description = abstractt
         abstractt = ""
     }
+    if (!lang.isNullOrEmpty()) {
+        lang = lang.toLowerCase()
+    }
     return this
 }
