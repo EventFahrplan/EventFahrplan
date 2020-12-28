@@ -14,38 +14,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class TimeSegmentTest {
 
     @Test
-    public void getFormattedTextWith0() {
-        TimeZone.setDefault(TimeZone.getTimeZone("GMT+1"));
-
-        TimeSegment segment = new TimeSegment(0);
-        assertThat(segment.getFormattedText()).isEqualTo("01:00");
-    }
-
-    @Test
-    public void getFormattedTextWith120() {
-        TimeZone.setDefault(TimeZone.getTimeZone("GMT+1"));
-
-        TimeSegment segment = new TimeSegment(120);
-        assertThat(segment.getFormattedText()).isEqualTo("03:00");
-    }
-
-    @Test
-    public void getFormattedTextWith660() {
-        TimeZone.setDefault(TimeZone.getTimeZone("GMT+1"));
-
-        TimeSegment segment = new TimeSegment(660);
-        assertThat(segment.getFormattedText()).isEqualTo("12:00");
-    }
-
-    @Test
-    public void getFormattedTextWith1425() {
-        TimeZone.setDefault(TimeZone.getTimeZone("GMT+1"));
-
-        TimeSegment segment = new TimeSegment(1425);
-        assertThat(segment.getFormattedText()).isEqualTo("00:45");
-    }
-
-    @Test
     public void isMatched() {
         int minute = 25;
         int msOfMinute = minute * 60 * 1000;
