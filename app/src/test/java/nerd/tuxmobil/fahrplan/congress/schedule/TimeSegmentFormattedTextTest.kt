@@ -25,6 +25,16 @@ class TimeSegmentFormattedTextTest(
         @Parameterized.Parameters(name = "{index}: minutes = {0} -> formattedText = {1}")
         fun data() = listOf(
                 scenarioOf(minutesOfTheDay = 0, expectedFormattedText = "01:00"),
+                scenarioOf(minutesOfTheDay = 1, expectedFormattedText = "01:00"),
+                scenarioOf(minutesOfTheDay = 2, expectedFormattedText = "01:00"),
+                scenarioOf(minutesOfTheDay = 3, expectedFormattedText = "01:00"),
+                scenarioOf(minutesOfTheDay = 4, expectedFormattedText = "01:00"),
+                scenarioOf(minutesOfTheDay = 5, expectedFormattedText = "01:05"),
+                scenarioOf(minutesOfTheDay = 6, expectedFormattedText = "01:05"),
+                scenarioOf(minutesOfTheDay = 7, expectedFormattedText = "01:05"),
+                scenarioOf(minutesOfTheDay = 8, expectedFormattedText = "01:05"),
+                scenarioOf(minutesOfTheDay = 9, expectedFormattedText = "01:05"),
+                scenarioOf(minutesOfTheDay = 10, expectedFormattedText = "01:10"),
                 scenarioOf(minutesOfTheDay = 120, expectedFormattedText = "03:00"),
                 scenarioOf(minutesOfTheDay = 660, expectedFormattedText = "12:00"),
                 scenarioOf(minutesOfTheDay = 1425, expectedFormattedText = "00:45")
