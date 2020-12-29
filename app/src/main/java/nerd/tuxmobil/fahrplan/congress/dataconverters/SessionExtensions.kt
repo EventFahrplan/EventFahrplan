@@ -164,5 +164,14 @@ fun Session.sanitize(): Session {
     if (!lang.isNullOrEmpty()) {
         lang = lang.toLowerCase()
     }
+    if (("Sendezentrum-Bühne" == track || "Sendezentrum Bühne" == track) && !type.isNullOrEmpty()) {
+        track = type
+    }
+    if ("rC3 Lounge" == room) {
+        track = "Music"
+    }
+    if (track.isNullOrEmpty() && !type.isNullOrEmpty()) {
+        track = type
+    }
     return this
 }
