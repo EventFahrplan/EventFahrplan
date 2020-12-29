@@ -63,6 +63,12 @@ internal class NotificationHelper(context: Context) : ContextWrapper(context) {
         notificationManager.notify(id, notification)
     }
 
+    /**
+     * Cancels all existing schedule update notifications.
+     */
+    fun cancelScheduleUpdateNotification() {
+        notificationManager.cancel(SCHEDULE_UPDATE_ID)
+    }
 
     private fun createNotificationChannel(id: String, name: String, descriptionText: String) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

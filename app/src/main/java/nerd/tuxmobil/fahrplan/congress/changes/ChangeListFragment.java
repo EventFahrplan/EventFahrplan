@@ -21,6 +21,7 @@ import nerd.tuxmobil.fahrplan.congress.base.AbstractListFragment;
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.models.Meta;
 import nerd.tuxmobil.fahrplan.congress.models.Session;
+import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper;
 
 import static nerd.tuxmobil.fahrplan.congress.extensions.ViewExtensions.requireViewByIdCompat;
 
@@ -115,6 +116,12 @@ public class ChangeListFragment extends AbstractListFragment {
         mListView.setAdapter(mAdapter);
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        new NotificationHelper(requireContext()).cancelScheduleUpdateNotification();
     }
 
     @MainThread
