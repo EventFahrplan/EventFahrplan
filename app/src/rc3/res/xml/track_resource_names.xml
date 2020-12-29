@@ -4,17 +4,25 @@
     <entry key="Art &amp; Culture">art_culture</entry>
     <entry key="B c-base">b_cbase</entry>
     <entry key="BAM franconian">bam_franconian</entry>
+    <entry key="Concert">music</entry>
     <entry key="CWTV">cwtv</entry>
     <!-- Defined in AppRepository.ENGELSYSTEM_ROOM_NAME -->
     <entry key="Engelshifts">engelshifts</entry>
     <entry key="Ethics, Society &amp; Politics">ethics_society_politics</entry>
+    <entry key="franconian.net cc music">music</entry>
+    <entry key="franconian.net talks">talk</entry>
     <entry key="HH ChaosTrawler">hh_chaostrawler</entry>
     <entry key="HH Kampnagel">hh_kampnagel</entry>
     <entry key="Hardware &amp; Making">hardware_making</entry>
+    <entry key="IT-Security">security</entry>
+    <entry key="Live-Podcast">podcast</entry>
     <entry key="MON r3s Rhein VHS">mon_r3s_rhein_vhs</entry>
     <entry key="Muc - about_future">muc_about_future</entry>
     <entry key="Muc hacc about:future">muc_hacc_about_future</entry>
+    <entry key="Music">music</entry>
     <entry key="Science">science</entry>
+    <entry key="Talk">talk</entry>
+    <entry key="Workshop">workshop</entry>
     <entry key="Zürich Bitwäscherei">zuerich_bitwaescherei</entry>
     <entry key=""></entry>
 

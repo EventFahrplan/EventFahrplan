@@ -282,4 +282,17 @@ class SessionExtensionsTest {
         assertThat(session).isEqualTo(expected)
     }
 
+    @Test
+    fun sanitizeWithEmptyTrackAndNonEmptyType() {
+        val session = Session("").apply {
+            track = ""
+            type = "Workshop"
+        }.sanitize()
+        val expected = Session("").apply {
+            track = "Workshop"
+            type = "Workshop"
+        }
+        assertThat(session).isEqualTo(expected)
+    }
+
 }

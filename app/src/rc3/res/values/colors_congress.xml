@@ -20,12 +20,15 @@
     <color name="track_background_default_mon_r3s_rhein_vhs">#2C4EBF</color>
     <color name="track_background_default_muc_about_future">#BF3671</color>
     <color name="track_background_default_muc_hacc_about_future">#BF3671</color>
-    <color name="track_background_default_music">#334040</color>
+    <color name="track_background_default_music">#004D40</color>
+    <color name="track_background_default_podcast">#851414</color>
     <color name="track_background_default_queer">#6B2447</color>
     <color name="track_background_default_resilience">#566299</color>
     <color name="track_background_default_science">#86578C</color>
     <color name="track_background_default_security">#914452</color>
-    <color name="track_background_default_self_organized_sessions">#3056bf</color>
+    <color name="track_background_default_self_organized_sessions">#233F8C</color>
+    <color name="track_background_default_talk">#B34D00</color>
+    <color name="track_background_default_workshop">#33691E</color>
     <color name="track_background_default_zuerich_bitwaescherei">#9188BF</color>
 
     <!-- Highlight state -->
@@ -45,12 +48,15 @@
     <color name="track_background_highlight_mon_r3s_rhein_vhs">#3862F1</color>
     <color name="track_background_highlight_muc_about_future">#F1448E</color>
     <color name="track_background_highlight_muc_hacc_about_future">#F1448E</color>
-    <color name="track_background_highlight_music">#708C8C</color>
+    <color name="track_background_highlight_music">#00997F</color>
+    <color name="track_background_highlight_podcast">#B71C1C</color>
     <color name="track_background_highlight_queer">#B83E78</color>
     <color name="track_background_highlight_resilience">#8194e6</color>
     <color name="track_background_highlight_science">#cf87d9</color>
     <color name="track_background_highlight_security">#de697e</color>
     <color name="track_background_highlight_self_organized_sessions">#4174ff</color>
+    <color name="track_background_highlight_talk">#FF6F00</color>
+    <color name="track_background_highlight_workshop">#33691E</color>
     <color name="track_background_highlight_zuerich_bitwaescherei">#B7ACF1</color>
 
     <!-- Track color -->
