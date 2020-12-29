@@ -12,7 +12,8 @@ class SessionUrlComposer @JvmOverloads constructor(
         private val serverBackEndType: String = BuildConfig.SERVER_BACKEND_TYPE,
         private val specialRoomNames: Set<String> = setOf(
                 AppRepository.ENGELSYSTEM_ROOM_NAME,
-                "ChaosTrawler" // rc3 2020
+                "ChaosTrawler", // rc3 2020
+                "rC3 Lounge", // rc3 2020
         )
 
 ) {
