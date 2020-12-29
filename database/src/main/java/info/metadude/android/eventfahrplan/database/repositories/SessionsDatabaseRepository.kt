@@ -84,13 +84,21 @@ class SessionsDatabaseRepository(
         writableDatabase.delete(SessionByNotificationIdTable.NAME, SessionByNotificationIdTable.Columns._ID, "$notificationId")
     }
 
+
     /**
      * Updates or inserts sessions based on the given [contentValuesBySessionId].
+     * Removes all sessions identified by their [session IDs][toBeDeletedSessionIds].
      */
-    fun upsertSessions(vararg contentValuesBySessionId: Pair</* sessionId */ String, ContentValues>) = with(sqLiteOpenHelper) {
+    fun updateSessions(
+            contentValuesBySessionId: List<Pair</* sessionId */ String, ContentValues>>,
+            toBeDeletedSessionIds: List</* sessionId */ String>
+    ) = with(sqLiteOpenHelper) {
         writableDatabase.transaction {
             contentValuesBySessionId.forEach { (sessionId, contentValues) ->
                 upsertSession(sessionId, contentValues)
+            }
+            toBeDeletedSessionIds.forEach { toBeDeletedSessionId ->
+                deleteSession(toBeDeletedSessionId)
             }
         }
     }
@@ -116,6 +124,15 @@ class SessionsDatabaseRepository(
             )
         }
     }
+
+    /**
+     * Delete the session identified by the given [sessionId] from the table.
+     */
+    private fun SQLiteDatabase.deleteSession(sessionId: String) = delete(
+            tableName = SessionsTable.NAME,
+            columnName = SESSION_ID,
+            columnValue = sessionId
+    )
 
     fun querySessionBySessionId(sessionId: String): Session {
         return try {

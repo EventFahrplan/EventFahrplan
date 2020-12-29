@@ -396,10 +396,11 @@ object AppRepository {
     fun readDateInfos() =
             readSessionsOrderedByDateUtc().toDateInfos()
 
-    private fun updateSessions(sessions: List<Session>) {
-        val sessionsDatabaseModel = sessions.toSessionsDatabaseModel()
-        val list = sessionsDatabaseModel.map { it.sessionId to it.toContentValues() }.toTypedArray()
-        sessionsDatabaseRepository.upsertSessions(*list)
+    private fun updateSessions(toBeUpdatedSessions: List<Session>, toBeDeletedSessions: List<Session> = emptyList()) {
+        val toBeUpdatedSessionsDatabaseModel = toBeUpdatedSessions.toSessionsDatabaseModel()
+        val toBeUpdated = toBeUpdatedSessionsDatabaseModel.map { it.sessionId to it.toContentValues() }
+        val toBeDeleted = toBeDeletedSessions.map { it.sessionId }
+        sessionsDatabaseRepository.updateSessions(toBeUpdated, toBeDeleted)
     }
 
     /**
