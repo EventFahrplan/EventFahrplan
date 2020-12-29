@@ -5,6 +5,7 @@ import nerd.tuxmobil.fahrplan.congress.models.Session as SessionAppModel
 data class ScheduleChanges private constructor(
 
         val sessionsWithChangeFlags: List<SessionAppModel>,
+        val oldCanceledSessions: List<SessionAppModel>,
         val foundChanges: Boolean
 
 ) {
@@ -29,10 +30,11 @@ data class ScheduleChanges private constructor(
             var foundChanges = false
             if (oldSessions.isEmpty()) {
                 // Do not flag sessions as "new" when sessions are loaded for the first time.
-                return ScheduleChanges(newSessions, foundChanges)
+                return ScheduleChanges(newSessions, emptyList(), foundChanges)
             }
 
             val oldNotCanceledSessions = oldSessions.filterNot { it.changedIsCanceled }.toMutableList()
+            val oldCanceledSessions = oldSessions.filter { it.changedIsCanceled }
             val sessionsWithChangeFlags = mutableListOf<SessionAppModel>()
 
             var sessionIndex = 0
@@ -117,7 +119,7 @@ data class ScheduleChanges private constructor(
                 foundChanges = true
             }
 
-            return ScheduleChanges(sessionsWithChangeFlags.toList(), foundChanges)
+            return ScheduleChanges(sessionsWithChangeFlags.toList(), oldCanceledSessions, foundChanges)
         }
 
         private data class SessionChange(

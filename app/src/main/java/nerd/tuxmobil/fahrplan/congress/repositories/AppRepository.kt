@@ -170,7 +170,7 @@ object AppRepository {
                     if (scheduleChanges.foundChanges) {
                         resetChangesSeenFlag()
                     }
-                    updateSessions(scheduleChanges.sessionsWithChangeFlags)
+                    updateSessions(scheduleChanges.sessionsWithChangeFlags, scheduleChanges.oldCanceledSessions)
                 },
                 onUpdateMeta = { meta ->
                     val validMeta = meta.validate()

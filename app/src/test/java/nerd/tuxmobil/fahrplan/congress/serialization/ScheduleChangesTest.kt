@@ -13,24 +13,27 @@ class ScheduleChangesTest {
         val newSessions = emptyList<Session>()
         val scheduleChanges = computeSessionsWithChangeFlags(newSessions, oldSessions)
         assertThat(scheduleChanges.sessionsWithChangeFlags).isEqualTo(newSessions)
+        assertThat(scheduleChanges.oldCanceledSessions).isEmpty()
         assertThat(scheduleChanges.foundChanges).isFalse()
     }
 
     @Test
-    fun `computeSessionsWithChangeFlags returns new sessions and false if old sessions are canceled`() {
+    fun `computeSessionsWithChangeFlags returns new sessions, canceled sessions and false if old sessions are canceled`() {
         val oldSessions = listOf(createSession { changedIsCanceled = true })
         val newSessions = emptyList<Session>()
         val scheduleChanges = computeSessionsWithChangeFlags(newSessions, oldSessions)
         assertThat(scheduleChanges.sessionsWithChangeFlags).isEqualTo(newSessions)
+        assertThat(scheduleChanges.oldCanceledSessions).isEqualTo(listOf(createSession { changedIsCanceled = true }))
         assertThat(scheduleChanges.foundChanges).isFalse()
     }
 
     @Test
-    fun `computeSessionsWithChangeFlags flags and returns new sessions and true if new session is present`() {
+    fun `computeSessionsWithChangeFlags flags and returns new sessions, canceled sessions and true if new session is present`() {
         val oldSessions = listOf(createSession(sessionId = "canceled") { changedIsCanceled = true })
         val newSessions = listOf(createSession(sessionId = "new") { changedIsCanceled = false })
         val scheduleChanges = computeSessionsWithChangeFlags(newSessions, oldSessions)
         assertThat(scheduleChanges.sessionsWithChangeFlags).isEqualTo(listOf(createSession(sessionId = "new") { changedIsNew = true }))
+        assertThat(scheduleChanges.oldCanceledSessions).isEqualTo(listOf(createSession(sessionId = "canceled") { changedIsCanceled = true }))
         assertThat(scheduleChanges.foundChanges).isTrue()
     }
 
@@ -52,6 +55,7 @@ class ScheduleChangesTest {
         val newSessions = createSessions()
         val scheduleChanges = computeSessionsWithChangeFlags(newSessions, oldSessions)
         assertThat(scheduleChanges.sessionsWithChangeFlags).isEqualTo(createSessions())
+        assertThat(scheduleChanges.oldCanceledSessions).isEmpty()
         assertThat(scheduleChanges.foundChanges).isFalse()
     }
 
@@ -64,6 +68,7 @@ class ScheduleChangesTest {
             title = "New title"
             changedTitle = true
         }))
+        assertThat(scheduleChanges.oldCanceledSessions).isEmpty()
         assertThat(scheduleChanges.foundChanges).isTrue()
     }
 
@@ -76,6 +81,7 @@ class ScheduleChangesTest {
             subtitle = "New subtitle"
             changedSubtitle = true
         }))
+        assertThat(scheduleChanges.oldCanceledSessions).isEmpty()
         assertThat(scheduleChanges.foundChanges).isTrue()
     }
 
@@ -88,6 +94,7 @@ class ScheduleChangesTest {
             speakers = "New speakers"
             changedSpeakers = true
         }))
+        assertThat(scheduleChanges.oldCanceledSessions).isEmpty()
         assertThat(scheduleChanges.foundChanges).isTrue()
     }
 
@@ -100,6 +107,7 @@ class ScheduleChangesTest {
             lang = "New language"
             changedLanguage = true
         }))
+        assertThat(scheduleChanges.oldCanceledSessions).isEmpty()
         assertThat(scheduleChanges.foundChanges).isTrue()
     }
 
@@ -112,6 +120,7 @@ class ScheduleChangesTest {
             room = "New room"
             changedRoom = true
         }))
+        assertThat(scheduleChanges.oldCanceledSessions).isEmpty()
         assertThat(scheduleChanges.foundChanges).isTrue()
     }
 
@@ -124,6 +133,7 @@ class ScheduleChangesTest {
             track = "New track"
             changedTrack = true
         }))
+        assertThat(scheduleChanges.oldCanceledSessions).isEmpty()
         assertThat(scheduleChanges.foundChanges).isTrue()
     }
 
@@ -136,6 +146,7 @@ class ScheduleChangesTest {
             recordingOptOut = true
             changedRecordingOptOut = true
         }))
+        assertThat(scheduleChanges.oldCanceledSessions).isEmpty()
         assertThat(scheduleChanges.foundChanges).isTrue()
     }
 
@@ -148,6 +159,7 @@ class ScheduleChangesTest {
             day = 2
             changedDay = true
         }))
+        assertThat(scheduleChanges.oldCanceledSessions).isEmpty()
         assertThat(scheduleChanges.foundChanges).isTrue()
     }
 
@@ -160,6 +172,7 @@ class ScheduleChangesTest {
             startTime = 200
             changedTime = true
         }))
+        assertThat(scheduleChanges.oldCanceledSessions).isEmpty()
         assertThat(scheduleChanges.foundChanges).isTrue()
     }
 
@@ -172,6 +185,7 @@ class ScheduleChangesTest {
             duration = 60
             changedDuration = true
         }))
+        assertThat(scheduleChanges.oldCanceledSessions).isEmpty()
         assertThat(scheduleChanges.foundChanges).isTrue()
     }
 
@@ -184,6 +198,7 @@ class ScheduleChangesTest {
                 createSession(sessionId = "s2") { changedIsNew = true },
                 createSession(sessionId = "s1") { changedIsCanceled = true }
         ))
+        assertThat(scheduleChanges.oldCanceledSessions).isEmpty()
         assertThat(scheduleChanges.foundChanges).isTrue()
     }
 
@@ -257,6 +272,7 @@ class ScheduleChangesTest {
             changedTime = true
             changedDuration = true
         }))
+        assertThat(scheduleChanges.oldCanceledSessions).isEmpty()
         assertThat(scheduleChanges.foundChanges).isTrue()
     }
 
