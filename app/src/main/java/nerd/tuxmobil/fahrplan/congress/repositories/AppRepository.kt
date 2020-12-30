@@ -50,7 +50,7 @@ import nerd.tuxmobil.fahrplan.congress.net.ParseResult
 import nerd.tuxmobil.fahrplan.congress.net.ParseScheduleResult
 import nerd.tuxmobil.fahrplan.congress.preferences.AlarmTonePreference
 import nerd.tuxmobil.fahrplan.congress.preferences.SharedPreferencesRepository
-import nerd.tuxmobil.fahrplan.congress.serialization.ScheduleChanges.computeSessionsWithChangeFlags
+import nerd.tuxmobil.fahrplan.congress.serialization.ScheduleChanges.Companion.computeSessionsWithChangeFlags
 import nerd.tuxmobil.fahrplan.congress.utils.AlarmToneConversion
 import nerd.tuxmobil.fahrplan.congress.validation.MetaValidation.validate
 import okhttp3.OkHttpClient
@@ -166,11 +166,11 @@ object AppRepository {
                 onUpdateSessions = { sessions ->
                     val oldSessions = loadSessionsForAllDays(true)
                     val newSessions = sessions.toSessionsAppModel2().sanitize()
-                    val (sessionsWithChangeFlags, foundChanges) = computeSessionsWithChangeFlags(newSessions, oldSessions)
-                    if (foundChanges) {
+                    val scheduleChanges = computeSessionsWithChangeFlags(newSessions, oldSessions)
+                    if (scheduleChanges.foundChanges) {
                         resetChangesSeenFlag()
                     }
-                    updateSessions(sessionsWithChangeFlags)
+                    updateSessions(scheduleChanges.sessionsWithChangeFlags, scheduleChanges.oldCanceledSessions)
                 },
                 onUpdateMeta = { meta ->
                     val validMeta = meta.validate()
@@ -396,10 +396,11 @@ object AppRepository {
     fun readDateInfos() =
             readSessionsOrderedByDateUtc().toDateInfos()
 
-    private fun updateSessions(sessions: List<Session>) {
-        val sessionsDatabaseModel = sessions.toSessionsDatabaseModel()
-        val list = sessionsDatabaseModel.map { it.sessionId to it.toContentValues() }.toTypedArray()
-        sessionsDatabaseRepository.upsertSessions(*list)
+    private fun updateSessions(toBeUpdatedSessions: List<Session>, toBeDeletedSessions: List<Session> = emptyList()) {
+        val toBeUpdatedSessionsDatabaseModel = toBeUpdatedSessions.toSessionsDatabaseModel()
+        val toBeUpdated = toBeUpdatedSessionsDatabaseModel.map { it.sessionId to it.toContentValues() }
+        val toBeDeleted = toBeDeletedSessions.map { it.sessionId }
+        sessionsDatabaseRepository.updateSessions(toBeUpdated, toBeDeleted)
     }
 
     /**
