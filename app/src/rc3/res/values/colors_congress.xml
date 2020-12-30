@@ -8,7 +8,8 @@
     <color name="track_background_default_art_culture">#AD6632</color>
     <color name="track_background_default_b_cbase">#C2A763</color>
     <color name="track_background_default_bam_franconian">#B57B93</color>
-    <color name="track_background_default_ccc">#756D0F</color>
+    <color name="track_background_default_classics">#B38900</color>
+    <color name="track_background_default_community">#756D0F</color>
     <color name="track_background_default_cwtv">#37BDBF</color>
     <color name="track_background_default_engelshifts">#523023</color>
     <color name="track_background_default_entertainment">#336B22</color>
@@ -36,7 +37,8 @@
     <color name="track_background_highlight_art_culture">#e08241</color>
     <color name="track_background_highlight_b_cbase">#F5D37E</color>
     <color name="track_background_highlight_bam_franconian">#E79EBD</color>
-    <color name="track_background_highlight_ccc">#c2b519</color>
+    <color name="track_background_highlight_classics">#FFC400</color>
+    <color name="track_background_highlight_community">#c2b519</color>
     <color name="track_background_highlight_cwtv">#46EEF2</color>
     <color name="track_background_highlight_engelshifts">#9F5E45</color>
     <color name="track_background_highlight_entertainment">#57b73a</color>

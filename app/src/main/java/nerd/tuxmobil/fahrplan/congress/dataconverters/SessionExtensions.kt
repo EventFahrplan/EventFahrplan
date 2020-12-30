@@ -164,8 +164,11 @@ fun Session.sanitize(): Session {
     if (!lang.isNullOrEmpty()) {
         lang = lang.toLowerCase()
     }
-    if (("Sendezentrum-Bühne" == track || "Sendezentrum Bühne" == track) && !type.isNullOrEmpty()) {
+    if (("Sendezentrum-Bühne" == track || "Sendezentrum Bühne" == track || "xHain Berlin" == track) && !type.isNullOrEmpty()) {
         track = type
+    }
+    if ("classics" == room && "Other" == type && track.isNullOrEmpty()) {
+        track = "Classics"
     }
     if ("rC3 Lounge" == room) {
         track = "Music"

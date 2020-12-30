@@ -4,8 +4,11 @@
     <entry key="Art &amp; Culture">art_culture</entry>
     <entry key="B c-base">b_cbase</entry>
     <entry key="BAM franconian">bam_franconian</entry>
+    <entry key="Classics">classics</entry>
     <entry key="Concert">music</entry>
+    <entry key="Community">community</entry>
     <entry key="CWTV">cwtv</entry>
+    <entry key="DJ Set">music</entry>
     <!-- Defined in AppRepository.ENGELSYSTEM_ROOM_NAME -->
     <entry key="Engelshifts">engelshifts</entry>
     <entry key="Ethics, Society &amp; Politics">ethics_society_politics</entry>
@@ -20,6 +23,7 @@
     <entry key="Muc - about_future">muc_about_future</entry>
     <entry key="Muc hacc about:future">muc_hacc_about_future</entry>
     <entry key="Music">music</entry>
+    <entry key="Performance">music</entry>
     <entry key="Science">science</entry>
     <entry key="Talk">talk</entry>
     <entry key="Workshop">workshop</entry>
