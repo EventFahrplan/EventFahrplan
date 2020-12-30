@@ -1,56 +1,42 @@
 package nerd.tuxmobil.fahrplan.congress.utils
 
-import org.assertj.core.api.Assertions.assertThat
+import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.junit.runners.JUnit4
+import org.junit.runners.Parameterized
+import org.junit.runners.Parameterized.Parameters
 
-@RunWith(JUnit4::class)
-class EngelsystemUrlValidatorTest {
+@RunWith(Parameterized::class)
+class EngelsystemUrlValidatorTest(
 
-    @Test
-    fun isValidWithHttps() {
-        assertThat(EngelsystemUrlValidator("https").isValid()).isFalse()
+        private val url: String,
+        private val isValid: Boolean
+
+) {
+
+    companion object {
+
+        private fun scenarioOf(url: String, isValid: Boolean) =
+                arrayOf(url, isValid)
+
+        @JvmStatic
+        @Parameters(name = "{index}: url = {0} -> isValid = {1}")
+        fun data() = listOf(
+                scenarioOf(url = "https", isValid = false),
+                scenarioOf(url = "https://", isValid = false),
+                scenarioOf(url = "https://example", isValid = false),
+                scenarioOf(url = "https://example.com", isValid = false),
+                scenarioOf(url = "https://example.com/test", isValid = false),
+                scenarioOf(url = "https://example.com/test/path?", isValid = false),
+                scenarioOf(url = "https://example.com/test/path?key", isValid = false),
+                scenarioOf(url = "https://example.com/test/path?key=", isValid = false),
+                scenarioOf(url = "https://example.com/test/path?key=value", isValid = true),
+        )
     }
 
     @Test
-    fun isValidWithHttpsColonSlashSlash() {
-        assertThat(EngelsystemUrlValidator("https://").isValid()).isFalse()
-    }
-
-    @Test
-    fun isValidWithoutTopLevelDomain() {
-        assertThat(EngelsystemUrlValidator("https://example").isValid()).isFalse()
-    }
-
-    @Test
-    fun isValidWithDomain() {
-        assertThat(EngelsystemUrlValidator("https://example.com").isValid()).isFalse()
-    }
-
-    @Test
-    fun isValidWithPath() {
-        assertThat(EngelsystemUrlValidator("https://example.com/test").isValid()).isFalse()
-    }
-
-    @Test
-    fun isValidWithWithoutQueryKey() {
-        assertThat(EngelsystemUrlValidator("https://example.com/test/path?").isValid()).isFalse()
-    }
-
-    @Test
-    fun isValidWithWithoutQueryEquals() {
-        assertThat(EngelsystemUrlValidator("https://example.com/test/path?key").isValid()).isFalse()
-    }
-
-    @Test
-    fun isValidWithWithoutQueryValue() {
-        assertThat(EngelsystemUrlValidator("https://example.com/test/path?key=").isValid()).isFalse()
-    }
-
-    @Test
-    fun isValidWithKeyAndValue() {
-        assertThat(EngelsystemUrlValidator("https://example.com/test/path?key=value").isValid()).isTrue()
+    fun isValid() {
+        assertThat(EngelsystemUrlValidator(url).isValid()).isEqualTo(isValid)
     }
 
 }
