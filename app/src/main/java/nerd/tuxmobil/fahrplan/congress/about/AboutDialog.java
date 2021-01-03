@@ -115,9 +115,9 @@ public class AboutDialog extends DialogFragment {
         TextViewExtensions.setLinkText(conferenceUrl, websiteUrl, movementMethod, linkTextColor);
 
         TextView sourceCode = requireViewByIdCompat(view, R.id.about_source_code_view);
-        sourceCode.setText(Strings.toSpanned(getString(R.string.source_code)));
-        sourceCode.setMovementMethod(movementMethod);
-        sourceCode.setLinkTextColor(linkTextColor);
+        String sourceCodeUrl = BuildConfig.SOURCE_CODE_URL;
+        String sourceCodeTitle = getString(R.string.about_source_code);
+        TextViewExtensions.setLinkText(sourceCode, sourceCodeUrl, sourceCodeTitle, movementMethod, linkTextColor);
 
         TextView issues = requireViewByIdCompat(view, R.id.about_issues_view);
         issues.setText(Strings.toSpanned(getString(R.string.issues)));

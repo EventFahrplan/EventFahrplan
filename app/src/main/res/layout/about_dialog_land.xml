@@ -140,7 +140,7 @@
                 android:paddingTop="10dp"
                 android:singleLine="false"
                 style="@style/TextViewLinks"
-                tools:text="@string/source_code"/>
+                tools:text="https://github.com/EventFahrplan/EventFahrplan"/>
 
         <TextView
                 android:id="@+id/about_issues_view"

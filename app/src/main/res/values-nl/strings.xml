@@ -84,6 +84,7 @@
     <string name="about_data_privacy_statement">
         <![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan/blob/master/DATA-PRIVACY-DE.md">Datenschutzerklärung</a>]]>
 	</string>
+    <string name="about_source_code">Bron-code</string>
     <string name="issues">
 		<![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan/issues">Fehlermeldungen und Wünsche</a>]]>
 	</string>

@@ -68,6 +68,7 @@
     <string name="general_settings">Général</string>
     <string name="no_favorites">Aucune conférence dans les favoris</string>
     <string name="about_data_privacy_statement"><![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan/blob/master/DATA-PRIVACY-DE.md">Déclaration de protection des données (en allemand)</a>]]></string>
+    <string name="about_source_code">Code source</string>
     <string name="choose_alarm_time">Choisissez l’heure du rappel</string>
     <string name="session_details_section_title_links">Liens</string>
     <string name="session_details_section_title_session_online">Événement en ligne</string>

@@ -2,9 +2,6 @@
 <resources>
     <string name="app_name">Pасписание rC3</string>
     <string name="app_hardcoded_subtitle">27.-30-го декабря 2020, Online</string>
-    <string name="source_code">
-        <![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan">Исходный код</a>]]>
-    </string>
     <string name="google_play_store">
         <![CDATA[<a href="https://play.google.com/store/apps/details?id=info.metadude.android.rc3.schedule">Запись в Google PlayStore</a>]]>
     </string>

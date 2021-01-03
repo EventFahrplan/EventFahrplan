@@ -88,6 +88,7 @@
     <string name="about_data_privacy_statement">
         <![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan/blob/master/DATA-PRIVACY-DE.md">Declaração de privacidade (Alemão)</a>]]>
     </string>
+    <string name="about_source_code">Código fonte</string>
     <string name="issues">
 		<![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan/issues">Problemas ou pedidos de funcionalidades</a>]]>
 	</string>
