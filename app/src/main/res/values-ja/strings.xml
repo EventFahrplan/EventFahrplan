@@ -87,10 +87,8 @@
         <![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan/blob/master/DATA-PRIVACY-DE.md">データプライバシーステートメント（ドイツ語）</a>]]>
     </string>
     <string name="about_google_play_listing">Google Playのリスト</string>
+    <string name="about_issues_or_feature_requests">問題または機能のリクエスト</string>
     <string name="about_source_code">ソースコード</string>
-    <string name="issues">
-        <![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan/issues">問題または機能のリクエスト</a>]]>
-    </string>
     <string name="today">今日</string>
     <string name="schedule_parsing_error_generic">スケジュールの解析中に不明なエラーが発生しました</string>
     <string name="schedule_parsing_error_with_version">スケジュールバージョン％sの解析エラー %s</string>

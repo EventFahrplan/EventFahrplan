@@ -28,6 +28,7 @@ android {
 
         // Build configuration / feature flags
         buildConfigField "String", "SOURCE_CODE_URL", "\"https://github.com/EventFahrplan/EventFahrplan\""
+        buildConfigField "String", "ISSUES_URL", "\"https://github.com/EventFahrplan/EventFahrplan/issues\""
         buildConfigField "String", "C3NAV_URL", "\"https://36c3.c3nav.de/l/\""
         buildConfigField "boolean", "ENABLE_ALTERNATIVE_SCHEDULE_URL", "true"
         buildConfigField "boolean", "ENABLE_CHAOSFLIX_EXPORT", "true"

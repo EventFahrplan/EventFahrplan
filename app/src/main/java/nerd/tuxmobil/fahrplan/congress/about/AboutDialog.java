@@ -120,9 +120,9 @@ public class AboutDialog extends DialogFragment {
         TextViewExtensions.setLinkText(sourceCode, sourceCodeUrl, sourceCodeTitle, movementMethod, linkTextColor);
 
         TextView issues = requireViewByIdCompat(view, R.id.about_issues_view);
-        issues.setText(Strings.toSpanned(getString(R.string.issues)));
-        issues.setMovementMethod(movementMethod);
-        issues.setLinkTextColor(linkTextColor);
+        String issuesUrl = BuildConfig.ISSUES_URL;
+        String issuesTitle = getString(R.string.about_issues_or_feature_requests);
+        TextViewExtensions.setLinkText(issues, issuesUrl, issuesTitle, movementMethod, linkTextColor);
 
         TextView googlePlayStore = requireViewByIdCompat(view, R.id.about_google_play_view);
         String googlePlayUrl = BuildConfig.GOOGLE_PLAY_URL;
