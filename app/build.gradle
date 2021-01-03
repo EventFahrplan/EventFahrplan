@@ -30,6 +30,7 @@ android {
         buildConfigField "String", "SOURCE_CODE_URL", "\"https://github.com/EventFahrplan/EventFahrplan\""
         buildConfigField "String", "ISSUES_URL", "\"https://github.com/EventFahrplan/EventFahrplan/issues\""
         buildConfigField "String", "DATA_PRIVACY_STATEMENT_DE_URL", "\"https://github.com/EventFahrplan/EventFahrplan/blob/master/DATA-PRIVACY-DE.md\""
+        resValue("string", "preference_hint_engelsystem_json_export_url", "\"\"")
         buildConfigField "String", "C3NAV_URL", "\"https://36c3.c3nav.de/l/\""
         buildConfigField "boolean", "ENABLE_ALTERNATIVE_SCHEDULE_URL", "true"
         buildConfigField "boolean", "ENABLE_CHAOSFLIX_EXPORT", "true"
@@ -104,6 +105,7 @@ android {
             buildConfigField "boolean", "ENGAGE_GOOGLE_BETA_TESTING", "true"
             buildConfigField "boolean", "ENGAGE_GOOGLE_PLAY_RATING", "true"
             buildConfigField "boolean", "ENABLE_ENGELSYSTEM_SHIFTS", "true"
+            resValue("string", "preference_hint_engelsystem_json_export_url", "\"https://engelsystem.de/36c3/shifts-json-export?key=YOUR_KEY\"")
             buildConfigField "String", "TRACE_DROID_EMAIL_ADDRESS", '"tobias.preuss+36c3@googlemail.com"'
             buildConfigField "String", "SCHEDULE_FEEDBACK_URL", '"https://frab.cccv.de/en/36C3/public/events/%s/feedback/new"'
         }
@@ -127,6 +129,7 @@ android {
             buildConfigField "boolean", "ENGAGE_GOOGLE_BETA_TESTING", "true"
             buildConfigField "boolean", "ENGAGE_GOOGLE_PLAY_RATING", "true"
             buildConfigField "boolean", "ENABLE_ENGELSYSTEM_SHIFTS", "true"
+            resValue("string", "preference_hint_engelsystem_json_export_url", "\"https://engelsystem.de/rc3/shifts-json-export?key=YOUR_KEY\"")
             buildConfigField "String", "TRACE_DROID_EMAIL_ADDRESS", '"tobias.preuss+rc3@googlemail.com"'
             buildConfigField "String", "SCHEDULE_FEEDBACK_URL", '"https://frab.cccv.de/en/rc3/public/events/%s/feedback/new"'
         }
