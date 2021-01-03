@@ -90,9 +90,7 @@
 		Kotlin, Google Support Library, BetterLinkMovementMethod, Email Intent Builder,
 		Engelsystem, Espresso, OkHttp, SnackEngage, TraceDroid
 	</string>
-    <string name="about_data_privacy_statement">
-        <![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan/blob/master/DATA-PRIVACY-DE.md">Data privacy statement (German)</a>]]>
-    </string>
+    <string name="about_data_privacy_statement_german">Data privacy statement (German)</string>
     <string name="about_google_play_listing">Google Play listing</string>
     <string name="about_issues_or_feature_requests">Issues or feature requests</string>
     <string name="about_source_code">Source code</string>

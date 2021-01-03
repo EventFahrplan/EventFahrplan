@@ -196,7 +196,7 @@
                 android:paddingTop="10dp"
                 android:singleLine="false"
                 style="@style/TextViewLinks"
-                android:text="@string/about_data_privacy_statement"/>
+                android:text="@string/about_data_privacy_statement_german"/>
 
         <include
                 layout="@layout/horizontal_line"/>

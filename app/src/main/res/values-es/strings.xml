@@ -107,7 +107,7 @@
     <string name="uptodate">El calendario está actualizado</string>
     <string name="usage">Nota: Presione unos segundos en una conferencia para poner alarma</string>
     <string name="OK">De acuerdo</string>
-    <string name="about_data_privacy_statement"><![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan/blob/master/DATA-PRIVACY-DE.md">Declaración de privacidad de datos (Alemán)</a>]]></string>
+    <string name="about_data_privacy_statement_german">Declaración de privacidad de datos (Alemán)</string>
     <string name="about_google_play_listing">Listado de Google Play</string>
     <string name="about_issues_or_feature_requests">Problemas o sugerencias</string>
     <string name="about_source_code">Source code</string>

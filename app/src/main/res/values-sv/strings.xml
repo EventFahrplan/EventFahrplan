@@ -102,9 +102,7 @@
     <string name="schedule_updated_to">
         Uppdaterade till <xliff:g example="Mildenberg 2018-01-16 16:50" id="version">%s</xliff:g>
     </string>
-    <string name="about_data_privacy_statement">
-        <![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan/blob/master/DATA-PRIVACY-DE.md">Sekretesspolicy (Tyska)</a>]]>
-    </string>
+    <string name="about_data_privacy_statement_german">Sekretesspolicy (Tyska)</string>
     <string name="about_google_play_listing">Google Play</string>
     <string name="about_issues_or_feature_requests">Problem eller funktionsförfrågningar</string>
     <string name="about_source_code">Källkod</string>

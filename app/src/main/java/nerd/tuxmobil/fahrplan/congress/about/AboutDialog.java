@@ -130,9 +130,9 @@ public class AboutDialog extends DialogFragment {
         TextViewExtensions.setLinkText(googlePlayStore, googlePlayUrl, googlePlayListingTitle, movementMethod, linkTextColor);
 
         TextView dataPrivacyStatement = requireViewByIdCompat(view, R.id.about_data_privacy_statement_view);
-        dataPrivacyStatement.setText(Strings.toSpanned(getString(R.string.about_data_privacy_statement)));
-        dataPrivacyStatement.setMovementMethod(movementMethod);
-        dataPrivacyStatement.setLinkTextColor(linkTextColor);
+        String dataPrivacyStatementGermanUrl = BuildConfig.DATA_PRIVACY_STATEMENT_DE_URL;
+        String dataPrivacyStatementGermanTitle = getString(R.string.about_data_privacy_statement_german);
+        TextViewExtensions.setLinkText(dataPrivacyStatement, dataPrivacyStatementGermanUrl, dataPrivacyStatementGermanTitle, movementMethod, linkTextColor);
 
         // Build information
 

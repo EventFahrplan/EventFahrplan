@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="OK">OK</string>
-    <string name="about_data_privacy_statement">
-        <![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan/blob/master/DATA-PRIVACY-DE.md">Informativa sulla protezione dei dati (Tedesco)</a>]]>
-    </string>
+    <string name="about_data_privacy_statement_german">Informativa sulla protezione dei dati (Tedesco)</string>
     <string name="about_issues_or_feature_requests">Assistenza o suggerimento di nuove funzionalità</string>
     <string name="add_to_calendar_failed">Impossibile aggiungere un evento al calendario</string>
     <string name="alarm_time_title_10_minutes_before">10 minuti prima</string>

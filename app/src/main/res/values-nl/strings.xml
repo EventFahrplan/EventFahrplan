@@ -81,9 +81,6 @@
 		Kotlin, Google Support Library, BetterLinkMovementMethod, Email Intent Builder,
 		Engelsystem, Espresso, OkHttp, SnackEngage, TraceDroid
 	</string>
-    <string name="about_data_privacy_statement">
-        <![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan/blob/master/DATA-PRIVACY-DE.md">Datenschutzerklärung</a>]]>
-	</string>
     <string name="about_google_play_listing">Google Play vermelding</string>
     <string name="about_source_code">Bron-code</string>
     <string name="today">vandaag</string>
