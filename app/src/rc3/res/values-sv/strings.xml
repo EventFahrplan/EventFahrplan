@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">rC3 Schedule</string>
-    <string name="conference_url">
-        <![CDATA[<a href="https://rc3.world">https://rc3.world</a>]]>
-    "</string>
     <string name="app_hardcoded_subtitle">27–30 december 2020, Online</string>
     <string name="source_code">
         <![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan">Källkod</a>]]>

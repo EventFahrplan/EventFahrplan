@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">36C3 Schedule</string>
-    <string name="conference_url">
-        <![CDATA[<a href="https://events.ccc.de/congress/2019/wiki">https://events.ccc.de/congress/2019/wiki</a>]]>
-    "</string>
     <string name="app_hardcoded_subtitle">27–30 december 2019, Leipzig, Leipziger Messe</string>
     <string name="source_code">
         <![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan">Källkod</a>]]>

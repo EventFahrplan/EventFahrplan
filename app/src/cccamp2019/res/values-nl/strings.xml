@@ -2,9 +2,6 @@
 <resources>
     <string name="app_name">Camp 2019</string>
     <string name="app_hardcoded_subtitle"/>
-    <string name="conference_url">
-        <![CDATA[<a href="http://events.ccc.de/camp/2019/">http://events.ccc.de/camp/2019/</a>]]>
-    </string>
     <string name="source_code">
         <![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan">Broncode</a>]]>
     </string>

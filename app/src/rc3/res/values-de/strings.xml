@@ -2,9 +2,6 @@
 <resources>
     <string name="app_name">rC3 Fahrplan</string>
     <string name="app_hardcoded_subtitle">27.-30. Dezember 2020, Online</string>
-    <string name="conference_url">
-        <![CDATA[<a href="https://rc3.world">https://rc3.world</a>]]>
-    </string>
     <string name="source_code">
         <![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan">Quellcode</a>]]>
     </string>

@@ -16,6 +16,7 @@ import androidx.fragment.app.DialogFragment;
 import nerd.tuxmobil.fahrplan.congress.BuildConfig;
 import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.extensions.Strings;
+import nerd.tuxmobil.fahrplan.congress.extensions.TextViewExtensions;
 import nerd.tuxmobil.fahrplan.congress.utils.LinkMovementMethodCompat;
 
 import static nerd.tuxmobil.fahrplan.congress.extensions.ViewExtensions.requireViewByIdCompat;
@@ -110,9 +111,8 @@ public class AboutDialog extends DialogFragment {
         logoCopyright.setMovementMethod(movementMethod);
 
         TextView conferenceUrl = requireViewByIdCompat(view, R.id.about_conference_url_view);
-        conferenceUrl.setText(Strings.toSpanned(getString(R.string.conference_url)));
-        conferenceUrl.setMovementMethod(movementMethod);
-        conferenceUrl.setLinkTextColor(linkTextColor);
+        String websiteUrl = BuildConfig.EVENT_WEBSITE_URL;
+        TextViewExtensions.setLinkText(conferenceUrl, websiteUrl, movementMethod, linkTextColor);
 
         TextView sourceCode = requireViewByIdCompat(view, R.id.about_source_code_view);
         sourceCode.setText(Strings.toSpanned(getString(R.string.source_code)));
