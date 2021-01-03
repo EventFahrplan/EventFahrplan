@@ -86,6 +86,7 @@
     <string name="about_data_privacy_statement">
         <![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan/blob/master/DATA-PRIVACY-DE.md">データプライバシーステートメント（ドイツ語）</a>]]>
     </string>
+    <string name="about_google_play_listing">Google Playのリスト</string>
     <string name="about_source_code">ソースコード</string>
     <string name="issues">
         <![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan/issues">問題または機能のリクエスト</a>]]>

@@ -105,6 +105,7 @@
     <string name="about_data_privacy_statement">
         <![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan/blob/master/DATA-PRIVACY-DE.md">Sekretesspolicy (Tyska)</a>]]>
     </string>
+    <string name="about_google_play_listing">Google Play</string>
     <string name="about_source_code">Källkod</string>
     <string name="issues">
         <![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan/issues">Problem eller funktionsförfrågningar</a>]]>

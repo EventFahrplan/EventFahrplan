@@ -93,6 +93,7 @@
     <string name="about_data_privacy_statement">
         <![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan/blob/master/DATA-PRIVACY-DE.md">Data privacy statement (German)</a>]]>
     </string>
+    <string name="about_google_play_listing">Google Play listing</string>
     <string name="about_source_code">Source code</string>
     <string name="copyright_notes" translatable="false">
         Copyright 2013-2021 johnjohndoe.

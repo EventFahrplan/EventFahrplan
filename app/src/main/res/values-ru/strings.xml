@@ -88,6 +88,7 @@
     <string name="about_data_privacy_statement">
         <![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan/blob/master/DATA-PRIVACY-DE.md">Политика конфиденциальности (German)</a>]]>
     </string>
+    <string name="about_google_play_listing">Запись в Google Play</string>
     <string name="about_source_code">Исходный код</string>
     <string name="issues">
         <![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan/issues">Сообщить о проблеме или запросить функционал</a>]]>

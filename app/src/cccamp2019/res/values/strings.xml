@@ -3,9 +3,6 @@
     <string name="app_name">Camp 2019</string>
     <string name="app_hardcoded_subtitle"/>
     <string name="conference_name" translatable="false">Camp 2019</string>
-    <string name="google_play_store">
-        <![CDATA[<a href="https://play.google.com/store/apps/details?id=info.metadude.android.cccamp.schedule">Google PlayStore listing</a>]]>
-    </string>
     <string name="copyright_logo">
         <![CDATA[Design by <a href="http://www.graphorama.de">Sven Sedivy</a>]]>
     </string>

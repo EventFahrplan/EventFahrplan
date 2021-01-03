@@ -65,6 +65,7 @@ android {
             dimension defaultDimension
             applicationId "info.metadude.android.cccamp.schedule"
             versionName "1.48.2-CCCamp-Edition"
+            buildConfigField "String", "GOOGLE_PLAY_URL", '"https://play.google.com/store/apps/details?id=info.metadude.android.cccamp.schedule"'
             buildConfigField "String", "SCHEDULE_URL", '"https://data.c3voc.de/camp2019/everything.schedule.xml"'
             buildConfigField "String", "EVENT_URL", '"http://events.ccc.de/camp/2019/Fahrplan/events/%1$s.html"'
             buildConfigField "String", "EVENT_WEBSITE_URL", '"http://events.ccc.de/camp/2019/"'
@@ -85,6 +86,7 @@ android {
         ccc36c3 {
             dimension defaultDimension
             applicationId "info.metadude.android.congress.schedule"
+            buildConfigField "String", "GOOGLE_PLAY_URL", '"https://play.google.com/store/apps/details?id=info.metadude.android.congress.schedule"'
             buildConfigField "String", "SCHEDULE_URL", '"https://raw.githubusercontent.com/voc/36C3_schedule/master/everything.schedule.xml"'
             buildConfigField "String", "EVENT_URL", '"https://events.ccc.de/congress/2019/Fahrplan/events/%1$s.html"'
             buildConfigField "String", "EVENT_WEBSITE_URL", '"https://events.ccc.de/congress/2019/wiki"'
@@ -107,6 +109,7 @@ android {
             dimension defaultDimension
             applicationId "info.metadude.android.rc3.schedule"
             versionName "1.48.2-rC3-Edition"
+            buildConfigField "String", "GOOGLE_PLAY_URL", '"https://play.google.com/store/apps/details?id=info.metadude.android.rc3.schedule"'
             buildConfigField "String", "SCHEDULE_URL", '"https://data.c3voc.de/rC3/everything.schedule.xml"'
             buildConfigField "String", "EVENT_URL", '"https://fahrplan.events.ccc.de/rc3/2020/Fahrplan/events/%1$s.html"'
             buildConfigField "String", "EVENT_WEBSITE_URL", '"https://rc3.world"'

@@ -125,9 +125,9 @@ public class AboutDialog extends DialogFragment {
         issues.setLinkTextColor(linkTextColor);
 
         TextView googlePlayStore = requireViewByIdCompat(view, R.id.about_google_play_view);
-        googlePlayStore.setText(Strings.toSpanned(getString(R.string.google_play_store)));
-        googlePlayStore.setMovementMethod(movementMethod);
-        googlePlayStore.setLinkTextColor(linkTextColor);
+        String googlePlayUrl = BuildConfig.GOOGLE_PLAY_URL;
+        String googlePlayListingTitle = getString(R.string.about_google_play_listing);
+        TextViewExtensions.setLinkText(googlePlayStore, googlePlayUrl, googlePlayListingTitle, movementMethod, linkTextColor);
 
         TextView dataPrivacyStatement = requireViewByIdCompat(view, R.id.about_data_privacy_statement_view);
         dataPrivacyStatement.setText(Strings.toSpanned(getString(R.string.about_data_privacy_statement)));
