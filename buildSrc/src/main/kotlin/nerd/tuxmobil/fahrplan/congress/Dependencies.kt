@@ -12,7 +12,7 @@ object Android {
 object Plugins {
 
     private object Versions {
-        const val android = "4.1.0"
+        const val android = "4.1.1"
         const val androidJunitJacoco = "0.16.0"
         const val kotlin = "1.4.21"
         const val sonarQube = "3.0"
