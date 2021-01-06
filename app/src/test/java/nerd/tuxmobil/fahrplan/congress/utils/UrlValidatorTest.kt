@@ -1,41 +1,39 @@
 package nerd.tuxmobil.fahrplan.congress.utils
 
-import org.assertj.core.api.Assertions.assertThat
+import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.junit.runners.JUnit4
+import org.junit.runners.Parameterized
+import org.junit.runners.Parameterized.Parameters
 
-@RunWith(JUnit4::class)
-class UrlValidatorTest {
+@RunWith(Parameterized::class)
+class UrlValidatorTest(
 
-    @Test
-    fun isValidWithHttps() {
-        assertThat(UrlValidator("https").isValid()).isFalse()
+        private val url: String,
+        private val isValid: Boolean
+
+) {
+
+    companion object {
+
+        private fun scenarioOf(url: String, isValid: Boolean) =
+                arrayOf(url, isValid)
+
+        @JvmStatic
+        @Parameters(name = "{index}: url = {0} -> isValid = {1}")
+        fun data() = listOf(
+                scenarioOf(url = "https", isValid = false),
+                scenarioOf(url = "https://", isValid = false),
+                scenarioOf(url = "https://example", isValid = false),
+                scenarioOf(url = "https://example.com", isValid = true),
+                scenarioOf(url = "https://example.com/test", isValid = true),
+                scenarioOf(url = "https://example.com/test/path?key=value", isValid = true),
+        )
     }
 
     @Test
-    fun isValidWithHttpsColonSlashSlash() {
-        assertThat(UrlValidator("https://").isValid()).isFalse()
-    }
-
-    @Test
-    fun isValidWithoutTopLevelDomain() {
-        assertThat(UrlValidator("https://example").isValid()).isFalse()
-    }
-
-    @Test
-    fun isValidWithDomain() {
-        assertThat(UrlValidator("https://example.com").isValid()).isTrue()
-    }
-
-    @Test
-    fun isValidWithPath() {
-        assertThat(UrlValidator("https://example.com/test").isValid()).isTrue()
-    }
-
-    @Test
-    fun isValidWithKeyAndValue() {
-        assertThat(UrlValidator("https://example.com/test/path?key=value").isValid()).isTrue()
+    fun isValid() {
+        assertThat(UrlValidator(url).isValid()).isEqualTo(isValid)
     }
 
 }
