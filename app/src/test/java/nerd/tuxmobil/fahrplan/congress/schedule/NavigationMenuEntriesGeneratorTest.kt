@@ -76,9 +76,9 @@ class NavigationMenuEntriesGeneratorTest {
     private fun getDayMenuEntries(numDays: Int, dateInfos: DateInfos?, currentDate: String) =
             getDayMenuEntries(numDays, dateInfos, Moment.parseDate(currentDate), DAY_STRING, TODAY_STRING)
 
-    companion object {
-        private const val DAY_STRING = "Day"
-        private const val TODAY_STRING = "Today"
+    private companion object {
+        const val DAY_STRING = "Day"
+        const val TODAY_STRING = "Today"
     }
 
 }

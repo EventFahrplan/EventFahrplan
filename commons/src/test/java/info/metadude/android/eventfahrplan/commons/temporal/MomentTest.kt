@@ -1,5 +1,9 @@
 package info.metadude.android.eventfahrplan.commons.temporal
 
+import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MILLISECONDS_OF_ONE_HOUR
+import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MILLISECONDS_OF_ONE_MINUTE
+import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MILLISECONDS_OF_ONE_SECOND
+import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MINUTES_OF_ONE_DAY
 import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.toMoment
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
@@ -15,10 +19,17 @@ class MomentTest {
         /**
          * Milliseconds representation of 2019-12-30T22:47:57.615Z.
          */
-        private const val DEC_30_22_47_2019 = 1577746077615
+        const val DEC_30_22_47_2019 = 1577746077615
 
     }
 
+    @Test
+    fun `constants return correct values`() {
+        assertThat(MILLISECONDS_OF_ONE_SECOND).isEqualTo(1_000)
+        assertThat(MILLISECONDS_OF_ONE_MINUTE).isEqualTo(60_000)
+        assertThat(MILLISECONDS_OF_ONE_HOUR).isEqualTo(3_600_000L)
+        assertThat(MINUTES_OF_ONE_DAY).isEqualTo(1_440)
+    }
 
     @Test
     fun dateTimeFieldsAreCorrectlyMapped() {
@@ -87,7 +98,7 @@ class MomentTest {
     fun timeZoneHasNoEffectOnMilliseconds() {
         val nowUTC = Moment.now()
         val utcMillis = nowUTC.toMilliseconds()
-        val utcSeconds = utcMillis / 1000
+        val utcSeconds = utcMillis / MILLISECONDS_OF_ONE_SECOND
 
         val nowTZ = nowUTC.toZonedDateTime(ZoneOffset.ofHours(2))
         val tzSeconds = nowTZ.toEpochSecond()
@@ -118,37 +129,37 @@ class MomentTest {
     @Test
     fun plusSeconds() {
         val momentOne = Moment.ofEpochMilli(0).plusSeconds(1)
-        assertThat(momentOne.toMilliseconds()).isEqualTo(1000)
+        assertThat(momentOne.toMilliseconds()).isEqualTo(MILLISECONDS_OF_ONE_SECOND.toLong())
 
-        val momentTwo = Moment.ofEpochMilli(1000).plusSeconds(-1)
+        val momentTwo = Moment.ofEpochMilli(MILLISECONDS_OF_ONE_SECOND.toLong()).plusSeconds(-1)
         assertThat(momentTwo.toMilliseconds()).isEqualTo(0)
     }
 
     @Test
     fun plusMinutes() {
         val momentOne = Moment.ofEpochMilli(0).plusMinutes(1)
-        assertThat(momentOne.toMilliseconds()).isEqualTo(1000 * 60)
+        assertThat(momentOne.toMilliseconds()).isEqualTo(MILLISECONDS_OF_ONE_MINUTE.toLong())
 
-        val momentTwo = Moment.ofEpochMilli(1000 * 60).plusMinutes(-1)
+        val momentTwo = Moment.ofEpochMilli(MILLISECONDS_OF_ONE_MINUTE.toLong()).plusMinutes(-1)
         assertThat(momentTwo.toMilliseconds()).isEqualTo(0)
     }
 
     @Test
     fun minusHours() {
-        val momentOne = Moment.ofEpochMilli(3600 * 1000).minusHours(1)
+        val momentOne = Moment.ofEpochMilli(MILLISECONDS_OF_ONE_HOUR.toLong()).minusHours(1)
         assertThat(momentOne.toMilliseconds()).isEqualTo(0)
 
         val momentTwo = Moment.ofEpochMilli(0).minusHours(-1)
-        assertThat(momentTwo.toMilliseconds()).isEqualTo(3600 * 1000)
+        assertThat(momentTwo.toMilliseconds()).isEqualTo(MILLISECONDS_OF_ONE_HOUR)
     }
 
     @Test
     fun minusMinutes() {
-        val momentOne = Moment.ofEpochMilli(60 * 1000).minusMinutes(1)
+        val momentOne = Moment.ofEpochMilli(MILLISECONDS_OF_ONE_MINUTE.toLong()).minusMinutes(1)
         assertThat(momentOne.toMilliseconds()).isEqualTo(0)
 
         val momentTwo = Moment.ofEpochMilli(0).minusMinutes(-1)
-        assertThat(momentTwo.toMilliseconds()).isEqualTo(60 * 1000)
+        assertThat(momentTwo.toMilliseconds()).isEqualTo(MILLISECONDS_OF_ONE_MINUTE.toLong())
     }
 
     @Test

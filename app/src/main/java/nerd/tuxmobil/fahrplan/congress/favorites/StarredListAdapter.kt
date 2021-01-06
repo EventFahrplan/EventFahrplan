@@ -64,7 +64,7 @@ class StarredListAdapter internal constructor(
     }
 
     private val Session.tookPlace
-        get() = dateUTC + duration * 60000 < Moment.now().toMilliseconds()
+        get() = endsAtDateUtc < Moment.now().toMilliseconds()
 
     private fun TextView.setPastSessionTextColor() = setTextColor(pastSessionTextColor)
 

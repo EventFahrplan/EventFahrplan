@@ -23,8 +23,8 @@ import java.net.HttpURLConnection
 
 class ShiftsLoadingTest {
 
-    companion object {
-        private const val VALID_ONE_ITEM_SHIFTS_JSON = """
+    private companion object {
+        const val VALID_ONE_ITEM_SHIFTS_JSON = """
                 [
                     {
                         "Comment": "This is a very secret comment.",
@@ -46,14 +46,14 @@ class ShiftsLoadingTest {
                     }
                 ]
                 """
-        private const val INVALID_ONE_ITEM_SHIFTS_JSON = """
+        const val INVALID_ONE_ITEM_SHIFTS_JSON = """
                 {
                     "unknown": "foobar"
                 }
                 """
-        private const val EMPTY_ARRAY_SHIFTS_JSON = "[]"
-        private const val EMPTY_STRING = ""
-        private val ACTUAL_ONE_ITEM_SHIFTS = listOf(Shift(
+        const val EMPTY_ARRAY_SHIFTS_JSON = "[]"
+        const val EMPTY_STRING = ""
+        val ACTUAL_ONE_ITEM_SHIFTS = listOf(Shift(
                 userComment = "This is a very secret comment.",
                 locationDescription = "Kirmes are fun.",
                 locationName = "Kirmes",
@@ -62,7 +62,7 @@ class ShiftsLoadingTest {
                 talkTitle = "Tag 1: Decorate fridge",
                 typeId = 6
         ))
-        private val EXPECTED_ONE_ITEM_SHIFTS = listOf(Shift(
+        val EXPECTED_ONE_ITEM_SHIFTS = listOf(Shift(
                 userComment = "This is a very secret comment.",
                 locationDescription = "Kirmes are fun.",
                 locationName = "Kirmes",

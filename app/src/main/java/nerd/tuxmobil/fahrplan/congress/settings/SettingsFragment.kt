@@ -29,7 +29,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     private companion object {
 
-        private const val REQUEST_CODE_ALARM_TONE = 3439
+        const val REQUEST_CODE_ALARM_TONE = 3439
 
     }
 

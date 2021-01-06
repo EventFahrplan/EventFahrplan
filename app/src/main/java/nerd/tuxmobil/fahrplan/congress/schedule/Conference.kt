@@ -1,9 +1,10 @@
 package nerd.tuxmobil.fahrplan.congress.schedule
 
-import androidx.annotation.VisibleForTesting
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
+import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MINUTES_OF_ONE_DAY
 import nerd.tuxmobil.fahrplan.congress.models.Session
 
+// TODO Use Moment class, merge with ConferenceTimeFrame class?
 data class Conference(
 
         var firstSessionStartsAt: Int = 0,
@@ -38,7 +39,7 @@ data class Conference(
         for (session in sessions) {
             if (firstSessionDateUtc > 0) {
                 // Frab
-                val sessionEndsAt = session.dateUTC + session.duration * 60000
+                val sessionEndsAt = session.endsAtDateUtc
                 if (end == 0L) {
                     end = sessionEndsAt
                 } else if (sessionEndsAt > end) {
@@ -69,12 +70,7 @@ data class Conference(
     }
 
     private fun forwardLastSessionEndsAtByOneDay() {
-        lastSessionEndsAt += ONE_DAY
-    }
-
-    companion object {
-        @VisibleForTesting
-        const val ONE_DAY = 24 * 60
+        lastSessionEndsAt += MINUTES_OF_ONE_DAY
     }
 
 }

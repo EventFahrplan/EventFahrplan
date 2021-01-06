@@ -19,6 +19,8 @@ import info.metadude.android.eventfahrplan.network.serialization.exceptions.Miss
 import info.metadude.android.eventfahrplan.network.temporal.DateParser;
 import info.metadude.android.eventfahrplan.network.validation.DateFieldValidation;
 
+import static info.metadude.android.eventfahrplan.commons.temporal.Moment.MINUTES_OF_ONE_DAY;
+
 public class FahrplanParser {
 
     public interface OnParseCompleteListener {
@@ -243,14 +245,14 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                                             session.setLinks(sb.toString());
                                         } else if (name.equals("start")) {
                                             parser.next();
-                                            session.setStartTime(Session.Companion.parseStartTime(XmlPullParsers.getSanitizedText(parser)));
+                                            session.setStartTime(DateParser.getMinutes(XmlPullParsers.getSanitizedText(parser)));
                                             session.setRelativeStartTime(session.getStartTime());
                                             if (session.getRelativeStartTime() < dayChangeTime) {
-                                                session.setRelativeStartTime(session.getRelativeStartTime() + 24 * 60);
+                                                session.setRelativeStartTime((int) (session.getRelativeStartTime() + MINUTES_OF_ONE_DAY));
                                             }
                                         } else if (name.equals("duration")) {
                                             parser.next();
-                                            session.setDuration(Session.Companion.parseDuration(XmlPullParsers.getSanitizedText(parser)));
+                                            session.setDuration(DateParser.getMinutes(XmlPullParsers.getSanitizedText(parser)));
                                         } else if (name.equals("date")) {
                                             parser.next();
                                             session.setDateUTC(DateParser.getDateTime(XmlPullParsers.getSanitizedText(parser)));
@@ -318,7 +320,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                                         }
                                         if (name.equals("day_change")) {
                                             parser.next();
-                                            dayChangeTime = Session.Companion.parseStartTime(XmlPullParsers.getSanitizedText(parser));
+                                            dayChangeTime = DateParser.getMinutes(XmlPullParsers.getSanitizedText(parser));
                                         }
                                         if (name.equals("time_zone_name")) {
                                             parser.next();

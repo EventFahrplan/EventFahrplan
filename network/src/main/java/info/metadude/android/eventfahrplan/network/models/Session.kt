@@ -48,17 +48,9 @@ data class Session(
 ) {
 
     companion object {
+
         const val RECORDING_OPT_OUT_OFF = false
 
-        fun parseStartTime(text: String): Int {
-            val time = text.split(":").toTypedArray()
-            return Integer.parseInt(time[0]) * 60 + Integer.parseInt(time[1])
-        }
-
-        fun parseDuration(text: String): Int {
-            val time = text.split(":").toTypedArray()
-            return Integer.parseInt(time[0]) * 60 + Integer.parseInt(time[1])
-        }
     }
 
 }

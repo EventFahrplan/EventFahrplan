@@ -116,6 +116,26 @@ class Moment private constructor(private val time: Instant) {
         private const val SECONDS_OF_ONE_MINUTE: Int = 60
 
         /**
+         * 1 second = 1,000 milliseconds
+         */
+        const val MILLISECONDS_OF_ONE_SECOND: Int = 1000
+
+        /**
+         * 1 minute = 60,000 milliseconds
+         */
+        const val MILLISECONDS_OF_ONE_MINUTE: Int = SECONDS_OF_ONE_MINUTE * MILLISECONDS_OF_ONE_SECOND
+
+        /**
+         * 1 hour = 3,600,000 milliseconds
+         */
+        const val MILLISECONDS_OF_ONE_HOUR: Long = 60L * MILLISECONDS_OF_ONE_MINUTE
+
+        /**
+         * 1 day = 1,440 minutes
+         */
+        const val MINUTES_OF_ONE_DAY: Int = 24 * 60
+
+        /**
          * Creates a time zone neutral [Moment] instance of current system clock.
          */
         @JvmStatic

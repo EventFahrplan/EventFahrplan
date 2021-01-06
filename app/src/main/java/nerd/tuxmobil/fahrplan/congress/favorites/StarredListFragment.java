@@ -157,7 +157,7 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
         int numSeparators = 0;
         for (i = 0; i < starredList.size(); i++) {
             Session session = starredList.get(i);
-            if (session.dateUTC + session.duration * 60000 > nowMillis) {
+            if (session.getEndsAtDateUtc() > nowMillis) {
                 numSeparators = session.day;
                 break;
             }

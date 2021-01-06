@@ -4,6 +4,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import info.metadude.android.eventfahrplan.commons.logging.Logging
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
+import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MILLISECONDS_OF_ONE_MINUTE
 import nerd.tuxmobil.fahrplan.congress.models.RoomData
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import org.threeten.bp.Duration
@@ -19,7 +20,6 @@ data class LayoutCalculator @JvmOverloads constructor(
     private companion object {
         const val LOG_TAG = "LayoutCalculator"
         const val DIVISOR = 5
-        const val MILLIS_PER_MINUTE = 60000
     }
 
     fun calculateDisplayDistance(minutes: Int): Int {
@@ -89,12 +89,11 @@ data class LayoutCalculator @JvmOverloads constructor(
         val next = sessions.getOrNull(sessionIndex + 1)
 
         if (next != null && next.dateUTC > 0) {
-            val endTimestamp = session.dateUTC + session.duration * MILLIS_PER_MINUTE
-            val nextStartsBeforeCurrentEnds = endTimestamp > next.dateUTC
+            val nextStartsBeforeCurrentEnds = session.endsAtDateUtc > next.dateUTC
             if (nextStartsBeforeCurrentEnds) {
                 logging.d(LOG_TAG, """Collision: "${session.title}" + "${next.title}"""")
                 // cut current at the end, to match next sessions start time
-                session.duration = ((next.dateUTC - session.dateUTC) / MILLIS_PER_MINUTE).toInt()
+                session.duration = ((next.dateUTC - session.dateUTC) / MILLISECONDS_OF_ONE_MINUTE).toInt()
             }
         }
     }

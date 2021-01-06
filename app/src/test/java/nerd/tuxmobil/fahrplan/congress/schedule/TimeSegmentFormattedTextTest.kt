@@ -44,7 +44,7 @@ class TimeSegmentFormattedTextTest(
     @Test
     fun formattedText() {
         TimeZone.setDefault(DEFAULT_TIME_ZONE)
-        val segment = TimeSegment(minutesOfTheDay)
+        val segment = TimeSegment.ofMinutesOfTheDay(minutesOfTheDay)
         assertThat(segment.formattedText).isEqualTo(expectedFormattedText)
     }
 

@@ -2,6 +2,7 @@ package nerd.tuxmobil.fahrplan.congress.utils;
 
 import androidx.annotation.NonNull;
 
+// TODO Use Moment class, merge with Conference class?
 public class ConferenceTimeFrame {
 
     private final long firstDayStartTime;

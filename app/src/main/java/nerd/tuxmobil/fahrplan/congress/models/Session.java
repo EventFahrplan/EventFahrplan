@@ -12,6 +12,8 @@ import info.metadude.android.eventfahrplan.network.temporal.DateParser;
 import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.repositories.SessionsTransformer;
 
+import static info.metadude.android.eventfahrplan.commons.temporal.Moment.MILLISECONDS_OF_ONE_MINUTE;
+
 /**
  * Application model representing a lecture, a workshop or any similar time-framed happening.
  */
@@ -165,6 +167,20 @@ public class Session {
      */
     public long getStartTimeMilliseconds() {
         return (dateUTC > 0) ? dateUTC : getStartTimeMoment().toMilliseconds();
+    }
+
+    /**
+     * Returns the end time since day start in minutes.
+     */
+    public int getEndsAtTime() {
+        return startTime + duration;
+    }
+
+    /**
+     * Returns the end date and time in milliseconds.
+     */
+    public long getEndsAtDateUtc() {
+        return dateUTC + duration * MILLISECONDS_OF_ONE_MINUTE;
     }
 
     @SuppressWarnings("RedundantIfStatement")

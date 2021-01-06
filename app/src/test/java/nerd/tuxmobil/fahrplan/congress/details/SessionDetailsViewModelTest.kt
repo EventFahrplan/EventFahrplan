@@ -24,12 +24,12 @@ class SessionDetailsViewModelTest {
     private val meta = mock<Meta>()
     private lateinit var defaultViewModel: SessionDetailsViewModel
 
-    companion object {
-        private val NO_TIME_ZONE_ID = null
-        private const val UNKNOWN_MENU_ITEM_ID = Int.MIN_VALUE
-        private const val SAMPLE_URL = "http://example.com"
-        private const val ACTUAL_SESSION_ID = "S1"
-        private const val EXPECTED_SESSION_ID = "S1"
+    private companion object {
+        val NO_TIME_ZONE_ID = null
+        const val UNKNOWN_MENU_ITEM_ID = Int.MIN_VALUE
+        const val SAMPLE_URL = "http://example.com"
+        const val ACTUAL_SESSION_ID = "S1"
+        const val EXPECTED_SESSION_ID = "S1"
     }
 
     @Before

@@ -7,6 +7,7 @@ import android.app.NotificationManager
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.view.LayoutInflater
 import androidx.core.content.getSystemService
 
@@ -23,3 +24,5 @@ fun Context.startActivity(intent: Intent, onActivityNotFound: () -> Unit) {
         onActivityNotFound.invoke()
     }
 }
+
+fun Context.isLandscape() = resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE

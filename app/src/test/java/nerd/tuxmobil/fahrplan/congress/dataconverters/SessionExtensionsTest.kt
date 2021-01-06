@@ -179,9 +179,9 @@ class SessionExtensionsTest {
 
     @Test
     fun toHighlightDatabaseModel() {
-        val session = Session("")
-        session.sessionId = "4723"
-        session.highlight = true
+        val session = Session("4723").apply {
+            highlight = true
+        }
         val highlight = Highlight(sessionId = 4723, isHighlight = true)
         assertThat(session.toHighlightDatabaseModel()).isEqualTo(highlight)
     }

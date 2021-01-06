@@ -9,13 +9,11 @@ import androidx.annotation.NonNull;
 
 import org.ligi.tracedroid.logging.Log;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
+import info.metadude.android.eventfahrplan.commons.temporal.DateFormatter;
 import info.metadude.android.eventfahrplan.commons.temporal.Moment;
 import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.R;
@@ -31,12 +29,12 @@ import nerd.tuxmobil.fahrplan.congress.models.SchedulableAlarm;
 import nerd.tuxmobil.fahrplan.congress.models.Session;
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 
+import static info.metadude.android.eventfahrplan.commons.temporal.Moment.MILLISECONDS_OF_ONE_MINUTE;
+
 
 public class FahrplanMisc {
 
     private static final String LOG_TAG = "FahrplanMisc";
-    private static final DateFormat TIME_TEXT_DATE_FORMAT =
-            SimpleDateFormat.getDateTimeInstance(SimpleDateFormat.SHORT, SimpleDateFormat.SHORT);
 
     public static void loadDays(@NonNull AppRepository appRepository) {
         MyApp.dateInfos = new DateInfos();
@@ -81,7 +79,7 @@ public class FahrplanMisc {
 
         long sessionStartTime = session.getStartTimeMilliseconds();
 
-        long alarmTimeOffset = alarmTimes.get(alarmTimesIndex) * 60 * 1000L;
+        long alarmTimeOffset = alarmTimes.get(alarmTimesIndex) * (long) MILLISECONDS_OF_ONE_MINUTE;
         long alarmTime = sessionStartTime - alarmTimeOffset;
 
         Moment moment = Moment.ofEpochMilli(alarmTime);
@@ -90,7 +88,7 @@ public class FahrplanMisc {
         String sessionId = session.sessionId;
         String sessionTitle = session.title;
         int alarmTimeInMin = alarmTimes.get(alarmTimesIndex);
-        String timeText = TIME_TEXT_DATE_FORMAT.format(new Date(alarmTime));
+        String timeText = DateFormatter.newInstance().getFormattedDateTimeShort(alarmTime);
         int day = session.day;
 
         Alarm alarm = new Alarm(alarmTimeInMin, day, sessionStartTime, sessionId, sessionTitle, alarmTime, timeText);

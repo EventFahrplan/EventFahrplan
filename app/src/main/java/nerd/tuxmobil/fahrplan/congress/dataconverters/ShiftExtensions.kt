@@ -3,6 +3,7 @@ package nerd.tuxmobil.fahrplan.congress.dataconverters
 import androidx.annotation.VisibleForTesting
 import info.metadude.android.eventfahrplan.commons.logging.Logging
 import info.metadude.android.eventfahrplan.commons.temporal.DayRange
+import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MILLISECONDS_OF_ONE_SECOND
 import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.toMoment
 import info.metadude.kotlin.library.engelsystem.models.Shift
 import nerd.tuxmobil.fahrplan.congress.models.Session
@@ -93,4 +94,4 @@ private val Shift.startsAtLocalDateString
     get() = startsAtLocalDate.toString()
 
 private val Long.milliseconds
-    get() = this * 1000
+    get() = this * MILLISECONDS_OF_ONE_SECOND

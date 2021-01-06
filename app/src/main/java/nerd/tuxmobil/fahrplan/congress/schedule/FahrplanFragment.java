@@ -3,7 +3,6 @@ package nerd.tuxmobil.fahrplan.congress.schedule;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
@@ -70,7 +69,7 @@ import nerd.tuxmobil.fahrplan.congress.sharing.SimpleSessionFormat;
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
 import nerd.tuxmobil.fahrplan.congress.utils.TypefaceFactory;
 
-import static nerd.tuxmobil.fahrplan.congress.extensions.Resource.getNormalizedBoxHeight;
+import static nerd.tuxmobil.fahrplan.congress.extensions.Contexts.isLandscape;
 import static nerd.tuxmobil.fahrplan.congress.extensions.ViewExtensions.requireViewByIdCompat;
 
 public class FahrplanFragment extends Fragment implements SessionViewEventsHandler {
@@ -93,7 +92,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
     private static final int ONE_DAY = (int) Duration.ofDays(1).toMinutes();
     private static final int FIFTEEN_MINUTES = 15;
 
-    private float scale;
+    private float displayDensityScale;
 
     private LayoutInflater inflater;
 
@@ -163,7 +162,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
         setHasOptionsMenu(true);
         context = requireContext();
         light = TypefaceFactory.getNewInstance(context).getRobotoLight();
-        sessionViewDrawer = new SessionViewDrawer(context);
+        sessionViewDrawer = new SessionViewDrawer(context, this::getSessionPadding);
     }
 
     @Override
@@ -178,7 +177,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
         super.onViewCreated(view, savedInstanceState);
 
         Context context = view.getContext();
-        scale = getResources().getDisplayMetrics().density;
+        displayDensityScale = getResources().getDisplayMetrics().density;
         HorizontalScrollView roomScroller = requireViewByIdCompat(view, R.id.roomScroller);
         HorizontalSnapScrollView snapScroller = requireViewByIdCompat(view, R.id.horizScroller);
         snapScroller.setChildScroller(roomScroller);
@@ -274,7 +273,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
     private void viewDay(boolean forceReload) {
         Log.d(LOG_TAG, "viewDay(" + forceReload + ")");
         View layoutRoot = getView();
-        int boxHeight = getNormalizedBoxHeight(getResources(), scale, LOG_TAG);
+        int boxHeight = getNormalizedBoxHeight(displayDensityScale);
 
         HorizontalSnapScrollView horizontalScroller = requireViewByIdCompat(layoutRoot, R.id.horizScroller);
         horizontalScroller.scrollTo(0, 0);
@@ -341,7 +340,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
         columnsLayout.removeAllViews();
         adapterByRoomIndex.clear();
 
-        int boxHeight = getNormalizedBoxHeight(getResources(), scale, LOG_TAG);
+        int boxHeight = getNormalizedBoxHeight(displayDensityScale);
         LayoutCalculator layoutCalculator = new LayoutCalculator(boxHeight);
 
         List<RoomData> roomDataList = scheduleData.getRoomDataList();
@@ -408,19 +407,11 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
             return;
         }
         Moment nowMoment = Moment.now();
-        HorizontalSnapScrollView horiz = null;
-        //noinspection SwitchStatementWithTooFewBranches
-        switch (getResources().getConfiguration().orientation) {
-            case Configuration.ORIENTATION_LANDSCAPE:
-                break;
-            default:
-                horiz = getView().findViewById(R.id.horizScroller);
-                break;
-        }
 
         int columnIndex = -1;
-        if (horiz != null) {
-            columnIndex = horiz.getColumnIndex();
+        if (!isLandscape(getContext())) {
+            HorizontalSnapScrollView view = getView().findViewById(R.id.horizScroller);
+            columnIndex = view.getColumnIndex();
             MyApp.LogDebug(LOG_TAG, "y pos  = " + columnIndex);
         }
         int time = conference.getFirstSessionStartsAt();
@@ -432,7 +423,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
 
             TimeSegment timeSegment;
             while (time < conference.getLastSessionEndsAt()) {
-                timeSegment = new TimeSegment(printTime);
+                timeSegment = TimeSegment.ofMinutesOfTheDay(printTime);
                 if (timeSegment.isMatched(nowMoment, FIFTEEN_MINUTES)) {
                     break;
                 } else {
@@ -449,10 +440,10 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
             if (columnIndex >= 0 && columnIndex < roomDataList.size()) {
                 RoomData roomData = roomDataList.get(columnIndex);
                 for (Session session : roomData.getSessions()) {
-                    if (session.startTime <= time && session.startTime + session.duration > time) {
+                    if (session.startTime <= time && session.getEndsAtTime() > time) {
                         MyApp.LogDebug(LOG_TAG, session.title);
                         MyApp.LogDebug(LOG_TAG, time + " " + session.startTime + "/" + session.duration);
-                        scrollAmount -= ((time - session.startTime) / 5) * boxHeight;
+                        scrollAmount -= ((time - session.startTime) / TimeSegment.TIME_GRID_MINIMUM_SEGMENT_HEIGHT) * boxHeight;
                         time = session.startTime;
                     }
                 }
@@ -492,13 +483,13 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
 
     private void scrollTo(@NonNull Session session) {
         final ScrollView parent = requireViewByIdCompat(getView(), R.id.scrollView1);
-        int height = getNormalizedBoxHeight(getResources(), scale, LOG_TAG);
+        int height = getNormalizedBoxHeight(displayDensityScale);
         // TODO Replace with proper Moment based implementation as soon as possible. See code review in https://github.com/EventFahrplan/EventFahrplan/pull/347
         int startsAtMinuteUtc = session.relStartTime - conference.getFirstSessionStartsAt();
         int systemOffsetMinutes = Moment.getSystemOffsetMinutes();
         // Translate start time minutes from UTC to system time zone rendered to the user.
         int startsAtMinuteSystem = startsAtMinuteUtc - systemOffsetMinutes;
-        final int pos = startsAtMinuteSystem / 5 * height;
+        final int pos = startsAtMinuteSystem / TimeSegment.TIME_GRID_MINIMUM_SEGMENT_HEIGHT * height;
         MyApp.LogDebug(LOG_TAG, "position is " + pos);
         parent.post(() -> parent.scrollTo(0, pos));
         final HorizontalSnapScrollView horiz = getView().findViewById(R.id.horizScroller);
@@ -525,10 +516,10 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
         timeTextColumn.removeAllViews();
         Moment nowMoment = Moment.now();
         View timeTextView;
-        int timeTextViewHeight = 3 * getNormalizedBoxHeight(getResources(), scale, LOG_TAG);
+        int timeTextViewHeight = 3 * getNormalizedBoxHeight(displayDensityScale);
         TimeSegment timeSegment;
         while (time < conference.getLastSessionEndsAt()) {
-            timeSegment = new TimeSegment(printTime);
+            timeSegment = TimeSegment.ofMinutesOfTheDay(printTime);
             int timeTextLayout;
             if (isToday(nowMoment) && timeSegment.isMatched(nowMoment, FIFTEEN_MINUTES)) {
                 timeTextLayout = R.layout.time_layout_now;
@@ -552,17 +543,14 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
     }
 
     private int getSessionPadding() {
-        int padding;
-        //noinspection SwitchStatementWithTooFewBranches
-        switch (getResources().getConfiguration().orientation) {
-            case Configuration.ORIENTATION_LANDSCAPE:
-                padding = (int) (8 * scale);
-                break;
-            default:
-                padding = (int) (10 * scale);
-                break;
-        }
-        return padding;
+        int factor = isLandscape(getContext()) ? 8 : 10;
+        return (int) (factor * displayDensityScale);
+    }
+
+    private int getNormalizedBoxHeight(float scale) {
+        String orientationText = isLandscape(getContext()) ? "landscape" : "other orientation";
+        MyApp.LogDebug(LOG_TAG, orientationText);
+        return (int) (getResources().getInteger(R.integer.box_height) * scale);
     }
 
     public void loadSessions(@NonNull AppRepository appRepository, int day, boolean forceReload) {
