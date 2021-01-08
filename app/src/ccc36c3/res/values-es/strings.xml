@@ -2,15 +2,6 @@
 <resources>
     <string name="app_name">36C3 Calendario</string>
     <string name="app_hardcoded_subtitle">27 - 30 de Diciembre de 2019. Leipzig, Leipziger Messe</string>
-    <string name="conference_url">
-        <![CDATA[<a href="https://events.ccc.de/congress/2019/wiki">https://events.ccc.de/congress/2019/wiki</a>]]>
-    </string>
-    <string name="source_code">
-        <![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan">Source code</a>]]>
-    </string>
-    <string name="google_play_store">
-        <![CDATA[<a href="https://play.google.com/store/apps/details?id=info.metadude.android.congress.schedule">Listado de Google PlayStore </a>]]>
-    </string>
     <string name="copyright_logo">
         <![CDATA[36C3: Resource exhaustion. Diseño por <a href="http://bleeptrack.de">bleeptrack</a>]]>
     </string>

@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="OK">OK</string>
-    <string name="about_data_privacy_statement">
-        <![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan/blob/master/DATA-PRIVACY-DE.md">Informativa sulla protezione dei dati (Tedesco)</a>]]>
-    </string>
+    <string name="about_data_privacy_statement_german">Informativa sulla protezione dei dati (Tedesco)</string>
+    <string name="about_issues_or_feature_requests">Assistenza o suggerimento di nuove funzionalità</string>
     <string name="add_to_calendar_failed">Impossibile aggiungere un evento al calendario</string>
     <string name="alarm_time_title_10_minutes_before">10 minuti prima</string>
     <string name="alarm_time_title_15_minutes_before">15 minuti prima</string>
@@ -43,7 +42,6 @@
     <string name="fahrplan">Programma</string>
     <string name="general_settings">Generale</string>
     <string name="invalid_url">URL erroneo</string>
-    <string name="issues"><![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan/issues">Assistenza o suggerimento di nuove funzionalità</a>]]></string>
     <string name="session_list_item_language_english_content_description">Inglese</string>
     <string name="session_list_item_language_german_content_description">Tedesco</string>
     <string name="session_list_item_language_removed_content_description">L\'informazione sulla lingua è stata rimossa</string>

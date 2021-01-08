@@ -67,7 +67,10 @@
     <string name="starred_sessions">Favoris</string>
     <string name="general_settings">Général</string>
     <string name="no_favorites">Aucune conférence dans les favoris</string>
-    <string name="about_data_privacy_statement"><![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan/blob/master/DATA-PRIVACY-DE.md">Déclaration de protection des données (en allemand)</a>]]></string>
+    <string name="about_data_privacy_statement_german">Déclaration de protection des données (en allemand)</string>
+    <string name="about_google_play_listing">Page sur le Play Google</string>
+    <string name="about_issues_or_feature_requests">Problèmes ou demande de fonctionnalités</string>
+    <string name="about_source_code">Code source</string>
     <string name="choose_alarm_time">Choisissez l’heure du rappel</string>
     <string name="session_details_section_title_links">Liens</string>
     <string name="session_details_section_title_session_online">Événement en ligne</string>
@@ -142,5 +145,4 @@
     <string name="validation_error_url_without_query">URL <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> sans la partie requête.</string>
     <string name="validation_error_url_with_incomplete_query">URL <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> avec partie requête incomplète.</string>
     <string name="validation_error_url_without_api_key">URL <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> sans clé API.</string>
-    <string name="issues"><![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan/issues">Problèmes ou demande de fonctionnalités</a>]]></string>
 </resources>

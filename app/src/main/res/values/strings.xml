@@ -90,18 +90,16 @@
 		Kotlin, Google Support Library, BetterLinkMovementMethod, Email Intent Builder,
 		Engelsystem, Espresso, OkHttp, SnackEngage, TraceDroid
 	</string>
-    <string name="about_data_privacy_statement">
-        <![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan/blob/master/DATA-PRIVACY-DE.md">Data privacy statement (German)</a>]]>
-    </string>
+    <string name="about_data_privacy_statement_german">Data privacy statement (German)</string>
+    <string name="about_google_play_listing">Google Play listing</string>
+    <string name="about_issues_or_feature_requests">Issues or feature requests</string>
+    <string name="about_source_code">Source code</string>
     <string name="copyright_notes" translatable="false">
         Copyright 2013-2021 johnjohndoe.
         \nCopyright 2011-2015 Daniel Dorau.
         \nContributions from 0x5ubt13, Adriano Pereira Junior, Akarsh Seggemu, Andrea Marziali, Andy Scherzinger, Andreas Schildbach, Animesh Verma, bashtian, bjoernb, Björn Olsson Jarl, ButterflyOfFire, cacarrara, Caio Volpato, cketti, codingcatgirl, entropynil, ideadapt, Joergi, koelnkalkverbot, Larissa Yasin, ligi, Mateus Baptista, Matthias Hunstock, MichaelRocks, Nghiem Xuan Hien, NiciDieNase, Noemis, Omicron, Poschi, Sjors van Mierlo, Stefan Medack, SubOptimal, Teeranai.P, Torsten Grote, Victor Herasme, Vladimir Alabov, Yanicka.
         \nPortions Copyright 2008-2011 The K-9 Dog Walkers and 2006-2013 the Android Open Source Project.
     </string>
-    <string name="issues">
-		<![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan/issues">Issues or feature requests</a>]]>
-	</string>
     <string name="today">today</string>
     <string name="schedule_parsing_error_generic">Unknown error while parsing schedule</string>
     <string name="schedule_parsing_error_with_version">Parsing error for schedule version <xliff:g example="0.99a" id="scheduleVersion">%s</xliff:g></string>

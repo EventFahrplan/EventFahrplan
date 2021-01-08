@@ -16,6 +16,7 @@ import androidx.fragment.app.DialogFragment;
 import nerd.tuxmobil.fahrplan.congress.BuildConfig;
 import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.extensions.Strings;
+import nerd.tuxmobil.fahrplan.congress.extensions.TextViewExtensions;
 import nerd.tuxmobil.fahrplan.congress.utils.LinkMovementMethodCompat;
 
 import static nerd.tuxmobil.fahrplan.congress.extensions.ViewExtensions.requireViewByIdCompat;
@@ -110,29 +111,28 @@ public class AboutDialog extends DialogFragment {
         logoCopyright.setMovementMethod(movementMethod);
 
         TextView conferenceUrl = requireViewByIdCompat(view, R.id.about_conference_url_view);
-        conferenceUrl.setText(Strings.toSpanned(getString(R.string.conference_url)));
-        conferenceUrl.setMovementMethod(movementMethod);
-        conferenceUrl.setLinkTextColor(linkTextColor);
+        String websiteUrl = BuildConfig.EVENT_WEBSITE_URL;
+        TextViewExtensions.setLinkText(conferenceUrl, websiteUrl, movementMethod, linkTextColor);
 
         TextView sourceCode = requireViewByIdCompat(view, R.id.about_source_code_view);
-        sourceCode.setText(Strings.toSpanned(getString(R.string.source_code)));
-        sourceCode.setMovementMethod(movementMethod);
-        sourceCode.setLinkTextColor(linkTextColor);
+        String sourceCodeUrl = BuildConfig.SOURCE_CODE_URL;
+        String sourceCodeTitle = getString(R.string.about_source_code);
+        TextViewExtensions.setLinkText(sourceCode, sourceCodeUrl, sourceCodeTitle, movementMethod, linkTextColor);
 
         TextView issues = requireViewByIdCompat(view, R.id.about_issues_view);
-        issues.setText(Strings.toSpanned(getString(R.string.issues)));
-        issues.setMovementMethod(movementMethod);
-        issues.setLinkTextColor(linkTextColor);
+        String issuesUrl = BuildConfig.ISSUES_URL;
+        String issuesTitle = getString(R.string.about_issues_or_feature_requests);
+        TextViewExtensions.setLinkText(issues, issuesUrl, issuesTitle, movementMethod, linkTextColor);
 
         TextView googlePlayStore = requireViewByIdCompat(view, R.id.about_google_play_view);
-        googlePlayStore.setText(Strings.toSpanned(getString(R.string.google_play_store)));
-        googlePlayStore.setMovementMethod(movementMethod);
-        googlePlayStore.setLinkTextColor(linkTextColor);
+        String googlePlayUrl = BuildConfig.GOOGLE_PLAY_URL;
+        String googlePlayListingTitle = getString(R.string.about_google_play_listing);
+        TextViewExtensions.setLinkText(googlePlayStore, googlePlayUrl, googlePlayListingTitle, movementMethod, linkTextColor);
 
         TextView dataPrivacyStatement = requireViewByIdCompat(view, R.id.about_data_privacy_statement_view);
-        dataPrivacyStatement.setText(Strings.toSpanned(getString(R.string.about_data_privacy_statement)));
-        dataPrivacyStatement.setMovementMethod(movementMethod);
-        dataPrivacyStatement.setLinkTextColor(linkTextColor);
+        String dataPrivacyStatementGermanUrl = BuildConfig.DATA_PRIVACY_STATEMENT_DE_URL;
+        String dataPrivacyStatementGermanTitle = getString(R.string.about_data_privacy_statement_german);
+        TextViewExtensions.setLinkText(dataPrivacyStatement, dataPrivacyStatementGermanUrl, dataPrivacyStatementGermanTitle, movementMethod, linkTextColor);
 
         // Build information
 

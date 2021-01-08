@@ -41,7 +41,6 @@
     <string name="certificate_error_title">No se pudo agregar el certificado</string>
     <string name="session_duration"><xliff:g example="45" id="duration">%1$d</xliff:g> min.</string>
     <string name="invalid_url">URL no válida</string>
-    <string name="issues"><![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan/issues">Problemas o sugerencias</a>]]></string>
     <string name="session_list_item_language_portuguese_content_description">Portugués</string>
     <string name="session_list_item_language_english_content_description">Inglés</string>
     <string name="session_list_item_language_german_content_description">Alemán</string>
@@ -108,7 +107,10 @@
     <string name="uptodate">El calendario está actualizado</string>
     <string name="usage">Nota: Presione unos segundos en una conferencia para poner alarma</string>
     <string name="OK">De acuerdo</string>
-    <string name="about_data_privacy_statement"><![CDATA[<a href="https://github.com/EventFahrplan/EventFahrplan/blob/master/DATA-PRIVACY-DE.md">Declaración de privacidad de datos (Alemán)</a>]]></string>
+    <string name="about_data_privacy_statement_german">Declaración de privacidad de datos (Alemán)</string>
+    <string name="about_google_play_listing">Listado de Google Play</string>
+    <string name="about_issues_or_feature_requests">Problemas o sugerencias</string>
+    <string name="about_source_code">Source code</string>
     <string name="menu_item_title_share_session_text">como texto</string>
     <string name="menu_item_title_share_session_json">como JSON (por Chaosflix)</string>
     <string name="share_as_text">Compartir como texto</string>
