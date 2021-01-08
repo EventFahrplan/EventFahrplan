@@ -17,41 +17,44 @@ data class Conference(
      * given sorted sessions.
      *
      * @param sessions     Sorted list of sessions.
-     * @param minutesOfDay Function to calculate the minutes of the day for the
-     *                     given UTC time stamp.
      */
-    fun calculateTimeFrame(sessions: List<Session>, minutesOfDay: (dateUtc: Long) -> Int) {
-        val firstSession = sessions[0] // they are already sorted
-        var end: Long = 0
-        val firstSessionDateUtc = firstSession.dateUTC
-        if (firstSessionDateUtc > 0) {
-            firstSessionStartsAt = minutesOfDay(firstSessionDateUtc)
-            for (session in sessions) {
-                val sessionEndsAt = session.endsAtDateUtc
-                if (end == 0L) {
-                    end = sessionEndsAt
-                } else if (sessionEndsAt > end) {
-                    end = sessionEndsAt
-                }
-            }
+    @Deprecated("Make ofSessions public and use it and make Conference immutable as soon as Moment is used.")
+    fun calculateTimeFrame(sessions: List<Session>) {
+        val conference = ofSessions(sessions)
+        firstSessionStartsAt = conference.firstSessionStartsAt
+        lastSessionEndsAt = conference.lastSessionEndsAt
+    }
+
+    companion object {
+
+        /**
+         * Creates a [Conference] from the given chronologically sorted [sessions].
+         */
+        private fun ofSessions(sessions: List<Session>): Conference {
+            require(sessions.isNotEmpty()) { "Empty list of sessions." }
+            val first = Moment.ofEpochMilli(sessions.first().dateUTC)
+            val endingLatest = sessions.endingLatest()
+            val endsAt = endingLatest.endsAtDateUtc
+            val last = Moment.ofEpochMilli(endsAt)
+            val minutesToAdd = if (first.monthDay == last.monthDay) 0 else MINUTES_OF_ONE_DAY
+            return Conference(firstSessionStartsAt = first.minuteOfDay, lastSessionEndsAt = last.minuteOfDay + minutesToAdd)
         }
-        lastSessionEndsAt = -1
-        if (end > 0) {
-            lastSessionEndsAt = minutesOfDay(end)
-            if (isDaySwitch(firstSessionDateUtc, end)) {
-                forwardLastSessionEndsAtByOneDay()
-            }
+
+    }
+
+}
+
+/**
+ * Returns the [Session] which ends the latest compared to all other [sessions][this].
+ */
+private fun List<Session>.endingLatest(): Session {
+    var endsAt = 0L
+    var latestSession = first()
+    map { it to it.endsAtDateUtc }.forEach { (session, sessionEndsAt) ->
+        if (endsAt == 0L || sessionEndsAt > endsAt) {
+            latestSession = session
+            endsAt = sessionEndsAt
         }
     }
-
-    private fun isDaySwitch(startUtc: Long, endUtc: Long): Boolean {
-        val startDay = Moment.ofEpochMilli(startUtc).monthDay
-        val endDay = Moment.ofEpochMilli(endUtc).monthDay
-        return startDay != endDay
-    }
-
-    private fun forwardLastSessionEndsAtByOneDay() {
-        lastSessionEndsAt += MINUTES_OF_ONE_DAY
-    }
-
+    return latestSession
 }

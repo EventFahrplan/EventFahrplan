@@ -284,7 +284,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
 
         if (!sessionsOfDay.isEmpty()) {
             // TODO: Move this to AppRepository and include the result in ScheduleData
-            conference.calculateTimeFrame(sessionsOfDay, dateUTC -> Moment.ofEpochMilli(dateUTC).getMinuteOfDay());
+            conference.calculateTimeFrame(sessionsOfDay);
             MyApp.LogDebug(LOG_TAG, "Conference = " + conference);
         }
 
