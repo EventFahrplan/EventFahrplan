@@ -12,12 +12,12 @@ object Android {
 object Plugins {
 
     private object Versions {
-        const val android = "4.1.0"
+        const val android = "4.1.1"
         const val androidJunitJacoco = "0.16.0"
-        const val kotlin = "1.4.10"
+        const val kotlin = "1.4.21"
         const val sonarQube = "3.0"
         const val unMock = "0.7.6"
-        const val versions = "0.33.0"
+        const val versions = "0.36.0"
     }
 
     const val android = "com.android.tools.build:gradle:${Versions.android}"
@@ -41,16 +41,16 @@ object Libs {
         const val engelsystem = "5.0.0"
         const val espresso = "3.3.0"
         const val junit = "4.13.1"
-        const val kotlinCoroutines = "1.4.1"
+        const val kotlinCoroutines = "1.4.2"
         const val material = "1.2.1"
-        const val mockito = "3.6.0"
+        const val mockito = "3.7.0"
         const val mockitoKotlin = "2.2.0"
         const val moshi = "1.11.0"
         const val okhttp = "3.12.12"
         const val preference = "1.1.1"
         const val retrofit = "2.6.4"
         const val robolectric = "4.3_r2-robolectric-0"
-        const val snackengage = "0.26"
+        const val snackengage = "0.27"
         const val testExtJunit = "1.1.2"
         const val threeTenBp = "1.5.0"
         const val tracedroid = "1.4"
