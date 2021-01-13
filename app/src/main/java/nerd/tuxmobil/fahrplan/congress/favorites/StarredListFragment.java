@@ -53,8 +53,11 @@ import static nerd.tuxmobil.fahrplan.congress.extensions.ViewExtensions.requireV
  * Activities containing this fragment MUST implement the {@link OnSessionListClick}
  * interface.
  */
-public class StarredListFragment extends AbstractListFragment implements AbsListView
-        .MultiChoiceModeListener {
+public class StarredListFragment extends AbstractListFragment implements
+        AbsListView.MultiChoiceModeListener,
+        AbsListView.OnScrollListener
+
+{
 
     private static final String LOG_TAG = "StarredListFragment";
     public static final String FRAGMENT_TAG = "starred";
@@ -74,6 +77,8 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
      * Views.
      */
     private StarredListAdapter mAdapter;
+
+    private boolean preserveScrollPosition = false;
 
     public static StarredListFragment newInstance(boolean sidePane) {
         StarredListFragment fragment = new StarredListFragment();
@@ -100,6 +105,12 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
             sidePane = args.getBoolean(BundleKeys.SIDEPANE);
         }
         setHasOptionsMenu(true);
+
+        Context context = requireContext();
+        starredList = appRepository.loadStarredSessions();
+        Meta meta = appRepository.readMeta();
+        mAdapter = new StarredListAdapter(context, starredList, meta.getNumDays());
+        MyApp.LogDebug(LOG_TAG, "initStarredList: " + starredList.size() + " favorites");
     }
 
     @Override
@@ -128,6 +139,8 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
         mListView.setHeaderDividersEnabled(false);
         mListView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE_MODAL);
         mListView.setMultiChoiceModeListener(this);
+        mListView.setAdapter(mAdapter);
+        mListView.setOnScrollListener(this);
         return view;
     }
 
@@ -136,17 +149,9 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
     @Override
     public void onResume() {
         super.onResume();
-        initStarredList();
-        jumpOverPastSessions();
-    }
-
-    private void initStarredList() {
-        Context context = requireContext();
-        starredList = appRepository.loadStarredSessions();
-        Meta meta = appRepository.readMeta();
-        mAdapter = new StarredListAdapter(context, starredList, meta.getNumDays());
-        MyApp.LogDebug(LOG_TAG, "initStarredList: " + starredList.size() + " favorites");
-        mListView.setAdapter(mAdapter);
+        if (!preserveScrollPosition) {
+            jumpOverPastSessions();
+        }
     }
 
     private void jumpOverPastSessions() {
@@ -249,6 +254,18 @@ public class StarredListFragment extends AbstractListFragment implements AbsList
     @Override
     public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
 
+    }
+
+    @Override
+    public void onScrollStateChanged(AbsListView view, int scrollState) {
+        // Nothing to do here.
+    }
+
+    @Override
+    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+        if (firstVisibleItem > 0) {
+            preserveScrollPosition = true;
+        }
     }
 
     @Override
