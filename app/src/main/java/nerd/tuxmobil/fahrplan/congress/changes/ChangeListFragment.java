@@ -122,6 +122,7 @@ public class ChangeListFragment extends AbstractListFragment {
     public void onResume() {
         super.onResume();
         new NotificationHelper(requireContext()).cancelScheduleUpdateNotification();
+        appRepository.updateScheduleChangesSeen(true);
     }
 
     @MainThread
