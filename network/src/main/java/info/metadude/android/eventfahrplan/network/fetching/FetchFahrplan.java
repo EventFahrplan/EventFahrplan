@@ -194,6 +194,10 @@ class FetchFahrplanTask extends AsyncTask<String, Void, HttpStatus> {
             responseStr = response.body().string();
         } catch (NullPointerException | IOException e) {
             return HttpStatus.HTTP_CANNOT_PARSE_CONTENT;
+        } finally {
+            if (response.body() != null) {
+                response.body().close();
+            }
         }
 
         return HttpStatus.HTTP_OK;
