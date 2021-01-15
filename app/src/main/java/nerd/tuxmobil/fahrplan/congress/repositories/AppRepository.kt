@@ -168,7 +168,7 @@ object AppRepository {
                     val newSessions = sessions.toSessionsAppModel2().sanitize()
                     val scheduleChanges = computeSessionsWithChangeFlags(newSessions, oldSessions)
                     if (scheduleChanges.foundChanges) {
-                        resetChangesSeenFlag()
+                        updateScheduleChangesSeen(false)
                     }
                     updateSessions(scheduleChanges.sessionsWithChangeFlags, scheduleChanges.oldCanceledSessions)
                 },
@@ -479,9 +479,6 @@ object AppRepository {
 
     fun updateScheduleChangesSeen(changesSeen: Boolean) =
             sharedPreferencesRepository.setChangesSeen(changesSeen)
-
-    private fun resetChangesSeenFlag() =
-            updateScheduleChangesSeen(false)
 
     fun readDisplayDayIndex() =
             sharedPreferencesRepository.getDisplayDayIndex()
