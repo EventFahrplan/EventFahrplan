@@ -88,7 +88,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
     protected Boolean doInBackground(String... args) {
         boolean parsingSuccessful = parseFahrplan(args[0], args[1]);
         if (parsingSuccessful) {
-            DateFieldValidation dateFieldValidation = new DateFieldValidation(Logging.Companion.get());
+            DateFieldValidation dateFieldValidation = new DateFieldValidation(Logging.get());
             dateFieldValidation.validate(sessions);
             dateFieldValidation.printValidationErrors();
             // TODO Clear database on validation failure.
