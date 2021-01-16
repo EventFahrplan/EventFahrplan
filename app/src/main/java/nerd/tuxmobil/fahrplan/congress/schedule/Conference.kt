@@ -1,5 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress.schedule
 
+import androidx.annotation.VisibleForTesting
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MINUTES_OF_ONE_DAY
 import nerd.tuxmobil.fahrplan.congress.models.Session
@@ -30,7 +31,8 @@ data class Conference(
         /**
          * Creates a [Conference] from the given chronologically sorted [sessions].
          */
-        private fun ofSessions(sessions: List<Session>): Conference {
+        @VisibleForTesting
+        internal fun ofSessions(sessions: List<Session>): Conference {
             require(sessions.isNotEmpty()) { "Empty list of sessions." }
             val first = Moment.ofEpochMilli(sessions.first().dateUTC)
             val endingLatest = sessions.endingLatest()

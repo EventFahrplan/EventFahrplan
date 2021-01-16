@@ -30,20 +30,9 @@ class LayoutCalculatorTest {
     }
 
     @Test
-    fun `calculateLayoutParams for empty list returns empty params`() {
-        val sessions = listOf<Session>()
-        val conference = Conference(firstSessionStartsAt = 0, lastSessionEndsAt = 0)
-        val roomData = sessions.toRoomData()
-
-        val layoutParams = layoutCalculator.calculateLayoutParams(roomData, conference)
-
-        assertThat(layoutParams).isEmpty()
-    }
-
-    @Test
     fun `calculateLayoutParams for single session returns margins 0`() {
         val sessions = listOf(createSession())
-        val conference = Conference(firstSessionStartsAt = 0, lastSessionEndsAt = 0)
+        val conference = Conference.ofSessions(sessions)
         val roomData = sessions.toRoomData()
 
         val layoutParams = layoutCalculator.calculateLayoutParams(roomData, conference)
@@ -56,20 +45,7 @@ class LayoutCalculatorTest {
     fun `calculateLayoutParams for single UTC session sets top margin 0 (its the first session in all rooms, so on the top)`() {
         val startTime = 10 * 60 // 10:00am
         val sessions = listOf(createSession(date = conferenceDate, startTime = startTime))
-        val conference = Conference(firstSessionStartsAt = startTime, lastSessionEndsAt = startTime)
-        val roomData = sessions.toRoomData()
-
-        val layoutParams = layoutCalculator.calculateLayoutParams(roomData, conference)
-        val sessionParams = layoutParams[sessions.first()]
-
-        assertMargins(sessionParams, 0, 0)
-    }
-
-    @Test
-    fun `calculateLayoutParams for single none UTC session sets top margin 0 (its the first session in all rooms, so on the top)`() {
-        val startTime = 10 * 60 // 10:00am
-        val sessions = listOf(createSession(startTime = startTime))
-        val conference = Conference(firstSessionStartsAt = startTime, lastSessionEndsAt = startTime)
+        val conference = Conference.ofSessions(sessions)
         val roomData = sessions.toRoomData()
 
         val layoutParams = layoutCalculator.calculateLayoutParams(roomData, conference)
@@ -88,7 +64,7 @@ class LayoutCalculatorTest {
         val session1 = createSession(date = conferenceDate, startTime = startTime1, duration = duration1)
         val session2 = createSession(date = conferenceDate, startTime = startTime2)
         val sessions = listOf(session1, session2)
-        val conference = Conference(firstSessionStartsAt = startTime1, lastSessionEndsAt = startTime2)
+        val conference = Conference.ofSessions(sessions)
         val roomData = sessions.toRoomData()
 
         val layoutParams = layoutCalculator.calculateLayoutParams(roomData, conference)
@@ -121,10 +97,10 @@ class LayoutCalculatorTest {
         val startTime1 = 10 * 60 // 10:00am
         val startTime2 = startTime1 + duration1 + 15 // 11:00am
 
+        val session1 = createSession(date = conferenceDate, startTime = startTime1)
         val session2 = createSession(date = conferenceDate, startTime = startTime2)
-        val sessions = listOf(session2)
-        val conference = Conference(firstSessionStartsAt = startTime1, lastSessionEndsAt = startTime2)
-        val roomData = sessions.toRoomData()
+        val conference = Conference.ofSessions(listOf(session1, session2))
+        val roomData = listOf(session2).toRoomData()
 
         val layoutParams = layoutCalculator.calculateLayoutParams(roomData, conference)
         val session2Params = layoutParams[session2]
@@ -143,7 +119,7 @@ class LayoutCalculatorTest {
         val session2 = createSession(date = conferenceDate, startTime = startTime2)
         val sessionsInRoom1 = listOf(session1)
         val sessionsInRoom2 = listOf(session2)
-        val conference = Conference(firstSessionStartsAt = startTime1, lastSessionEndsAt = startTime2)
+        val conference = Conference.ofSessions(sessionsInRoom1 + sessionsInRoom2)
         val roomData1 = sessionsInRoom1.toRoomData()
         val roomData2 = sessionsInRoom2.toRoomData()
 
@@ -166,7 +142,7 @@ class LayoutCalculatorTest {
         val session1 = createSession(date = conferenceDate, startTime = startTime1, duration = duration1)
         val session2 = createSession(date = conferenceDate, startTime = startTime2)
         val sessions = listOf(session1, session2)
-        val conference = Conference(firstSessionStartsAt = startTime1, lastSessionEndsAt = startTime2)
+        val conference = Conference.ofSessions(sessions)
         val roomData = sessions.toRoomData()
 
         val layoutParams = layoutCalculator.calculateLayoutParams(roomData, conference)
@@ -187,7 +163,7 @@ class LayoutCalculatorTest {
         val session1 = createSession(date = conferenceDate, startTime = startTime1, duration = duration1)
         val session2 = createSession(date = conferenceDate, startTime = startTime2)
         val sessions = listOf(session1, session2)
-        val conference = Conference(firstSessionStartsAt = startTime1, lastSessionEndsAt = startTime2)
+        val conference = Conference.ofSessions(sessions)
         val roomData = sessions.toRoomData()
 
         val layoutParams = layoutCalculator.calculateLayoutParams(roomData, conference)
@@ -208,7 +184,7 @@ class LayoutCalculatorTest {
         val session2 = createSession(date = conferenceDate, startTime = startTime2)
         val sessionsInRoom1 = listOf(session1)
         val sessionsInRoom2 = listOf(session2)
-        val conference = Conference(firstSessionStartsAt = startTime1, lastSessionEndsAt = startTime2)
+        val conference = Conference.ofSessions(sessionsInRoom1 + sessionsInRoom2)
         val roomData1 = sessionsInRoom1.toRoomData()
         val roomData2 = sessionsInRoom2.toRoomData()
 
