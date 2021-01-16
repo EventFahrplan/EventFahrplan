@@ -73,6 +73,8 @@ class DateFormatterTest {
         assertThat(DateFormatter.newInstance().getFormattedDate(timestamp)).isEqualTo("22.01.19")
     }
 
+    // This test only passes when being executed in a JDK 8 environment.
+    // See https://stackoverflow.com/questions/65732319/how-to-stabilize-flaky-datetimeformatteroflocalizeddatetime-test
     @Test
     fun getFormattedShareable() {
         Locale.setDefault(Locale.US)
@@ -93,6 +95,8 @@ class DateFormatterTest {
 
     }
 
+    // This test only passes when being executed in a JDK 8 environment.
+    // See https://stackoverflow.com/questions/65732319/how-to-stabilize-flaky-datetimeformatteroflocalizeddatetime-test
     @Test
     fun getFormattedDateTimeShort() {
         Locale.setDefault(Locale.US)

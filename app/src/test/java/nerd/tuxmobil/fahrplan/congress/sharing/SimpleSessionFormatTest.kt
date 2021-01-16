@@ -9,6 +9,8 @@ import org.threeten.bp.ZoneId
 import java.util.Locale
 import java.util.TimeZone
 
+// Most tests here only pass when being executed in a JDK 8 environment.
+// See https://stackoverflow.com/questions/65732319/how-to-stabilize-flaky-datetimeformatteroflocalizeddatetime-test
 class SimpleSessionFormatTest {
 
     private companion object {
