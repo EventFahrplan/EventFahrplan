@@ -477,36 +477,23 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
     }
 
     private void fillTimes() {
-        int time = conference.getFirstSessionStartsAt();
-        int printTime = time;
+        int normalizedBoxHeight = getNormalizedBoxHeight(displayDensityScale);
+        List<TimeTextViewParameter> parameters = TimeTextViewParameter.parametersOf(
+                Moment.now(),
+                conference,
+                BuildConfig.SCHEDULE_FIRST_DAY_START_DAY,
+                mDay,
+                normalizedBoxHeight
+        );
         LinearLayout timeTextColumn = requireViewByIdCompat(requireView(), R.id.times_layout);
         timeTextColumn.removeAllViews();
-        Moment nowMoment = Moment.now();
         View timeTextView;
-        int timeTextViewHeight = BOX_HEIGHT_MULTIPLIER * getNormalizedBoxHeight(displayDensityScale);
-        TimeSegment timeSegment;
-        while (time < conference.getLastSessionEndsAt()) {
-            timeSegment = TimeSegment.ofMinutesOfTheDay(printTime);
-            int timeTextLayout;
-            if (isToday(nowMoment) && timeSegment.isMatched(nowMoment, FIFTEEN_MINUTES)) {
-                timeTextLayout = R.layout.time_layout_now;
-            } else {
-                timeTextLayout = R.layout.time_layout;
-            }
-            timeTextView = inflater.inflate(timeTextLayout, null);
-            timeTextColumn.addView(timeTextView, LayoutParams.MATCH_PARENT, timeTextViewHeight);
+        for (TimeTextViewParameter parameter : parameters) {
+            timeTextView = inflater.inflate(parameter.getLayout(), null);
+            timeTextColumn.addView(timeTextView, LayoutParams.MATCH_PARENT, parameter.getHeight());
             TextView title = requireViewByIdCompat(timeTextView, R.id.time);
-            title.setText(timeSegment.getFormattedText());
-            time += FIFTEEN_MINUTES;
-            printTime = time;
-            if (printTime >= ONE_DAY) {
-                printTime -= ONE_DAY;
-            }
+            title.setText(parameter.getTitleText());
         }
-    }
-
-    private boolean isToday(@NonNull Moment moment) {
-        return moment.getMonthDay() - BuildConfig.SCHEDULE_FIRST_DAY_START_DAY == mDay - 1;
     }
 
     private int getSessionPadding() {
