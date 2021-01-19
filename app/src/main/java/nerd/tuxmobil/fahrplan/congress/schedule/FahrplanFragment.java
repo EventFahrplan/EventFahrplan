@@ -411,7 +411,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
 
         int columnIndex = -1;
         View layoutRootView = requireView();
-        if (!isLandscape(getContext())) {
+        if (!isLandscape(layoutRootView.getContext())) {
             HorizontalSnapScrollView view = layoutRootView.findViewById(R.id.horizScroller);
             columnIndex = view.getColumnIndex();
             MyApp.LogDebug(LOG_TAG, "y pos  = " + columnIndex);
@@ -546,12 +546,12 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
     }
 
     private int getSessionPadding() {
-        int factor = isLandscape(getContext()) ? 8 : 10;
+        int factor = isLandscape(requireContext()) ? 8 : 10;
         return (int) (factor * displayDensityScale);
     }
 
     private int getNormalizedBoxHeight(float scale) {
-        String orientationText = isLandscape(getContext()) ? "landscape" : "other orientation";
+        String orientationText = isLandscape(requireContext()) ? "landscape" : "other orientation";
         MyApp.LogDebug(LOG_TAG, orientationText);
         return (int) (getResources().getInteger(R.integer.box_height) * scale);
     }
