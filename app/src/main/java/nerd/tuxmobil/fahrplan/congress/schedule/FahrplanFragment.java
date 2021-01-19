@@ -91,6 +91,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
 
     private static final int ONE_DAY = (int) Duration.ofDays(1).toMinutes();
     private static final int FIFTEEN_MINUTES = 15;
+    private static final int BOX_HEIGHT_MULTIPLIER = 3;
 
     private float displayDensityScale;
 
@@ -427,7 +428,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
                 if (timeSegment.isMatched(nowMoment, FIFTEEN_MINUTES)) {
                     break;
                 } else {
-                    scrollAmount += boxHeight * 3;
+                    scrollAmount += boxHeight * BOX_HEIGHT_MULTIPLIER;
                 }
                 time += FIFTEEN_MINUTES;
                 printTime = time;
@@ -516,7 +517,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
         timeTextColumn.removeAllViews();
         Moment nowMoment = Moment.now();
         View timeTextView;
-        int timeTextViewHeight = 3 * getNormalizedBoxHeight(displayDensityScale);
+        int timeTextViewHeight = BOX_HEIGHT_MULTIPLIER * getNormalizedBoxHeight(displayDensityScale);
         TimeSegment timeSegment;
         while (time < conference.getLastSessionEndsAt()) {
             timeSegment = TimeSegment.ofMinutesOfTheDay(printTime);
