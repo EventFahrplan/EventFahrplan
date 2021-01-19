@@ -1,6 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.schedule
 
 import com.google.common.truth.Truth.assertThat
+import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
@@ -44,7 +45,8 @@ class TimeSegmentFormattedTextTest(
     @Test
     fun formattedText() {
         TimeZone.setDefault(DEFAULT_TIME_ZONE)
-        val segment = TimeSegment.ofMinutesOfTheDay(minutesOfTheDay)
+        val moment = Moment.now().startOfDay().plusMinutes(minutesOfTheDay.toLong())
+        val segment = TimeSegment.ofMoment(moment)
         assertThat(segment.formattedText).isEqualTo(expectedFormattedText)
     }
 
