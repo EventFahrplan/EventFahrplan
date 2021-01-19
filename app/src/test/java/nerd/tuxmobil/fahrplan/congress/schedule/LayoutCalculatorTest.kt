@@ -66,7 +66,7 @@ class LayoutCalculatorTest {
     }
 
     @Test
-    fun `calculateLayoutParams for single *none* UTC session sets top margin 0 (its the first session in all rooms, so on the top)`() {
+    fun `calculateLayoutParams for single none UTC session sets top margin 0 (its the first session in all rooms, so on the top)`() {
         val startTime = 10 * 60 // 10:00am
         val sessions = listOf(createSession(startTime = startTime))
         val conference = Conference(firstSessionStartsAt = startTime, lastSessionEndsAt = startTime)
