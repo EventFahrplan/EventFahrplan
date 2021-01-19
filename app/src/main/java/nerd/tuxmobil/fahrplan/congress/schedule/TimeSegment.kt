@@ -43,9 +43,13 @@ internal class TimeSegment private constructor(
     val formattedText: String
         get() = DateFormatter.newInstance().getFormattedTime24Hour(moment)
 
-    fun isMatched(otherMoment: Moment, offset: Int) =
+    /**
+     * Returns true if the given [otherMoment] matches the internal rounded moment taken the
+     * [minutesOffset] into account. Otherwise false.
+     */
+    fun isMatched(otherMoment: Moment, minutesOffset: Int) =
             otherMoment.hour == moment.hour &&
                     otherMoment.minute >= moment.minute &&
-                    otherMoment.minute < moment.minute + offset
+                    otherMoment.minute < moment.minute + minutesOffset
 
 }
