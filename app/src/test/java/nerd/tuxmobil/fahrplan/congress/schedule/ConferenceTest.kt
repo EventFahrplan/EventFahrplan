@@ -1,7 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress.schedule
 
 import com.google.common.truth.Truth.assertThat
-import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MINUTES_OF_ONE_DAY
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import org.junit.Test
@@ -13,6 +12,15 @@ class ConferenceTest {
         val conference = Conference()
         assertThat(conference.firstSessionStartsAt).isEqualTo(0)
         assertThat(conference.lastSessionEndsAt).isEqualTo(0)
+    }
+
+    @Test
+    fun `calculateTimeFrame throws exception if empty list is passed`() {
+        try {
+            createConference(*emptyList<Session>().toTypedArray())
+        } catch (e: IllegalArgumentException) {
+            assertThat(e.message).isEqualTo("Empty list of sessions.")
+        }
     }
 
     @Test
@@ -44,9 +52,7 @@ class ConferenceTest {
     }
 
     private fun createConference(vararg sessions: Session) = Conference().apply {
-        calculateTimeFrame(listOf(*sessions)) { dateUtc: Long ->
-            Moment.ofEpochMilli(dateUtc).minuteOfDay
-        }
+        calculateTimeFrame(listOf(*sessions))
     }
 
     private fun createSession(sessionId: String, duration: Int, dateUtc: Long) = Session(sessionId).apply {

@@ -10,7 +10,8 @@ class TimeSegmentTest {
     @Test
     fun `isMatched returns true for moment starting 15 minutes later`() {
         val minute = 25
-        val segment = TimeSegment.ofMinutesOfTheDay(minute)
+        val actualMoment = Moment.ofEpochMilli((minute * MILLISECONDS_OF_ONE_MINUTE).toLong())
+        val segment = TimeSegment.ofMoment(actualMoment)
         val moment = Moment.ofEpochMilli((minute * MILLISECONDS_OF_ONE_MINUTE).toLong())
         assertThat(segment.isMatched(moment, 15)).isEqualTo(true)
     }
