@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import java.io.IOException;
 import java.net.SocketTimeoutException;
@@ -26,6 +27,7 @@ public class FetchFahrplan {
         void onGotResponse(@NonNull FetchScheduleResult fetchScheduleResult);
     }
 
+    @Nullable
     private FetchFahrplanTask task;
 
     private OnDownloadCompleteListener listener;
@@ -61,6 +63,7 @@ class FetchFahrplanTask extends AsyncTask<String, Void, HttpStatus> {
 
     private String responseStr;
 
+    @NonNull
     private String eTagStr = "";
 
     private final String LOG_TAG = "FetchFahrplan";
@@ -70,7 +73,11 @@ class FetchFahrplanTask extends AsyncTask<String, Void, HttpStatus> {
     private boolean completed;
 
     private HttpStatus status;
-    private String host;
+
+    @NonNull
+    private String host = "";
+
+    @NonNull
     private String exceptionMessage = "";
 
     FetchFahrplanTask(@NonNull OkHttpClient okHttpClient, FetchFahrplan.OnDownloadCompleteListener listener) {
@@ -92,7 +99,11 @@ class FetchFahrplanTask extends AsyncTask<String, Void, HttpStatus> {
         String url = args[0];
         String eTag = args[1];
 
+        //noinspection ConstantConditions
         host = Uri.parse(url).getHost();
+        if (host == null) {
+            throw new NullPointerException("Host is null for url = '" + url + "'");
+        }
 
         return fetch(url, eTag);
     }
@@ -169,6 +180,7 @@ class FetchFahrplanTask extends AsyncTask<String, Void, HttpStatus> {
             return HttpStatus.HTTP_COULD_NOT_CONNECT;
         }
 
+        //noinspection ConstantConditions
         eTagStr = response.header("ETag");
         eTagStr = eTagStr == null ? "" : eTagStr;
         if (!eTagStr.isEmpty()) {
@@ -178,14 +190,20 @@ class FetchFahrplanTask extends AsyncTask<String, Void, HttpStatus> {
         }
 
         try {
+            //noinspection ConstantConditions
             responseStr = response.body().string();
-        } catch (IOException e) {
+        } catch (NullPointerException | IOException e) {
             return HttpStatus.HTTP_CANNOT_PARSE_CONTENT;
+        } finally {
+            if (response.body() != null) {
+                response.body().close();
+            }
         }
 
         return HttpStatus.HTTP_OK;
     }
 
+    @SuppressWarnings("ConstantConditions")
     private void setExceptionMessage(SSLException exception) {
         if (exception.getCause() == null) {
             exceptionMessage = exception.getMessage();
@@ -195,6 +213,9 @@ class FetchFahrplanTask extends AsyncTask<String, Void, HttpStatus> {
             } else {
                 exceptionMessage = exception.getCause().getCause().getMessage();
             }
+        }
+        if (exceptionMessage == null) {
+            exceptionMessage = "";
         }
     }
 

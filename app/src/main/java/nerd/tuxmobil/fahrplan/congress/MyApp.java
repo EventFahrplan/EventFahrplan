@@ -60,7 +60,7 @@ public class MyApp extends Application {
         task_running = TASKS.NONE;
         AppRepository.INSTANCE.initialize(
                 getApplicationContext(),
-                Logging.Companion.get()
+                Logging.get()
         );
     }
 

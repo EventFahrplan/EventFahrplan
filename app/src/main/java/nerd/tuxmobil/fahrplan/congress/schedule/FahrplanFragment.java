@@ -91,6 +91,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
 
     private static final int ONE_DAY = (int) Duration.ofDays(1).toMinutes();
     private static final int FIFTEEN_MINUTES = 15;
+    private static final int BOX_HEIGHT_MULTIPLIER = 3;
 
     private float displayDensityScale;
 
@@ -272,7 +273,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
 
     private void viewDay(boolean forceReload) {
         Log.d(LOG_TAG, "viewDay(" + forceReload + ")");
-        View layoutRoot = getView();
+        View layoutRoot = requireView();
         int boxHeight = getNormalizedBoxHeight(displayDensityScale);
 
         HorizontalSnapScrollView horizontalScroller = requireViewByIdCompat(layoutRoot, R.id.horizScroller);
@@ -409,8 +410,9 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
         Moment nowMoment = Moment.now();
 
         int columnIndex = -1;
-        if (!isLandscape(getContext())) {
-            HorizontalSnapScrollView view = getView().findViewById(R.id.horizScroller);
+        View layoutRootView = requireView();
+        if (!isLandscape(layoutRootView.getContext())) {
+            HorizontalSnapScrollView view = layoutRootView.findViewById(R.id.horizScroller);
             columnIndex = view.getColumnIndex();
             MyApp.LogDebug(LOG_TAG, "y pos  = " + columnIndex);
         }
@@ -427,7 +429,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
                 if (timeSegment.isMatched(nowMoment, FIFTEEN_MINUTES)) {
                     break;
                 } else {
-                    scrollAmount += boxHeight * 3;
+                    scrollAmount += boxHeight * BOX_HEIGHT_MULTIPLIER;
                 }
                 time += FIFTEEN_MINUTES;
                 printTime = time;
@@ -455,13 +457,13 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
         // Log.d(LOG_TAG, "scrolltoCurrent to " + scrollAmount);
 
         final int pos = scrollAmount;
-        final ScrollView scrollView = requireViewByIdCompat(getView(), R.id.scrollView1);
+        final ScrollView scrollView = requireViewByIdCompat(layoutRootView, R.id.scrollView1);
         scrollView.scrollTo(0, scrollAmount);
         scrollView.post(() -> scrollView.scrollTo(0, pos));
     }
 
     private void setBell(Session session) {
-        ScrollView parent = getView().findViewById(R.id.scrollView1);
+        ScrollView parent = requireView().findViewById(R.id.scrollView1);
         if (parent == null) {
             return;
         }
@@ -482,7 +484,8 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
     }
 
     private void scrollTo(@NonNull Session session) {
-        final ScrollView parent = requireViewByIdCompat(getView(), R.id.scrollView1);
+        View layoutRootView = requireView();
+        final ScrollView parent = requireViewByIdCompat(layoutRootView, R.id.scrollView1);
         int height = getNormalizedBoxHeight(displayDensityScale);
         // TODO Replace with proper Moment based implementation as soon as possible. See code review in https://github.com/EventFahrplan/EventFahrplan/pull/347
         int startsAtMinuteUtc = session.relStartTime - conference.getFirstSessionStartsAt();
@@ -492,7 +495,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
         final int pos = startsAtMinuteSystem / TimeSegment.TIME_GRID_MINIMUM_SEGMENT_HEIGHT * height;
         MyApp.LogDebug(LOG_TAG, "position is " + pos);
         parent.post(() -> parent.scrollTo(0, pos));
-        final HorizontalSnapScrollView horiz = getView().findViewById(R.id.horizScroller);
+        final HorizontalSnapScrollView horiz = layoutRootView.findViewById(R.id.horizScroller);
         if (horiz != null) {
             final int hpos = scheduleData.findRoomIndex(session);
             MyApp.LogDebug(LOG_TAG, "scroll horiz to " + hpos);
@@ -512,11 +515,11 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
     private void fillTimes() {
         int time = conference.getFirstSessionStartsAt();
         int printTime = time;
-        LinearLayout timeTextColumn = requireViewByIdCompat(getView(), R.id.times_layout);
+        LinearLayout timeTextColumn = requireViewByIdCompat(requireView(), R.id.times_layout);
         timeTextColumn.removeAllViews();
         Moment nowMoment = Moment.now();
         View timeTextView;
-        int timeTextViewHeight = 3 * getNormalizedBoxHeight(displayDensityScale);
+        int timeTextViewHeight = BOX_HEIGHT_MULTIPLIER * getNormalizedBoxHeight(displayDensityScale);
         TimeSegment timeSegment;
         while (time < conference.getLastSessionEndsAt()) {
             timeSegment = TimeSegment.ofMinutesOfTheDay(printTime);
@@ -543,12 +546,12 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
     }
 
     private int getSessionPadding() {
-        int factor = isLandscape(getContext()) ? 8 : 10;
+        int factor = isLandscape(requireContext()) ? 8 : 10;
         return (int) (factor * displayDensityScale);
     }
 
     private int getNormalizedBoxHeight(float scale) {
-        String orientationText = isLandscape(getContext()) ? "landscape" : "other orientation";
+        String orientationText = isLandscape(requireContext()) ? "landscape" : "other orientation";
         MyApp.LogDebug(LOG_TAG, orientationText);
         return (int) (getResources().getInteger(R.integer.box_height) * scale);
     }
@@ -800,7 +803,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
     }
 
     private View getSessionView(Session session) {
-        ScrollView parent = getView().findViewById(R.id.scrollView1);
+        ScrollView parent = requireView().findViewById(R.id.scrollView1);
         if (parent == null) {
             return null;
         }

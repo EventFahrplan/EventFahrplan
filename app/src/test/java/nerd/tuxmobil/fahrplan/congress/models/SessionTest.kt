@@ -302,7 +302,7 @@ class SessionTest {
     }
 
     @Test
-    fun `startTimeMilliseconds returns the "dateUTC" value when "dateUTC" is set`() {
+    fun `startTimeMilliseconds returns the dateUTC value when dateUTC is set`() {
         val session = Session("1").apply {
             dateUTC = 1
             date = "2020-03-20"
@@ -311,7 +311,7 @@ class SessionTest {
     }
 
     @Test
-    fun `startTimeMilliseconds returns the "date" value when "dateUTC" is not set`() {
+    fun `startTimeMilliseconds returns the date value when dateUTC is not set`() {
         val session = Session("1").apply {
             dateUTC = 0
             date = "2020-03-20"

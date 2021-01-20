@@ -21,7 +21,7 @@ class AlarmServicesTest {
     private val alarm = SchedulableAlarm(3, "1001", "Welcome", 700)
 
     @Test
-    fun `scheduleSessionAlarm invokes "cancel" then "set" when "discardExisting" is "true"`() {
+    fun `scheduleSessionAlarm invokes cancel then set when discardExisting is true`() {
         val onPendingIntentBroadcast: PendingIntentCallback = { context, intent ->
             assertThat(context).isEqualTo(mockContext)
             assertIntentExtras(intent, AlarmReceiver.ALARM_SESSION)
@@ -34,7 +34,7 @@ class AlarmServicesTest {
     }
 
     @Test
-    fun `scheduleSessionAlarm only invokes "set" when "discardExisting" is "false"`() {
+    fun `scheduleSessionAlarm only invokes set when discardExisting is false`() {
         val onPendingIntentBroadcast: PendingIntentCallback = { context, intent ->
             assertThat(context).isEqualTo(mockContext)
             assertIntentExtras(intent, AlarmReceiver.ALARM_SESSION)
@@ -47,7 +47,7 @@ class AlarmServicesTest {
     }
 
     @Test
-    fun `discardSessionAlarm invokes "cancel"`() {
+    fun `discardSessionAlarm invokes cancel`() {
         val onPendingIntentBroadcast: PendingIntentCallback = { context, intent ->
             assertThat(context).isEqualTo(mockContext)
             assertIntentExtras(intent, AlarmReceiver.ALARM_DELETE)
@@ -60,7 +60,7 @@ class AlarmServicesTest {
 
 
     @Test
-    fun `discardAutoUpdateAlarm invokes "cancel"`() {
+    fun `discardAutoUpdateAlarm invokes cancel`() {
         val onPendingIntentBroadcast: PendingIntentCallback = { context, intent ->
             assertThat(context).isEqualTo(mockContext)
             assertThat(intent.component!!.className).isEqualTo(AlarmReceiver::class.java.name)
