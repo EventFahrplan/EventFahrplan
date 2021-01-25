@@ -15,10 +15,7 @@ import nerd.tuxmobil.fahrplan.congress.schedule.TimeSegment.Companion.TIME_GRID_
  */
 internal class ScrollAmountCalculator(
 
-        private val logging: Logging,
-        private val dateInfos: DateInfos,
-        private val scheduleData: ScheduleData,
-        private val conference: Conference
+        private val logging: Logging
 
 ) {
 
@@ -29,7 +26,15 @@ internal class ScrollAmountCalculator(
     /**
      * Returns the amount to be scrolled. Valid values are 0 and positive integers.
      */
-    fun calculateScrollAmount(nowMoment: Moment, currentDayIndex: Int, boxHeight: Int, columnIndex: Int): Int {
+    fun calculateScrollAmount(
+        conference: Conference,
+        dateInfos: DateInfos,
+        scheduleData: ScheduleData,
+        nowMoment: Moment,
+        currentDayIndex: Int,
+        boxHeight: Int,
+        columnIndex: Int
+    ): Int {
         var time = conference.firstSessionStartsAt
         var printTime = time
         var scrollAmount = 0

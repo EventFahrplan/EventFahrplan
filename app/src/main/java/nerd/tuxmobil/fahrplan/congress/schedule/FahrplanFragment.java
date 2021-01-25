@@ -417,8 +417,9 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
         }
 
         Moment nowMoment = Moment.now();
-        ScrollAmountCalculator calculator = new ScrollAmountCalculator(Logging.get(), MyApp.dateInfos, scheduleData, conference);
-        int scrollAmount = calculator.calculateScrollAmount(nowMoment, currentDayIndex, boxHeight, columnIndex);
+        ScrollAmountCalculator scrollAmountCalculator = new ScrollAmountCalculator(Logging.get());
+        int scrollAmount = scrollAmountCalculator.calculateScrollAmount(
+                conference, MyApp.dateInfos, scheduleData, nowMoment, currentDayIndex, boxHeight, columnIndex);
 
         final int pos = scrollAmount;
         final ScrollView scrollView = requireViewByIdCompat(layoutRootView, R.id.scrollView1);
