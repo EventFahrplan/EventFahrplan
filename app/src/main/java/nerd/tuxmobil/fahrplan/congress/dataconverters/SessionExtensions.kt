@@ -1,3 +1,5 @@
+@file:JvmName("SessionExtensions")
+
 package nerd.tuxmobil.fahrplan.congress.dataconverters
 
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
@@ -13,6 +15,14 @@ fun Session.shiftRoomIndexOnDays(dayIndices: Set<Int>): Session {
         shiftRoomIndexBy(1)
     }
     return this
+}
+
+/**
+ * Returns a moment based on the start time of this session.
+ */
+fun Session.toStartsAtMoment(): Moment {
+    require(dateUTC > 0) { "Field 'dateUTC' is 0." }
+    return Moment.ofEpochMilli(dateUTC)
 }
 
 fun Session.toDateInfo(): DateInfo = DateInfo(day, Moment.parseDate(date))

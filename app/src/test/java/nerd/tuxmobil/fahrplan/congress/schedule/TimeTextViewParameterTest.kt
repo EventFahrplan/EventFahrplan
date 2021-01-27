@@ -4,6 +4,7 @@ import androidx.annotation.LayoutRes
 import com.google.common.truth.Truth.assertThat
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.R
+import nerd.tuxmobil.fahrplan.congress.dataconverters.toStartsAtMoment
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import org.junit.After
 import org.junit.Before
@@ -36,7 +37,7 @@ class TimeTextViewParameterTest {
     @Test
     fun `parametersOf returns four view parameters without -now- view parameter`() {
         val moment = Moment.ofEpochMilli(1582963200000L) // February 29, 2020 08:00:00 AM GMT)
-        val nowMoment = Moment.ofEpochMilli(createSession(moment).dateUTC)
+        val nowMoment = createSession(moment).toStartsAtMoment()
         val dayIndex = 2 // represents tomorrow
         val parameters = parametersOf(nowMoment, moment, dayIndex)
         assertThat(parameters.size).isEqualTo(4)
@@ -49,7 +50,7 @@ class TimeTextViewParameterTest {
     @Test
     fun `parametersOf returns four view parameters including one -now- view parameter`() {
         val moment = Moment.ofEpochMilli(1582963200000L) // February 29, 2020 08:00:00 AM GMT)
-        val nowMoment = Moment.ofEpochMilli(createSession(moment).dateUTC).plusMinutes(30)
+        val nowMoment = createSession(moment).toStartsAtMoment().plusMinutes(30)
         val dayIndex = 1 // represents today
         val parameters = parametersOf(nowMoment, moment, dayIndex)
         assertThat(parameters.size).isEqualTo(4)
@@ -62,7 +63,7 @@ class TimeTextViewParameterTest {
     @Test
     fun `parametersOf returns four view parameters for a session crossing the intra-day limit`() {
         val moment = Moment.ofEpochMilli(1583019000000L) // February 29, 2020 11:30:00 PM GMT
-        val nowMoment = Moment.ofEpochMilli(createSession(moment).dateUTC)
+        val nowMoment = createSession(moment).toStartsAtMoment()
         val dayIndex = 2 // represents tomorrow
         val parameters = parametersOf(nowMoment, moment, dayIndex)
         assertThat(parameters.size).isEqualTo(4)

@@ -3,6 +3,7 @@ package nerd.tuxmobil.fahrplan.congress.schedule
 import com.google.common.truth.Truth.assertThat
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.NoLogging
+import nerd.tuxmobil.fahrplan.congress.dataconverters.toStartsAtMoment
 import nerd.tuxmobil.fahrplan.congress.models.DateInfo
 import nerd.tuxmobil.fahrplan.congress.models.DateInfos
 import nerd.tuxmobil.fahrplan.congress.models.RoomData
@@ -22,7 +23,7 @@ class ScrollAmountCalculatorTest {
     fun `calculateScrollAmount returns 0 if room index preceeds the valid column indices`() {
         val session = createFirstSession()
         val scrollAmount = createCalculator(session).calculateScrollAmount(
-                nowMoment = Moment.ofEpochMilli(session.dateUTC),
+                nowMoment = session.toStartsAtMoment(),
                 currentDayIndex = session.day,
                 columnIndex = -1
         )
@@ -33,7 +34,7 @@ class ScrollAmountCalculatorTest {
     fun `calculateScrollAmount returns 0 if room index exceeds the valid column indices`() {
         val session = createFirstSession()
         val scrollAmount = createCalculator(session).calculateScrollAmount(
-                nowMoment = Moment.ofEpochMilli(session.dateUTC),
+                nowMoment = session.toStartsAtMoment(),
                 currentDayIndex = session.day,
                 columnIndex = COLUMN_INDEX + 1
         )
@@ -44,7 +45,7 @@ class ScrollAmountCalculatorTest {
     fun `calculateScrollAmount returns 0 if conference has not started but it will today`() {
         val session = createFirstSession()
         val scrollAmount = createCalculator(session).calculateScrollAmount(
-                nowMoment = Moment.ofEpochMilli(session.dateUTC).minusMinutes(1),
+                nowMoment = session.toStartsAtMoment().minusMinutes(1),
                 currentDayIndex = session.day
         )
         assertThat(scrollAmount).isEqualTo(0)
@@ -54,7 +55,7 @@ class ScrollAmountCalculatorTest {
     fun `calculateScrollAmount returns 0 if conference starts now`() {
         val session = createFirstSession()
         val scrollAmount = createCalculator(session).calculateScrollAmount(
-                nowMoment = Moment.ofEpochMilli(session.dateUTC),
+                nowMoment = session.toStartsAtMoment(),
                 currentDayIndex = session.day
         )
         assertThat(scrollAmount).isEqualTo(0)
