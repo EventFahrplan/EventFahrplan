@@ -31,6 +31,32 @@ class ConferenceTest {
     }
 
     @Test
+    fun `ofSessions with frab data spanning from winter to summer time`() {
+        val opening = createSession("Opening", duration = 30, dateUtc = 1616857200000L, ZoneOffset.of("+01:00")) // 2021-03-27T16:00:00+01:00
+        val closing = createSession("Closing", duration = 30, dateUtc = 1616940000000L, ZoneOffset.of("+02:00")) // 2021-03-28T16:00:00+02:00
+        val (firstSessionStartsAt, lastSessionEndsAt, timeZoneOffset, spansMultipleDays) = createConference(opening, closing)
+        val firstSessionStartsAtMinutes = firstSessionStartsAt.minuteOfDay
+        val minutesToAdd = if (spansMultipleDays) MINUTES_OF_ONE_DAY else 0
+        val lastSessionEndsAtMinutes = lastSessionEndsAt.minuteOfDay + minutesToAdd
+        assertThat(firstSessionStartsAtMinutes).isEqualTo(16 * 60 - 1 * 60) // 16:00h -1h zone offset = 15:00
+        assertThat(lastSessionEndsAtMinutes).isEqualTo(16 * 60 - 2 * 60 + 30 + MINUTES_OF_ONE_DAY) // -> 16:30 -2h zone offset + day switch = 14:30
+        assertThat(timeZoneOffset).isEqualTo(ZoneOffset.of("+01:00"))
+    }
+
+    @Test
+    fun `ofSessions with frab data spanning from summer to winter time`() {
+        val opening = createSession("Opening", duration = 30, dateUtc = 1635602400000L, ZoneOffset.of("+02:00")) // 2021-10-30T16:00:00+02:00
+        val closing = createSession("Closing", duration = 30, dateUtc = 1635692400000L, ZoneOffset.of("+01:00")) // 2021-10-31T16:00:00+01:00
+        val (firstSessionStartsAt, lastSessionEndsAt, timeZoneOffset, spansMultipleDays) = createConference(opening, closing)
+        val firstSessionStartsAtMinutes = firstSessionStartsAt.minuteOfDay
+        val minutesToAdd = if (spansMultipleDays) MINUTES_OF_ONE_DAY else 0
+        val lastSessionEndsAtMinutes = lastSessionEndsAt.minuteOfDay + minutesToAdd
+        assertThat(firstSessionStartsAtMinutes).isEqualTo(16 * 60 - 2 * 60) // 16:00h -1h zone offset = 14:00
+        assertThat(lastSessionEndsAtMinutes).isEqualTo(16 * 60 - 1 * 60 + 30 + MINUTES_OF_ONE_DAY) // -> 16:30 -1h zone offset + day switch = 15:30
+        assertThat(timeZoneOffset).isEqualTo(ZoneOffset.of("+02:00")) // spanning is not supported yet, see Conference class
+    }
+
+    @Test
     fun `ofSessions with frab data spanning a single day`() {
         val opening = createSession("Opening", duration = 30, dateUtc = 1536332400000L, ZoneOffset.of("+02:00")) // 2018-09-07T17:00:00+02:00
         val closing = createSession("Closing", duration = 30, dateUtc = 1536336000000L, ZoneOffset.of("+02:00")) // 2018-09-07T18:00:00+02:00

@@ -39,7 +39,7 @@ class TimeTextViewParameterTest {
         val moment = Moment.ofEpochMilli(1582963200000L) // February 29, 2020 08:00:00 AM GMT)
         val nowMoment = createSession(moment).toStartsAtMoment()
         val dayIndex = 2 // represents tomorrow
-        val parameters = parametersOf(nowMoment, moment, dayIndex)
+        val parameters = parametersOf(nowMoment, moment, 60, dayIndex)
         assertThat(parameters.size).isEqualTo(4)
         parameters[0].assert(R.layout.time_layout, "08:00")
         parameters[1].assert(R.layout.time_layout, "08:15")
@@ -52,7 +52,7 @@ class TimeTextViewParameterTest {
         val moment = Moment.ofEpochMilli(1582963200000L) // February 29, 2020 08:00:00 AM GMT)
         val nowMoment = createSession(moment).toStartsAtMoment().plusMinutes(30)
         val dayIndex = 1 // represents today
-        val parameters = parametersOf(nowMoment, moment, dayIndex)
+        val parameters = parametersOf(nowMoment, moment, 60, dayIndex)
         assertThat(parameters.size).isEqualTo(4)
         parameters[0].assert(R.layout.time_layout, "08:00")
         parameters[1].assert(R.layout.time_layout, "08:15")
@@ -65,7 +65,7 @@ class TimeTextViewParameterTest {
         val moment = Moment.ofEpochMilli(1583019000000L) // February 29, 2020 11:30:00 PM GMT
         val nowMoment = createSession(moment).toStartsAtMoment()
         val dayIndex = 2 // represents tomorrow
-        val parameters = parametersOf(nowMoment, moment, dayIndex)
+        val parameters = parametersOf(nowMoment, moment, 60, dayIndex)
         assertThat(parameters.size).isEqualTo(4)
         parameters[0].assert(R.layout.time_layout, "23:30")
         parameters[1].assert(R.layout.time_layout, "23:45")
@@ -73,8 +73,44 @@ class TimeTextViewParameterTest {
         parameters[3].assert(R.layout.time_layout, "00:15")
     }
 
-    private fun parametersOf(nowMoment: Moment, moment: Moment, dayIndex: Int): List<TimeTextViewParameter> {
-        val session = createSession(moment)
+    @Test
+    fun `parametersOf returns 20 view parameters for a session crossing the daylight saving time start`() {
+        val moment = Moment.ofEpochMilli(1616889600000L) // March 28, 2021 12:00:00 AM GMT
+        val nowMoment = createSession(moment).toStartsAtMoment()
+        val dayIndex = 2 // represents tomorrow
+        val parameters = parametersOf(nowMoment, moment, 300, dayIndex)
+        assertThat(parameters.size).isEqualTo(20)
+        parameters[0].assert(R.layout.time_layout, "00:00")
+        parameters[2].assert(R.layout.time_layout, "00:30")
+        parameters[4].assert(R.layout.time_layout, "01:00")
+        parameters[6].assert(R.layout.time_layout, "01:30")
+        parameters[8].assert(R.layout.time_layout, "02:00") // Clock turns to 03:00 summer time, currently not supported, see Conference class
+        parameters[10].assert(R.layout.time_layout, "02:30")
+        parameters[12].assert(R.layout.time_layout, "03:00")
+        parameters[14].assert(R.layout.time_layout, "03:30")
+        parameters[16].assert(R.layout.time_layout, "04:00")
+    }
+
+    @Test
+    fun `parametersOf returns 20 view parameters for a session crossing the daylight saving time end`() {
+        val moment = Moment.ofEpochMilli(1635638400000L) // October 31, 2021 12:00:00 AM GMT
+        val nowMoment = createSession(moment).toStartsAtMoment()
+        val dayIndex = 2 // represents tomorrow
+        val parameters = parametersOf(nowMoment, moment, 300, dayIndex)
+        assertThat(parameters.size).isEqualTo(20)
+        parameters[0].assert(R.layout.time_layout, "00:00")
+        parameters[2].assert(R.layout.time_layout, "00:30")
+        parameters[4].assert(R.layout.time_layout, "01:00")
+        parameters[6].assert(R.layout.time_layout, "01:30")
+        parameters[8].assert(R.layout.time_layout, "02:00")
+        parameters[10].assert(R.layout.time_layout, "02:30")
+        parameters[12].assert(R.layout.time_layout, "03:00") // Clock turns to 02:00 winter time, currently not supported, see Conference class
+        parameters[14].assert(R.layout.time_layout, "03:30")
+        parameters[16].assert(R.layout.time_layout, "04:00")
+    }
+
+    private fun parametersOf(nowMoment: Moment, moment: Moment, duration: Int, dayIndex: Int): List<TimeTextViewParameter> {
+        val session = createSession(moment, duration)
         val conference = Conference.ofSessions(listOf(session))
         return TimeTextViewParameter.parametersOf(nowMoment, conference, moment.monthDay, dayIndex, NORMALIZED_BOX_HEIGHT)
     }
@@ -85,12 +121,12 @@ class TimeTextViewParameterTest {
         assertThat(this.titleText).isEqualTo(titleText)
     }
 
-    private fun createSession(moment: Moment) = Session("s1").apply {
+    private fun createSession(moment: Moment, duration: Int = 60) = Session("s1").apply {
         day = 0
         date = moment.toZonedDateTime(ZoneOffset.UTC).toLocalDate().toString()
         dateUTC = moment.toMilliseconds()
         startTime = moment.minuteOfDay
-        duration = 60
+        this.duration = duration
         room = "Main hall"
     }
 
