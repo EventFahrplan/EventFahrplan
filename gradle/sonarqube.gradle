@@ -1,3 +1,14 @@
+junitJacoco {
+	jacocoVersion = "0.8.6"
+	ignoreProjects = []
+	excludes
+	includeNoLocationClasses = false
+	includeInstrumentationCoverageInMergedReport = false
+	xml.enabled = true
+	csv.enabled = true
+	html.enabled = true
+}
+
 // SonarQube Gradle Plugin
 
 apply plugin: "org.sonarqube"
@@ -9,5 +20,44 @@ sonarqube {
         property "sonar.projectKey", "eventfahrplan"
         property "sonar.projectName", "EventFahrplan"
         property "sonar.projectVersion", APP_VERSION
+        //property "sonar.coverage.jacoco.xmlReportPaths", "${buildDir}/reports/jacoco/rc3Debug/jacoco.xml"
+        //property 'sonar.androidLint.reportPaths', "${buildDir}/reports/lint-results.xml"
+        //property "sonar.jacoco.reportPath", "${project.buildDir}/jacoco/*.exec"
     }
+}
+
+project.afterEvaluate {
+    def xmlReportPaths = getXmlReportPaths()
+    print("xmlReportPaths = '${xmlReportPaths}'")
+    // sonarqube.properties.property "sonar.coverage.jacoco.xmlReportPaths", "${xmlReportPaths}"
+}
+
+def getXmlReportPaths() {
+    def paths = []
+    for (buildVariant in getBuildVariants()) {
+        paths.add("${buildDir}/reports/jacoco/${buildVariant}/jacoco.xml")
+    }
+    return paths.join(", ")
+}
+
+def getBuildVariants() {
+    def buildTypes = android.buildTypes.collect { type -> type.name }
+    def productFlavors = android.productFlavors.collect { flavor -> flavor.name }
+    if (!productFlavors) {
+        productFlavors.add("")
+    }
+
+    def buildVariants = []
+    productFlavors.each { productFlavorName ->
+        buildTypes.each { buildTypeName ->
+            def buildVariant
+            if (productFlavorName) {
+                buildVariant = "${productFlavorName}${buildTypeName.capitalize()}"
+            } else {
+                buildVariant = "${buildTypeName}"
+            }
+            buildVariants.add(buildVariant)
+        }
+    }
+    return buildVariants
 }
