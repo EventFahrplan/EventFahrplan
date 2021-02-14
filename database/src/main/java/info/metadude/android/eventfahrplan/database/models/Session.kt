@@ -25,6 +25,7 @@ data class Session(
         val startTime: Int = 0,         // minutes since day start
         val slug: String = "",
         val subtitle: String = "",
+        val timeZoneOffset: Int? = null, // seconds
         val title: String = "",
         val track: String = "",
         val type: String = "",

@@ -42,6 +42,7 @@ fun Session.toSessionDatabaseModel() = SessionDatabaseModel(
         speakers = speakers,
         startTime = startTime, // minutes since day start
         subtitle = subtitle,
+        timeZoneOffset = timeZoneOffset, // seconds
         title = title,
         track = track,
         type = type,
@@ -83,6 +84,7 @@ fun SessionDatabaseModel.toSessionAppModel(): Session {
     session.speakers = speakers
     session.startTime = startTime // minutes since day start
     session.subtitle = subtitle
+    session.timeZoneOffset = timeZoneOffset // seconds
     session.title = title
     session.track = track
     session.type = type
@@ -126,6 +128,7 @@ fun SessionNetworkModel.toSessionAppModel(): Session {
     session.speakers = speakers
     session.startTime = startTime // minutes since day start
     session.subtitle = subtitle
+    session.timeZoneOffset = timeZoneOffset // seconds
     session.title = title
     session.track = track
     session.type = type

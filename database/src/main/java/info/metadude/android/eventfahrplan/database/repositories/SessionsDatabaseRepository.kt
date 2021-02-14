@@ -38,6 +38,7 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Se
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.SPEAKERS
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.START
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.SUBTITLE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.TIME_ZONE_OFFSET
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.TITLE
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.TRACK
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.TYPE
@@ -45,6 +46,7 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Se
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Values.REC_OPT_OUT_OFF
 import info.metadude.android.eventfahrplan.database.extensions.delete
 import info.metadude.android.eventfahrplan.database.extensions.getInt
+import info.metadude.android.eventfahrplan.database.extensions.getIntOrNull
 import info.metadude.android.eventfahrplan.database.extensions.getLong
 import info.metadude.android.eventfahrplan.database.extensions.getString
 import info.metadude.android.eventfahrplan.database.extensions.insert
@@ -207,6 +209,7 @@ class SessionsDatabaseRepository(
                     speakers = cursor.getString(SPEAKERS),
                     subtitle = cursor.getString(SUBTITLE),
                     startTime = cursor.getInt(START),
+                    timeZoneOffset = cursor.getIntOrNull(TIME_ZONE_OFFSET),
                     title = cursor.getString(TITLE),
                     track = cursor.getString(TRACK),
                     type = cursor.getString(TYPE),

@@ -36,6 +36,7 @@ class SessionExtensionsTest {
                 startTime = 1036,
                 slug = "lorem",
                 subtitle = "My subtitle",
+                timeZoneOffset = 3600,
                 title = "My title",
                 track = "Security & Hacking",
                 type = "tutorial",
@@ -80,6 +81,7 @@ class SessionExtensionsTest {
                 startTime = 1036,
                 slug = "lorem",
                 subtitle = "My subtitle",
+                timeZoneOffset = 3600,
                 title = "My title",
                 track = "Security & Hacking",
                 type = "tutorial",
@@ -118,6 +120,7 @@ class SessionExtensionsTest {
             startTime = 1036
             slug = "lorem"
             subtitle = "My subtitle"
+            timeZoneOffset = 3600
             title = "My title"
             track = "Security & Hacking"
             type = "tutorial"
