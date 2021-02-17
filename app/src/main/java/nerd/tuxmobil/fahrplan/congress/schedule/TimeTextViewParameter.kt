@@ -47,7 +47,8 @@ internal data class TimeTextViewParameter private constructor(
                 } else {
                     R.layout.time_layout
                 }
-                val parameter = TimeTextViewParameter(timeTextLayout, timeTextViewHeight, timeSegment.formattedText)
+                val titleText = timeSegment.getFormattedText(conference.timeZoneOffset)
+                val parameter = TimeTextViewParameter(timeTextLayout, timeTextViewHeight, titleText)
                 parameters.add(parameter)
                 time += FIFTEEN_MINUTES
                 printTime = time

@@ -7,6 +7,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.util.ObjectsCompat;
 
+import org.threeten.bp.ZoneOffset;
+
 import info.metadude.android.eventfahrplan.commons.temporal.Moment;
 import info.metadude.android.eventfahrplan.network.serialization.FahrplanParser;
 import info.metadude.android.eventfahrplan.network.temporal.DateParser;
@@ -27,7 +29,7 @@ public class Session {
     public String date;                 // YYYY-MM-DD
     public long dateUTC;                // milliseconds
     @Nullable
-    public Integer timeZoneOffset;      // seconds
+    public ZoneOffset timeZoneOffset;
     public int startTime;               // minutes since day start
     public int relStartTime;            // minutes since conference start
     public int duration;                // minutes
@@ -95,7 +97,7 @@ public class Session {
         highlight = false;
         hasAlarm = false;
         dateUTC = 0;
-        timeZoneOffset = 0;
+        timeZoneOffset = null;
         roomIndex = 0;
         recordingLicense = "";
         recordingOptOut = RECORDING_OPTOUT_OFF;
