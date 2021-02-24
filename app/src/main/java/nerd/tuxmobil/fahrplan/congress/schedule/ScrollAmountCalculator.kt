@@ -4,6 +4,7 @@ import info.metadude.android.eventfahrplan.commons.logging.Logging
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.models.DateInfos
 import nerd.tuxmobil.fahrplan.congress.models.ScheduleData
+import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanFragment.BOX_HEIGHT_MULTIPLIER
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanFragment.FIFTEEN_MINUTES
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanFragment.ONE_DAY
@@ -71,4 +72,16 @@ internal class ScrollAmountCalculator(
         }
         return scrollAmount
     }
+
+    fun calculateScrollAmount(conference: Conference, session: Session, boxHeight: Int): Int {
+        // TODO Replace with proper Moment based implementation as soon as possible. See code review in https://github.com/EventFahrplan/EventFahrplan/pull/347
+        val startsAtMinuteUtc = session.relStartTime - conference.firstSessionStartsAt
+        val systemOffsetMinutes = Moment.getSystemOffsetMinutes()
+        // Translate start time minutes from UTC to system time zone rendered to the user.
+        val startsAtMinuteSystem = startsAtMinuteUtc - systemOffsetMinutes
+        val pos = startsAtMinuteSystem / TIME_GRID_MINIMUM_SEGMENT_HEIGHT * boxHeight
+        logging.e(javaClass.simpleName, "relStartTime=${session.relStartTime}, height = $boxHeight, pos = $pos")
+        return pos
+    }
+
 }

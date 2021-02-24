@@ -132,6 +132,8 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
 
     private final Map<Integer, SessionViewColumnAdapter> adapterByRoomIndex = new HashMap<>();
 
+    private ScrollAmountCalculator scrollAmountCalculator;
+
     private final OnSessionsChangeListener onSessionsChangeListener = new OnSessionsChangeListener() {
         @Override
         public void onAlarmsChanged() {
@@ -417,7 +419,6 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
         }
 
         Moment nowMoment = Moment.now();
-        ScrollAmountCalculator scrollAmountCalculator = new ScrollAmountCalculator(Logging.get());
         int scrollAmount = scrollAmountCalculator.calculateScrollAmount(
                 conference, MyApp.dateInfos, scheduleData, nowMoment, currentDayIndex, boxHeight, columnIndex);
 
@@ -449,16 +450,11 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
     }
 
     private void scrollTo(@NonNull Session session) {
+        int height = getNormalizedBoxHeight(displayDensityScale);
+        int pos = scrollAmountCalculator.calculateScrollAmount(conference, session, height);
+        MyApp.LogDebug(LOG_TAG, "position is " + pos);
         View layoutRootView = requireView();
         final ScrollView parent = requireViewByIdCompat(layoutRootView, R.id.scrollView1);
-        int height = getNormalizedBoxHeight(displayDensityScale);
-        // TODO Replace with proper Moment based implementation as soon as possible. See code review in https://github.com/EventFahrplan/EventFahrplan/pull/347
-        int startsAtMinuteUtc = session.relStartTime - conference.getFirstSessionStartsAt();
-        int systemOffsetMinutes = Moment.getSystemOffsetMinutes();
-        // Translate start time minutes from UTC to system time zone rendered to the user.
-        int startsAtMinuteSystem = startsAtMinuteUtc - systemOffsetMinutes;
-        final int pos = startsAtMinuteSystem / TimeSegment.TIME_GRID_MINIMUM_SEGMENT_HEIGHT * height;
-        MyApp.LogDebug(LOG_TAG, "position is " + pos);
         parent.post(() -> parent.scrollTo(0, pos));
         final HorizontalSnapScrollView horiz = layoutRootView.findViewById(R.id.horizScroller);
         if (horiz != null) {
@@ -516,8 +512,8 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
         }
 
         List<Session> sessions = appRepository.loadUncanceledSessionsForDayIndex(day);
-
         scheduleData = sessionsTransformer.transformSessions(day, sessions);
+        scrollAmountCalculator = new ScrollAmountCalculator(Logging.get());
     }
 
     private void reloadAlarms() {
