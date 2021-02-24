@@ -5,12 +5,12 @@ import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MIL
 import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MILLISECONDS_OF_ONE_SECOND
 import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MINUTES_OF_ONE_DAY
 import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.toMoment
+import info.metadude.android.eventfahrplan.commons.testing.withTimeZone
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import org.threeten.bp.LocalDate
 import org.threeten.bp.ZoneOffset
 import org.threeten.bp.ZonedDateTime
-import java.util.TimeZone
 
 class MomentTest {
 
@@ -175,13 +175,6 @@ class MomentTest {
     @Test
     fun getSystemOffsetMinutesWithGmtMinus1() = withTimeZone("GMT-1") {
         assertThat(Moment.getSystemOffsetMinutes()).isEqualTo(-60)
-    }
-
-    private fun withTimeZone(temporaryTimeZoneId: String, block: () -> Unit) {
-        val systemTimezone = TimeZone.getDefault()
-        TimeZone.setDefault(TimeZone.getTimeZone(temporaryTimeZoneId))
-        block()
-        TimeZone.setDefault(systemTimezone)
     }
 
 }

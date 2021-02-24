@@ -6,6 +6,7 @@
 package info.metadude.android.eventfahrplan.database.extensions
 
 import android.database.Cursor
+import androidx.core.database.getIntOrNull
 import androidx.core.database.getStringOrNull
 
 /**
@@ -18,6 +19,17 @@ import androidx.core.database.getStringOrNull
  * @see Cursor.getInt
  */
 inline fun Cursor.getInt(columnName: String): Int = getInt(getColumnIndexOrThrow(columnName))
+
+/**
+ * Returns the value of the requested column as an int or null.
+ *
+ * The result and whether this method throws an exception when the column type is not a int type
+ * is implementation-defined.
+ *
+ * @see Cursor.getColumnIndexOrThrow
+ * @see Cursor.getIntOrNull
+ */
+inline fun Cursor.getIntOrNull(columnName: String): Int? = getIntOrNull(getColumnIndexOrThrow(columnName))
 
 /**
  * Returns the value of the requested column as a long.

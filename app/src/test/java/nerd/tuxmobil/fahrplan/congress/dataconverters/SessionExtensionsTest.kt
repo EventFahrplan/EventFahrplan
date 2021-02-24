@@ -7,6 +7,7 @@ import nerd.tuxmobil.fahrplan.congress.models.DateInfo
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
+import org.threeten.bp.ZoneOffset
 import info.metadude.android.eventfahrplan.database.models.Session as SessionDatabaseModel
 import info.metadude.android.eventfahrplan.network.models.Session as SessionNetworkModel
 import nerd.tuxmobil.fahrplan.congress.models.Session as SessionAppModel
@@ -36,6 +37,7 @@ class SessionExtensionsTest {
                 startTime = 1036,
                 slug = "lorem",
                 subtitle = "My subtitle",
+                timeZoneOffset = 3600,
                 title = "My title",
                 track = "Security & Hacking",
                 type = "tutorial",
@@ -80,6 +82,7 @@ class SessionExtensionsTest {
                 startTime = 1036,
                 slug = "lorem",
                 subtitle = "My subtitle",
+                timeZoneOffset = 3600,
                 title = "My title",
                 track = "Security & Hacking",
                 type = "tutorial",
@@ -118,6 +121,7 @@ class SessionExtensionsTest {
             startTime = 1036
             slug = "lorem"
             subtitle = "My subtitle"
+            timeZoneOffset = ZoneOffset.ofTotalSeconds(3600)
             title = "My title"
             track = "Security & Hacking"
             type = "tutorial"

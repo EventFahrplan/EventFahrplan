@@ -123,6 +123,7 @@ public interface FahrplanContract {
             /* 31 */ String CHANGED_IS_CANCELED = "changed_is_canceled";
             /* 32 */ String SLUG = "slug";
             /* 33 */ String URL = "url";
+            /* 34 */ String TIME_ZONE_OFFSET = "time_zone_offset";
         }
 
         interface Defaults {

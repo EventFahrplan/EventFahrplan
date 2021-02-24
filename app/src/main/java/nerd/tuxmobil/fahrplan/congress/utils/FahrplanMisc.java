@@ -88,7 +88,7 @@ public class FahrplanMisc {
         String sessionId = session.sessionId;
         String sessionTitle = session.title;
         int alarmTimeInMin = alarmTimes.get(alarmTimesIndex);
-        String timeText = DateFormatter.newInstance().getFormattedDateTimeShort(alarmTime);
+        String timeText = DateFormatter.newInstance().getFormattedDateTimeShort(alarmTime, session.timeZoneOffset);
         int day = session.day;
 
         Alarm alarm = new Alarm(alarmTimeInMin, day, sessionStartTime, sessionId, sessionTitle, alarmTime, timeText);

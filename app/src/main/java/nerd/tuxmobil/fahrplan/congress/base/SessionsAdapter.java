@@ -196,7 +196,7 @@ public abstract class SessionsAdapter extends ArrayAdapter<Session> {
             if (day != lastDay) {
                 lastDay = day;
                 if (numDays > 1) {
-                    String formattedDate = DateFormatter.newInstance().getFormattedDate(l.dateUTC);
+                    String formattedDate = DateFormatter.newInstance().getFormattedDate(l.dateUTC, l.timeZoneOffset);
                     String dayDateSeparator = String.format(daySeparator, day, formattedDate);
                     mSeparatorStrings.add(dayDateSeparator);
                     mSeparatorsSet.add(index + sepCount);

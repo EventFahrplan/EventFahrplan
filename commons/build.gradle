@@ -29,6 +29,7 @@ dependencies {
     implementation Libs.tracedroid
     api Libs.threeTenBp
 
+    testImplementation project(":commons-testing")
     testImplementation Libs.junit
     testImplementation Libs.assertjAndroid
     testImplementation Libs.truth

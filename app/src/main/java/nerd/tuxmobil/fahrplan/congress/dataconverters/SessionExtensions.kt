@@ -3,6 +3,7 @@ package nerd.tuxmobil.fahrplan.congress.dataconverters
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.models.DateInfo
 import nerd.tuxmobil.fahrplan.congress.models.Session
+import org.threeten.bp.ZoneOffset
 import info.metadude.android.eventfahrplan.database.models.Highlight as HighlightDatabaseModel
 import info.metadude.android.eventfahrplan.database.models.Session as SessionDatabaseModel
 import info.metadude.android.eventfahrplan.network.models.Session as SessionNetworkModel
@@ -42,6 +43,7 @@ fun Session.toSessionDatabaseModel() = SessionDatabaseModel(
         speakers = speakers,
         startTime = startTime, // minutes since day start
         subtitle = subtitle,
+        timeZoneOffset = timeZoneOffset?.totalSeconds, // seconds
         title = title,
         track = track,
         type = type,
@@ -83,6 +85,7 @@ fun SessionDatabaseModel.toSessionAppModel(): Session {
     session.speakers = speakers
     session.startTime = startTime // minutes since day start
     session.subtitle = subtitle
+    session.timeZoneOffset = timeZoneOffset?.let { ZoneOffset.ofTotalSeconds(it) } // seconds
     session.title = title
     session.track = track
     session.type = type
@@ -126,6 +129,7 @@ fun SessionNetworkModel.toSessionAppModel(): Session {
     session.speakers = speakers
     session.startTime = startTime // minutes since day start
     session.subtitle = subtitle
+    session.timeZoneOffset = timeZoneOffset?.let { ZoneOffset.ofTotalSeconds(it) } // seconds
     session.title = title
     session.track = track
     session.type = type

@@ -5,6 +5,7 @@ import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
+import org.threeten.bp.OffsetDateTime
 import java.util.TimeZone
 
 @RunWith(Parameterized::class)
@@ -45,9 +46,10 @@ class TimeSegmentFormattedTextTest(
     @Test
     fun formattedText() {
         TimeZone.setDefault(DEFAULT_TIME_ZONE)
+        val zoneOffsetNow = OffsetDateTime.now().offset
         val moment = Moment.now().startOfDay().plusMinutes(minutesOfTheDay.toLong())
         val segment = TimeSegment.ofMoment(moment)
-        assertThat(segment.formattedText).isEqualTo(expectedFormattedText)
+        assertThat(segment.getFormattedText(zoneOffsetNow)).isEqualTo(expectedFormattedText)
     }
 
 }

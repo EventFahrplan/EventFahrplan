@@ -4,18 +4,34 @@ import androidx.annotation.VisibleForTesting
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MINUTES_OF_ONE_DAY
 import nerd.tuxmobil.fahrplan.congress.models.Session
+import org.threeten.bp.ZoneOffset
 
+/**
+ * Represents "a conference day" by holding the time values of when the first session of that
+ * conference day starts and when the last session of that conference day ends. Please note
+ * that "a conference day" does not need to be equivalent with "a natural day" starting at
+ * 00:00:00 and ending at 23:59:59. Such "a conferences day" might very likely exceed the
+ * natural borders of a day.
+ *
+ * The [timeZoneOffset] held by this [Conference] object represents the time zone offset for
+ * the whole conference day. It is derived from the time zone offset of the first session of
+ * that day!
+ *
+ * TODO: TechDebt: This implementation makes it impossible to represent a conference day which spans
+ * two different time zones. Refactoring this is a topic for a future enhancement.
+ */
 // TODO Use Moment class, merge with ConferenceTimeFrame class?
 data class Conference(
 
         var firstSessionStartsAt: Int = 0,
-        var lastSessionEndsAt: Int = 0
+        var lastSessionEndsAt: Int = 0,
+        var timeZoneOffset: ZoneOffset? = null
 
 ) {
 
     /**
      * Calculates the [firstSessionStartsAt] and [lastSessionEndsAt] time stamps for the
-     * given sorted sessions.
+     * given sorted sessions. Further, the [timeZoneOffset] is derived from the first session.
      *
      * @param sessions     Sorted list of sessions.
      */
@@ -24,6 +40,7 @@ data class Conference(
         val conference = ofSessions(sessions)
         firstSessionStartsAt = conference.firstSessionStartsAt
         lastSessionEndsAt = conference.lastSessionEndsAt
+        timeZoneOffset = conference.timeZoneOffset
     }
 
     companion object {
@@ -34,12 +51,19 @@ data class Conference(
         @VisibleForTesting
         internal fun ofSessions(sessions: List<Session>): Conference {
             require(sessions.isNotEmpty()) { "Empty list of sessions." }
-            val first = Moment.ofEpochMilli(sessions.first().dateUTC)
+            val firstSession = sessions.first()
+            val first = Moment.ofEpochMilli(firstSession.dateUTC)
             val endingLatest = sessions.endingLatest()
             val endsAt = endingLatest.endsAtDateUtc
             val last = Moment.ofEpochMilli(endsAt)
             val minutesToAdd = if (first.monthDay == last.monthDay) 0 else MINUTES_OF_ONE_DAY
-            return Conference(firstSessionStartsAt = first.minuteOfDay, lastSessionEndsAt = last.minuteOfDay + minutesToAdd)
+            // Here we are assuming all sessions have the same time zone offset.
+            val timeZoneOffset = firstSession.timeZoneOffset
+            return Conference(
+                firstSessionStartsAt = first.minuteOfDay,
+                lastSessionEndsAt = last.minuteOfDay + minutesToAdd,
+                timeZoneOffset = timeZoneOffset
+            )
         }
 
     }

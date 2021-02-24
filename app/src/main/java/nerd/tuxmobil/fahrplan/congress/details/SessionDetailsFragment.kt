@@ -95,7 +95,7 @@ class SessionDetailsFragment : Fragment(), SessionDetailsViewModel.ViewActionHan
 
             // Detailbar
             var textView: TextView = view.requireViewByIdCompat(R.id.session_detailbar_date_time_view)
-            textView.text = if (viewModel.hasDateUtc) viewModel.formattedDateUtc else ""
+            textView.text = if (viewModel.hasDateUtc) viewModel.formattedZonedDateTime else ""
 
             textView = view.requireViewByIdCompat(R.id.session_detailbar_location_view)
             textView.text = viewModel.roomName

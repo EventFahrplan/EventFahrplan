@@ -28,6 +28,7 @@ data class Session(
         var startTime: Int = 0, // minutes since day start
         var slug: String = "",
         var subtitle: String = "",
+        var timeZoneOffset: Int? = null, // seconds
         var title: String = "",
         var track: String = "",
         var type: String = "",

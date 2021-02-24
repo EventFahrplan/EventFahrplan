@@ -40,8 +40,8 @@ class SessionDetailsViewModel @JvmOverloads constructor(
         private val toC3NavRoomName: Session.() -> String = {
             RoomForC3NavConverter.convert(this.room)
         },
-        private val toFormattedDateUtc: Session.() -> String = {
-            DateFormatter.newInstance().getFormattedDateTimeShort(this.dateUTC)
+        private val toFormattedZonedDateTime: Session.() -> String = {
+            DateFormatter.newInstance().getFormattedDateTimeShort(this.dateUTC, this.timeZoneOffset)
         },
         private val toHtmlLink: String.() -> String = {
             StringUtils.getHtmlLinkFromMarkdown(this)
@@ -70,7 +70,7 @@ class SessionDetailsViewModel @JvmOverloads constructor(
     private val timeZoneId = repository.readMeta().timeZoneId
 
     val hasDateUtc get() = session.dateUTC > 0
-    val formattedDateUtc get() = session.toFormattedDateUtc()
+    val formattedZonedDateTime get() = session.toFormattedZonedDateTime()
 
     val isSessionIdEmpty get() = sessionId.isEmpty()
 
