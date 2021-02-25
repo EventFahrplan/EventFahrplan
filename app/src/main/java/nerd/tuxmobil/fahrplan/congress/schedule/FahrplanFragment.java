@@ -36,7 +36,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.ligi.tracedroid.logging.Log;
-import org.threeten.bp.Duration;
 import org.threeten.bp.ZoneId;
 
 import java.util.Arrays;
@@ -90,7 +89,6 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
     private static final int CONTEXT_MENU_ITEM_ID_SHARE_TEXT = 5;
     private static final int CONTEXT_MENU_ITEM_ID_SHARE_JSON = 6;
 
-    public static final int ONE_DAY = (int) Duration.ofDays(1).toMinutes();
     public static final int FIFTEEN_MINUTES = 15;
     public static final int BOX_HEIGHT_MULTIPLIER = 3;
 
@@ -98,7 +96,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
 
     private LayoutInflater inflater;
 
-    private final Conference conference = new Conference();
+    private Conference conference;
 
     private AppRepository appRepository;
 
@@ -261,7 +259,9 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
             }
             intent.removeExtra(BundleKeys.BUNDLE_KEY_SESSION_ALARM_SESSION_ID); // jump to given sessionId only once
         }
-        fillTimes();
+        if (conference != null) {
+            fillTimes();
+        }
 
         appRepository.setOnSessionsChangeListener(onSessionsChangeListener);
     }
@@ -287,7 +287,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
 
         if (!sessionsOfDay.isEmpty()) {
             // TODO: Move this to AppRepository and include the result in ScheduleData
-            conference.calculateTimeFrame(sessionsOfDay);
+            conference = Conference.ofSessions(sessionsOfDay);
             MyApp.LogDebug(LOG_TAG, "Conference = " + conference);
         }
 

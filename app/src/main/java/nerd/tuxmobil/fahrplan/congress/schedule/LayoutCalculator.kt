@@ -28,7 +28,7 @@ data class LayoutCalculator @JvmOverloads constructor(
 
     fun calculateLayoutParams(roomData: RoomData, conference: Conference): Map<Session, LinearLayout.LayoutParams> {
         val sessions = roomData.sessions
-        var previousSessionEndsAt: Int = conference.firstSessionStartsAt
+        var previousSessionEndsAt: Int = conference.firstSessionStartsAt.minuteOfDay
         var startTime: Int
         var margin: Int
         var previousSession: Session? = null
