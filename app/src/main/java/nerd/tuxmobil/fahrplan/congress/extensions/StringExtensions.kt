@@ -4,6 +4,7 @@ package nerd.tuxmobil.fahrplan.congress.extensions
 
 import android.text.Spanned
 import androidx.core.text.HtmlCompat
+import androidx.core.text.parseAsHtml
 
 /**
  * Converts this HTML string into a displayable styled text.
@@ -14,4 +15,4 @@ import androidx.core.text.HtmlCompat
 @JvmOverloads
 inline fun String.toSpanned(
         flags: Int = HtmlCompat.FROM_HTML_MODE_LEGACY
-): Spanned = HtmlCompat.fromHtml(this, flags)
+): Spanned = parseAsHtml(flags)
