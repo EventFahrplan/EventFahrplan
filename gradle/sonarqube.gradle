@@ -9,5 +9,6 @@ sonarqube {
         property "sonar.projectKey", "eventfahrplan"
         property "sonar.projectName", "EventFahrplan"
         property "sonar.projectVersion", APP_VERSION
+        property "sonar.jacoco.reportPath", "${project.buildDir}/jacoco/*.exec"
     }
 }
