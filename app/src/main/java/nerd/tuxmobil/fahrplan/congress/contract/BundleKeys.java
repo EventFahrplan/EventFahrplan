@@ -47,4 +47,7 @@ public interface BundleKeys {
             "nerd.tuxmobil.fahrplan.congress.Prefs.ENGELSYSTEM_SHIFTS_URL_UPDATED";
     String BUNDLE_KEY_ALTERNATIVE_HIGHLIGHTING_UPDATED =
             "nerd.tuxmobil.fahrplan.congress.Prefs.ALTERNATIVE_HIGHLIGHT";
+    String BUNDLE_KEY_USE_DEVICE_TIME_ZONE_UPDATED =
+            "nerd.tuxmobil.fahrplan.congress.Prefs.USE_DEVICE_TIME_ZONE_UPDATED";
+
 }

@@ -58,6 +58,7 @@
     <!-- Device time zone -->
     <string name="preference_key_use_device_time_zone_enabled" translatable="false">use_device_time_zone</string>
     <bool name="preference_default_value_use_device_time_zone_enabled">false</bool>
+    <string name="preference_title_use_device_time_zone_enabled">Use device time zone</string>
 
     <!-- Alternative highlighting -->
     <string name="preference_key_alternative_highlighting_enabled" translatable="false">alternative_highlight</string>

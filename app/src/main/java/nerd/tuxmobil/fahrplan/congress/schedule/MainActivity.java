@@ -427,7 +427,9 @@ public class MainActivity extends BaseActivity implements
                 break;
             case MyApp.SETTINGS:
                 if (resultCode == Activity.RESULT_OK && intent != null) {
-                    if (intent.getBooleanExtra(BundleKeys.BUNDLE_KEY_ALTERNATIVE_HIGHLIGHTING_UPDATED, false)) {
+                    boolean isAlternativeHighlightingUpdated = intent.getBooleanExtra(BundleKeys.BUNDLE_KEY_ALTERNATIVE_HIGHLIGHTING_UPDATED, false);
+                    boolean isUseDeviceTimeZoneUpdated = intent.getBooleanExtra(BundleKeys.BUNDLE_KEY_USE_DEVICE_TIME_ZONE_UPDATED, false);
+                    if (isAlternativeHighlightingUpdated || isUseDeviceTimeZoneUpdated) {
                         if (findViewById(R.id.schedule) != null && findFragment(FahrplanFragment.FRAGMENT_TAG) == null) {
                             replaceFragment(R.id.schedule, new FahrplanFragment(),
                                     FahrplanFragment.FRAGMENT_TAG);
