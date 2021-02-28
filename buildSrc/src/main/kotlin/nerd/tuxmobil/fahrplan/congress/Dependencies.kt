@@ -46,7 +46,7 @@ object Libs {
         const val mockito = "3.8.0"
         const val mockitoKotlin = "2.2.0"
         const val moshi = "1.11.0"
-        const val okhttp = "3.12.12"
+        const val okhttp = "3.12.13"
         const val preference = "1.1.1"
         const val retrofit = "2.6.4"
         const val robolectric = "4.3_r2-robolectric-0"
