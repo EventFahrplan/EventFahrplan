@@ -27,7 +27,7 @@ notifications:
   email: true
 
 before_install:
-- yes | sdkmanager "platforms;android-29"
+- yes | sdkmanager "platforms;android-30"
 
 before_script:
 

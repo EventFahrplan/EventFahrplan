@@ -4,9 +4,9 @@ package nerd.tuxmobil.fahrplan.congress
 
 object Android {
     const val buildToolsVersion = "29.0.3"
-    const val compileSdkVersion = 29
+    const val compileSdkVersion = 30
     const val minSdkVersion = 14
-    const val targetSdkVersion = 29
+    const val targetSdkVersion = 30
 }
 
 object Plugins {
