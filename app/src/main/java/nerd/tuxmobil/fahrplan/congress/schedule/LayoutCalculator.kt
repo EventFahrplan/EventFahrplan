@@ -3,8 +3,8 @@ package nerd.tuxmobil.fahrplan.congress.schedule
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import info.metadude.android.eventfahrplan.commons.logging.Logging
-import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MILLISECONDS_OF_ONE_MINUTE
+import nerd.tuxmobil.fahrplan.congress.dataconverters.toStartsAtMoment
 import nerd.tuxmobil.fahrplan.congress.models.RoomData
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import org.threeten.bp.Duration
@@ -28,7 +28,7 @@ data class LayoutCalculator @JvmOverloads constructor(
 
     fun calculateLayoutParams(roomData: RoomData, conference: Conference): Map<Session, LinearLayout.LayoutParams> {
         val sessions = roomData.sessions
-        var previousSessionEndsAt: Int = conference.firstSessionStartsAt
+        var previousSessionEndsAt: Int = conference.firstSessionStartsAt.minuteOfDay
         var startTime: Int
         var margin: Int
         var previousSession: Session? = null
@@ -74,7 +74,7 @@ data class LayoutCalculator @JvmOverloads constructor(
     private fun getStartTime(session: Session, previousSessionEndsAt: Int): Int {
         var startTime: Int
         if (session.dateUTC > 0) {
-            startTime = Moment.ofEpochMilli(session.dateUTC).minuteOfDay
+            startTime = session.toStartsAtMoment().minuteOfDay
             if (startTime < previousSessionEndsAt) {
                 startTime += Duration.ofDays(1).toMinutes().toInt()
             }

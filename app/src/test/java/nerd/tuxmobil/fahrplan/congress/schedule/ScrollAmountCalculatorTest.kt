@@ -3,6 +3,7 @@ package nerd.tuxmobil.fahrplan.congress.schedule
 import com.google.common.truth.Truth.assertThat
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.NoLogging
+import nerd.tuxmobil.fahrplan.congress.dataconverters.toStartsAtMoment
 import nerd.tuxmobil.fahrplan.congress.models.DateInfo
 import nerd.tuxmobil.fahrplan.congress.models.DateInfos
 import nerd.tuxmobil.fahrplan.congress.models.RoomData
@@ -21,8 +22,9 @@ class ScrollAmountCalculatorTest {
     @Test
     fun `calculateScrollAmount returns 0 if room index preceeds the valid column indices`() {
         val session = createFirstSession()
-        val scrollAmount = createCalculator(session).calculateScrollAmount(
-                nowMoment = Moment.ofEpochMilli(session.dateUTC),
+        val scrollAmount = calculateScrollAmount(
+                session = session,
+                nowMoment = session.toStartsAtMoment(),
                 currentDayIndex = session.day,
                 columnIndex = -1
         )
@@ -32,8 +34,9 @@ class ScrollAmountCalculatorTest {
     @Test
     fun `calculateScrollAmount returns 0 if room index exceeds the valid column indices`() {
         val session = createFirstSession()
-        val scrollAmount = createCalculator(session).calculateScrollAmount(
-                nowMoment = Moment.ofEpochMilli(session.dateUTC),
+        val scrollAmount = calculateScrollAmount(
+                session = session,
+                nowMoment = session.toStartsAtMoment(),
                 currentDayIndex = session.day,
                 columnIndex = COLUMN_INDEX + 1
         )
@@ -43,8 +46,9 @@ class ScrollAmountCalculatorTest {
     @Test
     fun `calculateScrollAmount returns 0 if conference has not started but it will today`() {
         val session = createFirstSession()
-        val scrollAmount = createCalculator(session).calculateScrollAmount(
-                nowMoment = Moment.ofEpochMilli(session.dateUTC).minusMinutes(1),
+        val scrollAmount = calculateScrollAmount(
+                session = session,
+                nowMoment = session.toStartsAtMoment().minusMinutes(1),
                 currentDayIndex = session.day
         )
         assertThat(scrollAmount).isEqualTo(0)
@@ -53,8 +57,9 @@ class ScrollAmountCalculatorTest {
     @Test
     fun `calculateScrollAmount returns 0 if conference starts now`() {
         val session = createFirstSession()
-        val scrollAmount = createCalculator(session).calculateScrollAmount(
-                nowMoment = Moment.ofEpochMilli(session.dateUTC),
+        val scrollAmount = calculateScrollAmount(
+                session = session,
+                nowMoment = session.toStartsAtMoment(),
                 currentDayIndex = session.day
         )
         assertThat(scrollAmount).isEqualTo(0)
@@ -63,7 +68,8 @@ class ScrollAmountCalculatorTest {
     @Test
     fun `calculateScrollAmount returns 0 if first session is almost done`() {
         val session = createFirstSession()
-        val scrollAmount = createCalculator(session).calculateScrollAmount(
+        val scrollAmount = calculateScrollAmount(
+                session = session,
                 nowMoment = Moment.ofEpochMilli(session.endsAtDateUtc).minusMinutes(1),
                 currentDayIndex = session.day
         )
@@ -73,7 +79,8 @@ class ScrollAmountCalculatorTest {
     @Test
     fun `calculateScrollAmount returns end of session if first session is done`() {
         val session = createFirstSession()
-        val scrollAmount = createCalculator(session).calculateScrollAmount(
+        val scrollAmount = calculateScrollAmount(
+                session = session,
                 nowMoment = Moment.ofEpochMilli(session.endsAtDateUtc),
                 currentDayIndex = session.day
         )
@@ -83,28 +90,28 @@ class ScrollAmountCalculatorTest {
     @Test
     fun `calculateScrollAmount returns 408 for a session crossing the intra-day limit`() {
         val session = createLateSession()
-        val scrollAmount = createCalculator(session).calculateScrollAmount(
+        val scrollAmount = calculateScrollAmount(
+                session = session,
                 nowMoment = Moment.ofEpochMilli(session.endsAtDateUtc),
                 currentDayIndex = session.day
         )
         assertThat(scrollAmount).isEqualTo(408)
     }
 
-    private fun createCalculator(session: Session): ScrollAmountCalculator {
+    private fun calculateScrollAmount(
+            session: Session,
+            nowMoment: Moment,
+            currentDayIndex: Int,
+            columnIndex: Int = COLUMN_INDEX
+    ): Int {
         val sessions = listOf(session)
         val roomData = RoomData(roomName = session.room, sessions = sessions)
         val scheduleData = ScheduleData(dayIndex = session.day, roomDataList = listOf(roomData))
         val conference = Conference.ofSessions(sessions)
         val dateInfo = DateInfo(dayIdx = session.day, date = Moment.parseDate(session.date))
         val dateInfos = DateInfos().apply { add(dateInfo) }
-        return ScrollAmountCalculator(NoLogging, dateInfos, scheduleData, conference)
+        return ScrollAmountCalculator(NoLogging).calculateScrollAmount(conference, dateInfos, scheduleData, nowMoment, currentDayIndex, BOX_HEIGHT, columnIndex)
     }
-
-    private fun ScrollAmountCalculator.calculateScrollAmount(
-            nowMoment: Moment,
-            currentDayIndex: Int,
-            columnIndex: Int = COLUMN_INDEX
-    ) = calculateScrollAmount(nowMoment, currentDayIndex, BOX_HEIGHT, columnIndex)
 
     private fun createFirstSession() = createBaseSession("s1",
             Moment.ofEpochMilli(1582963200000L) // February 29, 2020 08:00:00 AM GMT

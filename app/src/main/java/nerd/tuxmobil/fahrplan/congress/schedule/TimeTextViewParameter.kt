@@ -2,10 +2,10 @@ package nerd.tuxmobil.fahrplan.congress.schedule
 
 import androidx.annotation.LayoutRes
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
+import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MINUTES_OF_ONE_DAY
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanFragment.BOX_HEIGHT_MULTIPLIER
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanFragment.FIFTEEN_MINUTES
-import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanFragment.ONE_DAY
 
 /**
  * Parameters to be used to inflate and configure a time text view.
@@ -34,15 +34,16 @@ internal data class TimeTextViewParameter private constructor(
                 normalizedBoxHeight: Int
         ): List<TimeTextViewParameter> {
             val parameters = mutableListOf<TimeTextViewParameter>()
-            var time = conference.firstSessionStartsAt
-            var printTime = time
+            var sessionStartsAt = conference.firstSessionStartsAt
+            var sessionStartsAtMinutes = sessionStartsAt.minuteOfDay
             val timeTextViewHeight = BOX_HEIGHT_MULTIPLIER * normalizedBoxHeight
             var timeSegment: TimeSegment
-            while (time < conference.lastSessionEndsAt) {
-                timeSegment = TimeSegment.ofMinutesOfTheDay(printTime)
-                var timeTextLayout: Int
+            val minutesToAdd = if (conference.spansMultipleDays) MINUTES_OF_ONE_DAY else 0
+            val lastSessionEndsAtMinutes = conference.lastSessionEndsAt.minuteOfDay + minutesToAdd
+            while (sessionStartsAtMinutes < lastSessionEndsAtMinutes) {
+                timeSegment = TimeSegment.ofMoment(sessionStartsAt)
                 val isToday = nowMoment.monthDay - firstDayStartDay == dayIndex - 1
-                timeTextLayout = if (isToday && timeSegment.isMatched(nowMoment, FIFTEEN_MINUTES)) {
+                val timeTextLayout = if (isToday && timeSegment.isMatched(nowMoment, FIFTEEN_MINUTES)) {
                     R.layout.time_layout_now
                 } else {
                     R.layout.time_layout
@@ -50,11 +51,8 @@ internal data class TimeTextViewParameter private constructor(
                 val titleText = timeSegment.getFormattedText(conference.timeZoneOffset)
                 val parameter = TimeTextViewParameter(timeTextLayout, timeTextViewHeight, titleText)
                 parameters.add(parameter)
-                time += FIFTEEN_MINUTES
-                printTime = time
-                if (printTime >= ONE_DAY) {
-                    printTime -= ONE_DAY
-                }
+                sessionStartsAt = sessionStartsAt.plusMinutes(FIFTEEN_MINUTES.toLong())
+                sessionStartsAtMinutes += FIFTEEN_MINUTES
             }
             return parameters
         }

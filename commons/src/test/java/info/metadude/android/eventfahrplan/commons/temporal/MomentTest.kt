@@ -5,7 +5,6 @@ import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MIL
 import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MILLISECONDS_OF_ONE_SECOND
 import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MINUTES_OF_ONE_DAY
 import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.toMoment
-import info.metadude.android.eventfahrplan.commons.testing.withTimeZone
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import org.threeten.bp.LocalDate
@@ -127,6 +126,16 @@ class MomentTest {
     }
 
     @Test
+    fun durationUntil() {
+        val momentOne = Moment.now()
+        val momentTwo = momentOne.plusMinutes(1)
+
+        assertThat(momentOne.minutesUntil(momentOne)).isEqualTo(0)
+        assertThat(momentOne.minutesUntil(momentTwo)).isEqualTo(1)
+        assertThat(momentTwo.minutesUntil(momentOne)).isEqualTo(-1)
+    }
+
+    @Test
     fun plusSeconds() {
         val momentOne = Moment.ofEpochMilli(0).plusSeconds(1)
         assertThat(momentOne.toMilliseconds()).isEqualTo(MILLISECONDS_OF_ONE_SECOND.toLong())
@@ -160,21 +169,6 @@ class MomentTest {
 
         val momentTwo = Moment.ofEpochMilli(0).minusMinutes(-1)
         assertThat(momentTwo.toMilliseconds()).isEqualTo(MILLISECONDS_OF_ONE_MINUTE.toLong())
-    }
-
-    @Test
-    fun getSystemOffsetMinutesWithGmtPlus1() = withTimeZone("GMT+1") {
-        assertThat(Moment.getSystemOffsetMinutes()).isEqualTo(60)
-    }
-
-    @Test
-    fun getSystemOffsetMinutesWithGmt() = withTimeZone("GMT") {
-        assertThat(Moment.getSystemOffsetMinutes()).isEqualTo(0)
-    }
-
-    @Test
-    fun getSystemOffsetMinutesWithGmtMinus1() = withTimeZone("GMT-1") {
-        assertThat(Moment.getSystemOffsetMinutes()).isEqualTo(-60)
     }
 
 }

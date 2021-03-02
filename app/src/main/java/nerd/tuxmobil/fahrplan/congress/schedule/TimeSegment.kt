@@ -27,12 +27,6 @@ internal class TimeSegment private constructor(
          */
         const val TIME_GRID_MINIMUM_SEGMENT_HEIGHT = 5
 
-        @Deprecated("Use TimeSegment.ofMoment", replaceWith = ReplaceWith("TimeSegment.ofMoment()"))
-        @JvmStatic
-        fun ofMinutesOfTheDay(minutesOfTheDay: Int): TimeSegment {
-            return ofMoment(Moment.now().startOfDay().plusMinutes(minutesOfTheDay.toLong()))
-        }
-
         @JvmStatic
         fun ofMoment(moment: Moment) = TimeSegment(moment)
 
