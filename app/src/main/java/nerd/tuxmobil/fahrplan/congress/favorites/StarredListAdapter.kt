@@ -15,14 +15,17 @@ import nerd.tuxmobil.fahrplan.congress.models.Session
 class StarredListAdapter internal constructor(
 
         context: Context,
-        list: List<Session>, numDays: Int
+        list: List<Session>,
+        numDays: Int,
+        useDeviceTimeZone: Boolean
 
 ) : SessionsAdapter(
 
         context,
         R.layout.session_list_item,
         list,
-        numDays
+        numDays,
+        useDeviceTimeZone
 
 ) {
 
@@ -52,7 +55,7 @@ class StarredListAdapter internal constructor(
             lang.textOrHide = session.lang
             lang.contentDescription = session.getLanguageContentDescription(context)
             day.isVisible = false
-            val timeText = DateFormatter.newInstance().getFormattedTime(session.dateUTC, session.timeZoneOffset)
+            val timeText = DateFormatter.newInstance(useDeviceTimeZone).getFormattedTime(session.dateUTC, session.timeZoneOffset)
             time.textOrHide = timeText
             room.textOrHide = session.room
             val durationText = context.getString(R.string.session_duration, session.duration)

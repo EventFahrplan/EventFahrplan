@@ -475,12 +475,14 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
 
     private void fillTimes() {
         int normalizedBoxHeight = getNormalizedBoxHeight(displayDensityScale);
+        boolean useDeviceTimeZone = appRepository.readUseDeviceTimeZoneEnabled();
         List<TimeTextViewParameter> parameters = TimeTextViewParameter.parametersOf(
                 Moment.now(),
                 conference,
                 BuildConfig.SCHEDULE_FIRST_DAY_START_DAY,
                 mDay,
-                normalizedBoxHeight
+                normalizedBoxHeight,
+                useDeviceTimeZone
         );
         LinearLayout timeTextColumn = requireViewByIdCompat(requireView(), R.id.times_layout);
         timeTextColumn.removeAllViews();

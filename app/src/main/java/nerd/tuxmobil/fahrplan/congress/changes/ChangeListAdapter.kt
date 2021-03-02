@@ -16,14 +16,16 @@ class ChangeListAdapter internal constructor(
 
         context: Context,
         list: List<Session>,
-        numDays: Int
+        numDays: Int,
+        useDeviceTimeZone: Boolean
 
 ) : SessionsAdapter(
 
         context,
         R.layout.session_list_item,
         list,
-        numDays
+        numDays,
+        useDeviceTimeZone
 
 ) {
 
@@ -51,9 +53,9 @@ class ChangeListAdapter internal constructor(
             speakers.textOrHide = session.formattedSpeakers
             lang.textOrHide = session.lang
             lang.contentDescription = session.getLanguageContentDescription(context)
-            val dayText = DateFormatter.newInstance().getFormattedDate(session.dateUTC, session.timeZoneOffset)
+            val dayText = DateFormatter.newInstance(useDeviceTimeZone).getFormattedDate(session.dateUTC, session.timeZoneOffset)
             day.textOrHide = dayText
-            val timeText = DateFormatter.newInstance().getFormattedTime(session.dateUTC, session.timeZoneOffset)
+            val timeText = DateFormatter.newInstance(useDeviceTimeZone).getFormattedTime(session.dateUTC, session.timeZoneOffset)
             time.textOrHide = timeText
             room.textOrHide = session.room
             val durationText = context.getString(R.string.session_duration, session.duration)

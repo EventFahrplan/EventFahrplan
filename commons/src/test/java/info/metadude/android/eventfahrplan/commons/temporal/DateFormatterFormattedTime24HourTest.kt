@@ -98,7 +98,7 @@ class DateFormatterFormattedTime24HourTest(
         pairs.forEach { (dateTime, expectedFormattedTime) ->
             val (moment, offset) = parse(dateTime)
             withTimeZone(timeZoneId) {
-                val formattedTime = DateFormatter.newInstance().getFormattedTime24Hour(moment, offset)
+                val formattedTime = DateFormatter.newInstance(useDeviceTimeZone = false).getFormattedTime24Hour(moment, offset)
                 assertThat(formattedTime).isEqualTo(expectedFormattedTime)
             }
         }

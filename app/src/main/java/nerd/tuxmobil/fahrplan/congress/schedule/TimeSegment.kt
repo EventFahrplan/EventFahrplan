@@ -45,8 +45,8 @@ internal class TimeSegment private constructor(
      *
      * See [DateFormatter.getFormattedTime24Hour].
      */
-    fun getFormattedText(sessionZoneOffset: ZoneOffset?): String =
-        DateFormatter.newInstance().getFormattedTime24Hour(roundedMoment, sessionZoneOffset)
+    fun getFormattedText(sessionZoneOffset: ZoneOffset?, useDeviceTimeZone: Boolean): String =
+        DateFormatter.newInstance(useDeviceTimeZone).getFormattedTime24Hour(roundedMoment, sessionZoneOffset)
 
     /**
      * Returns true if the given [otherMoment] matches the internal rounded moment taken the

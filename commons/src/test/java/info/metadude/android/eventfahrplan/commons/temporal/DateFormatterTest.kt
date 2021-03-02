@@ -109,7 +109,7 @@ class DateFormatterTest {
     }
 
     private fun createDateFormatter(): DateFormatter {
-        return DateFormatter.newInstance()
+        return DateFormatter.newInstance(useDeviceTimeZone = false)
     }
 
     private fun getTimeZoneOffsetNow(): ZoneOffset {

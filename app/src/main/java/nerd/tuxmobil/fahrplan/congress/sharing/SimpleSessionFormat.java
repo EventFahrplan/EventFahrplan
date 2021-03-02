@@ -49,7 +49,9 @@ public class SimpleSessionFormat {
 
     private static void appendSession(StringBuilder builder, Session session, ZoneId timeZoneId) {
         long startTime = session.getStartTimeMilliseconds();
-        String shareableStartTime = DateFormatter.newInstance().getFormattedShareable(startTime, timeZoneId);
+        boolean useDeviceTimeZone = false; // Always share in the original session time zone.
+        //noinspection ConstantConditions
+        String shareableStartTime = DateFormatter.newInstance(useDeviceTimeZone).getFormattedShareable(startTime, timeZoneId);
         builder.append(session.title);
         builder.append(LINE_BREAK);
         builder.append(shareableStartTime);
