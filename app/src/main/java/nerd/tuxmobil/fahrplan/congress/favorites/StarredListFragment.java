@@ -109,7 +109,8 @@ public class StarredListFragment extends AbstractListFragment implements
         Context context = requireContext();
         starredList = appRepository.loadStarredSessions();
         Meta meta = appRepository.readMeta();
-        mAdapter = new StarredListAdapter(context, starredList, meta.getNumDays());
+        boolean useDeviceTimeZone = appRepository.readUseDeviceTimeZoneEnabled();
+        mAdapter = new StarredListAdapter(context, starredList, meta.getNumDays(), useDeviceTimeZone);
         MyApp.LogDebug(LOG_TAG, "initStarredList: " + starredList.size() + " favorites");
     }
 

@@ -14,6 +14,9 @@
     <!-- Alarm tone -->
     <string name="preference_title_alarm_tone">Alarmton</string>
 
+    <!-- Device time zone -->
+    <string name="preference_title_use_device_time_zone_enabled">Zeitzone des Geräts nutzen</string>
+
     <!-- Alternative highlighting -->
     <string name="preference_title_alternative_highlighting_enabled">Alternative Hervorhebung</string>
 

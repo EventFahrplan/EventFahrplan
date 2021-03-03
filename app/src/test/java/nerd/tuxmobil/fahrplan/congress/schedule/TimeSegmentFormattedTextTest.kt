@@ -49,7 +49,7 @@ class TimeSegmentFormattedTextTest(
         val zoneOffsetNow = OffsetDateTime.now().offset
         val moment = Moment.now().startOfDay().plusMinutes(minutesOfTheDay.toLong())
         val segment = TimeSegment.ofMoment(moment)
-        assertThat(segment.getFormattedText(zoneOffsetNow)).isEqualTo(expectedFormattedText)
+        assertThat(segment.getFormattedText(zoneOffsetNow, useDeviceTimeZone = false)).isEqualTo(expectedFormattedText)
     }
 
 }

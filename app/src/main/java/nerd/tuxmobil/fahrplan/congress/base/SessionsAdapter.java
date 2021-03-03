@@ -34,15 +34,17 @@ public abstract class SessionsAdapter extends ArrayAdapter<Session> {
 
     private final List<Session> list;
     private final int numDays;
+    protected final boolean useDeviceTimeZone;
     private ArrayList<Integer> mMapper;
     private ArrayList<String> mSeparatorStrings;
     private TreeSet<Integer> mSeparatorsSet;
 
-    public SessionsAdapter(Context context, @LayoutRes int layout, List<Session> list, int numDays) {
+    public SessionsAdapter(Context context, @LayoutRes int layout, List<Session> list, int numDays, boolean useDeviceTimeZone) {
         super(context, layout, list);
         this.context = new ContextThemeWrapper(context, R.style.Theme_AppCompat_Light);
         this.list = list;
         this.numDays = numDays;
+        this.useDeviceTimeZone = useDeviceTimeZone;
         initMapper();
     }
 
@@ -196,7 +198,7 @@ public abstract class SessionsAdapter extends ArrayAdapter<Session> {
             if (day != lastDay) {
                 lastDay = day;
                 if (numDays > 1) {
-                    String formattedDate = DateFormatter.newInstance().getFormattedDate(l.dateUTC, l.timeZoneOffset);
+                    String formattedDate = DateFormatter.newInstance(useDeviceTimeZone).getFormattedDate(l.dateUTC, l.timeZoneOffset);
                     String dayDateSeparator = String.format(daySeparator, day, formattedDate);
                     mSeparatorStrings.add(dayDateSeparator);
                     mSeparatorsSet.add(index + sepCount);

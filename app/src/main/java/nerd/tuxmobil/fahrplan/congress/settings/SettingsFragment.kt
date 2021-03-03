@@ -55,6 +55,11 @@ class SettingsFragment : PreferenceFragmentCompat() {
             true
         }
 
+        requirePreference<SwitchPreferenceCompat>(resources.getString(R.string.preference_key_use_device_time_zone_enabled)).onPreferenceChangeListener = OnPreferenceChangeListener { _: Preference?, _: Any ->
+            requestRedraw(BundleKeys.BUNDLE_KEY_USE_DEVICE_TIME_ZONE_UPDATED)
+            true
+        }
+
         val appNotificationSettingsPreference = requirePreference<Preference>(getString(R.string.preference_key_app_notification_settings))
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
             categoryGeneral.removePreference(appNotificationSettingsPreference)

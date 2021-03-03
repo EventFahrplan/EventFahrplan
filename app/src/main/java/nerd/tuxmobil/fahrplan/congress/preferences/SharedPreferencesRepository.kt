@@ -39,6 +39,12 @@ class SharedPreferencesRepository(val context: Context) {
         return preferences.getString(key, defaultValue)
     }
 
+    fun isUseDeviceTimeZoneEnabled(): Boolean {
+        val key = context.getString(R.string.preference_key_use_device_time_zone_enabled)
+        val defaultValue = context.resources.getBoolean(R.bool.preference_default_value_use_device_time_zone_enabled)
+        return preferences.getBoolean(key, defaultValue)
+    }
+
     fun isAlternativeHighlightingEnabled(): Boolean {
         val key = context.getString(R.string.preference_key_alternative_highlighting_enabled)
         val defaultValue = context.resources.getBoolean(R.bool.preference_default_value_alternative_highlighting_enabled)

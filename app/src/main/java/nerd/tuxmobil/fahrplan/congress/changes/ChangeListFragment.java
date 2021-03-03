@@ -83,7 +83,8 @@ public class ChangeListFragment extends AbstractListFragment {
         Context context = requireContext();
         changesList = appRepository.loadChangedSessions();
         Meta meta = appRepository.readMeta();
-        mAdapter = new ChangeListAdapter(context, changesList, meta.getNumDays());
+        boolean useDeviceTimeZone = appRepository.readUseDeviceTimeZoneEnabled();
+        mAdapter = new ChangeListAdapter(context, changesList, meta.getNumDays(), useDeviceTimeZone);
         MyApp.LogDebug(LOG_TAG, "onCreate, " + changesList.size() + " changes");
     }
 

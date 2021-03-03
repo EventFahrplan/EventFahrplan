@@ -449,6 +449,9 @@ object AppRepository {
         return AlarmToneConversion.getNotificationIntentUri(alarmTone, AlarmTonePreference.DEFAULT_VALUE_URI)
     }
 
+    fun readUseDeviceTimeZoneEnabled() =
+        sharedPreferencesRepository.isUseDeviceTimeZoneEnabled()
+
     fun readAlternativeHighlightingEnabled() =
             sharedPreferencesRepository.isAlternativeHighlightingEnabled()
 

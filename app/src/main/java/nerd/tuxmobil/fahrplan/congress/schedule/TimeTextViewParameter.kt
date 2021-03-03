@@ -31,7 +31,8 @@ internal data class TimeTextViewParameter private constructor(
                 conference: Conference,
                 firstDayStartDay: Int,
                 dayIndex: Int,
-                normalizedBoxHeight: Int
+                normalizedBoxHeight: Int,
+                useDeviceTimeZone: Boolean
         ): List<TimeTextViewParameter> {
             val parameters = mutableListOf<TimeTextViewParameter>()
             var sessionStartsAt = conference.firstSessionStartsAt
@@ -48,7 +49,7 @@ internal data class TimeTextViewParameter private constructor(
                 } else {
                     R.layout.time_layout
                 }
-                val titleText = timeSegment.getFormattedText(conference.timeZoneOffset)
+                val titleText = timeSegment.getFormattedText(conference.timeZoneOffset, useDeviceTimeZone)
                 val parameter = TimeTextViewParameter(timeTextLayout, timeTextViewHeight, titleText)
                 parameters.add(parameter)
                 sessionStartsAt = sessionStartsAt.plusMinutes(FIFTEEN_MINUTES.toLong())

@@ -41,7 +41,8 @@ class SessionDetailsViewModel @JvmOverloads constructor(
             RoomForC3NavConverter.convert(this.room)
         },
         private val toFormattedZonedDateTime: Session.() -> String = {
-            DateFormatter.newInstance().getFormattedDateTimeShort(this.dateUTC, this.timeZoneOffset)
+            val useDeviceTimeZone = repository.readUseDeviceTimeZoneEnabled()
+            DateFormatter.newInstance(useDeviceTimeZone).getFormattedDateTimeShort(this.dateUTC, this.timeZoneOffset)
         },
         private val toHtmlLink: String.() -> String = {
             StringUtils.getHtmlLinkFromMarkdown(this)

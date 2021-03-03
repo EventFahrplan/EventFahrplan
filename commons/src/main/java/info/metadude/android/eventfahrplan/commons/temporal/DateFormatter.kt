@@ -11,7 +11,12 @@ import org.threeten.bp.format.FormatStyle
 /**
  * Format timestamps according to system locale and system time zone.
  */
-class DateFormatter private constructor() {
+class DateFormatter private constructor(
+
+    val useDeviceTimeZone: Boolean
+
+) {
+
     private val timeShortNumberOnlyFormatter = DateTimeFormatter.ofPattern("HH:mm")
     private val timeShortFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)
     private val dateShortFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)
@@ -95,19 +100,19 @@ class DateFormatter private constructor() {
 
     /**
      * Returns the available zone offset - either the given [sessionZoneOffset] or the zone offset
-     * of the device.
+     * of the device. The user can overrule the logic by setting [useDeviceTimeZone].
      */
     private fun getAvailableZoneOffset(sessionZoneOffset: ZoneOffset?): ZoneOffset {
         val deviceZoneOffset = OffsetDateTime.now().offset
         val useDeviceZoneOffset = sessionZoneOffset == null || sessionZoneOffset == deviceZoneOffset
-        return if (useDeviceZoneOffset) deviceZoneOffset else sessionZoneOffset!!
+        return if (useDeviceTimeZone || useDeviceZoneOffset) deviceZoneOffset else sessionZoneOffset!!
     }
 
     companion object {
 
         @JvmStatic
-        fun newInstance(): DateFormatter {
-            return DateFormatter()
+        fun newInstance(useDeviceTimeZone: Boolean): DateFormatter {
+            return DateFormatter(useDeviceTimeZone)
         }
     }
 }

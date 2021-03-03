@@ -112,7 +112,7 @@ class TimeTextViewParameterTest {
     private fun parametersOf(nowMoment: Moment, moment: Moment, duration: Int, dayIndex: Int): List<TimeTextViewParameter> {
         val session = createSession(moment, duration)
         val conference = Conference.ofSessions(listOf(session))
-        return TimeTextViewParameter.parametersOf(nowMoment, conference, moment.monthDay, dayIndex, NORMALIZED_BOX_HEIGHT)
+        return TimeTextViewParameter.parametersOf(nowMoment, conference, moment.monthDay, dayIndex, NORMALIZED_BOX_HEIGHT, useDeviceTimeZone = false)
     }
 
     private fun TimeTextViewParameter.assert(@LayoutRes layout: Int, titleText: String) {
