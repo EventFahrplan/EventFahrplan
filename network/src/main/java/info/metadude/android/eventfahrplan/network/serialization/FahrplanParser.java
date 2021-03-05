@@ -248,7 +248,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                                             session.setStartTime(DateParser.getMinutes(XmlPullParsers.getSanitizedText(parser)));
                                             session.setRelativeStartTime(session.getStartTime());
                                             if (session.getRelativeStartTime() < dayChangeTime) {
-                                                session.setRelativeStartTime((int) (session.getRelativeStartTime() + MINUTES_OF_ONE_DAY));
+                                                session.setRelativeStartTime(session.getRelativeStartTime() + MINUTES_OF_ONE_DAY);
                                             }
                                         } else if (name.equals("duration")) {
                                             parser.next();
