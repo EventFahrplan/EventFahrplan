@@ -65,7 +65,4 @@ public class StarredListActivity extends BaseActivity implements
         }
     }
 
-    @Override
-    public void onDenied(int dlgId) {
-    }
 }
