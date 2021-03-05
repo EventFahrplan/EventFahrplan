@@ -28,34 +28,15 @@ internal class SessionViewDrawer @JvmOverloads constructor(
 
     private val resources = context.resources
     private val boldCondensed = TypefaceFactory.getNewInstance(context).getTypeface(Font.Roboto.BoldCondensed)
-    private val sessionDrawableInsetTop: Int
-    private val sessionDrawableInsetLeft: Int
-    private val sessionDrawableInsetRight: Int
-    private val sessionDrawableCornerRadius: Int
-    private val sessionDrawableStrokeWidth: Int
-    private val sessionDrawableStrokeColor: Int
-    private val sessionDrawableRippleColor: Int
-    private val trackNameBackgroundColorDefaultPairs: Map<String, Int>
-    private val trackNameBackgroundColorHighlightPairs: Map<String, Int>
-
-    init {
-        sessionDrawableInsetTop = resources.getDimensionPixelSize(
-                R.dimen.session_drawable_inset_top)
-        sessionDrawableInsetLeft = resources.getDimensionPixelSize(
-                R.dimen.session_drawable_inset_left)
-        sessionDrawableInsetRight = resources.getDimensionPixelSize(
-                R.dimen.session_drawable_inset_right)
-        sessionDrawableCornerRadius = resources.getDimensionPixelSize(
-                R.dimen.session_drawable_corner_radius)
-        sessionDrawableStrokeWidth = resources.getDimensionPixelSize(
-                R.dimen.session_drawable_selection_stroke_width)
-        sessionDrawableStrokeColor = ContextCompat.getColor(
-                context, R.color.session_drawable_selection_stroke)
-        sessionDrawableRippleColor = ContextCompat.getColor(
-                context, R.color.session_drawable_ripple)
-        trackNameBackgroundColorDefaultPairs = TrackBackgrounds.getTrackNameBackgroundColorDefaultPairs(context)
-        trackNameBackgroundColorHighlightPairs = TrackBackgrounds.getTrackNameBackgroundColorHighlightPairs(context)
-    }
+    private val sessionDrawableInsetTop = resources.getDimensionPixelSize(R.dimen.session_drawable_inset_top)
+    private val sessionDrawableInsetLeft = resources.getDimensionPixelSize(R.dimen.session_drawable_inset_left)
+    private val sessionDrawableInsetRight = resources.getDimensionPixelSize(R.dimen.session_drawable_inset_right)
+    private val sessionDrawableCornerRadius = resources.getDimensionPixelSize(R.dimen.session_drawable_corner_radius)
+    private val sessionDrawableStrokeWidth = resources.getDimensionPixelSize(R.dimen.session_drawable_selection_stroke_width)
+    private val sessionDrawableStrokeColor = ContextCompat.getColor(context, R.color.session_drawable_selection_stroke)
+    private val sessionDrawableRippleColor = ContextCompat.getColor(context, R.color.session_drawable_ripple)
+    private val trackNameBackgroundColorDefaultPairs = TrackBackgrounds.getTrackNameBackgroundColorDefaultPairs(context)
+    private val trackNameBackgroundColorHighlightPairs = TrackBackgrounds.getTrackNameBackgroundColorHighlightPairs(context)
 
     fun updateSessionView(sessionView: View, session: Session) {
         val bell = sessionView.requireViewByIdCompat<ImageView>(R.id.session_bell_view)
@@ -88,8 +69,7 @@ internal class SessionViewDrawer @JvmOverloads constructor(
             trackNameBackgroundColorDefaultPairs[session.track] ?: R.color.track_background_default
         }
         @ColorInt val backgroundColor = ContextCompat.getColor(context, backgroundColorResId)
-        val sessionDrawable: SessionDrawable
-        sessionDrawable = if (sessionIsFavored && isAlternativeHighlightingEnabled()) {
+        val sessionDrawable = if (sessionIsFavored && isAlternativeHighlightingEnabled()) {
             SessionDrawable(
                     backgroundColor,
                     sessionDrawableCornerRadius.toFloat(),
