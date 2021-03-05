@@ -23,7 +23,7 @@ internal object AlarmToneConversion {
     /**
      * Returns a nullable `String` to be persisted.
      */
-    fun getPersistableString(alarmToneUri: Uri?): String? {
+    fun getPersistableString(alarmToneUri: Uri?): String {
         return alarmToneUri?.toString() ?: SILENT_STRING
     }
 
