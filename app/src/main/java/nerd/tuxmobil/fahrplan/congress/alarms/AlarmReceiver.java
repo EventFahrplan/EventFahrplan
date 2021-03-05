@@ -43,7 +43,7 @@ public final class AlarmReceiver extends BroadcastReceiver {
 
         MyApp.LogDebug(LOG_TAG, "Received alarm = " + intent.getAction() + ".");
 
-        if (intent.getAction().equals(ALARM_SESSION)) {
+        if (ALARM_SESSION.equals(intent.getAction())) {
             String sessionId = intent.getStringExtra(BundleKeys.ALARM_SESSION_ID);
             Log.d(LOG_TAG, "sessionId = " + sessionId + ", intent = " + intent);
             int day = intent.getIntExtra(BundleKeys.ALARM_DAY, 1);
@@ -74,10 +74,10 @@ public final class AlarmReceiver extends BroadcastReceiver {
 
             appRepository.notifyAlarmsChanged();
 
-        } else if (intent.getAction().equals(ALARM_DISMISSED)) {
+        } else if (ALARM_DISMISSED.equals(intent.getAction())) {
             onSessionAlarmNotificationDismissed(intent);
 
-        } else if (intent.getAction().equals(ALARM_UPDATE)) {
+        } else if (ALARM_UPDATE.equals(intent.getAction())) {
             UpdateService.start(context);
         }
     }

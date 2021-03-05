@@ -538,10 +538,6 @@ public class MainActivity extends BaseActivity implements
         }
     }
 
-    @Override
-    public void onDenied(int dlgRequestCode) {
-    }
-
     public void shouldScheduleScrollToCurrentTimeSlot(Function0<Unit> scrollToInstructions) {
         if (shouldScrollToCurrent) {
             scrollToInstructions.invoke();

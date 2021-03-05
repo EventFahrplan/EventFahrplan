@@ -2,6 +2,7 @@ package nerd.tuxmobil.fahrplan.congress.serialization
 
 import nerd.tuxmobil.fahrplan.congress.models.Session as SessionAppModel
 
+@Suppress("DataClassPrivateConstructor")
 data class ScheduleChanges private constructor(
 
         val sessionsWithChangeFlags: List<SessionAppModel>,

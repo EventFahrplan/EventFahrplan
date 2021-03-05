@@ -32,7 +32,7 @@ class DateParser {
         /**
          * Returns [Moment.minuteOfDay] of given parse [text].
          *
-         * @param text see [DateParser.getDateTime] for valid formats
+         * @param text see [getDateTime] for valid formats
          */
         @JvmStatic
         fun getDayChange(text: String): Int {

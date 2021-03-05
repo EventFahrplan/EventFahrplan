@@ -39,7 +39,7 @@ public abstract class SessionsAdapter extends ArrayAdapter<Session> {
     private ArrayList<String> mSeparatorStrings;
     private TreeSet<Integer> mSeparatorsSet;
 
-    public SessionsAdapter(Context context, @LayoutRes int layout, List<Session> list, int numDays, boolean useDeviceTimeZone) {
+    protected SessionsAdapter(Context context, @LayoutRes int layout, List<Session> list, int numDays, boolean useDeviceTimeZone) {
         super(context, layout, list);
         this.context = new ContextThemeWrapper(context, R.style.Theme_AppCompat_Light);
         this.list = list;
