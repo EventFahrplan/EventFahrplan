@@ -155,7 +155,7 @@ class MomentTest {
 
     @Test
     fun minusHours() {
-        val momentOne = Moment.ofEpochMilli(MILLISECONDS_OF_ONE_HOUR.toLong()).minusHours(1)
+        val momentOne = Moment.ofEpochMilli(MILLISECONDS_OF_ONE_HOUR).minusHours(1)
         assertThat(momentOne.toMilliseconds()).isEqualTo(0)
 
         val momentTwo = Moment.ofEpochMilli(0).minusHours(-1)
