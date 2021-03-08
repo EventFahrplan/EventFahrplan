@@ -102,8 +102,6 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
 
     private int mDay = 1;
 
-    public static Context context = null;
-
     private static final String[] rooms = {
             "Saal 1",
             "Saal 2",
@@ -162,7 +160,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        context = requireContext();
+        Context context = requireContext();
         light = TypefaceFactory.getNewInstance(context).getRobotoLight();
         sessionViewDrawer = new SessionViewDrawer(context, this::getSessionPadding);
     }
@@ -347,6 +345,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
         int boxHeight = getNormalizedBoxHeight(displayDensityScale);
         LayoutCalculator layoutCalculator = new LayoutCalculator(boxHeight);
 
+        Context context = horizontalScroller.getContext();
         List<RoomData> roomDataList = scheduleData.getRoomDataList();
         for (int roomIndex = 0; roomIndex < roomDataList.size(); roomIndex++) {
             RoomData roomData = roomDataList.get(roomIndex);
@@ -383,6 +382,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
                 columnWidth, LayoutParams.WRAP_CONTENT, 1);
         params.gravity = Gravity.CENTER;
         int paddingRight = getSessionPadding();
+        Context context = roomTitlesRowLayout.getContext();
         for (String roomName : roomNames) {
             TextView roomTitle = new TextView(context);
             roomTitle.setLayoutParams(params);
