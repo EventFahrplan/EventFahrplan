@@ -104,7 +104,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
 
     public static Context context = null;
 
-    public static final String[] rooms = {
+    private static final String[] rooms = {
             "Saal 1",
             "Saal 2",
             "Saal G",
