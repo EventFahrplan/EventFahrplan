@@ -15,7 +15,7 @@ class NavigationMenuEntriesGeneratorTest {
         dateInfoList.add(DateInfo(2, Moment.parseDate("2018-11-19")))
         dateInfoList.add(DateInfo(3, Moment.parseDate("2018-11-20")))
         val entries = getDayMenuEntries(3, dateInfoList, "2018-11-19")
-        assertThat(entries).isNotNull()
+        assertThat(entries).isNotNull
         assertThat(entries.size).isEqualTo(3)
         assertThat(entries[0]).isEqualTo("Day 1")
         assertThat(entries[1]).isEqualTo("Day 2 - Today")
@@ -46,7 +46,7 @@ class NavigationMenuEntriesGeneratorTest {
         val dateInfoList = DateInfos()
         dateInfoList.add(DateInfo(1, Moment.parseDate("2018-11-18")))
         val entries = getDayMenuEntries(1, dateInfoList, "2018-11-19")
-        assertThat(entries).isNotNull()
+        assertThat(entries).isNotNull
         assertThat(entries.size).isEqualTo(1)
         assertThat(entries[0]).isEqualTo("Day 1")
     }

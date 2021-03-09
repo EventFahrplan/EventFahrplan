@@ -34,7 +34,7 @@ class NetworkScopeTest {
         networkScope.launchNamed("Test") {
             throw Exception()
         }
-        assertThat(isExceptionHandled).isTrue()
+        assertThat(isExceptionHandled).isTrue
     }
 
 }

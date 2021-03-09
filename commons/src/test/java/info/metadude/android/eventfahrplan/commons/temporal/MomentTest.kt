@@ -120,9 +120,9 @@ class MomentTest {
         val momentOne = Moment.now()
         val momentTwo = Moment.now().plusSeconds(1)
 
-        assertThat(momentOne.isBefore(momentTwo)).isTrue()
-        assertThat(momentTwo.isBefore(momentOne)).isFalse()
-        assertThat(momentOne.isBefore(momentOne)).isFalse()
+        assertThat(momentOne.isBefore(momentTwo)).isTrue
+        assertThat(momentTwo.isBefore(momentOne)).isFalse
+        assertThat(momentOne.isBefore(momentOne)).isFalse
     }
 
     @Test

@@ -23,7 +23,7 @@ class DateFieldValidationTest {
 
         val isValid = validation.validate(sessions)
 
-        assertThat(isValid).isFalse()
+        assertThat(isValid).isFalse
 
         validation.printValidationErrors()
     }
@@ -46,7 +46,7 @@ class DateFieldValidationTest {
 
         val isValid = validation.validate(sessions)
 
-        assertThat(isValid).isFalse()
+        assertThat(isValid).isFalse
 
         validation.printValidationErrors()
     }
@@ -66,7 +66,7 @@ class DateFieldValidationTest {
 
         val isValid = validation.validate(sessions)
 
-        assertThat(isValid).isTrue()
+        assertThat(isValid).isTrue
 
         validation.printValidationErrors()
     }
@@ -79,7 +79,7 @@ class DateFieldValidationTest {
 
         val isValid = validation.validate(sessions)
 
-        assertThat(isValid).isTrue()
+        assertThat(isValid).isTrue
 
         validation.printValidationErrors()
     }
@@ -98,7 +98,7 @@ class DateFieldValidationTest {
 
         val isValid = validation.validate(sessions)
 
-        assertThat(isValid).isTrue()
+        assertThat(isValid).isTrue
 
         validation.printValidationErrors()
     }
@@ -117,7 +117,7 @@ class DateFieldValidationTest {
 
         val isValid = validation.validate(sessions)
 
-        assertThat(isValid).isTrue()
+        assertThat(isValid).isTrue
 
         validation.printValidationErrors()
     }
