@@ -44,11 +44,6 @@ public class ChangeListFragment extends AbstractListFragment {
     private boolean sidePane = false;
 
     /**
-     * The fragment's ListView/GridView.
-     */
-    private ListView mListView;
-
-    /**
      * The Adapter which will be used to populate the ListView/GridView with
      * Views.
      */
@@ -95,28 +90,17 @@ public class ChangeListFragment extends AbstractListFragment {
             @Nullable ViewGroup container,
             @Nullable Bundle savedInstanceState
     ) {
-        final Context contextThemeWrapper = new ContextThemeWrapper(requireContext(),
-                R.style.Theme_AppCompat_Light);
-
+        Context contextThemeWrapper = new ContextThemeWrapper(requireContext(), R.style.Theme_AppCompat_Light);
         LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
-        View view;
-        View header;
-        if (sidePane) {
-            view = localInflater.inflate(R.layout.fragment_session_list_narrow, container, false);
-            mListView = requireViewByIdCompat(view, android.R.id.list);
-            header = localInflater.inflate(R.layout.changes_header, null, false);
-        } else {
-            view = localInflater.inflate(R.layout.fragment_session_list, container, false);
-            mListView = requireViewByIdCompat(view, android.R.id.list);
-            header = localInflater.inflate(R.layout.header_empty, null, false);
-        }
-        mListView.addHeaderView(header, null, false);
-        mListView.setHeaderDividersEnabled(false);
-
-        // Set the adapter
-        mListView.setAdapter(mAdapter);
-
-        return view;
+        int fragmentLayout = sidePane ? R.layout.fragment_session_list_narrow : R.layout.fragment_session_list;
+        int headerLayout = sidePane ? R.layout.changes_header : R.layout.header_empty;
+        View fragmentView = localInflater.inflate(fragmentLayout, container, false);
+        View headerView = localInflater.inflate(headerLayout, null, false);
+        ListView listView = requireViewByIdCompat(fragmentView, android.R.id.list);
+        listView.addHeaderView(headerView, null, false);
+        listView.setHeaderDividersEnabled(false);
+        listView.setAdapter(mAdapter);
+        return fragmentView;
     }
 
     @Override

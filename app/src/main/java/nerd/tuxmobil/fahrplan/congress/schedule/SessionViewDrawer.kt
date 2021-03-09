@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
 import androidx.core.view.isVisible
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.extensions.requireViewByIdCompat
@@ -92,7 +93,7 @@ internal class SessionViewDrawer @JvmOverloads constructor(
                 sessionDrawableInsetTop,
                 sessionDrawableInsetRight,
                 0)
-        sessionView.setBackgroundDrawable(sessionDrawable)
+        ViewCompat.setBackground(sessionView, sessionDrawable)
         val padding = getSessionPadding()
         sessionView.setPadding(padding, padding, padding, padding)
     }

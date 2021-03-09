@@ -62,7 +62,7 @@ public class ConfirmationDialog extends DialogFragment {
                         listener.onAccepted(dlgRequestCode);
                     }
                 })
-                .setNegativeButton(android.R.string.no, (dialog, which) -> {
+                .setNegativeButton(android.R.string.cancel, (dialog, which) -> {
                     // Do nothing.
                 });
         return builder.create();

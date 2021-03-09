@@ -22,37 +22,37 @@ class DayRangeTest {
     @Test
     fun containsWithDateTimeBeforeStartsAt() {
         val dateTime = ZonedDateTime.of(2019, 12, 26, 23, 59, 59, 0, ZoneOffset.UTC)
-        assertThat(dayRange.contains(dateTime)).isFalse()
+        assertThat(dayRange.contains(dateTime)).isFalse
     }
 
     @Test
     fun containsWithDateTimeMatchingStartsAt() {
         val dateTime = ZonedDateTime.of(2019, 12, 27, 0, 0, 0, 0, ZoneOffset.UTC)
-        assertThat(dayRange.contains(dateTime)).isTrue()
+        assertThat(dayRange.contains(dateTime)).isTrue
     }
 
     @Test
     fun containsWithDateTimeAfterStartsAt() {
         val dateTime = ZonedDateTime.of(2019, 12, 27, 0, 0, 1, 0, ZoneOffset.UTC)
-        assertThat(dayRange.contains(dateTime)).isTrue()
+        assertThat(dayRange.contains(dateTime)).isTrue
     }
 
     @Test
     fun containsWithDateTimeBeforeEndsAt() {
         val dateTime = ZonedDateTime.of(2019, 12, 30, 23, 59, 58, 0, ZoneOffset.UTC)
-        assertThat(dayRange.contains(dateTime)).isTrue()
+        assertThat(dayRange.contains(dateTime)).isTrue
     }
 
     @Test
     fun containsWithDateTimeMatchingEndsAt() {
         val dateTime = ZonedDateTime.of(2019, 12, 30, 23, 59, 59, 0, ZoneOffset.UTC)
-        assertThat(dayRange.contains(dateTime)).isTrue()
+        assertThat(dayRange.contains(dateTime)).isTrue
     }
 
     @Test
     fun containsWithDateTimeAfterEndsAt() {
         val dateTime = ZonedDateTime.of(2019, 12, 31, 0, 0, 0, 0, ZoneOffset.UTC)
-        assertThat(dayRange.contains(dateTime)).isFalse()
+        assertThat(dayRange.contains(dateTime)).isFalse
     }
 
 }
