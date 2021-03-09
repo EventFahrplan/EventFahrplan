@@ -50,7 +50,7 @@ object Libs {
         const val preference = "1.1.1"
         const val retrofit = "2.6.4"
         const val robolectric = "4.3_r2-robolectric-0"
-        const val snackengage = "0.27"
+        const val snackengage = "0.28"
         const val testExtJunit = "1.1.2"
         const val threeTenBp = "1.5.0"
         const val tracedroid = "1.4"
