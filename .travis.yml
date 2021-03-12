@@ -15,7 +15,6 @@ android:
     # Note that the tools section appears twice on purpose as it’s required
     # to get the newest Android SDK tools. Source: Travis CI docs.
     - build-tools-29.0.3
-    - android-29
 
     # The libraries we can't get from Maven Central or similar
     - extra
@@ -26,6 +25,9 @@ branches:
 
 notifications:
   email: true
+
+before_install:
+- yes | sdkmanager "platforms;android-29"
 
 before_script:
 
