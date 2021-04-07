@@ -31,6 +31,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.widget.NestedScrollView;
+import androidx.core.widget.NestedScrollView.OnScrollChangeListener;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -130,6 +131,8 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
 
     private ScrollAmountCalculator scrollAmountCalculator;
 
+    private boolean preserveVerticalScrollPosition = false;
+
     private final OnSessionsChangeListener onSessionsChangeListener = new OnSessionsChangeListener() {
         @Override
         public void onAlarmsChanged() {
@@ -169,7 +172,11 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.schedule, container, false);
+        View layoutRootView = inflater.inflate(R.layout.schedule, container, false);
+        NestedScrollView verticalScrollView = requireViewByIdCompat(layoutRootView, R.id.verticalScrollView);
+        verticalScrollView.setOnScrollChangeListener((OnScrollChangeListener)
+                (view, scrollX, scrollY, oldScrollX, oldScrollY) -> preserveVerticalScrollPosition = true);
+        return layoutRootView;
     }
 
     @Override
@@ -299,7 +306,10 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
         addRoomColumns(horizontalScroller, columnWidth, scheduleData, forceReload);
 
         MainActivity.getInstance().shouldScheduleScrollToCurrentTimeSlot(() -> {
-            scrollToCurrent(boxHeight);
+            if (!preserveVerticalScrollPosition) {
+                scrollToCurrent(boxHeight);
+                preserveVerticalScrollPosition = false;
+            }
             return Unit.INSTANCE;
         });
 
@@ -468,6 +478,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
         if (chosenDay + 1 != mDay) {
             mDay = chosenDay + 1;
             saveCurrentDay(mDay);
+            preserveVerticalScrollPosition = false;
             viewDay(true);
             fillTimes();
         }
