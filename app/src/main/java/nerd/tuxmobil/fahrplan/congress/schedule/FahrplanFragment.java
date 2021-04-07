@@ -423,17 +423,17 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
                 conference, MyApp.dateInfos, scheduleData, nowMoment, currentDayIndex, boxHeight, columnIndex);
 
         final int pos = scrollAmount;
-        final NestedScrollView scrollView = requireViewByIdCompat(layoutRootView, R.id.scrollView1);
-        scrollView.scrollTo(0, scrollAmount);
-        scrollView.post(() -> scrollView.scrollTo(0, pos));
+        final NestedScrollView verticalScrollView = requireViewByIdCompat(layoutRootView, R.id.verticalScrollView);
+        verticalScrollView.scrollTo(0, scrollAmount);
+        verticalScrollView.post(() -> verticalScrollView.scrollTo(0, pos));
     }
 
     private void setBell(Session session) {
-        NestedScrollView parent = requireView().findViewById(R.id.scrollView1);
-        if (parent == null) {
+        NestedScrollView verticalScrollView = requireView().findViewById(R.id.verticalScrollView);
+        if (verticalScrollView == null) {
             return;
         }
-        View v = parent.findViewWithTag(session);
+        View v = verticalScrollView.findViewWithTag(session);
         if (v == null) {
             return;
         }
@@ -454,8 +454,8 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
         int pos = scrollAmountCalculator.calculateScrollAmount(conference, session, height);
         MyApp.LogDebug(LOG_TAG, "position is " + pos);
         View layoutRootView = requireView();
-        final NestedScrollView parent = requireViewByIdCompat(layoutRootView, R.id.scrollView1);
-        parent.post(() -> parent.scrollTo(0, pos));
+        final NestedScrollView verticalScrollView = requireViewByIdCompat(layoutRootView, R.id.verticalScrollView);
+        verticalScrollView.post(() -> verticalScrollView.scrollTo(0, pos));
         final HorizontalSnapScrollView horiz = layoutRootView.findViewById(R.id.horizScroller);
         if (horiz != null) {
             final int hpos = scheduleData.findRoomIndex(session);
@@ -753,11 +753,11 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
     }
 
     private View getSessionView(Session session) {
-        NestedScrollView parent = requireView().findViewById(R.id.scrollView1);
-        if (parent == null) {
+        NestedScrollView verticalScrollView = requireView().findViewById(R.id.verticalScrollView);
+        if (verticalScrollView == null) {
             return null;
         }
-        return parent.findViewWithTag(session);
+        return verticalScrollView.findViewWithTag(session);
     }
 
     private void refreshViews() {
