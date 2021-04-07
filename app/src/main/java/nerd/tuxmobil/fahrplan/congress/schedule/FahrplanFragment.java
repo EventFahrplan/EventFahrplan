@@ -21,7 +21,6 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +30,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -423,13 +423,13 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
                 conference, MyApp.dateInfos, scheduleData, nowMoment, currentDayIndex, boxHeight, columnIndex);
 
         final int pos = scrollAmount;
-        final ScrollView scrollView = requireViewByIdCompat(layoutRootView, R.id.scrollView1);
+        final NestedScrollView scrollView = requireViewByIdCompat(layoutRootView, R.id.scrollView1);
         scrollView.scrollTo(0, scrollAmount);
         scrollView.post(() -> scrollView.scrollTo(0, pos));
     }
 
     private void setBell(Session session) {
-        ScrollView parent = requireView().findViewById(R.id.scrollView1);
+        NestedScrollView parent = requireView().findViewById(R.id.scrollView1);
         if (parent == null) {
             return;
         }
@@ -454,7 +454,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
         int pos = scrollAmountCalculator.calculateScrollAmount(conference, session, height);
         MyApp.LogDebug(LOG_TAG, "position is " + pos);
         View layoutRootView = requireView();
-        final ScrollView parent = requireViewByIdCompat(layoutRootView, R.id.scrollView1);
+        final NestedScrollView parent = requireViewByIdCompat(layoutRootView, R.id.scrollView1);
         parent.post(() -> parent.scrollTo(0, pos));
         final HorizontalSnapScrollView horiz = layoutRootView.findViewById(R.id.horizScroller);
         if (horiz != null) {
@@ -753,7 +753,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
     }
 
     private View getSessionView(Session session) {
-        ScrollView parent = requireView().findViewById(R.id.scrollView1);
+        NestedScrollView parent = requireView().findViewById(R.id.scrollView1);
         if (parent == null) {
             return null;
         }
