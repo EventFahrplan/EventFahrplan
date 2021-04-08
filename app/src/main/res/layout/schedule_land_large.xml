@@ -36,8 +36,8 @@
         </HorizontalScrollView>
     </LinearLayout>
 
-    <ScrollView
-            android:id="@+id/scrollView1"
+    <androidx.core.widget.NestedScrollView
+            android:id="@+id/verticalScrollView"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_below="@+id/roomNameLandscape"
@@ -76,5 +76,5 @@
                 </LinearLayout>
             </nerd.tuxmobil.fahrplan.congress.schedule.HorizontalSnapScrollView>
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 </RelativeLayout>

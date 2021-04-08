@@ -21,7 +21,6 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +30,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.widget.NestedScrollView;
+import androidx.core.widget.NestedScrollView.OnScrollChangeListener;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -130,6 +131,8 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
 
     private ScrollAmountCalculator scrollAmountCalculator;
 
+    private boolean preserveVerticalScrollPosition = false;
+
     private final OnSessionsChangeListener onSessionsChangeListener = new OnSessionsChangeListener() {
         @Override
         public void onAlarmsChanged() {
@@ -169,7 +172,11 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.schedule, container, false);
+        View layoutRootView = inflater.inflate(R.layout.schedule, container, false);
+        NestedScrollView verticalScrollView = requireViewByIdCompat(layoutRootView, R.id.verticalScrollView);
+        verticalScrollView.setOnScrollChangeListener((OnScrollChangeListener)
+                (view, scrollX, scrollY, oldScrollX, oldScrollY) -> preserveVerticalScrollPosition = true);
+        return layoutRootView;
     }
 
     @Override
@@ -299,7 +306,10 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
         addRoomColumns(horizontalScroller, columnWidth, scheduleData, forceReload);
 
         MainActivity.getInstance().shouldScheduleScrollToCurrentTimeSlot(() -> {
-            scrollToCurrent(boxHeight);
+            if (!preserveVerticalScrollPosition) {
+                scrollToCurrent(boxHeight);
+                preserveVerticalScrollPosition = false;
+            }
             return Unit.INSTANCE;
         });
 
@@ -423,17 +433,17 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
                 conference, MyApp.dateInfos, scheduleData, nowMoment, currentDayIndex, boxHeight, columnIndex);
 
         final int pos = scrollAmount;
-        final ScrollView scrollView = requireViewByIdCompat(layoutRootView, R.id.scrollView1);
-        scrollView.scrollTo(0, scrollAmount);
-        scrollView.post(() -> scrollView.scrollTo(0, pos));
+        final NestedScrollView verticalScrollView = requireViewByIdCompat(layoutRootView, R.id.verticalScrollView);
+        verticalScrollView.scrollTo(0, scrollAmount);
+        verticalScrollView.post(() -> verticalScrollView.scrollTo(0, pos));
     }
 
     private void setBell(Session session) {
-        ScrollView parent = requireView().findViewById(R.id.scrollView1);
-        if (parent == null) {
+        NestedScrollView verticalScrollView = requireView().findViewById(R.id.verticalScrollView);
+        if (verticalScrollView == null) {
             return;
         }
-        View v = parent.findViewWithTag(session);
+        View v = verticalScrollView.findViewWithTag(session);
         if (v == null) {
             return;
         }
@@ -454,8 +464,8 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
         int pos = scrollAmountCalculator.calculateScrollAmount(conference, session, height);
         MyApp.LogDebug(LOG_TAG, "position is " + pos);
         View layoutRootView = requireView();
-        final ScrollView parent = requireViewByIdCompat(layoutRootView, R.id.scrollView1);
-        parent.post(() -> parent.scrollTo(0, pos));
+        final NestedScrollView verticalScrollView = requireViewByIdCompat(layoutRootView, R.id.verticalScrollView);
+        verticalScrollView.post(() -> verticalScrollView.scrollTo(0, pos));
         final HorizontalSnapScrollView horiz = layoutRootView.findViewById(R.id.horizScroller);
         if (horiz != null) {
             final int hpos = scheduleData.findRoomIndex(session);
@@ -468,6 +478,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
         if (chosenDay + 1 != mDay) {
             mDay = chosenDay + 1;
             saveCurrentDay(mDay);
+            preserveVerticalScrollPosition = false;
             viewDay(true);
             fillTimes();
         }
@@ -753,11 +764,11 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
     }
 
     private View getSessionView(Session session) {
-        ScrollView parent = requireView().findViewById(R.id.scrollView1);
-        if (parent == null) {
+        NestedScrollView verticalScrollView = requireView().findViewById(R.id.verticalScrollView);
+        if (verticalScrollView == null) {
             return null;
         }
-        return parent.findViewWithTag(session);
+        return verticalScrollView.findViewWithTag(session);
     }
 
     private void refreshViews() {
