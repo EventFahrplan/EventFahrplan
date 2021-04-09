@@ -305,9 +305,7 @@ public class MainActivity extends BaseActivity implements
     @Override
     protected void onResume() {
         super.onResume();
-        isScreenLocked = Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN
-                ? keyguardManager.isKeyguardLocked()
-                : keyguardManager.inKeyguardRestrictedInputMode();
+        isScreenLocked = keyguardManager.isKeyguardLocked();
 
         FrameLayout sidePane = findViewById(R.id.detail);
         if (sidePane != null && isFavoritesInSidePane) {
