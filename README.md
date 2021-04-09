@@ -16,6 +16,7 @@ Please read the instructions in the [contribution guide](CONTRIBUTING.md) in ord
 ## Table of contents
 
 - [Features](#features)
+- [Android versions](#android-versions)
 - [Event data](#event-data)
 - [Build instructions](#build-instructions)
 - [History](#history)
@@ -54,6 +55,12 @@ Please read the instructions in the [contribution guide](CONTRIBUTING.md) in ord
 * [c3nav][c3nav-github] - An indoor navigation project
 * [Engelsystem][engelsystem-website] - Online tool for coordinating helpers and shifts on large events
 * [Chaosflix][chaosflix-github] - Android app for media.ccc.de, share Fahrplan favorites with Chaosflix to import them as bookmarks
+
+
+## Android versions
+
+The application is designed to work both on smartphones and on tablets.
+Android 4.1 (Jelly Bean) and newer versions are supported.
 
 
 ## Event data
