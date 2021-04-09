@@ -67,7 +67,7 @@
     <string name="libraries">
         Denna appen använder följande bibliotek:
         Kotlin, Google Support Library, BetterLinkMovementMethod, Email Intent Builder,
-        Engelsystem, Espresso, OkHttp, SnackEngage, TraceDroid
+        Engelsystem, Espresso, Markwon, OkHttp, SnackEngage, TraceDroid
     </string>
     <string name="schedule_parsing_error_generic">Okänt fel när schemat skulle tolkas</string>
     <string name="schedule_parsing_error_with_version">Tolkningsfel för schema version %s</string>

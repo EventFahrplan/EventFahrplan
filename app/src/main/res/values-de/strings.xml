@@ -83,7 +83,7 @@
     <string name="libraries">
 		Die Anwendung nutzt folgende Bibliotheken:
 		Kotlin, Google Support Library, BetterLinkMovementMethod, Email Intent Builder,
-		Engelsystem, Espresso, OkHttp, SnackEngage, TraceDroid
+		Engelsystem, Espresso, Markwon, OkHttp, SnackEngage, TraceDroid
 	</string>
     <string name="about_data_privacy_statement_german">Datenschutzerklärung</string>
     <string name="about_google_play_listing">Eintrag bei Google Play</string>

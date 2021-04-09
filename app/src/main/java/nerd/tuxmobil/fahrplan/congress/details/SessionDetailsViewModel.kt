@@ -87,9 +87,11 @@ class SessionDetailsViewModel @JvmOverloads constructor(
 
     val isAbstractEmpty get() = session.abstractt.isNullOrEmpty()
     val formattedAbstract get() = session.abstractt.toHtmlLink()
+    val abstractt get() = session.abstractt ?: ""
 
     val isDescriptionEmpty get() = session.description.isNullOrEmpty()
     val formattedDescription get() = session.description.toHtmlLink()
+    val description get() = session.description ?: ""
 
     val isLinksEmpty get() = session.getLinks().isEmpty()
     val formattedLinks: String
