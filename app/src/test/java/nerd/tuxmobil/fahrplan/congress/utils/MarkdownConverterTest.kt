@@ -21,4 +21,20 @@ class MarkdownConverterTest {
         assertThat(MarkdownConverter.markdownLinksToHtmlLinks(markdown)).isEqualTo(htmlLink)
     }
 
+    @Test
+    fun `markdownLinksToPlainTextLinks returns a single Markdown link as plain text`() {
+        val markdown = "Lorem ipsum [Chaos Computer Club](https://www.ccc.de) dolor sit amet"
+        val htmlLink = "Lorem ipsum Chaos Computer Club (https://www.ccc.de) dolor sit amet"
+        assertThat(MarkdownConverter.markdownLinksToPlainTextLinks(markdown)).isEqualTo(htmlLink)
+    }
+
+    @Test
+    fun `markdownLinksToPlainTextLinks returns multiple Markdown links as plain text`() {
+        val markdown = "Lorem ipsum [Chaos Computer Club](https://www.ccc.de) dolor<br>" +
+                "sit amet [Bundestag](https://www.bundestag.de) consectetur adipiscing elit"
+        val htmlLink = "Lorem ipsum Chaos Computer Club (https://www.ccc.de) dolor<br>" +
+                "sit amet Bundestag (https://www.bundestag.de) consectetur adipiscing elit"
+        assertThat(MarkdownConverter.markdownLinksToPlainTextLinks(markdown)).isEqualTo(htmlLink)
+    }
+
 }

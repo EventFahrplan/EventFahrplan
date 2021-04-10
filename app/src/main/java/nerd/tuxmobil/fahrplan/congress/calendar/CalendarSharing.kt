@@ -45,7 +45,7 @@ private fun Intent.transformToCalendarEditIntent() {
 }
 
 private fun Session.getCalendarDescription(context: Context): String = with(StringBuilder()) {
-    append(this@getCalendarDescription.description)
+    append(MarkdownConverter.markdownLinksToPlainTextLinks(this@getCalendarDescription.description))
     append("\n\n")
     var links = this@getCalendarDescription.getLinks()
     if (links.containsWikiLink()) {
