@@ -12,7 +12,7 @@ import nerd.tuxmobil.fahrplan.congress.extensions.startActivity
 import nerd.tuxmobil.fahrplan.congress.extensions.withExtras
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.utils.SessionUrlComposer
-import nerd.tuxmobil.fahrplan.congress.utils.StringUtils
+import nerd.tuxmobil.fahrplan.congress.utils.MarkdownConverter
 import nerd.tuxmobil.fahrplan.congress.wiki.containsWikiLink
 
 fun Session.addToCalendar(context: Context) {
@@ -50,7 +50,7 @@ private fun Session.getCalendarDescription(context: Context): String = with(Stri
     var links = this@getCalendarDescription.getLinks()
     if (links.containsWikiLink()) {
         links = links.separateByHtmlLineBreaks()
-        links = StringUtils.getHtmlLinkFromMarkdown(links)
+        links = MarkdownConverter.markdownLinksToHtmlLinks(links)
         append(links)
     } else {
         val sessionUrl = SessionUrlComposer(this@getCalendarDescription).getSessionUrl()
