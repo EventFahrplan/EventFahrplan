@@ -85,7 +85,7 @@ class SessionDetailsViewModel @JvmOverloads constructor(
     val subtitle get() = session.subtitle ?: ""
 
     val isSpeakersEmpty get() = speakers.isEmpty()
-    val speakers get() = session.formattedSpeakers ?: ""
+    val speakers get() = session.formattedSpeakers
 
     val isAbstractEmpty get() = session.abstractt.isNullOrEmpty()
     val formattedAbstract get() = session.abstractt.toHtmlLink()

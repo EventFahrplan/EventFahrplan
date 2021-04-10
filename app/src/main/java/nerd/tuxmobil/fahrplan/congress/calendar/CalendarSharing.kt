@@ -11,9 +11,6 @@ import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.extensions.startActivity
 import nerd.tuxmobil.fahrplan.congress.extensions.withExtras
 import nerd.tuxmobil.fahrplan.congress.models.Session
-import nerd.tuxmobil.fahrplan.congress.utils.SessionUrlComposer
-import nerd.tuxmobil.fahrplan.congress.utils.MarkdownConverter
-import nerd.tuxmobil.fahrplan.congress.wiki.containsWikiLink
 
 fun Session.addToCalendar(context: Context) {
     val intent = this.toCalendarInsertIntent(context)
@@ -27,7 +24,7 @@ fun Session.addToCalendar(context: Context) {
 
 private fun Session.toCalendarInsertIntent(context: Context): Intent {
     val title = this.title
-    val description = this.getCalendarDescription(context)
+    val description = CalendarDescriptionComposer(this, context.getString(R.string.session_details_section_title_session_online)).getCalendarDescription()
     val location = this.room
     val startTime = startTimeMilliseconds
     val endTime = startTime + this.duration * MILLISECONDS_OF_ONE_MINUTE
@@ -43,27 +40,3 @@ private fun Session.toCalendarInsertIntent(context: Context): Intent {
 private fun Intent.transformToCalendarEditIntent() {
     action = Intent.ACTION_EDIT
 }
-
-private fun Session.getCalendarDescription(context: Context): String = with(StringBuilder()) {
-    append(MarkdownConverter.markdownLinksToPlainTextLinks(this@getCalendarDescription.description))
-    append("\n\n")
-    var links = this@getCalendarDescription.getLinks()
-    if (links.containsWikiLink()) {
-        links = links.separateByHtmlLineBreaks()
-        links = MarkdownConverter.markdownLinksToHtmlLinks(links)
-        append(links)
-    } else {
-        val sessionUrl = SessionUrlComposer(this@getCalendarDescription).getSessionUrl()
-        if (sessionUrl.isNotEmpty()) {
-            val sessionOnlineText = context.getString(R.string.session_details_section_title_session_online)
-            append(sessionOnlineText)
-            append(": ")
-            append(sessionUrl)
-        }
-    }
-    return toString()
-}
-
-private fun String.separateByHtmlLineBreaks() =
-// language=regex
-        replace("\\),".toRegex(), ")<br>")
