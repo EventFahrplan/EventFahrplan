@@ -22,6 +22,8 @@ import androidx.annotation.NonNull
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import io.noties.markwon.Markwon
+import io.noties.markwon.linkify.LinkifyPlugin
 import nerd.tuxmobil.fahrplan.congress.BuildConfig
 import nerd.tuxmobil.fahrplan.congress.MyApp
 import nerd.tuxmobil.fahrplan.congress.R
@@ -36,6 +38,7 @@ import nerd.tuxmobil.fahrplan.congress.sharing.SessionSharer
 import nerd.tuxmobil.fahrplan.congress.sidepane.OnSidePaneCloseListener
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc
 import nerd.tuxmobil.fahrplan.congress.utils.LinkMovementMethodCompat
+import nerd.tuxmobil.fahrplan.congress.utils.ServerBackendType
 import nerd.tuxmobil.fahrplan.congress.utils.TypefaceFactory
 
 class SessionDetailsFragment : Fragment(), SessionDetailsViewModel.ViewActionHandler {
@@ -53,6 +56,7 @@ class SessionDetailsFragment : Fragment(), SessionDetailsViewModel.ViewActionHan
     private lateinit var appRepository: AppRepository
     private lateinit var sessionId: String
     private lateinit var viewModel: SessionDetailsViewModel
+    private lateinit var markwon: Markwon
     private var sidePane = false
     private var hasArguments = false
 
@@ -62,6 +66,9 @@ class SessionDetailsFragment : Fragment(), SessionDetailsViewModel.ViewActionHan
         super.onAttach(context)
         appRepository = AppRepository
         viewModel = SessionDetailsViewModel(appRepository, sessionId, this)
+        markwon = Markwon.builder(requireContext())
+            .usePlugin(LinkifyPlugin.create())
+            .build()
     }
 
     @MainThread
@@ -131,7 +138,11 @@ class SessionDetailsFragment : Fragment(), SessionDetailsViewModel.ViewActionHan
                 textView.isVisible = false
             } else {
                 typeface = typefaceFactory.getTypeface(viewModel.abstractFont)
-                textView.applyHtml(typeface, viewModel.formattedAbstract)
+                if (ServerBackendType.PENTABARF.name == BuildConfig.SERVER_BACKEND_TYPE) {
+                    textView.applyHtml(typeface, viewModel.formattedAbstract)
+                } else {
+                    textView.applyMarkdown(typeface, viewModel.abstractt)
+                }
             }
 
             // Description
@@ -140,7 +151,11 @@ class SessionDetailsFragment : Fragment(), SessionDetailsViewModel.ViewActionHan
                 textView.isVisible = false
             } else {
                 typeface = typefaceFactory.getTypeface(viewModel.descriptionFont)
-                textView.applyHtml(typeface, viewModel.formattedDescription)
+                if (ServerBackendType.PENTABARF.name == BuildConfig.SERVER_BACKEND_TYPE) {
+                    textView.applyHtml(typeface, viewModel.formattedDescription)
+                } else {
+                    textView.applyMarkdown(typeface, viewModel.description)
+                }
             }
 
             // Links
@@ -192,6 +207,14 @@ class SessionDetailsFragment : Fragment(), SessionDetailsViewModel.ViewActionHan
     private fun TextView.applyHtml(typeface: Typeface, text: String) {
         this.typeface = typeface
         this.setText(text.toSpanned(), TextView.BufferType.SPANNABLE)
+        this.setLinkTextColor(ContextCompat.getColor(context, R.color.text_link_on_light))
+        this.movementMethod = LinkMovementMethodCompat.getInstance()
+        this.isVisible = true
+    }
+
+    private fun TextView.applyMarkdown(typeface: Typeface, markdown: String) {
+        markwon.setMarkdown(this, markdown)
+        this.typeface = typeface
         this.setLinkTextColor(ContextCompat.getColor(context, R.color.text_link_on_light))
         this.movementMethod = LinkMovementMethodCompat.getInstance()
         this.isVisible = true

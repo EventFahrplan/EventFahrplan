@@ -81,7 +81,7 @@
     <string name="libraries">
         このアプリは次のライブラリを使用しています。
         Kotlin, Google Support Library, BetterLinkMovementMethod, Email Intent Builder,
-        Engelsystem, Espresso, OkHttp, SnackEngage, TraceDroid
+        Engelsystem, Espresso, Markwon, OkHttp, SnackEngage, TraceDroid
     </string>
     <string name="about_data_privacy_statement_german">データプライバシーステートメント（ドイツ語）</string>
     <string name="about_google_play_listing">Google Playのリスト</string>
