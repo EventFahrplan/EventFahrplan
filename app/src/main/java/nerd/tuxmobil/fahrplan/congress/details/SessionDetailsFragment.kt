@@ -28,7 +28,7 @@ import nerd.tuxmobil.fahrplan.congress.BuildConfig
 import nerd.tuxmobil.fahrplan.congress.MyApp
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmTimePickerFragment
-import nerd.tuxmobil.fahrplan.congress.calendar.addToCalendar
+import nerd.tuxmobil.fahrplan.congress.calendar.CalendarSharing
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
 import nerd.tuxmobil.fahrplan.congress.extensions.requireViewByIdCompat
 import nerd.tuxmobil.fahrplan.congress.extensions.toSpanned
@@ -308,7 +308,7 @@ class SessionDetailsFragment : Fragment(), SessionDetailsViewModel.ViewActionHan
     }
 
     override fun addToCalendar(session: Session) {
-        session.addToCalendar(requireContext())
+        CalendarSharing(requireContext(), session).addToCalendar()
     }
 
     override fun showAlarmTimePicker() {

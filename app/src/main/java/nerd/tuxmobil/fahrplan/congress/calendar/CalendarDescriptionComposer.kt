@@ -19,12 +19,12 @@ class CalendarDescriptionComposer(
     private val markdownConversion: MarkdownConversion = MarkdownConverter,
     private val sessionUrlComposition: SessionUrlComposition = SessionUrlComposer(session)
 
-) {
+) : CalendarDescriptionComposition {
 
     /**
      * Returns the composed description text.
      */
-    fun getCalendarDescription() = buildString {
+    override fun getCalendarDescription() = buildString {
         appendSubtitle()
         appendSpeakers()
         appendAbstract()
@@ -96,5 +96,11 @@ class CalendarDescriptionComposer(
         // language=regex
         return replace("\\),".toRegex(), ")<br>")
     }
+
+}
+
+interface CalendarDescriptionComposition {
+
+    fun getCalendarDescription(): String
 
 }
