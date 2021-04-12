@@ -30,6 +30,9 @@ class CalendarDescriptionComposer(
         appendAbstract()
         appendDescription()
         if (session.getLinks().containsWikiLink()) {
+            // TODO: It seems that wiki links are no longer added to the links XML attribute.
+            // Therefore, this code path might be removed in the future.
+            // To be verified with VOC wiki scripts.
             appendWikiLinks()
         } else {
             appendLinks()
