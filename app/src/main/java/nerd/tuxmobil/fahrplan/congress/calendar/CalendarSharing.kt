@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.provider.CalendarContract
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MILLISECONDS_OF_ONE_MINUTE
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.extensions.startActivity
@@ -26,6 +27,8 @@ class CalendarSharing @JvmOverloads constructor(
     fun addToCalendar() {
         val intent = session.toCalendarInsertIntent()
         context.startActivity(intent) {
+            // TODO Updating a calendar event is broken. Always creates new entries.
+            // See https://developer.android.com/guide/topics/providers/calendar-provider#intent-edit
             intent.transformToCalendarEditIntent()
             context.startActivity(intent) { onFailure() }
         }
