@@ -53,6 +53,9 @@ public class Session {
     public String abstractt;
     public String description;
 
+    /**
+     * Comma separated Markdown formatted links, see ParserTask#parseFahrplan.
+     */
     public String links;
 
     public boolean highlight;
@@ -279,8 +282,10 @@ public class Session {
                 changedTime || changedTitle || changedTrack;
     }
 
+    @NonNull
     public String getFormattedSpeakers() {
-        return speakers.replaceAll(";", ", ");
+        // language=regex
+        return speakers == null ? "" : speakers.replaceAll(";", ", ");
     }
 
     public String getFormattedTrackText() {

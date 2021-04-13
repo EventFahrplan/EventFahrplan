@@ -16,7 +16,7 @@ class SessionUrlComposer @JvmOverloads constructor(
                 "rC3 Lounge", // rc3 2020
         )
 
-) {
+) : SessionUrlComposition {
 
     /**
      * Returns the website URL for the [session] if it can be composed
@@ -29,7 +29,7 @@ class SessionUrlComposer @JvmOverloads constructor(
      * it is returned. If there is no URL defined then no composition is tried but instead
      * an empty string is returned.
      */
-    fun getSessionUrl() = session.sessionUrl
+    override fun getSessionUrl() = session.sessionUrl
 
     private val Session.sessionUrl: String
         get() = when (serverBackEndType) {
@@ -51,5 +51,11 @@ class SessionUrlComposer @JvmOverloads constructor(
     private companion object {
         const val NO_URL = ""
     }
+
+}
+
+interface SessionUrlComposition {
+
+    fun getSessionUrl(): String
 
 }

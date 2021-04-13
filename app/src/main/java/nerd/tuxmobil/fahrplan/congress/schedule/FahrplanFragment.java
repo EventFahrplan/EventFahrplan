@@ -706,7 +706,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
                 updateMenuItems();
                 break;
             case CONTEXT_MENU_ITEM_ID_ADD_TO_CALENDAR:
-                CalendarSharing.addToCalendar(session, context);
+                new CalendarSharing(context, session).addToCalendar();
                 break;
             case CONTEXT_MENU_ITEM_ID_SHARE:
                 if (BuildConfig.ENABLE_CHAOSFLIX_EXPORT) {

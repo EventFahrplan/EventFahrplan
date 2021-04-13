@@ -12,8 +12,9 @@ import nerd.tuxmobil.fahrplan.congress.sharing.JsonSessionFormat
 import nerd.tuxmobil.fahrplan.congress.sharing.SimpleSessionFormat
 import nerd.tuxmobil.fahrplan.congress.utils.FeedbackUrlComposer
 import nerd.tuxmobil.fahrplan.congress.utils.Font
+import nerd.tuxmobil.fahrplan.congress.utils.MarkdownConversion
+import nerd.tuxmobil.fahrplan.congress.utils.MarkdownConverter
 import nerd.tuxmobil.fahrplan.congress.utils.SessionUrlComposer
-import nerd.tuxmobil.fahrplan.congress.utils.StringUtils
 import nerd.tuxmobil.fahrplan.congress.wiki.containsWikiLink
 import org.threeten.bp.ZoneId
 
@@ -22,6 +23,7 @@ class SessionDetailsViewModel @JvmOverloads constructor(
         private val repository: AppRepository,
         val sessionId: String,
         private val viewActionHandler: ViewActionHandler,
+        private val markdownConversion: MarkdownConversion = MarkdownConverter,
 
         // Session conversion parameters
         private val sessionFeedbackUrlTemplate: String = BuildConfig.SCHEDULE_FEEDBACK_URL,
@@ -45,7 +47,7 @@ class SessionDetailsViewModel @JvmOverloads constructor(
             DateFormatter.newInstance(useDeviceTimeZone).getFormattedDateTimeShort(this.dateUTC, this.timeZoneOffset)
         },
         private val toHtmlLink: String.() -> String = {
-            StringUtils.getHtmlLinkFromMarkdown(this)
+            markdownConversion.markdownLinksToHtmlLinks(this)
         },
         private val toSessionUrl: Session.() -> String = {
             SessionUrlComposer(this).getSessionUrl()
@@ -83,7 +85,7 @@ class SessionDetailsViewModel @JvmOverloads constructor(
     val subtitle get() = session.subtitle ?: ""
 
     val isSpeakersEmpty get() = speakers.isEmpty()
-    val speakers get() = session.formattedSpeakers ?: ""
+    val speakers get() = session.formattedSpeakers
 
     val isAbstractEmpty get() = session.abstractt.isNullOrEmpty()
     val formattedAbstract get() = session.abstractt.toHtmlLink()
