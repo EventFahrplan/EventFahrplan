@@ -22,8 +22,5 @@
         3. Cole a URL aqui.<br/><br/>
         Os turnos antes e depois dos dias da conferência principal <u>não</u> são exibidos.]]>
     </string>
-    <string name="preference_url_type_friendly_name_engelsystem_json_export">
-        Engelsystem
-    </string>
 
 </resources>
