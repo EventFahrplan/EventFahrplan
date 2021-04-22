@@ -2,26 +2,18 @@
 <resources>
 
     <!-- App notification settings -->
-    <string name="preference_title_app_notification_settings">Personalizar notificaciones &#8230;</string>
 
     <!-- Automatic schedule updates -->
-    <string name="preference_title_auto_update_enabled">Actualizaciones automáticas</string>
 
     <!-- Alarm time index -->
-    <string name="preference_title_alarm_time">Horario de alarma por defecto</string>
-    <string name="preference_dialog_title_alarm_time">Escoja un horario de alarma por defecto</string>
 
     <!-- Alarm tone -->
-    <string name="preference_title_alarm_tone">Tono de alarma</string>
 
     <!-- Alternative highlighting -->
-    <string name="preference_title_alternative_highlighting_enabled">Destacado alternativo</string>
 
     <!-- Alternative schedule URL -->
-    <string name="preference_title_alternative_schedule_url">URL alternativa del calendario</string>
 
     <!-- Insistent session alarms -->
-    <string name="preference_title_insistent_alarms_enabled">Alarma persistente</string>
 
     <!-- Category Engelsystem -->
 

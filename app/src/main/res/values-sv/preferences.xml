@@ -2,26 +2,18 @@
 <resources>
 
     <!-- App notification settings -->
-    <string name="preference_title_app_notification_settings">Anpassa aviseringar &#8230;</string>
 
     <!-- Automatic schedule updates -->
-    <string name="preference_title_auto_update_enabled">Automatiska uppdateringar</string>
 
     <!-- Alarm time index -->
-    <string name="preference_dialog_title_alarm_time">Välj standard alarm tid</string>
-    <string name="preference_title_alarm_time">Standard alarm tid</string>
 
     <!-- Alarm tone -->
-    <string name="preference_title_alarm_tone">Alarmsignal</string>
 
     <!-- Alternative highlighting -->
-    <string name="preference_title_alternative_highlighting_enabled">Alternerande markering</string>
 
     <!-- Alternative schedule URL -->
-    <string name="preference_title_alternative_schedule_url">Alternativ schema-URL</string>
 
     <!-- Insistent session alarms -->
-    <string name="preference_title_insistent_alarms_enabled">Ihållande varning</string>
 
     <string name="preference_summary_engelsystem_json_export_url">
         <![CDATA[För att se din pass, ange din <u>personliga</u> URL här.<br/><br/>
