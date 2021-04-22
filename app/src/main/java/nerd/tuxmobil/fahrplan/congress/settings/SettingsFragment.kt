@@ -11,6 +11,7 @@ import androidx.preference.EditTextPreference
 import androidx.preference.Preference
 import androidx.preference.Preference.OnPreferenceChangeListener
 import androidx.preference.Preference.OnPreferenceClickListener
+import androidx.preference.Preference.SummaryProvider
 import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceScreen
@@ -76,6 +77,12 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 requestRedraw(BundleKeys.BUNDLE_KEY_SCHEDULE_URL_UPDATED)
                 true
             }
+            alternativeScheduleUrlPreference.summaryProvider = SummaryProvider<EditTextPreference> {
+                when (it.text.isEmpty()) {
+                    true -> getString(R.string.preference_summary_alternative_schedule_url)
+                    false -> it.text
+                }
+            }
         } else {
             categoryGeneral.removePreference(alternativeScheduleUrlPreference)
         }
@@ -89,7 +96,12 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val engelsystemCategory = requirePreference<PreferenceCategory>(getString(R.string.preference_engelsystem_category_key))
         if (BuildConfig.ENABLE_ENGELSYSTEM_SHIFTS) {
             val urlPreference = requirePreference<EditTextPreference>(getString(R.string.preference_key_engelsystem_json_export_url))
-            urlPreference.summary = getString(R.string.preference_summary_engelsystem_json_export_url).toSpanned()
+            urlPreference.summaryProvider = SummaryProvider<EditTextPreference> {
+                when (it.text.isEmpty()) {
+                    true -> getString(R.string.preference_summary_engelsystem_json_export_url).toSpanned()
+                    false -> "${it.text.dropLast(23)}..." // Truncate to keep the key private.
+                }
+            }
             urlPreference.onPreferenceChangeListener = OnPreferenceChangeListener { _: Preference?, _: Any? ->
                 requestRedraw(BundleKeys.BUNDLE_KEY_ENGELSYSTEM_SHIFTS_URL_UPDATED)
                 true

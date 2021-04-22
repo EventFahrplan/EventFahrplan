@@ -10,7 +10,8 @@
     <!-- Automatic schedule updates -->
     <string name="preference_key_auto_update_enabled" translatable="false">auto_update</string>
     <bool name="preference_default_value_auto_update_enabled">true</bool>
-    <string name="preference_title_auto_update_enabled">Automatic updates</string>
+    <string name="preference_title_auto_update_enabled">Enable automatic updates</string>
+    <string name="preference_summary_auto_update_enabled">Downloads the schedule periodically.</string>
 
     <!-- Alarm time index -->
     <string name="preference_key_alarm_time_index" translatable="false">default_alarm_time</string>
@@ -24,7 +25,7 @@
     -->
     <string name="preference_default_value_alarm_time_value" translatable="false">10</string>
     <string name="preference_dialog_title_alarm_time">Choose a default alarm time</string>
-    <string name="preference_title_alarm_time">Default alarm time</string>
+    <string name="preference_title_alarm_time">Choose default alarm time</string>
     <string-array name="preference_entries_alarm_time_titles">
         <item>@string/alarm_time_title_at_start_time</item>
         <item>@string/alarm_time_title_5_minutes_before</item>
@@ -53,17 +54,20 @@
 
     <!-- Alarm tone -->
     <string name="preference_key_alarm_tone" translatable="false">reminder_tone</string>
-    <string name="preference_title_alarm_tone">Alarm tone</string>
+    <string name="preference_title_alarm_tone">Choose alarm tone</string>
+    <string name="preference_summary_alarm_tone">Open the sounds selection screen from here.</string>
 
     <!-- Device time zone -->
     <string name="preference_key_use_device_time_zone_enabled" translatable="false">use_device_time_zone</string>
     <bool name="preference_default_value_use_device_time_zone_enabled">false</bool>
     <string name="preference_title_use_device_time_zone_enabled">Use device time zone</string>
+    <string name="preference_summary_use_device_time_zone_enabled">Displays dates and times accordingly.</string>
 
     <!-- Alternative highlighting -->
     <string name="preference_key_alternative_highlighting_enabled" translatable="false">alternative_highlight</string>
     <bool name="preference_default_value_alternative_highlighting_enabled">true</bool>
-    <string name="preference_title_alternative_highlighting_enabled">Alternative highlighting</string>
+    <string name="preference_title_alternative_highlighting_enabled">Enable alternative highlighting</string>
+    <string name="preference_summary_alternative_highlighting_enabled">Adds a border around favored sessions.</string>
 
     <!-- Alternative schedule URL -->
     <string name="preference_key_alternative_schedule_url" translatable="false">
@@ -73,16 +77,19 @@
     <string name="preference_hint_alternative_schedule_url" translatable="false">
         https://yourhost/schedule.xml
     </string>
-    <string name="preference_title_alternative_schedule_url">Alternative schedule URL</string>
+    <string name="preference_title_alternative_schedule_url">Configure alternative schedule URL</string>
+    <string name="preference_summary_alternative_schedule_url">Enter a backup URL if the preconfigured server cannot be reached.</string>
 
     <!-- App notification settings -->
     <string name="preference_key_app_notification_settings" translatable="false">app_notification_settings</string>
-    <string name="preference_title_app_notification_settings">Customize notifications &#8230;</string>
+    <string name="preference_title_app_notification_settings">Customize notifications</string>
+    <string name="preference_summary_app_notification_settings">Open the associated system settings screen from here.</string>
 
     <!-- Insistent session alarms -->
     <string name="preference_key_insistent_alarms_enabled" translatable="false">insistent</string>
     <bool name="preference_default_value_insistent_alarms_enabled">false</bool>
-    <string name="preference_title_insistent_alarms_enabled">Insistent alarm</string>
+    <string name="preference_title_insistent_alarms_enabled">Enable insistent alarm</string>
+    <string name="preference_summary_insistent_alarms_enabled">Keeps an alarm on infinitely.</string>
 
     <!-- Category Engelsystem -->
 
@@ -93,7 +100,7 @@
     <string name="preference_key_engelsystem_json_export_url" translatable="false">
         preference_key_engelsystem_json_export_url
     </string>
-    <string name="preference_default_value_engelsystem_json_export_url" translatable="false"/>
+    <string name="preference_default_value_engelsystem_json_export_url" translatable="false" />
     <string name="preference_summary_engelsystem_json_export_url">
         <![CDATA[In order to see your shifts please enter your <u>personal</u> URL here.<br/><br/>
         1. Login to your Engelsystem account.<br/>
@@ -101,7 +108,7 @@
         3. Paste the URL here.<br/><br/>
         Shifts before and after the main conference days are <u>not</u> displayed.]]>
     </string>
-    <string name="preference_title_engelsystem_json_export_url" translatable="false">JSON Export URL</string>
+    <string name="preference_title_engelsystem_json_export_url">Configure JSON Export URL</string>
     <string name="preference_url_type_friendly_name_engelsystem_json_export">
         Engelsystem
     </string>

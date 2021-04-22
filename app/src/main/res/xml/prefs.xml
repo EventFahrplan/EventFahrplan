@@ -13,18 +13,21 @@
             android:defaultValue="@bool/preference_default_value_auto_update_enabled"
             android:key="@string/preference_key_auto_update_enabled"
             android:title="@string/preference_title_auto_update_enabled"
-            app:iconSpaceReserved="false" />
+            app:iconSpaceReserved="false"
+            app:summary="@string/preference_summary_auto_update_enabled" />
 
         <SwitchPreferenceCompat
             android:defaultValue="@bool/preference_default_value_use_device_time_zone_enabled"
             android:key="@string/preference_key_use_device_time_zone_enabled"
             android:title="@string/preference_title_use_device_time_zone_enabled"
-            app:iconSpaceReserved="false" />
+            app:iconSpaceReserved="false"
+            app:summary="@string/preference_summary_use_device_time_zone_enabled" />
 
         <Preference
             android:key="@string/preference_key_app_notification_settings"
             android:title="@string/preference_title_app_notification_settings"
-            app:iconSpaceReserved="false" />
+            app:iconSpaceReserved="false"
+            app:summary="@string/preference_summary_app_notification_settings" />
 
         <!--
         TODO: Use ValidateableEditTextPreference
@@ -36,13 +39,15 @@
             android:inputType="textUri"
             android:key="@string/preference_key_alternative_schedule_url"
             android:title="@string/preference_title_alternative_schedule_url"
-            app:iconSpaceReserved="false" />
+            app:iconSpaceReserved="false"
+            app:useSimpleSummaryProvider="true" />
 
         <SwitchPreferenceCompat
             android:defaultValue="@bool/preference_default_value_alternative_highlighting_enabled"
             android:key="@string/preference_key_alternative_highlighting_enabled"
             android:title="@string/preference_title_alternative_highlighting_enabled"
-            app:iconSpaceReserved="false" />
+            app:iconSpaceReserved="false"
+            app:summary="@string/preference_summary_alternative_highlighting_enabled" />
 
     </PreferenceCategory>
 
@@ -54,13 +59,15 @@
         <nerd.tuxmobil.fahrplan.congress.preferences.AlarmTonePreference
             android:key="@string/preference_key_alarm_tone"
             android:title="@string/preference_title_alarm_tone"
-            app:iconSpaceReserved="false" />
+            app:iconSpaceReserved="false"
+            app:summary="@string/preference_summary_alarm_tone" />
 
         <SwitchPreferenceCompat
             android:defaultValue="@bool/preference_default_value_insistent_alarms_enabled"
             android:key="@string/preference_key_insistent_alarms_enabled"
             android:title="@string/preference_title_insistent_alarms_enabled"
-            app:iconSpaceReserved="false" />
+            app:iconSpaceReserved="false"
+            app:summary="@string/preference_summary_insistent_alarms_enabled" />
 
         <ListPreference
             android:defaultValue="@string/preference_default_value_alarm_time_value"
@@ -69,7 +76,8 @@
             android:entryValues="@array/preference_entry_values_alarm_time"
             android:key="@string/preference_key_alarm_time_index"
             android:title="@string/preference_title_alarm_time"
-            app:iconSpaceReserved="false" />
+            app:iconSpaceReserved="false"
+            app:useSimpleSummaryProvider="true" />
 
     </PreferenceCategory>
 

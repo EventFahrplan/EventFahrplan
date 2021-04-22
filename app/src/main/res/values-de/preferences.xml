@@ -2,29 +2,36 @@
 <resources>
 
     <!-- App notification settings -->
-    <string name="preference_title_app_notification_settings">Benachrichtigungen anpassen &#8230;</string>
+    <string name="preference_title_app_notification_settings">Benachrichtigungen anpassen</string>
+    <string name="preference_summary_app_notification_settings">Öffne den dazugehörigen System-Einstellungen-Bildschirm von hier.</string>
 
     <!-- Automatic schedule updates -->
-    <string name="preference_title_auto_update_enabled">Automatische Aktualisierung</string>
+    <string name="preference_title_auto_update_enabled">Automatische Aktualisierung anschalten</string>
+    <string name="preference_summary_auto_update_enabled">Lädt den Fahrplan regelmäßig herunter.</string>
 
     <!-- Alarm time index -->
     <string name="preference_dialog_title_alarm_time">Wähle eine Standard-Alarmzeit</string>
-    <string name="preference_title_alarm_time">Standard-Alarmzeit</string>
+    <string name="preference_title_alarm_time">Standard-Alarmzeit auswählen</string>
 
     <!-- Alarm tone -->
-    <string name="preference_title_alarm_tone">Alarmton</string>
+    <string name="preference_title_alarm_tone">Alarmton auswählen</string>
+    <string name="preference_summary_alarm_tone">Öffne den Töne-Auswahl-Bildschirm von hier.</string>
 
     <!-- Device time zone -->
     <string name="preference_title_use_device_time_zone_enabled">Zeitzone des Geräts nutzen</string>
+    <string name="preference_summary_use_device_time_zone_enabled">Zeigt Datums- und Zeitangaben entsprechend an.</string>
 
     <!-- Alternative highlighting -->
-    <string name="preference_title_alternative_highlighting_enabled">Alternative Hervorhebung</string>
+    <string name="preference_title_alternative_highlighting_enabled">Alternative Hervorhebung anschalten</string>
+    <string name="preference_summary_alternative_highlighting_enabled">Fügt favorisierten Vorträgen eine Umrandung hinzu.</string>
 
     <!-- Alternative schedule URL -->
-    <string name="preference_title_alternative_schedule_url">Alternative Fahrplan URL</string>
+    <string name="preference_title_alternative_schedule_url">Alternative Fahrplan URL festlegen</string>
+    <string name="preference_summary_alternative_schedule_url">Füge eine Ausweich-URL ein, wenn der voreingestellte Server nicht erreichbar ist.</string>
 
     <!-- Insistent session alarms -->
-    <string name="preference_title_insistent_alarms_enabled">Dauerhafter Alarm</string>
+    <string name="preference_title_insistent_alarms_enabled">Dauerhaften Alarm anschalten</string>
+    <string name="preference_summary_insistent_alarms_enabled">Lässt einen Alarm unendlich lange klingeln.</string>
 
     <!-- Category Engelsystem -->
 
@@ -35,5 +42,6 @@
         3. Füge die URL hier ein.<br/><br/>
         Schichten vor und nach den offiziellen Konferenztagen werden <u>nicht</u> dargestellt.]]>
     </string>
+    <string name="preference_title_engelsystem_json_export_url">JSON Export URL festlegen</string>
 
 </resources>
