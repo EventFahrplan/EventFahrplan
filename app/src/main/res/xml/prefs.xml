@@ -27,7 +27,8 @@
             android:key="@string/preference_key_app_notification_settings"
             android:title="@string/preference_title_app_notification_settings"
             app:iconSpaceReserved="false"
-            app:summary="@string/preference_summary_app_notification_settings" />
+            app:summary="@string/preference_summary_app_notification_settings"
+            app:widgetLayout="@layout/settings_widget_open_external" />
 
         <!--
         TODO: Use ValidateableEditTextPreference
@@ -60,7 +61,8 @@
             android:key="@string/preference_key_alarm_tone"
             android:title="@string/preference_title_alarm_tone"
             app:iconSpaceReserved="false"
-            app:summary="@string/preference_summary_alarm_tone" />
+            app:summary="@string/preference_summary_alarm_tone"
+            app:widgetLayout="@layout/settings_widget_open_external" />
 
         <SwitchPreferenceCompat
             android:defaultValue="@bool/preference_default_value_insistent_alarms_enabled"
