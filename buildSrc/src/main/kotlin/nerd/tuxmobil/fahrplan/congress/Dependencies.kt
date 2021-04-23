@@ -12,9 +12,9 @@ object Android {
 object Plugins {
 
     private object Versions {
-        const val android = "4.1.2"
+        const val android = "4.1.3"
         const val androidJunitJacoco = "0.16.0"
-        const val kotlin = "1.4.31"
+        const val kotlin = "1.4.32"
         const val sonarQube = "3.1.1"
         const val unMock = "0.7.6"
         const val versions = "0.36.0"
@@ -31,29 +31,29 @@ object Plugins {
 object Libs {
 
     private object Versions {
-        const val annotation = "1.1.0"
+        const val annotation = "1.2.0"
         const val appCompat = "1.2.0"
         const val assertjAndroid = "1.2.0"
-        const val betterLinkMovementMethod = "2.2.0" // minSdkVersion 16, see AndroidManifest
+        const val betterLinkMovementMethod = "2.2.0"
         const val constraintLayout = "2.0.4"
         const val coreKtx = "1.3.2"
         const val emailIntentBuilder = "2.0.0"
-        const val engelsystem = "5.0.0"
+        const val engelsystem = "5.1.0"
         const val espresso = "3.3.0"
         const val junit = "4.13.2"
         const val kotlinCoroutines = "1.4.3"
         const val markwon = "4.6.2"
         const val material = "1.3.0"
-        const val mockito = "3.8.0"
+        const val mockito = "3.9.0"
         const val mockitoKotlin = "2.2.0"
-        const val moshi = "1.11.0"
+        const val moshi = "1.12.0"
         const val okhttp = "3.12.13"
         const val preference = "1.1.1"
         const val retrofit = "2.6.4"
         const val robolectric = "4.3_r2-robolectric-0"
         const val snackengage = "0.28"
         const val testExtJunit = "1.1.2"
-        const val threeTenBp = "1.5.0"
+        const val threeTenBp = "1.5.1"
         const val tracedroid = "1.4"
         const val truth = "1.1.2"
     }
