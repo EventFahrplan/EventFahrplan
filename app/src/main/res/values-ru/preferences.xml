@@ -2,25 +2,17 @@
 <resources>
 
     <!-- App notification settings -->
-    <string name="preference_title_app_notification_settings">Настройки уведомлений &#8230;</string>
 
     <!-- Automatic schedule updates -->
-    <string name="preference_title_auto_update_enabled">Автоматические обновления</string>
 
     <!-- Alarm time index -->
-    <string name="preference_dialog_title_alarm_time">Выбрать время напоминания по умолчанию</string>
-    <string name="preference_title_alarm_time">Время напоминания по умолчанию</string>
 
     <!-- Alarm tone -->
-    <string name="preference_title_alarm_tone">Мелодия напоминаний</string>
 
     <!-- Alternative highlighting -->
-    <string name="preference_title_alternative_highlighting_enabled">Альтернативная подсветка</string>
 
     <!-- Alternative schedule URL -->
-    <string name="preference_title_alternative_schedule_url">Альтернативный URL расписания</string>
 
     <!-- Insistent session alarms -->
-    <string name="preference_title_insistent_alarms_enabled">Настойчивое напоминание</string>
 
 </resources>
