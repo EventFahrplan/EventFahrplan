@@ -12,10 +12,10 @@ object Android {
 object Plugins {
 
     private object Versions {
-        const val android = "4.1.3"
+        const val android = "4.2.0"
         const val androidJunitJacoco = "0.16.0"
         const val kotlin = "1.4.32"
-        const val sonarQube = "3.1.1"
+        const val sonarQube = "3.2.0"
         const val unMock = "0.7.6"
         const val versions = "0.36.0"
     }
@@ -44,7 +44,7 @@ object Libs {
         const val kotlinCoroutines = "1.4.3"
         const val markwon = "4.6.2"
         const val material = "1.3.0"
-        const val mockito = "3.9.0"
+        const val mockito = "3.10.0"
         const val mockitoKotlin = "2.2.0"
         const val moshi = "1.12.0"
         const val okhttp = "3.12.13"
