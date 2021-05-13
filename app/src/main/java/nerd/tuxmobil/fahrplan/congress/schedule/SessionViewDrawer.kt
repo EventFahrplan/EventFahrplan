@@ -42,16 +42,16 @@ internal class SessionViewDrawer @JvmOverloads constructor(
     fun updateSessionView(sessionView: View, session: Session) {
         val bell = sessionView.requireViewByIdCompat<ImageView>(R.id.session_bell_view)
         bell.isVisible = session.hasAlarm
-        var title = sessionView.requireViewByIdCompat<TextView>(R.id.session_title_view)
-        title.typeface = boldCondensed
-        title.text = session.title
-        title = sessionView.requireViewByIdCompat(R.id.session_subtitle_view)
-        title.text = session.subtitle
-        title = sessionView.requireViewByIdCompat(R.id.session_speakers_view)
-        title.text = session.formattedSpeakers
-        title = sessionView.requireViewByIdCompat(R.id.session_track_view)
-        title.text = session.formattedTrackText
-        title.contentDescription = session.getFormattedTrackContentDescription(sessionView.context)
+        var textView = sessionView.requireViewByIdCompat<TextView>(R.id.session_title_view)
+        textView.typeface = boldCondensed
+        textView.text = session.title
+        textView = sessionView.requireViewByIdCompat(R.id.session_subtitle_view)
+        textView.text = session.subtitle
+        textView = sessionView.requireViewByIdCompat(R.id.session_speakers_view)
+        textView.text = session.formattedSpeakers
+        textView = sessionView.requireViewByIdCompat(R.id.session_track_view)
+        textView.text = session.formattedTrackLanguageText
+        textView.contentDescription = session.getFormattedTrackContentDescription(sessionView.context)
         val recordingOptOut = sessionView.findViewById<View>(R.id.session_no_video_view)
         if (recordingOptOut != null) {
             recordingOptOut.isVisible = session.recordingOptOut

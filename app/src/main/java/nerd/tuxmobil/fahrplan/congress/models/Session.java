@@ -288,11 +288,12 @@ public class Session {
         return speakers == null ? "" : speakers.replaceAll(";", ", ");
     }
 
-    public String getFormattedTrackText() {
+    public String getFormattedTrackLanguageText() {
         StringBuilder builder = new StringBuilder();
         builder.append(track);
         if (!TextUtils.isEmpty(lang)) {
-            builder.append(" [").append(lang).append("]");
+            String language = lang.replace("-formal", "");
+            builder.append(" [").append(language).append("]");
         }
         return builder.toString();
     }
