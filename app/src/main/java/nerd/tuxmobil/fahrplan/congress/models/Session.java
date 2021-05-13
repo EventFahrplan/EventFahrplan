@@ -288,7 +288,7 @@ public class Session {
         return speakers == null ? "" : speakers.replaceAll(";", ", ");
     }
 
-    public String getFormattedTrackText() {
+    public String getFormattedTrackLanguageText() {
         StringBuilder builder = new StringBuilder();
         builder.append(track);
         if (!TextUtils.isEmpty(lang)) {

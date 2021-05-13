@@ -50,7 +50,7 @@ internal class SessionViewDrawer @JvmOverloads constructor(
         title = sessionView.requireViewByIdCompat(R.id.session_speakers_view)
         title.text = session.formattedSpeakers
         title = sessionView.requireViewByIdCompat(R.id.session_track_view)
-        title.text = session.formattedTrackText
+        title.text = session.formattedTrackLanguageText
         title.contentDescription = session.getFormattedTrackContentDescription(sessionView.context)
         val recordingOptOut = sessionView.findViewById<View>(R.id.session_no_video_view)
         if (recordingOptOut != null) {
