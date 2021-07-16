@@ -130,7 +130,7 @@ class SessionDetailsViewModelTest {
     fun `onOptionsMenuItemSelected invokes navigateToRoom with URI`() {
         val actualSession = Session("S4").apply { room = "GARDEN" }
         whenever(repository.readSessionBySessionId("S4")) doReturn actualSession
-        val toC3NavRoomName: Session.() -> String = { this.room.toLowerCase() }
+        val toC3NavRoomName: Session.() -> String = { this.room.lowercase() }
         val viewModel = SessionDetailsViewModel(repository, "S4", viewActionHandler,
                 c3NavBaseUrl = "https://c3nav.foo/", toC3NavRoomName = toC3NavRoomName)
         assertThat(viewModel.onOptionsMenuItemSelected(R.id.menu_item_navigate)).isTrue()

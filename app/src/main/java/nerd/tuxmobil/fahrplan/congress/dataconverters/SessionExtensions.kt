@@ -176,7 +176,7 @@ fun Session.sanitize(): Session {
         abstractt = ""
     }
     if (!lang.isNullOrEmpty()) {
-        lang = lang.toLowerCase()
+        lang = lang.lowercase()
     }
     if (("Sendezentrum-Bühne" == track || "Sendezentrum Bühne" == track || "xHain Berlin" == track) && !type.isNullOrEmpty()) {
         track = type
