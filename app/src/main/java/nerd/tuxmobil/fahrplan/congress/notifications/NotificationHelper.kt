@@ -71,6 +71,7 @@ internal class NotificationHelper(context: Context) : ContextWrapper(context) {
     }
 
     private fun createNotificationChannel(id: String, name: String, descriptionText: String) {
+        // TODO Replace with NotificationChannelCompat once it's complete. See https://issuetracker.google.com/issues/193814308
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             with(NotificationChannel(id, name, NotificationManager.IMPORTANCE_DEFAULT)) {
                 description = descriptionText

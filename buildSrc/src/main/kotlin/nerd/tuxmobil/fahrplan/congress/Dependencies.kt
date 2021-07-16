@@ -36,7 +36,7 @@ object Libs {
         const val assertjAndroid = "1.2.0"
         const val betterLinkMovementMethod = "2.2.0"
         const val constraintLayout = "2.0.4"
-        const val coreKtx = "1.3.2"
+        const val coreKtx = "1.6.0"
         const val emailIntentBuilder = "2.0.0"
         const val engelsystem = "5.1.0"
         const val espresso = "3.4.0"
