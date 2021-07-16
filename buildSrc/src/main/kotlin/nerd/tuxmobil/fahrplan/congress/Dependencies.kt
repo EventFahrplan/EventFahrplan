@@ -17,7 +17,7 @@ object Plugins {
         const val kotlin = "1.4.32"
         const val sonarQube = "3.3"
         const val unMock = "0.7.6"
-        const val versions = "0.36.0"
+        const val versions = "0.39.0"
     }
 
     const val android = "com.android.tools.build:gradle:${Versions.android}"
