@@ -87,6 +87,6 @@ object Libs {
     const val snackengagePlayrate = "com.github.ligi.snackengage:snackengage-playrate:${Versions.snackengage}"
     const val testExtJunit = "androidx.test.ext:junit:${Versions.testExtJunit}"
     const val threeTenBp = "org.threeten:threetenbp:${Versions.threeTenBp}"
-    const val tracedroid = "org.ligi:tracedroid:${Versions.tracedroid}"
+    const val tracedroid = "com.github.ligi:tracedroid:${Versions.tracedroid}"
     const val truth = "com.google.truth:truth:${Versions.truth}"
 }
