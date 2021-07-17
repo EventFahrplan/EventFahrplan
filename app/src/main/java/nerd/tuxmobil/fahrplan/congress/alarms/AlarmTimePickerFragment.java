@@ -16,7 +16,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 
 import nerd.tuxmobil.fahrplan.congress.BuildConfig;
@@ -44,8 +43,7 @@ public class AlarmTimePickerFragment extends DialogFragment {
                             int requestCode) {
         DialogFragment dialogFragment = new AlarmTimePickerFragment();
         dialogFragment.setTargetFragment(invokingFragment, requestCode);
-        FragmentActivity activity = invokingFragment.requireActivity();
-        FragmentManager fragmentManager = activity.getSupportFragmentManager();
+        FragmentManager fragmentManager = invokingFragment.getParentFragmentManager();
         dialogFragment.show(fragmentManager, FRAGMENT_TAG);
     }
 
