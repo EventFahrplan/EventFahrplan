@@ -54,14 +54,12 @@ public class ChangesDialog extends DialogFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bundle args = getArguments();
-        if (args != null) {
-            changed = args.getInt(BundleKeys.CHANGES_DLG_NUM_CHANGED);
-            added = args.getInt(BundleKeys.CHANGES_DLG_NUM_NEW);
-            cancelled = args.getInt(BundleKeys.CHANGES_DLG_NUM_CANCELLED);
-            markedAffected = args.getInt(BundleKeys.CHANGES_DLG_NUM_MARKED);
-            version = args.getString(BundleKeys.CHANGES_DLG_VERSION);
-        }
+        Bundle args = requireArguments();
+        changed = args.getInt(BundleKeys.CHANGES_DLG_NUM_CHANGED);
+        added = args.getInt(BundleKeys.CHANGES_DLG_NUM_NEW);
+        cancelled = args.getInt(BundleKeys.CHANGES_DLG_NUM_CANCELLED);
+        markedAffected = args.getInt(BundleKeys.CHANGES_DLG_NUM_MARKED);
+        version = args.getString(BundleKeys.CHANGES_DLG_VERSION);
     }
 
     @MainThread

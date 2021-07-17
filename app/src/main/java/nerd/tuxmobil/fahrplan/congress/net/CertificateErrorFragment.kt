@@ -36,9 +36,8 @@ class CertificateErrorFragment : DialogFragment() {
     @MainThread
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            errorMessage = it.getString(BUNDLE_KEY_ERROR_MESSAGE)!!
-        }
+        val arguments = requireArguments()
+        errorMessage = arguments.getString(BUNDLE_KEY_ERROR_MESSAGE)!!
     }
 
     @MainThread

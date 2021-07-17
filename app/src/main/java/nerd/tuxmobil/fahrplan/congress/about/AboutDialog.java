@@ -65,12 +65,10 @@ public class AboutDialog extends DialogFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setStyle(DialogFragment.STYLE_NO_TITLE, R.style.Dialog);
-        Bundle arguments = getArguments();
-        if (arguments != null) {
-            scheduleVersionText = arguments.getString(BUNDLE_KEY_SCHEDULE_VERSION, "");
-            subtitleText = arguments.getString(BUNDLE_KEY_SUBTITLE, "");
-            titleText = arguments.getString(BUNDLE_KEY_TITLE, "");
-        }
+        Bundle arguments = requireArguments();
+        scheduleVersionText = arguments.getString(BUNDLE_KEY_SCHEDULE_VERSION, "");
+        subtitleText = arguments.getString(BUNDLE_KEY_SUBTITLE, "");
+        titleText = arguments.getString(BUNDLE_KEY_TITLE, "");
     }
 
     @Override
