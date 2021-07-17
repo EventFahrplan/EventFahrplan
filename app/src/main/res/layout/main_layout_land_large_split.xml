@@ -23,14 +23,14 @@
          android:layout_below="@id/toolbar"
          android:orientation="horizontal">
 
-        <FrameLayout
+        <androidx.fragment.app.FragmentContainerView
             android:id="@+id/schedule"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="4"
             tools:background="@android:color/holo_green_dark" />
 
-        <FrameLayout
+        <androidx.fragment.app.FragmentContainerView
             android:id="@+id/detail"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
