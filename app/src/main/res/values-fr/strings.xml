@@ -109,7 +109,7 @@
     <string name="schedule_changes_dialog_title">Mise à jour du programme</string>
     <string name="dlg_err_failed_parse_failure">Impossible d’analyser la réponse</string>
     <string name="dlg_err_failed_timeout">Serveur ne répond pas (délai d’attente dépassé).</string>
-    <string name="certificate_error_message"> Échec lors de l’établissement d’une connexion sécurisée.
+    <string name="certificate_error_message">Échec lors de l’établissement d’une connexion sécurisée.
 \n (<xliff:g example="Unknown Error" id="error">%s</xliff:g>) </string>
     <string name="menu_item_title_set_alarm">Réglage du rappel</string>
     <string name="menu_item_title_close_session_details">Fermer les détails de l’évènement</string>

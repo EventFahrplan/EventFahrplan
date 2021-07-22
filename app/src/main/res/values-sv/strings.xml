@@ -38,7 +38,7 @@
     <string name="share_as_text">Dela som text</string>
     <string name="share_as_json">Dela som JSON (för Chaosflix)</string>
     <string name="OK">OK</string>
-    <string name="certificate_error_message">En säker anslutning kan inte upprättas.</string>
+    <string name="certificate_error_message">En säker anslutning kan inte upprättas.\n(<xliff:g example="Unknown Error" id="error">%s</xliff:g>)</string>
     <string name="certificate_error_title">Certifikatet kunde inte läggas till.</string>
     <string name="dlg_err_connection_failed">Anslutning misslyckades</string>
     <string name="dlg_err_failed_unknown_host">Okänd adress: %s</string>
