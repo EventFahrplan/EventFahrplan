@@ -17,7 +17,7 @@
         tools:background="@android:color/transparent"
         tools:visibility="visible" />
 
-    <FrameLayout
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/schedule"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

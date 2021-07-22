@@ -9,7 +9,7 @@
         style="@style/ToolBar"
         app:contentInsetStart="@dimen/tool_bar_content_inset_start" />
 
-    <FrameLayout
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

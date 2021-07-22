@@ -69,16 +69,12 @@ public class ChangeListFragment extends AbstractListFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        Bundle args = getArguments();
-        if (args != null) {
-            sidePane = args.getBoolean(BundleKeys.SIDEPANE);
-        }
-
-        Context context = requireContext();
+        Bundle args = requireArguments();
+        sidePane = args.getBoolean(BundleKeys.SIDEPANE);
         changesList = appRepository.loadChangedSessions();
         Meta meta = appRepository.readMeta();
         boolean useDeviceTimeZone = appRepository.readUseDeviceTimeZoneEnabled();
+        Context context = requireContext();
         mAdapter = new ChangeListAdapter(context, changesList, meta.getNumDays(), useDeviceTimeZone);
         MyApp.LogDebug(LOG_TAG, "onCreate, " + changesList.size() + " changes");
     }

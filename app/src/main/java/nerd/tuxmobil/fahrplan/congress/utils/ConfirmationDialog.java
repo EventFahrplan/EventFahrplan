@@ -44,11 +44,9 @@ public class ConfirmationDialog extends DialogFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bundle args = getArguments();
-        if (args != null) {
-            dlgTitle = args.getInt(BUNDLE_DLG_TITLE);
-            dlgRequestCode = args.getInt(BUNDLE_DLG_REQUEST_CODE);
-        }
+        Bundle args = requireArguments();
+        dlgTitle = args.getInt(BUNDLE_DLG_TITLE);
+        dlgRequestCode = args.getInt(BUNDLE_DLG_REQUEST_CODE);
     }
 
     @MainThread

@@ -12,7 +12,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
 import androidx.annotation.IdRes;
@@ -23,6 +22,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -305,7 +305,7 @@ public class MainActivity extends BaseActivity implements
         super.onResume();
         isScreenLocked = keyguardManager.isKeyguardLocked();
 
-        FrameLayout sidePane = findViewById(R.id.detail);
+        FragmentContainerView sidePane = findViewById(R.id.detail);
         if (sidePane != null && isFavoritesInSidePane) {
             sidePane.setVisibility(isScreenLocked ? View.GONE : View.VISIBLE);
         }
@@ -381,7 +381,7 @@ public class MainActivity extends BaseActivity implements
     }
 
     public void openSessionDetails(@NonNull Session session) {
-        FrameLayout sidePane = findViewById(R.id.detail);
+        FragmentContainerView sidePane = findViewById(R.id.detail);
         MyApp.LogDebug(LOG_TAG, "openSessionDetails sidePane=" + sidePane);
         if (sidePane != null) {
             FragmentManager fm = getSupportFragmentManager();
@@ -497,7 +497,7 @@ public class MainActivity extends BaseActivity implements
     }
 
     private void openFavorites() {
-        FrameLayout sidePane = findViewById(R.id.detail);
+        FragmentContainerView sidePane = findViewById(R.id.detail);
         if (sidePane == null) {
             Intent intent = new Intent(this, StarredListActivity.class);
             startActivity(intent);
@@ -510,7 +510,7 @@ public class MainActivity extends BaseActivity implements
     }
 
     public void openSessionChanges() {
-        FrameLayout sidePane = findViewById(R.id.detail);
+        FragmentContainerView sidePane = findViewById(R.id.detail);
         if (sidePane == null) {
             Intent intent = new Intent(this, ChangeListActivity.class);
             startActivity(intent);

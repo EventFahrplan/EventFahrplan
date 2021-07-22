@@ -92,7 +92,7 @@ object RoomForC3NavConverter {
     @JvmStatic
     fun convert(room: String?) = when {
         room != null && EMPTY_STRING != room -> {
-            val c3navName = ROOM_TO_C3NAV_MAPPING[room.toUpperCase()]
+            val c3navName = ROOM_TO_C3NAV_MAPPING[room.uppercase()]
             c3navName ?: EMPTY_STRING
         }
         else -> EMPTY_STRING

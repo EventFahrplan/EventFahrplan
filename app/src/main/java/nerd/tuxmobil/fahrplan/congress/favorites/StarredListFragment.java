@@ -326,7 +326,7 @@ public class StarredListFragment extends AbstractListFragment implements
     }
 
     private void askToDeleteAllFavorites() {
-        FragmentManager fm = requireActivity().getSupportFragmentManager();
+        FragmentManager fm = getParentFragmentManager();
         Fragment fragment = fm.findFragmentByTag(ConfirmationDialog.FRAGMENT_TAG);
         if (fragment == null) {
             ConfirmationDialog confirm = ConfirmationDialog.newInstance(
