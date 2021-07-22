@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -188,7 +187,6 @@ public class MainActivity extends BaseActivity implements
             invalidateOptionsMenu();
             return;
         }
-        MyApp.LogDebug(LOG_TAG, "yehhahh");
         progressBar.setVisibility(View.INVISIBLE);
         showUpdateAction = true;
         invalidateOptionsMenu();
@@ -207,7 +205,7 @@ public class MainActivity extends BaseActivity implements
 
     public void onParseDone(@NonNull ParseResult result) {
         if (result instanceof ParseScheduleResult) {
-            MyApp.LogDebug(LOG_TAG, "Parsing schedule done successfully: " + result.isSuccess() + " , numDays=" + MyApp.meta.getNumDays());
+            MyApp.LogDebug(LOG_TAG, "Parsing schedule done successfully: " + result.isSuccess() + ", numDays: " + MyApp.meta.getNumDays());
         }
         if (result instanceof ParseShiftsResult) {
             MyApp.LogDebug(LOG_TAG, "Parsing Engelsystem shifts done successfully: " + result.isSuccess());

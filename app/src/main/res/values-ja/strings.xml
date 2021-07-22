@@ -35,7 +35,7 @@
 
     <!-- CustomHttpClient -->
     <string name="dlg_err_connection_failed">接続失敗</string>
-    <string name="dlg_err_failed_unknown_host">不明なアドレス：％s</string>
+    <string name="dlg_err_failed_unknown_host">不明なアドレス：\n%s</string>
     <string name="dlg_err_failed_wrong_http_credentials">無効なHTTP認証</string>
     <string name="dlg_err_failed_timeout">サーバーが応答しません（タイムアウト）。</string>
     <string name="dlg_err_failed_connect_failure">不明な接続失敗</string>

@@ -137,5 +137,5 @@ limitations under the License.
 [johnjohndoe-github]: https://github.com/johnjohndoe
 [pentabarf-github]: https://github.com/nevs/pentabarf
 [pretalx-website]: https://pretalx.com
-[tuxmobil-github]: https://github.com/tuxmobil/CampFahrplan
+[tuxmobil-github]: https://github.com/tuxmobil
 [issue]: https://github.com/EventFahrplan/EventFahrplan/issues
