@@ -43,6 +43,14 @@
     <string name="dlg_err_failed_parse_failure">Kann Antwort nicht dekodieren.</string>
     <string name="dlg_err_failed_ssl_failure">SSL Fehler</string>
     <string name="dlg_err_failed_http_cleartext_not_permitted">HTTP ist nicht erlaubt. Bitte HTTPS nutzen.</string>
+    <string name="dlg_err_schedule_data">Fahrplandaten-Fehler</string>
+    <string name="dlg_err_schedule_data_empty">
+        Nichts darzustellen. Der Fahrplan mit Version
+        \"<xliff:g example="0.99" id="version">%s</xliff:g>\" erhält keine Einträge.
+    </string>
+    <string name="dlg_err_schedule_data_empty_without_version">
+        Nichts darzustellen. Der Fahrplan erhält keine Einträge.
+    </string>
     <string name="uptodate">Fahrplan ist aktuell.</string>
 
     <!-- Schedule changes dialog -->
