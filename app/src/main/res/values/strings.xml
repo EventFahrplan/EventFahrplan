@@ -45,6 +45,14 @@
     <string name="dlg_err_failed_parse_failure">Couldn\'t parse response</string>
     <string name="dlg_err_failed_ssl_failure">SSL failure</string>
     <string name="dlg_err_failed_http_cleartext_not_permitted">HTTP is not allowed. Please use HTTPS.</string>
+    <string name="dlg_err_schedule_data">Schedule data error</string>
+    <string name="dlg_err_schedule_data_empty">
+        Nothing to display. The schedule with version \"<xliff:g example="0.99" id="version">%s</xliff:g>\"
+        does not contain any session.
+    </string>
+    <string name="dlg_err_schedule_data_empty_without_version">
+        Nothing to display. The schedule does not contain any session.
+    </string>
     <string name="uptodate">Schedule is up to date.</string>
 
     <!-- Schedule changes dialog -->
