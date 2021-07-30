@@ -2,6 +2,12 @@
 
 package nerd.tuxmobil.fahrplan.congress
 
+import org.gradle.api.JavaVersion
+
+object Config {
+    val compatibleJavaVersion = JavaVersion.VERSION_1_8
+}
+
 object Android {
     const val buildToolsVersion = "30.0.3"
     const val compileSdkVersion = 30
