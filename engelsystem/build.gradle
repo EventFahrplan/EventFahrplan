@@ -1,3 +1,4 @@
+import nerd.tuxmobil.fahrplan.congress.Config
 import nerd.tuxmobil.fahrplan.congress.Libs
 
 apply plugin: "java-library"
@@ -17,5 +18,5 @@ dependencies {
     testImplementation Libs.truth
 }
 
-sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8
+sourceCompatibility = Config.compatibleJavaVersion
+targetCompatibility = Config.compatibleJavaVersion
