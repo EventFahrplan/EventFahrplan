@@ -16,7 +16,7 @@ object Plugins {
         const val androidJunitJacoco = "0.16.0"
         const val kotlin = "1.5.21"
         const val sonarQube = "3.3"
-        const val unMock = "0.7.6"
+        const val unMock = "0.7.8"
         const val versions = "0.39.0"
     }
 
@@ -24,7 +24,7 @@ object Plugins {
     const val androidJunitJacoco = "com.vanniktech:gradle-android-junit-jacoco-plugin:${Versions.androidJunitJacoco}"
     const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
     const val sonarQube = "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:${Versions.sonarQube}"
-    const val unMock = "de.mobilej.unmock:UnMockPlugin:${Versions.unMock}"
+    const val unMock = "com.github.bjoernq:unmockplugin:${Versions.unMock}"
     const val versions = "com.github.ben-manes:gradle-versions-plugin:${Versions.versions}"
 }
 
