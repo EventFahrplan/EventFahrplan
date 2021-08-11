@@ -21,10 +21,10 @@ class SessionsTransformerTest {
     @Test
     fun `rooms are ordered by roomIndex`() {
         val sessionsInDatabase = listOf(
-                createSession(sessionId = "L0", roomName = "Four", roomIndex = 2342),
-                createSession(sessionId = "L1", roomName = "Two", roomIndex = 1),
-                createSession(sessionId = "L2", roomName = "One", roomIndex = 0),
-                createSession(sessionId = "L3", roomName = "Three", roomIndex = 4)
+            createSession(sessionId = "L0", roomName = "Four", roomIndex = 2342),
+            createSession(sessionId = "L1", roomName = "Two", roomIndex = 1),
+            createSession(sessionId = "L2", roomName = "One", roomIndex = 0),
+            createSession(sessionId = "L3", roomName = "Three", roomIndex = 4)
         )
 
         val scheduleData = transformer.transformSessions(dayIndex = 0, sessions = sessionsInDatabase)
@@ -36,11 +36,11 @@ class SessionsTransformerTest {
     @Test
     fun `prioritized rooms are first in list`() {
         val sessionsInDatabase = listOf(
-                createSession(sessionId = "L0", roomName = "Chaos-West Bühne", roomIndex = 11),
-                createSession(sessionId = "L1", roomName = "c-base", roomIndex = 12),
-                createSession(sessionId = "L2", roomName = "Eliza", roomIndex = 13),
-                createSession(sessionId = "L3", roomName = "Borg", roomIndex = 14),
-                createSession(sessionId = "L4", roomName = "Ada", roomIndex = 15)
+            createSession(sessionId = "L0", roomName = "Chaos-West Bühne", roomIndex = 11),
+            createSession(sessionId = "L1", roomName = "c-base", roomIndex = 12),
+            createSession(sessionId = "L2", roomName = "Eliza", roomIndex = 13),
+            createSession(sessionId = "L3", roomName = "Borg", roomIndex = 14),
+            createSession(sessionId = "L4", roomName = "Ada", roomIndex = 15)
         )
 
         val scheduleData = transformer.transformSessions(dayIndex = 0, sessions = sessionsInDatabase)
@@ -52,9 +52,9 @@ class SessionsTransformerTest {
     @Test
     fun `same roomIndex does not influence RoomData contents`() {
         val sessionsInDatabase = listOf(
-                createSession(sessionId = "L0", roomName = "Borg", roomIndex = 2),
-                createSession(sessionId = "L1", roomName = "Broken One", roomIndex = 2),
-                createSession(sessionId = "L2", roomName = "Broken Two", roomIndex = 2)
+            createSession(sessionId = "L0", roomName = "Borg", roomIndex = 2),
+            createSession(sessionId = "L1", roomName = "Broken One", roomIndex = 2),
+            createSession(sessionId = "L2", roomName = "Broken Two", roomIndex = 2)
         )
 
         val scheduleData = transformer.transformSessions(dayIndex = 0, sessions = sessionsInDatabase)
@@ -74,10 +74,10 @@ class SessionsTransformerTest {
     }
 
     private fun createSession(
-            sessionId: String,
-            roomName: String,
-            roomIndex: Int,
-            dateUTC: Long = 0
+        sessionId: String,
+        roomName: String,
+        roomIndex: Int,
+        dateUTC: Long = 0
     ): Session {
         return Session(sessionId).apply {
             this.room = roomName

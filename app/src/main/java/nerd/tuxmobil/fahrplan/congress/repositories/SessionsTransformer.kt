@@ -17,9 +17,9 @@ class SessionsTransformer(private val prioritizedRoomProvider: PrioritizedRoomPr
     fun transformSessions(dayIndex: Int, sessions: List<Session>): ScheduleData {
         // Pre-populate the map with prioritized rooms
         val roomMap = prioritizedRoomProvider.prioritizedRooms
-                .map { it to mutableListOf<Session>() }
-                .toMap()
-                .toMutableMap()
+            .map { it to mutableListOf<Session>() }
+            .toMap()
+            .toMutableMap()
 
         val sortedSessions = sessions.sortedBy { it.roomIndex }
         for (session in sortedSessions) {
@@ -33,8 +33,8 @@ class SessionsTransformer(private val prioritizedRoomProvider: PrioritizedRoomPr
                 null
             } else {
                 RoomData(
-                        roomName = roomName,
-                        sessions = sessions.sortedBy { it.dateUTC }.toList()
+                    roomName = roomName,
+                    sessions = sessions.sortedBy { it.dateUTC }.toList()
                 )
             }
         }
