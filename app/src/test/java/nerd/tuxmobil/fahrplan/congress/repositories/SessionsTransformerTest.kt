@@ -65,6 +65,58 @@ class SessionsTransformerTest {
     }
 
     @Test
+    fun `empty deprioritized rooms do not reorder the list`() {
+        val transformer = SessionsTransformer(createRoomProvider(deprioritizedRooms = emptyList()))
+        val sessionsInDatabase = listOf(
+            createSession(sessionId = "L0", roomName = "Zeppelin", roomIndex = 11),
+            createSession(sessionId = "L1", roomName = "You", roomIndex = 12),
+            createSession(sessionId = "L2", roomName = "Erna", roomIndex = 13),
+            createSession(sessionId = "L3", roomName = "Bjoern", roomIndex = 14),
+            createSession(sessionId = "L4", roomName = "Ada", roomIndex = 15)
+        )
+
+        val scheduleData = transformer.transformSessions(dayIndex = 0, sessions = sessionsInDatabase)
+
+        val roomNames = scheduleData.roomDataList.map { it.roomName }
+        assertThat(roomNames).isEqualTo(listOf("Ada", "Zeppelin", "You", "Erna", "Bjoern"))
+    }
+
+
+    @Test
+    fun `odd deprioritized rooms are last in list`() {
+        val transformer = SessionsTransformer(createRoomProvider(deprioritizedRooms = listOf("Hamburg", "Frankfurt")))
+        val sessionsInDatabase = listOf(
+            createSession(sessionId = "L0", roomName = "Zeppelin", roomIndex = 11),
+            createSession(sessionId = "L1", roomName = "You", roomIndex = 12),
+            createSession(sessionId = "L2", roomName = "Erna", roomIndex = 13),
+            createSession(sessionId = "L3", roomName = "Bjoern", roomIndex = 14),
+            createSession(sessionId = "L4", roomName = "Ada", roomIndex = 15)
+        )
+
+        val scheduleData = transformer.transformSessions(dayIndex = 0, sessions = sessionsInDatabase)
+
+        val roomNames = scheduleData.roomDataList.map { it.roomName }
+        assertThat(roomNames).isEqualTo(listOf("Ada", "Zeppelin", "You", "Erna", "Bjoern"))
+    }
+
+    @Test
+    fun `deprioritized rooms are last in list`() {
+        val transformer = SessionsTransformer(createRoomProvider(deprioritizedRooms = listOf("You", "Zeppelin")))
+        val sessionsInDatabase = listOf(
+            createSession(sessionId = "L0", roomName = "Zeppelin", roomIndex = 11),
+            createSession(sessionId = "L1", roomName = "You", roomIndex = 12),
+            createSession(sessionId = "L2", roomName = "Erna", roomIndex = 13),
+            createSession(sessionId = "L3", roomName = "Bjoern", roomIndex = 14),
+            createSession(sessionId = "L4", roomName = "Ada", roomIndex = 15)
+        )
+
+        val scheduleData = transformer.transformSessions(dayIndex = 0, sessions = sessionsInDatabase)
+
+        val roomNames = scheduleData.roomDataList.map { it.roomName }
+        assertThat(roomNames).isEqualTo(listOf("Ada", "Erna", "Bjoern", "You", "Zeppelin"))
+    }
+
+    @Test
     fun `same roomIndex does not influence RoomData contents`() {
         val transformer = SessionsTransformer(createRoomProvider())
         val sessionsInDatabase = listOf(
@@ -104,9 +156,11 @@ class SessionsTransformerTest {
 
     private fun createRoomProvider(
         prioritizedRooms: List<String> = listOf("Ada", "Borg", "Clarke", "Dijkstra", "Eliza"),
+        deprioritizedRooms: List<String> = emptyList()
     ): RoomProvider {
         return object : RoomProvider {
             override val prioritizedRooms = prioritizedRooms
+            override val deprioritizedRooms = deprioritizedRooms
         }
     }
 

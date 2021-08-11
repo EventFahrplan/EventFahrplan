@@ -39,7 +39,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.ligi.tracedroid.logging.Log;
 import org.threeten.bp.ZoneId;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -104,17 +103,8 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
 
     private int mDay = 1;
 
-    private static final String[] rooms = {
-            "Saal 1",
-            "Saal 2",
-            "Saal G",
-            "Saal 6",
-            "Saal 17",
-            "Lounge"
-    };
-
     private static final SessionsTransformer sessionsTransformer =
-            new SessionsTransformer(() -> Arrays.asList(rooms));
+            SessionsTransformer.createSessionsTransformer();
 
     private Typeface light;
 
