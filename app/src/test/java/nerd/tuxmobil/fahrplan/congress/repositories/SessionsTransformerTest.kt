@@ -5,11 +5,12 @@ import nerd.tuxmobil.fahrplan.congress.models.Session
 import org.junit.Test
 
 class SessionsTransformerTest {
-    private val prioritizedRoomProvider = object : PrioritizedRoomProvider {
+
+    private val roomProvider = object : RoomProvider {
         override val prioritizedRooms = listOf("Ada", "Borg", "Clarke", "Dijkstra", "Eliza")
     }
 
-    private val transformer = SessionsTransformer(prioritizedRoomProvider)
+    private val transformer = SessionsTransformer(roomProvider)
 
     @Test
     fun `ScheduleData_dayIndex contains proper day value`() {

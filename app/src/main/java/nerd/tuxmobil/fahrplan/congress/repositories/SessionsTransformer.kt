@@ -4,7 +4,7 @@ import nerd.tuxmobil.fahrplan.congress.models.RoomData
 import nerd.tuxmobil.fahrplan.congress.models.ScheduleData
 import nerd.tuxmobil.fahrplan.congress.models.Session
 
-class SessionsTransformer(private val prioritizedRoomProvider: PrioritizedRoomProvider) {
+class SessionsTransformer(private val roomProvider: RoomProvider) {
 
     /**
      * Transforms the given [sessions] for the given [dayIndex] into a [ScheduleData] object.
@@ -16,7 +16,7 @@ class SessionsTransformer(private val prioritizedRoomProvider: PrioritizedRoomPr
      */
     fun transformSessions(dayIndex: Int, sessions: List<Session>): ScheduleData {
         // Pre-populate the map with prioritized rooms
-        val roomMap = prioritizedRoomProvider.prioritizedRooms
+        val roomMap = roomProvider.prioritizedRooms
             .map { it to mutableListOf<Session>() }
             .toMap()
             .toMutableMap()
@@ -43,6 +43,6 @@ class SessionsTransformer(private val prioritizedRoomProvider: PrioritizedRoomPr
     }
 }
 
-interface PrioritizedRoomProvider {
+interface RoomProvider {
     val prioritizedRooms: List<String>
 }
