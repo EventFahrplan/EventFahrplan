@@ -114,8 +114,8 @@ public class StarredListFragment extends AbstractListFragment implements
         MyApp.LogDebug(LOG_TAG, "initStarredList: " + starredList.size() + " favorites");
     }
 
-    @Override
     @Nullable
+    @Override
     public View onCreateView(
             @NonNull LayoutInflater inflater,
             @Nullable ViewGroup container,

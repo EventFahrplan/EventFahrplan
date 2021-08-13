@@ -159,6 +159,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
         sessionViewDrawer = new SessionViewDrawer(context, this::getSessionPadding);
     }
 
+    @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
