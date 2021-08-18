@@ -11,7 +11,7 @@ import org.threeten.bp.ZoneId
 import java.util.Locale
 import java.util.TimeZone
 
-// Most tests here only pass when being executed in a JDK 8 environment.
+// Most tests here only pass when being executed in a JDK 9+ environment.
 // See https://stackoverflow.com/questions/65732319/how-to-stabilize-flaky-datetimeformatteroflocalizeddatetime-test
 class SimpleSessionFormatTest {
 
@@ -73,7 +73,7 @@ class SimpleSessionFormatTest {
         assertThat(SimpleSessionFormat.format(session1, NO_TIME_ZONE_ID)).isEqualTo(
                 """
                 A talk which changes your life
-                Freitag, 27. Dezember 2019 11:00 GMT+01:00, Yellow pavilion
+                Freitag, 27. Dezember 2019, 11:00 GMT+01:00, Yellow pavilion
 
                 $expectedSession1Url
                 """.trimIndent())
@@ -84,7 +84,7 @@ class SimpleSessionFormatTest {
         assertThat(SimpleSessionFormat.format(session1, TIME_ZONE_EUROPE_BERLIN)).isEqualTo(
                 """
                 A talk which changes your life
-                Freitag, 27. Dezember 2019 11:00 MEZ (Europe/Berlin), Yellow pavilion
+                Freitag, 27. Dezember 2019, 11:00 MEZ (Europe/Berlin), Yellow pavilion
 
                 $expectedSession1Url
                 """.trimIndent())
@@ -95,7 +95,7 @@ class SimpleSessionFormatTest {
         assertThat(SimpleSessionFormat.format(session3, TIME_ZONE_EUROPE_BERLIN)).isEqualTo(
                 """
                 Angel shifts planning
-                Sonntag, 29. Dezember 2019 09:00 MEZ (Europe/Berlin), Main hall
+                Sonntag, 29. Dezember 2019, 09:00 MEZ (Europe/Berlin), Main hall
                 """.trimIndent())
     }
 
@@ -109,7 +109,7 @@ class SimpleSessionFormatTest {
         assertThat(SimpleSessionFormat.format(listOf(session1), TIME_ZONE_EUROPE_BERLIN)).isEqualTo(
                 """
                 A talk which changes your life
-                Freitag, 27. Dezember 2019 11:00 MEZ (Europe/Berlin), Yellow pavilion
+                Freitag, 27. Dezember 2019, 11:00 MEZ (Europe/Berlin), Yellow pavilion
 
                 $expectedSession1Url
                 """.trimIndent())
@@ -120,14 +120,14 @@ class SimpleSessionFormatTest {
         assertThat(SimpleSessionFormat.format(listOf(session1, session2), TIME_ZONE_EUROPE_BERLIN)).isEqualTo(
                 """
                 A talk which changes your life
-                Freitag, 27. Dezember 2019 11:00 MEZ (Europe/Berlin), Yellow pavilion
+                Freitag, 27. Dezember 2019, 11:00 MEZ (Europe/Berlin), Yellow pavilion
 
                 $expectedSession1Url
 
                 ---
 
                 The most boring workshop ever
-                Samstag, 28. Dezember 2019 17:00 MEZ (Europe/Berlin), Dark cellar
+                Samstag, 28. Dezember 2019, 17:00 MEZ (Europe/Berlin), Dark cellar
 
                 $expectedSession2Url
                 """.trimIndent())
@@ -138,7 +138,7 @@ class SimpleSessionFormatTest {
         assertThat(SimpleSessionFormat.format(session4, TIME_ZONE_EUROPE_BERLIN)).isEqualTo(
                 """
                 Central european summer time
-                Sonntag, 1. September 2019 16:00 MESZ (Europe/Berlin), Sunshine tent
+                Sonntag, 1. September 2019, 16:00 MESZ (Europe/Berlin), Sunshine tent
 
                 $expectedSession4Url
                 """.trimIndent())

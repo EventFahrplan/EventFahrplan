@@ -71,7 +71,7 @@ class DateFormatter private constructor(
      * The human readable name '{area}/{city}' of the time zone ID is appended if available.
      *
      * Formatting example:
-     * Tuesday, January 22, 2019 1:00 AM GMT+01:00 (Europe/Berlin)
+     * Tuesday, January 22, 2019, 1:00 AM GMT+01:00 (Europe/Berlin)
      */
     fun getFormattedShareable(time: Long, timeZoneId: ZoneId?): String {
         val displayTimeZone = timeZoneId ?: ZoneId.systemDefault()
@@ -90,7 +90,7 @@ class DateFormatter private constructor(
      * time zone of the associated session][sessionZoneOffset] into account. If [sessionZoneOffset]
      * is missing then formatting falls back to using the current time zone offset of the device.
      *
-     * E.g. 1/22/19 1:00 AM
+     * E.g. 1/22/19, 1:00 AM
      */
     fun getFormattedDateTimeShort(time: Long, sessionZoneOffset: ZoneOffset?): String {
         val zoneOffset = getAvailableZoneOffset(sessionZoneOffset)
