@@ -1,22 +1,16 @@
 dist: trusty
 
-language: android
+language: java
 
 jdk: openjdk8
 
-android:
-  components:
-
-    # All the build system components should be at the latest version
-    - tools
-    - platform-tools
-    - tools
-    # Note that the tools section appears twice on purpose as it’s required
-    # to get the newest Android SDK tools. Source: Travis CI docs.
-    - build-tools-30.0.3
-
-    # The libraries we can't get from Maven Central or similar
-    - extra
+env:
+  global:
+  # Android command line tools, check for updates here https://developer.android.com/studio/#command-tools
+  - COMMAND_LINE_TOOLS_VERSION=7583922
+  - ANDROID_HOME=$HOME/android-sdk
+  - TARGET_SDK_VERSION=`grep -H targetSdkVersion buildSrc/src/main/kotlin/nerd/tuxmobil/fahrplan/congress/Dependencies.kt | grep -Po "\d+"`
+  - BUILD_TOOLS_VERSION=`grep -H buildToolsVersion buildSrc/src/main/kotlin/nerd/tuxmobil/fahrplan/congress/Dependencies.kt | grep -Po "\d+.\d+.\d+"`
 
 branches:
   except:
@@ -25,10 +19,34 @@ branches:
 notifications:
   email: true
 
-before_install:
-- yes | sdkmanager "platforms;android-30"
+before_cache:
+  # Do not cache a few Gradle files/directories (see https://docs.travis-ci.com/user/languages/java/#caching)
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+
+cache:
+  directories:
+    # Android SDK
+    - $HOME/android-cmdline-tools
+    - $HOME/android-sdk
+
+    # Gradle dependencies
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
+
+install:
+  - mkdir -p $HOME/android-cmdline-tools
+  # Download and unzip the Android command line tools (if not already there thanks to the cache mechanism)
+  - if test ! -e $HOME/android-cmdline-tools/cmdline-tools.zip ; then curl "https://dl.google.com/android/repository/commandlinetools-linux-${COMMAND_LINE_TOOLS_VERSION}_latest.zip" > $HOME/android-cmdline-tools/cmdline-tools.zip ; fi
+  - unzip -qq -n $HOME/android-cmdline-tools/cmdline-tools.zip -d $HOME/android-cmdline-tools
+  - echo y | $HOME/android-cmdline-tools/cmdline-tools/bin/sdkmanager --sdk_root=$HOME/android-sdk "platform-tools"
+  - echo y | $HOME/android-cmdline-tools/cmdline-tools/bin/sdkmanager --sdk_root=$HOME/android-sdk "build-tools;${BUILD_TOOLS_VERSION}"
+  - echo y | $HOME/android-cmdline-tools/cmdline-tools/bin/sdkmanager --sdk_root=$HOME/android-sdk "platforms;android-${TARGET_SDK_VERSION}"
 
 before_script:
+  # To see if the correct values have been extracted.
+  - echo TARGET_SDK_VERSION=$TARGET_SDK_VERSION
+  - echo BUILD_TOOLS_VERSION=$BUILD_TOOLS_VERSION
 
   # Ensure Gradle wrapper is executable
   - chmod +x gradlew
