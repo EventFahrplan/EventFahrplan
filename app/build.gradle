@@ -199,7 +199,9 @@ dependencies {
 
     testImplementation project(":commons-testing")
     testImplementation Libs.annotation
-    testImplementation Libs.assertjAndroid
+    testImplementation(Libs.assertjAndroid) {
+        exclude group: "com.android.support", module: "support-annotations"
+    }
     testImplementation Libs.junit
     testImplementation Libs.mockitoCore
     testImplementation Libs.threeTenBp

@@ -33,5 +33,7 @@ dependencies {
     implementation Libs.okhttp
 
     testImplementation Libs.junit
-    testImplementation Libs.assertjAndroid
+    testImplementation(Libs.assertjAndroid) {
+        exclude group: "com.android.support", module: "support-annotations"
+    }
 }
