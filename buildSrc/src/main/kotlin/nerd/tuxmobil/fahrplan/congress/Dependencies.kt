@@ -50,7 +50,7 @@ object Libs {
         const val kotlinCoroutines = "1.5.1"
         const val markwon = "4.6.2"
         const val material = "1.4.0"
-        const val mockito = "3.11.0"
+        const val mockito = "3.12.0"
         const val mockitoKotlin = "2.2.0"
         const val moshi = "1.12.0"
         const val okhttp = "3.12.13"
