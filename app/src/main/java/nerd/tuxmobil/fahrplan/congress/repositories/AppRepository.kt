@@ -276,6 +276,13 @@ object AppRepository {
             .also { logging.d(javaClass.simpleName, "${it.size} sessions changed.") }
 
     /**
+     * Loads the first session of the first day from the database.
+     * Throws an exception if no session is present.
+     */
+    fun loadEarliestSession() = loadSessionsForAllDays(true)
+            .first()
+
+    /**
      * Loads all sessions from the database which take place on all days.
      * To exclude Engelsystem shifts pass false to [includeEngelsystemShifts].
      */
