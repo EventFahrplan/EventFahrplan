@@ -8,6 +8,7 @@ import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedOnce
 import info.metadude.android.eventfahrplan.database.repositories.SessionsDatabaseRepository
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toSessionsDatabaseModel
 import nerd.tuxmobil.fahrplan.congress.models.Session
+import org.junit.Assert.fail
 import org.junit.Test
 import org.mockito.ArgumentMatchers.anyInt
 
@@ -154,6 +155,26 @@ class AppRepositorySessionsTest {
         val uncanceledSessions = testableAppRepository.loadUncanceledSessionsForDayIndex(0)
         assertThat(uncanceledSessions).containsExactly(SESSION_3001)
         verifyInvokedOnce(sessionsDatabaseRepository).querySessionsForDayIndexOrderedByDateUtc(anyInt())
+    }
+
+    @Test
+    fun `loadEarliestSession fails when no session is present`() {
+        whenever(sessionsDatabaseRepository.querySessionsOrderedByDateUtc()) doReturn emptyList()
+        try {
+            testableAppRepository.loadEarliestSession()
+            fail()
+        } catch (e: NoSuchElementException) {
+            assertThat(e.message).isEqualTo("List is empty.")
+        }
+        verifyInvokedOnce(sessionsDatabaseRepository).querySessionsOrderedByDateUtc()
+    }
+
+    @Test
+    fun `loadEarliestSession returns the first session of the first day`() {
+        val sessions = listOf(SESSION_1005, SESSION_1001)
+        whenever(sessionsDatabaseRepository.querySessionsOrderedByDateUtc()) doReturn sessions.toSessionsDatabaseModel()
+        assertThat(testableAppRepository.loadEarliestSession()).isEqualTo(SESSION_1005)
+        verifyInvokedOnce(sessionsDatabaseRepository).querySessionsOrderedByDateUtc()
     }
 
 }

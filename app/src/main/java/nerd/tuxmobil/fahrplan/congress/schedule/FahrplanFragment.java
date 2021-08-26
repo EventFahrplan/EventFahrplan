@@ -479,11 +479,13 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
 
     private void fillTimes() {
         int normalizedBoxHeight = getNormalizedBoxHeight(displayDensityScale);
+        Session earliestSession = appRepository.loadEarliestSession();
+        int firstDayStartDay = earliestSession.getStartTimeMoment().getMonthDay();
         boolean useDeviceTimeZone = appRepository.readUseDeviceTimeZoneEnabled();
         List<TimeTextViewParameter> parameters = TimeTextViewParameter.parametersOf(
                 Moment.now(),
                 conference,
-                BuildConfig.SCHEDULE_FIRST_DAY_START_DAY,
+                firstDayStartDay,
                 mDay,
                 normalizedBoxHeight,
                 useDeviceTimeZone
