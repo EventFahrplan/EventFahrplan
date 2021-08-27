@@ -48,7 +48,7 @@ public class TrackBackgrounds {
                     }
                 } else if (eventType == XmlPullParser.TEXT) {
                     if (null != key) {
-                        value = parser.getText();
+                        value = parser.getText().trim();
                     }
                 }
                 eventType = parser.next();
