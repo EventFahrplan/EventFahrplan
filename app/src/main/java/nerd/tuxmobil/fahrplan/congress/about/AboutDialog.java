@@ -53,6 +53,7 @@ public class AboutDialog extends DialogFragment {
     @NonNull
     private String titleText = "";
 
+    @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,

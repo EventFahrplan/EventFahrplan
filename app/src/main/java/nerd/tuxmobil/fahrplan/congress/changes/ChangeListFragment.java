@@ -79,8 +79,8 @@ public class ChangeListFragment extends AbstractListFragment {
         MyApp.LogDebug(LOG_TAG, "onCreate, " + changesList.size() + " changes");
     }
 
-    @Override
     @Nullable
+    @Override
     public View onCreateView(
             @NonNull LayoutInflater inflater,
             @Nullable ViewGroup container,
