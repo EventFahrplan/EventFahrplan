@@ -5,7 +5,7 @@ package nerd.tuxmobil.fahrplan.congress
 import org.gradle.api.JavaVersion
 
 object Config {
-    val compatibleJavaVersion = JavaVersion.VERSION_1_8
+    val compatibleJavaVersion = JavaVersion.VERSION_11
 }
 
 object Android {
@@ -18,9 +18,9 @@ object Android {
 object Plugins {
 
     private object Versions {
-        const val android = "4.2.2"
+        const val android = "7.0.2"
         const val androidJunitJacoco = "0.16.0"
-        const val kotlin = "1.5.21"
+        const val kotlin = "1.5.30"
         const val sonarQube = "3.3"
         const val unMock = "0.7.8"
         const val versions = "0.39.0"
@@ -41,7 +41,7 @@ object Libs {
         const val appCompat = "1.3.1"
         const val assertjAndroid = "1.2.0"
         const val betterLinkMovementMethod = "2.2.0"
-        const val constraintLayout = "2.0.4"
+        const val constraintLayout = "2.1.0"
         const val coreKtx = "1.6.0"
         const val emailIntentBuilder = "2.0.0"
         const val engelsystem = "5.2.0"
@@ -50,7 +50,7 @@ object Libs {
         const val kotlinCoroutines = "1.5.1"
         const val markwon = "4.6.2"
         const val material = "1.4.0"
-        const val mockito = "3.11.0"
+        const val mockito = "3.12.0"
         const val mockitoKotlin = "2.2.0"
         const val moshi = "1.12.0"
         const val okhttp = "3.12.13"

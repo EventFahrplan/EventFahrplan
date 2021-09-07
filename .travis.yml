@@ -1,8 +1,8 @@
-dist: trusty
+dist: focal
 
 language: java
 
-jdk: openjdk8
+jdk: openjdk11
 
 env:
   global:

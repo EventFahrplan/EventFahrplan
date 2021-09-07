@@ -75,37 +75,37 @@ class DateFormatterTest {
         assertThat(createDateFormatter().getFormattedDate(timestamp, getTimeZoneOffsetNow())).isEqualTo("22.01.19")
     }
 
-    // This test only passes when being executed in a JDK 8 environment.
+    // This test only passes when being executed in a JDK 9+ environment.
     // See https://stackoverflow.com/questions/65732319/how-to-stabilize-flaky-datetimeformatteroflocalizeddatetime-test
     @Test
     fun getFormattedShareable() {
         Locale.setDefault(Locale.US)
         assertThat(createDateFormatter().getFormattedShareable(timestamp, NO_TIME_ZONE_ID))
-                .isEqualTo("Tuesday, January 22, 2019 1:00 AM GMT+01:00")
+                .isEqualTo("Tuesday, January 22, 2019, 1:00 AM GMT+01:00")
 
         Locale.setDefault(Locale.GERMANY)
         assertThat(createDateFormatter().getFormattedShareable(timestamp, NO_TIME_ZONE_ID))
-                .isEqualTo("Dienstag, 22. Januar 2019 01:00 GMT+01:00")
+                .isEqualTo("Dienstag, 22. Januar 2019, 01:00 GMT+01:00")
 
         Locale.setDefault(Locale.US)
         assertThat(createDateFormatter().getFormattedShareable(timestamp, TIME_ZONE_EUROPE_BERLIN))
-                .isEqualTo("Tuesday, January 22, 2019 1:00 AM CET (Europe/Berlin)")
+                .isEqualTo("Tuesday, January 22, 2019, 1:00 AM CET (Europe/Berlin)")
 
         Locale.setDefault(Locale.GERMANY)
         assertThat(createDateFormatter().getFormattedShareable(timestamp, TIME_ZONE_EUROPE_BERLIN))
-                .isEqualTo("Dienstag, 22. Januar 2019 01:00 MEZ (Europe/Berlin)")
+                .isEqualTo("Dienstag, 22. Januar 2019, 01:00 MEZ (Europe/Berlin)")
 
     }
 
-    // This test only passes when being executed in a JDK 8 environment.
+    // This test only passes when being executed in a JDK 9+ environment.
     // See https://stackoverflow.com/questions/65732319/how-to-stabilize-flaky-datetimeformatteroflocalizeddatetime-test
     @Test
     fun getFormattedDateTimeShort() {
         Locale.setDefault(Locale.US)
-        assertThat(createDateFormatter().getFormattedDateTimeShort(timestamp, getTimeZoneOffsetNow())).isEqualTo("1/22/19 1:00 AM")
+        assertThat(createDateFormatter().getFormattedDateTimeShort(timestamp, getTimeZoneOffsetNow())).isEqualTo("1/22/19, 1:00 AM")
 
         Locale.setDefault(Locale.GERMANY)
-        assertThat(createDateFormatter().getFormattedDateTimeShort(timestamp, getTimeZoneOffsetNow())).isEqualTo("22.01.19 01:00")
+        assertThat(createDateFormatter().getFormattedDateTimeShort(timestamp, getTimeZoneOffsetNow())).isEqualTo("22.01.19, 01:00")
     }
 
     private fun createDateFormatter(): DateFormatter {
