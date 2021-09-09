@@ -3,8 +3,11 @@
 # EventFahrplan
 
 EventFahrplan is a viewer for event schedules for instance
-[Chaos Computer Club e.V. events][ccc-events] such as [Chaos Communication Camp][camp-app-google-play]
-or [Chaos Communication Congress][congress-app-google-play].
+[Chaos Computer Club e.V. events][ccc-events] such as [Chaos Communication Camp][camp-website]
+or [Chaos Communication Congress][congress-website].
+
+- Chaos Communication Camp Schedule app: [F-Droid][camp-app-fdroid], [Google Play][camp-app-google-play]
+- Chaos Communication Congress Schedule app: [F-Droid][congress-app-fdroid], [Google Play][congress-app-google-play]
 
 The app is available for Android devices.
 
@@ -126,10 +129,14 @@ limitations under the License.
 
 [c3nav-github]: https://github.com/c3nav
 [campfahrplan-github]: https://github.com/tuxmobil/CampFahrplan
+[camp-app-fdroid]: https://fdroid.gitlab.io/ccc/
 [camp-app-google-play]: https://play.google.com/store/apps/details?id=info.metadude.android.cccamp.schedule
+[camp-website]: https://events.ccc.de/camp/
 [ccc-events]: http://events.ccc.de
 [chaosflix-github]: https://github.com/NiciDieNase/chaosflix
+[congress-app-fdroid]: https://f-droid.org/packages/info.metadude.android.congress.schedule
 [congress-app-google-play]: https://play.google.com/store/apps/details?id=info.metadude.android.congress.schedule
+[congress-website]: https://events.ccc.de/congress/
 [customization-guide]: docs/CUSTOMIZING.md
 [engelsystem-website]: https://engelsystem.de
 [eventfahrplan-github]: https://github.com/EventFahrplan/EventFahrplan
