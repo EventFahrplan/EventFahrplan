@@ -47,7 +47,7 @@ object Libs {
         const val engelsystem = "5.2.0"
         const val espresso = "3.4.0"
         const val junit = "4.13.2"
-        const val kotlinCoroutines = "1.5.1"
+        const val kotlinCoroutines = "1.5.2"
         const val markwon = "4.6.2"
         const val material = "1.4.0"
         const val mockito = "3.12.0"
