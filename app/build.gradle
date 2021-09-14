@@ -11,14 +11,14 @@ apply plugin: "de.mobilej.unmock"
 apply from: "../gradle/sonarqube.gradle"
 
 android {
-    compileSdkVersion Android.compileSdkVersion
+    compileSdk Android.compileSdkVersion
     buildToolsVersion Android.buildToolsVersion
 
     defaultConfig {
         versionCode 84
         versionName "1.52.0"
-        minSdkVersion Android.minSdkVersion
-        targetSdkVersion Android.targetSdkVersion
+        minSdk Android.minSdkVersion
+        targetSdk Android.targetSdkVersion
         archivesBaseName = "Fahrplan-$versionName"
 
         vectorDrawables.useSupportLibrary = true
