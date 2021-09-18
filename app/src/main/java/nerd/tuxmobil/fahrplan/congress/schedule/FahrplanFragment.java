@@ -75,7 +75,7 @@ import static nerd.tuxmobil.fahrplan.congress.extensions.ViewExtensions.requireV
 
 public class FahrplanFragment extends Fragment implements SessionViewEventsHandler {
 
-    private static final String LOG_TAG = "Fahrplan";
+    private static final String LOG_TAG = "FahrplanFragment";
 
     public static final String FRAGMENT_TAG = "schedule";
 
