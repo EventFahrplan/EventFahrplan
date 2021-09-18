@@ -208,7 +208,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
     @CallSuper
     @Override
     public void onResume() {
-        Log.d(LOG_TAG, "onResume");
+        Log.d(LOG_TAG, "FahrplanFragment#onResume");
         super.onResume();
         Activity activity = requireActivity();
         activity.invalidateOptionsMenu();
