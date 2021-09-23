@@ -467,10 +467,8 @@ object AppRepository {
 
     fun readScheduleUrl(): String {
         val alternateScheduleUrl = sharedPreferencesRepository.getAlternativeScheduleUrl()
-        return if (alternateScheduleUrl.isEmpty()) {
+        return alternateScheduleUrl.ifEmpty {
             BuildConfig.SCHEDULE_URL
-        } else {
-            alternateScheduleUrl
         }
     }
 
