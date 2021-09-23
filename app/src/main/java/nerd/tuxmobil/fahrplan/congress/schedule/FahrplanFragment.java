@@ -75,7 +75,7 @@ import static nerd.tuxmobil.fahrplan.congress.extensions.ViewExtensions.requireV
 
 public class FahrplanFragment extends Fragment implements SessionViewEventsHandler {
 
-    private static final String LOG_TAG = "Fahrplan";
+    private static final String LOG_TAG = "FahrplanFragment";
 
     public static final String FRAGMENT_TAG = "schedule";
 
@@ -208,7 +208,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
     @CallSuper
     @Override
     public void onResume() {
-        Log.d(LOG_TAG, "onResume");
+        Log.d(LOG_TAG, "FahrplanFragment#onResume");
         super.onResume();
         Activity activity = requireActivity();
         activity.invalidateOptionsMenu();
@@ -217,6 +217,8 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
 
         Log.d(LOG_TAG, "sessionId = " + sessionId);
         sessionId = intent.getStringExtra(BundleKeys.BUNDLE_KEY_SESSION_ALARM_SESSION_ID);
+        // TODO Analyzing https://github.com/EventFahrplan/EventFahrplan/issues/402
+        Log.d(LOG_TAG, "sessionId = " + sessionId + " (after loading from bundle)");
 
         if (sessionId != null) {
             Log.d(LOG_TAG, "Open with sessionId '" + sessionId + "'.");
@@ -337,7 +339,13 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
         if (!forceReload && !adapterByRoomIndex.isEmpty()) {
             for (int roomIndex = columnIndexLeft; roomIndex <= columnIndexRight; roomIndex++) {
                 //noinspection ConstantConditions
-                adapterByRoomIndex.get(roomIndex).notifyDataSetChanged();
+                try {
+                    adapterByRoomIndex.get(roomIndex).notifyDataSetChanged();
+                } catch (NullPointerException e) {
+                    // TODO Analyzing https://github.com/EventFahrplan/EventFahrplan/issues/402
+                    Log.e(LOG_TAG, "adapterByRoomIndex keys = " + adapterByRoomIndex.keySet());
+                    throw e;
+                }
             }
             return;
         }
