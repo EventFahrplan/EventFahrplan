@@ -42,8 +42,7 @@ class SessionsTransformer @VisibleForTesting constructor(
     fun transformSessions(dayIndex: Int, sessions: List<Session>): ScheduleData {
         // Pre-populate the map with prioritized rooms
         val roomMap = roomProvider.prioritizedRooms
-            .map { it to mutableListOf<Session>() }
-            .toMap()
+            .associateWith { mutableListOf<Session>() }
             .toMutableMap()
 
         val sortedSessions = sessions.sortedBy { it.roomIndex }
