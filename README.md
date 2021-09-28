@@ -11,7 +11,7 @@ or [Chaos Communication Congress][congress-website].
 
 The app is available for Android devices.
 
-Bug reports, feature requests can be submitted as an [issue][issue].
+Bug reports, feature requests can be submitted as an [issue][issues-github].
 Please read the instructions in the [contribution guide](CONTRIBUTING.md) in order to contribute to this project.
 
 ![Picture of the 36c3 Schedule on tablet and phone](gfx/EventFahrplan-36c3-Events-Tablet-Phone.png)
@@ -141,8 +141,8 @@ limitations under the License.
 [engelsystem-website]: https://engelsystem.de
 [eventfahrplan-github]: https://github.com/EventFahrplan/EventFahrplan
 [frab-github]: https://github.com/frab/frab
+[issues-github]: https://github.com/EventFahrplan/EventFahrplan/issues
 [johnjohndoe-github]: https://github.com/johnjohndoe
 [pentabarf-github]: https://github.com/nevs/pentabarf
 [pretalx-website]: https://pretalx.com
 [tuxmobil-github]: https://github.com/tuxmobil
-[issue]: https://github.com/EventFahrplan/EventFahrplan/issues
