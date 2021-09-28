@@ -54,7 +54,7 @@ Please read the instructions in the [contribution guide](CONTRIBUTING.md) in ord
 
 ### Optional integration
 
-* The feedback system of [Frab][frab-github] and [Pretalx][pretalx-website]
+* The feedback system of [Frab][frab-website] and [Pretalx][pretalx-website]
 * [c3nav][c3nav-github] - An indoor navigation project
 * [Engelsystem][engelsystem-website] - Online tool for coordinating helpers and shifts on large events
 * [Chaosflix][chaosflix-github] - Android app for media.ccc.de, share Fahrplan favorites with Chaosflix to import them as bookmarks
@@ -69,8 +69,9 @@ Android 4.1 (Jelly Bean) and newer versions are supported.
 ## Event data
 
 * The app is designed to consume event data published in a specific format
-as provided by [Frab][frab-github]. The file format produced by the predecessor software,
-[Pentabarf][pentabarf-github], cannot be consumed out of the box.
+as provided by [Frab][frab-website], [Pretalx][pretalx-website] or [Wafer][wafer-website].
+The file format produced by the predecessor software, [Pentabarf][pentabarf-github],
+cannot be consumed out of the box.
 * In general it is possible to re-deployed the app for other events which
 provide the same event file format.
 
@@ -140,9 +141,10 @@ limitations under the License.
 [customization-guide]: docs/CUSTOMIZING.md
 [engelsystem-website]: https://engelsystem.de
 [eventfahrplan-github]: https://github.com/EventFahrplan/EventFahrplan
-[frab-github]: https://github.com/frab/frab
+[frab-website]: https://frab.github.io/frab/
 [issues-github]: https://github.com/EventFahrplan/EventFahrplan/issues
 [johnjohndoe-github]: https://github.com/johnjohndoe
 [pentabarf-github]: https://github.com/nevs/pentabarf
 [pretalx-website]: https://pretalx.com
 [tuxmobil-github]: https://github.com/tuxmobil
+[wafer-website]: https://wafer.readthedocs.io
