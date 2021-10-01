@@ -11,10 +11,10 @@
             android:layout_height="fill_parent"
             android:layout_gravity="top"
             android:orientation="vertical"
-            android:paddingLeft="32dp"
-            android:paddingRight="32dp"
-            android:paddingTop="16dp"
-            android:paddingBottom="32dp"
+            android:paddingLeft="@dimen/about_padding_horizontal"
+            android:paddingRight="@dimen/about_padding_horizontal"
+            android:paddingTop="@dimen/about_padding_top"
+            android:paddingBottom="@dimen/about_padding_bottom"
             >
 
         <ImageView

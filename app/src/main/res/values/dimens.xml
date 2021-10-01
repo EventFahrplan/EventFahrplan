@@ -42,6 +42,9 @@
 
     <!-- About -->
     <dimen name="about_horizontal_line_height">1dp</dimen>
+    <dimen name="about_padding_horizontal">16dp</dimen>
+    <dimen name="about_padding_top">16dp</dimen>
+    <dimen name="about_padding_bottom">16dp</dimen>
 
     <!-- Session drawable parameters -->
     <dimen name="session_drawable_corner_radius">6dp</dimen>
