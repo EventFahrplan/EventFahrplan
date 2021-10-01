@@ -123,6 +123,17 @@ public class AboutDialog extends DialogFragment {
         String issuesTitle = getString(R.string.about_issues_or_feature_requests);
         TextViewExtensions.setLinkText(issues, issuesUrl, issuesTitle, movementMethod, linkTextColor);
 
+        TextView fdroidStore = requireViewByIdCompat(view, R.id.about_f_droid_view);
+        String fdroidUrl = BuildConfig.F_DROID_URL;
+        //noinspection ConstantConditions
+        if (fdroidUrl.isEmpty()) {
+            fdroidStore.setVisibility(View.GONE);
+        } else {
+            fdroidStore.setVisibility(View.VISIBLE);
+            String fdroidListingTitle = getString(R.string.about_f_droid_listing);
+            TextViewExtensions.setLinkText(fdroidStore, fdroidUrl, fdroidListingTitle, movementMethod, linkTextColor);
+        }
+
         TextView googlePlayStore = requireViewByIdCompat(view, R.id.about_google_play_view);
         String googlePlayUrl = BuildConfig.GOOGLE_PLAY_URL;
         String googlePlayListingTitle = getString(R.string.about_google_play_listing);

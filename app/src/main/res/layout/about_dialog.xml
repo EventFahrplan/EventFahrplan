@@ -144,6 +144,18 @@
             tools:text="@string/about_issues_or_feature_requests" />
 
         <TextView
+            android:id="@+id/about_f_droid_view"
+            style="@style/TextViewLinks"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:linksClickable="true"
+            android:paddingLeft="16dp"
+            android:paddingTop="10dp"
+            android:paddingRight="16dp"
+            android:singleLine="false"
+            tools:text="@string/about_f_droid_listing" />
+
+        <TextView
             android:id="@+id/about_google_play_view"
             style="@style/TextViewLinks"
             android:layout_width="wrap_content"

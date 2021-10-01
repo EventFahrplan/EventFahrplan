@@ -94,6 +94,7 @@
 		Engelsystem, Espresso, Markwon, OkHttp, SnackEngage, TraceDroid
 	</string>
     <string name="about_data_privacy_statement_german">Datenschutzerklärung</string>
+    <string name="about_f_droid_listing">Eintrag bei F-Droid</string>
     <string name="about_google_play_listing">Eintrag bei Google Play</string>
     <string name="about_issues_or_feature_requests">Fehlermeldungen und Wünsche</string>
     <string name="about_source_code">Quellcode</string>
