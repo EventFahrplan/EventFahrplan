@@ -27,6 +27,7 @@ android {
 }
 
 dependencies {
+    implementation Libs.liveDataKtx
     implementation Libs.tracedroid
     api Libs.threeTenBp
 

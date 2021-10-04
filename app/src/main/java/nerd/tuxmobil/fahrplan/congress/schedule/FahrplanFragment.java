@@ -726,7 +726,6 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
                 appRepository.updateHighlight(session);
                 sessionViewDrawer.setSessionBackground(session, contextMenuView);
                 SessionViewDrawer.setSessionTextColor(session, contextMenuView);
-                ((MainActivity) context).refreshFavoriteList();
                 updateMenuItems();
                 break;
             case CONTEXT_MENU_ITEM_ID_SET_ALARM:

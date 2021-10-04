@@ -14,10 +14,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AbsListView
 import android.widget.AbsListView.MultiChoiceModeListener
+import android.widget.HeaderViewListAdapter
 import android.widget.ListView
 import android.widget.Toast
 import androidx.annotation.CallSuper
 import androidx.annotation.MainThread
+import androidx.fragment.app.viewModels
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.BuildConfig
 import nerd.tuxmobil.fahrplan.congress.R
@@ -27,9 +29,7 @@ import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
 import nerd.tuxmobil.fahrplan.congress.extensions.requireViewByIdCompat
 import nerd.tuxmobil.fahrplan.congress.extensions.withArguments
 import nerd.tuxmobil.fahrplan.congress.models.Session
-import nerd.tuxmobil.fahrplan.congress.sharing.JsonSessionFormat
 import nerd.tuxmobil.fahrplan.congress.sharing.SessionSharer
-import nerd.tuxmobil.fahrplan.congress.sharing.SimpleSessionFormat
 import nerd.tuxmobil.fahrplan.congress.utils.ActivityHelper
 import nerd.tuxmobil.fahrplan.congress.utils.ConfirmationDialog
 
@@ -61,7 +61,7 @@ class StarredListFragment :
     }
 
     private var onSessionListClickListener: OnSessionListClick? = null
-    private lateinit var starredList: MutableList<Session>
+    private lateinit var starredList: List<Session>
     private var sidePane = false
 
     /**
@@ -69,11 +69,15 @@ class StarredListFragment :
      */
     private lateinit var currentListView: ListView
 
-    /**
-     * The adapter which will be used to populate the ListView/GridView with Views.
-     */
-    private lateinit var adapter: StarredListAdapter
+    private val starredListAdapter: StarredListAdapter
+        get() {
+            val headerViewListAdapter = currentListView.adapter as HeaderViewListAdapter
+            return headerViewListAdapter.wrappedAdapter as StarredListAdapter
+        }
+
     private var preserveScrollPosition = false
+
+    private val viewModel: StarredListViewModel by viewModels { StarredListViewModelFactory(appRepository) }
 
     @MainThread
     @CallSuper
@@ -83,11 +87,6 @@ class StarredListFragment :
             sidePane = it.getBoolean(BundleKeys.SIDEPANE)
         }
         setHasOptionsMenu(true)
-        val context = requireContext()
-        starredList = appRepository.loadStarredSessions().toMutableList()
-        val meta = appRepository.readMeta()
-        val useDeviceTimeZone = appRepository.readUseDeviceTimeZoneEnabled()
-        adapter = StarredListAdapter(context, starredList, meta.numDays, useDeviceTimeZone)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -108,9 +107,32 @@ class StarredListFragment :
         currentListView.setHeaderDividersEnabled(false)
         currentListView.choiceMode = AbsListView.CHOICE_MODE_MULTIPLE_MODAL
         currentListView.setMultiChoiceModeListener(this)
-        currentListView.adapter = adapter
         currentListView.setOnScrollListener(this)
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        observeViewModel()
+    }
+
+    private fun observeViewModel() {
+        viewModel.starredListParameter.observe(viewLifecycleOwner) { (sessions, numDays, useDeviceTimeZone) ->
+            starredList = sessions
+            val activity = requireActivity()
+            val adapter = StarredListAdapter(activity, sessions, numDays, useDeviceTimeZone)
+            currentListView.adapter = adapter
+            activity.invalidateOptionsMenu()
+        }
+        viewModel.shareSimple.observe(viewLifecycleOwner) { formattedSession ->
+            SessionSharer.shareSimple(requireContext(), formattedSession)
+        }
+        viewModel.shareJson.observe(viewLifecycleOwner) { formattedSession ->
+            val context = requireContext()
+            if (!SessionSharer.shareJson(context, formattedSession)) {
+                Toast.makeText(context, R.string.share_error_activity_not_found, Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     @MainThread
@@ -160,22 +182,13 @@ class StarredListFragment :
         onSessionListClickListener = null
     }
 
-    fun onRefresh() {
-        val starred = appRepository.loadStarredSessions()
-        if (::starredList.isInitialized) {
-            starredList.clear()
-            starredList.addAll(starred)
-        }
-        adapter.notifyDataSetChanged()
-    }
-
     override fun onListItemClick(listView: ListView, view: View, listPosition: Int, rowId: Long) {
         var currentPosition = listPosition
         if (onSessionListClickListener != null) {
             // Notify the active callbacks interface (the activity, if the
             // fragment is attached to one) that an item has been selected.
             currentPosition--
-            val clicked = adapter.getSession(currentPosition)
+            val clicked = starredListAdapter.getSession(currentPosition)
             onSessionListClickListener?.onSessionListClick(clicked.sessionId)
         }
     }
@@ -200,11 +213,11 @@ class StarredListFragment :
         when (item.itemId) {
             R.id.menu_item_share_favorites,
             R.id.menu_item_share_favorites_text -> {
-                shareSessions()
+                viewModel.share()
                 return true
             }
             R.id.menu_item_share_favorites_json -> {
-                shareSessionsToChaosflix()
+                viewModel.shareToChaosflix()
                 return true
             }
             R.id.menu_item_delete_all_favorites -> {
@@ -248,9 +261,7 @@ class StarredListFragment :
         return when (item.itemId) {
             R.id.menu_item_delete_favorite -> {
                 deleteItems(currentListView.checkedItemPositions)
-                val activity = requireActivity()
-                activity.invalidateOptionsMenu()
-                refreshViews(activity)
+                requireActivity().setResult(Activity.RESULT_OK)
                 mode.finish()
                 true
             }
@@ -260,26 +271,17 @@ class StarredListFragment :
 
     private fun deleteSession(session: Session) {
         session.highlight = false
-        appRepository.updateHighlight(session)
-        appRepository.notifyHighlightsChanged()
+        viewModel.delete(session)
     }
 
     private fun deleteItems(checkedItemPositions: SparseBooleanArray) {
         val itemsCount = currentListView.adapter.count
         for (itemId in itemsCount - 1 downTo 0) {
             if (checkedItemPositions[itemId]) {
-                val index = itemId - 1
-                val session = adapter.getSession(index)
+                val session = starredListAdapter.getSession(itemId - 1)
                 deleteSession(session)
-                starredList.removeAt(index)
             }
         }
-    }
-
-    private fun refreshViews(activity: Activity) {
-        adapter.notifyDataSetChanged()
-        activity.setResult(Activity.RESULT_OK)
-        activity.invalidateOptionsMenu()
     }
 
     override fun onDestroyActionMode(mode: ActionMode) = Unit
@@ -299,31 +301,8 @@ class StarredListFragment :
         if (!::starredList.isInitialized || starredList.isEmpty()) {
             return
         }
-        appRepository.deleteAllHighlights()
-        appRepository.notifyHighlightsChanged()
-        for (starredSession in starredList) {
-            starredSession.highlight = false
-        }
-        starredList.clear()
-        val activity = requireActivity()
-        activity.invalidateOptionsMenu()
-        refreshViews(activity)
-    }
-
-    private fun shareSessions() {
-        val timeZoneId = appRepository.readMeta().timeZoneId
-        SimpleSessionFormat.format(starredList, timeZoneId)?.let { formattedSession ->
-            SessionSharer.shareSimple(requireContext(), formattedSession)
-        }
-    }
-
-    private fun shareSessionsToChaosflix() {
-        JsonSessionFormat().format(starredList)?.let { formattedSession ->
-            val context = requireContext()
-            if (!SessionSharer.shareJson(context, formattedSession)) {
-                Toast.makeText(context, R.string.share_error_activity_not_found, Toast.LENGTH_SHORT).show()
-            }
-        }
+        viewModel.deleteAll()
+        requireActivity().setResult(Activity.RESULT_OK)
     }
 
 }

@@ -1,14 +1,11 @@
-package nerd.tuxmobil.fahrplan.congress.repositories
+package nerd.tuxmobil.fahrplan.congress
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers.Unconfined
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import nerd.tuxmobil.fahrplan.congress.repositories.ExecutionContext
 
-@ExperimentalCoroutinesApi
 object TestExecutionContext : ExecutionContext {
-
     override val ui: CoroutineDispatcher = Unconfined
     override val network: CoroutineDispatcher = Unconfined
     override val database: CoroutineDispatcher = Unconfined
-
 }
