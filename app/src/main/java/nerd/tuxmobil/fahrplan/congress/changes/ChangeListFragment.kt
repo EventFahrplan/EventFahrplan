@@ -6,17 +6,17 @@ import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.HeaderViewListAdapter
 import android.widget.ListView
 import androidx.annotation.CallSuper
 import androidx.annotation.MainThread
-import nerd.tuxmobil.fahrplan.congress.MyApp
+import androidx.fragment.app.viewModels
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.base.AbstractListFragment
 import nerd.tuxmobil.fahrplan.congress.base.AbstractListFragment.OnSessionListClick
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
 import nerd.tuxmobil.fahrplan.congress.extensions.requireViewByIdCompat
 import nerd.tuxmobil.fahrplan.congress.extensions.withArguments
-import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper
 
 /**
@@ -33,7 +33,6 @@ class ChangeListFragment : AbstractListFragment() {
 
     companion object {
 
-        private const val LOG_TAG = "ChangeListFragment"
         const val FRAGMENT_TAG = "changes"
 
         @JvmStatic
@@ -44,47 +43,47 @@ class ChangeListFragment : AbstractListFragment() {
     }
 
     private var onSessionListClickListener: OnSessionListClick? = null
-    private lateinit var changesList: MutableList<Session>
-    private var sidePane = false
-
-    /**
-     * The Adapter which will be used to populate the ListView/GridView with Views.
-     */
-    private lateinit var changeListAdapter: ChangeListAdapter
-
-    @MainThread
-    @CallSuper
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        val arguments = requireArguments()
-        sidePane = arguments.getBoolean(BundleKeys.SIDEPANE)
-        changesList = appRepository.loadChangedSessions().toMutableList()
-        val meta = appRepository.readMeta()
-        val useDeviceTimeZone = appRepository.readUseDeviceTimeZoneEnabled()
-        changeListAdapter = ChangeListAdapter(requireContext(), changesList, meta.numDays, useDeviceTimeZone)
-        MyApp.LogDebug(LOG_TAG, "onCreate, ${changesList.size} changes")
-    }
+    private lateinit var currentListView: ListView
+    private val viewModelFactory by lazy { ChangeListViewModelFactory(appRepository) }
+    private val viewModel: ChangeListViewModel by viewModels { viewModelFactory }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val contextThemeWrapper: Context = ContextThemeWrapper(requireContext(), R.style.Theme_AppCompat_Light)
+        val arguments = requireArguments()
+        val sidePane = arguments.getBoolean(BundleKeys.SIDEPANE)
+
+        val contextThemeWrapper = ContextThemeWrapper(requireContext(), R.style.Theme_AppCompat_Light)
         val localInflater = inflater.cloneInContext(contextThemeWrapper)
         val (fragmentLayout, headerLayout) = when {
             sidePane -> R.layout.fragment_session_list_narrow to R.layout.changes_header
             else -> R.layout.fragment_session_list to R.layout.header_empty
         }
+
         val fragmentView = localInflater.inflate(fragmentLayout, container, false)
         val headerView = localInflater.inflate(headerLayout, null, false)
-        val listView = fragmentView.requireViewByIdCompat<ListView>(android.R.id.list)
-        listView.addHeaderView(headerView, null, false)
-        listView.setHeaderDividersEnabled(false)
-        listView.adapter = changeListAdapter
+        currentListView = fragmentView.requireViewByIdCompat(android.R.id.list)
+        currentListView.addHeaderView(headerView, null, false)
+        currentListView.setHeaderDividersEnabled(false)
         return fragmentView
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        observeViewModel()
+    }
+
+    private fun observeViewModel() {
+        viewModel.changeListParameter.observe(viewLifecycleOwner) { (sessions, numDays, useDeviceTimeZone) ->
+            val adapter = ChangeListAdapter(requireContext(), sessions, numDays, useDeviceTimeZone)
+            currentListView.adapter = adapter
+        }
+        viewModel.scheduleChangesSeen.observe(viewLifecycleOwner) {
+            NotificationHelper(requireContext()).cancelScheduleUpdateNotification()
+        }
     }
 
     override fun onResume() {
         super.onResume()
-        NotificationHelper(requireContext()).cancelScheduleUpdateNotification()
-        appRepository.updateScheduleChangesSeen(true)
+        viewModel.updateScheduleChangesSeen(changesSeen = true)
     }
 
     @MainThread
@@ -105,22 +104,13 @@ class ChangeListFragment : AbstractListFragment() {
         onSessionListClickListener = null
     }
 
-    fun onRefresh() {
-        val updatedChanges = appRepository.loadChangedSessions()
-        if (::changesList.isInitialized) {
-            changesList.clear()
-            changesList.addAll(updatedChanges)
-        }
-        changeListAdapter.notifyDataSetChanged()
-    }
-
     override fun onListItemClick(listView: ListView, view: View, listPosition: Int, rowId: Long) {
-        var currentPosition = listPosition
+        val headerViewListAdapter = currentListView.adapter as HeaderViewListAdapter
+        val adapter = headerViewListAdapter.wrappedAdapter as ChangeListAdapter
         onSessionListClickListener?.let { listener ->
             // Notify the active callbacks interface (the activity, if the
             // fragment is attached to one) that an item has been selected.
-            currentPosition--
-            val clicked = changeListAdapter.getSession(currentPosition)
+            val clicked = adapter.getSession(listPosition - 1)
             if (!clicked.changedIsCanceled) {
                 listener.onSessionListClick(clicked.sessionId)
             }

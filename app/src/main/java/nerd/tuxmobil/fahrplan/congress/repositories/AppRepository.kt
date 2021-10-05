@@ -116,6 +116,28 @@ object AppRepository {
             .flowOn(executionContext.database)
     }
 
+    private val refreshChangedSessionsSignal = MutableSharedFlow<Unit>()
+
+    private fun refreshChangedSessions() {
+        logging.d(javaClass.simpleName, "Refreshing changed sessions ...")
+        val requestIdentifier = "refreshChangedSessions"
+        parentJobs[requestIdentifier] = databaseScope.launchNamed(requestIdentifier) {
+            refreshChangedSessionsSignal.emit(Unit)
+        }
+    }
+
+    /**
+     * Emits all sessions from the database which have been marked as changed, cancelled or new.
+     * The returned list might be empty.
+     */
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val changedSessions: Flow<List<Session>> by lazy {
+        refreshChangedSessionsSignal
+            .onStart { emit(Unit) }
+            .mapLatest { loadChangedSessions() }
+            .flowOn(executionContext.database)
+    }
+
     @JvmOverloads
     fun initialize(
             context: Context,
@@ -448,6 +470,7 @@ object AppRepository {
         val toBeUpdated = toBeUpdatedSessionsDatabaseModel.map { it.sessionId to it.toContentValues() }
         val toBeDeleted = toBeDeletedSessions.map { it.sessionId }
         sessionsDatabaseRepository.updateSessions(toBeUpdated, toBeDeleted)
+        refreshChangedSessions()
     }
 
     /**
@@ -533,6 +556,7 @@ object AppRepository {
     fun readScheduleChangesSeen() =
             sharedPreferencesRepository.getChangesSeen()
 
+    @WorkerThread
     fun updateScheduleChangesSeen(changesSeen: Boolean) =
             sharedPreferencesRepository.setChangesSeen(changesSeen)
 
