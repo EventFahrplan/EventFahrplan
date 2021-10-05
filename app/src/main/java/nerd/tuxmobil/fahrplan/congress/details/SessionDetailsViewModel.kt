@@ -37,7 +37,7 @@ class SessionDetailsViewModel @JvmOverloads constructor(
             SimpleSessionFormat.format(this, timeZoneId)
         },
         private val toJson: Session.() -> String = {
-            JsonSessionFormat.format(this)
+            JsonSessionFormat().format(this)
         },
         private val toC3NavRoomName: Session.() -> String = {
             RoomForC3NavConverter.convert(this.room)

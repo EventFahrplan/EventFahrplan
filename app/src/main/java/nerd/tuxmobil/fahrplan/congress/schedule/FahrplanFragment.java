@@ -750,7 +750,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
                 SessionSharer.shareSimple(context, formattedSession);
                 break;
             case CONTEXT_MENU_ITEM_ID_SHARE_JSON:
-                String jsonFormattedSession = JsonSessionFormat.format(session);
+                String jsonFormattedSession = new JsonSessionFormat().format(session);
                 if (!SessionSharer.shareJson(context, jsonFormattedSession)) {
                     Toast.makeText(context, R.string.share_error_activity_not_found, Toast.LENGTH_SHORT).show();
                 }

@@ -318,7 +318,7 @@ class StarredListFragment :
     }
 
     private fun shareSessionsToChaosflix() {
-        JsonSessionFormat.format(starredList)?.let { formattedSession ->
+        JsonSessionFormat().format(starredList)?.let { formattedSession ->
             val context = requireContext()
             if (!SessionSharer.shareJson(context, formattedSession)) {
                 Toast.makeText(context, R.string.share_error_activity_not_found, Toast.LENGTH_SHORT).show()

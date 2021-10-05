@@ -9,7 +9,7 @@ class JsonSessionFormatTest {
     @Test
     fun formatSingle() {
         val session = Session("session1")
-        val json = JsonSessionFormat.format(session)
+        val json = JsonSessionFormat().format(session)
         assertThat(json).isEqualTo(EXPECTED_JSON_SINGLE)
     }
 
@@ -19,7 +19,7 @@ class JsonSessionFormatTest {
                 Session("session1"),
                 Session("session2"),
                 Session("session3"))
-        val json = JsonSessionFormat.format(sessions)
+        val json = JsonSessionFormat().format(sessions)
         assertThat(json).isEqualTo(EXPECTED_JSON_LIST)
     }
 
