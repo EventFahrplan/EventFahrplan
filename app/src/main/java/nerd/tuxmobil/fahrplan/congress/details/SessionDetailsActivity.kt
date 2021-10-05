@@ -19,7 +19,6 @@ class SessionDetailsActivity : BaseActivity(R.layout.detail_frame) {
 
         const val REQUEST_CODE = 2
 
-        @JvmStatic
         fun start(activity: Activity, sessionId: String) {
             activity.startActivity(createIntent(activity, sessionId))
         }
