@@ -23,6 +23,7 @@ import static nerd.tuxmobil.fahrplan.congress.extensions.ViewExtensions.requireV
 
 public class AboutDialog extends DialogFragment {
 
+    public static final String FRAGMENT_TAG = "about";
     private static final String BUNDLE_KEY_SCHEDULE_VERSION =
             BuildConfig.APPLICATION_ID + ".BUNDLE_KEY_SCHEDULE_VERSION";
     private static final String BUNDLE_KEY_SUBTITLE =

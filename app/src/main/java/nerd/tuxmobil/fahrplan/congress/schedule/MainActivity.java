@@ -347,7 +347,7 @@ public class MainActivity extends BaseActivity implements
                 meta.getVersion(),
                 meta.getSubtitle(),
                 meta.getTitle()
-        ).show(ft, "about");
+        ).show(ft, AboutDialog.FRAGMENT_TAG);
     }
 
     @Override
