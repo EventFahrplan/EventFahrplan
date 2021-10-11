@@ -316,10 +316,6 @@ public class MainActivity extends BaseActivity implements
         super.onCreateOptionsMenu(menu);
         MenuInflater mi = getMenuInflater();
         mi.inflate(R.menu.mainmenu, menu);
-        MenuItem item = menu.findItem(R.id.menu_item_refresh);
-        if (item != null) {
-            item.setVisible(showUpdateAction);
-        }
         return true;
     }
 
@@ -349,10 +345,6 @@ public class MainActivity extends BaseActivity implements
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_item_refresh:
-                Log.d(LOG_TAG, "Menu item: Refresh");
-                fetchFahrplan();
-                return true;
             case R.id.menu_item_about:
                 showAboutDialog();
                 return true;

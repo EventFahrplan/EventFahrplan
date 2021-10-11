@@ -14,6 +14,8 @@ import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
@@ -708,6 +710,23 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
 
         }
         return true;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.fahrplan_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem menuItem) {
+        if (menuItem.getItemId() == R.id.menu_item_refresh) {
+            // TODO Replace MainActivity reference with viewModel.
+            MainActivity activity = (MainActivity) requireActivity();
+            activity.fetchFahrplan();
+            return true;
+        }
+        return super.onOptionsItemSelected(menuItem);
     }
 
     private void updateMenuItems() {
