@@ -687,6 +687,7 @@ object AppRepository {
     fun readAlternativeHighlightingEnabled() =
             sharedPreferencesRepository.isAlternativeHighlightingEnabled()
 
+    @WorkerThread
     fun readAutoUpdateEnabled() =
             sharedPreferencesRepository.isAutoUpdateEnabled()
 

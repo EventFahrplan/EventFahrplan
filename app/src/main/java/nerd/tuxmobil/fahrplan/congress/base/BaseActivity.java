@@ -1,7 +1,5 @@
 package nerd.tuxmobil.fahrplan.congress.base;
 
-import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -15,15 +13,9 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import kotlin.Unit;
-import nerd.tuxmobil.fahrplan.congress.autoupdate.UpdateService;
-import nerd.tuxmobil.fahrplan.congress.net.ConnectivityObserver;
-import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 import nerd.tuxmobil.fahrplan.congress.utils.ActivityHelper;
 
 public abstract class BaseActivity extends AppCompatActivity {
-
-    private ConnectivityObserver connectivityObserver;
 
     public BaseActivity() {
         super();
@@ -34,22 +26,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         super(contentLayoutId);
     }
 
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        connectivityObserver = new ConnectivityObserver(this, () -> {
-            Log.d(getClass().getSimpleName(), "Network is available.");
-            startUpdateService();
-            return Unit.INSTANCE;
-        });
-        connectivityObserver.start();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        connectivityObserver.stop();
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -60,13 +36,6 @@ public abstract class BaseActivity extends AppCompatActivity {
                 return ActivityHelper.navigateUp(this);
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private void startUpdateService() {
-        boolean isAutoUpdateEnabled = AppRepository.INSTANCE.readAutoUpdateEnabled();
-        if (isAutoUpdateEnabled) {
-            UpdateService.start(this);
-        }
     }
 
     protected void addFragment(@IdRes int containerViewId,
