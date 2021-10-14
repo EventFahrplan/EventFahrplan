@@ -45,11 +45,6 @@ public class MyApp extends Application {
         FETCH_CANCELLED
     }
 
-    // requestCodes für startActivityForResult
-    public static final int ALARMLIST = 1;
-    public static final int SESSION_VIEW = 2;
-    public static final int SETTINGS = 5;
-
     public static TASKS task_running = TASKS.NONE;
 
     @CallSuper

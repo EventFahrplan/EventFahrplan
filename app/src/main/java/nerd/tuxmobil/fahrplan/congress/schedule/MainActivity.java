@@ -412,13 +412,13 @@ public class MainActivity extends BaseActivity implements
         super.onActivityResult(requestCode, resultCode, intent);
 
         switch (requestCode) {
-            case MyApp.ALARMLIST:
-            case MyApp.SESSION_VIEW:
+            case AlarmList.REQUEST_CODE:
+            case SessionDetailsActivity.REQUEST_CODE:
                 if (resultCode == Activity.RESULT_CANCELED) {
                     shouldScrollToCurrent = false;
                 }
                 break;
-            case MyApp.SETTINGS:
+            case SettingsActivity.REQUEST_CODE:
                 if (resultCode == Activity.RESULT_OK && intent != null) {
                     boolean isAlternativeHighlightingUpdated = intent.getBooleanExtra(BundleKeys.BUNDLE_KEY_ALTERNATIVE_HIGHLIGHTING_UPDATED, false);
                     boolean isUseDeviceTimeZoneUpdated = intent.getBooleanExtra(BundleKeys.BUNDLE_KEY_USE_DEVICE_TIME_ZONE_UPDATED, false);

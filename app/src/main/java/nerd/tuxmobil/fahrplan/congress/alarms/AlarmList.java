@@ -36,6 +36,7 @@ import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 public class AlarmList extends ActionBarListActivity {
 
     private static final int CONTEXT_MENU_ITEM_ID_DELETE = 0;
+    public static final int REQUEST_CODE = 1;
 
     private MyApp global;
 
@@ -47,7 +48,7 @@ public class AlarmList extends ActionBarListActivity {
 
     public static void startForResult(@NonNull Activity activity) {
         Intent intent = new Intent(activity, AlarmList.class);
-        activity.startActivityForResult(intent, MyApp.ALARMLIST);
+        activity.startActivityForResult(intent, REQUEST_CODE);
     }
 
     @Override

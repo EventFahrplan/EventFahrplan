@@ -54,7 +54,7 @@ public class StarredListActivity extends BaseActivity implements
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == MyApp.SESSION_VIEW && resultCode == RESULT_OK) {
+        if (requestCode == SessionDetailsActivity.REQUEST_CODE && resultCode == RESULT_OK) {
             setResult(RESULT_OK);
         }
     }
