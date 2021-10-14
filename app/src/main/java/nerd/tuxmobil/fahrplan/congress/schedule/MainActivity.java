@@ -1,5 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.schedule;
 
+import static nerd.tuxmobil.fahrplan.congress.utils.LockScreenHelper.showWhenLockedCompat;
+
 import android.app.Activity;
 import android.app.KeyguardManager;
 import android.app.ProgressDialog;
@@ -66,8 +68,6 @@ import nerd.tuxmobil.fahrplan.congress.sidepane.OnSidePaneCloseListener;
 import nerd.tuxmobil.fahrplan.congress.utils.ConfirmationDialog;
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
 import okhttp3.OkHttpClient;
-
-import static nerd.tuxmobil.fahrplan.congress.utils.LockScreenHelper.showWhenLockedCompat;
 
 public class MainActivity extends BaseActivity implements
         OnSidePaneCloseListener,
@@ -347,12 +347,11 @@ public class MainActivity extends BaseActivity implements
                 meta.getVersion(),
                 meta.getSubtitle(),
                 meta.getTitle()
-        ).show(ft, "about");
+        ).show(ft, AboutDialog.FRAGMENT_TAG);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent;
         switch (item.getItemId()) {
             case R.id.menu_item_refresh:
                 Log.d(LOG_TAG, "Menu item: Refresh");
@@ -362,12 +361,10 @@ public class MainActivity extends BaseActivity implements
                 showAboutDialog();
                 return true;
             case R.id.menu_item_alarms:
-                intent = new Intent(this, AlarmList.class);
-                startActivityForResult(intent, MyApp.ALARMLIST);
+                AlarmList.startForResult(this);
                 return true;
             case R.id.menu_item_settings:
-                intent = new Intent(this, SettingsActivity.class);
-                startActivityForResult(intent, MyApp.SETTINGS);
+                SettingsActivity.startForResult(this);
                 return true;
             case R.id.menu_item_schedule_changes:
                 openSessionChanges();
@@ -380,21 +377,21 @@ public class MainActivity extends BaseActivity implements
         return super.onOptionsItemSelected(item);
     }
 
-    public void openSessionDetails(@NonNull Session session) {
+    public void openSessionDetails(@NonNull String sessionId) {
         FragmentContainerView sidePane = findViewById(R.id.detail);
         MyApp.LogDebug(LOG_TAG, "openSessionDetails sidePane=" + sidePane);
         if (sidePane != null) {
             FragmentManager fm = getSupportFragmentManager();
             fm.popBackStack(SessionDetailsFragment.FRAGMENT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             Bundle args = new Bundle();
-            args.putString(BundleKeys.SESSION_ID, session.sessionId);
+            args.putString(BundleKeys.SESSION_ID, sessionId);
             args.putBoolean(BundleKeys.SIDEPANE, true);
             SessionDetailsFragment fragment = new SessionDetailsFragment();
             fragment.setArguments(args);
             replaceFragment(R.id.detail, fragment,
                     SessionDetailsFragment.FRAGMENT_TAG, SessionDetailsFragment.FRAGMENT_TAG);
         } else {
-            SessionDetailsActivity.startForResult(this, session);
+            SessionDetailsActivity.startForResult(this, sessionId);
         }
     }
 
@@ -415,13 +412,13 @@ public class MainActivity extends BaseActivity implements
         super.onActivityResult(requestCode, resultCode, intent);
 
         switch (requestCode) {
-            case MyApp.ALARMLIST:
-            case MyApp.SESSION_VIEW:
+            case AlarmList.REQUEST_CODE:
+            case SessionDetailsActivity.REQUEST_CODE:
                 if (resultCode == Activity.RESULT_CANCELED) {
                     shouldScrollToCurrent = false;
                 }
                 break;
-            case MyApp.SETTINGS:
+            case SettingsActivity.REQUEST_CODE:
                 if (resultCode == Activity.RESULT_OK && intent != null) {
                     boolean isAlternativeHighlightingUpdated = intent.getBooleanExtra(BundleKeys.BUNDLE_KEY_ALTERNATIVE_HIGHLIGHTING_UPDATED, false);
                     boolean isUseDeviceTimeZoneUpdated = intent.getBooleanExtra(BundleKeys.BUNDLE_KEY_USE_DEVICE_TIME_ZONE_UPDATED, false);
@@ -448,10 +445,8 @@ public class MainActivity extends BaseActivity implements
     }
 
     @Override
-    public void onSessionListClick(Session session) {
-        if (session != null) {
-            openSessionDetails(session);
-        }
+    public void onSessionListClick(@NonNull String sessionId) {
+        openSessionDetails(sessionId);
     }
 
     @Override
@@ -499,8 +494,7 @@ public class MainActivity extends BaseActivity implements
     private void openFavorites() {
         FragmentContainerView sidePane = findViewById(R.id.detail);
         if (sidePane == null) {
-            Intent intent = new Intent(this, StarredListActivity.class);
-            startActivity(intent);
+            StarredListActivity.start(this);
         } else if (!isScreenLocked) {
             sidePane.setVisibility(View.VISIBLE);
             isFavoritesInSidePane = true;
@@ -512,8 +506,7 @@ public class MainActivity extends BaseActivity implements
     public void openSessionChanges() {
         FragmentContainerView sidePane = findViewById(R.id.detail);
         if (sidePane == null) {
-            Intent intent = new Intent(this, ChangeListActivity.class);
-            startActivity(intent);
+            ChangeListActivity.start(this);
         } else {
             sidePane.setVisibility(View.VISIBLE);
             replaceFragment(R.id.detail, ChangeListFragment.newInstance(true),

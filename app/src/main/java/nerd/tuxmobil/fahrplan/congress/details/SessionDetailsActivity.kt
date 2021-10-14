@@ -6,25 +6,25 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
-import nerd.tuxmobil.fahrplan.congress.MyApp
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.base.BaseActivity
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
 import nerd.tuxmobil.fahrplan.congress.extensions.withArguments
 import nerd.tuxmobil.fahrplan.congress.extensions.withExtras
-import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.utils.showWhenLockedCompat
 
 class SessionDetailsActivity : BaseActivity(R.layout.detail_frame) {
 
     companion object {
 
+        const val REQUEST_CODE = 2
+
         @JvmStatic
-        fun startForResult(activity: Activity, session: Session) {
+        fun startForResult(activity: Activity, sessionId: String) {
             val intent = Intent(activity, SessionDetailsActivity::class.java).withExtras(
-                    BundleKeys.SESSION_ID to session.sessionId
+                    BundleKeys.SESSION_ID to sessionId
             )
-            activity.startActivityForResult(intent, MyApp.SESSION_VIEW)
+            activity.startActivityForResult(intent, REQUEST_CODE)
         }
 
     }

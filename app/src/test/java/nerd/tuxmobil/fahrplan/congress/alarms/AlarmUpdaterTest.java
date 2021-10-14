@@ -1,16 +1,16 @@
 package nerd.tuxmobil.fahrplan.congress.alarms;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static info.metadude.android.eventfahrplan.commons.testing.Verification.verifyInvokedNever;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import nerd.tuxmobil.fahrplan.congress.utils.ConferenceTimeFrame;
-
-import static info.metadude.android.eventfahrplan.commons.testing.Verification.verifyInvokedNever;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 
 
 @RunWith(JUnit4.class)

@@ -1,9 +1,11 @@
 package nerd.tuxmobil.fahrplan.congress.favorites;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
@@ -14,7 +16,6 @@ import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.base.AbstractListFragment;
 import nerd.tuxmobil.fahrplan.congress.base.BaseActivity;
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsActivity;
-import nerd.tuxmobil.fahrplan.congress.models.Session;
 import nerd.tuxmobil.fahrplan.congress.utils.ConfirmationDialog;
 
 public class StarredListActivity extends BaseActivity implements
@@ -22,6 +23,11 @@ public class StarredListActivity extends BaseActivity implements
         ConfirmationDialog.OnConfirmationDialogClicked {
 
     private static final String LOG_TAG = "StarredListActivity";
+
+    public static void start(@NonNull Context context) {
+        Intent intent = new Intent(context, StarredListActivity.class);
+        context.startActivity(intent);
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,17 +46,15 @@ public class StarredListActivity extends BaseActivity implements
     }
 
     @Override
-    public void onSessionListClick(Session session) {
-        if (session != null) {
-            SessionDetailsActivity.startForResult(this, session);
-        }
+    public void onSessionListClick(@NonNull String sessionId) {
+        SessionDetailsActivity.startForResult(this, sessionId);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == MyApp.SESSION_VIEW && resultCode == RESULT_OK) {
+        if (requestCode == SessionDetailsActivity.REQUEST_CODE && resultCode == RESULT_OK) {
             setResult(RESULT_OK);
         }
     }

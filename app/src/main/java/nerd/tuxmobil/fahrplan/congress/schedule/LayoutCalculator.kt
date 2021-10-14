@@ -8,6 +8,11 @@ import nerd.tuxmobil.fahrplan.congress.dataconverters.toStartsAtMoment
 import nerd.tuxmobil.fahrplan.congress.models.RoomData
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import org.threeten.bp.Duration
+import kotlin.collections.List
+import kotlin.collections.Map
+import kotlin.collections.getOrNull
+import kotlin.collections.indices
+import kotlin.collections.mutableMapOf
 import kotlin.collections.set
 
 data class LayoutCalculator @JvmOverloads constructor(

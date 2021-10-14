@@ -1,5 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.changes;
 
+import static nerd.tuxmobil.fahrplan.congress.extensions.ViewExtensions.requireViewByIdCompat;
+
 import android.content.Context;
 import android.os.Bundle;
 import android.view.ContextThemeWrapper;
@@ -22,8 +24,6 @@ import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.models.Meta;
 import nerd.tuxmobil.fahrplan.congress.models.Session;
 import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper;
-
-import static nerd.tuxmobil.fahrplan.congress.extensions.ViewExtensions.requireViewByIdCompat;
 
 
 /**
@@ -145,7 +145,7 @@ public class ChangeListFragment extends AbstractListFragment {
             position--;
             Session clicked = changesList.get(mAdapter.getItemIndex(position));
             if (clicked.changedIsCanceled) return;
-            mListener.onSessionListClick(clicked);
+            mListener.onSessionListClick(clicked.sessionId);
         }
     }
 }

@@ -1,5 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.about;
 
+import static nerd.tuxmobil.fahrplan.congress.extensions.ViewExtensions.requireViewByIdCompat;
+
 import android.os.Bundle;
 import android.text.method.MovementMethod;
 import android.view.LayoutInflater;
@@ -19,10 +21,9 @@ import nerd.tuxmobil.fahrplan.congress.extensions.Strings;
 import nerd.tuxmobil.fahrplan.congress.extensions.TextViewExtensions;
 import nerd.tuxmobil.fahrplan.congress.utils.LinkMovementMethodCompat;
 
-import static nerd.tuxmobil.fahrplan.congress.extensions.ViewExtensions.requireViewByIdCompat;
-
 public class AboutDialog extends DialogFragment {
 
+    public static final String FRAGMENT_TAG = "about";
     private static final String BUNDLE_KEY_SCHEDULE_VERSION =
             BuildConfig.APPLICATION_ID + ".BUNDLE_KEY_SCHEDULE_VERSION";
     private static final String BUNDLE_KEY_SUBTITLE =

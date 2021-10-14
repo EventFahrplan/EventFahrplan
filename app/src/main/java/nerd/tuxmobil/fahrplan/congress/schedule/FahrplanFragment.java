@@ -1,5 +1,8 @@
 package nerd.tuxmobil.fahrplan.congress.schedule;
 
+import static nerd.tuxmobil.fahrplan.congress.extensions.Contexts.isLandscape;
+import static nerd.tuxmobil.fahrplan.congress.extensions.ViewExtensions.requireViewByIdCompat;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -69,9 +72,6 @@ import nerd.tuxmobil.fahrplan.congress.sharing.SimpleSessionFormat;
 import nerd.tuxmobil.fahrplan.congress.utils.AlertDialogHelper;
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
 import nerd.tuxmobil.fahrplan.congress.utils.TypefaceFactory;
-
-import static nerd.tuxmobil.fahrplan.congress.extensions.Contexts.isLandscape;
-import static nerd.tuxmobil.fahrplan.congress.extensions.ViewExtensions.requireViewByIdCompat;
 
 public class FahrplanFragment extends Fragment implements SessionViewEventsHandler {
 
@@ -253,7 +253,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
                 scrollTo(session);
                 FragmentContainerView sidePane = activity.findViewById(R.id.detail);
                 if (sidePane != null) {
-                    ((MainActivity) activity).openSessionDetails(session);
+                    ((MainActivity) activity).openSessionDetails(sessionId);
                 }
             }
             intent.removeExtra(BundleKeys.BUNDLE_KEY_SESSION_ALARM_SESSION_ID); // jump to given sessionId only once
@@ -567,14 +567,15 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
         }
         MyApp.LogDebug(LOG_TAG, "Click on " + session.title);
         MainActivity mainActivity = (MainActivity) requireActivity();
-        mainActivity.openSessionDetails(session);
+        mainActivity.openSessionDetails(session.sessionId);
     }
 
     public void buildNavigationMenu() {
         Moment currentDate = Moment.now().startOfDay();
         MyApp.LogDebug(LOG_TAG, "Today is " + currentDate.toUtcDateTime().toLocalDate());
+        int numDays = MyApp.meta.getNumDays();
         String[] dayMenuEntries = NavigationMenuEntriesGenerator.getDayMenuEntries(
-                MyApp.meta.getNumDays(),
+                numDays,
                 MyApp.dateInfos,
                 currentDate,
                 getString(R.string.day),
@@ -587,7 +588,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
                 R.layout.support_simple_spinner_dropdown_item_large,
                 dayMenuEntries);
         arrayAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_list_item);
-        actionBar.setListNavigationCallbacks(arrayAdapter, new OnDaySelectedListener());
+        actionBar.setListNavigationCallbacks(arrayAdapter, new OnDaySelectedListener(numDays));
     }
 
     public void onParseDone(@NonNull ParseResult result) {
@@ -819,6 +820,11 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
     private class OnDaySelectedListener implements ActionBar.OnNavigationListener {
 
         private boolean isSynthetic = true;
+        private final int numDays;
+
+        private OnDaySelectedListener(int numDays) {
+            this.numDays = numDays;
+        }
 
         @Override
         public boolean onNavigationItemSelected(int itemPosition, long itemId) {
@@ -826,7 +832,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
                 isSynthetic = false;
                 return true;
             }
-            if (itemPosition < MyApp.meta.getNumDays()) {
+            if (itemPosition < numDays) {
                 chooseDay(itemPosition);
                 return true;
             }

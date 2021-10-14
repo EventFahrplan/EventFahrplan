@@ -4,7 +4,12 @@ import android.content.ContentValues
 import android.database.sqlite.SQLiteException
 import android.util.Log
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.*
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.ETAG
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.NUM_DAYS
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.SUBTITLE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.TIME_ZONE_NAME
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.TITLE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.VERSION
 import info.metadude.android.eventfahrplan.database.extensions.delete
 import info.metadude.android.eventfahrplan.database.extensions.getInt
 import info.metadude.android.eventfahrplan.database.extensions.getString

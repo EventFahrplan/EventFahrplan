@@ -1,6 +1,11 @@
 package nerd.tuxmobil.fahrplan.congress.repositories
 
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineName
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 import nerd.tuxmobil.fahrplan.congress.exceptions.ExceptionHandling
 
 class NetworkScope private constructor(
