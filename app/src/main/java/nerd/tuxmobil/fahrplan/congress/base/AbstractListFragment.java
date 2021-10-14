@@ -7,7 +7,6 @@ import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.ListFragment;
 
-import nerd.tuxmobil.fahrplan.congress.models.Session;
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 
 /**
@@ -29,9 +28,9 @@ public abstract class AbstractListFragment extends ListFragment {
          * to the activity and potentially other fragments contained in that
          * activity.
          *
-         * @param session The session which was clicked.
+         * @param sessionId The ID of the session which was clicked.
          */
-        void onSessionListClick(Session session);
+        void onSessionListClick(@NonNull String sessionId);
     }
 
     protected AppRepository appRepository;

@@ -253,7 +253,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
                 scrollTo(session);
                 FragmentContainerView sidePane = activity.findViewById(R.id.detail);
                 if (sidePane != null) {
-                    ((MainActivity) activity).openSessionDetails(session);
+                    ((MainActivity) activity).openSessionDetails(sessionId);
                 }
             }
             intent.removeExtra(BundleKeys.BUNDLE_KEY_SESSION_ALARM_SESSION_ID); // jump to given sessionId only once
@@ -567,7 +567,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
         }
         MyApp.LogDebug(LOG_TAG, "Click on " + session.title);
         MainActivity mainActivity = (MainActivity) requireActivity();
-        mainActivity.openSessionDetails(session);
+        mainActivity.openSessionDetails(session.sessionId);
     }
 
     public void buildNavigationMenu() {

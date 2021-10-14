@@ -145,7 +145,7 @@ public class ChangeListFragment extends AbstractListFragment {
             position--;
             Session clicked = changesList.get(mAdapter.getItemIndex(position));
             if (clicked.changedIsCanceled) return;
-            mListener.onSessionListClick(clicked);
+            mListener.onSessionListClick(clicked.sessionId);
         }
     }
 }

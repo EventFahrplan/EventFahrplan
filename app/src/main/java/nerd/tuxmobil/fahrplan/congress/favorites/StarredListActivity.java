@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
@@ -14,7 +15,6 @@ import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.base.AbstractListFragment;
 import nerd.tuxmobil.fahrplan.congress.base.BaseActivity;
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsActivity;
-import nerd.tuxmobil.fahrplan.congress.models.Session;
 import nerd.tuxmobil.fahrplan.congress.utils.ConfirmationDialog;
 
 public class StarredListActivity extends BaseActivity implements
@@ -40,10 +40,8 @@ public class StarredListActivity extends BaseActivity implements
     }
 
     @Override
-    public void onSessionListClick(Session session) {
-        if (session != null) {
-            SessionDetailsActivity.startForResult(this, session);
-        }
+    public void onSessionListClick(@NonNull String sessionId) {
+        SessionDetailsActivity.startForResult(this, sessionId);
     }
 
     @Override

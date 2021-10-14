@@ -380,21 +380,21 @@ public class MainActivity extends BaseActivity implements
         return super.onOptionsItemSelected(item);
     }
 
-    public void openSessionDetails(@NonNull Session session) {
+    public void openSessionDetails(@NonNull String sessionId) {
         FragmentContainerView sidePane = findViewById(R.id.detail);
         MyApp.LogDebug(LOG_TAG, "openSessionDetails sidePane=" + sidePane);
         if (sidePane != null) {
             FragmentManager fm = getSupportFragmentManager();
             fm.popBackStack(SessionDetailsFragment.FRAGMENT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             Bundle args = new Bundle();
-            args.putString(BundleKeys.SESSION_ID, session.sessionId);
+            args.putString(BundleKeys.SESSION_ID, sessionId);
             args.putBoolean(BundleKeys.SIDEPANE, true);
             SessionDetailsFragment fragment = new SessionDetailsFragment();
             fragment.setArguments(args);
             replaceFragment(R.id.detail, fragment,
                     SessionDetailsFragment.FRAGMENT_TAG, SessionDetailsFragment.FRAGMENT_TAG);
         } else {
-            SessionDetailsActivity.startForResult(this, session);
+            SessionDetailsActivity.startForResult(this, sessionId);
         }
     }
 
@@ -448,10 +448,8 @@ public class MainActivity extends BaseActivity implements
     }
 
     @Override
-    public void onSessionListClick(Session session) {
-        if (session != null) {
-            openSessionDetails(session);
-        }
+    public void onSessionListClick(@NonNull String sessionId) {
+        openSessionDetails(sessionId);
     }
 
     @Override
