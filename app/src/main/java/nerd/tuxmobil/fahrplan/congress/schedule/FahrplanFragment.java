@@ -1,5 +1,8 @@
 package nerd.tuxmobil.fahrplan.congress.schedule;
 
+import static nerd.tuxmobil.fahrplan.congress.extensions.Contexts.isLandscape;
+import static nerd.tuxmobil.fahrplan.congress.extensions.ViewExtensions.requireViewByIdCompat;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -69,9 +72,6 @@ import nerd.tuxmobil.fahrplan.congress.sharing.SimpleSessionFormat;
 import nerd.tuxmobil.fahrplan.congress.utils.AlertDialogHelper;
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
 import nerd.tuxmobil.fahrplan.congress.utils.TypefaceFactory;
-
-import static nerd.tuxmobil.fahrplan.congress.extensions.Contexts.isLandscape;
-import static nerd.tuxmobil.fahrplan.congress.extensions.ViewExtensions.requireViewByIdCompat;
 
 public class FahrplanFragment extends Fragment implements SessionViewEventsHandler {
 

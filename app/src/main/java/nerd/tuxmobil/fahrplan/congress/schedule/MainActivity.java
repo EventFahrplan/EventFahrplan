@@ -1,5 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.schedule;
 
+import static nerd.tuxmobil.fahrplan.congress.utils.LockScreenHelper.showWhenLockedCompat;
+
 import android.app.Activity;
 import android.app.KeyguardManager;
 import android.app.ProgressDialog;
@@ -66,8 +68,6 @@ import nerd.tuxmobil.fahrplan.congress.sidepane.OnSidePaneCloseListener;
 import nerd.tuxmobil.fahrplan.congress.utils.ConfirmationDialog;
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
 import okhttp3.OkHttpClient;
-
-import static nerd.tuxmobil.fahrplan.congress.utils.LockScreenHelper.showWhenLockedCompat;
 
 public class MainActivity extends BaseActivity implements
         OnSidePaneCloseListener,

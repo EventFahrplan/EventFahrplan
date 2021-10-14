@@ -1,5 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.changes;
 
+import static nerd.tuxmobil.fahrplan.congress.extensions.ViewExtensions.requireViewByIdCompat;
+
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.res.Resources;
@@ -22,8 +24,6 @@ import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 import nerd.tuxmobil.fahrplan.congress.schedule.MainActivity;
-
-import static nerd.tuxmobil.fahrplan.congress.extensions.ViewExtensions.requireViewByIdCompat;
 
 public class ChangesDialog extends DialogFragment {
 

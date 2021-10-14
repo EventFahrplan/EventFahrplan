@@ -1,5 +1,7 @@
 package info.metadude.android.eventfahrplan.network.serialization;
 
+import static info.metadude.android.eventfahrplan.commons.temporal.Moment.MINUTES_OF_ONE_DAY;
+
 import android.os.AsyncTask;
 import android.util.Xml;
 
@@ -13,13 +15,11 @@ import java.util.HashMap;
 import java.util.List;
 
 import info.metadude.android.eventfahrplan.commons.logging.Logging;
-import info.metadude.android.eventfahrplan.network.models.Session;
 import info.metadude.android.eventfahrplan.network.models.Meta;
+import info.metadude.android.eventfahrplan.network.models.Session;
 import info.metadude.android.eventfahrplan.network.serialization.exceptions.MissingXmlAttributeException;
 import info.metadude.android.eventfahrplan.network.temporal.DateParser;
 import info.metadude.android.eventfahrplan.network.validation.DateFieldValidation;
-
-import static info.metadude.android.eventfahrplan.commons.temporal.Moment.MINUTES_OF_ONE_DAY;
 
 public class FahrplanParser {
 

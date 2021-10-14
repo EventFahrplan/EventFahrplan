@@ -6,8 +6,19 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteException
 import android.util.Log
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.*
-import info.metadude.android.eventfahrplan.database.extensions.*
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.DAY
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.ID
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.SESSION_ID
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.SESSION_TITLE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.TIME
+import info.metadude.android.eventfahrplan.database.extensions.delete
+import info.metadude.android.eventfahrplan.database.extensions.getInt
+import info.metadude.android.eventfahrplan.database.extensions.getLong
+import info.metadude.android.eventfahrplan.database.extensions.getString
+import info.metadude.android.eventfahrplan.database.extensions.insert
+import info.metadude.android.eventfahrplan.database.extensions.map
+import info.metadude.android.eventfahrplan.database.extensions.read
+import info.metadude.android.eventfahrplan.database.extensions.upsert
 import info.metadude.android.eventfahrplan.database.models.Alarm
 import info.metadude.android.eventfahrplan.database.sqliteopenhelper.AlarmsDBOpenHelper
 

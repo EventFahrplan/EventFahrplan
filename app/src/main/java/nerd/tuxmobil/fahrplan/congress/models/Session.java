@@ -1,5 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.models;
 
+import static info.metadude.android.eventfahrplan.commons.temporal.Moment.MILLISECONDS_OF_ONE_MINUTE;
+
 import android.content.Context;
 import android.text.TextUtils;
 
@@ -14,8 +16,6 @@ import info.metadude.android.eventfahrplan.network.serialization.FahrplanParser;
 import info.metadude.android.eventfahrplan.network.temporal.DateParser;
 import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.repositories.SessionsTransformer;
-
-import static info.metadude.android.eventfahrplan.commons.temporal.Moment.MILLISECONDS_OF_ONE_MINUTE;
 
 /**
  * Application model representing a lecture, a workshop or any similar time-framed happening.

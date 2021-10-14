@@ -1,7 +1,13 @@
 package info.metadude.android.eventfahrplan.database.extensions
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.*
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.ALARM_TIME_IN_MIN
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.DAY
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.DISPLAY_TIME
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.SESSION_ID
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.SESSION_TITLE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.TIME
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.TIME_TEXT
 import info.metadude.android.eventfahrplan.database.models.Alarm
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test

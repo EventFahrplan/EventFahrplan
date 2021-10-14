@@ -1,7 +1,12 @@
 package info.metadude.android.eventfahrplan.database.extensions
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.*
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.ETAG
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.NUM_DAYS
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.SUBTITLE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.TIME_ZONE_NAME
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.TITLE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.VERSION
 import info.metadude.android.eventfahrplan.database.models.Meta
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test

@@ -8,7 +8,14 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Hi
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.HighlightsTable.Columns.SESSION_ID
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.HighlightsTable.Values.HIGHLIGHT_STATE_OFF
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.HighlightsTable.Values.HIGHLIGHT_STATE_ON
-import info.metadude.android.eventfahrplan.database.extensions.*
+import info.metadude.android.eventfahrplan.database.extensions.delete
+import info.metadude.android.eventfahrplan.database.extensions.getInt
+import info.metadude.android.eventfahrplan.database.extensions.getString
+import info.metadude.android.eventfahrplan.database.extensions.insert
+import info.metadude.android.eventfahrplan.database.extensions.map
+import info.metadude.android.eventfahrplan.database.extensions.read
+import info.metadude.android.eventfahrplan.database.extensions.updateRows
+import info.metadude.android.eventfahrplan.database.extensions.upsert
 import info.metadude.android.eventfahrplan.database.models.Highlight
 import info.metadude.android.eventfahrplan.database.sqliteopenhelper.HighlightDBOpenHelper
 

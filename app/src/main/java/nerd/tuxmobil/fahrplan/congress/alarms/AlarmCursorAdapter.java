@@ -1,5 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.alarms;
 
+import static nerd.tuxmobil.fahrplan.congress.extensions.ViewExtensions.requireViewByIdCompat;
+
 import android.content.Context;
 import android.database.Cursor;
 import android.view.LayoutInflater;
@@ -12,8 +14,6 @@ import androidx.cursoradapter.widget.CursorAdapter;
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable;
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns;
 import nerd.tuxmobil.fahrplan.congress.R;
-
-import static nerd.tuxmobil.fahrplan.congress.extensions.ViewExtensions.requireViewByIdCompat;
 
 public class AlarmCursorAdapter extends CursorAdapter {
 

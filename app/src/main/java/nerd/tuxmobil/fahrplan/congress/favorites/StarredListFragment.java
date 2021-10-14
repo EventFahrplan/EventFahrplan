@@ -1,5 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.favorites;
 
+import static nerd.tuxmobil.fahrplan.congress.extensions.ViewExtensions.requireViewByIdCompat;
+
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
@@ -40,8 +42,6 @@ import nerd.tuxmobil.fahrplan.congress.sharing.SessionSharer;
 import nerd.tuxmobil.fahrplan.congress.sharing.SimpleSessionFormat;
 import nerd.tuxmobil.fahrplan.congress.utils.ActivityHelper;
 import nerd.tuxmobil.fahrplan.congress.utils.ConfirmationDialog;
-
-import static nerd.tuxmobil.fahrplan.congress.extensions.ViewExtensions.requireViewByIdCompat;
 
 
 /**
