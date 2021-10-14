@@ -1,9 +1,14 @@
 package nerd.tuxmobil.fahrplan.congress.alarms
 
+import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.whenever
 import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedNever
+import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedOnce
 import nerd.tuxmobil.fahrplan.congress.NoLogging
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmUpdater.OnAlarmUpdateListener
+import nerd.tuxmobil.fahrplan.congress.preferences.SharedPreferencesRepository
+import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.utils.ConferenceTimeFrame
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
@@ -25,12 +30,51 @@ class AlarmUpdaterTest {
         val conferenceTimeFrame = ConferenceTimeFrame(FIRST_DAY_START_TIME, LAST_DAY_END_TIME)
     }
 
+    private val sharedPreferencesRepository = mock<SharedPreferencesRepository>()
+
+    private val testableAppRepository: AppRepository
+        get() = with(AppRepository) {
+            initialize(
+                context = mock(),
+                logging = mock(),
+                networkScope = mock(),
+                alarmsDatabaseRepository = mock(),
+                highlightsDatabaseRepository = mock(),
+                sessionsDatabaseRepository = mock(),
+                metaDatabaseRepository = mock(),
+                scheduleNetworkRepository = mock(),
+                engelsystemNetworkRepository = mock(),
+                sharedPreferencesRepository = sharedPreferencesRepository
+            )
+            return this
+        }
+
     private lateinit var alarmUpdater: AlarmUpdater
     private val mockListener = mock<OnAlarmUpdateListener>()
 
     @Before
     fun setUp() {
-        alarmUpdater = AlarmUpdater(conferenceTimeFrame, mockListener, logging = NoLogging)
+        alarmUpdater = AlarmUpdater(conferenceTimeFrame, mockListener, testableAppRepository, NoLogging)
+    }
+
+    @Test
+    fun `calculateInterval schedules alarm with development interval`() {
+        whenever(sharedPreferencesRepository.getScheduleRefreshInterval()).doReturn(3000)
+        val interval = alarmUpdater.calculateInterval(LAST_DAY_END_TIME, false)
+        assertThat(interval).isEqualTo(3000L)
+        verifyInvokedOnce(mockListener).onCancelAlarm()
+        verifyInvokedNever(mockListener).onRescheduleInitialAlarm(NEVER_USED, NEVER_USED)
+        verifyInvokedOnce(mockListener).onRescheduleAlarm(3000L, LAST_DAY_END_TIME + 3000L)
+    }
+
+    @Test
+    fun `calculateInterval schedules initial alarm with development interval`() {
+        whenever(sharedPreferencesRepository.getScheduleRefreshInterval()).doReturn(3000)
+        val interval = alarmUpdater.calculateInterval(LAST_DAY_END_TIME, true)
+        assertThat(interval).isEqualTo(3000L)
+        verifyInvokedOnce(mockListener).onCancelAlarm()
+        verifyInvokedOnce(mockListener).onRescheduleInitialAlarm(3000L, LAST_DAY_END_TIME + 3000L)
+        verifyInvokedNever(mockListener).onRescheduleAlarm(NEVER_USED, NEVER_USED)
     }
 
     // Start <= Time < End

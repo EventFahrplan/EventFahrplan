@@ -2,12 +2,14 @@ package nerd.tuxmobil.fahrplan.congress.alarms
 
 import android.app.AlarmManager
 import info.metadude.android.eventfahrplan.commons.logging.Logging
+import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.utils.ConferenceTimeFrame
 
 class AlarmUpdater @JvmOverloads constructor(
 
     private val conference: ConferenceTimeFrame,
     private val listener: OnAlarmUpdateListener,
+    private val appRepository: AppRepository = AppRepository,
     private val logging: Logging = Logging.get()
 
 ) {
@@ -26,6 +28,23 @@ class AlarmUpdater @JvmOverloads constructor(
     }
 
     fun calculateInterval(time: Long, isInitial: Boolean): Long {
+        val refreshIntervalDefaultValue = appRepository.readScheduleRefreshIntervalDefaultValue()
+        val refreshInterval = appRepository.readScheduleRefreshInterval()
+        val shouldUseDevelopmentInterval = refreshInterval != refreshIntervalDefaultValue
+        val developmentRefreshInterval = refreshInterval.toLong()
+
+        if (shouldUseDevelopmentInterval) {
+            logging.d(LOG_TAG, "Schedule refresh interval = $developmentRefreshInterval")
+            listener.onCancelAlarm()
+            val nextFetch = time + developmentRefreshInterval
+            if (isInitial) {
+                listener.onRescheduleInitialAlarm(developmentRefreshInterval, nextFetch)
+            } else {
+                listener.onRescheduleAlarm(developmentRefreshInterval, nextFetch)
+            }
+            return developmentRefreshInterval
+        }
+
         var interval: Long
         var nextFetch: Long
         when {

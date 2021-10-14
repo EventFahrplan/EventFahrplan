@@ -486,6 +486,12 @@ object AppRepository {
         metaDatabaseRepository.insert(values)
     }
 
+    fun readScheduleRefreshIntervalDefaultValue() =
+        sharedPreferencesRepository.getScheduleRefreshIntervalDefaultValue()
+
+    fun readScheduleRefreshInterval() =
+        sharedPreferencesRepository.getScheduleRefreshInterval()
+
     fun readAlarmTimeIndex() =
             sharedPreferencesRepository.getAlarmTimeIndex()
 

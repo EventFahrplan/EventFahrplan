@@ -8,6 +8,7 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import androidx.preference.EditTextPreference
+import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.Preference.OnPreferenceChangeListener
 import androidx.preference.Preference.OnPreferenceClickListener
@@ -16,6 +17,11 @@ import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceScreen
 import androidx.preference.SwitchPreferenceCompat
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import nerd.tuxmobil.fahrplan.congress.BuildConfig
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices
@@ -34,12 +40,28 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     }
 
+    private val job = Job()
+    private val coroutineScope = CoroutineScope(Dispatchers.Default + job)
+
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         addPreferencesFromResource(R.xml.prefs)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val screen = requirePreference<PreferenceScreen>(getString(R.string.preference_key_screen))
+        val developmentCategory = requirePreference<PreferenceCategory>(getString(R.string.preference_key_category_development))
+        requirePreference<ListPreference>(resources.getString(R.string.preference_key_schedule_refresh_interval_index)).onPreferenceChangeListener = OnPreferenceChangeListener { _, _ ->
+            coroutineScope.launch {
+                delay(100) // Workaround because preference is written asynchronous.
+                FahrplanMisc.setUpdateAlarm(activity, true)
+            }
+            true
+        }
+        if (!BuildConfig.DEBUG) {
+            screen.removePreference(developmentCategory)
+        }
 
         val categoryGeneral = requirePreference<PreferenceCategory>(getString(R.string.preference_key_category_general))
 
@@ -92,7 +114,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
             true
         }
 
-        val screen = requirePreference<PreferenceScreen>(getString(R.string.preference_key_screen))
         val engelsystemCategory = requirePreference<PreferenceCategory>(getString(R.string.preference_engelsystem_category_key))
         if (BuildConfig.ENABLE_ENGELSYSTEM_SHIFTS) {
             val urlPreference = requirePreference<EditTextPreference>(getString(R.string.preference_key_engelsystem_json_export_url))
@@ -109,6 +130,11 @@ class SettingsFragment : PreferenceFragmentCompat() {
         } else {
             screen.removePreference(engelsystemCategory)
         }
+    }
+
+    override fun onStop() {
+        job.cancel()
+        super.onStop()
     }
 
     override fun onDisplayPreferenceDialog(preference: Preference) {
