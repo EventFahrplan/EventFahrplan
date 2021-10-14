@@ -1,6 +1,8 @@
 package nerd.tuxmobil.fahrplan.congress.alarms;
 
+import android.app.Activity;
 import android.app.AlarmManager;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
@@ -14,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.cursoradapter.widget.CursorAdapter;
@@ -41,6 +44,11 @@ public class AlarmList extends ActionBarListActivity {
     private CursorAdapter mAdapter;
 
     private AppRepository appRepository;
+
+    public static void startForResult(@NonNull Activity activity) {
+        Intent intent = new Intent(activity, AlarmList.class);
+        activity.startActivityForResult(intent, MyApp.ALARMLIST);
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

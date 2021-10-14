@@ -1,5 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress.changes;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -19,6 +20,11 @@ public class ChangeListActivity extends BaseActivity implements
         AbstractListFragment.OnSessionListClick {
 
     private static final String LOG_TAG = "ChangeListActivity";
+
+    public static void start(@NonNull Context context) {
+        Intent intent = new Intent(context, ChangeListActivity.class);
+        context.startActivity(intent);
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

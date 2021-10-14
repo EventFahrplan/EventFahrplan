@@ -352,7 +352,6 @@ public class MainActivity extends BaseActivity implements
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent;
         switch (item.getItemId()) {
             case R.id.menu_item_refresh:
                 Log.d(LOG_TAG, "Menu item: Refresh");
@@ -362,12 +361,10 @@ public class MainActivity extends BaseActivity implements
                 showAboutDialog();
                 return true;
             case R.id.menu_item_alarms:
-                intent = new Intent(this, AlarmList.class);
-                startActivityForResult(intent, MyApp.ALARMLIST);
+                AlarmList.startForResult(this);
                 return true;
             case R.id.menu_item_settings:
-                intent = new Intent(this, SettingsActivity.class);
-                startActivityForResult(intent, MyApp.SETTINGS);
+                SettingsActivity.startForResult(this);
                 return true;
             case R.id.menu_item_schedule_changes:
                 openSessionChanges();
@@ -497,8 +494,7 @@ public class MainActivity extends BaseActivity implements
     private void openFavorites() {
         FragmentContainerView sidePane = findViewById(R.id.detail);
         if (sidePane == null) {
-            Intent intent = new Intent(this, StarredListActivity.class);
-            startActivity(intent);
+            StarredListActivity.start(this);
         } else if (!isScreenLocked) {
             sidePane.setVisibility(View.VISIBLE);
             isFavoritesInSidePane = true;
@@ -510,8 +506,7 @@ public class MainActivity extends BaseActivity implements
     public void openSessionChanges() {
         FragmentContainerView sidePane = findViewById(R.id.detail);
         if (sidePane == null) {
-            Intent intent = new Intent(this, ChangeListActivity.class);
-            startActivity(intent);
+            ChangeListActivity.start(this);
         } else {
             sidePane.setVisibility(View.VISIBLE);
             replaceFragment(R.id.detail, ChangeListFragment.newInstance(true),

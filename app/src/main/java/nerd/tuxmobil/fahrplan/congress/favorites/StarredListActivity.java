@@ -1,5 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress.favorites;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -22,6 +23,11 @@ public class StarredListActivity extends BaseActivity implements
         ConfirmationDialog.OnConfirmationDialogClicked {
 
     private static final String LOG_TAG = "StarredListActivity";
+
+    public static void start(@NonNull Context context) {
+        Intent intent = new Intent(context, StarredListActivity.class);
+        context.startActivity(intent);
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

@@ -1,5 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.settings
 
+import android.app.Activity
+import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import androidx.appcompat.widget.Toolbar
@@ -11,9 +13,15 @@ import nerd.tuxmobil.fahrplan.congress.base.BaseActivity
 
 class SettingsActivity : BaseActivity(R.layout.settings) {
 
-    private companion object {
+    companion object {
 
-        const val LOG_TAG = "SettingsActivity"
+        private const val LOG_TAG = "SettingsActivity"
+
+        @JvmStatic
+        fun startForResult(activity: Activity) {
+            val intent = Intent(activity, SettingsActivity::class.java)
+            activity.startActivityForResult(intent, MyApp.SETTINGS)
+        }
 
     }
 
