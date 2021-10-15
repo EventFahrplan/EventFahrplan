@@ -2,6 +2,7 @@ package nerd.tuxmobil.fahrplan.congress.alarms
 
 import com.nhaarman.mockitokotlin2.mock
 import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedNever
+import nerd.tuxmobil.fahrplan.congress.NoLogging
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmUpdater.OnAlarmUpdateListener
 import nerd.tuxmobil.fahrplan.congress.utils.ConferenceTimeFrame
 import org.assertj.core.api.Assertions.assertThat
@@ -29,7 +30,7 @@ class AlarmUpdaterTest {
 
     @Before
     fun setUp() {
-        alarmUpdater = AlarmUpdater(conferenceTimeFrame, mockListener)
+        alarmUpdater = AlarmUpdater(conferenceTimeFrame, mockListener, logging = NoLogging)
     }
 
     // Start <= Time < End
