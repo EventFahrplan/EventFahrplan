@@ -210,7 +210,7 @@ public class StarredListFragment extends AbstractListFragment implements
             // Notify the active callbacks interface (the activity, if the
             // fragment is attached to one) that an item has been selected.
             position--;
-            Session clicked = starredList.get(mAdapter.getItemIndex(position));
+            Session clicked = mAdapter.getSession(position);
             mListener.onSessionListClick(clicked.sessionId);
         }
     }
@@ -298,18 +298,18 @@ public class StarredListFragment extends AbstractListFragment implements
         }
     }
 
-    private void deleteItem(int index) {
-        Session starredSession = starredList.get(index);
-        starredSession.highlight = false;
-        appRepository.updateHighlight(starredSession);
+    private void deleteSession(@NonNull Session session) {
+        session.highlight = false;
+        appRepository.updateHighlight(session);
         appRepository.notifyHighlightsChanged();
-        starredList.remove(index);
     }
 
     private void deleteItems(SparseBooleanArray checkedItemPositions) {
         for (int id = mListView.getAdapter().getCount() - 1; id >= 0; id--) {
             if (checkedItemPositions.get(id)) {
-                deleteItem(mAdapter.getItemIndex(id - 1));
+                int index = id - 1;
+                deleteSession(mAdapter.getSession(index));
+                starredList.remove(index);
             }
         }
     }
