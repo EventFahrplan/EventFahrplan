@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Camp 2019</string>
+    <string name="app_name">Kamp 2019</string>
     <string name="app_hardcoded_subtitle"/>
     <string name="copyright_logo">
-        <![CDATA[Design by <a href="http://www.graphorama.de">Sven Sedivy</a>]]>
+        <![CDATA[Ontworpen door <a href="http://www.graphorama.de">Sven Sedivy</a>]]>
     </string>
     <string name="about_logo_content_description">
         Chaos Communication Camp logo, met drie verschillende raketten, in blauw, geel en groen
