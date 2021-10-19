@@ -18,6 +18,10 @@
     <string name="menu_item_title_refresh">Verversen</string>
     <string name="menu_item_title_share_session">Deel evenement</string>
     <string name="menu_item_title_share_favorites">Deel favorieten</string>
+    <string name="menu_item_title_share_session_text">als tekst</string>
+    <string name="menu_item_title_share_session_json">als JSON (voor Chaosflix)</string>
+    <string name="share_as_text">Deel als tekst</string>
+    <string name="share_as_json">Deel als JSON (voor Chaosflix)</string>
 
     <!-- AlertDialogHelper -->
     <string name="OK">OK</string>
@@ -39,6 +43,9 @@
     <string name="dlg_err_failed_parse_failure">Kon antwoord niet decoderen.</string>
     <string name="dlg_err_failed_ssl_failure">SSL fout</string>
     <string name="dlg_err_failed_http_cleartext_not_permitted">HTTP is niet toegestaan. Gebruik HTTPS.</string>
+    <string name="dlg_err_schedule_data">Schema data error</string>
+    <string name="dlg_err_schedule_data_empty">Niets weer te geven. Het schema met versie <xliff:g example="0.99" id="version">%s</xliff:g> bevat geen sessie.</string>
+    <string name="dlg_err_schedule_data_empty_without_version">Niets weer te geven. Het schema bevat geen sessie.</string>
     <string name="uptodate">Tijdschema is actueel.</string>
 
     <!-- Schedule changes dialog -->
@@ -81,11 +88,16 @@
 		Kotlin, Google Support Library, BetterLinkMovementMethod, Email Intent Builder,
 		Engelsystem, Espresso, Markwon, OkHttp, SnackEngage, TraceDroid
 	</string>
+    <string name="about_data_privacy_statement_german">Data privacy verklaring (Duits)</string>
     <string name="about_google_play_listing">Google Play vermelding</string>
+    <string name="about_issues_or_feature_requests">Problemen of functie verzoeken</string>
     <string name="about_source_code">Bron-code</string>
     <string name="today">vandaag</string>
     <string name="schedule_parsing_error_generic">Onbekende fout tijdens verwerken tijdschema</string>
     <string name="schedule_parsing_error_with_version">Verwerkings fout voor tijdschema versie %s</string>
+    <string name="engelsystem_shifts_parsing_error_generic">Onbekende fout gedurende het ontleden Engelsystem tijden</string>
+    <string name="engelsystem_shifts_parsing_error_forbidden">Invalide API sleutel voor Engelsystem tijden</string>
+    <string name="engelsystem_shifts_parsing_error_not_found">Verkeerde URL voor Engelsysteem tijden</string>
     <string name="alarms_empty">
 		Er zijn geen alarmen om weer te geven. Houd er rekening mee
         dat u individuele alarmen kunt instellen voor elk item in
@@ -164,7 +176,7 @@
     <string name="notifications_schedule_update_channel_description">
         Automatische updates voor het tijdschema kunnen worden ingesteld in de instellingen.
     </string>
-    <string name="notifications_schedule_update_channel_name">Tijschema veranderingen</string>
+    <string name="notifications_schedule_update_channel_name">Tijdschema veranderingen</string>
     <plurals name="notifications_schedule_changes">
         <item quantity="one"><xliff:g example="1" id="count">%d</xliff:g> evenement is aangepast.</item>
         <item quantity="other"><xliff:g example="3" id="count">%d</xliff:g> evenementen zijn aangepast.</item>
@@ -181,6 +193,7 @@
     <string name="alarm_time_title_60_minutes_before">60 minuten eerder</string>
 
     <!-- Session list item -->
+    <string name="session_list_item_language_portuguese_content_description">Portugees</string>
     <string name="session_list_item_language_german_content_description">Duits</string>
     <string name="session_list_item_language_english_content_description">Engels</string>
     <string name="session_list_item_language_unknown_content_description">Onbekende taal</string>
@@ -189,5 +202,11 @@
     <string name="session_list_item_no_video_content_description">Geen video-opname</string>
     <string name="session_list_item_video_content_description">Met video-opname</string>
     <string name="session_list_item_without_video_content_description">Zonder video-opname</string>
+
+    <!-- Validation errors -->
+    <string name="validation_error_invalid_url">Invalide <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL.</string>
+    <string name="validation_error_url_without_query"><xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL zonder query gedeelte.</string>
+    <string name="validation_error_url_with_incomplete_query"><xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL met incompleet query gedeelte.</string>
+    <string name="validation_error_url_without_api_key"><xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL zonder API sleutel.</string>
 
 </resources>
