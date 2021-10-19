@@ -122,7 +122,7 @@ public class FahrplanMisc {
                     @Override
                     public void onRescheduleAlarm(long interval, long nextFetch) {
                         MyApp.LogDebug(LOG_TAG, "update alarm to interval " + interval +
-                                ", next in " + (nextFetch - now));
+                                ", next in ~" + (nextFetch - now));
                         alarmManager.setInexactRepeating(
                                 AlarmManager.RTC_WAKEUP, nextFetch, interval, pendingintent);
                     }
@@ -130,7 +130,7 @@ public class FahrplanMisc {
                     @Override
                     public void onRescheduleInitialAlarm(long interval, long nextFetch) {
                         MyApp.LogDebug(LOG_TAG, "set initial alarm to interval " + interval +
-                                ", next in " + (nextFetch - now));
+                                ", next in ~" + (nextFetch - now));
                         alarmManager.setInexactRepeating(
                                 AlarmManager.RTC_WAKEUP, nextFetch, interval, pendingintent);
                     }
