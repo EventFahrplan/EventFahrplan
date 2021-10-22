@@ -18,7 +18,7 @@ class SessionTest {
             startTime = 1125
             duration = 60
             room = "Main hall"
-            speakers = "Janet"
+            speakers = listOf("Janet")
             track = "science"
             type = "workshop"
             lang = "cz"
@@ -199,7 +199,7 @@ class SessionTest {
 
     @Test
     fun `equals evaluates false and hashCode differ for sessions with odd speakers`() {
-        val session2Modification: SessionModification = { speakers = "Odd speakers" }
+        val session2Modification: SessionModification = { speakers = listOf("Odd speakers") }
         assertOddSessionsAreNotEqual { session2Modification() }
         assertOddSessionsHaveOddHashCodes { session2Modification() }
     }

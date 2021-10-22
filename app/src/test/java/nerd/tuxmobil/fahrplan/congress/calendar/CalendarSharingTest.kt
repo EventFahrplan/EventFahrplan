@@ -62,7 +62,7 @@ class CalendarSharingTest {
     private fun createSession() = Session("2342").apply {
         title = "Title"
         subtitle = "Subtitle"
-        speakers = "Speakers"
+        speakers = listOf("Speakers")
         abstractt = "Abstract"
         description = "Description"
         links = "Links"

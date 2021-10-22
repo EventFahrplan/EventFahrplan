@@ -1,5 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress.models;
 
+import static java.util.Collections.emptyList;
 import static info.metadude.android.eventfahrplan.commons.temporal.Moment.MILLISECONDS_OF_ONE_MINUTE;
 
 import android.content.Context;
@@ -10,6 +11,8 @@ import androidx.annotation.Nullable;
 import androidx.core.util.ObjectsCompat;
 
 import org.threeten.bp.ZoneOffset;
+
+import java.util.List;
 
 import info.metadude.android.eventfahrplan.commons.temporal.Moment;
 import info.metadude.android.eventfahrplan.network.serialization.FahrplanParser;
@@ -44,7 +47,7 @@ public class Session {
     @Deprecated
     public int roomIndex;
 
-    public String speakers;
+    public List<String> speakers;
     public String track;
     public String sessionId;
     public String type;
@@ -87,7 +90,7 @@ public class Session {
         slug = "";
         startTime = 0;
         duration = 0;
-        speakers = "";
+        speakers = emptyList();
         track = "";
         type = "";
         lang = "";
@@ -284,8 +287,7 @@ public class Session {
 
     @NonNull
     public String getFormattedSpeakers() {
-        // language=regex
-        return speakers == null ? "" : speakers.replaceAll(";", ", ");
+        return speakers == null ? "" : TextUtils.join(", ", speakers);
     }
 
     public String getFormattedTrackLanguageText() {

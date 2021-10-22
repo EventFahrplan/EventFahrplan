@@ -85,7 +85,7 @@ class SessionDetailsViewModelTest {
             dateUTC = 100
             title = "Session title"
             subtitle = "Session subtitle"
-            speakers = "Jane Doe;John Doe"
+            speakers = listOf("Jane Doe", "John Doe")
             room = "Main hall"
             abstractt = "Session abstract"
             description = "Session description"
@@ -153,7 +153,7 @@ class SessionDetailsViewModelTest {
             dateUTC = 0
             title = ""
             subtitle = ""
-            speakers = ""
+            speakers = emptyList()
             room = ""
             abstractt = ""
             description = ""
