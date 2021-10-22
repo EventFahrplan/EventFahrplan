@@ -102,6 +102,7 @@ class SessionDetailsViewModel(
             title = title.orEmpty(),
             subtitle = subtitle.orEmpty(),
             speakerNames = formattedSpeakers,
+            speakersCount = speakers.size,
             abstract = abstractt.orEmpty(),
             formattedAbstract = formattedAbstract,
             description = description.orEmpty(),

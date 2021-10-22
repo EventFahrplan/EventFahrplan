@@ -301,6 +301,11 @@ public class Session {
     }
 
     @NonNull
+    public static String getSpeakersContentDescription(@NonNull Context context, int speakersCount, @NonNull String formattedSpeakerNames) {
+        return context.getResources().getQuantityString(R.plurals.session_list_item_speakers_content_description, speakersCount, formattedSpeakerNames);
+    }
+
+    @NonNull
     public String getFormattedTrackContentDescription(@NonNull Context context) {
         StringBuilder builder = new StringBuilder();
         builder.append(track);

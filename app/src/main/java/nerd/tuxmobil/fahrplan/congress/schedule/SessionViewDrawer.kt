@@ -49,6 +49,7 @@ internal class SessionViewDrawer @JvmOverloads constructor(
         textView.text = session.subtitle
         textView = sessionView.requireViewByIdCompat(R.id.session_speakers_view)
         textView.text = session.formattedSpeakers
+        textView.contentDescription = Session.getSpeakersContentDescription(sessionView.context, session.speakers.size, session.formattedSpeakers)
         textView = sessionView.requireViewByIdCompat(R.id.session_track_view)
         textView.text = session.formattedTrackLanguageText
         textView.contentDescription = session.getFormattedTrackContentDescription(sessionView.context)

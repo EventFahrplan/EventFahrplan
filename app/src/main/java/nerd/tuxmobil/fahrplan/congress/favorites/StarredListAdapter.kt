@@ -52,6 +52,7 @@ class StarredListAdapter internal constructor(
             title.textOrHide = session.title
             subtitle.textOrHide = session.subtitle
             speakers.textOrHide = session.formattedSpeakers
+            speakers.contentDescription = Session.getSpeakersContentDescription(speakers.context, session.speakers.size, session.formattedSpeakers)
             lang.textOrHide = session.lang
             lang.contentDescription = session.getLanguageContentDescription(lang.context)
             day.isVisible = false

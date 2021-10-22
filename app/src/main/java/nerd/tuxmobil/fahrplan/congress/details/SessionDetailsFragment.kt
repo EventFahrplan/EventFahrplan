@@ -37,6 +37,7 @@ import nerd.tuxmobil.fahrplan.congress.extensions.replaceFragment
 import nerd.tuxmobil.fahrplan.congress.extensions.requireViewByIdCompat
 import nerd.tuxmobil.fahrplan.congress.extensions.toSpanned
 import nerd.tuxmobil.fahrplan.congress.extensions.withArguments
+import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.sharing.SessionSharer
 import nerd.tuxmobil.fahrplan.congress.sidepane.OnSidePaneCloseListener
@@ -204,7 +205,8 @@ class SessionDetailsFragment : Fragment() {
             textView.isVisible = false
         } else {
             typeface = typefaceFactory.getTypeface(viewModel.speakersFont)
-            textView.applyText(typeface, model.speakerNames)
+            val speakerNamesContentDescription = Session.getSpeakersContentDescription(textView.context, model.speakersCount, model.speakerNames)
+            textView.applyText(typeface, model.speakerNames, speakerNamesContentDescription)
         }
 
         // Abstract
@@ -265,9 +267,12 @@ class SessionDetailsFragment : Fragment() {
         }
     }
 
-    private fun TextView.applyText(typeface: Typeface, text: String) {
+    private fun TextView.applyText(typeface: Typeface, text: String, contentDescription: String? = null) {
         this.typeface = typeface
         this.text = text
+        if (contentDescription != null) {
+            this.contentDescription = contentDescription
+        }
         this.isVisible = true
     }
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
     <!-- Menu items -->
     <string name="menu_item_title_about">Info</string>
@@ -210,6 +210,11 @@
     <string name="session_list_item_no_video_content_description">Ohne Videoaufzeichnung</string>
     <string name="session_list_item_video_content_description">Mit Videoaufzeichnung</string>
     <string name="session_list_item_without_video_content_description">Ohne Videoaufzeichnung</string>
+    <plurals name="session_list_item_speakers_content_description" tools:ignore="UnusedQuantity">
+        <item quantity="zero">Keine Sprecher innen</item>
+        <item quantity="one">Sprecher in: <xliff:g example="Jane Doe" id="name">%s</xliff:g></item>
+        <item quantity="other">Sprecher innen: <xliff:g example="Jane Doe, John Doe" id="names">%s</xliff:g></item>
+    </plurals>
 
     <!-- Validation errors -->
     <string name="validation_error_invalid_url">

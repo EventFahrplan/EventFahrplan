@@ -235,6 +235,11 @@
     <string name="session_list_item_no_video_content_description">Without video recording</string>
     <string name="session_list_item_video_content_description">With video recording</string>
     <string name="session_list_item_without_video_content_description">Without video recording</string>
+    <plurals name="session_list_item_speakers_content_description">
+        <item quantity="zero">No speakers</item>
+        <item quantity="one">Speaker: <xliff:g example="Jane Doe" id="name">%s</xliff:g></item>
+        <item quantity="other">Speakers: <xliff:g example="Jane Doe, John Doe" id="names">%s</xliff:g></item>
+    </plurals>
 
     <!-- Validation errors -->
     <string name="validation_error_invalid_url">
