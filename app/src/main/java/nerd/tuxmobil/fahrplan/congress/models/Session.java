@@ -286,6 +286,11 @@ public class Session {
     }
 
     @NonNull
+    public static String getDurationContentDescription(@NonNull Context context, int duration) {
+        return context.getString(R.string.session_list_item_duration_content_description, duration);
+    }
+
+    @NonNull
     public String getFormattedSpeakers() {
         return speakers == null ? "" : TextUtils.join(", ", speakers);
     }

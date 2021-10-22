@@ -61,6 +61,7 @@ class ChangeListAdapter internal constructor(
             room.textOrHide = session.room
             val durationText = duration.context.getString(R.string.session_list_item_duration_text, session.duration)
             duration.textOrHide = durationText
+            duration.contentDescription = Session.getDurationContentDescription(duration.context, session.duration)
             video.isVisible = false
             noVideo.isVisible = false
             withoutVideoRecording.isVisible = false
