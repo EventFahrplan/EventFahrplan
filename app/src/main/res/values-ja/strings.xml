@@ -109,7 +109,6 @@
     <string name="invalid_url">無効なURL</string>
     <string name="choose_to_delete">講義を選択</string>
     <string name="day_separator">日付 <xliff:g example="2" id="day_of_congress">%1$d</xliff:g> - <xliff:g example="2014.12.29" id="date_of_congress_day">%2$s</xliff:g></string>
-    <string name="session_duration"><xliff:g example="45" id="duration">%1$d</xliff:g>分</string>
     <string name="dlg_delete_all_favorites">すべてのお気に入りを削除しますか？</string>
     <string name="dlg_delete_all_favorites_delete_all">すべて削除</string>
 
@@ -190,6 +189,7 @@
     <string name="alarm_time_title_60_minutes_before">60分前</string>
 
     <!-- Session list item -->
+    <string name="session_list_item_duration_text"><xliff:g example="45" id="duration">%d</xliff:g>分</string>
     <string name="session_list_item_language_portuguese_content_description">ポルトガル語</string>
     <string name="session_list_item_language_german_content_description">ドイツ語</string>
     <string name="session_list_item_language_english_content_description">英語</string>

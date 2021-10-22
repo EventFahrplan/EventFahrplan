@@ -119,7 +119,6 @@
     <string name="no_favorites">Keine favorisierten Vorträge</string>
     <string name="choose_to_delete">Wähle Vorträge</string>
     <string name="day_separator">Tag <xliff:g example="2" id="day_of_congress">%1$d</xliff:g> - <xliff:g example="29.12.2014" id="date_of_congress_day">%2$s</xliff:g></string>
-    <string name="session_duration"><xliff:g example="45" id="duration">%1$d</xliff:g> min.</string>
     <string name="dlg_delete_all_favorites">Alle Favoriten löschen?</string>
     <string name="dlg_delete_all_favorites_delete_all">Alle löschen</string>
 
@@ -201,6 +200,7 @@
     <string name="alarm_time_title_60_minutes_before">60 Minuten vorher</string>
 
     <!-- Session list item -->
+    <string name="session_list_item_duration_text"><xliff:g example="45" id="duration">%d</xliff:g> min.</string>
     <string name="session_list_item_language_portuguese_content_description">Portugiesisch</string>
     <string name="session_list_item_language_german_content_description">Deutsch</string>
     <string name="session_list_item_language_english_content_description">Englisch</string>
