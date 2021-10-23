@@ -41,9 +41,17 @@ public class AlarmCursorAdapter extends CursorAdapter {
             holder.alarmTimeInMin.setText("?");
         } else {
             holder.alarmTimeInMin.setText("" + alarmTimeInMin);
+            String alarmTimeInMinutesContentDescription;
+            if (alarmTimeInMin == 0) {
+                alarmTimeInMinutesContentDescription = holder.alarmTimeInMin.getContext().getString(R.string.session_list_item_alarm_time_zero_minutes_content_description);
+            } else {
+                alarmTimeInMinutesContentDescription = holder.alarmTimeInMin.getContext().getString(R.string.session_list_item_alarm_time_minutes_content_description, alarmTimeInMin);
+            }
+            holder.alarmTimeInMin.setContentDescription(alarmTimeInMinutesContentDescription);
         }
         holder.title.setText(title);
         holder.time.setText(timeText);
+        holder.time.setContentDescription(holder.time.getContext().getString(R.string.session_list_item_alarm_time_content_description, timeText));
     }
 
     @Override
