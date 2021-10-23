@@ -320,26 +320,31 @@ public class Session {
         StringBuilder builder = new StringBuilder();
         builder.append(track);
         if (!TextUtils.isEmpty(lang)) {
-            builder.append("; ").append(getLanguageContentDescription(context));
+            builder.append("; ").append(getLanguageContentDescription(context, lang));
         }
         return builder.toString();
     }
 
     @NonNull
-    public String getLanguageContentDescription(@NonNull Context context) {
-        if (TextUtils.isEmpty(lang)) {
+    public static String getLanguageContentDescription(@NonNull Context context, @NonNull String languageCode) {
+        if (TextUtils.isEmpty(languageCode)) {
             return context.getString(R.string.session_list_item_language_unknown_content_description);
         }
-        if ("en".equals(lang)) {
-            return context.getString(R.string.session_list_item_language_english_content_description);
+        String languageName;
+        switch (languageCode) {
+            case "en":
+                languageName = context.getString(R.string.session_list_item_language_english_content_description);
+                break;
+            case "de":
+                languageName = context.getString(R.string.session_list_item_language_german_content_description);
+                break;
+            case "pt":
+                languageName = context.getString(R.string.session_list_item_language_portuguese_content_description);
+                break;
+            default:
+                languageName = languageCode;
         }
-        if ("de".equals(lang)) {
-            return context.getString(R.string.session_list_item_language_german_content_description);
-        }
-        if ("pt".equals(lang)) {
-            return context.getString(R.string.session_list_item_language_portuguese_content_description);
-        }
-        return context.getString(R.string.session_list_item_language_undefined_content_description, lang);
+        return context.getString(R.string.session_list_item_language_content_description, languageName);
     }
 
     @NonNull

@@ -191,10 +191,10 @@
     <!-- Session list item -->
     <string name="session_list_item_duration_text"><xliff:g example="45" id="duration">%d</xliff:g>分</string>
     <string name="session_list_item_language_portuguese_content_description">ポルトガル語</string>
+    <string name="session_list_item_language_content_description">言語: <xliff:g example="English" id="language">%s</xliff:g></string>
     <string name="session_list_item_language_german_content_description">ドイツ語</string>
     <string name="session_list_item_language_english_content_description">英語</string>
     <string name="session_list_item_language_unknown_content_description">未知の言語</string>
-    <string name="session_list_item_language_undefined_content_description">言語: <xliff:g example="es" id="language_abbreviation">%s</xliff:g></string>
     <string name="session_list_item_language_removed_content_description">言語情報が削除されました</string>
     <string name="session_list_item_no_video_content_description">ビデオ録画なし</string>
     <string name="session_list_item_video_content_description">ビデオ録画あり</string>

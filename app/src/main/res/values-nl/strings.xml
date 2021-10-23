@@ -195,10 +195,10 @@
     <!-- Session list item -->
     <string name="session_list_item_duration_text"><xliff:g example="45" id="duration">%d</xliff:g> min.</string>
     <string name="session_list_item_language_portuguese_content_description">Portugees</string>
+    <string name="session_list_item_language_content_description">Taal: <xliff:g example="English" id="language">%s</xliff:g></string>
     <string name="session_list_item_language_german_content_description">Duits</string>
     <string name="session_list_item_language_english_content_description">Engels</string>
     <string name="session_list_item_language_unknown_content_description">Onbekende taal</string>
-    <string name="session_list_item_language_undefined_content_description">Taal: <xliff:g example="es" id="language_abbreviation">%s</xliff:g></string>
     <string name="session_list_item_language_removed_content_description">Taal informatie is verwijderd</string>
     <string name="session_list_item_no_video_content_description">Geen video-opname</string>
     <string name="session_list_item_video_content_description">Met video-opname</string>

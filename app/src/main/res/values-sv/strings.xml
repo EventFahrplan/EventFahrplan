@@ -8,6 +8,7 @@
     <string name="alarm_time_title_45_minutes_before">45 minuter innan</string>
     <string name="alarm_time_title_60_minutes_before">60 minuter innan</string>
     <string name="session_list_item_duration_text"><xliff:g example="45" id="duration">%d</xliff:g> min.</string>
+    <string name="session_list_item_language_content_description">Språk: <xliff:g example="English" id="language">%s</xliff:g></string>
     <string name="session_list_item_language_german_content_description">Tyska</string>
     <string name="session_list_item_language_english_content_description">Engelska</string>
     <string name="session_list_item_language_unknown_content_description">Språk okänt</string>
@@ -153,7 +154,6 @@
         <item quantity="one"><xliff:g example="1" id="count">%d</xliff:g> föreläsning har ändrats.</item>
         <item quantity="other"><xliff:g example="3" id="count">%d</xliff:g> föreläsningar har ändrats.</item>
     </plurals>
-    <string name="session_list_item_language_undefined_content_description">Språk: <xliff:g example="es" id="language_abbreviation">%s</xliff:g></string>
     <string name="notifications_session_alarm_content_text">Alarm för händelse</string>
     <string name="notifications_session_alarm_channel_name">Larm för händelser</string>
     <string name="notifications_session_alarm_channel_description">

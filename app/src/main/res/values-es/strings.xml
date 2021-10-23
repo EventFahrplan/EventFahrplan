@@ -218,11 +218,11 @@
 
     <!-- Session list item -->
     <string name="session_list_item_duration_text"><xliff:g example="45" id="duration">%d</xliff:g> min.</string>
+    <string name="session_list_item_language_content_description">Idioma: <xliff:g example="English" id="language">%s</xliff:g></string>
     <string name="session_list_item_language_portuguese_content_description">Portugués</string>
     <string name="session_list_item_language_german_content_description">Alemán</string>
     <string name="session_list_item_language_english_content_description">Inglés</string>
     <string name="session_list_item_language_unknown_content_description">Idioma desconocido</string>
-    <string name="session_list_item_language_undefined_content_description">Idioma: <xliff:g example="es" id="language_abbreviation">%s</xliff:g></string>
     <string name="session_list_item_language_removed_content_description">La información del idioma ha sido borrada</string>
     <string name="session_list_item_no_video_content_description">Sin grabación de vídeo</string>
     <string name="session_list_item_video_content_description">Con grabación de vídeo</string>

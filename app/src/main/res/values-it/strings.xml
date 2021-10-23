@@ -42,10 +42,10 @@
     <string name="general_settings">Generale</string>
     <string name="invalid_url">URL erroneo</string>
     <string name="session_list_item_duration_text"><xliff:g example="45" id="duration">%d</xliff:g> min.</string>
+    <string name="session_list_item_language_content_description">Lingua: <xliff:g example="English" id="language">%s</xliff:g></string>
     <string name="session_list_item_language_english_content_description">Inglese</string>
     <string name="session_list_item_language_german_content_description">Tedesco</string>
     <string name="session_list_item_language_removed_content_description">L\'informazione sulla lingua è stata rimossa</string>
-    <string name="session_list_item_language_undefined_content_description">Lingua: <xliff:g example="es" id="language_abbreviation">%s</xliff:g></string>
     <string name="session_list_item_language_unknown_content_description">Lingua sconosciuta</string>
     <string name="session_list_item_no_video_content_description">Senza registrazione video</string>
     <string name="session_list_item_video_content_description">Con registrazione video</string>
