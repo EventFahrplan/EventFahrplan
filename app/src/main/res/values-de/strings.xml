@@ -204,6 +204,7 @@
     <string name="session_list_item_duration_content_description">Dauer: <xliff:g example="45" id="duration">%d</xliff:g> Minuten</string>
     <string name="session_list_item_room_content_description">Raum: <xliff:g example="Main hall" id="room">%s</xliff:g></string>
     <string name="session_list_item_start_time_content_description">Startzeit: <xliff:g example="16:30" id="startTime">%s</xliff:g></string>
+    <string name="session_list_item_track_content_description">Track: <xliff:g example="Security" id="trackName">%s</xliff:g></string>
     <string name="session_list_item_language_content_description">Sprache: <xliff:g example="English" id="language">%s</xliff:g></string>
     <string name="session_list_item_language_portuguese_content_description">Portugiesisch</string>
     <string name="session_list_item_language_german_content_description">Deutsch</string>

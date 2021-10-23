@@ -316,11 +316,11 @@ public class Session {
     }
 
     @NonNull
-    public String getFormattedTrackContentDescription(@NonNull Context context) {
+    public static String getFormattedTrackContentDescription(@NonNull Context context, @NonNull String trackName, @NonNull String languageCode) {
         StringBuilder builder = new StringBuilder();
-        builder.append(track);
-        if (!TextUtils.isEmpty(lang)) {
-            builder.append("; ").append(getLanguageContentDescription(context, lang));
+        builder.append(context.getString(R.string.session_list_item_track_content_description, trackName));
+        if (!TextUtils.isEmpty(languageCode)) {
+            builder.append("; ").append(getLanguageContentDescription(context, languageCode));
         }
         return builder.toString();
     }
