@@ -182,6 +182,7 @@ class SessionDetailsFragment : Fragment() {
 
         textView = view.requireViewByIdCompat(R.id.session_detailbar_location_view)
         textView.text = model.roomName
+        textView.contentDescription = Session.getRoomNameContentDescription(textView.context, model.roomName)
         textView = view.requireViewByIdCompat(R.id.session_detailbar_session_id_view)
         textView.text = if (model.sessionId.isEmpty()) "" else textView.context.getString(R.string.session_details_session_id, model.sessionId)
 

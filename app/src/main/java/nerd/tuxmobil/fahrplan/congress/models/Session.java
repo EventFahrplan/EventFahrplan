@@ -306,6 +306,11 @@ public class Session {
     }
 
     @NonNull
+    public static String getRoomNameContentDescription(@NonNull Context context, @NonNull String roomName) {
+        return context.getString(R.string.session_list_item_room_content_description, roomName);
+    }
+
+    @NonNull
     public static String getSpeakersContentDescription(@NonNull Context context, int speakersCount, @NonNull String formattedSpeakerNames) {
         return context.getResources().getQuantityString(R.plurals.session_list_item_speakers_content_description, speakersCount, formattedSpeakerNames);
     }

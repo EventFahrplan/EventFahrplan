@@ -59,6 +59,7 @@ class ChangeListAdapter internal constructor(
             val timeText = DateFormatter.newInstance(useDeviceTimeZone).getFormattedTime(session.dateUTC, session.timeZoneOffset)
             time.textOrHide = timeText
             room.textOrHide = session.room
+            room.contentDescription = Session.getRoomNameContentDescription(room.context, session.room)
             val durationText = duration.context.getString(R.string.session_list_item_duration_text, session.duration)
             duration.textOrHide = durationText
             duration.contentDescription = Session.getDurationContentDescription(duration.context, session.duration)
