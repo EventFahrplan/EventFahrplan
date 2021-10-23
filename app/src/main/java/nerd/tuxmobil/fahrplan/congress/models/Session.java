@@ -291,6 +291,11 @@ public class Session {
     }
 
     @NonNull
+    public static String getSubtitleContentDescription(@NonNull Context context, @NonNull String subtitle) {
+        return TextUtils.isEmpty(subtitle) ? "" : context.getString(R.string.session_list_item_subtitle_content_description, subtitle);
+    }
+
+    @NonNull
     public String getFormattedSpeakers() {
         return speakers == null ? "" : TextUtils.join(", ", speakers);
     }

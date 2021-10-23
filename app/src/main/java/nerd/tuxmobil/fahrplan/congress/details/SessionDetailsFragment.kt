@@ -200,7 +200,7 @@ class SessionDetailsFragment : Fragment() {
             textView.isVisible = false
         } else {
             typeface = typefaceFactory.getTypeface(viewModel.subtitleFont)
-            textView.applyText(typeface, model.subtitle)
+            textView.applyText(typeface, model.subtitle, Session.getSubtitleContentDescription(textView.context, model.subtitle))
         }
 
         // Speakers
