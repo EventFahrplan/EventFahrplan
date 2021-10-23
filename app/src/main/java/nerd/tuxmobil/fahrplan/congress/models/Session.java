@@ -342,6 +342,11 @@ public class Session {
         return context.getString(R.string.session_list_item_language_undefined_content_description, lang);
     }
 
+    @NonNull
+    public static String getStartTimeContentDescription(@NonNull Context context, @NonNull String startTimeText) {
+        return context.getString(R.string.session_list_item_start_time_content_description, startTimeText);
+    }
+
     public void shiftRoomIndexBy(int amount) {
         roomIndex += amount;
     }

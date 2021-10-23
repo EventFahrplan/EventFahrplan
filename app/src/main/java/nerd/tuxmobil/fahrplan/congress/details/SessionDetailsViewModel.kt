@@ -46,6 +46,7 @@ class SessionDetailsViewModel(
      */
     interface FormattingDelegate {
         fun getFormattedDateTimeShort(useDeviceTimeZone: Boolean, dateUtc: Long, sessionTimeZoneOffset: ZoneOffset?): String
+        fun getFormattedDateTimeLong(useDeviceTimeZone: Boolean, dateUtc: Long, sessionTimeZoneOffset: ZoneOffset?): String
     }
 
     /**
@@ -56,6 +57,10 @@ class SessionDetailsViewModel(
 
         override fun getFormattedDateTimeShort(useDeviceTimeZone: Boolean, dateUtc: Long, sessionTimeZoneOffset: ZoneOffset?): String {
             return DateFormatter.newInstance(useDeviceTimeZone).getFormattedDateTimeShort(dateUtc, sessionTimeZoneOffset)
+        }
+
+        override fun getFormattedDateTimeLong(useDeviceTimeZone: Boolean, dateUtc: Long, sessionTimeZoneOffset: ZoneOffset?): String {
+            return DateFormatter.newInstance(useDeviceTimeZone).getFormattedDateTimeLong(dateUtc, sessionTimeZoneOffset)
         }
 
     }
@@ -84,7 +89,8 @@ class SessionDetailsViewModel(
 
     private fun Session.toSelectedSessionParameter(): SelectedSessionParameter {
         val useDeviceTimeZone = repository.readUseDeviceTimeZoneEnabled()
-        val formattedZonedDateTime = formattingDelegate.getFormattedDateTimeShort(useDeviceTimeZone, dateUTC, timeZoneOffset)
+        val formattedZonedDateTimeShort = formattingDelegate.getFormattedDateTimeShort(useDeviceTimeZone, dateUTC, timeZoneOffset)
+        val formattedZonedDateTimeLong = formattingDelegate.getFormattedDateTimeLong(useDeviceTimeZone, dateUTC, timeZoneOffset)
         val formattedAbstract = markdownConversion.markdownLinksToHtmlLinks(abstractt)
         val formattedDescription = markdownConversion.markdownLinksToHtmlLinks(description)
         val linksHtml = sessionFormatter.getFormattedLinks(getLinks())
@@ -98,7 +104,8 @@ class SessionDetailsViewModel(
             // Details content
             sessionId = sessionId,
             hasDateUtc = dateUTC > 0,
-            formattedZonedDateTime = formattedZonedDateTime,
+            formattedZonedDateTimeShort = formattedZonedDateTimeShort,
+            formattedZonedDateTimeLong = formattedZonedDateTimeLong,
             title = title.orEmpty(),
             subtitle = subtitle.orEmpty(),
             speakerNames = formattedSpeakers,

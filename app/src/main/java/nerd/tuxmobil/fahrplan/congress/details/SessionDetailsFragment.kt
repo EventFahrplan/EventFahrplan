@@ -178,7 +178,10 @@ class SessionDetailsFragment : Fragment() {
 
         // Detailbar
         var textView: TextView = view.requireViewByIdCompat(R.id.session_detailbar_date_time_view)
-        textView.text = if (model.hasDateUtc) model.formattedZonedDateTime else ""
+        textView.text = if (model.hasDateUtc) model.formattedZonedDateTimeShort else ""
+        if (model.hasDateUtc) {
+            textView.contentDescription = Session.getStartTimeContentDescription(textView.context, model.formattedZonedDateTimeLong)
+        }
 
         textView = view.requireViewByIdCompat(R.id.session_detailbar_location_view)
         textView.text = model.roomName
