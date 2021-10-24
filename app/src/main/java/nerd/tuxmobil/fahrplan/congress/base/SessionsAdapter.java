@@ -119,8 +119,9 @@ public abstract class SessionsAdapter extends ArrayAdapter<Session> {
         return rowView;
     }
 
-    protected Session getSession(int position) {
-        return list.get(getItemIndex(position));
+    @NonNull
+    public Session getSession(int position) {
+        return list.get(mMapper.get(position));
     }
 
     protected void resetItemStyles(ViewHolder viewHolder) {
@@ -215,10 +216,6 @@ public abstract class SessionsAdapter extends ArrayAdapter<Session> {
     public void notifyDataSetChanged() {
         super.notifyDataSetChanged();
         initMapper();
-    }
-
-    public int getItemIndex(int position) {
-        return mMapper.get(position);
     }
 
     public static class ViewHolder {

@@ -1,21 +1,32 @@
 package nerd.tuxmobil.fahrplan.congress.repositories
 
+import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
+import info.metadude.android.eventfahrplan.commons.testing.MainDispatcherTestRule
 import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedOnce
 import info.metadude.android.eventfahrplan.database.repositories.SessionsDatabaseRepository
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runBlockingTest
+import nerd.tuxmobil.fahrplan.congress.TestExecutionContext
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toSessionsDatabaseModel
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import org.junit.Assert.fail
+import org.junit.Rule
 import org.junit.Test
 import org.mockito.ArgumentMatchers.anyInt
+import kotlin.time.ExperimentalTime
 
 /**
  * Test class to deal with sessions which interact with the [SessionsDatabaseRepository].
  */
+@OptIn(ExperimentalCoroutinesApi::class, ExperimentalTime::class)
 class AppRepositorySessionsTest {
+
+    @get:Rule
+    val mainDispatcherTestRule = MainDispatcherTestRule()
 
     private val sessionsDatabaseRepository = mock<SessionsDatabaseRepository>()
 
@@ -24,6 +35,8 @@ class AppRepositorySessionsTest {
             initialize(
                     context = mock(),
                     logging = mock(),
+                    executionContext = TestExecutionContext,
+                    databaseScope = mock(),
                     networkScope = mock(),
                     alarmsDatabaseRepository = mock(),
                     highlightsDatabaseRepository = mock(),
@@ -119,18 +132,21 @@ class AppRepositorySessionsTest {
     }
 
     @Test
-    fun `loadStarredSessions passes through an empty list`() {
+    fun `loadStarredSessions passes through an empty list`() = mainDispatcherTestRule.runBlockingTest {
         whenever(sessionsDatabaseRepository.querySessionsOrderedByDateUtc()) doReturn emptyList()
-        assertThat(testableAppRepository.loadStarredSessions()).isEmpty()
+        testableAppRepository.starredSessions.test {
+            assertThat(awaitItem()).isEqualTo(emptyList<Session>())
+        }
         verifyInvokedOnce(sessionsDatabaseRepository).querySessionsOrderedByDateUtc()
     }
 
     @Test
-    fun `loadStarredSessions filters out sessions which are not starred`() {
+    fun `loadStarredSessions filters out sessions which are not starred`() = mainDispatcherTestRule.runBlockingTest {
         val sessions = listOf(SESSION_2001, SESSION_2002, SESSION_2003, SESSION_2004)
         whenever(sessionsDatabaseRepository.querySessionsOrderedByDateUtc()) doReturn sessions.toSessionsDatabaseModel()
-        val starredSessions = testableAppRepository.loadStarredSessions()
-        assertThat(starredSessions).containsExactly(SESSION_2002)
+        testableAppRepository.starredSessions.test {
+            assertThat(awaitItem()).containsExactly(SESSION_2002)
+        }
         verifyInvokedOnce(sessionsDatabaseRepository).querySessionsOrderedByDateUtc()
     }
 

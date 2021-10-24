@@ -22,11 +22,18 @@ android {
     }
     kotlinOptions {
         jvmTarget = Config.compatibleJavaVersion
+        freeCompilerArgs = [
+                "-Xopt-in=kotlin.RequiresOptIn"
+        ]
     }
 }
 
 dependencies {
 
+    implementation Libs.junit
+    implementation Libs.kotlinCoroutinesTest
+    implementation Libs.liveDataKtx
+    implementation Libs.truth
     api Libs.mockitoKotlin
 
 }

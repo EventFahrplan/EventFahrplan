@@ -5,18 +5,19 @@ import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.sharing.models.FavoritesExport
 import nerd.tuxmobil.fahrplan.congress.sharing.models.SessionExport
 
-object JsonSessionFormat {
+class JsonSessionFormat @JvmOverloads constructor(
 
-    private val moshi: Moshi by lazy { Moshi.Builder().build() }
+    private val moshi: Moshi = Moshi.Builder().build()
+
+) {
+
     private val jsonAdapter by lazy { moshi.adapter(FavoritesExport::class.java) }
 
-    @JvmStatic
     fun format(session: Session): String {
         val export = FavoritesExport(listOf(SessionExport(session)))
         return jsonAdapter.toJson(export)
     }
 
-    @JvmStatic
     fun format(sessions: List<Session>): String? {
         return when {
             sessions.isEmpty() -> null
