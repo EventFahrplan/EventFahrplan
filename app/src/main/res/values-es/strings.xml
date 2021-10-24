@@ -11,7 +11,7 @@
     <string name="alarm_time_title_5_minutes_before">5 minutos antes</string>
     <string name="alarm_time_title_60_minutes_before">60 minutos antes</string>
     <string name="alarm_time_title_at_start_time">Al inicio</string>
-    <string name="alarms_empty">No hay alarmas para mostrar. Nótese que se pueden poner alarmas para cada evento en el calendario. Sólo presione el ícono de alarma en la barra de acción</string>
+    <string name="alarms_empty">No hay alarmas para mostrar. Tenga en cuenta que usted puede configurar alarmas individuales para cada elemento del programa. Simplemente presione el ícono de alarma en la barra de acciones.</string>
     <string name="appVersion">Versión %s de la aplicación</string>
     <string name="app_disclaimer">Esta aplicación está basada en el código fuente de la aplicación “EventFahrplan”. Asistentes al congreso anual y al campamento organizado por el Chaos Computer Club usan la aplicación para estar al tanto del programa del evento.</string>
     <string name="build_info_hash">Version hash: <xliff:g example="e1f2g3h-dirty" id="build_hash">%s</xliff:g></string>
@@ -27,7 +27,7 @@
     <string name="day">Día</string>
     <string name="day_separator">Día <xliff:g example="2" id="day_of_congress">%1$d</xliff:g> - <xliff:g example="29.12.2014" id="date_of_congress_day">%2$s</xliff:g></string>
     <string name="certificate_error_message">No se pudo establecer una conexión segura. (<xliff:g example="Unknown Error" id="error">%s</xliff:g>)</string>
-    <string name="dlg_delete_all_favorites">Borrar todos los favoritos?</string>
+    <string name="dlg_delete_all_favorites">¿Borrar todos los favoritos?</string>
     <string name="dlg_delete_all_favorites_delete_all">Borrar todo</string>
     <string name="dlg_err_connection_failed">Fallo de conexión</string>
     <string name="dlg_err_failed_connect_failure">Fallo de conexión desconocido</string>
@@ -90,12 +90,12 @@
     <string name="schedule_updated_to">Actualizado a <xliff:g example="Mildenberg 2018-01-16 16:50" id="version">%s</xliff:g></string>
     <string name="settings">Ajustes</string>
     <string name="share_error_activity_not_found">No hay ninguna aplicación apropiada instalada.</string>
-    <string name="snack_engage_c3nav_action">Obtengalo ahora!</string>
-    <string name="snack_engage_c3nav_title">Navegación en el <xliff:g example="35C3" id="conferenceName">%s</xliff:g>! Con la aplicación c3nav</string>
+    <string name="snack_engage_c3nav_action">¡Obténgalo ahora!</string>
+    <string name="snack_engage_c3nav_title">¡Navegación en el <xliff:g example="35C3" id="conferenceName">%s</xliff:g>! Con la aplicación c3nav</string>
     <string name="snack_engage_google_play_beta_testing_action">Conviértase en probador beta</string>
-    <string name="snack_engage_google_play_beta_testing_title">Usuario avanzado?</string>
+    <string name="snack_engage_google_play_beta_testing_title">¿Usuario avanzado?</string>
     <string name="snack_engage_rate_action">Califique la aplicación</string>
-    <string name="snack_engage_rate_title">Todo bien?</string>
+    <string name="snack_engage_rate_title">¿Todo bien?</string>
     <string name="starred_sessions">Favoritos</string>
     <string name="today">Hoy</string>
     <string name="trace_droid_button_title_later">Quizás más tarde</string>
@@ -110,7 +110,7 @@
     <string name="about_data_privacy_statement_german">Declaración de privacidad de datos (Alemán)</string>
     <string name="about_google_play_listing">Listado de Google Play</string>
     <string name="about_issues_or_feature_requests">Problemas o sugerencias</string>
-    <string name="about_source_code">Source code</string>
+    <string name="about_source_code">Código fuente</string>
     <string name="menu_item_title_share_session_text">como texto</string>
     <string name="menu_item_title_share_session_json">como JSON (por Chaosflix)</string>
     <string name="share_as_text">Compartir como texto</string>

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">rc3 Calendario</string>
-    <string name="app_hardcoded_subtitle">27 - 30 de Diciembre de 2020. Online</string>
+    <string name="app_hardcoded_subtitle">27 - 30 de diciembre de 2020. Online</string>
     <string name="copyright_logo">
-        <![CDATA[rc3. Diseño por <a href="https://kreatur.works">KREATUR WORKS</a>]]>
+        <![CDATA[rc3. Diseñado por <a href="https://kreatur.works">KREATUR WORKS</a>]]>
     </string>
     <string name="about_logo_content_description">
-        rc3 el logotipo
+        El logotipo de rc3
     </string>
 </resources>
