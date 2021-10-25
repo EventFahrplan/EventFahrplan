@@ -5,6 +5,23 @@
     android:key="@string/preference_key_screen">
 
     <PreferenceCategory
+        android:key="@string/preference_key_category_development"
+        android:title="@string/development_settings"
+        app:iconSpaceReserved="false">
+
+        <ListPreference
+            android:defaultValue="@string/preference_default_value_schedule_refresh_interval_value"
+            android:dialogTitle="@string/preference_dialog_title_schedule_refresh_interval"
+            android:entries="@array/preference_entries_schedule_refresh_interval_titles"
+            android:entryValues="@array/preference_entry_values_schedule_refresh_interval"
+            android:key="@string/preference_key_schedule_refresh_interval_index"
+            android:title="@string/preference_title_schedule_refresh_interval"
+            app:iconSpaceReserved="false"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:key="@string/preference_key_category_general"
         android:title="@string/general_settings"
         app:iconSpaceReserved="false">

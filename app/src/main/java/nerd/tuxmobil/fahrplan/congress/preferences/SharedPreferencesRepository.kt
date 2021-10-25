@@ -23,6 +23,17 @@ class SharedPreferencesRepository(val context: Context) {
         PreferenceManager.setDefaultValues(context, R.xml.prefs, false)
     }
 
+    fun getScheduleRefreshIntervalDefaultValue(): Int {
+        return context.getString(R.string.preference_default_value_schedule_refresh_interval_value).toInt()
+    }
+
+    fun getScheduleRefreshInterval(): Int {
+        val key = context.getString(R.string.preference_key_schedule_refresh_interval_index)
+        val defaultValue = context.getString(R.string.preference_default_value_schedule_refresh_interval_value)
+        val value = preferences.getString(key, defaultValue)!!
+        return value.toInt()
+    }
+
     fun getAlarmTimeIndex(): Int {
         val key = context.getString(R.string.preference_key_alarm_time_index)
         val defaultValue = context.getString(R.string.preference_default_value_alarm_time_value)

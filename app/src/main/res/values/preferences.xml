@@ -4,6 +4,38 @@
     <!-- Screen -->
     <string name="preference_key_screen" translatable="false">preferences_key_screen</string>
 
+    <!-- Category development -->
+    <string name="preference_key_category_development" translatable="false">preference_key_category_development</string>
+    <!-- Schedule refresh interval -->
+    <string name="preference_key_schedule_refresh_interval_index" translatable="false">schedule_refresh_interval</string>
+    <!--
+    Synchronize with @strings/preference_default_value_schedule_refresh_interval_value
+    -->
+    <integer name="preference_default_value_schedule_refresh_interval_index">0</integer>
+    <!--
+    Synchronize with @integers/preference_default_value_schedule_refresh_interval_index
+    and string-array/preference_entry_values_schedule_refresh
+    -->
+    <string name="preference_default_value_schedule_refresh_interval_value" translatable="false">-1</string>
+    <string name="preference_dialog_title_schedule_refresh_interval" translatable="false">Choose a schedule refresh interval</string>
+    <string name="preference_title_schedule_refresh_interval" translatable="false">Choose schedule refresh interval</string>
+    <string-array name="preference_entries_schedule_refresh_interval_titles">
+        <item>@string/schedule_refresh_interval_title_unmodified</item>
+        <item>@string/schedule_refresh_interval_title_every_30_seconds</item>
+        <item>@string/schedule_refresh_interval_title_every_60_seconds</item>
+        <item>@string/schedule_refresh_interval_title_every_120_seconds</item>
+    </string-array>
+    <!--
+    Synchronize with @strings/preference_default_value_schedule_refresh_interval_value
+    and @integers/preference_default_value_schedule_refresh_interval_index
+    -->
+    <string-array name="preference_entry_values_schedule_refresh_interval" translatable="false">
+        <item>-1</item>
+        <item>3000</item>
+        <item>6000</item>
+        <item>12000</item>
+    </string-array>
+
     <!-- Category general -->
     <string name="preference_key_category_general" translatable="false">preference_key_category_general</string>
 
