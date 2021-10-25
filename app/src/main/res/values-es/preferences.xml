@@ -1,19 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- App notification settings -->
-
     <!-- Automatic schedule updates -->
+    <string name="preference_title_auto_update_enabled">Habilita actualizaciones automáticas</string>
+    <string name="preference_summary_auto_update_enabled">Descarga el horario periódicamente.</string>
 
     <!-- Alarm time index -->
+    <!--
+    Synchronize with @integers/preference_default_value_alarm_time_index
+    and string-array/preference_entry_values_alarm_time
+    -->
+    <string name="preference_dialog_title_alarm_time">Elige un hora de alarma predeterminada</string>
+    <string name="preference_title_alarm_time">Elige un hora de alarma predeterminada</string>
+
 
     <!-- Alarm tone -->
+    <string name="preference_title_alarm_tone">Elige tono de alarma</string>
+    <string name="preference_summary_alarm_tone">Abre el selector de sonidos desde aquí.</string>
+
+    <!-- Device time zone -->
+    <string name="preference_title_use_device_time_zone_enabled">Usa la zona horaria del dispositivo</string>
+    <string name="preference_summary_use_device_time_zone_enabled">Muestra las fechas y horas de acorde.</string>
 
     <!-- Alternative highlighting -->
+    <string name="preference_title_alternative_highlighting_enabled">Habilita resaltado alternativo</string>
+    <string name="preference_summary_alternative_highlighting_enabled">Agrega un borde alrededor de las sesiones favoritas.</string>
 
     <!-- Alternative schedule URL -->
+    <string name="preference_title_alternative_schedule_url">Configura un URL alternativo de horario</string>
+    <string name="preference_summary_alternative_schedule_url">Ingresa un URL de respaldo por si el servidor preconfigurado no funciona.</string>
+
+    <!-- App notification settings -->
+    <string name="preference_title_app_notification_settings">Personalizar notificaciones</string>
+    <string name="preference_summary_app_notification_settings">Abre la configuración del sistema asociado desde aquí.</string>
 
     <!-- Insistent session alarms -->
+    <string name="preference_title_insistent_alarms_enabled">Habilitar alarma insistente</string>
+    <string name="preference_summary_insistent_alarms_enabled">Mantiene una alarma encendida indefinidamente.</string>
 
     <!-- Category Engelsystem -->
 
@@ -24,5 +47,6 @@
         3. Pega la URL aquí.<br/><br/>
         Los horarios antes y después de los días principales de la conferencia <u>no</u> serán mostrados.]]>
     </string>
+    <string name="preference_title_engelsystem_json_export_url">Configurar el URL de exportación del JSON</string>
 
 </resources>
