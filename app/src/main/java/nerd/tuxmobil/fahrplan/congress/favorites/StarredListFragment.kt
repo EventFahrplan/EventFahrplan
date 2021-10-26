@@ -1,6 +1,5 @@
 package nerd.tuxmobil.fahrplan.congress.favorites
 
-import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.util.SparseBooleanArray
@@ -261,7 +260,6 @@ class StarredListFragment :
         return when (item.itemId) {
             R.id.menu_item_delete_favorite -> {
                 deleteItems(currentListView.checkedItemPositions)
-                requireActivity().setResult(Activity.RESULT_OK)
                 mode.finish()
                 true
             }
@@ -302,7 +300,6 @@ class StarredListFragment :
             return
         }
         viewModel.deleteAll()
-        requireActivity().setResult(Activity.RESULT_OK)
     }
 
 }

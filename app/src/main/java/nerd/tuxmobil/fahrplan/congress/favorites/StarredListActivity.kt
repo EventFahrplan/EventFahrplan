@@ -47,13 +47,6 @@ class StarredListActivity :
         SessionDetailsActivity.startForResult(this, sessionId)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == SessionDetailsActivity.REQUEST_CODE && resultCode == RESULT_OK) {
-            setResult(RESULT_OK)
-        }
-    }
-
     override fun onAccepted(dlgId: Int) {
         val fragment = findFragment(StarredListFragment.FRAGMENT_TAG)
         if (fragment is StarredListFragment) {
