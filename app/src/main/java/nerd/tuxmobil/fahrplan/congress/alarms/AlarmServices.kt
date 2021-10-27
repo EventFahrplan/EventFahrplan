@@ -1,12 +1,11 @@
 package nerd.tuxmobil.fahrplan.congress.alarms
 
+import android.annotation.SuppressLint
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import nerd.tuxmobil.fahrplan.congress.models.SchedulableAlarm
-
-typealias PendingIntentCallback = (Context, Intent) -> PendingIntent
 
 /**
  * Alarm related actions such as scheduling and discarding alarms via the [AlarmManager][alarmManager].
@@ -14,15 +13,29 @@ typealias PendingIntentCallback = (Context, Intent) -> PendingIntent
 class AlarmServices @JvmOverloads constructor(
 
         private val alarmManager: AlarmManager,
-        private val onPendingIntentBroadcast: PendingIntentCallback = { context, intent ->
-            PendingIntent.getBroadcast(context, DEFAULT_REQUEST_CODE, intent, NO_FLAGS)
-        }
+        private val pendingIntentDelegate: PendingIntentDelegate = PendingIntentProvider
 
 ) {
 
-    private companion object {
+    /**
+     * Delegate to get a [PendingIntent] that will perform a broadcast.
+     */
+    interface PendingIntentDelegate {
+        fun onPendingIntentBroadcast(context: Context, intent: Intent): PendingIntent
+    }
+
+    /**
+     * Delegate which provides a [PendingIntent] that will perform a broadcast.
+     */
+    private object PendingIntentProvider : PendingIntentDelegate {
+
         const val DEFAULT_REQUEST_CODE = 0
         const val NO_FLAGS = 0
+
+        @SuppressLint("WrongConstant")
+        override fun onPendingIntentBroadcast(context: Context, intent: Intent): PendingIntent {
+            return PendingIntent.getBroadcast(context, DEFAULT_REQUEST_CODE, intent, NO_FLAGS)
+        }
     }
 
     /**
@@ -40,7 +53,7 @@ class AlarmServices @JvmOverloads constructor(
                 .setIsAddAlarm()
                 .build()
 
-        val pendingIntent = onPendingIntentBroadcast(context, intent)
+        val pendingIntent = pendingIntentDelegate.onPendingIntentBroadcast(context, intent)
         if (discardExisting) {
             alarmManager.cancel(pendingIntent)
         }
@@ -72,7 +85,7 @@ class AlarmServices @JvmOverloads constructor(
     }
 
     private fun discardAlarm(context: Context, intent: Intent) {
-        val pendingIntent = onPendingIntentBroadcast(context, intent)
+        val pendingIntent = pendingIntentDelegate.onPendingIntentBroadcast(context, intent)
         alarmManager.cancel(pendingIntent)
     }
 

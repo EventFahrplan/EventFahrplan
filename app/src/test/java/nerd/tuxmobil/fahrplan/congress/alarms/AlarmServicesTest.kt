@@ -8,6 +8,7 @@ import androidx.core.net.toUri
 import com.google.common.truth.Truth.assertThat
 import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedNever
 import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedOnce
+import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices.PendingIntentDelegate
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
 import nerd.tuxmobil.fahrplan.congress.models.SchedulableAlarm
 import org.junit.Test
@@ -22,12 +23,15 @@ class AlarmServicesTest {
 
     @Test
     fun `scheduleSessionAlarm invokes cancel then set when discardExisting is true`() {
-        val onPendingIntentBroadcast: PendingIntentCallback = { context, intent ->
-            assertThat(context).isEqualTo(mockContext)
-            assertIntentExtras(intent, AlarmReceiver.ALARM_SESSION)
-            pendingIntent
+        val pendingIntentDelegate = object : PendingIntentDelegate {
+            override fun onPendingIntentBroadcast(context: Context, intent: Intent): PendingIntent {
+                assertThat(context).isEqualTo(mockContext)
+                assertIntentExtras(intent, AlarmReceiver.ALARM_SESSION)
+                return pendingIntent
+            }
+
         }
-        val alarmServices = AlarmServices(alarmManager, onPendingIntentBroadcast)
+        val alarmServices = AlarmServices(alarmManager, pendingIntentDelegate)
         alarmServices.scheduleSessionAlarm(mockContext, alarm, true)
         verifyInvokedOnce(alarmManager).cancel(pendingIntent)
         verifyInvokedOnce(alarmManager).set(AlarmManager.RTC_WAKEUP, alarm.startTime, pendingIntent)
@@ -35,12 +39,15 @@ class AlarmServicesTest {
 
     @Test
     fun `scheduleSessionAlarm only invokes set when discardExisting is false`() {
-        val onPendingIntentBroadcast: PendingIntentCallback = { context, intent ->
-            assertThat(context).isEqualTo(mockContext)
-            assertIntentExtras(intent, AlarmReceiver.ALARM_SESSION)
-            pendingIntent
+        val pendingIntentDelegate = object : PendingIntentDelegate {
+            override fun onPendingIntentBroadcast(context: Context, intent: Intent): PendingIntent {
+                assertThat(context).isEqualTo(mockContext)
+                assertIntentExtras(intent, AlarmReceiver.ALARM_SESSION)
+                return pendingIntent
+            }
+
         }
-        val alarmServices = AlarmServices(alarmManager, onPendingIntentBroadcast)
+        val alarmServices = AlarmServices(alarmManager, pendingIntentDelegate)
         alarmServices.scheduleSessionAlarm(mockContext, alarm, false)
         verifyInvokedNever(alarmManager).cancel(pendingIntent)
         verifyInvokedOnce(alarmManager).set(AlarmManager.RTC_WAKEUP, alarm.startTime, pendingIntent)
@@ -48,12 +55,14 @@ class AlarmServicesTest {
 
     @Test
     fun `discardSessionAlarm invokes cancel`() {
-        val onPendingIntentBroadcast: PendingIntentCallback = { context, intent ->
-            assertThat(context).isEqualTo(mockContext)
-            assertIntentExtras(intent, AlarmReceiver.ALARM_DELETE)
-            pendingIntent
+        val pendingIntentDelegate = object : PendingIntentDelegate {
+            override fun onPendingIntentBroadcast(context: Context, intent: Intent): PendingIntent {
+                assertThat(context).isEqualTo(mockContext)
+                assertIntentExtras(intent, AlarmReceiver.ALARM_DELETE)
+                return pendingIntent
+            }
         }
-        val alarmServices = AlarmServices(alarmManager, onPendingIntentBroadcast)
+        val alarmServices = AlarmServices(alarmManager, pendingIntentDelegate)
         alarmServices.discardSessionAlarm(mockContext, alarm)
         verifyInvokedOnce(alarmManager).cancel(pendingIntent)
     }
@@ -61,13 +70,15 @@ class AlarmServicesTest {
 
     @Test
     fun `discardAutoUpdateAlarm invokes cancel`() {
-        val onPendingIntentBroadcast: PendingIntentCallback = { context, intent ->
-            assertThat(context).isEqualTo(mockContext)
-            assertThat(intent.component!!.className).isEqualTo(AlarmReceiver::class.java.name)
-            assertThat(intent.action).isEqualTo(AlarmReceiver.ALARM_UPDATE)
-            pendingIntent
+        val pendingIntentDelegate = object : PendingIntentDelegate {
+            override fun onPendingIntentBroadcast(context: Context, intent: Intent): PendingIntent {
+                assertThat(context).isEqualTo(mockContext)
+                assertThat(intent.component!!.className).isEqualTo(AlarmReceiver::class.java.name)
+                assertThat(intent.action).isEqualTo(AlarmReceiver.ALARM_UPDATE)
+                return pendingIntent
+            }
         }
-        val alarmServices = AlarmServices(alarmManager, onPendingIntentBroadcast)
+        val alarmServices = AlarmServices(alarmManager, pendingIntentDelegate)
         alarmServices.discardAutoUpdateAlarm(mockContext)
         verifyInvokedOnce(alarmManager).cancel(pendingIntent)
     }
