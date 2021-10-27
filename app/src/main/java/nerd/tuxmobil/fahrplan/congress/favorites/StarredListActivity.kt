@@ -44,14 +44,7 @@ class StarredListActivity :
     }
 
     override fun onSessionListClick(sessionId: String) {
-        SessionDetailsActivity.startForResult(this, sessionId)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == SessionDetailsActivity.REQUEST_CODE && resultCode == RESULT_OK) {
-            setResult(RESULT_OK)
-        }
+        SessionDetailsActivity.start(this, sessionId)
     }
 
     override fun onAccepted(dlgId: Int) {

@@ -44,15 +44,6 @@ public class ChangeListActivity extends BaseActivity implements
 
     @Override
     public void onSessionListClick(@NonNull String sessionId) {
-        SessionDetailsActivity.startForResult(this, sessionId);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == SessionDetailsActivity.REQUEST_CODE && resultCode == RESULT_OK) {
-            setResult(RESULT_OK);
-        }
+        SessionDetailsActivity.start(this, sessionId);
     }
 }

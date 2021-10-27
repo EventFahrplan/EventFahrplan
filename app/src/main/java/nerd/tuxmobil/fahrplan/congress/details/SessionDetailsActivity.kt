@@ -20,12 +20,19 @@ class SessionDetailsActivity : BaseActivity(R.layout.detail_frame) {
         const val REQUEST_CODE = 2
 
         @JvmStatic
-        fun startForResult(activity: Activity, sessionId: String) {
-            val intent = Intent(activity, SessionDetailsActivity::class.java).withExtras(
-                    BundleKeys.SESSION_ID to sessionId
-            )
-            activity.startActivityForResult(intent, REQUEST_CODE)
+        fun start(activity: Activity, sessionId: String) {
+            activity.startActivity(createIntent(activity, sessionId))
         }
+
+        @JvmStatic
+        fun startForResult(activity: Activity, sessionId: String) {
+            activity.startActivityForResult(createIntent(activity, sessionId), REQUEST_CODE)
+        }
+
+        private fun createIntent(activity: Activity, sessionId: String) =
+            Intent(activity, SessionDetailsActivity::class.java).withExtras(
+                BundleKeys.SESSION_ID to sessionId
+            )
 
     }
 
