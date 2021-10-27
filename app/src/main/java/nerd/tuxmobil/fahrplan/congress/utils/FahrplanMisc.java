@@ -114,26 +114,19 @@ public class FahrplanMisc {
                 new AlarmUpdater.OnAlarmUpdateListener() {
 
                     @Override
-                    public void onCancelAlarm() {
-                        MyApp.LogDebug(LOG_TAG, "cancel alarm post congress");
+                    public void onCancelUpdateAlarm() {
+                        MyApp.LogDebug(LOG_TAG, "Canceling alarm.");
                         alarmManager.cancel(pendingintent);
                     }
 
                     @Override
-                    public void onRescheduleAlarm(long interval, long nextFetch) {
-                        MyApp.LogDebug(LOG_TAG, "update alarm to interval " + interval +
+                    public void onScheduleUpdateAlarm(long interval, long nextFetch) {
+                        MyApp.LogDebug(LOG_TAG, "Scheduling update alarm to interval " + interval +
                                 ", next in ~" + (nextFetch - now));
                         alarmManager.setInexactRepeating(
                                 AlarmManager.RTC_WAKEUP, nextFetch, interval, pendingintent);
                     }
 
-                    @Override
-                    public void onRescheduleInitialAlarm(long interval, long nextFetch) {
-                        MyApp.LogDebug(LOG_TAG, "set initial alarm to interval " + interval +
-                                ", next in ~" + (nextFetch - now));
-                        alarmManager.setInexactRepeating(
-                                AlarmManager.RTC_WAKEUP, nextFetch, interval, pendingintent);
-                    }
                 });
         return alarmUpdater.calculateInterval(now, initial);
     }

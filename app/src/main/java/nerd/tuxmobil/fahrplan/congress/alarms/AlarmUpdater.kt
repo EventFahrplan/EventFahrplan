@@ -15,9 +15,8 @@ class AlarmUpdater @JvmOverloads constructor(
 ) {
 
     interface OnAlarmUpdateListener {
-        fun onCancelAlarm()
-        fun onRescheduleAlarm(interval: Long, nextFetch: Long)
-        fun onRescheduleInitialAlarm(interval: Long, nextFetch: Long)
+        fun onCancelUpdateAlarm()
+        fun onScheduleUpdateAlarm(interval: Long, nextFetch: Long)
     }
 
     companion object {
@@ -35,13 +34,9 @@ class AlarmUpdater @JvmOverloads constructor(
 
         if (shouldUseDevelopmentInterval) {
             logging.d(LOG_TAG, "Schedule refresh interval = $developmentRefreshInterval")
-            listener.onCancelAlarm()
+            listener.onCancelUpdateAlarm()
             val nextFetch = time + developmentRefreshInterval
-            if (isInitial) {
-                listener.onRescheduleInitialAlarm(developmentRefreshInterval, nextFetch)
-            } else {
-                listener.onRescheduleAlarm(developmentRefreshInterval, nextFetch)
-            }
+            listener.onScheduleUpdateAlarm(developmentRefreshInterval, nextFetch)
             return developmentRefreshInterval
         }
 
@@ -55,7 +50,7 @@ class AlarmUpdater @JvmOverloads constructor(
             }
             conference.endsBefore(time) -> {
                 logging.d(LOG_TAG, "START < END <= time")
-                listener.onCancelAlarm()
+                listener.onCancelUpdateAlarm()
                 return 0
             }
             else -> {
@@ -70,13 +65,13 @@ class AlarmUpdater @JvmOverloads constructor(
             interval = TWO_HOURS
             nextFetch = conference.firstDayStartTime
             if (!isInitial) {
-                listener.onCancelAlarm()
-                listener.onRescheduleAlarm(interval, nextFetch)
+                listener.onCancelUpdateAlarm()
+                listener.onScheduleUpdateAlarm(interval, nextFetch)
             }
         }
         if (isInitial) {
-            listener.onCancelAlarm()
-            listener.onRescheduleInitialAlarm(interval, nextFetch)
+            listener.onCancelUpdateAlarm()
+            listener.onScheduleUpdateAlarm(interval, nextFetch)
         }
         return interval
     }
