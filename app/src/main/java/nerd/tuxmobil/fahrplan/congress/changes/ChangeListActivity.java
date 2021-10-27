@@ -44,6 +44,6 @@ public class ChangeListActivity extends BaseActivity implements
 
     @Override
     public void onSessionListClick(@NonNull String sessionId) {
-        SessionDetailsActivity.startForResult(this, sessionId);
+        SessionDetailsActivity.start(this, sessionId);
     }
 }
