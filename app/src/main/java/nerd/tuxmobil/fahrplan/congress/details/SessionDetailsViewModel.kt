@@ -50,7 +50,7 @@ class SessionDetailsViewModel @JvmOverloads constructor(
             markdownConversion.markdownLinksToHtmlLinks(this)
         },
         private val toSessionUrl: Session.() -> String = {
-            SessionUrlComposer(this).getSessionUrl()
+            SessionUrlComposer().getSessionUrl(this)
         }
 
 ) {

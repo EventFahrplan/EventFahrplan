@@ -114,12 +114,12 @@ class CalendarDescriptionComposerTest {
     }
 
     private fun createComposer(session: Session): CalendarDescriptionComposer {
-        return CalendarDescriptionComposer(session, "Session online", sessionUrlComposition = FakeSessionUrlComposer(session))
+        return CalendarDescriptionComposer(session, "Session online", sessionUrlComposition = FakeSessionUrlComposer())
     }
 
-    private class FakeSessionUrlComposer(val session: Session) : SessionUrlComposition {
+    private class FakeSessionUrlComposer : SessionUrlComposition {
 
-        override fun getSessionUrl(): String {
+        override fun getSessionUrl(session: Session): String {
             return "https://events.ccc.de/congress/2021/Fahrplan/events/${session.sessionId}.html"
         }
 

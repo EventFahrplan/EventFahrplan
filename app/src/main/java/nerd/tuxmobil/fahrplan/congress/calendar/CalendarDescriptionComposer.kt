@@ -17,7 +17,7 @@ class CalendarDescriptionComposer(
     private val session: Session,
     private val sessionOnlineText: String,
     private val markdownConversion: MarkdownConversion = MarkdownConverter,
-    private val sessionUrlComposition: SessionUrlComposition = SessionUrlComposer(session)
+    private val sessionUrlComposition: SessionUrlComposition = SessionUrlComposer()
 
 ) : CalendarDescriptionComposition {
 
@@ -67,7 +67,7 @@ class CalendarDescriptionComposer(
     }
 
     private fun StringBuilder.appendSessionOnline() {
-        val sessionUrl = sessionUrlComposition.getSessionUrl()
+        val sessionUrl = sessionUrlComposition.getSessionUrl(session)
         if (sessionUrl.isNotEmpty()) {
             append("$sessionOnlineText: $sessionUrl")
         }

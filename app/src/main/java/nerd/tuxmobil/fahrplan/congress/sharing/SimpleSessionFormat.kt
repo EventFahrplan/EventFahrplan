@@ -52,7 +52,7 @@ object SimpleSessionFormat {
         if (!session.getLinks().containsWikiLink()) {
             append(LINE_BREAK)
             append(LINE_BREAK)
-            val sessionUrl = SessionUrlComposer(session).getSessionUrl()
+            val sessionUrl = SessionUrlComposer().getSessionUrl(session)
             append(sessionUrl)
         }
     }
