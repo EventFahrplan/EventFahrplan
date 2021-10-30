@@ -15,7 +15,7 @@ class CalendarSharing @JvmOverloads constructor(
     val context: Context,
     val session: Session,
     private val calendarDescriptionComposition: CalendarDescriptionComposition = CalendarDescriptionComposer(
-        session, context.getString(R.string.session_details_section_title_session_online)
+        context.getString(R.string.session_details_section_title_session_online)
     ),
     val onFailure: () -> Unit = {
         Toast.makeText(context, R.string.add_to_calendar_failed, Toast.LENGTH_LONG).show()
@@ -35,7 +35,7 @@ class CalendarSharing @JvmOverloads constructor(
 
     private fun Session.toCalendarInsertIntent(): Intent {
         val title = this.title
-        val description = calendarDescriptionComposition.getCalendarDescription()
+        val description = calendarDescriptionComposition.getCalendarDescription(this)
         val location = this.room
         val startTime = startTimeMilliseconds
         val endTime = startTime + this.duration * MILLISECONDS_OF_ONE_MINUTE

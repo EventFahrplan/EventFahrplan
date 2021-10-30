@@ -14,7 +14,6 @@ import nerd.tuxmobil.fahrplan.congress.wiki.containsWikiLink
  */
 class CalendarDescriptionComposer(
 
-    private val session: Session,
     private val sessionOnlineText: String,
     private val markdownConversion: MarkdownConversion = MarkdownConverter,
     private val sessionUrlComposition: SessionUrlComposition = SessionUrlComposer()
@@ -24,49 +23,49 @@ class CalendarDescriptionComposer(
     /**
      * Returns the composed description text.
      */
-    override fun getCalendarDescription() = buildString {
-        appendSubtitle()
-        appendSpeakers()
-        appendAbstract()
-        appendDescription()
+    override fun getCalendarDescription(session: Session) = buildString {
+        appendSubtitle(session)
+        appendSpeakers(session)
+        appendAbstract(session)
+        appendDescription(session)
         if (session.getLinks().containsWikiLink()) {
             // TODO: It seems that wiki links are no longer added to the links XML attribute.
             // Therefore, this code path might be removed in the future.
             // To be verified with VOC wiki scripts.
-            appendWikiLinks()
+            appendWikiLinks(session)
         } else {
-            appendLinks()
-            appendSessionOnline()
+            appendLinks(session)
+            appendSessionOnline(session)
         }
     }
 
-    private fun StringBuilder.appendSubtitle() {
+    private fun StringBuilder.appendSubtitle(session: Session) {
         appendParagraphIfNotEmpty(session.subtitle.orEmpty())
     }
 
-    private fun StringBuilder.appendSpeakers() {
+    private fun StringBuilder.appendSpeakers(session: Session) {
         appendParagraphIfNotEmpty(session.formattedSpeakers)
     }
 
-    private fun StringBuilder.appendAbstract() {
+    private fun StringBuilder.appendAbstract(session: Session) {
         appendMarkdownParagraphIfNotEmpty(session.abstractt.orEmpty())
     }
 
-    private fun StringBuilder.appendDescription() {
+    private fun StringBuilder.appendDescription(session: Session) {
         appendMarkdownParagraphIfNotEmpty(session.description.orEmpty())
     }
 
-    private fun StringBuilder.appendWikiLinks() {
+    private fun StringBuilder.appendWikiLinks(session: Session) {
         val links = session.getLinks().separateByHtmlLineBreaks()
         append(markdownConversion.markdownLinksToHtmlLinks(links))
     }
 
-    private fun StringBuilder.appendLinks() {
+    private fun StringBuilder.appendLinks(session: Session) {
         val links = session.getLinks().separateByHtmlLineBreaks()
         appendMarkdownParagraphIfNotEmpty(markdownConversion.markdownLinksToHtmlLinks(links))
     }
 
-    private fun StringBuilder.appendSessionOnline() {
+    private fun StringBuilder.appendSessionOnline(session: Session) {
         val sessionUrl = sessionUrlComposition.getSessionUrl(session)
         if (sessionUrl.isNotEmpty()) {
             append("$sessionOnlineText: $sessionUrl")
@@ -101,6 +100,6 @@ class CalendarDescriptionComposer(
 
 interface CalendarDescriptionComposition {
 
-    fun getCalendarDescription(): String
+    fun getCalendarDescription(session: Session): String
 
 }

@@ -55,7 +55,7 @@ class CalendarSharingTest {
     }
 
     private object FakeComposer : CalendarDescriptionComposition {
-        override fun getCalendarDescription() = "Lorem ipsum dolor"
+        override fun getCalendarDescription(session: Session) = "Lorem ipsum dolor"
     }
 
     private fun createSession() = Session("2342").apply {
