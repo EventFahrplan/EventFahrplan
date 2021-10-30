@@ -31,7 +31,7 @@ class SessionDetailsViewModel @JvmOverloads constructor(
 
         // Session conversion functions
         private val toFeedbackUrl: Session.(String) -> String = { urlTemplate ->
-            FeedbackUrlComposer(this, urlTemplate).getFeedbackUrl()
+            FeedbackUrlComposer(urlTemplate).getFeedbackUrl(this)
         },
         private val toPlainText: Session.(ZoneId?) -> String = { timeZoneId ->
             SimpleSessionFormat().format(this, timeZoneId)

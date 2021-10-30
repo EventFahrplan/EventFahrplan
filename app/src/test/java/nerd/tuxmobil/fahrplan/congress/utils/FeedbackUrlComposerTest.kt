@@ -30,26 +30,26 @@ class FeedbackUrlComposerTest {
 
     @Test
     fun getFeedbackUrlWithFrabSessionWithoutScheduleFeedbackUrl() {
-        assertThat(FeedbackUrlComposer(FRAB_SESSION, "")
-                .getFeedbackUrl()).isEmpty()
+        assertThat(FeedbackUrlComposer("")
+                .getFeedbackUrl(FRAB_SESSION)).isEmpty()
     }
 
     @Test
     fun getFeedbackUrlWithFrabSessionWithFrabScheduleFeedbackUrl() {
-        assertThat(FeedbackUrlComposer(FRAB_SESSION, FRAB_SCHEDULE_FEEDBACK_URL)
-                .getFeedbackUrl()).isEqualTo("https://frab.cccv.de/en/35C3/public/events/9985/feedback/new")
+        assertThat(FeedbackUrlComposer(FRAB_SCHEDULE_FEEDBACK_URL)
+                .getFeedbackUrl(FRAB_SESSION)).isEqualTo("https://frab.cccv.de/en/35C3/public/events/9985/feedback/new")
     }
 
     @Test
     fun getFeedbackUrlWithPretalxSessionWithFrabScheduleFeedbackUrl() {
-        assertThat(FeedbackUrlComposer(PRETALX_SESSION, FRAB_SCHEDULE_FEEDBACK_URL)
-                .getFeedbackUrl()).isEqualTo("https://talks.mrmcd.net/2019/talk/9XL7SP/feedback/")
+        assertThat(FeedbackUrlComposer(FRAB_SCHEDULE_FEEDBACK_URL)
+                .getFeedbackUrl(PRETALX_SESSION)).isEqualTo("https://talks.mrmcd.net/2019/talk/9XL7SP/feedback/")
     }
 
     @Test
     fun getFeedbackUrlWithWikiSession() {
-        assertThat(FeedbackUrlComposer(WIKI_SESSION, "")
-                .getFeedbackUrl()).isEqualTo("")
+        assertThat(FeedbackUrlComposer("")
+                .getFeedbackUrl(WIKI_SESSION)).isEqualTo("")
     }
 
 }
