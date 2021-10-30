@@ -26,7 +26,8 @@ class CalendarSharingTest {
 
     @Test
     fun `addToCalendar composes and emits a calendar insert intent`() {
-        CalendarSharing(context, createSession(), FakeComposer, onFailure).addToCalendar()
+        val session = createSession()
+        CalendarSharing(context, FakeComposer, onFailure).addToCalendar(session)
         verify(context).startActivity(argThat(InsertIntentMatcher()))
         verify(onFailure, never()).invoke()
     }

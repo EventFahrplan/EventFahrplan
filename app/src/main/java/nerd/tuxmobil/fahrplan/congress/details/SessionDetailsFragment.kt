@@ -308,7 +308,7 @@ class SessionDetailsFragment : Fragment(), SessionDetailsViewModel.ViewActionHan
     }
 
     override fun addToCalendar(session: Session) {
-        CalendarSharing(requireContext(), session).addToCalendar()
+        CalendarSharing(requireContext()).addToCalendar(session)
     }
 
     override fun showAlarmTimePicker() {

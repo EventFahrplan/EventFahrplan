@@ -13,7 +13,6 @@ import nerd.tuxmobil.fahrplan.congress.models.Session
 class CalendarSharing @JvmOverloads constructor(
 
     val context: Context,
-    val session: Session,
     private val calendarDescriptionComposition: CalendarDescriptionComposition = CalendarDescriptionComposer(
         context.getString(R.string.session_details_section_title_session_online)
     ),
@@ -23,7 +22,7 @@ class CalendarSharing @JvmOverloads constructor(
 
 ) {
 
-    fun addToCalendar() {
+    fun addToCalendar(session: Session) {
         val intent = session.toCalendarInsertIntent()
         context.startActivity(intent) {
             // TODO Updating a calendar event is broken. Always creates new entries.
