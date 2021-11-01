@@ -40,7 +40,7 @@ class SessionDetailsViewModel @JvmOverloads constructor(
             JsonSessionFormat().format(this)
         },
         private val toC3NavRoomName: Session.() -> String = {
-            RoomForC3NavConverter.convert(this.room)
+            RoomForC3NavConverter().convert(this.room)
         },
         private val toFormattedZonedDateTime: Session.() -> String = {
             val useDeviceTimeZone = repository.readUseDeviceTimeZoneEnabled()
