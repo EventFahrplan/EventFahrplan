@@ -744,7 +744,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
                 }
             case CONTEXT_MENU_ITEM_ID_SHARE_TEXT:
                 ZoneId timeZoneId = appRepository.readMeta().getTimeZoneId();
-                String formattedSession = SimpleSessionFormat.format(session, timeZoneId);
+                String formattedSession = new SimpleSessionFormat().format(session, timeZoneId);
                 SessionSharer.shareSimple(context, formattedSession);
                 break;
             case CONTEXT_MENU_ITEM_ID_SHARE_JSON:

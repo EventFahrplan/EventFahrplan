@@ -6,14 +6,15 @@ import nerd.tuxmobil.fahrplan.congress.utils.SessionUrlComposer
 import nerd.tuxmobil.fahrplan.congress.wiki.containsWikiLink
 import org.threeten.bp.ZoneId
 
-object SimpleSessionFormat {
+class SimpleSessionFormat {
 
-    private const val LINE_BREAK = "\n"
-    private const val COMMA = ","
-    private const val SPACE = " "
-    private const val HORIZONTAL_DIVIDERS = "---"
+    companion object {
+        private const val LINE_BREAK = "\n"
+        private const val COMMA = ","
+        private const val SPACE = " "
+        private const val HORIZONTAL_DIVIDERS = "---"
+    }
 
-    @JvmStatic
     fun format(session: Session, timeZoneId: ZoneId?): String {
         val builder = StringBuilder()
         builder.appendSession(session, timeZoneId)

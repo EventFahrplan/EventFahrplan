@@ -34,7 +34,7 @@ class SessionDetailsViewModel @JvmOverloads constructor(
             FeedbackUrlComposer(this, urlTemplate).getFeedbackUrl()
         },
         private val toPlainText: Session.(ZoneId?) -> String = { timeZoneId ->
-            SimpleSessionFormat.format(this, timeZoneId)
+            SimpleSessionFormat().format(this, timeZoneId)
         },
         private val toJson: Session.() -> String = {
             JsonSessionFormat().format(this)
