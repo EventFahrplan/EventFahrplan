@@ -1,10 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress.favorites
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.nhaarman.mockitokotlin2.any
-import com.nhaarman.mockitokotlin2.anyOrNull
-import com.nhaarman.mockitokotlin2.doReturn
-import com.nhaarman.mockitokotlin2.mock
 import info.metadude.android.eventfahrplan.commons.testing.MainDispatcherTestRule
 import info.metadude.android.eventfahrplan.commons.testing.assertLiveData
 import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedNever
@@ -21,6 +17,10 @@ import nerd.tuxmobil.fahrplan.congress.sharing.JsonSessionFormat
 import nerd.tuxmobil.fahrplan.congress.sharing.SimpleSessionFormat
 import org.junit.Rule
 import org.junit.Test
+import org.mockito.kotlin.any
+import org.mockito.kotlin.anyOrNull
+import org.mockito.kotlin.doReturn
+import org.mockito.kotlin.mock
 
 class StarredListViewModelTest {
 

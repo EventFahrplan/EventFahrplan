@@ -4,16 +4,16 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.provider.CalendarContract
-import com.nhaarman.mockitokotlin2.argThat
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.never
-import com.nhaarman.mockitokotlin2.verify
 import nerd.tuxmobil.fahrplan.congress.extensions.startActivity
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import org.junit.After
 import org.junit.Test
 import org.mockito.ArgumentMatcher
 import org.mockito.Mockito.validateMockitoUsage
+import org.mockito.kotlin.argThat
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.never
+import org.mockito.kotlin.verify
 
 /**
  * Covers [CalendarSharing.addToCalendar].
