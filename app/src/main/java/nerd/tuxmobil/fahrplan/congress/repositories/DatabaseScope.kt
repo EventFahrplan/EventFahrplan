@@ -32,6 +32,7 @@ class DatabaseScope private constructor(
         return scope.launch(context = CoroutineName(name), block = block)
     }
 
+    @Suppress("unused")
     suspend fun <T> withUiContext(block: suspend CoroutineScope.() -> T) =
         executionContext.withUiContext(block)
 
