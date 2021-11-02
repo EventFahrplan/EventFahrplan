@@ -73,7 +73,7 @@ class StarredListViewModel(
 
     private fun List<Session>.toStarredListParameter(): StarredListParameter {
         val numDays = if (isEmpty()) 0 else repository.readMeta().numDays
-        val useDeviceTimeZone = if (isEmpty()) false else repository.readUseDeviceTimeZoneEnabled()
+        val useDeviceTimeZone = isNotEmpty() && repository.readUseDeviceTimeZoneEnabled()
         return StarredListParameter(this, numDays, useDeviceTimeZone).also {
             logging.d(LOG_TAG, "Loaded $size starred sessions.")
         }
