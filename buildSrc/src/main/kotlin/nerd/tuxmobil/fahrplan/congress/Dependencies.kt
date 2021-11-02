@@ -41,7 +41,7 @@ object Libs {
         const val appCompat = "1.3.1"
         const val assertjAndroid = "1.2.0"
         const val betterLinkMovementMethod = "2.2.0"
-        const val constraintLayout = "2.1.0"
+        const val constraintLayout = "2.1.1"
         const val coreKtx = "1.6.0"
         const val coreTesting = "2.1.0"
         const val emailIntentBuilder = "2.0.0"
