@@ -190,7 +190,7 @@ public class Session {
      * Returns the end date and time in milliseconds.
      */
     public long getEndsAtDateUtc() {
-        return dateUTC + duration * MILLISECONDS_OF_ONE_MINUTE;
+        return dateUTC + (long) duration * MILLISECONDS_OF_ONE_MINUTE;
     }
 
     @SuppressWarnings("RedundantIfStatement")

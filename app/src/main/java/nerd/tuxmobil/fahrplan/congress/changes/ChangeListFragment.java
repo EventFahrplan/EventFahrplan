@@ -114,8 +114,7 @@ public class ChangeListFragment extends AbstractListFragment {
         try {
             mListener = (OnSessionListClick) context;
         } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString()
-                    + " must implement OnSessionListClick");
+            throw new ClassCastException(context + " must implement OnSessionListClick");
         }
     }
 

@@ -49,24 +49,24 @@ class AlarmUpdater @JvmOverloads constructor(
         var nextFetch: Long
         when {
             conference.contains(time) -> {
-                logging.d(LOG_TAG, "START <= time < END");
+                logging.d(LOG_TAG, "START <= time < END")
                 interval = TWO_HOURS
                 nextFetch = time + interval
             }
             conference.endsBefore(time) -> {
-                logging.d(LOG_TAG, "START < END <= time");
+                logging.d(LOG_TAG, "START < END <= time")
                 listener.onCancelAlarm()
                 return 0
             }
             else -> {
-                logging.d(LOG_TAG, "time < END");
+                logging.d(LOG_TAG, "time < END")
                 interval = ONE_DAY
                 nextFetch = time + interval
             }
         }
         val shiftedTime = time + ONE_DAY
         if (conference.startsAfter(time) && conference.startsAtOrBefore(shiftedTime)) {
-            logging.d(LOG_TAG, "time < START && START <= shiftedTime");
+            logging.d(LOG_TAG, "time < START && START <= shiftedTime")
             interval = TWO_HOURS
             nextFetch = conference.firstDayStartTime
             if (!isInitial) {
