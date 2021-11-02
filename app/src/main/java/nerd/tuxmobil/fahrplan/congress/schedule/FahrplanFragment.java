@@ -338,7 +338,6 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
         // whenever possible, just update recycler views
         if (!forceReload && !adapterByRoomIndex.isEmpty()) {
             for (int roomIndex = columnIndexLeft; roomIndex <= columnIndexRight; roomIndex++) {
-                //noinspection ConstantConditions
                 try {
                     adapterByRoomIndex.get(roomIndex).notifyDataSetChanged();
                 } catch (NullPointerException e) {

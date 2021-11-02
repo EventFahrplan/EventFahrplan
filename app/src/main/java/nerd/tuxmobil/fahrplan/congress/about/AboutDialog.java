@@ -99,7 +99,6 @@ public class AboutDialog extends DialogFragment {
         text.setText(appVersionText);
 
         View appDisclaimer = requireViewByIdCompat(view, R.id.about_app_disclaimer_view);
-        //noinspection ConstantConditions
         appDisclaimer.setVisibility(BuildConfig.SHOW_APP_DISCLAIMER ? View.VISIBLE : View.GONE);
 
         int linkTextColor = ContextCompat.getColor(view.getContext(), R.color.text_link_on_dark);
