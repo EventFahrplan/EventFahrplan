@@ -22,7 +22,7 @@ object Plugins {
         const val androidJunitJacoco = "0.16.0"
         const val kotlin = "1.5.31"
         const val sonarQube = "3.3"
-        const val unMock = "0.7.8"
+        const val unMock = "0.7.9"
         const val versions = "0.39.0"
     }
 
