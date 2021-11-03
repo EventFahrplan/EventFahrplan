@@ -9,10 +9,10 @@ import nerd.tuxmobil.fahrplan.congress.models.Session
 import org.junit.After
 import org.junit.Test
 import org.mockito.ArgumentMatcher
-import org.mockito.Mockito.validateMockitoUsage
 import org.mockito.kotlin.argThat
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.never
+import org.mockito.kotlin.validateMockitoUsage
 import org.mockito.kotlin.verify
 
 /**
