@@ -7,11 +7,11 @@ import android.widget.TextView
 import androidx.core.text.set
 import androidx.core.text.toSpannable
 import com.google.common.truth.Truth.assertThat
-import com.nhaarman.mockitokotlin2.any
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.verify
 import org.junit.Test
 import org.mockito.ArgumentCaptor
+import org.mockito.kotlin.any
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.verify
 
 class TextViewExtensionsTest {
 

@@ -2,10 +2,10 @@
 
 package info.metadude.android.eventfahrplan.commons.testing
 
-import com.nhaarman.mockitokotlin2.never
-import com.nhaarman.mockitokotlin2.times
-import com.nhaarman.mockitokotlin2.verify
 import org.mockito.Mockito
+import org.mockito.kotlin.never
+import org.mockito.kotlin.times
+import org.mockito.kotlin.verify
 
 /**
  *  Verifies certain behavior happened never.

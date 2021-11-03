@@ -18,11 +18,11 @@ object Android {
 object Plugins {
 
     private object Versions {
-        const val android = "7.0.2"
+        const val android = "7.0.3"
         const val androidJunitJacoco = "0.16.0"
         const val kotlin = "1.5.31"
         const val sonarQube = "3.3"
-        const val unMock = "0.7.8"
+        const val unMock = "0.7.9"
         const val versions = "0.39.0"
     }
 
@@ -41,19 +41,19 @@ object Libs {
         const val appCompat = "1.3.1"
         const val assertjAndroid = "1.2.0"
         const val betterLinkMovementMethod = "2.2.0"
-        const val constraintLayout = "2.1.0"
-        const val coreKtx = "1.6.0"
+        const val constraintLayout = "2.1.1"
+        const val coreKtx = "1.6.0" // compileSdk 31 is required as of 1.7.0
         const val coreTesting = "2.1.0"
         const val emailIntentBuilder = "2.0.0"
         const val engelsystem = "5.2.0"
         const val espresso = "3.4.0"
         const val junit = "4.13.2"
         const val kotlinCoroutines = "1.5.2"
-        const val liveDataKtx = "2.3.1"
+        const val liveDataKtx = "2.3.1" // compileSdk 31 is required as of 2.4.0
         const val markwon = "4.6.2"
         const val material = "1.4.0"
-        const val mockito = "3.12.0"
-        const val mockitoKotlin = "2.2.0"
+        const val mockito = "4.0.0"
+        const val mockitoKotlin = "4.0.0"
         const val moshi = "1.12.0"
         const val okhttp = "3.12.13"
         const val preference = "1.1.1"
@@ -64,7 +64,7 @@ object Libs {
         const val threeTenBp = "1.5.1"
         const val tracedroid = "3.1"
         const val truth = "1.1.3"
-        const val turbine = "0.6.1"
+        const val turbine = "0.7.0"
     }
 
     const val annotation = "androidx.annotation:annotation:${Versions.annotation}"
@@ -86,7 +86,7 @@ object Libs {
     const val markwonLinkify = "io.noties.markwon:linkify:${Versions.markwon}"
     const val material = "com.google.android.material:material:${Versions.material}"
     const val mockitoCore = "org.mockito:mockito-core:${Versions.mockito}"
-    const val mockitoKotlin = "com.nhaarman.mockitokotlin2:mockito-kotlin:${Versions.mockitoKotlin}"
+    const val mockitoKotlin = "org.mockito.kotlin:mockito-kotlin:${Versions.mockitoKotlin}"
     const val moshi = "com.squareup.moshi:moshi:${Versions.moshi}"
     const val moshiCodeGen = "com.squareup.moshi:moshi-kotlin-codegen:${Versions.moshi}"
     const val okhttp = "com.squareup.okhttp3:okhttp:${Versions.okhttp}"

@@ -6,12 +6,12 @@ import android.content.Context
 import android.content.Intent
 import androidx.core.net.toUri
 import com.google.common.truth.Truth.assertThat
-import com.nhaarman.mockitokotlin2.mock
 import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedNever
 import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedOnce
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
 import nerd.tuxmobil.fahrplan.congress.models.SchedulableAlarm
 import org.junit.Test
+import org.mockito.kotlin.mock
 
 class AlarmServicesTest {
 

@@ -2,9 +2,6 @@ package nerd.tuxmobil.fahrplan.congress.repositories
 
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
-import com.nhaarman.mockitokotlin2.doReturn
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.whenever
 import info.metadude.android.eventfahrplan.commons.testing.MainDispatcherTestRule
 import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedOnce
 import info.metadude.android.eventfahrplan.database.repositories.SessionsDatabaseRepository
@@ -17,12 +14,14 @@ import org.junit.Assert.fail
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.ArgumentMatchers.anyInt
-import kotlin.time.ExperimentalTime
+import org.mockito.kotlin.doReturn
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.whenever
 
 /**
  * Test class to deal with sessions which interact with the [SessionsDatabaseRepository].
  */
-@OptIn(ExperimentalCoroutinesApi::class, ExperimentalTime::class)
+@OptIn(ExperimentalCoroutinesApi::class)
 class AppRepositorySessionsTest {
 
     @get:Rule
