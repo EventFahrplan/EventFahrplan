@@ -42,14 +42,14 @@ object Libs {
         const val assertjAndroid = "1.2.0"
         const val betterLinkMovementMethod = "2.2.0"
         const val constraintLayout = "2.1.1"
-        const val coreKtx = "1.6.0"
+        const val coreKtx = "1.6.0" // compileSdk 31 is required as of 1.7.0
         const val coreTesting = "2.1.0"
         const val emailIntentBuilder = "2.0.0"
         const val engelsystem = "5.2.0"
         const val espresso = "3.4.0"
         const val junit = "4.13.2"
         const val kotlinCoroutines = "1.5.2"
-        const val liveDataKtx = "2.3.1"
+        const val liveDataKtx = "2.3.1" // compileSdk 31 is required as of 2.4.0
         const val markwon = "4.6.2"
         const val material = "1.4.0"
         const val mockito = "4.0.0"
