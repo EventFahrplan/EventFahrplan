@@ -35,7 +35,7 @@ class RoomForC3NavConverterTest(
 
     @Test
     fun convert() {
-        assertThat(RoomForC3NavConverter.convert(room)).isEqualTo(expectedText)
+        assertThat(RoomForC3NavConverter().convert(room)).isEqualTo(expectedText)
     }
 
 }

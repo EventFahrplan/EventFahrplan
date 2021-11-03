@@ -15,7 +15,7 @@ class CalendarDescriptionComposerTest {
     @Test
     fun `getCalendarDescription returns session online`() {
         val session = createSession()
-        assertThat(createComposer(session).getCalendarDescription()).isEqualTo("""
+        assertThat(createComposer().getCalendarDescription(session)).isEqualTo("""
             Session online: https://events.ccc.de/congress/2021/Fahrplan/events/2342.html
             """.trimIndent())
     }
@@ -23,7 +23,7 @@ class CalendarDescriptionComposerTest {
     @Test
     fun `getCalendarDescription returns subtitle and session online`() {
         val session = createSession(subtitle = "Lorem ipsum dolor")
-        assertThat(createComposer(session).getCalendarDescription()).isEqualTo("""
+        assertThat(createComposer().getCalendarDescription(session)).isEqualTo("""
             Lorem ipsum dolor
 
             Session online: https://events.ccc.de/congress/2021/Fahrplan/events/2342.html
@@ -33,7 +33,7 @@ class CalendarDescriptionComposerTest {
     @Test
     fun `getCalendarDescription returns speakers and session online`() {
         val session = createSession(speakers = "Ada Lovelace;Albert Einstein")
-        assertThat(createComposer(session).getCalendarDescription()).isEqualTo("""
+        assertThat(createComposer().getCalendarDescription(session)).isEqualTo("""
             Ada Lovelace, Albert Einstein
 
             Session online: https://events.ccc.de/congress/2021/Fahrplan/events/2342.html
@@ -43,7 +43,7 @@ class CalendarDescriptionComposerTest {
     @Test
     fun `getCalendarDescription returns abstract and session online`() {
         val session = createSession(abstract = "Lorem ipsum dolor sit amet.")
-        assertThat(createComposer(session).getCalendarDescription()).isEqualTo("""
+        assertThat(createComposer().getCalendarDescription(session)).isEqualTo("""
             Lorem ipsum dolor sit amet.
 
             Session online: https://events.ccc.de/congress/2021/Fahrplan/events/2342.html
@@ -53,7 +53,7 @@ class CalendarDescriptionComposerTest {
     @Test
     fun `getCalendarDescription returns description and session online`() {
         val session = createSession(description = "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.")
-        assertThat(createComposer(session).getCalendarDescription()).isEqualTo("""
+        assertThat(createComposer().getCalendarDescription(session)).isEqualTo("""
             Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 
             Session online: https://events.ccc.de/congress/2021/Fahrplan/events/2342.html
@@ -65,7 +65,7 @@ class CalendarDescriptionComposerTest {
         val session = createSession(links = "[https://c3voc.de](https://c3voc.de)," +
                 "[https://events.ccc.de/congress/2017/wiki/index.php/Session:A/V_Angel_Meeting]" +
                 "(https://events.ccc.de/congress/2017/wiki/index.php/Session:A/V_Angel_Meeting)")
-        assertThat(createComposer(session).getCalendarDescription()).isEqualTo("""
+        assertThat(createComposer().getCalendarDescription(session)).isEqualTo("""
             <a href="https://c3voc.de">https://c3voc.de</a><br><a href="https://events.ccc.de/congress/2017/wiki/index.php/Session:A/V_Angel_Meeting">https://events.ccc.de/congress/2017/wiki/index.php/Session:A/V_Angel_Meeting</a>
             """.trimIndent())
     }
@@ -74,7 +74,7 @@ class CalendarDescriptionComposerTest {
     fun `getCalendarDescription returns links`() {
         val session = createSession(links = "[OpenStreetMap](https://openstreetmap.org)," +
                 "[https://overpass-turbo.eu](https://overpass-turbo.eu)")
-        assertThat(createComposer(session).getCalendarDescription()).isEqualTo("""
+        assertThat(createComposer().getCalendarDescription(session)).isEqualTo("""
             <a href="https://openstreetmap.org">OpenStreetMap</a><br><a href="https://overpass-turbo.eu">https://overpass-turbo.eu</a>
 
             Session online: https://events.ccc.de/congress/2021/Fahrplan/events/2342.html
@@ -90,7 +90,7 @@ class CalendarDescriptionComposerTest {
             description = "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
             links = "[Engelsystem](https://engelsystem.de)"
         )
-        assertThat(createComposer(session).getCalendarDescription()).isEqualTo("""
+        assertThat(createComposer().getCalendarDescription(session)).isEqualTo("""
             Lorem ipsum dolor
 
             Ada Lovelace, Albert Einstein
@@ -108,18 +108,18 @@ class CalendarDescriptionComposerTest {
     @Test
     fun `getCalendarDescription returns session online with uninitialized session`() {
         val session = createSession(subtitle = null, speakers = null, abstract = null, description = null, links = null)
-        assertThat(createComposer(session).getCalendarDescription()).isEqualTo("""
+        assertThat(createComposer().getCalendarDescription(session)).isEqualTo("""
             Session online: https://events.ccc.de/congress/2021/Fahrplan/events/2342.html
             """.trimIndent())
     }
 
-    private fun createComposer(session: Session): CalendarDescriptionComposer {
-        return CalendarDescriptionComposer(session, "Session online", sessionUrlComposition = FakeSessionUrlComposer(session))
+    private fun createComposer(): CalendarDescriptionComposer {
+        return CalendarDescriptionComposer("Session online", sessionUrlComposition = FakeSessionUrlComposer())
     }
 
-    private class FakeSessionUrlComposer(val session: Session) : SessionUrlComposition {
+    private class FakeSessionUrlComposer : SessionUrlComposition {
 
-        override fun getSessionUrl(): String {
+        override fun getSessionUrl(session: Session): String {
             return "https://events.ccc.de/congress/2021/Fahrplan/events/${session.sessionId}.html"
         }
 

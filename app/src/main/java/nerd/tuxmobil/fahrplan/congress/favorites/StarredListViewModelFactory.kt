@@ -21,7 +21,7 @@ class StarredListViewModelFactory(
             repository = appRepository,
             executionContext = AppExecutionContext,
             logging = logging,
-            simpleSessionFormat = SimpleSessionFormat,
+            simpleSessionFormat = SimpleSessionFormat(),
             jsonSessionFormat = JsonSessionFormat()
         ) as T
     }

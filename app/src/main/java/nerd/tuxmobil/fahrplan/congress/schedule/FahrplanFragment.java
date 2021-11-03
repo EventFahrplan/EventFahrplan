@@ -338,7 +338,6 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
         // whenever possible, just update recycler views
         if (!forceReload && !adapterByRoomIndex.isEmpty()) {
             for (int roomIndex = columnIndexLeft; roomIndex <= columnIndexRight; roomIndex++) {
-                //noinspection ConstantConditions
                 try {
                     adapterByRoomIndex.get(roomIndex).notifyDataSetChanged();
                 } catch (NullPointerException e) {
@@ -737,7 +736,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
                 updateMenuItems();
                 break;
             case CONTEXT_MENU_ITEM_ID_ADD_TO_CALENDAR:
-                new CalendarSharing(context, session).addToCalendar();
+                new CalendarSharing(context).addToCalendar(session);
                 break;
             case CONTEXT_MENU_ITEM_ID_SHARE:
                 if (BuildConfig.ENABLE_CHAOSFLIX_EXPORT) {
@@ -745,7 +744,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
                 }
             case CONTEXT_MENU_ITEM_ID_SHARE_TEXT:
                 ZoneId timeZoneId = appRepository.readMeta().getTimeZoneId();
-                String formattedSession = SimpleSessionFormat.format(session, timeZoneId);
+                String formattedSession = new SimpleSessionFormat().format(session, timeZoneId);
                 SessionSharer.shareSimple(context, formattedSession);
                 break;
             case CONTEXT_MENU_ITEM_ID_SHARE_JSON:

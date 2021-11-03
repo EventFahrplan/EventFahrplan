@@ -1,10 +1,12 @@
 package nerd.tuxmobil.fahrplan.congress.navigation
 
-object RoomForC3NavConverter {
+class RoomForC3NavConverter {
 
-    private const val EMPTY_STRING = ""
+    companion object {
 
-    private val ROOM_TO_C3NAV_MAPPING = mapOf(
+        private const val EMPTY_STRING = ""
+
+        private val ROOM_TO_C3NAV_MAPPING = mapOf(
             "ADA" to "hall-a",
             "BORG" to "hall-b",
             "CLARKE" to "hall-c",
@@ -87,9 +89,10 @@ object RoomForC3NavConverter {
             "VINTAGE COMPUTING CLUSTER" to "vintage",
             "WIKIPAKA WG: BIBLIOTHEK" to "wikipaka-library",
             "WIKIPAKA WG: ESSZIMMER" to "wikipaka-dining"
-    )
+        )
 
-    @JvmStatic
+    }
+
     fun convert(room: String?) = when {
         room != null && EMPTY_STRING != room -> {
             val c3navName = ROOM_TO_C3NAV_MAPPING[room.uppercase()]

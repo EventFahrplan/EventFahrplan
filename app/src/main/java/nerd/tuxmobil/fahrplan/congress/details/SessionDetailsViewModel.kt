@@ -34,13 +34,13 @@ class SessionDetailsViewModel @JvmOverloads constructor(
             FeedbackUrlComposer(this, urlTemplate).getFeedbackUrl()
         },
         private val toPlainText: Session.(ZoneId?) -> String = { timeZoneId ->
-            SimpleSessionFormat.format(this, timeZoneId)
+            SimpleSessionFormat().format(this, timeZoneId)
         },
         private val toJson: Session.() -> String = {
             JsonSessionFormat().format(this)
         },
         private val toC3NavRoomName: Session.() -> String = {
-            RoomForC3NavConverter.convert(this.room)
+            RoomForC3NavConverter().convert(this.room)
         },
         private val toFormattedZonedDateTime: Session.() -> String = {
             val useDeviceTimeZone = repository.readUseDeviceTimeZoneEnabled()
@@ -50,7 +50,7 @@ class SessionDetailsViewModel @JvmOverloads constructor(
             markdownConversion.markdownLinksToHtmlLinks(this)
         },
         private val toSessionUrl: Session.() -> String = {
-            SessionUrlComposer(this).getSessionUrl()
+            SessionUrlComposer().getSessionUrl(this)
         }
 
 ) {

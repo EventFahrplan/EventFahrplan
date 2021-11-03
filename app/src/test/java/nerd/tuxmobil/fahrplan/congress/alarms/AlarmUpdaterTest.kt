@@ -10,7 +10,6 @@ import nerd.tuxmobil.fahrplan.congress.utils.ConferenceTimeFrame
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Test
-import org.mockito.Mockito.verify
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
@@ -94,8 +93,8 @@ class AlarmUpdaterTest {
         // 2015-12-27T11:30:00+0100, in seconds: 1451212200000
         val interval = alarmUpdater.calculateInterval(1451212200000L, true)
         assertThat(interval).isEqualTo(7200000L)
-        verify(mockListener).onCancelAlarm()
-        verify(mockListener).onRescheduleInitialAlarm(7200000L, 1451212200000L + 7200000L)
+        verifyInvokedOnce(mockListener).onCancelAlarm()
+        verifyInvokedOnce(mockListener).onRescheduleInitialAlarm(7200000L, 1451212200000L + 7200000L)
         verifyInvokedNever(mockListener).onRescheduleAlarm(NEVER_USED, NEVER_USED)
     }
 
@@ -106,7 +105,7 @@ class AlarmUpdaterTest {
         // 2015-12-31T00:00:00+0100, in seconds: 1451516400000
         val interval = alarmUpdater.calculateInterval(1451516400000L, false)
         assertThat(interval).isEqualTo(0)
-        verify(mockListener).onCancelAlarm()
+        verifyInvokedOnce(mockListener).onCancelAlarm()
         verifyInvokedNever(mockListener).onRescheduleAlarm(NEVER_USED, NEVER_USED)
         verifyInvokedNever(mockListener).onRescheduleInitialAlarm(NEVER_USED, NEVER_USED)
     }
@@ -116,7 +115,7 @@ class AlarmUpdaterTest {
         // 2015-12-31T00:00:00+0100, in seconds: 1451516400000
         val interval = alarmUpdater.calculateInterval(1451516400000L, true)
         assertThat(interval).isEqualTo(0)
-        verify(mockListener).onCancelAlarm()
+        verifyInvokedOnce(mockListener).onCancelAlarm()
         verifyInvokedNever(mockListener).onRescheduleAlarm(NEVER_USED, NEVER_USED)
         verifyInvokedNever(mockListener).onRescheduleInitialAlarm(NEVER_USED, NEVER_USED)
     }
@@ -128,8 +127,8 @@ class AlarmUpdaterTest {
         // 2015-12-26T23:59:59+0100, in seconds: 1451170799000
         val interval = alarmUpdater.calculateInterval(1451170799000L, false)
         assertThat(interval).isEqualTo(7200000L)
-        verify(mockListener).onCancelAlarm()
-        verify(mockListener).onRescheduleAlarm(7200000L, 1451170800000L)
+        verifyInvokedOnce(mockListener).onCancelAlarm()
+        verifyInvokedOnce(mockListener).onRescheduleAlarm(7200000L, 1451170800000L)
         verifyInvokedNever(mockListener).onRescheduleInitialAlarm(NEVER_USED, NEVER_USED)
     }
 
@@ -138,8 +137,8 @@ class AlarmUpdaterTest {
         // 2015-12-26T23:59:59+0100, in seconds: 1451170799000
         val interval = alarmUpdater.calculateInterval(1451170799000L, true)
         assertThat(interval).isEqualTo(7200000L)
-        verify(mockListener).onCancelAlarm()
-        verify(mockListener).onRescheduleInitialAlarm(7200000L, 1451170800000L)
+        verifyInvokedOnce(mockListener).onCancelAlarm()
+        verifyInvokedOnce(mockListener).onRescheduleInitialAlarm(7200000L, 1451170800000L)
         verifyInvokedNever(mockListener).onRescheduleAlarm(NEVER_USED, NEVER_USED)
     }
 
@@ -150,8 +149,8 @@ class AlarmUpdaterTest {
         // 2015-12-26T00:00:00+0100, in seconds: 1451084400000
         val interval = alarmUpdater.calculateInterval(1451084400000L, false)
         assertThat(interval).isEqualTo(7200000L)
-        verify(mockListener).onCancelAlarm()
-        verify(mockListener).onRescheduleAlarm(7200000L, 1451170800000L)
+        verifyInvokedOnce(mockListener).onCancelAlarm()
+        verifyInvokedOnce(mockListener).onRescheduleAlarm(7200000L, 1451170800000L)
         verifyInvokedNever(mockListener).onRescheduleInitialAlarm(NEVER_USED, NEVER_USED)
     }
 
@@ -160,8 +159,8 @@ class AlarmUpdaterTest {
         // 2015-12-26T00:00:00+0100, in seconds: 1451084400000
         val interval = alarmUpdater.calculateInterval(1451084400000L, true)
         assertThat(interval).isEqualTo(7200000L)
-        verify(mockListener).onCancelAlarm()
-        verify(mockListener).onRescheduleInitialAlarm(7200000L, 1451170800000L)
+        verifyInvokedOnce(mockListener).onCancelAlarm()
+        verifyInvokedOnce(mockListener).onRescheduleInitialAlarm(7200000L, 1451170800000L)
         verifyInvokedNever(mockListener).onRescheduleAlarm(NEVER_USED, NEVER_USED)
     }
 
@@ -183,8 +182,8 @@ class AlarmUpdaterTest {
         // 2015-12-25T23:59:59+0100, in seconds: 1451084399000
         val interval = alarmUpdater.calculateInterval(1451084399000L, true)
         assertThat(interval).isEqualTo(86400000L)
-        verify(mockListener).onCancelAlarm()
-        verify(mockListener).onRescheduleInitialAlarm(86400000L, 1451084399000L + 86400000L)
+        verifyInvokedOnce(mockListener).onCancelAlarm()
+        verifyInvokedOnce(mockListener).onRescheduleInitialAlarm(86400000L, 1451084399000L + 86400000L)
         verifyInvokedNever(mockListener).onRescheduleAlarm(NEVER_USED, NEVER_USED)
     }
 

@@ -9,7 +9,7 @@ import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import org.junit.Before
 import org.junit.Test
-import org.mockito.ArgumentMatchers.anyString
+import org.mockito.kotlin.any
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
@@ -34,7 +34,7 @@ class SessionDetailsViewModelTest {
 
     @Before
     fun setUp() {
-        whenever(repository.readSessionBySessionId(anyString())) doReturn actualSession
+        whenever(repository.readSessionBySessionId(any())) doReturn actualSession
         whenever(repository.readMeta()) doReturn meta
         whenever(meta.timeZoneId) doReturn NO_TIME_ZONE_ID
         // ViewModel must be initialized after stubbing the repository.

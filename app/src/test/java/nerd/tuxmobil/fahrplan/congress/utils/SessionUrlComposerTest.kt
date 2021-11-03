@@ -49,7 +49,7 @@ class SessionUrlComposerTest {
     @Test
     fun getSessionUrlWithUnknownBackend() {
         try {
-            SessionUrlComposer(FRAB_SESSION, NO_SESSION_URL_TEMPLATE, NO_SERVER_BACKEND_TYPE).getSessionUrl()
+            SessionUrlComposer(NO_SESSION_URL_TEMPLATE, NO_SERVER_BACKEND_TYPE).getSessionUrl(FRAB_SESSION)
         } catch (e: NotImplementedError) {
             assertThat(e.message).isEqualTo("Unknown server backend type: ''")
         }
@@ -57,39 +57,38 @@ class SessionUrlComposerTest {
 
     @Test
     fun getSessionUrlWithPentabarfSessionWithPentabarfBackend() {
-        assertThat(SessionUrlComposer(PENTABARF_SESSION, PENTABARF_SESSION_URL_TEMPLATE, ServerBackendType.PENTABARF.name)
-                .getSessionUrl()).isEqualTo("https://fosdem.org/2018/schedule/event/keynotes_welcome/")
+        assertThat(SessionUrlComposer(PENTABARF_SESSION_URL_TEMPLATE, ServerBackendType.PENTABARF.name)
+                .getSessionUrl(PENTABARF_SESSION)).isEqualTo("https://fosdem.org/2018/schedule/event/keynotes_welcome/")
     }
 
     @Test
     fun getSessionUrlWithFrabSessionWithFrabBackend() {
-        assertThat(SessionUrlComposer(FRAB_SESSION, FRAB_SESSION_URL_TEMPLATE, ServerBackendType.FRAB.name)
-                .getSessionUrl()).isEqualTo("https://fahrplan.events.ccc.de/congress/2018/Fahrplan/events/9985.html")
+        assertThat(SessionUrlComposer(FRAB_SESSION_URL_TEMPLATE, ServerBackendType.FRAB.name)
+                .getSessionUrl(FRAB_SESSION)).isEqualTo("https://fahrplan.events.ccc.de/congress/2018/Fahrplan/events/9985.html")
     }
 
     @Test
     fun getSessionUrlWithPretalxSessionWithFrabBackend() {
-        assertThat(SessionUrlComposer(PRETALX_SESSION, FRAB_SESSION_URL_TEMPLATE, ServerBackendType.FRAB.name)
-                .getSessionUrl()).isEqualTo("https://fahrplan.chaos-west.de/35c3chaoswest/talk/KDYQEB")
+        assertThat(SessionUrlComposer(FRAB_SESSION_URL_TEMPLATE, ServerBackendType.FRAB.name)
+                .getSessionUrl(PRETALX_SESSION)).isEqualTo("https://fahrplan.chaos-west.de/35c3chaoswest/talk/KDYQEB")
     }
 
     @Test
     fun getSessionUrlWithPretalxSessionWithPretalxBackend() {
-        assertThat(SessionUrlComposer(PRETALX_SESSION, NO_SESSION_URL_TEMPLATE, ServerBackendType.PRETALX.name)
-                .getSessionUrl()).isEqualTo("https://fahrplan.chaos-west.de/35c3chaoswest/talk/KDYQEB")
+        assertThat(SessionUrlComposer(NO_SESSION_URL_TEMPLATE, ServerBackendType.PRETALX.name)
+                .getSessionUrl(PRETALX_SESSION)).isEqualTo("https://fahrplan.chaos-west.de/35c3chaoswest/talk/KDYQEB")
     }
 
     @Test
     fun getSessionUrlWithShiftSessionWithUrl() {
-        assertThat(SessionUrlComposer(ENGELSYSTEM_SHIFT_SESSION_WITH_URL, FRAB_SESSION_URL_TEMPLATE, ServerBackendType.FRAB.name, setOf(AppRepository.ENGELSYSTEM_ROOM_NAME))
-                .getSessionUrl()).isEqualTo("https://helpful.to/the/angel")
+        assertThat(SessionUrlComposer(FRAB_SESSION_URL_TEMPLATE, ServerBackendType.FRAB.name, setOf(AppRepository.ENGELSYSTEM_ROOM_NAME))
+                .getSessionUrl(ENGELSYSTEM_SHIFT_SESSION_WITH_URL)).isEqualTo("https://helpful.to/the/angel")
     }
 
     @Test
     fun getSessionUrlWithShiftSessionWithoutUrl() {
-        assertThat(SessionUrlComposer(ENGELSYSTEM_SHIFT_SESSION_WITHOUT_URL, FRAB_SESSION_URL_TEMPLATE, ServerBackendType.FRAB.name, setOf(AppRepository.ENGELSYSTEM_ROOM_NAME))
-                .getSessionUrl()).isEqualTo(NO_URL)
+        assertThat(SessionUrlComposer(FRAB_SESSION_URL_TEMPLATE, ServerBackendType.FRAB.name, setOf(AppRepository.ENGELSYSTEM_ROOM_NAME))
+                .getSessionUrl(ENGELSYSTEM_SHIFT_SESSION_WITHOUT_URL)).isEqualTo(NO_URL)
     }
 
 }
-

@@ -7,7 +7,6 @@ import nerd.tuxmobil.fahrplan.congress.utils.ServerBackendType.PENTABARF
 
 class SessionUrlComposer @JvmOverloads constructor(
 
-        private val session: Session,
         private val sessionUrlTemplate: String = BuildConfig.EVENT_URL,
         private val serverBackEndType: String = BuildConfig.SERVER_BACKEND_TYPE,
         private val specialRoomNames: Set<String> = setOf(
@@ -29,19 +28,16 @@ class SessionUrlComposer @JvmOverloads constructor(
      * it is returned. If there is no URL defined then no composition is tried but instead
      * an empty string is returned.
      */
-    override fun getSessionUrl() = session.sessionUrl
-
-    private val Session.sessionUrl: String
-        get() = when (serverBackEndType) {
+    override fun getSessionUrl(session: Session): String = when (serverBackEndType) {
             PENTABARF.name -> getComposedSessionUrl(session.slug)
-            else -> if (url.isNullOrEmpty()) {
-                if (specialRoomNames.contains(room)) {
+            else -> if (session.url.isNullOrEmpty()) {
+                if (specialRoomNames.contains(session.room)) {
                     NO_URL
                 } else {
-                    getComposedSessionUrl(sessionId)
+                    getComposedSessionUrl(session.sessionId)
                 }
             } else {
-                url
+                session.url
             }
         }
 
@@ -56,6 +52,6 @@ class SessionUrlComposer @JvmOverloads constructor(
 
 interface SessionUrlComposition {
 
-    fun getSessionUrl(): String
+    fun getSessionUrl(session: Session): String
 
 }

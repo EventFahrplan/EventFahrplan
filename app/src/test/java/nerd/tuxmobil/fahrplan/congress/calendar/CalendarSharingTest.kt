@@ -9,10 +9,10 @@ import nerd.tuxmobil.fahrplan.congress.models.Session
 import org.junit.After
 import org.junit.Test
 import org.mockito.ArgumentMatcher
-import org.mockito.Mockito.validateMockitoUsage
 import org.mockito.kotlin.argThat
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.never
+import org.mockito.kotlin.validateMockitoUsage
 import org.mockito.kotlin.verify
 
 /**
@@ -26,7 +26,8 @@ class CalendarSharingTest {
 
     @Test
     fun `addToCalendar composes and emits a calendar insert intent`() {
-        CalendarSharing(context, createSession(), FakeComposer, onFailure).addToCalendar()
+        val session = createSession()
+        CalendarSharing(context, FakeComposer, onFailure).addToCalendar(session)
         verify(context).startActivity(argThat(InsertIntentMatcher()))
         verify(onFailure, never()).invoke()
     }
@@ -55,7 +56,7 @@ class CalendarSharingTest {
     }
 
     private object FakeComposer : CalendarDescriptionComposition {
-        override fun getCalendarDescription() = "Lorem ipsum dolor"
+        override fun getCalendarDescription(session: Session) = "Lorem ipsum dolor"
     }
 
     private fun createSession() = Session("2342").apply {

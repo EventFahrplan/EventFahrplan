@@ -13,7 +13,7 @@ import nerd.tuxmobil.fahrplan.congress.models.Session
 import org.junit.Assert.fail
 import org.junit.Rule
 import org.junit.Test
-import org.mockito.ArgumentMatchers.anyInt
+import org.mockito.kotlin.any
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
@@ -151,18 +151,18 @@ class AppRepositorySessionsTest {
 
     @Test
     fun `loadUncanceledSessionsForDayIndex passes through an empty list`() {
-        whenever(sessionsDatabaseRepository.querySessionsForDayIndexOrderedByDateUtc(anyInt())) doReturn emptyList()
+        whenever(sessionsDatabaseRepository.querySessionsForDayIndexOrderedByDateUtc(any())) doReturn emptyList()
         assertThat(testableAppRepository.loadUncanceledSessionsForDayIndex(0)).isEmpty()
-        verifyInvokedOnce(sessionsDatabaseRepository).querySessionsForDayIndexOrderedByDateUtc(anyInt())
+        verifyInvokedOnce(sessionsDatabaseRepository).querySessionsForDayIndexOrderedByDateUtc(any())
     }
 
     @Test
     fun `loadUncanceledSessionsForDayIndex filters out sessions which are canceled`() {
         val sessions = listOf(SESSION_3001, SESSION_3002)
-        whenever(sessionsDatabaseRepository.querySessionsForDayIndexOrderedByDateUtc(anyInt())) doReturn sessions.toSessionsDatabaseModel()
+        whenever(sessionsDatabaseRepository.querySessionsForDayIndexOrderedByDateUtc(any())) doReturn sessions.toSessionsDatabaseModel()
         val uncanceledSessions = testableAppRepository.loadUncanceledSessionsForDayIndex(0)
         assertThat(uncanceledSessions).containsExactly(SESSION_3001)
-        verifyInvokedOnce(sessionsDatabaseRepository).querySessionsForDayIndexOrderedByDateUtc(anyInt())
+        verifyInvokedOnce(sessionsDatabaseRepository).querySessionsForDayIndexOrderedByDateUtc(any())
     }
 
     @Test
