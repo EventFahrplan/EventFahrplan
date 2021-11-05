@@ -111,8 +111,8 @@ Andrea Marziali, Andy Scherzinger, Andreas Schildbach, Animesh Verma,
 bashtian, bjoernb, Björn Olsson Jarl, ButterflyOfFire, cacarrara,
 Caio Volpato, cketti, codingcatgirl, entropynil, ideadapt, Jasper van der Graaf,
 Joergi, koelnkalkverbot, Larissa Yasin, ligi, Luis Azcuaga, Mateus Baptista,
-Matthias Hunstock, MichaelRocks, Nghiem Xuan Hien, NiciDieNase, Noemis,
-Omicron, Poschi, Sjors van Mierlo, Stefan Medack, SubOptimal, Teeranai.P,
+Matthias Geisler, Matthias Hunstock, MichaelRocks, Nghiem Xuan Hien, NiciDieNase,
+Noemis, Omicron, Poschi, Sjors van Mierlo, Stefan Medack, SubOptimal, Teeranai.P,
 Torsten Grote, Victor Herasme, Vladimir Alabov, Yanicka
 
 Licensed under the Apache License, Version 2.0 (the "License");
