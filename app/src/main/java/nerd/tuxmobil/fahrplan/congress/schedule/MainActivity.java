@@ -222,11 +222,6 @@ public class MainActivity extends BaseActivity implements
         if (fragment != null) {
             ((FahrplanFragment) fragment).onParseDone(result);
         }
-        fragment = findFragment(ChangeListFragment.FRAGMENT_TAG);
-        if (fragment instanceof ChangeListFragment) {
-            ((ChangeListFragment) fragment).onRefresh();
-        }
-
         if (!appRepository.readScheduleChangesSeen()) {
             showChangesDialog();
         }
@@ -236,10 +231,6 @@ public class MainActivity extends BaseActivity implements
         Fragment fragment = findFragment(FahrplanFragment.FRAGMENT_TAG);
         if (fragment != null) {
             ((FahrplanFragment) fragment).onParseDone(ParseShiftsResult.of(result));
-        }
-        fragment = findFragment(ChangeListFragment.FRAGMENT_TAG);
-        if (fragment instanceof ChangeListFragment) {
-            ((ChangeListFragment) fragment).onRefresh();
         }
     }
 
