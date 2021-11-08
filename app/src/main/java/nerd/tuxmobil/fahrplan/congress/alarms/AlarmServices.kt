@@ -122,7 +122,7 @@ class AlarmServices @VisibleForTesting constructor(
         val day = session.day
         val alarm = Alarm(alarmTimeInMin, day, sessionStartTime, sessionId, sessionTitle, alarmTime, timeText)
         val schedulableAlarm = alarm.toSchedulableAlarm()
-        scheduleSessionAlarm(context, schedulableAlarm, true)
+        scheduleSessionAlarm(schedulableAlarm, true)
         repository.updateAlarm(alarm)
         session.hasAlarm = true
         repository.notifyAlarmsChanged()
@@ -138,7 +138,7 @@ class AlarmServices @VisibleForTesting constructor(
             // Delete any previous alarms of this session.
             val alarm = alarms[0]
             val schedulableAlarm = alarm.toSchedulableAlarm()
-            discardSessionAlarm(context, schedulableAlarm)
+            discardSessionAlarm(schedulableAlarm)
             repository.deleteAlarmForSessionId(sessionId)
         }
         session.hasAlarm = false
@@ -150,7 +150,7 @@ class AlarmServices @VisibleForTesting constructor(
      * Existing alarms for the associated session are discarded if configured via [discardExisting].
      */
     @JvmOverloads
-    fun scheduleSessionAlarm(context: Context, alarm: SchedulableAlarm, discardExisting: Boolean = false) {
+    fun scheduleSessionAlarm(alarm: SchedulableAlarm, discardExisting: Boolean = false) {
         val intent = AlarmReceiver.AlarmIntentBuilder()
                 .setContext(context)
                 .setSessionId(alarm.sessionId)
@@ -170,7 +170,7 @@ class AlarmServices @VisibleForTesting constructor(
     /**
      * Discards the given [alarm] via the [AlarmManager].
      */
-    fun discardSessionAlarm(context: Context, alarm: SchedulableAlarm) {
+    fun discardSessionAlarm(alarm: SchedulableAlarm) {
         val intent = AlarmReceiver.AlarmIntentBuilder()
                 .setContext(context)
                 .setSessionId(alarm.sessionId)
@@ -185,7 +185,7 @@ class AlarmServices @VisibleForTesting constructor(
     /**
      * Discards an internal alarm used for automatic schedule updates via the [AlarmManager].
      */
-    fun discardAutoUpdateAlarm(context: Context) {
+    fun discardAutoUpdateAlarm() {
         val intent = Intent(context, AlarmReceiver::class.java)
         intent.action = AlarmReceiver.ALARM_UPDATE
         discardAlarm(context, intent)

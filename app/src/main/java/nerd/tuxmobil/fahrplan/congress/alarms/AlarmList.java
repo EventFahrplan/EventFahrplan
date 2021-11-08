@@ -116,7 +116,7 @@ public class AlarmList extends ActionBarListActivity {
         long startTime = cursor.getLong(cursor.getColumnIndex(AlarmsTable.Columns.TIME));
         Log.d(getClass().getSimpleName(), "deleteAlarm: session: " + sessionId);
         SchedulableAlarm alarm = new SchedulableAlarm(day, sessionId, title, startTime);
-        AlarmServices.newInstance(this, appRepository).discardSessionAlarm(this, alarm);
+        AlarmServices.newInstance(this, appRepository).discardSessionAlarm(alarm);
 
         int alarmId = cursor.getInt(cursor.getColumnIndex(Columns.ID));
         db.delete(AlarmsTable.NAME, Columns.ID + " = ?", new String[]{String.valueOf(alarmId)});

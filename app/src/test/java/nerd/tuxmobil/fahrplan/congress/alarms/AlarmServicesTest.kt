@@ -126,7 +126,7 @@ class AlarmServicesTest {
             }
         }
         val alarmServices = createAlarmServices(pendingIntentDelegate)
-        alarmServices.scheduleSessionAlarm(mockContext, alarm, true)
+        alarmServices.scheduleSessionAlarm(alarm, true)
         verifyInvokedOnce(alarmManager).cancel(pendingIntent)
         verifyInvokedOnce(alarmManager).set(AlarmManager.RTC_WAKEUP, alarm.startTime, pendingIntent)
     }
@@ -142,7 +142,7 @@ class AlarmServicesTest {
             }
         }
         val alarmServices = createAlarmServices(pendingIntentDelegate)
-        alarmServices.scheduleSessionAlarm(mockContext, alarm, false)
+        alarmServices.scheduleSessionAlarm(alarm, false)
         verifyInvokedNever(alarmManager).cancel(pendingIntent)
         verifyInvokedOnce(alarmManager).set(AlarmManager.RTC_WAKEUP, alarm.startTime, pendingIntent)
     }
@@ -158,7 +158,7 @@ class AlarmServicesTest {
             }
         }
         val alarmServices = createAlarmServices(pendingIntentDelegate)
-        alarmServices.discardSessionAlarm(mockContext, alarm)
+        alarmServices.discardSessionAlarm(alarm)
         verifyInvokedOnce(alarmManager).cancel(pendingIntent)
     }
 
@@ -175,7 +175,7 @@ class AlarmServicesTest {
             }
         }
         val alarmServices = createAlarmServices(pendingIntentDelegate)
-        alarmServices.discardAutoUpdateAlarm(mockContext)
+        alarmServices.discardAutoUpdateAlarm()
         verifyInvokedOnce(alarmManager).cancel(pendingIntent)
     }
 
