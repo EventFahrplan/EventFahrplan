@@ -26,10 +26,10 @@ import nerd.tuxmobil.fahrplan.congress.BuildConfig
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
-import nerd.tuxmobil.fahrplan.congress.extensions.getAlarmManager
 import nerd.tuxmobil.fahrplan.congress.extensions.toSpanned
 import nerd.tuxmobil.fahrplan.congress.extensions.withExtras
 import nerd.tuxmobil.fahrplan.congress.preferences.AlarmTonePreference
+import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc
 
 class SettingsFragment : PreferenceFragmentCompat() {
@@ -71,8 +71,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 FahrplanMisc.setUpdateAlarm(activity, true)
             } else {
                 with(requireActivity()) {
-                    val alarmManager = getAlarmManager()
-                    AlarmServices(alarmManager).discardAutoUpdateAlarm(this)
+                    AlarmServices.newInstance(requireContext(), AppRepository).discardAutoUpdateAlarm(this)
                 }
             }
             true

@@ -1,7 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress.alarms;
 
 import android.app.Activity;
-import android.app.AlarmManager;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -29,7 +28,6 @@ import info.metadude.android.eventfahrplan.database.sqliteopenhelper.AlarmsDBOpe
 import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.base.ActionBarListActivity;
-import nerd.tuxmobil.fahrplan.congress.extensions.Contexts;
 import nerd.tuxmobil.fahrplan.congress.models.SchedulableAlarm;
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 
@@ -118,8 +116,7 @@ public class AlarmList extends ActionBarListActivity {
         long startTime = cursor.getLong(cursor.getColumnIndex(AlarmsTable.Columns.TIME));
         Log.d(getClass().getSimpleName(), "deleteAlarm: session: " + sessionId);
         SchedulableAlarm alarm = new SchedulableAlarm(day, sessionId, title, startTime);
-        AlarmManager alarmManager = Contexts.getAlarmManager(this);
-        new AlarmServices(alarmManager).discardSessionAlarm(this, alarm);
+        AlarmServices.newInstance(this, appRepository).discardSessionAlarm(this, alarm);
 
         int alarmId = cursor.getInt(cursor.getColumnIndex(Columns.ID));
         db.delete(AlarmsTable.NAME, Columns.ID + " = ?", new String[]{String.valueOf(alarmId)});

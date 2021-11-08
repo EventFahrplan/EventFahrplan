@@ -53,6 +53,7 @@ import kotlin.Unit;
 import nerd.tuxmobil.fahrplan.congress.BuildConfig;
 import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.R;
+import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices;
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmTimePickerFragment;
 import nerd.tuxmobil.fahrplan.congress.calendar.CalendarSharing;
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
@@ -125,6 +126,8 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
 
     private boolean preserveVerticalScrollPosition = false;
 
+    private AlarmServices alarmServices;
+
     private final OnSessionsChangeListener onSessionsChangeListener = new OnSessionsChangeListener() {
         @Override
         public void onAlarmsChanged() {
@@ -147,6 +150,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         appRepository = AppRepository.INSTANCE;
+        alarmServices = AlarmServices.newInstance(context, appRepository);
     }
 
     @MainThread
@@ -657,7 +661,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
             Log.e(getClass().getSimpleName(), "onAlarmTimesIndexPicked: session: null. alarmTimesIndex: " + alarmTimesIndex);
             throw new NullPointerException("Session is null.");
         }
-        FahrplanMisc.addAlarm(requireContext(), appRepository, lastSelectedSession, alarmTimesIndex);
+        alarmServices.addSessionAlarm(lastSelectedSession, alarmTimesIndex);
         setBell(lastSelectedSession);
         updateMenuItems();
     }
@@ -683,7 +687,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
                 showAlarmTimePicker();
                 break;
             case CONTEXT_MENU_ITEM_ID_DELETE_ALARM:
-                FahrplanMisc.deleteAlarm(context, appRepository, session);
+                alarmServices.deleteSessionAlarm(session);
                 setBell(session);
                 updateMenuItems();
                 break;

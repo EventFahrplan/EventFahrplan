@@ -1,7 +1,5 @@
 package nerd.tuxmobil.fahrplan.congress.utils;
 
-import static info.metadude.android.eventfahrplan.commons.temporal.Moment.MILLISECONDS_OF_ONE_MINUTE;
-
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -9,26 +7,15 @@ import android.content.Intent;
 
 import androidx.annotation.NonNull;
 
-import org.ligi.tracedroid.logging.Log;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import info.metadude.android.eventfahrplan.commons.temporal.DateFormatter;
 import info.metadude.android.eventfahrplan.commons.temporal.Moment;
 import nerd.tuxmobil.fahrplan.congress.MyApp;
-import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmReceiver;
-import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices;
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmUpdater;
-import nerd.tuxmobil.fahrplan.congress.dataconverters.AlarmExtensions;
 import nerd.tuxmobil.fahrplan.congress.extensions.Contexts;
-import nerd.tuxmobil.fahrplan.congress.models.Alarm;
 import nerd.tuxmobil.fahrplan.congress.models.DateInfo;
 import nerd.tuxmobil.fahrplan.congress.models.DateInfos;
-import nerd.tuxmobil.fahrplan.congress.models.SchedulableAlarm;
-import nerd.tuxmobil.fahrplan.congress.models.Session;
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 
 
@@ -47,58 +34,6 @@ public class FahrplanMisc {
         for (DateInfo dateInfo : MyApp.dateInfos) {
             MyApp.LogDebug(LOG_TAG, "DateInfo: " + dateInfo);
         }
-    }
-
-    public static void deleteAlarm(@NonNull Context context, @NonNull AppRepository appRepository, @NonNull Session session) {
-        String sessionId = session.sessionId;
-        List<Alarm> alarms = appRepository.readAlarms(sessionId);
-        if (!alarms.isEmpty()) {
-            // Delete any previous alarms of this session.
-            Alarm alarm = alarms.get(0);
-            SchedulableAlarm schedulableAlarm = AlarmExtensions.toSchedulableAlarm(alarm);
-            AlarmManager alarmManager = Contexts.getAlarmManager(context);
-            new AlarmServices(alarmManager).discardSessionAlarm(context, schedulableAlarm);
-            appRepository.deleteAlarmForSessionId(sessionId);
-        }
-        session.hasAlarm = false;
-        appRepository.notifyAlarmsChanged();
-    }
-
-    public static void addAlarm(@NonNull Context context,
-                                @NonNull AppRepository appRepository,
-                                @NonNull Session session,
-                                int alarmTimesIndex) {
-        Log.d(LOG_TAG, "Add alarm for session = " + session.sessionId +
-                ", alarmTimesIndex = " + alarmTimesIndex + ".");
-        String[] alarm_times = context.getResources().getStringArray(R.array.preference_entry_values_alarm_time);
-        List<String> alarmTimeStrings = new ArrayList<>(Arrays.asList(alarm_times));
-        List<Integer> alarmTimes = new ArrayList<>(alarmTimeStrings.size());
-        for (String alarmTimeString : alarmTimeStrings) {
-            alarmTimes.add(Integer.parseInt(alarmTimeString));
-        }
-
-        long sessionStartTime = session.getStartTimeMilliseconds();
-
-        long alarmTimeOffset = alarmTimes.get(alarmTimesIndex) * (long) MILLISECONDS_OF_ONE_MINUTE;
-        long alarmTime = sessionStartTime - alarmTimeOffset;
-
-        Moment moment = Moment.ofEpochMilli(alarmTime);
-        MyApp.LogDebug(LOG_TAG, "Add alarm: Time = " + moment.toUtcDateTime() + ", in seconds = " + alarmTime + ".");
-
-        String sessionId = session.sessionId;
-        String sessionTitle = session.title;
-        int alarmTimeInMin = alarmTimes.get(alarmTimesIndex);
-        boolean useDeviceTimeZone = appRepository.readUseDeviceTimeZoneEnabled();
-        String timeText = DateFormatter.newInstance(useDeviceTimeZone).getFormattedDateTimeShort(alarmTime, session.timeZoneOffset);
-        int day = session.day;
-
-        Alarm alarm = new Alarm(alarmTimeInMin, day, sessionStartTime, sessionId, sessionTitle, alarmTime, timeText);
-        SchedulableAlarm schedulableAlarm = AlarmExtensions.toSchedulableAlarm(alarm);
-        AlarmManager alarmManager = Contexts.getAlarmManager(context);
-        new AlarmServices(alarmManager).scheduleSessionAlarm(context, schedulableAlarm, true);
-        appRepository.updateAlarm(alarm);
-        session.hasAlarm = true;
-        appRepository.notifyAlarmsChanged();
     }
 
     public static long setUpdateAlarm(Context context, boolean initial) {
