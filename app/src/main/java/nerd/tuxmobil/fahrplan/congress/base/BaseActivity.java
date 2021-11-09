@@ -87,17 +87,6 @@ public abstract class BaseActivity extends AppCompatActivity {
                 .commit();
     }
 
-    protected void replaceFragment(@IdRes int containerViewId,
-                                   @NonNull Fragment fragment,
-                                   @NonNull String fragmentTag,
-                                   @NonNull String backStackStateName) {
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(containerViewId, fragment, fragmentTag)
-                .addToBackStack(backStackStateName)
-                .commit();
-    }
-
     protected void removeFragment(@NonNull String fragmentTag) {
         FragmentManager supportFragmentManager = getSupportFragmentManager();
         Fragment fragment = supportFragmentManager.findFragmentByTag(fragmentTag);

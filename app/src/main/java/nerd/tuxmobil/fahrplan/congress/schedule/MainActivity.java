@@ -377,15 +377,7 @@ public class MainActivity extends BaseActivity implements
         FragmentContainerView sidePane = findViewById(R.id.detail);
         MyApp.LogDebug(LOG_TAG, "openSessionDetails sidePane=" + sidePane);
         if (sidePane != null) {
-            FragmentManager fm = getSupportFragmentManager();
-            fm.popBackStack(SessionDetailsFragment.FRAGMENT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-            Bundle args = new Bundle();
-            args.putString(BundleKeys.SESSION_ID, sessionId);
-            args.putBoolean(BundleKeys.SIDEPANE, true);
-            SessionDetailsFragment fragment = new SessionDetailsFragment();
-            fragment.setArguments(args);
-            replaceFragment(R.id.detail, fragment,
-                    SessionDetailsFragment.FRAGMENT_TAG, SessionDetailsFragment.FRAGMENT_TAG);
+            SessionDetailsFragment.replaceAtBackStack(getSupportFragmentManager(), R.id.detail, sessionId, true);
         } else {
             SessionDetailsActivity.startForResult(this, sessionId);
         }
@@ -486,8 +478,7 @@ public class MainActivity extends BaseActivity implements
         } else if (!isScreenLocked) {
             sidePane.setVisibility(View.VISIBLE);
             isFavoritesInSidePane = true;
-            replaceFragment(R.id.detail, StarredListFragment.newInstance(true),
-                    StarredListFragment.FRAGMENT_TAG, StarredListFragment.FRAGMENT_TAG);
+            StarredListFragment.replace(getSupportFragmentManager(), R.id.detail, true);
         }
     }
 
@@ -497,8 +488,7 @@ public class MainActivity extends BaseActivity implements
             ChangeListActivity.start(this);
         } else {
             sidePane.setVisibility(View.VISIBLE);
-            replaceFragment(R.id.detail, ChangeListFragment.newInstance(true),
-                    ChangeListFragment.FRAGMENT_TAG, ChangeListFragment.FRAGMENT_TAG);
+            ChangeListFragment.replace(getSupportFragmentManager(), R.id.detail, true);
         }
     }
 

@@ -9,7 +9,6 @@ import androidx.core.content.ContextCompat
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.base.BaseActivity
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
-import nerd.tuxmobil.fahrplan.congress.extensions.withArguments
 import nerd.tuxmobil.fahrplan.congress.extensions.withExtras
 import nerd.tuxmobil.fahrplan.congress.utils.showWhenLockedCompat
 
@@ -54,15 +53,8 @@ class SessionDetailsActivity : BaseActivity(R.layout.detail_frame) {
             val sessionId = requireNotNull(intent.getStringExtra(BundleKeys.SESSION_ID)) {
                 "Bundle does not contain a SESSION_ID."
             }
-            openDetails(sessionId)
+            SessionDetailsFragment.replace(supportFragmentManager, R.id.detail, sessionId)
         }
-    }
-
-    private fun openDetails(sessionId: String) {
-        val fragment = SessionDetailsFragment().withArguments(
-                BundleKeys.SESSION_ID to sessionId
-        )
-        replaceFragment(R.id.detail, fragment, SessionDetailsFragment.FRAGMENT_TAG)
     }
 
 }

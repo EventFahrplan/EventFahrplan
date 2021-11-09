@@ -16,12 +16,14 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.CallSuper
+import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import androidx.annotation.MainThread
 import androidx.annotation.NonNull
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import io.noties.markwon.Markwon
 import io.noties.markwon.linkify.LinkifyPlugin
 import nerd.tuxmobil.fahrplan.congress.BuildConfig
@@ -31,8 +33,10 @@ import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmTimePickerFragment
 import nerd.tuxmobil.fahrplan.congress.calendar.CalendarSharing
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
+import nerd.tuxmobil.fahrplan.congress.extensions.replaceFragment
 import nerd.tuxmobil.fahrplan.congress.extensions.requireViewByIdCompat
 import nerd.tuxmobil.fahrplan.congress.extensions.toSpanned
+import nerd.tuxmobil.fahrplan.congress.extensions.withArguments
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.sharing.SessionSharer
@@ -50,6 +54,23 @@ class SessionDetailsFragment : Fragment(), SessionDetailsViewModel.ViewActionHan
         const val SESSION_DETAILS_FRAGMENT_REQUEST_CODE = 546
         private const val SCHEDULE_FEEDBACK_URL = BuildConfig.SCHEDULE_FEEDBACK_URL
         private val SHOW_FEEDBACK_MENU_ITEM = !TextUtils.isEmpty(SCHEDULE_FEEDBACK_URL)
+
+        @JvmStatic
+        fun replaceAtBackStack(fragmentManager: FragmentManager, @IdRes containerViewId: Int, sessionId: String, sidePane: Boolean) {
+            val fragment = SessionDetailsFragment().withArguments(
+                BundleKeys.SESSION_ID to sessionId,
+                BundleKeys.SIDEPANE to sidePane
+            )
+            fragmentManager.popBackStack(FRAGMENT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+            fragmentManager.replaceFragment(containerViewId, fragment, FRAGMENT_TAG, FRAGMENT_TAG)
+        }
+
+        fun replace(fragmentManager: FragmentManager, @IdRes containerViewId: Int, sessionId: String) {
+            val fragment = SessionDetailsFragment().withArguments(
+                BundleKeys.SESSION_ID to sessionId
+            )
+            fragmentManager.replaceFragment(containerViewId, fragment, FRAGMENT_TAG)
+        }
 
     }
 
