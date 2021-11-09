@@ -470,6 +470,7 @@ object AppRepository {
         val toBeUpdated = toBeUpdatedSessionsDatabaseModel.map { it.sessionId to it.toContentValues() }
         val toBeDeleted = toBeDeletedSessions.map { it.sessionId }
         sessionsDatabaseRepository.updateSessions(toBeUpdated, toBeDeleted)
+        refreshStarredSessions()
         refreshChangedSessions()
     }
 
