@@ -374,12 +374,14 @@ public class MainActivity extends BaseActivity implements
     }
 
     public void openSessionDetails(@NonNull String sessionId) {
-        FragmentContainerView sidePane = findViewById(R.id.detail);
-        MyApp.LogDebug(LOG_TAG, "openSessionDetails sidePane=" + sidePane);
-        if (sidePane != null) {
-            SessionDetailsFragment.replaceAtBackStack(getSupportFragmentManager(), R.id.detail, sessionId, true);
-        } else {
-            SessionDetailsActivity.startForResult(this, sessionId);
+        if (appRepository.updateSelectedSessionId(sessionId)) {
+            FragmentContainerView sidePane = findViewById(R.id.detail);
+            MyApp.LogDebug(LOG_TAG, "openSessionDetails sidePane=" + sidePane);
+            if (sidePane != null) {
+                SessionDetailsFragment.replaceAtBackStack(getSupportFragmentManager(), R.id.detail, true);
+            } else {
+                SessionDetailsActivity.startForResult(this);
+            }
         }
     }
 

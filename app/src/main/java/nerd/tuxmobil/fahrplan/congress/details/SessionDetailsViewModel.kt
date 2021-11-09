@@ -2,127 +2,63 @@ package nerd.tuxmobil.fahrplan.congress.details
 
 import android.net.Uri
 import androidx.core.net.toUri
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
+import info.metadude.android.eventfahrplan.commons.livedata.SingleLiveEvent
 import info.metadude.android.eventfahrplan.commons.temporal.DateFormatter
-import nerd.tuxmobil.fahrplan.congress.BuildConfig
-import nerd.tuxmobil.fahrplan.congress.R
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
+import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.navigation.RoomForC3NavConverter
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
+import nerd.tuxmobil.fahrplan.congress.repositories.ExecutionContext
 import nerd.tuxmobil.fahrplan.congress.sharing.JsonSessionFormat
 import nerd.tuxmobil.fahrplan.congress.sharing.SimpleSessionFormat
 import nerd.tuxmobil.fahrplan.congress.utils.FeedbackUrlComposer
 import nerd.tuxmobil.fahrplan.congress.utils.Font
 import nerd.tuxmobil.fahrplan.congress.utils.MarkdownConversion
-import nerd.tuxmobil.fahrplan.congress.utils.MarkdownConverter
-import nerd.tuxmobil.fahrplan.congress.utils.SessionUrlComposer
+import nerd.tuxmobil.fahrplan.congress.utils.SessionUrlComposition
 import nerd.tuxmobil.fahrplan.congress.wiki.containsWikiLink
-import org.threeten.bp.ZoneId
+import org.threeten.bp.ZoneOffset
 
-class SessionDetailsViewModel @JvmOverloads constructor(
+class SessionDetailsViewModel(
 
-        private val repository: AppRepository,
-        val sessionId: String,
-        private val viewActionHandler: ViewActionHandler,
-        private val sessionFormatter: SessionFormatter = SessionFormatter(),
-        private val markdownConversion: MarkdownConversion = MarkdownConverter,
+    private val repository: AppRepository,
+    private val executionContext: ExecutionContext,
+    private val alarmServices: AlarmServices,
+    private val sessionFormatter: SessionFormatter,
+    private val simpleSessionFormat: SimpleSessionFormat,
+    private val jsonSessionFormat: JsonSessionFormat,
+    private val feedbackUrlComposer: FeedbackUrlComposer,
+    private val sessionUrlComposition: SessionUrlComposition,
+    private val roomForC3NavConverter: RoomForC3NavConverter,
+    private val markdownConversion: MarkdownConversion,
+    private val formattingDelegate: FormattingDelegate = DateFormattingDelegate(),
+    private val c3NavBaseUrl: String
 
-        // Session conversion parameters
-        private val sessionFeedbackUrlTemplate: String = BuildConfig.SCHEDULE_FEEDBACK_URL,
-        private val c3NavBaseUrl: String = BuildConfig.C3NAV_URL,
+) : ViewModel() {
 
-        // Session conversion functions
-        private val toFeedbackUrl: Session.(String) -> String = { urlTemplate ->
-            FeedbackUrlComposer(urlTemplate).getFeedbackUrl(this)
-        },
-        private val toPlainText: Session.(ZoneId?) -> String = { timeZoneId ->
-            SimpleSessionFormat().format(this, timeZoneId)
-        },
-        private val toJson: Session.() -> String = {
-            JsonSessionFormat().format(this)
-        },
-        private val toC3NavRoomName: Session.() -> String = {
-            RoomForC3NavConverter().convert(this.room)
-        },
-        private val toFormattedZonedDateTime: Session.() -> String = {
-            val useDeviceTimeZone = repository.readUseDeviceTimeZoneEnabled()
-            DateFormatter.newInstance(useDeviceTimeZone).getFormattedDateTimeShort(this.dateUTC, this.timeZoneOffset)
-        },
-        private val toHtmlLink: String.() -> String = {
-            markdownConversion.markdownLinksToHtmlLinks(this)
-        },
-        private val toSessionUrl: Session.() -> String = {
-            SessionUrlComposer().getSessionUrl(this)
-        }
-
-) {
-
-    interface ViewActionHandler {
-        fun openFeedback(uri: Uri)
-        fun shareAsPlainText(formattedSessions: String)
-        fun shareAsJson(formattedSessions: String)
-        fun addToCalendar(session: Session)
-        fun showAlarmTimePicker()
-        fun deleteAlarm(session: Session)
-        fun navigateToRoom(uri: Uri)
-        fun closeDetails()
-        fun refreshUI()
+    /**
+     * Delegate to get a formatted date/time.
+     */
+    interface FormattingDelegate {
+        fun getFormattedDateTimeShort(useDeviceTimeZone: Boolean, dateUtc: Long, sessionTimeZoneOffset: ZoneOffset?): String
     }
 
-    // Needs to be a "var" so it can be modified (highlight, hasAlarm).
-    private var session: Session = repository.readSessionBySessionId(sessionId)
+    /**
+     * [DateFormatter] delegate handling calls to get a formatted date/time.
+     * Do not introduce any business logic here because this class is not unit tested.
+     */
+    private class DateFormattingDelegate : FormattingDelegate {
 
-    private val timeZoneId = repository.readMeta().timeZoneId
-
-    val hasDateUtc get() = session.dateUTC > 0
-    val formattedZonedDateTime get() = session.toFormattedZonedDateTime()
-
-    val isSessionIdEmpty get() = sessionId.isEmpty()
-
-    val roomName get() = session.room ?: ""
-
-    val title get() = session.title ?: ""
-
-    val isSubtitleEmpty get() = subtitle.isEmpty()
-    val subtitle get() = session.subtitle ?: ""
-
-    val isSpeakersEmpty get() = speakers.isEmpty()
-    val speakers get() = session.formattedSpeakers
-
-    val isAbstractEmpty get() = session.abstractt.isNullOrEmpty()
-    val formattedAbstract get() = session.abstractt.toHtmlLink()
-    val abstractt get() = session.abstractt ?: ""
-
-    val isDescriptionEmpty get() = session.description.isNullOrEmpty()
-    val formattedDescription get() = session.description.toHtmlLink()
-    val description get() = session.description ?: ""
-
-    val isLinksEmpty get() = session.getLinks().isEmpty()
-    val formattedLinks: String
-        get() {
-            val html = sessionFormatter.getFormattedLinks(session.getLinks())
-            return html.toHtmlLink()
+        override fun getFormattedDateTimeShort(useDeviceTimeZone: Boolean, dateUtc: Long, sessionTimeZoneOffset: ZoneOffset?): String {
+            return DateFormatter.newInstance(useDeviceTimeZone).getFormattedDateTimeShort(dateUtc, sessionTimeZoneOffset)
         }
 
-    val hasWikiLinks get() = session.getLinks().containsWikiLink()
-
-    val sessionLink: String
-        get() {
-            val url = session.toSessionUrl()
-            return sessionFormatter.getFormattedUrl(url)
-        }
-
-    val isFlaggedAsFavorite get() = session.highlight
-
-    fun hasAlarm() = session.hasAlarm
-    fun setHasAlarm(hasAlarm: Boolean) {
-        session.hasAlarm = hasAlarm
     }
-
-    val isFeedbackUrlEmpty get() = feedbackUrl.isEmpty()
-    private val feedbackUrl get() = session.toFeedbackUrl(sessionFeedbackUrlTemplate)
-
-    val isC3NavRoomNameEmpty get() = c3NavRoomName.isEmpty()
-    private val c3NavRoomName get() = session.toC3NavRoomName()
 
     val abstractFont = Font.Roboto.Bold
     val descriptionFont = Font.Roboto.Regular
@@ -134,60 +70,137 @@ class SessionDetailsViewModel @JvmOverloads constructor(
     val subtitleFont = Font.Roboto.Light
     val titleFont = Font.Roboto.BoldCondensed
 
-    fun onOptionsMenuItemSelected(menuItemId: Int) = when (menuItemId) {
-        R.id.menu_item_feedback -> {
-            val uri = feedbackUrl.toUri()
-            viewActionHandler.openFeedback(uri)
-            true
+    val selectedSessionParameter: LiveData<SelectedSessionParameter> = repository.selectedSession
+        .map { it.toSelectedSessionParameter() }
+        .asLiveData(executionContext.database)
+
+    val openFeedBack = SingleLiveEvent<Uri>()
+    val shareSimple = SingleLiveEvent<String>()
+    val shareJson = SingleLiveEvent<String>()
+    val addToCalendar = SingleLiveEvent<Session>()
+    val setAlarm = SingleLiveEvent<Unit>()
+    val navigateToRoom = SingleLiveEvent<Uri>()
+    val closeDetails = SingleLiveEvent<Unit>()
+
+    private fun Session.toSelectedSessionParameter(): SelectedSessionParameter {
+        val useDeviceTimeZone = repository.readUseDeviceTimeZoneEnabled()
+        val formattedZonedDateTime = formattingDelegate.getFormattedDateTimeShort(useDeviceTimeZone, dateUTC, timeZoneOffset)
+        val formattedAbstract = markdownConversion.markdownLinksToHtmlLinks(abstractt)
+        val formattedDescription = markdownConversion.markdownLinksToHtmlLinks(description)
+        val linksHtml = sessionFormatter.getFormattedLinks(getLinks())
+        val formattedLinks = markdownConversion.markdownLinksToHtmlLinks(linksHtml)
+        val sessionUrl = sessionUrlComposition.getSessionUrl(this)
+        val sessionLink = sessionFormatter.getFormattedUrl(sessionUrl)
+        val isFeedbackUrlEmpty = feedbackUrlComposer.getFeedbackUrl(this).isEmpty()
+        val isC3NavRoomNameEmpty = roomForC3NavConverter.convert(room).isEmpty()
+
+        return SelectedSessionParameter(
+            // Details content
+            sessionId = sessionId,
+            hasDateUtc = dateUTC > 0,
+            formattedZonedDateTime = formattedZonedDateTime,
+            title = title.orEmpty(),
+            subtitle = subtitle.orEmpty(),
+            speakerNames = formattedSpeakers,
+            abstract = abstractt.orEmpty(),
+            formattedAbstract = formattedAbstract,
+            description = description.orEmpty(),
+            formattedDescription = formattedDescription,
+            roomName = room.orEmpty(),
+            hasLinks = getLinks().isNotEmpty(),
+            formattedLinks = formattedLinks,
+            hasWikiLinks = getLinks().containsWikiLink(),
+            sessionLink = sessionLink,
+            // Options menu
+            isFlaggedAsFavorite = highlight,
+            hasAlarm = hasAlarm,
+            isFeedbackUrlEmpty = isFeedbackUrlEmpty,
+            isC3NavRoomNameEmpty = isC3NavRoomNameEmpty
+        )
+    }
+
+    fun openFeedback() {
+        loadSelectedSession { session ->
+            val uri = feedbackUrlComposer.getFeedbackUrl(session).toUri()
+            openFeedBack.postValue(uri)
         }
-        R.id.menu_item_share_session,
-        R.id.menu_item_share_session_text -> {
-            val formattedSession = session.toPlainText(timeZoneId)
-            viewActionHandler.shareAsPlainText(formattedSession)
-            true
+    }
+
+    fun share() {
+        loadSelectedSession { session ->
+            val timeZoneId = repository.readMeta().timeZoneId
+            simpleSessionFormat.format(session, timeZoneId).let { formattedSession ->
+                shareSimple.postValue(formattedSession)
+            }
         }
-        R.id.menu_item_share_session_json -> {
-            val formattedSessions = session.toJson()
-            viewActionHandler.shareAsJson(formattedSessions)
-            true
+    }
+
+    fun shareToChaosflix() {
+        loadSelectedSession { session ->
+            jsonSessionFormat.format(session).let { formattedSession ->
+                shareJson.postValue(formattedSession)
+            }
         }
-        R.id.menu_item_add_to_calendar -> {
-            viewActionHandler.addToCalendar(session)
-            true
+    }
+
+    fun addToCalendar() {
+        loadSelectedSession { session ->
+            addToCalendar.postValue(session)
         }
-        R.id.menu_item_flag_as_favorite -> {
-            session.highlight = true // Required: Update property because refreshUI refers to its value!
-            repository.updateHighlight(session)
-            repository.notifyHighlightsChanged()
-            viewActionHandler.refreshUI()
-            true
+    }
+
+    fun favorSession() {
+        loadSelectedSession { session ->
+            val favoredSession = Session(session).apply {
+                highlight = true // Required: Update property because updateHighlight refers to its value!
+            }
+            repository.updateHighlight(favoredSession)
+            repository.notifyHighlightsChanged() // TODO Remove when FahrplanFragment uses Flow
         }
-        R.id.menu_item_unflag_as_favorite -> {
-            session.highlight = false // Required: Update property because refreshUI refers to its value!
-            repository.updateHighlight(session)
-            repository.notifyHighlightsChanged()
-            viewActionHandler.refreshUI()
-            true
+    }
+
+    fun unfavorSession() {
+        loadSelectedSession { session ->
+            val unfavoredSession = Session(session).apply {
+                highlight = false // Required: Update property because updateHighlight refers to its value!
+            }
+            repository.updateHighlight(unfavoredSession)
+            repository.notifyHighlightsChanged() // TODO Remove when FahrplanFragment uses Flow
         }
-        R.id.menu_item_set_alarm -> {
-            viewActionHandler.showAlarmTimePicker()
-            true
+    }
+
+    fun setAlarm() {
+        setAlarm.postValue(Unit)
+    }
+
+    fun addAlarm(alarmTimesIndex: Int) {
+        loadSelectedSession { session ->
+            alarmServices.addSessionAlarm(session, alarmTimesIndex)
         }
-        R.id.menu_item_delete_alarm -> {
-            viewActionHandler.deleteAlarm(session)
-            viewActionHandler.refreshUI()
-            true
+    }
+
+    fun deleteAlarm() {
+        loadSelectedSession { session ->
+            alarmServices.deleteSessionAlarm(session)
         }
-        R.id.menu_item_close_session_details -> {
-            viewActionHandler.closeDetails()
-            true
+    }
+
+    fun navigateToRoom() {
+        loadSelectedSession { session ->
+            val c3navRoomName = roomForC3NavConverter.convert(session.room)
+            val uri = "$c3NavBaseUrl$c3navRoomName".toUri()
+            navigateToRoom.postValue(uri)
         }
-        R.id.menu_item_navigate -> {
-            val uri = "$c3NavBaseUrl$c3NavRoomName".toUri()
-            viewActionHandler.navigateToRoom(uri)
-            true
+    }
+
+    fun closeDetails() {
+        closeDetails.postValue(Unit)
+    }
+
+    private fun loadSelectedSession(onSessionLoaded: (Session) -> Unit) {
+        viewModelScope.launch(executionContext.database) {
+            onSessionLoaded(repository.loadSelectedSession())
         }
-        else -> false
     }
 
 }

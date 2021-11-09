@@ -8,8 +8,6 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.base.BaseActivity
-import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
-import nerd.tuxmobil.fahrplan.congress.extensions.withExtras
 import nerd.tuxmobil.fahrplan.congress.utils.showWhenLockedCompat
 
 class SessionDetailsActivity : BaseActivity(R.layout.detail_frame) {
@@ -18,19 +16,17 @@ class SessionDetailsActivity : BaseActivity(R.layout.detail_frame) {
 
         const val REQUEST_CODE = 2
 
-        fun start(activity: Activity, sessionId: String) {
-            activity.startActivity(createIntent(activity, sessionId))
+        fun start(activity: Activity) {
+            activity.startActivity(createIntent(activity))
         }
 
         @JvmStatic
-        fun startForResult(activity: Activity, sessionId: String) {
-            activity.startActivityForResult(createIntent(activity, sessionId), REQUEST_CODE)
+        fun startForResult(activity: Activity) {
+            activity.startActivityForResult(createIntent(activity), REQUEST_CODE)
         }
 
-        private fun createIntent(activity: Activity, sessionId: String) =
-            Intent(activity, SessionDetailsActivity::class.java).withExtras(
-                BundleKeys.SESSION_ID to sessionId
-            )
+        private fun createIntent(activity: Activity) =
+            Intent(activity, SessionDetailsActivity::class.java)
 
     }
 
@@ -50,10 +46,7 @@ class SessionDetailsActivity : BaseActivity(R.layout.detail_frame) {
             finish()
         }
         if (intent != null && findViewById<View?>(R.id.detail) != null) {
-            val sessionId = requireNotNull(intent.getStringExtra(BundleKeys.SESSION_ID)) {
-                "Bundle does not contain a SESSION_ID."
-            }
-            SessionDetailsFragment.replace(supportFragmentManager, R.id.detail, sessionId)
+            SessionDetailsFragment.replace(supportFragmentManager, R.id.detail)
         }
     }
 
