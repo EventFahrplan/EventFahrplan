@@ -4,11 +4,11 @@ import android.app.Dialog
 import android.os.Bundle
 import androidx.annotation.MainThread
 import androidx.annotation.NonNull
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.extensions.withArguments
-import nerd.tuxmobil.fahrplan.congress.utils.AlertDialogHelper
 
 /**
  * Displays the given certificate error message in a dialog.
@@ -41,12 +41,14 @@ class CertificateErrorFragment : DialogFragment() {
     }
 
     @MainThread
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog =
-            AlertDialogHelper.createErrorDialog(
-                    requireContext(),
-                    R.string.certificate_error_title,
-                    R.string.certificate_error_message,
-                    errorMessage
-            )
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val context = requireContext()
+        val errorMessage = ErrorMessage.Factory(context).getCertificateMessage(errorMessage)
+        return AlertDialog.Builder(context)
+            .setTitle(errorMessage.title)
+            .setMessage(errorMessage.message)
+            .setPositiveButton(R.string.OK, null)
+            .create()
+    }
 
 }

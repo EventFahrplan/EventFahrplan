@@ -60,16 +60,15 @@ import nerd.tuxmobil.fahrplan.congress.extensions.Contexts;
 import nerd.tuxmobil.fahrplan.congress.models.RoomData;
 import nerd.tuxmobil.fahrplan.congress.models.ScheduleData;
 import nerd.tuxmobil.fahrplan.congress.models.Session;
+import nerd.tuxmobil.fahrplan.congress.net.ErrorMessage;
 import nerd.tuxmobil.fahrplan.congress.net.ParseResult;
 import nerd.tuxmobil.fahrplan.congress.net.ParseScheduleResult;
-import nerd.tuxmobil.fahrplan.congress.net.ParseShiftsResult;
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 import nerd.tuxmobil.fahrplan.congress.repositories.OnSessionsChangeListener;
 import nerd.tuxmobil.fahrplan.congress.repositories.SessionsTransformer;
 import nerd.tuxmobil.fahrplan.congress.sharing.JsonSessionFormat;
 import nerd.tuxmobil.fahrplan.congress.sharing.SessionSharer;
 import nerd.tuxmobil.fahrplan.congress.sharing.SimpleSessionFormat;
-import nerd.tuxmobil.fahrplan.congress.utils.AlertDialogHelper;
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
 import nerd.tuxmobil.fahrplan.congress.utils.TypefaceFactory;
 
@@ -122,6 +121,8 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
 
     private ScrollAmountCalculator scrollAmountCalculator;
 
+    private ErrorMessage.Factory errorMessageFactory;
+
     private boolean preserveVerticalScrollPosition = false;
 
     private final OnSessionsChangeListener onSessionsChangeListener = new OnSessionsChangeListener() {
@@ -157,6 +158,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
         Context context = requireContext();
         light = TypefaceFactory.getNewInstance(context).getRobotoLight();
         sessionViewDrawer = new SessionViewDrawer(context, this::getSessionPadding);
+        errorMessageFactory = new ErrorMessage.Factory(context);
     }
 
     @Nullable
@@ -285,7 +287,9 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
         List<Session> sessionsOfDay = scheduleData.getAllSessions();
 
         if (sessionsOfDay.isEmpty()) {
-            showEmptyScheduleError();
+            String scheduleVersion = appRepository.readMeta().getVersion();
+            ErrorMessage errorMessage = errorMessageFactory.getMessageForEmptySchedule(scheduleVersion);
+            errorMessage.show(requireContext(), false);
         } else {
             // TODO: Move this to AppRepository and include the result in ScheduleData
             conference = Conference.ofSessions(sessionsOfDay);
@@ -625,63 +629,11 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
                 viewDay(false);
             }
         } else {
-            String message = getParsingErrorMessage(result);
-            MyApp.LogDebug(getClass().getSimpleName(), message);
-            Toast.makeText(activity, message, Toast.LENGTH_LONG).show();
+            ErrorMessage errorMessage = errorMessageFactory.getMessageForParsingResult(result);
+            errorMessage.show(requireContext(), true);
         }
         activity.invalidateOptionsMenu();
     }
-
-    // TODO Consolidate HTTP status code handling with CustomHttpClient.showHttpError
-    private String getParsingErrorMessage(@NonNull ParseResult parseResult) {
-        String message = "";
-        if (parseResult instanceof ParseScheduleResult) {
-            String version = ((ParseScheduleResult) parseResult).getVersion();
-            if (version.isEmpty()) {
-                message = getString(R.string.schedule_parsing_error_generic);
-            } else {
-                message = getString(R.string.schedule_parsing_error_with_version, version);
-            }
-        } else if (parseResult instanceof ParseShiftsResult.Error) {
-            ParseShiftsResult.Error errorResult = (ParseShiftsResult.Error) parseResult;
-            if (errorResult.isForbidden()) {
-                message = getString(R.string.engelsystem_shifts_parsing_error_forbidden);
-            } else if (errorResult.isNotFound()) {
-                message = getString(R.string.engelsystem_shifts_parsing_error_not_found);
-            } else {
-                message = getString(R.string.engelsystem_shifts_parsing_error_generic);
-            }
-        } else if (parseResult instanceof ParseShiftsResult.Exception) {
-            message = getString(R.string.engelsystem_shifts_parsing_error_generic);
-        }
-        if (message.isEmpty()) {
-            throw new IllegalStateException("Unknown parsing result: " + parseResult);
-        }
-        return message;
-    }
-
-    /**
-     * Shows an error message indicating that the loaded schedule does not contain any sessions
-     * to be displayed. If present the schedule version is included in the error message.
-     */
-    private void showEmptyScheduleError() {
-        String scheduleVersion = appRepository.readMeta().getVersion();
-        if (TextUtils.isEmpty(scheduleVersion)) {
-            AlertDialogHelper.showErrorDialog(
-                    requireContext(),
-                    R.string.dlg_err_schedule_data,
-                    R.string.dlg_err_schedule_data_empty_without_version
-            );
-        } else {
-            AlertDialogHelper.showErrorDialog(
-                    requireContext(),
-                    R.string.dlg_err_schedule_data,
-                    R.string.dlg_err_schedule_data_empty,
-                    scheduleVersion
-            );
-        }
-    }
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
