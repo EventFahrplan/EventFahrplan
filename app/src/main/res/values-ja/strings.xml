@@ -84,6 +84,7 @@
         Engelsystem, Espresso, Markwon, OkHttp, SnackEngage, TraceDroid
     </string>
     <string name="about_data_privacy_statement_german">データプライバシーステートメント（ドイツ語）</string>
+    <string name="about_f_droid_listing">F-Droidのリスト</string>
     <string name="about_google_play_listing">Google Playのリスト</string>
     <string name="about_issues_or_feature_requests">問題または機能のリクエスト</string>
     <string name="about_source_code">ソースコード</string>

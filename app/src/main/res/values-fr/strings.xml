@@ -68,6 +68,7 @@
     <string name="general_settings">Général</string>
     <string name="no_favorites">Aucune conférence dans les favoris</string>
     <string name="about_data_privacy_statement_german">Déclaration de protection des données (en allemand)</string>
+    <string name="about_f_droid_listing">Page sur le F-Droid</string>
     <string name="about_google_play_listing">Page sur le Play Google</string>
     <string name="about_issues_or_feature_requests">Problèmes ou demande de fonctionnalités</string>
     <string name="about_source_code">Code source</string>

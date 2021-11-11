@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_gravity="top"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/about_padding_horizontal"
+        android:paddingTop="@dimen/about_padding_top"
+        android:paddingRight="@dimen/about_padding_horizontal"
+        android:paddingBottom="@dimen/about_padding_bottom">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:contentDescription="@string/about_logo_content_description"
+            android:paddingBottom="15dp"
+            app:srcCompat="@drawable/dialog_logo" />
+
+        <TextView
+            android:id="@+id/about_session_title_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center|top"
+            android:paddingBottom="5dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            tools:text="33. Chaos Communication Congress" />
+
+        <TextView
+            android:id="@+id/about_session_subtitle_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:paddingBottom="10dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:textStyle="italic"
+            android:typeface="serif"
+            tools:text="Works for me" />
+
+        <TextView
+            android:id="@+id/about_conference_url_view"
+            style="@style/TextViewLinks"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:linksClickable="true"
+            android:paddingBottom="10dp"
+            android:singleLine="false"
+            tools:text="https://events.ccc.de/congress/2016" />
+
+        <TextView
+            android:id="@+id/about_session_version_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            tools:text="Fahrplan BAD NETWORK/FIREWALL" />
+
+        <TextView
+            android:id="@+id/about_app_version_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:paddingBottom="15dp"
+            tools:text="App Version 1.33.13" />
+
+        <include layout="@layout/horizontal_line" />
+
+        <TextView
+            android:id="@+id/about_usage_note_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="16dp"
+            android:paddingTop="10dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="10dp"
+            android:singleLine="false"
+            android:text="@string/usage" />
+
+        <include layout="@layout/horizontal_line" />
+
+        <TextView
+            android:id="@+id/about_app_disclaimer_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:linksClickable="true"
+            android:paddingLeft="16dp"
+            android:paddingTop="10dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="10dp"
+            android:singleLine="false"
+            android:text="@string/app_disclaimer" />
+
+        <include layout="@layout/horizontal_line" />
+
+        <TextView
+            android:id="@+id/about_copyright_logo_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:linksClickable="true"
+            android:paddingLeft="16dp"
+            android:paddingTop="10dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="10dp"
+            android:singleLine="false"
+            tools:text="@string/copyright_logo" />
+
+        <include layout="@layout/horizontal_line" />
+
+        <TextView
+            android:id="@+id/about_source_code_view"
+            style="@style/TextViewLinks"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:linksClickable="true"
+            android:paddingLeft="16dp"
+            android:paddingTop="10dp"
+            android:paddingRight="16dp"
+            android:singleLine="false"
+            tools:text="https://github.com/EventFahrplan/EventFahrplan" />
+
+        <TextView
+            android:id="@+id/about_issues_view"
+            style="@style/TextViewLinks"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:linksClickable="true"
+            android:paddingLeft="16dp"
+            android:paddingTop="10dp"
+            android:paddingRight="16dp"
+            android:singleLine="false"
+            tools:text="@string/about_issues_or_feature_requests" />
+
+        <TextView
+            android:id="@+id/about_f_droid_view"
+            style="@style/TextViewLinks"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:linksClickable="true"
+            android:paddingLeft="16dp"
+            android:paddingTop="10dp"
+            android:paddingRight="16dp"
+            android:singleLine="false"
+            tools:text="@string/about_f_droid_listing" />
+
+        <TextView
+            android:id="@+id/about_google_play_view"
+            style="@style/TextViewLinks"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:linksClickable="true"
+            android:paddingLeft="16dp"
+            android:paddingTop="10dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="10dp"
+            android:singleLine="false"
+            tools:text="@string/about_google_play_listing" />
+
+        <include layout="@layout/horizontal_line" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="16dp"
+            android:paddingTop="10dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="10dp"
+            android:singleLine="false"
+            android:text="@string/libraries" />
+
+        <include layout="@layout/horizontal_line" />
+
+        <TextView
+            android:id="@+id/about_data_privacy_statement_view"
+            style="@style/TextViewLinks"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:linksClickable="true"
+            android:paddingLeft="16dp"
+            android:paddingTop="10dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="10dp"
+            android:singleLine="false"
+            android:text="@string/about_data_privacy_statement_german" />
+
+        <include layout="@layout/horizontal_line" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="16dp"
+            android:paddingTop="10dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="10dp"
+            android:singleLine="false"
+            android:text="@string/copyright_notes" />
+
+        <include layout="@layout/horizontal_line" />
+
+        <include layout="@layout/build_info" />
+
+    </LinearLayout>
+
+</ScrollView>
