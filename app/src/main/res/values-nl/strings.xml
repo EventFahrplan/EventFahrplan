@@ -23,7 +23,7 @@
     <string name="share_as_text">Deel als tekst</string>
     <string name="share_as_json">Deel als JSON (voor Chaosflix)</string>
 
-    <!-- AlertDialogHelper -->
+    <!-- AlertDialog -->
     <string name="OK">OK</string>
 
     <!-- CertificateErrorFragment -->

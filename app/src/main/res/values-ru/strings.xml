@@ -19,7 +19,7 @@
     <string name="menu_item_title_share_session">Поделиться мероприятием</string>
     <string name="menu_item_title_share_favorites">Поделиться избранным</string>
 
-    <!-- AlertDialogHelper -->
+    <!-- AlertDialog -->
     <string name="OK">ОК</string>
 
     <!-- CertificateErrorFragment -->

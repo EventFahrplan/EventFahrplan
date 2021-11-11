@@ -55,6 +55,7 @@ import nerd.tuxmobil.fahrplan.congress.models.Meta;
 import nerd.tuxmobil.fahrplan.congress.models.Session;
 import nerd.tuxmobil.fahrplan.congress.net.CertificateErrorFragment;
 import nerd.tuxmobil.fahrplan.congress.net.CustomHttpClient;
+import nerd.tuxmobil.fahrplan.congress.net.ErrorMessage;
 import nerd.tuxmobil.fahrplan.congress.net.FetchScheduleResult;
 import nerd.tuxmobil.fahrplan.congress.net.HttpStatus;
 import nerd.tuxmobil.fahrplan.congress.net.LoadShiftsResult;
@@ -91,6 +92,8 @@ public class MainActivity extends BaseActivity implements
     private boolean isFavoritesInSidePane = false;
     private static MainActivity instance;
 
+    private ErrorMessage.Factory errorMessageFactory;
+
     @Override
     public void onAttachedToWindow() {
         super.onAttachedToWindow();
@@ -107,6 +110,7 @@ public class MainActivity extends BaseActivity implements
         setContentView(R.layout.main_layout);
         appRepository = AppRepository.INSTANCE;
         keyguardManager = (KeyguardManager) getSystemService(KEYGUARD_SERVICE);
+        errorMessageFactory = new ErrorMessage.Factory(this);
         Toolbar toolbar = requireViewByIdCompat(R.id.toolbar);
         progressBar = requireViewByIdCompat(R.id.progress);
         setSupportActionBar(toolbar);
@@ -200,7 +204,8 @@ public class MainActivity extends BaseActivity implements
         if (HttpStatus.HTTP_LOGIN_FAIL_UNTRUSTED_CERTIFICATE == status) {
             CertificateErrorFragment.showDialog(getSupportFragmentManager(), exceptionMessage);
         }
-        CustomHttpClient.showHttpError(this, status, hostName);
+        ErrorMessage errorMessage = errorMessageFactory.getMessageForHttpStatus(status, hostName);
+        errorMessage.show(this, false);
     }
 
     public void onParseDone(@NonNull ParseResult result) {
