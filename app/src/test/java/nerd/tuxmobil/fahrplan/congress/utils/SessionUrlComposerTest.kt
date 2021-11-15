@@ -48,11 +48,8 @@ class SessionUrlComposerTest {
 
     @Test
     fun getSessionUrlWithUnknownBackend() {
-        try {
-            SessionUrlComposer(NO_SESSION_URL_TEMPLATE, NO_SERVER_BACKEND_TYPE).getSessionUrl(FRAB_SESSION)
-        } catch (e: NotImplementedError) {
-            assertThat(e.message).isEqualTo("Unknown server backend type: ''")
-        }
+        assertThat(SessionUrlComposer(NO_SESSION_URL_TEMPLATE, NO_SERVER_BACKEND_TYPE)
+                .getSessionUrl(FRAB_SESSION)).isEqualTo("https://fahrplan.events.ccc.de/congress/2018/Fahrplan/events/9985.html")
     }
 
     @Test
