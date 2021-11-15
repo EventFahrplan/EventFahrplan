@@ -1,6 +1,5 @@
 package nerd.tuxmobil.fahrplan.congress.system;
 
-import android.app.AlarmManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -15,7 +14,6 @@ import nerd.tuxmobil.fahrplan.congress.alarms.AlarmReceiver;
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices;
 import nerd.tuxmobil.fahrplan.congress.autoupdate.UpdateService;
 import nerd.tuxmobil.fahrplan.congress.dataconverters.AlarmExtensions;
-import nerd.tuxmobil.fahrplan.congress.extensions.Contexts;
 import nerd.tuxmobil.fahrplan.congress.models.Alarm;
 import nerd.tuxmobil.fahrplan.congress.models.SchedulableAlarm;
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
@@ -44,14 +42,13 @@ public final class OnBootReceiver extends BroadcastReceiver {
 
         AppRepository appRepository = AppRepository.INSTANCE;
         List<Alarm> alarms = appRepository.readAlarms();
-        AlarmManager alarmManager = Contexts.getAlarmManager(context);
-        AlarmServices alarmServices = new AlarmServices(alarmManager);
+        AlarmServices alarmServices = AlarmServices.newInstance(context, appRepository);
         for (Alarm alarm : alarms) {
             Moment storedAlarmTime = Moment.ofEpochMilli(alarm.getStartTime());
             if (nowMoment.isBefore(storedAlarmTime)) {
                 Log.d(getClass().getSimpleName(), "Scheduling alarm for session: " + alarm.getSessionId() + ", " + alarm.getSessionTitle());
                 SchedulableAlarm schedulableAlarm = AlarmExtensions.toSchedulableAlarm(alarm);
-                alarmServices.scheduleSessionAlarm(context, schedulableAlarm);
+                alarmServices.scheduleSessionAlarm(schedulableAlarm);
             } else {
                 MyApp.LogDebug(LOG_TAG, "Deleting alarm from database: " + alarm);
                 appRepository.deleteAlarmForAlarmId(alarm.getId());

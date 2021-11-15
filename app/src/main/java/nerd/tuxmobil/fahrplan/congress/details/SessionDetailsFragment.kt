@@ -27,6 +27,7 @@ import io.noties.markwon.linkify.LinkifyPlugin
 import nerd.tuxmobil.fahrplan.congress.BuildConfig
 import nerd.tuxmobil.fahrplan.congress.MyApp
 import nerd.tuxmobil.fahrplan.congress.R
+import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmTimePickerFragment
 import nerd.tuxmobil.fahrplan.congress.calendar.CalendarSharing
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
@@ -36,7 +37,6 @@ import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.sharing.SessionSharer
 import nerd.tuxmobil.fahrplan.congress.sidepane.OnSidePaneCloseListener
-import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc
 import nerd.tuxmobil.fahrplan.congress.utils.LinkMovementMethodCompat
 import nerd.tuxmobil.fahrplan.congress.utils.ServerBackendType
 import nerd.tuxmobil.fahrplan.congress.utils.TypefaceFactory
@@ -56,6 +56,7 @@ class SessionDetailsFragment : Fragment(), SessionDetailsViewModel.ViewActionHan
     private lateinit var appRepository: AppRepository
     private lateinit var sessionId: String
     private lateinit var viewModel: SessionDetailsViewModel
+    private lateinit var alarmServices: AlarmServices
     private lateinit var markwon: Markwon
     private var sidePane = false
     private var hasArguments = false
@@ -66,6 +67,7 @@ class SessionDetailsFragment : Fragment(), SessionDetailsViewModel.ViewActionHan
         super.onAttach(context)
         appRepository = AppRepository
         viewModel = SessionDetailsViewModel(appRepository, sessionId, this)
+        alarmServices = AlarmServices.newInstance(context, appRepository)
         markwon = Markwon.builder(requireContext())
             .usePlugin(LinkifyPlugin.create())
             .build()
@@ -267,7 +269,7 @@ class SessionDetailsFragment : Fragment(), SessionDetailsViewModel.ViewActionHan
     private fun onAlarmTimesIndexPicked(alarmTimesIndex: Int) {
         val session = appRepository.readSessionBySessionId(sessionId)
         val activity = requireActivity()
-        FahrplanMisc.addAlarm(activity, appRepository, session, alarmTimesIndex)
+        alarmServices.addSessionAlarm(session, alarmTimesIndex)
         // Update the ViewModel session because refreshUI refers to its state.
         viewModel.setHasAlarm(session.hasAlarm)
         refreshUI(activity)
@@ -316,7 +318,7 @@ class SessionDetailsFragment : Fragment(), SessionDetailsViewModel.ViewActionHan
     }
 
     override fun deleteAlarm(session: Session) {
-        FahrplanMisc.deleteAlarm(requireContext(), appRepository, session)
+        alarmServices.deleteSessionAlarm(session)
     }
 
     override fun closeDetails() {
