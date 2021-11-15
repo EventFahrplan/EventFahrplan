@@ -6,6 +6,7 @@ import info.metadude.android.eventfahrplan.database.models.Session.Companion.REC
 import nerd.tuxmobil.fahrplan.congress.models.DateInfo
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.Assert.fail
 import org.junit.Test
 import org.threeten.bp.ZoneOffset
 import info.metadude.android.eventfahrplan.database.models.Session as SessionDatabaseModel
@@ -155,6 +156,7 @@ class SessionExtensionsTest {
         val session = Session("")
         try {
             session.toStartsAtMoment()
+            fail("Expect an IllegalArgumentException to be thrown.")
         } catch (e: IllegalArgumentException) {
             assertThat(e.message).isEqualTo("Field 'dateUTC' is 0.")
         }
