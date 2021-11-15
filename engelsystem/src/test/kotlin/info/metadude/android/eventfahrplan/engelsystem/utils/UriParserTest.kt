@@ -14,7 +14,7 @@ class UriParserTest {
     fun parseUriWithEmptyString() {
         try {
             uriParser.parseUri("")
-            fail()
+            failExpectingUriSyntaxException()
         } catch (e: URISyntaxException) {
             assertThat(e.message).contains("Empty URL")
         }
@@ -24,7 +24,7 @@ class UriParserTest {
     fun parseUriWithoutScheme() {
         try {
             uriParser.parseUri("example.com")
-            fail()
+            failExpectingUriSyntaxException()
         } catch (e: URISyntaxException) {
             assertThat(e.message).contains("Scheme is missing")
         }
@@ -34,7 +34,7 @@ class UriParserTest {
     fun parseUriWithoutHost() {
         try {
             uriParser.parseUri("https://?key=a1b2c3")
-            fail()
+            failExpectingUriSyntaxException()
         } catch (e: URISyntaxException) {
             assertThat(e.message).contains("Host is missing")
         }
@@ -44,7 +44,7 @@ class UriParserTest {
     fun parseUriWithoutPath() {
         try {
             uriParser.parseUri("https://example.com?key=a1b2c3")
-            fail()
+            failExpectingUriSyntaxException()
         } catch (e: URISyntaxException) {
             assertThat(e.message).contains("Path is missing")
         }
@@ -54,7 +54,7 @@ class UriParserTest {
     fun parseUriWithoutQuery() {
         try {
             uriParser.parseUri("https://example.com/foo/file.json")
-            fail()
+            failExpectingUriSyntaxException()
         } catch (e: URISyntaxException) {
             assertThat(e.message).contains("Query is missing")
         }
@@ -64,10 +64,14 @@ class UriParserTest {
     fun parseUriWithoutApiKey() {
         try {
             uriParser.parseUri("https://example.com/foo/file.json?key")
-            fail()
+            failExpectingUriSyntaxException()
         } catch (e: URISyntaxException) {
             assertThat(e.message).contains("API key is missing")
         }
+    }
+
+    private fun failExpectingUriSyntaxException() {
+        fail("Expect a URISyntaxException to be thrown.")
     }
 
     @Test

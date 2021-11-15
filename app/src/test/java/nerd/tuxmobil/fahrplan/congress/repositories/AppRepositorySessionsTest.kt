@@ -170,7 +170,7 @@ class AppRepositorySessionsTest {
         whenever(sessionsDatabaseRepository.querySessionsOrderedByDateUtc()) doReturn emptyList()
         try {
             testableAppRepository.loadEarliestSession()
-            fail()
+            fail("Expect a NoSuchElementException to be thrown.")
         } catch (e: NoSuchElementException) {
             assertThat(e.message).isEqualTo("List is empty.")
         }

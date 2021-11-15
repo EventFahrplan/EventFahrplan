@@ -3,6 +3,7 @@ package nerd.tuxmobil.fahrplan.congress.schedule
 import com.google.common.truth.Truth.assertThat
 import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MINUTES_OF_ONE_DAY
 import nerd.tuxmobil.fahrplan.congress.models.Session
+import org.junit.Assert.fail
 import org.junit.Test
 import org.threeten.bp.ZoneOffset
 
@@ -12,6 +13,7 @@ class ConferenceTest {
     fun `ofSessions throws exception if empty list is passed`() {
         try {
             createConference(*emptyList<Session>().toTypedArray())
+            fail("Expect an IllegalArgumentException to be thrown.")
         } catch (e: IllegalArgumentException) {
             assertThat(e.message).isEqualTo("Empty list of sessions.")
         }

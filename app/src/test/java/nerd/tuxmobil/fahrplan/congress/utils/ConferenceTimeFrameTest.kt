@@ -42,7 +42,7 @@ class ConferenceTimeFrameTest {
         try {
             ConferenceTimeFrame(FIRST_DAY_START_TIME, FIRST_DAY_START_TIME)
             fail("Expect an IllegalStateException to be thrown.")
-        } catch (e: Exception) {
+        } catch (e: IllegalStateException) {
             assertThat(e.message).startsWith("Invalid conference time frame:")
         }
     }

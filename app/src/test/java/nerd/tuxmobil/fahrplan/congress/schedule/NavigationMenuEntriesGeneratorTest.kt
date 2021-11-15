@@ -4,6 +4,7 @@ import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.models.DateInfo
 import nerd.tuxmobil.fahrplan.congress.models.DateInfos
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.Assert.fail
 import org.junit.Test
 
 class NavigationMenuEntriesGeneratorTest {
@@ -26,6 +27,7 @@ class NavigationMenuEntriesGeneratorTest {
     fun getDayMenuEntriesWithEmptyDateInfoList() {
         try {
             getDayMenuEntries(1, DateInfos(), "2018-11-19")
+            fail("Expect an IllegalArgumentException to be thrown.")
         } catch (e: IllegalArgumentException) {
             assertThat(e.message).isEqualTo("Invalid date info list: []")
         }
@@ -35,6 +37,7 @@ class NavigationMenuEntriesGeneratorTest {
     fun getDayMenuEntriesWithNullDateInfoList() {
         try {
             getDayMenuEntries(1, null, "2018-11-19")
+            fail("Expect an IllegalArgumentException to be thrown.")
         } catch (e: IllegalArgumentException) {
             assertThat(e.message).isEqualTo("Invalid date info list: null")
         }
@@ -57,6 +60,7 @@ class NavigationMenuEntriesGeneratorTest {
         dateInfoList.add(DateInfo(1, Moment.parseDate("2018-11-18")))
         try {
             getDayMenuEntries(0, dateInfoList, "2018-11-19")
+            fail("Expect an IllegalArgumentException to be thrown.")
         } catch (e: IllegalArgumentException) {
             assertThat(e.message).isEqualTo("Invalid number of days: 0")
         }
@@ -68,6 +72,7 @@ class NavigationMenuEntriesGeneratorTest {
         dateInfoList.add(DateInfo(1, Moment.parseDate("2018-11-18")))
         try {
             getDayMenuEntries(-1, dateInfoList, "2018-11-19")
+            fail("Expect an IllegalArgumentException to be thrown.")
         } catch (e: IllegalArgumentException) {
             assertThat(e.message).isEqualTo("Invalid number of days: -1")
         }
