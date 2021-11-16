@@ -40,7 +40,7 @@ internal class NavigationMenuEntriesGenerator @JvmOverloads constructor(
         numDays: Int,
         dateInfos: DateInfos?,
         currentDate: Moment = Moment.now().startOfDay()
-    ): Array<String?> {
+    ): List<String> {
         if (numDays < 1) {
             throw IllegalArgumentException("Invalid number of days: $numDays")
         }
@@ -48,7 +48,7 @@ internal class NavigationMenuEntriesGenerator @JvmOverloads constructor(
             throw IllegalArgumentException("Invalid date info list: $dateInfos")
         }
         logging.d(LOG_TAG, "Today is " + currentDate.toUtcDateTime().toLocalDate())
-        val entries = arrayOfNulls<String>(numDays)
+        val entries = mutableListOf<String>()
         for (dayIndex in 0 until numDays) {
             var entry = "$dayString ${dayIndex + 1}"
             for (dateInfo in dateInfos) {
@@ -59,9 +59,9 @@ internal class NavigationMenuEntriesGenerator @JvmOverloads constructor(
                     break
                 }
             }
-            entries[dayIndex] = entry
+            entries.add(dayIndex, entry)
         }
-        return entries
+        return entries.toList()
     }
 
 }

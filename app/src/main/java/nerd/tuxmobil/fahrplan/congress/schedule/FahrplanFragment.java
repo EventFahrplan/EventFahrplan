@@ -583,7 +583,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
 
     public void buildNavigationMenu() {
         int numDays = MyApp.meta.getNumDays();
-        String[] dayMenuEntries = navigationMenuEntriesGenerator.getDayMenuEntries(numDays, MyApp.dateInfos);
+        String[] dayMenuEntries = navigationMenuEntriesGenerator.getDayMenuEntries(numDays, MyApp.dateInfos).toArray(new String[]{});
         ActionBar actionBar = ((AppCompatActivity) requireActivity()).getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
