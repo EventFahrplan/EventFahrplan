@@ -124,6 +124,8 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
 
     private ErrorMessage.Factory errorMessageFactory;
 
+    private NavigationMenuEntriesGenerator navigationMenuEntriesGenerator;
+
     private boolean preserveVerticalScrollPosition = false;
 
     private AlarmServices alarmServices;
@@ -151,6 +153,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
         super.onAttach(context);
         appRepository = AppRepository.INSTANCE;
         alarmServices = AlarmServices.newInstance(context, appRepository);
+        navigationMenuEntriesGenerator = new NavigationMenuEntriesGenerator(getString(R.string.day), getString(R.string.today));
     }
 
     @MainThread
@@ -579,16 +582,8 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
     }
 
     public void buildNavigationMenu() {
-        Moment currentDate = Moment.now().startOfDay();
-        MyApp.LogDebug(LOG_TAG, "Today is " + currentDate.toUtcDateTime().toLocalDate());
         int numDays = MyApp.meta.getNumDays();
-        String[] dayMenuEntries = NavigationMenuEntriesGenerator.getDayMenuEntries(
-                numDays,
-                MyApp.dateInfos,
-                currentDate,
-                getString(R.string.day),
-                getString(R.string.today)
-        );
+        String[] dayMenuEntries = navigationMenuEntriesGenerator.getDayMenuEntries(numDays, MyApp.dateInfos);
         ActionBar actionBar = ((AppCompatActivity) requireActivity()).getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(

@@ -1,6 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.schedule
 
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
+import nerd.tuxmobil.fahrplan.congress.NoLogging
 import nerd.tuxmobil.fahrplan.congress.models.DateInfo
 import nerd.tuxmobil.fahrplan.congress.models.DateInfos
 import org.assertj.core.api.Assertions.assertThat
@@ -8,6 +9,12 @@ import org.junit.Assert.fail
 import org.junit.Test
 
 class NavigationMenuEntriesGeneratorTest {
+
+    private val generator = NavigationMenuEntriesGenerator(
+        dayString = "Day",
+        todayString = "Today",
+        logging = NoLogging
+    )
 
     @Test
     fun getDayMenuEntriesWithThreeDays() {
@@ -42,7 +49,6 @@ class NavigationMenuEntriesGeneratorTest {
             assertThat(e.message).isEqualTo("Invalid date info list: null")
         }
     }
-
 
     @Test
     fun getDayMenuEntriesWithOneDay() {
@@ -79,11 +85,6 @@ class NavigationMenuEntriesGeneratorTest {
     }
 
     private fun getDayMenuEntries(numDays: Int, dateInfos: DateInfos?, currentDate: String) =
-            getDayMenuEntries(numDays, dateInfos, Moment.parseDate(currentDate), DAY_STRING, TODAY_STRING)
-
-    private companion object {
-        const val DAY_STRING = "Day"
-        const val TODAY_STRING = "Today"
-    }
+        generator.getDayMenuEntries(numDays, dateInfos, Moment.parseDate(currentDate))
 
 }
