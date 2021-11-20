@@ -23,6 +23,7 @@ class SessionDetailsViewModel @JvmOverloads constructor(
         private val repository: AppRepository,
         val sessionId: String,
         private val viewActionHandler: ViewActionHandler,
+        private val sessionFormatter: SessionFormatter = SessionFormatter(),
         private val markdownConversion: MarkdownConversion = MarkdownConverter,
 
         // Session conversion parameters
@@ -98,7 +99,7 @@ class SessionDetailsViewModel @JvmOverloads constructor(
     val isLinksEmpty get() = session.getLinks().isEmpty()
     val formattedLinks: String
         get() {
-            val html = session.getLinks().replace("\\),".toRegex(), ")<br>")
+            val html = sessionFormatter.getFormattedLinks(session.getLinks())
             return html.toHtmlLink()
         }
 
@@ -107,7 +108,7 @@ class SessionDetailsViewModel @JvmOverloads constructor(
     val sessionLink: String
         get() {
             val url = session.toSessionUrl()
-            return if (url.isEmpty()) "" else "<a href=\"$url\">$url</a>"
+            return sessionFormatter.getFormattedUrl(url)
         }
 
     val isFlaggedAsFavorite get() = session.highlight
