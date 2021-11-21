@@ -77,6 +77,16 @@ import nerd.tuxmobil.fahrplan.congress.utils.TypefaceFactory;
 
 public class FahrplanFragment extends Fragment implements SessionViewEventsHandler {
 
+    /**
+     * Interface definition for a callback to be invoked when a session view is clicked.
+     */
+    interface OnSessionClickListener {
+        /**
+         * Called when the session view has been clicked.
+         */
+        void onSessionClick(@NonNull String sessionId);
+    }
+
     private static final String LOG_TAG = "FahrplanFragment";
 
     public static final String FRAGMENT_TAG = "schedule";
@@ -96,6 +106,9 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
     public static final int BOX_HEIGHT_MULTIPLIER = 3;
 
     private float displayDensityScale;
+
+    @Nullable
+    private OnSessionClickListener onSessionClickListener = null;
 
     private LayoutInflater inflater;
 
@@ -156,6 +169,19 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
         appRepository = AppRepository.INSTANCE;
         alarmServices = AlarmServices.newInstance(context, appRepository);
         navigationMenuEntriesGenerator = new NavigationMenuEntriesGenerator(getString(R.string.day), getString(R.string.today));
+        if (context instanceof OnSessionClickListener) {
+            onSessionClickListener = (OnSessionClickListener) context;
+        } else {
+            throw new IllegalStateException(context + " must implement OnSessionClickListener");
+        }
+    }
+
+    @MainThread
+    @CallSuper
+    @Override
+    public void onDetach() {
+        onSessionClickListener = null;
+        super.onDetach();
     }
 
     @MainThread
@@ -263,8 +289,8 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
             if (session != null) {
                 scrollTo(session);
                 FragmentContainerView sidePane = activity.findViewById(R.id.detail);
-                if (sidePane != null) {
-                    ((MainActivity) activity).openSessionDetails(sessionId);
+                if (sidePane != null && onSessionClickListener != null) {
+                    onSessionClickListener.onSessionClick(sessionId);
                 }
             }
             intent.removeExtra(BundleKeys.BUNDLE_KEY_SESSION_ALARM_SESSION_ID); // jump to given sessionId only once
@@ -579,8 +605,9 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
             throw new NullPointerException("A session must be assigned to the 'tag' attribute of the session view.");
         }
         MyApp.LogDebug(LOG_TAG, "Click on " + session.title);
-        MainActivity mainActivity = (MainActivity) requireActivity();
-        mainActivity.openSessionDetails(session.sessionId);
+        if (onSessionClickListener != null) {
+            onSessionClickListener.onSessionClick(session.sessionId);
+        }
     }
 
     public void buildNavigationMenu() {

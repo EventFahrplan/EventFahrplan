@@ -73,6 +73,7 @@ import okhttp3.OkHttpClient;
 public class MainActivity extends BaseActivity implements
         OnSidePaneCloseListener,
         AbstractListFragment.OnSessionListClick,
+        FahrplanFragment.OnSessionClickListener,
         FragmentManager.OnBackStackChangedListener,
         ConfirmationDialog.OnConfirmationDialogClicked {
 
@@ -428,6 +429,11 @@ public class MainActivity extends BaseActivity implements
 
     @Override
     public void onSessionListClick(@NonNull String sessionId) {
+        openSessionDetails(sessionId);
+    }
+
+    @Override
+    public void onSessionClick(@NonNull String sessionId) {
         openSessionDetails(sessionId);
     }
 
