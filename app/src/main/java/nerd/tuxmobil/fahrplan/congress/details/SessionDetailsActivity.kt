@@ -20,7 +20,6 @@ class SessionDetailsActivity : BaseActivity(R.layout.detail_frame) {
             activity.startActivity(createIntent(activity))
         }
 
-        @JvmStatic
         fun startForResult(activity: Activity) {
             activity.startActivityForResult(createIntent(activity), REQUEST_CODE)
         }

@@ -18,7 +18,6 @@ class ChangeListActivity :
 
     companion object {
 
-        @JvmStatic
         fun start(activity: Activity) {
             val intent = Intent(activity, ChangeListActivity::class.java)
             activity.startActivity(intent)

@@ -23,7 +23,6 @@ class StarredListActivity :
 
         private const val LOG_TAG = "StarredListActivity"
 
-        @JvmStatic
         fun start(context: Context) {
             val intent = Intent(context, StarredListActivity::class.java)
             context.startActivity(intent)

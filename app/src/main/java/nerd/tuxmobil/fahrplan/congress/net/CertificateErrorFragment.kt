@@ -20,7 +20,6 @@ class CertificateErrorFragment : DialogFragment() {
         private const val FRAGMENT_TAG = "CERTIFICATE_ERROR_FRAGMENT_TAG"
         private const val BUNDLE_KEY_ERROR_MESSAGE = "BUNDLE_KEY_ERROR_MESSAGE"
 
-        @JvmStatic
         fun showDialog(fragmentManager: FragmentManager, errorMessage: String) {
             val fragment = CertificateErrorFragment().withArguments(
                     BUNDLE_KEY_ERROR_MESSAGE to errorMessage
