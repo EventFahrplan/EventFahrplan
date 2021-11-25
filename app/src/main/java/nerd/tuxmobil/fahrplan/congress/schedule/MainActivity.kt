@@ -48,7 +48,6 @@ import nerd.tuxmobil.fahrplan.congress.extensions.withExtras
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListActivity
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListFragment
 import nerd.tuxmobil.fahrplan.congress.net.CertificateErrorFragment
-import nerd.tuxmobil.fahrplan.congress.net.CustomHttpClient
 import nerd.tuxmobil.fahrplan.congress.net.ErrorMessage
 import nerd.tuxmobil.fahrplan.congress.net.FetchScheduleResult
 import nerd.tuxmobil.fahrplan.congress.net.HttpStatus
@@ -275,10 +274,8 @@ class MainActivity : BaseActivity(),
             MyApp.task_running = TASKS.FETCH
             showFetchingStatus()
             val url = appRepository.readScheduleUrl()
-            val okHttpClient = CustomHttpClient.createHttpClient()
             appRepository.loadSchedule(
                 url = url,
-                okHttpClient = okHttpClient,
                 onFetchingDone = ::onGotResponse,
                 onParsingDone = ::onParseDone,
                 onLoadingShiftsDone = ::onLoadShiftsDone

@@ -39,6 +39,7 @@ class AlarmUpdaterTest {
                 executionContext = mock(),
                 databaseScope = mock(),
                 networkScope = mock(),
+                okHttpClient = mock(),
                 alarmsDatabaseRepository = mock(),
                 highlightsDatabaseRepository = mock(),
                 sessionsDatabaseRepository = mock(),

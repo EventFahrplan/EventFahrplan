@@ -37,6 +37,7 @@ class AppRepositorySessionsTest {
                     executionContext = TestExecutionContext,
                     databaseScope = mock(),
                     networkScope = mock(),
+                    okHttpClient = mock(),
                     alarmsDatabaseRepository = mock(),
                     highlightsDatabaseRepository = mock(),
                     sessionsDatabaseRepository = sessionsDatabaseRepository,
