@@ -1,172 +1,382 @@
 package nerd.tuxmobil.fahrplan.congress.details
 
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.core.net.toUri
-import com.google.common.truth.Truth.assertThat
+import info.metadude.android.eventfahrplan.commons.testing.MainDispatcherTestRule
+import info.metadude.android.eventfahrplan.commons.testing.assertLiveData
+import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedNever
 import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedOnce
-import nerd.tuxmobil.fahrplan.congress.R
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.flowOf
+import nerd.tuxmobil.fahrplan.congress.TestExecutionContext
+import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices
+import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsViewModel.FormattingDelegate
+import nerd.tuxmobil.fahrplan.congress.models.Alarm
 import nerd.tuxmobil.fahrplan.congress.models.Meta
 import nerd.tuxmobil.fahrplan.congress.models.Session
+import nerd.tuxmobil.fahrplan.congress.navigation.RoomForC3NavConverter
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
-import org.junit.Before
+import nerd.tuxmobil.fahrplan.congress.sharing.JsonSessionFormat
+import nerd.tuxmobil.fahrplan.congress.sharing.SimpleSessionFormat
+import nerd.tuxmobil.fahrplan.congress.utils.FeedbackUrlComposer
+import nerd.tuxmobil.fahrplan.congress.utils.MarkdownConversion
+import nerd.tuxmobil.fahrplan.congress.utils.SessionUrlComposition
+import org.junit.Rule
 import org.junit.Test
 import org.mockito.kotlin.any
+import org.mockito.kotlin.anyOrNull
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
-import org.mockito.kotlin.whenever
-import org.threeten.bp.ZoneId
 
 class SessionDetailsViewModelTest {
 
-    private val repository = mock<AppRepository>()
-    private val actualSession = Session(ACTUAL_SESSION_ID)
-    private val expectedSession = Session(EXPECTED_SESSION_ID)
-    private val viewActionHandler = mock<SessionDetailsViewModel.ViewActionHandler>()
-    private val meta = mock<Meta>()
-    private lateinit var defaultViewModel: SessionDetailsViewModel
+    @get:Rule
+    val mainDispatcherTestRule = MainDispatcherTestRule()
+
+    @get:Rule
+    val instantTaskExecutorRule = InstantTaskExecutorRule()
 
     private companion object {
         val NO_TIME_ZONE_ID = null
-        const val UNKNOWN_MENU_ITEM_ID = Int.MIN_VALUE
-        const val SAMPLE_URL = "http://example.com"
-        const val ACTUAL_SESSION_ID = "S1"
-        const val EXPECTED_SESSION_ID = "S1"
-    }
-
-    @Before
-    fun setUp() {
-        whenever(repository.readSessionBySessionId(any())) doReturn actualSession
-        whenever(repository.readMeta()) doReturn meta
-        whenever(meta.timeZoneId) doReturn NO_TIME_ZONE_ID
-        // ViewModel must be initialized after stubbing the repository.
-        defaultViewModel = SessionDetailsViewModel(repository, ACTUAL_SESSION_ID, viewActionHandler)
+        const val SAMPLE_FEEDBACK_URL = "http://conference.net/feedback"
+        const val SAMPLE_SESSION_URL = "https://conference.net/program/famous-talk.html"
     }
 
     @Test
-    fun `onOptionsMenuItemSelected returns false for unknown menu item id`() {
-        assertThat(defaultViewModel.onOptionsMenuItemSelected(UNKNOWN_MENU_ITEM_ID)).isFalse()
+    fun `selectedSessionParameter does not emit SelectedSessionParameter`() {
+        val repository = createRepository(selectedSessionFlow = emptyFlow())
+        val fakeSessionFormatter = mock<SessionFormatter> {
+            on { getFormattedLinks(any()) } doReturn "not relevant"
+            on { getFormattedUrl(any()) } doReturn """<a href="$SAMPLE_SESSION_URL">$SAMPLE_SESSION_URL</a>"""
+        }
+        val fakeSessionUrlComposition = mock<SessionUrlComposition> {
+            on { getSessionUrl(any()) } doReturn SAMPLE_SESSION_URL
+        }
+        val fakeFormattingDelegate = mock<FormattingDelegate> {
+            on { getFormattedDateTimeShort(any(), any(), anyOrNull()) } doReturn "01.11.2021 13:00"
+        }
+        val fakeMarkdownConversion = mock<MarkdownConversion> {
+            on { markdownLinksToHtmlLinks(any()) } doReturn "Markdown"
+        }
+        val fakeFeedbackUrlComposer = mock<FeedbackUrlComposer> {
+            on { getFeedbackUrl(any()) } doReturn SAMPLE_FEEDBACK_URL
+        }
+        val fakeRoomForC3NavConverter = mock<RoomForC3NavConverter> {
+            on { convert(any()) } doReturn "Main hall"
+        }
+        val viewModel = createViewModel(
+            repository = repository,
+            sessionFormatter = fakeSessionFormatter,
+            sessionUrlComposition = fakeSessionUrlComposition,
+            formattingDelegate = fakeFormattingDelegate,
+            markdownConversion = fakeMarkdownConversion,
+            feedbackUrlComposer = fakeFeedbackUrlComposer,
+            roomForC3NavConverter = fakeRoomForC3NavConverter
+        )
+        assertLiveData(viewModel.selectedSessionParameter).isEqualTo(null)
+        verifyInvokedOnce(repository).selectedSession
+        verifyInvokedNever(repository).readUseDeviceTimeZoneEnabled()
     }
 
     @Test
-    fun `onOptionsMenuItemSelected invokes openFeedback with URI`() {
-        val toFeedbackUrl: Session.(String) -> String = { SAMPLE_URL }
-        val viewModel = SessionDetailsViewModel(repository, ACTUAL_SESSION_ID, viewActionHandler,
-                toFeedbackUrl = toFeedbackUrl)
-        assertThat(viewModel.onOptionsMenuItemSelected(R.id.menu_item_feedback)).isTrue()
-        verifyInvokedOnce(viewActionHandler).openFeedback(SAMPLE_URL.toUri())
+    fun `selectedSessionParameter emits SelectedSessionParameter built from filled sample session`() {
+        val session = Session("S1").apply {
+            dateUTC = 100
+            title = "Session title"
+            subtitle = "Session subtitle"
+            speakers = "Jane Doe;John Doe"
+            room = "Main hall"
+            abstractt = "Session abstract"
+            description = "Session description"
+            links = "[VOC projects](https://www.voc.com/projects/),[POC](https://poc.com/QXut1XBymAk)"
+            highlight = true
+        }
+        val repository = createRepository(selectedSessionFlow = flowOf(session))
+        val fakeSessionFormatter = mock<SessionFormatter> {
+            on { getFormattedLinks(any()) } doReturn "not relevant"
+            on { getFormattedUrl(any()) } doReturn """<a href="$SAMPLE_SESSION_URL">$SAMPLE_SESSION_URL</a>"""
+        }
+        val fakeSessionUrlComposition = mock<SessionUrlComposition> {
+            on { getSessionUrl(any()) } doReturn SAMPLE_SESSION_URL
+        }
+        val fakeFormattingDelegate = mock<FormattingDelegate> {
+            on { getFormattedDateTimeShort(any(), any(), anyOrNull()) } doReturn "01.11.2021 13:00"
+        }
+        val fakeMarkdownConversion = mock<MarkdownConversion> {
+            on { markdownLinksToHtmlLinks(any()) } doReturn "Markdown"
+        }
+        val fakeFeedbackUrlComposer = mock<FeedbackUrlComposer> {
+            on { getFeedbackUrl(any()) } doReturn SAMPLE_FEEDBACK_URL
+        }
+        val fakeRoomForC3NavConverter = mock<RoomForC3NavConverter> {
+            on { convert(any()) } doReturn "Main hall"
+        }
+        val viewModel = createViewModel(
+            repository = repository,
+            sessionFormatter = fakeSessionFormatter,
+            sessionUrlComposition = fakeSessionUrlComposition,
+            formattingDelegate = fakeFormattingDelegate,
+            markdownConversion = fakeMarkdownConversion,
+            feedbackUrlComposer = fakeFeedbackUrlComposer,
+            roomForC3NavConverter = fakeRoomForC3NavConverter
+        )
+        val selectedSessionParameter = SelectedSessionParameter(
+            hasDateUtc = true,
+            formattedZonedDateTime = "01.11.2021 13:00",
+            roomName = "Main hall",
+            sessionId = "S1",
+            title = "Session title",
+            subtitle = "Session subtitle",
+            speakerNames = "Jane Doe, John Doe",
+            formattedAbstract = "Markdown",
+            abstract = "Session abstract",
+            formattedDescription = "Markdown",
+            description = "Session description",
+            hasLinks = true,
+            formattedLinks = "Markdown",
+            hasWikiLinks = false,
+            sessionLink = """<a href="$SAMPLE_SESSION_URL">$SAMPLE_SESSION_URL</a>""",
+            isFlaggedAsFavorite = true,
+            hasAlarm = false,
+            isFeedbackUrlEmpty = false,
+            isC3NavRoomNameEmpty = false,
+        )
+        assertLiveData(viewModel.selectedSessionParameter).isEqualTo(selectedSessionParameter)
+        verifyInvokedOnce(repository).selectedSession
+        verifyInvokedOnce(repository).readUseDeviceTimeZoneEnabled()
     }
 
     @Test
-    fun `onOptionsMenuItemSelected invokes shareAsPlainText with plain text`() {
-        val toPlainText: Session.(ZoneId?) -> String = { "An example session" }
-        val viewModel = SessionDetailsViewModel(repository, ACTUAL_SESSION_ID, viewActionHandler,
-                toPlainText = toPlainText)
-        assertThat(viewModel.onOptionsMenuItemSelected(R.id.menu_item_share_session)).isTrue()
-        verifyInvokedOnce(viewActionHandler).shareAsPlainText("An example session")
+    fun `selectedSessionParameter emits SelectedSessionParameter built from empty sample session`() {
+        val session = Session("S1").apply {
+            dateUTC = 0
+            title = ""
+            subtitle = ""
+            speakers = ""
+            room = ""
+            abstractt = ""
+            description = ""
+            links = ""
+            highlight = false
+        }
+        val repository = createRepository(selectedSessionFlow = flowOf(session))
+        val fakeSessionFormatter = mock<SessionFormatter> {
+            on { getFormattedLinks(any()) } doReturn "not relevant"
+            on { getFormattedUrl(any()) } doReturn ""
+        }
+        val fakeSessionUrlComposition = mock<SessionUrlComposition> {
+            on { getSessionUrl(any()) } doReturn ""
+        }
+        val fakeFormattingDelegate = mock<FormattingDelegate> {
+            on { getFormattedDateTimeShort(any(), any(), anyOrNull()) } doReturn ""
+        }
+        val fakeMarkdownConversion = mock<MarkdownConversion> {
+            on { markdownLinksToHtmlLinks(any()) } doReturn ""
+        }
+        val fakeFeedbackUrlComposer = mock<FeedbackUrlComposer> {
+            on { getFeedbackUrl(any()) } doReturn ""
+        }
+        val fakeRoomForC3NavConverter = mock<RoomForC3NavConverter> {
+            on { convert(any()) } doReturn ""
+        }
+        val viewModel = createViewModel(
+            repository = repository,
+            sessionFormatter = fakeSessionFormatter,
+            sessionUrlComposition = fakeSessionUrlComposition,
+            formattingDelegate = fakeFormattingDelegate,
+            markdownConversion = fakeMarkdownConversion,
+            feedbackUrlComposer = fakeFeedbackUrlComposer,
+            roomForC3NavConverter = fakeRoomForC3NavConverter
+        )
+        val selectedSessionParameter = SelectedSessionParameter(
+            hasDateUtc = false,
+            formattedZonedDateTime = "",
+            roomName = "",
+            sessionId = "S1",
+            title = "",
+            subtitle = "",
+            speakerNames = "",
+            formattedAbstract = "",
+            abstract = "",
+            formattedDescription = "",
+            description = "",
+            hasLinks = false,
+            formattedLinks = "",
+            hasWikiLinks = false,
+            sessionLink = "",
+            isFlaggedAsFavorite = false,
+            hasAlarm = false,
+            isFeedbackUrlEmpty = true,
+            isC3NavRoomNameEmpty = true,
+        )
+        assertLiveData(viewModel.selectedSessionParameter).isEqualTo(selectedSessionParameter)
+        verifyInvokedOnce(repository).selectedSession
+        verifyInvokedOnce(repository).readUseDeviceTimeZoneEnabled()
     }
 
     @Test
-    fun `onOptionsMenuItemSelected invokes shareAsJson with JSON`() {
-        val toJson: Session.() -> String = { """{ "session" : "example" }""" }
-        val viewModel = SessionDetailsViewModel(repository, ACTUAL_SESSION_ID, viewActionHandler,
-                toJson = toJson)
-        assertThat(viewModel.onOptionsMenuItemSelected(R.id.menu_item_share_session_json)).isTrue()
-        verifyInvokedOnce(viewActionHandler).shareAsJson("""{ "session" : "example" }""")
+    fun `openFeedback() posts to openFeedback`() {
+        val repository = createRepository()
+        val fakeFeedbackUrlComposer = mock<FeedbackUrlComposer> {
+            on { getFeedbackUrl(any()) } doReturn SAMPLE_FEEDBACK_URL
+        }
+        val viewModel = createViewModel(repository, feedbackUrlComposer = fakeFeedbackUrlComposer)
+        viewModel.openFeedback()
+        assertLiveData(viewModel.openFeedBack).isEqualTo(SAMPLE_FEEDBACK_URL.toUri())
+        verifyInvokedOnce(repository).loadSelectedSession()
     }
 
     @Test
-    fun `onOptionsMenuItemSelected invokes addToCalendar with session`() {
-        assertThat(defaultViewModel.onOptionsMenuItemSelected(R.id.menu_item_add_to_calendar)).isTrue()
-        verifyInvokedOnce(viewActionHandler).addToCalendar(expectedSession)
+    fun `share() posts to shareSimple what simpleSessionFormat returns`() {
+        val repository = createRepository()
+        val fakeSessionFormat = mock<SimpleSessionFormat> {
+            on { format(any<Session>(), anyOrNull()) } doReturn "An example session"
+        }
+        val viewModel = createViewModel(repository, simpleSessionFormat = fakeSessionFormat)
+        viewModel.share()
+        assertLiveData(viewModel.shareSimple).isEqualTo("An example session")
+        verifyInvokedOnce(repository).loadSelectedSession()
+        verifyInvokedOnce(repository).readMeta()
     }
 
     @Test
-    fun `onOptionsMenuItemSelected flags highlight and invokes updateHighlight, notifyHighlightsChanged, refreshUI`() {
-        val actualSession = Session("S2").apply { highlight = false }
-        val expectedSession = Session("S2").apply { highlight = true }
-        whenever(repository.readSessionBySessionId("S2")) doReturn actualSession
-        val viewModel = SessionDetailsViewModel(repository, "S2", viewActionHandler)
-        assertThat(viewModel.onOptionsMenuItemSelected(R.id.menu_item_flag_as_favorite)).isTrue()
-        // TODO Simplify by comparing objects as soon as "highlight" is part of Session#equals.
-        assertThat(actualSession.highlight).isEqualTo(expectedSession.highlight)
+    fun `shareToChaosflix() posts to shareJson what jsonSessionFormat returns`() {
+        val repository = createRepository()
+        val fakeSessionFormat = mock<JsonSessionFormat> {
+            on { format(any<Session>()) } doReturn """{ "session" : "example" }"""
+        }
+        val viewModel = createViewModel(repository, jsonSessionFormat = fakeSessionFormat)
+        viewModel.shareToChaosflix()
+        assertLiveData(viewModel.shareJson).isEqualTo("""{ "session" : "example" }""")
+        verifyInvokedOnce(repository).loadSelectedSession()
+    }
+
+    @Test
+    fun `addToCalendar() posts to addToCalendar`() {
+        val repository = createRepository(selectedSession = Session("S2"))
+        val viewModel = createViewModel(repository)
+        viewModel.addToCalendar()
+        verifyInvokedOnce(repository).loadSelectedSession()
+        assertLiveData(viewModel.addToCalendar).isEqualTo(Session("S2"))
+    }
+
+    @Test
+    fun `favorSession() flags the session as a favorite and persists it`() {
+        val actualSession = Session("S3").apply { highlight = false }
+        val expectedSession = Session("S3").apply { highlight = true }
+        val repository = createRepository(selectedSession = actualSession)
+        val viewModel = createViewModel(repository)
+        viewModel.favorSession()
+        verifyInvokedOnce(repository).loadSelectedSession()
         verifyInvokedOnce(repository).updateHighlight(expectedSession)
         verifyInvokedOnce(repository).notifyHighlightsChanged()
-        verifyInvokedOnce(viewActionHandler).refreshUI()
     }
 
     @Test
-    fun `onOptionsMenuItemSelected unflags highlight and invokes updateHighlight, notifyHighlightsChanged, refreshUI`() {
-        val actualSession = Session("S3").apply { highlight = true }
-        val expectedSession = Session("S3").apply { highlight = false }
-        whenever(repository.readSessionBySessionId("S3")) doReturn actualSession
-        val viewModel = SessionDetailsViewModel(repository, "S3", viewActionHandler)
-        assertThat(viewModel.onOptionsMenuItemSelected(R.id.menu_item_unflag_as_favorite)).isTrue()
-        // TODO Simplify by comparing objects as soon as "highlight" is part of Session#equals.
-        assertThat(actualSession.highlight).isEqualTo(expectedSession.highlight)
+    fun `unfavorSession() unflags the session as a favorite and persists it`() {
+        val actualSession = Session("S4").apply { highlight = true }
+        val expectedSession = Session("S4").apply { highlight = false }
+        val repository = createRepository(selectedSession = actualSession)
+        val viewModel = createViewModel(repository)
+        viewModel.unfavorSession()
+        verifyInvokedOnce(repository).loadSelectedSession()
         verifyInvokedOnce(repository).updateHighlight(expectedSession)
         verifyInvokedOnce(repository).notifyHighlightsChanged()
-        verifyInvokedOnce(viewActionHandler).refreshUI()
     }
 
     @Test
-    fun `onOptionsMenuItemSelected invokes showAlarmTimePicker`() {
-        assertThat(defaultViewModel.onOptionsMenuItemSelected(R.id.menu_item_set_alarm)).isTrue()
-        verifyInvokedOnce(viewActionHandler).showAlarmTimePicker()
+    fun `setAlarm() posts to setAlarm`() {
+        val repository = createRepository()
+        val viewModel = createViewModel(repository)
+        viewModel.setAlarm()
+        assertLiveData(viewModel.setAlarm).isEqualTo(Unit)
     }
 
     @Test
-    fun `onOptionsMenuItemSelected invokes deleteAlarm, refreshUI`() {
-        assertThat(defaultViewModel.onOptionsMenuItemSelected(R.id.menu_item_delete_alarm)).isTrue()
-        verifyInvokedOnce(viewActionHandler).deleteAlarm(expectedSession)
-        verifyInvokedOnce(viewActionHandler).refreshUI()
+    fun `addAlarm() persists the alarm deletion`() {
+        val repository = createRepository(selectedSession = Session("S5"))
+        val alarmServices = mock<AlarmServices>()
+        val viewModel = createViewModel(repository, alarmServices)
+        viewModel.addAlarm(alarmTimesIndex = 1)
+        verifyInvokedOnce(repository).loadSelectedSession()
+        verifyInvokedOnce(alarmServices).addSessionAlarm(any(), any())
     }
 
     @Test
-    fun `onOptionsMenuItemSelected invokes closeDetails`() {
-        assertThat(defaultViewModel.onOptionsMenuItemSelected(R.id.menu_item_close_session_details)).isTrue()
-        verifyInvokedOnce(viewActionHandler).closeDetails()
+    fun `deleteAlarm() persists the alarm deletion`() {
+        val repository = createRepository(
+            selectedSession = Session("S6"),
+            alarms = emptyList()
+        )
+        val alarmServices = mock<AlarmServices>()
+        val viewModel = createViewModel(repository, alarmServices)
+        viewModel.deleteAlarm()
+        verifyInvokedOnce(repository).loadSelectedSession()
+        verifyInvokedOnce(alarmServices).deleteSessionAlarm(any())
     }
 
     @Test
-    fun `onOptionsMenuItemSelected invokes navigateToRoom with URI`() {
-        val actualSession = Session("S4").apply { room = "GARDEN" }
-        whenever(repository.readSessionBySessionId("S4")) doReturn actualSession
-        val toC3NavRoomName: Session.() -> String = { this.room.lowercase() }
-        val viewModel = SessionDetailsViewModel(repository, "S4", viewActionHandler,
-                c3NavBaseUrl = "https://c3nav.foo/", toC3NavRoomName = toC3NavRoomName)
-        assertThat(viewModel.onOptionsMenuItemSelected(R.id.menu_item_navigate)).isTrue()
-        verifyInvokedOnce(viewActionHandler).navigateToRoom("https://c3nav.foo/garden".toUri())
+    fun `closeDetails() posts to closeDetails`() {
+        val repository = createRepository()
+        val viewModel = createViewModel(repository)
+        viewModel.closeDetails()
+        assertLiveData(viewModel.closeDetails).isEqualTo(Unit)
     }
 
     @Test
-    fun `formattedLinks returns an empty string when no links are present`() {
-        assertThat(defaultViewModel.formattedLinks).isEmpty()
+    fun `navigateToRoom() posts to navigateToRoom`() {
+        val repository = createRepository()
+        val fakeRoomForC3NavConverter = mock<RoomForC3NavConverter> {
+            on { convert(anyOrNull()) } doReturn "garden"
+        }
+        val viewModel = createViewModel(
+            repository = repository,
+            roomForC3NavConverter = fakeRoomForC3NavConverter,
+            c3NavBaseUrl = "https://c3nav.foo/"
+        )
+        viewModel.navigateToRoom()
+        assertLiveData(viewModel.navigateToRoom).isEqualTo("https://c3nav.foo/garden".toUri())
+        verifyInvokedOnce(repository).loadSelectedSession()
     }
 
-    @Test
-    fun `formattedLinks returns HTML formatted links`() {
-        val links = "[VOC projects](https://www.voc.com/projects/),[POC](https://poc.com/QXut1XBymAk)"
-        val session = Session("S5").apply { this.links = links }
-        whenever(repository.readSessionBySessionId("S5")) doReturn session
-        val viewModel = SessionDetailsViewModel(repository, "S5", viewActionHandler)
-        val expectedFormattedLinks = """<a href="https://www.voc.com/projects/">VOC projects</a><br><a href="https://poc.com/QXut1XBymAk">POC</a>"""
-        assertThat(viewModel.formattedLinks).isEqualTo(expectedFormattedLinks)
+    private fun createRepository(
+        selectedSessionFlow: Flow<Session> = emptyFlow(),
+        selectedSession: Session = Session("S0"),
+        meta: Meta = Meta(numDays = 0, timeZoneId = NO_TIME_ZONE_ID),
+        alarms: List<Alarm> = emptyList()
+    ) = mock<AppRepository> {
+        on { this.selectedSession } doReturn selectedSessionFlow
+        on { loadSelectedSession() } doReturn selectedSession
+        on { readMeta() } doReturn meta
+        on { readAlarms(any()) } doReturn alarms
     }
 
-    @Test
-    fun `sessionLink returns an empty string when no session URL is composed`() {
-        val toSessionUrl: Session.() -> String = { "" }
-        val viewModel = SessionDetailsViewModel(repository, "S6", viewActionHandler, toSessionUrl = toSessionUrl)
-        assertThat(viewModel.sessionLink).isEmpty()
-    }
-
-    @Test
-    fun `sessionLink returns the HTML formatted session link`() {
-        val toSessionUrl: Session.() -> String = { "https://conference.net/program/${this.sessionId}.html" }
-        val session = Session("famous-talk")
-        whenever(repository.readSessionBySessionId("S7")) doReturn session
-        val viewModel = SessionDetailsViewModel(repository, "S7", viewActionHandler, toSessionUrl = toSessionUrl)
-        val expectedSessionLink = """<a href="https://conference.net/program/famous-talk.html">https://conference.net/program/famous-talk.html</a>"""
-        assertThat(viewModel.sessionLink).isEqualTo(expectedSessionLink)
-    }
+    private fun createViewModel(
+        repository: AppRepository,
+        alarmServices: AlarmServices = mock(),
+        sessionFormatter: SessionFormatter = mock(),
+        simpleSessionFormat: SimpleSessionFormat = mock(),
+        jsonSessionFormat: JsonSessionFormat = mock(),
+        feedbackUrlComposer: FeedbackUrlComposer = mock(),
+        sessionUrlComposition: SessionUrlComposition = mock(),
+        roomForC3NavConverter: RoomForC3NavConverter = mock(),
+        markdownConversion: MarkdownConversion = mock(),
+        formattingDelegate: FormattingDelegate = mock(),
+        c3NavBaseUrl: String = ""
+    ) = SessionDetailsViewModel(
+        repository = repository,
+        executionContext = TestExecutionContext,
+        alarmServices = alarmServices,
+        sessionFormatter = sessionFormatter,
+        simpleSessionFormat = simpleSessionFormat,
+        jsonSessionFormat = jsonSessionFormat,
+        feedbackUrlComposer = feedbackUrlComposer,
+        sessionUrlComposition = sessionUrlComposition,
+        roomForC3NavConverter = roomForC3NavConverter,
+        markdownConversion = markdownConversion,
+        formattingDelegate = formattingDelegate,
+        c3NavBaseUrl = c3NavBaseUrl
+    )
 
 }

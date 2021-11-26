@@ -9,12 +9,15 @@ import android.view.ViewGroup
 import android.widget.HeaderViewListAdapter
 import android.widget.ListView
 import androidx.annotation.CallSuper
+import androidx.annotation.IdRes
 import androidx.annotation.MainThread
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.base.AbstractListFragment
 import nerd.tuxmobil.fahrplan.congress.base.AbstractListFragment.OnSessionListClick
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
+import nerd.tuxmobil.fahrplan.congress.extensions.replaceFragment
 import nerd.tuxmobil.fahrplan.congress.extensions.requireViewByIdCompat
 import nerd.tuxmobil.fahrplan.congress.extensions.withArguments
 import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper
@@ -35,9 +38,16 @@ class ChangeListFragment : AbstractListFragment() {
 
         const val FRAGMENT_TAG = "changes"
 
-        @JvmStatic
         fun newInstance(sidePane: Boolean): ChangeListFragment {
             return ChangeListFragment().withArguments(BundleKeys.SIDEPANE to sidePane)
+        }
+
+        @JvmStatic
+        fun replace(fragmentManager: FragmentManager, @IdRes containerViewId: Int, sidePane: Boolean) {
+            val fragment = ChangeListFragment().withArguments(
+                BundleKeys.SIDEPANE to sidePane
+            )
+            fragmentManager.replaceFragment(containerViewId, fragment, FRAGMENT_TAG, FRAGMENT_TAG)
         }
 
     }

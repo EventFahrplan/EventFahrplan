@@ -138,6 +138,28 @@ object AppRepository {
             .flowOn(executionContext.database)
     }
 
+    private val refreshSelectedSessionSignal = MutableSharedFlow<Unit>()
+
+    private fun refreshSelectedSession() {
+        logging.d(javaClass.simpleName, "Refreshing selected session ...")
+        val requestIdentifier = "refreshSelectedSession"
+        parentJobs[requestIdentifier] = databaseScope.launchNamed(requestIdentifier) {
+            refreshSelectedSessionSignal.emit(Unit)
+        }
+    }
+
+    /**
+     * Emits all sessions from the database which have been favored aka. starred but no canceled.
+     * The returned list might be empty.
+     */
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val selectedSession: Flow<Session> by lazy {
+        refreshSelectedSessionSignal
+            .onStart { emit(Unit) }
+            .mapLatest { loadSelectedSession() }
+            .flowOn(executionContext.database)
+    }
+
     @JvmOverloads
     fun initialize(
             context: Context,
@@ -309,6 +331,15 @@ object AppRepository {
     }
 
     /**
+     * Loads the session which has been selected at last.
+     */
+    @WorkerThread
+    fun loadSelectedSession(): Session {
+        val sessionId = readSelectedSessionId()
+        return readSessionBySessionId(sessionId)
+    }
+
+    /**
      * Loads all sessions from the database which have not been canceled.
      * The returned list might be empty.
      */
@@ -397,12 +428,15 @@ object AppRepository {
             alarmsDatabaseRepository.deleteForAlarmId(alarmId)
 
     fun deleteAlarmForSessionId(sessionId: String) =
-            alarmsDatabaseRepository.deleteForSessionId(sessionId)
+        alarmsDatabaseRepository.deleteForSessionId(sessionId).also {
+            refreshSelectedSession()
+        }
 
     fun updateAlarm(alarm: Alarm) {
         val alarmDatabaseModel = alarm.toAlarmDatabaseModel()
         val values = alarmDatabaseModel.toContentValues()
         alarmsDatabaseRepository.update(values, alarm.sessionId)
+        refreshSelectedSession()
     }
 
     fun readHighlightSessionIds() = readHighlights()
@@ -420,15 +454,17 @@ object AppRepository {
         val values = highlightDatabaseModel.toContentValues()
         highlightsDatabaseRepository.update(values, session.sessionId)
         refreshStarredSessions()
+        refreshSelectedSession()
     }
 
     @WorkerThread
     fun deleteAllHighlights() {
         highlightsDatabaseRepository.deleteAll()
         refreshStarredSessions()
+        refreshSelectedSession()
     }
 
-    fun readSessionBySessionId(sessionId: String): Session {
+    private fun readSessionBySessionId(sessionId: String): Session {
         val session = sessionsDatabaseRepository.querySessionBySessionId(sessionId).toSessionAppModel()
 
         val highlight = highlightsDatabaseRepository.queryBySessionId(sessionId.toInt())
@@ -453,6 +489,21 @@ object AppRepository {
     private fun readSessionsOrderedByDateUtcExcludingEngelsystemShifts() =
             sessionsDatabaseRepository.querySessionsWithoutRoom(ENGELSYSTEM_ROOM_NAME).toSessionsAppModel()
 
+    private fun readSelectedSessionId(): String {
+        val id = sharedPreferencesRepository.getSelectedSessionId()
+        check(id.isNotEmpty()) { "Selected session is empty." }
+        return id
+    }
+
+    fun updateSelectedSessionId(sessionId: String): Boolean {
+        val isSet = sharedPreferencesRepository.setSelectedSessionId(sessionId).onFailure {
+            error("Error persisting selected session ID '$sessionId'.")
+        }
+        return isSet.also {
+            refreshSelectedSession()
+        }
+    }
+
     fun readLastEngelsystemShiftsHash() =
             sharedPreferencesRepository.getLastEngelsystemShiftsHash()
 
@@ -470,7 +521,9 @@ object AppRepository {
         val toBeUpdated = toBeUpdatedSessionsDatabaseModel.map { it.sessionId to it.toContentValues() }
         val toBeDeleted = toBeDeletedSessions.map { it.sessionId }
         sessionsDatabaseRepository.updateSessions(toBeUpdated, toBeDeleted)
+        refreshStarredSessions()
         refreshChangedSessions()
+        refreshSelectedSession()
     }
 
     /**

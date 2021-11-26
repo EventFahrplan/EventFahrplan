@@ -14,6 +14,7 @@ class SharedPreferencesRepository(val context: Context) {
         const val DISPLAY_DAY_INDEX_KEY = "nerd.tuxmobil.fahrplan.congress.Prefs.DISPLAY_DAY_INDEX"
         const val ENGELSYSTEM_SHIFTS_HASH_KEY = "nerd.tuxmobil.fahrplan.congress.Prefs.ENGELSYSTEM_SHIFTS_HASH"
         const val SCHEDULE_LAST_FETCHED_AT_KEY = "nerd.tuxmobil.fahrplan.congress.Prefs.SCHEDULE_LAST_FETCHED_AT"
+        const val SELECTED_SESSION_ID_KEY = "nerd.tuxmobil.fahrplan.congress.Prefs.SELECTED_SESSION_ID_KEY"
 
     }
 
@@ -112,5 +113,12 @@ class SharedPreferencesRepository(val context: Context) {
     fun setLastEngelsystemShiftsHash(hash: Int) = preferences.edit {
         putInt(ENGELSYSTEM_SHIFTS_HASH_KEY, hash)
     }
+
+    fun getSelectedSessionId() =
+        preferences.getString(SELECTED_SESSION_ID_KEY, "")!!
+
+    fun setSelectedSessionId(sessionId: String): Boolean = preferences.edit()
+        .putString(SELECTED_SESSION_ID_KEY, sessionId)
+        .commit()
 
 }

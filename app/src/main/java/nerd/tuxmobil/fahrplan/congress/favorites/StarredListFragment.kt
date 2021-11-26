@@ -17,7 +17,9 @@ import android.widget.HeaderViewListAdapter
 import android.widget.ListView
 import android.widget.Toast
 import androidx.annotation.CallSuper
+import androidx.annotation.IdRes
 import androidx.annotation.MainThread
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.BuildConfig
@@ -25,6 +27,7 @@ import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.base.AbstractListFragment
 import nerd.tuxmobil.fahrplan.congress.base.AbstractListFragment.OnSessionListClick
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
+import nerd.tuxmobil.fahrplan.congress.extensions.replaceFragment
 import nerd.tuxmobil.fahrplan.congress.extensions.requireViewByIdCompat
 import nerd.tuxmobil.fahrplan.congress.extensions.withArguments
 import nerd.tuxmobil.fahrplan.congress.models.Session
@@ -53,8 +56,11 @@ class StarredListFragment :
         const val DELETE_ALL_FAVORITES_REQUEST_CODE = 19126
 
         @JvmStatic
-        fun newInstance(sidePane: Boolean): StarredListFragment {
-            return StarredListFragment().withArguments(BundleKeys.SIDEPANE to sidePane)
+        fun replace(fragmentManager: FragmentManager, @IdRes containerViewId: Int, sidePane: Boolean) {
+            val fragment = StarredListFragment().withArguments(
+                BundleKeys.SIDEPANE to sidePane
+            )
+            fragmentManager.replaceFragment(containerViewId, fragment, FRAGMENT_TAG, FRAGMENT_TAG)
         }
 
     }

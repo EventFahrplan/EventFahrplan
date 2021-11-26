@@ -10,6 +10,7 @@ import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.base.AbstractListFragment.OnSessionListClick
 import nerd.tuxmobil.fahrplan.congress.base.BaseActivity
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsActivity
+import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 
 class ChangeListActivity :
     BaseActivity(),
@@ -43,7 +44,9 @@ class ChangeListActivity :
     }
 
     override fun onSessionListClick(sessionId: String) {
-        SessionDetailsActivity.start(this, sessionId)
+        if (AppRepository.updateSelectedSessionId(sessionId)) {
+            SessionDetailsActivity.start(this)
+        }
     }
 
 }

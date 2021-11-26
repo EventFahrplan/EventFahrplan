@@ -20,10 +20,6 @@ public interface BundleKeys {
     String BUNDLE_KEY_SESSION_ALARM_NOTIFICATION_ID =
             "nerd.tuxmobil.fahrplan.congress.SESSION_ALARM_NOTIFICATION_ID";
 
-    // Session details
-    String SESSION_ID =
-            "nerd.tuxmobil.fahrplan.congress.SESSION_ID";
-
     // Side pane
     String SIDEPANE =
             "nerd.tuxmobil.fahrplan.congress.SIDEPANE";
