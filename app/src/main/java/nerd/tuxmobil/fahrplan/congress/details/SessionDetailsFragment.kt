@@ -252,20 +252,15 @@ class SessionDetailsFragment : Fragment() {
         typeface = typefaceFactory.getTypeface(viewModel.sessionOnlineSectionFont)
         sessionOnlineSectionView.typeface = typeface
         val sessionOnlineLinkView = view.requireViewByIdCompat<TextView>(R.id.session_details_content_session_online_view)
-        if (model.hasWikiLinks) {
+        val sessionLink = model.sessionLink
+        if (model.hasWikiLinks || sessionLink.isEmpty()) {
             sessionOnlineSectionView.isVisible = false
             sessionOnlineLinkView.isVisible = false
         } else {
-            val sessionLink = model.sessionLink
-            if (sessionLink.isEmpty()) {
-                sessionOnlineSectionView.isVisible = false
-                sessionOnlineLinkView.isVisible = false
-            } else {
-                sessionOnlineSectionView.isVisible = true
-                sessionOnlineLinkView.isVisible = true
-                typeface = typefaceFactory.getTypeface(viewModel.sessionOnlineFont)
-                sessionOnlineLinkView.applyHtml(typeface, sessionLink)
-            }
+            sessionOnlineSectionView.isVisible = true
+            sessionOnlineLinkView.isVisible = true
+            typeface = typefaceFactory.getTypeface(viewModel.sessionOnlineFont)
+            sessionOnlineLinkView.applyHtml(typeface, sessionLink)
         }
     }
 
@@ -303,27 +298,20 @@ class SessionDetailsFragment : Fragment() {
         }
         inflater.inflate(R.menu.detailmenu, menu)
         if (model.isFlaggedAsFavorite) {
-            menu.findItem(R.id.menu_item_flag_as_favorite)?.let { it.isVisible = false }
-            menu.findItem(R.id.menu_item_unflag_as_favorite)?.let { it.isVisible = true }
+            menu.setMenuItemVisibility(R.id.menu_item_flag_as_favorite, false)
+            menu.setMenuItemVisibility(R.id.menu_item_unflag_as_favorite, true)
         }
         if (model.hasAlarm) {
-            menu.findItem(R.id.menu_item_set_alarm)?.let { it.isVisible = false }
-            menu.findItem(R.id.menu_item_delete_alarm)?.let { it.isVisible = true }
+            menu.setMenuItemVisibility(R.id.menu_item_set_alarm, false)
+            menu.setMenuItemVisibility(R.id.menu_item_delete_alarm, true)
         }
-        var item = menu.findItem(R.id.menu_item_feedback)
-        if (SHOW_FEEDBACK_MENU_ITEM && !model.isFeedbackUrlEmpty) {
-            item?.let { it.isVisible = true }
-        } else {
-            item?.let { it.isVisible = false }
-        }
+        menu.setMenuItemVisibility(R.id.menu_item_feedback, SHOW_FEEDBACK_MENU_ITEM && !model.isFeedbackUrlEmpty)
         if (sidePane) {
-            menu.findItem(R.id.menu_item_close_session_details)?.let { it.isVisible = true }
+            menu.setMenuItemVisibility(R.id.menu_item_close_session_details, true)
         }
-        menu.findItem(R.id.menu_item_navigate)?.let {
-            it.isVisible = !model.isC3NavRoomNameEmpty
-        }
+        menu.setMenuItemVisibility(R.id.menu_item_navigate, !model.isC3NavRoomNameEmpty)
         @Suppress("ConstantConditionIf")
-        item = if (BuildConfig.ENABLE_CHAOSFLIX_EXPORT) {
+        val item = if (BuildConfig.ENABLE_CHAOSFLIX_EXPORT) {
             menu.findItem(R.id.menu_item_share_session_menu)
         } else {
             menu.findItem(R.id.menu_item_share_session)
@@ -353,6 +341,10 @@ class SessionDetailsFragment : Fragment() {
                 true
             }
         }
+    }
+
+    private fun Menu.setMenuItemVisibility(itemId: Int, isVisible: Boolean) {
+        findItem(itemId)?.let { it.isVisible = isVisible }
     }
 
 }
