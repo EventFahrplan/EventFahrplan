@@ -78,7 +78,6 @@ class MainActivity : BaseActivity(),
         private const val LOG_TAG = "MainActivity"
         private const val INVALID_NOTIFICATION_ID = -1
 
-        @JvmStatic
         lateinit var instance: MainActivity
 
         /**
