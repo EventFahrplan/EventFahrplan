@@ -51,20 +51,24 @@ class ChangeListAdapter internal constructor(
             title.textOrHide = session.title
             subtitle.textOrHide = session.subtitle
             subtitle.contentDescription = Session.getSubtitleContentDescription(subtitle.context, session.subtitle)
+
             speakers.textOrHide = session.formattedSpeakers
             speakers.contentDescription = Session.getSpeakersContentDescription(speakers.context, session.speakers.size, session.formattedSpeakers)
             lang.textOrHide = session.lang
             lang.contentDescription = Session.getLanguageContentDescription(lang.context, session.lang)
+
             val dayText = DateFormatter.newInstance(useDeviceTimeZone).getFormattedDate(session.dateUTC, session.timeZoneOffset)
             day.textOrHide = dayText
             val timeText = DateFormatter.newInstance(useDeviceTimeZone).getFormattedTime(session.dateUTC, session.timeZoneOffset)
             time.textOrHide = timeText
             time.contentDescription = Session.getStartTimeContentDescription(time.context, timeText)
+
             room.textOrHide = session.room
             room.contentDescription = Session.getRoomNameContentDescription(room.context, session.room)
             val durationText = duration.context.getString(R.string.session_list_item_duration_text, session.duration)
             duration.textOrHide = durationText
             duration.contentDescription = Session.getDurationContentDescription(duration.context, session.duration)
+
             video.isVisible = false
             noVideo.isVisible = false
             withoutVideoRecording.isVisible = false
