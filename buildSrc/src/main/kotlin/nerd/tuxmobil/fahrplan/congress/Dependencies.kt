@@ -37,31 +37,31 @@ object Plugins {
 object Libs {
 
     private object Versions {
-        const val annotation = "1.2.0"
-        const val appCompat = "1.3.1"
+        const val annotation = "1.3.0"
+        const val appCompat = "1.3.1" // compileSdk 31 is required as of 1.4.0
         const val assertjAndroid = "1.2.0"
         const val betterLinkMovementMethod = "2.2.0"
-        const val constraintLayout = "2.1.1"
+        const val constraintLayout = "2.1.2"
         const val coreKtx = "1.6.0" // compileSdk 31 is required as of 1.7.0
         const val coreTesting = "2.1.0"
         const val emailIntentBuilder = "2.0.0"
-        const val engelsystem = "5.2.0"
+        const val engelsystem = "5.3.0"
         const val espresso = "3.4.0"
         const val junit = "4.13.2"
         const val kotlinCoroutines = "1.5.2"
         const val liveDataKtx = "2.3.1" // compileSdk 31 is required as of 2.4.0
         const val markwon = "4.6.2"
         const val material = "1.4.0"
-        const val mockito = "4.0.0"
+        const val mockito = "4.1.0"
         const val mockitoKotlin = "4.0.0"
         const val moshi = "1.12.0"
         const val okhttp = "3.12.13"
         const val preference = "1.1.1"
         const val retrofit = "2.6.4"
         const val robolectric = "4.3_r2-robolectric-0"
-        const val snackengage = "0.28"
+        const val snackengage = "0.29"
         const val testExtJunit = "1.1.3"
-        const val threeTenBp = "1.5.1"
+        const val threeTenBp = "1.5.2"
         const val tracedroid = "3.1"
         const val truth = "1.1.3"
         const val turbine = "0.7.0"
