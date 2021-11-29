@@ -72,8 +72,6 @@ object AppRepository {
     const val ENGELSYSTEM_ROOM_NAME = "Engelshifts"
     private const val ALL_DAYS = -1
 
-    private lateinit var context: Context
-
     private lateinit var logging: Logging
 
     private val parentJobs = mutableMapOf<String, Job>()
@@ -175,7 +173,6 @@ object AppRepository {
             engelsystemNetworkRepository: EngelsystemNetworkRepository = EngelsystemNetworkRepository(),
             sharedPreferencesRepository: SharedPreferencesRepository = SharedPreferencesRepository(context)
     ) {
-        this.context = context
         this.logging = logging
         this.executionContext = executionContext
         this.databaseScope = databaseScope
