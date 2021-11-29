@@ -33,7 +33,7 @@
     </string>
     <string name="certificate_error_title">O certificado não pode ser adicionado.</string>
 
-    <!-- CustomHttpClient -->
+    <!-- Error messages -->
     <string name="dlg_err_connection_failed">Falha de conexão.</string>
     <string name="dlg_err_failed_unknown_host">Endereço desconhecido:\n%s</string>
     <string name="dlg_err_failed_wrong_http_credentials">Autenticação HTTP inválida</string>

@@ -33,7 +33,7 @@
     </string>
     <string name="certificate_error_title">Certificaat kon niet worden toegevoegd.</string>
 
-    <!-- CustomHttpClient -->
+    <!-- Error messages -->
     <string name="dlg_err_connection_failed">Verbindingsfout</string>
     <string name="dlg_err_failed_unknown_host">Onbekend adres:\n%s</string>
     <string name="dlg_err_failed_wrong_http_credentials">Invalide HTTP authenticatie</string>

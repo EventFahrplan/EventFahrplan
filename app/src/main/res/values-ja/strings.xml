@@ -33,7 +33,7 @@
     </string>
     <string name="certificate_error_title">証明書を追加できませんでした。</string>
 
-    <!-- CustomHttpClient -->
+    <!-- Error messages -->
     <string name="dlg_err_connection_failed">接続失敗</string>
     <string name="dlg_err_failed_unknown_host">不明なアドレス：\n%s</string>
     <string name="dlg_err_failed_wrong_http_credentials">無効なHTTP認証</string>
