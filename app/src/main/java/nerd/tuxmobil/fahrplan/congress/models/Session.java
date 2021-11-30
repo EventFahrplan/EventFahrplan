@@ -357,6 +357,12 @@ public class Session {
         return context.getString(R.string.session_list_item_start_time_content_description, startTimeText);
     }
 
+    @NonNull
+    public static String getHighlightContentDescription(@NonNull Context context, boolean isHighlighted) {
+        int stringResource = isHighlighted ? R.string.session_list_item_favored_content_description : R.string.session_list_item_not_favored_content_description;
+        return context.getString(stringResource);
+    }
+
     public void shiftRoomIndexBy(int amount) {
         roomIndex += amount;
     }

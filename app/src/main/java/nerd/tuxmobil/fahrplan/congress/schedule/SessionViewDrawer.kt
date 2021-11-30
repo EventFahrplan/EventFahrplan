@@ -58,6 +58,7 @@ internal class SessionViewDrawer @JvmOverloads constructor(
         if (recordingOptOut != null) {
             recordingOptOut.isVisible = session.recordingOptOut
         }
+        ViewCompat.setStateDescription(sessionView, Session.getHighlightContentDescription(sessionView.context, session.highlight))
         setSessionBackground(session, sessionView)
         setSessionTextColor(session, sessionView)
         sessionView.tag = session
