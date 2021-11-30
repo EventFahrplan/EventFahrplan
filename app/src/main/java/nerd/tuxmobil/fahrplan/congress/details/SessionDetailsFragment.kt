@@ -119,9 +119,10 @@ class SessionDetailsFragment : Fragment() {
 
     override fun setArguments(args: Bundle?) {
         super.setArguments(args)
-        requireNotNull(args)
-        sidePane = args.getBoolean(BundleKeys.SIDEPANE, false)
-        hasArguments = true
+        if (args != null) {
+            sidePane = args.getBoolean(BundleKeys.SIDEPANE, false)
+            hasArguments = true
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
