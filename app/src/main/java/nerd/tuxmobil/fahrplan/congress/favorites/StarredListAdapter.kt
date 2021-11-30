@@ -53,12 +53,12 @@ class StarredListAdapter internal constructor(
             subtitle.textOrHide = session.subtitle
             speakers.textOrHide = session.formattedSpeakers
             lang.textOrHide = session.lang
-            lang.contentDescription = session.getLanguageContentDescription(context)
+            lang.contentDescription = session.getLanguageContentDescription(lang.context)
             day.isVisible = false
             val timeText = DateFormatter.newInstance(useDeviceTimeZone).getFormattedTime(session.dateUTC, session.timeZoneOffset)
             time.textOrHide = timeText
             room.textOrHide = session.room
-            val durationText = context.getString(R.string.session_duration, session.duration)
+            val durationText = duration.context.getString(R.string.session_duration, session.duration)
             duration.textOrHide = durationText
             video.isVisible = false
             noVideo.isVisible = false
