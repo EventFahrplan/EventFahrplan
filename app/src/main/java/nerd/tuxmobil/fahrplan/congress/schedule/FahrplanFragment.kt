@@ -112,7 +112,7 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
     private var scrollAmountCalculator: ScrollAmountCalculator? = null
     private var onSessionClickListener: OnSessionClickListener? = null
 
-    private var mDay = 1
+    private var dayIndex = 1 // XML values start with 1
     private var sessionId: String? = null
     private var lastSelectedSession: Session? = null
     private var scheduleData: ScheduleData? = null
@@ -175,15 +175,15 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
         snapScroller.setChildScroller(roomScroller)
         roomScroller.setOnTouchListener { _, _ -> true }
 
-        mDay = appRepository.readDisplayDayIndex()
+        dayIndex = appRepository.readDisplayDayIndex()
         inflater = view.context.getLayoutInflater()
 
         val intent = requireActivity().intent
         sessionId = intent.getStringExtra(BUNDLE_KEY_SESSION_ALARM_SESSION_ID)
         if (sessionId != null) {
             MyApp.LogDebug(LOG_TAG, "Open with sessionId '$sessionId'.")
-            mDay = intent.getIntExtra(BUNDLE_KEY_SESSION_ALARM_DAY_INDEX, mDay)
-            MyApp.LogDebug(LOG_TAG, "day $mDay")
+            dayIndex = intent.getIntExtra(BUNDLE_KEY_SESSION_ALARM_DAY_INDEX, dayIndex)
+            MyApp.LogDebug(LOG_TAG, "dayIndex = $dayIndex")
         }
         if (MyApp.meta.numDays > 1) {
             buildNavigationMenu()
@@ -206,9 +206,9 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
         Log.d(LOG_TAG, "sessionId = $sessionId (after loading from bundle)")
         if (sessionId != null) {
             Log.d(LOG_TAG, "Open with sessionId '$sessionId'.")
-            mDay = intent.getIntExtra(BUNDLE_KEY_SESSION_ALARM_DAY_INDEX, mDay)
-            Log.d(LOG_TAG, "day index = $mDay")
-            saveCurrentDay(mDay)
+            dayIndex = intent.getIntExtra(BUNDLE_KEY_SESSION_ALARM_DAY_INDEX, dayIndex)
+            Log.d(LOG_TAG, "day index = $dayIndex")
+            saveCurrentDay(dayIndex)
         }
         Log.d(LOG_TAG, "MyApp.task_running = ${MyApp.task_running}")
         when (MyApp.task_running) {
@@ -260,7 +260,7 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
         val boxHeight = getNormalizedBoxHeight(displayDensityScale)
         val horizontalScroller = layoutRoot.requireViewByIdCompat<HorizontalSnapScrollView>(R.id.horizScroller)
         horizontalScroller.scrollTo(0, 0)
-        loadSessions(appRepository, mDay, forceReload)
+        loadSessions(appRepository, dayIndex, forceReload)
 
         val sessionsOfDay = scheduleData!!.allSessions
         if (sessionsOfDay.isEmpty()) {
@@ -296,7 +296,7 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
         val actionbar = activity.supportActionBar
         Log.d(LOG_TAG, "MyApp.meta = ${MyApp.meta}")
         if (actionbar != null && MyApp.meta.numDays > 1) {
-            actionbar.setSelectedNavigationItem(mDay - 1)
+            actionbar.setSelectedNavigationItem(dayIndex - 1)
         }
     }
 
@@ -449,9 +449,9 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
     }
 
     private fun chooseDay(chosenDay: Int) {
-        if (chosenDay + 1 != mDay) {
-            mDay = chosenDay + 1
-            saveCurrentDay(mDay)
+        if (chosenDay + 1 != dayIndex) {
+            dayIndex = chosenDay + 1
+            saveCurrentDay(dayIndex)
             preserveVerticalScrollPosition = false
             viewDay(forceReload = true)
             fillTimes()
@@ -467,7 +467,7 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
             nowMoment = Moment.now(),
             conference = conference!!,
             firstDayStartDay = firstDayStartDay,
-            dayIndex = mDay,
+            dayIndex = dayIndex,
             normalizedBoxHeight = normalizedBoxHeight,
             useDeviceTimeZone = useDeviceTimeZone
         )
@@ -495,13 +495,13 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
         return (resources.getInteger(R.integer.box_height) * scale).toInt()
     }
 
-    private fun loadSessions(appRepository: AppRepository, day: Int, forceReload: Boolean) {
-        MyApp.LogDebug(LOG_TAG, "load sessions of day $day")
-        if (!forceReload && scheduleData != null && scheduleData!!.dayIndex == day) {
+    private fun loadSessions(appRepository: AppRepository, dayIndex: Int, forceReload: Boolean) {
+        MyApp.LogDebug(LOG_TAG, "load sessions of dayIndex $dayIndex")
+        if (!forceReload && scheduleData != null && scheduleData!!.dayIndex == dayIndex) {
             return
         }
-        val sessions = appRepository.loadUncanceledSessionsForDayIndex(day)
-        scheduleData = sessionsTransformer.transformSessions(day, sessions)
+        val sessions = appRepository.loadUncanceledSessionsForDayIndex(dayIndex)
+        scheduleData = sessionsTransformer.transformSessions(dayIndex, sessions)
         scrollAmountCalculator = ScrollAmountCalculator(Logging.get())
     }
 
@@ -566,9 +566,9 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
                 if (MyApp.meta.numDays > 1) {
                     buildNavigationMenu()
                 }
-                mDay = appRepository.readDisplayDayIndex()
-                if (mDay > MyApp.meta.numDays) {
-                    mDay = 1
+                dayIndex = appRepository.readDisplayDayIndex()
+                if (dayIndex > MyApp.meta.numDays) {
+                    dayIndex = 1
                 }
                 viewDay(true)
                 if (conference == null) {

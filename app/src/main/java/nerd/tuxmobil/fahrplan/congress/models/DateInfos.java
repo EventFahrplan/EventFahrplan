@@ -19,7 +19,7 @@ public class DateInfos extends ArrayList<DateInfo> {
     public boolean sameDay(Moment today, int sessionListDay) {
         Moment currentDate = today.startOfDay();
         for (DateInfo dateInfo : this) {
-            if (dateInfo.getDayIdx() == sessionListDay &&
+            if (dateInfo.getDayIndex() == sessionListDay &&
                     dateInfo.getDate().equals(currentDate)) {
                 return true;
             }

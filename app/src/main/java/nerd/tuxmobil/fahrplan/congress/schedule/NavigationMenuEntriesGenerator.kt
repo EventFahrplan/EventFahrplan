@@ -2,6 +2,7 @@ package nerd.tuxmobil.fahrplan.congress.schedule
 
 import info.metadude.android.eventfahrplan.commons.logging.Logging
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
+import nerd.tuxmobil.fahrplan.congress.models.DateInfo
 import nerd.tuxmobil.fahrplan.congress.models.DateInfos
 
 internal class NavigationMenuEntriesGenerator @JvmOverloads constructor(
@@ -31,8 +32,8 @@ internal class NavigationMenuEntriesGenerator @JvmOverloads constructor(
      * An [IllegalArgumentException] is thrown the parameter restrictions are not met.
      *
      * @param numDays Number of days. Must be 1 or more.
-     * @param dateInfos A [list of DateInfo objects][DateInfos]. The [dayIdx] of the first object
-     * must be 1. The list cannot be null nor empty.
+     * @param dateInfos A [list of DateInfo objects][DateInfos]. The [dayIndex][DateInfo.dayIndex]
+     * of the first object must be 1 as defined in the schedule XML. The list cannot be null nor empty.
      * @param currentDate A moment instance representing the day of interest.
      */
     @JvmOverloads
@@ -52,7 +53,7 @@ internal class NavigationMenuEntriesGenerator @JvmOverloads constructor(
         for (dayIndex in 0 until numDays) {
             var entry = "$dayString ${dayIndex + 1}"
             for (dateInfo in dateInfos) {
-                if (dateInfo.dayIdx == dayIndex + 1) {
+                if (dateInfo.dayIndex == dayIndex + 1) {
                     if (currentDate == dateInfo.date) {
                         entry += " - $todayString"
                     }
