@@ -79,7 +79,7 @@ class SessionExtensionsTest {
                 recordingOptOut = RECORDING_OPT_OUT_ON,
                 room = "Simulacron-3",
                 roomIndex = 17,
-                speakers = "John Doe; Noah Doe",
+                speakers = "John Doe;Noah Doe",
                 startTime = 1036,
                 slug = "lorem",
                 subtitle = "My subtitle",
@@ -118,7 +118,7 @@ class SessionExtensionsTest {
             recordingOptOut = RECORDING_OPT_OUT_ON
             room = "Simulacron-3"
             roomIndex = 17
-            speakers = "John Doe; Noah Doe"
+            speakers = listOf("John Doe", "Noah Doe")
             startTime = 1036
             slug = "lorem"
             subtitle = "My subtitle"
@@ -282,11 +282,11 @@ class SessionExtensionsTest {
     @Test
     fun sanitizeWithSameSpeakersAndSubtitle() {
         val session = Session("").apply {
-            speakers = "Luke Skywalker"
+            speakers = listOf("Luke Skywalker")
             subtitle = "Luke Skywalker"
         }.sanitize()
         val expected = Session("").apply {
-            speakers = "Luke Skywalker"
+            speakers = listOf("Luke Skywalker")
             subtitle = ""
         }
         assertThat(session).isEqualTo(expected)
@@ -295,11 +295,11 @@ class SessionExtensionsTest {
     @Test
     fun sanitizeWithDifferentSpeakersAndAbstract() {
         val session = Session("").apply {
-            speakers = "Darth Vader"
+            speakers = listOf("Darth Vader")
             subtitle = "Lorem ipsum"
         }.sanitize()
         val expected = Session("").apply {
-            speakers = "Darth Vader"
+            speakers = listOf("Darth Vader")
             subtitle = "Lorem ipsum"
         }
         assertThat(session).isEqualTo(expected)

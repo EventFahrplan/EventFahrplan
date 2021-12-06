@@ -1,5 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress.models;
 
+import static java.util.Collections.emptyList;
 import static info.metadude.android.eventfahrplan.commons.temporal.Moment.MILLISECONDS_OF_ONE_MINUTE;
 
 import android.content.Context;
@@ -10,6 +11,8 @@ import androidx.annotation.Nullable;
 import androidx.core.util.ObjectsCompat;
 
 import org.threeten.bp.ZoneOffset;
+
+import java.util.List;
 
 import info.metadude.android.eventfahrplan.commons.temporal.Moment;
 import info.metadude.android.eventfahrplan.network.serialization.FahrplanParser;
@@ -44,7 +47,7 @@ public class Session {
     @Deprecated
     public int roomIndex;
 
-    public String speakers;
+    public List<String> speakers;
     public String track;
     public String sessionId;
     public String type;
@@ -87,7 +90,7 @@ public class Session {
         slug = "";
         startTime = 0;
         duration = 0;
-        speakers = "";
+        speakers = emptyList();
         track = "";
         type = "";
         lang = "";
@@ -283,9 +286,18 @@ public class Session {
     }
 
     @NonNull
+    public static String getDurationContentDescription(@NonNull Context context, int duration) {
+        return context.getString(R.string.session_list_item_duration_content_description, duration);
+    }
+
+    @NonNull
+    public static String getSubtitleContentDescription(@NonNull Context context, @NonNull String subtitle) {
+        return TextUtils.isEmpty(subtitle) ? "" : context.getString(R.string.session_list_item_subtitle_content_description, subtitle);
+    }
+
+    @NonNull
     public String getFormattedSpeakers() {
-        // language=regex
-        return speakers == null ? "" : speakers.replaceAll(";", ", ");
+        return speakers == null ? "" : TextUtils.join(", ", speakers);
     }
 
     public String getFormattedTrackLanguageText() {
@@ -299,30 +311,56 @@ public class Session {
     }
 
     @NonNull
-    public String getFormattedTrackContentDescription(@NonNull Context context) {
+    public static String getRoomNameContentDescription(@NonNull Context context, @NonNull String roomName) {
+        return context.getString(R.string.session_list_item_room_content_description, roomName);
+    }
+
+    @NonNull
+    public static String getSpeakersContentDescription(@NonNull Context context, int speakersCount, @NonNull String formattedSpeakerNames) {
+        return context.getResources().getQuantityString(R.plurals.session_list_item_speakers_content_description, speakersCount, formattedSpeakerNames);
+    }
+
+    @NonNull
+    public static String getFormattedTrackContentDescription(@NonNull Context context, @NonNull String trackName, @NonNull String languageCode) {
         StringBuilder builder = new StringBuilder();
-        builder.append(track);
-        if (!TextUtils.isEmpty(lang)) {
-            builder.append("; ").append(getLanguageContentDescription(context));
+        builder.append(context.getString(R.string.session_list_item_track_content_description, trackName));
+        if (!TextUtils.isEmpty(languageCode)) {
+            builder.append("; ").append(getLanguageContentDescription(context, languageCode));
         }
         return builder.toString();
     }
 
     @NonNull
-    public String getLanguageContentDescription(@NonNull Context context) {
-        if (TextUtils.isEmpty(lang)) {
+    public static String getLanguageContentDescription(@NonNull Context context, @NonNull String languageCode) {
+        if (TextUtils.isEmpty(languageCode)) {
             return context.getString(R.string.session_list_item_language_unknown_content_description);
         }
-        if ("en".equals(lang)) {
-            return context.getString(R.string.session_list_item_language_english_content_description);
+        String languageName;
+        switch (languageCode) {
+            case "en":
+                languageName = context.getString(R.string.session_list_item_language_english_content_description);
+                break;
+            case "de":
+                languageName = context.getString(R.string.session_list_item_language_german_content_description);
+                break;
+            case "pt":
+                languageName = context.getString(R.string.session_list_item_language_portuguese_content_description);
+                break;
+            default:
+                languageName = languageCode;
         }
-        if ("de".equals(lang)) {
-            return context.getString(R.string.session_list_item_language_german_content_description);
-        }
-        if ("pt".equals(lang)) {
-            return context.getString(R.string.session_list_item_language_portuguese_content_description);
-        }
-        return context.getString(R.string.session_list_item_language_undefined_content_description, lang);
+        return context.getString(R.string.session_list_item_language_content_description, languageName);
+    }
+
+    @NonNull
+    public static String getStartTimeContentDescription(@NonNull Context context, @NonNull String startTimeText) {
+        return context.getString(R.string.session_list_item_start_time_content_description, startTimeText);
+    }
+
+    @NonNull
+    public static String getHighlightContentDescription(@NonNull Context context, boolean isHighlighted) {
+        int stringResource = isHighlighted ? R.string.session_list_item_favored_content_description : R.string.session_list_item_not_favored_content_description;
+        return context.getString(stringResource);
     }
 
     public void shiftRoomIndexBy(int amount) {

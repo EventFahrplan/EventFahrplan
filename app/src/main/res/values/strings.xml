@@ -132,7 +132,6 @@
     <string name="invalid_url">Invalid URL</string>
     <string name="choose_to_delete">Select lectures</string>
     <string name="day_separator">Day <xliff:g example="2" id="day_of_congress">%1$d</xliff:g> - <xliff:g example="29.12.2014" id="date_of_congress_day">%2$s</xliff:g></string>
-    <string name="session_duration"><xliff:g example="45" id="duration">%1$d</xliff:g> min.</string>
     <string name="dlg_delete_all_favorites">Delete all favorites?</string>
     <string name="dlg_delete_all_favorites_delete_all">Delete all</string>
 
@@ -226,15 +225,31 @@
     <string name="alarm_time_title_60_minutes_before">60 minutes before</string>
 
     <!-- Session list item -->
+    <string name="session_list_item_alarm_time_zero_minutes_content_description">Alarm: at start time</string>
+    <string name="session_list_item_alarm_time_minutes_content_description">Alarm: <xliff:g example="5" id="minutes">%d</xliff:g> minutes before</string>
+    <string name="session_list_item_alarm_time_content_description">Alarm time: <xliff:g example="16:20" id="alarmTime">%s</xliff:g></string>
+    <string name="session_list_item_duration_text"><xliff:g example="45" id="duration">%d</xliff:g> min.</string>
+    <string name="session_list_item_duration_content_description">Duration: <xliff:g example="45" id="duration">%d</xliff:g> minutes</string>
+    <string name="session_list_item_favored_content_description">favored</string>
+    <string name="session_list_item_not_favored_content_description">not favored</string>
+    <string name="session_list_item_room_content_description">Room: <xliff:g example="Main hall" id="room">%s</xliff:g></string>
+    <string name="session_list_item_start_time_content_description">Start time: <xliff:g example="16:30" id="startTime">%s</xliff:g></string>
+    <string name="session_list_item_subtitle_content_description">Subtitle: <xliff:g example="News from Berlin" id="subtitle">%s</xliff:g></string>
+    <string name="session_list_item_track_content_description">Track: <xliff:g example="Security" id="trackName">%s</xliff:g></string>
+    <string name="session_list_item_language_content_description">Language: <xliff:g example="English" id="language">%s</xliff:g></string>
     <string name="session_list_item_language_portuguese_content_description">Portuguese</string>
     <string name="session_list_item_language_german_content_description">German</string>
     <string name="session_list_item_language_english_content_description">English</string>
     <string name="session_list_item_language_unknown_content_description">Language unknown</string>
-    <string name="session_list_item_language_undefined_content_description">Language: <xliff:g example="es" id="language_abbreviation">%s</xliff:g></string>
     <string name="session_list_item_language_removed_content_description">Language information has been removed</string>
     <string name="session_list_item_no_video_content_description">Without video recording</string>
     <string name="session_list_item_video_content_description">With video recording</string>
     <string name="session_list_item_without_video_content_description">Without video recording</string>
+    <plurals name="session_list_item_speakers_content_description">
+        <item quantity="zero">No speakers</item>
+        <item quantity="one">Speaker: <xliff:g example="Jane Doe" id="name">%s</xliff:g></item>
+        <item quantity="other">Speakers: <xliff:g example="Jane Doe, John Doe" id="names">%s</xliff:g></item>
+    </plurals>
 
     <!-- Validation errors -->
     <string name="validation_error_invalid_url">

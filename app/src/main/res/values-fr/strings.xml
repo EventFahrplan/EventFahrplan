@@ -58,8 +58,6 @@
     </string>
     <string name="dlg_delete_all_favorites_delete_all">Tout supprimer</string>
     <string name="dlg_delete_all_favorites">Supprimer tous les favoris \?</string>
-    <string name="session_duration">
-        <xliff:g example="45" id="duration">%1$d</xliff:g> min.</string>
     <string name="day_separator">Jour <xliff:g example="2" id="day_of_congress">%1$d</xliff:g> - <xliff:g example="29.12.2014" id="date_of_congress_day">%2$s</xliff:g>
     </string>
     <string name="choose_to_delete">Sélectionnez des conférences</string>
@@ -133,11 +131,12 @@
     <string name="engelsystem_shifts_parsing_error_generic">Erreur inconnue pendant la lecture des créneaux Engelsystem</string>
     <string name="engelsystem_shifts_parsing_error_forbidden">Clé API invalide pour les créneaux Engelsystem</string>
     <string name="engelsystem_shifts_parsing_error_not_found">Mauvaise URL pour les créneaux Engelsystem</string>
+    <string name="session_list_item_duration_text"><xliff:g example="45" id="duration">%d</xliff:g> min.</string>
+    <string name="session_list_item_language_content_description">Langue : <xliff:g example="English" id="language">%s</xliff:g></string>
     <string name="session_list_item_language_portuguese_content_description">Portugais</string>
     <string name="session_list_item_language_german_content_description">Allemand</string>
     <string name="session_list_item_language_english_content_description">Anglais</string>
     <string name="session_list_item_language_unknown_content_description">Langue inconnue</string>
-    <string name="session_list_item_language_undefined_content_description">Langue : <xliff:g example="es" id="language_abbreviation">%s</xliff:g></string>
     <string name="session_list_item_language_removed_content_description">L\'information de langue a été enlevée</string>
     <string name="session_list_item_no_video_content_description">Sans enregistrement vidéo</string>
     <string name="session_list_item_video_content_description">Avec enregistrement vidéo</string>

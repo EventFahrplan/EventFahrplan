@@ -50,16 +50,25 @@ class ChangeListAdapter internal constructor(
         with(viewHolder) {
             title.textOrHide = session.title
             subtitle.textOrHide = session.subtitle
+            subtitle.contentDescription = Session.getSubtitleContentDescription(subtitle.context, session.subtitle)
+
             speakers.textOrHide = session.formattedSpeakers
+            speakers.contentDescription = Session.getSpeakersContentDescription(speakers.context, session.speakers.size, session.formattedSpeakers)
             lang.textOrHide = session.lang
-            lang.contentDescription = session.getLanguageContentDescription(context)
+            lang.contentDescription = Session.getLanguageContentDescription(lang.context, session.lang)
+
             val dayText = DateFormatter.newInstance(useDeviceTimeZone).getFormattedDate(session.dateUTC, session.timeZoneOffset)
             day.textOrHide = dayText
             val timeText = DateFormatter.newInstance(useDeviceTimeZone).getFormattedTime(session.dateUTC, session.timeZoneOffset)
             time.textOrHide = timeText
+            time.contentDescription = Session.getStartTimeContentDescription(time.context, timeText)
+
             room.textOrHide = session.room
-            val durationText = context.getString(R.string.session_duration, session.duration)
+            room.contentDescription = Session.getRoomNameContentDescription(room.context, session.room)
+            val durationText = duration.context.getString(R.string.session_list_item_duration_text, session.duration)
             duration.textOrHide = durationText
+            duration.contentDescription = Session.getDurationContentDescription(duration.context, session.duration)
+
             video.isVisible = false
             noVideo.isVisible = false
             withoutVideoRecording.isVisible = false
@@ -86,26 +95,26 @@ class ChangeListAdapter internal constructor(
                 if (session.changedTitle) {
                     title.setTextStyleChanged()
                     if (session.title.isEmpty()) {
-                        title.text = context.getText(R.string.dash)
+                        title.text = title.context.getText(R.string.dash)
                     }
                 }
                 if (session.changedSubtitle) {
                     subtitle.setTextStyleChanged()
                     if (session.subtitle.isEmpty()) {
-                        subtitle.text = context.getText(R.string.dash)
+                        subtitle.text = subtitle.context.getText(R.string.dash)
                     }
                 }
                 if (session.changedSpeakers) {
                     speakers.setTextStyleChanged()
                     if (session.speakers.isEmpty()) {
-                        speakers.text = context.getText(R.string.dash)
+                        speakers.text = speakers.context.getText(R.string.dash)
                     }
                 }
                 if (session.changedLanguage) {
                     lang.setTextStyleChanged()
                     if (session.lang.isEmpty()) {
-                        lang.text = context.getText(R.string.dash)
-                        lang.contentDescription = context.getText(R.string.session_list_item_language_removed_content_description)
+                        lang.text = lang.context.getText(R.string.dash)
+                        lang.contentDescription = lang.context.getText(R.string.session_list_item_language_removed_content_description)
                     }
                 }
                 if (session.changedDay) {

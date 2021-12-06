@@ -42,7 +42,7 @@ class ScheduleChangesTest {
         fun createSessions() = listOf(createSession {
             title = "title"
             subtitle = "subtitle"
-            speakers = "speakers"
+            speakers = listOf("speakers")
             lang = "language"
             room = "room"
             recordingOptOut = true
@@ -87,11 +87,11 @@ class ScheduleChangesTest {
 
     @Test
     fun `computeSessionsWithChangeFlags flags and returns new sessions and true if speakers has changed`() {
-        val oldSessions = listOf(createSession { speakers = "Old speakers" })
-        val newSessions = listOf(createSession { speakers = "New speakers" })
+        val oldSessions = listOf(createSession { speakers = listOf("Old speakers") })
+        val newSessions = listOf(createSession { speakers = listOf("New speakers") })
         val scheduleChanges = computeSessionsWithChangeFlags(newSessions, oldSessions)
         assertThat(scheduleChanges.sessionsWithChangeFlags).isEqualTo(listOf(createSession {
-            speakers = "New speakers"
+            speakers = listOf("New speakers")
             changedSpeakers = true
         }))
         assertThat(scheduleChanges.oldCanceledSessions).isEmpty()
@@ -207,7 +207,7 @@ class ScheduleChangesTest {
         val oldSessions = listOf(createSession {
             title = "Old title"
             subtitle = "Old subtitle"
-            speakers = "Old speakers"
+            speakers = listOf("Old speakers")
             lang = "Old language"
             room = "Old room"
             day = 2
@@ -230,7 +230,7 @@ class ScheduleChangesTest {
         val newSessions = listOf(createSession {
             title = "New title"
             subtitle = "New subtitle"
-            speakers = "New speakers"
+            speakers = listOf("New speakers")
             lang = "New language"
             room = "New room"
             day = 3
@@ -253,7 +253,7 @@ class ScheduleChangesTest {
         assertThat(scheduleChanges.sessionsWithChangeFlags).isEqualTo(listOf(createSession {
             title = "New title"
             subtitle = "New subtitle"
-            speakers = "New speakers"
+            speakers = listOf("New speakers")
             lang = "New language"
             room = "New room"
             day = 3

@@ -32,7 +32,7 @@ class CalendarDescriptionComposerTest {
 
     @Test
     fun `getCalendarDescription returns speakers and session online`() {
-        val session = createSession(speakers = "Ada Lovelace;Albert Einstein")
+        val session = createSession(speakers = listOf("Ada Lovelace", "Albert Einstein"))
         assertThat(createComposer().getCalendarDescription(session)).isEqualTo("""
             Ada Lovelace, Albert Einstein
 
@@ -85,7 +85,7 @@ class CalendarDescriptionComposerTest {
     fun `getCalendarDescription returns full session description`() {
         val session = createSession(
             subtitle = "Lorem ipsum dolor",
-            speakers = "Ada Lovelace;Albert Einstein",
+            speakers = listOf("Ada Lovelace", "Albert Einstein"),
             abstract = "Lorem ipsum dolor sit amet.",
             description = "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
             links = "[Engelsystem](https://engelsystem.de)"
@@ -107,7 +107,7 @@ class CalendarDescriptionComposerTest {
 
     @Test
     fun `getCalendarDescription returns session online with uninitialized session`() {
-        val session = createSession(subtitle = null, speakers = null, abstract = null, description = null, links = null)
+        val session = createSession(subtitle = null, speakers = emptyList(), abstract = null, description = null, links = null)
         assertThat(createComposer().getCalendarDescription(session)).isEqualTo("""
             Session online: https://events.ccc.de/congress/2021/Fahrplan/events/2342.html
             """.trimIndent())
@@ -127,7 +127,7 @@ class CalendarDescriptionComposerTest {
 
     private fun createSession(
         subtitle: String? = "",
-        speakers: String? = "",
+        speakers: List<String> = emptyList(),
         abstract: String? = "",
         description: String? = "",
         links: String? = ""

@@ -108,7 +108,6 @@
     <string name="invalid_url">Некорректный URL</string>
     <string name="choose_to_delete">Выбрать лекции</string>
     <string name="day_separator">День <xliff:g example="2" id="day_of_congress">%1$d</xliff:g> - <xliff:g example="29.12.2014" id="date_of_congress_day">%2$s</xliff:g></string>
-    <string name="session_duration"><xliff:g example="45" id="duration">%1$d</xliff:g> мин.</string>
     <string name="dlg_delete_all_favorites">Удалить всё избранное?</string>
     <string name="dlg_delete_all_favorites_delete_all">Удалить всё?</string>
 
@@ -191,10 +190,11 @@
     <string name="alarm_time_title_60_minutes_before">за 60 минут</string>
 
     <!-- Session list item -->
+    <string name="session_list_item_duration_text"><xliff:g example="45" id="duration">%d</xliff:g> мин.</string>
+    <string name="session_list_item_language_content_description">Язык: <xliff:g example="English" id="language">%s</xliff:g></string>
     <string name="session_list_item_language_german_content_description">Немецкий</string>
     <string name="session_list_item_language_english_content_description">Английский</string>
     <string name="session_list_item_language_unknown_content_description">Язык не определен</string>
-    <string name="session_list_item_language_undefined_content_description">Язык: <xliff:g example="es" id="language_abbreviation">%s</xliff:g></string>
     <string name="session_list_item_language_removed_content_description">Информация о языке удалена</string>
     <string name="session_list_item_no_video_content_description">Без видеозаписи</string>
     <string name="session_list_item_video_content_description">С видеозаписью</string>

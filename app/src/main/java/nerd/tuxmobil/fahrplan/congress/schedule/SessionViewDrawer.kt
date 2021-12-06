@@ -47,15 +47,18 @@ internal class SessionViewDrawer @JvmOverloads constructor(
         textView.text = session.title
         textView = sessionView.requireViewByIdCompat(R.id.session_subtitle_view)
         textView.text = session.subtitle
+        textView.contentDescription = Session.getSubtitleContentDescription(sessionView.context, session.subtitle)
         textView = sessionView.requireViewByIdCompat(R.id.session_speakers_view)
         textView.text = session.formattedSpeakers
+        textView.contentDescription = Session.getSpeakersContentDescription(sessionView.context, session.speakers.size, session.formattedSpeakers)
         textView = sessionView.requireViewByIdCompat(R.id.session_track_view)
         textView.text = session.formattedTrackLanguageText
-        textView.contentDescription = session.getFormattedTrackContentDescription(sessionView.context)
+        textView.contentDescription = Session.getFormattedTrackContentDescription(sessionView.context, session.track, session.lang)
         val recordingOptOut = sessionView.findViewById<View>(R.id.session_no_video_view)
         if (recordingOptOut != null) {
             recordingOptOut.isVisible = session.recordingOptOut
         }
+        ViewCompat.setStateDescription(sessionView, Session.getHighlightContentDescription(sessionView.context, session.highlight))
         setSessionBackground(session, sessionView)
         setSessionTextColor(session, sessionView)
         sessionView.tag = session

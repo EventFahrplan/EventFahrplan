@@ -37,6 +37,7 @@ import nerd.tuxmobil.fahrplan.congress.extensions.replaceFragment
 import nerd.tuxmobil.fahrplan.congress.extensions.requireViewByIdCompat
 import nerd.tuxmobil.fahrplan.congress.extensions.toSpanned
 import nerd.tuxmobil.fahrplan.congress.extensions.withArguments
+import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.sharing.SessionSharer
 import nerd.tuxmobil.fahrplan.congress.sidepane.OnSidePaneCloseListener
@@ -177,12 +178,16 @@ class SessionDetailsFragment : Fragment() {
 
         // Detailbar
         var textView: TextView = view.requireViewByIdCompat(R.id.session_detailbar_date_time_view)
-        textView.text = if (model.hasDateUtc) model.formattedZonedDateTime else ""
+        textView.text = if (model.hasDateUtc) model.formattedZonedDateTimeShort else ""
+        if (model.hasDateUtc) {
+            textView.contentDescription = Session.getStartTimeContentDescription(textView.context, model.formattedZonedDateTimeLong)
+        }
 
         textView = view.requireViewByIdCompat(R.id.session_detailbar_location_view)
         textView.text = model.roomName
+        textView.contentDescription = Session.getRoomNameContentDescription(textView.context, model.roomName)
         textView = view.requireViewByIdCompat(R.id.session_detailbar_session_id_view)
-        textView.text = if (model.sessionId.isEmpty()) "" else getString(R.string.session_details_session_id, model.sessionId)
+        textView.text = if (model.sessionId.isEmpty()) "" else textView.context.getString(R.string.session_details_session_id, model.sessionId)
 
         // Title
         textView = view.requireViewByIdCompat(R.id.session_details_content_title_view)
@@ -195,7 +200,7 @@ class SessionDetailsFragment : Fragment() {
             textView.isVisible = false
         } else {
             typeface = typefaceFactory.getTypeface(viewModel.subtitleFont)
-            textView.applyText(typeface, model.subtitle)
+            textView.applyText(typeface, model.subtitle, Session.getSubtitleContentDescription(textView.context, model.subtitle))
         }
 
         // Speakers
@@ -204,7 +209,8 @@ class SessionDetailsFragment : Fragment() {
             textView.isVisible = false
         } else {
             typeface = typefaceFactory.getTypeface(viewModel.speakersFont)
-            textView.applyText(typeface, model.speakerNames)
+            val speakerNamesContentDescription = Session.getSpeakersContentDescription(textView.context, model.speakersCount, model.speakerNames)
+            textView.applyText(typeface, model.speakerNames, speakerNamesContentDescription)
         }
 
         // Abstract
@@ -265,9 +271,12 @@ class SessionDetailsFragment : Fragment() {
         }
     }
 
-    private fun TextView.applyText(typeface: Typeface, text: String) {
+    private fun TextView.applyText(typeface: Typeface, text: String, contentDescription: String? = null) {
         this.typeface = typeface
         this.text = text
+        if (contentDescription != null) {
+            this.contentDescription = contentDescription
+        }
         this.isVisible = true
     }
 

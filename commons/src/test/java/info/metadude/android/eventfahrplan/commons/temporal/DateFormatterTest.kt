@@ -108,6 +108,17 @@ class DateFormatterTest {
         assertThat(createDateFormatter().getFormattedDateTimeShort(timestamp, getTimeZoneOffsetNow())).isEqualTo("22.01.19, 01:00")
     }
 
+    // This test only passes when being executed in a JDK 9+ environment.
+    // See https://stackoverflow.com/questions/65732319/how-to-stabilize-flaky-datetimeformatteroflocalizeddatetime-test
+    @Test
+    fun getFormattedDateTimeLong() {
+        Locale.setDefault(Locale.US)
+        assertThat(createDateFormatter().getFormattedDateTimeLong(timestamp, getTimeZoneOffsetNow())).isEqualTo("January 22, 2019, 1:00 AM")
+
+        Locale.setDefault(Locale.GERMANY)
+        assertThat(createDateFormatter().getFormattedDateTimeLong(timestamp, getTimeZoneOffsetNow())).isEqualTo("22. Januar 2019, 01:00")
+    }
+
     private fun createDateFormatter(): DateFormatter {
         return DateFormatter.newInstance(useDeviceTimeZone = false)
     }

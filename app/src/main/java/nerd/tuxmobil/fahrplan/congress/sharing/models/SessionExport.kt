@@ -24,19 +24,19 @@ data class SessionExport(
         var date: String? = null
 ) {
     constructor(session: Session) : this(
-            session.sessionId,
-            session.title,
-            session.subtitle,
-            session.day,
-            session.room,
-            session.slug,
-            session.url,
-            session.speakers,
-            session.track,
-            session.lang,
-            session.abstractt,
-            session.description,
-            session.links,
-            session.date
+            sessionId = session.sessionId,
+            title = session.title,
+            subtitle = session.subtitle,
+            day = session.day,
+            room = session.room,
+            slug = session.slug,
+            url = session.url,
+            speakers = session.speakers.joinToString(";"),
+            track = session.track,
+            type = session.lang,
+            lang = session.abstractt,
+            abstract = session.description,
+            description = session.links,
+            links = session.date
     )
 }

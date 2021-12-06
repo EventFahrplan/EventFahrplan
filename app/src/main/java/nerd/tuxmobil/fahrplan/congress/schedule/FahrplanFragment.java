@@ -411,6 +411,7 @@ public class FahrplanFragment extends Fragment implements SessionViewEventsHandl
             roomTitle.setGravity(Gravity.CENTER);
             roomTitle.setTypeface(light);
             roomTitle.setText(roomName);
+            roomTitle.setContentDescription(getString(R.string.session_list_item_room_content_description, roomName));
             roomTitle.setTextColor(0xffffffff);
             roomTitle.setTextSize(textSize);
             roomTitlesRowLayout.addView(roomTitle);

@@ -10,11 +10,13 @@ data class SelectedSessionParameter(
     val sessionId: String,
 
     val hasDateUtc: Boolean,
-    val formattedZonedDateTime: String,
+    val formattedZonedDateTimeShort: String,
+    val formattedZonedDateTimeLong: String,
 
     val title: String,
     val subtitle: String,
     val speakerNames: String,
+    val speakersCount: Int,
     val formattedAbstract: String,
     val abstract: String,
     val description: String,

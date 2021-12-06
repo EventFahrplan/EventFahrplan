@@ -3,6 +3,7 @@
 package nerd.tuxmobil.fahrplan.congress.dataconverters
 
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
+import info.metadude.android.eventfahrplan.network.serialization.FahrplanParser
 import nerd.tuxmobil.fahrplan.congress.models.DateInfo
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import org.threeten.bp.ZoneOffset
@@ -50,7 +51,7 @@ fun Session.toSessionDatabaseModel() = SessionDatabaseModel(
         room = room,
         roomIndex = roomIndex,
         slug = slug,
-        speakers = speakers,
+        speakers = createSpeakersString(speakers),
         startTime = startTime, // minutes since day start
         subtitle = subtitle,
         timeZoneOffset = timeZoneOffset?.totalSeconds, // seconds
@@ -92,7 +93,7 @@ fun SessionDatabaseModel.toSessionAppModel(): Session {
     session.room = room
     session.roomIndex = roomIndex
     session.slug = slug
-    session.speakers = speakers
+    session.speakers = createSpeakersList(speakers)
     session.startTime = startTime // minutes since day start
     session.subtitle = subtitle
     session.timeZoneOffset = timeZoneOffset?.let { ZoneOffset.ofTotalSeconds(it) } // seconds
@@ -136,7 +137,7 @@ fun SessionNetworkModel.toSessionAppModel(): Session {
     session.room = room
     session.roomIndex = roomIndex
     session.slug = slug
-    session.speakers = speakers
+    session.speakers = createSpeakersList(speakers)
     session.startTime = startTime // minutes since day start
     session.subtitle = subtitle
     session.timeZoneOffset = timeZoneOffset?.let { ZoneOffset.ofTotalSeconds(it) } // seconds
@@ -168,7 +169,7 @@ fun Session.sanitize(): Session {
     if (abstractt == description) {
         abstractt = ""
     }
-    if (speakers == subtitle) {
+    if (createSpeakersString(speakers) == subtitle) {
         subtitle = ""
     }
     if (description.isEmpty()) {
@@ -191,4 +192,17 @@ fun Session.sanitize(): Session {
         track = type
     }
     return this
+}
+
+/**
+ * Delimiter which is used in [FahrplanParser] to construct the speakers string.
+ */
+private const val SPEAKERS_DELIMITER = ";"
+
+private fun createSpeakersList(speakers: String): List<String> {
+    return if (speakers.isEmpty()) emptyList() else speakers.split(SPEAKERS_DELIMITER)
+}
+
+private fun createSpeakersString(speakers: List<String>): String {
+    return speakers.joinToString(SPEAKERS_DELIMITER)
 }

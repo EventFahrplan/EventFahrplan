@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
     <!-- Menu items -->
     <string name="menu_item_title_about">Info</string>
@@ -119,7 +119,6 @@
     <string name="no_favorites">Keine favorisierten Vorträge</string>
     <string name="choose_to_delete">Wähle Vorträge</string>
     <string name="day_separator">Tag <xliff:g example="2" id="day_of_congress">%1$d</xliff:g> - <xliff:g example="29.12.2014" id="date_of_congress_day">%2$s</xliff:g></string>
-    <string name="session_duration"><xliff:g example="45" id="duration">%1$d</xliff:g> min.</string>
     <string name="dlg_delete_all_favorites">Alle Favoriten löschen?</string>
     <string name="dlg_delete_all_favorites_delete_all">Alle löschen</string>
 
@@ -201,15 +200,31 @@
     <string name="alarm_time_title_60_minutes_before">60 Minuten vorher</string>
 
     <!-- Session list item -->
+    <string name="session_list_item_alarm_time_zero_minutes_content_description">Alarm: zur Startzeit</string>
+    <string name="session_list_item_alarm_time_minutes_content_description">Alarm: <xliff:g example="5" id="minutes">%d</xliff:g> Minuten vorher</string>
+    <string name="session_list_item_alarm_time_content_description">Alarmzeit: <xliff:g example="16:20" id="alarmTime">%s</xliff:g></string>
+    <string name="session_list_item_duration_text"><xliff:g example="45" id="duration">%d</xliff:g> min.</string>
+    <string name="session_list_item_duration_content_description">Dauer: <xliff:g example="45" id="duration">%d</xliff:g> Minuten</string>
+    <string name="session_list_item_favored_content_description">favorisiert</string>
+    <string name="session_list_item_not_favored_content_description">nicht favorisiert</string>
+    <string name="session_list_item_room_content_description">Raum: <xliff:g example="Main hall" id="room">%s</xliff:g></string>
+    <string name="session_list_item_start_time_content_description">Startzeit: <xliff:g example="16:30" id="startTime">%s</xliff:g></string>
+    <string name="session_list_item_subtitle_content_description">Untertitel: <xliff:g example="News from Berlin" id="subtitle">%s</xliff:g></string>
+    <string name="session_list_item_track_content_description">Track: <xliff:g example="Security" id="trackName">%s</xliff:g></string>
+    <string name="session_list_item_language_content_description">Sprache: <xliff:g example="English" id="language">%s</xliff:g></string>
     <string name="session_list_item_language_portuguese_content_description">Portugiesisch</string>
     <string name="session_list_item_language_german_content_description">Deutsch</string>
     <string name="session_list_item_language_english_content_description">Englisch</string>
     <string name="session_list_item_language_unknown_content_description">Sprache unbekannt</string>
-    <string name="session_list_item_language_undefined_content_description">Sprache: <xliff:g example="es" id="language_abbreviation">%s</xliff:g></string>
     <string name="session_list_item_language_removed_content_description">Sprachinformation wurde entfernt</string>
     <string name="session_list_item_no_video_content_description">Ohne Videoaufzeichnung</string>
     <string name="session_list_item_video_content_description">Mit Videoaufzeichnung</string>
     <string name="session_list_item_without_video_content_description">Ohne Videoaufzeichnung</string>
+    <plurals name="session_list_item_speakers_content_description" tools:ignore="UnusedQuantity">
+        <item quantity="zero">Keine Sprecher innen</item>
+        <item quantity="one">Sprecher in: <xliff:g example="Jane Doe" id="name">%s</xliff:g></item>
+        <item quantity="other">Sprecher innen: <xliff:g example="Jane Doe, John Doe" id="names">%s</xliff:g></item>
+    </plurals>
 
     <!-- Validation errors -->
     <string name="validation_error_invalid_url">

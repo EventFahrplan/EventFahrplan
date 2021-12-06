@@ -114,7 +114,6 @@
     <string name="no_favorites">Geen favorieten evenementen</string>
     <string name="choose_to_delete">Kies evenementen</string>
     <string name="day_separator">Dag <xliff:g example="2" id="day_of_congress">%1$d</xliff:g> - <xliff:g example="29.12.2014" id="date_of_congress_day">%2$s</xliff:g></string>
-    <string name="session_duration"><xliff:g example="45" id="duration">%1$d</xliff:g> min.</string>
     <string name="dlg_delete_all_favorites">Alle favorieten verwijderen?</string>
     <string name="dlg_delete_all_favorites_delete_all">Alles verwijderen</string>
 
@@ -194,11 +193,12 @@
     <string name="alarm_time_title_60_minutes_before">60 minuten eerder</string>
 
     <!-- Session list item -->
+    <string name="session_list_item_duration_text"><xliff:g example="45" id="duration">%d</xliff:g> min.</string>
     <string name="session_list_item_language_portuguese_content_description">Portugees</string>
+    <string name="session_list_item_language_content_description">Taal: <xliff:g example="English" id="language">%s</xliff:g></string>
     <string name="session_list_item_language_german_content_description">Duits</string>
     <string name="session_list_item_language_english_content_description">Engels</string>
     <string name="session_list_item_language_unknown_content_description">Onbekende taal</string>
-    <string name="session_list_item_language_undefined_content_description">Taal: <xliff:g example="es" id="language_abbreviation">%s</xliff:g></string>
     <string name="session_list_item_language_removed_content_description">Taal informatie is verwijderd</string>
     <string name="session_list_item_no_video_content_description">Geen video-opname</string>
     <string name="session_list_item_video_content_description">Met video-opname</string>

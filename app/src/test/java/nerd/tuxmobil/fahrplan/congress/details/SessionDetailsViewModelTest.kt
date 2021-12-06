@@ -55,6 +55,7 @@ class SessionDetailsViewModelTest {
         }
         val fakeFormattingDelegate = mock<FormattingDelegate> {
             on { getFormattedDateTimeShort(any(), any(), anyOrNull()) } doReturn "01.11.2021 13:00"
+            on { getFormattedDateTimeLong(any(), any(), anyOrNull()) } doReturn "November 1, 2021 13:00"
         }
         val fakeMarkdownConversion = mock<MarkdownConversion> {
             on { markdownLinksToHtmlLinks(any()) } doReturn "Markdown"
@@ -85,7 +86,7 @@ class SessionDetailsViewModelTest {
             dateUTC = 100
             title = "Session title"
             subtitle = "Session subtitle"
-            speakers = "Jane Doe;John Doe"
+            speakers = listOf("Jane Doe", "John Doe")
             room = "Main hall"
             abstractt = "Session abstract"
             description = "Session description"
@@ -102,6 +103,7 @@ class SessionDetailsViewModelTest {
         }
         val fakeFormattingDelegate = mock<FormattingDelegate> {
             on { getFormattedDateTimeShort(any(), any(), anyOrNull()) } doReturn "01.11.2021 13:00"
+            on { getFormattedDateTimeLong(any(), any(), anyOrNull()) } doReturn "November 1, 2021 13:00"
         }
         val fakeMarkdownConversion = mock<MarkdownConversion> {
             on { markdownLinksToHtmlLinks(any()) } doReturn "Markdown"
@@ -123,12 +125,14 @@ class SessionDetailsViewModelTest {
         )
         val selectedSessionParameter = SelectedSessionParameter(
             hasDateUtc = true,
-            formattedZonedDateTime = "01.11.2021 13:00",
+            formattedZonedDateTimeShort = "01.11.2021 13:00",
+            formattedZonedDateTimeLong = "November 1, 2021 13:00",
             roomName = "Main hall",
             sessionId = "S1",
             title = "Session title",
             subtitle = "Session subtitle",
             speakerNames = "Jane Doe, John Doe",
+            speakersCount = 2,
             formattedAbstract = "Markdown",
             abstract = "Session abstract",
             formattedDescription = "Markdown",
@@ -153,7 +157,7 @@ class SessionDetailsViewModelTest {
             dateUTC = 0
             title = ""
             subtitle = ""
-            speakers = ""
+            speakers = emptyList()
             room = ""
             abstractt = ""
             description = ""
@@ -170,6 +174,7 @@ class SessionDetailsViewModelTest {
         }
         val fakeFormattingDelegate = mock<FormattingDelegate> {
             on { getFormattedDateTimeShort(any(), any(), anyOrNull()) } doReturn ""
+            on { getFormattedDateTimeLong(any(), any(), anyOrNull()) } doReturn ""
         }
         val fakeMarkdownConversion = mock<MarkdownConversion> {
             on { markdownLinksToHtmlLinks(any()) } doReturn ""
@@ -191,12 +196,14 @@ class SessionDetailsViewModelTest {
         )
         val selectedSessionParameter = SelectedSessionParameter(
             hasDateUtc = false,
-            formattedZonedDateTime = "",
+            formattedZonedDateTimeShort = "",
+            formattedZonedDateTimeLong = "",
             roomName = "",
             sessionId = "S1",
             title = "",
             subtitle = "",
             speakerNames = "",
+            speakersCount = 0,
             formattedAbstract = "",
             abstract = "",
             formattedDescription = "",
