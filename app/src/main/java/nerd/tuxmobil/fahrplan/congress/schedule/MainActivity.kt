@@ -443,7 +443,7 @@ class MainActivity : BaseActivity(),
         val hasFragment = fragment != null
         findViewById<View>(detailView)?.let { view ->
             isFavoritesInSidePane = hasFragment && fragment is StarredListFragment
-            view.isVisible = !(isFavoritesInSidePane && isScreenLocked || !hasFragment)
+            view.isVisible = (!isFavoritesInSidePane || !isScreenLocked) && hasFragment
         }
     }
 
