@@ -254,6 +254,23 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
         super.onPause()
     }
 
+    /**
+     * Updates the session data in the schedule view.
+     *
+     * The [forceReload] parameter is used to avoid unneeded data loading (see [loadSessions]) and
+     * unneeded rendering of the RecyclerView columns for each room (see [addRoomColumns]).
+     *
+     * Use cases of [forceReload]:
+     * - false: a schedule is present and re-fetching it is in progress (see [onResume])
+     * - true: a [sessionId] is present in session alarm notification Intent (see [onResume])
+     * - true: user chooses another day (see [chooseDay])
+     * - true: parsing finished successfully AND
+     *     - no schedule is present OR
+     *     - the schedule version changed OR
+     *     - Engelsystem shifts changed
+     *   (see [onParseDone])
+     * - false: when parsing finished successfully (see [onParseDone])
+     */
     private fun viewDay(forceReload: Boolean) {
         Log.d(LOG_TAG, "viewDay($forceReload)")
         val layoutRoot = requireView()
