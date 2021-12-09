@@ -579,7 +579,7 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
         if (result.isSuccess) {
             if (MyApp.meta.numDays == 0 || (result is ParseScheduleResult && result.version != MyApp.meta.version) || shiftsChanged) {
                 MyApp.meta = appRepository.readMeta()
-                FahrplanMisc.loadDays(appRepository)
+                FahrplanMisc.createDateInfos(appRepository.readDateInfos())
                 if (MyApp.meta.numDays > 1) {
                     buildNavigationMenu()
                 }

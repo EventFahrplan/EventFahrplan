@@ -140,7 +140,7 @@ class MainActivity : BaseActivity(),
         TraceDroidEmailSender.sendStackTraces(this)
         resetProgressDialog()
         MyApp.meta = appRepository.readMeta()
-        FahrplanMisc.loadDays(appRepository)
+        FahrplanMisc.createDateInfos(appRepository.readDateInfos())
 
         MyApp.LogDebug(LOG_TAG, "task_running: ${MyApp.task_running}")
         when (MyApp.task_running) {
