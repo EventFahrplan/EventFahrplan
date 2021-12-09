@@ -13,7 +13,6 @@ class SessionsTransformer @VisibleForTesting constructor(
 
     companion object {
 
-        @JvmStatic
         fun createSessionsTransformer(): SessionsTransformer {
             val roomProvider = object : RoomProvider {
                 override val prioritizedRooms: List<String> = listOf(

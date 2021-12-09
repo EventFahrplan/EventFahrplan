@@ -1,6 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.schedule
 
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
+import nerd.tuxmobil.fahrplan.congress.NoLogging
 import nerd.tuxmobil.fahrplan.congress.models.DateInfo
 import nerd.tuxmobil.fahrplan.congress.models.DateInfos
 import org.assertj.core.api.Assertions.assertThat
@@ -9,8 +10,14 @@ import org.junit.Test
 
 class NavigationMenuEntriesGeneratorTest {
 
+    private val generator = NavigationMenuEntriesGenerator(
+        dayString = "Day",
+        todayString = "Today",
+        logging = NoLogging
+    )
+
     @Test
-    fun getDayMenuEntriesWithThreeDays() {
+    fun `getDayMenuEntries returns three day entries with today mark`() {
         val dateInfoList = DateInfos()
         dateInfoList.add(DateInfo(1, Moment.parseDate("2018-11-18")))
         dateInfoList.add(DateInfo(2, Moment.parseDate("2018-11-19")))
@@ -24,7 +31,7 @@ class NavigationMenuEntriesGeneratorTest {
     }
 
     @Test
-    fun getDayMenuEntriesWithEmptyDateInfoList() {
+    fun `getDayMenuEntries fails when date info list is empty`() {
         try {
             getDayMenuEntries(1, DateInfos(), "2018-11-19")
             fail("Expect an IllegalArgumentException to be thrown.")
@@ -34,7 +41,7 @@ class NavigationMenuEntriesGeneratorTest {
     }
 
     @Test
-    fun getDayMenuEntriesWithNullDateInfoList() {
+    fun `getDayMenuEntries fails when date info list is null`() {
         try {
             getDayMenuEntries(1, null, "2018-11-19")
             fail("Expect an IllegalArgumentException to be thrown.")
@@ -43,9 +50,8 @@ class NavigationMenuEntriesGeneratorTest {
         }
     }
 
-
     @Test
-    fun getDayMenuEntriesWithOneDay() {
+    fun `getDayMenuEntries returns a single day entry`() {
         val dateInfoList = DateInfos()
         dateInfoList.add(DateInfo(1, Moment.parseDate("2018-11-18")))
         val entries = getDayMenuEntries(1, dateInfoList, "2018-11-19")
@@ -55,7 +61,7 @@ class NavigationMenuEntriesGeneratorTest {
     }
 
     @Test
-    fun getDayMenuEntriesWithZeroDays() {
+    fun `getDayMenuEntries fails when date info list lacks current date`() {
         val dateInfoList = DateInfos()
         dateInfoList.add(DateInfo(1, Moment.parseDate("2018-11-18")))
         try {
@@ -67,7 +73,7 @@ class NavigationMenuEntriesGeneratorTest {
     }
 
     @Test
-    fun getDayMenuEntriesWithMinusOneDay() {
+    fun `getDayMenuEntries fails when number of days is negative`() {
         val dateInfoList = DateInfos()
         dateInfoList.add(DateInfo(1, Moment.parseDate("2018-11-18")))
         try {
@@ -79,11 +85,6 @@ class NavigationMenuEntriesGeneratorTest {
     }
 
     private fun getDayMenuEntries(numDays: Int, dateInfos: DateInfos?, currentDate: String) =
-            getDayMenuEntries(numDays, dateInfos, Moment.parseDate(currentDate), DAY_STRING, TODAY_STRING)
-
-    private companion object {
-        const val DAY_STRING = "Day"
-        const val TODAY_STRING = "Today"
-    }
+        generator.getDayMenuEntries(numDays, dateInfos, Moment.parseDate(currentDate))
 
 }

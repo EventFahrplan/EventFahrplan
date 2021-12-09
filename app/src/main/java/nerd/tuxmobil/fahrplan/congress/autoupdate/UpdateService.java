@@ -18,7 +18,6 @@ import nerd.tuxmobil.fahrplan.congress.MyApp.TASKS;
 import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.models.Session;
 import nerd.tuxmobil.fahrplan.congress.net.ConnectivityObserver;
-import nerd.tuxmobil.fahrplan.congress.net.CustomHttpClient;
 import nerd.tuxmobil.fahrplan.congress.net.FetchScheduleResult;
 import nerd.tuxmobil.fahrplan.congress.net.HttpStatus;
 import nerd.tuxmobil.fahrplan.congress.net.LoadShiftsResult;
@@ -29,7 +28,6 @@ import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper;
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 import nerd.tuxmobil.fahrplan.congress.schedule.MainActivity;
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
-import okhttp3.OkHttpClient;
 
 public class UpdateService extends SafeJobIntentService {
 
@@ -94,9 +92,7 @@ public class UpdateService extends SafeJobIntentService {
         if (MyApp.task_running == TASKS.NONE) {
             MyApp.task_running = TASKS.FETCH;
             String url = appRepository.readScheduleUrl();
-            OkHttpClient okHttpClient = CustomHttpClient.createHttpClient();
             appRepository.loadSchedule(url,
-                    okHttpClient,
                     fetchScheduleResult -> {
                         onGotResponse(fetchScheduleResult);
                         return Unit.INSTANCE;

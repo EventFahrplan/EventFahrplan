@@ -29,7 +29,7 @@
     </string>
     <string name="certificate_error_title">Невозможно добавить сертификат.</string>
 
-    <!-- CustomHttpClient -->
+    <!-- Error messages -->
     <string name="dlg_err_connection_failed">Ошибка подключения</string>
     <string name="dlg_err_failed_unknown_host">Неизвестный адрес:\n%s</string>
     <string name="dlg_err_failed_wrong_http_credentials">Неверная HTTP-аутентификация</string>

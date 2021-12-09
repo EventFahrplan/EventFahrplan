@@ -34,7 +34,6 @@ data class Conference(
         /**
          * Creates a [Conference] from the given chronologically sorted [sessions].
          */
-        @JvmStatic
         fun ofSessions(sessions: List<Session>): Conference {
             require(sessions.isNotEmpty()) { "Empty list of sessions." }
             val firstSession = sessions.first()

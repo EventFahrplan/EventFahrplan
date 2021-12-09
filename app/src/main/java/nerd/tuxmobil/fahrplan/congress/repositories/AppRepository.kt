@@ -50,6 +50,7 @@ import nerd.tuxmobil.fahrplan.congress.dataconverters.toSessionsDatabaseModel
 import nerd.tuxmobil.fahrplan.congress.exceptions.AppExceptionHandler
 import nerd.tuxmobil.fahrplan.congress.models.Alarm
 import nerd.tuxmobil.fahrplan.congress.models.Session
+import nerd.tuxmobil.fahrplan.congress.net.CustomHttpClient
 import nerd.tuxmobil.fahrplan.congress.net.FetchScheduleResult
 import nerd.tuxmobil.fahrplan.congress.net.HttpStatus
 import nerd.tuxmobil.fahrplan.congress.net.LoadShiftsResult
@@ -72,14 +73,14 @@ object AppRepository {
     const val ENGELSYSTEM_ROOM_NAME = "Engelshifts"
     private const val ALL_DAYS = -1
 
-    private lateinit var context: Context
-
     private lateinit var logging: Logging
 
     private val parentJobs = mutableMapOf<String, Job>()
     private lateinit var executionContext: ExecutionContext
     private lateinit var databaseScope: DatabaseScope
     private lateinit var networkScope: NetworkScope
+
+    private lateinit var okHttpClient: OkHttpClient
 
     private lateinit var alarmsDatabaseRepository: AlarmsDatabaseRepository
     private lateinit var highlightsDatabaseRepository: HighlightsDatabaseRepository
@@ -167,6 +168,7 @@ object AppRepository {
             executionContext: ExecutionContext = AppExecutionContext,
             databaseScope: DatabaseScope = DatabaseScope.of(executionContext, AppExceptionHandler(logging)),
             networkScope: NetworkScope = NetworkScope.of(executionContext, AppExceptionHandler(logging)),
+            okHttpClient: OkHttpClient = CustomHttpClient.createHttpClient(),
             alarmsDatabaseRepository: AlarmsDatabaseRepository = AlarmsDatabaseRepository(AlarmsDBOpenHelper(context)),
             highlightsDatabaseRepository: HighlightsDatabaseRepository = HighlightsDatabaseRepository(HighlightDBOpenHelper(context)),
             sessionsDatabaseRepository: SessionsDatabaseRepository = SessionsDatabaseRepository(SessionsDBOpenHelper(context), logging),
@@ -175,11 +177,11 @@ object AppRepository {
             engelsystemNetworkRepository: EngelsystemNetworkRepository = EngelsystemNetworkRepository(),
             sharedPreferencesRepository: SharedPreferencesRepository = SharedPreferencesRepository(context)
     ) {
-        this.context = context
         this.logging = logging
         this.executionContext = executionContext
         this.databaseScope = databaseScope
         this.networkScope = networkScope
+        this.okHttpClient = okHttpClient
         this.alarmsDatabaseRepository = alarmsDatabaseRepository
         this.highlightsDatabaseRepository = highlightsDatabaseRepository
         this.sessionsDatabaseRepository = sessionsDatabaseRepository
@@ -201,7 +203,6 @@ object AppRepository {
     }
 
     fun loadSchedule(url: String,
-                     okHttpClient: OkHttpClient,
                      onFetchingDone: (fetchScheduleResult: FetchScheduleResult) -> Unit,
                      onParsingDone: (parseScheduleResult: ParseResult) -> Unit,
                      onLoadingShiftsDone: (loadShiftsResult: LoadShiftsResult) -> Unit
@@ -225,20 +226,18 @@ object AppRepository {
                 parseSchedule(
                         fetchScheduleResult.scheduleXml,
                         fetchScheduleResult.eTag,
-                        okHttpClient,
                         onParsingDone,
                         onLoadingShiftsDone
                 )
             }
             if (fetchResult.isNotModified) {
-                loadShifts(okHttpClient, onLoadingShiftsDone)
+                loadShifts(onLoadingShiftsDone)
             }
         }
     }
 
     private fun parseSchedule(scheduleXml: String,
                               eTag: String,
-                              okHttpClient: OkHttpClient,
                               onParsingDone: (parseScheduleResult: ParseResult) -> Unit,
                               onLoadingShiftsDone: (loadShiftsResult: LoadShiftsResult) -> Unit) {
         scheduleNetworkRepository.parseSchedule(scheduleXml, eTag,
@@ -257,7 +256,7 @@ object AppRepository {
                 },
                 onParsingDone = { result: Boolean, version: String ->
                     onParsingDone(ParseScheduleResult(result, version))
-                    loadShifts(okHttpClient, onLoadingShiftsDone)
+                    loadShifts(onLoadingShiftsDone)
                 })
     }
 
@@ -265,8 +264,7 @@ object AppRepository {
      * Loads personal shifts from the Engelsystem and joins them with the conference schedule.
      * Once loading is done (successful or not) the given [onLoadingShiftsDone] function is invoked.
      */
-    private fun loadShifts(okHttpClient: OkHttpClient,
-                           onLoadingShiftsDone: (loadShiftsResult: LoadShiftsResult) -> Unit) {
+    private fun loadShifts(onLoadingShiftsDone: (loadShiftsResult: LoadShiftsResult) -> Unit) {
         @Suppress("ConstantConditionIf")
         if (!BuildConfig.ENABLE_ENGELSYSTEM_SHIFTS) {
             return

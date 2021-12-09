@@ -33,7 +33,7 @@
     </string>
     <string name="certificate_error_title">Zertifikat konnte nicht übernommen werden.</string>
 
-    <!-- CustomHttpClient -->
+    <!-- Error messages -->
     <string name="dlg_err_connection_failed">Verbindungsfehler</string>
     <string name="dlg_err_failed_unknown_host">Unbekannte Adresse:\n<xliff:g example="http://example.com" id="url">%s</xliff:g></string>
     <string name="dlg_err_failed_wrong_http_credentials">Ungültige HTTP Authentifizierung</string>

@@ -7,7 +7,7 @@ data class Session(
 
         val sessionId: String,
         val abstractt: String = "",
-        val dayIndex: Int = 0,
+        val dayIndex: Int = 0,          // XML values start with 1
         val date: String = "",
         val dateUTC: Long = 0,
         val description: String = "",

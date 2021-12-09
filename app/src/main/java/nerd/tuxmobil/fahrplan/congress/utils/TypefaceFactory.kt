@@ -34,9 +34,4 @@ class TypefaceFactory private constructor(
         }
     }
 
-    @Deprecated("Java does not like sealed classes", ReplaceWith("getTypeface(Font.Roboto.RobotoLight)"))
-    fun getRobotoLight(): Typeface {
-        return getTypeface(Font.Roboto.Light)
-    }
-
 }

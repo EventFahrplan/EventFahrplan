@@ -35,7 +35,7 @@
     </string>
     <string name="certificate_error_title">Certificate could not be added.</string>
 
-    <!-- CustomHttpClient -->
+    <!-- Error messages -->
     <string name="dlg_err_connection_failed">Connection failure</string>
     <string name="dlg_err_failed_unknown_host">Unknown address:\n<xliff:g example="http://example.com" id="url">%s</xliff:g></string>
     <string name="dlg_err_failed_wrong_http_credentials">Invalid HTTP Authentication</string>

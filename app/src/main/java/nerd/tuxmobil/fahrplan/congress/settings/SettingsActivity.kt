@@ -18,7 +18,6 @@ class SettingsActivity : BaseActivity(R.layout.settings) {
         private const val LOG_TAG = "SettingsActivity"
         const val REQUEST_CODE = 5
 
-        @JvmStatic
         fun startForResult(activity: Activity) {
             val intent = Intent(activity, SettingsActivity::class.java)
             activity.startActivityForResult(intent, REQUEST_CODE)

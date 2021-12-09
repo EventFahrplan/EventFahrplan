@@ -28,7 +28,7 @@ public class Session {
     public String title;
     public String subtitle;
     public String url;
-    public int day;
+    public int day;                     // XML values start with 1
     public String date;                 // YYYY-MM-DD
     public long dateUTC;                // milliseconds
     @Nullable

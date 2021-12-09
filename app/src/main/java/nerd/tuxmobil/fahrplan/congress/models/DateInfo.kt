@@ -3,12 +3,12 @@ package nerd.tuxmobil.fahrplan.congress.models
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 
 /**
- * Represents a connection between given [date] and [dayIdx].
- * Useful to later ask for a [dayIdx] providing a date (see [getDayIndex]).
+ * Represents a connection between given [date] and [dayIndex].
+ * Useful to later ask for a [dayIndex] providing a date (see [getDayIndex]).
  */
 data class DateInfo(
 
-        val dayIdx: Int,
+        val dayIndex: Int,
         val date: Moment
 
 ) {
@@ -20,8 +20,8 @@ data class DateInfo(
     /**
      * Retrieve day index of stored date.
      * @return if given [date] matches the stored [date]
-     * returns stored [dayIdx], [DAY_INDEX_NOT_FOUND] otherwise.
+     * returns stored [dayIndex], [DAY_INDEX_NOT_FOUND] otherwise.
      */
-    fun getDayIndex(date: Moment) = if (this.date == date) dayIdx else DAY_INDEX_NOT_FOUND
+    fun getDayIndex(date: Moment) = if (this.date == date) dayIndex else DAY_INDEX_NOT_FOUND
 
 }
