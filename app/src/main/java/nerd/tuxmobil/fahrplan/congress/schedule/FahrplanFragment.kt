@@ -274,7 +274,7 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
     private fun viewDay(forceReload: Boolean) {
         Log.d(LOG_TAG, "viewDay($forceReload)")
         val layoutRoot = requireView()
-        val boxHeight = getNormalizedBoxHeight(displayDensityScale)
+        val boxHeight = getNormalizedBoxHeight()
         val horizontalScroller = layoutRoot.requireViewByIdCompat<HorizontalSnapScrollView>(R.id.horizScroller)
         horizontalScroller.scrollTo(0, 0)
         loadSessions(appRepository, dayIndex, forceReload)
@@ -347,7 +347,7 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
         val columnsLayout = horizontalScroller.getChildAt(0) as LinearLayout
         columnsLayout.removeAllViews()
         adapterByRoomIndex.clear()
-        val boxHeight = getNormalizedBoxHeight(displayDensityScale)
+        val boxHeight = getNormalizedBoxHeight()
         val layoutCalculator = LayoutCalculator(boxHeight)
         val context = horizontalScroller.context
         val roomDataList = scheduleData.roomDataList
@@ -450,7 +450,7 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
     }
 
     private fun scrollTo(session: Session) {
-        val height = getNormalizedBoxHeight(displayDensityScale)
+        val height = getNormalizedBoxHeight()
         val pos = scrollAmountCalculator!!.calculateScrollAmount(conference!!, session, height)
         MyApp.LogDebug(LOG_TAG, "Position is $pos")
         val layoutRootView = requireView()
@@ -476,7 +476,7 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
     }
 
     private fun fillTimes() {
-        val normalizedBoxHeight = getNormalizedBoxHeight(displayDensityScale)
+        val normalizedBoxHeight = getNormalizedBoxHeight()
         val earliestSession = appRepository.loadEarliestSession()
         val firstDayStartDay = earliestSession.startTimeMoment.monthDay
         val useDeviceTimeZone = appRepository.readUseDeviceTimeZoneEnabled()
@@ -506,10 +506,10 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
             return (factor * displayDensityScale).toInt()
         }
 
-    private fun getNormalizedBoxHeight(scale: Float): Int {
+    private fun getNormalizedBoxHeight(): Int {
         val orientationText = if (requireContext().isLandscape()) "landscape" else "other orientation"
         MyApp.LogDebug(LOG_TAG, orientationText)
-        return (resources.getInteger(R.integer.box_height) * scale).toInt()
+        return (resources.getInteger(R.integer.box_height) * displayDensityScale).toInt()
     }
 
     private fun loadSessions(appRepository: AppRepository, dayIndex: Int, forceReload: Boolean) {
