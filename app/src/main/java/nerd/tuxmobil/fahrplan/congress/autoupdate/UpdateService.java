@@ -93,6 +93,7 @@ public class UpdateService extends SafeJobIntentService {
             MyApp.task_running = TASKS.FETCH;
             String url = appRepository.readScheduleUrl();
             appRepository.loadSchedule(url,
+                    false,
                     fetchScheduleResult -> {
                         onGotResponse(fetchScheduleResult);
                         return Unit.INSTANCE;
@@ -126,6 +127,7 @@ public class UpdateService extends SafeJobIntentService {
 
     @Override
     public void onDestroy() {
+        // TODO Wrap onHandleWork into blocking CountDownLatch to prevent canceling all AppRepository jobs
         appRepository.cancelLoading();
         super.onDestroy();
     }

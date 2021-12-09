@@ -12,18 +12,12 @@ import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
 import info.metadude.android.eventfahrplan.commons.logging.Logging;
-import nerd.tuxmobil.fahrplan.congress.models.DateInfos;
-import nerd.tuxmobil.fahrplan.congress.models.Meta;
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 import nerd.tuxmobil.fahrplan.congress.utils.ConferenceTimeFrame;
 
 public class MyApp extends Application {
 
     public static final boolean DEBUG = false;
-
-    public static Meta meta;
-
-    public static DateInfos dateInfos = null;
 
     private static final long FIRST_DAY_START = getMilliseconds("Europe/Paris",
             BuildConfig.SCHEDULE_FIRST_DAY_START_YEAR,

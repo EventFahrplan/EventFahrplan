@@ -163,7 +163,6 @@ class SessionDetailsViewModel(
                 highlight = true // Required: Update property because updateHighlight refers to its value!
             }
             repository.updateHighlight(favoredSession)
-            repository.notifyHighlightsChanged() // TODO Remove when FahrplanFragment uses Flow
         }
     }
 
@@ -173,7 +172,6 @@ class SessionDetailsViewModel(
                 highlight = false // Required: Update property because updateHighlight refers to its value!
             }
             repository.updateHighlight(unfavoredSession)
-            repository.notifyHighlightsChanged() // TODO Remove when FahrplanFragment uses Flow
         }
     }
 

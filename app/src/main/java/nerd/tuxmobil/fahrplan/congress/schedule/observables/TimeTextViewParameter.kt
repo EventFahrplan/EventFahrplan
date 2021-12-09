@@ -1,17 +1,24 @@
-package nerd.tuxmobil.fahrplan.congress.schedule
+package nerd.tuxmobil.fahrplan.congress.schedule.observables
 
 import androidx.annotation.LayoutRes
+import androidx.annotation.VisibleForTesting
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MINUTES_OF_ONE_DAY
 import nerd.tuxmobil.fahrplan.congress.R
+import nerd.tuxmobil.fahrplan.congress.schedule.Conference
+import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanFragment
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanFragment.Companion.BOX_HEIGHT_MULTIPLIER
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanFragment.Companion.FIFTEEN_MINUTES
+import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewModel
+import nerd.tuxmobil.fahrplan.congress.schedule.TimeSegment
 
 /**
+ * Payload of the observable [timeTextViewParameters][FahrplanViewModel.timeTextViewParameters]
+ * property in the [FahrplanViewModel] which is observed by the [FahrplanFragment].
  * Parameters to be used to inflate and configure a time text view.
  */
 @Suppress("DataClassPrivateConstructor")
-internal data class TimeTextViewParameter private constructor(
+internal data class TimeTextViewParameter @VisibleForTesting constructor(
 
         @LayoutRes
         val layout: Int,
@@ -25,7 +32,6 @@ internal data class TimeTextViewParameter private constructor(
         /**
          * Returns a list of parameters to be used to inflate and configure a time text view.
          */
-        @JvmStatic
         fun parametersOf(
                 nowMoment: Moment,
                 conference: Conference,

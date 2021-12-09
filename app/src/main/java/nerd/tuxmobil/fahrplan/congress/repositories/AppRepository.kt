@@ -22,8 +22,10 @@ import info.metadude.android.eventfahrplan.network.repositories.ScheduleNetworkR
 import info.metadude.kotlin.library.engelsystem.models.Shift
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.onStart
@@ -49,6 +51,7 @@ import nerd.tuxmobil.fahrplan.congress.dataconverters.toSessionsAppModel2
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toSessionsDatabaseModel
 import nerd.tuxmobil.fahrplan.congress.exceptions.AppExceptionHandler
 import nerd.tuxmobil.fahrplan.congress.models.Alarm
+import nerd.tuxmobil.fahrplan.congress.models.ScheduleData
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.net.CustomHttpClient
 import nerd.tuxmobil.fahrplan.congress.net.FetchScheduleResult
@@ -56,8 +59,17 @@ import nerd.tuxmobil.fahrplan.congress.net.HttpStatus
 import nerd.tuxmobil.fahrplan.congress.net.LoadShiftsResult
 import nerd.tuxmobil.fahrplan.congress.net.ParseResult
 import nerd.tuxmobil.fahrplan.congress.net.ParseScheduleResult
+import nerd.tuxmobil.fahrplan.congress.net.ParseShiftsResult
 import nerd.tuxmobil.fahrplan.congress.preferences.AlarmTonePreference
 import nerd.tuxmobil.fahrplan.congress.preferences.SharedPreferencesRepository
+import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.FetchFailure
+import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.FetchSuccess
+import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.Fetching
+import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.InitialFetching
+import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.InitialParsing
+import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.ParseFailure
+import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.ParseSuccess
+import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.Parsing
 import nerd.tuxmobil.fahrplan.congress.serialization.ScheduleChanges.Companion.computeSessionsWithChangeFlags
 import nerd.tuxmobil.fahrplan.congress.utils.AlarmToneConversion
 import nerd.tuxmobil.fahrplan.congress.validation.MetaValidation.validate
@@ -90,10 +102,18 @@ object AppRepository {
     private lateinit var scheduleNetworkRepository: ScheduleNetworkRepository
     private lateinit var engelsystemNetworkRepository: EngelsystemNetworkRepository
     private lateinit var sharedPreferencesRepository: SharedPreferencesRepository
+    private lateinit var sessionsTransformer: SessionsTransformer
 
-    private var onSessionsChangeListener: OnSessionsChangeListener? = null
-    private var alarmsHaveChanged = false
-    private var highlightsHaveChanged = false
+    private val mutableLoadScheduleState = MutableSharedFlow<LoadScheduleState>(
+        replay = 1,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
+    )
+
+    /**
+     * Emits the status on how loading (fetching and parsing) the schedule incl. Engelsystem shifts
+     * works out. Only the latest emission is retained.
+     */
+    val loadScheduleState: Flow<LoadScheduleState> = mutableLoadScheduleState
 
     private val refreshStarredSessionsSignal = MutableSharedFlow<Unit>()
 
@@ -139,6 +159,29 @@ object AppRepository {
             .flowOn(executionContext.database)
     }
 
+    private val refreshUncanceledSessionsSignal = MutableSharedFlow<Unit>()
+
+    private fun refreshUncanceledSessions() {
+        logging.d(javaClass.simpleName, "Refreshing uncanceled sessions ...")
+        val requestIdentifier = "refreshUncanceledSessions"
+        parentJobs[requestIdentifier] = databaseScope.launchNamed(requestIdentifier) {
+            refreshUncanceledSessionsSignal.emit(Unit)
+        }
+    }
+
+    /**
+     * Emits [ScheduleData] containing all uncanceled sessions for the currently configured day
+     * from the database. The contained sessions list might be empty.
+     */
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val uncanceledSessionsForDayIndex: Flow<ScheduleData> by lazy {
+        refreshUncanceledSessionsSignal
+            .onStart { emit(Unit) }
+            .mapLatest { loadUncanceledSessionsForDayIndex() }
+            .distinctUntilChanged() // If server does not respond with HTTP 304 (Not modified).
+            .flowOn(executionContext.database)
+    }
+
     private val refreshSelectedSessionSignal = MutableSharedFlow<Unit>()
 
     private fun refreshSelectedSession() {
@@ -175,7 +218,8 @@ object AppRepository {
             metaDatabaseRepository: MetaDatabaseRepository = MetaDatabaseRepository(MetaDBOpenHelper(context)),
             scheduleNetworkRepository: ScheduleNetworkRepository = ScheduleNetworkRepository(),
             engelsystemNetworkRepository: EngelsystemNetworkRepository = EngelsystemNetworkRepository(),
-            sharedPreferencesRepository: SharedPreferencesRepository = SharedPreferencesRepository(context)
+            sharedPreferencesRepository: SharedPreferencesRepository = SharedPreferencesRepository(context),
+            sessionsTransformer: SessionsTransformer = SessionsTransformer.createSessionsTransformer()
     ) {
         this.logging = logging
         this.executionContext = executionContext
@@ -189,6 +233,7 @@ object AppRepository {
         this.scheduleNetworkRepository = scheduleNetworkRepository
         this.engelsystemNetworkRepository = engelsystemNetworkRepository
         this.sharedPreferencesRepository = sharedPreferencesRepository
+        this.sessionsTransformer = sessionsTransformer
     }
 
     private fun loadingFailed(@Suppress("SameParameterValue") requestIdentifier: String) {
@@ -202,7 +247,15 @@ object AppRepository {
         parentJobs.clear()
     }
 
-    fun loadSchedule(url: String,
+    /**
+     * Loads the schedule from the given [url]. Automated calls to this function must set the
+     * [isUserRequest] parameter to `false` while call originating from a direct user interaction
+     * must set the parameter to `true`.
+     */
+    // TODO Remove zombie callbacks when cleaning up UpdateService
+    @WorkerThread
+    fun loadSchedule(url: String = readScheduleUrl(),
+                     isUserRequest: Boolean,
                      onFetchingDone: (fetchScheduleResult: FetchScheduleResult) -> Unit,
                      onParsingDone: (parseScheduleResult: ParseResult) -> Unit,
                      onLoadingShiftsDone: (loadShiftsResult: LoadShiftsResult) -> Unit
@@ -210,8 +263,16 @@ object AppRepository {
         check(onFetchingDone != {}) { "Nobody registered to receive FetchScheduleResult." }
         // Fetching
         val meta = readMeta().toMetaNetworkModel()
+        val fetchingStatus = if (meta.numDays == 0) InitialFetching else Fetching
+        mutableLoadScheduleState.tryEmit(fetchingStatus)
         scheduleNetworkRepository.fetchSchedule(okHttpClient, url, meta.eTag) { fetchScheduleResult ->
             val fetchResult = fetchScheduleResult.toAppFetchScheduleResult()
+            val fetchResultStatus = if (fetchResult.isSuccessful) {
+                FetchSuccess
+            } else {
+                FetchFailure(fetchResult.httpStatus, fetchResult.hostName, fetchResult.exceptionMessage, isUserRequest)
+            }
+            mutableLoadScheduleState.tryEmit(fetchResultStatus)
             onFetchingDone.invoke(fetchResult)
 
             if (fetchResult.isNotModified || fetchResult.isSuccessful) {
@@ -223,14 +284,15 @@ object AppRepository {
                 updateMeta(validMeta)
                 check(onParsingDone != {}) { "Nobody registered to receive ParseScheduleResult." }
                 // Parsing
+                val parsingStatus = if (meta.numDays == 0) InitialParsing else Parsing
+                mutableLoadScheduleState.tryEmit(parsingStatus)
                 parseSchedule(
                         fetchScheduleResult.scheduleXml,
                         fetchScheduleResult.eTag,
                         onParsingDone,
                         onLoadingShiftsDone
                 )
-            }
-            if (fetchResult.isNotModified) {
+            } else if (fetchResult.isNotModified) {
                 loadShifts(onLoadingShiftsDone)
             }
         }
@@ -255,7 +317,10 @@ object AppRepository {
                     updateMeta(validMeta)
                 },
                 onParsingDone = { result: Boolean, version: String ->
-                    onParsingDone(ParseScheduleResult(result, version))
+                    val parseResult = ParseScheduleResult(result, version)
+                    val parseScheduleStatus = if (result) ParseSuccess else ParseFailure(parseResult)
+                    mutableLoadScheduleState.tryEmit(parseScheduleStatus)
+                    onParsingDone(parseResult)
                     loadShifts(onLoadingShiftsDone)
                 })
     }
@@ -286,17 +351,36 @@ object AppRepository {
                 is ShiftsResult.Success -> {
                     updateShifts(result.shifts)
                     notifyLoadingShiftsDone(LoadShiftsResult.Success)
+                    updateLastEngelsystemShiftsHash()
                 }
                 is ShiftsResult.Error -> {
                     logging.e(javaClass.simpleName, "ShiftsResult.Error: $result")
                     loadingFailed(requestIdentifier)
-                    notifyLoadingShiftsDone(LoadShiftsResult.Error(result.httpStatusCode, result.exceptionMessage))
+                    val loadShiftsError = LoadShiftsResult.Error(result.httpStatusCode, result.exceptionMessage)
+                    mutableLoadScheduleState.tryEmit(ParseFailure(ParseShiftsResult.of(loadShiftsError)))
+                    notifyLoadingShiftsDone(loadShiftsError)
                 }
                 is ShiftsResult.Exception -> {
                     logging.e(javaClass.simpleName, "ShiftsResult.Exception: ${result.throwable.message}")
                     result.throwable.printStackTrace()
-                    notifyLoadingShiftsDone(LoadShiftsResult.Exception(result.throwable))
+                    val loadShiftsException = LoadShiftsResult.Exception(result.throwable)
+                    mutableLoadScheduleState.tryEmit(ParseFailure(ParseShiftsResult.of(loadShiftsException)))
+                    notifyLoadingShiftsDone(loadShiftsException)
                 }
+            }
+        }
+    }
+
+    private fun updateLastEngelsystemShiftsHash() {
+        val identifier = "updateLastEngelsystemShiftsHash"
+        parentJobs[identifier] = databaseScope.launchNamed(identifier) {
+            val lastShiftsHash = readLastEngelsystemShiftsHash()
+            val currentShiftsHash = readEngelsystemShiftsHash()
+            logging.d(javaClass.simpleName, "Shifts hash (OLD) = $lastShiftsHash")
+            logging.d(javaClass.simpleName, "Shifts hash (NEW) = $currentShiftsHash")
+            val shiftsChanged = currentShiftsHash != lastShiftsHash
+            if (shiftsChanged) {
+                updateLastEngelsystemShiftsHash(currentShiftsHash)
             }
         }
     }
@@ -337,6 +421,18 @@ object AppRepository {
         return readSessionBySessionId(sessionId)
     }
 
+
+    /**
+     * Load all sessions for the currently configured day from the database which have not been
+     * canceled and returns them as [ScheduleData]. The contained list of sessions might be empty.
+     */
+    @WorkerThread
+    fun loadUncanceledSessionsForDayIndex(): ScheduleData {
+        val dayIndex = readDisplayDayIndex()
+        val sessions = loadUncanceledSessionsForDayIndex(dayIndex)
+        return sessionsTransformer.transformSessions(dayIndex, sessions)
+    }
+
     /**
      * Loads all sessions from the database which have not been canceled.
      * The returned list might be empty.
@@ -358,6 +454,7 @@ object AppRepository {
      * Loads all sessions from the database which have been marked as changed, cancelled or new.
      * The returned list might be empty.
      */
+    @WorkerThread
     fun loadChangedSessions() = loadSessionsForAllDays(true)
             .filter { it.isChanged || it.changedIsCanceled || it.changedIsNew }
             .also { logging.d(javaClass.simpleName, "${it.size} sessions changed.") }
@@ -366,6 +463,7 @@ object AppRepository {
      * Loads the first session of the first day from the database.
      * Throws an exception if no session is present.
      */
+    @WorkerThread
     fun loadEarliestSession() = loadSessionsForAllDays(true)
             .first()
 
@@ -413,6 +511,7 @@ object AppRepository {
         return sessions.toList()
     }
 
+    @WorkerThread
     @JvmOverloads
     fun readAlarms(sessionId: String = "") = if (sessionId.isEmpty()) {
         alarmsDatabaseRepository.query().toAlarmsAppModel()
@@ -420,28 +519,26 @@ object AppRepository {
         alarmsDatabaseRepository.query(sessionId).toAlarmsAppModel()
     }
 
-    fun readAlarmSessionIds() = readAlarms().map { it.sessionId }.toSet()
+    private fun readAlarmSessionIds() = readAlarms().map { it.sessionId }.toSet()
 
     fun deleteAlarmForAlarmId(alarmId: Int) =
             alarmsDatabaseRepository.deleteForAlarmId(alarmId)
 
+    @WorkerThread
     fun deleteAlarmForSessionId(sessionId: String) =
         alarmsDatabaseRepository.deleteForSessionId(sessionId).also {
             refreshSelectedSession()
+            refreshUncanceledSessions()
         }
 
+    @WorkerThread
     fun updateAlarm(alarm: Alarm) {
         val alarmDatabaseModel = alarm.toAlarmDatabaseModel()
         val values = alarmDatabaseModel.toContentValues()
         alarmsDatabaseRepository.update(values, alarm.sessionId)
         refreshSelectedSession()
+        refreshUncanceledSessions()
     }
-
-    fun readHighlightSessionIds() = readHighlights()
-            .asSequence()
-            .filter { it.isHighlight }
-            .map { it.sessionId.toString() }
-            .toSet()
 
     private fun readHighlights() =
             highlightsDatabaseRepository.query().toHighlightsAppModel()
@@ -453,6 +550,7 @@ object AppRepository {
         highlightsDatabaseRepository.update(values, session.sessionId)
         refreshStarredSessions()
         refreshSelectedSession()
+        refreshUncanceledSessions()
     }
 
     @WorkerThread
@@ -460,6 +558,7 @@ object AppRepository {
         highlightsDatabaseRepository.deleteAll()
         refreshStarredSessions()
         refreshSelectedSession()
+        refreshUncanceledSessions()
     }
 
     private fun readSessionBySessionId(sessionId: String): Session {
@@ -493,6 +592,7 @@ object AppRepository {
         return id
     }
 
+    @WorkerThread
     fun updateSelectedSessionId(sessionId: String): Boolean {
         val isSet = sharedPreferencesRepository.setSelectedSessionId(sessionId).onFailure {
             error("Error persisting selected session ID '$sessionId'.")
@@ -502,15 +602,16 @@ object AppRepository {
         }
     }
 
-    fun readLastEngelsystemShiftsHash() =
+    private fun readLastEngelsystemShiftsHash() =
             sharedPreferencesRepository.getLastEngelsystemShiftsHash()
 
-    fun updateLastEngelsystemShiftsHash(hash: Int) =
+    private fun updateLastEngelsystemShiftsHash(hash: Int) =
             sharedPreferencesRepository.setLastEngelsystemShiftsHash(hash)
 
-    fun readEngelsystemShiftsHash() =
+    private fun readEngelsystemShiftsHash() =
             sessionsDatabaseRepository.querySessionsWithinRoom(ENGELSYSTEM_ROOM_NAME).hashCode()
 
+    @WorkerThread
     fun readDateInfos() =
             readSessionsOrderedByDateUtc().toDateInfos()
 
@@ -522,6 +623,7 @@ object AppRepository {
         refreshStarredSessions()
         refreshChangedSessions()
         refreshSelectedSession()
+        refreshUncanceledSessions()
     }
 
     /**
@@ -536,6 +638,7 @@ object AppRepository {
      * Deletes data associated with the given session alarm [notificationId] and
      * returns a boolean value indicating the success or failure of this operation.
      */
+    @WorkerThread
     fun deleteSessionAlarmNotificationId(notificationId: Int): Boolean {
         return (sessionsDatabaseRepository.deleteSessionIdByNotificationId(notificationId) > 0).onFailure {
             logging.e(javaClass.simpleName, "Failure deleting sessionId for notificationId = $notificationId")
@@ -604,6 +707,7 @@ object AppRepository {
         sharedPreferencesRepository.setScheduleLastFetchedAt(toMilliseconds())
     }
 
+    @WorkerThread
     fun readScheduleChangesSeen() =
             sharedPreferencesRepository.getChangesSeen()
 
@@ -611,64 +715,23 @@ object AppRepository {
     fun updateScheduleChangesSeen(changesSeen: Boolean) =
             sharedPreferencesRepository.setChangesSeen(changesSeen)
 
+    @WorkerThread
     fun readDisplayDayIndex() =
             sharedPreferencesRepository.getDisplayDayIndex()
 
-    fun updateDisplayDayIndex(displayDayIndex: Int) =
-            sharedPreferencesRepository.setDisplayDayIndex(displayDayIndex)
+    @WorkerThread
+    fun updateDisplayDayIndex(displayDayIndex: Int) {
+        sharedPreferencesRepository.setDisplayDayIndex(displayDayIndex)
+        refreshUncanceledSessions()
+    }
 
     fun readInsistentAlarmsEnabled() =
             sharedPreferencesRepository.isInsistentAlarmsEnabled()
 
-    @Deprecated("Replace this with a push-based update mechanism")
-    fun setOnSessionsChangeListener(onSessionsChangeListener: OnSessionsChangeListener) {
-        this.onSessionsChangeListener?.let {
-            logging.e(javaClass.simpleName, "Setting a new listener while there's already one active")
-        }
-
-        if (highlightsHaveChanged) {
-            onSessionsChangeListener.onHighlightsChanged()
-            highlightsHaveChanged = false
-        }
-
-        if (alarmsHaveChanged) {
-            onSessionsChangeListener.onAlarmsChanged()
-            alarmsHaveChanged = false
-        }
-
-        this.onSessionsChangeListener = onSessionsChangeListener
-    }
-
-    @Deprecated("Replace this with a push-based update mechanism")
-    fun removeOnSessionsChangeListener(onSessionsChangeListener: OnSessionsChangeListener) {
-        if (this.onSessionsChangeListener == onSessionsChangeListener) {
-            this.onSessionsChangeListener = null
-        } else {
-            logging.e(javaClass.simpleName, "Asked to remove listener that wasn't the active listener")
-        }
-    }
-
-    @Deprecated("Users of AppRepository should not have to be responsible for triggering change notifications. " +
-            "Replace with a mechanism internal to AppRepository.")
-    fun notifyHighlightsChanged() {
-        onSessionsChangeListener.let { listener ->
-            if (listener == null) {
-                highlightsHaveChanged = true
-            } else {
-                listener.onHighlightsChanged()
-            }
-        }
-    }
-
     @Deprecated("Users of AppRepository should not have to be responsible for triggering change notifications. " +
             "Replace with a mechanism internal to AppRepository.")
     fun notifyAlarmsChanged() {
-        onSessionsChangeListener.let { listener ->
-            if (listener == null) {
-                alarmsHaveChanged = true
-            } else {
-                listener.onAlarmsChanged()
-            }
-        }
+        refreshUncanceledSessions()
     }
+
 }

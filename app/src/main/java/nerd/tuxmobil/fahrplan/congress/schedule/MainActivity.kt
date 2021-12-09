@@ -12,6 +12,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ProgressBar
+import androidx.activity.viewModels
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
 import androidx.appcompat.widget.Toolbar
@@ -23,8 +24,6 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentContainerView
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentManager.OnBackStackChangedListener
-import nerd.tuxmobil.fahrplan.congress.MyApp
-import nerd.tuxmobil.fahrplan.congress.MyApp.TASKS
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.about.AboutDialog
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmList
@@ -47,23 +46,18 @@ import nerd.tuxmobil.fahrplan.congress.engagements.initUserEngagement
 import nerd.tuxmobil.fahrplan.congress.extensions.withExtras
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListActivity
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListFragment
+import nerd.tuxmobil.fahrplan.congress.models.Meta
 import nerd.tuxmobil.fahrplan.congress.net.CertificateErrorFragment
 import nerd.tuxmobil.fahrplan.congress.net.ErrorMessage
-import nerd.tuxmobil.fahrplan.congress.net.FetchScheduleResult
 import nerd.tuxmobil.fahrplan.congress.net.HttpStatus
-import nerd.tuxmobil.fahrplan.congress.net.LoadShiftsResult
-import nerd.tuxmobil.fahrplan.congress.net.ParseResult
-import nerd.tuxmobil.fahrplan.congress.net.ParseScheduleResult
-import nerd.tuxmobil.fahrplan.congress.net.ParseShiftsResult
 import nerd.tuxmobil.fahrplan.congress.reporting.TraceDroidEmailSender
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanFragment.OnSessionClickListener
+import nerd.tuxmobil.fahrplan.congress.schedule.observables.LoadScheduleUiState
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsActivity
 import nerd.tuxmobil.fahrplan.congress.sidepane.OnSidePaneCloseListener
 import nerd.tuxmobil.fahrplan.congress.utils.ConfirmationDialog.OnConfirmationDialogClicked
-import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc
 import nerd.tuxmobil.fahrplan.congress.utils.showWhenLockedCompat
-import org.ligi.tracedroid.logging.Log
 
 class MainActivity : BaseActivity(),
     OnSidePaneCloseListener,
@@ -74,7 +68,6 @@ class MainActivity : BaseActivity(),
 
     companion object {
 
-        private const val LOG_TAG = "MainActivity"
         private const val INVALID_NOTIFICATION_ID = -1
 
         lateinit var instance: MainActivity
@@ -103,16 +96,15 @@ class MainActivity : BaseActivity(),
             )
     }
 
-    private lateinit var appRepository: AppRepository
     private lateinit var keyguardManager: KeyguardManager
     private lateinit var errorMessageFactory: ErrorMessage.Factory
     private lateinit var progressBar: ProgressBar
     private var progressDialog: ProgressDialog? = null
+    private val viewModel: MainViewModel by viewModels { MainViewModelFactory(AppRepository) }
 
     private var isScreenLocked = false
     private var isFavoritesInSidePane = false
     private var shouldScrollToCurrent = true
-    private var showUpdateAction = true
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
@@ -124,7 +116,6 @@ class MainActivity : BaseActivity(),
         instance = this
         setContentView(R.layout.main_layout)
 
-        appRepository = AppRepository
         keyguardManager = getSystemService()!!
         errorMessageFactory = ErrorMessage.Factory(this)
         val toolbar = requireViewByIdCompat<Toolbar>(R.id.toolbar)
@@ -139,27 +130,6 @@ class MainActivity : BaseActivity(),
 
         TraceDroidEmailSender.sendStackTraces(this)
         resetProgressDialog()
-        MyApp.meta = appRepository.readMeta()
-        FahrplanMisc.createDateInfos(appRepository.readDateInfos())
-
-        MyApp.LogDebug(LOG_TAG, "task_running: ${MyApp.task_running}")
-        when (MyApp.task_running) {
-            TASKS.FETCH -> {
-                MyApp.LogDebug(LOG_TAG, "fetch was pending, restart")
-                showFetchingStatus()
-            }
-            TASKS.PARSE -> {
-                MyApp.LogDebug(LOG_TAG, "parse was pending, restart")
-                showParsingStatus()
-            }
-            TASKS.NONE -> if (MyApp.meta.numDays == 0 && savedInstanceState == null) {
-                Log.d(LOG_TAG, "Fetching schedule in onCreate bc. numDays==0")
-                fetchFahrplan()
-            }
-            else -> {
-                // Nothing to do here.
-            }
-        }
 
         supportFragmentManager.addOnBackStackChangedListener(this)
         if (findViewById<View>(R.id.schedule) != null && findFragment(FahrplanFragment.FRAGMENT_TAG) == null) {
@@ -169,7 +139,43 @@ class MainActivity : BaseActivity(),
             removeFragment(SessionDetailsFragment.FRAGMENT_TAG)
         }
         initUserEngagement()
+        observeViewModel()
         onSessionAlarmNotificationTapped(intent)
+    }
+
+    private fun observeViewModel() {
+        viewModel.loadScheduleUiState.observe(this) {
+            updateUi(it)
+        }
+        viewModel.fetchFailure.observe(this) {
+            it?.let {
+                showErrorDialog(it.httpStatus, it.hostName, it.exceptionMessage)
+            }
+        }
+        viewModel.parseFailure.observe(this) {
+            it?.let {
+                val errorMessage = errorMessageFactory.getMessageForParsingResult(it)
+                errorMessage.show(this, shouldShowLong = true)
+            }
+        }
+        viewModel.scheduleChangesParameter.observe(this) { (scheduleVersion, changeStatistic) ->
+            showChangesDialog(scheduleVersion, changeStatistic)
+        }
+        viewModel.showAbout.observe(this) { meta ->
+            showAboutDialog(meta)
+        }
+        viewModel.openSessionDetails.observe(this) {
+            openSessionDetails()
+        }
+    }
+
+    private fun updateUi(uiState: LoadScheduleUiState) {
+        if (uiState is LoadScheduleUiState.Initializing) {
+            showProgressDialog(uiState.progressInfo)
+        } else {
+            hideProgressDialog()
+        }
+        progressBar.isInvisible = uiState !is LoadScheduleUiState.Active
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -181,31 +187,8 @@ class MainActivity : BaseActivity(),
     private fun onSessionAlarmNotificationTapped(intent: Intent) {
         val notificationId = intent.getIntExtra(BUNDLE_KEY_SESSION_ALARM_NOTIFICATION_ID, INVALID_NOTIFICATION_ID)
         if (notificationId != INVALID_NOTIFICATION_ID) {
-            appRepository.deleteSessionAlarmNotificationId(notificationId)
+            viewModel.deleteSessionAlarmNotificationId(notificationId)
         }
-    }
-
-    private fun onGotResponse(fetchScheduleResult: FetchScheduleResult) {
-        val status = fetchScheduleResult.httpStatus
-        MyApp.LogDebug(LOG_TAG, "onGotResponse -> status = $status")
-        MyApp.task_running = TASKS.NONE
-        if (MyApp.meta.numDays == 0) {
-            hideProgressDialog()
-        }
-        if (status != HttpStatus.HTTP_OK) {
-            showErrorDialog(status, fetchScheduleResult.hostName, fetchScheduleResult.exceptionMessage)
-            progressBar.isInvisible = true
-            showUpdateAction = true
-            invalidateOptionsMenu()
-            return
-        }
-        progressBar.isInvisible = true
-        showUpdateAction = true
-        invalidateOptionsMenu()
-
-        // Parser is automatically invoked when response has been received.
-        showParsingStatus()
-        MyApp.task_running = TASKS.PARSE
     }
 
     private fun showErrorDialog(httpStatus: HttpStatus, hostName: String, exceptionMessage: String) {
@@ -216,77 +199,8 @@ class MainActivity : BaseActivity(),
         errorMessage.show(context = this, shouldShowLong = false)
     }
 
-    private fun onParseDone(result: ParseResult) {
-        if (result is ParseScheduleResult) {
-            MyApp.LogDebug(LOG_TAG, "Parsing schedule done successfully: ${result.isSuccess}, numDays: ${MyApp.meta.numDays}")
-        }
-        if (result is ParseShiftsResult) {
-            MyApp.LogDebug(LOG_TAG, "Parsing Engelsystem shifts done successfully: ${result.isSuccess}")
-        }
-        MyApp.task_running = TASKS.NONE
-        if (MyApp.meta.numDays == 0) {
-            hideProgressDialog()
-        }
-        progressBar.isInvisible = true
-        showUpdateAction = true
-        invalidateOptionsMenu()
-        findFragment(FahrplanFragment.FRAGMENT_TAG)?.let {
-            (it as FahrplanFragment).onParseDone(result)
-        }
-        if (!appRepository.readScheduleChangesSeen()) {
-            showChangesDialog()
-        }
-    }
-
-    private fun onLoadShiftsDone(result: LoadShiftsResult) {
-        findFragment(FahrplanFragment.FRAGMENT_TAG)?.let {
-            (it as FahrplanFragment).onParseDone(ParseShiftsResult.of(result))
-        }
-    }
-
-    private fun showFetchingStatus() {
-        if (MyApp.meta.numDays == 0) {
-            // Initial load
-            MyApp.LogDebug(LOG_TAG, "fetchFahrplan with numDays == 0")
-            showProgressDialog(R.string.progress_loading_data)
-        } else {
-            MyApp.LogDebug(LOG_TAG, "Show fetch status")
-            progressBar.isInvisible = false
-            showUpdateAction = false
-            invalidateOptionsMenu()
-        }
-    }
-
-    private fun showParsingStatus() {
-        if (MyApp.meta.numDays == 0) {
-            // Initial load
-            showProgressDialog(R.string.progress_processing_data)
-        } else {
-            MyApp.LogDebug(LOG_TAG, "Show parse status")
-            progressBar.isInvisible = false
-            showUpdateAction = false
-            invalidateOptionsMenu()
-        }
-    }
-
-    fun fetchFahrplan() {
-        if (MyApp.task_running == TASKS.NONE) {
-            MyApp.task_running = TASKS.FETCH
-            showFetchingStatus()
-            val url = appRepository.readScheduleUrl()
-            appRepository.loadSchedule(
-                url = url,
-                onFetchingDone = ::onGotResponse,
-                onParsingDone = ::onParseDone,
-                onLoadingShiftsDone = ::onLoadShiftsDone
-            )
-        } else {
-            Log.d(LOG_TAG, "Fetching schedule already in progress.")
-        }
-    }
-
     override fun onDestroy() {
-        appRepository.cancelLoading()
+        viewModel.cancelLoading()
         hideProgressDialog()
         super.onDestroy()
     }
@@ -298,9 +212,6 @@ class MainActivity : BaseActivity(),
         if (sidePaneView != null && isFavoritesInSidePane) {
             sidePaneView.isVisible = !isScreenLocked
         }
-        if (!appRepository.readScheduleChangesSeen()) {
-            showChangesDialog()
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -309,20 +220,16 @@ class MainActivity : BaseActivity(),
         return true
     }
 
-    private fun showChangesDialog() {
+    private fun showChangesDialog(scheduleVersion: String, changeStatistic: ChangeStatistic) {
         val fragment = findFragment(ChangesDialog.FRAGMENT_TAG)
         if (fragment == null) {
-            val sessions = appRepository.loadChangedSessions()
-            val meta = appRepository.readMeta()
-            val statistic = ChangeStatistic.of(sessions)
             ChangesDialog
-                .newInstance(meta.version, statistic)
+                .newInstance(scheduleVersion, changeStatistic)
                 .show(supportFragmentManager, ChangesDialog.FRAGMENT_TAG)
         }
     }
 
-    private fun showAboutDialog() {
-        val meta = appRepository.readMeta()
+    private fun showAboutDialog(meta: Meta) {
         val transaction = supportFragmentManager.beginTransaction()
         transaction.addToBackStack(null)
         AboutDialog
@@ -332,7 +239,7 @@ class MainActivity : BaseActivity(),
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val functionByOptionItemId = mapOf(
-            R.id.menu_item_about to { showAboutDialog() },
+            R.id.menu_item_about to { viewModel.showAboutDialog() },
             R.id.menu_item_alarms to { AlarmList.startForResult(this) },
             R.id.menu_item_settings to { SettingsActivity.startForResult(this) },
             R.id.menu_item_schedule_changes to { openSessionChanges() },
@@ -349,14 +256,12 @@ class MainActivity : BaseActivity(),
         }
     }
 
-    private fun openSessionDetails(sessionId: String) {
-        if (appRepository.updateSelectedSessionId(sessionId)) {
-            val sidePaneView = findViewById<FragmentContainerView>(R.id.detail)
-            if (sidePaneView == null) {
-                SessionDetailsActivity.startForResult(this)
-            } else {
-                SessionDetailsFragment.replaceAtBackStack(supportFragmentManager, R.id.detail, true)
-            }
+    private fun openSessionDetails() {
+        val sidePaneView = findViewById<FragmentContainerView>(R.id.detail)
+        if (sidePaneView == null) {
+            SessionDetailsActivity.startForResult(this)
+        } else {
+            SessionDetailsFragment.replaceAtBackStack(supportFragmentManager, R.id.detail, true)
         }
     }
 
@@ -404,18 +309,19 @@ class MainActivity : BaseActivity(),
                         shouldFetchFahrplan = true
                     }
                     if (shouldFetchFahrplan) {
-                        fetchFahrplan()
+                        // TODO Handle schedule update in AppRepository; above code becomes needless
+                        viewModel.requestScheduleUpdate(isUserRequest = true)
                     }
                 }
         }
     }
 
     override fun onSessionListClick(sessionId: String) {
-        openSessionDetails(sessionId)
+        viewModel.openSessionDetails(sessionId)
     }
 
     override fun onSessionClick(sessionId: String) {
-        openSessionDetails(sessionId)
+        viewModel.openSessionDetails(sessionId)
     }
 
     override fun onBackStackChanged() {
@@ -424,6 +330,7 @@ class MainActivity : BaseActivity(),
     }
 
     private fun showProgressDialog(@StringRes message: Int) {
+        hideProgressDialog()
         progressDialog = ProgressDialog.show(this, "", resources.getString(message), true)
     }
 

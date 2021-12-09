@@ -44,7 +44,8 @@ class AppRepositorySessionsTest {
                     metaDatabaseRepository = mock(),
                     scheduleNetworkRepository = mock(),
                     engelsystemNetworkRepository = mock(),
-                    sharedPreferencesRepository = mock()
+                    sharedPreferencesRepository = mock(),
+                    sessionsTransformer = mock()
             )
             return this
         }

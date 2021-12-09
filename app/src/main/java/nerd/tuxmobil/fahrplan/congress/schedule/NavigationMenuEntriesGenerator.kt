@@ -36,7 +36,6 @@ internal class NavigationMenuEntriesGenerator @JvmOverloads constructor(
      * of the first object must be 1 as defined in the schedule XML. The list cannot be null nor empty.
      * @param currentDate A moment instance representing the day of interest.
      */
-    @JvmOverloads
     fun getDayMenuEntries(
         numDays: Int,
         dateInfos: DateInfos?,

@@ -64,7 +64,6 @@ class AlarmServicesTest {
         alarmServices.addSessionAlarm(session, alarmTimesValues.indexOf("60"))
         // AlarmServices invokes scheduleSessionAlarm() which is tested separately.
         assertThat(session.hasAlarm).isTrue()
-        verifyInvokedOnce(repository).notifyAlarmsChanged()
     }
 
     @Test
@@ -97,7 +96,6 @@ class AlarmServicesTest {
         verifyNoInteractions(formattingDelegate)
         verifyInvokedOnce(repository).deleteAlarmForSessionId("S3")
         assertThat(session.hasAlarm).isFalse()
-        verifyInvokedOnce(repository).notifyAlarmsChanged()
     }
 
     @Test
@@ -112,7 +110,6 @@ class AlarmServicesTest {
         verifyNoInteractions(pendingIntentDelegate)
         verifyNoInteractions(formattingDelegate)
         assertThat(session.hasAlarm).isFalse()
-        verifyInvokedOnce(repository).notifyAlarmsChanged()
     }
 
     @Test

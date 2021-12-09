@@ -17,7 +17,6 @@ class TypefaceFactory private constructor(
 
     companion object {
 
-        @JvmStatic
         fun getNewInstance(context: Context) = TypefaceFactory(context.assets)
 
     }

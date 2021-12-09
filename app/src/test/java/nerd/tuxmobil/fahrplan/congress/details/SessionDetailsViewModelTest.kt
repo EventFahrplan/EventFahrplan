@@ -277,7 +277,6 @@ class SessionDetailsViewModelTest {
         viewModel.favorSession()
         verifyInvokedOnce(repository).loadSelectedSession()
         verifyInvokedOnce(repository).updateHighlight(expectedSession)
-        verifyInvokedOnce(repository).notifyHighlightsChanged()
     }
 
     @Test
@@ -289,7 +288,6 @@ class SessionDetailsViewModelTest {
         viewModel.unfavorSession()
         verifyInvokedOnce(repository).loadSelectedSession()
         verifyInvokedOnce(repository).updateHighlight(expectedSession)
-        verifyInvokedOnce(repository).notifyHighlightsChanged()
     }
 
     @Test
