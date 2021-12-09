@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- App notification settings -->
+    <string name="preference_title_app_notification_settings">Dostosuj przypomnienia</string>
+    <string name="preference_summary_app_notification_settings">Otwórz stąd powiązany ekran ustawień systemowych.</string>
+
+    <!-- Automatic schedule updates -->
+    <string name="preference_title_auto_update_enabled">Włącz automatyczne aktualizacje</string>
+    <string name="preference_summary_auto_update_enabled">Okresowo pobiera grafik.</string>
+
+    <!-- Alarm time index -->
+    <string name="preference_dialog_title_alarm_time">Wybierz domyślny czas przypomnienia</string>
+    <string name="preference_title_alarm_time">Wybierz domyślny czas przypomnienia</string>
+
+    <!-- Alarm tone -->
+    <string name="preference_title_alarm_tone">Wybierz dźwięk przypomnienia</string>
+    <string name="preference_summary_alarm_tone">Otwórz ekran wyboru dźwięków z tego miejsca.</string>
+
+    <!-- Device time zone -->
+    <string name="preference_title_use_device_time_zone_enabled">Użyj strefy czasowej urządzenia</string>
+    <string name="preference_summary_use_device_time_zone_enabled">Odpowiednio wyświetla daty i godziny.</string>
+
+    <!-- Alternative highlighting -->
+    <string name="preference_title_alternative_highlighting_enabled">Włącz alternatywne podświetlanie</string>
+    <string name="preference_summary_alternative_highlighting_enabled">Dodaje ramkę wokół ulubionych sesji.</string>
+
+    <!-- Alternative schedule URL -->
+    <string name="preference_title_alternative_schedule_url">Skonfiguruj alternatywny URL grafiku</string>
+    <string name="preference_summary_alternative_schedule_url">Podaj zapasowy URL na wypadek gdyby podstawowy nie był osiągalny.</string>
+
+    <!-- Insistent session alarms -->
+    <string name="preference_title_insistent_alarms_enabled">Włącz natarczywe przypomnienie</string>
+    <string name="preference_summary_insistent_alarms_enabled">Utrzymuje przypomnienie w nieskończoność.</string>
+
+    <!-- Category Engelsystem -->
+
+    <string name="preference_summary_engelsystem_json_export_url">
+        <![CDATA[Aby widzieć swoje zmiany, podaj tu <u>swój osobisty</u> URL.<br/><br/>
+        1. Zaloguj się na swoje konto w Engelsystem.<br/>
+        2. Skopiuj URL pod przyciskiem <u>JSON Export</u> na swojej stronie profilowej.<br/>
+        3. Wklej tu skopiowany URL.<br/><br/>
+        Zmiany przed oraz po głównych dniach konferencji <u>nie są</u> wyświetlane.]]>
+    </string>
+    <string name="preference_title_engelsystem_json_export_url">Skonfiguruj URL eksportu JSON</string>
+
+</resources>

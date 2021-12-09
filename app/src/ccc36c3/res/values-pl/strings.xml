@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Grafik 36C3</string>
+    <string name="app_hardcoded_subtitle">27–30 grudnia 2019, Lipsk, Leipziger Messe</string>
+    <string name="copyright_logo">
+        <![CDATA[36C3: Resource exhaustion. Projekt <a href="http://bleeptrack.de">bleeptrack</a>]]>
+    </string>
+    <string name="about_logo_content_description">
+        Logo 36C3: Resource exhaustion
+    </string>
+</resources>
