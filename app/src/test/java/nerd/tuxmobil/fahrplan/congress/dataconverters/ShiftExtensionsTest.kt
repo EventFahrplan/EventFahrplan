@@ -19,7 +19,7 @@ class ShiftExtensionsTest {
 
         val shiftStart = day.toZonedDateTime(zoneOffset).plusSeconds(59)
         val shiftEnd = shiftStart.plusSeconds(59)
-        val shift = Shift(startsAt = shiftStart, endsAt = shiftEnd)
+        val shift = Shift(startsAtDate = shiftStart, endsAtDate = shiftEnd)
 
         assertThat(shift.oneBasedDayIndex(NoLogging, dayRanges)).isEqualTo(1)
     }
@@ -33,7 +33,7 @@ class ShiftExtensionsTest {
 
         val shiftStart = day2.toZonedDateTime(zoneOffset).plusSeconds(59)
         val shiftEnd = shiftStart.plusSeconds(59)
-        val shift = Shift(startsAt = shiftStart, endsAt = shiftEnd)
+        val shift = Shift(startsAtDate = shiftStart, endsAtDate = shiftEnd)
 
         assertThat(shift.oneBasedDayIndex(NoLogging, dayRanges)).isEqualTo(2)
     }
@@ -80,8 +80,8 @@ class ShiftExtensionsTest {
         val day = Moment.parseDate("2019-01-02")
         val startsAt = day.toZonedDateTime(ZoneOffset.ofHours(4)) // 2019-01-02 04:00 with offset +4 => still  2019-01-02 00:00Z
         val shift = Shift(
-                startsAt = startsAt,
-                timeZoneOffset = ZoneOffset.ofHours(2) // for whatever reason someone sets timeZoneOffset different than startsAts offset
+                startsAtDate = startsAt,
+                timeZoneOffset = ZoneOffset.ofHours(2) // for whatever reason someone sets timeZoneOffset different than startsAtDate's offset
         )
         val dayRange = DayRange(day)
         val session = shift.toSessionAppModel(NoLogging, "", listOf(dayRange))
@@ -95,7 +95,7 @@ class ShiftExtensionsTest {
         val startsAtDate = ZonedDateTime.of(2019, 8, 25, 12, 0, 0, 0, ZoneOffset.UTC)
         val endsAtDate = ZonedDateTime.of(2019, 8, 25, 12, 30, 13, 0, ZoneOffset.UTC)
         val dayRange = DayRange(day)
-        val shift = Shift(startsAt = startsAtDate, endsAt = endsAtDate)
+        val shift = Shift(startsAtDate = startsAtDate, endsAtDate = endsAtDate)
         assertThat(shift.toSessionAppModel(NoLogging, "", listOf(dayRange)).duration).isEqualTo(30)
     }
 
