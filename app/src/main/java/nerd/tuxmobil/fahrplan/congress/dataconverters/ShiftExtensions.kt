@@ -31,6 +31,7 @@ fun Shift.toSessionAppModel(
     startTime = minuteOfDay  // minutes since day start
     title = name
     subtitle = talkTitle
+    // Shift.timeZoneName is not mapped here. Using Meta.timeZoneName instead.
     track = virtualRoomName
     url = talkUrl
 }
@@ -42,16 +43,16 @@ fun Shift.toSessionAppModel(
 @VisibleForTesting
 fun Shift.oneBasedDayIndex(logging: Logging, dayRanges: List<DayRange>): Int {
     dayRanges.forEachIndexed { index, dayRange ->
-        if (dayRange.contains(startsAt)) {
-            logging.d(javaClass.simpleName, "${dayRange.startsAt} <= $startsAt < ${dayRange.endsAt} -> $talkTitle")
+        if (dayRange.contains(startsAtDate)) {
+            logging.d(javaClass.simpleName, "${dayRange.startsAt} <= $startsAtDate < ${dayRange.endsAt} -> $talkTitle")
             return index + 1
         }
     }
-    error("Shift start time $startsAt (${startsAt.toEpochSecond()}) exceeds all day ranges.")
+    error("Shift start time $startsAtDate (${startsAtDate.toEpochSecond()}) exceeds all day ranges.")
 }
 
 private val Shift.dateUtcMs
-    get() = startsAt.toEpochSecond().milliseconds
+    get() = startsAtDate.toEpochSecond().milliseconds
 
 @VisibleForTesting
 val Shift.descriptionText: String
@@ -82,13 +83,13 @@ val Shift.descriptionText: String
     }
 
 private val Shift.minuteOfDay
-    get() = startsAt.toMoment().minuteOfDay
+    get() = startsAtDate.toMoment().minuteOfDay
 
 private val Shift.shiftDuration
-    get() = Duration.between(startsAt, endsAt).toMinutes().toInt()
+    get() = Duration.between(startsAtDate, endsAtDate).toMinutes().toInt()
 
 private val Shift.startsAtLocalDate
-    get() = startsAt.toLocalDate()
+    get() = startsAtDate.toLocalDate()
 
 private val Shift.startsAtLocalDateString
     get() = startsAtLocalDate.toString()

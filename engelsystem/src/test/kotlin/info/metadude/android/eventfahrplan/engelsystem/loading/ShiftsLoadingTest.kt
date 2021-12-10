@@ -7,6 +7,7 @@ import info.metadude.android.eventfahrplan.engelsystem.loading.ShiftsLoading.awa
 import info.metadude.android.eventfahrplan.engelsystem.loading.ShiftsLoading.toShiftsResult
 import info.metadude.android.eventfahrplan.engelsystem.models.ShiftsResult
 import info.metadude.kotlin.library.engelsystem.EngelsystemService
+import info.metadude.kotlin.library.engelsystem.adapters.ZonedDateTimeJsonAdapter
 import info.metadude.kotlin.library.engelsystem.models.Shift
 import kotlinx.coroutines.runBlocking
 import okhttp3.mockwebserver.MockResponse
@@ -14,6 +15,8 @@ import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import org.threeten.bp.ZoneOffset
+import org.threeten.bp.ZonedDateTime
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.Retrofit
@@ -24,6 +27,8 @@ import java.net.HttpURLConnection
 class ShiftsLoadingTest {
 
     private companion object {
+        val STARTS_AT: ZonedDateTime = ZonedDateTime.of(2019,8, 21, 13, 0, 0, 0, ZoneOffset.ofHours(2))
+        val ENDS_AT: ZonedDateTime = STARTS_AT.plusHours(2).plusMinutes(45)
         const val VALID_ONE_ITEM_SHIFTS_JSON = """
                 [
                     {
@@ -38,10 +43,13 @@ class ShiftsLoadingTest {
                         "description": "Kirmes are fun.",
                         "edited_at_timestamp": 1567367095,
                         "edited_by_user_id": 32,
+                        "end_date": "2019-08-21T15:45:00+02:00",
+                        "event_timezone": "Europe/Berlin",
                         "freeloaded": 0,
                         "id": 37,
                         "name": "Collect stickers",
                         "shifttype_id": 6,
+                        "start_date": "2019-08-21T13:00:00+02:00",
                         "title": "Tag 1: Decorate fridge"
                     }
                 ]
@@ -55,20 +63,26 @@ class ShiftsLoadingTest {
         const val EMPTY_STRING = ""
         val ACTUAL_ONE_ITEM_SHIFTS = listOf(Shift(
                 userComment = "This is a very secret comment.",
+                endsAtDate = ENDS_AT,
                 locationDescription = "Kirmes are fun.",
                 locationName = "Kirmes",
                 name = "Collect stickers",
                 sID = 579,
+                startsAtDate = STARTS_AT,
                 talkTitle = "Tag 1: Decorate fridge",
+                timeZoneName = "Europe/Berlin",
                 typeId = 6
         ))
         val EXPECTED_ONE_ITEM_SHIFTS = listOf(Shift(
                 userComment = "This is a very secret comment.",
+                endsAtDate = ENDS_AT,
                 locationDescription = "Kirmes are fun.",
                 locationName = "Kirmes",
                 name = "Collect stickers",
                 sID = 579,
+                startsAtDate = STARTS_AT,
                 talkTitle = "Tag 1: Decorate fridge",
+                timeZoneName = "Europe/Berlin",
                 typeId = 6
         ))
     }
@@ -174,7 +188,9 @@ class ShiftsLoadingTest {
     }
 
     private fun createEngelsystemService(): EngelsystemService {
-        val moshi = Moshi.Builder().build()
+        val moshi = Moshi.Builder()
+            .add(ZonedDateTime::class.java, ZonedDateTimeJsonAdapter())
+            .build()
         val retrofit = Retrofit.Builder()
                 .baseUrl(mockWebServer.url("/"))
                 .addConverterFactory(MoshiConverterFactory.create(moshi))

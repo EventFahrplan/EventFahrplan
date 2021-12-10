@@ -17,4 +17,4 @@ fun List<Shift>.toSessionAppModels(
  * Shifts with a start date which is before or after the day ranges are dropped.
  */
 fun List<Shift>.cropToDayRangesExtent(dayRanges: List<DayRange>) =
-        filter { dayRanges.any { dayRange -> dayRange.contains(it.startsAt) } }
+        filter { dayRanges.any { dayRange -> dayRange.contains(it.startsAtDate) } }
