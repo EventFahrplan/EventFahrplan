@@ -98,8 +98,8 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
 
     private void notifyActivity() {
         if (result) {
-            listener.onUpdateSessions(sessions);
             listener.onUpdateMeta(meta);
+            listener.onUpdateSessions(sessions);
         }
         listener.onParseDone(result, meta.getVersion());
         completed = false;
