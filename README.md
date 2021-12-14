@@ -113,7 +113,7 @@ bashtian, bjoernb, Björn Olsson Jarl, ButterflyOfFire, cacarrara,
 Caio Volpato, cketti, codingcatgirl, entropynil, ideadapt, Jasper van der Graaf,
 Joergi, koelnkalkverbot, Larissa Yasin, ligi, Luis Azcuaga, Mateus Baptista,
 Matthias Geisler, Matthias Hunstock, MichaelRocks, Nghiem Xuan Hien, NiciDieNase,
-Noemis, Omicron, Poschi, rotsq, Sjors van Mierlo, Stefan Medack, SubOptimal,
+Noemis, Omicron, Poschi, rotrot, Sjors van Mierlo, Stefan Medack, SubOptimal,
 Teeranai.P, Torsten Grote, Victor Herasme, Vladimir Alabov, Yanicka
 
 Licensed under the Apache License, Version 2.0 (the "License");
