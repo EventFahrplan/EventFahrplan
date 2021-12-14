@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Camp 2019</string>
+    <string name="app_hardcoded_subtitle"/>
+    <string name="copyright_logo">
+        <![CDATA[Projekt <a href="http://www.graphorama.de">Sven Sedivy</a>]]>
+    </string>
+    <string name="about_logo_content_description">
+        Logo Chaos Communication Camp z trzema różnymi rakietami w kolorach niebieskim, żółtym i zielonym
+    </string>
+</resources>
