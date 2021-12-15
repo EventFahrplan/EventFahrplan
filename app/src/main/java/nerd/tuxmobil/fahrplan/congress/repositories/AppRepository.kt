@@ -272,7 +272,7 @@ object AppRepository {
         val url = readEngelsystemShiftsUrl()
         if (url.isEmpty()) {
             logging.d(javaClass.simpleName, "Engelsystem shifts URL is empty.")
-            // TODO Cancel or remote shifts from database?
+            // TODO Cancel or remove shifts from database?
             return
         }
         val requestIdentifier = "loadShifts"
