@@ -140,12 +140,6 @@ public class UpdateService extends SafeJobIntentService {
         workLatch.countDown();
     }
 
-    @Override
-    public void onDestroy() {
-        appRepository.cancelLoading();
-        super.onDestroy();
-    }
-
     private void fetchSchedule() {
         FahrplanMisc.setUpdateAlarm(this, false);
         fetchFahrplan();
