@@ -11,6 +11,7 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.SafeJobIntentService;
 
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 
 import info.metadude.android.eventfahrplan.commons.logging.Logging;
 import kotlin.Unit;
@@ -40,6 +41,7 @@ public class UpdateService extends SafeJobIntentService {
     private final AppRepository appRepository = AppRepository.INSTANCE;
     @NonNull
     private final Logging logging = Logging.get();
+    private CountDownLatch workLatch;
 
     public void onParseDone(@NonNull ParseResult result) {
         int numDays = appRepository.readMeta().getNumDays();
@@ -49,7 +51,7 @@ public class UpdateService extends SafeJobIntentService {
         if (!changesList.isEmpty() && result instanceof ParseScheduleResult) {
             showScheduleUpdateNotification(((ParseScheduleResult) result).getVersion(), changesList.size());
         }
-        stopSelf();
+        finishWork();
     }
 
     private void showScheduleUpdateNotification(String version, int changesCount) {
@@ -77,7 +79,7 @@ public class UpdateService extends SafeJobIntentService {
         HttpStatus status = fetchScheduleResult.getHttpStatus();
         MyApp.task_running = TASKS.NONE;
         if (status != HttpStatus.HTTP_OK) {
-            stopSelf();
+            finishWork();
             return;
         }
 
@@ -114,21 +116,32 @@ public class UpdateService extends SafeJobIntentService {
 
     @Override
     protected void onHandleWork(@NonNull Intent intent) {
+        workLatch = new CountDownLatch(1);
+
         ConnectivityObserver connectivityObserver = new ConnectivityObserver(this, () -> {
             logging.d(LOG_TAG, "Network is available");
             fetchSchedule();
             return Unit.INSTANCE;
         }, () -> {
             logging.d(LOG_TAG, "Network is not available");
-            stopSelf();
+            finishWork();
             return Unit.INSTANCE;
         }, true);
         connectivityObserver.start();
+
+        try {
+            workLatch.await();
+        } catch (InterruptedException e) {
+            logging.report(LOG_TAG, "" + e.getMessage());
+        }
+    }
+
+    private void finishWork() {
+        workLatch.countDown();
     }
 
     @Override
     public void onDestroy() {
-        // TODO Wrap onHandleWork into blocking CountDownLatch to prevent canceling all AppRepository jobs
         appRepository.cancelLoading();
         super.onDestroy();
     }
