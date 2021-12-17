@@ -11,7 +11,9 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.SafeJobIntentService;
 
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 
+import info.metadude.android.eventfahrplan.commons.logging.Logging;
 import kotlin.Unit;
 import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.MyApp.TASKS;
@@ -37,17 +39,19 @@ public class UpdateService extends SafeJobIntentService {
 
     @SuppressWarnings("squid:S1170")
     private final AppRepository appRepository = AppRepository.INSTANCE;
+    @NonNull
+    private final Logging logging = Logging.get();
+    private CountDownLatch workLatch;
 
     public void onParseDone(@NonNull ParseResult result) {
         int numDays = appRepository.readMeta().getNumDays();
-        MyApp.LogDebug(LOG_TAG, "parseDone: " + result.isSuccess() + " , numDays=" + numDays);
+        logging.d(LOG_TAG, "onParseDone -> isSuccess=" + result.isSuccess() + ", numDays=" + numDays);
         MyApp.task_running = TASKS.NONE;
         List<Session> changesList = appRepository.loadChangedSessions();
         if (!changesList.isEmpty() && result instanceof ParseScheduleResult) {
             showScheduleUpdateNotification(((ParseScheduleResult) result).getVersion(), changesList.size());
         }
-        MyApp.LogDebug(LOG_TAG, "background update complete");
-        stopSelf();
+        finishWork();
     }
 
     private void showScheduleUpdateNotification(String version, int changesCount) {
@@ -75,8 +79,7 @@ public class UpdateService extends SafeJobIntentService {
         HttpStatus status = fetchScheduleResult.getHttpStatus();
         MyApp.task_running = TASKS.NONE;
         if (status != HttpStatus.HTTP_OK) {
-            MyApp.LogDebug(LOG_TAG, "Background schedule update failed. HTTP status code: " + status);
-            stopSelf();
+            finishWork();
             return;
         }
 
@@ -107,33 +110,37 @@ public class UpdateService extends SafeJobIntentService {
                         return Unit.INSTANCE;
                     });
         } else {
-            MyApp.LogDebug(LOG_TAG, "Fetching already in progress.");
+            logging.d(LOG_TAG, "Fetching already in progress.");
         }
     }
 
     @Override
     protected void onHandleWork(@NonNull Intent intent) {
+        workLatch = new CountDownLatch(1);
+
         ConnectivityObserver connectivityObserver = new ConnectivityObserver(this, () -> {
-            MyApp.LogDebug(LOG_TAG, "Network is available");
+            logging.d(LOG_TAG, "Network is available");
             fetchSchedule();
             return Unit.INSTANCE;
         }, () -> {
-            MyApp.LogDebug(LOG_TAG, "Network is not available");
-            stopSelf();
+            logging.d(LOG_TAG, "Network is not available");
+            finishWork();
             return Unit.INSTANCE;
         }, true);
         connectivityObserver.start();
+
+        try {
+            workLatch.await();
+        } catch (InterruptedException e) {
+            logging.report(LOG_TAG, "" + e.getMessage());
+        }
     }
 
-    @Override
-    public void onDestroy() {
-        // TODO Wrap onHandleWork into blocking CountDownLatch to prevent canceling all AppRepository jobs
-        appRepository.cancelLoading();
-        super.onDestroy();
+    private void finishWork() {
+        workLatch.countDown();
     }
 
     private void fetchSchedule() {
-        MyApp.LogDebug(LOG_TAG, "Fetching schedule ...");
         FahrplanMisc.setUpdateAlarm(this, false);
         fetchFahrplan();
     }
