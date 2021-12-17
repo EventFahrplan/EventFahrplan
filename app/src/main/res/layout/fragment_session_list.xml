@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@android:color/white"
+    android:background="@drawable/favorites_background"
     tools:context=".changes.ChangeListFragment">
 
     <ListView
@@ -24,7 +24,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
+        android:singleLine="true"
         android:text="@string/no_changes"
-        android:singleLine="true"/>
+        android:textColor="@color/session_list_empty_text" />
 
 </LinearLayout>

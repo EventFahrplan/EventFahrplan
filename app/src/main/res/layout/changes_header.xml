@@ -10,13 +10,12 @@
         android:layout_height="wrap_content"
         android:textAppearance="@android:style/TextAppearance.Large"
         android:textStyle="bold"
-        android:textColor="@android:color/secondary_text_light"
+        android:textColor="@color/session_list_header_text"
         android:paddingRight="16dp"
         android:paddingTop="32dp"
         android:fontFamily="sans-serif-light"
         android:text="@string/schedule_changes"
         tools:background="@android:color/holo_blue_dark"
-        tools:textColor="@android:color/white"
         />
 
 </LinearLayout>

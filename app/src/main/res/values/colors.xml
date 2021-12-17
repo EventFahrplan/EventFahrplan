@@ -10,9 +10,13 @@
     <color name="alarm_list_icon_default_fill_color">#ddd</color>
     <color name="alarm_list_icon_default_stroke_color">#003339</color>
     <color name="alarm_list_icon_text_color">#000000</color>
+    <color name="alarm_list_empty_text">#ffffff</color>
     <color name="session_background">#ffffff</color>
     <color name="session_detailbar_background">#eee</color>
     <color name="session_detailbar_text">#999</color>
+
+    <!-- MainActivity layout -->
+    <color name="main_background">@android:color/transparent</color>
 
     <!-- Tool bar -->
     <color name="tool_bar_background">@color/colorPrimary</color>
@@ -42,6 +46,12 @@
 
     <!-- Favorites -->
     <color name="favorites_past_session_text">#808080</color>
+    <color name="favorites_background">#ffffff</color>
+
+    <!-- Session item (favorites + schedule changes) -->
+    <color name="session_list_header_text">@android:color/secondary_text_light</color>
+    <color name="session_list_item_text">#000000</color>
+    <color name="session_list_empty_text">#000000</color>
 
     <!-- Spinner -->
     <color name="spinner_drop_down_text">#cc0000</color>
