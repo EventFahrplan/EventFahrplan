@@ -90,10 +90,8 @@
     <string name="choose_alarm_time">Wybierz czas przypomnienia</string>
     <string name="reminders">Przypomnienia</string>
     <string name="usage">Wskazówka:\n\nPrzytrzymaj dłużej na wykładzie aby ustawić przypomnienie.</string>
-    <string name="libraries">
-        Ten program używa następujących bibliotek:
-        Kotlin, Google Support Library, BetterLinkMovementMethod, Email Intent Builder,
-        Engelsystem, Espresso, Markwon, OkHttp, SnackEngage, TraceDroid
+    <string name="about_libraries_statement">
+        Ten program używa następujących bibliotek: <xliff:g example="Kotlin, Espresso" id="libs">%s</xliff:g>
     </string>
     <string name="about_data_privacy_statement_german">Oświadczenie o prywatności danych (w języku niemieckim)</string>
     <string name="about_f_droid_listing">Strona na F-Droid</string>

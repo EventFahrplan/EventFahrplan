@@ -139,6 +139,11 @@ public class AboutDialog extends DialogFragment {
         String googlePlayListingTitle = getString(R.string.about_google_play_listing);
         TextViewExtensions.setLinkText(googlePlayStore, googlePlayUrl, googlePlayListingTitle, movementMethod, linkTextColor);
 
+        TextView librariesStatement = requireViewByIdCompat(view, R.id.about_libraries_view);
+        String libraryNames = getString(R.string.about_libraries_names);
+        String librariesStatementText = getString(R.string.about_libraries_statement, libraryNames);
+        librariesStatement.setText(librariesStatementText);
+
         TextView dataPrivacyStatement = requireViewByIdCompat(view, R.id.about_data_privacy_statement_view);
         String dataPrivacyStatementGermanUrl = BuildConfig.DATA_PRIVACY_STATEMENT_DE_URL;
         String dataPrivacyStatementGermanTitle = getString(R.string.about_data_privacy_statement_german);

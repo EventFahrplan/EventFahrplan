@@ -93,8 +93,10 @@
     <string name="choose_alarm_time">Choose alarm time</string>
     <string name="reminders">Alarms</string>
     <string name="usage">Note:\n\nLong-press on a lecture to set an alarm.</string>
-    <string name="libraries">
-		This application uses the following libraries:
+    <string name="about_libraries_statement">
+        This application uses the following libraries: <xliff:g example="Kotlin, Espresso" id="libs">%s</xliff:g>
+    </string>
+    <string name="about_libraries_names" translatable="false">
 		Kotlin, Google Support Library, BetterLinkMovementMethod, Email Intent Builder,
 		Engelsystem, Espresso, Markwon, OkHttp, SnackEngage, TraceDroid
 	</string>

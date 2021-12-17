@@ -93,10 +93,8 @@
     <string name="choose_alarm_time">Escoja tiempo de alarma</string>
     <string name="reminders">Alarmas</string>
     <string name="usage">Nota:\n\nPresione unos segundos en una clase para poner alarma</string>
-    <string name="libraries">
-      Esta aplicación utiliza las siguientes librerías:
-      Kotlin, Google Support Library, BetterLinkMovementMethod, Email Intent Builder, 
-      Engelsystem, Espresso, Markwon, OkHttp, SnackEngage, TraceDroid
+    <string name="about_libraries_statement">
+        Esta aplicación utiliza las siguientes librerías: <xliff:g example="Kotlin, Espresso" id="libs">%s</xliff:g>
     </string>
     <string name="about_data_privacy_statement_german">Declaración de privacidad de datos (Alemán)</string>
     <string name="about_f_droid_listing">Listado de F-Droid</string>

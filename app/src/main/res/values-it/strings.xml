@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="OK">OK</string>
+    <string name="about_libraries_statement">Questa applicazione usa le librerie seguenti: <xliff:g example="Kotlin, Espresso" id="libs">%s</xliff:g></string>
     <string name="about_data_privacy_statement_german">Informativa sulla protezione dei dati (Tedesco)</string>
     <string name="about_issues_or_feature_requests">Assistenza o suggerimento di nuove funzionalità</string>
     <string name="add_to_calendar_failed">Impossibile aggiungere un evento al calendario</string>
@@ -50,7 +51,6 @@
     <string name="session_list_item_no_video_content_description">Senza registrazione video</string>
     <string name="session_list_item_video_content_description">Con registrazione video</string>
     <string name="session_list_item_without_video_content_description">Senza registrazione video</string>
-    <string name="libraries">Questa applicazione usa le librerie seguenti: Kotlin, Google Support Library, BetterLinkMovementMethod, Email Intent Builder, Engelsystem, Espresso, Markwon, OkHttp, SnackEngage, TraceDroid</string>
     <string name="load_data">Caricare</string>
     <string name="menu_item_title_about">Info</string>
     <string name="menu_item_title_add_to_calendar">Aggiungere al calendario</string>
