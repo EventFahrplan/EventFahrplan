@@ -66,11 +66,6 @@
     <string name="choose_alarm_time">Välj alarm tid</string>
     <string name="reminders">Alarm</string>
     <string name="usage">Tips: Håll inne på en föreläsning för att sätta ett alarm.</string>
-    <string name="libraries">
-        Denna appen använder följande bibliotek:
-        Kotlin, Google Support Library, BetterLinkMovementMethod, Email Intent Builder,
-        Engelsystem, Espresso, Markwon, OkHttp, SnackEngage, TraceDroid
-    </string>
     <string name="schedule_parsing_error_generic">Okänt fel när schemat skulle tolkas</string>
     <string name="schedule_parsing_error_with_version">Tolkningsfel för schema version %s</string>
     <string name="trace_droid_button_title_later">Kanske senare</string>
@@ -103,6 +98,9 @@
     </plurals>
     <string name="schedule_updated_to">
         Uppdaterade till <xliff:g example="Mildenberg 2018-01-16 16:50" id="version">%s</xliff:g>
+    </string>
+    <string name="about_libraries_statement">
+        Denna appen använder följande bibliotek: <xliff:g example="Kotlin, Espresso" id="libs">%s</xliff:g>
     </string>
     <string name="about_data_privacy_statement_german">Sekretesspolicy (Tyska)</string>
     <string name="about_f_droid_listing">F-Droid</string>

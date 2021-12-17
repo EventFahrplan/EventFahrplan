@@ -80,11 +80,9 @@
     <string name="choose_alarm_time">Escolha o horário do alerta</string>
     <string name="reminders">Alertas</string>
     <string name="usage">Dica:\n\nMantenha pressionado na palestra para ajustar um alerta.</string>
-    <string name="libraries">
-		Este aplicativo usa as seguintes bibliotecas:
-		Kotlin, Google Support Library, BetterLinkMovementMethod, Email Intent Builder,
-		Engelsystem, Espresso, Markwon, OkHttp, SnackEngage e TraceDroid
-	</string>
+    <string name="about_libraries_statement">
+        Este aplicativo usa as seguintes bibliotecas: <xliff:g example="Kotlin, Espresso" id="libs">%s</xliff:g>
+    </string>
     <string name="about_data_privacy_statement_german">Declaração de privacidade (Alemão)</string>
     <string name="about_f_droid_listing">Listagem da F-Droid</string>
     <string name="about_google_play_listing">Listagem da Google Play</string>

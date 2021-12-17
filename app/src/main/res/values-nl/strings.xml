@@ -83,11 +83,9 @@
     <string name="choose_alarm_time">Kies alarmtijd</string>
     <string name="reminders">Alarmen</string>
     <string name="usage">Tip:\n\nLang indrukken op een evenement om een alarm aan te zetten.</string>
-    <string name="libraries">
-		Deze applicatie gebruikt de volgende software-bibliotheken:
-		Kotlin, Google Support Library, BetterLinkMovementMethod, Email Intent Builder,
-		Engelsystem, Espresso, Markwon, OkHttp, SnackEngage, TraceDroid
-	</string>
+    <string name="about_libraries_statement">
+        Deze applicatie gebruikt de volgende software-bibliotheken: <xliff:g example="Kotlin, Espresso" id="libs">%s</xliff:g>
+    </string>
     <string name="about_data_privacy_statement_german">Data privacy verklaring (Duits)</string>
     <string name="about_f_droid_listing">F-Droid vermelding</string>
     <string name="about_google_play_listing">Google Play vermelding</string>

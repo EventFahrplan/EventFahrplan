@@ -65,6 +65,7 @@
     <string name="starred_sessions">Favoris</string>
     <string name="general_settings">Général</string>
     <string name="no_favorites">Aucune conférence dans les favoris</string>
+    <string name="about_libraries_statement">Cette application utilise les librairies suivantes : <xliff:g example="Kotlin, Espresso" id="libs">%s</xliff:g></string>
     <string name="about_data_privacy_statement_german">Déclaration de protection des données (en allemand)</string>
     <string name="about_f_droid_listing">Page sur le F-Droid</string>
     <string name="about_google_play_listing">Page sur le Play Google</string>
@@ -99,7 +100,6 @@
     </string>
     <string name="add_to_calendar_failed">L’ajout de l’évènement au calendrier a échoué.</string>
     <string name="alarms_empty">Il n’y a aucun rappel à afficher. Veuillez noter que vous pouvez définir des rappels individuels pour chaque élément dans le programme. Appuyez simplement sur l’icône du rappel dans la barre d’action.</string>
-    <string name="libraries">Cette application utilise les librairies suivantes : Kotlin, Google Support Library, BetterLinkMovementMethod, Email Intent Builder, Engelsystem, Espresso, Markwon, OkHttp, SnackEngage, TraceDroid</string>
     <string name="usage">Note :
 \n
 \nAppuyez longuement sur une conférence pour définir un rappel.</string>

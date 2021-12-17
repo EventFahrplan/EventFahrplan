@@ -78,10 +78,8 @@
     <string name="choose_alarm_time">アラーム時間を選択</string>
     <string name="reminders">アラーム</string>
     <string name="usage">注：アラームを設定するには、講義を長押しします。</string>
-    <string name="libraries">
-        このアプリは次のライブラリを使用しています。
-        Kotlin, Google Support Library, BetterLinkMovementMethod, Email Intent Builder,
-        Engelsystem, Espresso, Markwon, OkHttp, SnackEngage, TraceDroid
+    <string name="about_libraries_statement">
+        このアプリは次のライブラリを使用しています。 <xliff:g example="Kotlin, Espresso" id="libs">%s</xliff:g>
     </string>
     <string name="about_data_privacy_statement_german">データプライバシーステートメント（ドイツ語）</string>
     <string name="about_f_droid_listing">F-Droidのリスト</string>

@@ -80,10 +80,8 @@
     <string name="choose_alarm_time">Выбрать время напоминания</string>
     <string name="reminders">Напоминания</string>
     <string name="usage">Примечание:\n\nДолгое нажатие на лекцию установит напоминание.</string>
-    <string name="libraries">
-        Это приложение использует следующие библиотеки:
-        Kotlin, Google Support Library, BetterLinkMovementMethod, Email Intent Builder,
-        Engelsystem, Espresso, Markwon, OkHttp, SnackEngage, TraceDroid
+    <string name="about_libraries_statement">
+        Это приложение использует следующие библиотеки: <xliff:g example="Kotlin, Espresso" id="libs">%s</xliff:g>
     </string>
     <string name="about_data_privacy_statement_german">Политика конфиденциальности (German)</string>
     <string name="about_f_droid_listing">Запись в F-Droid</string>
