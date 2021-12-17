@@ -97,7 +97,7 @@
         This application uses the following libraries: <xliff:g example="Kotlin, Espresso" id="libs">%s</xliff:g>
     </string>
     <string name="about_libraries_names" translatable="false">
-		Kotlin, Google Support Library, BetterLinkMovementMethod, Email Intent Builder,
+		Kotlin, Google AndroidX library, BetterLinkMovementMethod, Email Intent Builder,
 		Engelsystem, Espresso, Markwon, OkHttp, SnackEngage, TraceDroid
 	</string>
     <string name="about_data_privacy_statement_german">Data privacy statement (German)</string>
