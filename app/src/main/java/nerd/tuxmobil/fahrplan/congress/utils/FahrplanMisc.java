@@ -16,24 +16,28 @@ import nerd.tuxmobil.fahrplan.congress.alarms.AlarmUpdater;
 import nerd.tuxmobil.fahrplan.congress.extensions.Contexts;
 import nerd.tuxmobil.fahrplan.congress.models.DateInfo;
 import nerd.tuxmobil.fahrplan.congress.models.DateInfos;
-import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 
 
 public class FahrplanMisc {
 
     private static final String LOG_TAG = "FahrplanMisc";
 
-    public static void loadDays(@NonNull AppRepository appRepository) {
-        MyApp.dateInfos = new DateInfos();
-        List<DateInfo> dateInfos = appRepository.readDateInfos();
+    /**
+     * Returns a {@link DateInfos} instance composed from the given {@code dateInfos} list.
+     * Duplicate {@link DateInfo} entries are removed.
+     */
+    @NonNull
+    public static DateInfos createDateInfos(@NonNull List<DateInfo> dateInfos) {
+        DateInfos infos = new DateInfos();
         for (DateInfo dateInfo : dateInfos) {
-            if (!MyApp.dateInfos.contains(dateInfo)) {
-                MyApp.dateInfos.add(dateInfo);
+            if (!infos.contains(dateInfo)) {
+                infos.add(dateInfo);
             }
         }
-        for (DateInfo dateInfo : MyApp.dateInfos) {
+        for (DateInfo dateInfo : infos) {
             MyApp.LogDebug(LOG_TAG, "DateInfo: " + dateInfo);
         }
+        return infos;
     }
 
     public static long setUpdateAlarm(Context context, boolean initial) {

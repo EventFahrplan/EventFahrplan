@@ -73,7 +73,6 @@ class StarredListViewModelTest {
         val viewModel = createViewModel(repository)
         viewModel.delete(Session("42"))
         verifyInvokedOnce(repository).updateHighlight(any())
-        verifyInvokedOnce(repository).notifyHighlightsChanged()
     }
 
     @Test
@@ -82,7 +81,6 @@ class StarredListViewModelTest {
         val viewModel = createViewModel(repository)
         viewModel.deleteAll()
         verifyInvokedOnce(repository).deleteAllHighlights()
-        verifyInvokedOnce(repository).notifyHighlightsChanged()
     }
 
     @Test

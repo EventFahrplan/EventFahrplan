@@ -17,6 +17,7 @@ sealed interface ErrorMessage {
     fun show(context: Context, shouldShowLong: Boolean) {
         when (this) {
             is TitledMessage -> {
+                // TODO Replace with DialogFragment to survive orientation change
                 AlertDialog.Builder(context)
                     .setTitle(title)
                     .setMessage(message)

@@ -72,8 +72,6 @@ public final class AlarmReceiver extends BroadcastReceiver {
 
             appRepository.deleteAlarmForSessionId(sessionId);
 
-            appRepository.notifyAlarmsChanged();
-
         } else if (ALARM_DISMISSED.equals(intent.getAction())) {
             onSessionAlarmNotificationDismissed(intent);
 

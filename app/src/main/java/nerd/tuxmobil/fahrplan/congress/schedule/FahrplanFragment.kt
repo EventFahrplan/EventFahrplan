@@ -33,6 +33,7 @@ import androidx.core.widget.NestedScrollView
 import androidx.core.widget.NestedScrollView.OnScrollChangeListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.LayoutParams
@@ -40,7 +41,6 @@ import info.metadude.android.eventfahrplan.commons.logging.Logging
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.BuildConfig
 import nerd.tuxmobil.fahrplan.congress.MyApp
-import nerd.tuxmobil.fahrplan.congress.MyApp.TASKS
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmTimePickerFragment
@@ -50,22 +50,17 @@ import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys.BUNDLE_KEY_SESSION_AL
 import nerd.tuxmobil.fahrplan.congress.extensions.getLayoutInflater
 import nerd.tuxmobil.fahrplan.congress.extensions.isLandscape
 import nerd.tuxmobil.fahrplan.congress.extensions.requireViewByIdCompat
+import nerd.tuxmobil.fahrplan.congress.models.DateInfos
 import nerd.tuxmobil.fahrplan.congress.models.ScheduleData
 import nerd.tuxmobil.fahrplan.congress.models.Session
+import nerd.tuxmobil.fahrplan.congress.net.ConnectivityObserver
 import nerd.tuxmobil.fahrplan.congress.net.ErrorMessage
-import nerd.tuxmobil.fahrplan.congress.net.ParseResult
-import nerd.tuxmobil.fahrplan.congress.net.ParseScheduleResult
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
-import nerd.tuxmobil.fahrplan.congress.repositories.OnSessionsChangeListener
-import nerd.tuxmobil.fahrplan.congress.repositories.SessionsTransformer
-import nerd.tuxmobil.fahrplan.congress.sharing.JsonSessionFormat
+import nerd.tuxmobil.fahrplan.congress.schedule.observables.TimeTextViewParameter
 import nerd.tuxmobil.fahrplan.congress.sharing.SessionSharer
-import nerd.tuxmobil.fahrplan.congress.sharing.SimpleSessionFormat
-import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc
 import nerd.tuxmobil.fahrplan.congress.utils.Font
 import nerd.tuxmobil.fahrplan.congress.utils.TypefaceFactory
 import org.ligi.tracedroid.logging.Log
-import kotlin.collections.set
 
 class FahrplanFragment : Fragment(), SessionViewEventsHandler {
 
@@ -96,50 +91,31 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
         const val FIFTEEN_MINUTES = 15
         const val BOX_HEIGHT_MULTIPLIER = 3
 
-        private val sessionsTransformer = SessionsTransformer.createSessionsTransformer()
-
     }
 
-    private lateinit var appRepository: AppRepository
     private lateinit var inflater: LayoutInflater
-    private lateinit var alarmServices: AlarmServices
     private lateinit var sessionViewDrawer: SessionViewDrawer
-    private lateinit var navigationMenuEntriesGenerator: NavigationMenuEntriesGenerator
     private lateinit var errorMessageFactory: ErrorMessage.Factory
+    private lateinit var connectivityObserver: ConnectivityObserver
     private lateinit var roomTitleTypeFace: Typeface
     private lateinit var contextMenuView: View
-    private var conference: Conference? = null
-    private var scrollAmountCalculator: ScrollAmountCalculator? = null
+    private lateinit var viewModel: FahrplanViewModel
+
     private var onSessionClickListener: OnSessionClickListener? = null
-
-    private var dayIndex = 1 // XML values start with 1
-    private var sessionId: String? = null
     private var lastSelectedSession: Session? = null
-    private var scheduleData: ScheduleData? = null
-
     private var displayDensityScale = 0f
-    private val adapterByRoomIndex = mutableMapOf</* roomIndex */ Int, SessionViewColumnAdapter>()
-    private var preserveVerticalScrollPosition = false
-
-    private val onSessionsChangeListener: OnSessionsChangeListener = object : OnSessionsChangeListener {
-        override fun onAlarmsChanged() {
-            requireActivity().runOnUiThread { reloadAlarms() }
-        }
-
-        override fun onHighlightsChanged() {
-            requireActivity().runOnUiThread { reloadHighlights() }
-        }
-    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        appRepository = AppRepository
-        alarmServices = AlarmServices.newInstance(context, appRepository)
-        navigationMenuEntriesGenerator = NavigationMenuEntriesGenerator(dayString = getString(R.string.day), todayString = getString(R.string.today))
+        val appRepository = AppRepository
+        val alarmServices = AlarmServices.newInstance(context, appRepository)
+        val menuEntriesGenerator = NavigationMenuEntriesGenerator(dayString = getString(R.string.day), todayString = getString(R.string.today))
+        val viewModelFactory = FahrplanViewModelFactory(appRepository, alarmServices, menuEntriesGenerator)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(FahrplanViewModel::class.java)
         onSessionClickListener = if (context is OnSessionClickListener) {
             context
         } else {
-            throw IllegalStateException("$context must implement OnSessionClickListener")
+            error("$context must implement OnSessionClickListener")
         }
     }
 
@@ -155,19 +131,25 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
         roomTitleTypeFace = TypefaceFactory.getNewInstance(context).getTypeface(Font.Roboto.Light)
         sessionViewDrawer = SessionViewDrawer(context, { sessionPadding })
         errorMessageFactory = ErrorMessage.Factory(context)
+        connectivityObserver = ConnectivityObserver(context, onConnectionAvailable = {
+            Log.d(LOG_TAG, "Network is available.")
+            viewModel.requestScheduleAutoUpdate()
+        })
+        connectivityObserver.start()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val layoutRootView = inflater.inflate(R.layout.schedule, container, false)
         val verticalScrollView = layoutRootView.requireViewByIdCompat<NestedScrollView>(R.id.verticalScrollView)
         verticalScrollView.setOnScrollChangeListener(
-            OnScrollChangeListener { _, _, _, _, _ -> preserveVerticalScrollPosition = true }
+            OnScrollChangeListener { _, _, _, _, _ -> viewModel.preserveVerticalScrollPosition = true }
         )
         return layoutRootView
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        observeViewModel()
         displayDensityScale = resources.displayMetrics.density
 
         val roomScroller = view.requireViewByIdCompat<HorizontalScrollView>(R.id.roomScroller)
@@ -175,23 +157,38 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
         snapScroller.setChildScroller(roomScroller)
         roomScroller.setOnTouchListener { _, _ -> true }
 
-        dayIndex = appRepository.readDisplayDayIndex()
         inflater = view.context.getLayoutInflater()
-
-        val intent = requireActivity().intent
-        sessionId = intent.getStringExtra(BUNDLE_KEY_SESSION_ALARM_SESSION_ID)
-        if (sessionId != null) {
-            MyApp.LogDebug(LOG_TAG, "Open with sessionId '$sessionId'.")
-            dayIndex = intent.getIntExtra(BUNDLE_KEY_SESSION_ALARM_DAY_INDEX, dayIndex)
-            MyApp.LogDebug(LOG_TAG, "dayIndex = $dayIndex")
-        }
-        if (MyApp.meta.numDays > 1) {
-            buildNavigationMenu()
-        }
     }
 
-    private fun saveCurrentDay(day: Int) {
-        appRepository.updateDisplayDayIndex(day)
+    private fun observeViewModel() {
+        viewModel.fahrplanParameter.observe(viewLifecycleOwner) { (scheduleData, numDays, dayIndex, menuEntries) ->
+            menuEntries?.let { buildNavigationMenu(it, numDays) }
+            viewModel.fillTimes(Moment.now(), getNormalizedBoxHeight())
+            viewDay(scheduleData, numDays, dayIndex)
+        }
+        viewModel.fahrplanEmptyParameter.observe(viewLifecycleOwner) { (scheduleVersion) ->
+            val errorMessage = errorMessageFactory.getMessageForEmptySchedule(scheduleVersion)
+            errorMessage.show(requireContext(), shouldShowLong = false)
+        }
+        viewModel.shareSimple.observe(viewLifecycleOwner) { formattedSession ->
+            SessionSharer.shareSimple(requireContext(), formattedSession)
+        }
+        viewModel.shareJson.observe(viewLifecycleOwner) { jsonFormattedSession ->
+            val context = requireContext()
+            if (!SessionSharer.shareJson(context, jsonFormattedSession)) {
+                Toast.makeText(context, R.string.share_error_activity_not_found, Toast.LENGTH_SHORT).show()
+            }
+        }
+        viewModel.timeTextViewParameters.observe(viewLifecycleOwner) { timeTextViewParameters ->
+            fillTimes(timeTextViewParameters)
+        }
+        viewModel.scrollToCurrentSessionParameter.observe(viewLifecycleOwner) { (scheduleData, dateInfos) ->
+            val boxHeight = getNormalizedBoxHeight()
+            scrollToCurrent(boxHeight, scheduleData, dateInfos)
+        }
+        viewModel.scrollToSessionParameter.observe(viewLifecycleOwner) { (sessionId, verticalPosition, roomIndex) ->
+            scrollTo(sessionId, verticalPosition, roomIndex)
+        }
     }
 
     override fun onResume() {
@@ -200,102 +197,54 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
         val activity = requireActivity()
         activity.invalidateOptionsMenu()
         val intent = activity.intent
-        Log.d(LOG_TAG, "sessionId = $sessionId")
-        sessionId = intent.getStringExtra(BUNDLE_KEY_SESSION_ALARM_SESSION_ID)
+        // TODO Consume session alarm in MainActivity and let it orchestrate its fragments
+        val sessionId = intent.getStringExtra(BUNDLE_KEY_SESSION_ALARM_SESSION_ID)
         // TODO Analyzing https://github.com/EventFahrplan/EventFahrplan/issues/402
         Log.d(LOG_TAG, "sessionId = $sessionId (after loading from bundle)")
         if (sessionId != null) {
             Log.d(LOG_TAG, "Open with sessionId '$sessionId'.")
-            dayIndex = intent.getIntExtra(BUNDLE_KEY_SESSION_ALARM_DAY_INDEX, dayIndex)
-            Log.d(LOG_TAG, "day index = $dayIndex")
-            saveCurrentDay(dayIndex)
-        }
-        Log.d(LOG_TAG, "MyApp.task_running = ${MyApp.task_running}")
-        when (MyApp.task_running) {
-            TASKS.FETCH -> {
-                Log.d(LOG_TAG, "fetch was pending, restart")
-                if (MyApp.meta.numDays != 0) {
-                    viewDay(false)
-                }
-            }
-            TASKS.PARSE -> {
-                Log.d(LOG_TAG, "parse was pending, restart")
-            }
-            TASKS.NONE -> {
-                Log.d(LOG_TAG, "meta.getNumDays() = ${MyApp.meta.numDays}")
-                if (MyApp.meta.numDays != 0) {
-                    // auf jeden Fall reload, wenn mit Session ID gestartet
-                    viewDay(sessionId != null)
-                }
-            }
-            else -> {
-                // Nothing to do here.
-            }
-        }
-        if (sessionId != null && scheduleData != null) {
-            val session = scheduleData!!.findSession(sessionId!!)
-            if (session != null) {
-                scrollTo(session)
-                val sidePaneView = activity.findViewById<FragmentContainerView?>(R.id.detail)
-                if (sidePaneView != null && onSessionClickListener != null) {
-                    onSessionClickListener!!.onSessionClick(sessionId!!)
-                }
-            }
+            val sessionAlarmDayIndex = intent.getIntExtra(BUNDLE_KEY_SESSION_ALARM_DAY_INDEX, -1)
+            viewModel.saveSelectedDayIndex(sessionAlarmDayIndex)
+            viewModel.scrollToSession(sessionId, getNormalizedBoxHeight())
             intent.removeExtra(BUNDLE_KEY_SESSION_ALARM_SESSION_ID) // jump to given sessionId only once
         }
-        if (conference != null) {
-            fillTimes()
-        }
-        appRepository.setOnSessionsChangeListener(onSessionsChangeListener)
+        Logging.get().d(LOG_TAG, "onResume")
     }
 
-    override fun onPause() {
-        appRepository.removeOnSessionsChangeListener(onSessionsChangeListener)
-        super.onPause()
+    override fun onDestroy() {
+        connectivityObserver.stop()
+        super.onDestroy()
     }
 
-    private fun viewDay(forceReload: Boolean) {
-        Log.d(LOG_TAG, "viewDay($forceReload)")
+    /**
+     * Updates the session data in the schedule view.
+     */
+    private fun viewDay(scheduleData: ScheduleData, numDays: Int, dayIndex: Int) {
         val layoutRoot = requireView()
-        val boxHeight = getNormalizedBoxHeight(displayDensityScale)
         val horizontalScroller = layoutRoot.requireViewByIdCompat<HorizontalSnapScrollView>(R.id.horizScroller)
         horizontalScroller.scrollTo(0, 0)
-        loadSessions(appRepository, dayIndex, forceReload)
-
-        val sessionsOfDay = scheduleData!!.allSessions
-        if (sessionsOfDay.isEmpty()) {
-            val scheduleVersion = appRepository.readMeta().version
-            val errorMessage = errorMessageFactory.getMessageForEmptySchedule(scheduleVersion)
-            errorMessage.show(requireContext(), shouldShowLong = false)
-        } else {
-            // TODO: Move this to AppRepository and include the result in ScheduleData
-            conference = Conference.ofSessions(sessionsOfDay)
-            MyApp.LogDebug(LOG_TAG, "Conference = $conference")
-        }
-
-        val roomCount = scheduleData!!.roomCount
+        val roomCount = scheduleData.roomCount
         horizontalScroller.setRoomsCount(roomCount)
+
         val roomScroller = layoutRoot.requireViewByIdCompat<HorizontalScrollView>(R.id.roomScroller)
         val roomTitlesRowLayout = roomScroller.getChildAt(0) as LinearLayout
         val columnWidth = horizontalScroller.columnWidth
-        addRoomTitleViews(roomTitlesRowLayout, columnWidth, scheduleData!!.roomNames)
-        addRoomColumns(horizontalScroller, columnWidth, scheduleData!!, forceReload)
+        addRoomTitleViews(roomTitlesRowLayout, columnWidth, scheduleData.roomNames)
+        addRoomColumns(horizontalScroller, columnWidth, scheduleData)
 
         MainActivity.instance.shouldScheduleScrollToCurrentTimeSlot {
-            if (!preserveVerticalScrollPosition) {
-                scrollToCurrent(boxHeight)
-                preserveVerticalScrollPosition = false
+            if (!viewModel.preserveVerticalScrollPosition) {
+                viewModel.scrollToCurrentSession()
+                viewModel.preserveVerticalScrollPosition = false
             }
-            Unit
         }
-        updateNavigationMenuSelection()
+        updateNavigationMenuSelection(numDays, dayIndex)
     }
 
-    private fun updateNavigationMenuSelection() {
+    private fun updateNavigationMenuSelection(numDays: Int, dayIndex: Int) {
         val activity = requireActivity() as AppCompatActivity
         val actionbar = activity.supportActionBar
-        Log.d(LOG_TAG, "MyApp.meta = ${MyApp.meta}")
-        if (actionbar != null && MyApp.meta.numDays > 1) {
+        if (actionbar != null && numDays > 1) {
             actionbar.setSelectedNavigationItem(dayIndex - 1)
         }
     }
@@ -308,35 +257,19 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
     private fun addRoomColumns(
         horizontalScroller: HorizontalSnapScrollView,
         columnWidth: Int,
-        scheduleData: ScheduleData,
-        forceReload: Boolean
+        scheduleData: ScheduleData
     ) {
-        val columnIndexLeft = horizontalScroller.columnIndex
-        val columnIndexRight = horizontalScroller.lastVisibleColumnIndex
-
-        // whenever possible, just update recycler views
-        if (!forceReload && adapterByRoomIndex.isNotEmpty()) {
-            for (roomIndex in columnIndexLeft..columnIndexRight) {
-                try {
-                    adapterByRoomIndex[roomIndex]!!.notifyDataSetChanged()
-                } catch (e: NullPointerException) {
-                    // TODO Analyzing https://github.com/EventFahrplan/EventFahrplan/issues/402
-                    Log.e(LOG_TAG, "adapterByRoomIndex keys = ${adapterByRoomIndex.keys}")
-                    throw e
-                }
-            }
-            return
-        }
         val columnsLayout = horizontalScroller.getChildAt(0) as LinearLayout
+        // TODO Optimization: Track room names and check if they can be re-used with the updated scheduleData
         columnsLayout.removeAllViews()
-        adapterByRoomIndex.clear()
-        val boxHeight = getNormalizedBoxHeight(displayDensityScale)
+        val boxHeight = getNormalizedBoxHeight()
         val layoutCalculator = LayoutCalculator(boxHeight)
         val context = horizontalScroller.context
         val roomDataList = scheduleData.roomDataList
+        val conference = Conference.ofSessions(scheduleData.allSessions)
         for (roomIndex in roomDataList.indices) {
             val roomData = roomDataList[roomIndex]
-            val layoutParamsBySession = layoutCalculator.calculateLayoutParams(roomData, conference!!)
+            val layoutParamsBySession = layoutCalculator.calculateLayoutParams(roomData, conference)
             val columnRecyclerView = RecyclerView(context).apply {
                 setHasFixedSize(true)
                 setFadingEdgeLength(0)
@@ -352,7 +285,6 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
                 eventsHandler = this
             )
             columnRecyclerView.adapter = adapter
-            adapterByRoomIndex[roomIndex] = adapter
             columnsLayout.addView(columnRecyclerView)
         }
     }
@@ -393,12 +325,10 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
 
     /**
      * Jump to current time or session, if we are on today's session list
+     * Scrolling to a session as an reaction to tapping a session alarm notification
+     * is handled in [scrollTo].
      */
-    private fun scrollToCurrent(boxHeight: Int) {
-        val currentDayIndex = scheduleData!!.dayIndex
-        if (sessionId != null || currentDayIndex != MyApp.dateInfos.indexOfToday) {
-            return
-        }
+    private fun scrollToCurrent(boxHeight: Int, scheduleData: ScheduleData, dateInfos: DateInfos) {
         var columnIndex = -1
         val layoutRootView = requireView()
         if (!layoutRootView.context.isLandscape()) {
@@ -407,12 +337,13 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
             MyApp.LogDebug(LOG_TAG, "y pos = $columnIndex")
         }
         val nowMoment = Moment.now()
-        val scrollAmount = scrollAmountCalculator!!.calculateScrollAmount(
-            conference = conference!!,
-            dateInfos = MyApp.dateInfos,
-            scheduleData = scheduleData!!,
+        val conference = Conference.ofSessions(scheduleData.allSessions)
+        val scrollAmount = ScrollAmountCalculator(Logging.get()).calculateScrollAmount(
+            conference = conference,
+            dateInfos = dateInfos,
+            scheduleData = scheduleData,
             nowMoment = nowMoment,
-            currentDayIndex = currentDayIndex,
+            currentDayIndex = scheduleData.dayIndex,
             boxHeight = boxHeight,
             columnIndex = columnIndex
         )
@@ -432,45 +363,21 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
         bellView.isVisible = session.hasAlarm
     }
 
-    private fun scrollTo(session: Session) {
-        val height = getNormalizedBoxHeight(displayDensityScale)
-        val pos = scrollAmountCalculator!!.calculateScrollAmount(conference!!, session, height)
-        MyApp.LogDebug(LOG_TAG, "Position is $pos")
+    private fun scrollTo(sessionId: String, verticalPosition: Int, roomIndex: Int) {
         val layoutRootView = requireView()
         layoutRootView.requireViewByIdCompat<NestedScrollView>(R.id.verticalScrollView).apply {
-            post { scrollTo(0, pos) }
+            post { scrollTo(0, verticalPosition) }
         }
         val horizontalSnapScrollView = layoutRootView.findViewById<HorizontalSnapScrollView?>(R.id.horizScroller)
-        if (horizontalSnapScrollView != null) {
-            val horizontalPos = scheduleData!!.findRoomIndex(session)
-            MyApp.LogDebug(LOG_TAG, "Scroll horizontal to $horizontalPos")
-            horizontalSnapScrollView.post { horizontalSnapScrollView.scrollToColumn(horizontalPos, false) }
+        horizontalSnapScrollView?.post { horizontalSnapScrollView.scrollToColumn(roomIndex, false) }
+        val activity = requireActivity()
+        val sidePaneView = activity.findViewById<FragmentContainerView?>(R.id.detail)
+        if (sidePaneView != null && onSessionClickListener != null) {
+            onSessionClickListener!!.onSessionClick(sessionId)
         }
     }
 
-    private fun chooseDay(chosenDay: Int) {
-        if (chosenDay + 1 != dayIndex) {
-            dayIndex = chosenDay + 1
-            saveCurrentDay(dayIndex)
-            preserveVerticalScrollPosition = false
-            viewDay(forceReload = true)
-            fillTimes()
-        }
-    }
-
-    private fun fillTimes() {
-        val normalizedBoxHeight = getNormalizedBoxHeight(displayDensityScale)
-        val earliestSession = appRepository.loadEarliestSession()
-        val firstDayStartDay = earliestSession.startTimeMoment.monthDay
-        val useDeviceTimeZone = appRepository.readUseDeviceTimeZoneEnabled()
-        val parameters = TimeTextViewParameter.parametersOf(
-            nowMoment = Moment.now(),
-            conference = conference!!,
-            firstDayStartDay = firstDayStartDay,
-            dayIndex = dayIndex,
-            normalizedBoxHeight = normalizedBoxHeight,
-            useDeviceTimeZone = useDeviceTimeZone
-        )
+    private fun fillTimes(parameters: List<TimeTextViewParameter>) {
         val timeTextColumn = requireView().requireViewByIdCompat<LinearLayout>(R.id.times_layout)
         timeTextColumn.removeAllViews()
         var timeTextView: View
@@ -489,42 +396,10 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
             return (factor * displayDensityScale).toInt()
         }
 
-    private fun getNormalizedBoxHeight(scale: Float): Int {
+    private fun getNormalizedBoxHeight(): Int {
         val orientationText = if (requireContext().isLandscape()) "landscape" else "other orientation"
         MyApp.LogDebug(LOG_TAG, orientationText)
-        return (resources.getInteger(R.integer.box_height) * scale).toInt()
-    }
-
-    private fun loadSessions(appRepository: AppRepository, dayIndex: Int, forceReload: Boolean) {
-        MyApp.LogDebug(LOG_TAG, "load sessions of dayIndex $dayIndex")
-        if (!forceReload && scheduleData != null && scheduleData!!.dayIndex == dayIndex) {
-            return
-        }
-        val sessions = appRepository.loadUncanceledSessionsForDayIndex(dayIndex)
-        scheduleData = sessionsTransformer.transformSessions(dayIndex, sessions)
-        scrollAmountCalculator = ScrollAmountCalculator(Logging.get())
-    }
-
-    private fun reloadAlarms() {
-        if (scheduleData == null) {
-            return
-        }
-        val alarmSessionIds = appRepository.readAlarmSessionIds()
-        for (session in scheduleData!!.allSessions) {
-            session.hasAlarm = alarmSessionIds.contains(session.sessionId)
-        }
-        refreshViews()
-    }
-
-    private fun reloadHighlights() {
-        if (scheduleData == null) {
-            return
-        }
-        val highlightSessionIds = appRepository.readHighlightSessionIds()
-        for (session in scheduleData!!.allSessions) {
-            session.highlight = highlightSessionIds.contains(session.sessionId)
-        }
-        refreshViews()
+        return (resources.getInteger(R.integer.box_height) * displayDensityScale).toInt()
     }
 
     override fun onClick(view: View) {
@@ -535,9 +410,7 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
         onSessionClickListener?.onSessionClick(session.sessionId)
     }
 
-    private fun buildNavigationMenu() {
-        val numDays = MyApp.meta.numDays
-        val dayMenuEntries = navigationMenuEntriesGenerator.getDayMenuEntries(numDays, MyApp.dateInfos).toTypedArray()
+    private fun buildNavigationMenu(dayMenuEntries: List<String?>, numDays: Int) {
         val actionBar = (requireActivity() as AppCompatActivity).supportActionBar
         actionBar!!.navigationMode = NAVIGATION_MODE_LIST
         val arrayAdapter = ArrayAdapter(
@@ -547,43 +420,6 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
         )
         arrayAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_list_item)
         actionBar.setListNavigationCallbacks(arrayAdapter, OnDaySelectedListener(numDays))
-    }
-
-    fun onParseDone(result: ParseResult) {
-        val activity = requireActivity()
-        val lastShiftsHash = appRepository.readLastEngelsystemShiftsHash()
-        val currentShiftsHash = appRepository.readEngelsystemShiftsHash()
-        MyApp.LogDebug(LOG_TAG, "Shifts hash (OLD) = $lastShiftsHash")
-        MyApp.LogDebug(LOG_TAG, "Shifts hash (NEW) = $currentShiftsHash")
-        val shiftsChanged = currentShiftsHash != lastShiftsHash
-        if (shiftsChanged) {
-            appRepository.updateLastEngelsystemShiftsHash(currentShiftsHash)
-        }
-        if (result.isSuccess) {
-            if (MyApp.meta.numDays == 0 || (result is ParseScheduleResult && result.version != MyApp.meta.version) || shiftsChanged) {
-                MyApp.meta = appRepository.readMeta()
-                FahrplanMisc.loadDays(appRepository)
-                if (MyApp.meta.numDays > 1) {
-                    buildNavigationMenu()
-                }
-                dayIndex = appRepository.readDisplayDayIndex()
-                if (dayIndex > MyApp.meta.numDays) {
-                    dayIndex = 1
-                }
-                viewDay(true)
-                if (conference == null) {
-                    Log.e(javaClass.simpleName, "Error displaying schedule. Conference is null.")
-                } else {
-                    fillTimes()
-                }
-            } else {
-                viewDay(false)
-            }
-        } else {
-            val errorMessage = errorMessageFactory.getMessageForParsingResult(result)
-            errorMessage.show(requireContext(), shouldShowLong = true)
-        }
-        activity.invalidateOptionsMenu()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -603,7 +439,7 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
             Log.e(javaClass.simpleName, "onAlarmTimesIndexPicked: session: null. alarmTimesIndex: $alarmTimesIndex")
             throw NullPointerException("Session is null.")
         } else {
-            alarmServices.addSessionAlarm(lastSelectedSession!!, alarmTimesIndex)
+            viewModel.addAlarm(lastSelectedSession!!, alarmTimesIndex)
             setBell(lastSelectedSession!!)
             updateMenuItems()
         }
@@ -618,7 +454,7 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
         when (menuItemIndex) {
             CONTEXT_MENU_ITEM_ID_FAVORITES -> {
                 session.highlight = !session.highlight
-                appRepository.updateHighlight(session)
+                viewModel.updateFavorStatus(session)
                 sessionViewDrawer.setSessionBackground(session, contextMenuView)
                 SessionViewDrawer.setSessionTextColor(session, contextMenuView)
                 updateMenuItems()
@@ -627,7 +463,7 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
                 showAlarmTimePicker()
             }
             CONTEXT_MENU_ITEM_ID_DELETE_ALARM -> {
-                alarmServices.deleteSessionAlarm(session)
+                viewModel.deleteAlarm(session)
                 setBell(session)
                 updateMenuItems()
             }
@@ -636,21 +472,14 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
             }
             CONTEXT_MENU_ITEM_ID_SHARE -> {
                 if (!BuildConfig.ENABLE_CHAOSFLIX_EXPORT) {
-                    val timeZoneId = appRepository.readMeta().timeZoneId
-                    val formattedSession = SimpleSessionFormat().format(session, timeZoneId)
-                    SessionSharer.shareSimple(context, formattedSession)
+                    viewModel.share(session)
                 }
             }
             CONTEXT_MENU_ITEM_ID_SHARE_TEXT -> {
-                val timeZoneId = appRepository.readMeta().timeZoneId
-                val formattedSession = SimpleSessionFormat().format(session, timeZoneId)
-                SessionSharer.shareSimple(context, formattedSession)
+                viewModel.share(session)
             }
             CONTEXT_MENU_ITEM_ID_SHARE_JSON -> {
-                val jsonFormattedSession = JsonSessionFormat().format(session)
-                if (!SessionSharer.shareJson(context, jsonFormattedSession)) {
-                    Toast.makeText(context, R.string.share_error_activity_not_found, Toast.LENGTH_SHORT).show()
-                }
+                viewModel.shareToChaosflix(session)
             }
         }
         return true
@@ -663,9 +492,7 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
 
     override fun onOptionsItemSelected(menuItem: MenuItem): Boolean {
         return if (menuItem.itemId == R.id.menu_item_refresh) {
-            // TODO Replace MainActivity reference with viewModel.
-            val activity = requireActivity() as MainActivity
-            activity.fetchFahrplan()
+            viewModel.requestScheduleUpdate(isUserRequest = true)
             true
         } else {
             super.onOptionsItemSelected(menuItem)
@@ -702,26 +529,6 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
         }
     }
 
-    private fun getSessionView(session: Session): View? {
-        val verticalScrollView = requireView().findViewById<NestedScrollView?>(R.id.verticalScrollView)
-            ?: return null
-        return verticalScrollView.findViewWithTag(session)
-    }
-
-    private fun refreshViews() {
-        if (scheduleData == null) {
-            return
-        }
-        for (session in scheduleData!!.allSessions) {
-            setBell(session)
-            val sessionView = getSessionView(session)
-            if (sessionView != null) {
-                sessionViewDrawer.setSessionBackground(session, sessionView)
-                SessionViewDrawer.setSessionTextColor(session, sessionView)
-            }
-        }
-    }
-
     private inner class OnDaySelectedListener(private val numDays: Int) : OnNavigationListener {
 
         private var isSynthetic = true
@@ -732,7 +539,7 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
                 return true
             }
             if (itemPosition < numDays) {
-                chooseDay(itemPosition)
+                viewModel.selectDay(itemPosition)
                 return true
             }
             return false

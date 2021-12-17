@@ -125,7 +125,6 @@ class AlarmServices @VisibleForTesting constructor(
         scheduleSessionAlarm(schedulableAlarm, true)
         repository.updateAlarm(alarm)
         session.hasAlarm = true
-        repository.notifyAlarmsChanged()
     }
 
     /**
@@ -142,7 +141,6 @@ class AlarmServices @VisibleForTesting constructor(
             repository.deleteAlarmForSessionId(sessionId)
         }
         session.hasAlarm = false
-        repository.notifyAlarmsChanged()
     }
 
     /**

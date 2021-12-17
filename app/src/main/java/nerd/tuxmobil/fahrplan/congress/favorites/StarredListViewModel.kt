@@ -39,14 +39,12 @@ class StarredListViewModel(
     fun delete(session: Session) {
         viewModelScope.launch(executionContext.database) {
             repository.updateHighlight(session)
-            repository.notifyHighlightsChanged() // TODO Remove when FahrplanFragment uses Flow
         }
     }
 
     fun deleteAll() {
         viewModelScope.launch(executionContext.database) {
             repository.deleteAllHighlights()
-            repository.notifyHighlightsChanged() // TODO Remove when FahrplanFragment uses Flow
         }
     }
 
