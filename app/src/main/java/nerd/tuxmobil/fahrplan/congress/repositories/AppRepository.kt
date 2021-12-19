@@ -178,7 +178,8 @@ object AppRepository {
         refreshUncanceledSessionsSignal
             .onStart { emit(Unit) }
             .mapLatest { loadUncanceledSessionsForDayIndex() }
-            .distinctUntilChanged() // If server does not respond with HTTP 304 (Not modified).
+            // Don't use distinctUntilChanged() here unless Session highlight and hasAlarm are
+            // part of equals and hashcode. Otherwise the schedule screen does not update.
             .flowOn(executionContext.database)
     }
 
