@@ -60,7 +60,7 @@ class ShiftExtensionsTest {
 
     @Test
     fun descriptionTextWithShiftWithUserComment() {
-        assertThat(Shift(userComment = "Don't forget a warm jacket.").descriptionText).isEqualTo("<em>Don't forget a warm jacket.</em>")
+        assertThat(Shift(userComment = "Don't forget a warm jacket.").descriptionText).isEqualTo("_Don't forget a warm jacket._")
     }
 
     @Test
@@ -71,7 +71,7 @@ class ShiftExtensionsTest {
                 locationDescription = "The small orange room.",
                 userComment = "Take a bottle of water with you"
         )
-        val text = "Room 42<br /><a href=\"https://conference.org\">https://conference.org</a><br /><br />The small orange room.<br /><br /><em>Take a bottle of water with you</em>"
+        val text = "Room 42\n<a href=\"https://conference.org\">https://conference.org</a>\n\nThe small orange room.\n\n_Take a bottle of water with you_"
         assertThat(shift.descriptionText).isEqualTo(text)
     }
 

@@ -63,21 +63,21 @@ val Shift.descriptionText: String
         }
         if (locationUrl.isNotEmpty()) {
             if (text.isNotEmpty()) {
-                text += "<br />"
+                text += "\n"
             }
             text += "<a href=\"$locationUrl\">$locationUrl</a>"
         }
         if (locationDescription.isNotEmpty()) {
             if (text.isNotEmpty()) {
-                text += "<br /><br />"
+                text += "\n\n"
             }
             text += locationDescription
         }
         if (userComment.isNotEmpty()) {
             if (text.isNotEmpty()) {
-                text += "<br /><br />"
+                text += "\n\n"
             }
-            text += "<em>$userComment</em>"
+            text += "_${userComment.trim()}_"
         }
         return text
     }
