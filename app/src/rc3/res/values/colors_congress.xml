@@ -4,43 +4,76 @@
     <color name="pressed_congress">#CCa41c31</color>
 
     <!-- Default state -->
-    <color name="track_background_default">#595959</color>
-    <color name="track_background_default_art_culture">#AD6632</color>
-    <color name="track_background_default_b_cbase">#C2A763</color>
-    <color name="track_background_default_bam_franconian">#B57B93</color>
-    <color name="track_background_default_classics">#B38900</color>
-    <color name="track_background_default_community">#756D0F</color>
-    <color name="track_background_default_cwtv">#37BDBF</color>
-    <color name="track_background_default_engelshifts">#523023</color>
-    <color name="track_background_default_entertainment">#336B22</color>
-    <color name="track_background_default_ethics_society_politics">#21615C</color>
-    <color name="track_background_default_hardware_making">#29728C</color>
-    <color name="track_background_default_hh_chaostrawler">#5190B8</color>
-    <color name="track_background_default_hh_kampnagel">#8DC297</color>
-    <color name="track_background_default_lightning_talks">#6B750F</color>
-    <color name="track_background_default_mon_r3s_rhein_vhs">#2C4EBF</color>
-    <color name="track_background_default_muc_about_future">#BF3671</color>
-    <color name="track_background_default_muc_hacc_about_future">#BF3671</color>
-    <color name="track_background_default_music">#004D40</color>
-    <color name="track_background_default_podcast">#851414</color>
-    <color name="track_background_default_queer">#6B2447</color>
-    <color name="track_background_default_resilience">#566299</color>
-    <color name="track_background_default_science">#86578C</color>
-    <color name="track_background_default_security">#914452</color>
-    <color name="track_background_default_self_organized_sessions">#233F8C</color>
-    <color name="track_background_default_talk">#B34D00</color>
-    <color name="track_background_default_workshop">#33691E</color>
-    <color name="track_background_default_zuerich_bitwaescherei">#9188BF</color>
+
+    <color name="track_background_default">#aa595959</color>
+    <color name="track_background_default_back_to_basics">#aa283f0a</color>
+    <color name="track_background_default_chaosstudio_hamburg">#aa06007f</color>
+    <color name="track_background_default_digitalcourage">#aa4D4313</color>
+    <color name="track_background_default_engelshifts">#aa523023</color>
+    <color name="track_background_default_feminismus">#aa450345</color>
+    <color name="track_background_default_into_to_the_future">#aa184c64</color>
+    <color name="track_background_default_kunst_kultur_erholung">#aa183D26</color>
+    <color name="track_background_default_pandemie">#aa926f17</color>
+    <color name="track_background_default_sicherheit">#aa0c8686</color>
+    <color name="track_background_default_soziales_gesellschaft">#aaab0e55</color>
+    <color name="track_background_default_talk">#aaB34D00</color>
+    <color name="track_background_default_technik">#aa21615C</color>
+    <color name="track_background_default_umwelt">#aa1f7a13</color>
+    <color name="track_background_default_r3s_monheim_rhein">#aa6B2447</color>
 
     <!-- Highlight state -->
+
     <color name="track_background_highlight">#8c8c8c</color>
+    <color name="track_background_highlight_back_to_basics">#6fad1b</color>
+    <color name="track_background_highlight_chaosstudio_hamburg">#0d00ff</color>
+    <color name="track_background_highlight_digitalcourage">#a8a326</color>
+    <color name="track_background_highlight_engelshifts">#9F5E45</color>
+    <color name="track_background_highlight_feminismus">#a409a3</color>
+    <color name="track_background_highlight_into_to_the_future">#309bcb</color>
+    <color name="track_background_highlight_kunst_kultur_erholung">#32804d</color>
+    <color name="track_background_highlight_pandemie">#e2b647</color>
+    <color name="track_background_highlight_sicherheit">#27ebeb</color>
+    <color name="track_background_highlight_soziales_gesellschaft">#f04994</color>
+    <color name="track_background_highlight_talk">#CC5800</color>
+    <color name="track_background_highlight_technik">#3caea5</color>
+    <color name="track_background_highlight_umwelt">#42de2f</color>
+    <color name="track_background_highlight_r3s_monheim_rhein">#B83E78</color>
+
+    <!-- Default state rC3 2020 -->
+
+    <color name="track_background_default_art_culture">#aaAD6632</color>
+    <color name="track_background_default_b_cbase">#aaC2A763</color>
+    <color name="track_background_default_bam_franconian">#aaB57B93</color>
+    <color name="track_background_default_classics">#aaB38900</color>
+    <color name="track_background_default_community">#aa756D0F</color>
+    <color name="track_background_default_cwtv">#aa37BDBF</color>
+    <color name="track_background_default_entertainment">#aa336B22</color>
+    <color name="track_background_default_ethics_society_politics">#aa21615C</color>
+    <color name="track_background_default_hardware_making">#aa29728C</color>
+    <color name="track_background_default_hh_chaostrawler">#aa5190B8</color>
+    <color name="track_background_default_hh_kampnagel">#aa8DC297</color>
+    <color name="track_background_default_lightning_talks">#aa6B750F</color>
+    <color name="track_background_default_mon_r3s_rhein_vhs">#aa2C4EBF</color>
+    <color name="track_background_default_muc_about_future">#aaBF3671</color>
+    <color name="track_background_default_muc_hacc_about_future">#aaBF3671</color>
+    <color name="track_background_default_music">#aa004D40</color>
+    <color name="track_background_default_podcast">#aa851414</color>
+    <color name="track_background_default_queer">#aa6B2447</color>
+    <color name="track_background_default_resilience">#aa566299</color>
+    <color name="track_background_default_science">#aa86578C</color>
+    <color name="track_background_default_security">#aa914452</color>
+    <color name="track_background_default_self_organized_sessions">#aa233F8C</color>
+    <color name="track_background_default_workshop">#aa33691E</color>
+    <color name="track_background_default_zuerich_bitwaescherei">#aa9188BF</color>
+
+    <!-- Highlight state rC3 2020 -->
+
     <color name="track_background_highlight_art_culture">#e08241</color>
     <color name="track_background_highlight_b_cbase">#F5D37E</color>
     <color name="track_background_highlight_bam_franconian">#E79EBD</color>
     <color name="track_background_highlight_classics">#FFC400</color>
     <color name="track_background_highlight_community">#c2b519</color>
     <color name="track_background_highlight_cwtv">#46EEF2</color>
-    <color name="track_background_highlight_engelshifts">#9F5E45</color>
     <color name="track_background_highlight_entertainment">#57b73a</color>
     <color name="track_background_highlight_ethics_society_politics">#3caea5</color>
     <color name="track_background_highlight_hardware_making">#3fafd8</color>
@@ -57,15 +90,14 @@
     <color name="track_background_highlight_science">#cf87d9</color>
     <color name="track_background_highlight_security">#de697e</color>
     <color name="track_background_highlight_self_organized_sessions">#4174ff</color>
-    <color name="track_background_highlight_talk">#FF6F00</color>
     <color name="track_background_highlight_workshop">#33691E</color>
     <color name="track_background_highlight_zuerich_bitwaescherei">#B7ACF1</color>
 
     <!-- Track color -->
-    <color name="track_name">#be000000</color>
+    <color name="track_name">#beffffff</color>
 
     <!-- Title color -->
-    <color name="session_title_on_default_background">#a0000000</color>
-    <color name="session_title_on_highlight_background">#000</color>
+    <color name="session_title_on_default_background">#a0ffffff</color>
+    <color name="session_title_on_highlight_background">#fff</color>
 
 </resources>

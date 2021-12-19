@@ -10,7 +10,7 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Al
 
 public class AlarmsDBOpenHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 5;
 
     private static final String DATABASE_NAME = "alarms";
 
@@ -49,6 +49,11 @@ public class AlarmsDBOpenHelper extends SQLiteOpenHelper {
         }
         if (oldVersion < 4) {
             // Clear database from 35C3.
+            db.execSQL("DROP TABLE IF EXISTS " + AlarmsTable.NAME);
+            onCreate(db);
+        }
+        if (oldVersion < 5) {
+            // Clear database from rC3.
             db.execSQL("DROP TABLE IF EXISTS " + AlarmsTable.NAME);
             onCreate(db);
         }

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Grafik rC3</string>
-    <string name="app_hardcoded_subtitle">27–30 grudnia 2020, online</string>
+    <string name="app_hardcoded_subtitle">27–30 grudnia 2021, online</string>
     <string name="copyright_logo">
-        <![CDATA[rC3. Projekt <a href="https://kreatur.works">KREATUR WORKS</a>]]>
+        <![CDATA[rC3. Projekt <a href="https://hannesdenker.com">Hannes Denker</a>]]>
     </string>
     <string name="about_logo_content_description">
-        Logo rC3
+        Logo rC3 2021 nowhere
     </string>
 </resources>

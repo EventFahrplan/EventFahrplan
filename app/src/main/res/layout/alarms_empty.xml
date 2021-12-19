@@ -8,6 +8,7 @@
             android:layout_margin="64dp"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="@string/alarms_empty"/>
+            android:text="@string/alarms_empty"
+            android:textColor="@color/alarm_list_empty_text"/>
 
 </merge>

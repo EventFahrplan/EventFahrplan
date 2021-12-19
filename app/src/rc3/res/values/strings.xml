@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">rC3 Schedule</string>
-    <string name="app_hardcoded_subtitle">December 27.-30. 2020, Online</string>
+    <string name="app_hardcoded_subtitle">December 27.-30. 2021, Online</string>
     <string name="conference_name" translatable="false">rC3</string>
     <string name="copyright_logo">
-        <![CDATA[rC3. Design by <a href="https://kreatur.works">KREATUR WORKS</a>]]>
+        <![CDATA[rC3. Design by <a href="https://hannesdenker.com">Hannes Denker</a>]]>
     </string>
     <string name="about_logo_content_description">
-        rC3 logo
+        rC3 2021 nowhere logo
     </string>
 </resources>
