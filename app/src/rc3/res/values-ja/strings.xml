@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">rC3 Schedule</string>
-    <string name="app_hardcoded_subtitle">2020年12月27日〜30日, Online</string>
-    <string name="copyright_logo"><![CDATA[rC3. <a href="https://kreatur.works">KREATUR WORKS</a>]]>によるデザイン</string>
-    <string name="about_logo_content_description">rC3 のロゴ</string>
+    <string name="app_hardcoded_subtitle">2021年12月27日〜30日, Online</string>
+    <string name="copyright_logo"><![CDATA[rC3. <a href="https://hannesdenker.com">Hannes Denker</a>]]>によるデザイン</string>
+    <string name="about_logo_content_description">rC3 2021 nowhere のロゴ</string>
 </resources>

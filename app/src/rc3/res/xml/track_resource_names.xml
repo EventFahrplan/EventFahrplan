@@ -1,6 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <map linked="true">
 
+    <!-- Defined in AppRepository.ENGELSYSTEM_ROOM_NAME -->
+    <entry key="Engelshifts">engelshifts</entry>
+
+    <entry key="Auf in die Zukunft!">into_to_the_future</entry>
+    <entry key="Back to Basics">back_to_basics</entry>
+    <entry key="Into to the future!">into_to_the_future</entry>
+    <entry key="Chaosstudio Hamburg">chaosstudio_hamburg</entry>
+    <entry key="Chaosstudio Hamburg - Fascinating Astronomy">chaosstudio_hamburg</entry>
+    <entry key="Digitalcourage">digitalcourage</entry>
+    <entry key="r3s - Monheim/Rhein">r3s_monheim_rhein</entry>
+    <entry key="Feminismus">feminismus</entry>
+    <entry key="Kunst, Kultur &amp; Erholung">kunst_kultur_erholung</entry>
+    <entry key="Lightning Talk">lightning_talks</entry>
+    <entry key="Lightning-Talk">lightning_talks</entry>
+    <entry key="Lightning Talks">lightning_talks</entry>
+    <entry key="PaNdEmIe">pandemie</entry>
+    <entry key="Sicherheit">sicherheit</entry>
+    <entry key="Soziales &amp; Gesellschaft">soziales_gesellschaft</entry>
+    <entry key="Talk">talk</entry>
+    <entry key="Technik">technik</entry>
+    <entry key="Umwelt">umwelt</entry>
+
+    <!-- rC3 2020 -->
+
     <entry key="Art &amp; Culture">art_culture</entry>
     <entry key="B c-base">b_cbase</entry>
     <entry key="BAM franconian">bam_franconian</entry>
@@ -9,8 +33,6 @@
     <entry key="Community">community</entry>
     <entry key="CWTV">cwtv</entry>
     <entry key="DJ Set">music</entry>
-    <!-- Defined in AppRepository.ENGELSYSTEM_ROOM_NAME -->
-    <entry key="Engelshifts">engelshifts</entry>
     <entry key="Ethics, Society &amp; Politics">ethics_society_politics</entry>
     <entry key="franconian.net cc music">music</entry>
     <entry key="franconian.net talks">talk</entry>
@@ -25,9 +47,9 @@
     <entry key="Music">music</entry>
     <entry key="Performance">music</entry>
     <entry key="Science">science</entry>
-    <entry key="Talk">talk</entry>
     <entry key="Workshop">workshop</entry>
     <entry key="Zürich Bitwäscherei">zuerich_bitwaescherei</entry>
+
     <entry key=""></entry>
 
 </map>
