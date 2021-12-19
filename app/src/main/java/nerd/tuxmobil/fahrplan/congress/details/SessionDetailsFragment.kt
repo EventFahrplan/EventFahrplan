@@ -319,7 +319,7 @@ class SessionDetailsFragment : Fragment() {
         if (sidePane) {
             menu.setMenuItemVisibility(R.id.menu_item_close_session_details, true)
         }
-        menu.setMenuItemVisibility(R.id.menu_item_navigate, !model.isC3NavRoomNameEmpty)
+        menu.setMenuItemVisibility(R.id.menu_item_navigate, BuildConfig.C3NAV_URL.isNotEmpty() && !model.isC3NavRoomNameEmpty)
         @Suppress("ConstantConditionIf")
         val item = if (BuildConfig.ENABLE_CHAOSFLIX_EXPORT) {
             menu.findItem(R.id.menu_item_share_session_menu)
