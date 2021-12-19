@@ -194,9 +194,10 @@ class MainActivity : BaseActivity(),
     private fun showErrorDialog(httpStatus: HttpStatus, hostName: String, exceptionMessage: String) {
         if (httpStatus == HttpStatus.HTTP_LOGIN_FAIL_UNTRUSTED_CERTIFICATE) {
             CertificateErrorFragment.showDialog(supportFragmentManager, exceptionMessage)
+        } else {
+            val errorMessage = errorMessageFactory.getMessageForHttpStatus(httpStatus, hostName)
+            errorMessage.show(context = this, shouldShowLong = false)
         }
-        val errorMessage = errorMessageFactory.getMessageForHttpStatus(httpStatus, hostName)
-        errorMessage.show(context = this, shouldShowLong = false)
     }
 
     override fun onDestroy() {
