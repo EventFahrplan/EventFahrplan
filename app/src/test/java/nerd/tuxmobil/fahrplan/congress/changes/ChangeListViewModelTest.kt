@@ -30,7 +30,7 @@ class ChangeListViewModelTest {
     fun `changeListParameter emits null`() {
         val repository = createRepository(sessionsFlow = emptyFlow())
         val viewModel = createViewModel(repository)
-        assertLiveData(viewModel.changeListParameter).isEqualTo(null)
+        assertLiveData(viewModel.changeListParameter).isNull()
         verifyInvokedNever(repository).readMeta()
         verifyInvokedNever(repository).readUseDeviceTimeZoneEnabled()
     }

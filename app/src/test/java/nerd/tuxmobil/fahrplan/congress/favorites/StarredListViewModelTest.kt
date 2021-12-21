@@ -37,7 +37,7 @@ class StarredListViewModelTest {
     fun `starredListParameter returns null`() {
         val repository = createRepository(sessionsFlow = emptyFlow())
         val viewModel = createViewModel(repository)
-        assertLiveData(viewModel.starredListParameter).isEqualTo(null)
+        assertLiveData(viewModel.starredListParameter).isNull()
         verifyInvokedNever(repository).readMeta()
         verifyInvokedNever(repository).readUseDeviceTimeZoneEnabled()
     }
@@ -87,7 +87,7 @@ class StarredListViewModelTest {
     fun `initialization does not affect shareSimple property`() {
         val repository = createRepository()
         val viewModel = createViewModel(repository)
-        assertLiveData(viewModel.shareSimple).isEqualTo(null)
+        assertLiveData(viewModel.shareSimple).isNull()
     }
 
     @Test
@@ -115,14 +115,14 @@ class StarredListViewModelTest {
         }
         val viewModel = createViewModel(repository, simpleSessionFormat = fakeSessionFormat)
         viewModel.share()
-        assertLiveData(viewModel.shareSimple).isEqualTo(null)
+        assertLiveData(viewModel.shareSimple).isNull()
     }
 
     @Test
     fun `initialization does not affect shareJson property`() {
         val repository = createRepository()
         val viewModel = createViewModel(repository)
-        assertLiveData(viewModel.shareJson).isEqualTo(null)
+        assertLiveData(viewModel.shareJson).isNull()
     }
 
     @Test
@@ -144,7 +144,7 @@ class StarredListViewModelTest {
         }
         val viewModel = createViewModel(repository, jsonSessionFormat = fakeSessionFormat)
         viewModel.shareToChaosflix()
-        assertLiveData(viewModel.shareJson).isEqualTo(null)
+        assertLiveData(viewModel.shareJson).isNull()
     }
 
     private fun createRepository(

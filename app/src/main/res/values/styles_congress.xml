@@ -1,28 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- File created by the Android Action Bar Style Generator
-
-     Copyright (C) 2011 The Android Open Source Project
-     Copyright (C) 2012 readyState Software Ltd
-
-     Licensed under the Apache License, Version 2.0 (the "License");
-     you may not use this file except in compliance with the License.
-     You may obtain a copy of the License at
-  
-          http://www.apache.org/licenses/LICENSE-2.0
-  
-     Unless required by applicable law or agreed to in writing, software
-     distributed under the License is distributed on an "AS IS" BASIS,
-     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-     See the License for the specific language governing permissions and
-     limitations under the License.
--->
-
 <resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
 
     <style name="Theme.Congress" parent="Theme.AppCompat">
-        <!-- Set AppCompat’s actionBarStyle -->
-        <!--<item name="actionBarStyle">@style/MyActionBarStyle</item>-->
-
         <!-- Set AppCompat’s color theming attrs -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -41,9 +20,6 @@
     </style>
 
     <style name="Theme.Congress.NoActionBar" parent="Theme.AppCompat.NoActionBar">
-        <!-- Set AppCompat’s actionBarStyle -->
-        <!--<item name="actionBarStyle">@style/MyActionBarStyle</item>-->
-
         <!-- Set AppCompat’s color theming attrs -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -106,14 +82,15 @@
     </style>
 
     <style name="MyActionDropDownStyle" parent="Widget.AppCompat.Spinner.DropDown.ActionBar">
-        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Widget.ActionBar.Title
+        <item name="android:textAppearance">
+            @style/TextAppearance.AppCompat.Widget.ActionBar.Title
         </item>
-        <!--<item name="android:background">@android:color/black</item>-->
         <item name="android:textColor">@color/spinner_drop_down_text</item>
     </style>
 
     <style name="MySpinnerDropDownItemStyle" parent="Widget.AppCompat.DropDownItem.Spinner">
-        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Widget.ActionBar.Title
+        <item name="android:textAppearance">
+            @style/TextAppearance.AppCompat.Widget.ActionBar.Title
         </item>
     </style>
 

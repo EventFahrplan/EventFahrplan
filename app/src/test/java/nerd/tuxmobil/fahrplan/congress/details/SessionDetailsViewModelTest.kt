@@ -75,7 +75,7 @@ class SessionDetailsViewModelTest {
             feedbackUrlComposer = fakeFeedbackUrlComposer,
             roomForC3NavConverter = fakeRoomForC3NavConverter
         )
-        assertLiveData(viewModel.selectedSessionParameter).isEqualTo(null)
+        assertLiveData(viewModel.selectedSessionParameter).isNull()
         verifyInvokedOnce(repository).selectedSession
         verifyInvokedNever(repository).readUseDeviceTimeZoneEnabled()
     }
