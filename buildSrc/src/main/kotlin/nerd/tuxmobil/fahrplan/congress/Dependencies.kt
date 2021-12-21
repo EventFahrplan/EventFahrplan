@@ -18,7 +18,7 @@ object Android {
 object Plugins {
 
     private object Versions {
-        const val android = "7.0.3"
+        const val android = "7.0.4"
         const val androidJunitJacoco = "0.16.0"
         const val kotlin = "1.5.31"
         const val sonarQube = "3.3"
@@ -52,7 +52,7 @@ object Libs {
         const val liveDataKtx = "2.3.1" // compileSdk 31 is required as of 2.4.0
         const val markwon = "4.6.2"
         const val material = "1.4.0"
-        const val mockito = "4.1.0"
+        const val mockito = "4.2.0"
         const val mockitoKotlin = "4.0.0"
         const val moshi = "1.12.0"
         const val okhttp = "3.12.13"
