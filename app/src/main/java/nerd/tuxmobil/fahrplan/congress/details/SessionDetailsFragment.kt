@@ -35,6 +35,7 @@ import nerd.tuxmobil.fahrplan.congress.calendar.CalendarSharing
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
 import nerd.tuxmobil.fahrplan.congress.extensions.replaceFragment
 import nerd.tuxmobil.fahrplan.congress.extensions.requireViewByIdCompat
+import nerd.tuxmobil.fahrplan.congress.extensions.startActivity
 import nerd.tuxmobil.fahrplan.congress.extensions.toSpanned
 import nerd.tuxmobil.fahrplan.congress.extensions.withArguments
 import nerd.tuxmobil.fahrplan.congress.models.Session
@@ -143,7 +144,9 @@ class SessionDetailsFragment : Fragment() {
             updateOptionsMenu()
         }
         viewModel.openFeedBack.observe(viewLifecycleOwner) { uri ->
-            startActivity(Intent(Intent.ACTION_VIEW, uri))
+            requireContext().startActivity(Intent(Intent.ACTION_VIEW, uri)) {
+                Toast.makeText(context, R.string.share_error_activity_not_found, Toast.LENGTH_SHORT).show()
+            }
         }
         viewModel.shareSimple.observe(viewLifecycleOwner) { formattedSession ->
             SessionSharer.shareSimple(requireContext(), formattedSession)
