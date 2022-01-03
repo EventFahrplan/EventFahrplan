@@ -115,7 +115,7 @@ Caio Volpato, cketti, codingcatgirl, entropynil, ideadapt, Jasper van der Graaf,
 Joergi, koelnkalkverbot, Larissa Yasin, ligi, Luis Azcuaga, Mateus Baptista,
 Matthias Geisler, Matthias Hunstock, MichaelRocks, Nghiem Xuan Hien, NiciDieNase,
 Noemis, Omicron, Poschi, rotrot, Sjors van Mierlo, Stefan Medack, SubOptimal,
-Teeranai.P, Torsten Grote, Victor Herasme, Vladimir Alabov, Yanicka
+Teeranai.P, Thomaeum Kempen, Torsten Grote, Victor Herasme, Vladimir Alabov, Yanicka
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
