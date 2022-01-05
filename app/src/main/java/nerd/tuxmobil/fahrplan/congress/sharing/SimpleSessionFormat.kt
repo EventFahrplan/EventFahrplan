@@ -1,6 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.sharing
 
 import info.metadude.android.eventfahrplan.commons.temporal.DateFormatter
+import nerd.tuxmobil.fahrplan.congress.BuildConfig
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.utils.SessionUrlComposer
 import nerd.tuxmobil.fahrplan.congress.wiki.containsWikiLink
@@ -13,11 +14,21 @@ class SimpleSessionFormat {
         const val COMMA = ","
         const val SPACE = " "
         const val HORIZONTAL_DIVIDERS = "---"
+        const val NO_SOCIAL_MEDIA_HASHTAGS_HANDLES = ""
     }
 
-    fun format(session: Session, timeZoneId: ZoneId?): String {
+    fun format(
+        session: Session,
+        timeZoneId: ZoneId?,
+        socialMediaHashtagsHandles: String = BuildConfig.SOCIAL_MEDIA_HASHTAGS_HANDLES
+    ): String {
         val builder = StringBuilder()
         builder.appendSession(session, timeZoneId)
+        if (socialMediaHashtagsHandles.isNotEmpty()) {
+            builder.append(LINE_BREAK)
+            builder.append(LINE_BREAK)
+            builder.append(socialMediaHashtagsHandles)
+        }
         return builder.toString()
     }
 
@@ -27,7 +38,7 @@ class SimpleSessionFormat {
         }
         val sessionsSize = sessions.size
         if (sessionsSize == 1) {
-            return format(sessions[0], timeZoneId)
+            return format(sessions[0], timeZoneId, NO_SOCIAL_MEDIA_HASHTAGS_HANDLES)
         }
         val builder = StringBuilder()
         for (i in 0 until sessionsSize) {

@@ -86,6 +86,7 @@ android {
             buildConfigField "boolean", "ENGAGE_C3NAV_APP_INSTALLATION", "false"
             buildConfigField "boolean", "ENGAGE_GOOGLE_BETA_TESTING", "true"
             buildConfigField "boolean", "ENGAGE_GOOGLE_PLAY_RATING", "true"
+            buildConfigField "String", "SOCIAL_MEDIA_HASHTAGS_HANDLES", '"#camp19 #CCCamp19 #fahrplan"'
             buildConfigField "String", "TRACE_DROID_EMAIL_ADDRESS", '"tobias.preuss+camp2019@googlemail.com"'
             buildConfigField "String", "SCHEDULE_FEEDBACK_URL", '"https://frab.cccv.de/en/camp2019/public/events/%s/feedback/new"'
         }
@@ -111,6 +112,7 @@ android {
             buildConfigField "boolean", "ENGAGE_GOOGLE_PLAY_RATING", "true"
             buildConfigField "boolean", "ENABLE_ENGELSYSTEM_SHIFTS", "true"
             resValue("string", "preference_hint_engelsystem_json_export_url", "\"https://engelsystem.de/36c3/shifts-json-export?key=YOUR_KEY\"")
+            buildConfigField "String", "SOCIAL_MEDIA_HASHTAGS_HANDLES", '"#36c3 #fahrplan"'
             buildConfigField "String", "TRACE_DROID_EMAIL_ADDRESS", '"tobias.preuss+36c3@googlemail.com"'
             buildConfigField "String", "SCHEDULE_FEEDBACK_URL", '"https://frab.cccv.de/en/36C3/public/events/%s/feedback/new"'
         }
@@ -136,6 +138,7 @@ android {
             buildConfigField "boolean", "ENGAGE_GOOGLE_PLAY_RATING", "true"
             buildConfigField "boolean", "ENABLE_ENGELSYSTEM_SHIFTS", "true"
             resValue("string", "preference_hint_engelsystem_json_export_url", "\"https://engelsystem.rc3.world/shifts-json-export?key=YOUR_KEY\"")
+            buildConfigField "String", "SOCIAL_MEDIA_HASHTAGS_HANDLES", '"#rC3 #fahrplan #nowhere"'
             buildConfigField "String", "TRACE_DROID_EMAIL_ADDRESS", '"tobias.preuss+rc3@googlemail.com"'
             buildConfigField "String", "SCHEDULE_FEEDBACK_URL", '"https://frab.cccv.de/en/rc3/public/events/%s/feedback/new"'
         }

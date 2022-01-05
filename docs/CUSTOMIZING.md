@@ -14,6 +14,7 @@ This list is for your preparation. Step 3 guides you through where to fill in th
 - Event URL, e.g. `https://awesome-event.com/2021`
 - Start and end date of the event
 - Email address for bug reports
+- Social media hashtags/handles (can be empty), e.g. `#36c3 @ccc`
 - Schedule feedback URL template (optional), e.g. `https://awesome-event.com/2021/events/%s/feedback/new`
 - Engelsystem URL (optional), e.g. `https://engelsystem.de/awesome-event/shifts-json-export?key=YOUR_KEY`
 
@@ -71,6 +72,7 @@ In some of the steps it is the easiest to copy and adapt configuration settings,
 
 The following options can be enabled via a `buildConfigField` and configured in *app/build.gradle* if needed.
 
+- Social media hashtags/handles for the event via `SOCIAL_MEDIA_HASHTAGS_HANDLES`
 - Alternative schedule URL via `ENABLE_ALTERNATIVE_SCHEDULE_URL`
 - c3nav integration via `C3NAV_URL`
 - Chaosflix export via `ENABLE_CHAOSFLIX_EXPORT`
