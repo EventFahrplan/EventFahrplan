@@ -8,11 +8,11 @@ import org.threeten.bp.ZoneId
 
 class SimpleSessionFormat {
 
-    companion object {
-        private const val LINE_BREAK = "\n"
-        private const val COMMA = ","
-        private const val SPACE = " "
-        private const val HORIZONTAL_DIVIDERS = "---"
+    private companion object {
+        const val LINE_BREAK = "\n"
+        const val COMMA = ","
+        const val SPACE = " "
+        const val HORIZONTAL_DIVIDERS = "---"
     }
 
     fun format(session: Session, timeZoneId: ZoneId?): String {
