@@ -238,7 +238,7 @@ class SessionDetailsViewModelTest {
     fun `share() posts to shareSimple what simpleSessionFormat returns`() {
         val repository = createRepository()
         val fakeSessionFormat = mock<SimpleSessionFormat> {
-            on { format(any<Session>(), anyOrNull()) } doReturn "An example session"
+            on { format(any(), anyOrNull(), any()) } doReturn "An example session"
         }
         val viewModel = createViewModel(repository, simpleSessionFormat = fakeSessionFormat)
         viewModel.share()

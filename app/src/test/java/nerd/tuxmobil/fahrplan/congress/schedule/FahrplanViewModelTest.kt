@@ -223,7 +223,7 @@ class FahrplanViewModelTest {
     fun `share posts to shareSimple property`() {
         val repository = createRepository()
         val fakeSessionFormat = mock<SimpleSessionFormat> {
-            on { format(any<Session>(), anyOrNull()) } doReturn "session-61"
+            on { format(any(), anyOrNull(), any()) } doReturn "session-61"
         }
         val viewModel = createViewModel(repository, simpleSessionFormat = fakeSessionFormat)
         viewModel.share(Session("61"))
