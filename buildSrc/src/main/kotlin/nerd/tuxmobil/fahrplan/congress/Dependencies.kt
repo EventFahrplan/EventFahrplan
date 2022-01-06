@@ -20,7 +20,7 @@ object Plugins {
     private object Versions {
         const val android = "7.0.4"
         const val androidJunitJacoco = "0.16.0"
-        const val kotlin = "1.5.31"
+        const val kotlin = "1.6.10"
         const val sonarQube = "3.3"
         const val unMock = "0.7.9"
         const val versions = "0.41.0"
@@ -54,7 +54,7 @@ object Libs {
         const val material = "1.4.0" // compileSdk 31 is required as of 1.5.0
         const val mockito = "4.2.0"
         const val mockitoKotlin = "4.0.0"
-        const val moshi = "1.12.0"
+        const val moshi = "1.13.0"
         const val okhttp = "3.12.13"
         const val preference = "1.1.1"
         const val retrofit = "2.6.4"
