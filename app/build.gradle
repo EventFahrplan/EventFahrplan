@@ -6,7 +6,7 @@ ext.set("APP_VERSION", "${gitSha()}")
 
 apply plugin: "com.android.application"
 apply plugin: "kotlin-android"
-apply plugin: "kotlin-kapt"
+apply plugin: "com.google.devtools.ksp"
 apply plugin: "de.mobilej.unmock"
 apply from: "../gradle/sonarqube.gradle"
 
@@ -201,7 +201,7 @@ dependencies {
     implementation Libs.markwonLinkify
     implementation Libs.material
     implementation Libs.moshi
-    kapt Libs.moshiCodeGen
+    ksp Libs.moshiCodeGen
     implementation Libs.okhttp
     implementation Libs.okhttpLoggingInterceptor
     implementation Libs.preference
