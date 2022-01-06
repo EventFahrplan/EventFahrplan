@@ -6,13 +6,13 @@ apply plugin: "kotlin"
 
 dependencies {
     api Libs.engelsystem
-    implementation Libs.kotlinCoroutinesCore
     implementation(Libs.retrofit) {
         // See: https://github.com/square/okhttp/issues/5030
         exclude group: "com.squareup.okio", module: "okio"
     }
 
     testImplementation Libs.junit
+    testImplementation Libs.kotlinCoroutinesTest
     testImplementation Libs.okhttpMockWebServer
     testImplementation Libs.retrofitConverterMoshi
     testImplementation Libs.truth

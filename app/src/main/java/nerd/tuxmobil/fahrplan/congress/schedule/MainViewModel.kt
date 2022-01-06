@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import info.metadude.android.eventfahrplan.commons.livedata.SingleLiveEvent
 import info.metadude.android.eventfahrplan.commons.logging.Logging
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import nerd.tuxmobil.fahrplan.congress.changes.ChangeStatistic
 import nerd.tuxmobil.fahrplan.congress.models.Meta
