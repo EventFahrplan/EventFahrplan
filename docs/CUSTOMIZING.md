@@ -11,6 +11,7 @@ This list is for your preparation. Step 3 guides you through where to fill in th
 - Session URL template, e.g. `https://awesome-event.com/2021/events/%1$s.html`
 - Server backend type, one of: `pentabarf`, `frab`, `pretalx`
 - Google Play URL, e.g. `https://play.google.com/store/apps/details?id=com.awesome.event.schedule`
+- F-Droid URL, e.g. `https://f-droid.org/packages/com.awesome.event.schedule`
 - Event URL, e.g. `https://awesome-event.com/2021`
 - Start and end date of the event
 - Email address for bug reports
