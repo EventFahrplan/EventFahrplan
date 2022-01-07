@@ -44,8 +44,14 @@
     <!-- Schedule changes dialog -->
     <string name="schedule_changes_dialog_title">Обновление расписания</string>
     <string name="schedule_changes_dialog_updated_to_text">Расписание обновлено до\u0020</string>
-    <string name="schedule_changes_dialog_changed_new_cancelled_text">. Нет изменений в <xliff:g example="3 lectures" id="num_changes">%1$s</xliff:g>, <xliff:g example="2 are" id="num_new">%2$s</xliff:g> новые, <xliff:g example="1 is" id="num_canceled">%3$s</xliff:g> отменены.</string>
+    <string name="schedule_changes_dialog_changed_new_cancelled_text">. Нет изменений в <xliff:g example="3 lectures" id="num_changes">%1$s</xliff:g>, <xliff:g example="2 are" id="num_new">%2$s</xliff:g> <xliff:g example="новые" id="phrase_new">%3$s</xliff:g>, <xliff:g example="1 is" id="num_canceled">%4$s</xliff:g> <xliff:g example="отменены" id="phrase_cancelled">%5$s</xliff:g>.</string>
     <string name="schedule_changes_dialog_affected_text">Изменения затронули <xliff:g example="2" id="num_marked">%1$d</xliff:g> из вашего списка избранных.</string>
+    <plurals name="schedule_changes_dialog_phrase_new">
+        <item quantity="other">новые</item>
+    </plurals>
+    <plurals name="schedule_changes_dialog_phrase_cancelled">
+        <item quantity="other">отменены</item>
+    </plurals>
     <plurals name="schedule_changes_dialog_number_of_sessions">
         <item quantity="one">%d лекция</item>
         <item quantity="few">%d лекции</item>

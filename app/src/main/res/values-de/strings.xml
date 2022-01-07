@@ -56,8 +56,14 @@
     <!-- Schedule changes dialog -->
     <string name="schedule_changes_dialog_title">Fahrplanaktualisierung</string>
     <string name="schedule_changes_dialog_updated_to_text">Der Fahrplan wurde auf Version\u0020</string>
-    <string name="schedule_changes_dialog_changed_new_cancelled_text">\u0020aktualisiert. Es gibt Änderungen in <xliff:g example="3 Vorträgen" id="num_changes">%1$s</xliff:g>, <xliff:g example="2 sind" id="num_new">%2$s</xliff:g> neu, <xliff:g example="1 ist" id="num_canceled">%3$s</xliff:g> gestrichen.</string>
+    <string name="schedule_changes_dialog_changed_new_cancelled_text">\u0020aktualisiert. Es gibt Änderungen in <xliff:g example="3 Vorträgen" id="num_changes">%1$s</xliff:g>, <xliff:g example="2 sind" id="num_new">%2$s</xliff:g> <xliff:g example="neu" id="phrase_new">%3$s</xliff:g>, <xliff:g example="1 ist" id="num_canceled">%4$s</xliff:g> <xliff:g example="gestrichen" id="phrase_cancelled">%5$s</xliff:g>.</string>
     <string name="schedule_changes_dialog_affected_text">Die Änderungen betreffen <xliff:g example="2" id="num_marked">%1$d</xliff:g> der favorisierten Vorträge.</string>
+    <plurals name="schedule_changes_dialog_phrase_new">
+        <item quantity="other">neu</item>
+    </plurals>
+    <plurals name="schedule_changes_dialog_phrase_cancelled">
+        <item quantity="other">gestrichen</item>
+    </plurals>
     <plurals name="schedule_changes_dialog_number_of_sessions">
         <item quantity="one"><xliff:g example="1" id="count">%d</xliff:g> Vortrag</item>
         <item quantity="other"><xliff:g example="9" id="count">%d</xliff:g> Vorträgen</item>

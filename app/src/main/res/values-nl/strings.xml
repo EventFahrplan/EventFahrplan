@@ -51,8 +51,14 @@
     <!-- Schedule changes dialog -->
     <string name="schedule_changes_dialog_title">Tijdschema update</string>
     <string name="schedule_changes_dialog_updated_to_text">Tijdschema is geupdate naar versie\u0020</string>
-    <string name="schedule_changes_dialog_changed_new_cancelled_text">. Er zijn updates voor <xliff:g example="3 evenementen" id="num_changes">%1$s</xliff:g>, <xliff:g example="2 zijn" id="num_new">%2$s</xliff:g> nieuw, <xliff:g example="1 is" id="num_canceled">%3$s</xliff:g> geannuleerd.</string>
+    <string name="schedule_changes_dialog_changed_new_cancelled_text">. Er zijn updates voor <xliff:g example="3 evenementen" id="num_changes">%1$s</xliff:g>, <xliff:g example="2 zijn" id="num_new">%2$s</xliff:g> <xliff:g example="nieuw" id="phrase_new">%3$s</xliff:g>, <xliff:g example="1 is" id="num_canceled">%4$s</xliff:g> <xliff:g example="geannuleerd" id="phrase_cancelled">%5$s</xliff:g>.</string>
     <string name="schedule_changes_dialog_affected_text">De update betreft <xliff:g example="2" id="num_marked">%1$d</xliff:g> van uw favorieten evenementen.</string>
+    <plurals name="schedule_changes_dialog_phrase_new">
+        <item quantity="other">nieuw</item>
+    </plurals>
+    <plurals name="schedule_changes_dialog_phrase_cancelled">
+        <item quantity="other">geannuleerd</item>
+    </plurals>
     <plurals name="schedule_changes_dialog_number_of_sessions">
         <item quantity="one">%d evenement</item>
         <item quantity="other">%d evenementen</item>

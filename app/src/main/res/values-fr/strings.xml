@@ -23,7 +23,13 @@
         <item quantity="other">%d conférences</item>
     </plurals>
     <string name="schedule_changes_dialog_affected_text">Les modifications affectent <xliff:g example="2" id="num_marked">%1$d</xliff:g> de vos conférences favorites.</string>
-    <string name="schedule_changes_dialog_changed_new_cancelled_text">. Il y a eu des changements dans <xliff:g example="3 lectures" id="num_changes">%1$s</xliff:g>, <xliff:g example="2 are" id="num_new">%2$s</xliff:g> nouvelle(s), <xliff:g example="1 is" id="num_canceled">%3$s</xliff:g> annulée(s).</string>
+    <string name="schedule_changes_dialog_changed_new_cancelled_text">. Il y a eu des changements dans <xliff:g example="3 lectures" id="num_changes">%1$s</xliff:g>, <xliff:g example="2 are" id="num_new">%2$s</xliff:g> <xliff:g example="nouvelle(s)" id="phrase_new">%3$s</xliff:g>, <xliff:g example="1 is" id="num_canceled">%4$s</xliff:g> <xliff:g example="annulée(s)" id="phrase_cancelled">%5$s</xliff:g>.</string>
+    <plurals name="schedule_changes_dialog_phrase_new">
+        <item quantity="other">nouvelle(s)</item>
+    </plurals>
+    <plurals name="schedule_changes_dialog_phrase_cancelled">
+        <item quantity="other">annulée(s)</item>
+    </plurals>
     <string name="dlg_err_failed_ssl_failure">Échec SSL</string>
     <string name="dlg_err_failed_wrong_http_credentials">Authentification HTTP non valide</string>
     <string name="dlg_err_failed_unknown_host">Adresse inconnue :

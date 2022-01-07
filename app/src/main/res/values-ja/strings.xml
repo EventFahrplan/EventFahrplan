@@ -48,8 +48,14 @@
     <!-- Schedule changes dialog -->
     <string name="schedule_changes_dialog_title">スケジュールを更新</string>
     <string name="schedule_changes_dialog_updated_to_text">スケジュールが更新されました。</string>
-    <string name="schedule_changes_dialog_changed_new_cancelled_text"><xliff:g example="3個の講義" id="num_changes">%1$s</xliff:g>に変更があります。 <xliff:g example="2 " id="num_new">%2$s</xliff:g> 新しく, <xliff:g example="1 が" id="num_canceled">%3$s</xliff:g> キャンセルされました。</string>
+    <string name="schedule_changes_dialog_changed_new_cancelled_text"><xliff:g example="3個の講義" id="num_changes">%1$s</xliff:g>に変更があります。 <xliff:g example="2 " id="num_new">%2$s</xliff:g> <xliff:g example="新しく" id="phrase_new">%3$s</xliff:g>, <xliff:g example="1 が" id="num_canceled">%4$s</xliff:g> <xliff:g example="キャンセルされました" id="phrase_cancelled">%5$s</xliff:g>。</string>
     <string name="schedule_changes_dialog_affected_text">変更は、お気に入りの講義の<xliff:g example="2" id="num_marked">%1$d</xliff:g>個に影響します。</string>
+    <plurals name="schedule_changes_dialog_phrase_new">
+        <item quantity="other">新しく</item>
+    </plurals>
+    <plurals name="schedule_changes_dialog_phrase_cancelled">
+        <item quantity="other">キャンセルされました</item>
+    </plurals>
     <plurals name="schedule_changes_dialog_number_of_sessions">
         <item quantity="other">%d 個の講義</item>
     </plurals>
