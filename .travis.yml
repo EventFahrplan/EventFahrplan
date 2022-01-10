@@ -20,9 +20,34 @@ notifications:
   email: true
 
 before_cache:
+  # Only cache the latest version used by the Gradle wrapper
+  # List content in wrapper/dist sorted by modification time and remove entries starting by the second entry
+  - ls -d $HOME/.gradle/wrapper/dists/* -1t | tail -n +2 | xargs rm -rf
   # Do not cache a few Gradle files/directories (see https://docs.travis-ci.com/user/languages/java/#caching)
-  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
-  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+  - rm -rf $HOME/.gradle/caches/*/plugin-resolution/
+  - rm -f $HOME/.gradle/caches/*/executionHistory/executionHistory.bin
+  - rm -f $HOME/.gradle/caches/*/executionHistory/executionHistory.lock
+  - rm -f $HOME/.gradle/caches/*/fileContent/fileContent.lock
+  - rm -f $HOME/.gradle/caches/*/fileContent/java-modules.bin
+  - rm -f $HOME/.gradle/caches/*/fileHashes/fileHashes.bin
+  - rm -f $HOME/.gradle/caches/*/fileHashes/fileHashes.lock
+  - rm -f $HOME/.gradle/caches/*/fileHashes/resourceHashesCache.bin
+  - rm -f $HOME/.gradle/caches/*/generated-gradle-jars/generated-gradle-jars.lock
+  - rm -f $HOME/.gradle/caches/*/javaCompile/jarAnalysis.bin
+  - rm -f $HOME/.gradle/caches/*/javaCompile/javaCompile.lock
+  - rm -f $HOME/.gradle/caches/*/kotlin-dsl/kotlin-dsl.lock
+  - rm -f $HOME/.gradle/caches/jars-9/*/buildSrc.jar
+  - rm -f $HOME/.gradle/caches/jars-9/*/buildSrc.jar.lock.lock
+  - rm -f $HOME/.gradle/caches/jars-9/*/buildSrc.jar.receipt
+  - rm -f $HOME/.gradle/caches/jars-9/jars-*.lock
+  - rm -f $HOME/.gradle/caches/journal-1/file-access.bin
+  - rm -f $HOME/.gradle/caches/journal-1/journal-1.lock
+  - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -f $HOME/.gradle/caches/transforms-*/*/results.bin
+  - rm -f $HOME/.gradle/caches/transforms-*/*/transformed/android.jar
+  - rm -f $HOME/.gradle/caches/transforms-*/*/transformed/output.bin
+  - rm -f $HOME/.gradle/caches/transforms-*/transforms-*.lock
+  - rm -f $HOME/.gradle/caches/user-id.txt.lock
 
 cache:
   directories:
@@ -51,14 +76,20 @@ before_script:
   # Ensure Gradle wrapper is executable
   - chmod +x gradlew
 
+  # Create directory for user Gradle settings
+  - mkdir -p $HOME/.gradle
+
   # Ensure signing configuration is present
   - mv app/gradle.properties.example app/gradle.properties
 
   # Reduce memory usage / avoid OutOfMemoryError with Gradle 4.10.3
   - echo "org.gradle.jvmargs=-Xmx2048m -Xms512m -XX:MaxPermSize=768m" >> gradle.properties
 
+  # Enable Gradle's build cache. To be disabled for an Android RELEASE build.
+  - echo "org.gradle.caching=true" >> $HOME/.gradle/gradle.properties
+
 script:
-  - ./gradlew clean test assembleDebug
+  - ./gradlew testRc3DebugUnitTest assembleRc3Debug
 
 addons:
   # Fix OpenJDK builds
