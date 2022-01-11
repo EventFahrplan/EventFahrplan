@@ -11,8 +11,6 @@
         android:id="@android:id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingLeft="@dimen/activity_padding"
-        android:paddingRight="@dimen/activity_padding"
         android:scrollbarStyle="outsideOverlay"
         tools:listitem="@layout/session_list_item" />
 

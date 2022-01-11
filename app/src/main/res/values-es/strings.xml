@@ -58,9 +58,15 @@
     <!-- Schedule changes dialog -->
     <string name="schedule_changes_dialog_title">Actulización de calendario</string>
     <string name="schedule_changes_dialog_updated_to_text">El calendario ha sido actualizado a\u0020</string>
-    <string name="schedule_changes_dialog_changed_new_cancelled_text">. Hay cambios en <xliff:g example="3 lectures" id="num_changes">%1$s</xliff:g>, <xliff:g example="2 are" id="num_new">%2$s</xliff:g> nuevas, <xliff:g example="1 is" id="num_canceled">%3$s</xliff:g> cancelada</string>
+    <string name="schedule_changes_dialog_changed_new_cancelled_text">. Hay cambios en <xliff:g example="3 lectures" id="num_changes">%1$s</xliff:g>, <xliff:g example="2 are" id="num_new">%2$s</xliff:g> <xliff:g example="nuevas" id="phrase_new">%3$s</xliff:g>, <xliff:g example="1 is" id="num_canceled">%4$s</xliff:g> <xliff:g example="cancelada" id="phrase_cancelled">%5$s</xliff:g>.</string>
     <string name="schedule_changes_dialog_affected_text">Los cambios afectan <xliff:g example="2" id="num_marked">%1$d</xliff:g> de tus clases favoritas</string>
-        <plurals name="schedule_changes_dialog_number_of_sessions">
+    <plurals name="schedule_changes_dialog_phrase_new">
+        <item quantity="other">nuevas</item>
+    </plurals>
+    <plurals name="schedule_changes_dialog_phrase_cancelled">
+        <item quantity="other">cancelada</item>
+    </plurals>
+    <plurals name="schedule_changes_dialog_number_of_sessions">
         <item quantity="one"><xliff:g example="1" id="count">%d</xliff:g> clase</item>
         <item quantity="other"><xliff:g example="9" id="count">%d</xliff:g> clases</item>
     </plurals>

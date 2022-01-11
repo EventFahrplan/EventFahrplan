@@ -86,7 +86,10 @@ public class ChangesDialog extends DialogFragment {
         span.append(getString(R.string.schedule_changes_dialog_changed_new_cancelled_text,
                 resources.getQuantityString(R.plurals.schedule_changes_dialog_number_of_sessions, changed, changed),
                 resources.getQuantityString(R.plurals.schedule_changes_dialog_being, added, added),
-                resources.getQuantityString(R.plurals.schedule_changes_dialog_being, cancelled, cancelled)));
+                resources.getQuantityString(R.plurals.schedule_changes_dialog_phrase_new, added),
+                resources.getQuantityString(R.plurals.schedule_changes_dialog_being, cancelled, cancelled),
+                resources.getQuantityString(R.plurals.schedule_changes_dialog_phrase_cancelled, cancelled)
+        ));
         changes1.setText(span);
 
         TextView changes2 = requireViewByIdCompat(msgView, R.id.schedule_changes_dialog_changes_text_view);

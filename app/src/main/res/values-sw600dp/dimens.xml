@@ -20,7 +20,6 @@
     <item type="integer" name="min_width_dip">160</item>
     <item type="integer" name="room_title_size">16</item>
     <dimen name="list_pane_leftright_padding">32dp</dimen>
-    <dimen name="activity_padding">80dp</dimen>
     <dimen name="header_height">16dp</dimen>
 
     <!-- Session details text sizes -->
