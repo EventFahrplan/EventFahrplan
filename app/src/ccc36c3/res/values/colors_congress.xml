@@ -38,8 +38,4 @@
     <!-- Track color -->
     <color name="track_name">#beffffff</color>
 
-    <!-- Title color -->
-    <color name="session_title_on_default_background">#a0ffffff</color>
-    <color name="session_title_on_highlight_background">#fff</color>
-
 </resources>
