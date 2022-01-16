@@ -89,10 +89,12 @@
     <string name="schedule_changes_dialog_changed_new_cancelled_text">. Det är ändringar i <xliff:g example="3 lectures" id="num_changes">%1$s</xliff:g>, <xliff:g example="2 are" id="num_new">%2$s</xliff:g> <xliff:g example="new" id="phrase_new">%3$s</xliff:g>, <xliff:g example="1 is" id="num_canceled">%4$s</xliff:g> <xliff:g example="cancelled" id="phrase_cancelled">%5$s</xliff:g>.</string>
     <string name="schedule_changes_dialog_affected_text">Dessa ändringar påverkar <xliff:g example="2" id="num_marked">%1$d</xliff:g> av dina favoriserade föreläsningar.</string>
     <plurals name="schedule_changes_dialog_phrase_new">
-        <item quantity="other">new</item>
+        <item quantity="one">ny</item>
+        <item quantity="other">nya</item>
     </plurals>
     <plurals name="schedule_changes_dialog_phrase_cancelled">
-        <item quantity="other">cancelled</item>
+        <item quantity="one">inställd</item>
+        <item quantity="other">inställda</item>
     </plurals>
     <plurals name="schedule_changes_dialog_number_of_sessions">
         <item quantity="one">%d föreläsning</item>
