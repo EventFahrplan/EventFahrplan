@@ -109,6 +109,7 @@ internal class SessionViewDrawer @JvmOverloads constructor(
             val title = view.requireViewByIdCompat<TextView>(R.id.session_title_view)
             val subtitle = view.requireViewByIdCompat<TextView>(R.id.session_subtitle_view)
             val speakers = view.requireViewByIdCompat<TextView>(R.id.session_speakers_view)
+            val track = view.requireViewByIdCompat<TextView>(R.id.session_track_view)
             val colorResId = if (session.highlight)
                 R.color.session_item_text_on_highlight_background
             else
@@ -117,6 +118,7 @@ internal class SessionViewDrawer @JvmOverloads constructor(
             title.setTextColor(textColor)
             subtitle.setTextColor(textColor)
             speakers.setTextColor(textColor)
+            track.setTextColor(textColor)
         }
     }
 }

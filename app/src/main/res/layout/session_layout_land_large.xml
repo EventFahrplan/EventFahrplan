@@ -78,7 +78,7 @@
             android:fontFamily="sans-serif-condensed"
             android:gravity="end"
             android:singleLine="true"
-            android:textColor="@color/track_name"
+            android:textColor="@color/session_item_text_on_default_background"
             android:textSize="13sp"
             tools:text="@string/placeholder_session_track" />
 

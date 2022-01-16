@@ -93,7 +93,4 @@
     <color name="track_background_highlight_workshop">#33691E</color>
     <color name="track_background_highlight_zuerich_bitwaescherei">#B7ACF1</color>
 
-    <!-- Track color -->
-    <color name="track_name">#beffffff</color>
-
 </resources>

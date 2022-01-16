@@ -35,7 +35,4 @@
     <color name="track_background_highlight_security">#de697e</color>
     <color name="track_background_highlight_self_organized_sessions">#4174ff</color>
 
-    <!-- Track color -->
-    <color name="track_name">#beffffff</color>
-
 </resources>

@@ -31,7 +31,4 @@
     <color name="track_background_highlight_talk">#B3714B</color>
     <color name="track_background_highlight_workshop">#A8B34B</color>
 
-    <!-- Track color -->
-    <color name="track_name">#c8ffffff</color>
-
 </resources>
