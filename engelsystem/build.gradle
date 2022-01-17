@@ -20,3 +20,9 @@ dependencies {
 
 sourceCompatibility = Config.compatibleJavaVersion
 targetCompatibility = Config.compatibleJavaVersion
+
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = Config.compatibleJavaVersion
+    }
+}

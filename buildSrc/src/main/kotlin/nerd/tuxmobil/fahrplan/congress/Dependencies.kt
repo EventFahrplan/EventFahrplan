@@ -9,7 +9,7 @@ object Config {
 }
 
 object Android {
-    const val buildToolsVersion = "30.0.3"
+    const val buildToolsVersion = "32.0.0"
     const val compileSdkVersion = 30
     const val minSdkVersion = 16
     const val targetSdkVersion = 30
@@ -20,15 +20,17 @@ object Plugins {
     private object Versions {
         const val android = "7.0.4"
         const val androidJunitJacoco = "0.16.0"
-        const val kotlin = "1.5.31"
+        const val kotlin = "1.6.10"
+        const val ksp = "1.6.10-1.0.2"
         const val sonarQube = "3.3"
         const val unMock = "0.7.9"
-        const val versions = "0.39.0"
+        const val versions = "0.41.0"
     }
 
     const val android = "com.android.tools.build:gradle:${Versions.android}"
     const val androidJunitJacoco = "com.vanniktech:gradle-android-junit-jacoco-plugin:${Versions.androidJunitJacoco}"
     const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
+    const val ksp = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin:${Versions.ksp}"
     const val sonarQube = "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:${Versions.sonarQube}"
     const val unMock = "com.github.bjoernq:unmockplugin:${Versions.unMock}"
     const val versions = "com.github.ben-manes:gradle-versions-plugin:${Versions.versions}"
@@ -41,7 +43,7 @@ object Libs {
         const val appCompat = "1.3.1" // compileSdk 31 is required as of 1.4.0
         const val assertjAndroid = "1.2.0"
         const val betterLinkMovementMethod = "2.2.0"
-        const val constraintLayout = "2.1.2"
+        const val constraintLayout = "2.1.3"
         const val coreKtx = "1.6.0" // compileSdk 31 is required as of 1.7.0
         const val coreTesting = "2.1.0"
         const val emailIntentBuilder = "2.0.0"
@@ -51,10 +53,10 @@ object Libs {
         const val kotlinCoroutines = "1.5.2"
         const val liveDataKtx = "2.3.1" // compileSdk 31 is required as of 2.4.0
         const val markwon = "4.6.2"
-        const val material = "1.4.0"
+        const val material = "1.4.0" // compileSdk 31 is required as of 1.5.0
         const val mockito = "4.2.0"
         const val mockitoKotlin = "4.0.0"
-        const val moshi = "1.12.0"
+        const val moshi = "1.13.0"
         const val okhttp = "3.12.13"
         const val preference = "1.1.1"
         const val retrofit = "2.6.4"
