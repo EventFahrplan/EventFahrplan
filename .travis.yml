@@ -90,8 +90,3 @@ before_script:
 
 script:
   - ./gradlew testRc3DebugUnitTest assembleRc3Debug
-
-addons:
-  # Fix OpenJDK builds
-  # https://github.com/travis-ci/travis-ci/issues/5227
-  hostname: short-hostname
