@@ -11,7 +11,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.ProgressBar
 import androidx.activity.viewModels
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
@@ -19,8 +18,8 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
 import androidx.core.net.toUri
-import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
+import androidx.core.widget.ContentLoadingProgressBar
 import androidx.fragment.app.FragmentContainerView
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentManager.OnBackStackChangedListener
@@ -92,7 +91,7 @@ class MainActivity : BaseActivity(),
 
     private lateinit var keyguardManager: KeyguardManager
     private lateinit var errorMessageFactory: ErrorMessage.Factory
-    private lateinit var progressBar: ProgressBar
+    private lateinit var progressBar: ContentLoadingProgressBar
     private var progressDialog: ProgressDialog? = null
     private val viewModel: MainViewModel by viewModels { MainViewModelFactory(AppRepository) }
 
@@ -169,7 +168,11 @@ class MainActivity : BaseActivity(),
         } else {
             hideProgressDialog()
         }
-        progressBar.isInvisible = uiState !is LoadScheduleUiState.Active
+        if (uiState is LoadScheduleUiState.Active) {
+            progressBar.show()
+        } else {
+            progressBar.hide()
+        }
     }
 
     override fun onNewIntent(intent: Intent) {

@@ -11,7 +11,7 @@
         style="@style/ToolBar"
         app:contentInsetStart="@dimen/tool_bar_content_inset_start" />
 
-    <ProgressBar
+    <androidx.core.widget.ContentLoadingProgressBar
         android:id="@+id/progress"
         style="@style/ProgressBar"
         android:layout_below="@id/toolbar"
