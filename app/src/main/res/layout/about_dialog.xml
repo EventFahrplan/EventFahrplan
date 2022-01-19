@@ -11,18 +11,17 @@
         android:layout_height="fill_parent"
         android:layout_gravity="top"
         android:orientation="vertical"
-        android:paddingLeft="@dimen/about_padding_horizontal"
         android:paddingTop="@dimen/about_padding_top"
-        android:paddingRight="@dimen/about_padding_horizontal"
-        android:paddingBottom="@dimen/about_padding_bottom">
+        android:paddingBottom="@dimen/about_padding_bottom"
+        android:paddingHorizontal="@dimen/about_padding_horizontal">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="16dp"
-            android:contentDescription="@string/about_logo_content_description"
             android:paddingBottom="15dp"
+            android:contentDescription="@string/about_logo_content_description"
             app:srcCompat="@drawable/dialog_logo" />
 
         <TextView
@@ -82,10 +81,8 @@
             android:id="@+id/about_usage_note_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="16dp"
-            android:paddingTop="10dp"
-            android:paddingRight="16dp"
-            android:paddingBottom="10dp"
+            android:paddingVertical="10dp"
+            android:paddingHorizontal="16dp"
             android:singleLine="false"
             android:text="@string/usage" />
 
@@ -96,10 +93,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:linksClickable="true"
-            android:paddingLeft="16dp"
-            android:paddingTop="10dp"
-            android:paddingRight="16dp"
-            android:paddingBottom="10dp"
+            android:paddingVertical="10dp"
+            android:paddingHorizontal="16dp"
             android:singleLine="false"
             android:text="@string/app_disclaimer" />
 
@@ -110,10 +105,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:linksClickable="true"
-            android:paddingLeft="16dp"
-            android:paddingTop="10dp"
-            android:paddingRight="16dp"
-            android:paddingBottom="10dp"
+            android:paddingVertical="10dp"
+            android:paddingHorizontal="16dp"
             android:singleLine="false"
             tools:text="@string/copyright_logo" />
 
@@ -125,9 +118,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:linksClickable="true"
-            android:paddingLeft="16dp"
             android:paddingTop="10dp"
-            android:paddingRight="16dp"
+            android:paddingHorizontal="16dp"
             android:singleLine="false"
             tools:text="https://github.com/EventFahrplan/EventFahrplan" />
 
@@ -137,9 +129,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:linksClickable="true"
-            android:paddingLeft="16dp"
             android:paddingTop="10dp"
-            android:paddingRight="16dp"
+            android:paddingHorizontal="16dp"
             android:singleLine="false"
             tools:text="@string/about_issues_or_feature_requests" />
 
@@ -149,9 +140,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:linksClickable="true"
-            android:paddingLeft="16dp"
             android:paddingTop="10dp"
-            android:paddingRight="16dp"
+            android:paddingHorizontal="16dp"
             android:singleLine="false"
             tools:text="@string/about_f_droid_listing" />
 
@@ -161,10 +151,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:linksClickable="true"
-            android:paddingLeft="16dp"
-            android:paddingTop="10dp"
-            android:paddingRight="16dp"
-            android:paddingBottom="10dp"
+            android:paddingVertical="10dp"
+            android:paddingHorizontal="16dp"
             android:singleLine="false"
             tools:text="@string/about_google_play_listing" />
 
@@ -174,10 +162,8 @@
             android:id="@+id/about_libraries_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="16dp"
-            android:paddingTop="10dp"
-            android:paddingRight="16dp"
-            android:paddingBottom="10dp"
+            android:paddingVertical="10dp"
+            android:paddingHorizontal="16dp"
             android:singleLine="false"
             tools:text="@string/about_libraries_statement" />
 
@@ -189,10 +175,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:linksClickable="true"
-            android:paddingLeft="16dp"
-            android:paddingTop="10dp"
-            android:paddingRight="16dp"
-            android:paddingBottom="10dp"
+            android:paddingVertical="10dp"
+            android:paddingHorizontal="16dp"
             android:singleLine="false"
             android:text="@string/about_data_privacy_statement_german" />
 
@@ -201,10 +185,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="16dp"
-            android:paddingTop="10dp"
-            android:paddingRight="16dp"
-            android:paddingBottom="10dp"
+            android:paddingVertical="10dp"
+            android:paddingHorizontal="16dp"
             android:singleLine="false"
             android:text="@string/copyright_notes" />
 
