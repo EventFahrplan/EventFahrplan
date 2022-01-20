@@ -29,7 +29,7 @@
         app:drawableStartCompat="@drawable/ic_access_time"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintStart_toEndOf="@id/session_detailbar_location_view"
+        app:layout_constraintStart_toEndOf="@+id/session_detailbar_location_view"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="@string/placeholder_session_date" />
 
