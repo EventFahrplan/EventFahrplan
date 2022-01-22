@@ -17,6 +17,11 @@
         <item name="alertDialogTheme">@style/AlertDialog</item>
         <item name="android:windowBackground">@drawable/window_background</item>
         <item name="android:spinnerItemStyle">@style/SpinnerItemStyle</item>
+
+        <!-- Scrollbar -->
+        <item name="android:scrollbarSize">@dimen/scrollbar_size</item>
+        <item name="android:scrollbarThumbVertical">@drawable/scrollbar_thumb</item>
+        <item name="android:scrollbarThumbHorizontal">@drawable/scrollbar_thumb</item>
     </style>
 
     <style name="Theme.Congress.NoActionBar" parent="Theme.AppCompat.NoActionBar">
@@ -35,6 +40,11 @@
         <item name="actionModeBackground">@color/colorPrimary</item>
         <item name="alertDialogTheme">@style/AlertDialog</item>
         <item name="android:windowBackground">@drawable/window_background</item>
+
+        <!-- Scrollbar -->
+        <item name="android:scrollbarSize">@dimen/scrollbar_size</item>
+        <item name="android:scrollbarThumbVertical">@drawable/scrollbar_thumb</item>
+        <item name="android:scrollbarThumbHorizontal">@drawable/scrollbar_thumb</item>
     </style>
 
     <style name="ContextPopupMenuStyle" parent="@style/Widget.AppCompat.Light.PopupMenu.Overflow">
@@ -51,6 +61,11 @@
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Title</item>
         <item name="android:textColorHighlight">@color/text_link_pressed_background_on_dark</item>
         <item name="android:windowBackground">@drawable/window_background</item>
+
+        <!-- Scrollbar -->
+        <item name="android:scrollbarSize">@dimen/scrollbar_size</item>
+        <item name="android:scrollbarThumbVertical">@drawable/scrollbar_thumb</item>
+        <item name="android:scrollbarThumbHorizontal">@drawable/scrollbar_thumb</item>
     </style>
 
     <style name="ToolBar">

@@ -21,6 +21,15 @@
     <dimen name="list_pane_leftright_padding">16dp</dimen>
     <dimen name="header_height">0dp</dimen>
 
+    <!-- Scrollbar -->
+    <!--
+    If you use a value greater than 16dp make sure to adjust the padding
+    in session_detailbar.xml and session_list_item.xml
+    -->
+    <dimen name="scrollbar_size">5.0dp</dimen>
+    <!-- Should be half of scrollbar_size at maximum -->
+    <dimen name="scrollbar_corner_radius">0dp</dimen>
+
     <!-- Alarm list -->
     <dimen name="alarm_list_icon_stroke_width">2dp</dimen>
     <dimen name="alarm_list_icon_width">40dp</dimen>
