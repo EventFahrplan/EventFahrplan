@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/session_detailbar_background"
-    android:paddingTop="4dp"
-    android:paddingBottom="4dp">
+    android:paddingVertical="4dp"
+    android:paddingHorizontal="16dp">
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/session_detailbar_date_time_view"

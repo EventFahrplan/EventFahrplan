@@ -17,6 +17,7 @@
     <color name="session_detailbar_background">@color/colorPrimaryDark</color>
     <color name="session_detailbar_text">@color/colorAccent</color>
     <color name="session_detailbar_icon">#A358EE</color>
+    <color name="scrollbar_background">#88EE6558</color>
 
     <!-- Schedule screen -->
     <color name="schedule_time_column_background">#30000000</color>

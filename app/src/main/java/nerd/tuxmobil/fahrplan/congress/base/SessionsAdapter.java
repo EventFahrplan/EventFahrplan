@@ -41,7 +41,7 @@ public abstract class SessionsAdapter extends ArrayAdapter<Session> {
 
     protected SessionsAdapter(Context context, @LayoutRes int layout, List<Session> list, int numDays, boolean useDeviceTimeZone) {
         super(context, layout, list);
-        this.context = new ContextThemeWrapper(context, R.style.Theme_AppCompat_Light);
+        this.context = new ContextThemeWrapper(context, R.style.Theme_Congress_NoActionBar);
         this.list = list;
         this.numDays = numDays;
         this.useDeviceTimeZone = useDeviceTimeZone;
