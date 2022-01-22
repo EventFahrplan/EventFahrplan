@@ -61,7 +61,7 @@ class ChangeListFragment : AbstractListFragment() {
         val arguments = requireArguments()
         val sidePane = arguments.getBoolean(BundleKeys.SIDEPANE)
 
-        val contextThemeWrapper = ContextThemeWrapper(requireContext(), R.style.Theme_AppCompat_Light)
+        val contextThemeWrapper = ContextThemeWrapper(requireContext(), R.style.Theme_Congress_NoActionBar)
         val localInflater = inflater.cloneInContext(contextThemeWrapper)
         val (fragmentLayout, headerLayout) = when {
             sidePane -> R.layout.fragment_session_list_narrow to R.layout.changes_header
