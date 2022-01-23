@@ -4,8 +4,7 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:paddingTop="16dp"
-              android:paddingBottom="16dp">
+              android:paddingVertical="16dp">
 
     <TextView
         android:id="@+id/session_list_separator_title_view"

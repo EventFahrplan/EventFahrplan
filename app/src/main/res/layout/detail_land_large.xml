@@ -15,10 +15,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:paddingBottom="24dp"
-                android:paddingLeft="96dp"
-                android:paddingRight="96dp"
-                android:paddingTop="32dp">
+                android:paddingHorizontal="96dp"
+                android:paddingTop="32dp"
+                android:paddingBottom="24dp">
 
             <include layout="@layout/session_details_content"/>
 
