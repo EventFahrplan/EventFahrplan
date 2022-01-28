@@ -49,7 +49,7 @@ class StarredListActivity :
         }
     }
 
-    override fun onAccepted(dlgId: Int) {
+    override fun onAccepted(requestCode: Int) {
         val fragment = findFragment(StarredListFragment.FRAGMENT_TAG)
         if (fragment is StarredListFragment) {
             fragment.deleteAllFavorites()

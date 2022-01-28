@@ -55,7 +55,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         requirePreference<ListPreference>(resources.getString(R.string.preference_key_schedule_refresh_interval_index)).onPreferenceChangeListener = OnPreferenceChangeListener { _, _ ->
             coroutineScope.launch {
                 delay(100) // Workaround because preference is written asynchronous.
-                FahrplanMisc.setUpdateAlarm(activity, true)
+                FahrplanMisc.setUpdateAlarm(requireContext(), true)
             }
             true
         }
@@ -68,7 +68,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         requirePreference<SwitchPreferenceCompat>(resources.getString(R.string.preference_key_auto_update_enabled)).onPreferenceChangeListener = OnPreferenceChangeListener { _: Preference?, newValue: Any ->
             val isAutoUpdateEnabled = newValue as Boolean
             if (isAutoUpdateEnabled) {
-                FahrplanMisc.setUpdateAlarm(activity, true)
+                FahrplanMisc.setUpdateAlarm(requireContext(), true)
             } else {
                 with(requireActivity()) {
                     AlarmServices.newInstance(requireContext(), AppRepository).discardAutoUpdateAlarm()
