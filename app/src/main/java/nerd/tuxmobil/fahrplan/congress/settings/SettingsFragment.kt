@@ -78,7 +78,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         }
 
         requirePreference<SwitchPreferenceCompat>(resources.getString(R.string.preference_key_use_device_time_zone_enabled)).onPreferenceChangeListener = OnPreferenceChangeListener { _: Preference?, _: Any ->
-            requestRedraw(BundleKeys.BUNDLE_KEY_USE_DEVICE_TIME_ZONE_UPDATED)
+            requestRedraw(BundleKeys.USE_DEVICE_TIME_ZONE_UPDATED)
             true
         }
 
@@ -95,7 +95,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val alternativeScheduleUrlPreference = requirePreference<EditTextPreference>(getString(R.string.preference_key_alternative_schedule_url))
         if (BuildConfig.ENABLE_ALTERNATIVE_SCHEDULE_URL) {
             alternativeScheduleUrlPreference.onPreferenceChangeListener = OnPreferenceChangeListener { _: Preference?, _: Any? ->
-                requestRedraw(BundleKeys.BUNDLE_KEY_SCHEDULE_URL_UPDATED)
+                requestRedraw(BundleKeys.SCHEDULE_URL_UPDATED)
                 true
             }
             alternativeScheduleUrlPreference.summaryProvider = SummaryProvider<EditTextPreference> {
@@ -109,7 +109,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         }
 
         requirePreference<SwitchPreferenceCompat>(resources.getString(R.string.preference_key_alternative_highlighting_enabled)).onPreferenceChangeListener = OnPreferenceChangeListener { _: Preference?, _: Any? ->
-            requestRedraw(BundleKeys.BUNDLE_KEY_ALTERNATIVE_HIGHLIGHTING_UPDATED)
+            requestRedraw(BundleKeys.ALTERNATIVE_HIGHLIGHTING_UPDATED)
             true
         }
 
@@ -123,7 +123,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 }
             }
             urlPreference.onPreferenceChangeListener = OnPreferenceChangeListener { _: Preference?, _: Any? ->
-                requestRedraw(BundleKeys.BUNDLE_KEY_ENGELSYSTEM_SHIFTS_URL_UPDATED)
+                requestRedraw(BundleKeys.ENGELSYSTEM_SHIFTS_URL_UPDATED)
                 true
             }
         } else {

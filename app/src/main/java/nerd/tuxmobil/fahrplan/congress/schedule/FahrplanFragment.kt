@@ -45,8 +45,7 @@ import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmTimePickerFragment
 import nerd.tuxmobil.fahrplan.congress.calendar.CalendarSharing
-import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys.BUNDLE_KEY_SESSION_ALARM_DAY_INDEX
-import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys.BUNDLE_KEY_SESSION_ALARM_SESSION_ID
+import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
 import nerd.tuxmobil.fahrplan.congress.extensions.getLayoutInflater
 import nerd.tuxmobil.fahrplan.congress.extensions.isLandscape
 import nerd.tuxmobil.fahrplan.congress.extensions.requireViewByIdCompat
@@ -198,15 +197,15 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
         activity.invalidateOptionsMenu()
         val intent = activity.intent
         // TODO Consume session alarm in MainActivity and let it orchestrate its fragments
-        val sessionId = intent.getStringExtra(BUNDLE_KEY_SESSION_ALARM_SESSION_ID)
+        val sessionId = intent.getStringExtra(BundleKeys.SESSION_ALARM_SESSION_ID)
         // TODO Analyzing https://github.com/EventFahrplan/EventFahrplan/issues/402
         Log.d(LOG_TAG, "sessionId = $sessionId (after loading from bundle)")
         if (sessionId != null) {
             Log.d(LOG_TAG, "Open with sessionId '$sessionId'.")
-            val sessionAlarmDayIndex = intent.getIntExtra(BUNDLE_KEY_SESSION_ALARM_DAY_INDEX, -1)
+            val sessionAlarmDayIndex = intent.getIntExtra(BundleKeys.SESSION_ALARM_DAY_INDEX, -1)
             viewModel.saveSelectedDayIndex(sessionAlarmDayIndex)
             viewModel.scrollToSession(sessionId, getNormalizedBoxHeight())
-            intent.removeExtra(BUNDLE_KEY_SESSION_ALARM_SESSION_ID) // jump to given sessionId only once
+            intent.removeExtra(BundleKeys.SESSION_ALARM_SESSION_ID) // jump to given sessionId only once
         }
         Logging.get().d(LOG_TAG, "onResume")
     }

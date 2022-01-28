@@ -33,13 +33,7 @@ import nerd.tuxmobil.fahrplan.congress.changes.ChangeListActivity
 import nerd.tuxmobil.fahrplan.congress.changes.ChangeListFragment
 import nerd.tuxmobil.fahrplan.congress.changes.ChangeStatistic
 import nerd.tuxmobil.fahrplan.congress.changes.ChangesDialog
-import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys.BUNDLE_KEY_ALTERNATIVE_HIGHLIGHTING_UPDATED
-import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys.BUNDLE_KEY_ENGELSYSTEM_SHIFTS_URL_UPDATED
-import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys.BUNDLE_KEY_SCHEDULE_URL_UPDATED
-import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys.BUNDLE_KEY_SESSION_ALARM_DAY_INDEX
-import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys.BUNDLE_KEY_SESSION_ALARM_NOTIFICATION_ID
-import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys.BUNDLE_KEY_SESSION_ALARM_SESSION_ID
-import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys.BUNDLE_KEY_USE_DEVICE_TIME_ZONE_UPDATED
+import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsActivity
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsFragment
 import nerd.tuxmobil.fahrplan.congress.engagements.initUserEngagement
@@ -90,9 +84,9 @@ class MainActivity : BaseActivity(),
                 flags = FLAG_ACTIVITY_CLEAR_TOP or FLAG_ACTIVITY_RESET_TASK_IF_NEEDED
             }
             .withExtras(
-                BUNDLE_KEY_SESSION_ALARM_SESSION_ID to sessionId,
-                BUNDLE_KEY_SESSION_ALARM_DAY_INDEX to dayIndex,
-                BUNDLE_KEY_SESSION_ALARM_NOTIFICATION_ID to notificationId
+                BundleKeys.SESSION_ALARM_SESSION_ID to sessionId,
+                BundleKeys.SESSION_ALARM_DAY_INDEX to dayIndex,
+                BundleKeys.SESSION_ALARM_NOTIFICATION_ID to notificationId
             )
     }
 
@@ -185,7 +179,7 @@ class MainActivity : BaseActivity(),
     }
 
     private fun onSessionAlarmNotificationTapped(intent: Intent) {
-        val notificationId = intent.getIntExtra(BUNDLE_KEY_SESSION_ALARM_NOTIFICATION_ID, INVALID_NOTIFICATION_ID)
+        val notificationId = intent.getIntExtra(BundleKeys.SESSION_ALARM_NOTIFICATION_ID, INVALID_NOTIFICATION_ID)
         if (notificationId != INVALID_NOTIFICATION_ID) {
             viewModel.deleteSessionAlarmNotificationId(notificationId)
         }
@@ -289,9 +283,9 @@ class MainActivity : BaseActivity(),
             SettingsActivity.REQUEST_CODE ->
                 if (resultCode == RESULT_OK && intent != null) {
                     val isAlternativeHighlightingUpdated = intent.getBooleanExtra(
-                        BUNDLE_KEY_ALTERNATIVE_HIGHLIGHTING_UPDATED, false)
+                        BundleKeys.ALTERNATIVE_HIGHLIGHTING_UPDATED, false)
                     val isUseDeviceTimeZoneUpdated = intent.getBooleanExtra(
-                        BUNDLE_KEY_USE_DEVICE_TIME_ZONE_UPDATED, false)
+                        BundleKeys.USE_DEVICE_TIME_ZONE_UPDATED, false)
 
                     if (isAlternativeHighlightingUpdated || isUseDeviceTimeZoneUpdated) {
                         if (findViewById<View>(R.id.schedule) != null && findFragment(FahrplanFragment.FRAGMENT_TAG) == null) {
@@ -301,12 +295,12 @@ class MainActivity : BaseActivity(),
                     var shouldFetchFahrplan = false
                     val isScheduleUrlUpdated = resources.getBoolean(
                         R.bool.bundle_key_schedule_url_updated_default_value)
-                    if (intent.getBooleanExtra(BUNDLE_KEY_SCHEDULE_URL_UPDATED, isScheduleUrlUpdated)) {
+                    if (intent.getBooleanExtra(BundleKeys.SCHEDULE_URL_UPDATED, isScheduleUrlUpdated)) {
                         shouldFetchFahrplan = true
                     }
                     val isEngelsystemShiftsUrlUpdated = resources.getBoolean(
                         R.bool.bundle_key_engelsystem_shifts_url_updated_default_value)
-                    if (intent.getBooleanExtra(BUNDLE_KEY_ENGELSYSTEM_SHIFTS_URL_UPDATED, isEngelsystemShiftsUrlUpdated)) {
+                    if (intent.getBooleanExtra(BundleKeys.ENGELSYSTEM_SHIFTS_URL_UPDATED, isEngelsystemShiftsUrlUpdated)) {
                         shouldFetchFahrplan = true
                     }
                     if (shouldFetchFahrplan) {
