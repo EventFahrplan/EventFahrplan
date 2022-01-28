@@ -46,7 +46,7 @@ public class UpdateService extends SafeJobIntentService {
     public void onParseDone(@NonNull ParseResult result) {
         int numDays = appRepository.readMeta().getNumDays();
         logging.d(LOG_TAG, "onParseDone -> isSuccess=" + result.isSuccess() + ", numDays=" + numDays);
-        MyApp.task_running = TASKS.NONE;
+        MyApp.taskRunning = TASKS.NONE;
         List<Session> changesList = appRepository.loadChangedSessions();
         if (!changesList.isEmpty() && result instanceof ParseScheduleResult) {
             showScheduleUpdateNotification(((ParseScheduleResult) result).getVersion(), changesList.size());
@@ -77,14 +77,14 @@ public class UpdateService extends SafeJobIntentService {
 
     public void onGotResponse(@NonNull FetchScheduleResult fetchScheduleResult) {
         HttpStatus status = fetchScheduleResult.getHttpStatus();
-        MyApp.task_running = TASKS.NONE;
+        MyApp.taskRunning = TASKS.NONE;
         if (status != HttpStatus.HTTP_OK) {
             finishWork();
             return;
         }
 
         // Parser is automatically invoked when response has been received.
-        MyApp.task_running = TASKS.PARSE;
+        MyApp.taskRunning = TASKS.PARSE;
     }
 
     private void onLoadShiftsDone(@NonNull LoadShiftsResult result) {
@@ -92,8 +92,8 @@ public class UpdateService extends SafeJobIntentService {
     }
 
     private void fetchFahrplan() {
-        if (MyApp.task_running == TASKS.NONE) {
-            MyApp.task_running = TASKS.FETCH;
+        if (MyApp.taskRunning == TASKS.NONE) {
+            MyApp.taskRunning = TASKS.FETCH;
             String url = appRepository.readScheduleUrl();
             appRepository.loadSchedule(url,
                     false,
