@@ -32,7 +32,7 @@ import nerd.tuxmobil.fahrplan.congress.extensions.requireViewByIdCompat
 import nerd.tuxmobil.fahrplan.congress.extensions.withArguments
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.sharing.SessionSharer
-import nerd.tuxmobil.fahrplan.congress.utils.ActivityHelper
+import nerd.tuxmobil.fahrplan.congress.utils.ActivityHelper.navigateUp
 import nerd.tuxmobil.fahrplan.congress.utils.ConfirmationDialog
 
 /**
@@ -230,7 +230,7 @@ class StarredListFragment :
                 return true
             }
             android.R.id.home -> {
-                return ActivityHelper.navigateUp(requireActivity())
+                return requireActivity().navigateUp()
             }
         }
         return super.onOptionsItemSelected(item)
