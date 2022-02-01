@@ -11,6 +11,8 @@ import androidx.appcompat.app.AlertDialog;
 import org.ligi.tracedroid.TraceDroid;
 import org.ligi.tracedroid.collecting.TraceDroidMetaInfo;
 
+import java.io.File;
+
 import de.cketti.mailto.EmailIntentBuilder;
 import nerd.tuxmobil.fahrplan.congress.BuildConfig;
 import nerd.tuxmobil.fahrplan.congress.R;
@@ -21,7 +23,8 @@ import nerd.tuxmobil.fahrplan.congress.R;
 public abstract class TraceDroidEmailSender {
 
     public static void sendStackTraces(@NonNull final Activity context) {
-        if (TraceDroid.getStackTraceFiles().length < 1) {
+        File[] stackTraceFiles = TraceDroid.getStackTraceFiles();
+        if (stackTraceFiles == null || stackTraceFiles.length < 1) {
             return;
         }
 
