@@ -215,7 +215,10 @@ dependencies {
     }
     testImplementation Libs.coreTesting
     testImplementation Libs.junit
-    testImplementation Libs.kotlinCoroutinesTest
+    testImplementation (Libs.kotlinCoroutinesTest) {
+        // workaround for https://github.com/Kotlin/kotlinx.coroutines/issues/2023
+        exclude group: "org.jetbrains.kotlinx", module: "kotlinx-coroutines-debug"
+    }
     testImplementation Libs.mockitoCore
     testImplementation Libs.threeTenBp
     testImplementation Libs.truth
