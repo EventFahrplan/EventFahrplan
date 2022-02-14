@@ -1,0 +1,58 @@
+name: Build
+on: [pull_request, push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '11'
+            
+      - name: Build the app
+        run: ./gradlew assemble
+
+      - name: Unit Tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 16
+          script: ./gradlew testRc3DebugUnitTest assembleRc3Debug lintAnalyzeRc3Debug
+
+      - name: Publish unit-test results
+        uses: EnricoMi/publish-unit-test-result-action@v1
+        if: always()
+        with:
+          files: |
+            build/test-results/**/*.xml
+            */build/test-results/**/*.xml
+
+  android_tests:
+    # see https://github.com/reactivecircus/android-emulator-runner,
+    # needs to run on macos as only there virtualization is available!
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '11'
+
+      - name: Instrumentation Tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 16
+          script: ./gradlew connectedCheck
+
+      - name: Publish unit-test results
+        uses: EnricoMi/publish-unit-test-result-action/composite@v1
+        if: always()
+        with:
+          files: |
+            build/test-results/**/*.xml
+            */build/test-results/**/*.xml
+            */build/outputs/androidTest-results/connected/*.xml
