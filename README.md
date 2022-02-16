@@ -114,9 +114,10 @@ bashtian, bjoernb, Björn Olsson Jarl, ButterflyOfFire, cacarrara,
 Caio Volpato, cketti, codingcatgirl, Dominik Stadler, entropynil,
 ideadapt, isi_ko404, Jasper van der Graaf, Joergi, koelnkalkverbot,
 Larissa Yasin, ligi, Luis Azcuaga, Mateus Baptista, Matthias Geisler,
-Matthias Hunstock, MichaelRocks, Nghiem Xuan Hien, NiciDieNase, Noemis,
-Omicron, Poschi, rotrot, Sjors van Mierlo, Stefan Medack, SubOptimal,
-Teeranai.P, Torsten Grote, Victor Herasme, Vladimir Alabov, Yanicka
+Matthias Hunstock, Matthias Mair, MichaelRocks, Nghiem Xuan Hien,
+NiciDieNase, Noemis, Omicron, Poschi, rotrot, Sjors van Mierlo,
+Stefan Medack, SubOptimal, Teeranai.P, Torsten Grote, Victor Herasme,
+Vladimir Alabov, Yanicka
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
