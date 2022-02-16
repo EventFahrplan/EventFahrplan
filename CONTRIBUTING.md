@@ -25,4 +25,8 @@ In order to simplify the process please try to follow the following suggestions:
 * Describe the intention of your pull request. Add screenshots if suitable. They help others to understand the before and after state.
 * Make sure to add a textual description both in your commit(s) and in the pull request if you implement a new feature or you change the behavior of an existing one.
 
+## Translations
+* Contribute to translate the app into many languages. [Crowdin][crowdin-eventfahrplan] is used to organize all languages and texts.
+
 [code-formatting]: http://stackoverflow.com/a/5581992/356895
+[crowdin-eventfahrplan]: https://crowdin.com/project/eventfahrplan
