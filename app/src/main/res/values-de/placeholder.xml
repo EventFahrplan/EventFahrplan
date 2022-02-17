@@ -1,105 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="MissingTranslation">
-
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!--
     These placeholder texts can be used to preview layouts with real content.
     The content in the English and German XML files is different on purpose.
     Some texts are localized (e.g. date) while others are just shorter in length.
     -->
-
-    <string name="placeholder_session_title">
-        Seidenstraße
+    <string name="placeholder_session_title">        Hardware Attacks, Advanced ARM Exploitation, and Android Hacking
     </string>
-    <string name="placeholder_session_subtitle">
-        The Making of…
+    <string name="placeholder_session_subtitle">        Discussion of recent research, live demonstration of techniques
     </string>
-    <string name="placeholder_session_track">
-        Art &amp; Beauty
+    <string name="placeholder_session_track">        Security &amp; Safety
     </string>
-    <string name="placeholder_session_abstract">
-        Auf dem 30C3 wird es, neben der bisher gewohnten digitalen Infrastruktur mit
-        Netz, Telefon etc. dieses Jahr auch erstmalig ein Rohrpost-System mit dem
-        schönen Namen Seidenstraße geben. Als Inspiration dient die auf geschlossenen
-        Drainagerohren und Staubsaugern basierende Installation OCTO der Künstlergruppe
-        Telekommunisten, die einigen von der letzten transmediale bekannt sein dürfte.
+    <string name="placeholder_session_abstract">        In this talk (which in part was delivered at Infiltrate 2013 and NoSuchCon
+        2013) we will discuss our recent research that is being rolled into our
+        Practical ARM Exploitation course (sold out at Blackhat this year and last)
+        on Linux and Android (for embedded applications and mobile devices). We
+        will also demonstrate these techniques and discuss how we were able to
+        discover them using several ARM hardware development platforms that we
+        custom built.  Where relevant we will also discuss ARM exploitation as
+        it related to Android as we wrote about in the \"Android Hackers Handbook\"
+        which we co-authored and will be released in October 2013.
     </string>
-    <string name="placeholder_session_description">
-        Wir werden die Idee und Funktionsweise der Installation vorstellen, ihre
-        Evolution von OCTO zur Seidenstraße als Offenes Kunstwerk, neue Features
-        sowie von Entwicklung und Aufbau erzählen und vor allem, wie ihr mitmachen könnt!
+    <string name="placeholder_session_description">        Lastly, we will also discuss some of our most recent related hardware
+        research (to facilitate the above) which will include bus protocol
+        eavesdropping/reverse engineering, demystifying hardware debugging, and
+        surreptitiously obtaining embedded software (firmware) using hardware
+        techniques. We will demonstrate and show the supportive tools used and
+        techniques developed to perform this work and deploy them against Apple
+        MFI iAP devices, and multimedia devices using OEM implemented USB stacks.
+        (Which will briefly include our experiences around starting http://int3.cc
+        where we sell a fully assembled modified version of a hardware USB fuzzer.)
         \n
-        \nBesides the usual digital infrastructure with Wifi, telephone etc., 30C3 will
-        feature for the first time a pneumatic tube system, with the pretty name
-        Seidenstraße. The installation OCTO, built from drainage pipe and vacuum
-        cleaners, by the artist group Telekommunisten served as inspiration – some
-        of you might remember it from the last transmediale.
-        \n
-        \nWe will present the concept of the installation, its evolution from OCTO to
-        Seidenstraße as an Open Artwork, new features, and talk about the setup,
-        making of and of course, how to participate!
-        \n
-        \nProjektvorstellung und Mitmach-Agenda. Idee, Konzept, Realisierung, weitere
-        Features etc.
-        \n
-        \nIn addition to this lecture, we are happy to announce that the Telekommunisten
-        will also hold a workshop, where they will further explain concept and
-        background of OCTO and open up the discussion for further input.
+        \nAlong the way we will inevitably share some of the lessons we also learned
+        while completely designing the hardware (from scratch), writing the firmware,
+        and mobile apps for an embedded security device called Osprey that we hold
+        the patent for and have been publicly about publicly as a hardware vulnerability
+        assessment swiss-army-knife for researchers.
     </string>
-    <string name="placeholder_session_speakers">
-        *m, Jeff Mann, frank, Diani Barreto
+    <string name="placeholder_session_speakers">        Stephen A. Ridley, Ernest Ridley, Conan Ridley, Bridget Ridley, Frank Ridley
     </string>
-    <string name="placeholder_session_links">
-        OCTO der Künstlergruppe Telekommunisten\nTelekommunisten workshop
+    <string name="placeholder_session_links">        Don\'t Stuff Beans Up Your Nose\nINT3.CC\nThe Osprey (on INT3)
     </string>
-    <string name="placeholder_session_online">
-        https://events.ccc.de/congress/2013/Fahrplan/events/5610.html
+    <string name="placeholder_session_online">        https://events.ccc.de/congress/2013/Fahrplan/events/5193.html
     </string>
-    <string name="placeholder_session_language">
-        de
+    <string name="placeholder_session_language">        en
     </string>
-    <string name="placeholder_session_day">
-        Heute
+    <string name="placeholder_session_day">        Today
     </string>
-    <string name="placeholder_session_start_time">
-        11:45
+    <string name="placeholder_session_start_time">        17:15
     </string>
-    <string name="placeholder_session_duration">
-        60 min.
+    <string name="placeholder_session_duration">        240 min.
     </string>
-    <string name="placeholder_session_room">
-        Saal 2
+    <string name="placeholder_session_room">        Village:Königlich Bayerisches Amtsvillage
     </string>
-
     <!-- Schedule time column -->
-    <string name="placeholder_schedule_time">
-        09:15
+    <string name="placeholder_schedule_time">        09:15
     </string>
-
     <!-- Alarm list -->
-
-    <string name="placeholder_alarm_minutes">
-        15
+    <string name="placeholder_alarm_minutes">        5
     </string>
-    <string name="placeholder_alarm_time">
-        27.12.13 11:30 vorm.
+    <string name="placeholder_alarm_time">        12/28/13 5:10 PM
     </string>
-
     <!-- Session detail bar -->
-
-    <string name="placeholder_session_date">
-        27.12.13 11:45 VORM. - SAAL 1
+    <string name="placeholder_session_date">        12/28/13 5:15 PM
     </string>
-    <string name="placeholder_session_location">
-        SEHR LANGER RAUM
+    <string name="placeholder_session_location">        REALLY LARGE ROOM
     </string>
-    <string name="placeholder_session_id">
-        ID: 5610
+    <string name="placeholder_session_id">        ID: 5193
     </string>
-
     <!-- Separators -->
-    <string name="placeholder_day_separator_title">
-        Tag 1
+    <string name="placeholder_day_separator_title">        Day 2
     </string>
-
 </resources>
