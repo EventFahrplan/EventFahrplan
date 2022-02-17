@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-
     <!-- Menu items -->
     <string name="menu_item_title_about">情報</string>
     <string name="menu_item_title_add_to_calendar">カレンダーに追加</string>
@@ -22,17 +21,13 @@
     <string name="menu_item_title_share_session_json">（Chaosflixのために）JSONとして</string>
     <string name="share_as_text">テキストとして共有</string>
     <string name="share_as_json">（Chaosflixのために）JSONとして共有</string>
-
     <!-- AlertDialog -->
     <string name="OK">OK</string>
-
     <!-- CertificateErrorFragment -->
-    <string name="certificate_error_message">
-        安全な接続の確立に失敗しました。\n
+    <string name="certificate_error_message">        安全な接続の確立に失敗しました。\n
         (<xliff:g example="不明なエラー" id="error">%s</xliff:g>)
     </string>
     <string name="certificate_error_title">証明書を追加できませんでした。</string>
-
     <!-- Error messages -->
     <string name="dlg_err_connection_failed">接続失敗</string>
     <string name="dlg_err_failed_unknown_host">不明なアドレス：\n%s</string>
@@ -43,8 +38,13 @@
     <string name="dlg_err_failed_parse_failure">応答を解析できませんでした</string>
     <string name="dlg_err_failed_ssl_failure">SSL障害</string>
     <string name="dlg_err_failed_http_cleartext_not_permitted">HTTPは許可されていません。 HTTPSを使用してください。</string>
+    <string name="dlg_err_schedule_data">Schedule data error</string>
+    <string name="dlg_err_schedule_data_empty">        Nothing to display. The schedule with version \"<xliff:g example="0.99" id="version">%s</xliff:g>\"
+        does not contain any session.
+    </string>
+    <string name="dlg_err_schedule_data_empty_without_version">        Nothing to display. The schedule does not contain any session.
+    </string>
     <string name="uptodate">スケジュールは最新です。</string>
-
     <!-- Schedule changes dialog -->
     <string name="schedule_changes_dialog_title">スケジュールを更新</string>
     <string name="schedule_changes_dialog_updated_to_text">スケジュールが更新されました。</string>
@@ -64,7 +64,6 @@
     </plurals>
     <string name="schedule_changes_dialog_browse">ブラウズ</string>
     <string name="schedule_changes_dialog_later">後で</string>
-
     <string name="progress_loading_data">&#8230;スケジュールを取得</string>
     <string name="progress_processing_data">&#8230;スケジュールを処理中</string>
     <string name="load_data">ロード</string>
@@ -72,11 +71,9 @@
     <string name="day">日付</string>
     <string name="fahrplan">スケジュール</string>
     <string name="appVersion">アプリバージョン %s</string>
-    <string name="schedule_updated_to">
-        <xliff:g example="Mildenberg 2018-01-16 16:50" id="version">%s</xliff:g>に更新しました。
+    <string name="schedule_updated_to">        <xliff:g example="Mildenberg 2018-01-16 16:50" id="version">%s</xliff:g>に更新しました。
     </string>
-    <string name="schedule_updated">
-        スケジュールが更新されました。
+    <string name="schedule_updated">        スケジュールが更新されました。
     </string>
     <string name="settings">設定</string>
     <string name="session_details_section_title_session_online">オンラインイベント</string>
@@ -84,8 +81,7 @@
     <string name="choose_alarm_time">アラーム時間を選択</string>
     <string name="reminders">アラーム</string>
     <string name="usage">注：アラームを設定するには、講義を長押しします。</string>
-    <string name="about_libraries_statement">
-        このアプリは次のライブラリを使用しています。 <xliff:g example="Kotlin, Espresso" id="libs">%s</xliff:g>
+    <string name="about_libraries_statement">        このアプリは次のライブラリを使用しています。 <xliff:g example="Kotlin, Espresso" id="libs">%s</xliff:g>
     </string>
     <string name="about_data_privacy_statement_german">データプライバシーステートメント（ドイツ語）</string>
     <string name="about_f_droid_listing">F-Droidのリスト</string>
@@ -98,8 +94,7 @@
     <string name="engelsystem_shifts_parsing_error_generic"><xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g>シフトの解析中に不明なエラーが発生しました</string>
     <string name="engelsystem_shifts_parsing_error_forbidden"><xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g>シフトの無効なAPIキー</string>
     <string name="engelsystem_shifts_parsing_error_not_found"><xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g>シフトのURLが間違っています</string>
-    <string name="alarms_empty">
-        表示するアラームはありません。 スケジュールの
+    <string name="alarms_empty">        表示するアラームはありません。 スケジュールの
         項目ごとに個別のアラームを設定できることに注意してください。
         アクションバーのアラームアイコンを押すだけです。
     </string>
@@ -107,7 +102,6 @@
     <string name="no_changes">スケジュール変更がありません</string>
     <string name="no_favorites">好きな講義がありません</string>
     <string name="schedule_changes">スケジュール変更</string>
-
     <string name="general_settings">一般</string>
     <string name="starred_sessions">お気に入り</string>
     <string name="invalid_url">無効なURL</string>
@@ -115,27 +109,19 @@
     <string name="day_separator">日付 <xliff:g example="2" id="day_of_congress">%1$d</xliff:g> - <xliff:g example="2014.12.29" id="date_of_congress_day">%2$s</xliff:g></string>
     <string name="dlg_delete_all_favorites">すべてのお気に入りを削除しますか？</string>
     <string name="dlg_delete_all_favorites_delete_all">すべて削除</string>
-
     <string name="share_error_activity_not_found">フィッティングアプリがインストールされていません。</string>
-
     <!-- Build information -->
-    <string name="build_info_time">
-        立ち上げの時間: <xliff:g example="2015-12-27T13:42Z" id="build_time">%s</xliff:g>
+    <string name="build_info_time">        立ち上げの時間: <xliff:g example="2015-12-27T13:42Z" id="build_time">%s</xliff:g>
     </string>
-    <string name="build_info_version_code">
-        バージョンコード: <xliff:g example="42" id="version_code">%s</xliff:g>
+    <string name="build_info_version_code">        バージョンコード: <xliff:g example="42" id="version_code">%s</xliff:g>
     </string>
-    <string name="build_info_hash">
-        バージョンハッシュ: <xliff:g example="e1f2g3h-dirty" id="build_hash">%s</xliff:g>
+    <string name="build_info_hash">        バージョンハッシュ: <xliff:g example="e1f2g3h-dirty" id="build_hash">%s</xliff:g>
     </string>
-
     <!-- App disclaimer -->
-    <string name="app_disclaimer">
-        このアプリケーションは、&#8220;EventFahrplan&#8221;アプリのソースコードに基づいています。
+    <string name="app_disclaimer">        このアプリケーションは、&#8220;EventFahrplan&#8221;アプリのソースコードに基づいています。
         Chaos Computer Clubが主催する年次会議やキャンプの訪問者は、
         このアプリを使用してイベントプログラムを追跡します。
     </string>
-
     <!-- SnackEngage -->
     <string name="snack_engage_rate_title">すべて大丈夫ですか？</string>
     <string name="snack_engage_rate_action">アプリを評価</string>
@@ -143,45 +129,34 @@
     <string name="snack_engage_google_play_beta_testing_action">ベータテスターになる</string>
     <string name="snack_engage_c3nav_title">c3navアプリで<xliff:g example="35C3" id="conferenceName">%s</xliff:g>での屋内ナビゲーション!</string>
     <string name="snack_engage_c3nav_action">今すぐ入手！</string>
-
     <!-- TraceDroid -->
-    <string name="trace_droid_dialog_title">
-        <xliff:g example="33C3 スケジュール" id="appName">%s</xliff:g>にクラッシュレポート &#8230;を送信します。
+    <string name="trace_droid_dialog_title">        <xliff:g example="33C3 スケジュール" id="appName">%s</xliff:g>にクラッシュレポート &#8230;を送信します。
     </string>
-    <string name="trace_droid_dialog_message">
-        <xliff:g example="33C3 スケジュール" id="appName">%s</xliff:g>アプリの
+    <string name="trace_droid_dialog_message">        <xliff:g example="33C3 スケジュール" id="appName">%s</xliff:g>アプリの
         問題が検出されました。問題の原因を特定できるように、クラッシュレポートを
         送信頂ければ幸いです。クラッシュがいつどのように
         発生したかを説明できれば、非常に役立ちます。
     </string>
-    <string name="trace_droid_button_title_send">
-        メールを開く
+    <string name="trace_droid_button_title_send">        メールを開く
     </string>
-    <string name="trace_droid_no_email_app">
-        互換性のあるメールアプリがインストールされていません。
+    <string name="trace_droid_no_email_app">        互換性のあるメールアプリがインストールされていません。
     </string>
-    <string name="trace_droid_button_title_no">
-        いいえ
+    <string name="trace_droid_button_title_no">        いいえ
     </string>
-    <string name="trace_droid_button_title_later">
-        多分後で
+    <string name="trace_droid_button_title_later">        多分後で
     </string>
-
     <!-- Notifications -->
-    <string name="notifications_session_alarm_channel_description">
-        さまざまなイベントに対してユーザーが作成したアラーム。
+    <string name="notifications_session_alarm_channel_description">        さまざまなイベントに対してユーザーが作成したアラーム。
     </string>
     <string name="notifications_session_alarm_channel_name">イベントのアラーム</string>
     <string name="notifications_session_alarm_content_text">イベントのアラーム</string>
-    <string name="notifications_schedule_update_channel_description">
-        アプリの設定で構成できるスケジュールの自動更新
+    <string name="notifications_schedule_update_channel_description">        アプリの設定で構成できるスケジュールの自動更新
     </string>
-
     <string name="notifications_schedule_update_channel_name">スケジュールの更新</string>
     <plurals name="notifications_schedule_changes">
         <item quantity="other"><xliff:g example="3" id="count">%d</xliff:g> 個の講義が変更しました。</item>
     </plurals>
-
+    <!-- Schedule refresh interval picker -->
     <!-- Alarm time picker -->
     <string name="alarm_time_title_at_start_time">開始時</string>
     <string name="alarm_time_title_5_minutes_before">5分前</string>
@@ -191,11 +166,20 @@
     <string name="alarm_time_title_30_minutes_before">30分前</string>
     <string name="alarm_time_title_45_minutes_before">45分前</string>
     <string name="alarm_time_title_60_minutes_before">60分前</string>
-
     <!-- Session list item -->
+    <string name="session_list_item_alarm_time_zero_minutes_content_description">Alarm: at start time</string>
+    <string name="session_list_item_alarm_time_minutes_content_description">Alarm: <xliff:g example="5" id="minutes">%d</xliff:g> minutes before</string>
+    <string name="session_list_item_alarm_time_content_description">Alarm time: <xliff:g example="16:20" id="alarmTime">%s</xliff:g></string>
     <string name="session_list_item_duration_text"><xliff:g example="45" id="duration">%d</xliff:g>分</string>
-    <string name="session_list_item_language_portuguese_content_description">ポルトガル語</string>
+    <string name="session_list_item_duration_content_description">Duration: <xliff:g example="45" id="duration">%d</xliff:g> minutes</string>
+    <string name="session_list_item_favored_content_description">favored</string>
+    <string name="session_list_item_not_favored_content_description">not favored</string>
+    <string name="session_list_item_room_content_description">Room: <xliff:g example="Main hall" id="room">%s</xliff:g></string>
+    <string name="session_list_item_start_time_content_description">Start time: <xliff:g example="16:30" id="startTime">%s</xliff:g></string>
+    <string name="session_list_item_subtitle_content_description">Subtitle: <xliff:g example="News from Berlin" id="subtitle">%s</xliff:g></string>
+    <string name="session_list_item_track_content_description">Track: <xliff:g example="Security" id="trackName">%s</xliff:g></string>
     <string name="session_list_item_language_content_description">言語: <xliff:g example="English" id="language">%s</xliff:g></string>
+    <string name="session_list_item_language_portuguese_content_description">ポルトガル語</string>
     <string name="session_list_item_language_german_content_description">ドイツ語</string>
     <string name="session_list_item_language_english_content_description">英語</string>
     <string name="session_list_item_language_unknown_content_description">未知の言語</string>
@@ -203,19 +187,16 @@
     <string name="session_list_item_no_video_content_description">ビデオ録画なし</string>
     <string name="session_list_item_video_content_description">ビデオ録画あり</string>
     <string name="session_list_item_without_video_content_description">ビデオ録画なし</string>
-
+    <plurals name="session_list_item_speakers_content_description">
+        <item quantity="other">Speakers: <xliff:g example="Jane Doe, John Doe" id="names">%s</xliff:g></item>
+    </plurals>
     <!-- Validation errors -->
-    <string name="validation_error_invalid_url">
-        無効の <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL。
+    <string name="validation_error_invalid_url">        無効の <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL。
     </string>
-    <string name="validation_error_url_without_query">
-        <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> クエリ部分のないURL。
+    <string name="validation_error_url_without_query">        <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> クエリ部分のないURL。
     </string>
-    <string name="validation_error_url_with_incomplete_query">
-        <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> クエリ部分が不完全なURL。
+    <string name="validation_error_url_with_incomplete_query">        <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> クエリ部分が不完全なURL。
     </string>
-    <string name="validation_error_url_without_api_key">
-        <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> APIキーのないURL。
+    <string name="validation_error_url_without_api_key">        <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> APIキーのないURL。
     </string>
-
 </resources>
