@@ -32,11 +32,15 @@ android {
         buildConfigField "String", "SOURCE_CODE_URL", '"https://github.com/EventFahrplan/EventFahrplan"'
         buildConfigField "String", "ISSUES_URL", '"https://github.com/EventFahrplan/EventFahrplan/issues"'
         buildConfigField "String", "DATA_PRIVACY_STATEMENT_DE_URL", '"https://github.com/EventFahrplan/EventFahrplan/blob/master/DATA-PRIVACY-DE.md"'
-        resValue("string", "preference_hint_engelsystem_json_export_url", '""')
+        buildConfigField "boolean", "ENGAGE_C3NAV_APP_INSTALLATION", "false"
         buildConfigField "String", "C3NAV_URL", '""'
-        buildConfigField "boolean", "ENABLE_ALTERNATIVE_SCHEDULE_URL", "true"
-        buildConfigField "boolean", "ENABLE_CHAOSFLIX_EXPORT", "true"
+        buildConfigField "boolean", "ENABLE_ALTERNATIVE_SCHEDULE_URL", "false"
+        buildConfigField "boolean", "ENABLE_CHAOSFLIX_EXPORT", "false"
         buildConfigField "boolean", "ENABLE_ENGELSYSTEM_SHIFTS", "false"
+        resValue("string", "preference_hint_engelsystem_json_export_url", '""')
+        buildConfigField "boolean", "SHOW_APP_DISCLAIMER", "true"
+        buildConfigField "boolean", "ENGAGE_GOOGLE_BETA_TESTING", "true"
+        buildConfigField "boolean", "ENGAGE_GOOGLE_PLAY_RATING", "true"
     }
 
     buildTypes {
@@ -83,9 +87,7 @@ android {
             buildConfigField "int", "SCHEDULE_LAST_DAY_END_MONTH", "8"
             buildConfigField "int", "SCHEDULE_LAST_DAY_END_DAY", "26"
             buildConfigField "boolean", "SHOW_APP_DISCLAIMER", "false"
-            buildConfigField "boolean", "ENGAGE_C3NAV_APP_INSTALLATION", "false"
-            buildConfigField "boolean", "ENGAGE_GOOGLE_BETA_TESTING", "true"
-            buildConfigField "boolean", "ENGAGE_GOOGLE_PLAY_RATING", "true"
+            buildConfigField "boolean", "ENABLE_CHAOSFLIX_EXPORT", "true"
             buildConfigField "String", "SOCIAL_MEDIA_HASHTAGS_HANDLES", '"#camp19 #CCCamp19 #fahrplan"'
             buildConfigField "String", "TRACE_DROID_EMAIL_ADDRESS", '"tobias.preuss+camp2019@googlemail.com"'
             buildConfigField "String", "SCHEDULE_FEEDBACK_URL", '"https://frab.cccv.de/en/camp2019/public/events/%s/feedback/new"'
@@ -108,8 +110,7 @@ android {
             buildConfigField "boolean", "SHOW_APP_DISCLAIMER", "false"
             buildConfigField "boolean", "ENGAGE_C3NAV_APP_INSTALLATION", "true"
             buildConfigField "String", "C3NAV_URL", '"https://36c3.c3nav.de/l/"'
-            buildConfigField "boolean", "ENGAGE_GOOGLE_BETA_TESTING", "true"
-            buildConfigField "boolean", "ENGAGE_GOOGLE_PLAY_RATING", "true"
+            buildConfigField "boolean", "ENABLE_CHAOSFLIX_EXPORT", "true"
             buildConfigField "boolean", "ENABLE_ENGELSYSTEM_SHIFTS", "true"
             resValue("string", "preference_hint_engelsystem_json_export_url", '"https://engelsystem.de/36c3/shifts-json-export?key=YOUR_KEY"')
             buildConfigField "String", "SOCIAL_MEDIA_HASHTAGS_HANDLES", '"#36c3 #fahrplan"'
@@ -133,9 +134,7 @@ android {
             buildConfigField "int", "SCHEDULE_LAST_DAY_END_MONTH", "12"
             buildConfigField "int", "SCHEDULE_LAST_DAY_END_DAY", "31"
             buildConfigField "boolean", "SHOW_APP_DISCLAIMER", "false"
-            buildConfigField "boolean", "ENGAGE_C3NAV_APP_INSTALLATION", "false"
-            buildConfigField "boolean", "ENGAGE_GOOGLE_BETA_TESTING", "true"
-            buildConfigField "boolean", "ENGAGE_GOOGLE_PLAY_RATING", "true"
+            buildConfigField "boolean", "ENABLE_CHAOSFLIX_EXPORT", "true"
             buildConfigField "boolean", "ENABLE_ENGELSYSTEM_SHIFTS", "true"
             resValue("string", "preference_hint_engelsystem_json_export_url", '"https://engelsystem.rc3.world/shifts-json-export?key=YOUR_KEY"')
             buildConfigField "String", "SOCIAL_MEDIA_HASHTAGS_HANDLES", '"#rC3 #fahrplan #nowhere"'
