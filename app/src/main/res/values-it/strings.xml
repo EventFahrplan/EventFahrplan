@@ -17,10 +17,10 @@
     <string name="menu_item_title_refresh">Aggiornare</string>
     <string name="menu_item_title_share_session">Condividere l\'evento</string>
     <string name="menu_item_title_share_favorites">Condividere i favoriti</string>
-    <string name="menu_item_title_share_session_text">as text</string>
-    <string name="menu_item_title_share_session_json">as JSON (for Chaosflix)</string>
-    <string name="share_as_text">Share as text</string>
-    <string name="share_as_json">Share as JSON (for Chaosflix)</string>
+    <string name="menu_item_title_share_session_text">come testo</string>
+    <string name="menu_item_title_share_session_json">come JSON (per Chaosflix)</string>
+    <string name="share_as_text">Condividi come testo</string>
+    <string name="share_as_json">Condividi come JSON (per Chaosflix)</string>
     <!-- AlertDialog -->
     <string name="OK">OK</string>
     <!-- CertificateErrorFragment -->
@@ -61,8 +61,8 @@
         <item quantity="other"><xliff:g example="9" id="count">%d</xliff:g> lectures</item>
     </plurals>
     <plurals name="schedule_changes_dialog_being">
-        <item quantity="one"><xliff:g example="1" id="count">%d</xliff:g> is</item>
-        <item quantity="other"><xliff:g example="9" id="count">%d</xliff:g> are</item>
+        <item quantity="one"><xliff:g example="1" id="count">%d</xliff:g> è</item>
+        <item quantity="other"><xliff:g example="9" id="count">%d</xliff:g> sono</item>
     </plurals>
     <string name="schedule_changes_dialog_browse">Sfogliare</string>
     <string name="schedule_changes_dialog_later">Dopo</string>
@@ -86,7 +86,7 @@
     <string name="about_f_droid_listing">F-Droid listing</string>
     <string name="about_google_play_listing">Google Play listing</string>
     <string name="about_issues_or_feature_requests">Assistenza o suggerimento di nuove funzionalità</string>
-    <string name="about_source_code">Source code</string>
+    <string name="about_source_code">Codice sorgente</string>
     <string name="today">oggi</string>
     <string name="schedule_parsing_error_generic">Errore sconosciuto durante l\'analisi del programma</string>
     <string name="schedule_parsing_error_with_version">Errore durante l\'analisi del programma versione %s</string>
@@ -152,14 +152,14 @@
     <string name="session_list_item_alarm_time_content_description">Alarm time: <xliff:g example="16:20" id="alarmTime">%s</xliff:g></string>
     <string name="session_list_item_duration_text"><xliff:g example="45" id="duration">%d</xliff:g> min.</string>
     <string name="session_list_item_duration_content_description">Duration: <xliff:g example="45" id="duration">%d</xliff:g> minutes</string>
-    <string name="session_list_item_favored_content_description">favored</string>
-    <string name="session_list_item_not_favored_content_description">not favored</string>
+    <string name="session_list_item_favored_content_description">preferito</string>
+    <string name="session_list_item_not_favored_content_description">non preferito</string>
     <string name="session_list_item_room_content_description">Room: <xliff:g example="Main hall" id="room">%s</xliff:g></string>
     <string name="session_list_item_start_time_content_description">Start time: <xliff:g example="16:30" id="startTime">%s</xliff:g></string>
     <string name="session_list_item_subtitle_content_description">Subtitle: <xliff:g example="News from Berlin" id="subtitle">%s</xliff:g></string>
     <string name="session_list_item_track_content_description">Track: <xliff:g example="Security" id="trackName">%s</xliff:g></string>
     <string name="session_list_item_language_content_description">Lingua: <xliff:g example="English" id="language">%s</xliff:g></string>
-    <string name="session_list_item_language_portuguese_content_description">Portuguese</string>
+    <string name="session_list_item_language_portuguese_content_description">Portoghese</string>
     <string name="session_list_item_language_german_content_description">Tedesco</string>
     <string name="session_list_item_language_english_content_description">Inglese</string>
     <string name="session_list_item_language_unknown_content_description">Lingua sconosciuta</string>
