@@ -22,8 +22,8 @@
     -->
     <!-- Category general -->
     <!-- Automatic schedule updates -->
-    <string name="preference_title_auto_update_enabled">Enable automatic updates</string>
-    <string name="preference_summary_auto_update_enabled">Downloads the schedule periodically.</string>
+    <string name="preference_title_auto_update_enabled">Abilita gli aggiornamenti automatici</string>
+    <string name="preference_summary_auto_update_enabled">Scarica periodicamente il programma.</string>
     <!-- Alarm time index -->
     <!--
     Synchronize with @strings/preference_default_value_alarm_time_value
