@@ -54,7 +54,7 @@
     </plurals>
     <plurals name="schedule_changes_dialog_phrase_cancelled">
         <item quantity="one">cancellate</item>
-        <item quantity="other">cancelled</item>
+        <item quantity="other">cancellati</item>
     </plurals>
     <plurals name="schedule_changes_dialog_number_of_sessions">
         <item quantity="one"><xliff:g example="1" id="count">%d</xliff:g> lecture</item>
