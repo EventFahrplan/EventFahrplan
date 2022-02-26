@@ -40,7 +40,7 @@
     <string name="dlg_err_schedule_data_empty">        Nothing to display. The schedule with version \"<xliff:g example="0.99" id="version">%s</xliff:g>\"
         does not contain any session.
     </string>
-    <string name="dlg_err_schedule_data_empty_without_version">        Nothing to display. The schedule does not contain any session.
+    <string name="dlg_err_schedule_data_empty_without_version">        Niente da visualizzare. Il programma non contiene alcuna sessione.
     </string>
     <string name="uptodate">Il programma è aggiornato.</string>
     <!-- Schedule changes dialog -->
