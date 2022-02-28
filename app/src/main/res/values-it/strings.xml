@@ -37,8 +37,8 @@
     <string name="dlg_err_failed_ssl_failure">SSL impossibile</string>
     <string name="dlg_err_failed_http_cleartext_not_permitted">Impossibile utilizzare HTTP. Si prega di utilizzare HTTPS.</string>
     <string name="dlg_err_schedule_data">Schedule data error</string>
-    <string name="dlg_err_schedule_data_empty">        Nothing to display. The schedule with version \"<xliff:g example="0.99" id="version">%s</xliff:g>\"
-        does not contain any session.
+    <string name="dlg_err_schedule_data_empty">Niente da visualizzare. Il programma con la versione \"<xliff:g example="0.99" id="version">%s</xliff:g>\" 
+        non contiene alcuna sessione.
     </string>
     <string name="dlg_err_schedule_data_empty_without_version">        Niente da visualizzare. Il programma non contiene alcuna sessione.
     </string>
@@ -169,7 +169,7 @@
     <string name="session_list_item_without_video_content_description">Senza registrazione video</string>
     <plurals name="session_list_item_speakers_content_description">
         <item quantity="one">Speaker: <xliff:g example="Jane Doe" id="name">%s</xliff:g></item>
-        <item quantity="other">Speakers: <xliff:g example="Jane Doe, John Doe" id="names">%s</xliff:g></item>
+        <item quantity="other">Relatori: <xliff:g example="Jane Doe, John Doe" id="names">%s</xliff:g></item>
     </plurals>
     <!-- Validation errors -->
     <string name="validation_error_invalid_url">        Invalid <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL.
