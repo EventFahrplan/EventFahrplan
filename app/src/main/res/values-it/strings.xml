@@ -36,7 +36,7 @@
     <string name="dlg_err_failed_parse_failure">Impossibile interpretare la risposta</string>
     <string name="dlg_err_failed_ssl_failure">SSL impossibile</string>
     <string name="dlg_err_failed_http_cleartext_not_permitted">Impossibile utilizzare HTTP. Si prega di utilizzare HTTPS.</string>
-    <string name="dlg_err_schedule_data">Schedule data error</string>
+    <string name="dlg_err_schedule_data">Errore nei dati del programma</string>
     <string name="dlg_err_schedule_data_empty">Niente da visualizzare. Il programma con la versione \"<xliff:g example="0.99" id="version">%s</xliff:g>\" 
         non contiene alcuna sessione.
     </string>
@@ -58,7 +58,7 @@
     </plurals>
     <plurals name="schedule_changes_dialog_number_of_sessions">
         <item quantity="one"><xliff:g example="1" id="count">%d</xliff:g> lecture</item>
-        <item quantity="other"><xliff:g example="9" id="count">%d</xliff:g> lectures</item>
+        <item quantity="other"><xliff:g example="9" id="count">%d</xliff:g> presentazioni</item>
     </plurals>
     <plurals name="schedule_changes_dialog_being">
         <item quantity="one"><xliff:g example="1" id="count">%d</xliff:g> è</item>
@@ -134,7 +134,7 @@
     <string name="notifications_schedule_update_channel_name">Aggiornamenti del programma</string>
     <plurals name="notifications_schedule_changes">
         <item quantity="one"><xliff:g example="1" id="count">%d</xliff:g> lecture has changed.</item>
-        <item quantity="other"><xliff:g example="3" id="count">%d</xliff:g> lectures have been changed.</item>
+        <item quantity="other"><xliff:g example="3" id="count">%d</xliff:g> presentazioni sono state cambiate.</item>
     </plurals>
     <!-- Schedule refresh interval picker -->
     <!-- Alarm time picker -->
@@ -147,16 +147,16 @@
     <string name="alarm_time_title_45_minutes_before">45 minuti prima</string>
     <string name="alarm_time_title_60_minutes_before">60 minuti prima</string>
     <!-- Session list item -->
-    <string name="session_list_item_alarm_time_zero_minutes_content_description">Alarm: at start time</string>
-    <string name="session_list_item_alarm_time_minutes_content_description">Alarm: <xliff:g example="5" id="minutes">%d</xliff:g> minutes before</string>
-    <string name="session_list_item_alarm_time_content_description">Alarm time: <xliff:g example="16:20" id="alarmTime">%s</xliff:g></string>
+    <string name="session_list_item_alarm_time_zero_minutes_content_description">Sveglia: al momento di inizio</string>
+    <string name="session_list_item_alarm_time_minutes_content_description">Sveglia:<xliff:g example="5" id="minutes">%d</xliff:g> minuti prima</string>
+    <string name="session_list_item_alarm_time_content_description">Orario della sveglia: <xliff:g example="16:20" id="alarmTime">%s</xliff:g></string>
     <string name="session_list_item_duration_text"><xliff:g example="45" id="duration">%d</xliff:g> min.</string>
-    <string name="session_list_item_duration_content_description">Duration: <xliff:g example="45" id="duration">%d</xliff:g> minutes</string>
+    <string name="session_list_item_duration_content_description">Durata: <xliff:g example="45" id="duration">%d</xliff:g> minuti</string>
     <string name="session_list_item_favored_content_description">preferito</string>
     <string name="session_list_item_not_favored_content_description">non preferito</string>
-    <string name="session_list_item_room_content_description">Room: <xliff:g example="Main hall" id="room">%s</xliff:g></string>
-    <string name="session_list_item_start_time_content_description">Start time: <xliff:g example="16:30" id="startTime">%s</xliff:g></string>
-    <string name="session_list_item_subtitle_content_description">Subtitle: <xliff:g example="News from Berlin" id="subtitle">%s</xliff:g></string>
+    <string name="session_list_item_room_content_description">Stanza: <xliff:g example="Main hall" id="room">%s</xliff:g></string>
+    <string name="session_list_item_start_time_content_description">Orario di inizio: <xliff:g example="16:30" id="startTime">%s</xliff:g></string>
+    <string name="session_list_item_subtitle_content_description">Sottotitolo: <xliff:g example="News from Berlin" id="subtitle">%s</xliff:g></string>
     <string name="session_list_item_track_content_description">Track: <xliff:g example="Security" id="trackName">%s</xliff:g></string>
     <string name="session_list_item_language_content_description">Lingua: <xliff:g example="English" id="language">%s</xliff:g></string>
     <string name="session_list_item_language_portuguese_content_description">Portoghese</string>
@@ -172,12 +172,12 @@
         <item quantity="other">Relatori: <xliff:g example="Jane Doe, John Doe" id="names">%s</xliff:g></item>
     </plurals>
     <!-- Validation errors -->
-    <string name="validation_error_invalid_url">        Invalid <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL.
+    <string name="validation_error_invalid_url">        URL <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> non valido
     </string>
-    <string name="validation_error_url_without_query">        <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL without query part.
+    <string name="validation_error_url_without_query">        <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL senza parte di query.
     </string>
-    <string name="validation_error_url_with_incomplete_query">        <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL with incomplete query part.
+    <string name="validation_error_url_with_incomplete_query">        <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL con parte di query incompleta.
     </string>
-    <string name="validation_error_url_without_api_key">        <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL without API key.
+    <string name="validation_error_url_without_api_key">        <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL senza chiave delle API.
     </string>
 </resources>
