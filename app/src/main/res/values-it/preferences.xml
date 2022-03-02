@@ -55,11 +55,11 @@
     <string name="preference_title_use_device_time_zone_enabled">Usa fuso orario del dispositivo</string>
     <string name="preference_summary_use_device_time_zone_enabled">Visualizza date e orari di conseguenza.</string>
     <!-- Alternative highlighting -->
-    <string name="preference_title_alternative_highlighting_enabled">Enable alternative highlighting</string>
-    <string name="preference_summary_alternative_highlighting_enabled">Adds a border around favored sessions.</string>
+    <string name="preference_title_alternative_highlighting_enabled">Abilita evidenziazione alternativa</string>
+    <string name="preference_summary_alternative_highlighting_enabled">Aggiunge un bordo intorno alle sessioni preferite.</string>
     <!-- Alternative schedule URL -->
     <string name="preference_title_alternative_schedule_url">Configura l\'URL alternativo del programma</string>
-    <string name="preference_summary_alternative_schedule_url">Enter a backup URL if the preconfigured server cannot be reached.</string>
+    <string name="preference_summary_alternative_schedule_url">Inserire un URL di backup se il server preconfigurato non può essere raggiunto.</string>
     <!-- App notification settings -->
     <string name="preference_title_app_notification_settings">Personalizza le notifiche</string>
     <string name="preference_summary_app_notification_settings">Open the associated system settings screen from here.</string>
@@ -67,10 +67,10 @@
     <string name="preference_title_insistent_alarms_enabled">Abilita sveglia insistente</string>
     <string name="preference_summary_insistent_alarms_enabled">Keeps an alarm on infinitely.</string>
     <!-- Category Engelsystem -->
-    <string name="preference_summary_engelsystem_json_export_url"><![CDATA[In order to see your shifts please enter your <u>personal</u> URL here.<br/><br/>
-        1. Login to your Engelsystem account.<br/>
-        2. Copy the URL behind the <u>JSON Export</u> button at your profile page.<br/>
-        3. Paste the URL here.<br/><br/>
-        Shifts before and after the main conference days are <u>not</u> displayed.]]></string>
-    <string name="preference_title_engelsystem_json_export_url">Configure JSON Export URL</string>
+    <string name="preference_summary_engelsystem_json_export_url"><![CDATA[Per vedere i tuoi turni inserisci qui il tuo <u>URL personale </u>.<br/><br/>
+        1. Accedi al tuo account Engelsystem.<br/>
+        2. Copia l'URL dietro il pulsante <u>JSON Export</u> nella pagina del tuo profilo.<br/>
+        3. Incolla qui l'URL.<br/><br/>
+        I turni prima e dopo i giorni di conferenza principali sono <u>non</u> visualizzati.]]></string>
+    <string name="preference_title_engelsystem_json_export_url">Configura URL di esportazione JSON</string>
 </resources>
