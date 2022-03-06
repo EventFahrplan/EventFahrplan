@@ -38,7 +38,7 @@
     <string name="dlg_err_failed_parse_failure">Не удалось разобрать ответ</string>
     <string name="dlg_err_failed_ssl_failure">Ошибка SSL</string>
     <string name="dlg_err_failed_http_cleartext_not_permitted">HTTP запрещен. Пожалуйста, используйте HTTPS.</string>
-    <string name="dlg_err_schedule_data">Schedule data error</string>
+    <string name="dlg_err_schedule_data">Ошибка данных в расписании</string>
     <string name="dlg_err_schedule_data_empty">        Nothing to display. The schedule with version \"<xliff:g example="0.99" id="version">%s</xliff:g>\"
         does not contain any session.
     </string>
@@ -182,7 +182,7 @@
     <string name="alarm_time_title_60_minutes_before">за 60 минут</string>
     <!-- Session list item -->
     <string name="session_list_item_alarm_time_zero_minutes_content_description">Alarm: at start time</string>
-    <string name="session_list_item_alarm_time_minutes_content_description">Alarm: <xliff:g example="5" id="minutes">%d</xliff:g> minutes before</string>
+    <string name="session_list_item_alarm_time_minutes_content_description">Будильник: <xliff:g example="5" id="minutes">%d</xliff:g> минут до</string>
     <string name="session_list_item_alarm_time_content_description">Alarm time: <xliff:g example="16:20" id="alarmTime">%s</xliff:g></string>
     <string name="session_list_item_duration_text"><xliff:g example="45" id="duration">%d</xliff:g> мин.</string>
     <string name="session_list_item_duration_content_description">Duration: <xliff:g example="45" id="duration">%d</xliff:g> minutes</string>
@@ -193,7 +193,7 @@
     <string name="session_list_item_subtitle_content_description">Subtitle: <xliff:g example="News from Berlin" id="subtitle">%s</xliff:g></string>
     <string name="session_list_item_track_content_description">Track: <xliff:g example="Security" id="trackName">%s</xliff:g></string>
     <string name="session_list_item_language_content_description">Язык: <xliff:g example="English" id="language">%s</xliff:g></string>
-    <string name="session_list_item_language_portuguese_content_description">Portuguese</string>
+    <string name="session_list_item_language_portuguese_content_description">Португальский</string>
     <string name="session_list_item_language_german_content_description">Немецкий</string>
     <string name="session_list_item_language_english_content_description">Английский</string>
     <string name="session_list_item_language_unknown_content_description">Язык не определен</string>
