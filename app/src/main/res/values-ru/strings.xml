@@ -188,7 +188,7 @@
     <string name="session_list_item_duration_content_description">Duration: <xliff:g example="45" id="duration">%d</xliff:g> minutes</string>
     <string name="session_list_item_favored_content_description">favored</string>
     <string name="session_list_item_not_favored_content_description">not favored</string>
-    <string name="session_list_item_room_content_description">Room: <xliff:g example="Main hall" id="room">%s</xliff:g></string>
+    <string name="session_list_item_room_content_description">Комната: <xliff:g example="Main hall" id="room">%s</xliff:g></string>
     <string name="session_list_item_start_time_content_description">Start time: <xliff:g example="16:30" id="startTime">%s</xliff:g></string>
     <string name="session_list_item_subtitle_content_description">Subtitle: <xliff:g example="News from Berlin" id="subtitle">%s</xliff:g></string>
     <string name="session_list_item_track_content_description">Track: <xliff:g example="Security" id="trackName">%s</xliff:g></string>
