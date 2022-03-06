@@ -52,7 +52,7 @@
     <string name="preference_title_alarm_tone">Choose alarm tone</string>
     <string name="preference_summary_alarm_tone">Open the sounds selection screen from here.</string>
     <!-- Device time zone -->
-    <string name="preference_title_use_device_time_zone_enabled">Use device time zone</string>
+    <string name="preference_title_use_device_time_zone_enabled">Использовать часовой пояс устройства</string>
     <string name="preference_summary_use_device_time_zone_enabled">Displays dates and times accordingly.</string>
     <!-- Alternative highlighting -->
     <string name="preference_title_alternative_highlighting_enabled">Enable alternative highlighting</string>
