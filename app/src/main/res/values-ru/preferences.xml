@@ -55,7 +55,7 @@
     <string name="preference_title_use_device_time_zone_enabled">Используйте часовой пояс устройства</string>
     <string name="preference_summary_use_device_time_zone_enabled">Отображает даты и время соответствующим образом.</string>
     <!-- Alternative highlighting -->
-    <string name="preference_title_alternative_highlighting_enabled">Enable alternative highlighting</string>
+    <string name="preference_title_alternative_highlighting_enabled">Включите альтернативное выделение</string>
     <string name="preference_summary_alternative_highlighting_enabled">Adds a border around favored sessions.</string>
     <!-- Alternative schedule URL -->
     <string name="preference_title_alternative_schedule_url">Configure alternative schedule URL</string>
