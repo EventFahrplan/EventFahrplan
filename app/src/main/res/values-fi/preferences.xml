@@ -22,8 +22,8 @@
     -->
     <!-- Category general -->
     <!-- Automatic schedule updates -->
-    <string name="preference_title_auto_update_enabled">Enable automatic updates</string>
-    <string name="preference_summary_auto_update_enabled">Downloads the schedule periodically.</string>
+    <string name="preference_title_auto_update_enabled">Kytke päälle automaattinen päivittäminen</string>
+    <string name="preference_summary_auto_update_enabled">Lataa aikataulun säännöllisesti.</string>
     <!-- Alarm time index -->
     <!--
     Synchronize with @strings/preference_default_value_alarm_time_value
@@ -32,8 +32,8 @@
     Synchronize with @integers/preference_default_value_alarm_time_index
     and string-array/preference_entry_values_alarm_time
     -->
-    <string name="preference_dialog_title_alarm_time">Choose a default alarm time</string>
-    <string name="preference_title_alarm_time">Choose default alarm time</string>
+    <string name="preference_dialog_title_alarm_time">Valitse vakiollinen hälytysaika</string>
+    <string name="preference_title_alarm_time">Valitse vakiollinen hälytysaika</string>
     <string-array name="preference_entries_alarm_time_titles">
         <item>@string/alarm_time_title_at_start_time</item>
         <item>@string/alarm_time_title_5_minutes_before</item>
@@ -49,28 +49,28 @@
     and @integers/preference_default_value_alarm_time_index
     -->
     <!-- Alarm tone -->
-    <string name="preference_title_alarm_tone">Choose alarm tone</string>
-    <string name="preference_summary_alarm_tone">Open the sounds selection screen from here.</string>
+    <string name="preference_title_alarm_tone">Valitse hälytyksen ääni</string>
+    <string name="preference_summary_alarm_tone">Avaa äänivalintaruutu tästä.</string>
     <!-- Device time zone -->
-    <string name="preference_title_use_device_time_zone_enabled">Use device time zone</string>
-    <string name="preference_summary_use_device_time_zone_enabled">Displays dates and times accordingly.</string>
+    <string name="preference_title_use_device_time_zone_enabled">Käytä laitteen aikavyöhykettä</string>
+    <string name="preference_summary_use_device_time_zone_enabled">Näyttää päivämäärät ja kellonajat asianmukaisesti.</string>
     <!-- Alternative highlighting -->
-    <string name="preference_title_alternative_highlighting_enabled">Enable alternative highlighting</string>
-    <string name="preference_summary_alternative_highlighting_enabled">Adds a border around favored sessions.</string>
+    <string name="preference_title_alternative_highlighting_enabled">Kytke päälle vaihtoehtoinen korostus</string>
+    <string name="preference_summary_alternative_highlighting_enabled">Lisää reunakkeet lempi-istuntojen ympärille.</string>
     <!-- Alternative schedule URL -->
-    <string name="preference_title_alternative_schedule_url">Configure alternative schedule URL</string>
-    <string name="preference_summary_alternative_schedule_url">Enter a backup URL if the preconfigured server cannot be reached.</string>
+    <string name="preference_title_alternative_schedule_url">Määritä vaihotehtoinen aikataulu-URL</string>
+    <string name="preference_summary_alternative_schedule_url">Syötä varmuustaltion URL mikäli ennalta-aseteltu palvelin ei ole tavoitettavissa.</string>
     <!-- App notification settings -->
-    <string name="preference_title_app_notification_settings">Customize notifications</string>
-    <string name="preference_summary_app_notification_settings">Open the associated system settings screen from here.</string>
+    <string name="preference_title_app_notification_settings">Muokkaa ilmoituksia</string>
+    <string name="preference_summary_app_notification_settings">Avaa liittyvä järjestelmäasetusruutu tästä.</string>
     <!-- Insistent session alarms -->
-    <string name="preference_title_insistent_alarms_enabled">Enable insistent alarm</string>
-    <string name="preference_summary_insistent_alarms_enabled">Keeps an alarm on infinitely.</string>
+    <string name="preference_title_insistent_alarms_enabled">Kytke päälle lannistumattomasti vaativa hälytys</string>
+    <string name="preference_summary_insistent_alarms_enabled">Laittaa hälytyksen jatkumaan loputtomasti.</string>
     <!-- Category Engelsystem -->
-    <string name="preference_summary_engelsystem_json_export_url"><![CDATA[In order to see your shifts please enter your <u>personal</u> URL here.<br/><br/>
-        1. Login to your Engelsystem account.<br/>
-        2. Copy the URL behind the <u>JSON Export</u> button at your profile page.<br/>
-        3. Paste the URL here.<br/><br/>
-        Shifts before and after the main conference days are <u>not</u> displayed.]]></string>
-    <string name="preference_title_engelsystem_json_export_url">Configure JSON Export URL</string>
+    <string name="preference_summary_engelsystem_json_export_url"><![CDATA[Jotta näkisit vuorosi, syötäthän oman <u>henkilökohtaisen</u> URL-osoitteesi tähän.<br/><br/>
+        1. Kirjaudu Engelsystem-tilillesi.<br/>
+        2. Jäljennä URL <u>JSON Export</u> painikkeen takana profiilisivullasi.<br/>
+        3. Liitä tuo URL tähän.<br/><br/>
+        Vuoroja jälkeen ja ennen pääasiallisten kokouspäivien <u>not</u> ei näytetä.]]></string>
+    <string name="preference_title_engelsystem_json_export_url">Määritä JSON-vienti URL</string>
 </resources>
