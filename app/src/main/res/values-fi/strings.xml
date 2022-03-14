@@ -126,22 +126,19 @@
     </string>
     <!-- SnackEngage -->
     <string name="snack_engage_rate_title">Kaikki kunnossa?</string>
-    <string name="snack_engage_rate_action">Rate the app</string>
-    <string name="snack_engage_google_play_beta_testing_title">Power user?</string>
-    <string name="snack_engage_google_play_beta_testing_action">Become a beta tester</string>
-    <string name="snack_engage_c3nav_title">Indoor navigation at <xliff:g example="35C3" id="conferenceName">%s</xliff:g>! With the c3nav app</string>
-    <string name="snack_engage_c3nav_action">Get it now!</string>
+    <string name="snack_engage_rate_action">Arvostele sovellus</string>
+    <string name="snack_engage_google_play_beta_testing_title">Oletko tehokäyttäjä?</string>
+    <string name="snack_engage_google_play_beta_testing_action">Ryhdy beta-koestajaksi</string>
+    <string name="snack_engage_c3nav_title">Sisäsuuntima kohteessa <xliff:g esimerkki="35C3" id="tpaahtumaNimi">%s</xliff:g>! c3nav -sovelluksen avulla</string>
+    <string name="snack_engage_c3nav_action">Hae se heti!</string>
     <!-- TraceDroid -->
-    <string name="trace_droid_dialog_title">        Send <xliff:g example="33C3 Schedule" id="appName">%s</xliff:g> crash report &#8230;
+    <string name="trace_droid_dialog_title">        Lähetä <xliff:g esimerkki="33C3 Aikataulu" id="sovelmaNimi">%s</xliff:g> kaatumisen selonteko &#8230;
     </string>
-    <string name="trace_droid_dialog_message">        A problem with the <xliff:g example="33C3 Schedule" id="appName">%s</xliff:g> app has
-        been detected. It would be helpful if you could submit a crash report so the source of
-        the problem can be identified. It helps a lot if you can describe how and when the
-        crash happened.
+    <string name="trace_droid_dialog_message">        Ongelma <xliff:g esimerkki="33C3 Aikataulu" id="sovelmaNimi">%s</xliff:g> havaittu sovelluksen suhteen. Olisi arvokasta mikäli voisit toimittaa kaatumisilmoituksen selontekoineen jotta ongelman alkujuuri saadaan selvitettyä. On suureksi avuksi jos voit kuvailla miten ja milloin tämä ohjelman kaatuminen tapahtui.
     </string>
-    <string name="trace_droid_button_title_send">        Open email
+    <string name="trace_droid_button_title_send">        Avaa sähköposti
     </string>
-    <string name="trace_droid_no_email_app">        No compatible email app installed.
+    <string name="trace_droid_no_email_app">        Kelpoista sähköpostiohjelmaa ei ole asennettuna.
     </string>
     <string name="trace_droid_button_title_no">        Ei
     </string>
