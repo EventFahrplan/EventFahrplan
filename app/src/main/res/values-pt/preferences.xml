@@ -68,10 +68,10 @@
     <string name="preference_title_insistent_alarms_enabled">Enable insistent alarm</string>
     <string name="preference_summary_insistent_alarms_enabled">Keeps an alarm on infinitely.</string>
     <!-- Category Engelsystem -->
-    <string name="preference_summary_engelsystem_json_export_url"><![CDATA[Para ver seus turnos, insira sua URL <u>pessoal</u> aqui.<br/><br/>
-        1. Faça login em sua conta <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g>.<br/>
-        2. Copie o URL atrás do botão <u>Exportar JSON</u> na página do seu perfil.<br/>
-        3. Cole a URL aqui.<br/><br/>
-        Os turnos antes e depois dos dias da conferência principal <u>não</u> são exibidos.]]></string>
+    <string name="preference_summary_engelsystem_json_export_url"><![CDATA[In order to see your shifts please enter your <u>personal</u> URL here.<br/><br/>
+        1. Login to your <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g> account.<br/>
+        2. Copy the URL behind the <u>JSON Export</u> button at your profile page.<br/>
+        3. Paste the URL here.<br/><br/>
+        Shifts before and after the main conference days are <u>not</u> displayed.]]></string>
     <string name="preference_title_engelsystem_json_export_url">Configure JSON Export URL</string>
 </resources>
