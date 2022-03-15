@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <!-- TraceDroid configuration -->
-    <integer name="config_trace_droid_maximum_stack_traces_count" translatable="false">
-        10
-    </integer>
-
-</resources>
