@@ -152,7 +152,6 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
         val roomScroller = view.requireViewByIdCompat<HorizontalScrollView>(R.id.roomScroller)
         val snapScroller = view.requireViewByIdCompat<HorizontalSnapScrollView>(R.id.horizScroller)
         snapScroller.setChildScroller(roomScroller)
-        roomScroller.setOnTouchListener { _, _ -> true }
 
         inflater = view.context.getLayoutInflater()
     }
@@ -220,7 +219,7 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
 
         val roomScroller = layoutRoot.requireViewByIdCompat<HorizontalScrollView>(R.id.roomScroller)
         val roomTitlesRowLayout = roomScroller.getChildAt(0) as LinearLayout
-        val columnWidth = horizontalScroller.columnWidth
+        val columnWidth = horizontalScroller.getColumnWidth()
         addRoomTitleViews(roomTitlesRowLayout, columnWidth, scheduleData.roomNames)
         addRoomColumns(horizontalScroller, columnWidth, scheduleData)
 
@@ -325,7 +324,7 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
         val layoutRootView = requireView()
         if (!layoutRootView.context.isLandscape()) {
             val horizontalSnapScrollView = layoutRootView.findViewById<HorizontalSnapScrollView>(R.id.horizScroller)
-            columnIndex = horizontalSnapScrollView.columnIndex
+            columnIndex = horizontalSnapScrollView.activeColumnIndex
         }
         val nowMoment = Moment.now()
         val conference = Conference.ofSessions(scheduleData.allSessions)
