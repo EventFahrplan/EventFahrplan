@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<map linked="true">
+
+    <entry key="All about computers">security</entry>
+    <entry key="Open-Data">open_data</entry>
+    <entry key="Anwendung">anwendung</entry>
+    <entry key="Community">community</entry>
+    <!-- Defined in AppRepository.ENGELSYSTEM_ROOM_NAME -->
+    <entry key="Engelshifts">engelshifts</entry>
+    <entry key="Keynote">keynote</entry>
+    <entry key="Admin">admin</entry>
+    <entry key="Open-Hardware &amp; Making">open_hardware</entry>
+    <entry key="Sicherheit">sicherheit</entry>
+    <entry key="Klimakatastrophe">science</entry>
+    <entry key="Nicht Computers">ethics_society_politics</entry>
+    <entry key="Queer">queer</entry>
+    <entry key="Resilience &amp; Sustainability">resilience</entry>
+    <entry key="Entwicklung">entwicklung</entry>
+    <entry key="Security">security</entry>
+    <entry key="self organized sessions">self_organized_sessions</entry>
+    <entry key="Spiele sind wichtig für die Revolution!">entertainment</entry>
+    <entry key="The real basic about Bits and Nibbles">hardware_making</entry>
+    <entry key=""></entry>
+
+</map>
