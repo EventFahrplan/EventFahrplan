@@ -6,7 +6,7 @@ import info.metadude.android.eventfahrplan.commons.testing.MainDispatcherTestRul
 import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedOnce
 import info.metadude.android.eventfahrplan.database.repositories.SessionsDatabaseRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import nerd.tuxmobil.fahrplan.congress.TestExecutionContext
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toSessionsDatabaseModel
 import nerd.tuxmobil.fahrplan.congress.models.Session
@@ -133,7 +133,7 @@ class AppRepositorySessionsTest {
     }
 
     @Test
-    fun `loadStarredSessions passes through an empty list`() = mainDispatcherTestRule.runBlockingTest {
+    fun `loadStarredSessions passes through an empty list`() = runTest {
         whenever(sessionsDatabaseRepository.querySessionsOrderedByDateUtc()) doReturn emptyList()
         testableAppRepository.starredSessions.test {
             assertThat(awaitItem()).isEqualTo(emptyList<Session>())
@@ -142,7 +142,7 @@ class AppRepositorySessionsTest {
     }
 
     @Test
-    fun `loadStarredSessions filters out sessions which are not starred`() = mainDispatcherTestRule.runBlockingTest {
+    fun `loadStarredSessions filters out sessions which are not starred`() = runTest {
         val sessions = listOf(SESSION_2001, SESSION_2002, SESSION_2003, SESSION_2004)
         whenever(sessionsDatabaseRepository.querySessionsOrderedByDateUtc()) doReturn sessions.toSessionsDatabaseModel()
         testableAppRepository.starredSessions.test {

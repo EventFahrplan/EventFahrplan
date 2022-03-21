@@ -9,7 +9,8 @@ import info.metadude.android.eventfahrplan.engelsystem.models.ShiftsResult
 import info.metadude.kotlin.library.engelsystem.EngelsystemService
 import info.metadude.kotlin.library.engelsystem.adapters.ZonedDateTimeJsonAdapter
 import info.metadude.kotlin.library.engelsystem.models.Shift
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
@@ -24,6 +25,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import java.io.EOFException
 import java.net.HttpURLConnection
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class ShiftsLoadingTest {
 
     private companion object {
@@ -121,7 +123,7 @@ class ShiftsLoadingTest {
     }
 
     @Test
-    fun `awaitShiftsResult returns exception when call responds with HTTP 200 and invalid JSON`() = runBlocking {
+    fun `awaitShiftsResult returns exception when call responds with HTTP 200 and invalid JSON`() = runTest {
         val call = performHttpRequest(httpStatusCode = /* not relevant here */ HttpURLConnection.HTTP_OK, shiftsJson = INVALID_ONE_ITEM_SHIFTS_JSON)
         val shiftsResult = call.awaitShiftsResult()
         assertThat(shiftsResult).isInstanceOf(ShiftsResult.Exception::class.java)
@@ -129,7 +131,7 @@ class ShiftsLoadingTest {
     }
 
     @Test
-    fun `awaitShiftsResult returns exception when shifts JSON is empty`() = runBlocking {
+    fun `awaitShiftsResult returns exception when shifts JSON is empty`() = runTest {
         val call = performHttpRequest(httpStatusCode = /* not relevant here */ HttpURLConnection.HTTP_OK, shiftsJson = EMPTY_STRING)
         val shiftsResult = call.awaitShiftsResult()
         assertThat(shiftsResult).isInstanceOf(ShiftsResult.Exception::class.java)
@@ -137,35 +139,35 @@ class ShiftsLoadingTest {
     }
 
     @Test
-    fun `awaitShiftsResult returns success and empty list when call responds with HTTP 200 and empty array JSON`() = runBlocking {
+    fun `awaitShiftsResult returns success and empty list when call responds with HTTP 200 and empty array JSON`() = runTest {
         val call = performHttpRequest(HttpURLConnection.HTTP_OK, EMPTY_ARRAY_SHIFTS_JSON)
         val shiftsResult = call.awaitShiftsResult()
         assertThat(shiftsResult).isEqualTo(ShiftsResult.Success(emptyList()))
     }
 
     @Test
-    fun `awaitShiftsResult returns success when call responds with HTTP 200`() = runBlocking {
+    fun `awaitShiftsResult returns success when call responds with HTTP 200`() = runTest {
         val call = performHttpRequest(HttpURLConnection.HTTP_OK, VALID_ONE_ITEM_SHIFTS_JSON)
         val shiftsResult = call.awaitShiftsResult()
         assertThat(shiftsResult).isEqualTo(ShiftsResult.Success(EXPECTED_ONE_ITEM_SHIFTS))
     }
 
     @Test
-    fun `awaitShiftsResult returns error when call responds with HTTP 300`() = runBlocking {
+    fun `awaitShiftsResult returns error when call responds with HTTP 300`() = runTest {
         val call = performHttpRequest(HttpURLConnection.HTTP_MULT_CHOICE)
         val shiftsResult = call.awaitShiftsResult()
         assertThat(shiftsResult).isEqualTo(ShiftsResult.Error(HttpURLConnection.HTTP_MULT_CHOICE, "Redirection"))
     }
 
     @Test
-    fun `awaitShiftsResult returns error when call responds with HTTP 400`() = runBlocking {
+    fun `awaitShiftsResult returns error when call responds with HTTP 400`() = runTest {
         val call = performHttpRequest(HttpURLConnection.HTTP_BAD_REQUEST)
         val shiftsResult = call.awaitShiftsResult()
         assertThat(shiftsResult).isEqualTo(ShiftsResult.Error(HttpURLConnection.HTTP_BAD_REQUEST, "Client Error"))
     }
 
     @Test
-    fun `awaitShiftsResult returns error when call responds with HTTP 500`() = runBlocking {
+    fun `awaitShiftsResult returns error when call responds with HTTP 500`() = runTest {
         val call = performHttpRequest(HttpURLConnection.HTTP_INTERNAL_ERROR)
         val shiftsResult = call.awaitShiftsResult()
         assertThat(shiftsResult).isEqualTo(ShiftsResult.Error(HttpURLConnection.HTTP_INTERNAL_ERROR, "Server Error"))
