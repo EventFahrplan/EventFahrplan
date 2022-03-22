@@ -12,6 +12,7 @@ import nerd.tuxmobil.fahrplan.congress.alarms.AlarmUpdater
 import nerd.tuxmobil.fahrplan.congress.extensions.getAlarmManager
 import nerd.tuxmobil.fahrplan.congress.models.DateInfo
 import nerd.tuxmobil.fahrplan.congress.models.DateInfos
+import nerd.tuxmobil.fahrplan.congress.utils.PendingIntentCompat.FLAG_IMMUTABLE
 
 
 object FahrplanMisc {
@@ -40,7 +41,7 @@ object FahrplanMisc {
         val alarmManager = context.getAlarmManager()
         val alarmIntent = Intent(context, AlarmReceiver::class.java)
             .apply { action = AlarmReceiver.ALARM_UPDATE }
-        val pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent, 0)
+        val pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent, FLAG_IMMUTABLE)
 
         MyApp.LogDebug(LOG_TAG, "set update alarm")
         val now = Moment.now().toMilliseconds()
