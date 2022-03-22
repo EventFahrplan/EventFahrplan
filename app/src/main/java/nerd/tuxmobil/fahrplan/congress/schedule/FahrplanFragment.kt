@@ -1,7 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress.schedule
 
 import android.content.Context
-import android.content.Intent
 import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
@@ -77,7 +76,7 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
 
         private const val LOG_TAG = "FahrplanFragment"
         const val FRAGMENT_TAG = "schedule"
-        const val FAHRPLAN_FRAGMENT_REQUEST_CODE = 6166
+        private const val FAHRPLAN_FRAGMENT_REQUEST_KEY = "FAHRPLAN_FRAGMENT_REQUEST_KEY"
 
         private const val CONTEXT_MENU_ITEM_ID_FAVORITES = 0
         private const val CONTEXT_MENU_ITEM_ID_SET_ALARM = 1
@@ -421,16 +420,15 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
         actionBar.setListNavigationCallbacks(arrayAdapter, OnDaySelectedListener(numDays))
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == FAHRPLAN_FRAGMENT_REQUEST_CODE && resultCode == AlarmTimePickerFragment.ALERT_TIME_PICKED_RESULT_CODE && data != null) {
-            val alarmTimesIndex = data.getIntExtra(AlarmTimePickerFragment.ALARM_PICKED_INTENT_KEY, 0)
-            onAlarmTimesIndexPicked(alarmTimesIndex)
-        }
-        super.onActivityResult(requestCode, resultCode, data)
-    }
-
     private fun showAlarmTimePicker() {
-        AlarmTimePickerFragment.show(this, FAHRPLAN_FRAGMENT_REQUEST_CODE)
+        AlarmTimePickerFragment.show(this, FAHRPLAN_FRAGMENT_REQUEST_KEY) { requestKey, result ->
+            if (requestKey == FAHRPLAN_FRAGMENT_REQUEST_KEY &&
+                result.containsKey(AlarmTimePickerFragment.ALARM_TIMES_INDEX_BUNDLE_KEY)
+            ) {
+                val alarmTimesIndex = result.getInt(AlarmTimePickerFragment.ALARM_TIMES_INDEX_BUNDLE_KEY)
+                onAlarmTimesIndexPicked(alarmTimesIndex)
+            }
+        }
     }
 
     private fun onAlarmTimesIndexPicked(alarmTimesIndex: Int) {

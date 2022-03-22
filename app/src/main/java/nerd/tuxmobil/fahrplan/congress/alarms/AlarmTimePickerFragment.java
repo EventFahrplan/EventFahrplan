@@ -5,7 +5,6 @@ import static nerd.tuxmobil.fahrplan.congress.extensions.ViewExtensions.requireV
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +18,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentResultListener;
 
 import nerd.tuxmobil.fahrplan.congress.BuildConfig;
 import nerd.tuxmobil.fahrplan.congress.R;
@@ -28,22 +28,32 @@ import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository;
 public class AlarmTimePickerFragment extends DialogFragment {
 
     private static final String FRAGMENT_TAG =
-            BuildConfig.APPLICATION_ID + ".ALERT_TIME_PICKER_FRAGMENT_TAG";
+            BuildConfig.APPLICATION_ID + ".ALARM_TIME_PICKER_FRAGMENT_TAG";
 
-    public static final String ALARM_PICKED_INTENT_KEY =
-            BuildConfig.APPLICATION_ID + ".ALERT_TIME_PICKER_INTENT_KEY";
+    public static final String ALARM_TIMES_INDEX_BUNDLE_KEY =
+            BuildConfig.APPLICATION_ID + ".ALARM_TIMES_INDEX_BUNDLE_KEY";
 
-    public static final int ALERT_TIME_PICKED_RESULT_CODE = 120166;
+    private static final String REQUEST_KEY_BUNDLE_KEY = "REQUEST_KEY_BUNDLE_KEY";
 
     protected Spinner spinner;
 
     protected int alarmTimeIndex;
 
-    public static void show(@NonNull Fragment invokingFragment,
-                            int requestCode) {
+    public static void show(
+            @NonNull Fragment invokingFragment,
+            @NonNull String requestKey,
+            @NonNull FragmentResultListener resultListener
+    ) {
         DialogFragment dialogFragment = new AlarmTimePickerFragment();
-        dialogFragment.setTargetFragment(invokingFragment, requestCode);
         FragmentManager fragmentManager = invokingFragment.getParentFragmentManager();
+        fragmentManager.setFragmentResultListener(
+                requestKey,
+                invokingFragment.getViewLifecycleOwner(),
+                resultListener
+        );
+        Bundle arguments = new Bundle();
+        arguments.putString(REQUEST_KEY_BUNDLE_KEY, requestKey);
+        dialogFragment.setArguments(arguments);
         dialogFragment.show(fragmentManager, FRAGMENT_TAG);
     }
 
@@ -82,13 +92,14 @@ public class AlarmTimePickerFragment extends DialogFragment {
 
     private void passBackAlarmTimesIndex() {
         int alarmTimesIndex = spinner.getSelectedItemPosition();
-        Intent intent = new Intent();
-        intent.putExtra(ALARM_PICKED_INTENT_KEY, alarmTimesIndex);
-        Fragment fragment = getTargetFragment();
-        if (fragment == null) {
-            throw new NullPointerException("Target fragment is null.");
+        Bundle arguments = requireArguments();
+        String requestKey = arguments.getString(REQUEST_KEY_BUNDLE_KEY);
+        if (requestKey == null) {
+            throw new NullPointerException("Request key must be passed via fragment arguments.");
         }
-        fragment.onActivityResult(getTargetRequestCode(), ALERT_TIME_PICKED_RESULT_CODE, intent);
+        Bundle result = new Bundle();
+        result.putInt(ALARM_TIMES_INDEX_BUNDLE_KEY, alarmTimesIndex);
+        getParentFragmentManager().setFragmentResult(requestKey, result);
     }
 
 }
