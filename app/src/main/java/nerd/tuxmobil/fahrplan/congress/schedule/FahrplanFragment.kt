@@ -447,7 +447,7 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
     override fun onContextItemSelected(item: MenuItem): Boolean {
         val menuItemIndex = item.itemId
         val session = contextMenuView.tag as Session
-        lastSelectedSession = session
+        lastSelectedSession = session // FIXME NPE on rotation while alarm time picker is opened
         MyApp.LogDebug(LOG_TAG, "clicked on ${(contextMenuView.tag as Session).sessionId}")
         val context = requireContext()
         when (menuItemIndex) {
