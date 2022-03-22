@@ -162,6 +162,8 @@ class AlarmServices @VisibleForTesting constructor(
         if (discardExisting) {
             alarmManager.cancel(pendingIntent)
         }
+        // Redesign might be needed as of Android 12 (API level 31)
+        // See https://developer.android.com/training/scheduling/alarms
         alarmManager.set(AlarmManager.RTC_WAKEUP, alarm.startTime, pendingIntent)
     }
 

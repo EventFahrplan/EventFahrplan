@@ -54,6 +54,8 @@ object FahrplanMisc {
 
             override fun onScheduleUpdateAlarm(interval: Long, nextFetch: Long) {
                 MyApp.LogDebug(LOG_TAG, "Scheduling update alarm to interval $interval, next in ~${nextFetch - now}")
+                // Redesign might be needed as of Android 12 (API level 31)
+                // See https://developer.android.com/training/scheduling/alarms
                 alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, nextFetch, interval, pendingIntent)
             }
 
