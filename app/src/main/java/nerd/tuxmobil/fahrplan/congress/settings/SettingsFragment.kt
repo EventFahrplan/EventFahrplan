@@ -70,9 +70,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
             if (isAutoUpdateEnabled) {
                 FahrplanMisc.setUpdateAlarm(requireContext(), true)
             } else {
-                with(requireActivity()) {
-                    AlarmServices.newInstance(requireContext(), AppRepository).discardAutoUpdateAlarm()
-                }
+                AlarmServices.newInstance(requireContext(), AppRepository).discardAutoUpdateAlarm()
             }
             true
         }
