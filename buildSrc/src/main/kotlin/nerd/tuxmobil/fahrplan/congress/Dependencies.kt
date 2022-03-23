@@ -53,7 +53,7 @@ object Libs {
         const val espresso = "3.4.0"
         const val junit = "4.13.2"
         const val kotlinCoroutines = "1.6.0"
-        const val liveDataKtx = "2.4.1"
+        const val lifecycle = "2.4.1"
         const val markwon = "4.6.2"
         const val material = "1.4.0" // compileSdk 31 is required as of 1.5.0
         const val mockito = "4.4.0"
@@ -86,7 +86,7 @@ object Libs {
     const val kotlinCoroutinesAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.kotlinCoroutines}"
     const val kotlinCoroutinesCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinCoroutines}"
     const val kotlinCoroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.kotlinCoroutines}"
-    const val liveDataKtx = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.liveDataKtx}"
+    const val lifecycleLiveData = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.lifecycle}"
     const val markwonCore = "io.noties.markwon:core:${Versions.markwon}"
     const val markwonLinkify = "io.noties.markwon:linkify:${Versions.markwon}"
     const val material = "com.google.android.material:material:${Versions.material}"

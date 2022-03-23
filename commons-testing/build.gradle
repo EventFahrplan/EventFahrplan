@@ -35,7 +35,7 @@ dependencies {
         // workaround for https://github.com/Kotlin/kotlinx.coroutines/issues/2023
         exclude group: "org.jetbrains.kotlinx", module: "kotlinx-coroutines-debug"
     }
-    implementation Libs.liveDataKtx
+    implementation Libs.lifecycleLiveData
     implementation Libs.truth
     api Libs.mockitoKotlin
 

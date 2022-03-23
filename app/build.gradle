@@ -197,7 +197,7 @@ dependencies {
     implementation Libs.emailIntentBuilder
     implementation Libs.kotlinCoroutinesAndroid
     implementation Libs.kotlinCoroutinesCore
-    implementation Libs.liveDataKtx
+    implementation Libs.lifecycleLiveData
     implementation Libs.markwonCore
     implementation Libs.markwonLinkify
     implementation Libs.material
