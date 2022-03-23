@@ -97,7 +97,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 true
             }
             alternativeScheduleUrlPreference.summaryProvider = SummaryProvider<EditTextPreference> {
-                when (it.text.isEmpty()) {
+                when (it.text.isNullOrEmpty()) {
                     true -> getString(R.string.preference_summary_alternative_schedule_url)
                     false -> it.text
                 }
@@ -115,9 +115,9 @@ class SettingsFragment : PreferenceFragmentCompat() {
         if (BuildConfig.ENABLE_ENGELSYSTEM_SHIFTS) {
             val urlPreference = requirePreference<EditTextPreference>(getString(R.string.preference_key_engelsystem_json_export_url))
             urlPreference.summaryProvider = SummaryProvider<EditTextPreference> {
-                when (it.text.isEmpty()) {
+                when (it.text.isNullOrEmpty()) {
                     true -> getString(R.string.preference_summary_engelsystem_json_export_url).toSpanned()
-                    false -> "${it.text.dropLast(23)}..." // Truncate to keep the key private.
+                    false -> "${it.text!!.dropLast(23)}..." // Truncate to keep the key private.
                 }
             }
             urlPreference.onPreferenceChangeListener = OnPreferenceChangeListener { _: Preference?, _: Any? ->
