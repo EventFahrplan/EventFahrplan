@@ -16,6 +16,7 @@
             >
         <activity
                 android:label="@string/app_name"
+                android:exported="true"
                 android:theme="@style/Theme.Congress.NoActionBar"
                 android:launchMode="singleTop"
                 android:resizeableActivity="true"
@@ -49,12 +50,16 @@
 
         <receiver android:name=".alarms.AlarmReceiver">
         </receiver>
-        <receiver android:name="nerd.tuxmobil.fahrplan.congress.system.OnBootReceiver">
+        <receiver
+            android:name="nerd.tuxmobil.fahrplan.congress.system.OnBootReceiver"
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-        <receiver android:name="nerd.tuxmobil.fahrplan.congress.system.OnLocaleChangedReceiver">
+        <receiver
+            android:name="nerd.tuxmobil.fahrplan.congress.system.OnLocaleChangedReceiver"
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.LOCALE_CHANGED" />
             </intent-filter>

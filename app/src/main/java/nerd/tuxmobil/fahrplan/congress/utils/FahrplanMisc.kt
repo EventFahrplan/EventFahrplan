@@ -12,6 +12,7 @@ import nerd.tuxmobil.fahrplan.congress.alarms.AlarmUpdater
 import nerd.tuxmobil.fahrplan.congress.extensions.getAlarmManager
 import nerd.tuxmobil.fahrplan.congress.models.DateInfo
 import nerd.tuxmobil.fahrplan.congress.models.DateInfos
+import nerd.tuxmobil.fahrplan.congress.utils.PendingIntentCompat.FLAG_IMMUTABLE
 
 
 object FahrplanMisc {
@@ -40,7 +41,7 @@ object FahrplanMisc {
         val alarmManager = context.getAlarmManager()
         val alarmIntent = Intent(context, AlarmReceiver::class.java)
             .apply { action = AlarmReceiver.ALARM_UPDATE }
-        val pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent, 0)
+        val pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent, FLAG_IMMUTABLE)
 
         MyApp.LogDebug(LOG_TAG, "set update alarm")
         val now = Moment.now().toMilliseconds()
@@ -54,6 +55,8 @@ object FahrplanMisc {
 
             override fun onScheduleUpdateAlarm(interval: Long, nextFetch: Long) {
                 MyApp.LogDebug(LOG_TAG, "Scheduling update alarm to interval $interval, next in ~${nextFetch - now}")
+                // Redesign might be needed as of Android 12 (API level 31)
+                // See https://developer.android.com/training/scheduling/alarms
                 alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, nextFetch, interval, pendingIntent)
             }
 
