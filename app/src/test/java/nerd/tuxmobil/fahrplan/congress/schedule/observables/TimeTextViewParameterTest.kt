@@ -1,7 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress.schedule.observables
 
 import androidx.annotation.LayoutRes
-import com.google.common.truth.Truth
 import com.google.common.truth.Truth.assertThat
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.R

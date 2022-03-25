@@ -1,10 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.utils
 
-import android.app.Dialog
 import android.content.Context
-import android.content.DialogInterface
 import android.os.Bundle
-
 import androidx.annotation.CallSuper
 import androidx.annotation.MainThread
 import androidx.annotation.StringRes
