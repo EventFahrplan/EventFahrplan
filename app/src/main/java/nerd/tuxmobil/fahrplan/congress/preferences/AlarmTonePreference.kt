@@ -31,25 +31,25 @@ class AlarmTonePreference : Preference {
     }
 
     @Suppress("unused")
-    constructor(context: Context?) :
+    constructor(context: Context) :
             super(context) {
         applyDefaultValue()
     }
 
     @Suppress("unused")
-    constructor(context: Context?, attrs: AttributeSet?) :
+    constructor(context: Context, attrs: AttributeSet?) :
             super(context, attrs) {
         applyDefaultValue()
     }
 
     @Suppress("unused")
-    constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) :
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
             super(context, attrs, defStyleAttr) {
         applyDefaultValue()
     }
 
     @Suppress("unused")
-    constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) :
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) :
             super(context, attrs, defStyleAttr, defStyleRes) {
         applyDefaultValue()
     }

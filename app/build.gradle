@@ -8,6 +8,7 @@ apply plugin: "com.android.application"
 apply plugin: "kotlin-android"
 apply plugin: "com.google.devtools.ksp"
 apply plugin: "de.mobilej.unmock"
+apply plugin: "com.getkeepsafe.dexcount"
 apply from: "../gradle/sonarqube.gradle"
 
 android {
@@ -20,6 +21,7 @@ android {
         minSdk Android.minSdkVersion
         targetSdk Android.targetSdkVersion
         archivesBaseName = "Fahrplan-$versionName"
+        multiDexEnabled true
 
         vectorDrawables.useSupportLibrary = true
 
@@ -195,7 +197,7 @@ dependencies {
     implementation Libs.emailIntentBuilder
     implementation Libs.kotlinCoroutinesAndroid
     implementation Libs.kotlinCoroutinesCore
-    implementation Libs.liveDataKtx
+    implementation Libs.lifecycleLiveData
     implementation Libs.markwonCore
     implementation Libs.markwonLinkify
     implementation Libs.material
