@@ -21,6 +21,7 @@ android {
         minSdk Android.minSdkVersion
         targetSdk Android.targetSdkVersion
         archivesBaseName = "Fahrplan-$versionName"
+        multiDexEnabled true
 
         vectorDrawables.useSupportLibrary = true
 

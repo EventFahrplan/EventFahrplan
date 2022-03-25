@@ -59,6 +59,7 @@ object Libs {
         const val mockito = "4.4.0"
         const val mockitoKotlin = "4.0.0"
         const val moshi = "1.13.0"
+        const val multiDex = "2.0.1"
         const val okhttp = "3.12.13"
         const val preference = "1.1.1" // compileSdk 31 is required as of 1.2.0
         const val retrofit = "2.6.4"
@@ -93,6 +94,7 @@ object Libs {
     const val mockitoKotlin = "org.mockito.kotlin:mockito-kotlin:${Versions.mockitoKotlin}"
     const val moshi = "com.squareup.moshi:moshi:${Versions.moshi}"
     const val moshiCodeGen = "com.squareup.moshi:moshi-kotlin-codegen:${Versions.moshi}"
+    const val multiDex = "androidx.multidex:multidex:${Versions.multiDex}"
     const val okhttp = "com.squareup.okhttp3:okhttp:${Versions.okhttp}"
     const val okhttpLoggingInterceptor = "com.squareup.okhttp3:logging-interceptor:${Versions.okhttp}"
     const val okhttpMockWebServer = "com.squareup.okhttp3:mockwebserver:${Versions.okhttp}"
