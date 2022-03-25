@@ -20,6 +20,7 @@ object Plugins {
     private object Versions {
         const val android = "7.1.2"
         const val androidJunitJacoco = "0.16.0"
+        const val dexcount = "3.1.0"
         const val kotlin = "1.6.10"
         const val ksp = "1.6.10-1.0.2"
         const val sonarQube = "3.3"
@@ -29,6 +30,7 @@ object Plugins {
 
     const val android = "com.android.tools.build:gradle:${Versions.android}"
     const val androidJunitJacoco = "com.vanniktech:gradle-android-junit-jacoco-plugin:${Versions.androidJunitJacoco}"
+    const val dexcount = "com.getkeepsafe.dexcount:dexcount-gradle-plugin:${Versions.dexcount}"
     const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
     const val ksp = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin:${Versions.ksp}"
     const val sonarQube = "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:${Versions.sonarQube}"

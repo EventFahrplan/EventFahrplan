@@ -11,6 +11,7 @@ buildscript {
     dependencies {
         classpath Plugins.android
         classpath Plugins.androidJunitJacoco
+        classpath Plugins.dexcount
         classpath Plugins.kotlin
         classpath Plugins.ksp
         classpath Plugins.sonarQube
