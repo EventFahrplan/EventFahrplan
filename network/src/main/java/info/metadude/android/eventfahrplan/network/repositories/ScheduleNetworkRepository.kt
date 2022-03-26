@@ -1,5 +1,6 @@
 package info.metadude.android.eventfahrplan.network.repositories
 
+import info.metadude.android.eventfahrplan.commons.logging.Logging
 import info.metadude.android.eventfahrplan.network.fetching.FetchFahrplan
 import info.metadude.android.eventfahrplan.network.fetching.FetchScheduleResult
 import info.metadude.android.eventfahrplan.network.models.Meta
@@ -7,10 +8,14 @@ import info.metadude.android.eventfahrplan.network.models.Session
 import info.metadude.android.eventfahrplan.network.serialization.FahrplanParser
 import okhttp3.OkHttpClient
 
-class ScheduleNetworkRepository {
+class ScheduleNetworkRepository(
 
-    private val fetcher = FetchFahrplan()
-    private val parser = FahrplanParser()
+    logging: Logging
+
+) {
+
+    private val fetcher = FetchFahrplan(logging)
+    private val parser = FahrplanParser(logging)
 
     fun fetchSchedule(okHttpClient: OkHttpClient,
                       url: String,

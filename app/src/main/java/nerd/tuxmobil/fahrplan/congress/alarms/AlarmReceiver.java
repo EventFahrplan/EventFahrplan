@@ -12,9 +12,7 @@ import android.net.Uri;
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 
-import org.ligi.tracedroid.logging.Log;
-
-import nerd.tuxmobil.fahrplan.congress.MyApp;
+import info.metadude.android.eventfahrplan.commons.logging.Logging;
 import nerd.tuxmobil.fahrplan.congress.autoupdate.UpdateService;
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.exceptions.BuilderException;
@@ -39,15 +37,16 @@ public final class AlarmReceiver extends BroadcastReceiver {
     private static final int DEFAULT_REQUEST_CODE = 0;
 
     private final AppRepository appRepository = AppRepository.INSTANCE;
+    private final Logging logging = Logging.get();
 
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        MyApp.LogDebug(LOG_TAG, "Received alarm = " + intent.getAction() + ".");
+        logging.d(LOG_TAG, "Received alarm = " + intent.getAction() + ".");
 
         if (ALARM_SESSION.equals(intent.getAction())) {
             String sessionId = intent.getStringExtra(BundleKeys.ALARM_SESSION_ID);
-            Log.d(LOG_TAG, "sessionId = " + sessionId + ", intent = " + intent);
+            logging.report(LOG_TAG, "sessionId = " + sessionId + ", intent = " + intent);
             int day = intent.getIntExtra(BundleKeys.ALARM_DAY, 1);
             long when = intent
                     .getLongExtra(BundleKeys.ALARM_START_TIME, System.currentTimeMillis());
@@ -69,7 +68,6 @@ public final class AlarmReceiver extends BroadcastReceiver {
             NotificationCompat.Builder builder = notificationHelper.getSessionAlarmNotificationBuilder(
                     contentIntent, title, when, soundUri, deleteBroadcastIntent);
             boolean isInsistentAlarmsEnabled = appRepository.readInsistentAlarmsEnabled();
-            MyApp.LogDebug(LOG_TAG, "Preference 'isInsistentAlarmsEnabled' = " + isInsistentAlarmsEnabled + ".");
             notificationHelper.notify(uniqueNotificationId, builder, isInsistentAlarmsEnabled);
 
             appRepository.deleteAlarmForSessionId(sessionId);

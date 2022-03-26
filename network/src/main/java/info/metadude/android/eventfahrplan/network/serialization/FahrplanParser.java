@@ -32,16 +32,20 @@ public class FahrplanParser {
         void onParseDone(Boolean result, String version);
     }
 
+    @NonNull
+    private final Logging logging;
+
     private ParserTask task;
 
     private OnParseCompleteListener listener;
 
-    public FahrplanParser() {
+    public FahrplanParser(@NonNull Logging logging) {
+        this.logging = logging;
         task = null;
     }
 
     public void parse(String fahrplan, String eTag) {
-        task = new ParserTask(listener);
+        task = new ParserTask(logging, listener);
         task.execute(fahrplan, eTag);
     }
 
@@ -61,6 +65,9 @@ public class FahrplanParser {
 
 class ParserTask extends AsyncTask<String, Void, Boolean> {
 
+    @NonNull
+    private final Logging logging;
+
     private List<Session> sessions;
 
     private Meta meta;
@@ -71,7 +78,8 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
 
     private boolean result;
 
-    ParserTask(FahrplanParser.OnParseCompleteListener listener) {
+    ParserTask(@NonNull Logging logging, FahrplanParser.OnParseCompleteListener listener) {
+        this.logging = logging;
         this.listener = listener;
         this.completed = false;
     }
@@ -88,7 +96,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
     protected Boolean doInBackground(String... args) {
         boolean parsingSuccessful = parseFahrplan(args[0], args[1]);
         if (parsingSuccessful) {
-            DateFieldValidation dateFieldValidation = new DateFieldValidation(Logging.get());
+            DateFieldValidation dateFieldValidation = new DateFieldValidation(logging);
             dateFieldValidation.validate(sessions);
             dateFieldValidation.printValidationErrors();
             // TODO Clear database on validation failure.

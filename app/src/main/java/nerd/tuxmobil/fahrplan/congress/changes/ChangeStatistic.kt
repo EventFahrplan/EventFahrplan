@@ -16,6 +16,8 @@ data class ChangeStatistic private constructor(
 
     companion object {
 
+        private const val LOG_TAG = "ChangeStatistic"
+
         @JvmStatic
         @JvmOverloads
         fun of(sessions: List<Session>, logging: Logging = Logging.get()): ChangeStatistic {
@@ -53,6 +55,6 @@ data class ChangeStatistic private constructor(
             .count { it.highlight && (it.changedIsCanceled || it.isChanged || it.changedIsNew) }
             .also { log("$it changed favorites") }
 
-    private fun log(message: String) = logging.d(javaClass.simpleName, message)
+    private fun log(message: String) = logging.d(LOG_TAG, message)
 
 }

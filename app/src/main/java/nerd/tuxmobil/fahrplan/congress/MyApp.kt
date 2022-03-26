@@ -1,6 +1,5 @@
 package nerd.tuxmobil.fahrplan.congress
 
-import android.util.Log
 import androidx.annotation.CallSuper
 import androidx.multidex.MultiDexApplication
 import info.metadude.android.eventfahrplan.commons.logging.Logging
@@ -18,8 +17,6 @@ class MyApp : MultiDexApplication() {
     }
 
     companion object {
-
-        private const val DEBUG = false
 
         private val FIRST_DAY_START = getMilliseconds(
             "Europe/Paris",
@@ -49,12 +46,6 @@ class MyApp : MultiDexApplication() {
         @JvmField
         var taskRunning = TASKS.NONE
 
-        @JvmStatic
-        fun LogDebug(tag: String, message: String) {
-            if (DEBUG) {
-                Log.d(tag, message)
-            }
-        }
     }
 
     @CallSuper

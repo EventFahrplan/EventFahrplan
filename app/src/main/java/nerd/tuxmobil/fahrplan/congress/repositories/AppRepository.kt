@@ -84,6 +84,7 @@ object AppRepository {
     const val ENGELSYSTEM_ROOM_NAME = "Engelshifts"
     private const val ALL_DAYS = -1
 
+    private const val LOG_TAG = "AppRepository"
     private lateinit var logging: Logging
 
     private val parentJobs = mutableMapOf<String, Job>()
@@ -117,7 +118,7 @@ object AppRepository {
     private val refreshStarredSessionsSignal = MutableSharedFlow<Unit>()
 
     private fun refreshStarredSessions() {
-        logging.d(javaClass.simpleName, "Refreshing starred sessions ...")
+        logging.d(LOG_TAG, "Refreshing starred sessions ...")
         val requestIdentifier = "refreshStarredSessions"
         parentJobs[requestIdentifier] = databaseScope.launchNamed(requestIdentifier) {
             refreshStarredSessionsSignal.emit(Unit)
@@ -139,7 +140,7 @@ object AppRepository {
     private val refreshChangedSessionsSignal = MutableSharedFlow<Unit>()
 
     private fun refreshChangedSessions() {
-        logging.d(javaClass.simpleName, "Refreshing changed sessions ...")
+        logging.d(LOG_TAG, "Refreshing changed sessions ...")
         val requestIdentifier = "refreshChangedSessions"
         parentJobs[requestIdentifier] = databaseScope.launchNamed(requestIdentifier) {
             refreshChangedSessionsSignal.emit(Unit)
@@ -161,7 +162,7 @@ object AppRepository {
     private val refreshUncanceledSessionsSignal = MutableSharedFlow<Unit>()
 
     private fun refreshUncanceledSessions() {
-        logging.d(javaClass.simpleName, "Refreshing uncanceled sessions ...")
+        logging.d(LOG_TAG, "Refreshing uncanceled sessions ...")
         val requestIdentifier = "refreshUncanceledSessions"
         parentJobs[requestIdentifier] = databaseScope.launchNamed(requestIdentifier) {
             refreshUncanceledSessionsSignal.emit(Unit)
@@ -185,7 +186,7 @@ object AppRepository {
     private val refreshSelectedSessionSignal = MutableSharedFlow<Unit>()
 
     private fun refreshSelectedSession() {
-        logging.d(javaClass.simpleName, "Refreshing selected session ...")
+        logging.d(LOG_TAG, "Refreshing selected session ...")
         val requestIdentifier = "refreshSelectedSession"
         parentJobs[requestIdentifier] = databaseScope.launchNamed(requestIdentifier) {
             refreshSelectedSessionSignal.emit(Unit)
@@ -212,11 +213,11 @@ object AppRepository {
             databaseScope: DatabaseScope = DatabaseScope.of(executionContext, AppExceptionHandler(logging)),
             networkScope: NetworkScope = NetworkScope.of(executionContext, AppExceptionHandler(logging)),
             okHttpClient: OkHttpClient = CustomHttpClient.createHttpClient(),
-            alarmsDatabaseRepository: AlarmsDatabaseRepository = AlarmsDatabaseRepository(AlarmsDBOpenHelper(context)),
+            alarmsDatabaseRepository: AlarmsDatabaseRepository = AlarmsDatabaseRepository(AlarmsDBOpenHelper(context), logging),
             highlightsDatabaseRepository: HighlightsDatabaseRepository = HighlightsDatabaseRepository(HighlightDBOpenHelper(context)),
             sessionsDatabaseRepository: SessionsDatabaseRepository = SessionsDatabaseRepository(SessionsDBOpenHelper(context), logging),
             metaDatabaseRepository: MetaDatabaseRepository = MetaDatabaseRepository(MetaDBOpenHelper(context)),
-            scheduleNetworkRepository: ScheduleNetworkRepository = ScheduleNetworkRepository(),
+            scheduleNetworkRepository: ScheduleNetworkRepository = ScheduleNetworkRepository(logging),
             engelsystemNetworkRepository: EngelsystemNetworkRepository = EngelsystemNetworkRepository(),
             sharedPreferencesRepository: SharedPreferencesRepository = SharedPreferencesRepository(context),
             sessionsTransformer: SessionsTransformer = SessionsTransformer.createSessionsTransformer()
@@ -336,7 +337,7 @@ object AppRepository {
         }
         val url = readEngelsystemShiftsUrl()
         if (url.isEmpty()) {
-            logging.d(javaClass.simpleName, "Engelsystem shifts URL is empty.")
+            logging.d(LOG_TAG, "Engelsystem shifts URL is empty.")
             // TODO Cancel or remove shifts from database?
             return
         }
@@ -354,14 +355,14 @@ object AppRepository {
                     updateLastEngelsystemShiftsHash()
                 }
                 is ShiftsResult.Error -> {
-                    logging.e(javaClass.simpleName, "ShiftsResult.Error: $result")
+                    logging.e(LOG_TAG, "ShiftsResult.Error: $result")
                     loadingFailed(requestIdentifier)
                     val loadShiftsError = LoadShiftsResult.Error(result.httpStatusCode, result.exceptionMessage)
                     mutableLoadScheduleState.tryEmit(ParseFailure(ParseShiftsResult.of(loadShiftsError)))
                     notifyLoadingShiftsDone(loadShiftsError)
                 }
                 is ShiftsResult.Exception -> {
-                    logging.e(javaClass.simpleName, "ShiftsResult.Exception: ${result.throwable.message}")
+                    logging.e(LOG_TAG, "ShiftsResult.Exception: ${result.throwable.message}")
                     result.throwable.printStackTrace()
                     val loadShiftsException = LoadShiftsResult.Exception(result.throwable)
                     mutableLoadScheduleState.tryEmit(ParseFailure(ParseShiftsResult.of(loadShiftsException)))
@@ -376,8 +377,8 @@ object AppRepository {
         parentJobs[identifier] = databaseScope.launchNamed(identifier) {
             val lastShiftsHash = readLastEngelsystemShiftsHash()
             val currentShiftsHash = readEngelsystemShiftsHash()
-            logging.d(javaClass.simpleName, "Shifts hash (OLD) = $lastShiftsHash")
-            logging.d(javaClass.simpleName, "Shifts hash (NEW) = $currentShiftsHash")
+            logging.d(LOG_TAG, "Shifts hash (OLD) = $lastShiftsHash")
+            logging.d(LOG_TAG, "Shifts hash (NEW) = $currentShiftsHash")
             val shiftsChanged = currentShiftsHash != lastShiftsHash
             if (shiftsChanged) {
                 updateLastEngelsystemShiftsHash(currentShiftsHash)
@@ -397,9 +398,9 @@ object AppRepository {
         val dayRanges = loadSessionsForAllDays(includeEngelsystemShifts = false)
                 .toDayRanges()
         val sessionizedShifts = shifts
-                .also { logging.d(javaClass.simpleName, "Shifts unfiltered = ${it.size}") }
+                .also { logging.d(LOG_TAG, "Shifts unfiltered = ${it.size}") }
                 .cropToDayRangesExtent(dayRanges)
-                .also { logging.d(javaClass.simpleName, "Shifts filtered = ${it.size}") }
+                .also { logging.d(LOG_TAG, "Shifts filtered = ${it.size}") }
                 .toSessionAppModels(logging, ENGELSYSTEM_ROOM_NAME, dayRanges)
                 .sanitize()
         val sessions = loadSessionsForAllDays(false) // Drop all shifts before ...
@@ -439,7 +440,7 @@ object AppRepository {
      */
     fun loadUncanceledSessionsForDayIndex(dayIndex: Int) = loadSessionsForDayIndex(dayIndex, true)
             .filterNot { it.changedIsCanceled }
-            .also { logging.d(javaClass.simpleName, "${it.size} uncanceled sessions.") }
+            .also { logging.d(LOG_TAG, "${it.size} uncanceled sessions.") }
 
     /**
      * Loads all sessions from the database which have been favored aka. starred but no canceled.
@@ -448,7 +449,7 @@ object AppRepository {
     @WorkerThread
     private fun loadStarredSessions() = loadSessionsForAllDays(true)
             .filter { it.highlight && !it.changedIsCanceled }
-            .also { logging.d(javaClass.simpleName, "${it.size} sessions starred.") }
+            .also { logging.d(LOG_TAG, "${it.size} sessions starred.") }
 
     /**
      * Loads all sessions from the database which have been marked as changed, cancelled or new.
@@ -457,7 +458,7 @@ object AppRepository {
     @WorkerThread
     fun loadChangedSessions() = loadSessionsForAllDays(true)
             .filter { it.isChanged || it.changedIsCanceled || it.changedIsNew }
-            .also { logging.d(javaClass.simpleName, "${it.size} sessions changed.") }
+            .also { logging.d(LOG_TAG, "${it.size} sessions changed.") }
 
     /**
      * Loads the first session of the first day from the database.
@@ -481,21 +482,21 @@ object AppRepository {
      */
     private fun loadSessionsForDayIndex(dayIndex: Int, includeEngelsystemShifts: Boolean): List<Session> {
         val sessions = if (dayIndex == ALL_DAYS) {
-            logging.d(javaClass.simpleName, "Loading sessions for all days.")
+            logging.d(LOG_TAG, "Loading sessions for all days.")
             if (includeEngelsystemShifts) {
                 readSessionsOrderedByDateUtc()
             } else {
                 readSessionsOrderedByDateUtcExcludingEngelsystemShifts()
             }
         } else {
-            logging.d(javaClass.simpleName, "Loading sessions for day $dayIndex.")
+            logging.d(LOG_TAG, "Loading sessions for day $dayIndex.")
             readSessionsForDayIndexOrderedByDateUtc(dayIndex)
         }
-        logging.d(javaClass.simpleName, "Got ${sessions.size} rows.")
+        logging.d(LOG_TAG, "Got ${sessions.size} rows.")
 
         val highlights = readHighlights()
         for (highlight in highlights) {
-            logging.d(javaClass.simpleName, "$highlight")
+            logging.d(LOG_TAG, "$highlight")
             for (session in sessions) {
                 if (session.sessionId == "${highlight.sessionId}") {
                     session.highlight = highlight.isHighlight
@@ -641,7 +642,7 @@ object AppRepository {
     @WorkerThread
     fun deleteSessionAlarmNotificationId(notificationId: Int): Boolean {
         return (sessionsDatabaseRepository.deleteSessionIdByNotificationId(notificationId) > 0).onFailure {
-            logging.e(javaClass.simpleName, "Failure deleting sessionId for notificationId = $notificationId")
+            logging.e(LOG_TAG, "Failure deleting sessionId for notificationId = $notificationId")
         }
     }
 

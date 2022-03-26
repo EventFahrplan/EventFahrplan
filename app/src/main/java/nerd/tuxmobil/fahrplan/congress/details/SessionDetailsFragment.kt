@@ -27,7 +27,6 @@ import androidx.fragment.app.viewModels
 import io.noties.markwon.Markwon
 import io.noties.markwon.linkify.LinkifyPlugin
 import nerd.tuxmobil.fahrplan.congress.BuildConfig
-import nerd.tuxmobil.fahrplan.congress.MyApp
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmTimePickerFragment
@@ -50,7 +49,6 @@ class SessionDetailsFragment : Fragment() {
 
     companion object {
 
-        private const val LOG_TAG = "SessionDetailsFragment"
         const val FRAGMENT_TAG = "detail"
         private const val SESSION_DETAILS_FRAGMENT_REQUEST_KEY = "SESSION_DETAILS_FRAGMENT_REQUEST_KEY"
         private const val SCHEDULE_FEEDBACK_URL = BuildConfig.SCHEDULE_FEEDBACK_URL
@@ -255,7 +253,6 @@ class SessionDetailsFragment : Fragment() {
         if (model.hasLinks) {
             typeface = typefaceFactory.getTypeface(viewModel.linksSectionFont)
             linksView.typeface = typeface
-            MyApp.LogDebug(LOG_TAG, "show links")
             linksView.isVisible = true
             typeface = typefaceFactory.getTypeface(viewModel.linksFont)
             textView.applyHtml(typeface, model.formattedLinks)

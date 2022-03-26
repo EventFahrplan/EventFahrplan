@@ -63,6 +63,10 @@ class SessionsDatabaseRepository(
 
 ) {
 
+    private companion object {
+        const val LOG_TAG = "SessionsDatabaseRepository"
+    }
+
     /**
      * Inserts the session ID into the [SessionByNotificationIdTable] and returns
      * the newly generated notification ID which is associated with the session ID.
@@ -144,7 +148,7 @@ class SessionsDatabaseRepository(
                         selectionArgs = arrayOf(sessionId))
             }.first()
         } catch (e: NoSuchElementException) {
-            logging.report(javaClass.simpleName, "Sessions table does not contain a session with ID '$sessionId'. ${e.message}")
+            logging.report(LOG_TAG, "Sessions table does not contain a session with ID '$sessionId'. ${e.message}")
             throw e
         }
     }
