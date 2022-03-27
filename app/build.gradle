@@ -203,6 +203,7 @@ dependencies {
     implementation Libs.material
     implementation Libs.moshi
     ksp Libs.moshiCodeGen
+    implementation Libs.multiDex
     implementation Libs.okhttp
     implementation Libs.okhttpLoggingInterceptor
     implementation Libs.preference
