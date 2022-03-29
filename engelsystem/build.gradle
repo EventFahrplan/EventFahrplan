@@ -13,6 +13,7 @@ dependencies {
 
     testImplementation Libs.junit
     testImplementation Libs.kotlinCoroutinesTest
+    testImplementation Libs.mockitoKotlin
     testImplementation Libs.okhttpMockWebServer
     testImplementation Libs.retrofitConverterMoshi
     testImplementation Libs.truth
@@ -24,5 +25,8 @@ targetCompatibility = Config.compatibleJavaVersion
 compileKotlin {
     kotlinOptions {
         jvmTarget = Config.compatibleJavaVersion
+        freeCompilerArgs += [
+                "-Xopt-in=kotlin.RequiresOptIn"
+        ]
     }
 }
