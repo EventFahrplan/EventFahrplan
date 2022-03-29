@@ -7,8 +7,15 @@ import info.metadude.android.eventfahrplan.network.models.Session
 import org.threeten.bp.ZoneOffset
 
 internal class DateFieldValidation constructor(
-        private val logging: Logging
+
+    private val logging: Logging
+
 ) {
+
+    private companion object {
+        const val LOG_TAG = "DateFieldValidation"
+    }
+
     private val validationErrors: MutableList<ValidationError>
 
     init {
@@ -17,7 +24,7 @@ internal class DateFieldValidation constructor(
 
     fun printValidationErrors() {
         for (validationError in validationErrors) {
-            logging.d(javaClass.simpleName, validationError.toString())
+            logging.d(LOG_TAG, validationError.toString())
         }
     }
 
@@ -40,7 +47,7 @@ internal class DateFieldValidation constructor(
         // defined by "date" attribute in the <day> nodes.
         sortedSessions.forEach { validateSession(it, range) }
 
-        logging.d(javaClass.simpleName, "Validation result for <date> field: ${validationErrors.size} errors.")
+        logging.d(LOG_TAG, "Validation result for <date> field: ${validationErrors.size} errors.")
         return validationErrors.isEmpty()
     }
 

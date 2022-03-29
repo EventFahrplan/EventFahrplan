@@ -144,7 +144,7 @@ public class UpdateService extends SafeJobIntentService {
     }
 
     private void fetchSchedule() {
-        FahrplanMisc.setUpdateAlarm(this, false);
+        FahrplanMisc.setUpdateAlarm(this, false, logging);
         fetchFahrplan();
     }
 

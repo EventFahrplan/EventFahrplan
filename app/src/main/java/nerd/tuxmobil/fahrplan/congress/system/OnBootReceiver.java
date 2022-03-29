@@ -4,12 +4,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import org.ligi.tracedroid.logging.Log;
-
 import java.util.List;
 
+import info.metadude.android.eventfahrplan.commons.logging.Logging;
 import info.metadude.android.eventfahrplan.commons.temporal.Moment;
-import nerd.tuxmobil.fahrplan.congress.MyApp;
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmReceiver;
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices;
 import nerd.tuxmobil.fahrplan.congress.autoupdate.UpdateService;
@@ -21,7 +19,8 @@ import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc;
 
 public final class OnBootReceiver extends BroadcastReceiver {
 
-    private static final String LOG_TAG = "onBoot";
+    private static final String LOG_TAG = "OnBootReceiver";
+    private final Logging logging = Logging.get();
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -36,7 +35,7 @@ public final class OnBootReceiver extends BroadcastReceiver {
             return;
         }
 
-        MyApp.LogDebug(LOG_TAG, "onReceive (reboot)");
+        logging.report(LOG_TAG, "onReceive (reboot)");
 
         Moment nowMoment = Moment.now().plusSeconds(15);
 
@@ -46,11 +45,11 @@ public final class OnBootReceiver extends BroadcastReceiver {
         for (Alarm alarm : alarms) {
             Moment storedAlarmTime = Moment.ofEpochMilli(alarm.getStartTime());
             if (nowMoment.isBefore(storedAlarmTime)) {
-                Log.d(getClass().getSimpleName(), "Scheduling alarm for session: " + alarm.getSessionId() + ", " + alarm.getSessionTitle());
+                logging.d(LOG_TAG, "Scheduling alarm for session: " + alarm.getSessionId() + ", " + alarm.getSessionTitle());
                 SchedulableAlarm schedulableAlarm = AlarmExtensions.toSchedulableAlarm(alarm);
                 alarmServices.scheduleSessionAlarm(schedulableAlarm);
             } else {
-                MyApp.LogDebug(LOG_TAG, "Deleting alarm from database: " + alarm);
+                logging.d(LOG_TAG, "Deleting alarm from database: " + alarm);
                 appRepository.deleteAlarmForAlarmId(alarm.getId());
             }
         }
@@ -61,9 +60,9 @@ public final class OnBootReceiver extends BroadcastReceiver {
             long lastFetchedAt = appRepository.readScheduleLastFetchedAt();
             long nowMillis = Moment.now().toMilliseconds();
 
-            long interval = FahrplanMisc.setUpdateAlarm(context, true);
+            long interval = FahrplanMisc.setUpdateAlarm(context, true, logging);
 
-            MyApp.LogDebug(LOG_TAG, "now: " + nowMillis + ", lastFetchedAt: " + lastFetchedAt);
+            logging.d(LOG_TAG, "now: " + nowMillis + ", lastFetchedAt: " + lastFetchedAt);
             if (interval > 0 && nowMillis - lastFetchedAt >= interval) {
                 UpdateService.start(context);
             }

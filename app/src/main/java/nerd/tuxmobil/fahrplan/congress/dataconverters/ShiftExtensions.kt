@@ -9,6 +9,8 @@ import info.metadude.kotlin.library.engelsystem.models.Shift
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import org.threeten.bp.Duration
 
+private const val LOG_TAG = "ShiftsExtensions"
+
 // Avoid conflicts with the IDs of the main schedule.
 private const val SHIFT_ID_OFFSET = 300000
 
@@ -44,7 +46,7 @@ fun Shift.toSessionAppModel(
 fun Shift.oneBasedDayIndex(logging: Logging, dayRanges: List<DayRange>): Int {
     dayRanges.forEachIndexed { index, dayRange ->
         if (dayRange.contains(startsAtDate)) {
-            logging.d(javaClass.simpleName, "${dayRange.startsAt} <= $startsAtDate < ${dayRange.endsAt} -> $talkTitle")
+            logging.d(LOG_TAG, "${dayRange.startsAt} <= $startsAtDate < ${dayRange.endsAt} -> $talkTitle")
             return index + 1
         }
     }

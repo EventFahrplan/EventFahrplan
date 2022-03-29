@@ -39,7 +39,6 @@ import androidx.recyclerview.widget.RecyclerView.LayoutParams
 import info.metadude.android.eventfahrplan.commons.logging.Logging
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.BuildConfig
-import nerd.tuxmobil.fahrplan.congress.MyApp
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmTimePickerFragment
@@ -58,7 +57,6 @@ import nerd.tuxmobil.fahrplan.congress.schedule.observables.TimeTextViewParamete
 import nerd.tuxmobil.fahrplan.congress.sharing.SessionSharer
 import nerd.tuxmobil.fahrplan.congress.utils.Font
 import nerd.tuxmobil.fahrplan.congress.utils.TypefaceFactory
-import org.ligi.tracedroid.logging.Log
 
 class FahrplanFragment : Fragment(), SessionViewEventsHandler {
 
@@ -99,6 +97,7 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
     private lateinit var contextMenuView: View
     private lateinit var viewModel: FahrplanViewModel
 
+    private val logging = Logging.get()
     private var onSessionClickListener: OnSessionClickListener? = null
     private var lastSelectedSession: Session? = null
     private var displayDensityScale = 0f
@@ -130,7 +129,7 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
         sessionViewDrawer = SessionViewDrawer(context, { sessionPadding })
         errorMessageFactory = ErrorMessage.Factory(context)
         connectivityObserver = ConnectivityObserver(context, onConnectionAvailable = {
-            Log.d(LOG_TAG, "Network is available.")
+            logging.d(LOG_TAG, "Network is available.")
             viewModel.requestScheduleAutoUpdate()
         })
         connectivityObserver.start()
@@ -190,23 +189,18 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
     }
 
     override fun onResume() {
-        Log.d(LOG_TAG, "FahrplanFragment#onResume")
         super.onResume()
         val activity = requireActivity()
         activity.invalidateOptionsMenu()
         val intent = activity.intent
         // TODO Consume session alarm in MainActivity and let it orchestrate its fragments
         val sessionId = intent.getStringExtra(BundleKeys.SESSION_ALARM_SESSION_ID)
-        // TODO Analyzing https://github.com/EventFahrplan/EventFahrplan/issues/402
-        Log.d(LOG_TAG, "sessionId = $sessionId (after loading from bundle)")
         if (sessionId != null) {
-            Log.d(LOG_TAG, "Open with sessionId '$sessionId'.")
             val sessionAlarmDayIndex = intent.getIntExtra(BundleKeys.SESSION_ALARM_DAY_INDEX, -1)
             viewModel.saveSelectedDayIndex(sessionAlarmDayIndex)
             viewModel.scrollToSession(sessionId, getNormalizedBoxHeight())
             intent.removeExtra(BundleKeys.SESSION_ALARM_SESSION_ID) // jump to given sessionId only once
         }
-        Logging.get().d(LOG_TAG, "onResume")
     }
 
     override fun onDestroy() {
@@ -332,11 +326,10 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
         if (!layoutRootView.context.isLandscape()) {
             val horizontalSnapScrollView = layoutRootView.findViewById<HorizontalSnapScrollView>(R.id.horizScroller)
             columnIndex = horizontalSnapScrollView.columnIndex
-            MyApp.LogDebug(LOG_TAG, "y pos = $columnIndex")
         }
         val nowMoment = Moment.now()
         val conference = Conference.ofSessions(scheduleData.allSessions)
-        val scrollAmount = ScrollAmountCalculator(Logging.get()).calculateScrollAmount(
+        val scrollAmount = ScrollAmountCalculator(logging).calculateScrollAmount(
             conference = conference,
             dateInfos = dateInfos,
             scheduleData = scheduleData,
@@ -395,8 +388,6 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
         }
 
     private fun getNormalizedBoxHeight(): Int {
-        val orientationText = if (requireContext().isLandscape()) "landscape" else "other orientation"
-        MyApp.LogDebug(LOG_TAG, orientationText)
         return (resources.getInteger(R.integer.box_height) * displayDensityScale).toInt()
     }
 
@@ -404,7 +395,7 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
         val session = checkNotNull(view.tag) {
             "A session must be assigned to the 'tag' attribute of the session view."
         } as Session
-        MyApp.LogDebug(LOG_TAG, "Click on ${session.title}")
+        logging.d(LOG_TAG, """Click on: "${session.title}"""")
         onSessionClickListener?.onSessionClick(session.sessionId)
     }
 
@@ -433,7 +424,7 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
 
     private fun onAlarmTimesIndexPicked(alarmTimesIndex: Int) {
         if (lastSelectedSession == null) {
-            Log.e(javaClass.simpleName, "onAlarmTimesIndexPicked: session: null. alarmTimesIndex: $alarmTimesIndex")
+            logging.e(LOG_TAG, "onAlarmTimesIndexPicked: session: null. alarmTimesIndex: $alarmTimesIndex")
             throw NullPointerException("Session is null.")
         } else {
             viewModel.addAlarm(lastSelectedSession!!, alarmTimesIndex)
@@ -446,7 +437,6 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
         val menuItemIndex = item.itemId
         val session = contextMenuView.tag as Session
         lastSelectedSession = session // FIXME NPE on rotation while alarm time picker is opened
-        MyApp.LogDebug(LOG_TAG, "clicked on ${(contextMenuView.tag as Session).sessionId}")
         val context = requireContext()
         when (menuItemIndex) {
             CONTEXT_MENU_ITEM_ID_FAVORITES -> {

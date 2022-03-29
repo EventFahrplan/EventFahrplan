@@ -20,8 +20,6 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.cursoradapter.widget.CursorAdapter;
 
-import org.ligi.tracedroid.logging.Log;
-
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable;
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns;
 import info.metadude.android.eventfahrplan.database.sqliteopenhelper.AlarmsDBOpenHelper;
@@ -114,7 +112,6 @@ public class AlarmList extends ActionBarListActivity {
         int day = cursor.getInt(cursor.getColumnIndex(AlarmsTable.Columns.DAY));
         String title = cursor.getString(cursor.getColumnIndex(AlarmsTable.Columns.SESSION_TITLE));
         long startTime = cursor.getLong(cursor.getColumnIndex(AlarmsTable.Columns.TIME));
-        Log.d(getClass().getSimpleName(), "deleteAlarm: session: " + sessionId);
         SchedulableAlarm alarm = new SchedulableAlarm(day, sessionId, title, startTime);
         AlarmServices.newInstance(this, appRepository).discardSessionAlarm(alarm);
 

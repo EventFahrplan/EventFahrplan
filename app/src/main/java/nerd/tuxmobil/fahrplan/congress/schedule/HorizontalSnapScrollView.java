@@ -12,15 +12,19 @@ import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 
 import androidx.annotation.IntRange;
+import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
 
-import nerd.tuxmobil.fahrplan.congress.MyApp;
+import info.metadude.android.eventfahrplan.commons.logging.Logging;
 import nerd.tuxmobil.fahrplan.congress.R;
 
 
 public class HorizontalSnapScrollView extends HorizontalScrollView {
 
     private static final String LOG_TAG = "HorizontalScrollView";
+
+    @NonNull
+    private final Logging logging = Logging.get();
 
     private final GestureDetector gestureDetector;
 
@@ -60,7 +64,7 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
         @Override
         public boolean onDown(MotionEvent e) {
             xStart = (int) e.getX();
-//          MyApp.LogDebug(LOG_TAG, "onDown xStart: " + xStart + " getMeasuredWidth: " + getMeasuredWidth());
+//          logging.d(LOG_TAG, "onDown xStart: " + xStart + " getMeasuredWidth: " + getMeasuredWidth());
             float ofs = (float) (getScrollX() * displayColumnCount) / getMeasuredWidth();
             activeColumnIndex = Math.round(ofs);
             return super.onDown(e);
@@ -71,7 +75,7 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
             float scale = getResources().getDisplayMetrics().density;
             float normalizedAbsoluteVelocityX = Math.abs(velocityX / scale);
             int columns = (int) Math.ceil((normalizedAbsoluteVelocityX / SWIPE_THRESHOLD_VELOCITY) * 3);
-//	    	MyApp.LogDebug(LOG_TAG, "onFling " + velocityX + "/" + velocityY + " " + velocityX/scale + " " + columns);
+//	    	logging.d(LOG_TAG, "onFling " + velocityX + "/" + velocityY + " " + velocityX/scale + " " + columns);
             boolean exceedsVelocityThreshold = normalizedAbsoluteVelocityX > SWIPE_THRESHOLD_VELOCITY;
             try {
                 //right to left
@@ -85,7 +89,7 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
                     return true;
                 }
             } catch (Exception e) {
-                MyApp.LogDebug(LOG_TAG, "There was an error processing the Fling event:" + e.getMessage());
+                logging.e(LOG_TAG, "There was an error processing the Fling event:" + e.getMessage());
             }
             return super.onFling(e1, e2, velocityX, velocityY);
         }
@@ -126,7 +130,7 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
             col = max;
         }
         final int scrollTo = col * columnWidth;
-        MyApp.LogDebug(LOG_TAG, "scroll to col " + col + "/" + scrollTo + " " + getChildAt(0).getMeasuredWidth());
+        logging.d(LOG_TAG, "scroll to col " + col + "/" + scrollTo + " " + getChildAt(0).getMeasuredWidth());
         if (!fast) {
             this.post(() -> smoothScrollTo(scrollTo, 0));
         } else {
@@ -149,22 +153,22 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
     private class OnTouchListener implements View.OnTouchListener {
 
         public boolean onTouch(View v, MotionEvent event) {
-            MyApp.LogDebug(LOG_TAG, "onTouch");
+            logging.d(LOG_TAG, "onTouch");
             if (gestureDetector.onTouchEvent(event)) {
-                // MyApp.LogDebug(LOG_TAG, "gesture detector consumed event");
+                // logging.d(LOG_TAG, "gesture detector consumed event");
                 return false;
             } else if (event.getAction() == MotionEvent.ACTION_UP
                     || event.getAction() == MotionEvent.ACTION_CANCEL) {
                 int scrollX = (int) event.getX();
                 int distance = scrollX - xStart;
-                MyApp.LogDebug(LOG_TAG,
+                logging.d(LOG_TAG,
                         "column width:" + columnWidth + " scrollX:" + scrollX + " distance:"
                                 + distance + " active column index:" + activeColumnIndex);
                 int columnIndex = activeColumnIndex;
                 int columnDistance;
                 if (displayColumnCount > 1) {
                     columnDistance = Math.round(Math.abs((float) distance) / columnWidth);
-                    MyApp.LogDebug(LOG_TAG, "column distance: " + columnDistance);
+                    logging.d(LOG_TAG, "column distance: " + columnDistance);
                     if (distance > 0) {
                         columnIndex = activeColumnIndex - columnDistance;
                     } else {
@@ -213,7 +217,7 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
 
     @Override
     protected void onSizeChanged(int width, int height, int oldWidth, int oldHeight) {
-        MyApp.LogDebug(LOG_TAG, "onSizeChanged " + oldWidth + ", " + oldHeight + ", " + width + ", " + height + " getMW:" + getMeasuredWidth());
+        logging.d(LOG_TAG, "onSizeChanged " + oldWidth + ", " + oldHeight + ", " + width + ", " + height + " getMW:" + getMeasuredWidth());
         super.onSizeChanged(width, height, oldWidth, oldHeight);
         Resources resources = getResources();
         if (roomsCount == NOT_INITIALIZED) {
@@ -230,14 +234,14 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
         int newItemWidth = Math.round((float) getMeasuredWidth() / displayColumnCount);
         float scale = getResources().getDisplayMetrics().density;
 
-        MyApp.LogDebug(LOG_TAG, "item width: " + newItemWidth + " " + ((float) newItemWidth) / scale + "dp");
+        logging.d(LOG_TAG, "item width: " + newItemWidth + " " + ((float) newItemWidth) / scale + "dp");
         setColumnWidth(newItemWidth);
     }
 
     @Override
     protected void onScrollChanged(int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
         super.onScrollChanged(scrollX, scrollY, oldScrollX, oldScrollY);
-//		MyApp.LogDebug(LOG_TAG, "scrolled from " + oldScrollX + " to " + scrollX);
+//		logging.d(LOG_TAG, "scrolled from " + oldScrollX + " to " + scrollX);
         if (roomNames != null) {
             roomNames.scrollTo(scrollX, 0);
         }
@@ -261,7 +265,7 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
     }
 
     private void setColumnWidth(int pixels) {
-        MyApp.LogDebug(LOG_TAG, "setColumnWidth " + pixels);
+        logging.d(LOG_TAG, "setColumnWidth " + pixels);
         columnWidth = pixels;
         if (pixels == 0) {
             return;
