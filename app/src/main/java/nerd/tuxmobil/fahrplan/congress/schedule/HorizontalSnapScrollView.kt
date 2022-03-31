@@ -135,8 +135,8 @@ class HorizontalSnapScrollView(
     }
 
     fun scrollToColumn(col: Int, fast: Boolean) {
-        val maxColValue = if (columnWidth == 0) 0 else (firstChild.measuredWidth - columnWidth) / columnWidth
-        val columnIndex = min(max(col, 0), maxColValue)
+        val maxColumnIndex = roomsCount - displayColumnCount
+        val columnIndex = min(max(col, 0), maxColumnIndex)
 
         val scrollTo = columnIndex * columnWidth
 
