@@ -170,39 +170,30 @@ class HorizontalSnapScrollView(
                 event.action == MotionEvent.ACTION_UP ||
                 event.action == MotionEvent.ACTION_CANCEL
             ) {
-                val scrollX = event.x.toInt()
-                val distance = scrollX - xStart
+                val distance = event.x.toInt() - xStart
 
-                var tempColumnIndex = activeColumnIndex
-
-                logging.d(
-                    LOG_TAG,
+                logging.d(LOG_TAG,
                     "column width:$columnWidth " +
-                            "scrollX:$scrollX " +
+                            "scrollX:${event.x.toInt()} " +
                             "distance:$distance " +
                             "active column index:$activeColumnIndex"
                 )
 
-                if (displayColumnCount > 1) {
-                    val columnDistance = (abs(distance.toFloat()) / columnWidth).roundToInt()
+                val columnDistance = (distance.toFloat() / columnWidth).roundToInt()
 
-                    logging.d(LOG_TAG, "column distance: $columnDistance")
+                // Calculate Column to Scroll to
+                var tempColumnIndex = activeColumnIndex
 
-                    tempColumnIndex = if (distance > 0) {
-                        activeColumnIndex - columnDistance
-                    } else {
-                        activeColumnIndex + columnDistance
-                    }
-                } else {
-                    if (abs(distance) > columnWidth * MIN_PORTRAIT_SCROLLING_PERCENTAGE) {
-                        tempColumnIndex = if (distance > 0) {
-                            activeColumnIndex - 1
-                        } else {
-                            activeColumnIndex + 1
-                        }
-                    }
+                // Improve feeling for Handy Portrait Mode
+                if (
+                    displayColumnCount == 1 &&
+                    abs(distance) > columnWidth * MIN_PORTRAIT_SCROLLING_PERCENTAGE &&
+                    columnDistance == 0
+                ) {
+                    tempColumnIndex += if (distance > 0) -1 else 1
                 }
-                scrollToColumn(tempColumnIndex, false)
+
+                scrollToColumn(tempColumnIndex - columnDistance,false)
                 return true
             } else return false
         }
