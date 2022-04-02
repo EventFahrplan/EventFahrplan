@@ -33,6 +33,7 @@ class HorizontalSnapScrollView(
         private const val SWIPE_MIN_DISTANCE = 5
         private const val SWIPE_THRESHOLD_VELOCITY = 2800
         private const val MIN_PORTRAIT_SCROLLING_PERCENTAGE = 0.25
+        private const val FLING_COLUMN_MULTIPLIER = 3   //This value was set completely arbitrarily
 
         /**
          * Calculates the number of columns to display at a time based on the physical dimensions and
@@ -57,7 +58,6 @@ class HorizontalSnapScrollView(
             return max(1, columnCount)
         }
     }
-
     private val gestureDetector: GestureDetector
     private val logging: Logging = Logging.get()
     private var xStart = 0
@@ -105,29 +105,38 @@ class HorizontalSnapScrollView(
             velocityX: Float,
             velocityY: Float
         ): Boolean {
-            val normalizedAbsoluteVelocityX = abs(velocityX / resources.displayMetrics.density)
-            val columns = ceil((normalizedAbsoluteVelocityX / SWIPE_THRESHOLD_VELOCITY * 3).toDouble()).toInt()
-//            logging.d(LOG_TAG, """onFling ${velocityX}/${velocityY} ${velocityX/resources.displayMetrics.density} ${columns}""");
-            val exceedsVelocityThreshold = normalizedAbsoluteVelocityX > SWIPE_THRESHOLD_VELOCITY
 
-            try {
-                //right to left
-                if (event1.x - event2.x > SWIPE_MIN_DISTANCE && exceedsVelocityThreshold) {
-                    scrollToColumn(activeColumnIndex + columns, false)
-                    return true
-                }
-                //left to right
-                else if (event2.x - event1.x > SWIPE_MIN_DISTANCE && exceedsVelocityThreshold) {
-                    scrollToColumn(activeColumnIndex - columns, false)
-                    return true
-                }
-            } catch (exception: Exception) {
-                logging.d(LOG_TAG, """There was an error processing the Fling event:${exception.message}""")
+            // Device-independent X-Velocity
+            val normalizedVelocityX = velocityX / resources.displayMetrics.density
+
+            // Signed amount of Columns to scroll
+            val columns = ceil((normalizedVelocityX / SWIPE_THRESHOLD_VELOCITY * FLING_COLUMN_MULTIPLIER).toDouble()).toInt()
+
+//            logging.d(LOG_TAG, """onFling ${velocityX}/${velocityY} ${velocityX/resources.displayMetrics.density} ${columns}""");
+
+            if (checkDistance(event1, event2) && checkFlingVelocity(normalizedVelocityX)) {
+                scrollToColumn(activeColumnIndex - columns,false)
+                return true
             }
 
             return super.onFling(event1, event2, velocityX, velocityY)
         }
     }
+
+    /**
+     * Checks if the velocity of a Fling event was big enough to initiate a 'flingscroll'
+     * @param normalizedVelocity the X Velocity of the Fling independent from the display pixel-density
+     */
+    private fun checkFlingVelocity(normalizedVelocity: Float) =
+        abs(normalizedVelocity) > SWIPE_THRESHOLD_VELOCITY
+
+    /**
+     * Checks if the distance between two motionevents is big enough for a fling-scroll
+     */
+    private fun checkDistance(
+        start: MotionEvent,
+        end: MotionEvent
+    ) = abs(start.x - end.x) > SWIPE_MIN_DISTANCE
 
     override fun onInterceptTouchEvent(event: MotionEvent): Boolean {
         gestureDetector.onTouchEvent(event)
