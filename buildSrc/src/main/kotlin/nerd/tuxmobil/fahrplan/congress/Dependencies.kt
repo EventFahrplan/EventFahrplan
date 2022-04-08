@@ -18,11 +18,11 @@ object Android {
 object Plugins {
 
     private object Versions {
-        const val android = "7.1.2"
+        const val android = "7.1.3"
         const val androidJunitJacoco = "0.16.0"
         const val dexcount = "3.1.0"
-        const val kotlin = "1.6.10"
-        const val ksp = "1.6.10-1.0.4"
+        const val kotlin = "1.6.20"
+        const val ksp = "1.6.20-1.0.5"
         const val sonarQube = "3.3"
         const val unMock = "0.7.9"
         const val versions = "0.42.0"
@@ -52,7 +52,7 @@ object Libs {
         const val engelsystem = "7.0.0"
         const val espresso = "3.4.0"
         const val junit = "4.13.2"
-        const val kotlinCoroutines = "1.6.0"
+        const val kotlinCoroutines = "1.6.1"
         const val lifecycle = "2.4.1"
         const val markwon = "4.6.2"
         const val material = "1.5.0"
