@@ -2,6 +2,7 @@ package info.metadude.android.eventfahrplan.network.fetching;
 
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
@@ -13,6 +14,7 @@ import java.net.UnknownHostException;
 import java.net.UnknownServiceException;
 
 import javax.net.ssl.SSLException;
+import javax.net.ssl.SSLHandshakeException;
 
 import info.metadude.android.eventfahrplan.commons.logging.Logging;
 import okhttp3.Call;
@@ -160,6 +162,7 @@ class FetchFahrplanTask extends AsyncTask<String, Void, HttpStatus> {
             response = call.execute();
         } catch (SSLException e) {
             setExceptionMessage(e);
+            customizeExceptionMessage(e);
             e.printStackTrace();
             return HttpStatus.HTTP_LOGIN_FAIL_UNTRUSTED_CERTIFICATE;
         } catch (SocketTimeoutException e) {
@@ -230,5 +233,13 @@ class FetchFahrplanTask extends AsyncTask<String, Void, HttpStatus> {
         }
     }
 
+    private void customizeExceptionMessage(@NonNull SSLException exception) {
+        if (exception instanceof SSLHandshakeException && Build.VERSION.SDK_INT == Build.VERSION_CODES.N) {
+            // See https://github.com/EventFahrplan/EventFahrplan/issues/431
+            exceptionMessage += "\n\nPlease note that server certificates using elliptic curves " +
+                    "with a length > 256 bits are not supported on Android 7.0. This might cause " +
+                    "this error.";
+        }
+    }
 
 }
