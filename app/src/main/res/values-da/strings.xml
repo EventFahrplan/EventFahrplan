@@ -2,24 +2,24 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Menu items -->
     <string name="menu_item_title_about">Info</string>
-    <string name="menu_item_title_add_to_calendar">Add to calendar</string>
-    <string name="menu_item_title_alarms">Alarms</string>
+    <string name="menu_item_title_add_to_calendar">Tilføj til kalender</string>
+    <string name="menu_item_title_alarms">Alarmer</string>
     <string name="menu_item_title_close_session_details">Close event details</string>
-    <string name="menu_item_title_flag_as_favorite">Add to favorites</string>
-    <string name="menu_item_title_unflag_as_favorite">Remove from favorites</string>
-    <string name="menu_item_title_delete_favorite">Delete</string>
-    <string name="menu_item_title_set_alarm">Set alarm</string>
-    <string name="menu_item_title_delete_alarm">Clear alarm</string>
-    <string name="menu_item_title_delete_all">Delete all</string>
-    <string name="menu_item_title_favorites">Favorites</string>
+    <string name="menu_item_title_flag_as_favorite">Tilføj til favoritter</string>
+    <string name="menu_item_title_unflag_as_favorite">Fjern fra favoritter</string>
+    <string name="menu_item_title_delete_favorite">Slet</string>
+    <string name="menu_item_title_set_alarm">Indstil alarm</string>
+    <string name="menu_item_title_delete_alarm">Klare alarm</string>
+    <string name="menu_item_title_delete_all">Slet alle</string>
+    <string name="menu_item_title_favorites">Favoritter</string>
     <string name="menu_item_title_feedback">Feedback</string>
     <string name="menu_item_title_navigate">Navigate</string>
-    <string name="menu_item_title_refresh">Refresh</string>
-    <string name="menu_item_title_share_session">Share event</string>
-    <string name="menu_item_title_share_favorites">Share favorites</string>
-    <string name="menu_item_title_share_session_text">as text</string>
+    <string name="menu_item_title_refresh">Opdater</string>
+    <string name="menu_item_title_share_session">Del begivenhed</string>
+    <string name="menu_item_title_share_favorites">Del favoritter</string>
+    <string name="menu_item_title_share_session_text">som tekst</string>
     <string name="menu_item_title_share_session_json">as JSON (for Chaosflix)</string>
-    <string name="share_as_text">Share as text</string>
+    <string name="share_as_text">Del som tekst</string>
     <string name="share_as_json">Share as JSON (for Chaosflix)</string>
     <!-- AlertDialog -->
     <string name="OK">OK</string>
@@ -27,27 +27,27 @@
     <string name="certificate_error_message">        Failed to establish secure connection.\n
         (<xliff:g example="Unknown Error" id="error">%s</xliff:g>)
     </string>
-    <string name="certificate_error_title">Certificate could not be added.</string>
+    <string name="certificate_error_title">Certifikat kunne ikke tilføjes.</string>
     <!-- Error messages -->
-    <string name="dlg_err_connection_failed">Connection failure</string>
+    <string name="dlg_err_connection_failed">Forbindelsesfejl</string>
     <string name="dlg_err_failed_unknown_host">Unknown address:\n<xliff:g example="http://example.com" id="url">%s</xliff:g></string>
     <string name="dlg_err_failed_wrong_http_credentials">Invalid HTTP Authentication</string>
-    <string name="dlg_err_failed_timeout">Server doesn\'t respond (Timeout).</string>
-    <string name="dlg_err_failed_connect_failure">Unknown connection failure</string>
-    <string name="dlg_err_failed_not_found">Invalid schedule URL</string>
+    <string name="dlg_err_failed_timeout">Serveren svarer ikke (Timeout).</string>
+    <string name="dlg_err_failed_connect_failure">Ukendt forbindelsesfejl</string>
+    <string name="dlg_err_failed_not_found">Ugyldig tidsplan URL</string>
     <string name="dlg_err_failed_parse_failure">Couldn\'t parse response</string>
-    <string name="dlg_err_failed_ssl_failure">SSL failure</string>
-    <string name="dlg_err_failed_http_cleartext_not_permitted">HTTP is not allowed. Please use HTTPS.</string>
-    <string name="dlg_err_schedule_data">Schedule data error</string>
+    <string name="dlg_err_failed_ssl_failure">SSL-fejl</string>
+    <string name="dlg_err_failed_http_cleartext_not_permitted">HTTP er ikke tilladt. Brug venligst HTTPS.</string>
+    <string name="dlg_err_schedule_data">Fejl i tidsplanens data</string>
     <string name="dlg_err_schedule_data_empty">        Nothing to display. The schedule with version \"<xliff:g example="0.99" id="version">%s</xliff:g>\"
         does not contain any session.
     </string>
-    <string name="dlg_err_schedule_data_empty_without_version">        Nothing to display. The schedule does not contain any session.
+    <string name="dlg_err_schedule_data_empty_without_version">        Intet at vise. Tidsplanen indeholder ikke nogen session.
     </string>
-    <string name="uptodate">Schedule is up to date.</string>
+    <string name="uptodate">Tidsplan er opdateret.</string>
     <!-- Schedule changes dialog -->
-    <string name="schedule_changes_dialog_title">Schedule update</string>
-    <string name="schedule_changes_dialog_updated_to_text">The schedule has been updated to\u0020</string>
+    <string name="schedule_changes_dialog_title">Tidsplan opdatering</string>
+    <string name="schedule_changes_dialog_updated_to_text">Tidsplanen er blevet opdateret til\u0020</string>
     <string name="schedule_changes_dialog_changed_new_cancelled_text">. There are changes in <xliff:g example="3 lectures" id="num_changes">%1$s</xliff:g>, <xliff:g example="2 are" id="num_new">%2$s</xliff:g> <xliff:g example="new" id="phrase_new">%3$s</xliff:g>, <xliff:g example="1 is" id="num_canceled">%4$s</xliff:g> <xliff:g example="cancelled" id="phrase_cancelled">%5$s</xliff:g>.</string>
     <string name="schedule_changes_dialog_affected_text">The changes affect <xliff:g example="2" id="num_marked">%1$d</xliff:g> of your favored lectures.</string>
     <plurals name="schedule_changes_dialog_phrase_new">
@@ -66,51 +66,51 @@
         <item quantity="one"><xliff:g example="1" id="count">%d</xliff:g> is</item>
         <item quantity="other"><xliff:g example="9" id="count">%d</xliff:g> are</item>
     </plurals>
-    <string name="schedule_changes_dialog_browse">Browse</string>
-    <string name="schedule_changes_dialog_later">Later</string>
-    <string name="progress_loading_data">Get schedule &#8230;</string>
+    <string name="schedule_changes_dialog_browse">Gennemse</string>
+    <string name="schedule_changes_dialog_later">Senere</string>
+    <string name="progress_loading_data">Få tidsplan &#8230;</string>
     <string name="progress_processing_data">Processing schedule &#8230;</string>
-    <string name="load_data">Load</string>
-    <string name="choose_day">Choose day</string>
-    <string name="day">Day</string>
-    <string name="fahrplan">Schedule</string>
+    <string name="load_data">Indlæs</string>
+    <string name="choose_day">Vælg dag</string>
+    <string name="day">Dag</string>
+    <string name="fahrplan">Tidsplan</string>
     <string name="appVersion">App Version <xliff:g example="1.40.2" id="appVersion">%s</xliff:g></string>
     <string name="schedule_updated_to">        Updated to <xliff:g example="Mildenberg 2018-01-16 16:50" id="version">%s</xliff:g>
     </string>
-    <string name="schedule_updated">        The schedule has been updated.
+    <string name="schedule_updated">        Tidsplanen er blevet opdateret.
     </string>
-    <string name="settings">Settings</string>
-    <string name="session_details_section_title_session_online">Event online</string>
+    <string name="settings">Indstillinger</string>
+    <string name="session_details_section_title_session_online">Begivenhed online</string>
     <string name="session_details_section_title_links">Links</string>
-    <string name="choose_alarm_time">Choose alarm time</string>
-    <string name="reminders">Alarms</string>
+    <string name="choose_alarm_time">Vælg alarmtidspunkt</string>
+    <string name="reminders">Alarmer</string>
     <string name="usage">Note:\n\nLong-press on a lecture to set an alarm.</string>
     <string name="about_libraries_statement">        This application uses the following libraries: <xliff:g example="Kotlin, Espresso" id="libs">%s</xliff:g>
     </string>
-    <string name="about_data_privacy_statement_german">Data privacy statement (German)</string>
+    <string name="about_data_privacy_statement_german">Erklæring om databeskyttelse (tysk)</string>
     <string name="about_f_droid_listing">F-Droid listing</string>
     <string name="about_google_play_listing">Google Play listing</string>
-    <string name="about_issues_or_feature_requests">Issues or feature requests</string>
+    <string name="about_issues_or_feature_requests">Problemer eller anmodninger om funktioner</string>
     <string name="about_source_code">Source code</string>
-    <string name="today">today</string>
-    <string name="schedule_parsing_error_generic">Unknown error while parsing schedule</string>
+    <string name="today">i dag</string>
+    <string name="schedule_parsing_error_generic">Ukendt fejl under fortolkning af tidsplan</string>
     <string name="schedule_parsing_error_with_version">Parsing error for schedule version <xliff:g example="0.99a" id="scheduleVersion">%s</xliff:g></string>
-    <string name="engelsystem_shifts_parsing_error_generic">Unknown error while parsing Engelsystem shifts</string>
+    <string name="engelsystem_shifts_parsing_error_generic">Ukendt fejl under tolkning af Engelsystem-skift</string>
     <string name="engelsystem_shifts_parsing_error_forbidden">Invalid API key for Engelsystem shifts</string>
     <string name="engelsystem_shifts_parsing_error_not_found">Wrong URL for Engelsystem shifts</string>
-    <string name="alarms_empty">There are no alarms to display. Please note that you
-		can set up individual alarms for each item in the schedule.
-		Just press the alarm icon in the action bar.</string>
-    <string name="add_to_calendar_failed">Adding event to calendar failed.</string>
-    <string name="no_changes">No schedule changes</string>
-    <string name="no_favorites">No favorite lectures</string>
-    <string name="schedule_changes">Schedule changes</string>
+    <string name="alarms_empty">Der er ingen alarmer, der skal vises. Bemærk venligst, at du
+		kan indstille individuelle alarmer for hvert element i skemaet.
+		Du skal blot trykke på alarmikonet i handlingslinjen.</string>
+    <string name="add_to_calendar_failed">Tilføjelse af begivenhed til kalenderen mislykkedes.</string>
+    <string name="no_changes">Ingen tidsplan ændringer</string>
+    <string name="no_favorites">Ingen favoritforedrag</string>
+    <string name="schedule_changes">Tidsplan ændringer</string>
     <string name="general_settings">General</string>
     <string name="starred_sessions">Favorites</string>
     <string name="invalid_url">Invalid URL</string>
     <string name="choose_to_delete">Select lectures</string>
     <string name="day_separator">Day <xliff:g example="2" id="day_of_congress">%1$d</xliff:g> - <xliff:g example="29.12.2014" id="date_of_congress_day">%2$s</xliff:g></string>
-    <string name="dlg_delete_all_favorites">Delete all favorites?</string>
+    <string name="dlg_delete_all_favorites">Slet alle favoritter?</string>
     <string name="dlg_delete_all_favorites_delete_all">Delete all</string>
     <string name="share_error_activity_not_found">No fitting app installed.</string>
     <!-- Build information -->
