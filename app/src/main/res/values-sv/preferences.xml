@@ -22,8 +22,8 @@
     -->
     <!-- Category general -->
     <!-- Automatic schedule updates -->
-    <string name="preference_title_auto_update_enabled">Enable automatic updates</string>
-    <string name="preference_summary_auto_update_enabled">Downloads the schedule periodically.</string>
+    <string name="preference_title_auto_update_enabled">Aktivera automatiska uppdateringar</string>
+    <string name="preference_summary_auto_update_enabled">Ladda ner schemat med jämna mellanrum.</string>
     <!-- Alarm time index -->
     <!--
     Synchronize with @strings/preference_default_value_alarm_time_value
@@ -32,8 +32,8 @@
     Synchronize with @integers/preference_default_value_alarm_time_index
     and string-array/preference_entry_values_alarm_time
     -->
-    <string name="preference_dialog_title_alarm_time">Choose a default alarm time</string>
-    <string name="preference_title_alarm_time">Choose default alarm time</string>
+    <string name="preference_dialog_title_alarm_time">Välj en standard larmtid</string>
+    <string name="preference_title_alarm_time">Välj standard larmtid</string>
     <string-array name="preference_entries_alarm_time_titles">
         <item>@string/alarm_time_title_at_start_time</item>
         <item>@string/alarm_time_title_5_minutes_before</item>
@@ -49,28 +49,28 @@
     and @integers/preference_default_value_alarm_time_index
     -->
     <!-- Alarm tone -->
-    <string name="preference_title_alarm_tone">Choose alarm tone</string>
-    <string name="preference_summary_alarm_tone">Open the sounds selection screen from here.</string>
+    <string name="preference_title_alarm_tone">Välj larmton</string>
+    <string name="preference_summary_alarm_tone">Öppna skärmen för ljudval härifrån.</string>
     <!-- Device time zone -->
-    <string name="preference_title_use_device_time_zone_enabled">Use device time zone</string>
-    <string name="preference_summary_use_device_time_zone_enabled">Displays dates and times accordingly.</string>
+    <string name="preference_title_use_device_time_zone_enabled">Använd enhetens tidszon</string>
+    <string name="preference_summary_use_device_time_zone_enabled">Visar datum och tider i enlighet med detta.</string>
     <!-- Alternative highlighting -->
-    <string name="preference_title_alternative_highlighting_enabled">Enable alternative highlighting</string>
-    <string name="preference_summary_alternative_highlighting_enabled">Adds a border around favored sessions.</string>
+    <string name="preference_title_alternative_highlighting_enabled">Aktivera alternativ markering</string>
+    <string name="preference_summary_alternative_highlighting_enabled">Lägger till en gräns runt gynnade sessioner.</string>
     <!-- Alternative schedule URL -->
-    <string name="preference_title_alternative_schedule_url">Configure alternative schedule URL</string>
-    <string name="preference_summary_alternative_schedule_url">Enter a backup URL if the preconfigured server cannot be reached.</string>
+    <string name="preference_title_alternative_schedule_url">Konfigurera en alternativ URL för schemat</string>
+    <string name="preference_summary_alternative_schedule_url">Ange en backup-URL om den förkonfigurerade servern inte kan nås.</string>
     <!-- App notification settings -->
-    <string name="preference_title_app_notification_settings">Customize notifications</string>
-    <string name="preference_summary_app_notification_settings">Open the associated system settings screen from here.</string>
+    <string name="preference_title_app_notification_settings">Anpassa meddelanden</string>
+    <string name="preference_summary_app_notification_settings">Öppna skärmen för tillhörande systeminställningar härifrån.</string>
     <!-- Insistent session alarms -->
-    <string name="preference_title_insistent_alarms_enabled">Enable insistent alarm</string>
-    <string name="preference_summary_insistent_alarms_enabled">Keeps an alarm on infinitely.</string>
+    <string name="preference_title_insistent_alarms_enabled">Aktivera insisterande larm</string>
+    <string name="preference_summary_insistent_alarms_enabled">Håller ett larm oändligt.</string>
     <!-- Category Engelsystem -->
     <string name="preference_summary_engelsystem_json_export_url"><![CDATA[För att se din pass, ange din <u>personliga</u> URL här.<br/><br/>
         1. Logga in till ditt <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g> konto.<br/>
         2. Kopiera URLen bakom <u>JSON Exporta</u> knappen på din profil sida.<br/>
         3. Klista in URLen här.<br/><br/>
         Pass före och efter huvudkonferensens dagar syns <u>inte</u>.]]></string>
-    <string name="preference_title_engelsystem_json_export_url">Configure JSON Export URL</string>
+    <string name="preference_title_engelsystem_json_export_url">Konfigurera URL för JSON-export</string>
 </resources>
