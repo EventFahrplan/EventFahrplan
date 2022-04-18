@@ -36,11 +36,11 @@
     <string name="dlg_err_failed_parse_failure">Kunde inte tolka svaret</string>
     <string name="dlg_err_failed_ssl_failure">SSL misslyckades</string>
     <string name="dlg_err_failed_http_cleartext_not_permitted">HTTP är inte tillåtet. Använd istället HTTPS.</string>
-    <string name="dlg_err_schedule_data">Schedule data error</string>
-    <string name="dlg_err_schedule_data_empty">        Nothing to display. The schedule with version \"<xliff:g example="0.99" id="version">%s</xliff:g>\"
-        does not contain any session.
+    <string name="dlg_err_schedule_data">Fel i schemadata</string>
+    <string name="dlg_err_schedule_data_empty">        Inget att visa. Schemat med version \"<xliff:g example="0.99" id="version">%s</xliff:g>\"
+        innehåller ingen session.
     </string>
-    <string name="dlg_err_schedule_data_empty_without_version">        Nothing to display. The schedule does not contain any session.
+    <string name="dlg_err_schedule_data_empty_without_version">        Inget att visa. Schemat innehåller ingen session.
     </string>
     <string name="uptodate">Schemat är uppdaterat.</string>
     <!-- Schedule changes dialog -->
@@ -166,17 +166,17 @@
     <string name="alarm_time_title_45_minutes_before">45 minuter innan</string>
     <string name="alarm_time_title_60_minutes_before">60 minuter innan</string>
     <!-- Session list item -->
-    <string name="session_list_item_alarm_time_zero_minutes_content_description">Alarm: at start time</string>
-    <string name="session_list_item_alarm_time_minutes_content_description">Alarm: <xliff:g example="5" id="minutes">%d</xliff:g> minutes before</string>
-    <string name="session_list_item_alarm_time_content_description">Alarm time: <xliff:g example="16:20" id="alarmTime">%s</xliff:g></string>
+    <string name="session_list_item_alarm_time_zero_minutes_content_description">Larm: vid starttid</string>
+    <string name="session_list_item_alarm_time_minutes_content_description">Larm: <xliff:g example="5" id="minutes">%d</xliff:g> minuter före</string>
+    <string name="session_list_item_alarm_time_content_description">Larmtid: <xliff:g example="16:20" id="alarmTime">%s</xliff:g></string>
     <string name="session_list_item_duration_text"><xliff:g example="45" id="duration">%d</xliff:g> min.</string>
-    <string name="session_list_item_duration_content_description">Duration: <xliff:g example="45" id="duration">%d</xliff:g> minutes</string>
-    <string name="session_list_item_favored_content_description">favored</string>
-    <string name="session_list_item_not_favored_content_description">not favored</string>
-    <string name="session_list_item_room_content_description">Room: <xliff:g example="Main hall" id="room">%s</xliff:g></string>
-    <string name="session_list_item_start_time_content_description">Start time: <xliff:g example="16:30" id="startTime">%s</xliff:g></string>
-    <string name="session_list_item_subtitle_content_description">Subtitle: <xliff:g example="News from Berlin" id="subtitle">%s</xliff:g></string>
-    <string name="session_list_item_track_content_description">Track: <xliff:g example="Security" id="trackName">%s</xliff:g></string>
+    <string name="session_list_item_duration_content_description">Varaktighet: <xliff:g example="45" id="duration">%d</xliff:g> minuter</string>
+    <string name="session_list_item_favored_content_description">gynnad</string>
+    <string name="session_list_item_not_favored_content_description">inte gynnad</string>
+    <string name="session_list_item_room_content_description">Rum: <xliff:g example="Main hall" id="room">%s</xliff:g></string>
+    <string name="session_list_item_start_time_content_description">Starttid: <xliff:g example="16:30" id="startTime">%s</xliff:g></string>
+    <string name="session_list_item_subtitle_content_description">Undertitel: <xliff:g example="News from Berlin" id="subtitle">%s</xliff:g></string>
+    <string name="session_list_item_track_content_description">Spåra: <xliff:g example="Security" id="trackName">%s</xliff:g></string>
     <string name="session_list_item_language_content_description">Språk: <xliff:g example="English" id="language">%s</xliff:g></string>
     <string name="session_list_item_language_portuguese_content_description">Portugisiska</string>
     <string name="session_list_item_language_german_content_description">Tyska</string>
@@ -187,8 +187,8 @@
     <string name="session_list_item_video_content_description">Med videoinspelning</string>
     <string name="session_list_item_without_video_content_description">Utan videoinspelning</string>
     <plurals name="session_list_item_speakers_content_description">
-        <item quantity="one">Speaker: <xliff:g example="Jane Doe" id="name">%s</xliff:g></item>
-        <item quantity="other">Speakers: <xliff:g example="Jane Doe, John Doe" id="names">%s</xliff:g></item>
+        <item quantity="one">Högtalare: <xliff:g example="Jane Doe" id="name">%s</xliff:g></item>
+        <item quantity="other">Högtalare: <xliff:g example="Jane Doe, John Doe" id="names">%s</xliff:g></item>
     </plurals>
     <!-- Validation errors -->
     <string name="validation_error_invalid_url">        Ogiltlig <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL.
