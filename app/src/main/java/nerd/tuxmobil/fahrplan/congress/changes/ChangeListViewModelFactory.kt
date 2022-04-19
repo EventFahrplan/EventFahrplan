@@ -12,7 +12,7 @@ class ChangeListViewModelFactory(
 
 ) : ViewModelProvider.Factory {
 
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
         val logging = Logging.get()
         @Suppress("UNCHECKED_CAST")
         return ChangeListViewModel(

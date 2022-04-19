@@ -4,6 +4,7 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import info.metadude.android.eventfahrplan.commons.logging.Logging
 
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.MyApp
@@ -12,6 +13,7 @@ import nerd.tuxmobil.fahrplan.congress.alarms.AlarmUpdater
 import nerd.tuxmobil.fahrplan.congress.extensions.getAlarmManager
 import nerd.tuxmobil.fahrplan.congress.models.DateInfo
 import nerd.tuxmobil.fahrplan.congress.models.DateInfos
+import nerd.tuxmobil.fahrplan.congress.utils.PendingIntentCompat.FLAG_IMMUTABLE
 
 
 object FahrplanMisc {
@@ -29,31 +31,30 @@ object FahrplanMisc {
                 infos.add(dateInfo)
             }
         }
-        for (dateInfo in infos) {
-            MyApp.LogDebug(LOG_TAG, "DateInfo: $dateInfo")
-        }
         return infos
     }
 
     @JvmStatic
-    fun setUpdateAlarm(context: Context, isInitial: Boolean): Long {
+    fun setUpdateAlarm(context: Context, isInitial: Boolean, logging: Logging): Long {
         val alarmManager = context.getAlarmManager()
         val alarmIntent = Intent(context, AlarmReceiver::class.java)
             .apply { action = AlarmReceiver.ALARM_UPDATE }
-        val pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent, 0)
+        val pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent, FLAG_IMMUTABLE)
 
-        MyApp.LogDebug(LOG_TAG, "set update alarm")
+        logging.d(LOG_TAG, "set update alarm")
         val now = Moment.now().toMilliseconds()
 
         return AlarmUpdater(MyApp.conferenceTimeFrame, object : AlarmUpdater.OnAlarmUpdateListener {
 
             override fun onCancelUpdateAlarm() {
-                MyApp.LogDebug(LOG_TAG, "Canceling alarm.")
+                logging.d(LOG_TAG, "Canceling alarm.")
                 alarmManager.cancel(pendingIntent)
             }
 
             override fun onScheduleUpdateAlarm(interval: Long, nextFetch: Long) {
-                MyApp.LogDebug(LOG_TAG, "Scheduling update alarm to interval $interval, next in ~${nextFetch - now}")
+                logging.d(LOG_TAG, "Scheduling update alarm to interval $interval, next in ~${nextFetch - now}")
+                // Redesign might be needed as of Android 12 (API level 31)
+                // See https://developer.android.com/training/scheduling/alarms
                 alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, nextFetch, interval, pendingIntent)
             }
 

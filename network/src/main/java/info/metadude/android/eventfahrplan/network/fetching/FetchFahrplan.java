@@ -2,8 +2,8 @@ package info.metadude.android.eventfahrplan.network.fetching;
 
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.text.TextUtils;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,7 +14,9 @@ import java.net.UnknownHostException;
 import java.net.UnknownServiceException;
 
 import javax.net.ssl.SSLException;
+import javax.net.ssl.SSLHandshakeException;
 
+import info.metadude.android.eventfahrplan.commons.logging.Logging;
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -27,17 +29,21 @@ public class FetchFahrplan {
         void onGotResponse(@NonNull FetchScheduleResult fetchScheduleResult);
     }
 
+    @NonNull
+    private final Logging logging;
+
     @Nullable
     private FetchFahrplanTask task;
 
     private OnDownloadCompleteListener listener;
 
-    public FetchFahrplan() {
+    public FetchFahrplan(@NonNull Logging logging) {
+        this.logging = logging;
         task = null;
     }
 
     public void fetch(@NonNull OkHttpClient okHttpClient, String url, String eTag) {
-        task = new FetchFahrplanTask(okHttpClient, this.listener);
+        task = new FetchFahrplanTask(okHttpClient, logging, this.listener);
         task.execute(url, eTag);
     }
 
@@ -61,6 +67,9 @@ class FetchFahrplanTask extends AsyncTask<String, Void, HttpStatus> {
 
     private final OkHttpClient okHttpClient;
 
+    @NonNull
+    private final Logging logging;
+
     private String responseStr;
 
     @NonNull
@@ -80,8 +89,13 @@ class FetchFahrplanTask extends AsyncTask<String, Void, HttpStatus> {
     @NonNull
     private String exceptionMessage = "";
 
-    FetchFahrplanTask(@NonNull OkHttpClient okHttpClient, FetchFahrplan.OnDownloadCompleteListener listener) {
+    FetchFahrplanTask(
+            @NonNull OkHttpClient okHttpClient,
+            @NonNull Logging logging,
+            FetchFahrplan.OnDownloadCompleteListener listener
+    ) {
         this.okHttpClient = okHttpClient;
+        this.logging = logging;
         this.listener = listener;
         this.completed = false;
     }
@@ -109,7 +123,7 @@ class FetchFahrplanTask extends AsyncTask<String, Void, HttpStatus> {
     }
 
     protected void onCancelled() {
-        Log.d(LOG_TAG, "fetch cancelled");
+        logging.d(LOG_TAG, "Fetch cancelled");
     }
 
     protected void onPostExecute(HttpStatus status) {
@@ -123,18 +137,18 @@ class FetchFahrplanTask extends AsyncTask<String, Void, HttpStatus> {
 
     private void notifyActivity() {
         if (status == HttpStatus.HTTP_OK) {
-            Log.d(LOG_TAG, "fetch done successfully");
+            logging.d(LOG_TAG, "Fetch done successfully");
             listener.onGotResponse(new FetchScheduleResult(status, responseStr, eTagStr, host, exceptionMessage));
         } else {
-            Log.d(LOG_TAG, "fetch failed");
+            logging.d(LOG_TAG, "Fetch failed");
             listener.onGotResponse(new FetchScheduleResult(status, EMPTY_RESPONSE_STRING, eTagStr, host, exceptionMessage));
         }
         completed = false; // notify only once
     }
 
     private HttpStatus fetch(String url, String eTag) {
-        Log.d("Fetch", url);
-        Log.d("Fetch", "ETag: " + eTag);
+        logging.d(LOG_TAG, url);
+        logging.d(LOG_TAG, "ETag: '" + eTag + "'");
         Request.Builder requestBuilder = new Request.Builder()
                 .url(url);
 
@@ -148,6 +162,7 @@ class FetchFahrplanTask extends AsyncTask<String, Void, HttpStatus> {
             response = call.execute();
         } catch (SSLException e) {
             setExceptionMessage(e);
+            customizeExceptionMessage(e);
             e.printStackTrace();
             return HttpStatus.HTTP_LOGIN_FAIL_UNTRUSTED_CERTIFICATE;
         } catch (SocketTimeoutException e) {
@@ -169,8 +184,7 @@ class FetchFahrplanTask extends AsyncTask<String, Void, HttpStatus> {
         }
 
         if (statusCode != 200) {
-            Log.w("Fetch", "Error " + statusCode
-                    + " while retrieving XML data");
+            logging.e(LOG_TAG, "Error " + statusCode + " while retrieving XML data");
             if (statusCode == 401) {
                 return HttpStatus.HTTP_WRONG_HTTP_CREDENTIALS;
             }
@@ -184,9 +198,9 @@ class FetchFahrplanTask extends AsyncTask<String, Void, HttpStatus> {
         eTagStr = response.header("ETag");
         eTagStr = eTagStr == null ? "" : eTagStr;
         if (!eTagStr.isEmpty()) {
-            Log.d(LOG_TAG, "ETag: " + eTagStr);
+            logging.d(LOG_TAG, "ETag: '" + eTagStr + "'");
         } else {
-            Log.d(LOG_TAG, "ETag missing?");
+            logging.d(LOG_TAG, "ETag missing?");
         }
 
         try {
@@ -219,5 +233,13 @@ class FetchFahrplanTask extends AsyncTask<String, Void, HttpStatus> {
         }
     }
 
+    private void customizeExceptionMessage(@NonNull SSLException exception) {
+        if (exception instanceof SSLHandshakeException && Build.VERSION.SDK_INT == Build.VERSION_CODES.N) {
+            // See https://github.com/EventFahrplan/EventFahrplan/issues/431
+            exceptionMessage += "\n\nPlease note that server certificates using elliptic curves " +
+                    "with a length > 256 bits are not supported on Android 7.0. This might cause " +
+                    "this error.";
+        }
+    }
 
 }

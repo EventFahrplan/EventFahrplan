@@ -17,6 +17,7 @@ import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceScreen
 import androidx.preference.SwitchPreferenceCompat
+import info.metadude.android.eventfahrplan.commons.logging.Logging
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -42,6 +43,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     private val job = Job()
     private val coroutineScope = CoroutineScope(Dispatchers.Default + job)
+    private val logging = Logging.get()
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         addPreferencesFromResource(R.xml.prefs)
@@ -55,7 +57,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         requirePreference<ListPreference>(resources.getString(R.string.preference_key_schedule_refresh_interval_index)).onPreferenceChangeListener = OnPreferenceChangeListener { _, _ ->
             coroutineScope.launch {
                 delay(100) // Workaround because preference is written asynchronous.
-                FahrplanMisc.setUpdateAlarm(requireContext(), true)
+                FahrplanMisc.setUpdateAlarm(requireContext(), true, logging)
             }
             true
         }
@@ -68,11 +70,9 @@ class SettingsFragment : PreferenceFragmentCompat() {
         requirePreference<SwitchPreferenceCompat>(resources.getString(R.string.preference_key_auto_update_enabled)).onPreferenceChangeListener = OnPreferenceChangeListener { _: Preference?, newValue: Any ->
             val isAutoUpdateEnabled = newValue as Boolean
             if (isAutoUpdateEnabled) {
-                FahrplanMisc.setUpdateAlarm(requireContext(), true)
+                FahrplanMisc.setUpdateAlarm(requireContext(), true, logging)
             } else {
-                with(requireActivity()) {
-                    AlarmServices.newInstance(requireContext(), AppRepository).discardAutoUpdateAlarm()
-                }
+                AlarmServices.newInstance(requireContext(), AppRepository).discardAutoUpdateAlarm()
             }
             true
         }
@@ -99,7 +99,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 true
             }
             alternativeScheduleUrlPreference.summaryProvider = SummaryProvider<EditTextPreference> {
-                when (it.text.isEmpty()) {
+                when (it.text.isNullOrEmpty()) {
                     true -> getString(R.string.preference_summary_alternative_schedule_url)
                     false -> it.text
                 }
@@ -117,9 +117,9 @@ class SettingsFragment : PreferenceFragmentCompat() {
         if (BuildConfig.ENABLE_ENGELSYSTEM_SHIFTS) {
             val urlPreference = requirePreference<EditTextPreference>(getString(R.string.preference_key_engelsystem_json_export_url))
             urlPreference.summaryProvider = SummaryProvider<EditTextPreference> {
-                when (it.text.isEmpty()) {
+                when (it.text.isNullOrEmpty()) {
                     true -> getString(R.string.preference_summary_engelsystem_json_export_url).toSpanned()
-                    false -> "${it.text.dropLast(23)}..." // Truncate to keep the key private.
+                    false -> "${it.text!!.dropLast(23)}..." // Truncate to keep the key private.
                 }
             }
             urlPreference.onPreferenceChangeListener = OnPreferenceChangeListener { _: Preference?, _: Any? ->

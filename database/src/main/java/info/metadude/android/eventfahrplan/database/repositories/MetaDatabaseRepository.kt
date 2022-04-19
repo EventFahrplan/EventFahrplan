@@ -2,7 +2,6 @@ package info.metadude.android.eventfahrplan.database.repositories
 
 import android.content.ContentValues
 import android.database.sqlite.SQLiteException
-import android.util.Log
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.ETAG
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.NUM_DAYS
@@ -58,8 +57,6 @@ class MetaDatabaseRepository(
                 Meta()
             }
         }
-
-        Log.d(javaClass.simpleName, "query(): $meta")
 
         return meta
     }

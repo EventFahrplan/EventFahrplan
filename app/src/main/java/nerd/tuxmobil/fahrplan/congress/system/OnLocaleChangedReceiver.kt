@@ -3,7 +3,6 @@ package nerd.tuxmobil.fahrplan.congress.system
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper
 
 /**
@@ -16,7 +15,6 @@ class OnLocaleChangedReceiver : BroadcastReceiver() {
         if (action != Intent.ACTION_LOCALE_CHANGED) {
             return
         }
-        Log.d(javaClass.simpleName, "onReceive (locale changed)")
 
         val notificationHelper = NotificationHelper(context)
         notificationHelper.createChannels()

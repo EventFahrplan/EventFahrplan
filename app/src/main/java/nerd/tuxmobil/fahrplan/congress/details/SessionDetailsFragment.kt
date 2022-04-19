@@ -27,7 +27,6 @@ import androidx.fragment.app.viewModels
 import io.noties.markwon.Markwon
 import io.noties.markwon.linkify.LinkifyPlugin
 import nerd.tuxmobil.fahrplan.congress.BuildConfig
-import nerd.tuxmobil.fahrplan.congress.MyApp
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmTimePickerFragment
@@ -50,9 +49,8 @@ class SessionDetailsFragment : Fragment() {
 
     companion object {
 
-        private const val LOG_TAG = "SessionDetailsFragment"
         const val FRAGMENT_TAG = "detail"
-        const val SESSION_DETAILS_FRAGMENT_REQUEST_CODE = 546
+        private const val SESSION_DETAILS_FRAGMENT_REQUEST_KEY = "SESSION_DETAILS_FRAGMENT_REQUEST_KEY"
         private const val SCHEDULE_FEEDBACK_URL = BuildConfig.SCHEDULE_FEEDBACK_URL
         private val SHOW_FEEDBACK_MENU_ITEM = !TextUtils.isEmpty(SCHEDULE_FEEDBACK_URL)
 
@@ -161,7 +159,14 @@ class SessionDetailsFragment : Fragment() {
             CalendarSharing(requireContext()).addToCalendar(session)
         }
         viewModel.setAlarm.observe(viewLifecycleOwner) {
-            AlarmTimePickerFragment.show(this, SESSION_DETAILS_FRAGMENT_REQUEST_CODE)
+            AlarmTimePickerFragment.show(this, SESSION_DETAILS_FRAGMENT_REQUEST_KEY) { requestKey, result ->
+                if (requestKey == SESSION_DETAILS_FRAGMENT_REQUEST_KEY &&
+                    result.containsKey(AlarmTimePickerFragment.ALARM_TIMES_INDEX_BUNDLE_KEY)
+                ) {
+                    val alarmTimesIndex = result.getInt(AlarmTimePickerFragment.ALARM_TIMES_INDEX_BUNDLE_KEY)
+                    viewModel.addAlarm(alarmTimesIndex)
+                }
+            }
         }
         viewModel.navigateToRoom.observe(viewLifecycleOwner) { uri ->
             startActivity(Intent(Intent.ACTION_VIEW, uri))
@@ -248,7 +253,6 @@ class SessionDetailsFragment : Fragment() {
         if (model.hasLinks) {
             typeface = typefaceFactory.getTypeface(viewModel.linksSectionFont)
             linksView.typeface = typeface
-            MyApp.LogDebug(LOG_TAG, "show links")
             linksView.isVisible = true
             typeface = typefaceFactory.getTypeface(viewModel.linksFont)
             textView.applyHtml(typeface, model.formattedLinks)
@@ -330,17 +334,6 @@ class SessionDetailsFragment : Fragment() {
             menu.findItem(R.id.menu_item_share_session)
         }
         item?.let { it.isVisible = true }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == SESSION_DETAILS_FRAGMENT_REQUEST_CODE &&
-                resultCode == AlarmTimePickerFragment.ALERT_TIME_PICKED_RESULT_CODE &&
-                data != null
-        ) {
-            val alarmTimesIndex = data.getIntExtra(AlarmTimePickerFragment.ALARM_PICKED_INTENT_KEY, 0)
-            viewModel.addAlarm(alarmTimesIndex)
-        }
-        super.onActivityResult(requestCode, resultCode, data)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

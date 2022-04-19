@@ -18,6 +18,7 @@ This list is for your preparation. Step 3 guides you through where to fill in th
 - Social media hashtags/handles (can be empty), e.g. `#36c3 @ccc`
 - Schedule feedback URL template (optional), e.g. `https://awesome-event.com/2021/events/%s/feedback/new`
 - Engelsystem URL (optional), e.g. `https://engelsystem.de/awesome-event/shifts-json-export?key=YOUR_KEY`
+- Name/s of the author/s of the logo(s), website URL/s optionally
 
 ## 2. Required graphic assets and colors
 
@@ -61,13 +62,14 @@ In some of the steps it is the easiest to copy and adapt configuration settings,
 5. Enable showing the app disclaimer via `SHOW_APP_DISCLAIMER` to acknowledge its origin
 6. Add a new signing config in *app/gradle.properties*
 7. Customize texts for the languages which you want to offer (`values/strings.xml`, `values-de/strings.xml`, ...)
-8. Add track resource names in *res/xml/track_resource_names.xml*
-9. Customize track colors in *res/values/colors_congress.xml*
-10. Customize app colors in *res/values/colors.xml*
-11. Add a launcher icon in different resolutions as *res/mipmap-[...]/ic_launcher.png*
-12. Add a notification icon in different resolutions as *res/drawable-[...]/ic_notification.png*
-13. Add an about dialog logo as *res/drawable/dialog_logo.xml*
-14. Customize bell and video recording icons in *res/drawable/* (optional)
+8. Add the name/s (and website/s) of the authors of the logo(s) in *copyright_logo*
+9. Add track resource names in *res/xml/track_resource_names.xml*
+10. Customize track colors in *res/values/colors_congress.xml*
+11. Customize app colors in *res/values/colors.xml*
+12. Add a launcher icon in different resolutions as *res/mipmap-[...]/ic_launcher.png*
+13. Add a notification icon in different resolutions as *res/drawable-[...]/ic_notification.png*
+14. Add an about dialog logo as *res/drawable/dialog_logo.xml*
+15. Customize bell and video recording icons in *res/drawable/* (optional)
 
 ## 4. Optional customization
 

@@ -7,7 +7,6 @@ import android.os.Bundle
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.commit
-import nerd.tuxmobil.fahrplan.congress.MyApp
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.base.BaseActivity
 
@@ -15,7 +14,6 @@ class SettingsActivity : BaseActivity(R.layout.settings) {
 
     companion object {
 
-        private const val LOG_TAG = "SettingsActivity"
         const val REQUEST_CODE = 5
 
         fun startForResult(activity: Activity) {
@@ -36,7 +34,6 @@ class SettingsActivity : BaseActivity(R.layout.settings) {
             supportFragmentManager.commit {
                 add(R.id.container, SettingsFragment())
             }
-            MyApp.LogDebug(LOG_TAG, "onCreate fragment created")
         }
     }
 

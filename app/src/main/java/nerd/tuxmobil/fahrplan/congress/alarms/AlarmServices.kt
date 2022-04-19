@@ -16,6 +16,7 @@ import nerd.tuxmobil.fahrplan.congress.models.Alarm
 import nerd.tuxmobil.fahrplan.congress.models.SchedulableAlarm
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
+import nerd.tuxmobil.fahrplan.congress.utils.PendingIntentCompat.FLAG_IMMUTABLE
 import org.threeten.bp.ZoneOffset
 
 /**
@@ -72,11 +73,10 @@ class AlarmServices @VisibleForTesting constructor(
     private object PendingIntentProvider : PendingIntentDelegate {
 
         const val DEFAULT_REQUEST_CODE = 0
-        const val NO_FLAGS = 0
 
         @SuppressLint("WrongConstant")
         override fun onPendingIntentBroadcast(context: Context, intent: Intent): PendingIntent {
-            return PendingIntent.getBroadcast(context, DEFAULT_REQUEST_CODE, intent, NO_FLAGS)
+            return PendingIntent.getBroadcast(context, DEFAULT_REQUEST_CODE, intent, FLAG_IMMUTABLE)
         }
     }
 
@@ -162,6 +162,8 @@ class AlarmServices @VisibleForTesting constructor(
         if (discardExisting) {
             alarmManager.cancel(pendingIntent)
         }
+        // Redesign might be needed as of Android 12 (API level 31)
+        // See https://developer.android.com/training/scheduling/alarms
         alarmManager.set(AlarmManager.RTC_WAKEUP, alarm.startTime, pendingIntent)
     }
 

@@ -8,6 +8,7 @@ apply plugin: "com.android.application"
 apply plugin: "kotlin-android"
 apply plugin: "com.google.devtools.ksp"
 apply plugin: "de.mobilej.unmock"
+apply plugin: "com.getkeepsafe.dexcount"
 apply from: "../gradle/sonarqube.gradle"
 
 android {
@@ -20,6 +21,7 @@ android {
         minSdk Android.minSdkVersion
         targetSdk Android.targetSdkVersion
         archivesBaseName = "Fahrplan-$versionName"
+        multiDexEnabled true
 
         vectorDrawables.useSupportLibrary = true
 
@@ -64,7 +66,6 @@ android {
         cccamp2019
         ccc36c3
         rc3
-        glt22
     }
 
     def defaultDimension = "default"
@@ -142,32 +143,6 @@ android {
             buildConfigField "String", "TRACE_DROID_EMAIL_ADDRESS", '"tobias.preuss+rc3@googlemail.com"'
             buildConfigField "String", "SCHEDULE_FEEDBACK_URL", '"https://frab.cccv.de/en/rc3/public/events/%s/feedback/new"'
         }
-        glt22 {
-            dimension defaultDimension
-            applicationId "at.linuxtage.companion"
-            versionName "${defaultConfig.versionName}-glt-Edition"
-            buildConfigField "String", "GOOGLE_PLAY_URL", '"https://play.google.com/store/apps/details?id=at.linuxtage.companion"'
-            buildConfigField "String", "F_DROID_URL", '"https://f-droid.org/packages/at.linuxtage.companion/"'
-            buildConfigField "String", "SCHEDULE_URL", '"https://pretalx.linuxtage.at/glt22/schedule/export/schedule.xml"'
-            buildConfigField "String", "EVENT_URL", '""'
-            buildConfigField "String", "EVENT_WEBSITE_URL", '"https://www.linuxtage.at"'
-            buildConfigField "String", "SERVER_BACKEND_TYPE", '"pretalx"'
-            buildConfigField "int", "SCHEDULE_FIRST_DAY_START_YEAR", "2022"
-            buildConfigField "int", "SCHEDULE_FIRST_DAY_START_MONTH", "4"
-            buildConfigField "int", "SCHEDULE_FIRST_DAY_START_DAY", "22"
-            buildConfigField "int", "SCHEDULE_LAST_DAY_END_YEAR", "2022"
-            buildConfigField "int", "SCHEDULE_LAST_DAY_END_MONTH", "4"
-            buildConfigField "int", "SCHEDULE_LAST_DAY_END_DAY", "23"
-            buildConfigField "boolean", "SHOW_APP_DISCLAIMER", "true"
-            buildConfigField "boolean", "ENGAGE_C3NAV_APP_INSTALLATION", "false"
-            buildConfigField "boolean", "ENGAGE_GOOGLE_BETA_TESTING", "true"
-            buildConfigField "boolean", "ENGAGE_GOOGLE_PLAY_RATING", "true"
-            buildConfigField "boolean", "ENABLE_ENGELSYSTEM_SHIFTS", "true"
-            resValue("string", "preference_hint_engelsystem_json_export_url", '"https://engel.linuxtage.at/shifts-json-export?key=YOUR_KEY"')
-            buildConfigField "String", "SOCIAL_MEDIA_HASHTAGS_HANDLES", '"#glt @linuxtage"'
-            buildConfigField "String", "TRACE_DROID_EMAIL_ADDRESS", '""'
-            buildConfigField "String", "SCHEDULE_FEEDBACK_URL", '""'
-        }
     }
 
     productFlavors.all { flavor ->
@@ -222,12 +197,13 @@ dependencies {
     implementation Libs.emailIntentBuilder
     implementation Libs.kotlinCoroutinesAndroid
     implementation Libs.kotlinCoroutinesCore
-    implementation Libs.liveDataKtx
+    implementation Libs.lifecycleLiveData
     implementation Libs.markwonCore
     implementation Libs.markwonLinkify
     implementation Libs.material
     implementation Libs.moshi
     ksp Libs.moshiCodeGen
+    implementation Libs.multiDex
     implementation Libs.okhttp
     implementation Libs.okhttpLoggingInterceptor
     implementation Libs.preference

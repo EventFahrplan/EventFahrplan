@@ -4,7 +4,7 @@ import android.content.ContentValues
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteException
-import android.util.Log
+import info.metadude.android.eventfahrplan.commons.logging.Logging
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.DAY
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.ID
@@ -24,9 +24,14 @@ import info.metadude.android.eventfahrplan.database.sqliteopenhelper.AlarmsDBOpe
 
 class AlarmsDatabaseRepository(
 
-        private val sqLiteOpenHelper: AlarmsDBOpenHelper
+        private val sqLiteOpenHelper: AlarmsDBOpenHelper,
+        private val logging: Logging
 
 ) {
+
+    private companion object {
+        const val LOG_TAG = "AlarmsDatabaseRepository"
+    }
 
     fun update(values: ContentValues, sessionId: String) = with(sqLiteOpenHelper) {
         writableDatabase.upsert({
@@ -51,7 +56,7 @@ class AlarmsDatabaseRepository(
             database.query()
         } catch (e: SQLiteException) {
             e.printStackTrace()
-            Log.e(javaClass.simpleName, "Failure on alarm query.")
+            logging.e(LOG_TAG, "Failure on alarm query.")
             return emptyList()
         }
 
@@ -66,7 +71,7 @@ class AlarmsDatabaseRepository(
         }
 
         if (alarms.isEmpty()) {
-            Log.d(javaClass.simpleName, "No alarms found.")
+            logging.d(LOG_TAG, "No alarms found.")
         }
 
         return alarms

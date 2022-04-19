@@ -1,8 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress
 
-import android.app.Application
-import android.util.Log
 import androidx.annotation.CallSuper
+import androidx.multidex.MultiDexApplication
 import info.metadude.android.eventfahrplan.commons.logging.Logging
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.utils.ConferenceTimeFrame
@@ -11,15 +10,13 @@ import java.util.Calendar
 import java.util.GregorianCalendar
 import java.util.TimeZone
 
-class MyApp : Application() {
+class MyApp : MultiDexApplication() {
 
     enum class TASKS {
         NONE, FETCH, PARSE
     }
 
     companion object {
-
-        private const val DEBUG = false
 
         private val FIRST_DAY_START = getMilliseconds(
             "Europe/Paris",
@@ -49,12 +46,6 @@ class MyApp : Application() {
         @JvmField
         var taskRunning = TASKS.NONE
 
-        @JvmStatic
-        fun LogDebug(tag: String, message: String) {
-            if (DEBUG) {
-                Log.d(tag, message)
-            }
-        }
     }
 
     @CallSuper

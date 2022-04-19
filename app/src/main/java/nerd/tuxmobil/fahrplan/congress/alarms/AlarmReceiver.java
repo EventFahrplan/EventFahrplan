@@ -1,5 +1,8 @@
 package nerd.tuxmobil.fahrplan.congress.alarms;
 
+import static android.app.PendingIntent.FLAG_ONE_SHOT;
+import static nerd.tuxmobil.fahrplan.congress.utils.PendingIntentCompat.FLAG_IMMUTABLE;
+
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -9,9 +12,7 @@ import android.net.Uri;
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 
-import org.ligi.tracedroid.logging.Log;
-
-import nerd.tuxmobil.fahrplan.congress.MyApp;
+import info.metadude.android.eventfahrplan.commons.logging.Logging;
 import nerd.tuxmobil.fahrplan.congress.autoupdate.UpdateService;
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys;
 import nerd.tuxmobil.fahrplan.congress.exceptions.BuilderException;
@@ -34,18 +35,18 @@ public final class AlarmReceiver extends BroadcastReceiver {
     private static final String BUNDLE_KEY_NOTIFICATION_ID = "BUNDLE_KEY_NOTIFICATION_ID";
     private static final int INVALID_NOTIFICATION_ID = -1;
     private static final int DEFAULT_REQUEST_CODE = 0;
-    private static final int NO_FLAGS = 0;
 
     private final AppRepository appRepository = AppRepository.INSTANCE;
+    private final Logging logging = Logging.get();
 
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        MyApp.LogDebug(LOG_TAG, "Received alarm = " + intent.getAction() + ".");
+        logging.d(LOG_TAG, "Received alarm = " + intent.getAction() + ".");
 
         if (ALARM_SESSION.equals(intent.getAction())) {
             String sessionId = intent.getStringExtra(BundleKeys.ALARM_SESSION_ID);
-            Log.d(LOG_TAG, "sessionId = " + sessionId + ", intent = " + intent);
+            logging.report(LOG_TAG, "sessionId = " + sessionId + ", intent = " + intent);
             int day = intent.getIntExtra(BundleKeys.ALARM_DAY, 1);
             long when = intent
                     .getLongExtra(BundleKeys.ALARM_START_TIME, System.currentTimeMillis());
@@ -55,19 +56,18 @@ public final class AlarmReceiver extends BroadcastReceiver {
             int uniqueNotificationId = appRepository.createSessionAlarmNotificationId(sessionId);
             Intent launchIntent = MainActivity.createLaunchIntent(context, sessionId, day, uniqueNotificationId);
             PendingIntent contentIntent = PendingIntent
-                    .getActivity(context, DEFAULT_REQUEST_CODE, launchIntent, PendingIntent.FLAG_ONE_SHOT);
+                    .getActivity(context, DEFAULT_REQUEST_CODE, launchIntent, FLAG_ONE_SHOT | FLAG_IMMUTABLE);
 
             NotificationHelper notificationHelper = new NotificationHelper(context);
             Uri soundUri = appRepository.readAlarmToneUri();
 
             Intent deleteNotificationIntent = createDeleteNotificationIntent(context, uniqueNotificationId);
             PendingIntent deleteBroadcastIntent = PendingIntent
-                    .getBroadcast(context, DEFAULT_REQUEST_CODE, deleteNotificationIntent, NO_FLAGS);
+                    .getBroadcast(context, DEFAULT_REQUEST_CODE, deleteNotificationIntent, FLAG_IMMUTABLE);
 
             NotificationCompat.Builder builder = notificationHelper.getSessionAlarmNotificationBuilder(
                     contentIntent, title, when, soundUri, deleteBroadcastIntent);
             boolean isInsistentAlarmsEnabled = appRepository.readInsistentAlarmsEnabled();
-            MyApp.LogDebug(LOG_TAG, "Preference 'isInsistentAlarmsEnabled' = " + isInsistentAlarmsEnabled + ".");
             notificationHelper.notify(uniqueNotificationId, builder, isInsistentAlarmsEnabled);
 
             appRepository.deleteAlarmForSessionId(sessionId);

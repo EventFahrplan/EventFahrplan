@@ -6,13 +6,14 @@ apply plugin: "kotlin"
 
 dependencies {
     api Libs.engelsystem
-    implementation Libs.kotlinCoroutinesCore
     implementation(Libs.retrofit) {
         // See: https://github.com/square/okhttp/issues/5030
         exclude group: "com.squareup.okio", module: "okio"
     }
 
     testImplementation Libs.junit
+    testImplementation Libs.kotlinCoroutinesTest
+    testImplementation Libs.mockitoKotlin
     testImplementation Libs.okhttpMockWebServer
     testImplementation Libs.retrofitConverterMoshi
     testImplementation Libs.truth
@@ -24,5 +25,8 @@ targetCompatibility = Config.compatibleJavaVersion
 compileKotlin {
     kotlinOptions {
         jvmTarget = Config.compatibleJavaVersion
+        freeCompilerArgs += [
+                "-Xopt-in=kotlin.RequiresOptIn"
+        ]
     }
 }

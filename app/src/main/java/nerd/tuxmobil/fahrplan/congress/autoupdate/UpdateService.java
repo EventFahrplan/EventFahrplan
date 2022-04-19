@@ -1,5 +1,8 @@
 package nerd.tuxmobil.fahrplan.congress.autoupdate;
 
+import static android.app.PendingIntent.FLAG_ONE_SHOT;
+import static nerd.tuxmobil.fahrplan.congress.utils.PendingIntentCompat.FLAG_IMMUTABLE;
+
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -59,7 +62,7 @@ public class UpdateService extends SafeJobIntentService {
         notificationIntent.setFlags(
                 Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
         PendingIntent contentIntent = PendingIntent
-                .getActivity(this, 0, notificationIntent, PendingIntent.FLAG_ONE_SHOT);
+                .getActivity(this, 0, notificationIntent, FLAG_ONE_SHOT | FLAG_IMMUTABLE);
 
         String contentText;
         if (TextUtils.isEmpty(version)) {
@@ -141,7 +144,7 @@ public class UpdateService extends SafeJobIntentService {
     }
 
     private void fetchSchedule() {
-        FahrplanMisc.setUpdateAlarm(this, false);
+        FahrplanMisc.setUpdateAlarm(this, false, logging);
         fetchFahrplan();
     }
 
