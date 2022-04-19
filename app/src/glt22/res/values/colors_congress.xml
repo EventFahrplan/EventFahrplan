@@ -23,17 +23,18 @@
     <!-- Highlight state -->
     <color name="track_background_highlight">#8c8c8c</color>
     <color name="track_background_highlight_art_culture">#e08241</color>
-    <color name="track_background_highlight_ccc">#c2b519</color>
+    <color name="track_background_highlight_community">#c2b519</color>
     <color name="track_background_highlight_engelshifts">#9F5E45</color>
-    <color name="track_background_highlight_entertainment">#57b73a</color>
-    <color name="track_background_highlight_ethics_society_politics">#3caea5</color>
-    <color name="track_background_highlight_hardware_making">#3fafd8</color>
+    <color name="track_background_highlight_open_hardware">#57b73a</color>
+    <color name="track_background_highlight_open_data">#3caea5</color>
+    <color name="track_background_highlight_entwicklung">#3fafd8</color>
     <color name="track_background_highlight_lightning_talks">#B1C219</color>
     <color name="track_background_highlight_music">#708C8C</color>
-    <color name="track_background_highlight_queer">#B83E78</color>
+    <color name="track_background_highlight_sicherheit">#B83E78</color>
     <color name="track_background_highlight_resilience">#8194e6</color>
     <color name="track_background_highlight_science">#cf87d9</color>
-    <color name="track_background_highlight_security">#de697e</color>
-    <color name="track_background_highlight_self_organized_sessions">#4174ff</color>
+    <color name="track_background_highlight_admin">#de697e</color>
+    <color name="track_background_highlight_anwendung">#4174ff</color>
+    <color name="track_background_highlight_keynote">#2B2929</color>
 
 </resources>
