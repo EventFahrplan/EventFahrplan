@@ -119,19 +119,7 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
     }
 
     public void scrollToColumn(int col, boolean fast) {
-        int max;
-        if (horizontalSnapScrollState.getColumnWidth() == 0) {
-            max = 0;
-        } else {
-            max = (getChildAt(0).getMeasuredWidth() - horizontalSnapScrollState.getColumnWidth()) / horizontalSnapScrollState.getColumnWidth();
-        }
-        if (col < 0) {
-            col = 0;
-        }
-        if (col > max) {
-            col = max;
-        }
-        final int scrollTo = col * horizontalSnapScrollState.getColumnWidth();
+        final int scrollTo = horizontalSnapScrollState.calculateScrollToXPosition(getChildAt(0).getMeasuredWidth(), col);
         logging.d(LOG_TAG, "scroll to col " + col + "/" + scrollTo + " " + getChildAt(0).getMeasuredWidth());
         if (!fast) {
             this.post(() -> smoothScrollTo(scrollTo, 0));

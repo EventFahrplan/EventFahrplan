@@ -78,4 +78,22 @@ data class HorizontalSnapScrollState @JvmOverloads constructor(
         return columnIndex
     }
 
+    /**
+     * Returns the horizontal position calculated based on the given [measuredWidth] and
+     * [columnIndex] as well as the current value of [columnWidth].
+     */
+    fun calculateScrollToXPosition(measuredWidth: Int, columnIndex: Int): Int {
+        val maxColumnIndex = if (columnWidth == 0) {
+            0
+        } else {
+            (measuredWidth - columnWidth) / columnWidth
+        }
+        val constraintColumnIndex = when {
+            columnIndex < 0 -> 0
+            columnIndex > maxColumnIndex -> maxColumnIndex
+            else -> columnIndex
+        }
+        return constraintColumnIndex * columnWidth
+    }
+
 }
