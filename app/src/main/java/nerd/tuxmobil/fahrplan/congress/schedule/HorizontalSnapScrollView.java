@@ -21,7 +21,7 @@ import nerd.tuxmobil.fahrplan.congress.R;
 
 public class HorizontalSnapScrollView extends HorizontalScrollView {
 
-    private static final String LOG_TAG = "HorizontalScrollView";
+    private static final String LOG_TAG = "HorizontalSnapScrollView";
 
     @NonNull
     private final Logging logging = Logging.get();
