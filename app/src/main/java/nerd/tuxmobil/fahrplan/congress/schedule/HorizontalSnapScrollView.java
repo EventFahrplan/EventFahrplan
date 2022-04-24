@@ -28,19 +28,10 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
 
     private final GestureDetector gestureDetector;
 
-    private int activeColumnIndex = 0;
-
-    private int xStart;
-
-    private int columnWidth;
-
-    private int roomsCount = NOT_INITIALIZED;
+    @NonNull
+    private HorizontalSnapScrollState horizontalSnapScrollState = new HorizontalSnapScrollState();
 
     private HorizontalScrollView roomNames = null;
-
-    private int displayColumnCount;
-
-    private static final int NOT_INITIALIZED = Integer.MIN_VALUE;
 
     private static final int SWIPE_MIN_DISTANCE = 5;
 
@@ -52,17 +43,24 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
      * @return index (0..n)
      */
     public int getColumnIndex() {
-        return activeColumnIndex;
+        return horizontalSnapScrollState.getActiveColumnIndex();
     }
 
     class YScrollDetector extends SimpleOnGestureListener {
 
         @Override
         public boolean onDown(MotionEvent e) {
-            xStart = (int) e.getX();
-//          logging.d(LOG_TAG, "onDown xStart: " + xStart + " getMeasuredWidth: " + getMeasuredWidth());
-            float ofs = (float) (getScrollX() * displayColumnCount) / getMeasuredWidth();
-            activeColumnIndex = Math.round(ofs);
+            int xStart = (int) e.getX();
+//            logging.d(LOG_TAG, "onDown xStart: " + xStart + " getMeasuredWidth: " + getMeasuredWidth());
+            float ofs = (float) (getScrollX() * horizontalSnapScrollState.getDisplayColumnCount()) / getMeasuredWidth();
+            int activeColumnIndex = Math.round(ofs);
+            horizontalSnapScrollState = horizontalSnapScrollState.copy(
+                    xStart,
+                    horizontalSnapScrollState.getDisplayColumnCount(),
+                    horizontalSnapScrollState.getRoomsCount(),
+                    horizontalSnapScrollState.getColumnWidth(),
+                    activeColumnIndex
+            );
             return super.onDown(e);
         }
 
@@ -76,12 +74,12 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
             try {
                 //right to left
                 if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE && exceedsVelocityThreshold) {
-                    scrollToColumn(activeColumnIndex + columns, false);
+                    scrollToColumn(horizontalSnapScrollState.getActiveColumnIndex() + columns, false);
                     return true;
                 }
                 //left to right
                 else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && exceedsVelocityThreshold) {
-                    scrollToColumn(activeColumnIndex - columns, false);
+                    scrollToColumn(horizontalSnapScrollState.getActiveColumnIndex() - columns, false);
                     return true;
                 }
             } catch (Exception e) {
@@ -109,15 +107,21 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
      * the room column dimensions in the next layout phase.
      */
     public void setRoomsCount(@IntRange(from = 1) int roomsCount) {
-        this.roomsCount = roomsCount;
+        horizontalSnapScrollState = horizontalSnapScrollState.copy(
+                horizontalSnapScrollState.getXStart(),
+                horizontalSnapScrollState.getDisplayColumnCount(),
+                roomsCount,
+                horizontalSnapScrollState.getColumnWidth(),
+                horizontalSnapScrollState.getActiveColumnIndex()
+        );
     }
 
     public void scrollToColumn(int col, boolean fast) {
         int max;
-        if (columnWidth == 0) {
+        if (horizontalSnapScrollState.getColumnWidth() == 0) {
             max = 0;
         } else {
-            max = (getChildAt(0).getMeasuredWidth() - columnWidth) / columnWidth;
+            max = (getChildAt(0).getMeasuredWidth() - horizontalSnapScrollState.getColumnWidth()) / horizontalSnapScrollState.getColumnWidth();
         }
         if (col < 0) {
             col = 0;
@@ -125,7 +129,7 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
         if (col > max) {
             col = max;
         }
-        final int scrollTo = col * columnWidth;
+        final int scrollTo = col * horizontalSnapScrollState.getColumnWidth();
         logging.d(LOG_TAG, "scroll to col " + col + "/" + scrollTo + " " + getChildAt(0).getMeasuredWidth());
         if (!fast) {
             this.post(() -> smoothScrollTo(scrollTo, 0));
@@ -135,13 +139,24 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
                 roomNames.scrollTo(scrollTo, 0);
             }
         }
-        activeColumnIndex = col;
+        horizontalSnapScrollState = horizontalSnapScrollState.copy(
+                horizontalSnapScrollState.getXStart(),
+                horizontalSnapScrollState.getDisplayColumnCount(),
+                horizontalSnapScrollState.getRoomsCount(),
+                horizontalSnapScrollState.getColumnWidth(),
+                col
+        );
     }
 
     public HorizontalSnapScrollView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        displayColumnCount = getResources().getInteger(R.integer.max_cols);
-        columnWidth = 0;
+        horizontalSnapScrollState = horizontalSnapScrollState.copy(
+                horizontalSnapScrollState.getXStart(),
+                getResources().getInteger(R.integer.max_cols),
+                horizontalSnapScrollState.getRoomsCount(),
+                0,
+                horizontalSnapScrollState.getActiveColumnIndex()
+        );
         gestureDetector = new GestureDetector(new YScrollDetector());
         setOnTouchListener(new OnTouchListener());
     }
@@ -156,26 +171,26 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
             } else if (event.getAction() == MotionEvent.ACTION_UP
                     || event.getAction() == MotionEvent.ACTION_CANCEL) {
                 int scrollX = (int) event.getX();
-                int distance = scrollX - xStart;
+                int distance = scrollX - horizontalSnapScrollState.getXStart();
                 logging.d(LOG_TAG,
-                        "column width:" + columnWidth + " scrollX:" + scrollX + " distance:"
-                                + distance + " active column index:" + activeColumnIndex);
-                int columnIndex = activeColumnIndex;
+                        "column width:" + horizontalSnapScrollState.getColumnWidth() + " scrollX:" + scrollX + " distance:"
+                                + distance + " active column index:" + horizontalSnapScrollState.getActiveColumnIndex());
+                int columnIndex = horizontalSnapScrollState.getActiveColumnIndex();
                 int columnDistance;
-                if (displayColumnCount > 1) {
-                    columnDistance = Math.round(Math.abs((float) distance) / columnWidth);
+                if (horizontalSnapScrollState.getDisplayColumnCount() > 1) {
+                    columnDistance = Math.round(Math.abs((float) distance) / horizontalSnapScrollState.getColumnWidth());
                     logging.d(LOG_TAG, "column distance: " + columnDistance);
                     if (distance > 0) {
-                        columnIndex = activeColumnIndex - columnDistance;
+                        columnIndex = horizontalSnapScrollState.getActiveColumnIndex() - columnDistance;
                     } else {
-                        columnIndex = activeColumnIndex + columnDistance;
+                        columnIndex = horizontalSnapScrollState.getActiveColumnIndex() + columnDistance;
                     }
                 } else {
-                    if (Math.abs(distance) > columnWidth / 4) {
+                    if (Math.abs(distance) > horizontalSnapScrollState.getColumnWidth() / 4) {
                         if (distance > 0) {
-                            columnIndex = activeColumnIndex - 1;
+                            columnIndex = horizontalSnapScrollState.getActiveColumnIndex() - 1;
                         } else {
-                            columnIndex = activeColumnIndex + 1;
+                            columnIndex = horizontalSnapScrollState.getActiveColumnIndex() + 1;
                         }
                     }
                 }
@@ -216,18 +231,25 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
         logging.d(LOG_TAG, "onSizeChanged " + oldWidth + ", " + oldHeight + ", " + width + ", " + height + " getMW:" + getMeasuredWidth());
         super.onSizeChanged(width, height, oldWidth, oldHeight);
         Resources resources = getResources();
-        if (roomsCount == NOT_INITIALIZED) {
-            displayColumnCount = 1;
-        } else {
+        int displayColumnCount;
+        if (horizontalSnapScrollState.isRoomsCountInitialized()) {
             displayColumnCount = calculateDisplayColumnCount(
                     getMeasuredWidth(),
-                    roomsCount,
+                    horizontalSnapScrollState.getRoomsCount(),
                     resources.getInteger(R.integer.max_cols),
                     resources.getDisplayMetrics().density,
                     resources.getInteger(R.integer.min_width_dip));
+        } else {
+            displayColumnCount = 1;
         }
-
-        int newItemWidth = Math.round((float) getMeasuredWidth() / displayColumnCount);
+        horizontalSnapScrollState = horizontalSnapScrollState.copy(
+                horizontalSnapScrollState.getXStart(),
+                displayColumnCount,
+                horizontalSnapScrollState.getRoomsCount(),
+                horizontalSnapScrollState.getColumnWidth(),
+                horizontalSnapScrollState.getActiveColumnIndex()
+        );
+        int newItemWidth = Math.round((float) getMeasuredWidth() / horizontalSnapScrollState.getDisplayColumnCount());
         float scale = getResources().getDisplayMetrics().density;
 
         logging.d(LOG_TAG, "item width: " + newItemWidth + " " + ((float) newItemWidth) / scale + "dp");
@@ -248,21 +270,27 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
     }
 
     public int getColumnWidth() {
-        if (roomsCount == NOT_INITIALIZED) {
+        if (!horizontalSnapScrollState.isRoomsCountInitialized()) {
             throw new IllegalStateException("The \"roomsCount\" field must be initialized before invoking \"getColumnWidth\".");
         }
-        return columnWidth;
+        return horizontalSnapScrollState.getColumnWidth();
     }
 
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
-        scrollToColumn(activeColumnIndex, true);
+        scrollToColumn(horizontalSnapScrollState.getActiveColumnIndex(), true);
     }
 
     private void setColumnWidth(int pixels) {
         logging.d(LOG_TAG, "setColumnWidth " + pixels);
-        columnWidth = pixels;
+        horizontalSnapScrollState = horizontalSnapScrollState.copy(
+                horizontalSnapScrollState.getXStart(),
+                horizontalSnapScrollState.getDisplayColumnCount(),
+                horizontalSnapScrollState.getRoomsCount(),
+                pixels,
+                horizontalSnapScrollState.getActiveColumnIndex()
+        );
         if (pixels == 0) {
             return;
         }
@@ -272,7 +300,7 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
         for (int i = 0; i < childCount; i++) {
             ViewGroup c = (ViewGroup) container.getChildAt(i);
             ViewGroup.LayoutParams p = c.getLayoutParams();
-            p.width = columnWidth;
+            p.width = horizontalSnapScrollState.getColumnWidth();
             c.setLayoutParams(p);
         }
         container.measure(MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED),
@@ -285,10 +313,10 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
             for (int i = 0; i < firstRoomChildCount; i++) {
                 v = ((ViewGroup) roomNames.getChildAt(0)).getChildAt(i);
                 LinearLayout.LayoutParams p = (LinearLayout.LayoutParams) v.getLayoutParams();
-                p.width = columnWidth;
+                p.width = horizontalSnapScrollState.getColumnWidth();
                 v.setLayoutParams(p);
             }
         }
-        scrollToColumn(activeColumnIndex, true);
+        scrollToColumn(horizontalSnapScrollState.getActiveColumnIndex(), true);
     }
 }
