@@ -96,4 +96,12 @@ data class HorizontalSnapScrollState @JvmOverloads constructor(
         return constraintColumnIndex * columnWidth
     }
 
+    /**
+     * Returns the column width calculated based on the given [measuredWidth]
+     * and the current value of [displayColumnCount].
+     */
+    fun calculateColumnWidth(measuredWidth: Int): Int {
+        return (measuredWidth.toFloat() / displayColumnCount).roundToInt()
+    }
+
 }

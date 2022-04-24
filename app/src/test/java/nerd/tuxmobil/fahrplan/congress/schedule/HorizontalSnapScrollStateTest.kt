@@ -286,6 +286,34 @@ class HorizontalSnapScrollStateTest {
         }
     }
 
+    @Test
+    fun `calculateColumnWidth returns 0 if measuredWidth = 0`() {
+        with(createState()) {
+            assertThat(calculateColumnWidth(measuredWidth = 0)).isEqualTo(0)
+        }
+    }
+
+    @Test
+    fun `calculateColumnWidth returns 1 if measuredWidth = 1`() {
+        with(createState().copy(displayColumnCount = 1)) {
+            assertThat(calculateColumnWidth(measuredWidth = 1)).isEqualTo(1)
+        }
+    }
+
+    @Test
+    fun `calculateColumnWidth returns 993 if for a Pixel 6 in portrait mode`() {
+        with(createState().copy(displayColumnCount = 1)) {
+            assertThat(calculateColumnWidth(measuredWidth = 993)).isEqualTo(993)
+        }
+    }
+
+    @Test
+    fun `calculateColumnWidth returns 555 for a Pixel 6 in landscape mode`() {
+        with(createState().copy(displayColumnCount = 4)) {
+            assertThat(calculateColumnWidth(measuredWidth = 2219)).isEqualTo(555)
+        }
+    }
+
     private fun createState() = HorizontalSnapScrollState(
         logging = NoLogging
     )

@@ -219,7 +219,7 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
                 horizontalSnapScrollState.getColumnWidth(),
                 horizontalSnapScrollState.getActiveColumnIndex()
         );
-        int newItemWidth = Math.round((float) getMeasuredWidth() / horizontalSnapScrollState.getDisplayColumnCount());
+        int newItemWidth = horizontalSnapScrollState.calculateColumnWidth(getMeasuredWidth());
         float scale = getResources().getDisplayMetrics().density;
 
         logging.d(LOG_TAG, "item width: " + newItemWidth + " " + ((float) newItemWidth) / scale + "dp");
