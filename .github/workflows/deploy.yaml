@@ -18,7 +18,7 @@ jobs:
           java-version: '11'
 
       - name: Build
-        run: ./gradlew build
+        run: ./gradlew assemble
 
       - name: Assemble Release Bundle
         run: |
