@@ -26,7 +26,7 @@ jobs:
       - name: Sign Release
         uses: r0adkll/sign-android-release@v1
         with:
-          releaseDirectory: app/build/outputs/bundle/release
+          releaseDirectory: app/build/outputs/bundle/glt22Release
           signingKeyBase64: ${{ secrets.KEYSTORE }}
           alias: ${{ secrets.KEY_ALIAS }}
           keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
@@ -44,6 +44,6 @@ jobs:
         with:
           serviceAccountJson: ${{ secrets.SERVICE_ACCOUNT_JSON }}
           packageName: at.linuxtage.companion
-          releaseFile: app/build/outputs/bundle/release/app-release.aab
+          releaseFile: app/build/outputs/bundle/release/Fahrplan-$version_name-glt22-release.aab
           track: production
           whatsNewDirectory: distribution/
