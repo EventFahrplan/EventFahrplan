@@ -34,9 +34,9 @@ jobs:
 
       - name: Tag Release
         run: |
-          version_name=v$(grep -oP -m1 '(?:versionName\s")([^"]+)"' app/build.gradle | grep -oE "[0-9]+\.[0-9]+\.[0-9]+")
-          echo "Tagging release with tag $version_name"
-          git tag $version_name release/$version_name
+          version_name=$(grep -oP -m1 '(?:versionName\s")([^"]+)"' app/build.gradle | grep -oE "[0-9]+\.[0-9]+\.[0-9]+")
+          echo "Tagging release with tag v$version_name"
+          git tag v$version_name ${GITHUB_REF##*/}
           git push origin --tags
 
       - name: Deploy to Production
