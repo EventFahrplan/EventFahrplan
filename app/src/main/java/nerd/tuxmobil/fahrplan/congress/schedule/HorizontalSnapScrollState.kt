@@ -1,5 +1,9 @@
 package nerd.tuxmobil.fahrplan.congress.schedule
 
+import info.metadude.android.eventfahrplan.commons.logging.Logging
+import kotlin.math.abs
+import kotlin.math.roundToInt
+
 /**
  * Immutable state for [HorizontalSnapScrollView].
  * Create a copy to mutate values.
@@ -7,8 +11,9 @@ package nerd.tuxmobil.fahrplan.congress.schedule
  * Acts as a delegate for mathematical calculations for [HorizontalSnapScrollView]
  * so that these can be unit tested easily.
  */
-data class HorizontalSnapScrollState(
+data class HorizontalSnapScrollState @JvmOverloads constructor(
 
+    val logging: Logging,
     val xStart: Int = 0,
     val displayColumnCount: Int = DEFAULT_DISPLAY_COLUMNS_COUNT,
     val roomsCount: Int = NOT_INITIALIZED,
@@ -18,6 +23,7 @@ data class HorizontalSnapScrollState(
 ) {
 
     companion object {
+        private const val LOG_TAG = "HorizontalSnapScrollState"
         private const val NOT_INITIALIZED = Int.MIN_VALUE
         private const val DEFAULT_DISPLAY_COLUMNS_COUNT = 1
         private const val DEFAULT_COLUMNS_WIDTH = 0
@@ -34,5 +40,36 @@ data class HorizontalSnapScrollState(
     }
 
     fun isRoomsCountInitialized() = roomsCount != NOT_INITIALIZED
+
+    /**
+     * Returns the column index calculated based on the given [scrollX] value
+     * and the current state of [HorizontalSnapScrollState].
+     */
+    fun calculateOnTouchColumnIndex(scrollX: Int): Int {
+        val distance = scrollX - xStart
+        logging.d(
+            LOG_TAG,
+            """column width: $columnWidth, scrollX: $scrollX, distance: $distance, activeColumnIndex: $activeColumnIndex"""
+        )
+        var columnIndex = activeColumnIndex
+        if (displayColumnCount > 1) {
+            val columnDistance = (abs(distance.toFloat()) / columnWidth).roundToInt()
+            logging.d(LOG_TAG, "column distance: $columnDistance")
+            columnIndex = if (distance > 0) {
+                activeColumnIndex - columnDistance
+            } else {
+                activeColumnIndex + columnDistance
+            }
+        } else {
+            if (abs(distance) > columnWidth / 4) {
+                columnIndex = if (distance > 0) {
+                    activeColumnIndex - 1
+                } else {
+                    activeColumnIndex + 1
+                }
+            }
+        }
+        return columnIndex
+    }
 
 }

@@ -29,7 +29,7 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
     private final GestureDetector gestureDetector;
 
     @NonNull
-    private HorizontalSnapScrollState horizontalSnapScrollState = new HorizontalSnapScrollState();
+    private HorizontalSnapScrollState horizontalSnapScrollState = new HorizontalSnapScrollState(logging);
 
     private HorizontalScrollView roomNames = null;
 
@@ -55,6 +55,7 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
             float ofs = (float) (getScrollX() * horizontalSnapScrollState.getDisplayColumnCount()) / getMeasuredWidth();
             int activeColumnIndex = Math.round(ofs);
             horizontalSnapScrollState = horizontalSnapScrollState.copy(
+                    horizontalSnapScrollState.getLogging(),
                     xStart,
                     horizontalSnapScrollState.getDisplayColumnCount(),
                     horizontalSnapScrollState.getRoomsCount(),
@@ -108,6 +109,7 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
      */
     public void setRoomsCount(@IntRange(from = 1) int roomsCount) {
         horizontalSnapScrollState = horizontalSnapScrollState.copy(
+                horizontalSnapScrollState.getLogging(),
                 horizontalSnapScrollState.getXStart(),
                 horizontalSnapScrollState.getDisplayColumnCount(),
                 roomsCount,
@@ -140,6 +142,7 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
             }
         }
         horizontalSnapScrollState = horizontalSnapScrollState.copy(
+                horizontalSnapScrollState.getLogging(),
                 horizontalSnapScrollState.getXStart(),
                 horizontalSnapScrollState.getDisplayColumnCount(),
                 horizontalSnapScrollState.getRoomsCount(),
@@ -151,6 +154,7 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
     public HorizontalSnapScrollView(Context context, AttributeSet attrs) {
         super(context, attrs);
         horizontalSnapScrollState = horizontalSnapScrollState.copy(
+                horizontalSnapScrollState.getLogging(),
                 horizontalSnapScrollState.getXStart(),
                 getResources().getInteger(R.integer.max_cols),
                 horizontalSnapScrollState.getRoomsCount(),
@@ -171,31 +175,8 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
             } else if (event.getAction() == MotionEvent.ACTION_UP
                     || event.getAction() == MotionEvent.ACTION_CANCEL) {
                 int scrollX = (int) event.getX();
-                int distance = scrollX - horizontalSnapScrollState.getXStart();
-                logging.d(LOG_TAG,
-                        "column width:" + horizontalSnapScrollState.getColumnWidth() + " scrollX:" + scrollX + " distance:"
-                                + distance + " active column index:" + horizontalSnapScrollState.getActiveColumnIndex());
-                int columnIndex = horizontalSnapScrollState.getActiveColumnIndex();
-                int columnDistance;
-                if (horizontalSnapScrollState.getDisplayColumnCount() > 1) {
-                    columnDistance = Math.round(Math.abs((float) distance) / horizontalSnapScrollState.getColumnWidth());
-                    logging.d(LOG_TAG, "column distance: " + columnDistance);
-                    if (distance > 0) {
-                        columnIndex = horizontalSnapScrollState.getActiveColumnIndex() - columnDistance;
-                    } else {
-                        columnIndex = horizontalSnapScrollState.getActiveColumnIndex() + columnDistance;
-                    }
-                } else {
-                    if (Math.abs(distance) > horizontalSnapScrollState.getColumnWidth() / 4) {
-                        if (distance > 0) {
-                            columnIndex = horizontalSnapScrollState.getActiveColumnIndex() - 1;
-                        } else {
-                            columnIndex = horizontalSnapScrollState.getActiveColumnIndex() + 1;
-                        }
-                    }
-                }
+                int columnIndex = horizontalSnapScrollState.calculateOnTouchColumnIndex(scrollX);
                 scrollToColumn(columnIndex, false);
-
                 return true;
             } else {
                 return false;
@@ -243,6 +224,7 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
             displayColumnCount = 1;
         }
         horizontalSnapScrollState = horizontalSnapScrollState.copy(
+                horizontalSnapScrollState.getLogging(),
                 horizontalSnapScrollState.getXStart(),
                 displayColumnCount,
                 horizontalSnapScrollState.getRoomsCount(),
@@ -285,6 +267,7 @@ public class HorizontalSnapScrollView extends HorizontalScrollView {
     private void setColumnWidth(int pixels) {
         logging.d(LOG_TAG, "setColumnWidth " + pixels);
         horizontalSnapScrollState = horizontalSnapScrollState.copy(
+                horizontalSnapScrollState.getLogging(),
                 horizontalSnapScrollState.getXStart(),
                 horizontalSnapScrollState.getDisplayColumnCount(),
                 horizontalSnapScrollState.getRoomsCount(),
