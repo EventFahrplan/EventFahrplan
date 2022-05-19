@@ -22,8 +22,8 @@
     -->
     <!-- Category general -->
     <!-- Automatic schedule updates -->
-    <string name="preference_title_auto_update_enabled">Enable automatic updates</string>
-    <string name="preference_summary_auto_update_enabled">Downloads the schedule periodically.</string>
+    <string name="preference_title_auto_update_enabled">Activer mises à jour automatiques</string>
+    <string name="preference_summary_auto_update_enabled">Télécharge l\'horaire régulièrement.</string>
     <!-- Alarm time index -->
     <!--
     Synchronize with @strings/preference_default_value_alarm_time_value
@@ -32,8 +32,8 @@
     Synchronize with @integers/preference_default_value_alarm_time_index
     and string-array/preference_entry_values_alarm_time
     -->
-    <string name="preference_dialog_title_alarm_time">Choose a default alarm time</string>
-    <string name="preference_title_alarm_time">Choose default alarm time</string>
+    <string name="preference_dialog_title_alarm_time">Choisissez le temps d\'alarme défaut</string>
+    <string name="preference_title_alarm_time">Choisissez temps d\'alarme défaut</string>
     <string-array name="preference_entries_alarm_time_titles">
         <item>@string/alarm_time_title_at_start_time</item>
         <item>@string/alarm_time_title_5_minutes_before</item>
@@ -49,11 +49,11 @@
     and @integers/preference_default_value_alarm_time_index
     -->
     <!-- Alarm tone -->
-    <string name="preference_title_alarm_tone">Choose alarm tone</string>
-    <string name="preference_summary_alarm_tone">Open the sounds selection screen from here.</string>
+    <string name="preference_title_alarm_tone">Choisissez sonnerie</string>
+    <string name="preference_summary_alarm_tone">Ouvrez les options choix de son d\'ici.</string>
     <!-- Device time zone -->
-    <string name="preference_title_use_device_time_zone_enabled">Use device time zone</string>
-    <string name="preference_summary_use_device_time_zone_enabled">Displays dates and times accordingly.</string>
+    <string name="preference_title_use_device_time_zone_enabled">Utiliser fuseau horaire du système</string>
+    <string name="preference_summary_use_device_time_zone_enabled">Affiche date et horaire du système.</string>
     <!-- Alternative highlighting -->
     <string name="preference_title_alternative_highlighting_enabled">Enable alternative highlighting</string>
     <string name="preference_summary_alternative_highlighting_enabled">Adds a border around favored sessions.</string>
