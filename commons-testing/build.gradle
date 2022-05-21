@@ -23,7 +23,7 @@ android {
     kotlinOptions {
         jvmTarget = Config.compatibleJavaVersion
         freeCompilerArgs = [
-                "-Xopt-in=kotlin.RequiresOptIn"
+                "-opt-in=kotlin.RequiresOptIn"
         ]
     }
 }
