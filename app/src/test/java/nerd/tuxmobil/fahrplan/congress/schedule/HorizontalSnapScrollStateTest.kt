@@ -2,6 +2,7 @@ package nerd.tuxmobil.fahrplan.congress.schedule
 
 import com.google.common.truth.Truth.assertThat
 import nerd.tuxmobil.fahrplan.congress.NoLogging
+import nerd.tuxmobil.fahrplan.congress.schedule.HorizontalSnapScrollState.Companion.SCROLL_THRESHOLD_FACTOR
 import org.junit.Test
 
 class HorizontalSnapScrollStateTest {
@@ -58,7 +59,7 @@ class HorizontalSnapScrollStateTest {
     @Test
     fun `calculateOnTouchColumnIndex returns the index of the 1st column to the right if swiping to the left in portrait mode`() {
         with(createState().copy(columnWidth = 993, activeColumnIndex = 5, roomsCount = 10, displayColumnCount = 1)) {
-            val scrollThresholdWidth = (columnWidth * 0.25).toInt()
+            val scrollThresholdWidth = (columnWidth * SCROLL_THRESHOLD_FACTOR).toInt()
             assertThat(calculateOnTouchColumnIndex(scrollX = scrollThresholdWidth + 1)).isEqualTo(4)
         }
     }
@@ -66,7 +67,7 @@ class HorizontalSnapScrollStateTest {
     @Test
     fun `calculateOnTouchColumnIndex returns the index of the 1st column to the left if swiping to the right in portrait mode`() {
         with(createState().copy(columnWidth = 993, activeColumnIndex = 5, roomsCount = 10, displayColumnCount = 1)) {
-            val scrollThresholdWidth = (columnWidth * 0.25).toInt()
+            val scrollThresholdWidth = (columnWidth * SCROLL_THRESHOLD_FACTOR).toInt()
             assertThat(calculateOnTouchColumnIndex(scrollX = -(scrollThresholdWidth + 1))).isEqualTo(6)
         }
     }
@@ -78,12 +79,12 @@ class HorizontalSnapScrollStateTest {
         }
 
         with(createState().copy(columnWidth = 993, activeColumnIndex = 5, roomsCount = 10)) {
-            val scrollThresholdWidth = (columnWidth * 0.25).toInt()
+            val scrollThresholdWidth = (columnWidth * SCROLL_THRESHOLD_FACTOR).toInt()
             assertThat(calculateOnTouchColumnIndex(scrollX = scrollThresholdWidth)).isEqualTo(5)
         }
 
         with(createState().copy(columnWidth = 993, activeColumnIndex = 5, roomsCount = 10)) {
-            val scrollThresholdWidth = (columnWidth * 0.25).toInt()
+            val scrollThresholdWidth = (columnWidth * SCROLL_THRESHOLD_FACTOR).toInt()
             assertThat(calculateOnTouchColumnIndex(scrollX = -scrollThresholdWidth)).isEqualTo(5)
         }
 
@@ -190,7 +191,7 @@ class HorizontalSnapScrollStateTest {
                 roomsCount = 5
             )
         ) {
-            val scrollThresholdWidth = (columnWidth * 0.25).toInt()
+            val scrollThresholdWidth = (columnWidth * SCROLL_THRESHOLD_FACTOR).toInt()
             assertThat(calculateOnTouchColumnIndex(scrollX = scrollThresholdWidth + 1)).isEqualTo(0)
         }
     }
@@ -219,7 +220,7 @@ class HorizontalSnapScrollStateTest {
                 roomsCount = 10
             )
         ) {
-            val scrollThresholdWidth = (columnWidth * 0.25).toInt()
+            val scrollThresholdWidth = (columnWidth * SCROLL_THRESHOLD_FACTOR).toInt()
             assertThat(calculateOnTouchColumnIndex(scrollX = -scrollThresholdWidth + 1)).isEqualTo(4)
         }
     }
