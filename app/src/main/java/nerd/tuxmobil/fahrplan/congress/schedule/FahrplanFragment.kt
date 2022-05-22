@@ -360,7 +360,7 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
             post { scrollTo(0, verticalPosition) }
         }
         val horizontalSnapScrollView = layoutRootView.findViewById<HorizontalSnapScrollView?>(R.id.horizScroller)
-        horizontalSnapScrollView?.post { horizontalSnapScrollView.scrollToColumn(roomIndex, false) }
+        horizontalSnapScrollView?.post { horizontalSnapScrollView.scrollToColumn(roomIndex, fast = false) }
         val activity = requireActivity()
         val sidePaneView = activity.findViewById<FragmentContainerView?>(R.id.detail)
         if (sidePaneView != null && onSessionClickListener != null) {
