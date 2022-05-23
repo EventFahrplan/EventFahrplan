@@ -147,7 +147,7 @@ class HorizontalSnapScrollView(context: Context?, attrs: AttributeSet?) : Horizo
     }
 
     fun scrollToColumn(col: Int, fast: Boolean) {
-        val scrollTo = horizontalSnapScrollState.calculateScrollToXPosition(firstChild.measuredWidth, col)
+        val scrollTo = horizontalSnapScrollState.calculateScrollToXPosition(col)
         logging.d(LOG_TAG, "scroll to col $col/$scrollTo ${getChildAt(0).measuredWidth}")
         if (fast) {
             scrollTo(scrollTo, 0)

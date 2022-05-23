@@ -47,6 +47,10 @@ data class HorizontalSnapScrollState @JvmOverloads constructor(
 
     fun isRoomsCountInitialized() = roomsCount != NOT_INITIALIZED
 
+    @VisibleForTesting
+    val maxColumnIndex
+        get() = max(roomsCount - displayColumnCount, 0)
+
     /**
      * Returns the column index calculated based on the given [scrollX] value
      * and the current state of [HorizontalSnapScrollState].
@@ -83,15 +87,10 @@ data class HorizontalSnapScrollState @JvmOverloads constructor(
     }
 
     /**
-     * Returns the horizontal position calculated based on the given [measuredWidth] and
-     * [columnIndex] as well as the current value of [columnWidth].
+     * Returns the horizontal position calculated based on the given [columnIndex]
+     * and the current values of [maxColumnIndex] and [columnWidth].
      */
-    fun calculateScrollToXPosition(measuredWidth: Int, columnIndex: Int): Int {
-        val maxColumnIndex = if (columnWidth == 0) {
-            0
-        } else {
-            (measuredWidth - columnWidth) / columnWidth
-        }
+    fun calculateScrollToXPosition(columnIndex: Int): Int {
         val constraintColumnIndex = when {
             columnIndex < 0 -> 0
             columnIndex > maxColumnIndex -> maxColumnIndex

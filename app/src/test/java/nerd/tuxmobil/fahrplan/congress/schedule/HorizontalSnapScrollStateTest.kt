@@ -242,48 +242,56 @@ class HorizontalSnapScrollStateTest {
     @Test
     fun `calculateScrollToXPosition returns columnIndex x columnWidth`() {
         with(createState().copy(columnWidth = 993)) {
-            assertThat(
-                calculateScrollToXPosition(
-                    measuredWidth = 53622,
-                    columnIndex = 1
-                )
-            ).isEqualTo(993)
+            assertThat(calculateScrollToXPosition(columnIndex = 1)).isEqualTo(993)
         }
     }
 
     @Test
     fun `calculateScrollToXPosition returns 0 if columnWidth = 0`() {
         with(createState().copy(columnWidth = 0)) {
-            assertThat(
-                calculateScrollToXPosition(
-                    measuredWidth = 53622,
-                    columnIndex = 0
-                )
-            ).isEqualTo(0)
+            assertThat(calculateScrollToXPosition(columnIndex = 0)).isEqualTo(0)
         }
     }
 
     @Test
     fun `calculateScrollToXPosition returns the minColumnIndex if columnIndex = -1`() {
         with(createState().copy(columnWidth = 993)) {
-            assertThat(
-                calculateScrollToXPosition(
-                    measuredWidth = 53622,
-                    columnIndex = -1
-                )
-            ).isEqualTo(0)
+            assertThat(calculateScrollToXPosition(columnIndex = -1)).isEqualTo(0)
         }
     }
 
     @Test
     fun `calculateScrollToXPosition returns the maxColumnIndex x columnWidth if columnIndex exceeds maxColumnIndex`() {
-        with(createState().copy(columnWidth = 993)) {
-            assertThat(
-                calculateScrollToXPosition(
-                    measuredWidth = 53622,
-                    columnIndex = 54
-                )
-            ).isEqualTo(52629)
+        with(createState().copy(columnWidth = 993, roomsCount = 10, displayColumnCount = 1)) {
+            assertThat(calculateScrollToXPosition(columnIndex = 15)).isEqualTo(8937)
+        }
+    }
+
+    @Test
+    fun `getMaxColumnIndex returns the most right possible columnIndex in portrait mode`() {
+        with(createState().copy(roomsCount = 10, displayColumnCount = 1)) {
+            assertThat(maxColumnIndex).isEqualTo(9)
+        }
+    }
+
+    @Test
+    fun `getMaxColumnIndex returns the most right possible columnIndex in landscape mode`() {
+        with(createState().copy(roomsCount = 10, displayColumnCount = 4)) {
+            assertThat(maxColumnIndex).isEqualTo(6)
+        }
+    }
+
+    @Test
+    fun `getMaxColumnIndex returns 0 as the minimum Value in portrait mode`() {
+        with(createState().copy(roomsCount = 0, displayColumnCount = 1)) {
+            assertThat(maxColumnIndex).isEqualTo(0)
+        }
+    }
+
+    @Test
+    fun `getMaxColumnIndex returns 0 as the minimum Value in landscape mode`() {
+        with(createState().copy(roomsCount = 0, displayColumnCount = 4)) {
+            assertThat(maxColumnIndex).isEqualTo(0)
         }
     }
 
