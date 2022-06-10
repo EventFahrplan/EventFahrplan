@@ -56,34 +56,48 @@ data class HorizontalSnapScrollState @JvmOverloads constructor(
      * and the current state of [HorizontalSnapScrollState].
      */
     fun calculateOnTouchColumnIndex(scrollX: Int): Int {
-        val distance = scrollX - xStart
+        val relativeDistance = scrollX - xStart
+        var columnIndex = activeColumnIndex
+
         logging.d(
             LOG_TAG,
-            """column width: $columnWidth, scrollX: $scrollX, distance: $distance, activeColumnIndex: $activeColumnIndex"""
+            """column width: $columnWidth, scrollX: $scrollX, distance: $relativeDistance, activeColumnIndex: $activeColumnIndex"""
         )
-        var columnIndex = activeColumnIndex
-        if (displayColumnCount > 1) {
-            val columnIndexDelta = (abs(distance.toFloat()) / columnWidth).roundToInt()
-            logging.d(LOG_TAG, "column distance: $columnIndexDelta")
-            columnIndex = if (distance > 0) {
-                activeColumnIndex - columnIndexDelta
-            } else {
-                activeColumnIndex + columnIndexDelta
-            }
-        } else {
-            if (abs(distance) > columnWidth * SCROLL_THRESHOLD_FACTOR) {
-                columnIndex = if (distance > 0) {
-                    activeColumnIndex - 1
-                } else {
-                    activeColumnIndex + 1
-                }
-            }
+
+        var columnIndexDelta = calculateRelativeColumnIndexDelta(relativeDistance)
+
+        if (displayColumnCount <= 1 && checkPortraitModeScrollDistance(relativeDistance)) {
+            columnIndexDelta = if (relativeDistance > 0) 1 else -1
         }
+
+        logging.d(LOG_TAG, "column distance: ${abs(columnIndexDelta)}")
+
+        columnIndex -= columnIndexDelta
 
         columnIndex = max(columnIndex, 0)
         columnIndex = min(columnIndex, roomsCount - displayColumnCount)
 
         return columnIndex
+    }
+
+    /**
+     * Checks if a given scroll motion is far enough for a scroll
+     * to the next column in portrait mode, based on the [columnWidth]
+     */
+    fun checkPortraitModeScrollDistance(relativeDistance: Int) =
+        abs(relativeDistance) > columnWidth * SCROLL_THRESHOLD_FACTOR
+
+    /**
+     * Calculates the relative column delta based on the [relativeDistance] and
+     * the current value of [columnWidth].
+     */
+    fun calculateRelativeColumnIndexDelta(relativeDistance: Int): Int {
+        val absoluteColumnDelta = abs(relativeDistance.toFloat()) / columnWidth
+        return if (relativeDistance > 0)
+            absoluteColumnDelta.roundToInt()
+        else {
+            -(absoluteColumnDelta).roundToInt()
+        }
     }
 
     /**

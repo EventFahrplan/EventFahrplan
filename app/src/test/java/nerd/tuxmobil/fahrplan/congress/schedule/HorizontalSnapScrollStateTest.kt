@@ -242,6 +242,82 @@ class HorizontalSnapScrollStateTest {
     }
 
     @Test
+    fun `checkPortraitModeScrollDistance returns false if the absolute distance is lower than the threshold`() {
+        with(createState().copy(columnWidth = 1000)) {
+            assertThat(checkPortraitModeScrollDistance((SCROLL_THRESHOLD_FACTOR * 1000).toInt() - 1)).isEqualTo(false)
+        }
+        with(createState().copy(columnWidth = 1000)) {
+            assertThat(checkPortraitModeScrollDistance(-(SCROLL_THRESHOLD_FACTOR * 1000).toInt() + 1)).isEqualTo(false)
+        }
+    }
+
+    @Test
+    fun `checkPortraitModeScrollDistance returns false if the absolute distance is equal to the threshold`() {
+        with(createState().copy(columnWidth = 1000)) {
+            assertThat(checkPortraitModeScrollDistance((SCROLL_THRESHOLD_FACTOR * 1000).toInt())).isEqualTo(false)
+        }
+        with(createState().copy(columnWidth = 1000)) {
+            assertThat(checkPortraitModeScrollDistance(-(SCROLL_THRESHOLD_FACTOR * 1000).toInt())).isEqualTo(false)
+        }
+    }
+
+    @Test
+    fun `checkPortraitModeScrollDistance returns true if the absolute distance is higher than the threshold`() {
+        with(createState().copy(columnWidth = 1000)) {
+            assertThat(checkPortraitModeScrollDistance((SCROLL_THRESHOLD_FACTOR * 1000).toInt() + 1)).isEqualTo(
+                true
+            )
+        }
+        with(createState().copy(columnWidth = 1000)) {
+            assertThat(checkPortraitModeScrollDistance(-(SCROLL_THRESHOLD_FACTOR * 1000).toInt() - 1)).isEqualTo(
+                true
+            )
+        }
+    }
+
+    @Test
+    fun `calculateRelativeColumnIndexDelta returns correct value for positive Distances`() {
+        with(createState().copy(columnWidth = 1000)) {
+            assertThat(calculateRelativeColumnIndexDelta(1000)).isEqualTo(1)
+        }
+    }
+
+    @Test
+    fun `calculateRelativeColumnIndexDelta returns correct value for negative Distances`() {
+        with(createState().copy(columnWidth = 1000)) {
+            assertThat(calculateRelativeColumnIndexDelta(-1000)).isEqualTo(-1)
+        }
+    }
+
+    @Test
+    fun `calculateRelativeColumnIndexDelta returns rounds up to correct value for positive Distances`() {
+        with(createState().copy(columnWidth = 1000)) {
+            assertThat(calculateRelativeColumnIndexDelta(500)).isEqualTo(1)
+        }
+    }
+
+    @Test
+    fun `calculateRelativeColumnIndexDelta returns rounds up to correct value for negative Distances`() {
+        with(createState().copy(columnWidth = 1000)) {
+            assertThat(calculateRelativeColumnIndexDelta(-500)).isEqualTo(-1)
+        }
+    }
+
+    @Test
+    fun `calculateRelativeColumnIndexDelta returns rounds down to correct value for positive Distances`() {
+        with(createState().copy(columnWidth = 1000)) {
+            assertThat(calculateRelativeColumnIndexDelta(466)).isEqualTo(0)
+        }
+    }
+
+    @Test
+    fun `calculateRelativeColumnIndexDelta returns rounds down to correct value for negative Distances`() {
+        with(createState().copy(columnWidth = 1000)) {
+            assertThat(calculateRelativeColumnIndexDelta(466)).isEqualTo(0)
+        }
+    }
+
+    @Test
     fun `calculateScrollToXPosition returns columnIndex x columnWidth`() {
         with(createState().copy(columnWidth = 993)) {
             assertThat(calculateScrollToXPosition(columnIndex = 1)).isEqualTo(993)
