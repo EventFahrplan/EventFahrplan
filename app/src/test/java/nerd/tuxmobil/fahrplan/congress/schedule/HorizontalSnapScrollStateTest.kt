@@ -3,6 +3,8 @@ package nerd.tuxmobil.fahrplan.congress.schedule
 import com.google.common.truth.Truth.assertThat
 import nerd.tuxmobil.fahrplan.congress.NoLogging
 import nerd.tuxmobil.fahrplan.congress.schedule.HorizontalSnapScrollState.Companion.SCROLL_THRESHOLD_FACTOR
+import nerd.tuxmobil.fahrplan.congress.schedule.HorizontalSnapScrollView.Companion.SWIPE_MIN_DISTANCE
+import nerd.tuxmobil.fahrplan.congress.schedule.HorizontalSnapScrollView.Companion.SWIPE_THRESHOLD_VELOCITY
 import org.junit.Test
 
 class HorizontalSnapScrollStateTest {
@@ -321,6 +323,42 @@ class HorizontalSnapScrollStateTest {
         with(createState().copy(displayColumnCount = 4)) {
             assertThat(calculateColumnWidth(measuredWidth = 2219)).isEqualTo(555)
         }
+    }
+
+    @Test
+    fun `checkFlingVelocity returns false if the absolute normalizedVelocity is less than the SWIPE_THRESHOLD_VELOCITY`() {
+        assertThat(checkFlingVelocity((SWIPE_THRESHOLD_VELOCITY - 1).toFloat())).isEqualTo(false)
+        assertThat(checkFlingVelocity(-(SWIPE_THRESHOLD_VELOCITY - 1).toFloat())).isEqualTo(false)
+    }
+
+    @Test
+    fun `checkFlingVelocity returns false if the absolute normalizedVelocity is equal to the SWIPE_THRESHOLD_VELOCITY`() {
+        assertThat(checkFlingVelocity((SWIPE_THRESHOLD_VELOCITY).toFloat())).isEqualTo(false)
+        assertThat(checkFlingVelocity(-(SWIPE_THRESHOLD_VELOCITY).toFloat())).isEqualTo(false)
+    }
+
+    @Test
+    fun `checkFlingVelocity returns true if the absolute normalizedVelocity is greater than the SWIPE_THRESHOLD_VELOCITY`() {
+        assertThat(checkFlingVelocity((SWIPE_THRESHOLD_VELOCITY + 1).toFloat())).isEqualTo(true)
+        assertThat(checkFlingVelocity(-(SWIPE_THRESHOLD_VELOCITY + 1).toFloat())).isEqualTo(true)
+    }
+
+    @Test
+    fun `checkScrollDistance returns false if the absolute distance is less than the SWIPE_MIN_DISTANCE`() {
+        assertThat(checkScrollDistance(+(SWIPE_MIN_DISTANCE).toFloat(), +1.0f)).isEqualTo(false)
+        assertThat(checkScrollDistance(-(SWIPE_MIN_DISTANCE).toFloat(), -1.0f)).isEqualTo(false)
+    }
+
+    @Test
+    fun `checkScrollDistance returns false if the absolute normalizedVelocity is equal to the SWIPE_MIN_DISTANCE`() {
+        assertThat(checkScrollDistance(+(SWIPE_MIN_DISTANCE + 1).toFloat(), +1.0f)).isEqualTo(false)
+        assertThat(checkScrollDistance(-(SWIPE_MIN_DISTANCE + 1).toFloat(), -1.0f)).isEqualTo(false)
+    }
+
+    @Test
+    fun `checkScrollDistance returns true if the absolute normalizedVelocity is greater than the SWIPE_MIN_DISTANCE`() {
+        assertThat(checkScrollDistance(+(SWIPE_MIN_DISTANCE + 2).toFloat(), +1.0f)).isEqualTo(true)
+        assertThat(checkScrollDistance(-(SWIPE_MIN_DISTANCE + 2).toFloat(), -1.0f)).isEqualTo(true)
     }
 
     private fun createState() = HorizontalSnapScrollState(

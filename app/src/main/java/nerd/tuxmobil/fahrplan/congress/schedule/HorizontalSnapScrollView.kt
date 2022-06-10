@@ -18,6 +18,8 @@ import androidx.core.view.get
 import androidx.core.view.updateLayoutParams
 import info.metadude.android.eventfahrplan.commons.logging.Logging
 import nerd.tuxmobil.fahrplan.congress.R
+import nerd.tuxmobil.fahrplan.congress.schedule.HorizontalSnapScrollView.Companion.SWIPE_MIN_DISTANCE
+import nerd.tuxmobil.fahrplan.congress.schedule.HorizontalSnapScrollView.Companion.SWIPE_THRESHOLD_VELOCITY
 import kotlin.math.abs
 import kotlin.math.ceil
 import kotlin.math.floor
@@ -27,8 +29,13 @@ class HorizontalSnapScrollView(context: Context?, attrs: AttributeSet?) : Horizo
 
     companion object {
         private const val LOG_TAG = "HorizontalSnapScrollView"
-        private const val SWIPE_MIN_DISTANCE = 5
-        private const val SWIPE_THRESHOLD_VELOCITY = 2800
+        private const val FLING_COLUMN_MULTIPLIER = 3
+
+        @VisibleForTesting
+        const val SWIPE_MIN_DISTANCE = 5
+
+        @VisibleForTesting
+        const val SWIPE_THRESHOLD_VELOCITY = 2800
 
         /**
          * Calculates the number of columns to display at a time based on the physical dimensions and
@@ -96,29 +103,22 @@ class HorizontalSnapScrollView(context: Context?, attrs: AttributeSet?) : Horizo
         }
 
         override fun onFling(
-            e1: MotionEvent,
-            e2: MotionEvent,
+            start: MotionEvent,
+            end: MotionEvent,
             velocityX: Float,
             velocityY: Float
         ): Boolean {
-            val scale = resources.displayMetrics.density
-            val normalizedAbsoluteVelocityX = abs(velocityX / scale)
-            val columns = ceil((normalizedAbsoluteVelocityX / SWIPE_THRESHOLD_VELOCITY * 3).toDouble()).toInt()
-//            logging.d(LOG_TAG, "onFling $velocityX/$velocityY $velocityX/scale $columns")
-            val exceedsVelocityThreshold = normalizedAbsoluteVelocityX > SWIPE_THRESHOLD_VELOCITY
-            try {
-                //right to left
-                if (e1.x - e2.x > SWIPE_MIN_DISTANCE && exceedsVelocityThreshold) {
-                    scrollToColumn(horizontalSnapScrollState.activeColumnIndex + columns, false)
-                    return true
-                } else if (e2.x - e1.x > SWIPE_MIN_DISTANCE && exceedsVelocityThreshold) {
-                    scrollToColumn(horizontalSnapScrollState.activeColumnIndex - columns, false)
-                    return true
-                }
-            } catch (e: Exception) {
-                logging.e(LOG_TAG, "There was an error processing the Fling event:${e.message}")
+            val normalizedVelocityX = velocityX / resources.displayMetrics.density
+            val columns = ceil((normalizedVelocityX / SWIPE_THRESHOLD_VELOCITY * FLING_COLUMN_MULTIPLIER).toDouble()).toInt()
+
+            logging.d(LOG_TAG, "onFling -> $velocityX/$velocityY $normalizedVelocityX $columns")
+
+            if (checkScrollDistance(start.x, end.x) && checkFlingVelocity(normalizedVelocityX)) {
+                scrollToColumn(horizontalSnapScrollState.activeColumnIndex - columns, fast = false)
+                return true
             }
-            return super.onFling(e1, e2, velocityX, velocityY)
+
+            return super.onFling(start, end, velocityX, velocityY)
         }
     }
 
@@ -268,3 +268,18 @@ class HorizontalSnapScrollView(context: Context?, attrs: AttributeSet?) : Horizo
 
 private val ViewGroup.firstChild
     get() = get(0) as ViewGroup
+
+/**
+ * Checks if the velocity of a fling event was big enough to initiate a fling-scroll.
+ * @param normalizedVelocity the x velocity of the fling independent from the display pixel density
+ */
+@VisibleForTesting
+fun checkFlingVelocity(normalizedVelocity: Float) =
+    abs(normalizedVelocity) > SWIPE_THRESHOLD_VELOCITY
+
+/**
+ * Checks if the distance between two x-values is big enough for a fling-scroll.
+ */
+@VisibleForTesting
+fun checkScrollDistance(startX: Float, endX: Float) =
+    abs(startX - endX) > SWIPE_MIN_DISTANCE
