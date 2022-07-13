@@ -111,7 +111,7 @@ Copyright 2011-2015 Daniel Dorau
 Contributions from 0x5ubt13, Adriano Pereira Junior, Akarsh Seggemu,
 Andrea Marziali, Andy Scherzinger, Andreas Schildbach, Animesh Verma,
 bashtian, bjoernb, Björn Olsson Jarl, ButterflyOfFire, cacarrara,
-Caio Volpato, cketti, codingcatgirl, Dominik Stadler, entropynil,
+Caio Volpato, Chase, cketti, codingcatgirl, Dominik Stadler, entropynil,
 ideadapt, isi_ko404, Jasper van der Graaf, Joergi, koelnkalkverbot,
 Larissa Yasin, ligi, Luis Azcuaga, Mateus Baptista, Matthias Geisler,
 Matthias Hunstock, Matthias Mair, MichaelRocks, Nghiem Xuan Hien,
