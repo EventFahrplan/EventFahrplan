@@ -21,6 +21,9 @@
     <dimen name="list_pane_leftright_padding">16dp</dimen>
     <dimen name="header_height">0dp</dimen>
 
+    <!-- Loading Spinner -->
+    <dimen name="progress_spinner_size">80dp</dimen>
+
     <!-- Scrollbar -->
     <!--
     If you use a value greater than 16dp make sure to adjust the padding
