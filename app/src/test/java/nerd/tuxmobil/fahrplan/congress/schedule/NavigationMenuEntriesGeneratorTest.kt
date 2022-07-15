@@ -100,6 +100,19 @@ class NavigationMenuEntriesGeneratorTest {
         }
     }
 
+    @Test
+    fun `getDayMenuEntries fails when number of days is less than date list items size`() {
+        val dateInfoList = DateInfos()
+        dateInfoList.add(DateInfo(1, Moment.parseDate("2022-11-18")))
+        dateInfoList.add(DateInfo(2, Moment.parseDate("2022-11-19")))
+        try {
+            getDayMenuEntries(1, dateInfoList, "2022-11-18")
+            fail("Expect an IllegalArgumentException to be thrown.")
+        } catch (e: IllegalArgumentException) {
+            assertThat(e.message).isEqualTo("Too small number of days: 1, date info list contains 2 items")
+        }
+    }
+
     private fun getDayMenuEntries(numDays: Int, dateInfos: DateInfos?, currentDate: String) =
         generator.getDayMenuEntries(numDays, dateInfos, Moment.parseDate(currentDate))
 
