@@ -18,7 +18,7 @@ object Android {
 object Plugins {
 
     private object Versions {
-        const val android = "7.1.3"
+        const val android = "7.2.1"
         const val androidJunitJacoco = "0.16.0"
         const val dexcount = "3.1.0"
         const val kotlin = "1.7.10"
@@ -52,7 +52,7 @@ object Libs {
         const val engelsystem = "7.1.0"
         const val espresso = "3.4.0"
         const val junit = "4.13.2"
-        const val kotlinCoroutines = "1.6.3"
+        const val kotlinCoroutines = "1.6.4"
         const val lifecycle = "2.5.0"
         const val markwon = "4.6.2"
         const val material = "1.6.1"
