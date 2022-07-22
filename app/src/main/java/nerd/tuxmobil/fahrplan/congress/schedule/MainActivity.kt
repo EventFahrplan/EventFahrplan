@@ -291,7 +291,7 @@ class MainActivity : BaseActivity(),
                         BundleKeys.USE_DEVICE_TIME_ZONE_UPDATED, false)
 
                     if (isAlternativeHighlightingUpdated || isUseDeviceTimeZoneUpdated) {
-                        if (findViewById<View>(R.id.schedule) != null && findFragment(FahrplanFragment.FRAGMENT_TAG) == null) {
+                        if (findViewById<View>(R.id.schedule) != null && findFragment(FahrplanFragment.FRAGMENT_TAG) != null) {
                             replaceFragment(R.id.schedule, FahrplanFragment(), FahrplanFragment.FRAGMENT_TAG)
                         }
                     }
