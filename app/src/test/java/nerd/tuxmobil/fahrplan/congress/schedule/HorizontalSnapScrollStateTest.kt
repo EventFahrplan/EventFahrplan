@@ -184,7 +184,7 @@ class HorizontalSnapScrollStateTest {
     }
 
     @Test
-    fun `calculateOnTouchColumnIndex returns 0 as the minimum index in portrait mode to prevent scrolling off the screen to the left`() {
+    fun `calculateOnTouchColumnIndex returns -1 if the target index is lower than 0 in portrait mode to prevent scrolling off the screen to the left`() {
         with(
             createState().copy(
                 columnWidth = 993,
@@ -194,12 +194,12 @@ class HorizontalSnapScrollStateTest {
             )
         ) {
             val scrollThresholdWidth = (columnWidth * SCROLL_THRESHOLD_FACTOR).toInt()
-            assertThat(calculateOnTouchColumnIndex(scrollX = scrollThresholdWidth + 1)).isEqualTo(0)
+            assertThat(calculateOnTouchColumnIndex(scrollX = scrollThresholdWidth + 1)).isEqualTo(-1)
         }
     }
 
     @Test
-    fun `calculateOnTouchColumnIndex returns 0 as the minimum index in landscape mode to prevent scrolling off the screen to the left`() {
+    fun `calculateOnTouchColumnIndex returns -1 if the target index is lower than 0 in landscape mode to prevent scrolling off the screen to the left`() {
         with(
             createState().copy(
                 columnWidth = 993,
@@ -208,27 +208,27 @@ class HorizontalSnapScrollStateTest {
                 roomsCount = 5
             )
         ) {
-            assertThat(calculateOnTouchColumnIndex(scrollX = columnWidth * 2)).isEqualTo(0)
+            assertThat(calculateOnTouchColumnIndex(scrollX = columnWidth * 2)).isEqualTo(-1)
         }
     }
 
     @Test
-    fun `calculateOnTouchColumnIndex returns the last possible index as the maximum value in portrait mode to prevent scrolling off the screen to the right`() {
+    fun `calculateOnTouchColumnIndex returns -1 if the target index is higher than the max allowed in portrait mode to prevent scrolling off the screen to the right`() {
         with(
             createState().copy(
                 columnWidth = 993,
                 displayColumnCount = 1,
-                activeColumnIndex = 4,
+                activeColumnIndex = 9,
                 roomsCount = 10
             )
         ) {
             val scrollThresholdWidth = (columnWidth * SCROLL_THRESHOLD_FACTOR).toInt()
-            assertThat(calculateOnTouchColumnIndex(scrollX = -scrollThresholdWidth + 1)).isEqualTo(4)
+            assertThat(calculateOnTouchColumnIndex(scrollX = -scrollThresholdWidth - 1)).isEqualTo(-1)
         }
     }
 
     @Test
-    fun `calculateOnTouchColumnIndex returns the last possible index as the maximum value in landscape mode to prevent scrolling off the screen to the right`() {
+    fun `calculateOnTouchColumnIndex returns -1 if the target index is higher than the max allowed in landscape mode to prevent scrolling off the screen to the right`() {
         with(
             createState().copy(
                 columnWidth = 993,
@@ -237,7 +237,7 @@ class HorizontalSnapScrollStateTest {
                 roomsCount = 10
             )
         ) {
-            assertThat(calculateOnTouchColumnIndex(scrollX = -columnWidth * 2)).isEqualTo(6)
+            assertThat(calculateOnTouchColumnIndex(scrollX = -columnWidth * 2)).isEqualTo(-1)
         }
     }
 

@@ -54,6 +54,7 @@ data class HorizontalSnapScrollState @JvmOverloads constructor(
     /**
      * Returns the column index calculated based on the given [scrollX] value
      * and the current state of [HorizontalSnapScrollState].
+     * @return Returns the calculated index if it is valid, in any other case -1
      */
     fun calculateOnTouchColumnIndex(scrollX: Int): Int {
         val relativeDistance = scrollX - xStart
@@ -74,8 +75,9 @@ data class HorizontalSnapScrollState @JvmOverloads constructor(
 
         columnIndex -= columnIndexDelta
 
-        columnIndex = max(columnIndex, 0)
-        columnIndex = min(columnIndex, roomsCount - displayColumnCount)
+        if (columnIndex < 0 || maxColumnIndex < columnIndex) {
+            return -1
+        }
 
         return columnIndex
     }
