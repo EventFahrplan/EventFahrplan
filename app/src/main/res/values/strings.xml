@@ -176,6 +176,9 @@
     <string name="snack_engage_c3nav_title">Indoor navigation at <xliff:g example="35C3" id="conferenceName">%s</xliff:g>! With the c3nav app</string>
     <string name="snack_engage_c3nav_action">Get it now!</string>
 
+    <string name="snack_engage_landscape_orientation_title">Tried landscape mode?</string>
+    <string name="snack_engage_landscape_orientation_action">Rotate your device!</string>
+
     <!-- TraceDroid -->
     <string name="trace_droid_dialog_title">
         Send <xliff:g example="33C3 Schedule" id="appName">%s</xliff:g> crash report &#8230;

@@ -43,6 +43,7 @@ android {
         buildConfigField "boolean", "SHOW_APP_DISCLAIMER", "true"
         buildConfigField "boolean", "ENGAGE_GOOGLE_BETA_TESTING", "true"
         buildConfigField "boolean", "ENGAGE_GOOGLE_PLAY_RATING", "true"
+        buildConfigField "boolean", "ENGAGE_LANDSCAPE_ORIENTATION", "true"
     }
 
     buildTypes {

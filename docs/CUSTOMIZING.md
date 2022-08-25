@@ -90,3 +90,4 @@ The app prompts the user to engage in the following topics if enabled via a `bui
 - c3nav app installation via `ENGAGE_C3NAV_APP_INSTALLATION`
 - Google Play beta testing via `ENGAGE_GOOGLE_BETA_TESTING`
 - Google Play rating via `ENGAGE_GOOGLE_PLAY_RATING`
+- to learn about the screen estate in landscape mode via `ENGAGE_LANDSCAPE_ORIENTATION`
