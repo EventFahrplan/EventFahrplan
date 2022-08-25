@@ -66,7 +66,7 @@ object Libs {
         const val robolectric = "4.3_r2-robolectric-0"
         const val snackengage = "0.29"
         const val testExtJunit = "1.1.3"
-        const val threeTenBp = "1.6.0"
+        const val threeTenBp = "1.6.1"
         const val tracedroid = "3.1"
         const val truth = "1.1.3"
         const val turbine = "0.8.0"
