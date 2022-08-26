@@ -19,6 +19,9 @@ fun AppCompatActivity.initUserEngagement() {
     if (BuildConfig.ENGAGE_C3NAV_APP_INSTALLATION) {
         snackEngageBuilder.withSnack(C3navSnack(this))
     }
+    if (BuildConfig.ENGAGE_LANDSCAPE_ORIENTATION) {
+        snackEngageBuilder.withSnack(LandscapeOrientationSnack(this))
+    }
     snackEngageBuilder
             .build()
             .engageWhenAppropriate()

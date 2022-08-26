@@ -153,6 +153,8 @@
     <string name="snack_engage_google_play_beta_testing_action">Werde Beta-Tester</string>
     <string name="snack_engage_c3nav_title">Indoor-Navigation auf dem <xliff:g example="35C3" id="conferenceName">%s</xliff:g>! Mit der c3nav-App</string>
     <string name="snack_engage_c3nav_action">Jetzt installieren!</string>
+    <string name="snack_engage_landscape_orientation_title">Schon Querformat probiert?</string>
+    <string name="snack_engage_landscape_orientation_action">Dreh dein Gerät!</string>
 
     <!-- TraceDroid -->
     <string name="trace_droid_dialog_title">
