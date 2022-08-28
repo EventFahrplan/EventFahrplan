@@ -173,9 +173,13 @@ class HorizontalSnapScrollView(context: Context?, attrs: AttributeSet?) : Horizo
                 return false
             } else if (event.action == ACTION_UP || event.action == ACTION_CANCEL) {
                 val scrollX = event.x.toInt()
-                val columnIndex = horizontalSnapScrollState.calculateOnTouchColumnIndex(scrollX)
-                scrollToColumn(columnIndex, fast = false)
-                return true
+
+                val calculatedColumnIndex = horizontalSnapScrollState.calculateOnTouchColumnIndex(scrollX)
+
+                if (calculatedColumnIndex > -1) {
+                    scrollToColumn(calculatedColumnIndex, fast = false)
+                    return true
+                }
             }
             return false
         }
