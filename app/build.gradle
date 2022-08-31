@@ -39,6 +39,8 @@ android {
         buildConfigField "boolean", "ENABLE_ALTERNATIVE_SCHEDULE_URL", "false"
         buildConfigField "boolean", "ENABLE_CHAOSFLIX_EXPORT", "false"
         buildConfigField "boolean", "ENABLE_ENGELSYSTEM_SHIFTS", "false"
+        resValue("string", "engelsystem_alias", "Engelsystem")
+        resValue("string", "engelsystem_shifts_alias", "Engelshifts")
         resValue("string", "preference_hint_engelsystem_json_export_url", '""')
         buildConfigField "boolean", "SHOW_APP_DISCLAIMER", "true"
         buildConfigField "boolean", "ENGAGE_GOOGLE_BETA_TESTING", "true"

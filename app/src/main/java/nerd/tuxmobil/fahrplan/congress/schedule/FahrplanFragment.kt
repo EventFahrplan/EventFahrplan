@@ -107,7 +107,15 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
         val appRepository = AppRepository
         val alarmServices = AlarmServices.newInstance(context, appRepository)
         val menuEntriesGenerator = NavigationMenuEntriesGenerator(dayString = getString(R.string.day), todayString = getString(R.string.today))
-        val viewModelFactory = FahrplanViewModelFactory(appRepository, alarmServices, menuEntriesGenerator)
+        val defaultEngelsystemRoomName = AppRepository.ENGELSYSTEM_ROOM_NAME
+        val customEngelsystemRoomName = getString(R.string.engelsystem_alias)
+        val viewModelFactory = FahrplanViewModelFactory(
+            repository = appRepository,
+            alarmServices = alarmServices,
+            navigationMenuEntriesGenerator = menuEntriesGenerator,
+            defaultEngelsystemRoomName = defaultEngelsystemRoomName,
+            customEngelsystemRoomName = customEngelsystemRoomName
+        )
         viewModel = ViewModelProvider(this, viewModelFactory).get(FahrplanViewModel::class.java)
         onSessionClickListener = if (context is OnSessionClickListener) {
             context

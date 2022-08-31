@@ -97,9 +97,9 @@
     <string name="today">hoje</string>
     <string name="schedule_parsing_error_generic">Erro desconhecido ao processar cronograma</string>
     <string name="schedule_parsing_error_with_version">Erro ao processar versão do cronograma %s</string>
-    <string name="engelsystem_shifts_parsing_error_generic">Erro desconhecido ao processar turnos no Engelsystem</string>
-    <string name="engelsystem_shifts_parsing_error_forbidden">Chave de API inválido para turnos no Engelsystem</string>
-    <string name="engelsystem_shifts_parsing_error_not_found">URL incorreta para turnos no Engelsystem</string>
+    <string name="engelsystem_shifts_parsing_error_generic">Erro desconhecido ao processar turnos no <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g></string>
+    <string name="engelsystem_shifts_parsing_error_forbidden">Chave de API inválido para turnos no <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g></string>
+    <string name="engelsystem_shifts_parsing_error_not_found">URL incorreta para turnos no <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g></string>
     <string name="alarms_empty">
         Não há alertas para exibir, você pode configurar alertas
         individuais para cada item no cronograma.

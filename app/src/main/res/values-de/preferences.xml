@@ -37,7 +37,7 @@
 
     <string name="preference_summary_engelsystem_json_export_url">
         <![CDATA[Damit deine Schichten angezeigt werden, gib hier bitte deine <u>persönliche</u> URL ein.<br/><br/>
-        1. Melde dich beim Engelsystem an.<br/>
+        1. Melde dich beim <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g> an.<br/>
         2. Kopiere die URL hinter der <u>JSON Export</u>-Schaltfläche auf deiner Profilseite.<br/>
         3. Füge die URL hier ein.<br/><br/>
         Schichten vor und nach den offiziellen Konferenztagen werden <u>nicht</u> dargestellt.]]>

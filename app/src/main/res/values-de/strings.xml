@@ -105,9 +105,9 @@
     <string name="today">heute</string>
     <string name="schedule_parsing_error_generic">Unbekannter Fehler beim Parsen des Fahrplans</string>
     <string name="schedule_parsing_error_with_version">Fehler beim Parsen der Fahrplan-Version <xliff:g example="0.99a" id="scheduleVersion">%s</xliff:g></string>
-    <string name="engelsystem_shifts_parsing_error_generic">Unbekannter Fehler beim Parsen der Engelsystem-Schichten</string>
-    <string name="engelsystem_shifts_parsing_error_forbidden">Ungültiger API-Schlüssel für Engelsystem-Schichten</string>
-    <string name="engelsystem_shifts_parsing_error_not_found">Falsche URL für Engelsystem-Schichten</string>
+    <string name="engelsystem_shifts_parsing_error_generic">Unbekannter Fehler beim Parsen der <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g>-Schichten</string>
+    <string name="engelsystem_shifts_parsing_error_forbidden">Ungültiger API-Schlüssel für <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g>-Schichten</string>
+    <string name="engelsystem_shifts_parsing_error_not_found">Falsche URL für <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g>-Schichten</string>
     <string name="alarms_empty">
 		Aktuell sind keine Alarme gespeichert. Im Fahrplan
 		kannst du über das entsprechende Symbol in der ActionBar

@@ -18,7 +18,7 @@
     <!-- Category Engelsystem -->
     <string name="preference_summary_engelsystem_json_export_url">
         <![CDATA[シフトを確認するには、ここに<u>個人</ u>のURLを入力してください。<br/><br/>
-        1. あなたのEngelsystemアカウントにログインします。<br/>
+        1. あなたの<xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g>アカウントにログインします。<br/>
         2. プロフィールページの<u>JSON出力</u>ボタンの後ろにあるURLをコピーします.<br/>
         3. URLをここに貼ります。<br/><br/>
         メイン会議日の前後のシフトは<u>表示されません</u>。]]>

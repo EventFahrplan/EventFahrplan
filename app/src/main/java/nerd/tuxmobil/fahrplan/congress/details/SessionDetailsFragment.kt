@@ -72,7 +72,14 @@ class SessionDetailsFragment : Fragment() {
 
     private lateinit var appRepository: AppRepository
     private lateinit var alarmServices: AlarmServices
-    private val viewModel: SessionDetailsViewModel by viewModels { SessionDetailsViewModelFactory(appRepository, alarmServices) }
+    private val viewModel: SessionDetailsViewModel by viewModels {
+        SessionDetailsViewModelFactory(
+            appRepository = appRepository,
+            alarmServices = alarmServices,
+            defaultEngelsystemRoomName = AppRepository.ENGELSYSTEM_ROOM_NAME,
+            customEngelsystemRoomName = getString(R.string.engelsystem_shifts_alias)
+        )
+    }
     private lateinit var model: SelectedSessionParameter
     private lateinit var markwon: Markwon
     private var sidePane = false

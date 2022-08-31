@@ -95,9 +95,9 @@
     <string name="today">今日</string>
     <string name="schedule_parsing_error_generic">スケジュールの解析中に不明なエラーが発生しました</string>
     <string name="schedule_parsing_error_with_version">スケジュールバージョン％sの解析エラー %s</string>
-    <string name="engelsystem_shifts_parsing_error_generic">Engelsystemシフトの解析中に不明なエラーが発生しました</string>
-    <string name="engelsystem_shifts_parsing_error_forbidden">Engelsystemシフトの無効なAPIキー</string>
-    <string name="engelsystem_shifts_parsing_error_not_found">EngelsystemシフトのURLが間違っています</string>
+    <string name="engelsystem_shifts_parsing_error_generic"><xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g>シフトの解析中に不明なエラーが発生しました</string>
+    <string name="engelsystem_shifts_parsing_error_forbidden"><xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g>シフトの無効なAPIキー</string>
+    <string name="engelsystem_shifts_parsing_error_not_found"><xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g>シフトのURLが間違っています</string>
     <string name="alarms_empty">
         表示するアラームはありません。 スケジュールの
         項目ごとに個別のアラームを設定できることに注意してください。

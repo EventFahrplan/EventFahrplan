@@ -120,9 +120,9 @@
     <string name="today">today</string>
     <string name="schedule_parsing_error_generic">Unknown error while parsing schedule</string>
     <string name="schedule_parsing_error_with_version">Parsing error for schedule version <xliff:g example="0.99a" id="scheduleVersion">%s</xliff:g></string>
-    <string name="engelsystem_shifts_parsing_error_generic">Unknown error while parsing Engelsystem shifts</string>
-    <string name="engelsystem_shifts_parsing_error_forbidden">Invalid API key for Engelsystem shifts</string>
-    <string name="engelsystem_shifts_parsing_error_not_found">Wrong URL for Engelsystem shifts</string>
+    <string name="engelsystem_shifts_parsing_error_generic">Unknown error while parsing <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g> shifts</string>
+    <string name="engelsystem_shifts_parsing_error_forbidden">Invalid API key for <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g> shifts</string>
+    <string name="engelsystem_shifts_parsing_error_not_found">Wrong URL for <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g> shifts</string>
     <string name="alarms_empty">
 		There are no alarms to display. Please note that you
 		can set up individual alarms for each item in the schedule.
