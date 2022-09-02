@@ -2,7 +2,6 @@ package nerd.tuxmobil.fahrplan.congress.schedule
 
 import androidx.annotation.VisibleForTesting
 import info.metadude.android.eventfahrplan.commons.logging.Logging
-import java.lang.Integer.min
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.roundToInt
