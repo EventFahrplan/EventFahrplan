@@ -89,6 +89,7 @@
         Der Fahrplan wurde aktualisiert.
     </string>
     <string name="settings">Einstellungen</string>
+    <string name="session_details_section_title_track">Themenfeld</string>
     <string name="session_details_section_title_session_online">Event online</string>
     <string name="session_details_section_title_links">Links</string>
     <string name="choose_alarm_time">Wähle die Alarmzeit</string>

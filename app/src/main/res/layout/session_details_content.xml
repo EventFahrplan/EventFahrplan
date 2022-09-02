@@ -40,6 +40,16 @@
         tools:text="@string/placeholder_session_links"/>
 
     <TextView
+        android:id="@+id/session_details_content_track_name_section_view"
+        style="@style/SessionDetailsSection.Header"
+        android:text="@string/session_details_section_title_track"/>
+
+    <TextView
+        android:id="@+id/session_details_content_track_name_view"
+        style="@style/SessionDetailsSection"
+        tools:text="@string/placeholder_session_track"/>
+
+    <TextView
         android:id="@+id/session_details_content_session_online_section_view"
         style="@style/SessionDetailsSection.Header"
         android:text="@string/session_details_section_title_session_online"/>

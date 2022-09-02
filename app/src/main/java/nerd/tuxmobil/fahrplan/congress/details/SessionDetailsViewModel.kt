@@ -71,6 +71,8 @@ class SessionDetailsViewModel(
     val descriptionFont = Font.Roboto.Regular
     val linksFont = Font.Roboto.Regular
     val linksSectionFont = Font.Roboto.Bold
+    val trackFont = Font.Roboto.Regular
+    val trackSectionFont = Font.Roboto.Black
     val sessionOnlineFont = Font.Roboto.Regular
     val sessionOnlineSectionFont = Font.Roboto.Black
     val speakersFont = Font.Roboto.Black
@@ -122,6 +124,7 @@ class SessionDetailsViewModel(
             description = description.orEmpty(),
             formattedDescription = formattedDescription,
             roomName = room.orEmpty(),
+            track = track.orEmpty(),
             hasLinks = getLinks().isNotEmpty(),
             formattedLinks = formattedLinks,
             hasWikiLinks = getLinks().containsWikiLink(),
