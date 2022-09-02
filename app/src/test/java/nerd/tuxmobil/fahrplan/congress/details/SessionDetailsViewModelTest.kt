@@ -381,7 +381,9 @@ class SessionDetailsViewModelTest {
         roomForC3NavConverter = roomForC3NavConverter,
         markdownConversion = markdownConversion,
         formattingDelegate = formattingDelegate,
-        c3NavBaseUrl = c3NavBaseUrl
+        c3NavBaseUrl = c3NavBaseUrl,
+        defaultEngelsystemRoomName = "Engelshifts",
+        customEngelsystemRoomName = "Trollshifts"
     )
 
 }

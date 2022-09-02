@@ -17,6 +17,8 @@ This list is for your preparation. Step 3 guides you through where to fill in th
 - Email address for bug reports
 - Social media hashtags/handles (can be empty), e.g. `#36c3 @ccc`
 - Schedule feedback URL template (optional), e.g. `https://awesome-event.com/2021/events/%s/feedback/new`
+- Custom name used for the Engelsystem (optional), e.g. `Trollsystem`
+- Custom name used for the Engelsystem shifts (optional), e.g. `Trollshifts`
 - Engelsystem URL (optional), e.g. `https://engelsystem.de/awesome-event/shifts-json-export?key=YOUR_KEY`
 - Name/s of the author/s of the logo(s), website URL/s optionally
 
@@ -80,6 +82,8 @@ The following options can be enabled via a `buildConfigField` and configured in 
 - c3nav integration via `C3NAV_URL`
 - Chaosflix export via `ENABLE_CHAOSFLIX_EXPORT`
 - Engelsystem shifts via `ENABLE_ENGELSYSTEM_SHIFTS`
+  - Customize the name for the Engelsystem via `engelsystem_alias`
+  - Customize the name for the Engelsystem shifts via `engelsystem_shifts_alias`
   - Customize Engelsystem shifts JSON export URL hint via `preference_hint_engelsystem_json_export_url`
 - Feedback system via `SCHEDULE_FEEDBACK_URL`
 

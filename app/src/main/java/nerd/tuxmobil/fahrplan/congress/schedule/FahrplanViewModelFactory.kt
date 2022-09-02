@@ -13,7 +13,9 @@ internal class FahrplanViewModelFactory(
 
     private val repository: AppRepository,
     private val alarmServices: AlarmServices,
-    private val navigationMenuEntriesGenerator: NavigationMenuEntriesGenerator
+    private val navigationMenuEntriesGenerator: NavigationMenuEntriesGenerator,
+    private val defaultEngelsystemRoomName: String,
+    private val customEngelsystemRoomName: String
 
 ) : ViewModelProvider.Factory {
 
@@ -28,7 +30,9 @@ internal class FahrplanViewModelFactory(
             navigationMenuEntriesGenerator = navigationMenuEntriesGenerator,
             simpleSessionFormat = SimpleSessionFormat(),
             jsonSessionFormat = JsonSessionFormat(),
-            scrollAmountCalculator = ScrollAmountCalculator(logging)
+            scrollAmountCalculator = ScrollAmountCalculator(logging),
+            defaultEngelsystemRoomName = defaultEngelsystemRoomName,
+            customEngelsystemRoomName = customEngelsystemRoomName
         ) as T
     }
 

@@ -384,7 +384,9 @@ class FahrplanViewModelTest {
         navigationMenuEntriesGenerator = navigationMenuEntriesGenerator,
         simpleSessionFormat = simpleSessionFormat,
         jsonSessionFormat = jsonSessionFormat,
-        scrollAmountCalculator = scrollAmountCalculator
+        scrollAmountCalculator = scrollAmountCalculator,
+        defaultEngelsystemRoomName = "Engelshifts",
+        customEngelsystemRoomName = "Trollshifts"
     )
 
 }

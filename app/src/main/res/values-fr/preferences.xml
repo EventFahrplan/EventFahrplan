@@ -17,7 +17,7 @@
 
     <!-- Category Engelsystem -->
     <string name="preference_summary_engelsystem_json_export_url"><![CDATA[Afin de voir vos créneaux de service, veuillez entrer votre URL <u>personnel</u>ici.<br /><br />
-         1. Connectez-vous à votre compte Engelsystem.<br />
+         1. Connectez-vous à votre compte <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g>.<br />
          2. Copiez l\'URL derrière le bouton <u>JSON Export</u> sur votre page de profil.<br />
          3. Collez l\'URL ici.<br /><br />
          Les créneaux de service avant et après les principaux jours de conférence <u>ne</u> sont <u>pas</u> affichés.]]></string>

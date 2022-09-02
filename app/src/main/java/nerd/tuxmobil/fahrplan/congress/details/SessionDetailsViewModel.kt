@@ -37,7 +37,9 @@ class SessionDetailsViewModel(
     private val roomForC3NavConverter: RoomForC3NavConverter,
     private val markdownConversion: MarkdownConversion,
     private val formattingDelegate: FormattingDelegate = DateFormattingDelegate(),
-    private val c3NavBaseUrl: String
+    private val c3NavBaseUrl: String,
+    private val defaultEngelsystemRoomName: String,
+    private val customEngelsystemRoomName: String
 
 ) : ViewModel() {
 
@@ -77,6 +79,7 @@ class SessionDetailsViewModel(
 
     val selectedSessionParameter: LiveData<SelectedSessionParameter> = repository.selectedSession
         .map { it.toSelectedSessionParameter() }
+        .map { it.customizeEngelsystemRoomName() }
         .asLiveData(executionContext.database)
 
     val openFeedBack = SingleLiveEvent<Uri>()
@@ -86,6 +89,10 @@ class SessionDetailsViewModel(
     val setAlarm = SingleLiveEvent<Unit>()
     val navigateToRoom = SingleLiveEvent<Uri>()
     val closeDetails = SingleLiveEvent<Unit>()
+
+    private fun SelectedSessionParameter.customizeEngelsystemRoomName() = copy(
+        roomName = if (roomName == defaultEngelsystemRoomName) customEngelsystemRoomName else roomName
+    )
 
     private fun Session.toSelectedSessionParameter(): SelectedSessionParameter {
         val useDeviceTimeZone = repository.readUseDeviceTimeZoneEnabled()

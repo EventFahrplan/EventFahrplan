@@ -118,7 +118,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
             val urlPreference = requirePreference<EditTextPreference>(getString(R.string.preference_key_engelsystem_json_export_url))
             urlPreference.summaryProvider = SummaryProvider<EditTextPreference> {
                 when (it.text.isNullOrEmpty()) {
-                    true -> getString(R.string.preference_summary_engelsystem_json_export_url).toSpanned()
+                    true -> getString(R.string.preference_summary_engelsystem_json_export_url, getString(R.string.engelsystem_alias))
+                        .toSpanned()
                     false -> "${it.text!!.dropLast(23)}..." // Truncate to keep the key private.
                 }
             }
