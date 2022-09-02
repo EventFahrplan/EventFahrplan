@@ -22,6 +22,7 @@ data class SelectedSessionParameter(
     val description: String,
     val formattedDescription: String,
     val roomName: String,
+    val track: String,
 
     val hasLinks: Boolean,
     val formattedLinks: String,

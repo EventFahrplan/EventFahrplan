@@ -90,6 +90,7 @@ class SessionDetailsViewModelTest {
             room = "Main hall"
             abstractt = "Session abstract"
             description = "Session description"
+            track = "Session track"
             links = "[VOC projects](https://www.voc.com/projects/),[POC](https://poc.com/QXut1XBymAk)"
             highlight = true
         }
@@ -137,6 +138,7 @@ class SessionDetailsViewModelTest {
             abstract = "Session abstract",
             formattedDescription = "Markdown",
             description = "Session description",
+            track = "Session track",
             hasLinks = true,
             formattedLinks = "Markdown",
             hasWikiLinks = false,
@@ -161,6 +163,7 @@ class SessionDetailsViewModelTest {
             room = ""
             abstractt = ""
             description = ""
+            track = ""
             links = ""
             highlight = false
         }
@@ -208,6 +211,7 @@ class SessionDetailsViewModelTest {
             abstract = "",
             formattedDescription = "",
             description = "",
+            track = "",
             hasLinks = false,
             formattedLinks = "",
             hasWikiLinks = false,
