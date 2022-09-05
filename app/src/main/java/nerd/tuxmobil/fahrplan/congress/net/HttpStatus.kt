@@ -1,7 +1,6 @@
-package nerd.tuxmobil.fahrplan.congress.net;
+package nerd.tuxmobil.fahrplan.congress.net
 
-public enum HttpStatus {
-
+enum class HttpStatus {
     HTTP_OK,
     HTTP_LOGIN_FAIL_UNTRUSTED_CERTIFICATE,
     HTTP_DNS_FAILURE,
@@ -13,5 +12,4 @@ public enum HttpStatus {
     HTTP_NOT_MODIFIED,
     HTTP_NOT_FOUND,
     HTTP_CLEARTEXT_NOT_PERMITTED
-
 }
