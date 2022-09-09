@@ -149,14 +149,13 @@ class AlarmServices @VisibleForTesting constructor(
      */
     @JvmOverloads
     fun scheduleSessionAlarm(alarm: SchedulableAlarm, discardExisting: Boolean = false) {
-        val intent = AlarmReceiver.AlarmIntentBuilder()
-                .setContext(context)
-                .setSessionId(alarm.sessionId)
-                .setDay(alarm.day)
-                .setTitle(alarm.sessionTitle)
-                .setStartTime(alarm.startTime)
-                .setIsAddAlarm()
-                .build()
+        val intent = AlarmReceiver.AlarmIntentFactory(
+            context = context,
+            sessionId = alarm.sessionId,
+            title = alarm.sessionTitle,
+            day = alarm.day,
+            startTime = alarm.startTime
+        ).getIntent(isAddAlarmIntent = true)
 
         val pendingIntent = pendingIntentDelegate.onPendingIntentBroadcast(context, intent)
         if (discardExisting) {
@@ -177,14 +176,13 @@ class AlarmServices @VisibleForTesting constructor(
      * Discards the given [alarm] via the [AlarmManager].
      */
     fun discardSessionAlarm(alarm: SchedulableAlarm) {
-        val intent = AlarmReceiver.AlarmIntentBuilder()
-                .setContext(context)
-                .setSessionId(alarm.sessionId)
-                .setDay(alarm.day)
-                .setTitle(alarm.sessionTitle)
-                .setStartTime(alarm.startTime)
-                .setIsDeleteAlarm()
-                .build()
+        val intent = AlarmReceiver.AlarmIntentFactory(
+            context = context,
+            sessionId = alarm.sessionId,
+            title = alarm.sessionTitle,
+            day = alarm.day,
+            startTime = alarm.startTime
+        ).getIntent(isAddAlarmIntent = false)
         discardAlarm(context, intent)
     }
 
