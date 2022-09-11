@@ -11,6 +11,8 @@ import com.google.common.truth.Truth.assertThat
 import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedNever
 import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedOnce
 import nerd.tuxmobil.fahrplan.congress.NoLogging
+import nerd.tuxmobil.fahrplan.congress.alarms.AlarmReceiver.AlarmIntentFactory.Companion.ALARM_DELETE
+import nerd.tuxmobil.fahrplan.congress.alarms.AlarmReceiver.AlarmIntentFactory.Companion.ALARM_SESSION
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices.FormattingDelegate
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices.PendingIntentDelegate
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
@@ -118,7 +120,7 @@ class AlarmServicesTest {
         val pendingIntentDelegate = object : PendingIntentDelegate {
             override fun onPendingIntentBroadcast(context: Context, intent: Intent): PendingIntent {
                 assertThat(context).isEqualTo(mockContext)
-                assertIntentExtras(intent, AlarmReceiver.ALARM_SESSION)
+                assertIntentExtras(intent, ALARM_SESSION)
                 return pendingIntent
             }
         }
@@ -134,7 +136,7 @@ class AlarmServicesTest {
         val pendingIntentDelegate = object : PendingIntentDelegate {
             override fun onPendingIntentBroadcast(context: Context, intent: Intent): PendingIntent {
                 assertThat(context).isEqualTo(mockContext)
-                assertIntentExtras(intent, AlarmReceiver.ALARM_SESSION)
+                assertIntentExtras(intent, ALARM_SESSION)
                 return pendingIntent
             }
         }
@@ -150,7 +152,7 @@ class AlarmServicesTest {
         val pendingIntentDelegate = object : PendingIntentDelegate {
             override fun onPendingIntentBroadcast(context: Context, intent: Intent): PendingIntent {
                 assertThat(context).isEqualTo(mockContext)
-                assertIntentExtras(intent, AlarmReceiver.ALARM_DELETE)
+                assertIntentExtras(intent, ALARM_DELETE)
                 return pendingIntent
             }
         }
