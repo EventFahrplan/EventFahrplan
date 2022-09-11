@@ -13,6 +13,7 @@ This list is for your preparation. Step 3 guides you through where to fill in th
 - Google Play URL, e.g. `https://play.google.com/store/apps/details?id=com.awesome.event.schedule`
 - F-Droid URL, e.g. `https://f-droid.org/packages/com.awesome.event.schedule`
 - Event URL, e.g. `https://awesome-event.com/2021`
+- Event postal address (optional), e.g. `CCH, Congressplatz 1, 20355 Hamburg`
 - Start and end date of the event
 - Email address for bug reports
 - Social media hashtags/handles (can be empty), e.g. `#36c3 @ccc`
@@ -77,6 +78,7 @@ In some of the steps it is the easiest to copy and adapt configuration settings,
 
 The following options can be enabled via a `buildConfigField` and configured in *app/build.gradle* if needed.
 
+- Event postal address for easy map navigation via `EVENT_POSTAL_ADDRESS`
 - Social media hashtags/handles for the event via `SOCIAL_MEDIA_HASHTAGS_HANDLES`
 - Alternative schedule URL via `ENABLE_ALTERNATIVE_SCHEDULE_URL`
 - c3nav integration via `C3NAV_URL`

@@ -1,17 +1,23 @@
 package nerd.tuxmobil.fahrplan.congress.about
 
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
 import nerd.tuxmobil.fahrplan.congress.BuildConfig
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.extensions.requireViewByIdCompat
 import nerd.tuxmobil.fahrplan.congress.extensions.setLinkText
+import nerd.tuxmobil.fahrplan.congress.extensions.startActivity
 import nerd.tuxmobil.fahrplan.congress.extensions.toSpanned
 import nerd.tuxmobil.fahrplan.congress.extensions.withArguments
 import nerd.tuxmobil.fahrplan.congress.utils.LinkMovementMethodCompat
@@ -93,6 +99,17 @@ class AboutDialog : DialogFragment() {
         logoCopyright.setLinkTextColor(linkTextColor)
         logoCopyright.movementMethod = movementMethod
 
+        // Event location
+        val locationView = view.requireViewByIdCompat<TextView>(R.id.about_conference_location_view)
+        val locationText = BuildConfig.EVENT_POSTAL_ADDRESS
+        if (locationText.isEmpty()) {
+            locationView.isVisible = false
+        } else {
+            locationView.isVisible = true
+            locationView.setLinkText(locationText, null, movementMethod, linkTextColor)
+            locationView.setOnClickListener { openMap(view.context, locationText) }
+        }
+
         // Event website URL
         val conferenceUrl = view.requireViewByIdCompat<TextView>(R.id.about_conference_url_view)
         val websiteUrl = BuildConfig.EVENT_WEBSITE_URL
@@ -167,6 +184,14 @@ class AboutDialog : DialogFragment() {
         val buildHashValue = getString(R.string.git_sha)
         val buildHashText = getString(R.string.build_info_hash, buildHashValue)
         buildHashTextView.text = buildHashText
+    }
+
+    private fun openMap(context: Context, @Suppress("SameParameterValue") locationText: String) {
+        val encodedLocationText = Uri.encode(locationText)
+        val uri = "geo:0,0?q=$encodedLocationText".toUri()
+        context.startActivity(Intent(Intent.ACTION_VIEW).apply { data = uri }) {
+            Toast.makeText(context, R.string.share_error_activity_not_found, Toast.LENGTH_SHORT).show()
+        }
     }
 
 }

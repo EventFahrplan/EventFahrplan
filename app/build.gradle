@@ -34,6 +34,7 @@ android {
         buildConfigField "String", "SOURCE_CODE_URL", '"https://github.com/EventFahrplan/EventFahrplan"'
         buildConfigField "String", "ISSUES_URL", '"https://github.com/EventFahrplan/EventFahrplan/issues"'
         buildConfigField "String", "DATA_PRIVACY_STATEMENT_DE_URL", '"https://github.com/EventFahrplan/EventFahrplan/blob/master/DATA-PRIVACY-DE.md"'
+        buildConfigField "String", "EVENT_POSTAL_ADDRESS", '""'
         buildConfigField "boolean", "ENGAGE_C3NAV_APP_INSTALLATION", "false"
         buildConfigField "String", "C3NAV_URL", '""'
         buildConfigField "boolean", "ENABLE_ALTERNATIVE_SCHEDULE_URL", "false"
@@ -84,6 +85,7 @@ android {
             buildConfigField "String", "SCHEDULE_URL", '"https://data.c3voc.de/camp2019/everything.schedule.xml"'
             buildConfigField "String", "EVENT_URL", '"http://events.ccc.de/camp/2019/Fahrplan/events/%1$s.html"'
             buildConfigField "String", "EVENT_WEBSITE_URL", '"http://events.ccc.de/camp/2019/"'
+            buildConfigField "String", "EVENT_POSTAL_ADDRESS", '"Ziegeleipark Mildenberg, 16792 Zehdenick"'
             buildConfigField "String", "SERVER_BACKEND_TYPE", '"frab"'
             buildConfigField "int", "SCHEDULE_FIRST_DAY_START_YEAR", "2019"
             buildConfigField "int", "SCHEDULE_FIRST_DAY_START_MONTH", "8"
@@ -105,6 +107,7 @@ android {
             buildConfigField "String", "SCHEDULE_URL", '"https://raw.githubusercontent.com/voc/36C3_schedule/master/everything.schedule.xml"'
             buildConfigField "String", "EVENT_URL", '"https://events.ccc.de/congress/2019/Fahrplan/events/%1$s.html"'
             buildConfigField "String", "EVENT_WEBSITE_URL", '"https://events.ccc.de/congress/2019/wiki"'
+            buildConfigField "String", "EVENT_POSTAL_ADDRESS", '"Congress Center Leipzig, Messe-Allee 1, 04356 Leipzig"'
             buildConfigField "String", "SERVER_BACKEND_TYPE", '"frab"'
             buildConfigField "int", "SCHEDULE_FIRST_DAY_START_YEAR", "2019"
             buildConfigField "int", "SCHEDULE_FIRST_DAY_START_MONTH", "12"

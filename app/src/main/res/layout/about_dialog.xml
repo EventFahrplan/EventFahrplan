@@ -47,6 +47,18 @@
             tools:text="Works for me" />
 
         <TextView
+            android:id="@+id/about_conference_location_view"
+            style="@style/TextViewLinks"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:linksClickable="true"
+            android:paddingBottom="10dp"
+            android:singleLine="false"
+            tools:text="CCH, Congressplatz 1, 20355 Hamburg" />
+
+        <TextView
             android:id="@+id/about_conference_url_view"
             style="@style/TextViewLinks"
             android:layout_width="wrap_content"
