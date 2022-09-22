@@ -9,7 +9,7 @@ object Config {
 }
 
 object Android {
-    const val buildToolsVersion = "32.0.0"
+    const val buildToolsVersion = "33.0.0"
     const val compileSdkVersion = 31
     const val minSdkVersion = 16
     const val targetSdkVersion = 31
