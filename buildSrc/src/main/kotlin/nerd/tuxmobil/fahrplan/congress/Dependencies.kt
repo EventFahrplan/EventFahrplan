@@ -46,7 +46,7 @@ object Libs {
         const val assertjAndroid = "1.2.0"
         const val betterLinkMovementMethod = "2.2.0"
         const val constraintLayout = "2.1.4"
-        const val coreKtx = "1.8.0"
+        const val coreKtx = "1.8.0" // compileSdk 33 is required as of 1.9.0
         const val coreTesting = "2.1.0"
         const val emailIntentBuilder = "2.0.0"
         const val engelsystem = "7.1.0"
