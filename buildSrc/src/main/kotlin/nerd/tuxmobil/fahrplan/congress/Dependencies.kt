@@ -10,9 +10,9 @@ object Config {
 
 object Android {
     const val buildToolsVersion = "33.0.0"
-    const val compileSdkVersion = 31
+    const val compileSdkVersion = 33
     const val minSdkVersion = 16
-    const val targetSdkVersion = 31
+    const val targetSdkVersion = 33
 }
 
 object Plugins {
@@ -42,7 +42,7 @@ object Libs {
 
     private object Versions {
         const val annotation = "1.5.0"
-        const val appCompat = "1.4.2" // compileSdk 32 is required as of 1.5.0
+        const val appCompat = "1.4.2" // compileSdk 32 is required as of 1.5.0, potential lifecycle-viewmodel-ktx conflict, see: https://issuetracker.google.com/issues/238425626
         const val assertjAndroid = "1.2.0"
         const val betterLinkMovementMethod = "2.2.0"
         const val constraintLayout = "2.1.4"
