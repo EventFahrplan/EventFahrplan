@@ -1,5 +1,5 @@
 files:
   - source: /app/src/main/res/values/preferences.xml
-    translation: app/src/main/res/values-%two_letters_code%/%original_file_name%
+    translation: app/src/main/res/values-%two_letters_code%-%locale%/%original_file_name%
   - source: /app/src/main/res/values/strings.xml
     translation: app/src/main/res/values-%two_letters_code%/%original_file_name%
