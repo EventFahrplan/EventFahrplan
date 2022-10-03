@@ -157,7 +157,7 @@ android {
         }
     }
 
-    lintOptions {
+    lint {
         checkDependencies true
         // for okio - https://github.com/square/okio/issues/58
         warning "InvalidPackage"
