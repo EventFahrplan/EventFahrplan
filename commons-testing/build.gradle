@@ -6,6 +6,8 @@ apply plugin: "com.android.library"
 apply plugin: "kotlin-android"
 
 android {
+    namespace "info.metadude.android.eventfahrplan.commons.testing"
+
     compileSdk Android.compileSdkVersion
     buildToolsVersion Android.buildToolsVersion
 

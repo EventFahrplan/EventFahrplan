@@ -12,6 +12,8 @@ apply plugin: "com.getkeepsafe.dexcount"
 apply from: "../gradle/sonarqube.gradle"
 
 android {
+    namespace "nerd.tuxmobil.fahrplan.congress"
+
     compileSdk Android.compileSdkVersion
     buildToolsVersion Android.buildToolsVersion
 
