@@ -6,14 +6,14 @@ apply plugin: "com.android.library"
 apply plugin: "kotlin-android"
 
 android {
+    namespace "info.metadude.android.eventfahrplan.database"
+
     compileSdk Android.compileSdkVersion
     buildToolsVersion Android.buildToolsVersion
 
     defaultConfig {
         minSdk Android.minSdkVersion
         targetSdk Android.targetSdkVersion
-        versionCode 1
-        versionName "1.0.0"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
 

@@ -12,6 +12,8 @@ apply plugin: "com.getkeepsafe.dexcount"
 apply from: "../gradle/sonarqube.gradle"
 
 android {
+    namespace "nerd.tuxmobil.fahrplan.congress"
+
     compileSdk Android.compileSdkVersion
     buildToolsVersion Android.buildToolsVersion
 
@@ -157,7 +159,7 @@ android {
         }
     }
 
-    lintOptions {
+    lint {
         checkDependencies true
         // for okio - https://github.com/square/okio/issues/58
         warning "InvalidPackage"

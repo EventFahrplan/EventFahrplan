@@ -9,7 +9,7 @@ object Config {
 }
 
 object Android {
-    const val buildToolsVersion = "32.0.0"
+    const val buildToolsVersion = "33.0.0"
     const val compileSdkVersion = 31
     const val minSdkVersion = 16
     const val targetSdkVersion = 31
@@ -18,11 +18,11 @@ object Android {
 object Plugins {
 
     private object Versions {
-        const val android = "7.2.2"
+        const val android = "7.3.0"
         const val androidJunitJacoco = "0.16.0"
         const val dexcount = "3.1.0"
-        const val kotlin = "1.7.10"
-        const val ksp = "1.7.10-1.0.6"
+        const val kotlin = "1.7.20"
+        const val ksp = "1.7.20-1.0.6"
         const val sonarQube = "3.4.0.2513"
         const val unMock = "0.7.9"
         const val versions = "0.42.0"
@@ -41,12 +41,12 @@ object Plugins {
 object Libs {
 
     private object Versions {
-        const val annotation = "1.4.0"
+        const val annotation = "1.5.0"
         const val appCompat = "1.4.2" // compileSdk 32 is required as of 1.5.0
         const val assertjAndroid = "1.2.0"
         const val betterLinkMovementMethod = "2.2.0"
         const val constraintLayout = "2.1.4"
-        const val coreKtx = "1.8.0"
+        const val coreKtx = "1.8.0" // compileSdk 33 is required as of 1.9.0
         const val coreTesting = "2.1.0"
         const val emailIntentBuilder = "2.0.0"
         const val engelsystem = "7.1.0"
@@ -56,9 +56,9 @@ object Libs {
         const val lifecycle = "2.5.1"
         const val markwon = "4.6.2"
         const val material = "1.6.1"
-        const val mockito = "4.7.0"
+        const val mockito = "4.8.0"
         const val mockitoKotlin = "4.0.0"
-        const val moshi = "1.13.0"
+        const val moshi = "1.14.0"
         const val multiDex = "2.0.1"
         const val okhttp = "3.12.13"
         const val preference = "1.2.0"
@@ -66,10 +66,10 @@ object Libs {
         const val robolectric = "4.3_r2-robolectric-0"
         const val snackengage = "0.29"
         const val testExtJunit = "1.1.3"
-        const val threeTenBp = "1.6.1"
+        const val threeTenBp = "1.6.2"
         const val tracedroid = "3.1"
         const val truth = "1.1.3"
-        const val turbine = "0.9.0"
+        const val turbine = "0.11.0"
     }
 
     const val annotation = "androidx.annotation:annotation:${Versions.annotation}"
