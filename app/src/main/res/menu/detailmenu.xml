@@ -31,13 +31,13 @@
     </item>
     <item
             android:id="@+id/menu_item_set_alarm"
-            android:icon="@drawable/ic_action_bell_add_white_24px"
+            android:icon="@drawable/ic_bell_outline"
             app:showAsAction="always"
             android:title="@string/menu_item_title_set_alarm">
     </item>
     <item
             android:id="@+id/menu_item_delete_alarm"
-            android:icon="@drawable/ic_action_bell_remove_white_24px"
+            android:icon="@drawable/ic_bell_filled"
             app:showAsAction="always"
             android:title="@string/menu_item_title_delete_alarm"
             android:visible="false">

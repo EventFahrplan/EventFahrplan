@@ -37,7 +37,7 @@
             android:layout_marginLeft="5dp"
             android:adjustViewBounds="true"
             android:baseline="14sp"
-            android:src="@drawable/bell" />
+            android:src="@drawable/ic_bell_filled" />
 
     </LinearLayout>
 

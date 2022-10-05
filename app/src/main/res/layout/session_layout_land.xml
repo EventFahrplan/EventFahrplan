@@ -39,7 +39,7 @@
             android:adjustViewBounds="true"
             android:baseline="8sp"
             android:scaleType="fitEnd"
-            android:src="@drawable/bell" />
+            android:src="@drawable/ic_bell_filled" />
 
     </LinearLayout>
 
