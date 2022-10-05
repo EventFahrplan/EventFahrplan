@@ -2,7 +2,6 @@ package nerd.tuxmobil.fahrplan.congress.schedule
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.GestureDetector
 import android.view.GestureDetector.SimpleOnGestureListener
 import android.view.MotionEvent
 import android.view.MotionEvent.ACTION_CANCEL
@@ -15,6 +14,7 @@ import androidx.annotation.VisibleForTesting
 import androidx.core.view.children
 import androidx.core.view.forEach
 import androidx.core.view.get
+import androidx.core.view.GestureDetectorCompat
 import androidx.core.view.updateLayoutParams
 import info.metadude.android.eventfahrplan.commons.logging.Logging
 import nerd.tuxmobil.fahrplan.congress.R
@@ -25,7 +25,7 @@ import kotlin.math.ceil
 import kotlin.math.floor
 import kotlin.math.roundToInt
 
-class HorizontalSnapScrollView(context: Context?, attrs: AttributeSet?) : HorizontalScrollView(context, attrs) {
+class HorizontalSnapScrollView(context: Context, attrs: AttributeSet) : HorizontalScrollView(context, attrs) {
 
     companion object {
         private const val LOG_TAG = "HorizontalSnapScrollView"
@@ -62,7 +62,7 @@ class HorizontalSnapScrollView(context: Context?, attrs: AttributeSet?) : Horizo
     }
 
     private val logging = Logging.get()
-    private val gestureDetector: GestureDetector
+    private val gestureDetector: GestureDetectorCompat
     private var horizontalSnapScrollState = HorizontalSnapScrollState(logging)
     private lateinit var roomNames: HorizontalScrollView
 
@@ -82,7 +82,7 @@ class HorizontalSnapScrollView(context: Context?, attrs: AttributeSet?) : Horizo
             columnWidth = 0,
             activeColumnIndex = horizontalSnapScrollState.activeColumnIndex
         )
-        gestureDetector = GestureDetector(YScrollDetector())
+        gestureDetector = GestureDetectorCompat(context, YScrollDetector())
         setOnTouchListener(OnTouchListener())
     }
 
