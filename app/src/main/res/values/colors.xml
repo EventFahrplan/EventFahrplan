@@ -27,6 +27,7 @@
 
     <!-- Tool bar -->
     <color name="tool_bar_background">@color/colorPrimary</color>
+    <color name="tool_bar_icon">#fff</color>
     <color name="day_menu_text">@color/text_primary</color>
 
     <!-- About -->
