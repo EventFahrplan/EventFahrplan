@@ -3,12 +3,11 @@
 # EventFahrplan
 
 EventFahrplan is a viewer for event schedules for instance
-[Chaos Computer Club e.V. events][ccc-events] such as [Chaos Communication Camp][camp-website],
-[Chaos Communication Congress][congress-website] or [Remote Chaos Experience][rc3-website].
+[Chaos Computer Club e.V. events][ccc-events] such as [Chaos Communication Camp][camp-website]
+or [Chaos Communication Congress][congress-website].
 
 - Chaos Communication Camp Schedule app: [F-Droid][camp-app-fdroid], [Google Play][camp-app-google-play]
 - Chaos Communication Congress Schedule app: [F-Droid][congress-app-fdroid], [Google Play][congress-app-google-play]
-- Remote Chaos Experience Schedule app: [F-Droid][rc3-app-fdroid], [Google Play][rc3-app-google-play]
 
 The app is available for Android devices.
 
@@ -150,8 +149,5 @@ limitations under the License.
 [johnjohndoe-github]: https://github.com/johnjohndoe
 [pentabarf-github]: https://github.com/nevs/pentabarf
 [pretalx-website]: https://pretalx.com
-[rc3-app-fdroid]: https://f-droid.org/packages/info.metadude.android.rc3.schedule
-[rc3-app-google-play]: https://play.google.com/store/apps/details?id=info.metadude.android.rc3.schedule
-[rc3-website]: https://rc3.world
 [tuxmobil-github]: https://github.com/tuxmobil
 [wafer-website]: https://wafer.readthedocs.io
