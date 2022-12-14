@@ -60,7 +60,7 @@
 
     <!-- Favorites -->
     <color name="favorites_past_session_text">#808080</color>
-    <color name="favorites_background">#ffffff</color>
+    <color name="favorites_background">@color/windowBackground</color>
 
     <!-- Session item (favorites + schedule changes) -->
     <color name="session_list_header_text">@color/text_primary</color>
