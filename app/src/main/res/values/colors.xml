@@ -54,6 +54,7 @@
     <color name="schedule_changes_dialog_new_version_text">@color/colorAccent</color>
 
     <!-- Schedule changes -->
+    <color name="schedule_changes_background">@color/windowBackground</color>
     <color name="schedule_change">#F57C00</color>
     <color name="schedule_change_new">#689F38</color>
     <color name="schedule_change_canceled">#D32F2F</color>
