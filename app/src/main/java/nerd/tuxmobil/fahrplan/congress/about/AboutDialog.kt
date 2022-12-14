@@ -79,7 +79,13 @@ class AboutDialog : DialogFragment() {
         // Session subtitle
         val subtitle = view.requireViewByIdCompat<TextView>(R.id.about_session_subtitle_view)
         if (subtitleText.isEmpty()) {
-            subtitleText = getString(R.string.app_hardcoded_subtitle)
+            val hardcodedSubtitleText = getString(R.string.app_hardcoded_subtitle)
+            if (hardcodedSubtitleText.isEmpty()) {
+                subtitle.isVisible = false
+            } else {
+                subtitle.isVisible = true
+                subtitleText = hardcodedSubtitleText
+            }
         }
         subtitle.text = subtitleText
 
