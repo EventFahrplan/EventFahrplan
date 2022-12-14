@@ -63,7 +63,9 @@
             style="@style/AboutSection.Text"
             android:text="@string/app_disclaimer" />
 
-        <include layout="@layout/horizontal_line" />
+        <include
+            android:id="@+id/about_app_disclaimer_line_view"
+            layout="@layout/horizontal_line" />
 
         <TextView
             android:id="@+id/about_copyright_logo_view"
