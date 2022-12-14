@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <color name="text_primary">@android:color/primary_text_dark</color>
+    <color name="text_secondary">@android:color/secondary_text_dark</color>
+    <color name="text_tertiary">@android:color/tertiary_text_dark</color>
     <color name="windowBackground">#003339</color>
     <color name="popupBackground">@color/colorPrimaryDark</color>
     <color name="text_link_on_light">@color/colorAccent</color>
