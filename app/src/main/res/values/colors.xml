@@ -66,14 +66,8 @@
     <color name="spinner_drop_down_text">#cc0000</color>
 
     <!-- Session details -->
-    <color name="session_details_background">
-        @color/session_background
-    </color>
-    <color name="session_details_text">
-        @android:color/black
-    </color>
-    <color name="session_detailbar_icon">
-        @color/colorAccent
-    </color>
+    <color name="session_details_background">@color/session_background</color>
+    <color name="session_details_text">@android:color/black</color>
+    <color name="session_detailbar_icon">@color/colorAccent</color>
 
 </resources>
