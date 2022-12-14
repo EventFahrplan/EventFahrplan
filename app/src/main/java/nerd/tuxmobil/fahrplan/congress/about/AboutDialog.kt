@@ -79,7 +79,13 @@ class AboutDialog : DialogFragment() {
         // Session subtitle
         val subtitle = view.requireViewByIdCompat<TextView>(R.id.about_session_subtitle_view)
         if (subtitleText.isEmpty()) {
-            subtitleText = getString(R.string.app_hardcoded_subtitle)
+            val hardcodedSubtitleText = getString(R.string.app_hardcoded_subtitle)
+            if (hardcodedSubtitleText.isEmpty()) {
+                subtitle.isVisible = false
+            } else {
+                subtitle.isVisible = true
+                subtitleText = hardcodedSubtitleText
+            }
         }
         subtitle.text = subtitleText
 
@@ -92,6 +98,8 @@ class AboutDialog : DialogFragment() {
         appDisclaimer.isVisible = BuildConfig.SHOW_APP_DISCLAIMER
         val linkTextColor = ContextCompat.getColor(view.context, R.color.text_link_on_dark)
         val movementMethod = LinkMovementMethodCompat.getInstance()
+        val appDisclaimerLine = view.requireViewByIdCompat<View>(R.id.about_app_disclaimer_line_view)
+        appDisclaimerLine.isVisible = BuildConfig.SHOW_APP_DISCLAIMER
 
         // Logo copyright note
         val logoCopyright = view.requireViewByIdCompat<TextView>(R.id.about_copyright_logo_view)
