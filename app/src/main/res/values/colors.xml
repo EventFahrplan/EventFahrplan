@@ -6,6 +6,7 @@
     <color name="text_tertiary">@android:color/tertiary_text_dark</color>
     <color name="windowBackground">#003339</color>
     <color name="popupBackground">@color/colorPrimaryDark</color>
+    <color name="foreground">#888</color>
     <color name="text_link_on_light">@color/colorAccent</color>
     <color name="text_link_on_dark">@color/colorAccent</color>
     <color name="text_link_pressed_background_on_light">#aafec700</color>
