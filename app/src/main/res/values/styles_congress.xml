@@ -17,6 +17,7 @@
         <item name="alertDialogTheme">@style/AlertDialog</item>
         <item name="android:windowBackground">@drawable/window_background</item>
         <item name="android:spinnerItemStyle">@style/SpinnerItemStyle</item>
+        <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItemStyle</item>
 
         <!-- Scrollbar -->
         <item name="android:scrollbarSize">@dimen/scrollbar_size</item>
@@ -38,6 +39,7 @@
         <item name="actionOverflowMenuStyle">@style/PopupMenuOverflowStyle</item>
         <item name="android:contextPopupMenuStyle" tools:targetApi="N">@style/ContextPopupMenuStyle</item>
         <item name="android:spinnerItemStyle">@style/SpinnerItemStyle</item>
+        <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItemStyle</item>
         <item name="actionDropDownStyle">@style/MyActionDropDownStyle</item>
         <item name="windowActionModeOverlay">true</item>
         <item name="actionModeBackground">@color/colorPrimary</item>
@@ -55,8 +57,15 @@
     </style>
 
     <style name="SpinnerItemStyle" parent="Widget.AppCompat.DropDownItem.Spinner">
+        <item name="android:textColor">@color/text_primary</item>
         <item name="android:paddingBottom">12dp</item>
         <item name="android:paddingTop">12dp</item>
+        <item name="android:foreground">?android:attr/selectableItemBackground</item>
+    </style>
+
+    <style name="SpinnerDropDownItemStyle" parent="Widget.AppCompat.DropDownItem.Spinner">
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:background">@color/windowBackground</item>
         <item name="android:foreground">?android:attr/selectableItemBackground</item>
     </style>
 
