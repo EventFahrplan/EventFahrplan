@@ -94,6 +94,8 @@
     </style>
 
     <style name="AlertDialog" parent="Theme.AppCompat.Dialog.Alert">
+        <item name="android:textColorPrimary">@color/text_primary</item>
+        <item name="android:textColorSecondary">@color/text_secondary</item>
         <item name="colorAccent">@color/alert_dialog_button_text</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Title</item>
         <item name="android:windowBackground">@color/windowBackground</item>
