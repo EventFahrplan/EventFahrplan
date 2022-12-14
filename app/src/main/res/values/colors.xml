@@ -29,6 +29,7 @@
     <color name="day_menu_text">@color/text_primary</color>
 
     <!-- About -->
+    <color name="about_window_background">@color/windowBackground</color>
     <color name="about_horizontal_line">#606060</color>
     <color name="about_title">@android:color/primary_text_dark</color>
     <color name="about_subtitle">@android:color/primary_text_dark</color>
