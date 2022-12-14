@@ -63,9 +63,9 @@
     <color name="favorites_background">#ffffff</color>
 
     <!-- Session item (favorites + schedule changes) -->
-    <color name="session_list_header_text">@android:color/secondary_text_light</color>
-    <color name="session_list_item_text">#000000</color>
-    <color name="session_list_empty_text">#000000</color>
+    <color name="session_list_header_text">@color/text_primary</color>
+    <color name="session_list_item_text">@color/text_primary</color>
+    <color name="session_list_empty_text">@color/text_primary</color>
 
     <!-- Spinner -->
     <color name="spinner_drop_down_text">#cc0000</color>
