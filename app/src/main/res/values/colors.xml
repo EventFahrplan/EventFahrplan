@@ -26,6 +26,10 @@
 
     <!-- About -->
     <color name="about_horizontal_line">#606060</color>
+    <color name="about_title">@android:color/primary_text_dark</color>
+    <color name="about_subtitle">@android:color/primary_text_dark</color>
+    <color name="about_text">@android:color/secondary_text_dark</color>
+    <color name="about_text_link">@color/text_link_on_light</color>
 
     <!-- Alarm dialogs -->
     <color name="alert_dialog_button_text">@color/colorAccent</color>
