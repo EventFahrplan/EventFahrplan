@@ -6,6 +6,8 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColorPrimary">@color/text_primary</item>
+        <item name="android:textColorSecondary">@color/text_secondary</item>
 
         <!-- The rest of your attributes -->
         <item name="android:textColorHighlight">@color/text_link_pressed_background_on_light</item>
@@ -17,6 +19,7 @@
         <item name="alertDialogTheme">@style/AlertDialog</item>
         <item name="android:windowBackground">@drawable/window_background</item>
         <item name="android:spinnerItemStyle">@style/SpinnerItemStyle</item>
+        <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItemStyle</item>
 
         <!-- Scrollbar -->
         <item name="android:scrollbarSize">@dimen/scrollbar_size</item>
@@ -29,12 +32,17 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:colorForeground">@color/foreground</item>
+        <item name="android:textColorPrimary">@color/text_primary</item>
+        <item name="android:textColorSecondary">@color/text_secondary</item>
+        <item name="android:textColorHint">@color/text_secondary</item>
 
         <!-- The rest of your attributes -->
         <item name="android:textColorHighlight">@color/text_link_pressed_background_on_light</item>
         <item name="actionOverflowMenuStyle">@style/PopupMenuOverflowStyle</item>
         <item name="android:contextPopupMenuStyle" tools:targetApi="N">@style/ContextPopupMenuStyle</item>
         <item name="android:spinnerItemStyle">@style/SpinnerItemStyle</item>
+        <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItemStyle</item>
         <item name="actionDropDownStyle">@style/MyActionDropDownStyle</item>
         <item name="windowActionModeOverlay">true</item>
         <item name="actionModeBackground">@color/colorPrimary</item>
@@ -52,8 +60,15 @@
     </style>
 
     <style name="SpinnerItemStyle" parent="Widget.AppCompat.DropDownItem.Spinner">
+        <item name="android:textColor">@color/text_primary</item>
         <item name="android:paddingBottom">12dp</item>
         <item name="android:paddingTop">12dp</item>
+        <item name="android:foreground">?android:attr/selectableItemBackground</item>
+    </style>
+
+    <style name="SpinnerDropDownItemStyle" parent="Widget.AppCompat.DropDownItem.Spinner">
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:background">@color/windowBackground</item>
         <item name="android:foreground">?android:attr/selectableItemBackground</item>
     </style>
 
@@ -91,9 +106,12 @@
     </style>
 
     <style name="AlertDialog" parent="Theme.AppCompat.Dialog.Alert">
+        <item name="android:textColorPrimary">@color/text_primary</item>
+        <item name="android:textColorSecondary">@color/text_secondary</item>
         <item name="colorAccent">@color/alert_dialog_button_text</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Title</item>
         <item name="android:windowBackground">@color/windowBackground</item>
+        <item name="textColorAlertDialogListItem">@color/text_secondary</item>
     </style>
 
     <style name="MyActionDropDownStyle" parent="Widget.AppCompat.Spinner.DropDown.ActionBar">
@@ -113,6 +131,7 @@
         <item name="android:paddingLeft">16dp</item>
         <item name="android:background">@color/popupBackground</item>
         <item name="android:foreground">?android:attr/selectableItemBackground</item>
+        <item name="android:textColor">@color/day_menu_text</item>
     </style>
 
     <style name="AlarmList.Icon" parent="@android:style/TextAppearance.Medium">

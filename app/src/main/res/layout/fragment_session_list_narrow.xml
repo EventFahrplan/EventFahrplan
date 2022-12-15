@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/favorites_background"
+    android:background="@drawable/schedule_changes_background"
     tools:context=".changes.ChangeListFragment">
 
     <ListView
