@@ -150,7 +150,7 @@
     <style name="ScheduleListPrimary" parent="@android:style/TextAppearance.Medium">
         <item name="android:textColor">@color/session_list_item_text</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:fontFamily" tools:targetApi="jelly_bean">sans-serif-condensed</item>
+        <item name="android:fontFamily">sans-serif-condensed</item>
     </style>
 
     <style name="ScheduleListSecondary" parent="@android:style/TextAppearance.Small">
