@@ -89,6 +89,7 @@
         Der Fahrplan wurde aktualisiert.
     </string>
     <string name="settings">Einstellungen</string>
+    <string name="session_details_section_title_track">Themenfeld</string>
     <string name="session_details_section_title_session_online">Event online</string>
     <string name="session_details_section_title_links">Links</string>
     <string name="choose_alarm_time">Wähle die Alarmzeit</string>
@@ -105,9 +106,9 @@
     <string name="today">heute</string>
     <string name="schedule_parsing_error_generic">Unbekannter Fehler beim Parsen des Fahrplans</string>
     <string name="schedule_parsing_error_with_version">Fehler beim Parsen der Fahrplan-Version <xliff:g example="0.99a" id="scheduleVersion">%s</xliff:g></string>
-    <string name="engelsystem_shifts_parsing_error_generic">Unbekannter Fehler beim Parsen der Engelsystem-Schichten</string>
-    <string name="engelsystem_shifts_parsing_error_forbidden">Ungültiger API-Schlüssel für Engelsystem-Schichten</string>
-    <string name="engelsystem_shifts_parsing_error_not_found">Falsche URL für Engelsystem-Schichten</string>
+    <string name="engelsystem_shifts_parsing_error_generic">Unbekannter Fehler beim Parsen der <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g>-Schichten</string>
+    <string name="engelsystem_shifts_parsing_error_forbidden">Ungültiger API-Schlüssel für <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g>-Schichten</string>
+    <string name="engelsystem_shifts_parsing_error_not_found">Falsche URL für <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g>-Schichten</string>
     <string name="alarms_empty">
 		Aktuell sind keine Alarme gespeichert. Im Fahrplan
 		kannst du über das entsprechende Symbol in der ActionBar
@@ -153,6 +154,8 @@
     <string name="snack_engage_google_play_beta_testing_action">Werde Beta-Tester</string>
     <string name="snack_engage_c3nav_title">Indoor-Navigation auf dem <xliff:g example="35C3" id="conferenceName">%s</xliff:g>! Mit der c3nav-App</string>
     <string name="snack_engage_c3nav_action">Jetzt installieren!</string>
+    <string name="snack_engage_landscape_orientation_title">Schon Querformat probiert?</string>
+    <string name="snack_engage_landscape_orientation_action">Dreh dein Gerät!</string>
 
     <!-- TraceDroid -->
     <string name="trace_droid_dialog_title">

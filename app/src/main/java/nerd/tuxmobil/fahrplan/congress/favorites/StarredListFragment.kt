@@ -19,6 +19,7 @@ import android.widget.Toast
 import androidx.annotation.CallSuper
 import androidx.annotation.IdRes
 import androidx.annotation.MainThread
+import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
@@ -74,6 +75,8 @@ class StarredListFragment :
      */
     private lateinit var currentListView: ListView
 
+    private lateinit var loadingSpinnerView: View
+
     private val starredListAdapter: StarredListAdapter
         get() {
             val headerViewListAdapter = currentListView.adapter as HeaderViewListAdapter
@@ -113,6 +116,9 @@ class StarredListFragment :
         currentListView.choiceMode = AbsListView.CHOICE_MODE_MULTIPLE_MODAL
         currentListView.setMultiChoiceModeListener(this)
         currentListView.setOnScrollListener(this)
+
+        loadingSpinnerView = view.requireViewByIdCompat(R.id.loading_spinner_view)
+
         return view
     }
 
@@ -128,6 +134,8 @@ class StarredListFragment :
             val adapter = StarredListAdapter(activity, sessions, numDays, useDeviceTimeZone)
             currentListView.adapter = adapter
             activity.invalidateOptionsMenu()
+
+            loadingSpinnerView.isVisible = false
         }
         viewModel.shareSimple.observe(viewLifecycleOwner) { formattedSession ->
             SessionSharer.shareSimple(requireContext(), formattedSession)

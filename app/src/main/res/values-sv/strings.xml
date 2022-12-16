@@ -166,9 +166,9 @@
         Anpassade påminnelser för olika evenemang.
     </string>
     <string name="session_details_section_title_session_online">Online-händelse</string>
-    <string name="engelsystem_shifts_parsing_error_generic">Okänt fel vid tolking av Engelsystem pass</string>
-    <string name="engelsystem_shifts_parsing_error_forbidden">Ogiltlig API nyckel för Engelsystem pass</string>
-    <string name="engelsystem_shifts_parsing_error_not_found">Felaktig URL för Engelsystem pass</string>
+    <string name="engelsystem_shifts_parsing_error_generic">Okänt fel vid tolking av <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g> pass</string>
+    <string name="engelsystem_shifts_parsing_error_forbidden">Ogiltlig API nyckel för <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g> pass</string>
+    <string name="engelsystem_shifts_parsing_error_not_found">Felaktig URL för <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g> pass</string>
     <string name="validation_error_invalid_url">
         Ogiltlig <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL.
     </string>

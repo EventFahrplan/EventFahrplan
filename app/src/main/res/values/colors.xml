@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <color name="text_primary">@android:color/primary_text_dark</color>
+    <color name="text_secondary">@android:color/secondary_text_dark</color>
+    <color name="text_tertiary">@android:color/tertiary_text_dark</color>
     <color name="windowBackground">#003339</color>
     <color name="popupBackground">@color/colorPrimaryDark</color>
+    <color name="foreground">#888</color>
     <color name="text_link_on_light">@color/colorAccent</color>
     <color name="text_link_on_dark">@color/colorAccent</color>
     <color name="text_link_pressed_background_on_light">#aafec700</color>
@@ -23,9 +27,15 @@
 
     <!-- Tool bar -->
     <color name="tool_bar_background">@color/colorPrimary</color>
+    <color name="day_menu_text">@color/text_primary</color>
 
     <!-- About -->
+    <color name="about_window_background">@color/windowBackground</color>
     <color name="about_horizontal_line">#606060</color>
+    <color name="about_title">@android:color/primary_text_dark</color>
+    <color name="about_subtitle">@android:color/primary_text_dark</color>
+    <color name="about_text">@android:color/secondary_text_dark</color>
+    <color name="about_text_link">@color/text_link_on_light</color>
 
     <!-- Alarm dialogs -->
     <color name="alert_dialog_button_text">@color/colorAccent</color>
@@ -45,31 +55,26 @@
     <color name="schedule_changes_dialog_new_version_text">@color/colorAccent</color>
 
     <!-- Schedule changes -->
+    <color name="schedule_changes_background">@color/windowBackground</color>
     <color name="schedule_change">#F57C00</color>
     <color name="schedule_change_new">#689F38</color>
     <color name="schedule_change_canceled">#D32F2F</color>
 
     <!-- Favorites -->
     <color name="favorites_past_session_text">#808080</color>
-    <color name="favorites_background">#ffffff</color>
+    <color name="favorites_background">@color/windowBackground</color>
 
     <!-- Session item (favorites + schedule changes) -->
-    <color name="session_list_header_text">@android:color/secondary_text_light</color>
-    <color name="session_list_item_text">#000000</color>
-    <color name="session_list_empty_text">#000000</color>
+    <color name="session_list_header_text">@color/text_primary</color>
+    <color name="session_list_item_text">@color/text_primary</color>
+    <color name="session_list_empty_text">@color/text_primary</color>
 
     <!-- Spinner -->
     <color name="spinner_drop_down_text">#cc0000</color>
 
     <!-- Session details -->
-    <color name="session_details_background">
-        @color/session_background
-    </color>
-    <color name="session_details_text">
-        @android:color/black
-    </color>
-    <color name="session_detailbar_icon">
-        @color/colorAccent
-    </color>
+    <color name="session_details_background">@color/session_background</color>
+    <color name="session_details_text">@android:color/black</color>
+    <color name="session_detailbar_icon">@color/colorAccent</color>
 
 </resources>

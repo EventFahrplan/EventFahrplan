@@ -111,9 +111,9 @@
     <string name="today">dzisiaj</string>
     <string name="schedule_parsing_error_generic">Nieznany błąd w trakcie parsowania grafiku</string>
     <string name="schedule_parsing_error_with_version">Błąd parsowania dla grafiku w wersji <xliff:g example="0.99a" id="scheduleVersion">%s</xliff:g></string>
-    <string name="engelsystem_shifts_parsing_error_generic">Nieznany błąd w trakcie parsowania zmian z Engelsystem</string>
-    <string name="engelsystem_shifts_parsing_error_forbidden">Błędny klucz API dla zmian w Engelsystem</string>
-    <string name="engelsystem_shifts_parsing_error_not_found">Błędny URL dla zmian w Engelsystem</string>
+    <string name="engelsystem_shifts_parsing_error_generic">Nieznany błąd w trakcie parsowania zmian z <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g></string>
+    <string name="engelsystem_shifts_parsing_error_forbidden">Błędny klucz API dla zmian w <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g></string>
+    <string name="engelsystem_shifts_parsing_error_not_found">Błędny URL dla zmian w <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g></string>
     <string name="alarms_empty">
         Brak przypomnień do wyświetlenia. Pamiętaj, że możesz
         ustawić indywidualne przypomnienia dla każdej pozycji grafiku.

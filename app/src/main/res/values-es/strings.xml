@@ -116,9 +116,9 @@
     <string name="today">Hoy</string>
     <string name="schedule_parsing_error_generic">Error desconocido mientras se procesaba el calendario</string>
     <string name="schedule_parsing_error_with_version">Error de procesado para la versión del calendario %s</string>
-    <string name="engelsystem_shifts_parsing_error_generic">Error desconocido mientras se convertían turnos de Engelsystem</string>
-    <string name="engelsystem_shifts_parsing_error_forbidden">API key inválida para turnos de Engelsystem</string>
-    <string name="engelsystem_shifts_parsing_error_not_found">URL inválida para turnos de Engelsystem</string>
+    <string name="engelsystem_shifts_parsing_error_generic">Error desconocido mientras se convertían turnos de <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g></string>
+    <string name="engelsystem_shifts_parsing_error_forbidden">API key inválida para turnos de <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g></string>
+    <string name="engelsystem_shifts_parsing_error_not_found">URL inválida para turnos de <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g></string>
     <string name="alarms_empty">
       No hay alarmas que mostrar. Tenga en cuenta que puede 
       configurar alarmas individuales para cada elemento del horario. 

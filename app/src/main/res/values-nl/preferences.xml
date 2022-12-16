@@ -37,7 +37,7 @@
 
     <string name="preference_summary_engelsystem_json_export_url">
         <![CDATA[Om jouw tijden te zien, vul jouw <u>persoonlijke</u> URL hier in.<br/><br/>
-        1. Login op jouw Engelsystem account.<br/>
+        1. Login op jouw <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g> account.<br/>
         2. Kopieer de URL achter de <u>JSON Export</u> knop op jouw profielpagina.<br/>
         3. Plak de URL hier.<br/><br/>
         Tijden voor en na de hoofd conferance dagen zijn <u>niet</u> getoond.]]>

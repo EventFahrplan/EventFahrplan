@@ -37,7 +37,7 @@
 
     <string name="preference_summary_engelsystem_json_export_url">
         <![CDATA[Aby widzieć swoje zmiany, podaj tu <u>swój osobisty</u> URL.<br/><br/>
-        1. Zaloguj się na swoje konto w Engelsystem.<br/>
+        1. Zaloguj się na swoje konto w <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g>.<br/>
         2. Skopiuj URL pod przyciskiem <u>JSON Export</u> na swojej stronie profilowej.<br/>
         3. Wklej tu skopiowany URL.<br/><br/>
         Zmiany przed oraz po głównych dniach konferencji <u>nie są</u> wyświetlane.]]>

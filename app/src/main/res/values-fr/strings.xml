@@ -134,9 +134,9 @@
     <string name="share_as_text">Partager en tant que texte</string>
     <string name="share_as_json">Partager en tant que JSON (pour Chaosflix)</string>
     <string name="dlg_err_failed_http_cleartext_not_permitted">HTTP n\'est pas autorisé. Veuillez utiliser HTTPS.</string>
-    <string name="engelsystem_shifts_parsing_error_generic">Erreur inconnue pendant la lecture des créneaux Engelsystem</string>
-    <string name="engelsystem_shifts_parsing_error_forbidden">Clé API invalide pour les créneaux Engelsystem</string>
-    <string name="engelsystem_shifts_parsing_error_not_found">Mauvaise URL pour les créneaux Engelsystem</string>
+    <string name="engelsystem_shifts_parsing_error_generic">Erreur inconnue pendant la lecture des créneaux <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g></string>
+    <string name="engelsystem_shifts_parsing_error_forbidden">Clé API invalide pour les créneaux <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g></string>
+    <string name="engelsystem_shifts_parsing_error_not_found">Mauvaise URL pour les créneaux <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g></string>
     <string name="session_list_item_duration_text"><xliff:g example="45" id="duration">%d</xliff:g> min.</string>
     <string name="session_list_item_language_content_description">Langue : <xliff:g example="English" id="language">%s</xliff:g></string>
     <string name="session_list_item_language_portuguese_content_description">Portugais</string>

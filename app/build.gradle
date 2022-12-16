@@ -12,12 +12,14 @@ apply plugin: "com.getkeepsafe.dexcount"
 apply from: "../gradle/sonarqube.gradle"
 
 android {
+    namespace "nerd.tuxmobil.fahrplan.congress"
+
     compileSdk Android.compileSdkVersion
     buildToolsVersion Android.buildToolsVersion
 
     defaultConfig {
-        versionCode 1700006
-        versionName "1.8.6"
+        versionCode 1700007
+        versionName "1.8.7"
         minSdk Android.minSdkVersion
         targetSdk Android.targetSdkVersion
         archivesBaseName = "Fahrplan-$versionName"
@@ -34,15 +36,19 @@ android {
         buildConfigField "String", "SOURCE_CODE_URL", '"https://github.com/EventFahrplan/EventFahrplan"'
         buildConfigField "String", "ISSUES_URL", '"https://github.com/EventFahrplan/EventFahrplan/issues"'
         buildConfigField "String", "DATA_PRIVACY_STATEMENT_DE_URL", '"https://github.com/EventFahrplan/EventFahrplan/blob/master/DATA-PRIVACY-DE.md"'
+        buildConfigField "String", "EVENT_POSTAL_ADDRESS", '""'
         buildConfigField "boolean", "ENGAGE_C3NAV_APP_INSTALLATION", "false"
         buildConfigField "String", "C3NAV_URL", '""'
         buildConfigField "boolean", "ENABLE_ALTERNATIVE_SCHEDULE_URL", "false"
         buildConfigField "boolean", "ENABLE_CHAOSFLIX_EXPORT", "false"
         buildConfigField "boolean", "ENABLE_ENGELSYSTEM_SHIFTS", "false"
+        resValue("string", "engelsystem_alias", "Engelsystem")
+        resValue("string", "engelsystem_shifts_alias", "Engelshifts")
         resValue("string", "preference_hint_engelsystem_json_export_url", '""')
         buildConfigField "boolean", "SHOW_APP_DISCLAIMER", "true"
         buildConfigField "boolean", "ENGAGE_GOOGLE_BETA_TESTING", "true"
         buildConfigField "boolean", "ENGAGE_GOOGLE_PLAY_RATING", "true"
+        buildConfigField "boolean", "ENGAGE_LANDSCAPE_ORIENTATION", "true"
     }
 
     buildTypes {

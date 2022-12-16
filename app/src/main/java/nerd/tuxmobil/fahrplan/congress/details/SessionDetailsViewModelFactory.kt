@@ -16,7 +16,9 @@ import nerd.tuxmobil.fahrplan.congress.utils.SessionUrlComposer
 class SessionDetailsViewModelFactory(
 
     private val appRepository: AppRepository,
-    private val alarmServices: AlarmServices
+    private val alarmServices: AlarmServices,
+    private val defaultEngelsystemRoomName: String,
+    private val customEngelsystemRoomName: String
 
 ) : ViewModelProvider.Factory {
 
@@ -33,7 +35,9 @@ class SessionDetailsViewModelFactory(
             sessionUrlComposition = SessionUrlComposer(),
             roomForC3NavConverter = RoomForC3NavConverter(),
             markdownConversion = MarkdownConverter,
-            c3NavBaseUrl = BuildConfig.C3NAV_URL
+            c3NavBaseUrl = BuildConfig.C3NAV_URL,
+            defaultEngelsystemRoomName = defaultEngelsystemRoomName,
+            customEngelsystemRoomName = customEngelsystemRoomName
         ) as T
     }
 

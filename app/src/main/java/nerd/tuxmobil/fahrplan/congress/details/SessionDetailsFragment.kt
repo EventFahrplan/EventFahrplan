@@ -72,7 +72,14 @@ class SessionDetailsFragment : Fragment() {
 
     private lateinit var appRepository: AppRepository
     private lateinit var alarmServices: AlarmServices
-    private val viewModel: SessionDetailsViewModel by viewModels { SessionDetailsViewModelFactory(appRepository, alarmServices) }
+    private val viewModel: SessionDetailsViewModel by viewModels {
+        SessionDetailsViewModelFactory(
+            appRepository = appRepository,
+            alarmServices = alarmServices,
+            defaultEngelsystemRoomName = AppRepository.ENGELSYSTEM_ROOM_NAME,
+            customEngelsystemRoomName = getString(R.string.engelsystem_shifts_alias)
+        )
+    }
     private lateinit var model: SelectedSessionParameter
     private lateinit var markwon: Markwon
     private var sidePane = false
@@ -259,6 +266,22 @@ class SessionDetailsFragment : Fragment() {
         } else {
             linksView.isVisible = false
             textView.isVisible = false
+        }
+
+        // Track
+        val trackSectionView = view.requireViewByIdCompat<TextView>(R.id.session_details_content_track_name_section_view)
+        typeface = typefaceFactory.getTypeface(viewModel.trackSectionFont)
+        trackSectionView.typeface = typeface
+        val trackView = view.requireViewByIdCompat<TextView>(R.id.session_details_content_track_name_view)
+        val trackText = model.track
+        if (trackText.isEmpty()) {
+            trackSectionView.isVisible = false
+            trackView.isVisible = false
+        } else {
+            trackSectionView.isVisible = true
+            trackView.isVisible = true
+            typeface = typefaceFactory.getTypeface(viewModel.trackFont)
+            trackView.applyText(typeface, trackText)
         }
 
         // Session online
