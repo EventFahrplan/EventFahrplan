@@ -15,7 +15,7 @@ fun Context.getAlarmManager() = getSystemService<AlarmManager>()!!
 
 fun Context.getLayoutInflater() = getSystemService<LayoutInflater>()!!
 
-fun Context.getNotificationManager() = getSystemService<NotificationManagerCompat>()!!
+fun Context.getNotificationManager() = NotificationManagerCompat.from(this)
 
 fun Context.startActivity(intent: Intent, onActivityNotFound: () -> Unit) {
     try {
