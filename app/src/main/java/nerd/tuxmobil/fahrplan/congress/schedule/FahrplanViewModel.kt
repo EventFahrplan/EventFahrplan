@@ -82,7 +82,7 @@ internal class FahrplanViewModel(
     }
 
     /**
-     * Rewrite properties to which "Engelshifts" has been applied before
+     * Rewrites properties to which "Engelshifts" has been applied before
      * in ShiftExtensions -> Shift.toSessionAppModel.
      */
     private fun ScheduleData.customizeEngelsystemRoomName() = copy(
@@ -126,7 +126,7 @@ internal class FahrplanViewModel(
     /**
      * Requests loading the schedule from the [AppRepository] to update the UI. UI components must
      * observe the respective properties exposed by the [AppRepository] to receive schedule updates.
-     * The [isUserRequest] must be set to `true` if the requests originates from a manual
+     * The [isUserRequest] flag must be set to `true` if the requests originates from a manual
      * interaction of the user with the UI; otherwise `false`.
      */
     fun requestScheduleUpdate(isUserRequest: Boolean) {

@@ -1,21 +1,20 @@
 package nerd.tuxmobil.fahrplan.congress.notifications
 
 import android.app.Notification
-import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.ContextWrapper
 import android.net.Uri
-import android.os.Build
+import androidx.core.app.NotificationChannelCompat
 import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.extensions.getNotificationManager
 
 internal class NotificationHelper(context: Context) : ContextWrapper(context) {
 
-    private val notificationManager: NotificationManager by lazy {
+    private val notificationManager: NotificationManagerCompat by lazy {
         getNotificationManager()
     }
 
@@ -71,15 +70,13 @@ internal class NotificationHelper(context: Context) : ContextWrapper(context) {
     }
 
     private fun createNotificationChannel(id: String, name: String, descriptionText: String) {
-        // TODO Replace with NotificationChannelCompat once it's complete. See https://issuetracker.google.com/issues/193814308
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            with(NotificationChannel(id, name, NotificationManager.IMPORTANCE_DEFAULT)) {
-                description = descriptionText
-                lightColor = color
-                lockscreenVisibility = Notification.VISIBILITY_PUBLIC
-                notificationManager.createNotificationChannel(this)
-            }
-        }
+        val channel = NotificationChannelCompat
+            .Builder(id, NotificationManagerCompat.IMPORTANCE_DEFAULT)
+            .setName(name)
+            .setDescription(descriptionText)
+            .setLightColor(color)
+            .build()
+        notificationManager.createNotificationChannel(channel)
     }
 
     private fun getNotificationBuilder(
