@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Cronograma JEV 2022</string>
+    <string name="app_hardcoded_subtitle">27.-30 de dezembro de 2022, distribuído</string>
+    <string name="copyright_logo">
+        <![CDATA[JEV design por <a href="https://eventfahrplan.eu">EventFahrplan</a>]]>
+    </string>
+    <string name="about_logo_content_description">
+        JEV 2022
+    </string>
+</resources>

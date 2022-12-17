@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="text_primary">@android:color/primary_text_light</color>
+    <color name="text_secondary">@android:color/secondary_text_light</color>
+    <color name="text_tertiary">@android:color/tertiary_text_light</color>
+    <color name="colorPrimary">#FFD500</color>
+    <color name="colorPrimaryDark">#EBC400</color>
+    <color name="colorAccent">#005BBB</color>
+    <color name="colorActionBar">@color/colorPrimary</color>
+    <color name="windowBackground">#fff</color>
+    <color name="multi_choice_background">#aa005BBB</color>
+    <color name="text_link_pressed_background_on_light">@color/colorPrimaryDark</color>
+    <color name="alarm_list_icon_default_fill_color">@color/colorPrimary</color>
+    <color name="alarm_list_icon_default_stroke_color">@color/colorAccent</color>
+    <color name="alarm_list_icon_text_color">@color/colorAccent</color>
+    <color name="alarm_list_empty_text">@color/text_secondary</color>
+    <color name="session_background">@color/windowBackground</color>
+    <color name="session_detailbar_background">@color/colorPrimaryDark</color>
+    <color name="session_detailbar_text">@color/colorAccent</color>
+    <color name="session_detailbar_icon">#fff</color>
+    <color name="scrollbar_background">@color/colorAccent</color>
+    <color name="session_item_text_on_default_background">#fff</color>
+    <color name="session_item_text_on_highlight_background">@color/colorAccent</color>
+    <color name="session_drawable_selection_stroke">@color/colorAccent</color>
+
+    <!-- About -->
+    <color name="about_window_background">@color/colorPrimary</color>
+    <color name="about_horizontal_line">#fff</color>
+    <color name="about_title">@color/text_primary</color>
+    <color name="about_subtitle">@color/text_primary</color>
+    <color name="about_text">@color/text_secondary</color>
+    <color name="about_text_link">@color/text_link_on_light</color>
+
+    <!-- Schedule screen -->
+    <color name="schedule_time_column_background">@color/colorAccent</color>
+    <color name="schedule_time_column_item_background_normal">@color/windowBackground</color>
+    <color name="schedule_time_column_item_background_emphasized">@color/colorPrimaryDark</color>
+    <color name="schedule_time_column_item_text_normal">@color/text_primary</color>
+    <color name="schedule_time_column_item_text_emphasized">@color/text_primary</color>
+    <color name="schedule_room_name_header_background">@color/colorAccent</color>
+    <color name="schedule_room_name_header_text">#fff</color>
+
+    <!-- Schedule changes -->
+    <color name="schedule_change">#FF5900</color>
+    <color name="schedule_change_new">#36A307</color>
+    <color name="schedule_change_canceled">#FF0033</color>
+
+    <!-- Session details -->
+    <color name="session_details_text">@color/text_primary</color>
+
+</resources>
