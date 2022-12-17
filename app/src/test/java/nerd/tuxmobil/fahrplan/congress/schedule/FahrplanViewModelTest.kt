@@ -28,6 +28,7 @@ import nerd.tuxmobil.fahrplan.congress.schedule.observables.ScrollToSessionParam
 import nerd.tuxmobil.fahrplan.congress.schedule.observables.TimeTextViewParameter
 import nerd.tuxmobil.fahrplan.congress.sharing.JsonSessionFormat
 import nerd.tuxmobil.fahrplan.congress.sharing.SimpleSessionFormat
+import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.kotlin.any
@@ -282,6 +283,7 @@ class FahrplanViewModelTest {
         assertLiveData(viewModel.scrollToCurrentSessionParameter).isNull()
     }
 
+    @Ignore("Flaky, see https://github.com/EventFahrplan/EventFahrplan/issues/526")
     @Test
     fun `scrollToCurrentSession posts to scrollToCurrentSessionParameter property when session is present and day indices match`() {
         val scheduleData = createScheduleData(Session("session-31"), dayIndex = 3)
