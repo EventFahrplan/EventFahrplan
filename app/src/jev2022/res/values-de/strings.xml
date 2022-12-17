@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">JEV 2022 Fahrplan</string>
+    <string name="app_hardcoded_subtitle">27.-30. Dezember 2022, verteilt</string>
+    <string name="copyright_logo">
+        <![CDATA[JEV Design vom <a href="https://eventfahrplan.eu">EventFahrplan</a>]]>
+    </string>
+    <string name="about_logo_content_description">
+        JEV 2022 Logo
+    </string>
+</resources>

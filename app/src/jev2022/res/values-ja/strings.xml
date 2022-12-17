@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">JEV 2022 Schedule</string>
+    <string name="app_hardcoded_subtitle">2022年12月27日〜30日, 分散</string>
+    <string name="copyright_logo"><![CDATA[JEV. <a href="https://eventfahrplan.eu">EventFahrplan</a>]]>によるデザイン</string>
+    <string name="about_logo_content_description">JEV 2022 のロゴ</string>
+</resources>

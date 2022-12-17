@@ -19,7 +19,7 @@ jobs:
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 16
-          script: ./gradlew testCcc36c3DebugUnitTest assembleCcc36c3Debug lintAnalyzeCcc36c3Debug
+          script: ./gradlew testJev2022DebugUnitTest assembleJev2022Debug lintAnalyzeJev2022Debug
 
       - name: Publish unit-test results
         uses: EnricoMi/publish-unit-test-result-action@v1
