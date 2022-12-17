@@ -135,7 +135,7 @@ android {
             buildConfigField "String", "F_DROID_URL", '"https://f-droid.org/packages/info.metadude.android.rc3.schedule"'
             buildConfigField "String", "SCHEDULE_URL", '"https://data.c3voc.de/jev22/everything.schedule.xml"'
             buildConfigField "String", "EVENT_URL", '""'
-            buildConfigField "String", "EVENT_WEBSITE_URL", '"https://rc3.world"'
+            buildConfigField "String", "EVENT_WEBSITE_URL", '"https://events.ccc.de/2022/11/28/dezentral-2022/"'
             buildConfigField "String", "SERVER_BACKEND_TYPE", '"pretalx"'
             buildConfigField "int", "SCHEDULE_FIRST_DAY_START_YEAR", "2022"
             buildConfigField "int", "SCHEDULE_FIRST_DAY_START_MONTH", "12"
