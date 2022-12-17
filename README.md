@@ -1,4 +1,4 @@
-![F-Droid release version](https://img.shields.io/github/v/release/linuxtage/EventFahrplan.svg?logo=github) [![GitHub Actions Build Status](https://github.com/linuxtage/EventFahrplan/actions/workflows/build.yaml/badge.svg)](https://github.com/linuxtage/EventFahrplan/actions/workflows/build.yaml) [![Crowdin](https://badges.crowdin.net/eventfahrplan/localized.svg)](https://crowdin.com/project/eventfahrplan) [![Apache License](http://img.shields.io/badge/license-Apache%20License%202.0-lightgrey.svg)](http://choosealicense.com/licenses/apache-2.0/)
+![Github release version](https://img.shields.io/github/v/release/linuxtage/EventFahrplan.svg?logo=github) [![GitHub Actions Build Status](https://github.com/linuxtage/EventFahrplan/actions/workflows/build.yaml/badge.svg)](https://github.com/linuxtage/EventFahrplan/actions/workflows/build.yaml) [F-Droid release version](https://img.shields.io/f-droid/v/at.linuxtage.companion.svg?logo=F-Droid) [![Crowdin](https://badges.crowdin.net/eventfahrplan/localized.svg)](https://crowdin.com/project/eventfahrplan) [![Apache License](http://img.shields.io/badge/license-Apache%20License%202.0-lightgrey.svg)](http://choosealicense.com/licenses/apache-2.0/)
 
 # EventFahrplan
 
@@ -88,6 +88,17 @@ Make sure to edit the file contents to point to your own keystore files.
 ./gradlew assembleGlt22Release
 ```
 
+## Update instructions
+```
+git clone git@github.com:<yourgithubfork_username>/EventFahrplan.git 
+git remote add linuxtage https://github.com/EventFahrplan/EventFahrplan.git 
+git remote add eventfahrplan https://github.com/EventFahrplan/EventFahrplan.git 
+git checkout glt-2022
+git pull eventfahrplan master
+git tag v1.<new_version>
+git push --tags
+```
+After the merge, go to https://github.com/linuxtage/EventFahrplan/compare/glt-2022...<yourgithubfork_username>:EventFahrplan:glt-2022
 ## History
 
 * The project was started as ["CampFahrplan"][campfahrplan-github] in 2011 and has been developed
