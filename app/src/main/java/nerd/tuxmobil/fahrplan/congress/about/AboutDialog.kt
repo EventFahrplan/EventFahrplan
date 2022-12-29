@@ -63,9 +63,9 @@ class AboutDialog : DialogFragment() {
         // Schedule version
         val scheduleVersion = view.requireViewByIdCompat<TextView>(R.id.about_session_version_view)
         if (scheduleVersionText.isEmpty()) {
-            scheduleVersion.isVisible = true
-        } else {
             scheduleVersion.isVisible = false
+        } else {
+            scheduleVersion.isVisible = true
             scheduleVersion.text = "${getString(R.string.fahrplan)} $scheduleVersionText"
         }
 

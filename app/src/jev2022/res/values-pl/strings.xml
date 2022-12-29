@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Grafik JEV 2022</string>
+    <string name="app_hardcoded_subtitle">27–30 grudnia 2022, rozproszone</string>
+    <string name="copyright_logo">
+        <![CDATA[JEV Projekt <a href="https://eventfahrplan.eu">EventFahrplan</a>]]>
+    </string>
+    <string name="about_logo_content_description">
+        Logo JEV 2022
+    </string>
+</resources>
