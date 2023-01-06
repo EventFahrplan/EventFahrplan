@@ -9,6 +9,7 @@ import kotlinx.coroutines.launch
 import nerd.tuxmobil.fahrplan.congress.changes.ChangeStatistic
 import nerd.tuxmobil.fahrplan.congress.models.Meta
 import nerd.tuxmobil.fahrplan.congress.net.ParseResult
+import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.repositories.ExecutionContext
 import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState
@@ -23,9 +24,10 @@ import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.Parsing
 import nerd.tuxmobil.fahrplan.congress.schedule.observables.LoadScheduleUiState
 import nerd.tuxmobil.fahrplan.congress.schedule.observables.ScheduleChangesParameter
 
-class MainViewModel(
+internal class MainViewModel(
 
     private val repository: AppRepository,
+    private val notificationHelper: NotificationHelper,
     private val executionContext: ExecutionContext,
     private val logging: Logging
 
@@ -38,6 +40,7 @@ class MainViewModel(
 
     val showAbout = SingleLiveEvent<Meta>()
     val openSessionDetails = SingleLiveEvent<Unit>()
+    val missingPostNotificationsPermission = SingleLiveEvent<Unit>()
 
     init {
         observeLoadScheduleState()
@@ -132,6 +135,12 @@ class MainViewModel(
         launch {
             val meta = repository.readMeta()
             showAbout.postValue(meta)
+        }
+    }
+
+    fun checkPostNotificationsPermission() {
+        if (repository.readAlarms().isNotEmpty() && !notificationHelper.notificationsEnabled) {
+            missingPostNotificationsPermission.postValue(Unit)
         }
     }
 
