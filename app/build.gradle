@@ -247,7 +247,7 @@ def gitSha() {
     return res
 }
 
-def buildTime() {
+static def buildTime() {
     return new Date().format("yyyy-MM-dd'T'HH:mm'Z'", TimeZone.getTimeZone("UTC"))
 }
 
