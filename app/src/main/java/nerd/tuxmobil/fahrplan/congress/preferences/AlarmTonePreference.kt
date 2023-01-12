@@ -4,10 +4,12 @@ import android.content.Context
 import android.content.Intent
 import android.media.RingtoneManager
 import android.net.Uri
+import android.os.Build
 import android.provider.Settings
 import android.util.AttributeSet
 import androidx.fragment.app.Fragment
 import androidx.preference.Preference
+import nerd.tuxmobil.fahrplan.congress.extensions.getParcelableExtraCompat
 import nerd.tuxmobil.fahrplan.congress.extensions.withExtras
 import nerd.tuxmobil.fahrplan.congress.utils.AlarmToneConversion
 
@@ -76,7 +78,7 @@ class AlarmTonePreference : Preference {
     }
 
     fun onAlarmTonePicked(intent: Intent) {
-        val alarmToneUri = intent.getParcelableExtra<Uri?>(RingtoneManager.EXTRA_RINGTONE_PICKED_URI)
+        val alarmToneUri = intent.getParcelableExtraCompat<Uri>(RingtoneManager.EXTRA_RINGTONE_PICKED_URI)
         persistString(AlarmToneConversion.getPersistableString(alarmToneUri))
     }
 

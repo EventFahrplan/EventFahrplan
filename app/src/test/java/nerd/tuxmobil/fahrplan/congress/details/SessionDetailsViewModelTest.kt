@@ -16,6 +16,7 @@ import nerd.tuxmobil.fahrplan.congress.models.Alarm
 import nerd.tuxmobil.fahrplan.congress.models.Meta
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.navigation.RoomForC3NavConverter
+import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.sharing.JsonSessionFormat
 import nerd.tuxmobil.fahrplan.congress.sharing.SimpleSessionFormat
@@ -296,10 +297,43 @@ class SessionDetailsViewModelTest {
 
     @Test
     fun `setAlarm() posts to setAlarm`() {
+        val notificationHelper = mock<NotificationHelper> {
+            on { notificationsEnabled } doReturn true
+        }
         val repository = createRepository()
-        val viewModel = createViewModel(repository)
+        val viewModel = createViewModel(repository, notificationHelper = notificationHelper)
         viewModel.setAlarm()
         assertLiveData(viewModel.setAlarm).isEqualTo(Unit)
+    }
+
+    @Test
+    fun `setAlarm() posts to requestPostNotificationsPermission`() {
+        val notificationHelper = mock<NotificationHelper> {
+            on { notificationsEnabled } doReturn false
+        }
+        val repository = createRepository()
+        val viewModel = createViewModel(
+            repository = repository,
+            notificationHelper = notificationHelper,
+            runsAtLeastOnAndroidTiramisu = true
+        )
+        viewModel.setAlarm()
+        assertLiveData(viewModel.requestPostNotificationsPermission).isEqualTo(Unit)
+    }
+
+    @Test
+    fun `setAlarm() posts to missingPostNotificationsPermission`() {
+        val notificationHelper = mock<NotificationHelper> {
+            on { notificationsEnabled } doReturn false
+        }
+        val repository = createRepository()
+        val viewModel = createViewModel(
+            repository = repository,
+            notificationHelper = notificationHelper,
+            runsAtLeastOnAndroidTiramisu = false
+        )
+        viewModel.setAlarm()
+        assertLiveData(viewModel.missingPostNotificationsPermission).isEqualTo(Unit)
     }
 
     @Test
@@ -364,6 +398,7 @@ class SessionDetailsViewModelTest {
     private fun createViewModel(
         repository: AppRepository,
         alarmServices: AlarmServices = mock(),
+        notificationHelper: NotificationHelper = mock(),
         sessionFormatter: SessionFormatter = mock(),
         simpleSessionFormat: SimpleSessionFormat = mock(),
         jsonSessionFormat: JsonSessionFormat = mock(),
@@ -372,11 +407,13 @@ class SessionDetailsViewModelTest {
         roomForC3NavConverter: RoomForC3NavConverter = mock(),
         markdownConversion: MarkdownConversion = mock(),
         formattingDelegate: FormattingDelegate = mock(),
-        c3NavBaseUrl: String = ""
+        c3NavBaseUrl: String = "",
+        runsAtLeastOnAndroidTiramisu: Boolean = false
     ) = SessionDetailsViewModel(
         repository = repository,
         executionContext = TestExecutionContext,
         alarmServices = alarmServices,
+        notificationHelper = notificationHelper,
         sessionFormatter = sessionFormatter,
         simpleSessionFormat = simpleSessionFormat,
         jsonSessionFormat = jsonSessionFormat,
@@ -387,7 +424,8 @@ class SessionDetailsViewModelTest {
         formattingDelegate = formattingDelegate,
         c3NavBaseUrl = c3NavBaseUrl,
         defaultEngelsystemRoomName = "Engelshifts",
-        customEngelsystemRoomName = "Trollshifts"
+        customEngelsystemRoomName = "Trollshifts",
+        runsAtLeastOnAndroidTiramisu = runsAtLeastOnAndroidTiramisu
     )
 
 }

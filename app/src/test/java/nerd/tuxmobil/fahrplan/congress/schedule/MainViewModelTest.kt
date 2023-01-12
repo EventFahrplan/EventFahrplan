@@ -11,10 +11,12 @@ import kotlinx.coroutines.flow.flowOf
 import nerd.tuxmobil.fahrplan.congress.NoLogging
 import nerd.tuxmobil.fahrplan.congress.TestExecutionContext
 import nerd.tuxmobil.fahrplan.congress.changes.ChangeStatistic
+import nerd.tuxmobil.fahrplan.congress.models.Alarm
 import nerd.tuxmobil.fahrplan.congress.models.Meta
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.net.HttpStatus
 import nerd.tuxmobil.fahrplan.congress.net.ParseResult
+import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState
 import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.FetchFailure
@@ -228,6 +230,39 @@ class MainViewModelTest {
         assertLiveData(viewModel.openSessionDetails).isNull()
     }
 
+    @Test
+    fun `checkPostNotificationsPermission does not post to missingPostNotificationsPermission property (no alarms)`() {
+        val notificationHelper = mock<NotificationHelper> {
+            on { notificationsEnabled } doReturn true
+        }
+        val repository = createRepository(alarms = emptyList())
+        val viewModel = createViewModel(repository, notificationHelper)
+        viewModel.checkPostNotificationsPermission()
+        assertLiveData(viewModel.missingPostNotificationsPermission).isNull()
+    }
+
+    @Test
+    fun `checkPostNotificationsPermission does not post to missingPostNotificationsPermission property (notifications enabled)`() {
+        val notificationHelper = mock<NotificationHelper> {
+            on { notificationsEnabled } doReturn true
+        }
+        val repository = createRepository(alarms = listOf(mock()))
+        val viewModel = createViewModel(repository, notificationHelper)
+        viewModel.checkPostNotificationsPermission()
+        assertLiveData(viewModel.missingPostNotificationsPermission).isNull()
+    }
+
+    @Test
+    fun `checkPostNotificationsPermission posts to missingPostNotificationsPermission property`() {
+        val notificationHelper = mock<NotificationHelper> {
+            on { notificationsEnabled } doReturn false
+        }
+        val repository = createRepository(alarms = listOf(mock()))
+        val viewModel = createViewModel(repository, notificationHelper)
+        viewModel.checkPostNotificationsPermission()
+        assertLiveData(viewModel.missingPostNotificationsPermission).isEqualTo(Unit)
+    }
+
     private class TestParseResult(
         override val isSuccess: Boolean = false
     ) : ParseResult
@@ -236,19 +271,23 @@ class MainViewModelTest {
         loadScheduleStateFlow: Flow<LoadScheduleState> = emptyFlow(),
         scheduleChangesSeen: Boolean = true,
         changedSessions: List<Session> = emptyList(),
-        updatedSelectedSessionId: Boolean = false
+        updatedSelectedSessionId: Boolean = false,
+        alarms: List<Alarm> = emptyList()
     ) = mock<AppRepository> {
         on { loadScheduleState } doReturn loadScheduleStateFlow
         on { readScheduleChangesSeen() } doReturn scheduleChangesSeen
         on { readMeta() } doReturn Meta(version = "")
         on { loadChangedSessions() } doReturn changedSessions
         on { updateSelectedSessionId(any()) } doReturn updatedSelectedSessionId
+        on { readAlarms(any()) } doReturn alarms
     }
 
     private fun createViewModel(
         repository: AppRepository,
+        notificationHelper: NotificationHelper = mock()
     ) = MainViewModel(
         repository = repository,
+        notificationHelper = notificationHelper,
         executionContext = TestExecutionContext,
         logging = logging
     )
