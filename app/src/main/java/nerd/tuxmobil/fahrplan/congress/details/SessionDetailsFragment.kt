@@ -22,7 +22,6 @@ import androidx.annotation.CallSuper
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import androidx.annotation.MainThread
-import androidx.annotation.NonNull
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -108,7 +107,7 @@ class SessionDetailsFragment : Fragment() {
 
     @MainThread
     @CallSuper
-    override fun onAttach(@NonNull context: Context) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         appRepository = AppRepository
         alarmServices = AlarmServices.newInstance(context, appRepository)
