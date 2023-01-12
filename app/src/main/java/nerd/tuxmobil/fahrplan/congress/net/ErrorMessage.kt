@@ -111,7 +111,7 @@ sealed interface ErrorMessage {
             val message = when (parseResult) {
                 is ParseScheduleResult -> getMessageForScheduleVersion(parseResult.version)
                 is ParseShiftsResult.Error -> getMessageForErrorResult(parseResult)
-                is ParseShiftsResult.Exception -> context.getString(R.string.engelsystem_shifts_parsing_error_generic, R.string.engelsystem_alias)
+                is ParseShiftsResult.Exception -> context.getString(R.string.engelsystem_shifts_parsing_error_generic, context.getString(R.string.engelsystem_alias))
                 else -> ""
             }
             check(message.isNotEmpty()) { "Unknown parsing result: $parseResult" }
@@ -124,9 +124,9 @@ sealed interface ErrorMessage {
         }
 
         private fun getMessageForErrorResult(errorResult: ParseShiftsResult.Error) = when {
-            errorResult.isForbidden() -> context.getString(R.string.engelsystem_shifts_parsing_error_forbidden, R.string.engelsystem_alias)
-            errorResult.isNotFound() -> context.getString(R.string.engelsystem_shifts_parsing_error_not_found, R.string.engelsystem_alias)
-            else -> context.getString(R.string.engelsystem_shifts_parsing_error_generic, R.string.engelsystem_alias)
+            errorResult.isForbidden() -> context.getString(R.string.engelsystem_shifts_parsing_error_forbidden, context.getString(R.string.engelsystem_alias))
+            errorResult.isNotFound() -> context.getString(R.string.engelsystem_shifts_parsing_error_not_found, context.getString(R.string.engelsystem_alias))
+            else -> context.getString(R.string.engelsystem_shifts_parsing_error_generic, context.getString(R.string.engelsystem_alias))
         }
     }
 
