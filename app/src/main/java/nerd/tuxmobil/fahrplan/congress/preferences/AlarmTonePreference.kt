@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.media.RingtoneManager
 import android.net.Uri
-import android.os.Build
 import android.provider.Settings
 import android.util.AttributeSet
 import androidx.fragment.app.Fragment

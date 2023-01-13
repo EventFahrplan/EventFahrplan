@@ -3,7 +3,6 @@ package nerd.tuxmobil.fahrplan.congress.net
 import android.app.Dialog
 import android.os.Bundle
 import androidx.annotation.MainThread
-import androidx.annotation.NonNull
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
@@ -29,7 +28,6 @@ class CertificateErrorFragment : DialogFragment() {
 
     }
 
-    @NonNull
     private lateinit var errorMessage: String
 
     @MainThread
