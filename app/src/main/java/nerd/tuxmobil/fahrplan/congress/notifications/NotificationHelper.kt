@@ -18,7 +18,8 @@ internal class NotificationHelper(context: Context) : ContextWrapper(context) {
         getNotificationManager()
     }
 
-    val notificationsEnabled = notificationManager.areNotificationsEnabled()
+    val notificationsEnabled: Boolean
+        get() = notificationManager.areNotificationsEnabled()
 
     init {
         createChannels()
