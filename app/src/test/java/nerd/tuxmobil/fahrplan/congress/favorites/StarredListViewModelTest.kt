@@ -1,13 +1,17 @@
 package nerd.tuxmobil.fahrplan.congress.favorites
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import app.cash.turbine.test
+import com.google.common.truth.Truth.assertThat
 import info.metadude.android.eventfahrplan.commons.testing.MainDispatcherTestRule
 import info.metadude.android.eventfahrplan.commons.testing.assertLiveData
 import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedNever
 import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedOnce
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.runTest
 import nerd.tuxmobil.fahrplan.congress.NoLogging
 import nerd.tuxmobil.fahrplan.congress.TestExecutionContext
 import nerd.tuxmobil.fahrplan.congress.models.Meta
@@ -22,6 +26,7 @@ import org.mockito.kotlin.anyOrNull
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class StarredListViewModelTest {
 
     @get:Rule
@@ -34,26 +39,31 @@ class StarredListViewModelTest {
     private val jsonSessionFormat = mock<JsonSessionFormat>()
 
     @Test
-    fun `starredListParameter returns null`() {
+    fun `starredListParameter returns null`() = runTest {
         val repository = createRepository(sessionsFlow = emptyFlow())
         val viewModel = createViewModel(repository)
-        assertLiveData(viewModel.starredListParameter).isNull()
+        viewModel.starredListParameter.test {
+            awaitComplete()
+        }
         verifyInvokedNever(repository).readMeta()
         verifyInvokedNever(repository).readUseDeviceTimeZoneEnabled()
     }
 
     @Test
-    fun `starredListParameter returns zero sessions`() {
+    fun `starredListParameter returns zero sessions`() = runTest {
         val repository = createRepository()
         val viewModel = createViewModel(repository)
         val expected = StarredListParameter(emptyList(), 0, false)
-        assertLiveData(viewModel.starredListParameter).isEqualTo(expected)
+        viewModel.starredListParameter.test {
+            assertThat(awaitItem()).isEqualTo(expected)
+            awaitComplete()
+        }
         verifyInvokedNever(repository).readMeta()
         verifyInvokedNever(repository).readUseDeviceTimeZoneEnabled()
     }
 
     @Test
-    fun `starredListParameter returns a single session`() {
+    fun `starredListParameter returns a single session`() = runTest {
         val repository = createRepository(
             sessionsFlow = flowOf(listOf(Session("23"))),
             meta = Meta(numDays = 2),
@@ -62,7 +72,10 @@ class StarredListViewModelTest {
         val viewModel = createViewModel(repository)
         val expectedSessions = listOf(Session("23"))
         val expected = StarredListParameter(expectedSessions, 2, true)
-        assertLiveData(viewModel.starredListParameter).isEqualTo(expected)
+        viewModel.starredListParameter.test {
+            assertThat(awaitItem()).isEqualTo(expected)
+            awaitComplete()
+        }
         verifyInvokedOnce(repository).readMeta()
         verifyInvokedOnce(repository).readUseDeviceTimeZoneEnabled()
     }
