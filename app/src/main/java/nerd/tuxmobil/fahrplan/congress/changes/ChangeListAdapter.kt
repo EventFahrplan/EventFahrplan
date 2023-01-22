@@ -54,7 +54,7 @@ class ChangeListAdapter internal constructor(
 
             speakers.textOrHide = session.formattedSpeakers
             speakers.contentDescription = Session.getSpeakersContentDescription(speakers.context, session.speakers.size, session.formattedSpeakers)
-            lang.textOrHide = session.lang
+            lang.textOrHide = session.languageText
             lang.contentDescription = Session.getLanguageContentDescription(lang.context, session.lang)
 
             val dayText = DateFormatter.newInstance(useDeviceTimeZone).getFormattedDate(session.dateUTC, session.timeZoneOffset)
