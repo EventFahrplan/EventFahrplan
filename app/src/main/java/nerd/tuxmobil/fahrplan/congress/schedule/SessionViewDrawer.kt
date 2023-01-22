@@ -53,7 +53,7 @@ internal class SessionViewDrawer @JvmOverloads constructor(
         textView.contentDescription = Session.getSpeakersContentDescription(sessionView.context, session.speakers.size, session.formattedSpeakers)
         textView = sessionView.requireViewByIdCompat(R.id.session_track_view)
         textView.text = session.formattedTrackLanguageText
-        textView.contentDescription = Session.getFormattedTrackContentDescription(sessionView.context, session.track, session.lang)
+        textView.contentDescription = Session.getFormattedTrackContentDescription(sessionView.context, session.track, session.languageText)
         val recordingOptOut = sessionView.findViewById<View>(R.id.session_no_video_view)
         if (recordingOptOut != null) {
             recordingOptOut.isVisible = session.recordingOptOut
