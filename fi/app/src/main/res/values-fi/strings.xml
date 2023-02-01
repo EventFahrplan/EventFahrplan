@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Menu items -->
+    <string name="menu_item_title_about">Tietoja</string>
+    <string name="menu_item_title_add_to_calendar">Lisää kalenteriin</string>
+    <string name="menu_item_title_alarms">Hälytykset</string>
+    <string name="menu_item_title_close_session_details">Sulje tapahtumayksityiskohdat</string>
+    <string name="menu_item_title_flag_as_favorite">Lisää suosikkeihin</string>
+    <string name="menu_item_title_unflag_as_favorite">Poista suosikeista</string>
+    <string name="menu_item_title_delete_favorite">Poista</string>
+    <string name="menu_item_title_set_alarm">Aseta hälytys</string>
+    <string name="menu_item_title_delete_alarm">Poista hälytys</string>
+    <string name="menu_item_title_delete_all">Poista kaikki</string>
+    <string name="menu_item_title_favorites">Suosikit</string>
+    <string name="menu_item_title_feedback">Palaute</string>
+    <string name="menu_item_title_navigate">Suunnistele</string>
+    <string name="menu_item_title_refresh">Virkistä</string>
+    <string name="menu_item_title_share_session">Jaa tapahtuma</string>
+    <string name="menu_item_title_share_favorites">Jaa suosikit</string>
+    <string name="menu_item_title_share_session_text">tekstimuodossa</string>
+    <string name="menu_item_title_share_session_json">JSON-muodossa (Chaosflixiä varten)</string>
+    <string name="share_as_text">Jaa tekstimuodossa</string>
+    <string name="share_as_json">jaa JSON-muodossa (Chaosflixiä varten)</string>
+    <!-- AlertDialog -->
+    <string name="OK">Selvä</string>
+    <!-- CertificateErrorFragment -->
+    <string name="certificate_error_message">        Turvallista yhteyttä ei saatu muodostettua.\n
+        (<xliff:g esimerkki="Tuntematon Virhe" id="virhe">%s</xliff:g>)
+    </string>
+    <string name="certificate_error_title">Varmistetta ei voitu lisätä.</string>
+    <!-- Error messages -->
+    <string name="dlg_err_connection_failed">Yhteysongelma</string>
+    <string name="dlg_err_failed_unknown_host">Tuntematon osoite:\n<xliff:g esimerkki="http://esimerkki.com" id="url">%s</xliff:g></string>
+    <string name="dlg_err_failed_wrong_http_credentials">Epäkelpo HTTP-aitoustunnistus</string>
+    <string name="dlg_err_failed_timeout">Palvelin ei vastaa (yritysaika meni umpeen).</string>
+    <string name="dlg_err_failed_connect_failure">Tuntematon yhteysvirhe</string>
+    <string name="dlg_err_failed_not_found">Epäkelpo aikataulun URL-osoite</string>
+    <string name="dlg_err_failed_parse_failure">Vastinetta ei saatu jäsennettyä</string>
+    <string name="dlg_err_failed_ssl_failure">SSL-virhe</string>
+    <string name="dlg_err_failed_http_cleartext_not_permitted">HTTP ei ole sallittu. Käytäthän salattua mallia HTTPS.</string>
+    <string name="dlg_err_schedule_data">Aikataulutietojen virhe</string>
+    <string name="dlg_err_schedule_data_empty">        Ei mitään näytettävää. Aikataulu julkaisulle \"<xliff:g esimerkki="0.99" id="versio">%s</xliff:g>\"
+        ei sisällä yhtäkään istuntoa.
+    </string>
+    <string name="dlg_err_schedule_data_empty_without_version">        Ei mitään näytettävää. Aikataulu ei sisällä yhtäkään istuntoa.
+    </string>
+    <string name="uptodate">Aikataulu on ajan tasalla.</string>
+    <!-- Schedule changes dialog -->
+    <string name="schedule_changes_dialog_title">Aikataulupäivitys</string>
+    <string name="schedule_changes_dialog_updated_to_text">Aikataulu on päivitetty määreeseen\u0020</string>
+    <string name="schedule_changes_dialog_changed_new_cancelled_text">. Ilmeni muutoksia kohteessa <xliff:g esimerkki="3 luennot" id="num_muutokset">%1$s</xliff:g>, <xliff:g esimerkki="2 ovat" id="num_uusi">%2$s</xliff:g> <xliff:g esimerkki="uusi" id="sananparsi_uusi">%3$s</xliff:g>, <xliff:g esimerkki="1 is" id="num_peruutettu">%4$s</xliff:g> <xliff:g esimerkki="peruutettu" id="sananparsi_peruutettu">%5$s</xliff:g>.</string>
+    <string name="schedule_changes_dialog_affected_text">Muutokset vaikuttavat <xliff:g esimerkki="2" id="num_merkitty">%1$d</xliff:g> suosimiisi luentoihin.</string>
+    <plurals name="schedule_changes_dialog_phrase_new">
+        <item quantity="one">uusi</item>
+        <item quantity="other">uusi</item>
+    </plurals>
+    <plurals name="schedule_changes_dialog_phrase_cancelled">
+        <item quantity="one">peruutettu</item>
+        <item quantity="other">peruutettu</item>
+    </plurals>
+    <plurals name="schedule_changes_dialog_number_of_sessions">
+        <item quantity="one"><xliff:g esimerkki="1" id="lukumäärä">%d</xliff:g> luento</item>
+        <item quantity="other"><xliff:g esimerkki="9" id="lukumäärä">%d</xliff:g> luennot</item>
+    </plurals>
+    <plurals name="schedule_changes_dialog_being">
+        <item quantity="one"><xliff:g esimerkki="1" id="lukumäärä">%d</xliff:g> on</item>
+        <item quantity="other"><xliff:g esimerkki="9" id="lukumäärät">%d</xliff:g> ovat</item>
+    </plurals>
+    <string name="schedule_changes_dialog_browse">Selaa</string>
+    <string name="schedule_changes_dialog_later">Myöhemmin</string>
+    <string name="progress_loading_data">Nouda aikataulu &#8230;</string>
+    <string name="progress_processing_data">Käsitellään aikataulua &#8230;</string>
+    <string name="load_data">Lataa</string>
+    <string name="choose_day">Valitse päivä</string>
+    <string name="day">Päivä</string>
+    <string name="fahrplan">Aikataulu</string>
+    <string name="appVersion">Sovelluksen julkaisu <xliff:g example="1.40.2" id="sovellusJulkaisu">%s</xliff:g></string>
+    <string name="schedule_updated_to">        Päivitettiin <xliff:g esimerkki="Mildenberg 2018-01-16 16:50" id="julkaisu">%s</xliff:g>
+    </string>
+    <string name="schedule_updated">        Aikataulu päivitetty.
+    </string>
+    <string name="settings">Asetukset</string>
+    <string name="session_details_section_title_track">Aihealue</string>
+    <string name="session_details_section_title_session_online">Tapahtuma verkossa</string>
+    <string name="session_details_section_title_links">Linkit</string>
+    <string name="choose_alarm_time">Valitse hälytysaika</string>
+    <string name="reminders">Hälytykset</string>
+    <string name="usage">Huomautus:\n\nPaina pitkästi luennon päällä asettaaksesi siihen hälytyksen.</string>
+    <string name="about_libraries_statement">        Tämä sovellus käyttää seuraavia kirjastoja: <xliff:g esimerkki="Kotlin, Espresso" id="kirj">%s</xliff:g>
+    </string>
+    <string name="about_data_privacy_statement_german">Tietojen yksityisyyssuojaseloste (saksaksi)</string>
+    <string name="about_f_droid_listing">F-Droid luettelointi</string>
+    <string name="about_google_play_listing">Google Play luettelointi</string>
+    <string name="about_issues_or_feature_requests">Ongelmat tai ominaisuustoiveet</string>
+    <string name="about_source_code">Ohjelman lähdekoodi</string>
+    <string name="today">tänään</string>
+    <string name="schedule_parsing_error_generic">Ilmeni tuntematon virhe jäsennettäessä aikataulua</string>
+    <string name="schedule_parsing_error_with_version">Jäsentelyvirhe aikataulujulkaisulle <xliff:g esimerkki="0.99a" id="aikatauluJulkaisu">%s</xliff:g></string>
+    <string name="engelsystem_shifts_parsing_error_generic">Tapahtui tuntematon virhe jäsentäessä <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g> vuorovaihtoja</string>
+    <string name="engelsystem_shifts_parsing_error_forbidden">Epäkelpo API-avain kohteen <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g> vuorovaihdoille</string>
+    <string name="engelsystem_shifts_parsing_error_not_found">Väärä URL-osoite kohteen <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g> vuorovaihdoille</string>
+    <string name="alarms_empty">Hälytyksiä ei ole näytettäväksi. Huomaathan, että voit asettaa yksilöllisiä hälytyksiä jokaiseen aikataulun kohteeseen.
+		Paina vain hälytyskuvaketta toimintapalkissa.</string>
+    <string name="add_to_calendar_failed">Tapahtuman lisääminen kalenteriin epäonnistui.</string>
+    <string name="no_changes">Ei aikataulumuutoksia</string>
+    <string name="no_favorites">Ei lempiluentoja</string>
+    <string name="schedule_changes">Aikataulumuutokset</string>
+    <string name="general_settings">Yleiset</string>
+    <string name="starred_sessions">Suosikit</string>
+    <string name="invalid_url">Epäkelpo URL</string>
+    <string name="choose_to_delete">Valitse luennot</string>
+    <string name="day_separator">Päivä <xliff:g esimerkki="2" id="kongressi_päivä">%1$d</xliff:g> - <xliff:g esimerkki="29.12.2014" id="kongressipäivän_päivämäärä">%2$s</xliff:g></string>
+    <string name="dlg_delete_all_favorites">Poista kaikki suosikit?</string>
+    <string name="dlg_delete_all_favorites_delete_all">Poista kaikki</string>
+    <string name="share_error_activity_not_found">Sopivaa sovellusta ei ole asennettuna.</string>
+    <!-- Build information -->
+    <string name="build_info_time">        Kookoma-aika: <xliff:g esimerkki="2015-12-27T13:42Z" id="kokooma_aika">%s</xliff:g>
+    </string>
+    <string name="build_info_version_code">        Julkaisutunniste: <xliff:g esimerkki="42" id="julkaisun_tunniste">%s</xliff:g>
+    </string>
+    <string name="build_info_hash">        Julkaisun hash: <xliff:g esimerkki="e1f2g3h-dirty" id="rakenna_hash">%s</xliff:g>
+    </string>
+    <!-- App disclaimer -->
+    <string name="app_disclaimer">       Tämä sovellus perustuu sovelluksen &#8220;EventFahrplan&#8221; lähdekoodiin.
+        Se on vuosittainen kongressi ja leiri jonka vieraat Chaos Computer Club:in isännöimänä
+        käyttävät sovellusta pysyäkseen ajan hermolla tapahtumaohjelmassa.
+    </string>
+    <!-- SnackEngage -->
+    <string name="snack_engage_rate_title">Kaikki kunnossa?</string>
+    <string name="snack_engage_rate_action">Arvostele sovellus</string>
+    <string name="snack_engage_google_play_beta_testing_title">Oletko tehokäyttäjä?</string>
+    <string name="snack_engage_google_play_beta_testing_action">Ryhdy beta-koestajaksi</string>
+    <string name="snack_engage_c3nav_title">Sisäsuuntima kohteessa <xliff:g esimerkki="35C3" id="tpaahtumaNimi">%s</xliff:g>! c3nav -sovelluksen avulla</string>
+    <string name="snack_engage_c3nav_action">Hae se heti!</string>
+    <string name="snack_engage_landscape_orientation_title">Koetitko pystysuuntaista tilaa?</string>
+    <string name="snack_engage_landscape_orientation_action">Kierrä laitettasi!</string>
+    <!-- TraceDroid -->
+    <string name="trace_droid_dialog_title">        Lähetä <xliff:g esimerkki="33C3 Aikataulu" id="sovelmaNimi">%s</xliff:g> kaatumisen selonteko &#8230;
+    </string>
+    <string name="trace_droid_dialog_message">        Ongelma <xliff:g esimerkki="33C3 Aikataulu" id="sovelmaNimi">%s</xliff:g> havaittu sovelluksen suhteen. Olisi arvokasta mikäli voisit toimittaa kaatumisilmoituksen selontekoineen jotta ongelman alkujuuri saadaan selvitettyä. On suureksi avuksi jos voit kuvailla miten ja milloin tämä ohjelman kaatuminen tapahtui.
+    </string>
+    <string name="trace_droid_button_title_send">        Avaa sähköposti
+    </string>
+    <string name="trace_droid_no_email_app">        Kelpoista sähköpostiohjelmaa ei ole asennettuna.
+    </string>
+    <string name="trace_droid_button_title_no">        Ei
+    </string>
+    <string name="trace_droid_button_title_later">        Ehkäpä myöhemmin
+    </string>
+    <!-- Notifications -->
+    <string name="notifications_session_alarm_channel_description">        Käyttäjän luomat hälytykset useammalle tapahtumalle.
+    </string>
+    <string name="notifications_session_alarm_channel_name">Hälytykset tapahtumille</string>
+    <string name="notifications_session_alarm_content_text">Hälytys tapahtumalle</string>
+    <string name="notifications_schedule_update_channel_description">        Aikataulun automaattiset päivitykset jotka voidaan määrittää sovellusasetuksissa.
+    </string>
+    <string name="notifications_schedule_update_channel_name">Aikataulupäivitykset</string>
+    <plurals name="notifications_schedule_changes">
+        <item quantity="one"><xliff:g esimerkki="1" id="lukumäärä">%d</xliff:g> luento on muuttunut.</item>
+        <item quantity="other"><xliff:g esimerkki="3" id="lukumäärä">%d</xliff:g> luennot ovat muuttuneet.</item>
+    </plurals>
+    <!-- Schedule refresh interval picker -->
+    <!-- Alarm time picker -->
+    <string name="alarm_time_title_at_start_time">aloitusajassa</string>
+    <string name="alarm_time_title_5_minutes_before">5 minuuttia ennen</string>
+    <string name="alarm_time_title_10_minutes_before">10 minuuttia ennen</string>
+    <string name="alarm_time_title_15_minutes_before">15 minuuttia ennen</string>
+    <string name="alarm_time_title_20_minutes_before">20 minuuttia ennen</string>
+    <string name="alarm_time_title_30_minutes_before">30 minuuttia ennen</string>
+    <string name="alarm_time_title_45_minutes_before">45 minuuttia ennen</string>
+    <string name="alarm_time_title_60_minutes_before">60 minuuttia ennen</string>
+    <!-- Session list item -->
+    <string name="session_list_item_alarm_time_zero_minutes_content_description">Hälytys: alkuaikaan</string>
+    <string name="session_list_item_alarm_time_minutes_content_description">Hälytys: <xliff:g esimerkki="5" id="minuuttia">%d</xliff:g> minuuttia ennen</string>
+    <string name="session_list_item_alarm_time_content_description">Hälytysaika: <xliff:g esimerkki="16:20" id="hälytysAika">%s</xliff:g></string>
+    <string name="session_list_item_duration_text"><xliff:g esimerkki="45" id="kesto">%d</xliff:g> min.</string>
+    <string name="session_list_item_duration_content_description">Kesto: <xliff:g esimerkki="45" id="kesto">%d</xliff:g> minuuttia</string>
+    <string name="session_list_item_favored_content_description">lempi</string>
+    <string name="session_list_item_not_favored_content_description">ei lempi</string>
+    <string name="session_list_item_room_content_description">Huone: <xliff:g esimerkki="Pääsali" id="huone">%s</xliff:g></string>
+    <string name="session_list_item_start_time_content_description">Aloitusaika: <xliff:g esimerkki="16:30" id="aloitusAika">%s</xliff:g></string>
+    <string name="session_list_item_subtitle_content_description">Otsake: <xliff:g esimerkki="Uutisia Berliinistä" id="otsake">%s</xliff:g></string>
+    <string name="session_list_item_track_content_description">Ala: <xliff:g example="Turvallisuus" id="alaNimi">%s</xliff:g></string>
+    <string name="session_list_item_language_content_description">Kieli: <xliff:g esimerkki="englanti" id="kieli">%s</xliff:g></string>
+    <string name="session_list_item_language_portuguese_content_description">portugali</string>
+    <string name="session_list_item_language_german_content_description">saksa</string>
+    <string name="session_list_item_language_english_content_description">englanti</string>
+    <string name="session_list_item_language_unknown_content_description">Tuntematon kieli</string>
+    <string name="session_list_item_language_removed_content_description">Kielitiedot on poistettu</string>
+    <string name="session_list_item_no_video_content_description">Ilman videotallennusta</string>
+    <string name="session_list_item_video_content_description">Videotallennuksen kera</string>
+    <string name="session_list_item_without_video_content_description">Ilman videotallennusta</string>
+    <plurals name="session_list_item_speakers_content_description">
+        <item quantity="one">Puhuja: <xliff:g esimerkki="Maija Meikäläinen" id="nimi">%s</xliff:g></item>
+        <item quantity="other">Puhujat: <xliff:g esimerkki="Maija Meikäläinen, Matti Näsä" id="nimet">%s</xliff:g></item>
+    </plurals>
+    <!-- Validation errors -->
+    <string name="validation_error_invalid_url">        Epäkelpo <xliff:g esimerkki="Laulukuoro" id="urlMalli">%s</xliff:g> URL.
+    </string>
+    <string name="validation_error_url_without_query">        <xliff:g esimerkki="Laulukuoro" id="urlMalli">%s</xliff:g> URL ilman kyselyosaa.
+    </string>
+    <string name="validation_error_url_with_incomplete_query">        <xliff:g esimerkki="Laulukuoro" id="urlMalli">%s</xliff:g> URL sisältää riittämättömän kyselyosan.
+    </string>
+    <string name="validation_error_url_without_api_key">        <xliff:g esimerkki="Laulukuoro" id="urlMalli">%s</xliff:g> URL on vailla API-avainta.
+    </string>
+</resources>
