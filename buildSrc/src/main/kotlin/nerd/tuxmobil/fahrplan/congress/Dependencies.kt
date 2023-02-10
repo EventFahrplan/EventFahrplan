@@ -20,7 +20,7 @@ object Plugins {
     private object Versions {
         const val android = "7.3.1"
         const val androidJunitJacoco = "0.16.0"
-        const val dexcount = "3.1.0"
+        const val dexcount = "4.0.0"
         const val kotlin = "1.8.0"
         const val ksp = "1.8.0-1.0.8"
         const val sonarQube = "3.4.0.2513"
