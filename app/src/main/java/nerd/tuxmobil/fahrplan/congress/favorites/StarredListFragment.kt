@@ -136,6 +136,7 @@ class StarredListFragment :
             activity.invalidateOptionsMenu()
 
             loadingSpinnerView.isVisible = false
+            jumpOverPastSessions()
         }
         viewModel.shareSimple.observe(viewLifecycleOwner) { formattedSession ->
             SessionSharer.shareSimple(requireContext(), formattedSession)
