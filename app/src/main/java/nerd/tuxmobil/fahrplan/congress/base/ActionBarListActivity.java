@@ -6,10 +6,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 /**
- * + * Taken from http://stackoverflow
- * .com/questions/18403647/actionbaractivity-of-android-support-v7-appcompat-and
- * -listactivity-in-same-act
- * +
+ * Taken from <a href="https://stackoverflow.com/q/18403647/356895">StackOverflow</a>
  */
 public abstract class ActionBarListActivity extends BaseActivity {
 
