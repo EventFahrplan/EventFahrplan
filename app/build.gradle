@@ -15,7 +15,7 @@ android {
     namespace "nerd.tuxmobil.fahrplan.congress"
 
     compileSdk Android.compileSdkVersion
-    buildToolsVersion Android.buildToolsVersion
+    buildToolsVersion = Android.buildToolsVersion
 
     defaultConfig {
         versionCode 92
