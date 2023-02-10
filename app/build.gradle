@@ -15,7 +15,7 @@ android {
     namespace "nerd.tuxmobil.fahrplan.congress"
 
     compileSdk Android.compileSdkVersion
-    buildToolsVersion Android.buildToolsVersion
+    buildToolsVersion = Android.buildToolsVersion
 
     defaultConfig {
         versionCode 92
@@ -75,7 +75,7 @@ android {
     }
 
     def defaultDimension = "default"
-    flavorDimensions defaultDimension
+    flavorDimensions = [defaultDimension]
 
     productFlavors {
         cccamp2019 {
@@ -154,7 +154,7 @@ android {
         }
     }
 
-    productFlavors.all { flavor ->
+    productFlavors.configureEach { flavor ->
         if (hasSigningConfig(flavor.name)) {
             setSigningConfig(flavor)
         }
