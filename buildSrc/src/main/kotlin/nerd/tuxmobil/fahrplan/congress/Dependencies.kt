@@ -42,7 +42,7 @@ object Libs {
 
     private object Versions {
         const val annotation = "1.5.0"
-        const val appCompat = "1.4.2" // compileSdk 32 is required as of 1.5.0, potential lifecycle-viewmodel-ktx conflict, see: https://issuetracker.google.com/issues/238425626
+        const val appCompat = "1.6.1"
         const val assertjAndroid = "1.2.0"
         const val betterLinkMovementMethod = "2.2.0"
         const val constraintLayout = "2.1.4"
