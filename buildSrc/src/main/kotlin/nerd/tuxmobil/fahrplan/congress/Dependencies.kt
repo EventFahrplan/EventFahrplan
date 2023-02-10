@@ -55,7 +55,7 @@ object Libs {
         const val kotlinCoroutines = "1.6.4"
         const val lifecycle = "2.5.1"
         const val markwon = "4.6.2"
-        const val material = "1.6.1" // compileSdk 32 is required as of 1.7.0
+        const val material = "1.8.0"
         const val mockito = "4.11.0"
         const val mockitoKotlin = "4.1.0"
         const val moshi = "1.14.0"
