@@ -154,7 +154,7 @@ android {
         }
     }
 
-    productFlavors.all { flavor ->
+    productFlavors.configureEach { flavor ->
         if (hasSigningConfig(flavor.name)) {
             setSigningConfig(flavor)
         }
