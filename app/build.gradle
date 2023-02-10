@@ -75,7 +75,7 @@ android {
     }
 
     def defaultDimension = "default"
-    flavorDimensions defaultDimension
+    flavorDimensions = [defaultDimension]
 
     productFlavors {
         cccamp2019 {
