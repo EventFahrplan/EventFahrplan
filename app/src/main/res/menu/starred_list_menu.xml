@@ -5,7 +5,7 @@
     <item
             android:id="@+id/menu_item_share_favorites_menu"
             android:title="@string/menu_item_title_share_favorites"
-            android:icon="@drawable/ic_share_white_24dp"
+            android:icon="@drawable/ic_share"
             android:visible="false"
             app:showAsAction="ifRoom">
 
@@ -26,7 +26,7 @@
     <item
             android:id="@+id/menu_item_share_favorites"
             android:title="@string/menu_item_title_share_favorites"
-            android:icon="@drawable/ic_share_white_24dp"
+            android:icon="@drawable/ic_share"
             android:visible="false"
             app:showAsAction="ifRoom"/>
 

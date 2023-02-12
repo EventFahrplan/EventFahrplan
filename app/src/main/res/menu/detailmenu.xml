@@ -59,14 +59,14 @@
 
     <item
             android:id="@+id/menu_item_share_session"
-            android:icon="@drawable/ic_share_white_24dp"
+            android:icon="@drawable/ic_share"
             app:showAsAction="always"
             android:visible="false"
             android:title="@string/menu_item_title_share_session"/>
 
     <item
             android:id="@+id/menu_item_share_session_menu"
-            android:icon="@drawable/ic_share_white_24dp"
+            android:icon="@drawable/ic_share"
             app:showAsAction="always"
             android:visible="false"
             android:title="@string/menu_item_title_share_session">
