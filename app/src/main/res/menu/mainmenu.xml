@@ -3,21 +3,21 @@
       xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
             android:id="@+id/menu_item_favorites"
-            android:icon="@drawable/ic_action_star_list_white_24px"
+            android:icon="@drawable/ic_action_star_list"
             app:showAsAction="ifRoom"
             android:title="@string/menu_item_title_favorites"
             android:titleCondensed="@string/menu_item_title_favorites">
     </item>
     <item
             android:id="@+id/menu_item_alarms"
-            android:icon="@drawable/ic_action_bell_list_white_24px"
+            android:icon="@drawable/ic_action_bell_list"
             app:showAsAction="ifRoom"
             android:title="@string/menu_item_title_alarms"
             android:titleCondensed="@string/menu_item_title_alarms">
     </item>
     <item
             android:id="@+id/menu_item_schedule_changes"
-            android:icon="@drawable/ic_action_healing_list_white_24px"
+            android:icon="@drawable/ic_action_healing_list"
             app:showAsAction="ifRoom"
             android:title="@string/menu_item_title_schedule_changes"
             android:titleCondensed="@string/menu_item_title_schedule_changes">
