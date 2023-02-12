@@ -124,7 +124,7 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
             defaultEngelsystemRoomName = defaultEngelsystemRoomName,
             customEngelsystemRoomName = customEngelsystemRoomName
         )
-        viewModel = ViewModelProvider(this, viewModelFactory).get(FahrplanViewModel::class.java)
+        viewModel = ViewModelProvider(this, viewModelFactory)[FahrplanViewModel::class.java]
         onSessionClickListener = if (context is OnSessionClickListener) {
             context
         } else {
