@@ -118,7 +118,7 @@ abstract class SessionsAdapter protected constructor(
         resetTextStyle(viewHolder.time, R.style.ScheduleListSecondary)
         resetTextStyle(viewHolder.room, R.style.ScheduleListSecondary)
         resetTextStyle(viewHolder.duration, R.style.ScheduleListSecondary)
-        viewHolder.withoutVideoRecording.setImageResource(R.drawable.ic_without_video_recording)
+        viewHolder.withoutVideoRecording.setImageResource(R.drawable.ic_novideo)
     }
 
     protected open fun resetTextStyle(textView: TextView, style: Int) {

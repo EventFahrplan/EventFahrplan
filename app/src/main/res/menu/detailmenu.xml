@@ -4,7 +4,7 @@
 
     <item
             android:id="@+id/menu_item_close_session_details"
-            android:icon="@drawable/ic_close_white_24dp"
+            android:icon="@drawable/ic_close"
             app:showAsAction="always"
             android:title="@string/menu_item_title_close_session_details"
             android:titleCondensed="@string/menu_item_title_close_session_details"
@@ -18,26 +18,26 @@
     </item>
     <item
             android:id="@+id/menu_item_flag_as_favorite"
-            android:icon="@drawable/ic_action_star_add_white_24px"
+            android:icon="@drawable/ic_star_outline"
             app:showAsAction="always"
             android:title="@string/menu_item_title_flag_as_favorite">
     </item>
     <item
             android:id="@+id/menu_item_unflag_as_favorite"
-            android:icon="@drawable/ic_action_star_remove_white_24px"
+            android:icon="@drawable/ic_star_filled"
             app:showAsAction="always"
             android:title="@string/menu_item_title_unflag_as_favorite"
             android:visible="false">
     </item>
     <item
             android:id="@+id/menu_item_set_alarm"
-            android:icon="@drawable/ic_action_bell_add_white_24px"
+            android:icon="@drawable/ic_bell_outline"
             app:showAsAction="always"
             android:title="@string/menu_item_title_set_alarm">
     </item>
     <item
             android:id="@+id/menu_item_delete_alarm"
-            android:icon="@drawable/ic_action_bell_remove_white_24px"
+            android:icon="@drawable/ic_bell_filled"
             app:showAsAction="always"
             android:title="@string/menu_item_title_delete_alarm"
             android:visible="false">
@@ -51,7 +51,7 @@
     </item>
     <item
             android:id="@+id/menu_item_add_to_calendar"
-            android:icon="@drawable/ic_calendar_white_24dp"
+            android:icon="@drawable/ic_calendar"
             app:showAsAction="always"
             android:title="@string/menu_item_title_add_to_calendar">
     </item>
@@ -59,14 +59,14 @@
 
     <item
             android:id="@+id/menu_item_share_session"
-            android:icon="@drawable/ic_share_white_24dp"
+            android:icon="@drawable/ic_share"
             app:showAsAction="always"
             android:visible="false"
             android:title="@string/menu_item_title_share_session"/>
 
     <item
             android:id="@+id/menu_item_share_session_menu"
-            android:icon="@drawable/ic_share_white_24dp"
+            android:icon="@drawable/ic_share"
             app:showAsAction="always"
             android:visible="false"
             android:title="@string/menu_item_title_share_session">

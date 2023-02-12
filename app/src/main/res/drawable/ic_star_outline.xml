@@ -1,0 +1,10 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:fillColor="@color/tool_bar_icon"
+        android:pathData="m8.684,17.605 l3.316,-2 3.316,2.026 -0.868,-3.789 2.921,-2.526L13.526,10.974 12,7.395 10.474,10.947 6.632,11.289 9.553,13.842ZM5.5,22 L7.211,14.605 1.474,9.632 9.053,8.974 12,2 14.947,8.974 22.526,9.632 16.789,14.605 18.5,22 12,18.079ZM12,12.789Z"
+        android:strokeWidth="1.05263" />
+</vector>

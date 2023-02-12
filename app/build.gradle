@@ -25,7 +25,7 @@ android {
         archivesBaseName = "Fahrplan-$versionName"
         multiDexEnabled true
 
-        vectorDrawables.useSupportLibrary = true
+        vectorDrawables.useSupportLibrary = true // needed for API level < 21
 
         // Build information
         resValue("string", "build_time", "\"${buildTime()}\"")
