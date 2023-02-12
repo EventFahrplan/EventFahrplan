@@ -24,7 +24,7 @@
     </item>
     <item
             android:id="@+id/menu_item_settings"
-            android:icon="@drawable/ic_settings_white_24dp"
+            android:icon="@drawable/ic_settings"
             android:orderInCategory="80"
             app:showAsAction="never"
             android:title="@string/menu_item_title_settings"
