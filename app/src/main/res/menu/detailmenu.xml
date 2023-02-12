@@ -4,7 +4,7 @@
 
     <item
             android:id="@+id/menu_item_close_session_details"
-            android:icon="@drawable/ic_close_white_24dp"
+            android:icon="@drawable/ic_close"
             app:showAsAction="always"
             android:title="@string/menu_item_title_close_session_details"
             android:titleCondensed="@string/menu_item_title_close_session_details"
