@@ -32,7 +32,7 @@
     </item>
     <item
             android:id="@+id/menu_item_about"
-            android:icon="@drawable/ic_info_outline_white_24dp"
+            android:icon="@drawable/ic_info_outline"
             android:orderInCategory="90"
             android:title="@string/menu_item_title_about"
             android:titleCondensed="@string/menu_item_title_about">
