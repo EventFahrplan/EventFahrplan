@@ -49,6 +49,7 @@
     <color name="schedule_time_column_item_text_emphasized">#000</color>
     <color name="schedule_room_name_header_background">#000</color>
     <color name="schedule_room_name_header_text">#fff</color>
+    <color name="session_item_alarm_icon">#fff</color>
     <color name="session_item_text_on_default_background">#a0ffffff</color>
     <color name="session_item_text_on_highlight_background">#fff</color>
     <color name="session_item_video_without_recording_took_place">#656565</color>

@@ -42,8 +42,8 @@ This list is for your preparation. The specific folders and files are mentioned 
 
 - Text and background colors (HEX)
 - Tracks background colors (HEX)
-- Icons in the toolbar as well as the session alarm icon (bell) and the icon for a favored session
-  (star) can be customized via the `tool_bar_icon` color resource.
+- Icons in the toolbar as well as the session alarm icon (bell) can be customized via the `tool_bar_icon` color resource.
+- The alarm icon (bell) which is shown on a session can be customized via the `session_item_alarm_icon` color resource.
 - The video recording icons must be customized manually because they contain more than one color.
 
 ## 3. Your custom app step by step

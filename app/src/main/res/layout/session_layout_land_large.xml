@@ -36,7 +36,7 @@
             android:adjustViewBounds="true"
             android:padding="4dp"
             android:scaleType="fitStart"
-            android:src="@drawable/ic_bell_filled" />
+            android:src="@drawable/ic_bell_on_session" />
 
     </LinearLayout>
 
