@@ -145,14 +145,14 @@ class SessionExtensionsTest {
     }
 
     @Test
-    fun `toMoment returns Moment object if dateUTC has proper value`() {
+    fun `toStartsAtMoment returns Moment object if dateUTC has proper value`() {
         val session = Session("").apply { dateUTC = 1582963200000L }
         val moment = session.toStartsAtMoment()
         assertThat(moment).isEqualTo(Moment.ofEpochMilli(1582963200000L))
     }
 
     @Test
-    fun `toMoment throws exception if dateUTC is 0`() {
+    fun `toStartsAtMoment throws exception if dateUTC is 0`() {
         val session = Session("")
         try {
             session.toStartsAtMoment()
