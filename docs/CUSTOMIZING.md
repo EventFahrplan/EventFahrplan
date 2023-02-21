@@ -42,17 +42,9 @@ This list is for your preparation. The specific folders and files are mentioned 
 
 - Text and background colors (HEX)
 - Tracks background colors (HEX)
-- Bell icon (PNG)
-
-  ![Bell icon example](gfx/bell-icon.png)
-
-- Video recording icons (PNG)
-
-  ![No video recording icon example (favorites screen)](gfx/no-video-recording-icon-favorites.png)
-
-  ![No video recording icon example (schedule screen)](gfx/no-video-recording-icon-schedule.png)
-
-  ![Video recording changed icons example (changes screen)](gfx/video-recording-icons-changes.png)
+- Icons in the toolbar as well as the session alarm icon (bell) can be customized via the `tool_bar_icon` color resource.
+- The alarm icon (bell) which is shown on a session can be customized via the `session_item_alarm_icon` color resource.
+- The video recording icons must be customized manually because they contain more than one color.
 
 ## 3. Your custom app step by step
 

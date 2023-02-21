@@ -46,11 +46,11 @@ class CalendarSharingTest {
                 intent.extras != null && matchesExtras(intent.extras!!)
 
         private fun matchesExtras(extras: Bundle) =
-            extras.get(CalendarContract.Events.TITLE) == "Title" &&
-                    extras.get(CalendarContract.Events.DESCRIPTION) == "Lorem ipsum dolor" &&
-                    extras.get(CalendarContract.Events.EVENT_LOCATION) == "Room" &&
-                    extras.get(CalendarContract.EXTRA_EVENT_BEGIN_TIME) == 1439478900000L &&
-                    extras.get(CalendarContract.EXTRA_EVENT_END_TIME) == 1439480700000L
+            extras.getString(CalendarContract.Events.TITLE) == "Title" &&
+                    extras.getString(CalendarContract.Events.DESCRIPTION) == "Lorem ipsum dolor" &&
+                    extras.getString(CalendarContract.Events.EVENT_LOCATION) == "Room" &&
+                    extras.getLong(CalendarContract.EXTRA_EVENT_BEGIN_TIME) == 1439478900000L &&
+                    extras.getLong(CalendarContract.EXTRA_EVENT_END_TIME) == 1439480700000L
 
         override fun toString() = "Session intent does not match."
     }

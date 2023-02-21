@@ -18,6 +18,9 @@ internal class NotificationHelper(context: Context) : ContextWrapper(context) {
         getNotificationManager()
     }
 
+    val notificationsEnabled: Boolean
+        get() = notificationManager.areNotificationsEnabled()
+
     init {
         createChannels()
     }
@@ -125,5 +128,4 @@ internal class NotificationHelper(context: Context) : ContextWrapper(context) {
         private const val SCHEDULE_UPDATE_CHANNEL_ID = "SCHEDULE_UPDATE_CHANNEL"
         const val SCHEDULE_UPDATE_ID = 2
     }
-
 }

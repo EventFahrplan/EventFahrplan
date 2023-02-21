@@ -44,7 +44,7 @@ internal class NavigationMenuEntriesGenerator @JvmOverloads constructor(
         if (numDays < 1) {
             throw IllegalArgumentException("Invalid number of days: $numDays")
         }
-        if (dateInfos == null || dateInfos.isEmpty()) {
+        if (dateInfos.isNullOrEmpty()) {
             throw IllegalArgumentException("Invalid date info list: $dateInfos")
         }
         if (numDays < dateInfos.size) {

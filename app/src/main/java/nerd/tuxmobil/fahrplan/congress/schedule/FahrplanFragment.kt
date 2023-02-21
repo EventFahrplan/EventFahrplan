@@ -1,5 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.schedule
 
+import android.Manifest.permission.POST_NOTIFICATIONS
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Typeface
 import android.os.Build
@@ -22,6 +24,8 @@ import android.widget.LinearLayout.LayoutParams.MATCH_PARENT
 import android.widget.LinearLayout.LayoutParams.WRAP_CONTENT
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
 import androidx.appcompat.app.ActionBar.NAVIGATION_MODE_LIST
 import androidx.appcompat.app.ActionBar.OnNavigationListener
 import androidx.appcompat.app.AppCompatActivity
@@ -52,6 +56,7 @@ import nerd.tuxmobil.fahrplan.congress.models.ScheduleData
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.net.ConnectivityObserver
 import nerd.tuxmobil.fahrplan.congress.net.ErrorMessage
+import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.schedule.observables.TimeTextViewParameter
 import nerd.tuxmobil.fahrplan.congress.sharing.SessionSharer
@@ -89,6 +94,7 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
 
     }
 
+    private lateinit var permissionRequestLauncher: ActivityResultLauncher<String>
     private lateinit var inflater: LayoutInflater
     private lateinit var sessionViewDrawer: SessionViewDrawer
     private lateinit var errorMessageFactory: ErrorMessage.Factory
@@ -104,6 +110,7 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+        val notificationHelper = NotificationHelper(context)
         val appRepository = AppRepository
         val alarmServices = AlarmServices.newInstance(context, appRepository)
         val menuEntriesGenerator = NavigationMenuEntriesGenerator(dayString = getString(R.string.day), todayString = getString(R.string.today))
@@ -112,11 +119,12 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
         val viewModelFactory = FahrplanViewModelFactory(
             repository = appRepository,
             alarmServices = alarmServices,
+            notificationHelper = notificationHelper,
             navigationMenuEntriesGenerator = menuEntriesGenerator,
             defaultEngelsystemRoomName = defaultEngelsystemRoomName,
             customEngelsystemRoomName = customEngelsystemRoomName
         )
-        viewModel = ViewModelProvider(this, viewModelFactory).get(FahrplanViewModel::class.java)
+        viewModel = ViewModelProvider(this, viewModelFactory)[FahrplanViewModel::class.java]
         onSessionClickListener = if (context is OnSessionClickListener) {
             context
         } else {
@@ -131,6 +139,15 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        permissionRequestLauncher = registerForActivityResult(RequestPermission()) { isGranted ->
+            if (isGranted) {
+                showAlarmTimePicker()
+            } else {
+                showMissingPostNotificationsPermissionError()
+            }
+        }
+
         setHasOptionsMenu(true)
         val context = requireContext()
         roomTitleTypeFace = TypefaceFactory.getNewInstance(context).getTypeface(Font.Roboto.Light)
@@ -165,6 +182,7 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
         inflater = view.context.getLayoutInflater()
     }
 
+    @SuppressLint("InlinedApi")
     private fun observeViewModel() {
         viewModel.fahrplanParameter.observe(viewLifecycleOwner) { (scheduleData, numDays, dayIndex, menuEntries) ->
             menuEntries?.let { buildNavigationMenu(it, numDays) }
@@ -193,6 +211,15 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
         }
         viewModel.scrollToSessionParameter.observe(viewLifecycleOwner) { (sessionId, verticalPosition, roomIndex) ->
             scrollTo(sessionId, verticalPosition, roomIndex)
+        }
+        viewModel.requestPostNotificationsPermission.observe(viewLifecycleOwner) {
+            permissionRequestLauncher.launch(POST_NOTIFICATIONS)
+        }
+        viewModel.missingPostNotificationsPermission.observe(viewLifecycleOwner) {
+            showMissingPostNotificationsPermissionError()
+        }
+        viewModel.showAlarmTimePicker.observe(viewLifecycleOwner) {
+            showAlarmTimePicker()
         }
     }
 
@@ -455,7 +482,7 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
                 updateMenuItems()
             }
             CONTEXT_MENU_ITEM_ID_SET_ALARM -> {
-                showAlarmTimePicker()
+                viewModel.showAlarmTimePickerWithChecks()
             }
             CONTEXT_MENU_ITEM_ID_DELETE_ALARM -> {
                 viewModel.deleteAlarm(session)
@@ -522,6 +549,10 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
         } else {
             menu.add(0, CONTEXT_MENU_ITEM_ID_SHARE, 4, getString(R.string.menu_item_title_share_session))
         }
+    }
+
+    private fun showMissingPostNotificationsPermissionError() {
+        Toast.makeText(requireContext(), R.string.alarms_disabled_notifications_permission_missing, Toast.LENGTH_LONG).show()
     }
 
     private inner class OnDaySelectedListener(private val numDays: Int) : OnNavigationListener {

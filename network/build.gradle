@@ -9,7 +9,7 @@ android {
     namespace "info.metadude.android.eventfahrplan.network"
 
     compileSdk Android.compileSdkVersion
-    buildToolsVersion Android.buildToolsVersion
+    buildToolsVersion = Android.buildToolsVersion
 
     defaultConfig {
         minSdk Android.minSdkVersion

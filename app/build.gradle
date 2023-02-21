@@ -15,7 +15,7 @@ android {
     namespace "nerd.tuxmobil.fahrplan.congress"
 
     compileSdk Android.compileSdkVersion
-    buildToolsVersion Android.buildToolsVersion
+    buildToolsVersion = Android.buildToolsVersion
 
     defaultConfig {
         versionCode 1700007
@@ -25,7 +25,7 @@ android {
         archivesBaseName = "Fahrplan-$versionName"
         multiDexEnabled true
 
-        vectorDrawables.useSupportLibrary = true
+        vectorDrawables.useSupportLibrary = true // needed for API level < 21
 
         // Build information
         resValue("string", "build_time", "\"${buildTime()}\"")
@@ -73,7 +73,7 @@ android {
     }
 
     def defaultDimension = "default"
-    flavorDimensions defaultDimension
+    flavorDimensions = [defaultDimension]
 
     productFlavors {
         glt22 {
@@ -82,7 +82,7 @@ android {
             versionName "${defaultConfig.versionName}-glt-Edition"
             buildConfigField "String", "GOOGLE_PLAY_URL", '"https://play.google.com/store/apps/details?id=at.linuxtage.companion"'
             buildConfigField "String", "F_DROID_URL", '"https://f-droid.org/packages/at.linuxtage.companion/"'
-            buildConfigField "String", "SCHEDULE_URL", '"https://pretalx.linuxtage.at/glt22/schedule/export/schedule.xml"'
+            buildConfigField "String", "SCHEDULE_URL", '"https://pretalx.linuxtage.at/glt23/schedule/export/schedule.xml"'
             buildConfigField "String", "EVENT_URL", '""'
             buildConfigField "String", "EVENT_WEBSITE_URL", '"https://www.linuxtage.at"'
             buildConfigField "String", "SERVER_BACKEND_TYPE", '"pretalx"'
@@ -102,11 +102,11 @@ android {
             resValue("string", "preference_hint_engelsystem_json_export_url", '"https://engel.linuxtage.at/shifts-json-export?key=YOUR_KEY"')
             buildConfigField "String", "SOCIAL_MEDIA_HASHTAGS_HANDLES", '"#glt23 #glt @linuxtage @gltlive"'
             buildConfigField "String", "TRACE_DROID_EMAIL_ADDRESS", '"glt23@linuxtage.at"'
-            buildConfigField "String", "SCHEDULE_FEEDBACK_URL", '"https://pretalx.linuxtage.at/glt22/talk/%s/feedback/"' //TODO change to NN
+            buildConfigField "String", "SCHEDULE_FEEDBACK_URL", '"https://pretalx.linuxtage.at/glt23/talk/%s/feedback/"' //TODO change to NN
         }
     }
 
-    productFlavors.all { flavor ->
+    productFlavors.configureEach { flavor ->
         if (hasSigningConfig(flavor.name)) {
             setSigningConfig(flavor)
         }
@@ -199,7 +199,7 @@ def gitSha() {
     return res
 }
 
-def buildTime() {
+static def buildTime() {
     return new Date().format("yyyy-MM-dd'T'HH:mm'Z'", TimeZone.getTimeZone("UTC"))
 }
 

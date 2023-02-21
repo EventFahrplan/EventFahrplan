@@ -27,6 +27,7 @@
 
     <!-- Tool bar -->
     <color name="tool_bar_background">@color/colorPrimary</color>
+    <color name="tool_bar_icon">#fff</color>
     <color name="day_menu_text">@color/text_primary</color>
 
     <!-- About -->
@@ -48,8 +49,10 @@
     <color name="schedule_time_column_item_text_emphasized">#000</color>
     <color name="schedule_room_name_header_background">#000</color>
     <color name="schedule_room_name_header_text">#fff</color>
+    <color name="session_item_alarm_icon">#fff</color>
     <color name="session_item_text_on_default_background">#a0ffffff</color>
     <color name="session_item_text_on_highlight_background">#fff</color>
+    <color name="session_item_video_without_recording_took_place">#656565</color>
 
     <!-- Schedule changes dialog -->
     <color name="schedule_changes_dialog_new_version_text">@color/colorAccent</color>

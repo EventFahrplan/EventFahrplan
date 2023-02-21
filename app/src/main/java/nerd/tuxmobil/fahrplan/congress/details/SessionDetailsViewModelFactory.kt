@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import nerd.tuxmobil.fahrplan.congress.BuildConfig
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices
 import nerd.tuxmobil.fahrplan.congress.navigation.RoomForC3NavConverter
+import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper
 import nerd.tuxmobil.fahrplan.congress.repositories.AppExecutionContext
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.sharing.JsonSessionFormat
@@ -13,10 +14,11 @@ import nerd.tuxmobil.fahrplan.congress.utils.FeedbackUrlComposer
 import nerd.tuxmobil.fahrplan.congress.utils.MarkdownConverter
 import nerd.tuxmobil.fahrplan.congress.utils.SessionUrlComposer
 
-class SessionDetailsViewModelFactory(
+internal class SessionDetailsViewModelFactory(
 
     private val appRepository: AppRepository,
     private val alarmServices: AlarmServices,
+    private val notificationHelper: NotificationHelper,
     private val defaultEngelsystemRoomName: String,
     private val customEngelsystemRoomName: String
 
@@ -28,6 +30,7 @@ class SessionDetailsViewModelFactory(
             repository = appRepository,
             executionContext = AppExecutionContext,
             alarmServices = alarmServices,
+            notificationHelper = notificationHelper,
             sessionFormatter = SessionFormatter(),
             simpleSessionFormat = SimpleSessionFormat(),
             jsonSessionFormat = JsonSessionFormat(),

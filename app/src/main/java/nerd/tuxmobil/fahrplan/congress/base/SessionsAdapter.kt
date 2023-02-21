@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 
 import androidx.annotation.LayoutRes
+import androidx.core.widget.TextViewCompat
 import info.metadude.android.eventfahrplan.commons.temporal.DateFormatter
 
 import nerd.tuxmobil.fahrplan.congress.R
@@ -118,11 +119,11 @@ abstract class SessionsAdapter protected constructor(
         resetTextStyle(viewHolder.time, R.style.ScheduleListSecondary)
         resetTextStyle(viewHolder.room, R.style.ScheduleListSecondary)
         resetTextStyle(viewHolder.duration, R.style.ScheduleListSecondary)
-        viewHolder.withoutVideoRecording.setImageResource(R.drawable.ic_without_video_recording)
+        viewHolder.withoutVideoRecording.setImageResource(R.drawable.ic_novideo)
     }
 
     protected open fun resetTextStyle(textView: TextView, style: Int) {
-        textView.setTextAppearance(context, style)
+        TextViewCompat.setTextAppearance(textView, style)
     }
 
     protected abstract fun setItemContent(position: Int, viewHolder: ViewHolder)

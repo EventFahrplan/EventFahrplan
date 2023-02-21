@@ -1,5 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.details
 
+import android.Manifest.permission.POST_NOTIFICATIONS
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -14,11 +16,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
 import androidx.annotation.CallSuper
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import androidx.annotation.MainThread
-import androidx.annotation.NonNull
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -38,6 +41,7 @@ import nerd.tuxmobil.fahrplan.congress.extensions.startActivity
 import nerd.tuxmobil.fahrplan.congress.extensions.toSpanned
 import nerd.tuxmobil.fahrplan.congress.extensions.withArguments
 import nerd.tuxmobil.fahrplan.congress.models.Session
+import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.sharing.SessionSharer
 import nerd.tuxmobil.fahrplan.congress.sidepane.OnSidePaneCloseListener
@@ -69,13 +73,15 @@ class SessionDetailsFragment : Fragment() {
         }
 
     }
-
+    private lateinit var permissionRequestLauncher: ActivityResultLauncher<String>
     private lateinit var appRepository: AppRepository
     private lateinit var alarmServices: AlarmServices
+    private lateinit var notificationHelper: NotificationHelper
     private val viewModel: SessionDetailsViewModel by viewModels {
         SessionDetailsViewModelFactory(
             appRepository = appRepository,
             alarmServices = alarmServices,
+            notificationHelper = notificationHelper,
             defaultEngelsystemRoomName = AppRepository.ENGELSYSTEM_ROOM_NAME,
             customEngelsystemRoomName = getString(R.string.engelsystem_shifts_alias)
         )
@@ -101,10 +107,11 @@ class SessionDetailsFragment : Fragment() {
 
     @MainThread
     @CallSuper
-    override fun onAttach(@NonNull context: Context) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         appRepository = AppRepository
         alarmServices = AlarmServices.newInstance(context, appRepository)
+        notificationHelper = NotificationHelper(context)
         markwon = Markwon.builder(requireContext())
             .usePlugin(LinkifyPlugin.create())
             .build()
@@ -114,6 +121,15 @@ class SessionDetailsFragment : Fragment() {
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        permissionRequestLauncher = registerForActivityResult(RequestPermission()) { isGranted ->
+            if (isGranted) {
+                viewModel.setAlarm()
+            } else {
+                showMissingPostNotificationsPermissionError()
+            }
+        }
+
         setHasOptionsMenu(true)
     }
 
@@ -142,6 +158,7 @@ class SessionDetailsFragment : Fragment() {
         activity.setResult(Activity.RESULT_CANCELED)
     }
 
+    @SuppressLint("InlinedApi")
     private fun observeViewModel() {
         viewModel.selectedSessionParameter.observe(viewLifecycleOwner) { model ->
             this.model = model
@@ -183,6 +200,12 @@ class SessionDetailsFragment : Fragment() {
             if (activity is OnSidePaneCloseListener) {
                 (activity as OnSidePaneCloseListener).onSidePaneClose(FRAGMENT_TAG)
             }
+        }
+        viewModel.requestPostNotificationsPermission.observe(viewLifecycleOwner) {
+            permissionRequestLauncher.launch(POST_NOTIFICATIONS)
+        }
+        viewModel.missingPostNotificationsPermission.observe(viewLifecycleOwner) {
+            showMissingPostNotificationsPermissionError()
         }
     }
 
@@ -324,6 +347,10 @@ class SessionDetailsFragment : Fragment() {
         this.setLinkTextColor(ContextCompat.getColor(context, R.color.text_link_on_light))
         this.movementMethod = LinkMovementMethodCompat.getInstance()
         this.isVisible = true
+    }
+
+    private fun showMissingPostNotificationsPermissionError() {
+        Toast.makeText(requireContext(), R.string.alarms_disabled_notifications_permission_missing, Toast.LENGTH_LONG).show()
     }
 
     private fun updateOptionsMenu() {

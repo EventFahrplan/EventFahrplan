@@ -300,11 +300,20 @@ public class Session {
         return speakers == null ? "" : TextUtils.join(", ", speakers);
     }
 
+    @NonNull
+    public String getLanguageText() {
+        if (TextUtils.isEmpty(lang)) {
+            return "";
+        } else {
+            return lang.replace("-formal", "");
+        }
+    }
+
     public String getFormattedTrackLanguageText() {
         StringBuilder builder = new StringBuilder();
         builder.append(track);
         if (!TextUtils.isEmpty(lang)) {
-            String language = lang.replace("-formal", "");
+            String language = getLanguageText();
             builder.append(" [").append(language).append("]");
         }
         return builder.toString();

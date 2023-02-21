@@ -206,6 +206,8 @@
     <string name="alarm_time_title_45_minutes_before">45 Minuten vorher</string>
     <string name="alarm_time_title_60_minutes_before">60 Minuten vorher</string>
 
+    <string name="alarms_disabled_notifications_permission_missing">Alarme sind deaktiviert. Bitte erteile die \"Benachrichtigungen\" Berechtigung.</string>
+
     <!-- Session list item -->
     <string name="session_list_item_alarm_time_zero_minutes_content_description">Alarm: zur Startzeit</string>
     <string name="session_list_item_alarm_time_minutes_content_description">Alarm: <xliff:g example="5" id="minutes">%d</xliff:g> Minuten vorher</string>

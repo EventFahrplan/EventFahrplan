@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/menu_item_refresh"
-        android:icon="@drawable/ic_refresh_white_24dp"
+        android:icon="@drawable/ic_refresh"
         android:orderInCategory="70"
         android:title="@string/menu_item_title_refresh"
         app:showAsAction="ifRoom">
