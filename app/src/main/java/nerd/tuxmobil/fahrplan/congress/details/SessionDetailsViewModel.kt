@@ -1,6 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.details
 
 import android.net.Uri
+import android.os.Build
 import androidx.core.net.toUri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
@@ -13,6 +14,7 @@ import kotlinx.coroutines.launch
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.navigation.RoomForC3NavConverter
+import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.repositories.ExecutionContext
 import nerd.tuxmobil.fahrplan.congress.sharing.JsonSessionFormat
@@ -24,11 +26,12 @@ import nerd.tuxmobil.fahrplan.congress.utils.SessionUrlComposition
 import nerd.tuxmobil.fahrplan.congress.wiki.containsWikiLink
 import org.threeten.bp.ZoneOffset
 
-class SessionDetailsViewModel(
+internal class SessionDetailsViewModel(
 
     private val repository: AppRepository,
     private val executionContext: ExecutionContext,
     private val alarmServices: AlarmServices,
+    private val notificationHelper: NotificationHelper,
     private val sessionFormatter: SessionFormatter,
     private val simpleSessionFormat: SimpleSessionFormat,
     private val jsonSessionFormat: JsonSessionFormat,
@@ -37,7 +40,10 @@ class SessionDetailsViewModel(
     private val roomForC3NavConverter: RoomForC3NavConverter,
     private val markdownConversion: MarkdownConversion,
     private val formattingDelegate: FormattingDelegate = DateFormattingDelegate(),
-    private val c3NavBaseUrl: String
+    private val c3NavBaseUrl: String,
+    private val defaultEngelsystemRoomName: String,
+    private val customEngelsystemRoomName: String,
+    private val runsAtLeastOnAndroidTiramisu: Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
 
 ) : ViewModel() {
 
@@ -69,6 +75,8 @@ class SessionDetailsViewModel(
     val descriptionFont = Font.Roboto.Regular
     val linksFont = Font.Roboto.Regular
     val linksSectionFont = Font.Roboto.Bold
+    val trackFont = Font.Roboto.Regular
+    val trackSectionFont = Font.Roboto.Black
     val sessionOnlineFont = Font.Roboto.Regular
     val sessionOnlineSectionFont = Font.Roboto.Black
     val speakersFont = Font.Roboto.Black
@@ -77,6 +85,7 @@ class SessionDetailsViewModel(
 
     val selectedSessionParameter: LiveData<SelectedSessionParameter> = repository.selectedSession
         .map { it.toSelectedSessionParameter() }
+        .map { it.customizeEngelsystemRoomName() }
         .asLiveData(executionContext.database)
 
     val openFeedBack = SingleLiveEvent<Uri>()
@@ -86,6 +95,12 @@ class SessionDetailsViewModel(
     val setAlarm = SingleLiveEvent<Unit>()
     val navigateToRoom = SingleLiveEvent<Uri>()
     val closeDetails = SingleLiveEvent<Unit>()
+    val requestPostNotificationsPermission = SingleLiveEvent<Unit>()
+    val missingPostNotificationsPermission = SingleLiveEvent<Unit>()
+
+    private fun SelectedSessionParameter.customizeEngelsystemRoomName() = copy(
+        roomName = if (roomName == defaultEngelsystemRoomName) customEngelsystemRoomName else roomName
+    )
 
     private fun Session.toSelectedSessionParameter(): SelectedSessionParameter {
         val useDeviceTimeZone = repository.readUseDeviceTimeZoneEnabled()
@@ -115,6 +130,7 @@ class SessionDetailsViewModel(
             description = description.orEmpty(),
             formattedDescription = formattedDescription,
             roomName = room.orEmpty(),
+            track = track.orEmpty(),
             hasLinks = getLinks().isNotEmpty(),
             formattedLinks = formattedLinks,
             hasWikiLinks = getLinks().containsWikiLink(),
@@ -176,7 +192,14 @@ class SessionDetailsViewModel(
     }
 
     fun setAlarm() {
-        setAlarm.postValue(Unit)
+        if (notificationHelper.notificationsEnabled) {
+            setAlarm.postValue(Unit)
+        } else {
+            when (runsAtLeastOnAndroidTiramisu) {
+                true -> requestPostNotificationsPermission.postValue(Unit)
+                false -> missingPostNotificationsPermission.postValue(Unit)
+            }
+        }
     }
 
     fun addAlarm(alarmTimesIndex: Int) {

@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
@@ -43,6 +44,7 @@ import nerd.tuxmobil.fahrplan.congress.models.Meta
 import nerd.tuxmobil.fahrplan.congress.net.CertificateErrorFragment
 import nerd.tuxmobil.fahrplan.congress.net.ErrorMessage
 import nerd.tuxmobil.fahrplan.congress.net.HttpStatus
+import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper
 import nerd.tuxmobil.fahrplan.congress.reporting.TraceDroidEmailSender
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanFragment.OnSessionClickListener
@@ -89,11 +91,14 @@ class MainActivity : BaseActivity(),
             )
     }
 
+    private lateinit var notificationHelper: NotificationHelper
     private lateinit var keyguardManager: KeyguardManager
     private lateinit var errorMessageFactory: ErrorMessage.Factory
     private lateinit var progressBar: ContentLoadingProgressBar
     private var progressDialog: ProgressDialog? = null
-    private val viewModel: MainViewModel by viewModels { MainViewModelFactory(AppRepository) }
+    private val viewModel: MainViewModel by viewModels {
+        MainViewModelFactory(AppRepository, notificationHelper)
+    }
 
     private var isScreenLocked = false
     private var isFavoritesInSidePane = false
@@ -108,6 +113,8 @@ class MainActivity : BaseActivity(),
         super.onCreate(savedInstanceState)
         instance = this
         setContentView(R.layout.main_layout)
+
+        notificationHelper = NotificationHelper(this)
 
         keyguardManager = getSystemService()!!
         errorMessageFactory = ErrorMessage.Factory(this)
@@ -134,6 +141,7 @@ class MainActivity : BaseActivity(),
         initUserEngagement()
         observeViewModel()
         onSessionAlarmNotificationTapped(intent)
+        viewModel.checkPostNotificationsPermission()
     }
 
     private fun observeViewModel() {
@@ -159,6 +167,9 @@ class MainActivity : BaseActivity(),
         }
         viewModel.openSessionDetails.observe(this) {
             openSessionDetails()
+        }
+        viewModel.missingPostNotificationsPermission.observe(this) {
+            Toast.makeText(this, R.string.alarms_disabled_notifications_permission_missing, Toast.LENGTH_LONG).show()
         }
     }
 
@@ -291,7 +302,7 @@ class MainActivity : BaseActivity(),
                         BundleKeys.USE_DEVICE_TIME_ZONE_UPDATED, false)
 
                     if (isAlternativeHighlightingUpdated || isUseDeviceTimeZoneUpdated) {
-                        if (findViewById<View>(R.id.schedule) != null && findFragment(FahrplanFragment.FRAGMENT_TAG) == null) {
+                        if (findViewById<View>(R.id.schedule) != null && findFragment(FahrplanFragment.FRAGMENT_TAG) != null) {
                             replaceFragment(R.id.schedule, FahrplanFragment(), FahrplanFragment.FRAGMENT_TAG)
                         }
                     }
@@ -387,5 +398,4 @@ class MainActivity : BaseActivity(),
         }
         shouldScrollToCurrent = true
     }
-
 }

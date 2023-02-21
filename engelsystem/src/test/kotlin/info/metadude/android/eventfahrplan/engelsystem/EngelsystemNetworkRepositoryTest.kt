@@ -4,6 +4,7 @@ import com.google.common.truth.Truth.assertThat
 import com.squareup.moshi.JsonDataException
 import com.squareup.moshi.Moshi
 import info.metadude.android.eventfahrplan.engelsystem.models.ShiftsResult
+import info.metadude.kotlin.library.engelsystem.EngelsystemApi
 import info.metadude.kotlin.library.engelsystem.EngelsystemService
 import info.metadude.kotlin.library.engelsystem.adapters.ZonedDateTimeJsonAdapter
 import info.metadude.kotlin.library.engelsystem.models.Shift
@@ -174,16 +175,16 @@ class EngelsystemNetworkRepositoryTest {
     }
 
     private fun createRepository() = EngelsystemNetworkRepository(
-        serviceProvider = InterceptedServiceProvider(mockWebServer)
+        engelsystemApi = InterceptedServiceProvider(mockWebServer)
     )
 
     /**
-     * Test-specific [EngelsystemServiceProvider] which injects the given [mockWebServer]
+     * Test-specific [EngelsystemApi] which injects the given [mockWebServer]
      * to return predefined responses.
      */
-    private class InterceptedServiceProvider(private val mockWebServer: MockWebServer) : EngelsystemServiceProvider {
+    private class InterceptedServiceProvider(private val mockWebServer: MockWebServer) : EngelsystemApi {
 
-        override fun getService(baseUrl: String, okHttpClient: OkHttpClient): EngelsystemService {
+        override fun provideEngelsystemService(baseUrl: String, okHttpClient: OkHttpClient): EngelsystemService {
             val moshi = Moshi.Builder()
                 .add(ZonedDateTime::class.java, ZonedDateTimeJsonAdapter())
                 .build()

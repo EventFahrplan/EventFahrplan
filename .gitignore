@@ -43,6 +43,7 @@ local.properties
 # built application files
 *.apk
 *.ap_
+*.aab
 
 # files for the dex VM
 *.dex

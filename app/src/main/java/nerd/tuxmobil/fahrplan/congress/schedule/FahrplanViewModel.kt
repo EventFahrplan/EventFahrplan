@@ -1,5 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress.schedule
 
+import android.os.Build
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,6 +13,7 @@ import kotlinx.coroutines.launch
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices
 import nerd.tuxmobil.fahrplan.congress.models.ScheduleData
 import nerd.tuxmobil.fahrplan.congress.models.Session
+import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.repositories.ExecutionContext
 import nerd.tuxmobil.fahrplan.congress.schedule.observables.FahrplanEmptyParameter
@@ -29,10 +31,14 @@ internal class FahrplanViewModel(
     private val executionContext: ExecutionContext,
     private val logging: Logging,
     private val alarmServices: AlarmServices,
+    private val notificationHelper: NotificationHelper,
     private val navigationMenuEntriesGenerator: NavigationMenuEntriesGenerator,
     private val simpleSessionFormat: SimpleSessionFormat,
     private val jsonSessionFormat: JsonSessionFormat,
-    private val scrollAmountCalculator: ScrollAmountCalculator
+    private val scrollAmountCalculator: ScrollAmountCalculator,
+    private val defaultEngelsystemRoomName: String,
+    private val customEngelsystemRoomName: String,
+    private val runsAtLeastOnAndroidTiramisu: Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
 
 ) : ViewModel() {
 
@@ -54,10 +60,25 @@ internal class FahrplanViewModel(
     val scrollToCurrentSessionParameter = SingleLiveEvent<ScrollToCurrentSessionParameter>()
     val scrollToSessionParameter = SingleLiveEvent<ScrollToSessionParameter>()
 
+    val requestPostNotificationsPermission = SingleLiveEvent<Unit>()
+    val missingPostNotificationsPermission = SingleLiveEvent<Unit>()
+    val showAlarmTimePicker = SingleLiveEvent<Unit>()
+
     var preserveVerticalScrollPosition: Boolean = false
 
     init {
         updateUncanceledSessions()
+    }
+
+    fun showAlarmTimePickerWithChecks() {
+        if (notificationHelper.notificationsEnabled) {
+            showAlarmTimePicker.postValue(Unit)
+        } else {
+            when (runsAtLeastOnAndroidTiramisu) {
+                true -> requestPostNotificationsPermission.postValue(Unit)
+                false -> missingPostNotificationsPermission.postValue(Unit)
+            }
+        }
     }
 
     private fun updateUncanceledSessions() {
@@ -70,12 +91,37 @@ internal class FahrplanViewModel(
                         fahrplanEmptyParameter.postValue(FahrplanEmptyParameter(scheduleVersion))
                     } // else: Nothing to do because schedule has not been loaded yet
                 } else {
-                    val fahrplanParameter = scheduleData.toFahrplanParameter()
+                    val fahrplanParameter = scheduleData
+                        .customizeEngelsystemRoomName()
+                        .toFahrplanParameter()
                     mutableFahrplanParameter.postValue(fahrplanParameter)
                 }
             }
         }
     }
+
+    /**
+     * Rewrites properties to which "Engelshifts" has been applied before
+     * in ShiftExtensions -> Shift.toSessionAppModel.
+     */
+    private fun ScheduleData.customizeEngelsystemRoomName() = copy(
+        roomDataList = roomDataList.map { roomData ->
+            val customRoomName = if (roomData.roomName == defaultEngelsystemRoomName) {
+                customEngelsystemRoomName
+            } else {
+                roomData.roomName
+            }
+            val customSessions = roomData.sessions.map { session ->
+                val customTrackName = if (session.track == defaultEngelsystemRoomName) {
+                    customEngelsystemRoomName
+                } else {
+                    session.track
+                }
+                Session(session).apply { track = customTrackName }
+            }
+            roomData.copy(roomName = customRoomName, sessions = customSessions)
+        }
+    )
 
     private fun ScheduleData.toFahrplanParameter(): FahrplanParameter {
         val dayIndex = repository.readDisplayDayIndex()
@@ -99,7 +145,7 @@ internal class FahrplanViewModel(
     /**
      * Requests loading the schedule from the [AppRepository] to update the UI. UI components must
      * observe the respective properties exposed by the [AppRepository] to receive schedule updates.
-     * The [isUserRequest] must be set to `true` if the requests originates from a manual
+     * The [isUserRequest] flag must be set to `true` if the requests originates from a manual
      * interaction of the user with the UI; otherwise `false`.
      */
     fun requestScheduleUpdate(isUserRequest: Boolean) {

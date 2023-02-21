@@ -13,10 +13,13 @@ This list is for your preparation. Step 3 guides you through where to fill in th
 - Google Play URL, e.g. `https://play.google.com/store/apps/details?id=com.awesome.event.schedule`
 - F-Droid URL, e.g. `https://f-droid.org/packages/com.awesome.event.schedule`
 - Event URL, e.g. `https://awesome-event.com/2021`
+- Event postal address (optional), e.g. `CCH, Congressplatz 1, 20355 Hamburg`
 - Start and end date of the event
 - Email address for bug reports
 - Social media hashtags/handles (can be empty), e.g. `#36c3 @ccc`
 - Schedule feedback URL template (optional), e.g. `https://awesome-event.com/2021/events/%s/feedback/new`
+- Custom name used for the Engelsystem (optional), e.g. `Trollsystem`
+- Custom name used for the Engelsystem shifts (optional), e.g. `Trollshifts`
 - Engelsystem URL (optional), e.g. `https://engelsystem.de/awesome-event/shifts-json-export?key=YOUR_KEY`
 - Name/s of the author/s of the logo(s), website URL/s optionally
 
@@ -39,17 +42,9 @@ This list is for your preparation. The specific folders and files are mentioned 
 
 - Text and background colors (HEX)
 - Tracks background colors (HEX)
-- Bell icon (PNG)
-
-  ![Bell icon example](gfx/bell-icon.png)
-
-- Video recording icons (PNG)
-
-  ![No video recording icon example (favorites screen)](gfx/no-video-recording-icon-favorites.png)
-
-  ![No video recording icon example (schedule screen)](gfx/no-video-recording-icon-schedule.png)
-
-  ![Video recording changed icons example (changes screen)](gfx/video-recording-icons-changes.png)
+- Icons in the toolbar as well as the session alarm icon (bell) can be customized via the `tool_bar_icon` color resource.
+- The alarm icon (bell) which is shown on a session can be customized via the `session_item_alarm_icon` color resource.
+- The video recording icons must be customized manually because they contain more than one color.
 
 ## 3. Your custom app step by step
 
@@ -75,11 +70,14 @@ In some of the steps it is the easiest to copy and adapt configuration settings,
 
 The following options can be enabled via a `buildConfigField` and configured in *app/build.gradle* if needed.
 
+- Event postal address for easy map navigation via `EVENT_POSTAL_ADDRESS`
 - Social media hashtags/handles for the event via `SOCIAL_MEDIA_HASHTAGS_HANDLES`
 - Alternative schedule URL via `ENABLE_ALTERNATIVE_SCHEDULE_URL`
 - c3nav integration via `C3NAV_URL`
 - Chaosflix export via `ENABLE_CHAOSFLIX_EXPORT`
 - Engelsystem shifts via `ENABLE_ENGELSYSTEM_SHIFTS`
+  - Customize the name for the Engelsystem via `engelsystem_alias`
+  - Customize the name for the Engelsystem shifts via `engelsystem_shifts_alias`
   - Customize Engelsystem shifts JSON export URL hint via `preference_hint_engelsystem_json_export_url`
 - Feedback system via `SCHEDULE_FEEDBACK_URL`
 
@@ -90,3 +88,4 @@ The app prompts the user to engage in the following topics if enabled via a `bui
 - c3nav app installation via `ENGAGE_C3NAV_APP_INSTALLATION`
 - Google Play beta testing via `ENGAGE_GOOGLE_BETA_TESTING`
 - Google Play rating via `ENGAGE_GOOGLE_PLAY_RATING`
+- to learn about the screen estate in landscape mode via `ENGAGE_LANDSCAPE_ORIENTATION`

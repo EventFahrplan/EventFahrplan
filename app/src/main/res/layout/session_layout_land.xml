@@ -24,22 +24,19 @@
         <ImageView
             android:id="@+id/session_no_video_view"
             android:layout_width="wrap_content"
-            android:layout_height="9sp"
-            android:layout_marginLeft="3dp"
+            android:layout_height="16.5sp"
             android:adjustViewBounds="true"
-            android:baseline="8sp"
-            android:scaleType="fitEnd"
+            android:scaleType="fitStart"
             android:src="@drawable/ic_novideo" />
 
         <ImageView
             android:id="@+id/session_bell_view"
             android:layout_width="wrap_content"
-            android:layout_height="9sp"
-            android:layout_marginLeft="3dp"
+            android:layout_height="16.5sp"
             android:adjustViewBounds="true"
-            android:baseline="8sp"
-            android:scaleType="fitEnd"
-            android:src="@drawable/bell" />
+            android:padding="2dp"
+            android:scaleType="fitStart"
+            android:src="@drawable/ic_bell_on_session" />
 
     </LinearLayout>
 

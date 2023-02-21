@@ -31,6 +31,12 @@ internal data class TimeTextViewParameter @VisibleForTesting constructor(
 
         /**
          * Returns a list of parameters to be used to inflate and configure a time text view.
+         *
+         * The time text view show time information as hours and minutes at an interval of
+         * [FIFTEEN_MINUTES]. All segments for an event day look the same with an exception
+         * for the time text view which matches the current system time (now).
+         *
+         * An event day can exceed midnight.
          */
         fun parametersOf(
                 nowMoment: Moment,

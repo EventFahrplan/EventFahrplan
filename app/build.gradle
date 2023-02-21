@@ -12,18 +12,20 @@ apply plugin: "com.getkeepsafe.dexcount"
 apply from: "../gradle/sonarqube.gradle"
 
 android {
+    namespace "nerd.tuxmobil.fahrplan.congress"
+
     compileSdk Android.compileSdkVersion
-    buildToolsVersion Android.buildToolsVersion
+    buildToolsVersion = Android.buildToolsVersion
 
     defaultConfig {
-        versionCode 1700005
-        versionName "1.8.5"
+        versionCode 1700007
+        versionName "1.8.7"
         minSdk Android.minSdkVersion
         targetSdk Android.targetSdkVersion
         archivesBaseName = "Fahrplan-$versionName"
         multiDexEnabled true
 
-        vectorDrawables.useSupportLibrary = true
+        vectorDrawables.useSupportLibrary = true // needed for API level < 21
 
         // Build information
         resValue("string", "build_time", "\"${buildTime()}\"")
@@ -34,15 +36,19 @@ android {
         buildConfigField "String", "SOURCE_CODE_URL", '"https://github.com/EventFahrplan/EventFahrplan"'
         buildConfigField "String", "ISSUES_URL", '"https://github.com/EventFahrplan/EventFahrplan/issues"'
         buildConfigField "String", "DATA_PRIVACY_STATEMENT_DE_URL", '"https://github.com/EventFahrplan/EventFahrplan/blob/master/DATA-PRIVACY-DE.md"'
+        buildConfigField "String", "EVENT_POSTAL_ADDRESS", '""'
         buildConfigField "boolean", "ENGAGE_C3NAV_APP_INSTALLATION", "false"
         buildConfigField "String", "C3NAV_URL", '""'
         buildConfigField "boolean", "ENABLE_ALTERNATIVE_SCHEDULE_URL", "false"
         buildConfigField "boolean", "ENABLE_CHAOSFLIX_EXPORT", "false"
         buildConfigField "boolean", "ENABLE_ENGELSYSTEM_SHIFTS", "false"
+        resValue("string", "engelsystem_alias", "Engelsystem")
+        resValue("string", "engelsystem_shifts_alias", "Engelshifts")
         resValue("string", "preference_hint_engelsystem_json_export_url", '""')
         buildConfigField "boolean", "SHOW_APP_DISCLAIMER", "true"
         buildConfigField "boolean", "ENGAGE_GOOGLE_BETA_TESTING", "true"
         buildConfigField "boolean", "ENGAGE_GOOGLE_PLAY_RATING", "true"
+        buildConfigField "boolean", "ENGAGE_LANDSCAPE_ORIENTATION", "true"
     }
 
     buildTypes {
@@ -67,7 +73,7 @@ android {
     }
 
     def defaultDimension = "default"
-    flavorDimensions defaultDimension
+    flavorDimensions = [defaultDimension]
 
     productFlavors {
         glt22 {
@@ -76,29 +82,31 @@ android {
             versionName "${defaultConfig.versionName}-glt-Edition"
             buildConfigField "String", "GOOGLE_PLAY_URL", '"https://play.google.com/store/apps/details?id=at.linuxtage.companion"'
             buildConfigField "String", "F_DROID_URL", '"https://f-droid.org/packages/at.linuxtage.companion/"'
-            buildConfigField "String", "SCHEDULE_URL", '"https://pretalx.linuxtage.at/glt22/schedule/export/schedule.xml"'
+            buildConfigField "String", "SCHEDULE_URL", '"https://pretalx.linuxtage.at/glt23/schedule/export/schedule.xml"'
             buildConfigField "String", "EVENT_URL", '""'
             buildConfigField "String", "EVENT_WEBSITE_URL", '"https://www.linuxtage.at"'
             buildConfigField "String", "SERVER_BACKEND_TYPE", '"pretalx"'
-            buildConfigField "int", "SCHEDULE_FIRST_DAY_START_YEAR", "2022"
+            buildConfigField "int", "SCHEDULE_FIRST_DAY_START_YEAR", "2023"
             buildConfigField "int", "SCHEDULE_FIRST_DAY_START_MONTH", "4"
-            buildConfigField "int", "SCHEDULE_FIRST_DAY_START_DAY", "22"
-            buildConfigField "int", "SCHEDULE_LAST_DAY_END_YEAR", "2022"
+            buildConfigField "int", "SCHEDULE_FIRST_DAY_START_DAY", "14"
+            buildConfigField "int", "SCHEDULE_LAST_DAY_END_YEAR", "2023"
             buildConfigField "int", "SCHEDULE_LAST_DAY_END_MONTH", "4"
-            buildConfigField "int", "SCHEDULE_LAST_DAY_END_DAY", "23"
+            buildConfigField "int", "SCHEDULE_LAST_DAY_END_DAY", "15"
             buildConfigField "boolean", "SHOW_APP_DISCLAIMER", "true"
+            buildConfigField "boolean", "ENABLE_ALTERNATIVE_SCHEDULE_URL", "false"
             buildConfigField "boolean", "ENGAGE_C3NAV_APP_INSTALLATION", "false"
             buildConfigField "boolean", "ENGAGE_GOOGLE_BETA_TESTING", "true"
             buildConfigField "boolean", "ENGAGE_GOOGLE_PLAY_RATING", "true"
-            buildConfigField "boolean", "ENABLE_ENGELSYSTEM_SHIFTS", "true"
+            buildConfigField "boolean", "ENABLE_CHAOSFLIX_EXPORT", "true"
+            buildConfigField "boolean", "ENABLE_ENGELSYSTEM_SHIFTS", "false"
             resValue("string", "preference_hint_engelsystem_json_export_url", '"https://engel.linuxtage.at/shifts-json-export?key=YOUR_KEY"')
-            buildConfigField "String", "SOCIAL_MEDIA_HASHTAGS_HANDLES", '"#glt @linuxtage"'
-            buildConfigField "String", "TRACE_DROID_EMAIL_ADDRESS", '""'
-            buildConfigField "String", "SCHEDULE_FEEDBACK_URL", '""'
+            buildConfigField "String", "SOCIAL_MEDIA_HASHTAGS_HANDLES", '"#glt23 #glt @linuxtage @gltlive"'
+            buildConfigField "String", "TRACE_DROID_EMAIL_ADDRESS", '"glt23@linuxtage.at"'
+            buildConfigField "String", "SCHEDULE_FEEDBACK_URL", '"https://pretalx.linuxtage.at/glt23/talk/%s/feedback/"' //TODO change to NN
         }
     }
 
-    productFlavors.all { flavor ->
+    productFlavors.configureEach { flavor ->
         if (hasSigningConfig(flavor.name)) {
             setSigningConfig(flavor)
         }
@@ -191,7 +199,7 @@ def gitSha() {
     return res
 }
 
-def buildTime() {
+static def buildTime() {
     return new Date().format("yyyy-MM-dd'T'HH:mm'Z'", TimeZone.getTimeZone("UTC"))
 }
 

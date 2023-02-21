@@ -149,21 +149,26 @@ class AlarmServices @VisibleForTesting constructor(
      */
     @JvmOverloads
     fun scheduleSessionAlarm(alarm: SchedulableAlarm, discardExisting: Boolean = false) {
-        val intent = AlarmReceiver.AlarmIntentBuilder()
-                .setContext(context)
-                .setSessionId(alarm.sessionId)
-                .setDay(alarm.day)
-                .setTitle(alarm.sessionTitle)
-                .setStartTime(alarm.startTime)
-                .setIsAddAlarm()
-                .build()
+        val intent = AlarmReceiver.AlarmIntentFactory(
+            context = context,
+            sessionId = alarm.sessionId,
+            title = alarm.sessionTitle,
+            day = alarm.day,
+            startTime = alarm.startTime
+        ).getIntent(isAddAlarmIntent = true)
 
         val pendingIntent = pendingIntentDelegate.onPendingIntentBroadcast(context, intent)
         if (discardExisting) {
             alarmManager.cancel(pendingIntent)
         }
-        // Redesign might be needed as of Android 12 (API level 31)
+        // Alarms scheduled here are treated as inexact as of targeting Android 4.4 (API level 19).
         // See https://developer.android.com/training/scheduling/alarms
+        // and https://developer.android.com/reference/android/os/Build.VERSION_CODES#KITKAT
+        // SCHEDULE_EXACT_ALARM permission is needed when switching to exact alarms as of targeting Android 12 (API level 31).
+        // See https://developer.android.com/about/versions/12/behavior-changes-12#exact-alarm-permission
+        // USE_EXACT_ALARM permission is needed when switching to exact alarms as of targeting Android 13 (API level 33).
+        // See https://developer.android.com/about/versions/13/features#use-exact-alarm-permission
+        // and https://support.google.com/googleplay/android-developer/answer/12253906#exact_alarm_preview
         alarmManager.set(AlarmManager.RTC_WAKEUP, alarm.startTime, pendingIntent)
     }
 
@@ -171,14 +176,13 @@ class AlarmServices @VisibleForTesting constructor(
      * Discards the given [alarm] via the [AlarmManager].
      */
     fun discardSessionAlarm(alarm: SchedulableAlarm) {
-        val intent = AlarmReceiver.AlarmIntentBuilder()
-                .setContext(context)
-                .setSessionId(alarm.sessionId)
-                .setDay(alarm.day)
-                .setTitle(alarm.sessionTitle)
-                .setStartTime(alarm.startTime)
-                .setIsDeleteAlarm()
-                .build()
+        val intent = AlarmReceiver.AlarmIntentFactory(
+            context = context,
+            sessionId = alarm.sessionId,
+            title = alarm.sessionTitle,
+            day = alarm.day,
+            startTime = alarm.startTime
+        ).getIntent(isAddAlarmIntent = false)
         discardAlarm(context, intent)
     }
 

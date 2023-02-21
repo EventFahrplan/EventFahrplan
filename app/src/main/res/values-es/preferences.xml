@@ -42,7 +42,7 @@
 
     <string name="preference_summary_engelsystem_json_export_url">
         <![CDATA[Para ver tus turnos por favor pon tu URL <u>personal</u> aquí.<br/><br/>
-        1. Haz login en tu cuenta Engelsystem.<br/>
+        1. Haz login en tu cuenta <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g>.<br/>
         2. Copia la URL detrás del botón de <u>Exportación en JSON</u> en tu página de perfil.<br/>
         3. Pega la URL aquí.<br/><br/>
         Los horarios antes y después de los días principales de la conferencia <u>no</u> serán mostrados.]]>

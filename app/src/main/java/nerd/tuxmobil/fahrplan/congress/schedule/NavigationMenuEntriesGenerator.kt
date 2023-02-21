@@ -44,8 +44,11 @@ internal class NavigationMenuEntriesGenerator @JvmOverloads constructor(
         if (numDays < 1) {
             throw IllegalArgumentException("Invalid number of days: $numDays")
         }
-        if (dateInfos == null || dateInfos.isEmpty()) {
+        if (dateInfos.isNullOrEmpty()) {
             throw IllegalArgumentException("Invalid date info list: $dateInfos")
+        }
+        if (numDays < dateInfos.size) {
+            throw IllegalArgumentException("Too small number of days: $numDays, date info list contains ${dateInfos.size} items")
         }
         logging.d(LOG_TAG, "Today is " + currentDate.toUtcDateTime().toLocalDate())
         val entries = mutableListOf<String>()

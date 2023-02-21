@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">JEV 2022 Schedule</string>
+    <string name="app_hardcoded_subtitle">December 27.-30. 2022, distributed</string>
+    <string name="conference_name" translatable="false">JEV 2022</string>
+    <string name="copyright_logo">
+        <![CDATA[JEV design by <a href="https://eventfahrplan.eu">EventFahrplan</a>]]>
+    </string>
+    <string name="about_logo_content_description">
+        JEV 2022 logo
+    </string>
+</resources>

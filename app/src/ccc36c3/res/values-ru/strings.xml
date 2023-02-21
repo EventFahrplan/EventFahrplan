@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Pасписание 36C3</string>
-    <string name="app_hardcoded_subtitle">27.-30-го декабря 2019, Leipzig, Leipziger Messe</string>
+    <string name="app_hardcoded_subtitle">27.-30-го декабря 2019</string>
     <string name="copyright_logo">
         <![CDATA[36C3: Resource exhaustion дизайн от <a href="http://bleeptrack.de">bleeptrack</a>]]>
     </string>

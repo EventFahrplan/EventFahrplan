@@ -100,9 +100,9 @@
     <string name="today">vandaag</string>
     <string name="schedule_parsing_error_generic">Onbekende fout tijdens verwerken tijdschema</string>
     <string name="schedule_parsing_error_with_version">Verwerkings fout voor tijdschema versie %s</string>
-    <string name="engelsystem_shifts_parsing_error_generic">Onbekende fout gedurende het ontleden Engelsystem tijden</string>
-    <string name="engelsystem_shifts_parsing_error_forbidden">Invalide API sleutel voor Engelsystem tijden</string>
-    <string name="engelsystem_shifts_parsing_error_not_found">Verkeerde URL voor Engelsysteem tijden</string>
+    <string name="engelsystem_shifts_parsing_error_generic">Onbekende fout gedurende het ontleden <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g> tijden</string>
+    <string name="engelsystem_shifts_parsing_error_forbidden">Invalide API sleutel voor <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g> tijden</string>
+    <string name="engelsystem_shifts_parsing_error_not_found">Verkeerde URL voor <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g> tijden</string>
     <string name="alarms_empty">
 		Er zijn geen alarmen om weer te geven. Houd er rekening mee
         dat u individuele alarmen kunt instellen voor elk item in

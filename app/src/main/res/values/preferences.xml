@@ -128,21 +128,21 @@
     <string name="preference_engelsystem_category_key" translatable="false">
         preference_engelsystem_category_key
     </string>
-    <string name="preference_engelsystem_category_title" translatable="false">Engelsystem</string>
+    <string name="preference_engelsystem_category_title" translatable="false">@string/engelsystem_alias</string>
     <string name="preference_key_engelsystem_json_export_url" translatable="false">
         preference_key_engelsystem_json_export_url
     </string>
     <string name="preference_default_value_engelsystem_json_export_url" translatable="false" />
     <string name="preference_summary_engelsystem_json_export_url">
         <![CDATA[In order to see your shifts please enter your <u>personal</u> URL here.<br/><br/>
-        1. Login to your Engelsystem account.<br/>
+        1. Login to your <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g> account.<br/>
         2. Copy the URL behind the <u>JSON Export</u> button at your profile page.<br/>
         3. Paste the URL here.<br/><br/>
         Shifts before and after the main conference days are <u>not</u> displayed.]]>
     </string>
     <string name="preference_title_engelsystem_json_export_url">Configure JSON Export URL</string>
     <string name="preference_url_type_friendly_name_engelsystem_json_export" translatable="false">
-        Engelsystem
+        @string/engelsystem_alias
     </string>
 
 </resources>

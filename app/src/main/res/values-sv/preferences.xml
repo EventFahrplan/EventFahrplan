@@ -17,7 +17,7 @@
 
     <string name="preference_summary_engelsystem_json_export_url">
         <![CDATA[För att se din pass, ange din <u>personliga</u> URL här.<br/><br/>
-        1. Logga in till ditt Engelsystem konto.<br/>
+        1. Logga in till ditt <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g> konto.<br/>
         2. Kopiera URLen bakom <u>JSON Exporta</u> knappen på din profil sida.<br/>
         3. Klista in URLen här.<br/><br/>
         Pass före och efter huvudkonferensens dagar syns <u>inte</u>.]]>

@@ -57,4 +57,6 @@ internal class TimeSegment private constructor(
                     otherMoment.minute >= roundedMoment.minute &&
                     otherMoment.minute < roundedMoment.minute + minutesOffset
 
+    override fun toString() = roundedMoment.toString()
+
 }

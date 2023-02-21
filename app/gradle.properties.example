@@ -8,7 +8,7 @@ signing.ccc36c3-release.keystorePassword="PASSWORD"
 signing.ccc36c3-release.keyAlias="ccc36c3"
 signing.ccc36c3-release.keyPassword="ANOTHERPASSWORD"
 
-signing.rc3-release.keystoreFilePath=/home/USERNAME/.android/rc3-release-key.keystore
-signing.rc3-release.keystorePassword="PASSWORD"
-signing.rc3-release.keyAlias=rc3
-signing.rc3-release.keyPassword="ANOTHERPASSWORD"
+signing.jev2022-release.keystoreFilePath=/home/USERNAME/.android/jev2022-release-key.keystore
+signing.jev2022-release.keystorePassword="PASSWORD"
+signing.jev2022-release.keyAlias=jev2022
+signing.jev2022-release.keyPassword="ANOTHERPASSWORD"

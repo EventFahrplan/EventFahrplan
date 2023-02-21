@@ -31,6 +31,22 @@ class NavigationMenuEntriesGeneratorTest {
     }
 
     @Test
+    fun `getDayMenuEntries returns five day entries with today mark`() {
+        val dateInfoList = DateInfos()
+        dateInfoList.add(DateInfo(1, Moment.parseDate("2022-11-18")))
+        dateInfoList.add(DateInfo(2, Moment.parseDate("2022-11-19")))
+        dateInfoList.add(DateInfo(3, Moment.parseDate("2022-11-20")))
+        val entries = getDayMenuEntries(5, dateInfoList, "2022-11-19")
+        assertThat(entries).isNotNull
+        assertThat(entries.size).isEqualTo(5)
+        assertThat(entries[0]).isEqualTo("Day 1")
+        assertThat(entries[1]).isEqualTo("Day 2 - Today")
+        assertThat(entries[2]).isEqualTo("Day 3")
+        assertThat(entries[3]).isEqualTo("Day 4")
+        assertThat(entries[4]).isEqualTo("Day 5")
+    }
+
+    @Test
     fun `getDayMenuEntries fails when date info list is empty`() {
         try {
             getDayMenuEntries(1, DateInfos(), "2018-11-19")
@@ -81,6 +97,19 @@ class NavigationMenuEntriesGeneratorTest {
             fail("Expect an IllegalArgumentException to be thrown.")
         } catch (e: IllegalArgumentException) {
             assertThat(e.message).isEqualTo("Invalid number of days: -1")
+        }
+    }
+
+    @Test
+    fun `getDayMenuEntries fails when number of days is less than date list items size`() {
+        val dateInfoList = DateInfos()
+        dateInfoList.add(DateInfo(1, Moment.parseDate("2022-11-18")))
+        dateInfoList.add(DateInfo(2, Moment.parseDate("2022-11-19")))
+        try {
+            getDayMenuEntries(1, dateInfoList, "2022-11-18")
+            fail("Expect an IllegalArgumentException to be thrown.")
+        } catch (e: IllegalArgumentException) {
+            assertThat(e.message).isEqualTo("Too small number of days: 1, date info list contains 2 items")
         }
     }
 

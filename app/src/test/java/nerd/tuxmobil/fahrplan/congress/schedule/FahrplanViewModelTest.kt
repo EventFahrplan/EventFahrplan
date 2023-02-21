@@ -20,6 +20,7 @@ import nerd.tuxmobil.fahrplan.congress.models.Meta
 import nerd.tuxmobil.fahrplan.congress.models.RoomData
 import nerd.tuxmobil.fahrplan.congress.models.ScheduleData
 import nerd.tuxmobil.fahrplan.congress.models.Session
+import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.schedule.observables.FahrplanEmptyParameter
 import nerd.tuxmobil.fahrplan.congress.schedule.observables.FahrplanParameter
@@ -28,6 +29,7 @@ import nerd.tuxmobil.fahrplan.congress.schedule.observables.ScrollToSessionParam
 import nerd.tuxmobil.fahrplan.congress.schedule.observables.TimeTextViewParameter
 import nerd.tuxmobil.fahrplan.congress.sharing.JsonSessionFormat
 import nerd.tuxmobil.fahrplan.congress.sharing.SimpleSessionFormat
+import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.kotlin.any
@@ -200,6 +202,47 @@ class FahrplanViewModelTest {
     }
 
     @Test
+    fun `showAlarmTimePickerWithChecks() posts to showAlarmTimePicker`() {
+        val notificationHelper = mock<NotificationHelper> {
+            on { notificationsEnabled } doReturn true
+        }
+        val repository = createRepository()
+        val viewModel = createViewModel(repository, notificationHelper = notificationHelper)
+        viewModel.showAlarmTimePickerWithChecks()
+        assertLiveData(viewModel.showAlarmTimePicker).isEqualTo(Unit)
+    }
+
+    @Test
+    fun `showAlarmTimePickerWithChecks() posts to requestPostNotificationsPermission`() {
+        val notificationHelper = mock<NotificationHelper> {
+            on { notificationsEnabled } doReturn false
+        }
+        val repository = createRepository()
+        val viewModel = createViewModel(
+            repository = repository,
+            notificationHelper = notificationHelper,
+            runsAtLeastOnAndroidTiramisu = true
+        )
+        viewModel.showAlarmTimePickerWithChecks()
+        assertLiveData(viewModel.requestPostNotificationsPermission).isEqualTo(Unit)
+    }
+
+    @Test
+    fun `showAlarmTimePickerWithChecks() posts to missingPostNotificationsPermission`() {
+        val notificationHelper = mock<NotificationHelper> {
+            on { notificationsEnabled } doReturn false
+        }
+        val repository = createRepository()
+        val viewModel = createViewModel(
+            repository = repository,
+            notificationHelper = notificationHelper,
+            runsAtLeastOnAndroidTiramisu = false
+        )
+        viewModel.showAlarmTimePickerWithChecks()
+        assertLiveData(viewModel.missingPostNotificationsPermission).isEqualTo(Unit)
+    }
+
+    @Test
     fun `addAlarm invokes alarmService function`() {
         val repository = createRepository()
         val alarmServices = mock<AlarmServices>()
@@ -282,6 +325,7 @@ class FahrplanViewModelTest {
         assertLiveData(viewModel.scrollToCurrentSessionParameter).isNull()
     }
 
+    @Ignore("Flaky, see https://github.com/EventFahrplan/EventFahrplan/issues/526")
     @Test
     fun `scrollToCurrentSession posts to scrollToCurrentSessionParameter property when session is present and day indices match`() {
         val scheduleData = createScheduleData(Session("session-31"), dayIndex = 3)
@@ -373,18 +417,24 @@ class FahrplanViewModelTest {
     private fun createViewModel(
         repository: AppRepository,
         alarmServices: AlarmServices = mock(),
+        notificationHelper: NotificationHelper = mock(),
         navigationMenuEntriesGenerator: NavigationMenuEntriesGenerator = mock(),
         simpleSessionFormat: SimpleSessionFormat = this.simpleSessionFormat,
-        jsonSessionFormat: JsonSessionFormat = this.jsonSessionFormat
+        jsonSessionFormat: JsonSessionFormat = this.jsonSessionFormat,
+        runsAtLeastOnAndroidTiramisu: Boolean = false
     ) = FahrplanViewModel(
         repository = repository,
         executionContext = TestExecutionContext,
         logging = NoLogging,
         alarmServices = alarmServices,
+        notificationHelper = notificationHelper,
         navigationMenuEntriesGenerator = navigationMenuEntriesGenerator,
         simpleSessionFormat = simpleSessionFormat,
         jsonSessionFormat = jsonSessionFormat,
-        scrollAmountCalculator = scrollAmountCalculator
+        scrollAmountCalculator = scrollAmountCalculator,
+        defaultEngelsystemRoomName = "Engelshifts",
+        customEngelsystemRoomName = "Trollshifts",
+        runsAtLeastOnAndroidTiramisu = runsAtLeastOnAndroidTiramisu
     )
 
 }

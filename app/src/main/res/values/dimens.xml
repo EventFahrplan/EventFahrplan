@@ -21,6 +21,9 @@
     <dimen name="list_pane_leftright_padding">16dp</dimen>
     <dimen name="header_height">0dp</dimen>
 
+    <!-- Loading Spinner -->
+    <dimen name="progress_spinner_size">80dp</dimen>
+
     <!-- Scrollbar -->
     <!--
     If you use a value greater than 16dp make sure to adjust the padding
@@ -52,6 +55,9 @@
     <dimen name="about_padding_horizontal">16dp</dimen>
     <dimen name="about_padding_top">16dp</dimen>
     <dimen name="about_padding_bottom">16dp</dimen>
+    <dimen name="about_title">20sp</dimen>
+    <dimen name="about_subtitle">16sp</dimen>
+    <dimen name="about_text">14sp</dimen>
 
     <!-- Session drawable parameters -->
     <dimen name="session_drawable_corner_radius">6dp</dimen>
