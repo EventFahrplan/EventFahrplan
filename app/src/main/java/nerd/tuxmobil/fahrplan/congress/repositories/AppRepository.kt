@@ -387,7 +387,7 @@ object AppRepository {
     }
 
     /**
-     * Updates the locally stored shifts. Old shifts are dropped.
+     * Inserts shifts or updates the locally stored shifts. Canceled shifts are deleted.
      * Shifts which take place before or after the main conference days are omitted.
      * New [shifts] are joined with conference schedule session.
      */
@@ -403,14 +403,17 @@ object AppRepository {
                 .also { logging.d(LOG_TAG, "Shifts filtered = ${it.size}") }
                 .toSessionAppModels(logging, ENGELSYSTEM_ROOM_NAME, dayRanges)
                 .sanitize()
-        val sessions = loadSessionsForAllDays(false) // Drop all shifts before ...
+        val toBeUpdatedSessions = loadSessionsForAllDays(false) // Drop all shifts before ...
                 .toMutableList()
                 // Shift rooms to make space for the Engelshifts room
                 .shiftRoomIndicesOfMainSchedule(sessionizedShifts.toDayIndices())
                 .plus(sessionizedShifts) // ... adding them again.
                 .toList()
+        val toBeDeletedSessions = loadEngelsystemShiftsForAllDays()
+            .filter { persisted -> sessionizedShifts.none { newOrUpdated -> persisted.sessionId == newOrUpdated.sessionId } }
+            .also { logging.d(LOG_TAG, "Shifts to be removed = ${it.size}") }
         // TODO Detect shift changes as it happens for sessions
-        updateSessions(sessions)
+        updateSessions(toBeUpdatedSessions, toBeDeletedSessions)
     }
 
     /**
@@ -467,6 +470,12 @@ object AppRepository {
     @WorkerThread
     fun loadEarliestSession() = loadSessionsForAllDays(true)
             .first()
+
+    /**
+     * Loads all Engelsystem shifts for all days from the database.
+     */
+    private fun loadEngelsystemShiftsForAllDays() =
+        readEngelsystemShiftsOrderedByDateUtc()
 
     /**
      * Loads all sessions from the database which take place on all days.
@@ -586,6 +595,9 @@ object AppRepository {
 
     private fun readSessionsOrderedByDateUtcExcludingEngelsystemShifts() =
             sessionsDatabaseRepository.querySessionsWithoutRoom(ENGELSYSTEM_ROOM_NAME).toSessionsAppModel()
+
+    private fun readEngelsystemShiftsOrderedByDateUtc() =
+        sessionsDatabaseRepository.querySessionsWithinRoom(ENGELSYSTEM_ROOM_NAME).toSessionsAppModel()
 
     private fun readSelectedSessionId(): String {
         val id = sharedPreferencesRepository.getSelectedSessionId()
