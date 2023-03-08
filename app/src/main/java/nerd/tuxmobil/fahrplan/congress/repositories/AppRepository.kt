@@ -338,7 +338,7 @@ object AppRepository {
         val url = readEngelsystemShiftsUrl()
         if (url.isEmpty()) {
             logging.d(LOG_TAG, "Engelsystem shifts URL is empty.")
-            // TODO Cancel or remove shifts from database?
+            deleteAllEngelsystemShiftsForAllDays()
             return
         }
         val requestIdentifier = "loadShifts"
@@ -476,6 +476,14 @@ object AppRepository {
      */
     private fun loadEngelsystemShiftsForAllDays() =
         readEngelsystemShiftsOrderedByDateUtc()
+
+    /**
+     * Deletes all Engelsystem shifts for all days from the database.
+     */
+    private fun deleteAllEngelsystemShiftsForAllDays() {
+        val toBeDeletedSessions = readEngelsystemShiftsOrderedByDateUtc()
+        updateSessions(emptyList(), toBeDeletedSessions)
+    }
 
     /**
      * Loads all sessions from the database which take place on all days.
