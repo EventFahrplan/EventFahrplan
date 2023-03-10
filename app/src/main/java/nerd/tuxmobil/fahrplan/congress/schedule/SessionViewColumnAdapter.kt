@@ -11,7 +11,7 @@ import nerd.tuxmobil.fahrplan.congress.models.Session
 internal interface SessionViewEventsHandler : View.OnCreateContextMenuListener, View.OnClickListener
 
 internal class SessionViewColumnAdapter(
-        private val sessions: List<Session>,
+        val sessions: List<Session>,
         private val layoutParamsBySession: Map<Session, LinearLayout.LayoutParams>,
         private val drawer: SessionViewDrawer,
         private val eventsHandler: SessionViewEventsHandler
