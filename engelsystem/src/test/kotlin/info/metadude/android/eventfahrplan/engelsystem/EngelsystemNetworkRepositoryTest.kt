@@ -162,7 +162,7 @@ class EngelsystemNetworkRepositoryTest {
     /**
      * Performs a HTTP request against a [mockWebServer] using the given [httpStatusCode] and [shiftsJson] for the response.
      */
-    private suspend fun EngelsystemNetworkRepository.loadMockResponse(
+    private suspend fun RealEngelsystemNetworkRepository.loadMockResponse(
         httpStatusCode: Int,
         shiftsJson: String
     ): ShiftsResult {
@@ -174,7 +174,7 @@ class EngelsystemNetworkRepositoryTest {
         return load(okHttpClient, URL)
     }
 
-    private fun createRepository() = EngelsystemNetworkRepository(
+    private fun createRepository() = RealEngelsystemNetworkRepository(
         engelsystemApi = InterceptedServiceProvider(mockWebServer)
     )
 
