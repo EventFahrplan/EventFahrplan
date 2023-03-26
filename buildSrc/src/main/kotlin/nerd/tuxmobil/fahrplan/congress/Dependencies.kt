@@ -47,7 +47,7 @@ object Libs {
         const val betterLinkMovementMethod = "2.2.0"
         const val constraintLayout = "2.1.4"
         const val coreKtx = "1.9.0"
-        const val coreTesting = "2.1.0"
+        const val coreTesting = "2.2.0"
         const val emailIntentBuilder = "2.0.0"
         const val engelsystem = "7.2.0"
         const val espresso = "3.5.1"
