@@ -184,6 +184,7 @@ unMock {
     keepStartingWith "libcore."
     keepStartingWith "org.ccil.cowan.tagsoup."
     keep "android.content.ComponentName"
+    keep "android.content.ContentValues"
     keep "android.content.Intent"
     keep "android.net.Uri"
     keepStartingWith "android.text."
