@@ -193,6 +193,12 @@ unMock {
     keepAndRename "java.nio.charset.Charsets" to "xjava.nio.charset.Charsets"
 }
 
+gradle.projectsEvaluated {
+    tasks.withType(JavaCompile).configureEach {
+        options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+    }
+}
+
 dependencies {
     implementation project(":commons")
     implementation project(":database")
