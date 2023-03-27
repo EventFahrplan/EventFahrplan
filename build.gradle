@@ -29,7 +29,7 @@ allprojects {
 }
 
 subprojects {
-    tasks.withType(Test) {
+    tasks.withType(Test).configureEach {
         testLogging {
             events TestLogEvent.FAILED,
                     TestLogEvent.PASSED,
