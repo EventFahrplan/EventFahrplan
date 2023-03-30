@@ -40,6 +40,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.LayoutParams
+import info.metadude.android.eventfahrplan.commons.flow.observe
 import info.metadude.android.eventfahrplan.commons.logging.Logging
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.BuildConfig
@@ -184,11 +185,12 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
 
     @SuppressLint("InlinedApi")
     private fun observeViewModel() {
-        viewModel.fahrplanParameter.observe(viewLifecycleOwner) { (scheduleData, numDays, dayIndex, menuEntries) ->
-            menuEntries?.let { buildNavigationMenu(it, numDays) }
-            viewModel.fillTimes(Moment.now(), getNormalizedBoxHeight())
-            viewDay(scheduleData, numDays, dayIndex)
-        }
+        viewModel.fahrplanParameter
+            .observe(this) { (scheduleData, numDays, dayIndex, menuEntries) ->
+                menuEntries?.let { buildNavigationMenu(it, numDays) }
+                viewModel.fillTimes(Moment.now(), getNormalizedBoxHeight())
+                viewDay(scheduleData, numDays, dayIndex)
+            }
         viewModel.fahrplanEmptyParameter.observe(viewLifecycleOwner) { (scheduleVersion) ->
             val errorMessage = errorMessageFactory.getMessageForEmptySchedule(scheduleVersion)
             errorMessage.show(requireContext(), shouldShowLong = false)
@@ -202,7 +204,7 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
                 Toast.makeText(context, R.string.share_error_activity_not_found, Toast.LENGTH_SHORT).show()
             }
         }
-        viewModel.timeTextViewParameters.observe(viewLifecycleOwner) { timeTextViewParameters ->
+        viewModel.timeTextViewParameters.observe(this) { timeTextViewParameters ->
             fillTimes(timeTextViewParameters)
         }
         viewModel.scrollToCurrentSessionParameter.observe(viewLifecycleOwner) { (scheduleData, dateInfos) ->

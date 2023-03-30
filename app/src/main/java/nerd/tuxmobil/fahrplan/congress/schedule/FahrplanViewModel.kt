@@ -1,14 +1,15 @@
 package nerd.tuxmobil.fahrplan.congress.schedule
 
 import android.os.Build
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import info.metadude.android.eventfahrplan.commons.livedata.SingleLiveEvent
 import info.metadude.android.eventfahrplan.commons.logging.Logging
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices
 import nerd.tuxmobil.fahrplan.congress.models.ScheduleData
@@ -46,16 +47,16 @@ internal class FahrplanViewModel(
         const val LOG_TAG = "FahrplanViewModel"
     }
 
-    private val mutableFahrplanParameter = MutableLiveData<FahrplanParameter>()
-    val fahrplanParameter: LiveData<FahrplanParameter> = mutableFahrplanParameter
+    private val mutableFahrplanParameter = MutableStateFlow<FahrplanParameter?>(null)
+    val fahrplanParameter: Flow<FahrplanParameter> = mutableFahrplanParameter.filterNotNull()
 
     val fahrplanEmptyParameter = SingleLiveEvent<FahrplanEmptyParameter>()
 
     val shareSimple = SingleLiveEvent<String>()
     val shareJson = SingleLiveEvent<String>()
 
-    private val mutableTimeTextViewParameters = MutableLiveData<List<TimeTextViewParameter>>()
-    val timeTextViewParameters: LiveData<List<TimeTextViewParameter>> = mutableTimeTextViewParameters
+    private val mutableTimeTextViewParameters = MutableStateFlow<List<TimeTextViewParameter>>(emptyList())
+    val timeTextViewParameters: Flow<List<TimeTextViewParameter>> = mutableTimeTextViewParameters
 
     val scrollToCurrentSessionParameter = SingleLiveEvent<ScrollToCurrentSessionParameter>()
     val scrollToSessionParameter = SingleLiveEvent<ScrollToSessionParameter>()
@@ -94,7 +95,7 @@ internal class FahrplanViewModel(
                     val fahrplanParameter = scheduleData
                         .customizeEngelsystemRoomName()
                         .toFahrplanParameter()
-                    mutableFahrplanParameter.postValue(fahrplanParameter)
+                    mutableFahrplanParameter.value = fahrplanParameter
                 }
             }
         }
@@ -177,7 +178,7 @@ internal class FahrplanViewModel(
                 val sessions = scheduleData.allSessions
                 if (sessions.isNotEmpty()) {
                     val parameters = sessions.toTimeTextViewParameters(nowMoment, normalizedBoxHeight)
-                    mutableTimeTextViewParameters.postValue(parameters)
+                    mutableTimeTextViewParameters.value = parameters
                 }
             }
         }
