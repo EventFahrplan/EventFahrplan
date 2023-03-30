@@ -2,13 +2,17 @@ package nerd.tuxmobil.fahrplan.congress.details
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.core.net.toUri
+import app.cash.turbine.test
+import com.google.common.truth.Truth.assertThat
 import info.metadude.android.eventfahrplan.commons.testing.MainDispatcherTestRule
 import info.metadude.android.eventfahrplan.commons.testing.assertLiveData
 import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedNever
 import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedOnce
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.runTest
 import nerd.tuxmobil.fahrplan.congress.TestExecutionContext
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsViewModel.FormattingDelegate
@@ -30,6 +34,7 @@ import org.mockito.kotlin.anyOrNull
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class SessionDetailsViewModelTest {
 
     @get:Rule
@@ -45,7 +50,7 @@ class SessionDetailsViewModelTest {
     }
 
     @Test
-    fun `selectedSessionParameter does not emit SelectedSessionParameter`() {
+    fun `selectedSessionParameter does not emit SelectedSessionParameter`() = runTest {
         val repository = createRepository(selectedSessionFlow = emptyFlow())
         val fakeSessionFormatter = mock<SessionFormatter> {
             on { getFormattedLinks(any()) } doReturn "not relevant"
@@ -76,13 +81,15 @@ class SessionDetailsViewModelTest {
             feedbackUrlComposer = fakeFeedbackUrlComposer,
             roomForC3NavConverter = fakeRoomForC3NavConverter
         )
-        assertLiveData(viewModel.selectedSessionParameter).isNull()
+        viewModel.selectedSessionParameter.test {
+            awaitComplete()
+        }
         verifyInvokedOnce(repository).selectedSession
         verifyInvokedNever(repository).readUseDeviceTimeZoneEnabled()
     }
 
     @Test
-    fun `selectedSessionParameter emits SelectedSessionParameter built from filled sample session`() {
+    fun `selectedSessionParameter emits SelectedSessionParameter built from filled sample session`() = runTest {
         val session = Session("S1").apply {
             dateUTC = 100
             title = "Session title"
@@ -149,13 +156,16 @@ class SessionDetailsViewModelTest {
             isFeedbackUrlEmpty = false,
             isC3NavRoomNameEmpty = false,
         )
-        assertLiveData(viewModel.selectedSessionParameter).isEqualTo(selectedSessionParameter)
+        viewModel.selectedSessionParameter.test {
+            assertThat(awaitItem()).isEqualTo(selectedSessionParameter)
+            awaitComplete()
+        }
         verifyInvokedOnce(repository).selectedSession
         verifyInvokedOnce(repository).readUseDeviceTimeZoneEnabled()
     }
 
     @Test
-    fun `selectedSessionParameter emits SelectedSessionParameter built from empty sample session`() {
+    fun `selectedSessionParameter emits SelectedSessionParameter built from empty sample session`() = runTest {
         val session = Session("S1").apply {
             dateUTC = 0
             title = ""
@@ -222,7 +232,10 @@ class SessionDetailsViewModelTest {
             isFeedbackUrlEmpty = true,
             isC3NavRoomNameEmpty = true,
         )
-        assertLiveData(viewModel.selectedSessionParameter).isEqualTo(selectedSessionParameter)
+        viewModel.selectedSessionParameter.test {
+            assertThat(awaitItem()).isEqualTo(selectedSessionParameter)
+            awaitComplete()
+        }
         verifyInvokedOnce(repository).selectedSession
         verifyInvokedOnce(repository).readUseDeviceTimeZoneEnabled()
     }

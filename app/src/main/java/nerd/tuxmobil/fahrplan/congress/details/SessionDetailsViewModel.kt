@@ -3,12 +3,12 @@ package nerd.tuxmobil.fahrplan.congress.details
 import android.net.Uri
 import android.os.Build
 import androidx.core.net.toUri
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import info.metadude.android.eventfahrplan.commons.livedata.SingleLiveEvent
 import info.metadude.android.eventfahrplan.commons.temporal.DateFormatter
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices
@@ -83,10 +83,10 @@ internal class SessionDetailsViewModel(
     val subtitleFont = Font.Roboto.Light
     val titleFont = Font.Roboto.BoldCondensed
 
-    val selectedSessionParameter: LiveData<SelectedSessionParameter> = repository.selectedSession
+    val selectedSessionParameter: Flow<SelectedSessionParameter> = repository.selectedSession
         .map { it.toSelectedSessionParameter() }
         .map { it.customizeEngelsystemRoomName() }
-        .asLiveData(executionContext.database)
+        .flowOn(executionContext.database)
 
     val openFeedBack = SingleLiveEvent<Uri>()
     val shareSimple = SingleLiveEvent<String>()
