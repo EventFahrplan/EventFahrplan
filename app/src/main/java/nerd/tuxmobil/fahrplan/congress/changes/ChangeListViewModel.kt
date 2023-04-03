@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import info.metadude.android.eventfahrplan.commons.livedata.SingleLiveEvent
 import info.metadude.android.eventfahrplan.commons.logging.Logging
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
@@ -31,7 +32,7 @@ class ChangeListViewModel(
     val scheduleChangesSeen = SingleLiveEvent<Unit>()
 
     fun updateScheduleChangesSeen(changesSeen: Boolean) {
-        viewModelScope.launch(executionContext.database) {
+        launch {
             scheduleChangesSeen.postValue(Unit)
             repository.updateScheduleChangesSeen(changesSeen)
         }
@@ -43,6 +44,10 @@ class ChangeListViewModel(
         return ChangeListParameter(this, numDays, useDeviceTimeZone).also {
             logging.d(LOG_TAG, "Loaded $size changed sessions.")
         }
+    }
+
+    private fun launch(block: suspend CoroutineScope.() -> Unit) {
+        viewModelScope.launch(executionContext.database, block = block)
     }
 
 }

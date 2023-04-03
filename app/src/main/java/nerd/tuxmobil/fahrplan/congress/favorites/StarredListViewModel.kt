@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import info.metadude.android.eventfahrplan.commons.livedata.SingleLiveEvent
 import info.metadude.android.eventfahrplan.commons.logging.Logging
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
@@ -36,19 +37,19 @@ class StarredListViewModel(
     val shareJson = SingleLiveEvent<String>()
 
     fun delete(session: Session) {
-        viewModelScope.launch(executionContext.database) {
+        launch {
             repository.updateHighlight(session)
         }
     }
 
     fun deleteAll() {
-        viewModelScope.launch(executionContext.database) {
+        launch {
             repository.deleteAllHighlights()
         }
     }
 
     fun share() {
-        viewModelScope.launch(executionContext.database) {
+        launch {
             val timeZoneId = repository.readMeta().timeZoneId
             repository.starredSessions.collect { sessions ->
                 simpleSessionFormat.format(sessions, timeZoneId)?.let { formattedSessions ->
@@ -59,7 +60,7 @@ class StarredListViewModel(
     }
 
     fun shareToChaosflix() {
-        viewModelScope.launch(executionContext.database) {
+        launch {
             repository.starredSessions.collect { sessions ->
                 jsonSessionFormat.format(sessions)?.let { formattedSessions ->
                     shareJson.postValue(formattedSessions)
@@ -74,6 +75,10 @@ class StarredListViewModel(
         return StarredListParameter(this, numDays, useDeviceTimeZone).also {
             logging.d(LOG_TAG, "Loaded $size starred sessions.")
         }
+    }
+
+    private fun launch(block: suspend CoroutineScope.() -> Unit) {
+        viewModelScope.launch(executionContext.database, block = block)
     }
 
 }

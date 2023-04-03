@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import info.metadude.android.eventfahrplan.commons.livedata.SingleLiveEvent
 import info.metadude.android.eventfahrplan.commons.temporal.DateFormatter
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
@@ -227,9 +228,13 @@ internal class SessionDetailsViewModel(
     }
 
     private fun loadSelectedSession(onSessionLoaded: (Session) -> Unit) {
-        viewModelScope.launch(executionContext.database) {
+        launch {
             onSessionLoaded(repository.loadSelectedSession())
         }
+    }
+
+    private fun launch(block: suspend CoroutineScope.() -> Unit) {
+        viewModelScope.launch(executionContext.database, block = block)
     }
 
 }
