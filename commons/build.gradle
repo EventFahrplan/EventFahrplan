@@ -27,7 +27,6 @@ android {
 }
 
 dependencies {
-    implementation Libs.lifecycleLiveData
     implementation Libs.lifecycleRuntime
     implementation Libs.tracedroid
     api Libs.threeTenBp
