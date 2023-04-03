@@ -3,15 +3,17 @@ package nerd.tuxmobil.fahrplan.congress.schedule
 import android.os.Build
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import info.metadude.android.eventfahrplan.commons.livedata.SingleLiveEvent
 import info.metadude.android.eventfahrplan.commons.logging.Logging
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices
 import nerd.tuxmobil.fahrplan.congress.models.Alarm
@@ -56,20 +58,32 @@ internal class FahrplanViewModel(
             createFahrplanParameter(scheduleData.customizeEngelsystemRoomName(), alarms)
         }
 
-    val fahrplanEmptyParameter = SingleLiveEvent<FahrplanEmptyParameter>()
+    private val mutableFahrplanEmptyParameter = Channel<FahrplanEmptyParameter>()
+    val fahrplanEmptyParameter = mutableFahrplanEmptyParameter.receiveAsFlow()
 
-    val shareSimple = SingleLiveEvent<String>()
-    val shareJson = SingleLiveEvent<String>()
+    private val mutableShareSimple = Channel<String>()
+    val shareSimple = mutableShareSimple.receiveAsFlow()
+
+    private val mutableShareJson = Channel<String>()
+    val shareJson = mutableShareJson.receiveAsFlow()
 
     private val mutableTimeTextViewParameters = MutableStateFlow<List<TimeTextViewParameter>>(emptyList())
     val timeTextViewParameters: Flow<List<TimeTextViewParameter>> = mutableTimeTextViewParameters
 
-    val scrollToCurrentSessionParameter = SingleLiveEvent<ScrollToCurrentSessionParameter>()
-    val scrollToSessionParameter = SingleLiveEvent<ScrollToSessionParameter>()
+    private val mutableScrollToCurrentSessionParameter = Channel<ScrollToCurrentSessionParameter>()
+    val scrollToCurrentSessionParameter = mutableScrollToCurrentSessionParameter.receiveAsFlow()
 
-    val requestPostNotificationsPermission = SingleLiveEvent<Unit>()
-    val missingPostNotificationsPermission = SingleLiveEvent<Unit>()
-    val showAlarmTimePicker = SingleLiveEvent<Unit>()
+    private val mutableScrollToSessionParameter = Channel<ScrollToSessionParameter>()
+    val scrollToSessionParameter = mutableScrollToSessionParameter.receiveAsFlow()
+
+    private val mutableRequestPostNotificationsPermission = Channel<Unit>()
+    val requestPostNotificationsPermission = mutableRequestPostNotificationsPermission.receiveAsFlow()
+
+    private val mutableMissingPostNotificationsPermission = Channel<Unit>()
+    val missingPostNotificationsPermission = mutableMissingPostNotificationsPermission.receiveAsFlow()
+
+    private val mutableShowAlarmTimePicker = Channel<Unit>()
+    val showAlarmTimePicker = mutableShowAlarmTimePicker.receiveAsFlow()
 
     var preserveVerticalScrollPosition: Boolean = false
 
@@ -79,11 +93,11 @@ internal class FahrplanViewModel(
 
     fun showAlarmTimePickerWithChecks() {
         if (notificationHelper.notificationsEnabled) {
-            showAlarmTimePicker.postValue(Unit)
+            mutableShowAlarmTimePicker.sendOneTimeEvent(Unit)
         } else {
             when (runsAtLeastOnAndroidTiramisu) {
-                true -> requestPostNotificationsPermission.postValue(Unit)
-                false -> missingPostNotificationsPermission.postValue(Unit)
+                true -> mutableRequestPostNotificationsPermission.sendOneTimeEvent(Unit)
+                false -> mutableMissingPostNotificationsPermission.sendOneTimeEvent(Unit)
             }
         }
     }
@@ -95,7 +109,7 @@ internal class FahrplanViewModel(
                 if (sessions.isEmpty()) {
                     val scheduleVersion = repository.readMeta().version
                     if (scheduleVersion.isNotEmpty()) {
-                        fahrplanEmptyParameter.postValue(FahrplanEmptyParameter(scheduleVersion))
+                        mutableFahrplanEmptyParameter.sendOneTimeEvent(FahrplanEmptyParameter(scheduleVersion))
                     } // else: Nothing to do because schedule has not been loaded yet
                 }
             }
@@ -236,14 +250,14 @@ internal class FahrplanViewModel(
         launch {
             val timeZoneId = repository.readMeta().timeZoneId
             simpleSessionFormat.format(session, timeZoneId).let { formattedSession ->
-                shareSimple.postValue(formattedSession)
+                mutableShareSimple.sendOneTimeEvent(formattedSession)
             }
         }
     }
 
     fun shareToChaosflix(session: Session) {
         jsonSessionFormat.format(session).let { formattedSession ->
-            shareJson.postValue(formattedSession)
+            mutableShareJson.sendOneTimeEvent(formattedSession)
         }
     }
 
@@ -271,7 +285,7 @@ internal class FahrplanViewModel(
                 val dateInfos = FahrplanMisc.createDateInfos(repository.readDateInfos())
                 if (scheduleData.dayIndex == dateInfos.indexOfToday) {
                     val parameter = ScrollToCurrentSessionParameter(scheduleData, dateInfos)
-                    scrollToCurrentSessionParameter.postValue(parameter)
+                    mutableScrollToCurrentSessionParameter.sendOneTimeEvent(parameter)
                 }
             }
         }
@@ -292,7 +306,7 @@ internal class FahrplanViewModel(
                         verticalPosition = verticalPosition,
                         roomIndex = roomIndex
                     )
-                    scrollToSessionParameter.postValue(parameter)
+                    mutableScrollToSessionParameter.sendOneTimeEvent(parameter)
                 }
             }
         }
@@ -300,6 +314,12 @@ internal class FahrplanViewModel(
 
     private fun launch(block: suspend CoroutineScope.() -> Unit) {
         viewModelScope.launch(executionContext.database, block = block)
+    }
+
+    private fun <E> SendChannel<E>.sendOneTimeEvent(event: E) {
+        viewModelScope.launch {
+            send(event)
+        }
     }
 
 }
