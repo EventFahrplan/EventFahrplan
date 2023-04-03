@@ -1,10 +1,8 @@
 package nerd.tuxmobil.fahrplan.congress.changes
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import info.metadude.android.eventfahrplan.commons.testing.MainDispatcherTestRule
-import info.metadude.android.eventfahrplan.commons.testing.assertLiveData
 import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedNever
 import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedOnce
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -27,9 +25,6 @@ class ChangeListViewModelTest {
 
     @get:Rule
     val mainDispatcherTestRule = MainDispatcherTestRule()
-
-    @get:Rule
-    val instantTaskExecutorRule = InstantTaskExecutorRule()
 
     @Test
     fun `changeListParameter emits null`() = runTest {
@@ -74,11 +69,13 @@ class ChangeListViewModelTest {
     }
 
     @Test
-    fun `updateScheduleChangesSeen invokes repository function`() {
+    fun `updateScheduleChangesSeen invokes repository function`() = runTest {
         val repository = createRepository()
         val viewModel = createViewModel(repository)
         viewModel.updateScheduleChangesSeen(changesSeen = true)
-        assertLiveData(viewModel.scheduleChangesSeen).isEqualTo(Unit)
+        viewModel.scheduleChangesSeen.test {
+            assertThat(awaitItem()).isEqualTo(Unit)
+        }
         verifyInvokedOnce(repository).updateScheduleChangesSeen(changesSeen = true)
     }
 
