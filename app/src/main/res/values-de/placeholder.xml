@@ -76,15 +76,6 @@
         09:15
     </string>
 
-    <!-- Alarm list -->
-
-    <string name="placeholder_alarm_minutes">
-        15
-    </string>
-    <string name="placeholder_alarm_time">
-        27.12.13 11:30 vorm.
-    </string>
-
     <!-- Session detail bar -->
 
     <string name="placeholder_session_date">

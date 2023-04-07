@@ -712,6 +712,7 @@ object AppRepository {
         val toBeDeleted = toBeDeletedSessions.map { it.sessionId }
         sessionsDatabaseRepository.updateSessions(toBeUpdated, toBeDeleted)
         refreshStarredSessions()
+        refreshSessions()
         refreshChangedSessions()
         refreshSelectedSession()
         refreshUncanceledSessions()
@@ -819,11 +820,5 @@ object AppRepository {
 
     fun readInsistentAlarmsEnabled() =
             sharedPreferencesRepository.isInsistentAlarmsEnabled()
-
-    @Deprecated("Users of AppRepository should not have to be responsible for triggering change notifications. " +
-            "Replace with a mechanism internal to AppRepository.")
-    fun notifyAlarmsChanged() {
-        refreshUncanceledSessions()
-    }
 
 }

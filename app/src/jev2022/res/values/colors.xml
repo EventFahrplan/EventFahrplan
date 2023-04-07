@@ -11,10 +11,6 @@
     <color name="windowBackground">#fff</color>
     <color name="multi_choice_background">#aa005BBB</color>
     <color name="text_link_pressed_background_on_light">@color/colorPrimaryDark</color>
-    <color name="alarm_list_icon_default_fill_color">@color/colorPrimary</color>
-    <color name="alarm_list_icon_default_stroke_color">@color/colorAccent</color>
-    <color name="alarm_list_icon_text_color">@color/colorAccent</color>
-    <color name="alarm_list_empty_text">@color/text_secondary</color>
     <color name="session_background">@color/windowBackground</color>
     <color name="session_detailbar_background">@color/colorPrimaryDark</color>
     <color name="session_detailbar_text">@color/colorAccent</color>

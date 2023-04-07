@@ -109,11 +109,6 @@
     <string name="engelsystem_shifts_parsing_error_generic">Unbekannter Fehler beim Parsen der <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g>-Schichten</string>
     <string name="engelsystem_shifts_parsing_error_forbidden">Ungültiger API-Schlüssel für <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g>-Schichten</string>
     <string name="engelsystem_shifts_parsing_error_not_found">Falsche URL für <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g>-Schichten</string>
-    <string name="alarms_empty">
-		Aktuell sind keine Alarme gespeichert. Im Fahrplan
-		kannst du über das entsprechende Symbol in der ActionBar
-		für jeden Eintrag einen individuellen Alarm festlegen.
-	</string>
     <string name="add_to_calendar_failed">Hinzufügen zum Kalendar fehlgeschlagen.</string>
     <string name="no_changes">Keine Fahrplanänderungen</string>
     <string name="schedule_changes">Fahrplanänderungen</string>
@@ -209,9 +204,6 @@
     <string name="alarms_disabled_notifications_permission_missing">Alarme sind deaktiviert. Bitte erteile die \"Benachrichtigungen\" Berechtigung.</string>
 
     <!-- Session list item -->
-    <string name="session_list_item_alarm_time_zero_minutes_content_description">Alarm: zur Startzeit</string>
-    <string name="session_list_item_alarm_time_minutes_content_description">Alarm: <xliff:g example="5" id="minutes">%d</xliff:g> Minuten vorher</string>
-    <string name="session_list_item_alarm_time_content_description">Alarmzeit: <xliff:g example="16:20" id="alarmTime">%s</xliff:g></string>
     <string name="session_list_item_duration_text"><xliff:g example="45" id="duration">%d</xliff:g> min.</string>
     <string name="session_list_item_duration_content_description">Dauer: <xliff:g example="45" id="duration">%d</xliff:g> Minuten</string>
     <string name="session_list_item_favored_content_description">favorisiert</string>
@@ -235,6 +227,28 @@
         <item quantity="one">Sprecher in: <xliff:g example="Jane Doe" id="name">%s</xliff:g></item>
         <item quantity="other">Sprecher innen: <xliff:g example="Jane Doe, John Doe" id="names">%s</xliff:g></item>
     </plurals>
+
+    <!-- Alarms -->
+    <string name="alarms_empty">
+        Aktuell sind keine Alarme gespeichert. In der Detailansicht kannst
+        du über das entsprechende Menüsymbol für jeden Eintrag einen
+        individuellen Alarm festlegen.
+    </string>
+    <string name="alarms_item_on_click_label">
+        Detailansicht öffnen
+    </string>
+    <string name="alarms_item_delete_icon_on_click_label">
+        Alarm löschen
+    </string>
+    <string name="alarms_item_alarm_time_zero_minutes_content_description">
+        Alarm: zur Startzeit
+    </string>
+    <string name="alarms_item_alarm_time_minutes_content_description">
+        Alarm: <xliff:g example="5" id="minutes">%d</xliff:g> Minuten vorher
+    </string>
+    <string name="alarms_item_fires_at_content_description">
+        Löst aus um: <xliff:g example="16:20" id="alarmTime">%s</xliff:g>
+    </string>
 
     <!-- Validation errors -->
     <string name="validation_error_invalid_url">

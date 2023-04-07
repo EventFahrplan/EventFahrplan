@@ -124,11 +124,6 @@
     <string name="engelsystem_shifts_parsing_error_generic">Unknown error while parsing <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g> shifts</string>
     <string name="engelsystem_shifts_parsing_error_forbidden">Invalid API key for <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g> shifts</string>
     <string name="engelsystem_shifts_parsing_error_not_found">Wrong URL for <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g> shifts</string>
-    <string name="alarms_empty">
-		There are no alarms to display. Please note that you
-		can set up individual alarms for each item in the schedule.
-		Just press the alarm icon in the action bar.
-	</string>
     <string name="add_to_calendar_failed">Adding event to calendar failed.</string>
     <string name="no_changes">No schedule changes</string>
     <string name="no_favorites">No favorite lectures</string>
@@ -239,9 +234,6 @@
     <string name="alarms_disabled_notifications_permission_missing">Alarms are disabled. Please grant the \"Notifications\" permission.</string>
 
     <!-- Session list item -->
-    <string name="session_list_item_alarm_time_zero_minutes_content_description">Alarm: at start time</string>
-    <string name="session_list_item_alarm_time_minutes_content_description">Alarm: <xliff:g example="5" id="minutes">%d</xliff:g> minutes before</string>
-    <string name="session_list_item_alarm_time_content_description">Alarm time: <xliff:g example="16:20" id="alarmTime">%s</xliff:g></string>
     <string name="session_list_item_duration_text"><xliff:g example="45" id="duration">%d</xliff:g> min.</string>
     <string name="session_list_item_duration_content_description">Duration: <xliff:g example="45" id="duration">%d</xliff:g> minutes</string>
     <string name="session_list_item_favored_content_description">favored</string>
@@ -265,6 +257,28 @@
         <item quantity="one">Speaker: <xliff:g example="Jane Doe" id="name">%s</xliff:g></item>
         <item quantity="other">Speakers: <xliff:g example="Jane Doe, John Doe" id="names">%s</xliff:g></item>
     </plurals>
+
+    <!-- Alarms -->
+    <string name="alarms_empty">
+        There are no alarms to display. Please note that you
+        can set up an individual alarm for each session in the schedule.
+        To do so tap the alarm icon in the menu bar of the session screen.
+    </string>
+    <string name="alarms_item_on_click_label">
+        Open details screen
+    </string>
+    <string name="alarms_item_delete_icon_on_click_label">
+        Clear alarm
+    </string>
+    <string name="alarms_item_alarm_time_zero_minutes_content_description">
+        Alarm: at start time
+    </string>
+    <string name="alarms_item_alarm_time_minutes_content_description">
+        Alarm: <xliff:g example="5" id="minutes">%d</xliff:g> minutes before
+    </string>
+    <string name="alarms_item_fires_at_content_description">
+        Fires at: <xliff:g example="16:20" id="alarmTime">%s</xliff:g>
+    </string>
 
     <!-- Validation errors -->
     <string name="validation_error_invalid_url">
