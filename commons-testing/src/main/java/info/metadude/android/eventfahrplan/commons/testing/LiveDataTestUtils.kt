@@ -25,8 +25,8 @@ private fun <T> getValue(liveData: LiveData<T>): T? {
     var data: T? = null
     val latch = CountDownLatch(1)
     val observer = object : Observer<T> {
-        override fun onChanged(changedData: T?) {
-            data = changedData
+        override fun onChanged(value: T) {
+            data = value
             latch.countDown()
             liveData.removeObserver(this)
         }
