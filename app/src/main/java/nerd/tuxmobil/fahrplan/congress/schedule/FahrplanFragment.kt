@@ -18,7 +18,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.HorizontalScrollView
-import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.LinearLayout.LayoutParams.MATCH_PARENT
 import android.widget.LinearLayout.LayoutParams.WRAP_CONTENT
@@ -30,7 +29,6 @@ import androidx.appcompat.app.ActionBar.NAVIGATION_MODE_LIST
 import androidx.appcompat.app.ActionBar.OnNavigationListener
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import androidx.core.widget.NestedScrollView
 import androidx.core.widget.NestedScrollView.OnScrollChangeListener
@@ -381,16 +379,6 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
         }
     }
 
-    private fun setBell(session: Session) {
-        val verticalScrollView = requireView().findViewById<NestedScrollView?>(R.id.verticalScrollView)
-            ?: return
-        val sessionView = verticalScrollView.findViewWithTag<View?>(session)
-            ?: return
-        val bellView = sessionView.findViewById<ImageView?>(R.id.session_bell_view)
-            ?: return
-        bellView.isVisible = session.hasAlarm
-    }
-
     private fun scrollTo(sessionId: String, verticalPosition: Int, roomIndex: Int) {
         val layoutRootView = requireView()
         layoutRootView.requireViewByIdCompat<NestedScrollView>(R.id.verticalScrollView).apply {
@@ -465,7 +453,6 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
             throw NullPointerException("Session is null.")
         } else {
             viewModel.addAlarm(lastSelectedSession!!, alarmTimesIndex)
-            setBell(lastSelectedSession!!)
             updateMenuItems()
         }
     }
@@ -488,7 +475,6 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
             }
             CONTEXT_MENU_ITEM_ID_DELETE_ALARM -> {
                 viewModel.deleteAlarm(session)
-                setBell(session)
                 updateMenuItems()
             }
             CONTEXT_MENU_ITEM_ID_ADD_TO_CALENDAR -> {

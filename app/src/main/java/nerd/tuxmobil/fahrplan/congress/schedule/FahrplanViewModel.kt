@@ -9,9 +9,12 @@ import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices
+import nerd.tuxmobil.fahrplan.congress.models.Alarm
 import nerd.tuxmobil.fahrplan.congress.models.ScheduleData
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper
@@ -47,8 +50,11 @@ internal class FahrplanViewModel(
         const val LOG_TAG = "FahrplanViewModel"
     }
 
-    private val mutableFahrplanParameter = MutableStateFlow<FahrplanParameter?>(null)
-    val fahrplanParameter: Flow<FahrplanParameter> = mutableFahrplanParameter.filterNotNull()
+    val fahrplanParameter = repository.uncanceledSessionsForDayIndex
+        .filter { it.allSessions.isNotEmpty() }
+        .combine(repository.alarms.filterNotNull()) { scheduleData, alarms ->
+            createFahrplanParameter(scheduleData.customizeEngelsystemRoomName(), alarms)
+        }
 
     val fahrplanEmptyParameter = SingleLiveEvent<FahrplanEmptyParameter>()
 
@@ -91,11 +97,6 @@ internal class FahrplanViewModel(
                     if (scheduleVersion.isNotEmpty()) {
                         fahrplanEmptyParameter.postValue(FahrplanEmptyParameter(scheduleVersion))
                     } // else: Nothing to do because schedule has not been loaded yet
-                } else {
-                    val fahrplanParameter = scheduleData
-                        .customizeEngelsystemRoomName()
-                        .toFahrplanParameter()
-                    mutableFahrplanParameter.value = fahrplanParameter
                 }
             }
         }
@@ -124,7 +125,7 @@ internal class FahrplanViewModel(
         }
     )
 
-    private fun ScheduleData.toFahrplanParameter(): FahrplanParameter {
+    private fun createFahrplanParameter(scheduleData: ScheduleData, alarms: List<Alarm>): FahrplanParameter {
         val dayIndex = repository.readDisplayDayIndex()
         val numDays = repository.readMeta().numDays
         val dateInfos = FahrplanMisc.createDateInfos(repository.readDateInfos())
@@ -133,15 +134,28 @@ internal class FahrplanViewModel(
         } else {
             null
         }
+
+        val scheduleDataWithAlarmFlags = createScheduleDataWithAlarmFlags(scheduleData, alarms)
         return FahrplanParameter(
-            scheduleData = this,
+            scheduleData = scheduleDataWithAlarmFlags,
             numDays = numDays,
             dayIndex = dayIndex,
             dayMenuEntries = dayMenuEntries
         ).also {
-            logging.d(LOG_TAG, "Loaded ${allSessions.size} uncanceled sessions.")
+            logging.d(LOG_TAG, "Loaded ${it.scheduleData.allSessions.size} uncanceled sessions.")
         }
     }
+
+    private fun createScheduleDataWithAlarmFlags(scheduleData: ScheduleData, alarms: List<Alarm>) =
+        scheduleData.copy(roomDataList = scheduleData.roomDataList.map { roomData ->
+            roomData.copy(sessions = roomData.sessions.map { session ->
+                Session(session).apply {
+                    hasAlarm = alarms.any { alarm ->
+                        alarm.sessionId == session.sessionId
+                    }
+                }
+            })
+        })
 
     /**
      * Requests loading the schedule from the [AppRepository] to update the UI. UI components must

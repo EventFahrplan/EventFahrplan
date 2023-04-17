@@ -212,6 +212,28 @@ object AppRepository {
             .flowOn(executionContext.database)
     }
 
+    private val refreshAlarmsSignal = MutableSharedFlow<Unit>()
+
+    private fun refreshAlarms() {
+        logging.d(LOG_TAG, "Refreshing alarms ...")
+        val requestIdentifier = "refreshAlarms"
+        parentJobs[requestIdentifier] = databaseScope.launchNamed(requestIdentifier) {
+            refreshAlarmsSignal.emit(Unit)
+        }
+    }
+
+    /**
+     * Emits all alarms from the database
+     * The contained sessions list might be empty.
+     */
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val alarms: Flow<List<Alarm>> by lazy {
+        refreshAlarmsSignal
+            .onStart { emit(Unit) }
+            .mapLatest { readAlarms() }
+            .flowOn(executionContext.database)
+    }
+
     @JvmOverloads
     fun initialize(
             context: Context,
@@ -547,11 +569,14 @@ object AppRepository {
     private fun readAlarmSessionIds() = readAlarms().map { it.sessionId }.toSet()
 
     fun deleteAlarmForAlarmId(alarmId: Int) =
-            alarmsDatabaseRepository.deleteForAlarmId(alarmId)
+            alarmsDatabaseRepository.deleteForAlarmId(alarmId).also {
+                refreshAlarms()
+            }
 
     @WorkerThread
     fun deleteAlarmForSessionId(sessionId: String) =
         alarmsDatabaseRepository.deleteForSessionId(sessionId).also {
+            refreshAlarms()
             refreshSelectedSession()
             refreshUncanceledSessions()
         }
@@ -561,6 +586,7 @@ object AppRepository {
         val alarmDatabaseModel = alarm.toAlarmDatabaseModel()
         val values = alarmDatabaseModel.toContentValues()
         alarmsDatabaseRepository.update(values, alarm.sessionId)
+        refreshAlarms()
         refreshSelectedSession()
         refreshUncanceledSessions()
     }

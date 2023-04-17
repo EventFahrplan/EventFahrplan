@@ -17,6 +17,7 @@ import nerd.tuxmobil.fahrplan.congress.NoLogging
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.TestExecutionContext
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices
+import nerd.tuxmobil.fahrplan.congress.models.Alarm
 import nerd.tuxmobil.fahrplan.congress.models.DateInfo
 import nerd.tuxmobil.fahrplan.congress.models.DateInfos
 import nerd.tuxmobil.fahrplan.congress.models.Meta
@@ -105,7 +106,7 @@ class FahrplanViewModelTest {
     }
 
     @Test
-    fun `updateUncanceledSessions posts FahrplanParameter to fahrplanParameter property`() = runTest {
+    fun `fahrplanParameter property emits FahrplanParameter`() = runTest {
         val repository = createRepository(
             uncanceledSessionsForDayIndexFlow = flowOf(createScheduleData("session-01")),
             meta = Meta(numDays = 1),
@@ -121,6 +122,7 @@ class FahrplanViewModelTest {
         )
         viewModel.fahrplanParameter.test {
             assertThat(awaitItem()).isEqualTo(expected)
+            awaitComplete()
         }
         assertThat(viewModel.fahrplanEmptyParameter.value).isNull()
         verifyInvokedNever(menuEntriesGenerator).getDayMenuEntries(any(), anyOrNull(), any())
@@ -130,7 +132,37 @@ class FahrplanViewModelTest {
     }
 
     @Test
-    fun `updateUncanceledSessions generates navigation menu entries`() = runTest {
+    fun `fahrplanParameter property emits FahrplanParameter containing session with alarm flag`() = runTest {
+        val repository = createRepository(
+            uncanceledSessionsForDayIndexFlow = flowOf(createScheduleData("session-01")),
+            meta = Meta(numDays = 1),
+            alarmsFlow = flowOf(listOf(createAlarm("session-01"))),
+            displayDayIndex = 2
+        )
+        val menuEntriesGenerator = mock<NavigationMenuEntriesGenerator>()
+        val viewModel = createViewModel(repository, navigationMenuEntriesGenerator = menuEntriesGenerator)
+        val expected = FahrplanParameter(
+            scheduleData = createScheduleData("session-01", hasAlarm = true),
+            numDays = 1,
+            dayIndex = 2,
+            dayMenuEntries = null
+        )
+        viewModel.fahrplanParameter.test {
+            val actual = awaitItem()
+            assertThat(actual).isEqualTo(expected)
+            // Obsolete once Session#hasAlarm is part of isEqual and hashCode
+            assertThat(actual.scheduleData.allSessions.first().hasAlarm).isEqualTo(true)
+            awaitComplete()
+        }
+        assertThat(viewModel.fahrplanEmptyParameter.value).isNull()
+        verifyInvokedNever(menuEntriesGenerator).getDayMenuEntries(any(), anyOrNull(), any())
+        verifyInvokedOnce(repository).readDisplayDayIndex()
+        verifyInvokedOnce(repository).readMeta()
+        verifyInvokedOnce(repository).readDateInfos()
+    }
+
+    @Test
+    fun `fahrplanParameter property emits and generates navigation menu entries`() = runTest {
         val repository = createRepository(
             uncanceledSessionsForDayIndexFlow = flowOf(createScheduleData("session-01")),
             meta = Meta(numDays = 2),
@@ -148,6 +180,7 @@ class FahrplanViewModelTest {
         )
         viewModel.fahrplanParameter.test {
             assertThat(awaitItem()).isEqualTo(expected)
+            awaitComplete()
         }
         assertThat(viewModel.fahrplanEmptyParameter.value).isNull()
         verifyInvokedOnce(menuEntriesGenerator).getDayMenuEntries(any(), anyOrNull(), any())
@@ -206,7 +239,7 @@ class FahrplanViewModelTest {
         }
         verifyInvokedOnce(repository).loadEarliestSession()
         verifyInvokedOnce(repository).readUseDeviceTimeZoneEnabled()
-        verify(repository, times(2)).readDisplayDayIndex()
+        verify(repository, times(1)).readDisplayDayIndex()
     }
 
     @Test
@@ -388,7 +421,6 @@ class FahrplanViewModelTest {
         val viewModel = createViewModel(repository)
         viewModel.scrollToSession("session-27", boxHeight = 42)
         assertLiveData(viewModel.scrollToSessionParameter).isNull()
-        verifyInvokedOnce(repository).readDisplayDayIndex()
     }
 
     @Test
@@ -404,6 +436,7 @@ class FahrplanViewModelTest {
     private fun createRepository(
         uncanceledSessionsForDayIndexFlow: Flow<ScheduleData> = emptyFlow(),
         loadUncanceledSessionsForDayIndex: ScheduleData = mock(),
+        alarmsFlow: Flow<List<Alarm>> = flowOf(emptyList()),
         meta: Meta = Meta(numDays = 0, version = "test-version"),
         isAutoUpdateEnabled: Boolean = true,
         displayDayIndex: Int = 0,
@@ -412,6 +445,7 @@ class FahrplanViewModelTest {
     ) = mock<AppRepository> {
         on { uncanceledSessionsForDayIndex } doReturn uncanceledSessionsForDayIndexFlow
         on { loadUncanceledSessionsForDayIndex() } doReturn loadUncanceledSessionsForDayIndex
+        on { alarms } doReturn alarmsFlow
         on { readMeta() } doReturn meta
         on { readAutoUpdateEnabled() } doReturn isAutoUpdateEnabled
         on { readDisplayDayIndex() } doReturn displayDayIndex
@@ -419,8 +453,8 @@ class FahrplanViewModelTest {
         on { readDateInfos() } doReturn dateInfos
     }
 
-    private fun createScheduleData(sessionId: String? = null): ScheduleData {
-        val session = if (sessionId == null) null else Session(sessionId)
+    private fun createScheduleData(sessionId: String? = null, hasAlarm: Boolean = false): ScheduleData {
+        val session = if (sessionId == null) null else Session(sessionId).apply { this.hasAlarm = hasAlarm }
         return createScheduleData(session)
     }
 
@@ -451,6 +485,16 @@ class FahrplanViewModelTest {
         defaultEngelsystemRoomName = "Engelshifts",
         customEngelsystemRoomName = "Trollshifts",
         runsAtLeastOnAndroidTiramisu = runsAtLeastOnAndroidTiramisu
+    )
+
+    private fun createAlarm(@Suppress("SameParameterValue") sessionId: String) = Alarm(
+        alarmTimeInMin = 10,
+        day = 2,
+        displayTime = 0,
+        sessionId = sessionId,
+        sessionTitle = "Title",
+        startTime = 1536332400000L,
+        timeText = "Lorem ipsum"
     )
 
 }
