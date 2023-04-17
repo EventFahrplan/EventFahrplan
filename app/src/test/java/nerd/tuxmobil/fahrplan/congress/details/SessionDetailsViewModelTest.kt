@@ -1,14 +1,16 @@
 package nerd.tuxmobil.fahrplan.congress.details
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.core.net.toUri
+import app.cash.turbine.test
+import com.google.common.truth.Truth.assertThat
 import info.metadude.android.eventfahrplan.commons.testing.MainDispatcherTestRule
-import info.metadude.android.eventfahrplan.commons.testing.assertLiveData
 import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedNever
 import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedOnce
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.runTest
 import nerd.tuxmobil.fahrplan.congress.TestExecutionContext
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsViewModel.FormattingDelegate
@@ -30,13 +32,11 @@ import org.mockito.kotlin.anyOrNull
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class SessionDetailsViewModelTest {
 
     @get:Rule
     val mainDispatcherTestRule = MainDispatcherTestRule()
-
-    @get:Rule
-    val instantTaskExecutorRule = InstantTaskExecutorRule()
 
     private companion object {
         val NO_TIME_ZONE_ID = null
@@ -45,7 +45,7 @@ class SessionDetailsViewModelTest {
     }
 
     @Test
-    fun `selectedSessionParameter does not emit SelectedSessionParameter`() {
+    fun `selectedSessionParameter does not emit SelectedSessionParameter`() = runTest {
         val repository = createRepository(selectedSessionFlow = emptyFlow())
         val fakeSessionFormatter = mock<SessionFormatter> {
             on { getFormattedLinks(any()) } doReturn "not relevant"
@@ -76,13 +76,15 @@ class SessionDetailsViewModelTest {
             feedbackUrlComposer = fakeFeedbackUrlComposer,
             roomForC3NavConverter = fakeRoomForC3NavConverter
         )
-        assertLiveData(viewModel.selectedSessionParameter).isNull()
+        viewModel.selectedSessionParameter.test {
+            awaitComplete()
+        }
         verifyInvokedOnce(repository).selectedSession
         verifyInvokedNever(repository).readUseDeviceTimeZoneEnabled()
     }
 
     @Test
-    fun `selectedSessionParameter emits SelectedSessionParameter built from filled sample session`() {
+    fun `selectedSessionParameter emits SelectedSessionParameter built from filled sample session`() = runTest {
         val session = Session("S1").apply {
             dateUTC = 100
             title = "Session title"
@@ -149,13 +151,16 @@ class SessionDetailsViewModelTest {
             isFeedbackUrlEmpty = false,
             isC3NavRoomNameEmpty = false,
         )
-        assertLiveData(viewModel.selectedSessionParameter).isEqualTo(selectedSessionParameter)
+        viewModel.selectedSessionParameter.test {
+            assertThat(awaitItem()).isEqualTo(selectedSessionParameter)
+            awaitComplete()
+        }
         verifyInvokedOnce(repository).selectedSession
         verifyInvokedOnce(repository).readUseDeviceTimeZoneEnabled()
     }
 
     @Test
-    fun `selectedSessionParameter emits SelectedSessionParameter built from empty sample session`() {
+    fun `selectedSessionParameter emits SelectedSessionParameter built from empty sample session`() = runTest {
         val session = Session("S1").apply {
             dateUTC = 0
             title = ""
@@ -222,55 +227,66 @@ class SessionDetailsViewModelTest {
             isFeedbackUrlEmpty = true,
             isC3NavRoomNameEmpty = true,
         )
-        assertLiveData(viewModel.selectedSessionParameter).isEqualTo(selectedSessionParameter)
+        viewModel.selectedSessionParameter.test {
+            assertThat(awaitItem()).isEqualTo(selectedSessionParameter)
+            awaitComplete()
+        }
         verifyInvokedOnce(repository).selectedSession
         verifyInvokedOnce(repository).readUseDeviceTimeZoneEnabled()
     }
 
     @Test
-    fun `openFeedback() posts to openFeedback`() {
+    fun `openFeedback() posts to openFeedback`() = runTest {
         val repository = createRepository()
         val fakeFeedbackUrlComposer = mock<FeedbackUrlComposer> {
             on { getFeedbackUrl(any()) } doReturn SAMPLE_FEEDBACK_URL
         }
         val viewModel = createViewModel(repository, feedbackUrlComposer = fakeFeedbackUrlComposer)
         viewModel.openFeedback()
-        assertLiveData(viewModel.openFeedBack).isEqualTo(SAMPLE_FEEDBACK_URL.toUri())
+        viewModel.openFeedBack.test {
+            assertThat(awaitItem()).isEqualTo(SAMPLE_FEEDBACK_URL.toUri())
+        }
         verifyInvokedOnce(repository).loadSelectedSession()
     }
 
     @Test
-    fun `share() posts to shareSimple what simpleSessionFormat returns`() {
+    fun `share() posts to shareSimple what simpleSessionFormat returns`() = runTest {
         val repository = createRepository()
         val fakeSessionFormat = mock<SimpleSessionFormat> {
             on { format(any(), anyOrNull(), any()) } doReturn "An example session"
         }
         val viewModel = createViewModel(repository, simpleSessionFormat = fakeSessionFormat)
         viewModel.share()
-        assertLiveData(viewModel.shareSimple).isEqualTo("An example session")
+        viewModel.shareSimple.test {
+            assertThat(awaitItem()).isEqualTo("An example session")
+        }
         verifyInvokedOnce(repository).loadSelectedSession()
         verifyInvokedOnce(repository).readMeta()
     }
 
     @Test
-    fun `shareToChaosflix() posts to shareJson what jsonSessionFormat returns`() {
+    fun `shareToChaosflix() posts to shareJson what jsonSessionFormat returns`() = runTest {
         val repository = createRepository()
         val fakeSessionFormat = mock<JsonSessionFormat> {
             on { format(any<Session>()) } doReturn """{ "session" : "example" }"""
         }
         val viewModel = createViewModel(repository, jsonSessionFormat = fakeSessionFormat)
         viewModel.shareToChaosflix()
-        assertLiveData(viewModel.shareJson).isEqualTo("""{ "session" : "example" }""")
+        viewModel.shareJson.test {
+            assertThat(awaitItem()).isEqualTo("""{ "session" : "example" }""")
+        }
         verifyInvokedOnce(repository).loadSelectedSession()
     }
 
     @Test
-    fun `addToCalendar() posts to addToCalendar`() {
+    fun `addToCalendar() posts to addToCalendar`() = runTest {
         val repository = createRepository(selectedSession = Session("S2"))
         val viewModel = createViewModel(repository)
         viewModel.addToCalendar()
         verifyInvokedOnce(repository).loadSelectedSession()
-        assertLiveData(viewModel.addToCalendar).isEqualTo(Session("S2"))
+        viewModel.addToCalendar.test {
+            assertThat(awaitItem()).isEqualTo(Session("S2"))
+        }
     }
 
     @Test
@@ -296,18 +312,20 @@ class SessionDetailsViewModelTest {
     }
 
     @Test
-    fun `setAlarm() posts to setAlarm`() {
+    fun `setAlarm() posts to setAlarm`() = runTest {
         val notificationHelper = mock<NotificationHelper> {
             on { notificationsEnabled } doReturn true
         }
         val repository = createRepository()
         val viewModel = createViewModel(repository, notificationHelper = notificationHelper)
         viewModel.setAlarm()
-        assertLiveData(viewModel.setAlarm).isEqualTo(Unit)
+        viewModel.setAlarm.test {
+            assertThat(awaitItem()).isEqualTo(Unit)
+        }
     }
 
     @Test
-    fun `setAlarm() posts to requestPostNotificationsPermission`() {
+    fun `setAlarm() posts to requestPostNotificationsPermission`() = runTest {
         val notificationHelper = mock<NotificationHelper> {
             on { notificationsEnabled } doReturn false
         }
@@ -318,11 +336,13 @@ class SessionDetailsViewModelTest {
             runsAtLeastOnAndroidTiramisu = true
         )
         viewModel.setAlarm()
-        assertLiveData(viewModel.requestPostNotificationsPermission).isEqualTo(Unit)
+        viewModel.requestPostNotificationsPermission.test {
+            assertThat(awaitItem()).isEqualTo(Unit)
+        }
     }
 
     @Test
-    fun `setAlarm() posts to missingPostNotificationsPermission`() {
+    fun `setAlarm() posts to missingPostNotificationsPermission`() = runTest {
         val notificationHelper = mock<NotificationHelper> {
             on { notificationsEnabled } doReturn false
         }
@@ -333,7 +353,9 @@ class SessionDetailsViewModelTest {
             runsAtLeastOnAndroidTiramisu = false
         )
         viewModel.setAlarm()
-        assertLiveData(viewModel.missingPostNotificationsPermission).isEqualTo(Unit)
+        viewModel.missingPostNotificationsPermission.test {
+            assertThat(awaitItem()).isEqualTo(Unit)
+        }
     }
 
     @Test
@@ -360,15 +382,17 @@ class SessionDetailsViewModelTest {
     }
 
     @Test
-    fun `closeDetails() posts to closeDetails`() {
+    fun `closeDetails() posts to closeDetails`() = runTest {
         val repository = createRepository()
         val viewModel = createViewModel(repository)
         viewModel.closeDetails()
-        assertLiveData(viewModel.closeDetails).isEqualTo(Unit)
+        viewModel.closeDetails.test {
+            assertThat(awaitItem()).isEqualTo(Unit)
+        }
     }
 
     @Test
-    fun `navigateToRoom() posts to navigateToRoom`() {
+    fun `navigateToRoom() posts to navigateToRoom`() = runTest {
         val repository = createRepository()
         val fakeRoomForC3NavConverter = mock<RoomForC3NavConverter> {
             on { convert(anyOrNull()) } doReturn "garden"
@@ -379,7 +403,9 @@ class SessionDetailsViewModelTest {
             c3NavBaseUrl = "https://c3nav.foo/"
         )
         viewModel.navigateToRoom()
-        assertLiveData(viewModel.navigateToRoom).isEqualTo("https://c3nav.foo/garden".toUri())
+        viewModel.navigateToRoom.test {
+            assertThat(awaitItem()).isEqualTo("https://c3nav.foo/garden".toUri())
+        }
         verifyInvokedOnce(repository).loadSelectedSession()
     }
 

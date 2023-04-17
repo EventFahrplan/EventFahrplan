@@ -13,6 +13,7 @@ import androidx.annotation.IdRes
 import androidx.annotation.MainThread
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
+import info.metadude.android.eventfahrplan.commons.flow.observe
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.base.AbstractListFragment
 import nerd.tuxmobil.fahrplan.congress.base.AbstractListFragment.OnSessionListClick
@@ -82,7 +83,7 @@ class ChangeListFragment : AbstractListFragment() {
     }
 
     private fun observeViewModel() {
-        viewModel.changeListParameter.observe(viewLifecycleOwner) { (sessions, numDays, useDeviceTimeZone) ->
+        viewModel.changeListParameter.observe(this) { (sessions, numDays, useDeviceTimeZone) ->
             val adapter = ChangeListAdapter(requireContext(), sessions, numDays, useDeviceTimeZone)
             currentListView.adapter = adapter
         }

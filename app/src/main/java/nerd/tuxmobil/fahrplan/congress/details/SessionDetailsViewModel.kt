@@ -3,13 +3,16 @@ package nerd.tuxmobil.fahrplan.congress.details
 import android.net.Uri
 import android.os.Build
 import androidx.core.net.toUri
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import info.metadude.android.eventfahrplan.commons.livedata.SingleLiveEvent
 import info.metadude.android.eventfahrplan.commons.temporal.DateFormatter
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.SendChannel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices
 import nerd.tuxmobil.fahrplan.congress.models.Session
@@ -83,20 +86,31 @@ internal class SessionDetailsViewModel(
     val subtitleFont = Font.Roboto.Light
     val titleFont = Font.Roboto.BoldCondensed
 
-    val selectedSessionParameter: LiveData<SelectedSessionParameter> = repository.selectedSession
+    val selectedSessionParameter: Flow<SelectedSessionParameter> = repository.selectedSession
         .map { it.toSelectedSessionParameter() }
         .map { it.customizeEngelsystemRoomName() }
-        .asLiveData(executionContext.database)
+        .flowOn(executionContext.database)
 
-    val openFeedBack = SingleLiveEvent<Uri>()
-    val shareSimple = SingleLiveEvent<String>()
-    val shareJson = SingleLiveEvent<String>()
-    val addToCalendar = SingleLiveEvent<Session>()
-    val setAlarm = SingleLiveEvent<Unit>()
-    val navigateToRoom = SingleLiveEvent<Uri>()
-    val closeDetails = SingleLiveEvent<Unit>()
-    val requestPostNotificationsPermission = SingleLiveEvent<Unit>()
-    val missingPostNotificationsPermission = SingleLiveEvent<Unit>()
+    private val mutableOpenFeedBack = Channel<Uri>()
+    val openFeedBack = mutableOpenFeedBack.receiveAsFlow()
+    private val mutableShareSimple = Channel<String>()
+    val shareSimple = mutableShareSimple.receiveAsFlow()
+    private val mutableShareJson = Channel<String>()
+    val shareJson = mutableShareJson.receiveAsFlow()
+    private val mutableAddToCalendar = Channel<Session>()
+    val addToCalendar = mutableAddToCalendar.receiveAsFlow()
+    private val mutableSetAlarm = Channel<Unit>()
+    val setAlarm = mutableSetAlarm.receiveAsFlow()
+    private val mutableNavigateToRoom = Channel<Uri>()
+    val navigateToRoom = mutableNavigateToRoom.receiveAsFlow()
+    private val mutableCloseDetails = Channel<Unit>()
+    val closeDetails = mutableCloseDetails.receiveAsFlow()
+    private val mutableRequestPostNotificationsPermission = Channel<Unit>()
+    val requestPostNotificationsPermission =
+        mutableRequestPostNotificationsPermission.receiveAsFlow()
+    private val mutableMissingPostNotificationsPermission = Channel<Unit>()
+    val missingPostNotificationsPermission =
+        mutableMissingPostNotificationsPermission.receiveAsFlow()
 
     private fun SelectedSessionParameter.customizeEngelsystemRoomName() = copy(
         roomName = if (roomName == defaultEngelsystemRoomName) customEngelsystemRoomName else roomName
@@ -146,7 +160,7 @@ internal class SessionDetailsViewModel(
     fun openFeedback() {
         loadSelectedSession { session ->
             val uri = feedbackUrlComposer.getFeedbackUrl(session).toUri()
-            openFeedBack.postValue(uri)
+            mutableOpenFeedBack.sendOneTimeEvent(uri)
         }
     }
 
@@ -154,7 +168,7 @@ internal class SessionDetailsViewModel(
         loadSelectedSession { session ->
             val timeZoneId = repository.readMeta().timeZoneId
             simpleSessionFormat.format(session, timeZoneId).let { formattedSession ->
-                shareSimple.postValue(formattedSession)
+                mutableShareSimple.sendOneTimeEvent(formattedSession)
             }
         }
     }
@@ -162,14 +176,14 @@ internal class SessionDetailsViewModel(
     fun shareToChaosflix() {
         loadSelectedSession { session ->
             jsonSessionFormat.format(session).let { formattedSession ->
-                shareJson.postValue(formattedSession)
+                mutableShareJson.sendOneTimeEvent(formattedSession)
             }
         }
     }
 
     fun addToCalendar() {
         loadSelectedSession { session ->
-            addToCalendar.postValue(session)
+            mutableAddToCalendar.sendOneTimeEvent(session)
         }
     }
 
@@ -193,11 +207,11 @@ internal class SessionDetailsViewModel(
 
     fun setAlarm() {
         if (notificationHelper.notificationsEnabled) {
-            setAlarm.postValue(Unit)
+            mutableSetAlarm.sendOneTimeEvent(Unit)
         } else {
             when (runsAtLeastOnAndroidTiramisu) {
-                true -> requestPostNotificationsPermission.postValue(Unit)
-                false -> missingPostNotificationsPermission.postValue(Unit)
+                true -> mutableRequestPostNotificationsPermission.sendOneTimeEvent(Unit)
+                false -> mutableMissingPostNotificationsPermission.sendOneTimeEvent(Unit)
             }
         }
     }
@@ -218,17 +232,27 @@ internal class SessionDetailsViewModel(
         loadSelectedSession { session ->
             val c3navRoomName = roomForC3NavConverter.convert(session.room)
             val uri = "$c3NavBaseUrl$c3navRoomName".toUri()
-            navigateToRoom.postValue(uri)
+            mutableNavigateToRoom.sendOneTimeEvent(uri)
         }
     }
 
     fun closeDetails() {
-        closeDetails.postValue(Unit)
+        mutableCloseDetails.sendOneTimeEvent(Unit)
     }
 
     private fun loadSelectedSession(onSessionLoaded: (Session) -> Unit) {
-        viewModelScope.launch(executionContext.database) {
+        launch {
             onSessionLoaded(repository.loadSelectedSession())
+        }
+    }
+
+    private fun launch(block: suspend CoroutineScope.() -> Unit) {
+        viewModelScope.launch(executionContext.database, block = block)
+    }
+
+    private fun <E> SendChannel<E>.sendOneTimeEvent(event: E) {
+        viewModelScope.launch {
+            send(event)
         }
     }
 

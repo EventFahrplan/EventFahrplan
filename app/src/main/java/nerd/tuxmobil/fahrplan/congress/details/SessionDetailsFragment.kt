@@ -27,6 +27,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
+import info.metadude.android.eventfahrplan.commons.flow.observe
 import io.noties.markwon.Markwon
 import io.noties.markwon.linkify.LinkifyPlugin
 import nerd.tuxmobil.fahrplan.congress.BuildConfig
@@ -160,7 +161,7 @@ class SessionDetailsFragment : Fragment() {
 
     @SuppressLint("InlinedApi")
     private fun observeViewModel() {
-        viewModel.selectedSessionParameter.observe(viewLifecycleOwner) { model ->
+        viewModel.selectedSessionParameter.observe(this) { model ->
             this.model = model
             updateView()
             updateOptionsMenu()
