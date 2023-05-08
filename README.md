@@ -99,6 +99,16 @@ other conferences.
 * In August 2017 the project moved to a new location and was renamed to
 ["EventFahrplan"][eventfahrplan-github] to acknowledge its broader usage.
 
+## Funding
+
+In 2023 this project was funded through the [NGI0 Entrust Fund](https://nlnet.nl/entrust), a fund
+established by [NLnet](https://nlnet.nl) with financial support from the European Commission's
+[Next Generation Internet](https://ngi.eu) program, under the aegis of DG Communications Networks,
+Content and Technology under grant agreement No 101069594.
+
+![Logo NLnet: abstract logo of four people seen from above](gfx/nlnet-banner-160x60.png)
+
+![Logo NGI Zero: letterlogo shaped like a tag](gfx/ngi0entrust-banner-191x60.png)
 
 ## Licenses
 
