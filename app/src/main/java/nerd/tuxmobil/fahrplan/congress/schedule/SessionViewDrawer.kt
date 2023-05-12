@@ -39,12 +39,13 @@ internal class SessionViewDrawer @JvmOverloads constructor(
     private val trackNameBackgroundColorDefaultPairs = TrackBackgrounds.getTrackNameBackgroundColorDefaultPairs(context)
     private val trackNameBackgroundColorHighlightPairs = TrackBackgrounds.getTrackNameBackgroundColorHighlightPairs(context)
 
-    fun updateSessionView(sessionView: View, session: Session) {
+    fun updateSessionView(sessionView: View, session: Session, useDeviceTimeZone: Boolean) {
         val bell = sessionView.requireViewByIdCompat<ImageView>(R.id.session_bell_view)
         bell.isVisible = session.hasAlarm
         var textView = sessionView.requireViewByIdCompat<TextView>(R.id.session_title_view)
         textView.typeface = boldCondensed
         textView.text = session.title
+        textView.contentDescription = Session.getTitleContentDescription(sessionView.context, session.title)
         textView = sessionView.requireViewByIdCompat(R.id.session_subtitle_view)
         textView.text = session.subtitle
         textView.contentDescription = Session.getSubtitleContentDescription(sessionView.context, session.subtitle)
@@ -58,7 +59,7 @@ internal class SessionViewDrawer @JvmOverloads constructor(
         if (recordingOptOut != null) {
             recordingOptOut.isVisible = session.recordingOptOut
         }
-        ViewCompat.setStateDescription(sessionView, Session.getHighlightContentDescription(sessionView.context, session.highlight))
+        ViewCompat.setStateDescription(sessionView, Session.getStateContentDescription(sessionView.context, session, useDeviceTimeZone))
         setSessionBackground(session, sessionView)
         setSessionTextColor(session, sessionView)
         sessionView.tag = session

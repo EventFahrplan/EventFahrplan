@@ -14,6 +14,7 @@ import org.threeten.bp.ZoneOffset;
 
 import java.util.List;
 
+import info.metadude.android.eventfahrplan.commons.temporal.DateFormatter;
 import info.metadude.android.eventfahrplan.commons.temporal.Moment;
 import info.metadude.android.eventfahrplan.network.serialization.FahrplanParser;
 import info.metadude.android.eventfahrplan.network.temporal.DateParser;
@@ -291,6 +292,11 @@ public class Session {
     }
 
     @NonNull
+    public static String getTitleContentDescription(@NonNull Context context, @NonNull String title) {
+        return TextUtils.isEmpty(title) ? "" : context.getString(R.string.session_list_item_title_content_description, title);
+    }
+
+    @NonNull
     public static String getSubtitleContentDescription(@NonNull Context context, @NonNull String subtitle) {
         return TextUtils.isEmpty(subtitle) ? "" : context.getString(R.string.session_list_item_subtitle_content_description, subtitle);
     }
@@ -370,6 +376,15 @@ public class Session {
     public static String getHighlightContentDescription(@NonNull Context context, boolean isHighlighted) {
         int stringResource = isHighlighted ? R.string.session_list_item_favored_content_description : R.string.session_list_item_not_favored_content_description;
         return context.getString(stringResource);
+    }
+
+    @NonNull
+    public static String getStateContentDescription(@NonNull Context context, @NonNull Session session, Boolean useDeviceTimeZone) {
+        String roomNameContentDescription = getRoomNameContentDescription(context, session.room);
+        String startsAtText = DateFormatter.newInstance(useDeviceTimeZone).getFormattedTime(session.dateUTC, session.timeZoneOffset);
+        String startsAtContentDescription = getStartTimeContentDescription(context, startsAtText);
+        String isHighlightContentDescription = getHighlightContentDescription(context, session.highlight);
+        return isHighlightContentDescription + ", " + startsAtContentDescription + ", " + roomNameContentDescription;
     }
 
     public void shiftRoomIndexBy(int amount) {

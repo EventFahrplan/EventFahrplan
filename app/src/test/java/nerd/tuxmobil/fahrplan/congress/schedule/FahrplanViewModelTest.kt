@@ -118,6 +118,7 @@ class FahrplanViewModelTest {
         val viewModel = createViewModel(repository, navigationMenuEntriesGenerator = menuEntriesGenerator)
         val expected = FahrplanParameter(
             scheduleData = createScheduleData("session-01"),
+            useDeviceTimeZone = false,
             numDays = 1,
             dayIndex = 2,
             dayMenuEntries = null
@@ -147,6 +148,7 @@ class FahrplanViewModelTest {
         val viewModel = createViewModel(repository, navigationMenuEntriesGenerator = menuEntriesGenerator)
         val expected = FahrplanParameter(
             scheduleData = createScheduleData("session-01", hasAlarm = true),
+            useDeviceTimeZone = false,
             numDays = 1,
             dayIndex = 2,
             dayMenuEntries = null
@@ -180,6 +182,7 @@ class FahrplanViewModelTest {
         val viewModel = createViewModel(repository, navigationMenuEntriesGenerator = menuEntriesGenerator)
         val expected = FahrplanParameter(
             scheduleData = createScheduleData("session-01"),
+            useDeviceTimeZone = false,
             numDays = 2,
             dayIndex = 0,
             dayMenuEntries = listOf("Day 1", "Day 2")
