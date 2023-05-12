@@ -57,7 +57,7 @@ class FahrplanViewModelTest {
         val repository = createRepository(uncanceledSessionsForDayIndexFlow = emptyFlow())
         val viewModel = createViewModel(repository)
         viewModel.fahrplanParameter.test {
-            expectNoEvents()
+            awaitComplete()
         }
         viewModel.fahrplanEmptyParameter.test {
             expectNoEvents()
@@ -81,7 +81,7 @@ class FahrplanViewModelTest {
             assertThat(awaitItem()).isEqualTo(expected)
         }
         viewModel.fahrplanParameter.test {
-            expectNoEvents()
+            awaitComplete()
         }
         verifyInvokedOnce(repository).readMeta()
         verifyInvokedNever(repository).readDisplayDayIndex()
@@ -100,7 +100,7 @@ class FahrplanViewModelTest {
             expectNoEvents()
         }
         viewModel.fahrplanParameter.test {
-            expectNoEvents()
+            awaitComplete()
         }
         verifyInvokedOnce(repository).readMeta()
         verifyInvokedNever(repository).readDisplayDayIndex()
