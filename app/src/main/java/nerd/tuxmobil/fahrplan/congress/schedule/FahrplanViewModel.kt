@@ -148,10 +148,12 @@ internal class FahrplanViewModel(
         } else {
             null
         }
+        val useDeviceTimeZone = repository.readUseDeviceTimeZoneEnabled()
 
         val scheduleDataWithAlarmFlags = createScheduleDataWithAlarmFlags(scheduleData, alarms)
         return FahrplanParameter(
             scheduleData = scheduleDataWithAlarmFlags,
+            useDeviceTimeZone = useDeviceTimeZone,
             numDays = numDays,
             dayIndex = dayIndex,
             dayMenuEntries = dayMenuEntries

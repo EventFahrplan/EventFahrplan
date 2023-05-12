@@ -15,6 +15,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.view.View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.HorizontalScrollView
@@ -184,10 +185,10 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
     @SuppressLint("InlinedApi")
     private fun observeViewModel() {
         viewModel.fahrplanParameter
-            .observe(this) { (scheduleData, numDays, dayIndex, menuEntries) ->
+            .observe(this) { (scheduleData, useDeviceTimeZone, numDays, dayIndex, menuEntries) ->
                 menuEntries?.let { buildNavigationMenu(it, numDays) }
                 viewModel.fillTimes(Moment.now(), getNormalizedBoxHeight())
-                viewDay(scheduleData, numDays, dayIndex)
+                viewDay(scheduleData, useDeviceTimeZone, numDays, dayIndex)
             }
         viewModel.fahrplanEmptyParameter.observe(viewLifecycleOwner) { (scheduleVersion) ->
             val errorMessage = errorMessageFactory.getMessageForEmptySchedule(scheduleVersion)
@@ -246,7 +247,7 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
     /**
      * Updates the session data in the schedule view.
      */
-    private fun viewDay(scheduleData: ScheduleData, numDays: Int, dayIndex: Int) {
+    private fun viewDay(scheduleData: ScheduleData, useDeviceTimeZone: Boolean, numDays: Int, dayIndex: Int) {
         val layoutRoot = requireView()
         val horizontalScroller = layoutRoot.requireViewByIdCompat<HorizontalSnapScrollView>(R.id.horizScroller)
         horizontalScroller.scrollTo(0, 0)
@@ -254,10 +255,11 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
         horizontalScroller.setRoomsCount(roomCount)
 
         val roomScroller = layoutRoot.requireViewByIdCompat<HorizontalScrollView>(R.id.roomScroller)
+        roomScroller.importantForAccessibility = IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS
         val roomTitlesRowLayout = roomScroller.getChildAt(0) as LinearLayout
         val columnWidth = horizontalScroller.columnWidth
         addRoomTitleViews(roomTitlesRowLayout, columnWidth, scheduleData.roomNames)
-        addRoomColumns(horizontalScroller, columnWidth, scheduleData)
+        addRoomColumns(horizontalScroller, columnWidth, scheduleData, useDeviceTimeZone)
 
         MainActivity.instance.shouldScheduleScrollToCurrentTimeSlot {
             if (!viewModel.preserveVerticalScrollPosition) {
@@ -284,7 +286,8 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
     private fun addRoomColumns(
         horizontalScroller: HorizontalSnapScrollView,
         columnWidth: Int,
-        scheduleData: ScheduleData
+        scheduleData: ScheduleData,
+        useDeviceTimeZone: Boolean,
     ) {
         val columnsLayout = horizontalScroller.getChildAt(0) as LinearLayout
         // TODO Optimization: Track room names and check if they can be re-used with the updated scheduleData
@@ -308,6 +311,7 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
             val adapter = SessionViewColumnAdapter(
                 sessions = roomSessions,
                 layoutParamsBySession = layoutParamsBySession,
+                useDeviceTimeZone = useDeviceTimeZone,
                 drawer = sessionViewDrawer,
                 eventsHandler = this
             )
@@ -395,6 +399,7 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
 
     private fun fillTimes(parameters: List<TimeTextViewParameter>) {
         val timeTextColumn = requireView().requireViewByIdCompat<LinearLayout>(R.id.times_layout)
+        timeTextColumn.importantForAccessibility = IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS
         timeTextColumn.removeAllViews()
         var timeTextView: View
         for ((layout, height, titleText) in parameters) {
