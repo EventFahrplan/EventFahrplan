@@ -15,6 +15,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.view.View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.HorizontalScrollView
@@ -254,6 +255,7 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
         horizontalScroller.setRoomsCount(roomCount)
 
         val roomScroller = layoutRoot.requireViewByIdCompat<HorizontalScrollView>(R.id.roomScroller)
+        roomScroller.importantForAccessibility = IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS
         val roomTitlesRowLayout = roomScroller.getChildAt(0) as LinearLayout
         val columnWidth = horizontalScroller.columnWidth
         addRoomTitleViews(roomTitlesRowLayout, columnWidth, scheduleData.roomNames)
@@ -395,6 +397,7 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
 
     private fun fillTimes(parameters: List<TimeTextViewParameter>) {
         val timeTextColumn = requireView().requireViewByIdCompat<LinearLayout>(R.id.times_layout)
+        timeTextColumn.importantForAccessibility = IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS
         timeTextColumn.removeAllViews()
         var timeTextView: View
         for ((layout, height, titleText) in parameters) {
