@@ -6,7 +6,6 @@ import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import info.metadude.android.eventfahrplan.commons.testing.MainDispatcherTestRule
 import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedNever
 import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedOnce
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
@@ -42,7 +41,6 @@ import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
 import org.threeten.bp.ZoneOffset
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class FahrplanViewModelTest {
 
     @get:Rule
@@ -57,7 +55,7 @@ class FahrplanViewModelTest {
         val repository = createRepository(uncanceledSessionsForDayIndexFlow = emptyFlow())
         val viewModel = createViewModel(repository)
         viewModel.fahrplanParameter.test {
-            expectNoEvents()
+            awaitComplete()
         }
         viewModel.fahrplanEmptyParameter.test {
             expectNoEvents()
@@ -81,7 +79,7 @@ class FahrplanViewModelTest {
             assertThat(awaitItem()).isEqualTo(expected)
         }
         viewModel.fahrplanParameter.test {
-            expectNoEvents()
+            awaitComplete()
         }
         verifyInvokedOnce(repository).readMeta()
         verifyInvokedNever(repository).readDisplayDayIndex()
@@ -100,7 +98,7 @@ class FahrplanViewModelTest {
             expectNoEvents()
         }
         viewModel.fahrplanParameter.test {
-            expectNoEvents()
+            awaitComplete()
         }
         verifyInvokedOnce(repository).readMeta()
         verifyInvokedNever(repository).readDisplayDayIndex()

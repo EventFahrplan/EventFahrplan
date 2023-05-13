@@ -8,7 +8,6 @@ import info.metadude.kotlin.library.engelsystem.EngelsystemApi
 import info.metadude.kotlin.library.engelsystem.EngelsystemService
 import info.metadude.kotlin.library.engelsystem.adapters.ZonedDateTimeJsonAdapter
 import info.metadude.kotlin.library.engelsystem.models.Shift
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import okhttp3.OkHttpClient
 import okhttp3.mockwebserver.MockResponse
@@ -24,7 +23,6 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import java.io.EOFException
 import java.net.HttpURLConnection
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class EngelsystemNetworkRepositoryTest {
 
     private companion object {

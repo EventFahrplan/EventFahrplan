@@ -5,7 +5,6 @@ import com.google.common.truth.Truth.assertThat
 import info.metadude.android.eventfahrplan.commons.testing.MainDispatcherTestRule
 import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedOnce
 import info.metadude.android.eventfahrplan.database.repositories.SessionsDatabaseRepository
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import nerd.tuxmobil.fahrplan.congress.TestExecutionContext
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toSessionsDatabaseModel
@@ -21,7 +20,6 @@ import org.mockito.kotlin.whenever
 /**
  * Test class to deal with sessions which interact with the [SessionsDatabaseRepository].
  */
-@OptIn(ExperimentalCoroutinesApi::class)
 class AppRepositorySessionsTest {
 
     @get:Rule
