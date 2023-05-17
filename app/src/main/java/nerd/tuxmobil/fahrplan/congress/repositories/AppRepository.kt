@@ -574,6 +574,14 @@ object AppRepository {
             }
 
     @WorkerThread
+    fun deleteAllAlarms() =
+        alarmsDatabaseRepository.deleteAll().also {
+            refreshAlarms()
+            refreshSelectedSession()
+            refreshUncanceledSessions()
+        }
+
+    @WorkerThread
     fun deleteAlarmForSessionId(sessionId: String) =
         alarmsDatabaseRepository.deleteForSessionId(sessionId).also {
             refreshAlarms()

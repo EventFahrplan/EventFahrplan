@@ -42,7 +42,7 @@ class RealAlarmsDatabaseRepository(
     }
 
     override fun query(): List<Alarm> = query {
-        read(AlarmsTable.NAME)
+        read(AlarmsTable.NAME, orderBy = TIME)
     }
 
     override fun query(sessionId: String): List<Alarm> = query {
@@ -75,6 +75,10 @@ class RealAlarmsDatabaseRepository(
         }
 
         return alarms
+    }
+
+    override fun deleteAll() = delete {
+        delete(AlarmsTable.NAME)
     }
 
     override fun deleteForAlarmId(alarmId: Int) = delete {
