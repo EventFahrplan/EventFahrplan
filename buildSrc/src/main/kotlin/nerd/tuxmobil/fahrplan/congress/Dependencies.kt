@@ -15,6 +15,20 @@ object Android {
     const val targetSdkVersion = 33
 }
 
+object Compose {
+
+    object Versions {
+        internal const val bom = "2023.05.01"
+        const val compiler = "1.4.7"
+    }
+
+    const val bom = "androidx.compose:compose-bom:${Versions.bom}"
+    const val material = "androidx.compose.material3:material3"
+    const val uiTooling = "androidx.compose.ui:ui-tooling"
+    const val uiToolingPreview = "androidx.compose.ui:ui-tooling-preview"
+
+}
+
 object Plugins {
 
     private object Versions {
