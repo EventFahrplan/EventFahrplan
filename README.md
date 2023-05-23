@@ -65,7 +65,7 @@ Please read the instructions in the [contribution guide](CONTRIBUTING.md) in ord
 ## Android versions
 
 The application is designed to work both on smartphones and on tablets.
-Android 4.1 (Jelly Bean) and newer versions are supported.
+Android 5.0 (Lollipop) and newer versions are supported.
 
 
 ## Event data

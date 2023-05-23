@@ -8,7 +8,6 @@ import android.graphics.drawable.LayerDrawable
 import android.graphics.drawable.RippleDrawable
 import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.RoundRectShape
-import android.os.Build
 import androidx.annotation.ColorInt
 
 class SessionDrawable @JvmOverloads constructor(
@@ -48,14 +47,9 @@ class SessionDrawable @JvmOverloads constructor(
             val strokeDrawable = ShapeDrawable(strokeShape).apply { paint.color = strokeColor }
 
             // Ripples
-            val backgroundRippleDrawable =
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    RippleDrawable(
-                        ColorStateList.valueOf(rippleColor), backgroundDrawable, backgroundDrawable
-                    )
-                } else {
-                    backgroundDrawable
-                }
+            val backgroundRippleDrawable = RippleDrawable(
+                    ColorStateList.valueOf(rippleColor), backgroundDrawable, backgroundDrawable
+                )
 
             // Layers
             return Array(2) {

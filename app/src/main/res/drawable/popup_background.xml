@@ -1,8 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-Workaround to fix visual distortion of popup menu on Android 5.0 (Lollipop)
-See: https://issuetracker.google.com/issues/37038337, https://stackoverflow.com/a/29637669/356895
--->
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
 

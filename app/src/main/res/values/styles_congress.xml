@@ -56,7 +56,7 @@
     </style>
 
     <style name="ContextPopupMenuStyle" parent="@style/Widget.AppCompat.Light.PopupMenu.Overflow">
-        <item name="android:popupBackground">@color/popupBackground</item>
+        <item name="android:popupBackground">@drawable/popup_background</item>
     </style>
 
     <style name="SpinnerItemStyle" parent="Widget.AppCompat.DropDownItem.Spinner">
@@ -88,19 +88,19 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_alignParentTop">true</item>
         <item name="android:background">@color/tool_bar_background</item>
-        <item name="android:elevation" tools:targetApi="lollipop">@dimen/tool_bar_elevation</item>
+        <item name="android:elevation">@dimen/tool_bar_elevation</item>
         <item name="android:minHeight">?attr/actionBarSize</item>
     </style>
 
     <style name="PopupMenuOverflowStyle" parent="@style/Widget.AppCompat.Light.PopupMenu.Overflow">
-        <item name="android:popupBackground">@color/popupBackground</item>
+        <item name="android:popupBackground">@drawable/popup_background</item>
     </style>
 
     <style name="ProgressBar" parent="Base.Widget.AppCompat.ProgressBar.Horizontal">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">16dp</item>
         <item name="android:layout_marginTop">-10dp</item>
-        <item name="android:elevation" tools:targetApi="lollipop">@dimen/progress_bar_elevation</item>
+        <item name="android:elevation">@dimen/progress_bar_elevation</item>
         <item name="android:indeterminate">true</item>
         <item name="android:visibility">gone</item>
     </style>
