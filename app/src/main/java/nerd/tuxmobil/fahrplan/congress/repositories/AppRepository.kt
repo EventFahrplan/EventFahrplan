@@ -144,6 +144,28 @@ object AppRepository {
             .flowOn(executionContext.database)
     }
 
+    private val refreshSessionsSignal = MutableSharedFlow<Unit>()
+
+    private fun refreshSessions() {
+        logging.d(LOG_TAG, "Refreshing sessions ...")
+        val requestIdentifier = "refreshSessions"
+        parentJobs[requestIdentifier] = databaseScope.launchNamed(requestIdentifier) {
+            refreshSessionsSignal.emit(Unit)
+        }
+    }
+
+    /**
+     * Emits all sessions from the database..
+     * The returned list might be empty.
+     */
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val sessions: Flow<List<Session>> by lazy {
+        refreshSessionsSignal
+            .onStart { emit(Unit) }
+            .mapLatest { loadSessionsForAllDays() }
+            .flowOn(executionContext.database)
+    }
+
     private val refreshChangedSessionsSignal = MutableSharedFlow<Unit>()
 
     private fun refreshChangedSessions() {
@@ -454,6 +476,13 @@ object AppRepository {
         return readSessionBySessionId(sessionId)
     }
 
+    /**
+     * Loads all sessions from the database including Engelsystem shifts.
+     * The returned list might be empty.
+     */
+    @WorkerThread
+    private fun loadSessionsForAllDays() = loadSessionsForAllDays(true)
+        .also { logging.d(LOG_TAG, "${it.size} sessions with alarm.") }
 
     /**
      * Load all sessions for the currently configured day from the database which have not been
@@ -574,6 +603,14 @@ object AppRepository {
             }
 
     @WorkerThread
+    fun deleteAllAlarms() =
+        alarmsDatabaseRepository.deleteAll().also {
+            refreshAlarms()
+            refreshSelectedSession()
+            refreshUncanceledSessions()
+        }
+
+    @WorkerThread
     fun deleteAlarmForSessionId(sessionId: String) =
         alarmsDatabaseRepository.deleteForSessionId(sessionId).also {
             refreshAlarms()
@@ -675,6 +712,7 @@ object AppRepository {
         val toBeDeleted = toBeDeletedSessions.map { it.sessionId }
         sessionsDatabaseRepository.updateSessions(toBeUpdated, toBeDeleted)
         refreshStarredSessions()
+        refreshSessions()
         refreshChangedSessions()
         refreshSelectedSession()
         refreshUncanceledSessions()
@@ -782,11 +820,5 @@ object AppRepository {
 
     fun readInsistentAlarmsEnabled() =
             sharedPreferencesRepository.isInsistentAlarmsEnabled()
-
-    @Deprecated("Users of AppRepository should not have to be responsible for triggering change notifications. " +
-            "Replace with a mechanism internal to AppRepository.")
-    fun notifyAlarmsChanged() {
-        refreshUncanceledSessions()
-    }
 
 }

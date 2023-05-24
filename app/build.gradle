@@ -1,4 +1,5 @@
 import nerd.tuxmobil.fahrplan.congress.Android
+import nerd.tuxmobil.fahrplan.congress.Compose
 import nerd.tuxmobil.fahrplan.congress.Config
 import nerd.tuxmobil.fahrplan.congress.Libs
 
@@ -49,6 +50,14 @@ android {
         buildConfigField "boolean", "ENGAGE_GOOGLE_BETA_TESTING", "true"
         buildConfigField "boolean", "ENGAGE_GOOGLE_PLAY_RATING", "true"
         buildConfigField "boolean", "ENGAGE_LANDSCAPE_ORIENTATION", "true"
+    }
+
+    buildFeatures {
+        compose true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = Compose.Versions.compiler
     }
 
     buildTypes {
@@ -205,6 +214,15 @@ dependencies {
     implementation project(":database")
     implementation project(":network")
     implementation project(":engelsystem")
+
+    def composeBom = platform(Compose.bom)
+    implementation composeBom
+
+    // Android Studio preview support
+    implementation Compose.uiToolingPreview
+    debugImplementation Compose.uiTooling
+
+    implementation Compose.material
 
     implementation Libs.appCompat
     implementation Libs.betterLinkMovementMethod

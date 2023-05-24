@@ -33,13 +33,6 @@
     <!-- Should be half of scrollbar_size at maximum -->
     <dimen name="scrollbar_corner_radius">0dp</dimen>
 
-    <!-- Alarm list -->
-    <dimen name="alarm_list_icon_stroke_width">2dp</dimen>
-    <dimen name="alarm_list_icon_width">40dp</dimen>
-    <dimen name="alarm_list_icon_height">@dimen/alarm_list_icon_width</dimen>
-    <dimen name="alarm_list_alarm_start_time_text">10sp</dimen>
-    <dimen name="alarm_list_alarm_title_text">16sp</dimen>
-
     <!-- Tool bar -->
     <dimen name="tool_bar_content_inset_start">24dp</dimen>
     <dimen name="tool_bar_elevation">8dp</dimen>

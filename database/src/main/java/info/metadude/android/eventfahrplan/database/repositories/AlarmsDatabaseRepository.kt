@@ -11,6 +11,7 @@ interface AlarmsDatabaseRepository {
     fun query(): List<Alarm>
     fun query(sessionId: String): List<Alarm>
     fun query(query: SQLiteDatabase.() -> Cursor): List<Alarm>
+    fun deleteAll(): Int
     fun deleteForAlarmId(alarmId: Int): Int
     fun deleteForSessionId(sessionId: String): Int
     fun delete(query: SQLiteDatabase.() -> Int): Int
