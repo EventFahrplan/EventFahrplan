@@ -18,8 +18,8 @@ object Android {
 object Compose {
 
     object Versions {
-        internal const val bom = "2023.05.01"
-        const val compiler = "1.4.7"
+        internal const val bom = "2023.06.01"
+        const val compiler = "1.4.8"
     }
 
     const val bom = "androidx.compose:compose-bom:${Versions.bom}"
@@ -35,8 +35,8 @@ object Plugins {
         const val android = "7.4.2"
         const val androidJunitJacoco = "0.16.0"
         const val dexcount = "4.0.0"
-        const val kotlin = "1.8.21"
-        const val ksp = "1.8.21-1.0.11"
+        const val kotlin = "1.8.22"
+        const val ksp = "1.8.22-1.0.11"
         const val sonarQube = "4.0.0.2929"
         const val unMock = "0.7.9"
         const val versions = "0.47.0"
