@@ -72,7 +72,7 @@ object Libs {
         const val material = "1.9.0"
         const val mockito = "5.3.0"
         const val mockitoKotlin = "5.0.0"
-        const val moshi = "1.14.0"
+        const val moshi = "1.15.0"
         const val multiDex = "2.0.1"
         const val okhttp = "4.11.0"
         const val preference = "1.2.0"
