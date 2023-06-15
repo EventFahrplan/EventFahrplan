@@ -58,6 +58,7 @@
     <string name="preference_title_alternative_highlighting_enabled">Kytke päälle vaihtoehtoinen korostus</string>
     <string name="preference_summary_alternative_highlighting_enabled">Lisää reunakkeet lempi-istuntojen ympärille.</string>
     <!-- Alternative schedule URL -->
+    <string name="preference_default_value_alternative_schedule_url" translatable="false"></string>
     <string name="preference_title_alternative_schedule_url">Määritä vaihotehtoinen aikataulu-URL</string>
     <string name="preference_summary_alternative_schedule_url">Syötä varmuustaltion URL mikäli ennalta-aseteltu palvelin ei ole tavoitettavissa.</string>
     <!-- App notification settings -->
@@ -67,6 +68,7 @@
     <string name="preference_title_insistent_alarms_enabled">Kytke päälle lannistumattomasti vaativa hälytys</string>
     <string name="preference_summary_insistent_alarms_enabled">Laittaa hälytyksen jatkumaan loputtomasti.</string>
     <!-- Category Engelsystem -->
+    <string name="preference_default_value_engelsystem_json_export_url" translatable="false"></string>
     <string name="preference_summary_engelsystem_json_export_url"><![CDATA[Jotta näkisit vuorovaihtelusi, syötä <u>henkilökohtainen</u> URL-osoitteesi tähän.<br/><br/>
         1. Kirjaudu <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g> tilillesi.<br/>
         2. Kopioi URL joka on <u>JSON Export</u> -napin takana profiilisivullasi.<br/>
