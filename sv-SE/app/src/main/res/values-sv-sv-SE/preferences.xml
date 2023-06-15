@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Screen -->
+    <!-- Category development -->
+    <!-- Schedule refresh interval -->
+    <!--
+    Synchronize with @strings/preference_default_value_schedule_refresh_interval_value
+    -->
+    <!--
+    Synchronize with @integers/preference_default_value_schedule_refresh_interval_index
+    and string-array/preference_entry_values_schedule_refresh
+    -->
+    <string-array name="preference_entries_schedule_refresh_interval_titles">
+        <item>@string/schedule_refresh_interval_title_unmodified</item>
+        <item>@string/schedule_refresh_interval_title_every_30_seconds</item>
+        <item>@string/schedule_refresh_interval_title_every_60_seconds</item>
+        <item>@string/schedule_refresh_interval_title_every_120_seconds</item>
+    </string-array>
+    <!--
+    Synchronize with @strings/preference_default_value_schedule_refresh_interval_value
+    and @integers/preference_default_value_schedule_refresh_interval_index
+    -->
+    <!-- Category general -->
+    <!-- Automatic schedule updates -->
+    <string name="preference_title_auto_update_enabled">Aktivera automatiska uppdateringar</string>
+    <string name="preference_summary_auto_update_enabled">Ladda ner schemat med jämna mellanrum.</string>
+    <!-- Alarm time index -->
+    <!--
+    Synchronize with @strings/preference_default_value_alarm_time_value
+    -->
+    <!--
+    Synchronize with @integers/preference_default_value_alarm_time_index
+    and string-array/preference_entry_values_alarm_time
+    -->
+    <string name="preference_dialog_title_alarm_time">Välj en standard larmtid</string>
+    <string name="preference_title_alarm_time">Välj standard larmtid</string>
+    <string-array name="preference_entries_alarm_time_titles">
+        <item>@string/alarm_time_title_at_start_time</item>
+        <item>@string/alarm_time_title_5_minutes_before</item>
+        <item>@string/alarm_time_title_10_minutes_before</item>
+        <item>@string/alarm_time_title_15_minutes_before</item>
+        <item>@string/alarm_time_title_20_minutes_before</item>
+        <item>@string/alarm_time_title_30_minutes_before</item>
+        <item>@string/alarm_time_title_45_minutes_before</item>
+        <item>@string/alarm_time_title_60_minutes_before</item>
+    </string-array>
+    <!--
+    Synchronize with @strings/preference_default_value_alarm_time_value
+    and @integers/preference_default_value_alarm_time_index
+    -->
+    <!-- Alarm tone -->
+    <string name="preference_title_alarm_tone">Välj larmton</string>
+    <string name="preference_summary_alarm_tone">Öppna skärmen för ljudval härifrån.</string>
+    <!-- Device time zone -->
+    <string name="preference_title_use_device_time_zone_enabled">Använd enhetens tidszon</string>
+    <string name="preference_summary_use_device_time_zone_enabled">Visar datum och tider i enlighet med detta.</string>
+    <!-- Alternative highlighting -->
+    <string name="preference_title_alternative_highlighting_enabled">Aktivera alternativ markering</string>
+    <string name="preference_summary_alternative_highlighting_enabled">Lägger till en gräns runt gynnade sessioner.</string>
+    <!-- Alternative schedule URL -->
+    <string name="preference_default_value_alternative_schedule_url" translatable="false"></string>
+    <string name="preference_title_alternative_schedule_url">Konfigurera en alternativ URL för schemat</string>
+    <string name="preference_summary_alternative_schedule_url">Ange en backup-URL om den förkonfigurerade servern inte kan nås.</string>
+    <!-- App notification settings -->
+    <string name="preference_title_app_notification_settings">Anpassa meddelanden</string>
+    <string name="preference_summary_app_notification_settings">Öppna skärmen för tillhörande systeminställningar härifrån.</string>
+    <!-- Insistent session alarms -->
+    <string name="preference_title_insistent_alarms_enabled">Aktivera insisterande larm</string>
+    <string name="preference_summary_insistent_alarms_enabled">Håller ett larm oändligt.</string>
+    <!-- Category Engelsystem -->
+    <string name="preference_default_value_engelsystem_json_export_url" translatable="false"></string>
+    <string name="preference_summary_engelsystem_json_export_url"><![CDATA[För att se dina skift ber vi dig att ange din <u>personliga</u> URL här.<br/><br/>
+        1. Logga in på din <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g> konto.<br/>
+        2. Kopiera webbadressen bakom <u>JSON Export</u> på din profilsida.<br/>
+        3. Klistra in webbadressen här<br/><br/>
+        Skift före och efter huvudkonferensdagarna <u>inte</u> visade.]]></string>
+    <string name="preference_title_engelsystem_json_export_url">Konfigurera URL för JSON-export</string>
+</resources>
