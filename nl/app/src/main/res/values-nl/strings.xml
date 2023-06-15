@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Menu items -->
+    <string name="menu_item_title_about">Info</string>
+    <string name="menu_item_title_add_to_calendar">Toevoegen aan kalender</string>
+    <string name="menu_item_title_alarms">Alarmen</string>
+    <string name="menu_item_title_close_session_details">Sluit detail weergave</string>
+    <string name="menu_item_title_flag_as_favorite">Toevoegen aan favorieten</string>
+    <string name="menu_item_title_unflag_as_favorite">Verwijder van favorieten</string>
+    <string name="menu_item_title_delete_favorite">Verwijderen</string>
+    <string name="menu_item_title_set_alarm">Alarm aanzetten</string>
+    <string name="menu_item_title_delete_alarm">Alarm verwijderen</string>
+    <string name="menu_item_title_delete_all">Alles verwijderen</string>
+    <string name="menu_item_title_favorites">Favorieten</string>
+    <string name="menu_item_title_feedback">Feedback</string>
+    <string name="menu_item_title_navigate">Navigeren</string>
+    <string name="menu_item_title_refresh">Verversen</string>
+    <string name="menu_item_title_share_session">Deel evenement</string>
+    <string name="menu_item_title_share_favorites">Deel favorieten</string>
+    <string name="menu_item_title_share_session_text">als tekst</string>
+    <string name="menu_item_title_share_session_json">als JSON (voor Chaosflix)</string>
+    <string name="share_as_text">Deel als tekst</string>
+    <string name="share_as_json">Deel als JSON (voor Chaosflix)</string>
+    <!-- AlertDialog -->
+    <string name="OK">OK</string>
+    <!-- CertificateErrorFragment -->
+    <string name="certificate_error_message">        Kan geen veilige verbinding tot stand brengen.\n
+        (<xliff:g example="Onbekende error" id="error">%s</xliff:g>)
+    </string>
+    <string name="certificate_error_title">Certificaat kon niet worden toegevoegd.</string>
+    <!-- Error messages -->
+    <string name="dlg_err_connection_failed">Verbindingsfout</string>
+    <string name="dlg_err_failed_unknown_host">Onbekend adres:\n%s</string>
+    <string name="dlg_err_failed_wrong_http_credentials">Invalide HTTP authenticatie</string>
+    <string name="dlg_err_failed_timeout">Server reageert niet (Time-out).</string>
+    <string name="dlg_err_failed_connect_failure">Onbekende verbindingsfout</string>
+    <string name="dlg_err_failed_not_found">Ongeldige schema-URL</string>
+    <string name="dlg_err_failed_parse_failure">Kon antwoord niet decoderen.</string>
+    <string name="dlg_err_failed_ssl_failure">SSL fout</string>
+    <string name="dlg_err_failed_http_cleartext_not_permitted">HTTP is niet toegestaan. Gebruik HTTPS.</string>
+    <string name="dlg_err_schedule_data">Schema data error</string>
+    <string name="dlg_err_schedule_data_empty">Niets weer te geven. Het schema met versie <xliff:g example="0.99" id="version">%s</xliff:g> bevat geen sessie.</string>
+    <string name="dlg_err_schedule_data_empty_without_version">Niets weer te geven. Het schema bevat geen sessie.</string>
+    <string name="uptodate">Tijdschema is actueel.</string>
+    <!-- Schedule changes dialog -->
+    <string name="schedule_changes_dialog_title">Tijdschema update</string>
+    <string name="schedule_changes_dialog_updated_to_text">Tijdschema is geupdate naar versie\u0020</string>
+    <string name="schedule_changes_dialog_changed_new_cancelled_text">. Er zijn updates voor <xliff:g example="3 evenementen" id="num_changes">%1$s</xliff:g>, <xliff:g example="2 zijn" id="num_new">%2$s</xliff:g> <xliff:g example="nieuw" id="phrase_new">%3$s</xliff:g>, <xliff:g example="1 is" id="num_canceled">%4$s</xliff:g> <xliff:g example="geannuleerd" id="phrase_cancelled">%5$s</xliff:g>.</string>
+    <string name="schedule_changes_dialog_affected_text">De update betreft <xliff:g example="2" id="num_marked">%1$d</xliff:g> van uw favorieten evenementen.</string>
+    <plurals name="schedule_changes_dialog_phrase_new">
+        <item quantity="one">nieuw</item>
+        <item quantity="other">new</item>
+    </plurals>
+    <plurals name="schedule_changes_dialog_phrase_cancelled">
+        <item quantity="one">geannuleerd</item>
+        <item quantity="other">cancelled</item>
+    </plurals>
+    <plurals name="schedule_changes_dialog_number_of_sessions">
+        <item quantity="one">%d evenement</item>
+        <item quantity="other">%d evenementen</item>
+    </plurals>
+    <plurals name="schedule_changes_dialog_being">
+        <item quantity="one">%d is</item>
+        <item quantity="other">%d zijn</item>
+    </plurals>
+    <string name="schedule_changes_dialog_browse">Bladeren</string>
+    <string name="schedule_changes_dialog_later">Later</string>
+    <string name="progress_loading_data">Tijdschema ophalen &#8230;</string>
+    <string name="progress_processing_data">Tijdschema verwerken &#8230;</string>
+    <string name="load_data">Laden</string>
+    <string name="choose_day">Kies dag</string>
+    <string name="day">Dag</string>
+    <string name="fahrplan">Tijdschema</string>
+    <string name="appVersion">App Versie %s</string>
+    <string name="schedule_updated_to">        Aangepast naar <xliff:g example="Mildenberg 2018-01-16 16:50" id="version">%s</xliff:g>
+    </string>
+    <string name="schedule_updated">        Tijdschema is bijgewerkt.
+    </string>
+    <string name="settings">Instellingen</string>
+    <string name="session_details_section_title_track">Subject area</string>
+    <string name="session_details_section_title_session_online">Evenement online</string>
+    <string name="session_details_section_title_links">Links</string>
+    <string name="choose_alarm_time">Kies alarmtijd</string>
+    <string name="reminders">Alarmen</string>
+    <string name="usage">Tip:\n\nLang indrukken op een evenement om een alarm aan te zetten.</string>
+    <string name="about_libraries_statement">        Deze applicatie gebruikt de volgende software-bibliotheken: <xliff:g example="Kotlin, Espresso" id="libs">%s</xliff:g>
+    </string>
+    <string name="about_data_privacy_statement_german">Data privacy verklaring (Duits)</string>
+    <string name="about_f_droid_listing">F-Droid vermelding</string>
+    <string name="about_google_play_listing">Google Play vermelding</string>
+    <string name="about_issues_or_feature_requests">Problemen of functie verzoeken</string>
+    <string name="about_source_code">Bron-code</string>
+    <string name="today">vandaag</string>
+    <string name="schedule_parsing_error_generic">Onbekende fout tijdens verwerken tijdschema</string>
+    <string name="schedule_parsing_error_with_version">Verwerkings fout voor tijdschema versie %s</string>
+    <string name="engelsystem_shifts_parsing_error_generic">Unknown error while parsing <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g> shifts</string>
+    <string name="engelsystem_shifts_parsing_error_forbidden">Invalid API key for <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g> shifts</string>
+    <string name="engelsystem_shifts_parsing_error_not_found">Wrong URL for <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g> shifts</string>
+    <string name="add_to_calendar_failed">Evenement toevoegen aan kalender is mislukt.</string>
+    <string name="no_changes">Geen tijdschema veranderingen</string>
+    <string name="no_favorites">Geen favorieten evenementen</string>
+    <string name="schedule_changes">Tijdschema veranderingen</string>
+    <string name="general_settings">Algemeen</string>
+    <string name="starred_sessions">Favorieten</string>
+    <string name="invalid_url">Ongeldige URL</string>
+    <string name="choose_to_delete">Kies evenementen</string>
+    <string name="day_separator">Dag <xliff:g example="2" id="day_of_congress">%1$d</xliff:g> - <xliff:g example="29.12.2014" id="date_of_congress_day">%2$s</xliff:g></string>
+    <string name="dlg_delete_all_favorites">Alle favorieten verwijderen?</string>
+    <string name="dlg_delete_all_favorites_delete_all">Alles verwijderen</string>
+    <string name="share_error_activity_not_found">Geen passende app geïnstalleerd.</string>
+    <!-- Build information -->
+    <string name="build_info_time">        Build-tijd: <xliff:g example="2015-12-27T13:42Z" id="build_time">%s</xliff:g>
+    </string>
+    <string name="build_info_version_code">        Versie-Code: <xliff:g example="42" id="version_code">%s</xliff:g>
+    </string>
+    <string name="build_info_hash">        Versie-Hash: <xliff:g example="e1f2g3h-dirty" id="build_hash">%s</xliff:g>
+    </string>
+    <!-- App disclaimer -->
+    <string name="app_disclaimer">        Deze applicatie is gebaseerd op de broncode van de applicatie &#8220;EventFahrplan&#8221;.
+        Bezoekers van het jaarlijkse congres en kamp georganiseerd door de Chaos Computer Club
+        gebruiken de app om het evenementprogramma bij te houden.
+    </string>
+    <!-- SnackEngage -->
+    <string name="snack_engage_rate_title">Tevreden?</string>
+    <string name="snack_engage_rate_action">Beoordeel de App</string>
+    <string name="snack_engage_google_play_beta_testing_title">Nieuwgierig?</string>
+    <string name="snack_engage_google_play_beta_testing_action">Wordt een Beta-Tester</string>
+    <string name="snack_engage_c3nav_title">Indoor-navigatie tijdens <xliff:g example="35C3" id="conferenceName">%s</xliff:g>! Met de c3nav-App</string>
+    <string name="snack_engage_c3nav_action">Installeer nu!</string>
+    <string name="snack_engage_landscape_orientation_title">Tried landscape mode?</string>
+    <string name="snack_engage_landscape_orientation_action">Rotate your device!</string>
+    <!-- TraceDroid -->
+    <string name="trace_droid_dialog_title">        <xliff:g example="33C3 Fahrplan" id="appName">%s</xliff:g> crash-rapport versturen &#8230;
+    </string>
+    <string name="trace_droid_dialog_message">        Er is een probleem opgetreden met de app <xliff:g example="33C3 Fahrplan" id="appName">%s</xliff:g>.
+        Het zou help vol zijn als u het crash-rapport zou kunnen delen,
+        zodat we er alles aan kunnen doen om het probleem op te lossen.
+    </string>
+    <string name="trace_droid_button_title_send">        E-mail openen
+    </string>
+    <string name="trace_droid_no_email_app">        Geen compatibele e-mailapp geïnstalleerd.
+    </string>
+    <string name="trace_droid_button_title_no">        Nee
+    </string>
+    <string name="trace_droid_button_title_later">        Later
+    </string>
+    <!-- Notifications -->
+    <string name="notifications_session_alarm_channel_description">        Door de gebruiker aangemaakte alarmen voor verschillende evenementen.
+    </string>
+    <string name="notifications_session_alarm_channel_name">Alarmen voor evenementen</string>
+    <string name="notifications_session_alarm_content_text">Alarm voor evenement</string>
+    <string name="notifications_schedule_update_channel_description">        Automatische updates voor het tijdschema kunnen worden ingesteld in de instellingen.
+    </string>
+    <string name="notifications_schedule_update_channel_name">Tijdschema veranderingen</string>
+    <plurals name="notifications_schedule_changes">
+        <item quantity="one"><xliff:g example="1" id="count">%d</xliff:g> evenement is aangepast.</item>
+        <item quantity="other"><xliff:g example="3" id="count">%d</xliff:g> evenementen zijn aangepast.</item>
+    </plurals>
+    <!-- Schedule refresh interval picker -->
+    <!-- Alarm time picker -->
+    <string name="alarm_time_title_at_start_time">bij aanvangstijd</string>
+    <string name="alarm_time_title_5_minutes_before">5 minuten eerder</string>
+    <string name="alarm_time_title_10_minutes_before">10 minuten eerder</string>
+    <string name="alarm_time_title_15_minutes_before">15 minuten eerder</string>
+    <string name="alarm_time_title_20_minutes_before">20 minuten eerder</string>
+    <string name="alarm_time_title_30_minutes_before">30 minuten eerder</string>
+    <string name="alarm_time_title_45_minutes_before">45 minuten eerder</string>
+    <string name="alarm_time_title_60_minutes_before">60 minuten eerder</string>
+    <string name="alarms_disabled_notifications_permission_missing">Alarms are disabled. Please grant the \"Notifications\" permission.</string>
+    <!-- Session list item -->
+    <string name="session_list_item_duration_text"><xliff:g example="45" id="duration">%d</xliff:g> min.</string>
+    <string name="session_list_item_duration_content_description">Duur: <xliff:g example="45" id="duration">%d</xliff:g> minuten</string>
+    <string name="session_list_item_favored_content_description">favoriet</string>
+    <string name="session_list_item_not_favored_content_description">geen favoriet</string>
+    <string name="session_list_item_room_content_description">Kamer: <xliff:g example="Main hall" id="room">%s</xliff:g></string>
+    <string name="session_list_item_start_time_content_description">Starttijd: <xliff:g example="16:30" id="startTime">%s</xliff:g></string>
+    <string name="session_list_item_title_content_description">Title: <xliff:g example="Berlin stories" id="title">%s</xliff:g></string>
+    <string name="session_list_item_subtitle_content_description">Ondertitel: <xliff:g example="News from Berlin" id="subtitle">%s</xliff:g></string>
+    <string name="session_list_item_track_content_description">Track: <xliff:g example="Security" id="trackName">%s</xliff:g></string>
+    <string name="session_list_item_language_content_description">Taal: <xliff:g example="English" id="language">%s</xliff:g></string>
+    <string name="session_list_item_language_portuguese_content_description">Portugees</string>
+    <string name="session_list_item_language_german_content_description">Duits</string>
+    <string name="session_list_item_language_english_content_description">Engels</string>
+    <string name="session_list_item_language_unknown_content_description">Onbekende taal</string>
+    <string name="session_list_item_language_removed_content_description">Taal informatie is verwijderd</string>
+    <string name="session_list_item_no_video_content_description">Geen video-opname</string>
+    <string name="session_list_item_video_content_description">Met video-opname</string>
+    <string name="session_list_item_without_video_content_description">Zonder video-opname</string>
+    <plurals name="session_list_item_speakers_content_description">
+        <item quantity="one">Spreker: <xliff:g example="Jane Doe" id="name">%s</xliff:g></item>
+        <item quantity="other">Sprekers: <xliff:g example="Jane Doe, John Doe" id="names">%s</xliff:g></item>
+    </plurals>
+    <!-- Alarms -->
+    <string name="alarms_empty">        There are no alarms to display. Please note that you
+        can set up an individual alarm for each session in the schedule.
+        To do so tap the alarm icon in the menu bar of the session screen.
+    </string>
+    <string name="alarms_item_on_click_label">        Open details screen
+    </string>
+    <string name="alarms_item_delete_icon_on_click_label">        Clear alarm
+    </string>
+    <string name="alarms_item_alarm_time_zero_minutes_content_description">        Alarm: at start time
+    </string>
+    <string name="alarms_item_alarm_time_minutes_content_description">        Alarm: <xliff:g example="5" id="minutes">%d</xliff:g> minutes before
+    </string>
+    <string name="alarms_item_fires_at_content_description">        Fires at: <xliff:g example="16:20" id="alarmTime">%s</xliff:g>
+    </string>
+    <!-- Validation errors -->
+    <string name="validation_error_invalid_url">Invalide <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL.</string>
+    <string name="validation_error_url_without_query"><xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL zonder query gedeelte.</string>
+    <string name="validation_error_url_with_incomplete_query"><xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL met incompleet query gedeelte.</string>
+    <string name="validation_error_url_without_api_key"><xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL zonder API sleutel.</string>
+</resources>
