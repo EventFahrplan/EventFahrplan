@@ -96,10 +96,6 @@
     <string name="engelsystem_shifts_parsing_error_generic">Okänt fel vid parsning av <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g> skift</string>
     <string name="engelsystem_shifts_parsing_error_forbidden">Ogiltig API-nyckel för <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g> skift</string>
     <string name="engelsystem_shifts_parsing_error_not_found">Fel URL för <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g> skift</string>
-    <string name="alarms_empty">        Det finns inga alarm att visa. Vänligen notera att du
-        kan sätta upp individuella alarm för varje sak i schemat.
-        Klicka bara på alarm ikonen i menyn.
-    </string>
     <string name="add_to_calendar_failed">Det gick inte att lägga till händelsen i kalendern.</string>
     <string name="no_changes">Inga schemalagda händelser</string>
     <string name="no_favorites">Inga favoriserade föreläsningar</string>
@@ -168,16 +164,15 @@
     <string name="alarm_time_title_30_minutes_before">30 minuter innan</string>
     <string name="alarm_time_title_45_minutes_before">45 minuter innan</string>
     <string name="alarm_time_title_60_minutes_before">60 minuter innan</string>
+    <string name="alarms_disabled_notifications_permission_missing">Alarms are disabled. Please grant the \"Notifications\" permission.</string>
     <!-- Session list item -->
-    <string name="session_list_item_alarm_time_zero_minutes_content_description">Larm: vid starttid</string>
-    <string name="session_list_item_alarm_time_minutes_content_description">Larm: <xliff:g example="5" id="minutes">%d</xliff:g> minuter före</string>
-    <string name="session_list_item_alarm_time_content_description">Larmtid: <xliff:g example="16:20" id="alarmTime">%s</xliff:g></string>
     <string name="session_list_item_duration_text"><xliff:g example="45" id="duration">%d</xliff:g> min.</string>
     <string name="session_list_item_duration_content_description">Varaktighet: <xliff:g example="45" id="duration">%d</xliff:g> minuter</string>
     <string name="session_list_item_favored_content_description">gynnad</string>
     <string name="session_list_item_not_favored_content_description">inte gynnad</string>
     <string name="session_list_item_room_content_description">Rum: <xliff:g example="Main hall" id="room">%s</xliff:g></string>
     <string name="session_list_item_start_time_content_description">Starttid: <xliff:g example="16:30" id="startTime">%s</xliff:g></string>
+    <string name="session_list_item_title_content_description">Title: <xliff:g example="Berlin stories" id="title">%s</xliff:g></string>
     <string name="session_list_item_subtitle_content_description">Undertitel: <xliff:g example="News from Berlin" id="subtitle">%s</xliff:g></string>
     <string name="session_list_item_track_content_description">Spåra: <xliff:g example="Security" id="trackName">%s</xliff:g></string>
     <string name="session_list_item_language_content_description">Språk: <xliff:g example="English" id="language">%s</xliff:g></string>
@@ -193,6 +188,21 @@
         <item quantity="one">Högtalare: <xliff:g example="Jane Doe" id="name">%s</xliff:g></item>
         <item quantity="other">Högtalare: <xliff:g example="Jane Doe, John Doe" id="names">%s</xliff:g></item>
     </plurals>
+    <!-- Alarms -->
+    <string name="alarms_empty">        There are no alarms to display. Please note that you
+        can set up an individual alarm for each session in the schedule.
+        To do so tap the alarm icon in the menu bar of the session screen.
+    </string>
+    <string name="alarms_item_on_click_label">        Open details screen
+    </string>
+    <string name="alarms_item_delete_icon_on_click_label">        Clear alarm
+    </string>
+    <string name="alarms_item_alarm_time_zero_minutes_content_description">        Alarm: at start time
+    </string>
+    <string name="alarms_item_alarm_time_minutes_content_description">        Alarm: <xliff:g example="5" id="minutes">%d</xliff:g> minutes before
+    </string>
+    <string name="alarms_item_fires_at_content_description">        Fires at: <xliff:g example="16:20" id="alarmTime">%s</xliff:g>
+    </string>
     <!-- Validation errors -->
     <string name="validation_error_invalid_url">        Ogiltlig <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL.
     </string>
