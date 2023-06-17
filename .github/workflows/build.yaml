@@ -18,8 +18,8 @@ jobs:
       - name: Unit Tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 16
-          script: ./gradlew testDebugUnitTest assembleDebug lintAnalyzeDebug
+          api-level: 21
+          script: ./gradlew testJev2022DebugUnitTest assembleJev2022Debug lintAnalyzeJev2022Debug
 
       - name: Publish unit-test results
         uses: EnricoMi/publish-unit-test-result-action@v1
@@ -45,8 +45,8 @@ jobs:
       - name: Instrumentation Tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 16
-          script: ./gradlew connectedCheck
+          api-level: 21
+          script: ./gradlew connectedJev2022DebugAndroidTest
 
       - name: Publish unit-test results
         uses: EnricoMi/publish-unit-test-result-action/composite@v1

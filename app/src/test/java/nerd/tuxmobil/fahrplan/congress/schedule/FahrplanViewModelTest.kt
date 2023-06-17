@@ -1,19 +1,20 @@
 package nerd.tuxmobil.fahrplan.congress.schedule
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import info.metadude.android.eventfahrplan.commons.testing.MainDispatcherTestRule
-import info.metadude.android.eventfahrplan.commons.testing.assertLiveData
 import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedNever
 import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedOnce
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.runTest
 import nerd.tuxmobil.fahrplan.congress.NoLogging
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.TestExecutionContext
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices
+import nerd.tuxmobil.fahrplan.congress.models.Alarm
 import nerd.tuxmobil.fahrplan.congress.models.DateInfo
 import nerd.tuxmobil.fahrplan.congress.models.DateInfos
 import nerd.tuxmobil.fahrplan.congress.models.Meta
@@ -43,9 +44,6 @@ import org.threeten.bp.ZoneOffset
 class FahrplanViewModelTest {
 
     @get:Rule
-    val instantTaskExecutorRule = InstantTaskExecutorRule()
-
-    @get:Rule
     val mainDispatcherTestRule = MainDispatcherTestRule()
 
     private val simpleSessionFormat = mock<SimpleSessionFormat>()
@@ -53,49 +51,62 @@ class FahrplanViewModelTest {
     private val scrollAmountCalculator = mock<ScrollAmountCalculator>()
 
     @Test
-    fun `fahrplanParameter neither posts to fahrplanParameter nor fahrplanEmptyParameter properties`() {
+    fun `fahrplanParameter neither posts to fahrplanParameter nor fahrplanEmptyParameter properties`() = runTest {
         val repository = createRepository(uncanceledSessionsForDayIndexFlow = emptyFlow())
         val viewModel = createViewModel(repository)
-        assertLiveData(viewModel.fahrplanParameter).isNull()
-        assertLiveData(viewModel.fahrplanEmptyParameter).isNull()
+        viewModel.fahrplanParameter.test {
+            awaitComplete()
+        }
+        viewModel.fahrplanEmptyParameter.test {
+            expectNoEvents()
+        }
         verifyInvokedNever(repository).readMeta()
         verifyInvokedNever(repository).readDisplayDayIndex()
         verifyInvokedNever(repository).readDateInfos()
     }
 
     @Test
-    fun `updateUncanceledSessions posts FahrplanEmptyParameter to fahrplanEmptyParameter property`() {
+    fun `updateUncanceledSessions posts FahrplanEmptyParameter to fahrplanEmptyParameter property`() = runTest {
         val scheduleData = ScheduleData(0, emptyList())
         val repository = createRepository(
             uncanceledSessionsForDayIndexFlow = flowOf(scheduleData),
             meta = Meta(version = "test-version")
+
         )
         val viewModel = createViewModel(repository)
         val expected = FahrplanEmptyParameter("test-version")
-        assertLiveData(viewModel.fahrplanEmptyParameter).isEqualTo(expected)
-        assertThat(viewModel.fahrplanParameter.value).isNull()
+        viewModel.fahrplanEmptyParameter.test {
+            assertThat(awaitItem()).isEqualTo(expected)
+        }
+        viewModel.fahrplanParameter.test {
+            awaitComplete()
+        }
         verifyInvokedOnce(repository).readMeta()
         verifyInvokedNever(repository).readDisplayDayIndex()
         verifyInvokedNever(repository).readDateInfos()
     }
 
     @Test
-    fun `updateUncanceledSessions never posts to fahrplanEmptyParameter property when schedule has never been loaded`() {
+    fun `updateUncanceledSessions never posts to fahrplanEmptyParameter property when schedule has never been loaded`() = runTest {
         val scheduleData = ScheduleData(0, emptyList())
         val repository = createRepository(
             uncanceledSessionsForDayIndexFlow = flowOf(scheduleData),
             meta = Meta(version = "")
         )
         val viewModel = createViewModel(repository)
-        assertLiveData(viewModel.fahrplanEmptyParameter).isNull()
-        assertLiveData(viewModel.fahrplanParameter).isNull()
+        viewModel.fahrplanEmptyParameter.test {
+            expectNoEvents()
+        }
+        viewModel.fahrplanParameter.test {
+            awaitComplete()
+        }
         verifyInvokedOnce(repository).readMeta()
         verifyInvokedNever(repository).readDisplayDayIndex()
         verifyInvokedNever(repository).readDateInfos()
     }
 
     @Test
-    fun `updateUncanceledSessions posts FahrplanParameter to fahrplanParameter property`() {
+    fun `fahrplanParameter property emits FahrplanParameter`() = runTest {
         val repository = createRepository(
             uncanceledSessionsForDayIndexFlow = flowOf(createScheduleData("session-01")),
             meta = Meta(numDays = 1),
@@ -105,12 +116,18 @@ class FahrplanViewModelTest {
         val viewModel = createViewModel(repository, navigationMenuEntriesGenerator = menuEntriesGenerator)
         val expected = FahrplanParameter(
             scheduleData = createScheduleData("session-01"),
+            useDeviceTimeZone = false,
             numDays = 1,
             dayIndex = 2,
             dayMenuEntries = null
         )
-        assertLiveData(viewModel.fahrplanParameter).isEqualTo(expected)
-        assertThat(viewModel.fahrplanEmptyParameter.value).isNull()
+        viewModel.fahrplanParameter.test {
+            assertThat(awaitItem()).isEqualTo(expected)
+            awaitComplete()
+        }
+        viewModel.fahrplanEmptyParameter.test {
+            expectNoEvents()
+        }
         verifyInvokedNever(menuEntriesGenerator).getDayMenuEntries(any(), anyOrNull(), any())
         verifyInvokedOnce(repository).readDisplayDayIndex()
         verifyInvokedOnce(repository).readMeta()
@@ -118,7 +135,40 @@ class FahrplanViewModelTest {
     }
 
     @Test
-    fun `updateUncanceledSessions generates navigation menu entries`() {
+    fun `fahrplanParameter property emits FahrplanParameter containing session with alarm flag`() = runTest {
+        val repository = createRepository(
+            uncanceledSessionsForDayIndexFlow = flowOf(createScheduleData("session-01")),
+            meta = Meta(numDays = 1),
+            alarmsFlow = flowOf(listOf(createAlarm("session-01"))),
+            displayDayIndex = 2
+        )
+        val menuEntriesGenerator = mock<NavigationMenuEntriesGenerator>()
+        val viewModel = createViewModel(repository, navigationMenuEntriesGenerator = menuEntriesGenerator)
+        val expected = FahrplanParameter(
+            scheduleData = createScheduleData("session-01", hasAlarm = true),
+            useDeviceTimeZone = false,
+            numDays = 1,
+            dayIndex = 2,
+            dayMenuEntries = null
+        )
+        viewModel.fahrplanParameter.test {
+            val actual = awaitItem()
+            assertThat(actual).isEqualTo(expected)
+            // Obsolete once Session#hasAlarm is part of isEqual and hashCode
+            assertThat(actual.scheduleData.allSessions.first().hasAlarm).isEqualTo(true)
+            awaitComplete()
+        }
+        viewModel.fahrplanEmptyParameter.test {
+            expectNoEvents()
+        }
+        verifyInvokedNever(menuEntriesGenerator).getDayMenuEntries(any(), anyOrNull(), any())
+        verifyInvokedOnce(repository).readDisplayDayIndex()
+        verifyInvokedOnce(repository).readMeta()
+        verifyInvokedOnce(repository).readDateInfos()
+    }
+
+    @Test
+    fun `fahrplanParameter property emits and generates navigation menu entries`() = runTest {
         val repository = createRepository(
             uncanceledSessionsForDayIndexFlow = flowOf(createScheduleData("session-01")),
             meta = Meta(numDays = 2),
@@ -130,12 +180,18 @@ class FahrplanViewModelTest {
         val viewModel = createViewModel(repository, navigationMenuEntriesGenerator = menuEntriesGenerator)
         val expected = FahrplanParameter(
             scheduleData = createScheduleData("session-01"),
+            useDeviceTimeZone = false,
             numDays = 2,
             dayIndex = 0,
             dayMenuEntries = listOf("Day 1", "Day 2")
         )
-        assertLiveData(viewModel.fahrplanParameter).isEqualTo(expected)
-        assertThat(viewModel.fahrplanEmptyParameter.value).isNull()
+        viewModel.fahrplanParameter.test {
+            assertThat(awaitItem()).isEqualTo(expected)
+            awaitComplete()
+        }
+        viewModel.fahrplanEmptyParameter.test {
+            expectNoEvents()
+        }
         verifyInvokedOnce(menuEntriesGenerator).getDayMenuEntries(any(), anyOrNull(), any())
         verifyInvokedOnce(repository).readDisplayDayIndex()
         verifyInvokedOnce(repository).readMeta()
@@ -167,7 +223,7 @@ class FahrplanViewModelTest {
     }
 
     @Test
-    fun `fillTimes posts TimeTextViewParameter to timeTextViewParameters property`() {
+    fun `fillTimes posts TimeTextViewParameter to timeTextViewParameters property`() = runTest {
         val startsAt = 1582963200000L // February 29, 2020 08:00:00 AM GMT
         val earliestSession = mock<Session> {
             on { startTimeMoment } doReturn Moment.ofEpochMilli(startsAt)
@@ -187,10 +243,12 @@ class FahrplanViewModelTest {
             TimeTextViewParameter(R.layout.time_layout, height = 126, titleText = "08:00"),
             TimeTextViewParameter(R.layout.time_layout, height = 126, titleText = "08:15")
         )
-        assertLiveData(viewModel.timeTextViewParameters).isEqualTo(expected)
+        viewModel.timeTextViewParameters.test {
+            assertThat(awaitItem()).isEqualTo(expected)
+        }
         verifyInvokedOnce(repository).loadEarliestSession()
         verifyInvokedOnce(repository).readUseDeviceTimeZoneEnabled()
-        verify(repository, times(2)).readDisplayDayIndex()
+        verify(repository, times(1)).readDisplayDayIndex()
     }
 
     @Test
@@ -202,18 +260,20 @@ class FahrplanViewModelTest {
     }
 
     @Test
-    fun `showAlarmTimePickerWithChecks() posts to showAlarmTimePicker`() {
+    fun `showAlarmTimePickerWithChecks() posts to showAlarmTimePicker`() = runTest {
         val notificationHelper = mock<NotificationHelper> {
             on { notificationsEnabled } doReturn true
         }
         val repository = createRepository()
         val viewModel = createViewModel(repository, notificationHelper = notificationHelper)
         viewModel.showAlarmTimePickerWithChecks()
-        assertLiveData(viewModel.showAlarmTimePicker).isEqualTo(Unit)
+        viewModel.showAlarmTimePicker.test {
+            assertThat(awaitItem()).isEqualTo(Unit)
+        }
     }
 
     @Test
-    fun `showAlarmTimePickerWithChecks() posts to requestPostNotificationsPermission`() {
+    fun `showAlarmTimePickerWithChecks() posts to requestPostNotificationsPermission`() = runTest {
         val notificationHelper = mock<NotificationHelper> {
             on { notificationsEnabled } doReturn false
         }
@@ -224,11 +284,13 @@ class FahrplanViewModelTest {
             runsAtLeastOnAndroidTiramisu = true
         )
         viewModel.showAlarmTimePickerWithChecks()
-        assertLiveData(viewModel.requestPostNotificationsPermission).isEqualTo(Unit)
+        viewModel.requestPostNotificationsPermission.test {
+            assertThat(awaitItem()).isEqualTo(Unit)
+        }
     }
 
     @Test
-    fun `showAlarmTimePickerWithChecks() posts to missingPostNotificationsPermission`() {
+    fun `showAlarmTimePickerWithChecks() posts to missingPostNotificationsPermission`() = runTest {
         val notificationHelper = mock<NotificationHelper> {
             on { notificationsEnabled } doReturn false
         }
@@ -239,7 +301,9 @@ class FahrplanViewModelTest {
             runsAtLeastOnAndroidTiramisu = false
         )
         viewModel.showAlarmTimePickerWithChecks()
-        assertLiveData(viewModel.missingPostNotificationsPermission).isEqualTo(Unit)
+        viewModel.missingPostNotificationsPermission.test {
+            assertThat(awaitItem()).isEqualTo(Unit)
+        }
     }
 
     @Test
@@ -263,26 +327,30 @@ class FahrplanViewModelTest {
     }
 
     @Test
-    fun `share posts to shareSimple property`() {
+    fun `share posts to shareSimple property`() = runTest {
         val repository = createRepository()
         val fakeSessionFormat = mock<SimpleSessionFormat> {
             on { format(any(), anyOrNull(), any()) } doReturn "session-61"
         }
         val viewModel = createViewModel(repository, simpleSessionFormat = fakeSessionFormat)
         viewModel.share(Session("61"))
-        assertLiveData(viewModel.shareSimple).isEqualTo("session-61")
+        viewModel.shareSimple.test {
+            assertThat(awaitItem()).isEqualTo("session-61")
+        }
         verifyInvokedOnce(repository).readMeta()
     }
 
     @Test
-    fun `shareToChaosflix posts to shareJson property`() {
+    fun `shareToChaosflix posts to shareJson property`() = runTest {
         val repository = createRepository()
         val fakeSessionFormat = mock<JsonSessionFormat> {
             on { format(any<Session>()) } doReturn "session-62"
         }
         val viewModel = createViewModel(repository, jsonSessionFormat = fakeSessionFormat)
         viewModel.shareToChaosflix(Session("62"))
-        assertLiveData(viewModel.shareJson).isEqualTo("session-62")
+        viewModel.shareJson.test {
+            assertThat(awaitItem()).isEqualTo("session-62")
+        }
     }
 
     @Test
@@ -316,18 +384,20 @@ class FahrplanViewModelTest {
     }
 
     @Test
-    fun `scrollToCurrentSession never posts to scrollToCurrentSessionParameter property when sessions is empty`() {
+    fun `scrollToCurrentSession never posts to scrollToCurrentSessionParameter property when sessions is empty`() = runTest {
         val scheduleData = ScheduleData(0, emptyList())
         val repository = createRepository(uncanceledSessionsForDayIndexFlow = flowOf(scheduleData))
         val viewModel = createViewModel(repository)
         viewModel.scrollToCurrentSession()
         verifyInvokedNever(repository).readDisplayDayIndex()
-        assertLiveData(viewModel.scrollToCurrentSessionParameter).isNull()
+        viewModel.scrollToCurrentSessionParameter.test {
+            expectNoEvents()
+        }
     }
 
     @Ignore("Flaky, see https://github.com/EventFahrplan/EventFahrplan/issues/526")
     @Test
-    fun `scrollToCurrentSession posts to scrollToCurrentSessionParameter property when session is present and day indices match`() {
+    fun `scrollToCurrentSession posts to scrollToCurrentSessionParameter property when session is present and day indices match`() = runTest {
         val scheduleData = createScheduleData(Session("session-31"), dayIndex = 3)
         val nowMoment = Moment.now().startOfDay() // depends DateInfos.getIndexOfToday
         val repository = createRepository(
@@ -340,11 +410,13 @@ class FahrplanViewModelTest {
             scheduleData = createScheduleData(Session("session-31"), dayIndex = 3),
             dateInfos = DateInfos().apply { add(DateInfo(3, nowMoment)) }
         )
-        assertLiveData(viewModel.scrollToCurrentSessionParameter).isEqualTo(expected)
+        viewModel.scrollToCurrentSessionParameter.test {
+            assertThat(awaitItem()).isEqualTo(expected)
+        }
     }
 
     @Test
-    fun `scrollToCurrentSession never posts to scrollToCurrentSessionParameter property when day indices mismatch`() {
+    fun `scrollToCurrentSession never posts to scrollToCurrentSessionParameter property when day indices mismatch`() = runTest {
         val scheduleData = createScheduleData(Session("session-21"), dayIndex = 2)
         val nowMoment = Moment.now().startOfDay() // depends DateInfos.getIndexOfToday
         val repository = createRepository(
@@ -353,41 +425,49 @@ class FahrplanViewModelTest {
         )
         val viewModel = createViewModel(repository)
         viewModel.scrollToCurrentSession()
-        assertLiveData(viewModel.scrollToCurrentSessionParameter).isNull()
+        viewModel.scrollToCurrentSessionParameter.test {
+            expectNoEvents()
+        }
     }
 
     @Test
-    fun `scrollToSession never posts to scrollToSessionParameter property when sessions is empty`() {
+    fun `scrollToSession never posts to scrollToSessionParameter property when sessions is empty`() = runTest {
         val scheduleData = ScheduleData(0, emptyList())
         val repository = createRepository(uncanceledSessionsForDayIndexFlow = flowOf(scheduleData))
         val viewModel = createViewModel(repository)
         viewModel.scrollToSession("session-27", boxHeight = 42)
-        assertLiveData(viewModel.scrollToSessionParameter).isNull()
+        viewModel.scrollToSessionParameter.test {
+            expectNoEvents()
+        }
     }
 
     @Test
-    fun `scrollToSession never posts to scrollToSessionParameter property when session can not be found`() {
+    fun `scrollToSession never posts to scrollToSessionParameter property when session can not be found`() = runTest {
         val scheduleData = createScheduleData("session-01")
         val repository = createRepository(uncanceledSessionsForDayIndexFlow = flowOf(scheduleData))
         val viewModel = createViewModel(repository)
         viewModel.scrollToSession("session-27", boxHeight = 42)
-        assertLiveData(viewModel.scrollToSessionParameter).isNull()
-        verifyInvokedOnce(repository).readDisplayDayIndex()
+        viewModel.scrollToSessionParameter.test {
+            expectNoEvents()
+        }
     }
 
     @Test
-    fun `scrollToSession posts to scrollToSessionParameter property when session is present and matched`() {
+    fun `scrollToSession posts to scrollToSessionParameter property when session is present and matched`() = runTest {
         val scheduleData = createScheduleData("session-02")
         val repository = createRepository(loadUncanceledSessionsForDayIndex = scheduleData)
         val viewModel = createViewModel(repository)
         viewModel.scrollToSession("session-02", boxHeight = 42)
         val expected = ScrollToSessionParameter(sessionId = "session-02", verticalPosition = 0, roomIndex = 0)
-        assertLiveData(viewModel.scrollToSessionParameter).isEqualTo(expected)
+        viewModel.scrollToSessionParameter.test {
+            assertThat(awaitItem()).isEqualTo(expected)
+        }
     }
 
     private fun createRepository(
         uncanceledSessionsForDayIndexFlow: Flow<ScheduleData> = emptyFlow(),
         loadUncanceledSessionsForDayIndex: ScheduleData = mock(),
+        alarmsFlow: Flow<List<Alarm>> = flowOf(emptyList()),
         meta: Meta = Meta(numDays = 0, version = "test-version"),
         isAutoUpdateEnabled: Boolean = true,
         displayDayIndex: Int = 0,
@@ -396,6 +476,7 @@ class FahrplanViewModelTest {
     ) = mock<AppRepository> {
         on { uncanceledSessionsForDayIndex } doReturn uncanceledSessionsForDayIndexFlow
         on { loadUncanceledSessionsForDayIndex() } doReturn loadUncanceledSessionsForDayIndex
+        on { alarms } doReturn alarmsFlow
         on { readMeta() } doReturn meta
         on { readAutoUpdateEnabled() } doReturn isAutoUpdateEnabled
         on { readDisplayDayIndex() } doReturn displayDayIndex
@@ -403,8 +484,8 @@ class FahrplanViewModelTest {
         on { readDateInfos() } doReturn dateInfos
     }
 
-    private fun createScheduleData(sessionId: String? = null): ScheduleData {
-        val session = if (sessionId == null) null else Session(sessionId)
+    private fun createScheduleData(sessionId: String? = null, hasAlarm: Boolean = false): ScheduleData {
+        val session = if (sessionId == null) null else Session(sessionId).apply { this.hasAlarm = hasAlarm }
         return createScheduleData(session)
     }
 
@@ -435,6 +516,16 @@ class FahrplanViewModelTest {
         defaultEngelsystemRoomName = "Engelshifts",
         customEngelsystemRoomName = "Trollshifts",
         runsAtLeastOnAndroidTiramisu = runsAtLeastOnAndroidTiramisu
+    )
+
+    private fun createAlarm(@Suppress("SameParameterValue") sessionId: String) = Alarm(
+        alarmTimeInMin = 10,
+        day = 2,
+        displayTime = 0,
+        sessionId = sessionId,
+        sessionTitle = "Title",
+        startTime = 1536332400000L,
+        timeText = "Lorem ipsum"
     )
 
 }

@@ -213,9 +213,6 @@
     <string name="alarm_time_title_60_minutes_before">60 minut przed</string>
 
     <!-- Session list item -->
-    <string name="session_list_item_alarm_time_zero_minutes_content_description">Przypomnienie: w momencie rozpoczęcia</string>
-    <string name="session_list_item_alarm_time_minutes_content_description">Przypomnienie: <xliff:g example="5" id="minutes">%d</xliff:g> minut przed</string>
-    <string name="session_list_item_alarm_time_content_description">Czas przypomnienia: <xliff:g example="16:20" id="alarmTime">%s</xliff:g></string>
     <string name="session_list_item_duration_text"><xliff:g example="45" id="duration">%d</xliff:g> min.</string>
     <string name="session_list_item_duration_content_description">Czas trwania: <xliff:g example="45" id="duration">%d</xliff:g> minut</string>
     <string name="session_list_item_favored_content_description">polubione</string>

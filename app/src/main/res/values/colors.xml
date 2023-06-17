@@ -11,10 +11,8 @@
     <color name="text_link_on_dark">@color/colorAccent</color>
     <color name="text_link_pressed_background_on_light">#aafec700</color>
     <color name="text_link_pressed_background_on_dark">#33fec700</color>
-    <color name="alarm_list_icon_default_fill_color">#ddd</color>
-    <color name="alarm_list_icon_default_stroke_color">#003339</color>
-    <color name="alarm_list_icon_text_color">#000000</color>
-    <color name="alarm_list_empty_text">#ffffff</color>
+    <color name="session_alarm_item_bell_icon_fill">#ddd</color>
+    <color name="session_alarm_item_bell_icon_text">#000000</color>
     <color name="session_background">#ffffff</color>
     <color name="session_detailbar_background">#eee</color>
     <color name="session_detailbar_text">#999</color>

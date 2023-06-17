@@ -1,13 +1,14 @@
 package nerd.tuxmobil.fahrplan.congress.favorites
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import app.cash.turbine.test
+import com.google.common.truth.Truth.assertThat
 import info.metadude.android.eventfahrplan.commons.testing.MainDispatcherTestRule
-import info.metadude.android.eventfahrplan.commons.testing.assertLiveData
 import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedNever
 import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedOnce
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.runTest
 import nerd.tuxmobil.fahrplan.congress.NoLogging
 import nerd.tuxmobil.fahrplan.congress.TestExecutionContext
 import nerd.tuxmobil.fahrplan.congress.models.Meta
@@ -27,33 +28,35 @@ class StarredListViewModelTest {
     @get:Rule
     val mainDispatcherTestRule = MainDispatcherTestRule()
 
-    @get:Rule
-    val instantTaskExecutorRule = InstantTaskExecutorRule()
-
     private val simpleSessionFormat = mock<SimpleSessionFormat>()
     private val jsonSessionFormat = mock<JsonSessionFormat>()
 
     @Test
-    fun `starredListParameter returns null`() {
+    fun `starredListParameter returns null`() = runTest {
         val repository = createRepository(sessionsFlow = emptyFlow())
         val viewModel = createViewModel(repository)
-        assertLiveData(viewModel.starredListParameter).isNull()
+        viewModel.starredListParameter.test {
+            awaitComplete()
+        }
         verifyInvokedNever(repository).readMeta()
         verifyInvokedNever(repository).readUseDeviceTimeZoneEnabled()
     }
 
     @Test
-    fun `starredListParameter returns zero sessions`() {
+    fun `starredListParameter returns zero sessions`() = runTest {
         val repository = createRepository()
         val viewModel = createViewModel(repository)
         val expected = StarredListParameter(emptyList(), 0, false)
-        assertLiveData(viewModel.starredListParameter).isEqualTo(expected)
+        viewModel.starredListParameter.test {
+            assertThat(awaitItem()).isEqualTo(expected)
+            awaitComplete()
+        }
         verifyInvokedNever(repository).readMeta()
         verifyInvokedNever(repository).readUseDeviceTimeZoneEnabled()
     }
 
     @Test
-    fun `starredListParameter returns a single session`() {
+    fun `starredListParameter returns a single session`() = runTest {
         val repository = createRepository(
             sessionsFlow = flowOf(listOf(Session("23"))),
             meta = Meta(numDays = 2),
@@ -62,7 +65,10 @@ class StarredListViewModelTest {
         val viewModel = createViewModel(repository)
         val expectedSessions = listOf(Session("23"))
         val expected = StarredListParameter(expectedSessions, 2, true)
-        assertLiveData(viewModel.starredListParameter).isEqualTo(expected)
+        viewModel.starredListParameter.test {
+            assertThat(awaitItem()).isEqualTo(expected)
+            awaitComplete()
+        }
         verifyInvokedOnce(repository).readMeta()
         verifyInvokedOnce(repository).readUseDeviceTimeZoneEnabled()
     }
@@ -84,14 +90,16 @@ class StarredListViewModelTest {
     }
 
     @Test
-    fun `initialization does not affect shareSimple property`() {
+    fun `initialization does not affect shareSimple property`() = runTest {
         val repository = createRepository()
         val viewModel = createViewModel(repository)
-        assertLiveData(viewModel.shareSimple).isNull()
+        viewModel.shareSimple.test {
+            expectNoEvents()
+        }
     }
 
     @Test
-    fun `share posts to shareSimple property when session is present`() {
+    fun `share posts to shareSimple property when session is present`() = runTest {
         val repository = createRepository(
             sessionsFlow = flowOf(listOf(Session("23"))),
             meta = Meta(numDays = 0, timeZoneId = null)
@@ -101,11 +109,13 @@ class StarredListViewModelTest {
         }
         val viewModel = createViewModel(repository, simpleSessionFormat = fakeSessionFormat)
         viewModel.share()
-        assertLiveData(viewModel.shareSimple).isEqualTo("session-23")
+        viewModel.shareSimple.test {
+            assertThat(awaitItem()).isEqualTo("session-23")
+        }
     }
 
     @Test
-    fun `share never posts to shareSimple property when sessions is empty`() {
+    fun `share never posts to shareSimple property when sessions is empty`() = runTest {
         val repository = createRepository(
             sessionsFlow = flowOf(emptyList()),
             meta = Meta(numDays = 0, timeZoneId = null)
@@ -115,36 +125,44 @@ class StarredListViewModelTest {
         }
         val viewModel = createViewModel(repository, simpleSessionFormat = fakeSessionFormat)
         viewModel.share()
-        assertLiveData(viewModel.shareSimple).isNull()
+        viewModel.shareSimple.test {
+            expectNoEvents()
+        }
     }
 
     @Test
-    fun `initialization does not affect shareJson property`() {
+    fun `initialization does not affect shareJson property`() = runTest {
         val repository = createRepository()
         val viewModel = createViewModel(repository)
-        assertLiveData(viewModel.shareJson).isNull()
+        viewModel.shareJson.test {
+            expectNoEvents()
+        }
     }
 
     @Test
-    fun `shareToChaosflix posts to shareJson property when session is present`() {
+    fun `shareToChaosflix posts to shareJson property when session is present`() = runTest {
         val repository = createRepository(sessionsFlow = flowOf(listOf(Session("17"))))
         val fakeSessionFormat = mock<JsonSessionFormat> {
             on { format(any<List<Session>>()) } doReturn "session-17"
         }
         val viewModel = createViewModel(repository, jsonSessionFormat = fakeSessionFormat)
         viewModel.shareToChaosflix()
-        assertLiveData(viewModel.shareJson).isEqualTo("session-17")
+        viewModel.shareJson.test {
+            assertThat(awaitItem()).isEqualTo("session-17")
+        }
     }
 
     @Test
-    fun `shareToChaosflix never posts to shareJson property when sessions is empty`() {
+    fun `shareToChaosflix never posts to shareJson property when sessions is empty`() = runTest {
         val repository = createRepository(sessionsFlow = flowOf(emptyList()))
         val fakeSessionFormat = mock<JsonSessionFormat> {
             on { format(any<List<Session>>()) } doReturn null // simulating empty list
         }
         val viewModel = createViewModel(repository, jsonSessionFormat = fakeSessionFormat)
         viewModel.shareToChaosflix()
-        assertLiveData(viewModel.shareJson).isNull()
+        viewModel.shareJson.test {
+            expectNoEvents()
+        }
     }
 
     private fun createRepository(

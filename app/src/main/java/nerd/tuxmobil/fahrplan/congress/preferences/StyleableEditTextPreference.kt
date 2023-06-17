@@ -1,11 +1,9 @@
 package nerd.tuxmobil.fahrplan.congress.preferences
 
 import android.content.Context
-import android.os.Build
 import android.util.AttributeSet
 import android.widget.EditText
 import androidx.annotation.CallSuper
-import androidx.annotation.RequiresApi
 import androidx.core.content.withStyledAttributes
 import androidx.preference.EditTextPreference
 import nerd.tuxmobil.fahrplan.congress.R
@@ -48,7 +46,6 @@ open class StyleableEditTextPreference : EditTextPreference {
     }
 
     @Suppress("unused")
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) :
             super(context, attrs, defStyleAttr, defStyleRes) {
         applyAttributes(context, attrs)

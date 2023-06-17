@@ -1,4 +1,5 @@
 import nerd.tuxmobil.fahrplan.congress.Android
+import nerd.tuxmobil.fahrplan.congress.Compose
 import nerd.tuxmobil.fahrplan.congress.Config
 import nerd.tuxmobil.fahrplan.congress.Libs
 
@@ -49,6 +50,14 @@ android {
         buildConfigField "boolean", "ENGAGE_GOOGLE_BETA_TESTING", "true"
         buildConfigField "boolean", "ENGAGE_GOOGLE_PLAY_RATING", "true"
         buildConfigField "boolean", "ENGAGE_LANDSCAPE_ORIENTATION", "true"
+    }
+
+    buildFeatures {
+        compose true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = Compose.Versions.compiler
     }
 
     buildTypes {
@@ -112,7 +121,7 @@ android {
         }
     }
 
-    lintOptions {
+    lint {
         checkDependencies true
         // for okio - https://github.com/square/okio/issues/58
         warning "InvalidPackage"
@@ -127,7 +136,7 @@ android {
     kotlinOptions {
         jvmTarget = Config.compatibleJavaVersion
         freeCompilerArgs = [
-                "-Xopt-in=kotlin.RequiresOptIn"
+                "-opt-in=kotlin.RequiresOptIn"
         ]
     }
 }
@@ -158,6 +167,15 @@ dependencies {
     implementation project(":network")
     implementation project(":engelsystem")
 
+    def composeBom = platform(Compose.bom)
+    implementation composeBom
+
+    // Android Studio preview support
+    implementation Compose.uiToolingPreview
+    debugImplementation Compose.uiTooling
+
+    implementation Compose.material
+
     implementation Libs.appCompat
     implementation Libs.betterLinkMovementMethod
     implementation Libs.constraintLayout
@@ -165,7 +183,7 @@ dependencies {
     implementation Libs.emailIntentBuilder
     implementation Libs.kotlinCoroutinesAndroid
     implementation Libs.kotlinCoroutinesCore
-    implementation Libs.lifecycleLiveData
+    implementation Libs.lifecycleViewModel
     implementation Libs.markwonCore
     implementation Libs.markwonLinkify
     implementation Libs.material

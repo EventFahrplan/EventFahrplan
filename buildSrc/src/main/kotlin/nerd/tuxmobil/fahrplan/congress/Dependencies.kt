@@ -11,8 +11,22 @@ object Config {
 object Android {
     const val buildToolsVersion = "33.0.2"
     const val compileSdkVersion = 33
-    const val minSdkVersion = 16
+    const val minSdkVersion = 21
     const val targetSdkVersion = 33
+}
+
+object Compose {
+
+    object Versions {
+        internal const val bom = "2023.05.01"
+        const val compiler = "1.4.7"
+    }
+
+    const val bom = "androidx.compose:compose-bom:${Versions.bom}"
+    const val material = "androidx.compose.material3:material3"
+    const val uiTooling = "androidx.compose.ui:ui-tooling"
+    const val uiToolingPreview = "androidx.compose.ui:ui-tooling-preview"
+
 }
 
 object Plugins {
@@ -21,9 +35,9 @@ object Plugins {
         const val android = "7.4.2"
         const val androidJunitJacoco = "0.16.0"
         const val dexcount = "4.0.0"
-        const val kotlin = "1.8.10"
-        const val ksp = "1.8.10-1.0.9"
-        const val sonarQube = "3.4.0.2513"
+        const val kotlin = "1.8.21"
+        const val ksp = "1.8.21-1.0.11"
+        const val sonarQube = "4.0.0.2929"
         const val unMock = "0.7.9"
         const val versions = "0.46.0"
     }
@@ -52,24 +66,24 @@ object Libs {
         const val engelsystem = "7.2.0"
         const val espresso = "3.5.1"
         const val junit = "4.13.2"
-        const val kotlinCoroutines = "1.6.4"
+        const val kotlinCoroutines = "1.7.1"
         const val lifecycle = "2.6.1"
         const val markwon = "4.6.2"
-        const val material = "1.8.0"
-        const val mockito = "5.2.0"
+        const val material = "1.9.0"
+        const val mockito = "5.3.0"
         const val mockitoKotlin = "4.1.0"
         const val moshi = "1.14.0"
         const val multiDex = "2.0.1"
-        const val okhttp = "3.12.13"
+        const val okhttp = "4.11.0"
         const val preference = "1.2.0"
-        const val retrofit = "2.6.4"
+        const val retrofit = "2.9.0"
         const val robolectric = "4.3_r2-robolectric-0"
         const val snackengage = "0.30"
         const val testExtJunit = "1.1.5"
-        const val threeTenBp = "1.6.7"
+        const val threeTenBp = "1.6.8"
         const val tracedroid = "3.1"
         const val truth = "1.1.3"
-        const val turbine = "0.12.1"
+        const val turbine = "0.12.3"
     }
 
     const val annotation = "androidx.annotation:annotation:${Versions.annotation}"
@@ -86,7 +100,8 @@ object Libs {
     const val kotlinCoroutinesAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.kotlinCoroutines}"
     const val kotlinCoroutinesCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinCoroutines}"
     const val kotlinCoroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.kotlinCoroutines}"
-    const val lifecycleLiveData = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.lifecycle}"
+    const val lifecycleViewModel = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycle}"
+    const val lifecycleRuntime = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.lifecycle}"
     const val markwonCore = "io.noties.markwon:core:${Versions.markwon}"
     const val markwonLinkify = "io.noties.markwon:linkify:${Versions.markwon}"
     const val material = "com.google.android.material:material:${Versions.material}"

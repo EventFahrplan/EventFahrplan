@@ -134,7 +134,7 @@ internal class FetchFahrplanTask(
             e.printStackTrace()
             return HttpStatus.HTTP_COULD_NOT_CONNECT
         }
-        val statusCode = response.code()
+        val statusCode = response.code
 
         if (statusCode == 304) {
             return HttpStatus.HTTP_NOT_MODIFIED
@@ -160,13 +160,13 @@ internal class FetchFahrplanTask(
         }
 
         responseStr = try {
-            response.body()!!.string()
+            response.body!!.string()
         } catch (e: NullPointerException) {
             return HttpStatus.HTTP_CANNOT_PARSE_CONTENT
         } catch (e: IOException) {
             return HttpStatus.HTTP_CANNOT_PARSE_CONTENT
         } finally {
-            response.body()?.close()
+            response.body?.close()
         }
         return HttpStatus.HTTP_OK
     }

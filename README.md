@@ -67,7 +67,7 @@ Please read the instructions in the [contribution guide](CONTRIBUTING.md) in ord
 ## Android versions
 
 The application is designed to work both on smartphones and on tablets.
-Android 4.1 (Jelly Bean) and newer versions are supported.
+Android 5.0 (Lollipop) and newer versions are supported.
 
 ## Event data
 
@@ -112,6 +112,16 @@ After the merge, go to https://github.com/linuxtage/EventFahrplan/compare/glt-20
   ["EventFahrplan"][eventfahrplan-github] to acknowledge its broader usage.
 * In 2022 the project was forked to be used for the Grazer Linuxtage.
 
+## Funding
+
+In 2023 this project was funded through the [NGI0 Entrust Fund](https://nlnet.nl/entrust), a fund
+established by [NLnet](https://nlnet.nl) with financial support from the European Commission's
+[Next Generation Internet](https://ngi.eu) program, under the aegis of DG Communications Networks,
+Content and Technology under grant agreement No 101069594.
+
+![Logo NLnet: abstract logo of four people seen from above](gfx/nlnet-banner-160x60.png)
+
+![Logo NGI Zero: letterlogo shaped like a tag](gfx/ngi0entrust-banner-191x60.png)
 
 ## Licenses
 

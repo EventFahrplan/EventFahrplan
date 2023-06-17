@@ -2,9 +2,11 @@ package nerd.tuxmobil.fahrplan.congress.schedule
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import info.metadude.android.eventfahrplan.commons.livedata.SingleLiveEvent
 import info.metadude.android.eventfahrplan.commons.logging.Logging
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.SendChannel
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import nerd.tuxmobil.fahrplan.congress.changes.ChangeStatistic
 import nerd.tuxmobil.fahrplan.congress.models.Meta
@@ -33,14 +35,26 @@ internal class MainViewModel(
 
 ) : ViewModel() {
 
-    val loadScheduleUiState = SingleLiveEvent<LoadScheduleUiState>()
-    val fetchFailure = SingleLiveEvent<FetchFailure?>()
-    val parseFailure = SingleLiveEvent<ParseResult?>()
-    val scheduleChangesParameter = SingleLiveEvent<ScheduleChangesParameter>()
+    private val mutableLoadScheduleUiState = Channel<LoadScheduleUiState>()
+    val loadScheduleUiState = mutableLoadScheduleUiState.receiveAsFlow()
 
-    val showAbout = SingleLiveEvent<Meta>()
-    val openSessionDetails = SingleLiveEvent<Unit>()
-    val missingPostNotificationsPermission = SingleLiveEvent<Unit>()
+    private val mutableFetchFailure = Channel<FetchFailure?>()
+    val fetchFailure = mutableFetchFailure.receiveAsFlow()
+
+    private val mutableParseFailure = Channel<ParseResult?>()
+    val parseFailure = mutableParseFailure.receiveAsFlow()
+
+    private val mutableScheduleChangesParameter = Channel<ScheduleChangesParameter>()
+    val scheduleChangesParameter = mutableScheduleChangesParameter.receiveAsFlow()
+
+    private val mutableShowAbout = Channel<Meta>()
+    val showAbout = mutableShowAbout.receiveAsFlow()
+
+    private val mutableOpenSessionDetails = Channel<Unit>()
+    val openSessionDetails = mutableOpenSessionDetails.receiveAsFlow()
+
+    private val mutableMissingPostNotificationsPermission = Channel<Unit>()
+    val missingPostNotificationsPermission = mutableMissingPostNotificationsPermission.receiveAsFlow()
 
     init {
         observeLoadScheduleState()
@@ -50,7 +64,7 @@ internal class MainViewModel(
         launch {
             repository.loadScheduleState.collect { state ->
                 val uiState = state.toUiState()
-                loadScheduleUiState.postValue(uiState)
+                mutableLoadScheduleUiState.sendOneTimeEvent(uiState)
                 state.handleFailureStates()
             }
         }
@@ -79,17 +93,17 @@ internal class MainViewModel(
     private fun LoadScheduleState.handleFailureStates() = when (this) {
         is FetchFailure -> {
             if (isUserRequest) {
-                fetchFailure.postValue(this)
+                mutableFetchFailure.sendOneTimeEvent(this)
             } else {
                 // Don't bother the user with schedule up-to-date messages.
             }
         }
         is ParseFailure -> {
-            parseFailure.postValue(parseResult)
+            mutableParseFailure.sendOneTimeEvent(parseResult)
         }
         else -> {
-            fetchFailure.postValue(null)
-            parseFailure.postValue(null)
+            mutableFetchFailure.sendOneTimeEvent(null)
+            mutableParseFailure.sendOneTimeEvent(null)
         }
     }
 
@@ -99,7 +113,7 @@ internal class MainViewModel(
             val sessions = repository.loadChangedSessions()
             val statistic = ChangeStatistic.of(sessions, logging)
             val parameter = ScheduleChangesParameter(scheduleVersion, statistic)
-            scheduleChangesParameter.postValue(parameter)
+            mutableScheduleChangesParameter.sendOneTimeEvent(parameter)
         }
     }
 
@@ -134,13 +148,13 @@ internal class MainViewModel(
     fun showAboutDialog() {
         launch {
             val meta = repository.readMeta()
-            showAbout.postValue(meta)
+            mutableShowAbout.sendOneTimeEvent(meta)
         }
     }
 
     fun checkPostNotificationsPermission() {
         if (repository.readAlarms().isNotEmpty() && !notificationHelper.notificationsEnabled) {
-            missingPostNotificationsPermission.postValue(Unit)
+            mutableMissingPostNotificationsPermission.sendOneTimeEvent(Unit)
         }
     }
 
@@ -148,13 +162,19 @@ internal class MainViewModel(
         launch {
             val isUpdated = repository.updateSelectedSessionId(sessionId)
             if (isUpdated) {
-                openSessionDetails.postValue(Unit)
+                mutableOpenSessionDetails.sendOneTimeEvent(Unit)
             }
         }
     }
 
     private fun launch(block: suspend CoroutineScope.() -> Unit) {
         viewModelScope.launch(executionContext.database, block = block)
+    }
+
+    private fun <E> SendChannel<E>.sendOneTimeEvent(event: E) {
+        viewModelScope.launch {
+            send(event)
+        }
     }
 
 }

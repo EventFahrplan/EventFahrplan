@@ -10,7 +10,6 @@ import info.metadude.android.eventfahrplan.database.repositories.HighlightsDatab
 import info.metadude.android.eventfahrplan.database.repositories.MetaDatabaseRepository
 import info.metadude.android.eventfahrplan.database.repositories.SessionsDatabaseRepository
 import info.metadude.android.eventfahrplan.network.repositories.ScheduleNetworkRepository
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import nerd.tuxmobil.fahrplan.congress.TestExecutionContext
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toAppFetchScheduleResult
@@ -60,7 +59,6 @@ private typealias OnFetchScheduleFinished = (fetchScheduleResult: NetworkFetchSc
  * - [AppRepository.selectedSession]
  * - [AppRepository.uncanceledSessionsForDayIndex]
  */
-@OptIn(ExperimentalCoroutinesApi::class)
 class AppRepositoryLoadAndParseScheduleTest {
 
     private companion object {
