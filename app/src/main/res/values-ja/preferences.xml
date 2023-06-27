@@ -1,27 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <!-- App notification settings -->
-
+    <!-- Screen -->
+    <!-- Category development -->
+    <!-- Schedule refresh interval -->
+    <!--
+    Synchronize with @strings/preference_default_value_schedule_refresh_interval_value
+    -->
+    <!--
+    Synchronize with @integers/preference_default_value_schedule_refresh_interval_index
+    and string-array/preference_entry_values_schedule_refresh
+    -->
+    <!--
+    Synchronize with @strings/preference_default_value_schedule_refresh_interval_value
+    and @integers/preference_default_value_schedule_refresh_interval_index
+    -->
+    <!-- Category general -->
     <!-- Automatic schedule updates -->
-
     <!-- Alarm time index -->
-
+    <!--
+    Synchronize with @strings/preference_default_value_alarm_time_value
+    -->
+    <!--
+    Synchronize with @integers/preference_default_value_alarm_time_index
+    and string-array/preference_entry_values_alarm_time
+    -->
+    <!--
+    Synchronize with @strings/preference_default_value_alarm_time_value
+    and @integers/preference_default_value_alarm_time_index
+    -->
     <!-- Alarm tone -->
-
+    <!-- Device time zone -->
     <!-- Alternative highlighting -->
-
     <!-- Alternative schedule URL -->
-
+    <!-- App notification settings -->
     <!-- Insistent session alarms -->
-
     <!-- Category Engelsystem -->
-    <string name="preference_summary_engelsystem_json_export_url">
-        <![CDATA[シフトを確認するには、ここに<u>個人</ u>のURLを入力してください。<br/><br/>
+    <string name="preference_summary_engelsystem_json_export_url"><![CDATA[シフトを確認するには、ここに<u>個人</u>のURLを入力してください。<br/><br/>
         1. あなたの<xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g>アカウントにログインします。<br/>
         2. プロフィールページの<u>JSON出力</u>ボタンの後ろにあるURLをコピーします.<br/>
         3. URLをここに貼ります。<br/><br/>
-        メイン会議日の前後のシフトは<u>表示されません</u>。]]>
-    </string>
-
+        メイン会議日の前後のシフトは<u>表示されません</u>。]]></string>
 </resources>
