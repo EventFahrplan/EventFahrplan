@@ -47,6 +47,7 @@ Please read the instructions in the [contribution guide](CONTRIBUTING.md) in ord
 - Danish 🇩🇰
 - Dutch 🇳🇱
 - English 🇺🇸
+- Finnish 🇫🇮
 - French 🇫🇷
 - German 🇩🇪
 - Italian 🇮🇹
@@ -137,7 +138,7 @@ Caio Volpato, Chase, cketti, codingcatgirl, Dominik Stadler, entropynil,
 erebion, ideadapt, isi_ko404, Jasper van der Graaf, Joergi, koelnkalkverbot,
 Larissa Yasin, lepawa, ligi, Luis Azcuaga, Mateus Baptista, Matthias Geisler,
 Matthias Hunstock, Matthias Mair, MichaelRocks, Nghiem Xuan Hien,
-NiciDieNase, Noemis, Omicron, Poschi, rotrot, Sjors van Mierlo,
+NiciDieNase, Noemis, Omicron, Poschi, Qwertele, rotrot, Sjors van Mierlo,
 Stefan Medack, SubOptimal, Teeranai.P, Torsten Grote, Victor Herasme,
 Vladimir Alabov, Yanicka
 
