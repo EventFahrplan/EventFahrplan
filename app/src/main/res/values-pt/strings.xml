@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-
     <!-- Menu items -->
     <string name="menu_item_title_about">Informações</string>
     <string name="menu_item_title_add_to_calendar">Adicionar ao calendário</string>
@@ -13,7 +12,6 @@
     <string name="menu_item_title_delete_alarm">Excluir alerta</string>
     <string name="menu_item_title_delete_all">Excluir tudo</string>
     <string name="menu_item_title_favorites">Favoritos</string>
-    <string name="menu_item_title_feedback">Feedback</string>
     <string name="menu_item_title_navigate">Navegação</string>
     <string name="menu_item_title_refresh">Atualizar</string>
     <string name="menu_item_title_share_session">Compartilhar evento</string>
@@ -22,17 +20,12 @@
     <string name="menu_item_title_share_session_json">como JSON (para Chaosflix)</string>
     <string name="share_as_text">Compartilhar como texto</string>
     <string name="share_as_json">Compartilhar como JSON (para Chaosflix)</string>
-
     <!-- AlertDialog -->
-    <string name="OK">OK</string>
-
     <!-- CertificateErrorFragment -->
-    <string name="certificate_error_message">
-        Falha ao estabelecer conexão segura.\n
+    <string name="certificate_error_message">        Falha ao estabelecer conexão segura.\n
         (<xliff:g example="Unknown Error" id="error">%s</xliff:g>)
     </string>
     <string name="certificate_error_title">O certificado não pode ser adicionado.</string>
-
     <!-- Error messages -->
     <string name="dlg_err_connection_failed">Falha de conexão.</string>
     <string name="dlg_err_failed_unknown_host">Endereço desconhecido:\n%s</string>
@@ -43,18 +36,24 @@
     <string name="dlg_err_failed_parse_failure">Não foi possíver processar a resposta</string>
     <string name="dlg_err_failed_ssl_failure">Falha de SSL</string>
     <string name="dlg_err_failed_http_cleartext_not_permitted">HTTP não é permitido. Por favor use HTTPS.</string>
+    <string name="dlg_err_schedule_data_empty">        Nothing to display. The schedule with version \"<xliff:g example="0.99" id="version">%s</xliff:g>\"
+        does not contain any session.
+    </string>
+    <string name="dlg_err_schedule_data_empty_without_version">        Nothing to display. The schedule does not contain any session.
+    </string>
     <string name="uptodate">Cronograma está atualizado</string>
-
     <!-- Schedule changes dialog -->
     <string name="schedule_changes_dialog_title">Atualização de cronograma</string>
     <string name="schedule_changes_dialog_updated_to_text">O cronograma foi atualizado para\u0020</string>
     <string name="schedule_changes_dialog_changed_new_cancelled_text">. Há alterações em <xliff:g example="3 lectures" id="num_changes">%1$s</xliff:g>, <xliff:g example="2 are" id="num_new">%2$s</xliff:g> <xliff:g example="novos" id="phrase_new">%3$s</xliff:g>, <xliff:g example="1 is" id="num_canceled">%4$s</xliff:g> <xliff:g example="cancelados" id="phrase_cancelled">%5$s</xliff:g>.</string>
     <string name="schedule_changes_dialog_affected_text">As alterações afetam <xliff:g example="2" id="num_marked">%1$d</xliff:g> das suas palestras favoritas.</string>
     <plurals name="schedule_changes_dialog_phrase_new">
-        <item quantity="other">novos</item>
+        <item quantity="one">novos</item>
+        <item quantity="other">new</item>
     </plurals>
     <plurals name="schedule_changes_dialog_phrase_cancelled">
-        <item quantity="other">cancelados</item>
+        <item quantity="one">cancelados</item>
+        <item quantity="other">cancelled</item>
     </plurals>
     <plurals name="schedule_changes_dialog_number_of_sessions">
         <item quantity="one">%d palestra</item>
@@ -66,7 +65,6 @@
     </plurals>
     <string name="schedule_changes_dialog_browse">Explorar</string>
     <string name="schedule_changes_dialog_later">Mais tarde</string>
-
     <string name="progress_loading_data">Obtendo cronograma &#8230;</string>
     <string name="progress_processing_data">Processando cronograma &#8230;</string>
     <string name="load_data">Carregar</string>
@@ -74,20 +72,16 @@
     <string name="day">Dia</string>
     <string name="fahrplan">Cronograma</string>
     <string name="appVersion">Versão do App %s</string>
-    <string name="schedule_updated_to">
-        Atualizado para <xliff:g example="Mildenberg 2018-01-16 16:50" id="version">%s</xliff:g>
+    <string name="schedule_updated_to">        Atualizado para <xliff:g example="Mildenberg 2018-01-16 16:50" id="version">%s</xliff:g>
     </string>
-    <string name="schedule_updated">
-        O cronograma foi atualizado.
+    <string name="schedule_updated">        O cronograma foi atualizado.
     </string>
     <string name="settings">Configurações</string>
     <string name="session_details_section_title_session_online">Evento online</string>
-    <string name="session_details_section_title_links">Links</string>
     <string name="choose_alarm_time">Escolha o horário do alerta</string>
     <string name="reminders">Alertas</string>
     <string name="usage">Dica:\n\nMantenha pressionado na palestra para ajustar um alerta.</string>
-    <string name="about_libraries_statement">
-        Este aplicativo usa as seguintes bibliotecas: <xliff:g example="Kotlin, Espresso" id="libs">%s</xliff:g>
+    <string name="about_libraries_statement">        Este aplicativo usa as seguintes bibliotecas: <xliff:g example="Kotlin, Espresso" id="libs">%s</xliff:g>
     </string>
     <string name="about_data_privacy_statement_german">Declaração de privacidade (Alemão)</string>
     <string name="about_f_droid_listing">Listagem da F-Droid</string>
@@ -97,19 +91,10 @@
     <string name="today">hoje</string>
     <string name="schedule_parsing_error_generic">Erro desconhecido ao processar cronograma</string>
     <string name="schedule_parsing_error_with_version">Erro ao processar versão do cronograma %s</string>
-    <string name="engelsystem_shifts_parsing_error_generic">Erro desconhecido ao processar turnos no <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g></string>
-    <string name="engelsystem_shifts_parsing_error_forbidden">Chave de API inválido para turnos no <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g></string>
-    <string name="engelsystem_shifts_parsing_error_not_found">URL incorreta para turnos no <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g></string>
-    <string name="alarms_empty">
-        Não há alertas para exibir, você pode configurar alertas
-        individuais para cada item no cronograma.
-        Basta pressionar o ícone de alerta na barra de ações.
-    </string>
     <string name="add_to_calendar_failed">Falha ao adicionar o evento ao calendário.</string>
     <string name="no_changes">Nenhuma mudança de cronograma</string>
     <string name="no_favorites">Nenhuma palestra favorita</string>
     <string name="schedule_changes">Mudanças no cronograma</string>
-
     <string name="general_settings">Geral</string>
     <string name="starred_sessions">Favoritos</string>
     <string name="invalid_url">URL inválida</string>
@@ -117,73 +102,54 @@
     <string name="day_separator">Dia <xliff:g example="2" id="day_of_congress">%1$d</xliff:g> - <xliff:g example="29.12.2014" id="date_of_congress_day">%2$s</xliff:g></string>
     <string name="dlg_delete_all_favorites">Excluir todos os favoritos?</string>
     <string name="dlg_delete_all_favorites_delete_all">Excluir tudo</string>
-
     <string name="share_error_activity_not_found">Aplicativo fitting não está instalado.</string>
-
     <!-- Build information -->
-    <string name="build_info_time">
-        Tempo de build: <xliff:g example="2015-12-27T13:42Z" id="build_time">%s</xliff:g>
+    <string name="build_info_time">        Tempo de build: <xliff:g example="2015-12-27T13:42Z" id="build_time">%s</xliff:g>
     </string>
-    <string name="build_info_version_code">
-        Versão do código: <xliff:g example="42" id="version_code">%s</xliff:g>
+    <string name="build_info_version_code">        Versão do código: <xliff:g example="42" id="version_code">%s</xliff:g>
     </string>
-    <string name="build_info_hash">
-        Versão do hash: <xliff:g example="e1f2g3h-dirty" id="build_hash">%s</xliff:g>
+    <string name="build_info_hash">        Versão do hash: <xliff:g example="e1f2g3h-dirty" id="build_hash">%s</xliff:g>
     </string>
-
     <!-- App disclaimer -->
-    <string name="app_disclaimer">
-        Esse aplicativo é baseado no código fonte do aplicativo &#8220;EventFahrplan&#8221;.
+    <string name="app_disclaimer">        Esse aplicativo é baseado no código fonte do aplicativo &#8220;EventFahrplan&#8221;.
         Visitantes do congresso anual e acampamento organizado pelo Chaos Computer Club,
         usam o aplicativo para se manterem atualizados com a organização do evento.
     </string>
-
     <!-- SnackEngage -->
     <string name="snack_engage_rate_title">Tudo certo?</string>
     <string name="snack_engage_rate_action">Avalie o aplicativo</string>
     <string name="snack_engage_google_play_beta_testing_title">Usuário avançado?</string>
     <string name="snack_engage_google_play_beta_testing_action">Torne-se um testador beta</string>
-
     <string name="snack_engage_c3nav_title">Navegue dentro do prédio da <xliff:g example="35C3" id="conferenceName">%s</xliff:g>! Com o aplicativo c3nav</string>
     <string name="snack_engage_c3nav_action">Baixe agora!</string>
-
     <!-- TraceDroid -->
-    <string name="trace_droid_dialog_title">
-        Enviar <xliff:g example="33C3 Schedule" id="appName">%s</xliff:g> relatório de falha &#8230;
+    <string name="trace_droid_dialog_title">        Enviar <xliff:g example="33C3 Schedule" id="appName">%s</xliff:g> relatório de falha &#8230;
     </string>
-    <string name="trace_droid_dialog_message">
-        Um problema com o aplicativo <xliff:g example="33C3 Schedule" id="appName">%s</xliff:g> foi
+    <string name="trace_droid_dialog_message">        Um problema com o aplicativo <xliff:g example="33C3 Schedule" id="appName">%s</xliff:g> foi
         encontrado. Ajude o projeto submetendo relatórios de falhas,
         assim, a origem do problema poderá ser identificada.
     </string>
-    <string name="trace_droid_button_title_send">
-        Abrir e-mail
+    <string name="trace_droid_button_title_send">        Abrir e-mail
     </string>
-    <string name="trace_droid_no_email_app">
-        Nenhum aplicativo de e-mail compatível instalado.
+    <string name="trace_droid_no_email_app">        Nenhum aplicativo de e-mail compatível instalado.
     </string>
-    <string name="trace_droid_button_title_no">
-        Não
+    <string name="trace_droid_button_title_no">        Não
     </string>
-    <string name="trace_droid_button_title_later">
-        Talvez mais tarde
+    <string name="trace_droid_button_title_later">        Talvez mais tarde
     </string>
-
     <!-- Notifications -->
-    <string name="notifications_session_alarm_channel_description">
-        Alertas criados pelo usuário para vários eventos.
+    <string name="notifications_session_alarm_channel_description">        Alertas criados pelo usuário para vários eventos.
     </string>
     <string name="notifications_session_alarm_channel_name">Alertas por eventos</string>
     <string name="notifications_session_alarm_content_text">Alerta por evento</string>
-    <string name="notifications_schedule_update_channel_description">
-        Atualizações automáticas de cronograma podem ser configuradas nas configurações do aplicativo.
+    <string name="notifications_schedule_update_channel_description">        Atualizações automáticas de cronograma podem ser configuradas nas configurações do aplicativo.
     </string>
     <string name="notifications_schedule_update_channel_name">Atualizações no cronograma</string>
     <plurals name="notifications_schedule_changes">
         <item quantity="one"><xliff:g example="1" id="count">%d</xliff:g> palestra foi atualizada.</item>
         <item quantity="other"><xliff:g example="3" id="count">%d</xliff:g> palestras foram atualizadas.</item>
     </plurals>
-
+    <!-- Schedule refresh interval picker -->
     <!-- Alarm time picker -->
     <string name="alarm_time_title_at_start_time">ao iniciar</string>
     <string name="alarm_time_title_5_minutes_before">5 minutos antes</string>
@@ -193,9 +159,7 @@
     <string name="alarm_time_title_30_minutes_before">30 minutos antes</string>
     <string name="alarm_time_title_45_minutes_before">45 minutos antes</string>
     <string name="alarm_time_title_60_minutes_before">60 minutos antes</string>
-
     <!-- Session list item -->
-    <string name="session_list_item_duration_text"><xliff:g example="45" id="duration">%d</xliff:g> min.</string>
     <string name="session_list_item_language_content_description">Idioma: <xliff:g example="English" id="language">%s</xliff:g></string>
     <string name="session_list_item_language_portuguese_content_description">Português</string>
     <string name="session_list_item_language_german_content_description">Alemão</string>
@@ -205,19 +169,14 @@
     <string name="session_list_item_no_video_content_description">Sem gravação de vídeo</string>
     <string name="session_list_item_video_content_description">Com gravação de vídeo</string>
     <string name="session_list_item_without_video_content_description">Sem gravação de vídeo</string>
-
+    <!-- Alarms -->
     <!-- Validation errors -->
-    <string name="validation_error_invalid_url">
-       URL <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> inválida.
+    <string name="validation_error_invalid_url">       URL <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> inválida.
     </string>
-    <string name="validation_error_url_without_query">
-        <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL sem parte da consulta.
+    <string name="validation_error_url_without_query">        <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL sem parte da consulta.
     </string>
-    <string name="validation_error_url_with_incomplete_query">
-        <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL com parte da consulta incompleta.
+    <string name="validation_error_url_with_incomplete_query">        <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL com parte da consulta incompleta.
     </string>
-    <string name="validation_error_url_without_api_key">
-        <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL sem chave da API.
+    <string name="validation_error_url_without_api_key">        <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL sem chave da API.
     </string>
-
 </resources>
