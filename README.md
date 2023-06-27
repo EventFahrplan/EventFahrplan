@@ -137,10 +137,10 @@ Andreas Schildbach, Animesh Verma, bashtian, bjoernb, Björn Olsson Jarl,
 ButterflyOfFire, cacarrara, Caio Volpato, Chase, cketti, codingcatgirl,
 Dominik Stadler, entropynil, erebion, ideadapt, isi_ko404, Jasper van der Graaf,
 Joergi, koelnkalkverbot, Larissa Yasin, lepawa, ligi, lucadelu, Luis Azcuaga,
-Mateus Baptista, Matthias Geisler, Matthias Hunstock, Matthias Mair, MichaelRocks,
-Nghiem Xuan Hien, NiciDieNase, Noemis, Omicron, Poschi, Qwertele, rotrot,
-Sjors van Mierlo, Stefan Medack, SubOptimal, Teeranai.P, Torsten Grote,
-Victor Herasme, Vladimir Alabov, Yanicka
+María Arias de Reyna, Mateus Baptista, Matthias Geisler, Matthias Hunstock,
+Matthias Mair, MichaelRocks, Miguel Beltran, Nghiem Xuan Hien, NiciDieNase,
+Noemis, Omicron, Poschi, Qwertele, rotrot, Sjors van Mierlo, Stefan Medack,
+SubOptimal, Teeranai.P, Torsten Grote, Victor Herasme, Vladimir Alabov, Yanicka
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
