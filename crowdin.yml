@@ -9,6 +9,7 @@ preserve_hierarchy: true
 files:
   - source: /app/src/main/res/values/preferences.xml
     translation: /app/src/main/res/values-%android_code%/%original_file_name%
+    skip_untranslated_strings: true
     languages_mapping:
       android_code:
         da: da
@@ -24,6 +25,7 @@ files:
         sv-SE: sv
   - source: /app/src/main/res/values/strings.xml
     translation: /app/src/main/res/values-%android_code%/%original_file_name%
+    skip_untranslated_strings: true
     languages_mapping:
       android_code:
         da: da
