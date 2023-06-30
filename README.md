@@ -24,6 +24,7 @@ Please read the instructions in the [contribution guide](CONTRIBUTING.md) in ord
 - [Event data](#event-data)
 - [Build instructions](#build-instructions)
 - [History](#history)
+- [Funding](#funding)
 - [Licenses](#licenses)
 
 ## Features
