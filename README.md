@@ -23,6 +23,7 @@ Please read the instructions in the [contribution guide](CONTRIBUTING.md) in ord
 - [Android versions](#android-versions)
 - [Event data](#event-data)
 - [Build instructions](#build-instructions)
+- [Translations](#translations)
 - [History](#history)
 - [Funding](#funding)
 - [Licenses](#licenses)
@@ -87,6 +88,15 @@ The [customization guide][customization-guide] explains in all details how to cr
 If you want to create your own signed release builds, copy the `gradle.properties.example` file in the `app` folder
 and rename it to `gradle.properties`. This file contains the signing information which is used in the build process.
 Make sure to edit the file contents to point to your own keystore files.
+
+## Translations
+
+Text translations are managed on [Crowdin][crowdin-eventfahrplan-website]. Contributions are welcome!
+
+Sources (English) and translations are synchronized via the [Crowdin CLI tool][crowdin-cli-tool-website].
+German is excluded from being managed on Crowdin as long as the maintainer is a native German speaker.
+New languages must be configured in the Crowdin configuration file `crowdin.yaml` before translations
+can be downloaded.
 
 ## History
 
@@ -154,6 +164,8 @@ limitations under the License.
 [congress-app-google-play]: https://play.google.com/store/apps/details?id=info.metadude.android.congress.schedule
 [congress-website]: https://events.ccc.de/congress/
 [customization-guide]: docs/CUSTOMIZING.md
+[crowdin-eventfahrplan-website]: https://crowdin.com/project/eventfahrplan
+[crowdin-cli-tool-website]: https://crowdin.github.io/crowdin-cli/
 [engelsystem-website]: https://engelsystem.de
 [eventfahrplan-github]: https://github.com/EventFahrplan/EventFahrplan
 [frab-website]: https://frab.github.io/frab/
