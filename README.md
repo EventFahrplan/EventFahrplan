@@ -23,6 +23,7 @@ Please read the instructions in the [contribution guide](CONTRIBUTING.md) in ord
 - [Android versions](#android-versions)
 - [Event data](#event-data)
 - [Build instructions](#build-instructions)
+- [Translations](#translations)
 - [History](#history)
 - [Funding](#funding)
 - [Licenses](#licenses)
@@ -43,8 +44,10 @@ Please read the instructions in the [contribution guide](CONTRIBUTING.md) in ord
 
 ### Supported languages
 *Event descriptions excluded*
+- Danish 🇩🇰
 - Dutch 🇳🇱
 - English 🇺🇸
+- Finnish 🇫🇮
 - French 🇫🇷
 - German 🇩🇪
 - Italian 🇮🇹
@@ -88,6 +91,15 @@ If you want to create your own signed release builds, copy the `gradle.propertie
 and rename it to `gradle.properties`. This file contains the signing information which is used in the build process.
 Make sure to edit the file contents to point to your own keystore files.
 
+## Translations
+
+Text translations are managed on [Crowdin][crowdin-eventfahrplan-website]. Contributions are welcome!
+
+Sources (English) and translations are synchronized via the [Crowdin CLI tool][crowdin-cli-tool-website].
+German is excluded from being managed on Crowdin as long as the maintainer is a native German speaker.
+New languages must be configured in the Crowdin configuration file `crowdin.yaml` before translations
+can be downloaded.
+
 ## History
 
 * The project was started as ["CampFahrplan"][campfahrplan-github] in 2011 and has been developed
@@ -120,15 +132,15 @@ Portions Copyright 2008-2011 The K-9 Dog Walkers and 2006-2011 the Android Open 
 Copyright 2013-2023 johnjohndoe
 Copyright 2011-2015 Daniel Dorau
 Contributions from 0x5ubt13, Adriano Pereira Junior, Akarsh Seggemu,
-Andrea Marziali, Andy Scherzinger, Andreas Schildbach, Animesh Verma,
-bashtian, bjoernb, Björn Olsson Jarl, ButterflyOfFire, cacarrara,
-Caio Volpato, Chase, cketti, codingcatgirl, Dominik Stadler, entropynil,
-ideadapt, isi_ko404, Jasper van der Graaf, Joergi, koelnkalkverbot,
-Larissa Yasin, ligi, Luis Azcuaga, Mateus Baptista, Matthias Geisler,
-Matthias Hunstock, Matthias Mair, MichaelRocks, Nghiem Xuan Hien,
-NiciDieNase, Noemis, Omicron, Poschi, rotrot, Sjors van Mierlo,
-Stefan Medack, SubOptimal, Teeranai.P, Torsten Grote, Victor Herasme,
-Vladimir Alabov, Yanicka
+Александр Рознятовский, aligoush, Andrea Marziali, Andy Scherzinger,
+Andreas Schildbach, Animesh Verma, bashtian, bjoernb, Björn Olsson Jarl,
+ButterflyOfFire, cacarrara, Caio Volpato, Chase, cketti, codingcatgirl,
+Dominik Stadler, entropynil, erebion, ideadapt, isi_ko404, Jasper van der Graaf,
+Joergi, koelnkalkverbot, Larissa Yasin, lepawa, ligi, lucadelu, Luis Azcuaga,
+María Arias de Reyna, Mateus Baptista, Matthias Geisler, Matthias Hunstock,
+Matthias Mair, MichaelRocks, Miguel Beltran, mtpa, Nghiem Xuan Hien, NiciDieNase,
+Noemis, Omicron, Poschi, Qwertele, rotrot, Sjors van Mierlo, Stefan Medack,
+SubOptimal, Teeranai.P, Torsten Grote, Victor Herasme, Vladimir Alabov, Yanicka
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -154,6 +166,8 @@ limitations under the License.
 [congress-app-google-play]: https://play.google.com/store/apps/details?id=info.metadude.android.congress.schedule
 [congress-website]: https://events.ccc.de/congress/
 [customization-guide]: docs/CUSTOMIZING.md
+[crowdin-eventfahrplan-website]: https://crowdin.com/project/eventfahrplan
+[crowdin-cli-tool-website]: https://crowdin.github.io/crowdin-cli/
 [engelsystem-website]: https://engelsystem.de
 [eventfahrplan-github]: https://github.com/EventFahrplan/EventFahrplan
 [frab-website]: https://frab.github.io/frab/

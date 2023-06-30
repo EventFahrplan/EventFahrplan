@@ -1,18 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <!-- App notification settings -->
-
+    <!-- Screen -->
+    <!-- Category development -->
+    <!-- Schedule refresh interval -->
+    <!--
+    Synchronize with @strings/preference_default_value_schedule_refresh_interval_value
+    -->
+    <!--
+    Synchronize with @integers/preference_default_value_schedule_refresh_interval_index
+    and string-array/preference_entry_values_schedule_refresh
+    -->
+    <!--
+    Synchronize with @strings/preference_default_value_schedule_refresh_interval_value
+    and @integers/preference_default_value_schedule_refresh_interval_index
+    -->
+    <!-- Category general -->
     <!-- Automatic schedule updates -->
-
+    <string name="preference_title_auto_update_enabled">Abilita gli aggiornamenti automatici</string>
+    <string name="preference_summary_auto_update_enabled">Scarica periodicamente il programma.</string>
     <!-- Alarm time index -->
-
+    <!--
+    Synchronize with @strings/preference_default_value_alarm_time_value
+    -->
+    <!--
+    Synchronize with @integers/preference_default_value_alarm_time_index
+    and string-array/preference_entry_values_alarm_time
+    -->
+    <string name="preference_dialog_title_alarm_time">Scegli un tempo predefinito per la sveglia</string>
+    <string name="preference_title_alarm_time">Scegli un tempo predefinito per la sveglia</string>
+    <!--
+    Synchronize with @strings/preference_default_value_alarm_time_value
+    and @integers/preference_default_value_alarm_time_index
+    -->
     <!-- Alarm tone -->
-
+    <string name="preference_title_alarm_tone">Seleziona il tono della sveglia</string>
+    <string name="preference_summary_alarm_tone">Apre la schermata di selezione dei suoni da qui.</string>
+    <!-- Device time zone -->
+    <string name="preference_title_use_device_time_zone_enabled">Usa fuso orario del dispositivo</string>
+    <string name="preference_summary_use_device_time_zone_enabled">Visualizza date e orari di conseguenza.</string>
     <!-- Alternative highlighting -->
-
+    <string name="preference_title_alternative_highlighting_enabled">Abilita evidenziazione alternativa</string>
+    <string name="preference_summary_alternative_highlighting_enabled">Aggiunge un bordo intorno alle sessioni preferite.</string>
     <!-- Alternative schedule URL -->
-
+    <string name="preference_title_alternative_schedule_url">Configura l\'URL alternativo del programma</string>
+    <string name="preference_summary_alternative_schedule_url">Inserire un URL di backup se il server preconfigurato non può essere raggiunto.</string>
+    <!-- App notification settings -->
+    <string name="preference_title_app_notification_settings">Personalizza le notifiche</string>
     <!-- Insistent session alarms -->
-
+    <string name="preference_title_insistent_alarms_enabled">Abilita sveglia insistente</string>
+    <!-- Category Engelsystem -->
+    <string name="preference_title_engelsystem_json_export_url">Configura URL di esportazione JSON</string>
 </resources>
