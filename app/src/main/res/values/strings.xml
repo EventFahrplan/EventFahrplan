@@ -258,6 +258,9 @@
         <item quantity="other">Speakers: <xliff:g example="Jane Doe, John Doe" id="names">%s</xliff:g></item>
     </plurals>
 
+    <!-- Session item -->
+    <string name="session_item_no_video_content_description" translatable="false">@string/session_list_item_no_video_content_description</string>
+
     <!-- Alarms -->
     <string name="alarms_empty">
         There are no alarms to display. Please note that you
