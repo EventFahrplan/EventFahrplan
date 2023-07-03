@@ -26,6 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="22sp"
             android:adjustViewBounds="true"
+            android:contentDescription="@string/session_item_no_video_content_description"
             android:scaleType="fitStart"
             android:src="@drawable/ic_novideo" />
 
@@ -36,7 +37,8 @@
             android:adjustViewBounds="true"
             android:padding="3dp"
             android:scaleType="fitStart"
-            android:src="@drawable/ic_bell_on_session" />
+            android:src="@drawable/ic_bell_on_session"
+            tools:ignore="ContentDescription" />
 
     </LinearLayout>
 

@@ -228,6 +228,9 @@
         <item quantity="other">Sprecher innen: <xliff:g example="Jane Doe, John Doe" id="names">%s</xliff:g></item>
     </plurals>
 
+    <!-- Session item -->
+    <string name="session_item_has_alarm_content_description">Alarm ist eingestellt</string>
+
     <!-- Alarms -->
     <string name="alarms_empty">
         Aktuell sind keine Alarme gespeichert. In der Detailansicht kannst

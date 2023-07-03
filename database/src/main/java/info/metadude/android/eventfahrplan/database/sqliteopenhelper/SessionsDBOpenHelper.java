@@ -61,7 +61,7 @@ public class SessionsDBOpenHelper extends SQLiteOpenHelper {
      * Create statement for a mapping table (notification ID, session ID). Each insert automatically
      * increments the primary key and therefore generates a new notification ID.
      */
-    private static final String SESSION_BY_NOTIFICATION_ID_TABLE_CREATE = "" +
+    private static final String SESSION_BY_NOTIFICATION_ID_TABLE_CREATE =
             "CREATE TABLE " + SessionByNotificationIdTable.NAME + " (" +
             BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
             SessionByNotificationIdTable.Columns.SESSION_ID + " TEXT)";
