@@ -18,8 +18,8 @@ object Android {
 object Compose {
 
     object Versions {
-        internal const val bom = "2023.05.01"
-        const val compiler = "1.4.7"
+        internal const val bom = "2023.06.01"
+        const val compiler = "1.4.8"
     }
 
     const val bom = "androidx.compose:compose-bom:${Versions.bom}"
@@ -35,11 +35,11 @@ object Plugins {
         const val android = "7.4.2"
         const val androidJunitJacoco = "0.16.0"
         const val dexcount = "4.0.0"
-        const val kotlin = "1.8.21"
-        const val ksp = "1.8.21-1.0.11"
-        const val sonarQube = "4.0.0.2929"
+        const val kotlin = "1.8.22"
+        const val ksp = "1.8.22-1.0.11"
+        const val sonarQube = "4.2.1.3168"
         const val unMock = "0.7.9"
-        const val versions = "0.46.0"
+        const val versions = "0.47.0"
     }
 
     const val android = "com.android.tools.build:gradle:${Versions.android}"
@@ -66,13 +66,13 @@ object Libs {
         const val engelsystem = "7.2.0"
         const val espresso = "3.5.1"
         const val junit = "4.13.2"
-        const val kotlinCoroutines = "1.7.1"
+        const val kotlinCoroutines = "1.7.2"
         const val lifecycle = "2.6.1"
         const val markwon = "4.6.2"
         const val material = "1.9.0"
-        const val mockito = "5.3.0"
-        const val mockitoKotlin = "4.1.0"
-        const val moshi = "1.14.0"
+        const val mockito = "5.4.0"
+        const val mockitoKotlin = "5.0.0"
+        const val moshi = "1.15.0"
         const val multiDex = "2.0.1"
         const val okhttp = "4.11.0"
         const val preference = "1.2.0"
@@ -82,8 +82,8 @@ object Libs {
         const val testExtJunit = "1.1.5"
         const val threeTenBp = "1.6.8"
         const val tracedroid = "3.1"
-        const val truth = "1.1.3"
-        const val turbine = "0.12.3"
+        const val truth = "1.1.5"
+        const val turbine = "1.0.0"
     }
 
     const val annotation = "androidx.annotation:annotation:${Versions.annotation}"
