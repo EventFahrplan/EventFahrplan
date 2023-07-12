@@ -104,8 +104,9 @@
         This application uses the following libraries: <xliff:g example="Kotlin, Espresso" id="libs">%s</xliff:g>
     </string>
     <string name="about_libraries_names" translatable="false">
-		Kotlin, Google AndroidX library, BetterLinkMovementMethod, Email Intent Builder,
-		Engelsystem, Espresso, Markwon, OkHttp, SnackEngage, TraceDroid
+		Kotlin, Google AndroidX, Jetpack Compose, BetterLinkMovementMethod,
+		Email Intent Builder, Engelsystem, Espresso, Markwon, Material Components,
+		Moshi, OkHttp, Retrofit, SnackEngage, ThreeTenBp, TraceDroid
 	</string>
     <string name="about_data_privacy_statement_german">Data privacy statement (German)</string>
     <string name="about_f_droid_listing">F-Droid listing</string>
