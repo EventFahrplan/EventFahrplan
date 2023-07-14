@@ -12,6 +12,7 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Se
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns;
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Defaults;
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Values;
+import info.metadude.android.eventfahrplan.database.extensions.SQLiteDatabaseExtensions;
 
 public class SessionsDBOpenHelper extends SQLiteOpenHelper {
 
@@ -132,7 +133,10 @@ public class SessionsDBOpenHelper extends SQLiteOpenHelper {
             db.execSQL(SESSION_BY_NOTIFICATION_ID_TABLE_CREATE);
         }
         if (oldVersion < 11 && newVersion >= 11) {
-            db.execSQL("ALTER TABLE " + SessionsTable.NAME + " ADD COLUMN " + Columns.TIME_ZONE_OFFSET + " INTEGER DEFAULT NULL");
+            boolean columnExists = SQLiteDatabaseExtensions.columnExists(db, SessionsTable.NAME, Columns.TIME_ZONE_OFFSET);
+            if (!columnExists) {
+                db.execSQL("ALTER TABLE " + SessionsTable.NAME + " ADD COLUMN " + Columns.TIME_ZONE_OFFSET + " INTEGER DEFAULT NULL");
+            }
         }
         if (oldVersion < 12) {
             // Clear database from rC3 12/2020.
