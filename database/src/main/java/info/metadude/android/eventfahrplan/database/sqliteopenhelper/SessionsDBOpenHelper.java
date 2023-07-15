@@ -125,7 +125,7 @@ public class SessionsDBOpenHelper extends SQLiteOpenHelper {
             onCreate(db);
         }
         if (oldVersion < 9) {
-            // Clear database from 35C3.
+            // Clear database from 35C3 & Camp 2019.
             db.execSQL("DROP TABLE IF EXISTS " + SessionsTable.NAME);
             onCreate(db);
         }

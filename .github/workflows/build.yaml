@@ -13,13 +13,13 @@ jobs:
           java-version: '11'
             
       - name: Build the app
-        run: ./gradlew assemble
+        run: ./gradlew assembleCccamp2023
 
       - name: Unit Tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 21
-          script: ./gradlew testJev2022DebugUnitTest assembleJev2022Debug lintAnalyzeJev2022Debug
+          script: ./gradlew testCccamp2023DebugUnitTest assembleCccamp2023Debug lintAnalyzeCccamp2023Debug
 
       - name: Publish unit-test results
         uses: EnricoMi/publish-unit-test-result-action@v1
@@ -46,7 +46,7 @@ jobs:
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 21
-          script: ./gradlew connectedJev2022DebugAndroidTest
+          script: ./gradlew connectedCccamp2023DebugAndroidTest
 
       - name: Publish unit-test results
         uses: EnricoMi/publish-unit-test-result-action/composite@v1
