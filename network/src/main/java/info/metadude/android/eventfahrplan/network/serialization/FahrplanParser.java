@@ -66,6 +66,7 @@ public class FahrplanParser {
 }
 
 class ParserTask extends AsyncTask<String, Void, Boolean> {
+    private static final String LOG_TAG = "ParserTask";
 
     @NonNull
     private final Logging logging;
@@ -182,7 +183,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                             }
                         }
                         if (name.equalsIgnoreCase("event")) {
-                            parseEvent(parser, room, day, dayChangeTime, date, roomMapIndex);
+                            parseOrSkipEvent(parser, room, day, dayChangeTime, date, roomMapIndex);
                         } else if (name.equalsIgnoreCase("conference")) {
                             boolean confDone = false;
                             eventType = parser.next();
@@ -241,6 +242,28 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
         } catch (Exception e) {
             e.printStackTrace();
             return false;
+        }
+    }
+
+    private void parseOrSkipEvent(XmlPullParser parser, String room, int day, int dayChangeTime, String date, int roomMapIndex)
+            throws IOException, XmlPullParserException {
+        int depth = parser.getDepth();
+        try {
+            parseEvent(parser, room, day, dayChangeTime, date, roomMapIndex);
+        } catch (Exception e) {
+            logging.e(LOG_TAG, "Failed to parse <event> element. " + e.getMessage());
+
+            // Skip the rest of the <event> element
+            while (true) {
+                int eventType = parser.next();
+
+                if (eventType == XmlPullParser.END_DOCUMENT) {
+                    throw new IllegalStateException("End of document reached while skipping <event> element");
+                } else if (eventType == XmlPullParser.END_TAG && parser.getName().equals("event") &&
+                        parser.getDepth() == depth) {
+                    break;
+                }
+            }
         }
     }
 
