@@ -140,6 +140,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
             int roomMapIndex = 0;
             boolean scheduleComplete = false;
             HashMap<String, Integer> roomsMap = new HashMap<>();
+            int skippedSessions = 0;
             while (eventType != XmlPullParser.END_DOCUMENT && !done && !isCancelled()) {
                 String name;
                 switch (eventType) {
@@ -183,7 +184,10 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                             }
                         }
                         if (name.equalsIgnoreCase("event")) {
-                            parseOrSkipEvent(parser, room, day, dayChangeTime, date, roomMapIndex);
+                            boolean success = parseOrSkipEvent(parser, room, day, dayChangeTime, date, roomMapIndex);
+                            if (!success) {
+                                skippedSessions++;
+                            }
                         } else if (name.equalsIgnoreCase("conference")) {
                             boolean confDone = false;
                             eventType = parser.next();
@@ -238,6 +242,9 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
             }
             meta.setNumDays(numdays);
             meta.setETag(eTag);
+
+            logging.d(LOG_TAG, "Skipped " + skippedSessions + " sessions due to parsing errors.");
+
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -245,11 +252,12 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
         }
     }
 
-    private void parseOrSkipEvent(XmlPullParser parser, String room, int day, int dayChangeTime, String date, int roomMapIndex)
+    private boolean parseOrSkipEvent(XmlPullParser parser, String room, int day, int dayChangeTime, String date, int roomMapIndex)
             throws IOException, XmlPullParserException {
         int depth = parser.getDepth();
         try {
             parseEvent(parser, room, day, dayChangeTime, date, roomMapIndex);
+            return true;
         } catch (Exception e) {
             logging.e(LOG_TAG, "Failed to parse <event> element. " + e.getMessage());
 
@@ -264,6 +272,8 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                     break;
                 }
             }
+
+            return false;
         }
     }
 
