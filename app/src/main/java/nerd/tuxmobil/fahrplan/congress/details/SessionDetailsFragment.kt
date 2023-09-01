@@ -373,7 +373,7 @@ class SessionDetailsFragment : Fragment() {
             menu.setMenuItemVisibility(R.id.menu_item_set_alarm, false)
             menu.setMenuItemVisibility(R.id.menu_item_delete_alarm, true)
         }
-        menu.setMenuItemVisibility(R.id.menu_item_feedback, SHOW_FEEDBACK_MENU_ITEM && !model.isFeedbackUrlEmpty)
+        menu.setMenuItemVisibility(R.id.menu_item_feedback, SHOW_FEEDBACK_MENU_ITEM && model.supportsFeedback)
         if (sidePane) {
             menu.setMenuItemVisibility(R.id.menu_item_close_session_details, true)
         }
