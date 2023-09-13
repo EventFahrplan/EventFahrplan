@@ -157,7 +157,7 @@ limitations under the License.
 
 [c3nav-github]: https://github.com/c3nav
 [campfahrplan-github]: https://github.com/tuxmobil/CampFahrplan
-[camp-app-fdroid]: https://fdroid.gitlab.io/ccc/
+[camp-app-fdroid]: https://f-droid.org/packages/info.metadude.android.cccamp.schedule
 [camp-app-google-play]: https://play.google.com/store/apps/details?id=info.metadude.android.cccamp.schedule
 [camp-website]: https://events.ccc.de/camp/
 [ccc-events]: http://events.ccc.de
