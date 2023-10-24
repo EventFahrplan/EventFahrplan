@@ -1,7 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress
 
+import android.app.Application
 import androidx.annotation.CallSuper
-import androidx.multidex.MultiDexApplication
 import info.metadude.android.eventfahrplan.commons.logging.Logging
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.utils.ConferenceTimeFrame
@@ -10,7 +10,7 @@ import java.util.Calendar
 import java.util.GregorianCalendar
 import java.util.TimeZone
 
-class MyApp : MultiDexApplication() {
+class MyApp : Application() {
 
     enum class TASKS {
         NONE, FETCH, PARSE
