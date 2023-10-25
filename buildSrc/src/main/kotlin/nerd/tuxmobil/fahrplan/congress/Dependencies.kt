@@ -18,7 +18,7 @@ object Android {
 object Compose {
 
     object Versions {
-        internal const val bom = "2023.06.01"
+        internal const val bom = "2023.06.01" // compileSdk 34 is required as of 2023.08.00
         const val compiler = "1.5.3"
     }
 
