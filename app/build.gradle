@@ -24,7 +24,6 @@ android {
         minSdk Android.minSdkVersion
         targetSdk Android.targetSdkVersion
         archivesBaseName = "Fahrplan-$versionName"
-        multiDexEnabled true
 
         vectorDrawables.useSupportLibrary = true // needed for API level < 21
 
@@ -242,7 +241,6 @@ dependencies {
     implementation Libs.material
     implementation Libs.moshi
     ksp Libs.moshiCodeGen
-    implementation Libs.multiDex
     implementation Libs.okhttp
     implementation Libs.okhttpLoggingInterceptor
     implementation Libs.preference
