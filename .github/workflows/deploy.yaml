@@ -1,0 +1,49 @@
+name: Deploy to Google Play Store
+
+on:
+  push:
+    branches:
+      - glt-2022
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '11'
+
+      - name: Build
+        run: ./gradlew assemble
+
+      - name: Assemble Release Bundle
+        run: |
+          ./gradlew bundleGlt22
+      - name: Sign Release
+        uses: r0adkll/sign-android-release@v1
+        with:
+          releaseDirectory: app/build/outputs/bundle/glt22Release
+          signingKeyBase64: ${{ secrets.KEYSTORE }}
+          alias: ${{ secrets.KEY_ALIAS }}
+          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+          keyPassword: ${{ secrets.KEY_PASSWORD }}
+
+      - name: Tag Release
+        run: |
+          version_name=$(grep -oP -m1 '(?:versionName\s")([^"]+)"' app/build.gradle | grep -oE "[0-9]+\.[0-9]+\.[0-9]+")
+          echo "Tagging release with tag v$version_name"
+          git tag v$version_name ${GITHUB_REF##*/}
+          git push origin --tags
+
+      - name: Deploy to Production
+        uses: r0adkll/upload-google-play@v1.1.1
+        with:
+          serviceAccountJson: ${{ secrets.SERVICE_ACCOUNT_JSON }}
+          packageName: at.linuxtage.companion
+          releaseFiles: app/build/outputs/bundle/glt22Release/Fahrplan-$version_name-glt22-release.aab
+          track: production
+          whatsNewDirectory: distribution/
