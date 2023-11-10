@@ -31,7 +31,7 @@ fun Shift.toSessionAppModel(
     room = virtualRoomName
     speakers = emptyList()
     startTime = minuteOfDay  // minutes since day start
-    title = name
+    title = typeName
     subtitle = talkTitle
     // Shift.timeZoneName is not mapped here. Using Meta.timeZoneName instead.
     track = virtualRoomName

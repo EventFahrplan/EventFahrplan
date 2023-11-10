@@ -63,7 +63,7 @@ object Libs {
         const val coreKtx = "1.9.0"
         const val coreTesting = "2.2.0"
         const val emailIntentBuilder = "2.0.0"
-        const val engelsystem = "7.3.0"
+        const val engelsystem = "8.0.0"
         const val espresso = "3.5.1"
         const val junit = "4.13.2"
         const val kotlinCoroutines = "1.7.3"
