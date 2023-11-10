@@ -31,10 +31,10 @@ fun Shift.toSessionAppModel(
     room = virtualRoomName
     speakers = emptyList()
     startTime = minuteOfDay  // minutes since day start
-    title = typeName
-    subtitle = talkTitle
+    title = talkTitle
+    subtitle = locationName
     // Shift.timeZoneName is not mapped here. Using Meta.timeZoneName instead.
-    track = virtualRoomName
+    track = typeName
     url = talkUrl
 }
 
@@ -60,9 +60,6 @@ private val Shift.dateUtcMs
 val Shift.descriptionText: String
     get() {
         var text = ""
-        if (locationName.isNotEmpty()) {
-            text += locationName
-        }
         if (locationUrl.isNotEmpty()) {
             if (text.isNotEmpty()) {
                 text += "\n"
