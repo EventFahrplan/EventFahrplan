@@ -69,6 +69,12 @@ val Shift.descriptionText: String
             }
             text += "<a href=\"$locationUrl\">$locationUrl</a>"
         }
+        if (typeDescription.isNotEmpty()) {
+            if (text.isNotEmpty()) {
+                text += "\n\n"
+            }
+            text += typeDescription
+        }
         if (locationDescription.isNotEmpty()) {
             if (text.isNotEmpty()) {
                 text += "\n\n"
