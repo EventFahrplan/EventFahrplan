@@ -28,7 +28,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import info.metadude.android.eventfahrplan.commons.flow.observe
+import io.noties.markwon.AbstractMarkwonPlugin
 import io.noties.markwon.Markwon
+import io.noties.markwon.core.MarkwonTheme
 import io.noties.markwon.linkify.LinkifyPlugin
 import nerd.tuxmobil.fahrplan.congress.BuildConfig
 import nerd.tuxmobil.fahrplan.congress.R
@@ -58,6 +60,15 @@ class SessionDetailsFragment : Fragment() {
         private const val SESSION_DETAILS_FRAGMENT_REQUEST_KEY = "SESSION_DETAILS_FRAGMENT_REQUEST_KEY"
         private const val SCHEDULE_FEEDBACK_URL = BuildConfig.SCHEDULE_FEEDBACK_URL
         private val SHOW_FEEDBACK_MENU_ITEM = !TextUtils.isEmpty(SCHEDULE_FEEDBACK_URL)
+
+        // Custom heading text size multipliers for each heading level.
+        // Docs: https://noties.io/Markwon/docs/v4/core/theme.html#typeface
+        private val HEADING_TEXT_SIZE_MULTIPLIERS = floatArrayOf(1.25f, 1.18f, 1.07F, 1.0f, .83F, .67F)
+        private val HEADINGS_PLUGIN = object : AbstractMarkwonPlugin() {
+            override fun configureTheme(builder: MarkwonTheme.Builder) {
+                builder.headingTextSizeMultipliers(HEADING_TEXT_SIZE_MULTIPLIERS)
+            }
+        }
 
         @JvmStatic
         fun replaceAtBackStack(fragmentManager: FragmentManager, @IdRes containerViewId: Int, sidePane: Boolean) {
@@ -114,6 +125,7 @@ class SessionDetailsFragment : Fragment() {
         alarmServices = AlarmServices.newInstance(context, appRepository)
         notificationHelper = NotificationHelper(context)
         markwon = Markwon.builder(requireContext())
+            .usePlugin(HEADINGS_PLUGIN)
             .usePlugin(LinkifyPlugin.create())
             .build()
     }
