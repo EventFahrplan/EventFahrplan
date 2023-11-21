@@ -63,11 +63,9 @@ android {
         debug {
             versionNameSuffix "-DEBUG"
             applicationIdSuffix ".debug"
-            zipAlignEnabled true
             debuggable true
         }
         release {
-            zipAlignEnabled true
             minifyEnabled true
             proguardFiles getDefaultProguardFile("proguard-android.txt"),
                     "proguard-rules/proguard-project.txt",
