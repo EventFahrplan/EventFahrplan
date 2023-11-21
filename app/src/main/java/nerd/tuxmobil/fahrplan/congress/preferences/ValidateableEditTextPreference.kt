@@ -81,9 +81,9 @@ class ValidateableEditTextPreference : StyleableEditTextPreference {
      */
     sealed class ValidationType(val value: Int) {
 
-        object Unknown : ValidationType(0)
-        object Url : ValidationType(1)
-        object EngelsystemUrl : ValidationType(2)
+        data object Unknown : ValidationType(0)
+        data object Url : ValidationType(1)
+        data object EngelsystemUrl : ValidationType(2)
 
         companion object {
             fun of(type: Int) = when (type) {

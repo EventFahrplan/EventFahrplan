@@ -2,11 +2,7 @@ package nerd.tuxmobil.fahrplan.congress.alarms
 
 sealed interface AlarmsState {
 
-    object Loading : AlarmsState {
-        override fun toString(): String {
-            return "Loading"
-        }
-    }
+    data object Loading : AlarmsState
 
     data class Success(
         val sessionAlarmParameters: List<SessionAlarmParameter>,

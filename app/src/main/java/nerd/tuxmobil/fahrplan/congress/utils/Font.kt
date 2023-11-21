@@ -7,11 +7,11 @@ sealed class Font(val fileName: String) {
 
     sealed class Roboto(fileName: String) : Font(fileName) {
 
-        object Black : Roboto("Roboto-Black.ttf")
-        object Bold : Roboto("Roboto-Bold.ttf")
-        object BoldCondensed : Roboto("Roboto-BoldCondensed.ttf")
-        object Light : Roboto("Roboto-Light.ttf")
-        object Regular : Roboto("Roboto-Regular.ttf")
+        data object Black : Roboto("Roboto-Black.ttf")
+        data object Bold : Roboto("Roboto-Bold.ttf")
+        data object BoldCondensed : Roboto("Roboto-BoldCondensed.ttf")
+        data object Light : Roboto("Roboto-Light.ttf")
+        data object Regular : Roboto("Roboto-Regular.ttf")
 
     }
 

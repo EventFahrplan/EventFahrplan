@@ -25,7 +25,7 @@ android {
         targetSdk Android.targetSdkVersion
         archivesBaseName = "Fahrplan-$versionName"
 
-        vectorDrawables.useSupportLibrary = true // needed for API level < 21
+        vectorDrawables.useSupportLibrary = true // allows using fillColor, fillType, strokeColor functionalities below Android 7.0 (API 24)
 
         // Build information
         resValue("string", "build_time", "\"${buildTime()}\"")
@@ -63,11 +63,9 @@ android {
         debug {
             versionNameSuffix "-DEBUG"
             applicationIdSuffix ".debug"
-            zipAlignEnabled true
             debuggable true
         }
         release {
-            zipAlignEnabled true
             minifyEnabled true
             proguardFiles getDefaultProguardFile("proguard-android.txt"),
                     "proguard-rules/proguard-project.txt",
