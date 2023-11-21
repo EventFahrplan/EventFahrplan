@@ -13,7 +13,7 @@ dependencies {
 
     testImplementation Libs.junit
     testImplementation Libs.kotlinCoroutinesTest
-    testImplementation Libs.mockitoKotlin
+    testImplementation Libs.mockitoCore
     testImplementation Libs.okhttpMockWebServer
     testImplementation Libs.retrofitConverterMoshi
     testImplementation Libs.truth
