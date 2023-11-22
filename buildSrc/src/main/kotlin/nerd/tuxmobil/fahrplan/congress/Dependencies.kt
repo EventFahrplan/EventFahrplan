@@ -19,7 +19,7 @@ object Compose {
 
     object Versions {
         internal const val bom = "2023.06.01" // compileSdk 34 is required as of 2023.08.00
-        const val compiler = "1.5.3"
+        const val compiler = "1.5.6"
     }
 
     const val bom = "androidx.compose:compose-bom:${Versions.bom}"
@@ -35,8 +35,8 @@ object Plugins {
         const val android = "7.4.2"
         const val androidJunitJacoco = "0.16.0"
         const val dexcount = "4.0.0"
-        const val kotlin = "1.9.10"
-        const val ksp = "1.9.10-1.0.13"
+        const val kotlin = "1.9.21"
+        const val ksp = "1.9.21-1.0.15"
         const val sonarQube = "4.4.1.3373"
         const val unMock = "0.7.9"
         const val versions = "0.50.0"
