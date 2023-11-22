@@ -1,6 +1,9 @@
+import nerd.tuxmobil.fahrplan.congress.Config
 import nerd.tuxmobil.fahrplan.congress.Plugins
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 buildscript {
     repositories {
@@ -41,6 +44,12 @@ subprojects {
             showCauses true
             showExceptions true
             showStackTraces true
+        }
+    }
+    tasks.withType(KotlinCompile).configureEach {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.@Companion.fromTarget(Config.JAVA_VERSION))
+            freeCompilerArgs.add("-opt-in=kotlin.RequiresOptIn")
         }
     }
 }
