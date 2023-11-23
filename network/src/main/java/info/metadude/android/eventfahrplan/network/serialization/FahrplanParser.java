@@ -8,7 +8,9 @@ import android.util.Xml;
 import androidx.annotation.NonNull;
 
 import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
 
+import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -64,6 +66,7 @@ public class FahrplanParser {
 }
 
 class ParserTask extends AsyncTask<String, Void, Boolean> {
+    private static final String LOG_TAG = "ParserTask";
 
     @NonNull
     private final Logging logging;
@@ -137,6 +140,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
             int roomMapIndex = 0;
             boolean scheduleComplete = false;
             HashMap<String, Integer> roomsMap = new HashMap<>();
+            int skippedSessions = 0;
             while (eventType != XmlPullParser.END_DOCUMENT && !done && !isCancelled()) {
                 String name;
                 switch (eventType) {
@@ -180,127 +184,9 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                             }
                         }
                         if (name.equalsIgnoreCase("event")) {
-                            String id = parser.getAttributeValue(null, "id");
-                            Session session = new Session();
-                            session.setSessionId(id);
-                            session.setDayIndex(day);
-                            session.setRoom(room);
-                            session.setDate(date);
-                            session.setRoomIndex(roomMapIndex);
-                            eventType = parser.next();
-                            boolean isSessionDone = false;
-                            while (eventType != XmlPullParser.END_DOCUMENT
-                                    && !isSessionDone && !isCancelled()) {
-                                switch (eventType) {
-                                    case XmlPullParser.END_TAG:
-                                        name = parser.getName();
-                                        if (name.equals("event")) {
-                                            sessions.add(session);
-                                            isSessionDone = true;
-                                        }
-                                        break;
-                                    case XmlPullParser.START_TAG:
-                                        name = parser.getName();
-                                        //noinspection IfCanBeSwitch
-                                        if (name.equals("title")) {
-                                            parser.next();
-                                            session.setTitle(XmlPullParsers.getSanitizedText(parser));
-                                        } else if (name.equals("subtitle")) {
-                                            parser.next();
-                                            session.setSubtitle(XmlPullParsers.getSanitizedText(parser));
-                                        } else if (name.equals("slug")) {
-                                            parser.next();
-                                            session.setSlug(XmlPullParsers.getSanitizedText(parser));
-                                        } else if (name.equals("url")) {
-                                            parser.next();
-                                            session.setUrl(XmlPullParsers.getSanitizedText(parser));
-                                        } else if (name.equals("track")) {
-                                            parser.next();
-                                            session.setTrack(XmlPullParsers.getSanitizedText(parser));
-                                        } else if (name.equals("type")) {
-                                            parser.next();
-                                            session.setType(XmlPullParsers.getSanitizedText(parser));
-                                        } else if (name.equals("language")) {
-                                            parser.next();
-                                            session.setLanguage(XmlPullParsers.getSanitizedText(parser));
-                                        } else if (name.equals("abstract")) {
-                                            parser.next();
-                                            session.setAbstractt(XmlPullParsers.getSanitizedText(parser));
-                                        } else if (name.equals("description")) {
-                                            parser.next();
-                                            session.setDescription(XmlPullParsers.getSanitizedText(parser));
-                                        } else if (name.equals("person")) {
-                                            parser.next();
-                                            String separator = session.getSpeakers().length() > 0 ? ";" : "";
-                                            session.setSpeakers(session.getSpeakers() + separator + XmlPullParsers.getSanitizedText(parser));
-                                        } else if (name.equals("link")) {
-                                            String url = parser.getAttributeValue(null, "href");
-                                            parser.next();
-                                            String urlName = XmlPullParsers.getSanitizedText(parser);
-                                            if (url == null) {
-                                                url = urlName;
-                                            }
-                                            if (!url.contains("://")) {
-                                                url = "http://" + url;
-                                            }
-                                            StringBuilder sb = new StringBuilder();
-                                            if (session.getLinks().length() > 0) {
-                                                sb.append(session.getLinks());
-                                                sb.append(",");
-                                            }
-                                            sb.append("[").append(urlName).append("]").append("(")
-                                                    .append(url).append(")");
-                                            session.setLinks(sb.toString());
-                                        } else if (name.equals("start")) {
-                                            parser.next();
-                                            session.setStartTime(DateParser.getMinutes(XmlPullParsers.getSanitizedText(parser)));
-                                            session.setRelativeStartTime(session.getStartTime());
-                                            if (session.getRelativeStartTime() < dayChangeTime) {
-                                                session.setRelativeStartTime(session.getRelativeStartTime() + MINUTES_OF_ONE_DAY);
-                                            }
-                                        } else if (name.equals("duration")) {
-                                            parser.next();
-                                            session.setDuration(DateParser.getMinutes(XmlPullParsers.getSanitizedText(parser)));
-                                        } else if (name.equals("date")) {
-                                            parser.next();
-                                            String sanitizedText = XmlPullParsers.getSanitizedText(parser);
-                                            session.setDateUTC(DateParser.getDateTime(sanitizedText));
-                                            session.setTimeZoneOffset(info.metadude.android.eventfahrplan.commons.temporal.DateParser.parseTimeZoneOffset(sanitizedText));
-                                        } else if (name.equals("recording")) {
-                                            eventType = parser.next();
-                                            boolean recordingDone = false;
-                                            while (eventType != XmlPullParser.END_DOCUMENT
-                                                    && !recordingDone && !isCancelled()) {
-                                                switch (eventType) {
-                                                    case XmlPullParser.END_TAG:
-                                                        name = parser.getName();
-                                                        if (name.equals("recording")) {
-                                                            recordingDone = true;
-                                                        }
-                                                        break;
-                                                    case XmlPullParser.START_TAG:
-                                                        name = parser.getName();
-                                                        if (name.equals("license")) {
-                                                            parser.next();
-                                                            session.setRecordingLicense(XmlPullParsers.getSanitizedText(parser));
-                                                        } else if (name.equals("optout")) {
-                                                            parser.next();
-                                                            session.setRecordingOptOut(Boolean.parseBoolean(XmlPullParsers.getSanitizedText(parser)));
-                                                        }
-                                                        break;
-                                                }
-                                                if (recordingDone) {
-                                                    break;
-                                                }
-                                                eventType = parser.next();
-                                            }
-                                        }
-                                        break;
-                                }
-                                if (isSessionDone) {
-                                    break;
-                                }
-                                eventType = parser.next();
+                            boolean success = parseOrSkipEvent(parser, room, day, dayChangeTime, date, roomMapIndex);
+                            if (!success) {
+                                skippedSessions++;
                             }
                         } else if (name.equalsIgnoreCase("conference")) {
                             boolean confDone = false;
@@ -356,10 +242,167 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
             }
             meta.setNumDays(numdays);
             meta.setETag(eTag);
+
+            logging.d(LOG_TAG, "Skipped " + skippedSessions + " sessions due to parsing errors.");
+
             return true;
         } catch (Exception e) {
             e.printStackTrace();
             return false;
+        }
+    }
+
+    private boolean parseOrSkipEvent(XmlPullParser parser, String room, int day, int dayChangeTime, String date, int roomMapIndex)
+            throws IOException, XmlPullParserException {
+        int depth = parser.getDepth();
+        try {
+            parseEvent(parser, room, day, dayChangeTime, date, roomMapIndex);
+            return true;
+        } catch (Exception e) {
+            logging.e(LOG_TAG, "Failed to parse <event> element. " + e.getMessage());
+
+            // Skip the rest of the <event> element
+            while (true) {
+                int eventType = parser.next();
+
+                if (eventType == XmlPullParser.END_DOCUMENT) {
+                    throw new IllegalStateException("End of document reached while skipping <event> element");
+                } else if (eventType == XmlPullParser.END_TAG && parser.getName().equals("event") &&
+                        parser.getDepth() == depth) {
+                    break;
+                }
+            }
+
+            return false;
+        }
+    }
+
+    private void parseEvent(XmlPullParser parser, String room, int day, int dayChangeTime, String date, int roomMapIndex)
+            throws IOException, XmlPullParserException {
+        int eventType;
+        String name;
+        String id = parser.getAttributeValue(null, "id");
+        Session session = new Session();
+        session.setSessionId(id);
+        session.setDayIndex(day);
+        session.setRoom(room);
+        session.setDate(date);
+        session.setRoomIndex(roomMapIndex);
+        eventType = parser.next();
+        boolean isSessionDone = false;
+        while (eventType != XmlPullParser.END_DOCUMENT
+                && !isSessionDone && !isCancelled()) {
+            switch (eventType) {
+                case XmlPullParser.END_TAG:
+                    name = parser.getName();
+                    if (name.equals("event")) {
+                        sessions.add(session);
+                        isSessionDone = true;
+                    }
+                    break;
+                case XmlPullParser.START_TAG:
+                    name = parser.getName();
+                    //noinspection IfCanBeSwitch
+                    if (name.equals("title")) {
+                        parser.next();
+                        session.setTitle(XmlPullParsers.getSanitizedText(parser));
+                    } else if (name.equals("subtitle")) {
+                        parser.next();
+                        session.setSubtitle(XmlPullParsers.getSanitizedText(parser));
+                    } else if (name.equals("slug")) {
+                        parser.next();
+                        session.setSlug(XmlPullParsers.getSanitizedText(parser));
+                    } else if (name.equals("url")) {
+                        parser.next();
+                        session.setUrl(XmlPullParsers.getSanitizedText(parser));
+                    } else if (name.equals("track")) {
+                        parser.next();
+                        session.setTrack(XmlPullParsers.getSanitizedText(parser));
+                    } else if (name.equals("type")) {
+                        parser.next();
+                        session.setType(XmlPullParsers.getSanitizedText(parser));
+                    } else if (name.equals("language")) {
+                        parser.next();
+                        session.setLanguage(XmlPullParsers.getSanitizedText(parser));
+                    } else if (name.equals("abstract")) {
+                        parser.next();
+                        session.setAbstractt(XmlPullParsers.getSanitizedText(parser));
+                    } else if (name.equals("description")) {
+                        parser.next();
+                        session.setDescription(XmlPullParsers.getSanitizedText(parser));
+                    } else if (name.equals("person")) {
+                        parser.next();
+                        String separator = session.getSpeakers().length() > 0 ? ";" : "";
+                        session.setSpeakers(session.getSpeakers() + separator + XmlPullParsers.getSanitizedText(parser));
+                    } else if (name.equals("link")) {
+                        String url = parser.getAttributeValue(null, "href");
+                        parser.next();
+                        String urlName = XmlPullParsers.getSanitizedText(parser);
+                        if (url == null) {
+                            url = urlName;
+                        }
+                        if (!url.contains("://")) {
+                            url = "http://" + url;
+                        }
+                        StringBuilder sb = new StringBuilder();
+                        if (session.getLinks().length() > 0) {
+                            sb.append(session.getLinks());
+                            sb.append(",");
+                        }
+                        sb.append("[").append(urlName).append("]").append("(")
+                                .append(url).append(")");
+                        session.setLinks(sb.toString());
+                    } else if (name.equals("start")) {
+                        parser.next();
+                        session.setStartTime(DateParser.getMinutes(XmlPullParsers.getSanitizedText(parser)));
+                        session.setRelativeStartTime(session.getStartTime());
+                        if (session.getRelativeStartTime() < dayChangeTime) {
+                            session.setRelativeStartTime(session.getRelativeStartTime() + MINUTES_OF_ONE_DAY);
+                        }
+                    } else if (name.equals("duration")) {
+                        parser.next();
+                        session.setDuration(DateParser.getMinutes(XmlPullParsers.getSanitizedText(parser)));
+                    } else if (name.equals("date")) {
+                        parser.next();
+                        String sanitizedText = XmlPullParsers.getSanitizedText(parser);
+                        session.setDateUTC(DateParser.getDateTime(sanitizedText));
+                        session.setTimeZoneOffset(info.metadude.android.eventfahrplan.commons.temporal.DateParser.parseTimeZoneOffset(sanitizedText));
+                    } else if (name.equals("recording")) {
+                        eventType = parser.next();
+                        boolean recordingDone = false;
+                        while (eventType != XmlPullParser.END_DOCUMENT
+                                && !recordingDone && !isCancelled()) {
+                            switch (eventType) {
+                                case XmlPullParser.END_TAG:
+                                    name = parser.getName();
+                                    if (name.equals("recording")) {
+                                        recordingDone = true;
+                                    }
+                                    break;
+                                case XmlPullParser.START_TAG:
+                                    name = parser.getName();
+                                    if (name.equals("license")) {
+                                        parser.next();
+                                        session.setRecordingLicense(XmlPullParsers.getSanitizedText(parser));
+                                    } else if (name.equals("optout")) {
+                                        parser.next();
+                                        session.setRecordingOptOut(Boolean.parseBoolean(XmlPullParsers.getSanitizedText(
+                                                parser)));
+                                    }
+                                    break;
+                            }
+                            if (recordingDone) {
+                                break;
+                            }
+                            eventType = parser.next();
+                        }
+                    }
+                    break;
+            }
+            if (isSessionDone) {
+                break;
+            }
+            eventType = parser.next();
         }
     }
 
