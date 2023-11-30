@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">37C3 Fahrplan</string>
+    <string name="app_hardcoded_subtitle">
+        27.-30. Dezember 2023, Congress Center Hamburg
+    </string>
+    <string name="copyright_logo">
+        37C3: Unlocked. Design von Robokid + Luis F. Masallera + Euler Void
+    </string>
+    <string name="about_logo_content_description">
+        37C3 Unlocked Logo
+    </string>
+</resources>
