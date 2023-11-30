@@ -75,6 +75,7 @@ android {
     }
 
     signingConfigs {
+        ccc37c3
         cccamp2023
         jev2022
     }
@@ -83,6 +84,33 @@ android {
     flavorDimensions = [defaultDimension]
 
     productFlavors {
+        ccc37c3 {
+            dimension defaultDimension
+            applicationId "info.metadude.android.congress.schedule"
+            buildConfigField "String", "GOOGLE_PLAY_URL", '"https://play.google.com/store/apps/details?id=info.metadude.android.congress.schedule"'
+            buildConfigField "String", "F_DROID_URL", '"https://f-droid.org/packages/info.metadude.android.congress.schedule"'
+            buildConfigField "String", "SCHEDULE_URL", '"https://fahrplan.events.ccc.de/congress/2023/fahrplan/schedule.xml"'
+            buildConfigField "String", "EVENT_URL", '""'
+            buildConfigField "String", "EVENT_WEBSITE_URL", '"https://events.ccc.de/congress/2023/"'
+            buildConfigField "String", "EVENT_POSTAL_ADDRESS", '"Congressplatz 1, 20355 Hamburg"'
+            buildConfigField "String", "SERVER_BACKEND_TYPE", '"frab"'
+            buildConfigField "int", "SCHEDULE_FIRST_DAY_START_YEAR", "2023"
+            buildConfigField "int", "SCHEDULE_FIRST_DAY_START_MONTH", "12"
+            buildConfigField "int", "SCHEDULE_FIRST_DAY_START_DAY", "27"
+            buildConfigField "int", "SCHEDULE_LAST_DAY_END_YEAR", "2023"
+            buildConfigField "int", "SCHEDULE_LAST_DAY_END_MONTH", "12"
+            buildConfigField "int", "SCHEDULE_LAST_DAY_END_DAY", "30"
+            buildConfigField "boolean", "SHOW_APP_DISCLAIMER", "false"
+            buildConfigField "boolean", "ENGAGE_C3NAV_APP_INSTALLATION", "true"
+            buildConfigField "String", "C3NAV_URL", '"https://37c3.c3nav.de/l/"'
+            buildConfigField "boolean", "ENABLE_ALTERNATIVE_SCHEDULE_URL", "true"
+            buildConfigField "boolean", "ENABLE_CHAOSFLIX_EXPORT", "true"
+            buildConfigField "boolean", "ENABLE_ENGELSYSTEM_SHIFTS", "true"
+            resValue("string", "preference_hint_engelsystem_json_export_url", '"https://engel.events.ccc.de/shifts-json-export?key=YOUR_KEY"')
+            buildConfigField "String", "SOCIAL_MEDIA_HASHTAGS_HANDLES", '"#37c3 #fahrplan"'
+            buildConfigField "String", "TRACE_DROID_EMAIL_ADDRESS", '"tobias.preuss+37c3@googlemail.com"'
+            buildConfigField "String", "SCHEDULE_FEEDBACK_URL", '""'
+        }
         cccamp2023 {
             dimension defaultDimension
             applicationId "info.metadude.android.cccamp.schedule"
