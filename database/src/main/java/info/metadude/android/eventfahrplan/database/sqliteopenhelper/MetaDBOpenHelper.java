@@ -60,7 +60,7 @@ public class MetaDBOpenHelper extends SQLiteOpenHelper {
             onCreate(db);
         }
         if (oldVersion < 8) {
-            // Clear database from rC3 NOWHERE 12/2021.
+            // Clear database from rC3 NOWHERE 12/2021 & 36C3 2019.
             db.execSQL("DROP TABLE IF EXISTS " + MetasTable.NAME);
             onCreate(db);
         }
