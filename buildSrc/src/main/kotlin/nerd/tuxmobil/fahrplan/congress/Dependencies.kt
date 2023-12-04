@@ -71,7 +71,7 @@ object Libs {
         const val markwon = "4.6.2"
         const val material = "1.9.0"
         const val mockito = "5.8.0"
-        const val mockitoKotlin = "5.1.0"
+        const val mockitoKotlin = "5.2.1"
         const val moshi = "1.15.0"
         const val okhttp = "4.12.0"
         const val preference = "1.2.1"
