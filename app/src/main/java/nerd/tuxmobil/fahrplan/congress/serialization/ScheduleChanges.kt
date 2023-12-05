@@ -31,7 +31,7 @@ data class ScheduleChanges private constructor(
             var foundNoteworthyChanges = false
             if (oldSessions.isEmpty()) {
                 // Do not flag sessions as "new" when sessions are loaded for the first time.
-                return ScheduleChanges(newSessions, emptyList(), foundNoteworthyChanges)
+                return ScheduleChanges(newSessions, emptyList(), foundNoteworthyChanges = false)
             }
 
             val oldNotCanceledSessions = oldSessions.filterNot { it.changedIsCanceled }.toMutableList()
