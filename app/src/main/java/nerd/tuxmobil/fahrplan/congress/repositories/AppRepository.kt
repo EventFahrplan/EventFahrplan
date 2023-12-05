@@ -359,7 +359,7 @@ object AppRepository {
                     val oldSessions = loadSessionsForAllDays(true)
                     val newSessions = sessions.toSessionsAppModel2().sanitize()
                     val scheduleChanges = computeSessionsWithChangeFlags(newSessions, oldSessions)
-                    if (scheduleChanges.foundChanges) {
+                    if (scheduleChanges.foundNoteworthyChanges) {
                         updateScheduleChangesSeen(false)
                     }
                     updateSessions(scheduleChanges.sessionsWithChangeFlags, scheduleChanges.oldCanceledSessions)

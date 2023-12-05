@@ -14,7 +14,7 @@ class ScheduleChangesTest {
         val scheduleChanges = computeSessionsWithChangeFlags(newSessions, oldSessions)
         assertThat(scheduleChanges.sessionsWithChangeFlags).isEqualTo(newSessions)
         assertThat(scheduleChanges.oldCanceledSessions).isEmpty()
-        assertThat(scheduleChanges.foundChanges).isFalse()
+        assertThat(scheduleChanges.foundNoteworthyChanges).isFalse()
     }
 
     @Test
@@ -24,7 +24,7 @@ class ScheduleChangesTest {
         val scheduleChanges = computeSessionsWithChangeFlags(newSessions, oldSessions)
         assertThat(scheduleChanges.sessionsWithChangeFlags).isEqualTo(newSessions)
         assertThat(scheduleChanges.oldCanceledSessions).isEqualTo(listOf(createSession { changedIsCanceled = true }))
-        assertThat(scheduleChanges.foundChanges).isFalse()
+        assertThat(scheduleChanges.foundNoteworthyChanges).isFalse()
     }
 
     @Test
@@ -34,7 +34,7 @@ class ScheduleChangesTest {
         val scheduleChanges = computeSessionsWithChangeFlags(newSessions, oldSessions)
         assertThat(scheduleChanges.sessionsWithChangeFlags).isEqualTo(listOf(createSession(sessionId = "new") { changedIsNew = true }))
         assertThat(scheduleChanges.oldCanceledSessions).isEqualTo(listOf(createSession(sessionId = "canceled") { changedIsCanceled = true }))
-        assertThat(scheduleChanges.foundChanges).isTrue()
+        assertThat(scheduleChanges.foundNoteworthyChanges).isTrue()
     }
 
     @Test
@@ -56,7 +56,7 @@ class ScheduleChangesTest {
         val scheduleChanges = computeSessionsWithChangeFlags(newSessions, oldSessions)
         assertThat(scheduleChanges.sessionsWithChangeFlags).isEqualTo(createSessions())
         assertThat(scheduleChanges.oldCanceledSessions).isEmpty()
-        assertThat(scheduleChanges.foundChanges).isFalse()
+        assertThat(scheduleChanges.foundNoteworthyChanges).isFalse()
     }
 
     @Test
@@ -69,7 +69,7 @@ class ScheduleChangesTest {
             changedTitle = true
         }))
         assertThat(scheduleChanges.oldCanceledSessions).isEmpty()
-        assertThat(scheduleChanges.foundChanges).isTrue()
+        assertThat(scheduleChanges.foundNoteworthyChanges).isTrue()
     }
 
     @Test
@@ -82,7 +82,7 @@ class ScheduleChangesTest {
             changedSubtitle = true
         }))
         assertThat(scheduleChanges.oldCanceledSessions).isEmpty()
-        assertThat(scheduleChanges.foundChanges).isTrue()
+        assertThat(scheduleChanges.foundNoteworthyChanges).isTrue()
     }
 
     @Test
@@ -95,7 +95,7 @@ class ScheduleChangesTest {
             changedSpeakers = true
         }))
         assertThat(scheduleChanges.oldCanceledSessions).isEmpty()
-        assertThat(scheduleChanges.foundChanges).isTrue()
+        assertThat(scheduleChanges.foundNoteworthyChanges).isTrue()
     }
 
     @Test
@@ -108,7 +108,7 @@ class ScheduleChangesTest {
             changedLanguage = true
         }))
         assertThat(scheduleChanges.oldCanceledSessions).isEmpty()
-        assertThat(scheduleChanges.foundChanges).isTrue()
+        assertThat(scheduleChanges.foundNoteworthyChanges).isTrue()
     }
 
     @Test
@@ -121,7 +121,7 @@ class ScheduleChangesTest {
             changedRoom = true
         }))
         assertThat(scheduleChanges.oldCanceledSessions).isEmpty()
-        assertThat(scheduleChanges.foundChanges).isTrue()
+        assertThat(scheduleChanges.foundNoteworthyChanges).isTrue()
     }
 
     @Test
@@ -134,7 +134,7 @@ class ScheduleChangesTest {
             changedTrack = true
         }))
         assertThat(scheduleChanges.oldCanceledSessions).isEmpty()
-        assertThat(scheduleChanges.foundChanges).isTrue()
+        assertThat(scheduleChanges.foundNoteworthyChanges).isTrue()
     }
 
     @Test
@@ -147,7 +147,7 @@ class ScheduleChangesTest {
             changedRecordingOptOut = true
         }))
         assertThat(scheduleChanges.oldCanceledSessions).isEmpty()
-        assertThat(scheduleChanges.foundChanges).isTrue()
+        assertThat(scheduleChanges.foundNoteworthyChanges).isTrue()
     }
 
     @Test
@@ -160,7 +160,7 @@ class ScheduleChangesTest {
             changedDay = true
         }))
         assertThat(scheduleChanges.oldCanceledSessions).isEmpty()
-        assertThat(scheduleChanges.foundChanges).isTrue()
+        assertThat(scheduleChanges.foundNoteworthyChanges).isTrue()
     }
 
     @Test
@@ -173,7 +173,7 @@ class ScheduleChangesTest {
             changedTime = true
         }))
         assertThat(scheduleChanges.oldCanceledSessions).isEmpty()
-        assertThat(scheduleChanges.foundChanges).isTrue()
+        assertThat(scheduleChanges.foundNoteworthyChanges).isTrue()
     }
 
     @Test
@@ -186,7 +186,7 @@ class ScheduleChangesTest {
             changedDuration = true
         }))
         assertThat(scheduleChanges.oldCanceledSessions).isEmpty()
-        assertThat(scheduleChanges.foundChanges).isTrue()
+        assertThat(scheduleChanges.foundNoteworthyChanges).isTrue()
     }
 
     @Test
@@ -199,7 +199,7 @@ class ScheduleChangesTest {
                 createSession(sessionId = "s1") { changedIsCanceled = true }
         ))
         assertThat(scheduleChanges.oldCanceledSessions).isEmpty()
-        assertThat(scheduleChanges.foundChanges).isTrue()
+        assertThat(scheduleChanges.foundNoteworthyChanges).isTrue()
     }
 
     @Test
@@ -273,7 +273,7 @@ class ScheduleChangesTest {
             changedDuration = true
         }))
         assertThat(scheduleChanges.oldCanceledSessions).isEmpty()
-        assertThat(scheduleChanges.foundChanges).isTrue()
+        assertThat(scheduleChanges.foundNoteworthyChanges).isTrue()
     }
 
     private fun createSession(sessionId: String = "1", block: Session.() -> Unit = {}) = Session(sessionId).apply(block)

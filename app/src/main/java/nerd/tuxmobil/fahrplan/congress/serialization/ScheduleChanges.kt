@@ -7,7 +7,7 @@ data class ScheduleChanges private constructor(
 
         val sessionsWithChangeFlags: List<SessionAppModel>,
         val oldCanceledSessions: List<SessionAppModel>,
-        val foundChanges: Boolean
+        val foundNoteworthyChanges: Boolean
 
 ) {
 
@@ -28,10 +28,10 @@ data class ScheduleChanges private constructor(
 
         ): ScheduleChanges {
 
-            var foundChanges = false
+            var foundNoteworthyChanges = false
             if (oldSessions.isEmpty()) {
                 // Do not flag sessions as "new" when sessions are loaded for the first time.
-                return ScheduleChanges(newSessions, emptyList(), foundChanges)
+                return ScheduleChanges(newSessions, emptyList(), foundNoteworthyChanges)
             }
 
             val oldNotCanceledSessions = oldSessions.filterNot { it.changedIsCanceled }.toMutableList()
@@ -44,7 +44,7 @@ data class ScheduleChanges private constructor(
                 val oldSession = oldNotCanceledSessions.singleOrNull { oldNotCanceledSession -> newSession.sessionId == oldNotCanceledSession.sessionId }
                 if (oldSession == null) {
                     sessionsWithChangeFlags += SessionAppModel(newSession).apply { changedIsNew = true }
-                    foundChanges = true
+                    foundNoteworthyChanges = true
                     sessionIndex++
                     continue
                 }
@@ -59,43 +59,43 @@ data class ScheduleChanges private constructor(
 
                 if (newSession.title != oldSession.title) {
                     sessionChange.changedTitle = true
-                    foundChanges = true
+                    foundNoteworthyChanges = true
                 }
                 if (newSession.subtitle != oldSession.subtitle) {
                     sessionChange.changedSubtitle = true
-                    foundChanges = true
+                    foundNoteworthyChanges = true
                 }
                 if (newSession.speakers != oldSession.speakers) {
                     sessionChange.changedSpeakers = true
-                    foundChanges = true
+                    foundNoteworthyChanges = true
                 }
                 if (newSession.lang != oldSession.lang) {
                     sessionChange.changedLanguage = true
-                    foundChanges = true
+                    foundNoteworthyChanges = true
                 }
                 if (newSession.room != oldSession.room) {
                     sessionChange.changedRoom = true
-                    foundChanges = true
+                    foundNoteworthyChanges = true
                 }
                 if (newSession.track != oldSession.track) {
                     sessionChange.changedTrack = true
-                    foundChanges = true
+                    foundNoteworthyChanges = true
                 }
                 if (newSession.recordingOptOut != oldSession.recordingOptOut) {
                     sessionChange.changedRecordingOptOut = true
-                    foundChanges = true
+                    foundNoteworthyChanges = true
                 }
                 if (newSession.day != oldSession.day) {
                     sessionChange.changedDayIndex = true
-                    foundChanges = true
+                    foundNoteworthyChanges = true
                 }
                 if (newSession.startTime != oldSession.startTime) {
                     sessionChange.changedStartTime = true
-                    foundChanges = true
+                    foundNoteworthyChanges = true
                 }
                 if (newSession.duration != oldSession.duration) {
                     sessionChange.changedDuration = true
-                    foundChanges = true
+                    foundNoteworthyChanges = true
                 }
                 sessionsWithChangeFlags += SessionAppModel(newSession).apply {
                     changedTitle = sessionChange.changedTitle
@@ -117,10 +117,10 @@ data class ScheduleChanges private constructor(
                 // Flag all "old" sessions which are not present in the "new" set as canceled
                 // and append them to the "new" set.
                 sessionsWithChangeFlags += oldNotCanceledSessions.map { it.toCanceledSession() }
-                foundChanges = true
+                foundNoteworthyChanges = true
             }
 
-            return ScheduleChanges(sessionsWithChangeFlags.toList(), oldCanceledSessions, foundChanges)
+            return ScheduleChanges(sessionsWithChangeFlags.toList(), oldCanceledSessions, foundNoteworthyChanges)
         }
 
         private data class SessionChange(
