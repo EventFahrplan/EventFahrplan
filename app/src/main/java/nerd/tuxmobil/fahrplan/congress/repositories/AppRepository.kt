@@ -459,8 +459,14 @@ object AppRepository {
         if (oldShifts.isEmpty() || shiftChanges.foundChanges) {
             val toBeUpdatedSessions = loadSessionsForAllDays(false) // Drop all shifts before ...
                 .toMutableList()
-                // Shift rooms to make space for the Engelshifts room
-                .shiftRoomIndicesOfMainSchedule(sessionizedShifts.toDayIndices())
+                .let {
+                    when {
+                        // Shift rooms to make space for the Engelshifts room
+                        oldShifts.isEmpty() -> it.shiftRoomIndicesOfMainSchedule(sessionizedShifts.toDayIndices())
+                        // Prevent shifting room indices increasing the gap more and more
+                        else -> it
+                    }
+                }
                 .plus(sessionizedShifts) // ... adding them again.
                 .toList()
             val toBeDeletedSessions = oldShifts
