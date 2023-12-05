@@ -448,23 +448,26 @@ object AppRepository {
         }
         val dayRanges = loadSessionsForAllDays(includeEngelsystemShifts = false)
                 .toDayRanges()
+        val oldShifts = loadEngelsystemShiftsForAllDays()
         val sessionizedShifts = shifts
                 .also { logging.d(LOG_TAG, "Shifts unfiltered = ${it.size}") }
                 .cropToDayRangesExtent(dayRanges)
                 .also { logging.d(LOG_TAG, "Shifts filtered = ${it.size}") }
                 .toSessionAppModels(logging, ENGELSYSTEM_ROOM_NAME, dayRanges)
                 .sanitize()
-        val toBeUpdatedSessions = loadSessionsForAllDays(false) // Drop all shifts before ...
+        val shiftChanges = computeSessionsWithChangeFlags(sessionizedShifts, oldShifts)
+        if (oldShifts.isEmpty() || shiftChanges.foundChanges) {
+            val toBeUpdatedSessions = loadSessionsForAllDays(false) // Drop all shifts before ...
                 .toMutableList()
                 // Shift rooms to make space for the Engelshifts room
                 .shiftRoomIndicesOfMainSchedule(sessionizedShifts.toDayIndices())
                 .plus(sessionizedShifts) // ... adding them again.
                 .toList()
-        val toBeDeletedSessions = loadEngelsystemShiftsForAllDays()
-            .filter { persisted -> sessionizedShifts.none { newOrUpdated -> persisted.sessionId == newOrUpdated.sessionId } }
-            .also { logging.d(LOG_TAG, "Shifts to be removed = ${it.size}") }
-        // TODO Detect shift changes as it happens for sessions
-        updateSessions(toBeUpdatedSessions, toBeDeletedSessions)
+            val toBeDeletedSessions = oldShifts
+                .filter { persisted -> sessionizedShifts.none { newOrUpdated -> persisted.sessionId == newOrUpdated.sessionId } }
+                .also { logging.d(LOG_TAG, "Shifts to be removed = ${it.size}") }
+            updateSessions(toBeUpdatedSessions, toBeDeletedSessions)
+        }
     }
 
     /**

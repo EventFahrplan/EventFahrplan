@@ -7,15 +7,18 @@ data class ScheduleChanges private constructor(
 
         val sessionsWithChangeFlags: List<SessionAppModel>,
         val oldCanceledSessions: List<SessionAppModel>,
-        val foundNoteworthyChanges: Boolean
+        val foundNoteworthyChanges: Boolean,
+        val foundChanges: Boolean,
 
 ) {
 
     companion object {
 
         /**
-         * Returns a pair of a new list of sessions and a boolean flag indicating whether changes have
-         * been found. Each session is flagged as ["new"][SessionAppModel.changedIsNew],
+         * Returns a pair of a new list of sessions and two boolean flags indicating whether changes
+         * have been found. [foundNoteworthyChanges] indicates generic changes which are relevant
+         * for the schedule changes screen. [foundChanges] is based on the comparison of all
+         * session properties. Further, each session is flagged as ["new"][SessionAppModel.changedIsNew],
          * ["canceled"][SessionAppModel.changedIsCanceled] or according to the changes detected when
          * comparing it to its equivalent from the [oldSessions] list.
          *
@@ -29,9 +32,10 @@ data class ScheduleChanges private constructor(
         ): ScheduleChanges {
 
             var foundNoteworthyChanges = false
+            var foundChanges = false
             if (oldSessions.isEmpty()) {
                 // Do not flag sessions as "new" when sessions are loaded for the first time.
-                return ScheduleChanges(newSessions, emptyList(), foundNoteworthyChanges = false)
+                return ScheduleChanges(newSessions, emptyList(), foundNoteworthyChanges = false, foundChanges = false)
             }
 
             val oldNotCanceledSessions = oldSessions.filterNot { it.changedIsCanceled }.toMutableList()
@@ -45,10 +49,16 @@ data class ScheduleChanges private constructor(
                 if (oldSession == null) {
                     sessionsWithChangeFlags += SessionAppModel(newSession).apply { changedIsNew = true }
                     foundNoteworthyChanges = true
+                    foundChanges = true
                     sessionIndex++
                     continue
                 }
-                if (oldSession.equalsSession(newSession)) {
+
+                if (!foundChanges && !oldSession.equalsContentWise(newSession)) {
+                    foundChanges = true
+                }
+
+                if (oldSession.equalsInNoteworthyProperties(newSession)) {
                     sessionsWithChangeFlags += newSession
                     oldNotCanceledSessions -= oldSession
                     sessionIndex++
@@ -120,7 +130,12 @@ data class ScheduleChanges private constructor(
                 foundNoteworthyChanges = true
             }
 
-            return ScheduleChanges(sessionsWithChangeFlags.toList(), oldCanceledSessions, foundNoteworthyChanges)
+            return ScheduleChanges(
+                sessionsWithChangeFlags = sessionsWithChangeFlags.toList(),
+                oldCanceledSessions = oldCanceledSessions,
+                foundNoteworthyChanges = foundNoteworthyChanges,
+                foundChanges = foundChanges,
+            )
         }
 
         private data class SessionChange(
@@ -138,7 +153,7 @@ data class ScheduleChanges private constructor(
 
         private fun SessionAppModel.toCanceledSession() = SessionAppModel(this).apply { cancel() }
 
-        private fun SessionAppModel.equalsSession(session: SessionAppModel): Boolean {
+        private fun SessionAppModel.equalsInNoteworthyProperties(session: SessionAppModel): Boolean {
             return title == session.title &&
                     subtitle == session.subtitle &&
                     speakers == session.speakers &&
@@ -149,6 +164,29 @@ data class ScheduleChanges private constructor(
                     day == session.day &&
                     startTime == session.startTime &&
                     duration == session.duration
+        }
+
+        /**
+         * Intentionally omit volatile properties such as [SessionAppModel.hasAlarm],
+         * [SessionAppModel.highlight] which are only relevant for the UI layer.
+         * Also omit change flags such as [SessionAppModel.changedIsNew].
+         *
+         * Once [SessionAppModel] is converted into a Kotlin data class and its properties
+         * are separated this function can be replaced by an equals comparison.
+         */
+        private fun SessionAppModel.equalsContentWise(session: SessionAppModel): Boolean {
+            return equalsInNoteworthyProperties(session) &&
+                    url == session.url &&
+                    date == session.date &&
+                    dateUTC == session.dateUTC &&
+                    timeZoneOffset == session.timeZoneOffset &&
+                    relStartTime == session.relStartTime &&
+                    type == session.type &&
+                    slug == session.slug &&
+                    abstractt == session.abstractt &&
+                    description == session.description &&
+                    links == session.links &&
+                    recordingLicense == session.recordingLicense
         }
 
     }
