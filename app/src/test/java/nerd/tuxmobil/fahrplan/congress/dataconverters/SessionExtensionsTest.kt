@@ -19,6 +19,7 @@ class SessionExtensionsTest {
     fun sessionDatabaseModel_toSessionAppModel_toSessionDatabaseModel() {
         val session = SessionDatabaseModel(
                 sessionId = "7331",
+                guid = "11111111-1111-1111-1111-111111111111",
                 abstractt = "Lorem ipsum",
                 dayIndex = 3,
                 date = "2015-08-13",
@@ -64,6 +65,7 @@ class SessionExtensionsTest {
     fun sessionNetworkModel_toSessionAppModel() {
         val sessionNetworkModel = SessionNetworkModel(
                 sessionId = "7331",
+                guid = "11111111-1111-1111-1111-111111111111",
                 abstractt = "Lorem ipsum",
                 dayIndex = 3,
                 date = "2015-08-13",
@@ -103,6 +105,7 @@ class SessionExtensionsTest {
                 changedTrack = true
         )
         val sessionAppModel = SessionAppModel("7331").apply {
+            guid = "11111111-1111-1111-1111-111111111111"
             abstractt = "Lorem ipsum"
             day = 3
             date = "2015-08-13"

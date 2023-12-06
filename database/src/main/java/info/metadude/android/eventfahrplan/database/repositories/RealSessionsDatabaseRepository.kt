@@ -26,6 +26,7 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Se
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DAY
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DESCR
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DURATION
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.GUID
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.LANG
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.LINKS
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.REC_LICENSE
@@ -33,7 +34,6 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Se
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.REL_START
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.ROOM
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.ROOM_IDX
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.SESSION_ID
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.SLUG
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.SPEAKERS
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.START
@@ -43,6 +43,7 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Se
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.TRACK
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.TYPE
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.URL
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns._ID
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Values.REC_OPT_OUT_OFF
 import info.metadude.android.eventfahrplan.database.extensions.delete
 import info.metadude.android.eventfahrplan.database.extensions.getInt
@@ -58,8 +59,8 @@ import info.metadude.android.eventfahrplan.database.sqliteopenhelper.SessionsDBO
 
 class RealSessionsDatabaseRepository(
 
-        private val sqLiteOpenHelper: SessionsDBOpenHelper,
-        private val logging: Logging
+    private val sqLiteOpenHelper: SessionsDBOpenHelper,
+    private val logging: Logging
 
 ) : SessionsDatabaseRepository {
 
@@ -92,60 +93,65 @@ class RealSessionsDatabaseRepository(
 
 
     /**
-     * Updates or inserts sessions based on the given [contentValuesBySessionId].
-     * Removes all sessions identified by their [session IDs][toBeDeletedSessionIds].
+     * Updates or inserts sessions based on the given [contentValuesByGuid].
+     * Removes all sessions identified by their [session GUIDs][toBeDeletedSessionGuids].
      */
-    override fun updateSessions(
-            contentValuesBySessionId: List<Pair</* sessionId */ String, ContentValues>>,
-            toBeDeletedSessionIds: List</* sessionId */ String>
+    override fun upsertSessions(
+        contentValuesByGuid: List<Pair</* guid */ String, ContentValues>>,
+        toBeDeletedSessionGuids: List</* sessionGuid */ String>
     ) = with(sqLiteOpenHelper) {
         writableDatabase.transaction {
-            contentValuesBySessionId.forEach { (sessionId, contentValues) ->
-                upsertSession(sessionId, contentValues)
+            contentValuesByGuid.forEach { (guid, contentValues) ->
+                upsertSession(guid, contentValues)
             }
-            toBeDeletedSessionIds.forEach { toBeDeletedSessionId ->
-                deleteSession(toBeDeletedSessionId)
+            toBeDeletedSessionGuids.forEach { toBeDeletedSessionGuid ->
+                deleteSession(toBeDeletedSessionGuid)
             }
         }
     }
 
     /**
-     * Updates a session with the given [contentValues]. A row is matched by its [sessionId].
+     * Updates a session with the given [contentValues]. A row is matched by its [guid].
      * If no row was affected by the update operation then an insert operation is performed
      * assuming that the session does not exist in the table.
      *
+     * The [guid] column is used for matching an existing row because this column holds unique values
+     * and to avoid an unneeded database SELECT just to retrieve the primary key of a row.
+     *
      * This function must be called in the context of a [transaction] block.
      */
-    private fun SQLiteDatabase.upsertSession(sessionId: String, contentValues: ContentValues) {
+    private fun SQLiteDatabase.upsertSession(guid: String, contentValues: ContentValues) {
         val affectedRowsCount = updateRow(
-                tableName = SessionsTable.NAME,
-                contentValues = contentValues,
-                columnName = SESSION_ID,
-                columnValue = sessionId
+            tableName = SessionsTable.NAME,
+            contentValues = contentValues,
+            columnName = GUID,
+            columnValue = guid
         )
         if (affectedRowsCount == 0) {
             insert(
-                    tableName = SessionsTable.NAME,
-                    values = contentValues
+                tableName = SessionsTable.NAME,
+                values = contentValues
             )
         }
     }
 
     /**
-     * Delete the session identified by the given [sessionId] from the table.
+     * Delete the session identified by the given [sessionGuid] from the table.
      */
-    private fun SQLiteDatabase.deleteSession(sessionId: String) = delete(
-            tableName = SessionsTable.NAME,
-            columnName = SESSION_ID,
-            columnValue = sessionId
+    private fun SQLiteDatabase.deleteSession(sessionGuid: String) = delete(
+        tableName = SessionsTable.NAME,
+        columnName = GUID,
+        columnValue = sessionGuid
     )
 
     override fun querySessionBySessionId(sessionId: String): Session {
         return try {
             query {
                 read(SessionsTable.NAME,
-                        selection = "$SESSION_ID=?",
-                        selectionArgs = arrayOf(sessionId))
+                    // The value of "sessionId" is replaced with the value of the "_id"
+                    // column when the session is queried initially to guarantee a unique value.
+                    selection = "$_ID=?",
+                    selectionArgs = arrayOf(sessionId))
             }.first()
         } catch (e: NoSuchElementException) {
             logging.report(LOG_TAG, "Sessions table does not contain a session with ID '$sessionId'. ${e.message}")
@@ -155,9 +161,9 @@ class RealSessionsDatabaseRepository(
 
     override fun querySessionsForDayIndexOrderedByDateUtc(dayIndex: Int) = query {
         read(SessionsTable.NAME,
-                selection = "$DAY=?",
-                selectionArgs = arrayOf(String.format("%d", dayIndex)),
-                orderBy = DATE_UTC)
+            selection = "$DAY=?",
+            selectionArgs = arrayOf(String.format("%d", dayIndex)),
+            orderBy = DATE_UTC)
     }
 
     override fun querySessionsOrderedByDateUtc() = query {
@@ -166,17 +172,17 @@ class RealSessionsDatabaseRepository(
 
     override fun querySessionsWithoutRoom(roomName: String) = query {
         read(SessionsTable.NAME,
-                selection = "$ROOM!=?",
-                selectionArgs = arrayOf(roomName),
-                orderBy = DATE_UTC
+            selection = "$ROOM!=?",
+            selectionArgs = arrayOf(roomName),
+            orderBy = DATE_UTC
         )
     }
 
     override fun querySessionsWithinRoom(roomName: String) = query {
         read(SessionsTable.NAME,
-                selection = "$ROOM=?",
-                selectionArgs = arrayOf(roomName),
-                orderBy = DATE_UTC
+            selection = "$ROOM=?",
+            selectionArgs = arrayOf(roomName),
+            orderBy = DATE_UTC
         )
     }
 
@@ -190,47 +196,51 @@ class RealSessionsDatabaseRepository(
 
         return cursor.map {
             val recordingOptOut =
-                    if (cursor.getInt(REC_OPTOUT) == REC_OPT_OUT_OFF)
-                        Session.RECORDING_OPT_OUT_OFF
-                    else
-                        Session.RECORDING_OPT_OUT_ON
+                if (cursor.getInt(REC_OPTOUT) == REC_OPT_OUT_OFF)
+                    Session.RECORDING_OPT_OUT_OFF
+                else
+                    Session.RECORDING_OPT_OUT_ON
 
             Session(
-                    sessionId = cursor.getString(SESSION_ID),
-                    abstractt = cursor.getString(ABSTRACT),
-                    date = cursor.getString(DATE),
-                    dateUTC = cursor.getLong(DATE_UTC),
-                    dayIndex = cursor.getInt(DAY),
-                    description = cursor.getString(DESCR),
-                    duration = cursor.getInt(DURATION),
-                    language = cursor.getString(LANG),
-                    links = cursor.getString(LINKS),
-                    recordingLicense = cursor.getString(REC_LICENSE),
-                    relativeStartTime = cursor.getInt(REL_START),
-                    room = cursor.getString(ROOM),
-                    roomIndex = cursor.getInt(ROOM_IDX),
-                    slug = cursor.getString(SLUG),
-                    speakers = cursor.getString(SPEAKERS),
-                    subtitle = cursor.getString(SUBTITLE),
-                    startTime = cursor.getInt(START),
-                    timeZoneOffset = cursor.getIntOrNull(TIME_ZONE_OFFSET),
-                    title = cursor.getString(TITLE),
-                    track = cursor.getString(TRACK),
-                    type = cursor.getString(TYPE),
-                    url = cursor.getString(URL),
-                    recordingOptOut = recordingOptOut,
-                    changedDay = cursor.getInt(CHANGED_DAY).isChanged,
-                    changedDuration = cursor.getInt(CHANGED_DURATION).isChanged,
-                    changedIsCanceled = cursor.getInt(CHANGED_IS_CANCELED).isChanged,
-                    changedIsNew = cursor.getInt(CHANGED_IS_NEW).isChanged,
-                    changedLanguage = cursor.getInt(CHANGED_LANGUAGE).isChanged,
-                    changedRecordingOptOut = cursor.getInt(CHANGED_RECORDING_OPTOUT).isChanged,
-                    changedRoom = cursor.getInt(CHANGED_ROOM).isChanged,
-                    changedSpeakers = cursor.getInt(CHANGED_SPEAKERS).isChanged,
-                    changedSubtitle = cursor.getInt(CHANGED_SUBTITLE).isChanged,
-                    changedTime = cursor.getInt(CHANGED_TIME).isChanged,
-                    changedTitle = cursor.getInt(CHANGED_TITLE).isChanged,
-                    changedTrack = cursor.getInt(CHANGED_TRACK).isChanged
+                // The value of the auto-incrementing primary key "_id" column is written as
+                // the value of the "sessionId" field as the first step to rely on the "guid"
+                // column. It has a unique value which is not guaranteed by "sessionId".
+                sessionId = "${cursor.getLong(_ID)}",
+                guid = cursor.getString(GUID),
+                abstractt = cursor.getString(ABSTRACT),
+                date = cursor.getString(DATE),
+                dateUTC = cursor.getLong(DATE_UTC),
+                dayIndex = cursor.getInt(DAY),
+                description = cursor.getString(DESCR),
+                duration = cursor.getInt(DURATION),
+                language = cursor.getString(LANG),
+                links = cursor.getString(LINKS),
+                recordingLicense = cursor.getString(REC_LICENSE),
+                relativeStartTime = cursor.getInt(REL_START),
+                room = cursor.getString(ROOM),
+                roomIndex = cursor.getInt(ROOM_IDX),
+                slug = cursor.getString(SLUG),
+                speakers = cursor.getString(SPEAKERS),
+                subtitle = cursor.getString(SUBTITLE),
+                startTime = cursor.getInt(START),
+                timeZoneOffset = cursor.getIntOrNull(TIME_ZONE_OFFSET),
+                title = cursor.getString(TITLE),
+                track = cursor.getString(TRACK),
+                type = cursor.getString(TYPE),
+                url = cursor.getString(URL),
+                recordingOptOut = recordingOptOut,
+                changedDay = cursor.getInt(CHANGED_DAY).isChanged,
+                changedDuration = cursor.getInt(CHANGED_DURATION).isChanged,
+                changedIsCanceled = cursor.getInt(CHANGED_IS_CANCELED).isChanged,
+                changedIsNew = cursor.getInt(CHANGED_IS_NEW).isChanged,
+                changedLanguage = cursor.getInt(CHANGED_LANGUAGE).isChanged,
+                changedRecordingOptOut = cursor.getInt(CHANGED_RECORDING_OPTOUT).isChanged,
+                changedRoom = cursor.getInt(CHANGED_ROOM).isChanged,
+                changedSpeakers = cursor.getInt(CHANGED_SPEAKERS).isChanged,
+                changedSubtitle = cursor.getInt(CHANGED_SUBTITLE).isChanged,
+                changedTime = cursor.getInt(CHANGED_TIME).isChanged,
+                changedTitle = cursor.getInt(CHANGED_TITLE).isChanged,
+                changedTrack = cursor.getInt(CHANGED_TRACK).isChanged
             )
         }
     }
