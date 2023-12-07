@@ -16,7 +16,8 @@ class GooglePlayBetaTestingSnack(val context: Context) : GooglePlayOpenBetaTestS
         withConditions(
                 NeverAgainWhenClickedOnce(),
                 AfterNumberOfOpportunities(21),
-                IsConnectedViaWiFiOrUnknown()
+                IsConnectedViaWiFiOrUnknown(),
+                IsInstalledViaGooglePlay(), // Prevents the snack from being shown for local installs, too!
         )
         setActionColor(ContextCompat.getColor(context, R.color.colorAccent))
     }
