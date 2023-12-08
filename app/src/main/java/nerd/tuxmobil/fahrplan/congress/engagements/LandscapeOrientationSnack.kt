@@ -20,6 +20,7 @@ class LandscapeOrientationSnack(
         withConditions(
             NeverAgainWhenClickedOnce(),
             AfterNumberOfOpportunities(2),
+            IsInPortraitOrientation(),
         )
     }
 
