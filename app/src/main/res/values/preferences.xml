@@ -91,7 +91,7 @@
 
     <!-- Device time zone -->
     <string name="preference_key_use_device_time_zone_enabled" translatable="false">use_device_time_zone</string>
-    <bool name="preference_default_value_use_device_time_zone_enabled">false</bool>
+    <bool name="preference_default_value_use_device_time_zone_enabled">true</bool>
     <string name="preference_title_use_device_time_zone_enabled">Use device time zone</string>
     <string name="preference_summary_use_device_time_zone_enabled">Displays dates and times accordingly.</string>
 
