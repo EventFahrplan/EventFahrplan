@@ -4,6 +4,7 @@ You are very welcome to contribute to this project.
 In order to simplify the process please try to follow the following suggestions:
 
 ## How to start
+* Use English for all communication to include as many people as possible.
 * Create an issue to discuss your idea before you invest a lot of time into designing or coding.
 * Leave an `I like to work on this` comment on an existing issue to let the maintainer know about it.
 * Fork the repository into your personal GitHub account to start working.
