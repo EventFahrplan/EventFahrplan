@@ -10,7 +10,7 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Se
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_IS_NEW
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_LANGUAGE
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_RECORDING_OPTOUT
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_ROOM
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_ROOM_NAME
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_SPEAKERS
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_SUBTITLE
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_TIME
@@ -26,8 +26,8 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Se
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.REC_LICENSE
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.REC_OPTOUT
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.REL_START
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.ROOM
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.ROOM_IDX
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.ROOM_INDEX
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.ROOM_NAME
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.SESSION_ID
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.SLUG
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.SPEAKERS
@@ -55,8 +55,8 @@ fun Session.toContentValues() = contentValuesOf(
         REC_LICENSE to recordingLicense,
         REC_OPTOUT to if (recordingOptOut) REC_OPT_OUT_ON else REC_OPT_OUT_OFF,
         REL_START to relativeStartTime,
-        ROOM to roomName,
-        ROOM_IDX to roomIndex,
+        ROOM_NAME to roomName,
+        ROOM_INDEX to roomIndex,
         SLUG to slug,
         SPEAKERS to speakers,
         START to startTime,
@@ -73,7 +73,7 @@ fun Session.toContentValues() = contentValuesOf(
         CHANGED_IS_NEW to changedIsNew,
         CHANGED_LANGUAGE to changedLanguage,
         CHANGED_RECORDING_OPTOUT to changedRecordingOptOut,
-        CHANGED_ROOM to changedRoomName,
+        CHANGED_ROOM_NAME to changedRoomName,
         CHANGED_SPEAKERS to changedSpeakers,
         CHANGED_SUBTITLE to changedSubtitle,
         CHANGED_TIME to changedTime,
