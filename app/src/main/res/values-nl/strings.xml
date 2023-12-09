@@ -119,7 +119,7 @@
     <string name="snack_engage_rate_action">Beoordeel de App</string>
     <string name="snack_engage_google_play_beta_testing_title">Nieuwgierig?</string>
     <string name="snack_engage_google_play_beta_testing_action">Wordt een Beta-Tester</string>
-    <string name="snack_engage_c3nav_title">Indoor-navigatie tijdens <xliff:g example="35C3" id="conferenceName">%s</xliff:g>! Met de c3nav-App</string>
+    <string name="snack_engage_c3nav_title">Indoor-navigatie @ <xliff:g example="35C3" id="conferenceName">%s</xliff:g>! Met de c3nav-App</string>
     <string name="snack_engage_c3nav_action">Installeer nu!</string>
     <!-- TraceDroid -->
     <string name="trace_droid_dialog_title">        <xliff:g example="33C3 Fahrplan" id="appName">%s</xliff:g> crash-rapport versturen &#8230;

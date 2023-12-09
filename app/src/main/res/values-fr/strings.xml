@@ -120,7 +120,7 @@
     <string name="snack_engage_rate_action">Notez l’app</string>
     <string name="snack_engage_google_play_beta_testing_title">Utilisateur·rice avancé·e \?</string>
     <string name="snack_engage_google_play_beta_testing_action">Devenir bêta-testeur</string>
-    <string name="snack_engage_c3nav_title">La navigation interne au <xliff:g example="35C3" id="conferenceName">%s</xliff:g>! Avec l’application c3nav</string>
+    <string name="snack_engage_c3nav_title">La navigation interne @ <xliff:g example="35C3" id="conferenceName">%s</xliff:g>! Avec l’application c3nav</string>
     <string name="snack_engage_c3nav_action">Obtenez-la maintenant !</string>
     <!-- TraceDroid -->
     <string name="trace_droid_dialog_title"> Envoi du rapport de crash du programme <xliff:g example="33C3 Schedule" id="appName">%s</xliff:g> … </string>

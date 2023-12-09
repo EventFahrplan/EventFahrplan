@@ -136,7 +136,7 @@
     <string name="snack_engage_rate_action">Oceń tę aplikację</string>
     <string name="snack_engage_google_play_beta_testing_title">Superużytkownik?</string>
     <string name="snack_engage_google_play_beta_testing_action">Zostań betatesterem</string>
-    <string name="snack_engage_c3nav_title">Nawigacja we wnętrzach na <xliff:g example="35C3" id="conferenceName">%s</xliff:g>! Z programem c3nav</string>
+    <string name="snack_engage_c3nav_title">Nawigacja we wnętrzach @ <xliff:g example="35C3" id="conferenceName">%s</xliff:g>! Z programem c3nav</string>
     <string name="snack_engage_c3nav_action">Pobierz teraz!</string>
     <!-- TraceDroid -->
     <string name="trace_droid_dialog_title">        Wyślij <xliff:g example="33C3 Schedule" id="appName">%s</xliff:g> raport o błędzie &#8230;
