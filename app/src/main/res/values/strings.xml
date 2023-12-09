@@ -170,7 +170,7 @@
         https://play.google.com/store/apps/details?id=de.c3nav.droid
     </string>
     <string name="snack_engage_c3nav_unique_id" translatable="false">c3nav</string>
-    <string name="snack_engage_c3nav_title">Indoor navigation at <xliff:g example="35C3" id="conferenceName">%s</xliff:g>! With the c3nav app</string>
+    <string name="snack_engage_c3nav_title">Indoor navigation @ <xliff:g example="35C3" id="conferenceName">%s</xliff:g>! With the c3nav app</string>
     <string name="snack_engage_c3nav_action">Get it now!</string>
 
     <string name="snack_engage_landscape_orientation_title">Tried landscape mode?</string>

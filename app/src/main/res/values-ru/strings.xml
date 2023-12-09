@@ -118,7 +118,7 @@
     <string name="snack_engage_rate_action">Оценить</string>
     <string name="snack_engage_google_play_beta_testing_title">Любишь всё новое?</string>
     <string name="snack_engage_google_play_beta_testing_action">Стать бета-тестером</string>
-    <string name="snack_engage_c3nav_title">Навигация внутри <xliff:g example="35C3" id="conferenceName">%s</xliff:g>! с приложением c3nav</string>
+    <string name="snack_engage_c3nav_title">Навигация внутри @ <xliff:g example="35C3" id="conferenceName">%s</xliff:g>! с приложением c3nav</string>
     <string name="snack_engage_c3nav_action">Скачать сейчас!</string>
     <!-- TraceDroid -->
     <string name="trace_droid_dialog_title">        Отправить отчёт об ошибке <xliff:g example="33C3 Schedule" id="appName">%s</xliff:g> &#8230;

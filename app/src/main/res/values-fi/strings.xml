@@ -128,7 +128,7 @@
     <string name="snack_engage_rate_action">Arvostele sovellus</string>
     <string name="snack_engage_google_play_beta_testing_title">Oletko tehokäyttäjä?</string>
     <string name="snack_engage_google_play_beta_testing_action">Ryhdy beta-koestajaksi</string>
-    <string name="snack_engage_c3nav_title">Sisäsuuntima kohteessa <xliff:g esimerkki="35C3" id="tpaahtumaNimi">%s</xliff:g>! c3nav -sovelluksen avulla</string>
+    <string name="snack_engage_c3nav_title">Sisäsuuntima @ <xliff:g esimerkki="35C3" id="tpaahtumaNimi">%s</xliff:g>! c3nav -sovelluksen avulla</string>
     <string name="snack_engage_c3nav_action">Hae se heti!</string>
     <string name="snack_engage_landscape_orientation_title">Koetitko pystysuuntaista tilaa?</string>
     <string name="snack_engage_landscape_orientation_action">Kierrä laitettasi!</string>
