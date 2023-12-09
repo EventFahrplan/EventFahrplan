@@ -20,6 +20,7 @@ data class Session(
         val recordingLicense: String = "",
         val recordingOptOut: Boolean = RECORDING_OPT_OUT_OFF,
         val roomName: String = "",
+        val roomIdentifier: String = "",
         val roomIndex: Int = 0,
         val speakers: String = "",
         val startTime: Int = 0,         // minutes since day start

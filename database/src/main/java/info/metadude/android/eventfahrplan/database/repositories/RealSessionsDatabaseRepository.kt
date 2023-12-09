@@ -31,6 +31,7 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Se
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.REC_LICENSE
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.REC_OPTOUT
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.REL_START
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.ROOM_IDENTIFIER
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.ROOM_INDEX
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.ROOM_NAME
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.SESSION_ID
@@ -208,6 +209,7 @@ class RealSessionsDatabaseRepository(
                     recordingLicense = cursor.getString(REC_LICENSE),
                     relativeStartTime = cursor.getInt(REL_START),
                     roomName = cursor.getString(ROOM_NAME),
+                    roomIdentifier = cursor.getString(ROOM_IDENTIFIER),
                     roomIndex = cursor.getInt(ROOM_INDEX),
                     slug = cursor.getString(SLUG),
                     speakers = cursor.getString(SPEAKERS),

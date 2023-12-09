@@ -49,6 +49,7 @@ fun Session.toSessionDatabaseModel() = SessionDatabaseModel(
         recordingOptOut = recordingOptOut,
         relativeStartTime = relStartTime,
         roomName = roomName,
+        roomIdentifier = roomIdentifier,
         roomIndex = roomIndex,
         slug = slug,
         speakers = createSpeakersString(speakers),
@@ -91,6 +92,7 @@ fun SessionDatabaseModel.toSessionAppModel(): Session {
     session.recordingOptOut = recordingOptOut
     session.relStartTime = relativeStartTime
     session.roomName = roomName
+    session.roomIdentifier = roomIdentifier
     session.roomIndex = roomIndex
     session.slug = slug
     session.speakers = createSpeakersList(speakers)
@@ -135,6 +137,7 @@ fun SessionNetworkModel.toSessionAppModel(): Session {
     session.recordingOptOut = recordingOptOut
     session.relStartTime = relativeStartTime
     session.roomName = roomName
+    session.roomIdentifier = roomGuid
     session.roomIndex = roomIndex
     session.slug = slug
     session.speakers = createSpeakersList(speakers)

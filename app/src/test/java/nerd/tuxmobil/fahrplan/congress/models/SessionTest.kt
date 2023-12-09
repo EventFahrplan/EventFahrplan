@@ -19,6 +19,7 @@ class SessionTest {
             startTime = 1125
             duration = 60
             roomName = "Main hall"
+            roomIdentifier = "88888888-4444-4444-4444-121212121212"
             speakers = listOf("Janet")
             track = "science"
             type = "workshop"
@@ -194,6 +195,13 @@ class SessionTest {
     @Test
     fun `equals evaluates false and hashCode differ for sessions with odd room name`() {
         val session2Modification: SessionModification = { roomName = "Odd room name" }
+        assertOddSessionsAreNotEqual { session2Modification() }
+        assertOddSessionsHaveOddHashCodes { session2Modification() }
+    }
+
+    @Test
+    fun `equals evaluates false and hashCode differ for sessions with odd room identifier`() {
+        val session2Modification: SessionModification = { roomIdentifier = "Odd room identifier" }
         assertOddSessionsAreNotEqual { session2Modification() }
         assertOddSessionsHaveOddHashCodes { session2Modification() }
     }

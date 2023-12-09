@@ -16,7 +16,7 @@ import info.metadude.android.eventfahrplan.database.extensions.SQLiteDatabaseExt
 
 public class SessionsDBOpenHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 13;
+    private static final int DATABASE_VERSION = 14;
 
     private static final String DATABASE_NAME = "lectures"; // Keep table name to avoid database migration.
 
@@ -27,6 +27,7 @@ public class SessionsDBOpenHelper extends SQLiteOpenHelper {
                     Columns.SUBTITLE + " TEXT, " +
                     Columns.DAY + " INTEGER, " +
                     Columns.ROOM_NAME + " STRING, " +
+                    Columns.ROOM_IDENTIFIER + " TEXT, " +
                     Columns.SLUG + " TEXT, " +
                     Columns.START + " INTEGER, " +
                     Columns.DURATION + " INTEGER, " +
@@ -150,5 +151,12 @@ public class SessionsDBOpenHelper extends SQLiteOpenHelper {
             db.execSQL("DROP TABLE IF EXISTS " + SessionByNotificationIdTable.NAME);
             onCreate(db);
         }
+        if (oldVersion < 14) {
+            boolean columnExists = SQLiteDatabaseExtensions.columnExists(db, SessionsTable.NAME, Columns.ROOM_IDENTIFIER);
+            if (!columnExists) {
+                db.execSQL("ALTER TABLE " + SessionsTable.NAME + " ADD COLUMN " + Columns.ROOM_IDENTIFIER + " TEXT DEFAULT ''");
+            }
+        }
+
     }
 }

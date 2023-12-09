@@ -24,6 +24,7 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Se
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.REC_LICENSE
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.REC_OPTOUT
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.REL_START
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.ROOM_IDENTIFIER
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.ROOM_INDEX
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.ROOM_NAME
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.SESSION_ID
@@ -61,6 +62,7 @@ class SessionExtensionsTest {
                 recordingLicense = "CC 0",
                 recordingOptOut = Session.RECORDING_OPT_OUT_ON,
                 roomName = "Simulacron-3",
+                roomIdentifier = "88888888-4444-4444-4444-121212121212",
                 roomIndex = 17,
                 speakers = "John Doe; Noah Doe",
                 startTime = 1036,
@@ -100,6 +102,7 @@ class SessionExtensionsTest {
         assertThat(values.getAsString(REC_LICENSE)).isEqualTo("CC 0")
         assertThat(values.getAsBoolean(REC_OPTOUT)).isEqualTo(Session.RECORDING_OPT_OUT_ON)
         assertThat(values.getAsString(ROOM_NAME)).isEqualTo("Simulacron-3")
+        assertThat(values.getAsString(ROOM_IDENTIFIER)).isEqualTo("88888888-4444-4444-4444-121212121212")
         assertThat(values.getAsInteger(ROOM_INDEX)).isEqualTo(17)
         assertThat(values.getAsString(SPEAKERS)).isEqualTo("John Doe; Noah Doe")
         assertThat(values.getAsInteger(START)).isEqualTo(1036)

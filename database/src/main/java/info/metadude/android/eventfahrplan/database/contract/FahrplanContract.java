@@ -124,6 +124,7 @@ public interface FahrplanContract {
             /* 32 */ String SLUG = "slug";
             /* 33 */ String URL = "url";
             /* 34 */ String TIME_ZONE_OFFSET = "time_zone_offset";
+            /* 35 */ String ROOM_IDENTIFIER = "room_identifier";
         }
 
         interface Defaults {
