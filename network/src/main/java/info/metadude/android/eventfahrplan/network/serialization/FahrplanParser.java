@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import info.metadude.android.eventfahrplan.commons.logging.Logging;
 import info.metadude.android.eventfahrplan.network.models.Meta;
@@ -131,6 +132,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
             boolean done = false;
             int numdays = 0;
             String roomName = null;
+            String roomGuid = "";
             int day = 0;
             int dayChangeTime = 600; // Only provided by Pentabarf; corresponds to 10:00 am.
             String date = "";
@@ -179,6 +181,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                                 roomMapIndex = roomIndex;
                                 roomIndex++;
                             }
+                            roomGuid = parser.getAttributeValue(null, "guid");
                         }
                         if (name.equalsIgnoreCase("event")) {
                             String id = parser.getAttributeValue(null, "id");
@@ -186,6 +189,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                             session.setSessionId(id);
                             session.setDayIndex(day);
                             session.setRoomName(roomName);
+                            session.setRoomGuid(Objects.requireNonNullElse(roomGuid, ""));
                             session.setDate(date);
                             session.setRoomIndex(roomMapIndex);
                             eventType = parser.next();

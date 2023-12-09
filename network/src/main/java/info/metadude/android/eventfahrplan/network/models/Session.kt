@@ -23,6 +23,7 @@ data class Session(
         var recordingLicense: String = "",
         var recordingOptOut: Boolean = RECORDING_OPT_OUT_OFF,
         var roomName: String = "",
+        var roomGuid: String = "",
         var roomIndex: Int = 0,
         var speakers: String = "",
         var startTime: Int = 0, // minutes since day start
