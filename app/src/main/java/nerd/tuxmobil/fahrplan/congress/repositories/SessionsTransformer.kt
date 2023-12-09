@@ -80,8 +80,8 @@ private fun List<RoomData>.sortWithDeprioritizedRooms(deprioritizedRooms: List<S
         return this
     }
     val (tail, head) = partition { deprioritizedRooms.contains(it.roomName) }
-    val sortedTail = deprioritizedRooms.mapNotNull { room ->
-        tail.firstOrNull { room == it.roomName }
+    val sortedTail = deprioritizedRooms.mapNotNull { roomName ->
+        tail.firstOrNull { roomName == it.roomName }
     }
     return head + sortedTail
 }
