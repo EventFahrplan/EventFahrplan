@@ -116,7 +116,7 @@ class SessionExtensionsTest {
             relStartTime = 1035
             recordingLicense = "CC 0"
             recordingOptOut = RECORDING_OPT_OUT_ON
-            room = "Simulacron-3"
+            roomName = "Simulacron-3"
             roomIndex = 17
             speakers = listOf("John Doe", "Noah Doe")
             startTime = 1036
@@ -134,7 +134,7 @@ class SessionExtensionsTest {
             changedIsNew = true
             changedLanguage = true
             changedRecordingOptOut = true
-            changedRoom = true
+            changedRoomName = true
             changedSpeakers = true
             changedSubtitle = true
             changedTime = true

@@ -88,7 +88,7 @@ class SessionDetailsViewModelTest {
             title = "Session title"
             subtitle = "Session subtitle"
             speakers = listOf("Jane Doe", "John Doe")
-            room = "Main hall"
+            roomName = "Main hall"
             abstractt = "Session abstract"
             description = "Session description"
             track = "Session track"
@@ -164,7 +164,7 @@ class SessionDetailsViewModelTest {
             title = ""
             subtitle = ""
             speakers = emptyList()
-            room = ""
+            roomName = ""
             abstractt = ""
             description = ""
             track = ""
@@ -410,7 +410,7 @@ class SessionDetailsViewModelTest {
     @Test
     fun `supportsFeedback returns false if room name matches default Engelsystem room name`() = runTest {
         val session = Session("S1").apply {
-            room = "Engelshifts"
+            roomName = "Engelshifts"
         }
         val repository = createRepository(selectedSessionFlow = flowOf(session))
         val fakeSessionFormatter = mock<SessionFormatter> {

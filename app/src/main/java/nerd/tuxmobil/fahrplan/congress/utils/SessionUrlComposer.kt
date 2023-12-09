@@ -23,15 +23,15 @@ class SessionUrlComposer @JvmOverloads constructor(
      *
      * The URL composition depends on the backend system being used for the conference.
      *
-     * Special handling is applied to sessions with a [room name][Session.room] which is part of
-     * the collection of [special room names][specialRoomNames]. If there an URL defined then
+     * Special handling is applied to sessions with a [room name][Session.roomName] which is part
+     * of the collection of [special room names][specialRoomNames]. If there an URL defined then
      * it is returned. If there is no URL defined then no composition is tried but instead
      * an empty string is returned.
      */
     override fun getSessionUrl(session: Session): String = when (serverBackEndType) {
             PENTABARF.name -> getComposedSessionUrl(session.slug)
             else -> if (session.url.isNullOrEmpty()) {
-                if (specialRoomNames.contains(session.room)) {
+                if (specialRoomNames.contains(session.roomName)) {
                     NO_URL
                 } else {
                     getComposedSessionUrl(session.sessionId)

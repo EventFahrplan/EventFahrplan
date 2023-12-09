@@ -128,7 +128,7 @@ class TimeTextViewParameterTest {
         dateUTC = moment.toMilliseconds()
         startTime = moment.minuteOfDay
         this.duration = duration
-        room = "Main hall"
+        roomName = "Main hall"
     }
 
 }

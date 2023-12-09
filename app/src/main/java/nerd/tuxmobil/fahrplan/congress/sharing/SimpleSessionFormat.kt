@@ -60,7 +60,7 @@ class SimpleSessionFormat {
         append(shareableStartTime)
         append(COMMA)
         append(SPACE)
-        append(session.room)
+        append(session.roomName)
         if (!session.getLinks().containsWikiLink()) {
             append(LINE_BREAK)
             append(LINE_BREAK)

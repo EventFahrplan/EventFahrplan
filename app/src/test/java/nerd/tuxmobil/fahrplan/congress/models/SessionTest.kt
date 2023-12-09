@@ -18,7 +18,7 @@ class SessionTest {
             dateUTC = 1439478900000L
             startTime = 1125
             duration = 60
-            room = "Main hall"
+            roomName = "Main hall"
             speakers = listOf("Janet")
             track = "science"
             type = "workshop"
@@ -40,7 +40,7 @@ class SessionTest {
             // Not considered in equal nor hashCode, too.
             changedTitle = true
             changedSubtitle = true
-            changedRoom = true
+            changedRoomName = true
             changedDay = true
             changedTime = true
             changedDuration = true
@@ -65,7 +65,7 @@ class SessionTest {
 
             changedTitle = false
             changedSubtitle = false
-            changedRoom = false
+            changedRoomName = false
             changedDay = false
             changedTime = false
             changedDuration = false
@@ -192,8 +192,8 @@ class SessionTest {
     }
 
     @Test
-    fun `equals evaluates false and hashCode differ for sessions with odd room`() {
-        val session2Modification: SessionModification = { room = "Odd room" }
+    fun `equals evaluates false and hashCode differ for sessions with odd room name`() {
+        val session2Modification: SessionModification = { roomName = "Odd room name" }
         assertOddSessionsAreNotEqual { session2Modification() }
         assertOddSessionsHaveOddHashCodes { session2Modification() }
     }
@@ -259,7 +259,7 @@ class SessionTest {
         val session = Session("0").apply {
             changedTitle = true
             changedSubtitle = true
-            changedRoom = true
+            changedRoomName = true
             changedDay = true
             changedTime = true
             changedDuration = true
@@ -273,7 +273,7 @@ class SessionTest {
         val canceledSession = Session("0").apply {
             changedTitle = false
             changedSubtitle = false
-            changedRoom = false
+            changedRoomName = false
             changedDay = false
             changedTime = false
             changedDuration = false

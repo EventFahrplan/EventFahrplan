@@ -27,7 +27,7 @@ class SimpleSessionFormatTest {
 
     private val session1 = Session("S1").apply {
         title = "A talk which changes your life"
-        room = "Yellow pavilion"
+        roomName = "Yellow pavilion"
         date = "2019-12-27T11:00:00+01:00"
         url = "https://example.com/2019/LD3FX9.html"
         slug = "LD3FX9"
@@ -35,7 +35,7 @@ class SimpleSessionFormatTest {
 
     private val session2 = Session("S2").apply {
         title = "The most boring workshop ever"
-        room = "Dark cellar"
+        roomName = "Dark cellar"
         date = "2019-12-28T17:00:00+01:00"
         url = "https://example.com/2019/U28VSA.html"
         slug = "U28VSA"
@@ -43,7 +43,7 @@ class SimpleSessionFormatTest {
 
     private val session3 = Session("S3").apply {
         title = "Angel shifts planning"
-        room = "Main hall"
+        roomName = "Main hall"
         date = "2019-12-29T09:00:00+01:00"
         links = "https://events.ccc.de/congress/2019/wiki/index.php/Session:A/V_Angel_Meeting"
         url = "https://example.com/2019/U28VSA.html"
@@ -52,7 +52,7 @@ class SimpleSessionFormatTest {
 
     private val session4 = Session("S4").apply {
         title = "Central european summer time"
-        room = "Sunshine tent"
+        roomName = "Sunshine tent"
         date = "2019-09-01T16:00:00+02:00"
         url = "https://example.com/2019/U9SD23.html"
         slug = "U9SD23"

@@ -66,7 +66,7 @@ class CalendarSharingTest {
         abstractt = "Abstract"
         description = "Description"
         links = "Links"
-        room = "Room"
+        roomName = "Room"
         dateUTC = 1439478900000L
         duration = 30
     }

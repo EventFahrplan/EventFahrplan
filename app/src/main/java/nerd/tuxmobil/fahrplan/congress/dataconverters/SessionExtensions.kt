@@ -48,7 +48,7 @@ fun Session.toSessionDatabaseModel() = SessionDatabaseModel(
         recordingLicense = recordingLicense,
         recordingOptOut = recordingOptOut,
         relativeStartTime = relStartTime,
-        room = room,
+        room = roomName,
         roomIndex = roomIndex,
         slug = slug,
         speakers = createSpeakersString(speakers),
@@ -66,7 +66,7 @@ fun Session.toSessionDatabaseModel() = SessionDatabaseModel(
         changedIsNew = changedIsNew,
         changedLanguage = changedLanguage,
         changedRecordingOptOut = changedRecordingOptOut,
-        changedRoom = changedRoom,
+        changedRoom = changedRoomName,
         changedSpeakers = changedSpeakers,
         changedSubtitle = changedSubtitle,
         changedTime = changedTime,
@@ -90,7 +90,7 @@ fun SessionDatabaseModel.toSessionAppModel(): Session {
     session.recordingLicense = recordingLicense
     session.recordingOptOut = recordingOptOut
     session.relStartTime = relativeStartTime
-    session.room = room
+    session.roomName = room
     session.roomIndex = roomIndex
     session.slug = slug
     session.speakers = createSpeakersList(speakers)
@@ -108,7 +108,7 @@ fun SessionDatabaseModel.toSessionAppModel(): Session {
     session.changedIsNew = changedIsNew
     session.changedLanguage = changedLanguage
     session.changedRecordingOptOut = changedRecordingOptOut
-    session.changedRoom = changedRoom
+    session.changedRoomName = changedRoom
     session.changedSpeakers = changedSpeakers
     session.changedSubtitle = changedSubtitle
     session.changedTime = changedTime
@@ -134,7 +134,7 @@ fun SessionNetworkModel.toSessionAppModel(): Session {
     session.recordingLicense = recordingLicense
     session.recordingOptOut = recordingOptOut
     session.relStartTime = relativeStartTime
-    session.room = roomName
+    session.roomName = roomName
     session.roomIndex = roomIndex
     session.slug = slug
     session.speakers = createSpeakersList(speakers)
@@ -152,7 +152,7 @@ fun SessionNetworkModel.toSessionAppModel(): Session {
     session.changedIsNew = changedIsNew
     session.changedLanguage = changedLanguage
     session.changedRecordingOptOut = changedRecordingOptOut
-    session.changedRoom = changedRoomName
+    session.changedRoomName = changedRoomName
     session.changedSpeakers = changedSpeakers
     session.changedSubtitle = changedSubtitle
     session.changedTime = changedStartTime
@@ -182,10 +182,10 @@ fun Session.sanitize(): Session {
     if (("Sendezentrum-Bühne" == track || "Sendezentrum Bühne" == track || "xHain Berlin" == track) && !type.isNullOrEmpty()) {
         track = type
     }
-    if ("classics" == room && "Other" == type && track.isNullOrEmpty()) {
+    if ("classics" == roomName && "Other" == type && track.isNullOrEmpty()) {
         track = "Classics"
     }
-    if ("rC3 Lounge" == room) {
+    if ("rC3 Lounge" == roomName) {
         track = "Music"
     }
     if (track.isNullOrEmpty() && !type.isNullOrEmpty()) {

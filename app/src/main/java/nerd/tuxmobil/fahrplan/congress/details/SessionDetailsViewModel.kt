@@ -127,8 +127,8 @@ internal class SessionDetailsViewModel(
         val sessionUrl = sessionUrlComposition.getSessionUrl(this)
         val sessionLink = sessionFormatter.getFormattedUrl(sessionUrl)
         val isFeedbackUrlEmpty = feedbackUrlComposer.getFeedbackUrl(this).isEmpty()
-        val isC3NavRoomNameEmpty = roomForC3NavConverter.convert(room).isEmpty()
-        val isEngelshift = room == defaultEngelsystemRoomName
+        val isC3NavRoomNameEmpty = roomForC3NavConverter.convert(roomName).isEmpty()
+        val isEngelshift = roomName == defaultEngelsystemRoomName
         val supportsFeedback = !isFeedbackUrlEmpty && !isEngelshift
 
         return SelectedSessionParameter(
@@ -145,7 +145,7 @@ internal class SessionDetailsViewModel(
             formattedAbstract = formattedAbstract,
             description = description.orEmpty(),
             formattedDescription = formattedDescription,
-            roomName = room.orEmpty(),
+            roomName = roomName.orEmpty(),
             track = track.orEmpty(),
             hasLinks = getLinks().isNotEmpty(),
             formattedLinks = formattedLinks,
@@ -232,7 +232,7 @@ internal class SessionDetailsViewModel(
 
     fun navigateToRoom() {
         loadSelectedSession { session ->
-            val c3navRoomName = roomForC3NavConverter.convert(session.room)
+            val c3navRoomName = roomForC3NavConverter.convert(session.roomName)
             val uri = "$c3NavBaseUrl$c3navRoomName".toUri()
             mutableNavigateToRoom.sendOneTimeEvent(uri)
         }

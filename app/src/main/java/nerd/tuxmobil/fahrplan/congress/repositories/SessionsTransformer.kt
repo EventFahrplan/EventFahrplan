@@ -46,7 +46,7 @@ class SessionsTransformer @VisibleForTesting constructor(
 
         val sortedSessions = sessions.sortedBy { it.roomIndex }
         for (session in sortedSessions) {
-            val sessionsInRoom = roomMap.getOrPut(session.room) { mutableListOf() }
+            val sessionsInRoom = roomMap.getOrPut(session.roomName) { mutableListOf() }
             sessionsInRoom.add(session)
         }
 

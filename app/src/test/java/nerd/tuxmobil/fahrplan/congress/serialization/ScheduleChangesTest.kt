@@ -45,7 +45,7 @@ class ScheduleChangesTest {
             subtitle = "subtitle"
             speakers = listOf("speakers")
             lang = "language"
-            room = "room"
+            roomName = "room"
             recordingOptOut = true
             day = 3
             startTime = 200
@@ -113,13 +113,13 @@ class ScheduleChangesTest {
     }
 
     @Test
-    fun `computeSessionsWithChangeFlags flags and returns new sessions and foundNoteworthyChanges = true if room has changed`() {
-        val oldSessions = listOf(createSession { room = "Old room" })
-        val newSessions = listOf(createSession { room = "New room" })
+    fun `computeSessionsWithChangeFlags flags and returns new sessions and foundNoteworthyChanges = true if roomName has changed`() {
+        val oldSessions = listOf(createSession { roomName = "Old room" })
+        val newSessions = listOf(createSession { roomName = "New room" })
         val scheduleChanges = computeSessionsWithChangeFlags(newSessions, oldSessions)
         assertThat(scheduleChanges.sessionsWithChangeFlags).isEqualTo(listOf(createSession {
-            room = "New room"
-            changedRoom = true
+            roomName = "New room"
+            changedRoomName = true
         }))
         assertThat(scheduleChanges.oldCanceledSessions).isEmpty()
         assertThat(scheduleChanges.foundNoteworthyChanges).isTrue()
@@ -210,7 +210,7 @@ class ScheduleChangesTest {
             subtitle = "Old subtitle"
             speakers = listOf("Old speakers")
             lang = "Old language"
-            room = "Old room"
+            roomName = "Old room"
             day = 2
             track = "Old track"
             recordingOptOut = false
@@ -220,7 +220,7 @@ class ScheduleChangesTest {
             changedSubtitle = false
             changedSpeakers = false
             changedLanguage = false
-            changedRoom = false
+            changedRoomName = false
             changedDay = false
             changedTrack = false
             changedRecordingOptOut = false
@@ -233,7 +233,7 @@ class ScheduleChangesTest {
             subtitle = "New subtitle"
             speakers = listOf("New speakers")
             lang = "New language"
-            room = "New room"
+            roomName = "New room"
             day = 3
             track = "New track"
             recordingOptOut = true
@@ -243,7 +243,7 @@ class ScheduleChangesTest {
             changedSubtitle = false
             changedSpeakers = false
             changedLanguage = false
-            changedRoom = false
+            changedRoomName = false
             changedDay = false
             changedTrack = false
             changedRecordingOptOut = false
@@ -256,7 +256,7 @@ class ScheduleChangesTest {
             subtitle = "New subtitle"
             speakers = listOf("New speakers")
             lang = "New language"
-            room = "New room"
+            roomName = "New room"
             day = 3
             track = "New track"
             recordingOptOut = true
@@ -266,7 +266,7 @@ class ScheduleChangesTest {
             changedSubtitle = true
             changedSpeakers = true
             changedLanguage = true
-            changedRoom = true
+            changedRoomName = true
             changedDay = true
             changedTrack = true
             changedRecordingOptOut = true

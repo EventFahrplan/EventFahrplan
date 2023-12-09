@@ -148,7 +148,7 @@ class SessionsTransformerTest {
         dateUTC: Long = 0
     ): Session {
         return Session(sessionId).apply {
-            this.room = roomName
+            this.roomName = roomName
             this.roomIndex = roomIndex
             this.dateUTC = dateUTC
         }

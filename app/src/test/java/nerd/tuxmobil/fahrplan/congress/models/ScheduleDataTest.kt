@@ -5,8 +5,8 @@ import org.junit.Test
 
 class ScheduleDataTest {
 
-    private val actualSession = Session("L42").apply { room = "Room1" }
-    private val oddSession = Session("L78").apply { room = "Room78" }
+    private val actualSession = Session("L42").apply { roomName = "Room1" }
+    private val oddSession = Session("L78").apply { roomName = "Room78" }
 
     @Test
     fun `roomDataList without rooms and sessions`() {
@@ -33,7 +33,7 @@ class ScheduleDataTest {
     fun `roomDataList with one room with one session queried for actual session`() {
         val roomDataList = listOf(RoomData(roomName = "Room1", sessions = listOf(actualSession)))
         val data = scheduleDataOf(roomDataList)
-        val expectedSession = Session("L42").apply { room = "Room1" }
+        val expectedSession = Session("L42").apply { roomName = "Room1" }
         assertThat(data.roomCount).isEqualTo(1)
         assertThat(data.roomNames).isEqualTo(listOf("Room1"))
         assertThat(data.allSessions).isEqualTo(listOf(expectedSession))
