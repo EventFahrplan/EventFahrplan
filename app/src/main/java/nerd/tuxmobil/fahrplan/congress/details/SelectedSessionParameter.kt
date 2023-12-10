@@ -33,6 +33,6 @@ data class SelectedSessionParameter(
     val isFlaggedAsFavorite: Boolean,
     val hasAlarm: Boolean,
     val supportsFeedback: Boolean,
-    val isC3NavRoomNameEmpty: Boolean,
+    val supportsIndoorNavigation: Boolean,
 
     )

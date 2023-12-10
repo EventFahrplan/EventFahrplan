@@ -1,5 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress.details
 
+import android.net.Uri
 import androidx.core.net.toUri
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
@@ -15,8 +16,9 @@ import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsViewModel.FormattingDelegate
 import nerd.tuxmobil.fahrplan.congress.models.Alarm
 import nerd.tuxmobil.fahrplan.congress.models.Meta
+import nerd.tuxmobil.fahrplan.congress.models.Room
 import nerd.tuxmobil.fahrplan.congress.models.Session
-import nerd.tuxmobil.fahrplan.congress.navigation.RoomForC3NavConverter
+import nerd.tuxmobil.fahrplan.congress.navigation.IndoorNavigation
 import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.sharing.JsonSessionFormat
@@ -62,9 +64,6 @@ class SessionDetailsViewModelTest {
         val fakeFeedbackUrlComposer = mock<FeedbackUrlComposer> {
             on { getFeedbackUrl(any()) } doReturn SAMPLE_FEEDBACK_URL
         }
-        val fakeRoomForC3NavConverter = mock<RoomForC3NavConverter> {
-            on { convert(any()) } doReturn "Main hall"
-        }
         val viewModel = createViewModel(
             repository = repository,
             sessionFormatter = fakeSessionFormatter,
@@ -72,7 +71,7 @@ class SessionDetailsViewModelTest {
             formattingDelegate = fakeFormattingDelegate,
             markdownConversion = fakeMarkdownConversion,
             feedbackUrlComposer = fakeFeedbackUrlComposer,
-            roomForC3NavConverter = fakeRoomForC3NavConverter
+            indoorNavigation = SupportedIndoorNavigation,
         )
         viewModel.selectedSessionParameter.test {
             awaitComplete()
@@ -89,6 +88,7 @@ class SessionDetailsViewModelTest {
             subtitle = "Session subtitle"
             speakers = listOf("Jane Doe", "John Doe")
             roomName = "Main hall"
+            roomIdentifier = "88888888-4444-4444-4444-121212121212"
             abstractt = "Session abstract"
             description = "Session description"
             track = "Session track"
@@ -113,9 +113,6 @@ class SessionDetailsViewModelTest {
         val fakeFeedbackUrlComposer = mock<FeedbackUrlComposer> {
             on { getFeedbackUrl(any()) } doReturn SAMPLE_FEEDBACK_URL
         }
-        val fakeRoomForC3NavConverter = mock<RoomForC3NavConverter> {
-            on { convert(any()) } doReturn "Main hall"
-        }
         val viewModel = createViewModel(
             repository = repository,
             sessionFormatter = fakeSessionFormatter,
@@ -123,7 +120,7 @@ class SessionDetailsViewModelTest {
             formattingDelegate = fakeFormattingDelegate,
             markdownConversion = fakeMarkdownConversion,
             feedbackUrlComposer = fakeFeedbackUrlComposer,
-            roomForC3NavConverter = fakeRoomForC3NavConverter
+            indoorNavigation = SupportedIndoorNavigation,
         )
         val selectedSessionParameter = SelectedSessionParameter(
             hasDateUtc = true,
@@ -147,7 +144,7 @@ class SessionDetailsViewModelTest {
             isFlaggedAsFavorite = true,
             hasAlarm = false,
             supportsFeedback = true,
-            isC3NavRoomNameEmpty = false,
+            supportsIndoorNavigation = true,
         )
         viewModel.selectedSessionParameter.test {
             assertThat(awaitItem()).isEqualTo(selectedSessionParameter)
@@ -165,6 +162,7 @@ class SessionDetailsViewModelTest {
             subtitle = ""
             speakers = emptyList()
             roomName = ""
+            roomIdentifier = ""
             abstractt = ""
             description = ""
             track = ""
@@ -189,9 +187,6 @@ class SessionDetailsViewModelTest {
         val fakeFeedbackUrlComposer = mock<FeedbackUrlComposer> {
             on { getFeedbackUrl(any()) } doReturn ""
         }
-        val fakeRoomForC3NavConverter = mock<RoomForC3NavConverter> {
-            on { convert(any()) } doReturn ""
-        }
         val viewModel = createViewModel(
             repository = repository,
             sessionFormatter = fakeSessionFormatter,
@@ -199,7 +194,7 @@ class SessionDetailsViewModelTest {
             formattingDelegate = fakeFormattingDelegate,
             markdownConversion = fakeMarkdownConversion,
             feedbackUrlComposer = fakeFeedbackUrlComposer,
-            roomForC3NavConverter = fakeRoomForC3NavConverter
+            indoorNavigation = UnsupportedIndoorNavigation,
         )
         val selectedSessionParameter = SelectedSessionParameter(
             hasDateUtc = false,
@@ -223,7 +218,7 @@ class SessionDetailsViewModelTest {
             isFlaggedAsFavorite = false,
             hasAlarm = false,
             supportsFeedback = false,
-            isC3NavRoomNameEmpty = true,
+            supportsIndoorNavigation = false,
         )
         viewModel.selectedSessionParameter.test {
             assertThat(awaitItem()).isEqualTo(selectedSessionParameter)
@@ -391,14 +386,15 @@ class SessionDetailsViewModelTest {
 
     @Test
     fun `navigateToRoom() posts to navigateToRoom`() = runTest {
-        val repository = createRepository()
-        val fakeRoomForC3NavConverter = mock<RoomForC3NavConverter> {
-            on { convert(anyOrNull()) } doReturn "garden"
-        }
+        val repository = createRepository(
+            selectedSession = Session("S1").apply {
+                roomName = "Garden"
+                roomIdentifier = ""
+            }
+        )
         val viewModel = createViewModel(
             repository = repository,
-            roomForC3NavConverter = fakeRoomForC3NavConverter,
-            c3NavBaseUrl = "https://c3nav.foo/"
+            indoorNavigation = SupportedIndoorNavigation,
         )
         viewModel.navigateToRoom()
         viewModel.navigateToRoom.test {
@@ -411,6 +407,7 @@ class SessionDetailsViewModelTest {
     fun `supportsFeedback returns false if room name matches default Engelsystem room name`() = runTest {
         val session = Session("S1").apply {
             roomName = "Engelshifts"
+            roomIdentifier = "88888888-4444-4444-4444-121212121212"
         }
         val repository = createRepository(selectedSessionFlow = flowOf(session))
         val fakeSessionFormatter = mock<SessionFormatter> {
@@ -430,9 +427,6 @@ class SessionDetailsViewModelTest {
         val fakeFeedbackUrlComposer = mock<FeedbackUrlComposer> {
             on { getFeedbackUrl(any()) } doReturn ""
         }
-        val fakeRoomForC3NavConverter = mock<RoomForC3NavConverter> {
-            on { convert(any()) } doReturn ""
-        }
         val viewModel = createViewModel(
             repository = repository,
             sessionFormatter = fakeSessionFormatter,
@@ -440,7 +434,7 @@ class SessionDetailsViewModelTest {
             formattingDelegate = fakeFormattingDelegate,
             markdownConversion = fakeMarkdownConversion,
             feedbackUrlComposer = fakeFeedbackUrlComposer,
-            roomForC3NavConverter = fakeRoomForC3NavConverter,
+            indoorNavigation = UnsupportedIndoorNavigation,
             defaultEngelsystemRoomName = "Engelshifts",
             customEngelsystemRoomName = "Zengelshifts",
         )
@@ -473,10 +467,9 @@ class SessionDetailsViewModelTest {
         jsonSessionFormat: JsonSessionFormat = mock(),
         feedbackUrlComposer: FeedbackUrlComposer = mock(),
         sessionUrlComposition: SessionUrlComposition = mock(),
-        roomForC3NavConverter: RoomForC3NavConverter = mock(),
         markdownConversion: MarkdownConversion = mock(),
         formattingDelegate: FormattingDelegate = mock(),
-        c3NavBaseUrl: String = "",
+        indoorNavigation: IndoorNavigation = mock(),
         defaultEngelsystemRoomName: String = "Engelshifts",
         customEngelsystemRoomName: String = "Trollshifts",
         runsAtLeastOnAndroidTiramisu: Boolean = false
@@ -490,13 +483,22 @@ class SessionDetailsViewModelTest {
         jsonSessionFormat = jsonSessionFormat,
         feedbackUrlComposer = feedbackUrlComposer,
         sessionUrlComposition = sessionUrlComposition,
-        roomForC3NavConverter = roomForC3NavConverter,
+        indoorNavigation = indoorNavigation,
         markdownConversion = markdownConversion,
         formattingDelegate = formattingDelegate,
-        c3NavBaseUrl = c3NavBaseUrl,
         defaultEngelsystemRoomName = defaultEngelsystemRoomName,
         customEngelsystemRoomName = customEngelsystemRoomName,
         runsAtLeastOnAndroidTiramisu = runsAtLeastOnAndroidTiramisu
     )
+
+    object SupportedIndoorNavigation : IndoorNavigation {
+        override fun isSupported(room: Room) = true
+        override fun getUri(room: Room) = "https://c3nav.foo/garden".toUri()
+    }
+
+    object UnsupportedIndoorNavigation : IndoorNavigation {
+        override fun isSupported(room: Room) = false
+        override fun getUri(room: Room): Uri = Uri.EMPTY
+    }
 
 }

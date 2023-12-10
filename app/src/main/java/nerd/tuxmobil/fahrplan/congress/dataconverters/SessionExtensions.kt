@@ -5,6 +5,7 @@ package nerd.tuxmobil.fahrplan.congress.dataconverters
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import info.metadude.android.eventfahrplan.network.serialization.FahrplanParser
 import nerd.tuxmobil.fahrplan.congress.models.DateInfo
+import nerd.tuxmobil.fahrplan.congress.models.Room
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import org.threeten.bp.ZoneOffset
 import info.metadude.android.eventfahrplan.database.models.Highlight as HighlightDatabaseModel
@@ -17,6 +18,8 @@ fun Session.shiftRoomIndexOnDays(dayIndices: Set<Int>): Session {
     }
     return this
 }
+
+fun Session.toRoom() = Room(identifier = roomIdentifier, name = roomName)
 
 /**
  * Returns a moment based on the start time of this session.
