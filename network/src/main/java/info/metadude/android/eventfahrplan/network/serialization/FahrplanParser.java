@@ -137,7 +137,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
             int roomIndex = 0;
             int roomMapIndex = 0;
             boolean scheduleComplete = false;
-            Map<String, Integer> roomsMap = new HashMap<>();
+            Map<String, Integer> roomIndexByRoomName = new HashMap<>();
             while (eventType != XmlPullParser.END_DOCUMENT && !done && !isCancelled()) {
                 String name;
                 switch (eventType) {
@@ -172,10 +172,10 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                         }
                         if (name.equals("room")) {
                             room = parser.getAttributeValue(null, "name");
-                            if (roomsMap.containsKey(room)) {
-                                roomMapIndex = roomsMap.get(room);
+                            if (roomIndexByRoomName.containsKey(room)) {
+                                roomMapIndex = roomIndexByRoomName.get(room);
                             } else {
-                                roomsMap.put(room, roomIndex);
+                                roomIndexByRoomName.put(room, roomIndex);
                                 roomMapIndex = roomIndex;
                                 roomIndex++;
                             }
