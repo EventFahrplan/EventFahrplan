@@ -134,7 +134,7 @@ fun SessionNetworkModel.toSessionAppModel(): Session {
     session.recordingLicense = recordingLicense
     session.recordingOptOut = recordingOptOut
     session.relStartTime = relativeStartTime
-    session.room = room
+    session.room = roomName
     session.roomIndex = roomIndex
     session.slug = slug
     session.speakers = createSpeakersList(speakers)
@@ -152,7 +152,7 @@ fun SessionNetworkModel.toSessionAppModel(): Session {
     session.changedIsNew = changedIsNew
     session.changedLanguage = changedLanguage
     session.changedRecordingOptOut = changedRecordingOptOut
-    session.changedRoom = changedRoom
+    session.changedRoom = changedRoomName
     session.changedSpeakers = changedSpeakers
     session.changedSubtitle = changedSubtitle
     session.changedTime = changedStartTime

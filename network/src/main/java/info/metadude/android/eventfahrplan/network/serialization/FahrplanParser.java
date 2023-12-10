@@ -185,7 +185,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                             Session session = new Session();
                             session.setSessionId(id);
                             session.setDayIndex(day);
-                            session.setRoom(roomName);
+                            session.setRoomName(roomName);
                             session.setDate(date);
                             session.setRoomIndex(roomMapIndex);
                             eventType = parser.next();

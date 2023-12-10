@@ -22,7 +22,7 @@ data class Session(
         var relativeStartTime: Int = 0,
         var recordingLicense: String = "",
         var recordingOptOut: Boolean = RECORDING_OPT_OUT_OFF,
-        var room: String = "",
+        var roomName: String = "",
         var roomIndex: Int = 0,
         var speakers: String = "",
         var startTime: Int = 0, // minutes since day start
@@ -40,7 +40,7 @@ data class Session(
         var changedIsNew: Boolean = false,
         var changedLanguage: Boolean = false,
         var changedRecordingOptOut: Boolean = false,
-        var changedRoom: Boolean = false,
+        var changedRoomName: Boolean = false,
         var changedSpeakers: Boolean = false,
         var changedStartTime: Boolean = false,
         var changedSubtitle: Boolean = false,
