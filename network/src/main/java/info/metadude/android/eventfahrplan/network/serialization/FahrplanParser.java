@@ -172,12 +172,12 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                         }
                         if (name.equals("room")) {
                             room = parser.getAttributeValue(null, "name");
-                            if (!roomsMap.containsKey(room)) {
+                            if (roomsMap.containsKey(room)) {
+                                roomMapIndex = roomsMap.get(room);
+                            } else {
                                 roomsMap.put(room, roomIndex);
                                 roomMapIndex = roomIndex;
                                 roomIndex++;
-                            } else {
-                                roomMapIndex = roomsMap.get(room);
                             }
                         }
                         if (name.equalsIgnoreCase("event")) {
