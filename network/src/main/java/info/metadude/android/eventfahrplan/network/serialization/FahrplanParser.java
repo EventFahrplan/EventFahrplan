@@ -13,6 +13,7 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import info.metadude.android.eventfahrplan.commons.logging.Logging;
 import info.metadude.android.eventfahrplan.network.models.Meta;
@@ -136,7 +137,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
             int roomIndex = 0;
             int roomMapIndex = 0;
             boolean scheduleComplete = false;
-            HashMap<String, Integer> roomsMap = new HashMap<>();
+            Map<String, Integer> roomsMap = new HashMap<>();
             while (eventType != XmlPullParser.END_DOCUMENT && !done && !isCancelled()) {
                 String name;
                 switch (eventType) {
