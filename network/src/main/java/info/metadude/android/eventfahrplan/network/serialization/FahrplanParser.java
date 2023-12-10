@@ -130,7 +130,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
             int eventType = parser.getEventType();
             boolean done = false;
             int numdays = 0;
-            String room = null;
+            String roomName = null;
             int day = 0;
             int dayChangeTime = 600; // Only provided by Pentabarf; corresponds to 10:00 am.
             String date = "";
@@ -171,11 +171,11 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                             }
                         }
                         if (name.equals("room")) {
-                            room = parser.getAttributeValue(null, "name");
-                            if (roomIndexByRoomName.containsKey(room)) {
-                                roomMapIndex = roomIndexByRoomName.get(room);
+                            roomName = parser.getAttributeValue(null, "name");
+                            if (roomIndexByRoomName.containsKey(roomName)) {
+                                roomMapIndex = roomIndexByRoomName.get(roomName);
                             } else {
-                                roomIndexByRoomName.put(room, roomIndex);
+                                roomIndexByRoomName.put(roomName, roomIndex);
                                 roomMapIndex = roomIndex;
                                 roomIndex++;
                             }
@@ -185,7 +185,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                             Session session = new Session();
                             session.setSessionId(id);
                             session.setDayIndex(day);
-                            session.setRoom(room);
+                            session.setRoom(roomName);
                             session.setDate(date);
                             session.setRoomIndex(roomMapIndex);
                             eventType = parser.next();
