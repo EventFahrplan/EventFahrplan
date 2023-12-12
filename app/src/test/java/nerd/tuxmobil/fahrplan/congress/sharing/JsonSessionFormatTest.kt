@@ -26,17 +26,17 @@ class JsonSessionFormatTest {
     private companion object {
 
         const val EXPECTED_JSON_SINGLE = "{\"lectures\":[{\"lecture_id\":\"session1\"," +
-                "\"title\":\"\",\"subtitle\":\"\",\"day\":0,\"room\":\"\",\"slug\":\"\"," +
+                "\"title\":\"\",\"subtitle\":\"\",\"day\":0,\"room\":\"\",\"slug\":\"\",\"url\":\"\"," +
                 "\"speakers\":\"\",\"track\":\"\",\"type\":\"\",\"lang\":\"\",\"abstract\":\"\"," +
                 "\"description\":\"\",\"links\":\"\"}]}"
         const val EXPECTED_JSON_LIST = "{\"lectures\":[{\"lecture_id\":\"session1\"," +
-                "\"title\":\"\",\"subtitle\":\"\",\"day\":0,\"room\":\"\",\"slug\":\"\"," +
+                "\"title\":\"\",\"subtitle\":\"\",\"day\":0,\"room\":\"\",\"slug\":\"\",\"url\":\"\"," +
                 "\"speakers\":\"\",\"track\":\"\",\"type\":\"\",\"lang\":\"\",\"abstract\":\"\"," +
                 "\"description\":\"\",\"links\":\"\"},{\"lecture_id\":\"session2\",\"title\":\"\"," +
-                "\"subtitle\":\"\",\"day\":0,\"room\":\"\",\"slug\":\"\",\"speakers\":\"\"," +
+                "\"subtitle\":\"\",\"day\":0,\"room\":\"\",\"slug\":\"\",\"url\":\"\",\"speakers\":\"\"," +
                 "\"track\":\"\",\"type\":\"\",\"lang\":\"\",\"abstract\":\"\",\"description\":\"\"," +
                 "\"links\":\"\"},{\"lecture_id\":\"session3\",\"title\":\"\",\"subtitle\":\"\"," +
-                "\"day\":0,\"room\":\"\",\"slug\":\"\",\"speakers\":\"\",\"track\":\"\"," +
+                "\"day\":0,\"room\":\"\",\"slug\":\"\",\"url\":\"\",\"speakers\":\"\",\"track\":\"\"," +
                 "\"type\":\"\",\"lang\":\"\",\"abstract\":\"\",\"description\":\"\",\"links\":\"\"}]}"
 
     }

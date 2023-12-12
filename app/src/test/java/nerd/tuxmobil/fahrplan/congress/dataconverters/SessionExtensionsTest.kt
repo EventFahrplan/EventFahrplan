@@ -33,6 +33,7 @@ class SessionExtensionsTest {
                 recordingLicense = "CC 0",
                 recordingOptOut = RECORDING_OPT_OUT_ON,
                 roomName = "Simulacron-3",
+                roomIdentifier = "88888888-4444-4444-4444-121212121212",
                 roomIndex = 17,
                 speakers = "John Doe; Noah Doe",
                 startTime = 1036,

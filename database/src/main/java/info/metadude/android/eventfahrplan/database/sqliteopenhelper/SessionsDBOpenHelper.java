@@ -27,7 +27,7 @@ public class SessionsDBOpenHelper extends SQLiteOpenHelper {
                     Columns.SUBTITLE + " TEXT, " +
                     Columns.DAY + " INTEGER, " +
                     Columns.ROOM_NAME + " STRING, " +
-                    Columns.ROOM_IDENTIFIER + " TEXT, " +
+                    Columns.ROOM_IDENTIFIER + " TEXT DEFAULT '', " +
                     Columns.SLUG + " TEXT, " +
                     Columns.START + " INTEGER, " +
                     Columns.DURATION + " INTEGER, " +
@@ -45,7 +45,7 @@ public class SessionsDBOpenHelper extends SQLiteOpenHelper {
                     Columns.ROOM_INDEX + " INTEGER, " +
                     Columns.REC_LICENSE + " STRING, " +
                     Columns.REC_OPTOUT + " INTEGER," +
-                    Columns.URL + " TEXT," +
+                    Columns.URL + " TEXT DEFAULT ''," +
                     Columns.CHANGED_TITLE + " INTEGER," +
                     Columns.CHANGED_SUBTITLE + " INTEGER," +
                     Columns.CHANGED_ROOM_NAME + " INTEGER," +
