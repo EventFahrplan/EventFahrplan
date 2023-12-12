@@ -71,6 +71,7 @@ class SessionExtensionsTest {
                 dateUTC = 1439478900000L,
                 description = "Lorem ipsum dolor sit amet",
                 duration = 45,
+                feedbackUrl = "https://talks.mrmcd.net/2018/talk/V3FUNG/feedback",
                 hasAlarm = true,
                 isHighlight = true,
                 language = "en",
