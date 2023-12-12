@@ -19,6 +19,7 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Se
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DAY
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DESCR
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DURATION
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.FEEDBACK_URL
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.LANG
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.LINKS
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.REC_LICENSE
@@ -54,6 +55,7 @@ class SessionExtensionsTest {
                 dateUTC = 1439478900000L,
                 description = "Lorem ipsum dolor sit amet",
                 duration = 45,
+                feedbackUrl = "https://talks.mrmcd.net/2018/talk/V3FUNG/feedback",
                 hasAlarm = true,
                 isHighlight = true,
                 language = "en",
@@ -94,6 +96,7 @@ class SessionExtensionsTest {
         assertThat(values.getAsLong(DATE_UTC)).isEqualTo(1439478900000L)
         assertThat(values.getAsString(DESCR)).isEqualTo("Lorem ipsum dolor sit amet")
         assertThat(values.getAsInteger(DURATION)).isEqualTo(45)
+        assertThat(values.getAsString(FEEDBACK_URL)).isEqualTo("https://talks.mrmcd.net/2018/talk/V3FUNG/feedback")
         // The value of "hasAlarms" is not persisted.
         // The value of "isHighlight" is not persisted.
         assertThat(values.getAsString(LANG)).isEqualTo("en")

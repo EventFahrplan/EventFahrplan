@@ -12,6 +12,7 @@ data class Session(
         val dateUTC: Long = 0,
         val description: String = "",
         val duration: Int = 0,          // minutes
+        val feedbackUrl: String? = null,
         val hasAlarm: Boolean = false,
         val isHighlight: Boolean = false,
         val language: String = "",

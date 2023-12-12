@@ -21,6 +21,7 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Se
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DAY
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DESCR
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DURATION
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.FEEDBACK_URL
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.LANG
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.LINKS
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.REC_LICENSE
@@ -51,6 +52,7 @@ fun Session.toContentValues() = contentValuesOf(
         DATE_UTC to dateUTC,
         DESCR to description,
         DURATION to duration,
+        FEEDBACK_URL to feedbackUrl,
         LANG to language,
         LINKS to links,
         REC_LICENSE to recordingLicense,
