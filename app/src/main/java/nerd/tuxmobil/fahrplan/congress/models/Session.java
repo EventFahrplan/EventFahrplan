@@ -87,6 +87,7 @@ public class Session {
     public Session(String sessionId) {
         title = "";
         subtitle = "";
+        url = "";
         day = 0;
         roomName = "";
         roomIdentifier = "";
