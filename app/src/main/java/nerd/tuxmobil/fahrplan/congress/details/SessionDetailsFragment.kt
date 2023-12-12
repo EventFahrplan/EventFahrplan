@@ -58,8 +58,6 @@ class SessionDetailsFragment : Fragment() {
 
         const val FRAGMENT_TAG = "detail"
         private const val SESSION_DETAILS_FRAGMENT_REQUEST_KEY = "SESSION_DETAILS_FRAGMENT_REQUEST_KEY"
-        private const val SCHEDULE_FEEDBACK_URL = BuildConfig.SCHEDULE_FEEDBACK_URL
-        private val SHOW_FEEDBACK_MENU_ITEM = !TextUtils.isEmpty(SCHEDULE_FEEDBACK_URL)
 
         // Custom heading text size multipliers for each heading level.
         // Docs: https://noties.io/Markwon/docs/v4/core/theme.html#typeface
@@ -385,7 +383,7 @@ class SessionDetailsFragment : Fragment() {
             menu.setMenuItemVisibility(R.id.menu_item_set_alarm, false)
             menu.setMenuItemVisibility(R.id.menu_item_delete_alarm, true)
         }
-        menu.setMenuItemVisibility(R.id.menu_item_feedback, SHOW_FEEDBACK_MENU_ITEM && model.supportsFeedback)
+        menu.setMenuItemVisibility(R.id.menu_item_feedback, model.supportsFeedback)
         if (sidePane) {
             menu.setMenuItemVisibility(R.id.menu_item_close_session_details, true)
         }
