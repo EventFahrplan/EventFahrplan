@@ -44,6 +44,7 @@ fun Session.toSessionDatabaseModel() = SessionDatabaseModel(
         dayIndex = day,
         description = description,
         duration = duration, // minutes
+        feedbackUrl = feedbackUrl,
         hasAlarm = hasAlarm,
         language = lang,
         links = links,
@@ -87,6 +88,7 @@ fun SessionDatabaseModel.toSessionAppModel(): Session {
     session.day = dayIndex
     session.description = description
     session.duration = duration // minutes
+    session.feedbackUrl = feedbackUrl
     session.hasAlarm = hasAlarm
     session.lang = language
     session.links = links
@@ -132,6 +134,7 @@ fun SessionNetworkModel.toSessionAppModel(): Session {
     session.day = dayIndex
     session.description = description
     session.duration = duration // minutes
+    session.feedbackUrl = feedbackUrl
     session.hasAlarm = hasAlarm
     session.lang = language
     session.links = links

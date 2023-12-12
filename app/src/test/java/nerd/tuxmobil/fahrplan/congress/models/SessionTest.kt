@@ -13,6 +13,7 @@ class SessionTest {
         fun createSession() = Session("s1").apply {
             title = "Lorem ipsum"
             subtitle = "Gravida arcu ac tortor"
+            feedbackUrl = "https://example.com/feedback"
             day = 3
             date = "2020-02-29"
             dateUTC = 1439478900000L
@@ -153,6 +154,13 @@ class SessionTest {
     @Test
     fun `equals evaluates false and hashCode differ for sessions with odd subtitle`() {
         val session2Modification: SessionModification = { subtitle = "Odd subtitle" }
+        assertOddSessionsAreNotEqual { session2Modification() }
+        assertOddSessionsHaveOddHashCodes { session2Modification() }
+    }
+
+    @Test
+    fun `equals evaluates false and hashCode differ for sessions with odd feedback URL`() {
+        val session2Modification: SessionModification = { feedbackUrl = "https://example.net/feedback" }
         assertOddSessionsAreNotEqual { session2Modification() }
         assertOddSessionsHaveOddHashCodes { session2Modification() }
     }

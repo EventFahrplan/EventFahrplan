@@ -28,6 +28,8 @@ public class Session {
 
     public String title;
     public String subtitle;
+    @Nullable
+    public String feedbackUrl;          // URL to Frab/Pretalx feedback system, e.g. feedbackUrl = "https://talks.event.net/2023/talk/V8LUNA/feedback"
     public String url;
     public int day;                     // XML values start with 1
     public String date;                 // YYYY-MM-DD
@@ -87,6 +89,7 @@ public class Session {
     public Session(String sessionId) {
         title = "";
         subtitle = "";
+        feedbackUrl = null;
         url = "";
         day = 0;
         roomName = "";
@@ -128,6 +131,7 @@ public class Session {
     public Session(@NonNull Session session) {
         this.title = session.title;
         this.subtitle = session.subtitle;
+        this.feedbackUrl = session.feedbackUrl;
         this.url = session.url;
         this.day = session.day;
         this.date = session.date;
@@ -209,6 +213,7 @@ public class Session {
 
         Session session = (Session) o;
 
+        if (!ObjectsCompat.equals(feedbackUrl, session.feedbackUrl)) return false;
         if (day != session.day) return false;
         if (duration != session.duration) return false;
         if (recordingOptOut != session.recordingOptOut) return false;
@@ -234,6 +239,7 @@ public class Session {
     public int hashCode() {
         int result = title.hashCode();
         result = 31 * result + ObjectsCompat.hashCode(subtitle);
+        result = 31 * result + ObjectsCompat.hashCode(feedbackUrl);
         result = 31 * result + day;
         result = 31 * result + ObjectsCompat.hashCode(roomName);
         result = 31 * result + ObjectsCompat.hashCode(roomIdentifier);
