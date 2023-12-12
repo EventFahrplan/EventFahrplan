@@ -15,8 +15,9 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices
+import nerd.tuxmobil.fahrplan.congress.dataconverters.toRoom
 import nerd.tuxmobil.fahrplan.congress.models.Session
-import nerd.tuxmobil.fahrplan.congress.navigation.RoomForC3NavConverter
+import nerd.tuxmobil.fahrplan.congress.navigation.IndoorNavigation
 import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.repositories.ExecutionContext
@@ -40,10 +41,9 @@ internal class SessionDetailsViewModel(
     private val jsonSessionFormat: JsonSessionFormat,
     private val feedbackUrlComposer: FeedbackUrlComposer,
     private val sessionUrlComposition: SessionUrlComposition,
-    private val roomForC3NavConverter: RoomForC3NavConverter,
+    private val indoorNavigation: IndoorNavigation,
     private val markdownConversion: MarkdownConversion,
     private val formattingDelegate: FormattingDelegate = DateFormattingDelegate(),
-    private val c3NavBaseUrl: String,
     private val defaultEngelsystemRoomName: String,
     private val customEngelsystemRoomName: String,
     private val runsAtLeastOnAndroidTiramisu: Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
@@ -127,8 +127,8 @@ internal class SessionDetailsViewModel(
         val sessionUrl = sessionUrlComposition.getSessionUrl(this)
         val sessionLink = sessionFormatter.getFormattedUrl(sessionUrl)
         val isFeedbackUrlEmpty = feedbackUrlComposer.getFeedbackUrl(this).isEmpty()
-        val isC3NavRoomNameEmpty = roomForC3NavConverter.convert(room).isEmpty()
-        val isEngelshift = room == defaultEngelsystemRoomName
+        val supportsIndoorNavigation = indoorNavigation.isSupported(this.toRoom())
+        val isEngelshift = roomName == defaultEngelsystemRoomName
         val supportsFeedback = !isFeedbackUrlEmpty && !isEngelshift
 
         return SelectedSessionParameter(
@@ -145,7 +145,7 @@ internal class SessionDetailsViewModel(
             formattedAbstract = formattedAbstract,
             description = description.orEmpty(),
             formattedDescription = formattedDescription,
-            roomName = room.orEmpty(),
+            roomName = roomName.orEmpty(),
             track = track.orEmpty(),
             hasLinks = getLinks().isNotEmpty(),
             formattedLinks = formattedLinks,
@@ -155,7 +155,7 @@ internal class SessionDetailsViewModel(
             isFlaggedAsFavorite = highlight,
             hasAlarm = hasAlarm,
             supportsFeedback = supportsFeedback,
-            isC3NavRoomNameEmpty = isC3NavRoomNameEmpty,
+            supportsIndoorNavigation = supportsIndoorNavigation,
         )
     }
 
@@ -232,8 +232,8 @@ internal class SessionDetailsViewModel(
 
     fun navigateToRoom() {
         loadSelectedSession { session ->
-            val c3navRoomName = roomForC3NavConverter.convert(session.room)
-            val uri = "$c3NavBaseUrl$c3navRoomName".toUri()
+            val room = session.toRoom()
+            val uri = indoorNavigation.getUri(room)
             mutableNavigateToRoom.sendOneTimeEvent(uri)
         }
     }

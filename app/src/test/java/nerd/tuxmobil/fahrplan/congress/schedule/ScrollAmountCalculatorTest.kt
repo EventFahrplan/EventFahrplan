@@ -105,7 +105,7 @@ class ScrollAmountCalculatorTest {
             columnIndex: Int = COLUMN_INDEX
     ): Int {
         val sessions = listOf(session)
-        val roomData = RoomData(roomName = session.room, sessions = sessions)
+        val roomData = RoomData(roomName = session.roomName, sessions = sessions)
         val scheduleData = ScheduleData(dayIndex = session.day, roomDataList = listOf(roomData))
         val conference = Conference.ofSessions(sessions)
         val dateInfo = DateInfo(dayIndex = session.day, date = Moment.parseDate(session.date))
@@ -127,7 +127,7 @@ class ScrollAmountCalculatorTest {
         dateUTC = moment.toMilliseconds()
         startTime = moment.minuteOfDay
         duration = 60
-        room = "Main hall"
+        roomName = "Main hall"
     }
 
 }

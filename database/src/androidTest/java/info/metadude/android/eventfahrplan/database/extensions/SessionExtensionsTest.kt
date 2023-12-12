@@ -8,7 +8,7 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Se
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_IS_NEW
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_LANGUAGE
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_RECORDING_OPTOUT
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_ROOM
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_ROOM_NAME
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_SPEAKERS
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_SUBTITLE
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_TIME
@@ -24,8 +24,9 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Se
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.REC_LICENSE
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.REC_OPTOUT
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.REL_START
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.ROOM
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.ROOM_IDX
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.ROOM_IDENTIFIER
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.ROOM_INDEX
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.ROOM_NAME
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.SESSION_ID
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.SLUG
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.SPEAKERS
@@ -60,7 +61,8 @@ class SessionExtensionsTest {
                 relativeStartTime = 1035,
                 recordingLicense = "CC 0",
                 recordingOptOut = Session.RECORDING_OPT_OUT_ON,
-                room = "Simulacron-3",
+                roomName = "Simulacron-3",
+                roomIdentifier = "88888888-4444-4444-4444-121212121212",
                 roomIndex = 17,
                 speakers = "John Doe; Noah Doe",
                 startTime = 1036,
@@ -77,7 +79,7 @@ class SessionExtensionsTest {
                 changedIsNew = true,
                 changedLanguage = true,
                 changedRecordingOptOut = true,
-                changedRoom = true,
+                changedRoomName = true,
                 changedSpeakers = true,
                 changedSubtitle = true,
                 changedTime = true,
@@ -99,8 +101,9 @@ class SessionExtensionsTest {
         assertThat(values.getAsInteger(REL_START)).isEqualTo(1035)
         assertThat(values.getAsString(REC_LICENSE)).isEqualTo("CC 0")
         assertThat(values.getAsBoolean(REC_OPTOUT)).isEqualTo(Session.RECORDING_OPT_OUT_ON)
-        assertThat(values.getAsString(ROOM)).isEqualTo("Simulacron-3")
-        assertThat(values.getAsInteger(ROOM_IDX)).isEqualTo(17)
+        assertThat(values.getAsString(ROOM_NAME)).isEqualTo("Simulacron-3")
+        assertThat(values.getAsString(ROOM_IDENTIFIER)).isEqualTo("88888888-4444-4444-4444-121212121212")
+        assertThat(values.getAsInteger(ROOM_INDEX)).isEqualTo(17)
         assertThat(values.getAsString(SPEAKERS)).isEqualTo("John Doe; Noah Doe")
         assertThat(values.getAsInteger(START)).isEqualTo(1036)
         assertThat(values.getAsString(SLUG)).isEqualTo("lorem")
@@ -116,7 +119,7 @@ class SessionExtensionsTest {
         assertThat(values.getAsBoolean(CHANGED_IS_NEW)).isEqualTo(true)
         assertThat(values.getAsBoolean(CHANGED_LANGUAGE)).isEqualTo(true)
         assertThat(values.getAsBoolean(CHANGED_RECORDING_OPTOUT)).isEqualTo(true)
-        assertThat(values.getAsBoolean(CHANGED_ROOM)).isEqualTo(true)
+        assertThat(values.getAsBoolean(CHANGED_ROOM_NAME)).isEqualTo(true)
         assertThat(values.getAsBoolean(CHANGED_SPEAKERS)).isEqualTo(true)
         assertThat(values.getAsBoolean(CHANGED_SUBTITLE)).isEqualTo(true)
         assertThat(values.getAsBoolean(CHANGED_TIME)).isEqualTo(true)

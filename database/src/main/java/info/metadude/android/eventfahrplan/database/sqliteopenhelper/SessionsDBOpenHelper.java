@@ -16,7 +16,7 @@ import info.metadude.android.eventfahrplan.database.extensions.SQLiteDatabaseExt
 
 public class SessionsDBOpenHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 13;
+    private static final int DATABASE_VERSION = 14;
 
     private static final String DATABASE_NAME = "lectures"; // Keep table name to avoid database migration.
 
@@ -26,7 +26,8 @@ public class SessionsDBOpenHelper extends SQLiteOpenHelper {
                     Columns.TITLE + " TEXT, " +
                     Columns.SUBTITLE + " TEXT, " +
                     Columns.DAY + " INTEGER, " +
-                    Columns.ROOM + " STRING, " +
+                    Columns.ROOM_NAME + " STRING, " +
+                    Columns.ROOM_IDENTIFIER + " TEXT, " +
                     Columns.SLUG + " TEXT, " +
                     Columns.START + " INTEGER, " +
                     Columns.DURATION + " INTEGER, " +
@@ -41,13 +42,13 @@ public class SessionsDBOpenHelper extends SQLiteOpenHelper {
                     Columns.LINKS + " STRING, " +
                     Columns.DATE_UTC + " INTEGER, " +
                     Columns.TIME_ZONE_OFFSET + " INTEGER DEFAULT NULL, " +
-                    Columns.ROOM_IDX + " INTEGER, " +
+                    Columns.ROOM_INDEX + " INTEGER, " +
                     Columns.REC_LICENSE + " STRING, " +
                     Columns.REC_OPTOUT + " INTEGER," +
                     Columns.URL + " TEXT," +
                     Columns.CHANGED_TITLE + " INTEGER," +
                     Columns.CHANGED_SUBTITLE + " INTEGER," +
-                    Columns.CHANGED_ROOM + " INTEGER," +
+                    Columns.CHANGED_ROOM_NAME + " INTEGER," +
                     Columns.CHANGED_DAY + " INTEGER," +
                     Columns.CHANGED_SPEAKERS + " INTEGER," +
                     Columns.CHANGED_RECORDING_OPTOUT + " INTEGER," +
@@ -89,7 +90,7 @@ public class SessionsDBOpenHelper extends SQLiteOpenHelper {
         }
         if (oldVersion < 3 && newVersion >= 3) {
             db.execSQL("ALTER TABLE " + SessionsTable.NAME +
-                    " ADD COLUMN " + Columns.ROOM_IDX + " INTEGER DEFAULT " +
+                    " ADD COLUMN " + Columns.ROOM_INDEX + " INTEGER DEFAULT " +
                     Defaults.ROOM_IDX_DEFAULT);
         }
         if (oldVersion < 4 && newVersion >= 4) {
@@ -102,7 +103,7 @@ public class SessionsDBOpenHelper extends SQLiteOpenHelper {
         if (oldVersion < 5 && newVersion >= 5) {
             db.execSQL("ALTER TABLE " + SessionsTable.NAME + " ADD COLUMN " + Columns.CHANGED_TITLE + " INTEGER DEFAULT " + 0);
             db.execSQL("ALTER TABLE " + SessionsTable.NAME + " ADD COLUMN " + Columns.CHANGED_SUBTITLE + " INTEGER DEFAULT " + 0);
-            db.execSQL("ALTER TABLE " + SessionsTable.NAME + " ADD COLUMN " + Columns.CHANGED_ROOM + " INTEGER DEFAULT " + 0);
+            db.execSQL("ALTER TABLE " + SessionsTable.NAME + " ADD COLUMN " + Columns.CHANGED_ROOM_NAME + " INTEGER DEFAULT " + 0);
             db.execSQL("ALTER TABLE " + SessionsTable.NAME + " ADD COLUMN " + Columns.CHANGED_DAY + " INTEGER DEFAULT " + 0);
             db.execSQL("ALTER TABLE " + SessionsTable.NAME + " ADD COLUMN " + Columns.CHANGED_SPEAKERS + " INTEGER DEFAULT " + 0);
             db.execSQL("ALTER TABLE " + SessionsTable.NAME + " ADD COLUMN " + Columns.CHANGED_RECORDING_OPTOUT + " INTEGER DEFAULT " + 0);
@@ -150,5 +151,12 @@ public class SessionsDBOpenHelper extends SQLiteOpenHelper {
             db.execSQL("DROP TABLE IF EXISTS " + SessionByNotificationIdTable.NAME);
             onCreate(db);
         }
+        if (oldVersion < 14) {
+            boolean columnExists = SQLiteDatabaseExtensions.columnExists(db, SessionsTable.NAME, Columns.ROOM_IDENTIFIER);
+            if (!columnExists) {
+                db.execSQL("ALTER TABLE " + SessionsTable.NAME + " ADD COLUMN " + Columns.ROOM_IDENTIFIER + " TEXT DEFAULT ''");
+            }
+        }
+
     }
 }

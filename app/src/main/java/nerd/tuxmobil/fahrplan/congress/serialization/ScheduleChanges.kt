@@ -83,7 +83,7 @@ data class ScheduleChanges private constructor(
                     sessionChange.changedLanguage = true
                     foundNoteworthyChanges = true
                 }
-                if (newSession.room != oldSession.room) {
+                if (newSession.roomName != oldSession.roomName) {
                     sessionChange.changedRoom = true
                     foundNoteworthyChanges = true
                 }
@@ -112,7 +112,7 @@ data class ScheduleChanges private constructor(
                     changedSubtitle = sessionChange.changedSubtitle
                     changedSpeakers = sessionChange.changedSpeakers
                     changedLanguage = sessionChange.changedLanguage
-                    changedRoom = sessionChange.changedRoom
+                    changedRoomName = sessionChange.changedRoom
                     changedTrack = sessionChange.changedTrack
                     changedRecordingOptOut = sessionChange.changedRecordingOptOut
                     changedDay = sessionChange.changedDayIndex
@@ -158,7 +158,7 @@ data class ScheduleChanges private constructor(
                     subtitle == session.subtitle &&
                     speakers == session.speakers &&
                     lang == session.lang &&
-                    room == session.room &&
+                    roomName == session.roomName &&
                     track == session.track &&
                     recordingOptOut == session.recordingOptOut &&
                     day == session.day &&

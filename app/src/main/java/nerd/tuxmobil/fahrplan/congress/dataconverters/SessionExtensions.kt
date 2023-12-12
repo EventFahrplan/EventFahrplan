@@ -5,6 +5,7 @@ package nerd.tuxmobil.fahrplan.congress.dataconverters
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import info.metadude.android.eventfahrplan.network.serialization.FahrplanParser
 import nerd.tuxmobil.fahrplan.congress.models.DateInfo
+import nerd.tuxmobil.fahrplan.congress.models.Room
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import org.threeten.bp.ZoneOffset
 import info.metadude.android.eventfahrplan.database.models.Highlight as HighlightDatabaseModel
@@ -17,6 +18,8 @@ fun Session.shiftRoomIndexOnDays(dayIndices: Set<Int>): Session {
     }
     return this
 }
+
+fun Session.toRoom() = Room(identifier = roomIdentifier, name = roomName)
 
 /**
  * Returns a moment based on the start time of this session.
@@ -48,7 +51,8 @@ fun Session.toSessionDatabaseModel() = SessionDatabaseModel(
         recordingLicense = recordingLicense,
         recordingOptOut = recordingOptOut,
         relativeStartTime = relStartTime,
-        room = room,
+        roomName = roomName,
+        roomIdentifier = roomIdentifier,
         roomIndex = roomIndex,
         slug = slug,
         speakers = createSpeakersString(speakers),
@@ -66,7 +70,7 @@ fun Session.toSessionDatabaseModel() = SessionDatabaseModel(
         changedIsNew = changedIsNew,
         changedLanguage = changedLanguage,
         changedRecordingOptOut = changedRecordingOptOut,
-        changedRoom = changedRoom,
+        changedRoomName = changedRoomName,
         changedSpeakers = changedSpeakers,
         changedSubtitle = changedSubtitle,
         changedTime = changedTime,
@@ -90,7 +94,8 @@ fun SessionDatabaseModel.toSessionAppModel(): Session {
     session.recordingLicense = recordingLicense
     session.recordingOptOut = recordingOptOut
     session.relStartTime = relativeStartTime
-    session.room = room
+    session.roomName = roomName
+    session.roomIdentifier = roomIdentifier
     session.roomIndex = roomIndex
     session.slug = slug
     session.speakers = createSpeakersList(speakers)
@@ -108,7 +113,7 @@ fun SessionDatabaseModel.toSessionAppModel(): Session {
     session.changedIsNew = changedIsNew
     session.changedLanguage = changedLanguage
     session.changedRecordingOptOut = changedRecordingOptOut
-    session.changedRoom = changedRoom
+    session.changedRoomName = changedRoomName
     session.changedSpeakers = changedSpeakers
     session.changedSubtitle = changedSubtitle
     session.changedTime = changedTime
@@ -134,7 +139,8 @@ fun SessionNetworkModel.toSessionAppModel(): Session {
     session.recordingLicense = recordingLicense
     session.recordingOptOut = recordingOptOut
     session.relStartTime = relativeStartTime
-    session.room = room
+    session.roomName = roomName
+    session.roomIdentifier = roomGuid
     session.roomIndex = roomIndex
     session.slug = slug
     session.speakers = createSpeakersList(speakers)
@@ -152,7 +158,7 @@ fun SessionNetworkModel.toSessionAppModel(): Session {
     session.changedIsNew = changedIsNew
     session.changedLanguage = changedLanguage
     session.changedRecordingOptOut = changedRecordingOptOut
-    session.changedRoom = changedRoom
+    session.changedRoomName = changedRoomName
     session.changedSpeakers = changedSpeakers
     session.changedSubtitle = changedSubtitle
     session.changedTime = changedStartTime
@@ -182,10 +188,10 @@ fun Session.sanitize(): Session {
     if (("Sendezentrum-Bühne" == track || "Sendezentrum Bühne" == track || "xHain Berlin" == track) && !type.isNullOrEmpty()) {
         track = type
     }
-    if ("classics" == room && "Other" == type && track.isNullOrEmpty()) {
+    if ("classics" == roomName && "Other" == type && track.isNullOrEmpty()) {
         track = "Classics"
     }
-    if ("rC3 Lounge" == room) {
+    if ("rC3 Lounge" == roomName) {
         track = "Music"
     }
     if (track.isNullOrEmpty() && !type.isNullOrEmpty()) {

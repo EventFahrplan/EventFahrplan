@@ -28,7 +28,7 @@ fun Shift.toSessionAppModel(
     description = descriptionText
     duration = shiftDuration // minutes
     relStartTime = minuteOfDay
-    room = virtualRoomName
+    roomName = virtualRoomName
     speakers = emptyList()
     startTime = minuteOfDay  // minutes since day start
     title = talkTitle

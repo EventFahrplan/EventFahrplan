@@ -46,6 +46,6 @@ data class ScheduleData(
      * Returns the room index of the given [session] or [UNKNOWN_ROOM_INDEX] if not found.
      */
     fun findRoomIndex(session: Session): Int {
-        return roomDataList.indexOfFirst { it.roomName == session.room }
+        return roomDataList.indexOfFirst { it.roomName == session.roomName }
     }
 }
