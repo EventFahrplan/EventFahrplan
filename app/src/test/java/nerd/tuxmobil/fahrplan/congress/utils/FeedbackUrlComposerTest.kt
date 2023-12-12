@@ -29,27 +29,27 @@ class FeedbackUrlComposerTest {
     }
 
     @Test
-    fun getFeedbackUrlWithFrabSessionWithoutScheduleFeedbackUrl() {
+    fun `getFeedbackUrl returns empty string for Frab session if schedule feedback URL is missing`() {
         assertThat(FeedbackUrlComposer("")
                 .getFeedbackUrl(FRAB_SESSION)).isEmpty()
     }
 
     @Test
-    fun getFeedbackUrlWithFrabSessionWithFrabScheduleFeedbackUrl() {
+    fun `getFeedbackUrl returns valid feedback URL for Frab session if schedule feedback URL is present`() {
         assertThat(FeedbackUrlComposer(FRAB_SCHEDULE_FEEDBACK_URL)
                 .getFeedbackUrl(FRAB_SESSION)).isEqualTo("https://frab.cccv.de/en/35C3/public/events/9985/feedback/new")
     }
 
     @Test
-    fun getFeedbackUrlWithPretalxSessionWithFrabScheduleFeedbackUrl() {
+    fun `getFeedbackUrl returns valid feedback URL for Pretalx session if schedule feedback URL is present`() {
         assertThat(FeedbackUrlComposer(FRAB_SCHEDULE_FEEDBACK_URL)
                 .getFeedbackUrl(PRETALX_SESSION)).isEqualTo("https://talks.mrmcd.net/2019/talk/9XL7SP/feedback/")
     }
 
     @Test
-    fun getFeedbackUrlWithWikiSession() {
+    fun `getFeedbackUrl returns empty string for wiki session`() {
         assertThat(FeedbackUrlComposer("")
-                .getFeedbackUrl(WIKI_SESSION)).isEqualTo("")
+                .getFeedbackUrl(WIKI_SESSION)).isEmpty()
     }
 
 }
