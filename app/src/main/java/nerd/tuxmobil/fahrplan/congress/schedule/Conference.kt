@@ -40,8 +40,7 @@ data class Conference(
             val first = Moment.ofEpochMilli(firstSession.dateUTC)
             // TODO Replace with firstSession.toStartsAtMoment() once Session#relStartTime is no longer used.
             val endingLatest = sessions.endingLatest()
-            val endsAt = endingLatest.endsAtDateUtc
-            val last = Moment.ofEpochMilli(endsAt)
+            val last = endingLatest.endsAt
             val minutesToAdd = if (first.monthDay == last.monthDay) 0 else MINUTES_OF_ONE_DAY
             // Here we are assuming all sessions have the same time zone offset.
             val timeZoneOffset = firstSession.timeZoneOffset

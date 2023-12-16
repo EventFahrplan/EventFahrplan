@@ -1,5 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.models
 
+import info.metadude.android.eventfahrplan.commons.temporal.Moment
+import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MILLISECONDS_OF_ONE_MINUTE
 import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MINUTES_OF_ONE_DAY
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
@@ -368,7 +370,26 @@ class SessionTest {
             dateUTC = 10_000
             duration = 60
         }
-        assertThat(session.endsAtDateUtc).isEqualTo(3_610_000L)
+        assertThat(session.endsAt.toMilliseconds()).isEqualTo(3_610_000L)
+    }
+
+    @Test
+    fun `getEndsAt equals endsAtDateUtc converted to Moment`() {
+        val session = Session("").apply {
+            dateUTC = 1584662400000L
+            duration = 90
+        }
+        assertThat(session.endsAt).isEqualTo(Moment.ofEpochMilli(session.endsAtDateUtc))
+    }
+
+    @Test
+    fun `getEndsAt sums dateUTC and duration`() {
+        val session = Session("").apply {
+            dateUTC = 1584662400000L
+            duration = 120
+        }
+        val endsAt = Moment.ofEpochMilli(1584662400000L + 120 * MILLISECONDS_OF_ONE_MINUTE)
+        assertThat(session.endsAt).isEqualTo(endsAt)
     }
 
 }

@@ -70,7 +70,7 @@ class ScrollAmountCalculatorTest {
         val session = createFirstSession()
         val scrollAmount = calculateScrollAmount(
                 session = session,
-                nowMoment = Moment.ofEpochMilli(session.endsAtDateUtc).minusMinutes(1),
+                nowMoment = session.endsAt.minusMinutes(1),
                 currentDayIndex = session.day
         )
         assertThat(scrollAmount).isEqualTo(0)
@@ -81,7 +81,7 @@ class ScrollAmountCalculatorTest {
         val session = createFirstSession()
         val scrollAmount = calculateScrollAmount(
                 session = session,
-                nowMoment = Moment.ofEpochMilli(session.endsAtDateUtc),
+                nowMoment = session.endsAt,
                 currentDayIndex = session.day
         )
         assertThat(scrollAmount).isEqualTo(408)
@@ -92,7 +92,7 @@ class ScrollAmountCalculatorTest {
         val session = createLateSession()
         val scrollAmount = calculateScrollAmount(
                 session = session,
-                nowMoment = Moment.ofEpochMilli(session.endsAtDateUtc),
+                nowMoment = session.endsAt,
                 currentDayIndex = session.day
         )
         assertThat(scrollAmount).isEqualTo(408)
