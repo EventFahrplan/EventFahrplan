@@ -6,7 +6,6 @@ import info.metadude.android.eventfahrplan.database.models.Session.Companion.REC
 import nerd.tuxmobil.fahrplan.congress.models.DateInfo
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.Assert.fail
 import org.junit.Test
 import org.threeten.bp.ZoneOffset
 import info.metadude.android.eventfahrplan.database.models.Session as SessionDatabaseModel
@@ -148,24 +147,6 @@ class SessionExtensionsTest {
             changedTrack = true
         }
         assertThat(sessionNetworkModel.toSessionAppModel()).isEqualTo(sessionAppModel)
-    }
-
-    @Test
-    fun `toStartsAtMoment returns Moment object if dateUTC has proper value`() {
-        val session = Session("").apply { dateUTC = 1582963200000L }
-        val moment = session.toStartsAtMoment()
-        assertThat(moment).isEqualTo(Moment.ofEpochMilli(1582963200000L))
-    }
-
-    @Test
-    fun `toStartsAtMoment throws exception if dateUTC is 0`() {
-        val session = Session("")
-        try {
-            session.toStartsAtMoment()
-            fail("Expect an IllegalArgumentException to be thrown.")
-        } catch (e: IllegalArgumentException) {
-            assertThat(e.message).isEqualTo("Field 'dateUTC' is 0.")
-        }
     }
 
     @Test

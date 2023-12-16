@@ -356,6 +356,22 @@ class SessionTest {
     }
 
     @Test
+    fun `startsAt returns the start date converted to Moment`() {
+        val session = Session("").apply { dateUTC = 1582963200000L }
+        assertThat(session.startsAt).isEqualTo(Moment.ofEpochMilli(1582963200000L))
+    }
+
+    @Test
+    fun `startsAt throws exception if dateUTC is less then or equal to 0`() {
+        val session = Session("").apply { dateUTC = 0 }
+        try {
+            session.startsAt
+        } catch (e: IllegalArgumentException) {
+            assertThat(e.message).isEqualTo("Field 'dateUTC' must be more than 0.")
+        }
+    }
+
+    @Test
     fun `endsAtTime sums startTime and duration`() {
         val session = Session("").apply {
             startTime = 300

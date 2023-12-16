@@ -20,6 +20,7 @@ import info.metadude.android.eventfahrplan.network.serialization.FahrplanParser;
 import info.metadude.android.eventfahrplan.network.temporal.DateParser;
 import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.repositories.SessionsTransformer;
+import nerd.tuxmobil.fahrplan.congress.schedule.Conference;
 
 /**
  * Application model representing a lecture, a workshop or any similar time-framed happening.
@@ -189,6 +190,19 @@ public class Session {
      */
     public long getStartTimeMilliseconds() {
         return (dateUTC > 0) ? dateUTC : getStartTimeMoment().toMilliseconds();
+    }
+
+    /**
+     * Returns a moment based on the start time milliseconds.
+     * <p/>
+     * Don't use in {@link Conference.Companion#ofSessions)} as long as {@link #relStartTime} is supported.
+     * See: <a href="https://github.com/EventFahrplan/EventFahrplan/commit/5a4022b00434700274a824cc63f6d54a18b06fac">5a402</a>
+     */
+    public Moment getStartsAt() {
+        if (dateUTC <= 0) {
+            throw new IllegalArgumentException("Field 'dateUTC' must be more than 0.");
+        }
+        return Moment.ofEpochMilli(dateUTC);
     }
 
     /**

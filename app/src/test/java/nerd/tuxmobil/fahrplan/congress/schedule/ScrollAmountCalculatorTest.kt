@@ -3,7 +3,6 @@ package nerd.tuxmobil.fahrplan.congress.schedule
 import com.google.common.truth.Truth.assertThat
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.NoLogging
-import nerd.tuxmobil.fahrplan.congress.dataconverters.toStartsAtMoment
 import nerd.tuxmobil.fahrplan.congress.models.DateInfo
 import nerd.tuxmobil.fahrplan.congress.models.DateInfos
 import nerd.tuxmobil.fahrplan.congress.models.RoomData
@@ -24,7 +23,7 @@ class ScrollAmountCalculatorTest {
         val session = createFirstSession()
         val scrollAmount = calculateScrollAmount(
                 session = session,
-                nowMoment = session.toStartsAtMoment(),
+                nowMoment = session.startsAt,
                 currentDayIndex = session.day,
                 columnIndex = -1
         )
@@ -36,7 +35,7 @@ class ScrollAmountCalculatorTest {
         val session = createFirstSession()
         val scrollAmount = calculateScrollAmount(
                 session = session,
-                nowMoment = session.toStartsAtMoment(),
+                nowMoment = session.startsAt,
                 currentDayIndex = session.day,
                 columnIndex = COLUMN_INDEX + 1
         )
@@ -48,7 +47,7 @@ class ScrollAmountCalculatorTest {
         val session = createFirstSession()
         val scrollAmount = calculateScrollAmount(
                 session = session,
-                nowMoment = session.toStartsAtMoment().minusMinutes(1),
+                nowMoment = session.startsAt.minusMinutes(1),
                 currentDayIndex = session.day
         )
         assertThat(scrollAmount).isEqualTo(0)
@@ -59,7 +58,7 @@ class ScrollAmountCalculatorTest {
         val session = createFirstSession()
         val scrollAmount = calculateScrollAmount(
                 session = session,
-                nowMoment = session.toStartsAtMoment(),
+                nowMoment = session.startsAt,
                 currentDayIndex = session.day
         )
         assertThat(scrollAmount).isEqualTo(0)

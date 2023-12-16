@@ -5,7 +5,6 @@ import android.widget.LinearLayout
 import androidx.annotation.VisibleForTesting
 import info.metadude.android.eventfahrplan.commons.logging.Logging
 import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MILLISECONDS_OF_ONE_MINUTE
-import nerd.tuxmobil.fahrplan.congress.dataconverters.toStartsAtMoment
 import nerd.tuxmobil.fahrplan.congress.models.RoomData
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import org.threeten.bp.Duration
@@ -80,7 +79,7 @@ data class LayoutCalculator @JvmOverloads constructor(
     private fun getStartTime(session: Session, previousSessionEndsAt: Int): Int {
         var startTime: Int
         if (session.dateUTC > 0) {
-            startTime = session.toStartsAtMoment().minuteOfDay
+            startTime = session.startsAt.minuteOfDay
             if (startTime < previousSessionEndsAt) {
                 startTime += Duration.ofDays(1).toMinutes().toInt()
             }
