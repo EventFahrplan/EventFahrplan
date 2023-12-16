@@ -101,6 +101,11 @@ class Moment private constructor(private val time: Instant) {
     fun isBefore(moment: Moment): Boolean = time.toEpochMilli() < moment.toMilliseconds()
 
     /**
+     * Returns true if this moment is after the given [moment].
+     */
+    fun isAfter(moment: Moment): Boolean = moment.isBefore(this)
+
+    /**
      * Returns the duration in minutes between this and the given [moment].
      */
     fun minutesUntil(moment: Moment): Long {

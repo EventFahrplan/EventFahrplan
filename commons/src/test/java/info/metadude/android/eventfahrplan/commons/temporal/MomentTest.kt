@@ -126,6 +126,16 @@ class MomentTest {
     }
 
     @Test
+    fun isAfter() {
+        val momentOne = Moment.now()
+        val momentTwo = Moment.now().plusSeconds(1)
+
+        assertThat(momentOne.isAfter(momentTwo)).isFalse
+        assertThat(momentTwo.isAfter(momentOne)).isTrue
+        assertThat(momentOne.isAfter(momentOne)).isFalse
+    }
+
+    @Test
     fun durationUntil() {
         val momentOne = Moment.now()
         val momentTwo = momentOne.plusMinutes(1)

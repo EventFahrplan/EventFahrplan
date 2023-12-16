@@ -163,12 +163,12 @@ class StarredListFragment :
         if (!::starredList.isInitialized) {
             return
         }
-        val nowMillis = Moment.now().toMilliseconds()
+        val now = Moment.now()
         var numSeparators = 0
         var i = 0
         while (i < starredList.size) {
             val session = starredList[i]
-            if (session.endsAt.toMilliseconds() > nowMillis) {
+            if (session.endsAt.isAfter(now)) {
                 numSeparators = session.day
                 break
             }
