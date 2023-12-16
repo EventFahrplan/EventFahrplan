@@ -194,6 +194,55 @@ class LayoutCalculatorTest {
         assertMargins(session2Params, 35, 0)
     }
 
+    @Test
+    fun `fixOverlappingSessions decreases the duration of a session with an overlapping successor`() {
+        val duration1 = 45
+        val duration2 = 45
+        val startTime1 = 10 * 60 // 10:00am
+        val startTime2 = startTime1 + duration1 - 10 // 10:35am (10 minutes overlap)
+
+        val session1 = createSession(date = conferenceDate, startTime = startTime1, duration = duration1)
+        val session2 = createSession(date = conferenceDate, startTime = startTime2, duration = duration2)
+        val sessions = listOf(session1, session2)
+
+        layoutCalculator.fixOverlappingSessions(0, sessions)
+        assertThat(sessions[0].duration).isEqualTo(35) // gets cut
+        assertThat(sessions[1].duration).isEqualTo(45) // stays the same
+    }
+
+    @Test
+    fun `fixOverlappingSessions keeps the duration of a session with a consecutive successor`() {
+        val duration1 = 45
+        val duration2 = 45
+        val startTime1 = 10 * 60 // 10:00am
+        val startTime2 = startTime1 + duration1 // 10:45am (no overlap)
+
+        val session1 = createSession(date = conferenceDate, startTime = startTime1, duration = duration1)
+        val session2 = createSession(date = conferenceDate, startTime = startTime2, duration = duration2)
+        val sessions = listOf(session1, session2)
+
+        layoutCalculator.fixOverlappingSessions(0, sessions)
+        assertThat(sessions[0].duration).isEqualTo(45) // stays the same
+        assertThat(sessions[1].duration).isEqualTo(45) // stays the same
+    }
+
+    @Test
+    fun `fixOverlappingSessions keeps the duration of a session without a successor`() {
+        val duration1 = 45
+        val duration2 = 45
+        val startTime1 = 10 * 60 // 10:00am
+        val startTime2 = startTime1 + duration1 - 10 // 10:35am (10 minutes overlap)
+
+        val session1 = createSession(date = conferenceDate, startTime = startTime1, duration = duration1)
+        val session2 = createSession(date = conferenceDate, startTime = startTime2, duration = duration2)
+        val sessions = listOf(session1, session2)
+
+        layoutCalculator.fixOverlappingSessions(1, sessions)
+        assertThat(sessions[0].duration).isEqualTo(45) // stays the same
+        assertThat(sessions[1].duration).isEqualTo(45) // unmodified because no session follows
+    }
+
+
     private fun assertMargins(sessionParams: LinearLayout.LayoutParams?, top: Int, bottom: Int) {
         assertThat(sessionParams!!).isNotNull()
         assertThat(sessionParams.topMargin).isEqualTo(layoutCalculator.calculateDisplayDistance(top))

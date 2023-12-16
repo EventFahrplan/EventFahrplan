@@ -2,6 +2,7 @@ package nerd.tuxmobil.fahrplan.congress.schedule
 
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.annotation.VisibleForTesting
 import info.metadude.android.eventfahrplan.commons.logging.Logging
 import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MILLISECONDS_OF_ONE_MINUTE
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toStartsAtMoment
@@ -89,7 +90,8 @@ data class LayoutCalculator @JvmOverloads constructor(
         return startTime
     }
 
-    private fun fixOverlappingSessions(sessionIndex: Int, sessions: List<Session>) {
+    @VisibleForTesting
+    fun fixOverlappingSessions(sessionIndex: Int, sessions: List<Session>) {
         val session = sessions[sessionIndex]
         val next = sessions.getOrNull(sessionIndex + 1)
 
