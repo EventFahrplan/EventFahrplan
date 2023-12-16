@@ -8,6 +8,7 @@ import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
 import androidx.core.util.ObjectsCompat;
 
 import org.threeten.bp.ZoneOffset;
@@ -177,6 +178,7 @@ public class Session {
         return links == null ? "" : links;
     }
 
+    @VisibleForTesting
     public Moment getStartTimeMoment() {
         long startOfDayTimestamp = DateParser.getDateTime(date);
         return Moment.ofEpochMilli(startOfDayTimestamp).plusMinutes(relStartTime);
