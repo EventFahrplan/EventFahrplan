@@ -101,6 +101,11 @@ class Moment private constructor(private val time: Instant) {
     fun isBefore(moment: Moment): Boolean = time.toEpochMilli() < moment.toMilliseconds()
 
     /**
+     * Returns true if this moment is at the same time as the given [moment].
+     */
+    fun isSimultaneousWith(moment: Moment): Boolean = time.toEpochMilli() == moment.toMilliseconds()
+
+    /**
      * Returns true if this moment is after the given [moment].
      */
     fun isAfter(moment: Moment): Boolean = moment.isBefore(this)

@@ -61,10 +61,10 @@ data class Conference(
  * Returns the [Session] which ends the latest compared to all other [sessions][this].
  */
 private fun List<Session>.endingLatest(): Session {
-    var endsAt = 0L
+    var endsAt = Moment.ofEpochMilli(0L)
     var latestSession = first()
-    map { it to it.endsAtDateUtc }.forEach { (session, sessionEndsAt) ->
-        if (endsAt == 0L || sessionEndsAt > endsAt) {
+    map { it to it.endsAt }.forEach { (session, sessionEndsAt) ->
+        if (endsAt.isSimultaneousWith(Moment.ofEpochMilli(0L)) || sessionEndsAt.isAfter(endsAt)) {
             latestSession = session
             endsAt = sessionEndsAt
         }
