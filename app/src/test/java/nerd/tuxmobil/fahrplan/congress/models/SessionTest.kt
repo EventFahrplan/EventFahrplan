@@ -372,15 +372,6 @@ class SessionTest {
     }
 
     @Test
-    fun `endsAtTime sums startTime and duration`() {
-        val session = Session("").apply {
-            startTime = 300
-            duration = 30
-        }
-        assertThat(session.endsAtTime).isEqualTo(330)
-    }
-
-    @Test
     fun `endsAtDateUtc sums dateUTC and duration`() {
         val session = Session("").apply {
             dateUTC = 10_000

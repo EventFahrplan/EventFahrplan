@@ -206,13 +206,6 @@ public class Session {
     }
 
     /**
-     * Returns the end time since day start in minutes.
-     */
-    public int getEndsAtTime() {
-        return startTime + duration;
-    }
-
-    /**
      * Returns a moment based on summing up the start time milliseconds and the duration.
      */
     @NonNull
