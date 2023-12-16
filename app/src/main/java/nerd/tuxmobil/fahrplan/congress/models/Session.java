@@ -213,18 +213,11 @@ public class Session {
     }
 
     /**
-     * Returns the end date and time in milliseconds.
-     */
-    public long getEndsAtDateUtc() {
-        return dateUTC + (long) duration * MILLISECONDS_OF_ONE_MINUTE;
-    }
-
-    /**
      * Returns a moment based on summing up the start time milliseconds and the duration.
      */
     @NonNull
     public Moment getEndsAt() {
-        return Moment.ofEpochMilli(getEndsAtDateUtc());
+        return Moment.ofEpochMilli(dateUTC + (long) duration * MILLISECONDS_OF_ONE_MINUTE);
     }
 
     @SuppressWarnings("RedundantIfStatement")

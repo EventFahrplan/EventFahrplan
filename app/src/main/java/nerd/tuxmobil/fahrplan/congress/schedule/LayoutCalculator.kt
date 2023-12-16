@@ -4,7 +4,6 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.annotation.VisibleForTesting
 import info.metadude.android.eventfahrplan.commons.logging.Logging
-import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MILLISECONDS_OF_ONE_MINUTE
 import nerd.tuxmobil.fahrplan.congress.models.RoomData
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import org.threeten.bp.Duration
@@ -95,11 +94,11 @@ data class LayoutCalculator @JvmOverloads constructor(
         val next = sessions.getOrNull(sessionIndex + 1)
 
         if (next != null && next.dateUTC > 0) {
-            val nextStartsBeforeCurrentEnds = session.endsAtDateUtc > next.dateUTC
+            val nextStartsBeforeCurrentEnds = next.startsAt.isBefore(session.endsAt)
             if (nextStartsBeforeCurrentEnds) {
                 logging.d(LOG_TAG, """Collision: "${session.title}" + "${next.title}"""")
                 // cut current at the end, to match next sessions start time
-                session.duration = ((next.dateUTC - session.dateUTC) / MILLISECONDS_OF_ONE_MINUTE).toInt()
+                session.duration = session.startsAt.minutesUntil(next.startsAt).toInt()
             }
         }
     }

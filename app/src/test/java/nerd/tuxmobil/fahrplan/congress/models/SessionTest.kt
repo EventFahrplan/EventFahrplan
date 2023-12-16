@@ -390,15 +390,6 @@ class SessionTest {
     }
 
     @Test
-    fun `getEndsAt equals endsAtDateUtc converted to Moment`() {
-        val session = Session("").apply {
-            dateUTC = 1584662400000L
-            duration = 90
-        }
-        assertThat(session.endsAt).isEqualTo(Moment.ofEpochMilli(session.endsAtDateUtc))
-    }
-
-    @Test
     fun `getEndsAt sums dateUTC and duration`() {
         val session = Session("").apply {
             dateUTC = 1584662400000L
