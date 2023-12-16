@@ -338,24 +338,6 @@ class SessionTest {
     }
 
     @Test
-    fun `startTimeMilliseconds returns the dateUTC value when dateUTC is set`() {
-        val session = Session("1").apply {
-            dateUTC = 1
-            date = "2020-03-20"
-        }
-        assertThat(session.startTimeMilliseconds).isEqualTo(1)
-    }
-
-    @Test
-    fun `startTimeMilliseconds returns the date value when dateUTC is not set`() {
-        val session = Session("1").apply {
-            dateUTC = 0
-            date = "2020-03-20"
-        }
-        assertThat(session.startTimeMilliseconds).isEqualTo(1584662400000L)
-    }
-
-    @Test
     fun `startsAt returns the start date converted to Moment`() {
         val session = Session("").apply { dateUTC = 1582963200000L }
         assertThat(session.startsAt).isEqualTo(Moment.ofEpochMilli(1582963200000L))

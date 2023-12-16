@@ -185,16 +185,6 @@ public class Session {
     }
 
     /**
-     * Returns the start time in milliseconds.
-     * <p>
-     * The {@link #dateUTC} is given precedence if its value is bigger then `0`.
-     * Otherwise the start time is determined based on {@link #getStartTimeMoment}.
-     */
-    public long getStartTimeMilliseconds() {
-        return (dateUTC > 0) ? dateUTC : getStartTimeMoment().toMilliseconds();
-    }
-
-    /**
      * Returns a moment based on the start time milliseconds.
      * <p/>
      * Don't use in {@link Conference.Companion#ofSessions)} as long as {@link #relStartTime} is supported.

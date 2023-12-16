@@ -1,6 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.sharing
 
 import com.google.common.truth.Truth.assertThat
+import info.metadude.android.eventfahrplan.commons.temporal.DateParser
 import nerd.tuxmobil.fahrplan.congress.BuildConfig
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.utils.ServerBackendType
@@ -29,6 +30,7 @@ class SimpleSessionFormatTest {
         title = "A talk which changes your life"
         roomName = "Yellow pavilion"
         date = "2019-12-27T11:00:00+01:00"
+        dateUTC = DateParser.parseDateTime(date)
         url = "https://example.com/2019/LD3FX9.html"
         slug = "LD3FX9"
     }
@@ -37,6 +39,7 @@ class SimpleSessionFormatTest {
         title = "The most boring workshop ever"
         roomName = "Dark cellar"
         date = "2019-12-28T17:00:00+01:00"
+        dateUTC = DateParser.parseDateTime(date)
         url = "https://example.com/2019/U28VSA.html"
         slug = "U28VSA"
     }
@@ -45,6 +48,7 @@ class SimpleSessionFormatTest {
         title = "Angel shifts planning"
         roomName = "Main hall"
         date = "2019-12-29T09:00:00+01:00"
+        dateUTC = DateParser.parseDateTime(date)
         links = "https://events.ccc.de/congress/2019/wiki/index.php/Session:A/V_Angel_Meeting"
         url = "https://example.com/2019/U28VSA.html"
         slug = "U28VSA"
@@ -54,6 +58,7 @@ class SimpleSessionFormatTest {
         title = "Central european summer time"
         roomName = "Sunshine tent"
         date = "2019-09-01T16:00:00+02:00"
+        dateUTC = DateParser.parseDateTime(date)
         url = "https://example.com/2019/U9SD23.html"
         slug = "U9SD23"
     }

@@ -66,6 +66,16 @@ class AlarmServicesTest {
         alarmServices.addSessionAlarm(session, alarmTimesValues.indexOf("60"))
         // AlarmServices invokes scheduleSessionAlarm() which is tested separately.
         assertThat(session.hasAlarm).isTrue()
+        val expectedAlarm = Alarm(
+            alarmTimeInMin = 60,
+            day = 1,
+            displayTime = 1536332400000,
+            sessionId = "S1",
+            sessionTitle = "Title",
+            startTime = 1536328800000,
+            timeText = "not relevant"
+        )
+        verifyInvokedOnce(repository).updateAlarm(expectedAlarm)
     }
 
     @Test
