@@ -8,7 +8,6 @@ import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.VisibleForTesting;
 import androidx.core.util.ObjectsCompat;
 
 import org.threeten.bp.ZoneOffset;
@@ -18,7 +17,6 @@ import java.util.List;
 import info.metadude.android.eventfahrplan.commons.temporal.DateFormatter;
 import info.metadude.android.eventfahrplan.commons.temporal.Moment;
 import info.metadude.android.eventfahrplan.network.serialization.FahrplanParser;
-import info.metadude.android.eventfahrplan.network.temporal.DateParser;
 import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.repositories.SessionsTransformer;
 import nerd.tuxmobil.fahrplan.congress.schedule.Conference;
@@ -176,12 +174,6 @@ public class Session {
     @NonNull
     public String getLinks() {
         return links == null ? "" : links;
-    }
-
-    @VisibleForTesting
-    public Moment getStartTimeMoment() {
-        long startOfDayTimestamp = DateParser.getDateTime(date);
-        return Moment.ofEpochMilli(startOfDayTimestamp).plusMinutes(relStartTime);
     }
 
     /**

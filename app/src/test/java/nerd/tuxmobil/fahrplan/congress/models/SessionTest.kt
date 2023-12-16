@@ -2,7 +2,6 @@ package nerd.tuxmobil.fahrplan.congress.models
 
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MILLISECONDS_OF_ONE_MINUTE
-import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MINUTES_OF_ONE_DAY
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 
@@ -303,38 +302,6 @@ class SessionTest {
             changedIsCanceled = true
         }
         assertThat(session.apply { cancel() }).isEqualTo(canceledSession)
-    }
-
-    @Test
-    fun `getStartTimeMoment based on date and relStartTime in the morning`() {
-        val session = Session("1")
-        session.relStartTime = 121
-        session.date = "2019-12-27"
-        session.dateUTC = 0 // Not evaluated by startTimeMoment
-
-        val moment = session.startTimeMoment
-        assertThat(moment.minute).isEqualTo(1)
-        assertThat(moment.minuteOfDay).isEqualTo(121)
-        assertThat(moment.hour).isEqualTo(2)
-        assertThat(moment.month).isEqualTo(12)
-        assertThat(moment.monthDay).isEqualTo(27)
-        assertThat(moment.year).isEqualTo(2019)
-    }
-
-    @Test
-    fun `getStartTimeMoment based on date and relStartTime after midnight`() {
-        val session = Session("1")
-        session.relStartTime = MINUTES_OF_ONE_DAY + 121 // 2:01:00 AM
-        session.date = "2019-12-27"
-        session.dateUTC = 0 // Not evaluated by startTimeMoment
-
-        val moment = session.startTimeMoment
-        assertThat(moment.minute).isEqualTo(1)
-        assertThat(moment.minuteOfDay).isEqualTo(121)
-        assertThat(moment.hour).isEqualTo(2)
-        assertThat(moment.month).isEqualTo(12)
-        assertThat(moment.monthDay).isEqualTo(28) // Unexpected depending on where startTimeMoment is used!
-        assertThat(moment.year).isEqualTo(2019)
     }
 
     @Test
