@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="app_name">Programme du 36C3</string>
-    <string name="copyright_logo"><![CDATA[36C3: Exhaustion de ressource. Conçu par <a href="http://bleeptrack.de">bleeptrack</a>]]></string>
-    <string name="about_logo_content_description">36C3: logo d\'exhaustion de ressource</string>
-    <string name="app_hardcoded_subtitle">27–30 décembre 2019</string>
-</resources>
