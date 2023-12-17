@@ -13,15 +13,16 @@ class SessionsTransformer @VisibleForTesting constructor(
 
     companion object {
 
-        fun createSessionsTransformer(): SessionsTransformer {
+        fun createSessionsTransformer(
+            // A potential custom room name is applied at a later stage.
+            defaultEngelsystemRoomName: String = AppRepository.ENGELSYSTEM_ROOM_NAME
+        ): SessionsTransformer {
             val roomProvider = object : RoomProvider {
                 override val prioritizedRooms: List<String> = listOf(
+                    defaultEngelsystemRoomName,
                     "Saal 1",
-                    "Saal 2",
-                    "Saal G",
-                    "Saal 6",
-                    "Saal 17",
-                    "Lounge"
+                    "Saal Grace",
+                    "Saal Zuse",
                 )
                 override val deprioritizedRooms: List<String> = emptyList()
             }

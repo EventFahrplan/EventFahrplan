@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="pressed_congress">#CC0099AB</color>
+
+    <!-- Default state -->
+    <color name="track_background_default">#808080</color>
+    <color name="track_background_default_all_about_computers">#1C96A6</color>
+    <color name="track_background_default_all_creatures_welcome">#1993d0</color>
+    <color name="track_background_default_antifaschimus">#218FC2</color>
+    <color name="track_background_default_art_beauty">#c68c00</color>
+    <color name="track_background_default_bits_baeume">#88b039</color>
+    <color name="track_background_default_ccc">#CC7400</color>
+    <color name="track_background_default_chaos_family">#000000</color>
+    <color name="track_background_default_community">#3482C2</color>
+    <color name="track_background_default_defense_offense">#BF6000</color>
+    <color name="track_background_default_digitalcourage">#dba904</color>
+    <color name="track_background_default_dlf_und_podcast_buehne">#434E8C</color>
+    <color name="track_background_default_engelshifts">#523023</color>
+    <color name="track_background_default_entertainment">#665C5C</color>
+    <color name="track_background_default_ethics_politics_society">#B31530</color>
+    <color name="track_background_default_finta_only">#911df9</color>
+    <color name="track_background_default_fossasia_workshops">#5D408F</color>
+    <color name="track_background_default_frag_die_teams">#fa16b4</color>
+    <color name="track_background_default_haecksen_only">#3ca939</color>
+    <color name="track_background_default_hardware_making">#31265a</color>
+    <color name="track_background_default_installation">#7D348A</color>
+    <color name="track_background_default_interview">#6F4373</color>
+    <color name="track_background_default_klimakatastrophe">#BA345C</color>
+    <color name="track_background_default_lightning_talks">#5D408F</color>
+    <color name="track_background_default_milliways">#2691ba</color>
+    <color name="track_background_default_music">#454973</color>
+    <color name="track_background_default_nicht_computers">#BD403E</color>
+    <color name="track_background_default_oio">#CC5835</color>
+    <color name="track_background_default_other">#4D4573</color>
+    <color name="track_background_default_performance">#CC841F</color>
+    <color name="track_background_default_queer">#CCA121</color>
+    <color name="track_background_default_science">#00703b</color>
+    <color name="track_background_default_screening">#A3AD44</color>
+    <color name="track_background_default_security">#081E40</color>
+    <color name="track_background_default_sendetisch">#7A9951</color>
+    <color name="track_background_default_sos">#39662B</color>
+    <color name="track_background_default_spiel_und_spass">#60662B</color>
+    <color name="track_background_default_sustainability_climate_justice">#005e7d</color>
+    <color name="track_background_default_talk">#66412B</color>
+    <color name="track_background_default_the_real_basic_about_bits_and_nibbles">#1A736A</color>
+    <color name="track_background_default_theory_practice">#0060BF</color>
+    <color name="track_background_default_workshop">#60662B</color>
+
+    <!-- Highlight state -->
+    <color name="track_background_highlight">#B3B3B3</color>
+    <color name="track_background_highlight_all_about_computers">#26C6DA</color>
+    <color name="track_background_highlight_all_creatures_welcome">#35ace7</color>
+    <color name="track_background_highlight_antifaschimus">#29B6F6</color>
+    <color name="track_background_highlight_art_beauty">#f9b000</color>
+    <color name="track_background_highlight_bits_baeume">#a1c854</color>
+    <color name="track_background_highlight_ccc">#FF8000</color>
+    <color name="track_background_highlight_chaos_family">#260000</color>
+    <color name="track_background_highlight_community">#42A5F5</color>
+    <color name="track_background_highlight_defense_offense">#FF9100</color>
+    <color name="track_background_highlight_digitalcourage">#fbc617</color>
+    <color name="track_background_highlight_dlf_und_podcast_buehne">#5C6BC0</color>
+    <color name="track_background_highlight_engelshifts">#9F5E45</color>
+    <color name="track_background_highlight_entertainment">#857777</color>
+    <color name="track_background_highlight_ethics_politics_society">#E31B3D</color>
+    <color name="track_background_highlight_finta_only">#a94ffa</color>
+    <color name="track_background_highlight_fossasia_workshops">#7E57C2</color>
+    <color name="track_background_highlight_frag_die_teams">#fb48c4</color>
+    <color name="track_background_highlight_haecksen_only">#54c451</color>
+    <color name="track_background_highlight_hardware_making">#44357e</color>
+    <color name="track_background_highlight_installation">#AB47BC</color>
+    <color name="track_background_highlight_interview">#b873bf</color>
+    <color name="track_background_highlight_klimakatastrophe">#EC407A</color>
+    <color name="track_background_highlight_lightning_talks">#7E57C2</color>
+    <color name="track_background_highlight_milliways">#3cacd7</color>
+    <color name="track_background_highlight_music">#737ABF</color>
+    <color name="track_background_highlight_nicht_computers">#EF5350</color>
+    <color name="track_background_highlight_oio">#FF7043</color>
+    <color name="track_background_highlight_other">#6E63A6</color>
+    <color name="track_background_highlight_performance">#FFA726</color>
+    <color name="track_background_highlight_queer">#FFCA28</color>
+    <color name="track_background_highlight_science">#00a356</color>
+    <color name="track_background_highlight_screening">#D4E157</color>
+    <color name="track_background_highlight_security">#0D316B</color>
+    <color name="track_background_highlight_sendetisch">#9CCC65</color>
+    <color name="track_background_highlight_sos">#63B34B</color>
+    <color name="track_background_highlight_spiel_und_spass">#60662B</color>
+    <color name="track_background_highlight_sustainability_climate_justice">#0084b0</color>
+    <color name="track_background_highlight_talk">#B3714B</color>
+    <color name="track_background_highlight_the_real_basic_about_bits_and_nibbles">#26A69A</color>
+    <color name="track_background_highlight_theory_practice">#007fff</color>
+    <color name="track_background_highlight_workshop">#A8B34B</color>
+
+
+</resources>
