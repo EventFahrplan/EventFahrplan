@@ -21,6 +21,7 @@ import info.metadude.android.eventfahrplan.network.models.Meta;
 import info.metadude.android.eventfahrplan.network.models.Session;
 import info.metadude.android.eventfahrplan.network.serialization.exceptions.MissingXmlAttributeException;
 import info.metadude.android.eventfahrplan.network.temporal.DateParser;
+import info.metadude.android.eventfahrplan.network.temporal.DurationParser;
 import info.metadude.android.eventfahrplan.network.validation.DateFieldValidation;
 
 public class FahrplanParser {
@@ -268,7 +269,8 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                                             }
                                         } else if (name.equals("duration")) {
                                             parser.next();
-                                            session.setDuration(DateParser.getMinutes(XmlPullParsers.getSanitizedText(parser)));
+                                            int minutes = DurationParser.getMinutes(XmlPullParsers.getSanitizedText(parser));
+                                            session.setDuration(minutes);
                                         } else if (name.equals("date")) {
                                             parser.next();
                                             String sanitizedText = XmlPullParsers.getSanitizedText(parser);
