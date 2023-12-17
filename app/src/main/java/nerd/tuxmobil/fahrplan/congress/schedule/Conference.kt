@@ -40,8 +40,7 @@ data class Conference(
             val first = Moment.ofEpochMilli(firstSession.dateUTC)
             // TODO Replace with firstSession.toStartsAtMoment() once Session#relStartTime is no longer used.
             val endingLatest = sessions.endingLatest()
-            val endsAt = endingLatest.endsAtDateUtc
-            val last = Moment.ofEpochMilli(endsAt)
+            val last = endingLatest.endsAt
             val minutesToAdd = if (first.monthDay == last.monthDay) 0 else MINUTES_OF_ONE_DAY
             // Here we are assuming all sessions have the same time zone offset.
             val timeZoneOffset = firstSession.timeZoneOffset
@@ -62,10 +61,10 @@ data class Conference(
  * Returns the [Session] which ends the latest compared to all other [sessions][this].
  */
 private fun List<Session>.endingLatest(): Session {
-    var endsAt = 0L
+    var endsAt = Moment.ofEpochMilli(0L)
     var latestSession = first()
-    map { it to it.endsAtDateUtc }.forEach { (session, sessionEndsAt) ->
-        if (endsAt == 0L || sessionEndsAt > endsAt) {
+    map { it to it.endsAt }.forEach { (session, sessionEndsAt) ->
+        if (endsAt.isSimultaneousWith(Moment.ofEpochMilli(0L)) || sessionEndsAt.isAfter(endsAt)) {
             latestSession = session
             endsAt = sessionEndsAt
         }

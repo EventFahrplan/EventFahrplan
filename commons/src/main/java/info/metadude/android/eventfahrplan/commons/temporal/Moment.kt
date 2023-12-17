@@ -96,9 +96,19 @@ class Moment private constructor(private val time: Instant) {
     fun plusMinutes(minutes: Long): Moment = Moment(time.plus(minutes, ChronoUnit.MINUTES))
 
     /**
-     * Returns true if this moment is before given [moment].
+     * Returns true if this moment is before the given [moment].
      */
     fun isBefore(moment: Moment): Boolean = time.toEpochMilli() < moment.toMilliseconds()
+
+    /**
+     * Returns true if this moment is at the same time as the given [moment].
+     */
+    fun isSimultaneousWith(moment: Moment): Boolean = time.toEpochMilli() == moment.toMilliseconds()
+
+    /**
+     * Returns true if this moment is after the given [moment].
+     */
+    fun isAfter(moment: Moment): Boolean = moment.isBefore(this)
 
     /**
      * Returns the duration in minutes between this and the given [moment].

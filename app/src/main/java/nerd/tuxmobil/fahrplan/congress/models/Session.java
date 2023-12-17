@@ -17,9 +17,9 @@ import java.util.List;
 import info.metadude.android.eventfahrplan.commons.temporal.DateFormatter;
 import info.metadude.android.eventfahrplan.commons.temporal.Moment;
 import info.metadude.android.eventfahrplan.network.serialization.FahrplanParser;
-import info.metadude.android.eventfahrplan.network.temporal.DateParser;
 import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.repositories.SessionsTransformer;
+import nerd.tuxmobil.fahrplan.congress.schedule.Conference;
 
 /**
  * Application model representing a lecture, a workshop or any similar time-framed happening.
@@ -176,33 +176,25 @@ public class Session {
         return links == null ? "" : links;
     }
 
-    public Moment getStartTimeMoment() {
-        long startOfDayTimestamp = DateParser.getDateTime(date);
-        return Moment.ofEpochMilli(startOfDayTimestamp).plusMinutes(relStartTime);
+    /**
+     * Returns a moment based on the start time milliseconds.
+     * <p/>
+     * Don't use in {@link Conference.Companion#ofSessions)} as long as {@link #relStartTime} is supported.
+     * See: <a href="https://github.com/EventFahrplan/EventFahrplan/commit/5a4022b00434700274a824cc63f6d54a18b06fac">5a402</a>
+     */
+    public Moment getStartsAt() {
+        if (dateUTC <= 0) {
+            throw new IllegalArgumentException("Field 'dateUTC' must be more than 0.");
+        }
+        return Moment.ofEpochMilli(dateUTC);
     }
 
     /**
-     * Returns the start time in milliseconds.
-     * <p>
-     * The {@link #dateUTC} is given precedence if its value is bigger then `0`.
-     * Otherwise the start time is determined based on {@link #getStartTimeMoment}.
+     * Returns a moment based on summing up the start time milliseconds and the duration.
      */
-    public long getStartTimeMilliseconds() {
-        return (dateUTC > 0) ? dateUTC : getStartTimeMoment().toMilliseconds();
-    }
-
-    /**
-     * Returns the end time since day start in minutes.
-     */
-    public int getEndsAtTime() {
-        return startTime + duration;
-    }
-
-    /**
-     * Returns the end date and time in milliseconds.
-     */
-    public long getEndsAtDateUtc() {
-        return dateUTC + (long) duration * MILLISECONDS_OF_ONE_MINUTE;
+    @NonNull
+    public Moment getEndsAt() {
+        return Moment.ofEpochMilli(dateUTC + (long) duration * MILLISECONDS_OF_ONE_MINUTE);
     }
 
     @SuppressWarnings("RedundantIfStatement")

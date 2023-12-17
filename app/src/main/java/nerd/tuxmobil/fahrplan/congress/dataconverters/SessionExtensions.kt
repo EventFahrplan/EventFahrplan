@@ -21,14 +21,6 @@ fun Session.shiftRoomIndexOnDays(dayIndices: Set<Int>): Session {
 
 fun Session.toRoom() = Room(identifier = roomIdentifier, name = roomName)
 
-/**
- * Returns a moment based on the start time of this session.
- */
-fun Session.toStartsAtMoment(): Moment {
-    require(dateUTC > 0) { "Field 'dateUTC' is 0." }
-    return Moment.ofEpochMilli(dateUTC)
-}
-
 fun Session.toDateInfo(): DateInfo = DateInfo(day, Moment.parseDate(date))
 
 fun Session.toHighlightDatabaseModel() = HighlightDatabaseModel(

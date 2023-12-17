@@ -1,6 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.models
 
-import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MINUTES_OF_ONE_DAY
+import info.metadude.android.eventfahrplan.commons.temporal.Moment
+import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MILLISECONDS_OF_ONE_MINUTE
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 
@@ -304,62 +305,19 @@ class SessionTest {
     }
 
     @Test
-    fun `getStartTimeMoment based on date and relStartTime in the morning`() {
-        val session = Session("1")
-        session.relStartTime = 121
-        session.date = "2019-12-27"
-        session.dateUTC = 0 // Not evaluated by startTimeMoment
-
-        val moment = session.startTimeMoment
-        assertThat(moment.minute).isEqualTo(1)
-        assertThat(moment.minuteOfDay).isEqualTo(121)
-        assertThat(moment.hour).isEqualTo(2)
-        assertThat(moment.month).isEqualTo(12)
-        assertThat(moment.monthDay).isEqualTo(27)
-        assertThat(moment.year).isEqualTo(2019)
+    fun `startsAt returns the start date converted to Moment`() {
+        val session = Session("").apply { dateUTC = 1582963200000L }
+        assertThat(session.startsAt).isEqualTo(Moment.ofEpochMilli(1582963200000L))
     }
 
     @Test
-    fun `getStartTimeMoment based on date and relStartTime after midnight`() {
-        val session = Session("1")
-        session.relStartTime = MINUTES_OF_ONE_DAY + 121 // 2:01:00 AM
-        session.date = "2019-12-27"
-        session.dateUTC = 0 // Not evaluated by startTimeMoment
-
-        val moment = session.startTimeMoment
-        assertThat(moment.minute).isEqualTo(1)
-        assertThat(moment.minuteOfDay).isEqualTo(121)
-        assertThat(moment.hour).isEqualTo(2)
-        assertThat(moment.month).isEqualTo(12)
-        assertThat(moment.monthDay).isEqualTo(28) // Unexpected depending on where startTimeMoment is used!
-        assertThat(moment.year).isEqualTo(2019)
-    }
-
-    @Test
-    fun `startTimeMilliseconds returns the dateUTC value when dateUTC is set`() {
-        val session = Session("1").apply {
-            dateUTC = 1
-            date = "2020-03-20"
+    fun `startsAt throws exception if dateUTC is less then or equal to 0`() {
+        val session = Session("").apply { dateUTC = 0 }
+        try {
+            session.startsAt
+        } catch (e: IllegalArgumentException) {
+            assertThat(e.message).isEqualTo("Field 'dateUTC' must be more than 0.")
         }
-        assertThat(session.startTimeMilliseconds).isEqualTo(1)
-    }
-
-    @Test
-    fun `startTimeMilliseconds returns the date value when dateUTC is not set`() {
-        val session = Session("1").apply {
-            dateUTC = 0
-            date = "2020-03-20"
-        }
-        assertThat(session.startTimeMilliseconds).isEqualTo(1584662400000L)
-    }
-
-    @Test
-    fun `endsAtTime sums startTime and duration`() {
-        val session = Session("").apply {
-            startTime = 300
-            duration = 30
-        }
-        assertThat(session.endsAtTime).isEqualTo(330)
     }
 
     @Test
@@ -368,7 +326,17 @@ class SessionTest {
             dateUTC = 10_000
             duration = 60
         }
-        assertThat(session.endsAtDateUtc).isEqualTo(3_610_000L)
+        assertThat(session.endsAt.toMilliseconds()).isEqualTo(3_610_000L)
+    }
+
+    @Test
+    fun `getEndsAt sums dateUTC and duration`() {
+        val session = Session("").apply {
+            dateUTC = 1584662400000L
+            duration = 120
+        }
+        val endsAt = Moment.ofEpochMilli(1584662400000L + 120 * MILLISECONDS_OF_ONE_MINUTE)
+        assertThat(session.endsAt).isEqualTo(endsAt)
     }
 
 }
