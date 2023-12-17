@@ -21,11 +21,8 @@ class SessionsTransformer @VisibleForTesting constructor(
                 override val prioritizedRooms: List<String> = listOf(
                     defaultEngelsystemRoomName,
                     "Saal 1",
-                    "Saal 2",
-                    "Saal G",
-                    "Saal 6",
-                    "Saal 17",
-                    "Lounge"
+                    "Saal Grace",
+                    "Saal Zuse",
                 )
                 override val deprioritizedRooms: List<String> = emptyList()
             }
