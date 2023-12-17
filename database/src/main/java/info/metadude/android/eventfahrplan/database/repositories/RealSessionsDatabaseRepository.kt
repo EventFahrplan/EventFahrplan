@@ -26,6 +26,7 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Se
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DAY
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DESCR
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DURATION
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.FEEDBACK_URL
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.LANG
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.LINKS
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.REC_LICENSE
@@ -50,6 +51,7 @@ import info.metadude.android.eventfahrplan.database.extensions.getInt
 import info.metadude.android.eventfahrplan.database.extensions.getIntOrNull
 import info.metadude.android.eventfahrplan.database.extensions.getLong
 import info.metadude.android.eventfahrplan.database.extensions.getString
+import info.metadude.android.eventfahrplan.database.extensions.getStringOrNull
 import info.metadude.android.eventfahrplan.database.extensions.insert
 import info.metadude.android.eventfahrplan.database.extensions.map
 import info.metadude.android.eventfahrplan.database.extensions.read
@@ -204,6 +206,7 @@ class RealSessionsDatabaseRepository(
                     dayIndex = cursor.getInt(DAY),
                     description = cursor.getString(DESCR),
                     duration = cursor.getInt(DURATION),
+                    feedbackUrl = cursor.getStringOrNull(FEEDBACK_URL),
                     language = cursor.getString(LANG),
                     links = cursor.getString(LINKS),
                     recordingLicense = cursor.getString(REC_LICENSE),

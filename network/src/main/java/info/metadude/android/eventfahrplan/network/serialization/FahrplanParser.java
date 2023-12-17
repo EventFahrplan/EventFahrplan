@@ -216,6 +216,9 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                                         } else if (name.equals("slug")) {
                                             parser.next();
                                             session.setSlug(XmlPullParsers.getSanitizedText(parser));
+                                        } else if (name.equals("feedback_url")) {
+                                            parser.next();
+                                            session.setFeedbackUrl(XmlPullParsers.getSanitizedText(parser));
                                         } else if (name.equals("url")) {
                                             parser.next();
                                             session.setUrl(XmlPullParsers.getSanitizedText(parser));

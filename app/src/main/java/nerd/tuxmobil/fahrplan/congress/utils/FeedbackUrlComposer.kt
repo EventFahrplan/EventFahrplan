@@ -12,18 +12,23 @@ class FeedbackUrlComposer(
 ) {
 
     /**
-     * Returns the feedback URL for the [session] if it can be composed
-     * otherwise an empty string.
+     * Returns the feedback URL for the [session] if it is available or can be composed otherwise
+     * an empty string.
      *
-     * The [Frab schedule feedback URL][getFrabScheduleFeedbackUrl] is
-     * composed from the session id.
-     * For sessions extracted from the wiki of the Chaos Communication Congress
-     * aka. "self organized sessions" an empty string is returned because
-     * there is no feedback system for them.
+     * The dedicated [Session.feedbackUrl] provides the feedback URL of the Frab or Pretalx instance
+     * independent from the domain where the schedule.xml is hosted.
+     *
+     * The [Frab schedule feedback URL][getFrabScheduleFeedbackUrl] is composed from the session id.
+     * For sessions extracted from the wiki of the Chaos Communication Congress aka. "self organized
+     * sessions" an empty string is returned because there is no feedback system for them.
      */
     fun getFeedbackUrl(session: Session): String {
         if (session.originatesFromWiki) {
             return NO_URL
+        }
+        val feedbackUrl = session.feedbackUrl
+        if (feedbackUrl != null) {
+            return feedbackUrl.ifEmpty { NO_URL }
         }
         return if (session.originatesFromPretalx) {
             session.pretalxScheduleFeedbackUrl

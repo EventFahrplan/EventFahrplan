@@ -15,6 +15,7 @@ data class Session(
         var dateUTC: Long = 0,
         var description: String = "",
         var duration: Int = 0, // minutes
+        var feedbackUrl: String? = null,
         var hasAlarm: Boolean = false,
         var isHighlight: Boolean = false,
         var language: String = "",
