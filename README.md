@@ -52,6 +52,7 @@ Please read the instructions in the [contribution guide](CONTRIBUTING.md) in ord
 - German 🇩🇪
 - Italian 🇮🇹
 - Japanese 🇯🇵
+- Lithuanian 🇱🇹
 - Polish 🇵🇱
 - Portuguese 🇵🇹
 - Russian 🇷🇺
