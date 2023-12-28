@@ -24,30 +24,30 @@ class ShiftsExtensionsTest {
     }
 
     @Test
-    fun cropToDayRangesExtentWithEmptyList() {
+    fun `cropToDayRangesExtent returns empty list if no shifts are present`() {
         assertThat(emptyList<Shift>().cropToDayRangesExtent(dayRanges)).isEmpty()
     }
 
     @Test
-    fun cropToDayRangesExtentWithShiftWithinDayRanges() {
+    fun `cropToDayRangesExtent returns the shift if the shift start matches the day range start`() {
         val shift = Shift(startsAtDate = startsAt)
         assertThat(listOf(shift).cropToDayRangesExtent(dayRanges)).hasSize(1)
     }
 
     @Test
-    fun cropToDayRangesExtentWithShiftBeforeDayRanges() {
+    fun `cropToDayRangesExtent returns empty list if the shift starts before day range start`() {
         val shift = Shift(startsAtDate = startsAt.minusSeconds(1))
         assertThat(listOf(shift).cropToDayRangesExtent(dayRanges)).isEmpty()
     }
 
     @Test
-    fun cropToDayRangesExtentWithShiftAtTheEndOfTheDayRanges() {
+    fun `cropToDayRangesExtent returns the shift if the shift start matches the day range end`() {
         val shift = Shift(startsAtDate = endsAt)
         assertThat(listOf(shift).cropToDayRangesExtent(dayRanges)).hasSize(1)
     }
 
     @Test
-    fun cropToDayRangesExtentWithShiftAfterDayRanges() {
+    fun `cropToDayRangesExtent returns empty list if the shift starts after the day range end`() {
         val shift = Shift(startsAtDate = endsAt.plusSeconds(1))
         assertThat(listOf(shift).cropToDayRangesExtent(dayRanges)).isEmpty()
     }
