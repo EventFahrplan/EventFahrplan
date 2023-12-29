@@ -52,6 +52,7 @@ Please read the instructions in the [contribution guide](CONTRIBUTING.md) in ord
 - German 🇩🇪
 - Italian 🇮🇹
 - Japanese 🇯🇵
+- Lithuanian 🇱🇹
 - Polish 🇵🇱
 - Portuguese 🇵🇹
 - Russian 🇷🇺
@@ -136,8 +137,8 @@ Contributions from 0x5ubt13, Adriano Pereira Junior, Akarsh Seggemu,
 Andreas Schildbach, Animesh Verma, bashtian, bjoernb, Björn Olsson Jarl,
 ButterflyOfFire, cacarrara, Caio Volpato, Chase, cketti, codingcatgirl,
 Dominik Stadler, entropynil, erebion, ideadapt, isi_ko404, Jasper van der Graaf,
-Joergi, koelnkalkverbot, Larissa Yasin, lepawa, ligi, lucadelu, Luis Azcuaga,
-María Arias de Reyna, Mateus Baptista, Matthias Geisler, Matthias Hunstock,
+Joergi, Julius Vitkauskas, koelnkalkverbot, Larissa Yasin, lepawa, ligi, lucadelu,
+Luis Azcuaga, María Arias de Reyna, Mateus Baptista, Matthias Geisler, Matthias Hunstock,
 Matthias Mair, MichaelRocks, Miguel Beltran, mtpa, Nghiem Xuan Hien, NiciDieNase,
 Noemis, Omicron, Poschi, Qwertele, rotrot, Sjors van Mierlo, Stefan Medack,
 SubOptimal, Teeranai.P, Torsten Grote, Victor Herasme, Vladimir Alabov, Yanicka
