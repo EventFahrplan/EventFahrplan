@@ -32,12 +32,11 @@ class StarredListViewModelTest {
     private val jsonSessionFormat = mock<JsonSessionFormat>()
 
     @Test
-    fun `starredListParameter returns null`() = runTest {
+    fun `starredListParameter returns no value`() = runTest {
         val repository = createRepository(sessionsFlow = emptyFlow())
         val viewModel = createViewModel(repository)
-        viewModel.starredListParameter.test {
-            awaitComplete()
-        }
+        viewModel.observeStarredListParameter()
+        viewModel.starredListParameter.test {}
         verifyInvokedNever(repository).readMeta()
         verifyInvokedNever(repository).readUseDeviceTimeZoneEnabled()
     }
@@ -46,10 +45,10 @@ class StarredListViewModelTest {
     fun `starredListParameter returns zero sessions`() = runTest {
         val repository = createRepository()
         val viewModel = createViewModel(repository)
+        viewModel.observeStarredListParameter()
         val expected = StarredListParameter(emptyList(), 0, false)
         viewModel.starredListParameter.test {
             assertThat(awaitItem()).isEqualTo(expected)
-            awaitComplete()
         }
         verifyInvokedNever(repository).readMeta()
         verifyInvokedNever(repository).readUseDeviceTimeZoneEnabled()
@@ -63,11 +62,11 @@ class StarredListViewModelTest {
             useDeviceTimeZoneEnabled = true
         )
         val viewModel = createViewModel(repository)
+        viewModel.observeStarredListParameter()
         val expectedSessions = listOf(Session("23"))
         val expected = StarredListParameter(expectedSessions, 2, true)
         viewModel.starredListParameter.test {
             assertThat(awaitItem()).isEqualTo(expected)
-            awaitComplete()
         }
         verifyInvokedOnce(repository).readMeta()
         verifyInvokedOnce(repository).readUseDeviceTimeZoneEnabled()

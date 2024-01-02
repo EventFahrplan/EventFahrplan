@@ -28,9 +28,8 @@ class ChangeListViewModelTest {
     fun `changeListParameter emits null`() = runTest {
         val repository = createRepository(sessionsFlow = emptyFlow())
         val viewModel = createViewModel(repository)
-        viewModel.changeListParameter.test {
-            awaitComplete()
-        }
+        viewModel.observeChangeListParameter()
+        viewModel.changeListParameter.test {}
         verifyInvokedNever(repository).readMeta()
         verifyInvokedNever(repository).readUseDeviceTimeZoneEnabled()
     }
@@ -39,10 +38,10 @@ class ChangeListViewModelTest {
     fun `changeListParameter emits zero sessions`() = runTest {
         val repository = createRepository()
         val viewModel = createViewModel(repository)
+        viewModel.observeChangeListParameter()
         val expected = ChangeListParameter(emptyList(), 0, false)
         viewModel.changeListParameter.test {
             assertThat(awaitItem()).isEqualTo(expected)
-            awaitComplete()
         }
         verifyInvokedNever(repository).readMeta()
         verifyInvokedNever(repository).readUseDeviceTimeZoneEnabled()
@@ -56,11 +55,11 @@ class ChangeListViewModelTest {
             useDeviceTimeZoneEnabled = true
         )
         val viewModel = createViewModel(repository)
+        viewModel.observeChangeListParameter()
         val expectedSessions = listOf(Session("18"))
         val expected = ChangeListParameter(expectedSessions, 3, true)
         viewModel.changeListParameter.test {
             assertThat(awaitItem()).isEqualTo(expected)
-            awaitComplete()
         }
         verifyInvokedOnce(repository).readMeta()
         verifyInvokedOnce(repository).readUseDeviceTimeZoneEnabled()
