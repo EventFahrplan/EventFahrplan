@@ -123,6 +123,12 @@
     <string name="preference_title_insistent_alarms_enabled">Enable insistent alarm</string>
     <string name="preference_summary_insistent_alarms_enabled">Keeps an alarm on infinitely.</string>
 
+    <!-- UI -->
+    <string name="preference_key_orientation_schedule_landscape" translatable="false">insistent</string>
+    <bool name="preference_default_orientation_schedule_landscape">false</bool>
+    <string name="preference_title_orientation_schedule_landscape">Schedule in landscape mode</string>
+    <string name="preference_summary_orientation_schedule_landscape">Show schedule UI always in landscape mode independent of device settings.</string>
+
     <!-- Category Engelsystem -->
 
     <string name="preference_engelsystem_category_key" translatable="false">

@@ -22,6 +22,17 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:title="@string/ui_settings"
+        app:iconSpaceReserved="false">
+        <SwitchPreferenceCompat
+            android:defaultValue="@bool/preference_default_orientation_schedule_landscape"
+            android:key="@string/preference_key_orientation_schedule_landscape"
+            android:title="@string/preference_title_orientation_schedule_landscape"
+            app:iconSpaceReserved="false"
+            app:summary="@string/preference_summary_orientation_schedule_landscape" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:key="@string/preference_key_category_general"
         android:title="@string/general_settings"
         app:iconSpaceReserved="false">

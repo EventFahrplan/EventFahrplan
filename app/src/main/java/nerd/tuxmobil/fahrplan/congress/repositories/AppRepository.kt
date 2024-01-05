@@ -830,4 +830,7 @@ object AppRepository {
     fun readInsistentAlarmsEnabled() =
             sharedPreferencesRepository.isInsistentAlarmsEnabled()
 
+    fun readIsScheduleLandscape() =
+        sharedPreferencesRepository.isScheduleLandscape()
+
 }

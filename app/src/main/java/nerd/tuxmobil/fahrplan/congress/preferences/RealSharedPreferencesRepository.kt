@@ -121,4 +121,10 @@ class RealSharedPreferencesRepository(val context: Context) : SharedPreferencesR
         .putString(SELECTED_SESSION_ID_KEY, sessionId)
         .commit()
 
+    override fun isScheduleLandscape(): Boolean {
+        val key = context.getString(R.string.preference_key_orientation_schedule_landscape)
+        val defaultValue =  context.resources.getBoolean(R.bool.preference_default_orientation_schedule_landscape)
+        return preferences.getBoolean(key, defaultValue)!!
+    }
+
 }

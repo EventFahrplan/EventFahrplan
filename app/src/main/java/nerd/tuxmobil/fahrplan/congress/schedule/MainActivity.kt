@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP
 import android.content.Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED
+import android.content.pm.ActivityInfo
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.Menu
@@ -228,6 +229,12 @@ class MainActivity : BaseActivity(),
         }
         if (sidePaneView != null && isFavoritesInSidePane) {
             sidePaneView.isVisible = !isScreenLocked
+        }
+
+        requestedOrientation = if (AppRepository.readIsScheduleLandscape()) {
+            ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+        } else {
+            ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
         }
     }
 
