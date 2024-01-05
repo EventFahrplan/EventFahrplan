@@ -26,6 +26,7 @@ files:
         pt-PT: pt
         ru: ru
         sv-SE: sv
+        tr: tr
   - source: /app/src/main/res/values/strings.xml
     translation: /app/src/main/res/values-%android_code%/%original_file_name%
     skip_untranslated_strings: true
@@ -43,6 +44,7 @@ files:
         pt-PT: pt
         ru: ru
         sv-SE: sv
+        tr: tr
 
 # GitHub integration
 pull_request_title: Update translations via Crowdin.
