@@ -81,11 +81,9 @@
     <string name="day">Diena</string>
     <string name="fahrplan">Tvarkaraštis</string>
     <string name="appVersion">Programėlės versija %s</string>
-    <string name="schedule_updated_to">
-        Atnaujinta į <xliff:g example="Mildenberg 2018-01-16 16:50" id="version">%s</xliff:g>
+    <string name="schedule_updated_to">        Atnaujinta į <xliff:g example="Mildenberg 2018-01-16 16:50" id="version">%s</xliff:g>
     </string>
-    <string name="schedule_updated">
-        Tvarkaraštis atnaujintas.
+    <string name="schedule_updated">        Tvarkaraštis atnaujintas.
     </string>
     <string name="settings">Nustatymai</string>
     <string name="session_details_section_title_track">Takelis</string>
@@ -94,8 +92,7 @@
     <string name="choose_alarm_time">Pasirinkite įspėjimo laiką</string>
     <string name="reminders">Įspėjimai</string>
     <string name="usage">Patarimas:\n\nPaspauskite ir palaikykite ant paskaitos, kad nustatytumėte įspėjimą.</string>
-    <string name="about_libraries_statement">
-        Ši programėlė naudoja šias bibliotekas: <xliff:g example="Kotlin, Espresso" id="libs">%s</xliff:g>
+    <string name="about_libraries_statement">        Ši programėlė naudoja šias bibliotekas: <xliff:g example="Kotlin, Espresso" id="libs">%s</xliff:g>
     </string>
     <string name="about_data_privacy_statement_german">Duomenų privatumas (vokiečių kalba)</string>
     <string name="about_f_droid_listing">F-Droid parduotuvėje</string>
@@ -121,18 +118,14 @@
     <string name="dlg_delete_all_favorites_delete_all">Ištrinti visas</string>
     <string name="share_error_activity_not_found">Nėra įdiegta tinkama programa.</string>
     <!-- Build information -->
-    <string name="build_info_time">
-        Surinkimo laikas: <xliff:g example="2015-12-27T13:42Z" id="build_time">%s</xliff:g>
+    <string name="build_info_time">        Surinkimo laikas: <xliff:g example="2015-12-27T13:42Z" id="build_time">%s</xliff:g>
     </string>
-    <string name="build_info_version_code">
-        Versijos kodas: <xliff:g example="42" id="version_code">%s</xliff:g>
+    <string name="build_info_version_code">        Versijos kodas: <xliff:g example="42" id="version_code">%s</xliff:g>
     </string>
-    <string name="build_info_hash">
-        Versijos kontrolinė suma: <xliff:g example="e1f2g3h-dirty" id="build_hash">%s</xliff:g>
+    <string name="build_info_hash">        Versijos kontrolinė suma: <xliff:g example="e1f2g3h-dirty" id="build_hash">%s</xliff:g>
     </string>
     <!-- App disclaimer -->
-    <string name="app_disclaimer">
-        Ši programėlė yra pagrįsta &#8220;EventFahrplan&#8221; šaltinio kodu.
+    <string name="app_disclaimer">        Ši programėlė yra pagrįsta &#8220;EventFahrplan&#8221; šaltinio kodu.
         Kasmetinio Chaos Computer Club kongreso ir stovyklos lankytojai
         naudoja šią programėlę sekti renginio programai.
     </string>
@@ -149,31 +142,24 @@
     <string name="trace_droid_dialog_title">
         Nusiųsti <xliff:g example="33C3 Fahrplan" id="appName">%s</xliff:g> pranešimą apie klaidą &#8230;
     </string>
-    <string name="trace_droid_dialog_message">
-        Buvo aptikta <xliff:g example="33C3 Schedule" id="appName">%s</xliff:g> programėlės problema
+    <string name="trace_droid_dialog_message">        Buvo aptikta <xliff:g example="33C3 Schedule" id="appName">%s</xliff:g> programėlės problema
         Būtų naudinga, jei jūs galėtumėte nusiųsti klaidos ataskaitą ir mes galėtume išsiaiškinti
         problemos priežastį. Labai padėtumėte, jeigu apibūdintumėte kaip ir kada įvyko lūžimas.
     </string>
-    <string name="trace_droid_button_title_send">
-        Atidaryti el. paštą
+    <string name="trace_droid_button_title_send">        Atidaryti el. paštą
     </string>
-    <string name="trace_droid_no_email_app">
-        Neįdiegta jokia suderinama el. pašto programa.
+    <string name="trace_droid_no_email_app">        Neįdiegta jokia suderinama el. pašto programa.
     </string>
-    <string name="trace_droid_button_title_no">
-        Ne
+    <string name="trace_droid_button_title_no">        Ne
     </string>
-    <string name="trace_droid_button_title_later">
-        Gal vėliau
+    <string name="trace_droid_button_title_later">        Gal vėliau
     </string>
     <!-- Notifications -->
-    <string name="notifications_session_alarm_channel_description">
-        Vartotojo sukurti įspėjimai apie įvykius.
+    <string name="notifications_session_alarm_channel_description">        Vartotojo sukurti įspėjimai apie įvykius.
     </string>
     <string name="notifications_session_alarm_channel_name">Įspėjimai apie įvykius</string>
     <string name="notifications_session_alarm_content_text">Įspėjimai apie įvykį</string>
-    <string name="notifications_schedule_update_channel_description">
-        Automatiniai tvarkaraščio nustatymai, konfigūruojami programėlės nustatymuose.
+    <string name="notifications_schedule_update_channel_description">        Automatiniai tvarkaraščio nustatymai, konfigūruojami programėlės nustatymuose.
     </string>
     <string name="notifications_schedule_update_channel_name">Tvarkaraščio atnaujinimai</string>
     <plurals name="notifications_schedule_changes">
@@ -222,24 +208,18 @@
     <!-- Session item -->
     <string name="session_item_has_alarm_content_description">turi nustatytą įspėjimą</string>
     <!-- Alarms -->
-    <string name="alarms_empty">
-        Nėra jokių įspėjimų. Jūs galite nustatyti įspėjimą kiekvienai paskaitai atskirai.
+    <string name="alarms_empty">        Nėra jokių įspėjimų. Jūs galite nustatyti įspėjimą kiekvienai paskaitai atskirai.
         Kad tai padarytumėte, atidarykite paskaitos aprašymą ir paspauskite skambučio piktogramą meniu juostoje.
     </string>
-    <string name="alarms_item_on_click_label">
-        Atverti detalių ekraną
+    <string name="alarms_item_on_click_label">        Atverti detalių ekraną
     </string>
-    <string name="alarms_item_delete_icon_on_click_label">
-        Išvalyti įspėjimą
+    <string name="alarms_item_delete_icon_on_click_label">        Išvalyti įspėjimą
     </string>
-    <string name="alarms_item_alarm_time_zero_minutes_content_description">
-        Įspėjimas: pradžios laiku
+    <string name="alarms_item_alarm_time_zero_minutes_content_description">        Įspėjimas: pradžios laiku
     </string>
-    <string name="alarms_item_alarm_time_minutes_content_description">
-        Įspėjimas: prieš <xliff:g example="5" id="minutes">%d</xliff:g> minutes
+    <string name="alarms_item_alarm_time_minutes_content_description">        Įspėjimas: prieš <xliff:g example="5" id="minutes">%d</xliff:g> minutes
     </string>
-    <string name="alarms_item_fires_at_content_description">
-        Suveikia: <xliff:g example="16:20" id="alarmTime">%s</xliff:g>
+    <string name="alarms_item_fires_at_content_description">        Suveikia: <xliff:g example="16:20" id="alarmTime">%s</xliff:g>
     </string>
     <!-- Validation errors -->
     <string name="validation_error_invalid_url">Neteisingas <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> adresas.</string>
