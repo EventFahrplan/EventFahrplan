@@ -99,7 +99,7 @@ Text translations are managed on [Crowdin][crowdin-eventfahrplan-website]. Contr
 Sources (English) and translations are synchronized via the [Crowdin CLI tool][crowdin-cli-tool-website].
 German is excluded from being managed on Crowdin as long as the maintainer is a native German speaker.
 New languages must be configured in the Crowdin configuration file `crowdin.yaml` before translations
-can be downloaded.
+can be downloaded. The file also contains usage examples.
 
 ## History
 

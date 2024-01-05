@@ -1,8 +1,10 @@
 # Usage example:
 # crowdin download -v -l es-ES -i PROJECT_ID -T API_TOKEN
+# crowdin upload translations -v -l es-ES -i PROJECT_ID -T API_TOKEN
 # https://crowdin.github.io/crowdin-cli/
 
 # Required by CLI
+# Language codes: https://developer.crowdin.com/language-codes/
 base_path: .
 preserve_hierarchy: true
 
