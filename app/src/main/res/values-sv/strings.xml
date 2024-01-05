@@ -42,7 +42,7 @@
     </string>
     <string name="uptodate">Schemat är uppdaterat.</string>
     <!-- Schedule changes dialog -->
-    <string name="schedule_changes_dialog_title">Schemalägg uppdatering</string>
+    <string name="schedule_changes_dialog_title">Schemaändringar</string>
     <string name="schedule_changes_dialog_updated_to_text">Schemat har blivit uppdaterat till\u0020</string>
     <string name="schedule_changes_dialog_changed_new_cancelled_text">. Det är ändringar i <xliff:g example="3 lectures" id="num_changes">%1$s</xliff:g>, <xliff:g example="2 are" id="num_new">%2$s</xliff:g> <xliff:g example="new" id="phrase_new">%3$s</xliff:g>, <xliff:g example="1 is" id="num_canceled">%4$s</xliff:g> <xliff:g example="cancelled" id="phrase_cancelled">%5$s</xliff:g>.</string>
     <string name="schedule_changes_dialog_affected_text">Dessa ändringar påverkar <xliff:g example="2" id="num_marked">%1$d</xliff:g> av dina favoriserade föreläsningar.</string>
@@ -183,6 +183,7 @@
         <item quantity="one">Högtalare: <xliff:g example="Jane Doe" id="name">%s</xliff:g></item>
         <item quantity="other">Högtalare: <xliff:g example="Jane Doe, John Doe" id="names">%s</xliff:g></item>
     </plurals>
+    <!-- Session item -->
     <!-- Alarms -->
     <string name="alarms_empty">        There are no alarms to display. Please note that you
         can set up an individual alarm for each session in the schedule.
