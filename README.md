@@ -58,6 +58,7 @@ Please read the instructions in the [contribution guide](CONTRIBUTING.md) in ord
 - Russian 🇷🇺
 - Spanish 🇪🇸
 - Swedish 🇸🇪
+- Turkish 🇹🇷
 
 ### Optional integration
 
