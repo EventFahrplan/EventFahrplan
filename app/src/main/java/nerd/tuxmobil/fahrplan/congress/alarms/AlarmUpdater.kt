@@ -63,7 +63,7 @@ class AlarmUpdater @JvmOverloads constructor(
         if (conference.startsAfter(time) && conference.startsAtOrBefore(shiftedTime)) {
             logging.d(LOG_TAG, "time < START && START <= shiftedTime")
             interval = TWO_HOURS
-            nextFetch = conference.firstDayStartTime
+            nextFetch = conference.firstDayStartTime.toMilliseconds()
             if (!isInitial) {
                 listener.onCancelUpdateAlarm()
                 listener.onScheduleUpdateAlarm(interval, nextFetch)

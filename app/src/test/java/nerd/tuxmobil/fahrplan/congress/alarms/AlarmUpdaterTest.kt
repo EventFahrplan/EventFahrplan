@@ -1,5 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress.alarms
 
+import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedNever
 import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedOnce
 import nerd.tuxmobil.fahrplan.congress.NoLogging
@@ -26,7 +27,10 @@ class AlarmUpdaterTest {
 
         const val NEVER_USED: Long = -1
 
-        val conferenceTimeFrame = ConferenceTimeFrame(FIRST_DAY_START_TIME, LAST_DAY_END_TIME)
+        val conferenceTimeFrame = ConferenceTimeFrame(
+            Moment.ofEpochMilli(FIRST_DAY_START_TIME),
+            Moment.ofEpochMilli(LAST_DAY_END_TIME)
+        )
     }
 
     private val sharedPreferencesRepository = mock<SharedPreferencesRepository>()

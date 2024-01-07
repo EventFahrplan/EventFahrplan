@@ -1,10 +1,12 @@
 package nerd.tuxmobil.fahrplan.congress.utils
 
-// TODO Use Moment class, merge with Conference class?
+import info.metadude.android.eventfahrplan.commons.temporal.Moment
+
+// TODO Merge with Conference class?
 class ConferenceTimeFrame(
 
-        val firstDayStartTime: Long,
-        private val lastDayEndTime: Long
+    val firstDayStartTime: Moment,
+    private val lastDayEndTime: Moment
 
 ) {
 
@@ -13,16 +15,18 @@ class ConferenceTimeFrame(
     }
 
     val isValid: Boolean
-        get() = firstDayStartTime.compareTo(lastDayEndTime) == -1
+        get() = firstDayStartTime.isBefore(lastDayEndTime)
 
-    operator fun contains(time: Long) = startsAtOrBefore(time) && time < lastDayEndTime
+    operator fun contains(time: Long) =
+        startsAtOrBefore(time) && time < lastDayEndTime.toMilliseconds()
 
-    fun endsAtOrBefore(time: Long) = time >= lastDayEndTime
+    fun endsAtOrBefore(time: Long) = time >= lastDayEndTime.toMilliseconds()
 
-    fun startsAfter(time: Long) = time < firstDayStartTime
+    fun startsAfter(time: Long) = time < firstDayStartTime.toMilliseconds()
 
-    fun startsAtOrBefore(time: Long) = time >= firstDayStartTime
+    fun startsAtOrBefore(time: Long) = time >= firstDayStartTime.toMilliseconds()
 
-    override fun toString() = "firstDayStartTime = $firstDayStartTime, lastDayEndTime = $lastDayEndTime"
+    override fun toString() =
+        "firstDayStartTime = $firstDayStartTime, lastDayEndTime = $lastDayEndTime"
 
 }

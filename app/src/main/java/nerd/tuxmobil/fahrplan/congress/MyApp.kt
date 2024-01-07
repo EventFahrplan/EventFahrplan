@@ -3,6 +3,7 @@ package nerd.tuxmobil.fahrplan.congress
 import android.app.Application
 import androidx.annotation.CallSuper
 import info.metadude.android.eventfahrplan.commons.logging.Logging
+import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.utils.ConferenceTimeFrame
 import org.ligi.tracedroid.TraceDroid
@@ -41,7 +42,10 @@ class MyApp : Application() {
             }.timeInMillis
         }
 
-        val conferenceTimeFrame = ConferenceTimeFrame(FIRST_DAY_START, LAST_DAY_END)
+        val conferenceTimeFrame = ConferenceTimeFrame(
+            Moment.ofEpochMilli(FIRST_DAY_START),
+            Moment.ofEpochMilli(LAST_DAY_END)
+        )
 
         @JvmField
         var taskRunning = TASKS.NONE
