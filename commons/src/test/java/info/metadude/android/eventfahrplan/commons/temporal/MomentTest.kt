@@ -1,5 +1,6 @@
 package info.metadude.android.eventfahrplan.commons.temporal
 
+import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MILLISECONDS_OF_ONE_DAY
 import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MILLISECONDS_OF_ONE_HOUR
 import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MILLISECONDS_OF_ONE_MINUTE
 import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MILLISECONDS_OF_ONE_SECOND
@@ -27,6 +28,7 @@ class MomentTest {
         assertThat(MILLISECONDS_OF_ONE_SECOND).isEqualTo(1_000)
         assertThat(MILLISECONDS_OF_ONE_MINUTE).isEqualTo(60_000)
         assertThat(MILLISECONDS_OF_ONE_HOUR).isEqualTo(3_600_000L)
+        assertThat(MILLISECONDS_OF_ONE_DAY).isEqualTo(86_400_000L)
         assertThat(MINUTES_OF_ONE_DAY).isEqualTo(1_440)
     }
 
@@ -216,6 +218,15 @@ class MomentTest {
         assertThat(momentOne.toMilliseconds()).isEqualTo(MILLISECONDS_OF_ONE_MINUTE.toLong())
 
         val momentTwo = Moment.ofEpochMilli(MILLISECONDS_OF_ONE_MINUTE.toLong()).plusMinutes(-1)
+        assertThat(momentTwo.toMilliseconds()).isEqualTo(0)
+    }
+
+    @Test
+    fun plusDays() {
+        val momentOne = Moment.ofEpochMilli(0).plusDays(1)
+        assertThat(momentOne.toMilliseconds()).isEqualTo(MILLISECONDS_OF_ONE_DAY)
+
+        val momentTwo = Moment.ofEpochMilli(MILLISECONDS_OF_ONE_DAY).plusDays(-1)
         assertThat(momentTwo.toMilliseconds()).isEqualTo(0)
     }
 

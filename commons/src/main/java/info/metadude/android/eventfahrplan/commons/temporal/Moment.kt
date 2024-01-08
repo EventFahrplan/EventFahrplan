@@ -101,6 +101,11 @@ class Moment private constructor(private val time: Instant) {
     fun plusMinutes(minutes: Long): Moment = Moment(time.plus(minutes, ChronoUnit.MINUTES))
 
     /**
+     * Returns a moment with the given [days] added.
+     */
+    fun plusDays(days: Long): Moment = Moment(time.plus(days, ChronoUnit.DAYS))
+
+    /**
      * Returns true if this moment is before the given [moment].
      */
     fun isBefore(moment: Moment): Boolean = time.toEpochMilli() < moment.toMilliseconds()
@@ -151,6 +156,11 @@ class Moment private constructor(private val time: Instant) {
          * 1 hour = 3,600,000 milliseconds
          */
         const val MILLISECONDS_OF_ONE_HOUR: Long = 60L * MILLISECONDS_OF_ONE_MINUTE
+
+        /**
+         * 1 day = 86,400,000 milliseconds
+         */
+        const val MILLISECONDS_OF_ONE_DAY: Long = 24L * MILLISECONDS_OF_ONE_HOUR
 
         /**
          * 1 day = 1,440 minutes

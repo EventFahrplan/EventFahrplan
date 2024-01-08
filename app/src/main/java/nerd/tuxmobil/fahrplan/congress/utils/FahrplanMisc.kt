@@ -42,7 +42,7 @@ object FahrplanMisc {
         val pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent, FLAG_IMMUTABLE)
 
         logging.d(LOG_TAG, "set update alarm")
-        val now = Moment.now().toMilliseconds()
+        val now = Moment.now()
 
         return AlarmUpdater(MyApp.conferenceTimeFrame, object : AlarmUpdater.OnAlarmUpdateListener {
 
@@ -52,7 +52,7 @@ object FahrplanMisc {
             }
 
             override fun onScheduleUpdateAlarm(interval: Long, nextFetch: Long) {
-                logging.d(LOG_TAG, "Scheduling update alarm to interval $interval, next in ~${nextFetch - now}")
+                logging.d(LOG_TAG, "Scheduling update alarm to interval $interval, next in ~${nextFetch - now.toMilliseconds()}")
                 // Redesign might be needed as of Android 12 (API level 31)
                 // See https://developer.android.com/training/scheduling/alarms
                 alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, nextFetch, interval, pendingIntent)

@@ -27,7 +27,7 @@ class AlarmUpdater @JvmOverloads constructor(
         private const val ONE_DAY = AlarmManager.INTERVAL_DAY
     }
 
-    fun calculateInterval(time: Long, isInitial: Boolean): Long {
+    fun calculateInterval(moment: Moment, isInitial: Boolean): Long {
         val refreshIntervalDefaultValue = appRepository.readScheduleRefreshIntervalDefaultValue()
         val refreshInterval = appRepository.readScheduleRefreshInterval()
         val shouldUseDevelopmentInterval = refreshInterval != refreshIntervalDefaultValue
@@ -36,7 +36,7 @@ class AlarmUpdater @JvmOverloads constructor(
         if (shouldUseDevelopmentInterval) {
             logging.d(LOG_TAG, "Schedule refresh interval = $developmentRefreshInterval")
             listener.onCancelUpdateAlarm()
-            val nextFetch = time + developmentRefreshInterval
+            val nextFetch = moment.toMilliseconds() + developmentRefreshInterval
             listener.onScheduleUpdateAlarm(developmentRefreshInterval, nextFetch)
             return developmentRefreshInterval
         }
@@ -44,25 +44,25 @@ class AlarmUpdater @JvmOverloads constructor(
         var interval: Long
         var nextFetch: Long
         when {
-            conference.contains(Moment.ofEpochMilli(time)) -> {
-                logging.d(LOG_TAG, "START <= time < END")
+            conference.contains(moment) -> {
+                logging.d(LOG_TAG, "START <= moment < END")
                 interval = TWO_HOURS
-                nextFetch = time + interval
+                nextFetch = moment.toMilliseconds() + interval
             }
-            conference.endsAtOrBefore(Moment.ofEpochMilli(time)) -> {
-                logging.d(LOG_TAG, "START < END <= time")
+            conference.endsAtOrBefore(moment) -> {
+                logging.d(LOG_TAG, "START < END <= moment")
                 listener.onCancelUpdateAlarm()
                 return 0
             }
             else -> {
-                logging.d(LOG_TAG, "time < END")
+                logging.d(LOG_TAG, "moment < END")
                 interval = ONE_DAY
-                nextFetch = time + interval
+                nextFetch = moment.toMilliseconds() + interval
             }
         }
-        val shiftedTime = time + ONE_DAY
-        if (conference.startsAfter(Moment.ofEpochMilli(time)) && conference.startsAtOrBefore(Moment.ofEpochMilli(shiftedTime))) {
-            logging.d(LOG_TAG, "time < START && START <= shiftedTime")
+        val shiftedTime = moment.plusDays(1)
+        if (conference.startsAfter(moment) && conference.startsAtOrBefore(shiftedTime)) {
+            logging.d(LOG_TAG, "moment < START && START <= shiftedTime")
             interval = TWO_HOURS
             nextFetch = conference.firstDayStartTime.toMilliseconds()
             if (!isInitial) {
