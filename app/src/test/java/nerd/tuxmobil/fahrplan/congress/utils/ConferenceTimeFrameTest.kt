@@ -90,6 +90,11 @@ class ConferenceTimeFrameTest {
     }
 
     @Test
+    fun `endsAtOrBefore returns true if time marks a session starting one millisecond after the last day end time`() {
+        assertThat(conference.endsAtOrBefore(LAST_DAY_END_TIME + 1)).isTrue()
+    }
+
+    @Test
     fun `startsAfter returns false if time marks a session at the first day`() {
         assertThat(conference.startsAfter(FIRST_DAY_START_TIME)).isFalse()
     }
