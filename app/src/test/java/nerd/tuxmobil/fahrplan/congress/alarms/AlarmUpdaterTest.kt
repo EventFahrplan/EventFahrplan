@@ -18,10 +18,10 @@ class AlarmUpdaterTest {
 
     private companion object {
 
-        // 2015-12-27T00:00:00+0100, in seconds: 1451170800000
+        // 2015-12-27T00:00:00+0100, in milliseconds: 1451170800000
         const val FIRST_DAY_START_TIME = 1451170800000L
 
-        // 2015-12-31T00:00:00+0100, in seconds: 1451516400000
+        // 2015-12-31T00:00:00+0100, in milliseconds: 1451516400000
         const val LAST_DAY_END_TIME = 1451516400000L
 
         const val NEVER_USED: Long = -1
@@ -82,7 +82,7 @@ class AlarmUpdaterTest {
 
     @Test
     fun `calculateInterval with time of first day`() {
-        // 2015-12-27T11:30:00+0100, in seconds: 1451212200000
+        // 2015-12-27T11:30:00+0100, in milliseconds: 1451212200000
         val interval = alarmUpdater.calculateInterval(1451212200000L, false)
         assertThat(interval).isEqualTo(7200000L)
         verifyInvokedNever(mockListener).onCancelUpdateAlarm()
@@ -91,7 +91,7 @@ class AlarmUpdaterTest {
 
     @Test
     fun `calculateInterval with time of first day initial`() {
-        // 2015-12-27T11:30:00+0100, in seconds: 1451212200000
+        // 2015-12-27T11:30:00+0100, in milliseconds: 1451212200000
         val interval = alarmUpdater.calculateInterval(1451212200000L, true)
         assertThat(interval).isEqualTo(7200000L)
         verifyInvokedOnce(mockListener).onCancelUpdateAlarm()
@@ -102,7 +102,7 @@ class AlarmUpdaterTest {
 
     @Test
     fun `calculateInterval with time of last day end time`() {
-        // 2015-12-31T00:00:00+0100, in seconds: 1451516400000
+        // 2015-12-31T00:00:00+0100, in milliseconds: 1451516400000
         val interval = alarmUpdater.calculateInterval(1451516400000L, false)
         assertThat(interval).isEqualTo(0)
         verifyInvokedOnce(mockListener).onCancelUpdateAlarm()
@@ -111,7 +111,7 @@ class AlarmUpdaterTest {
 
     @Test
     fun `calculateInterval with time of last day end time initial`() {
-        // 2015-12-31T00:00:00+0100, in seconds: 1451516400000
+        // 2015-12-31T00:00:00+0100, in milliseconds: 1451516400000
         val interval = alarmUpdater.calculateInterval(1451516400000L, true)
         assertThat(interval).isEqualTo(0)
         verifyInvokedOnce(mockListener).onCancelUpdateAlarm()
@@ -122,7 +122,7 @@ class AlarmUpdaterTest {
 
     @Test
     fun `calculateInterval with time one second before first day`() {
-        // 2015-12-26T23:59:59+0100, in seconds: 1451170799000
+        // 2015-12-26T23:59:59+0100, in milliseconds: 1451170799000
         val interval = alarmUpdater.calculateInterval(1451170799000L, false)
         assertThat(interval).isEqualTo(7200000L)
         verifyInvokedOnce(mockListener).onCancelUpdateAlarm()
@@ -131,7 +131,7 @@ class AlarmUpdaterTest {
 
     @Test
     fun `calculateInterval with time one second before first day initial`() {
-        // 2015-12-26T23:59:59+0100, in seconds: 1451170799000
+        // 2015-12-26T23:59:59+0100, in milliseconds: 1451170799000
         val interval = alarmUpdater.calculateInterval(1451170799000L, true)
         assertThat(interval).isEqualTo(7200000L)
         verifyInvokedOnce(mockListener).onCancelUpdateAlarm()
@@ -142,7 +142,7 @@ class AlarmUpdaterTest {
 
     @Test
     fun `calculateInterval with time one day before first day`() {
-        // 2015-12-26T00:00:00+0100, in seconds: 1451084400000
+        // 2015-12-26T00:00:00+0100, in milliseconds: 1451084400000
         val interval = alarmUpdater.calculateInterval(1451084400000L, false)
         assertThat(interval).isEqualTo(7200000L)
         verifyInvokedOnce(mockListener).onCancelUpdateAlarm()
@@ -151,7 +151,7 @@ class AlarmUpdaterTest {
 
     @Test
     fun `calculateInterval with time one day before first day initial`() {
-        // 2015-12-26T00:00:00+0100, in seconds: 1451084400000
+        // 2015-12-26T00:00:00+0100, in milliseconds: 1451084400000
         val interval = alarmUpdater.calculateInterval(1451084400000L, true)
         assertThat(interval).isEqualTo(7200000L)
         verifyInvokedOnce(mockListener).onCancelUpdateAlarm()
@@ -162,7 +162,7 @@ class AlarmUpdaterTest {
 
     @Test
     fun `calculateInterval with time more than one day before first day`() {
-        // 2015-12-25T23:59:59+0100, in seconds: 1451084399000
+        // 2015-12-25T23:59:59+0100, in milliseconds: 1451084399000
         val interval = alarmUpdater.calculateInterval(1451084399000L, false)
         assertThat(interval).isEqualTo(86400000L)
         // TODO Is this behavior intended?
@@ -172,7 +172,7 @@ class AlarmUpdaterTest {
 
     @Test
     fun `calculateInterval with time more than one day before first day initial`() {
-        // 2015-12-25T23:59:59+0100, in seconds: 1451084399000
+        // 2015-12-25T23:59:59+0100, in milliseconds: 1451084399000
         val interval = alarmUpdater.calculateInterval(1451084399000L, true)
         assertThat(interval).isEqualTo(86400000L)
         verifyInvokedOnce(mockListener).onCancelUpdateAlarm()
