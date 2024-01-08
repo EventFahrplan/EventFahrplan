@@ -17,7 +17,7 @@ class AlarmUpdater @JvmOverloads constructor(
 
     interface OnAlarmUpdateListener {
         fun onCancelUpdateAlarm()
-        fun onScheduleUpdateAlarm(interval: Long, nextFetch: Long)
+        fun onScheduleUpdateAlarm(interval: Long, nextFetch: Moment)
     }
 
     companion object {
@@ -36,18 +36,18 @@ class AlarmUpdater @JvmOverloads constructor(
         if (shouldUseDevelopmentInterval) {
             logging.d(LOG_TAG, "Schedule refresh interval = $developmentRefreshInterval")
             listener.onCancelUpdateAlarm()
-            val nextFetch = moment.toMilliseconds() + developmentRefreshInterval
+            val nextFetch = moment.plusMilliseconds(developmentRefreshInterval)
             listener.onScheduleUpdateAlarm(developmentRefreshInterval, nextFetch)
             return developmentRefreshInterval
         }
 
         var interval: Long
-        var nextFetch: Long
+        var nextFetch: Moment
         when {
             conference.contains(moment) -> {
                 logging.d(LOG_TAG, "START <= moment < END")
                 interval = TWO_HOURS
-                nextFetch = moment.toMilliseconds() + interval
+                nextFetch = moment.plusMilliseconds(interval)
             }
             conference.endsAtOrBefore(moment) -> {
                 logging.d(LOG_TAG, "START < END <= moment")
@@ -57,14 +57,14 @@ class AlarmUpdater @JvmOverloads constructor(
             else -> {
                 logging.d(LOG_TAG, "moment < END")
                 interval = ONE_DAY
-                nextFetch = moment.toMilliseconds() + interval
+                nextFetch = moment.plusMilliseconds(interval)
             }
         }
         val shiftedTime = moment.plusDays(1)
         if (conference.startsAfter(moment) && conference.startsAtOrBefore(shiftedTime)) {
             logging.d(LOG_TAG, "moment < START && START <= shiftedTime")
             interval = TWO_HOURS
-            nextFetch = conference.firstDayStartTime.toMilliseconds()
+            nextFetch = conference.firstDayStartTime
             if (!isInitial) {
                 listener.onCancelUpdateAlarm()
                 listener.onScheduleUpdateAlarm(interval, nextFetch)

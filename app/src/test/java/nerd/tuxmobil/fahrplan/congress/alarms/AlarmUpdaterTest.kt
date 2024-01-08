@@ -26,6 +26,7 @@ class AlarmUpdaterTest {
         val LAST_DAY_END_TIME = Moment.ofEpochMilli(1451516400000L)
 
         const val NEVER_USED: Long = -1
+        val NEVER_USED_MOMENT: Moment = Moment.ofEpochMilli(NEVER_USED)
 
         val conferenceTimeFrame = ConferenceTimeFrame(FIRST_DAY_START_TIME, LAST_DAY_END_TIME)
     }
@@ -67,7 +68,7 @@ class AlarmUpdaterTest {
         val interval = alarmUpdater.calculateInterval(LAST_DAY_END_TIME, false)
         assertThat(interval).isEqualTo(3000L)
         verifyInvokedOnce(mockListener).onCancelUpdateAlarm()
-        verifyInvokedOnce(mockListener).onScheduleUpdateAlarm(3000L, LAST_DAY_END_TIME.toMilliseconds() + 3000L)
+        verifyInvokedOnce(mockListener).onScheduleUpdateAlarm(3000L, LAST_DAY_END_TIME.plusSeconds(3))
     }
 
     @Test
@@ -76,7 +77,7 @@ class AlarmUpdaterTest {
         val interval = alarmUpdater.calculateInterval(LAST_DAY_END_TIME, true)
         assertThat(interval).isEqualTo(3000L)
         verifyInvokedOnce(mockListener).onCancelUpdateAlarm()
-        verifyInvokedOnce(mockListener).onScheduleUpdateAlarm(3000L, LAST_DAY_END_TIME.toMilliseconds() + 3000L)
+        verifyInvokedOnce(mockListener).onScheduleUpdateAlarm(3000L, LAST_DAY_END_TIME.plusSeconds(3))
     }
 
     // Start <= Time < End
@@ -87,7 +88,7 @@ class AlarmUpdaterTest {
         val interval = alarmUpdater.calculateInterval(Moment.ofEpochMilli(1451212200000L), false)
         assertThat(interval).isEqualTo(7200000L)
         verifyInvokedNever(mockListener).onCancelUpdateAlarm()
-        verifyInvokedNever(mockListener).onScheduleUpdateAlarm(NEVER_USED, NEVER_USED)
+        verifyInvokedNever(mockListener).onScheduleUpdateAlarm(NEVER_USED, NEVER_USED_MOMENT)
     }
 
     @Test
@@ -96,7 +97,8 @@ class AlarmUpdaterTest {
         val interval = alarmUpdater.calculateInterval(Moment.ofEpochMilli(1451212200000L), true)
         assertThat(interval).isEqualTo(7200000L)
         verifyInvokedOnce(mockListener).onCancelUpdateAlarm()
-        verifyInvokedOnce(mockListener).onScheduleUpdateAlarm(7200000L, 1451212200000L + 7200000L)
+        val expectedNextFetch = Moment.ofEpochMilli(1451212200000L).plusMilliseconds(7200000L)
+        verifyInvokedOnce(mockListener).onScheduleUpdateAlarm(7200000L, expectedNextFetch)
     }
 
     // Time == End
@@ -107,7 +109,7 @@ class AlarmUpdaterTest {
         val interval = alarmUpdater.calculateInterval(Moment.ofEpochMilli(1451516400000L), false)
         assertThat(interval).isEqualTo(0)
         verifyInvokedOnce(mockListener).onCancelUpdateAlarm()
-        verifyInvokedNever(mockListener).onScheduleUpdateAlarm(NEVER_USED, NEVER_USED)
+        verifyInvokedNever(mockListener).onScheduleUpdateAlarm(NEVER_USED, NEVER_USED_MOMENT)
     }
 
     @Test
@@ -116,7 +118,7 @@ class AlarmUpdaterTest {
         val interval = alarmUpdater.calculateInterval(Moment.ofEpochMilli(1451516400000L), true)
         assertThat(interval).isEqualTo(0)
         verifyInvokedOnce(mockListener).onCancelUpdateAlarm()
-        verifyInvokedNever(mockListener).onScheduleUpdateAlarm(NEVER_USED, NEVER_USED)
+        verifyInvokedNever(mockListener).onScheduleUpdateAlarm(NEVER_USED, NEVER_USED_MOMENT)
     }
 
     // Time < Start, diff == 1 second
@@ -127,7 +129,7 @@ class AlarmUpdaterTest {
         val interval = alarmUpdater.calculateInterval(Moment.ofEpochMilli(1451170799000L), false)
         assertThat(interval).isEqualTo(7200000L)
         verifyInvokedOnce(mockListener).onCancelUpdateAlarm()
-        verifyInvokedOnce(mockListener).onScheduleUpdateAlarm(7200000L, 1451170800000L)
+        verifyInvokedOnce(mockListener).onScheduleUpdateAlarm(7200000L, Moment.ofEpochMilli(1451170800000L))
     }
 
     @Test
@@ -136,7 +138,7 @@ class AlarmUpdaterTest {
         val interval = alarmUpdater.calculateInterval(Moment.ofEpochMilli(1451170799000L), true)
         assertThat(interval).isEqualTo(7200000L)
         verifyInvokedOnce(mockListener).onCancelUpdateAlarm()
-        verifyInvokedOnce(mockListener).onScheduleUpdateAlarm(7200000L, 1451170800000L)
+        verifyInvokedOnce(mockListener).onScheduleUpdateAlarm(7200000L, Moment.ofEpochMilli(1451170800000L))
     }
 
     // Time < Start, diff == 1 day
@@ -147,7 +149,7 @@ class AlarmUpdaterTest {
         val interval = alarmUpdater.calculateInterval(Moment.ofEpochMilli(1451084400000L), false)
         assertThat(interval).isEqualTo(7200000L)
         verifyInvokedOnce(mockListener).onCancelUpdateAlarm()
-        verifyInvokedOnce(mockListener).onScheduleUpdateAlarm(7200000L, 1451170800000L)
+        verifyInvokedOnce(mockListener).onScheduleUpdateAlarm(7200000L, Moment.ofEpochMilli(1451170800000L))
     }
 
     @Test
@@ -156,7 +158,7 @@ class AlarmUpdaterTest {
         val interval = alarmUpdater.calculateInterval(Moment.ofEpochMilli(1451084400000L), true)
         assertThat(interval).isEqualTo(7200000L)
         verifyInvokedOnce(mockListener).onCancelUpdateAlarm()
-        verifyInvokedOnce(mockListener).onScheduleUpdateAlarm(7200000L, 1451170800000L)
+        verifyInvokedOnce(mockListener).onScheduleUpdateAlarm(7200000L, Moment.ofEpochMilli(1451170800000L))
     }
 
     // Time < Start, diff > 1 day
@@ -168,7 +170,7 @@ class AlarmUpdaterTest {
         assertThat(interval).isEqualTo(86400000L)
         // TODO Is this behavior intended?
         verifyInvokedNever(mockListener).onCancelUpdateAlarm()
-        verifyInvokedNever(mockListener).onScheduleUpdateAlarm(NEVER_USED, NEVER_USED)
+        verifyInvokedNever(mockListener).onScheduleUpdateAlarm(NEVER_USED, NEVER_USED_MOMENT)
     }
 
     @Test
@@ -177,7 +179,8 @@ class AlarmUpdaterTest {
         val interval = alarmUpdater.calculateInterval(Moment.ofEpochMilli(1451084399000L), true)
         assertThat(interval).isEqualTo(86400000L)
         verifyInvokedOnce(mockListener).onCancelUpdateAlarm()
-        verifyInvokedOnce(mockListener).onScheduleUpdateAlarm(86400000L, 1451084399000L + 86400000L)
+        val expectedNextFetch = Moment.ofEpochMilli(1451084399000L).plusMilliseconds(86400000L)
+        verifyInvokedOnce(mockListener).onScheduleUpdateAlarm(86400000L, expectedNextFetch)
     }
 
 }

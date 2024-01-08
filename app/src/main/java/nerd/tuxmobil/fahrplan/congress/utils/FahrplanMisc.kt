@@ -51,11 +51,12 @@ object FahrplanMisc {
                 alarmManager.cancel(pendingIntent)
             }
 
-            override fun onScheduleUpdateAlarm(interval: Long, nextFetch: Long) {
-                logging.d(LOG_TAG, "Scheduling update alarm to interval $interval, next in ~${nextFetch - now.toMilliseconds()}")
+            override fun onScheduleUpdateAlarm(interval: Long, nextFetch: Moment) {
+                val next = nextFetch.minusMilliseconds(now.toMilliseconds()).toMilliseconds()
+                logging.d(LOG_TAG, "Scheduling update alarm to interval $interval, next in ~$next")
                 // Redesign might be needed as of Android 12 (API level 31)
                 // See https://developer.android.com/training/scheduling/alarms
-                alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, nextFetch, interval, pendingIntent)
+                alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, nextFetch.toMilliseconds(), interval, pendingIntent)
             }
 
         }).calculateInterval(now, isInitial)

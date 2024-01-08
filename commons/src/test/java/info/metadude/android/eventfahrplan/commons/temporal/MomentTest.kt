@@ -204,6 +204,15 @@ class MomentTest {
     }
 
     @Test
+    fun plusMilliseconds() {
+        val momentOne = Moment.ofEpochMilli(0).plusMilliseconds(1)
+        assertThat(momentOne.toMilliseconds()).isEqualTo(1)
+
+        val momentTwo = Moment.ofEpochMilli(1).plusMilliseconds(-1)
+        assertThat(momentTwo.toMilliseconds()).isEqualTo(0)
+    }
+
+    @Test
     fun plusSeconds() {
         val momentOne = Moment.ofEpochMilli(0).plusSeconds(1)
         assertThat(momentOne.toMilliseconds()).isEqualTo(MILLISECONDS_OF_ONE_SECOND.toLong())
@@ -255,6 +264,15 @@ class MomentTest {
 
         val momentTwo = Moment.ofEpochMilli(0).minusSeconds(-1)
         assertThat(momentTwo.toMilliseconds()).isEqualTo(MILLISECONDS_OF_ONE_SECOND.toLong())
+    }
+
+    @Test
+    fun minusMilliseconds() {
+        val momentOne = Moment.ofEpochMilli(1).minusMilliseconds(1)
+        assertThat(momentOne.toMilliseconds()).isEqualTo(0)
+
+        val momentTwo = Moment.ofEpochMilli(0).minusMilliseconds(-1)
+        assertThat(momentTwo.toMilliseconds()).isEqualTo(1)
     }
 
 }

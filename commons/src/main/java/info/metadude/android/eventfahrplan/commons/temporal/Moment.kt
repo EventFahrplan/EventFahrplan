@@ -91,6 +91,16 @@ class Moment private constructor(private val time: Instant) {
     fun minusSeconds(seconds: Long): Moment = Moment(time.minusSeconds(seconds))
 
     /**
+     * Returns a moment with the given [milliseconds] subtracted.
+     */
+    fun minusMilliseconds(milliseconds: Long): Moment = Moment(time.minusMillis(milliseconds))
+
+    /**
+     * Returns a moment with the given [milliseconds] added.
+     */
+    fun plusMilliseconds(milliseconds: Long): Moment = Moment(time.plusMillis(milliseconds))
+
+    /**
      * Returns a moment with the given [seconds] added.
      */
     fun plusSeconds(seconds: Long): Moment = Moment(time.plusSeconds(seconds))
