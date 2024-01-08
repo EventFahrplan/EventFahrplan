@@ -2,6 +2,7 @@ package nerd.tuxmobil.fahrplan.congress.alarms
 
 import android.app.AlarmManager
 import info.metadude.android.eventfahrplan.commons.logging.Logging
+import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.utils.ConferenceTimeFrame
 
@@ -43,12 +44,12 @@ class AlarmUpdater @JvmOverloads constructor(
         var interval: Long
         var nextFetch: Long
         when {
-            conference.contains(time) -> {
+            conference.contains(Moment.ofEpochMilli(time)) -> {
                 logging.d(LOG_TAG, "START <= time < END")
                 interval = TWO_HOURS
                 nextFetch = time + interval
             }
-            conference.endsAtOrBefore(time) -> {
+            conference.endsAtOrBefore(Moment.ofEpochMilli(time)) -> {
                 logging.d(LOG_TAG, "START < END <= time")
                 listener.onCancelUpdateAlarm()
                 return 0
@@ -60,7 +61,7 @@ class AlarmUpdater @JvmOverloads constructor(
             }
         }
         val shiftedTime = time + ONE_DAY
-        if (conference.startsAfter(time) && conference.startsAtOrBefore(shiftedTime)) {
+        if (conference.startsAfter(Moment.ofEpochMilli(time)) && conference.startsAtOrBefore(Moment.ofEpochMilli(shiftedTime))) {
             logging.d(LOG_TAG, "time < START && START <= shiftedTime")
             interval = TWO_HOURS
             nextFetch = conference.firstDayStartTime.toMilliseconds()

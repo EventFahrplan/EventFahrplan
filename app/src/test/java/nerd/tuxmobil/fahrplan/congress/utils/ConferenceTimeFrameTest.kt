@@ -65,58 +65,58 @@ class ConferenceTimeFrameTest {
     @Test
     fun `contains returns true if time marks a session at the first day`() {
         // 2015-12-27T11:30:00+0100, in milliseconds: 1451212200000
-        assertThat(conference.contains(1451212200000L)).isTrue()
+        assertThat(conference.contains(Moment.ofEpochMilli(1451212200000L))).isTrue()
     }
 
     @Test
     fun `contains returns false if time marks a session starting one second before the first day`() {
         // 2015-12-26T23:59:59+0100, in milliseconds: 1451170799000
-        assertThat(conference.contains(1451170799000L)).isFalse()
+        assertThat(conference.contains(Moment.ofEpochMilli(1451170799000L))).isFalse()
     }
 
     @Test
     fun `contains returns false if time marks a session at the last day end time`() {
-        assertThat(conference.contains(LAST_DAY_END_TIME)).isFalse()
+        assertThat(conference.contains(Moment.ofEpochMilli(LAST_DAY_END_TIME))).isFalse()
     }
 
     @Test
     fun `endsAtOrBefore returns true if time marks a session at the last day end time`() {
-        assertThat(conference.endsAtOrBefore(LAST_DAY_END_TIME)).isTrue()
+        assertThat(conference.endsAtOrBefore(Moment.ofEpochMilli(LAST_DAY_END_TIME))).isTrue()
     }
 
     @Test
-    fun `endsAtOrBefore returns false if time marks a session starting one millisecond before the last day end time`() {
-        assertThat(conference.endsAtOrBefore(LAST_DAY_END_TIME - 1)).isFalse()
+    fun `endsAtOrBefore returns false if time marks a session starting one second before the last day end time`() {
+        assertThat(conference.endsAtOrBefore(Moment.ofEpochMilli(LAST_DAY_END_TIME).minusSeconds(1))).isFalse()
     }
 
     @Test
-    fun `endsAtOrBefore returns true if time marks a session starting one millisecond after the last day end time`() {
-        assertThat(conference.endsAtOrBefore(LAST_DAY_END_TIME + 1)).isTrue()
+    fun `endsAtOrBefore returns true if time marks a session starting one second after the last day end time`() {
+        assertThat(conference.endsAtOrBefore(Moment.ofEpochMilli(LAST_DAY_END_TIME).plusSeconds(1))).isTrue()
     }
 
     @Test
     fun `startsAfter returns false if time marks a session at the first day`() {
-        assertThat(conference.startsAfter(FIRST_DAY_START_TIME)).isFalse()
+        assertThat(conference.startsAfter(Moment.ofEpochMilli(FIRST_DAY_START_TIME))).isFalse()
     }
 
     @Test
-    fun `startsAfter returns true if time marks a session starting on millisecond before the first day`() {
-        assertThat(conference.startsAfter(FIRST_DAY_START_TIME - 1)).isTrue()
+    fun `startsAfter returns true if time marks a session starting on second before the first day`() {
+        assertThat(conference.startsAfter(Moment.ofEpochMilli(FIRST_DAY_START_TIME).minusSeconds(1))).isTrue()
     }
 
     @Test
     fun `startsAtOrBefore returns true if time marks a session at the first day`() {
-        assertThat(conference.startsAtOrBefore(FIRST_DAY_START_TIME)).isTrue()
+        assertThat(conference.startsAtOrBefore(Moment.ofEpochMilli(FIRST_DAY_START_TIME))).isTrue()
     }
 
     @Test
-    fun `startsAtOrBefore returns true if time marks a session starting one millisecond after the first day`() {
-        assertThat(conference.startsAtOrBefore(FIRST_DAY_START_TIME + 1)).isTrue()
+    fun `startsAtOrBefore returns true if time marks a session starting one second after the first day`() {
+        assertThat(conference.startsAtOrBefore(Moment.ofEpochMilli(FIRST_DAY_START_TIME).plusSeconds(1))).isTrue()
     }
 
     @Test
-    fun `startsAtOrBefore returns false if time marks a session starting one millisecond before the first day`() {
-        assertThat(conference.startsAtOrBefore(FIRST_DAY_START_TIME - 1)).isFalse()
+    fun `startsAtOrBefore returns false if time marks a session starting one second before the first day`() {
+        assertThat(conference.startsAtOrBefore(Moment.ofEpochMilli(FIRST_DAY_START_TIME).minusSeconds(1))).isFalse()
     }
 
 }

@@ -17,19 +17,17 @@ class ConferenceTimeFrame(
     val isValid: Boolean
         get() = firstDayStartTime.isBefore(lastDayEndTime)
 
-    operator fun contains(time: Long) =
-        startsAtOrBefore(time) && Moment.ofEpochMilli(time).isBefore(lastDayEndTime)
+    operator fun contains(moment: Moment) =
+        startsAtOrBefore(moment) && lastDayEndTime.isAfter(moment)
 
-    fun endsAtOrBefore(time: Long) = with(Moment.ofEpochMilli(time)) {
-        lastDayEndTime.isSimultaneousWith(this) || lastDayEndTime.isBefore(this)
-    }
+    fun endsAtOrBefore(moment: Moment) =
+        lastDayEndTime.isSimultaneousWith(moment) || lastDayEndTime.isBefore(moment)
 
-    fun startsAfter(time: Long) =
-        firstDayStartTime.isAfter(Moment.ofEpochMilli(time))
+    fun startsAfter(moment: Moment) =
+        firstDayStartTime.isAfter(moment)
 
-    fun startsAtOrBefore(time: Long) = with(Moment.ofEpochMilli(time)) {
-        firstDayStartTime.isSimultaneousWith(this) || firstDayStartTime.isBefore(this)
-    }
+    fun startsAtOrBefore(moment: Moment) =
+        firstDayStartTime.isSimultaneousWith(moment) || firstDayStartTime.isBefore(moment)
 
     override fun toString() =
         "firstDayStartTime = $firstDayStartTime, lastDayEndTime = $lastDayEndTime"

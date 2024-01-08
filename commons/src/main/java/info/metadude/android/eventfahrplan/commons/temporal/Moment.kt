@@ -86,6 +86,11 @@ class Moment private constructor(private val time: Instant) {
     fun minusMinutes(minutes: Long): Moment = Moment(time.minus(minutes, ChronoUnit.MINUTES))
 
     /**
+     * Returns a moment with the given [seconds] subtracted.
+     */
+    fun minusSeconds(seconds: Long): Moment = Moment(time.minusSeconds(seconds))
+
+    /**
      * Returns a moment with the given [seconds] added.
      */
     fun plusSeconds(seconds: Long): Moment = Moment(time.plusSeconds(seconds))

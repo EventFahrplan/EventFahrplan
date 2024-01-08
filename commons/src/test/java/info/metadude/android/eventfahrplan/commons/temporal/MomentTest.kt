@@ -237,4 +237,13 @@ class MomentTest {
         assertThat(momentTwo.toMilliseconds()).isEqualTo(MILLISECONDS_OF_ONE_MINUTE.toLong())
     }
 
+    @Test
+    fun minusSeconds() {
+        val momentOne = Moment.ofEpochMilli(MILLISECONDS_OF_ONE_SECOND.toLong()).minusSeconds(1)
+        assertThat(momentOne.toMilliseconds()).isEqualTo(0)
+
+        val momentTwo = Moment.ofEpochMilli(0).minusSeconds(-1)
+        assertThat(momentTwo.toMilliseconds()).isEqualTo(MILLISECONDS_OF_ONE_SECOND.toLong())
+    }
+
 }
