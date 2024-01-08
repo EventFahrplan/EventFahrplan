@@ -70,13 +70,13 @@ class ConferenceTimeFrameTest {
     }
 
     @Test
-    fun `endsBefore returns true if time marks a session at the last day end time`() {
-        assertThat(conference.endsBefore(LAST_DAY_END_TIME)).isTrue()
+    fun `endsAtOrBefore returns true if time marks a session at the last day end time`() {
+        assertThat(conference.endsAtOrBefore(LAST_DAY_END_TIME)).isTrue()
     }
 
     @Test
-    fun `endsBefore returns false if time marks a session starting one millisecond before the last day end time`() {
-        assertThat(conference.endsBefore(LAST_DAY_END_TIME - 1)).isFalse()
+    fun `endsAtOrBefore returns false if time marks a session starting one millisecond before the last day end time`() {
+        assertThat(conference.endsAtOrBefore(LAST_DAY_END_TIME - 1)).isFalse()
     }
 
     @Test

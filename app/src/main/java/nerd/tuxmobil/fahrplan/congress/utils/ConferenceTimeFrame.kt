@@ -17,7 +17,7 @@ class ConferenceTimeFrame(
 
     operator fun contains(time: Long) = startsAtOrBefore(time) && time < lastDayEndTime
 
-    fun endsBefore(time: Long) = time >= lastDayEndTime
+    fun endsAtOrBefore(time: Long) = time >= lastDayEndTime
 
     fun startsAfter(time: Long) = time < firstDayStartTime
 

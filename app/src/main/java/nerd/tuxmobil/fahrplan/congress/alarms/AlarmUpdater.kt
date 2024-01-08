@@ -48,7 +48,7 @@ class AlarmUpdater @JvmOverloads constructor(
                 interval = TWO_HOURS
                 nextFetch = time + interval
             }
-            conference.endsBefore(time) -> {
+            conference.endsAtOrBefore(time) -> {
                 logging.d(LOG_TAG, "START < END <= time")
                 listener.onCancelUpdateAlarm()
                 return 0
