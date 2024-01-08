@@ -31,6 +31,52 @@ class MomentTest {
     }
 
     @Test
+    fun `equals returns true for equal moments`() {
+        val momentOne = Moment.ofEpochMilli(DEC_30_22_47_2019)
+        val momentTwo = Moment.ofEpochMilli(DEC_30_22_47_2019)
+
+        assertThat(momentOne == momentTwo).isTrue
+    }
+
+    @Test
+    fun `equals returns false for unequal moments`() {
+        val momentOne = Moment.ofEpochMilli(DEC_30_22_47_2019)
+        val momentTwo = Moment.ofEpochMilli(DEC_30_22_47_2019).plusSeconds(1)
+
+        assertThat(momentOne == momentTwo).isFalse()
+    }
+
+    @Test
+    fun `equals returns false for null moment`() {
+        val momentOne = Moment.ofEpochMilli(DEC_30_22_47_2019)
+
+        assertThat(momentOne.equals(null)).isFalse()
+    }
+
+    @Test
+    fun `hashCode returns same value for equal moments`() {
+        val momentOne = Moment.ofEpochMilli(DEC_30_22_47_2019)
+        val momentTwo = Moment.ofEpochMilli(DEC_30_22_47_2019)
+
+        assertThat(momentOne.hashCode()).isEqualTo(momentTwo.hashCode())
+    }
+
+    @Test
+    fun `hashCode returns different values for unequal moments`() {
+        val momentOne = Moment.ofEpochMilli(DEC_30_22_47_2019)
+        val momentTwo = Moment.ofEpochMilli(DEC_30_22_47_2019).plusSeconds(1)
+
+        assertThat(momentOne.hashCode()).isNotEqualTo(momentTwo.hashCode())
+    }
+
+    @Test
+    fun `toString returns toString representation of internal instant`() {
+        val moment = Moment.ofEpochMilli(DEC_30_22_47_2019)
+
+        assertThat(moment.toString()).isEqualTo("2019-12-30T22:47:57.615Z")
+    }
+
+    @Test
     fun dateTimeFieldsAreCorrectlyMapped() {
         val moment = Moment.ofEpochMilli(DEC_30_22_47_2019)
 
