@@ -2,6 +2,7 @@ package nerd.tuxmobil.fahrplan.congress
 
 import android.app.Application
 import androidx.annotation.CallSuper
+import androidx.annotation.VisibleForTesting
 import info.metadude.android.eventfahrplan.commons.logging.Logging
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
@@ -33,7 +34,8 @@ class MyApp : Application() {
             BuildConfig.SCHEDULE_LAST_DAY_END_DAY
         )
 
-        private fun getMilliseconds(timeZoneId: String, year: Int, month: Int, day: Int): Long {
+        @VisibleForTesting
+        fun getMilliseconds(timeZoneId: String, year: Int, month: Int, day: Int): Long {
             val zeroBasedMonth = month - 1
             val zone = TimeZone.getTimeZone(timeZoneId)
             return GregorianCalendar(zone).apply {
