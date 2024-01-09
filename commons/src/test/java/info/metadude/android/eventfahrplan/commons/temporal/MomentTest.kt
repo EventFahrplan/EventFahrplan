@@ -1,5 +1,6 @@
 package info.metadude.android.eventfahrplan.commons.temporal
 
+import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MILLISECONDS_OF_ONE_DAY
 import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MILLISECONDS_OF_ONE_HOUR
 import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MILLISECONDS_OF_ONE_MINUTE
 import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MILLISECONDS_OF_ONE_SECOND
@@ -27,7 +28,54 @@ class MomentTest {
         assertThat(MILLISECONDS_OF_ONE_SECOND).isEqualTo(1_000)
         assertThat(MILLISECONDS_OF_ONE_MINUTE).isEqualTo(60_000)
         assertThat(MILLISECONDS_OF_ONE_HOUR).isEqualTo(3_600_000L)
+        assertThat(MILLISECONDS_OF_ONE_DAY).isEqualTo(86_400_000L)
         assertThat(MINUTES_OF_ONE_DAY).isEqualTo(1_440)
+    }
+
+    @Test
+    fun `equals returns true for equal moments`() {
+        val momentOne = Moment.ofEpochMilli(DEC_30_22_47_2019)
+        val momentTwo = Moment.ofEpochMilli(DEC_30_22_47_2019)
+
+        assertThat(momentOne == momentTwo).isTrue
+    }
+
+    @Test
+    fun `equals returns false for unequal moments`() {
+        val momentOne = Moment.ofEpochMilli(DEC_30_22_47_2019)
+        val momentTwo = Moment.ofEpochMilli(DEC_30_22_47_2019).plusSeconds(1)
+
+        assertThat(momentOne == momentTwo).isFalse()
+    }
+
+    @Test
+    fun `equals returns false for null moment`() {
+        val momentOne = Moment.ofEpochMilli(DEC_30_22_47_2019)
+
+        assertThat(momentOne.equals(null)).isFalse()
+    }
+
+    @Test
+    fun `hashCode returns same value for equal moments`() {
+        val momentOne = Moment.ofEpochMilli(DEC_30_22_47_2019)
+        val momentTwo = Moment.ofEpochMilli(DEC_30_22_47_2019)
+
+        assertThat(momentOne.hashCode()).isEqualTo(momentTwo.hashCode())
+    }
+
+    @Test
+    fun `hashCode returns different values for unequal moments`() {
+        val momentOne = Moment.ofEpochMilli(DEC_30_22_47_2019)
+        val momentTwo = Moment.ofEpochMilli(DEC_30_22_47_2019).plusSeconds(1)
+
+        assertThat(momentOne.hashCode()).isNotEqualTo(momentTwo.hashCode())
+    }
+
+    @Test
+    fun `toString returns toString representation of internal instant`() {
+        val moment = Moment.ofEpochMilli(DEC_30_22_47_2019)
+
+        assertThat(moment.toString()).isEqualTo("2019-12-30T22:47:57.615Z")
     }
 
     @Test
@@ -156,6 +204,15 @@ class MomentTest {
     }
 
     @Test
+    fun plusMilliseconds() {
+        val momentOne = Moment.ofEpochMilli(0).plusMilliseconds(1)
+        assertThat(momentOne.toMilliseconds()).isEqualTo(1)
+
+        val momentTwo = Moment.ofEpochMilli(1).plusMilliseconds(-1)
+        assertThat(momentTwo.toMilliseconds()).isEqualTo(0)
+    }
+
+    @Test
     fun plusSeconds() {
         val momentOne = Moment.ofEpochMilli(0).plusSeconds(1)
         assertThat(momentOne.toMilliseconds()).isEqualTo(MILLISECONDS_OF_ONE_SECOND.toLong())
@@ -170,6 +227,15 @@ class MomentTest {
         assertThat(momentOne.toMilliseconds()).isEqualTo(MILLISECONDS_OF_ONE_MINUTE.toLong())
 
         val momentTwo = Moment.ofEpochMilli(MILLISECONDS_OF_ONE_MINUTE.toLong()).plusMinutes(-1)
+        assertThat(momentTwo.toMilliseconds()).isEqualTo(0)
+    }
+
+    @Test
+    fun plusDays() {
+        val momentOne = Moment.ofEpochMilli(0).plusDays(1)
+        assertThat(momentOne.toMilliseconds()).isEqualTo(MILLISECONDS_OF_ONE_DAY)
+
+        val momentTwo = Moment.ofEpochMilli(MILLISECONDS_OF_ONE_DAY).plusDays(-1)
         assertThat(momentTwo.toMilliseconds()).isEqualTo(0)
     }
 
@@ -189,6 +255,24 @@ class MomentTest {
 
         val momentTwo = Moment.ofEpochMilli(0).minusMinutes(-1)
         assertThat(momentTwo.toMilliseconds()).isEqualTo(MILLISECONDS_OF_ONE_MINUTE.toLong())
+    }
+
+    @Test
+    fun minusSeconds() {
+        val momentOne = Moment.ofEpochMilli(MILLISECONDS_OF_ONE_SECOND.toLong()).minusSeconds(1)
+        assertThat(momentOne.toMilliseconds()).isEqualTo(0)
+
+        val momentTwo = Moment.ofEpochMilli(0).minusSeconds(-1)
+        assertThat(momentTwo.toMilliseconds()).isEqualTo(MILLISECONDS_OF_ONE_SECOND.toLong())
+    }
+
+    @Test
+    fun minusMilliseconds() {
+        val momentOne = Moment.ofEpochMilli(1).minusMilliseconds(1)
+        assertThat(momentOne.toMilliseconds()).isEqualTo(0)
+
+        val momentTwo = Moment.ofEpochMilli(0).minusMilliseconds(-1)
+        assertThat(momentTwo.toMilliseconds()).isEqualTo(1)
     }
 
 }
