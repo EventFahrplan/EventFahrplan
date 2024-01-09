@@ -5,6 +5,7 @@ import androidx.annotation.CallSuper
 import androidx.annotation.VisibleForTesting
 import info.metadude.android.eventfahrplan.commons.logging.Logging
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
+import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.toMoment
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.utils.ConferenceTimeFrame
 import org.ligi.tracedroid.TraceDroid
@@ -22,14 +23,14 @@ class MyApp : Application() {
 
     companion object {
 
-        private val FIRST_DAY_START = getMilliseconds(
+        private val FIRST_DAY_START = getMoment(
             "Europe/Paris",
             BuildConfig.SCHEDULE_FIRST_DAY_START_YEAR,
             BuildConfig.SCHEDULE_FIRST_DAY_START_MONTH,
             BuildConfig.SCHEDULE_FIRST_DAY_START_DAY
         )
 
-        private val LAST_DAY_END = getMilliseconds(
+        private val LAST_DAY_END = getMoment(
             "Europe/Paris",
             BuildConfig.SCHEDULE_LAST_DAY_END_YEAR,
             BuildConfig.SCHEDULE_LAST_DAY_END_MONTH,
@@ -37,17 +38,14 @@ class MyApp : Application() {
         )
 
         @VisibleForTesting
-        fun getMilliseconds(timeZoneId: String, year: Int, month: Int, day: Int): Long {
+        fun getMoment(timeZoneId: String, year: Int, month: Int, day: Int): Moment {
             val zoneId = ZoneId.of(timeZoneId)
             val localDate = LocalDate.of(year, month, day)
             val zonedDateTime = ZonedDateTime.of(localDate, LocalTime.MIDNIGHT, zoneId)
-            return zonedDateTime.toInstant().toEpochMilli()
+            return zonedDateTime.toMoment()
         }
 
-        val conferenceTimeFrame = ConferenceTimeFrame(
-            Moment.ofEpochMilli(FIRST_DAY_START),
-            Moment.ofEpochMilli(LAST_DAY_END)
-        )
+        val conferenceTimeFrame = ConferenceTimeFrame(FIRST_DAY_START, LAST_DAY_END)
 
         @JvmField
         var taskRunning = TASKS.NONE
