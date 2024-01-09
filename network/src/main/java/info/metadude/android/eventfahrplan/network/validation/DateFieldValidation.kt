@@ -6,7 +6,7 @@ import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import info.metadude.android.eventfahrplan.network.models.Session
 import org.threeten.bp.ZoneOffset
 
-internal class DateFieldValidation constructor(
+internal class DateFieldValidation(
 
     private val logging: Logging
 

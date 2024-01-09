@@ -1,3 +1,5 @@
+@file:JvmName("SQLiteDatabaseExtensions")
+
 package info.metadude.android.eventfahrplan.database.extensions
 
 import android.content.ContentValues
@@ -75,3 +77,27 @@ internal fun SQLiteDatabase.upsert(delete: SQLiteDatabase.() -> Int, insert: SQL
             delete()
             insert()
         }
+
+/**
+ * Returns `true` if the given [column][columnName] is present
+ * in the [table][tableName], otherwise `false`.
+ *
+ * Throws an [IllegalArgumentException] if the schema does not contain
+ * the expected column named `name`.
+ */
+fun SQLiteDatabase.columnExists(tableName: String, columnName: String): Boolean {
+        val cursor = rawQuery("PRAGMA table_info($tableName)", null)
+        while (cursor.moveToNext()) {
+                // "name" is the name of the schema column which contains the table column names.
+                val schemaColumnIndex = cursor.getColumnIndexOrThrow("name")
+                if (schemaColumnIndex != -1) {
+                        val currentColumnName = cursor.getString(schemaColumnIndex)
+                        if (columnName == currentColumnName) {
+                                cursor.close()
+                                return true
+                        }
+                }
+        }
+        cursor.close()
+        return false
+}

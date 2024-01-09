@@ -146,7 +146,7 @@ class SessionDetailsViewModelTest {
             sessionLink = """<a href="$SAMPLE_SESSION_URL">$SAMPLE_SESSION_URL</a>""",
             isFlaggedAsFavorite = true,
             hasAlarm = false,
-            isFeedbackUrlEmpty = false,
+            supportsFeedback = true,
             isC3NavRoomNameEmpty = false,
         )
         viewModel.selectedSessionParameter.test {
@@ -222,7 +222,7 @@ class SessionDetailsViewModelTest {
             sessionLink = "",
             isFlaggedAsFavorite = false,
             hasAlarm = false,
-            isFeedbackUrlEmpty = true,
+            supportsFeedback = false,
             isC3NavRoomNameEmpty = true,
         )
         viewModel.selectedSessionParameter.test {
@@ -407,6 +407,51 @@ class SessionDetailsViewModelTest {
         verifyInvokedOnce(repository).loadSelectedSession()
     }
 
+    @Test
+    fun `supportsFeedback returns false if room name matches default Engelsystem room name`() = runTest {
+        val session = Session("S1").apply {
+            room = "Engelshifts"
+        }
+        val repository = createRepository(selectedSessionFlow = flowOf(session))
+        val fakeSessionFormatter = mock<SessionFormatter> {
+            on { getFormattedLinks(any()) } doReturn "not relevant"
+            on { getFormattedUrl(any()) } doReturn ""
+        }
+        val fakeSessionUrlComposition = mock<SessionUrlComposition> {
+            on { getSessionUrl(any()) } doReturn ""
+        }
+        val fakeFormattingDelegate = mock<FormattingDelegate> {
+            on { getFormattedDateTimeShort(any(), any(), anyOrNull()) } doReturn ""
+            on { getFormattedDateTimeLong(any(), any(), anyOrNull()) } doReturn ""
+        }
+        val fakeMarkdownConversion = mock<MarkdownConversion> {
+            on { markdownLinksToHtmlLinks(any()) } doReturn ""
+        }
+        val fakeFeedbackUrlComposer = mock<FeedbackUrlComposer> {
+            on { getFeedbackUrl(any()) } doReturn ""
+        }
+        val fakeRoomForC3NavConverter = mock<RoomForC3NavConverter> {
+            on { convert(any()) } doReturn ""
+        }
+        val viewModel = createViewModel(
+            repository = repository,
+            sessionFormatter = fakeSessionFormatter,
+            sessionUrlComposition = fakeSessionUrlComposition,
+            formattingDelegate = fakeFormattingDelegate,
+            markdownConversion = fakeMarkdownConversion,
+            feedbackUrlComposer = fakeFeedbackUrlComposer,
+            roomForC3NavConverter = fakeRoomForC3NavConverter,
+            defaultEngelsystemRoomName = "Engelshifts",
+            customEngelsystemRoomName = "Zengelshifts",
+        )
+        viewModel.selectedSessionParameter.test {
+            val actualSessionParameter = awaitItem()
+            assertThat(actualSessionParameter.roomName).isEqualTo("Zengelshifts")
+            assertThat(actualSessionParameter.supportsFeedback).isFalse()
+            awaitComplete()
+        }
+    }
+
     private fun createRepository(
         selectedSessionFlow: Flow<Session> = emptyFlow(),
         selectedSession: Session = Session("S0"),
@@ -432,6 +477,8 @@ class SessionDetailsViewModelTest {
         markdownConversion: MarkdownConversion = mock(),
         formattingDelegate: FormattingDelegate = mock(),
         c3NavBaseUrl: String = "",
+        defaultEngelsystemRoomName: String = "Engelshifts",
+        customEngelsystemRoomName: String = "Trollshifts",
         runsAtLeastOnAndroidTiramisu: Boolean = false
     ) = SessionDetailsViewModel(
         repository = repository,
@@ -447,8 +494,8 @@ class SessionDetailsViewModelTest {
         markdownConversion = markdownConversion,
         formattingDelegate = formattingDelegate,
         c3NavBaseUrl = c3NavBaseUrl,
-        defaultEngelsystemRoomName = "Engelshifts",
-        customEngelsystemRoomName = "Trollshifts",
+        defaultEngelsystemRoomName = defaultEngelsystemRoomName,
+        customEngelsystemRoomName = customEngelsystemRoomName,
         runsAtLeastOnAndroidTiramisu = runsAtLeastOnAndroidTiramisu
     )
 

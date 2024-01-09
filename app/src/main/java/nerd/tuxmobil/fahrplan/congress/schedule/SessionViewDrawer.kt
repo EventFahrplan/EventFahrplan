@@ -42,6 +42,7 @@ internal class SessionViewDrawer @JvmOverloads constructor(
     fun updateSessionView(sessionView: View, session: Session, useDeviceTimeZone: Boolean) {
         val bell = sessionView.requireViewByIdCompat<ImageView>(R.id.session_bell_view)
         bell.isVisible = session.hasAlarm
+        bell.contentDescription = sessionView.context.getString(R.string.session_item_has_alarm_content_description)
         var textView = sessionView.requireViewByIdCompat<TextView>(R.id.session_title_view)
         textView.typeface = boldCondensed
         textView.text = session.title

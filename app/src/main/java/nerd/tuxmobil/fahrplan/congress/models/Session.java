@@ -311,7 +311,17 @@ public class Session {
         if (TextUtils.isEmpty(lang)) {
             return "";
         } else {
-            return lang.replace("-formal", "");
+            return lang
+                    .replace("-formal", "")
+                    .replace("German", "de")
+                    .replace("german", "de")
+                    .replace("Deutsch", "de")
+                    .replace("deutsch", "de")
+                    .replace("English", "en")
+                    .replace("english", "en")
+                    .replace("Englisch", "en")
+                    .replace("englisch", "en")
+                    ;
         }
     }
 

@@ -12,6 +12,7 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Se
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns;
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Defaults;
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Values;
+import info.metadude.android.eventfahrplan.database.extensions.SQLiteDatabaseExtensions;
 
 public class SessionsDBOpenHelper extends SQLiteOpenHelper {
 
@@ -61,8 +62,8 @@ public class SessionsDBOpenHelper extends SQLiteOpenHelper {
      * Create statement for a mapping table (notification ID, session ID). Each insert automatically
      * increments the primary key and therefore generates a new notification ID.
      */
-    private static final String SESSION_BY_NOTIFICATION_ID_TABLE_CREATE = "" +
-            "CREATE TABLE " + SessionByNotificationIdTable.NAME + " (" +
+    private static final String SESSION_BY_NOTIFICATION_ID_TABLE_CREATE =
+            "CREATE TABLE IF NOT EXISTS " + SessionByNotificationIdTable.NAME + " (" +
             BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
             SessionByNotificationIdTable.Columns.SESSION_ID + " TEXT)";
 
@@ -124,7 +125,7 @@ public class SessionsDBOpenHelper extends SQLiteOpenHelper {
             onCreate(db);
         }
         if (oldVersion < 9) {
-            // Clear database from 35C3.
+            // Clear database from 35C3 & Camp 2019.
             db.execSQL("DROP TABLE IF EXISTS " + SessionsTable.NAME);
             onCreate(db);
         }
@@ -132,7 +133,10 @@ public class SessionsDBOpenHelper extends SQLiteOpenHelper {
             db.execSQL(SESSION_BY_NOTIFICATION_ID_TABLE_CREATE);
         }
         if (oldVersion < 11 && newVersion >= 11) {
-            db.execSQL("ALTER TABLE " + SessionsTable.NAME + " ADD COLUMN " + Columns.TIME_ZONE_OFFSET + " INTEGER DEFAULT NULL");
+            boolean columnExists = SQLiteDatabaseExtensions.columnExists(db, SessionsTable.NAME, Columns.TIME_ZONE_OFFSET);
+            if (!columnExists) {
+                db.execSQL("ALTER TABLE " + SessionsTable.NAME + " ADD COLUMN " + Columns.TIME_ZONE_OFFSET + " INTEGER DEFAULT NULL");
+            }
         }
         if (oldVersion < 12) {
             // Clear database from rC3 12/2020.

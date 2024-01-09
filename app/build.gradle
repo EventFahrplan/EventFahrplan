@@ -19,12 +19,11 @@ android {
     buildToolsVersion = Android.buildToolsVersion
 
     defaultConfig {
-        versionCode 1700010
-        versionName "1.8.10"
+        versionCode 1700011
+        versionName "1.8.11"
         minSdk Android.minSdkVersion
         targetSdk Android.targetSdkVersion
         archivesBaseName = "Fahrplan-$versionName"
-        multiDexEnabled true
 
         vectorDrawables.useSupportLibrary = true // needed for API level < 21
 
@@ -95,12 +94,12 @@ android {
             buildConfigField "String", "EVENT_URL", '""'
             buildConfigField "String", "EVENT_WEBSITE_URL", '"https://www.linuxtage.at"'
             buildConfigField "String", "SERVER_BACKEND_TYPE", '"pretalx"'
-            buildConfigField "int", "SCHEDULE_FIRST_DAY_START_YEAR", "2023"
+            buildConfigField "int", "SCHEDULE_FIRST_DAY_START_YEAR", "2024"
             buildConfigField "int", "SCHEDULE_FIRST_DAY_START_MONTH", "4"
-            buildConfigField "int", "SCHEDULE_FIRST_DAY_START_DAY", "14"
-            buildConfigField "int", "SCHEDULE_LAST_DAY_END_YEAR", "2023"
+            buildConfigField "int", "SCHEDULE_FIRST_DAY_START_DAY", "5"
+            buildConfigField "int", "SCHEDULE_LAST_DAY_END_YEAR", "2024"
             buildConfigField "int", "SCHEDULE_LAST_DAY_END_MONTH", "4"
-            buildConfigField "int", "SCHEDULE_LAST_DAY_END_DAY", "15"
+            buildConfigField "int", "SCHEDULE_LAST_DAY_END_DAY", "6"
             buildConfigField "boolean", "SHOW_APP_DISCLAIMER", "true"
             buildConfigField "boolean", "ENABLE_ALTERNATIVE_SCHEDULE_URL", "false"
             buildConfigField "boolean", "ENGAGE_C3NAV_APP_INSTALLATION", "false"
@@ -109,9 +108,9 @@ android {
             buildConfigField "boolean", "ENABLE_CHAOSFLIX_EXPORT", "true"
             buildConfigField "boolean", "ENABLE_ENGELSYSTEM_SHIFTS", "false"
             resValue("string", "preference_hint_engelsystem_json_export_url", '"https://engel.linuxtage.at/shifts-json-export?key=YOUR_KEY"')
-            buildConfigField "String", "SOCIAL_MEDIA_HASHTAGS_HANDLES", '"#glt23 #glt @linuxtage @gltlive"'
-            buildConfigField "String", "TRACE_DROID_EMAIL_ADDRESS", '"glt23@linuxtage.at"'
-            buildConfigField "String", "SCHEDULE_FEEDBACK_URL", '"https://pretalx.linuxtage.at/glt23/talk/%s/feedback/"' //TODO change to NN
+            buildConfigField "String", "SOCIAL_MEDIA_HASHTAGS_HANDLES", '"#glt24 #glt @linuxtage @gltlive"'
+            buildConfigField "String", "TRACE_DROID_EMAIL_ADDRESS", '"glt24@linuxtage.at"'
+            buildConfigField "String", "SCHEDULE_FEEDBACK_URL", '"https://pretalx.linuxtage.at/glt24/talk/%s/feedback/"' //TODO change to NN
         }
     }
 
@@ -189,7 +188,6 @@ dependencies {
     implementation Libs.material
     implementation Libs.moshi
     ksp Libs.moshiCodeGen
-    implementation Libs.multiDex
     implementation Libs.okhttp
     implementation Libs.okhttpLoggingInterceptor
     implementation Libs.preference
@@ -203,7 +201,7 @@ dependencies {
     }
     testImplementation Libs.coreTesting
     testImplementation Libs.junit
-    testImplementation (Libs.kotlinCoroutinesTest) {
+    testImplementation(Libs.kotlinCoroutinesTest) {
         // workaround for https://github.com/Kotlin/kotlinx.coroutines/issues/2023
         exclude group: "org.jetbrains.kotlinx", module: "kotlinx-coroutines-debug"
     }

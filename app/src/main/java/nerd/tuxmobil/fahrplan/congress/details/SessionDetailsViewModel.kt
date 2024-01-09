@@ -88,7 +88,7 @@ internal class SessionDetailsViewModel(
 
     val selectedSessionParameter: Flow<SelectedSessionParameter> = repository.selectedSession
         .map { it.toSelectedSessionParameter() }
-        .map { it.customizeEngelsystemRoomName() }
+        .map { it.customizeEngelsystemRoomName() } // Do not rename before preparing parameter!
         .flowOn(executionContext.database)
 
     private val mutableOpenFeedBack = Channel<Uri>()
@@ -128,6 +128,8 @@ internal class SessionDetailsViewModel(
         val sessionLink = sessionFormatter.getFormattedUrl(sessionUrl)
         val isFeedbackUrlEmpty = feedbackUrlComposer.getFeedbackUrl(this).isEmpty()
         val isC3NavRoomNameEmpty = roomForC3NavConverter.convert(room).isEmpty()
+        val isEngelshift = room == defaultEngelsystemRoomName
+        val supportsFeedback = !isFeedbackUrlEmpty && !isEngelshift
 
         return SelectedSessionParameter(
             // Details content
@@ -152,8 +154,8 @@ internal class SessionDetailsViewModel(
             // Options menu
             isFlaggedAsFavorite = highlight,
             hasAlarm = hasAlarm,
-            isFeedbackUrlEmpty = isFeedbackUrlEmpty,
-            isC3NavRoomNameEmpty = isC3NavRoomNameEmpty
+            supportsFeedback = supportsFeedback,
+            isC3NavRoomNameEmpty = isC3NavRoomNameEmpty,
         )
     }
 

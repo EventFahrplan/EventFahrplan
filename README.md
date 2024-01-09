@@ -14,7 +14,6 @@ height="80">](https://play.google.com/store/apps/details?id=at.linuxtage.compani
 It is a fork of the [EventFahrplan](https://github.com/EventFahrplan/EventFahrplan), which is a viewer for event schedules.
 The app is available for Android devices.
 
-
 Bug reports, feature requests can be submitted as an [issue][issues-github].
 Please read the instructions in the [contribution guide](CONTRIBUTING.md) in order to contribute to this project.
 
@@ -26,7 +25,9 @@ Please read the instructions in the [contribution guide](CONTRIBUTING.md) in ord
 - [Android versions](#android-versions)
 - [Event data](#event-data)
 - [Build instructions](#build-instructions)
+- [Translations](#translations)
 - [History](#history)
+- [Funding](#funding)
 - [Licenses](#licenses)
 
 ## Features
@@ -45,8 +46,10 @@ Please read the instructions in the [contribution guide](CONTRIBUTING.md) in ord
 
 ### Supported languages
 *Event descriptions excluded*
+- Danish 🇩🇰
 - Dutch 🇳🇱
 - English 🇺🇸
+- Finnish 🇫🇮
 - French 🇫🇷
 - German 🇩🇪
 - Italian 🇮🇹
@@ -57,17 +60,15 @@ Please read the instructions in the [contribution guide](CONTRIBUTING.md) in ord
 - Spanish 🇪🇸
 - Swedish 🇸🇪
 
-### Integration
+### Optional integration
 
 * The feedback system of [Pretalx][pretalx-website]
-* [Engelsystem][engelsystem-website] - Online tool for coordinating helpers and shifts on large events
-* [Chaosflix][chaosflix-github] - Android app for media.ccc.de, share Fahrplan favorites with Chaosflix to import them as bookmarks
-
 
 ## Android versions
 
 The application is designed to work both on smartphones and on tablets.
 Android 5.0 (Lollipop) and newer versions are supported.
+
 
 ## Event data
 
@@ -99,15 +100,26 @@ git tag v1.<new_version>
 git push --tags
 ```
 After the merge, go to https://github.com/linuxtage/EventFahrplan/compare/glt-2022...<yourgithubfork_username>:EventFahrplan:glt-2022
+
+
+## Translations
+
+Text translations are managed on [Crowdin][crowdin-eventfahrplan-website]. Contributions are welcome!
+
+Sources (English) and translations are synchronized via the [Crowdin CLI tool][crowdin-cli-tool-website].
+German is excluded from being managed on Crowdin as long as the maintainer is a native German speaker.
+New languages must be configured in the Crowdin configuration file `crowdin.yaml` before translations
+can be downloaded.
+
 ## History
 
 * The project was started as ["CampFahrplan"][campfahrplan-github] in 2011 and has been developed
-  by [Daniel Dorau][tuxmobil-github]. He published the app for Chaos Communication Camp
-  and Chaos Communication Congress in the following years. The app served as a digital
-  schedule for thousands of users.
+by [Daniel Dorau][tuxmobil-github]. He published the app for Chaos Communication Camp
+and Chaos Communication Congress in the following years. The app served as a digital
+schedule for thousands of users.
 * In 2013, [Tobias Preuss][johnjohndoe-github] started contributing. Soon after he
-  started to redeploy the app for other events such as FOSSGIS, FrOSCon, MRMCD and
-  other conferences.
+started to redeploy the app for other events such as FOSSGIS, FrOSCon, MRMCD and
+other conferences.
 * In August 2017 the project moved to a new location and was renamed to
   ["EventFahrplan"][eventfahrplan-github] to acknowledge its broader usage.
 * In 2022 the project was forked to be used for the Grazer Linuxtage.
@@ -132,15 +144,15 @@ Portions Copyright 2008-2011 The K-9 Dog Walkers and 2006-2011 the Android Open 
 Copyright 2013-2023 johnjohndoe
 Copyright 2011-2015 Daniel Dorau
 Contributions from 0x5ubt13, Adriano Pereira Junior, Akarsh Seggemu,
-Andrea Marziali, Andy Scherzinger, Andreas Schildbach, Animesh Verma,
-bashtian, bjoernb, Björn Olsson Jarl, ButterflyOfFire, cacarrara,
-Caio Volpato, Chase, cketti, codingcatgirl, Dominik Stadler, entropynil,
-ideadapt, isi_ko404, Jasper van der Graaf, Joergi, koelnkalkverbot,
-Larissa Yasin, ligi, Luis Azcuaga, Mateus Baptista, Matthias Geisler,
-Matthias Hunstock, Matthias Mair, MichaelRocks, Nghiem Xuan Hien,
-NiciDieNase, Noemis, Omicron, Poschi, rotrot, Sjors van Mierlo,
-Stefan Medack, SubOptimal, Teeranai.P, Torsten Grote, Victor Herasme,
-Vladimir Alabov, Yanicka
+Александр Рознятовский, aligoush, Andrea Marziali, Andy Scherzinger,
+Andreas Schildbach, Animesh Verma, bashtian, bjoernb, Björn Olsson Jarl,
+ButterflyOfFire, cacarrara, Caio Volpato, Chase, cketti, codingcatgirl,
+Dominik Stadler, entropynil, erebion, ideadapt, isi_ko404, Jasper van der Graaf,
+Joergi, koelnkalkverbot, Larissa Yasin, lepawa, ligi, lucadelu, Luis Azcuaga,
+María Arias de Reyna, Mateus Baptista, Matthias Geisler, Matthias Hunstock,
+Matthias Mair, MichaelRocks, Miguel Beltran, mtpa, Nghiem Xuan Hien, NiciDieNase,
+Noemis, Omicron, Poschi, Qwertele, rotrot, Sjors van Mierlo, Stefan Medack,
+SubOptimal, Teeranai.P, Torsten Grote, Victor Herasme, Vladimir Alabov, Yanicka
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -157,6 +169,8 @@ limitations under the License.
 
 [chaosflix-github]: https://github.com/NiciDieNase/chaosflix
 [customization-guide]: docs/CUSTOMIZING.md
+[crowdin-eventfahrplan-website]: https://crowdin.com/project/eventfahrplan
+[crowdin-cli-tool-website]: https://crowdin.github.io/crowdin-cli/
 [engelsystem-website]: https://engelsystem.de
 [eventfahrplan-github]: https://github.com/EventFahrplan/EventFahrplan
 [issues-github]: https://github.com/linuxtage/EventFahrplan/issues

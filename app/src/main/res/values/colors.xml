@@ -14,8 +14,6 @@
     <color name="session_alarm_item_bell_icon_fill">#ddd</color>
     <color name="session_alarm_item_bell_icon_text">#000000</color>
     <color name="session_background">#ffffff</color>
-    <color name="session_detailbar_background">#eee</color>
-    <color name="session_detailbar_text">#999</color>
 
     <!-- Scrollbar -->
     <color name="scrollbar_background">@color/colorAccent</color>
@@ -76,6 +74,8 @@
     <!-- Session details -->
     <color name="session_details_background">@color/session_background</color>
     <color name="session_details_text">@android:color/black</color>
+    <color name="session_detailbar_background">#eee</color>
+    <color name="session_detailbar_text">#999</color>
     <color name="session_detailbar_icon">@color/colorAccent</color>
 
 </resources>

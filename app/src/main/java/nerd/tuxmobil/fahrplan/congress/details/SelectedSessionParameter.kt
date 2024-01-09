@@ -32,7 +32,7 @@ data class SelectedSessionParameter(
     // Options menu
     val isFlaggedAsFavorite: Boolean,
     val hasAlarm: Boolean,
-    val isFeedbackUrlEmpty: Boolean,
-    val isC3NavRoomNameEmpty: Boolean
+    val supportsFeedback: Boolean,
+    val isC3NavRoomNameEmpty: Boolean,
 
-)
+    )

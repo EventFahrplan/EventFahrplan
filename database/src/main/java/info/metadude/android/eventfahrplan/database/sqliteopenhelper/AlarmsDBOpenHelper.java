@@ -48,7 +48,7 @@ public class AlarmsDBOpenHelper extends SQLiteOpenHelper {
             onCreate(db);
         }
         if (oldVersion < 4) {
-            // Clear database from 35C3.
+            // Clear database from 35C3 & Camp 2019.
             db.execSQL("DROP TABLE IF EXISTS " + AlarmsTable.NAME);
             onCreate(db);
         }
