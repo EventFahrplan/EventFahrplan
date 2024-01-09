@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">37C3 Schedule</string>
+    <string name="app_hardcoded_subtitle">
+        27–30 december 2023, Congress Center Hamburg
+    </string>
+    <string name="copyright_logo">
+        37C3: Unlocked. Ontworpen door Robokid + Luis F. Masallera + Euler Void
+    </string>
+    <string name="about_logo_content_description">
+        37C3 Unlocked logo
+    </string>
+</resources>

@@ -16,7 +16,8 @@ class RateSnack(val context: Context) : LibraryRateSnack() {
         withConditions(
                 NeverAgainWhenClickedOnce(),
                 AfterNumberOfOpportunities(13),
-                IsConnectedViaWiFiOrUnknown()
+                IsConnectedViaWiFiOrUnknown(),
+                IsInstalledViaGooglePlay(), // Prevents the snack from being shown for local installs, too!
         )
         setActionColor(ContextCompat.getColor(context, R.color.colorAccent))
     }

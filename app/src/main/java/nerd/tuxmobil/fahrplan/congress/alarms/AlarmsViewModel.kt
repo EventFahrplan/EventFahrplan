@@ -79,7 +79,7 @@ internal class AlarmsViewModel(
                                 found.subtitle
                             )
                             val alarmOffset =
-                                (found.startTimeMilliseconds - alarm.startTime).toMinutes()
+                                (found.startsAt.toMilliseconds() - alarm.startTime).toMinutes()
                             val alarmOffsetContentDescription = when (alarmOffset == 0) {
                                 true -> resourceResolving.getString(R.string.alarms_item_alarm_time_zero_minutes_content_description)
                                 false -> resourceResolving.getString(

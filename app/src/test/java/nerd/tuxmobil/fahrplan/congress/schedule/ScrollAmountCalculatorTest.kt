@@ -3,7 +3,6 @@ package nerd.tuxmobil.fahrplan.congress.schedule
 import com.google.common.truth.Truth.assertThat
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.NoLogging
-import nerd.tuxmobil.fahrplan.congress.dataconverters.toStartsAtMoment
 import nerd.tuxmobil.fahrplan.congress.models.DateInfo
 import nerd.tuxmobil.fahrplan.congress.models.DateInfos
 import nerd.tuxmobil.fahrplan.congress.models.RoomData
@@ -24,7 +23,7 @@ class ScrollAmountCalculatorTest {
         val session = createFirstSession()
         val scrollAmount = calculateScrollAmount(
                 session = session,
-                nowMoment = session.toStartsAtMoment(),
+                nowMoment = session.startsAt,
                 currentDayIndex = session.day,
                 columnIndex = -1
         )
@@ -36,7 +35,7 @@ class ScrollAmountCalculatorTest {
         val session = createFirstSession()
         val scrollAmount = calculateScrollAmount(
                 session = session,
-                nowMoment = session.toStartsAtMoment(),
+                nowMoment = session.startsAt,
                 currentDayIndex = session.day,
                 columnIndex = COLUMN_INDEX + 1
         )
@@ -48,7 +47,7 @@ class ScrollAmountCalculatorTest {
         val session = createFirstSession()
         val scrollAmount = calculateScrollAmount(
                 session = session,
-                nowMoment = session.toStartsAtMoment().minusMinutes(1),
+                nowMoment = session.startsAt.minusMinutes(1),
                 currentDayIndex = session.day
         )
         assertThat(scrollAmount).isEqualTo(0)
@@ -59,7 +58,7 @@ class ScrollAmountCalculatorTest {
         val session = createFirstSession()
         val scrollAmount = calculateScrollAmount(
                 session = session,
-                nowMoment = session.toStartsAtMoment(),
+                nowMoment = session.startsAt,
                 currentDayIndex = session.day
         )
         assertThat(scrollAmount).isEqualTo(0)
@@ -70,7 +69,7 @@ class ScrollAmountCalculatorTest {
         val session = createFirstSession()
         val scrollAmount = calculateScrollAmount(
                 session = session,
-                nowMoment = Moment.ofEpochMilli(session.endsAtDateUtc).minusMinutes(1),
+                nowMoment = session.endsAt.minusMinutes(1),
                 currentDayIndex = session.day
         )
         assertThat(scrollAmount).isEqualTo(0)
@@ -81,7 +80,7 @@ class ScrollAmountCalculatorTest {
         val session = createFirstSession()
         val scrollAmount = calculateScrollAmount(
                 session = session,
-                nowMoment = Moment.ofEpochMilli(session.endsAtDateUtc),
+                nowMoment = session.endsAt,
                 currentDayIndex = session.day
         )
         assertThat(scrollAmount).isEqualTo(408)
@@ -92,7 +91,7 @@ class ScrollAmountCalculatorTest {
         val session = createLateSession()
         val scrollAmount = calculateScrollAmount(
                 session = session,
-                nowMoment = Moment.ofEpochMilli(session.endsAtDateUtc),
+                nowMoment = session.endsAt,
                 currentDayIndex = session.day
         )
         assertThat(scrollAmount).isEqualTo(408)
@@ -105,7 +104,7 @@ class ScrollAmountCalculatorTest {
             columnIndex: Int = COLUMN_INDEX
     ): Int {
         val sessions = listOf(session)
-        val roomData = RoomData(roomName = session.room, sessions = sessions)
+        val roomData = RoomData(roomName = session.roomName, sessions = sessions)
         val scheduleData = ScheduleData(dayIndex = session.day, roomDataList = listOf(roomData))
         val conference = Conference.ofSessions(sessions)
         val dateInfo = DateInfo(dayIndex = session.day, date = Moment.parseDate(session.date))
@@ -127,7 +126,7 @@ class ScrollAmountCalculatorTest {
         dateUTC = moment.toMilliseconds()
         startTime = moment.minuteOfDay
         duration = 60
-        room = "Main hall"
+        roomName = "Main hall"
     }
 
 }

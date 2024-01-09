@@ -7,7 +7,6 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Typeface
 import android.os.Bundle
-import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -28,7 +27,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import info.metadude.android.eventfahrplan.commons.flow.observe
+import io.noties.markwon.AbstractMarkwonPlugin
 import io.noties.markwon.Markwon
+import io.noties.markwon.core.MarkwonTheme
 import io.noties.markwon.linkify.LinkifyPlugin
 import nerd.tuxmobil.fahrplan.congress.BuildConfig
 import nerd.tuxmobil.fahrplan.congress.R
@@ -56,8 +57,15 @@ class SessionDetailsFragment : Fragment() {
 
         const val FRAGMENT_TAG = "detail"
         private const val SESSION_DETAILS_FRAGMENT_REQUEST_KEY = "SESSION_DETAILS_FRAGMENT_REQUEST_KEY"
-        private const val SCHEDULE_FEEDBACK_URL = BuildConfig.SCHEDULE_FEEDBACK_URL
-        private val SHOW_FEEDBACK_MENU_ITEM = !TextUtils.isEmpty(SCHEDULE_FEEDBACK_URL)
+
+        // Custom heading text size multipliers for each heading level.
+        // Docs: https://noties.io/Markwon/docs/v4/core/theme.html#typeface
+        private val HEADING_TEXT_SIZE_MULTIPLIERS = floatArrayOf(1.25f, 1.18f, 1.07F, 1.0f, .83F, .67F)
+        private val HEADINGS_PLUGIN = object : AbstractMarkwonPlugin() {
+            override fun configureTheme(builder: MarkwonTheme.Builder) {
+                builder.headingTextSizeMultipliers(HEADING_TEXT_SIZE_MULTIPLIERS)
+            }
+        }
 
         @JvmStatic
         fun replaceAtBackStack(fragmentManager: FragmentManager, @IdRes containerViewId: Int, sidePane: Boolean) {
@@ -114,6 +122,7 @@ class SessionDetailsFragment : Fragment() {
         alarmServices = AlarmServices.newInstance(context, appRepository)
         notificationHelper = NotificationHelper(context)
         markwon = Markwon.builder(requireContext())
+            .usePlugin(HEADINGS_PLUGIN)
             .usePlugin(LinkifyPlugin.create())
             .build()
     }
@@ -373,11 +382,11 @@ class SessionDetailsFragment : Fragment() {
             menu.setMenuItemVisibility(R.id.menu_item_set_alarm, false)
             menu.setMenuItemVisibility(R.id.menu_item_delete_alarm, true)
         }
-        menu.setMenuItemVisibility(R.id.menu_item_feedback, SHOW_FEEDBACK_MENU_ITEM && model.supportsFeedback)
+        menu.setMenuItemVisibility(R.id.menu_item_feedback, model.supportsFeedback)
         if (sidePane) {
             menu.setMenuItemVisibility(R.id.menu_item_close_session_details, true)
         }
-        menu.setMenuItemVisibility(R.id.menu_item_navigate, BuildConfig.C3NAV_URL.isNotEmpty() && !model.isC3NavRoomNameEmpty)
+        menu.setMenuItemVisibility(R.id.menu_item_navigate, model.supportsIndoorNavigation)
         @Suppress("ConstantConditionIf")
         val item = if (BuildConfig.ENABLE_CHAOSFLIX_EXPORT) {
             menu.findItem(R.id.menu_item_share_session_menu)

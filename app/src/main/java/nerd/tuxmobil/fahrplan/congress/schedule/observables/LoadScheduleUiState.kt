@@ -13,11 +13,11 @@ sealed interface LoadScheduleUiState {
     sealed interface Initializing : LoadScheduleUiState {
         val progressInfo: Int
 
-        object InitialFetching : Initializing {
+        data object InitialFetching : Initializing {
             override val progressInfo = R.string.progress_loading_data
         }
 
-        object InitialParsing : Initializing {
+        data object InitialParsing : Initializing {
             override val progressInfo = R.string.progress_processing_data
         }
 
@@ -25,23 +25,23 @@ sealed interface LoadScheduleUiState {
 
     sealed interface Active : LoadScheduleUiState {
 
-        object Fetching : Active
-        object Parsing : Active
+        data object Fetching : Active
+        data object Parsing : Active
 
     }
 
     sealed interface Success : LoadScheduleUiState {
 
-        object FetchSuccess : Success
-        object ParseSuccess : Success
+        data object FetchSuccess : Success
+        data object ParseSuccess : Success
 
     }
 
     sealed interface Failure : LoadScheduleUiState {
 
-        object SilentFetchFailure : Failure
-        object UserTriggeredFetchFailure : Failure
-        object ParseFailure : Failure
+        data object SilentFetchFailure : Failure
+        data object UserTriggeredFetchFailure : Failure
+        data object ParseFailure : Failure
 
     }
 

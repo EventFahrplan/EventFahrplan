@@ -5,11 +5,11 @@ import nerd.tuxmobil.fahrplan.congress.net.ParseResult
 
 sealed interface LoadScheduleState {
 
-    object InitialFetching : LoadScheduleState
+    data object InitialFetching : LoadScheduleState
 
-    object Fetching : LoadScheduleState
+    data object Fetching : LoadScheduleState
 
-    object FetchSuccess : LoadScheduleState
+    data object FetchSuccess : LoadScheduleState
 
     data class FetchFailure(
         val httpStatus: HttpStatus,
@@ -18,11 +18,11 @@ sealed interface LoadScheduleState {
         val isUserRequest: Boolean
     ) : LoadScheduleState
 
-    object InitialParsing : LoadScheduleState
+    data object InitialParsing : LoadScheduleState
 
-    object Parsing : LoadScheduleState
+    data object Parsing : LoadScheduleState
 
-    object ParseSuccess : LoadScheduleState
+    data object ParseSuccess : LoadScheduleState
 
     // TODO Merge ParseResult innards into ParseFailure class
     data class ParseFailure(

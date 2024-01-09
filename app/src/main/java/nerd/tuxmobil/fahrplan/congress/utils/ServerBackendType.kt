@@ -2,8 +2,8 @@ package nerd.tuxmobil.fahrplan.congress.utils
 
 sealed class ServerBackendType(val name: String) {
 
-    object PENTABARF : ServerBackendType("pentabarf")
-    object FRAB : ServerBackendType("frab")
-    object PRETALX : ServerBackendType("pretalx")
+    data object PENTABARF : ServerBackendType("pentabarf")
+    data object FRAB : ServerBackendType("frab")
+    data object PRETALX : ServerBackendType("pretalx")
 
 }

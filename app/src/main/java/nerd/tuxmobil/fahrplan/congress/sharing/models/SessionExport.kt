@@ -28,7 +28,7 @@ data class SessionExport(
             title = session.title,
             subtitle = session.subtitle,
             day = session.day,
-            room = session.room,
+            room = session.roomName,
             slug = session.slug,
             url = session.url,
             speakers = session.speakers.joinToString(";"),

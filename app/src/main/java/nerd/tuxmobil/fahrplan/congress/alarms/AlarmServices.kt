@@ -109,7 +109,7 @@ class AlarmServices @VisibleForTesting constructor(
         for (alarmTimeString in alarmTimeStrings) {
             alarmTimes.add(alarmTimeString.toInt())
         }
-        val sessionStartTime = session.startTimeMilliseconds
+        val sessionStartTime = session.startsAt.toMilliseconds()
         val alarmTimeOffset = alarmTimes[alarmTimesIndex] * Moment.MILLISECONDS_OF_ONE_MINUTE.toLong()
         val alarmTime = sessionStartTime - alarmTimeOffset
         val moment = Moment.ofEpochMilli(alarmTime)

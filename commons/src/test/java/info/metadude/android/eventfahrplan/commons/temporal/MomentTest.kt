@@ -126,6 +126,26 @@ class MomentTest {
     }
 
     @Test
+    fun isSimultaneousWith() {
+        val momentOne = Moment.now()
+        val momentTwo = Moment.now().plusSeconds(1)
+
+        assertThat(momentOne.isSimultaneousWith(momentTwo)).isFalse()
+        assertThat(momentTwo.isSimultaneousWith(momentOne)).isFalse
+        assertThat(momentOne.plusSeconds(1).isSimultaneousWith(momentTwo)).isTrue()
+    }
+
+    @Test
+    fun isAfter() {
+        val momentOne = Moment.now()
+        val momentTwo = Moment.now().plusSeconds(1)
+
+        assertThat(momentOne.isAfter(momentTwo)).isFalse
+        assertThat(momentTwo.isAfter(momentOne)).isTrue
+        assertThat(momentOne.isAfter(momentOne)).isFalse
+    }
+
+    @Test
     fun durationUntil() {
         val momentOne = Moment.now()
         val momentTwo = momentOne.plusMinutes(1)

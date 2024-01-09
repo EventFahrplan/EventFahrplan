@@ -45,7 +45,7 @@ class ShiftExtensionsTest {
 
     @Test
     fun descriptionTextWithShiftWithLocationName() {
-        assertThat(Shift(locationName = "Room 23").descriptionText).isEqualTo("Room 23")
+        assertThat(Shift(locationName = "Room 23").descriptionText).isEqualTo("")
     }
 
     @Test
@@ -71,7 +71,7 @@ class ShiftExtensionsTest {
                 locationDescription = "The small orange room.",
                 userComment = "Take a bottle of water with you"
         )
-        val text = "Room 42\n<a href=\"https://conference.org\">https://conference.org</a>\n\nThe small orange room.\n\n_Take a bottle of water with you_"
+        val text = "<a href=\"https://conference.org\">https://conference.org</a>\n\nThe small orange room.\n\n_Take a bottle of water with you_"
         assertThat(shift.descriptionText).isEqualTo(text)
     }
 

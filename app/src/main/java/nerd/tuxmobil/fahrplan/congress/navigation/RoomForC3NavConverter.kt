@@ -93,9 +93,9 @@ class RoomForC3NavConverter {
 
     }
 
-    fun convert(room: String?) = when {
-        room != null && EMPTY_STRING != room -> {
-            val c3navName = ROOM_TO_C3NAV_MAPPING[room.uppercase()]
+    fun convert(roomName: String?) = when {
+        roomName != null && EMPTY_STRING != roomName -> {
+            val c3navName = ROOM_TO_C3NAV_MAPPING[roomName.uppercase()]
             c3navName ?: EMPTY_STRING
         }
         else -> EMPTY_STRING

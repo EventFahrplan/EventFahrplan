@@ -35,12 +35,12 @@ class SessionUrlComposerTest {
         }
 
         val ENGELSYSTEM_SHIFT_SESSION_WITHOUT_URL = Session("7771").apply {
-            room = AppRepository.ENGELSYSTEM_ROOM_NAME
+            roomName = AppRepository.ENGELSYSTEM_ROOM_NAME
             url = NO_URL
         }
 
         val ENGELSYSTEM_SHIFT_SESSION_WITH_URL = Session("7772").apply {
-            room = AppRepository.ENGELSYSTEM_ROOM_NAME
+            roomName = AppRepository.ENGELSYSTEM_ROOM_NAME
             url = "https://helpful.to/the/angel"
         }
 

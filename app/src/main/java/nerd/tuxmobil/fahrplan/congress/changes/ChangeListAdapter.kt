@@ -63,8 +63,8 @@ class ChangeListAdapter internal constructor(
             time.textOrHide = timeText
             time.contentDescription = Session.getStartTimeContentDescription(time.context, timeText)
 
-            room.textOrHide = session.room
-            room.contentDescription = Session.getRoomNameContentDescription(room.context, session.room)
+            room.textOrHide = session.roomName
+            room.contentDescription = Session.getRoomNameContentDescription(room.context, session.roomName)
             val durationText = duration.context.getString(R.string.session_list_item_duration_text, session.duration)
             duration.textOrHide = durationText
             duration.contentDescription = Session.getDurationContentDescription(duration.context, session.duration)
@@ -123,7 +123,7 @@ class ChangeListAdapter internal constructor(
                 if (session.changedTime) {
                     time.setTextStyleChanged()
                 }
-                if (session.changedRoom) {
+                if (session.changedRoomName) {
                     room.setTextStyleChanged()
                 }
                 if (session.changedDuration) {

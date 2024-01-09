@@ -4,7 +4,6 @@ import androidx.annotation.LayoutRes
 import com.google.common.truth.Truth.assertThat
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.R
-import nerd.tuxmobil.fahrplan.congress.dataconverters.toStartsAtMoment
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.schedule.Conference
 import org.junit.After
@@ -38,7 +37,7 @@ class TimeTextViewParameterTest {
     @Test
     fun `parametersOf returns four view parameters without -now- view parameter`() {
         val moment = Moment.ofEpochMilli(1582963200000L) // February 29, 2020 08:00:00 AM GMT)
-        val nowMoment = createSession(moment).toStartsAtMoment()
+        val nowMoment = createSession(moment).startsAt
         val dayIndex = 2 // represents tomorrow
         val parameters = parametersOf(nowMoment, moment, 60, dayIndex)
         assertThat(parameters.size).isEqualTo(4)
@@ -51,7 +50,7 @@ class TimeTextViewParameterTest {
     @Test
     fun `parametersOf returns four view parameters including one -now- view parameter`() {
         val moment = Moment.ofEpochMilli(1582963200000L) // February 29, 2020 08:00:00 AM GMT)
-        val nowMoment = createSession(moment).toStartsAtMoment().plusMinutes(30)
+        val nowMoment = createSession(moment).startsAt.plusMinutes(30)
         val dayIndex = 1 // represents today
         val parameters = parametersOf(nowMoment, moment, 60, dayIndex)
         assertThat(parameters.size).isEqualTo(4)
@@ -64,7 +63,7 @@ class TimeTextViewParameterTest {
     @Test
     fun `parametersOf returns four view parameters for a session crossing the intra-day limit`() {
         val moment = Moment.ofEpochMilli(1583019000000L) // February 29, 2020 11:30:00 PM GMT
-        val nowMoment = createSession(moment).toStartsAtMoment()
+        val nowMoment = createSession(moment).startsAt
         val dayIndex = 2 // represents tomorrow
         val parameters = parametersOf(nowMoment, moment, 60, dayIndex)
         assertThat(parameters.size).isEqualTo(4)
@@ -77,7 +76,7 @@ class TimeTextViewParameterTest {
     @Test
     fun `parametersOf returns 20 view parameters for a session crossing the daylight saving time start`() {
         val moment = Moment.ofEpochMilli(1616889600000L) // March 28, 2021 12:00:00 AM GMT
-        val nowMoment = createSession(moment).toStartsAtMoment()
+        val nowMoment = createSession(moment).startsAt
         val dayIndex = 2 // represents tomorrow
         val parameters = parametersOf(nowMoment, moment, 300, dayIndex)
         assertThat(parameters.size).isEqualTo(20)
@@ -95,7 +94,7 @@ class TimeTextViewParameterTest {
     @Test
     fun `parametersOf returns 20 view parameters for a session crossing the daylight saving time end`() {
         val moment = Moment.ofEpochMilli(1635638400000L) // October 31, 2021 12:00:00 AM GMT
-        val nowMoment = createSession(moment).toStartsAtMoment()
+        val nowMoment = createSession(moment).startsAt
         val dayIndex = 2 // represents tomorrow
         val parameters = parametersOf(nowMoment, moment, 300, dayIndex)
         assertThat(parameters.size).isEqualTo(20)
@@ -128,7 +127,7 @@ class TimeTextViewParameterTest {
         dateUTC = moment.toMilliseconds()
         startTime = moment.minuteOfDay
         this.duration = duration
-        room = "Main hall"
+        roomName = "Main hall"
     }
 
 }

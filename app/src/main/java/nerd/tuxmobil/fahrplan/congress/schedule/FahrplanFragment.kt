@@ -336,7 +336,7 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
         }
         val paddingRight = sessionPadding
         val context = roomTitlesRowLayout.context
-        val titleTextColor = ContextCompat.getColor(context, android.R.color.white)
+        val titleTextColor = ContextCompat.getColor(context, R.color.schedule_room_name_header_text)
         for (roomName in roomNames) {
             val roomTitle = TextView(context).apply {
                 layoutParams = params

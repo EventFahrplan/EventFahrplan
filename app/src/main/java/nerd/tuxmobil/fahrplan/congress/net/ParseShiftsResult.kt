@@ -6,7 +6,7 @@ sealed class ParseShiftsResult(
 
 ) : ParseResult {
 
-    object Success : ParseShiftsResult(true)
+    data object Success : ParseShiftsResult(true)
 
     data class Error(
 

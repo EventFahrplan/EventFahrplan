@@ -6,7 +6,6 @@ import info.metadude.android.eventfahrplan.database.models.Session.Companion.REC
 import nerd.tuxmobil.fahrplan.congress.models.DateInfo
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.Assert.fail
 import org.junit.Test
 import org.threeten.bp.ZoneOffset
 import info.metadude.android.eventfahrplan.database.models.Session as SessionDatabaseModel
@@ -25,6 +24,7 @@ class SessionExtensionsTest {
                 dateUTC = 1439478900000L,
                 description = "Lorem ipsum dolor sit amet",
                 duration = 45,
+                feedbackUrl = "https://talks.mrmcd.net/2018/talk/V3FUNG/feedback",
                 hasAlarm = true,
                 isHighlight = true,
                 language = "en",
@@ -32,7 +32,8 @@ class SessionExtensionsTest {
                 relativeStartTime = 1035,
                 recordingLicense = "CC 0",
                 recordingOptOut = RECORDING_OPT_OUT_ON,
-                room = "Simulacron-3",
+                roomName = "Simulacron-3",
+                roomIdentifier = "88888888-4444-4444-4444-121212121212",
                 roomIndex = 17,
                 speakers = "John Doe; Noah Doe",
                 startTime = 1036,
@@ -50,7 +51,7 @@ class SessionExtensionsTest {
                 changedIsNew = true,
                 changedLanguage = true,
                 changedRecordingOptOut = true,
-                changedRoom = true,
+                changedRoomName = true,
                 changedSpeakers = true,
                 changedSubtitle = true,
                 changedTime = true,
@@ -70,6 +71,7 @@ class SessionExtensionsTest {
                 dateUTC = 1439478900000L,
                 description = "Lorem ipsum dolor sit amet",
                 duration = 45,
+                feedbackUrl = "https://talks.mrmcd.net/2018/talk/V3FUNG/feedback",
                 hasAlarm = true,
                 isHighlight = true,
                 language = "en",
@@ -77,7 +79,8 @@ class SessionExtensionsTest {
                 relativeStartTime = 1035,
                 recordingLicense = "CC 0",
                 recordingOptOut = RECORDING_OPT_OUT_ON,
-                room = "Simulacron-3",
+                roomName = "Simulacron-3",
+                roomGuid = "88888888-4444-4444-4444-121212121212",
                 roomIndex = 17,
                 speakers = "John Doe;Noah Doe",
                 startTime = 1036,
@@ -95,7 +98,7 @@ class SessionExtensionsTest {
                 changedIsNew = true,
                 changedLanguage = true,
                 changedRecordingOptOut = true,
-                changedRoom = true,
+                changedRoomName = true,
                 changedSpeakers = true,
                 changedSubtitle = true,
                 changedStartTime = true,
@@ -109,6 +112,7 @@ class SessionExtensionsTest {
             dateUTC = 1439478900000L
             description = "Lorem ipsum dolor sit amet"
             duration = 45
+            feedbackUrl = "https://talks.mrmcd.net/2018/talk/V3FUNG/feedback"
             hasAlarm = true
             highlight = true
             lang = "en"
@@ -116,7 +120,8 @@ class SessionExtensionsTest {
             relStartTime = 1035
             recordingLicense = "CC 0"
             recordingOptOut = RECORDING_OPT_OUT_ON
-            room = "Simulacron-3"
+            roomName = "Simulacron-3"
+            roomIdentifier = "88888888-4444-4444-4444-121212121212"
             roomIndex = 17
             speakers = listOf("John Doe", "Noah Doe")
             startTime = 1036
@@ -134,7 +139,7 @@ class SessionExtensionsTest {
             changedIsNew = true
             changedLanguage = true
             changedRecordingOptOut = true
-            changedRoom = true
+            changedRoomName = true
             changedSpeakers = true
             changedSubtitle = true
             changedTime = true
@@ -142,24 +147,6 @@ class SessionExtensionsTest {
             changedTrack = true
         }
         assertThat(sessionNetworkModel.toSessionAppModel()).isEqualTo(sessionAppModel)
-    }
-
-    @Test
-    fun `toStartsAtMoment returns Moment object if dateUTC has proper value`() {
-        val session = Session("").apply { dateUTC = 1582963200000L }
-        val moment = session.toStartsAtMoment()
-        assertThat(moment).isEqualTo(Moment.ofEpochMilli(1582963200000L))
-    }
-
-    @Test
-    fun `toStartsAtMoment throws exception if dateUTC is 0`() {
-        val session = Session("")
-        try {
-            session.toStartsAtMoment()
-            fail("Expect an IllegalArgumentException to be thrown.")
-        } catch (e: IllegalArgumentException) {
-            assertThat(e.message).isEqualTo("Field 'dateUTC' is 0.")
-        }
     }
 
     @Test

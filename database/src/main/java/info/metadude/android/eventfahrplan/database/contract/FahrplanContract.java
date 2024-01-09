@@ -93,7 +93,7 @@ public interface FahrplanContract {
             /* 01 */ String TITLE = "title";
             /* 02 */ String SUBTITLE = "subtitle";
             /* 03 */ String DAY = "day";
-            /* 04 */ String ROOM = "room";
+            /* 04 */ String ROOM_NAME = "room";
             /* 05 */ String START = "start";
             /* 06 */ String DURATION = "duration";
             /* 07 */ String SPEAKERS = "speakers";
@@ -106,12 +106,12 @@ public interface FahrplanContract {
             /* 14 */ String DATE = "date";
             /* 15 */ String LINKS = "links";
             /* 16 */ String DATE_UTC = "dateUTC";
-            /* 17 */ String ROOM_IDX = "room_idx";
+            /* 17 */ String ROOM_INDEX = "room_idx";
             /* 18 */ String REC_LICENSE = "rec_license";
             /* 19 */ String REC_OPTOUT = "rec_optout";
             /* 20 */ String CHANGED_TITLE = "changed_title";
             /* 21 */ String CHANGED_SUBTITLE = "changed_subtitle";
-            /* 22 */ String CHANGED_ROOM = "changed_room";
+            /* 22 */ String CHANGED_ROOM_NAME = "changed_room";
             /* 23 */ String CHANGED_DAY = "changed_day";
             /* 24 */ String CHANGED_SPEAKERS = "changed_speakers";
             /* 25 */ String CHANGED_RECORDING_OPTOUT = "changed_recording_optout";
@@ -124,6 +124,8 @@ public interface FahrplanContract {
             /* 32 */ String SLUG = "slug";
             /* 33 */ String URL = "url";
             /* 34 */ String TIME_ZONE_OFFSET = "time_zone_offset";
+            /* 35 */ String ROOM_IDENTIFIER = "room_identifier";
+            /* 36 */ String FEEDBACK_URL = "feedback_url";
         }
 
         interface Defaults {

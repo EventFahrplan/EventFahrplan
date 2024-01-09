@@ -25,6 +25,7 @@ Please read the instructions in the [contribution guide](CONTRIBUTING.md) in ord
 - [Android versions](#android-versions)
 - [Event data](#event-data)
 - [Build instructions](#build-instructions)
+- [Update instructions](#update-instructions)
 - [Translations](#translations)
 - [History](#history)
 - [Funding](#funding)
@@ -54,6 +55,7 @@ Please read the instructions in the [contribution guide](CONTRIBUTING.md) in ord
 - German 🇩🇪
 - Italian 🇮🇹
 - Japanese 🇯🇵
+- Lithuanian 🇱🇹
 - Polish 🇵🇱
 - Portuguese 🇵🇹
 - Russian 🇷🇺
@@ -148,8 +150,8 @@ Contributions from 0x5ubt13, Adriano Pereira Junior, Akarsh Seggemu,
 Andreas Schildbach, Animesh Verma, bashtian, bjoernb, Björn Olsson Jarl,
 ButterflyOfFire, cacarrara, Caio Volpato, Chase, cketti, codingcatgirl,
 Dominik Stadler, entropynil, erebion, ideadapt, isi_ko404, Jasper van der Graaf,
-Joergi, koelnkalkverbot, Larissa Yasin, lepawa, ligi, lucadelu, Luis Azcuaga,
-María Arias de Reyna, Mateus Baptista, Matthias Geisler, Matthias Hunstock,
+Joergi, Julius Vitkauskas, koelnkalkverbot, Larissa Yasin, lepawa, ligi, lucadelu,
+Luis Azcuaga, María Arias de Reyna, Mateus Baptista, Matthias Geisler, Matthias Hunstock,
 Matthias Mair, MichaelRocks, Miguel Beltran, mtpa, Nghiem Xuan Hien, NiciDieNase,
 Noemis, Omicron, Poschi, Qwertele, rotrot, Sjors van Mierlo, Stefan Medack,
 SubOptimal, Teeranai.P, Torsten Grote, Victor Herasme, Vladimir Alabov, Yanicka
@@ -167,11 +169,9 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ```
 
-[chaosflix-github]: https://github.com/NiciDieNase/chaosflix
 [customization-guide]: docs/CUSTOMIZING.md
 [crowdin-eventfahrplan-website]: https://crowdin.com/project/eventfahrplan
 [crowdin-cli-tool-website]: https://crowdin.github.io/crowdin-cli/
-[engelsystem-website]: https://engelsystem.de
 [eventfahrplan-github]: https://github.com/EventFahrplan/EventFahrplan
 [issues-github]: https://github.com/linuxtage/EventFahrplan/issues
 [johnjohndoe-github]: https://github.com/johnjohndoe

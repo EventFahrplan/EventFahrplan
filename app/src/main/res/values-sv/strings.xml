@@ -123,7 +123,7 @@
     <string name="snack_engage_rate_action">Betygsätt appen</string>
     <string name="snack_engage_google_play_beta_testing_title">Expertanvändare?</string>
     <string name="snack_engage_google_play_beta_testing_action">Bli en beta testare</string>
-    <string name="snack_engage_c3nav_title">Inomhusnavigering vid <xliff:g example="35C3" id="conferenceName">%s</xliff:g>! Med c3nav appen</string>
+    <string name="snack_engage_c3nav_title">Inomhusnavigering @ <xliff:g example="35C3" id="conferenceName">%s</xliff:g>! Med c3nav appen</string>
     <string name="snack_engage_c3nav_action">Installera nu!</string>
     <string name="snack_engage_landscape_orientation_title">Har du prövat landskapsläget?</string>
     <string name="snack_engage_landscape_orientation_action">Rotera din enhet!</string>

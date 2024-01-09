@@ -7,7 +7,7 @@ jdk: openjdk11
 env:
   global:
   # Android command line tools, check for updates here https://developer.android.com/studio/#command-tools
-  - COMMAND_LINE_TOOLS_VERSION=9477386
+  - COMMAND_LINE_TOOLS_VERSION=9862592 # Version 10406996 requires Java 17
   - ANDROID_HOME=$HOME/android-sdk
   - TARGET_SDK_VERSION=`grep -H targetSdk buildSrc/src/main/kotlin/nerd/tuxmobil/fahrplan/congress/Dependencies.kt | grep -Po "\d+"`
   - BUILD_TOOLS_VERSION=`grep -H buildToolsVersion buildSrc/src/main/kotlin/nerd/tuxmobil/fahrplan/congress/Dependencies.kt | grep -Po "\d+.\d+.\d+"`
@@ -89,4 +89,4 @@ before_script:
   - echo "org.gradle.caching=true" >> $HOME/.gradle/gradle.properties
 
 script:
-  - ./gradlew testJev2022DebugUnitTest assembleJev2022Debug
+  - ./gradlew testDebug assembleDebug

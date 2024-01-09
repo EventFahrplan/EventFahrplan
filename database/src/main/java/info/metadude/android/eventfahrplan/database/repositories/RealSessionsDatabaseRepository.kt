@@ -15,7 +15,7 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Se
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_IS_NEW
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_LANGUAGE
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_RECORDING_OPTOUT
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_ROOM
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_ROOM_NAME
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_SPEAKERS
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_SUBTITLE
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_TIME
@@ -26,13 +26,15 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Se
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DAY
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DESCR
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DURATION
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.FEEDBACK_URL
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.LANG
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.LINKS
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.REC_LICENSE
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.REC_OPTOUT
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.REL_START
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.ROOM
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.ROOM_IDX
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.ROOM_IDENTIFIER
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.ROOM_INDEX
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.ROOM_NAME
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.SESSION_ID
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.SLUG
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.SPEAKERS
@@ -49,6 +51,7 @@ import info.metadude.android.eventfahrplan.database.extensions.getInt
 import info.metadude.android.eventfahrplan.database.extensions.getIntOrNull
 import info.metadude.android.eventfahrplan.database.extensions.getLong
 import info.metadude.android.eventfahrplan.database.extensions.getString
+import info.metadude.android.eventfahrplan.database.extensions.getStringOrNull
 import info.metadude.android.eventfahrplan.database.extensions.insert
 import info.metadude.android.eventfahrplan.database.extensions.map
 import info.metadude.android.eventfahrplan.database.extensions.read
@@ -166,7 +169,7 @@ class RealSessionsDatabaseRepository(
 
     override fun querySessionsWithoutRoom(roomName: String) = query {
         read(SessionsTable.NAME,
-                selection = "$ROOM!=?",
+                selection = "$ROOM_NAME!=?",
                 selectionArgs = arrayOf(roomName),
                 orderBy = DATE_UTC
         )
@@ -174,7 +177,7 @@ class RealSessionsDatabaseRepository(
 
     override fun querySessionsWithinRoom(roomName: String) = query {
         read(SessionsTable.NAME,
-                selection = "$ROOM=?",
+                selection = "$ROOM_NAME=?",
                 selectionArgs = arrayOf(roomName),
                 orderBy = DATE_UTC
         )
@@ -203,12 +206,14 @@ class RealSessionsDatabaseRepository(
                     dayIndex = cursor.getInt(DAY),
                     description = cursor.getString(DESCR),
                     duration = cursor.getInt(DURATION),
+                    feedbackUrl = cursor.getStringOrNull(FEEDBACK_URL),
                     language = cursor.getString(LANG),
                     links = cursor.getString(LINKS),
                     recordingLicense = cursor.getString(REC_LICENSE),
                     relativeStartTime = cursor.getInt(REL_START),
-                    room = cursor.getString(ROOM),
-                    roomIndex = cursor.getInt(ROOM_IDX),
+                    roomName = cursor.getString(ROOM_NAME),
+                    roomIdentifier = cursor.getString(ROOM_IDENTIFIER),
+                    roomIndex = cursor.getInt(ROOM_INDEX),
                     slug = cursor.getString(SLUG),
                     speakers = cursor.getString(SPEAKERS),
                     subtitle = cursor.getString(SUBTITLE),
@@ -225,7 +230,7 @@ class RealSessionsDatabaseRepository(
                     changedIsNew = cursor.getInt(CHANGED_IS_NEW).isChanged,
                     changedLanguage = cursor.getInt(CHANGED_LANGUAGE).isChanged,
                     changedRecordingOptOut = cursor.getInt(CHANGED_RECORDING_OPTOUT).isChanged,
-                    changedRoom = cursor.getInt(CHANGED_ROOM).isChanged,
+                    changedRoomName = cursor.getInt(CHANGED_ROOM_NAME).isChanged,
                     changedSpeakers = cursor.getInt(CHANGED_SPEAKERS).isChanged,
                     changedSubtitle = cursor.getInt(CHANGED_SUBTITLE).isChanged,
                     changedTime = cursor.getInt(CHANGED_TIME).isChanged,

@@ -83,7 +83,7 @@ class ScrollAmountCalculatorTimeZoneOffsetTest(
         startTime = moment.minuteOfDay
         relStartTime = moment.minuteOfDay // This might now always be the case, see ParserTask.parseFahrplan
         duration = 60
-        room = "Main hall"
+        roomName = "Main hall"
     }
 
 }
