@@ -197,6 +197,19 @@ class SessionExtensionsTest {
     }
 
     @Test
+    fun sanitizeWithEmptyTitleAndSubtitle() {
+        val session = Session("").apply {
+            subtitle = "Lorem ipsum"
+            title = ""
+        }.sanitize()
+        val expected = Session("").apply {
+            subtitle = ""
+            title = "Lorem ipsum"
+        }
+        assertThat(session).isEqualTo(expected)
+    }
+
+    @Test
     fun sanitizeWithSameTitleAndSubtitle() {
         val session = Session("").apply {
             subtitle = "Lorem ipsum"
@@ -271,10 +284,12 @@ class SessionExtensionsTest {
         val session = Session("").apply {
             speakers = listOf("Luke Skywalker")
             subtitle = "Luke Skywalker"
+            title = "Some title"
         }.sanitize()
         val expected = Session("").apply {
             speakers = listOf("Luke Skywalker")
             subtitle = ""
+            title = "Some title"
         }
         assertThat(session).isEqualTo(expected)
     }
@@ -284,10 +299,12 @@ class SessionExtensionsTest {
         val session = Session("").apply {
             speakers = listOf("Darth Vader")
             subtitle = "Lorem ipsum"
+            title = "Some title"
         }.sanitize()
         val expected = Session("").apply {
             speakers = listOf("Darth Vader")
             subtitle = "Lorem ipsum"
+            title = "Some title"
         }
         assertThat(session).isEqualTo(expected)
     }
