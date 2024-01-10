@@ -164,6 +164,10 @@ fun SessionNetworkModel.toSessionAppModel(): Session {
 }
 
 fun Session.sanitize(): Session {
+    if (title.isEmpty() && subtitle.isNotEmpty()) {
+        title = subtitle
+        subtitle = ""
+    }
     if (title == subtitle) {
         subtitle = ""
     }
