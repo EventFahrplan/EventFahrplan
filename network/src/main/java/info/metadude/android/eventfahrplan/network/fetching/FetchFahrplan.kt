@@ -52,6 +52,8 @@ internal class FetchFahrplanTask(
     private companion object {
         const val EMPTY_RESPONSE_STRING = ""
         const val LOG_TAG = "FetchFahrplan"
+        const val HTTP_HEADER_NAME_ETAG = "ETag"
+        const val HTTP_HEADER_NAME_IF_NONE_MATCH = "If-None-Match"
     }
 
     private var responseStr = EMPTY_RESPONSE_STRING
@@ -107,11 +109,11 @@ internal class FetchFahrplanTask(
 
     private fun fetch(url: String, eTag: String): HttpStatus {
         logging.d(LOG_TAG, url)
-        logging.d(LOG_TAG, "ETag: '$eTag'")
+        logging.d(LOG_TAG, "$HTTP_HEADER_NAME_ETAG: '$eTag'")
         val requestBuilder = Request.Builder().apply {
             url(url)
             if (eTag.isNotEmpty()) {
-                addHeader("If-None-Match", eTag)
+                addHeader(HTTP_HEADER_NAME_IF_NONE_MATCH, eTag)
             }
         }
 
@@ -152,11 +154,11 @@ internal class FetchFahrplanTask(
             }
         }
 
-        eTagStr = response.header("ETag").orEmpty()
+        eTagStr = response.header(HTTP_HEADER_NAME_ETAG).orEmpty()
         if (eTagStr.isEmpty()) {
-            logging.d(LOG_TAG, "ETag is missing.")
+            logging.d(LOG_TAG, "$HTTP_HEADER_NAME_ETAG is missing.")
         } else {
-            logging.d(LOG_TAG, "ETag: '$eTagStr'")
+            logging.d(LOG_TAG, "$HTTP_HEADER_NAME_ETAG: '$eTagStr'")
         }
 
         responseStr = try {
