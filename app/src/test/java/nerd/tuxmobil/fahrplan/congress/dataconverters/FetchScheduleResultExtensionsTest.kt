@@ -15,7 +15,10 @@ class FetchScheduleResultExtensionsTest {
         val networkFetchScheduleResult = NetworkFetchScheduleResult(
                 httpStatus = NetworkHttpStatus.HTTP_NOT_MODIFIED,
                 scheduleXml = "<xml></xml>",
-                httpHeader = HttpHeader("mno456"),
+                httpHeader = HttpHeader(
+                    eTag = "mno456",
+                    lastModified = "2023-12-31T23:59:59+01:00",
+                ),
                 hostName = "example.com",
                 exceptionMessage = "SSLException"
         )

@@ -6,12 +6,15 @@ import nerd.tuxmobil.fahrplan.congress.models.HttpHeader as HttpHeaderAppModel
 
 fun HttpHeaderAppModel.toHttpHeaderNetworkModel() = HttpHeaderNetworkModel(
     eTag = eTag,
+    lastModified = lastModified,
 )
 
 fun HttpHeaderDatabaseModel.toHttpHeaderAppModel() = HttpHeaderAppModel(
     eTag = eTag,
+    lastModified = lastModified,
 )
 
 fun HttpHeaderNetworkModel.toHttpHeaderDatabaseModel() = HttpHeaderDatabaseModel(
     eTag = eTag,
+    lastModified = lastModified,
 )

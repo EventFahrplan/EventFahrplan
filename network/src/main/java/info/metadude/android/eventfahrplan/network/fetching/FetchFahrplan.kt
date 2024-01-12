@@ -25,7 +25,7 @@ internal class FetchFahrplan(private val logging: Logging) {
 
     fun fetch(okHttpClient: OkHttpClient, url: String, httpHeader: HttpHeader) {
         task = FetchFahrplanTask(okHttpClient, logging, onFetchScheduleResult)
-        task.execute(url, httpHeader.eTag)
+        task.execute(url, httpHeader.eTag, httpHeader.lastModified)
     }
 
     fun cancel() {
@@ -55,10 +55,13 @@ internal class FetchFahrplanTask(
         const val LOG_TAG = "FetchFahrplan"
         const val HTTP_HEADER_NAME_ETAG = "ETag"
         const val HTTP_HEADER_NAME_IF_NONE_MATCH = "If-None-Match"
+        const val HTTP_HEADER_NAME_LAST_MODIFIED = "Last-Modified"
+        const val HTTP_HEADER_NAME_IF_MODIFIED_SINCE = "If-Modified-Since"
     }
 
     private var responseStr = EMPTY_RESPONSE_STRING
     private var eTagStr = ""
+    private var lastModifiedStr = ""
     private var completed = false
     private lateinit var status: HttpStatus
     private var host = ""
@@ -75,8 +78,9 @@ internal class FetchFahrplanTask(
     override fun doInBackground(vararg args: String?): HttpStatus {
         val url = args[0]!!
         val eTag = args[1]!!
+        val lastModified = args[2]!!
         host = Uri.parse(url).host ?: throw NullPointerException("Host is null for url = '$url'")
-        return fetch(url, eTag)
+        return fetch(url, eTag, lastModified)
     }
 
     @Deprecated("Deprecated in Java")
@@ -95,26 +99,30 @@ internal class FetchFahrplanTask(
         if (status == HttpStatus.HTTP_OK) {
             logging.d(LOG_TAG, "Fetch done successfully")
             onFetchScheduleResult(
-                FetchScheduleResult(status, responseStr, HttpHeader(eTagStr), host, exceptionMessage)
+                FetchScheduleResult(status, responseStr, HttpHeader(eTagStr, lastModifiedStr), host, exceptionMessage)
             )
         } else {
             logging.d(LOG_TAG, "Fetch failed")
             onFetchScheduleResult(
                 FetchScheduleResult(
-                    status, EMPTY_RESPONSE_STRING, HttpHeader(eTagStr), host, exceptionMessage
+                    status, EMPTY_RESPONSE_STRING, HttpHeader(eTagStr, lastModifiedStr), host, exceptionMessage
                 )
             )
         }
         completed = false // notify only once
     }
 
-    private fun fetch(url: String, eTag: String): HttpStatus {
+    private fun fetch(url: String, eTag: String, lastModified: String): HttpStatus {
         logging.d(LOG_TAG, url)
         logging.d(LOG_TAG, "$HTTP_HEADER_NAME_ETAG: '$eTag'")
+        logging.d(LOG_TAG, "$HTTP_HEADER_NAME_LAST_MODIFIED: '$lastModified'")
         val requestBuilder = Request.Builder().apply {
             url(url)
             if (eTag.isNotEmpty()) {
                 addHeader(HTTP_HEADER_NAME_IF_NONE_MATCH, eTag)
+            }
+            if (lastModified.isNotEmpty()) {
+                addHeader(HTTP_HEADER_NAME_IF_MODIFIED_SINCE, lastModified)
             }
         }
 
@@ -160,6 +168,13 @@ internal class FetchFahrplanTask(
             logging.d(LOG_TAG, "$HTTP_HEADER_NAME_ETAG is missing.")
         } else {
             logging.d(LOG_TAG, "$HTTP_HEADER_NAME_ETAG: '$eTagStr'")
+        }
+
+        lastModifiedStr = response.header(HTTP_HEADER_NAME_LAST_MODIFIED).orEmpty()
+        if (lastModifiedStr.isEmpty()) {
+            logging.d(LOG_TAG, "$HTTP_HEADER_NAME_LAST_MODIFIED is missing")
+        } else {
+            logging.d(LOG_TAG, "$HTTP_HEADER_NAME_LAST_MODIFIED: '$lastModifiedStr'")
         }
 
         responseStr = try {

@@ -8,4 +8,5 @@ import info.metadude.android.eventfahrplan.network.fetching.FetchFahrplan
  */
 data class HttpHeader(
     val eTag: String = "",
+    val lastModified: String = "",
 )

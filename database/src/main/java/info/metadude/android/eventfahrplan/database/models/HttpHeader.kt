@@ -5,5 +5,6 @@ package info.metadude.android.eventfahrplan.database.models
  */
 data class HttpHeader(
     val eTag: String = "",
+    val lastModified: String = "",
 )
 

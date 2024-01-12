@@ -306,7 +306,7 @@ class AppRepositoryLoadAndParseScheduleTest {
         NetworkFetchScheduleResult(
             httpStatus = httpStatus,
             scheduleXml = "some fahrplan xml",
-            httpHeader = HttpHeader("a1b2bc3"),
+            httpHeader = HttpHeader(eTag = "a1b2bc3", lastModified = "2023-12-31T23:59:59+01:00"),
             hostName = HOST_NAME
         )
 

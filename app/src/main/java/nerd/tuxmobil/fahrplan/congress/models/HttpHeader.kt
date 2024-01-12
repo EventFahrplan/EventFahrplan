@@ -5,4 +5,5 @@ package nerd.tuxmobil.fahrplan.congress.models
  */
 data class HttpHeader(
     val eTag: String = "",
+    val lastModified: String = "",
 )
