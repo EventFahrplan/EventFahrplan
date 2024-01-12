@@ -154,7 +154,7 @@ internal class FetchFahrplanTask(
 
         eTagStr = response.header("ETag").orEmpty()
         if (eTagStr.isEmpty()) {
-            logging.d(LOG_TAG, "ETag missing?")
+            logging.d(LOG_TAG, "ETag is missing.")
         } else {
             logging.d(LOG_TAG, "ETag: '$eTagStr'")
         }
