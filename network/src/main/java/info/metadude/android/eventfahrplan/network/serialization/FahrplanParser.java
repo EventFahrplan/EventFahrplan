@@ -147,6 +147,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                     case XmlPullParser.START_DOCUMENT:
                         sessions = new ArrayList<>();
                         meta = new Meta();
+                        meta.setETag(eTag);
                         break;
                     case XmlPullParser.END_TAG:
                         name = parser.getName();
@@ -365,7 +366,6 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                 return false;
             }
             meta.setNumDays(numdays);
-            meta.setETag(eTag);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
