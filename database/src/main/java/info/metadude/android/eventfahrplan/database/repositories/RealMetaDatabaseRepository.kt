@@ -16,6 +16,7 @@ import info.metadude.android.eventfahrplan.database.extensions.getStringOrNull
 import info.metadude.android.eventfahrplan.database.extensions.insert
 import info.metadude.android.eventfahrplan.database.extensions.read
 import info.metadude.android.eventfahrplan.database.extensions.upsert
+import info.metadude.android.eventfahrplan.database.models.HttpHeader
 import info.metadude.android.eventfahrplan.database.models.Meta
 import info.metadude.android.eventfahrplan.database.sqliteopenhelper.MetaDBOpenHelper
 
@@ -51,7 +52,9 @@ class RealMetaDatabaseRepository(
                         timeZoneName = cursor.getStringOrNull(TIME_ZONE_NAME),
                         title = cursor.getString(TITLE),
                         subtitle = cursor.getString(SUBTITLE),
-                        eTag = cursor.getString(ETAG)
+                        httpHeader = HttpHeader(
+                            eTag = cursor.getString(ETAG),
+                        ),
                 )
             } else {
                 Meta()

@@ -22,6 +22,7 @@ import info.metadude.android.eventfahrplan.database.sqliteopenhelper.SessionsDBO
 import info.metadude.android.eventfahrplan.engelsystem.EngelsystemNetworkRepository
 import info.metadude.android.eventfahrplan.engelsystem.RealEngelsystemNetworkRepository
 import info.metadude.android.eventfahrplan.engelsystem.models.ShiftsResult
+import info.metadude.android.eventfahrplan.network.models.HttpHeader
 import info.metadude.android.eventfahrplan.network.models.Meta
 import info.metadude.android.eventfahrplan.network.repositories.RealScheduleNetworkRepository
 import info.metadude.android.eventfahrplan.network.repositories.ScheduleNetworkRepository
@@ -317,7 +318,7 @@ object AppRepository {
         val meta = readMeta().toMetaNetworkModel()
         val fetchingStatus = if (meta.numDays == 0) InitialFetching else Fetching
         mutableLoadScheduleState.tryEmit(fetchingStatus)
-        scheduleNetworkRepository.fetchSchedule(okHttpClient, url, meta.eTag) { fetchScheduleResult ->
+        scheduleNetworkRepository.fetchSchedule(okHttpClient, url, meta.httpHeader) { fetchScheduleResult ->
             val fetchResult = fetchScheduleResult.toAppFetchScheduleResult()
             val fetchResultStatus = if (fetchResult.isSuccessful) {
                 FetchSuccess
@@ -332,7 +333,7 @@ object AppRepository {
             }
 
             if (fetchResult.isSuccessful) {
-                val validMeta = meta.copy(eTag = fetchScheduleResult.eTag).validate()
+                val validMeta = meta.copy(httpHeader = fetchScheduleResult.httpHeader).validate()
                 updateMeta(validMeta)
                 check(onParsingDone != {}) { "Nobody registered to receive ParseScheduleResult." }
                 // Parsing
@@ -340,7 +341,7 @@ object AppRepository {
                 mutableLoadScheduleState.tryEmit(parsingStatus)
                 parseSchedule(
                         fetchScheduleResult.scheduleXml,
-                        fetchScheduleResult.eTag,
+                        fetchScheduleResult.httpHeader,
                         onParsingDone,
                         onLoadingShiftsDone
                 )
@@ -351,10 +352,10 @@ object AppRepository {
     }
 
     private fun parseSchedule(scheduleXml: String,
-                              eTag: String,
+                              httpHeader: HttpHeader,
                               onParsingDone: (parseScheduleResult: ParseResult) -> Unit,
                               onLoadingShiftsDone: (loadShiftsResult: LoadShiftsResult) -> Unit) {
-        scheduleNetworkRepository.parseSchedule(scheduleXml, eTag,
+        scheduleNetworkRepository.parseSchedule(scheduleXml, httpHeader,
                 onUpdateSessions = { sessions ->
                     val oldSessions = loadSessionsForAllDays(true)
                     val newSessions = sessions.toSessionsAppModel2().sanitize()
@@ -753,8 +754,8 @@ object AppRepository {
     /**
      * Updates the [Meta] information in the database.
      *
-     * The [Meta.eTag] field should only be written if a network response is received
-     * with a status code of HTTP 200 (OK).
+     * The [Meta.httpHeader] properties should only be written if a
+     * network response is received with a status code of HTTP 200 (OK).
      *
      * See also: [HttpStatus.HTTP_OK]
      */

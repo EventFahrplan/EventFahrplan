@@ -8,7 +8,7 @@ import nerd.tuxmobil.fahrplan.congress.models.Meta as MetaAppModel
 
 
 fun MetaAppModel.toMetaNetworkModel() = MetaNetworkModel(
-        eTag = eTag,
+        httpHeader = httpHeader.toHttpHeaderNetworkModel(),
         numDays = numDays,
         subtitle = subtitle,
         timeZoneName = timeZoneId?.id,
@@ -17,7 +17,7 @@ fun MetaAppModel.toMetaNetworkModel() = MetaNetworkModel(
 )
 
 fun MetaDatabaseModel.toMetaAppModel() = MetaAppModel(
-        eTag = eTag,
+        httpHeader = httpHeader.toHttpHeaderAppModel(),
         numDays = numDays,
         subtitle = subtitle,
         timeZoneId = timeZoneName?.let {
@@ -34,7 +34,7 @@ fun MetaDatabaseModel.toMetaAppModel() = MetaAppModel(
 )
 
 fun MetaNetworkModel.toMetaDatabaseModel() = MetaDatabaseModel(
-        eTag = eTag,
+        httpHeader = httpHeader.toHttpHeaderDatabaseModel(),
         numDays = numDays,
         subtitle = subtitle,
         timeZoneName = timeZoneName,

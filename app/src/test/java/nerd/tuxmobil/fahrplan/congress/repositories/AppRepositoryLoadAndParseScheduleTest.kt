@@ -9,6 +9,7 @@ import info.metadude.android.eventfahrplan.database.repositories.AlarmsDatabaseR
 import info.metadude.android.eventfahrplan.database.repositories.HighlightsDatabaseRepository
 import info.metadude.android.eventfahrplan.database.repositories.MetaDatabaseRepository
 import info.metadude.android.eventfahrplan.database.repositories.SessionsDatabaseRepository
+import info.metadude.android.eventfahrplan.network.models.HttpHeader
 import info.metadude.android.eventfahrplan.network.repositories.ScheduleNetworkRepository
 import kotlinx.coroutines.test.runTest
 import nerd.tuxmobil.fahrplan.congress.TestExecutionContext
@@ -302,7 +303,12 @@ class AppRepositoryLoadAndParseScheduleTest {
         }
 
     private fun createFetchScheduleResult(httpStatus: NetworkHttpStatus) =
-        NetworkFetchScheduleResult(httpStatus, "some fahrplan xml", eTag = "a1b2bc3", HOST_NAME)
+        NetworkFetchScheduleResult(
+            httpStatus = httpStatus,
+            scheduleXml = "some fahrplan xml",
+            httpHeader = HttpHeader("a1b2bc3"),
+            hostName = HOST_NAME
+        )
 
     private fun createFetchFailure(httpStatus: HttpStatus, isUserRequest: Boolean) =
         FetchFailure(
@@ -336,7 +342,7 @@ class AppRepositoryLoadAndParseScheduleTest {
         override fun fetchSchedule(
             okHttpClient: OkHttpClient,
             url: String,
-            eTag: String,
+            httpHeader: HttpHeader,
             onFetchScheduleFinished: OnFetchScheduleFinished
         ) {
             this.onFetchScheduleFinished = onFetchScheduleFinished
@@ -344,7 +350,7 @@ class AppRepositoryLoadAndParseScheduleTest {
 
         override fun parseSchedule(
             scheduleXml: String,
-            eTag: String,
+            httpHeader: HttpHeader,
             onUpdateSessions: (sessions: List<NetworkSession>) -> Unit,
             onUpdateMeta: (meta: NetworkMeta) -> Unit,
             onParsingDone: (result: Boolean, version: String) -> Unit

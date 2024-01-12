@@ -7,6 +7,7 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Me
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.TIME_ZONE_NAME
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.TITLE
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.VERSION
+import info.metadude.android.eventfahrplan.database.models.HttpHeader
 import info.metadude.android.eventfahrplan.database.models.Meta
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
@@ -18,7 +19,7 @@ class MetaExtensionsTest {
     @Test
     fun toContentValues() {
         val meta = Meta(
-                eTag = "abc123",
+                httpHeader = HttpHeader(eTag = "abc123"),
                 numDays = 23,
                 subtitle = "My subtitle",
                 timeZoneName = "Europe/Berlin",

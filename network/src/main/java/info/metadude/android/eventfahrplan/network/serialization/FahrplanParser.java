@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import info.metadude.android.eventfahrplan.commons.logging.Logging;
+import info.metadude.android.eventfahrplan.network.models.HttpHeader;
 import info.metadude.android.eventfahrplan.network.models.Meta;
 import info.metadude.android.eventfahrplan.network.models.Session;
 import info.metadude.android.eventfahrplan.network.serialization.exceptions.MissingXmlAttributeException;
@@ -47,9 +48,9 @@ public class FahrplanParser {
         task = null;
     }
 
-    public void parse(String fahrplan, String eTag) {
+    public void parse(String fahrplan, HttpHeader httpHeader) {
         task = new ParserTask(logging, listener);
-        task.execute(fahrplan, eTag);
+        task.execute(fahrplan, httpHeader.getETag());
     }
 
     public void cancel() {
@@ -147,7 +148,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                     case XmlPullParser.START_DOCUMENT:
                         sessions = new ArrayList<>();
                         meta = new Meta();
-                        meta.setETag(eTag);
+                        meta.setHttpHeader(new HttpHeader(eTag));
                         break;
                     case XmlPullParser.END_TAG:
                         name = parser.getName();

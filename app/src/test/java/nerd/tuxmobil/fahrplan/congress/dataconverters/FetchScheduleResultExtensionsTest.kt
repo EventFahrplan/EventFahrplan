@@ -1,5 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress.dataconverters
 
+import info.metadude.android.eventfahrplan.network.models.HttpHeader
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import info.metadude.android.eventfahrplan.network.fetching.FetchScheduleResult as NetworkFetchScheduleResult
@@ -14,7 +15,7 @@ class FetchScheduleResultExtensionsTest {
         val networkFetchScheduleResult = NetworkFetchScheduleResult(
                 httpStatus = NetworkHttpStatus.HTTP_NOT_MODIFIED,
                 scheduleXml = "<xml></xml>",
-                eTag = "mno456",
+                httpHeader = HttpHeader("mno456"),
                 hostName = "example.com",
                 exceptionMessage = "SSLException"
         )

@@ -13,6 +13,7 @@ import javax.net.ssl.SSLException
 import javax.net.ssl.SSLHandshakeException
 
 import info.metadude.android.eventfahrplan.commons.logging.Logging
+import info.metadude.android.eventfahrplan.network.models.HttpHeader
 
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -22,9 +23,9 @@ internal class FetchFahrplan(private val logging: Logging) {
     private lateinit var task: FetchFahrplanTask
     private lateinit var onFetchScheduleResult: (fetchScheduleResult: FetchScheduleResult) -> Unit
 
-    fun fetch(okHttpClient: OkHttpClient, url: String, eTag: String) {
+    fun fetch(okHttpClient: OkHttpClient, url: String, httpHeader: HttpHeader) {
         task = FetchFahrplanTask(okHttpClient, logging, onFetchScheduleResult)
-        task.execute(url, eTag)
+        task.execute(url, httpHeader.eTag)
     }
 
     fun cancel() {
@@ -94,13 +95,13 @@ internal class FetchFahrplanTask(
         if (status == HttpStatus.HTTP_OK) {
             logging.d(LOG_TAG, "Fetch done successfully")
             onFetchScheduleResult(
-                FetchScheduleResult(status, responseStr, eTagStr, host, exceptionMessage)
+                FetchScheduleResult(status, responseStr, HttpHeader(eTagStr), host, exceptionMessage)
             )
         } else {
             logging.d(LOG_TAG, "Fetch failed")
             onFetchScheduleResult(
                 FetchScheduleResult(
-                    status, EMPTY_RESPONSE_STRING, eTagStr, host, exceptionMessage
+                    status, EMPTY_RESPONSE_STRING, HttpHeader(eTagStr), host, exceptionMessage
                 )
             )
         }

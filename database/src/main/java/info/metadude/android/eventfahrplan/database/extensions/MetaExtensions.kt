@@ -10,7 +10,7 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Me
 import info.metadude.android.eventfahrplan.database.models.Meta
 
 fun Meta.toContentValues() = contentValuesOf(
-        ETAG to eTag,
+        ETAG to httpHeader.eTag,
         NUM_DAYS to numDays,
         SUBTITLE to subtitle,
         TIME_ZONE_NAME to timeZoneName,
