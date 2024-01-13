@@ -100,6 +100,19 @@ class ScheduleChangesTest {
     }
 
     @Test
+    fun `computeSessionsWithChangeFlags flags and returns new sessions and foundNoteworthyChanges = true if speakers changed order`() {
+        val oldSessions = listOf(createSession { speakers = listOf("speaker1", "speaker2", "speaker3") })
+        val newSessions = listOf(createSession { speakers = listOf("speaker3", "speaker1", "speaker2") })
+        val scheduleChanges = computeSessionsWithChangeFlags(newSessions, oldSessions)
+        assertThat(scheduleChanges.sessionsWithChangeFlags).isEqualTo(listOf(createSession {
+            speakers = listOf("speaker3", "speaker1", "speaker2")
+            changedSpeakers = true
+        }))
+        assertThat(scheduleChanges.oldCanceledSessions).isEmpty()
+        assertThat(scheduleChanges.foundNoteworthyChanges).isTrue()
+    }
+
+    @Test
     fun `computeSessionsWithChangeFlags flags and returns new sessions and foundNoteworthyChanges = true if language has changed`() {
         val oldSessions = listOf(createSession { lang = "Old language" })
         val newSessions = listOf(createSession { lang = "New language" })
