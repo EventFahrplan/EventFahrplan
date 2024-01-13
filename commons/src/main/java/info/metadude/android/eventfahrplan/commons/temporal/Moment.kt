@@ -18,7 +18,7 @@ import org.threeten.bp.temporal.ChronoUnit
  *
  * > Moment.now().toZonedDateTime(ZoneOffset.of("GMT+1"))
  */
-class Moment private constructor(private val time: Instant) {
+class Moment private constructor(private val time: Instant): Comparable<Moment> {
 
     val year: Int
         get() = time.atZone(ZoneOffset.UTC).year
@@ -135,6 +135,10 @@ class Moment private constructor(private val time: Instant) {
      */
     fun minutesUntil(moment: Moment): Long {
         return Duration.between(time, moment.time).toMinutes()
+    }
+
+    override fun compareTo(other: Moment): Int {
+        return time.compareTo(other.time)
     }
 
     override fun equals(other: Any?): Boolean {

@@ -72,6 +72,16 @@ class MomentTest {
     }
 
     @Test
+    fun `compareTo returns the correct integer value when comparing moments`() {
+        val momentOne = Moment.ofEpochMilli(DEC_30_22_47_2019)
+        val momentTwo = Moment.ofEpochMilli(DEC_30_22_47_2019).plusSeconds(1)
+
+        assertThat(momentOne.compareTo(momentTwo)).isEqualTo(-1)
+        assertThat(momentOne.compareTo(momentTwo.minusSeconds(1))).isEqualTo(0)
+        assertThat(momentTwo.compareTo(momentOne)).isEqualTo(1)
+    }
+
+    @Test
     fun `toString returns toString representation of internal instant`() {
         val moment = Moment.ofEpochMilli(DEC_30_22_47_2019)
 
