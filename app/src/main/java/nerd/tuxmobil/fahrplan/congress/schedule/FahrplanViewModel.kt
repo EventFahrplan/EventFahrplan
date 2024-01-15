@@ -52,11 +52,17 @@ internal class FahrplanViewModel(
         const val LOG_TAG = "FahrplanViewModel"
     }
 
-    val fahrplanParameter = repository.uncanceledSessionsForDayIndex
-        .filter { it.allSessions.isNotEmpty() }
-        .combine(repository.alarms.filterNotNull()) { scheduleData, alarms ->
-            createFahrplanParameter(scheduleData.customizeEngelsystemRoomName(), alarms)
-        }
+    val fahrplanParameter = combine(
+        repository.uncanceledSessionsForDayIndex.filter { it.allSessions.isNotEmpty() },
+        repository.sessionsWithoutShifts.filterNotNull(),
+        repository.alarms.filterNotNull()
+    ) { scheduleDataForDayIndex, allSessionsForAllDaysWithoutShifts, alarms ->
+        createFahrplanParameter(
+            scheduleData = scheduleDataForDayIndex.customizeEngelsystemRoomName(),
+            allSessionsForAllDaysWithoutShifts = allSessionsForAllDaysWithoutShifts,
+            alarms = alarms
+        )
+    }
 
     private val mutableFahrplanEmptyParameter = Channel<FahrplanEmptyParameter>()
     val fahrplanEmptyParameter = mutableFahrplanEmptyParameter.receiveAsFlow()
@@ -139,14 +145,20 @@ internal class FahrplanViewModel(
         }
     )
 
-    private fun createFahrplanParameter(scheduleData: ScheduleData, alarms: List<Alarm>): FahrplanParameter {
+    private fun createFahrplanParameter(
+        scheduleData: ScheduleData,
+        allSessionsForAllDaysWithoutShifts: List<Session>,
+        alarms: List<Alarm>
+    ): FahrplanParameter {
         val dayIndex = repository.readDisplayDayIndex()
         val numDays = repository.readMeta().numDays
-        val dateInfos = FahrplanMisc.createDateInfos(repository.readDateInfos())
         val dayMenuEntries = if (numDays > 1) {
-            navigationMenuEntriesGenerator.getDayMenuEntries(numDays, dateInfos)
+            navigationMenuEntriesGenerator.getDayMenuEntries(
+                numDays,
+                allSessionsForAllDaysWithoutShifts
+            )
         } else {
-            null
+            emptyList()
         }
         val useDeviceTimeZone = repository.readUseDeviceTimeZoneEnabled()
 

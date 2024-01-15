@@ -145,6 +145,28 @@ object AppRepository {
             .flowOn(executionContext.database)
     }
 
+    private val refreshSessionsWithoutShiftsSignal = MutableSharedFlow<Unit>()
+
+    private fun refreshSessionsWithoutShifts() {
+        logging.d(LOG_TAG, "Refreshing sessions without shifts ...")
+        val requestIdentifier = "refreshSessionsWithoutShifts"
+        parentJobs[requestIdentifier] = databaseScope.launchNamed(requestIdentifier) {
+            refreshSessionsWithoutShiftsSignal.emit(Unit)
+        }
+    }
+
+    /**
+     * Emits all sessions excluding Engelsystem shifts from the database.
+     * The returned list might be empty.
+     */
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val sessionsWithoutShifts: Flow<List<Session>> by lazy {
+        refreshSessionsWithoutShiftsSignal
+            .onStart { emit(Unit) }
+            .mapLatest { loadSessionsForAllDays(includeEngelsystemShifts = false) }
+            .flowOn(executionContext.database)
+    }
+
     private val refreshSessionsSignal = MutableSharedFlow<Unit>()
 
     private fun refreshSessions() {
@@ -723,6 +745,7 @@ object AppRepository {
         sessionsDatabaseRepository.updateSessions(toBeUpdated, toBeDeleted)
         refreshStarredSessions()
         refreshSessions()
+        refreshSessionsWithoutShifts()
         refreshChangedSessions()
         refreshSelectedSession()
         refreshUncanceledSessions()
