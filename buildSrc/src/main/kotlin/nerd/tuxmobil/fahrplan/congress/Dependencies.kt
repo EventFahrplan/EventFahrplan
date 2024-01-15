@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2023 johnjohndoe <https://github.com/johnjohndoe>
+//
+// SPDX-License-Identifier: Apache-2.0
+
 @file:Suppress("unused")
 
 package nerd.tuxmobil.fahrplan.congress

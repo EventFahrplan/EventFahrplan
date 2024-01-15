@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2023 johnjohndoe <https://github.com/johnjohndoe>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 /local.properties
 /.idea/workspace.xml
 .DS_Store
