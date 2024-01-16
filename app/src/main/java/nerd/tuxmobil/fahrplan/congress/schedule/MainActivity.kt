@@ -231,7 +231,7 @@ class MainActivity : BaseActivity(),
             sidePaneView.isVisible = !isScreenLocked
         }
 
-        requestedOrientation = if (AppRepository.readIsScheduleLandscape()) {
+        requestedOrientation = if (AppRepository.readIsForceLandscapeMode()) {
             ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
         } else {
             ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED

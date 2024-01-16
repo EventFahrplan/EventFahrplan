@@ -35,6 +35,6 @@ interface SharedPreferencesRepository {
     fun getSelectedSessionId(): String
     fun setSelectedSessionId(sessionId: String): Boolean
 
-    fun isScheduleLandscape() : Boolean
+    fun isForceLandscapeMode() : Boolean
 
 }
