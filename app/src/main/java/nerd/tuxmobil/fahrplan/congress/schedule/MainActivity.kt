@@ -230,12 +230,6 @@ class MainActivity : BaseActivity(),
         if (sidePaneView != null && isFavoritesInSidePane) {
             sidePaneView.isVisible = !isScreenLocked
         }
-
-        requestedOrientation = if (AppRepository.readIsForceLandscapeMode()) {
-            ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-        } else {
-            ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
