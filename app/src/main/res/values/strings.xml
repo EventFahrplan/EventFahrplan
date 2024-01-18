@@ -113,6 +113,7 @@
     <string name="about_google_play_listing">Google Play listing</string>
     <string name="about_issues_or_feature_requests">Issues or feature requests</string>
     <string name="about_source_code">Source code</string>
+    <string name="about_translation_platform">Translation platform</string>
     <string name="copyright_notes" translatable="false">
         Copyright 2013-2024 johnjohndoe.
         \nCopyright 2011-2015 Daniel Dorau.

@@ -33,6 +33,7 @@ android {
 
         // Build configuration / feature flags
         buildConfigField "String", "F_DROID_URL", '""'
+        buildConfigField "String", "TRANSLATION_PLATFORM_URL", '"https://crowdin.com/project/eventfahrplan"'
         buildConfigField "String", "SOURCE_CODE_URL", '"https://github.com/EventFahrplan/EventFahrplan"'
         buildConfigField "String", "ISSUES_URL", '"https://github.com/EventFahrplan/EventFahrplan/issues"'
         buildConfigField "String", "DATA_PRIVACY_STATEMENT_DE_URL", '"https://github.com/EventFahrplan/EventFahrplan/blob/master/DATA-PRIVACY-DE.md"'
