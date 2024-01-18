@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteException
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.ETAG
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.NUM_DAYS
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.SCHEDULE_LAST_MODIFIED
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.SUBTITLE
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.TIME_ZONE_NAME
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.TITLE
@@ -16,6 +17,7 @@ import info.metadude.android.eventfahrplan.database.extensions.getStringOrNull
 import info.metadude.android.eventfahrplan.database.extensions.insert
 import info.metadude.android.eventfahrplan.database.extensions.read
 import info.metadude.android.eventfahrplan.database.extensions.upsert
+import info.metadude.android.eventfahrplan.database.models.HttpHeader
 import info.metadude.android.eventfahrplan.database.models.Meta
 import info.metadude.android.eventfahrplan.database.sqliteopenhelper.MetaDBOpenHelper
 
@@ -51,7 +53,10 @@ class RealMetaDatabaseRepository(
                         timeZoneName = cursor.getStringOrNull(TIME_ZONE_NAME),
                         title = cursor.getString(TITLE),
                         subtitle = cursor.getString(SUBTITLE),
-                        eTag = cursor.getString(ETAG)
+                        httpHeader = HttpHeader(
+                            eTag = cursor.getString(ETAG),
+                            lastModified = cursor.getString(SCHEDULE_LAST_MODIFIED),
+                        ),
                 )
             } else {
                 Meta()

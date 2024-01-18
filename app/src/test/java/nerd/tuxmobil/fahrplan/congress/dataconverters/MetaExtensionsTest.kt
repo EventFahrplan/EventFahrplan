@@ -3,14 +3,20 @@ package nerd.tuxmobil.fahrplan.congress.dataconverters
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import org.threeten.bp.ZoneId
+import info.metadude.android.eventfahrplan.database.models.HttpHeader as HttpHeaderDatabaseModel
 import info.metadude.android.eventfahrplan.database.models.Meta as MetaDatabaseModel
+import info.metadude.android.eventfahrplan.network.models.HttpHeader as HttpHeaderNetworkModel
 import info.metadude.android.eventfahrplan.network.models.Meta as MetaNetworkModel
+import nerd.tuxmobil.fahrplan.congress.models.HttpHeader as HttpHeaderAppModel
 import nerd.tuxmobil.fahrplan.congress.models.Meta as MetaAppModel
 
 class MetaExtensionsTest {
 
     private val metaAppModel = MetaAppModel(
-            eTag = "abc123",
+            httpHeader = HttpHeaderAppModel(
+                eTag = "abc123",
+                lastModified = "2019-12-31T23:59:59+01:00",
+            ),
             numDays = 23,
             subtitle = "My subtitle",
             timeZoneId = ZoneId.of("Europe/Berlin"),
@@ -19,7 +25,10 @@ class MetaExtensionsTest {
     )
 
     private val metaDatabaseModel = MetaDatabaseModel(
-            eTag = "abc123",
+            httpHeader = HttpHeaderDatabaseModel(
+                eTag = "abc123",
+                lastModified = "2019-12-31T23:59:59+01:00",
+            ),
             numDays = 23,
             subtitle = "My subtitle",
             timeZoneName = "Europe/Berlin",
@@ -28,7 +37,10 @@ class MetaExtensionsTest {
     )
 
     private val metaNetworkModel = MetaNetworkModel(
-            eTag = "abc123",
+            httpHeader = HttpHeaderNetworkModel(
+                eTag = "abc123",
+                lastModified = "2019-12-31T23:59:59+01:00",
+            ),
             numDays = 23,
             subtitle = "My subtitle",
             timeZoneName = "Europe/Berlin",

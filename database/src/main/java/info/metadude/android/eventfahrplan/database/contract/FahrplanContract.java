@@ -18,6 +18,7 @@ public interface FahrplanContract {
             /* 5 */ String ETAG = "etag";
             /* 6 */ String NUM_DAYS = "numdays";
             /* 7 */ String TIME_ZONE_NAME = "time_zone_name";
+            /* 8 */ String SCHEDULE_LAST_MODIFIED = "schedule_last_modified";
         }
 
         interface Defaults {
