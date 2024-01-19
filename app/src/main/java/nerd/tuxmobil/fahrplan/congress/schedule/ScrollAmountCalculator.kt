@@ -40,8 +40,8 @@ internal class ScrollAmountCalculator(
         var sessionStartsAtMinutes = sessionStartsAt.minuteOfDay
         var scrollAmount = 0
 
-        val hasStarted = nowMoment.minuteOfDay < sessionStartsAtMinutes
-        if (!(hasStarted && dateInfos.sameDay(nowMoment, currentDayIndex))) {
+        val hasNotStarted = nowMoment.minuteOfDay < sessionStartsAtMinutes
+        if (!(hasNotStarted && dateInfos.sameDay(nowMoment, currentDayIndex))) {
             var timeSegment: TimeSegment
             val minutesToAdd = if (conference.spansMultipleDays) MINUTES_OF_ONE_DAY else 0
             val lastSessionEndsAtMinutes = conference.lastSessionEndsAt.minuteOfDay + minutesToAdd
