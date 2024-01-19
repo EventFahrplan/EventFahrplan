@@ -26,18 +26,23 @@ class JsonSessionFormatTest {
     private companion object {
 
         const val EXPECTED_JSON_SINGLE = "{\"lectures\":[{\"lecture_id\":\"session1\"," +
-                "\"title\":\"\",\"subtitle\":\"\",\"day\":0,\"room\":\"\",\"slug\":\"\",\"url\":\"\"," +
-                "\"speakers\":\"\",\"track\":\"\",\"type\":\"\",\"lang\":\"\",\"abstract\":\"\"," +
-                "\"description\":\"\",\"links\":\"\",\"starts_at\":\"1970-01-01T00:00:00Z\"}]}"
+                "\"title\":\"\",\"subtitle\":\"\",\"day\":0,\"room\":\"\",\"slug\":\"\"," +
+                "\"url\":\"\",\"speakers\":\"\",\"track\":\"\",\"type\":\"\",\"lang\":\"\"," +
+                "\"abstract\":\"\",\"description\":\"\",\"links\":\"\"," +
+                "\"starts_at\":\"1970-01-01T00:00:00Z\"}]}"
         const val EXPECTED_JSON_LIST = "{\"lectures\":[{\"lecture_id\":\"session1\"," +
-                "\"title\":\"\",\"subtitle\":\"\",\"day\":0,\"room\":\"\",\"slug\":\"\",\"url\":\"\"," +
-                "\"speakers\":\"\",\"track\":\"\",\"type\":\"\",\"lang\":\"\",\"abstract\":\"\"," +
-                "\"description\":\"\",\"links\":\"\",\"starts_at\":\"1970-01-01T00:00:00Z\"},{\"lecture_id\":\"session2\",\"title\":\"\"," +
-                "\"subtitle\":\"\",\"day\":0,\"room\":\"\",\"slug\":\"\",\"url\":\"\",\"speakers\":\"\"," +
-                "\"track\":\"\",\"type\":\"\",\"lang\":\"\",\"abstract\":\"\",\"description\":\"\"," +
-                "\"links\":\"\",\"starts_at\":\"1970-01-01T00:00:00Z\"},{\"lecture_id\":\"session3\",\"title\":\"\",\"subtitle\":\"\"," +
-                "\"day\":0,\"room\":\"\",\"slug\":\"\",\"url\":\"\",\"speakers\":\"\",\"track\":\"\"," +
-                "\"type\":\"\",\"lang\":\"\",\"abstract\":\"\",\"description\":\"\",\"links\":\"\",\"starts_at\":\"1970-01-01T00:00:00Z\"}]}"
+                "\"title\":\"\",\"subtitle\":\"\",\"day\":0,\"room\":\"\",\"slug\":\"\"" +
+                ",\"url\":\"\",\"speakers\":\"\",\"track\":\"\",\"type\":\"\",\"lang\":\"\"" +
+                ",\"abstract\":\"\",\"description\":\"\",\"links\":\"\"," +
+                "\"starts_at\":\"1970-01-01T00:00:00Z\"}," +
+                "{\"lecture_id\":\"session2\",\"title\":\"\",\"subtitle\":\"\",\"day\":0," +
+                "\"room\":\"\",\"slug\":\"\",\"url\":\"\",\"speakers\":\"\",\"track\":\"\"," +
+                "\"type\":\"\",\"lang\":\"\",\"abstract\":\"\",\"description\":\"\"," +
+                "\"links\":\"\",\"starts_at\":\"1970-01-01T00:00:00Z\"}," +
+                "{\"lecture_id\":\"session3\",\"title\":\"\",\"subtitle\":\"\",\"day\":0," +
+                "\"room\":\"\",\"slug\":\"\",\"url\":\"\",\"speakers\":\"\",\"track\":\"\"," +
+                "\"type\":\"\",\"lang\":\"\",\"abstract\":\"\",\"description\":\"\",\"links\":\"\"," +
+                "\"starts_at\":\"1970-01-01T00:00:00Z\"}]}"
 
     }
 
