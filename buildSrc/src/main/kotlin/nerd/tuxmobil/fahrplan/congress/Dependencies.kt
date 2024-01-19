@@ -70,7 +70,7 @@ object Libs {
         const val lifecycle = "2.6.2"
         const val markwon = "4.6.2"
         const val material = "1.9.0"
-        const val mockito = "5.8.0"
+        const val mockito = "5.9.0"
         const val mockitoKotlin = "5.2.1"
         const val moshi = "1.15.0"
         const val okhttp = "4.12.0"
