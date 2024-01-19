@@ -1,8 +1,10 @@
 # Usage example:
 # crowdin download -v -l es-ES -i PROJECT_ID -T API_TOKEN
+# crowdin upload translations -v -l es-ES -i PROJECT_ID -T API_TOKEN
 # https://crowdin.github.io/crowdin-cli/
 
 # Required by CLI
+# Language codes: https://developer.crowdin.com/language-codes/
 base_path: .
 preserve_hierarchy: true
 
@@ -18,11 +20,13 @@ files:
         fr: fr
         it: it
         ja: ja
+        lt: lt
         nl: nl
         pl: pl
         pt-PT: pt
         ru: ru
         sv-SE: sv
+        tr: tr
   - source: /app/src/main/res/values/strings.xml
     translation: /app/src/main/res/values-%android_code%/%original_file_name%
     skip_untranslated_strings: true
@@ -34,11 +38,13 @@ files:
         fr: fr
         it: it
         ja: ja
+        lt: lt
         nl: nl
         pl: pl
         pt-PT: pt
         ru: ru
         sv-SE: sv
+        tr: tr
 
 # GitHub integration
 pull_request_title: Update translations via Crowdin.

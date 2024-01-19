@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Menu items -->
+    <string name="menu_item_title_about">Bilgi</string>
+    <string name="menu_item_title_add_to_calendar">Takvime ekle</string>
+    <string name="menu_item_title_alarms">Alarmlar</string>
+    <string name="menu_item_title_close_session_details">Etkinlik detaylarını kapat</string>
+    <string name="menu_item_title_flag_as_favorite">Favorilere ekle</string>
+    <string name="menu_item_title_unflag_as_favorite">Favorilerden kaldır</string>
+    <string name="menu_item_title_delete_favorite">Sil</string>
+    <string name="menu_item_title_set_alarm">Alarm kur</string>
+    <string name="menu_item_title_delete_alarm">Alarmı Sil</string>
+    <string name="menu_item_title_delete_all">Tümünü sil</string>
+    <string name="menu_item_title_favorites">Favoriler</string>
+    <string name="menu_item_title_feedback">Geri Bildirim</string>
+    <string name="menu_item_title_navigate">Yönlendir</string>
+    <string name="menu_item_title_refresh">Yenile</string>
+    <string name="menu_item_title_share_session">Etkinliği paylaş</string>
+    <string name="menu_item_title_share_favorites">Favorileri paylaş</string>
+    <string name="menu_item_title_share_session_text">metin olarak</string>
+    <string name="menu_item_title_share_session_json">JSON olarak (Chaosflix için)</string>
+    <string name="share_as_text">Metin olarak paylaş</string>
+    <string name="share_as_json">JSON olarak paylaş (Chaosflix için)</string>
+    <!-- AlertDialog -->
+    <string name="OK">Tamam</string>
+    <!-- CertificateErrorFragment -->
+    <string name="certificate_error_message">        Güvenli bağlantı kurulamadı\n
+       (<xliff:g example="Unknown Error" id="error">%s</xliff:g>)
+    </string>
+    <string name="certificate_error_title">Sertifika eklenemedi.</string>
+    <!-- Error messages -->
+    <string name="dlg_err_connection_failed">Bağlantı hatası</string>
+    <string name="dlg_err_failed_unknown_host">Bilinmeyen adres:\n<xliff:g example="http://example.com" id="url">%s</xliff:g></string>
+    <string name="dlg_err_failed_wrong_http_credentials">Geçersiz HTTP Kimlik Doğrulaması</string>
+    <string name="dlg_err_failed_timeout">Sunucu yanıt vermiyor (Zaman aşımı).</string>
+    <string name="dlg_err_failed_connect_failure">Bilinmeyen bağlantı hatası</string>
+    <string name="dlg_err_failed_not_found">Geçersiz takvim URL\'si</string>
+    <string name="dlg_err_failed_parse_failure">Yanıt anlaşılamadı</string>
+    <string name="dlg_err_failed_ssl_failure">SSL hatası</string>
+    <string name="dlg_err_failed_http_cleartext_not_permitted">HTTP\'ye izin verilmiyor. Lütfen HTTPS kullanın.</string>
+    <string name="dlg_err_schedule_data">Takvim veri hatası</string>
+    <string name="dlg_err_schedule_data_empty">        Gösterilecek hiçbir şey yok. \"<xliff:g example="0.99" id="version">%s</xliff:g>\"  versiyonlu Takvim 
+        herhangi bir oturum içermiyor.
+    </string>
+    <string name="dlg_err_schedule_data_empty_without_version">        Gösterilecek hiçbir şey yok. Takvim herhangi bir oturum içermiyor.
+    </string>
+    <string name="uptodate">Takvim güncel.</string>
+    <!-- Schedule changes dialog -->
+    <string name="schedule_changes_dialog_title">Takvim güncellemesi</string>
+    <string name="schedule_changes_dialog_updated_to_text">Takvim \u0020 olarak güncellendi</string>
+    <string name="schedule_changes_dialog_changed_new_cancelled_text">. Şurada değişiklikler var, <xliff:g example="3 lectures" id="num_changes">%1$s</xliff:g>, <xliff:g example="2 are" id="num_new">%2$s</xliff:g> <xliff:g example="new" id="phrase_new">%3$s</xliff:g>, <xliff:g example="1 is" id="num_canceled">%4$s</xliff:g> <xliff:g example="cancelled" id="phrase_cancelled">%5$s</xliff:g>.</string>
+    <string name="schedule_changes_dialog_affected_text">Değişiklikler, tercih ettiğiniz <xliff:g example="2" id="num_marked">%1$d</xliff:g> dersleri etkiler.</string>
+    <!-- Build information -->
+    <!-- App disclaimer -->
+    <!-- SnackEngage -->
+    <!-- TraceDroid -->
+    <!-- Notifications -->
+    <!-- Schedule refresh interval picker -->
+    <!-- Alarm time picker -->
+    <!-- Session list item -->
+    <!-- Session item -->
+    <!-- Alarms -->
+    <!-- Validation errors -->
+</resources>
