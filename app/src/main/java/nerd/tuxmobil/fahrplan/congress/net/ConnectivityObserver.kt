@@ -9,6 +9,8 @@ import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.net.Network
 import android.os.Build
+import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.RECEIVER_NOT_EXPORTED
 import androidx.core.content.getSystemService
 
 /**
@@ -79,7 +81,12 @@ class ConnectivityObserver @JvmOverloads constructor(
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
             // Decouple from component lifecycle, use application context.
             // See: https://developer.android.com/reference/android/content/Context.html#getApplicationContext()
-            context.applicationContext.registerReceiver(broadCastReceiver, intentFilter)
+            ContextCompat.registerReceiver(
+                context.applicationContext,
+                broadCastReceiver,
+                intentFilter,
+                RECEIVER_NOT_EXPORTED
+            )
         } else {
             connectivityManager.registerDefaultNetworkCallback(networkCallback)
         }
