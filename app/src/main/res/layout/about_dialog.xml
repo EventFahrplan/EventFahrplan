@@ -78,7 +78,7 @@
         <TextView
             android:id="@+id/about_source_code_view"
             style="@style/AboutSection.Text"
-            tools:text="https://github.com/EventFahrplan/EventFahrplan" />
+            tools:text="@string/about_source_code" />
 
         <TextView
             android:id="@+id/about_issues_view"

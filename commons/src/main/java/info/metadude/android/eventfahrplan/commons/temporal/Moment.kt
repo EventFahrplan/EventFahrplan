@@ -18,7 +18,7 @@ import org.threeten.bp.temporal.ChronoUnit
  *
  * > Moment.now().toZonedDateTime(ZoneOffset.of("GMT+1"))
  */
-class Moment private constructor(private val time: Instant): Comparable<Moment> {
+class Moment private constructor(private val time: Instant) : Comparable<Moment> {
 
     val year: Int
         get() = time.atZone(ZoneOffset.UTC).year
@@ -43,10 +43,12 @@ class Moment private constructor(private val time: Instant): Comparable<Moment> 
      * Example: 2019-12-31 01:30 => 2019-12-31 00:00
      */
     fun startOfDay(): Moment {
-        return Moment(toUtcDateTime()
+        return Moment(
+            toUtcDateTime()
                 .toLocalDate()
                 .atStartOfDay()
-                .toInstant(ZoneOffset.UTC))
+                .toInstant(ZoneOffset.UTC)
+        )
     }
 
     /**
@@ -54,10 +56,12 @@ class Moment private constructor(private val time: Instant): Comparable<Moment> 
      * Example: 2019-12-31 01:30 => 2019-12-31 23:59:59.999
      */
     fun endOfDay(): Moment {
-        return Moment(toUtcDateTime()
+        return Moment(
+            toUtcDateTime()
                 .toLocalDate()
                 .atTime(LocalTime.MAX)
-                .toInstant(ZoneOffset.UTC))
+                .toInstant(ZoneOffset.UTC)
+        )
     }
 
     /**
@@ -164,7 +168,8 @@ class Moment private constructor(private val time: Instant): Comparable<Moment> 
         /**
          * 1 minute = 60,000 milliseconds
          */
-        const val MILLISECONDS_OF_ONE_MINUTE: Int = SECONDS_OF_ONE_MINUTE * MILLISECONDS_OF_ONE_SECOND
+        const val MILLISECONDS_OF_ONE_MINUTE: Int =
+            SECONDS_OF_ONE_MINUTE * MILLISECONDS_OF_ONE_SECOND
 
         /**
          * 1 hour = 3,600,000 milliseconds
@@ -200,7 +205,12 @@ class Moment private constructor(private val time: Instant): Comparable<Moment> 
          *
          * @param utcDate must be in ISO-8601 date format, i.e. "yyyy-MM-dd"
          */
-        fun parseDate(utcDate: String) = Moment(LocalDate.parse(utcDate).atStartOfDay().toInstant(ZoneOffset.UTC))
+        fun parseDate(utcDate: String) = Moment(
+            LocalDate
+                .parse(utcDate)
+                .atStartOfDay()
+                .toInstant(ZoneOffset.UTC)
+        )
 
         /**
          * Creates a time zone neutral [Moment] instance from this [ZonedDateTime].
