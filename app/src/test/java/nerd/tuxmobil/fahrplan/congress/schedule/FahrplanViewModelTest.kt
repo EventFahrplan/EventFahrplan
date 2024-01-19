@@ -62,7 +62,6 @@ class FahrplanViewModelTest {
         }
         verifyInvokedNever(repository).readMeta()
         verifyInvokedNever(repository).readDisplayDayIndex()
-        verifyInvokedNever(repository).readDateInfos()
     }
 
     @Test
@@ -83,7 +82,6 @@ class FahrplanViewModelTest {
         }
         verifyInvokedOnce(repository).readMeta()
         verifyInvokedNever(repository).readDisplayDayIndex()
-        verifyInvokedNever(repository).readDateInfos()
     }
 
     @Test
@@ -102,13 +100,13 @@ class FahrplanViewModelTest {
         }
         verifyInvokedOnce(repository).readMeta()
         verifyInvokedNever(repository).readDisplayDayIndex()
-        verifyInvokedNever(repository).readDateInfos()
     }
 
     @Test
     fun `fahrplanParameter property emits FahrplanParameter`() = runTest {
         val repository = createRepository(
             uncanceledSessionsForDayIndexFlow = flowOf(createScheduleData("session-01")),
+            sessionsWithoutShiftsFlow = flowOf(listOf(Session("not relevant"))),
             meta = Meta(numDays = 1),
             displayDayIndex = 2
         )
@@ -119,7 +117,7 @@ class FahrplanViewModelTest {
             useDeviceTimeZone = false,
             numDays = 1,
             dayIndex = 2,
-            dayMenuEntries = null
+            dayMenuEntries = emptyList()
         )
         viewModel.fahrplanParameter.test {
             assertThat(awaitItem()).isEqualTo(expected)
@@ -131,13 +129,13 @@ class FahrplanViewModelTest {
         verifyInvokedNever(menuEntriesGenerator).getDayMenuEntries(any(), anyOrNull(), any())
         verifyInvokedOnce(repository).readDisplayDayIndex()
         verifyInvokedOnce(repository).readMeta()
-        verifyInvokedOnce(repository).readDateInfos()
     }
 
     @Test
     fun `fahrplanParameter property emits FahrplanParameter containing session with alarm flag`() = runTest {
         val repository = createRepository(
             uncanceledSessionsForDayIndexFlow = flowOf(createScheduleData("session-01")),
+            sessionsWithoutShiftsFlow = flowOf(listOf(Session("not relevant"))),
             meta = Meta(numDays = 1),
             alarmsFlow = flowOf(listOf(createAlarm("session-01"))),
             displayDayIndex = 2
@@ -149,7 +147,7 @@ class FahrplanViewModelTest {
             useDeviceTimeZone = false,
             numDays = 1,
             dayIndex = 2,
-            dayMenuEntries = null
+            dayMenuEntries = emptyList()
         )
         viewModel.fahrplanParameter.test {
             val actual = awaitItem()
@@ -164,13 +162,13 @@ class FahrplanViewModelTest {
         verifyInvokedNever(menuEntriesGenerator).getDayMenuEntries(any(), anyOrNull(), any())
         verifyInvokedOnce(repository).readDisplayDayIndex()
         verifyInvokedOnce(repository).readMeta()
-        verifyInvokedOnce(repository).readDateInfos()
     }
 
     @Test
     fun `fahrplanParameter property emits and generates navigation menu entries`() = runTest {
         val repository = createRepository(
             uncanceledSessionsForDayIndexFlow = flowOf(createScheduleData("session-01")),
+            sessionsWithoutShiftsFlow = flowOf(listOf(Session("not relevant"))),
             meta = Meta(numDays = 2),
             displayDayIndex = 0
         )
@@ -195,7 +193,6 @@ class FahrplanViewModelTest {
         verifyInvokedOnce(menuEntriesGenerator).getDayMenuEntries(any(), anyOrNull(), any())
         verifyInvokedOnce(repository).readDisplayDayIndex()
         verifyInvokedOnce(repository).readMeta()
-        verifyInvokedOnce(repository).readDateInfos()
     }
 
     @Test
@@ -402,7 +399,6 @@ class FahrplanViewModelTest {
         val nowMoment = Moment.now().startOfDay() // depends DateInfos.getIndexOfToday
         val repository = createRepository(
             loadUncanceledSessionsForDayIndex = scheduleData,
-            dateInfos = DateInfos().apply { add(DateInfo(3, nowMoment)) }
         )
         val viewModel = createViewModel(repository)
         viewModel.scrollToCurrentSession()
@@ -418,10 +414,8 @@ class FahrplanViewModelTest {
     @Test
     fun `scrollToCurrentSession never posts to scrollToCurrentSessionParameter property when day indices mismatch`() = runTest {
         val scheduleData = createScheduleData(Session("session-21"), dayIndex = 2)
-        val nowMoment = Moment.now().startOfDay() // depends DateInfos.getIndexOfToday
         val repository = createRepository(
             loadUncanceledSessionsForDayIndex = scheduleData,
-            dateInfos = DateInfos().apply { add(DateInfo(3, nowMoment)) }
         )
         val viewModel = createViewModel(repository)
         viewModel.scrollToCurrentSession()
@@ -466,22 +460,22 @@ class FahrplanViewModelTest {
 
     private fun createRepository(
         uncanceledSessionsForDayIndexFlow: Flow<ScheduleData> = emptyFlow(),
+        sessionsWithoutShiftsFlow: Flow<List<Session>> = emptyFlow(),
         loadUncanceledSessionsForDayIndex: ScheduleData = mock(),
         alarmsFlow: Flow<List<Alarm>> = flowOf(emptyList()),
         meta: Meta = Meta(numDays = 0, version = "test-version"),
         isAutoUpdateEnabled: Boolean = true,
         displayDayIndex: Int = 0,
         earliestSession: Session = Session(""),
-        dateInfos: DateInfos = DateInfos()
     ) = mock<AppRepository> {
         on { uncanceledSessionsForDayIndex } doReturn uncanceledSessionsForDayIndexFlow
+        on { sessionsWithoutShifts } doReturn sessionsWithoutShiftsFlow
         on { loadUncanceledSessionsForDayIndex() } doReturn loadUncanceledSessionsForDayIndex
         on { alarms } doReturn alarmsFlow
         on { readMeta() } doReturn meta
         on { readAutoUpdateEnabled() } doReturn isAutoUpdateEnabled
         on { readDisplayDayIndex() } doReturn displayDayIndex
         on { loadEarliestSession() } doReturn earliestSession
-        on { readDateInfos() } doReturn dateInfos
     }
 
     private fun createScheduleData(sessionId: String? = null, hasAlarm: Boolean = false): ScheduleData {

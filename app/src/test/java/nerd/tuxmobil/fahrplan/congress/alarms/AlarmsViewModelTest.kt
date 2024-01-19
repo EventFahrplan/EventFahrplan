@@ -219,6 +219,7 @@ class AlarmsViewModelTest {
     ) = mock<AppRepository> {
         on { alarms } doReturn flowOf(alarmsList)
         on { sessions } doReturn sessionsFlow
+        on { sessionsWithoutShifts } doReturn emptyFlow()
         on { readAlarms(any()) } doReturn alarmsList
         on { readUseDeviceTimeZoneEnabled() } doReturn true
         on { deleteAlarmForSessionId(any()) } doReturn 0

@@ -186,7 +186,7 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
     private fun observeViewModel() {
         viewModel.fahrplanParameter
             .observe(this) { (scheduleData, useDeviceTimeZone, numDays, dayIndex, menuEntries) ->
-                menuEntries?.let { buildNavigationMenu(it, numDays) }
+                buildNavigationMenu(menuEntries, numDays)
                 viewModel.fillTimes(Moment.now(), getNormalizedBoxHeight())
                 viewDay(scheduleData, useDeviceTimeZone, numDays, dayIndex)
             }
@@ -429,7 +429,12 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
         onSessionClickListener?.onSessionClick(session.sessionId)
     }
 
-    private fun buildNavigationMenu(dayMenuEntries: List<String?>, numDays: Int) {
+    /**
+     * Builds the navigation menu for switching between days.
+     * The [dayMenuEntries] can be passed both as an empty list or a list with entries.
+     * The empty list is important for [updateNavigationMenuSelection] to work correctly.
+     */
+    private fun buildNavigationMenu(dayMenuEntries: List<String>, numDays: Int) {
         val actionBar = (requireActivity() as AppCompatActivity).supportActionBar
         actionBar!!.navigationMode = NAVIGATION_MODE_LIST
         val arrayAdapter = ArrayAdapter(
