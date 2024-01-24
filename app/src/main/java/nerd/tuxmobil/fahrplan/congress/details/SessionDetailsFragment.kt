@@ -82,7 +82,7 @@ class SessionDetailsFragment : Fragment() {
         }
 
     }
-    private lateinit var permissionRequestLauncher: ActivityResultLauncher<String>
+    private lateinit var postNotificationsPermissionRequestLauncher: ActivityResultLauncher<String>
     private lateinit var appRepository: AppRepository
     private lateinit var alarmServices: AlarmServices
     private lateinit var notificationHelper: NotificationHelper
@@ -132,7 +132,7 @@ class SessionDetailsFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        permissionRequestLauncher = registerForActivityResult(RequestPermission()) { isGranted ->
+        postNotificationsPermissionRequestLauncher = registerForActivityResult(RequestPermission()) { isGranted ->
             if (isGranted) {
                 viewModel.setAlarm()
             } else {
@@ -212,7 +212,7 @@ class SessionDetailsFragment : Fragment() {
             }
         }
         viewModel.requestPostNotificationsPermission.observe(viewLifecycleOwner) {
-            permissionRequestLauncher.launch(POST_NOTIFICATIONS)
+            postNotificationsPermissionRequestLauncher.launch(POST_NOTIFICATIONS)
         }
         viewModel.notificationsDisabled.observe(viewLifecycleOwner) {
             showNotificationsDisabledError()

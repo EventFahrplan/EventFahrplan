@@ -94,7 +94,7 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
 
     }
 
-    private lateinit var permissionRequestLauncher: ActivityResultLauncher<String>
+    private lateinit var postNotificationsPermissionRequestLauncher: ActivityResultLauncher<String>
     private lateinit var inflater: LayoutInflater
     private lateinit var sessionViewDrawer: SessionViewDrawer
     private lateinit var errorMessageFactory: ErrorMessage.Factory
@@ -140,7 +140,7 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        permissionRequestLauncher = registerForActivityResult(RequestPermission()) { isGranted ->
+        postNotificationsPermissionRequestLauncher = registerForActivityResult(RequestPermission()) { isGranted ->
             if (isGranted) {
                 showAlarmTimePicker()
             } else {
@@ -214,7 +214,7 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
             scrollTo(sessionId, verticalPosition, roomIndex)
         }
         viewModel.requestPostNotificationsPermission.observe(viewLifecycleOwner) {
-            permissionRequestLauncher.launch(POST_NOTIFICATIONS)
+            postNotificationsPermissionRequestLauncher.launch(POST_NOTIFICATIONS)
         }
         viewModel.notificationsDisabled.observe(viewLifecycleOwner) {
             showNotificationsDisabledError()
