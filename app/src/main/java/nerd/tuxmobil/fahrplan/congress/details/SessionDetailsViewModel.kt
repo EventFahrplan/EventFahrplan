@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices
+import nerd.tuxmobil.fahrplan.congress.alarms.SessionAlarmViewModelDelegate
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toRoom
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.navigation.IndoorNavigation
@@ -34,8 +35,8 @@ internal class SessionDetailsViewModel(
 
     private val repository: AppRepository,
     private val executionContext: ExecutionContext,
-    private val alarmServices: AlarmServices,
-    private val notificationHelper: NotificationHelper,
+    alarmServices: AlarmServices,
+    notificationHelper: NotificationHelper,
     private val sessionFormatter: SessionFormatter,
     private val simpleSessionFormat: SimpleSessionFormat,
     private val jsonSessionFormat: JsonSessionFormat,
@@ -46,7 +47,7 @@ internal class SessionDetailsViewModel(
     private val formattingDelegate: FormattingDelegate = DateFormattingDelegate(),
     private val defaultEngelsystemRoomName: String,
     private val customEngelsystemRoomName: String,
-    private val runsAtLeastOnAndroidTiramisu: Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
+    runsAtLeastOnAndroidTiramisu: Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
 
 ) : ViewModel() {
 
@@ -74,6 +75,14 @@ internal class SessionDetailsViewModel(
 
     }
 
+    private var sessionAlarmViewModelDelegate: SessionAlarmViewModelDelegate =
+        SessionAlarmViewModelDelegate(
+            viewModelScope,
+            notificationHelper,
+            alarmServices,
+            runsAtLeastOnAndroidTiramisu,
+        )
+
     val abstractFont = Font.Roboto.Bold
     val descriptionFont = Font.Roboto.Regular
     val linksFont = Font.Roboto.Regular
@@ -99,17 +108,19 @@ internal class SessionDetailsViewModel(
     val shareJson = mutableShareJson.receiveAsFlow()
     private val mutableAddToCalendar = Channel<Session>()
     val addToCalendar = mutableAddToCalendar.receiveAsFlow()
-    private val mutableShowAlarmTimePicker = Channel<Unit>()
-    val showAlarmTimePicker = mutableShowAlarmTimePicker.receiveAsFlow()
     private val mutableNavigateToRoom = Channel<Uri>()
     val navigateToRoom = mutableNavigateToRoom.receiveAsFlow()
     private val mutableCloseDetails = Channel<Unit>()
     val closeDetails = mutableCloseDetails.receiveAsFlow()
-    private val mutableRequestPostNotificationsPermission = Channel<Unit>()
-    val requestPostNotificationsPermission =
-        mutableRequestPostNotificationsPermission.receiveAsFlow()
-    private val mutableNotificationsDisabled = Channel<Unit>()
-    val notificationsDisabled = mutableNotificationsDisabled.receiveAsFlow()
+
+    val requestPostNotificationsPermission = sessionAlarmViewModelDelegate
+        .requestPostNotificationsPermission
+
+    val notificationsDisabled = sessionAlarmViewModelDelegate
+        .notificationsDisabled
+
+    val showAlarmTimePicker = sessionAlarmViewModelDelegate
+        .showAlarmTimePicker
 
     private fun SelectedSessionParameter.customizeEngelsystemRoomName() = copy(
         roomName = if (roomName == defaultEngelsystemRoomName) customEngelsystemRoomName else roomName
@@ -207,27 +218,18 @@ internal class SessionDetailsViewModel(
     }
 
     fun addAlarmWithChecks() {
-        if (notificationHelper.notificationsEnabled) {
-            mutableShowAlarmTimePicker.sendOneTimeEvent(Unit)
-        } else {
-            // Check runtime version here because requesting the POST_NOTIFICATION permission
-            // before Android 13 (Tiramisu) has no effect nor error message.
-            when (runsAtLeastOnAndroidTiramisu) {
-                true -> mutableRequestPostNotificationsPermission.sendOneTimeEvent(Unit)
-                false -> mutableNotificationsDisabled.sendOneTimeEvent(Unit)
-            }
-        }
+        sessionAlarmViewModelDelegate.addAlarmWithChecks()
     }
 
     fun addAlarm(alarmTimesIndex: Int) {
         loadSelectedSession { session ->
-            alarmServices.addSessionAlarm(session, alarmTimesIndex)
+            sessionAlarmViewModelDelegate.addAlarm(session, alarmTimesIndex)
         }
     }
 
     fun deleteAlarm() {
         loadSelectedSession { session ->
-            alarmServices.deleteSessionAlarm(session)
+            sessionAlarmViewModelDelegate.deleteAlarm(session)
         }
     }
 
