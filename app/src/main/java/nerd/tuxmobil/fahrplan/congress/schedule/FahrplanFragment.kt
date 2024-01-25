@@ -142,7 +142,7 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
 
         postNotificationsPermissionRequestLauncher = registerForActivityResult(RequestPermission()) { isGranted ->
             if (isGranted) {
-                showAlarmTimePicker()
+                viewModel.addAlarmWithChecks()
             } else {
                 showMissingPostNotificationsPermissionError()
             }
