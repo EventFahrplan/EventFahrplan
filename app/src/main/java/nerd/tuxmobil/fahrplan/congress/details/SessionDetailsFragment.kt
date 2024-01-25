@@ -193,14 +193,7 @@ class SessionDetailsFragment : Fragment() {
             CalendarSharing(requireContext()).addToCalendar(session)
         }
         viewModel.showAlarmTimePicker.observe(viewLifecycleOwner) {
-            AlarmTimePickerFragment.show(this, SESSION_DETAILS_FRAGMENT_REQUEST_KEY) { requestKey, result ->
-                if (requestKey == SESSION_DETAILS_FRAGMENT_REQUEST_KEY &&
-                    result.containsKey(AlarmTimePickerFragment.ALARM_TIMES_INDEX_BUNDLE_KEY)
-                ) {
-                    val alarmTimesIndex = result.getInt(AlarmTimePickerFragment.ALARM_TIMES_INDEX_BUNDLE_KEY)
-                    viewModel.addAlarm(alarmTimesIndex)
-                }
-            }
+            showAlarmTimePicker()
         }
         viewModel.navigateToRoom.observe(viewLifecycleOwner) { uri ->
             startActivity(Intent(Intent.ACTION_VIEW, uri))
@@ -357,6 +350,17 @@ class SessionDetailsFragment : Fragment() {
         this.setLinkTextColor(ContextCompat.getColor(context, R.color.text_link_on_light))
         this.movementMethod = LinkMovementMethodCompat.getInstance()
         this.isVisible = true
+    }
+
+    private fun showAlarmTimePicker() {
+        AlarmTimePickerFragment.show(this, SESSION_DETAILS_FRAGMENT_REQUEST_KEY) { requestKey, result ->
+            if (requestKey == SESSION_DETAILS_FRAGMENT_REQUEST_KEY &&
+                result.containsKey(AlarmTimePickerFragment.ALARM_TIMES_INDEX_BUNDLE_KEY)
+            ) {
+                val alarmTimesIndex = result.getInt(AlarmTimePickerFragment.ALARM_TIMES_INDEX_BUNDLE_KEY)
+                viewModel.addAlarm(alarmTimesIndex)
+            }
+        }
     }
 
     private fun showMissingPostNotificationsPermissionError() {
