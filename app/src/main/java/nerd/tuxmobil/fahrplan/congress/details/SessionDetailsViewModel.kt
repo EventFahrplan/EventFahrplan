@@ -99,8 +99,8 @@ internal class SessionDetailsViewModel(
     val shareJson = mutableShareJson.receiveAsFlow()
     private val mutableAddToCalendar = Channel<Session>()
     val addToCalendar = mutableAddToCalendar.receiveAsFlow()
-    private val mutableSetAlarm = Channel<Unit>()
-    val setAlarm = mutableSetAlarm.receiveAsFlow()
+    private val mutableShowAlarmTimePicker = Channel<Unit>()
+    val showAlarmTimePicker = mutableShowAlarmTimePicker.receiveAsFlow()
     private val mutableNavigateToRoom = Channel<Uri>()
     val navigateToRoom = mutableNavigateToRoom.receiveAsFlow()
     private val mutableCloseDetails = Channel<Unit>()
@@ -206,9 +206,9 @@ internal class SessionDetailsViewModel(
         }
     }
 
-    fun setAlarm() {
+    fun addAlarmWithChecks() {
         if (notificationHelper.notificationsEnabled) {
-            mutableSetAlarm.sendOneTimeEvent(Unit)
+            mutableShowAlarmTimePicker.sendOneTimeEvent(Unit)
         } else {
             // Check runtime version here because requesting the POST_NOTIFICATION permission
             // before Android 13 (Tiramisu) has no effect nor error message.

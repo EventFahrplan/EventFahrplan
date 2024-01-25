@@ -97,7 +97,7 @@ internal class FahrplanViewModel(
         updateUncanceledSessions()
     }
 
-    fun showAlarmTimePickerWithChecks() {
+    fun addAlarmWithChecks() {
         if (notificationHelper.notificationsEnabled) {
             mutableShowAlarmTimePicker.sendOneTimeEvent(Unit)
         } else {

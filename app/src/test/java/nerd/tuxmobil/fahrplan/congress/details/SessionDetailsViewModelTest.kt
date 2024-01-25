@@ -305,20 +305,20 @@ class SessionDetailsViewModelTest {
     }
 
     @Test
-    fun `setAlarm() posts to setAlarm`() = runTest {
+    fun `addAlarmWithChecks() posts to showAlarmTimePicker`() = runTest {
         val notificationHelper = mock<NotificationHelper> {
             on { notificationsEnabled } doReturn true
         }
         val repository = createRepository()
         val viewModel = createViewModel(repository, notificationHelper = notificationHelper)
-        viewModel.setAlarm()
-        viewModel.setAlarm.test {
+        viewModel.addAlarmWithChecks()
+        viewModel.showAlarmTimePicker.test {
             assertThat(awaitItem()).isEqualTo(Unit)
         }
     }
 
     @Test
-    fun `setAlarm() posts to requestPostNotificationsPermission as of Android 13`() = runTest {
+    fun `addAlarmWithChecks() posts to requestPostNotificationsPermission as of Android 13`() = runTest {
         val notificationHelper = mock<NotificationHelper> {
             on { notificationsEnabled } doReturn false
         }
@@ -328,14 +328,14 @@ class SessionDetailsViewModelTest {
             notificationHelper = notificationHelper,
             runsAtLeastOnAndroidTiramisu = true
         )
-        viewModel.setAlarm()
+        viewModel.addAlarmWithChecks()
         viewModel.requestPostNotificationsPermission.test {
             assertThat(awaitItem()).isEqualTo(Unit)
         }
     }
 
     @Test
-    fun `setAlarm() posts to notificationsDisabled before Android 13`() = runTest {
+    fun `addAlarmWithChecks() posts to notificationsDisabled before Android 13`() = runTest {
         val notificationHelper = mock<NotificationHelper> {
             on { notificationsEnabled } doReturn false
         }
@@ -345,7 +345,7 @@ class SessionDetailsViewModelTest {
             notificationHelper = notificationHelper,
             runsAtLeastOnAndroidTiramisu = false
         )
-        viewModel.setAlarm()
+        viewModel.addAlarmWithChecks()
         viewModel.notificationsDisabled.test {
             assertThat(awaitItem()).isEqualTo(Unit)
         }

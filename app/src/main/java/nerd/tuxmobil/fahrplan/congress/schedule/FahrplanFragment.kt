@@ -481,7 +481,7 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
                 updateMenuItems()
             }
             CONTEXT_MENU_ITEM_ID_SET_ALARM -> {
-                viewModel.showAlarmTimePickerWithChecks()
+                viewModel.addAlarmWithChecks()
             }
             CONTEXT_MENU_ITEM_ID_DELETE_ALARM -> {
                 viewModel.deleteAlarm(session)

@@ -108,7 +108,7 @@ class SessionDetailsFragment : Fragment() {
         R.id.menu_item_add_to_calendar to { addToCalendar() },
         R.id.menu_item_flag_as_favorite to { favorSession() },
         R.id.menu_item_unflag_as_favorite to { unfavorSession() },
-        R.id.menu_item_set_alarm to { setAlarm() },
+        R.id.menu_item_set_alarm to { addAlarmWithChecks() },
         R.id.menu_item_delete_alarm to { deleteAlarm() },
         R.id.menu_item_close_session_details to { closeDetails() },
         R.id.menu_item_navigate to { navigateToRoom() },
@@ -134,7 +134,7 @@ class SessionDetailsFragment : Fragment() {
 
         postNotificationsPermissionRequestLauncher = registerForActivityResult(RequestPermission()) { isGranted ->
             if (isGranted) {
-                viewModel.setAlarm()
+                viewModel.addAlarmWithChecks()
             } else {
                 showMissingPostNotificationsPermissionError()
             }
@@ -192,7 +192,7 @@ class SessionDetailsFragment : Fragment() {
         viewModel.addToCalendar.observe(viewLifecycleOwner) { session ->
             CalendarSharing(requireContext()).addToCalendar(session)
         }
-        viewModel.setAlarm.observe(viewLifecycleOwner) {
+        viewModel.showAlarmTimePicker.observe(viewLifecycleOwner) {
             AlarmTimePickerFragment.show(this, SESSION_DETAILS_FRAGMENT_REQUEST_KEY) { requestKey, result ->
                 if (requestKey == SESSION_DETAILS_FRAGMENT_REQUEST_KEY &&
                     result.containsKey(AlarmTimePickerFragment.ALARM_TIMES_INDEX_BUNDLE_KEY)
