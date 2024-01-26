@@ -203,6 +203,7 @@
     <string name="alarm_time_title_60_minutes_before">60 Minuten vorher</string>
 
     <string name="alarms_disabled_notifications_permission_missing">Alarme sind deaktiviert. Bitte erteile die \"Benachrichtigungen\" Berechtigung.</string>
+    <string name="alarms_disabled_notifications_are_disabled">Alarme sind deaktiviert. Bitte aktiviere Benachrichtigungen.</string>
 
     <!-- Session list item -->
     <string name="session_list_item_duration_text"><xliff:g example="45" id="duration">%d</xliff:g> min.</string>
