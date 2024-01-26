@@ -32,9 +32,19 @@ internal class SessionAlarmViewModelDelegate(
     val notificationsDisabled = mutableNotificationsDisabled
         .receiveAsFlow()
 
+    private val mutableRequestScheduleExactAlarmsPermission = Channel<Unit>()
+    val requestScheduleExactAlarmsPermission = mutableRequestScheduleExactAlarmsPermission
+        .receiveAsFlow()
+
+    fun canAddAlarms() = alarmServices.canScheduleExactAlarms
+
     fun addAlarmWithChecks() {
         if (notificationHelper.notificationsEnabled) {
-            mutableShowAlarmTimePicker.sendOneTimeEvent(Unit)
+            if (alarmServices.canScheduleExactAlarms) {
+                mutableShowAlarmTimePicker.sendOneTimeEvent(Unit)
+            } else {
+                mutableRequestScheduleExactAlarmsPermission.sendOneTimeEvent(Unit)
+            }
         } else {
             // Check runtime version here because requesting the POST_NOTIFICATION permission
             // before Android 13 (Tiramisu) has no effect nor error message.

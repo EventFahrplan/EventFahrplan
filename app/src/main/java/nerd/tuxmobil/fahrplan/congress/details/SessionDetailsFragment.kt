@@ -3,10 +3,12 @@ package nerd.tuxmobil.fahrplan.congress.details
 import android.Manifest.permission.POST_NOTIFICATIONS
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.Activity.RESULT_OK
 import android.content.Context
 import android.content.Intent
 import android.graphics.Typeface
 import android.os.Bundle
+import android.provider.Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -17,11 +19,13 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
+import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.annotation.CallSuper
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import androidx.annotation.MainThread
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -83,6 +87,7 @@ class SessionDetailsFragment : Fragment() {
 
     }
     private lateinit var postNotificationsPermissionRequestLauncher: ActivityResultLauncher<String>
+    private lateinit var scheduleExactAlarmsPermissionRequestLauncher: ActivityResultLauncher<Intent>
     private lateinit var appRepository: AppRepository
     private lateinit var alarmServices: AlarmServices
     private lateinit var notificationHelper: NotificationHelper
@@ -139,6 +144,24 @@ class SessionDetailsFragment : Fragment() {
                 showMissingPostNotificationsPermissionError()
             }
         }
+
+        scheduleExactAlarmsPermissionRequestLauncher =
+            registerForActivityResult(StartActivityForResult()) { result ->
+                if (result.resultCode == RESULT_OK) {
+                    // User granted the permission earlier.
+                    viewModel.addAlarmWithChecks()
+                } else {
+                    // User granted the permission for the first time.
+                    // Screen is resumed with RESULT_CANCELED, no indication
+                    // of whether the permission was granted or not.
+                    // Hence the following ugly view model bypass.
+                    if (viewModel.canAddAlarms()) {
+                        viewModel.addAlarmWithChecks()
+                    } else {
+                        showMissingScheduleExactAlarmsPermissionError()
+                    }
+                }
+            }
 
         setHasOptionsMenu(true)
     }
@@ -209,6 +232,11 @@ class SessionDetailsFragment : Fragment() {
         }
         viewModel.notificationsDisabled.observe(viewLifecycleOwner) {
             showNotificationsDisabledError()
+        }
+        viewModel.requestScheduleExactAlarmsPermission.observe(viewLifecycleOwner) {
+            val intent = Intent(ACTION_REQUEST_SCHEDULE_EXACT_ALARM)
+                .setData("package:${BuildConfig.APPLICATION_ID}".toUri())
+            scheduleExactAlarmsPermissionRequestLauncher.launch(intent)
         }
     }
 
@@ -369,6 +397,10 @@ class SessionDetailsFragment : Fragment() {
 
     private fun showNotificationsDisabledError() {
         Toast.makeText(requireContext(), R.string.alarms_disabled_notifications_are_disabled, Toast.LENGTH_LONG).show()
+    }
+
+    private fun showMissingScheduleExactAlarmsPermissionError() {
+        Toast.makeText(requireContext(), R.string.alarms_disabled_schedule_exact_alarm_permission_missing, Toast.LENGTH_LONG).show()
     }
 
     private fun updateOptionsMenu() {

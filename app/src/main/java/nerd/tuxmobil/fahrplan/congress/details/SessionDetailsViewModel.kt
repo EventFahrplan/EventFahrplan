@@ -119,6 +119,9 @@ internal class SessionDetailsViewModel(
     val notificationsDisabled = sessionAlarmViewModelDelegate
         .notificationsDisabled
 
+    val requestScheduleExactAlarmsPermission = sessionAlarmViewModelDelegate
+        .requestScheduleExactAlarmsPermission
+
     val showAlarmTimePicker = sessionAlarmViewModelDelegate
         .showAlarmTimePicker
 
@@ -215,6 +218,10 @@ internal class SessionDetailsViewModel(
             }
             repository.updateHighlight(unfavoredSession)
         }
+    }
+
+    fun canAddAlarms(): Boolean {
+        return sessionAlarmViewModelDelegate.canAddAlarms()
     }
 
     fun addAlarmWithChecks() {

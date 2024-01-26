@@ -97,6 +97,9 @@ internal class FahrplanViewModel(
     val notificationsDisabled = sessionAlarmViewModelDelegate
         .notificationsDisabled
 
+    val requestScheduleExactAlarmsPermission = sessionAlarmViewModelDelegate
+        .requestScheduleExactAlarmsPermission
+
     val showAlarmTimePicker = sessionAlarmViewModelDelegate
         .showAlarmTimePicker
 
@@ -244,6 +247,10 @@ internal class FahrplanViewModel(
         launch {
             repository.updateHighlight(session)
         }
+    }
+
+    fun canAddAlarms(): Boolean {
+        return sessionAlarmViewModelDelegate.canAddAlarms()
     }
 
     fun addAlarmWithChecks() {

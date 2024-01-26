@@ -39,13 +39,39 @@ class SessionAlarmViewModelDelegateTest {
     }
 
     @Test
+    fun `canAddAlarms() invokes canScheduleExactAlarms property`() = runTest {
+        val alarmServices = mock<AlarmServices>()
+        val delegate = createDelegate(alarmServices = alarmServices)
+        delegate.canAddAlarms()
+        verifyInvokedOnce(alarmServices).canScheduleExactAlarms
+    }
+
+    @Test
     fun `addAlarmWithChecks() posts to showAlarmTimePicker`() = runTest {
         val notificationHelper = mock<NotificationHelper> {
             on { notificationsEnabled } doReturn true
         }
-        val delegate = createDelegate(notificationHelper)
+        val alarmServices = mock<AlarmServices> {
+            on { canScheduleExactAlarms } doReturn true
+        }
+        val delegate = createDelegate(notificationHelper, alarmServices)
         delegate.addAlarmWithChecks()
         delegate.showAlarmTimePicker.test {
+            assertThat(awaitItem()).isEqualTo(Unit)
+        }
+    }
+
+    @Test
+    fun `addAlarmWithChecks() posts to requestScheduleExactAlarmsPermission`() = runTest {
+        val notificationHelper = mock<NotificationHelper> {
+            on { notificationsEnabled } doReturn true
+        }
+        val alarmServices = mock<AlarmServices> {
+            on { canScheduleExactAlarms } doReturn false
+        }
+        val delegate = createDelegate(notificationHelper, alarmServices)
+        delegate.addAlarmWithChecks()
+        delegate.requestScheduleExactAlarmsPermission.test {
             assertThat(awaitItem()).isEqualTo(Unit)
         }
     }
