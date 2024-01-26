@@ -18,6 +18,11 @@ internal class NotificationHelper(context: Context) : ContextWrapper(context) {
         getNotificationManager()
     }
 
+    /**
+     * Returns `true` if notifications in general are enabled for the app.
+     * If individual channels are disabled, this method still returns `true`.
+     * Hence, firing an alarm for a disabled channel will not show a notification.
+     */
     val notificationsEnabled: Boolean
         get() = notificationManager.areNotificationsEnabled()
 
