@@ -315,6 +315,7 @@ class SessionDetailsViewModelTest {
         viewModel.showAlarmTimePicker.test {
             assertThat(awaitItem()).isEqualTo(Unit)
         }
+        verifyInvokedOnce(notificationHelper).notificationsEnabled
     }
 
     @Test
@@ -332,6 +333,7 @@ class SessionDetailsViewModelTest {
         viewModel.requestPostNotificationsPermission.test {
             assertThat(awaitItem()).isEqualTo(Unit)
         }
+        verifyInvokedOnce(notificationHelper).notificationsEnabled
     }
 
     @Test

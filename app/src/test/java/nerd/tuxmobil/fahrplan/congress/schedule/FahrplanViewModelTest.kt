@@ -267,6 +267,7 @@ class FahrplanViewModelTest {
         viewModel.showAlarmTimePicker.test {
             assertThat(awaitItem()).isEqualTo(Unit)
         }
+        verifyInvokedOnce(notificationHelper).notificationsEnabled
     }
 
     @Test
@@ -284,6 +285,7 @@ class FahrplanViewModelTest {
         viewModel.requestPostNotificationsPermission.test {
             assertThat(awaitItem()).isEqualTo(Unit)
         }
+        verifyInvokedOnce(notificationHelper).notificationsEnabled
     }
 
     @Test
