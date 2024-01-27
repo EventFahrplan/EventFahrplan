@@ -257,20 +257,62 @@ class FahrplanViewModelTest {
     }
 
     @Test
-    fun `showAlarmTimePickerWithChecks() posts to showAlarmTimePicker`() = runTest {
+    fun `canAddAlarms invokes canScheduleExactAlarms property`() {
+        val repository = createRepository()
+        val alarmServices = mock<AlarmServices>()
+        val viewModel = createViewModel(repository = repository, alarmServices = alarmServices)
+        viewModel.canAddAlarms()
+        verifyInvokedOnce(alarmServices).canScheduleExactAlarms
+    }
+
+    @Test
+    fun `addAlarmWithChecks() posts to showAlarmTimePicker`() = runTest {
         val notificationHelper = mock<NotificationHelper> {
             on { notificationsEnabled } doReturn true
         }
+        val alarmServices = mock<AlarmServices> {
+            on { canScheduleExactAlarms } doReturn true
+        }
         val repository = createRepository()
-        val viewModel = createViewModel(repository, notificationHelper = notificationHelper)
-        viewModel.showAlarmTimePickerWithChecks()
+        val viewModel = createViewModel(
+            repository = repository,
+            notificationHelper = notificationHelper,
+            alarmServices = alarmServices,
+            runsAtLeastOnAndroidTiramisu = true, // not relevant
+        )
+        viewModel.addAlarmWithChecks()
         viewModel.showAlarmTimePicker.test {
             assertThat(awaitItem()).isEqualTo(Unit)
         }
+        verifyInvokedOnce(notificationHelper).notificationsEnabled
+        verifyInvokedOnce(alarmServices).canScheduleExactAlarms
     }
 
     @Test
-    fun `showAlarmTimePickerWithChecks() posts to requestPostNotificationsPermission as of Android 13`() = runTest {
+    fun `addAlarmWithChecks() posts to requestScheduleExactAlarmsPermission`() = runTest {
+        val notificationHelper = mock<NotificationHelper> {
+            on { notificationsEnabled } doReturn true
+        }
+        val alarmServices = mock<AlarmServices> {
+            on { canScheduleExactAlarms } doReturn false
+        }
+        val repository = createRepository()
+        val viewModel = createViewModel(
+            repository = repository,
+            notificationHelper = notificationHelper,
+            alarmServices = alarmServices,
+            runsAtLeastOnAndroidTiramisu = true, // not relevant
+        )
+        viewModel.addAlarmWithChecks()
+        viewModel.requestScheduleExactAlarmsPermission.test {
+            assertThat(awaitItem()).isEqualTo(Unit)
+        }
+        verifyInvokedOnce(notificationHelper).notificationsEnabled
+        verifyInvokedOnce(alarmServices).canScheduleExactAlarms
+    }
+
+    @Test
+    fun `addAlarmWithChecks() posts to requestPostNotificationsPermission as of Android 13`() = runTest {
         val notificationHelper = mock<NotificationHelper> {
             on { notificationsEnabled } doReturn false
         }
@@ -278,16 +320,17 @@ class FahrplanViewModelTest {
         val viewModel = createViewModel(
             repository = repository,
             notificationHelper = notificationHelper,
-            runsAtLeastOnAndroidTiramisu = true
+            runsAtLeastOnAndroidTiramisu = true,
         )
-        viewModel.showAlarmTimePickerWithChecks()
+        viewModel.addAlarmWithChecks()
         viewModel.requestPostNotificationsPermission.test {
             assertThat(awaitItem()).isEqualTo(Unit)
         }
+        verifyInvokedOnce(notificationHelper).notificationsEnabled
     }
 
     @Test
-    fun `showAlarmTimePickerWithChecks() posts to notificationsDisabled before Android 13`() = runTest {
+    fun `addAlarmWithChecks() posts to notificationsDisabled before Android 13`() = runTest {
         val notificationHelper = mock<NotificationHelper> {
             on { notificationsEnabled } doReturn false
         }
@@ -295,9 +338,9 @@ class FahrplanViewModelTest {
         val viewModel = createViewModel(
             repository = repository,
             notificationHelper = notificationHelper,
-            runsAtLeastOnAndroidTiramisu = false
+            runsAtLeastOnAndroidTiramisu = false,
         )
-        viewModel.showAlarmTimePickerWithChecks()
+        viewModel.addAlarmWithChecks()
         viewModel.notificationsDisabled.test {
             assertThat(awaitItem()).isEqualTo(Unit)
         }

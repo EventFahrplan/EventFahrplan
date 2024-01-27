@@ -204,6 +204,7 @@
 
     <string name="alarms_disabled_notifications_permission_missing">Alarme sind deaktiviert. Bitte erteile die \"Benachrichtigungen\" Berechtigung.</string>
     <string name="alarms_disabled_notifications_are_disabled">Alarme sind deaktiviert. Bitte aktiviere Benachrichtigungen.</string>
+    <string name="alarms_disabled_schedule_exact_alarm_permission_missing">Alarme sind deaktiviert. Bitte \"Erlaube, Wecker &amp; Erinnerungen einzurichten\".</string>
 
     <!-- Session list item -->
     <string name="session_list_item_duration_text"><xliff:g example="45" id="duration">%d</xliff:g> min.</string>

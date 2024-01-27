@@ -235,6 +235,7 @@
 
     <string name="alarms_disabled_notifications_permission_missing">Alarms are disabled. Please grant the \"Notifications\" permission.</string>
     <string name="alarms_disabled_notifications_are_disabled">Alarms are disabled. Please enable notifications.</string>
+    <string name="alarms_disabled_schedule_exact_alarm_permission_missing">Alarms are disabled. Please \"Allow setting alarms &amp; reminders\".</string>
 
     <!-- Session list item -->
     <string name="session_list_item_duration_text"><xliff:g example="45" id="duration">%d</xliff:g> min.</string>
