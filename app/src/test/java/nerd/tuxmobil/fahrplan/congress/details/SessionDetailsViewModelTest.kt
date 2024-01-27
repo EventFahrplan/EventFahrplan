@@ -318,7 +318,7 @@ class SessionDetailsViewModelTest {
     }
 
     @Test
-    fun `setAlarm() posts to requestPostNotificationsPermission`() = runTest {
+    fun `setAlarm() posts to requestPostNotificationsPermission as of Android 13`() = runTest {
         val notificationHelper = mock<NotificationHelper> {
             on { notificationsEnabled } doReturn false
         }
@@ -335,7 +335,7 @@ class SessionDetailsViewModelTest {
     }
 
     @Test
-    fun `setAlarm() posts to missingPostNotificationsPermission`() = runTest {
+    fun `setAlarm() posts to notificationsDisabled before Android 13`() = runTest {
         val notificationHelper = mock<NotificationHelper> {
             on { notificationsEnabled } doReturn false
         }
@@ -346,7 +346,7 @@ class SessionDetailsViewModelTest {
             runsAtLeastOnAndroidTiramisu = false
         )
         viewModel.setAlarm()
-        viewModel.missingPostNotificationsPermission.test {
+        viewModel.notificationsDisabled.test {
             assertThat(awaitItem()).isEqualTo(Unit)
         }
     }

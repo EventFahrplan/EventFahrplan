@@ -270,7 +270,7 @@ class FahrplanViewModelTest {
     }
 
     @Test
-    fun `showAlarmTimePickerWithChecks() posts to requestPostNotificationsPermission`() = runTest {
+    fun `showAlarmTimePickerWithChecks() posts to requestPostNotificationsPermission as of Android 13`() = runTest {
         val notificationHelper = mock<NotificationHelper> {
             on { notificationsEnabled } doReturn false
         }
@@ -287,7 +287,7 @@ class FahrplanViewModelTest {
     }
 
     @Test
-    fun `showAlarmTimePickerWithChecks() posts to missingPostNotificationsPermission`() = runTest {
+    fun `showAlarmTimePickerWithChecks() posts to notificationsDisabled before Android 13`() = runTest {
         val notificationHelper = mock<NotificationHelper> {
             on { notificationsEnabled } doReturn false
         }
@@ -298,7 +298,7 @@ class FahrplanViewModelTest {
             runsAtLeastOnAndroidTiramisu = false
         )
         viewModel.showAlarmTimePickerWithChecks()
-        viewModel.missingPostNotificationsPermission.test {
+        viewModel.notificationsDisabled.test {
             assertThat(awaitItem()).isEqualTo(Unit)
         }
     }

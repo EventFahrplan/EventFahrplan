@@ -216,8 +216,8 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
         viewModel.requestPostNotificationsPermission.observe(viewLifecycleOwner) {
             permissionRequestLauncher.launch(POST_NOTIFICATIONS)
         }
-        viewModel.missingPostNotificationsPermission.observe(viewLifecycleOwner) {
-            showMissingPostNotificationsPermissionError()
+        viewModel.notificationsDisabled.observe(viewLifecycleOwner) {
+            showNotificationsDisabledError()
         }
         viewModel.showAlarmTimePicker.observe(viewLifecycleOwner) {
             showAlarmTimePicker()
@@ -551,6 +551,10 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
 
     private fun showMissingPostNotificationsPermissionError() {
         Toast.makeText(requireContext(), R.string.alarms_disabled_notifications_permission_missing, Toast.LENGTH_LONG).show()
+    }
+
+    private fun showNotificationsDisabledError() {
+        Toast.makeText(requireContext(), R.string.alarms_disabled_notifications_are_disabled, Toast.LENGTH_LONG).show()
     }
 
     private inner class OnDaySelectedListener(private val numDays: Int) : OnNavigationListener {

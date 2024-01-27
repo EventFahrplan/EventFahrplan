@@ -108,9 +108,8 @@ internal class SessionDetailsViewModel(
     private val mutableRequestPostNotificationsPermission = Channel<Unit>()
     val requestPostNotificationsPermission =
         mutableRequestPostNotificationsPermission.receiveAsFlow()
-    private val mutableMissingPostNotificationsPermission = Channel<Unit>()
-    val missingPostNotificationsPermission =
-        mutableMissingPostNotificationsPermission.receiveAsFlow()
+    private val mutableNotificationsDisabled = Channel<Unit>()
+    val notificationsDisabled = mutableNotificationsDisabled.receiveAsFlow()
 
     private fun SelectedSessionParameter.customizeEngelsystemRoomName() = copy(
         roomName = if (roomName == defaultEngelsystemRoomName) customEngelsystemRoomName else roomName
@@ -211,9 +210,11 @@ internal class SessionDetailsViewModel(
         if (notificationHelper.notificationsEnabled) {
             mutableSetAlarm.sendOneTimeEvent(Unit)
         } else {
+            // Check runtime version here because requesting the POST_NOTIFICATION permission
+            // before Android 13 (Tiramisu) has no effect nor error message.
             when (runsAtLeastOnAndroidTiramisu) {
                 true -> mutableRequestPostNotificationsPermission.sendOneTimeEvent(Unit)
-                false -> mutableMissingPostNotificationsPermission.sendOneTimeEvent(Unit)
+                false -> mutableNotificationsDisabled.sendOneTimeEvent(Unit)
             }
         }
     }
