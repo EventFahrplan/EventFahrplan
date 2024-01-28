@@ -3,7 +3,7 @@ package nerd.tuxmobil.fahrplan.congress.utils
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 class SessionUrlComposerTest {
 

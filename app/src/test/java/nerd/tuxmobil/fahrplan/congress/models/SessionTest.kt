@@ -3,7 +3,7 @@ package nerd.tuxmobil.fahrplan.congress.models
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MILLISECONDS_OF_ONE_MINUTE
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 private typealias SessionModification = Session.() -> Unit
 

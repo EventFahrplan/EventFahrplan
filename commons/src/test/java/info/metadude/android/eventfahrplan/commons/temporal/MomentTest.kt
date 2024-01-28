@@ -7,7 +7,7 @@ import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MIL
 import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MINUTES_OF_ONE_DAY
 import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.toMoment
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.Test
+import org.junit.jupiter.api.Test
 import org.threeten.bp.LocalDate
 import org.threeten.bp.ZoneOffset
 import org.threeten.bp.ZonedDateTime

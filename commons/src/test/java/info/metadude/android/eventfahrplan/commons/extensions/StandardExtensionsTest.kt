@@ -1,7 +1,7 @@
 package info.metadude.android.eventfahrplan.commons.extensions
 
 import com.google.common.truth.Truth.assertThat
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 class StandardExtensionsTest {
 

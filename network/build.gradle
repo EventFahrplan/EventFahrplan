@@ -32,7 +32,8 @@ dependencies {
     implementation Libs.annotation
     implementation Libs.okhttp
 
-    testImplementation Libs.junit
+    testImplementation Libs.junitJupiterApi
+    testRuntimeOnly Libs.junitJupiterEngine
     testImplementation(Libs.assertjAndroid) {
         exclude group: "com.android.support", module: "support-annotations"
     }

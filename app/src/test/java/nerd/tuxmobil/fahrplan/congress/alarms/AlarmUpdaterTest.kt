@@ -9,8 +9,8 @@ import nerd.tuxmobil.fahrplan.congress.preferences.SharedPreferencesRepository
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.utils.ConferenceTimeFrame
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
@@ -57,7 +57,7 @@ class AlarmUpdaterTest {
     private lateinit var alarmUpdater: AlarmUpdater
     private val mockListener = mock<OnAlarmUpdateListener>()
 
-    @Before
+    @BeforeEach
     fun setUp() {
         alarmUpdater = AlarmUpdater(conferenceTimeFrame, mockListener, testableAppRepository, NoLogging)
     }

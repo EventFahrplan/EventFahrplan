@@ -6,9 +6,9 @@ import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.schedule.Conference
-import org.junit.After
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import org.threeten.bp.ZoneOffset
 import java.util.Locale
 import java.util.TimeZone
@@ -22,13 +22,13 @@ class TimeTextViewParameterTest {
     private val systemTimezone = TimeZone.getDefault()
     private val systemLocale = Locale.getDefault()
 
-    @Before
+    @BeforeEach
     fun setUp() {
         Locale.setDefault(Locale("de", "DE"))
         TimeZone.setDefault(TimeZone.getTimeZone("GMT"))
     }
 
-    @After
+    @AfterEach
     fun resetSystemDefaults() {
         Locale.setDefault(systemLocale)
         TimeZone.setDefault(systemTimezone)

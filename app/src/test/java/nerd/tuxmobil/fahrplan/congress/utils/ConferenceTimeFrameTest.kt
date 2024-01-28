@@ -2,9 +2,9 @@ package nerd.tuxmobil.fahrplan.congress.utils
 
 import com.google.common.truth.Truth.assertThat
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
-import org.junit.Assert.fail
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.fail
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 class ConferenceTimeFrameTest {
 
@@ -18,7 +18,7 @@ class ConferenceTimeFrameTest {
 
     private lateinit var conference: ConferenceTimeFrame
 
-    @Before
+    @BeforeEach
     fun setUp() {
         conference = ConferenceTimeFrame(FIRST_DAY_START_TIME, LAST_DAY_END_TIME)
     }
