@@ -2,23 +2,13 @@ package nerd.tuxmobil.fahrplan.congress.schedule
 
 import com.google.common.truth.Truth.assertThat
 import nerd.tuxmobil.fahrplan.congress.R
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.MethodSource
 
 /**
  * Parameterized unit test for [HorizontalSnapScrollView.calculateDisplayColumnCount].
  */
-@RunWith(Parameterized::class)
-class HorizontalSnapScrollViewCalculateDisplayColumnCountTest(
-        private val availablePixels: Int,
-        private val totalColumnCount: Int,
-        private val maxColumnCountForLayout: Int,
-        private val densityScaleFactor: Float,
-        private val minColumnWidthDip: Int,
-        private val calculatedColumnCount: Int,
-        @Suppress("unused") private val testDescription: String
-) {
+class HorizontalSnapScrollViewCalculateDisplayColumnCountTest {
 
     companion object {
 
@@ -137,7 +127,6 @@ class HorizontalSnapScrollViewCalculateDisplayColumnCountTest(
         )
 
         @JvmStatic
-        @Parameterized.Parameters(name = "{index}: \"{6}\"")
         fun data() = listOf(
                 // Pixel 2 portrait (maxColumnCountForLayout=1)
                 pixel2Portrait(totalColumnCount = 1, calculatedColumnCount = 1),
@@ -201,8 +190,17 @@ class HorizontalSnapScrollViewCalculateDisplayColumnCountTest(
         )
     }
 
-    @Test
-    fun calculateDisplayColumnCount() {
+    @ParameterizedTest(name = """{index}: "{6}"""")
+    @MethodSource("data")
+    fun calculateDisplayColumnCount(
+        availablePixels: Int,
+        totalColumnCount: Int,
+        maxColumnCountForLayout: Int,
+        densityScaleFactor: Float,
+        minColumnWidthDip: Int,
+        calculatedColumnCount: Int,
+        @Suppress("UNUSED_PARAMETER") testDescription: String
+    ) {
         assertThat(HorizontalSnapScrollView.calculateDisplayColumnCount(
                 availablePixels,
                 totalColumnCount,

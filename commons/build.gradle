@@ -32,9 +32,9 @@ dependencies {
     api Libs.threeTenBp
 
     testImplementation project(":commons-testing")
-    testImplementation Libs.junit
     testImplementation Libs.junitJupiterApi
     testRuntimeOnly Libs.junitJupiterEngine
+    testImplementation Libs.junitJupiterParams
     testImplementation(Libs.assertjAndroid) {
         exclude group: "com.android.support", module: "support-annotations"
     }

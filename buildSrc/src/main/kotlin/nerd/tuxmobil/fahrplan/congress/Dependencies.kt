@@ -65,7 +65,6 @@ object Libs {
         const val coreTesting = "2.2.0"
         const val emailIntentBuilder = "2.0.0"
         const val engelsystem = "8.1.0"
-        const val junit = "4.13.2"
         const val junitJupiter = "5.10.2"
         const val kotlinCoroutines = "1.7.3"
         const val lifecycle = "2.6.2" // compileSdk 34 is required as of 2.7.0
@@ -96,9 +95,9 @@ object Libs {
     const val coreTesting = "androidx.arch.core:core-testing:${Versions.coreTesting}"
     const val emailIntentBuilder = "de.cketti.mailto:email-intent-builder:${Versions.emailIntentBuilder}"
     const val engelsystem = "info.metadude.kotlin.library.engelsystem:engelsystem-base:${Versions.engelsystem}"
-    const val junit = "junit:junit:${Versions.junit}"
     const val junitJupiterApi = "org.junit.jupiter:junit-jupiter-api:${Versions.junitJupiter}"
     const val junitJupiterEngine = "org.junit.jupiter:junit-jupiter-engine:${Versions.junitJupiter}"
+    const val junitJupiterParams = "org.junit.jupiter:junit-jupiter-params:${Versions.junitJupiter}"
     const val kotlinCoroutinesAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.kotlinCoroutines}"
     const val kotlinCoroutinesCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinCoroutines}"
     const val kotlinCoroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.kotlinCoroutines}"

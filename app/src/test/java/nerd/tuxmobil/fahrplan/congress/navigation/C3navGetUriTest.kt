@@ -4,10 +4,8 @@ import android.net.Uri
 import androidx.core.net.toUri
 import com.google.common.truth.Truth.assertThat
 import nerd.tuxmobil.fahrplan.congress.models.Room
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
-import org.junit.runners.Parameterized.Parameters
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.MethodSource
 import org.mockito.kotlin.anyOrNull
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
@@ -15,13 +13,7 @@ import org.mockito.kotlin.mock
 /**
  * Covers [C3nav.getUri].
  */
-@RunWith(Parameterized::class)
-class C3navGetUriTest(
-    private val baseUrl: String,
-    private val room: Room,
-    private val convertedName: String,
-    private val uri: Uri,
-) {
+class C3navGetUriTest {
 
     companion object {
 
@@ -33,7 +25,6 @@ class C3navGetUriTest(
             arrayOf(baseUrl, room, convertedName, uri)
 
         @JvmStatic
-        @Parameters(name = "{index}: baseUrl = \"{0}\", \"{1}\", convertedName = \"{2}\" -> isSupported = \"{3}\"")
         fun data() = listOf(
             scenarioOf(
                 VALID_BASE_URL,
@@ -69,8 +60,14 @@ class C3navGetUriTest(
 
     }
 
-    @Test
-    fun getUri() {
+    @ParameterizedTest(name = """{index}: baseUrl = "{0}", "{1}", convertedName = "{2}" -> isSupported = "{3}"""")
+    @MethodSource("data")
+    fun getUri(
+        baseUrl: String,
+        room: Room,
+        convertedName: String,
+        uri: Uri,
+    ) {
         val nameConverter = mock<RoomForC3NavConverter> {
             on { convert(anyOrNull()) } doReturn convertedName
         }

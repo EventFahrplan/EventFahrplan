@@ -3,9 +3,8 @@ package info.metadude.android.eventfahrplan.commons.temporal
 import com.google.common.truth.Truth.assertThat
 import info.metadude.android.eventfahrplan.commons.temporal.DateFormatterFormattedTime24HourTest.TestParameter.Companion.parse
 import info.metadude.android.eventfahrplan.commons.testing.withTimeZone
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.MethodSource
 import org.threeten.bp.ZoneOffset
 
 /**
@@ -19,25 +18,20 @@ import org.threeten.bp.ZoneOffset
  *
  * TODO: TechDebt: Once the app offers an option to render sessions in the device time zone this test must be adapted.
  */
-@RunWith(Parameterized::class)
-class DateFormatterFormattedTime24HourTest(
-
-    private val timeZoneId: String
-
-) {
+class DateFormatterFormattedTime24HourTest {
 
     companion object {
 
         private val timeZoneOffsets = -12..14
 
         @JvmStatic
-        @Parameterized.Parameters(name = "{index}: timeZoneId = {0}")
         fun data() = timeZoneOffsets.map { arrayOf("GMT$it") }
 
     }
 
-    @Test
-    fun `getFormattedTime24Hour 2021-03-27`() = testEach(listOf(
+    @ParameterizedTest(name = "{index}: timeZoneId = {0}")
+    @MethodSource("data")
+    fun `getFormattedTime24Hour 2021-03-27`(timeZoneId: String) = testEach(timeZoneId, listOf(
         "2021-03-27T00:01:00+01:00" to "00:01",
         "2021-03-27T01:00:00+01:00" to "01:00",
         "2021-03-27T02:00:00+01:00" to "02:00",
@@ -65,8 +59,9 @@ class DateFormatterFormattedTime24HourTest(
         "2021-03-27T23:59:00+01:00" to "23:59",
     ))
 
-    @Test
-    fun `getFormattedTime24Hour 2021-03-28`() = testEach(listOf(
+    @ParameterizedTest(name = "{index}: timeZoneId = {0}")
+    @MethodSource("data")
+    fun `getFormattedTime24Hour 2021-03-28`(timeZoneId: String) = testEach(timeZoneId, listOf(
         "2021-03-28T00:01:00+02:00" to "00:01",
         "2021-03-28T01:00:00+02:00" to "01:00",
         "2021-03-28T02:00:00+02:00" to "02:00", // TechDebt: Daylight saving time is ignored here.
@@ -94,7 +89,7 @@ class DateFormatterFormattedTime24HourTest(
         "2021-03-28T23:59:00+02:00" to "23:59",
     ))
 
-    private fun testEach(pairs: List<Pair<String, String>>) {
+    private fun testEach(timeZoneId: String, pairs: List<Pair<String, String>>) {
         pairs.forEach { (dateTime, expectedFormattedTime) ->
             val (moment, offset) = parse(dateTime)
             withTimeZone(timeZoneId) {
