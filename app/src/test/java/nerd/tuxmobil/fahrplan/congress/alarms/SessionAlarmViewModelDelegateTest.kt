@@ -2,25 +2,23 @@ package nerd.tuxmobil.fahrplan.congress.alarms
 
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
-import info.metadude.android.eventfahrplan.commons.testing.MainDispatcherTestRule
+import info.metadude.android.eventfahrplan.commons.testing.MainDispatcherTestExtension
 import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedOnce
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper
-import org.junit.Rule
-import org.junit.Test
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 
+@ExtendWith(MainDispatcherTestExtension::class)
 class SessionAlarmViewModelDelegateTest {
 
     private companion object {
         val SESSION = Session("session-23")
     }
-
-    @get:Rule
-    val mainDispatcherTestRule = MainDispatcherTestRule()
 
     @Test
     fun `addAlarm() invokes addSessionAlarm() function`() = runTest {
