@@ -53,6 +53,4 @@ jobs:
         if: always()
         with:
           files: |
-            build/test-results/**/*.xml
-            */build/test-results/**/*.xml
-            */build/outputs/androidTest-results/connected/*.xml
+            **/androidTest-results/**/*.xml
