@@ -22,7 +22,7 @@ jobs:
           script: ./gradlew testDebug :engelsystem:test testCcc37c3DebugUnitTest assembleCcc37c3Debug lintAnalyzeCcc37c3Debug
 
       - name: Publish unit-test results
-        uses: EnricoMi/publish-unit-test-result-action@v1
+        uses: EnricoMi/publish-unit-test-result-action@v2
         if: always()
         with:
           check_name: Test results (test)
@@ -50,7 +50,7 @@ jobs:
           script: ./gradlew :database:connectedAndroidTest
 
       - name: Publish unit-test results
-        uses: EnricoMi/publish-unit-test-result-action/composite@v1
+        uses: EnricoMi/publish-unit-test-result-action/composite@v2
         if: always()
         with:
           check_name: Test results (androidTest)
