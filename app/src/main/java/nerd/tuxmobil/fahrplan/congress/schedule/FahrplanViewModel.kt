@@ -228,18 +228,13 @@ internal class FahrplanViewModel(
     }
 
     private fun List<Session>.toTimeTextViewParameters(nowMoment: Moment, normalizedBoxHeight: Int): List<TimeTextViewParameter> {
-        val earliestSession = repository.loadEarliestSession()
-        val firstDayStartDay = earliestSession.startsAt.monthDay
         val useDeviceTimeZone = repository.readUseDeviceTimeZoneEnabled()
-        val dayIndex = repository.readDisplayDayIndex()
         val conference = Conference.ofSessions(this)
         return TimeTextViewParameter.parametersOf(
-            nowMoment,
-            conference,
-            firstDayStartDay,
-            dayIndex,
-            normalizedBoxHeight,
-            useDeviceTimeZone
+            nowMoment = nowMoment,
+            conference = conference,
+            normalizedBoxHeight = normalizedBoxHeight,
+            useDeviceTimeZone = useDeviceTimeZone
         )
     }
 
