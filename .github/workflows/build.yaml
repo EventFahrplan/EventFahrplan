@@ -25,6 +25,7 @@ jobs:
         uses: EnricoMi/publish-unit-test-result-action@v1
         if: always()
         with:
+          check_name: Test results (test)
           files: |
             build/test-results/**/*.xml
             */build/test-results/**/*.xml
@@ -52,5 +53,6 @@ jobs:
         uses: EnricoMi/publish-unit-test-result-action/composite@v1
         if: always()
         with:
+          check_name: Test results (androidTest)
           files: |
             **/androidTest-results/**/*.xml
