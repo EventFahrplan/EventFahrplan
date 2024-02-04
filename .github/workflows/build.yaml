@@ -35,7 +35,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        api-level: [ 21 ]
+        api-level: [ 21, 29 ]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -87,6 +87,6 @@ jobs:
         uses: EnricoMi/publish-unit-test-result-action/composite@v2
         if: always()
         with:
-          check_name: Test results (androidTest)
+          check_name: Test results (androidTest), API level ${{ matrix.api-level }}
           files: |
             **/androidTest-results/**/*.xml
