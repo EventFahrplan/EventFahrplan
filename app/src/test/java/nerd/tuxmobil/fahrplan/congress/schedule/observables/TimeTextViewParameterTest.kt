@@ -36,7 +36,7 @@ class TimeTextViewParameterTest {
 
     @Test
     fun `parametersOf returns four view parameters without -now- view parameter`() {
-        val moment = Moment.ofEpochMilli(1582963200000L) // February 29, 2020 08:00:00 AM GMT)
+        val moment = Moment.ofEpochMilli(1582963200000L) // February 29, 2020 08:00:00 AM GMT
         val nowMoment = createSession(moment).startsAt
         val dayIndex = 2 // represents tomorrow
         val parameters = parametersOf(nowMoment, moment, 60, dayIndex)
@@ -49,7 +49,7 @@ class TimeTextViewParameterTest {
 
     @Test
     fun `parametersOf returns four view parameters including one -now- view parameter`() {
-        val moment = Moment.ofEpochMilli(1582963200000L) // February 29, 2020 08:00:00 AM GMT)
+        val moment = Moment.ofEpochMilli(1582963200000L) // February 29, 2020 08:00:00 AM GMT
         val nowMoment = createSession(moment).startsAt.plusMinutes(30)
         val dayIndex = 1 // represents today
         val parameters = parametersOf(nowMoment, moment, 60, dayIndex)
