@@ -1,7 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress.schedule
 
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
-import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MINUTES_OF_ONE_DAY
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import org.threeten.bp.ZoneOffset
 
@@ -43,14 +42,12 @@ data class Conference(
             // TODO Replace with firstSession.toStartsAtMoment() once Session#relStartTime is no longer used.
             val endingLatest = sessions.endingLatest()
             val last = endingLatest.endsAt
-            val minutesToAdd = if (first.monthDay == last.monthDay) 0 else MINUTES_OF_ONE_DAY
             // Here we are assuming all sessions have the same time zone offset.
             val timeZoneOffset = firstSession.timeZoneOffset
-            val veryLast = last.plusMinutes(minutesToAdd.toLong())
             return Conference(
-                timeFrame = first..veryLast,
+                timeFrame = first..last,
                 timeZoneOffset = timeZoneOffset,
-                spansMultipleDays = minutesToAdd > 0
+                spansMultipleDays = first.monthDay != last.monthDay
             )
         }
 

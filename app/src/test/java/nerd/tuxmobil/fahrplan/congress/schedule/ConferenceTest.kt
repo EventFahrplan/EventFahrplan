@@ -1,6 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.schedule
 
 import com.google.common.truth.Truth.assertThat
+import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MINUTES_OF_ONE_DAY
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import org.junit.Assert.fail
@@ -16,6 +17,18 @@ class ConferenceTest {
             fail("Expect an IllegalArgumentException to be thrown.")
         } catch (e: IllegalArgumentException) {
             assertThat(e.message).isEqualTo("Empty list of sessions.")
+        }
+    }
+
+    @Test
+    fun `ofSession returns time range for one virtual conference day spanning two natural days`() {
+        val opening = createSession("Opening", duration = 30, dateUtc = 1703671200000, ZoneOffset.of("+00:00")) // 2023-12-27T10:00:00+00:00
+        val dancing = createSession("Dancing", duration = 60, dateUtc = 1703736000000, ZoneOffset.of("+00:00")) // 2023-12-28T04:00:00+00:00
+        with(createConference(opening, dancing)) {
+            assertThat(firstSessionStartsAt).isEqualTo(Moment.ofEpochMilli(1703671200000)) // 2023-12-27T10:00:00+00:00
+            assertThat(lastSessionEndsAt).isEqualTo(Moment.ofEpochMilli(1703739600000)) // 2023-12-28T05:00:00+00:00
+            assertThat(timeZoneOffset).isEqualTo(ZoneOffset.of("+00:00"))
+            assertThat(spansMultipleDays).isTrue()
         }
     }
 
