@@ -22,12 +22,14 @@ import org.threeten.bp.ZoneOffset
 // TODO Use Moment class, merge with ConferenceTimeFrame class?
 data class Conference(
 
-        val firstSessionStartsAt: Moment,
-        val lastSessionEndsAt: Moment,
+        val timeFrame: ClosedRange<Moment>,
         var timeZoneOffset: ZoneOffset? = null,
         val spansMultipleDays: Boolean
 
 ) {
+
+    val firstSessionStartsAt = timeFrame.start
+    val lastSessionEndsAt = timeFrame.endInclusive
 
     companion object {
 
@@ -46,8 +48,7 @@ data class Conference(
             val timeZoneOffset = firstSession.timeZoneOffset
             val veryLast = last.plusMinutes(minutesToAdd.toLong())
             return Conference(
-                firstSessionStartsAt = first,
-                lastSessionEndsAt = veryLast,
+                timeFrame = first..veryLast,
                 timeZoneOffset = timeZoneOffset,
                 spansMultipleDays = minutesToAdd > 0
             )
