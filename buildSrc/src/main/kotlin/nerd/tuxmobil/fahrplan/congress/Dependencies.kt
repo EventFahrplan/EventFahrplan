@@ -81,7 +81,7 @@ object Libs {
         const val testExtJunit = "1.1.5"
         const val threeTenBp = "1.6.8"
         const val tracedroid = "3.1"
-        const val truth = "1.2.0"
+        const val truth = "1.4.0"
         const val turbine = "1.0.0"
     }
 
