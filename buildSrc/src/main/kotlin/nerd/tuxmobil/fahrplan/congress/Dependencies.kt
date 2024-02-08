@@ -55,7 +55,7 @@ object Plugins {
 object Libs {
 
     private object Versions {
-        const val annotation = "1.7.0"
+        const val annotation = "1.7.1"
         const val appCompat = "1.6.1"
         const val assertjAndroid = "1.2.0"
         const val betterLinkMovementMethod = "2.2.0"
