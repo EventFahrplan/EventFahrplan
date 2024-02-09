@@ -2,19 +2,12 @@ package nerd.tuxmobil.fahrplan.congress.schedule
 
 import com.google.common.truth.Truth.assertThat
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.MethodSource
 import org.threeten.bp.OffsetDateTime
 import java.util.TimeZone
 
-@RunWith(Parameterized::class)
-class TimeSegmentFormattedTextTest(
-
-        private val minutesOfTheDay: Int,
-        private val expectedFormattedText: String
-
-) {
+class TimeSegmentFormattedTextTest {
 
     companion object {
 
@@ -24,7 +17,6 @@ class TimeSegmentFormattedTextTest(
                 arrayOf(minutesOfTheDay, expectedFormattedText)
 
         @JvmStatic
-        @Parameterized.Parameters(name = "{index}: minutes = {0} -> formattedText = {1}")
         fun data() = listOf(
                 scenarioOf(minutesOfTheDay = 0, expectedFormattedText = "01:00"),
                 scenarioOf(minutesOfTheDay = 1, expectedFormattedText = "01:00"),
@@ -43,8 +35,12 @@ class TimeSegmentFormattedTextTest(
         )
     }
 
-    @Test
-    fun formattedText() {
+    @ParameterizedTest(name = "{index}: minutes = {0} -> formattedText = {1}")
+    @MethodSource("data")
+    fun formattedText(
+        minutesOfTheDay: Int,
+        expectedFormattedText: String
+    ) {
         TimeZone.setDefault(DEFAULT_TIME_ZONE)
         val zoneOffsetNow = OffsetDateTime.now().offset
         val moment = Moment.now().startOfDay().plusMinutes(minutesOfTheDay.toLong())

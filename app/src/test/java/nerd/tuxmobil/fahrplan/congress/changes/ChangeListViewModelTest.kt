@@ -2,7 +2,7 @@ package nerd.tuxmobil.fahrplan.congress.changes
 
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
-import info.metadude.android.eventfahrplan.commons.testing.MainDispatcherTestRule
+import info.metadude.android.eventfahrplan.commons.testing.MainDispatcherTestExtension
 import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedNever
 import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedOnce
 import kotlinx.coroutines.flow.Flow
@@ -14,15 +14,13 @@ import nerd.tuxmobil.fahrplan.congress.TestExecutionContext
 import nerd.tuxmobil.fahrplan.congress.models.Meta
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
-import org.junit.Rule
-import org.junit.Test
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 
+@ExtendWith(MainDispatcherTestExtension::class)
 class ChangeListViewModelTest {
-
-    @get:Rule
-    val mainDispatcherTestRule = MainDispatcherTestRule()
 
     @Test
     fun `changeListParameter emits null`() = runTest {

@@ -2,10 +2,9 @@ package nerd.tuxmobil.fahrplan.congress.navigation
 
 import com.google.common.truth.Truth.assertThat
 import nerd.tuxmobil.fahrplan.congress.models.Room
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
-import org.junit.runners.Parameterized.Parameters
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.Arguments
+import org.junit.jupiter.params.provider.MethodSource
 import org.mockito.kotlin.anyOrNull
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
@@ -13,13 +12,7 @@ import org.mockito.kotlin.mock
 /**
  * Covers [C3nav.isSupported].
  */
-@RunWith(Parameterized::class)
-class C3navIsSupportedTest(
-    private val baseUrl: String,
-    private val room: Room,
-    private val convertedName: String,
-    private val isSupported: Boolean,
-) {
+class C3navIsSupportedTest {
 
     companion object {
 
@@ -36,7 +29,6 @@ class C3navIsSupportedTest(
             arrayOf(baseUrl, room, convertedName, isSupported)
 
         @JvmStatic
-        @Parameters(name = "{index}: baseUrl = \"{0}\", \"{1}\", convertedName = \"{2}\" -> isSupported = \"{3}\"")
         fun data() = listOf(
             scenarioOf(
                 VALID_BASE_URL,
@@ -72,8 +64,14 @@ class C3navIsSupportedTest(
 
     }
 
-    @Test
-    fun isSupported() {
+    @ParameterizedTest(name = """{index}: baseUrl = "{0}", "{1}", convertedName = "{2}" -> isSupported = "{3}"""")
+    @MethodSource("data")
+    fun isSupported(
+        baseUrl: String,
+        room: Room,
+        convertedName: String,
+        isSupported: Boolean,
+    ) {
         val nameConverter = mock<RoomForC3NavConverter> {
             on { convert(anyOrNull()) } doReturn convertedName
         }

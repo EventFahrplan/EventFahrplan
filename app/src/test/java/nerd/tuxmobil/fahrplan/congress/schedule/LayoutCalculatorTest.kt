@@ -6,7 +6,7 @@ import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.NoLogging
 import nerd.tuxmobil.fahrplan.congress.models.RoomData
 import nerd.tuxmobil.fahrplan.congress.models.Session
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 class LayoutCalculatorTest {
     private val conferenceDate = "2020-03-30"

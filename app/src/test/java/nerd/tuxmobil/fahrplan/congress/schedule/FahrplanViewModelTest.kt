@@ -3,7 +3,7 @@ package nerd.tuxmobil.fahrplan.congress.schedule
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
-import info.metadude.android.eventfahrplan.commons.testing.MainDispatcherTestRule
+import info.metadude.android.eventfahrplan.commons.testing.MainDispatcherTestExtension
 import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedNever
 import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedOnce
 import kotlinx.coroutines.flow.Flow
@@ -30,9 +30,9 @@ import nerd.tuxmobil.fahrplan.congress.schedule.observables.ScrollToSessionParam
 import nerd.tuxmobil.fahrplan.congress.schedule.observables.TimeTextViewParameter
 import nerd.tuxmobil.fahrplan.congress.sharing.JsonSessionFormat
 import nerd.tuxmobil.fahrplan.congress.sharing.SimpleSessionFormat
-import org.junit.Ignore
-import org.junit.Rule
-import org.junit.Test
+import org.junit.jupiter.api.Disabled
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.kotlin.any
 import org.mockito.kotlin.anyOrNull
 import org.mockito.kotlin.doReturn
@@ -41,10 +41,8 @@ import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
 import org.threeten.bp.ZoneOffset
 
+@ExtendWith(MainDispatcherTestExtension::class)
 class FahrplanViewModelTest {
-
-    @get:Rule
-    val mainDispatcherTestRule = MainDispatcherTestRule()
 
     private val simpleSessionFormat = mock<SimpleSessionFormat>()
     private val jsonSessionFormat = mock<JsonSessionFormat>()
@@ -429,7 +427,7 @@ class FahrplanViewModelTest {
         }
     }
 
-    @Ignore("Flaky, see https://github.com/EventFahrplan/EventFahrplan/issues/526")
+    @Disabled("Flaky, see https://github.com/EventFahrplan/EventFahrplan/issues/526")
     @Test
     fun `scrollToCurrentSession posts to scrollToCurrentSessionParameter property when session is present and day indices match`() = runTest {
         val scheduleData = createScheduleData(Session("session-31"), dayIndex = 3)

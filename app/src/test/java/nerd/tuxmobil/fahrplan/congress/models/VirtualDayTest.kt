@@ -2,7 +2,7 @@ package nerd.tuxmobil.fahrplan.congress.models
 
 import com.google.common.truth.Truth.assertThat
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 class VirtualDayTest {
 

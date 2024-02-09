@@ -8,7 +8,7 @@ import nerd.tuxmobil.fahrplan.congress.models.DateInfos
 import nerd.tuxmobil.fahrplan.congress.models.RoomData
 import nerd.tuxmobil.fahrplan.congress.models.ScheduleData
 import nerd.tuxmobil.fahrplan.congress.models.Session
-import org.junit.Test
+import org.junit.jupiter.api.Test
 import org.threeten.bp.ZoneOffset
 
 class ScrollAmountCalculatorTest {

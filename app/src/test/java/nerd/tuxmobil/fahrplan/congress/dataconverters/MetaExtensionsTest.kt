@@ -1,7 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.dataconverters
 
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.Test
+import org.junit.jupiter.api.Test
 import org.threeten.bp.ZoneId
 import info.metadude.android.eventfahrplan.database.models.HttpHeader as HttpHeaderDatabaseModel
 import info.metadude.android.eventfahrplan.database.models.Meta as MetaDatabaseModel

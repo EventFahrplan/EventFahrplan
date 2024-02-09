@@ -55,6 +55,7 @@ object Plugins {
 object Libs {
 
     private object Versions {
+        const val androidTest = "1.4.0"
         const val annotation = "1.7.1"
         const val appCompat = "1.6.1"
         const val assertjAndroid = "1.2.0"
@@ -64,8 +65,7 @@ object Libs {
         const val coreTesting = "2.2.0"
         const val emailIntentBuilder = "2.0.0"
         const val engelsystem = "8.1.0"
-        const val espresso = "3.5.1"
-        const val junit = "4.13.2"
+        const val junitJupiter = "5.10.2"
         const val kotlinCoroutines = "1.7.3"
         const val lifecycle = "2.6.2" // compileSdk 34 is required as of 2.7.0
         const val markwon = "4.6.2"
@@ -78,13 +78,14 @@ object Libs {
         const val retrofit = "2.9.0"
         const val robolectric = "4.3_r2-robolectric-0"
         const val snackengage = "0.30"
-        const val testExtJunit = "1.1.5"
         const val threeTenBp = "1.6.8"
         const val tracedroid = "3.1"
         const val truth = "1.4.0"
         const val turbine = "1.0.0"
     }
 
+    const val androidTestCore = "de.mannodermaus.junit5:android-test-core:${Versions.androidTest}"
+    const val androidTestRunner = "de.mannodermaus.junit5:android-test-runner:${Versions.androidTest}"
     const val annotation = "androidx.annotation:annotation:${Versions.annotation}"
     const val appCompat = "androidx.appcompat:appcompat:${Versions.appCompat}"
     const val assertjAndroid = "com.squareup.assertj:assertj-android:${Versions.assertjAndroid}"
@@ -94,8 +95,9 @@ object Libs {
     const val coreTesting = "androidx.arch.core:core-testing:${Versions.coreTesting}"
     const val emailIntentBuilder = "de.cketti.mailto:email-intent-builder:${Versions.emailIntentBuilder}"
     const val engelsystem = "info.metadude.kotlin.library.engelsystem:engelsystem-base:${Versions.engelsystem}"
-    const val espresso = "androidx.test.espresso:espresso-core:${Versions.espresso}"
-    const val junit = "junit:junit:${Versions.junit}"
+    const val junitJupiterApi = "org.junit.jupiter:junit-jupiter-api:${Versions.junitJupiter}"
+    const val junitJupiterEngine = "org.junit.jupiter:junit-jupiter-engine:${Versions.junitJupiter}"
+    const val junitJupiterParams = "org.junit.jupiter:junit-jupiter-params:${Versions.junitJupiter}"
     const val kotlinCoroutinesAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.kotlinCoroutines}"
     const val kotlinCoroutinesCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinCoroutines}"
     const val kotlinCoroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.kotlinCoroutines}"
@@ -116,7 +118,6 @@ object Libs {
     const val retrofitConverterMoshi = "com.squareup.retrofit2:converter-moshi:${Versions.retrofit}"
     const val robolectric = "org.robolectric:android-all:${Versions.robolectric}"
     const val snackengagePlayrate = "com.github.ligi.snackengage:snackengage-playrate:${Versions.snackengage}"
-    const val testExtJunit = "androidx.test.ext:junit:${Versions.testExtJunit}"
     const val threeTenBp = "org.threeten:threetenbp:${Versions.threeTenBp}"
     const val tracedroid = "com.github.ligi:tracedroid:${Versions.tracedroid}"
     const val truth = "com.google.truth:truth:${Versions.truth}"

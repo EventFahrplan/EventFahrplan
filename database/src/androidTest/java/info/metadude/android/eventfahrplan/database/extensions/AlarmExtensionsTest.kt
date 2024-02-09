@@ -1,6 +1,5 @@
 package info.metadude.android.eventfahrplan.database.extensions
 
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.ALARM_TIME_IN_MIN
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.DAY
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.DISPLAY_TIME
@@ -10,10 +9,8 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Al
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.TIME_TEXT
 import info.metadude.android.eventfahrplan.database.models.Alarm
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.Test
 
-@RunWith(AndroidJUnit4::class)
 class AlarmExtensionsTest {
 
     @Test

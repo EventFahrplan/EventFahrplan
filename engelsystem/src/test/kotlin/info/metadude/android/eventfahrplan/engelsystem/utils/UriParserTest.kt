@@ -2,8 +2,8 @@ package info.metadude.android.eventfahrplan.engelsystem.utils
 
 import com.google.common.truth.Truth.assertThat
 import info.metadude.android.eventfahrplan.engelsystem.models.EngelsystemUri
-import org.junit.Assert.fail
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.fail
+import org.junit.jupiter.api.Test
 import java.net.URISyntaxException
 
 class UriParserTest {
@@ -71,7 +71,7 @@ class UriParserTest {
     }
 
     private fun failExpectingUriSyntaxException() {
-        fail("Expect a URISyntaxException to be thrown.")
+        fail<Unit>("Expect a URISyntaxException to be thrown.")
     }
 
     @Test

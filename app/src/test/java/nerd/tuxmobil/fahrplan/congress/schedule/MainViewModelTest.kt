@@ -2,7 +2,7 @@ package nerd.tuxmobil.fahrplan.congress.schedule
 
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
-import info.metadude.android.eventfahrplan.commons.testing.MainDispatcherTestRule
+import info.metadude.android.eventfahrplan.commons.testing.MainDispatcherTestExtension
 import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedOnce
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
@@ -29,16 +29,14 @@ import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.ParseSucce
 import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.Parsing
 import nerd.tuxmobil.fahrplan.congress.schedule.observables.LoadScheduleUiState
 import nerd.tuxmobil.fahrplan.congress.schedule.observables.ScheduleChangesParameter
-import org.junit.Rule
-import org.junit.Test
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.kotlin.any
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 
+@ExtendWith(MainDispatcherTestExtension::class)
 class MainViewModelTest {
-
-    @get:Rule
-    val mainDispatcherTestRule = MainDispatcherTestRule()
 
     private val logging = NoLogging
 

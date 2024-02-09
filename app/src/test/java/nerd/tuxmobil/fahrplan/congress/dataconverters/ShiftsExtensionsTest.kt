@@ -4,8 +4,8 @@ import info.metadude.android.eventfahrplan.commons.temporal.DayRange
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import info.metadude.kotlin.library.engelsystem.models.Shift
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import org.threeten.bp.ZoneOffset
 import org.threeten.bp.ZonedDateTime
 
@@ -15,7 +15,7 @@ class ShiftsExtensionsTest {
     private lateinit var endsAt: ZonedDateTime
     private lateinit var dayRanges: List<DayRange>
 
-    @Before
+    @BeforeEach
     fun setUp() {
         val day = Moment.parseDate("2019-08-23")
         startsAt = day.toZonedDateTime(ZoneOffset.UTC)

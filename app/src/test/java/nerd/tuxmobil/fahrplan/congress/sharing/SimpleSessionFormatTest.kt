@@ -5,9 +5,9 @@ import info.metadude.android.eventfahrplan.commons.temporal.DateParser
 import nerd.tuxmobil.fahrplan.congress.BuildConfig
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.utils.ServerBackendType
-import org.junit.After
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import org.threeten.bp.ZoneId
 import java.util.Locale
 import java.util.TimeZone
@@ -63,13 +63,13 @@ class SimpleSessionFormatTest {
         slug = "U9SD23"
     }
 
-    @Before
+    @BeforeEach
     fun setUp() {
         Locale.setDefault(Locale("de", "DE"))
         TimeZone.setDefault(TimeZone.getTimeZone("GMT+1"))
     }
 
-    @After
+    @AfterEach
     fun cleanUp() {
         Locale.setDefault(systemLocale)
         TimeZone.setDefault(systemTimezone)

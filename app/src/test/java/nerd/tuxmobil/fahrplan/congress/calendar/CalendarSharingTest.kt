@@ -6,8 +6,8 @@ import android.os.Bundle
 import android.provider.CalendarContract
 import nerd.tuxmobil.fahrplan.congress.extensions.startActivity
 import nerd.tuxmobil.fahrplan.congress.models.Session
-import org.junit.After
-import org.junit.Test
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.Test
 import org.mockito.ArgumentMatcher
 import org.mockito.kotlin.argThat
 import org.mockito.kotlin.mock
@@ -32,7 +32,7 @@ class CalendarSharingTest {
         verify(onFailure, never()).invoke()
     }
 
-    @After
+    @AfterEach
     fun validate() {
         validateMockitoUsage()
     }

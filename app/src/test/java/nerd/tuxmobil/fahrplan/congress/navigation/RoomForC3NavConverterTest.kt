@@ -1,18 +1,10 @@
 package nerd.tuxmobil.fahrplan.congress.navigation
 
 import com.google.common.truth.Truth.assertThat
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
-import org.junit.runners.Parameterized.Parameters
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.MethodSource
 
-@RunWith(Parameterized::class)
-class RoomForC3NavConverterTest(
-
-        private val roomName: String?,
-        private val expectedText: String
-
-) {
+class RoomForC3NavConverterTest {
 
     companion object {
 
@@ -20,7 +12,6 @@ class RoomForC3NavConverterTest(
                 arrayOf(roomName, expectedText)
 
         @JvmStatic
-        @Parameters(name = "{index}: room = \"{0}\" -> expectedText = \"{1}\"")
         fun data() = listOf(
                 scenarioOf(roomName = "Ada", expectedText = "hall-a"),
                 scenarioOf(roomName = "Borg", expectedText = "hall-b"),
@@ -33,8 +24,12 @@ class RoomForC3NavConverterTest(
         )
     }
 
-    @Test
-    fun convert() {
+    @ParameterizedTest(name = """{index}: room = "{0}" -> expectedText = "{1}"""")
+    @MethodSource("data")
+    fun convert(
+        roomName: String?,
+        expectedText: String,
+    ) {
         assertThat(RoomForC3NavConverter().convert(roomName)).isEqualTo(expectedText)
     }
 

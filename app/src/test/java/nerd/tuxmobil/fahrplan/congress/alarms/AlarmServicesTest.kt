@@ -20,8 +20,8 @@ import nerd.tuxmobil.fahrplan.congress.models.Alarm
 import nerd.tuxmobil.fahrplan.congress.models.SchedulableAlarm
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
-import org.junit.Assert.fail
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.fail
+import org.junit.jupiter.api.Test
 import org.mockito.kotlin.any
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock

@@ -1,18 +1,10 @@
 package nerd.tuxmobil.fahrplan.congress.utils
 
 import com.google.common.truth.Truth.assertThat
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
-import org.junit.runners.Parameterized.Parameters
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.MethodSource
 
-@RunWith(Parameterized::class)
-class EngelsystemUrlValidatorTest(
-
-        private val url: String,
-        private val isValid: Boolean
-
-) {
+class EngelsystemUrlValidatorTest {
 
     companion object {
 
@@ -20,7 +12,6 @@ class EngelsystemUrlValidatorTest(
                 arrayOf(url, isValid)
 
         @JvmStatic
-        @Parameters(name = "{index}: url = {0} -> isValid = {1}")
         fun data() = listOf(
                 scenarioOf(url = "https", isValid = false),
                 scenarioOf(url = "https://", isValid = false),
@@ -34,8 +25,12 @@ class EngelsystemUrlValidatorTest(
         )
     }
 
-    @Test
-    fun isValid() {
+    @ParameterizedTest(name = "{index}: url = {0} -> isValid = {1}")
+    @MethodSource("data")
+    fun isValid(
+        url: String,
+        isValid: Boolean
+    ) {
         assertThat(EngelsystemUrlValidator(url).isValid()).isEqualTo(isValid)
     }
 

@@ -1,7 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.models
 
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 class ScheduleDataTest {
 

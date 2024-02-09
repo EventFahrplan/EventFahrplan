@@ -3,7 +3,7 @@ package nerd.tuxmobil.fahrplan.congress.dataconverters
 import com.google.common.truth.Truth.assertThat
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.models.VirtualDay
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 /**
  * Covers [SessionsExtensions.toVirtualDays][toVirtualDays].

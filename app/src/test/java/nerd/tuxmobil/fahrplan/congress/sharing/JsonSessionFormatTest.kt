@@ -2,7 +2,7 @@ package nerd.tuxmobil.fahrplan.congress.sharing
 
 import com.google.common.truth.Truth.assertThat
 import nerd.tuxmobil.fahrplan.congress.models.Session
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 class JsonSessionFormatTest {
 

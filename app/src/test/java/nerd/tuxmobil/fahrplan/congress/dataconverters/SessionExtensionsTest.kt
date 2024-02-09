@@ -6,7 +6,7 @@ import info.metadude.android.eventfahrplan.database.models.Session.Companion.REC
 import nerd.tuxmobil.fahrplan.congress.models.DateInfo
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.Test
+import org.junit.jupiter.api.Test
 import org.threeten.bp.ZoneOffset
 import info.metadude.android.eventfahrplan.database.models.Session as SessionDatabaseModel
 import info.metadude.android.eventfahrplan.network.models.Session as SessionNetworkModel

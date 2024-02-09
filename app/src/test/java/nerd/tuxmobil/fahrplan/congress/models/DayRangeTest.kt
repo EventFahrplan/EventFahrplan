@@ -3,8 +3,8 @@ package nerd.tuxmobil.fahrplan.congress.models
 import info.metadude.android.eventfahrplan.commons.temporal.DayRange
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import org.threeten.bp.ZoneOffset
 import org.threeten.bp.ZonedDateTime
 
@@ -12,7 +12,7 @@ class DayRangeTest {
 
     private lateinit var dayRange: DayRange
 
-    @Before
+    @BeforeEach
     fun setUp() {
         val day1 = Moment.parseDate("2019-12-27")
         val day2 = Moment.parseDate("2019-12-30")
