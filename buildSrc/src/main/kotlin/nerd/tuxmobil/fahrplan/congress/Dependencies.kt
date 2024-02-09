@@ -3,9 +3,11 @@
 package nerd.tuxmobil.fahrplan.congress
 
 import org.gradle.api.JavaVersion
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 object Config {
     const val JAVA_VERSION = "11"
+    val jvmTarget = JvmTarget.fromTarget(JAVA_VERSION)
     val compatibleJavaVersion: JavaVersion = JavaVersion.toVersion(JAVA_VERSION)
 }
 
