@@ -222,9 +222,6 @@ class FahrplanViewModelTest {
     @Test
     fun `fillTimes posts TimeTextViewParameter to timeTextViewParameters property`() = runTest {
         val startsAt = 1582963200000L // February 29, 2020 08:00:00 AM GMT
-        val earliestSession = mock<Session> {
-            on { this@on.startsAt } doReturn Moment.ofEpochMilli(startsAt)
-        }
         val session = Session("session-01").apply {
             dateUTC = startsAt
             duration = 30
@@ -232,7 +229,6 @@ class FahrplanViewModelTest {
         }
         val repository = createRepository(
             uncanceledSessionsForDayIndexFlow = flowOf(createScheduleData(session)),
-            earliestSession = earliestSession
         )
         val viewModel = createViewModel(repository)
         viewModel.fillTimes(nowMoment = mock(), normalizedBoxHeight = 42)
@@ -243,9 +239,7 @@ class FahrplanViewModelTest {
         viewModel.timeTextViewParameters.test {
             assertThat(awaitItem()).isEqualTo(expected)
         }
-        verifyInvokedOnce(repository).loadEarliestSession()
         verifyInvokedOnce(repository).readUseDeviceTimeZoneEnabled()
-        verify(repository, times(1)).readDisplayDayIndex()
     }
 
     @Test
@@ -509,7 +503,6 @@ class FahrplanViewModelTest {
         meta: Meta = Meta(numDays = 0, version = "test-version"),
         isAutoUpdateEnabled: Boolean = true,
         displayDayIndex: Int = 0,
-        earliestSession: Session = Session(""),
     ) = mock<AppRepository> {
         on { uncanceledSessionsForDayIndex } doReturn uncanceledSessionsForDayIndexFlow
         on { sessionsWithoutShifts } doReturn sessionsWithoutShiftsFlow
@@ -518,7 +511,6 @@ class FahrplanViewModelTest {
         on { readMeta() } doReturn meta
         on { readAutoUpdateEnabled() } doReturn isAutoUpdateEnabled
         on { readDisplayDayIndex() } doReturn displayDayIndex
-        on { loadEarliestSession() } doReturn earliestSession
     }
 
     private fun createScheduleData(sessionId: String? = null, hasAlarm: Boolean = false): ScheduleData {

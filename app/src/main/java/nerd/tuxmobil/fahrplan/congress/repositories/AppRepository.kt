@@ -554,14 +554,6 @@ object AppRepository {
             .also { logging.d(LOG_TAG, "${it.size} sessions changed.") }
 
     /**
-     * Loads the first session of the first day from the database.
-     * Throws an exception if no session is present.
-     */
-    @WorkerThread
-    fun loadEarliestSession() = loadSessionsForAllDays(true)
-            .first()
-
-    /**
      * Loads all Engelsystem shifts for all days from the database.
      */
     private fun loadEngelsystemShiftsForAllDays() =

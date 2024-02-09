@@ -204,7 +204,7 @@ class MomentTest {
     }
 
     @Test
-    fun durationUntil() {
+    fun minutesUntil() {
         val momentOne = Moment.now()
         val momentTwo = momentOne.plusMinutes(1)
 
