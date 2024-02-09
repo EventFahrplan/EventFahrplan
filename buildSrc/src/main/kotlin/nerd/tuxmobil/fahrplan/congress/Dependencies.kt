@@ -19,7 +19,7 @@ object Compose {
 
     object Versions {
         internal const val bom = "2023.06.01" // compileSdk 34 is required as of 2023.08.00
-        const val compiler = "1.5.6"
+        const val compiler = "1.5.9"
     }
 
     const val bom = "androidx.compose:compose-bom:${Versions.bom}"
@@ -35,11 +35,11 @@ object Plugins {
         const val android = "7.4.2"
         const val androidJunitJacoco = "0.16.0"
         const val dexcount = "4.0.0"
-        const val kotlin = "1.9.21"
-        const val ksp = "1.9.21-1.0.15"
+        const val kotlin = "1.9.22"
+        const val ksp = "1.9.22-1.0.17"
         const val sonarQube = "4.4.1.3373"
         const val unMock = "0.7.9"
-        const val versions = "0.50.0"
+        const val versions = "0.51.0"
     }
 
     const val android = "com.android.tools.build:gradle:${Versions.android}"
@@ -55,7 +55,7 @@ object Plugins {
 object Libs {
 
     private object Versions {
-        const val annotation = "1.7.0"
+        const val annotation = "1.7.1"
         const val appCompat = "1.6.1"
         const val assertjAndroid = "1.2.0"
         const val betterLinkMovementMethod = "2.2.0"
@@ -63,16 +63,16 @@ object Libs {
         const val coreKtx = "1.9.0"
         const val coreTesting = "2.2.0"
         const val emailIntentBuilder = "2.0.0"
-        const val engelsystem = "8.0.0"
+        const val engelsystem = "8.1.0"
         const val espresso = "3.5.1"
         const val junit = "4.13.2"
         const val kotlinCoroutines = "1.7.3"
-        const val lifecycle = "2.6.2"
+        const val lifecycle = "2.6.2" // compileSdk 34 is required as of 2.7.0
         const val markwon = "4.6.2"
         const val material = "1.9.0"
-        const val mockito = "5.9.0"
+        const val mockito = "5.10.0"
         const val mockitoKotlin = "5.2.1"
-        const val moshi = "1.15.0"
+        const val moshi = "1.15.1"
         const val okhttp = "4.12.0"
         const val preference = "1.2.1"
         const val retrofit = "2.9.0"
@@ -81,7 +81,7 @@ object Libs {
         const val testExtJunit = "1.1.5"
         const val threeTenBp = "1.6.8"
         const val tracedroid = "3.1"
-        const val truth = "1.2.0"
+        const val truth = "1.4.0"
         const val turbine = "1.0.0"
     }
 
