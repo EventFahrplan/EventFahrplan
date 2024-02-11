@@ -5,7 +5,7 @@ package nerd.tuxmobil.fahrplan.congress
 import org.gradle.api.JavaVersion
 
 object Config {
-    val compatibleJavaVersion = JavaVersion.VERSION_11
+    val compatibleJavaVersion = JavaVersion.VERSION_17
 }
 
 object Android {
@@ -32,7 +32,7 @@ object Compose {
 object Plugins {
 
     private object Versions {
-        const val android = "7.4.2"
+        const val android = "8.0.2"
         const val dexcount = "4.0.0"
         const val kotlin = "1.9.23"
         const val ksp = "1.9.23-1.0.19"
