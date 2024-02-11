@@ -2,8 +2,8 @@
 
 # EventFahrplan
 
-EventFahrplan is a viewer for event schedules for instance
-[Chaos Computer Club e.V. events][ccc-events] such as [Chaos Communication Camp][camp-website],
+EventFahrplan is a viewer for event schedules such as
+[Chaos Computer Club e.V. events][ccc-events] like [Chaos Communication Camp][camp-website],
 [Chaos Communication Congress][congress-website] or [JahresEndVeranstaltungen][jev-website].
 
 - Chaos Communication Camp Schedule app: [F-Droid][camp-app-fdroid], [Google Play][camp-app-google-play]
@@ -64,13 +64,13 @@ Please read the instructions in the [contribution guide](CONTRIBUTING.md) in ord
 
 * The feedback system of [Frab][frab-website] and [Pretalx][pretalx-website]
 * [c3nav][c3nav-github] - An indoor navigation project
-* [Engelsystem][engelsystem-website] - Online tool for coordinating helpers and shifts on large events
+* [Engelsystem][engelsystem-website] - Online tool for coordinating helpers and shifts at large events
 * [Chaosflix][chaosflix-github] - Android app for media.ccc.de, share Fahrplan favorites with Chaosflix to import them as bookmarks
 
 
 ## Android versions
 
-The application is designed to work both on smartphones and on tablets.
+The application is designed to work on both smartphones and on tablets.
 Android 5.0 (Lollipop) and newer versions are supported.
 
 
@@ -80,18 +80,18 @@ Android 5.0 (Lollipop) and newer versions are supported.
 as provided by [Frab][frab-website], [Pretalx][pretalx-website] or [Wafer][wafer-website].
 The file format produced by the predecessor software, [Pentabarf][pentabarf-github],
 cannot be consumed out of the box.
-* In general it is possible to re-deployed the app for other events which
+* In general, it is possible to re-deploy the app for other events which
 provide the same event file format.
 
 ## Build instructions
 
-To start development open the project in Android Studio.
+To begin development, open the project in Android Studio.
 
-The [customization guide][customization-guide] explains in all details how to create an app for your event.
+The [customization guide][customization-guide] explains in detail how to create an app for your event.
 
 If you want to create your own signed release builds, copy the `gradle.properties.example` file in the `app` folder
 and rename it to `gradle.properties`. This file contains the signing information which is used in the build process.
-Make sure to edit the file contents to point to your own keystore files.
+Be sure to edit the contents of the file to point to your own keystore files.
 
 ## Translations
 
@@ -104,22 +104,22 @@ can be downloaded. The file also contains usage examples.
 
 ## History
 
-* The project was started as ["CampFahrplan"][campfahrplan-github] in 2011 and has been developed
-by [Daniel Dorau][tuxmobil-github]. He published the app for Chaos Communication Camp
-and Chaos Communication Congress in the following years. The app served as a digital
+* The project was started in 2011 as ["CampFahrplan"][campfahrplan-github] and was developed
+by [Daniel Dorau][tuxmobil-github]. He released the app for the Chaos Communication Camp
+and the Chaos Communication Congress in the following years. The app served as a digital
 schedule for thousands of users.
 * In 2013, [Tobias Preuss][johnjohndoe-github] started contributing. Soon after he
-started to redeploy the app for other events such as FOSSGIS, FrOSCon, MRMCD and
+started to re-deploy the app for other events like FOSSGIS, FrOSCon, MRMCD and
 other conferences.
 * In August 2017 the project moved to a new location and was renamed to
-["EventFahrplan"][eventfahrplan-github] to acknowledge its broader usage.
+["EventFahrplan"][eventfahrplan-github] to acknowledge its broader use.
 
 ## Funding
 
-In 2023 & 2024 this project was funded through the [NGI0 Entrust Fund](https://nlnet.nl/entrust), a fund
+In 2023 & 2024, this project was funded by the [NGI0 Entrust Fund](https://nlnet.nl/entrust), a fund
 established by [NLnet](https://nlnet.nl) with financial support from the European Commission's
 [Next Generation Internet](https://ngi.eu) program, under the aegis of DG Communications Networks,
-Content and Technology under grant agreement No 101069594.
+Content and Technology under grant agreement No. 101069594.
 
 ![Logo NLnet: abstract logo of four people seen from above](gfx/nlnet-banner-160x60.png)
 
