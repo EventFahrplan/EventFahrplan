@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 class DateFieldValidationTest {
 
     @Test
-    fun `validate - is invalid if one of two sessions is invalid`() {
+    fun `validate returns false if one session is after the end`() {
         val validation = DateFieldValidation(TestLogger)
 
         val start = Moment.parseDate("2019-01-01")
@@ -29,7 +29,7 @@ class DateFieldValidationTest {
     }
 
     @Test
-    fun `validate - is invalid if any session outside range`() {
+    fun `validate returns false if any session is outside the range`() {
         val validation = DateFieldValidation(TestLogger)
 
         val start = Moment.parseDate("2019-01-01")
@@ -52,7 +52,7 @@ class DateFieldValidationTest {
     }
 
     @Test
-    fun `validate - all data integer`() {
+    fun `validate returns true if session is between start and end`() {
         val validation = DateFieldValidation(TestLogger)
 
         val start = Moment.parseDate("2019-01-01")
@@ -72,7 +72,7 @@ class DateFieldValidationTest {
     }
 
     @Test
-    fun `validate - no sessions`() {
+    fun `validate returns true for no sessions`() {
         val validation = DateFieldValidation(TestLogger)
 
         val sessions = emptyList<Session>()
@@ -85,7 +85,7 @@ class DateFieldValidationTest {
     }
 
     @Test
-    fun `validate - two sessions at same day`() {
+    fun `validate returns true for two sessions on the same day`() {
         val validation = DateFieldValidation(TestLogger)
 
         val start = Moment.parseDate("2019-01-01")
@@ -104,7 +104,7 @@ class DateFieldValidationTest {
     }
 
     @Test
-    fun `validate - two sessions on consecutive days`() {
+    fun `validate returns true for two sessions on consecutive days`() {
         val validation = DateFieldValidation(TestLogger)
 
         val start = Moment.parseDate("2019-01-01")

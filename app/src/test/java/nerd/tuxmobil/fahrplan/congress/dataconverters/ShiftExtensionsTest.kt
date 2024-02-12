@@ -12,7 +12,7 @@ import org.threeten.bp.ZonedDateTime
 class ShiftExtensionsTest {
 
     @Test
-    fun oneBasedDayIndex_DayOne() {
+    fun `oneBasedDayIndex returns 1 if day range spans 1 day`() {
         val zoneOffset = ZoneOffset.ofHours(2)
         val day = Moment.parseDate("2019-08-21")
         val dayRanges = listOf(DayRange(day))
@@ -25,7 +25,7 @@ class ShiftExtensionsTest {
     }
 
     @Test
-    fun oneBasedDayIndex_DayTwo() {
+    fun `oneBasedDayIndex returns 2 if day range spans 2 days`() {
         val zoneOffset = ZoneOffset.ofHours(2)
         val day1 = Moment.parseDate("2019-08-21")
         val day2 = Moment.parseDate("2019-08-22")
@@ -39,32 +39,32 @@ class ShiftExtensionsTest {
     }
 
     @Test
-    fun descriptionTextWithEmptyShift() {
+    fun `descriptionText returns empty string if no property is set`() {
         assertThat(Shift().descriptionText).isEmpty()
     }
 
     @Test
-    fun descriptionTextWithShiftWithLocationName() {
+    fun `descriptionText returns empty string if only locationName property is set`() {
         assertThat(Shift(locationName = "Room 23").descriptionText).isEmpty()
     }
 
     @Test
-    fun descriptionTextWithShiftWithLocationUrl() {
+    fun `descriptionText returns formatted HTML link derived from locationUrl property`() {
         assertThat(Shift(locationUrl = "https://example.com").descriptionText).isEqualTo("<a href=\"https://example.com\">https://example.com</a>")
     }
 
     @Test
-    fun descriptionTextWithShiftWithLocationDescription() {
+    fun `descriptionText returns string as set in the locationDescription property`() {
         assertThat(Shift(locationDescription = "The large green room.").descriptionText).isEqualTo("The large green room.")
     }
 
     @Test
-    fun descriptionTextWithShiftWithUserComment() {
+    fun `descriptionText returns user comment formatted in italics`() {
         assertThat(Shift(userComment = "Don't forget a warm jacket.").descriptionText).isEqualTo("_Don't forget a warm jacket._")
     }
 
     @Test
-    fun descriptionTextWithShiftWithAllFields() {
+    fun `descriptionText returns formatted HTML link composed from relevant shift properties`() {
         val shift = Shift(
                 locationName = "Room 42",
                 locationUrl = "https://conference.org",
@@ -76,7 +76,7 @@ class ShiftExtensionsTest {
     }
 
     @Test
-    fun toSessionAppModel_timeZoneHandling() {
+    fun `toSessionAppModel sessionizes a shift and handles time zone correctly`() {
         val day = Moment.parseDate("2019-01-02")
         val startsAt = day.toZonedDateTime(ZoneOffset.ofHours(4)) // 2019-01-02 04:00 with offset +4 => still  2019-01-02 00:00Z
         val shift = Shift(
@@ -90,7 +90,7 @@ class ShiftExtensionsTest {
     }
 
     @Test
-    fun getDurationMinutes() {
+    fun `toSessionAppModel sessionizes a shift and duration returns correct value in minutes`() {
         val day = Moment.parseDate("2019-08-25")
         val startsAtDate = ZonedDateTime.of(2019, 8, 25, 12, 0, 0, 0, ZoneOffset.UTC)
         val endsAtDate = ZonedDateTime.of(2019, 8, 25, 12, 30, 13, 0, ZoneOffset.UTC)

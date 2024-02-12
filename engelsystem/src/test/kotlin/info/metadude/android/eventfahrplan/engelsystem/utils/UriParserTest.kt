@@ -11,7 +11,7 @@ class UriParserTest {
     private val uriParser = UriParser()
 
     @Test
-    fun parseUriWithEmptyString() {
+    fun `parseUri throws exception if url is empty`() {
         try {
             uriParser.parseUri("")
             failExpectingUriSyntaxException()
@@ -21,7 +21,7 @@ class UriParserTest {
     }
 
     @Test
-    fun parseUriWithoutScheme() {
+    fun `parseUri throws exception if url lacks a scheme`() {
         try {
             uriParser.parseUri("example.com")
             failExpectingUriSyntaxException()
@@ -31,7 +31,7 @@ class UriParserTest {
     }
 
     @Test
-    fun parseUriWithoutHost() {
+    fun `parseUri throws exception if url lacks a host`() {
         try {
             uriParser.parseUri("https://?key=a1b2c3")
             failExpectingUriSyntaxException()
@@ -41,7 +41,7 @@ class UriParserTest {
     }
 
     @Test
-    fun parseUriWithoutPath() {
+    fun `parseUri throws exception if url lacks a path`() {
         try {
             uriParser.parseUri("https://example.com?key=a1b2c3")
             failExpectingUriSyntaxException()
@@ -51,7 +51,7 @@ class UriParserTest {
     }
 
     @Test
-    fun parseUriWithoutQuery() {
+    fun `parseUri throws exception if url lacks a query`() {
         try {
             uriParser.parseUri("https://example.com/foo/file.json")
             failExpectingUriSyntaxException()
@@ -61,7 +61,7 @@ class UriParserTest {
     }
 
     @Test
-    fun parseUriWithoutApiKey() {
+    fun `parseUri throws exception if url lacks an API key`() {
         try {
             uriParser.parseUri("https://example.com/foo/file.json?key")
             failExpectingUriSyntaxException()
@@ -75,13 +75,13 @@ class UriParserTest {
     }
 
     @Test
-    fun parseUriWithCompleteUrl() {
+    fun `parseUri returns valid EngelsystemUri if url is complete`() {
         val uri = EngelsystemUri("https://example.com", "foo/file.json", "a1b2c3")
         assertThat(uriParser.parseUri("https://example.com/foo/file.json?key=a1b2c3")).isEqualTo(uri)
     }
 
     @Test
-    fun parseUriWithCompleteUrlWithPort() {
+    fun `parseUri returns valid EngelsystemUri if url is complete and port is present`() {
         val uri = EngelsystemUri("https://example.com:3000", "foo/file.json", "a1b2c3")
         assertThat(uriParser.parseUri("https://example.com:3000/foo/file.json?key=a1b2c3")).isEqualTo(uri)
     }
