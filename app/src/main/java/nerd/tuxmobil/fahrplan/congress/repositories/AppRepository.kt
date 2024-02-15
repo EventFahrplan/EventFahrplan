@@ -362,10 +362,11 @@ object AppRepository {
                 val parsingStatus = if (meta.numDays == 0) InitialParsing else Parsing
                 mutableLoadScheduleState.tryEmit(parsingStatus)
                 parseSchedule(
-                        fetchScheduleResult.scheduleXml,
-                        fetchScheduleResult.httpHeader,
-                        onParsingDone,
-                        onLoadingShiftsDone
+                    scheduleXml = fetchScheduleResult.scheduleXml,
+                    httpHeader = fetchScheduleResult.httpHeader,
+                    oldMeta = meta,
+                    onParsingDone = onParsingDone,
+                    onLoadingShiftsDone = onLoadingShiftsDone
                 )
             } else if (fetchResult.isNotModified) {
                 loadShifts(onLoadingShiftsDone)
@@ -375,6 +376,7 @@ object AppRepository {
 
     private fun parseSchedule(scheduleXml: String,
                               httpHeader: HttpHeader,
+                              oldMeta: Meta,
                               onParsingDone: (parseScheduleResult: ParseResult) -> Unit,
                               onLoadingShiftsDone: (loadShiftsResult: LoadShiftsResult) -> Unit) {
         scheduleNetworkRepository.parseSchedule(scheduleXml, httpHeader,
@@ -391,9 +393,12 @@ object AppRepository {
                     val validMeta = meta.validate()
                     updateMeta(validMeta)
                 },
-                onParsingDone = { result: Boolean, version: String ->
-                    val parseResult = ParseScheduleResult(result, version)
-                    val parseScheduleStatus = if (result) ParseSuccess else ParseFailure(parseResult)
+                onParsingDone = { isSuccess: Boolean, version: String ->
+                    if (!isSuccess) {
+                        updateMeta(oldMeta.copy(httpHeader = HttpHeader(eTag = "", lastModified = "")))
+                    }
+                    val parseResult = ParseScheduleResult(isSuccess, version)
+                    val parseScheduleStatus = if (isSuccess) ParseSuccess else ParseFailure(parseResult)
                     mutableLoadScheduleState.tryEmit(parseScheduleStatus)
                     onParsingDone(parseResult)
                     loadShifts(onLoadingShiftsDone)

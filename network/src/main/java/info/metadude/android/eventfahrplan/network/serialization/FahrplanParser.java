@@ -33,7 +33,7 @@ public class FahrplanParser {
 
         void onUpdateMeta(@NonNull Meta meta);
 
-        void onParseDone(Boolean result, String version);
+        void onParseDone(Boolean isSuccess, String version);
     }
 
     @NonNull
@@ -80,7 +80,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
 
     private boolean completed;
 
-    private boolean result;
+    private boolean isSuccess;
 
     ParserTask(@NonNull Logging logging, FahrplanParser.OnParseCompleteListener listener) {
         this.logging = logging;
@@ -109,17 +109,17 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
     }
 
     private void notifyActivity() {
-        if (result) {
+        if (isSuccess) {
             listener.onUpdateMeta(meta);
             listener.onUpdateSessions(sessions);
         }
-        listener.onParseDone(result, meta.getVersion());
+        listener.onParseDone(isSuccess, meta.getVersion());
         completed = false;
     }
 
-    protected void onPostExecute(Boolean result) {
+    protected void onPostExecute(Boolean isSuccess) {
         completed = true;
-        this.result = result;
+        this.isSuccess = isSuccess;
 
         if (listener != null) {
             notifyActivity();
