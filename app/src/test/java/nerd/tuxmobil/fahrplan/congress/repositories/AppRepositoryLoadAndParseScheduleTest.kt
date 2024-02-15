@@ -351,7 +351,7 @@ class AppRepositoryLoadAndParseScheduleTest {
             httpHeader: HttpHeader,
             onUpdateSessions: (sessions: List<NetworkSession>) -> Unit,
             onUpdateMeta: (meta: NetworkMeta) -> Unit,
-            onParsingDone: (result: Boolean, version: String) -> Unit
+            onParsingDone: (isSuccess: Boolean, version: String) -> Unit
         ) {
             this.onUpdateSessions = onUpdateSessions
             this.onUpdateMeta = onUpdateMeta

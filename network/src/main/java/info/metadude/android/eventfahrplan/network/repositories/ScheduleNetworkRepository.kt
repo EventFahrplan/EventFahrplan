@@ -17,6 +17,6 @@ interface ScheduleNetworkRepository {
                       httpHeader: HttpHeader,
                       onUpdateSessions: (sessions: List<Session>) -> Unit,
                       onUpdateMeta: (meta: Meta) -> Unit,
-                      onParsingDone: (result: Boolean, version: String) -> Unit)
+                      onParsingDone: (isSuccess: Boolean, version: String) -> Unit)
 
 }

@@ -391,9 +391,9 @@ object AppRepository {
                     val validMeta = meta.validate()
                     updateMeta(validMeta)
                 },
-                onParsingDone = { result: Boolean, version: String ->
-                    val parseResult = ParseScheduleResult(result, version)
-                    val parseScheduleStatus = if (result) ParseSuccess else ParseFailure(parseResult)
+                onParsingDone = { isSuccess: Boolean, version: String ->
+                    val parseResult = ParseScheduleResult(isSuccess, version)
+                    val parseScheduleStatus = if (isSuccess) ParseSuccess else ParseFailure(parseResult)
                     mutableLoadScheduleState.tryEmit(parseScheduleStatus)
                     onParsingDone(parseResult)
                     loadShifts(onLoadingShiftsDone)
