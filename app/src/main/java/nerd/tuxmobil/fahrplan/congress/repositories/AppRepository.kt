@@ -362,10 +362,10 @@ object AppRepository {
                 val parsingStatus = if (meta.numDays == 0) InitialParsing else Parsing
                 mutableLoadScheduleState.tryEmit(parsingStatus)
                 parseSchedule(
-                        fetchScheduleResult.scheduleXml,
-                        fetchScheduleResult.httpHeader,
-                        onParsingDone,
-                        onLoadingShiftsDone
+                    scheduleXml = fetchScheduleResult.scheduleXml,
+                    httpHeader = fetchScheduleResult.httpHeader,
+                    onParsingDone = onParsingDone,
+                    onLoadingShiftsDone = onLoadingShiftsDone
                 )
             } else if (fetchResult.isNotModified) {
                 loadShifts(onLoadingShiftsDone)
