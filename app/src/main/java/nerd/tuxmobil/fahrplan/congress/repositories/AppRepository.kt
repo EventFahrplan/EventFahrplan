@@ -364,6 +364,7 @@ object AppRepository {
                 parseSchedule(
                     scheduleXml = fetchScheduleResult.scheduleXml,
                     httpHeader = fetchScheduleResult.httpHeader,
+                    oldMeta = meta,
                     onParsingDone = onParsingDone,
                     onLoadingShiftsDone = onLoadingShiftsDone
                 )
@@ -375,6 +376,7 @@ object AppRepository {
 
     private fun parseSchedule(scheduleXml: String,
                               httpHeader: HttpHeader,
+                              oldMeta: Meta,
                               onParsingDone: (parseScheduleResult: ParseResult) -> Unit,
                               onLoadingShiftsDone: (loadShiftsResult: LoadShiftsResult) -> Unit) {
         scheduleNetworkRepository.parseSchedule(scheduleXml, httpHeader,
@@ -392,6 +394,9 @@ object AppRepository {
                     updateMeta(validMeta)
                 },
                 onParsingDone = { isSuccess: Boolean, version: String ->
+                    if (!isSuccess) {
+                        updateMeta(oldMeta.copy(httpHeader = HttpHeader(eTag = "", lastModified = "")))
+                    }
                     val parseResult = ParseScheduleResult(isSuccess, version)
                     val parseScheduleStatus = if (isSuccess) ParseSuccess else ParseFailure(parseResult)
                     mutableLoadScheduleState.tryEmit(parseScheduleStatus)

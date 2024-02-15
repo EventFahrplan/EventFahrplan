@@ -298,6 +298,29 @@ class AppRepositoryLoadAndParseScheduleTest {
             testableAppRepository.loadScheduleState.test {
                 assertThat(awaitItem()).isEqualTo(ParseFailure(ParseScheduleResult(false, "1.0.0")))
             }
+            // Reset ETag &b Last-Modified if parsing failed
+            verify(metaDatabaseRepository, times(2)).insert(any())
+        }
+
+    @Test
+    fun `loadScheduleState emits ParseFailure when initial parsing finished with an error`() =
+        runTest {
+            whenever(metaDatabaseRepository.query()) doReturn DatabaseMeta(numDays = 0)
+            val success = createFetchScheduleResult(NetworkHttpStatus.HTTP_OK)
+            val onParsingDone: OnParsingDone = { result ->
+                assertThat(result).isEqualTo(ParseScheduleResult(isSuccess = false, "1.0.0"))
+            }
+            testableAppRepository.loadSchedule(isUserRequest = false, onParsingDone = onParsingDone)
+            scheduleNetworkRepository.onFetchScheduleFinished(success)
+
+            // onParsingDone
+            whenever(sharedPreferencesRepository.getEngelsystemShiftsUrl()) doReturn EMPTY_ENGELSYSTEM_URL // early exit to bypass here
+            scheduleNetworkRepository.onParsingDone(false, "1.0.0")
+            testableAppRepository.loadScheduleState.test {
+                assertThat(awaitItem()).isEqualTo(ParseFailure(ParseScheduleResult(false, "1.0.0")))
+            }
+            // Reset ETag &b Last-Modified if parsing failed
+            verify(metaDatabaseRepository, times(2)).insert(any())
         }
 
     private fun createFetchScheduleResult(httpStatus: NetworkHttpStatus) =
