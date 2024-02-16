@@ -89,7 +89,7 @@ class MomentTest {
     }
 
     @Test
-    fun dateTimeFieldsAreCorrectlyMapped() {
+    fun `date and time properties are correctly mapped`() {
         val moment = Moment.ofEpochMilli(DEC_30_22_47_2019)
 
         assertThat(moment.year).isEqualTo(2019)
@@ -100,7 +100,7 @@ class MomentTest {
     }
 
     @Test
-    fun startOfDay() {
+    fun `startOfDay sets hour and minute properties to 0`() {
         val moment = Moment.ofEpochMilli(DEC_30_22_47_2019)
         val startOfDay = moment.startOfDay()
 
@@ -112,7 +112,7 @@ class MomentTest {
     }
 
     @Test
-    fun endOfDay() {
+    fun `endOfDay sets hour property to 23 and minute property to 59`() {
         val moment = Moment.ofEpochMilli(DEC_30_22_47_2019)
         val endOfDayUTC = moment.endOfDay().toUtcDateTime()
 
@@ -124,25 +124,25 @@ class MomentTest {
     }
 
     @Test
-    fun getMinuteOfDayZonedInput() {
+    fun `minuteOfDay returns correct minutes value derived from ZonedDateTime`() {
         val startsAtDate = ZonedDateTime.of(2019, 8, 27, 6, 30, 0, 0, ZoneOffset.ofHours(4))
         assertThat(startsAtDate.toMoment().minuteOfDay).isEqualTo((6 - 4) * 60 + 30)
     }
 
     @Test
-    fun getDayOfMonthWithLeapYearDay() {
+    fun `monthDay returns correct day value for leap year day`() {
         // Thursday, February 28, 2019 11:59:59 PM UTC
         assertThat(Moment.ofEpochMilli(1551312000000).monthDay).isEqualTo(28)
     }
 
     @Test
-    fun getDayOfMonthWithDayAfterLeapYear() {
+    fun `monthDay returns correct day value for day after leap year day`() {
         // Friday, March 1, 2019 12:00:00 AM UTC
         assertThat(Moment.ofEpochMilli(1551398400000).monthDay).isEqualTo(1)
     }
 
     @Test
-    fun startOfDayVsLocalDate() {
+    fun `startOfDay and toUtcDateTime allow conversion to LocalDate`() {
         val localDateString = "2019-12-30"
         val localDate = LocalDate.parse(localDateString)
 
@@ -152,7 +152,7 @@ class MomentTest {
     }
 
     @Test
-    fun timeZoneHasNoEffectOnMilliseconds() {
+    fun `toZonedDateTime leaves epoch milliseconds unchanged`() {
         val nowUTC = Moment.now()
         val utcMillis = nowUTC.toMilliseconds()
         val utcSeconds = utcMillis / MILLISECONDS_OF_ONE_SECOND
@@ -164,7 +164,7 @@ class MomentTest {
     }
 
     @Test
-    fun toLocalDate() {
+    fun `parseDate and toUtcDateTime allow conversion to LocalDate`() {
         val localDateString = "2019-12-31"
         val localDate = LocalDate.parse(localDateString)
 
