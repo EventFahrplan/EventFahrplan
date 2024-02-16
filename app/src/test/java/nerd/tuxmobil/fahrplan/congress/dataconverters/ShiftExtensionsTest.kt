@@ -45,7 +45,7 @@ class ShiftExtensionsTest {
 
     @Test
     fun descriptionTextWithShiftWithLocationName() {
-        assertThat(Shift(locationName = "Room 23").descriptionText).isEqualTo("")
+        assertThat(Shift(locationName = "Room 23").descriptionText).isEmpty()
     }
 
     @Test
