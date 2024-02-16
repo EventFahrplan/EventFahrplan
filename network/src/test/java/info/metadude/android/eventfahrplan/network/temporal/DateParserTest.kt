@@ -1,9 +1,9 @@
 package info.metadude.android.eventfahrplan.network.temporal
 
+import com.google.common.truth.Truth.assertThat
 import info.metadude.android.eventfahrplan.network.temporal.DateParser.Companion.getDateTime
 import info.metadude.android.eventfahrplan.network.temporal.DateParser.Companion.getDayChange
 import info.metadude.android.eventfahrplan.network.temporal.DateParser.Companion.getMinutes
-import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class DateParserTest {

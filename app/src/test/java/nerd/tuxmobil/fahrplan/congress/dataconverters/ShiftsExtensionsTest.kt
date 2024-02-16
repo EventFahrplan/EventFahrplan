@@ -1,9 +1,9 @@
 package nerd.tuxmobil.fahrplan.congress.dataconverters
 
+import com.google.common.truth.Truth.assertThat
 import info.metadude.android.eventfahrplan.commons.temporal.DayRange
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import info.metadude.kotlin.library.engelsystem.models.Shift
-import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.threeten.bp.ZoneOffset

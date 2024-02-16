@@ -1,12 +1,12 @@
 package info.metadude.android.eventfahrplan.commons.temporal
 
+import com.google.common.truth.Truth.assertThat
 import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MILLISECONDS_OF_ONE_DAY
 import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MILLISECONDS_OF_ONE_HOUR
 import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MILLISECONDS_OF_ONE_MINUTE
 import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MILLISECONDS_OF_ONE_SECOND
 import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MINUTES_OF_ONE_DAY
 import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.toMoment
-import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.threeten.bp.LocalDate
 import org.threeten.bp.ZoneOffset
@@ -37,7 +37,7 @@ class MomentTest {
         val momentOne = Moment.ofEpochMilli(DEC_30_22_47_2019)
         val momentTwo = Moment.ofEpochMilli(DEC_30_22_47_2019)
 
-        assertThat(momentOne == momentTwo).isTrue
+        assertThat(momentOne == momentTwo).isTrue()
     }
 
     @Test
@@ -178,9 +178,9 @@ class MomentTest {
         val momentOne = Moment.now()
         val momentTwo = momentOne.plusSeconds(1)
 
-        assertThat(momentOne.isBefore(momentTwo)).isTrue
-        assertThat(momentTwo.isBefore(momentOne)).isFalse
-        assertThat(momentOne.isBefore(momentOne)).isFalse
+        assertThat(momentOne.isBefore(momentTwo)).isTrue()
+        assertThat(momentTwo.isBefore(momentOne)).isFalse()
+        assertThat(momentOne.isBefore(momentOne)).isFalse()
     }
 
     @Test
@@ -189,7 +189,7 @@ class MomentTest {
         val momentTwo = momentOne.plusSeconds(1)
 
         assertThat(momentOne.isSimultaneousWith(momentTwo)).isFalse()
-        assertThat(momentTwo.isSimultaneousWith(momentOne)).isFalse
+        assertThat(momentTwo.isSimultaneousWith(momentOne)).isFalse()
         assertThat(momentOne.plusSeconds(1).isSimultaneousWith(momentTwo)).isTrue()
     }
 
@@ -198,9 +198,9 @@ class MomentTest {
         val momentOne = Moment.now()
         val momentTwo = momentOne.plusSeconds(1)
 
-        assertThat(momentOne.isAfter(momentTwo)).isFalse
-        assertThat(momentTwo.isAfter(momentOne)).isTrue
-        assertThat(momentOne.isAfter(momentOne)).isFalse
+        assertThat(momentOne.isAfter(momentTwo)).isFalse()
+        assertThat(momentTwo.isAfter(momentOne)).isTrue()
+        assertThat(momentOne.isAfter(momentOne)).isFalse()
     }
 
     @Test

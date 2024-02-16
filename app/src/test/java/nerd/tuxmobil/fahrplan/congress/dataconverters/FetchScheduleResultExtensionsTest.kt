@@ -1,7 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.dataconverters
 
+import com.google.common.truth.Truth.assertThat
 import info.metadude.android.eventfahrplan.network.models.HttpHeader
-import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import info.metadude.android.eventfahrplan.network.fetching.FetchScheduleResult as NetworkFetchScheduleResult
 import info.metadude.android.eventfahrplan.network.fetching.HttpStatus as NetworkHttpStatus

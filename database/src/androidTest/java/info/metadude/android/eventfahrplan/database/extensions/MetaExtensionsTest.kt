@@ -1,5 +1,6 @@
 package info.metadude.android.eventfahrplan.database.extensions
 
+import com.google.common.truth.Truth.assertThat
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.ETAG
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.NUM_DAYS
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.SCHEDULE_LAST_MODIFIED
@@ -9,7 +10,6 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Me
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.VERSION
 import info.metadude.android.eventfahrplan.database.models.HttpHeader
 import info.metadude.android.eventfahrplan.database.models.Meta
-import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class MetaExtensionsTest {
