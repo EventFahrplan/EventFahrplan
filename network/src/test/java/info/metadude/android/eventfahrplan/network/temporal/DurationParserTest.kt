@@ -1,7 +1,7 @@
 package info.metadude.android.eventfahrplan.network.temporal
 
+import com.google.common.truth.Truth.assertThat
 import info.metadude.android.eventfahrplan.network.temporal.DurationParser.getMinutes
-import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class DurationParserTest {

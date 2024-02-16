@@ -1,9 +1,9 @@
 package nerd.tuxmobil.fahrplan.congress.schedule
 
+import com.google.common.truth.Truth.assertThat
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.NoLogging
 import nerd.tuxmobil.fahrplan.congress.models.Session
-import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.fail
 import org.junit.jupiter.api.Test
 
@@ -36,7 +36,7 @@ class NavigationMenuEntriesGeneratorTest {
             sessions,
             DAY_2_AT_830_AM,
         )
-        assertThat(entries).isNotNull
+        assertThat(entries).isNotNull()
         assertThat(entries.size).isEqualTo(3)
         assertThat(entries[0]).isEqualTo("Day 1")
         assertThat(entries[1]).isEqualTo("Day 2 - Today")
@@ -56,7 +56,7 @@ class NavigationMenuEntriesGeneratorTest {
             sessions,
             DAY_2_AT_830_AM,
         )
-        assertThat(entries).isNotNull
+        assertThat(entries).isNotNull()
         assertThat(entries.size).isEqualTo(3)
         assertThat(entries[0]).isEqualTo("Day 1")
         assertThat(entries[1]).isEqualTo("Day 2")
@@ -75,7 +75,7 @@ class NavigationMenuEntriesGeneratorTest {
             sessions,
             DAY_2_AT_830_AM,
         )
-        assertThat(entries).isNotNull
+        assertThat(entries).isNotNull()
         assertThat(entries.size).isEqualTo(3)
         assertThat(entries[0]).isEqualTo("Day 1")
         assertThat(entries[1]).isEqualTo("Day 2 - Today")
@@ -92,7 +92,7 @@ class NavigationMenuEntriesGeneratorTest {
             sessions,
             DAY_2_AT_830_AM,
         )
-        assertThat(entries).isNotNull
+        assertThat(entries).isNotNull()
         assertThat(entries.size).isEqualTo(1)
         assertThat(entries.first()).isEqualTo("Day 1")
     }
@@ -107,7 +107,7 @@ class NavigationMenuEntriesGeneratorTest {
             sessions,
             DAY_2_AT_810_AM,
         )
-        assertThat(entries).isNotNull
+        assertThat(entries).isNotNull()
         assertThat(entries.size).isEqualTo(1)
         assertThat(entries.first()).isEqualTo("Day 1 - Today")
     }
@@ -119,7 +119,7 @@ class NavigationMenuEntriesGeneratorTest {
             emptyList(),
             DAY_2_AT_830_AM,
         )
-        assertThat(entries).isNotNull
+        assertThat(entries).isNotNull()
         assertThat(entries.size).isEqualTo(0)
     }
 
@@ -130,7 +130,7 @@ class NavigationMenuEntriesGeneratorTest {
             emptyList(),
             DAY_2_AT_830_AM,
         )
-        assertThat(entries).isNotNull
+        assertThat(entries).isNotNull()
         assertThat(entries.size).isEqualTo(0)
     }
 

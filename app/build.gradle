@@ -249,9 +249,6 @@ dependencies {
 
     testImplementation project(":commons-testing")
     testImplementation Libs.annotation
-    testImplementation(Libs.assertjAndroid) {
-        exclude group: "com.android.support", module: "support-annotations"
-    }
     testImplementation Libs.coreTesting
     testImplementation Libs.junitJupiterApi
     testRuntimeOnly Libs.junitJupiterEngine

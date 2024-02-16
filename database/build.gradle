@@ -43,10 +43,8 @@ dependencies {
     implementation Libs.annotation
     implementation Libs.coreKtx
 
-    androidTestImplementation(Libs.assertjAndroid) {
-        exclude group: "com.android.support", module: "support-annotations"
-    }
     androidTestImplementation Libs.androidTestCore
     androidTestRuntimeOnly Libs.androidTestRunner
     androidTestImplementation Libs.junitJupiterApi
+    androidTestImplementation Libs.truth
 }

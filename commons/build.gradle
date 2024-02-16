@@ -35,8 +35,5 @@ dependencies {
     testImplementation Libs.junitJupiterApi
     testRuntimeOnly Libs.junitJupiterEngine
     testImplementation Libs.junitJupiterParams
-    testImplementation(Libs.assertjAndroid) {
-        exclude group: "com.android.support", module: "support-annotations"
-    }
     testImplementation Libs.truth
 }

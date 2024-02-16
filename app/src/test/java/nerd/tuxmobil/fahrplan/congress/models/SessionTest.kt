@@ -1,8 +1,8 @@
 package nerd.tuxmobil.fahrplan.congress.models
 
+import com.google.common.truth.Truth.assertThat
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MILLISECONDS_OF_ONE_MINUTE
-import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 private typealias SessionModification = Session.() -> Unit
@@ -87,14 +87,14 @@ class SessionTest {
         val session1 = createSession()
         val session2 = Session(session1)
         assertThat(session1).isEqualTo(session2)
-        assertThat(session1).isNotSameAs(session2)
+        assertThat(session1).isNotSameInstanceAs(session2)
     }
 
     @Test
     fun `equals evaluates true for equal sessions`() {
         val session1 = createSession()
         val session2 = createSession()
-        assertThat(session1).isNotSameAs(session2)
+        assertThat(session1).isNotSameInstanceAs(session2)
         assertThat(session1).isEqualTo(session2)
     }
 
@@ -102,7 +102,7 @@ class SessionTest {
     fun `equals evaluates true for sessions with not considered fields modified`() {
         val session1 = createSession()
         val session2 = createSessionModifyingNonConsideredFields()
-        assertThat(session1).isNotSameAs(session2)
+        assertThat(session1).isNotSameInstanceAs(session2)
         assertThat(session1).isEqualTo(session2)
     }
 
@@ -110,7 +110,7 @@ class SessionTest {
     fun `equals evaluates false when comparing with null`() {
         val session1 = createSession()
         val session2 = null
-        assertThat(session1).isNotSameAs(session2)
+        assertThat(session1).isNotSameInstanceAs(session2)
         assertThat(session1).isNotEqualTo(session2)
     }
 
@@ -118,7 +118,7 @@ class SessionTest {
     fun `equals evaluates false when comparing with other type`() {
         val session1 = createSession()
         val session2 = "Other type"
-        assertThat(session1).isNotSameAs(session2)
+        assertThat(session1).isNotSameInstanceAs(session2)
         assertThat(session1).isNotEqualTo(session2)
     }
 
@@ -126,7 +126,7 @@ class SessionTest {
     fun `hashCode evaluates true for equal sessions`() {
         val session1 = createSession()
         val session2 = createSession()
-        assertThat(session1).isNotSameAs(session2)
+        assertThat(session1).isNotSameInstanceAs(session2)
         assertThat(session1.hashCode()).isEqualTo(session2.hashCode())
     }
 
@@ -134,7 +134,7 @@ class SessionTest {
     fun `hashCode evaluates true for sessions with not considered fields modified`() {
         val session1 = createSession()
         val session2 = createSessionModifyingNonConsideredFields()
-        assertThat(session1).isNotSameAs(session2)
+        assertThat(session1).isNotSameInstanceAs(session2)
         assertThat(session1.hashCode()).isEqualTo(session2.hashCode())
     }
 
@@ -260,14 +260,14 @@ class SessionTest {
     private fun assertOddSessionsAreNotEqual(session2Modification: SessionModification) {
         val session1 = createSession()
         val session2 = createSession().apply { session2Modification() }
-        assertThat(session1).isNotSameAs(session2)
+        assertThat(session1).isNotSameInstanceAs(session2)
         assertThat(session1).isNotEqualTo(session2)
     }
 
     private fun assertOddSessionsHaveOddHashCodes(session2Modification: SessionModification) {
         val session1 = createSession()
         val session2 = createSession().apply { session2Modification() }
-        assertThat(session1).isNotSameAs(session2)
+        assertThat(session1).isNotSameInstanceAs(session2)
         assertThat(session1.hashCode()).isNotEqualTo(session2.hashCode())
     }
 

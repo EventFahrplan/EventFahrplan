@@ -1,7 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.dataconverters
 
+import com.google.common.truth.Truth.assertThat
 import nerd.tuxmobil.fahrplan.congress.models.Highlight
-import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import info.metadude.android.eventfahrplan.database.models.Highlight as HighlightDatabaseModel
 
