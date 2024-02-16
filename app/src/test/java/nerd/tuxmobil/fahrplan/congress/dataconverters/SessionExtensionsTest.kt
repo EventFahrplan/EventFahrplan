@@ -272,6 +272,7 @@ class SessionExtensionsTest {
             description = ""
         }.sanitize()
         val expected = Session("").apply {
+            abstractt = ""
             description = "Lorem ipsum"
         }
         // The "abstractt" and "description" fields are not part of Session#equals for some reason.
