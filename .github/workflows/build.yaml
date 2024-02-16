@@ -17,10 +17,7 @@ jobs:
         run: ./gradlew assembleCcc37c3
 
       - name: Unit Tests
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: 21
-          script: ./gradlew testDebug :engelsystem:test testCcc37c3DebugUnitTest assembleCcc37c3Debug lintAnalyzeCcc37c3Debug
+        run: ./gradlew testDebug :engelsystem:test testCcc37c3DebugUnitTest assembleCcc37c3Debug lintAnalyzeCcc37c3Debug
 
       - name: Publish unit-test results
         uses: EnricoMi/publish-unit-test-result-action@v2
