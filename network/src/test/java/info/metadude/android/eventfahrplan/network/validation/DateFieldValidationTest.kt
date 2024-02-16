@@ -10,7 +10,7 @@ class DateFieldValidationTest {
 
     @Test
     fun `validate returns false if one session is after the end`() {
-        val validation = DateFieldValidation(TestLogger)
+        val validation = createValidation()
 
         val start = Moment.parseDate("2019-01-01")
         val end = Moment.parseDate("2019-01-01")
@@ -30,7 +30,7 @@ class DateFieldValidationTest {
 
     @Test
     fun `validate returns false if any session is outside the range`() {
-        val validation = DateFieldValidation(TestLogger)
+        val validation = createValidation()
 
         val start = Moment.parseDate("2019-01-01")
         val end = Moment.parseDate("2019-01-03")
@@ -53,7 +53,7 @@ class DateFieldValidationTest {
 
     @Test
     fun `validate returns true if session is between start and end`() {
-        val validation = DateFieldValidation(TestLogger)
+        val validation = createValidation()
 
         val start = Moment.parseDate("2019-01-01")
         val end = Moment.parseDate("2019-01-03")
@@ -73,7 +73,7 @@ class DateFieldValidationTest {
 
     @Test
     fun `validate returns true for no sessions`() {
-        val validation = DateFieldValidation(TestLogger)
+        val validation = createValidation()
 
         val sessions = emptyList<Session>()
 
@@ -86,7 +86,7 @@ class DateFieldValidationTest {
 
     @Test
     fun `validate returns true for two sessions on the same day`() {
-        val validation = DateFieldValidation(TestLogger)
+        val validation = createValidation()
 
         val start = Moment.parseDate("2019-01-01")
         val end = Moment.parseDate("2019-01-01")
@@ -105,7 +105,7 @@ class DateFieldValidationTest {
 
     @Test
     fun `validate returns true for two sessions on consecutive days`() {
-        val validation = DateFieldValidation(TestLogger)
+        val validation = createValidation()
 
         val start = Moment.parseDate("2019-01-01")
         val end = Moment.parseDate("2019-01-02")
@@ -122,7 +122,9 @@ class DateFieldValidationTest {
         validation.printValidationErrors()
     }
 
-    object TestLogger : Logging {
+    private fun createValidation() = DateFieldValidation(TestLogger)
+
+    private object TestLogger : Logging {
         override fun d(tag: String, message: String) = println("$tag $message")
 
         override fun e(tag: String, message: String) = println("$tag $message")
