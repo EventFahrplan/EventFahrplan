@@ -71,6 +71,17 @@ class SessionDetailsFragment : Fragment() {
             }
         }
 
+        // Custom list items.
+        // Docs: https://noties.io/Markwon/docs/v4/core/theme.html#list
+        private fun createListItemsPlugin(context: Context) = object : AbstractMarkwonPlugin() {
+            override fun configureTheme(builder: MarkwonTheme.Builder) {
+                val itemColor = ContextCompat.getColor(context, R.color.session_details_list_item)
+                builder
+                    .bulletWidth(16)
+                    .listItemColor(itemColor)
+            }
+        }
+
         @JvmStatic
         fun replaceAtBackStack(fragmentManager: FragmentManager, @IdRes containerViewId: Int, sidePane: Boolean) {
             val fragment = SessionDetailsFragment().withArguments(
@@ -128,6 +139,7 @@ class SessionDetailsFragment : Fragment() {
         notificationHelper = NotificationHelper(context)
         markwon = Markwon.builder(requireContext())
             .usePlugin(HEADINGS_PLUGIN)
+            .usePlugin(createListItemsPlugin(context))
             .usePlugin(LinkifyPlugin.create())
             .build()
     }
