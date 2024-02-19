@@ -44,5 +44,6 @@
 
     <!-- Session details -->
     <color name="session_details_text">@color/text_primary</color>
+    <color name="session_details_list_item">@color/colorAccent</color>
 
 </resources>
