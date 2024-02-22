@@ -88,7 +88,7 @@ android {
             versionName "${defaultConfig.versionName}-glt-Edition"
             buildConfigField "String", "GOOGLE_PLAY_URL", '"https://play.google.com/store/apps/details?id=at.linuxtage.companion"'
             buildConfigField "String", "F_DROID_URL", '"https://f-droid.org/packages/at.linuxtage.companion/"'
-            buildConfigField "String", "SCHEDULE_URL", '"https://pretalx.linuxtage.at/glt23/schedule/export/schedule.xml"'
+            buildConfigField "String", "SCHEDULE_URL", '"https://pretalx.linuxtage.at/glt24/schedule/export/schedule.xml"'
             buildConfigField "String", "EVENT_URL", '""'
             buildConfigField "String", "EVENT_WEBSITE_URL", '"https://www.linuxtage.at"'
             buildConfigField "String", "EVENT_POSTAL_ADDRESS", '"Inffeldgasse 25d, 8010 Graz"'
