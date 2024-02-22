@@ -20,8 +20,8 @@ import nerd.tuxmobil.fahrplan.congress.models.Alarm
 import nerd.tuxmobil.fahrplan.congress.models.SchedulableAlarm
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
-import org.junit.Assert.fail
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.fail
+import org.junit.jupiter.api.Test
 import org.mockito.kotlin.any
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
@@ -125,6 +125,54 @@ class AlarmServicesTest {
     }
 
     @Test
+    fun `canScheduleExactAlarms returns true before SnowCone 1`() {
+        val alarmManager = mock<AlarmManager> {
+            on { canScheduleExactAlarms() } doReturn false // not relevant
+        }
+        val alarmServices = createAlarmServices(
+            alarmManager = alarmManager,
+            runsAtLeastOnAndroidSnowCone = false,
+        )
+        assertThat(alarmServices.canScheduleExactAlarms).isTrue()
+    }
+
+    @Test
+    fun `canScheduleExactAlarms returns true before SnowCone 2`() {
+        val alarmManager = mock<AlarmManager> {
+            on { canScheduleExactAlarms() } doReturn true // not relevant
+        }
+        val alarmServices = createAlarmServices(
+            alarmManager = alarmManager,
+            runsAtLeastOnAndroidSnowCone = false,
+        )
+        assertThat(alarmServices.canScheduleExactAlarms).isTrue()
+    }
+
+    @Test
+    fun `canScheduleExactAlarms returns false as of SnowCone and alarmManager returns false`() {
+        val alarmManager = mock<AlarmManager> {
+            on { canScheduleExactAlarms() } doReturn false
+        }
+        val alarmServices = createAlarmServices(
+            alarmManager = alarmManager,
+            runsAtLeastOnAndroidSnowCone = true,
+        )
+        assertThat(alarmServices.canScheduleExactAlarms).isFalse()
+    }
+
+    @Test
+    fun `canScheduleExactAlarms returns true as of SnowCone and alarmManager returns true`() {
+        val alarmManager = mock<AlarmManager> {
+            on { canScheduleExactAlarms() } doReturn true
+        }
+        val alarmServices = createAlarmServices(
+            alarmManager = alarmManager,
+            runsAtLeastOnAndroidSnowCone = true,
+        )
+        assertThat(alarmServices.canScheduleExactAlarms).isTrue()
+    }
+
+    @Test
     fun `scheduleSessionAlarm invokes cancel then set when discardExisting is true`() {
         val pendingIntent = mock<PendingIntent>()
         val pendingIntentDelegate = object : PendingIntentDelegate {
@@ -201,7 +249,9 @@ class AlarmServicesTest {
 
     private fun createAlarmServices(
         pendingIntentDelegate: PendingIntentDelegate = mock(),
-        formattingDelegate: FormattingDelegate = mock()
+        formattingDelegate: FormattingDelegate = mock(),
+        alarmManager: AlarmManager = this.alarmManager,
+        runsAtLeastOnAndroidSnowCone: Boolean = true,
     ) = AlarmServices(
         context = mockContext,
         repository = repository,
@@ -209,7 +259,8 @@ class AlarmServicesTest {
         alarmTimeValues = alarmTimesValues,
         logging = NoLogging,
         pendingIntentDelegate = pendingIntentDelegate,
-        formattingDelegate = formattingDelegate
+        formattingDelegate = formattingDelegate,
+        runsAtLeastOnAndroidSnowCone = runsAtLeastOnAndroidSnowCone,
     )
 
 }

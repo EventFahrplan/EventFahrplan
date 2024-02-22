@@ -14,6 +14,6 @@ data class FahrplanParameter(
     val useDeviceTimeZone: Boolean,
     val numDays: Int,
     val dayIndex: Int,
-    val dayMenuEntries: List<String>?
+    val dayMenuEntries: List<String>
 
 )

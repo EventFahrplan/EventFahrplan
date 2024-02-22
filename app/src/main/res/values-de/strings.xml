@@ -103,6 +103,7 @@
     <string name="about_google_play_listing">Eintrag bei Google Play</string>
     <string name="about_issues_or_feature_requests">Fehlermeldungen und Wünsche</string>
     <string name="about_source_code">Quellcode</string>
+    <string name="about_translation_platform">Übersetzungsplattform</string>
     <string name="today">heute</string>
     <string name="schedule_parsing_error_generic">Unbekannter Fehler beim Parsen des Fahrplans</string>
     <string name="schedule_parsing_error_with_version">Fehler beim Parsen der Fahrplan-Version <xliff:g example="0.99a" id="scheduleVersion">%s</xliff:g></string>
@@ -202,6 +203,8 @@
     <string name="alarm_time_title_60_minutes_before">60 Minuten vorher</string>
 
     <string name="alarms_disabled_notifications_permission_missing">Alarme sind deaktiviert. Bitte erteile die \"Benachrichtigungen\" Berechtigung.</string>
+    <string name="alarms_disabled_notifications_are_disabled">Alarme sind deaktiviert. Bitte aktiviere Benachrichtigungen.</string>
+    <string name="alarms_disabled_schedule_exact_alarm_permission_missing">Alarme sind deaktiviert. Bitte \"Erlaube, Wecker &amp; Erinnerungen einzurichten\".</string>
 
     <!-- Session list item -->
     <string name="session_list_item_duration_text"><xliff:g example="45" id="duration">%d</xliff:g> min.</string>

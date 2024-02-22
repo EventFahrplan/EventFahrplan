@@ -4,7 +4,7 @@ import app.cash.turbine.ReceiveTurbine
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
-import info.metadude.android.eventfahrplan.commons.testing.MainDispatcherTestRule
+import info.metadude.android.eventfahrplan.commons.testing.MainDispatcherTestExtension
 import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedNever
 import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedOnce
 import kotlinx.coroutines.flow.Flow
@@ -20,13 +20,14 @@ import nerd.tuxmobil.fahrplan.congress.commons.ScreenNavigation
 import nerd.tuxmobil.fahrplan.congress.models.Alarm
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
-import org.junit.Rule
-import org.junit.Test
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.kotlin.any
 import org.mockito.kotlin.doNothing
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 
+@ExtendWith(MainDispatcherTestExtension::class)
 class AlarmsViewModelTest {
 
     private companion object {
@@ -37,9 +38,6 @@ class AlarmsViewModelTest {
         val ALARM_STARTS_AT = SESSION_STARTS_AT.minusMinutes(ALARM_TIME_IN_MIN.toLong())
 
     }
-
-    @get:Rule
-    val mainDispatcherTestRule = MainDispatcherTestRule()
 
     @Test
     fun `alarmsState emits Loading`() = runTest {
@@ -219,6 +217,7 @@ class AlarmsViewModelTest {
     ) = mock<AppRepository> {
         on { alarms } doReturn flowOf(alarmsList)
         on { sessions } doReturn sessionsFlow
+        on { sessionsWithoutShifts } doReturn emptyFlow()
         on { readAlarms(any()) } doReturn alarmsList
         on { readUseDeviceTimeZoneEnabled() } doReturn true
         on { deleteAlarmForSessionId(any()) } doReturn 0

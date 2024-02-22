@@ -123,6 +123,12 @@ class AboutDialog : DialogFragment() {
         val websiteUrl = BuildConfig.EVENT_WEBSITE_URL
         conferenceUrl.setLinkText(websiteUrl, null, movementMethod, linkTextColor)
 
+        // Translation platform link
+        val translationPlatform = view.requireViewByIdCompat<TextView>(R.id.about_translation_platform_view)
+        val translationPlatformUrl = BuildConfig.TRANSLATION_PLATFORM_URL
+        val translationPlatformTitle = getString(R.string.about_translation_platform)
+        translationPlatform.setLinkText(translationPlatformUrl, translationPlatformTitle, movementMethod, linkTextColor)
+
         // Source code link
         val sourceCode = view.requireViewByIdCompat<TextView>(R.id.about_source_code_view)
         val sourceCodeUrl = BuildConfig.SOURCE_CODE_URL

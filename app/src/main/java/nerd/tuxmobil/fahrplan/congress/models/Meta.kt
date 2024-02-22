@@ -6,7 +6,7 @@ import org.threeten.bp.ZoneId
 data class Meta(
 
         @Deprecated("To be removed. Access from AppRepository only. Left here only for data transfer.")
-        var eTag: String = "",
+        var httpHeader: HttpHeader = HttpHeader(),
         var numDays: Int = MetasTable.Defaults.NUM_DAYS_DEFAULT,
         var subtitle: String = "",
         var timeZoneId: ZoneId? = null,

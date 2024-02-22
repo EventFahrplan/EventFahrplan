@@ -1,11 +1,11 @@
 # Customization guide
 
-This document describes how you can create your own app for an event.
+This document describes how to create your own app for an event.
 
 ## 1. Required information
 
-The following information are needed to configure the app for your event.
-This list is for your preparation. Step 3 guides you through where to fill in the information.
+The following information is required to configure the app for your event.
+This list is for your preparation. Step 3 guides you through where to enter the information.
 
 - Schedule URL which provides Frab compatible XML
 - Session URL template, e.g. `https://awesome-event.com/2021/events/%1$s.html`
@@ -25,7 +25,7 @@ This list is for your preparation. Step 3 guides you through where to fill in th
 
 ## 2. Required graphic assets and colors
 
-The following graphics and colors are needed in order to customize the look and feel of the app.
+The following graphics and colors are required to customize the look and feel of the app.
 This list is for your preparation. The specific folders and files are mentioned in the next step.
 
 - Launcher icon (SVG)
@@ -68,7 +68,7 @@ In some of the steps it is the easiest to copy and adapt configuration settings,
 
 ## 4. Optional customization
 
-The following options can be enabled via a `buildConfigField` and configured in *app/build.gradle* if needed.
+The following options can be enabled via a `buildConfigField` and configured in *app/build.gradle* as needed.
 
 - Event postal address for easy map navigation via `EVENT_POSTAL_ADDRESS`
 - Social media hashtags/handles for the event via `SOCIAL_MEDIA_HASHTAGS_HANDLES`
@@ -83,7 +83,7 @@ The following options can be enabled via a `buildConfigField` and configured in 
 
 ## 5. Optional engagements
 
-The app prompts the user to engage in the following topics if enabled via a `buildConfigField` in *app/build.gradle*.
+The app prompts the user for in the following topics if enabled via a `buildConfigField` in *app/build.gradle*.
 
 - c3nav app installation via `ENGAGE_C3NAV_APP_INSTALLATION`
 - Google Play beta testing via `ENGAGE_GOOGLE_BETA_TESTING`

@@ -1,11 +1,11 @@
 package nerd.tuxmobil.fahrplan.congress.repositories
 
+import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import nerd.tuxmobil.fahrplan.congress.TestExecutionContext
 import nerd.tuxmobil.fahrplan.congress.exceptions.ExceptionHandling
-import org.assertj.core.api.Assertions.assertThat
-import org.junit.Test
+import org.junit.jupiter.api.Test
 import kotlin.coroutines.CoroutineContext
 
 @ExperimentalCoroutinesApi
@@ -35,7 +35,7 @@ class NetworkScopeTest {
         networkScope.launchNamed("Test") {
             throw Exception()
         }
-        assertThat(isExceptionHandled).isTrue
+        assertThat(isExceptionHandled).isTrue()
     }
 
 }

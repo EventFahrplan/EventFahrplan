@@ -22,6 +22,7 @@ import info.metadude.android.eventfahrplan.database.sqliteopenhelper.SessionsDBO
 import info.metadude.android.eventfahrplan.engelsystem.EngelsystemNetworkRepository
 import info.metadude.android.eventfahrplan.engelsystem.RealEngelsystemNetworkRepository
 import info.metadude.android.eventfahrplan.engelsystem.models.ShiftsResult
+import info.metadude.android.eventfahrplan.network.models.HttpHeader
 import info.metadude.android.eventfahrplan.network.models.Meta
 import info.metadude.android.eventfahrplan.network.repositories.RealScheduleNetworkRepository
 import info.metadude.android.eventfahrplan.network.repositories.ScheduleNetworkRepository
@@ -141,6 +142,28 @@ object AppRepository {
         refreshStarredSessionsSignal
             .onStart { emit(Unit) }
             .mapLatest { loadStarredSessions() }
+            .flowOn(executionContext.database)
+    }
+
+    private val refreshSessionsWithoutShiftsSignal = MutableSharedFlow<Unit>()
+
+    private fun refreshSessionsWithoutShifts() {
+        logging.d(LOG_TAG, "Refreshing sessions without shifts ...")
+        val requestIdentifier = "refreshSessionsWithoutShifts"
+        parentJobs[requestIdentifier] = databaseScope.launchNamed(requestIdentifier) {
+            refreshSessionsWithoutShiftsSignal.emit(Unit)
+        }
+    }
+
+    /**
+     * Emits all sessions excluding Engelsystem shifts from the database.
+     * The returned list might be empty.
+     */
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val sessionsWithoutShifts: Flow<List<Session>> by lazy {
+        refreshSessionsWithoutShiftsSignal
+            .onStart { emit(Unit) }
+            .mapLatest { loadSessionsForAllDays(includeEngelsystemShifts = false) }
             .flowOn(executionContext.database)
     }
 
@@ -317,7 +340,7 @@ object AppRepository {
         val meta = readMeta().toMetaNetworkModel()
         val fetchingStatus = if (meta.numDays == 0) InitialFetching else Fetching
         mutableLoadScheduleState.tryEmit(fetchingStatus)
-        scheduleNetworkRepository.fetchSchedule(okHttpClient, url, meta.eTag) { fetchScheduleResult ->
+        scheduleNetworkRepository.fetchSchedule(okHttpClient, url, meta.httpHeader) { fetchScheduleResult ->
             val fetchResult = fetchScheduleResult.toAppFetchScheduleResult()
             val fetchResultStatus = if (fetchResult.isSuccessful) {
                 FetchSuccess
@@ -332,17 +355,18 @@ object AppRepository {
             }
 
             if (fetchResult.isSuccessful) {
-                val validMeta = meta.copy(eTag = fetchScheduleResult.eTag).validate()
+                val validMeta = meta.copy(httpHeader = fetchScheduleResult.httpHeader).validate()
                 updateMeta(validMeta)
                 check(onParsingDone != {}) { "Nobody registered to receive ParseScheduleResult." }
                 // Parsing
                 val parsingStatus = if (meta.numDays == 0) InitialParsing else Parsing
                 mutableLoadScheduleState.tryEmit(parsingStatus)
                 parseSchedule(
-                        fetchScheduleResult.scheduleXml,
-                        fetchScheduleResult.eTag,
-                        onParsingDone,
-                        onLoadingShiftsDone
+                    scheduleXml = fetchScheduleResult.scheduleXml,
+                    httpHeader = fetchScheduleResult.httpHeader,
+                    oldMeta = meta,
+                    onParsingDone = onParsingDone,
+                    onLoadingShiftsDone = onLoadingShiftsDone
                 )
             } else if (fetchResult.isNotModified) {
                 loadShifts(onLoadingShiftsDone)
@@ -351,10 +375,11 @@ object AppRepository {
     }
 
     private fun parseSchedule(scheduleXml: String,
-                              eTag: String,
+                              httpHeader: HttpHeader,
+                              oldMeta: Meta,
                               onParsingDone: (parseScheduleResult: ParseResult) -> Unit,
                               onLoadingShiftsDone: (loadShiftsResult: LoadShiftsResult) -> Unit) {
-        scheduleNetworkRepository.parseSchedule(scheduleXml, eTag,
+        scheduleNetworkRepository.parseSchedule(scheduleXml, httpHeader,
                 onUpdateSessions = { sessions ->
                     val oldSessions = loadSessionsForAllDays(true)
                     val newSessions = sessions.toSessionsAppModel2().sanitize()
@@ -368,9 +393,12 @@ object AppRepository {
                     val validMeta = meta.validate()
                     updateMeta(validMeta)
                 },
-                onParsingDone = { result: Boolean, version: String ->
-                    val parseResult = ParseScheduleResult(result, version)
-                    val parseScheduleStatus = if (result) ParseSuccess else ParseFailure(parseResult)
+                onParsingDone = { isSuccess: Boolean, version: String ->
+                    if (!isSuccess) {
+                        updateMeta(oldMeta.copy(httpHeader = HttpHeader(eTag = "", lastModified = "")))
+                    }
+                    val parseResult = ParseScheduleResult(isSuccess, version)
+                    val parseScheduleStatus = if (isSuccess) ParseSuccess else ParseFailure(parseResult)
                     mutableLoadScheduleState.tryEmit(parseScheduleStatus)
                     onParsingDone(parseResult)
                     loadShifts(onLoadingShiftsDone)
@@ -529,14 +557,6 @@ object AppRepository {
     fun loadChangedSessions() = loadSessionsForAllDays(true)
             .filter { it.isChanged || it.changedIsCanceled || it.changedIsNew }
             .also { logging.d(LOG_TAG, "${it.size} sessions changed.") }
-
-    /**
-     * Loads the first session of the first day from the database.
-     * Throws an exception if no session is present.
-     */
-    @WorkerThread
-    fun loadEarliestSession() = loadSessionsForAllDays(true)
-            .first()
 
     /**
      * Loads all Engelsystem shifts for all days from the database.
@@ -722,6 +742,7 @@ object AppRepository {
         sessionsDatabaseRepository.updateSessions(toBeUpdated, toBeDeleted)
         refreshStarredSessions()
         refreshSessions()
+        refreshSessionsWithoutShifts()
         refreshChangedSessions()
         refreshSelectedSession()
         refreshUncanceledSessions()
@@ -753,8 +774,8 @@ object AppRepository {
     /**
      * Updates the [Meta] information in the database.
      *
-     * The [Meta.eTag] field should only be written if a network response is received
-     * with a status code of HTTP 200 (OK).
+     * The [Meta.httpHeader] properties should only be written if a
+     * network response is received with a status code of HTTP 200 (OK).
      *
      * See also: [HttpStatus.HTTP_OK]
      */

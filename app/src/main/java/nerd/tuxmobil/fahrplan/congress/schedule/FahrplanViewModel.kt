@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices
+import nerd.tuxmobil.fahrplan.congress.alarms.SessionAlarmViewModelDelegate
 import nerd.tuxmobil.fahrplan.congress.models.Alarm
 import nerd.tuxmobil.fahrplan.congress.models.ScheduleData
 import nerd.tuxmobil.fahrplan.congress.models.Session
@@ -36,15 +37,15 @@ internal class FahrplanViewModel(
     private val repository: AppRepository,
     private val executionContext: ExecutionContext,
     private val logging: Logging,
-    private val alarmServices: AlarmServices,
-    private val notificationHelper: NotificationHelper,
+    alarmServices: AlarmServices,
+    notificationHelper: NotificationHelper,
     private val navigationMenuEntriesGenerator: NavigationMenuEntriesGenerator,
     private val simpleSessionFormat: SimpleSessionFormat,
     private val jsonSessionFormat: JsonSessionFormat,
     private val scrollAmountCalculator: ScrollAmountCalculator,
     private val defaultEngelsystemRoomName: String,
     private val customEngelsystemRoomName: String,
-    private val runsAtLeastOnAndroidTiramisu: Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
+    runsAtLeastOnAndroidTiramisu: Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
 
 ) : ViewModel() {
 
@@ -52,11 +53,25 @@ internal class FahrplanViewModel(
         const val LOG_TAG = "FahrplanViewModel"
     }
 
-    val fahrplanParameter = repository.uncanceledSessionsForDayIndex
-        .filter { it.allSessions.isNotEmpty() }
-        .combine(repository.alarms.filterNotNull()) { scheduleData, alarms ->
-            createFahrplanParameter(scheduleData.customizeEngelsystemRoomName(), alarms)
-        }
+    private var sessionAlarmViewModelDelegate: SessionAlarmViewModelDelegate =
+        SessionAlarmViewModelDelegate(
+            viewModelScope,
+            notificationHelper,
+            alarmServices,
+            runsAtLeastOnAndroidTiramisu,
+        )
+
+    val fahrplanParameter = combine(
+        repository.uncanceledSessionsForDayIndex.filter { it.allSessions.isNotEmpty() },
+        repository.sessionsWithoutShifts.filterNotNull(),
+        repository.alarms.filterNotNull()
+    ) { scheduleDataForDayIndex, allSessionsForAllDaysWithoutShifts, alarms ->
+        createFahrplanParameter(
+            scheduleData = scheduleDataForDayIndex.customizeEngelsystemRoomName(),
+            allSessionsForAllDaysWithoutShifts = allSessionsForAllDaysWithoutShifts,
+            alarms = alarms
+        )
+    }
 
     private val mutableFahrplanEmptyParameter = Channel<FahrplanEmptyParameter>()
     val fahrplanEmptyParameter = mutableFahrplanEmptyParameter.receiveAsFlow()
@@ -76,30 +91,22 @@ internal class FahrplanViewModel(
     private val mutableScrollToSessionParameter = Channel<ScrollToSessionParameter>()
     val scrollToSessionParameter = mutableScrollToSessionParameter.receiveAsFlow()
 
-    private val mutableRequestPostNotificationsPermission = Channel<Unit>()
-    val requestPostNotificationsPermission = mutableRequestPostNotificationsPermission.receiveAsFlow()
+    val requestPostNotificationsPermission = sessionAlarmViewModelDelegate
+        .requestPostNotificationsPermission
 
-    private val mutableMissingPostNotificationsPermission = Channel<Unit>()
-    val missingPostNotificationsPermission = mutableMissingPostNotificationsPermission.receiveAsFlow()
+    val notificationsDisabled = sessionAlarmViewModelDelegate
+        .notificationsDisabled
 
-    private val mutableShowAlarmTimePicker = Channel<Unit>()
-    val showAlarmTimePicker = mutableShowAlarmTimePicker.receiveAsFlow()
+    val requestScheduleExactAlarmsPermission = sessionAlarmViewModelDelegate
+        .requestScheduleExactAlarmsPermission
+
+    val showAlarmTimePicker = sessionAlarmViewModelDelegate
+        .showAlarmTimePicker
 
     var preserveVerticalScrollPosition: Boolean = false
 
     init {
         updateUncanceledSessions()
-    }
-
-    fun showAlarmTimePickerWithChecks() {
-        if (notificationHelper.notificationsEnabled) {
-            mutableShowAlarmTimePicker.sendOneTimeEvent(Unit)
-        } else {
-            when (runsAtLeastOnAndroidTiramisu) {
-                true -> mutableRequestPostNotificationsPermission.sendOneTimeEvent(Unit)
-                false -> mutableMissingPostNotificationsPermission.sendOneTimeEvent(Unit)
-            }
-        }
     }
 
     private fun updateUncanceledSessions() {
@@ -139,14 +146,20 @@ internal class FahrplanViewModel(
         }
     )
 
-    private fun createFahrplanParameter(scheduleData: ScheduleData, alarms: List<Alarm>): FahrplanParameter {
+    private fun createFahrplanParameter(
+        scheduleData: ScheduleData,
+        allSessionsForAllDaysWithoutShifts: List<Session>,
+        alarms: List<Alarm>
+    ): FahrplanParameter {
         val dayIndex = repository.readDisplayDayIndex()
         val numDays = repository.readMeta().numDays
-        val dateInfos = FahrplanMisc.createDateInfos(repository.readDateInfos())
         val dayMenuEntries = if (numDays > 1) {
-            navigationMenuEntriesGenerator.getDayMenuEntries(numDays, dateInfos)
+            navigationMenuEntriesGenerator.getDayMenuEntries(
+                numDays,
+                allSessionsForAllDaysWithoutShifts
+            )
         } else {
-            null
+            emptyList()
         }
         val useDeviceTimeZone = repository.readUseDeviceTimeZoneEnabled()
 
@@ -215,18 +228,13 @@ internal class FahrplanViewModel(
     }
 
     private fun List<Session>.toTimeTextViewParameters(nowMoment: Moment, normalizedBoxHeight: Int): List<TimeTextViewParameter> {
-        val earliestSession = repository.loadEarliestSession()
-        val firstDayStartDay = earliestSession.startsAt.monthDay
         val useDeviceTimeZone = repository.readUseDeviceTimeZoneEnabled()
-        val dayIndex = repository.readDisplayDayIndex()
         val conference = Conference.ofSessions(this)
         return TimeTextViewParameter.parametersOf(
-            nowMoment,
-            conference,
-            firstDayStartDay,
-            dayIndex,
-            normalizedBoxHeight,
-            useDeviceTimeZone
+            nowMoment = nowMoment,
+            conference = conference,
+            normalizedBoxHeight = normalizedBoxHeight,
+            useDeviceTimeZone = useDeviceTimeZone
         )
     }
 
@@ -236,15 +244,23 @@ internal class FahrplanViewModel(
         }
     }
 
+    fun canAddAlarms(): Boolean {
+        return sessionAlarmViewModelDelegate.canAddAlarms()
+    }
+
+    fun addAlarmWithChecks() {
+        sessionAlarmViewModelDelegate.addAlarmWithChecks()
+    }
+
     fun addAlarm(session: Session, alarmTimesIndex: Int) {
         launch {
-            alarmServices.addSessionAlarm(session, alarmTimesIndex)
+            sessionAlarmViewModelDelegate.addAlarm(session, alarmTimesIndex)
         }
     }
 
     fun deleteAlarm(session: Session) {
         launch {
-            alarmServices.deleteSessionAlarm(session)
+            sessionAlarmViewModelDelegate.deleteAlarm(session)
         }
     }
 

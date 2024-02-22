@@ -1,12 +1,12 @@
 package nerd.tuxmobil.fahrplan.congress.dataconverters
 
+import com.google.common.truth.Truth.assertThat
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import info.metadude.android.eventfahrplan.database.models.Highlight
 import info.metadude.android.eventfahrplan.database.models.Session.Companion.RECORDING_OPT_OUT_ON
 import nerd.tuxmobil.fahrplan.congress.models.DateInfo
 import nerd.tuxmobil.fahrplan.congress.models.Session
-import org.assertj.core.api.Assertions.assertThat
-import org.junit.Test
+import org.junit.jupiter.api.Test
 import org.threeten.bp.ZoneOffset
 import info.metadude.android.eventfahrplan.database.models.Session as SessionDatabaseModel
 import info.metadude.android.eventfahrplan.network.models.Session as SessionNetworkModel
@@ -15,7 +15,7 @@ import nerd.tuxmobil.fahrplan.congress.models.Session as SessionAppModel
 class SessionExtensionsTest {
 
     @Test
-    fun sessionDatabaseModel_toSessionAppModel_toSessionDatabaseModel() {
+    fun `toSessionDatabaseModel returns a database session derived from an app session`() {
         val session = SessionDatabaseModel(
                 sessionId = "7331",
                 abstractt = "Lorem ipsum",
@@ -62,7 +62,7 @@ class SessionExtensionsTest {
     }
 
     @Test
-    fun sessionNetworkModel_toSessionAppModel() {
+    fun `toSessionAppModel returns an app session derived from a network session`() {
         val sessionNetworkModel = SessionNetworkModel(
                 sessionId = "7331",
                 abstractt = "Lorem ipsum",
@@ -150,7 +150,7 @@ class SessionExtensionsTest {
     }
 
     @Test
-    fun toDateInfo() {
+    fun `toDateInfo returns a DateInfo object derived from a session`() {
         val session = Session("")
         session.date = "2015-08-13"
         session.day = 3
@@ -159,7 +159,7 @@ class SessionExtensionsTest {
     }
 
     @Test
-    fun toDayRanges() {
+    fun `toDayRanges returns a list of day ranges derived from a list of sessions`() {
         val session0 = Session("")
         session0.date = "2019-08-02"
         session0.day = 2
@@ -188,7 +188,7 @@ class SessionExtensionsTest {
     }
 
     @Test
-    fun toHighlightDatabaseModel() {
+    fun `toHighlightDatabaseModel returns a Highlight object derived from a session`() {
         val session = Session("4723").apply {
             highlight = true
         }
@@ -197,7 +197,20 @@ class SessionExtensionsTest {
     }
 
     @Test
-    fun sanitizeWithSameTitleAndSubtitle() {
+    fun `sanitize moves the subtitle property value to the title property value if empty`() {
+        val session = Session("").apply {
+            subtitle = "Lorem ipsum"
+            title = ""
+        }.sanitize()
+        val expected = Session("").apply {
+            subtitle = ""
+            title = "Lorem ipsum"
+        }
+        assertThat(session).isEqualTo(expected)
+    }
+
+    @Test
+    fun `sanitize clears the subtitle property value if the title property matches`() {
         val session = Session("").apply {
             subtitle = "Lorem ipsum"
             title = "Lorem ipsum"
@@ -210,7 +223,7 @@ class SessionExtensionsTest {
     }
 
     @Test
-    fun sanitizeWithDifferentTitleAndSubtitle() {
+    fun `sanitize keeps the subtitle property value if the title property value differs`() {
         val session = Session("").apply {
             subtitle = "Dolor sit amet"
             title = "Lorem ipsum"
@@ -223,7 +236,7 @@ class SessionExtensionsTest {
     }
 
     @Test
-    fun sanitizeWithSameAbstractAndDescription() {
+    fun `sanitize clears the abstractt property value if the description property matches`() {
         val session = Session("").apply {
             abstractt = "Lorem ipsum"
             description = "Lorem ipsum"
@@ -238,7 +251,7 @@ class SessionExtensionsTest {
     }
 
     @Test
-    fun sanitizeWithDifferentAbstractAndDescription() {
+    fun `sanitize keeps the abstractt property value if the description property value differs`() {
         val session = Session("").apply {
             abstractt = "Lorem ipsum"
             description = "Dolor sit amet"
@@ -253,12 +266,13 @@ class SessionExtensionsTest {
     }
 
     @Test
-    fun sanitizeWithAbstractWithoutDescription() {
+    fun `sanitize moves the abstractt property value to the description property value if empty`() {
         val session = Session("").apply {
             abstractt = "Lorem ipsum"
             description = ""
         }.sanitize()
         val expected = Session("").apply {
+            abstractt = ""
             description = "Lorem ipsum"
         }
         // The "abstractt" and "description" fields are not part of Session#equals for some reason.
@@ -267,33 +281,37 @@ class SessionExtensionsTest {
     }
 
     @Test
-    fun sanitizeWithSameSpeakersAndSubtitle() {
+    fun `sanitize clears the subtitle property value if the speakers property value matches`() {
         val session = Session("").apply {
             speakers = listOf("Luke Skywalker")
             subtitle = "Luke Skywalker"
+            title = "Some title"
         }.sanitize()
         val expected = Session("").apply {
             speakers = listOf("Luke Skywalker")
             subtitle = ""
+            title = "Some title"
         }
         assertThat(session).isEqualTo(expected)
     }
 
     @Test
-    fun sanitizeWithDifferentSpeakersAndAbstract() {
+    fun `sanitize keeps the subtitle property value if the speakers property value differs`() {
         val session = Session("").apply {
             speakers = listOf("Darth Vader")
             subtitle = "Lorem ipsum"
+            title = "Some title"
         }.sanitize()
         val expected = Session("").apply {
             speakers = listOf("Darth Vader")
             subtitle = "Lorem ipsum"
+            title = "Some title"
         }
         assertThat(session).isEqualTo(expected)
     }
 
     @Test
-    fun sanitizeWithEmptyTrackAndNonEmptyType() {
+    fun `sanitize copies the non-empty type property value to the track property if empty`() {
         val session = Session("").apply {
             track = ""
             type = "Workshop"

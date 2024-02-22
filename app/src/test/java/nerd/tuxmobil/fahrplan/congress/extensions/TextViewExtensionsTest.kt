@@ -7,7 +7,7 @@ import android.widget.TextView
 import androidx.core.text.set
 import androidx.core.text.toSpannable
 import com.google.common.truth.Truth.assertThat
-import org.junit.Test
+import org.junit.jupiter.api.Test
 import org.mockito.kotlin.any
 import org.mockito.kotlin.argumentCaptor
 import org.mockito.kotlin.mock

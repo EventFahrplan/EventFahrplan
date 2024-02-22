@@ -4,7 +4,7 @@ import com.google.common.truth.Truth.assertThat
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.utils.MarkdownConversion
 import nerd.tuxmobil.fahrplan.congress.utils.SessionUrlComposition
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 /**
  * Covers [CalendarDescriptionComposer.getCalendarDescription].

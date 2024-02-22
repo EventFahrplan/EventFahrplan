@@ -4,7 +4,7 @@ import com.google.common.truth.Truth.assertThat
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.models.DateInfo
 import nerd.tuxmobil.fahrplan.congress.models.DateInfos
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 class FahrplanMiscTest {
 

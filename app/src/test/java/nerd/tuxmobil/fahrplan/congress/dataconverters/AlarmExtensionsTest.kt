@@ -1,9 +1,9 @@
 package nerd.tuxmobil.fahrplan.congress.dataconverters
 
+import com.google.common.truth.Truth.assertThat
 import nerd.tuxmobil.fahrplan.congress.models.Alarm
 import nerd.tuxmobil.fahrplan.congress.models.SchedulableAlarm
-import org.assertj.core.api.Assertions.assertThat
-import org.junit.Test
+import org.junit.jupiter.api.Test
 import info.metadude.android.eventfahrplan.database.models.Alarm as AlarmDatabaseModel
 
 class AlarmExtensionsTest {

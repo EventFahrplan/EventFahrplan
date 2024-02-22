@@ -2,7 +2,7 @@ package info.metadude.android.eventfahrplan.network.models
 
 data class Meta(
 
-        var eTag: String = "",
+        var httpHeader: HttpHeader = HttpHeader(),
         var numDays: Int = 0,
         var subtitle: String = "",
         var title: String = "",

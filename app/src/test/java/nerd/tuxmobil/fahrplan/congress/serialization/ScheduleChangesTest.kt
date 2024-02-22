@@ -3,7 +3,7 @@ package nerd.tuxmobil.fahrplan.congress.serialization
 import com.google.common.truth.Truth.assertThat
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.serialization.ScheduleChanges.Companion.computeSessionsWithChangeFlags
-import org.junit.Test
+import org.junit.jupiter.api.Test
 import org.threeten.bp.ZoneOffset
 
 class ScheduleChangesTest {
@@ -93,6 +93,19 @@ class ScheduleChangesTest {
         val scheduleChanges = computeSessionsWithChangeFlags(newSessions, oldSessions)
         assertThat(scheduleChanges.sessionsWithChangeFlags).isEqualTo(listOf(createSession {
             speakers = listOf("New speakers")
+            changedSpeakers = true
+        }))
+        assertThat(scheduleChanges.oldCanceledSessions).isEmpty()
+        assertThat(scheduleChanges.foundNoteworthyChanges).isTrue()
+    }
+
+    @Test
+    fun `computeSessionsWithChangeFlags flags and returns new sessions and foundNoteworthyChanges = true if speakers changed order`() {
+        val oldSessions = listOf(createSession { speakers = listOf("speaker1", "speaker2", "speaker3") })
+        val newSessions = listOf(createSession { speakers = listOf("speaker3", "speaker1", "speaker2") })
+        val scheduleChanges = computeSessionsWithChangeFlags(newSessions, oldSessions)
+        assertThat(scheduleChanges.sessionsWithChangeFlags).isEqualTo(listOf(createSession {
+            speakers = listOf("speaker3", "speaker1", "speaker2")
             changedSpeakers = true
         }))
         assertThat(scheduleChanges.oldCanceledSessions).isEmpty()

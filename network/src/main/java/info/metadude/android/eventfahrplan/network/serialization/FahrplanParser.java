@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import info.metadude.android.eventfahrplan.commons.logging.Logging;
+import info.metadude.android.eventfahrplan.network.models.HttpHeader;
 import info.metadude.android.eventfahrplan.network.models.Meta;
 import info.metadude.android.eventfahrplan.network.models.Session;
 import info.metadude.android.eventfahrplan.network.serialization.exceptions.MissingXmlAttributeException;
@@ -32,7 +33,7 @@ public class FahrplanParser {
 
         void onUpdateMeta(@NonNull Meta meta);
 
-        void onParseDone(Boolean result, String version);
+        void onParseDone(Boolean isSuccess, String version);
     }
 
     @NonNull
@@ -47,9 +48,9 @@ public class FahrplanParser {
         task = null;
     }
 
-    public void parse(String fahrplan, String eTag) {
+    public void parse(String fahrplan, HttpHeader httpHeader) {
         task = new ParserTask(logging, listener);
-        task.execute(fahrplan, eTag);
+        task.execute(fahrplan, httpHeader.getETag(), httpHeader.getLastModified());
     }
 
     public void cancel() {
@@ -79,7 +80,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
 
     private boolean completed;
 
-    private boolean result;
+    private boolean isSuccess;
 
     ParserTask(@NonNull Logging logging, FahrplanParser.OnParseCompleteListener listener) {
         this.logging = logging;
@@ -97,7 +98,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
 
     @Override
     protected Boolean doInBackground(String... args) {
-        boolean parsingSuccessful = parseFahrplan(args[0], args[1]);
+        boolean parsingSuccessful = parseFahrplan(args[0], args[1], args[2]);
         if (parsingSuccessful) {
             DateFieldValidation dateFieldValidation = new DateFieldValidation(logging);
             dateFieldValidation.validate(sessions);
@@ -108,24 +109,24 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
     }
 
     private void notifyActivity() {
-        if (result) {
+        if (isSuccess) {
             listener.onUpdateMeta(meta);
             listener.onUpdateSessions(sessions);
         }
-        listener.onParseDone(result, meta.getVersion());
+        listener.onParseDone(isSuccess, meta.getVersion());
         completed = false;
     }
 
-    protected void onPostExecute(Boolean result) {
+    protected void onPostExecute(Boolean isSuccess) {
         completed = true;
-        this.result = result;
+        this.isSuccess = isSuccess;
 
         if (listener != null) {
             notifyActivity();
         }
     }
 
-    private Boolean parseFahrplan(String fahrplan, String eTag) {
+    private Boolean parseFahrplan(String fahrplan, String eTag, String lastModified) {
         XmlPullParser parser = Xml.newPullParser();
         try {
             parser.setInput(new StringReader(fahrplan));
@@ -147,6 +148,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                     case XmlPullParser.START_DOCUMENT:
                         sessions = new ArrayList<>();
                         meta = new Meta();
+                        meta.setHttpHeader(new HttpHeader(eTag, lastModified));
                         break;
                     case XmlPullParser.END_TAG:
                         name = parser.getName();
@@ -365,7 +367,6 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                 return false;
             }
             meta.setNumDays(numdays);
-            meta.setETag(eTag);
             return true;
         } catch (Exception e) {
             e.printStackTrace();

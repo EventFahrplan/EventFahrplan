@@ -12,9 +12,9 @@ import kotlinx.coroutines.test.runTest
 import okhttp3.OkHttpClient
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
-import org.junit.After
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import org.mockito.Mockito.mock
 import org.threeten.bp.ZoneOffset
 import org.threeten.bp.ZonedDateTime
@@ -83,12 +83,12 @@ class EngelsystemNetworkRepositoryTest {
     private val okHttpClient = mock<OkHttpClient>()
     private val repository = createRepository()
 
-    @Before
+    @BeforeEach
     fun setUp() {
         mockWebServer.start()
     }
 
-    @After
+    @AfterEach
     fun tearDown() {
         mockWebServer.shutdown()
     }

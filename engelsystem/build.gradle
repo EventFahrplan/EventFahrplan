@@ -11,7 +11,8 @@ dependencies {
         exclude group: "com.squareup.okio", module: "okio"
     }
 
-    testImplementation Libs.junit
+    testImplementation Libs.junitJupiterApi
+    testRuntimeOnly Libs.junitJupiterEngine
     testImplementation Libs.kotlinCoroutinesTest
     testImplementation Libs.mockitoCore
     testImplementation Libs.okhttpMockWebServer

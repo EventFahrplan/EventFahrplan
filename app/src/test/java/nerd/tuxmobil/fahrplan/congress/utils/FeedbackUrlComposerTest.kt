@@ -1,9 +1,9 @@
 package nerd.tuxmobil.fahrplan.congress.utils
 
+import com.google.common.truth.Truth.assertThat
 import nerd.tuxmobil.fahrplan.congress.extensions.WIKI_SESSION_TRACK_NAME
 import nerd.tuxmobil.fahrplan.congress.models.Session
-import org.assertj.core.api.Assertions.assertThat
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 class FeedbackUrlComposerTest {
 

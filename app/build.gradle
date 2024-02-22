@@ -19,8 +19,8 @@ android {
     buildToolsVersion = Android.buildToolsVersion
 
     defaultConfig {
-        versionCode 1700012
-        versionName "1.8.12"
+        versionCode 1700013
+        versionName "1.8.13"
         minSdk Android.minSdkVersion
         targetSdk Android.targetSdkVersion
         archivesBaseName = "Fahrplan-$versionName"
@@ -195,11 +195,10 @@ dependencies {
 
     testImplementation project(":commons-testing")
     testImplementation Libs.annotation
-    testImplementation(Libs.assertjAndroid) {
-        exclude group: "com.android.support", module: "support-annotations"
-    }
     testImplementation Libs.coreTesting
-    testImplementation Libs.junit
+    testImplementation Libs.junitJupiterApi
+    testRuntimeOnly Libs.junitJupiterEngine
+    testImplementation Libs.junitJupiterParams
     testImplementation(Libs.kotlinCoroutinesTest) {
         // workaround for https://github.com/Kotlin/kotlinx.coroutines/issues/2023
         exclude group: "org.jetbrains.kotlinx", module: "kotlinx-coroutines-debug"
