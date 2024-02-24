@@ -126,6 +126,7 @@ class StarredListFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeViewModel()
+        viewModel.observeStarredListParameter()
     }
 
     private fun observeViewModel() {

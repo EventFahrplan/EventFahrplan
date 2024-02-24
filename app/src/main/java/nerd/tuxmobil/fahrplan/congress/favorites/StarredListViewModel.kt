@@ -7,8 +7,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import nerd.tuxmobil.fahrplan.congress.models.Session
@@ -31,9 +29,8 @@ class StarredListViewModel(
         const val LOG_TAG = "StarredListViewModel"
     }
 
-    val starredListParameter: Flow<StarredListParameter> = repository.starredSessions
-        .map { it.toStarredListParameter() }
-        .flowOn(executionContext.database)
+    private val mutableStarredListParameter = Channel<StarredListParameter>()
+    val starredListParameter: Flow<StarredListParameter> = mutableStarredListParameter.receiveAsFlow()
 
     private val mutableShareSimple = Channel<String>()
     val shareSimple = mutableShareSimple.receiveAsFlow()
@@ -50,6 +47,14 @@ class StarredListViewModel(
     fun deleteAll() {
         launch {
             repository.deleteAllHighlights()
+        }
+    }
+
+    fun observeStarredListParameter() {
+        launch {
+            repository.starredSessions.collect { sessions ->
+                mutableStarredListParameter.sendOneTimeEvent(sessions.toStarredListParameter())
+            }
         }
     }
 
