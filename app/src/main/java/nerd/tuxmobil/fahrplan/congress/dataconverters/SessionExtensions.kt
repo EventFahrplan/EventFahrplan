@@ -172,39 +172,52 @@ fun SessionNetworkModel.toSessionAppModel(): Session {
  * are derived from track names, see [TrackBackgrounds].
  */
 fun Session.sanitize(): Session {
-    if (title.isEmpty() && subtitle.isNotEmpty()) {
-        title = subtitle
-        subtitle = ""
+    var tempTitle = title
+    var tempSubtitle = subtitle
+    var tempAbstract = abstractt
+    var tempDescription = description
+    var tempTrack = track
+    var tempLanguage = language
+    if (tempTitle.isEmpty() && tempSubtitle.isNotEmpty()) {
+        tempTitle = tempSubtitle
+        tempSubtitle = ""
     }
-    if (title == subtitle) {
-        subtitle = ""
+    if (tempTitle == tempSubtitle) {
+        tempSubtitle = ""
     }
-    if (abstractt == description) {
-        abstractt = ""
+    if (tempAbstract == tempDescription) {
+        tempAbstract = ""
     }
-    if (createSpeakersString(speakers) == subtitle) {
-        subtitle = ""
+    if (createSpeakersString(speakers) == tempSubtitle) {
+        tempSubtitle = ""
     }
-    if (description.isEmpty()) {
-        description = abstractt
-        abstractt = ""
+    if (tempDescription.isEmpty()) {
+        tempDescription = tempAbstract
+        tempAbstract = ""
     }
-    if (!language.isNullOrEmpty()) {
-        language = language.lowercase()
+    if (!tempLanguage.isNullOrEmpty()) {
+        tempLanguage = tempLanguage.lowercase()
     }
-    if (("Sendezentrum-Bühne" == track || "Sendezentrum Bühne" == track || "xHain Berlin" == track) && !type.isNullOrEmpty()) {
-        track = type
+    if (("Sendezentrum-Bühne" == tempTrack || "Sendezentrum Bühne" == tempTrack || "xHain Berlin" == tempTrack) && !type.isNullOrEmpty()) {
+        tempTrack = type
     }
-    if ("classics" == roomName && "Other" == type && track.isNullOrEmpty()) {
-        track = "Classics"
+    if ("classics" == roomName && "Other" == type && tempTrack.isNullOrEmpty()) {
+        tempTrack = "Classics"
     }
     if ("rC3 Lounge" == roomName) {
-        track = "Music"
+        tempTrack = "Music"
     }
-    if (track.isNullOrEmpty() && !type.isNullOrEmpty()) {
-        track = type
+    if (tempTrack.isNullOrEmpty() && !type.isNullOrEmpty()) {
+        tempTrack = type
     }
-    return this
+    return Session(this).apply {
+        title = tempTitle
+        subtitle = tempSubtitle
+        abstractt = tempAbstract
+        description = tempDescription
+        track = tempTrack
+        language = tempLanguage
+    }
 }
 
 /**
