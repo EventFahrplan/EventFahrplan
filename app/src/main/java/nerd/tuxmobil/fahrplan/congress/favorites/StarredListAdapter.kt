@@ -11,13 +11,15 @@ import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.base.SessionsAdapter
 import nerd.tuxmobil.fahrplan.congress.extensions.textOrHide
 import nerd.tuxmobil.fahrplan.congress.models.Session
+import nerd.tuxmobil.fahrplan.congress.utils.SessionPropertiesFormatter
 
 class StarredListAdapter internal constructor(
 
         context: Context,
         list: List<Session>,
         numDays: Int,
-        useDeviceTimeZone: Boolean
+        useDeviceTimeZone: Boolean,
+        private val sessionPropertiesFormatter: SessionPropertiesFormatter,
 
 ) : SessionsAdapter(
 
@@ -53,10 +55,12 @@ class StarredListAdapter internal constructor(
             subtitle.textOrHide = session.subtitle
             subtitle.contentDescription = Session.getSubtitleContentDescription(subtitle.context, session.subtitle)
 
-            speakers.textOrHide = session.formattedSpeakers
-            speakers.contentDescription = Session.getSpeakersContentDescription(speakers.context, session.speakers.size, session.formattedSpeakers)
-            lang.textOrHide = session.languageText
-            lang.contentDescription = Session.getLanguageContentDescription(lang.context, session.languageText)
+            val speakerNames = sessionPropertiesFormatter.getFormattedSpeakers(session)
+            speakers.textOrHide = speakerNames
+            speakers.contentDescription = Session.getSpeakersContentDescription(speakers.context, session.speakers.size, speakerNames)
+            val languageText = sessionPropertiesFormatter.getLanguageText(session)
+            lang.textOrHide = languageText
+            lang.contentDescription = Session.getLanguageContentDescription(lang.context, languageText)
 
             day.isVisible = false
             val timeText = DateFormatter.newInstance(useDeviceTimeZone).getFormattedTime(session.dateUTC, session.timeZoneOffset)

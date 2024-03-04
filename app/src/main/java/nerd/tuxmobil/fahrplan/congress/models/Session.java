@@ -289,40 +289,6 @@ public class Session {
     }
 
     @NonNull
-    public String getFormattedSpeakers() {
-        return speakers == null ? "" : TextUtils.join(", ", speakers);
-    }
-
-    @NonNull
-    public String getLanguageText() {
-        if (TextUtils.isEmpty(language)) {
-            return "";
-        } else {
-            return language
-                    .replace("-formal", "")
-                    .replace("German", "de")
-                    .replace("german", "de")
-                    .replace("Deutsch", "de")
-                    .replace("deutsch", "de")
-                    .replace("English", "en")
-                    .replace("english", "en")
-                    .replace("Englisch", "en")
-                    .replace("englisch", "en")
-                    ;
-        }
-    }
-
-    public String getFormattedTrackLanguageText() {
-        StringBuilder builder = new StringBuilder();
-        builder.append(track);
-        if (!TextUtils.isEmpty(language)) {
-            String language = getLanguageText();
-            builder.append(" [").append(language).append("]");
-        }
-        return builder.toString();
-    }
-
-    @NonNull
     public static String getRoomNameContentDescription(@NonNull Context context, @NonNull String roomName) {
         return context.getString(R.string.session_list_item_room_content_description, roomName);
     }

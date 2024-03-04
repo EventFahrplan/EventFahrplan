@@ -36,6 +36,7 @@ import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.sharing.SessionSharer
 import nerd.tuxmobil.fahrplan.congress.utils.ActivityHelper.navigateUp
 import nerd.tuxmobil.fahrplan.congress.utils.ConfirmationDialog
+import nerd.tuxmobil.fahrplan.congress.utils.SessionPropertiesFormatter
 
 /**
  * A fragment representing a list of Items.
@@ -132,7 +133,13 @@ class StarredListFragment :
         viewModel.starredListParameter.observe(this) { (sessions, numDays, useDeviceTimeZone) ->
             starredList = sessions
             val activity = requireActivity()
-            val adapter = StarredListAdapter(activity, sessions, numDays, useDeviceTimeZone)
+            val adapter = StarredListAdapter(
+                context = activity,
+                list = sessions,
+                numDays = numDays,
+                useDeviceTimeZone = useDeviceTimeZone,
+                sessionPropertiesFormatter = SessionPropertiesFormatter(),
+            )
             currentListView.adapter = adapter
             activity.invalidateOptionsMenu()
 

@@ -14,11 +14,13 @@ import nerd.tuxmobil.fahrplan.congress.extensions.requireViewByIdCompat
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.utils.Font
+import nerd.tuxmobil.fahrplan.congress.utils.SessionPropertiesFormatter
 import nerd.tuxmobil.fahrplan.congress.utils.TypefaceFactory
 
 internal class SessionViewDrawer @JvmOverloads constructor(
 
         context: Context,
+        private val sessionPropertiesFormatter: SessionPropertiesFormatter,
         private val getSessionPadding: () -> Int,
         private val isAlternativeHighlightingEnabled: () -> Boolean = {
             // Must load the latest alternative highlighting value every time a session is redrawn.
@@ -51,11 +53,13 @@ internal class SessionViewDrawer @JvmOverloads constructor(
         textView.text = session.subtitle
         textView.contentDescription = Session.getSubtitleContentDescription(sessionView.context, session.subtitle)
         textView = sessionView.requireViewByIdCompat(R.id.session_speakers_view)
-        textView.text = session.formattedSpeakers
-        textView.contentDescription = Session.getSpeakersContentDescription(sessionView.context, session.speakers.size, session.formattedSpeakers)
+        val speakerNames = sessionPropertiesFormatter.getFormattedSpeakers(session)
+        textView.text = speakerNames
+        textView.contentDescription = Session.getSpeakersContentDescription(sessionView.context, session.speakers.size, speakerNames)
         textView = sessionView.requireViewByIdCompat(R.id.session_track_view)
-        textView.text = session.formattedTrackLanguageText
-        textView.contentDescription = Session.getFormattedTrackContentDescription(sessionView.context, session.track, session.languageText)
+        val languageText = sessionPropertiesFormatter.getFormattedTrackLanguageText(session)
+        textView.text = languageText
+        textView.contentDescription = Session.getFormattedTrackContentDescription(sessionView.context, session.track, languageText)
         val recordingOptOut = sessionView.findViewById<View>(R.id.session_no_video_view)
         if (recordingOptOut != null) {
             recordingOptOut.isVisible = session.recordingOptOut

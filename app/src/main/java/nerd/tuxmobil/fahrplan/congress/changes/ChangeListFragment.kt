@@ -22,6 +22,7 @@ import nerd.tuxmobil.fahrplan.congress.extensions.replaceFragment
 import nerd.tuxmobil.fahrplan.congress.extensions.requireViewByIdCompat
 import nerd.tuxmobil.fahrplan.congress.extensions.withArguments
 import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper
+import nerd.tuxmobil.fahrplan.congress.utils.SessionPropertiesFormatter
 
 /**
  * A fragment representing a list of Items.
@@ -84,7 +85,13 @@ class ChangeListFragment : AbstractListFragment() {
 
     private fun observeViewModel() {
         viewModel.changeListParameter.observe(this) { (sessions, numDays, useDeviceTimeZone) ->
-            val adapter = ChangeListAdapter(requireContext(), sessions, numDays, useDeviceTimeZone)
+            val adapter = ChangeListAdapter(
+                context = requireContext(),
+                list = sessions,
+                numDays = numDays,
+                useDeviceTimeZone = useDeviceTimeZone,
+                sessionPropertiesFormatter = SessionPropertiesFormatter(),
+            )
             currentListView.adapter = adapter
         }
         viewModel.scheduleChangesSeen.observe(viewLifecycleOwner) {

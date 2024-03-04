@@ -66,6 +66,7 @@ import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.schedule.observables.TimeTextViewParameter
 import nerd.tuxmobil.fahrplan.congress.sharing.SessionSharer
 import nerd.tuxmobil.fahrplan.congress.utils.Font
+import nerd.tuxmobil.fahrplan.congress.utils.SessionPropertiesFormatter
 import nerd.tuxmobil.fahrplan.congress.utils.TypefaceFactory
 
 class FahrplanFragment : Fragment(), SessionViewEventsHandler {
@@ -175,7 +176,11 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
         setHasOptionsMenu(true)
         val context = requireContext()
         roomTitleTypeFace = TypefaceFactory.getNewInstance(context).getTypeface(Font.Roboto.Light)
-        sessionViewDrawer = SessionViewDrawer(context, { sessionPadding })
+        sessionViewDrawer = SessionViewDrawer(
+            context = context,
+            sessionPropertiesFormatter = SessionPropertiesFormatter(),
+            getSessionPadding = { sessionPadding },
+        )
         errorMessageFactory = ErrorMessage.Factory(context)
         connectivityObserver = ConnectivityObserver(context, onConnectionAvailable = {
             logging.d(LOG_TAG, "Network is available.")
