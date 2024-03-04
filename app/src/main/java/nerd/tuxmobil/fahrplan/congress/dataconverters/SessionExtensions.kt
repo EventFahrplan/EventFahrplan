@@ -13,7 +13,7 @@ import info.metadude.android.eventfahrplan.database.models.Session as SessionDat
 import info.metadude.android.eventfahrplan.network.models.Session as SessionNetworkModel
 
 fun Session.shiftRoomIndexOnDays(dayIndices: Set<Int>): Session {
-    if (day in dayIndices) {
+    if (dayIndex in dayIndices) {
         shiftRoomIndexBy(1)
     }
     return this
@@ -21,7 +21,7 @@ fun Session.shiftRoomIndexOnDays(dayIndices: Set<Int>): Session {
 
 fun Session.toRoom() = Room(identifier = roomIdentifier, name = roomName)
 
-fun Session.toDateInfo(): DateInfo = DateInfo(day, Moment.parseDate(date))
+fun Session.toDateInfo(): DateInfo = DateInfo(dayIndex, Moment.parseDate(date))
 
 fun Session.toHighlightDatabaseModel() = HighlightDatabaseModel(
         sessionId = Integer.parseInt(sessionId),
@@ -33,7 +33,7 @@ fun Session.toSessionDatabaseModel() = SessionDatabaseModel(
         abstractt = abstractt,
         date = date,
         dateUTC = dateUTC,
-        dayIndex = day,
+        dayIndex = dayIndex,
         description = description,
         duration = duration, // minutes
         feedbackUrl = feedbackUrl,
@@ -77,7 +77,7 @@ fun SessionDatabaseModel.toSessionAppModel(): Session {
     session.abstractt = abstractt
     session.date = date
     session.dateUTC = dateUTC
-    session.day = dayIndex
+    session.dayIndex = dayIndex
     session.description = description
     session.duration = duration // minutes
     session.feedbackUrl = feedbackUrl
@@ -123,7 +123,7 @@ fun SessionNetworkModel.toSessionAppModel(): Session {
     session.abstractt = abstractt
     session.date = date
     session.dateUTC = dateUTC
-    session.day = dayIndex
+    session.dayIndex = dayIndex
     session.description = description
     session.duration = duration // minutes
     session.feedbackUrl = feedbackUrl

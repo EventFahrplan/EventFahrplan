@@ -47,7 +47,7 @@ class ScheduleChangesTest {
             lang = "language"
             roomName = "room"
             recordingOptOut = true
-            day = 3
+            dayIndex = 3
             startTime = 200
             duration = 90
         })
@@ -166,11 +166,11 @@ class ScheduleChangesTest {
 
     @Test
     fun `computeSessionsWithChangeFlags flags and returns new sessions and foundNoteworthyChanges = true if dayIndex has changed`() {
-        val oldSessions = listOf(createSession { day = 1 })
-        val newSessions = listOf(createSession { day = 2 })
+        val oldSessions = listOf(createSession { dayIndex = 1 })
+        val newSessions = listOf(createSession { dayIndex = 2 })
         val scheduleChanges = computeSessionsWithChangeFlags(newSessions, oldSessions)
         assertThat(scheduleChanges.sessionsWithChangeFlags).isEqualTo(listOf(createSession {
-            day = 2
+            dayIndex = 2
             changedDay = true
         }))
         assertThat(scheduleChanges.oldCanceledSessions).isEmpty()
@@ -224,7 +224,7 @@ class ScheduleChangesTest {
             speakers = listOf("Old speakers")
             lang = "Old language"
             roomName = "Old room"
-            day = 2
+            dayIndex = 2
             track = "Old track"
             recordingOptOut = false
             startTime = 200
@@ -247,7 +247,7 @@ class ScheduleChangesTest {
             speakers = listOf("New speakers")
             lang = "New language"
             roomName = "New room"
-            day = 3
+            dayIndex = 3
             track = "New track"
             recordingOptOut = true
             startTime = 300
@@ -270,7 +270,7 @@ class ScheduleChangesTest {
             speakers = listOf("New speakers")
             lang = "New language"
             roomName = "New room"
-            day = 3
+            dayIndex = 3
             track = "New track"
             recordingOptOut = true
             startTime = 300

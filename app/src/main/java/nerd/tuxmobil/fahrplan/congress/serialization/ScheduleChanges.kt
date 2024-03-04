@@ -95,7 +95,7 @@ data class ScheduleChanges private constructor(
                     sessionChange.changedRecordingOptOut = true
                     foundNoteworthyChanges = true
                 }
-                if (newSession.day != oldSession.day) {
+                if (newSession.dayIndex != oldSession.dayIndex) {
                     sessionChange.changedDayIndex = true
                     foundNoteworthyChanges = true
                 }
@@ -161,7 +161,7 @@ data class ScheduleChanges private constructor(
                     roomName == session.roomName &&
                     track == session.track &&
                     recordingOptOut == session.recordingOptOut &&
-                    day == session.day &&
+                    dayIndex == session.dayIndex &&
                     startTime == session.startTime &&
                     duration == session.duration
         }

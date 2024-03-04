@@ -169,7 +169,7 @@ class StarredListFragment :
         while (i < starredList.size) {
             val session = starredList[i]
             if (session.endsAt.isAfter(now)) {
-                numSeparators = session.day
+                numSeparators = session.dayIndex
                 break
             }
             i++

@@ -15,7 +15,7 @@ class SessionTest {
             title = "Lorem ipsum"
             subtitle = "Gravida arcu ac tortor"
             feedbackUrl = "https://example.com/feedback"
-            day = 3
+            dayIndex = 3
             date = "2020-02-29"
             dateUTC = 1439478900000L
             startTime = 1125
@@ -168,7 +168,7 @@ class SessionTest {
 
     @Test
     fun `equals evaluates false and hashCode differ for sessions with odd day`() {
-        val session2Modification: SessionModification = { day = 2 }
+        val session2Modification: SessionModification = { dayIndex = 2 }
         assertOddSessionsAreNotEqual { session2Modification() }
         assertOddSessionsHaveOddHashCodes { session2Modification() }
     }

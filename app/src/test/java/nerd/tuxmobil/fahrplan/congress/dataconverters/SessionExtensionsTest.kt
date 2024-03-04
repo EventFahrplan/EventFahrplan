@@ -107,7 +107,7 @@ class SessionExtensionsTest {
         )
         val sessionAppModel = SessionAppModel("7331").apply {
             abstractt = "Lorem ipsum"
-            day = 3
+            dayIndex = 3
             date = "2015-08-13"
             dateUTC = 1439478900000L
             description = "Lorem ipsum dolor sit amet"
@@ -153,7 +153,7 @@ class SessionExtensionsTest {
     fun `toDateInfo returns a DateInfo object derived from a session`() {
         val session = Session("")
         session.date = "2015-08-13"
-        session.day = 3
+        session.dayIndex = 3
         val dateInfo = DateInfo(3, Moment.parseDate("2015-08-13"))
         assertThat(session.toDateInfo()).isEqualTo(dateInfo)
     }
@@ -162,15 +162,15 @@ class SessionExtensionsTest {
     fun `toDayRanges returns a list of day ranges derived from a list of sessions`() {
         val session0 = Session("")
         session0.date = "2019-08-02"
-        session0.day = 2
+        session0.dayIndex = 2
 
         val session1 = Session("")
         session1.date = "2019-08-01"
-        session1.day = 1
+        session1.dayIndex = 1
 
         val session1Copy = Session("")
         session1Copy.date = "2019-08-01"
-        session1Copy.day = 1
+        session1Copy.dayIndex = 1
 
         val sessions = listOf(session0, session1, session1Copy)
         val dayRanges = sessions.toDayRanges()

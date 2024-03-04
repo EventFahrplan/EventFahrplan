@@ -24,7 +24,7 @@ fun Shift.toSessionAppModel(
     abstractt = ""
     date = startsAtLocalDateString
     dateUTC = dateUtcMs
-    day = oneBasedDayIndex(logging, dayRanges)
+    dayIndex = oneBasedDayIndex(logging, dayRanges)
     description = descriptionText
     duration = shiftDuration // minutes
     relStartTime = minuteOfDay

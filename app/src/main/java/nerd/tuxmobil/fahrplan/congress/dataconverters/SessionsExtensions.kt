@@ -14,7 +14,7 @@ fun List<Session>.shiftRoomIndicesOfMainSchedule(dayIndices: Set<Int>) = map {
 fun List<Session>.toDayIndices(): Set<Int> {
     val dayIndices = HashSet<Int>()
     forEach {
-        dayIndices.add(it.day)
+        dayIndices.add(it.dayIndex)
     }
     return dayIndices
 }

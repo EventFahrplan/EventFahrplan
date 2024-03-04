@@ -73,7 +73,7 @@ class ScrollAmountCalculatorTimeZoneOffsetTest {
     }
 
     private fun createBaseSession(sessionId: String, moment: Moment) = Session(sessionId).apply {
-        day = 0
+        dayIndex = 0
         date = moment.toZonedDateTime(ZoneOffset.UTC).toLocalDate().toString()
         dateUTC = moment.toMilliseconds()
         startTime = moment.minuteOfDay

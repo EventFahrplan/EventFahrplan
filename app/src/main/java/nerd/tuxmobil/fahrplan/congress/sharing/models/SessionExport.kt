@@ -29,7 +29,7 @@ data class SessionExport(
             sessionId = session.sessionId,
             title = session.title,
             subtitle = session.subtitle,
-            day = session.day,
+            day = session.dayIndex,
             room = session.roomName,
             slug = session.slug,
             url = session.url,
