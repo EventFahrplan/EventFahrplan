@@ -585,7 +585,7 @@ object AppRepository {
      * To exclude Engelsystem shifts pass false to [includeEngelsystemShifts].
      */
     private fun loadSessionsForDayIndex(dayIndex: Int, includeEngelsystemShifts: Boolean): List<Session> {
-        val sessions = if (dayIndex == ALL_DAYS) {
+        var sessions = if (dayIndex == ALL_DAYS) {
             logging.d(LOG_TAG, "Loading sessions for all days.")
             if (includeEngelsystemShifts) {
                 readSessionsOrderedByDateUtc()
@@ -601,16 +601,18 @@ object AppRepository {
         val highlights = readHighlights()
         for (highlight in highlights) {
             logging.d(LOG_TAG, "$highlight")
-            for (session in sessions) {
+            sessions = sessions.map { session ->
                 if (session.sessionId == "${highlight.sessionId}") {
-                    session.highlight = highlight.isHighlight
+                    Session(session).apply { this.highlight = highlight.isHighlight }
+                } else {
+                    session
                 }
             }
         }
 
         val alarmSessionIds = readAlarmSessionIds()
-        for (session in sessions) {
-            session.hasAlarm = session.sessionId in alarmSessionIds
+        sessions = sessions.map { session ->
+            Session(session).apply { this.hasAlarm = session.sessionId in alarmSessionIds }
         }
 
         return sessions.toList()
@@ -679,16 +681,16 @@ object AppRepository {
     }
 
     private fun readSessionBySessionId(sessionId: String): Session {
-        val session = sessionsDatabaseRepository.querySessionBySessionId(sessionId).toSessionAppModel()
+        var session = sessionsDatabaseRepository.querySessionBySessionId(sessionId).toSessionAppModel()
 
         val highlight = highlightsDatabaseRepository.queryBySessionId(sessionId.toInt())
         if (highlight != null) {
-            session.highlight = highlight.isHighlight
+            session = Session(session).apply { this.highlight = highlight.isHighlight }
         }
 
         val alarms = alarmsDatabaseRepository.query(sessionId)
         if (alarms.isNotEmpty()) {
-            session.hasAlarm = true
+            session = Session(session).apply { this.hasAlarm = true }
         }
 
         return session
