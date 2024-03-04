@@ -25,7 +25,7 @@ class SessionTest {
             speakers = listOf("Janet")
             track = "science"
             type = "workshop"
-            lang = "cz"
+            language = "cz"
             recordingLicense = "CC-0"
             recordingOptOut = true
 
@@ -238,7 +238,7 @@ class SessionTest {
 
     @Test
     fun `equals evaluates false and hashCode differ for sessions with odd lang`() {
-        val session2Modification: SessionModification = { lang = "Odd language" }
+        val session2Modification: SessionModification = { language = "Odd language" }
         assertOddSessionsAreNotEqual { session2Modification() }
         assertOddSessionsHaveOddHashCodes { session2Modification() }
     }

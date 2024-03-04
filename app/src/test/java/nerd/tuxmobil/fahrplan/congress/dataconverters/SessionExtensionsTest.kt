@@ -115,7 +115,7 @@ class SessionExtensionsTest {
             feedbackUrl = "https://talks.mrmcd.net/2018/talk/V3FUNG/feedback"
             hasAlarm = true
             highlight = true
-            lang = "en"
+            language = "en"
             links = "[Website](https://www.example.com/path)"
             relStartTime = 1035
             recordingLicense = "CC 0"

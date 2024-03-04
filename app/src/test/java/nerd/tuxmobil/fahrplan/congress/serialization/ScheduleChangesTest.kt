@@ -44,7 +44,7 @@ class ScheduleChangesTest {
             title = "title"
             subtitle = "subtitle"
             speakers = listOf("speakers")
-            lang = "language"
+            language = "language"
             roomName = "room"
             recordingOptOut = true
             dayIndex = 3
@@ -114,11 +114,11 @@ class ScheduleChangesTest {
 
     @Test
     fun `computeSessionsWithChangeFlags flags and returns new sessions and foundNoteworthyChanges = true if language has changed`() {
-        val oldSessions = listOf(createSession { lang = "Old language" })
-        val newSessions = listOf(createSession { lang = "New language" })
+        val oldSessions = listOf(createSession { language = "Old language" })
+        val newSessions = listOf(createSession { language = "New language" })
         val scheduleChanges = computeSessionsWithChangeFlags(newSessions, oldSessions)
         assertThat(scheduleChanges.sessionsWithChangeFlags).isEqualTo(listOf(createSession {
-            lang = "New language"
+            language = "New language"
             changedLanguage = true
         }))
         assertThat(scheduleChanges.oldCanceledSessions).isEmpty()
@@ -222,7 +222,7 @@ class ScheduleChangesTest {
             title = "Old title"
             subtitle = "Old subtitle"
             speakers = listOf("Old speakers")
-            lang = "Old language"
+            language = "Old language"
             roomName = "Old room"
             dayIndex = 2
             track = "Old track"
@@ -245,7 +245,7 @@ class ScheduleChangesTest {
             title = "New title"
             subtitle = "New subtitle"
             speakers = listOf("New speakers")
-            lang = "New language"
+            language = "New language"
             roomName = "New room"
             dayIndex = 3
             track = "New track"
@@ -268,7 +268,7 @@ class ScheduleChangesTest {
             title = "New title"
             subtitle = "New subtitle"
             speakers = listOf("New speakers")
-            lang = "New language"
+            language = "New language"
             roomName = "New room"
             dayIndex = 3
             track = "New track"

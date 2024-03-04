@@ -55,7 +55,7 @@ public class Session {
     public String track;
     public String sessionId;
     public String type;
-    public String lang;
+    public String language;
     public String slug;
     public String abstractt;
     public String description;
@@ -100,7 +100,7 @@ public class Session {
         speakers = emptyList();
         track = "";
         type = "";
-        lang = "";
+        language = "";
         abstractt = "";
         description = "";
         relStartTime = 0;
@@ -147,7 +147,7 @@ public class Session {
         this.track = session.track;
         this.sessionId = session.sessionId;
         this.type = session.type;
-        this.lang = session.lang;
+        this.language = session.language;
         this.slug = session.slug;
         this.abstractt = session.abstractt;
         this.description = session.description;
@@ -211,7 +211,7 @@ public class Session {
         if (recordingOptOut != session.recordingOptOut) return false;
         if (startTime != session.startTime) return false;
         if (!ObjectsCompat.equals(date, session.date)) return false;
-        if (!ObjectsCompat.equals(lang, session.lang)) return false;
+        if (!ObjectsCompat.equals(language, session.language)) return false;
         if (!sessionId.equals(session.sessionId)) return false;
         if (!ObjectsCompat.equals(recordingLicense, session.recordingLicense)) return false;
         if (!ObjectsCompat.equals(roomName, session.roomName)) return false;
@@ -241,7 +241,7 @@ public class Session {
         result = 31 * result + ObjectsCompat.hashCode(track);
         result = 31 * result + sessionId.hashCode();
         result = 31 * result + ObjectsCompat.hashCode(type);
-        result = 31 * result + ObjectsCompat.hashCode(lang);
+        result = 31 * result + ObjectsCompat.hashCode(language);
         result = 31 * result + ObjectsCompat.hashCode(date);
         result = 31 * result + ObjectsCompat.hashCode(recordingLicense);
         result = 31 * result + (recordingOptOut ? 1 : 0);
@@ -295,10 +295,10 @@ public class Session {
 
     @NonNull
     public String getLanguageText() {
-        if (TextUtils.isEmpty(lang)) {
+        if (TextUtils.isEmpty(language)) {
             return "";
         } else {
-            return lang
+            return language
                     .replace("-formal", "")
                     .replace("German", "de")
                     .replace("german", "de")
@@ -315,7 +315,7 @@ public class Session {
     public String getFormattedTrackLanguageText() {
         StringBuilder builder = new StringBuilder();
         builder.append(track);
-        if (!TextUtils.isEmpty(lang)) {
+        if (!TextUtils.isEmpty(language)) {
             String language = getLanguageText();
             builder.append(" [").append(language).append("]");
         }

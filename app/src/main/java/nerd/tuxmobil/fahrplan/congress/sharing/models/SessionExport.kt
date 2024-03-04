@@ -36,7 +36,7 @@ data class SessionExport(
             speakers = session.speakers.joinToString(";"),
             track = session.track,
             type = session.type,
-            lang = session.lang,
+            lang = session.language,
             abstract = session.abstractt,
             description = session.description,
             links = session.links,

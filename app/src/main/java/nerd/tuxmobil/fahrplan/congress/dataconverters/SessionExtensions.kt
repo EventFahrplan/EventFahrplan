@@ -38,7 +38,7 @@ fun Session.toSessionDatabaseModel() = SessionDatabaseModel(
         duration = duration, // minutes
         feedbackUrl = feedbackUrl,
         hasAlarm = hasAlarm,
-        language = lang,
+        language = language,
         links = links,
         isHighlight = highlight,
         recordingLicense = recordingLicense,
@@ -82,7 +82,7 @@ fun SessionDatabaseModel.toSessionAppModel(): Session {
     session.duration = duration // minutes
     session.feedbackUrl = feedbackUrl
     session.hasAlarm = hasAlarm
-    session.lang = language
+    session.language = language
     session.links = links
     session.highlight = isHighlight
     session.recordingLicense = recordingLicense
@@ -128,7 +128,7 @@ fun SessionNetworkModel.toSessionAppModel(): Session {
     session.duration = duration // minutes
     session.feedbackUrl = feedbackUrl
     session.hasAlarm = hasAlarm
-    session.lang = language
+    session.language = language
     session.links = links
     session.highlight = isHighlight
     session.recordingLicense = recordingLicense
@@ -181,8 +181,8 @@ fun Session.sanitize(): Session {
         description = abstractt
         abstractt = ""
     }
-    if (!lang.isNullOrEmpty()) {
-        lang = lang.lowercase()
+    if (!language.isNullOrEmpty()) {
+        language = language.lowercase()
     }
     if (("Sendezentrum-Bühne" == track || "Sendezentrum Bühne" == track || "xHain Berlin" == track) && !type.isNullOrEmpty()) {
         track = type

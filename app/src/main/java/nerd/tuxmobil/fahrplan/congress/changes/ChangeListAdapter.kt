@@ -112,7 +112,7 @@ class ChangeListAdapter internal constructor(
                 }
                 if (session.changedLanguage) {
                     lang.setTextStyleChanged()
-                    if (session.lang.isEmpty()) {
+                    if (session.language.isEmpty()) {
                         lang.text = lang.context.getText(R.string.dash)
                         lang.contentDescription = lang.context.getText(R.string.session_list_item_language_removed_content_description)
                     }

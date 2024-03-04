@@ -79,7 +79,7 @@ data class ScheduleChanges private constructor(
                     sessionChange.changedSpeakers = true
                     foundNoteworthyChanges = true
                 }
-                if (newSession.lang != oldSession.lang) {
+                if (newSession.language != oldSession.language) {
                     sessionChange.changedLanguage = true
                     foundNoteworthyChanges = true
                 }
@@ -157,7 +157,7 @@ data class ScheduleChanges private constructor(
             return title == session.title &&
                     subtitle == session.subtitle &&
                     speakers == session.speakers &&
-                    lang == session.lang &&
+                    language == session.language &&
                     roomName == session.roomName &&
                     track == session.track &&
                     recordingOptOut == session.recordingOptOut &&
