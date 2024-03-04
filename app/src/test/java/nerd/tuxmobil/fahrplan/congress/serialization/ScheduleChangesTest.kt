@@ -305,11 +305,11 @@ class ScheduleChangesTest {
 
     @Test
     fun `computeSessionsWithChangeFlags flags and returns new sessions, foundNoteworthyChanges = false and foundChanges = true if date has changed`() {
-        val oldSessions = listOf(createSession { date = "2023-08-01" })
-        val newSessions = listOf(createSession { date = "2023-08-02" })
+        val oldSessions = listOf(createSession { dateText = "2023-08-01" })
+        val newSessions = listOf(createSession { dateText = "2023-08-02" })
         val scheduleChanges = computeSessionsWithChangeFlags(newSessions, oldSessions)
         assertThat(scheduleChanges.sessionsWithChangeFlags).isEqualTo(listOf(createSession {
-            date = "2023-08-02"
+            dateText = "2023-08-02"
         }))
         assertThat(scheduleChanges.oldCanceledSessions).isEmpty()
         assertThat(scheduleChanges.foundNoteworthyChanges).isFalse()

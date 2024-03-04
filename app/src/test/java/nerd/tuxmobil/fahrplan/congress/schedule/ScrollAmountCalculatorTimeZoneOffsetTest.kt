@@ -74,7 +74,7 @@ class ScrollAmountCalculatorTimeZoneOffsetTest {
 
     private fun createBaseSession(sessionId: String, moment: Moment) = Session(sessionId).apply {
         dayIndex = 0
-        date = moment.toZonedDateTime(ZoneOffset.UTC).toLocalDate().toString()
+        dateText = moment.toZonedDateTime(ZoneOffset.UTC).toLocalDate().toString()
         dateUTC = moment.toMilliseconds()
         startTime = moment.minuteOfDay
         relStartTime = moment.minuteOfDay // This might now always be the case, see ParserTask.parseFahrplan

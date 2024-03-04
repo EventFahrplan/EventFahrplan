@@ -177,7 +177,7 @@ data class ScheduleChanges private constructor(
         private fun SessionAppModel.equalsContentWise(session: SessionAppModel): Boolean {
             return equalsInNoteworthyProperties(session) &&
                     url == session.url &&
-                    date == session.date &&
+                    dateText == session.dateText &&
                     dateUTC == session.dateUTC &&
                     timeZoneOffset == session.timeZoneOffset &&
                     relStartTime == session.relStartTime &&

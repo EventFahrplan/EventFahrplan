@@ -143,7 +143,7 @@ class TimeTextViewParameterTest {
 
     private fun createSession(moment: Moment, duration: Int = 60) = Session("s1").apply {
         dayIndex = 0
-        date = moment.toZonedDateTime(ZoneOffset.UTC).toLocalDate().toString()
+        dateText = moment.toZonedDateTime(ZoneOffset.UTC).toLocalDate().toString()
         dateUTC = moment.toMilliseconds()
         startTime = moment.minuteOfDay
         this.duration = duration

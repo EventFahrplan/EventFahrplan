@@ -21,7 +21,7 @@ fun Session.shiftRoomIndexOnDays(dayIndices: Set<Int>): Session {
 
 fun Session.toRoom() = Room(identifier = roomIdentifier, name = roomName)
 
-fun Session.toDateInfo(): DateInfo = DateInfo(dayIndex, Moment.parseDate(date))
+fun Session.toDateInfo(): DateInfo = DateInfo(dayIndex, Moment.parseDate(dateText))
 
 fun Session.toHighlightDatabaseModel() = HighlightDatabaseModel(
         sessionId = Integer.parseInt(sessionId),
@@ -31,7 +31,7 @@ fun Session.toHighlightDatabaseModel() = HighlightDatabaseModel(
 fun Session.toSessionDatabaseModel() = SessionDatabaseModel(
         sessionId = sessionId,
         abstractt = abstractt,
-        date = date,
+        date = dateText,
         dateUTC = dateUTC,
         dayIndex = dayIndex,
         description = description,
@@ -75,7 +75,7 @@ fun SessionDatabaseModel.toSessionAppModel(): Session {
     val session = Session(sessionId)
 
     session.abstractt = abstractt
-    session.date = date
+    session.dateText = date
     session.dateUTC = dateUTC
     session.dayIndex = dayIndex
     session.description = description
@@ -121,7 +121,7 @@ fun SessionNetworkModel.toSessionAppModel(): Session {
     val session = Session(sessionId)
 
     session.abstractt = abstractt
-    session.date = date
+    session.dateText = date
     session.dateUTC = dateUTC
     session.dayIndex = dayIndex
     session.description = description

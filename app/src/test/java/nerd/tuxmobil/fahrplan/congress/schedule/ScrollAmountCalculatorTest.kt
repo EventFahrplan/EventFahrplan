@@ -107,7 +107,7 @@ class ScrollAmountCalculatorTest {
         val roomData = RoomData(roomName = session.roomName, sessions = sessions)
         val scheduleData = ScheduleData(dayIndex = session.dayIndex, roomDataList = listOf(roomData))
         val conference = Conference.ofSessions(sessions)
-        val dateInfo = DateInfo(dayIndex = session.dayIndex, date = Moment.parseDate(session.date))
+        val dateInfo = DateInfo(dayIndex = session.dayIndex, date = Moment.parseDate(session.dateText))
         val dateInfos = DateInfos().apply { add(dateInfo) }
         return ScrollAmountCalculator(NoLogging).calculateScrollAmount(conference, dateInfos, scheduleData, nowMoment, currentDayIndex, BOX_HEIGHT, columnIndex)
     }
@@ -122,7 +122,7 @@ class ScrollAmountCalculatorTest {
 
     private fun createBaseSession(sessionId: String, moment: Moment) = Session(sessionId).apply {
         dayIndex = 0
-        date = moment.toZonedDateTime(ZoneOffset.UTC).toLocalDate().toString()
+        dateText = moment.toZonedDateTime(ZoneOffset.UTC).toLocalDate().toString()
         dateUTC = moment.toMilliseconds()
         startTime = moment.minuteOfDay
         duration = 60

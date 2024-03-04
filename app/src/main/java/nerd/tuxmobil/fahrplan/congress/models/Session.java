@@ -32,7 +32,7 @@ public class Session {
     public String feedbackUrl;          // URL to Frab/Pretalx feedback system, e.g. feedbackUrl = "https://talks.event.net/2023/talk/V8LUNA/feedback"
     public String url;
     public int dayIndex;                // XML values start with 1
-    public String date;                 // YYYY-MM-DD
+    public String dateText;             // YYYY-MM-DD
     public long dateUTC;                // milliseconds
     @Nullable
     public ZoneOffset timeZoneOffset;
@@ -105,7 +105,7 @@ public class Session {
         description = "";
         relStartTime = 0;
         links = "";
-        date = "";
+        dateText = "";
         this.sessionId = sessionId;
         highlight = false;
         hasAlarm = false;
@@ -134,7 +134,7 @@ public class Session {
         this.feedbackUrl = session.feedbackUrl;
         this.url = session.url;
         this.dayIndex = session.dayIndex;
-        this.date = session.date;
+        this.dateText = session.dateText;
         this.dateUTC = session.dateUTC;
         this.timeZoneOffset = session.timeZoneOffset;
         this.startTime = session.startTime;
@@ -210,7 +210,7 @@ public class Session {
         if (duration != session.duration) return false;
         if (recordingOptOut != session.recordingOptOut) return false;
         if (startTime != session.startTime) return false;
-        if (!ObjectsCompat.equals(date, session.date)) return false;
+        if (!ObjectsCompat.equals(dateText, session.dateText)) return false;
         if (!ObjectsCompat.equals(language, session.language)) return false;
         if (!sessionId.equals(session.sessionId)) return false;
         if (!ObjectsCompat.equals(recordingLicense, session.recordingLicense)) return false;
@@ -242,7 +242,7 @@ public class Session {
         result = 31 * result + sessionId.hashCode();
         result = 31 * result + ObjectsCompat.hashCode(type);
         result = 31 * result + ObjectsCompat.hashCode(language);
-        result = 31 * result + ObjectsCompat.hashCode(date);
+        result = 31 * result + ObjectsCompat.hashCode(dateText);
         result = 31 * result + ObjectsCompat.hashCode(recordingLicense);
         result = 31 * result + (recordingOptOut ? 1 : 0);
         result = 31 * result + (int) dateUTC;
