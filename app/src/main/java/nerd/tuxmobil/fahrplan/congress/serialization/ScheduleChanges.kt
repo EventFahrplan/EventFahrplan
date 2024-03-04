@@ -115,7 +115,7 @@ data class ScheduleChanges private constructor(
                     changedRoomName = sessionChange.changedRoom
                     changedTrack = sessionChange.changedTrack
                     changedRecordingOptOut = sessionChange.changedRecordingOptOut
-                    changedDay = sessionChange.changedDayIndex
+                    changedDayIndex = sessionChange.changedDayIndex
                     changedTime = sessionChange.changedStartTime
                     changedDuration = sessionChange.changedDuration
                 }

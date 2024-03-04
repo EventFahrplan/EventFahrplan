@@ -74,7 +74,7 @@ public class Session {
     public boolean changedTitle;
     public boolean changedSubtitle;
     public boolean changedRoomName;
-    public boolean changedDay;
+    public boolean changedDayIndex;
     public boolean changedTime;
     public boolean changedDuration;
     public boolean changedSpeakers;
@@ -117,7 +117,7 @@ public class Session {
         changedTitle = false;
         changedSubtitle = false;
         changedRoomName = false;
-        changedDay = false;
+        changedDayIndex = false;
         changedSpeakers = false;
         changedRecordingOptOut = false;
         changedLanguage = false;
@@ -160,7 +160,7 @@ public class Session {
         this.changedTitle = session.changedTitle;
         this.changedSubtitle = session.changedSubtitle;
         this.changedRoomName = session.changedRoomName;
-        this.changedDay = session.changedDay;
+        this.changedDayIndex = session.changedDayIndex;
         this.changedTime = session.changedTime;
         this.changedDuration = session.changedDuration;
         this.changedSpeakers = session.changedSpeakers;
@@ -255,7 +255,7 @@ public class Session {
         changedTitle = false;
         changedSubtitle = false;
         changedRoomName = false;
-        changedDay = false;
+        changedDayIndex = false;
         changedSpeakers = false;
         changedRecordingOptOut = false;
         changedLanguage = false;
@@ -267,7 +267,7 @@ public class Session {
 
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public boolean isChanged() {
-        return changedDay || changedDuration ||
+        return changedDayIndex || changedDuration ||
                 changedLanguage || changedRecordingOptOut ||
                 changedRoomName || changedSpeakers || changedSubtitle ||
                 changedTime || changedTitle || changedTrack;

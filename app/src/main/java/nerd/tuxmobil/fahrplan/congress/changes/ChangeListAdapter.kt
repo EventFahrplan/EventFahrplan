@@ -117,7 +117,7 @@ class ChangeListAdapter internal constructor(
                         lang.contentDescription = lang.context.getText(R.string.session_list_item_language_removed_content_description)
                     }
                 }
-                if (session.changedDay) {
+                if (session.changedDayIndex) {
                     day.setTextStyleChanged()
                 }
                 if (session.changedTime) {
