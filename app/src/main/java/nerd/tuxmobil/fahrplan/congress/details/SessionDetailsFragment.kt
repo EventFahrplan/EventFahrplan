@@ -46,11 +46,11 @@ import nerd.tuxmobil.fahrplan.congress.extensions.requireViewByIdCompat
 import nerd.tuxmobil.fahrplan.congress.extensions.startActivity
 import nerd.tuxmobil.fahrplan.congress.extensions.toSpanned
 import nerd.tuxmobil.fahrplan.congress.extensions.withArguments
-import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.sharing.SessionSharer
 import nerd.tuxmobil.fahrplan.congress.sidepane.OnSidePaneCloseListener
+import nerd.tuxmobil.fahrplan.congress.utils.ContentDescriptionFormatter
 import nerd.tuxmobil.fahrplan.congress.utils.LinkMovementMethodCompat
 import nerd.tuxmobil.fahrplan.congress.utils.ServerBackendType
 import nerd.tuxmobil.fahrplan.congress.utils.TypefaceFactory
@@ -112,6 +112,7 @@ class SessionDetailsFragment : Fragment() {
         )
     }
     private lateinit var model: SelectedSessionParameter
+    private lateinit var contentDescriptionFormatter: ContentDescriptionFormatter
     private lateinit var markwon: Markwon
     private var sidePane = false
     private var hasArguments = false
@@ -137,7 +138,8 @@ class SessionDetailsFragment : Fragment() {
         appRepository = AppRepository
         alarmServices = AlarmServices.newInstance(context, appRepository)
         notificationHelper = NotificationHelper(context)
-        markwon = Markwon.builder(requireContext())
+        contentDescriptionFormatter = ContentDescriptionFormatter(context)
+        markwon = Markwon.builder(context)
             .usePlugin(HEADINGS_PLUGIN)
             .usePlugin(createListItemsPlugin(context))
             .usePlugin(LinkifyPlugin.create())
@@ -261,12 +263,14 @@ class SessionDetailsFragment : Fragment() {
         var textView: TextView = view.requireViewByIdCompat(R.id.session_detailbar_date_time_view)
         textView.text = if (model.hasDateUtc) model.formattedZonedDateTimeShort else ""
         if (model.hasDateUtc) {
-            textView.contentDescription = Session.getStartTimeContentDescription(textView.context, model.formattedZonedDateTimeLong)
+            textView.contentDescription = contentDescriptionFormatter
+                .getStartTimeContentDescription(model.formattedZonedDateTimeLong)
         }
 
         textView = view.requireViewByIdCompat(R.id.session_detailbar_location_view)
         textView.text = model.roomName
-        textView.contentDescription = Session.getRoomNameContentDescription(textView.context, model.roomName)
+        textView.contentDescription = contentDescriptionFormatter
+            .getRoomNameContentDescription(model.roomName)
         textView = view.requireViewByIdCompat(R.id.session_detailbar_session_id_view)
         textView.text = if (model.sessionId.isEmpty()) "" else textView.context.getString(R.string.session_details_session_id, model.sessionId)
 
@@ -281,7 +285,8 @@ class SessionDetailsFragment : Fragment() {
             textView.isVisible = false
         } else {
             typeface = typefaceFactory.getTypeface(viewModel.subtitleFont)
-            textView.applyText(typeface, model.subtitle, Session.getSubtitleContentDescription(textView.context, model.subtitle))
+            textView.applyText(typeface, model.subtitle, contentDescriptionFormatter
+                .getSubtitleContentDescription(model.subtitle))
         }
 
         // Speakers
@@ -290,7 +295,8 @@ class SessionDetailsFragment : Fragment() {
             textView.isVisible = false
         } else {
             typeface = typefaceFactory.getTypeface(viewModel.speakersFont)
-            val speakerNamesContentDescription = Session.getSpeakersContentDescription(textView.context, model.speakersCount, model.speakerNames)
+            val speakerNamesContentDescription = contentDescriptionFormatter
+                .getSpeakersContentDescription(model.speakersCount, model.speakerNames)
             textView.applyText(typeface, model.speakerNames, speakerNamesContentDescription)
         }
 

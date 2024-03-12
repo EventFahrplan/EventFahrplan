@@ -65,6 +65,7 @@ import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.schedule.observables.TimeTextViewParameter
 import nerd.tuxmobil.fahrplan.congress.sharing.SessionSharer
+import nerd.tuxmobil.fahrplan.congress.utils.ContentDescriptionFormatter
 import nerd.tuxmobil.fahrplan.congress.utils.Font
 import nerd.tuxmobil.fahrplan.congress.utils.SessionPropertiesFormatter
 import nerd.tuxmobil.fahrplan.congress.utils.TypefaceFactory
@@ -179,6 +180,7 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
         sessionViewDrawer = SessionViewDrawer(
             context = context,
             sessionPropertiesFormatter = SessionPropertiesFormatter(),
+            contentDescriptionFormatter = ContentDescriptionFormatter(context),
             getSessionPadding = { sessionPadding },
         )
         errorMessageFactory = ErrorMessage.Factory(context)

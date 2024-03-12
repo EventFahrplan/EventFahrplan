@@ -36,6 +36,7 @@ import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.sharing.SessionSharer
 import nerd.tuxmobil.fahrplan.congress.utils.ActivityHelper.navigateUp
 import nerd.tuxmobil.fahrplan.congress.utils.ConfirmationDialog
+import nerd.tuxmobil.fahrplan.congress.utils.ContentDescriptionFormatter
 import nerd.tuxmobil.fahrplan.congress.utils.SessionPropertiesFormatter
 
 /**
@@ -139,6 +140,7 @@ class StarredListFragment :
                 numDays = numDays,
                 useDeviceTimeZone = useDeviceTimeZone,
                 sessionPropertiesFormatter = SessionPropertiesFormatter(),
+                contentDescriptionFormatter = ContentDescriptionFormatter(activity),
             )
             currentListView.adapter = adapter
             activity.invalidateOptionsMenu()

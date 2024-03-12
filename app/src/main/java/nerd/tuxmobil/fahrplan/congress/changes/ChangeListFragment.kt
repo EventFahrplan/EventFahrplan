@@ -22,6 +22,7 @@ import nerd.tuxmobil.fahrplan.congress.extensions.replaceFragment
 import nerd.tuxmobil.fahrplan.congress.extensions.requireViewByIdCompat
 import nerd.tuxmobil.fahrplan.congress.extensions.withArguments
 import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper
+import nerd.tuxmobil.fahrplan.congress.utils.ContentDescriptionFormatter
 import nerd.tuxmobil.fahrplan.congress.utils.SessionPropertiesFormatter
 
 /**
@@ -91,6 +92,7 @@ class ChangeListFragment : AbstractListFragment() {
                 numDays = numDays,
                 useDeviceTimeZone = useDeviceTimeZone,
                 sessionPropertiesFormatter = SessionPropertiesFormatter(),
+                contentDescriptionFormatter = ContentDescriptionFormatter(requireContext())
             )
             currentListView.adapter = adapter
         }
