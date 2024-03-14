@@ -242,7 +242,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                                             session.setDescription(XmlPullParsers.getSanitizedText(parser));
                                         } else if (name.equals("person")) {
                                             parser.next();
-                                            String separator = session.getSpeakers().length() > 0 ? ";" : "";
+                                            String separator = !session.getSpeakers().isEmpty() ? ";" : "";
                                             session.setSpeakers(session.getSpeakers() + separator + XmlPullParsers.getSanitizedText(parser));
                                         } else if (name.equals("link")) {
                                             String url = parser.getAttributeValue(null, "href");
@@ -255,7 +255,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                                                 url = "http://" + url;
                                             }
                                             StringBuilder sb = new StringBuilder();
-                                            if (session.getLinks().length() > 0) {
+                                            if (!session.getLinks().isEmpty()) {
                                                 sb.append(session.getLinks());
                                                 sb.append(",");
                                             }

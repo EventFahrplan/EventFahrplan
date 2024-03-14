@@ -13,7 +13,7 @@ import info.metadude.android.eventfahrplan.database.models.Session as SessionDat
 import info.metadude.android.eventfahrplan.network.models.Session as SessionNetworkModel
 
 fun Session.shiftRoomIndexOnDays(dayIndices: Set<Int>): Session {
-    if (dayIndices.contains(day)) {
+    if (day in dayIndices) {
         shiftRoomIndexBy(1)
     }
     return this
