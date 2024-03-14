@@ -11,8 +11,9 @@ import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewModel
 data class FahrplanParameter(
 
     val scheduleData: ScheduleData,
+    val useDeviceTimeZone: Boolean,
     val numDays: Int,
     val dayIndex: Int,
-    val dayMenuEntries: List<String>?
+    val dayMenuEntries: List<String>
 
 )

@@ -4,7 +4,7 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Me
 
 data class Meta(
 
-        val eTag: String = "",
+        val httpHeader: HttpHeader = HttpHeader(),
         val numDays: Int = NUM_DAYS_DEFAULT,
         val subtitle: String = "",
         val timeZoneName: String? = null,

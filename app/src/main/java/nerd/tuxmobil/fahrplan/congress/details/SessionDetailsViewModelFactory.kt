@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import nerd.tuxmobil.fahrplan.congress.BuildConfig
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices
+import nerd.tuxmobil.fahrplan.congress.navigation.C3nav
 import nerd.tuxmobil.fahrplan.congress.navigation.RoomForC3NavConverter
 import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper
 import nerd.tuxmobil.fahrplan.congress.repositories.AppExecutionContext
@@ -36,9 +37,8 @@ internal class SessionDetailsViewModelFactory(
             jsonSessionFormat = JsonSessionFormat(),
             feedbackUrlComposer = FeedbackUrlComposer(),
             sessionUrlComposition = SessionUrlComposer(),
-            roomForC3NavConverter = RoomForC3NavConverter(),
+            indoorNavigation = C3nav(BuildConfig.C3NAV_URL, RoomForC3NavConverter()),
             markdownConversion = MarkdownConverter,
-            c3NavBaseUrl = BuildConfig.C3NAV_URL,
             defaultEngelsystemRoomName = defaultEngelsystemRoomName,
             customEngelsystemRoomName = customEngelsystemRoomName
         ) as T

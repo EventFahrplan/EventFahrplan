@@ -24,11 +24,14 @@ import androidx.core.widget.ContentLoadingProgressBar
 import androidx.fragment.app.FragmentContainerView
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentManager.OnBackStackChangedListener
+import info.metadude.android.eventfahrplan.commons.flow.observe
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.about.AboutDialog
-import nerd.tuxmobil.fahrplan.congress.alarms.AlarmList
+import nerd.tuxmobil.fahrplan.congress.alarms.AlarmsActivity
+import nerd.tuxmobil.fahrplan.congress.alarms.AlarmsFragment
 import nerd.tuxmobil.fahrplan.congress.base.AbstractListFragment.OnSessionListClick
 import nerd.tuxmobil.fahrplan.congress.base.BaseActivity
+import nerd.tuxmobil.fahrplan.congress.base.OnSessionItemClickListener
 import nerd.tuxmobil.fahrplan.congress.changes.ChangeListActivity
 import nerd.tuxmobil.fahrplan.congress.changes.ChangeListFragment
 import nerd.tuxmobil.fahrplan.congress.changes.ChangeStatistic
@@ -58,6 +61,7 @@ class MainActivity : BaseActivity(),
     OnSidePaneCloseListener,
     OnSessionListClick,
     OnSessionClickListener,
+    OnSessionItemClickListener,
     OnBackStackChangedListener,
     OnConfirmationDialogClicked {
 
@@ -101,6 +105,7 @@ class MainActivity : BaseActivity(),
     }
 
     private var isScreenLocked = false
+    private var isAlarmsInSidePane = false
     private var isFavoritesInSidePane = false
     private var shouldScrollToCurrent = true
 
@@ -218,6 +223,9 @@ class MainActivity : BaseActivity(),
         super.onResume()
         isScreenLocked = keyguardManager.isKeyguardLocked
         val sidePaneView = findViewById<FragmentContainerView>(R.id.detail)
+        if (sidePaneView != null && isAlarmsInSidePane) {
+            sidePaneView.isVisible = !isScreenLocked
+        }
         if (sidePaneView != null && isFavoritesInSidePane) {
             sidePaneView.isVisible = !isScreenLocked
         }
@@ -249,7 +257,7 @@ class MainActivity : BaseActivity(),
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val functionByOptionItemId = mapOf(
             R.id.menu_item_about to { viewModel.showAboutDialog() },
-            R.id.menu_item_alarms to { AlarmList.startForResult(this) },
+            R.id.menu_item_alarms to { openAlarms() },
             R.id.menu_item_settings to { SettingsActivity.startForResult(this) },
             R.id.menu_item_schedule_changes to { openSessionChanges() },
             R.id.menu_item_favorites to { openFavorites() }
@@ -288,7 +296,6 @@ class MainActivity : BaseActivity(),
         super.onActivityResult(requestCode, resultCode, intent)
         when (requestCode) {
 
-            AlarmList.REQUEST_CODE,
             SessionDetailsActivity.REQUEST_CODE ->
                 if (resultCode == RESULT_CANCELED) {
                     shouldScrollToCurrent = false
@@ -358,8 +365,20 @@ class MainActivity : BaseActivity(),
         val fragment = fragmentManager.findFragmentById(detailView)
         val hasFragment = fragment != null
         findViewById<View>(detailView)?.let { view ->
+            isAlarmsInSidePane = hasFragment && fragment is AlarmsFragment
             isFavoritesInSidePane = hasFragment && fragment is StarredListFragment
-            view.isVisible = (!isFavoritesInSidePane || !isScreenLocked) && hasFragment
+            view.isVisible = (!isAlarmsInSidePane || !isFavoritesInSidePane || !isScreenLocked) && hasFragment
+        }
+    }
+
+    private fun openAlarms() {
+        val sidePaneView = findViewById<FragmentContainerView>(R.id.detail)
+        if (sidePaneView == null) {
+            AlarmsActivity.start(this)
+        } else if (!isScreenLocked) {
+            sidePaneView.isVisible = true
+            isAlarmsInSidePane = true
+            AlarmsFragment.replace(supportFragmentManager, R.id.detail, true)
         }
     }
 
@@ -397,5 +416,9 @@ class MainActivity : BaseActivity(),
             onShouldScrollToCurrent()
         }
         shouldScrollToCurrent = true
+    }
+
+    override fun onSessionItemClick(sessionId: String) {
+        viewModel.openSessionDetails(sessionId)
     }
 }

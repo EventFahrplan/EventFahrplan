@@ -1,52 +1,53 @@
 package nerd.tuxmobil.fahrplan.congress.changes
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import info.metadude.android.eventfahrplan.commons.testing.MainDispatcherTestRule
-import info.metadude.android.eventfahrplan.commons.testing.assertLiveData
+import app.cash.turbine.test
+import com.google.common.truth.Truth.assertThat
+import info.metadude.android.eventfahrplan.commons.testing.MainDispatcherTestExtension
 import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedNever
 import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedOnce
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.runTest
 import nerd.tuxmobil.fahrplan.congress.NoLogging
 import nerd.tuxmobil.fahrplan.congress.TestExecutionContext
 import nerd.tuxmobil.fahrplan.congress.models.Meta
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
-import org.junit.Rule
-import org.junit.Test
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 
+@ExtendWith(MainDispatcherTestExtension::class)
 class ChangeListViewModelTest {
 
-    @get:Rule
-    val mainDispatcherTestRule = MainDispatcherTestRule()
-
-    @get:Rule
-    val instantTaskExecutorRule = InstantTaskExecutorRule()
-
     @Test
-    fun `changeListParameter emits null`() {
+    fun `changeListParameter emits null`() = runTest {
         val repository = createRepository(sessionsFlow = emptyFlow())
         val viewModel = createViewModel(repository)
-        assertLiveData(viewModel.changeListParameter).isNull()
+        viewModel.changeListParameter.test {
+            awaitComplete()
+        }
         verifyInvokedNever(repository).readMeta()
         verifyInvokedNever(repository).readUseDeviceTimeZoneEnabled()
     }
 
     @Test
-    fun `changeListParameter emits zero sessions`() {
+    fun `changeListParameter emits zero sessions`() = runTest {
         val repository = createRepository()
         val viewModel = createViewModel(repository)
         val expected = ChangeListParameter(emptyList(), 0, false)
-        assertLiveData(viewModel.changeListParameter).isEqualTo(expected)
+        viewModel.changeListParameter.test {
+            assertThat(awaitItem()).isEqualTo(expected)
+            awaitComplete()
+        }
         verifyInvokedNever(repository).readMeta()
         verifyInvokedNever(repository).readUseDeviceTimeZoneEnabled()
     }
 
     @Test
-    fun `changeListParameter emits a single session`() {
+    fun `changeListParameter emits a single session`() = runTest {
         val repository = createRepository(
             sessionsFlow = flowOf(listOf(Session("18"))),
             meta = Meta(numDays = 3),
@@ -55,17 +56,22 @@ class ChangeListViewModelTest {
         val viewModel = createViewModel(repository)
         val expectedSessions = listOf(Session("18"))
         val expected = ChangeListParameter(expectedSessions, 3, true)
-        assertLiveData(viewModel.changeListParameter).isEqualTo(expected)
+        viewModel.changeListParameter.test {
+            assertThat(awaitItem()).isEqualTo(expected)
+            awaitComplete()
+        }
         verifyInvokedOnce(repository).readMeta()
         verifyInvokedOnce(repository).readUseDeviceTimeZoneEnabled()
     }
 
     @Test
-    fun `updateScheduleChangesSeen invokes repository function`() {
+    fun `updateScheduleChangesSeen invokes repository function`() = runTest {
         val repository = createRepository()
         val viewModel = createViewModel(repository)
         viewModel.updateScheduleChangesSeen(changesSeen = true)
-        assertLiveData(viewModel.scheduleChangesSeen).isEqualTo(Unit)
+        viewModel.scheduleChangesSeen.test {
+            assertThat(awaitItem()).isEqualTo(Unit)
+        }
         verifyInvokedOnce(repository).updateScheduleChangesSeen(changesSeen = true)
     }
 

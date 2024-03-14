@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="app_name">36C3 Schedule</string>
-    <string name="app_hardcoded_subtitle">2019年12月27日〜30日</string>
-    <string name="copyright_logo"><![CDATA[36C3: Resource exhaustion.  <a href="http://bleeptrack.de">bleeptrack</a>]]>によるデザイン</string>
-    <string name="about_logo_content_description">36C3: Resource exhaustionのロゴ</string>
-</resources>

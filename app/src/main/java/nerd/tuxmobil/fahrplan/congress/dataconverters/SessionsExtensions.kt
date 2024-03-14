@@ -3,6 +3,7 @@ package nerd.tuxmobil.fahrplan.congress.dataconverters
 import info.metadude.android.eventfahrplan.commons.temporal.DayRange
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.models.Session
+import nerd.tuxmobil.fahrplan.congress.models.VirtualDay
 import info.metadude.android.eventfahrplan.database.models.Session as SessionDatabaseModel
 import info.metadude.android.eventfahrplan.network.models.Session as SessionNetworkModel
 
@@ -16,6 +17,19 @@ fun List<Session>.toDayIndices(): Set<Int> {
         dayIndices.add(it.day)
     }
     return dayIndices
+}
+
+/**
+ * Splits the given sessions into [VirtualDay]s. The [Session.date] field is used to separate them.
+ * This field is unique for a virtual day, even for sessions after midnight.
+ */
+fun List<Session>.toVirtualDays(): List<VirtualDay> {
+    var index = 0
+    return groupBy { it.date }
+        .map { (_, sessions) ->
+            val sorted = sessions.sortedBy { it.dateUTC }
+            VirtualDay(++index, sorted)
+        }
 }
 
 fun List<Session>.toDateInfos() = map(Session::toDateInfo)

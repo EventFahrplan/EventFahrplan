@@ -9,10 +9,11 @@ import androidx.annotation.NonNull;
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable;
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns;
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Defaults;
+import info.metadude.android.eventfahrplan.database.extensions.SQLiteDatabaseExtensions;
 
 public class MetaDBOpenHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 8;
+    private static final int DATABASE_VERSION = 9;
 
     private static final String DATABASE_NAME = "meta";
 
@@ -23,7 +24,8 @@ public class MetaDBOpenHelper extends SQLiteOpenHelper {
                     Columns.TITLE + " TEXT, " +
                     Columns.SUBTITLE + " TEXT, " +
                     Columns.ETAG + " TEXT, " +
-                    Columns.TIME_ZONE_NAME + " TEXT);";
+                    Columns.TIME_ZONE_NAME + " TEXT, " +
+                    Columns.SCHEDULE_LAST_MODIFIED + " TEXT DEFAULT '');";
 
     public MetaDBOpenHelper(@NonNull Context context) {
         super(context.getApplicationContext(), DATABASE_NAME, null, DATABASE_VERSION);
@@ -50,7 +52,7 @@ public class MetaDBOpenHelper extends SQLiteOpenHelper {
             onCreate(db);
         }
         if (oldVersion < 5) {
-            // Clear database from 35C3.
+            // Clear database from 35C3 & Camp 2019.
             db.execSQL("DROP TABLE IF EXISTS " + MetasTable.NAME);
             onCreate(db);
         }
@@ -60,9 +62,16 @@ public class MetaDBOpenHelper extends SQLiteOpenHelper {
             onCreate(db);
         }
         if (oldVersion < 8) {
-            // Clear database from rC3 NOWHERE 12/2021.
+            // Clear database from rC3 NOWHERE 12/2021 & 36C3 2019.
             db.execSQL("DROP TABLE IF EXISTS " + MetasTable.NAME);
             onCreate(db);
+        }
+        if (oldVersion < 9) {
+            boolean columnExists = SQLiteDatabaseExtensions.columnExists(db, MetasTable.NAME, Columns.SCHEDULE_LAST_MODIFIED);
+            if (!columnExists) {
+                db.execSQL("ALTER TABLE " + MetasTable.NAME + " ADD COLUMN " +
+                        Columns.SCHEDULE_LAST_MODIFIED + " TEXT DEFAULT ''");
+            }
         }
     }
 }

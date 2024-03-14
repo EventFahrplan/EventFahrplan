@@ -1,26 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="alarm_time_title_5_minutes_before">5 minuter innan</string>
-    <string name="alarm_time_title_10_minutes_before">10 minuter innan</string>
-    <string name="alarm_time_title_15_minutes_before">15 minuter innan</string>
-    <string name="alarm_time_title_20_minutes_before">20 minuter innan</string>
-    <string name="alarm_time_title_30_minutes_before">30 minuter innan</string>
-    <string name="alarm_time_title_45_minutes_before">45 minuter innan</string>
-    <string name="alarm_time_title_60_minutes_before">60 minuter innan</string>
-    <string name="session_list_item_duration_text"><xliff:g example="45" id="duration">%d</xliff:g> min.</string>
-    <string name="session_list_item_language_content_description">Språk: <xliff:g example="English" id="language">%s</xliff:g></string>
-    <string name="session_list_item_language_german_content_description">Tyska</string>
-    <string name="session_list_item_language_english_content_description">Engelska</string>
-    <string name="session_list_item_language_unknown_content_description">Språk okänt</string>
-    <string name="session_list_item_without_video_content_description">Utan videoinspelning</string>
-    <string name="session_list_item_video_content_description">Med videoinspelning</string>
-    <string name="session_list_item_no_video_content_description">Utan videoinspelning</string>
-    <string name="session_list_item_language_removed_content_description">Språkinformation har tagits bort</string>
-    <string name="session_list_item_language_portuguese_content_description">Portugisiska</string>
-    <string name="alarm_time_title_at_start_time">vid starttid</string>
-    <string name="trace_droid_button_title_no">Nej</string>
-    <string name="snack_engage_rate_action">Betygsätt appen</string>
-    <string name="snack_engage_rate_title">Nöjd?</string>
+    <!-- Menu items -->
     <string name="menu_item_title_about">Information</string>
     <string name="menu_item_title_add_to_calendar">Lägg till kalendern</string>
     <string name="menu_item_title_alarms">Alarm</string>
@@ -32,60 +12,38 @@
     <string name="menu_item_title_delete_alarm">Ta bort alarm</string>
     <string name="menu_item_title_delete_all">Ta bort alla</string>
     <string name="menu_item_title_favorites">Favoriter</string>
-    <string name="menu_item_title_feedback">Feedback</string>
     <string name="menu_item_title_navigate">Navigering</string>
     <string name="menu_item_title_refresh">Uppdatera</string>
+    <string name="menu_item_title_share_session">Dela händelse</string>
+    <string name="menu_item_title_share_favorites">Deka favoriter</string>
     <string name="menu_item_title_share_session_text">som text</string>
     <string name="menu_item_title_share_session_json">som JSON (för Chaosflix)</string>
     <string name="share_as_text">Dela som text</string>
     <string name="share_as_json">Dela som JSON (för Chaosflix)</string>
-    <string name="OK">OK</string>
+    <!-- AlertDialog -->
+    <!-- CertificateErrorFragment -->
     <string name="certificate_error_message">En säker anslutning kan inte upprättas.\n(<xliff:g example="Unknown Error" id="error">%s</xliff:g>)</string>
     <string name="certificate_error_title">Certifikatet kunde inte läggas till.</string>
+    <!-- Error messages -->
     <string name="dlg_err_connection_failed">Anslutning misslyckades</string>
     <string name="dlg_err_failed_unknown_host">Okänd adress: %s</string>
+    <string name="dlg_err_failed_wrong_http_credentials">Ogiltlig HTTP-autentisering</string>
     <string name="dlg_err_failed_timeout">Servern svarar inte (Timeout).</string>
     <string name="dlg_err_failed_connect_failure">Okänt anslutningsfel</string>
     <string name="dlg_err_failed_not_found">Ogiltligt schema URL</string>
     <string name="dlg_err_failed_parse_failure">Kunde inte tolka svaret</string>
     <string name="dlg_err_failed_ssl_failure">SSL misslyckades</string>
     <string name="dlg_err_failed_http_cleartext_not_permitted">HTTP är inte tillåtet. Använd istället HTTPS.</string>
-    <string name="uptodate">Schemat är uppdaterat.</string>
-    <string name="schedule_changes_dialog_browse">Utforska</string>
-    <string name="schedule_changes_dialog_later">Senare</string>
-    <string name="progress_loading_data">Hämta schema &#8230;</string>
-    <string name="progress_processing_data">Hanterar schema &#8230;</string>
-    <string name="load_data">Ladda</string>
-    <string name="choose_day">Välj dag</string>
-    <string name="day">Dag</string>
-    <string name="fahrplan">Schema</string>
-    <string name="appVersion">App Version %s</string>
-    <string name="schedule_updated">Schemat har blivit uppdaterat.</string>
-    <string name="settings">Inställningar</string>
-    <string name="session_details_section_title_links">Länkar</string>
-    <string name="choose_alarm_time">Välj alarm tid</string>
-    <string name="reminders">Alarm</string>
-    <string name="usage">Tips: Håll inne på en föreläsning för att sätta ett alarm.</string>
-    <string name="schedule_parsing_error_generic">Okänt fel när schemat skulle tolkas</string>
-    <string name="schedule_parsing_error_with_version">Tolkningsfel för schema version %s</string>
-    <string name="trace_droid_button_title_later">Kanske senare</string>
-    <string name="notifications_schedule_update_channel_description">Automatiska uppdateringar av schemat kan bli konfigurerat i appens iställningar.</string>
-    <string name="snack_engage_c3nav_action">Installera nu!</string>
-    <string name="snack_engage_google_play_beta_testing_action">Bli en beta testare</string>
-    <string name="snack_engage_google_play_beta_testing_title">Expertanvändare?</string>
-    <string name="build_info_time">
-        Byggtid: <xliff:g example="2015-12-27T13:42Z" id="build_time">%s</xliff:g>
+    <string name="dlg_err_schedule_data">Fel i schemadata</string>
+    <string name="dlg_err_schedule_data_empty">        Inget att visa. Schemat med version \"<xliff:g example="0.99" id="version">%s</xliff:g>\"
+        innehåller ingen session.
     </string>
-    <string name="dlg_delete_all_favorites_delete_all">Ta bort alla</string>
-    <string name="dlg_delete_all_favorites">Ta bort alla favoriter?</string>
-    <string name="invalid_url">Ogiltlig URL</string>
-    <string name="starred_sessions">Favoriter</string>
-    <string name="schedule_changes">Schemalägg ändringar</string>
+    <string name="dlg_err_schedule_data_empty_without_version">        Inget att visa. Schemat innehåller ingen session.
+    </string>
+    <string name="uptodate">Schemat är uppdaterat.</string>
+    <!-- Schedule changes dialog -->
+    <string name="schedule_changes_dialog_title">Schemaändringar</string>
     <string name="schedule_changes_dialog_updated_to_text">Schemat har blivit uppdaterat till\u0020</string>
-    <string name="schedule_changes_dialog_title">Schemalägg uppdatering</string>
-    <string name="dlg_err_failed_wrong_http_credentials">Ogiltlig HTTP-autentisering</string>
-    <string name="menu_item_title_share_session">Dela händelse</string>
-    <string name="menu_item_title_share_favorites">Deka favoriter</string>
     <string name="schedule_changes_dialog_changed_new_cancelled_text">. Det är ändringar i <xliff:g example="3 lectures" id="num_changes">%1$s</xliff:g>, <xliff:g example="2 are" id="num_new">%2$s</xliff:g> <xliff:g example="new" id="phrase_new">%3$s</xliff:g>, <xliff:g example="1 is" id="num_canceled">%4$s</xliff:g> <xliff:g example="cancelled" id="phrase_cancelled">%5$s</xliff:g>.</string>
     <string name="schedule_changes_dialog_affected_text">Dessa ändringar påverkar <xliff:g example="2" id="num_marked">%1$d</xliff:g> av dina favoriserade föreläsningar.</string>
     <plurals name="schedule_changes_dialog_phrase_new">
@@ -104,11 +62,26 @@
         <item quantity="one">%d är</item>
         <item quantity="other">%d är</item>
     </plurals>
-    <string name="schedule_updated_to">
-        Uppdaterade till <xliff:g example="Mildenberg 2018-01-16 16:50" id="version">%s</xliff:g>
+    <string name="schedule_changes_dialog_browse">Utforska</string>
+    <string name="schedule_changes_dialog_later">Senare</string>
+    <string name="progress_loading_data">Hämta schema &#8230;</string>
+    <string name="progress_processing_data">Hanterar schema &#8230;</string>
+    <string name="load_data">Ladda</string>
+    <string name="choose_day">Välj dag</string>
+    <string name="day">Dag</string>
+    <string name="fahrplan">Schema</string>
+    <string name="appVersion">App Version %s</string>
+    <string name="schedule_updated_to">        Uppdaterade till <xliff:g example="Mildenberg 2018-01-16 16:50" id="version">%s</xliff:g>
     </string>
-    <string name="about_libraries_statement">
-        Denna appen använder följande bibliotek: <xliff:g example="Kotlin, Espresso" id="libs">%s</xliff:g>
+    <string name="schedule_updated">Schemat har blivit uppdaterat.</string>
+    <string name="settings">Inställningar</string>
+    <string name="session_details_section_title_track">Ämnesområde</string>
+    <string name="session_details_section_title_session_online">Online-händelse</string>
+    <string name="session_details_section_title_links">Länkar</string>
+    <string name="choose_alarm_time">Välj alarm tid</string>
+    <string name="reminders">Alarm</string>
+    <string name="usage">Tips: Håll inne på en föreläsning för att sätta ett alarm.</string>
+    <string name="about_libraries_statement">        Denna appen använder följande bibliotek: <xliff:g example="Kotlin, Espresso" id="libs">%s</xliff:g>
     </string>
     <string name="about_data_privacy_statement_german">Sekretesspolicy (Tyska)</string>
     <string name="about_f_droid_listing">F-Droid</string>
@@ -116,69 +89,113 @@
     <string name="about_issues_or_feature_requests">Problem eller funktionsförfrågningar</string>
     <string name="about_source_code">Källkod</string>
     <string name="today">Idag</string>
-    <string name="alarms_empty">
-        Det finns inga alarm att visa. Vänligen notera att du
-        kan sätta upp individuella alarm för varje sak i schemat.
-        Klicka bara på alarm ikonen i menyn.
-    </string>
+    <string name="schedule_parsing_error_generic">Okänt fel när schemat skulle tolkas</string>
+    <string name="schedule_parsing_error_with_version">Tolkningsfel för schema version %s</string>
+    <string name="engelsystem_shifts_parsing_error_generic">Okänt fel vid parsning av <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g> skift</string>
+    <string name="engelsystem_shifts_parsing_error_forbidden">Ogiltig API-nyckel för <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g> skift</string>
+    <string name="engelsystem_shifts_parsing_error_not_found">Fel URL för <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g> skift</string>
     <string name="add_to_calendar_failed">Det gick inte att lägga till händelsen i kalendern.</string>
     <string name="no_changes">Inga schemalagda händelser</string>
     <string name="no_favorites">Inga favoriserade föreläsningar</string>
+    <string name="schedule_changes">Schemalägg ändringar</string>
     <string name="general_settings">Allmän</string>
+    <string name="starred_sessions">Favoriter</string>
+    <string name="invalid_url">Ogiltlig URL</string>
     <string name="choose_to_delete">Välj föreläsningar</string>
     <string name="day_separator">Dag <xliff:g example="2" id="day_of_congress">%1$d</xliff:g> - <xliff:g example="29.12.2014" id="date_of_congress_day">%2$s</xliff:g></string>
+    <string name="dlg_delete_all_favorites">Ta bort alla favoriter?</string>
+    <string name="dlg_delete_all_favorites_delete_all">Ta bort alla</string>
     <string name="share_error_activity_not_found">Ingen lämplig app installerad.</string>
-    <string name="build_info_version_code">
-        Versionskod: <xliff:g example="42" id="version_code">%s</xliff:g>
+    <!-- Build information -->
+    <string name="build_info_time">        Byggtid: <xliff:g example="2015-12-27T13:42Z" id="build_time">%s</xliff:g>
     </string>
-    <string name="build_info_hash">
-        Versions hash: <xliff:g example="e1f2g3h-dirty" id="build_hash">%s</xliff:g>
+    <string name="build_info_version_code">        Versionskod: <xliff:g example="42" id="version_code">%s</xliff:g>
     </string>
-    <string name="app_disclaimer">
-        Denna app är baserad på källkoden av &#8220;EventFahrplan&#8221; appen.
+    <string name="build_info_hash">        Versions hash: <xliff:g example="e1f2g3h-dirty" id="build_hash">%s</xliff:g>
+    </string>
+    <!-- App disclaimer -->
+    <string name="app_disclaimer">        Denna app är baserad på källkoden av &#8220;EventFahrplan&#8221; appen.
         Besökare på den årliga kongressen och lägret som Chaos Computer Club arrangerar
         använder appen för att hålla reda på evenemangsprogrammet.
     </string>
-    <string name="snack_engage_c3nav_title">Inomhusnavigering vid <xliff:g example="35C3" id="conferenceName">%s</xliff:g>! Med c3nav appen</string>
-    <string name="trace_droid_dialog_title">
-        Skicka <xliff:g example="33C3 Schedule" id="appName">%s</xliff:g> kraschrapport &#8230;
+    <!-- SnackEngage -->
+    <string name="snack_engage_rate_title">Nöjd?</string>
+    <string name="snack_engage_rate_action">Betygsätt appen</string>
+    <string name="snack_engage_google_play_beta_testing_title">Expertanvändare?</string>
+    <string name="snack_engage_google_play_beta_testing_action">Bli en beta testare</string>
+    <string name="snack_engage_c3nav_title">Inomhusnavigering @ <xliff:g example="35C3" id="conferenceName">%s</xliff:g>! Med c3nav appen</string>
+    <string name="snack_engage_c3nav_action">Installera nu!</string>
+    <string name="snack_engage_landscape_orientation_title">Har du prövat landskapsläget?</string>
+    <string name="snack_engage_landscape_orientation_action">Rotera din enhet!</string>
+    <!-- TraceDroid -->
+    <string name="trace_droid_dialog_title">        Skicka <xliff:g example="33C3 Schedule" id="appName">%s</xliff:g> kraschrapport &#8230;
     </string>
-    <string name="trace_droid_dialog_message">
-        Ett problem med <xliff:g example="33C3 Schedule" id="appName">%s</xliff:g> appen
+    <string name="trace_droid_dialog_message">        Ett problem med <xliff:g example="33C3 Schedule" id="appName">%s</xliff:g> appen
         har identifierats. Det skulle vara hjälpsamt om du ville skicka en kraschrapport så
         att källan till problemet kan identifieras. Det skulle hjälpa väldigt mycket om du
         kan beskriva hur och när kraschen hände.
     </string>
-    <string name="trace_droid_button_title_send">
-        Öppna epost
+    <string name="trace_droid_button_title_send">        Öppna epost
     </string>
-    <string name="trace_droid_no_email_app">
-        Ingen kompatibel epost app är installerad.
+    <string name="trace_droid_no_email_app">        Ingen kompatibel epost app är installerad.
     </string>
+    <string name="trace_droid_button_title_no">Nej</string>
+    <string name="trace_droid_button_title_later">Kanske senare</string>
+    <!-- Notifications -->
+    <string name="notifications_session_alarm_channel_description">        Anpassade påminnelser för olika evenemang.
+    </string>
+    <string name="notifications_session_alarm_channel_name">Larm för händelser</string>
+    <string name="notifications_session_alarm_content_text">Alarm för händelse</string>
+    <string name="notifications_schedule_update_channel_description">Automatiska uppdateringar av schemat kan bli konfigurerat i appens iställningar.</string>
     <string name="notifications_schedule_update_channel_name">Schemalägg uppdateringar</string>
     <plurals name="notifications_schedule_changes">
         <item quantity="one"><xliff:g example="1" id="count">%d</xliff:g> föreläsning har ändrats.</item>
         <item quantity="other"><xliff:g example="3" id="count">%d</xliff:g> föreläsningar har ändrats.</item>
     </plurals>
-    <string name="notifications_session_alarm_content_text">Alarm för händelse</string>
-    <string name="notifications_session_alarm_channel_name">Larm för händelser</string>
-    <string name="notifications_session_alarm_channel_description">
-        Anpassade påminnelser för olika evenemang.
+    <!-- Schedule refresh interval picker -->
+    <!-- Alarm time picker -->
+    <string name="alarm_time_title_at_start_time">vid starttid</string>
+    <string name="alarm_time_title_5_minutes_before">5 minuter innan</string>
+    <string name="alarm_time_title_10_minutes_before">10 minuter innan</string>
+    <string name="alarm_time_title_15_minutes_before">15 minuter innan</string>
+    <string name="alarm_time_title_20_minutes_before">20 minuter innan</string>
+    <string name="alarm_time_title_30_minutes_before">30 minuter innan</string>
+    <string name="alarm_time_title_45_minutes_before">45 minuter innan</string>
+    <string name="alarm_time_title_60_minutes_before">60 minuter innan</string>
+    <!-- Session list item -->
+    <string name="session_list_item_duration_content_description">Varaktighet: <xliff:g example="45" id="duration">%d</xliff:g> minuter</string>
+    <string name="session_list_item_favored_content_description">gynnad</string>
+    <string name="session_list_item_not_favored_content_description">inte gynnad</string>
+    <string name="session_list_item_room_content_description">Rum: <xliff:g example="Main hall" id="room">%s</xliff:g></string>
+    <string name="session_list_item_start_time_content_description">Starttid: <xliff:g example="16:30" id="startTime">%s</xliff:g></string>
+    <string name="session_list_item_subtitle_content_description">Undertitel: <xliff:g example="News from Berlin" id="subtitle">%s</xliff:g></string>
+    <string name="session_list_item_track_content_description">Spåra: <xliff:g example="Security" id="trackName">%s</xliff:g></string>
+    <string name="session_list_item_language_content_description">Språk: <xliff:g example="English" id="language">%s</xliff:g></string>
+    <string name="session_list_item_language_portuguese_content_description">Portugisiska</string>
+    <string name="session_list_item_language_german_content_description">Tyska</string>
+    <string name="session_list_item_language_english_content_description">Engelska</string>
+    <string name="session_list_item_language_unknown_content_description">Språk okänt</string>
+    <string name="session_list_item_language_removed_content_description">Språkinformation har tagits bort</string>
+    <string name="session_list_item_no_video_content_description">Utan videoinspelning</string>
+    <string name="session_list_item_video_content_description">Med videoinspelning</string>
+    <string name="session_list_item_without_video_content_description">Utan videoinspelning</string>
+    <plurals name="session_list_item_speakers_content_description">
+        <item quantity="one">Högtalare: <xliff:g example="Jane Doe" id="name">%s</xliff:g></item>
+        <item quantity="other">Högtalare: <xliff:g example="Jane Doe, John Doe" id="names">%s</xliff:g></item>
+    </plurals>
+    <!-- Session item -->
+    <!-- Alarms -->
+    <string name="alarms_empty">        There are no alarms to display. Please note that you
+        can set up an individual alarm for each session in the schedule.
+        To do so tap the alarm icon in the menu bar of the session screen.
     </string>
-    <string name="session_details_section_title_session_online">Online-händelse</string>
-    <string name="engelsystem_shifts_parsing_error_generic">Okänt fel vid tolking av <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g> pass</string>
-    <string name="engelsystem_shifts_parsing_error_forbidden">Ogiltlig API nyckel för <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g> pass</string>
-    <string name="engelsystem_shifts_parsing_error_not_found">Felaktig URL för <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g> pass</string>
-    <string name="validation_error_invalid_url">
-        Ogiltlig <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL.
+    <!-- Validation errors -->
+    <string name="validation_error_invalid_url">        Ogiltlig <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL.
     </string>
-    <string name="validation_error_url_without_query">
-        <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL utan frågedel.
+    <string name="validation_error_url_without_query">        <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL utan frågedel.
     </string>
-    <string name="validation_error_url_with_incomplete_query">
-        <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL med ofärdig frågedel.
+    <string name="validation_error_url_with_incomplete_query">        <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL med ofärdig frågedel.
     </string>
-    <string name="validation_error_url_without_api_key">
-        <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL utan API nyckel.
+    <string name="validation_error_url_without_api_key">        <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL utan API nyckel.
     </string>
 </resources>

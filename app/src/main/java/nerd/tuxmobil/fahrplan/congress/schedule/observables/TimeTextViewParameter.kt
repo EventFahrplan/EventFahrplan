@@ -41,8 +41,6 @@ internal data class TimeTextViewParameter @VisibleForTesting constructor(
         fun parametersOf(
                 nowMoment: Moment,
                 conference: Conference,
-                firstDayStartDay: Int,
-                dayIndex: Int,
                 normalizedBoxHeight: Int,
                 useDeviceTimeZone: Boolean
         ): List<TimeTextViewParameter> {
@@ -55,7 +53,7 @@ internal data class TimeTextViewParameter @VisibleForTesting constructor(
             val lastSessionEndsAtMinutes = conference.lastSessionEndsAt.minuteOfDay + minutesToAdd
             while (sessionStartsAtMinutes < lastSessionEndsAtMinutes) {
                 timeSegment = TimeSegment.ofMoment(sessionStartsAt)
-                val isToday = nowMoment.monthDay - firstDayStartDay == dayIndex - 1
+                val isToday = nowMoment in conference.timeFrame
                 val timeTextLayout = if (isToday && timeSegment.isMatched(nowMoment, FIFTEEN_MINUTES)) {
                     R.layout.time_layout_now
                 } else {

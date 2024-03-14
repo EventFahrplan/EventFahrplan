@@ -32,6 +32,7 @@ public class HighlightDBOpenHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        // Clear database from 36C3 2019.
         db.execSQL("DROP TABLE IF EXISTS " + HighlightsTable.NAME);
         onCreate(db);
     }

@@ -10,14 +10,21 @@ import info.metadude.android.eventfahrplan.database.extensions.toContentValues
 import info.metadude.android.eventfahrplan.database.repositories.AlarmsDatabaseRepository
 import info.metadude.android.eventfahrplan.database.repositories.HighlightsDatabaseRepository
 import info.metadude.android.eventfahrplan.database.repositories.MetaDatabaseRepository
+import info.metadude.android.eventfahrplan.database.repositories.RealAlarmsDatabaseRepository
+import info.metadude.android.eventfahrplan.database.repositories.RealHighlightsDatabaseRepository
+import info.metadude.android.eventfahrplan.database.repositories.RealMetaDatabaseRepository
+import info.metadude.android.eventfahrplan.database.repositories.RealSessionsDatabaseRepository
 import info.metadude.android.eventfahrplan.database.repositories.SessionsDatabaseRepository
 import info.metadude.android.eventfahrplan.database.sqliteopenhelper.AlarmsDBOpenHelper
 import info.metadude.android.eventfahrplan.database.sqliteopenhelper.HighlightDBOpenHelper
 import info.metadude.android.eventfahrplan.database.sqliteopenhelper.MetaDBOpenHelper
 import info.metadude.android.eventfahrplan.database.sqliteopenhelper.SessionsDBOpenHelper
 import info.metadude.android.eventfahrplan.engelsystem.EngelsystemNetworkRepository
+import info.metadude.android.eventfahrplan.engelsystem.RealEngelsystemNetworkRepository
 import info.metadude.android.eventfahrplan.engelsystem.models.ShiftsResult
+import info.metadude.android.eventfahrplan.network.models.HttpHeader
 import info.metadude.android.eventfahrplan.network.models.Meta
+import info.metadude.android.eventfahrplan.network.repositories.RealScheduleNetworkRepository
 import info.metadude.android.eventfahrplan.network.repositories.ScheduleNetworkRepository
 import info.metadude.kotlin.library.engelsystem.models.Shift
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -60,6 +67,7 @@ import nerd.tuxmobil.fahrplan.congress.net.ParseResult
 import nerd.tuxmobil.fahrplan.congress.net.ParseScheduleResult
 import nerd.tuxmobil.fahrplan.congress.net.ParseShiftsResult
 import nerd.tuxmobil.fahrplan.congress.preferences.AlarmTonePreference
+import nerd.tuxmobil.fahrplan.congress.preferences.RealSharedPreferencesRepository
 import nerd.tuxmobil.fahrplan.congress.preferences.SharedPreferencesRepository
 import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.FetchFailure
 import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.FetchSuccess
@@ -137,6 +145,50 @@ object AppRepository {
             .flowOn(executionContext.database)
     }
 
+    private val refreshSessionsWithoutShiftsSignal = MutableSharedFlow<Unit>()
+
+    private fun refreshSessionsWithoutShifts() {
+        logging.d(LOG_TAG, "Refreshing sessions without shifts ...")
+        val requestIdentifier = "refreshSessionsWithoutShifts"
+        parentJobs[requestIdentifier] = databaseScope.launchNamed(requestIdentifier) {
+            refreshSessionsWithoutShiftsSignal.emit(Unit)
+        }
+    }
+
+    /**
+     * Emits all sessions excluding Engelsystem shifts from the database.
+     * The returned list might be empty.
+     */
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val sessionsWithoutShifts: Flow<List<Session>> by lazy {
+        refreshSessionsWithoutShiftsSignal
+            .onStart { emit(Unit) }
+            .mapLatest { loadSessionsForAllDays(includeEngelsystemShifts = false) }
+            .flowOn(executionContext.database)
+    }
+
+    private val refreshSessionsSignal = MutableSharedFlow<Unit>()
+
+    private fun refreshSessions() {
+        logging.d(LOG_TAG, "Refreshing sessions ...")
+        val requestIdentifier = "refreshSessions"
+        parentJobs[requestIdentifier] = databaseScope.launchNamed(requestIdentifier) {
+            refreshSessionsSignal.emit(Unit)
+        }
+    }
+
+    /**
+     * Emits all sessions from the database..
+     * The returned list might be empty.
+     */
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val sessions: Flow<List<Session>> by lazy {
+        refreshSessionsSignal
+            .onStart { emit(Unit) }
+            .mapLatest { loadSessionsForAllDays() }
+            .flowOn(executionContext.database)
+    }
+
     private val refreshChangedSessionsSignal = MutableSharedFlow<Unit>()
 
     private fun refreshChangedSessions() {
@@ -205,6 +257,28 @@ object AppRepository {
             .flowOn(executionContext.database)
     }
 
+    private val refreshAlarmsSignal = MutableSharedFlow<Unit>()
+
+    private fun refreshAlarms() {
+        logging.d(LOG_TAG, "Refreshing alarms ...")
+        val requestIdentifier = "refreshAlarms"
+        parentJobs[requestIdentifier] = databaseScope.launchNamed(requestIdentifier) {
+            refreshAlarmsSignal.emit(Unit)
+        }
+    }
+
+    /**
+     * Emits all alarms from the database
+     * The contained sessions list might be empty.
+     */
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val alarms: Flow<List<Alarm>> by lazy {
+        refreshAlarmsSignal
+            .onStart { emit(Unit) }
+            .mapLatest { readAlarms() }
+            .flowOn(executionContext.database)
+    }
+
     @JvmOverloads
     fun initialize(
             context: Context,
@@ -212,14 +286,14 @@ object AppRepository {
             executionContext: ExecutionContext = AppExecutionContext,
             databaseScope: DatabaseScope = DatabaseScope.of(executionContext, AppExceptionHandler(logging)),
             networkScope: NetworkScope = NetworkScope.of(executionContext, AppExceptionHandler(logging)),
-            okHttpClient: OkHttpClient = CustomHttpClient.createHttpClient(),
-            alarmsDatabaseRepository: AlarmsDatabaseRepository = AlarmsDatabaseRepository(AlarmsDBOpenHelper(context), logging),
-            highlightsDatabaseRepository: HighlightsDatabaseRepository = HighlightsDatabaseRepository(HighlightDBOpenHelper(context)),
-            sessionsDatabaseRepository: SessionsDatabaseRepository = SessionsDatabaseRepository(SessionsDBOpenHelper(context), logging),
-            metaDatabaseRepository: MetaDatabaseRepository = MetaDatabaseRepository(MetaDBOpenHelper(context)),
-            scheduleNetworkRepository: ScheduleNetworkRepository = ScheduleNetworkRepository(logging),
-            engelsystemNetworkRepository: EngelsystemNetworkRepository = EngelsystemNetworkRepository(),
-            sharedPreferencesRepository: SharedPreferencesRepository = SharedPreferencesRepository(context),
+            okHttpClient: OkHttpClient = CustomHttpClient.createHttpClient(context),
+            alarmsDatabaseRepository: AlarmsDatabaseRepository = RealAlarmsDatabaseRepository(AlarmsDBOpenHelper(context), logging),
+            highlightsDatabaseRepository: HighlightsDatabaseRepository = RealHighlightsDatabaseRepository(HighlightDBOpenHelper(context)),
+            sessionsDatabaseRepository: SessionsDatabaseRepository = RealSessionsDatabaseRepository(SessionsDBOpenHelper(context), logging),
+            metaDatabaseRepository: MetaDatabaseRepository = RealMetaDatabaseRepository(MetaDBOpenHelper(context)),
+            scheduleNetworkRepository: ScheduleNetworkRepository = RealScheduleNetworkRepository(logging),
+            engelsystemNetworkRepository: EngelsystemNetworkRepository = RealEngelsystemNetworkRepository(),
+            sharedPreferencesRepository: SharedPreferencesRepository = RealSharedPreferencesRepository(context),
             sessionsTransformer: SessionsTransformer = SessionsTransformer.createSessionsTransformer()
     ) {
         this.logging = logging
@@ -266,7 +340,7 @@ object AppRepository {
         val meta = readMeta().toMetaNetworkModel()
         val fetchingStatus = if (meta.numDays == 0) InitialFetching else Fetching
         mutableLoadScheduleState.tryEmit(fetchingStatus)
-        scheduleNetworkRepository.fetchSchedule(okHttpClient, url, meta.eTag) { fetchScheduleResult ->
+        scheduleNetworkRepository.fetchSchedule(okHttpClient, url, meta.httpHeader) { fetchScheduleResult ->
             val fetchResult = fetchScheduleResult.toAppFetchScheduleResult()
             val fetchResultStatus = if (fetchResult.isSuccessful) {
                 FetchSuccess
@@ -281,17 +355,18 @@ object AppRepository {
             }
 
             if (fetchResult.isSuccessful) {
-                val validMeta = meta.copy(eTag = fetchScheduleResult.eTag).validate()
+                val validMeta = meta.copy(httpHeader = fetchScheduleResult.httpHeader).validate()
                 updateMeta(validMeta)
                 check(onParsingDone != {}) { "Nobody registered to receive ParseScheduleResult." }
                 // Parsing
                 val parsingStatus = if (meta.numDays == 0) InitialParsing else Parsing
                 mutableLoadScheduleState.tryEmit(parsingStatus)
                 parseSchedule(
-                        fetchScheduleResult.scheduleXml,
-                        fetchScheduleResult.eTag,
-                        onParsingDone,
-                        onLoadingShiftsDone
+                    scheduleXml = fetchScheduleResult.scheduleXml,
+                    httpHeader = fetchScheduleResult.httpHeader,
+                    oldMeta = meta,
+                    onParsingDone = onParsingDone,
+                    onLoadingShiftsDone = onLoadingShiftsDone
                 )
             } else if (fetchResult.isNotModified) {
                 loadShifts(onLoadingShiftsDone)
@@ -300,15 +375,16 @@ object AppRepository {
     }
 
     private fun parseSchedule(scheduleXml: String,
-                              eTag: String,
+                              httpHeader: HttpHeader,
+                              oldMeta: Meta,
                               onParsingDone: (parseScheduleResult: ParseResult) -> Unit,
                               onLoadingShiftsDone: (loadShiftsResult: LoadShiftsResult) -> Unit) {
-        scheduleNetworkRepository.parseSchedule(scheduleXml, eTag,
+        scheduleNetworkRepository.parseSchedule(scheduleXml, httpHeader,
                 onUpdateSessions = { sessions ->
                     val oldSessions = loadSessionsForAllDays(true)
                     val newSessions = sessions.toSessionsAppModel2().sanitize()
                     val scheduleChanges = computeSessionsWithChangeFlags(newSessions, oldSessions)
-                    if (scheduleChanges.foundChanges) {
+                    if (scheduleChanges.foundNoteworthyChanges) {
                         updateScheduleChangesSeen(false)
                     }
                     updateSessions(scheduleChanges.sessionsWithChangeFlags, scheduleChanges.oldCanceledSessions)
@@ -317,9 +393,12 @@ object AppRepository {
                     val validMeta = meta.validate()
                     updateMeta(validMeta)
                 },
-                onParsingDone = { result: Boolean, version: String ->
-                    val parseResult = ParseScheduleResult(result, version)
-                    val parseScheduleStatus = if (result) ParseSuccess else ParseFailure(parseResult)
+                onParsingDone = { isSuccess: Boolean, version: String ->
+                    if (!isSuccess) {
+                        updateMeta(oldMeta.copy(httpHeader = HttpHeader(eTag = "", lastModified = "")))
+                    }
+                    val parseResult = ParseScheduleResult(isSuccess, version)
+                    val parseScheduleStatus = if (isSuccess) ParseSuccess else ParseFailure(parseResult)
                     mutableLoadScheduleState.tryEmit(parseScheduleStatus)
                     onParsingDone(parseResult)
                     loadShifts(onLoadingShiftsDone)
@@ -338,7 +417,7 @@ object AppRepository {
         val url = readEngelsystemShiftsUrl()
         if (url.isEmpty()) {
             logging.d(LOG_TAG, "Engelsystem shifts URL is empty.")
-            // TODO Cancel or remove shifts from database?
+            deleteAllEngelsystemShiftsForAllDays()
             return
         }
         val requestIdentifier = "loadShifts"
@@ -387,7 +466,7 @@ object AppRepository {
     }
 
     /**
-     * Updates the locally stored shifts. Old shifts are dropped.
+     * Inserts shifts or updates the locally stored shifts. Canceled shifts are deleted.
      * Shifts which take place before or after the main conference days are omitted.
      * New [shifts] are joined with conference schedule session.
      */
@@ -397,20 +476,32 @@ object AppRepository {
         }
         val dayRanges = loadSessionsForAllDays(includeEngelsystemShifts = false)
                 .toDayRanges()
+        val oldShifts = loadEngelsystemShiftsForAllDays()
         val sessionizedShifts = shifts
                 .also { logging.d(LOG_TAG, "Shifts unfiltered = ${it.size}") }
                 .cropToDayRangesExtent(dayRanges)
                 .also { logging.d(LOG_TAG, "Shifts filtered = ${it.size}") }
                 .toSessionAppModels(logging, ENGELSYSTEM_ROOM_NAME, dayRanges)
                 .sanitize()
-        val sessions = loadSessionsForAllDays(false) // Drop all shifts before ...
+        val shiftChanges = computeSessionsWithChangeFlags(sessionizedShifts, oldShifts)
+        if (oldShifts.isEmpty() || shiftChanges.foundChanges) {
+            val toBeUpdatedSessions = loadSessionsForAllDays(false) // Drop all shifts before ...
                 .toMutableList()
-                // Shift rooms to make space for the Engelshifts room
-                .shiftRoomIndicesOfMainSchedule(sessionizedShifts.toDayIndices())
+                .let {
+                    when {
+                        // Shift rooms to make space for the Engelshifts room
+                        oldShifts.isEmpty() -> it.shiftRoomIndicesOfMainSchedule(sessionizedShifts.toDayIndices())
+                        // Prevent shifting room indices increasing the gap more and more
+                        else -> it
+                    }
+                }
                 .plus(sessionizedShifts) // ... adding them again.
                 .toList()
-        // TODO Detect shift changes as it happens for sessions
-        updateSessions(sessions)
+            val toBeDeletedSessions = oldShifts
+                .filter { persisted -> sessionizedShifts.none { newOrUpdated -> persisted.sessionId == newOrUpdated.sessionId } }
+                .also { logging.d(LOG_TAG, "Shifts to be removed = ${it.size}") }
+            updateSessions(toBeUpdatedSessions, toBeDeletedSessions)
+        }
     }
 
     /**
@@ -422,6 +513,13 @@ object AppRepository {
         return readSessionBySessionId(sessionId)
     }
 
+    /**
+     * Loads all sessions from the database including Engelsystem shifts.
+     * The returned list might be empty.
+     */
+    @WorkerThread
+    private fun loadSessionsForAllDays() = loadSessionsForAllDays(true)
+        .also { logging.d(LOG_TAG, "${it.size} sessions with alarm.") }
 
     /**
      * Load all sessions for the currently configured day from the database which have not been
@@ -461,12 +559,18 @@ object AppRepository {
             .also { logging.d(LOG_TAG, "${it.size} sessions changed.") }
 
     /**
-     * Loads the first session of the first day from the database.
-     * Throws an exception if no session is present.
+     * Loads all Engelsystem shifts for all days from the database.
      */
-    @WorkerThread
-    fun loadEarliestSession() = loadSessionsForAllDays(true)
-            .first()
+    private fun loadEngelsystemShiftsForAllDays() =
+        readEngelsystemShiftsOrderedByDateUtc()
+
+    /**
+     * Deletes all Engelsystem shifts for all days from the database.
+     */
+    private fun deleteAllEngelsystemShiftsForAllDays() {
+        val toBeDeletedSessions = readEngelsystemShiftsOrderedByDateUtc()
+        updateSessions(emptyList(), toBeDeletedSessions)
+    }
 
     /**
      * Loads all sessions from the database which take place on all days.
@@ -523,11 +627,22 @@ object AppRepository {
     private fun readAlarmSessionIds() = readAlarms().map { it.sessionId }.toSet()
 
     fun deleteAlarmForAlarmId(alarmId: Int) =
-            alarmsDatabaseRepository.deleteForAlarmId(alarmId)
+            alarmsDatabaseRepository.deleteForAlarmId(alarmId).also {
+                refreshAlarms()
+            }
+
+    @WorkerThread
+    fun deleteAllAlarms() =
+        alarmsDatabaseRepository.deleteAll().also {
+            refreshAlarms()
+            refreshSelectedSession()
+            refreshUncanceledSessions()
+        }
 
     @WorkerThread
     fun deleteAlarmForSessionId(sessionId: String) =
         alarmsDatabaseRepository.deleteForSessionId(sessionId).also {
+            refreshAlarms()
             refreshSelectedSession()
             refreshUncanceledSessions()
         }
@@ -537,6 +652,7 @@ object AppRepository {
         val alarmDatabaseModel = alarm.toAlarmDatabaseModel()
         val values = alarmDatabaseModel.toContentValues()
         alarmsDatabaseRepository.update(values, alarm.sessionId)
+        refreshAlarms()
         refreshSelectedSession()
         refreshUncanceledSessions()
     }
@@ -587,6 +703,9 @@ object AppRepository {
     private fun readSessionsOrderedByDateUtcExcludingEngelsystemShifts() =
             sessionsDatabaseRepository.querySessionsWithoutRoom(ENGELSYSTEM_ROOM_NAME).toSessionsAppModel()
 
+    private fun readEngelsystemShiftsOrderedByDateUtc() =
+        sessionsDatabaseRepository.querySessionsWithinRoom(ENGELSYSTEM_ROOM_NAME).toSessionsAppModel()
+
     private fun readSelectedSessionId(): String {
         val id = sharedPreferencesRepository.getSelectedSessionId()
         check(id.isNotEmpty()) { "Selected session is empty." }
@@ -622,6 +741,8 @@ object AppRepository {
         val toBeDeleted = toBeDeletedSessions.map { it.sessionId }
         sessionsDatabaseRepository.updateSessions(toBeUpdated, toBeDeleted)
         refreshStarredSessions()
+        refreshSessions()
+        refreshSessionsWithoutShifts()
         refreshChangedSessions()
         refreshSelectedSession()
         refreshUncanceledSessions()
@@ -653,8 +774,8 @@ object AppRepository {
     /**
      * Updates the [Meta] information in the database.
      *
-     * The [Meta.eTag] field should only be written if a network response is received
-     * with a status code of HTTP 200 (OK).
+     * The [Meta.httpHeader] properties should only be written if a
+     * network response is received with a status code of HTTP 200 (OK).
      *
      * See also: [HttpStatus.HTTP_OK]
      */
@@ -729,11 +850,5 @@ object AppRepository {
 
     fun readInsistentAlarmsEnabled() =
             sharedPreferencesRepository.isInsistentAlarmsEnabled()
-
-    @Deprecated("Users of AppRepository should not have to be responsible for triggering change notifications. " +
-            "Replace with a mechanism internal to AppRepository.")
-    fun notifyAlarmsChanged() {
-        refreshUncanceledSessions()
-    }
 
 }

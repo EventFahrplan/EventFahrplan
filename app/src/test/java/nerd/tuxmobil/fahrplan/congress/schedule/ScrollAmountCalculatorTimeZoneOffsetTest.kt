@@ -6,24 +6,15 @@ import info.metadude.android.eventfahrplan.commons.testing.withTimeZone
 import info.metadude.android.eventfahrplan.network.temporal.DateParser
 import nerd.tuxmobil.fahrplan.congress.NoLogging
 import nerd.tuxmobil.fahrplan.congress.models.Session
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.MethodSource
 import org.threeten.bp.ZoneOffset
 
 /**
  * Covers ScrollAmountCalculator.calculateScrollAmount(Conference, Session, int).
  * Ensures correct behavior with different time zone offsets.
  */
-@RunWith(Parameterized::class)
-class ScrollAmountCalculatorTimeZoneOffsetTest(
-
-        private val deviceTimeZoneId: String,
-        private val sessionStartsAtDateTimeIso8601: String,
-        private val conferenceStartedHoursAgo: Int,
-        private val expectedScrollAmount: Int
-
-) {
+class ScrollAmountCalculatorTimeZoneOffsetTest {
 
     companion object {
 
@@ -48,15 +39,20 @@ class ScrollAmountCalculatorTimeZoneOffsetTest(
                 scenarioOf(deviceTimeZoneId, "2021-03-28T06:00:00+02:00", startedHoursAgo = 7, expectedScrollAmount = 2856)
 
         @JvmStatic
-        @Parameterized.Parameters(name = "{index}: device = {0}, sessionStartsAt = {1}, conferenceStartedHoursAgo = {2} -> scrollAmount = {3}")
         fun data() = timeZoneOffsets.map { startsNowScenarioOf(deviceTimeZoneId = "GMT$it") } +
                 timeZoneOffsets.map { startedBeforeScenarioOf(deviceTimeZoneId = "GMT$it") } +
                 timeZoneOffsets.map { winterSummerScenarioOf(deviceTimeZoneId = "GMT$it") }
 
     }
 
-    @Test
-    fun calculateScrollAmount() {
+    @ParameterizedTest(name = "{index}: device = {0}, sessionStartsAt = {1}, conferenceStartedHoursAgo = {2} -> scrollAmount = {3}")
+    @MethodSource("data")
+    fun calculateScrollAmount(
+        deviceTimeZoneId: String,
+        sessionStartsAtDateTimeIso8601: String,
+        conferenceStartedHoursAgo: Int,
+        expectedScrollAmount: Int
+    ) {
         withTimeZone(deviceTimeZoneId) {
             val targetSessionStartsAtDateTime = DateParser.getDateTime(sessionStartsAtDateTimeIso8601)
             val targetSessionStartsAt = Moment.ofEpochMilli(targetSessionStartsAtDateTime)
@@ -83,7 +79,7 @@ class ScrollAmountCalculatorTimeZoneOffsetTest(
         startTime = moment.minuteOfDay
         relStartTime = moment.minuteOfDay // This might now always be the case, see ParserTask.parseFahrplan
         duration = 60
-        room = "Main hall"
+        roomName = "Main hall"
     }
 
 }

@@ -35,8 +35,8 @@ class CalendarSharing @JvmOverloads constructor(
     private fun Session.toCalendarInsertIntent(): Intent {
         val title = this.title
         val description = calendarDescriptionComposition.getCalendarDescription(this)
-        val location = this.room
-        val startTime = startTimeMilliseconds
+        val location = this.roomName
+        val startTime = startsAt.toMilliseconds()
         val endTime = startTime + this.duration * MILLISECONDS_OF_ONE_MINUTE
         return Intent(Intent.ACTION_INSERT, CalendarContract.Events.CONTENT_URI).withExtras(
             CalendarContract.Events.TITLE to title,

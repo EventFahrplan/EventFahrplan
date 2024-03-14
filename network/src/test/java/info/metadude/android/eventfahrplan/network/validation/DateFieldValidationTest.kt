@@ -1,16 +1,16 @@
 package info.metadude.android.eventfahrplan.network.validation
 
+import com.google.common.truth.Truth.assertThat
 import info.metadude.android.eventfahrplan.commons.logging.Logging
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import info.metadude.android.eventfahrplan.network.models.Session
-import org.assertj.core.api.Assertions.assertThat
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 class DateFieldValidationTest {
 
     @Test
-    fun `validate - is invalid if one of two sessions is invalid`() {
-        val validation = DateFieldValidation(TestLogger)
+    fun `validate returns false if one session is after the end`() {
+        val validation = createValidation()
 
         val start = Moment.parseDate("2019-01-01")
         val end = Moment.parseDate("2019-01-01")
@@ -23,14 +23,14 @@ class DateFieldValidationTest {
 
         val isValid = validation.validate(sessions)
 
-        assertThat(isValid).isFalse
+        assertThat(isValid).isFalse()
 
         validation.printValidationErrors()
     }
 
     @Test
-    fun `validate - is invalid if any session outside range`() {
-        val validation = DateFieldValidation(TestLogger)
+    fun `validate returns false if any session is outside the range`() {
+        val validation = createValidation()
 
         val start = Moment.parseDate("2019-01-01")
         val end = Moment.parseDate("2019-01-03")
@@ -46,14 +46,14 @@ class DateFieldValidationTest {
 
         val isValid = validation.validate(sessions)
 
-        assertThat(isValid).isFalse
+        assertThat(isValid).isFalse()
 
         validation.printValidationErrors()
     }
 
     @Test
-    fun `validate - all data integer`() {
-        val validation = DateFieldValidation(TestLogger)
+    fun `validate returns true if session is between start and end`() {
+        val validation = createValidation()
 
         val start = Moment.parseDate("2019-01-01")
         val end = Moment.parseDate("2019-01-03")
@@ -66,27 +66,27 @@ class DateFieldValidationTest {
 
         val isValid = validation.validate(sessions)
 
-        assertThat(isValid).isTrue
+        assertThat(isValid).isTrue()
 
         validation.printValidationErrors()
     }
 
     @Test
-    fun `validate - no sessions`() {
-        val validation = DateFieldValidation(TestLogger)
+    fun `validate returns true for no sessions`() {
+        val validation = createValidation()
 
         val sessions = emptyList<Session>()
 
         val isValid = validation.validate(sessions)
 
-        assertThat(isValid).isTrue
+        assertThat(isValid).isTrue()
 
         validation.printValidationErrors()
     }
 
     @Test
-    fun `validate - two sessions at same day`() {
-        val validation = DateFieldValidation(TestLogger)
+    fun `validate returns true for two sessions on the same day`() {
+        val validation = createValidation()
 
         val start = Moment.parseDate("2019-01-01")
         val end = Moment.parseDate("2019-01-01")
@@ -98,14 +98,14 @@ class DateFieldValidationTest {
 
         val isValid = validation.validate(sessions)
 
-        assertThat(isValid).isTrue
+        assertThat(isValid).isTrue()
 
         validation.printValidationErrors()
     }
 
     @Test
-    fun `validate - two sessions on consecutive days`() {
-        val validation = DateFieldValidation(TestLogger)
+    fun `validate returns true for two sessions on consecutive days`() {
+        val validation = createValidation()
 
         val start = Moment.parseDate("2019-01-01")
         val end = Moment.parseDate("2019-01-02")
@@ -117,12 +117,14 @@ class DateFieldValidationTest {
 
         val isValid = validation.validate(sessions)
 
-        assertThat(isValid).isTrue
+        assertThat(isValid).isTrue()
 
         validation.printValidationErrors()
     }
 
-    object TestLogger : Logging {
+    private fun createValidation() = DateFieldValidation(TestLogger)
+
+    private object TestLogger : Logging {
         override fun d(tag: String, message: String) = println("$tag $message")
 
         override fun e(tag: String, message: String) = println("$tag $message")

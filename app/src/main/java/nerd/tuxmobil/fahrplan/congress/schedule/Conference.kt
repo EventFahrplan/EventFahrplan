@@ -1,7 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress.schedule
 
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
-import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MINUTES_OF_ONE_DAY
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import org.threeten.bp.ZoneOffset
 
@@ -22,12 +21,14 @@ import org.threeten.bp.ZoneOffset
 // TODO Use Moment class, merge with ConferenceTimeFrame class?
 data class Conference(
 
-        val firstSessionStartsAt: Moment,
-        val lastSessionEndsAt: Moment,
+        val timeFrame: ClosedRange<Moment>,
         var timeZoneOffset: ZoneOffset? = null,
         val spansMultipleDays: Boolean
 
 ) {
+
+    val firstSessionStartsAt = timeFrame.start
+    val lastSessionEndsAt = timeFrame.endInclusive
 
     companion object {
 
@@ -40,17 +41,13 @@ data class Conference(
             val first = Moment.ofEpochMilli(firstSession.dateUTC)
             // TODO Replace with firstSession.toStartsAtMoment() once Session#relStartTime is no longer used.
             val endingLatest = sessions.endingLatest()
-            val endsAt = endingLatest.endsAtDateUtc
-            val last = Moment.ofEpochMilli(endsAt)
-            val minutesToAdd = if (first.monthDay == last.monthDay) 0 else MINUTES_OF_ONE_DAY
+            val last = endingLatest.endsAt
             // Here we are assuming all sessions have the same time zone offset.
             val timeZoneOffset = firstSession.timeZoneOffset
-            val veryLast = last.plusMinutes(minutesToAdd.toLong())
             return Conference(
-                firstSessionStartsAt = first,
-                lastSessionEndsAt = veryLast,
+                timeFrame = first..last,
                 timeZoneOffset = timeZoneOffset,
-                spansMultipleDays = minutesToAdd > 0
+                spansMultipleDays = first.monthDay != last.monthDay
             )
         }
 
@@ -62,10 +59,10 @@ data class Conference(
  * Returns the [Session] which ends the latest compared to all other [sessions][this].
  */
 private fun List<Session>.endingLatest(): Session {
-    var endsAt = 0L
+    var endsAt = Moment.ofEpochMilli(0L)
     var latestSession = first()
-    map { it to it.endsAtDateUtc }.forEach { (session, sessionEndsAt) ->
-        if (endsAt == 0L || sessionEndsAt > endsAt) {
+    map { it to it.endsAt }.forEach { (session, sessionEndsAt) ->
+        if (endsAt.isSimultaneousWith(Moment.ofEpochMilli(0L)) || sessionEndsAt.isAfter(endsAt)) {
             latestSession = session
             endsAt = sessionEndsAt
         }

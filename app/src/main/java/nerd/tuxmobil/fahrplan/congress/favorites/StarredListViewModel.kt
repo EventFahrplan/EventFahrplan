@@ -1,12 +1,15 @@
 package nerd.tuxmobil.fahrplan.congress.favorites
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import info.metadude.android.eventfahrplan.commons.livedata.SingleLiveEvent
 import info.metadude.android.eventfahrplan.commons.logging.Logging
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.SendChannel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
@@ -28,41 +31,44 @@ class StarredListViewModel(
         const val LOG_TAG = "StarredListViewModel"
     }
 
-    val starredListParameter: LiveData<StarredListParameter> = repository.starredSessions
+    val starredListParameter: Flow<StarredListParameter> = repository.starredSessions
         .map { it.toStarredListParameter() }
-        .asLiveData(executionContext.database)
+        .flowOn(executionContext.database)
 
-    val shareSimple = SingleLiveEvent<String>()
-    val shareJson = SingleLiveEvent<String>()
+    private val mutableShareSimple = Channel<String>()
+    val shareSimple = mutableShareSimple.receiveAsFlow()
+
+    private val mutableShareJson = Channel<String>()
+    val shareJson = mutableShareJson.receiveAsFlow()
 
     fun delete(session: Session) {
-        viewModelScope.launch(executionContext.database) {
+        launch {
             repository.updateHighlight(session)
         }
     }
 
     fun deleteAll() {
-        viewModelScope.launch(executionContext.database) {
+        launch {
             repository.deleteAllHighlights()
         }
     }
 
     fun share() {
-        viewModelScope.launch(executionContext.database) {
+        launch {
             val timeZoneId = repository.readMeta().timeZoneId
             repository.starredSessions.collect { sessions ->
                 simpleSessionFormat.format(sessions, timeZoneId)?.let { formattedSessions ->
-                    shareSimple.postValue(formattedSessions)
+                    mutableShareSimple.sendOneTimeEvent(formattedSessions)
                 }
             }
         }
     }
 
     fun shareToChaosflix() {
-        viewModelScope.launch(executionContext.database) {
+        launch {
             repository.starredSessions.collect { sessions ->
                 jsonSessionFormat.format(sessions)?.let { formattedSessions ->
-                    shareJson.postValue(formattedSessions)
+                    mutableShareJson.sendOneTimeEvent(formattedSessions)
                 }
             }
         }
@@ -73,6 +79,16 @@ class StarredListViewModel(
         val useDeviceTimeZone = isNotEmpty() && repository.readUseDeviceTimeZoneEnabled()
         return StarredListParameter(this, numDays, useDeviceTimeZone).also {
             logging.d(LOG_TAG, "Loaded $size starred sessions.")
+        }
+    }
+
+    private fun launch(block: suspend CoroutineScope.() -> Unit) {
+        viewModelScope.launch(executionContext.database, block = block)
+    }
+
+    private fun <E> SendChannel<E>.sendOneTimeEvent(event: E) {
+        viewModelScope.launch {
+            send(event)
         }
     }
 

@@ -5,7 +5,10 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.os.Build.VERSION.SDK_INT
+import android.os.Build.VERSION_CODES.S
 import androidx.annotation.VisibleForTesting
+import androidx.core.app.AlarmManagerCompat
 import info.metadude.android.eventfahrplan.commons.logging.Logging
 import info.metadude.android.eventfahrplan.commons.temporal.DateFormatter
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
@@ -31,7 +34,8 @@ class AlarmServices @VisibleForTesting constructor(
         private val alarmTimeValues: List<String>,
         private val logging: Logging,
         private val pendingIntentDelegate: PendingIntentDelegate = PendingIntentProvider,
-        private val formattingDelegate: FormattingDelegate = DateFormatterDelegate
+        private val formattingDelegate: FormattingDelegate = DateFormatterDelegate,
+        private val runsAtLeastOnAndroidSnowCone: Boolean = SDK_INT >= S,
 
 ) {
 
@@ -109,7 +113,7 @@ class AlarmServices @VisibleForTesting constructor(
         for (alarmTimeString in alarmTimeStrings) {
             alarmTimes.add(alarmTimeString.toInt())
         }
-        val sessionStartTime = session.startTimeMilliseconds
+        val sessionStartTime = session.startsAt.toMilliseconds()
         val alarmTimeOffset = alarmTimes[alarmTimesIndex] * Moment.MILLISECONDS_OF_ONE_MINUTE.toLong()
         val alarmTime = sessionStartTime - alarmTimeOffset
         val moment = Moment.ofEpochMilli(alarmTime)
@@ -144,6 +148,17 @@ class AlarmServices @VisibleForTesting constructor(
     }
 
     /**
+     * Returns `true` if the app is allowed to schedule exact alarms. Otherwise `false`.
+     * Automatically allowed before Android 12, SnowCone (API level 31) but might be withdrawn
+     * by the user via the system settings.
+     *
+     * See: [AlarmManager.canScheduleExactAlarms].
+     */
+    val canScheduleExactAlarms: Boolean
+        @SuppressLint("NewApi")
+        get() = if (runsAtLeastOnAndroidSnowCone) alarmManager.canScheduleExactAlarms() else true
+
+    /**
      * Schedules the given [alarm] via the [AlarmManager].
      * Existing alarms for the associated session are discarded if configured via [discardExisting].
      */
@@ -161,15 +176,12 @@ class AlarmServices @VisibleForTesting constructor(
         if (discardExisting) {
             alarmManager.cancel(pendingIntent)
         }
-        // Alarms scheduled here are treated as inexact as of targeting Android 4.4 (API level 19).
-        // See https://developer.android.com/training/scheduling/alarms
-        // and https://developer.android.com/reference/android/os/Build.VERSION_CODES#KITKAT
-        // SCHEDULE_EXACT_ALARM permission is needed when switching to exact alarms as of targeting Android 12 (API level 31).
-        // See https://developer.android.com/about/versions/12/behavior-changes-12#exact-alarm-permission
-        // USE_EXACT_ALARM permission is needed when switching to exact alarms as of targeting Android 13 (API level 33).
-        // See https://developer.android.com/about/versions/13/features#use-exact-alarm-permission
-        // and https://support.google.com/googleplay/android-developer/answer/12253906#exact_alarm_preview
-        alarmManager.set(AlarmManager.RTC_WAKEUP, alarm.startTime, pendingIntent)
+        AlarmManagerCompat.setExactAndAllowWhileIdle(
+            alarmManager,
+            AlarmManager.RTC_WAKEUP,
+            alarm.startTime,
+            pendingIntent
+        )
     }
 
     /**

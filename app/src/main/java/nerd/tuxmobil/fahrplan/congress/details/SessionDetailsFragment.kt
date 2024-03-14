@@ -3,11 +3,12 @@ package nerd.tuxmobil.fahrplan.congress.details
 import android.Manifest.permission.POST_NOTIFICATIONS
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.Activity.RESULT_OK
 import android.content.Context
 import android.content.Intent
 import android.graphics.Typeface
 import android.os.Bundle
-import android.text.TextUtils
+import android.provider.Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -18,16 +19,21 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
+import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.annotation.CallSuper
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import androidx.annotation.MainThread
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
+import info.metadude.android.eventfahrplan.commons.flow.observe
+import io.noties.markwon.AbstractMarkwonPlugin
 import io.noties.markwon.Markwon
+import io.noties.markwon.core.MarkwonTheme
 import io.noties.markwon.linkify.LinkifyPlugin
 import nerd.tuxmobil.fahrplan.congress.BuildConfig
 import nerd.tuxmobil.fahrplan.congress.R
@@ -55,8 +61,26 @@ class SessionDetailsFragment : Fragment() {
 
         const val FRAGMENT_TAG = "detail"
         private const val SESSION_DETAILS_FRAGMENT_REQUEST_KEY = "SESSION_DETAILS_FRAGMENT_REQUEST_KEY"
-        private const val SCHEDULE_FEEDBACK_URL = BuildConfig.SCHEDULE_FEEDBACK_URL
-        private val SHOW_FEEDBACK_MENU_ITEM = !TextUtils.isEmpty(SCHEDULE_FEEDBACK_URL)
+
+        // Custom heading text size multipliers for each heading level.
+        // Docs: https://noties.io/Markwon/docs/v4/core/theme.html#typeface
+        private val HEADING_TEXT_SIZE_MULTIPLIERS = floatArrayOf(1.25f, 1.18f, 1.07F, 1.0f, .83F, .67F)
+        private val HEADINGS_PLUGIN = object : AbstractMarkwonPlugin() {
+            override fun configureTheme(builder: MarkwonTheme.Builder) {
+                builder.headingTextSizeMultipliers(HEADING_TEXT_SIZE_MULTIPLIERS)
+            }
+        }
+
+        // Custom list items.
+        // Docs: https://noties.io/Markwon/docs/v4/core/theme.html#list
+        private fun createListItemsPlugin(context: Context) = object : AbstractMarkwonPlugin() {
+            override fun configureTheme(builder: MarkwonTheme.Builder) {
+                val itemColor = ContextCompat.getColor(context, R.color.session_details_list_item)
+                builder
+                    .bulletWidth(16)
+                    .listItemColor(itemColor)
+            }
+        }
 
         @JvmStatic
         fun replaceAtBackStack(fragmentManager: FragmentManager, @IdRes containerViewId: Int, sidePane: Boolean) {
@@ -73,7 +97,8 @@ class SessionDetailsFragment : Fragment() {
         }
 
     }
-    private lateinit var permissionRequestLauncher: ActivityResultLauncher<String>
+    private lateinit var postNotificationsPermissionRequestLauncher: ActivityResultLauncher<String>
+    private lateinit var scheduleExactAlarmsPermissionRequestLauncher: ActivityResultLauncher<Intent>
     private lateinit var appRepository: AppRepository
     private lateinit var alarmServices: AlarmServices
     private lateinit var notificationHelper: NotificationHelper
@@ -99,7 +124,7 @@ class SessionDetailsFragment : Fragment() {
         R.id.menu_item_add_to_calendar to { addToCalendar() },
         R.id.menu_item_flag_as_favorite to { favorSession() },
         R.id.menu_item_unflag_as_favorite to { unfavorSession() },
-        R.id.menu_item_set_alarm to { setAlarm() },
+        R.id.menu_item_set_alarm to { addAlarmWithChecks() },
         R.id.menu_item_delete_alarm to { deleteAlarm() },
         R.id.menu_item_close_session_details to { closeDetails() },
         R.id.menu_item_navigate to { navigateToRoom() },
@@ -113,6 +138,8 @@ class SessionDetailsFragment : Fragment() {
         alarmServices = AlarmServices.newInstance(context, appRepository)
         notificationHelper = NotificationHelper(context)
         markwon = Markwon.builder(requireContext())
+            .usePlugin(HEADINGS_PLUGIN)
+            .usePlugin(createListItemsPlugin(context))
             .usePlugin(LinkifyPlugin.create())
             .build()
     }
@@ -122,13 +149,31 @@ class SessionDetailsFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        permissionRequestLauncher = registerForActivityResult(RequestPermission()) { isGranted ->
+        postNotificationsPermissionRequestLauncher = registerForActivityResult(RequestPermission()) { isGranted ->
             if (isGranted) {
-                viewModel.setAlarm()
+                viewModel.addAlarmWithChecks()
             } else {
                 showMissingPostNotificationsPermissionError()
             }
         }
+
+        scheduleExactAlarmsPermissionRequestLauncher =
+            registerForActivityResult(StartActivityForResult()) { result ->
+                if (result.resultCode == RESULT_OK) {
+                    // User granted the permission earlier.
+                    viewModel.addAlarmWithChecks()
+                } else {
+                    // User granted the permission for the first time.
+                    // Screen is resumed with RESULT_CANCELED, no indication
+                    // of whether the permission was granted or not.
+                    // Hence the following ugly view model bypass.
+                    if (viewModel.canAddAlarms()) {
+                        viewModel.addAlarmWithChecks()
+                    } else {
+                        showMissingScheduleExactAlarmsPermissionError()
+                    }
+                }
+            }
 
         setHasOptionsMenu(true)
     }
@@ -160,7 +205,7 @@ class SessionDetailsFragment : Fragment() {
 
     @SuppressLint("InlinedApi")
     private fun observeViewModel() {
-        viewModel.selectedSessionParameter.observe(viewLifecycleOwner) { model ->
+        viewModel.selectedSessionParameter.observe(this) { model ->
             this.model = model
             updateView()
             updateOptionsMenu()
@@ -182,15 +227,8 @@ class SessionDetailsFragment : Fragment() {
         viewModel.addToCalendar.observe(viewLifecycleOwner) { session ->
             CalendarSharing(requireContext()).addToCalendar(session)
         }
-        viewModel.setAlarm.observe(viewLifecycleOwner) {
-            AlarmTimePickerFragment.show(this, SESSION_DETAILS_FRAGMENT_REQUEST_KEY) { requestKey, result ->
-                if (requestKey == SESSION_DETAILS_FRAGMENT_REQUEST_KEY &&
-                    result.containsKey(AlarmTimePickerFragment.ALARM_TIMES_INDEX_BUNDLE_KEY)
-                ) {
-                    val alarmTimesIndex = result.getInt(AlarmTimePickerFragment.ALARM_TIMES_INDEX_BUNDLE_KEY)
-                    viewModel.addAlarm(alarmTimesIndex)
-                }
-            }
+        viewModel.showAlarmTimePicker.observe(viewLifecycleOwner) {
+            showAlarmTimePicker()
         }
         viewModel.navigateToRoom.observe(viewLifecycleOwner) { uri ->
             startActivity(Intent(Intent.ACTION_VIEW, uri))
@@ -202,10 +240,15 @@ class SessionDetailsFragment : Fragment() {
             }
         }
         viewModel.requestPostNotificationsPermission.observe(viewLifecycleOwner) {
-            permissionRequestLauncher.launch(POST_NOTIFICATIONS)
+            postNotificationsPermissionRequestLauncher.launch(POST_NOTIFICATIONS)
         }
-        viewModel.missingPostNotificationsPermission.observe(viewLifecycleOwner) {
-            showMissingPostNotificationsPermissionError()
+        viewModel.notificationsDisabled.observe(viewLifecycleOwner) {
+            showNotificationsDisabledError()
+        }
+        viewModel.requestScheduleExactAlarmsPermission.observe(viewLifecycleOwner) {
+            val intent = Intent(ACTION_REQUEST_SCHEDULE_EXACT_ALARM)
+                .setData("package:${BuildConfig.APPLICATION_ID}".toUri())
+            scheduleExactAlarmsPermissionRequestLauncher.launch(intent)
         }
     }
 
@@ -349,8 +392,27 @@ class SessionDetailsFragment : Fragment() {
         this.isVisible = true
     }
 
+    private fun showAlarmTimePicker() {
+        AlarmTimePickerFragment.show(this, SESSION_DETAILS_FRAGMENT_REQUEST_KEY) { requestKey, result ->
+            if (requestKey == SESSION_DETAILS_FRAGMENT_REQUEST_KEY &&
+                result.containsKey(AlarmTimePickerFragment.ALARM_TIMES_INDEX_BUNDLE_KEY)
+            ) {
+                val alarmTimesIndex = result.getInt(AlarmTimePickerFragment.ALARM_TIMES_INDEX_BUNDLE_KEY)
+                viewModel.addAlarm(alarmTimesIndex)
+            }
+        }
+    }
+
     private fun showMissingPostNotificationsPermissionError() {
         Toast.makeText(requireContext(), R.string.alarms_disabled_notifications_permission_missing, Toast.LENGTH_LONG).show()
+    }
+
+    private fun showNotificationsDisabledError() {
+        Toast.makeText(requireContext(), R.string.alarms_disabled_notifications_are_disabled, Toast.LENGTH_LONG).show()
+    }
+
+    private fun showMissingScheduleExactAlarmsPermissionError() {
+        Toast.makeText(requireContext(), R.string.alarms_disabled_schedule_exact_alarm_permission_missing, Toast.LENGTH_LONG).show()
     }
 
     private fun updateOptionsMenu() {
@@ -372,11 +434,11 @@ class SessionDetailsFragment : Fragment() {
             menu.setMenuItemVisibility(R.id.menu_item_set_alarm, false)
             menu.setMenuItemVisibility(R.id.menu_item_delete_alarm, true)
         }
-        menu.setMenuItemVisibility(R.id.menu_item_feedback, SHOW_FEEDBACK_MENU_ITEM && !model.isFeedbackUrlEmpty)
+        menu.setMenuItemVisibility(R.id.menu_item_feedback, model.supportsFeedback)
         if (sidePane) {
             menu.setMenuItemVisibility(R.id.menu_item_close_session_details, true)
         }
-        menu.setMenuItemVisibility(R.id.menu_item_navigate, BuildConfig.C3NAV_URL.isNotEmpty() && !model.isC3NavRoomNameEmpty)
+        menu.setMenuItemVisibility(R.id.menu_item_navigate, model.supportsIndoorNavigation)
         @Suppress("ConstantConditionIf")
         val item = if (BuildConfig.ENABLE_CHAOSFLIX_EXPORT) {
             menu.findItem(R.id.menu_item_share_session_menu)

@@ -1,8 +1,8 @@
 package info.metadude.android.eventfahrplan.commons.temporal
 
 import com.google.common.truth.Truth.assertThat
-import org.junit.Assert.fail
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.fail
+import org.junit.jupiter.api.Test
 import org.threeten.bp.DateTimeException
 import org.threeten.bp.format.DateTimeParseException
 

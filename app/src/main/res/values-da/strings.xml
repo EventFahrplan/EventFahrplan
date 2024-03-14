@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Menu items -->
+    <string name="menu_item_title_add_to_calendar">Tilføj til kalender</string>
+    <string name="menu_item_title_alarms">Alarmer</string>
+    <string name="menu_item_title_close_session_details">Luk event detaljer</string>
+    <string name="menu_item_title_flag_as_favorite">Tilføj til favoritter</string>
+    <string name="menu_item_title_unflag_as_favorite">Fjern fra favoritter</string>
+    <string name="menu_item_title_delete_favorite">Slet</string>
+    <string name="menu_item_title_set_alarm">Indstil alarm</string>
+    <string name="menu_item_title_delete_alarm">Klare alarm</string>
+    <string name="menu_item_title_delete_all">Slet alle</string>
+    <string name="menu_item_title_favorites">Favoritter</string>
+    <string name="menu_item_title_navigate">Navigér</string>
+    <string name="menu_item_title_refresh">Opdater</string>
+    <string name="menu_item_title_share_session">Del begivenhed</string>
+    <string name="menu_item_title_share_favorites">Del favoritter</string>
+    <string name="menu_item_title_share_session_text">som tekst</string>
+    <string name="menu_item_title_share_session_json">som JSON (for Chaosflix)</string>
+    <string name="share_as_text">Del som tekst</string>
+    <string name="share_as_json">Del som JSON (for Chaosflix)</string>
+    <!-- AlertDialog -->
+    <!-- CertificateErrorFragment -->
+    <string name="certificate_error_message">        Kunne ikke etablere sikker forbindelse.\n
+        (<xliff:g example="Unknown Error" id="error">%s</xliff:g>)
+    </string>
+    <string name="certificate_error_title">Certifikat kunne ikke tilføjes.</string>
+    <!-- Error messages -->
+    <string name="dlg_err_connection_failed">Forbindelsesfejl</string>
+    <string name="dlg_err_failed_unknown_host">Ukendt adresse:\n<xliff:g example="http://example.com" id="url">%s</xliff:g></string>
+    <string name="dlg_err_failed_wrong_http_credentials">Ugyldig HTTP Autentificering</string>
+    <string name="dlg_err_failed_timeout">Serveren svarer ikke (Timeout).</string>
+    <string name="dlg_err_failed_connect_failure">Ukendt forbindelsesfejl</string>
+    <string name="dlg_err_failed_not_found">Ugyldig tidsplan URL</string>
+    <string name="dlg_err_failed_parse_failure">Kunne ikke parse svar</string>
+    <string name="dlg_err_failed_ssl_failure">SSL-fejl</string>
+    <string name="dlg_err_failed_http_cleartext_not_permitted">HTTP er ikke tilladt. Brug venligst HTTPS.</string>
+    <string name="dlg_err_schedule_data">Fejl i tidsplanens data</string>
+    <string name="dlg_err_schedule_data_empty">        Intet at vise. Tidsplanen med version \"<xliff:g example="0.99" id="version">%s</xliff:g>\"
+        indeholder ikke nogen session.
+    </string>
+    <string name="dlg_err_schedule_data_empty_without_version">        Intet at vise. Tidsplanen indeholder ikke nogen session.
+    </string>
+    <string name="uptodate">Tidsplan er opdateret.</string>
+    <!-- Schedule changes dialog -->
+    <string name="schedule_changes_dialog_title">Tidsplan opdatering</string>
+    <string name="schedule_changes_dialog_updated_to_text">Tidsplanen er blevet opdateret til\u0020</string>
+    <string name="schedule_changes_dialog_changed_new_cancelled_text">. Der er ændringer i <xliff:g example="3 lectures" id="num_changes">%1$s</xliff:g>, <xliff:g example="2 are" id="num_new">%2$s</xliff:g> <xliff:g example="new" id="phrase_new">%3$s</xliff:g>, <xliff:g example="1 is" id="num_canceled">%4$s</xliff:g> <xliff:g example="cancelled" id="phrase_cancelled">%5$s</xliff:g>.</string>
+    <string name="schedule_changes_dialog_affected_text">Ændringerne påvirker <xliff:g example="2" id="num_marked">%1$d</xliff:g> af dine foretrukne foredrag.</string>
+    <plurals name="schedule_changes_dialog_phrase_cancelled">
+        <item quantity="one">annulleret</item>
+        <item quantity="other">annulleret</item>
+    </plurals>
+    <string name="schedule_changes_dialog_browse">Gennemse</string>
+    <string name="schedule_changes_dialog_later">Senere</string>
+    <string name="progress_loading_data">Få tidsplan &#8230;</string>
+    <string name="load_data">Indlæs</string>
+    <string name="choose_day">Vælg dag</string>
+    <string name="day">Dag</string>
+    <string name="fahrplan">Tidsplan</string>
+    <string name="schedule_updated_to">        Updated to <xliff:g example="Mildenberg 2018-01-16 16:50" id="version">%s</xliff:g>
+    </string>
+    <string name="schedule_updated">        Tidsplanen er blevet opdateret.
+    </string>
+    <string name="settings">Indstillinger</string>
+    <string name="session_details_section_title_session_online">Begivenhed online</string>
+    <string name="choose_alarm_time">Vælg alarmtidspunkt</string>
+    <string name="reminders">Alarmer</string>
+    <string name="about_libraries_statement">        This application uses the following libraries: <xliff:g example="Kotlin, Espresso" id="libs">%s</xliff:g>
+    </string>
+    <string name="about_data_privacy_statement_german">Erklæring om databeskyttelse (tysk)</string>
+    <string name="about_issues_or_feature_requests">Problemer eller anmodninger om funktioner</string>
+    <string name="today">i dag</string>
+    <string name="schedule_parsing_error_generic">Ukendt fejl under fortolkning af tidsplan</string>
+    <string name="add_to_calendar_failed">Tilføjelse af begivenhed til kalenderen mislykkedes.</string>
+    <string name="no_changes">Ingen tidsplan ændringer</string>
+    <string name="no_favorites">Ingen favoritforedrag</string>
+    <string name="schedule_changes">Tidsplan ændringer</string>
+    <string name="dlg_delete_all_favorites">Slet alle favoritter?</string>
+    <!-- Build information -->
+    <string name="build_info_time">        Build time: <xliff:g example="2015-12-27T13:42Z" id="build_time">%s</xliff:g>
+    </string>
+    <string name="build_info_version_code">        Version code: <xliff:g example="42" id="version_code">%s</xliff:g>
+    </string>
+    <string name="build_info_hash">        Version hash: <xliff:g example="e1f2g3h-dirty" id="build_hash">%s</xliff:g>
+    </string>
+    <!-- App disclaimer -->
+    <string name="app_disclaimer">        This application is based on the source code of the &#8220;EventFahrplan&#8221; app.
+        Visitors of the annual congress and camp hosted by the Chaos Computer Club
+        use the app to keep track of the event program.
+    </string>
+    <!-- SnackEngage -->
+    <!-- TraceDroid -->
+    <string name="trace_droid_dialog_title">        Send <xliff:g example="33C3 Schedule" id="appName">%s</xliff:g> crash report &#8230;
+    </string>
+    <string name="trace_droid_dialog_message">        A problem with the <xliff:g example="33C3 Schedule" id="appName">%s</xliff:g> app has
+        been detected. It would be helpful if you could submit a crash report so the source of
+        the problem can be identified. It helps a lot if you can describe how and when the
+        crash happened.
+    </string>
+    <string name="trace_droid_button_title_send">        Open email
+    </string>
+    <string name="trace_droid_no_email_app">        No compatible email app installed.
+    </string>
+    <string name="trace_droid_button_title_no">        No
+    </string>
+    <string name="trace_droid_button_title_later">        Maybe later
+    </string>
+    <!-- Notifications -->
+    <string name="notifications_session_alarm_channel_description">        Alarms created by the user for various events.
+    </string>
+    <string name="notifications_schedule_update_channel_description">        Automatic updates of the schedule which can be configured in the app settings.
+    </string>
+    <!-- Schedule refresh interval picker -->
+    <!-- Alarm time picker -->
+    <!-- Session list item -->
+    <!-- Alarms -->
+    <!-- Validation errors -->
+</resources>

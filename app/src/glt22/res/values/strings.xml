@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Grazer Linuxtage Schedule</string>
-    <string name="app_hardcoded_subtitle">April 14.-15. 2023, TU Graz</string>
+    <string name="app_hardcoded_subtitle">April 05.-06. 2024, TU Graz</string>
     <string name="conference_name" translatable="false">Grazer Linuxtage</string>
     <string name="copyright_logo"></string>
     <string name="about_logo_content_description"></string>

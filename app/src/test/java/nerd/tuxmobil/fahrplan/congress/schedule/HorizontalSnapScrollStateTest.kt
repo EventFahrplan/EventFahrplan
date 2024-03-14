@@ -5,7 +5,7 @@ import nerd.tuxmobil.fahrplan.congress.NoLogging
 import nerd.tuxmobil.fahrplan.congress.schedule.HorizontalSnapScrollState.Companion.SCROLL_THRESHOLD_FACTOR
 import nerd.tuxmobil.fahrplan.congress.schedule.HorizontalSnapScrollView.Companion.SWIPE_MIN_DISTANCE
 import nerd.tuxmobil.fahrplan.congress.schedule.HorizontalSnapScrollView.Companion.SWIPE_THRESHOLD_VELOCITY
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 class HorizontalSnapScrollStateTest {
 

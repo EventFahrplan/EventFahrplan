@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Camp 2023</string>
+    <string name="app_hardcoded_subtitle"/>
+    <string name="conference_name" translatable="false">Camp 2023</string>
+    <string name="copyright_logo">
+        <![CDATA[Design by <a href="https://veith-yaeger.de">Veith Yäger</a>, CC-BY-SA 4.0]]>
+    </string>
+    <string name="about_logo_content_description">
+        Chaos Communication Camp logo
+    </string>
+</resources>

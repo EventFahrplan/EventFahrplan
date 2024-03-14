@@ -1,26 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <!-- App notification settings -->
-
+    <!-- Screen -->
+    <!-- Category development -->
+    <!-- Schedule refresh interval -->
+    <!--
+    Synchronize with @strings/preference_default_value_schedule_refresh_interval_value
+    -->
+    <!--
+    Synchronize with @integers/preference_default_value_schedule_refresh_interval_index
+    and string-array/preference_entry_values_schedule_refresh
+    -->
+    <!--
+    Synchronize with @strings/preference_default_value_schedule_refresh_interval_value
+    and @integers/preference_default_value_schedule_refresh_interval_index
+    -->
+    <!-- Category general -->
     <!-- Automatic schedule updates -->
-
     <!-- Alarm time index -->
-
+    <!--
+    Synchronize with @strings/preference_default_value_alarm_time_value
+    -->
+    <!--
+    Synchronize with @integers/preference_default_value_alarm_time_index
+    and string-array/preference_entry_values_alarm_time
+    -->
+    <!--
+    Synchronize with @strings/preference_default_value_alarm_time_value
+    and @integers/preference_default_value_alarm_time_index
+    -->
     <!-- Alarm tone -->
-
+    <!-- Device time zone -->
     <!-- Alternative highlighting -->
-
     <!-- Alternative schedule URL -->
-
+    <!-- App notification settings -->
     <!-- Insistent session alarms -->
-
-    <string name="preference_summary_engelsystem_json_export_url">
-    <![CDATA[Para ver seus turnos, insira sua URL <u>pessoal</u> aqui.<br/><br/>
+    <!-- Category Engelsystem -->
+    <string name="preference_summary_engelsystem_json_export_url"><![CDATA[Para ver seus turnos, insira sua URL <u>pessoal</u> aqui.<br/><br/>
         1. Faça login em sua conta <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g>.<br/>
         2. Copie o URL atrás do botão <u>Exportar JSON</u> na página do seu perfil.<br/>
         3. Cole a URL aqui.<br/><br/>
-        Os turnos antes e depois dos dias da conferência principal <u>não</u> são exibidos.]]>
-    </string>
-
+        Os turnos antes e depois dos dias da conferência principal <u>não</u> são exibidos.]]></string>
 </resources>

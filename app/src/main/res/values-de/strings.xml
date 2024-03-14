@@ -103,17 +103,13 @@
     <string name="about_google_play_listing">Eintrag bei Google Play</string>
     <string name="about_issues_or_feature_requests">Fehlermeldungen und Wünsche</string>
     <string name="about_source_code">Quellcode</string>
+    <string name="about_translation_platform">Übersetzungsplattform</string>
     <string name="today">heute</string>
     <string name="schedule_parsing_error_generic">Unbekannter Fehler beim Parsen des Fahrplans</string>
     <string name="schedule_parsing_error_with_version">Fehler beim Parsen der Fahrplan-Version <xliff:g example="0.99a" id="scheduleVersion">%s</xliff:g></string>
     <string name="engelsystem_shifts_parsing_error_generic">Unbekannter Fehler beim Parsen der <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g>-Schichten</string>
     <string name="engelsystem_shifts_parsing_error_forbidden">Ungültiger API-Schlüssel für <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g>-Schichten</string>
     <string name="engelsystem_shifts_parsing_error_not_found">Falsche URL für <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g>-Schichten</string>
-    <string name="alarms_empty">
-		Aktuell sind keine Alarme gespeichert. Im Fahrplan
-		kannst du über das entsprechende Symbol in der ActionBar
-		für jeden Eintrag einen individuellen Alarm festlegen.
-	</string>
     <string name="add_to_calendar_failed">Hinzufügen zum Kalendar fehlgeschlagen.</string>
     <string name="no_changes">Keine Fahrplanänderungen</string>
     <string name="schedule_changes">Fahrplanänderungen</string>
@@ -152,7 +148,7 @@
     <string name="snack_engage_rate_action">Bewerte die App</string>
     <string name="snack_engage_google_play_beta_testing_title">Neugierig?</string>
     <string name="snack_engage_google_play_beta_testing_action">Werde Beta-Tester</string>
-    <string name="snack_engage_c3nav_title">Indoor-Navigation auf dem <xliff:g example="35C3" id="conferenceName">%s</xliff:g>! Mit der c3nav-App</string>
+    <string name="snack_engage_c3nav_title">Indoor-Navigation @ <xliff:g example="35C3" id="conferenceName">%s</xliff:g>! Mit der c3nav-App</string>
     <string name="snack_engage_c3nav_action">Jetzt installieren!</string>
     <string name="snack_engage_landscape_orientation_title">Schon Querformat probiert?</string>
     <string name="snack_engage_landscape_orientation_action">Dreh dein Gerät!</string>
@@ -207,17 +203,17 @@
     <string name="alarm_time_title_60_minutes_before">60 Minuten vorher</string>
 
     <string name="alarms_disabled_notifications_permission_missing">Alarme sind deaktiviert. Bitte erteile die \"Benachrichtigungen\" Berechtigung.</string>
+    <string name="alarms_disabled_notifications_are_disabled">Alarme sind deaktiviert. Bitte aktiviere Benachrichtigungen.</string>
+    <string name="alarms_disabled_schedule_exact_alarm_permission_missing">Alarme sind deaktiviert. Bitte \"Erlaube, Wecker &amp; Erinnerungen einzurichten\".</string>
 
     <!-- Session list item -->
-    <string name="session_list_item_alarm_time_zero_minutes_content_description">Alarm: zur Startzeit</string>
-    <string name="session_list_item_alarm_time_minutes_content_description">Alarm: <xliff:g example="5" id="minutes">%d</xliff:g> Minuten vorher</string>
-    <string name="session_list_item_alarm_time_content_description">Alarmzeit: <xliff:g example="16:20" id="alarmTime">%s</xliff:g></string>
     <string name="session_list_item_duration_text"><xliff:g example="45" id="duration">%d</xliff:g> min.</string>
     <string name="session_list_item_duration_content_description">Dauer: <xliff:g example="45" id="duration">%d</xliff:g> Minuten</string>
     <string name="session_list_item_favored_content_description">favorisiert</string>
     <string name="session_list_item_not_favored_content_description">nicht favorisiert</string>
     <string name="session_list_item_room_content_description">Raum: <xliff:g example="Main hall" id="room">%s</xliff:g></string>
     <string name="session_list_item_start_time_content_description">Startzeit: <xliff:g example="16:30" id="startTime">%s</xliff:g></string>
+    <string name="session_list_item_title_content_description">Titel: <xliff:g example="Berlin stories" id="title">%s</xliff:g></string>
     <string name="session_list_item_subtitle_content_description">Untertitel: <xliff:g example="News from Berlin" id="subtitle">%s</xliff:g></string>
     <string name="session_list_item_track_content_description">Track: <xliff:g example="Security" id="trackName">%s</xliff:g></string>
     <string name="session_list_item_language_content_description">Sprache: <xliff:g example="English" id="language">%s</xliff:g></string>
@@ -234,6 +230,31 @@
         <item quantity="one">Sprecher in: <xliff:g example="Jane Doe" id="name">%s</xliff:g></item>
         <item quantity="other">Sprecher innen: <xliff:g example="Jane Doe, John Doe" id="names">%s</xliff:g></item>
     </plurals>
+
+    <!-- Session item -->
+    <string name="session_item_has_alarm_content_description">Alarm ist eingestellt</string>
+
+    <!-- Alarms -->
+    <string name="alarms_empty">
+        Aktuell sind keine Alarme gespeichert. In der Detailansicht kannst
+        du über das entsprechende Menüsymbol für jeden Eintrag einen
+        individuellen Alarm festlegen.
+    </string>
+    <string name="alarms_item_on_click_label">
+        Detailansicht öffnen
+    </string>
+    <string name="alarms_item_delete_icon_on_click_label">
+        Alarm löschen
+    </string>
+    <string name="alarms_item_alarm_time_zero_minutes_content_description">
+        Alarm: zur Startzeit
+    </string>
+    <string name="alarms_item_alarm_time_minutes_content_description">
+        Alarm: <xliff:g example="5" id="minutes">%d</xliff:g> Minuten vorher
+    </string>
+    <string name="alarms_item_fires_at_content_description">
+        Löst aus um: <xliff:g example="16:20" id="alarmTime">%s</xliff:g>
+    </string>
 
     <!-- Validation errors -->
     <string name="validation_error_invalid_url">

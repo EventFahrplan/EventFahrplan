@@ -13,6 +13,7 @@ import javax.net.ssl.SSLException
 import javax.net.ssl.SSLHandshakeException
 
 import info.metadude.android.eventfahrplan.commons.logging.Logging
+import info.metadude.android.eventfahrplan.network.models.HttpHeader
 
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -22,9 +23,9 @@ internal class FetchFahrplan(private val logging: Logging) {
     private lateinit var task: FetchFahrplanTask
     private lateinit var onFetchScheduleResult: (fetchScheduleResult: FetchScheduleResult) -> Unit
 
-    fun fetch(okHttpClient: OkHttpClient, url: String, eTag: String) {
+    fun fetch(okHttpClient: OkHttpClient, url: String, httpHeader: HttpHeader) {
         task = FetchFahrplanTask(okHttpClient, logging, onFetchScheduleResult)
-        task.execute(url, eTag)
+        task.execute(url, httpHeader.eTag, httpHeader.lastModified)
     }
 
     fun cancel() {
@@ -52,10 +53,15 @@ internal class FetchFahrplanTask(
     private companion object {
         const val EMPTY_RESPONSE_STRING = ""
         const val LOG_TAG = "FetchFahrplan"
+        const val HTTP_HEADER_NAME_ETAG = "ETag"
+        const val HTTP_HEADER_NAME_IF_NONE_MATCH = "If-None-Match"
+        const val HTTP_HEADER_NAME_LAST_MODIFIED = "Last-Modified"
+        const val HTTP_HEADER_NAME_IF_MODIFIED_SINCE = "If-Modified-Since"
     }
 
     private var responseStr = EMPTY_RESPONSE_STRING
     private var eTagStr = ""
+    private var lastModifiedStr = ""
     private var completed = false
     private lateinit var status: HttpStatus
     private var host = ""
@@ -72,8 +78,9 @@ internal class FetchFahrplanTask(
     override fun doInBackground(vararg args: String?): HttpStatus {
         val url = args[0]!!
         val eTag = args[1]!!
+        val lastModified = args[2]!!
         host = Uri.parse(url).host ?: throw NullPointerException("Host is null for url = '$url'")
-        return fetch(url, eTag)
+        return fetch(url, eTag, lastModified)
     }
 
     @Deprecated("Deprecated in Java")
@@ -92,26 +99,30 @@ internal class FetchFahrplanTask(
         if (status == HttpStatus.HTTP_OK) {
             logging.d(LOG_TAG, "Fetch done successfully")
             onFetchScheduleResult(
-                FetchScheduleResult(status, responseStr, eTagStr, host, exceptionMessage)
+                FetchScheduleResult(status, responseStr, HttpHeader(eTagStr, lastModifiedStr), host, exceptionMessage)
             )
         } else {
             logging.d(LOG_TAG, "Fetch failed")
             onFetchScheduleResult(
                 FetchScheduleResult(
-                    status, EMPTY_RESPONSE_STRING, eTagStr, host, exceptionMessage
+                    status, EMPTY_RESPONSE_STRING, HttpHeader(eTagStr, lastModifiedStr), host, exceptionMessage
                 )
             )
         }
         completed = false // notify only once
     }
 
-    private fun fetch(url: String, eTag: String): HttpStatus {
+    private fun fetch(url: String, eTag: String, lastModified: String): HttpStatus {
         logging.d(LOG_TAG, url)
-        logging.d(LOG_TAG, "ETag: '$eTag'")
+        logging.d(LOG_TAG, "$HTTP_HEADER_NAME_ETAG: '$eTag'")
+        logging.d(LOG_TAG, "$HTTP_HEADER_NAME_LAST_MODIFIED: '$lastModified'")
         val requestBuilder = Request.Builder().apply {
             url(url)
             if (eTag.isNotEmpty()) {
-                addHeader("If-None-Match", eTag)
+                addHeader(HTTP_HEADER_NAME_IF_NONE_MATCH, eTag)
+            }
+            if (lastModified.isNotEmpty()) {
+                addHeader(HTTP_HEADER_NAME_IF_MODIFIED_SINCE, lastModified)
             }
         }
 
@@ -134,7 +145,7 @@ internal class FetchFahrplanTask(
             e.printStackTrace()
             return HttpStatus.HTTP_COULD_NOT_CONNECT
         }
-        val statusCode = response.code()
+        val statusCode = response.code
 
         if (statusCode == 304) {
             return HttpStatus.HTTP_NOT_MODIFIED
@@ -152,21 +163,28 @@ internal class FetchFahrplanTask(
             }
         }
 
-        eTagStr = response.header("ETag").orEmpty()
+        eTagStr = response.header(HTTP_HEADER_NAME_ETAG).orEmpty()
         if (eTagStr.isEmpty()) {
-            logging.d(LOG_TAG, "ETag missing?")
+            logging.d(LOG_TAG, "$HTTP_HEADER_NAME_ETAG is missing.")
         } else {
-            logging.d(LOG_TAG, "ETag: '$eTagStr'")
+            logging.d(LOG_TAG, "$HTTP_HEADER_NAME_ETAG: '$eTagStr'")
+        }
+
+        lastModifiedStr = response.header(HTTP_HEADER_NAME_LAST_MODIFIED).orEmpty()
+        if (lastModifiedStr.isEmpty()) {
+            logging.d(LOG_TAG, "$HTTP_HEADER_NAME_LAST_MODIFIED is missing")
+        } else {
+            logging.d(LOG_TAG, "$HTTP_HEADER_NAME_LAST_MODIFIED: '$lastModifiedStr'")
         }
 
         responseStr = try {
-            response.body()!!.string()
+            response.body!!.string()
         } catch (e: NullPointerException) {
             return HttpStatus.HTTP_CANNOT_PARSE_CONTENT
         } catch (e: IOException) {
             return HttpStatus.HTTP_CANNOT_PARSE_CONTENT
         } finally {
-            response.body()?.close()
+            response.body?.close()
         }
         return HttpStatus.HTTP_OK
     }

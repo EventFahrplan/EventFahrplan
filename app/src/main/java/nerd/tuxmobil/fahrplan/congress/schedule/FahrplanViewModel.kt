@@ -1,16 +1,23 @@
 package nerd.tuxmobil.fahrplan.congress.schedule
 
 import android.os.Build
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import info.metadude.android.eventfahrplan.commons.livedata.SingleLiveEvent
 import info.metadude.android.eventfahrplan.commons.logging.Logging
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.SendChannel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices
+import nerd.tuxmobil.fahrplan.congress.alarms.SessionAlarmViewModelDelegate
+import nerd.tuxmobil.fahrplan.congress.models.Alarm
 import nerd.tuxmobil.fahrplan.congress.models.ScheduleData
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper
@@ -30,15 +37,15 @@ internal class FahrplanViewModel(
     private val repository: AppRepository,
     private val executionContext: ExecutionContext,
     private val logging: Logging,
-    private val alarmServices: AlarmServices,
-    private val notificationHelper: NotificationHelper,
+    alarmServices: AlarmServices,
+    notificationHelper: NotificationHelper,
     private val navigationMenuEntriesGenerator: NavigationMenuEntriesGenerator,
     private val simpleSessionFormat: SimpleSessionFormat,
     private val jsonSessionFormat: JsonSessionFormat,
     private val scrollAmountCalculator: ScrollAmountCalculator,
     private val defaultEngelsystemRoomName: String,
     private val customEngelsystemRoomName: String,
-    private val runsAtLeastOnAndroidTiramisu: Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
+    runsAtLeastOnAndroidTiramisu: Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
 
 ) : ViewModel() {
 
@@ -46,39 +53,60 @@ internal class FahrplanViewModel(
         const val LOG_TAG = "FahrplanViewModel"
     }
 
-    private val mutableFahrplanParameter = MutableLiveData<FahrplanParameter>()
-    val fahrplanParameter: LiveData<FahrplanParameter> = mutableFahrplanParameter
+    private var sessionAlarmViewModelDelegate: SessionAlarmViewModelDelegate =
+        SessionAlarmViewModelDelegate(
+            viewModelScope,
+            notificationHelper,
+            alarmServices,
+            runsAtLeastOnAndroidTiramisu,
+        )
 
-    val fahrplanEmptyParameter = SingleLiveEvent<FahrplanEmptyParameter>()
+    val fahrplanParameter = combine(
+        repository.uncanceledSessionsForDayIndex.filter { it.allSessions.isNotEmpty() },
+        repository.sessionsWithoutShifts.filterNotNull(),
+        repository.alarms.filterNotNull()
+    ) { scheduleDataForDayIndex, allSessionsForAllDaysWithoutShifts, alarms ->
+        createFahrplanParameter(
+            scheduleData = scheduleDataForDayIndex.customizeEngelsystemRoomName(),
+            allSessionsForAllDaysWithoutShifts = allSessionsForAllDaysWithoutShifts,
+            alarms = alarms
+        )
+    }
 
-    val shareSimple = SingleLiveEvent<String>()
-    val shareJson = SingleLiveEvent<String>()
+    private val mutableFahrplanEmptyParameter = Channel<FahrplanEmptyParameter>()
+    val fahrplanEmptyParameter = mutableFahrplanEmptyParameter.receiveAsFlow()
 
-    private val mutableTimeTextViewParameters = MutableLiveData<List<TimeTextViewParameter>>()
-    val timeTextViewParameters: LiveData<List<TimeTextViewParameter>> = mutableTimeTextViewParameters
+    private val mutableShareSimple = Channel<String>()
+    val shareSimple = mutableShareSimple.receiveAsFlow()
 
-    val scrollToCurrentSessionParameter = SingleLiveEvent<ScrollToCurrentSessionParameter>()
-    val scrollToSessionParameter = SingleLiveEvent<ScrollToSessionParameter>()
+    private val mutableShareJson = Channel<String>()
+    val shareJson = mutableShareJson.receiveAsFlow()
 
-    val requestPostNotificationsPermission = SingleLiveEvent<Unit>()
-    val missingPostNotificationsPermission = SingleLiveEvent<Unit>()
-    val showAlarmTimePicker = SingleLiveEvent<Unit>()
+    private val mutableTimeTextViewParameters = MutableStateFlow<List<TimeTextViewParameter>>(emptyList())
+    val timeTextViewParameters: Flow<List<TimeTextViewParameter>> = mutableTimeTextViewParameters
+
+    private val mutableScrollToCurrentSessionParameter = Channel<ScrollToCurrentSessionParameter>()
+    val scrollToCurrentSessionParameter = mutableScrollToCurrentSessionParameter.receiveAsFlow()
+
+    private val mutableScrollToSessionParameter = Channel<ScrollToSessionParameter>()
+    val scrollToSessionParameter = mutableScrollToSessionParameter.receiveAsFlow()
+
+    val requestPostNotificationsPermission = sessionAlarmViewModelDelegate
+        .requestPostNotificationsPermission
+
+    val notificationsDisabled = sessionAlarmViewModelDelegate
+        .notificationsDisabled
+
+    val requestScheduleExactAlarmsPermission = sessionAlarmViewModelDelegate
+        .requestScheduleExactAlarmsPermission
+
+    val showAlarmTimePicker = sessionAlarmViewModelDelegate
+        .showAlarmTimePicker
 
     var preserveVerticalScrollPosition: Boolean = false
 
     init {
         updateUncanceledSessions()
-    }
-
-    fun showAlarmTimePickerWithChecks() {
-        if (notificationHelper.notificationsEnabled) {
-            showAlarmTimePicker.postValue(Unit)
-        } else {
-            when (runsAtLeastOnAndroidTiramisu) {
-                true -> requestPostNotificationsPermission.postValue(Unit)
-                false -> missingPostNotificationsPermission.postValue(Unit)
-            }
-        }
     }
 
     private fun updateUncanceledSessions() {
@@ -88,13 +116,8 @@ internal class FahrplanViewModel(
                 if (sessions.isEmpty()) {
                     val scheduleVersion = repository.readMeta().version
                     if (scheduleVersion.isNotEmpty()) {
-                        fahrplanEmptyParameter.postValue(FahrplanEmptyParameter(scheduleVersion))
+                        mutableFahrplanEmptyParameter.sendOneTimeEvent(FahrplanEmptyParameter(scheduleVersion))
                     } // else: Nothing to do because schedule has not been loaded yet
-                } else {
-                    val fahrplanParameter = scheduleData
-                        .customizeEngelsystemRoomName()
-                        .toFahrplanParameter()
-                    mutableFahrplanParameter.postValue(fahrplanParameter)
                 }
             }
         }
@@ -123,24 +146,45 @@ internal class FahrplanViewModel(
         }
     )
 
-    private fun ScheduleData.toFahrplanParameter(): FahrplanParameter {
+    private fun createFahrplanParameter(
+        scheduleData: ScheduleData,
+        allSessionsForAllDaysWithoutShifts: List<Session>,
+        alarms: List<Alarm>
+    ): FahrplanParameter {
         val dayIndex = repository.readDisplayDayIndex()
         val numDays = repository.readMeta().numDays
-        val dateInfos = FahrplanMisc.createDateInfos(repository.readDateInfos())
         val dayMenuEntries = if (numDays > 1) {
-            navigationMenuEntriesGenerator.getDayMenuEntries(numDays, dateInfos)
+            navigationMenuEntriesGenerator.getDayMenuEntries(
+                numDays,
+                allSessionsForAllDaysWithoutShifts
+            )
         } else {
-            null
+            emptyList()
         }
+        val useDeviceTimeZone = repository.readUseDeviceTimeZoneEnabled()
+
+        val scheduleDataWithAlarmFlags = createScheduleDataWithAlarmFlags(scheduleData, alarms)
         return FahrplanParameter(
-            scheduleData = this,
+            scheduleData = scheduleDataWithAlarmFlags,
+            useDeviceTimeZone = useDeviceTimeZone,
             numDays = numDays,
             dayIndex = dayIndex,
             dayMenuEntries = dayMenuEntries
         ).also {
-            logging.d(LOG_TAG, "Loaded ${allSessions.size} uncanceled sessions.")
+            logging.d(LOG_TAG, "Loaded ${it.scheduleData.allSessions.size} uncanceled sessions.")
         }
     }
+
+    private fun createScheduleDataWithAlarmFlags(scheduleData: ScheduleData, alarms: List<Alarm>) =
+        scheduleData.copy(roomDataList = scheduleData.roomDataList.map { roomData ->
+            roomData.copy(sessions = roomData.sessions.map { session ->
+                Session(session).apply {
+                    hasAlarm = alarms.any { alarm ->
+                        alarm.sessionId == session.sessionId
+                    }
+                }
+            })
+        })
 
     /**
      * Requests loading the schedule from the [AppRepository] to update the UI. UI components must
@@ -177,25 +221,20 @@ internal class FahrplanViewModel(
                 val sessions = scheduleData.allSessions
                 if (sessions.isNotEmpty()) {
                     val parameters = sessions.toTimeTextViewParameters(nowMoment, normalizedBoxHeight)
-                    mutableTimeTextViewParameters.postValue(parameters)
+                    mutableTimeTextViewParameters.value = parameters
                 }
             }
         }
     }
 
     private fun List<Session>.toTimeTextViewParameters(nowMoment: Moment, normalizedBoxHeight: Int): List<TimeTextViewParameter> {
-        val earliestSession = repository.loadEarliestSession()
-        val firstDayStartDay = earliestSession.startTimeMoment.monthDay
         val useDeviceTimeZone = repository.readUseDeviceTimeZoneEnabled()
-        val dayIndex = repository.readDisplayDayIndex()
         val conference = Conference.ofSessions(this)
         return TimeTextViewParameter.parametersOf(
-            nowMoment,
-            conference,
-            firstDayStartDay,
-            dayIndex,
-            normalizedBoxHeight,
-            useDeviceTimeZone
+            nowMoment = nowMoment,
+            conference = conference,
+            normalizedBoxHeight = normalizedBoxHeight,
+            useDeviceTimeZone = useDeviceTimeZone
         )
     }
 
@@ -205,15 +244,23 @@ internal class FahrplanViewModel(
         }
     }
 
+    fun canAddAlarms(): Boolean {
+        return sessionAlarmViewModelDelegate.canAddAlarms()
+    }
+
+    fun addAlarmWithChecks() {
+        sessionAlarmViewModelDelegate.addAlarmWithChecks()
+    }
+
     fun addAlarm(session: Session, alarmTimesIndex: Int) {
         launch {
-            alarmServices.addSessionAlarm(session, alarmTimesIndex)
+            sessionAlarmViewModelDelegate.addAlarm(session, alarmTimesIndex)
         }
     }
 
     fun deleteAlarm(session: Session) {
         launch {
-            alarmServices.deleteSessionAlarm(session)
+            sessionAlarmViewModelDelegate.deleteAlarm(session)
         }
     }
 
@@ -221,14 +268,14 @@ internal class FahrplanViewModel(
         launch {
             val timeZoneId = repository.readMeta().timeZoneId
             simpleSessionFormat.format(session, timeZoneId).let { formattedSession ->
-                shareSimple.postValue(formattedSession)
+                mutableShareSimple.sendOneTimeEvent(formattedSession)
             }
         }
     }
 
     fun shareToChaosflix(session: Session) {
         jsonSessionFormat.format(session).let { formattedSession ->
-            shareJson.postValue(formattedSession)
+            mutableShareJson.sendOneTimeEvent(formattedSession)
         }
     }
 
@@ -256,7 +303,7 @@ internal class FahrplanViewModel(
                 val dateInfos = FahrplanMisc.createDateInfos(repository.readDateInfos())
                 if (scheduleData.dayIndex == dateInfos.indexOfToday) {
                     val parameter = ScrollToCurrentSessionParameter(scheduleData, dateInfos)
-                    scrollToCurrentSessionParameter.postValue(parameter)
+                    mutableScrollToCurrentSessionParameter.sendOneTimeEvent(parameter)
                 }
             }
         }
@@ -277,7 +324,7 @@ internal class FahrplanViewModel(
                         verticalPosition = verticalPosition,
                         roomIndex = roomIndex
                     )
-                    scrollToSessionParameter.postValue(parameter)
+                    mutableScrollToSessionParameter.sendOneTimeEvent(parameter)
                 }
             }
         }
@@ -285,6 +332,12 @@ internal class FahrplanViewModel(
 
     private fun launch(block: suspend CoroutineScope.() -> Unit) {
         viewModelScope.launch(executionContext.database, block = block)
+    }
+
+    private fun <E> SendChannel<E>.sendOneTimeEvent(event: E) {
+        viewModelScope.launch {
+            send(event)
+        }
     }
 
 }

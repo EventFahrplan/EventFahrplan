@@ -63,8 +63,8 @@ class StarredListAdapter internal constructor(
             time.textOrHide = timeText
             time.contentDescription = Session.getStartTimeContentDescription(time.context, timeText)
 
-            room.textOrHide = session.room
-            room.contentDescription = Session.getRoomNameContentDescription(room.context, session.room)
+            room.textOrHide = session.roomName
+            room.contentDescription = Session.getRoomNameContentDescription(room.context, session.roomName)
             val durationText = duration.context.getString(R.string.session_list_item_duration_text, session.duration)
             duration.textOrHide = durationText
             duration.contentDescription = Session.getDurationContentDescription(duration.context, session.duration)
@@ -76,7 +76,7 @@ class StarredListAdapter internal constructor(
     }
 
     private val Session.tookPlace
-        get() = endsAtDateUtc < Moment.now().toMilliseconds()
+        get() = endsAt.isBefore(Moment.now())
 
     private fun TextView.setPastSessionTextColor() = setTextColor(pastSessionTextColor)
 

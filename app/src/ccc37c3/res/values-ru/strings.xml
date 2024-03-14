@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Pасписание 37C3</string>
+    <string name="app_hardcoded_subtitle">
+        27.-30-го декабря 2023, Congress Center Hamburg
+    </string>
+    <string name="copyright_logo">
+        37C3: Unlocked. Дизайн от Robokid + Luis F. Masallera + Euler Void
+    </string>
+    <string name="about_logo_content_description">
+        Логотип 37C3 Unlocked
+    </string>
+</resources>

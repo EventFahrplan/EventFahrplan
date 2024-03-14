@@ -12,6 +12,7 @@ data class Session(
         val dateUTC: Long = 0,
         val description: String = "",
         val duration: Int = 0,          // minutes
+        val feedbackUrl: String? = null,
         val hasAlarm: Boolean = false,
         val isHighlight: Boolean = false,
         val language: String = "",
@@ -19,7 +20,8 @@ data class Session(
         val relativeStartTime: Int = 0, // minutes since conference start
         val recordingLicense: String = "",
         val recordingOptOut: Boolean = RECORDING_OPT_OUT_OFF,
-        val room: String = "",
+        val roomName: String = "",
+        val roomIdentifier: String = "",
         val roomIndex: Int = 0,
         val speakers: String = "",
         val startTime: Int = 0,         // minutes since day start
@@ -37,7 +39,7 @@ data class Session(
         val changedIsNew: Boolean = false,
         val changedLanguage: Boolean = false,
         val changedRecordingOptOut: Boolean = false,
-        val changedRoom: Boolean = false,
+        val changedRoomName: Boolean = false,
         val changedSpeakers: Boolean = false,
         val changedSubtitle: Boolean = false,
         val changedTime: Boolean = false,

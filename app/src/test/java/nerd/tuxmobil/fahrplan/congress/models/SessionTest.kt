@@ -1,8 +1,9 @@
 package nerd.tuxmobil.fahrplan.congress.models
 
-import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MINUTES_OF_ONE_DAY
-import org.assertj.core.api.Assertions.assertThat
-import org.junit.Test
+import com.google.common.truth.Truth.assertThat
+import info.metadude.android.eventfahrplan.commons.temporal.Moment
+import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MILLISECONDS_OF_ONE_MINUTE
+import org.junit.jupiter.api.Test
 
 private typealias SessionModification = Session.() -> Unit
 
@@ -13,12 +14,14 @@ class SessionTest {
         fun createSession() = Session("s1").apply {
             title = "Lorem ipsum"
             subtitle = "Gravida arcu ac tortor"
+            feedbackUrl = "https://example.com/feedback"
             day = 3
             date = "2020-02-29"
             dateUTC = 1439478900000L
             startTime = 1125
             duration = 60
-            room = "Main hall"
+            roomName = "Main hall"
+            roomIdentifier = "88888888-4444-4444-4444-121212121212"
             speakers = listOf("Janet")
             track = "science"
             type = "workshop"
@@ -40,7 +43,7 @@ class SessionTest {
             // Not considered in equal nor hashCode, too.
             changedTitle = true
             changedSubtitle = true
-            changedRoom = true
+            changedRoomName = true
             changedDay = true
             changedTime = true
             changedDuration = true
@@ -65,7 +68,7 @@ class SessionTest {
 
             changedTitle = false
             changedSubtitle = false
-            changedRoom = false
+            changedRoomName = false
             changedDay = false
             changedTime = false
             changedDuration = false
@@ -84,14 +87,14 @@ class SessionTest {
         val session1 = createSession()
         val session2 = Session(session1)
         assertThat(session1).isEqualTo(session2)
-        assertThat(session1).isNotSameAs(session2)
+        assertThat(session1).isNotSameInstanceAs(session2)
     }
 
     @Test
     fun `equals evaluates true for equal sessions`() {
         val session1 = createSession()
         val session2 = createSession()
-        assertThat(session1).isNotSameAs(session2)
+        assertThat(session1).isNotSameInstanceAs(session2)
         assertThat(session1).isEqualTo(session2)
     }
 
@@ -99,7 +102,7 @@ class SessionTest {
     fun `equals evaluates true for sessions with not considered fields modified`() {
         val session1 = createSession()
         val session2 = createSessionModifyingNonConsideredFields()
-        assertThat(session1).isNotSameAs(session2)
+        assertThat(session1).isNotSameInstanceAs(session2)
         assertThat(session1).isEqualTo(session2)
     }
 
@@ -107,7 +110,7 @@ class SessionTest {
     fun `equals evaluates false when comparing with null`() {
         val session1 = createSession()
         val session2 = null
-        assertThat(session1).isNotSameAs(session2)
+        assertThat(session1).isNotSameInstanceAs(session2)
         assertThat(session1).isNotEqualTo(session2)
     }
 
@@ -115,7 +118,7 @@ class SessionTest {
     fun `equals evaluates false when comparing with other type`() {
         val session1 = createSession()
         val session2 = "Other type"
-        assertThat(session1).isNotSameAs(session2)
+        assertThat(session1).isNotSameInstanceAs(session2)
         assertThat(session1).isNotEqualTo(session2)
     }
 
@@ -123,7 +126,7 @@ class SessionTest {
     fun `hashCode evaluates true for equal sessions`() {
         val session1 = createSession()
         val session2 = createSession()
-        assertThat(session1).isNotSameAs(session2)
+        assertThat(session1).isNotSameInstanceAs(session2)
         assertThat(session1.hashCode()).isEqualTo(session2.hashCode())
     }
 
@@ -131,7 +134,7 @@ class SessionTest {
     fun `hashCode evaluates true for sessions with not considered fields modified`() {
         val session1 = createSession()
         val session2 = createSessionModifyingNonConsideredFields()
-        assertThat(session1).isNotSameAs(session2)
+        assertThat(session1).isNotSameInstanceAs(session2)
         assertThat(session1.hashCode()).isEqualTo(session2.hashCode())
     }
 
@@ -152,6 +155,13 @@ class SessionTest {
     @Test
     fun `equals evaluates false and hashCode differ for sessions with odd subtitle`() {
         val session2Modification: SessionModification = { subtitle = "Odd subtitle" }
+        assertOddSessionsAreNotEqual { session2Modification() }
+        assertOddSessionsHaveOddHashCodes { session2Modification() }
+    }
+
+    @Test
+    fun `equals evaluates false and hashCode differ for sessions with odd feedback URL`() {
+        val session2Modification: SessionModification = { feedbackUrl = "https://example.net/feedback" }
         assertOddSessionsAreNotEqual { session2Modification() }
         assertOddSessionsHaveOddHashCodes { session2Modification() }
     }
@@ -192,8 +202,15 @@ class SessionTest {
     }
 
     @Test
-    fun `equals evaluates false and hashCode differ for sessions with odd room`() {
-        val session2Modification: SessionModification = { room = "Odd room" }
+    fun `equals evaluates false and hashCode differ for sessions with odd room name`() {
+        val session2Modification: SessionModification = { roomName = "Odd room name" }
+        assertOddSessionsAreNotEqual { session2Modification() }
+        assertOddSessionsHaveOddHashCodes { session2Modification() }
+    }
+
+    @Test
+    fun `equals evaluates false and hashCode differ for sessions with odd room identifier`() {
+        val session2Modification: SessionModification = { roomIdentifier = "Odd room identifier" }
         assertOddSessionsAreNotEqual { session2Modification() }
         assertOddSessionsHaveOddHashCodes { session2Modification() }
     }
@@ -243,14 +260,14 @@ class SessionTest {
     private fun assertOddSessionsAreNotEqual(session2Modification: SessionModification) {
         val session1 = createSession()
         val session2 = createSession().apply { session2Modification() }
-        assertThat(session1).isNotSameAs(session2)
+        assertThat(session1).isNotSameInstanceAs(session2)
         assertThat(session1).isNotEqualTo(session2)
     }
 
     private fun assertOddSessionsHaveOddHashCodes(session2Modification: SessionModification) {
         val session1 = createSession()
         val session2 = createSession().apply { session2Modification() }
-        assertThat(session1).isNotSameAs(session2)
+        assertThat(session1).isNotSameInstanceAs(session2)
         assertThat(session1.hashCode()).isNotEqualTo(session2.hashCode())
     }
 
@@ -259,7 +276,7 @@ class SessionTest {
         val session = Session("0").apply {
             changedTitle = true
             changedSubtitle = true
-            changedRoom = true
+            changedRoomName = true
             changedDay = true
             changedTime = true
             changedDuration = true
@@ -273,7 +290,7 @@ class SessionTest {
         val canceledSession = Session("0").apply {
             changedTitle = false
             changedSubtitle = false
-            changedRoom = false
+            changedRoomName = false
             changedDay = false
             changedTime = false
             changedDuration = false
@@ -288,62 +305,19 @@ class SessionTest {
     }
 
     @Test
-    fun `getStartTimeMoment based on date and relStartTime in the morning`() {
-        val session = Session("1")
-        session.relStartTime = 121
-        session.date = "2019-12-27"
-        session.dateUTC = 0 // Not evaluated by startTimeMoment
-
-        val moment = session.startTimeMoment
-        assertThat(moment.minute).isEqualTo(1)
-        assertThat(moment.minuteOfDay).isEqualTo(121)
-        assertThat(moment.hour).isEqualTo(2)
-        assertThat(moment.month).isEqualTo(12)
-        assertThat(moment.monthDay).isEqualTo(27)
-        assertThat(moment.year).isEqualTo(2019)
+    fun `startsAt returns the start date converted to Moment`() {
+        val session = Session("").apply { dateUTC = 1582963200000L }
+        assertThat(session.startsAt).isEqualTo(Moment.ofEpochMilli(1582963200000L))
     }
 
     @Test
-    fun `getStartTimeMoment based on date and relStartTime after midnight`() {
-        val session = Session("1")
-        session.relStartTime = MINUTES_OF_ONE_DAY + 121 // 2:01:00 AM
-        session.date = "2019-12-27"
-        session.dateUTC = 0 // Not evaluated by startTimeMoment
-
-        val moment = session.startTimeMoment
-        assertThat(moment.minute).isEqualTo(1)
-        assertThat(moment.minuteOfDay).isEqualTo(121)
-        assertThat(moment.hour).isEqualTo(2)
-        assertThat(moment.month).isEqualTo(12)
-        assertThat(moment.monthDay).isEqualTo(28) // Unexpected depending on where startTimeMoment is used!
-        assertThat(moment.year).isEqualTo(2019)
-    }
-
-    @Test
-    fun `startTimeMilliseconds returns the dateUTC value when dateUTC is set`() {
-        val session = Session("1").apply {
-            dateUTC = 1
-            date = "2020-03-20"
+    fun `startsAt throws exception if dateUTC is less then or equal to 0`() {
+        val session = Session("").apply { dateUTC = 0 }
+        try {
+            session.startsAt
+        } catch (e: IllegalArgumentException) {
+            assertThat(e.message).isEqualTo("Field 'dateUTC' must be more than 0.")
         }
-        assertThat(session.startTimeMilliseconds).isEqualTo(1)
-    }
-
-    @Test
-    fun `startTimeMilliseconds returns the date value when dateUTC is not set`() {
-        val session = Session("1").apply {
-            dateUTC = 0
-            date = "2020-03-20"
-        }
-        assertThat(session.startTimeMilliseconds).isEqualTo(1584662400000L)
-    }
-
-    @Test
-    fun `endsAtTime sums startTime and duration`() {
-        val session = Session("").apply {
-            startTime = 300
-            duration = 30
-        }
-        assertThat(session.endsAtTime).isEqualTo(330)
     }
 
     @Test
@@ -352,7 +326,17 @@ class SessionTest {
             dateUTC = 10_000
             duration = 60
         }
-        assertThat(session.endsAtDateUtc).isEqualTo(3_610_000L)
+        assertThat(session.endsAt.toMilliseconds()).isEqualTo(3_610_000L)
+    }
+
+    @Test
+    fun `getEndsAt sums dateUTC and duration`() {
+        val session = Session("").apply {
+            dateUTC = 1584662400000L
+            duration = 120
+        }
+        val endsAt = Moment.ofEpochMilli(1584662400000L + 120 * MILLISECONDS_OF_ONE_MINUTE)
+        assertThat(session.endsAt).isEqualTo(endsAt)
     }
 
 }

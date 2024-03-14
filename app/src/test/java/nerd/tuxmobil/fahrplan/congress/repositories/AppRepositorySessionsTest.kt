@@ -2,17 +2,15 @@ package nerd.tuxmobil.fahrplan.congress.repositories
 
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
-import info.metadude.android.eventfahrplan.commons.testing.MainDispatcherTestRule
+import info.metadude.android.eventfahrplan.commons.testing.MainDispatcherTestExtension
 import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedOnce
 import info.metadude.android.eventfahrplan.database.repositories.SessionsDatabaseRepository
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import nerd.tuxmobil.fahrplan.congress.TestExecutionContext
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toSessionsDatabaseModel
 import nerd.tuxmobil.fahrplan.congress.models.Session
-import org.junit.Assert.fail
-import org.junit.Rule
-import org.junit.Test
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.kotlin.any
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
@@ -21,11 +19,8 @@ import org.mockito.kotlin.whenever
 /**
  * Test class to deal with sessions which interact with the [SessionsDatabaseRepository].
  */
-@OptIn(ExperimentalCoroutinesApi::class)
+@ExtendWith(MainDispatcherTestExtension::class)
 class AppRepositorySessionsTest {
-
-    @get:Rule
-    val mainDispatcherTestRule = MainDispatcherTestRule()
 
     private val sessionsDatabaseRepository = mock<SessionsDatabaseRepository>()
 
@@ -165,26 +160,6 @@ class AppRepositorySessionsTest {
         val uncanceledSessions = testableAppRepository.loadUncanceledSessionsForDayIndex(0)
         assertThat(uncanceledSessions).containsExactly(SESSION_3001)
         verifyInvokedOnce(sessionsDatabaseRepository).querySessionsForDayIndexOrderedByDateUtc(any())
-    }
-
-    @Test
-    fun `loadEarliestSession fails when no session is present`() {
-        whenever(sessionsDatabaseRepository.querySessionsOrderedByDateUtc()) doReturn emptyList()
-        try {
-            testableAppRepository.loadEarliestSession()
-            fail("Expect a NoSuchElementException to be thrown.")
-        } catch (e: NoSuchElementException) {
-            assertThat(e.message).isEqualTo("List is empty.")
-        }
-        verifyInvokedOnce(sessionsDatabaseRepository).querySessionsOrderedByDateUtc()
-    }
-
-    @Test
-    fun `loadEarliestSession returns the first session of the first day`() {
-        val sessions = listOf(SESSION_1005, SESSION_1001)
-        whenever(sessionsDatabaseRepository.querySessionsOrderedByDateUtc()) doReturn sessions.toSessionsDatabaseModel()
-        assertThat(testableAppRepository.loadEarliestSession()).isEqualTo(SESSION_1005)
-        verifyInvokedOnce(sessionsDatabaseRepository).querySessionsOrderedByDateUtc()
     }
 
 }

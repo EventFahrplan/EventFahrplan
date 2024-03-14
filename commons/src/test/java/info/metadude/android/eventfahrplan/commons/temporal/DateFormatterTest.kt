@@ -1,9 +1,9 @@
 package info.metadude.android.eventfahrplan.commons.temporal
 
-import org.assertj.core.api.Assertions.assertThat
-import org.junit.After
-import org.junit.Before
-import org.junit.Test
+import com.google.common.truth.Truth.assertThat
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.ZoneId
 import org.threeten.bp.ZoneOffset
@@ -22,12 +22,12 @@ class DateFormatterTest {
     private val moment = Moment.parseDate("2019-01-22")
     private val timestamp = moment.toMilliseconds()
 
-    @Before
+    @BeforeEach
     fun resetTimeZone() {
         TimeZone.setDefault(TimeZone.getTimeZone("GMT+1"))
     }
 
-    @After
+    @AfterEach
     fun resetSystemDefaults() {
         Locale.setDefault(systemLocale)
         TimeZone.setDefault(systemTimezone)

@@ -2,6 +2,7 @@ package nerd.tuxmobil.fahrplan.congress.alarms
 
 import android.app.AlarmManager
 import info.metadude.android.eventfahrplan.commons.logging.Logging
+import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.utils.ConferenceTimeFrame
 
@@ -16,7 +17,7 @@ class AlarmUpdater @JvmOverloads constructor(
 
     interface OnAlarmUpdateListener {
         fun onCancelUpdateAlarm()
-        fun onScheduleUpdateAlarm(interval: Long, nextFetch: Long)
+        fun onScheduleUpdateAlarm(interval: Long, nextFetch: Moment)
     }
 
     companion object {
@@ -26,7 +27,7 @@ class AlarmUpdater @JvmOverloads constructor(
         private const val ONE_DAY = AlarmManager.INTERVAL_DAY
     }
 
-    fun calculateInterval(time: Long, isInitial: Boolean): Long {
+    fun calculateInterval(moment: Moment, isInitial: Boolean): Long {
         val refreshIntervalDefaultValue = appRepository.readScheduleRefreshIntervalDefaultValue()
         val refreshInterval = appRepository.readScheduleRefreshInterval()
         val shouldUseDevelopmentInterval = refreshInterval != refreshIntervalDefaultValue
@@ -35,33 +36,33 @@ class AlarmUpdater @JvmOverloads constructor(
         if (shouldUseDevelopmentInterval) {
             logging.d(LOG_TAG, "Schedule refresh interval = $developmentRefreshInterval")
             listener.onCancelUpdateAlarm()
-            val nextFetch = time + developmentRefreshInterval
+            val nextFetch = moment.plusMilliseconds(developmentRefreshInterval)
             listener.onScheduleUpdateAlarm(developmentRefreshInterval, nextFetch)
             return developmentRefreshInterval
         }
 
         var interval: Long
-        var nextFetch: Long
+        var nextFetch: Moment
         when {
-            conference.contains(time) -> {
-                logging.d(LOG_TAG, "START <= time < END")
+            conference.contains(moment) -> {
+                logging.d(LOG_TAG, "START <= moment < END")
                 interval = TWO_HOURS
-                nextFetch = time + interval
+                nextFetch = moment.plusMilliseconds(interval)
             }
-            conference.endsBefore(time) -> {
-                logging.d(LOG_TAG, "START < END <= time")
+            conference.endsAtOrBefore(moment) -> {
+                logging.d(LOG_TAG, "START < END <= moment")
                 listener.onCancelUpdateAlarm()
                 return 0
             }
             else -> {
-                logging.d(LOG_TAG, "time < END")
+                logging.d(LOG_TAG, "moment < END")
                 interval = ONE_DAY
-                nextFetch = time + interval
+                nextFetch = moment.plusMilliseconds(interval)
             }
         }
-        val shiftedTime = time + ONE_DAY
-        if (conference.startsAfter(time) && conference.startsAtOrBefore(shiftedTime)) {
-            logging.d(LOG_TAG, "time < START && START <= shiftedTime")
+        val shiftedTime = moment.plusDays(1)
+        if (conference.startsAfter(moment) && conference.startsAtOrBefore(shiftedTime)) {
+            logging.d(LOG_TAG, "moment < START && START <= shiftedTime")
             interval = TWO_HOURS
             nextFetch = conference.firstDayStartTime
             if (!isInitial) {

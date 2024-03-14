@@ -1,41 +1,36 @@
 package nerd.tuxmobil.fahrplan.congress.navigation
 
 import com.google.common.truth.Truth.assertThat
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
-import org.junit.runners.Parameterized.Parameters
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.MethodSource
 
-@RunWith(Parameterized::class)
-class RoomForC3NavConverterTest(
-
-        private val room: String?,
-        private val expectedText: String
-
-) {
+class RoomForC3NavConverterTest {
 
     companion object {
 
-        private fun scenarioOf(room: String?, expectedText: String) =
-                arrayOf(room, expectedText)
+        private fun scenarioOf(roomName: String?, expectedText: String) =
+                arrayOf(roomName, expectedText)
 
         @JvmStatic
-        @Parameters(name = "{index}: room = \"{0}\" -> expectedText = \"{1}\"")
         fun data() = listOf(
-                scenarioOf(room = "Ada", expectedText = "hall-a"),
-                scenarioOf(room = "Borg", expectedText = "hall-b"),
-                scenarioOf(room = "Clarke", expectedText = "hall-c"),
-                scenarioOf(room = "Dijkstra", expectedText = "hall-d"),
-                scenarioOf(room = "Eliza", expectedText = "hall-e"),
-                scenarioOf(room = "NonExisting", expectedText = ""),
-                scenarioOf(room = "", expectedText = ""),
-                scenarioOf(room = null, expectedText = ""),
+                scenarioOf(roomName = "Ada", expectedText = "hall-a"),
+                scenarioOf(roomName = "Borg", expectedText = "hall-b"),
+                scenarioOf(roomName = "Clarke", expectedText = "hall-c"),
+                scenarioOf(roomName = "Dijkstra", expectedText = "hall-d"),
+                scenarioOf(roomName = "Eliza", expectedText = "hall-e"),
+                scenarioOf(roomName = "NonExisting", expectedText = ""),
+                scenarioOf(roomName = "", expectedText = ""),
+                scenarioOf(roomName = null, expectedText = ""),
         )
     }
 
-    @Test
-    fun convert() {
-        assertThat(RoomForC3NavConverter().convert(room)).isEqualTo(expectedText)
+    @ParameterizedTest(name = """{index}: room = "{0}" -> expectedText = "{1}"""")
+    @MethodSource("data")
+    fun convert(
+        roomName: String?,
+        expectedText: String,
+    ) {
+        assertThat(RoomForC3NavConverter().convert(roomName)).isEqualTo(expectedText)
     }
 
 }

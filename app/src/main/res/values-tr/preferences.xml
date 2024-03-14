@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Screen -->
+    <!-- Category development -->
+    <!-- Schedule refresh interval -->
+    <!--
+    Synchronize with @strings/preference_default_value_schedule_refresh_interval_value
+    -->
+    <!--
+    Synchronize with @integers/preference_default_value_schedule_refresh_interval_index
+    and string-array/preference_entry_values_schedule_refresh
+    -->
+    <!--
+    Synchronize with @strings/preference_default_value_schedule_refresh_interval_value
+    and @integers/preference_default_value_schedule_refresh_interval_index
+    -->
+    <!-- Category general -->
+    <!-- Automatic schedule updates -->
+    <!-- Alarm time index -->
+    <!--
+    Synchronize with @strings/preference_default_value_alarm_time_value
+    -->
+    <!--
+    Synchronize with @integers/preference_default_value_alarm_time_index
+    and string-array/preference_entry_values_alarm_time
+    -->
+    <!--
+    Synchronize with @strings/preference_default_value_alarm_time_value
+    and @integers/preference_default_value_alarm_time_index
+    -->
+    <!-- Alarm tone -->
+    <!-- Device time zone -->
+    <!-- Alternative highlighting -->
+    <!-- Alternative schedule URL -->
+    <!-- App notification settings -->
+    <!-- Insistent session alarms -->
+    <!-- Category Engelsystem -->
+</resources>

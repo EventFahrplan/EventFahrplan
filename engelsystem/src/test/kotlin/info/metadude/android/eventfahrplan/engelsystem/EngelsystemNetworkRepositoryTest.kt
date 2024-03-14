@@ -8,15 +8,14 @@ import info.metadude.kotlin.library.engelsystem.EngelsystemApi
 import info.metadude.kotlin.library.engelsystem.EngelsystemService
 import info.metadude.kotlin.library.engelsystem.adapters.ZonedDateTimeJsonAdapter
 import info.metadude.kotlin.library.engelsystem.models.Shift
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import okhttp3.OkHttpClient
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
-import org.junit.After
-import org.junit.Before
-import org.junit.Test
-import org.mockito.kotlin.mock
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.mockito.Mockito.mock
 import org.threeten.bp.ZoneOffset
 import org.threeten.bp.ZonedDateTime
 import retrofit2.Retrofit
@@ -24,7 +23,6 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import java.io.EOFException
 import java.net.HttpURLConnection
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class EngelsystemNetworkRepositoryTest {
 
     private companion object {
@@ -33,7 +31,7 @@ class EngelsystemNetworkRepositoryTest {
         const val VALID_ONE_ITEM_SHIFTS_JSON = """
                 [
                     {
-                        "Comment": "This is a very secret comment.",
+                        "user_comment": "This is a very secret comment.",
                         "Name": "Kirmes",
                         "RID": 12,
                         "SID": 579,
@@ -48,8 +46,9 @@ class EngelsystemNetworkRepositoryTest {
                         "event_timezone": "Europe/Berlin",
                         "freeloaded": 0,
                         "id": 37,
-                        "name": "Collect stickers",
                         "shifttype_id": 6,
+                        "shifttype_name": "Name of the shift type",
+                        "shifttype_description": "# Description of the shift type as markdown\n",
                         "start_date": "2019-08-21T13:00:00+02:00",
                         "title": "Tag 1: Decorate fridge"
                     }
@@ -67,12 +66,13 @@ class EngelsystemNetworkRepositoryTest {
             endsAtDate = ENDS_AT,
             locationDescription = "Kirmes are fun.",
             locationName = "Kirmes",
-            name = "Collect stickers",
             sID = 579,
             startsAtDate = STARTS_AT,
             talkTitle = "Tag 1: Decorate fridge",
             timeZoneName = "Europe/Berlin",
-            typeId = 6
+            typeId = 6,
+            typeName = "Name of the shift type",
+            typeDescription = "# Description of the shift type as markdown\n",
         ))
         const val URL = "https://example.com/test/shifts-json-export/file.json?key=111111"
 
@@ -83,12 +83,12 @@ class EngelsystemNetworkRepositoryTest {
     private val okHttpClient = mock<OkHttpClient>()
     private val repository = createRepository()
 
-    @Before
+    @BeforeEach
     fun setUp() {
         mockWebServer.start()
     }
 
-    @After
+    @AfterEach
     fun tearDown() {
         mockWebServer.shutdown()
     }
@@ -162,7 +162,7 @@ class EngelsystemNetworkRepositoryTest {
     /**
      * Performs a HTTP request against a [mockWebServer] using the given [httpStatusCode] and [shiftsJson] for the response.
      */
-    private suspend fun EngelsystemNetworkRepository.loadMockResponse(
+    private suspend fun RealEngelsystemNetworkRepository.loadMockResponse(
         httpStatusCode: Int,
         shiftsJson: String
     ): ShiftsResult {
@@ -174,7 +174,7 @@ class EngelsystemNetworkRepositoryTest {
         return load(okHttpClient, URL)
     }
 
-    private fun createRepository() = EngelsystemNetworkRepository(
+    private fun createRepository() = RealEngelsystemNetworkRepository(
         engelsystemApi = InterceptedServiceProvider(mockWebServer)
     )
 

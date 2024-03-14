@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="text_primary">#fff</color>
+    <color name="text_secondary">#E6E6E6</color>
+    <color name="text_tertiary">#CCCCCC</color>
+    <color name="colorPrimary">#3E4FF7</color>
+    <color name="colorPrimaryDark">#141C71</color>
+    <color name="colorAccent">#BE5047</color>
+    <color name="colorActionBar">@color/colorPrimary</color>
+    <color name="windowBackground">#202020</color>
+    <color name="multi_choice_background">#fec700</color>
+    <color name="text_link_pressed_background_on_light">#aaF5F485</color>
+    <color name="session_alarm_item_bell_icon_fill">#BE5047</color>
+    <color name="session_alarm_item_bell_icon_text">#fff</color>
+
+    <!-- Tool bar -->
+    <color name="tool_bar_icon">#B1F972</color>
+
+    <!-- About -->
+    <color name="about_horizontal_line">#58892C</color>
+    <color name="about_title">@color/colorPrimary</color>
+    <color name="about_subtitle">#B1F972</color>
+
+    <!-- Schedule screen -->
+    <color name="schedule_time_column_item_background_emphasized">@color/colorPrimary</color>
+    <color name="schedule_time_column_item_text_normal">#F5F485</color>
+    <color name="schedule_time_column_item_text_emphasized">#B1F972</color>
+    <color name="schedule_room_name_header_text">@color/colorAccent</color>
+
+    <!-- Session details -->
+    <color name="session_details_list_item">@color/colorPrimary</color>
+    <color name="session_detailbar_background">#202020</color>
+    <color name="session_detailbar_text">#9DFAFD</color>
+    <color name="session_detailbar_icon">#BF55F8</color>
+
+</resources>

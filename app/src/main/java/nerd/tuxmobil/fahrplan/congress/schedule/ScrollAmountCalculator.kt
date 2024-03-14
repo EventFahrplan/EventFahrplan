@@ -3,7 +3,6 @@ package nerd.tuxmobil.fahrplan.congress.schedule
 import info.metadude.android.eventfahrplan.commons.logging.Logging
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MINUTES_OF_ONE_DAY
-import nerd.tuxmobil.fahrplan.congress.dataconverters.toStartsAtMoment
 import nerd.tuxmobil.fahrplan.congress.models.DateInfos
 import nerd.tuxmobil.fahrplan.congress.models.ScheduleData
 import nerd.tuxmobil.fahrplan.congress.models.Session
@@ -41,8 +40,8 @@ internal class ScrollAmountCalculator(
         var sessionStartsAtMinutes = sessionStartsAt.minuteOfDay
         var scrollAmount = 0
 
-        val hasStarted = nowMoment.minuteOfDay < sessionStartsAtMinutes
-        if (!(hasStarted && dateInfos.sameDay(nowMoment, currentDayIndex))) {
+        val hasNotStarted = nowMoment.minuteOfDay < sessionStartsAtMinutes
+        if (!(hasNotStarted && dateInfos.sameDay(nowMoment, currentDayIndex))) {
             var timeSegment: TimeSegment
             val minutesToAdd = if (conference.spansMultipleDays) MINUTES_OF_ONE_DAY else 0
             val lastSessionEndsAtMinutes = conference.lastSessionEndsAt.minuteOfDay + minutesToAdd
@@ -61,7 +60,7 @@ internal class ScrollAmountCalculator(
             if (columnIndex >= 0 && columnIndex < roomDataList.size) {
                 val roomData = roomDataList[columnIndex]
                 for (session in roomData.sessions) {
-                    if (session.startTime <= time && session.endsAtTime > time) {
+                    if (session.startsAt.minuteOfDay <= time && session.endsAt.minuteOfDay > time) {
                         logging.d(LOG_TAG, session.title)
                         logging.d(LOG_TAG, "$time ${session.startTime}/${session.duration}")
                         scrollAmount -= (time - session.startTime) / TIME_GRID_MINIMUM_SEGMENT_HEIGHT * boxHeight
@@ -83,7 +82,7 @@ internal class ScrollAmountCalculator(
      * This calculation is independent of the time zone offset of the device nor conference.
      */
     fun calculateScrollAmount(conference: Conference, session: Session, boxHeight: Int): Int {
-        val sessionStartsAt = session.toStartsAtMoment()
+        val sessionStartsAt = session.startsAt
         val firstSessionStartsAt = conference.firstSessionStartsAt
         val minutes = firstSessionStartsAt.minutesUntil(sessionStartsAt).toInt()
         return minutes / TIME_GRID_MINIMUM_SEGMENT_HEIGHT * boxHeight

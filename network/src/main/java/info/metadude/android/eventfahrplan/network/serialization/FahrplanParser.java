@@ -13,12 +13,16 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 import info.metadude.android.eventfahrplan.commons.logging.Logging;
+import info.metadude.android.eventfahrplan.network.models.HttpHeader;
 import info.metadude.android.eventfahrplan.network.models.Meta;
 import info.metadude.android.eventfahrplan.network.models.Session;
 import info.metadude.android.eventfahrplan.network.serialization.exceptions.MissingXmlAttributeException;
 import info.metadude.android.eventfahrplan.network.temporal.DateParser;
+import info.metadude.android.eventfahrplan.network.temporal.DurationParser;
 import info.metadude.android.eventfahrplan.network.validation.DateFieldValidation;
 
 public class FahrplanParser {
@@ -29,7 +33,7 @@ public class FahrplanParser {
 
         void onUpdateMeta(@NonNull Meta meta);
 
-        void onParseDone(Boolean result, String version);
+        void onParseDone(Boolean isSuccess, String version);
     }
 
     @NonNull
@@ -44,9 +48,9 @@ public class FahrplanParser {
         task = null;
     }
 
-    public void parse(String fahrplan, String eTag) {
+    public void parse(String fahrplan, HttpHeader httpHeader) {
         task = new ParserTask(logging, listener);
-        task.execute(fahrplan, eTag);
+        task.execute(fahrplan, httpHeader.getETag(), httpHeader.getLastModified());
     }
 
     public void cancel() {
@@ -76,7 +80,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
 
     private boolean completed;
 
-    private boolean result;
+    private boolean isSuccess;
 
     ParserTask(@NonNull Logging logging, FahrplanParser.OnParseCompleteListener listener) {
         this.logging = logging;
@@ -94,7 +98,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
 
     @Override
     protected Boolean doInBackground(String... args) {
-        boolean parsingSuccessful = parseFahrplan(args[0], args[1]);
+        boolean parsingSuccessful = parseFahrplan(args[0], args[1], args[2]);
         if (parsingSuccessful) {
             DateFieldValidation dateFieldValidation = new DateFieldValidation(logging);
             dateFieldValidation.validate(sessions);
@@ -105,44 +109,46 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
     }
 
     private void notifyActivity() {
-        if (result) {
+        if (isSuccess) {
             listener.onUpdateMeta(meta);
             listener.onUpdateSessions(sessions);
         }
-        listener.onParseDone(result, meta.getVersion());
+        listener.onParseDone(isSuccess, meta.getVersion());
         completed = false;
     }
 
-    protected void onPostExecute(Boolean result) {
+    protected void onPostExecute(Boolean isSuccess) {
         completed = true;
-        this.result = result;
+        this.isSuccess = isSuccess;
 
         if (listener != null) {
             notifyActivity();
         }
     }
 
-    private Boolean parseFahrplan(String fahrplan, String eTag) {
+    private Boolean parseFahrplan(String fahrplan, String eTag, String lastModified) {
         XmlPullParser parser = Xml.newPullParser();
         try {
             parser.setInput(new StringReader(fahrplan));
             int eventType = parser.getEventType();
             boolean done = false;
             int numdays = 0;
-            String room = null;
+            String roomName = null;
+            String roomGuid = "";
             int day = 0;
             int dayChangeTime = 600; // Only provided by Pentabarf; corresponds to 10:00 am.
             String date = "";
             int roomIndex = 0;
             int roomMapIndex = 0;
             boolean scheduleComplete = false;
-            HashMap<String, Integer> roomsMap = new HashMap<>();
+            Map<String, Integer> roomIndexByRoomName = new HashMap<>();
             while (eventType != XmlPullParser.END_DOCUMENT && !done && !isCancelled()) {
                 String name;
                 switch (eventType) {
                     case XmlPullParser.START_DOCUMENT:
                         sessions = new ArrayList<>();
                         meta = new Meta();
+                        meta.setHttpHeader(new HttpHeader(eTag, lastModified));
                         break;
                     case XmlPullParser.END_TAG:
                         name = parser.getName();
@@ -170,21 +176,23 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                             }
                         }
                         if (name.equals("room")) {
-                            room = parser.getAttributeValue(null, "name");
-                            if (!roomsMap.containsKey(room)) {
-                                roomsMap.put(room, roomIndex);
+                            roomName = parser.getAttributeValue(null, "name");
+                            if (roomIndexByRoomName.containsKey(roomName)) {
+                                roomMapIndex = roomIndexByRoomName.get(roomName);
+                            } else {
+                                roomIndexByRoomName.put(roomName, roomIndex);
                                 roomMapIndex = roomIndex;
                                 roomIndex++;
-                            } else {
-                                roomMapIndex = roomsMap.get(room);
                             }
+                            roomGuid = parser.getAttributeValue(null, "guid");
                         }
                         if (name.equalsIgnoreCase("event")) {
                             String id = parser.getAttributeValue(null, "id");
                             Session session = new Session();
                             session.setSessionId(id);
                             session.setDayIndex(day);
-                            session.setRoom(room);
+                            session.setRoomName(roomName);
+                            session.setRoomGuid(Objects.requireNonNullElse(roomGuid, ""));
                             session.setDate(date);
                             session.setRoomIndex(roomMapIndex);
                             eventType = parser.next();
@@ -211,6 +219,9 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                                         } else if (name.equals("slug")) {
                                             parser.next();
                                             session.setSlug(XmlPullParsers.getSanitizedText(parser));
+                                        } else if (name.equals("feedback_url")) {
+                                            parser.next();
+                                            session.setFeedbackUrl(XmlPullParsers.getSanitizedText(parser));
                                         } else if (name.equals("url")) {
                                             parser.next();
                                             session.setUrl(XmlPullParsers.getSanitizedText(parser));
@@ -260,7 +271,8 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                                             }
                                         } else if (name.equals("duration")) {
                                             parser.next();
-                                            session.setDuration(DateParser.getMinutes(XmlPullParsers.getSanitizedText(parser)));
+                                            int minutes = DurationParser.getMinutes(XmlPullParsers.getSanitizedText(parser));
+                                            session.setDuration(minutes);
                                         } else if (name.equals("date")) {
                                             parser.next();
                                             String sanitizedText = XmlPullParsers.getSanitizedText(parser);
@@ -355,7 +367,6 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                 return false;
             }
             meta.setNumDays(numdays);
-            meta.setETag(eTag);
             return true;
         } catch (Exception e) {
             e.printStackTrace();

@@ -22,6 +22,7 @@ import androidx.annotation.MainThread
 import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
+import info.metadude.android.eventfahrplan.commons.flow.observe
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.BuildConfig
 import nerd.tuxmobil.fahrplan.congress.R
@@ -128,7 +129,7 @@ class StarredListFragment :
     }
 
     private fun observeViewModel() {
-        viewModel.starredListParameter.observe(viewLifecycleOwner) { (sessions, numDays, useDeviceTimeZone) ->
+        viewModel.starredListParameter.observe(this) { (sessions, numDays, useDeviceTimeZone) ->
             starredList = sessions
             val activity = requireActivity()
             val adapter = StarredListAdapter(activity, sessions, numDays, useDeviceTimeZone)
@@ -162,12 +163,12 @@ class StarredListFragment :
         if (!::starredList.isInitialized) {
             return
         }
-        val nowMillis = Moment.now().toMilliseconds()
+        val now = Moment.now()
         var numSeparators = 0
         var i = 0
         while (i < starredList.size) {
             val session = starredList[i]
-            if (session.endsAtDateUtc > nowMillis) {
+            if (session.endsAt.isAfter(now)) {
                 numSeparators = session.day
                 break
             }

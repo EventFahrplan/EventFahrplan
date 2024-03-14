@@ -3,7 +3,7 @@ package nerd.tuxmobil.fahrplan.congress.validation
 import com.google.common.truth.Truth.assertThat
 import info.metadude.android.eventfahrplan.network.models.Meta
 import nerd.tuxmobil.fahrplan.congress.validation.MetaValidation.validate
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 class MetaValidationTest {
 

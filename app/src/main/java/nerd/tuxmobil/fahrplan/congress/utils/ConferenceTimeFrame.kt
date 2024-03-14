@@ -1,28 +1,49 @@
 package nerd.tuxmobil.fahrplan.congress.utils
 
-// TODO Use Moment class, merge with Conference class?
+import info.metadude.android.eventfahrplan.commons.temporal.Moment
+import nerd.tuxmobil.fahrplan.congress.alarms.AlarmUpdater
+import nerd.tuxmobil.fahrplan.congress.schedule.Conference
+
+/**
+ * Represents the time frame of a conference which is taken into account by the [AlarmUpdater]
+ * to calculate if and when alarms should fire.
+ *
+ * This class should not be used for other purposes.
+ * It is not a replacement for the [Conference] class.
+ */
+// TODO Merge with Conference class?
 class ConferenceTimeFrame(
 
-        val firstDayStartTime: Long,
-        private val lastDayEndTime: Long
+    firstDayStartTime: Moment,
+    lastDayEndTime: Moment
 
 ) {
+
+    private val timeFrame = firstDayStartTime..lastDayEndTime
 
     init {
         check(isValid) { "Invalid conference time frame: $this" }
     }
 
+    val firstDayStartTime: Moment
+        get() = timeFrame.start
+
     val isValid: Boolean
-        get() = firstDayStartTime.compareTo(lastDayEndTime) == -1
+        get() = timeFrame.start.isBefore(timeFrame.endInclusive)
 
-    operator fun contains(time: Long) = startsAtOrBefore(time) && time < lastDayEndTime
+    operator fun contains(moment: Moment) =
+        startsAtOrBefore(moment) && timeFrame.endInclusive.isAfter(moment)
 
-    fun endsBefore(time: Long) = time >= lastDayEndTime
+    fun endsAtOrBefore(moment: Moment) =
+        timeFrame.endInclusive.isSimultaneousWith(moment) || timeFrame.endInclusive.isBefore(moment)
 
-    fun startsAfter(time: Long) = time < firstDayStartTime
+    fun startsAfter(moment: Moment) =
+        timeFrame.start.isAfter(moment)
 
-    fun startsAtOrBefore(time: Long) = time >= firstDayStartTime
+    fun startsAtOrBefore(moment: Moment) =
+        timeFrame.start.isSimultaneousWith(moment) || timeFrame.start.isBefore(moment)
 
-    override fun toString() = "firstDayStartTime = $firstDayStartTime, lastDayEndTime = $lastDayEndTime"
+    override fun toString() =
+        timeFrame.toString()
 
 }

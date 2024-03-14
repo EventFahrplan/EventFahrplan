@@ -13,6 +13,7 @@ internal interface SessionViewEventsHandler : View.OnCreateContextMenuListener, 
 internal class SessionViewColumnAdapter(
         private val sessions: List<Session>,
         private val layoutParamsBySession: Map<Session, LinearLayout.LayoutParams>,
+        private val useDeviceTimeZone: Boolean,
         private val drawer: SessionViewDrawer,
         private val eventsHandler: SessionViewEventsHandler
 ) : RecyclerView.Adapter<SessionViewColumnAdapter.SessionViewHolder>() {
@@ -21,7 +22,7 @@ internal class SessionViewColumnAdapter(
         val session = sessions[position]
         viewHolder.itemView.tag = session
         viewHolder.itemView.layoutParams = layoutParamsBySession[session]
-        drawer.updateSessionView(viewHolder.itemView, session)
+        drawer.updateSessionView(viewHolder.itemView, session, useDeviceTimeZone)
     }
 
     override fun getItemCount(): Int = sessions.size

@@ -14,7 +14,6 @@ height="80">](https://play.google.com/store/apps/details?id=at.linuxtage.compani
 It is a fork of the [EventFahrplan](https://github.com/EventFahrplan/EventFahrplan), which is a viewer for event schedules.
 The app is available for Android devices.
 
-
 Bug reports, feature requests can be submitted as an [issue][issues-github].
 Please read the instructions in the [contribution guide](CONTRIBUTING.md) in order to contribute to this project.
 
@@ -26,7 +25,10 @@ Please read the instructions in the [contribution guide](CONTRIBUTING.md) in ord
 - [Android versions](#android-versions)
 - [Event data](#event-data)
 - [Build instructions](#build-instructions)
+- [Update instructions](#update-instructions)
+- [Translations](#translations)
 - [History](#history)
+- [Funding](#funding)
 - [Licenses](#licenses)
 
 ## Features
@@ -45,29 +47,31 @@ Please read the instructions in the [contribution guide](CONTRIBUTING.md) in ord
 
 ### Supported languages
 *Event descriptions excluded*
+- Danish 🇩🇰
 - Dutch 🇳🇱
 - English 🇺🇸
+- Finnish 🇫🇮
 - French 🇫🇷
 - German 🇩🇪
 - Italian 🇮🇹
 - Japanese 🇯🇵
+- Lithuanian 🇱🇹
 - Polish 🇵🇱
 - Portuguese 🇵🇹
 - Russian 🇷🇺
 - Spanish 🇪🇸
 - Swedish 🇸🇪
+- Turkish 🇹🇷
 
-### Integration
+### Optional integration
 
 * The feedback system of [Pretalx][pretalx-website]
-* [Engelsystem][engelsystem-website] - Online tool for coordinating helpers and shifts on large events
-* [Chaosflix][chaosflix-github] - Android app for media.ccc.de, share Fahrplan favorites with Chaosflix to import them as bookmarks
-
 
 ## Android versions
 
-The application is designed to work both on smartphones and on tablets.
-Android 4.1 (Jelly Bean) and newer versions are supported.
+The application is designed to work on both smartphones and on tablets.
+Android 5.0 (Lollipop) and newer versions are supported.
+
 
 ## Event data
 
@@ -76,13 +80,13 @@ Android 4.1 (Jelly Bean) and newer versions are supported.
 
 ## Build instructions
 
-To start development open the project in Android Studio.
+To begin development, open the project in Android Studio.
 
-The [customization guide][customization-guide] explains in all details how to create an app for your event.
+The [customization guide][customization-guide] explains in detail how to create an app for your event.
 
 If you want to create your own signed release builds, copy the `gradle.properties.example` file in the `app` folder
 and rename it to `gradle.properties`. This file contains the signing information which is used in the build process.
-Make sure to edit the file contents to point to your own keystore files.
+Be sure to edit the contents of the file to point to your own keystore files.
 
 ```
 ./gradlew assembleGlt22Release
@@ -99,19 +103,41 @@ git tag v1.<new_version>
 git push --tags
 ```
 After the merge, go to https://github.com/linuxtage/EventFahrplan/compare/glt-2022...<yourgithubfork_username>:EventFahrplan:glt-2022
+
+
+## Translations
+
+Text translations are managed on [Crowdin][crowdin-eventfahrplan-website]. Contributions are welcome!
+
+Sources (English) and translations are synchronized via the [Crowdin CLI tool][crowdin-cli-tool-website].
+German is excluded from being managed on Crowdin as long as the maintainer is a native German speaker.
+New languages must be configured in the Crowdin configuration file `crowdin.yaml` before translations
+can be downloaded. The file also contains usage examples.
+
 ## History
 
-* The project was started as ["CampFahrplan"][campfahrplan-github] in 2011 and has been developed
-  by [Daniel Dorau][tuxmobil-github]. He published the app for Chaos Communication Camp
-  and Chaos Communication Congress in the following years. The app served as a digital
-  schedule for thousands of users.
+* The project was started in 2011 as ["CampFahrplan"][campfahrplan-github] and was developed
+by [Daniel Dorau][tuxmobil-github]. He released the app for the Chaos Communication Camp
+and the Chaos Communication Congress in the following years. The app served as a digital
+schedule for thousands of users.
 * In 2013, [Tobias Preuss][johnjohndoe-github] started contributing. Soon after he
-  started to redeploy the app for other events such as FOSSGIS, FrOSCon, MRMCD and
-  other conferences.
+started to re-deploy the app for other events like FOSSGIS, FrOSCon, MRMCD and
+other conferences.
 * In August 2017 the project moved to a new location and was renamed to
+["EventFahrplan"][eventfahrplan-github] to acknowledge its broader use.
   ["EventFahrplan"][eventfahrplan-github] to acknowledge its broader usage.
 * In 2022 the project was forked to be used for the Grazer Linuxtage.
 
+## Funding
+
+In 2023 & 2024, this project was funded by the [NGI0 Entrust Fund](https://nlnet.nl/entrust), a fund
+established by [NLnet](https://nlnet.nl) with financial support from the European Commission's
+[Next Generation Internet](https://ngi.eu) program, under the aegis of DG Communications Networks,
+Content and Technology under grant agreement No. 101069594.
+
+![Logo NLnet: abstract logo of four people seen from above](gfx/nlnet-banner-160x60.png)
+
+![Logo NGI Zero: letterlogo shaped like a tag](gfx/ngi0entrust-banner-191x60.png)
 
 ## Licenses
 
@@ -119,18 +145,19 @@ Portions Copyright 2008-2011 The K-9 Dog Walkers and 2006-2011 the Android Open 
 
 
 ```
-Copyright 2013-2023 johnjohndoe
+Copyright 2013-2024 johnjohndoe
 Copyright 2011-2015 Daniel Dorau
 Contributions from 0x5ubt13, Adriano Pereira Junior, Akarsh Seggemu,
-Andrea Marziali, Andy Scherzinger, Andreas Schildbach, Animesh Verma,
-bashtian, bjoernb, Björn Olsson Jarl, ButterflyOfFire, cacarrara,
-Caio Volpato, Chase, cketti, codingcatgirl, Dominik Stadler, entropynil,
-ideadapt, isi_ko404, Jasper van der Graaf, Joergi, koelnkalkverbot,
-Larissa Yasin, ligi, Luis Azcuaga, Mateus Baptista, Matthias Geisler,
-Matthias Hunstock, Matthias Mair, MichaelRocks, Nghiem Xuan Hien,
-NiciDieNase, Noemis, Omicron, Poschi, rotrot, Sjors van Mierlo,
-Stefan Medack, SubOptimal, Teeranai.P, Torsten Grote, Victor Herasme,
-Vladimir Alabov, Yanicka
+Александр Рознятовский, aligoush, Andrea Marziali, Andy Scherzinger,
+Andreas Schildbach, Animesh Verma, bashtian, bjoernb, Björn Olsson Jarl,
+ButterflyOfFire, cacarrara, Caio Volpato, Chase, cketti, codingcatgirl,
+Dominik Stadler, entropynil, erebion, ideadapt, isi_ko404, IsoLinearCHiP,
+Jasper van der Graaf, Joergi, Julius Vitkauskas, koelnkalkverbot, Larissa Yasin,
+lepawa, ligi, lucadelu, Luis Azcuaga, María Arias de Reyna, Mateus Baptista,
+Matthias Geisler, Matthias Hunstock, Matthias Mair, MichaelRocks, Miguel Beltran,
+mtpa, Nghiem Xuan Hien, NiciDieNase, Noemis, Omicron, Poschi, Qwertele,
+Róbert Papp,rotrot, Sjors van Mierlo, Stefan Medack, SubOptimal, taseret,
+Teeranai.P, Torsten Grote, Victor Herasme, Vladimir Alabov, Yanicka
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -145,9 +172,19 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ```
 
+[c3nav-github]: https://github.com/c3nav
+[campfahrplan-github]: https://github.com/tuxmobil/CampFahrplan
+[camp-app-fdroid]: https://f-droid.org/packages/info.metadude.android.cccamp.schedule
+[camp-app-google-play]: https://play.google.com/store/apps/details?id=info.metadude.android.cccamp.schedule
+[camp-website]: https://events.ccc.de/camp/
+[ccc-events]: http://events.ccc.de
 [chaosflix-github]: https://github.com/NiciDieNase/chaosflix
+[congress-app-fdroid]: https://f-droid.org/packages/info.metadude.android.congress.schedule
+[congress-app-google-play]: https://play.google.com/store/apps/details?id=info.metadude.android.congress.schedule
+[congress-website]: https://events.ccc.de/congress/
 [customization-guide]: docs/CUSTOMIZING.md
-[engelsystem-website]: https://engelsystem.de
+[crowdin-eventfahrplan-website]: https://crowdin.com/project/eventfahrplan
+[crowdin-cli-tool-website]: https://crowdin.github.io/crowdin-cli/
 [eventfahrplan-github]: https://github.com/EventFahrplan/EventFahrplan
 [issues-github]: https://github.com/linuxtage/EventFahrplan/issues
 [johnjohndoe-github]: https://github.com/johnjohndoe

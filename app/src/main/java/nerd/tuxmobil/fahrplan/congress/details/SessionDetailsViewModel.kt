@@ -3,17 +3,22 @@ package nerd.tuxmobil.fahrplan.congress.details
 import android.net.Uri
 import android.os.Build
 import androidx.core.net.toUri
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import info.metadude.android.eventfahrplan.commons.livedata.SingleLiveEvent
 import info.metadude.android.eventfahrplan.commons.temporal.DateFormatter
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.SendChannel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices
+import nerd.tuxmobil.fahrplan.congress.alarms.SessionAlarmViewModelDelegate
+import nerd.tuxmobil.fahrplan.congress.dataconverters.toRoom
 import nerd.tuxmobil.fahrplan.congress.models.Session
-import nerd.tuxmobil.fahrplan.congress.navigation.RoomForC3NavConverter
+import nerd.tuxmobil.fahrplan.congress.navigation.IndoorNavigation
 import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.repositories.ExecutionContext
@@ -30,20 +35,19 @@ internal class SessionDetailsViewModel(
 
     private val repository: AppRepository,
     private val executionContext: ExecutionContext,
-    private val alarmServices: AlarmServices,
-    private val notificationHelper: NotificationHelper,
+    alarmServices: AlarmServices,
+    notificationHelper: NotificationHelper,
     private val sessionFormatter: SessionFormatter,
     private val simpleSessionFormat: SimpleSessionFormat,
     private val jsonSessionFormat: JsonSessionFormat,
     private val feedbackUrlComposer: FeedbackUrlComposer,
     private val sessionUrlComposition: SessionUrlComposition,
-    private val roomForC3NavConverter: RoomForC3NavConverter,
+    private val indoorNavigation: IndoorNavigation,
     private val markdownConversion: MarkdownConversion,
     private val formattingDelegate: FormattingDelegate = DateFormattingDelegate(),
-    private val c3NavBaseUrl: String,
     private val defaultEngelsystemRoomName: String,
     private val customEngelsystemRoomName: String,
-    private val runsAtLeastOnAndroidTiramisu: Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
+    runsAtLeastOnAndroidTiramisu: Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
 
 ) : ViewModel() {
 
@@ -71,6 +75,14 @@ internal class SessionDetailsViewModel(
 
     }
 
+    private var sessionAlarmViewModelDelegate: SessionAlarmViewModelDelegate =
+        SessionAlarmViewModelDelegate(
+            viewModelScope,
+            notificationHelper,
+            alarmServices,
+            runsAtLeastOnAndroidTiramisu,
+        )
+
     val abstractFont = Font.Roboto.Bold
     val descriptionFont = Font.Roboto.Regular
     val linksFont = Font.Roboto.Regular
@@ -83,20 +95,35 @@ internal class SessionDetailsViewModel(
     val subtitleFont = Font.Roboto.Light
     val titleFont = Font.Roboto.BoldCondensed
 
-    val selectedSessionParameter: LiveData<SelectedSessionParameter> = repository.selectedSession
+    val selectedSessionParameter: Flow<SelectedSessionParameter> = repository.selectedSession
         .map { it.toSelectedSessionParameter() }
-        .map { it.customizeEngelsystemRoomName() }
-        .asLiveData(executionContext.database)
+        .map { it.customizeEngelsystemRoomName() } // Do not rename before preparing parameter!
+        .flowOn(executionContext.database)
 
-    val openFeedBack = SingleLiveEvent<Uri>()
-    val shareSimple = SingleLiveEvent<String>()
-    val shareJson = SingleLiveEvent<String>()
-    val addToCalendar = SingleLiveEvent<Session>()
-    val setAlarm = SingleLiveEvent<Unit>()
-    val navigateToRoom = SingleLiveEvent<Uri>()
-    val closeDetails = SingleLiveEvent<Unit>()
-    val requestPostNotificationsPermission = SingleLiveEvent<Unit>()
-    val missingPostNotificationsPermission = SingleLiveEvent<Unit>()
+    private val mutableOpenFeedBack = Channel<Uri>()
+    val openFeedBack = mutableOpenFeedBack.receiveAsFlow()
+    private val mutableShareSimple = Channel<String>()
+    val shareSimple = mutableShareSimple.receiveAsFlow()
+    private val mutableShareJson = Channel<String>()
+    val shareJson = mutableShareJson.receiveAsFlow()
+    private val mutableAddToCalendar = Channel<Session>()
+    val addToCalendar = mutableAddToCalendar.receiveAsFlow()
+    private val mutableNavigateToRoom = Channel<Uri>()
+    val navigateToRoom = mutableNavigateToRoom.receiveAsFlow()
+    private val mutableCloseDetails = Channel<Unit>()
+    val closeDetails = mutableCloseDetails.receiveAsFlow()
+
+    val requestPostNotificationsPermission = sessionAlarmViewModelDelegate
+        .requestPostNotificationsPermission
+
+    val notificationsDisabled = sessionAlarmViewModelDelegate
+        .notificationsDisabled
+
+    val requestScheduleExactAlarmsPermission = sessionAlarmViewModelDelegate
+        .requestScheduleExactAlarmsPermission
+
+    val showAlarmTimePicker = sessionAlarmViewModelDelegate
+        .showAlarmTimePicker
 
     private fun SelectedSessionParameter.customizeEngelsystemRoomName() = copy(
         roomName = if (roomName == defaultEngelsystemRoomName) customEngelsystemRoomName else roomName
@@ -113,7 +140,9 @@ internal class SessionDetailsViewModel(
         val sessionUrl = sessionUrlComposition.getSessionUrl(this)
         val sessionLink = sessionFormatter.getFormattedUrl(sessionUrl)
         val isFeedbackUrlEmpty = feedbackUrlComposer.getFeedbackUrl(this).isEmpty()
-        val isC3NavRoomNameEmpty = roomForC3NavConverter.convert(room).isEmpty()
+        val supportsIndoorNavigation = indoorNavigation.isSupported(this.toRoom())
+        val isEngelshift = roomName == defaultEngelsystemRoomName
+        val supportsFeedback = !isFeedbackUrlEmpty && !isEngelshift
 
         return SelectedSessionParameter(
             // Details content
@@ -129,7 +158,7 @@ internal class SessionDetailsViewModel(
             formattedAbstract = formattedAbstract,
             description = description.orEmpty(),
             formattedDescription = formattedDescription,
-            roomName = room.orEmpty(),
+            roomName = roomName.orEmpty(),
             track = track.orEmpty(),
             hasLinks = getLinks().isNotEmpty(),
             formattedLinks = formattedLinks,
@@ -138,15 +167,15 @@ internal class SessionDetailsViewModel(
             // Options menu
             isFlaggedAsFavorite = highlight,
             hasAlarm = hasAlarm,
-            isFeedbackUrlEmpty = isFeedbackUrlEmpty,
-            isC3NavRoomNameEmpty = isC3NavRoomNameEmpty
+            supportsFeedback = supportsFeedback,
+            supportsIndoorNavigation = supportsIndoorNavigation,
         )
     }
 
     fun openFeedback() {
         loadSelectedSession { session ->
             val uri = feedbackUrlComposer.getFeedbackUrl(session).toUri()
-            openFeedBack.postValue(uri)
+            mutableOpenFeedBack.sendOneTimeEvent(uri)
         }
     }
 
@@ -154,7 +183,7 @@ internal class SessionDetailsViewModel(
         loadSelectedSession { session ->
             val timeZoneId = repository.readMeta().timeZoneId
             simpleSessionFormat.format(session, timeZoneId).let { formattedSession ->
-                shareSimple.postValue(formattedSession)
+                mutableShareSimple.sendOneTimeEvent(formattedSession)
             }
         }
     }
@@ -162,14 +191,14 @@ internal class SessionDetailsViewModel(
     fun shareToChaosflix() {
         loadSelectedSession { session ->
             jsonSessionFormat.format(session).let { formattedSession ->
-                shareJson.postValue(formattedSession)
+                mutableShareJson.sendOneTimeEvent(formattedSession)
             }
         }
     }
 
     fun addToCalendar() {
         loadSelectedSession { session ->
-            addToCalendar.postValue(session)
+            mutableAddToCalendar.sendOneTimeEvent(session)
         }
     }
 
@@ -191,44 +220,51 @@ internal class SessionDetailsViewModel(
         }
     }
 
-    fun setAlarm() {
-        if (notificationHelper.notificationsEnabled) {
-            setAlarm.postValue(Unit)
-        } else {
-            when (runsAtLeastOnAndroidTiramisu) {
-                true -> requestPostNotificationsPermission.postValue(Unit)
-                false -> missingPostNotificationsPermission.postValue(Unit)
-            }
-        }
+    fun canAddAlarms(): Boolean {
+        return sessionAlarmViewModelDelegate.canAddAlarms()
+    }
+
+    fun addAlarmWithChecks() {
+        sessionAlarmViewModelDelegate.addAlarmWithChecks()
     }
 
     fun addAlarm(alarmTimesIndex: Int) {
         loadSelectedSession { session ->
-            alarmServices.addSessionAlarm(session, alarmTimesIndex)
+            sessionAlarmViewModelDelegate.addAlarm(session, alarmTimesIndex)
         }
     }
 
     fun deleteAlarm() {
         loadSelectedSession { session ->
-            alarmServices.deleteSessionAlarm(session)
+            sessionAlarmViewModelDelegate.deleteAlarm(session)
         }
     }
 
     fun navigateToRoom() {
         loadSelectedSession { session ->
-            val c3navRoomName = roomForC3NavConverter.convert(session.room)
-            val uri = "$c3NavBaseUrl$c3navRoomName".toUri()
-            navigateToRoom.postValue(uri)
+            val room = session.toRoom()
+            val uri = indoorNavigation.getUri(room)
+            mutableNavigateToRoom.sendOneTimeEvent(uri)
         }
     }
 
     fun closeDetails() {
-        closeDetails.postValue(Unit)
+        mutableCloseDetails.sendOneTimeEvent(Unit)
     }
 
     private fun loadSelectedSession(onSessionLoaded: (Session) -> Unit) {
-        viewModelScope.launch(executionContext.database) {
+        launch {
             onSessionLoaded(repository.loadSelectedSession())
+        }
+    }
+
+    private fun launch(block: suspend CoroutineScope.() -> Unit) {
+        viewModelScope.launch(executionContext.database, block = block)
+    }
+
+    private fun <E> SendChannel<E>.sendOneTimeEvent(event: E) {
+        viewModelScope.launch {
+            send(event)
         }
     }
 
