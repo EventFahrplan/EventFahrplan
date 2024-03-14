@@ -21,12 +21,16 @@ import nerd.tuxmobil.fahrplan.congress.schedule.Conference;
  */
 public class Session {
 
+    @NonNull
     public String title;
+    @NonNull
     public String subtitle;
     @Nullable
     public String feedbackUrl;          // URL to Frab/Pretalx feedback system, e.g. feedbackUrl = "https://talks.event.net/2023/talk/V8LUNA/feedback"
+    @NonNull
     public String url;
     public int dayIndex;                // XML values start with 1
+    @NonNull
     public String dateText;             // YYYY-MM-DD
     public long dateUTC;                // milliseconds
     @Nullable
@@ -35,7 +39,9 @@ public class Session {
     public int relStartTime;            // minutes since conference start
     public int duration;                // minutes
 
+    @NonNull
     public String roomName;
+    @NonNull
     public String roomIdentifier;       // Unique identifier of a room, e.g. "bccb6a5b-b26b-4f17-90b9-b5966f5e34d8"
 
     /**
@@ -46,23 +52,32 @@ public class Session {
     @Deprecated
     public int roomIndex;
 
+    @NonNull
     public List<String> speakers;
+    @NonNull
     public String track;
     public String sessionId;
+    @NonNull
     public String type;
+    @NonNull
     public String language;
+    @NonNull
     public String slug;
+    @NonNull
     public String abstractt;
+    @NonNull
     public String description;
 
     /**
      * Comma separated Markdown formatted links, see ParserTask#parseFahrplan.
      */
+    @NonNull
     public String links;
 
     public boolean highlight;
     public boolean hasAlarm;
 
+    @NonNull
     public String recordingLicense;
     public boolean recordingOptOut;
 
@@ -164,11 +179,6 @@ public class Session {
         this.changedTrack = session.changedTrack;
         this.changedIsNew = session.changedIsNew;
         this.changedIsCanceled = session.changedIsCanceled;
-    }
-
-    @NonNull
-    public String getLinks() {
-        return links == null ? "" : links;
     }
 
     /**

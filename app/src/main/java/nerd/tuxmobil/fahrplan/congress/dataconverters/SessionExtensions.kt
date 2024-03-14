@@ -195,19 +195,19 @@ fun Session.sanitize(): Session {
         tempDescription = tempAbstract
         tempAbstract = ""
     }
-    if (!tempLanguage.isNullOrEmpty()) {
+    if (tempLanguage.isNotEmpty()) {
         tempLanguage = tempLanguage.lowercase()
     }
-    if (("Sendezentrum-Bühne" == tempTrack || "Sendezentrum Bühne" == tempTrack || "xHain Berlin" == tempTrack) && !type.isNullOrEmpty()) {
+    if (("Sendezentrum-Bühne" == tempTrack || "Sendezentrum Bühne" == tempTrack || "xHain Berlin" == tempTrack) && type.isNotEmpty()) {
         tempTrack = type
     }
-    if ("classics" == roomName && "Other" == type && tempTrack.isNullOrEmpty()) {
+    if ("classics" == roomName && "Other" == type && tempTrack.isEmpty()) {
         tempTrack = "Classics"
     }
     if ("rC3 Lounge" == roomName) {
         tempTrack = "Music"
     }
-    if (tempTrack.isNullOrEmpty() && !type.isNullOrEmpty()) {
+    if (tempTrack.isEmpty() && type.isNotEmpty()) {
         tempTrack = type
     }
     return Session(this).apply {

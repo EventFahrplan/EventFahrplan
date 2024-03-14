@@ -5,7 +5,7 @@ import nerd.tuxmobil.fahrplan.congress.models.Session
 class SessionPropertiesFormatter {
 
     fun getFormattedSpeakers(session: Session) =
-        session.speakers?.joinToString(", ").orEmpty()
+        session.speakers.joinToString(", ")
 
     fun getFormattedTrackLanguageText(session: Session) =
         buildString {
