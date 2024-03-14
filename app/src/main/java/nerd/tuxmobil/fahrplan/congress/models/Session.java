@@ -268,8 +268,4 @@ public class Session {
                 changedStartTime || changedTitle || changedTrack;
     }
 
-    public void shiftRoomIndexBy(int amount) {
-        roomIndex += amount;
-    }
-
 }

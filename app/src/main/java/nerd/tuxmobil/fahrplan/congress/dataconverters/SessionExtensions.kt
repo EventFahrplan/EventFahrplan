@@ -13,12 +13,12 @@ import info.metadude.android.eventfahrplan.database.models.Highlight as Highligh
 import info.metadude.android.eventfahrplan.database.models.Session as SessionDatabaseModel
 import info.metadude.android.eventfahrplan.network.models.Session as SessionNetworkModel
 
-fun Session.shiftRoomIndexOnDays(dayIndices: Set<Int>): Session {
+fun Session.shiftRoomIndexOnDays(dayIndices: Set<Int>) =
     if (dayIndex in dayIndices) {
-        shiftRoomIndexBy(1)
+        Session(this).apply { roomIndex += 1 }
+    } else {
+        this
     }
-    return this
-}
 
 fun Session.toRoom() = Room(identifier = roomIdentifier, name = roomName)
 
