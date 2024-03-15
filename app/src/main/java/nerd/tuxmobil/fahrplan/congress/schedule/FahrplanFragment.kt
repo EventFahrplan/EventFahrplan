@@ -512,8 +512,8 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
             CONTEXT_MENU_ITEM_ID_FAVORITES -> {
                 session.highlight = !session.highlight
                 viewModel.updateFavorStatus(session)
-                sessionViewDrawer.setSessionBackground(session, contextMenuView)
-                SessionViewDrawer.setSessionTextColor(session, contextMenuView)
+                sessionViewDrawer.setSessionBackground(session.highlight, session.track, contextMenuView)
+                SessionViewDrawer.setSessionTextColor(session.highlight, contextMenuView)
                 updateMenuItems()
             }
             CONTEXT_MENU_ITEM_ID_SET_ALARM -> {
