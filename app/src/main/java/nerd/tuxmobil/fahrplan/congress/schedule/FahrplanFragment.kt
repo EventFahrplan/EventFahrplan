@@ -510,10 +510,10 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
         val context = requireContext()
         when (menuItemIndex) {
             CONTEXT_MENU_ITEM_ID_FAVORITES -> {
-                session.highlight = !session.highlight
-                viewModel.updateFavorStatus(session)
-                sessionViewDrawer.setSessionBackground(session.highlight, session.track, contextMenuView)
-                SessionViewDrawer.setSessionTextColor(session.highlight, contextMenuView)
+                val updatedSession = Session(session).apply { highlight = !session.highlight }
+                viewModel.updateFavorStatus(updatedSession)
+                sessionViewDrawer.setSessionBackground(updatedSession.highlight, updatedSession.track, contextMenuView)
+                SessionViewDrawer.setSessionTextColor(updatedSession.highlight, contextMenuView)
                 updateMenuItems()
             }
             CONTEXT_MENU_ITEM_ID_SET_ALARM -> {
