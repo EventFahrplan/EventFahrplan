@@ -75,7 +75,7 @@ public class Session {
     public boolean changedSubtitle;
     public boolean changedRoomName;
     public boolean changedDayIndex;
-    public boolean changedTime;
+    public boolean changedStartTime;
     public boolean changedDuration;
     public boolean changedSpeakers;
     public boolean changedRecordingOptOut;
@@ -123,7 +123,7 @@ public class Session {
         changedLanguage = false;
         changedTrack = false;
         changedIsNew = false;
-        changedTime = false;
+        changedStartTime = false;
         changedDuration = false;
         changedIsCanceled = false;
     }
@@ -161,7 +161,7 @@ public class Session {
         this.changedSubtitle = session.changedSubtitle;
         this.changedRoomName = session.changedRoomName;
         this.changedDayIndex = session.changedDayIndex;
-        this.changedTime = session.changedTime;
+        this.changedStartTime = session.changedStartTime;
         this.changedDuration = session.changedDuration;
         this.changedSpeakers = session.changedSpeakers;
         this.changedRecordingOptOut = session.changedRecordingOptOut;
@@ -261,7 +261,7 @@ public class Session {
         changedLanguage = false;
         changedTrack = false;
         changedIsNew = false;
-        changedTime = false;
+        changedStartTime = false;
         changedDuration = false;
     }
 
@@ -270,7 +270,7 @@ public class Session {
         return changedDayIndex || changedDuration ||
                 changedLanguage || changedRecordingOptOut ||
                 changedRoomName || changedSpeakers || changedSubtitle ||
-                changedTime || changedTitle || changedTrack;
+                changedStartTime || changedTitle || changedTrack;
     }
 
     @NonNull

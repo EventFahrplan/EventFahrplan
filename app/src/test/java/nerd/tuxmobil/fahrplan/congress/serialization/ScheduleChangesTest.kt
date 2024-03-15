@@ -184,7 +184,7 @@ class ScheduleChangesTest {
         val scheduleChanges = computeSessionsWithChangeFlags(newSessions, oldSessions)
         assertThat(scheduleChanges.sessionsWithChangeFlags).isEqualTo(listOf(createSession {
             startTime = 200
-            changedTime = true
+            changedStartTime = true
         }))
         assertThat(scheduleChanges.oldCanceledSessions).isEmpty()
         assertThat(scheduleChanges.foundNoteworthyChanges).isTrue()
@@ -237,7 +237,7 @@ class ScheduleChangesTest {
             changedDayIndex = false
             changedTrack = false
             changedRecordingOptOut = false
-            changedTime = false
+            changedStartTime = false
             changedDuration = false
 
         })
@@ -260,7 +260,7 @@ class ScheduleChangesTest {
             changedDayIndex = false
             changedTrack = false
             changedRecordingOptOut = false
-            changedTime = false
+            changedStartTime = false
             changedDuration = false
         })
         val scheduleChanges = computeSessionsWithChangeFlags(newSessions, oldSessions)
@@ -283,7 +283,7 @@ class ScheduleChangesTest {
             changedDayIndex = true
             changedTrack = true
             changedRecordingOptOut = true
-            changedTime = true
+            changedStartTime = true
             changedDuration = true
         }))
         assertThat(scheduleChanges.oldCanceledSessions).isEmpty()

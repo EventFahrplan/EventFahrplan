@@ -66,7 +66,7 @@ fun Session.toSessionDatabaseModel() = SessionDatabaseModel(
         changedRoomName = changedRoomName,
         changedSpeakers = changedSpeakers,
         changedSubtitle = changedSubtitle,
-        changedTime = changedTime,
+        changedTime = changedStartTime,
         changedTitle = changedTitle,
         changedTrack = changedTrack
 )
@@ -110,7 +110,7 @@ fun SessionDatabaseModel.toSessionAppModel(): Session {
     session.changedRoomName = changedRoomName
     session.changedSpeakers = changedSpeakers
     session.changedSubtitle = changedSubtitle
-    session.changedTime = changedTime
+    session.changedStartTime = changedTime
     session.changedTitle = changedTitle
     session.changedTrack = changedTrack
 
@@ -156,7 +156,7 @@ fun SessionNetworkModel.toSessionAppModel(): Session {
     session.changedRoomName = changedRoomName
     session.changedSpeakers = changedSpeakers
     session.changedSubtitle = changedSubtitle
-    session.changedTime = changedStartTime
+    session.changedStartTime = changedStartTime
     session.changedTitle = changedTitle
     session.changedTrack = changedTrack
 

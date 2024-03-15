@@ -45,7 +45,7 @@ class SessionTest {
             changedSubtitle = true
             changedRoomName = true
             changedDayIndex = true
-            changedTime = true
+            changedStartTime = true
             changedDuration = true
             changedSpeakers = true
             changedRecordingOptOut = true
@@ -70,7 +70,7 @@ class SessionTest {
             changedSubtitle = false
             changedRoomName = false
             changedDayIndex = false
-            changedTime = false
+            changedStartTime = false
             changedDuration = false
             changedSpeakers = false
             changedRecordingOptOut = false
@@ -278,7 +278,7 @@ class SessionTest {
             changedSubtitle = true
             changedRoomName = true
             changedDayIndex = true
-            changedTime = true
+            changedStartTime = true
             changedDuration = true
             changedSpeakers = true
             changedRecordingOptOut = true
@@ -292,7 +292,7 @@ class SessionTest {
             changedSubtitle = false
             changedRoomName = false
             changedDayIndex = false
-            changedTime = false
+            changedStartTime = false
             changedDuration = false
             changedSpeakers = false
             changedRecordingOptOut = false

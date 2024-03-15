@@ -120,7 +120,7 @@ class ChangeListAdapter internal constructor(
                 if (session.changedDayIndex) {
                     day.setTextStyleChanged()
                 }
-                if (session.changedTime) {
+                if (session.changedStartTime) {
                     time.setTextStyleChanged()
                 }
                 if (session.changedRoomName) {

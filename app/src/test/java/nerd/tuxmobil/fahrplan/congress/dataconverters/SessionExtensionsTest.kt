@@ -142,7 +142,7 @@ class SessionExtensionsTest {
             changedRoomName = true
             changedSpeakers = true
             changedSubtitle = true
-            changedTime = true
+            changedStartTime = true
             changedTitle = true
             changedTrack = true
         }

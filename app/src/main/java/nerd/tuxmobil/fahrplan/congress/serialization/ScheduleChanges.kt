@@ -116,7 +116,7 @@ data class ScheduleChanges private constructor(
                     changedTrack = sessionChange.changedTrack
                     changedRecordingOptOut = sessionChange.changedRecordingOptOut
                     changedDayIndex = sessionChange.changedDayIndex
-                    changedTime = sessionChange.changedStartTime
+                    changedStartTime = sessionChange.changedStartTime
                     changedDuration = sessionChange.changedDuration
                 }
                 oldNotCanceledSessions -= oldSession
