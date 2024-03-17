@@ -7,11 +7,6 @@ import info.metadude.android.eventfahrplan.commons.logging.Logging
 import nerd.tuxmobil.fahrplan.congress.models.RoomData
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import org.threeten.bp.Duration
-import kotlin.collections.List
-import kotlin.collections.Map
-import kotlin.collections.getOrNull
-import kotlin.collections.indices
-import kotlin.collections.mutableMapOf
 import kotlin.collections.set
 
 private typealias SessionId = String
@@ -40,9 +35,7 @@ data class LayoutCalculator @JvmOverloads constructor(
         var previousSession: Session? = null
         val layoutParamsBySession = mutableMapOf<SessionId, LinearLayout.LayoutParams>()
 
-        for (sessionIndex in sessions.indices) {
-            val session = sessions[sessionIndex]
-
+        for ((index, session) in sessions.withIndex()) {
             startTime = getStartTime(session, previousSessionEndsAt)
 
             if (startTime > previousSessionEndsAt) {
@@ -57,15 +50,21 @@ data class LayoutCalculator @JvmOverloads constructor(
                 margin = 0
             }
 
-            fixOverlappingSessions(sessionIndex, sessions)
-
-            if (!layoutParamsBySession.containsKey(session.sessionId)) {
-                layoutParamsBySession[session.sessionId] = createLayoutParams(session)
+            val adjustedSession = if (index < sessions.lastIndex) {
+                val nextSession = sessions[index + 1]
+                fixOverlappingSessions(session, nextSession)
+            } else {
+                session
             }
 
-            layoutParamsBySession[session.sessionId]!!.topMargin = margin
-            previousSessionEndsAt = startTime + session.duration
-            previousSession = session
+            val sessionId = adjustedSession.sessionId
+            if (!layoutParamsBySession.containsKey(sessionId)) {
+                layoutParamsBySession[sessionId] = createLayoutParams(adjustedSession)
+            }
+
+            layoutParamsBySession[sessionId]!!.topMargin = margin
+            previousSessionEndsAt = startTime + adjustedSession.duration
+            previousSession = adjustedSession
         }
 
         return layoutParamsBySession
@@ -91,17 +90,14 @@ data class LayoutCalculator @JvmOverloads constructor(
     }
 
     @VisibleForTesting
-    fun fixOverlappingSessions(sessionIndex: Int, sessions: List<Session>) {
-        val session = sessions[sessionIndex]
-        val next = sessions.getOrNull(sessionIndex + 1)
-
-        if (next != null && next.dateUTC > 0) {
-            val nextStartsBeforeCurrentEnds = next.startsAt.isBefore(session.endsAt)
-            if (nextStartsBeforeCurrentEnds) {
-                logging.d(LOG_TAG, """Collision: "${session.title}" + "${next.title}"""")
-                // cut current at the end, to match next sessions start time
-                session.duration = session.startsAt.minutesUntil(next.startsAt).toInt()
-            }
+    fun fixOverlappingSessions(session: Session, next: Session): Session {
+        return if (next.dateUTC > 0 && next.startsAt.isBefore(session.endsAt)) {
+            logging.d(LOG_TAG, """Collision: "${session.title}" + "${next.title}"""")
+            // cut current at the end, to match next sessions start time
+            val newDuration = session.startsAt.minutesUntil(next.startsAt).toInt()
+            Session(session).apply { duration = newDuration }
+        } else {
+            session
         }
     }
 }
