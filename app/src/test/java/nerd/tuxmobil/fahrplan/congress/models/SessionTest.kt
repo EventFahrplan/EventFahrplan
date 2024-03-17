@@ -287,7 +287,7 @@ class SessionTest {
             changedIsNew = true
             changedIsCanceled = false
         }
-        val canceledSession = Session("0").apply {
+        val comparableCanceledSession = Session("0").apply {
             changedTitle = false
             changedSubtitle = false
             changedRoomName = false
@@ -301,7 +301,9 @@ class SessionTest {
             changedIsNew = false
             changedIsCanceled = true
         }
-        assertThat(session.apply { cancel() }).isEqualTo(canceledSession)
+        val canceledSession = session.cancel()
+        assertThat(canceledSession).isEqualTo(comparableCanceledSession)
+        assertThat(canceledSession).isNotSameInstanceAs(session)
     }
 
     @Test

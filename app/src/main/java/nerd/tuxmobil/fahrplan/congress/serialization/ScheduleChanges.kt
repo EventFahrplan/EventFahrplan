@@ -126,7 +126,7 @@ data class ScheduleChanges private constructor(
             if (oldNotCanceledSessions.isNotEmpty()) {
                 // Flag all "old" sessions which are not present in the "new" set as canceled
                 // and append them to the "new" set.
-                sessionsWithChangeFlags += oldNotCanceledSessions.map { it.toCanceledSession() }
+                sessionsWithChangeFlags += oldNotCanceledSessions.map { it.cancel() }
                 foundNoteworthyChanges = true
             }
 
@@ -150,8 +150,6 @@ data class ScheduleChanges private constructor(
                 var changedStartTime: Boolean = false,
                 var changedDuration: Boolean = false
         )
-
-        private fun SessionAppModel.toCanceledSession() = SessionAppModel(this).apply { cancel() }
 
         private fun SessionAppModel.equalsInNoteworthyProperties(session: SessionAppModel): Boolean {
             return title == session.title &&
