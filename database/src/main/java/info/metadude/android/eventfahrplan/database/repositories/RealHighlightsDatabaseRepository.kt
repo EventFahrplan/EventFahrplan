@@ -14,6 +14,7 @@ import info.metadude.android.eventfahrplan.database.extensions.getString
 import info.metadude.android.eventfahrplan.database.extensions.insert
 import info.metadude.android.eventfahrplan.database.extensions.map
 import info.metadude.android.eventfahrplan.database.extensions.read
+import info.metadude.android.eventfahrplan.database.extensions.updateRow
 import info.metadude.android.eventfahrplan.database.extensions.updateRows
 import info.metadude.android.eventfahrplan.database.extensions.upsert
 import info.metadude.android.eventfahrplan.database.models.Highlight
@@ -74,6 +75,23 @@ class RealHighlightsDatabaseRepository(
             } else {
                 null
             }
+        }
+    }
+
+    /**
+     * Resets the value of the [HIGHLIGHT] column to [`false`][HIGHLIGHT_STATE_OFF] for the row
+     * with the given [sessionId].
+     */
+    override fun delete(sessionId: String): Int {
+        with(sqLiteOpenHelper) {
+            return writableDatabase.updateRow(
+                tableName = HighlightsTable.NAME,
+                contentValues = ContentValues().apply {
+                    put(HIGHLIGHT, HIGHLIGHT_STATE_OFF)
+                },
+                columnName = SESSION_ID,
+                columnValue = sessionId,
+            )
         }
     }
 

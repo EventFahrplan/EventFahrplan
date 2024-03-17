@@ -43,7 +43,7 @@ class StarredListViewModel(
 
     fun unfavorSession(session: Session) {
         launch {
-            repository.updateHighlight(session)
+            repository.deleteHighlight(session.sessionId)
         }
     }
 

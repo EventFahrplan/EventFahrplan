@@ -76,7 +76,7 @@ class StarredListViewModelTest {
         val repository = createRepository()
         val viewModel = createViewModel(repository)
         viewModel.unfavorSession(Session("42"))
-        verifyInvokedOnce(repository).updateHighlight(any())
+        verifyInvokedOnce(repository).deleteHighlight("42")
     }
 
     @Test

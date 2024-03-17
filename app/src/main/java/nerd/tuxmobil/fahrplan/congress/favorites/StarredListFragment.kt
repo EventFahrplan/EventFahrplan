@@ -292,17 +292,12 @@ class StarredListFragment :
         }
     }
 
-    private fun deleteSession(session: Session) {
-        session.highlight = false
-        viewModel.unfavorSession(session)
-    }
-
     private fun deleteItems(checkedItemPositions: SparseBooleanArray) {
         val itemsCount = currentListView.adapter.count
         for (itemId in itemsCount - 1 downTo 0) {
             if (checkedItemPositions[itemId]) {
                 val session = starredListAdapter.getSession(itemId - 1)
-                deleteSession(session)
+                viewModel.unfavorSession(session)
             }
         }
     }
