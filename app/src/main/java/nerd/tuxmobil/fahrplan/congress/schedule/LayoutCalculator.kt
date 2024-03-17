@@ -14,6 +14,8 @@ import kotlin.collections.indices
 import kotlin.collections.mutableMapOf
 import kotlin.collections.set
 
+private typealias SessionId = String
+
 data class LayoutCalculator @JvmOverloads constructor(
 
         val standardHeight: Int,
@@ -30,13 +32,13 @@ data class LayoutCalculator @JvmOverloads constructor(
         return standardHeight * minutes / DIVISOR
     }
 
-    fun calculateLayoutParams(roomData: RoomData, conference: Conference): Map<Session, LinearLayout.LayoutParams> {
+    fun calculateLayoutParams(roomData: RoomData, conference: Conference): Map<SessionId, LinearLayout.LayoutParams> {
         val sessions = roomData.sessions
         var previousSessionEndsAt: Int = conference.firstSessionStartsAt.minuteOfDay
         var startTime: Int
         var margin: Int
         var previousSession: Session? = null
-        val layoutParamsBySession = mutableMapOf<Session, LinearLayout.LayoutParams>()
+        val layoutParamsBySession = mutableMapOf<SessionId, LinearLayout.LayoutParams>()
 
         for (sessionIndex in sessions.indices) {
             val session = sessions[sessionIndex]
@@ -47,7 +49,7 @@ data class LayoutCalculator @JvmOverloads constructor(
                 // consecutive session
                 margin = calculateDisplayDistance(startTime - previousSessionEndsAt)
                 if (previousSession != null) {
-                    layoutParamsBySession[previousSession]!!.bottomMargin = margin
+                    layoutParamsBySession[previousSession.sessionId]!!.bottomMargin = margin
                     margin = 0
                 }
             } else {
@@ -57,11 +59,11 @@ data class LayoutCalculator @JvmOverloads constructor(
 
             fixOverlappingSessions(sessionIndex, sessions)
 
-            if (!layoutParamsBySession.containsKey(session)) {
-                layoutParamsBySession[session] = createLayoutParams(session)
+            if (!layoutParamsBySession.containsKey(session.sessionId)) {
+                layoutParamsBySession[session.sessionId] = createLayoutParams(session)
             }
 
-            layoutParamsBySession[session]!!.topMargin = margin
+            layoutParamsBySession[session.sessionId]!!.topMargin = margin
             previousSessionEndsAt = startTime + session.duration
             previousSession = session
         }
