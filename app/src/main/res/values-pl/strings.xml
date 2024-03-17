@@ -22,6 +22,7 @@
     <string name="share_as_text">Udostępnij jako tekst</string>
     <string name="share_as_json">Udostępnij jako JSON (dla Chaosflix)</string>
     <!-- AlertDialog -->
+    <string name="OK">OK</string>
     <!-- CertificateErrorFragment -->
     <string name="certificate_error_message">\"
         Nie udało się nawiązać bezpiecznego połączenia.\n
@@ -89,6 +90,7 @@
     <string name="schedule_updated">        Grafik został zaktualizowany.
     </string>
     <string name="settings">Ustawienia</string>
+    <string name="session_details_section_title_track">Tematyka</string>
     <string name="session_details_section_title_session_online">Wydarzenie online</string>
     <string name="session_details_section_title_links">Odnośniki</string>
     <string name="choose_alarm_time">Wybierz czas przypomnienia</string>
@@ -101,6 +103,7 @@
     <string name="about_google_play_listing">Strona na Google Play</string>
     <string name="about_issues_or_feature_requests">Problemy lub zgłoszenia pomysłów</string>
     <string name="about_source_code">Kod źródłowy</string>
+    <string name="about_translation_platform">Platforma do tłumaczeń</string>
     <string name="today">dzisiaj</string>
     <string name="schedule_parsing_error_generic">Nieznany błąd w trakcie parsowania grafiku</string>
     <string name="schedule_parsing_error_with_version">Błąd parsowania dla grafiku w wersji <xliff:g example="0.99a" id="scheduleVersion">%s</xliff:g></string>
@@ -138,6 +141,8 @@
     <string name="snack_engage_google_play_beta_testing_action">Zostań betatesterem</string>
     <string name="snack_engage_c3nav_title">Nawigacja we wnętrzach @ <xliff:g example="35C3" id="conferenceName">%s</xliff:g>! Z programem c3nav</string>
     <string name="snack_engage_c3nav_action">Pobierz teraz!</string>
+    <string name="snack_engage_landscape_orientation_title">Próbowałeś/aś trybu poziomego?</string>
+    <string name="snack_engage_landscape_orientation_action">Obróć swoje urządzenie!</string>
     <!-- TraceDroid -->
     <string name="trace_droid_dialog_title">        Wyślij <xliff:g example="33C3 Schedule" id="appName">%s</xliff:g> raport o błędzie &#8230;
     </string>
@@ -178,12 +183,17 @@
     <string name="alarm_time_title_30_minutes_before">30 minut przed</string>
     <string name="alarm_time_title_45_minutes_before">45 minut przed</string>
     <string name="alarm_time_title_60_minutes_before">60 minut przed</string>
+    <string name="alarms_disabled_notifications_permission_missing">Alarmy są zablokowane. Nadaj uprawnienia dla powiadomień.</string>
+    <string name="alarms_disabled_notifications_are_disabled">Alarmy są wyłączone. Włącz powiadomienia.</string>
+    <string name="alarms_disabled_schedule_exact_alarm_permission_missing">Alarmy są wyłączone. Zaznacz \"Zezwalaj na ustawianie alarmów &amp; przypominania\".</string>
     <!-- Session list item -->
+    <string name="session_list_item_duration_text"><xliff:g example="45" id="duration">%d</xliff:g> min.</string>
     <string name="session_list_item_duration_content_description">Czas trwania: <xliff:g example="45" id="duration">%d</xliff:g> minut</string>
     <string name="session_list_item_favored_content_description">polubione</string>
     <string name="session_list_item_not_favored_content_description">nie polubione</string>
     <string name="session_list_item_room_content_description">Sala: <xliff:g example="Main hall" id="room">%s</xliff:g></string>
     <string name="session_list_item_start_time_content_description">Rozpoczęcie <xliff:g example="16:30" id="startTime">%s</xliff:g></string>
+    <string name="session_list_item_title_content_description">Tytuł: <xliff:g example="Historie Berlina" id="title">%s</xliff:g></string>
     <string name="session_list_item_subtitle_content_description">Napisy: <xliff:g example="News from Berlin" id="subtitle">%s</xliff:g></string>
     <string name="session_list_item_track_content_description">Ścieżka: <xliff:g example="Security" id="trackName">%s</xliff:g></string>
     <string name="session_list_item_language_content_description">Język: <xliff:g example="English" id="language">%s</xliff:g></string>
@@ -201,7 +211,23 @@
         <item quantity="many">Wielu prelegentów</item>
         <item quantity="other">Prelegenci: <xliff:g example="Jane Doe, John Doe" id="names">%s</xliff:g></item>
     </plurals>
+    <!-- Session item -->
+    <string name="session_item_has_alarm_content_description">ma ustawiony alarm</string>
     <!-- Alarms -->
+    <string name="alarms_empty">        Nie ma żadnych alarmów do wyświetlenia. Pamiętaj, że możesz ustawić
+        pojedynczy alarm dla każdej sesji w programie. Aby tak zrobić,
+        naciśnij ikonkę w pasku menu ekranu danej sesji.
+    </string>
+    <string name="alarms_item_on_click_label">        Otwórz ekran szczegółów
+    </string>
+    <string name="alarms_item_delete_icon_on_click_label">        Wyczyść alarm
+    </string>
+    <string name="alarms_item_alarm_time_zero_minutes_content_description">        Alarm: na moment rozpoczęcia
+    </string>
+    <string name="alarms_item_alarm_time_minutes_content_description">        Alarm: <xliff:g example="5" id="minutes">%d</xliff:g> minut przed
+    </string>
+    <string name="alarms_item_fires_at_content_description">        Uruchamia się o: <xliff:g example="16:20" id="alarmTime">%s</xliff:g>
+    </string>
     <!-- Validation errors -->
     <string name="validation_error_invalid_url">        Błędny URL do <xliff:g example="Engelsystem" id="urlType">%s</xliff:g>.
     </string>
