@@ -19,7 +19,7 @@
     <string name="preference_default_value_schedule_refresh_interval_value" translatable="false">-1</string>
     <string name="preference_dialog_title_schedule_refresh_interval" translatable="false">Choose a schedule refresh interval</string>
     <string name="preference_title_schedule_refresh_interval" translatable="false">Choose schedule refresh interval</string>
-    <string-array name="preference_entries_schedule_refresh_interval_titles">
+    <string-array name="preference_entries_schedule_refresh_interval_titles" translatable="false">
         <item>@string/schedule_refresh_interval_title_unmodified</item>
         <item>@string/schedule_refresh_interval_title_every_30_seconds</item>
         <item>@string/schedule_refresh_interval_title_every_60_seconds</item>
@@ -58,7 +58,7 @@
     <string name="preference_default_value_alarm_time_value" translatable="false">10</string>
     <string name="preference_dialog_title_alarm_time">Choose a default alarm time</string>
     <string name="preference_title_alarm_time">Choose default alarm time</string>
-    <string-array name="preference_entries_alarm_time_titles">
+    <string-array name="preference_entries_alarm_time_titles" translatable="false">
         <item>@string/alarm_time_title_at_start_time</item>
         <item>@string/alarm_time_title_5_minutes_before</item>
         <item>@string/alarm_time_title_10_minutes_before</item>
