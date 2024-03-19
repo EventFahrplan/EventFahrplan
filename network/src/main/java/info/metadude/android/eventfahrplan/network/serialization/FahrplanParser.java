@@ -178,7 +178,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                         if (name.equals("room")) {
                             roomName = parser.getAttributeValue(null, "name");
                             if (roomIndexByRoomName.containsKey(roomName)) {
-                                roomMapIndex = roomIndexByRoomName.get(roomName);
+                                roomMapIndex = getOrDefault(roomIndexByRoomName, roomName, 0);
                             } else {
                                 roomIndexByRoomName.put(roomName, roomIndex);
                                 roomMapIndex = roomIndex;
@@ -191,7 +191,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                             Session session = new Session();
                             session.setSessionId(id);
                             session.setDayIndex(day);
-                            session.setRoomName(roomName);
+                            session.setRoomName(Objects.requireNonNullElse(roomName, ""));
                             session.setRoomGuid(Objects.requireNonNullElse(roomGuid, ""));
                             session.setDate(date);
                             session.setRoomIndex(roomMapIndex);
@@ -372,6 +372,14 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
             e.printStackTrace();
             return false;
         }
+    }
+
+    /** @noinspection SameParameterValue*/
+    private static <K, V> V getOrDefault(
+            @NonNull Map<K, V> map,
+            @NonNull K key,
+            @NonNull V defaultValue) {
+        return map.containsKey(key) ? map.get(key) : defaultValue;
     }
 
 }
