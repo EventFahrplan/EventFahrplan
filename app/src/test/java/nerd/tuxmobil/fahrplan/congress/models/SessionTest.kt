@@ -4,8 +4,9 @@ import com.google.common.truth.Truth.assertThat
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MILLISECONDS_OF_ONE_MINUTE
 import org.junit.jupiter.api.Test
-
-private typealias SessionModification = Session.() -> Unit
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.Arguments.of
+import org.junit.jupiter.params.provider.MethodSource
 
 class SessionTest {
 
@@ -80,6 +81,39 @@ class SessionTest {
             changedIsCanceled = false
         }
 
+        @JvmStatic
+        fun oddSessions() = listOf(
+            of("sessionId", createSession().apply { sessionId = "Odd session ID" }),
+            of("title", createSession().apply { title = "Odd title" }),
+            of("subtitle", createSession().apply { subtitle = "Odd subtitle" }),
+            of("feedbackUrl", createSession().apply { feedbackUrl = "https://example.net/feedback" }),
+            of("dayIndex", createSession().apply { dayIndex = 2 }),
+            of("dateText", createSession().apply { dateText = "1999-12-23" }),
+            of("dateUTC", createSession().apply { dateUTC = 1439471100000L }),
+            of("startTime", createSession().apply { startTime = 1350 }),
+            of("duration", createSession().apply { duration = 45 }),
+            of("roomName", createSession().apply { roomName = "Odd room name" }),
+            of("roomIdentifier", createSession().apply { roomIdentifier = "Odd room identifier" }),
+            of("speakers", createSession().apply { speakers = listOf("Odd speakers") }),
+            of("track", createSession().apply { track = "Odd track" }),
+            of("type", createSession().apply { type = "Odd type" }),
+            of("language", createSession().apply { language = "Odd language" }),
+            of("recordingLicense", createSession().apply { recordingLicense = "Odd recording license" }),
+            of("recordingOptOut", createSession().apply { recordingOptOut = false }),
+        )
+
+    }
+
+    @ParameterizedTest(name = "{index}: {0}")
+    @MethodSource("oddSessions")
+    fun `equals evaluates false and hashCode differ for sessions with odd property`(
+        propertyName: String,
+        session2: Session,
+    ) {
+        val session1 = createSession()
+        assertThat(session1).isNotSameInstanceAs(session2)
+        assertThat(session1).isNotEqualTo(session2)
+        assertThat(session1.hashCode()).isNotEqualTo(session2.hashCode())
     }
 
     @Test
@@ -136,139 +170,6 @@ class SessionTest {
         val session2 = createSessionModifyingNonConsideredFields()
         assertThat(session1).isNotSameInstanceAs(session2)
         assertThat(session1.hashCode()).isEqualTo(session2.hashCode())
-    }
-
-    @Test
-    fun `equals evaluates false and hashCode differ for sessions with odd sessionId`() {
-        val session2Modification: SessionModification = { sessionId = "Odd session ID" }
-        assertOddSessionsAreNotEqual { session2Modification() }
-        assertOddSessionsHaveOddHashCodes { session2Modification() }
-    }
-
-    @Test
-    fun `equals evaluates false and hashCode differ for sessions with odd title`() {
-        val session2Modification: SessionModification = { title = "Odd title" }
-        assertOddSessionsAreNotEqual { session2Modification() }
-        assertOddSessionsHaveOddHashCodes { session2Modification() }
-    }
-
-    @Test
-    fun `equals evaluates false and hashCode differ for sessions with odd subtitle`() {
-        val session2Modification: SessionModification = { subtitle = "Odd subtitle" }
-        assertOddSessionsAreNotEqual { session2Modification() }
-        assertOddSessionsHaveOddHashCodes { session2Modification() }
-    }
-
-    @Test
-    fun `equals evaluates false and hashCode differ for sessions with odd feedback URL`() {
-        val session2Modification: SessionModification = { feedbackUrl = "https://example.net/feedback" }
-        assertOddSessionsAreNotEqual { session2Modification() }
-        assertOddSessionsHaveOddHashCodes { session2Modification() }
-    }
-
-    @Test
-    fun `equals evaluates false and hashCode differ for sessions with odd day`() {
-        val session2Modification: SessionModification = { dayIndex = 2 }
-        assertOddSessionsAreNotEqual { session2Modification() }
-        assertOddSessionsHaveOddHashCodes { session2Modification() }
-    }
-
-    @Test
-    fun `equals evaluates false and hashCode differ for sessions with odd date`() {
-        val session2Modification: SessionModification = { dateText = "1999-12-23" }
-        assertOddSessionsAreNotEqual { session2Modification() }
-        assertOddSessionsHaveOddHashCodes { session2Modification() }
-    }
-
-    @Test
-    fun `equals evaluates false and hashCode differ for sessions with odd dateUTC`() {
-        val session2Modification: SessionModification = { dateUTC = 1439471100000L }
-        assertOddSessionsAreNotEqual { session2Modification() }
-        assertOddSessionsHaveOddHashCodes { session2Modification() }
-    }
-
-    @Test
-    fun `equals evaluates false and hashCode differ for sessions with odd startTime`() {
-        val session2Modification: SessionModification = { startTime = 1350 }
-        assertOddSessionsAreNotEqual { session2Modification() }
-        assertOddSessionsHaveOddHashCodes { session2Modification() }
-    }
-
-    @Test
-    fun `equals evaluates false and hashCode differ for sessions with odd duration`() {
-        val session2Modification: SessionModification = { duration = 45 }
-        assertOddSessionsAreNotEqual { session2Modification() }
-        assertOddSessionsHaveOddHashCodes { session2Modification() }
-    }
-
-    @Test
-    fun `equals evaluates false and hashCode differ for sessions with odd room name`() {
-        val session2Modification: SessionModification = { roomName = "Odd room name" }
-        assertOddSessionsAreNotEqual { session2Modification() }
-        assertOddSessionsHaveOddHashCodes { session2Modification() }
-    }
-
-    @Test
-    fun `equals evaluates false and hashCode differ for sessions with odd room identifier`() {
-        val session2Modification: SessionModification = { roomIdentifier = "Odd room identifier" }
-        assertOddSessionsAreNotEqual { session2Modification() }
-        assertOddSessionsHaveOddHashCodes { session2Modification() }
-    }
-
-    @Test
-    fun `equals evaluates false and hashCode differ for sessions with odd speakers`() {
-        val session2Modification: SessionModification = { speakers = listOf("Odd speakers") }
-        assertOddSessionsAreNotEqual { session2Modification() }
-        assertOddSessionsHaveOddHashCodes { session2Modification() }
-    }
-
-    @Test
-    fun `equals evaluates false and hashCode differ for sessions with odd track`() {
-        val session2Modification: SessionModification = { track = "Odd track" }
-        assertOddSessionsAreNotEqual { session2Modification() }
-        assertOddSessionsHaveOddHashCodes { session2Modification() }
-    }
-
-    @Test
-    fun `equals evaluates false and hashCode differ for sessions with odd type`() {
-        val session2Modification: SessionModification = { type = "Odd type" }
-        assertOddSessionsAreNotEqual { session2Modification() }
-        assertOddSessionsHaveOddHashCodes { session2Modification() }
-    }
-
-    @Test
-    fun `equals evaluates false and hashCode differ for sessions with odd lang`() {
-        val session2Modification: SessionModification = { language = "Odd language" }
-        assertOddSessionsAreNotEqual { session2Modification() }
-        assertOddSessionsHaveOddHashCodes { session2Modification() }
-    }
-
-    @Test
-    fun `equals evaluates false and hashCode differ for sessions with odd recordingLicense`() {
-        val session2Modification: SessionModification = { recordingLicense = "Odd recording license" }
-        assertOddSessionsAreNotEqual { session2Modification() }
-        assertOddSessionsHaveOddHashCodes { session2Modification() }
-    }
-
-    @Test
-    fun `equals evaluates false and hashCode differ for sessions with odd recordingOptOut`() {
-        val session2Modification: SessionModification = { recordingOptOut = false }
-        assertOddSessionsAreNotEqual { session2Modification() }
-        assertOddSessionsHaveOddHashCodes { session2Modification() }
-    }
-
-    private fun assertOddSessionsAreNotEqual(session2Modification: SessionModification) {
-        val session1 = createSession()
-        val session2 = createSession().apply { session2Modification() }
-        assertThat(session1).isNotSameInstanceAs(session2)
-        assertThat(session1).isNotEqualTo(session2)
-    }
-
-    private fun assertOddSessionsHaveOddHashCodes(session2Modification: SessionModification) {
-        val session1 = createSession()
-        val session2 = createSession().apply { session2Modification() }
-        assertThat(session1).isNotSameInstanceAs(session2)
-        assertThat(session1.hashCode()).isNotEqualTo(session2.hashCode())
     }
 
     @Test
