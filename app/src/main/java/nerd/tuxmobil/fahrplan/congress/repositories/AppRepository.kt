@@ -606,7 +606,7 @@ object AppRepository {
 
         val highlightedSessions = sessions.map { session ->
             if (session.sessionId in highlightedSessionIds) {
-                Session(session).apply { highlight = true }
+                session.copy(highlight = true)
             } else {
                 session
             }
@@ -615,7 +615,7 @@ object AppRepository {
         val alarmSessionIds = readAlarmSessionIds()
         val sessionsWithAlarms = highlightedSessions.map { session ->
             if (session.sessionId in alarmSessionIds) {
-                Session(session).apply { hasAlarm = true }
+                session.copy(hasAlarm = true)
             } else {
                 session
             }
@@ -708,10 +708,10 @@ object AppRepository {
             .isNotEmpty()
 
         return if (isHighlighted || hasAlarm) {
-            Session(session).apply {
-                this.highlight = isHighlighted
-                this.hasAlarm = hasAlarm
-            }
+            session.copy(
+                highlight = isHighlighted,
+                hasAlarm = hasAlarm,
+            )
         } else {
             session
         }

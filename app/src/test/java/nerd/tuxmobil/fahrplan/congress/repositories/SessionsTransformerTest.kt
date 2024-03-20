@@ -146,13 +146,12 @@ class SessionsTransformerTest {
         roomName: String,
         roomIndex: Int,
         dateUTC: Long = 0
-    ): Session {
-        return Session(sessionId).apply {
-            this.roomName = roomName
-            this.roomIndex = roomIndex
-            this.dateUTC = dateUTC
-        }
-    }
+    ) = Session(
+        sessionId = sessionId,
+        roomName = roomName,
+        roomIndex = roomIndex,
+        dateUTC = dateUTC,
+    )
 
     private fun createRoomProvider(
         prioritizedRooms: List<String> = listOf("Ada", "Borg", "Clarke", "Dijkstra", "Eliza"),

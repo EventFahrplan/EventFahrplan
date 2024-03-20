@@ -141,13 +141,14 @@ class TimeTextViewParameterTest {
         assertThat(this.titleText).isEqualTo(titleText)
     }
 
-    private fun createSession(moment: Moment, duration: Int = 60) = Session("s1").apply {
-        dayIndex = 0
-        dateText = moment.toZonedDateTime(ZoneOffset.UTC).toLocalDate().toString()
-        dateUTC = moment.toMilliseconds()
-        startTime = moment.minuteOfDay
-        this.duration = duration
-        roomName = "Main hall"
-    }
+    private fun createSession(moment: Moment, duration: Int = 60) = Session(
+        sessionId = "s1",
+        dayIndex = 0,
+        dateText = moment.toZonedDateTime(ZoneOffset.UTC).toLocalDate().toString(),
+        dateUTC = moment.toMilliseconds(),
+        startTime = moment.minuteOfDay,
+        duration = duration,
+        roomName = "Main hall",
+    )
 
 }

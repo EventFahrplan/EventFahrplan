@@ -19,30 +19,35 @@ class SessionUrlComposerTest {
         const val NO_SESSION_URL_TEMPLATE = ""
         const val NO_SERVER_BACKEND_TYPE = ""
 
-        val PENTABARF_SESSION = Session("7294").apply {
-            url = NO_URL
-            slug = "keynotes_welcome"
-        }
+        val PENTABARF_SESSION = Session(
+            sessionId = "7294",
+            url = NO_URL,
+            slug = "keynotes_welcome",
+        )
 
-        val FRAB_SESSION = Session("9985").apply {
-            url = "https://fahrplan.events.ccc.de/congress/2018/Fahrplan/events/9985.html"
-            slug = "35c3-9985-opening_ceremony"
-        }
+        val FRAB_SESSION = Session(
+            sessionId = "9985",
+            url = "https://fahrplan.events.ccc.de/congress/2018/Fahrplan/events/9985.html",
+            slug = "35c3-9985-opening_ceremony",
+        )
 
-        val PRETALX_SESSION = Session("32").apply {
-            url = "https://fahrplan.chaos-west.de/35c3chaoswest/talk/KDYQEB"
-            slug = "KDYQEB"
-        }
+        val PRETALX_SESSION = Session(
+            sessionId = "32",
+            url = "https://fahrplan.chaos-west.de/35c3chaoswest/talk/KDYQEB",
+            slug = "KDYQEB",
+        )
 
-        val ENGELSYSTEM_SHIFT_SESSION_WITHOUT_URL = Session("7771").apply {
-            roomName = AppRepository.ENGELSYSTEM_ROOM_NAME
-            url = NO_URL
-        }
+        val ENGELSYSTEM_SHIFT_SESSION_WITHOUT_URL = Session(
+            sessionId = "7771",
+            roomName = AppRepository.ENGELSYSTEM_ROOM_NAME,
+            url = NO_URL,
+        )
 
-        val ENGELSYSTEM_SHIFT_SESSION_WITH_URL = Session("7772").apply {
-            roomName = AppRepository.ENGELSYSTEM_ROOM_NAME
-            url = "https://helpful.to/the/angel"
-        }
+        val ENGELSYSTEM_SHIFT_SESSION_WITH_URL = Session(
+            sessionId = "7772",
+            roomName = AppRepository.ENGELSYSTEM_ROOM_NAME,
+            url = "https://helpful.to/the/angel",
+        )
 
     }
 

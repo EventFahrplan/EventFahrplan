@@ -62,10 +62,11 @@ class VirtualDayTest {
     }
 
     private fun createSession(dateText: String, startsAt: Long, duration: Int) =
-        Session("").apply {
-            this.dateText = dateText
-            this.dateUTC = startsAt
-            this.duration = duration
-        }
+        Session(
+            sessionId = "",
+            dateText = dateText,
+            dateUTC = startsAt,
+            duration = duration,
+        )
 
 }

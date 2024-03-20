@@ -131,12 +131,13 @@ class CalendarDescriptionComposerTest {
         abstract: String = "",
         description: String = "",
         links: String = ""
-    ) = Session("2342").apply {
-        this.subtitle = subtitle
-        this.speakers = speakers
-        this.abstractt = abstract
-        this.description = description
-        this.links = links
-    }
+    ) = Session(
+        sessionId = "2342",
+        subtitle = subtitle,
+        speakers = speakers,
+        abstractt = abstract,
+        description = description,
+        links = links,
+    )
 
 }

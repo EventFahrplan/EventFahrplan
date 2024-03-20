@@ -59,16 +59,17 @@ class CalendarSharingTest {
         override fun getCalendarDescription(session: Session) = "Lorem ipsum dolor"
     }
 
-    private fun createSession() = Session("2342").apply {
-        title = "Title"
-        subtitle = "Subtitle"
-        speakers = listOf("Speakers")
-        abstractt = "Abstract"
-        description = "Description"
-        links = "Links"
-        roomName = "Room"
-        dateUTC = 1439478900000L
-        duration = 30
-    }
+    private fun createSession() = Session(
+        sessionId = "2342",
+        title = "Title",
+        subtitle = "Subtitle",
+        speakers = listOf("Speakers"),
+        abstractt = "Abstract",
+        description = "Description",
+        links = "Links",
+        roomName = "Room",
+        dateUTC = 1439478900000L,
+        duration = 30,
+    )
 
 }
