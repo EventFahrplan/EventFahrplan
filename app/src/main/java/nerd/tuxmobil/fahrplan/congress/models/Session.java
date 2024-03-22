@@ -265,23 +265,6 @@ public class Session {
         changedDuration = false;
     }
 
-    public String getChangedStateString() {
-        return "Session{" +
-                "changedTitle=" + changedTitle +
-                ", changedSubtitle=" + changedSubtitle +
-                ", changedRoomName=" + changedRoomName +
-                ", changedDay=" + changedDay +
-                ", changedTime=" + changedTime +
-                ", changedDuration=" + changedDuration +
-                ", changedSpeakers=" + changedSpeakers +
-                ", changedRecordingOptOut=" + changedRecordingOptOut +
-                ", changedLanguage=" + changedLanguage +
-                ", changedTrack=" + changedTrack +
-                ", changedIsNew=" + changedIsNew +
-                ", changedIsCanceled=" + changedIsCanceled +
-                '}';
-    }
-
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public boolean isChanged() {
         return changedDay || changedDuration ||
