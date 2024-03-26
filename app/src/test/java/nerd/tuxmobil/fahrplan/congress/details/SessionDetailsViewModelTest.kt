@@ -25,6 +25,7 @@ import nerd.tuxmobil.fahrplan.congress.sharing.JsonSessionFormat
 import nerd.tuxmobil.fahrplan.congress.sharing.SimpleSessionFormat
 import nerd.tuxmobil.fahrplan.congress.utils.FeedbackUrlComposer
 import nerd.tuxmobil.fahrplan.congress.utils.MarkdownConversion
+import nerd.tuxmobil.fahrplan.congress.utils.SessionPropertiesFormatter
 import nerd.tuxmobil.fahrplan.congress.utils.SessionUrlComposition
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -503,6 +504,7 @@ class SessionDetailsViewModelTest {
         alarmServices: AlarmServices = mock(),
         notificationHelper: NotificationHelper = mock(),
         sessionFormatter: SessionFormatter = mock(),
+        sessionPropertiesFormatter: SessionPropertiesFormatter = SessionPropertiesFormatter(),
         simpleSessionFormat: SimpleSessionFormat = mock(),
         jsonSessionFormat: JsonSessionFormat = mock(),
         feedbackUrlComposer: FeedbackUrlComposer = mock(),
@@ -519,6 +521,7 @@ class SessionDetailsViewModelTest {
         alarmServices = alarmServices,
         notificationHelper = notificationHelper,
         sessionFormatter = sessionFormatter,
+        sessionPropertiesFormatter = sessionPropertiesFormatter,
         simpleSessionFormat = simpleSessionFormat,
         jsonSessionFormat = jsonSessionFormat,
         feedbackUrlComposer = feedbackUrlComposer,

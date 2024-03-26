@@ -3,9 +3,6 @@ package nerd.tuxmobil.fahrplan.congress.models;
 import static java.util.Collections.emptyList;
 import static info.metadude.android.eventfahrplan.commons.temporal.Moment.MILLISECONDS_OF_ONE_MINUTE;
 
-import android.content.Context;
-import android.text.TextUtils;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.util.ObjectsCompat;
@@ -14,10 +11,8 @@ import org.threeten.bp.ZoneOffset;
 
 import java.util.List;
 
-import info.metadude.android.eventfahrplan.commons.temporal.DateFormatter;
 import info.metadude.android.eventfahrplan.commons.temporal.Moment;
 import info.metadude.android.eventfahrplan.network.serialization.FahrplanParser;
-import nerd.tuxmobil.fahrplan.congress.R;
 import nerd.tuxmobil.fahrplan.congress.repositories.SessionsTransformer;
 import nerd.tuxmobil.fahrplan.congress.schedule.Conference;
 
@@ -31,8 +26,8 @@ public class Session {
     @Nullable
     public String feedbackUrl;          // URL to Frab/Pretalx feedback system, e.g. feedbackUrl = "https://talks.event.net/2023/talk/V8LUNA/feedback"
     public String url;
-    public int day;                     // XML values start with 1
-    public String date;                 // YYYY-MM-DD
+    public int dayIndex;                // XML values start with 1
+    public String dateText;             // YYYY-MM-DD
     public long dateUTC;                // milliseconds
     @Nullable
     public ZoneOffset timeZoneOffset;
@@ -55,7 +50,7 @@ public class Session {
     public String track;
     public String sessionId;
     public String type;
-    public String lang;
+    public String language;
     public String slug;
     public String abstractt;
     public String description;
@@ -74,8 +69,8 @@ public class Session {
     public boolean changedTitle;
     public boolean changedSubtitle;
     public boolean changedRoomName;
-    public boolean changedDay;
-    public boolean changedTime;
+    public boolean changedDayIndex;
+    public boolean changedStartTime;
     public boolean changedDuration;
     public boolean changedSpeakers;
     public boolean changedRecordingOptOut;
@@ -91,7 +86,7 @@ public class Session {
         subtitle = "";
         feedbackUrl = null;
         url = "";
-        day = 0;
+        dayIndex = 0;
         roomName = "";
         roomIdentifier = "";
         slug = "";
@@ -100,12 +95,12 @@ public class Session {
         speakers = emptyList();
         track = "";
         type = "";
-        lang = "";
+        language = "";
         abstractt = "";
         description = "";
         relStartTime = 0;
         links = "";
-        date = "";
+        dateText = "";
         this.sessionId = sessionId;
         highlight = false;
         hasAlarm = false;
@@ -117,13 +112,13 @@ public class Session {
         changedTitle = false;
         changedSubtitle = false;
         changedRoomName = false;
-        changedDay = false;
+        changedDayIndex = false;
         changedSpeakers = false;
         changedRecordingOptOut = false;
         changedLanguage = false;
         changedTrack = false;
         changedIsNew = false;
-        changedTime = false;
+        changedStartTime = false;
         changedDuration = false;
         changedIsCanceled = false;
     }
@@ -133,8 +128,8 @@ public class Session {
         this.subtitle = session.subtitle;
         this.feedbackUrl = session.feedbackUrl;
         this.url = session.url;
-        this.day = session.day;
-        this.date = session.date;
+        this.dayIndex = session.dayIndex;
+        this.dateText = session.dateText;
         this.dateUTC = session.dateUTC;
         this.timeZoneOffset = session.timeZoneOffset;
         this.startTime = session.startTime;
@@ -147,7 +142,7 @@ public class Session {
         this.track = session.track;
         this.sessionId = session.sessionId;
         this.type = session.type;
-        this.lang = session.lang;
+        this.language = session.language;
         this.slug = session.slug;
         this.abstractt = session.abstractt;
         this.description = session.description;
@@ -160,8 +155,8 @@ public class Session {
         this.changedTitle = session.changedTitle;
         this.changedSubtitle = session.changedSubtitle;
         this.changedRoomName = session.changedRoomName;
-        this.changedDay = session.changedDay;
-        this.changedTime = session.changedTime;
+        this.changedDayIndex = session.changedDayIndex;
+        this.changedStartTime = session.changedStartTime;
         this.changedDuration = session.changedDuration;
         this.changedSpeakers = session.changedSpeakers;
         this.changedRecordingOptOut = session.changedRecordingOptOut;
@@ -206,12 +201,12 @@ public class Session {
         Session session = (Session) o;
 
         if (!ObjectsCompat.equals(feedbackUrl, session.feedbackUrl)) return false;
-        if (day != session.day) return false;
+        if (dayIndex != session.dayIndex) return false;
         if (duration != session.duration) return false;
         if (recordingOptOut != session.recordingOptOut) return false;
         if (startTime != session.startTime) return false;
-        if (!ObjectsCompat.equals(date, session.date)) return false;
-        if (!ObjectsCompat.equals(lang, session.lang)) return false;
+        if (!ObjectsCompat.equals(dateText, session.dateText)) return false;
+        if (!ObjectsCompat.equals(language, session.language)) return false;
         if (!sessionId.equals(session.sessionId)) return false;
         if (!ObjectsCompat.equals(recordingLicense, session.recordingLicense)) return false;
         if (!ObjectsCompat.equals(roomName, session.roomName)) return false;
@@ -232,7 +227,7 @@ public class Session {
         int result = title.hashCode();
         result = 31 * result + ObjectsCompat.hashCode(subtitle);
         result = 31 * result + ObjectsCompat.hashCode(feedbackUrl);
-        result = 31 * result + day;
+        result = 31 * result + dayIndex;
         result = 31 * result + ObjectsCompat.hashCode(roomName);
         result = 31 * result + ObjectsCompat.hashCode(roomIdentifier);
         result = 31 * result + startTime;
@@ -241,8 +236,8 @@ public class Session {
         result = 31 * result + ObjectsCompat.hashCode(track);
         result = 31 * result + sessionId.hashCode();
         result = 31 * result + ObjectsCompat.hashCode(type);
-        result = 31 * result + ObjectsCompat.hashCode(lang);
-        result = 31 * result + ObjectsCompat.hashCode(date);
+        result = 31 * result + ObjectsCompat.hashCode(language);
+        result = 31 * result + ObjectsCompat.hashCode(dateText);
         result = 31 * result + ObjectsCompat.hashCode(recordingLicense);
         result = 31 * result + (recordingOptOut ? 1 : 0);
         result = 31 * result + (int) dateUTC;
@@ -255,150 +250,22 @@ public class Session {
         changedTitle = false;
         changedSubtitle = false;
         changedRoomName = false;
-        changedDay = false;
+        changedDayIndex = false;
         changedSpeakers = false;
         changedRecordingOptOut = false;
         changedLanguage = false;
         changedTrack = false;
         changedIsNew = false;
-        changedTime = false;
+        changedStartTime = false;
         changedDuration = false;
-    }
-
-    public String getChangedStateString() {
-        return "Session{" +
-                "changedTitle=" + changedTitle +
-                ", changedSubtitle=" + changedSubtitle +
-                ", changedRoomName=" + changedRoomName +
-                ", changedDay=" + changedDay +
-                ", changedTime=" + changedTime +
-                ", changedDuration=" + changedDuration +
-                ", changedSpeakers=" + changedSpeakers +
-                ", changedRecordingOptOut=" + changedRecordingOptOut +
-                ", changedLanguage=" + changedLanguage +
-                ", changedTrack=" + changedTrack +
-                ", changedIsNew=" + changedIsNew +
-                ", changedIsCanceled=" + changedIsCanceled +
-                '}';
     }
 
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public boolean isChanged() {
-        return changedDay || changedDuration ||
+        return changedDayIndex || changedDuration ||
                 changedLanguage || changedRecordingOptOut ||
                 changedRoomName || changedSpeakers || changedSubtitle ||
-                changedTime || changedTitle || changedTrack;
-    }
-
-    @NonNull
-    public static String getDurationContentDescription(@NonNull Context context, int duration) {
-        return context.getString(R.string.session_list_item_duration_content_description, duration);
-    }
-
-    @NonNull
-    public static String getTitleContentDescription(@NonNull Context context, @NonNull String title) {
-        return TextUtils.isEmpty(title) ? "" : context.getString(R.string.session_list_item_title_content_description, title);
-    }
-
-    @NonNull
-    public static String getSubtitleContentDescription(@NonNull Context context, @NonNull String subtitle) {
-        return TextUtils.isEmpty(subtitle) ? "" : context.getString(R.string.session_list_item_subtitle_content_description, subtitle);
-    }
-
-    @NonNull
-    public String getFormattedSpeakers() {
-        return speakers == null ? "" : TextUtils.join(", ", speakers);
-    }
-
-    @NonNull
-    public String getLanguageText() {
-        if (TextUtils.isEmpty(lang)) {
-            return "";
-        } else {
-            return lang
-                    .replace("-formal", "")
-                    .replace("German", "de")
-                    .replace("german", "de")
-                    .replace("Deutsch", "de")
-                    .replace("deutsch", "de")
-                    .replace("English", "en")
-                    .replace("english", "en")
-                    .replace("Englisch", "en")
-                    .replace("englisch", "en")
-                    ;
-        }
-    }
-
-    public String getFormattedTrackLanguageText() {
-        StringBuilder builder = new StringBuilder();
-        builder.append(track);
-        if (!TextUtils.isEmpty(lang)) {
-            String language = getLanguageText();
-            builder.append(" [").append(language).append("]");
-        }
-        return builder.toString();
-    }
-
-    @NonNull
-    public static String getRoomNameContentDescription(@NonNull Context context, @NonNull String roomName) {
-        return context.getString(R.string.session_list_item_room_content_description, roomName);
-    }
-
-    @NonNull
-    public static String getSpeakersContentDescription(@NonNull Context context, int speakersCount, @NonNull String formattedSpeakerNames) {
-        return context.getResources().getQuantityString(R.plurals.session_list_item_speakers_content_description, speakersCount, formattedSpeakerNames);
-    }
-
-    @NonNull
-    public static String getFormattedTrackContentDescription(@NonNull Context context, @NonNull String trackName, @NonNull String languageCode) {
-        StringBuilder builder = new StringBuilder();
-        builder.append(context.getString(R.string.session_list_item_track_content_description, trackName));
-        if (!TextUtils.isEmpty(languageCode)) {
-            builder.append("; ").append(getLanguageContentDescription(context, languageCode));
-        }
-        return builder.toString();
-    }
-
-    @NonNull
-    public static String getLanguageContentDescription(@NonNull Context context, @NonNull String languageCode) {
-        if (TextUtils.isEmpty(languageCode)) {
-            return context.getString(R.string.session_list_item_language_unknown_content_description);
-        }
-        String languageName;
-        switch (languageCode) {
-            case "en":
-                languageName = context.getString(R.string.session_list_item_language_english_content_description);
-                break;
-            case "de":
-                languageName = context.getString(R.string.session_list_item_language_german_content_description);
-                break;
-            case "pt":
-                languageName = context.getString(R.string.session_list_item_language_portuguese_content_description);
-                break;
-            default:
-                languageName = languageCode;
-        }
-        return context.getString(R.string.session_list_item_language_content_description, languageName);
-    }
-
-    @NonNull
-    public static String getStartTimeContentDescription(@NonNull Context context, @NonNull String startTimeText) {
-        return context.getString(R.string.session_list_item_start_time_content_description, startTimeText);
-    }
-
-    @NonNull
-    public static String getHighlightContentDescription(@NonNull Context context, boolean isHighlighted) {
-        int stringResource = isHighlighted ? R.string.session_list_item_favored_content_description : R.string.session_list_item_not_favored_content_description;
-        return context.getString(stringResource);
-    }
-
-    @NonNull
-    public static String getStateContentDescription(@NonNull Context context, @NonNull Session session, Boolean useDeviceTimeZone) {
-        String roomNameContentDescription = getRoomNameContentDescription(context, session.roomName);
-        String startsAtText = DateFormatter.newInstance(useDeviceTimeZone).getFormattedTime(session.dateUTC, session.timeZoneOffset);
-        String startsAtContentDescription = getStartTimeContentDescription(context, startsAtText);
-        String isHighlightContentDescription = getHighlightContentDescription(context, session.highlight);
-        return isHighlightContentDescription + ", " + startsAtContentDescription + ", " + roomNameContentDescription;
+                changedStartTime || changedTitle || changedTrack;
     }
 
     public void shiftRoomIndexBy(int amount) {

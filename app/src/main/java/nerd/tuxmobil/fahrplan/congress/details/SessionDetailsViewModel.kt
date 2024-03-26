@@ -27,6 +27,7 @@ import nerd.tuxmobil.fahrplan.congress.sharing.SimpleSessionFormat
 import nerd.tuxmobil.fahrplan.congress.utils.FeedbackUrlComposer
 import nerd.tuxmobil.fahrplan.congress.utils.Font
 import nerd.tuxmobil.fahrplan.congress.utils.MarkdownConversion
+import nerd.tuxmobil.fahrplan.congress.utils.SessionPropertiesFormatter
 import nerd.tuxmobil.fahrplan.congress.utils.SessionUrlComposition
 import nerd.tuxmobil.fahrplan.congress.wiki.containsWikiLink
 import org.threeten.bp.ZoneOffset
@@ -38,6 +39,7 @@ internal class SessionDetailsViewModel(
     alarmServices: AlarmServices,
     notificationHelper: NotificationHelper,
     private val sessionFormatter: SessionFormatter,
+    private val sessionPropertiesFormatter: SessionPropertiesFormatter,
     private val simpleSessionFormat: SimpleSessionFormat,
     private val jsonSessionFormat: JsonSessionFormat,
     private val feedbackUrlComposer: FeedbackUrlComposer,
@@ -152,7 +154,7 @@ internal class SessionDetailsViewModel(
             formattedZonedDateTimeLong = formattedZonedDateTimeLong,
             title = title.orEmpty(),
             subtitle = subtitle.orEmpty(),
-            speakerNames = formattedSpeakers,
+            speakerNames = sessionPropertiesFormatter.getFormattedSpeakers(this),
             speakersCount = speakers.size,
             abstract = abstractt.orEmpty(),
             formattedAbstract = formattedAbstract,

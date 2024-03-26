@@ -14,18 +14,18 @@ fun List<Session>.shiftRoomIndicesOfMainSchedule(dayIndices: Set<Int>) = map {
 fun List<Session>.toDayIndices(): Set<Int> {
     val dayIndices = HashSet<Int>()
     forEach {
-        dayIndices.add(it.day)
+        dayIndices.add(it.dayIndex)
     }
     return dayIndices
 }
 
 /**
- * Splits the given sessions into [VirtualDay]s. The [Session.date] field is used to separate them.
+ * Splits the given sessions into [VirtualDay]s. The [Session.dateText] field is used to separate them.
  * This field is unique for a virtual day, even for sessions after midnight.
  */
 fun List<Session>.toVirtualDays(): List<VirtualDay> {
     var index = 0
-    return groupBy { it.date }
+    return groupBy { it.dateText }
         .map { (_, sessions) ->
             val sorted = sessions.sortedBy { it.dateUTC }
             VirtualDay(++index, sorted)
@@ -39,7 +39,7 @@ fun List<Session>.toSessionsDatabaseModel() = map(Session::toSessionDatabaseMode
 fun List<Session>.toDayRanges(): List<DayRange> {
     val ranges = mutableSetOf<DayRange>()
     forEach {
-        val day = Moment.parseDate(it.date)
+        val day = Moment.parseDate(it.dateText)
         val dayRange = DayRange(day)
         ranges.add(dayRange)
     }

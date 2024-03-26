@@ -13,7 +13,7 @@ import info.metadude.android.eventfahrplan.database.models.Session as SessionDat
 import info.metadude.android.eventfahrplan.network.models.Session as SessionNetworkModel
 
 fun Session.shiftRoomIndexOnDays(dayIndices: Set<Int>): Session {
-    if (dayIndices.contains(day)) {
+    if (dayIndex in dayIndices) {
         shiftRoomIndexBy(1)
     }
     return this
@@ -21,7 +21,7 @@ fun Session.shiftRoomIndexOnDays(dayIndices: Set<Int>): Session {
 
 fun Session.toRoom() = Room(identifier = roomIdentifier, name = roomName)
 
-fun Session.toDateInfo(): DateInfo = DateInfo(day, Moment.parseDate(date))
+fun Session.toDateInfo(): DateInfo = DateInfo(dayIndex, Moment.parseDate(dateText))
 
 fun Session.toHighlightDatabaseModel() = HighlightDatabaseModel(
         sessionId = Integer.parseInt(sessionId),
@@ -31,14 +31,14 @@ fun Session.toHighlightDatabaseModel() = HighlightDatabaseModel(
 fun Session.toSessionDatabaseModel() = SessionDatabaseModel(
         sessionId = sessionId,
         abstractt = abstractt,
-        date = date,
+        date = dateText,
         dateUTC = dateUTC,
-        dayIndex = day,
+        dayIndex = dayIndex,
         description = description,
         duration = duration, // minutes
         feedbackUrl = feedbackUrl,
         hasAlarm = hasAlarm,
-        language = lang,
+        language = language,
         links = links,
         isHighlight = highlight,
         recordingLicense = recordingLicense,
@@ -57,7 +57,7 @@ fun Session.toSessionDatabaseModel() = SessionDatabaseModel(
         type = type,
         url = url,
 
-        changedDay = changedDay,
+        changedDay = changedDayIndex,
         changedDuration = changedDuration,
         changedIsCanceled = changedIsCanceled,
         changedIsNew = changedIsNew,
@@ -66,7 +66,7 @@ fun Session.toSessionDatabaseModel() = SessionDatabaseModel(
         changedRoomName = changedRoomName,
         changedSpeakers = changedSpeakers,
         changedSubtitle = changedSubtitle,
-        changedTime = changedTime,
+        changedTime = changedStartTime,
         changedTitle = changedTitle,
         changedTrack = changedTrack
 )
@@ -75,14 +75,14 @@ fun SessionDatabaseModel.toSessionAppModel(): Session {
     val session = Session(sessionId)
 
     session.abstractt = abstractt
-    session.date = date
+    session.dateText = date
     session.dateUTC = dateUTC
-    session.day = dayIndex
+    session.dayIndex = dayIndex
     session.description = description
     session.duration = duration // minutes
     session.feedbackUrl = feedbackUrl
     session.hasAlarm = hasAlarm
-    session.lang = language
+    session.language = language
     session.links = links
     session.highlight = isHighlight
     session.recordingLicense = recordingLicense
@@ -101,7 +101,7 @@ fun SessionDatabaseModel.toSessionAppModel(): Session {
     session.type = type
     session.url = url
 
-    session.changedDay = changedDay
+    session.changedDayIndex = changedDay
     session.changedDuration = changedDuration
     session.changedIsCanceled = changedIsCanceled
     session.changedIsNew = changedIsNew
@@ -110,7 +110,7 @@ fun SessionDatabaseModel.toSessionAppModel(): Session {
     session.changedRoomName = changedRoomName
     session.changedSpeakers = changedSpeakers
     session.changedSubtitle = changedSubtitle
-    session.changedTime = changedTime
+    session.changedStartTime = changedTime
     session.changedTitle = changedTitle
     session.changedTrack = changedTrack
 
@@ -121,14 +121,14 @@ fun SessionNetworkModel.toSessionAppModel(): Session {
     val session = Session(sessionId)
 
     session.abstractt = abstractt
-    session.date = date
+    session.dateText = date
     session.dateUTC = dateUTC
-    session.day = dayIndex
+    session.dayIndex = dayIndex
     session.description = description
     session.duration = duration // minutes
     session.feedbackUrl = feedbackUrl
     session.hasAlarm = hasAlarm
-    session.lang = language
+    session.language = language
     session.links = links
     session.highlight = isHighlight
     session.recordingLicense = recordingLicense
@@ -147,7 +147,7 @@ fun SessionNetworkModel.toSessionAppModel(): Session {
     session.type = type
     session.url = url
 
-    session.changedDay = changedDayIndex
+    session.changedDayIndex = changedDayIndex
     session.changedDuration = changedDuration
     session.changedIsCanceled = changedIsCanceled
     session.changedIsNew = changedIsNew
@@ -156,7 +156,7 @@ fun SessionNetworkModel.toSessionAppModel(): Session {
     session.changedRoomName = changedRoomName
     session.changedSpeakers = changedSpeakers
     session.changedSubtitle = changedSubtitle
-    session.changedTime = changedStartTime
+    session.changedStartTime = changedStartTime
     session.changedTitle = changedTitle
     session.changedTrack = changedTrack
 
@@ -181,8 +181,8 @@ fun Session.sanitize(): Session {
         description = abstractt
         abstractt = ""
     }
-    if (!lang.isNullOrEmpty()) {
-        lang = lang.lowercase()
+    if (!language.isNullOrEmpty()) {
+        language = language.lowercase()
     }
     if (("Sendezentrum-Bühne" == track || "Sendezentrum Bühne" == track || "xHain Berlin" == track) && !type.isNullOrEmpty()) {
         track = type

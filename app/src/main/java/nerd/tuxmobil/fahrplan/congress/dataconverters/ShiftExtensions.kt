@@ -22,9 +22,9 @@ fun Shift.toSessionAppModel(
 
 ) = Session("${SHIFT_ID_OFFSET + sID}").apply {
     abstractt = ""
-    date = startsAtLocalDateString
+    dateText = startsAtLocalDateString
     dateUTC = dateUtcMs
-    day = oneBasedDayIndex(logging, dayRanges)
+    dayIndex = oneBasedDayIndex(logging, dayRanges)
     description = descriptionText
     duration = shiftDuration // minutes
     relStartTime = minuteOfDay

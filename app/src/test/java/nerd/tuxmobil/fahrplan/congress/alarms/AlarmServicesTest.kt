@@ -56,7 +56,7 @@ class AlarmServicesTest {
         whenever(repository.readUseDeviceTimeZoneEnabled()) doReturn true
         whenever(formattingDelegate.getFormattedDateTimeShort(any(), any(), any())) doReturn "not relevant"
         val session = Session("S1").apply {
-            day = 1
+            dayIndex = 1
             hasAlarm = false
             title = "Title"
             dateUTC = 1536332400000L // 2018-09-07T17:00:00+02:00

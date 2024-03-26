@@ -15,8 +15,8 @@ class SessionTest {
             title = "Lorem ipsum"
             subtitle = "Gravida arcu ac tortor"
             feedbackUrl = "https://example.com/feedback"
-            day = 3
-            date = "2020-02-29"
+            dayIndex = 3
+            dateText = "2020-02-29"
             dateUTC = 1439478900000L
             startTime = 1125
             duration = 60
@@ -25,7 +25,7 @@ class SessionTest {
             speakers = listOf("Janet")
             track = "science"
             type = "workshop"
-            lang = "cz"
+            language = "cz"
             recordingLicense = "CC-0"
             recordingOptOut = true
 
@@ -44,8 +44,8 @@ class SessionTest {
             changedTitle = true
             changedSubtitle = true
             changedRoomName = true
-            changedDay = true
-            changedTime = true
+            changedDayIndex = true
+            changedStartTime = true
             changedDuration = true
             changedSpeakers = true
             changedRecordingOptOut = true
@@ -69,8 +69,8 @@ class SessionTest {
             changedTitle = false
             changedSubtitle = false
             changedRoomName = false
-            changedDay = false
-            changedTime = false
+            changedDayIndex = false
+            changedStartTime = false
             changedDuration = false
             changedSpeakers = false
             changedRecordingOptOut = false
@@ -168,14 +168,14 @@ class SessionTest {
 
     @Test
     fun `equals evaluates false and hashCode differ for sessions with odd day`() {
-        val session2Modification: SessionModification = { day = 2 }
+        val session2Modification: SessionModification = { dayIndex = 2 }
         assertOddSessionsAreNotEqual { session2Modification() }
         assertOddSessionsHaveOddHashCodes { session2Modification() }
     }
 
     @Test
     fun `equals evaluates false and hashCode differ for sessions with odd date`() {
-        val session2Modification: SessionModification = { date = "1999-12-23" }
+        val session2Modification: SessionModification = { dateText = "1999-12-23" }
         assertOddSessionsAreNotEqual { session2Modification() }
         assertOddSessionsHaveOddHashCodes { session2Modification() }
     }
@@ -238,7 +238,7 @@ class SessionTest {
 
     @Test
     fun `equals evaluates false and hashCode differ for sessions with odd lang`() {
-        val session2Modification: SessionModification = { lang = "Odd language" }
+        val session2Modification: SessionModification = { language = "Odd language" }
         assertOddSessionsAreNotEqual { session2Modification() }
         assertOddSessionsHaveOddHashCodes { session2Modification() }
     }
@@ -277,8 +277,8 @@ class SessionTest {
             changedTitle = true
             changedSubtitle = true
             changedRoomName = true
-            changedDay = true
-            changedTime = true
+            changedDayIndex = true
+            changedStartTime = true
             changedDuration = true
             changedSpeakers = true
             changedRecordingOptOut = true
@@ -291,8 +291,8 @@ class SessionTest {
             changedTitle = false
             changedSubtitle = false
             changedRoomName = false
-            changedDay = false
-            changedTime = false
+            changedDayIndex = false
+            changedStartTime = false
             changedDuration = false
             changedSpeakers = false
             changedRecordingOptOut = false

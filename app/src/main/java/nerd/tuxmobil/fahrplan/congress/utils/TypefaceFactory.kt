@@ -24,7 +24,7 @@ class TypefaceFactory private constructor(
     private val typefaceByFont = mutableMapOf<Font, Typeface>()
 
     fun getTypeface(font: Font): Typeface {
-        return if (typefaceByFont.contains(font)) {
+        return if (font in typefaceByFont) {
             typefaceByFont[font]!!
         } else {
             val typeface = Typeface.createFromAsset(assetManager, font.fileName)

@@ -44,10 +44,10 @@ class ScheduleChangesTest {
             title = "title"
             subtitle = "subtitle"
             speakers = listOf("speakers")
-            lang = "language"
+            language = "language"
             roomName = "room"
             recordingOptOut = true
-            day = 3
+            dayIndex = 3
             startTime = 200
             duration = 90
         })
@@ -114,11 +114,11 @@ class ScheduleChangesTest {
 
     @Test
     fun `computeSessionsWithChangeFlags flags and returns new sessions and foundNoteworthyChanges = true if language has changed`() {
-        val oldSessions = listOf(createSession { lang = "Old language" })
-        val newSessions = listOf(createSession { lang = "New language" })
+        val oldSessions = listOf(createSession { language = "Old language" })
+        val newSessions = listOf(createSession { language = "New language" })
         val scheduleChanges = computeSessionsWithChangeFlags(newSessions, oldSessions)
         assertThat(scheduleChanges.sessionsWithChangeFlags).isEqualTo(listOf(createSession {
-            lang = "New language"
+            language = "New language"
             changedLanguage = true
         }))
         assertThat(scheduleChanges.oldCanceledSessions).isEmpty()
@@ -166,12 +166,12 @@ class ScheduleChangesTest {
 
     @Test
     fun `computeSessionsWithChangeFlags flags and returns new sessions and foundNoteworthyChanges = true if dayIndex has changed`() {
-        val oldSessions = listOf(createSession { day = 1 })
-        val newSessions = listOf(createSession { day = 2 })
+        val oldSessions = listOf(createSession { dayIndex = 1 })
+        val newSessions = listOf(createSession { dayIndex = 2 })
         val scheduleChanges = computeSessionsWithChangeFlags(newSessions, oldSessions)
         assertThat(scheduleChanges.sessionsWithChangeFlags).isEqualTo(listOf(createSession {
-            day = 2
-            changedDay = true
+            dayIndex = 2
+            changedDayIndex = true
         }))
         assertThat(scheduleChanges.oldCanceledSessions).isEmpty()
         assertThat(scheduleChanges.foundNoteworthyChanges).isTrue()
@@ -184,7 +184,7 @@ class ScheduleChangesTest {
         val scheduleChanges = computeSessionsWithChangeFlags(newSessions, oldSessions)
         assertThat(scheduleChanges.sessionsWithChangeFlags).isEqualTo(listOf(createSession {
             startTime = 200
-            changedTime = true
+            changedStartTime = true
         }))
         assertThat(scheduleChanges.oldCanceledSessions).isEmpty()
         assertThat(scheduleChanges.foundNoteworthyChanges).isTrue()
@@ -222,9 +222,9 @@ class ScheduleChangesTest {
             title = "Old title"
             subtitle = "Old subtitle"
             speakers = listOf("Old speakers")
-            lang = "Old language"
+            language = "Old language"
             roomName = "Old room"
-            day = 2
+            dayIndex = 2
             track = "Old track"
             recordingOptOut = false
             startTime = 200
@@ -234,10 +234,10 @@ class ScheduleChangesTest {
             changedSpeakers = false
             changedLanguage = false
             changedRoomName = false
-            changedDay = false
+            changedDayIndex = false
             changedTrack = false
             changedRecordingOptOut = false
-            changedTime = false
+            changedStartTime = false
             changedDuration = false
 
         })
@@ -245,9 +245,9 @@ class ScheduleChangesTest {
             title = "New title"
             subtitle = "New subtitle"
             speakers = listOf("New speakers")
-            lang = "New language"
+            language = "New language"
             roomName = "New room"
-            day = 3
+            dayIndex = 3
             track = "New track"
             recordingOptOut = true
             startTime = 300
@@ -257,10 +257,10 @@ class ScheduleChangesTest {
             changedSpeakers = false
             changedLanguage = false
             changedRoomName = false
-            changedDay = false
+            changedDayIndex = false
             changedTrack = false
             changedRecordingOptOut = false
-            changedTime = false
+            changedStartTime = false
             changedDuration = false
         })
         val scheduleChanges = computeSessionsWithChangeFlags(newSessions, oldSessions)
@@ -268,9 +268,9 @@ class ScheduleChangesTest {
             title = "New title"
             subtitle = "New subtitle"
             speakers = listOf("New speakers")
-            lang = "New language"
+            language = "New language"
             roomName = "New room"
-            day = 3
+            dayIndex = 3
             track = "New track"
             recordingOptOut = true
             startTime = 300
@@ -280,10 +280,10 @@ class ScheduleChangesTest {
             changedSpeakers = true
             changedLanguage = true
             changedRoomName = true
-            changedDay = true
+            changedDayIndex = true
             changedTrack = true
             changedRecordingOptOut = true
-            changedTime = true
+            changedStartTime = true
             changedDuration = true
         }))
         assertThat(scheduleChanges.oldCanceledSessions).isEmpty()
@@ -305,11 +305,11 @@ class ScheduleChangesTest {
 
     @Test
     fun `computeSessionsWithChangeFlags flags and returns new sessions, foundNoteworthyChanges = false and foundChanges = true if date has changed`() {
-        val oldSessions = listOf(createSession { date = "2023-08-01" })
-        val newSessions = listOf(createSession { date = "2023-08-02" })
+        val oldSessions = listOf(createSession { dateText = "2023-08-01" })
+        val newSessions = listOf(createSession { dateText = "2023-08-02" })
         val scheduleChanges = computeSessionsWithChangeFlags(newSessions, oldSessions)
         assertThat(scheduleChanges.sessionsWithChangeFlags).isEqualTo(listOf(createSession {
-            date = "2023-08-02"
+            dateText = "2023-08-02"
         }))
         assertThat(scheduleChanges.oldCanceledSessions).isEmpty()
         assertThat(scheduleChanges.foundNoteworthyChanges).isFalse()

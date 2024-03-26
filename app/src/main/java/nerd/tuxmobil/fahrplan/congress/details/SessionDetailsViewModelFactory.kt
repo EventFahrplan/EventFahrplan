@@ -13,6 +13,7 @@ import nerd.tuxmobil.fahrplan.congress.sharing.JsonSessionFormat
 import nerd.tuxmobil.fahrplan.congress.sharing.SimpleSessionFormat
 import nerd.tuxmobil.fahrplan.congress.utils.FeedbackUrlComposer
 import nerd.tuxmobil.fahrplan.congress.utils.MarkdownConverter
+import nerd.tuxmobil.fahrplan.congress.utils.SessionPropertiesFormatter
 import nerd.tuxmobil.fahrplan.congress.utils.SessionUrlComposer
 
 internal class SessionDetailsViewModelFactory(
@@ -33,6 +34,7 @@ internal class SessionDetailsViewModelFactory(
             alarmServices = alarmServices,
             notificationHelper = notificationHelper,
             sessionFormatter = SessionFormatter(),
+            sessionPropertiesFormatter = SessionPropertiesFormatter(),
             simpleSessionFormat = SimpleSessionFormat(),
             jsonSessionFormat = JsonSessionFormat(),
             feedbackUrlComposer = FeedbackUrlComposer(),
