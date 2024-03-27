@@ -61,7 +61,7 @@ class SimpleSessionFormat {
         append(COMMA)
         append(SPACE)
         append(session.roomName)
-        if (!session.getLinks().containsWikiLink()) {
+        if (!session.links.containsWikiLink()) {
             append(LINE_BREAK)
             append(LINE_BREAK)
             val sessionUrl = SessionUrlComposer().getSessionUrl(session)

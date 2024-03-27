@@ -107,7 +107,7 @@ class CalendarDescriptionComposerTest {
 
     @Test
     fun `getCalendarDescription returns session online with uninitialized session`() {
-        val session = createSession(subtitle = null, speakers = emptyList(), abstract = null, description = null, links = null)
+        val session = createSession(subtitle = "", speakers = emptyList(), abstract = "", description = "", links = "")
         assertThat(createComposer().getCalendarDescription(session)).isEqualTo("""
             Session online: https://events.ccc.de/congress/2021/Fahrplan/events/2342.html
             """.trimIndent())
@@ -126,11 +126,11 @@ class CalendarDescriptionComposerTest {
     }
 
     private fun createSession(
-        subtitle: String? = "",
+        subtitle: String = "",
         speakers: List<String> = emptyList(),
-        abstract: String? = "",
-        description: String? = "",
-        links: String? = ""
+        abstract: String = "",
+        description: String = "",
+        links: String = ""
     ) = Session("2342").apply {
         this.subtitle = subtitle
         this.speakers = speakers

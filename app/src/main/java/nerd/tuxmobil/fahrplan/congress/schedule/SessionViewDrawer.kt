@@ -71,21 +71,20 @@ internal class SessionViewDrawer @JvmOverloads constructor(
         }
         ViewCompat.setStateDescription(sessionView, contentDescriptionFormatter
             .getStateContentDescription(session, useDeviceTimeZone))
-        setSessionBackground(session, sessionView)
-        setSessionTextColor(session, sessionView)
+        setSessionBackground(session.highlight, session.track, sessionView)
+        setSessionTextColor(session.highlight, sessionView)
         sessionView.tag = session
     }
 
-    fun setSessionBackground(session: Session, sessionView: View) {
+    fun setSessionBackground(isFavored: Boolean, track: String, sessionView: View) {
         val context = sessionView.context
-        val sessionIsFavored = session.highlight
-        @ColorRes val backgroundColorResId = if (sessionIsFavored) {
-            trackNameBackgroundColorHighlightPairs[session.track] ?: R.color.track_background_highlight
+        @ColorRes val backgroundColorResId = if (isFavored) {
+            trackNameBackgroundColorHighlightPairs[track] ?: R.color.track_background_highlight
         } else {
-            trackNameBackgroundColorDefaultPairs[session.track] ?: R.color.track_background_default
+            trackNameBackgroundColorDefaultPairs[track] ?: R.color.track_background_default
         }
         @ColorInt val backgroundColor = ContextCompat.getColor(context, backgroundColorResId)
-        val sessionDrawable = if (sessionIsFavored && isAlternativeHighlightingEnabled()) {
+        val sessionDrawable = if (isFavored && isAlternativeHighlightingEnabled()) {
             SessionDrawable(
                     backgroundColor,
                     sessionDrawableCornerRadius.toFloat(),
@@ -117,12 +116,12 @@ internal class SessionViewDrawer @JvmOverloads constructor(
         const val LOG_TAG = "SessionViewDrawer"
 
         @JvmStatic
-        fun setSessionTextColor(session: Session, view: View) {
+        fun setSessionTextColor(isFavored: Boolean, view: View) {
             val title = view.requireViewByIdCompat<TextView>(R.id.session_title_view)
             val subtitle = view.requireViewByIdCompat<TextView>(R.id.session_subtitle_view)
             val speakers = view.requireViewByIdCompat<TextView>(R.id.session_speakers_view)
             val track = view.requireViewByIdCompat<TextView>(R.id.session_track_view)
-            val colorResId = if (session.highlight)
+            val colorResId = if (isFavored)
                 R.color.session_item_text_on_highlight_background
             else
                 R.color.session_item_text_on_default_background

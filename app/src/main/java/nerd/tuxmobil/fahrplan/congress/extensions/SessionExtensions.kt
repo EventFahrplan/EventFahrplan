@@ -9,7 +9,7 @@ import nerd.tuxmobil.fahrplan.congress.models.Session
  * See: https://github.com/EventFahrplan/EventFahrplan/pull/157
  */
 val Session.originatesFromPretalx
-    get() = !url.isNullOrEmpty() && !slug.isNullOrEmpty() && url.contains("/talk/") && subtitle.isNullOrEmpty()
+    get() = url.isNotEmpty() && slug.isNotEmpty() && url.contains("/talk/") && subtitle.isEmpty()
 
 // The track name constant must match the "track" name in the schedule.xml!
 const val WIKI_SESSION_TRACK_NAME = "self organized sessions"
