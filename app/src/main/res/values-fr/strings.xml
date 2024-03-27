@@ -37,6 +37,7 @@
     <string name="dlg_err_failed_parse_failure">Impossible d’analyser la réponse</string>
     <string name="dlg_err_failed_ssl_failure">Échec SSL</string>
     <string name="dlg_err_failed_http_cleartext_not_permitted">HTTP n\'est pas autorisé. Veuillez utiliser HTTPS.</string>
+    <string name="dlg_err_schedule_data">Erreur de données du planning</string>
     <string name="dlg_err_schedule_data_empty">        Nothing to display. The schedule with version \"<xliff:g example="0.99" id="version">%s</xliff:g>\"
         does not contain any session.
     </string>
@@ -90,6 +91,7 @@
     <string name="about_google_play_listing">Page sur le Play Google</string>
     <string name="about_issues_or_feature_requests">Problèmes ou demande de fonctionnalités</string>
     <string name="about_source_code">Code source</string>
+    <string name="about_translation_platform">Plateforme de traduction</string>
     <string name="today">aujourd’hui</string>
     <string name="schedule_parsing_error_generic">Erreur inconnue lors de la lecture du programme</string>
     <string name="schedule_parsing_error_with_version">Erreur de lecture pour le programme version %s</string>
@@ -122,6 +124,7 @@
     <string name="snack_engage_google_play_beta_testing_action">Devenir bêta-testeur</string>
     <string name="snack_engage_c3nav_title">La navigation interne @ <xliff:g example="35C3" id="conferenceName">%s</xliff:g>! Avec l’application c3nav</string>
     <string name="snack_engage_c3nav_action">Obtenez-la maintenant !</string>
+    <string name="snack_engage_landscape_orientation_action">Tournez votre appareil !</string>
     <!-- TraceDroid -->
     <string name="trace_droid_dialog_title"> Envoi du rapport de crash du programme <xliff:g example="33C3 Schedule" id="appName">%s</xliff:g> … </string>
     <string name="trace_droid_dialog_message"> Un problème avec l’application <xliff:g example="33C3 Schedule" id="appName">%s</xliff:g> a été détecté. Il serait utile si vous pouviez envoyer un rapport de crash afin que la source du problème soit identifié. </string>
@@ -159,6 +162,7 @@
     <string name="session_list_item_no_video_content_description">Sans enregistrement vidéo</string>
     <string name="session_list_item_video_content_description">Avec enregistrement vidéo</string>
     <string name="session_list_item_without_video_content_description">Sans enregistrement vidéo</string>
+    <!-- Session item -->
     <!-- Alarms -->
     <!-- Validation errors -->
     <string name="validation_error_invalid_url">URL invalide <xliff:g example="Engelsystem" id="urlType">%s</xliff:g>.</string>
