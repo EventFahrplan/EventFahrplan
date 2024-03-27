@@ -13,12 +13,16 @@ import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.extensions.requireViewByIdCompat
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
+import nerd.tuxmobil.fahrplan.congress.utils.ContentDescriptionFormatter
 import nerd.tuxmobil.fahrplan.congress.utils.Font
+import nerd.tuxmobil.fahrplan.congress.utils.SessionPropertiesFormatter
 import nerd.tuxmobil.fahrplan.congress.utils.TypefaceFactory
 
 internal class SessionViewDrawer @JvmOverloads constructor(
 
         context: Context,
+        private val sessionPropertiesFormatter: SessionPropertiesFormatter,
+        private val contentDescriptionFormatter: ContentDescriptionFormatter,
         private val getSessionPadding: () -> Int,
         private val isAlternativeHighlightingEnabled: () -> Boolean = {
             // Must load the latest alternative highlighting value every time a session is redrawn.
@@ -46,21 +50,27 @@ internal class SessionViewDrawer @JvmOverloads constructor(
         var textView = sessionView.requireViewByIdCompat<TextView>(R.id.session_title_view)
         textView.typeface = boldCondensed
         textView.text = session.title
-        textView.contentDescription = Session.getTitleContentDescription(sessionView.context, session.title)
+        textView.contentDescription = contentDescriptionFormatter
+            .getTitleContentDescription(session.title)
         textView = sessionView.requireViewByIdCompat(R.id.session_subtitle_view)
         textView.text = session.subtitle
-        textView.contentDescription = Session.getSubtitleContentDescription(sessionView.context, session.subtitle)
+        textView.contentDescription = contentDescriptionFormatter
+            .getSubtitleContentDescription(session.subtitle)
         textView = sessionView.requireViewByIdCompat(R.id.session_speakers_view)
-        textView.text = session.formattedSpeakers
-        textView.contentDescription = Session.getSpeakersContentDescription(sessionView.context, session.speakers.size, session.formattedSpeakers)
+        val speakerNames = sessionPropertiesFormatter.getFormattedSpeakers(session)
+        textView.text = speakerNames
+        textView.contentDescription = contentDescriptionFormatter
+            .getSpeakersContentDescription(session.speakers.size, speakerNames)
         textView = sessionView.requireViewByIdCompat(R.id.session_track_view)
-        textView.text = session.formattedTrackLanguageText
-        textView.contentDescription = Session.getFormattedTrackContentDescription(sessionView.context, session.track, session.languageText)
+        textView.text = sessionPropertiesFormatter.getFormattedTrackLanguageText(session)
+        textView.contentDescription = contentDescriptionFormatter
+            .getFormattedTrackContentDescription(session.track, sessionPropertiesFormatter.getLanguageText(session))
         val recordingOptOut = sessionView.findViewById<View>(R.id.session_no_video_view)
         if (recordingOptOut != null) {
             recordingOptOut.isVisible = session.recordingOptOut
         }
-        ViewCompat.setStateDescription(sessionView, Session.getStateContentDescription(sessionView.context, session, useDeviceTimeZone))
+        ViewCompat.setStateDescription(sessionView, contentDescriptionFormatter
+            .getStateContentDescription(session, useDeviceTimeZone))
         setSessionBackground(session, sessionView)
         setSessionTextColor(session, sessionView)
         sessionView.tag = session

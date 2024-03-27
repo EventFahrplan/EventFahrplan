@@ -79,7 +79,7 @@ data class ScheduleChanges private constructor(
                     sessionChange.changedSpeakers = true
                     foundNoteworthyChanges = true
                 }
-                if (newSession.lang != oldSession.lang) {
+                if (newSession.language != oldSession.language) {
                     sessionChange.changedLanguage = true
                     foundNoteworthyChanges = true
                 }
@@ -95,7 +95,7 @@ data class ScheduleChanges private constructor(
                     sessionChange.changedRecordingOptOut = true
                     foundNoteworthyChanges = true
                 }
-                if (newSession.day != oldSession.day) {
+                if (newSession.dayIndex != oldSession.dayIndex) {
                     sessionChange.changedDayIndex = true
                     foundNoteworthyChanges = true
                 }
@@ -115,8 +115,8 @@ data class ScheduleChanges private constructor(
                     changedRoomName = sessionChange.changedRoom
                     changedTrack = sessionChange.changedTrack
                     changedRecordingOptOut = sessionChange.changedRecordingOptOut
-                    changedDay = sessionChange.changedDayIndex
-                    changedTime = sessionChange.changedStartTime
+                    changedDayIndex = sessionChange.changedDayIndex
+                    changedStartTime = sessionChange.changedStartTime
                     changedDuration = sessionChange.changedDuration
                 }
                 oldNotCanceledSessions -= oldSession
@@ -157,11 +157,11 @@ data class ScheduleChanges private constructor(
             return title == session.title &&
                     subtitle == session.subtitle &&
                     speakers == session.speakers &&
-                    lang == session.lang &&
+                    language == session.language &&
                     roomName == session.roomName &&
                     track == session.track &&
                     recordingOptOut == session.recordingOptOut &&
-                    day == session.day &&
+                    dayIndex == session.dayIndex &&
                     startTime == session.startTime &&
                     duration == session.duration
         }
@@ -177,7 +177,7 @@ data class ScheduleChanges private constructor(
         private fun SessionAppModel.equalsContentWise(session: SessionAppModel): Boolean {
             return equalsInNoteworthyProperties(session) &&
                     url == session.url &&
-                    date == session.date &&
+                    dateText == session.dateText &&
                     dateUTC == session.dateUTC &&
                     timeZoneOffset == session.timeZoneOffset &&
                     relStartTime == session.relStartTime &&

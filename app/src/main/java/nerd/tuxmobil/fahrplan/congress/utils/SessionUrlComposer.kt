@@ -31,7 +31,7 @@ class SessionUrlComposer @JvmOverloads constructor(
     override fun getSessionUrl(session: Session): String = when (serverBackEndType) {
             PENTABARF.name -> getComposedSessionUrl(session.slug)
             else -> if (session.url.isNullOrEmpty()) {
-                if (specialRoomNames.contains(session.roomName)) {
+                if (session.roomName in specialRoomNames) {
                     NO_URL
                 } else {
                     getComposedSessionUrl(session.sessionId)

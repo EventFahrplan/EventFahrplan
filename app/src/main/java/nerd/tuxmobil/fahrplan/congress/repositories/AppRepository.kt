@@ -598,22 +598,30 @@ object AppRepository {
         }
         logging.d(LOG_TAG, "Got ${sessions.size} rows.")
 
-        val highlights = readHighlights()
-        for (highlight in highlights) {
-            logging.d(LOG_TAG, "$highlight")
-            for (session in sessions) {
-                if (session.sessionId == "${highlight.sessionId}") {
-                    session.highlight = highlight.isHighlight
-                }
+        val highlightedSessionIds = readHighlights()
+            .asSequence()
+            .filter { it.isHighlight }
+            .map { it.sessionId.toString() }
+            .toSet()
+
+        val highlightedSessions = sessions.map { session ->
+            if (session.sessionId in highlightedSessionIds) {
+                Session(session).apply { highlight = true }
+            } else {
+                session
             }
         }
 
         val alarmSessionIds = readAlarmSessionIds()
-        for (session in sessions) {
-            session.hasAlarm = session.sessionId in alarmSessionIds
+        val sessionsWithAlarms = highlightedSessions.map { session ->
+            if (session.sessionId in alarmSessionIds) {
+                Session(session).apply { hasAlarm = true }
+            } else {
+                session
+            }
         }
 
-        return sessions.toList()
+        return sessionsWithAlarms
     }
 
     @WorkerThread
@@ -679,19 +687,26 @@ object AppRepository {
     }
 
     private fun readSessionBySessionId(sessionId: String): Session {
-        val session = sessionsDatabaseRepository.querySessionBySessionId(sessionId).toSessionAppModel()
+        val session = sessionsDatabaseRepository
+            .querySessionBySessionId(sessionId)
+            .toSessionAppModel()
 
-        val highlight = highlightsDatabaseRepository.queryBySessionId(sessionId.toInt())
-        if (highlight != null) {
-            session.highlight = highlight.isHighlight
+        val isHighlighted = highlightsDatabaseRepository
+            .queryBySessionId(sessionId.toInt())
+            ?.isHighlight ?: false
+
+        val hasAlarm = alarmsDatabaseRepository
+            .query(sessionId)
+            .isNotEmpty()
+
+        return if (isHighlighted || hasAlarm) {
+            Session(session).apply {
+                this.highlight = isHighlighted
+                this.hasAlarm = hasAlarm
+            }
+        } else {
+            session
         }
-
-        val alarms = alarmsDatabaseRepository.query(sessionId)
-        if (alarms.isNotEmpty()) {
-            session.hasAlarm = true
-        }
-
-        return session
     }
 
     private fun readSessionsForDayIndexOrderedByDateUtc(dayIndex: Int) =

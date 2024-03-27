@@ -108,7 +108,7 @@ internal class AlarmsViewModel(
                                 firesAt = alarm.startTime,
                                 firesAtText = firesAtText,
                                 firesAtContentDescription = firesAtContentDescription,
-                                dayIndex = found.day
+                                dayIndex = found.dayIndex
                             )
                         }
                 },

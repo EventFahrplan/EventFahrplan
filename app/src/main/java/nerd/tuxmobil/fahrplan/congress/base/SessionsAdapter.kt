@@ -155,7 +155,7 @@ abstract class SessionsAdapter protected constructor(
         val daySeparator = context.getString(R.string.day_separator)
         for (index in list.indices) {
             val session = list[index]
-            day = session.day
+            day = session.dayIndex
             val formattedDate = DateFormatter.newInstance(useDeviceTimeZone)
                 .getFormattedDate(session.dateUTC, session.timeZoneOffset)
 

@@ -11,13 +11,17 @@ import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.base.SessionsAdapter
 import nerd.tuxmobil.fahrplan.congress.extensions.textOrHide
 import nerd.tuxmobil.fahrplan.congress.models.Session
+import nerd.tuxmobil.fahrplan.congress.utils.ContentDescriptionFormatter
+import nerd.tuxmobil.fahrplan.congress.utils.SessionPropertiesFormatter
 
 class StarredListAdapter internal constructor(
 
         context: Context,
         list: List<Session>,
         numDays: Int,
-        useDeviceTimeZone: Boolean
+        useDeviceTimeZone: Boolean,
+        private val sessionPropertiesFormatter: SessionPropertiesFormatter,
+        private val contentDescriptionFormatter: ContentDescriptionFormatter,
 
 ) : SessionsAdapter(
 
@@ -51,23 +55,31 @@ class StarredListAdapter internal constructor(
 
             title.textOrHide = session.title
             subtitle.textOrHide = session.subtitle
-            subtitle.contentDescription = Session.getSubtitleContentDescription(subtitle.context, session.subtitle)
+            subtitle.contentDescription = contentDescriptionFormatter
+                .getSubtitleContentDescription(session.subtitle)
 
-            speakers.textOrHide = session.formattedSpeakers
-            speakers.contentDescription = Session.getSpeakersContentDescription(speakers.context, session.speakers.size, session.formattedSpeakers)
-            lang.textOrHide = session.languageText
-            lang.contentDescription = Session.getLanguageContentDescription(lang.context, session.languageText)
+            val speakerNames = sessionPropertiesFormatter.getFormattedSpeakers(session)
+            speakers.textOrHide = speakerNames
+            speakers.contentDescription = contentDescriptionFormatter
+                .getSpeakersContentDescription(session.speakers.size, speakerNames)
+            val languageText = sessionPropertiesFormatter.getLanguageText(session)
+            lang.textOrHide = languageText
+            lang.contentDescription = contentDescriptionFormatter
+                .getLanguageContentDescription(languageText)
 
             day.isVisible = false
             val timeText = DateFormatter.newInstance(useDeviceTimeZone).getFormattedTime(session.dateUTC, session.timeZoneOffset)
             time.textOrHide = timeText
-            time.contentDescription = Session.getStartTimeContentDescription(time.context, timeText)
+            time.contentDescription = contentDescriptionFormatter
+                .getStartTimeContentDescription(timeText)
 
             room.textOrHide = session.roomName
-            room.contentDescription = Session.getRoomNameContentDescription(room.context, session.roomName)
+            room.contentDescription = contentDescriptionFormatter
+                .getRoomNameContentDescription(session.roomName)
             val durationText = duration.context.getString(R.string.session_list_item_duration_text, session.duration)
             duration.textOrHide = durationText
-            duration.contentDescription = Session.getDurationContentDescription(duration.context, session.duration)
+            duration.contentDescription = contentDescriptionFormatter
+                .getDurationContentDescription(session.duration)
 
             video.isVisible = false
             noVideo.isVisible = false
