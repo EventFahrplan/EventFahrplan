@@ -7,6 +7,7 @@ import info.metadude.android.eventfahrplan.network.serialization.FahrplanParser
 import nerd.tuxmobil.fahrplan.congress.models.DateInfo
 import nerd.tuxmobil.fahrplan.congress.models.Room
 import nerd.tuxmobil.fahrplan.congress.models.Session
+import nerd.tuxmobil.fahrplan.congress.schedule.TrackBackgrounds
 import org.threeten.bp.ZoneOffset
 import info.metadude.android.eventfahrplan.database.models.Highlight as HighlightDatabaseModel
 import info.metadude.android.eventfahrplan.database.models.Session as SessionDatabaseModel
@@ -163,6 +164,13 @@ fun SessionNetworkModel.toSessionAppModel(): Session {
     return session
 }
 
+/**
+ * Rewrites certain properties of a session to make its rendering more pleasant and to reduce
+ * visual clutter. This is accomplished by removing duplicate information, moving content to more
+ * appropriate properties, and normalizing properties. To visually guide users, a common color
+ * scheme is used for similar sessions. This is achieved by customizing related track names. Colors
+ * are derived from track names, see [TrackBackgrounds].
+ */
 fun Session.sanitize(): Session {
     if (title.isEmpty() && subtitle.isNotEmpty()) {
         title = subtitle
