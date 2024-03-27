@@ -1,0 +1,43 @@
+Terminanmeldung für die Veranstaltung Grazer Linuxtage (GLT)
+
+Die Grazer Linuxtage sind eine jährliche zweitägige Konferenz zum Thema Open Source, Hardware und Software. Das GLT bietet freitags Workshops und samstags Vorträge und Infostände zu einer Vielzahl von Themen an.
+
+<a href="https://linuxtage.at/">Grazer Linuxtage</a>
+
+App-Funktionen:
+   * Kommende und Live-Events
+   * Programm nach Tag und Räumen anzeigen (nebeneinander)
+   * Benutzerdefiniertes Rasterlayout für Smartphones (im Querformat) und Tablets
+   * Lies detaillierte Beschreibungen (Referentennamen, Startzeit, Raumname, Links, ...) von Veranstaltungen
+   * Erstellen deinen eigenen individuellen Zeitplan mit Favoriten
+   * Teile die Veranstaltung per E-Mail, Twitter usw. mit Ihren Kollegen und Freunden
+   * Erinnerung an Ihre Lieblingsvorträge
+   * Offline-Unterstützung (Das Programm wird lokal heruntergeladen)
+   * Füge Talks zu deinem persönlichen Kalender hinzu
+   * Verfolge Programmänderungen
+   * Automatische Programmaktualisierungen (in den Einstellungen konfigurierbar)
+   * Gib Feedback zu Vorträgen und Workshops
+
+🔤 Unterstützte Sprachen:
+(Veranstaltungsbeschreibungen ausgenommen)
+* Niederländisch
+* Englisch
+* Französisch
+* Deutsch
+* Italienisch
+* Japanisch
+* Polieren
+* Portugiesisch
+* Russisch
+* Spanisch
+* Schwedisch
+
+💡 Fragen zum Inhalt können ausschließlich vom Content-Team der Grazer Linuxtage (GLT) beantwortet werden. Diese App bietet einfach eine Möglichkeit, den Konferenzplan zu nutzen und zu personalisieren.
+
+Es ist Open Source und unter der Apache-2.0-Lizenz verfügbar.
+<a href="https://github.com/linuxtage/EventFahrplan">https://github.com/linuxtage/EventFahrplan</a>
+
+💣 Fehlerberichte sind sehr willkommen. Es wäre großartig, wenn du beschreiben könntest, wie der jeweilige Fehler reproduziert werden kann. Bitte verwende den GitHub-Issue-Tracker <a href="https://github.com/linuxtage/EventFahrplan/issues">https://github.com/linuxtage/EventFahrplan/issues</a>
+
+
+Diese App basiert auf dem EventFahrplan: <a href="https://github.com/EventFahrplan/EventFahrplan">https://github.com/EventFahrplan/EventFahrplan</a>
