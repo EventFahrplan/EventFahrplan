@@ -137,7 +137,7 @@ internal class SessionDetailsViewModel(
         val formattedZonedDateTimeLong = formattingDelegate.getFormattedDateTimeLong(useDeviceTimeZone, dateUTC, timeZoneOffset)
         val formattedAbstract = markdownConversion.markdownLinksToHtmlLinks(abstractt)
         val formattedDescription = markdownConversion.markdownLinksToHtmlLinks(description)
-        val linksHtml = sessionFormatter.getFormattedLinks(getLinks())
+        val linksHtml = sessionFormatter.getFormattedLinks(links)
         val formattedLinks = markdownConversion.markdownLinksToHtmlLinks(linksHtml)
         val sessionUrl = sessionUrlComposition.getSessionUrl(this)
         val sessionLink = sessionFormatter.getFormattedUrl(sessionUrl)
@@ -152,19 +152,19 @@ internal class SessionDetailsViewModel(
             hasDateUtc = dateUTC > 0,
             formattedZonedDateTimeShort = formattedZonedDateTimeShort,
             formattedZonedDateTimeLong = formattedZonedDateTimeLong,
-            title = title.orEmpty(),
-            subtitle = subtitle.orEmpty(),
+            title = title,
+            subtitle = subtitle,
             speakerNames = sessionPropertiesFormatter.getFormattedSpeakers(this),
             speakersCount = speakers.size,
-            abstract = abstractt.orEmpty(),
+            abstract = abstractt,
             formattedAbstract = formattedAbstract,
-            description = description.orEmpty(),
+            description = description,
             formattedDescription = formattedDescription,
-            roomName = roomName.orEmpty(),
-            track = track.orEmpty(),
-            hasLinks = getLinks().isNotEmpty(),
+            roomName = roomName,
+            track = track,
+            hasLinks = links.isNotEmpty(),
             formattedLinks = formattedLinks,
-            hasWikiLinks = getLinks().containsWikiLink(),
+            hasWikiLinks = links.containsWikiLink(),
             sessionLink = sessionLink,
             // Options menu
             isFlaggedAsFavorite = highlight,

@@ -15,6 +15,42 @@ import nerd.tuxmobil.fahrplan.congress.models.Session as SessionAppModel
 class SessionExtensionsTest {
 
     @Test
+    fun `shiftRoomIndexOnDays shifts the room index by 1 if the day index is contained in the given set`() {
+        val session = Session("").apply {
+            dayIndex = 3
+            roomIndex = 17
+        }
+        val dayIndices = setOf(3)
+        val shiftedSession = session.shiftRoomIndexOnDays(dayIndices)
+        assertThat(shiftedSession.roomIndex).isEqualTo(18)
+        assertThat(shiftedSession).isNotSameInstanceAs(session)
+    }
+
+    @Test
+    fun `shiftRoomIndexOnDays does not shift the room index if the day index is not contained in the given set`() {
+        val session = Session("").apply {
+            dayIndex = 3
+            roomIndex = 17
+        }
+        val dayIndices = setOf(1, 2)
+        val shiftedSession = session.shiftRoomIndexOnDays(dayIndices)
+        assertThat(shiftedSession.roomIndex).isEqualTo(17)
+        assertThat(shiftedSession).isSameInstanceAs(session)
+    }
+
+    @Test
+    fun `shiftRoomIndexOnDays does not shift the room index if the given set is empty`() {
+        val session = Session("").apply {
+            dayIndex = 3
+            roomIndex = 17
+        }
+        val dayIndices = emptySet<Int>()
+        val shiftedSession = session.shiftRoomIndexOnDays(dayIndices)
+        assertThat(shiftedSession.roomIndex).isEqualTo(17)
+        assertThat(shiftedSession).isSameInstanceAs(session)
+    }
+
+    @Test
     fun `toSessionDatabaseModel returns a database session derived from an app session`() {
         val session = SessionDatabaseModel(
                 sessionId = "7331",

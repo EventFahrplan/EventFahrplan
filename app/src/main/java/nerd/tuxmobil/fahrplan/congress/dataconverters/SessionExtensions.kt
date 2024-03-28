@@ -7,17 +7,18 @@ import info.metadude.android.eventfahrplan.network.serialization.FahrplanParser
 import nerd.tuxmobil.fahrplan.congress.models.DateInfo
 import nerd.tuxmobil.fahrplan.congress.models.Room
 import nerd.tuxmobil.fahrplan.congress.models.Session
+import nerd.tuxmobil.fahrplan.congress.schedule.TrackBackgrounds
 import org.threeten.bp.ZoneOffset
 import info.metadude.android.eventfahrplan.database.models.Highlight as HighlightDatabaseModel
 import info.metadude.android.eventfahrplan.database.models.Session as SessionDatabaseModel
 import info.metadude.android.eventfahrplan.network.models.Session as SessionNetworkModel
 
-fun Session.shiftRoomIndexOnDays(dayIndices: Set<Int>): Session {
+fun Session.shiftRoomIndexOnDays(dayIndices: Set<Int>) =
     if (dayIndex in dayIndices) {
-        shiftRoomIndexBy(1)
+        Session(this).apply { roomIndex += 1 }
+    } else {
+        this
     }
-    return this
-}
 
 fun Session.toRoom() = Room(identifier = roomIdentifier, name = roomName)
 
@@ -163,40 +164,60 @@ fun SessionNetworkModel.toSessionAppModel(): Session {
     return session
 }
 
+/**
+ * Rewrites certain properties of a session to make its rendering more pleasant and to reduce
+ * visual clutter. This is accomplished by removing duplicate information, moving content to more
+ * appropriate properties, and normalizing properties. To visually guide users, a common color
+ * scheme is used for similar sessions. This is achieved by customizing related track names. Colors
+ * are derived from track names, see [TrackBackgrounds].
+ */
 fun Session.sanitize(): Session {
-    if (title.isEmpty() && subtitle.isNotEmpty()) {
-        title = subtitle
-        subtitle = ""
+    var tempTitle = title
+    var tempSubtitle = subtitle
+    var tempAbstract = abstractt
+    var tempDescription = description
+    var tempTrack = track
+    var tempLanguage = language
+    if (tempTitle.isEmpty() && tempSubtitle.isNotEmpty()) {
+        tempTitle = tempSubtitle
+        tempSubtitle = ""
     }
-    if (title == subtitle) {
-        subtitle = ""
+    if (tempTitle == tempSubtitle) {
+        tempSubtitle = ""
     }
-    if (abstractt == description) {
-        abstractt = ""
+    if (tempAbstract == tempDescription) {
+        tempAbstract = ""
     }
-    if (createSpeakersString(speakers) == subtitle) {
-        subtitle = ""
+    if (createSpeakersString(speakers) == tempSubtitle) {
+        tempSubtitle = ""
     }
-    if (description.isEmpty()) {
-        description = abstractt
-        abstractt = ""
+    if (tempDescription.isEmpty()) {
+        tempDescription = tempAbstract
+        tempAbstract = ""
     }
-    if (!language.isNullOrEmpty()) {
-        language = language.lowercase()
+    if (tempLanguage.isNotEmpty()) {
+        tempLanguage = tempLanguage.lowercase()
     }
-    if (("Sendezentrum-Bühne" == track || "Sendezentrum Bühne" == track || "xHain Berlin" == track) && !type.isNullOrEmpty()) {
-        track = type
+    if (("Sendezentrum-Bühne" == tempTrack || "Sendezentrum Bühne" == tempTrack || "xHain Berlin" == tempTrack) && type.isNotEmpty()) {
+        tempTrack = type
     }
-    if ("classics" == roomName && "Other" == type && track.isNullOrEmpty()) {
-        track = "Classics"
+    if ("classics" == roomName && "Other" == type && tempTrack.isEmpty()) {
+        tempTrack = "Classics"
     }
     if ("rC3 Lounge" == roomName) {
-        track = "Music"
+        tempTrack = "Music"
     }
-    if (track.isNullOrEmpty() && !type.isNullOrEmpty()) {
-        track = type
+    if (tempTrack.isEmpty() && type.isNotEmpty()) {
+        tempTrack = type
     }
-    return this
+    return Session(this).apply {
+        title = tempTitle
+        subtitle = tempSubtitle
+        abstractt = tempAbstract
+        description = tempDescription
+        track = tempTrack
+        language = tempLanguage
+    }
 }
 
 /**
