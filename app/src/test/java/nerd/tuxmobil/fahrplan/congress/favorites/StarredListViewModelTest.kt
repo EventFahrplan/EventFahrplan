@@ -72,18 +72,18 @@ class StarredListViewModelTest {
     }
 
     @Test
-    fun `delete invokes repository functions`() {
+    fun `unfavorSession invokes repository functions`() {
         val repository = createRepository()
         val viewModel = createViewModel(repository)
-        viewModel.delete(Session("42"))
+        viewModel.unfavorSession(Session("42"))
         verifyInvokedOnce(repository).updateHighlight(any())
     }
 
     @Test
-    fun `deleteAll invokes repository functions`() {
+    fun `unfavorAllSessions invokes repository functions`() {
         val repository = createRepository()
         val viewModel = createViewModel(repository)
-        viewModel.deleteAll()
+        viewModel.unfavorAllSessions()
         verifyInvokedOnce(repository).deleteAllHighlights()
     }
 

@@ -294,7 +294,7 @@ class StarredListFragment :
 
     private fun deleteSession(session: Session) {
         session.highlight = false
-        viewModel.delete(session)
+        viewModel.unfavorSession(session)
     }
 
     private fun deleteItems(checkedItemPositions: SparseBooleanArray) {
@@ -324,7 +324,7 @@ class StarredListFragment :
         if (!::starredList.isInitialized || starredList.isEmpty()) {
             return
         }
-        viewModel.deleteAll()
+        viewModel.unfavorAllSessions()
     }
 
 }
