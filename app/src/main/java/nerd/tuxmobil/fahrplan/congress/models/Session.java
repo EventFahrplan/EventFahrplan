@@ -189,7 +189,7 @@ public class Session {
      */
     public Moment getStartsAt() {
         if (dateUTC <= 0) {
-            throw new IllegalArgumentException("Field 'dateUTC' must be more than 0.");
+            throw new IllegalStateException("Field 'dateUTC' must be more than 0.");
         }
         return Moment.ofEpochMilli(dateUTC);
     }

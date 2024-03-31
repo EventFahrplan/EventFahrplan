@@ -317,7 +317,7 @@ class SessionTest {
         val session = Session("").apply { dateUTC = 0 }
         try {
             session.startsAt
-        } catch (e: IllegalArgumentException) {
+        } catch (e: IllegalStateException) {
             assertThat(e.message).isEqualTo("Field 'dateUTC' must be more than 0.")
         }
     }
