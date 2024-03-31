@@ -12,7 +12,7 @@ internal interface SessionViewEventsHandler : View.OnCreateContextMenuListener, 
 
 internal class SessionViewColumnAdapter(
         private val sessions: List<Session>,
-        private val layoutParamsBySession: Map<Session, LinearLayout.LayoutParams>,
+        private val layoutParamsBySession: Map</* sessionId */ String, LinearLayout.LayoutParams>,
         private val useDeviceTimeZone: Boolean,
         private val drawer: SessionViewDrawer,
         private val eventsHandler: SessionViewEventsHandler
@@ -21,7 +21,7 @@ internal class SessionViewColumnAdapter(
     override fun onBindViewHolder(viewHolder: SessionViewHolder, position: Int) {
         val session = sessions[position]
         viewHolder.itemView.tag = session
-        viewHolder.itemView.layoutParams = layoutParamsBySession[session]
+        viewHolder.itemView.layoutParams = layoutParamsBySession[session.sessionId]
         drawer.updateSessionView(viewHolder.itemView, session, useDeviceTimeZone)
     }
 

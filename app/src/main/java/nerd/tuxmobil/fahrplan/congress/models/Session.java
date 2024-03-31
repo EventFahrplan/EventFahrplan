@@ -255,19 +255,25 @@ public class Session {
         return result;
     }
 
-    public void cancel() {
-        changedIsCanceled = true;
-        changedTitle = false;
-        changedSubtitle = false;
-        changedRoomName = false;
-        changedDayIndex = false;
-        changedSpeakers = false;
-        changedRecordingOptOut = false;
-        changedLanguage = false;
-        changedTrack = false;
-        changedIsNew = false;
-        changedStartTime = false;
-        changedDuration = false;
+    /**
+     * Returns a new session with {@link #changedIsCanceled} set to {@code true}
+     * and all other change flags set to {@code false}.
+     */
+    public Session cancel() {
+        Session session = new Session(this);
+        session.changedIsCanceled = true;
+        session.changedTitle = false;
+        session.changedSubtitle = false;
+        session.changedRoomName = false;
+        session.changedDayIndex = false;
+        session.changedSpeakers = false;
+        session.changedRecordingOptOut = false;
+        session.changedLanguage = false;
+        session.changedTrack = false;
+        session.changedIsNew = false;
+        session.changedStartTime = false;
+        session.changedDuration = false;
+        return session;
     }
 
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")

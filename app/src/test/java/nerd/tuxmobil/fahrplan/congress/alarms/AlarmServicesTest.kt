@@ -57,7 +57,6 @@ class AlarmServicesTest {
         whenever(formattingDelegate.getFormattedDateTimeShort(any(), any(), any())) doReturn "not relevant"
         val session = Session("S1").apply {
             dayIndex = 1
-            hasAlarm = false
             title = "Title"
             dateUTC = 1536332400000L // 2018-09-07T17:00:00+02:00
             timeZoneOffset = ZoneOffset.of("+02:00")
@@ -65,7 +64,6 @@ class AlarmServicesTest {
 
         alarmServices.addSessionAlarm(session, alarmTimesValues.indexOf("60"))
         // AlarmServices invokes scheduleSessionAlarm() which is tested separately.
-        assertThat(session.hasAlarm).isTrue()
         val expectedAlarm = Alarm(
             alarmTimeInMin = 60,
             day = 1,
@@ -96,7 +94,7 @@ class AlarmServicesTest {
     }
 
     @Test
-    fun `deleteSessionAlarm discards a session alarm when the alarms was scheduled`() {
+    fun `deleteSessionAlarm discards a session alarm when the alarm was scheduled`() {
         val formattingDelegate = mock<FormattingDelegate>()
         val alarmServices = createAlarmServices(formattingDelegate = formattingDelegate)
         val alarm = Alarm(10, 2, 0, "S3", "Title", 1536332400000L, "Lorem ipsum")
@@ -107,21 +105,19 @@ class AlarmServicesTest {
         // AlarmServices invokes discardSessionAlarm() which is tested separately.
         verifyNoInteractions(formattingDelegate)
         verifyInvokedOnce(repository).deleteAlarmForSessionId("S3")
-        assertThat(session.hasAlarm).isFalse()
     }
 
     @Test
-    fun `deleteSessionAlarm resets the session alarm flag when no alarms was scheduled`() {
+    fun `deleteSessionAlarm returns without action when no alarm was scheduled`() {
         val pendingIntentDelegate = mock<PendingIntentDelegate>()
         val formattingDelegate = mock<FormattingDelegate>()
         val alarmServices = createAlarmServices(pendingIntentDelegate = pendingIntentDelegate, formattingDelegate = formattingDelegate)
         whenever(repository.readAlarms(any())) doReturn emptyList()
-        val session = Session("S4").apply { hasAlarm = true }
+        val session = Session("S4")
 
         alarmServices.deleteSessionAlarm(session)
         verifyNoInteractions(pendingIntentDelegate)
         verifyNoInteractions(formattingDelegate)
-        assertThat(session.hasAlarm).isFalse()
     }
 
     @Test

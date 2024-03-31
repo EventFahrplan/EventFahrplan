@@ -679,6 +679,14 @@ object AppRepository {
     }
 
     @WorkerThread
+    fun deleteHighlight(sessionId: String) {
+        highlightsDatabaseRepository.delete(sessionId)
+        refreshStarredSessions()
+        refreshSelectedSession()
+        refreshUncanceledSessions()
+    }
+
+    @WorkerThread
     fun deleteAllHighlights() {
         highlightsDatabaseRepository.deleteAll()
         refreshStarredSessions()

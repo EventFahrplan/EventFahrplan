@@ -128,7 +128,6 @@ class AlarmServices @VisibleForTesting constructor(
         val schedulableAlarm = alarm.toSchedulableAlarm()
         scheduleSessionAlarm(schedulableAlarm, true)
         repository.updateAlarm(alarm)
-        session.hasAlarm = true
     }
 
     /**
@@ -144,7 +143,6 @@ class AlarmServices @VisibleForTesting constructor(
             discardSessionAlarm(schedulableAlarm)
             repository.deleteAlarmForSessionId(sessionId)
         }
-        session.hasAlarm = false
     }
 
     /**
