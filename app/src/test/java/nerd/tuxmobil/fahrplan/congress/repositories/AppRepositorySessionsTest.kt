@@ -47,67 +47,74 @@ class AppRepositorySessionsTest {
 
     companion object {
 
-        private val SESSION_1001 = createSession("1001").apply {
-            changedIsCanceled = false
-            changedTitle = false
-            changedIsNew = false
-        }
+        private val SESSION_1001 = Session(
+            sessionId = "1001",
+            changedIsCanceled = false,
+            changedTitle = false,
+            changedIsNew = false,
+        )
 
-        private val SESSION_1002 = createSession("1002").apply {
-            changedIsCanceled = true
-            changedTitle = false
-            changedIsNew = false
-        }
+        private val SESSION_1002 = Session(
+            sessionId = "1002",
+            changedIsCanceled = true,
+            changedTitle = false,
+            changedIsNew = false,
+        )
 
-        private val SESSION_1003 = createSession("1003").apply {
-            changedIsCanceled = false
-            changedTitle = true
-            changedIsNew = false
-        }
+        private val SESSION_1003 = Session(
+            sessionId = "1003",
+            changedIsCanceled = false,
+            changedTitle = true,
+            changedIsNew = false,
+        )
 
-        private val SESSION_1004 = createSession("1004").apply {
-            changedIsCanceled = false
-            changedTitle = false
-            changedIsNew = true
-        }
+        private val SESSION_1004 = Session(
+            sessionId = "1004",
+            changedIsCanceled = false,
+            changedTitle = false,
+            changedIsNew = true,
+        )
 
-        private val SESSION_1005 = createSession("1005").apply {
-            changedIsCanceled = true
-            changedTitle = true
-            changedIsNew = true
-        }
+        private val SESSION_1005 = Session(
+            sessionId = "1005",
+            changedIsCanceled = true,
+            changedTitle = true,
+            changedIsNew = true,
+        )
 
-        private val SESSION_2001 = createSession("2001").apply {
-            highlight = false
-            changedIsCanceled = false
-        }
+        private val SESSION_2001 = Session(
+            sessionId = "2001",
+            highlight = false,
+            changedIsCanceled = false,
+        )
 
-        private val SESSION_2002 = createSession("2002").apply {
-            highlight = true
-            changedIsCanceled = false
-        }
+        private val SESSION_2002 = Session(
+            sessionId = "2002",
+            highlight = true,
+            changedIsCanceled = false,
+        )
 
-        private val SESSION_2003 = createSession("2003").apply {
-            highlight = true
-            changedIsCanceled = true
-        }
+        private val SESSION_2003 = Session(
+            sessionId = "2003",
+            highlight = true,
+            changedIsCanceled = true,
+        )
 
-        private val SESSION_2004 = createSession("2004").apply {
-            highlight = false
-            changedIsCanceled = true
-        }
+        private val SESSION_2004 = Session(
+            sessionId = "2004",
+            highlight = false,
+            changedIsCanceled = true,
+        )
 
-        private val SESSION_3001 = createSession("3001").apply {
-            changedIsCanceled = false
-        }
+        private val SESSION_3001 = Session(
+            sessionId = "3001",
+            changedIsCanceled = false,
+        )
 
-        private val SESSION_3002 = createSession("3002").apply {
-            changedIsCanceled = true
-        }
-
-        private fun createSession(sessionId: String) = Session(sessionId).apply {
-            url = "" // only initialized for toSessionsDatabaseModel()
-        }
+        private val SESSION_3002 = Session(
+            sessionId = "3002",
+            changedIsCanceled = true,
+        )
 
     }
 

@@ -140,7 +140,7 @@ internal class FahrplanViewModel(
                 } else {
                     session.track
                 }
-                Session(session).apply { track = customTrackName }
+                session.copy(track = customTrackName)
             }
             roomData.copy(roomName = customRoomName, sessions = customSessions)
         }
@@ -178,11 +178,11 @@ internal class FahrplanViewModel(
     private fun createScheduleDataWithAlarmFlags(scheduleData: ScheduleData, alarms: List<Alarm>) =
         scheduleData.copy(roomDataList = scheduleData.roomDataList.map { roomData ->
             roomData.copy(sessions = roomData.sessions.map { session ->
-                Session(session).apply {
+                session.copy(
                     hasAlarm = alarms.any { alarm ->
                         alarm.sessionId == session.sessionId
                     }
-                }
+                )
             })
         })
 

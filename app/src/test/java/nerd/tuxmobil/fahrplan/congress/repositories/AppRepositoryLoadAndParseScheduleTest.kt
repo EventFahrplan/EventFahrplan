@@ -236,17 +236,18 @@ class AppRepositoryLoadAndParseScheduleTest {
 
     private suspend fun assertStarredSessionsProperty() {
         testableAppRepository.starredSessions.test {
-            val session = AppSession("55").apply { highlight = true }
+            val session = AppSession(sessionId = "55", highlight = true)
             assertThat(awaitItem()).isEqualTo(listOf(session))
         }
     }
 
     private suspend fun assertChangedSessionsProperty() {
         testableAppRepository.changedSessions.test {
-            val session = AppSession("55").apply {
-                highlight = true
-                changedLanguage = true
-            }
+            val session = AppSession(
+                sessionId = "55",
+                highlight = true,
+                changedLanguage = true,
+            )
             assertThat(awaitItem()).isEqualTo(listOf(session))
         }
     }

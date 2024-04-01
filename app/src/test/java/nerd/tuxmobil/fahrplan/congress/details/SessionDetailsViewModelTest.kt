@@ -81,19 +81,20 @@ class SessionDetailsViewModelTest {
 
     @Test
     fun `selectedSessionParameter emits SelectedSessionParameter built from filled sample session`() = runTest {
-        val session = Session("S1").apply {
-            dateUTC = 100
-            title = "Session title"
-            subtitle = "Session subtitle"
-            speakers = listOf("Jane Doe", "John Doe")
-            roomName = "Main hall"
-            roomIdentifier = "88888888-4444-4444-4444-121212121212"
-            abstractt = "Session abstract"
-            description = "Session description"
-            track = "Session track"
-            links = "[VOC projects](https://www.voc.com/projects/),[POC](https://poc.com/QXut1XBymAk)"
-            highlight = true
-        }
+        val session = Session(
+            sessionId = "S1",
+            dateUTC = 100,
+            title = "Session title",
+            subtitle = "Session subtitle",
+            speakers = listOf("Jane Doe", "John Doe"),
+            roomName = "Main hall",
+            roomIdentifier = "88888888-4444-4444-4444-121212121212",
+            abstractt = "Session abstract",
+            description = "Session description",
+            track = "Session track",
+            links = "[VOC projects](https://www.voc.com/projects/),[POC](https://poc.com/QXut1XBymAk)",
+            highlight = true,
+        )
         val repository = createRepository(selectedSessionFlow = flowOf(session))
         val fakeSessionFormatter = mock<SessionFormatter> {
             on { getFormattedLinks(any()) } doReturn "not relevant"
@@ -155,19 +156,20 @@ class SessionDetailsViewModelTest {
 
     @Test
     fun `selectedSessionParameter emits SelectedSessionParameter built from empty sample session`() = runTest {
-        val session = Session("S1").apply {
-            dateUTC = 0
-            title = ""
-            subtitle = ""
-            speakers = emptyList()
-            roomName = ""
-            roomIdentifier = ""
-            abstractt = ""
-            description = ""
-            track = ""
-            links = ""
-            highlight = false
-        }
+        val session = Session(
+            sessionId = "S1",
+            dateUTC = 0,
+            title = "",
+            subtitle = "",
+            speakers = emptyList(),
+            roomName = "",
+            roomIdentifier = "",
+            abstractt = "",
+            description = "",
+            track = "",
+            links = "",
+            highlight = false,
+        )
         val repository = createRepository(selectedSessionFlow = flowOf(session))
         val fakeSessionFormatter = mock<SessionFormatter> {
             on { getFormattedLinks(any()) } doReturn "not relevant"
@@ -283,8 +285,8 @@ class SessionDetailsViewModelTest {
 
     @Test
     fun `favorSession() flags the session as a favorite and persists it`() {
-        val actualSession = Session("S3").apply { highlight = false }
-        val expectedSession = Session("S3").apply { highlight = true }
+        val actualSession = Session(sessionId = "S3", highlight = false)
+        val expectedSession = Session(sessionId = "S3", highlight = true)
         val repository = createRepository(selectedSession = actualSession)
         val viewModel = createViewModel(repository)
         viewModel.favorSession()
@@ -294,8 +296,8 @@ class SessionDetailsViewModelTest {
 
     @Test
     fun `unfavorSession() unflags the session as a favorite and persists it`() {
-        val actualSession = Session("S4").apply { highlight = true }
-        val expectedSession = Session("S4").apply { highlight = false }
+        val actualSession = Session(sessionId = "S4", highlight = true)
+        val expectedSession = Session(sessionId = "S4", highlight = false)
         val repository = createRepository(selectedSession = actualSession)
         val viewModel = createViewModel(repository)
         viewModel.unfavorSession()
@@ -428,10 +430,11 @@ class SessionDetailsViewModelTest {
     @Test
     fun `navigateToRoom() posts to navigateToRoom`() = runTest {
         val repository = createRepository(
-            selectedSession = Session("S1").apply {
-                roomName = "Garden"
-                roomIdentifier = ""
-            }
+            selectedSession = Session(
+                sessionId = "S1",
+                roomName = "Garden",
+                roomIdentifier = "",
+            )
         )
         val viewModel = createViewModel(
             repository = repository,
@@ -446,10 +449,11 @@ class SessionDetailsViewModelTest {
 
     @Test
     fun `supportsFeedback returns false if room name matches default Engelsystem room name`() = runTest {
-        val session = Session("S1").apply {
-            roomName = "Engelshifts"
-            roomIdentifier = "88888888-4444-4444-4444-121212121212"
-        }
+        val session = Session(
+            sessionId = "S1",
+            roomName = "Engelshifts",
+            roomIdentifier = "88888888-4444-4444-4444-121212121212",
+        )
         val repository = createRepository(selectedSessionFlow = flowOf(session))
         val fakeSessionFormatter = mock<SessionFormatter> {
             on { getFormattedLinks(any()) } doReturn "not relevant"

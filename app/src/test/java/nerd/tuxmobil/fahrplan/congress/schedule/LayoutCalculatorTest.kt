@@ -14,16 +14,16 @@ class LayoutCalculatorTest {
     private val layoutCalculator = LayoutCalculator(standardHeight = 1, logging = NoLogging)
 
     private fun createSession(date: String? = null, startTime: Int = 0, duration: Int = 0): Session {
-        val session = Session((sessionId++).toString())
+        var session = Session((sessionId++).toString(), duration = duration)
 
         if (date != null) {
             val dateUTC = Moment.parseDate(date).plusMinutes(startTime.toLong())
-            session.dateUTC = dateUTC.toMilliseconds()
+            session = session.copy(dateUTC = dateUTC.toMilliseconds())
         } else {
-            session.relStartTime = startTime
+            session = session.copy(relStartTime = startTime)
         }
 
-        return session.apply { this.duration = duration }
+        return session
     }
 
     @Test

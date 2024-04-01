@@ -74,7 +74,7 @@ class SessionPropertiesFormatterTest {
     @ParameterizedTest(name = """getLanguageText returns "{1}" if language "{0}"""")
     @MethodSource("getLanguageTextData")
     fun `getLanguageText returns two-letter language code`(language: String, expected: String) {
-        val session = createSession().apply { this.language = language }
+        val session = createSession(language = language)
         assertThat(formatter.getLanguageText(session)).isEqualTo(expected)
     }
 
@@ -82,10 +82,11 @@ class SessionPropertiesFormatterTest {
         speakers: List<String> = emptyList(),
         track: String = "",
         language: String = "",
-    ) = Session("").apply {
-        this.speakers = speakers
-        this.track = track
-        this.language = language
-    }
+    ) = Session(
+        sessionId = "",
+        speakers = speakers,
+        track = track,
+        language = language,
+    )
 
 }

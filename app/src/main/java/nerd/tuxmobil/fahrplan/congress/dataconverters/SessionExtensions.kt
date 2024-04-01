@@ -15,7 +15,7 @@ import info.metadude.android.eventfahrplan.network.models.Session as SessionNetw
 
 fun Session.shiftRoomIndexOnDays(dayIndices: Set<Int>) =
     if (dayIndex in dayIndices) {
-        Session(this).apply { roomIndex += 1 }
+        copy(roomIndex = roomIndex + 1)
     } else {
         this
     }
@@ -73,95 +73,93 @@ fun Session.toSessionDatabaseModel() = SessionDatabaseModel(
 )
 
 fun SessionDatabaseModel.toSessionAppModel(): Session {
-    val session = Session(sessionId)
+    return Session(
+        sessionId = sessionId,
+        abstractt = abstractt,
+        dateText = date,
+        dateUTC = dateUTC,
+        dayIndex = dayIndex,
+        description = description,
+        duration = duration, // minutes
+        feedbackUrl = feedbackUrl,
+        hasAlarm = hasAlarm,
+        language = language,
+        links = links,
+        highlight = isHighlight,
+        recordingLicense = recordingLicense,
+        recordingOptOut = recordingOptOut,
+        relStartTime = relativeStartTime,
+        roomName = roomName,
+        roomIdentifier = roomIdentifier,
+        roomIndex = roomIndex,
+        slug = slug,
+        speakers = createSpeakersList(speakers),
+        startTime = startTime, // minutes since day start
+        subtitle = subtitle,
+        timeZoneOffset = timeZoneOffset?.let { ZoneOffset.ofTotalSeconds(it) }, // seconds
+        title = title,
+        track = track,
+        type = type,
+        url = url,
 
-    session.abstractt = abstractt
-    session.dateText = date
-    session.dateUTC = dateUTC
-    session.dayIndex = dayIndex
-    session.description = description
-    session.duration = duration // minutes
-    session.feedbackUrl = feedbackUrl
-    session.hasAlarm = hasAlarm
-    session.language = language
-    session.links = links
-    session.highlight = isHighlight
-    session.recordingLicense = recordingLicense
-    session.recordingOptOut = recordingOptOut
-    session.relStartTime = relativeStartTime
-    session.roomName = roomName
-    session.roomIdentifier = roomIdentifier
-    session.roomIndex = roomIndex
-    session.slug = slug
-    session.speakers = createSpeakersList(speakers)
-    session.startTime = startTime // minutes since day start
-    session.subtitle = subtitle
-    session.timeZoneOffset = timeZoneOffset?.let { ZoneOffset.ofTotalSeconds(it) } // seconds
-    session.title = title
-    session.track = track
-    session.type = type
-    session.url = url
-
-    session.changedDayIndex = changedDay
-    session.changedDuration = changedDuration
-    session.changedIsCanceled = changedIsCanceled
-    session.changedIsNew = changedIsNew
-    session.changedLanguage = changedLanguage
-    session.changedRecordingOptOut = changedRecordingOptOut
-    session.changedRoomName = changedRoomName
-    session.changedSpeakers = changedSpeakers
-    session.changedSubtitle = changedSubtitle
-    session.changedStartTime = changedTime
-    session.changedTitle = changedTitle
-    session.changedTrack = changedTrack
-
-    return session
+        changedDayIndex = changedDay,
+        changedDuration = changedDuration,
+        changedIsCanceled = changedIsCanceled,
+        changedIsNew = changedIsNew,
+        changedLanguage = changedLanguage,
+        changedRecordingOptOut = changedRecordingOptOut,
+        changedRoomName = changedRoomName,
+        changedSpeakers = changedSpeakers,
+        changedSubtitle = changedSubtitle,
+        changedStartTime = changedTime,
+        changedTitle = changedTitle,
+        changedTrack = changedTrack,
+    )
 }
 
 fun SessionNetworkModel.toSessionAppModel(): Session {
-    val session = Session(sessionId)
+    return Session(
+        sessionId = sessionId,
+        abstractt = abstractt,
+        dateText = date,
+        dateUTC = dateUTC,
+        dayIndex = dayIndex,
+        description = description,
+        duration = duration, // minutes
+        feedbackUrl = feedbackUrl,
+        hasAlarm = hasAlarm,
+        language = language,
+        links = links,
+        highlight = isHighlight,
+        recordingLicense = recordingLicense,
+        recordingOptOut = recordingOptOut,
+        relStartTime = relativeStartTime,
+        roomName = roomName,
+        roomIdentifier = roomGuid,
+        roomIndex = roomIndex,
+        slug = slug,
+        speakers = createSpeakersList(speakers),
+        startTime = startTime, // minutes since day start
+        subtitle = subtitle,
+        timeZoneOffset = timeZoneOffset?.let { ZoneOffset.ofTotalSeconds(it) }, // seconds
+        title = title,
+        track = track,
+        type = type,
+        url = url,
 
-    session.abstractt = abstractt
-    session.dateText = date
-    session.dateUTC = dateUTC
-    session.dayIndex = dayIndex
-    session.description = description
-    session.duration = duration // minutes
-    session.feedbackUrl = feedbackUrl
-    session.hasAlarm = hasAlarm
-    session.language = language
-    session.links = links
-    session.highlight = isHighlight
-    session.recordingLicense = recordingLicense
-    session.recordingOptOut = recordingOptOut
-    session.relStartTime = relativeStartTime
-    session.roomName = roomName
-    session.roomIdentifier = roomGuid
-    session.roomIndex = roomIndex
-    session.slug = slug
-    session.speakers = createSpeakersList(speakers)
-    session.startTime = startTime // minutes since day start
-    session.subtitle = subtitle
-    session.timeZoneOffset = timeZoneOffset?.let { ZoneOffset.ofTotalSeconds(it) } // seconds
-    session.title = title
-    session.track = track
-    session.type = type
-    session.url = url
-
-    session.changedDayIndex = changedDayIndex
-    session.changedDuration = changedDuration
-    session.changedIsCanceled = changedIsCanceled
-    session.changedIsNew = changedIsNew
-    session.changedLanguage = changedLanguage
-    session.changedRecordingOptOut = changedRecordingOptOut
-    session.changedRoomName = changedRoomName
-    session.changedSpeakers = changedSpeakers
-    session.changedSubtitle = changedSubtitle
-    session.changedStartTime = changedStartTime
-    session.changedTitle = changedTitle
-    session.changedTrack = changedTrack
-
-    return session
+        changedDayIndex = changedDayIndex,
+        changedDuration = changedDuration,
+        changedIsCanceled = changedIsCanceled,
+        changedIsNew = changedIsNew,
+        changedLanguage = changedLanguage,
+        changedRecordingOptOut = changedRecordingOptOut,
+        changedRoomName = changedRoomName,
+        changedSpeakers = changedSpeakers,
+        changedSubtitle = changedSubtitle,
+        changedStartTime = changedStartTime,
+        changedTitle = changedTitle,
+        changedTrack = changedTrack,
+    )
 }
 
 /**
@@ -210,14 +208,14 @@ fun Session.sanitize(): Session {
     if (tempTrack.isEmpty() && type.isNotEmpty()) {
         tempTrack = type
     }
-    return Session(this).apply {
-        title = tempTitle
-        subtitle = tempSubtitle
-        abstractt = tempAbstract
-        description = tempDescription
-        track = tempTrack
-        language = tempLanguage
-    }
+    return this.copy(
+        title = tempTitle,
+        subtitle = tempSubtitle,
+        abstractt = tempAbstract,
+        description = tempDescription,
+        track = tempTrack,
+        language = tempLanguage,
+    )
 }
 
 /**

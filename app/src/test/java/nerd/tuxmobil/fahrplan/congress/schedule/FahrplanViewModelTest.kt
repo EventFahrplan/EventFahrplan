@@ -220,11 +220,12 @@ class FahrplanViewModelTest {
     @Test
     fun `fillTimes posts TimeTextViewParameter to timeTextViewParameters property`() = runTest {
         val startsAt = 1582963200000L // February 29, 2020 08:00:00 AM GMT
-        val session = Session("session-01").apply {
-            dateUTC = startsAt
-            duration = 30
-            timeZoneOffset = ZoneOffset.UTC
-        }
+        val session = Session(
+            sessionId = "session-01",
+            dateUTC = startsAt,
+            duration = 30,
+            timeZoneOffset = ZoneOffset.UTC,
+        )
         val repository = createRepository(
             uncanceledSessionsForDayIndexFlow = flowOf(createScheduleData(session)),
         )
@@ -512,7 +513,7 @@ class FahrplanViewModelTest {
     }
 
     private fun createScheduleData(sessionId: String? = null, hasAlarm: Boolean = false): ScheduleData {
-        val session = if (sessionId == null) null else Session(sessionId).apply { this.hasAlarm = hasAlarm }
+        val session = if (sessionId == null) null else Session(sessionId = sessionId, hasAlarm = hasAlarm)
         return createScheduleData(session)
     }
 

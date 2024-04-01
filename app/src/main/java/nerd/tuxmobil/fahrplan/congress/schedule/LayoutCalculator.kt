@@ -95,7 +95,7 @@ data class LayoutCalculator @JvmOverloads constructor(
             logging.d(LOG_TAG, """Collision: "${session.title}" + "${next.title}"""")
             // cut current at the end, to match next sessions start time
             val newDuration = session.startsAt.minutesUntil(next.startsAt).toInt()
-            Session(session).apply { duration = newDuration }
+            session.copy(duration = newDuration)
         } else {
             session
         }
