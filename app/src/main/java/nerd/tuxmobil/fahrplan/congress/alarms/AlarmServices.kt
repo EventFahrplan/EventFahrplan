@@ -45,8 +45,6 @@ class AlarmServices @VisibleForTesting constructor(
         /**
          * Factory function returning an [AlarmServices] instance with sensible defaults set.
          */
-        @JvmStatic
-        @JvmOverloads
         fun newInstance(
             context: Context,
             repository: AppRepository,
@@ -160,7 +158,6 @@ class AlarmServices @VisibleForTesting constructor(
      * Schedules the given [alarm] via the [AlarmManager].
      * Existing alarms for the associated session are discarded if configured via [discardExisting].
      */
-    @JvmOverloads
     fun scheduleSessionAlarm(alarm: SchedulableAlarm, discardExisting: Boolean = false) {
         val intent = AlarmReceiver.AlarmIntentFactory(
             context = context,

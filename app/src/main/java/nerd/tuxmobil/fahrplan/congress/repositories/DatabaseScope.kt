@@ -18,7 +18,6 @@ class DatabaseScope private constructor(
 
     companion object {
 
-        @JvmStatic
         fun of(executionContext: ExecutionContext, exceptionHandling: ExceptionHandling): DatabaseScope {
             val defaultExceptionHandler = CoroutineExceptionHandler(exceptionHandling::onExceptionHandling)
             return DatabaseScope(executionContext, SupervisorJob(), defaultExceptionHandler)

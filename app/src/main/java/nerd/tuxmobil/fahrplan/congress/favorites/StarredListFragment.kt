@@ -59,7 +59,6 @@ class StarredListFragment :
         const val FRAGMENT_TAG = "starred"
         const val DELETE_ALL_FAVORITES_REQUEST_CODE = 19126
 
-        @JvmStatic
         fun replace(fragmentManager: FragmentManager, @IdRes containerViewId: Int, sidePane: Boolean) {
             val fragment = StarredListFragment().withArguments(
                 BundleKeys.SIDEPANE to sidePane

@@ -6,7 +6,7 @@ import nerd.tuxmobil.fahrplan.congress.dataconverters.toVirtualDays
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.models.VirtualDay
 
-internal class NavigationMenuEntriesGenerator @JvmOverloads constructor(
+internal class NavigationMenuEntriesGenerator(
 
     /**
      * The word "Day" in the language of choice.

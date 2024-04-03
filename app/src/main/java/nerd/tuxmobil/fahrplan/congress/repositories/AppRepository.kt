@@ -302,7 +302,6 @@ object AppRepository {
             .flowOn(executionContext.database)
     }
 
-    @JvmOverloads
     fun initialize(
             context: Context,
             logging: Logging,
@@ -648,7 +647,6 @@ object AppRepository {
     }
 
     @WorkerThread
-    @JvmOverloads
     fun readAlarms(sessionId: String = "") = if (sessionId.isEmpty()) {
         alarmsDatabaseRepository.query().toAlarmsAppModel()
     } else {

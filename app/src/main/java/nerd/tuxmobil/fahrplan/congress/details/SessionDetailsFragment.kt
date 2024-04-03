@@ -82,7 +82,6 @@ class SessionDetailsFragment : Fragment() {
             }
         }
 
-        @JvmStatic
         fun replaceAtBackStack(fragmentManager: FragmentManager, @IdRes containerViewId: Int, sidePane: Boolean) {
             val fragment = SessionDetailsFragment().withArguments(
                 BundleKeys.SIDEPANE to sidePane
