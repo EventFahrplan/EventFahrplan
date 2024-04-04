@@ -25,7 +25,5 @@
 
     <!-- About -->
     <dimen name="about_padding_horizontal">32dp</dimen>
-    <dimen name="about_padding_top">16dp</dimen>
-    <dimen name="about_padding_bottom">32dp</dimen>
 
 </resources>

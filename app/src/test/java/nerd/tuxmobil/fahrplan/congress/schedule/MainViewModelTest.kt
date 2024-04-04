@@ -299,7 +299,7 @@ class MainViewModelTest {
         val viewModel = createViewModel(repository)
         viewModel.showAboutDialog()
         viewModel.showAbout.test {
-            assertThat(awaitItem()).isEqualTo(Meta(version = ""))
+            assertThat(awaitItem()).isEqualTo(Unit)
         }
     }
 
