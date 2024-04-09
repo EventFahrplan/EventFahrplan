@@ -99,11 +99,16 @@ class AlarmsViewModelTest {
                     alarmStartsAt = ALARM_STARTS_AT.toMilliseconds()
                 )
             ),
-            sessionsFlow = flowOf(listOf(Session("s0").apply {
-                title = "Title"
-                subtitle = "Subtitle"
-                dateUTC = SESSION_STARTS_AT.toMilliseconds()
-            }))
+            sessionsFlow = flowOf(
+                listOf(
+                    Session(
+                        sessionId = "s0",
+                        title = "Title",
+                        subtitle = "Subtitle",
+                        dateUTC = SESSION_STARTS_AT.toMilliseconds(),
+                    )
+                )
+            )
         )
         val viewModel = createViewModel(repository)
         viewModel.alarmsState.test {
@@ -136,11 +141,16 @@ class AlarmsViewModelTest {
                     alarmStartsAt = ALARM_STARTS_AT.toMilliseconds()
                 )
             ),
-            sessionsFlow = flowOf(listOf(Session("s0").apply {
-                title = "Title"
-                subtitle = "Subtitle"
-                dateUTC = SESSION_STARTS_AT.toMilliseconds()
-            }))
+            sessionsFlow = flowOf(
+                listOf(
+                    Session(
+                        sessionId = "s0",
+                        title = "Title",
+                        subtitle = "Subtitle",
+                        dateUTC = SESSION_STARTS_AT.toMilliseconds(),
+                    )
+                )
+            )
         )
         val screenNavigation = mock<ScreenNavigation>()
         doNothing().`when`(screenNavigation).navigateToSessionDetails(any())
@@ -165,11 +175,16 @@ class AlarmsViewModelTest {
                         alarmStartsAt = ALARM_STARTS_AT.toMilliseconds()
                     )
                 ),
-                sessionsFlow = flowOf(listOf(Session("s0").apply {
-                    title = "Title"
-                    subtitle = "Subtitle"
-                    dateUTC = SESSION_STARTS_AT.toMilliseconds()
-                }))
+                sessionsFlow = flowOf(
+                    listOf(
+                        Session(
+                            sessionId = "s0",
+                            title = "Title",
+                            subtitle = "Subtitle",
+                            dateUTC = SESSION_STARTS_AT.toMilliseconds(),
+                        )
+                    )
+                )
             )
             val alarmServices = mock<AlarmServices>()
             val viewModel = createViewModel(repository, alarmServices)

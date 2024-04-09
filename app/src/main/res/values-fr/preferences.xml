@@ -17,7 +17,7 @@
     <!-- Category general -->
     <!-- Automatic schedule updates -->
     <string name="preference_title_auto_update_enabled">Activer mises à jour automatiques</string>
-    <string name="preference_summary_auto_update_enabled">Télécharge l\'horaire régulièrement.</string>
+    <string name="preference_summary_auto_update_enabled">Télécharge le calendrier périodiquement.</string>
     <!-- Alarm time index -->
     <!--
     Synchronize with @strings/preference_default_value_alarm_time_value
@@ -26,8 +26,8 @@
     Synchronize with @integers/preference_default_value_alarm_time_index
     and string-array/preference_entry_values_alarm_time
     -->
-    <string name="preference_dialog_title_alarm_time">Choisissez le temps d\'alarme défaut</string>
-    <string name="preference_title_alarm_time">Choisissez temps d\'alarme défaut</string>
+    <string name="preference_dialog_title_alarm_time">Choisir une heure d’alarme par défaut</string>
+    <string name="preference_title_alarm_time">Choisir une heure d’alarme par défaut</string>
     <!--
     Synchronize with @strings/preference_default_value_alarm_time_value
     and @integers/preference_default_value_alarm_time_index
@@ -41,6 +41,7 @@
     <!-- Alternative highlighting -->
     <!-- Alternative schedule URL -->
     <!-- App notification settings -->
+    <string name="preference_title_app_notification_settings">Personnaliser les notifications</string>
     <!-- Insistent session alarms -->
     <!-- Category Engelsystem -->
     <string name="preference_summary_engelsystem_json_export_url"><![CDATA[Afin de voir vos créneaux de service, veuillez entrer votre URL <u>personnel</u> ici.<br /><br />

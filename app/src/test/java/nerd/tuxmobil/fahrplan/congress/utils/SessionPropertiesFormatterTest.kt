@@ -30,12 +30,6 @@ class SessionPropertiesFormatterTest {
     private val formatter = SessionPropertiesFormatter()
 
     @Test
-    fun `getFormattedSpeakers returns empty string if speakers is null`() {
-        val session = createSession(speakers = null)
-        assertThat(formatter.getFormattedSpeakers(session)).isEmpty()
-    }
-
-    @Test
     fun `getFormattedSpeakers returns empty string if speakers is empty`() {
         val session = createSession(speakers = emptyList())
         assertThat(formatter.getFormattedSpeakers(session)).isEmpty()
@@ -80,18 +74,19 @@ class SessionPropertiesFormatterTest {
     @ParameterizedTest(name = """getLanguageText returns "{1}" if language "{0}"""")
     @MethodSource("getLanguageTextData")
     fun `getLanguageText returns two-letter language code`(language: String, expected: String) {
-        val session = createSession().apply { this.language = language }
+        val session = createSession(language = language)
         assertThat(formatter.getLanguageText(session)).isEqualTo(expected)
     }
 
     private fun createSession(
-        speakers: List<String>? = emptyList(),
+        speakers: List<String> = emptyList(),
         track: String = "",
         language: String = "",
-    ) = Session("").apply {
-        this.speakers = speakers
-        this.track = track
-        this.language = language
-    }
+    ) = Session(
+        sessionId = "",
+        speakers = speakers,
+        track = track,
+        language = language,
+    )
 
 }

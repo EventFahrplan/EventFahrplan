@@ -228,13 +228,13 @@ class MainViewModelTest {
         val repository = createRepository(
             loadScheduleStateFlow = flowOf(ParseSuccess),
             scheduleChangesSeen = false,
-            changedSessions = listOf(Session("changed-01").apply { changedIsNew = true })
+            changedSessions = listOf(Session(sessionId = "changed-01", changedIsNew = true))
         )
         val viewModel = createViewModel(repository)
         viewModel.loadScheduleUiState.test {
             assertThat(awaitItem()).isEqualTo(LoadScheduleUiState.Success.ParseSuccess)
         }
-        val expectedSessions = listOf(Session("changed-01").apply { changedIsNew = true })
+        val expectedSessions = listOf(Session(sessionId = "changed-01", changedIsNew = true))
         val expectedChangeStatistic = ChangeStatistic.of(expectedSessions, logging)
         val expectedScheduleChangesParameter = ScheduleChangesParameter(scheduleVersion = "", expectedChangeStatistic)
         viewModel.scheduleChangesParameter.test {

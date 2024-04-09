@@ -7,12 +7,9 @@ import info.metadude.android.eventfahrplan.commons.logging.Logging
 import nerd.tuxmobil.fahrplan.congress.models.RoomData
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import org.threeten.bp.Duration
-import kotlin.collections.List
-import kotlin.collections.Map
-import kotlin.collections.getOrNull
-import kotlin.collections.indices
-import kotlin.collections.mutableMapOf
 import kotlin.collections.set
+
+private typealias SessionId = String
 
 data class LayoutCalculator @JvmOverloads constructor(
 
@@ -30,24 +27,22 @@ data class LayoutCalculator @JvmOverloads constructor(
         return standardHeight * minutes / DIVISOR
     }
 
-    fun calculateLayoutParams(roomData: RoomData, conference: Conference): Map<Session, LinearLayout.LayoutParams> {
+    fun calculateLayoutParams(roomData: RoomData, conference: Conference): Map<SessionId, LinearLayout.LayoutParams> {
         val sessions = roomData.sessions
         var previousSessionEndsAt: Int = conference.firstSessionStartsAt.minuteOfDay
         var startTime: Int
         var margin: Int
         var previousSession: Session? = null
-        val layoutParamsBySession = mutableMapOf<Session, LinearLayout.LayoutParams>()
+        val layoutParamsBySession = mutableMapOf<SessionId, LinearLayout.LayoutParams>()
 
-        for (sessionIndex in sessions.indices) {
-            val session = sessions[sessionIndex]
-
+        for ((index, session) in sessions.withIndex()) {
             startTime = getStartTime(session, previousSessionEndsAt)
 
             if (startTime > previousSessionEndsAt) {
                 // consecutive session
                 margin = calculateDisplayDistance(startTime - previousSessionEndsAt)
                 if (previousSession != null) {
-                    layoutParamsBySession[previousSession]!!.bottomMargin = margin
+                    layoutParamsBySession[previousSession.sessionId]!!.bottomMargin = margin
                     margin = 0
                 }
             } else {
@@ -55,15 +50,21 @@ data class LayoutCalculator @JvmOverloads constructor(
                 margin = 0
             }
 
-            fixOverlappingSessions(sessionIndex, sessions)
-
-            if (!layoutParamsBySession.containsKey(session)) {
-                layoutParamsBySession[session] = createLayoutParams(session)
+            val adjustedSession = if (index < sessions.lastIndex) {
+                val nextSession = sessions[index + 1]
+                fixOverlappingSessions(session, nextSession)
+            } else {
+                session
             }
 
-            layoutParamsBySession[session]!!.topMargin = margin
-            previousSessionEndsAt = startTime + session.duration
-            previousSession = session
+            val sessionId = adjustedSession.sessionId
+            if (!layoutParamsBySession.containsKey(sessionId)) {
+                layoutParamsBySession[sessionId] = createLayoutParams(adjustedSession)
+            }
+
+            layoutParamsBySession[sessionId]!!.topMargin = margin
+            previousSessionEndsAt = startTime + adjustedSession.duration
+            previousSession = adjustedSession
         }
 
         return layoutParamsBySession
@@ -89,17 +90,14 @@ data class LayoutCalculator @JvmOverloads constructor(
     }
 
     @VisibleForTesting
-    fun fixOverlappingSessions(sessionIndex: Int, sessions: List<Session>) {
-        val session = sessions[sessionIndex]
-        val next = sessions.getOrNull(sessionIndex + 1)
-
-        if (next != null && next.dateUTC > 0) {
-            val nextStartsBeforeCurrentEnds = next.startsAt.isBefore(session.endsAt)
-            if (nextStartsBeforeCurrentEnds) {
-                logging.d(LOG_TAG, """Collision: "${session.title}" + "${next.title}"""")
-                // cut current at the end, to match next sessions start time
-                session.duration = session.startsAt.minutesUntil(next.startsAt).toInt()
-            }
+    fun fixOverlappingSessions(session: Session, next: Session): Session {
+        return if (next.dateUTC > 0 && next.startsAt.isBefore(session.endsAt)) {
+            logging.d(LOG_TAG, """Collision: "${session.title}" + "${next.title}"""")
+            // cut current at the end, to match next sessions start time
+            val newDuration = session.startsAt.minutesUntil(next.startsAt).toInt()
+            session.copy(duration = newDuration)
+        } else {
+            session
         }
     }
 }

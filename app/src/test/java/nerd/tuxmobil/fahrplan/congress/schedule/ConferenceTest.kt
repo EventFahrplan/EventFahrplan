@@ -94,10 +94,16 @@ class ConferenceTest {
 
     private fun createConference(vararg sessions: Session) = Conference.ofSessions(sessions.toList())
 
-    private fun createSession(sessionId: String, duration: Int, dateUtc: Long, timeZoneOffset: ZoneOffset) = Session(sessionId).apply {
-        this.dateUTC = dateUtc
-        this.duration = duration
-        this.timeZoneOffset = timeZoneOffset
-    }
+    private fun createSession(
+        sessionId: String,
+        duration: Int,
+        dateUtc: Long,
+        timeZoneOffset: ZoneOffset
+    ) = Session(
+        sessionId = sessionId,
+        dateUTC = dateUtc,
+        duration = duration,
+        timeZoneOffset = timeZoneOffset,
+    )
 
 }

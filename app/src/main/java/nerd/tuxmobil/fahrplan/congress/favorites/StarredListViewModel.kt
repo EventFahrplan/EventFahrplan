@@ -41,13 +41,13 @@ class StarredListViewModel(
     private val mutableShareJson = Channel<String>()
     val shareJson = mutableShareJson.receiveAsFlow()
 
-    fun delete(session: Session) {
+    fun unfavorSession(session: Session) {
         launch {
-            repository.updateHighlight(session)
+            repository.deleteHighlight(session.sessionId)
         }
     }
 
-    fun deleteAll() {
+    fun unfavorAllSessions() {
         launch {
             repository.deleteAllHighlights()
         }

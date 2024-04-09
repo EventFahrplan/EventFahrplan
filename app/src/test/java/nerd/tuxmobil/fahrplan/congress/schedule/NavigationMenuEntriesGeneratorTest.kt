@@ -171,12 +171,12 @@ class NavigationMenuEntriesGeneratorTest {
         }
     }
 
-    private fun createSession(dateText: String, startsAt: Long, duration: Int) =
-        Session("").apply {
-            this.dateText = dateText
-            this.dateUTC = startsAt
-            this.duration = duration
-        }
+    private fun createSession(dateText: String, startsAt: Long, duration: Int) = Session(
+        sessionId = "",
+        dateText = dateText,
+        dateUTC = startsAt,
+        duration = duration,
+    )
 
     private fun getDayMenuEntries(numDays: Int, sessions: List<Session>, currentDate: Long) =
         generator.getDayMenuEntries(numDays, sessions, Moment.ofEpochMilli(currentDate))

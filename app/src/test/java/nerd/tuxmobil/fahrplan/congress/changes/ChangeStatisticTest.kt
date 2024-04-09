@@ -10,64 +10,82 @@ class ChangeStatisticTest {
     companion object {
 
         private val unchangedSessions = listOf(
-                Session("1001").apply {
-                    highlight = false
-                    changedTitle = false
-                },
-                Session("1002").apply {
-                    highlight = true
-                    changedTitle = false
-                })
+            Session(
+                sessionId = "1001",
+                highlight = false,
+                changedTitle = false,
+            ),
+            Session(
+                sessionId = "1002",
+                highlight = true,
+                changedTitle = false,
+            )
+        )
 
         private val changedSessions = listOf(
-                Session("1003").apply {
-                    highlight = true
-                    changedTitle = true
-                },
-                Session("1004").apply {
-                    highlight = false
-                    changedTitle = true
-                })
+            Session(
+                sessionId = "1003",
+                highlight = true,
+                changedTitle = true,
+            ),
+            Session(
+                sessionId = "1004",
+                highlight = false,
+                changedTitle = true,
+            )
+        )
 
         private val oldSessions = listOf(
-                Session("2001").apply {
-                    highlight = false
-                    changedIsNew = false
-                },
-                Session("2002").apply {
-                    highlight = true
-                    changedIsNew = false
-                })
+            Session(
+                sessionId = "2001",
+                highlight = false,
+                changedIsNew = false,
+            ),
+            Session(
+                sessionId = "2002",
+                highlight = true,
+                changedIsNew = false,
+            )
+        )
 
         private val newSessions = listOf(
-                Session("2003").apply {
-                    highlight = true
-                    changedIsNew = true
-                },
-                Session("2004").apply {
-                    highlight = false
-                    changedIsNew = true
-                })
+            Session(
+                sessionId = "2003",
+                highlight = true,
+                changedIsNew = true,
+            ),
+            Session(
+                sessionId = "2004",
+                highlight = false,
+                changedIsNew = true,
+            )
+        )
 
         private val uncanceledSessions = listOf(
-                Session("3001").apply {
-                    highlight = false
-                    changedIsCanceled = false
-                },
-                Session("3002").apply {
-                    highlight = true
-                    changedIsCanceled = false
-                })
+            Session(
+                sessionId = "3001",
+                highlight = false,
+                changedIsCanceled = false,
+            ),
+            Session(
+                sessionId = "3002",
+                highlight = true,
+                changedIsCanceled = false,
+            )
+        )
 
         private val canceledSessions = listOf(
-                Session("3003").apply {
-                    highlight = true
-                    changedIsCanceled = true
-                },
-                Session("3004").apply {
-                    highlight = false
-                    changedIsCanceled = true
-                })
+            Session(
+                sessionId = "3003",
+                highlight = true,
+                changedIsCanceled = true,
+            ),
+            Session(
+                sessionId = "3004",
+                highlight = false,
+                changedIsCanceled = true,
+            )
+        )
 
     }
 

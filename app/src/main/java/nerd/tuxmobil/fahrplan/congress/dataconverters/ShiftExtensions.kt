@@ -20,23 +20,25 @@ fun Shift.toSessionAppModel(
         virtualRoomName: String,
         dayRanges: List<DayRange>
 
-) = Session("${SHIFT_ID_OFFSET + sID}").apply {
-    abstractt = ""
-    dateText = startsAtLocalDateString
-    dateUTC = dateUtcMs
-    dayIndex = oneBasedDayIndex(logging, dayRanges)
-    description = descriptionText
-    duration = shiftDuration // minutes
-    relStartTime = minuteOfDay
-    roomName = virtualRoomName
-    speakers = emptyList()
-    startTime = minuteOfDay  // minutes since day start
-    title = talkTitle
-    subtitle = locationName
+) = Session(
+    sessionId = "${SHIFT_ID_OFFSET + sID}",
+    abstractt = "",
+    dateText = startsAtLocalDateString,
+    dateUTC = dateUtcMs,
+    dayIndex = oneBasedDayIndex(logging, dayRanges),
+    description = descriptionText,
+    duration = shiftDuration, // minutes
+    relStartTime = minuteOfDay,
+    roomName = virtualRoomName,
+    speakers = emptyList(),
+    startTime = minuteOfDay, // minutes since day start
+    title = talkTitle,
+    subtitle = locationName,
     // Shift.timeZoneName is not mapped here. Using Meta.timeZoneName instead.
-    track = typeName
-    url = talkUrl
-}
+    track = typeName,
+    url = talkUrl,
+)
+
 
 /**
  * Returns the day index (starting at 1) based on the start date and time of this shift.

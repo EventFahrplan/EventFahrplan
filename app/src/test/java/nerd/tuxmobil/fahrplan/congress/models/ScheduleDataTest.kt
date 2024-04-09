@@ -5,8 +5,8 @@ import org.junit.jupiter.api.Test
 
 class ScheduleDataTest {
 
-    private val actualSession = Session("L42").apply { roomName = "Room1" }
-    private val oddSession = Session("L78").apply { roomName = "Room78" }
+    private val actualSession = Session(sessionId = "L42", roomName = "Room1")
+    private val oddSession = Session(sessionId = "L78", roomName = "Room78")
 
     @Test
     fun `roomDataList without rooms and sessions`() {
@@ -33,7 +33,7 @@ class ScheduleDataTest {
     fun `roomDataList with one room with one session queried for actual session`() {
         val roomDataList = listOf(RoomData(roomName = "Room1", sessions = listOf(actualSession)))
         val data = scheduleDataOf(roomDataList)
-        val expectedSession = Session("L42").apply { roomName = "Room1" }
+        val expectedSession = Session(sessionId = "L42", roomName = "Room1")
         assertThat(data.roomCount).isEqualTo(1)
         assertThat(data.roomNames).isEqualTo(listOf("Room1"))
         assertThat(data.allSessions).isEqualTo(listOf(expectedSession))
@@ -61,8 +61,8 @@ class ScheduleDataTest {
 
     @Test
     fun `allSessions returns sessions sorted by dateUTC ascending`() {
-        val session1 = Session("L1").apply { dateUTC = 200 }
-        val session2 = Session("L2").apply { dateUTC = 100 }
+        val session1 = Session(sessionId = "L1", dateUTC = 200)
+        val session2 = Session(sessionId = "L2", dateUTC = 100)
         val sessions = listOf(session1, session2)
         val roomDataList = listOf(RoomData(roomName = "Room1", sessions = sessions))
         val data = scheduleDataOf(roomDataList)

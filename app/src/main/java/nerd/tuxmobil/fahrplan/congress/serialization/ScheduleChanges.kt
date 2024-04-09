@@ -47,7 +47,7 @@ data class ScheduleChanges private constructor(
                 val newSession = newSessions[sessionIndex]
                 val oldSession = oldNotCanceledSessions.singleOrNull { oldNotCanceledSession -> newSession.sessionId == oldNotCanceledSession.sessionId }
                 if (oldSession == null) {
-                    sessionsWithChangeFlags += SessionAppModel(newSession).apply { changedIsNew = true }
+                    sessionsWithChangeFlags += newSession.copy(changedIsNew = true)
                     foundNoteworthyChanges = true
                     foundChanges = true
                     sessionIndex++
@@ -107,18 +107,18 @@ data class ScheduleChanges private constructor(
                     sessionChange.changedDuration = true
                     foundNoteworthyChanges = true
                 }
-                sessionsWithChangeFlags += SessionAppModel(newSession).apply {
-                    changedTitle = sessionChange.changedTitle
-                    changedSubtitle = sessionChange.changedSubtitle
-                    changedSpeakers = sessionChange.changedSpeakers
-                    changedLanguage = sessionChange.changedLanguage
-                    changedRoomName = sessionChange.changedRoom
-                    changedTrack = sessionChange.changedTrack
-                    changedRecordingOptOut = sessionChange.changedRecordingOptOut
-                    changedDayIndex = sessionChange.changedDayIndex
-                    changedStartTime = sessionChange.changedStartTime
-                    changedDuration = sessionChange.changedDuration
-                }
+                sessionsWithChangeFlags += newSession.copy(
+                    changedTitle = sessionChange.changedTitle,
+                    changedSubtitle = sessionChange.changedSubtitle,
+                    changedSpeakers = sessionChange.changedSpeakers,
+                    changedLanguage = sessionChange.changedLanguage,
+                    changedRoomName = sessionChange.changedRoom,
+                    changedTrack = sessionChange.changedTrack,
+                    changedRecordingOptOut = sessionChange.changedRecordingOptOut,
+                    changedDayIndex = sessionChange.changedDayIndex,
+                    changedStartTime = sessionChange.changedStartTime,
+                    changedDuration = sessionChange.changedDuration,
+                )
                 oldNotCanceledSessions -= oldSession
                 sessionIndex++
             }
@@ -126,7 +126,7 @@ data class ScheduleChanges private constructor(
             if (oldNotCanceledSessions.isNotEmpty()) {
                 // Flag all "old" sessions which are not present in the "new" set as canceled
                 // and append them to the "new" set.
-                sessionsWithChangeFlags += oldNotCanceledSessions.map { it.toCanceledSession() }
+                sessionsWithChangeFlags += oldNotCanceledSessions.map { it.cancel() }
                 foundNoteworthyChanges = true
             }
 
@@ -150,8 +150,6 @@ data class ScheduleChanges private constructor(
                 var changedStartTime: Boolean = false,
                 var changedDuration: Boolean = false
         )
-
-        private fun SessionAppModel.toCanceledSession() = SessionAppModel(this).apply { cancel() }
 
         private fun SessionAppModel.equalsInNoteworthyProperties(session: SessionAppModel): Boolean {
             return title == session.title &&

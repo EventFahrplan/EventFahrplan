@@ -30,7 +30,7 @@ class CalendarDescriptionComposer(
         appendSpeakers(session)
         appendAbstract(session)
         appendDescription(session)
-        if (session.getLinks().containsWikiLink()) {
+        if (session.links.containsWikiLink()) {
             // TODO: It seems that wiki links are no longer added to the links XML attribute.
             // Therefore, this code path might be removed in the future.
             // To be verified with VOC wiki scripts.
@@ -42,7 +42,7 @@ class CalendarDescriptionComposer(
     }
 
     private fun StringBuilder.appendSubtitle(session: Session) {
-        appendParagraphIfNotEmpty(session.subtitle.orEmpty())
+        appendParagraphIfNotEmpty(session.subtitle)
     }
 
     private fun StringBuilder.appendSpeakers(session: Session) {
@@ -50,20 +50,20 @@ class CalendarDescriptionComposer(
     }
 
     private fun StringBuilder.appendAbstract(session: Session) {
-        appendMarkdownParagraphIfNotEmpty(session.abstractt.orEmpty())
+        appendMarkdownParagraphIfNotEmpty(session.abstractt)
     }
 
     private fun StringBuilder.appendDescription(session: Session) {
-        appendMarkdownParagraphIfNotEmpty(session.description.orEmpty())
+        appendMarkdownParagraphIfNotEmpty(session.description)
     }
 
     private fun StringBuilder.appendWikiLinks(session: Session) {
-        val links = session.getLinks().separateByHtmlLineBreaks()
+        val links = session.links.separateByHtmlLineBreaks()
         append(markdownConversion.markdownLinksToHtmlLinks(links))
     }
 
     private fun StringBuilder.appendLinks(session: Session) {
-        val links = session.getLinks().separateByHtmlLineBreaks()
+        val links = session.links.separateByHtmlLineBreaks()
         appendMarkdownParagraphIfNotEmpty(markdownConversion.markdownLinksToHtmlLinks(links))
     }
 

@@ -14,16 +14,16 @@ class LayoutCalculatorTest {
     private val layoutCalculator = LayoutCalculator(standardHeight = 1, logging = NoLogging)
 
     private fun createSession(date: String? = null, startTime: Int = 0, duration: Int = 0): Session {
-        val session = Session((sessionId++).toString())
+        var session = Session((sessionId++).toString(), duration = duration)
 
         if (date != null) {
             val dateUTC = Moment.parseDate(date).plusMinutes(startTime.toLong())
-            session.dateUTC = dateUTC.toMilliseconds()
+            session = session.copy(dateUTC = dateUTC.toMilliseconds())
         } else {
-            session.relStartTime = startTime
+            session = session.copy(relStartTime = startTime)
         }
 
-        return session.apply { this.duration = duration }
+        return session
     }
 
     @Test
@@ -33,7 +33,7 @@ class LayoutCalculatorTest {
         val roomData = sessions.toRoomData()
 
         val layoutParams = layoutCalculator.calculateLayoutParams(roomData, conference)
-        val sessionParams = layoutParams[sessions.first()]
+        val sessionParams = layoutParams[sessions.first().sessionId]
 
         assertMargins(sessionParams, 0, 0)
     }
@@ -46,7 +46,7 @@ class LayoutCalculatorTest {
         val roomData = sessions.toRoomData()
 
         val layoutParams = layoutCalculator.calculateLayoutParams(roomData, conference)
-        val sessionParams = layoutParams[sessions.first()]
+        val sessionParams = layoutParams[sessions.first().sessionId]
 
         assertMargins(sessionParams, 0, 0)
     }
@@ -65,8 +65,8 @@ class LayoutCalculatorTest {
         val roomData = sessions.toRoomData()
 
         val layoutParams = layoutCalculator.calculateLayoutParams(roomData, conference)
-        val session1Params = layoutParams[session1]
-        val session2Params = layoutParams[session2]
+        val session1Params = layoutParams[session1.sessionId]
+        val session2Params = layoutParams[session2.sessionId]
 
         assertMargins(session1Params, 0, gapMinutes)
         assertMargins(session2Params, 0, 0)
@@ -100,7 +100,7 @@ class LayoutCalculatorTest {
         val roomData = listOf(session2).toRoomData()
 
         val layoutParams = layoutCalculator.calculateLayoutParams(roomData, conference)
-        val session2Params = layoutParams[session2]
+        val session2Params = layoutParams[session2.sessionId]
         val gapMinutes = 60
 
         assertMargins(session2Params, gapMinutes, 0)
@@ -122,8 +122,8 @@ class LayoutCalculatorTest {
 
         val layoutParamsRoom1 = layoutCalculator.calculateLayoutParams(roomData1, conference)
         val layoutParamsRoom2 = layoutCalculator.calculateLayoutParams(roomData2, conference)
-        val session1Params = layoutParamsRoom1[session1]
-        val session2Params = layoutParamsRoom2[session2]
+        val session1Params = layoutParamsRoom1[session1.sessionId]
+        val session2Params = layoutParamsRoom2[session2.sessionId]
         val gapMinutes = 5 + 60 // 5 minutes in new day. 60 minutes on previous day, from session1, which starts at 11am
 
         assertMargins(session1Params, 0, 0)
@@ -143,8 +143,8 @@ class LayoutCalculatorTest {
         val roomData = sessions.toRoomData()
 
         val layoutParams = layoutCalculator.calculateLayoutParams(roomData, conference)
-        val session1Params = layoutParams[session1]
-        val session2Params = layoutParams[session2]
+        val session1Params = layoutParams[session1.sessionId]
+        val session2Params = layoutParams[session2.sessionId]
         val gapMinutes = 30
 
         assertMargins(session1Params, 0, gapMinutes)
@@ -164,8 +164,8 @@ class LayoutCalculatorTest {
         val roomData = sessions.toRoomData()
 
         val layoutParams = layoutCalculator.calculateLayoutParams(roomData, conference)
-        val session1Params = layoutParams[session1]
-        val session2Params = layoutParams[session2]
+        val session1Params = layoutParams[session1.sessionId]
+        val session2Params = layoutParams[session2.sessionId]
 
         assertMargins(session1Params, 0, 0)
         assertMargins(session2Params, 0, 0)
@@ -187,8 +187,8 @@ class LayoutCalculatorTest {
 
         val layoutParamsRoom1 = layoutCalculator.calculateLayoutParams(roomData1, conference)
         val layoutParamsRoom2 = layoutCalculator.calculateLayoutParams(roomData2, conference)
-        val session1Params = layoutParamsRoom1[session1]
-        val session2Params = layoutParamsRoom2[session2]
+        val session1Params = layoutParamsRoom1[session1.sessionId]
+        val session2Params = layoutParamsRoom2[session2.sessionId]
 
         assertMargins(session1Params, 0, 0)
         assertMargins(session2Params, 35, 0)
@@ -203,11 +203,11 @@ class LayoutCalculatorTest {
 
         val session1 = createSession(date = conferenceDate, startTime = startTime1, duration = duration1)
         val session2 = createSession(date = conferenceDate, startTime = startTime2, duration = duration2)
-        val sessions = listOf(session1, session2)
 
-        layoutCalculator.fixOverlappingSessions(0, sessions)
-        assertThat(sessions[0].duration).isEqualTo(35) // gets cut
-        assertThat(sessions[1].duration).isEqualTo(45) // stays the same
+        val updatedSession1 = layoutCalculator.fixOverlappingSessions(session1, session2)
+        assertThat(session1.duration).isEqualTo(45) // not mutated
+        assertThat(updatedSession1.duration).isEqualTo(35) // gets cut
+        assertThat(session2.duration).isEqualTo(45) // not mutated
     }
 
     @Test
@@ -219,29 +219,12 @@ class LayoutCalculatorTest {
 
         val session1 = createSession(date = conferenceDate, startTime = startTime1, duration = duration1)
         val session2 = createSession(date = conferenceDate, startTime = startTime2, duration = duration2)
-        val sessions = listOf(session1, session2)
 
-        layoutCalculator.fixOverlappingSessions(0, sessions)
-        assertThat(sessions[0].duration).isEqualTo(45) // stays the same
-        assertThat(sessions[1].duration).isEqualTo(45) // stays the same
+        val updatedSession1 = layoutCalculator.fixOverlappingSessions(session1, session2)
+        assertThat(session1.duration).isEqualTo(45) // not mutated
+        assertThat(updatedSession1.duration).isEqualTo(45) // stays the same
+        assertThat(session2.duration).isEqualTo(45) // not mutated
     }
-
-    @Test
-    fun `fixOverlappingSessions keeps the duration of a session without a successor`() {
-        val duration1 = 45
-        val duration2 = 45
-        val startTime1 = 10 * 60 // 10:00am
-        val startTime2 = startTime1 + duration1 - 10 // 10:35am (10 minutes overlap)
-
-        val session1 = createSession(date = conferenceDate, startTime = startTime1, duration = duration1)
-        val session2 = createSession(date = conferenceDate, startTime = startTime2, duration = duration2)
-        val sessions = listOf(session1, session2)
-
-        layoutCalculator.fixOverlappingSessions(1, sessions)
-        assertThat(sessions[0].duration).isEqualTo(45) // stays the same
-        assertThat(sessions[1].duration).isEqualTo(45) // unmodified because no session follows
-    }
-
 
     private fun assertMargins(sessionParams: LinearLayout.LayoutParams?, top: Int, bottom: Int) {
         assertThat(sessionParams!!).isNotNull()
