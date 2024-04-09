@@ -85,7 +85,7 @@ android {
     productFlavors {
         glt22 {
             dimension defaultDimension
-            applicationId "at.linuxtage.companion"
+            applicationId "at.linuxtage.Eventfahrplan"
             versionName "${defaultConfig.versionName}-glt-Edition"
             buildConfigField "String", "GOOGLE_PLAY_URL", '"https://play.google.com/store/apps/details?id=at.linuxtage.companion"'
             buildConfigField "String", "F_DROID_URL", '"https://f-droid.org/packages/at.linuxtage.companion/"'
