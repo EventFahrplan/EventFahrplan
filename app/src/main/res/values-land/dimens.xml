@@ -24,6 +24,7 @@
     <item type="integer" name="room_title_size">12</item>
 
     <!-- About -->
+    <item name="about_percentage_width" type="integer">70</item>
     <dimen name="about_padding_horizontal">32dp</dimen>
 
 </resources>

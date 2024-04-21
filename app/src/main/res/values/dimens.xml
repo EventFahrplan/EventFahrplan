@@ -45,6 +45,7 @@
 
     <!-- About -->
     <dimen name="about_horizontal_line_height">1dp</dimen>
+    <item name="about_percentage_width" type="integer">98</item>
     <dimen name="about_padding_horizontal">16dp</dimen>
     <dimen name="about_padding_top">16dp</dimen>
     <dimen name="about_padding_bottom">@dimen/about_padding_horizontal</dimen>
