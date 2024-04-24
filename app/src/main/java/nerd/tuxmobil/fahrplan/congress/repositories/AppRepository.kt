@@ -2,6 +2,7 @@ package nerd.tuxmobil.fahrplan.congress.repositories
 
 import android.content.Context
 import android.net.Uri
+import androidx.annotation.VisibleForTesting
 import androidx.annotation.WorkerThread
 import info.metadude.android.eventfahrplan.commons.extensions.onFailure
 import info.metadude.android.eventfahrplan.commons.logging.Logging
@@ -81,6 +82,7 @@ import nerd.tuxmobil.fahrplan.congress.utils.AlarmToneConversion
 import nerd.tuxmobil.fahrplan.congress.validation.MetaValidation.validate
 import okhttp3.OkHttpClient
 import info.metadude.android.eventfahrplan.network.models.Meta as MetaNetworkModel
+import nerd.tuxmobil.fahrplan.congress.models.Meta as MetaAppModel
 
 object AppRepository {
 
@@ -122,6 +124,27 @@ object AppRepository {
      * works out. Only the latest emission is retained.
      */
     val loadScheduleState: Flow<LoadScheduleState> = mutableLoadScheduleState
+
+    private val refreshMetaSignal = MutableSharedFlow<Unit>()
+
+    private fun refreshMeta() {
+        logging.d(LOG_TAG, "Refreshing meta ...")
+        val requestIdentifier = "refreshMeta"
+        parentJobs[requestIdentifier] = databaseScope.launchNamed(requestIdentifier) {
+            refreshMetaSignal.emit(Unit)
+        }
+    }
+
+    /**
+     * Emits meta from the database.
+     */
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val meta: Flow<MetaAppModel> by lazy {
+        refreshMetaSignal
+            .onStart { emit(Unit) }
+            .mapLatest { readMeta() }
+            .flowOn(executionContext.database)
+    }
 
     private val refreshStarredSessionsSignal = MutableSharedFlow<Unit>()
 
@@ -802,10 +825,12 @@ object AppRepository {
      *
      * See also: [HttpStatus.HTTP_OK]
      */
-    private fun updateMeta(meta: MetaNetworkModel) {
+    @VisibleForTesting
+    fun updateMeta(meta: MetaNetworkModel) {
         val metaDatabaseModel = meta.toMetaDatabaseModel()
         val values = metaDatabaseModel.toContentValues()
         metaDatabaseRepository.insert(values)
+        refreshMeta()
     }
 
     fun readScheduleRefreshIntervalDefaultValue() =
