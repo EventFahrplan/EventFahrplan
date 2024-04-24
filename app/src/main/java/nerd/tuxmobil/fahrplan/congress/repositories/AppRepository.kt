@@ -269,8 +269,7 @@ object AppRepository {
     }
 
     /**
-     * Emits all sessions from the database which have been favored aka. starred but no canceled.
-     * The returned list might be empty.
+     * Emits the session from the database which has been selected.
      */
     @OptIn(ExperimentalCoroutinesApi::class)
     val selectedSession: Flow<Session> by lazy {
