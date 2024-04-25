@@ -10,9 +10,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Set up JDK
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v4
         with:
           distribution: 'adopt'
           java-version: '11'
@@ -40,10 +40,10 @@ jobs:
           git push origin --tags
 
       - name: Deploy to Production
-        uses: r0adkll/upload-google-play@v1.1.1
+        uses: r0adkll/upload-google-play@v1.1.3
         with:
           serviceAccountJson: ${{ secrets.SERVICE_ACCOUNT_JSON }}
-          packageName: at.linuxtage.companion
-          releaseFiles: app/build/outputs/bundle/glt22Release/Fahrplan-*-glt22-release.aab
+          packageName: at.linuxtage.Eventfahrplan
+          releaseFiles: app/build/outputs/bundle/glt22Release/*.aab
           track: production
-          whatsNewDirectory: distribution/
+          whatsNewDirectory: distribution/3
