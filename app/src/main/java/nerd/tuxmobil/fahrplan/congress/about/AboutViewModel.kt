@@ -23,8 +23,9 @@ class AboutViewModel(
 
     init {
         launch {
-            val meta = repository.readMeta()
-            mutableAboutParameter.value = aboutParameterFactory.createAboutParameter(meta)
+            repository.meta.collect { meta ->
+                mutableAboutParameter.value = aboutParameterFactory.createAboutParameter(meta)
+            }
         }
     }
 

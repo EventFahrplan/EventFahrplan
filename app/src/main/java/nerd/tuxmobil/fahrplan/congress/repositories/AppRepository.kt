@@ -2,6 +2,7 @@ package nerd.tuxmobil.fahrplan.congress.repositories
 
 import android.content.Context
 import android.net.Uri
+import androidx.annotation.VisibleForTesting
 import androidx.annotation.WorkerThread
 import info.metadude.android.eventfahrplan.commons.extensions.onFailure
 import info.metadude.android.eventfahrplan.commons.logging.Logging
@@ -23,7 +24,6 @@ import info.metadude.android.eventfahrplan.engelsystem.EngelsystemNetworkReposit
 import info.metadude.android.eventfahrplan.engelsystem.RealEngelsystemNetworkRepository
 import info.metadude.android.eventfahrplan.engelsystem.models.ShiftsResult
 import info.metadude.android.eventfahrplan.network.models.HttpHeader
-import info.metadude.android.eventfahrplan.network.models.Meta
 import info.metadude.android.eventfahrplan.network.repositories.RealScheduleNetworkRepository
 import info.metadude.android.eventfahrplan.network.repositories.ScheduleNetworkRepository
 import info.metadude.kotlin.library.engelsystem.models.Shift
@@ -81,6 +81,8 @@ import nerd.tuxmobil.fahrplan.congress.serialization.ScheduleChanges.Companion.c
 import nerd.tuxmobil.fahrplan.congress.utils.AlarmToneConversion
 import nerd.tuxmobil.fahrplan.congress.validation.MetaValidation.validate
 import okhttp3.OkHttpClient
+import info.metadude.android.eventfahrplan.network.models.Meta as MetaNetworkModel
+import nerd.tuxmobil.fahrplan.congress.models.Meta as MetaAppModel
 
 object AppRepository {
 
@@ -122,6 +124,27 @@ object AppRepository {
      * works out. Only the latest emission is retained.
      */
     val loadScheduleState: Flow<LoadScheduleState> = mutableLoadScheduleState
+
+    private val refreshMetaSignal = MutableSharedFlow<Unit>()
+
+    private fun refreshMeta() {
+        logging.d(LOG_TAG, "Refreshing meta ...")
+        val requestIdentifier = "refreshMeta"
+        parentJobs[requestIdentifier] = databaseScope.launchNamed(requestIdentifier) {
+            refreshMetaSignal.emit(Unit)
+        }
+    }
+
+    /**
+     * Emits meta from the database.
+     */
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val meta: Flow<MetaAppModel> by lazy {
+        refreshMetaSignal
+            .onStart { emit(Unit) }
+            .mapLatest { readMeta() }
+            .flowOn(executionContext.database)
+    }
 
     private val refreshStarredSessionsSignal = MutableSharedFlow<Unit>()
 
@@ -376,7 +399,7 @@ object AppRepository {
 
     private fun parseSchedule(scheduleXml: String,
                               httpHeader: HttpHeader,
-                              oldMeta: Meta,
+                              oldMeta: MetaNetworkModel,
                               onParsingDone: (parseScheduleResult: ParseResult) -> Unit,
                               onLoadingShiftsDone: (loadShiftsResult: LoadShiftsResult) -> Unit) {
         scheduleNetworkRepository.parseSchedule(scheduleXml, httpHeader,
@@ -795,17 +818,19 @@ object AppRepository {
             metaDatabaseRepository.query().toMetaAppModel()
 
     /**
-     * Updates the [Meta] information in the database.
+     * Updates the `Meta` information in the database.
      *
-     * The [Meta.httpHeader] properties should only be written if a
+     * The [MetaNetworkModel.httpHeader] properties should only be written if a
      * network response is received with a status code of HTTP 200 (OK).
      *
      * See also: [HttpStatus.HTTP_OK]
      */
-    private fun updateMeta(meta: Meta) {
+    @VisibleForTesting
+    fun updateMeta(meta: MetaNetworkModel) {
         val metaDatabaseModel = meta.toMetaDatabaseModel()
         val values = metaDatabaseModel.toContentValues()
         metaDatabaseRepository.insert(values)
+        refreshMeta()
     }
 
     fun readScheduleRefreshIntervalDefaultValue() =

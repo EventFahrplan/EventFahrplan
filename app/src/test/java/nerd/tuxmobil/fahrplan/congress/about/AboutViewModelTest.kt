@@ -4,6 +4,7 @@ import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import info.metadude.android.eventfahrplan.commons.testing.MainDispatcherTestExtension
 import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedOnce
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import nerd.tuxmobil.fahrplan.congress.TestExecutionContext
 import nerd.tuxmobil.fahrplan.congress.about.AboutViewEvent.OnPostalAddressClick
@@ -49,8 +50,9 @@ class AboutViewModelTest {
         aboutParameterFactory = aboutParameterFactory,
     )
 
-    private fun createRepository() = mock<AppRepository> {
-        on { readMeta() } doReturn Meta()
+    private fun createRepository(metaValue: Meta = Meta()) = mock<AppRepository> {
+        on { meta } doReturn flowOf(metaValue)
+        on { readMeta() } doReturn metaValue
     }
 
 }
