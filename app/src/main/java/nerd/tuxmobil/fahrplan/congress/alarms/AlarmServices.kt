@@ -65,7 +65,7 @@ class AlarmServices @VisibleForTesting constructor(
     /**
      * Delegate to get a [PendingIntent] that will perform a broadcast.
      */
-    interface PendingIntentDelegate {
+    fun interface PendingIntentDelegate {
         fun onPendingIntentBroadcast(context: Context, intent: Intent): PendingIntent
     }
 
@@ -85,7 +85,7 @@ class AlarmServices @VisibleForTesting constructor(
     /**
      * Delegate to get a formatted date/time.
      */
-    interface FormattingDelegate {
+    fun interface FormattingDelegate {
         fun getFormattedDateTimeShort(useDeviceTimeZone: Boolean, alarmTime: Long, timeZoneOffset: ZoneOffset?): String
     }
 
@@ -93,6 +93,7 @@ class AlarmServices @VisibleForTesting constructor(
      * [DateFormatter] delegate to handle calls to get a formatted date/time.
      * Do not introduce any business logic here because this class is not unit tested.
      */
+    @Suppress("kotlin:S6516")
     private object DateFormatterDelegate : FormattingDelegate {
         override fun getFormattedDateTimeShort(useDeviceTimeZone: Boolean, alarmTime: Long, timeZoneOffset: ZoneOffset?): String {
             return DateFormatter.newInstance(useDeviceTimeZone).getFormattedDateTimeShort(alarmTime, timeZoneOffset)

@@ -75,7 +75,7 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
     /**
      * Interface definition for a callback to be invoked when a session view is clicked.
      */
-    internal interface OnSessionClickListener {
+    internal fun interface OnSessionClickListener {
         /**
          * Called when the session view has been clicked.
          */

@@ -48,7 +48,7 @@ class SessionUrlComposer(
 
 }
 
-interface SessionUrlComposition {
+fun interface SessionUrlComposition {
 
     fun getSessionUrl(session: Session): String
 
