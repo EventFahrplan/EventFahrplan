@@ -42,13 +42,13 @@ internal class NavigationMenuEntriesGenerator(
         sessions: List<Session>,
         currentDate: Moment = Moment.now()
     ): List<String> {
-        if (numDays < 0) {
-            throw IllegalArgumentException("Number of days is $numDays but must be 0 or more.")
+        require(numDays >= 0) {
+            "Number of days is $numDays but must be 0 or more."
         }
         val virtualDays = sessions.toVirtualDays()
         virtualDays.forEach { logging.d(LOG_TAG, "$it") }
-        if (numDays < virtualDays.size) {
-            throw IllegalArgumentException("Expected maximum $numDays day(s) but days list contains ${virtualDays.size} items.")
+        require(numDays >= virtualDays.size) {
+            "Expected maximum $numDays day(s) but days list contains ${virtualDays.size} items."
         }
         logging.d(LOG_TAG, "Today is $currentDate")
         val menuEntries = virtualDays.toMenuEntries(
