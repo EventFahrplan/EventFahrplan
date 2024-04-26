@@ -150,6 +150,7 @@ class AlarmServices @VisibleForTesting constructor(
      *
      * See: [AlarmManager.canScheduleExactAlarms].
      */
+    @Suppress("kotlin:S1125")
     val canScheduleExactAlarms: Boolean
         @SuppressLint("NewApi")
         get() = if (runsAtLeastOnAndroidSnowCone) alarmManager.canScheduleExactAlarms() else true
