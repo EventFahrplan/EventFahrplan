@@ -1,6 +1,5 @@
 package nerd.tuxmobil.fahrplan.congress.alarms
 
-import app.cash.turbine.ReceiveTurbine
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
@@ -15,7 +14,6 @@ import kotlinx.coroutines.test.runTest
 import nerd.tuxmobil.fahrplan.congress.TestExecutionContext
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmsState.Loading
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmsState.Success
-import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolving
 import nerd.tuxmobil.fahrplan.congress.commons.ScreenNavigation
 import nerd.tuxmobil.fahrplan.congress.models.Alarm
 import nerd.tuxmobil.fahrplan.congress.models.Session
@@ -31,12 +29,9 @@ import org.mockito.kotlin.mock
 class AlarmsViewModelTest {
 
     private companion object {
-        const val CONTENT_DESCRIPTION = "Some content description"
-        const val FIRES_AT_TEXT = "***"
         val SESSION_STARTS_AT = Moment.ofEpochMilli(1683981000000) // 2023-05-13T12:30:00+00:00
         const val ALARM_TIME_IN_MIN = 10
         val ALARM_STARTS_AT = SESSION_STARTS_AT.minusMinutes(ALARM_TIME_IN_MIN.toLong())
-
     }
 
     @Test
@@ -53,44 +48,7 @@ class AlarmsViewModelTest {
     }
 
     @Test
-    fun `alarmsState emits empty values Success when alarms emits empty list`() = runTest {
-        val repository = createRepository(
-            alarmsList = emptyList(),
-            sessionsFlow = flowOf(listOf(Session("s0")))
-        )
-        val viewModel = createViewModel(repository)
-        viewModel.alarmsState.test {
-            assertThat(awaitSuccess().sessionAlarmParameters).isEqualTo(emptyList<SessionAlarmParameter>())
-        }
-    }
-
-    @Test
-    fun `alarmsState emits empty values Success when sessions emits empty list`() = runTest {
-        val repository = createRepository(
-            alarmsList = listOf(createAlarm("s0")),
-            sessionsFlow = flowOf(emptyList())
-        )
-        val viewModel = createViewModel(repository)
-        viewModel.alarmsState.test {
-            assertThat(awaitSuccess().sessionAlarmParameters).isEqualTo(emptyList<SessionAlarmParameter>())
-        }
-    }
-
-    @Test
-    fun `alarmsState emits empty values Success when alarm and session are not associated`() =
-        runTest {
-            val repository = createRepository(
-                alarmsList = listOf(createAlarm("s1")),
-                sessionsFlow = flowOf(listOf(Session("s0")))
-            )
-            val viewModel = createViewModel(repository)
-            viewModel.alarmsState.test {
-                assertThat(awaitSuccess().sessionAlarmParameters).isEqualTo(emptyList<SessionAlarmParameter>())
-            }
-        }
-
-    @Test
-    fun `alarmsState emits values list Success when alarm and session are associated`() = runTest {
+    fun `alarmsState emits Success when alarm and session are associated`() = runTest {
         val repository = createRepository(
             alarmsList = listOf(
                 createAlarm(
@@ -112,21 +70,8 @@ class AlarmsViewModelTest {
         )
         val viewModel = createViewModel(repository)
         viewModel.alarmsState.test {
-            val parameter = SessionAlarmParameter(
-                sessionId = "s0",
-                title = "Title",
-                titleContentDescription = CONTENT_DESCRIPTION,
-                subtitle = "Subtitle",
-                subtitleContentDescription = CONTENT_DESCRIPTION,
-                alarmOffsetContentDescription = CONTENT_DESCRIPTION,
-                alarmOffsetInMin = ALARM_TIME_IN_MIN,
-                firesAt = ALARM_STARTS_AT.toMilliseconds(),
-                firesAtText = FIRES_AT_TEXT,
-                firesAtContentDescription = CONTENT_DESCRIPTION,
-                dayIndex = 0,
-                selected = false
-            )
-            assertThat(awaitSuccess().sessionAlarmParameters).isEqualTo(listOf(parameter))
+            // Success values are covered in AlarmsStateFactoryTest
+            assertThat(awaitItem()).isInstanceOf(Success::class.java)
         }
         verifyInvokedOnce(repository).readUseDeviceTimeZoneEnabled()
     }
@@ -247,13 +192,19 @@ class AlarmsViewModelTest {
         repository = repository,
         executionContext = TestExecutionContext,
         alarmServices = alarmServices,
-        resourceResolving = TestResourceResolver,
         screenNavigation = screenNavigation,
-        formattingDelegate = { _, _, _ -> FIRES_AT_TEXT }
+        alarmsStateFactory = createAlarmsStateFactory(),
     )
 
-    private object TestResourceResolver : ResourceResolving {
-        override fun getString(id: Int, vararg formatArgs: Any) = CONTENT_DESCRIPTION
+    private fun createAlarmsStateFactory(): AlarmsStateFactory {
+        val parameter = mock<SessionAlarmParameter> {
+            on { sessionId } doReturn "not asserted in this test"
+            on { title } doReturn "not asserted in this test"
+        }
+        return mock<AlarmsStateFactory> {
+            // See AlarmsStateFactoryTest for real return values
+            on { createAlarmsState(any(), any(), any()) } doReturn listOf(parameter)
+        }
     }
 
     private fun createAlarm(
@@ -269,7 +220,5 @@ class AlarmsViewModelTest {
         startTime = alarmStartsAt,
         timeText = "Unused"
     )
-
-    private suspend fun <T> ReceiveTurbine<T>.awaitSuccess() = awaitItem() as Success
 
 }
