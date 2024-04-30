@@ -29,7 +29,6 @@ sealed class ParseShiftsResult(
 
     companion object {
 
-        @JvmStatic
         fun of(result: LoadShiftsResult) = when (result) {
             is LoadShiftsResult.Success -> Success
             is LoadShiftsResult.Error -> Error(result.httpStatusCode, result.exceptionMessage)

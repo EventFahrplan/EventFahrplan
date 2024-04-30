@@ -189,7 +189,6 @@ class Moment private constructor(private val time: Instant) : Comparable<Moment>
         /**
          * Creates a time zone neutral [Moment] instance of current system clock.
          */
-        @JvmStatic
         fun now() = Moment(Instant.now())
 
         /**
@@ -197,7 +196,6 @@ class Moment private constructor(private val time: Instant) : Comparable<Moment>
          *
          * @param milliseconds epoch millis to create instance from
          */
-        @JvmStatic
         fun ofEpochMilli(milliseconds: Long) = Moment(Instant.ofEpochMilli(milliseconds))
 
         /**

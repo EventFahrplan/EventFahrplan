@@ -31,7 +31,6 @@ class UpdateService : SafeJobIntentService() {
         private const val JOB_ID = 2119
         private const val LOG_TAG = "UpdateService"
 
-        @JvmStatic
         fun start(context: Context) {
             enqueueWork(context, UpdateService::class.java, JOB_ID, Intent())
         }

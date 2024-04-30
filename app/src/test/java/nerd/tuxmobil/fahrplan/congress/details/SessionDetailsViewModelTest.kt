@@ -46,7 +46,7 @@ class SessionDetailsViewModelTest {
     @Test
     fun `selectedSessionParameter does not emit SelectedSessionParameter`() = runTest {
         val repository = createRepository(selectedSessionFlow = emptyFlow())
-        val fakeSessionFormatter = mock<SessionFormatter> {
+        val fakePropertiesFormatter = mock<SessionPropertiesFormatter> {
             on { getFormattedLinks(any()) } doReturn "not relevant"
             on { getFormattedUrl(any()) } doReturn """<a href="$SAMPLE_SESSION_URL">$SAMPLE_SESSION_URL</a>"""
         }
@@ -65,7 +65,7 @@ class SessionDetailsViewModelTest {
         }
         val viewModel = createViewModel(
             repository = repository,
-            sessionFormatter = fakeSessionFormatter,
+            sessionPropertiesFormatter = fakePropertiesFormatter,
             sessionUrlComposition = fakeSessionUrlComposition,
             formattingDelegate = fakeFormattingDelegate,
             markdownConversion = fakeMarkdownConversion,
@@ -96,9 +96,10 @@ class SessionDetailsViewModelTest {
             highlight = true,
         )
         val repository = createRepository(selectedSessionFlow = flowOf(session))
-        val fakeSessionFormatter = mock<SessionFormatter> {
+        val fakeSessionPropertiesFormatter = mock<SessionPropertiesFormatter> {
             on { getFormattedLinks(any()) } doReturn "not relevant"
             on { getFormattedUrl(any()) } doReturn """<a href="$SAMPLE_SESSION_URL">$SAMPLE_SESSION_URL</a>"""
+            on { getFormattedSpeakers(any()) } doReturn "Jane Doe, John Doe"
         }
         val fakeSessionUrlComposition = mock<SessionUrlComposition> {
             on { getSessionUrl(any()) } doReturn SAMPLE_SESSION_URL
@@ -115,7 +116,7 @@ class SessionDetailsViewModelTest {
         }
         val viewModel = createViewModel(
             repository = repository,
-            sessionFormatter = fakeSessionFormatter,
+            sessionPropertiesFormatter = fakeSessionPropertiesFormatter,
             sessionUrlComposition = fakeSessionUrlComposition,
             formattingDelegate = fakeFormattingDelegate,
             markdownConversion = fakeMarkdownConversion,
@@ -171,9 +172,10 @@ class SessionDetailsViewModelTest {
             highlight = false,
         )
         val repository = createRepository(selectedSessionFlow = flowOf(session))
-        val fakeSessionFormatter = mock<SessionFormatter> {
+        val fakeSessionPropertiesFormatter = mock<SessionPropertiesFormatter> {
             on { getFormattedLinks(any()) } doReturn "not relevant"
             on { getFormattedUrl(any()) } doReturn ""
+            on { getFormattedSpeakers(any()) } doReturn ""
         }
         val fakeSessionUrlComposition = mock<SessionUrlComposition> {
             on { getSessionUrl(any()) } doReturn ""
@@ -190,7 +192,7 @@ class SessionDetailsViewModelTest {
         }
         val viewModel = createViewModel(
             repository = repository,
-            sessionFormatter = fakeSessionFormatter,
+            sessionPropertiesFormatter = fakeSessionPropertiesFormatter,
             sessionUrlComposition = fakeSessionUrlComposition,
             formattingDelegate = fakeFormattingDelegate,
             markdownConversion = fakeMarkdownConversion,
@@ -455,9 +457,10 @@ class SessionDetailsViewModelTest {
             roomIdentifier = "88888888-4444-4444-4444-121212121212",
         )
         val repository = createRepository(selectedSessionFlow = flowOf(session))
-        val fakeSessionFormatter = mock<SessionFormatter> {
+        val fakeSessionPropertiesFormatter = mock<SessionPropertiesFormatter> {
             on { getFormattedLinks(any()) } doReturn "not relevant"
             on { getFormattedUrl(any()) } doReturn ""
+            on { getFormattedSpeakers(any()) } doReturn "not relevant"
         }
         val fakeSessionUrlComposition = mock<SessionUrlComposition> {
             on { getSessionUrl(any()) } doReturn ""
@@ -474,7 +477,7 @@ class SessionDetailsViewModelTest {
         }
         val viewModel = createViewModel(
             repository = repository,
-            sessionFormatter = fakeSessionFormatter,
+            sessionPropertiesFormatter = fakeSessionPropertiesFormatter,
             sessionUrlComposition = fakeSessionUrlComposition,
             formattingDelegate = fakeFormattingDelegate,
             markdownConversion = fakeMarkdownConversion,
@@ -507,7 +510,6 @@ class SessionDetailsViewModelTest {
         repository: AppRepository,
         alarmServices: AlarmServices = mock(),
         notificationHelper: NotificationHelper = mock(),
-        sessionFormatter: SessionFormatter = mock(),
         sessionPropertiesFormatter: SessionPropertiesFormatter = SessionPropertiesFormatter(),
         simpleSessionFormat: SimpleSessionFormat = mock(),
         jsonSessionFormat: JsonSessionFormat = mock(),
@@ -524,7 +526,6 @@ class SessionDetailsViewModelTest {
         executionContext = TestExecutionContext,
         alarmServices = alarmServices,
         notificationHelper = notificationHelper,
-        sessionFormatter = sessionFormatter,
         sessionPropertiesFormatter = sessionPropertiesFormatter,
         simpleSessionFormat = simpleSessionFormat,
         jsonSessionFormat = jsonSessionFormat,
@@ -538,12 +539,12 @@ class SessionDetailsViewModelTest {
         runsAtLeastOnAndroidTiramisu = runsAtLeastOnAndroidTiramisu
     )
 
-    object SupportedIndoorNavigation : IndoorNavigation {
+    private object SupportedIndoorNavigation : IndoorNavigation {
         override fun isSupported(room: Room) = true
         override fun getUri(room: Room) = "https://c3nav.foo/garden".toUri()
     }
 
-    object UnsupportedIndoorNavigation : IndoorNavigation {
+    private object UnsupportedIndoorNavigation : IndoorNavigation {
         override fun isSupported(room: Room) = false
         override fun getUri(room: Room): Uri = Uri.EMPTY
     }

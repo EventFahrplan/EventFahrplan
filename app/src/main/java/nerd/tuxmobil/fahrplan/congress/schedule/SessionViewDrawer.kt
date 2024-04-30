@@ -18,7 +18,7 @@ import nerd.tuxmobil.fahrplan.congress.utils.Font
 import nerd.tuxmobil.fahrplan.congress.utils.SessionPropertiesFormatter
 import nerd.tuxmobil.fahrplan.congress.utils.TypefaceFactory
 
-internal class SessionViewDrawer @JvmOverloads constructor(
+internal class SessionViewDrawer(
 
         context: Context,
         private val sessionPropertiesFormatter: SessionPropertiesFormatter,
@@ -115,7 +115,6 @@ internal class SessionViewDrawer @JvmOverloads constructor(
     companion object {
         const val LOG_TAG = "SessionViewDrawer"
 
-        @JvmStatic
         fun setSessionTextColor(isFavored: Boolean, view: View) {
             val title = view.requireViewByIdCompat<TextView>(R.id.session_title_view)
             val subtitle = view.requireViewByIdCompat<TextView>(R.id.session_subtitle_view)

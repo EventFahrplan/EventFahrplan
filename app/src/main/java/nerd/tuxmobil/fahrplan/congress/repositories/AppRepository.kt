@@ -269,8 +269,7 @@ object AppRepository {
     }
 
     /**
-     * Emits all sessions from the database which have been favored aka. starred but no canceled.
-     * The returned list might be empty.
+     * Emits the session from the database which has been selected.
      */
     @OptIn(ExperimentalCoroutinesApi::class)
     val selectedSession: Flow<Session> by lazy {
@@ -302,7 +301,6 @@ object AppRepository {
             .flowOn(executionContext.database)
     }
 
-    @JvmOverloads
     fun initialize(
             context: Context,
             logging: Logging,
@@ -648,7 +646,6 @@ object AppRepository {
     }
 
     @WorkerThread
-    @JvmOverloads
     fun readAlarms(sessionId: String = "") = if (sessionId.isEmpty()) {
         alarmsDatabaseRepository.query().toAlarmsAppModel()
     } else {

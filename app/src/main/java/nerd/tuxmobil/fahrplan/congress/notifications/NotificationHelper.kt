@@ -61,7 +61,6 @@ internal class NotificationHelper(context: Context) : ContextWrapper(context) {
                     .setDefaults(Notification.DEFAULT_LIGHTS)
                     .setSubText(getScheduleUpdateContentText(changesCount))
 
-    @JvmOverloads
     fun notify(id: Int, builder: NotificationCompat.Builder, isInsistent: Boolean = false) {
         val notification = builder.build()
         if (isInsistent) {

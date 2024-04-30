@@ -45,8 +45,6 @@ class AlarmServices @VisibleForTesting constructor(
         /**
          * Factory function returning an [AlarmServices] instance with sensible defaults set.
          */
-        @JvmStatic
-        @JvmOverloads
         fun newInstance(
             context: Context,
             repository: AppRepository,
@@ -67,7 +65,7 @@ class AlarmServices @VisibleForTesting constructor(
     /**
      * Delegate to get a [PendingIntent] that will perform a broadcast.
      */
-    interface PendingIntentDelegate {
+    fun interface PendingIntentDelegate {
         fun onPendingIntentBroadcast(context: Context, intent: Intent): PendingIntent
     }
 
@@ -87,7 +85,7 @@ class AlarmServices @VisibleForTesting constructor(
     /**
      * Delegate to get a formatted date/time.
      */
-    interface FormattingDelegate {
+    fun interface FormattingDelegate {
         fun getFormattedDateTimeShort(useDeviceTimeZone: Boolean, alarmTime: Long, timeZoneOffset: ZoneOffset?): String
     }
 
@@ -95,6 +93,7 @@ class AlarmServices @VisibleForTesting constructor(
      * [DateFormatter] delegate to handle calls to get a formatted date/time.
      * Do not introduce any business logic here because this class is not unit tested.
      */
+    @Suppress("kotlin:S6516")
     private object DateFormatterDelegate : FormattingDelegate {
         override fun getFormattedDateTimeShort(useDeviceTimeZone: Boolean, alarmTime: Long, timeZoneOffset: ZoneOffset?): String {
             return DateFormatter.newInstance(useDeviceTimeZone).getFormattedDateTimeShort(alarmTime, timeZoneOffset)
@@ -152,6 +151,7 @@ class AlarmServices @VisibleForTesting constructor(
      *
      * See: [AlarmManager.canScheduleExactAlarms].
      */
+    @Suppress("kotlin:S1125")
     val canScheduleExactAlarms: Boolean
         @SuppressLint("NewApi")
         get() = if (runsAtLeastOnAndroidSnowCone) alarmManager.canScheduleExactAlarms() else true
@@ -160,7 +160,6 @@ class AlarmServices @VisibleForTesting constructor(
      * Schedules the given [alarm] via the [AlarmManager].
      * Existing alarms for the associated session are discarded if configured via [discardExisting].
      */
-    @JvmOverloads
     fun scheduleSessionAlarm(alarm: SchedulableAlarm, discardExisting: Boolean = false) {
         val intent = AlarmReceiver.AlarmIntentFactory(
             context = context,

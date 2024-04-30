@@ -34,7 +34,6 @@ object FahrplanMisc {
         return infos
     }
 
-    @JvmStatic
     fun setUpdateAlarm(context: Context, isInitial: Boolean, logging: Logging): Long {
         val alarmManager = context.getAlarmManager()
         val alarmIntent = Intent(context, AlarmReceiver::class.java)

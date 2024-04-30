@@ -12,7 +12,6 @@ interface Logging {
 
     companion object {
 
-        @JvmStatic
         fun get(): Logging {
             return if (BuildConfig.DEBUG) ConsoleLogger else AlmostNoLogging
         }

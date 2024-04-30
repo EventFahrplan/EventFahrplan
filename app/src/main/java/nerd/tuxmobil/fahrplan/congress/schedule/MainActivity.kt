@@ -76,7 +76,6 @@ class MainActivity : BaseActivity(),
          * The [sessionId] is also used to ensure this intent is unique by definition of
          * [Intent.filterEquals].
          */
-        @JvmStatic
         fun createLaunchIntent(
             context: Context,
             sessionId: String,
@@ -305,6 +304,7 @@ class MainActivity : BaseActivity(),
                     val isUseDeviceTimeZoneUpdated = intent.getBooleanExtra(
                         BundleKeys.USE_DEVICE_TIME_ZONE_UPDATED, false)
 
+                    @Suppress("kotlin:S1066")
                     if (isAlternativeHighlightingUpdated || isUseDeviceTimeZoneUpdated) {
                         if (findViewById<View>(R.id.schedule) != null && findFragment(FahrplanFragment.FRAGMENT_TAG) != null) {
                             replaceFragment(R.id.schedule, FahrplanFragment(), FahrplanFragment.FRAGMENT_TAG)

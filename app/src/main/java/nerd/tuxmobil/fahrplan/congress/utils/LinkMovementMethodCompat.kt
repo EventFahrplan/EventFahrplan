@@ -8,7 +8,6 @@ object LinkMovementMethodCompat {
     /**
      * Returns an instance of [BetterLinkMovementMethod].
      */
-    @JvmStatic
     fun getInstance(): MovementMethod = BetterLinkMovementMethod.getInstance()
 
 }

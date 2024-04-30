@@ -6,7 +6,7 @@ import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.utils.ConferenceTimeFrame
 
-class AlarmUpdater @JvmOverloads constructor(
+class AlarmUpdater(
 
     private val conference: ConferenceTimeFrame,
     private val listener: OnAlarmUpdateListener,

@@ -6,7 +6,7 @@ package nerd.tuxmobil.fahrplan.congress.utils
 object MarkdownConverter : MarkdownConversion {
 
     // language=regex
-    private const val MARKDOWN_LINK_REGEX = """\[(.*?)\]\(([^ \)]+).*?\)"""
+    private const val MARKDOWN_LINK_REGEX = """\[(.*?)\]\(([^ \)]+)[^\\)]*+\)"""
     private const val HTML_LINK_TEMPLATE = """<a href="$2">$1</a>"""
     private const val PLAIN_LINK_TEMPLATE = """$1 ($2)"""
 

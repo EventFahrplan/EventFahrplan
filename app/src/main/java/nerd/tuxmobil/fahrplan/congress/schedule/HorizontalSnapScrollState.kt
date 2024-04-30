@@ -13,7 +13,7 @@ import kotlin.math.roundToInt
  * Acts as a delegate for mathematical calculations for [HorizontalSnapScrollView]
  * so that these can be unit tested easily.
  */
-data class HorizontalSnapScrollState @JvmOverloads constructor(
+data class HorizontalSnapScrollState(
 
     val logging: Logging,
     val xStart: Int = 0,

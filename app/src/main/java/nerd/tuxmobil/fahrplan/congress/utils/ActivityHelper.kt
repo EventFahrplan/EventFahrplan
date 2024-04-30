@@ -6,7 +6,6 @@ import androidx.core.app.TaskStackBuilder
 
 object ActivityHelper {
 
-    @JvmStatic
     fun Activity.navigateUp(): Boolean {
         val upIntent = NavUtils.getParentActivityIntent(this)!!
         if (NavUtils.shouldUpRecreateTask(this, upIntent)) {

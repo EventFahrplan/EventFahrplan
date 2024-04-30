@@ -21,9 +21,9 @@ internal class AlarmsViewModelFactory(
         return AlarmsViewModel(
             repository = appRepository,
             executionContext = AppExecutionContext,
-            resourceResolving = resourceResolving,
             alarmServices = alarmServices,
             screenNavigation = screenNavigation,
+            alarmsStateFactory = AlarmsStateFactory(resourceResolving),
         ) as T
     }
 

@@ -5,7 +5,7 @@ import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.utils.ServerBackendType.PENTABARF
 
-class SessionUrlComposer @JvmOverloads constructor(
+class SessionUrlComposer(
 
         private val sessionUrlTemplate: String = BuildConfig.EVENT_URL,
         private val serverBackEndType: String = BuildConfig.SERVER_BACKEND_TYPE,
@@ -48,7 +48,7 @@ class SessionUrlComposer @JvmOverloads constructor(
 
 }
 
-interface SessionUrlComposition {
+fun interface SessionUrlComposition {
 
     fun getSessionUrl(session: Session): String
 
