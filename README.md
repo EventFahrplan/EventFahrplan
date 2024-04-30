@@ -1,4 +1,4 @@
-![Github release version](https://img.shields.io/github/v/release/linuxtage/EventFahrplan.svg?logo=github) [![GitHub Actions Build Status](https://github.com/linuxtage/EventFahrplan/actions/workflows/build.yaml/badge.svg)](https://github.com/linuxtage/EventFahrplan/actions/workflows/build.yaml) ![F-Droid release version](https://img.shields.io/f-droid/v/at.linuxtage.companion.svg?logo=F-Droid) [![Crowdin](https://badges.crowdin.net/eventfahrplan/localized.svg)](https://crowdin.com/project/eventfahrplan) [![Apache License](http://img.shields.io/badge/license-Apache%20License%202.0-lightgrey.svg)](http://choosealicense.com/licenses/apache-2.0/)
+![Github release version](https://img.shields.io/github/v/release/linuxtage/EventFahrplan.svg?logo=github) [![GitHub Actions Build Status](https://github.com/linuxtage/EventFahrplan/actions/workflows/build.yaml/badge.svg)](https://github.com/linuxtage/EventFahrplan/actions/workflows/build.yaml) ![F-Droid release version](https://img.shields.io/f-droid/v/at.linuxtage.Eventfahrplan.svg?logo=F-Droid) [![Crowdin](https://badges.crowdin.net/eventfahrplan/localized.svg)](https://crowdin.com/project/eventfahrplan) [![Apache License](http://img.shields.io/badge/license-Apache%20License%202.0-lightgrey.svg)](http://choosealicense.com/licenses/apache-2.0/)
 
 # EventFahrplan
 
@@ -6,7 +6,7 @@ This is the schedule browser for the "[Grazer Linuxtage](https://linuxtage.at)" 
 
 [<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
 alt="Get it on F-Droid"
-height="80">](https://f-droid.org/packages/at.linuxtage.companion/)
+height="80">](https://f-droid.org/packages/at.linuxtage.Eventfahrplan/)
 [<img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png"
 alt="Get it on Google Play"
 height="80">](https://play.google.com/store/apps/details?id=at.linuxtage.Eventfahrplan)
