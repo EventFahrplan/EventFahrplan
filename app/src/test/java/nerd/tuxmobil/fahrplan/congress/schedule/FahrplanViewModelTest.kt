@@ -37,8 +37,6 @@ import org.mockito.kotlin.any
 import org.mockito.kotlin.anyOrNull
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
-import org.mockito.kotlin.times
-import org.mockito.kotlin.verify
 import org.threeten.bp.ZoneOffset
 
 @ExtendWith(MainDispatcherTestExtension::class)
@@ -49,7 +47,7 @@ class FahrplanViewModelTest {
     private val scrollAmountCalculator = mock<ScrollAmountCalculator>()
 
     @Test
-    fun `fahrplanParameter neither posts to fahrplanParameter nor fahrplanEmptyParameter properties`() = runTest {
+    fun `updateUncanceledSessions neither posts to fahrplanParameter nor fahrplanEmptyParameter properties`() = runTest {
         val repository = createRepository(uncanceledSessionsForDayIndexFlow = emptyFlow())
         val viewModel = createViewModel(repository)
         viewModel.fahrplanParameter.test {

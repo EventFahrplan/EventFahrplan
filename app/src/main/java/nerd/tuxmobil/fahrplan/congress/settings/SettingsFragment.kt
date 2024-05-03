@@ -120,6 +120,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 when (it.text.isNullOrEmpty()) {
                     true -> getString(R.string.preference_summary_engelsystem_json_export_url, getString(R.string.engelsystem_alias))
                         .toSpanned()
+
                     false -> "${it.text!!.dropLast(23)}..." // Truncate to keep the key private.
                 }
             }
@@ -162,7 +163,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
     @TargetApi(Build.VERSION_CODES.O)
     private fun launchAppNotificationSettings(context: Context) {
         val intent = Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS).withExtras(
-                Settings.EXTRA_APP_PACKAGE to context.packageName
+            Settings.EXTRA_APP_PACKAGE to context.packageName
         )
         startActivity(intent)
     }
@@ -172,6 +173,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
      * if none can be found. Uses [findPreference].
      */
     private fun <T : Preference> requirePreference(key: CharSequence): T = findPreference(key)
-            ?: throw NullPointerException("Cannot find preference for '$key' key.")
+        ?: throw NullPointerException("Cannot find preference for '$key' key.")
 
 }
