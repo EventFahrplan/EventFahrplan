@@ -16,11 +16,11 @@ class ConferenceTimeFrameTest {
         val LAST_DAY_END_TIME = Moment.ofEpochMilli(1451516400000L)
     }
 
-    private lateinit var conference: ConferenceTimeFrame
+    private lateinit var conference: ConferenceTimeFrame.Known
 
     @BeforeEach
     fun setUp() {
-        conference = ConferenceTimeFrame(FIRST_DAY_START_TIME, LAST_DAY_END_TIME)
+        conference = ConferenceTimeFrame.Known(FIRST_DAY_START_TIME, LAST_DAY_END_TIME)
     }
 
     @Test
@@ -31,7 +31,7 @@ class ConferenceTimeFrameTest {
     @Test
     fun `isValid throws an exception for last day followed by first day`() {
         try {
-            ConferenceTimeFrame(LAST_DAY_END_TIME, FIRST_DAY_START_TIME)
+            ConferenceTimeFrame.Known(LAST_DAY_END_TIME, FIRST_DAY_START_TIME)
             fail("Expect an IllegalStateException to be thrown.")
         } catch (e: IllegalStateException) {
             assertThat(e.message).startsWith("Invalid conference time frame:")
@@ -41,7 +41,7 @@ class ConferenceTimeFrameTest {
     @Test
     fun `isValid throws an exception for same day twice`() {
         try {
-            ConferenceTimeFrame(FIRST_DAY_START_TIME, FIRST_DAY_START_TIME)
+            ConferenceTimeFrame.Known(FIRST_DAY_START_TIME, FIRST_DAY_START_TIME)
             fail("Expect an IllegalStateException to be thrown.")
         } catch (e: IllegalStateException) {
             assertThat(e.message).startsWith("Invalid conference time frame:")

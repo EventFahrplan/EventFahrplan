@@ -18,7 +18,7 @@ import org.threeten.bp.ZoneOffset
  * TODO: TechDebt: This implementation makes it impossible to represent a conference day which spans
  * two different time zones. Refactoring this is a topic for a future enhancement.
  */
-// TODO Use Moment class, merge with ConferenceTimeFrame class?
+// TODO Use Moment class, merge with ConferenceTimeFrame.Known class?
 data class Conference(
 
         val timeFrame: ClosedRange<Moment>,

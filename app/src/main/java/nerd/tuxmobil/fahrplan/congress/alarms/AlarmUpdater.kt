@@ -8,7 +8,7 @@ import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 
 class AlarmUpdater(
 
-    private val conference: ConferenceTimeFrame,
+    private val conference: ConferenceTimeFrame.Known,
     private val listener: OnAlarmUpdateListener,
     private val appRepository: AppRepository = AppRepository,
     private val logging: Logging = Logging.get()

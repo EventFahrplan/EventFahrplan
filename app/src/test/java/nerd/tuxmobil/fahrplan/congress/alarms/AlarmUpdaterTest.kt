@@ -32,7 +32,7 @@ class AlarmUpdaterTest {
         const val TWO_HOURS = 2 * Moment.MILLISECONDS_OF_ONE_HOUR
         const val ONE_DAY = Moment.MILLISECONDS_OF_ONE_DAY
 
-        val conferenceTimeFrame = ConferenceTimeFrame(FIRST_DAY_START_TIME, LAST_DAY_END_TIME)
+        val conferenceTimeFrame = ConferenceTimeFrame.Known(FIRST_DAY_START_TIME, LAST_DAY_END_TIME)
     }
 
     private val sharedPreferencesRepository = mock<SharedPreferencesRepository>()

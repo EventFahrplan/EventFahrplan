@@ -45,7 +45,7 @@ class MyApp : Application() {
             return zonedDateTime.toMoment()
         }
 
-        val conferenceTimeFrame = ConferenceTimeFrame(FIRST_DAY_START, LAST_DAY_END)
+        val conferenceTimeFrame = ConferenceTimeFrame.Known(FIRST_DAY_START, LAST_DAY_END)
 
         @JvmField
         var taskRunning = TASKS.NONE
