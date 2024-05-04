@@ -1,4 +1,4 @@
-package nerd.tuxmobil.fahrplan.congress.utils
+package nerd.tuxmobil.fahrplan.congress.models
 
 import com.google.common.truth.Truth.assertThat
 import info.metadude.android.eventfahrplan.commons.temporal.Moment

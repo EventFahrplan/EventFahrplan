@@ -3,8 +3,8 @@ package nerd.tuxmobil.fahrplan.congress.alarms
 import android.app.AlarmManager
 import info.metadude.android.eventfahrplan.commons.logging.Logging
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
+import nerd.tuxmobil.fahrplan.congress.models.ConferenceTimeFrame
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
-import nerd.tuxmobil.fahrplan.congress.utils.ConferenceTimeFrame
 
 class AlarmUpdater(
 

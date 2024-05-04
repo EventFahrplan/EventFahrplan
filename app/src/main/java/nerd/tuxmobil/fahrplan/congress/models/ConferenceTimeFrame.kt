@@ -1,4 +1,4 @@
-package nerd.tuxmobil.fahrplan.congress.utils
+package nerd.tuxmobil.fahrplan.congress.models
 
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmUpdater
