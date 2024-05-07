@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import info.metadude.android.eventfahrplan.commons.logging.Logging
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
-import nerd.tuxmobil.fahrplan.congress.alarms.AlarmReceiver
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices
 import nerd.tuxmobil.fahrplan.congress.autoupdate.UpdateService
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toSchedulableAlarm
@@ -22,7 +21,7 @@ class OnBootReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         val action = intent.action ?: return
-        if (action != AlarmReceiver.ALARM_UPDATE) {
+        if (action != Intent.ACTION_BOOT_COMPLETED) {
             return
         }
 
