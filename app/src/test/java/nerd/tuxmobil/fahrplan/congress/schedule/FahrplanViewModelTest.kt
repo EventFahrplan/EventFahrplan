@@ -7,6 +7,7 @@ import info.metadude.android.eventfahrplan.commons.testing.MainDispatcherTestExt
 import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedNever
 import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedOnce
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
@@ -15,6 +16,8 @@ import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.TestExecutionContext
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices
 import nerd.tuxmobil.fahrplan.congress.models.Alarm
+import nerd.tuxmobil.fahrplan.congress.models.ConferenceTimeFrame.Known
+import nerd.tuxmobil.fahrplan.congress.models.ConferenceTimeFrame.Unknown
 import nerd.tuxmobil.fahrplan.congress.models.DateInfo
 import nerd.tuxmobil.fahrplan.congress.models.DateInfos
 import nerd.tuxmobil.fahrplan.congress.models.Meta
@@ -46,6 +49,73 @@ class FahrplanViewModelTest {
     private val simpleSessionFormat = mock<SimpleSessionFormat>()
     private val jsonSessionFormat = mock<JsonSessionFormat>()
     private val scrollAmountCalculator = mock<ScrollAmountCalculator>()
+
+    @Nested
+    inner class ScheduleUpdateAlarm {
+
+        @Test
+        fun `requestScheduleUpdateAlarm never posts to activateScheduleUpdateAlarm property when no sessions are emitted`() =
+            runTest {
+                val repository = createRepository(sessionsFlow = emptyFlow())
+                val viewModel = createViewModel(repository)
+                viewModel.activateScheduleUpdateAlarm.test {
+                    expectNoEvents()
+                }
+            }
+
+        @Test
+        fun `requestScheduleUpdateAlarm posts to activateScheduleUpdateAlarm property when sessions are empty`() =
+            runTest {
+                val repository = createRepository(sessionsFlow = flowOf(emptyList()))
+                val viewModel = createViewModel(repository)
+                viewModel.activateScheduleUpdateAlarm.test {
+                    assertThat(awaitItem()).isEqualTo(Unknown)
+                }
+            }
+
+        @Test
+        fun `requestScheduleUpdateAlarm posts to activateScheduleUpdateAlarm property when sessions are present`() =
+            runTest {
+                val session1 = Session("1", dateUTC = Moment.ofEpochMilli(0).toMilliseconds())
+                val session2 = Session("2", dateUTC = Moment.ofEpochMilli(1).toMilliseconds())
+                val repository = createRepository(sessionsFlow = flowOf(listOf(session1, session2)))
+                val viewModel = createViewModel(repository)
+                viewModel.activateScheduleUpdateAlarm.test {
+                    val expected = Known(Moment.ofEpochMilli(0), Moment.ofEpochMilli(1))
+                    assertThat(awaitItem()).isEqualTo(expected)
+                }
+            }
+
+        @Test
+        fun `requestScheduleUpdateAlarm posts once to activateScheduleUpdateAlarm property when sessions do not change`() =
+            runTest {
+                val sessionsFlow = MutableStateFlow<List<Session>>(emptyList())
+                val repository = createRepository(sessionsFlow = sessionsFlow)
+                val viewModel = createViewModel(repository)
+                viewModel.activateScheduleUpdateAlarm.test {
+                    assertThat(awaitItem()).isEqualTo(Unknown)
+                    sessionsFlow.emit(emptyList())
+                    expectNoEvents()
+                }
+            }
+
+        @Test
+        fun `requestScheduleUpdateAlarm posts repetitive to activateScheduleUpdateAlarm property when sessions change`() =
+            runTest {
+                val sessionsFlow = MutableStateFlow<List<Session>>(emptyList())
+                val repository = createRepository(sessionsFlow = sessionsFlow)
+                val viewModel = createViewModel(repository)
+                viewModel.activateScheduleUpdateAlarm.test {
+                    assertThat(awaitItem()).isEqualTo(Unknown)
+                    val session1 = Session("1", dateUTC = Moment.ofEpochMilli(0).toMilliseconds())
+                    val session2 = Session("2", dateUTC = Moment.ofEpochMilli(1).toMilliseconds())
+                    sessionsFlow.emit(listOf(session1, session2))
+                    val expected = Known(Moment.ofEpochMilli(0), Moment.ofEpochMilli(1))
+                    assertThat(awaitItem()).isEqualTo(expected)
+                }
+            }
+
+    }
 
     @Nested
     inner class SessionData {
@@ -551,6 +621,7 @@ class FahrplanViewModelTest {
     }
 
     private fun createRepository(
+        sessionsFlow: Flow<List<Session>> = emptyFlow(),
         uncanceledSessionsForDayIndexFlow: Flow<ScheduleData> = emptyFlow(),
         sessionsWithoutShiftsFlow: Flow<List<Session>> = emptyFlow(),
         loadUncanceledSessionsForDayIndex: ScheduleData = mock(),
@@ -559,6 +630,7 @@ class FahrplanViewModelTest {
         isAutoUpdateEnabled: Boolean = true,
         displayDayIndex: Int = 0,
     ) = mock<AppRepository> {
+        on { sessions } doReturn sessionsFlow
         on { uncanceledSessionsForDayIndex } doReturn uncanceledSessionsForDayIndexFlow
         on { sessionsWithoutShifts } doReturn sessionsWithoutShiftsFlow
         on { loadUncanceledSessionsForDayIndex() } doReturn loadUncanceledSessionsForDayIndex

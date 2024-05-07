@@ -11,7 +11,6 @@ import nerd.tuxmobil.fahrplan.congress.schedule.Conference
  * These classes should not be used for other purposes.
  * They are not a replacement for the [Conference] class.
  */
-// TODO Merge with Conference class?
 sealed interface ConferenceTimeFrame {
 
     data object Unknown : ConferenceTimeFrame
@@ -37,6 +36,15 @@ sealed interface ConferenceTimeFrame {
 
         fun startsAtOrBefore(moment: Moment) =
             timeFrame.start.isSimultaneousWith(moment) || timeFrame.start.isBefore(moment)
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (javaClass != other?.javaClass) return false
+            other as Known
+            return timeFrame == other.timeFrame
+        }
+
+        override fun hashCode() = timeFrame.hashCode()
 
         override fun toString() =
             timeFrame.toString()

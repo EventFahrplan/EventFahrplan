@@ -7,6 +7,7 @@ import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedOnce
 import nerd.tuxmobil.fahrplan.congress.NoLogging
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmUpdater.OnAlarmUpdateListener
 import nerd.tuxmobil.fahrplan.congress.models.ConferenceTimeFrame
+import nerd.tuxmobil.fahrplan.congress.models.ConferenceTimeFrame.Unknown
 import nerd.tuxmobil.fahrplan.congress.preferences.SharedPreferencesRepository
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import org.junit.jupiter.api.BeforeEach
@@ -66,6 +67,8 @@ class AlarmUpdaterTest {
         alarmUpdater = AlarmUpdater(conferenceTimeFrame, mockListener, testableAppRepository, NoLogging)
     }
 
+    // Developer interval
+
     @Test
     fun `calculateInterval schedules alarm with development interval`() {
         whenever(sharedPreferencesRepository.getScheduleRefreshInterval()).doReturn(THREE_SECONDS)
@@ -82,6 +85,17 @@ class AlarmUpdaterTest {
         assertThat(interval).isEqualTo(THREE_SECONDS)
         verifyInvokedOnce(mockListener).onCancelUpdateAlarm()
         verifyInvokedOnce(mockListener).onScheduleUpdateAlarm(THREE_SECONDS.toLong(), LAST_DAY_END_TIME.plusSeconds(3))
+    }
+
+    // Unknown
+
+    @Test
+    fun `calculateInterval schedules alarm with unknown conference time frame`() {
+        val alarmUpdater = AlarmUpdater(Unknown, mockListener, testableAppRepository, NoLogging)
+        val interval = alarmUpdater.calculateInterval(LAST_DAY_END_TIME, false)
+        assertThat(interval).isEqualTo(ONE_DAY)
+        verifyInvokedOnce(mockListener).onCancelUpdateAlarm()
+        verifyInvokedOnce(mockListener).onScheduleUpdateAlarm(ONE_DAY, LAST_DAY_END_TIME.plusMilliseconds(ONE_DAY))
     }
 
     // Start <= Time < End

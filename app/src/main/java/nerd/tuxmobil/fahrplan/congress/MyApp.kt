@@ -45,6 +45,7 @@ class MyApp : Application() {
             return zonedDateTime.toMoment()
         }
 
+        @Deprecated("Unused. To be removed.")
         val conferenceTimeFrame = ConferenceTimeFrame.Known(FIRST_DAY_START, LAST_DAY_END)
 
         @JvmField
