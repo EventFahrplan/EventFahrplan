@@ -5,6 +5,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import info.metadude.android.eventfahrplan.commons.logging.Logging
+import info.metadude.android.eventfahrplan.commons.temporal.DateFormatter
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmReceiver
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmUpdater
@@ -51,7 +52,9 @@ object FahrplanMisc {
 
             override fun onScheduleUpdateAlarm(interval: Long, nextFetch: Moment) {
                 val next = nextFetch.minusMilliseconds(now.toMilliseconds()).toMilliseconds()
-                logging.d(LOG_TAG, "Scheduling update alarm to interval $interval, next in ~$next")
+                val nextDateTime = DateFormatter.newInstance(useDeviceTimeZone = false)
+                    .getFormattedDateTimeLong(nextFetch.toMilliseconds(), sessionZoneOffset = null)
+                logging.d(LOG_TAG, "Scheduling update alarm to interval $interval, next in ~$next ms, at $nextDateTime")
                 // Redesign might be needed as of Android 12 (API level 31)
                 // See https://developer.android.com/training/scheduling/alarms
                 alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, nextFetch.toMilliseconds(), interval, pendingIntent)
