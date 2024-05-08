@@ -19,7 +19,7 @@ object Compose {
 
     object Versions {
         internal const val bom = "2023.06.01" // compileSdk 34 is required as of 2023.08.00
-        const val compiler = "1.5.11"
+        const val compiler = "1.5.13"
     }
 
     const val bom = "androidx.compose:compose-bom:${Versions.bom}"
@@ -37,7 +37,7 @@ object Plugins {
         const val dexcount = "4.0.0"
         const val kotlin = "1.9.23"
         const val ksp = "1.9.23-1.0.19"
-        const val sonarQube = "4.4.1.3373"
+        const val sonarQube = "5.0.0.4638"
         const val unMock = "0.7.9"
         const val versions = "0.51.0"
     }
@@ -70,11 +70,11 @@ object Libs {
         const val markwon = "4.6.2"
         const val material = "1.9.0"
         const val mockito = "5.11.0"
-        const val mockitoKotlin = "5.2.1"
+        const val mockitoKotlin = "5.3.1"
         const val moshi = "1.15.1"
         const val okhttp = "4.12.0"
         const val preference = "1.2.1"
-        const val retrofit = "2.9.0"
+        const val retrofit = "2.11.0"
         const val robolectric = "4.3_r2-robolectric-0"
         const val snackengage = "0.30"
         const val threeTenBp = "1.6.9"
