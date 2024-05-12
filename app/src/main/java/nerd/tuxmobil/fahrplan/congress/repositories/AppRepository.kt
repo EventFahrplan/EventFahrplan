@@ -57,6 +57,9 @@ import nerd.tuxmobil.fahrplan.congress.dataconverters.toSessionsAppModel2
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toSessionsDatabaseModel
 import nerd.tuxmobil.fahrplan.congress.exceptions.AppExceptionHandler
 import nerd.tuxmobil.fahrplan.congress.models.Alarm
+import nerd.tuxmobil.fahrplan.congress.models.ConferenceTimeFrame
+import nerd.tuxmobil.fahrplan.congress.models.ConferenceTimeFrame.Known
+import nerd.tuxmobil.fahrplan.congress.models.ConferenceTimeFrame.Unknown
 import nerd.tuxmobil.fahrplan.congress.models.ScheduleData
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.net.CustomHttpClient
@@ -77,6 +80,8 @@ import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.InitialPar
 import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.ParseFailure
 import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.ParseSuccess
 import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.Parsing
+import nerd.tuxmobil.fahrplan.congress.schedule.Conference
+import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewModel
 import nerd.tuxmobil.fahrplan.congress.serialization.ScheduleChanges.Companion.computeSessionsWithChangeFlags
 import nerd.tuxmobil.fahrplan.congress.utils.AlarmToneConversion
 import nerd.tuxmobil.fahrplan.congress.validation.MetaValidation.validate
@@ -532,6 +537,17 @@ object AppRepository {
     fun loadSelectedSession(): Session {
         val sessionId = readSelectedSessionId()
         return readSessionBySessionId(sessionId)
+    }
+
+    /**
+     * Loads the conference time frame derived from the stored session data of all days.
+     *
+     * Keep code in sync with [FahrplanViewModel.requestScheduleUpdateAlarm]!
+     */
+    fun loadConferenceTimeFrame(): ConferenceTimeFrame {
+        val sessions = loadSessionsForAllDays()
+        val timeFrame = if (sessions.isEmpty()) null else Conference.ofSessions(sessions).timeFrame
+        return if (timeFrame == null) Unknown else Known(timeFrame.start, timeFrame.endInclusive)
     }
 
     /**

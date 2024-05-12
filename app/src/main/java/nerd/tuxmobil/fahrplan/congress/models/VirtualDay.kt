@@ -2,7 +2,6 @@ package nerd.tuxmobil.fahrplan.congress.models
 
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.schedule.Conference
-import nerd.tuxmobil.fahrplan.congress.utils.ConferenceTimeFrame
 
 /**
  * Represents a "conference day" that is not bound to a specific date. Sessions can take place on

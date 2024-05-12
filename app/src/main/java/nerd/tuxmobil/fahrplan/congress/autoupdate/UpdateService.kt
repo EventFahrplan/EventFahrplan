@@ -20,7 +20,6 @@ import nerd.tuxmobil.fahrplan.congress.net.ParseShiftsResult
 import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.schedule.MainActivity
-import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc
 import nerd.tuxmobil.fahrplan.congress.utils.PendingIntentCompat.FLAG_IMMUTABLE
 import java.util.concurrent.CountDownLatch
 
@@ -133,7 +132,6 @@ class UpdateService : SafeJobIntentService() {
     }
 
     private fun fetchSchedule() {
-        FahrplanMisc.setUpdateAlarm(this, isInitial = false, logging)
         fetchFahrplan()
     }
 

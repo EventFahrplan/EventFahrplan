@@ -5,6 +5,10 @@ import nerd.tuxmobil.fahrplan.congress.models.Session
 import org.threeten.bp.ZoneOffset
 
 /**
+ * Represents either a single conference day, a few or all conference days. This class can be
+ * used in different scenarios. Further details are explained for the scenario of a single day
+ * but keep in mind to adapt this information to the particular scenario!
+ *
  * Represents "a conference day" by holding the time values of when the first session of that
  * conference day starts and when the last session of that conference day ends. Please note
  * that "a conference day" does not need to be equivalent with "a natural day" starting at
@@ -18,7 +22,6 @@ import org.threeten.bp.ZoneOffset
  * TODO: TechDebt: This implementation makes it impossible to represent a conference day which spans
  * two different time zones. Refactoring this is a topic for a future enhancement.
  */
-// TODO Use Moment class, merge with ConferenceTimeFrame class?
 data class Conference(
 
         val timeFrame: ClosedRange<Moment>,
