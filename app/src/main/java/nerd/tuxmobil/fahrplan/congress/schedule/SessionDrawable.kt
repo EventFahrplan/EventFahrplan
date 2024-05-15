@@ -10,7 +10,7 @@ import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.RoundRectShape
 import androidx.annotation.ColorInt
 
-class SessionDrawable @JvmOverloads constructor(
+class SessionDrawable(
 
     @ColorInt backgroundColor: Int,
     cornerRadius: Float,

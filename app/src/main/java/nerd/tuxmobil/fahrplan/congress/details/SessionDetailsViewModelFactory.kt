@@ -33,7 +33,6 @@ internal class SessionDetailsViewModelFactory(
             executionContext = AppExecutionContext,
             alarmServices = alarmServices,
             notificationHelper = notificationHelper,
-            sessionFormatter = SessionFormatter(),
             sessionPropertiesFormatter = SessionPropertiesFormatter(),
             simpleSessionFormat = SimpleSessionFormat(),
             jsonSessionFormat = JsonSessionFormat(),

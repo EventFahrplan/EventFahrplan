@@ -2,6 +2,7 @@ package nerd.tuxmobil.fahrplan.congress.repositories
 
 import android.content.Context
 import android.net.Uri
+import androidx.annotation.VisibleForTesting
 import androidx.annotation.WorkerThread
 import info.metadude.android.eventfahrplan.commons.extensions.onFailure
 import info.metadude.android.eventfahrplan.commons.logging.Logging
@@ -23,7 +24,6 @@ import info.metadude.android.eventfahrplan.engelsystem.EngelsystemNetworkReposit
 import info.metadude.android.eventfahrplan.engelsystem.RealEngelsystemNetworkRepository
 import info.metadude.android.eventfahrplan.engelsystem.models.ShiftsResult
 import info.metadude.android.eventfahrplan.network.models.HttpHeader
-import info.metadude.android.eventfahrplan.network.models.Meta
 import info.metadude.android.eventfahrplan.network.repositories.RealScheduleNetworkRepository
 import info.metadude.android.eventfahrplan.network.repositories.ScheduleNetworkRepository
 import info.metadude.kotlin.library.engelsystem.models.Shift
@@ -57,6 +57,9 @@ import nerd.tuxmobil.fahrplan.congress.dataconverters.toSessionsAppModel2
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toSessionsDatabaseModel
 import nerd.tuxmobil.fahrplan.congress.exceptions.AppExceptionHandler
 import nerd.tuxmobil.fahrplan.congress.models.Alarm
+import nerd.tuxmobil.fahrplan.congress.models.ConferenceTimeFrame
+import nerd.tuxmobil.fahrplan.congress.models.ConferenceTimeFrame.Known
+import nerd.tuxmobil.fahrplan.congress.models.ConferenceTimeFrame.Unknown
 import nerd.tuxmobil.fahrplan.congress.models.ScheduleData
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.net.CustomHttpClient
@@ -77,10 +80,14 @@ import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.InitialPar
 import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.ParseFailure
 import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.ParseSuccess
 import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.Parsing
+import nerd.tuxmobil.fahrplan.congress.schedule.Conference
+import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewModel
 import nerd.tuxmobil.fahrplan.congress.serialization.ScheduleChanges.Companion.computeSessionsWithChangeFlags
 import nerd.tuxmobil.fahrplan.congress.utils.AlarmToneConversion
 import nerd.tuxmobil.fahrplan.congress.validation.MetaValidation.validate
 import okhttp3.OkHttpClient
+import info.metadude.android.eventfahrplan.network.models.Meta as MetaNetworkModel
+import nerd.tuxmobil.fahrplan.congress.models.Meta as MetaAppModel
 
 object AppRepository {
 
@@ -122,6 +129,27 @@ object AppRepository {
      * works out. Only the latest emission is retained.
      */
     val loadScheduleState: Flow<LoadScheduleState> = mutableLoadScheduleState
+
+    private val refreshMetaSignal = MutableSharedFlow<Unit>()
+
+    private fun refreshMeta() {
+        logging.d(LOG_TAG, "Refreshing meta ...")
+        val requestIdentifier = "refreshMeta"
+        parentJobs[requestIdentifier] = databaseScope.launchNamed(requestIdentifier) {
+            refreshMetaSignal.emit(Unit)
+        }
+    }
+
+    /**
+     * Emits meta from the database.
+     */
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val meta: Flow<MetaAppModel> by lazy {
+        refreshMetaSignal
+            .onStart { emit(Unit) }
+            .mapLatest { readMeta() }
+            .flowOn(executionContext.database)
+    }
 
     private val refreshStarredSessionsSignal = MutableSharedFlow<Unit>()
 
@@ -246,8 +274,7 @@ object AppRepository {
     }
 
     /**
-     * Emits all sessions from the database which have been favored aka. starred but no canceled.
-     * The returned list might be empty.
+     * Emits the session from the database which has been selected.
      */
     @OptIn(ExperimentalCoroutinesApi::class)
     val selectedSession: Flow<Session> by lazy {
@@ -279,7 +306,6 @@ object AppRepository {
             .flowOn(executionContext.database)
     }
 
-    @JvmOverloads
     fun initialize(
             context: Context,
             logging: Logging,
@@ -376,7 +402,7 @@ object AppRepository {
 
     private fun parseSchedule(scheduleXml: String,
                               httpHeader: HttpHeader,
-                              oldMeta: Meta,
+                              oldMeta: MetaNetworkModel,
                               onParsingDone: (parseScheduleResult: ParseResult) -> Unit,
                               onLoadingShiftsDone: (loadShiftsResult: LoadShiftsResult) -> Unit) {
         scheduleNetworkRepository.parseSchedule(scheduleXml, httpHeader,
@@ -514,6 +540,17 @@ object AppRepository {
     }
 
     /**
+     * Loads the conference time frame derived from the stored session data of all days.
+     *
+     * Keep code in sync with [FahrplanViewModel.requestScheduleUpdateAlarm]!
+     */
+    fun loadConferenceTimeFrame(): ConferenceTimeFrame {
+        val sessions = loadSessionsForAllDays()
+        val timeFrame = if (sessions.isEmpty()) null else Conference.ofSessions(sessions).timeFrame
+        return if (timeFrame == null) Unknown else Known(timeFrame.start, timeFrame.endInclusive)
+    }
+
+    /**
      * Loads all sessions from the database including Engelsystem shifts.
      * The returned list might be empty.
      */
@@ -625,7 +662,6 @@ object AppRepository {
     }
 
     @WorkerThread
-    @JvmOverloads
     fun readAlarms(sessionId: String = "") = if (sessionId.isEmpty()) {
         alarmsDatabaseRepository.query().toAlarmsAppModel()
     } else {
@@ -795,17 +831,19 @@ object AppRepository {
             metaDatabaseRepository.query().toMetaAppModel()
 
     /**
-     * Updates the [Meta] information in the database.
+     * Updates the `Meta` information in the database.
      *
-     * The [Meta.httpHeader] properties should only be written if a
+     * The [MetaNetworkModel.httpHeader] properties should only be written if a
      * network response is received with a status code of HTTP 200 (OK).
      *
      * See also: [HttpStatus.HTTP_OK]
      */
-    private fun updateMeta(meta: Meta) {
+    @VisibleForTesting
+    fun updateMeta(meta: MetaNetworkModel) {
         val metaDatabaseModel = meta.toMetaDatabaseModel()
         val values = metaDatabaseModel.toContentValues()
         metaDatabaseRepository.insert(values)
+        refreshMeta()
     }
 
     fun readScheduleRefreshIntervalDefaultValue() =

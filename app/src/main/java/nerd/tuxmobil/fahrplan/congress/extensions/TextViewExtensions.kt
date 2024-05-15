@@ -2,12 +2,7 @@
 
 package nerd.tuxmobil.fahrplan.congress.extensions
 
-import android.text.method.MovementMethod
-import android.text.style.URLSpan
 import android.widget.TextView
-import androidx.annotation.ColorInt
-import androidx.core.text.set
-import androidx.core.text.toSpannable
 import androidx.core.view.isVisible
 
 /**
@@ -24,20 +19,3 @@ var TextView.textOrHide: CharSequence
             isVisible = true
         }
     }
-
-/**
- * Sets the given [plainLinkUrl] and the optional [urlTitle] as a clickable link to this [TextView].
- */
-@JvmOverloads
-fun TextView.setLinkText(
-        plainLinkUrl: String,
-        urlTitle: String? = null,
-        movementMethod: MovementMethod,
-        @ColorInt linkTextColor: Int,
-) {
-    val title = urlTitle ?: plainLinkUrl
-    val linkText = title.toSpannable().apply { set(0, title.length, URLSpan(plainLinkUrl)) }
-    setText(linkText, TextView.BufferType.SPANNABLE)
-    setMovementMethod(movementMethod)
-    setLinkTextColor(linkTextColor)
-}

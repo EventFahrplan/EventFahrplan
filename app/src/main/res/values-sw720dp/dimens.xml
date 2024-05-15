@@ -27,4 +27,7 @@
     <dimen name="session_details_subtitle">18sp</dimen>
     <dimen name="session_details_speakers">14sp</dimen>
 
+    <!-- About -->
+    <item name="about_percentage_width" type="integer">55</item>
+
 </resources>

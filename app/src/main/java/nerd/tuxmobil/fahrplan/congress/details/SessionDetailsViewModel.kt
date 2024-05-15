@@ -38,7 +38,6 @@ internal class SessionDetailsViewModel(
     private val executionContext: ExecutionContext,
     alarmServices: AlarmServices,
     notificationHelper: NotificationHelper,
-    private val sessionFormatter: SessionFormatter,
     private val sessionPropertiesFormatter: SessionPropertiesFormatter,
     private val simpleSessionFormat: SimpleSessionFormat,
     private val jsonSessionFormat: JsonSessionFormat,
@@ -137,10 +136,10 @@ internal class SessionDetailsViewModel(
         val formattedZonedDateTimeLong = formattingDelegate.getFormattedDateTimeLong(useDeviceTimeZone, dateUTC, timeZoneOffset)
         val formattedAbstract = markdownConversion.markdownLinksToHtmlLinks(abstractt)
         val formattedDescription = markdownConversion.markdownLinksToHtmlLinks(description)
-        val linksHtml = sessionFormatter.getFormattedLinks(links)
+        val linksHtml = sessionPropertiesFormatter.getFormattedLinks(links)
         val formattedLinks = markdownConversion.markdownLinksToHtmlLinks(linksHtml)
         val sessionUrl = sessionUrlComposition.getSessionUrl(this)
-        val sessionLink = sessionFormatter.getFormattedUrl(sessionUrl)
+        val sessionLink = sessionPropertiesFormatter.getFormattedUrl(sessionUrl)
         val isFeedbackUrlEmpty = feedbackUrlComposer.getFeedbackUrl(this).isEmpty()
         val supportsIndoorNavigation = indoorNavigation.isSupported(this.toRoom())
         val isEngelshift = roomName == defaultEngelsystemRoomName

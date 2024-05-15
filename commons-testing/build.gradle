@@ -20,11 +20,21 @@ android {
         targetCompatibility Config.compatibleJavaVersion
         sourceCompatibility Config.compatibleJavaVersion
     }
+
     kotlinOptions {
         jvmTarget = Config.compatibleJavaVersion
         freeCompilerArgs = [
                 "-opt-in=kotlin.RequiresOptIn"
         ]
+    }
+
+    packagingOptions {
+        resources {
+            excludes += [
+                    "META-INF/LICENSE.md",
+                    "META-INF/LICENSE-notice.md",
+            ]
+        }
     }
 }
 

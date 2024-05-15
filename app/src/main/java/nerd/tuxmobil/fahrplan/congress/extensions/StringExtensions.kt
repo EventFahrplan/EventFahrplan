@@ -12,7 +12,6 @@ import androidx.core.text.parseAsHtml
  * See also: [android.text.Html.fromHtml]
  */
 @Suppress("NOTHING_TO_INLINE")
-@JvmOverloads
 inline fun String.toSpanned(
         flags: Int = HtmlCompat.FROM_HTML_MODE_LEGACY
 ): Spanned = parseAsHtml(flags)

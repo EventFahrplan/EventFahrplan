@@ -6,6 +6,7 @@ class RoomForC3NavConverter {
 
         private const val EMPTY_STRING = ""
 
+        @Suppress("kotlin:S1192")
         private val ROOM_TO_C3NAV_MAPPING = mapOf(
             "ADA" to "hall-a",
             "BORG" to "hall-b",

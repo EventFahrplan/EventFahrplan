@@ -11,13 +11,18 @@ import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices
 import nerd.tuxmobil.fahrplan.congress.alarms.SessionAlarmViewModelDelegate
 import nerd.tuxmobil.fahrplan.congress.models.Alarm
+import nerd.tuxmobil.fahrplan.congress.models.ConferenceTimeFrame
+import nerd.tuxmobil.fahrplan.congress.models.ConferenceTimeFrame.Known
+import nerd.tuxmobil.fahrplan.congress.models.ConferenceTimeFrame.Unknown
 import nerd.tuxmobil.fahrplan.congress.models.ScheduleData
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper
@@ -76,6 +81,9 @@ internal class FahrplanViewModel(
     private val mutableFahrplanEmptyParameter = Channel<FahrplanEmptyParameter>()
     val fahrplanEmptyParameter = mutableFahrplanEmptyParameter.receiveAsFlow()
 
+    private val mutableActivateScheduleUpdateAlarm = Channel<ConferenceTimeFrame>()
+    val activateScheduleUpdateAlarm = mutableActivateScheduleUpdateAlarm.receiveAsFlow()
+
     private val mutableShareSimple = Channel<String>()
     val shareSimple = mutableShareSimple.receiveAsFlow()
 
@@ -107,6 +115,7 @@ internal class FahrplanViewModel(
 
     init {
         updateUncanceledSessions()
+        requestScheduleUpdateAlarm()
     }
 
     private fun updateUncanceledSessions() {
@@ -120,6 +129,27 @@ internal class FahrplanViewModel(
                     } // else: Nothing to do because schedule has not been loaded yet
                 }
             }
+        }
+    }
+
+    /**
+     * Observes all sessions of all days to check if the overall conference time frame changed.
+     * Actives a schedule update alarm when:
+     * - no sessions are present
+     * - sessions are emitted for the first time
+     * - the earliest start time of all sessions changed
+     * - the latest end time of all session changed
+     *
+     * Keep code in sync with [AppRepository.loadConferenceTimeFrame]!
+     */
+    private fun requestScheduleUpdateAlarm() {
+        launch {
+            repository
+                .sessions
+                .map { if (it.isEmpty()) null else Conference.ofSessions(it).timeFrame }
+                .distinctUntilChanged()
+                .map { if (it == null) Unknown else Known(it.start, it.endInclusive) }
+                .collect { mutableActivateScheduleUpdateAlarm.sendOneTimeEvent(it) }
         }
     }
 

@@ -32,7 +32,7 @@ android {
         resValue("string", "git_sha", "\"${gitSha()}\"")
 
         // Build configuration / feature flags
-        buildConfigField "String", "F_DROID_URL", '"https://f-droid.org/packages/at.linuxtage.companion/"'
+        buildConfigField "String", "F_DROID_URL", '"https://f-droid.org/packages/at.linuxtage.Eventfahrplan/"'
         buildConfigField "String", "TRANSLATION_PLATFORM_URL", '"https://crowdin.com/project/eventfahrplan"'
         buildConfigField "String", "SOURCE_CODE_URL", '"https://github.com/linuxtage/EventFahrplan"'
         buildConfigField "String", "ISSUES_URL", '"https://github.com/EventFahrplan/EventFahrplan/issues"'
@@ -53,6 +53,7 @@ android {
     }
 
     buildFeatures {
+        buildConfig true
         compose true
     }
 

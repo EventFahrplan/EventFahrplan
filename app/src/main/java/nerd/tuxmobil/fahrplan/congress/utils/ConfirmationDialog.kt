@@ -12,7 +12,7 @@ import nerd.tuxmobil.fahrplan.congress.extensions.withArguments
 
 class ConfirmationDialog : DialogFragment() {
 
-    interface OnConfirmationDialogClicked {
+    fun interface OnConfirmationDialogClicked {
         fun onAccepted(requestCode: Int)
     }
 

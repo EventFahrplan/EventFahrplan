@@ -124,7 +124,6 @@ class DateFormatter private constructor(
 
     companion object {
 
-        @JvmStatic
         fun newInstance(useDeviceTimeZone: Boolean): DateFormatter {
             return DateFormatter(useDeviceTimeZone)
         }

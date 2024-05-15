@@ -100,7 +100,7 @@ class CalendarDescriptionComposer(
 
 }
 
-interface CalendarDescriptionComposition {
+fun interface CalendarDescriptionComposition {
 
     fun getCalendarDescription(session: Session): String
 

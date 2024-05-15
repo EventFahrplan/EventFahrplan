@@ -20,8 +20,10 @@ dependencies {
     testImplementation Libs.truth
 }
 
-sourceCompatibility = Config.compatibleJavaVersion
-targetCompatibility = Config.compatibleJavaVersion
+java {
+    sourceCompatibility = Config.compatibleJavaVersion
+    targetCompatibility = Config.compatibleJavaVersion
+}
 
 compileKotlin {
     kotlinOptions {
