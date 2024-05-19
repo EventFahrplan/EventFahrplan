@@ -103,21 +103,22 @@ class HorizontalSnapScrollView(context: Context, attrs: AttributeSet) : Horizont
         }
 
         override fun onFling(
-            start: MotionEvent,
+            start: MotionEvent?,
             end: MotionEvent,
             velocityX: Float,
             velocityY: Float
         ): Boolean {
-            val normalizedVelocityX = velocityX / resources.displayMetrics.density
-            val columns = ceil((normalizedVelocityX / SWIPE_THRESHOLD_VELOCITY * FLING_COLUMN_MULTIPLIER).toDouble()).toInt()
+            if (start != null) {
+                val normalizedVelocityX = velocityX / resources.displayMetrics.density
+                val columns = ceil((normalizedVelocityX / SWIPE_THRESHOLD_VELOCITY * FLING_COLUMN_MULTIPLIER).toDouble()).toInt()
 
-            logging.d(LOG_TAG, "onFling -> $velocityX/$velocityY $normalizedVelocityX $columns")
+                logging.d(LOG_TAG, "onFling -> $velocityX/$velocityY $normalizedVelocityX $columns")
 
-            if (checkScrollDistance(start.x, end.x) && checkFlingVelocity(normalizedVelocityX)) {
-                scrollToColumn(horizontalSnapScrollState.activeColumnIndex - columns, fast = false)
-                return true
+                if (checkScrollDistance(start.x, end.x) && checkFlingVelocity(normalizedVelocityX)) {
+                    scrollToColumn(horizontalSnapScrollState.activeColumnIndex - columns, fast = false)
+                    return true
+                }
             }
-
             return super.onFling(start, end, velocityX, velocityY)
         }
     }
