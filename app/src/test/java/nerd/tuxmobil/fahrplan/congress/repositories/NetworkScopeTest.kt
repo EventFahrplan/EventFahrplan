@@ -4,20 +4,16 @@ import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import nerd.tuxmobil.fahrplan.congress.TestExecutionContext
-import nerd.tuxmobil.fahrplan.congress.exceptions.ExceptionHandling
 import org.junit.jupiter.api.Test
-import kotlin.coroutines.CoroutineContext
 
 @ExperimentalCoroutinesApi
 class NetworkScopeTest {
 
     @Test
     fun `name can be retrieved within exception handler`() {
-        val networkScope = NetworkScope.of(TestExecutionContext, object : ExceptionHandling {
-            override fun onExceptionHandling(context: CoroutineContext, throwable: Throwable) {
-                assertThat("Alpha").isEqualTo(context[CoroutineName.Key]?.name)
-            }
-        })
+        val networkScope = NetworkScope.of(TestExecutionContext) { context, _ ->
+            assertThat("Alpha").isEqualTo(context[CoroutineName.Key]?.name)
+        }
         networkScope.launchNamed("Alpha") {
             throw Exception()
         }
@@ -27,11 +23,9 @@ class NetworkScopeTest {
     fun `exception is handled`() {
         var isExceptionHandled = false
 
-        val networkScope = NetworkScope.of(TestExecutionContext, object : ExceptionHandling {
-            override fun onExceptionHandling(context: CoroutineContext, throwable: Throwable) {
-                isExceptionHandled = true
-            }
-        })
+        val networkScope = NetworkScope.of(TestExecutionContext) { _, _ ->
+            isExceptionHandled = true
+        }
         networkScope.launchNamed("Test") {
             throw Exception()
         }
