@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.util.Xml;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import org.xmlpull.v1.XmlPullParser;
 
@@ -33,14 +34,16 @@ public class FahrplanParser {
 
         void onUpdateMeta(@NonNull Meta meta);
 
-        void onParseDone(Boolean isSuccess, String version);
+        void onParseDone(@NonNull Boolean isSuccess, @NonNull String version);
     }
 
     @NonNull
     private final Logging logging;
 
+    @Nullable
     private ParserTask task;
 
+    @NonNull
     private OnParseCompleteListener listener;
 
     public FahrplanParser(@NonNull Logging logging) {
@@ -48,7 +51,7 @@ public class FahrplanParser {
         task = null;
     }
 
-    public void parse(String fahrplan, HttpHeader httpHeader) {
+    public void parse(@NonNull String fahrplan, @NonNull HttpHeader httpHeader) {
         task = new ParserTask(logging, listener);
         task.execute(fahrplan, httpHeader.getETag(), httpHeader.getLastModified());
     }
@@ -59,7 +62,7 @@ public class FahrplanParser {
         }
     }
 
-    public void setListener(OnParseCompleteListener listener) {
+    public void setListener(@NonNull OnParseCompleteListener listener) {
         this.listener = listener;
         if (task != null) {
             task.setListener(listener);
@@ -72,26 +75,29 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
     @NonNull
     private final Logging logging;
 
+    @NonNull
     private List<Session> sessions;
 
+    @NonNull
     private Meta meta;
 
+    @NonNull
     private FahrplanParser.OnParseCompleteListener listener;
 
     private boolean completed;
 
     private boolean isSuccess;
 
-    ParserTask(@NonNull Logging logging, FahrplanParser.OnParseCompleteListener listener) {
+    ParserTask(@NonNull Logging logging, @NonNull FahrplanParser.OnParseCompleteListener listener) {
         this.logging = logging;
         this.listener = listener;
         this.completed = false;
     }
 
-    public void setListener(FahrplanParser.OnParseCompleteListener listener) {
+    public void setListener(@NonNull FahrplanParser.OnParseCompleteListener listener) {
         this.listener = listener;
 
-        if (completed && listener != null) {
+        if (completed) {
             notifyActivity();
         }
     }
@@ -120,10 +126,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
     protected void onPostExecute(Boolean isSuccess) {
         completed = true;
         this.isSuccess = isSuccess;
-
-        if (listener != null) {
-            notifyActivity();
-        }
+        notifyActivity();
     }
 
     private Boolean parseFahrplan(String fahrplan, String eTag, String lastModified) {
