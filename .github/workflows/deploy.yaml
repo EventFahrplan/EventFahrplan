@@ -25,6 +25,8 @@ jobs:
           ./gradlew bundleGlt22
       - name: Sign Release
         uses: r0adkll/sign-android-release@v1
+        # ID used to access action output
+        id: sign_app
         with:
           releaseDirectory: app/build/outputs/bundle/glt22Release
           signingKeyBase64: ${{ secrets.KEYSTORE }}
@@ -44,6 +46,6 @@ jobs:
         with:
           serviceAccountJson: ${{ secrets.SERVICE_ACCOUNT_JSON }}
           packageName: at.linuxtage.Eventfahrplan
-          releaseFiles: app/build/outputs/bundle/glt22Release/*.aab
+          releaseFiles: ${{steps.sign_app.outputs.signedReleaseFile}}
           track: production
 
