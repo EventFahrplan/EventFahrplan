@@ -6,7 +6,7 @@ import nerd.tuxmobil.fahrplan.congress.schedule.Conference
 /**
  * Represents a "conference day" that is not bound to a specific date. Sessions can take place on
  * different days but still be grouped together in a virtual day. It does not have typical boundaries
- * like a "natural day" (00:00:00 to 23:59:59) has. The [timeRange] property returns the time range
+ * like a "natural day" (00:00:00 to 23:59:59) has. The [timeFrame] property returns the time range
  * of all sessions spanning from the start of the earliest session to the end of the latest session.
  *
  * Similar: [Conference], [ConferenceTimeFrame].
