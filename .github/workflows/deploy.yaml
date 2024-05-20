@@ -46,4 +46,4 @@ jobs:
           packageName: at.linuxtage.Eventfahrplan
           releaseFiles: app/build/outputs/bundle/glt22Release/*.aab
           track: production
-          whatsNewDirectory: distribution/
+
