@@ -1,4 +1,4 @@
-@file:Suppress("unused")
+@file:Suppress("unused", "ConstPropertyName")
 
 package nerd.tuxmobil.fahrplan.congress
 
