@@ -139,10 +139,6 @@
         <item name="android:textColor">@color/session_list_item_text</item>
     </style>
 
-    <!-- Session item (favorites + schedule changes) -->
-    <style name="SessionItemSection">
-    </style>
-
     <!-- Session details -->
 
     <style name="SessionDetailsSection">
