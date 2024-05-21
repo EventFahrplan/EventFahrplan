@@ -15,10 +15,10 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: 'adopt'
-          java-version: '11'
+          java-version: '17'
 
       - name: Build
-        run: ./gradlew assemble
+        run: ./gradlew assembleGlt22
 
       - name: Assemble Release Bundle
         run: |
