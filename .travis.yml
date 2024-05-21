@@ -91,4 +91,4 @@ before_script:
 script:
   - # Prevent build failures due to directories being altered illegally by the cache..
     - sudo rm -rf /home/travis/.gradle/caches/transforms-*
-  - ./gradlew testDebug :engelsystem:test testDebugUnitTest assembleDebug
+  - ./gradlew testGlt22DebugUnitTest :engelsystem:test testDebugUnitTest assembleDebug

@@ -25,6 +25,8 @@ jobs:
           ./gradlew bundleGlt22
       - name: Sign Release
         uses: r0adkll/sign-android-release@v1
+        # ID used to access action output
+        id: sign_app
         with:
           releaseDirectory: app/build/outputs/bundle/glt22Release
           signingKeyBase64: ${{ secrets.KEYSTORE }}
@@ -39,11 +41,14 @@ jobs:
           git tag v$version_name ${GITHUB_REF##*/}
           git push origin --tags
 
+      - name: Create service_account.json
+        run: echo '${{ secrets.SERVICE_ACCOUNT_JSON }}' > service_account.json
+
       - name: Deploy to Production
         uses: r0adkll/upload-google-play@v1.1.3
         with:
-          serviceAccountJson: ${{ secrets.SERVICE_ACCOUNT_JSON }}
+          serviceAccountJson: service_account.json
           packageName: at.linuxtage.Eventfahrplan
-          releaseFiles: app/build/outputs/bundle/glt22Release/*.aab
+          releaseFiles: ${{steps.sign_app.outputs.signedReleaseFile}}
           track: production
-          whatsNewDirectory: distribution/
+

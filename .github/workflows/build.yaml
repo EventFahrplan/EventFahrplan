@@ -17,7 +17,7 @@ jobs:
         run: ./gradlew assembleGlt22
 
       - name: Unit Tests
-        run: ./gradlew testDebug :engelsystem:test testDebugUnitTest assembleDebug lintAnalyzeDebug
+        run: ./gradlew testGlt22DebugUnitTest :engelsystem:test testDebugUnitTest assembleDebug lintAnalyzeDebug
 
       - name: Publish unit-test results
         uses: EnricoMi/publish-unit-test-result-action@v2
