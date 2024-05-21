@@ -27,7 +27,6 @@ internal class TimeSegment private constructor(
          */
         const val TIME_GRID_MINIMUM_SEGMENT_HEIGHT = 5
 
-        @JvmStatic
         fun ofMoment(moment: Moment) = TimeSegment(moment)
 
     }

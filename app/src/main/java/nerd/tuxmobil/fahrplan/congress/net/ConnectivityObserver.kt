@@ -17,7 +17,7 @@ import androidx.core.content.getSystemService
  * Observes network connectivity by consulting the [ConnectivityManager].
  * Observing can run infinitely or automatically be stopped after the first response is received.
  */
-class ConnectivityObserver @JvmOverloads constructor(
+class ConnectivityObserver(
 
         val context: Context,
         val onConnectionAvailable: () -> Unit,

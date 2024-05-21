@@ -43,7 +43,6 @@ import nerd.tuxmobil.fahrplan.congress.engagements.initUserEngagement
 import nerd.tuxmobil.fahrplan.congress.extensions.withExtras
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListActivity
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListFragment
-import nerd.tuxmobil.fahrplan.congress.models.Meta
 import nerd.tuxmobil.fahrplan.congress.net.CertificateErrorFragment
 import nerd.tuxmobil.fahrplan.congress.net.ErrorMessage
 import nerd.tuxmobil.fahrplan.congress.net.HttpStatus
@@ -77,7 +76,6 @@ class MainActivity : BaseActivity(),
          * The [sessionId] is also used to ensure this intent is unique by definition of
          * [Intent.filterEquals].
          */
-        @JvmStatic
         fun createLaunchIntent(
             context: Context,
             sessionId: String,
@@ -167,8 +165,8 @@ class MainActivity : BaseActivity(),
         viewModel.scheduleChangesParameter.observe(this) { (scheduleVersion, changeStatistic) ->
             showChangesDialog(scheduleVersion, changeStatistic)
         }
-        viewModel.showAbout.observe(this) { meta ->
-            showAboutDialog(meta)
+        viewModel.showAbout.observe(this) {
+            showAboutDialog()
         }
         viewModel.openSessionDetails.observe(this) {
             openSessionDetails()
@@ -246,12 +244,10 @@ class MainActivity : BaseActivity(),
         }
     }
 
-    private fun showAboutDialog(meta: Meta) {
+    private fun showAboutDialog() {
         val transaction = supportFragmentManager.beginTransaction()
         transaction.addToBackStack(null)
-        AboutDialog
-            .newInstance(meta.version, meta.subtitle, meta.title)
-            .show(transaction, AboutDialog.FRAGMENT_TAG)
+        AboutDialog().show(transaction, AboutDialog.FRAGMENT_TAG)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -308,6 +304,7 @@ class MainActivity : BaseActivity(),
                     val isUseDeviceTimeZoneUpdated = intent.getBooleanExtra(
                         BundleKeys.USE_DEVICE_TIME_ZONE_UPDATED, false)
 
+                    @Suppress("kotlin:S1066")
                     if (isAlternativeHighlightingUpdated || isUseDeviceTimeZoneUpdated) {
                         if (findViewById<View>(R.id.schedule) != null && findFragment(FahrplanFragment.FRAGMENT_TAG) != null) {
                             replaceFragment(R.id.schedule, FahrplanFragment(), FahrplanFragment.FRAGMENT_TAG)

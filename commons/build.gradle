@@ -11,6 +11,10 @@ android {
     compileSdk Android.compileSdkVersion
     buildToolsVersion = Android.buildToolsVersion
 
+    buildFeatures {
+        buildConfig true
+    }
+
     defaultConfig {
         minSdk Android.minSdkVersion
         targetSdk Android.targetSdkVersion

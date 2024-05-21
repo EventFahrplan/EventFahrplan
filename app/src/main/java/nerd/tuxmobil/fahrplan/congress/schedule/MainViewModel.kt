@@ -9,7 +9,6 @@ import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import nerd.tuxmobil.fahrplan.congress.changes.ChangeStatistic
-import nerd.tuxmobil.fahrplan.congress.models.Meta
 import nerd.tuxmobil.fahrplan.congress.net.ParseResult
 import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
@@ -47,7 +46,7 @@ internal class MainViewModel(
     private val mutableScheduleChangesParameter = Channel<ScheduleChangesParameter>()
     val scheduleChangesParameter = mutableScheduleChangesParameter.receiveAsFlow()
 
-    private val mutableShowAbout = Channel<Meta>()
+    private val mutableShowAbout = Channel<Unit>()
     val showAbout = mutableShowAbout.receiveAsFlow()
 
     private val mutableOpenSessionDetails = Channel<Unit>()
@@ -147,8 +146,7 @@ internal class MainViewModel(
 
     fun showAboutDialog() {
         launch {
-            val meta = repository.readMeta()
-            mutableShowAbout.sendOneTimeEvent(meta)
+            mutableShowAbout.sendOneTimeEvent(Unit)
         }
     }
 

@@ -18,8 +18,6 @@ data class ChangeStatistic private constructor(
 
         private const val LOG_TAG = "ChangeStatistic"
 
-        @JvmStatic
-        @JvmOverloads
         fun of(sessions: List<Session>, logging: Logging = Logging.get()): ChangeStatistic {
             return ChangeStatistic(sessions, logging)
         }

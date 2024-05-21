@@ -10,7 +10,7 @@ import nerd.tuxmobil.fahrplan.congress.extensions.startActivity
 import nerd.tuxmobil.fahrplan.congress.extensions.withExtras
 import nerd.tuxmobil.fahrplan.congress.models.Session
 
-class CalendarSharing @JvmOverloads constructor(
+class CalendarSharing(
 
     val context: Context,
     private val calendarDescriptionComposition: CalendarDescriptionComposition = CalendarDescriptionComposer(

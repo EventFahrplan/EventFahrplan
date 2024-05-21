@@ -11,7 +11,7 @@ import kotlin.collections.set
 
 private typealias SessionId = String
 
-data class LayoutCalculator @JvmOverloads constructor(
+data class LayoutCalculator(
 
         val standardHeight: Int,
         val logging: Logging = Logging.get()

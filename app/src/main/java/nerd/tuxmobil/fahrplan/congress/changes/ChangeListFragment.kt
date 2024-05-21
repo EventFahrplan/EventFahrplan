@@ -45,7 +45,6 @@ class ChangeListFragment : AbstractListFragment() {
             return ChangeListFragment().withArguments(BundleKeys.SIDEPANE to sidePane)
         }
 
-        @JvmStatic
         fun replace(fragmentManager: FragmentManager, @IdRes containerViewId: Int, sidePane: Boolean) {
             val fragment = ChangeListFragment().withArguments(
                 BundleKeys.SIDEPANE to sidePane

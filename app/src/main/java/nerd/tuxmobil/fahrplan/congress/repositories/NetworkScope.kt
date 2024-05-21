@@ -18,7 +18,6 @@ class NetworkScope private constructor(
 
     companion object {
 
-        @JvmStatic
         fun of(executionContext: ExecutionContext, exceptionHandling: ExceptionHandling): NetworkScope {
             val defaultExceptionHandler = CoroutineExceptionHandler(exceptionHandling::onExceptionHandling)
             return NetworkScope(executionContext, SupervisorJob(), defaultExceptionHandler)

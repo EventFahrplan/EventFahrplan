@@ -5,7 +5,7 @@ import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.sharing.models.FavoritesExport
 import nerd.tuxmobil.fahrplan.congress.sharing.models.SessionExport
 
-class JsonSessionFormat @JvmOverloads constructor(
+class JsonSessionFormat(
 
     private val moshi: Moshi = Moshi.Builder().build()
 

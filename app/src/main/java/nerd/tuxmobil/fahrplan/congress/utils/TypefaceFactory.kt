@@ -23,6 +23,7 @@ class TypefaceFactory private constructor(
 
     private val typefaceByFont = mutableMapOf<Font, Typeface>()
 
+    @Suppress("kotlin:S6611")
     fun getTypeface(font: Font): Typeface {
         return if (font in typefaceByFont) {
             typefaceByFont[font]!!

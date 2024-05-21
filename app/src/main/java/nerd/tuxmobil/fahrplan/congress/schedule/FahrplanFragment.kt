@@ -66,6 +66,7 @@ import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.schedule.observables.TimeTextViewParameter
 import nerd.tuxmobil.fahrplan.congress.sharing.SessionSharer
 import nerd.tuxmobil.fahrplan.congress.utils.ContentDescriptionFormatter
+import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc
 import nerd.tuxmobil.fahrplan.congress.utils.Font
 import nerd.tuxmobil.fahrplan.congress.utils.SessionPropertiesFormatter
 import nerd.tuxmobil.fahrplan.congress.utils.TypefaceFactory
@@ -75,7 +76,7 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
     /**
      * Interface definition for a callback to be invoked when a session view is clicked.
      */
-    internal interface OnSessionClickListener {
+    internal fun interface OnSessionClickListener {
         /**
          * Called when the session view has been clicked.
          */
@@ -224,6 +225,9 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
         viewModel.fahrplanEmptyParameter.observe(viewLifecycleOwner) { (scheduleVersion) ->
             val errorMessage = errorMessageFactory.getMessageForEmptySchedule(scheduleVersion)
             errorMessage.show(requireContext(), shouldShowLong = false)
+        }
+        viewModel.activateScheduleUpdateAlarm.observe(viewLifecycleOwner) { conferenceTimeFrame ->
+            FahrplanMisc.setUpdateAlarm(requireContext(), conferenceTimeFrame, isInitial = false, logging)
         }
         viewModel.shareSimple.observe(viewLifecycleOwner) { formattedSession ->
             SessionSharer.shareSimple(requireContext(), formattedSession)

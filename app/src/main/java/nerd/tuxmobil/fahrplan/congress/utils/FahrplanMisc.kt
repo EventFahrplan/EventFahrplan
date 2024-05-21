@@ -5,12 +5,12 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import info.metadude.android.eventfahrplan.commons.logging.Logging
-
+import info.metadude.android.eventfahrplan.commons.temporal.DateFormatter
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
-import nerd.tuxmobil.fahrplan.congress.MyApp
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmReceiver
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmUpdater
 import nerd.tuxmobil.fahrplan.congress.extensions.getAlarmManager
+import nerd.tuxmobil.fahrplan.congress.models.ConferenceTimeFrame
 import nerd.tuxmobil.fahrplan.congress.models.DateInfo
 import nerd.tuxmobil.fahrplan.congress.models.DateInfos
 import nerd.tuxmobil.fahrplan.congress.utils.PendingIntentCompat.FLAG_IMMUTABLE
@@ -34,8 +34,7 @@ object FahrplanMisc {
         return infos
     }
 
-    @JvmStatic
-    fun setUpdateAlarm(context: Context, isInitial: Boolean, logging: Logging): Long {
+    fun setUpdateAlarm(context: Context, conferenceTimeFrame: ConferenceTimeFrame, isInitial: Boolean, logging: Logging): Long {
         val alarmManager = context.getAlarmManager()
         val alarmIntent = Intent(context, AlarmReceiver::class.java)
             .apply { action = AlarmReceiver.ALARM_UPDATE }
@@ -44,7 +43,7 @@ object FahrplanMisc {
         logging.d(LOG_TAG, "set update alarm")
         val now = Moment.now()
 
-        return AlarmUpdater(MyApp.conferenceTimeFrame, object : AlarmUpdater.OnAlarmUpdateListener {
+        return AlarmUpdater(conferenceTimeFrame, object : AlarmUpdater.OnAlarmUpdateListener {
 
             override fun onCancelUpdateAlarm() {
                 logging.d(LOG_TAG, "Canceling alarm.")
@@ -53,7 +52,9 @@ object FahrplanMisc {
 
             override fun onScheduleUpdateAlarm(interval: Long, nextFetch: Moment) {
                 val next = nextFetch.minusMilliseconds(now.toMilliseconds()).toMilliseconds()
-                logging.d(LOG_TAG, "Scheduling update alarm to interval $interval, next in ~$next")
+                val nextDateTime = DateFormatter.newInstance(useDeviceTimeZone = false)
+                    .getFormattedDateTimeLong(nextFetch.toMilliseconds(), sessionZoneOffset = null)
+                logging.d(LOG_TAG, "Scheduling update alarm to interval $interval, next in ~$next ms, at $nextDateTime")
                 // Redesign might be needed as of Android 12 (API level 31)
                 // See https://developer.android.com/training/scheduling/alarms
                 alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, nextFetch.toMilliseconds(), interval, pendingIntent)
