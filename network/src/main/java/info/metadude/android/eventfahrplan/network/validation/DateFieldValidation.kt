@@ -16,11 +16,7 @@ internal class DateFieldValidation(
         const val LOG_TAG = "DateFieldValidation"
     }
 
-    private val validationErrors: MutableList<ValidationError>
-
-    init {
-        validationErrors = ArrayList()
-    }
+    private val validationErrors: MutableList<ValidationError> = ArrayList()
 
     fun printValidationErrors() {
         for (validationError in validationErrors) {

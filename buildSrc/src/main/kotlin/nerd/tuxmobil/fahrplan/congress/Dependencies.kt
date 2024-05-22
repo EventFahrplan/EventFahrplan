@@ -1,4 +1,4 @@
-@file:Suppress("unused")
+@file:Suppress("unused", "ConstPropertyName")
 
 package nerd.tuxmobil.fahrplan.congress
 
@@ -61,7 +61,7 @@ object Libs {
         const val coreKtx = "1.9.0"
         const val coreTesting = "2.2.0"
         const val emailIntentBuilder = "2.0.0"
-        const val engelsystem = "8.1.0"
+        const val engelsystem = "9.0.0"
         const val junitJupiter = "5.10.2"
         const val kotlinCoroutines = "1.8.0"
         const val lifecycle = "2.6.2" // compileSdk 34 is required as of 2.7.0

@@ -7,7 +7,7 @@ jdk: openjdk17
 env:
   global:
   # Android command line tools, check for updates here https://developer.android.com/studio/#command-tools
-  - COMMAND_LINE_TOOLS_VERSION=9862592 # Version 10406996 requires Java 17
+  - COMMAND_LINE_TOOLS_VERSION=11076708
   - ANDROID_HOME=$HOME/android-sdk
   - TARGET_SDK_VERSION=`grep -H targetSdk buildSrc/src/main/kotlin/nerd/tuxmobil/fahrplan/congress/Dependencies.kt | grep -Po "\d+"`
   - BUILD_TOOLS_VERSION=`grep -H buildToolsVersion buildSrc/src/main/kotlin/nerd/tuxmobil/fahrplan/congress/Dependencies.kt | grep -Po "\d+.\d+.\d+"`
