@@ -2,6 +2,7 @@ package nerd.tuxmobil.fahrplan.congress.navigation
 
 import com.google.common.truth.Truth.assertThat
 import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 
 class RoomForC3NavConverterTest {
@@ -9,7 +10,7 @@ class RoomForC3NavConverterTest {
     companion object {
 
         private fun scenarioOf(roomName: String?, expectedText: String) =
-                arrayOf(roomName, expectedText)
+                Arguments.of(roomName, expectedText)
 
         @JvmStatic
         fun data() = listOf(

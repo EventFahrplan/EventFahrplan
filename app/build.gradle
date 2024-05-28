@@ -23,7 +23,7 @@ android {
         versionName "1.8.20"
         minSdk Android.minSdkVersion
         targetSdk Android.targetSdkVersion
-        archivesBaseName = "Fahrplan-$versionName"
+        base.archivesName = "Fahrplan-$versionName"
 
         vectorDrawables.useSupportLibrary = true // allows using fillColor, fillType, strokeColor functionalities below Android 7.0 (API 24)
 

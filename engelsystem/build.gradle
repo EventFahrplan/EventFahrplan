@@ -3,6 +3,7 @@ import nerd.tuxmobil.fahrplan.congress.Libs
 
 apply plugin: "java-library"
 apply plugin: "kotlin"
+apply plugin: "com.android.lint"
 
 dependencies {
     api Libs.engelsystem
