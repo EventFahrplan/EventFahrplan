@@ -63,7 +63,7 @@ object Libs {
         const val emailIntentBuilder = "2.0.0"
         const val engelsystem = "9.0.0"
         const val junitJupiter = "5.10.2"
-        const val kotlinCoroutines = "1.8.0"
+        const val kotlinCoroutines = "1.8.1"
         const val lifecycle = "2.6.2" // compileSdk 34 is required as of 2.7.0
         const val markwon = "4.6.2"
         const val material = "1.9.0"
