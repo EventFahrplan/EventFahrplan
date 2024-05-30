@@ -58,7 +58,7 @@ object Libs {
         const val appCompat = "1.6.1"
         const val betterLinkMovementMethod = "2.2.0"
         const val constraintLayout = "2.1.4"
-        const val coreKtx = "1.9.0"
+        const val coreKtx = "1.13.1"
         const val coreTesting = "2.2.0"
         const val emailIntentBuilder = "2.0.0"
         const val engelsystem = "9.0.0"

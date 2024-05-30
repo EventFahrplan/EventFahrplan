@@ -122,49 +122,13 @@ class AlarmServicesTest {
     }
 
     @Test
-    fun `canScheduleExactAlarms returns true before SnowCone 1`() {
+    fun `canScheduleExactAlarms returns true because alarmManager returns true in unit test context`() {
         val alarmManager = mock<AlarmManager> {
-            on { canScheduleExactAlarms() } doReturn false // not relevant
-        }
-        val alarmServices = createAlarmServices(
-            alarmManager = alarmManager,
-            runsAtLeastOnAndroidSnowCone = false,
-        )
-        assertThat(alarmServices.canScheduleExactAlarms).isTrue()
-    }
-
-    @Test
-    fun `canScheduleExactAlarms returns true before SnowCone 2`() {
-        val alarmManager = mock<AlarmManager> {
-            on { canScheduleExactAlarms() } doReturn true // not relevant
-        }
-        val alarmServices = createAlarmServices(
-            alarmManager = alarmManager,
-            runsAtLeastOnAndroidSnowCone = false,
-        )
-        assertThat(alarmServices.canScheduleExactAlarms).isTrue()
-    }
-
-    @Test
-    fun `canScheduleExactAlarms returns false as of SnowCone and alarmManager returns false`() {
-        val alarmManager = mock<AlarmManager> {
-            on { canScheduleExactAlarms() } doReturn false
-        }
-        val alarmServices = createAlarmServices(
-            alarmManager = alarmManager,
-            runsAtLeastOnAndroidSnowCone = true,
-        )
-        assertThat(alarmServices.canScheduleExactAlarms).isFalse()
-    }
-
-    @Test
-    fun `canScheduleExactAlarms returns true as of SnowCone and alarmManager returns true`() {
-        val alarmManager = mock<AlarmManager> {
+            // always true because SDK_INT = 0 in tests, see AlarmManagerCompat#canScheduleExactAlarms
             on { canScheduleExactAlarms() } doReturn true
         }
         val alarmServices = createAlarmServices(
             alarmManager = alarmManager,
-            runsAtLeastOnAndroidSnowCone = true,
         )
         assertThat(alarmServices.canScheduleExactAlarms).isTrue()
     }
@@ -180,7 +144,7 @@ class AlarmServicesTest {
         val alarmServices = createAlarmServices(pendingIntentDelegate)
         alarmServices.scheduleSessionAlarm(alarm, true)
         verifyInvokedOnce(alarmManager).cancel(pendingIntent)
-        verifyInvokedOnce(alarmManager).set(AlarmManager.RTC_WAKEUP, alarm.startTime, pendingIntent)
+        verifyInvokedOnce(alarmManager).setExact(AlarmManager.RTC_WAKEUP, alarm.startTime, pendingIntent)
     }
 
     @Test
@@ -194,7 +158,7 @@ class AlarmServicesTest {
         val alarmServices = createAlarmServices(pendingIntentDelegate)
         alarmServices.scheduleSessionAlarm(alarm, false)
         verifyInvokedNever(alarmManager).cancel(pendingIntent)
-        verifyInvokedOnce(alarmManager).set(AlarmManager.RTC_WAKEUP, alarm.startTime, pendingIntent)
+        verifyInvokedOnce(alarmManager).setExact(AlarmManager.RTC_WAKEUP, alarm.startTime, pendingIntent)
     }
 
     @Test
@@ -240,7 +204,6 @@ class AlarmServicesTest {
         pendingIntentDelegate: PendingIntentDelegate = mock(),
         formattingDelegate: FormattingDelegate = mock(),
         alarmManager: AlarmManager = this.alarmManager,
-        runsAtLeastOnAndroidSnowCone: Boolean = true,
     ) = AlarmServices(
         context = mockContext,
         repository = repository,
@@ -249,7 +212,6 @@ class AlarmServicesTest {
         logging = NoLogging,
         pendingIntentDelegate = pendingIntentDelegate,
         formattingDelegate = formattingDelegate,
-        runsAtLeastOnAndroidSnowCone = runsAtLeastOnAndroidSnowCone,
     )
 
 }

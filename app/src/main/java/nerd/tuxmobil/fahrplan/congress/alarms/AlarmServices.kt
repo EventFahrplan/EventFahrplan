@@ -5,8 +5,6 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.os.Build.VERSION.SDK_INT
-import android.os.Build.VERSION_CODES.S
 import androidx.annotation.VisibleForTesting
 import androidx.core.app.AlarmManagerCompat
 import info.metadude.android.eventfahrplan.commons.logging.Logging
@@ -35,8 +33,6 @@ class AlarmServices @VisibleForTesting constructor(
         private val logging: Logging,
         private val pendingIntentDelegate: PendingIntentDelegate = PendingIntentProvider,
         private val formattingDelegate: FormattingDelegate = DateFormatterDelegate,
-        private val runsAtLeastOnAndroidSnowCone: Boolean = SDK_INT >= S,
-
 ) {
 
     companion object {
@@ -151,10 +147,8 @@ class AlarmServices @VisibleForTesting constructor(
      *
      * See: [AlarmManager.canScheduleExactAlarms].
      */
-    @Suppress("kotlin:S1125")
     val canScheduleExactAlarms: Boolean
-        @SuppressLint("NewApi")
-        get() = if (runsAtLeastOnAndroidSnowCone) alarmManager.canScheduleExactAlarms() else true
+        get() = AlarmManagerCompat.canScheduleExactAlarms(alarmManager)
 
     /**
      * Schedules the given [alarm] via the [AlarmManager].

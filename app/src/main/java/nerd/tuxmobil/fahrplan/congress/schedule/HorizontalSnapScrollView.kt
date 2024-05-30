@@ -2,6 +2,7 @@ package nerd.tuxmobil.fahrplan.congress.schedule
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.GestureDetector
 import android.view.GestureDetector.SimpleOnGestureListener
 import android.view.MotionEvent
 import android.view.MotionEvent.ACTION_CANCEL
@@ -14,7 +15,6 @@ import androidx.annotation.VisibleForTesting
 import androidx.core.view.children
 import androidx.core.view.forEach
 import androidx.core.view.get
-import androidx.core.view.GestureDetectorCompat
 import androidx.core.view.updateLayoutParams
 import info.metadude.android.eventfahrplan.commons.logging.Logging
 import nerd.tuxmobil.fahrplan.congress.R
@@ -62,7 +62,7 @@ class HorizontalSnapScrollView(context: Context, attrs: AttributeSet) : Horizont
     }
 
     private val logging = Logging.get()
-    private val gestureDetector: GestureDetectorCompat
+    private val gestureDetector: GestureDetector
     private var horizontalSnapScrollState = HorizontalSnapScrollState(logging)
     private lateinit var roomNames: HorizontalScrollView
 
@@ -82,7 +82,7 @@ class HorizontalSnapScrollView(context: Context, attrs: AttributeSet) : Horizont
             columnWidth = 0,
             activeColumnIndex = horizontalSnapScrollState.activeColumnIndex
         )
-        gestureDetector = GestureDetectorCompat(context, YScrollDetector())
+        gestureDetector = GestureDetector(context, YScrollDetector())
         setOnTouchListener(OnTouchListener())
     }
 
