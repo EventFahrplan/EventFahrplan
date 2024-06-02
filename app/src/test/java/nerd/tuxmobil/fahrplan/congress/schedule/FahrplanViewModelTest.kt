@@ -547,7 +547,6 @@ class FahrplanViewModelTest {
                 }
             }
 
-        @Disabled("Flaky, see https://github.com/EventFahrplan/EventFahrplan/issues/526")
         @Test
         fun `scrollToCurrentSession posts to scrollToCurrentSessionParameter property when session is present and day indices match`() =
             runTest {
@@ -555,6 +554,7 @@ class FahrplanViewModelTest {
                 val nowMoment = Moment.now().startOfDay() // depends DateInfos.getIndexOfToday
                 val repository = createRepository(
                     loadUncanceledSessionsForDayIndex = scheduleData,
+                    dateInfos = DateInfos().apply { add(DateInfo(3, nowMoment)) }
                 )
                 val viewModel = createViewModel(repository)
                 viewModel.scrollToCurrentSession()
@@ -629,6 +629,7 @@ class FahrplanViewModelTest {
         meta: Meta = Meta(numDays = 0, version = "test-version"),
         isAutoUpdateEnabled: Boolean = true,
         displayDayIndex: Int = 0,
+        dateInfos: DateInfos = DateInfos(),
     ) = mock<AppRepository> {
         on { sessions } doReturn sessionsFlow
         on { uncanceledSessionsForDayIndex } doReturn uncanceledSessionsForDayIndexFlow
@@ -638,6 +639,7 @@ class FahrplanViewModelTest {
         on { readMeta() } doReturn meta
         on { readAutoUpdateEnabled() } doReturn isAutoUpdateEnabled
         on { readDisplayDayIndex() } doReturn displayDayIndex
+        on { readDateInfos() } doReturn dateInfos
     }
 
     private fun createScheduleData(sessionId: String? = null, hasAlarm: Boolean = false): ScheduleData {
