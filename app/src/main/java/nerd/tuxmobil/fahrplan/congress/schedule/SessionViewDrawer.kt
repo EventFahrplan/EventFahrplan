@@ -107,7 +107,7 @@ internal class SessionViewDrawer(
                 sessionDrawableInsetTop,
                 sessionDrawableInsetRight,
                 0)
-        ViewCompat.setBackground(sessionView, sessionDrawable)
+        sessionView.background = sessionDrawable
         val padding = getSessionPadding()
         sessionView.setPadding(padding, padding, padding, padding)
     }
