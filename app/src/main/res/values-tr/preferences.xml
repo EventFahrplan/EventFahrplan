@@ -16,6 +16,8 @@
     -->
     <!-- Category general -->
     <!-- Automatic schedule updates -->
+    <string name="preference_title_auto_update_enabled">Otomatik güncellemeleri etkinleştir</string>
+    <string name="preference_summary_auto_update_enabled">Programı düzenli aralıklarla indir.</string>
     <!-- Alarm time index -->
     <!--
     Synchronize with @strings/preference_default_value_alarm_time_value
@@ -24,15 +26,35 @@
     Synchronize with @integers/preference_default_value_alarm_time_index
     and string-array/preference_entry_values_alarm_time
     -->
+    <string name="preference_dialog_title_alarm_time">Varsayılan alarm zamanını seç</string>
+    <string name="preference_title_alarm_time">Varsayılan alarm zamanını seç</string>
     <!--
     Synchronize with @strings/preference_default_value_alarm_time_value
     and @integers/preference_default_value_alarm_time_index
     -->
     <!-- Alarm tone -->
+    <string name="preference_title_alarm_tone">Alarm sesini seç</string>
+    <string name="preference_summary_alarm_tone">Ses seçim ekranını buradan açabilirsin.</string>
     <!-- Device time zone -->
+    <string name="preference_title_use_device_time_zone_enabled">Cihazın zaman dilimini kullan</string>
+    <string name="preference_summary_use_device_time_zone_enabled">Tarihleri ve zamanları doğru şekilde gösterir.</string>
     <!-- Alternative highlighting -->
+    <string name="preference_title_alternative_highlighting_enabled">Alternatif vurgulamayı etkinleştir</string>
+    <string name="preference_summary_alternative_highlighting_enabled">İstenen oturumlar arasına bir sınır ekler.</string>
     <!-- Alternative schedule URL -->
+    <string name="preference_title_alternative_schedule_url">Tüm alternatif oturum URL\'lerini yapılandır</string>
+    <string name="preference_summary_alternative_schedule_url">Önceden yapılandırılmış sunucuya ulaşılamaması durumu için bir URL gir.</string>
     <!-- App notification settings -->
+    <string name="preference_title_app_notification_settings">Bildirimleri özelleştir</string>
+    <string name="preference_summary_app_notification_settings">İlgili sistem ayarlarını buradan açabilirsin.</string>
     <!-- Insistent session alarms -->
+    <string name="preference_title_insistent_alarms_enabled">Israrcı alarmı etkinleştir</string>
+    <string name="preference_summary_insistent_alarms_enabled">Bir alarmı süresiz olarak etkinleştirir.</string>
     <!-- Category Engelsystem -->
+    <string name="preference_summary_engelsystem_json_export_url"><![CDATA[Vardiyalarını görmek için lütfen <u>kişisel</u> URL\'ni gir.<br/><br/>
+        1. <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g>hesabına giriş yap.<br/>
+        2. Profil sayfanda bulunan <u>JSON Export</u> sonrasındaki URL\'i kopyala.<br/>
+        3. URL\'i buraya yapıştır.<br/><br/>
+        Ana konferans günlerinin öncesinde ya da sonrasında olan değişiklikler <u>gösterilmez</u>.]]></string>
+    <string name="preference_title_engelsystem_json_export_url">JSON dışa aktarım URL\'sini yapılandır</string>
 </resources>
