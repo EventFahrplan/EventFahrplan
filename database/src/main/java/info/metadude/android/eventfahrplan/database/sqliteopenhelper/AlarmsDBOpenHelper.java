@@ -21,7 +21,7 @@ public class AlarmsDBOpenHelper extends SQLiteOpenHelper {
                     AlarmsTable.Columns.ALARM_TIME_IN_MIN + " INTEGER DEFAULT " +
                     AlarmsTable.Defaults.ALARM_TIME_IN_MIN_DEFAULT + ", " +
                     AlarmsTable.Columns.TIME + " INTEGER, " +
-                    AlarmsTable.Columns.TIME_TEXT + " STRING," +
+                    AlarmsTable.Columns.TIME_TEXT + " TEXT," +
                     AlarmsTable.Columns.SESSION_ID + " INTEGER," +
                     AlarmsTable.Columns.DISPLAY_TIME + " INTEGER," +
                     AlarmsTable.Columns.DAY + " INTEGER);";

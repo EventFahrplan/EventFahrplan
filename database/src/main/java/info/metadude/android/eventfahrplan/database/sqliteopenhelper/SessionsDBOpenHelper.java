@@ -26,25 +26,25 @@ public class SessionsDBOpenHelper extends SQLiteOpenHelper {
                     Columns.TITLE + " TEXT, " +
                     Columns.SUBTITLE + " TEXT, " +
                     Columns.DAY + " INTEGER, " +
-                    Columns.ROOM_NAME + " STRING, " +
+                    Columns.ROOM_NAME + " TEXT, " +
                     Columns.ROOM_IDENTIFIER + " TEXT DEFAULT '', " +
                     Columns.SLUG + " TEXT, " +
                     Columns.START + " INTEGER, " +
                     Columns.DURATION + " INTEGER, " +
                     Columns.FEEDBACK_URL + " TEXT DEFAULT NULL, " +
-                    Columns.SPEAKERS + " STRING, " +
-                    Columns.TRACK + " STRING, " +
-                    Columns.TYPE + " STRING, " +
-                    Columns.LANG + " STRING, " +
-                    Columns.ABSTRACT + " STRING, " +
-                    Columns.DESCR + " STRING, " +
+                    Columns.SPEAKERS + " TEXT, " +
+                    Columns.TRACK + " TEXT, " +
+                    Columns.TYPE + " TEXT, " +
+                    Columns.LANG + " TEXT, " +
+                    Columns.ABSTRACT + " TEXT, " +
+                    Columns.DESCR + " TEXT, " +
                     Columns.REL_START + " INTEGER, " +
-                    Columns.DATE + " STRING, " +
-                    Columns.LINKS + " STRING, " +
+                    Columns.DATE + " TEXT, " +
+                    Columns.LINKS + " TEXT, " +
                     Columns.DATE_UTC + " INTEGER, " +
                     Columns.TIME_ZONE_OFFSET + " INTEGER DEFAULT NULL, " +
                     Columns.ROOM_INDEX + " INTEGER, " +
-                    Columns.REC_LICENSE + " STRING, " +
+                    Columns.REC_LICENSE + " TEXT, " +
                     Columns.REC_OPTOUT + " INTEGER," +
                     Columns.URL + " TEXT DEFAULT ''," +
                     Columns.CHANGED_TITLE + " INTEGER," +
@@ -96,7 +96,7 @@ public class SessionsDBOpenHelper extends SQLiteOpenHelper {
         }
         if (oldVersion < 4 && newVersion >= 4) {
             db.execSQL("ALTER TABLE " + SessionsTable.NAME +
-                    " ADD COLUMN " + Columns.REC_LICENSE + " STRING DEFAULT ''");
+                    " ADD COLUMN " + Columns.REC_LICENSE + " TEXT DEFAULT ''");
             db.execSQL("ALTER TABLE " + SessionsTable.NAME +
                     " ADD COLUMN " + Columns.REC_OPTOUT + " INTEGER DEFAULT " +
                     Values.REC_OPT_OUT_OFF);
