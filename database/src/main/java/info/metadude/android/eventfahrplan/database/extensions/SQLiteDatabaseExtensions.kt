@@ -7,10 +7,10 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import androidx.core.database.sqlite.transaction
 
-fun SQLiteDatabase.insert(tableName: String, values: ContentValues): Long =
+internal fun SQLiteDatabase.insert(tableName: String, values: ContentValues): Long =
         insert(tableName, null, values)
 
-fun SQLiteDatabase.read(
+internal fun SQLiteDatabase.read(
         tableName: String,
         columns: Array<String>? = null,
         selection: String? = null,
@@ -31,7 +31,7 @@ fun SQLiteDatabase.read(
         limit
 )
 
-fun SQLiteDatabase.updateRow(
+internal fun SQLiteDatabase.updateRow(
         tableName: String,
         contentValues: ContentValues,
         columnName: String,
@@ -43,7 +43,7 @@ fun SQLiteDatabase.updateRow(
         whereArgs = arrayOf(columnValue)
 )
 
-fun SQLiteDatabase.updateRows(
+internal fun SQLiteDatabase.updateRows(
         tableName: String,
         contentValues: ContentValues,
         whereClause: String? = null,
@@ -55,7 +55,7 @@ fun SQLiteDatabase.updateRows(
         whereArgs
 )
 
-fun SQLiteDatabase.delete(tableName: String, columnName: String? = null, columnValue: String? = null): Int {
+internal fun SQLiteDatabase.delete(tableName: String, columnName: String? = null, columnValue: String? = null): Int {
     val whereClause = if (columnName == null) null else "$columnName=?"
     val whereArgs = if (columnValue == null) null else arrayOf(columnValue)
     return delete(tableName, whereClause, whereArgs)
@@ -85,7 +85,7 @@ internal fun SQLiteDatabase.upsert(delete: SQLiteDatabase.() -> Int, insert: SQL
  * Throws an [IllegalArgumentException] if the schema does not contain
  * the expected column named `name`.
  */
-fun SQLiteDatabase.columnExists(tableName: String, columnName: String): Boolean {
+internal fun SQLiteDatabase.columnExists(tableName: String, columnName: String): Boolean {
         val cursor = rawQuery("PRAGMA table_info($tableName)", null)
         while (cursor.moveToNext()) {
                 // "name" is the name of the schema column which contains the table column names.
