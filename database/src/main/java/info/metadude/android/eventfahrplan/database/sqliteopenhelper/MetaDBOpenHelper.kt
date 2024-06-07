@@ -1,77 +1,83 @@
-package info.metadude.android.eventfahrplan.database.sqliteopenhelper;
+package info.metadude.android.eventfahrplan.database.sqliteopenhelper
 
-import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
+import android.content.Context
+import android.database.sqlite.SQLiteDatabase
+import android.database.sqlite.SQLiteOpenHelper
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.ETAG
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.NUM_DAYS
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.SCHEDULE_LAST_MODIFIED
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.SUBTITLE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.TIME_ZONE_NAME
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.TITLE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.VERSION
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Defaults.ETAG_DEFAULT
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.NAME
+import info.metadude.android.eventfahrplan.database.extensions.addTextColumn
+import info.metadude.android.eventfahrplan.database.extensions.columnExists
+import info.metadude.android.eventfahrplan.database.extensions.dropTableIfExist
 
-import androidx.annotation.NonNull;
+class MetaDBOpenHelper(context: Context) : SQLiteOpenHelper(
+    context.applicationContext,
+    DATABASE_NAME,
+    null,
+    DATABASE_VERSION,
+) {
 
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable;
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns;
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Defaults;
-import info.metadude.android.eventfahrplan.database.extensions.SQLiteDatabaseExtensions;
+    private companion object {
+        const val DATABASE_VERSION = 9
+        const val DATABASE_NAME = "meta"
 
-public class MetaDBOpenHelper extends SQLiteOpenHelper {
-
-    private static final int DATABASE_VERSION = 9;
-
-    private static final String DATABASE_NAME = "meta";
-
-    private static final String META_TABLE_CREATE =
-            "CREATE TABLE " + MetasTable.NAME + " (" +
-                    Columns.NUM_DAYS + " INTEGER, " +
-                    Columns.VERSION + " TEXT, " +
-                    Columns.TITLE + " TEXT, " +
-                    Columns.SUBTITLE + " TEXT, " +
-                    Columns.ETAG + " TEXT, " +
-                    Columns.TIME_ZONE_NAME + " TEXT, " +
-                    Columns.SCHEDULE_LAST_MODIFIED + " TEXT DEFAULT '');";
-
-    public MetaDBOpenHelper(@NonNull Context context) {
-        super(context.getApplicationContext(), DATABASE_NAME, null, DATABASE_VERSION);
+        // language=sql
+        const val META_TABLE_CREATE = "CREATE TABLE $NAME (" +
+                "$NUM_DAYS INTEGER, " +
+                "$VERSION TEXT, " +
+                "$TITLE TEXT, " +
+                "$SUBTITLE TEXT, " +
+                "$ETAG TEXT, " +
+                "$TIME_ZONE_NAME TEXT, " +
+                "$SCHEDULE_LAST_MODIFIED TEXT DEFAULT ''" +
+                ");"
     }
 
-    @Override
-    public void onCreate(SQLiteDatabase db) {
-        db.execSQL(META_TABLE_CREATE);
+    override fun onCreate(db: SQLiteDatabase) = with(db) {
+        execSQL(META_TABLE_CREATE)
     }
 
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+    override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) = with(db) {
         if (oldVersion < 3 && newVersion >= 3) {
-            db.execSQL("ALTER TABLE " + MetasTable.NAME + " ADD COLUMN " +
-                    Columns.ETAG + " TEXT DEFAULT " + Defaults.ETAG_DEFAULT);
+            addTextColumn(ETAG, default = ETAG_DEFAULT)
         }
         if (oldVersion < 6 && newVersion >= 6) {
-            db.execSQL("ALTER TABLE " + MetasTable.NAME + " ADD COLUMN " +
-                    Columns.TIME_ZONE_NAME + " TEXT");
+            addTextColumn(TIME_ZONE_NAME, default = null)
         }
         if (oldVersion < 4) {
             // Clear database from 34C3.
-            db.execSQL("DROP TABLE IF EXISTS " + MetasTable.NAME);
-            onCreate(db);
+            dropTableIfExist(NAME)
+            onCreate(this)
         }
         if (oldVersion < 5) {
             // Clear database from 35C3 & Camp 2019.
-            db.execSQL("DROP TABLE IF EXISTS " + MetasTable.NAME);
-            onCreate(db);
+            dropTableIfExist(NAME)
+            onCreate(this)
         }
         if (oldVersion < 7) {
             // Clear database from rC3 12/2020.
-            db.execSQL("DROP TABLE IF EXISTS " + MetasTable.NAME);
-            onCreate(db);
+            dropTableIfExist(NAME)
+            onCreate(this)
         }
         if (oldVersion < 8) {
             // Clear database from rC3 NOWHERE 12/2021 & 36C3 2019.
-            db.execSQL("DROP TABLE IF EXISTS " + MetasTable.NAME);
-            onCreate(db);
+            dropTableIfExist(NAME)
+            onCreate(this)
         }
         if (oldVersion < 9) {
-            boolean columnExists = SQLiteDatabaseExtensions.columnExists(db, MetasTable.NAME, Columns.SCHEDULE_LAST_MODIFIED);
-            if (!columnExists) {
-                db.execSQL("ALTER TABLE " + MetasTable.NAME + " ADD COLUMN " +
-                        Columns.SCHEDULE_LAST_MODIFIED + " TEXT DEFAULT ''");
+            if (!columnExists(NAME, SCHEDULE_LAST_MODIFIED)) {
+                addTextColumn(SCHEDULE_LAST_MODIFIED, default = "")
             }
         }
     }
+}
+
+private fun SQLiteDatabase.addTextColumn(columnName: String, default: String?) {
+    addTextColumn(tableName = NAME, columnName = columnName, default = default)
 }

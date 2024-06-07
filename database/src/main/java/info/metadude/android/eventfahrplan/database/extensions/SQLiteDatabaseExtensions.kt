@@ -101,3 +101,26 @@ fun SQLiteDatabase.columnExists(tableName: String, columnName: String): Boolean 
         cursor.close()
         return false
 }
+
+/**
+ * Deletes the given [table][tableName] if it exists.
+ */
+internal fun SQLiteDatabase.dropTableIfExist(tableName: String) {
+        execSQL("DROP TABLE IF EXISTS $tableName")
+}
+
+/**
+ * Adds an INTEGER [column][columnName] to the given [table][tableName] with a [default value][default].
+ */
+internal fun SQLiteDatabase.addIntegerColumn(tableName: String, columnName: String, default: Int?) {
+        val defaultValue = default?.toString() ?: "NULL"
+        execSQL("ALTER TABLE $tableName ADD COLUMN $columnName INTEGER DEFAULT $defaultValue")
+}
+
+/**
+ * Adds a TEXT [column][columnName] to the given [table][tableName] with a [default value][default].
+ */
+internal fun SQLiteDatabase.addTextColumn(tableName: String, columnName: String, default: String?) {
+        val defaultValue = default?.let { "'$it'" } ?: "NULL"
+        execSQL("ALTER TABLE $tableName ADD COLUMN $columnName TEXT DEFAULT $defaultValue")
+}

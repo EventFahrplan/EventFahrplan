@@ -1,66 +1,73 @@
-package info.metadude.android.eventfahrplan.database.sqliteopenhelper;
+package info.metadude.android.eventfahrplan.database.sqliteopenhelper
 
-import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
+import android.content.Context
+import android.database.sqlite.SQLiteDatabase
+import android.database.sqlite.SQLiteOpenHelper
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.ALARM_TIME_IN_MIN
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.DAY
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.DISPLAY_TIME
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.ID
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.SESSION_ID
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.SESSION_TITLE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.TIME
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.TIME_TEXT
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Defaults.ALARM_TIME_IN_MIN_DEFAULT
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.NAME
+import info.metadude.android.eventfahrplan.database.extensions.addIntegerColumn
+import info.metadude.android.eventfahrplan.database.extensions.dropTableIfExist
 
-import androidx.annotation.NonNull;
+class AlarmsDBOpenHelper(context: Context) : SQLiteOpenHelper(
+    context.applicationContext,
+    DATABASE_NAME,
+    null,
+    DATABASE_VERSION,
+) {
 
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable;
+    private companion object {
+        const val DATABASE_VERSION = 6
+        const val DATABASE_NAME = "alarms"
 
-public class AlarmsDBOpenHelper extends SQLiteOpenHelper {
-
-    private static final int DATABASE_VERSION = 6;
-
-    private static final String DATABASE_NAME = "alarms";
-
-    private static final String ALARMS_TABLE_CREATE =
-            "CREATE TABLE " + AlarmsTable.NAME + " (" +
-                    AlarmsTable.Columns.ID + " INTEGER PRIMARY KEY, " +
-                    AlarmsTable.Columns.SESSION_TITLE + " TEXT, " +
-                    AlarmsTable.Columns.ALARM_TIME_IN_MIN + " INTEGER DEFAULT " +
-                    AlarmsTable.Defaults.ALARM_TIME_IN_MIN_DEFAULT + ", " +
-                    AlarmsTable.Columns.TIME + " INTEGER, " +
-                    AlarmsTable.Columns.TIME_TEXT + " TEXT," +
-                    AlarmsTable.Columns.SESSION_ID + " INTEGER," +
-                    AlarmsTable.Columns.DISPLAY_TIME + " INTEGER," +
-                    AlarmsTable.Columns.DAY + " INTEGER);";
-
-    public AlarmsDBOpenHelper(@NonNull Context context) {
-        super(context.getApplicationContext(), DATABASE_NAME, null, DATABASE_VERSION);
+        // language=sql
+        const val ALARMS_TABLE_CREATE = "CREATE TABLE $NAME (" +
+                "$ID INTEGER PRIMARY KEY, " +
+                "$SESSION_TITLE TEXT, " +
+                "$ALARM_TIME_IN_MIN INTEGER DEFAULT $ALARM_TIME_IN_MIN_DEFAULT, " +
+                "$TIME INTEGER, " +
+                "$TIME_TEXT TEXT, " +
+                "$SESSION_ID INTEGER, " +
+                "$DISPLAY_TIME INTEGER, " +
+                "$DAY INTEGER" +
+                ");"
     }
 
-    @Override
-    public void onCreate(SQLiteDatabase db) {
-        db.execSQL(ALARMS_TABLE_CREATE);
+    override fun onCreate(db: SQLiteDatabase) = with(db) {
+        execSQL(ALARMS_TABLE_CREATE)
     }
 
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+    override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) = with(db) {
         if (oldVersion < 2 && newVersion >= 2) {
-            db.execSQL("ALTER TABLE " + AlarmsTable.NAME + " ADD " +
-                    AlarmsTable.Columns.ALARM_TIME_IN_MIN + " INTEGER DEFAULT" +
-                    AlarmsTable.Defaults.ALARM_TIME_IN_MIN_DEFAULT);
+            addIntegerColumn(tableName = NAME, columnName = ALARM_TIME_IN_MIN, default = ALARM_TIME_IN_MIN_DEFAULT)
         }
         if (oldVersion < 3) {
             // Clear database from 34C3.
-            db.execSQL("DROP TABLE IF EXISTS " + AlarmsTable.NAME);
-            onCreate(db);
+            dropTableIfExist(NAME)
+            onCreate(this)
         }
         if (oldVersion < 4) {
             // Clear database from 35C3 & Camp 2019.
-            db.execSQL("DROP TABLE IF EXISTS " + AlarmsTable.NAME);
-            onCreate(db);
+            dropTableIfExist(NAME)
+            onCreate(this)
         }
         if (oldVersion < 5) {
             // Clear database from rC3 12/2020.
-            db.execSQL("DROP TABLE IF EXISTS " + AlarmsTable.NAME);
-            onCreate(db);
+            dropTableIfExist(NAME)
+            onCreate(this)
         }
         if (oldVersion < 6) {
             // Clear database from rC3 NOWHERE 12/2021 & 36C3 2019.
-            db.execSQL("DROP TABLE IF EXISTS " + AlarmsTable.NAME);
-            onCreate(db);
+            dropTableIfExist(NAME)
+            onCreate(this)
         }
     }
+
 }

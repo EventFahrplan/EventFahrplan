@@ -1,39 +1,41 @@
-package info.metadude.android.eventfahrplan.database.sqliteopenhelper;
+package info.metadude.android.eventfahrplan.database.sqliteopenhelper
 
-import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
+import android.content.Context
+import android.database.sqlite.SQLiteDatabase
+import android.database.sqlite.SQLiteOpenHelper
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.HighlightsTable.Columns.HIGHLIGHT
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.HighlightsTable.Columns.ID
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.HighlightsTable.Columns.SESSION_ID
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.HighlightsTable.NAME
+import info.metadude.android.eventfahrplan.database.extensions.dropTableIfExist
 
-import androidx.annotation.NonNull;
+class HighlightDBOpenHelper(context: Context) : SQLiteOpenHelper(
+    context.applicationContext,
+    DATABASE_NAME,
+    null,
+    DATABASE_VERSION,
+) {
 
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.HighlightsTable;
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.HighlightsTable.Columns;
+    private companion object {
+        const val DATABASE_VERSION = 5
+        const val DATABASE_NAME = "highlight"
 
-public class HighlightDBOpenHelper extends SQLiteOpenHelper {
-
-    private static final int DATABASE_VERSION = 5;
-
-    private static final String DATABASE_NAME = "highlight";
-
-    private static final String HIGHLIGHT_TABLE_CREATE =
-            "CREATE TABLE " + HighlightsTable.NAME + " (" +
-                    Columns.ID + " INTEGER PRIMARY KEY, " +
-                    Columns.SESSION_ID + " INTEGER," +
-                    Columns.HIGHLIGHT + " INTEGER);";
-
-    public HighlightDBOpenHelper(@NonNull Context context) {
-        super(context.getApplicationContext(), DATABASE_NAME, null, DATABASE_VERSION);
+        // language=sql
+        const val HIGHLIGHT_TABLE_CREATE = "CREATE TABLE $NAME (" +
+                "$ID INTEGER PRIMARY KEY, " +
+                "$SESSION_ID INTEGER, " +
+                "$HIGHLIGHT INTEGER" +
+                ");"
     }
 
-    @Override
-    public void onCreate(SQLiteDatabase db) {
-        db.execSQL(HIGHLIGHT_TABLE_CREATE);
+    override fun onCreate(db: SQLiteDatabase) = with(db) {
+        execSQL(HIGHLIGHT_TABLE_CREATE)
     }
 
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+    override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) = with(db) {
         // Clear database from 36C3 2019.
-        db.execSQL("DROP TABLE IF EXISTS " + HighlightsTable.NAME);
-        onCreate(db);
+        dropTableIfExist(NAME)
+        onCreate(this)
     }
+
 }
