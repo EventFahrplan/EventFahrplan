@@ -16,7 +16,7 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Al
 import info.metadude.android.eventfahrplan.database.extensions.addIntegerColumn
 import info.metadude.android.eventfahrplan.database.extensions.dropTableIfExist
 
-class AlarmsDBOpenHelper(context: Context) : SQLiteOpenHelper(
+internal class AlarmsDBOpenHelper(context: Context) : SQLiteOpenHelper(
     context.applicationContext,
     DATABASE_NAME,
     null,

@@ -21,7 +21,7 @@ import info.metadude.android.eventfahrplan.database.models.HttpHeader
 import info.metadude.android.eventfahrplan.database.models.Meta
 import info.metadude.android.eventfahrplan.database.sqliteopenhelper.MetaDBOpenHelper
 
-class RealMetaDatabaseRepository(
+internal class RealMetaDatabaseRepository(
 
         private val sqLiteOpenHelper: MetaDBOpenHelper
 

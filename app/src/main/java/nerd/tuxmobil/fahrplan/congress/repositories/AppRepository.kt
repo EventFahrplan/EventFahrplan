@@ -11,15 +11,7 @@ import info.metadude.android.eventfahrplan.database.extensions.toContentValues
 import info.metadude.android.eventfahrplan.database.repositories.AlarmsDatabaseRepository
 import info.metadude.android.eventfahrplan.database.repositories.HighlightsDatabaseRepository
 import info.metadude.android.eventfahrplan.database.repositories.MetaDatabaseRepository
-import info.metadude.android.eventfahrplan.database.repositories.RealAlarmsDatabaseRepository
-import info.metadude.android.eventfahrplan.database.repositories.RealHighlightsDatabaseRepository
-import info.metadude.android.eventfahrplan.database.repositories.RealMetaDatabaseRepository
-import info.metadude.android.eventfahrplan.database.repositories.RealSessionsDatabaseRepository
 import info.metadude.android.eventfahrplan.database.repositories.SessionsDatabaseRepository
-import info.metadude.android.eventfahrplan.database.sqliteopenhelper.AlarmsDBOpenHelper
-import info.metadude.android.eventfahrplan.database.sqliteopenhelper.HighlightDBOpenHelper
-import info.metadude.android.eventfahrplan.database.sqliteopenhelper.MetaDBOpenHelper
-import info.metadude.android.eventfahrplan.database.sqliteopenhelper.SessionsDBOpenHelper
 import info.metadude.android.eventfahrplan.engelsystem.EngelsystemNetworkRepository
 import info.metadude.android.eventfahrplan.engelsystem.RealEngelsystemNetworkRepository
 import info.metadude.android.eventfahrplan.engelsystem.models.ShiftsResult
@@ -313,10 +305,10 @@ object AppRepository {
             databaseScope: DatabaseScope = DatabaseScope.of(executionContext, AppExceptionHandler(logging)),
             networkScope: NetworkScope = NetworkScope.of(executionContext, AppExceptionHandler(logging)),
             okHttpClient: OkHttpClient = CustomHttpClient.createHttpClient(context),
-            alarmsDatabaseRepository: AlarmsDatabaseRepository = RealAlarmsDatabaseRepository(AlarmsDBOpenHelper(context), logging),
-            highlightsDatabaseRepository: HighlightsDatabaseRepository = RealHighlightsDatabaseRepository(HighlightDBOpenHelper(context)),
-            sessionsDatabaseRepository: SessionsDatabaseRepository = RealSessionsDatabaseRepository(SessionsDBOpenHelper(context), logging),
-            metaDatabaseRepository: MetaDatabaseRepository = RealMetaDatabaseRepository(MetaDBOpenHelper(context)),
+            alarmsDatabaseRepository: AlarmsDatabaseRepository = AlarmsDatabaseRepository.get(context, logging),
+            highlightsDatabaseRepository: HighlightsDatabaseRepository = HighlightsDatabaseRepository.get(context),
+            sessionsDatabaseRepository: SessionsDatabaseRepository = SessionsDatabaseRepository.get(context, logging),
+            metaDatabaseRepository: MetaDatabaseRepository = MetaDatabaseRepository.get(context),
             scheduleNetworkRepository: ScheduleNetworkRepository = RealScheduleNetworkRepository(logging),
             engelsystemNetworkRepository: EngelsystemNetworkRepository = RealEngelsystemNetworkRepository(),
             sharedPreferencesRepository: SharedPreferencesRepository = RealSharedPreferencesRepository(context),

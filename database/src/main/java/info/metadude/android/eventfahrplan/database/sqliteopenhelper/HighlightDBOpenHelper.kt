@@ -9,7 +9,7 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Hi
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.HighlightsTable.NAME
 import info.metadude.android.eventfahrplan.database.extensions.dropTableIfExist
 
-class HighlightDBOpenHelper(context: Context) : SQLiteOpenHelper(
+internal class HighlightDBOpenHelper(context: Context) : SQLiteOpenHelper(
     context.applicationContext,
     DATABASE_NAME,
     null,

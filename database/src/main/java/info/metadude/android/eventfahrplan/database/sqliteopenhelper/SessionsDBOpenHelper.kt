@@ -52,7 +52,7 @@ import info.metadude.android.eventfahrplan.database.extensions.addTextColumn
 import info.metadude.android.eventfahrplan.database.extensions.columnExists
 import info.metadude.android.eventfahrplan.database.extensions.dropTableIfExist
 
-class SessionsDBOpenHelper(context: Context) : SQLiteOpenHelper(
+internal class SessionsDBOpenHelper(context: Context) : SQLiteOpenHelper(
     context.applicationContext,
     DATABASE_NAME,
     null,
