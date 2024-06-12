@@ -81,6 +81,7 @@ class ChangeListFragment : AbstractListFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeViewModel()
+        viewModel.observeChangeListParameter()
     }
 
     private fun observeViewModel() {

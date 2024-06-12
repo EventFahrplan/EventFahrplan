@@ -7,8 +7,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import nerd.tuxmobil.fahrplan.congress.models.Session
@@ -27,12 +25,19 @@ class ChangeListViewModel(
         const val LOG_TAG = "ChangesListViewModel"
     }
 
-    val changeListParameter: Flow<ChangeListParameter> = repository.changedSessions
-        .map { sessions -> sessions.toChangeListParameter() }
-        .flowOn(executionContext.database)
+    private val mutableChangeListParameter = Channel<ChangeListParameter>()
+    val changeListParameter: Flow<ChangeListParameter> = mutableChangeListParameter.receiveAsFlow()
 
     private val mutableScheduleChangesSeen = Channel<Unit>()
     val scheduleChangesSeen = mutableScheduleChangesSeen.receiveAsFlow()
+
+    fun observeChangeListParameter() {
+        launch {
+            repository.changedSessions.collect { sessions ->
+                mutableChangeListParameter.sendOneTimeEvent(sessions.toChangeListParameter())
+            }
+        }
+    }
 
     fun updateScheduleChangesSeen(changesSeen: Boolean) {
         launch {
