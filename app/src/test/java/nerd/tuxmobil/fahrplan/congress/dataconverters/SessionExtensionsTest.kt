@@ -84,7 +84,7 @@ class SessionExtensionsTest {
                 type = "tutorial",
                 url = "https://talks.mrmcd.net/2018/talk/V3FUNG",
 
-                changedDay = true,
+                changedDayIndex = true,
                 changedDuration = true,
                 changedIsCanceled = true,
                 changedIsNew = true,

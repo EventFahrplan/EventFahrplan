@@ -113,7 +113,7 @@ public interface FahrplanContract {
             /* 20 */ String CHANGED_TITLE = "changed_title";
             /* 21 */ String CHANGED_SUBTITLE = "changed_subtitle";
             /* 22 */ String CHANGED_ROOM_NAME = "changed_room";
-            /* 23 */ String CHANGED_DAY = "changed_day";
+            /* 23 */ String CHANGED_DAY_INDEX = "changed_day";
             /* 24 */ String CHANGED_SPEAKERS = "changed_speakers";
             /* 25 */ String CHANGED_RECORDING_OPTOUT = "changed_recording_optout";
             /* 26 */ String CHANGED_LANGUAGE = "changed_language";

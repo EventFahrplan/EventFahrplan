@@ -2,7 +2,7 @@ package info.metadude.android.eventfahrplan.database.extensions
 
 import com.google.common.truth.Truth.assertThat
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.ABSTRACT
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_DAY
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_DAY_INDEX
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_DURATION
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_IS_CANCELED
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_IS_NEW
@@ -72,7 +72,7 @@ class SessionExtensionsTest {
                 type = "tutorial",
                 url = "https://talks.mrmcd.net/2018/talk/V3FUNG",
 
-                changedDay = true,
+                changedDayIndex = true,
                 changedDuration = true,
                 changedIsCanceled = true,
                 changedIsNew = true,
@@ -113,7 +113,7 @@ class SessionExtensionsTest {
         assertThat(values.getAsString(TYPE)).isEqualTo("tutorial")
         assertThat(values.getAsString(URL)).isEqualTo("https://talks.mrmcd.net/2018/talk/V3FUNG")
 
-        assertThat(values.getAsBoolean(CHANGED_DAY)).isEqualTo(true)
+        assertThat(values.getAsBoolean(CHANGED_DAY_INDEX)).isEqualTo(true)
         assertThat(values.getAsBoolean(CHANGED_DURATION)).isEqualTo(true)
         assertThat(values.getAsBoolean(CHANGED_IS_CANCELED)).isEqualTo(true)
         assertThat(values.getAsBoolean(CHANGED_IS_NEW)).isEqualTo(true)

@@ -4,7 +4,7 @@ import android.content.ContentValues
 import androidx.core.content.contentValuesOf
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionByNotificationIdTable
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.ABSTRACT
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_DAY
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_DAY_INDEX
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_DURATION
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_IS_CANCELED
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_IS_NEW
@@ -71,7 +71,7 @@ fun Session.toContentValues() = contentValuesOf(
         TYPE to type,
         URL to url,
 
-        CHANGED_DAY to changedDay,
+        CHANGED_DAY_INDEX to changedDayIndex,
         CHANGED_DURATION to changedDuration,
         CHANGED_IS_CANCELED to changedIsCanceled,
         CHANGED_IS_NEW to changedIsNew,

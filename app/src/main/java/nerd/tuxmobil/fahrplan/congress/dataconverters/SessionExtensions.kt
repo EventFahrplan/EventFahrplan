@@ -58,7 +58,7 @@ fun Session.toSessionDatabaseModel() = SessionDatabaseModel(
         type = type,
         url = url,
 
-        changedDay = changedDayIndex,
+        changedDayIndex = changedDayIndex,
         changedDuration = changedDuration,
         changedIsCanceled = changedIsCanceled,
         changedIsNew = changedIsNew,
@@ -102,7 +102,7 @@ fun SessionDatabaseModel.toSessionAppModel(): Session {
         type = type,
         url = url,
 
-        changedDayIndex = changedDay,
+        changedDayIndex = changedDayIndex,
         changedDuration = changedDuration,
         changedIsCanceled = changedIsCanceled,
         changedIsNew = changedIsNew,

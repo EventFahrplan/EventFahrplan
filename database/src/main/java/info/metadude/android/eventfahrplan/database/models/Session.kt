@@ -33,7 +33,7 @@ data class Session(
         val type: String = "",
         val url: String = "",
 
-        val changedDay: Boolean = false,
+        val changedDayIndex: Boolean = false,
         val changedDuration: Boolean = false,
         val changedIsCanceled: Boolean = false,
         val changedIsNew: Boolean = false,

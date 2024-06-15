@@ -9,7 +9,7 @@ import info.metadude.android.eventfahrplan.commons.logging.Logging
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionByNotificationIdTable
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.ABSTRACT
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_DAY
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_DAY_INDEX
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_DURATION
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_IS_CANCELED
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_IS_NEW
@@ -224,7 +224,7 @@ internal class RealSessionsDatabaseRepository(
                     type = cursor.getString(TYPE),
                     url = cursor.getString(URL),
                     recordingOptOut = recordingOptOut,
-                    changedDay = cursor.getInt(CHANGED_DAY).isChanged,
+                    changedDayIndex = cursor.getInt(CHANGED_DAY_INDEX).isChanged,
                     changedDuration = cursor.getInt(CHANGED_DURATION).isChanged,
                     changedIsCanceled = cursor.getInt(CHANGED_IS_CANCELED).isChanged,
                     changedIsNew = cursor.getInt(CHANGED_IS_NEW).isChanged,

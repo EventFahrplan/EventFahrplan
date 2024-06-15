@@ -8,7 +8,7 @@ import androidx.core.database.sqlite.transaction
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionByNotificationIdTable
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.ABSTRACT
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_DAY
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_DAY_INDEX
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_DURATION
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_IS_CANCELED
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_IS_NEW
@@ -93,7 +93,7 @@ internal class SessionsDBOpenHelper(context: Context) : SQLiteOpenHelper(
                 "$CHANGED_TITLE INTEGER, " +
                 "$CHANGED_SUBTITLE INTEGER, " +
                 "$CHANGED_ROOM_NAME INTEGER, " +
-                "$CHANGED_DAY INTEGER, " +
+                "$CHANGED_DAY_INDEX INTEGER, " +
                 "$CHANGED_SPEAKERS INTEGER, " +
                 "$CHANGED_RECORDING_OPTOUT INTEGER, " +
                 "$CHANGED_LANGUAGE INTEGER, " +
@@ -136,7 +136,7 @@ internal class SessionsDBOpenHelper(context: Context) : SQLiteOpenHelper(
             addIntegerColumn(CHANGED_TITLE, default = 0)
             addIntegerColumn(CHANGED_SUBTITLE, default = 0)
             addIntegerColumn(CHANGED_ROOM_NAME, default = 0)
-            addIntegerColumn(CHANGED_DAY, default = 0)
+            addIntegerColumn(CHANGED_DAY_INDEX, default = 0)
             addIntegerColumn(CHANGED_SPEAKERS, default = 0)
             addIntegerColumn(CHANGED_RECORDING_OPTOUT, default = 0)
             addIntegerColumn(CHANGED_LANGUAGE, default = 0)
