@@ -119,7 +119,7 @@ public interface FahrplanContract {
             /* 26 */ String CHANGED_LANGUAGE = "changed_language";
             /* 27 */ String CHANGED_TRACK = "changed_track";
             /* 28 */ String CHANGED_IS_NEW = "changed_is_new";
-            /* 29 */ String CHANGED_TIME = "changed_time";
+            /* 29 */ String CHANGED_START_TIME = "changed_time";
             /* 30 */ String CHANGED_DURATION = "changed_duration";
             /* 31 */ String CHANGED_IS_CANCELED = "changed_is_canceled";
             /* 32 */ String SLUG = "slug";

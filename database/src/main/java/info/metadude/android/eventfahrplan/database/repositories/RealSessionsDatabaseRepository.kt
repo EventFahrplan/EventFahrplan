@@ -18,7 +18,7 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Se
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_ROOM_NAME
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_SPEAKERS
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_SUBTITLE
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_TIME
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_START_TIME
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_TITLE
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_TRACK
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DATE_TEXT
@@ -232,8 +232,8 @@ internal class RealSessionsDatabaseRepository(
                     changedRecordingOptOut = cursor.getInt(CHANGED_RECORDING_OPTOUT).isChanged,
                     changedRoomName = cursor.getInt(CHANGED_ROOM_NAME).isChanged,
                     changedSpeakers = cursor.getInt(CHANGED_SPEAKERS).isChanged,
+                    changedStartTime = cursor.getInt(CHANGED_START_TIME).isChanged,
                     changedSubtitle = cursor.getInt(CHANGED_SUBTITLE).isChanged,
-                    changedTime = cursor.getInt(CHANGED_TIME).isChanged,
                     changedTitle = cursor.getInt(CHANGED_TITLE).isChanged,
                     changedTrack = cursor.getInt(CHANGED_TRACK).isChanged
             )

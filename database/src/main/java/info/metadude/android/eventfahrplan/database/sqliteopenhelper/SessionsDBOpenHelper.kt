@@ -16,8 +16,8 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Se
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_RECORDING_OPTOUT
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_ROOM_NAME
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_SPEAKERS
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_START_TIME
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_SUBTITLE
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_TIME
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_TITLE
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_TRACK
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DATE_TEXT
@@ -99,7 +99,7 @@ internal class SessionsDBOpenHelper(context: Context) : SQLiteOpenHelper(
                 "$CHANGED_LANGUAGE INTEGER, " +
                 "$CHANGED_TRACK INTEGER, " +
                 "$CHANGED_IS_NEW INTEGER, " +
-                "$CHANGED_TIME INTEGER, " +
+                "$CHANGED_START_TIME INTEGER, " +
                 "$CHANGED_DURATION INTEGER, " +
                 "$CHANGED_IS_CANCELED INTEGER" +
                 ");"
@@ -142,7 +142,7 @@ internal class SessionsDBOpenHelper(context: Context) : SQLiteOpenHelper(
             addIntegerColumn(CHANGED_LANGUAGE, default = 0)
             addIntegerColumn(CHANGED_TRACK, default = 0)
             addIntegerColumn(CHANGED_IS_NEW, default = 0)
-            addIntegerColumn(CHANGED_TIME, default = 0)
+            addIntegerColumn(CHANGED_START_TIME, default = 0)
             addIntegerColumn(CHANGED_DURATION, default = 0)
             addIntegerColumn(CHANGED_IS_CANCELED, default = 0)
         }

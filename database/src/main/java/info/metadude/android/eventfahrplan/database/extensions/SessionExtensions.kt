@@ -13,7 +13,7 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Se
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_ROOM_NAME
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_SPEAKERS
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_SUBTITLE
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_TIME
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_START_TIME
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_TITLE
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_TRACK
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DATE_TEXT
@@ -79,8 +79,8 @@ fun Session.toContentValues() = contentValuesOf(
         CHANGED_RECORDING_OPTOUT to changedRecordingOptOut,
         CHANGED_ROOM_NAME to changedRoomName,
         CHANGED_SPEAKERS to changedSpeakers,
+        CHANGED_START_TIME to changedStartTime,
         CHANGED_SUBTITLE to changedSubtitle,
-        CHANGED_TIME to changedTime,
         CHANGED_TITLE to changedTitle,
         CHANGED_TRACK to changedTrack
 )

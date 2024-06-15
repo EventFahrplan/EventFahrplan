@@ -66,8 +66,8 @@ fun Session.toSessionDatabaseModel() = SessionDatabaseModel(
         changedRecordingOptOut = changedRecordingOptOut,
         changedRoomName = changedRoomName,
         changedSpeakers = changedSpeakers,
+        changedStartTime = changedStartTime,
         changedSubtitle = changedSubtitle,
-        changedTime = changedStartTime,
         changedTitle = changedTitle,
         changedTrack = changedTrack
 )
@@ -110,8 +110,8 @@ fun SessionDatabaseModel.toSessionAppModel(): Session {
         changedRecordingOptOut = changedRecordingOptOut,
         changedRoomName = changedRoomName,
         changedSpeakers = changedSpeakers,
+        changedStartTime = changedStartTime,
         changedSubtitle = changedSubtitle,
-        changedStartTime = changedTime,
         changedTitle = changedTitle,
         changedTrack = changedTrack,
     )
@@ -155,8 +155,8 @@ fun SessionNetworkModel.toSessionAppModel(): Session {
         changedRecordingOptOut = changedRecordingOptOut,
         changedRoomName = changedRoomName,
         changedSpeakers = changedSpeakers,
-        changedSubtitle = changedSubtitle,
         changedStartTime = changedStartTime,
+        changedSubtitle = changedSubtitle,
         changedTitle = changedTitle,
         changedTrack = changedTrack,
     )

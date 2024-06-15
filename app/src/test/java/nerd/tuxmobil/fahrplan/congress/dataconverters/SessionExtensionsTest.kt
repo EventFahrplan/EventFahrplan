@@ -92,8 +92,8 @@ class SessionExtensionsTest {
                 changedRecordingOptOut = true,
                 changedRoomName = true,
                 changedSpeakers = true,
+                changedStartTime = true,
                 changedSubtitle = true,
-                changedTime = true,
                 changedTitle = true,
                 changedTrack = true
         )

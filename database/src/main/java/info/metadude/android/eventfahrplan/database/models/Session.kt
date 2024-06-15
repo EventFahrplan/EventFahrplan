@@ -41,8 +41,8 @@ data class Session(
         val changedRecordingOptOut: Boolean = false,
         val changedRoomName: Boolean = false,
         val changedSpeakers: Boolean = false,
+        val changedStartTime: Boolean = false,
         val changedSubtitle: Boolean = false,
-        val changedTime: Boolean = false,
         val changedTitle: Boolean = false,
         val changedTrack: Boolean = false
 
