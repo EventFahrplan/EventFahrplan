@@ -121,7 +121,7 @@ fun SessionNetworkModel.toSessionAppModel(): Session {
     return Session(
         sessionId = sessionId,
         abstractt = abstractt,
-        dateText = date,
+        dateText = dateText,
         dateUTC = dateUTC,
         dayIndex = dayIndex,
         description = description,

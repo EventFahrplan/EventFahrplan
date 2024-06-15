@@ -11,7 +11,7 @@ data class Session(
         var sessionId: String = "",
         var abstractt: String = "",
         var dayIndex: Int = 0, // XML values start with 1
-        var date: String = "",
+        var dateText: String = "",
         var dateUTC: Long = 0,
         var description: String = "",
         var duration: Int = 0, // minutes
