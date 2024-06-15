@@ -86,7 +86,7 @@ class ShiftExtensionsTest {
         val dayRange = DayRange(day)
         val session = shift.toSessionAppModel(NoLogging, "", listOf(dayRange))
         assertThat(session.startTime).isEqualTo(0) // nevertheless, we still expect sessions time data to be based on UTC
-        assertThat(session.relStartTime).isEqualTo(0)
+        assertThat(session.relativeStartTime).isEqualTo(0)
     }
 
     @Test

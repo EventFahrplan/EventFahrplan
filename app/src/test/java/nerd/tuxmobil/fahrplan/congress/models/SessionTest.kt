@@ -33,7 +33,7 @@ class SessionTest {
 
             // Not considered in equal nor hashCode.
             url = "https://example.com",
-            relStartTime = 500,
+            relativeStartTime = 500,
             roomIndex = 6,
             slug = "lorem-ipsum",
             abstractt = "Sodales ut etiam sit amet nisl purus",
@@ -59,7 +59,7 @@ class SessionTest {
 
         fun createSessionModifyingNonConsideredFields() = createSession().copy(
             url = "https://foobar-url.org",
-            relStartTime = 999,
+            relativeStartTime = 999,
             roomIndex = 13,
             slug = "foo-bar",
             abstractt = "Foo abstract",

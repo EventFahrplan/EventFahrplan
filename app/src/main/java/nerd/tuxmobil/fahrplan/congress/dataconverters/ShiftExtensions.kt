@@ -28,7 +28,7 @@ fun Shift.toSessionAppModel(
     dayIndex = oneBasedDayIndex(logging, dayRanges),
     description = descriptionText,
     duration = shiftDuration, // minutes
-    relStartTime = minuteOfDay,
+    relativeStartTime = minuteOfDay,
     roomName = virtualRoomName,
     speakers = emptyList(),
     startTime = minuteOfDay, // minutes since day start

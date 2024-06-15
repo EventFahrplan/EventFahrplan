@@ -157,7 +157,7 @@ class SessionExtensionsTest {
             highlight = true,
             language = "en",
             links = "[Website](https://www.example.com/path)",
-            relStartTime = 1035,
+            relativeStartTime = 1035,
             recordingLicense = "CC 0",
             recordingOptOut = RECORDING_OPT_OUT_ON,
             roomName = "Simulacron-3",

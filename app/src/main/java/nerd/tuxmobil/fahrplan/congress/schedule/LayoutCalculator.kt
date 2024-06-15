@@ -84,7 +84,7 @@ data class LayoutCalculator(
                 startTime += Duration.ofDays(1).toMinutes().toInt()
             }
         } else {
-            startTime = session.relStartTime
+            startTime = session.relativeStartTime
         }
         return startTime
     }

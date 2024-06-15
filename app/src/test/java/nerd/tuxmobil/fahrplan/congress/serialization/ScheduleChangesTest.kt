@@ -362,9 +362,9 @@ class ScheduleChangesTest {
             ),
             scenario2Of(
                 scenarioDescription = "Relative start times differ",
-                oldSessions = listOf(Session("1", relStartTime = 500)),
-                newSessions = listOf(Session("1", relStartTime = 600)),
-                expectedSessions = listOf(Session("1", relStartTime = 600)),
+                oldSessions = listOf(Session("1", relativeStartTime = 500)),
+                newSessions = listOf(Session("1", relativeStartTime = 600)),
+                expectedSessions = listOf(Session("1", relativeStartTime = 600)),
                 expectedOldCanceledSessions = emptyList(),
                 expectedFoundNoteworthyChanges = false,
                 expectedFoundChanges = true,
