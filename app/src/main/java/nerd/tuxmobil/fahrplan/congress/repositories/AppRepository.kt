@@ -53,7 +53,6 @@ import nerd.tuxmobil.fahrplan.congress.models.ConferenceTimeFrame
 import nerd.tuxmobil.fahrplan.congress.models.ConferenceTimeFrame.Known
 import nerd.tuxmobil.fahrplan.congress.models.ConferenceTimeFrame.Unknown
 import nerd.tuxmobil.fahrplan.congress.models.ScheduleData
-import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.net.CustomHttpClient
 import nerd.tuxmobil.fahrplan.congress.net.FetchScheduleResult
 import nerd.tuxmobil.fahrplan.congress.net.HttpStatus
@@ -80,6 +79,7 @@ import nerd.tuxmobil.fahrplan.congress.validation.MetaValidation.validate
 import okhttp3.OkHttpClient
 import info.metadude.android.eventfahrplan.network.models.Meta as MetaNetworkModel
 import nerd.tuxmobil.fahrplan.congress.models.Meta as MetaAppModel
+import nerd.tuxmobil.fahrplan.congress.models.Session as SessionAppModel
 
 object AppRepository {
 
@@ -158,7 +158,7 @@ object AppRepository {
      * The returned list might be empty.
      */
     @OptIn(ExperimentalCoroutinesApi::class)
-    val starredSessions: Flow<List<Session>> by lazy {
+    val starredSessions: Flow<List<SessionAppModel>> by lazy {
         refreshStarredSessionsSignal
             .onStart { emit(Unit) }
             .mapLatest { loadStarredSessions() }
@@ -180,7 +180,7 @@ object AppRepository {
      * The returned list might be empty.
      */
     @OptIn(ExperimentalCoroutinesApi::class)
-    val sessionsWithoutShifts: Flow<List<Session>> by lazy {
+    val sessionsWithoutShifts: Flow<List<SessionAppModel>> by lazy {
         refreshSessionsWithoutShiftsSignal
             .onStart { emit(Unit) }
             .mapLatest { loadSessionsForAllDays(includeEngelsystemShifts = false) }
@@ -202,7 +202,7 @@ object AppRepository {
      * The returned list might be empty.
      */
     @OptIn(ExperimentalCoroutinesApi::class)
-    val sessions: Flow<List<Session>> by lazy {
+    val sessions: Flow<List<SessionAppModel>> by lazy {
         refreshSessionsSignal
             .onStart { emit(Unit) }
             .mapLatest { loadSessionsForAllDays() }
@@ -224,7 +224,7 @@ object AppRepository {
      * The returned list might be empty.
      */
     @OptIn(ExperimentalCoroutinesApi::class)
-    val changedSessions: Flow<List<Session>> by lazy {
+    val changedSessions: Flow<List<SessionAppModel>> by lazy {
         refreshChangedSessionsSignal
             .onStart { emit(Unit) }
             .mapLatest { loadChangedSessions() }
@@ -269,7 +269,7 @@ object AppRepository {
      * Emits the session from the database which has been selected.
      */
     @OptIn(ExperimentalCoroutinesApi::class)
-    val selectedSession: Flow<Session> by lazy {
+    val selectedSession: Flow<SessionAppModel> by lazy {
         refreshSelectedSessionSignal
             .onStart { emit(Unit) }
             .mapLatest { loadSelectedSession() }
@@ -526,7 +526,7 @@ object AppRepository {
      * Loads the session which has been selected at last.
      */
     @WorkerThread
-    fun loadSelectedSession(): Session {
+    fun loadSelectedSession(): SessionAppModel {
         val sessionId = readSelectedSessionId()
         return readSessionBySessionId(sessionId)
     }
@@ -613,7 +613,7 @@ object AppRepository {
      * All days can be loaded if -1 is passed as the [day][dayIndex].
      * To exclude Engelsystem shifts pass false to [includeEngelsystemShifts].
      */
-    private fun loadSessionsForDayIndex(dayIndex: Int, includeEngelsystemShifts: Boolean): List<Session> {
+    private fun loadSessionsForDayIndex(dayIndex: Int, includeEngelsystemShifts: Boolean): List<SessionAppModel> {
         val sessions = if (dayIndex == ALL_DAYS) {
             logging.d(LOG_TAG, "Loading sessions for all days.")
             if (includeEngelsystemShifts) {
@@ -697,7 +697,7 @@ object AppRepository {
             highlightsDatabaseRepository.query().toHighlightsAppModel()
 
     @WorkerThread
-    fun updateHighlight(session: Session) {
+    fun updateHighlight(session: SessionAppModel) {
         val highlightDatabaseModel = session.toHighlightDatabaseModel()
         val values = highlightDatabaseModel.toContentValues()
         highlightsDatabaseRepository.update(values, session.sessionId)
@@ -722,7 +722,7 @@ object AppRepository {
         refreshUncanceledSessions()
     }
 
-    private fun readSessionBySessionId(sessionId: String): Session {
+    private fun readSessionBySessionId(sessionId: String): SessionAppModel {
         val session = sessionsDatabaseRepository
             .querySessionBySessionId(sessionId)
             .toSessionAppModel()
@@ -786,7 +786,7 @@ object AppRepository {
     fun readDateInfos() =
             readSessionsOrderedByDateUtc().toDateInfos()
 
-    private fun updateSessions(toBeUpdatedSessions: List<Session>, toBeDeletedSessions: List<Session> = emptyList()) {
+    private fun updateSessions(toBeUpdatedSessions: List<SessionAppModel>, toBeDeletedSessions: List<SessionAppModel> = emptyList()) {
         val toBeUpdatedSessionsDatabaseModel = toBeUpdatedSessions.toSessionsDatabaseModel()
         val toBeUpdated = toBeUpdatedSessionsDatabaseModel.map { it.sessionId to it.toContentValues() }
         val toBeDeleted = toBeDeletedSessions.map { it.sessionId }

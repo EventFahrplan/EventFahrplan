@@ -13,7 +13,6 @@ import nerd.tuxmobil.fahrplan.congress.TestExecutionContext
 import nerd.tuxmobil.fahrplan.congress.changes.ChangeStatistic
 import nerd.tuxmobil.fahrplan.congress.models.Alarm
 import nerd.tuxmobil.fahrplan.congress.models.Meta
-import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.net.HttpStatus
 import nerd.tuxmobil.fahrplan.congress.net.ParseResult
 import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper
@@ -34,6 +33,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.kotlin.any
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
+import nerd.tuxmobil.fahrplan.congress.models.Session as SessionAppModel
 
 @ExtendWith(MainDispatcherTestExtension::class)
 class MainViewModelTest {
@@ -228,13 +228,13 @@ class MainViewModelTest {
         val repository = createRepository(
             loadScheduleStateFlow = flowOf(ParseSuccess),
             scheduleChangesSeen = false,
-            changedSessions = listOf(Session(sessionId = "changed-01", changedIsNew = true))
+            changedSessions = listOf(SessionAppModel(sessionId = "changed-01", changedIsNew = true))
         )
         val viewModel = createViewModel(repository)
         viewModel.loadScheduleUiState.test {
             assertThat(awaitItem()).isEqualTo(LoadScheduleUiState.Success.ParseSuccess)
         }
-        val expectedSessions = listOf(Session(sessionId = "changed-01", changedIsNew = true))
+        val expectedSessions = listOf(SessionAppModel(sessionId = "changed-01", changedIsNew = true))
         val expectedChangeStatistic = ChangeStatistic.of(expectedSessions, logging)
         val expectedScheduleChangesParameter = ScheduleChangesParameter(scheduleVersion = "", expectedChangeStatistic)
         viewModel.scheduleChangesParameter.test {
@@ -369,7 +369,7 @@ class MainViewModelTest {
     private fun createRepository(
         loadScheduleStateFlow: Flow<LoadScheduleState> = emptyFlow(),
         scheduleChangesSeen: Boolean = true,
-        changedSessions: List<Session> = emptyList(),
+        changedSessions: List<SessionAppModel> = emptyList(),
         updatedSelectedSessionId: Boolean = false,
         alarms: List<Alarm> = emptyList()
     ) = mock<AppRepository> {

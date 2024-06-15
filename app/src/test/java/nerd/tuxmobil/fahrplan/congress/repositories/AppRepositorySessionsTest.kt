@@ -8,13 +8,13 @@ import info.metadude.android.eventfahrplan.database.repositories.SessionsDatabas
 import kotlinx.coroutines.test.runTest
 import nerd.tuxmobil.fahrplan.congress.TestExecutionContext
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toSessionsDatabaseModel
-import nerd.tuxmobil.fahrplan.congress.models.Session
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.kotlin.any
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
+import nerd.tuxmobil.fahrplan.congress.models.Session as SessionAppModel
 
 /**
  * Test class to deal with sessions which interact with the [SessionsDatabaseRepository].
@@ -47,71 +47,71 @@ class AppRepositorySessionsTest {
 
     companion object {
 
-        private val SESSION_1001 = Session(
+        private val SESSION_1001 = SessionAppModel(
             sessionId = "1001",
             changedIsCanceled = false,
             changedTitle = false,
             changedIsNew = false,
         )
 
-        private val SESSION_1002 = Session(
+        private val SESSION_1002 = SessionAppModel(
             sessionId = "1002",
             changedIsCanceled = true,
             changedTitle = false,
             changedIsNew = false,
         )
 
-        private val SESSION_1003 = Session(
+        private val SESSION_1003 = SessionAppModel(
             sessionId = "1003",
             changedIsCanceled = false,
             changedTitle = true,
             changedIsNew = false,
         )
 
-        private val SESSION_1004 = Session(
+        private val SESSION_1004 = SessionAppModel(
             sessionId = "1004",
             changedIsCanceled = false,
             changedTitle = false,
             changedIsNew = true,
         )
 
-        private val SESSION_1005 = Session(
+        private val SESSION_1005 = SessionAppModel(
             sessionId = "1005",
             changedIsCanceled = true,
             changedTitle = true,
             changedIsNew = true,
         )
 
-        private val SESSION_2001 = Session(
+        private val SESSION_2001 = SessionAppModel(
             sessionId = "2001",
             isHighlight = false,
             changedIsCanceled = false,
         )
 
-        private val SESSION_2002 = Session(
+        private val SESSION_2002 = SessionAppModel(
             sessionId = "2002",
             isHighlight = true,
             changedIsCanceled = false,
         )
 
-        private val SESSION_2003 = Session(
+        private val SESSION_2003 = SessionAppModel(
             sessionId = "2003",
             isHighlight = true,
             changedIsCanceled = true,
         )
 
-        private val SESSION_2004 = Session(
+        private val SESSION_2004 = SessionAppModel(
             sessionId = "2004",
             isHighlight = false,
             changedIsCanceled = true,
         )
 
-        private val SESSION_3001 = Session(
+        private val SESSION_3001 = SessionAppModel(
             sessionId = "3001",
             changedIsCanceled = false,
         )
 
-        private val SESSION_3002 = Session(
+        private val SESSION_3002 = SessionAppModel(
             sessionId = "3002",
             changedIsCanceled = true,
         )
@@ -138,7 +138,7 @@ class AppRepositorySessionsTest {
     fun `loadStarredSessions passes through an empty list`() = runTest {
         whenever(sessionsDatabaseRepository.querySessionsOrderedByDateUtc()) doReturn emptyList()
         testableAppRepository.starredSessions.test {
-            assertThat(awaitItem()).isEqualTo(emptyList<Session>())
+            assertThat(awaitItem()).isEqualTo(emptyList<SessionAppModel>())
         }
         verifyInvokedOnce(sessionsDatabaseRepository).querySessionsOrderedByDateUtc()
     }

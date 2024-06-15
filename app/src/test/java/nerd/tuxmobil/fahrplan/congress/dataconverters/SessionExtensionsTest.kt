@@ -5,7 +5,6 @@ import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import info.metadude.android.eventfahrplan.database.models.Highlight
 import info.metadude.android.eventfahrplan.database.models.Session.Companion.RECORDING_OPT_OUT_ON
 import nerd.tuxmobil.fahrplan.congress.models.DateInfo
-import nerd.tuxmobil.fahrplan.congress.models.Session
 import org.junit.jupiter.api.Test
 import org.threeten.bp.ZoneOffset
 import info.metadude.android.eventfahrplan.database.models.Session as SessionDatabaseModel
@@ -16,7 +15,7 @@ class SessionExtensionsTest {
 
     @Test
     fun `shiftRoomIndexOnDays shifts the room index by 1 if the day index is contained in the given set`() {
-        val session = Session(
+        val session = SessionAppModel(
             sessionId = "",
             dayIndex = 3,
             roomIndex = 17,
@@ -29,7 +28,7 @@ class SessionExtensionsTest {
 
     @Test
     fun `shiftRoomIndexOnDays does not shift the room index if the day index is not contained in the given set`() {
-        val session = Session(
+        val session = SessionAppModel(
             sessionId = "",
             dayIndex = 3,
             roomIndex = 17,
@@ -42,7 +41,7 @@ class SessionExtensionsTest {
 
     @Test
     fun `shiftRoomIndexOnDays does not shift the room index if the given set is empty`() {
-        val session = Session(
+        val session = SessionAppModel(
             sessionId = "",
             dayIndex = 3,
             roomIndex = 17,
@@ -191,7 +190,7 @@ class SessionExtensionsTest {
 
     @Test
     fun `toDateInfo returns a DateInfo object derived from a session`() {
-        val session = Session(
+        val session = SessionAppModel(
             sessionId = "",
             dateText = "2015-08-13",
             dayIndex = 3,
@@ -202,17 +201,17 @@ class SessionExtensionsTest {
 
     @Test
     fun `toDayRanges returns a list of day ranges derived from a list of sessions`() {
-        val session0 = Session(
+        val session0 = SessionAppModel(
             sessionId = "",
             dateText = "2019-08-02",
             dayIndex = 2,
         )
-        val session1 = Session(
+        val session1 = SessionAppModel(
             sessionId = "",
             dateText = "2019-08-01",
             dayIndex = 1,
         )
-        val session1Copy = Session(
+        val session1Copy = SessionAppModel(
             sessionId = "",
             dateText = "2019-08-01",
             dayIndex = 1,
@@ -235,7 +234,7 @@ class SessionExtensionsTest {
 
     @Test
     fun `toHighlightDatabaseModel returns a Highlight object derived from a session`() {
-        val session = Session(
+        val session = SessionAppModel(
             sessionId = "4723",
             isHighlight = true,
         )
@@ -245,12 +244,12 @@ class SessionExtensionsTest {
 
     @Test
     fun `sanitize moves the subtitle property value to the title property value if empty`() {
-        val session = Session(
+        val session = SessionAppModel(
             sessionId = "",
             subtitle = "Lorem ipsum",
             title = "",
         ).sanitize()
-        val expected = Session(
+        val expected = SessionAppModel(
             sessionId = "",
             subtitle = "",
             title = "Lorem ipsum",
@@ -260,12 +259,12 @@ class SessionExtensionsTest {
 
     @Test
     fun `sanitize clears the subtitle property value if the title property matches`() {
-        val session = Session(
+        val session = SessionAppModel(
             sessionId = "",
             subtitle = "Lorem ipsum",
             title = "Lorem ipsum",
         ).sanitize()
-        val expected = Session(
+        val expected = SessionAppModel(
             sessionId = "",
             subtitle = "",
             title = "Lorem ipsum",
@@ -275,12 +274,12 @@ class SessionExtensionsTest {
 
     @Test
     fun `sanitize keeps the subtitle property value if the title property value differs`() {
-        val session = Session(
+        val session = SessionAppModel(
             sessionId = "",
             subtitle = "Dolor sit amet",
             title = "Lorem ipsum",
         ).sanitize()
-        val expected = Session(
+        val expected = SessionAppModel(
             sessionId = "",
             subtitle = "Dolor sit amet",
             title = "Lorem ipsum",
@@ -290,12 +289,12 @@ class SessionExtensionsTest {
 
     @Test
     fun `sanitize clears the abstractt property value if the description property matches`() {
-        val session = Session(
+        val session = SessionAppModel(
             sessionId = "",
             abstractt = "Lorem ipsum",
             description = "Lorem ipsum",
         ).sanitize()
-        val expected = Session(
+        val expected = SessionAppModel(
             sessionId = "",
             abstractt = "",
             description = "Lorem ipsum",
@@ -307,12 +306,12 @@ class SessionExtensionsTest {
 
     @Test
     fun `sanitize keeps the abstractt property value if the description property value differs`() {
-        val session = Session(
+        val session = SessionAppModel(
             sessionId = "",
             abstractt = "Lorem ipsum",
             description = "Dolor sit amet",
         ).sanitize()
-        val expected = Session(
+        val expected = SessionAppModel(
             sessionId = "",
             abstractt = "Lorem ipsum",
             description = "Dolor sit amet",
@@ -324,12 +323,12 @@ class SessionExtensionsTest {
 
     @Test
     fun `sanitize moves the abstractt property value to the description property value if empty`() {
-        val session = Session(
+        val session = SessionAppModel(
             sessionId = "",
             abstractt = "Lorem ipsum",
             description = "",
         ).sanitize()
-        val expected = Session(
+        val expected = SessionAppModel(
             sessionId = "",
             abstractt = "",
             description = "Lorem ipsum",
@@ -341,13 +340,13 @@ class SessionExtensionsTest {
 
     @Test
     fun `sanitize clears the subtitle property value if the speakers property value matches`() {
-        val session = Session(
+        val session = SessionAppModel(
             sessionId = "",
             speakers = listOf("Luke Skywalker"),
             subtitle = "Luke Skywalker",
             title = "Some title",
         ).sanitize()
-        val expected = Session(
+        val expected = SessionAppModel(
             sessionId = "",
             speakers = listOf("Luke Skywalker"),
             subtitle = "",
@@ -358,13 +357,13 @@ class SessionExtensionsTest {
 
     @Test
     fun `sanitize keeps the subtitle property value if the speakers property value differs`() {
-        val session = Session(
+        val session = SessionAppModel(
             sessionId = "",
             speakers = listOf("Darth Vader"),
             subtitle = "Lorem ipsum",
             title = "Some title",
         ).sanitize()
-        val expected = Session(
+        val expected = SessionAppModel(
             sessionId = "",
             speakers = listOf("Darth Vader"),
             subtitle = "Lorem ipsum",
@@ -375,12 +374,12 @@ class SessionExtensionsTest {
 
     @Test
     fun `sanitize copies the non-empty type property value to the track property if empty`() {
-        val session = Session(
+        val session = SessionAppModel(
             sessionId = "",
             track = "",
             type = "Workshop",
         ).sanitize()
-        val expected = Session(
+        val expected = SessionAppModel(
             sessionId = "",
             track = "Workshop",
             type = "Workshop",

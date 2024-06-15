@@ -6,30 +6,30 @@ import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import info.metadude.android.eventfahrplan.network.serialization.FahrplanParser
 import nerd.tuxmobil.fahrplan.congress.models.DateInfo
 import nerd.tuxmobil.fahrplan.congress.models.Room
-import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.schedule.TrackBackgrounds
 import org.threeten.bp.ZoneOffset
 import info.metadude.android.eventfahrplan.database.models.Highlight as HighlightDatabaseModel
 import info.metadude.android.eventfahrplan.database.models.Session as SessionDatabaseModel
 import info.metadude.android.eventfahrplan.network.models.Session as SessionNetworkModel
+import nerd.tuxmobil.fahrplan.congress.models.Session as SessionAppModel
 
-fun Session.shiftRoomIndexOnDays(dayIndices: Set<Int>) =
+fun SessionAppModel.shiftRoomIndexOnDays(dayIndices: Set<Int>) =
     if (dayIndex in dayIndices) {
         copy(roomIndex = roomIndex + 1)
     } else {
         this
     }
 
-fun Session.toRoom() = Room(identifier = roomIdentifier, name = roomName)
+fun SessionAppModel.toRoom() = Room(identifier = roomIdentifier, name = roomName)
 
-fun Session.toDateInfo(): DateInfo = DateInfo(dayIndex, Moment.parseDate(dateText))
+fun SessionAppModel.toDateInfo(): DateInfo = DateInfo(dayIndex, Moment.parseDate(dateText))
 
-fun Session.toHighlightDatabaseModel() = HighlightDatabaseModel(
+fun SessionAppModel.toHighlightDatabaseModel() = HighlightDatabaseModel(
         sessionId = Integer.parseInt(sessionId),
         isHighlight = isHighlight
 )
 
-fun Session.toSessionDatabaseModel() = SessionDatabaseModel(
+fun SessionAppModel.toSessionDatabaseModel() = SessionDatabaseModel(
         sessionId = sessionId,
         abstractt = abstractt,
         dateText = dateText,
@@ -72,8 +72,8 @@ fun Session.toSessionDatabaseModel() = SessionDatabaseModel(
         changedTrack = changedTrack
 )
 
-fun SessionDatabaseModel.toSessionAppModel(): Session {
-    return Session(
+fun SessionDatabaseModel.toSessionAppModel(): SessionAppModel {
+    return SessionAppModel(
         sessionId = sessionId,
         abstractt = abstractt,
         dateText = dateText,
@@ -117,8 +117,8 @@ fun SessionDatabaseModel.toSessionAppModel(): Session {
     )
 }
 
-fun SessionNetworkModel.toSessionAppModel(): Session {
-    return Session(
+fun SessionNetworkModel.toSessionAppModel(): SessionAppModel {
+    return SessionAppModel(
         sessionId = sessionId,
         abstractt = abstractt,
         dateText = dateText,
@@ -169,7 +169,7 @@ fun SessionNetworkModel.toSessionAppModel(): Session {
  * scheme is used for similar sessions. This is achieved by customizing related track names. Colors
  * are derived from track names, see [TrackBackgrounds].
  */
-fun Session.sanitize(): Session {
+fun SessionAppModel.sanitize(): SessionAppModel {
     var tempTitle = title
     var tempSubtitle = subtitle
     var tempAbstract = abstractt
