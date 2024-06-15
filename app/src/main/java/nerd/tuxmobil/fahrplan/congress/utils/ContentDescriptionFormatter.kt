@@ -78,7 +78,7 @@ class ContentDescriptionFormatter(val context: Context) {
             .newInstance(useDeviceTimeZone)
             .getFormattedTime(session.dateUTC, session.timeZoneOffset)
         val startsAtContentDescription = getStartTimeContentDescription(startsAtText)
-        val isHighlightContentDescription = getHighlightContentDescription(session.highlight)
+        val isHighlightContentDescription = getHighlightContentDescription(session.isHighlight)
         return "$isHighlightContentDescription, $startsAtContentDescription, $roomNameContentDescription"
     }
 

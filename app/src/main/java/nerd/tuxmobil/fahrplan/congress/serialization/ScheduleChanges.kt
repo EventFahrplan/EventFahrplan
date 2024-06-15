@@ -166,7 +166,7 @@ data class ScheduleChanges private constructor(
 
         /**
          * Intentionally omit volatile properties such as [SessionAppModel.hasAlarm],
-         * [SessionAppModel.highlight] which are only relevant for the UI layer.
+         * [SessionAppModel.isHighlight] which are only relevant for the UI layer.
          * Also omit change flags such as [SessionAppModel.changedIsNew].
          *
          * Once [SessionAppModel] is converted into a Kotlin data class and its properties

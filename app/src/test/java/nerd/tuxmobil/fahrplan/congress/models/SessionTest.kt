@@ -39,7 +39,7 @@ class SessionTest {
             abstractt = "Sodales ut etiam sit amet nisl purus",
             description = "Lorem ipsum dolor sit amet",
             links = "http://sample.com",
-            highlight = true,
+            isHighlight = true,
             hasAlarm = true,
 
             // Not considered in equal nor hashCode, too.
@@ -65,7 +65,7 @@ class SessionTest {
             abstractt = "Foo abstract",
             description = "Foo description",
             links = "https://foobar-links.org",
-            highlight = false,
+            isHighlight = false,
             hasAlarm = false,
 
             changedTitle = false,

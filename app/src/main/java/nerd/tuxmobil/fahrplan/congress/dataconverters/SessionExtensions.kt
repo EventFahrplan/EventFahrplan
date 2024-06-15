@@ -26,7 +26,7 @@ fun Session.toDateInfo(): DateInfo = DateInfo(dayIndex, Moment.parseDate(dateTex
 
 fun Session.toHighlightDatabaseModel() = HighlightDatabaseModel(
         sessionId = Integer.parseInt(sessionId),
-        isHighlight = highlight
+        isHighlight = isHighlight
 )
 
 fun Session.toSessionDatabaseModel() = SessionDatabaseModel(
@@ -41,7 +41,7 @@ fun Session.toSessionDatabaseModel() = SessionDatabaseModel(
         hasAlarm = hasAlarm,
         language = language,
         links = links,
-        isHighlight = highlight,
+        isHighlight = isHighlight,
         recordingLicense = recordingLicense,
         recordingOptOut = recordingOptOut,
         relativeStartTime = relativeStartTime,
@@ -85,7 +85,7 @@ fun SessionDatabaseModel.toSessionAppModel(): Session {
         hasAlarm = hasAlarm,
         language = language,
         links = links,
-        highlight = isHighlight,
+        isHighlight = isHighlight,
         recordingLicense = recordingLicense,
         recordingOptOut = recordingOptOut,
         relativeStartTime = relativeStartTime,
@@ -130,7 +130,7 @@ fun SessionNetworkModel.toSessionAppModel(): Session {
         hasAlarm = hasAlarm,
         language = language,
         links = links,
-        highlight = isHighlight,
+        isHighlight = isHighlight,
         recordingLicense = recordingLicense,
         recordingOptOut = recordingOptOut,
         relativeStartTime = relativeStartTime,

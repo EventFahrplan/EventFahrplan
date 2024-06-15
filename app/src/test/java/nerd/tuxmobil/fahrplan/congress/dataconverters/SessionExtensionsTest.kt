@@ -154,7 +154,7 @@ class SessionExtensionsTest {
             duration = 45,
             feedbackUrl = "https://talks.mrmcd.net/2018/talk/V3FUNG/feedback",
             hasAlarm = true,
-            highlight = true,
+            isHighlight = true,
             language = "en",
             links = "[Website](https://www.example.com/path)",
             relativeStartTime = 1035,
@@ -237,7 +237,7 @@ class SessionExtensionsTest {
     fun `toHighlightDatabaseModel returns a Highlight object derived from a session`() {
         val session = Session(
             sessionId = "4723",
-            highlight = true,
+            isHighlight = true,
         )
         val highlight = Highlight(sessionId = 4723, isHighlight = true)
         assertThat(session.toHighlightDatabaseModel()).isEqualTo(highlight)

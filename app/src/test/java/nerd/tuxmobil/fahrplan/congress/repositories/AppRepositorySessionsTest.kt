@@ -84,25 +84,25 @@ class AppRepositorySessionsTest {
 
         private val SESSION_2001 = Session(
             sessionId = "2001",
-            highlight = false,
+            isHighlight = false,
             changedIsCanceled = false,
         )
 
         private val SESSION_2002 = Session(
             sessionId = "2002",
-            highlight = true,
+            isHighlight = true,
             changedIsCanceled = false,
         )
 
         private val SESSION_2003 = Session(
             sessionId = "2003",
-            highlight = true,
+            isHighlight = true,
             changedIsCanceled = true,
         )
 
         private val SESSION_2004 = Session(
             sessionId = "2004",
-            highlight = false,
+            isHighlight = false,
             changedIsCanceled = true,
         )
 

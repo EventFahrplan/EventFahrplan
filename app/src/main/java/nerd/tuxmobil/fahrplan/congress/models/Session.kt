@@ -40,7 +40,7 @@ data class Session(
     val slug: String = "",
     val recordingLicense: String = "",
     val recordingOptOut: Boolean = false,
-    val highlight: Boolean = false,
+    val isHighlight: Boolean = false,
     val hasAlarm: Boolean = false,
 
     val changedTitle: Boolean = false,

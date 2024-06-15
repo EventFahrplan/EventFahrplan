@@ -575,7 +575,7 @@ object AppRepository {
      */
     @WorkerThread
     private fun loadStarredSessions() = loadSessionsForAllDays(true)
-            .filter { it.highlight && !it.changedIsCanceled }
+            .filter { it.isHighlight && !it.changedIsCanceled }
             .also { logging.d(LOG_TAG, "${it.size} sessions starred.") }
 
     /**
@@ -635,7 +635,7 @@ object AppRepository {
 
         val highlightedSessions = sessions.map { session ->
             if (session.sessionId in highlightedSessionIds) {
-                session.copy(highlight = true)
+                session.copy(isHighlight = true)
             } else {
                 session
             }
@@ -737,7 +737,7 @@ object AppRepository {
 
         return if (isHighlighted || hasAlarm) {
             session.copy(
-                highlight = isHighlighted,
+                isHighlight = isHighlighted,
                 hasAlarm = hasAlarm,
             )
         } else {

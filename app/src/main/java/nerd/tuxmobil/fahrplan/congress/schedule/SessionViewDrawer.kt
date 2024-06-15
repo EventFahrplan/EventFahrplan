@@ -71,8 +71,8 @@ internal class SessionViewDrawer(
         }
         ViewCompat.setStateDescription(sessionView, contentDescriptionFormatter
             .getStateContentDescription(session, useDeviceTimeZone))
-        setSessionBackground(session.highlight, session.track, sessionView)
-        setSessionTextColor(session.highlight, sessionView)
+        setSessionBackground(session.isHighlight, session.track, sessionView)
+        setSessionTextColor(session.isHighlight, sessionView)
         sessionView.tag = session
     }
 
