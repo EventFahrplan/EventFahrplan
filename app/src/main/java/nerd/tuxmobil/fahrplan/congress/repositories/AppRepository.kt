@@ -38,7 +38,6 @@ import nerd.tuxmobil.fahrplan.congress.dataconverters.toDateInfos
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toDayIndices
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toDayRanges
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toHighlightDatabaseModel
-import nerd.tuxmobil.fahrplan.congress.dataconverters.toHighlightsAppModel
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toMetaAppModel
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toMetaDatabaseModel
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toMetaNetworkModel
@@ -703,7 +702,7 @@ object AppRepository {
     }
 
     private fun readHighlights() =
-            highlightsDatabaseRepository.query().toHighlightsAppModel()
+            highlightsDatabaseRepository.query()
 
     @WorkerThread
     fun updateHighlight(session: SessionAppModel) {
