@@ -53,4 +53,19 @@ data class Session(
         const val RECORDING_OPT_OUT_OFF = false
     }
 
+    /**
+     * Keep in sync with [nerd.tuxmobil.fahrplan.congress.models.Session.isChanged].
+     */
+    val isChanged: Boolean
+        get() = changedTitle ||
+                changedSubtitle ||
+                changedRoomName ||
+                changedDayIndex ||
+                changedStartTime ||
+                changedDuration ||
+                changedSpeakers ||
+                changedLanguage ||
+                changedRecordingOptOut ||
+                changedTrack
+
 }

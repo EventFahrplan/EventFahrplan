@@ -1,12 +1,11 @@
 package nerd.tuxmobil.fahrplan.congress.serialization
 
 import com.google.common.truth.Truth.assertThat
-import nerd.tuxmobil.fahrplan.congress.models.Session
+import info.metadude.android.eventfahrplan.network.models.Session
 import nerd.tuxmobil.fahrplan.congress.serialization.ScheduleChanges.Companion.computeSessionsWithChangeFlags
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
-import org.threeten.bp.ZoneOffset
 
 class ScheduleChangesTest {
 
@@ -80,7 +79,7 @@ class ScheduleChangesTest {
                         sessionId = "",
                         title = "title",
                         subtitle = "subtitle",
-                        speakers = listOf("speakers"),
+                        speakers = "speakers",
                         language = "language",
                         roomName = "room",
                         recordingOptOut = true,
@@ -94,7 +93,7 @@ class ScheduleChangesTest {
                         sessionId = "",
                         title = "title",
                         subtitle = "subtitle",
-                        speakers = listOf("speakers"),
+                        speakers = "speakers",
                         language = "language",
                         roomName = "room",
                         recordingOptOut = true,
@@ -108,7 +107,7 @@ class ScheduleChangesTest {
                         sessionId = "",
                         title = "title",
                         subtitle = "subtitle",
-                        speakers = listOf("speakers"),
+                        speakers = "speakers",
                         language = "language",
                         roomName = "room",
                         recordingOptOut = true,
@@ -140,10 +139,10 @@ class ScheduleChangesTest {
             ),
             scenario1Of(
                 scenarioDescription = "Speakers differ",
-                oldSessions = listOf(Session("1", speakers = listOf("Old speakers"))),
-                newSessions = listOf(Session("1", speakers = listOf("New speakers"))),
+                oldSessions = listOf(Session("1", speakers = "Old speakers")),
+                newSessions = listOf(Session("1", speakers = "New speakers")),
                 expectedSessions = listOf(
-                    Session("1", speakers = listOf("New speakers"), changedSpeakers = true)
+                    Session("1", speakers = "New speakers", changedSpeakers = true)
                 ),
                 expectedOldCanceledSessions = emptyList(),
                 expectedFoundNoteworthyChanges = true,
@@ -151,15 +150,15 @@ class ScheduleChangesTest {
             scenario1Of(
                 scenarioDescription = "Speakers differ in order",
                 oldSessions = listOf(
-                    Session(sessionId = "1", speakers = listOf("speaker1", "speaker2", "speaker3"))
+                    Session(sessionId = "1", speakers = "speaker1, speaker2, speaker3")
                 ),
                 newSessions = listOf(
-                    Session(sessionId = "1", speakers = listOf("speaker3", "speaker1", "speaker2"))
+                    Session(sessionId = "1", speakers = "speaker3, speaker1, speaker2")
                 ),
                 expectedSessions = listOf(
                     Session(
                         sessionId = "1",
-                        speakers = listOf("speaker3", "speaker1", "speaker2"),
+                        speakers = "speaker3, speaker1, speaker2",
                         changedSpeakers = true
                     )
                 ),
@@ -246,7 +245,7 @@ class ScheduleChangesTest {
                         sessionId = "1",
                         title = "Old title",
                         subtitle = "Old subtitle",
-                        speakers = listOf("Old speakers"),
+                        speakers = "Old speakers",
                         language = "Old language",
                         roomName = "Old room",
                         dayIndex = 2,
@@ -271,7 +270,7 @@ class ScheduleChangesTest {
                         sessionId = "1",
                         title = "New title",
                         subtitle = "New subtitle",
-                        speakers = listOf("New speakers"),
+                        speakers = "New speakers",
                         language = "New language",
                         roomName = "New room",
                         dayIndex = 3,
@@ -296,7 +295,7 @@ class ScheduleChangesTest {
                         sessionId = "1",
                         title = "New title",
                         subtitle = "New subtitle",
-                        speakers = listOf("New speakers"),
+                        speakers = "New speakers",
                         language = "New language",
                         roomName = "New room",
                         dayIndex = 3,
@@ -353,9 +352,9 @@ class ScheduleChangesTest {
             ),
             scenario2Of(
                 scenarioDescription = "Time zone offsets differ",
-                oldSessions = listOf(Session("1", timeZoneOffset = ZoneOffset.of("+02:00"))),
-                newSessions = listOf(Session("1", timeZoneOffset = ZoneOffset.of("+01:00"))),
-                expectedSessions = listOf(Session("1", timeZoneOffset = ZoneOffset.of("+01:00"))),
+                oldSessions = listOf(Session("1", timeZoneOffset = 2)),
+                newSessions = listOf(Session("1", timeZoneOffset = 1)),
+                expectedSessions = listOf(Session("1", timeZoneOffset = 1)),
                 expectedOldCanceledSessions = emptyList(),
                 expectedFoundNoteworthyChanges = false,
                 expectedFoundChanges = true,

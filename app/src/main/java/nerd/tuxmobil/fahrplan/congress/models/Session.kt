@@ -86,6 +86,9 @@ data class Session(
     val endsAt: Moment
         get() = Moment.ofEpochMilli(dateUTC + duration.toLong() * MILLISECONDS_OF_ONE_MINUTE)
 
+    /**
+     * Keep in sync with [info.metadude.android.eventfahrplan.database.models.Session.isChanged].
+     */
     val isChanged: Boolean
         get() = changedTitle ||
                 changedSubtitle ||
@@ -97,25 +100,6 @@ data class Session(
                 changedLanguage ||
                 changedRecordingOptOut ||
                 changedTrack
-
-    /**
-     * Returns a new session with [changedIsCanceled] set to `true`
-     * and all other change flags set to `false`.
-     */
-    fun cancel() = copy(
-        changedIsCanceled = true,
-        changedIsNew = false,
-        changedTitle = false,
-        changedSubtitle = false,
-        changedRoomName = false,
-        changedDayIndex = false,
-        changedStartTime = false,
-        changedDuration = false,
-        changedSpeakers = false,
-        changedLanguage = false,
-        changedRecordingOptOut = false,
-        changedTrack = false,
-    )
 
 }
 

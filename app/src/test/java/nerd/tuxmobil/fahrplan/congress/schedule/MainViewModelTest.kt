@@ -33,6 +33,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.kotlin.any
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
+import info.metadude.android.eventfahrplan.database.models.Session as SessionDatabaseModel
 import nerd.tuxmobil.fahrplan.congress.models.Session as SessionAppModel
 
 @ExtendWith(MainDispatcherTestExtension::class)
@@ -228,7 +229,7 @@ class MainViewModelTest {
         val repository = createRepository(
             loadScheduleStateFlow = flowOf(ParseSuccess),
             scheduleChangesSeen = false,
-            changedSessions = listOf(SessionAppModel(sessionId = "changed-01", changedIsNew = true))
+            changedSessions = listOf(SessionDatabaseModel(sessionId = "changed-01", changedIsNew = true))
         )
         val viewModel = createViewModel(repository)
         viewModel.loadScheduleUiState.test {
@@ -369,7 +370,7 @@ class MainViewModelTest {
     private fun createRepository(
         loadScheduleStateFlow: Flow<LoadScheduleState> = emptyFlow(),
         scheduleChangesSeen: Boolean = true,
-        changedSessions: List<SessionAppModel> = emptyList(),
+        changedSessions: List<SessionDatabaseModel> = emptyList(),
         updatedSelectedSessionId: Boolean = false,
         alarms: List<Alarm> = emptyList()
     ) = mock<AppRepository> {

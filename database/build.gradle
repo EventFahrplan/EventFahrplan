@@ -52,4 +52,9 @@ dependencies {
     androidTestRuntimeOnly Libs.androidTestRunner
     androidTestImplementation Libs.junitJupiterApi
     androidTestImplementation Libs.truth
+
+    testImplementation Libs.junitJupiterApi
+    testRuntimeOnly Libs.junitJupiterEngine
+    testImplementation Libs.junitJupiterParams
+    testImplementation Libs.truth
 }

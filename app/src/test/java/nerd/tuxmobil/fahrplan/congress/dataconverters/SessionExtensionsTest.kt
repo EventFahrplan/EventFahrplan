@@ -16,7 +16,7 @@ class SessionExtensionsTest {
 
     @Test
     fun `shiftRoomIndexOnDays shifts the room index by 1 if the day index is contained in the given set`() {
-        val session = SessionAppModel(
+        val session = SessionNetworkModel(
             sessionId = "",
             dayIndex = 3,
             roomIndex = 17,
@@ -29,7 +29,7 @@ class SessionExtensionsTest {
 
     @Test
     fun `shiftRoomIndexOnDays does not shift the room index if the day index is not contained in the given set`() {
-        val session = SessionAppModel(
+        val session = SessionNetworkModel(
             sessionId = "",
             dayIndex = 3,
             roomIndex = 17,
@@ -42,7 +42,7 @@ class SessionExtensionsTest {
 
     @Test
     fun `shiftRoomIndexOnDays does not shift the room index if the given set is empty`() {
-        val session = SessionAppModel(
+        val session = SessionNetworkModel(
             sessionId = "",
             dayIndex = 3,
             roomIndex = 17,
@@ -54,8 +54,8 @@ class SessionExtensionsTest {
     }
 
     @Test
-    fun `toSessionDatabaseModel returns a database session derived from an app session`() {
-        val session = SessionDatabaseModel(
+    fun `toSessionAppModel returns an app session derived from a database session`() {
+        val databaseModel = SessionDatabaseModel(
                 sessionId = "7331",
                 abstractt = "Lorem ipsum",
                 dayIndex = 3,
@@ -97,54 +97,8 @@ class SessionExtensionsTest {
                 changedTitle = true,
                 changedTrack = true
         )
-        assertThat(session.toSessionAppModel().toSessionDatabaseModel()).isEqualTo(session)
-    }
 
-    @Test
-    fun `toSessionAppModel returns an app session derived from a network session`() {
-        val sessionNetworkModel = SessionNetworkModel(
-                sessionId = "7331",
-                abstractt = "Lorem ipsum",
-                dayIndex = 3,
-                dateText = "2015-08-13",
-                dateUTC = 1439478900000L,
-                description = "Lorem ipsum dolor sit amet",
-                duration = 45,
-                feedbackUrl = "https://talks.mrmcd.net/2018/talk/V3FUNG/feedback",
-                hasAlarm = true,
-                isHighlight = true,
-                language = "en",
-                links = "[Website](https://www.example.com/path)",
-                relativeStartTime = 1035,
-                recordingLicense = "CC 0",
-                recordingOptOut = RECORDING_OPT_OUT_ON,
-                roomName = "Simulacron-3",
-                roomGuid = "88888888-4444-4444-4444-121212121212",
-                roomIndex = 17,
-                speakers = "John Doe; Noah Doe",
-                startTime = 1036,
-                slug = "lorem",
-                subtitle = "My subtitle",
-                timeZoneOffset = 3600,
-                title = "My title",
-                track = "Security & Hacking",
-                type = "tutorial",
-                url = "https://talks.mrmcd.net/2018/talk/V3FUNG",
-
-                changedDayIndex = true,
-                changedDuration = true,
-                changedIsCanceled = true,
-                changedIsNew = true,
-                changedLanguage = true,
-                changedRecordingOptOut = true,
-                changedRoomName = true,
-                changedSpeakers = true,
-                changedSubtitle = true,
-                changedStartTime = true,
-                changedTitle = true,
-                changedTrack = true
-        )
-        val sessionAppModel = SessionAppModel(
+        val appModel = SessionAppModel(
             sessionId = "7331",
             abstractt = "Lorem ipsum",
             dayIndex = 3,
@@ -186,7 +140,54 @@ class SessionExtensionsTest {
             changedTitle = true,
             changedTrack = true,
         )
-        assertThat(sessionNetworkModel.toSessionAppModel()).isEqualTo(sessionAppModel)
+        assertThat(databaseModel.toSessionAppModel()).isEqualTo(appModel)
+    }
+
+    @Test
+    fun `toSessionDatabaseModel and toSessionNetworkModel convert a network session forth and back`() {
+        val networkModel = SessionNetworkModel(
+                sessionId = "7331",
+                abstractt = "Lorem ipsum",
+                dayIndex = 3,
+                dateText = "2015-08-13",
+                dateUTC = 1439478900000L,
+                description = "Lorem ipsum dolor sit amet",
+                duration = 45,
+                feedbackUrl = "https://talks.mrmcd.net/2018/talk/V3FUNG/feedback",
+                hasAlarm = true,
+                isHighlight = true,
+                language = "en",
+                links = "[Website](https://www.example.com/path)",
+                relativeStartTime = 1035,
+                recordingLicense = "CC 0",
+                recordingOptOut = RECORDING_OPT_OUT_ON,
+                roomName = "Simulacron-3",
+                roomGuid = "88888888-4444-4444-4444-121212121212",
+                roomIndex = 17,
+                speakers = "John Doe; Noah Doe",
+                startTime = 1036,
+                slug = "lorem",
+                subtitle = "My subtitle",
+                timeZoneOffset = 3600,
+                title = "My title",
+                track = "Security & Hacking",
+                type = "tutorial",
+                url = "https://talks.mrmcd.net/2018/talk/V3FUNG",
+
+                changedDayIndex = true,
+                changedDuration = true,
+                changedIsCanceled = true,
+                changedIsNew = true,
+                changedLanguage = true,
+                changedRecordingOptOut = true,
+                changedRoomName = true,
+                changedSpeakers = true,
+                changedSubtitle = true,
+                changedStartTime = true,
+                changedTitle = true,
+                changedTrack = true
+        )
+        assertThat(networkModel.toSessionDatabaseModel().toSessionNetworkModel()).isEqualTo(networkModel)
     }
 
     @Test
@@ -202,7 +203,7 @@ class SessionExtensionsTest {
 
     @Test
     fun `toDateInfo returns a DateInfo object derived from a session`() {
-        val session = SessionAppModel(
+        val session = SessionDatabaseModel(
             sessionId = "",
             dateText = "2015-08-13",
             dayIndex = 3,
@@ -213,17 +214,17 @@ class SessionExtensionsTest {
 
     @Test
     fun `toDayRanges returns a list of day ranges derived from a list of sessions`() {
-        val session0 = SessionAppModel(
+        val session0 = SessionDatabaseModel(
             sessionId = "",
             dateText = "2019-08-02",
             dayIndex = 2,
         )
-        val session1 = SessionAppModel(
+        val session1 = SessionDatabaseModel(
             sessionId = "",
             dateText = "2019-08-01",
             dayIndex = 1,
         )
-        val session1Copy = SessionAppModel(
+        val session1Copy = SessionDatabaseModel(
             sessionId = "",
             dateText = "2019-08-01",
             dayIndex = 1,
@@ -256,12 +257,12 @@ class SessionExtensionsTest {
 
     @Test
     fun `sanitize moves the subtitle property value to the title property value if empty`() {
-        val session = SessionAppModel(
+        val session = SessionNetworkModel(
             sessionId = "",
             subtitle = "Lorem ipsum",
             title = "",
         ).sanitize()
-        val expected = SessionAppModel(
+        val expected = SessionNetworkModel(
             sessionId = "",
             subtitle = "",
             title = "Lorem ipsum",
@@ -271,12 +272,12 @@ class SessionExtensionsTest {
 
     @Test
     fun `sanitize clears the subtitle property value if the title property matches`() {
-        val session = SessionAppModel(
+        val session = SessionNetworkModel(
             sessionId = "",
             subtitle = "Lorem ipsum",
             title = "Lorem ipsum",
         ).sanitize()
-        val expected = SessionAppModel(
+        val expected = SessionNetworkModel(
             sessionId = "",
             subtitle = "",
             title = "Lorem ipsum",
@@ -286,12 +287,12 @@ class SessionExtensionsTest {
 
     @Test
     fun `sanitize keeps the subtitle property value if the title property value differs`() {
-        val session = SessionAppModel(
+        val session = SessionNetworkModel(
             sessionId = "",
             subtitle = "Dolor sit amet",
             title = "Lorem ipsum",
         ).sanitize()
-        val expected = SessionAppModel(
+        val expected = SessionNetworkModel(
             sessionId = "",
             subtitle = "Dolor sit amet",
             title = "Lorem ipsum",
@@ -301,66 +302,60 @@ class SessionExtensionsTest {
 
     @Test
     fun `sanitize clears the abstractt property value if the description property matches`() {
-        val session = SessionAppModel(
+        val session = SessionNetworkModel(
             sessionId = "",
             abstractt = "Lorem ipsum",
             description = "Lorem ipsum",
         ).sanitize()
-        val expected = SessionAppModel(
+        val expected = SessionNetworkModel(
             sessionId = "",
             abstractt = "",
             description = "Lorem ipsum",
         )
-        // The "abstractt" and "description" fields are not part of Session#equals for some reason.
-        assertThat(session.abstractt).isEqualTo(expected.abstractt)
-        assertThat(session.description).isEqualTo(expected.description)
+        assertThat(session).isEqualTo(expected)
     }
 
     @Test
     fun `sanitize keeps the abstractt property value if the description property value differs`() {
-        val session = SessionAppModel(
+        val session = SessionNetworkModel(
             sessionId = "",
             abstractt = "Lorem ipsum",
             description = "Dolor sit amet",
         ).sanitize()
-        val expected = SessionAppModel(
+        val expected = SessionNetworkModel(
             sessionId = "",
             abstractt = "Lorem ipsum",
             description = "Dolor sit amet",
         )
-        // The "abstractt" and "description" fields are not part of Session#equals for some reason.
-        assertThat(session.abstractt).isEqualTo(expected.abstractt)
-        assertThat(session.description).isEqualTo(expected.description)
+        assertThat(session).isEqualTo(expected)
     }
 
     @Test
     fun `sanitize moves the abstractt property value to the description property value if empty`() {
-        val session = SessionAppModel(
+        val session = SessionNetworkModel(
             sessionId = "",
             abstractt = "Lorem ipsum",
             description = "",
         ).sanitize()
-        val expected = SessionAppModel(
+        val expected = SessionNetworkModel(
             sessionId = "",
             abstractt = "",
             description = "Lorem ipsum",
         )
-        // The "abstractt" and "description" fields are not part of Session#equals for some reason.
-        assertThat(session.abstractt).isEqualTo(expected.abstractt)
-        assertThat(session.description).isEqualTo(expected.description)
+        assertThat(session).isEqualTo(expected)
     }
 
     @Test
     fun `sanitize clears the subtitle property value if the speakers property value matches`() {
-        val session = SessionAppModel(
+        val session = SessionNetworkModel(
             sessionId = "",
-            speakers = listOf("Luke Skywalker"),
+            speakers = "Luke Skywalker",
             subtitle = "Luke Skywalker",
             title = "Some title",
         ).sanitize()
-        val expected = SessionAppModel(
+        val expected = SessionNetworkModel(
             sessionId = "",
-            speakers = listOf("Luke Skywalker"),
+            speakers = "Luke Skywalker",
             subtitle = "",
             title = "Some title",
         )
@@ -369,15 +364,15 @@ class SessionExtensionsTest {
 
     @Test
     fun `sanitize keeps the subtitle property value if the speakers property value differs`() {
-        val session = SessionAppModel(
+        val session = SessionNetworkModel(
             sessionId = "",
-            speakers = listOf("Darth Vader"),
+            speakers = "Darth Vader",
             subtitle = "Lorem ipsum",
             title = "Some title",
         ).sanitize()
-        val expected = SessionAppModel(
+        val expected = SessionNetworkModel(
             sessionId = "",
-            speakers = listOf("Darth Vader"),
+            speakers = "Darth Vader",
             subtitle = "Lorem ipsum",
             title = "Some title",
         )
@@ -386,11 +381,11 @@ class SessionExtensionsTest {
 
     @Test
     fun `sanitize converts the language property value to lower case if it is not empty`() {
-        val session = SessionAppModel(
+        val session = SessionNetworkModel(
             sessionId = "",
             language = "EN",
         ).sanitize()
-        val expected = SessionAppModel(
+        val expected = SessionNetworkModel(
             sessionId = "",
             language = "en",
         )
@@ -399,11 +394,11 @@ class SessionExtensionsTest {
 
     @Test
     fun `sanitize keeps the language property value if it is empty`() {
-        val session = SessionAppModel(
+        val session = SessionNetworkModel(
             sessionId = "",
             language = "",
         ).sanitize()
-        val expected = SessionAppModel(
+        val expected = SessionNetworkModel(
             sessionId = "",
             language = "",
         )
@@ -412,12 +407,12 @@ class SessionExtensionsTest {
 
     @Test
     fun `sanitize replaces the track property value with the type property value for certain track property values`() {
-        val session = SessionAppModel(
+        val session = SessionNetworkModel(
             sessionId = "",
             track = "Sendezentrum-Bühne",
             type = "Live",
         ).sanitize()
-        val expected = SessionAppModel(
+        val expected = SessionNetworkModel(
             sessionId = "",
             track = "Live",
             type = "Live",
@@ -427,12 +422,12 @@ class SessionExtensionsTest {
 
     @Test
     fun `sanitize keeps the track property value if the type property is empty`() {
-        val session = SessionAppModel(
+        val session = SessionNetworkModel(
             sessionId = "",
             track = "Art",
             type = "",
         ).sanitize()
-        val expected = SessionAppModel(
+        val expected = SessionNetworkModel(
             sessionId = "",
             track = "Art",
             type = "",
@@ -442,13 +437,13 @@ class SessionExtensionsTest {
 
     @Test
     fun `sanitize replaces the track property value if roomName is classics and type is Other`() {
-        val session = SessionAppModel(
+        val session = SessionNetworkModel(
             sessionId = "",
             roomName = "classics",
             track = "",
             type = "Other",
         ).sanitize()
-        val expected = SessionAppModel(
+        val expected = SessionNetworkModel(
             sessionId = "",
             roomName = "classics",
             track = "Classics",
@@ -459,12 +454,12 @@ class SessionExtensionsTest {
 
     @Test
     fun `sanitize replaces the track property value if roomName is rC3 Lounge`() {
-        val session = SessionAppModel(
+        val session = SessionNetworkModel(
             sessionId = "",
             roomName = "rC3 Lounge",
             track = "",
         ).sanitize()
-        val expected = SessionAppModel(
+        val expected = SessionNetworkModel(
             sessionId = "",
             roomName = "rC3 Lounge",
             track = "Music",
@@ -474,12 +469,12 @@ class SessionExtensionsTest {
 
     @Test
     fun `sanitize copies the non-empty type property value to the track property if empty`() {
-        val session = SessionAppModel(
+        val session = SessionNetworkModel(
             sessionId = "",
             track = "",
             type = "Workshop",
         ).sanitize()
-        val expected = SessionAppModel(
+        val expected = SessionNetworkModel(
             sessionId = "",
             track = "Workshop",
             type = "Workshop",

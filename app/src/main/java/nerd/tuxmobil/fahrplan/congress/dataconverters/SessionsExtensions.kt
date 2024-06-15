@@ -7,11 +7,11 @@ import info.metadude.android.eventfahrplan.database.models.Session as SessionDat
 import info.metadude.android.eventfahrplan.network.models.Session as SessionNetworkModel
 import nerd.tuxmobil.fahrplan.congress.models.Session as SessionAppModel
 
-fun List<SessionAppModel>.shiftRoomIndicesOfMainSchedule(dayIndices: Set<Int>) = map {
+fun List<SessionNetworkModel>.shiftRoomIndicesOfMainSchedule(dayIndices: Set<Int>) = map {
     it.shiftRoomIndexOnDays(dayIndices)
 }
 
-fun List<SessionAppModel>.toDayIndices(): Set<Int> {
+fun List<SessionNetworkModel>.toDayIndices(): Set<Int> {
     val dayIndices = HashSet<Int>()
     forEach {
         dayIndices.add(it.dayIndex)
@@ -20,7 +20,7 @@ fun List<SessionAppModel>.toDayIndices(): Set<Int> {
 }
 
 /**
- * Splits the given sessions into [VirtualDay]s. The [Session.dateText] field is used to separate them.
+ * Splits the given sessions into [VirtualDay]s. The [SessionAppModel.dateText] field is used to separate them.
  * This field is unique for a virtual day, even for sessions after midnight.
  */
 fun List<SessionAppModel>.toVirtualDays(): List<VirtualDay> {
@@ -32,11 +32,9 @@ fun List<SessionAppModel>.toVirtualDays(): List<VirtualDay> {
         }
 }
 
-fun List<SessionAppModel>.toDateInfos() = map(SessionAppModel::toDateInfo)
+fun List<SessionDatabaseModel>.toDateInfos() = map(SessionDatabaseModel::toDateInfo)
 
-fun List<SessionAppModel>.toSessionsDatabaseModel() = map(SessionAppModel::toSessionDatabaseModel)
-
-fun List<SessionAppModel>.toDayRanges(): List<DayRange> {
+fun List<SessionDatabaseModel>.toDayRanges(): List<DayRange> {
     val ranges = mutableSetOf<DayRange>()
     forEach {
         val day = Moment.parseDate(it.dateText)
@@ -46,8 +44,10 @@ fun List<SessionAppModel>.toDayRanges(): List<DayRange> {
     return ranges.sortedBy { it.startsAt }.toList()
 }
 
-fun List<SessionNetworkModel>.toSessionsAppModel2(): List<SessionAppModel> = map(SessionNetworkModel::toSessionAppModel)
+fun List<SessionDatabaseModel>.toSessionsNetworkModel() = map(SessionDatabaseModel::toSessionNetworkModel)
+
+fun List<SessionNetworkModel>.toSessionsDatabaseModel() = map(SessionNetworkModel::toSessionDatabaseModel)
 
 fun List<SessionDatabaseModel>.toSessionsAppModel() = map(SessionDatabaseModel::toSessionAppModel)
 
-fun List<SessionAppModel>.sanitize(): List<SessionAppModel> = map(SessionAppModel::sanitize)
+fun List<SessionNetworkModel>.sanitize(): List<SessionNetworkModel> = map(SessionNetworkModel::sanitize)

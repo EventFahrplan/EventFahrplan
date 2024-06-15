@@ -56,4 +56,23 @@ data class Session(
 
     }
 
+    /**
+     * Returns a new session with [changedIsCanceled] set to `true`
+     * and all other change flags set to `false`.
+     */
+    fun cancel() = copy(
+        changedIsCanceled = true,
+        changedIsNew = false,
+        changedTitle = false,
+        changedSubtitle = false,
+        changedRoomName = false,
+        changedDayIndex = false,
+        changedStartTime = false,
+        changedDuration = false,
+        changedSpeakers = false,
+        changedLanguage = false,
+        changedRecordingOptOut = false,
+        changedTrack = false,
+    )
+
 }
