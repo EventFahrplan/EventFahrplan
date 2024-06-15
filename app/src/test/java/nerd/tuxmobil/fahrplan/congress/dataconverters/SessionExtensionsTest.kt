@@ -5,6 +5,7 @@ import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import info.metadude.android.eventfahrplan.database.models.Highlight
 import info.metadude.android.eventfahrplan.database.models.Session.Companion.RECORDING_OPT_OUT_ON
 import nerd.tuxmobil.fahrplan.congress.models.DateInfo
+import nerd.tuxmobil.fahrplan.congress.models.Room
 import org.junit.jupiter.api.Test
 import org.threeten.bp.ZoneOffset
 import info.metadude.android.eventfahrplan.database.models.Session as SessionDatabaseModel
@@ -189,6 +190,17 @@ class SessionExtensionsTest {
     }
 
     @Test
+    fun `toRoom returns a Room instance`() {
+        val session = SessionAppModel(
+            sessionId = "",
+            roomIdentifier = "bccb8a5b-a268-4f17-90b9-b5966f5e34d8",
+            roomName = "Stage F",
+        )
+        val expectedRoom = Room(identifier = "bccb8a5b-a268-4f17-90b9-b5966f5e34d8", name = "Stage F")
+        assertThat(session.toRoom()).isEqualTo(expectedRoom)
+    }
+
+    @Test
     fun `toDateInfo returns a DateInfo object derived from a session`() {
         val session = SessionAppModel(
             sessionId = "",
@@ -368,6 +380,94 @@ class SessionExtensionsTest {
             speakers = listOf("Darth Vader"),
             subtitle = "Lorem ipsum",
             title = "Some title",
+        )
+        assertThat(session).isEqualTo(expected)
+    }
+
+    @Test
+    fun `sanitize converts the language property value to lower case if it is not empty`() {
+        val session = SessionAppModel(
+            sessionId = "",
+            language = "EN",
+        ).sanitize()
+        val expected = SessionAppModel(
+            sessionId = "",
+            language = "en",
+        )
+        assertThat(session).isEqualTo(expected)
+    }
+
+    @Test
+    fun `sanitize keeps the language property value if it is empty`() {
+        val session = SessionAppModel(
+            sessionId = "",
+            language = "",
+        ).sanitize()
+        val expected = SessionAppModel(
+            sessionId = "",
+            language = "",
+        )
+        assertThat(session).isEqualTo(expected)
+    }
+
+    @Test
+    fun `sanitize replaces the track property value with the type property value for certain track property values`() {
+        val session = SessionAppModel(
+            sessionId = "",
+            track = "Sendezentrum-Bühne",
+            type = "Live",
+        ).sanitize()
+        val expected = SessionAppModel(
+            sessionId = "",
+            track = "Live",
+            type = "Live",
+        )
+        assertThat(session).isEqualTo(expected)
+    }
+
+    @Test
+    fun `sanitize keeps the track property value if the type property is empty`() {
+        val session = SessionAppModel(
+            sessionId = "",
+            track = "Art",
+            type = "",
+        ).sanitize()
+        val expected = SessionAppModel(
+            sessionId = "",
+            track = "Art",
+            type = "",
+        )
+        assertThat(session).isEqualTo(expected)
+    }
+
+    @Test
+    fun `sanitize replaces the track property value if roomName is classics and type is Other`() {
+        val session = SessionAppModel(
+            sessionId = "",
+            roomName = "classics",
+            track = "",
+            type = "Other",
+        ).sanitize()
+        val expected = SessionAppModel(
+            sessionId = "",
+            roomName = "classics",
+            track = "Classics",
+            type = "Other",
+        )
+        assertThat(session).isEqualTo(expected)
+    }
+
+    @Test
+    fun `sanitize replaces the track property value if roomName is rC3 Lounge`() {
+        val session = SessionAppModel(
+            sessionId = "",
+            roomName = "rC3 Lounge",
+            track = "",
+        ).sanitize()
+        val expected = SessionAppModel(
+            sessionId = "",
+            roomName = "rC3 Lounge",
+            track = "Music",
         )
         assertThat(session).isEqualTo(expected)
     }
