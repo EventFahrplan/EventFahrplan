@@ -20,7 +20,7 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Se
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_TIME
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_TITLE
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_TRACK
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DATE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DATE_TEXT
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DATE_UTC
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DAY
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DESCR
@@ -82,7 +82,7 @@ internal class SessionsDBOpenHelper(context: Context) : SQLiteOpenHelper(
                 "$ABSTRACT TEXT, " +
                 "$DESCR TEXT, " +
                 "$REL_START INTEGER, " +
-                "$DATE TEXT, " +
+                "$DATE_TEXT TEXT, " +
                 "$LINKS TEXT, " +
                 "$DATE_UTC INTEGER, " +
                 "$TIME_ZONE_OFFSET INTEGER DEFAULT NULL, " +

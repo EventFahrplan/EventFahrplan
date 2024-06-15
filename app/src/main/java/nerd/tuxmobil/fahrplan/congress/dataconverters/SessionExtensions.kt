@@ -32,7 +32,7 @@ fun Session.toHighlightDatabaseModel() = HighlightDatabaseModel(
 fun Session.toSessionDatabaseModel() = SessionDatabaseModel(
         sessionId = sessionId,
         abstractt = abstractt,
-        date = dateText,
+        dateText = dateText,
         dateUTC = dateUTC,
         dayIndex = dayIndex,
         description = description,
@@ -76,7 +76,7 @@ fun SessionDatabaseModel.toSessionAppModel(): Session {
     return Session(
         sessionId = sessionId,
         abstractt = abstractt,
-        dateText = date,
+        dateText = dateText,
         dateUTC = dateUTC,
         dayIndex = dayIndex,
         description = description,

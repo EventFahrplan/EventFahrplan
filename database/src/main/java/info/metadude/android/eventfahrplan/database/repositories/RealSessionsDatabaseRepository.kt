@@ -21,7 +21,7 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Se
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_TIME
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_TITLE
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_TRACK
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DATE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DATE_TEXT
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DATE_UTC
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DAY
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DESCR
@@ -201,7 +201,7 @@ internal class RealSessionsDatabaseRepository(
             Session(
                     sessionId = cursor.getString(SESSION_ID),
                     abstractt = cursor.getString(ABSTRACT),
-                    date = cursor.getString(DATE),
+                    dateText = cursor.getString(DATE_TEXT),
                     dateUTC = cursor.getLong(DATE_UTC),
                     dayIndex = cursor.getInt(DAY),
                     description = cursor.getString(DESCR),

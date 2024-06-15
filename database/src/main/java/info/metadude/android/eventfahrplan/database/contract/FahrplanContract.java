@@ -104,7 +104,7 @@ public interface FahrplanContract {
             /* 11 */ String ABSTRACT = "abstract";
             /* 12 */ String DESCR = "descr";
             /* 13 */ String REL_START = "relStart";
-            /* 14 */ String DATE = "date";
+            /* 14 */ String DATE_TEXT = "date";
             /* 15 */ String LINKS = "links";
             /* 16 */ String DATE_UTC = "dateUTC";
             /* 17 */ String ROOM_INDEX = "room_idx";

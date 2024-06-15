@@ -14,7 +14,7 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Se
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_TIME
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_TITLE
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_TRACK
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DATE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DATE_TEXT
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DATE_UTC
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DAY
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DESCR
@@ -48,7 +48,7 @@ class SessionExtensionsTest {
                 sessionId = "7331",
                 abstractt = "Lorem ipsum",
                 dayIndex = 3,
-                date = "2015-08-13",
+                dateText = "2015-08-13",
                 dateUTC = 1439478900000L,
                 description = "Lorem ipsum dolor sit amet",
                 duration = 45,
@@ -89,7 +89,7 @@ class SessionExtensionsTest {
         assertThat(values.getAsInteger(SESSION_ID)).isEqualTo(7331)
         assertThat(values.getAsString(ABSTRACT)).isEqualTo("Lorem ipsum")
         assertThat(values.getAsInteger(DAY)).isEqualTo(3)
-        assertThat(values.getAsString(DATE)).isEqualTo("2015-08-13")
+        assertThat(values.getAsString(DATE_TEXT)).isEqualTo("2015-08-13")
         assertThat(values.getAsLong(DATE_UTC)).isEqualTo(1439478900000L)
         assertThat(values.getAsString(DESCR)).isEqualTo("Lorem ipsum dolor sit amet")
         assertThat(values.getAsInteger(DURATION)).isEqualTo(45)

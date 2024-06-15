@@ -59,7 +59,7 @@ class SessionExtensionsTest {
                 sessionId = "7331",
                 abstractt = "Lorem ipsum",
                 dayIndex = 3,
-                date = "2015-08-13",
+                dateText = "2015-08-13",
                 dateUTC = 1439478900000L,
                 description = "Lorem ipsum dolor sit amet",
                 duration = 45,

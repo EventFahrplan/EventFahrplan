@@ -8,7 +8,7 @@ data class Session(
         val sessionId: String,
         val abstractt: String = "",
         val dayIndex: Int = 0,          // XML values start with 1
-        val date: String = "",
+        val dateText: String = "",
         val dateUTC: Long = 0,
         val description: String = "",
         val duration: Int = 0,          // minutes
