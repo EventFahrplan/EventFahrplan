@@ -76,6 +76,7 @@ import nerd.tuxmobil.fahrplan.congress.serialization.ScheduleChanges.Companion.c
 import nerd.tuxmobil.fahrplan.congress.utils.AlarmToneConversion
 import nerd.tuxmobil.fahrplan.congress.validation.MetaValidation.validate
 import okhttp3.OkHttpClient
+import info.metadude.android.eventfahrplan.database.models.Meta as MetaDatabaseModel
 import info.metadude.android.eventfahrplan.database.models.Session as SessionDatabaseModel
 import info.metadude.android.eventfahrplan.network.models.Meta as MetaNetworkModel
 import nerd.tuxmobil.fahrplan.congress.models.Meta as MetaAppModel
@@ -374,7 +375,7 @@ object AppRepository {
 
             if (fetchResult.isSuccessful) {
                 val validMeta = meta.copy(httpHeader = fetchScheduleResult.httpHeader).validate()
-                updateMeta(validMeta)
+                updateMeta(validMeta.toMetaDatabaseModel())
                 check(onParsingDone != {}) { "Nobody registered to receive ParseScheduleResult." }
                 // Parsing
                 val parsingStatus = if (meta.numDays == 0) InitialParsing else Parsing
@@ -412,11 +413,11 @@ object AppRepository {
                 },
                 onUpdateMeta = { meta ->
                     val validMeta = meta.validate()
-                    updateMeta(validMeta)
+                    updateMeta(validMeta.toMetaDatabaseModel())
                 },
                 onParsingDone = { isSuccess: Boolean, version: String ->
                     if (!isSuccess) {
-                        updateMeta(oldMeta.copy(httpHeader = HttpHeader(eTag = "", lastModified = "")))
+                        updateMeta(oldMeta.copy(httpHeader = HttpHeader(eTag = "", lastModified = "")).toMetaDatabaseModel())
                     }
                     val parseResult = ParseScheduleResult(isSuccess, version)
                     val parseScheduleStatus = if (isSuccess) ParseSuccess else ParseFailure(parseResult)
@@ -837,9 +838,8 @@ object AppRepository {
      * See also: [HttpStatus.HTTP_OK]
      */
     @VisibleForTesting
-    fun updateMeta(meta: MetaNetworkModel) {
-        val metaDatabaseModel = meta.toMetaDatabaseModel()
-        val values = metaDatabaseModel.toContentValues()
+    fun updateMeta(meta: MetaDatabaseModel) {
+        val values = meta.toContentValues()
         metaDatabaseRepository.insert(values)
         refreshMeta()
     }
