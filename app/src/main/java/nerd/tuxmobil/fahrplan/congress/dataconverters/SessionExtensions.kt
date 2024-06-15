@@ -221,12 +221,13 @@ fun Session.sanitize(): Session {
 /**
  * Delimiter which is used in [FahrplanParser] to construct the speakers string.
  */
-private const val SPEAKERS_DELIMITER = ";"
+private const val SPEAKERS_DELIMITER_FOR_SPLITTING = ";"
+private const val SPEAKERS_DELIMITER_FOR_JOINING = "; "
 
 private fun createSpeakersList(speakers: String): List<String> {
-    return if (speakers.isEmpty()) emptyList() else speakers.split(SPEAKERS_DELIMITER)
+    return if (speakers.isEmpty()) emptyList() else speakers.split(SPEAKERS_DELIMITER_FOR_SPLITTING).map { it.trim() }
 }
 
 private fun createSpeakersString(speakers: List<String>): String {
-    return speakers.joinToString(SPEAKERS_DELIMITER)
+    return speakers.joinToString(SPEAKERS_DELIMITER_FOR_JOINING)
 }

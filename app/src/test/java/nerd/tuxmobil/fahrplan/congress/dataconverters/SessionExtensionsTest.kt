@@ -121,7 +121,7 @@ class SessionExtensionsTest {
                 roomName = "Simulacron-3",
                 roomGuid = "88888888-4444-4444-4444-121212121212",
                 roomIndex = 17,
-                speakers = "John Doe;Noah Doe",
+                speakers = "John Doe; Noah Doe",
                 startTime = 1036,
                 slug = "lorem",
                 subtitle = "My subtitle",
