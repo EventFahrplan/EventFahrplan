@@ -24,7 +24,7 @@ public interface FahrplanContract {
         interface Defaults {
 
             int NUM_DAYS_DEFAULT = 0;
-            String ETAG_DEFAULT = "''";
+            String ETAG_DEFAULT = "";
         }
 
     }

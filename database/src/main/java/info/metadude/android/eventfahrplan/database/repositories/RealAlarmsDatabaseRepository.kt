@@ -22,7 +22,7 @@ import info.metadude.android.eventfahrplan.database.extensions.upsert
 import info.metadude.android.eventfahrplan.database.models.Alarm
 import info.metadude.android.eventfahrplan.database.sqliteopenhelper.AlarmsDBOpenHelper
 
-class RealAlarmsDatabaseRepository(
+internal class RealAlarmsDatabaseRepository(
 
         private val sqLiteOpenHelper: AlarmsDBOpenHelper,
         private val logging: Logging

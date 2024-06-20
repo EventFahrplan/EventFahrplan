@@ -59,7 +59,7 @@ import info.metadude.android.eventfahrplan.database.extensions.updateRow
 import info.metadude.android.eventfahrplan.database.models.Session
 import info.metadude.android.eventfahrplan.database.sqliteopenhelper.SessionsDBOpenHelper
 
-class RealSessionsDatabaseRepository(
+internal class RealSessionsDatabaseRepository(
 
         private val sqLiteOpenHelper: SessionsDBOpenHelper,
         private val logging: Logging
