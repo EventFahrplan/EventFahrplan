@@ -73,7 +73,7 @@
     <string name="today">i dag</string>
     <string name="schedule_parsing_error_generic">Ukendt fejl under fortolkning af tidsplan</string>
     <string name="add_to_calendar_failed">Tilføjelse af begivenhed til kalenderen mislykkedes.</string>
-    <string name="no_changes">Ingen tidsplan ændringer</string>
+    <string name="schedule_changes_no_changes_title">Ingen tidsplan ændringer</string>
     <string name="favorites_no_favorites_title">Ingen favoritforedrag</string>
     <string name="schedule_changes">Tidsplan ændringer</string>
     <string name="dlg_delete_all_favorites">Slet alle favoritter?</string>

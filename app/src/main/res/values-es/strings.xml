@@ -96,7 +96,7 @@
     <string name="schedule_parsing_error_generic">Error desconocido mientras se procesaba el calendario</string>
     <string name="schedule_parsing_error_with_version">Error de procesado para la versión del calendario %s</string>
     <string name="add_to_calendar_failed">No se pudo agregar el evento al calendario</string>
-    <string name="no_changes">Sin cambios en el calendario</string>
+    <string name="schedule_changes_no_changes_title">Sin cambios en el calendario</string>
     <string name="favorites_no_favorites_title">No hay clases favoritas</string>
     <string name="schedule_changes">Cambios en el calendario</string>
     <string name="starred_sessions">Favoritos</string>

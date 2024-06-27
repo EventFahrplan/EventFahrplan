@@ -113,7 +113,8 @@
     <string name="engelsystem_shifts_parsing_error_forbidden">Ungültiger API-Schlüssel für <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g>-Schichten</string>
     <string name="engelsystem_shifts_parsing_error_not_found">Falsche URL für <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g>-Schichten</string>
     <string name="add_to_calendar_failed">Hinzufügen zum Kalendar fehlgeschlagen.</string>
-    <string name="no_changes">Keine Fahrplanänderungen</string>
+    <string name="schedule_changes_no_changes_title">Keine Fahrplanänderungen</string>
+    <string name="schedule_changes_no_changes_subtitle">Die App prüft regelmäßig, ob Aktualisierungen verfügbar sind</string>
     <string name="schedule_changes">Fahrplanänderungen</string>
 
     <string name="general_settings">Allgemein</string>

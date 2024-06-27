@@ -96,7 +96,7 @@
     <string name="schedule_parsing_error_generic">Erreur inconnue lors de la lecture du programme</string>
     <string name="schedule_parsing_error_with_version">Erreur de lecture pour le programme version %s</string>
     <string name="add_to_calendar_failed">L’ajout de l’évènement au calendrier a échoué.</string>
-    <string name="no_changes">Aucun changement dans le programme</string>
+    <string name="schedule_changes_no_changes_title">Aucun changement dans le programme</string>
     <string name="favorites_no_favorites_title">Aucune conférence dans les favoris</string>
     <string name="schedule_changes">Changements du programme</string>
     <string name="general_settings">Général</string>

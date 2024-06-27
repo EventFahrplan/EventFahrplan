@@ -89,7 +89,7 @@
     <string name="engelsystem_shifts_parsing_error_forbidden"><xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g> vardiyaları için yanlış API anahtarı</string>
     <string name="engelsystem_shifts_parsing_error_not_found"><xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g> vardiyası için yanlış URL</string>
     <string name="add_to_calendar_failed">Etkinlik takvime eklenemedi.</string>
-    <string name="no_changes">Planda değişim yok</string>
+    <string name="schedule_changes_no_changes_title">Planda değişim yok</string>
     <string name="favorites_no_favorites_title">Favoru konuşma yok</string>
     <string name="schedule_changes">Plan değişiklikleri</string>
     <string name="general_settings">Genel</string>

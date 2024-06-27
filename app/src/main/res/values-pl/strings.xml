@@ -111,7 +111,7 @@
     <string name="engelsystem_shifts_parsing_error_forbidden">Błędny klucz API dla zmian w <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g></string>
     <string name="engelsystem_shifts_parsing_error_not_found">Błędny URL dla zmian w <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g></string>
     <string name="add_to_calendar_failed">Nie udało się dodać wydarzenia do kalendarza.</string>
-    <string name="no_changes">Brak zmian w grafiku</string>
+    <string name="schedule_changes_no_changes_title">Brak zmian w grafiku</string>
     <string name="favorites_no_favorites_title">Brak ulubionych wykładów</string>
     <string name="schedule_changes">Zmiany grafiku</string>
     <string name="general_settings">Ogólne</string>

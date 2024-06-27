@@ -95,7 +95,7 @@
     <string name="engelsystem_shifts_parsing_error_forbidden">Ogiltig API-nyckel för <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g> skift</string>
     <string name="engelsystem_shifts_parsing_error_not_found">Fel URL för <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g> skift</string>
     <string name="add_to_calendar_failed">Det gick inte att lägga till händelsen i kalendern.</string>
-    <string name="no_changes">Inga schemalagda händelser</string>
+    <string name="schedule_changes_no_changes_title">Inga schemalagda händelser</string>
     <string name="favorites_no_favorites_title">Inga favoriserade föreläsningar</string>
     <string name="schedule_changes">Schemalägg ändringar</string>
     <string name="general_settings">Allmän</string>
