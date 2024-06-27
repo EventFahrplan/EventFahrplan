@@ -83,6 +83,8 @@
     <string name="choose_day">Choose day</string>
     <string name="day">Day</string>
     <string name="fahrplan">Schedule</string>
+    <string name="schedule_no_schedule_data_title">No schedule to display yet</string>
+    <string name="schedule_no_schedule_data_subtitle">Please come back later</string>
     <string name="appVersion">App Version <xliff:g example="1.40.2" id="appVersion">%s</xliff:g></string>
     <string name="schedule_updated_to">
         Updated to <xliff:g example="Mildenberg 2018-01-16 16:50" id="version">%s</xliff:g>
