@@ -143,7 +143,7 @@ class SessionDetailsFragment : Fragment() {
         markwon = Markwon.builder(context)
             .usePlugin(HEADINGS_PLUGIN)
             .usePlugin(createListItemsPlugin(context))
-            .usePlugin(LinkifyPlugin.create(EMAIL_ADDRESSES or WEB_URLS, false))
+            .usePlugin(LinkifyPlugin.create(EMAIL_ADDRESSES or WEB_URLS, true))
             .build()
     }
 
