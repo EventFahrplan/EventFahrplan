@@ -68,7 +68,11 @@ internal fun AlarmsScreen(
 
 @Composable
 private fun NoAlarms() {
-    NoData(stringResource(R.string.alarms_empty))
+    NoData(
+        emptyContent = R.drawable.no_alarms,
+        title = stringResource(R.string.alarms_no_alarms_title),
+        subtitle = stringResource(R.string.alarms_no_alarms_subtitle),
+    )
 }
 
 @Composable

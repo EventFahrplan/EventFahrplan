@@ -214,7 +214,7 @@
     <!-- Session item -->
     <string name="session_item_has_alarm_content_description">ma ustawiony alarm</string>
     <!-- Alarms -->
-    <string name="alarms_empty">        Nie ma żadnych alarmów do wyświetlenia. Pamiętaj, że możesz ustawić
+    <string name="alarms_no_alarms_title">        Nie ma żadnych alarmów do wyświetlenia. Pamiętaj, że możesz ustawić
         pojedynczy alarm dla każdej sesji w programie. Aby tak zrobić,
         naciśnij ikonkę w pasku menu ekranu danej sesji.
     </string>

@@ -238,10 +238,11 @@
     <string name="session_item_has_alarm_content_description">Alarm ist eingestellt</string>
 
     <!-- Alarms -->
-    <string name="alarms_empty">
-        Aktuell sind keine Alarme gespeichert. In der Detailansicht kannst
-        du über das entsprechende Menüsymbol für jeden Eintrag einen
-        individuellen Alarm festlegen.
+    <string name="alarms_no_alarms_title">
+        Keine Alarme gesetzt
+    </string>
+    <string name="alarms_no_alarms_subtitle">
+        Tippe auf das Glockensymbol in der Menüleiste, um einen Alarm zu setzen.
     </string>
     <string name="alarms_item_on_click_label">
         Detailansicht öffnen

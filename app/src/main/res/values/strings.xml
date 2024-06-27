@@ -270,10 +270,11 @@
     <string name="session_item_has_alarm_content_description">has alarm set</string>
 
     <!-- Alarms -->
-    <string name="alarms_empty">
-        There are no alarms to display. Please note that you
-        can set up an individual alarm for each session in the schedule.
-        To do so tap the alarm icon in the menu bar of the session screen.
+    <string name="alarms_no_alarms_title">
+        No alarms set
+    </string>
+    <string name="alarms_no_alarms_subtitle">
+        Tap on the bell icon in the menu bar to set an alarm
     </string>
     <string name="alarms_item_on_click_label">
         Open details screen

@@ -208,7 +208,7 @@
     <!-- Session item -->
     <string name="session_item_has_alarm_content_description">turi nustatytą įspėjimą</string>
     <!-- Alarms -->
-    <string name="alarms_empty">        Nėra jokių įspėjimų. Jūs galite nustatyti įspėjimą kiekvienai paskaitai atskirai.
+    <string name="alarms_no_alarms_title">        Nėra jokių įspėjimų. Jūs galite nustatyti įspėjimą kiekvienai paskaitai atskirai.
         Kad tai padarytumėte, atidarykite paskaitos aprašymą ir paspauskite skambučio piktogramą meniu juostoje.
     </string>
     <string name="alarms_item_on_click_label">        Atverti detalių ekraną

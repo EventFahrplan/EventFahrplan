@@ -171,7 +171,7 @@ Hatanın nasıl ve ne zaman olduğunu açıklayabilirsen bu bize hayli yardım e
     <!-- Session item -->
     <string name="session_item_has_alarm_content_description">alarm kuruldu</string>
     <!-- Alarms -->
-    <string name="alarms_empty">Görüntülenecek alarm bulunamadı. Lütfen plandaki her bir
+    <string name="alarms_no_alarms_title">Görüntülenecek alarm bulunamadı. Lütfen plandaki her bir
 konuşma için ayrı bir alarm kurabilecğeini unutma.
 Alarm kurmak için konuşma ekranındaki alarm butonuna dokun.    </string>
     <string name="alarms_item_on_click_label">Detayları görüntüle    </string>
