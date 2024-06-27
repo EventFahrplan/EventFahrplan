@@ -18,7 +18,7 @@ object Android {
 object Compose {
 
     object Versions {
-        internal const val bom = "2024.05.00"
+        internal const val bom = "2024.06.00"
         const val compiler = "1.5.14"
     }
 
@@ -32,7 +32,7 @@ object Compose {
 object Plugins {
 
     private object Versions {
-        const val android = "8.4.1"
+        const val android = "8.5.0"
         const val dexcount = "4.0.0"
         const val kotlin = "1.9.24"
         const val ksp = "1.9.24-1.0.20"
@@ -55,7 +55,7 @@ object Libs {
     private object Versions {
         const val androidTest = "1.4.0"
         const val annotation = "1.8.0"
-        const val appCompat = "1.6.1"
+        const val appCompat = "1.7.0"
         const val betterLinkMovementMethod = "2.2.0"
         const val constraintLayout = "2.1.4"
         const val coreKtx = "1.13.1"
@@ -64,7 +64,7 @@ object Libs {
         const val engelsystem = "9.1.0"
         const val junitJupiter = "5.10.2"
         const val kotlinCoroutines = "1.8.1"
-        const val lifecycle = "2.8.0"
+        const val lifecycle = "2.8.2"
         const val markwon = "4.6.2"
         const val material = "1.12.0"
         const val mockito = "5.12.0"
