@@ -107,7 +107,7 @@
     <string name="engelsystem_shifts_parsing_error_not_found">Neteisingas URL <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g> pamainoms</string>
     <string name="add_to_calendar_failed">Nepavyko pridėti įvykio į kalendorių.</string>
     <string name="no_changes">Nėra tvarkaraščio pasikeitimų</string>
-    <string name="no_favorites">Nėra mėgstamų paskaitų</string>
+    <string name="favorites_no_favorites_title">Nėra mėgstamų paskaitų</string>
     <string name="schedule_changes">Tvarkaraščio pasikeitimai</string>
     <string name="general_settings">Bendra</string>
     <string name="starred_sessions">Mėgstamos</string>

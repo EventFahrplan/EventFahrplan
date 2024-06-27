@@ -101,7 +101,7 @@
     <string name="engelsystem_shifts_parsing_error_not_found">Väärä URL-osoite kohteen <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g> vuorovaihdoille</string>
     <string name="add_to_calendar_failed">Tapahtuman lisääminen kalenteriin epäonnistui.</string>
     <string name="no_changes">Ei aikataulumuutoksia</string>
-    <string name="no_favorites">Ei lempiluentoja</string>
+    <string name="favorites_no_favorites_title">Ei lempiluentoja</string>
     <string name="schedule_changes">Aikataulumuutokset</string>
     <string name="general_settings">Yleiset</string>
     <string name="starred_sessions">Suosikit</string>

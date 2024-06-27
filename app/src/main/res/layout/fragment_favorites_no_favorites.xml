@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:id="@android:id/empty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:padding="@dimen/empty_screen_padding">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="@dimen/empty_screen_drawable_padding"
+            android:gravity="center"
+            android:text="@string/favorites_no_favorites_title"
+            android:textColor="@color/session_list_empty_text"
+            android:textSize="@dimen/empty_screen_text"
+            android:textStyle="bold"
+            app:drawableTopCompat="@drawable/no_favorites" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:lineSpacingExtra="@dimen/empty_screen_line_spacing_extra"
+            android:paddingTop="@dimen/empty_screen_subtitle_padding_top"
+            android:text="@string/favorites_no_favorites_subtitle"
+            android:textColor="@color/session_list_empty_text"
+            android:textSize="@dimen/empty_screen_text" />
+
+    </LinearLayout>
+
+</merge>

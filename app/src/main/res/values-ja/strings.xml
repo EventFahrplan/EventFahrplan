@@ -94,7 +94,7 @@
     <string name="engelsystem_shifts_parsing_error_not_found"><xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g>シフトのURLが間違っています</string>
     <string name="add_to_calendar_failed">カレンダーへのイベントの追加に失敗しました。</string>
     <string name="no_changes">スケジュール変更がありません</string>
-    <string name="no_favorites">好きな講義がありません</string>
+    <string name="favorites_no_favorites_title">好きな講義がありません</string>
     <string name="schedule_changes">スケジュール変更</string>
     <string name="general_settings">一般</string>
     <string name="starred_sessions">お気に入り</string>

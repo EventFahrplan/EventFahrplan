@@ -88,7 +88,7 @@
     <string name="schedule_parsing_error_with_version">Errore durante l\'analisi del programma versione %s</string>
     <string name="add_to_calendar_failed">Impossibile aggiungere un evento al calendario</string>
     <string name="no_changes">Nessun cambiamento di programma</string>
-    <string name="no_favorites">Nessuna conferenza tra i favoriti</string>
+    <string name="favorites_no_favorites_title">Nessuna conferenza tra i favoriti</string>
     <string name="schedule_changes">Cambiamenti di programma</string>
     <string name="general_settings">Generale</string>
     <string name="starred_sessions">Preferiti</string>

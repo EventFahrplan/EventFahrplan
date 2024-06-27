@@ -130,7 +130,8 @@
     <string name="engelsystem_shifts_parsing_error_not_found">Wrong URL for <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g> shifts</string>
     <string name="add_to_calendar_failed">Adding event to calendar failed.</string>
     <string name="no_changes">No schedule changes</string>
-    <string name="no_favorites">No favorite lectures</string>
+    <string name="favorites_no_favorites_title">No favorite sessions</string>
+    <string name="favorites_no_favorites_subtitle">Tap on the star in the menu bar to set a favorite</string>
     <string name="schedule_changes">Schedule changes</string>
 
     <string name="dash" translatable="false"><xliff:g id="dash">—</xliff:g></string>

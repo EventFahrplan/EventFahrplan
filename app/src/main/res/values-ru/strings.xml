@@ -91,7 +91,7 @@
     <string name="schedule_parsing_error_with_version">Ошибка разбора для версии расписания %s</string>
     <string name="add_to_calendar_failed">Не удалось добавить мероприятие в календарь.</string>
     <string name="no_changes">Нет изменений в расписании</string>
-    <string name="no_favorites">Нет избранных лекций</string>
+    <string name="favorites_no_favorites_title">Нет избранных лекций</string>
     <string name="schedule_changes">Изменения в расписании</string>
     <string name="general_settings">Основное</string>
     <string name="starred_sessions">Избранное</string>

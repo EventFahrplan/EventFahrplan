@@ -119,7 +119,8 @@
     <string name="general_settings">Allgemein</string>
     <string name="starred_sessions">Favoriten</string>
     <string name="invalid_url">Ungültige URL</string>
-    <string name="no_favorites">Keine favorisierten Vorträge</string>
+    <string name="favorites_no_favorites_title">Keine favorisierten Vorträge</string>
+    <string name="favorites_no_favorites_subtitle">Tippe auf den Stern in der Menüleiste, um einen Favoriten zu setzen</string>
     <string name="choose_to_delete">Wähle Vorträge</string>
     <string name="day_separator">Tag <xliff:g example="2" id="day_of_congress">%1$d</xliff:g> - <xliff:g example="29.12.2014" id="date_of_congress_day">%2$s</xliff:g></string>
     <string name="dlg_delete_all_favorites">Alle Favoriten löschen?</string>
