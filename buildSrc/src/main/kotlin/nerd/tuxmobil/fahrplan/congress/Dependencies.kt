@@ -18,7 +18,7 @@ object Android {
 object Compose {
 
     object Versions {
-        internal const val bom = "2024.05.00"
+        internal const val bom = "2024.06.00"
         const val compiler = "1.5.14"
     }
 
