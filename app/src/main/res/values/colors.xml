@@ -73,7 +73,7 @@
     <!-- Session details -->
     <color name="session_details_background">@color/session_background</color>
     <color name="session_details_text">@android:color/black</color>
-    <color name="session_details_list_item">@color/session_details_text</color>
+    <color name="session_details_list_item">@color/colorPrimary</color>
     <color name="session_detailbar_background">#eee</color>
     <color name="session_detailbar_text">#999</color>
     <color name="session_detailbar_icon">@color/colorAccent</color>
