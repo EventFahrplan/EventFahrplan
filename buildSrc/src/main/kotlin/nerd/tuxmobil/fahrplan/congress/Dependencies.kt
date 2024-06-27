@@ -55,7 +55,7 @@ object Libs {
     private object Versions {
         const val androidTest = "1.4.0"
         const val annotation = "1.8.0"
-        const val appCompat = "1.6.1"
+        const val appCompat = "1.7.0"
         const val betterLinkMovementMethod = "2.2.0"
         const val constraintLayout = "2.1.4"
         const val coreKtx = "1.13.1"
