@@ -89,8 +89,8 @@
     <string name="engelsystem_shifts_parsing_error_forbidden"><xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g> vardiyaları için yanlış API anahtarı</string>
     <string name="engelsystem_shifts_parsing_error_not_found"><xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g> vardiyası için yanlış URL</string>
     <string name="add_to_calendar_failed">Etkinlik takvime eklenemedi.</string>
-    <string name="no_changes">Planda değişim yok</string>
-    <string name="no_favorites">Favoru konuşma yok</string>
+    <string name="schedule_changes_no_changes_title">Planda değişim yok</string>
+    <string name="favorites_no_favorites_title">Favoru konuşma yok</string>
     <string name="schedule_changes">Plan değişiklikleri</string>
     <string name="general_settings">Genel</string>
     <string name="starred_sessions">Favoriler</string>
@@ -171,7 +171,7 @@ Hatanın nasıl ve ne zaman olduğunu açıklayabilirsen bu bize hayli yardım e
     <!-- Session item -->
     <string name="session_item_has_alarm_content_description">alarm kuruldu</string>
     <!-- Alarms -->
-    <string name="alarms_empty">Görüntülenecek alarm bulunamadı. Lütfen plandaki her bir
+    <string name="alarms_no_alarms_title">Görüntülenecek alarm bulunamadı. Lütfen plandaki her bir
 konuşma için ayrı bir alarm kurabilecğeini unutma.
 Alarm kurmak için konuşma ekranındaki alarm butonuna dokun.    </string>
     <string name="alarms_item_on_click_label">Detayları görüntüle    </string>

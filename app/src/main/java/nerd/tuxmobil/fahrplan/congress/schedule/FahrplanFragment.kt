@@ -35,6 +35,7 @@ import androidx.appcompat.app.ActionBar.OnNavigationListener
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
+import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import androidx.core.widget.NestedScrollView
 import androidx.core.widget.NestedScrollView.OnScrollChangeListener
@@ -218,6 +219,7 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
     private fun observeViewModel() {
         viewModel.fahrplanParameter
             .observe(this) { (scheduleData, useDeviceTimeZone, numDays, dayIndex, menuEntries) ->
+                hideNoScheduleView()
                 buildNavigationMenu(menuEntries, numDays)
                 viewModel.fillTimes(Moment.now(), getNormalizedBoxHeight())
                 viewDay(scheduleData, useDeviceTimeZone, numDays, dayIndex)
@@ -599,6 +601,12 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
 
     private fun showMissingScheduleExactAlarmsPermissionError() {
         Toast.makeText(requireContext(), R.string.alarms_disabled_schedule_exact_alarm_permission_missing, Toast.LENGTH_LONG).show()
+    }
+
+    private fun hideNoScheduleView() {
+        requireView()
+            .requireViewByIdCompat<View>(R.id.schedule_no_content_view)
+            .isVisible = false
     }
 
     private inner class OnDaySelectedListener(private val numDays: Int) : OnNavigationListener {

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@drawable/schedule_changes_background"
+    android:gravity="center"
+    android:orientation="vertical"
     tools:context=".changes.ChangeListFragment">
 
     <ListView
@@ -14,13 +14,6 @@
         android:layout_height="match_parent"
         tools:listitem="@layout/session_list_item" />
 
-    <TextView
-        android:id="@android:id/empty"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:singleLine="true"
-        android:text="@string/no_changes"
-        android:textColor="@color/session_list_empty_text" />
+    <include layout="@layout/fragment_sessions_no_sessions" />
 
 </LinearLayout>

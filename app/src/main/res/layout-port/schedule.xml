@@ -5,6 +5,8 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+    <include layout="@layout/schedule_no_content" />
+
     <LinearLayout
             android:id="@+id/roomNameLandscape"
             android:orientation="horizontal"

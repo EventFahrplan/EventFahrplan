@@ -83,6 +83,8 @@
     <string name="choose_day">Choose day</string>
     <string name="day">Day</string>
     <string name="fahrplan">Schedule</string>
+    <string name="schedule_no_schedule_data_title">No schedule to display yet</string>
+    <string name="schedule_no_schedule_data_subtitle">Please come back later</string>
     <string name="appVersion">App Version <xliff:g example="1.40.2" id="appVersion">%s</xliff:g></string>
     <string name="schedule_updated_to">
         Updated to <xliff:g example="Mildenberg 2018-01-16 16:50" id="version">%s</xliff:g>
@@ -127,8 +129,10 @@
     <string name="engelsystem_shifts_parsing_error_forbidden">Invalid API key for <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g> shifts</string>
     <string name="engelsystem_shifts_parsing_error_not_found">Wrong URL for <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g> shifts</string>
     <string name="add_to_calendar_failed">Adding event to calendar failed.</string>
-    <string name="no_changes">No schedule changes</string>
-    <string name="no_favorites">No favorite lectures</string>
+    <string name="schedule_changes_no_changes_title">No schedule changes</string>
+    <string name="schedule_changes_no_changes_subtitle">The app regularly checks for updates</string>
+    <string name="favorites_no_favorites_title">No favorite sessions</string>
+    <string name="favorites_no_favorites_subtitle">Tap on the star in the menu bar to set a favorite</string>
     <string name="schedule_changes">Schedule changes</string>
 
     <string name="dash" translatable="false"><xliff:g id="dash">—</xliff:g></string>
@@ -267,10 +271,11 @@
     <string name="session_item_has_alarm_content_description">has alarm set</string>
 
     <!-- Alarms -->
-    <string name="alarms_empty">
-        There are no alarms to display. Please note that you
-        can set up an individual alarm for each session in the schedule.
-        To do so tap the alarm icon in the menu bar of the session screen.
+    <string name="alarms_no_alarms_title">
+        No alarms set
+    </string>
+    <string name="alarms_no_alarms_subtitle">
+        Tap on the bell icon in the menu bar to set an alarm
     </string>
     <string name="alarms_item_on_click_label">
         Open details screen

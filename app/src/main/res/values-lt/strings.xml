@@ -106,8 +106,8 @@
     <string name="engelsystem_shifts_parsing_error_forbidden">Neteisingas API raktas <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g> pamainoms</string>
     <string name="engelsystem_shifts_parsing_error_not_found">Neteisingas URL <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g> pamainoms</string>
     <string name="add_to_calendar_failed">Nepavyko pridėti įvykio į kalendorių.</string>
-    <string name="no_changes">Nėra tvarkaraščio pasikeitimų</string>
-    <string name="no_favorites">Nėra mėgstamų paskaitų</string>
+    <string name="schedule_changes_no_changes_title">Nėra tvarkaraščio pasikeitimų</string>
+    <string name="favorites_no_favorites_title">Nėra mėgstamų paskaitų</string>
     <string name="schedule_changes">Tvarkaraščio pasikeitimai</string>
     <string name="general_settings">Bendra</string>
     <string name="starred_sessions">Mėgstamos</string>
@@ -208,7 +208,7 @@
     <!-- Session item -->
     <string name="session_item_has_alarm_content_description">turi nustatytą įspėjimą</string>
     <!-- Alarms -->
-    <string name="alarms_empty">        Nėra jokių įspėjimų. Jūs galite nustatyti įspėjimą kiekvienai paskaitai atskirai.
+    <string name="alarms_no_alarms_title">        Nėra jokių įspėjimų. Jūs galite nustatyti įspėjimą kiekvienai paskaitai atskirai.
         Kad tai padarytumėte, atidarykite paskaitos aprašymą ir paspauskite skambučio piktogramą meniu juostoje.
     </string>
     <string name="alarms_item_on_click_label">        Atverti detalių ekraną
