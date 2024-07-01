@@ -33,13 +33,13 @@ class SessionTest {
 
             // Not considered in equal nor hashCode.
             url = "https://example.com",
-            relStartTime = 500,
+            relativeStartTime = 500,
             roomIndex = 6,
             slug = "lorem-ipsum",
             abstractt = "Sodales ut etiam sit amet nisl purus",
             description = "Lorem ipsum dolor sit amet",
             links = "http://sample.com",
-            highlight = true,
+            isHighlight = true,
             hasAlarm = true,
 
             // Not considered in equal nor hashCode, too.
@@ -59,13 +59,13 @@ class SessionTest {
 
         fun createSessionModifyingNonConsideredFields() = createSession().copy(
             url = "https://foobar-url.org",
-            relStartTime = 999,
+            relativeStartTime = 999,
             roomIndex = 13,
             slug = "foo-bar",
             abstractt = "Foo abstract",
             description = "Foo description",
             links = "https://foobar-links.org",
-            highlight = false,
+            isHighlight = false,
             hasAlarm = false,
 
             changedTitle = false,
@@ -163,43 +163,6 @@ class SessionTest {
         val session2 = createSessionModifyingNonConsideredFields()
         assertThat(session1).isNotSameInstanceAs(session2)
         assertThat(session1.hashCode()).isEqualTo(session2.hashCode())
-    }
-
-    @Test
-    fun `cancel marks a session as canceled and resets all change other flags`() {
-        val session = Session(
-            sessionId = "0",
-            changedTitle = true,
-            changedSubtitle = true,
-            changedRoomName = true,
-            changedDayIndex = true,
-            changedStartTime = true,
-            changedDuration = true,
-            changedSpeakers = true,
-            changedRecordingOptOut = true,
-            changedLanguage = true,
-            changedTrack = true,
-            changedIsNew = true,
-            changedIsCanceled = false,
-        )
-        val comparableCanceledSession = Session(
-            sessionId = "0",
-            changedTitle = false,
-            changedSubtitle = false,
-            changedRoomName = false,
-            changedDayIndex = false,
-            changedStartTime = false,
-            changedDuration = false,
-            changedSpeakers = false,
-            changedRecordingOptOut = false,
-            changedLanguage = false,
-            changedTrack = false,
-            changedIsNew = false,
-            changedIsCanceled = true,
-        )
-        val canceledSession = session.cancel()
-        assertThat(canceledSession).isEqualTo(comparableCanceledSession)
-        assertThat(canceledSession).isNotSameInstanceAs(session)
     }
 
     @Test

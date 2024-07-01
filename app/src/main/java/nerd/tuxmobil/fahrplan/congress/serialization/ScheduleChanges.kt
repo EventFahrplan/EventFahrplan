@@ -1,12 +1,12 @@
 package nerd.tuxmobil.fahrplan.congress.serialization
 
-import nerd.tuxmobil.fahrplan.congress.models.Session as SessionAppModel
+import info.metadude.android.eventfahrplan.network.models.Session as SessionNetworkModel
 
 @Suppress("DataClassPrivateConstructor")
 data class ScheduleChanges private constructor(
 
-        val sessionsWithChangeFlags: List<SessionAppModel>,
-        val oldCanceledSessions: List<SessionAppModel>,
+        val sessionsWithChangeFlags: List<SessionNetworkModel>,
+        val oldCanceledSessions: List<SessionNetworkModel>,
         val foundNoteworthyChanges: Boolean,
         val foundChanges: Boolean,
 
@@ -18,16 +18,16 @@ data class ScheduleChanges private constructor(
          * Returns a pair of a new list of sessions and two boolean flags indicating whether changes
          * have been found. [foundNoteworthyChanges] indicates generic changes which are relevant
          * for the schedule changes screen. [foundChanges] is based on the comparison of all
-         * session properties. Further, each session is flagged as ["new"][SessionAppModel.changedIsNew],
-         * ["canceled"][SessionAppModel.changedIsCanceled] or according to the changes detected when
+         * session properties. Further, each session is flagged as ["new"][SessionNetworkModel.changedIsNew],
+         * ["canceled"][SessionNetworkModel.changedIsCanceled] or according to the changes detected when
          * comparing it to its equivalent from the [oldSessions] list.
          *
          * This function does not modify the given lists nor any of its elements.
          */
         fun computeSessionsWithChangeFlags(
 
-                newSessions: List<SessionAppModel>,
-                oldSessions: List<SessionAppModel>
+                newSessions: List<SessionNetworkModel>,
+                oldSessions: List<SessionNetworkModel>
 
         ): ScheduleChanges {
 
@@ -40,7 +40,7 @@ data class ScheduleChanges private constructor(
 
             val oldNotCanceledSessions = oldSessions.filterNot { it.changedIsCanceled }.toMutableList()
             val oldCanceledSessions = oldSessions.filter { it.changedIsCanceled }
-            val sessionsWithChangeFlags = mutableListOf<SessionAppModel>()
+            val sessionsWithChangeFlags = mutableListOf<SessionNetworkModel>()
 
             var sessionIndex = 0
             while (sessionIndex < newSessions.size) {
@@ -151,7 +151,7 @@ data class ScheduleChanges private constructor(
                 var changedDuration: Boolean = false
         )
 
-        private fun SessionAppModel.equalsInNoteworthyProperties(session: SessionAppModel): Boolean {
+        private fun SessionNetworkModel.equalsInNoteworthyProperties(session: SessionNetworkModel): Boolean {
             return title == session.title &&
                     subtitle == session.subtitle &&
                     speakers == session.speakers &&
@@ -165,20 +165,20 @@ data class ScheduleChanges private constructor(
         }
 
         /**
-         * Intentionally omit volatile properties such as [SessionAppModel.hasAlarm],
-         * [SessionAppModel.highlight] which are only relevant for the UI layer.
-         * Also omit change flags such as [SessionAppModel.changedIsNew].
+         * Intentionally omit volatile properties such as [SessionNetworkModel.hasAlarm],
+         * [SessionNetworkModel.isHighlight] which are only relevant for the UI layer.
+         * Also omit change flags such as [SessionNetworkModel.changedIsNew].
          *
-         * Once [SessionAppModel] is converted into a Kotlin data class and its properties
+         * Once [SessionNetworkModel] is converted into a Kotlin data class and its properties
          * are separated this function can be replaced by an equals comparison.
          */
-        private fun SessionAppModel.equalsContentWise(session: SessionAppModel): Boolean {
+        private fun SessionNetworkModel.equalsContentWise(session: SessionNetworkModel): Boolean {
             return equalsInNoteworthyProperties(session) &&
                     url == session.url &&
                     dateText == session.dateText &&
                     dateUTC == session.dateUTC &&
                     timeZoneOffset == session.timeZoneOffset &&
-                    relStartTime == session.relStartTime &&
+                    relativeStartTime == session.relativeStartTime &&
                     type == session.type &&
                     slug == session.slug &&
                     abstractt == session.abstractt &&

@@ -8,7 +8,7 @@ import androidx.core.database.sqlite.transaction
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionByNotificationIdTable
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.ABSTRACT
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_DAY
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_DAY_INDEX
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_DURATION
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_IS_CANCELED
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_IS_NEW
@@ -16,11 +16,11 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Se
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_RECORDING_OPTOUT
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_ROOM_NAME
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_SPEAKERS
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_START_TIME
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_SUBTITLE
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_TIME
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_TITLE
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_TRACK
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DATE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DATE_TEXT
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DATE_UTC
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DAY
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DESCR
@@ -82,7 +82,7 @@ internal class SessionsDBOpenHelper(context: Context) : SQLiteOpenHelper(
                 "$ABSTRACT TEXT, " +
                 "$DESCR TEXT, " +
                 "$REL_START INTEGER, " +
-                "$DATE TEXT, " +
+                "$DATE_TEXT TEXT, " +
                 "$LINKS TEXT, " +
                 "$DATE_UTC INTEGER, " +
                 "$TIME_ZONE_OFFSET INTEGER DEFAULT NULL, " +
@@ -93,13 +93,13 @@ internal class SessionsDBOpenHelper(context: Context) : SQLiteOpenHelper(
                 "$CHANGED_TITLE INTEGER, " +
                 "$CHANGED_SUBTITLE INTEGER, " +
                 "$CHANGED_ROOM_NAME INTEGER, " +
-                "$CHANGED_DAY INTEGER, " +
+                "$CHANGED_DAY_INDEX INTEGER, " +
                 "$CHANGED_SPEAKERS INTEGER, " +
                 "$CHANGED_RECORDING_OPTOUT INTEGER, " +
                 "$CHANGED_LANGUAGE INTEGER, " +
                 "$CHANGED_TRACK INTEGER, " +
                 "$CHANGED_IS_NEW INTEGER, " +
-                "$CHANGED_TIME INTEGER, " +
+                "$CHANGED_START_TIME INTEGER, " +
                 "$CHANGED_DURATION INTEGER, " +
                 "$CHANGED_IS_CANCELED INTEGER" +
                 ");"
@@ -136,13 +136,13 @@ internal class SessionsDBOpenHelper(context: Context) : SQLiteOpenHelper(
             addIntegerColumn(CHANGED_TITLE, default = 0)
             addIntegerColumn(CHANGED_SUBTITLE, default = 0)
             addIntegerColumn(CHANGED_ROOM_NAME, default = 0)
-            addIntegerColumn(CHANGED_DAY, default = 0)
+            addIntegerColumn(CHANGED_DAY_INDEX, default = 0)
             addIntegerColumn(CHANGED_SPEAKERS, default = 0)
             addIntegerColumn(CHANGED_RECORDING_OPTOUT, default = 0)
             addIntegerColumn(CHANGED_LANGUAGE, default = 0)
             addIntegerColumn(CHANGED_TRACK, default = 0)
             addIntegerColumn(CHANGED_IS_NEW, default = 0)
-            addIntegerColumn(CHANGED_TIME, default = 0)
+            addIntegerColumn(CHANGED_START_TIME, default = 0)
             addIntegerColumn(CHANGED_DURATION, default = 0)
             addIntegerColumn(CHANGED_IS_CANCELED, default = 0)
         }

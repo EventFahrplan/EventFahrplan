@@ -104,7 +104,7 @@ public interface FahrplanContract {
             /* 11 */ String ABSTRACT = "abstract";
             /* 12 */ String DESCR = "descr";
             /* 13 */ String REL_START = "relStart";
-            /* 14 */ String DATE = "date";
+            /* 14 */ String DATE_TEXT = "date";
             /* 15 */ String LINKS = "links";
             /* 16 */ String DATE_UTC = "dateUTC";
             /* 17 */ String ROOM_INDEX = "room_idx";
@@ -113,13 +113,13 @@ public interface FahrplanContract {
             /* 20 */ String CHANGED_TITLE = "changed_title";
             /* 21 */ String CHANGED_SUBTITLE = "changed_subtitle";
             /* 22 */ String CHANGED_ROOM_NAME = "changed_room";
-            /* 23 */ String CHANGED_DAY = "changed_day";
+            /* 23 */ String CHANGED_DAY_INDEX = "changed_day";
             /* 24 */ String CHANGED_SPEAKERS = "changed_speakers";
             /* 25 */ String CHANGED_RECORDING_OPTOUT = "changed_recording_optout";
             /* 26 */ String CHANGED_LANGUAGE = "changed_language";
             /* 27 */ String CHANGED_TRACK = "changed_track";
             /* 28 */ String CHANGED_IS_NEW = "changed_is_new";
-            /* 29 */ String CHANGED_TIME = "changed_time";
+            /* 29 */ String CHANGED_START_TIME = "changed_time";
             /* 30 */ String CHANGED_DURATION = "changed_duration";
             /* 31 */ String CHANGED_IS_CANCELED = "changed_is_canceled";
             /* 32 */ String SLUG = "slug";

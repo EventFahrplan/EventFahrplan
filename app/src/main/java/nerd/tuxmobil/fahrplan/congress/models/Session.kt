@@ -28,7 +28,7 @@ data class Session(
     val dateUTC: Long = 0, // milliseconds
     val timeZoneOffset: ZoneOffset? = null,
     val startTime: Int = 0, // minutes since day start
-    val relStartTime: Int = 0, // minutes since conference start
+    val relativeStartTime: Int = 0, // minutes since conference start
     val duration: Int = 0, // minutes
     val roomName: String = "",
     val roomIdentifier: String = "", // Unique identifier of a room, e.g. "bccb6a5b-b26b-4f17-90b9-b5966f5e34d8"
@@ -40,7 +40,7 @@ data class Session(
     val slug: String = "",
     val recordingLicense: String = "",
     val recordingOptOut: Boolean = false,
-    val highlight: Boolean = false,
+    val isHighlight: Boolean = false,
     val hasAlarm: Boolean = false,
 
     val changedTitle: Boolean = false,
@@ -71,7 +71,7 @@ data class Session(
     /**
      * Returns a moment based on the start time milliseconds.
      *
-     * Don't use in [Conference.ofSessions] as long as [relStartTime] is supported.
+     * Don't use in [Conference.ofSessions] as long as [relativeStartTime] is supported.
      * See: [5a402](https://github.com/EventFahrplan/EventFahrplan/commit/5a4022b00434700274a824cc63f6d54a18b06fac)
      */
     val startsAt: Moment
@@ -86,6 +86,9 @@ data class Session(
     val endsAt: Moment
         get() = Moment.ofEpochMilli(dateUTC + duration.toLong() * MILLISECONDS_OF_ONE_MINUTE)
 
+    /**
+     * Keep in sync with [info.metadude.android.eventfahrplan.database.models.Session.isChanged].
+     */
     val isChanged: Boolean
         get() = changedTitle ||
                 changedSubtitle ||
@@ -97,25 +100,6 @@ data class Session(
                 changedLanguage ||
                 changedRecordingOptOut ||
                 changedTrack
-
-    /**
-     * Returns a new session with [changedIsCanceled] set to `true`
-     * and all other change flags set to `false`.
-     */
-    fun cancel() = copy(
-        changedIsCanceled = true,
-        changedIsNew = false,
-        changedTitle = false,
-        changedSubtitle = false,
-        changedRoomName = false,
-        changedDayIndex = false,
-        changedStartTime = false,
-        changedDuration = false,
-        changedSpeakers = false,
-        changedLanguage = false,
-        changedRecordingOptOut = false,
-        changedTrack = false,
-    )
 
 }
 
