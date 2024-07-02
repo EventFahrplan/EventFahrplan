@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Menu items -->
+    <string name="menu_item_title_about">Informações</string>
+    <string name="menu_item_title_add_to_calendar">Adicionar ao calendário</string>
+    <string name="menu_item_title_alarms">Alertas</string>
+    <string name="menu_item_title_close_session_details">Fechar detalhes do evento</string>
+    <string name="menu_item_title_flag_as_favorite">Adicionar aos favoritos</string>
+    <string name="menu_item_title_unflag_as_favorite">Remover dos favoritos</string>
+    <string name="menu_item_title_delete_favorite">Excluir</string>
+    <string name="menu_item_title_set_alarm">Definir alerta</string>
+    <string name="menu_item_title_delete_alarm">Excluir alerta</string>
+    <string name="menu_item_title_delete_all">Excluir tudo</string>
+    <string name="menu_item_title_favorites">Favoritos</string>
+    <string name="menu_item_title_navigate">Navegação</string>
+    <string name="menu_item_title_refresh">Atualizar</string>
+    <string name="menu_item_title_share_session">Compartilhar evento</string>
+    <string name="menu_item_title_share_favorites">Compartilhar favoritos</string>
+    <string name="menu_item_title_share_session_text">como texto</string>
+    <string name="menu_item_title_share_session_json">como JSON (para Chaosflix)</string>
+    <string name="share_as_text">Compartilhar como texto</string>
+    <string name="share_as_json">Compartilhar como JSON (para Chaosflix)</string>
+    <!-- AlertDialog -->
+    <string name="OK">Confirmar</string>
+    <!-- CertificateErrorFragment -->
+    <string name="certificate_error_message">        Falha ao estabelecer conexão segura.\n
+        (<xliff:g example="Unknown Error" id="error">%s</xliff:g>)
+    </string>
+    <string name="certificate_error_title">O certificado não pôde ser adicionado.</string>
+    <!-- Error messages -->
+    <string name="dlg_err_connection_failed">Falha na conexão</string>
+    <string name="dlg_err_failed_unknown_host">Endereço desconhecido:\n<xliff:g example="http://example.com" id="url">%s</xliff:g></string>
+    <string name="dlg_err_failed_wrong_http_credentials">Autenticação HTTP inválida</string>
+    <string name="dlg_err_failed_timeout">Servidor não responde (Tempo esgotado).</string>
+    <string name="dlg_err_failed_connect_failure">Falha desconhecida de conexão</string>
+    <string name="dlg_err_failed_not_found">URL de cronograma inválida</string>
+    <string name="dlg_err_failed_parse_failure">Não foi possível processar a resposta</string>
+    <string name="dlg_err_failed_ssl_failure">Falha de SSL</string>
+    <string name="dlg_err_failed_http_cleartext_not_permitted">HTTP não é permitido. Por favor use HTTPS.</string>
+    <string name="dlg_err_schedule_data">Erro nos dados do cronograma</string>
+    <string name="dlg_err_schedule_data_empty">        Nada para exibir. O cronograma com a versão \"<xliff:g example="0.99" id="version">%s</xliff:g>\"
+        não contém uma sessão.
+    </string>
+    <string name="dlg_err_schedule_data_empty_without_version">        Nada para exibir. O cronograma não contém nenhuma sessão.
+    </string>
+    <string name="uptodate">O cronograma está atualizado.</string>
+    <!-- Schedule changes dialog -->
+    <string name="schedule_changes_dialog_title">Atualização do cronograma</string>
+    <string name="schedule_changes_dialog_updated_to_text">O cronograma foi atualizado para\u0020</string>
+    <string name="schedule_changes_dialog_changed_new_cancelled_text">. Ha alterações em <xliff:g example="3 lectures" id="num_changes">%1$s</xliff:g>, <xliff:g example="2 are" id="num_new">%2$s</xliff:g> <xliff:g example="new" id="phrase_new">%3$s</xliff:g>, <xliff:g example="1 is" id="num_canceled">%4$s</xliff:g> <xliff:g example="cancelled" id="phrase_cancelled">%5$s</xliff:g>.</string>
+    <string name="schedule_changes_dialog_affected_text">As mudanças afetaram <xliff:g example="2" id="num_marked">%1$d</xliff:g> dos seus eventos favoritos.</string>
+    <plurals name="schedule_changes_dialog_phrase_new">
+        <item quantity="one">novo</item>
+        <item quantity="other">novos</item>
+    </plurals>
+    <plurals name="schedule_changes_dialog_phrase_cancelled">
+        <item quantity="one">cancelado</item>
+        <item quantity="other">cancelados</item>
+    </plurals>
+    <plurals name="schedule_changes_dialog_number_of_sessions">
+        <item quantity="one"><xliff:g example="1" id="count">%d</xliff:g> palestra</item>
+        <item quantity="other"><xliff:g example="9" id="count">%d</xliff:g> palestras</item>
+    </plurals>
+    <plurals name="schedule_changes_dialog_being">
+        <item quantity="one"><xliff:g example="1" id="count">%d</xliff:g> é</item>
+        <item quantity="other"><xliff:g example="9" id="count">%d</xliff:g> são</item>
+    </plurals>
+    <string name="schedule_changes_dialog_browse">Explorar</string>
+    <string name="schedule_changes_dialog_later">Mais tarde</string>
+    <string name="progress_loading_data">Obter o cronograma &#8230;</string>
+    <string name="progress_processing_data">Processando o cronograma &#8230;</string>
+    <string name="load_data">Carregar</string>
+    <string name="choose_day">Escolha o dia</string>
+    <!-- Build information -->
+    <!-- App disclaimer -->
+    <!-- SnackEngage -->
+    <!-- TraceDroid -->
+    <!-- Notifications -->
+    <!-- Schedule refresh interval picker -->
+    <!-- Alarm time picker -->
+    <!-- Session list item -->
+    <!-- Session item -->
+    <!-- Alarms -->
+    <!-- Validation errors -->
+</resources>
