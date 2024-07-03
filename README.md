@@ -54,7 +54,8 @@ Please read the instructions in the [contribution guide](CONTRIBUTING.md) in ord
 - Japanese 🇯🇵
 - Lithuanian 🇱🇹
 - Polish 🇵🇱
-- Portuguese 🇵🇹
+- Portuguese, Brazil 🇧🇷
+- Portuguese, Portugal 🇵🇹
 - Russian 🇷🇺
 - Spanish 🇪🇸
 - Swedish 🇸🇪
@@ -142,7 +143,7 @@ Jasper van der Graaf, Joergi, Julius Vitkauskas, koelnkalkverbot, Larissa Yasin,
 lepawa, ligi, lucadelu, Luis Azcuaga, María Arias de Reyna, Mateus Baptista,
 Matthias Geisler, Matthias Hunstock, Matthias Mair, MichaelRocks, Miguel Beltran,
 mtpa, Nghiem Xuan Hien, NiciDieNase, Noemis, Oguz Yuksel, Omicron, ozgurbaykal,
-Poschi, Qwertele, Róbert Papp, rotrot, Sjors van Mierlo, Stefan Medack,
+Poschi, Qwertele, Róbert Papp, rotrot, Sjors van Mierlo, Smarzaro, Stefan Medack,
 SubOptimal, Su Jade, taseret, Teeranai.P, Torsten Grote, Victor Herasme,
 Vladimir Alabov, Yanicka
 
