@@ -17,9 +17,8 @@ object Android {
 
 object Compose {
 
-    object Versions {
-        internal const val bom = "2024.06.00"
-        const val compiler = "1.5.14"
+    private object Versions {
+        const val bom = "2024.06.00"
     }
 
     const val bom = "androidx.compose:compose-bom:${Versions.bom}"
@@ -34,14 +33,15 @@ object Plugins {
     private object Versions {
         const val android = "8.5.0"
         const val dexcount = "4.0.0"
-        const val kotlin = "1.9.24"
-        const val ksp = "1.9.24-1.0.20"
+        const val kotlin = "2.0.0"
+        const val ksp = "2.0.0-1.0.23"
         const val sonarQube = "5.0.0.4638"
         const val unMock = "0.7.9"
         const val versions = "0.51.0"
     }
 
     const val android = "com.android.tools.build:gradle:${Versions.android}"
+    const val composeCompiler = "org.jetbrains.kotlin:compose-compiler-gradle-plugin:${Versions.kotlin}"
     const val dexcount = "com.getkeepsafe.dexcount:dexcount-gradle-plugin:${Versions.dexcount}"
     const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
     const val ksp = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin:${Versions.ksp}"
