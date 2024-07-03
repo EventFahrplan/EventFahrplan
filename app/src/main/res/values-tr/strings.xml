@@ -62,6 +62,8 @@
     <string name="choose_day">Gün seç</string>
     <string name="day">Gün</string>
     <string name="fahrplan">Plan</string>
+    <string name="schedule_no_schedule_data_title">Henüz gösterilecek bir şey yok</string>
+    <string name="schedule_no_schedule_data_subtitle">Lütfen daha sonra tekrar deneyin</string>
     <string name="appVersion">Versiyon <xliff:g example="1.40.2" id="appVersion">%s</xliff:g></string>
     <string name="schedule_updated_to"><xliff:g example="Mildenberg 2018-01-16 16:50" id="version">%s</xliff:g> versiyona güncellendi
     </string>
@@ -89,8 +91,10 @@
     <string name="engelsystem_shifts_parsing_error_forbidden"><xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g> vardiyaları için yanlış API anahtarı</string>
     <string name="engelsystem_shifts_parsing_error_not_found"><xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g> vardiyası için yanlış URL</string>
     <string name="add_to_calendar_failed">Etkinlik takvime eklenemedi.</string>
-    <string name="schedule_changes_no_changes_title">Planda değişim yok</string>
-    <string name="favorites_no_favorites_title">Favoru konuşma yok</string>
+    <string name="schedule_changes_no_changes_title">Herhangi bir değişiklik yok</string>
+    <string name="schedule_changes_no_changes_subtitle">Uygulama düzenli olarak güncellemeleri kontrol eder</string>
+    <string name="favorites_no_favorites_title">Favoriler yok</string>
+    <string name="favorites_no_favorites_subtitle">Favori eklemek için menü çubuğundaki yıldıza tıklayın</string>
     <string name="schedule_changes">Plan değişiklikleri</string>
     <string name="general_settings">Genel</string>
     <string name="starred_sessions">Favoriler</string>
@@ -171,9 +175,9 @@ Hatanın nasıl ve ne zaman olduğunu açıklayabilirsen bu bize hayli yardım e
     <!-- Session item -->
     <string name="session_item_has_alarm_content_description">alarm kuruldu</string>
     <!-- Alarms -->
-    <string name="alarms_no_alarms_title">Görüntülenecek alarm bulunamadı. Lütfen plandaki her bir
-konuşma için ayrı bir alarm kurabilecğeini unutma.
-Alarm kurmak için konuşma ekranındaki alarm butonuna dokun.    </string>
+    <string name="alarms_no_alarms_title">        Alarm kurulmamış
+    </string>
+    <string name="alarms_no_alarms_subtitle">Alarm kurmak için menü çubuğundaki zil simgesine tıklayın</string>
     <string name="alarms_item_on_click_label">Detayları görüntüle    </string>
     <string name="alarms_item_delete_icon_on_click_label">Alarmı sil    </string>
     <string name="alarms_item_alarm_time_zero_minutes_content_description">Alarm: başlangıçta    </string>
