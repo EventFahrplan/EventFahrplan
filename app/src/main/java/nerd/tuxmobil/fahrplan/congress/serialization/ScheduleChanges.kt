@@ -87,7 +87,7 @@ data class ScheduleChanges private constructor(
                     sessionChange.changedRoom = true
                     foundNoteworthyChanges = true
                 }
-                if (newSession.track != oldSession.track) {
+                if (newSession.track != oldSession.track) { // TODO Evaluate in schedule changes screen
                     sessionChange.changedTrack = true
                     foundNoteworthyChanges = true
                 }
