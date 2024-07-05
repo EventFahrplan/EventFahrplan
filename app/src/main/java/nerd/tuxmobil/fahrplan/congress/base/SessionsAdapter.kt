@@ -68,17 +68,17 @@ abstract class SessionsAdapter protected constructor(
                 TYPE_ITEM -> {
                     rowView = localInflater.inflate(R.layout.session_list_item, parent, false)
                     viewHolder = ViewHolder(
-                        rowView.requireViewByIdCompat(R.id.session_list_item_title_view),
-                        rowView.requireViewByIdCompat(R.id.session_list_item_subtitle_view),
-                        rowView.requireViewByIdCompat(R.id.session_list_item_speakers_view),
-                        rowView.requireViewByIdCompat(R.id.session_list_item_language_view),
-                        rowView.requireViewByIdCompat(R.id.session_list_item_day_view),
-                        rowView.requireViewByIdCompat(R.id.session_list_item_time_view),
-                        rowView.requireViewByIdCompat(R.id.session_list_item_room_view),
-                        rowView.requireViewByIdCompat(R.id.session_list_item_duration_view),
-                        rowView.requireViewByIdCompat(R.id.session_list_item_video_view),
-                        rowView.requireViewByIdCompat(R.id.session_list_item_no_video_view),
-                        rowView.requireViewByIdCompat(R.id.session_list_item_without_video_recording_view),
+                        title = rowView.requireViewByIdCompat(R.id.session_list_item_title_view),
+                        subtitle = rowView.requireViewByIdCompat(R.id.session_list_item_subtitle_view),
+                        speakers = rowView.requireViewByIdCompat(R.id.session_list_item_speakers_view),
+                        lang = rowView.requireViewByIdCompat(R.id.session_list_item_language_view),
+                        day = rowView.requireViewByIdCompat(R.id.session_list_item_day_view),
+                        time = rowView.requireViewByIdCompat(R.id.session_list_item_time_view),
+                        room = rowView.requireViewByIdCompat(R.id.session_list_item_room_view),
+                        duration = rowView.requireViewByIdCompat(R.id.session_list_item_duration_view),
+                        video = rowView.requireViewByIdCompat(R.id.session_list_item_video_view),
+                        noVideo = rowView.requireViewByIdCompat(R.id.session_list_item_no_video_view),
+                        withoutVideoRecording = rowView.requireViewByIdCompat(R.id.session_list_item_without_video_recording_view),
                     )
                     rowView.tag = viewHolder
                 }
