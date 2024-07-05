@@ -1,19 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/schedule_changes_background"
-    android:gravity="center"
-    android:orientation="vertical"
-    tools:context=".changes.ChangeListFragment">
+    android:layout_height="match_parent">
 
-    <ListView
-        android:id="@android:id/list"
+    <androidx.compose.ui.platform.ComposeView
+        android:id="@+id/session_changes_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:listitem="@layout/session_list_item" />
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <include layout="@layout/fragment_sessions_no_sessions" />
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
