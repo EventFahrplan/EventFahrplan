@@ -54,7 +54,8 @@ Please read the instructions in the [contribution guide](CONTRIBUTING.md) in ord
 - Japanese 🇯🇵
 - Lithuanian 🇱🇹
 - Polish 🇵🇱
-- Portuguese 🇵🇹
+- Portuguese, Brazil 🇧🇷
+- Portuguese, Portugal 🇵🇹
 - Russian 🇷🇺
 - Spanish 🇪🇸
 - Swedish 🇸🇪
@@ -134,16 +135,17 @@ Portions Copyright 2008-2011 The K-9 Dog Walkers and 2006-2011 the Android Open 
 Copyright 2013-2024 johnjohndoe
 Copyright 2011-2015 Daniel Dorau
 Contributions from 0x5ubt13, Adriano Pereira Junior, Akarsh Seggemu,
-Александр Рознятовский, aligoush, Andrea Marziali, Andy Scherzinger,
+Александр Рознятовский, aligoush, Andrea Marziali, Andrulko, Andy Scherzinger,
 Andreas Schildbach, Animesh Verma, bashtian, bjoernb, Björn Olsson Jarl,
 ButterflyOfFire, cacarrara, Caio Volpato, Chase, cketti, codingcatgirl,
 Dominik Stadler, entropynil, erebion, ideadapt, isi_ko404, IsoLinearCHiP,
 Jasper van der Graaf, Joergi, Julius Vitkauskas, koelnkalkverbot, Larissa Yasin,
 lepawa, ligi, lucadelu, Luis Azcuaga, María Arias de Reyna, Mateus Baptista,
 Matthias Geisler, Matthias Hunstock, Matthias Mair, MichaelRocks, Miguel Beltran,
-mtpa, Nghiem Xuan Hien, NiciDieNase, Noemis, Omicron, Poschi, Qwertele,
-Róbert Papp, rotrot, Sjors van Mierlo, Stefan Medack, SubOptimal, Su Jade,
-taseret, Teeranai.P, Torsten Grote, Victor Herasme, Vladimir Alabov, Yanicka
+mtpa, Nghiem Xuan Hien, NiciDieNase, Noemis, Oguz Yuksel, Omicron, ozgurbaykal,
+Poschi, Qwertele, Róbert Papp, rotrot, Sjors van Mierlo, Smarzaro, Stefan Medack,
+SubOptimal, Su Jade, taseret, Teeranai.P, Torsten Grote, Victor Herasme,
+Vladimir Alabov, Yanicka
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
