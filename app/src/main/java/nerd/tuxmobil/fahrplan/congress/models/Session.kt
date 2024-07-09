@@ -52,7 +52,7 @@ data class Session(
     val changedSpeakers: Boolean = false,
     val changedLanguage: Boolean = false,
     val changedRecordingOptOut: Boolean = false,
-    val changedTrack: Boolean = false,
+    val changedTrack: Boolean = false, // TODO Evaluate in schedule changes screen
 
     val changedIsNew: Boolean = false,
     val changedIsCanceled: Boolean = false,

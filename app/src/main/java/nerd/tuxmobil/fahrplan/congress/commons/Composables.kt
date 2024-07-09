@@ -9,17 +9,21 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement.Center
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Color.Companion.White
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
@@ -42,6 +46,8 @@ import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.commons.TextResource.Empty
 import nerd.tuxmobil.fahrplan.congress.commons.TextResource.Html
 import nerd.tuxmobil.fahrplan.congress.commons.TextResource.PostalAddress
+import nerd.tuxmobil.fahrplan.congress.commons.VideoRecordingState.Drawable.Available
+import nerd.tuxmobil.fahrplan.congress.commons.VideoRecordingState.Drawable.Unavailable
 import nerd.tuxmobil.fahrplan.congress.extensions.toSpanned
 import nerd.tuxmobil.fahrplan.congress.extensions.toTextUnit
 import nerd.tuxmobil.fahrplan.congress.utils.LinkMovementMethodCompat
@@ -217,4 +223,82 @@ private fun ClickableTextHtmlPreview() {
         textLinkColor = android.R.color.holo_purple,
         onClick = {},
     )
+}
+
+@Composable
+fun VideoRecordingIcon(videoRecordingState: VideoRecordingState, @ColorRes tintColor: Int?) {
+    if (videoRecordingState is VideoRecordingState.Drawable) {
+        Box(
+            modifier = Modifier
+                .padding(start = 16.dp)
+                .size(24.15.dp),
+        ) {
+            val color = if (tintColor == null) White else colorResource(tintColor)
+            Image(
+                painter = painterResource(videoRecordingState.drawable),
+                colorFilter = ColorFilter.tint(color),
+                contentDescription = stringResource(videoRecordingState.contentDescription),
+            )
+            if (videoRecordingState == Unavailable) {
+                Image(
+                    painter = painterResource(R.drawable.ic_video_recording_unavailable_overlay),
+                    contentDescription = null,
+                )
+            }
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun VideoRecordingIconPreview() {
+    Row {
+        VideoRecordingIcon(Available, tintColor = null)
+        VideoRecordingIcon(Available, R.color.schedule_change_new)
+        VideoRecordingIcon(Available, R.color.schedule_change_canceled)
+        VideoRecordingIcon(Available, R.color.schedule_change)
+        VideoRecordingIcon(Unavailable, tintColor = null)
+        VideoRecordingIcon(Unavailable, R.color.schedule_change_new)
+        VideoRecordingIcon(Unavailable, R.color.schedule_change_canceled)
+        VideoRecordingIcon(Unavailable, R.color.schedule_change)
+    }
+}
+
+@Composable
+fun DayDateSeparatorItem(text: String) {
+    Column(
+        Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 8.dp),
+    ) {
+        val color = colorResource(R.color.text_link_on_light)
+        Text(
+            color = color,
+            text = text.uppercase(),
+            fontSize = 13.sp,
+            fontWeight = Bold,
+        )
+        HorizontalDivider(thickness = 1.dp, color = color)
+    }
+}
+
+@Preview
+@Composable
+private fun DayDateSeparatorItemPreview() {
+    DayDateSeparatorItem("Day 1 - 31.02.2023")
+}
+
+@Composable
+fun SessionListHeader(text: String) {
+    Text(
+        modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp),
+        text = text,
+        fontWeight = Bold,
+        fontSize = 22.sp,
+        color = colorResource(R.color.session_list_header_text),
+    )
+}
+
+@Preview
+@Composable
+private fun SessionListHeaderScheduleChangesPreview() {
+    SessionListHeader(stringResource(R.string.schedule_changes))
 }

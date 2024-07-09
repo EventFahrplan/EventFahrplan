@@ -76,8 +76,6 @@ abstract class SessionsAdapter protected constructor(
                         time = rowView.requireViewByIdCompat(R.id.session_list_item_time_view),
                         room = rowView.requireViewByIdCompat(R.id.session_list_item_room_view),
                         duration = rowView.requireViewByIdCompat(R.id.session_list_item_duration_view),
-                        video = rowView.requireViewByIdCompat(R.id.session_list_item_video_view),
-                        noVideo = rowView.requireViewByIdCompat(R.id.session_list_item_no_video_view),
                         withoutVideoRecording = rowView.requireViewByIdCompat(R.id.session_list_item_without_video_recording_view),
                     )
                     rowView.tag = viewHolder
@@ -187,8 +185,6 @@ abstract class SessionsAdapter protected constructor(
         var time: TextView,
         var room: TextView,
         var duration: TextView,
-        var noVideo: ImageView,
-        var video: ImageView,
         var withoutVideoRecording: ImageView
     )
 
