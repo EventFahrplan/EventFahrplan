@@ -1,5 +1,9 @@
 name: Build
-on: [pull_request, push]
+on:
+  pull_request:
+  push:
+    branches-ignore:
+      - glt-2022
 jobs:
   build:
     runs-on: ubuntu-latest
