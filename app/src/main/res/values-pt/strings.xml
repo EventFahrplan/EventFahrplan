@@ -92,8 +92,8 @@
     <string name="schedule_parsing_error_generic">Erro desconhecido ao processar cronograma</string>
     <string name="schedule_parsing_error_with_version">Erro ao processar versão do cronograma %s</string>
     <string name="add_to_calendar_failed">Falha ao adicionar o evento ao calendário.</string>
-    <string name="no_changes">Nenhuma mudança de cronograma</string>
-    <string name="no_favorites">Nenhuma palestra favorita</string>
+    <string name="schedule_changes_no_changes_title">Nenhuma mudança de cronograma</string>
+    <string name="favorites_no_favorites_title">Nenhuma palestra favorita</string>
     <string name="schedule_changes">Mudanças no cronograma</string>
     <string name="general_settings">Geral</string>
     <string name="starred_sessions">Favoritos</string>

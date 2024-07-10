@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
@@ -68,7 +68,11 @@ internal fun AlarmsScreen(
 
 @Composable
 private fun NoAlarms() {
-    NoData(stringResource(R.string.alarms_empty))
+    NoData(
+        emptyContent = R.drawable.no_alarms,
+        title = stringResource(R.string.alarms_no_alarms_title),
+        subtitle = stringResource(R.string.alarms_no_alarms_subtitle),
+    )
 }
 
 @Composable
@@ -85,7 +89,7 @@ private fun SessionAlarmsList(
                 onDeleteClick = onDeleteItemClick
             )
             if (index < parameters.size - 1) {
-                Divider(Modifier.padding(horizontal = 12.dp))
+                HorizontalDivider(Modifier.padding(horizontal = 12.dp))
             }
         }
     }

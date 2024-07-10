@@ -43,8 +43,18 @@ dependencies {
     implementation Libs.annotation
     implementation Libs.coreKtx
 
+    testImplementation project(":commons-testing")
+    testImplementation Libs.junitJupiterApi
+    testRuntimeOnly Libs.junitJupiterEngine
+    testImplementation Libs.truth
+
     androidTestImplementation Libs.androidTestCore
     androidTestRuntimeOnly Libs.androidTestRunner
     androidTestImplementation Libs.junitJupiterApi
     androidTestImplementation Libs.truth
+
+    testImplementation Libs.junitJupiterApi
+    testRuntimeOnly Libs.junitJupiterEngine
+    testImplementation Libs.junitJupiterParams
+    testImplementation Libs.truth
 }

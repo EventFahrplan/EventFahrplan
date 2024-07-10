@@ -6,33 +6,34 @@ import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import info.metadude.android.eventfahrplan.network.serialization.FahrplanParser
 import nerd.tuxmobil.fahrplan.congress.models.DateInfo
 import nerd.tuxmobil.fahrplan.congress.models.Room
-import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.schedule.TrackBackgrounds
 import org.threeten.bp.ZoneOffset
 import info.metadude.android.eventfahrplan.database.models.Highlight as HighlightDatabaseModel
 import info.metadude.android.eventfahrplan.database.models.Session as SessionDatabaseModel
 import info.metadude.android.eventfahrplan.network.models.Session as SessionNetworkModel
+import nerd.tuxmobil.fahrplan.congress.models.Session as SessionAppModel
 
-fun Session.shiftRoomIndexOnDays(dayIndices: Set<Int>) =
+fun SessionNetworkModel.shiftRoomIndexOnDays(dayIndices: Set<Int>) =
     if (dayIndex in dayIndices) {
         copy(roomIndex = roomIndex + 1)
     } else {
         this
     }
 
-fun Session.toRoom() = Room(identifier = roomIdentifier, name = roomName)
+fun SessionAppModel.toRoom() = Room(identifier = roomIdentifier, name = roomName)
 
-fun Session.toDateInfo(): DateInfo = DateInfo(dayIndex, Moment.parseDate(dateText))
+fun SessionDatabaseModel.toDateInfo(): DateInfo = DateInfo(dayIndex, Moment.parseDate(dateText))
 
-fun Session.toHighlightDatabaseModel() = HighlightDatabaseModel(
+fun SessionAppModel.toHighlightDatabaseModel() = HighlightDatabaseModel(
         sessionId = Integer.parseInt(sessionId),
-        isHighlight = highlight
+        isHighlight = isHighlight
 )
 
-fun Session.toSessionDatabaseModel() = SessionDatabaseModel(
+fun SessionDatabaseModel.toSessionAppModel(): SessionAppModel {
+    return SessionAppModel(
         sessionId = sessionId,
         abstractt = abstractt,
-        date = dateText,
+        dateText = dateText,
         dateUTC = dateUTC,
         dayIndex = dayIndex,
         description = description,
@@ -41,54 +42,10 @@ fun Session.toSessionDatabaseModel() = SessionDatabaseModel(
         hasAlarm = hasAlarm,
         language = language,
         links = links,
-        isHighlight = highlight,
+        isHighlight = isHighlight,
         recordingLicense = recordingLicense,
         recordingOptOut = recordingOptOut,
-        relativeStartTime = relStartTime,
-        roomName = roomName,
-        roomIdentifier = roomIdentifier,
-        roomIndex = roomIndex,
-        slug = slug,
-        speakers = createSpeakersString(speakers),
-        startTime = startTime, // minutes since day start
-        subtitle = subtitle,
-        timeZoneOffset = timeZoneOffset?.totalSeconds, // seconds
-        title = title,
-        track = track,
-        type = type,
-        url = url,
-
-        changedDay = changedDayIndex,
-        changedDuration = changedDuration,
-        changedIsCanceled = changedIsCanceled,
-        changedIsNew = changedIsNew,
-        changedLanguage = changedLanguage,
-        changedRecordingOptOut = changedRecordingOptOut,
-        changedRoomName = changedRoomName,
-        changedSpeakers = changedSpeakers,
-        changedSubtitle = changedSubtitle,
-        changedTime = changedStartTime,
-        changedTitle = changedTitle,
-        changedTrack = changedTrack
-)
-
-fun SessionDatabaseModel.toSessionAppModel(): Session {
-    return Session(
-        sessionId = sessionId,
-        abstractt = abstractt,
-        dateText = date,
-        dateUTC = dateUTC,
-        dayIndex = dayIndex,
-        description = description,
-        duration = duration, // minutes
-        feedbackUrl = feedbackUrl,
-        hasAlarm = hasAlarm,
-        language = language,
-        links = links,
-        highlight = isHighlight,
-        recordingLicense = recordingLicense,
-        recordingOptOut = recordingOptOut,
-        relStartTime = relativeStartTime,
+        relativeStartTime = relativeStartTime,
         roomName = roomName,
         roomIdentifier = roomIdentifier,
         roomIndex = roomIndex,
@@ -96,52 +53,7 @@ fun SessionDatabaseModel.toSessionAppModel(): Session {
         speakers = createSpeakersList(speakers),
         startTime = startTime, // minutes since day start
         subtitle = subtitle,
-        timeZoneOffset = timeZoneOffset?.let { ZoneOffset.ofTotalSeconds(it) }, // seconds
-        title = title,
-        track = track,
-        type = type,
-        url = url,
-
-        changedDayIndex = changedDay,
-        changedDuration = changedDuration,
-        changedIsCanceled = changedIsCanceled,
-        changedIsNew = changedIsNew,
-        changedLanguage = changedLanguage,
-        changedRecordingOptOut = changedRecordingOptOut,
-        changedRoomName = changedRoomName,
-        changedSpeakers = changedSpeakers,
-        changedSubtitle = changedSubtitle,
-        changedStartTime = changedTime,
-        changedTitle = changedTitle,
-        changedTrack = changedTrack,
-    )
-}
-
-fun SessionNetworkModel.toSessionAppModel(): Session {
-    return Session(
-        sessionId = sessionId,
-        abstractt = abstractt,
-        dateText = date,
-        dateUTC = dateUTC,
-        dayIndex = dayIndex,
-        description = description,
-        duration = duration, // minutes
-        feedbackUrl = feedbackUrl,
-        hasAlarm = hasAlarm,
-        language = language,
-        links = links,
-        highlight = isHighlight,
-        recordingLicense = recordingLicense,
-        recordingOptOut = recordingOptOut,
-        relStartTime = relativeStartTime,
-        roomName = roomName,
-        roomIdentifier = roomGuid,
-        roomIndex = roomIndex,
-        slug = slug,
-        speakers = createSpeakersList(speakers),
-        startTime = startTime, // minutes since day start
-        subtitle = subtitle,
-        timeZoneOffset = timeZoneOffset?.let { ZoneOffset.ofTotalSeconds(it) }, // seconds
+        timeZoneOffset = timeZoneOffset?.let { ZoneOffset.ofTotalSeconds(it) },
         title = title,
         track = track,
         type = type,
@@ -155,8 +67,98 @@ fun SessionNetworkModel.toSessionAppModel(): Session {
         changedRecordingOptOut = changedRecordingOptOut,
         changedRoomName = changedRoomName,
         changedSpeakers = changedSpeakers,
-        changedSubtitle = changedSubtitle,
         changedStartTime = changedStartTime,
+        changedSubtitle = changedSubtitle,
+        changedTitle = changedTitle,
+        changedTrack = changedTrack,
+    )
+}
+
+fun SessionDatabaseModel.toSessionNetworkModel(): SessionNetworkModel {
+    return SessionNetworkModel(
+        sessionId = sessionId,
+        abstractt = abstractt,
+        dateText = dateText,
+        dateUTC = dateUTC,
+        dayIndex = dayIndex,
+        description = description,
+        duration = duration, // minutes
+        feedbackUrl = feedbackUrl,
+        hasAlarm = hasAlarm,
+        language = language,
+        links = links,
+        isHighlight = isHighlight,
+        recordingLicense = recordingLicense,
+        recordingOptOut = recordingOptOut,
+        relativeStartTime = relativeStartTime,
+        roomName = roomName,
+        roomGuid = roomIdentifier,
+        roomIndex = roomIndex,
+        slug = slug,
+        speakers = speakers,
+        startTime = startTime, // minutes since day start
+        subtitle = subtitle,
+        timeZoneOffset = timeZoneOffset,
+        title = title,
+        track = track,
+        type = type,
+        url = url,
+
+        changedDayIndex = changedDayIndex,
+        changedDuration = changedDuration,
+        changedIsCanceled = changedIsCanceled,
+        changedIsNew = changedIsNew,
+        changedLanguage = changedLanguage,
+        changedRecordingOptOut = changedRecordingOptOut,
+        changedRoomName = changedRoomName,
+        changedSpeakers = changedSpeakers,
+        changedStartTime = changedStartTime,
+        changedSubtitle = changedSubtitle,
+        changedTitle = changedTitle,
+        changedTrack = changedTrack,
+    )
+}
+
+fun SessionNetworkModel.toSessionDatabaseModel(): SessionDatabaseModel {
+    return SessionDatabaseModel(
+        sessionId = sessionId,
+        abstractt = abstractt,
+        dateText = dateText,
+        dateUTC = dateUTC,
+        dayIndex = dayIndex,
+        description = description,
+        duration = duration, // minutes
+        feedbackUrl = feedbackUrl,
+        hasAlarm = hasAlarm,
+        language = language,
+        links = links,
+        isHighlight = isHighlight,
+        recordingLicense = recordingLicense,
+        recordingOptOut = recordingOptOut,
+        relativeStartTime = relativeStartTime,
+        roomName = roomName,
+        roomIdentifier = roomGuid,
+        roomIndex = roomIndex,
+        slug = slug,
+        speakers = speakers,
+        startTime = startTime, // minutes since day start
+        subtitle = subtitle,
+        timeZoneOffset = timeZoneOffset,
+        title = title,
+        track = track,
+        type = type,
+        url = url,
+
+        changedDayIndex = changedDayIndex,
+        changedDuration = changedDuration,
+        changedIsCanceled = changedIsCanceled,
+        changedIsNew = changedIsNew,
+        changedLanguage = changedLanguage,
+        changedRecordingOptOut = changedRecordingOptOut,
+        changedRoomName = changedRoomName,
+        changedSpeakers = changedSpeakers,
+        changedStartTime = changedStartTime,
+        changedSubtitle = changedSubtitle,
         changedTitle = changedTitle,
         changedTrack = changedTrack,
     )
@@ -169,7 +171,7 @@ fun SessionNetworkModel.toSessionAppModel(): Session {
  * scheme is used for similar sessions. This is achieved by customizing related track names. Colors
  * are derived from track names, see [TrackBackgrounds].
  */
-fun Session.sanitize(): Session {
+fun SessionNetworkModel.sanitize(): SessionNetworkModel {
     var tempTitle = title
     var tempSubtitle = subtitle
     var tempAbstract = abstractt
@@ -186,7 +188,7 @@ fun Session.sanitize(): Session {
     if (tempAbstract == tempDescription) {
         tempAbstract = ""
     }
-    if (createSpeakersString(speakers) == tempSubtitle) {
+    if (speakers == tempSubtitle) {
         tempSubtitle = ""
     }
     if (tempDescription.isEmpty()) {
@@ -221,12 +223,8 @@ fun Session.sanitize(): Session {
 /**
  * Delimiter which is used in [FahrplanParser] to construct the speakers string.
  */
-private const val SPEAKERS_DELIMITER = ";"
+private const val SPEAKERS_DELIMITER_FOR_SPLITTING = ";"
 
 private fun createSpeakersList(speakers: String): List<String> {
-    return if (speakers.isEmpty()) emptyList() else speakers.split(SPEAKERS_DELIMITER)
-}
-
-private fun createSpeakersString(speakers: List<String>): String {
-    return speakers.joinToString(SPEAKERS_DELIMITER)
+    return if (speakers.isEmpty()) emptyList() else speakers.split(SPEAKERS_DELIMITER_FOR_SPLITTING).map { it.trim() }
 }

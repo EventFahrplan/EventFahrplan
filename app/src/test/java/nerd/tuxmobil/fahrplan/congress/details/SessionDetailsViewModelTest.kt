@@ -93,7 +93,7 @@ class SessionDetailsViewModelTest {
             description = "Session description",
             track = "Session track",
             links = "[VOC projects](https://www.voc.com/projects/),[POC](https://poc.com/QXut1XBymAk)",
-            highlight = true,
+            isHighlight = true,
         )
         val repository = createRepository(selectedSessionFlow = flowOf(session))
         val fakeSessionPropertiesFormatter = mock<SessionPropertiesFormatter> {
@@ -169,7 +169,7 @@ class SessionDetailsViewModelTest {
             description = "",
             track = "",
             links = "",
-            highlight = false,
+            isHighlight = false,
         )
         val repository = createRepository(selectedSessionFlow = flowOf(session))
         val fakeSessionPropertiesFormatter = mock<SessionPropertiesFormatter> {
@@ -287,8 +287,8 @@ class SessionDetailsViewModelTest {
 
     @Test
     fun `favorSession() flags the session as a favorite and persists it`() {
-        val actualSession = Session(sessionId = "S3", highlight = false)
-        val expectedSession = Session(sessionId = "S3", highlight = true)
+        val actualSession = Session(sessionId = "S3", isHighlight = false)
+        val expectedSession = Session(sessionId = "S3", isHighlight = true)
         val repository = createRepository(selectedSession = actualSession)
         val viewModel = createViewModel(repository)
         viewModel.favorSession()
@@ -298,8 +298,8 @@ class SessionDetailsViewModelTest {
 
     @Test
     fun `unfavorSession() unflags the session as a favorite and persists it`() {
-        val actualSession = Session(sessionId = "S4", highlight = true)
-        val expectedSession = Session(sessionId = "S4", highlight = false)
+        val actualSession = Session(sessionId = "S4", isHighlight = true)
+        val expectedSession = Session(sessionId = "S4", isHighlight = false)
         val repository = createRepository(selectedSession = actualSession)
         val viewModel = createViewModel(repository)
         viewModel.unfavorSession()

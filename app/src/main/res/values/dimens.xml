@@ -77,4 +77,11 @@
     <dimen name="session_details_speakers">13sp</dimen>
     <dimen name="session_detailbar_icon_padding">3dp</dimen>
 
+    <!-- Empty screen  -->
+    <dimen name="empty_screen_text">16sp</dimen>
+    <dimen name="empty_screen_line_spacing_extra">6sp</dimen>
+    <dimen name="empty_screen_subtitle_padding_top">16dp</dimen>
+    <dimen name="empty_screen_drawable_padding">16dp</dimen>
+    <dimen name="empty_screen_padding">16dp</dimen>
+
 </resources>

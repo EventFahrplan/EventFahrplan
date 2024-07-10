@@ -140,7 +140,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
             String roomGuid = "";
             int day = 0;
             int dayChangeTime = 600; // Only provided by Pentabarf; corresponds to 10:00 am.
-            String date = "";
+            String dateText = "";
             int roomIndex = 0;
             int roomMapIndex = 0;
             boolean scheduleComplete = false;
@@ -168,7 +168,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                         if (name.equals("day")) {
                             String index = parser.getAttributeValue(null, "index");
                             day = Integer.parseInt(index);
-                            date = parser.getAttributeValue(null, "date");
+                            dateText = parser.getAttributeValue(null, "date");
                             String end = parser.getAttributeValue(null, "end");
                             if (end == null) {
                                 throw new MissingXmlAttributeException("day", "end");
@@ -196,7 +196,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                             session.setDayIndex(day);
                             session.setRoomName(Objects.requireNonNullElse(roomName, ""));
                             session.setRoomGuid(Objects.requireNonNullElse(roomGuid, ""));
-                            session.setDate(date);
+                            session.setDateText(dateText);
                             session.setRoomIndex(roomMapIndex);
                             eventType = parser.next();
                             boolean isSessionDone = false;

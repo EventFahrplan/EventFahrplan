@@ -9,7 +9,7 @@ import info.metadude.android.eventfahrplan.commons.logging.Logging
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionByNotificationIdTable
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.ABSTRACT
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_DAY
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_DAY_INDEX
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_DURATION
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_IS_CANCELED
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_IS_NEW
@@ -18,10 +18,10 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Se
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_ROOM_NAME
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_SPEAKERS
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_SUBTITLE
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_TIME
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_START_TIME
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_TITLE
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_TRACK
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DATE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DATE_TEXT
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DATE_UTC
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DAY
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DESCR
@@ -59,7 +59,7 @@ import info.metadude.android.eventfahrplan.database.extensions.updateRow
 import info.metadude.android.eventfahrplan.database.models.Session
 import info.metadude.android.eventfahrplan.database.sqliteopenhelper.SessionsDBOpenHelper
 
-class RealSessionsDatabaseRepository(
+internal class RealSessionsDatabaseRepository(
 
         private val sqLiteOpenHelper: SessionsDBOpenHelper,
         private val logging: Logging
@@ -201,7 +201,7 @@ class RealSessionsDatabaseRepository(
             Session(
                     sessionId = cursor.getString(SESSION_ID),
                     abstractt = cursor.getString(ABSTRACT),
-                    date = cursor.getString(DATE),
+                    dateText = cursor.getString(DATE_TEXT),
                     dateUTC = cursor.getLong(DATE_UTC),
                     dayIndex = cursor.getInt(DAY),
                     description = cursor.getString(DESCR),
@@ -224,7 +224,7 @@ class RealSessionsDatabaseRepository(
                     type = cursor.getString(TYPE),
                     url = cursor.getString(URL),
                     recordingOptOut = recordingOptOut,
-                    changedDay = cursor.getInt(CHANGED_DAY).isChanged,
+                    changedDayIndex = cursor.getInt(CHANGED_DAY_INDEX).isChanged,
                     changedDuration = cursor.getInt(CHANGED_DURATION).isChanged,
                     changedIsCanceled = cursor.getInt(CHANGED_IS_CANCELED).isChanged,
                     changedIsNew = cursor.getInt(CHANGED_IS_NEW).isChanged,
@@ -232,8 +232,8 @@ class RealSessionsDatabaseRepository(
                     changedRecordingOptOut = cursor.getInt(CHANGED_RECORDING_OPTOUT).isChanged,
                     changedRoomName = cursor.getInt(CHANGED_ROOM_NAME).isChanged,
                     changedSpeakers = cursor.getInt(CHANGED_SPEAKERS).isChanged,
+                    changedStartTime = cursor.getInt(CHANGED_START_TIME).isChanged,
                     changedSubtitle = cursor.getInt(CHANGED_SUBTITLE).isChanged,
-                    changedTime = cursor.getInt(CHANGED_TIME).isChanged,
                     changedTitle = cursor.getInt(CHANGED_TITLE).isChanged,
                     changedTrack = cursor.getInt(CHANGED_TRACK).isChanged
             )

@@ -166,7 +166,7 @@ internal class SessionDetailsViewModel(
             hasWikiLinks = links.containsWikiLink(),
             sessionLink = sessionLink,
             // Options menu
-            isFlaggedAsFavorite = highlight,
+            isFlaggedAsFavorite = isHighlight,
             hasAlarm = hasAlarm,
             supportsFeedback = supportsFeedback,
             supportsIndoorNavigation = supportsIndoorNavigation,
@@ -206,7 +206,7 @@ internal class SessionDetailsViewModel(
     fun favorSession() {
         loadSelectedSession { session ->
             val favoredSession = session.copy(
-                highlight = true // Required: Update property because updateHighlight refers to its value!
+                isHighlight = true // Required: Update property because updateHighlight refers to its value!
             )
             repository.updateHighlight(favoredSession)
         }
@@ -215,7 +215,7 @@ internal class SessionDetailsViewModel(
     fun unfavorSession() {
         loadSelectedSession { session ->
             val unfavoredSession = session.copy (
-                highlight = false // Required: Update property because updateHighlight refers to its value!
+                isHighlight = false // Required: Update property because updateHighlight refers to its value!
             )
             repository.updateHighlight(unfavoredSession)
         }

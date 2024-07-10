@@ -29,7 +29,6 @@
     <color name="schedule_room_name_header_text">@color/colorAccent</color>
 
     <!-- Session details -->
-    <color name="session_details_list_item">@color/colorPrimary</color>
     <color name="session_detailbar_background">#202020</color>
     <color name="session_detailbar_text">#9DFAFD</color>
     <color name="session_detailbar_icon">#BF55F8</color>

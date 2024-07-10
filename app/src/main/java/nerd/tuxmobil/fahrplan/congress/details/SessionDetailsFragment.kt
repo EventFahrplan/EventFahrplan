@@ -9,6 +9,8 @@ import android.content.Intent
 import android.graphics.Typeface
 import android.os.Bundle
 import android.provider.Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM
+import android.text.util.Linkify.EMAIL_ADDRESSES
+import android.text.util.Linkify.WEB_URLS
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -141,7 +143,7 @@ class SessionDetailsFragment : Fragment() {
         markwon = Markwon.builder(context)
             .usePlugin(HEADINGS_PLUGIN)
             .usePlugin(createListItemsPlugin(context))
-            .usePlugin(LinkifyPlugin.create())
+            .usePlugin(LinkifyPlugin.create(EMAIL_ADDRESSES or WEB_URLS, true))
             .build()
     }
 

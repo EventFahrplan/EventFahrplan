@@ -10,16 +10,16 @@ object Config {
 
 object Android {
     const val buildToolsVersion = "34.0.0"
-    const val compileSdkVersion = 33
+    const val compileSdkVersion = 34
     const val minSdkVersion = 21
-    const val targetSdkVersion = 33
+    const val targetSdkVersion = 34
 }
 
 object Compose {
 
     object Versions {
-        internal const val bom = "2023.06.01" // compileSdk 34 is required as of 2023.08.00
-        const val compiler = "1.5.13"
+        internal const val bom = "2024.06.00"
+        const val compiler = "1.5.14"
     }
 
     const val bom = "androidx.compose:compose-bom:${Versions.bom}"
@@ -32,10 +32,10 @@ object Compose {
 object Plugins {
 
     private object Versions {
-        const val android = "8.3.2"
+        const val android = "8.5.0"
         const val dexcount = "4.0.0"
-        const val kotlin = "1.9.23"
-        const val ksp = "1.9.23-1.0.19"
+        const val kotlin = "1.9.24"
+        const val ksp = "1.9.24-1.0.20"
         const val sonarQube = "5.0.0.4638"
         const val unMock = "0.7.9"
         const val versions = "0.51.0"
@@ -54,20 +54,20 @@ object Libs {
 
     private object Versions {
         const val androidTest = "1.4.0"
-        const val annotation = "1.7.1"
-        const val appCompat = "1.6.1"
+        const val annotation = "1.8.0"
+        const val appCompat = "1.7.0"
         const val betterLinkMovementMethod = "2.2.0"
         const val constraintLayout = "2.1.4"
-        const val coreKtx = "1.9.0"
+        const val coreKtx = "1.13.1"
         const val coreTesting = "2.2.0"
         const val emailIntentBuilder = "2.0.0"
-        const val engelsystem = "9.0.0"
+        const val engelsystem = "9.1.0"
         const val junitJupiter = "5.10.2"
-        const val kotlinCoroutines = "1.8.0"
-        const val lifecycle = "2.6.2" // compileSdk 34 is required as of 2.7.0
+        const val kotlinCoroutines = "1.8.1"
+        const val lifecycle = "2.8.2"
         const val markwon = "4.6.2"
-        const val material = "1.9.0"
-        const val mockito = "5.11.0"
+        const val material = "1.12.0"
+        const val mockito = "5.12.0"
         const val mockitoKotlin = "5.3.1"
         const val moshi = "1.15.1"
         const val okhttp = "4.12.0"

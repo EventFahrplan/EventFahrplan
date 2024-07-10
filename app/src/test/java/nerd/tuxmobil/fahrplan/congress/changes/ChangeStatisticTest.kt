@@ -12,12 +12,12 @@ class ChangeStatisticTest {
         private val unchangedSessions = listOf(
             Session(
                 sessionId = "1001",
-                highlight = false,
+                isHighlight = false,
                 changedTitle = false,
             ),
             Session(
                 sessionId = "1002",
-                highlight = true,
+                isHighlight = true,
                 changedTitle = false,
             )
         )
@@ -25,12 +25,12 @@ class ChangeStatisticTest {
         private val changedSessions = listOf(
             Session(
                 sessionId = "1003",
-                highlight = true,
+                isHighlight = true,
                 changedTitle = true,
             ),
             Session(
                 sessionId = "1004",
-                highlight = false,
+                isHighlight = false,
                 changedTitle = true,
             )
         )
@@ -38,12 +38,12 @@ class ChangeStatisticTest {
         private val oldSessions = listOf(
             Session(
                 sessionId = "2001",
-                highlight = false,
+                isHighlight = false,
                 changedIsNew = false,
             ),
             Session(
                 sessionId = "2002",
-                highlight = true,
+                isHighlight = true,
                 changedIsNew = false,
             )
         )
@@ -51,12 +51,12 @@ class ChangeStatisticTest {
         private val newSessions = listOf(
             Session(
                 sessionId = "2003",
-                highlight = true,
+                isHighlight = true,
                 changedIsNew = true,
             ),
             Session(
                 sessionId = "2004",
-                highlight = false,
+                isHighlight = false,
                 changedIsNew = true,
             )
         )
@@ -64,12 +64,12 @@ class ChangeStatisticTest {
         private val uncanceledSessions = listOf(
             Session(
                 sessionId = "3001",
-                highlight = false,
+                isHighlight = false,
                 changedIsCanceled = false,
             ),
             Session(
                 sessionId = "3002",
-                highlight = true,
+                isHighlight = true,
                 changedIsCanceled = false,
             )
         )
@@ -77,12 +77,12 @@ class ChangeStatisticTest {
         private val canceledSessions = listOf(
             Session(
                 sessionId = "3003",
-                highlight = true,
+                isHighlight = true,
                 changedIsCanceled = true,
             ),
             Session(
                 sessionId = "3004",
-                highlight = false,
+                isHighlight = false,
                 changedIsCanceled = true,
             )
         )

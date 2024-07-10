@@ -6,21 +6,21 @@ import info.metadude.android.eventfahrplan.commons.temporal.DayRange
 import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MILLISECONDS_OF_ONE_SECOND
 import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.toMoment
 import info.metadude.kotlin.library.engelsystem.models.Shift
-import nerd.tuxmobil.fahrplan.congress.models.Session
 import org.threeten.bp.Duration
+import info.metadude.android.eventfahrplan.network.models.Session as SessionNetworkModel
 
 private const val LOG_TAG = "ShiftsExtensions"
 
 // Avoid conflicts with the IDs of the main schedule.
 private const val SHIFT_ID_OFFSET = 300000
 
-fun Shift.toSessionAppModel(
+fun Shift.toSessionNetworkModel(
 
         logging: Logging,
         virtualRoomName: String,
         dayRanges: List<DayRange>
 
-) = Session(
+) = SessionNetworkModel(
     sessionId = "${SHIFT_ID_OFFSET + sID}",
     abstractt = "",
     dateText = startsAtLocalDateString,
@@ -28,9 +28,9 @@ fun Shift.toSessionAppModel(
     dayIndex = oneBasedDayIndex(logging, dayRanges),
     description = descriptionText,
     duration = shiftDuration, // minutes
-    relStartTime = minuteOfDay,
+    relativeStartTime = minuteOfDay,
     roomName = virtualRoomName,
-    speakers = emptyList(),
+    speakers = "",
     startTime = minuteOfDay, // minutes since day start
     title = talkTitle,
     subtitle = locationName,

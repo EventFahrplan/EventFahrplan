@@ -35,6 +35,7 @@ import androidx.appcompat.app.ActionBar.OnNavigationListener
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
+import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import androidx.core.widget.NestedScrollView
 import androidx.core.widget.NestedScrollView.OnScrollChangeListener
@@ -218,6 +219,7 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
     private fun observeViewModel() {
         viewModel.fahrplanParameter
             .observe(this) { (scheduleData, useDeviceTimeZone, numDays, dayIndex, menuEntries) ->
+                hideNoScheduleView()
                 buildNavigationMenu(menuEntries, numDays)
                 viewModel.fillTimes(Moment.now(), getNormalizedBoxHeight())
                 viewDay(scheduleData, useDeviceTimeZone, numDays, dayIndex)
@@ -514,10 +516,10 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
         val context = requireContext()
         when (menuItemIndex) {
             CONTEXT_MENU_ITEM_ID_FAVORITES -> {
-                val updatedSession = session.copy(highlight = !session.highlight)
+                val updatedSession = session.copy(isHighlight = !session.isHighlight)
                 viewModel.updateFavorStatus(updatedSession)
-                sessionViewDrawer.setSessionBackground(updatedSession.highlight, updatedSession.track, contextMenuView)
-                SessionViewDrawer.setSessionTextColor(updatedSession.highlight, contextMenuView)
+                sessionViewDrawer.setSessionBackground(updatedSession.isHighlight, updatedSession.track, contextMenuView)
+                SessionViewDrawer.setSessionTextColor(updatedSession.isHighlight, contextMenuView)
                 updateMenuItems()
             }
             CONTEXT_MENU_ITEM_ID_SET_ALARM -> {
@@ -569,7 +571,7 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
         super.onCreateContextMenu(menu, view, menuInfo)
         contextMenuView = view
         val session = view.tag as Session
-        if (session.highlight) {
+        if (session.isHighlight) {
             menu.add(0, CONTEXT_MENU_ITEM_ID_FAVORITES, 0, getString(R.string.menu_item_title_unflag_as_favorite))
         } else {
             menu.add(0, CONTEXT_MENU_ITEM_ID_FAVORITES, 0, getString(R.string.menu_item_title_flag_as_favorite))
@@ -599,6 +601,12 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
 
     private fun showMissingScheduleExactAlarmsPermissionError() {
         Toast.makeText(requireContext(), R.string.alarms_disabled_schedule_exact_alarm_permission_missing, Toast.LENGTH_LONG).show()
+    }
+
+    private fun hideNoScheduleView() {
+        requireView()
+            .requireViewByIdCompat<View>(R.id.schedule_no_content_view)
+            .isVisible = false
     }
 
     private inner class OnDaySelectedListener(private val numDays: Int) : OnNavigationListener {

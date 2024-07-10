@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- TODO Automate localeConfig, see https://developer.android.com/about/versions/14/features#app-languages -->
 <locale-config xmlns:android="http://schemas.android.com/apk/res/android">
    <locale android:name="en"/>
    <locale android:name="da"/>
@@ -11,6 +12,7 @@
    <locale android:name="lt"/>
    <locale android:name="nl"/>
    <locale android:name="pl"/>
+   <locale android:name="pt-rBR"/>
    <locale android:name="pt"/>
    <locale android:name="ru"/>
    <locale android:name="sv"/>

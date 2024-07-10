@@ -81,6 +81,8 @@
     <string name="choose_day">Tag wählen</string>
     <string name="day">Tag</string>
     <string name="fahrplan">Fahrplan</string>
+    <string name="schedule_no_schedule_data_title">Noch kein Fahrplan zum Anzeigen</string>
+    <string name="schedule_no_schedule_data_subtitle">Bitte versuche es später nochmal</string>
     <string name="appVersion">App Version <xliff:g example="1.40.2" id="appVersion">%s</xliff:g></string>
     <string name="schedule_updated_to">
         Aktualisiert auf <xliff:g example="Mildenberg 2018-01-16 16:50" id="version">%s</xliff:g>
@@ -111,13 +113,15 @@
     <string name="engelsystem_shifts_parsing_error_forbidden">Ungültiger API-Schlüssel für <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g>-Schichten</string>
     <string name="engelsystem_shifts_parsing_error_not_found">Falsche URL für <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g>-Schichten</string>
     <string name="add_to_calendar_failed">Hinzufügen zum Kalendar fehlgeschlagen.</string>
-    <string name="no_changes">Keine Fahrplanänderungen</string>
+    <string name="schedule_changes_no_changes_title">Keine Fahrplanänderungen</string>
+    <string name="schedule_changes_no_changes_subtitle">Die App prüft regelmäßig, ob Aktualisierungen verfügbar sind</string>
     <string name="schedule_changes">Fahrplanänderungen</string>
 
     <string name="general_settings">Allgemein</string>
     <string name="starred_sessions">Favoriten</string>
     <string name="invalid_url">Ungültige URL</string>
-    <string name="no_favorites">Keine favorisierten Vorträge</string>
+    <string name="favorites_no_favorites_title">Keine favorisierten Vorträge</string>
+    <string name="favorites_no_favorites_subtitle">Tippe auf den Stern in der Menüleiste, um einen Favoriten zu setzen</string>
     <string name="choose_to_delete">Wähle Vorträge</string>
     <string name="day_separator">Tag <xliff:g example="2" id="day_of_congress">%1$d</xliff:g> - <xliff:g example="29.12.2014" id="date_of_congress_day">%2$s</xliff:g></string>
     <string name="dlg_delete_all_favorites">Alle Favoriten löschen?</string>
@@ -235,10 +239,11 @@
     <string name="session_item_has_alarm_content_description">Alarm ist eingestellt</string>
 
     <!-- Alarms -->
-    <string name="alarms_empty">
-        Aktuell sind keine Alarme gespeichert. In der Detailansicht kannst
-        du über das entsprechende Menüsymbol für jeden Eintrag einen
-        individuellen Alarm festlegen.
+    <string name="alarms_no_alarms_title">
+        Keine Alarme gesetzt
+    </string>
+    <string name="alarms_no_alarms_subtitle">
+        Tippe auf das Glockensymbol in der Menüleiste, um einen Alarm zu setzen.
     </string>
     <string name="alarms_item_on_click_label">
         Detailansicht öffnen

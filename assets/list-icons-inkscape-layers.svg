@@ -4,8 +4,8 @@
    width="24"
    version="1.1"
    id="svg3795"
-   sodipodi:docname="eventfahrplan-toolbar-icons.svg"
-   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   sodipodi:docname="list-icons-inkscape-layers.svg"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -23,15 +23,17 @@
      showgrid="false"
      showguides="true"
      inkscape:guide-bbox="true"
-     inkscape:zoom="11.404883"
-     inkscape:cx="2.718134"
-     inkscape:cy="20.868255"
-     inkscape:window-width="1440"
-     inkscape:window-height="873"
+     inkscape:zoom="2.9762806"
+     inkscape:cx="-26.207207"
+     inkscape:cy="81.981518"
+     inkscape:window-width="2196"
+     inkscape:window-height="1435"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
-     inkscape:current-layer="layer3">
+     inkscape:current-layer="layer4"
+     inkscape:showpageshadow="2"
+     inkscape:deskcolor="#d1d1d1">
     <sodipodi:guide
        position="2,17.269394"
        orientation="-1,0"
@@ -49,7 +51,8 @@
     <sodipodi:guide
        position="9.2190033,7.9917704"
        orientation="0,-1"
-       id="guide4512" />
+       id="guide4512"
+       inkscape:locked="false" />
   </sodipodi:namedview>
   <g
      inkscape:groupmode="layer"
@@ -112,6 +115,28 @@
        d="m 3,16 v -2 h 7.5 v 2 z"
        id="path3793-6"
        style="display:inline;stroke-width:0.968246" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="g917"
+     inkscape:label="Refresh"
+     style="display:inline">
+    <path
+       d="M 3,8 V 6 h 12 v 2 z"
+       id="path911"
+       style="display:inline" />
+    <path
+       d="m 3,12 v -2 h 8.808812 v 2 z"
+       id="path913"
+       style="display:inline;stroke-width:0.856778" />
+    <path
+       d="m 3,16 v -2 h 7.5 v 2 z"
+       id="path915"
+       style="display:inline;stroke-width:0.968246" />
+    <path
+       d="m 17.071756,20.957634 q -2.063942,0 -3.496379,-1.432437 -1.432438,-1.432438 -1.432438,-3.49638 0,-2.063942 1.432438,-3.496379 Q 15.007814,11.1 17.071756,11.1 q 1.062777,0 2.033137,0.439281 0.970361,0.438665 1.663476,1.255 V 11.1 h 1.232204 v 4.312715 h -4.312715 v -1.232204 h 2.587629 q -0.492881,-0.862544 -1.347416,-1.355426 -0.855149,-0.492881 -1.856315,-0.492881 -1.540255,0 -2.618434,1.078179 -1.07818,1.078179 -1.07818,2.618434 0,1.540255 1.07818,2.618434 1.078179,1.078179 2.618434,1.078179 1.185996,0 2.140955,-0.677712 0.954958,-0.677712 1.340021,-1.786697 h 1.293815 q -0.431272,1.632671 -1.75589,2.664642 -1.32462,1.031971 -3.018901,1.031971 z"
+       id="path655"
+       style="stroke-width:0.616102" />
   </g>
   <g
      inkscape:groupmode="layer"

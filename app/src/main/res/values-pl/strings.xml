@@ -111,8 +111,8 @@
     <string name="engelsystem_shifts_parsing_error_forbidden">Błędny klucz API dla zmian w <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g></string>
     <string name="engelsystem_shifts_parsing_error_not_found">Błędny URL dla zmian w <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g></string>
     <string name="add_to_calendar_failed">Nie udało się dodać wydarzenia do kalendarza.</string>
-    <string name="no_changes">Brak zmian w grafiku</string>
-    <string name="no_favorites">Brak ulubionych wykładów</string>
+    <string name="schedule_changes_no_changes_title">Brak zmian w grafiku</string>
+    <string name="favorites_no_favorites_title">Brak ulubionych wykładów</string>
     <string name="schedule_changes">Zmiany grafiku</string>
     <string name="general_settings">Ogólne</string>
     <string name="starred_sessions">Ulubione</string>
@@ -214,7 +214,7 @@
     <!-- Session item -->
     <string name="session_item_has_alarm_content_description">ma ustawiony alarm</string>
     <!-- Alarms -->
-    <string name="alarms_empty">        Nie ma żadnych alarmów do wyświetlenia. Pamiętaj, że możesz ustawić
+    <string name="alarms_no_alarms_title">        Nie ma żadnych alarmów do wyświetlenia. Pamiętaj, że możesz ustawić
         pojedynczy alarm dla każdej sesji w programie. Aby tak zrobić,
         naciśnij ikonkę w pasku menu ekranu danej sesji.
     </string>
