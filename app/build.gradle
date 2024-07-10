@@ -19,8 +19,8 @@ android {
     buildToolsVersion = Android.buildToolsVersion
 
     defaultConfig {
-        versionCode 1700020
-        versionName "1.8.20"
+        versionCode 1700021
+        versionName "1.8.21"
         minSdk Android.minSdkVersion
         targetSdk Android.targetSdkVersion
         archivesBaseName = "Fahrplan-$versionName"
@@ -90,17 +90,17 @@ android {
             versionName "${defaultConfig.versionName}-glt-Edition"
             buildConfigField "String", "GOOGLE_PLAY_URL", '"https://play.google.com/store/apps/details?id=at.linuxtage.companion"'
             buildConfigField "String", "F_DROID_URL", '"https://f-droid.org/packages/at.linuxtage.companion/"'
-            buildConfigField "String", "SCHEDULE_URL", '"https://pretalx.linuxtage.at/glt24/schedule/export/schedule.xml"'
+            buildConfigField "String", "SCHEDULE_URL", '"https://pretalx.linuxtage.at/glt25/schedule/export/schedule.xml"'
             buildConfigField "String", "EVENT_URL", '""'
             buildConfigField "String", "EVENT_WEBSITE_URL", '"https://www.linuxtage.at"'
             buildConfigField "String", "EVENT_POSTAL_ADDRESS", '"Inffeldgasse 25d, 8010 Graz"'
             buildConfigField "String", "SERVER_BACKEND_TYPE", '"pretalx"'
-            buildConfigField "int", "SCHEDULE_FIRST_DAY_START_YEAR", "2024"
+            buildConfigField "int", "SCHEDULE_FIRST_DAY_START_YEAR", "2025"
             buildConfigField "int", "SCHEDULE_FIRST_DAY_START_MONTH", "4"
-            buildConfigField "int", "SCHEDULE_FIRST_DAY_START_DAY", "5"
-            buildConfigField "int", "SCHEDULE_LAST_DAY_END_YEAR", "2024"
+            buildConfigField "int", "SCHEDULE_FIRST_DAY_START_DAY", "25"
+            buildConfigField "int", "SCHEDULE_LAST_DAY_END_YEAR", "2025"
             buildConfigField "int", "SCHEDULE_LAST_DAY_END_MONTH", "4"
-            buildConfigField "int", "SCHEDULE_LAST_DAY_END_DAY", "6"
+            buildConfigField "int", "SCHEDULE_LAST_DAY_END_DAY", "26"
             buildConfigField "boolean", "SHOW_APP_DISCLAIMER", "true"
             buildConfigField "boolean", "ENABLE_ALTERNATIVE_SCHEDULE_URL", "false"
             buildConfigField "boolean", "ENGAGE_C3NAV_APP_INSTALLATION", "false"
@@ -109,9 +109,9 @@ android {
             buildConfigField "boolean", "ENABLE_CHAOSFLIX_EXPORT", "true"
             buildConfigField "boolean", "ENABLE_ENGELSYSTEM_SHIFTS", "false"
             resValue("string", "preference_hint_engelsystem_json_export_url", '"https://engel.linuxtage.at/shifts-json-export?key=YOUR_KEY"')
-            buildConfigField "String", "SOCIAL_MEDIA_HASHTAGS_HANDLES", '"#glt24 #glt @linuxtage @gltlive"'
-            buildConfigField "String", "TRACE_DROID_EMAIL_ADDRESS", '"glt24@linuxtage.at"'
-            buildConfigField "String", "SCHEDULE_FEEDBACK_URL", '"https://pretalx.linuxtage.at/glt24/talk/%s/feedback/"' //TODO change to NN
+            buildConfigField "String", "SOCIAL_MEDIA_HASHTAGS_HANDLES", '"#glt25 #glt @linuxtage @gltlive"'
+            buildConfigField "String", "TRACE_DROID_EMAIL_ADDRESS", '"glt25@linuxtage.at"'
+            buildConfigField "String", "SCHEDULE_FEEDBACK_URL", '"https://pretalx.linuxtage.at/glt25/talk/%s/feedback/"' //TODO change to NN
         }
     }
 
