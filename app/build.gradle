@@ -95,12 +95,6 @@ android {
             buildConfigField "String", "EVENT_WEBSITE_URL", '"https://www.linuxtage.at"'
             buildConfigField "String", "EVENT_POSTAL_ADDRESS", '"Inffeldgasse 25d, 8010 Graz"'
             buildConfigField "String", "SERVER_BACKEND_TYPE", '"pretalx"'
-            buildConfigField "int", "SCHEDULE_FIRST_DAY_START_YEAR", "2024"
-            buildConfigField "int", "SCHEDULE_FIRST_DAY_START_MONTH", "4"
-            buildConfigField "int", "SCHEDULE_FIRST_DAY_START_DAY", "5"
-            buildConfigField "int", "SCHEDULE_LAST_DAY_END_YEAR", "2024"
-            buildConfigField "int", "SCHEDULE_LAST_DAY_END_MONTH", "4"
-            buildConfigField "int", "SCHEDULE_LAST_DAY_END_DAY", "6"
             buildConfigField "boolean", "SHOW_APP_DISCLAIMER", "true"
             buildConfigField "boolean", "ENABLE_ALTERNATIVE_SCHEDULE_URL", "false"
             buildConfigField "boolean", "ENGAGE_C3NAV_APP_INSTALLATION", "false"
