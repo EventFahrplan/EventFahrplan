@@ -36,6 +36,11 @@
         <item>12000</item>
     </string-array>
 
+    <!-- Schedule statistic -->
+    <string name="preference_key_schedule_statistic" translatable="false">schedule_statistic</string>
+    <string name="preference_title_schedule_statistic">Schedule statistic</string>
+    <string name="preference_summary_schedule_statistic">Inspect column values of the schedule</string>
+
     <!-- Category general -->
     <string name="preference_key_category_general" translatable="false">preference_key_category_general</string>
 

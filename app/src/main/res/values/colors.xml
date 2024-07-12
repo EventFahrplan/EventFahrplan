@@ -81,4 +81,10 @@
     <color name="session_detailbar_text">#999</color>
     <color name="session_detailbar_icon">@color/colorAccent</color>
 
+    <!-- Schedule statistic -->
+    <color name="schedule_statistic_bar_background_warning_level_1">#FFC107</color>
+    <color name="schedule_statistic_bar_background_warning_level_2">#FF9800</color>
+    <color name="schedule_statistic_bar_background_warning_level_3">#FF5722</color>
+    <color name="schedule_statistic_bar_background_no_warning">#8BC34A</color>
+
 </resources>

@@ -10,13 +10,21 @@ import androidx.compose.foundation.layout.Arrangement.Center
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.ClickableText
+import androidx.compose.material.icons.Icons.AutoMirrored.Default
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
@@ -32,6 +40,7 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight.Companion.Bold
+import androidx.compose.ui.text.font.FontWeight.Companion.SemiBold
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration.Companion.Underline
 import androidx.compose.ui.text.withStyle
@@ -51,6 +60,52 @@ import nerd.tuxmobil.fahrplan.congress.commons.VideoRecordingState.Drawable.Unav
 import nerd.tuxmobil.fahrplan.congress.extensions.toSpanned
 import nerd.tuxmobil.fahrplan.congress.extensions.toTextUnit
 import nerd.tuxmobil.fahrplan.congress.utils.LinkMovementMethodCompat
+
+@Composable
+@OptIn(ExperimentalMaterial3Api::class)
+fun TopBar(
+    title: String,
+    onBack: () -> Unit,
+    actions: @Composable RowScope.() -> Unit = {},
+) {
+    TopAppBar(
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = colorResource(R.color.colorPrimary),
+        ),
+        title = {
+            Text(
+                text = title,
+                fontSize = 19.sp,
+                fontWeight = SemiBold,
+                color = colorResource(R.color.text_primary),
+            )
+        },
+        navigationIcon = {
+            IconButton(
+                onClick = { onBack() },
+            ) {
+                Icon(
+                    imageVector = Default.ArrowBack,
+                    tint = colorResource(R.color.text_primary),
+                    contentDescription = stringResource(R.string.navigate_back_content_description),
+                )
+            }
+        },
+        actions = {
+            actions()
+        },
+    )
+}
+
+@Preview
+@Composable
+private fun TopBarPreview() {
+    TopBar(
+        title = "TopBar Title",
+        onBack = {},
+        actions = {},
+    )
+}
 
 @Composable
 fun Loading() {
