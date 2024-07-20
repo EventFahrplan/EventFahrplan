@@ -89,3 +89,14 @@ The app prompts the user for in the following topics if enabled via a `buildConf
 - Google Play beta testing via `ENGAGE_GOOGLE_BETA_TESTING`
 - Google Play rating via `ENGAGE_GOOGLE_PLAY_RATING`
 - to learn about the screen estate in landscape mode via `ENGAGE_LANDSCAPE_ORIENTATION`
+
+## 6. Development features
+
+The following features are available when the build type is "debug". They are located in the
+"Development" section of the "Settings" screen. They are intended for the preparation phase of the
+app to verify that the schedule data is loaded and processed correctly.
+
+### Schedule statistic
+
+The "Schedule statistic" screen shows the distribution of null or empty and non-empty fields in
+the "sessions" database table. This can be useful for identify missing data in the schedule.

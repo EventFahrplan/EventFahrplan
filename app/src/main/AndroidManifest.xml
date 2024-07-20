@@ -89,5 +89,11 @@
             android:label="@string/starred_sessions"
             android:resizeableActivity="true" >
         </activity>
+        <activity
+            android:name="nerd.tuxmobil.fahrplan.congress.schedulestatistic.ScheduleStatisticActivity"
+            android:theme="@style/Theme.Congress.NoActionBar"
+            android:label="@string/schedule_statistic_title"
+            android:resizeableActivity="true" >
+        </activity>
     </application>
 </manifest>

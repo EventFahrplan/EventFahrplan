@@ -75,6 +75,7 @@
     <string name="schedule_changes_dialog_browse">Ansehen</string>
     <string name="schedule_changes_dialog_later">Später</string>
 
+    <string name="navigate_back_content_description">Zurück</string>
     <string name="progress_loading_data">Hole Fahrplan &#8230;</string>
     <string name="progress_processing_data">Verarbeite Fahrplan &#8230;</string>
     <string name="load_data">Laden</string>
@@ -274,5 +275,15 @@
     <string name="validation_error_url_without_api_key">
         <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL ohne API-Schlüssel.
     </string>
+
+    <!-- Schedule statistic -->
+    <string name="schedule_statistic_no_statistic_data_title">Noch keine Fahrplan-Statistik verfügbar</string>
+    <string name="schedule_statistic_title">Fahrplan-Statistik</string>
+    <string name="schedule_statistic_description">Zeigt die Verteilung von null order leeren und nicht-leeren Feldern in der \"sessions\" Datenbanktabelle.</string>
+    <string name="schedule_statistic_toggle_sorting">Wechsle Sortierung</string>
+    <string name="schedule_statistic_column_name">Spaltenname</string>
+    <string name="schedule_statistic_null_empty">null/leer</string>
+    <string name="schedule_statistic_null_empty_content_description">null oder leer</string>
+    <string name="schedule_statistic_non_empty">nicht leer</string>
 
 </resources>

@@ -8,6 +8,7 @@ import info.metadude.android.eventfahrplan.commons.extensions.onFailure
 import info.metadude.android.eventfahrplan.commons.logging.Logging
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import info.metadude.android.eventfahrplan.database.extensions.toContentValues
+import info.metadude.android.eventfahrplan.database.models.ColumnStatistic
 import info.metadude.android.eventfahrplan.database.repositories.AlarmsDatabaseRepository
 import info.metadude.android.eventfahrplan.database.repositories.HighlightsDatabaseRepository
 import info.metadude.android.eventfahrplan.database.repositories.MetaDatabaseRepository
@@ -295,6 +296,27 @@ object AppRepository {
         refreshAlarmsSignal
             .onStart { emit(Unit) }
             .mapLatest { readAlarms() }
+            .flowOn(executionContext.database)
+    }
+
+    private val refreshScheduleStatisticSignal = MutableSharedFlow<Unit>()
+
+    private fun refreshScheduleStatistic() {
+        logging.d(LOG_TAG, "Refreshing schedule statistic ...")
+        val requestIdentifier = "refreshScheduleStatistic"
+        parentJobs[requestIdentifier] = databaseScope.launchNamed(requestIdentifier) {
+            refreshScheduleStatisticSignal.emit(Unit)
+        }
+    }
+
+    /**
+     * Emits the statistic for each column of the schedule database.
+     */
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val scheduleStatistic: Flow<List<ColumnStatistic>> by lazy {
+        refreshScheduleStatisticSignal
+            .onStart { emit(Unit) }
+            .mapLatest { readScheduleStatistic() }
             .flowOn(executionContext.database)
     }
 
@@ -764,6 +786,9 @@ object AppRepository {
     private fun readEngelsystemShiftsOrderedByDateUtc() =
         sessionsDatabaseRepository.querySessionsWithinRoom(ENGELSYSTEM_ROOM_NAME)
 
+    private fun readScheduleStatistic() =
+        sessionsDatabaseRepository.queryScheduleStatistic()
+
     private fun readSelectedSessionId(): String {
         val id = sharedPreferencesRepository.getSelectedSessionId()
         check(id.isNotEmpty()) { "Selected session is empty." }
@@ -793,7 +818,8 @@ object AppRepository {
     fun readDateInfos() =
             readSessionsOrderedByDateUtc().toDateInfos()
 
-    private fun updateSessions(toBeUpdatedSessions: List<SessionDatabaseModel>, toBeDeletedSessions: List<SessionDatabaseModel> = emptyList()) {
+    @VisibleForTesting
+    fun updateSessions(toBeUpdatedSessions: List<SessionDatabaseModel>, toBeDeletedSessions: List<SessionDatabaseModel> = emptyList()) {
         val toBeUpdated = toBeUpdatedSessions.map { it.sessionId to it.toContentValues() }
         val toBeDeleted = toBeDeletedSessions.map { it.sessionId }
         sessionsDatabaseRepository.updateSessions(toBeUpdated, toBeDeleted)
@@ -803,6 +829,7 @@ object AppRepository {
         refreshChangedSessions()
         refreshSelectedSession()
         refreshUncanceledSessions()
+        refreshScheduleStatistic()
     }
 
     /**

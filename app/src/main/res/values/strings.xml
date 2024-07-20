@@ -77,6 +77,7 @@
     <string name="schedule_changes_dialog_browse">Browse</string>
     <string name="schedule_changes_dialog_later">Later</string>
 
+    <string name="navigate_back_content_description">Back</string>
     <string name="progress_loading_data">Get schedule &#8230;</string>
     <string name="progress_processing_data">Processing schedule &#8230;</string>
     <string name="load_data">Load</string>
@@ -306,5 +307,16 @@
     <string name="validation_error_url_without_api_key">
         <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL without API key.
     </string>
+
+    <!-- Schedule statistic -->
+    <string name="schedule_statistic_no_statistic_data_title">No schedule statistic available yet</string>
+    <string name="schedule_statistic_no_statistic_data_subtitle" translatable="false">@string/schedule_no_schedule_data_subtitle</string>
+    <string name="schedule_statistic_title">Schedule statistic</string>
+    <string name="schedule_statistic_description">Shows the distribution of null or empty and non-empty fields in the \"sessions\" database table.</string>
+    <string name="schedule_statistic_toggle_sorting">Toggle sorting</string>
+    <string name="schedule_statistic_column_name">Column name</string>
+    <string name="schedule_statistic_null_empty">null/empty</string>
+    <string name="schedule_statistic_null_empty_content_description">null or empty</string>
+    <string name="schedule_statistic_non_empty">non-empty</string>
 
 </resources>
