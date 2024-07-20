@@ -342,18 +342,19 @@ private fun DayDateSeparatorItemPreview() {
 }
 
 @Composable
-fun SessionListHeader(text: String) {
+fun SessionListHeader(text: String, darkMode: Boolean) {
+    val color = if (darkMode) R.color.session_list_header_text else R.color.session_list_header_text_inverted
     Text(
         modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp),
         text = text,
         fontWeight = Bold,
         fontSize = 22.sp,
-        color = colorResource(R.color.session_list_header_text),
+        color = colorResource(color),
     )
 }
 
 @Preview
 @Composable
 private fun SessionListHeaderScheduleChangesPreview() {
-    SessionListHeader(stringResource(R.string.schedule_changes))
+    SessionListHeader(stringResource(R.string.schedule_changes), darkMode = true)
 }
