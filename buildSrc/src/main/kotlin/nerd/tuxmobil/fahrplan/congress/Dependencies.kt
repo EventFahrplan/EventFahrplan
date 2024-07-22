@@ -31,7 +31,7 @@ object Compose {
 object Plugins {
 
     private object Versions {
-        const val android = "8.5.0"
+        const val android = "8.5.1"
         const val dexcount = "4.0.0"
         const val kotlin = "2.0.0"
         const val ksp = "2.0.0-1.0.23"
