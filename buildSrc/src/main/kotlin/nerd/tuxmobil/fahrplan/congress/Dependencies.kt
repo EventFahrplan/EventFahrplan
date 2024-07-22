@@ -62,7 +62,7 @@ object Libs {
         const val coreTesting = "2.2.0"
         const val emailIntentBuilder = "2.0.0"
         const val engelsystem = "9.1.0"
-        const val junitJupiter = "5.10.2"
+        const val junitJupiter = "5.10.3"
         const val kotlinCoroutines = "1.8.1"
         const val lifecycle = "2.8.2"
         const val markwon = "4.6.2"
