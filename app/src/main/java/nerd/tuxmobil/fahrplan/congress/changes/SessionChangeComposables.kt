@@ -54,7 +54,8 @@ internal fun SessionChangesScreen(
     showInSidePane: Boolean,
     onViewEvent: (SessionChangeViewEvent) -> Unit,
 ) {
-    EventFahrplanTheme(darkMode = true) {
+    val darkMode = true
+    EventFahrplanTheme(darkMode = darkMode) {
         Scaffold { contentPadding ->
             Box(
                 Modifier
@@ -68,6 +69,7 @@ internal fun SessionChangesScreen(
                             NoScheduleChanges()
                         } else {
                             SessionChangesList(
+                                darkMode = darkMode,
                                 parameters = parameters,
                                 showInSidePane = showInSidePane,
                                 onViewEvent = onViewEvent,
@@ -91,6 +93,7 @@ private fun NoScheduleChanges() {
 
 @Composable
 private fun SessionChangesList(
+    @Suppress("SameParameterValue") darkMode: Boolean,
     parameters: List<SessionChangeParameter>,
     showInSidePane: Boolean,
     onViewEvent: (SessionChangeViewEvent) -> Unit,
@@ -98,7 +101,7 @@ private fun SessionChangesList(
     LazyColumn(state = rememberLazyListState()) {
         if (showInSidePane) {
             item {
-                SessionListHeader(stringResource(R.string.schedule_changes))
+                SessionListHeader(stringResource(R.string.schedule_changes), darkMode)
             }
         }
         itemsIndexed(parameters) { index, parameter ->

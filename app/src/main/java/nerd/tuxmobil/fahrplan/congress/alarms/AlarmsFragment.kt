@@ -90,6 +90,7 @@ class AlarmsFragment : Fragment() {
             setContent {
                 AlarmsScreen(
                     state = viewModel.alarmsState.collectAsState().value,
+                    showInSidePane = sidePane,
                 )
             }
             isClickable = true
