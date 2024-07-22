@@ -17,9 +17,8 @@ object Android {
 
 object Compose {
 
-    object Versions {
-        internal const val bom = "2024.06.00"
-        const val compiler = "1.5.14"
+    private object Versions {
+        const val bom = "2024.06.00"
     }
 
     const val bom = "androidx.compose:compose-bom:${Versions.bom}"
@@ -32,16 +31,17 @@ object Compose {
 object Plugins {
 
     private object Versions {
-        const val android = "8.5.0"
+        const val android = "8.5.1"
         const val dexcount = "4.0.0"
-        const val kotlin = "1.9.24"
-        const val ksp = "1.9.24-1.0.20"
+        const val kotlin = "2.0.0"
+        const val ksp = "2.0.0-1.0.23"
         const val sonarQube = "5.0.0.4638"
         const val unMock = "0.7.9"
         const val versions = "0.51.0"
     }
 
     const val android = "com.android.tools.build:gradle:${Versions.android}"
+    const val composeCompiler = "org.jetbrains.kotlin:compose-compiler-gradle-plugin:${Versions.kotlin}"
     const val dexcount = "com.getkeepsafe.dexcount:dexcount-gradle-plugin:${Versions.dexcount}"
     const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
     const val ksp = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin:${Versions.ksp}"
@@ -62,13 +62,13 @@ object Libs {
         const val coreTesting = "2.2.0"
         const val emailIntentBuilder = "2.0.0"
         const val engelsystem = "9.1.0"
-        const val junitJupiter = "5.10.2"
+        const val junitJupiter = "5.10.3"
         const val kotlinCoroutines = "1.8.1"
-        const val lifecycle = "2.8.2"
+        const val lifecycle = "2.8.3"
         const val markwon = "4.6.2"
         const val material = "1.12.0"
         const val mockito = "5.12.0"
-        const val mockitoKotlin = "5.3.1"
+        const val mockitoKotlin = "5.4.0"
         const val moshi = "1.15.1"
         const val okhttp = "4.12.0"
         const val preference = "1.2.1"
@@ -77,7 +77,7 @@ object Libs {
         const val snackengage = "0.30"
         const val threeTenBp = "1.6.9"
         const val tracedroid = "3.1"
-        const val truth = "1.4.2"
+        const val truth = "1.4.4"
         const val turbine = "1.1.0"
     }
 

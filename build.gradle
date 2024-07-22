@@ -10,6 +10,7 @@ buildscript {
     }
     dependencies {
         classpath Plugins.android
+        classpath Plugins.composeCompiler
         classpath Plugins.dexcount
         classpath Plugins.kotlin
         classpath Plugins.ksp
