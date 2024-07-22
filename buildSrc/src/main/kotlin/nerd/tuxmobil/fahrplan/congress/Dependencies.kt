@@ -64,7 +64,7 @@ object Libs {
         const val engelsystem = "9.1.0"
         const val junitJupiter = "5.10.3"
         const val kotlinCoroutines = "1.8.1"
-        const val lifecycle = "2.8.2"
+        const val lifecycle = "2.8.3"
         const val markwon = "4.6.2"
         const val material = "1.12.0"
         const val mockito = "5.12.0"
