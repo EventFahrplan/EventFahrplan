@@ -46,6 +46,55 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Se
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.TYPE
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.URL
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Values.REC_OPT_OUT_OFF
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.ABSTRACT_NONE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.ABSTRACT_PRESENT
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.DATE_TEXT_NONE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.DATE_TEXT_PRESENT
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.DATE_UTC_NONE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.DATE_UTC_PRESENT
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.DAY_INDEX_NONE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.DAY_INDEX_PRESENT
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.DESCRIPTION_NONE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.DESCRIPTION_PRESENT
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.DURATION_NONE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.DURATION_PRESENT
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.FEEDBACK_URL_NONE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.FEEDBACK_URL_PRESENT
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.LANGUAGES_NONE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.LANGUAGES_PRESENT
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.LINKS_NONE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.LINKS_PRESENT
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.RECORDING_LICENSE_NONE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.RECORDING_LICENSE_PRESENT
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.RECORDING_OPTOUT_NONE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.RECORDING_OPTOUT_PRESENT
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.RELATIVE_START_TIME_NONE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.RELATIVE_START_TIME_PRESENT
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.ROOM_IDENTIFIER_NONE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.ROOM_IDENTIFIER_PRESENT
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.ROOM_INDEX_NONE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.ROOM_INDEX_PRESENT
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.ROOM_NAME_NONE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.ROOM_NAME_PRESENT
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.SLUG_NONE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.SLUG_PRESENT
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.SPEAKERS_NONE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.SPEAKERS_PRESENT
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.START_TIME_NONE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.START_TIME_PRESENT
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.SUBTITLE_NONE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.SUBTITLE_PRESENT
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.TIME_ZONE_OFFSET_NONE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.TIME_ZONE_OFFSET_PRESENT
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.TITLE_NONE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.TITLE_PRESENT
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.TRACK_NONE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.TRACK_PRESENT
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.TYPE_NONE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.TYPE_PRESENT
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.URL_NONE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.URL_PRESENT
 import info.metadude.android.eventfahrplan.database.extensions.delete
 import info.metadude.android.eventfahrplan.database.extensions.getInt
 import info.metadude.android.eventfahrplan.database.extensions.getIntOrNull
@@ -56,6 +105,7 @@ import info.metadude.android.eventfahrplan.database.extensions.insert
 import info.metadude.android.eventfahrplan.database.extensions.map
 import info.metadude.android.eventfahrplan.database.extensions.read
 import info.metadude.android.eventfahrplan.database.extensions.updateRow
+import info.metadude.android.eventfahrplan.database.models.ColumnStatistic
 import info.metadude.android.eventfahrplan.database.models.Session
 import info.metadude.android.eventfahrplan.database.sqliteopenhelper.SessionsDBOpenHelper
 
@@ -239,6 +289,156 @@ internal class RealSessionsDatabaseRepository(
             )
         }
     }
+
+    override fun queryScheduleStatistic(): List<ColumnStatistic> =
+        with(sqLiteOpenHelper.readableDatabase) {
+            val cursor = try {
+                read(StatisticsView.NAME)
+            } catch (e: SQLiteException) {
+                e.printStackTrace()
+                return emptyList()
+            }
+
+            val stats = cursor.use {
+                if (cursor.moveToFirst()) {
+                    listOf(
+                        cursor.toColumnStatistic(
+                            name = TITLE,
+                            columnNameNone = TITLE_NONE,
+                            columnNamePresent = TITLE_PRESENT,
+                        ),
+                        cursor.toColumnStatistic(
+                            name = SUBTITLE,
+                            columnNameNone = SUBTITLE_NONE,
+                            columnNamePresent = SUBTITLE_PRESENT,
+                        ),
+                        cursor.toColumnStatistic(
+                            name = DAY,
+                            columnNameNone = DAY_INDEX_NONE,
+                            columnNamePresent = DAY_INDEX_PRESENT,
+                        ),
+                        cursor.toColumnStatistic(
+                            name = ROOM_NAME,
+                            columnNameNone = ROOM_NAME_NONE,
+                            columnNamePresent = ROOM_NAME_PRESENT,
+                        ),
+                        cursor.toColumnStatistic(
+                            name = START,
+                            columnNameNone = START_TIME_NONE,
+                            columnNamePresent = START_TIME_PRESENT,
+                        ),
+                        cursor.toColumnStatistic(
+                            name = DURATION,
+                            columnNameNone = DURATION_NONE,
+                            columnNamePresent = DURATION_PRESENT,
+                        ),
+                        cursor.toColumnStatistic(
+                            name = SPEAKERS,
+                            columnNameNone = SPEAKERS_NONE,
+                            columnNamePresent = SPEAKERS_PRESENT,
+                        ),
+                        cursor.toColumnStatistic(
+                            name = TRACK,
+                            columnNameNone = TRACK_NONE,
+                            columnNamePresent = TRACK_PRESENT,
+                        ),
+                        cursor.toColumnStatistic(
+                            name = TYPE,
+                            columnNameNone = TYPE_NONE,
+                            columnNamePresent = TYPE_PRESENT,
+                        ),
+                        cursor.toColumnStatistic(
+                            name = LANG,
+                            columnNameNone = LANGUAGES_NONE,
+                            columnNamePresent = LANGUAGES_PRESENT,
+                        ),
+                        cursor.toColumnStatistic(
+                            name = ABSTRACT,
+                            columnNameNone = ABSTRACT_NONE,
+                            columnNamePresent = ABSTRACT_PRESENT,
+                        ),
+                        cursor.toColumnStatistic(
+                            name = DESCR,
+                            columnNameNone = DESCRIPTION_NONE,
+                            columnNamePresent = DESCRIPTION_PRESENT,
+                        ),
+                        cursor.toColumnStatistic(
+                            name = REL_START,
+                            columnNameNone = RELATIVE_START_TIME_NONE,
+                            columnNamePresent = RELATIVE_START_TIME_PRESENT,
+                        ),
+                        cursor.toColumnStatistic(
+                            name = DATE_TEXT,
+                            columnNameNone = DATE_TEXT_NONE,
+                            columnNamePresent = DATE_TEXT_PRESENT,
+                        ),
+                        cursor.toColumnStatistic(
+                            name = LINKS,
+                            columnNameNone = LINKS_NONE,
+                            columnNamePresent = LINKS_PRESENT,
+                        ),
+                        cursor.toColumnStatistic(
+                            name = DATE_UTC,
+                            columnNameNone = DATE_UTC_NONE,
+                            columnNamePresent = DATE_UTC_PRESENT,
+                        ),
+                        cursor.toColumnStatistic(
+                            name = ROOM_INDEX,
+                            columnNameNone = ROOM_INDEX_NONE,
+                            columnNamePresent = ROOM_INDEX_PRESENT,
+                        ),
+                        cursor.toColumnStatistic(
+                            name = REC_LICENSE,
+                            columnNameNone = RECORDING_LICENSE_NONE,
+                            columnNamePresent = RECORDING_LICENSE_PRESENT,
+                        ),
+                        cursor.toColumnStatistic(
+                            name = REC_OPTOUT,
+                            columnNameNone = RECORDING_OPTOUT_NONE,
+                            columnNamePresent = RECORDING_OPTOUT_PRESENT,
+                        ),
+                        cursor.toColumnStatistic(
+                            name = SLUG,
+                            columnNameNone = SLUG_NONE,
+                            columnNamePresent = SLUG_PRESENT,
+                        ),
+                        cursor.toColumnStatistic(
+                            name = URL,
+                            columnNameNone = URL_NONE,
+                            columnNamePresent = URL_PRESENT,
+                        ),
+                        cursor.toColumnStatistic(
+                            name = TIME_ZONE_OFFSET,
+                            columnNameNone = TIME_ZONE_OFFSET_NONE,
+                            columnNamePresent = TIME_ZONE_OFFSET_PRESENT,
+                        ),
+                        cursor.toColumnStatistic(
+                            name = ROOM_IDENTIFIER,
+                            columnNameNone = ROOM_IDENTIFIER_NONE,
+                            columnNamePresent = ROOM_IDENTIFIER_PRESENT,
+                        ),
+                        cursor.toColumnStatistic(
+                            name = FEEDBACK_URL,
+                            columnNameNone = FEEDBACK_URL_NONE,
+                            columnNamePresent = FEEDBACK_URL_PRESENT,
+                        ),
+                    )
+                } else {
+                    emptyList()
+                }
+            }
+            return stats
+        }
+
+    private fun Cursor.toColumnStatistic(
+        name: String,
+        columnNameNone: String,
+        columnNamePresent: String,
+    ) = ColumnStatistic(
+        name = name,
+        countNone = getInt(columnNameNone),
+        countPresent = getInt(columnNamePresent),
+    )
 
     private val Int.isChanged
         get() = this != 0

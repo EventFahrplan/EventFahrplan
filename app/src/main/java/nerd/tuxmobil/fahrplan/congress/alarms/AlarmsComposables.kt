@@ -35,12 +35,15 @@ import nerd.tuxmobil.fahrplan.congress.alarms.AlarmsState.Success
 import nerd.tuxmobil.fahrplan.congress.commons.EventFahrplanTheme
 import nerd.tuxmobil.fahrplan.congress.commons.Loading
 import nerd.tuxmobil.fahrplan.congress.commons.NoData
+import nerd.tuxmobil.fahrplan.congress.commons.SessionListHeader
 
 @Composable
 internal fun AlarmsScreen(
     state: AlarmsState,
+    showInSidePane: Boolean,
 ) {
-    EventFahrplanTheme {
+    val darkMode = false
+    EventFahrplanTheme(darkMode = darkMode) {
         Scaffold { contentPadding ->
             Box(
                 Modifier
@@ -54,7 +57,9 @@ internal fun AlarmsScreen(
                             NoAlarms()
                         } else {
                             SessionAlarmsList(
+                                darkMode = darkMode,
                                 parameters = parameters,
+                                showInSidePane = showInSidePane,
                                 onItemClick = state.onItemClick,
                                 onDeleteItemClick = state.onDeleteItemClick
                             )
@@ -77,11 +82,18 @@ private fun NoAlarms() {
 
 @Composable
 private fun SessionAlarmsList(
+    @Suppress("SameParameterValue") darkMode: Boolean,
     parameters: List<SessionAlarmParameter>,
+    showInSidePane: Boolean,
     onItemClick: (SessionAlarmParameter) -> Unit,
     onDeleteItemClick: (SessionAlarmParameter) -> Unit
 ) {
     LazyColumn(state = rememberLazyListState()) {
+        if (showInSidePane) {
+            item {
+                SessionListHeader(stringResource(R.string.reminders), darkMode)
+            }
+        }
         itemsIndexed(parameters) { index, item ->
             SessionAlarmItem(
                 parameter = item,
@@ -241,6 +253,7 @@ private fun AlarmsScreenPreview() {
             onItemClick = { _ -> },
             onDeleteItemClick = {},
         ),
+        showInSidePane = true,
     )
 }
 
@@ -252,7 +265,8 @@ private fun AlarmsScreenEmptyPreview() {
             emptyList(),
             onItemClick = { _ -> },
             onDeleteItemClick = {},
-        )
+        ),
+        showInSidePane = false,
     )
 }
 
@@ -261,5 +275,6 @@ private fun AlarmsScreenEmptyPreview() {
 private fun AlarmsScreenLoadingPreview() {
     AlarmsScreen(
         state = Loading,
+        showInSidePane = false,
     )
 }

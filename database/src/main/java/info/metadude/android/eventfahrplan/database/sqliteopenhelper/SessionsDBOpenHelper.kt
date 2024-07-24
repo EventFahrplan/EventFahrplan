@@ -47,6 +47,55 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Se
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Defaults.DATE_UTC_DEFAULT
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Defaults.ROOM_IDX_DEFAULT
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Values.REC_OPT_OUT_OFF
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.ABSTRACT_NONE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.ABSTRACT_PRESENT
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.DATE_TEXT_NONE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.DATE_TEXT_PRESENT
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.DATE_UTC_NONE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.DATE_UTC_PRESENT
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.DAY_INDEX_NONE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.DAY_INDEX_PRESENT
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.DESCRIPTION_NONE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.DESCRIPTION_PRESENT
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.DURATION_NONE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.DURATION_PRESENT
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.FEEDBACK_URL_NONE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.FEEDBACK_URL_PRESENT
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.LANGUAGES_NONE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.LANGUAGES_PRESENT
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.LINKS_NONE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.LINKS_PRESENT
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.RECORDING_LICENSE_NONE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.RECORDING_LICENSE_PRESENT
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.RECORDING_OPTOUT_NONE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.RECORDING_OPTOUT_PRESENT
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.RELATIVE_START_TIME_NONE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.RELATIVE_START_TIME_PRESENT
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.ROOM_IDENTIFIER_NONE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.ROOM_IDENTIFIER_PRESENT
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.ROOM_INDEX_NONE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.ROOM_INDEX_PRESENT
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.ROOM_NAME_NONE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.ROOM_NAME_PRESENT
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.SLUG_NONE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.SLUG_PRESENT
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.SPEAKERS_NONE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.SPEAKERS_PRESENT
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.START_TIME_NONE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.START_TIME_PRESENT
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.SUBTITLE_NONE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.SUBTITLE_PRESENT
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.TIME_ZONE_OFFSET_NONE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.TIME_ZONE_OFFSET_PRESENT
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.TITLE_NONE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.TITLE_PRESENT
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.TRACK_NONE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.TRACK_PRESENT
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.TYPE_NONE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.TYPE_PRESENT
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.URL_NONE
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.StatisticsView.Columns.URL_PRESENT
 import info.metadude.android.eventfahrplan.database.extensions.addIntegerColumn
 import info.metadude.android.eventfahrplan.database.extensions.addTextColumn
 import info.metadude.android.eventfahrplan.database.extensions.columnExists
@@ -60,7 +109,7 @@ internal class SessionsDBOpenHelper(context: Context) : SQLiteOpenHelper(
 ) {
 
     private companion object {
-        const val DATABASE_VERSION = 15
+        const val DATABASE_VERSION = 16
         const val DATABASE_NAME = "lectures" // Keep table name to avoid database migration.
 
         // language=sql
@@ -112,12 +161,66 @@ internal class SessionsDBOpenHelper(context: Context) : SQLiteOpenHelper(
         const val SESSION_BY_NOTIFICATION_ID_TABLE_CREATE =
             "CREATE TABLE IF NOT EXISTS ${SessionByNotificationIdTable.NAME} (" +
                     "$_ID INTEGER PRIMARY KEY AUTOINCREMENT, ${SessionByNotificationIdTable.Columns.SESSION_ID} TEXT)"
+
+        // language=sql
+        const val SCHEDULE_STATISTIC_VIEW_CREATE =
+            "CREATE VIEW IF NOT EXISTS ${StatisticsView.NAME} AS SELECT " +
+                    "COUNT(CASE WHEN $TITLE IS NULL OR $TITLE = '' THEN 1 END) AS $TITLE_NONE, " +
+                    "COUNT(CASE WHEN $TITLE IS NOT NULL AND $TITLE != '' THEN 1 END) AS $TITLE_PRESENT, " +
+                    "COUNT(CASE WHEN $SUBTITLE IS NULL OR $SUBTITLE = '' THEN 1 END) AS $SUBTITLE_NONE, " +
+                    "COUNT(CASE WHEN $SUBTITLE IS NOT NULL AND $SUBTITLE != '' THEN 1 END) AS $SUBTITLE_PRESENT, " +
+                    "COUNT(CASE WHEN $DAY IS NULL OR $DAY = '' THEN 1 END) AS $DAY_INDEX_NONE, " +
+                    "COUNT(CASE WHEN $DAY IS NOT NULL AND $DAY != '' THEN 1 END) AS $DAY_INDEX_PRESENT, " +
+                    "COUNT(CASE WHEN $ROOM_NAME IS NULL OR $ROOM_NAME = '' THEN 1 END) AS $ROOM_NAME_NONE, " +
+                    "COUNT(CASE WHEN $ROOM_NAME IS NOT NULL AND $ROOM_NAME != '' THEN 1 END) AS $ROOM_NAME_PRESENT, " +
+                    "COUNT(CASE WHEN $START IS NULL OR $START = '' THEN 1 END) AS $START_TIME_NONE, " +
+                    "COUNT(CASE WHEN $START IS NOT NULL AND $START != '' THEN 1 END) AS $START_TIME_PRESENT, " +
+                    "COUNT(CASE WHEN $DURATION IS NULL OR $DURATION = '' THEN 1 END) AS $DURATION_NONE, " +
+                    "COUNT(CASE WHEN $DURATION IS NOT NULL AND $DURATION != '' THEN 1 END) AS $DURATION_PRESENT, " +
+                    "COUNT(CASE WHEN $SPEAKERS IS NULL OR $SPEAKERS = '' THEN 1 END) AS $SPEAKERS_NONE, " +
+                    "COUNT(CASE WHEN $SPEAKERS IS NOT NULL AND $SPEAKERS != '' THEN 1 END) AS $SPEAKERS_PRESENT, " +
+                    "COUNT(CASE WHEN $TRACK IS NULL OR $TRACK = '' THEN 1 END) AS $TRACK_NONE, " +
+                    "COUNT(CASE WHEN $TRACK IS NOT NULL AND $TRACK != '' THEN 1 END) AS $TRACK_PRESENT, " +
+                    "COUNT(CASE WHEN $TYPE IS NULL OR $TYPE = '' THEN 1 END) AS $TYPE_NONE, " +
+                    "COUNT(CASE WHEN $TYPE IS NOT NULL AND $TYPE != '' THEN 1 END) AS $TYPE_PRESENT, " +
+                    "COUNT(CASE WHEN $LANG IS NULL OR $LANG = '' THEN 1 END) AS $LANGUAGES_NONE, " +
+                    "COUNT(CASE WHEN $LANG IS NOT NULL AND $LANG != '' THEN 1 END) AS $LANGUAGES_PRESENT, " +
+                    "COUNT(CASE WHEN $ABSTRACT IS NULL OR $ABSTRACT = '' THEN 1 END) AS $ABSTRACT_NONE, " +
+                    "COUNT(CASE WHEN $ABSTRACT IS NOT NULL AND $ABSTRACT != '' THEN 1 END) AS $ABSTRACT_PRESENT, " +
+                    "COUNT(CASE WHEN $DESCR IS NULL OR $DESCR = '' THEN 1 END) AS $DESCRIPTION_NONE, " +
+                    "COUNT(CASE WHEN $DESCR IS NOT NULL AND $DESCR != '' THEN 1 END) AS $DESCRIPTION_PRESENT, " +
+                    "COUNT(CASE WHEN $REL_START IS NULL OR $REL_START = '' THEN 1 END) AS $RELATIVE_START_TIME_NONE, " +
+                    "COUNT(CASE WHEN $REL_START IS NOT NULL AND $REL_START != '' THEN 1 END) AS $RELATIVE_START_TIME_PRESENT, " +
+                    "COUNT(CASE WHEN $DATE_TEXT IS NULL OR $DATE_TEXT = '' THEN 1 END) AS $DATE_TEXT_NONE, " +
+                    "COUNT(CASE WHEN $DATE_TEXT IS NOT NULL AND $DATE_TEXT != '' THEN 1 END) AS $DATE_TEXT_PRESENT, " +
+                    "COUNT(CASE WHEN $LINKS IS NULL OR $LINKS = '' THEN 1 END) AS $LINKS_NONE, " +
+                    "COUNT(CASE WHEN $LINKS IS NOT NULL AND $LINKS != '' THEN 1 END) AS $LINKS_PRESENT, " +
+                    "COUNT(CASE WHEN $DATE_UTC IS NULL OR $DATE_UTC = '' THEN 1 END) AS $DATE_UTC_NONE, " +
+                    "COUNT(CASE WHEN $DATE_UTC IS NOT NULL AND $DATE_UTC != '' THEN 1 END) AS $DATE_UTC_PRESENT, " +
+                    "COUNT(CASE WHEN $ROOM_INDEX IS NULL OR $ROOM_INDEX = '' THEN 1 END) AS $ROOM_INDEX_NONE, " +
+                    "COUNT(CASE WHEN $ROOM_INDEX IS NOT NULL AND $ROOM_INDEX != '' THEN 1 END) AS $ROOM_INDEX_PRESENT, " +
+                    "COUNT(CASE WHEN $REC_LICENSE IS NULL OR $REC_LICENSE = '' THEN 1 END) AS $RECORDING_LICENSE_NONE, " +
+                    "COUNT(CASE WHEN $REC_LICENSE IS NOT NULL AND $REC_LICENSE != '' THEN 1 END) AS $RECORDING_LICENSE_PRESENT, " +
+                    "COUNT(CASE WHEN $REC_OPTOUT IS NULL OR $REC_OPTOUT = '' THEN 1 END) AS $RECORDING_OPTOUT_NONE, " +
+                    "COUNT(CASE WHEN $REC_OPTOUT IS NOT NULL AND $REC_OPTOUT != '' THEN 1 END) AS $RECORDING_OPTOUT_PRESENT, " +
+                    "COUNT(CASE WHEN $SLUG IS NULL OR $SLUG = '' THEN 1 END) AS $SLUG_NONE, " +
+                    "COUNT(CASE WHEN $SLUG IS NOT NULL AND $SLUG != '' THEN 1 END) AS $SLUG_PRESENT, " +
+                    "COUNT(CASE WHEN $URL IS NULL OR $URL = '' THEN 1 END) AS $URL_NONE, " +
+                    "COUNT(CASE WHEN $URL IS NOT NULL AND $URL != '' THEN 1 END) AS $URL_PRESENT, " +
+                    "COUNT(CASE WHEN $TIME_ZONE_OFFSET IS NULL OR $TIME_ZONE_OFFSET = '' THEN 1 END) AS $TIME_ZONE_OFFSET_NONE, " +
+                    "COUNT(CASE WHEN $TIME_ZONE_OFFSET IS NOT NULL AND $TIME_ZONE_OFFSET != '' THEN 1 END) AS $TIME_ZONE_OFFSET_PRESENT, " +
+                    "COUNT(CASE WHEN $ROOM_IDENTIFIER IS NULL OR $ROOM_IDENTIFIER = '' THEN 1 END) AS $ROOM_IDENTIFIER_NONE, " +
+                    "COUNT(CASE WHEN $ROOM_IDENTIFIER IS NOT NULL AND $ROOM_IDENTIFIER != '' THEN 1 END) AS $ROOM_IDENTIFIER_PRESENT, " +
+                    "COUNT(CASE WHEN $FEEDBACK_URL IS NULL OR $FEEDBACK_URL = '' THEN 1 END) AS $FEEDBACK_URL_NONE, " +
+                    "COUNT(CASE WHEN $FEEDBACK_URL IS NOT NULL AND $FEEDBACK_URL != '' THEN 1 END) AS $FEEDBACK_URL_PRESENT " +
+                    "FROM ${SessionsTable.NAME}"
     }
 
     override fun onCreate(db: SQLiteDatabase) = with(db) {
         transaction {
             execSQL(SESSIONS_TABLE_CREATE)
             execSQL(SESSION_BY_NOTIFICATION_ID_TABLE_CREATE)
+            execSQL(SCHEDULE_STATISTIC_VIEW_CREATE)
         }
     }
 
@@ -191,6 +294,9 @@ internal class SessionsDBOpenHelper(context: Context) : SQLiteOpenHelper(
             if (!columnExists(SessionsTable.NAME, FEEDBACK_URL)) {
                 addTextColumn(FEEDBACK_URL, default = null)
             }
+        }
+        if (oldVersion < 16) {
+            execSQL(SCHEDULE_STATISTIC_VIEW_CREATE)
         }
     }
 

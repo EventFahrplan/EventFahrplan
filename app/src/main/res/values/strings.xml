@@ -77,6 +77,7 @@
     <string name="schedule_changes_dialog_browse">Browse</string>
     <string name="schedule_changes_dialog_later">Later</string>
 
+    <string name="navigate_back_content_description">Back</string>
     <string name="progress_loading_data">Get schedule &#8230;</string>
     <string name="progress_processing_data">Processing schedule &#8230;</string>
     <string name="load_data">Load</string>
@@ -119,7 +120,7 @@
     <string name="copyright_notes" translatable="false">
         Copyright 2013-2024 johnjohndoe.
         \nCopyright 2011-2015 Daniel Dorau.
-        \n\nContributions from 0x5ubt13, Adriano Pereira Junior, Akarsh Seggemu, Александр Рознятовский, aligoush, Andrea Marziali, Andrulko, Andy Scherzinger, Andreas Schildbach, Animesh Verma, bashtian, bjoernb, Björn Olsson Jarl, ButterflyOfFire, cacarrara, Caio Volpato, Chase, cketti, codingcatgirl, Dominik Stadler, entropynil, erebion, ideadapt, isi_ko404, IsoLinearCHiP, Jasper van der Graaf, Joergi, Julius Vitkauskas, koelnkalkverbot, Larissa Yasin, lepawa, ligi, lucadelu, Luis Azcuaga, María Arias de Reyna, Mateus Baptista, Matthias Geisler, Matthias Hunstock, Matthias Mair, MichaelRocks, Miguel Beltran, mtpa, Nghiem Xuan Hien, NiciDieNase, Noemis, Oguz Yuksel, Omicron, ozgurbaykal, Poschi, Qwertele, Róbert Papp, rotrot, Sjors van Mierlo, Smarzaro, Stefan Medack, SubOptimal, Su Jade, taseret, Teeranai.P, Torsten Grote, Victor Herasme, Vladimir Alabov, Yanicka.
+        \n\nContributions from 0x5ubt13, Adriano Pereira Junior, Akarsh Seggemu, Александр Рознятовский, aligoush, Andrea Marziali, Andrulko, Andy Scherzinger, Andreas Schildbach, Animesh Verma, bashtian, bjoernb, Björn Olsson Jarl, ButterflyOfFire, cacarrara, Caio Volpato, Chase, cketti, codingcatgirl, Dominik Stadler, entropynil, erebion, ideadapt, isi_ko404, IsoLinearCHiP, Jasper van der Graaf, Joergi, Julius Vitkauskas, koelnkalkverbot, Larissa Yasin, lepawa, ligi, lucadelu, Luis Azcuaga, María Arias de Reyna, Mateus Baptista, Matthias Geisler, Matthias Hunstock, Matthias Mair, MichaelRocks, Miguel Beltran, mtpa, Muha Aliss, Nghiem Xuan Hien, NiciDieNase, Noemis, Oguz Yuksel, Omicron, ozgurbaykal, Poschi, Qwertele, Róbert Papp, rotrot, Sjors van Mierlo, Smarzaro, Stefan Medack, SubOptimal, Su Jade, taseret, Teeranai.P, Torsten Grote, Victor Herasme, Vladimir Alabov, Yanicka.
         \n\nPortions copyright 2008-2011 The K-9 Dog Walkers and 2006-2013 the Android Open Source Project.
     </string>
     <string name="today">today</string>
@@ -306,5 +307,16 @@
     <string name="validation_error_url_without_api_key">
         <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL without API key.
     </string>
+
+    <!-- Schedule statistic -->
+    <string name="schedule_statistic_no_statistic_data_title">No schedule statistic available yet</string>
+    <string name="schedule_statistic_no_statistic_data_subtitle" translatable="false">@string/schedule_no_schedule_data_subtitle</string>
+    <string name="schedule_statistic_title">Schedule statistic</string>
+    <string name="schedule_statistic_description">Shows the distribution of null or empty and non-empty fields in the \"sessions\" database table.</string>
+    <string name="schedule_statistic_toggle_sorting">Toggle sorting</string>
+    <string name="schedule_statistic_column_name">Column name</string>
+    <string name="schedule_statistic_null_empty">null/empty</string>
+    <string name="schedule_statistic_null_empty_content_description">null or empty</string>
+    <string name="schedule_statistic_non_empty">non-empty</string>
 
 </resources>

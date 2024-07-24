@@ -3,6 +3,7 @@ package info.metadude.android.eventfahrplan.database.repositories
 import android.content.ContentValues
 import android.content.Context
 import info.metadude.android.eventfahrplan.commons.logging.Logging
+import info.metadude.android.eventfahrplan.database.models.ColumnStatistic
 import info.metadude.android.eventfahrplan.database.models.Session
 import info.metadude.android.eventfahrplan.database.sqliteopenhelper.SessionsDBOpenHelper
 
@@ -26,5 +27,6 @@ interface SessionsDatabaseRepository {
     fun querySessionsOrderedByDateUtc(): List<Session>
     fun querySessionsWithoutRoom(roomName: String): List<Session>
     fun querySessionsWithinRoom(roomName: String): List<Session>
+    fun queryScheduleStatistic(): List<ColumnStatistic>
 
 }

@@ -7,6 +7,7 @@ ext.set("APP_VERSION", "${gitSha()}")
 
 apply plugin: "com.android.application"
 apply plugin: "kotlin-android"
+apply plugin: "org.jetbrains.kotlin.plugin.compose"
 apply plugin: "com.google.devtools.ksp"
 apply plugin: "de.mobilej.unmock"
 apply plugin: "com.getkeepsafe.dexcount"
@@ -55,10 +56,6 @@ android {
     buildFeatures {
         buildConfig true
         compose true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = Compose.Versions.compiler
     }
 
     buildTypes {
