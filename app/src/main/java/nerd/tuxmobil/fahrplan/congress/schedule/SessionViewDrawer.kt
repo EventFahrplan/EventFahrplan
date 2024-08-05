@@ -1,6 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.schedule
 
 import android.content.Context
+import android.content.res.Resources.NotFoundException
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -83,7 +84,11 @@ internal class SessionViewDrawer(
         } else {
             trackNameBackgroundColorDefaultPairs[track] ?: R.color.track_background_default
         }
-        @ColorInt val backgroundColor = ContextCompat.getColor(context, backgroundColorResId)
+        @ColorInt val backgroundColor = try {
+            ContextCompat.getColor(context, backgroundColorResId)
+        } catch (e: NotFoundException) {
+            throw NotFoundException("Missing color for track \"$track\". Entries in track_resource_names.xml must be present in track_background_* colors.")
+        }
         val sessionDrawable = if (isFavored && isAlternativeHighlightingEnabled()) {
             SessionDrawable(
                     backgroundColor,
