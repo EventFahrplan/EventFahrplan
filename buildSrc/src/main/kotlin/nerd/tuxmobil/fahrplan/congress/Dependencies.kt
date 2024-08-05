@@ -35,7 +35,7 @@ object Plugins {
         const val dexcount = "4.0.0"
         const val kotlin = "2.0.0"
         const val ksp = "2.0.0-1.0.24"
-        const val sonarQube = "5.0.0.4638"
+        const val sonarQube = "5.1.0.4882"
         const val unMock = "0.7.9"
         const val versions = "0.51.0"
     }
