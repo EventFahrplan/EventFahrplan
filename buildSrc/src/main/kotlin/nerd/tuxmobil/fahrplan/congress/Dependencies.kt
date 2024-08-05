@@ -53,7 +53,7 @@ object Plugins {
 object Libs {
 
     private object Versions {
-        const val androidTest = "1.4.0"
+        const val androidTest = "1.5.0"
         const val annotation = "1.8.1"
         const val appCompat = "1.7.0"
         const val betterLinkMovementMethod = "2.2.0"
