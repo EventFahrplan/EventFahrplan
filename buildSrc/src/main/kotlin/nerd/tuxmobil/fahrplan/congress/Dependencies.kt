@@ -34,9 +34,9 @@ object Plugins {
         const val android = "8.5.1"
         const val dexcount = "4.0.0"
         const val kotlin = "2.0.0"
-        const val ksp = "2.0.0-1.0.23"
-        const val sonarQube = "5.0.0.4638"
-        const val unMock = "0.7.9"
+        const val ksp = "2.0.0-1.0.24"
+        const val sonarQube = "5.1.0.4882"
+        const val unMock = "0.8.0"
         const val versions = "0.51.0"
     }
 
@@ -53,8 +53,8 @@ object Plugins {
 object Libs {
 
     private object Versions {
-        const val androidTest = "1.4.0"
-        const val annotation = "1.8.0"
+        const val androidTest = "1.5.0"
+        const val annotation = "1.8.1"
         const val appCompat = "1.7.0"
         const val betterLinkMovementMethod = "2.2.0"
         const val constraintLayout = "2.1.4"
@@ -64,7 +64,7 @@ object Libs {
         const val engelsystem = "9.1.0"
         const val junitJupiter = "5.10.3"
         const val kotlinCoroutines = "1.8.1"
-        const val lifecycle = "2.8.3"
+        const val lifecycle = "2.8.4"
         const val markwon = "4.6.2"
         const val material = "1.12.0"
         const val mockito = "5.12.0"
