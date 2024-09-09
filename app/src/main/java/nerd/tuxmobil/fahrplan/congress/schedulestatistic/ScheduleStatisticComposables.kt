@@ -1,6 +1,5 @@
 package nerd.tuxmobil.fahrplan.congress.schedulestatistic
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -110,7 +109,6 @@ private fun NoScheduleStatistic() {
 }
 
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun ScheduleStatisticList(scheduleStatistic: List<ColumnStatistic>) {
     LazyColumn(
