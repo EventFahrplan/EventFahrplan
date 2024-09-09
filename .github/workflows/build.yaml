@@ -12,6 +12,7 @@ jobs:
         with:
           distribution: 'adopt'
           java-version: '17'
+          cache: 'gradle'
             
       - name: Build the app
         run: ./gradlew assembleCcc37c3
@@ -70,6 +71,7 @@ jobs:
         with:
           distribution: 'adopt'
           java-version: '17'
+          cache: 'gradle'
 
       - name: Instrumentation Tests
         uses: reactivecircus/android-emulator-runner@v2
