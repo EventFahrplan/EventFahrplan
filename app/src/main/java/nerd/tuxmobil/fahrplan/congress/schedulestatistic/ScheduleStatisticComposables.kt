@@ -128,7 +128,7 @@ private fun ScheduleStatisticList(scheduleStatistic: List<ColumnStatistic>) {
             ColumnStatisticHeader()
         }
         items(scheduleStatistic, key = { it.name }) {
-            ColumnStatisticItem(it, Modifier.animateItemPlacement())
+            ColumnStatisticItem(it, Modifier.animateItem())
         }
     }
 }
