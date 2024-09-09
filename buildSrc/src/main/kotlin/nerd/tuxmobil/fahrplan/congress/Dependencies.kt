@@ -9,7 +9,7 @@ object Config {
 }
 
 object Android {
-    const val buildToolsVersion = "34.0.0"
+    const val buildToolsVersion = "35.0.0"
     const val compileSdkVersion = 34
     const val minSdkVersion = 21
     const val targetSdkVersion = 34
@@ -18,7 +18,7 @@ object Android {
 object Compose {
 
     private object Versions {
-        const val bom = "2024.06.00"
+        const val bom = "2024.09.00"
     }
 
     const val bom = "androidx.compose:compose-bom:${Versions.bom}"
@@ -31,10 +31,10 @@ object Compose {
 object Plugins {
 
     private object Versions {
-        const val android = "8.5.1"
+        const val android = "8.6.0"
         const val dexcount = "4.0.0"
-        const val kotlin = "2.0.0"
-        const val ksp = "2.0.0-1.0.24"
+        const val kotlin = "2.0.20"
+        const val ksp = "2.0.20-1.0.25"
         const val sonarQube = "5.1.0.4882"
         const val unMock = "0.8.0"
         const val versions = "0.51.0"
@@ -54,7 +54,7 @@ object Libs {
 
     private object Versions {
         const val androidTest = "1.5.0"
-        const val annotation = "1.8.1"
+        const val annotation = "1.8.2"
         const val appCompat = "1.7.0"
         const val betterLinkMovementMethod = "2.2.0"
         const val constraintLayout = "2.1.4"
@@ -62,12 +62,12 @@ object Libs {
         const val coreTesting = "2.2.0"
         const val emailIntentBuilder = "2.0.0"
         const val engelsystem = "9.1.0"
-        const val junitJupiter = "5.10.3"
+        const val junitJupiter = "5.11.0"
         const val kotlinCoroutines = "1.8.1"
-        const val lifecycle = "2.8.4"
+        const val lifecycle = "2.8.5"
         const val markwon = "4.6.2"
         const val material = "1.12.0"
-        const val mockito = "5.12.0"
+        const val mockito = "5.13.0"
         const val mockitoKotlin = "5.4.0"
         const val moshi = "1.15.1"
         const val okhttp = "4.12.0"
