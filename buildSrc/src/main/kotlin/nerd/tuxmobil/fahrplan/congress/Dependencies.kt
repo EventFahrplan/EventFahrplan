@@ -18,7 +18,7 @@ object Android {
 object Compose {
 
     private object Versions {
-        const val bom = "2024.09.00"
+        const val bom = "2024.09.02"
     }
 
     const val bom = "androidx.compose:compose-bom:${Versions.bom}"
