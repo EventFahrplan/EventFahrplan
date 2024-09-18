@@ -75,7 +75,7 @@ object Libs {
         const val retrofit = "2.11.0"
         const val robolectric = "4.3_r2-robolectric-0"
         const val snackengage = "0.30"
-        const val threeTenBp = "1.6.9"
+        const val threeTenBp = "1.7.0"
         const val tracedroid = "3.1"
         const val truth = "1.4.4"
         const val turbine = "1.1.0"
