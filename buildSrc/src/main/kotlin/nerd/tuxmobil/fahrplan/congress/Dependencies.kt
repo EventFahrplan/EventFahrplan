@@ -63,7 +63,7 @@ object Libs {
         const val emailIntentBuilder = "2.0.0"
         const val engelsystem = "9.1.0"
         const val junitJupiter = "5.11.0"
-        const val kotlinCoroutines = "1.8.1"
+        const val kotlinCoroutines = "1.9.0"
         const val lifecycle = "2.8.5"
         const val markwon = "4.6.2"
         const val material = "1.12.0"
