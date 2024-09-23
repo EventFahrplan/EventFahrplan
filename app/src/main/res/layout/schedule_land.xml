@@ -7,11 +7,18 @@
 
     <include layout="@layout/schedule_no_content" />
 
+    <View
+        android:id="@+id/horizontalScrollingProgressLine"
+        android:layout_width="@dimen/schedule_horizontal_scrolling_progress_line_width"
+        android:layout_height="@dimen/schedule_horizontal_scrolling_progress_line_height"
+        android:layout_alignParentTop="true"
+        android:background="@color/schedule_horizontal_scrolling_progress_line" />
+
     <LinearLayout
         android:id="@+id/roomNameLandscape"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_below="@+id/horizontalScrollingProgressLine"
         android:background="@color/schedule_room_name_header_background"
         android:orientation="horizontal">
 

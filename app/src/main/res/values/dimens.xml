@@ -40,6 +40,10 @@
     <!-- Progress bar -->
     <dimen name="progress_bar_elevation">@dimen/tool_bar_elevation</dimen>
 
+    <!-- Horizontal scrolling progress line -->
+    <dimen name="schedule_horizontal_scrolling_progress_line_height">2dp</dimen>
+    <dimen name="schedule_horizontal_scrolling_progress_line_width">50dp</dimen>
+
     <!-- SnackEngage -->
     <dimen name="snack_engage_c3nav_pixel_offset">20dp</dimen>
 
