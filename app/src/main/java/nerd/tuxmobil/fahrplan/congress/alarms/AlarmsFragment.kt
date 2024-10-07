@@ -45,9 +45,8 @@ class AlarmsFragment : Fragment() {
     private lateinit var appRepository: AppRepository
     private lateinit var resourceResolving: ResourceResolving
     private lateinit var alarmServices: AlarmServices
-    private lateinit var screenNavigation: ScreenNavigation
     private val viewModel: AlarmsViewModel by viewModels {
-        AlarmsViewModelFactory(appRepository, resourceResolving, alarmServices, screenNavigation)
+        AlarmsViewModelFactory(appRepository, resourceResolving, alarmServices)
     }
     private var sidePane = false
     private var onSessionItemClickListener: OnSessionItemClickListener? = null
@@ -57,7 +56,7 @@ class AlarmsFragment : Fragment() {
         appRepository = AppRepository
         resourceResolving = ResourceResolver(context)
         alarmServices = AlarmServices.newInstance(context, appRepository)
-        screenNavigation = ScreenNavigation { sessionId ->
+        viewModel.screenNavigation = ScreenNavigation { sessionId ->
             onSessionItemClickListener?.onSessionItemClick(sessionId)
         }
         onSessionItemClickListener = try {
@@ -69,6 +68,7 @@ class AlarmsFragment : Fragment() {
 
     override fun onDetach() {
         onSessionItemClickListener = null
+        viewModel.screenNavigation = null
         super.onDetach()
     }
 
