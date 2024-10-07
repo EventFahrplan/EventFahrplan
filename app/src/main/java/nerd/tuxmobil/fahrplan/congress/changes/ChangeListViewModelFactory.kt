@@ -1,7 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.changes
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProvider.Factory
 import info.metadude.android.eventfahrplan.commons.temporal.DateFormatter
 import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolving
 import nerd.tuxmobil.fahrplan.congress.commons.ScreenNavigation
@@ -16,7 +16,7 @@ class ChangeListViewModelFactory(
     private val screenNavigation: ScreenNavigation,
     private val sessionPropertiesFormatter: SessionPropertiesFormatter,
     private val contentDescriptionFormatter: ContentDescriptionFormatter,
-) : ViewModelProvider.Factory {
+) : Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         @Suppress("UNCHECKED_CAST")
