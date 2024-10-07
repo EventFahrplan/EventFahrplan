@@ -134,7 +134,8 @@ class ChangeListViewModelTest {
     @Test
     fun `onViewEvent(OnSessionChangeItemClick) invokes navigateToSessionDetails`() = runTest {
         val screenNavigation = mock<ScreenNavigation>()
-        val viewModel = createViewModel(createRepository(), screenNavigation)
+        val viewModel = createViewModel(createRepository())
+        viewModel.screenNavigation = screenNavigation
         viewModel.onViewEvent(OnSessionChangeItemClick(sessionId = "42"))
         verifyInvokedOnce(screenNavigation).navigateToSessionDetails(sessionId = "42")
     }
@@ -219,12 +220,10 @@ class ChangeListViewModelTest {
 
     private fun createViewModel(
         repository: AppRepository,
-        screenNavigation: ScreenNavigation = mock(),
         factory: SessionChangeParametersFactory = mock(),
     ) = ChangeListViewModel(
         repository = repository,
         executionContext = TestExecutionContext,
-        screenNavigation = screenNavigation,
         sessionChangeParametersFactory = factory,
     )
 
