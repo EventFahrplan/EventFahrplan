@@ -21,9 +21,10 @@ import nerd.tuxmobil.fahrplan.congress.repositories.ExecutionContext
 class ChangeListViewModel(
     private val repository: AppRepository,
     private val executionContext: ExecutionContext,
-    private val screenNavigation: ScreenNavigation,
     private val sessionChangeParametersFactory: SessionChangeParametersFactory,
 ) : ViewModel() {
+
+    var screenNavigation: ScreenNavigation? = null
 
     private val mutableSessionChangeState = MutableStateFlow<SessionChangeState>(Loading)
     val sessionChangesState = mutableSessionChangeState.asStateFlow()
@@ -47,7 +48,7 @@ class ChangeListViewModel(
 
     fun onViewEvent(viewEvent: SessionChangeViewEvent) {
         when (viewEvent) {
-            is OnSessionChangeItemClick -> screenNavigation.navigateToSessionDetails(viewEvent.sessionId)
+            is OnSessionChangeItemClick -> screenNavigation?.navigateToSessionDetails(viewEvent.sessionId)
         }
     }
 

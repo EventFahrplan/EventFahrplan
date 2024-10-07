@@ -56,12 +56,10 @@ class ChangeListFragment : Fragment() {
     }
 
     private var onSessionListClickListener: OnSessionListClick? = null
-    private lateinit var screenNavigation: ScreenNavigation
     private val viewModelFactory by lazy {
         ChangeListViewModelFactory(
             AppRepository,
             ResourceResolver(requireContext()),
-            screenNavigation,
             SessionPropertiesFormatter(),
             ContentDescriptionFormatter(requireContext()),
         )
@@ -109,11 +107,11 @@ class ChangeListFragment : Fragment() {
     @CallSuper
     override fun onAttach(context: Context) {
         super.onAttach(context)
+        viewModel.screenNavigation = ScreenNavigation { sessionId ->
+            onSessionListClickListener?.onSessionListClick(sessionId)
+        }
         if (context is OnSessionListClick) {
             onSessionListClickListener = context
-            screenNavigation = ScreenNavigation { sessionId ->
-                onSessionListClickListener?.onSessionListClick(sessionId)
-            }
         } else {
             error("$context must implement OnSessionListClick")
         }
@@ -124,6 +122,7 @@ class ChangeListFragment : Fragment() {
     override fun onDetach() {
         super.onDetach()
         onSessionListClickListener = null
+        viewModel.screenNavigation = null
     }
 
 }
