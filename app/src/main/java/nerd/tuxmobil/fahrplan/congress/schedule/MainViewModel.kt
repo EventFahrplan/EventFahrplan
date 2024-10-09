@@ -82,11 +82,13 @@ internal class MainViewModel(
                 LoadScheduleUiState.Failure.SilentFetchFailure
             }
         }
+
         InitialParsing -> LoadScheduleUiState.Initializing.InitialParsing
         Parsing -> LoadScheduleUiState.Active.Parsing
         ParseSuccess -> LoadScheduleUiState.Success.ParseSuccess.also {
             onParsingDone()
         }
+
         is ParseFailure -> LoadScheduleUiState.Failure.ParseFailure
     }
 
@@ -98,9 +100,11 @@ internal class MainViewModel(
                 // Don't bother the user with schedule up-to-date messages.
             }
         }
+
         is ParseFailure -> {
             mutableParseFailure.sendOneTimeEvent(parseResult)
         }
+
         else -> {
             mutableFetchFailure.sendOneTimeEvent(null)
             mutableParseFailure.sendOneTimeEvent(null)

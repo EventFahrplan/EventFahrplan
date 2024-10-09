@@ -262,6 +262,7 @@ class MainActivity : BaseActivity(),
             null -> {
                 super.onOptionsItemSelected(item)
             }
+
             else -> {
                 function.invoke()
                 true

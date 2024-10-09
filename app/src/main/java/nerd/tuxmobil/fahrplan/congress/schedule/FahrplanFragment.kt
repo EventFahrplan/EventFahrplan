@@ -568,24 +568,30 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
                 SessionViewDrawer.setSessionTextColor(updatedSession.isHighlight, contextMenuView)
                 updateMenuItems()
             }
+
             CONTEXT_MENU_ITEM_ID_SET_ALARM -> {
                 viewModel.addAlarmWithChecks()
             }
+
             CONTEXT_MENU_ITEM_ID_DELETE_ALARM -> {
                 viewModel.deleteAlarm(session)
                 updateMenuItems()
             }
+
             CONTEXT_MENU_ITEM_ID_ADD_TO_CALENDAR -> {
                 CalendarSharing(context).addToCalendar(session)
             }
+
             CONTEXT_MENU_ITEM_ID_SHARE -> {
                 if (!BuildConfig.ENABLE_CHAOSFLIX_EXPORT) {
                     viewModel.share(session)
                 }
             }
+
             CONTEXT_MENU_ITEM_ID_SHARE_TEXT -> {
                 viewModel.share(session)
             }
+
             CONTEXT_MENU_ITEM_ID_SHARE_JSON -> {
                 viewModel.shareToChaosflix(session)
             }
