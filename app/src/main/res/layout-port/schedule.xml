@@ -12,7 +12,9 @@
         android:layout_width="@dimen/schedule_horizontal_scrolling_progress_line_width"
         android:layout_height="@dimen/schedule_horizontal_scrolling_progress_line_height"
         android:layout_alignParentTop="true"
-        android:background="@color/schedule_horizontal_scrolling_progress_line" />
+        android:background="@color/schedule_horizontal_scrolling_progress_line"
+        android:visibility="invisible"
+        tools:visibility="visible" />
 
     <LinearLayout
         android:id="@+id/roomNameLandscape"

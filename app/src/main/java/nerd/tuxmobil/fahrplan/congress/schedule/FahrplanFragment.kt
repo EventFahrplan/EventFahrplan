@@ -36,6 +36,7 @@ import androidx.appcompat.app.ActionBar.OnNavigationListener
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import androidx.core.widget.NestedScrollView
@@ -239,6 +240,9 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
                 viewDay(scheduleData, useDeviceTimeZone, numDays, dayIndex)
                 updateHorizontalScrollingProgressLine(0)
             }
+        viewModel.showHorizontalScrollingProgressLine.observe(this) { shouldShow ->
+            updateHorizontalScrollingProgressLine(shouldShow)
+        }
         viewModel.fahrplanEmptyParameter.observe(viewLifecycleOwner) { (scheduleVersion) ->
             val errorMessage = errorMessageFactory.getMessageForEmptySchedule(scheduleVersion)
             errorMessage.show(requireContext(), shouldShowLong = false)
@@ -321,6 +325,11 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
         } else {
             lineView.translationX = 0f
         }
+    }
+
+    private fun updateHorizontalScrollingProgressLine(visible: Boolean) {
+        val lineView = requireView().requireViewByIdCompat<View>(R.id.horizontalScrollingProgressLine)
+        lineView.isInvisible = !visible
     }
 
     /**

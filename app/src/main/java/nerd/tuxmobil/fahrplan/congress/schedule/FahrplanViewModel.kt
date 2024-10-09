@@ -8,6 +8,7 @@ import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.SendChannel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
@@ -28,6 +29,11 @@ import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.repositories.ExecutionContext
+import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState
+import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.Fetching
+import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.InitialFetching
+import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.InitialParsing
+import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.Parsing
 import nerd.tuxmobil.fahrplan.congress.schedule.observables.FahrplanEmptyParameter
 import nerd.tuxmobil.fahrplan.congress.schedule.observables.FahrplanParameter
 import nerd.tuxmobil.fahrplan.congress.schedule.observables.ScrollToCurrentSessionParameter
@@ -56,6 +62,7 @@ internal class FahrplanViewModel(
 
     private companion object {
         const val LOG_TAG = "FahrplanViewModel"
+        const val PROGRESS_BAR_HIDING_DELAY = 100L
     }
 
     private var sessionAlarmViewModelDelegate: SessionAlarmViewModelDelegate =
@@ -80,6 +87,9 @@ internal class FahrplanViewModel(
 
     private val mutableFahrplanEmptyParameter = Channel<FahrplanEmptyParameter>()
     val fahrplanEmptyParameter = mutableFahrplanEmptyParameter.receiveAsFlow()
+
+    private val mutableShowHorizontalScrollingProgressLine = Channel<Boolean>()
+    val showHorizontalScrollingProgressLine = mutableShowHorizontalScrollingProgressLine.receiveAsFlow()
 
     private val mutableActivateScheduleUpdateAlarm = Channel<ConferenceTimeFrame>()
     val activateScheduleUpdateAlarm = mutableActivateScheduleUpdateAlarm.receiveAsFlow()
@@ -116,6 +126,7 @@ internal class FahrplanViewModel(
     init {
         updateUncanceledSessions()
         requestScheduleUpdateAlarm()
+        updateHorizontalScrollingProgressLineVisibility()
     }
 
     private fun updateUncanceledSessions() {
@@ -130,6 +141,23 @@ internal class FahrplanViewModel(
                 }
             }
         }
+    }
+
+    private fun updateHorizontalScrollingProgressLineVisibility() {
+        launch {
+            repository.loadScheduleState.collect { state ->
+                val shouldShow = state.toShowHorizontalScrollingProgressLine()
+                if (shouldShow) {
+                    delay(PROGRESS_BAR_HIDING_DELAY)
+                }
+                mutableShowHorizontalScrollingProgressLine.sendOneTimeEvent(shouldShow)
+            }
+        }
+    }
+
+    private fun LoadScheduleState.toShowHorizontalScrollingProgressLine() = when (this) {
+        InitialFetching, Fetching, InitialParsing, Parsing -> false // hide while MainActivity#progressBar is still animating
+        else -> true
     }
 
     /**
