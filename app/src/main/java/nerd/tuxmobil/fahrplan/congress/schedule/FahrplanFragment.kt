@@ -20,6 +20,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS
 import android.view.ViewGroup
+import android.view.ViewTreeObserver.OnScrollChangedListener
 import android.widget.ArrayAdapter
 import android.widget.HorizontalScrollView
 import android.widget.LinearLayout
@@ -35,6 +36,7 @@ import androidx.appcompat.app.ActionBar.OnNavigationListener
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import androidx.core.widget.NestedScrollView
@@ -114,6 +116,7 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
     private lateinit var viewModel: FahrplanViewModel
 
     private val logging = Logging.get()
+    private var onHorizontalScrollChangeListener: OnScrollChangedListener? = null
     private var onSessionClickListener: OnSessionClickListener? = null
     private var lastSelectedSession: Session? = null
     private var displayDensityScale = 0f
@@ -212,7 +215,19 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
         snapScroller.setChildScroller(roomScroller)
         roomScroller.setOnTouchListener { _, _ -> true }
 
+        onHorizontalScrollChangeListener = OnScrollChangedListener {
+            updateHorizontalScrollingProgressLine(snapScroller.scrollX)
+        }
+        snapScroller.viewTreeObserver.addOnScrollChangedListener(onHorizontalScrollChangeListener)
+
         inflater = view.context.getLayoutInflater()
+    }
+
+    override fun onDestroyView() {
+        val snapScroller = requireView().requireViewByIdCompat<HorizontalSnapScrollView>(R.id.horizScroller)
+        snapScroller.viewTreeObserver.removeOnScrollChangedListener(onHorizontalScrollChangeListener)
+        onHorizontalScrollChangeListener = null
+        super.onDestroyView()
     }
 
     @SuppressLint("InlinedApi")
@@ -223,7 +238,11 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
                 buildNavigationMenu(menuEntries, numDays)
                 viewModel.fillTimes(Moment.now(), getNormalizedBoxHeight())
                 viewDay(scheduleData, useDeviceTimeZone, numDays, dayIndex)
+                updateHorizontalScrollingProgressLine(0)
             }
+        viewModel.showHorizontalScrollingProgressLine.observe(this) { shouldShow ->
+            updateHorizontalScrollingProgressLine(shouldShow)
+        }
         viewModel.fahrplanEmptyParameter.observe(viewLifecycleOwner) { (scheduleVersion) ->
             val errorMessage = errorMessageFactory.getMessageForEmptySchedule(scheduleVersion)
             errorMessage.show(requireContext(), shouldShowLong = false)
@@ -284,6 +303,33 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
     override fun onDestroy() {
         connectivityObserver.stop()
         super.onDestroy()
+    }
+
+    private fun updateHorizontalScrollingProgressLine(scrollX: Int) {
+        val roomNameView = requireView().requireViewByIdCompat<LinearLayout>(R.id.roomNameLandscape)
+        val horizontalScrollView = requireView().requireViewByIdCompat<HorizontalSnapScrollView>(R.id.horizScroller)
+        val lineView = requireView().requireViewByIdCompat<View>(R.id.horizontalScrollingProgressLine)
+
+        // Get the width of the content inside the scrollView and the width of the scrollView itself
+        val contentWidth = horizontalScrollView.getChildAt(0).width
+        val roomNameViewWidth = roomNameView.width
+
+        // Calculate the scrollable width (total content width minus the visible part of the scrollView)
+        val scrollableWidth = contentWidth - roomNameViewWidth
+
+        if (scrollableWidth > 0) {
+            val maxTranslationX = roomNameViewWidth - lineView.width
+            val scrollRatio = scrollX.toFloat() / scrollableWidth
+            val newPosition = scrollRatio * maxTranslationX
+            lineView.translationX = newPosition
+        } else {
+            lineView.translationX = 0f
+        }
+    }
+
+    private fun updateHorizontalScrollingProgressLine(visible: Boolean) {
+        val lineView = requireView().requireViewByIdCompat<View>(R.id.horizontalScrollingProgressLine)
+        lineView.isInvisible = !visible
     }
 
     /**
