@@ -55,6 +55,7 @@
     <color name="session_item_video_without_recording_took_place">#656565</color>
 
     <!-- Schedule changes dialog -->
+    <color name="schedule_changes_dialog_body_text">@color/text_secondary</color>
     <color name="schedule_changes_dialog_new_version_text">@color/colorAccent</color>
 
     <!-- Schedule changes -->
