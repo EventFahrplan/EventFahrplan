@@ -9,6 +9,7 @@ import android.content.Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
@@ -19,11 +20,13 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
 import androidx.core.net.toUri
+import androidx.core.view.MenuProvider
 import androidx.core.view.isVisible
 import androidx.core.widget.ContentLoadingProgressBar
 import androidx.fragment.app.FragmentContainerView
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentManager.OnBackStackChangedListener
+import androidx.lifecycle.Lifecycle.State.RESUMED
 import info.metadude.android.eventfahrplan.commons.flow.observe
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.about.AboutDialog
@@ -57,6 +60,7 @@ import nerd.tuxmobil.fahrplan.congress.utils.ConfirmationDialog.OnConfirmationDi
 import nerd.tuxmobil.fahrplan.congress.utils.showWhenLockedCompat
 
 class MainActivity : BaseActivity(),
+    MenuProvider,
     OnSidePaneCloseListener,
     OnSessionListClick,
     OnSessionClickListener,
@@ -116,6 +120,7 @@ class MainActivity : BaseActivity(),
         super.onCreate(savedInstanceState)
         instance = this
         setContentView(R.layout.main_layout)
+        addMenuProvider(this, this, RESUMED)
 
         notificationHelper = NotificationHelper(this)
 
@@ -229,12 +234,6 @@ class MainActivity : BaseActivity(),
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        super.onCreateOptionsMenu(menu)
-        menuInflater.inflate(R.menu.mainmenu, menu)
-        return true
-    }
-
     private fun showChangesDialog(scheduleVersion: String, changeStatistic: ChangeStatistic) {
         val fragment = findFragment(ChangesDialog.FRAGMENT_TAG)
         if (fragment == null) {
@@ -250,24 +249,20 @@ class MainActivity : BaseActivity(),
         AboutDialog().show(transaction, AboutDialog.FRAGMENT_TAG)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val functionByOptionItemId = mapOf(
-            R.id.menu_item_about to { viewModel.showAboutDialog() },
-            R.id.menu_item_alarms to { openAlarms() },
-            R.id.menu_item_settings to { SettingsActivity.startForResult(this) },
-            R.id.menu_item_schedule_changes to { openSessionChanges() },
-            R.id.menu_item_favorites to { openFavorites() }
-        )
-        return when (val function = functionByOptionItemId[item.itemId]) {
-            null -> {
-                super.onOptionsItemSelected(item)
-            }
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+        menuInflater.inflate(R.menu.mainmenu, menu)
+    }
 
-            else -> {
-                function.invoke()
-                true
-            }
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+        when (menuItem.itemId) {
+            R.id.menu_item_about -> viewModel.showAboutDialog()
+            R.id.menu_item_alarms -> openAlarms()
+            R.id.menu_item_settings -> SettingsActivity.startForResult(this)
+            R.id.menu_item_schedule_changes -> openSessionChanges()
+            R.id.menu_item_favorites -> openFavorites()
+            else -> return false
         }
+        return true
     }
 
     private fun openSessionDetails() {

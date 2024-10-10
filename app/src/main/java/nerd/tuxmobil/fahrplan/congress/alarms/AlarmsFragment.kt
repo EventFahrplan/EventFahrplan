@@ -12,10 +12,12 @@ import androidx.annotation.IdRes
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle.State.RESUMED
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.base.OnSessionItemClickListener
 import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolver
@@ -26,7 +28,7 @@ import nerd.tuxmobil.fahrplan.congress.extensions.replaceFragment
 import nerd.tuxmobil.fahrplan.congress.extensions.withArguments
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 
-class AlarmsFragment : Fragment() {
+class AlarmsFragment : Fragment(), MenuProvider {
 
     companion object {
         const val FRAGMENT_TAG = "ALARMS_FRAGMENT_TAG"
@@ -81,7 +83,7 @@ class AlarmsFragment : Fragment() {
         arguments?.let {
             sidePane = it.getBoolean(BundleKeys.SIDEPANE)
         }
-        setHasOptionsMenu(true)
+        requireActivity().addMenuProvider(this, this, RESUMED)
     }
 
     override fun onCreateView(
@@ -101,18 +103,16 @@ class AlarmsFragment : Fragment() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.alarms_menu, menu)
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+        menuInflater.inflate(R.menu.alarms_menu, menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
-        R.id.menu_item_delete_all_alarms -> {
-            viewModel.onDeleteAllClick()
-            true
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+        when (menuItem.itemId) {
+            R.id.menu_item_delete_all_alarms -> viewModel.onDeleteAllClick()
+            else -> return false
         }
-
-        else -> super.onOptionsItemSelected(item)
+        return true
     }
 
 }
