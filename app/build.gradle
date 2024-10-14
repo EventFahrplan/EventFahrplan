@@ -208,6 +208,7 @@ dependencies {
 
     implementation Compose.material
 
+    implementation Libs.activityCompose
     implementation Libs.appCompat
     implementation Libs.betterLinkMovementMethod
     implementation Libs.constraintLayout

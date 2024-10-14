@@ -17,6 +17,7 @@
     <string name="menu_item_title_navigate">Navigate</string>
     <string name="menu_item_title_refresh">Refresh</string>
     <string name="menu_item_title_schedule_changes" translatable="false">@string/schedule_changes</string>
+    <string name="menu_item_title_search" translatable="false">@string/search_title</string>
     <string name="menu_item_title_settings" translatable="false">@string/settings</string>
     <string name="menu_item_title_share_session">Share session</string>
     <string name="menu_item_title_share_favorites">Share favorites</string>
@@ -318,5 +319,15 @@
     <string name="schedule_statistic_null_empty">null/empty</string>
     <string name="schedule_statistic_null_empty_content_description">null or empty</string>
     <string name="schedule_statistic_non_empty">non-empty</string>
+
+    <!-- Search -->
+    <string name="search_title">Search</string>
+    <string name="search_no_search_result_title">No sessions found</string>
+    <string name="search_no_search_result_subtitle">Try refining your search</string>
+    <string name="search_query_hint">Search for sessions</string>
+    <string name="search_clear_search_query_content_description">Clear search</string>
+    <string name="search_result_item_starts_at_content_description">
+        Starts at: <xliff:g example="16:20" id="startTime">%s</xliff:g>
+    </string>
 
 </resources>

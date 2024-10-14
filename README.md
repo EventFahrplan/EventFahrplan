@@ -33,6 +33,7 @@ Please read the instructions in the [contribution guide](CONTRIBUTING.md) in ord
 * View program by day and rooms (side by side)
 * Custom grid layout for smartphones (**try landscape mode**) and tablets
 * Read detailed descriptions (speaker names, start time, room name, links, ...) of events
+* Search through all events
 * Add events to favorites list
 * Export favorites list
 * Setup alarms for individual events
