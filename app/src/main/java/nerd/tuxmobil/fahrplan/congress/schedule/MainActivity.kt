@@ -283,6 +283,9 @@ class MainActivity : BaseActivity(),
         findViewById<View>(R.id.detail)?.let {
             it.isVisible = false
         }
+        if (fragmentTag == AlarmsFragment.FRAGMENT_TAG) {
+            isAlarmsInSidePane = false
+        }
         if (fragmentTag == StarredListFragment.FRAGMENT_TAG) {
             isFavoritesInSidePane = false
         }
