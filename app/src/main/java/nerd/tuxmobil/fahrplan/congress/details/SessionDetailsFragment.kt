@@ -31,6 +31,7 @@ import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import info.metadude.android.eventfahrplan.commons.flow.observe
 import io.noties.markwon.AbstractMarkwonPlugin
@@ -89,8 +90,10 @@ class SessionDetailsFragment : Fragment() {
             val fragment = SessionDetailsFragment().withArguments(
                 BundleKeys.SIDEPANE to sidePane
             )
-            fragmentManager.popBackStack(FRAGMENT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-            fragmentManager.replaceFragment(containerViewId, fragment, FRAGMENT_TAG, FRAGMENT_TAG)
+            fragmentManager.commit {
+                fragmentManager.popBackStack(FRAGMENT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+                fragmentManager.replaceFragment(containerViewId, fragment, FRAGMENT_TAG, FRAGMENT_TAG)
+            }
         }
 
         fun replace(fragmentManager: FragmentManager, @IdRes containerViewId: Int) {

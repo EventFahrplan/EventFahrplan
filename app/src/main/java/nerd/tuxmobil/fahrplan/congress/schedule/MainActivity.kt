@@ -379,7 +379,7 @@ class MainActivity : BaseActivity(),
         } else if (!isScreenLocked) {
             sidePaneView.isVisible = true
             isAlarmsInSidePane = true
-            AlarmsFragment.replace(supportFragmentManager, R.id.detail, true)
+            AlarmsFragment.replaceAtBackStack(supportFragmentManager, R.id.detail, true)
         }
     }
 
@@ -390,7 +390,7 @@ class MainActivity : BaseActivity(),
         } else if (!isScreenLocked) {
             sidePaneView.isVisible = true
             isFavoritesInSidePane = true
-            StarredListFragment.replace(supportFragmentManager, R.id.detail, true)
+            StarredListFragment.replaceAtBackStack(supportFragmentManager, R.id.detail, true)
         }
     }
 
@@ -400,7 +400,7 @@ class MainActivity : BaseActivity(),
             ChangeListActivity.start(this)
         } else {
             sidePaneView.isVisible = true
-            ChangeListFragment.replace(supportFragmentManager, R.id.detail, true)
+            ChangeListFragment.replaceAtBackStack(supportFragmentManager, R.id.detail, true)
         }
     }
 
