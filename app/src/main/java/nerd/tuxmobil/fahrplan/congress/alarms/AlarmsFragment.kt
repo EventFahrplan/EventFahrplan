@@ -62,7 +62,7 @@ class AlarmsFragment : Fragment() {
         onSessionItemClickListener = try {
             context as OnSessionItemClickListener
         } catch (e: ClassCastException) {
-            throw ClassCastException("$context must implement ClassCastException")
+            error("$context must implement OnSessionItemClickListener")
         }
     }
 
