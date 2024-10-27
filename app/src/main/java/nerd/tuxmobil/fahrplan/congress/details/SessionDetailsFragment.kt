@@ -42,6 +42,7 @@ import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmTimePickerFragment
 import nerd.tuxmobil.fahrplan.congress.calendar.CalendarSharing
+import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolver
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
 import nerd.tuxmobil.fahrplan.congress.extensions.replaceFragment
 import nerd.tuxmobil.fahrplan.congress.extensions.requireViewByIdCompat
@@ -139,7 +140,7 @@ class SessionDetailsFragment : Fragment() {
         appRepository = AppRepository
         alarmServices = AlarmServices.newInstance(context, appRepository)
         notificationHelper = NotificationHelper(context)
-        contentDescriptionFormatter = ContentDescriptionFormatter(context)
+        contentDescriptionFormatter = ContentDescriptionFormatter(ResourceResolver(context))
         markwon = Markwon.builder(context)
             .usePlugin(HEADINGS_PLUGIN)
             .usePlugin(createListItemsPlugin(context))

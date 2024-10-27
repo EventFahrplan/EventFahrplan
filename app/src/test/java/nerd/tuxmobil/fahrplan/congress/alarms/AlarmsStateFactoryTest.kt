@@ -177,4 +177,8 @@ private class CompleteResourceResolver(val alarmTimeInMin: Int) : ResourceResolv
         R.string.alarms_item_fires_at_content_description -> "Fires at: omitted in this test"
         else -> fail("Unknown string id : $id")
     }
+
+    override fun getQuantityString(id: Int, quantity: Int, vararg formatArgs: Any): String {
+        throw NotImplementedError("Not needed for this test.")
+    }
 }

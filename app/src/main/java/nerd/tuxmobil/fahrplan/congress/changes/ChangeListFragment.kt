@@ -57,11 +57,12 @@ class ChangeListFragment : Fragment() {
 
     private var onSessionListClickListener: OnSessionListClick? = null
     private val viewModelFactory by lazy {
+        val resourceResolving = ResourceResolver(requireContext())
         ChangeListViewModelFactory(
             AppRepository,
-            ResourceResolver(requireContext()),
+            resourceResolving,
             SessionPropertiesFormatter(),
-            ContentDescriptionFormatter(requireContext()),
+            ContentDescriptionFormatter(resourceResolving),
         )
     }
     private val viewModel: ChangeListViewModel by viewModels { viewModelFactory }
