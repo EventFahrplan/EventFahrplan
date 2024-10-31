@@ -8,9 +8,10 @@ import android.content.Intent
 import androidx.annotation.VisibleForTesting
 import androidx.core.app.AlarmManagerCompat
 import info.metadude.android.eventfahrplan.commons.logging.Logging
-import info.metadude.android.eventfahrplan.commons.temporal.DateFormatter
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.R
+import nerd.tuxmobil.fahrplan.congress.commons.DateFormatterDelegate
+import nerd.tuxmobil.fahrplan.congress.commons.FormattingDelegate
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toSchedulableAlarm
 import nerd.tuxmobil.fahrplan.congress.extensions.getAlarmManager
 import nerd.tuxmobil.fahrplan.congress.models.Alarm
@@ -18,7 +19,6 @@ import nerd.tuxmobil.fahrplan.congress.models.SchedulableAlarm
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.utils.PendingIntentCompat.FLAG_IMMUTABLE
-import org.threeten.bp.ZoneOffset
 
 /**
  * Alarm related actions such as adding and deleting session alarms or directly scheduling and
@@ -32,8 +32,8 @@ class AlarmServices @VisibleForTesting constructor(
         private val alarmTimeValues: List<String>,
         private val logging: Logging,
         private val pendingIntentDelegate: PendingIntentDelegate = PendingIntentProvider,
-        private val formattingDelegate: FormattingDelegate = DateFormatterDelegate,
-) {
+        private val formattingDelegate: FormattingDelegate,
+) : FormattingDelegate by formattingDelegate {
 
     companion object {
         private const val LOG_TAG = "AlarmServices"
@@ -53,7 +53,8 @@ class AlarmServices @VisibleForTesting constructor(
                 repository = repository,
                 alarmManager = alarmManager,
                 alarmTimesArray.toList(),
-                logging = logging
+                logging = logging,
+                formattingDelegate = DateFormatterDelegate,
             )
         }
     }
@@ -75,24 +76,6 @@ class AlarmServices @VisibleForTesting constructor(
         @SuppressLint("WrongConstant")
         override fun onPendingIntentBroadcast(context: Context, intent: Intent): PendingIntent {
             return PendingIntent.getBroadcast(context, DEFAULT_REQUEST_CODE, intent, FLAG_IMMUTABLE)
-        }
-    }
-
-    /**
-     * Delegate to get a formatted date/time.
-     */
-    fun interface FormattingDelegate {
-        fun getFormattedDateTimeShort(useDeviceTimeZone: Boolean, alarmTime: Long, timeZoneOffset: ZoneOffset?): String
-    }
-
-    /**
-     * [DateFormatter] delegate to handle calls to get a formatted date/time.
-     * Do not introduce any business logic here because this class is not unit tested.
-     */
-    @Suppress("kotlin:S6516")
-    private object DateFormatterDelegate : FormattingDelegate {
-        override fun getFormattedDateTimeShort(useDeviceTimeZone: Boolean, alarmTime: Long, timeZoneOffset: ZoneOffset?): String {
-            return DateFormatter.newInstance(useDeviceTimeZone).getFormattedDateTimeShort(alarmTime, timeZoneOffset)
         }
     }
 

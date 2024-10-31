@@ -13,8 +13,8 @@ import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedOnce
 import nerd.tuxmobil.fahrplan.congress.NoLogging
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmReceiver.AlarmIntentFactory.Companion.ALARM_DELETE
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmReceiver.AlarmIntentFactory.Companion.ALARM_SESSION
-import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices.FormattingDelegate
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices.PendingIntentDelegate
+import nerd.tuxmobil.fahrplan.congress.commons.FormattingDelegate
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
 import nerd.tuxmobil.fahrplan.congress.models.Alarm
 import nerd.tuxmobil.fahrplan.congress.models.SchedulableAlarm
