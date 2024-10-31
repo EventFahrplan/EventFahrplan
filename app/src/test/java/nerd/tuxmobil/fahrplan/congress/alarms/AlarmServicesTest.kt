@@ -13,8 +13,8 @@ import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedOnce
 import nerd.tuxmobil.fahrplan.congress.NoLogging
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmReceiver.AlarmIntentFactory.Companion.ALARM_DELETE
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmReceiver.AlarmIntentFactory.Companion.ALARM_SESSION
-import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices.PendingIntentDelegate
 import nerd.tuxmobil.fahrplan.congress.commons.FormattingDelegate
+import nerd.tuxmobil.fahrplan.congress.commons.PendingIntentDelegate
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
 import nerd.tuxmobil.fahrplan.congress.models.Alarm
 import nerd.tuxmobil.fahrplan.congress.models.SchedulableAlarm
@@ -136,7 +136,7 @@ class AlarmServicesTest {
     @Test
     fun `scheduleSessionAlarm invokes cancel then set when discardExisting is true`() {
         val pendingIntent = mock<PendingIntent>()
-        val pendingIntentDelegate = PendingIntentDelegate { context, intent ->
+        val pendingIntentDelegate = PendingIntentBroadcastProvider { context, intent ->
             assertThat(context).isEqualTo(mockContext)
             assertIntentExtras(intent, ALARM_SESSION)
             pendingIntent
@@ -150,7 +150,7 @@ class AlarmServicesTest {
     @Test
     fun `scheduleSessionAlarm only invokes set when discardExisting is false`() {
         val pendingIntent = mock<PendingIntent>()
-        val pendingIntentDelegate = PendingIntentDelegate { context, intent ->
+        val pendingIntentDelegate = PendingIntentBroadcastProvider { context, intent ->
             assertThat(context).isEqualTo(mockContext)
             assertIntentExtras(intent, ALARM_SESSION)
             pendingIntent
@@ -164,7 +164,7 @@ class AlarmServicesTest {
     @Test
     fun `discardSessionAlarm invokes cancel`() {
         val pendingIntent = mock<PendingIntent>()
-        val pendingIntentDelegate = PendingIntentDelegate { context, intent ->
+        val pendingIntentDelegate = PendingIntentBroadcastProvider { context, intent ->
             assertThat(context).isEqualTo(mockContext)
             assertIntentExtras(intent, ALARM_DELETE)
             pendingIntent
@@ -178,12 +178,13 @@ class AlarmServicesTest {
     @Test
     fun `discardAutoUpdateAlarm invokes cancel`() {
         val pendingIntent = mock<PendingIntent>()
-        val pendingIntentDelegate = PendingIntentDelegate { context, intent ->
+        val pendingIntentDelegate = PendingIntentBroadcastProvider { context, intent ->
             assertThat(context).isEqualTo(mockContext)
             assertThat(intent.component!!.className).isEqualTo(AlarmReceiver::class.java.name)
             assertThat(intent.action).isEqualTo(AlarmReceiver.ALARM_UPDATE)
             pendingIntent
         }
+
         val alarmServices = createAlarmServices(pendingIntentDelegate)
         alarmServices.discardAutoUpdateAlarm()
         verifyInvokedOnce(alarmManager).cancel(pendingIntent)
@@ -213,5 +214,19 @@ class AlarmServicesTest {
         pendingIntentDelegate = pendingIntentDelegate,
         formattingDelegate = formattingDelegate,
     )
+
+}
+
+private class PendingIntentBroadcastProvider(
+    val action: (context: Context, intent: Intent) -> PendingIntent,
+) : PendingIntentDelegate {
+
+    override fun getPendingIntentActivity(context: Context, intent: Intent): PendingIntent {
+        throw NotImplementedError("Not needed for this test.")
+    }
+
+    override fun getPendingIntentBroadcast(context: Context, intent: Intent): PendingIntent {
+        return action(context, intent)
+    }
 
 }
