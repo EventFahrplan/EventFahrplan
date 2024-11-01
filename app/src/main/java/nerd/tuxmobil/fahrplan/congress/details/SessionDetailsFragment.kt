@@ -28,11 +28,13 @@ import androidx.annotation.LayoutRes
 import androidx.annotation.MainThread
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
+import androidx.core.view.MenuProvider
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle.State.RESUMED
 import info.metadude.android.eventfahrplan.commons.flow.observe
 import io.noties.markwon.AbstractMarkwonPlugin
 import io.noties.markwon.Markwon
@@ -59,7 +61,7 @@ import nerd.tuxmobil.fahrplan.congress.utils.LinkMovementMethodCompat
 import nerd.tuxmobil.fahrplan.congress.utils.ServerBackendType
 import nerd.tuxmobil.fahrplan.congress.utils.TypefaceFactory
 
-class SessionDetailsFragment : Fragment() {
+class SessionDetailsFragment : Fragment(), MenuProvider {
 
     companion object {
 
@@ -182,7 +184,7 @@ class SessionDetailsFragment : Fragment() {
                 }
             }
 
-        setHasOptionsMenu(true)
+        requireActivity().addMenuProvider(this, this, RESUMED)
     }
 
     override fun onCreateView(inflater: LayoutInflater,
@@ -430,13 +432,12 @@ class SessionDetailsFragment : Fragment() {
         requireActivity().invalidateOptionsMenu()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
         if (!::model.isInitialized) {
             // Skip if lifecycle is faster than ViewModel.
             return
         }
-        inflater.inflate(R.menu.detailmenu, menu)
+        menuInflater.inflate(R.menu.detailmenu, menu)
         if (model.isFlaggedAsFavorite) {
             menu.setMenuItemVisibility(R.id.menu_item_flag_as_favorite, false)
             menu.setMenuItemVisibility(R.id.menu_item_unflag_as_favorite, true)
@@ -459,17 +460,12 @@ class SessionDetailsFragment : Fragment() {
         item?.let { it.isVisible = true }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val itemId = item.itemId
-        return when (val function = viewModelFunctionByMenuItemId[itemId]) {
-            null -> {
-                return super.onOptionsItemSelected(item)
-            }
-            else -> {
-                function.invoke(viewModel)
-                true
-            }
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+        when (val menuFunction = viewModelFunctionByMenuItemId[menuItem.itemId]) {
+            null -> return false
+            else -> menuFunction(viewModel)
         }
+        return true
     }
 
     private fun Menu.setMenuItemVisibility(itemId: Int, isVisible: Boolean) {

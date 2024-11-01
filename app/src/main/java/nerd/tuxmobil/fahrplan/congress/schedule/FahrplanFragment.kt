@@ -36,6 +36,7 @@ import androidx.appcompat.app.ActionBar.OnNavigationListener
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
+import androidx.core.view.MenuProvider
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
@@ -43,6 +44,7 @@ import androidx.core.widget.NestedScrollView
 import androidx.core.widget.NestedScrollView.OnScrollChangeListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
+import androidx.lifecycle.Lifecycle.State.RESUMED
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -75,7 +77,7 @@ import nerd.tuxmobil.fahrplan.congress.utils.Font
 import nerd.tuxmobil.fahrplan.congress.utils.SessionPropertiesFormatter
 import nerd.tuxmobil.fahrplan.congress.utils.TypefaceFactory
 
-class FahrplanFragment : Fragment(), SessionViewEventsHandler {
+class FahrplanFragment : Fragment(), MenuProvider, SessionViewEventsHandler {
 
     /**
      * Interface definition for a callback to be invoked when a session view is clicked.
@@ -180,7 +182,7 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
                 }
             }
 
-        setHasOptionsMenu(true)
+        requireActivity().addMenuProvider(this, this, RESUMED)
         val context = requireContext()
         roomTitleTypeFace = TypefaceFactory.getNewInstance(context).getTypeface(Font.Roboto.Light)
         sessionViewDrawer = SessionViewDrawer(
@@ -600,18 +602,16 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
         return true
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.fahrplan_menu, menu)
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+        menuInflater.inflate(R.menu.fahrplan_menu, menu)
     }
 
-    override fun onOptionsItemSelected(menuItem: MenuItem): Boolean {
-        return if (menuItem.itemId == R.id.menu_item_refresh) {
-            viewModel.requestScheduleUpdate(isUserRequest = true)
-            true
-        } else {
-            super.onOptionsItemSelected(menuItem)
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+        when (menuItem.itemId) {
+            R.id.menu_item_refresh -> viewModel.requestScheduleUpdate(isUserRequest = true)
+            else -> return false
         }
+        return true
     }
 
     private fun updateMenuItems() {
