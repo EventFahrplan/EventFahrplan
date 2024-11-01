@@ -5,7 +5,6 @@ import android.os.Build
 import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import info.metadude.android.eventfahrplan.commons.temporal.DateFormatter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.SendChannel
@@ -16,6 +15,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices
 import nerd.tuxmobil.fahrplan.congress.alarms.SessionAlarmViewModelDelegate
+import nerd.tuxmobil.fahrplan.congress.commons.FormattingDelegate
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toRoom
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.navigation.IndoorNavigation
@@ -30,7 +30,6 @@ import nerd.tuxmobil.fahrplan.congress.utils.MarkdownConversion
 import nerd.tuxmobil.fahrplan.congress.utils.SessionPropertiesFormatter
 import nerd.tuxmobil.fahrplan.congress.utils.SessionUrlComposition
 import nerd.tuxmobil.fahrplan.congress.wiki.containsWikiLink
-import org.threeten.bp.ZoneOffset
 
 internal class SessionDetailsViewModel(
 
@@ -45,36 +44,12 @@ internal class SessionDetailsViewModel(
     private val sessionUrlComposition: SessionUrlComposition,
     private val indoorNavigation: IndoorNavigation,
     private val markdownConversion: MarkdownConversion,
-    private val formattingDelegate: FormattingDelegate = DateFormattingDelegate(),
+    private val formattingDelegate: FormattingDelegate,
     private val defaultEngelsystemRoomName: String,
     private val customEngelsystemRoomName: String,
     runsAtLeastOnAndroidTiramisu: Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
 
-) : ViewModel() {
-
-    /**
-     * Delegate to get a formatted date/time.
-     */
-    interface FormattingDelegate {
-        fun getFormattedDateTimeShort(useDeviceTimeZone: Boolean, dateUtc: Long, sessionTimeZoneOffset: ZoneOffset?): String
-        fun getFormattedDateTimeLong(useDeviceTimeZone: Boolean, dateUtc: Long, sessionTimeZoneOffset: ZoneOffset?): String
-    }
-
-    /**
-     * [DateFormatter] delegate handling calls to get a formatted date/time.
-     * Do not introduce any business logic here because this class is not unit tested.
-     */
-    private class DateFormattingDelegate : FormattingDelegate {
-
-        override fun getFormattedDateTimeShort(useDeviceTimeZone: Boolean, dateUtc: Long, sessionTimeZoneOffset: ZoneOffset?): String {
-            return DateFormatter.newInstance(useDeviceTimeZone).getFormattedDateTimeShort(dateUtc, sessionTimeZoneOffset)
-        }
-
-        override fun getFormattedDateTimeLong(useDeviceTimeZone: Boolean, dateUtc: Long, sessionTimeZoneOffset: ZoneOffset?): String {
-            return DateFormatter.newInstance(useDeviceTimeZone).getFormattedDateTimeLong(dateUtc, sessionTimeZoneOffset)
-        }
-
-    }
+) : ViewModel(), FormattingDelegate by formattingDelegate {
 
     private var sessionAlarmViewModelDelegate: SessionAlarmViewModelDelegate =
         SessionAlarmViewModelDelegate(

@@ -14,6 +14,7 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.base.OnSessionItemClickListener
@@ -30,7 +31,7 @@ class AlarmsFragment : Fragment() {
     companion object {
         const val FRAGMENT_TAG = "ALARMS_FRAGMENT_TAG"
 
-        fun replace(
+        fun replaceAtBackStack(
             fragmentManager: FragmentManager,
             @IdRes containerViewId: Int,
             sidePane: Boolean
@@ -38,7 +39,10 @@ class AlarmsFragment : Fragment() {
             val fragment = AlarmsFragment().withArguments(
                 BundleKeys.SIDEPANE to sidePane
             )
-            fragmentManager.replaceFragment(containerViewId, fragment, FRAGMENT_TAG, FRAGMENT_TAG)
+            fragmentManager.commit {
+                fragmentManager.popBackStack(FRAGMENT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+                fragmentManager.replaceFragment(containerViewId, fragment, FRAGMENT_TAG, FRAGMENT_TAG)
+            }
         }
     }
 
@@ -62,7 +66,7 @@ class AlarmsFragment : Fragment() {
         onSessionItemClickListener = try {
             context as OnSessionItemClickListener
         } catch (e: ClassCastException) {
-            throw ClassCastException("$context must implement ClassCastException")
+            error("$context must implement OnSessionItemClickListener")
         }
     }
 

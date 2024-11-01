@@ -139,6 +139,10 @@ private object CompleteResourceResolver : ResourceResolving {
         R.string.build_info_hash -> "Version hash: ${formatArgs.first()}"
         else -> fail("Unknown string id : $id")
     }
+
+    override fun getQuantityString(id: Int, quantity: Int, vararg formatArgs: Any): String {
+        throw NotImplementedError("Not needed for this test.")
+    }
 }
 
 private object SomeEmptyResourceResolver : ResourceResolving {
@@ -165,6 +169,10 @@ private object SomeEmptyResourceResolver : ResourceResolving {
         R.string.git_sha -> "e1f2g3h-dirty"
         R.string.build_info_hash -> "Version hash: ${formatArgs.first()}"
         else -> fail("Unknown string id : $id")
+    }
+
+    override fun getQuantityString(id: Int, quantity: Int, vararg formatArgs: Any): String {
+        throw NotImplementedError("Not needed for this test.")
     }
 }
 

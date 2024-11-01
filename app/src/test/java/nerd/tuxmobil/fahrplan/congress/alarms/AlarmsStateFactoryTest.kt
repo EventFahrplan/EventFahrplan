@@ -3,6 +3,7 @@ package nerd.tuxmobil.fahrplan.congress.alarms
 import com.google.common.truth.Truth.assertThat
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.R
+import nerd.tuxmobil.fahrplan.congress.commons.DateFormatterDelegate
 import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolving
 import nerd.tuxmobil.fahrplan.congress.models.Alarm
 import nerd.tuxmobil.fahrplan.congress.models.Session
@@ -22,7 +23,7 @@ class AlarmsStateFactoryTest {
 
         @Test
         fun `createAlarmsState returns empty list when alarms is empty`() {
-            val factory = AlarmsStateFactory(CompleteResourceResolver(0))
+            val factory = createAlarmsStateFactory(0)
 
             val alarms = emptyList<Alarm>()
             val sessions = listOf(Session("s0"))
@@ -34,7 +35,7 @@ class AlarmsStateFactoryTest {
 
         @Test
         fun `createAlarmsState returns empty list when sessions is empty`() {
-            val factory = AlarmsStateFactory(CompleteResourceResolver(0))
+            val factory = createAlarmsStateFactory(0)
 
             val alarms = listOf(createAlarm("s0"))
             val sessions = emptyList<Session>()
@@ -46,7 +47,7 @@ class AlarmsStateFactoryTest {
 
         @Test
         fun `createAlarmsState returns empty list when alarm and session are not associated`() {
-            val factory = AlarmsStateFactory(CompleteResourceResolver(0))
+            val factory = createAlarmsStateFactory(0)
 
             val alarms = listOf(createAlarm("s1"))
             val sessions = listOf(Session("s0"))
@@ -65,7 +66,7 @@ class AlarmsStateFactoryTest {
         fun `createAlarmsState returns values list when alarm and session are associated, 10 min`() {
             val alarmTimeInMin = 10
             val alarmStartsAt = calculateAlarmStartsAt(alarmTimeInMin).toMilliseconds()
-            val factory = AlarmsStateFactory(CompleteResourceResolver(alarmTimeInMin))
+            val factory = createAlarmsStateFactory(alarmTimeInMin)
 
             val alarms = listOf(
                 createAlarm(
@@ -108,7 +109,7 @@ class AlarmsStateFactoryTest {
         fun `createAlarmsState returns values list when alarm and session are associated, 0 min`() {
             val alarmTimeInMin = 0
             val alarmStartsAt = calculateAlarmStartsAt(alarmTimeInMin).toMilliseconds()
-            val factory = AlarmsStateFactory(CompleteResourceResolver(alarmTimeInMin))
+            val factory = createAlarmsStateFactory(alarmTimeInMin)
 
             val alarms = listOf(
                 createAlarm(
@@ -149,6 +150,9 @@ class AlarmsStateFactoryTest {
 
     }
 
+    private fun createAlarmsStateFactory(alarmTimeInMin: Int) =
+        AlarmsStateFactory(CompleteResourceResolver(alarmTimeInMin), DateFormatterDelegate)
+
     private fun createAlarm(
         sessionId: String,
         alarmTimeInMin: Int = 10,
@@ -176,5 +180,9 @@ private class CompleteResourceResolver(val alarmTimeInMin: Int) : ResourceResolv
         R.string.alarms_item_alarm_time_minutes_content_description -> "Alarm: $alarmTimeInMin minutes before"
         R.string.alarms_item_fires_at_content_description -> "Fires at: omitted in this test"
         else -> fail("Unknown string id : $id")
+    }
+
+    override fun getQuantityString(id: Int, quantity: Int, vararg formatArgs: Any): String {
+        throw NotImplementedError("Not needed for this test.")
     }
 }

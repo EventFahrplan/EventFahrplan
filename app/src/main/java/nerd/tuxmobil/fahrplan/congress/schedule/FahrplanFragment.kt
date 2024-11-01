@@ -55,6 +55,7 @@ import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmTimePickerFragment
 import nerd.tuxmobil.fahrplan.congress.calendar.CalendarSharing
+import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolver
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
 import nerd.tuxmobil.fahrplan.congress.extensions.getLayoutInflater
 import nerd.tuxmobil.fahrplan.congress.extensions.isLandscape
@@ -185,7 +186,7 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
         sessionViewDrawer = SessionViewDrawer(
             context = context,
             sessionPropertiesFormatter = SessionPropertiesFormatter(),
-            contentDescriptionFormatter = ContentDescriptionFormatter(context),
+            contentDescriptionFormatter = ContentDescriptionFormatter(ResourceResolver((context))),
             getSessionPadding = { sessionPadding },
         )
         errorMessageFactory = ErrorMessage.Factory(context)
@@ -568,24 +569,30 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
                 SessionViewDrawer.setSessionTextColor(updatedSession.isHighlight, contextMenuView)
                 updateMenuItems()
             }
+
             CONTEXT_MENU_ITEM_ID_SET_ALARM -> {
                 viewModel.addAlarmWithChecks()
             }
+
             CONTEXT_MENU_ITEM_ID_DELETE_ALARM -> {
                 viewModel.deleteAlarm(session)
                 updateMenuItems()
             }
+
             CONTEXT_MENU_ITEM_ID_ADD_TO_CALENDAR -> {
                 CalendarSharing(context).addToCalendar(session)
             }
+
             CONTEXT_MENU_ITEM_ID_SHARE -> {
                 if (!BuildConfig.ENABLE_CHAOSFLIX_EXPORT) {
                     viewModel.share(session)
                 }
             }
+
             CONTEXT_MENU_ITEM_ID_SHARE_TEXT -> {
                 viewModel.share(session)
             }
+
             CONTEXT_MENU_ITEM_ID_SHARE_JSON -> {
                 viewModel.shareToChaosflix(session)
             }

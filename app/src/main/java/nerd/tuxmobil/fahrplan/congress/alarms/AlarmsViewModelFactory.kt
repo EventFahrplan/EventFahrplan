@@ -2,6 +2,7 @@ package nerd.tuxmobil.fahrplan.congress.alarms
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider.Factory
+import nerd.tuxmobil.fahrplan.congress.commons.DateFormatterDelegate
 import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolving
 import nerd.tuxmobil.fahrplan.congress.repositories.AppExecutionContext
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
@@ -18,7 +19,7 @@ internal class AlarmsViewModelFactory(
             repository = appRepository,
             executionContext = AppExecutionContext,
             alarmServices = alarmServices,
-            alarmsStateFactory = AlarmsStateFactory(resourceResolving),
+            alarmsStateFactory = AlarmsStateFactory(resourceResolving, DateFormatterDelegate),
         ) as T
     }
 

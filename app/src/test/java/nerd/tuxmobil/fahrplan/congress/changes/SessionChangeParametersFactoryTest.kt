@@ -519,4 +519,8 @@ private object CompleteResourceResolver : ResourceResolving {
         R.string.session_list_item_language_removed_content_description -> "Language information has been removed"
         else -> fail("Unknown string id : $id")
     }
+
+    override fun getQuantityString(id: Int, quantity: Int, vararg formatArgs: Any): String {
+        throw NotImplementedError("Not needed for this test.")
+    }
 }

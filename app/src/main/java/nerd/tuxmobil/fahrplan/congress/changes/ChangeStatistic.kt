@@ -6,7 +6,7 @@ import nerd.tuxmobil.fahrplan.congress.models.Session
 /**
  * Statistic about session changes (canceled, changed, new).
  */
-@Suppress("DataClassPrivateConstructor")
+@ConsistentCopyVisibility
 data class ChangeStatistic private constructor(
 
         private val sessions: List<Session>,

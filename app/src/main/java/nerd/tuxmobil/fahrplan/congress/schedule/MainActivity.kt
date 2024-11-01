@@ -262,6 +262,7 @@ class MainActivity : BaseActivity(),
             null -> {
                 super.onOptionsItemSelected(item)
             }
+
             else -> {
                 function.invoke()
                 true
@@ -281,6 +282,9 @@ class MainActivity : BaseActivity(),
     override fun onSidePaneClose(fragmentTag: String) {
         findViewById<View>(R.id.detail)?.let {
             it.isVisible = false
+        }
+        if (fragmentTag == AlarmsFragment.FRAGMENT_TAG) {
+            isAlarmsInSidePane = false
         }
         if (fragmentTag == StarredListFragment.FRAGMENT_TAG) {
             isFavoritesInSidePane = false
@@ -375,7 +379,7 @@ class MainActivity : BaseActivity(),
         } else if (!isScreenLocked) {
             sidePaneView.isVisible = true
             isAlarmsInSidePane = true
-            AlarmsFragment.replace(supportFragmentManager, R.id.detail, true)
+            AlarmsFragment.replaceAtBackStack(supportFragmentManager, R.id.detail, true)
         }
     }
 
@@ -386,7 +390,7 @@ class MainActivity : BaseActivity(),
         } else if (!isScreenLocked) {
             sidePaneView.isVisible = true
             isFavoritesInSidePane = true
-            StarredListFragment.replace(supportFragmentManager, R.id.detail, true)
+            StarredListFragment.replaceAtBackStack(supportFragmentManager, R.id.detail, true)
         }
     }
 
@@ -396,7 +400,7 @@ class MainActivity : BaseActivity(),
             ChangeListActivity.start(this)
         } else {
             sidePaneView.isVisible = true
-            ChangeListFragment.replace(supportFragmentManager, R.id.detail, true)
+            ChangeListFragment.replaceAtBackStack(supportFragmentManager, R.id.detail, true)
         }
     }
 
