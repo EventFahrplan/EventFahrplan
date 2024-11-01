@@ -58,7 +58,7 @@ object Libs {
         const val appCompat = "1.7.0"
         const val betterLinkMovementMethod = "2.2.0"
         const val constraintLayout = "2.1.4"
-        const val coreKtx = "1.13.1"
+        const val coreKtx = "1.13.1" // compileSdk 35 is required as of 1.15.0
         const val coreTesting = "2.2.0"
         const val emailIntentBuilder = "2.0.0"
         const val engelsystem = "9.1.0"
