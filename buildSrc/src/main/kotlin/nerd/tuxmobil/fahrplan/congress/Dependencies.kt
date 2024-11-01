@@ -78,7 +78,7 @@ object Libs {
         const val threeTenBp = "1.7.0"
         const val tracedroid = "3.1"
         const val truth = "1.4.4"
-        const val turbine = "1.1.0"
+        const val turbine = "1.2.0"
     }
 
     const val androidTestCore = "de.mannodermaus.junit5:android-test-core:${Versions.androidTest}"
