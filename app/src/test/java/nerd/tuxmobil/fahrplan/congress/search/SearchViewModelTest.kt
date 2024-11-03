@@ -17,6 +17,8 @@ import nerd.tuxmobil.fahrplan.congress.search.SearchResultState.Loading
 import nerd.tuxmobil.fahrplan.congress.search.SearchResultState.Success
 import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnBackIconClick
 import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnBackPress
+import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnSearchHistoryClear
+import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnSearchHistoryItemClick
 import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnSearchQueryChange
 import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnSearchQueryClear
 import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnSearchResultItemClick
@@ -138,7 +140,30 @@ class SearchViewModelTest {
     }
 
     @Nested
+    inner class History {
+
+        @Test
+        fun `search history is cleared when OnSearchHistoryClear event is received`() = runTest {
+            val repository = createRepository()
+            val searchHistoryManager = mock<SearchHistoryManager>()
+            val viewModel = createViewModel(repository, searchHistoryManager)
+            viewModel.onViewEvent(OnSearchHistoryClear)
+            verifyInvokedOnce(searchHistoryManager).clear(any())
+        }
+
+    }
+
+    @Nested
     inner class Query {
+
+        @Test
+        fun `searchQuery matches passed string when OnSearchHistoryItemClick event is received`() =
+            runTest {
+                val repository = createRepository()
+                val viewModel = createViewModel(repository)
+                viewModel.onViewEvent(OnSearchHistoryItemClick("query"))
+                assertThat(viewModel.searchQuery).isEqualTo("query")
+            }
 
         @Test
         fun `searchQuery matches passed string when OnSearchQueryChange event is received`() {
@@ -166,10 +191,12 @@ class SearchViewModelTest {
 
     private fun createViewModel(
         repository: AppRepository,
+        searchHistoryManager: SearchHistoryManager = mock(),
         parameters: List<SearchResult> = emptyList(),
     ) = SearchViewModel(
         repository = repository,
         searchQueryFilter = mock(), // overlayed by factory
+        searchHistoryManager = searchHistoryManager,
         searchResultParameterFactory = createSearchResultParameterFactory(parameters),
     )
 

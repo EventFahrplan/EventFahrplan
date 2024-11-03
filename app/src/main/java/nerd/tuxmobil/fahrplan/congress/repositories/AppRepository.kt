@@ -72,6 +72,7 @@ import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.ParseSucce
 import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.Parsing
 import nerd.tuxmobil.fahrplan.congress.schedule.Conference
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewModel
+import nerd.tuxmobil.fahrplan.congress.search.SearchRepository
 import nerd.tuxmobil.fahrplan.congress.serialization.ScheduleChanges.Companion.computeSessionsWithChangeFlags
 import nerd.tuxmobil.fahrplan.congress.utils.AlarmToneConversion
 import nerd.tuxmobil.fahrplan.congress.validation.MetaValidation.validate
@@ -82,7 +83,7 @@ import info.metadude.android.eventfahrplan.network.models.Meta as MetaNetworkMod
 import nerd.tuxmobil.fahrplan.congress.models.Meta as MetaAppModel
 import nerd.tuxmobil.fahrplan.congress.models.Session as SessionAppModel
 
-object AppRepository {
+object AppRepository : SearchRepository {
 
     /**
      * Name used as the display title for the Engelsystem column and
@@ -317,6 +318,27 @@ object AppRepository {
         refreshScheduleStatisticSignal
             .onStart { emit(Unit) }
             .mapLatest { readScheduleStatistic() }
+            .flowOn(executionContext.database)
+    }
+
+    private val refreshSearchHistorySignal = MutableSharedFlow<Unit>()
+
+    private fun refreshSearchHistory() {
+        logging.d(LOG_TAG, "Refreshing search history ...")
+        val requestIdentifier = "refreshSearchHistory"
+        parentJobs[requestIdentifier] = databaseScope.launchNamed(requestIdentifier) {
+            refreshSearchHistorySignal.emit(Unit)
+        }
+    }
+
+    /**
+     * Emits the search history from the database.
+     */
+    @OptIn(ExperimentalCoroutinesApi::class)
+    override val searchHistory: Flow<List<String>> by lazy {
+        refreshSearchHistorySignal
+            .onStart { emit(Unit) }
+            .mapLatest { readSearchHistory() }
             .flowOn(executionContext.database)
     }
 
@@ -935,5 +957,14 @@ object AppRepository {
 
     fun readInsistentAlarmsEnabled() =
             sharedPreferencesRepository.isInsistentAlarmsEnabled()
+
+    private fun readSearchHistory(): List<String> {
+        return sharedPreferencesRepository.getSearchHistory()
+    }
+
+    override fun updateSearchHistory(history: List<String>) {
+        sharedPreferencesRepository.setSearchHistory(history)
+        refreshSearchHistory()
+    }
 
 }

@@ -3,6 +3,8 @@ package nerd.tuxmobil.fahrplan.congress.search
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -17,6 +19,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.SearchBarDefaults
@@ -25,6 +28,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Alignment.Companion.TopCenter
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -32,10 +36,12 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.traversalIndex
+import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.text.style.TextOverflow.Companion.Ellipsis
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -48,6 +54,8 @@ import nerd.tuxmobil.fahrplan.congress.search.SearchResultState.Loading
 import nerd.tuxmobil.fahrplan.congress.search.SearchResultState.Success
 import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnBackIconClick
 import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnBackPress
+import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnSearchHistoryClear
+import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnSearchHistoryItemClick
 import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnSearchQueryChange
 import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnSearchQueryClear
 import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnSearchResultItemClick
@@ -57,6 +65,7 @@ import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnSearchSubScreenB
 @Composable
 fun SearchScreen(
     searchQuery: String,
+    searchHistory: List<String>,
     state: SearchResultState,
     onViewEvent: (SearchViewEvent) -> Unit,
 ) {
@@ -92,6 +101,8 @@ fun SearchScreen(
                         SearchBarContent(
                             state = state,
                             searchQuery = searchQuery,
+                            searchHistory = searchHistory,
+                            darkMode = darkMode,
                             onViewEvent = onViewEvent,
                         )
                     },
@@ -108,6 +119,8 @@ fun SearchScreen(
 private fun SearchBarContent(
     state: SearchResultState,
     searchQuery: String,
+    searchHistory: List<String>,
+    @Suppress("SameParameterValue") darkMode: Boolean,
     onViewEvent: (SearchViewEvent) -> Unit,
 ) {
     when (state) {
@@ -115,9 +128,14 @@ private fun SearchBarContent(
         is Success -> {
             val sessions = state.parameters
             if (sessions.isEmpty()) {
-                NoSearchResult {
-                    val event = if (searchQuery.isEmpty()) OnBackPress else OnSearchSubScreenBackPress
-                    onViewEvent(event)
+                val isSearchQueryEmpty = searchQuery.isEmpty()
+                if (isSearchQueryEmpty && searchHistory.isNotEmpty()) {
+                    SearchHistoryList(darkMode, searchHistory, onViewEvent)
+                } else {
+                    NoSearchResult {
+                        val event = if (isSearchQueryEmpty) OnBackPress else OnSearchSubScreenBackPress
+                        onViewEvent(event)
+                    }
                 }
             } else {
                 SearchResultList(sessions, onViewEvent)
@@ -280,11 +298,78 @@ private fun SearchResultItem(
     )
 }
 
+@Composable
+private fun SearchHistoryList(
+    @Suppress("SameParameterValue") darkMode: Boolean,
+    searchQueries: List<String>,
+    onViewEvent: (SearchViewEvent) -> Unit,
+) {
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 8.dp),
+        verticalAlignment = CenterVertically,
+    ) {
+        Text(
+            text = stringResource(R.string.search_history_title),
+            fontWeight = Bold,
+            modifier = Modifier.weight(1f),
+        )
+        OutlinedButton(onClick = { onViewEvent(OnSearchHistoryClear) }) {
+            Text(
+                stringResource(R.string.search_history_clear),
+                color = colorResource(if (darkMode) R.color.search_history_clear_dark else R.color.search_history_clear_light),
+            )
+        }
+    }
+    LazyColumn(state = rememberLazyListState()) {
+        itemsIndexed(searchQueries) { index, searchQuery ->
+            SearchHistoryItem(searchQuery, Modifier.clickable {
+                onViewEvent(OnSearchHistoryItemClick(searchQuery))
+            })
+            val next = searchQueries.getOrNull(index + 1)
+            if (index < searchQueries.size - 1 && (next != null)) {
+                HorizontalDivider(Modifier.padding(horizontal = 12.dp))
+            }
+        }
+    }
+}
+
+@Composable
+private fun SearchHistoryItem(
+    searchQuery: String,
+    modifier: Modifier = Modifier,
+) {
+    ListItem(
+        modifier = modifier,
+        headlineContent = {
+            Text(
+                text = searchQuery,
+                overflow = Ellipsis,
+                maxLines = 1,
+            )
+        },
+        trailingContent = { InsertSearchHistoryIcon() },
+        colors = ListItemDefaults.colors(
+            containerColor = colorResource(android.R.color.transparent),
+        ),
+    )
+}
+
+@Composable
+private fun InsertSearchHistoryIcon() {
+    Icon(
+        painterResource(R.drawable.ic_arrow_north_west),
+        contentDescription = null,
+    )
+}
+
 @Preview
 @Composable
 private fun SearchScreenPreview() {
     SearchScreen(
         searchQuery = "Lorem ipsum",
+        searchHistory = emptyList(),
         state = Success(
             listOf(
                 SearchResult(
@@ -307,9 +392,21 @@ private fun SearchScreenPreview() {
 
 @Preview
 @Composable
-private fun SearchScreenEmptyPreview() {
+private fun SearchScreenHistoryPreview() {
     SearchScreen(
         searchQuery = "",
+        searchHistory = listOf("Lorem ipsum", "Dolor sit amet"),
+        state = Success(emptyList()),
+        onViewEvent = { },
+    )
+}
+
+@Preview
+@Composable
+private fun SearchScreenEmptyPreview() {
+    SearchScreen(
+        searchQuery = "foobar",
+        searchHistory = emptyList(),
         state = Success(emptyList()),
         onViewEvent = { },
     )
@@ -320,6 +417,7 @@ private fun SearchScreenEmptyPreview() {
 private fun SearchScreenLoadingPreview() {
     SearchScreen(
         searchQuery = "",
+        searchHistory = emptyList(),
         state = Loading,
         onViewEvent = { },
     )

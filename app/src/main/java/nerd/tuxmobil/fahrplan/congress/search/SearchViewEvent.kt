@@ -5,6 +5,8 @@ sealed interface SearchViewEvent {
     data object OnBackIconClick : SearchViewEvent
     data object OnSearchSubScreenBackPress : SearchViewEvent
     data object OnSearchQueryClear : SearchViewEvent
+    data class OnSearchHistoryItemClick(val searchQuery: String) : SearchViewEvent
+    data object OnSearchHistoryClear : SearchViewEvent
     data class OnSearchQueryChange(val updatedQuery: String) : SearchViewEvent
     data class OnSearchResultItemClick(val sessionId: String) : SearchViewEvent
 }

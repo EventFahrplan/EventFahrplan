@@ -329,5 +329,7 @@
     <string name="search_result_item_starts_at_content_description">
         Starts at: <xliff:g example="16:20" id="startTime">%s</xliff:g>
     </string>
+    <string name="search_history_title">Recent searches</string>
+    <string name="search_history_clear">Clear</string>
 
 </resources>

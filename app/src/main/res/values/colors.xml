@@ -101,5 +101,7 @@
     <color name="search_icon_light">@color/text_primary_inverted</color>
     <color name="search_query_text_dark">@color/text_primary</color>
     <color name="search_query_text_light">@color/text_primary_inverted</color>
+    <color name="search_history_clear_dark">@color/text_link_on_light</color>
+    <color name="search_history_clear_light">@color/text_link_on_dark</color>
 
 </resources>

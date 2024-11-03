@@ -15,6 +15,8 @@ class RealSharedPreferencesRepository(val context: Context) : SharedPreferencesR
         const val ENGELSYSTEM_SHIFTS_HASH_KEY = "nerd.tuxmobil.fahrplan.congress.Prefs.ENGELSYSTEM_SHIFTS_HASH"
         const val SCHEDULE_LAST_FETCHED_AT_KEY = "nerd.tuxmobil.fahrplan.congress.Prefs.SCHEDULE_LAST_FETCHED_AT"
         const val SELECTED_SESSION_ID_KEY = "nerd.tuxmobil.fahrplan.congress.Prefs.SELECTED_SESSION_ID_KEY"
+        const val SEARCH_HISTORY_KEY = "nerd.tuxmobil.fahrplan.congress.Prefs.SEARCH_HISTORY_KEY"
+        const val SEARCH_HISTORY_SEPARATOR = ";"
 
     }
 
@@ -120,5 +122,16 @@ class RealSharedPreferencesRepository(val context: Context) : SharedPreferencesR
     override fun setSelectedSessionId(sessionId: String): Boolean = preferences.edit()
         .putString(SELECTED_SESSION_ID_KEY, sessionId)
         .commit()
+
+    override fun getSearchHistory(): List<String> {
+        return preferences.getString(SEARCH_HISTORY_KEY, "")!!
+            .split(SEARCH_HISTORY_SEPARATOR)
+    }
+
+    override fun setSearchHistory(history: List<String>) {
+        preferences.edit {
+            putString(SEARCH_HISTORY_KEY, history.joinToString(SEARCH_HISTORY_SEPARATOR))
+        }
+    }
 
 }

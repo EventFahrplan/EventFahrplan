@@ -91,6 +91,7 @@ class SearchFragment : Fragment() {
                 with(viewModel) {
                     SearchScreen(
                         searchQuery = searchQuery,
+                        searchHistory = searchHistory.collectAsState(emptyList()).value,
                         state = searchResultsState.collectAsState().value,
                         onViewEvent = ::onViewEvent,
                     )
