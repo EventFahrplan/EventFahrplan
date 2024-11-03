@@ -23,6 +23,14 @@
             android:titleCondensed="@string/menu_item_title_schedule_changes">
     </item>
     <item
+            android:id="@+id/menu_item_search"
+            android:icon="@drawable/ic_search"
+            android:orderInCategory="60"
+            app:showAsAction="ifRoom"
+            android:title="@string/menu_item_title_search"
+            android:titleCondensed="@string/menu_item_title_search">
+    </item>
+    <item
             android:id="@+id/menu_item_settings"
             android:icon="@drawable/ic_settings"
             android:orderInCategory="80"

@@ -54,6 +54,8 @@ import nerd.tuxmobil.fahrplan.congress.reporting.TraceDroidEmailSender
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanFragment.OnSessionClickListener
 import nerd.tuxmobil.fahrplan.congress.schedule.observables.LoadScheduleUiState
+import nerd.tuxmobil.fahrplan.congress.search.SearchActivity
+import nerd.tuxmobil.fahrplan.congress.search.SearchFragment
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsActivity
 import nerd.tuxmobil.fahrplan.congress.sidepane.OnSidePaneCloseListener
 import nerd.tuxmobil.fahrplan.congress.utils.ConfirmationDialog.OnConfirmationDialogClicked
@@ -109,6 +111,7 @@ class MainActivity : BaseActivity(),
     private var isScreenLocked = false
     private var isAlarmsInSidePane = false
     private var isFavoritesInSidePane = false
+    private var isSearchInSidePane = false
     private var shouldScrollToCurrent = true
 
     override fun onAttachedToWindow() {
@@ -258,6 +261,7 @@ class MainActivity : BaseActivity(),
             R.id.menu_item_about -> viewModel.showAboutDialog()
             R.id.menu_item_alarms -> openAlarms()
             R.id.menu_item_settings -> SettingsActivity.startForResult(this)
+            R.id.menu_item_search -> openSearch()
             R.id.menu_item_schedule_changes -> openSessionChanges()
             R.id.menu_item_favorites -> openFavorites()
             else -> return false
@@ -283,6 +287,9 @@ class MainActivity : BaseActivity(),
         }
         if (fragmentTag == StarredListFragment.FRAGMENT_TAG) {
             isFavoritesInSidePane = false
+        }
+        if (fragmentTag == SearchFragment.FRAGMENT_TAG) {
+            isSearchInSidePane = false
         }
         removeFragment(fragmentTag)
     }
@@ -363,7 +370,8 @@ class MainActivity : BaseActivity(),
         findViewById<View>(detailView)?.let { view ->
             isAlarmsInSidePane = hasFragment && fragment is AlarmsFragment
             isFavoritesInSidePane = hasFragment && fragment is StarredListFragment
-            view.isVisible = (!isAlarmsInSidePane || !isFavoritesInSidePane || !isScreenLocked) && hasFragment
+            isSearchInSidePane = hasFragment && fragment is SearchFragment
+            view.isVisible = (!isAlarmsInSidePane || !isFavoritesInSidePane || !isScreenLocked || !isSearchInSidePane) && hasFragment
         }
     }
 
@@ -396,6 +404,17 @@ class MainActivity : BaseActivity(),
         } else {
             sidePaneView.isVisible = true
             ChangeListFragment.replaceAtBackStack(supportFragmentManager, R.id.detail, true)
+        }
+    }
+
+    private fun openSearch() {
+        val sidePaneView = findViewById<FragmentContainerView>(R.id.detail)
+        if (sidePaneView == null) {
+            SearchActivity.start(this)
+        } else {
+            sidePaneView.isVisible = true
+            isSearchInSidePane = true
+            SearchFragment.replaceAtBackStack(supportFragmentManager, R.id.detail, true)
         }
     }
 

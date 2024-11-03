@@ -53,6 +53,7 @@ object Plugins {
 object Libs {
 
     private object Versions {
+        const val activityCompose = "1.9.3"
         const val androidTest = "1.6.0"
         const val annotation = "1.9.1"
         const val appCompat = "1.7.0"
@@ -81,6 +82,7 @@ object Libs {
         const val turbine = "1.2.0"
     }
 
+    const val activityCompose = "androidx.activity:activity-compose:${Versions.activityCompose}"
     const val androidTestCore = "de.mannodermaus.junit5:android-test-core:${Versions.androidTest}"
     const val androidTestRunner = "de.mannodermaus.junit5:android-test-runner:${Versions.androidTest}"
     const val annotation = "androidx.annotation:annotation:${Versions.annotation}"
