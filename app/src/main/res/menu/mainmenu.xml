@@ -26,7 +26,7 @@
             android:id="@+id/menu_item_search"
             android:icon="@drawable/ic_search"
             android:orderInCategory="60"
-            app:showAsAction="ifRoom"
+            app:showAsAction="always"
             android:title="@string/menu_item_title_search"
             android:titleCondensed="@string/menu_item_title_search">
     </item>
