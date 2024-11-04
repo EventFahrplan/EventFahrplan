@@ -202,6 +202,7 @@ fun ClickableText(
                             gravity = if (textAlign == TextAlign.Center) CENTER else START
                             textSize = fontSize.value
                             text = textResource.html.toSpanned()
+                            setLineSpacing(0f, 1.5f)
                         }
                     },
                 )
