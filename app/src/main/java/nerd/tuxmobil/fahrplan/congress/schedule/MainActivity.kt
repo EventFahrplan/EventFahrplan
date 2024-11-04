@@ -43,6 +43,7 @@ import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsActivity
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsFragment
 import nerd.tuxmobil.fahrplan.congress.engagements.initUserEngagement
+import nerd.tuxmobil.fahrplan.congress.extensions.isLandscape
 import nerd.tuxmobil.fahrplan.congress.extensions.withExtras
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListActivity
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListFragment
@@ -133,7 +134,7 @@ class MainActivity : BaseActivity(),
         progressBar = requireViewByIdCompat(R.id.progress)
 
         setSupportActionBar(toolbar)
-        supportActionBar!!.setTitle(R.string.fahrplan)
+        supportActionBar!!.title = if (isLandscape()) getString(R.string.app_name) else ""
         supportActionBar!!.setDisplayShowHomeEnabled(true)
         supportActionBar!!.setDefaultDisplayHomeAsUpEnabled(true)
         val actionBarColor = ContextCompat.getColor(this, R.color.colorActionBar)
