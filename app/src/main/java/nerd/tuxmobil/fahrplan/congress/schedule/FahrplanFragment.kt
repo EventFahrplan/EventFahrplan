@@ -219,7 +219,9 @@ class FahrplanFragment : Fragment(), MenuProvider, SessionViewEventsHandler {
         roomScroller.setOnTouchListener { _, _ -> true }
 
         onHorizontalScrollChangeListener = OnScrollChangedListener {
-            updateHorizontalScrollingProgressLine(snapScroller.scrollX)
+            if (getView() != null) {
+                updateHorizontalScrollingProgressLine(snapScroller.scrollX)
+            }
         }
         snapScroller.viewTreeObserver.addOnScrollChangedListener(onHorizontalScrollChangeListener)
 
