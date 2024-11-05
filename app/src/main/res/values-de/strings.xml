@@ -286,4 +286,13 @@
     <string name="schedule_statistic_null_empty_content_description">null oder leer</string>
     <string name="schedule_statistic_non_empty">nicht leer</string>
 
+    <!-- Search -->
+    <string name="search_title">Suche</string>
+    <string name="search_no_search_result_title">Keine Beiträge gefunden</string>
+    <string name="search_no_search_result_subtitle">Versuche, deinen Suchbegriff zu ändern</string>
+    <string name="search_query_hint">Suche nach Beiträgen</string>
+    <string name="search_clear_search_query_content_description">Suchbegriff löschen</string>
+    <string name="search_history_title">Letzte Suchen</string>
+    <string name="search_history_clear">Löschen</string>
+
 </resources>
