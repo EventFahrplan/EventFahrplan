@@ -204,7 +204,7 @@ private fun SearchIcon(iconTintColor: Color) {
 private fun BackIcon(iconTintColor: Color) {
     Icon(
         Icons.AutoMirrored.Default.ArrowBack,
-        contentDescription = null,
+        contentDescription = stringResource(R.string.navigate_back_content_description),
         tint = iconTintColor,
     )
 }

@@ -234,4 +234,12 @@
     <string name="schedule_statistic_null_empty">nulo/vazio</string>
     <string name="schedule_statistic_null_empty_content_description">nulo ou vazio</string>
     <string name="schedule_statistic_non_empty">não vazio</string>
+    <!-- Search -->
+    <string name="search_title">Procurar</string>
+    <string name="search_no_search_result_title">Nenhuma sessão encontrada</string>
+    <string name="search_no_search_result_subtitle">Tente refinar a sua pesquisa</string>
+    <string name="search_query_hint">Pesquisar sessões</string>
+    <string name="search_clear_search_query_content_description">Limpar pesquisa</string>
+    <string name="search_history_title">Pesquisas recentes</string>
+    <string name="search_history_clear">Limpar</string>
 </resources>
