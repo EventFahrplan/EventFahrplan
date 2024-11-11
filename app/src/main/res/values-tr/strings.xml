@@ -64,6 +64,7 @@
     </plurals>
     <string name="schedule_changes_dialog_browse">Görüntüle</string>
     <string name="schedule_changes_dialog_later">Sonra</string>
+    <string name="navigate_back_content_description">Geri</string>
     <string name="progress_loading_data">Planı indir &#8230;</string>
     <string name="progress_processing_data">Plan işleniyor &#8230;</string>
     <string name="load_data">Yükle</string>
@@ -200,4 +201,14 @@ Hatanın nasıl ve ne zaman olduğunu açıklayabilirsen bu bize hayli yardım e
     <string name="validation_error_url_without_query"><xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL sorgusu bulunamadı.    </string>
     <string name="validation_error_url_with_incomplete_query"><xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL sorgusu eksik.    </string>
     <string name="validation_error_url_without_api_key"><xliff:g example="Engelsystem" id="urlType">%s</xliff:g> API anahtarı olmayan URL.    </string>
+    <!-- Schedule statistic -->
+    <string name="schedule_statistic_toggle_sorting">Sırala</string>
+    <string name="schedule_statistic_column_name">Sütun adı</string>
+    <!-- Search -->
+    <string name="search_title">Arama</string>
+    <string name="search_no_search_result_title">Oturum bulunamadı</string>
+    <string name="search_query_hint">Oturum ara</string>
+    <string name="search_clear_search_query_content_description">Aramayı temizle</string>
+    <string name="search_history_title">Son aramalar</string>
+    <string name="search_history_clear">Temizle</string>
 </resources>
