@@ -67,7 +67,7 @@ class SearchResultParameterFactoryTest {
                 SearchResultParameter.SearchResult(
                     id = "123",
                     title = SearchResultProperty(value = "-", contentDescription = ""),
-                    speakerNames = SearchResultProperty(value = "-", contentDescription = ""),
+                    speakerNames = SearchResultProperty(value = "-", contentDescription = "No speakers"),
                     startsAt = SearchResultProperty(value = "$SOME_DATE, $SOME_TIME", contentDescription = "Start time: $SOME_DATE, $SOME_TIME"),
                 )
             )
@@ -97,6 +97,7 @@ private object CompleteResourceResolver : ResourceResolving {
         R.string.dash -> "-"
         R.string.session_list_item_title_content_description -> "Title: Session 123"
         R.string.session_list_item_start_time_content_description -> "Start time: $SOME_DATE, $SOME_TIME"
+        R.string.session_list_item_zero_speakers_content_description -> "No speakers"
         R.plurals.session_list_item_speakers_content_description -> "Speakers: Jane Doe; John Doe"
         else -> fail("Unknown string id : $id")
     }
@@ -105,7 +106,7 @@ private object CompleteResourceResolver : ResourceResolving {
         when (id) {
             R.plurals.session_list_item_speakers_content_description ->
                 when (quantity) {
-                    0 -> ""
+                    0 -> "No speakers"
                     else -> "Speakers: Jane Doe; John Doe"
                 }
 
