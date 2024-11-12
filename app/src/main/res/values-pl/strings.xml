@@ -205,10 +205,11 @@
     <string name="session_list_item_no_video_content_description">Bez nagrania</string>
     <string name="session_list_item_video_content_description">Z nagraniem</string>
     <string name="session_list_item_without_video_content_description">Bez nagrania</string>
+    <string name="session_list_item_zero_speakers_content_description">Brak prelegentów</string>
     <plurals name="session_list_item_speakers_content_description">
         <item quantity="one">Prelegent: <xliff:g example="Jane Doe" id="name">%s</xliff:g></item>
-        <item quantity="few">Kilkoro prelegentów</item>
-        <item quantity="many">Wielu prelegentów</item>
+        <item quantity="few">Prelegenci: <xliff:g example="Jane Doe, John Doe" id="names">%s</xliff:g></item>
+        <item quantity="many">Prelegenci: <xliff:g example="Jane Doe, John Doe" id="names">%s</xliff:g></item>
         <item quantity="other">Prelegenci: <xliff:g example="Jane Doe, John Doe" id="names">%s</xliff:g></item>
     </plurals>
     <!-- Session item -->

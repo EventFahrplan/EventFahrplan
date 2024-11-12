@@ -24,13 +24,16 @@ class ContentDescriptionFormatter(val resourceResolving: ResourceResolving) {
         return resourceResolving.getString(R.string.session_list_item_room_content_description, roomName)
     }
 
-    fun getSpeakersContentDescription(speakersCount: Int, formattedSpeakerNames: String) =
-        if (formattedSpeakerNames.isEmpty()) ""
-        else resourceResolving.getQuantityString(
-            R.plurals.session_list_item_speakers_content_description,
-            speakersCount,
-            formattedSpeakerNames
-        )
+    fun getSpeakersContentDescription(speakersCount: Int, formattedSpeakerNames: String): String =
+        if (speakersCount == 0 || formattedSpeakerNames.isEmpty()) {
+            resourceResolving.getString(R.string.session_list_item_zero_speakers_content_description)
+        } else {
+            resourceResolving.getQuantityString(
+                R.plurals.session_list_item_speakers_content_description,
+                speakersCount,
+                formattedSpeakerNames
+            )
+        }
 
     fun getFormattedTrackContentDescription(trackName: String, languageCode: String) =
         buildString {
