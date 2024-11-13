@@ -6,17 +6,15 @@ import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.IdRes
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.platform.ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
+import androidx.fragment.compose.content
 import androidx.lifecycle.Lifecycle.State.RESUMED
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.base.OnSessionItemClickListener
@@ -90,18 +88,12 @@ class AlarmsFragment : Fragment(), MenuProvider {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View = inflater.inflate(R.layout.fragment_alarms, container, false).apply {
-        findViewById<ComposeView>(R.id.alarms_view).apply {
-            setViewCompositionStrategy(DisposeOnViewTreeLifecycleDestroyed)
-            setContent {
-                AlarmsScreen(
-                    state = viewModel.alarmsState.collectAsState().value,
-                    showInSidePane = sidePane,
-                )
-            }
-            isClickable = true
-        }
-    }
+    ) = content {
+        AlarmsScreen(
+            state = viewModel.alarmsState.collectAsState().value,
+            showInSidePane = sidePane,
+        )
+    }.also { it.isClickable = true }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
         menuInflater.inflate(R.menu.alarms_menu, menu)

@@ -4,14 +4,12 @@ import android.content.Context
 import android.content.res.Resources
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.platform.ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
+import androidx.fragment.compose.content
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.commons.ExternalNavigation
 import nerd.tuxmobil.fahrplan.congress.commons.ExternalNavigator
@@ -40,18 +38,12 @@ class AboutDialog : DialogFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View = inflater.inflate(R.layout.about_dialog, container, false).apply {
-        findViewById<ComposeView>(R.id.about_view).apply {
-            setViewCompositionStrategy(DisposeOnViewTreeLifecycleDestroyed)
-            setContent {
-                AboutScreen(
-                    parameter = viewModel.aboutParameter.collectAsState().value,
-                    onViewEvent = viewModel::onViewEvent,
-                )
-            }
-            isClickable = true
-        }
-    }
+    ) = content {
+        AboutScreen(
+            parameter = viewModel.aboutParameter.collectAsState().value,
+            onViewEvent = viewModel::onViewEvent,
+        )
+    }.also { it.isClickable = true }
 
     override fun onStart() {
         super.onStart()

@@ -214,6 +214,7 @@ dependencies {
     implementation Libs.constraintLayout
     implementation Libs.coreKtx
     implementation Libs.emailIntentBuilder
+    implementation Libs.fragmentCompose
     implementation Libs.kotlinCoroutinesAndroid
     implementation Libs.kotlinCoroutinesCore
     implementation Libs.lifecycleViewModel
