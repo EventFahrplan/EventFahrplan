@@ -13,7 +13,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:context=".search.SearchActivity"
-        tools:ignore="MergeRootFrame"
-        tools:layout="@layout/fragment_search" />
+        tools:ignore="MergeRootFrame" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,14 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.IdRes
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.platform.ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
+import androidx.fragment.compose.content
 import info.metadude.android.eventfahrplan.commons.flow.observe
-import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.base.AbstractListFragment.OnSessionListClick
 import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolver
 import nerd.tuxmobil.fahrplan.congress.commons.ScreenNavigation
@@ -84,22 +82,16 @@ class SearchFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View = inflater.inflate(R.layout.fragment_search, container, false).apply {
-        findViewById<ComposeView>(R.id.search_view).apply {
-            setViewCompositionStrategy(DisposeOnViewTreeLifecycleDestroyed)
-            setContent {
-                with(viewModel) {
-                    SearchScreen(
-                        searchQuery = searchQuery,
-                        searchHistory = searchHistory.collectAsState(emptyList()).value,
-                        state = searchResultsState.collectAsState().value,
-                        onViewEvent = ::onViewEvent,
-                    )
-                }
-            }
-            isClickable = true
+    ) = content {
+        with(viewModel) {
+            SearchScreen(
+                searchQuery = searchQuery,
+                searchHistory = searchHistory.collectAsState(emptyList()).value,
+                state = searchResultsState.collectAsState().value,
+                onViewEvent = ::onViewEvent,
+            )
         }
-    }
+    }.also { it.isClickable = true }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
