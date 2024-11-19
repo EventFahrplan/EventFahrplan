@@ -36,7 +36,7 @@ object Plugins {
         const val kotlin = "2.0.21"
         const val ksp = "2.0.21-1.0.28"
         const val sonarQube = "5.1.0.4882"
-        const val unMock = "0.8.0"
+        const val unMock = "0.9.0"
         const val versions = "0.51.0"
     }
 
