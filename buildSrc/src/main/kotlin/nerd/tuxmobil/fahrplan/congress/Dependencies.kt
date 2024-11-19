@@ -62,7 +62,7 @@ object Libs {
         const val coreKtx = "1.13.1" // compileSdk 35 is required as of 1.15.0
         const val coreTesting = "2.2.0"
         const val emailIntentBuilder = "2.0.0"
-        const val engelsystem = "9.1.0"
+        const val engelsystem = "9.2.0"
         const val fragmentCompose = "1.8.5"
         const val junitJupiter = "5.11.3"
         const val kotlinCoroutines = "1.9.0"
