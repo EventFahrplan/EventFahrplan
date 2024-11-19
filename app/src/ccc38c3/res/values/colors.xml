@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="text_secondary">#E5DAE6</color>
+    <color name="colorPrimary">#ff5053</color>
+    <color name="colorPrimaryDark">#FF5D5F</color>
+    <color name="colorAccent">#6a5fdb</color>
+    <color name="colorActionBar">@color/colorPrimary</color>
+    <color name="windowBackground">#aa0f000a</color>
+    <color name="window_background_inverted">#E7BFBDDB</color>
+    <color name="multi_choice_background">#80181A</color>
+    <color name="session_alarm_item_bell_icon_text">#fef2ff</color>
+
+    <!-- About -->
+    <color name="about_horizontal_line">#33ff5053</color>
+
+    <!-- Alarm dialogs -->
+    <color name="alert_dialog_button_text">#fef2ff</color>
+
+    <!-- Schedule screen -->
+    <color name="schedule_time_column_background">@color/colorAccent</color>
+    <color name="schedule_time_column_item_background_normal">@color/windowBackground</color>
+    <color name="schedule_time_column_item_background_emphasized">@color/colorAccent</color>
+    <color name="schedule_time_column_item_text_normal">#fef2ff</color>
+    <color name="schedule_time_column_item_text_emphasized">#fef2ff</color>
+    <color name="schedule_horizontal_scrolling_progress_line">#fef2ff</color>
+
+    <!-- Schedule changes dialog -->
+    <color name="schedule_changes_dialog_new_version_text">#ffffff</color>
+
+    <!-- Session details -->
+    <color name="session_details_background">@color/windowBackground</color>
+    <color name="session_details_text">#fef2ff</color>
+    <color name="session_detailbar_background">#190b2f</color>
+    <color name="session_detailbar_text">#fef2ff</color>
+    <color name="session_detailbar_icon">@color/colorPrimary</color>
+
+</resources>
