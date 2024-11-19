@@ -76,7 +76,6 @@ android {
     signingConfigs {
         ccc37c3
         cccamp2023
-        jev2022
     }
 
     def defaultDimension = "default"
@@ -125,25 +124,6 @@ android {
             buildConfigField "String", "SOCIAL_MEDIA_HASHTAGS_HANDLES", '"#camp23 #CCCamp23 #fahrplan"'
             buildConfigField "String", "TRACE_DROID_EMAIL_ADDRESS", '"tobias.preuss+camp2023@googlemail.com"'
             buildConfigField "String", "SCHEDULE_FEEDBACK_URL", '"https://frab.cccv.de/en/camp2023/public/events/%s/feedback/new"'
-        }
-        jev2022 {
-            dimension defaultDimension
-            applicationId "info.metadude.android.rc3.schedule"
-            versionName "${defaultConfig.versionName}-JEV-Edition"
-            buildConfigField "String", "GOOGLE_PLAY_URL", '"https://play.google.com/store/apps/details?id=info.metadude.android.rc3.schedule"'
-            buildConfigField "String", "F_DROID_URL", '"https://f-droid.org/packages/info.metadude.android.rc3.schedule"'
-            buildConfigField "String", "SCHEDULE_URL", '"https://data.c3voc.de/jev22/everything.schedule.xml"'
-            buildConfigField "String", "EVENT_URL", '""'
-            buildConfigField "String", "EVENT_WEBSITE_URL", '"https://events.ccc.de/2022/11/28/dezentral-2022/"'
-            buildConfigField "String", "SERVER_BACKEND_TYPE", '"pretalx"'
-            buildConfigField "boolean", "SHOW_APP_DISCLAIMER", "true"
-            buildConfigField "boolean", "ENABLE_ALTERNATIVE_SCHEDULE_URL", "true"
-            buildConfigField "boolean", "ENABLE_CHAOSFLIX_EXPORT", "true"
-            buildConfigField "boolean", "ENABLE_ENGELSYSTEM_SHIFTS", "true"
-            resValue("string", "preference_hint_engelsystem_json_export_url", '"https://your.engelsystem.de/shifts-json-export?key=YOUR_KEY"')
-            buildConfigField "String", "SOCIAL_MEDIA_HASHTAGS_HANDLES", '"#jev #fahrplan #hip #fireshonks #xrelog22 #rtc22 @cbase"'
-            buildConfigField "String", "TRACE_DROID_EMAIL_ADDRESS", '"tobias.preuss+jev@googlemail.com"'
-            buildConfigField "String", "SCHEDULE_FEEDBACK_URL", '""'
         }
     }
 
