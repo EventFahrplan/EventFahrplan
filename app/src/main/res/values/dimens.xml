@@ -63,10 +63,10 @@
     <dimen name="session_drawable_inset_left">3dp</dimen>
     <dimen name="session_drawable_inset_right">1dp</dimen>
     <dimen name="session_drawable_selection_stroke_width">2dp</dimen>
-    <dimen name="session_drawable_title">20sp</dimen>
-    <dimen name="session_drawable_subtitle">16sp</dimen>
-    <dimen name="session_drawable_speakers">13sp</dimen>
-    <dimen name="session_drawable_track">13sp</dimen>
+    <dimen name="session_drawable_title">16sp</dimen>
+    <dimen name="session_drawable_subtitle">13sp</dimen>
+    <dimen name="session_drawable_speakers">12sp</dimen>
+    <dimen name="session_drawable_track">12sp</dimen>
 
     <!-- Alert dialogs -->
     <!-- See: https://www.google.de/design/spec/components/dialogs.html#dialogs-specs -->
