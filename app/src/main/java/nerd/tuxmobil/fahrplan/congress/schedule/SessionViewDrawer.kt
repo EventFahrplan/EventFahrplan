@@ -2,6 +2,7 @@ package nerd.tuxmobil.fahrplan.congress.schedule
 
 import android.content.Context
 import android.content.res.Resources.NotFoundException
+import android.util.TypedValue.COMPLEX_UNIT_PX
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -114,7 +115,8 @@ internal class SessionViewDrawer(
                 0)
         sessionView.background = sessionDrawable
         val padding = getSessionPadding()
-        sessionView.setPadding(padding, padding, padding, padding)
+        val verticalPadding = (padding * 0.3).toInt()
+        sessionView.setPadding(padding, verticalPadding, padding, verticalPadding)
     }
 
     companion object {
@@ -130,9 +132,14 @@ internal class SessionViewDrawer(
             else
                 R.color.session_item_text_on_default_background
             val textColor = ContextCompat.getColor(view.context, colorResId)
+            val resources = view.resources
+            title.setTextSize(COMPLEX_UNIT_PX, resources.getDimension(R.dimen.session_drawable_title))
             title.setTextColor(textColor)
+            subtitle.setTextSize(COMPLEX_UNIT_PX, resources.getDimension(R.dimen.session_drawable_subtitle))
             subtitle.setTextColor(textColor)
+            speakers.setTextSize(COMPLEX_UNIT_PX, resources.getDimension(R.dimen.session_drawable_speakers))
             speakers.setTextColor(textColor)
+            track.setTextSize(COMPLEX_UNIT_PX, resources.getDimension(R.dimen.session_drawable_track))
             track.setTextColor(textColor)
         }
     }
