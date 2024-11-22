@@ -82,6 +82,7 @@ class ChangeListFragment : Fragment() {
             setViewCompositionStrategy(DisposeOnViewTreeLifecycleDestroyed)
             setContent {
                 SessionChangesScreen(
+                    darkMode = resources.getBoolean(R.bool.dark_mode_enabled),
                     state = viewModel.sessionChangesState.collectAsState().value,
                     showInSidePane = sidePane,
                     onViewEvent = viewModel::onViewEvent,

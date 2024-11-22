@@ -39,10 +39,10 @@ import nerd.tuxmobil.fahrplan.congress.commons.SessionListHeader
 
 @Composable
 internal fun AlarmsScreen(
+    darkMode: Boolean,
     state: AlarmsState,
     showInSidePane: Boolean,
 ) {
-    val darkMode = false
     EventFahrplanTheme(darkMode = darkMode) {
         Scaffold { contentPadding ->
             Box(
@@ -208,6 +208,7 @@ private fun DeleteIcon(
 @Composable
 private fun AlarmsScreenPreview() {
     AlarmsScreen(
+        darkMode = false,
         Success(
             listOf(
                 SessionAlarmParameter(
@@ -261,6 +262,7 @@ private fun AlarmsScreenPreview() {
 @Composable
 private fun AlarmsScreenEmptyPreview() {
     AlarmsScreen(
+        darkMode = false,
         state = Success(
             emptyList(),
             onItemClick = { _ -> },
@@ -274,6 +276,7 @@ private fun AlarmsScreenEmptyPreview() {
 @Composable
 private fun AlarmsScreenLoadingPreview() {
     AlarmsScreen(
+        darkMode = false,
         state = Loading,
         showInSidePane = false,
     )
