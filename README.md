@@ -3,12 +3,11 @@
 # EventFahrplan
 
 EventFahrplan is a viewer for event schedules such as
-[Chaos Computer Club e.V. events][ccc-events] like [Chaos Communication Camp][camp-website],
-[Chaos Communication Congress][congress-website] or [JahresEndVeranstaltungen][jev-website].
+[Chaos Computer Club e.V. events][ccc-events] like [Chaos Communication Camp][camp-website]
+or [Chaos Communication Congress][congress-website].
 
 - Chaos Communication Camp Schedule app: [F-Droid][camp-app-fdroid], [Google Play][camp-app-google-play]
 - Chaos Communication Congress Schedule app: [F-Droid][congress-app-fdroid], [Google Play][congress-app-google-play]
-- JahresEndVeranstaltungen Schedule app: [F-Droid][jev-app-fdroid], [Google Play][jev-app-google-play]
 
 The app is available for Android devices.
 
@@ -182,8 +181,5 @@ limitations under the License.
 [johnjohndoe-github]: https://github.com/johnjohndoe
 [pentabarf-github]: https://github.com/nevs/pentabarf
 [pretalx-website]: https://pretalx.com
-[jev-app-fdroid]: https://f-droid.org/packages/info.metadude.android.rc3.schedule
-[jev-app-google-play]: https://play.google.com/store/apps/details?id=info.metadude.android.rc3.schedule
-[jev-website]: https://events.ccc.de/2022/11/28/dezentral-2022/
 [tuxmobil-github]: https://github.com/tuxmobil
 [wafer-website]: https://wafer.readthedocs.io

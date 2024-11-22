@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="app_name">Programme du JEV 2022</string>
-    <string name="copyright_logo"><![CDATA[JEV Conçu par <a href="https://eventfahrplan.eu">EventFahrplan</a>]]></string>
-    <string name="about_logo_content_description">JEV 2022 logo</string>
-    <string name="app_hardcoded_subtitle">27–30 décembre 2022, distribué</string>
-</resources>
