@@ -18,7 +18,7 @@ object Android {
 object Compose {
 
     private object Versions {
-        const val bom = "2024.10.01"
+        const val bom = "2024.11.00"
     }
 
     const val bom = "androidx.compose:compose-bom:${Versions.bom}"
@@ -34,9 +34,9 @@ object Plugins {
         const val android = "8.7.2"
         const val dexcount = "4.0.0"
         const val kotlin = "2.0.21"
-        const val ksp = "2.0.21-1.0.26"
+        const val ksp = "2.0.21-1.0.28"
         const val sonarQube = "5.1.0.4882"
-        const val unMock = "0.8.0"
+        const val unMock = "0.9.0"
         const val versions = "0.51.0"
     }
 
@@ -62,7 +62,7 @@ object Libs {
         const val coreKtx = "1.13.1" // compileSdk 35 is required as of 1.15.0
         const val coreTesting = "2.2.0"
         const val emailIntentBuilder = "2.0.0"
-        const val engelsystem = "9.1.0"
+        const val engelsystem = "9.2.0"
         const val fragmentCompose = "1.8.5"
         const val junitJupiter = "5.11.3"
         const val kotlinCoroutines = "1.9.0"
