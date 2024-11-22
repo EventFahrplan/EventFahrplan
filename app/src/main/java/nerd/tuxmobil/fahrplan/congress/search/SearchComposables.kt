@@ -64,12 +64,12 @@ import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnSearchSubScreenB
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreen(
+    darkMode: Boolean,
     searchQuery: String,
     searchHistory: List<String>,
     state: SearchResultState,
     onViewEvent: (SearchViewEvent) -> Unit,
 ) {
-    val darkMode = true
     EventFahrplanTheme(darkMode = darkMode) {
         Scaffold { contentPadding ->
             Box(
@@ -368,6 +368,7 @@ private fun InsertSearchHistoryIcon() {
 @Composable
 private fun SearchScreenPreview() {
     SearchScreen(
+        darkMode = false,
         searchQuery = "Lorem ipsum",
         searchHistory = emptyList(),
         state = Success(
@@ -394,6 +395,7 @@ private fun SearchScreenPreview() {
 @Composable
 private fun SearchScreenHistoryPreview() {
     SearchScreen(
+        darkMode = false,
         searchQuery = "",
         searchHistory = listOf("Lorem ipsum", "Dolor sit amet"),
         state = Success(emptyList()),
@@ -405,6 +407,7 @@ private fun SearchScreenHistoryPreview() {
 @Composable
 private fun SearchScreenEmptyPreview() {
     SearchScreen(
+        darkMode = false,
         searchQuery = "foobar",
         searchHistory = emptyList(),
         state = Success(emptyList()),
@@ -416,6 +419,7 @@ private fun SearchScreenEmptyPreview() {
 @Composable
 private fun SearchScreenLoadingPreview() {
     SearchScreen(
+        darkMode = false,
         searchQuery = "",
         searchHistory = emptyList(),
         state = Loading,

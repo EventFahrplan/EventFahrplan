@@ -61,10 +61,11 @@ In some of the steps it is the easiest to copy and adapt configuration settings,
 9. Add track resource names in *res/xml/track_resource_names.xml*
 10. Customize track colors in *res/values/colors_congress.xml*
 11. Customize app colors in *res/values/colors.xml*
-12. Add a launcher icon in different resolutions as *res/mipmap-[...]/ic_launcher.png*
-13. Add a notification icon in different resolutions as *res/drawable-[...]/ic_notification.png*
-14. Add an about dialog logo as *res/drawable/dialog_logo.xml*
-15. Customize bell and video recording icons in *res/drawable/* (optional)
+12. Customize screen background colors via *dark_mode_enabled*, in *res/values/booleans.xml*
+13. Add a launcher icon in different resolutions as *res/mipmap-[...]/ic_launcher.png*
+14. Add a notification icon in different resolutions as *res/drawable-[...]/ic_notification.png*
+15. Add an about dialog logo as *res/drawable/dialog_logo.xml*
+16. Customize bell and video recording icons in *res/drawable/* (optional)
 
 ## 4. Optional customization
 

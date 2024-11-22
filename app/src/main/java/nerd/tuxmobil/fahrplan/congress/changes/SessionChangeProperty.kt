@@ -9,11 +9,11 @@ data class SessionChangeProperty<T>(
     val changeState: ChangeState,
 ) {
 
-    enum class ChangeState(@ColorRes val color: Int) {
-        UNCHANGED(R.color.session_list_item_text),
-        NEW(R.color.schedule_change_new),
-        CANCELED(R.color.schedule_change_canceled),
-        CHANGED(R.color.schedule_change),
+    enum class ChangeState(@ColorRes val colorOnLight: Int, @ColorRes val colorOnDark: Int) {
+        UNCHANGED(R.color.session_list_item_text_inverted, R.color.session_list_item_text),
+        NEW(R.color.schedule_change_new, R.color.schedule_change_new),
+        CANCELED(R.color.schedule_change_canceled, R.color.schedule_change_canceled),
+        CHANGED(R.color.schedule_change, R.color.schedule_change_canceled),
     }
 
 }

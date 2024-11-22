@@ -14,7 +14,6 @@
     <color name="text_link_pressed_background_on_light">#aafec700</color>
     <color name="session_alarm_item_bell_icon_fill">@color/colorAccent</color>
     <color name="session_alarm_item_bell_icon_text">#000000</color>
-    <color name="session_background">#ffffff</color>
 
     <!-- Scrollbar -->
     <color name="scrollbar_background">@color/colorAccent</color>
@@ -73,13 +72,14 @@
     <color name="session_list_header_text">@color/text_primary</color>
     <color name="session_list_header_text_inverted">@color/text_primary_inverted</color>
     <color name="session_list_item_text">@color/text_primary</color>
+    <color name="session_list_item_text_inverted">@color/text_primary_inverted</color>
     <color name="session_list_empty_text">@color/text_primary</color>
 
     <!-- Spinner -->
     <color name="spinner_drop_down_text">#cc0000</color>
 
     <!-- Session details -->
-    <color name="session_details_background">@color/session_background</color>
+    <color name="session_details_background">#ffffff</color>
     <color name="session_details_text">@android:color/black</color>
     <color name="session_details_list_item">@color/colorPrimary</color>
     <color name="session_detailbar_background">#eee</color>
