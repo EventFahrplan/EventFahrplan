@@ -313,13 +313,13 @@ fun VideoRecordingIcon(videoRecordingState: VideoRecordingState, @ColorRes tintC
 private fun VideoRecordingIconPreview() {
     Row {
         VideoRecordingIcon(Available, tintColor = null)
-        VideoRecordingIcon(Available, R.color.schedule_change_new)
-        VideoRecordingIcon(Available, R.color.schedule_change_canceled)
-        VideoRecordingIcon(Available, R.color.schedule_change)
+        VideoRecordingIcon(Available, R.color.schedule_change_new_on_dark)
+        VideoRecordingIcon(Available, R.color.schedule_change_canceled_on_dark)
+        VideoRecordingIcon(Available, R.color.schedule_change_on_dark)
         VideoRecordingIcon(Unavailable, tintColor = null)
-        VideoRecordingIcon(Unavailable, R.color.schedule_change_new)
-        VideoRecordingIcon(Unavailable, R.color.schedule_change_canceled)
-        VideoRecordingIcon(Unavailable, R.color.schedule_change)
+        VideoRecordingIcon(Unavailable, R.color.schedule_change_new_on_dark)
+        VideoRecordingIcon(Unavailable, R.color.schedule_change_canceled_on_dark)
+        VideoRecordingIcon(Unavailable, R.color.schedule_change_on_dark)
     }
 }
 
