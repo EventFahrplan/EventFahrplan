@@ -11,8 +11,6 @@
     <color name="windowBackground">#202020</color>
     <color name="multi_choice_background">#fec700</color>
     <color name="text_link_pressed_background_on_light">#aaF5F485</color>
-    <color name="session_alarm_item_bell_icon_fill">#BE5047</color>
-    <color name="session_alarm_item_bell_icon_text">#fff</color>
 
     <!-- Tool bar -->
     <color name="tool_bar_icon">#B1F972</color>
@@ -21,6 +19,10 @@
     <color name="about_horizontal_line">#58892C</color>
     <color name="about_title">@color/colorPrimary</color>
     <color name="about_subtitle">#B1F972</color>
+
+    <!-- Alarms -->
+    <color name="session_alarm_item_bell_icon_fill">#BE5047</color>
+    <color name="session_alarm_item_bell_icon_text">#fff</color>
 
     <!-- Schedule screen -->
     <color name="schedule_time_column_item_background_emphasized">@color/colorPrimary</color>
