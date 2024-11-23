@@ -18,12 +18,10 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
-import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.SearchBarDefaults
-import androidx.compose.material3.SearchBarDefaults.inputFieldColors
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -33,9 +31,7 @@ import androidx.compose.ui.Alignment.Companion.TopCenter
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
@@ -48,6 +44,7 @@ import androidx.compose.ui.unit.dp
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.commons.EventFahrplanTheme
 import nerd.tuxmobil.fahrplan.congress.commons.Loading
+import nerd.tuxmobil.fahrplan.congress.commons.MultiDevicePreview
 import nerd.tuxmobil.fahrplan.congress.commons.NoData
 import nerd.tuxmobil.fahrplan.congress.search.SearchResultParameter.SearchResult
 import nerd.tuxmobil.fahrplan.congress.search.SearchResultState.Loading
@@ -64,37 +61,29 @@ import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnSearchSubScreenB
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreen(
-    darkMode: Boolean,
     searchQuery: String,
     searchHistory: List<String>,
     state: SearchResultState,
     onViewEvent: (SearchViewEvent) -> Unit,
 ) {
-    EventFahrplanTheme(darkMode = darkMode) {
+    EventFahrplanTheme {
         Scaffold { contentPadding ->
             Box(
                 Modifier
                     .padding(contentPadding)
             ) {
                 val expanded = true
-                val containerBackgroundColor = colorResource(if (darkMode) R.color.search_background_dark else R.color.search_background_light)
-                val dividerColor = colorResource(if (darkMode) R.color.search_divider_dark else R.color.search_divider_light)
                 SearchBar(
                     modifier = Modifier
                         .align(TopCenter)
                         .semantics { traversalIndex = 0f },
                     inputField = {
                         SearchQueryInputField(
-                            darkMode = darkMode,
                             expanded = expanded,
                             searchQuery = searchQuery,
                             onViewEvent = onViewEvent,
                         )
                     },
-                    colors = SearchBarDefaults.colors(
-                        containerColor = containerBackgroundColor,
-                        dividerColor = dividerColor,
-                    ),
                     expanded = expanded,
                     onExpandedChange = { },
                     content = {
@@ -102,7 +91,6 @@ fun SearchScreen(
                             state = state,
                             searchQuery = searchQuery,
                             searchHistory = searchHistory,
-                            darkMode = darkMode,
                             onViewEvent = onViewEvent,
                         )
                     },
@@ -120,7 +108,6 @@ private fun SearchBarContent(
     state: SearchResultState,
     searchQuery: String,
     searchHistory: List<String>,
-    @Suppress("SameParameterValue") darkMode: Boolean,
     onViewEvent: (SearchViewEvent) -> Unit,
 ) {
     when (state) {
@@ -130,7 +117,7 @@ private fun SearchBarContent(
             if (sessions.isEmpty()) {
                 val isSearchQueryEmpty = searchQuery.isEmpty()
                 if (isSearchQueryEmpty && searchHistory.isNotEmpty()) {
-                    SearchHistoryList(darkMode, searchHistory, onViewEvent)
+                    SearchHistoryList(searchHistory, onViewEvent)
                 } else {
                     NoSearchResult {
                         val event = if (isSearchQueryEmpty) OnBackPress else OnSearchSubScreenBackPress
@@ -147,15 +134,12 @@ private fun SearchBarContent(
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 private fun SearchQueryInputField(
-    @Suppress("SameParameterValue") darkMode: Boolean,
     @Suppress("SameParameterValue") expanded: Boolean,
     searchQuery: String,
     onViewEvent: (SearchViewEvent) -> Unit,
 ) {
     val focusRequester = remember { FocusRequester() }
     val keyboardController = LocalSoftwareKeyboardController.current
-    val iconTintColor = colorResource(if (darkMode) R.color.search_icon_dark else R.color.search_icon_light)
-    val textColor = colorResource(if (darkMode) R.color.search_query_text_dark else R.color.search_query_text_light)
 
     SearchBarDefaults.InputField(
         modifier = Modifier.focusRequester(focusRequester),
@@ -167,23 +151,20 @@ private fun SearchQueryInputField(
         placeholder = { Text(stringResource(R.string.search_query_hint)) },
         leadingIcon = {
             if (searchQuery.isEmpty()) {
-                SearchIcon(iconTintColor)
+                SearchIcon()
             } else {
                 IconButton(onClick = { onViewEvent(OnBackIconClick) }) {
-                    BackIcon(iconTintColor)
+                    BackIcon()
                 }
             }
         },
         trailingIcon = {
             if (searchQuery.isNotEmpty()) {
                 IconButton(onClick = { onViewEvent(OnSearchQueryClear) }) {
-                    ClearSearchQueryIcon(iconTintColor)
+                    ClearSearchQueryIcon()
                 }
             }
         },
-        colors = inputFieldColors(
-            cursorColor = textColor,
-        )
     )
 
     LaunchedEffect(focusRequester) {
@@ -192,29 +173,26 @@ private fun SearchQueryInputField(
 }
 
 @Composable
-private fun SearchIcon(iconTintColor: Color) {
+private fun SearchIcon() {
     Icon(
         Icons.Default.Search,
         contentDescription = null,
-        tint = iconTintColor,
     )
 }
 
 @Composable
-private fun BackIcon(iconTintColor: Color) {
+private fun BackIcon() {
     Icon(
         Icons.AutoMirrored.Default.ArrowBack,
         contentDescription = stringResource(R.string.navigate_back_content_description),
-        tint = iconTintColor,
     )
 }
 
 @Composable
-private fun ClearSearchQueryIcon(iconTintColor: Color) {
+private fun ClearSearchQueryIcon() {
     Icon(
         Icons.Default.Close,
         contentDescription = stringResource(R.string.search_clear_search_query_content_description),
-        tint = iconTintColor,
     )
 }
 
@@ -292,15 +270,11 @@ private fun SearchResultItem(
                 )
             }
         },
-        colors = ListItemDefaults.colors(
-            containerColor = colorResource(android.R.color.transparent),
-        ),
     )
 }
 
 @Composable
 private fun SearchHistoryList(
-    @Suppress("SameParameterValue") darkMode: Boolean,
     searchQueries: List<String>,
     onViewEvent: (SearchViewEvent) -> Unit,
 ) {
@@ -318,7 +292,6 @@ private fun SearchHistoryList(
         OutlinedButton(onClick = { onViewEvent(OnSearchHistoryClear) }) {
             Text(
                 stringResource(R.string.search_history_clear),
-                color = colorResource(if (darkMode) R.color.search_history_clear_dark else R.color.search_history_clear_light),
             )
         }
     }
@@ -350,9 +323,6 @@ private fun SearchHistoryItem(
             )
         },
         trailingContent = { InsertSearchHistoryIcon() },
-        colors = ListItemDefaults.colors(
-            containerColor = colorResource(android.R.color.transparent),
-        ),
     )
 }
 
@@ -364,11 +334,10 @@ private fun InsertSearchHistoryIcon() {
     )
 }
 
-@Preview
+@MultiDevicePreview
 @Composable
 private fun SearchScreenPreview() {
     SearchScreen(
-        darkMode = false,
         searchQuery = "Lorem ipsum",
         searchHistory = emptyList(),
         state = Success(
@@ -395,7 +364,6 @@ private fun SearchScreenPreview() {
 @Composable
 private fun SearchScreenHistoryPreview() {
     SearchScreen(
-        darkMode = false,
         searchQuery = "",
         searchHistory = listOf("Lorem ipsum", "Dolor sit amet"),
         state = Success(emptyList()),
@@ -407,7 +375,6 @@ private fun SearchScreenHistoryPreview() {
 @Composable
 private fun SearchScreenEmptyPreview() {
     SearchScreen(
-        darkMode = false,
         searchQuery = "foobar",
         searchHistory = emptyList(),
         state = Success(emptyList()),
@@ -419,7 +386,6 @@ private fun SearchScreenEmptyPreview() {
 @Composable
 private fun SearchScreenLoadingPreview() {
     SearchScreen(
-        darkMode = false,
         searchQuery = "",
         searchHistory = emptyList(),
         state = Loading,

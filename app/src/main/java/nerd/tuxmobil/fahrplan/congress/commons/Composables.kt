@@ -6,6 +6,7 @@ import android.widget.TextView
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement.Center
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,6 +23,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -32,6 +34,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
@@ -50,7 +53,6 @@ import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
-import androidx.core.content.ContextCompat
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.commons.TextResource.Empty
 import nerd.tuxmobil.fahrplan.congress.commons.TextResource.Html
@@ -167,8 +169,6 @@ fun ClickableText(
     textResource: TextResource,
     fontSize: TextUnit,
     textAlign: TextAlign,
-    @ColorRes textColor: Int,
-    @ColorRes textLinkColor: Int,
     onClick: (String) -> Unit = {},
 ) {
     var vertical = 0.dp
@@ -178,6 +178,13 @@ fun ClickableText(
     if (textResource is Html && textResource.html.isNotEmpty()) {
         vertical = 4.dp
     }
+    val textColor = LocalContentColor.current
+    val textLinkColor = colorResource(
+        when (isSystemInDarkTheme()) { // TODO Move into theme
+            true -> R.color.text_link_on_dark
+            false -> R.color.text_link_on_light
+        }
+    )
     Box(Modifier.padding(horizontal = 16.dp, vertical = vertical)) {
         when (textResource) {
             Empty -> Unit
@@ -187,7 +194,7 @@ fun ClickableText(
                     plainUrl = textResource.text,
                     fontSize = fontSize,
                     textAlign = textAlign,
-                    textLinkColor = colorResource(textLinkColor),
+                    textLinkColor = textLinkColor,
                     onClick = { onClick(textResource.text) },
                 )
             }
@@ -197,8 +204,8 @@ fun ClickableText(
                     factory = { context ->
                         TextView(context).apply {
                             movementMethod = LinkMovementMethodCompat.getInstance()
-                            setTextColor(ContextCompat.getColor(context, textColor))
-                            setLinkTextColor(ContextCompat.getColor(context, textLinkColor))
+                            setTextColor(textColor.toArgb())
+                            setLinkTextColor(textLinkColor.toArgb())
                             gravity = if (textAlign == TextAlign.Center) CENTER else START
                             textSize = fontSize.value
                             text = textResource.html.toSpanned()
@@ -262,8 +269,6 @@ private fun ClickableTextPostalAddressPreview() {
         textResource = PostalAddress("Congressplatz 1, 20355 Hamburg"),
         fontSize = 18.sp,
         textAlign = TextAlign.Center,
-        textColor = -1,
-        textLinkColor = android.R.color.holo_blue_light,
         onClick = {},
     )
 }
@@ -275,8 +280,6 @@ private fun ClickableTextHtmlPreview() {
         textResource = Html("""Design by <a href="https://eventfahrplan.eu">eventfahrplan.eu</a>"""),
         fontSize = 18.sp,
         textAlign = TextAlign.Center,
-        textColor = R.color.colorPrimary,
-        textLinkColor = android.R.color.holo_purple,
         onClick = {},
     )
 }
@@ -310,13 +313,13 @@ fun VideoRecordingIcon(videoRecordingState: VideoRecordingState, @ColorRes tintC
 private fun VideoRecordingIconPreview() {
     Row {
         VideoRecordingIcon(Available, tintColor = null)
-        VideoRecordingIcon(Available, R.color.schedule_change_new)
-        VideoRecordingIcon(Available, R.color.schedule_change_canceled)
-        VideoRecordingIcon(Available, R.color.schedule_change)
+        VideoRecordingIcon(Available, R.color.schedule_change_new_on_dark)
+        VideoRecordingIcon(Available, R.color.schedule_change_canceled_on_dark)
+        VideoRecordingIcon(Available, R.color.schedule_change_on_dark)
         VideoRecordingIcon(Unavailable, tintColor = null)
-        VideoRecordingIcon(Unavailable, R.color.schedule_change_new)
-        VideoRecordingIcon(Unavailable, R.color.schedule_change_canceled)
-        VideoRecordingIcon(Unavailable, R.color.schedule_change)
+        VideoRecordingIcon(Unavailable, R.color.schedule_change_new_on_dark)
+        VideoRecordingIcon(Unavailable, R.color.schedule_change_canceled_on_dark)
+        VideoRecordingIcon(Unavailable, R.color.schedule_change_on_dark)
     }
 }
 
@@ -343,19 +346,17 @@ private fun DayDateSeparatorItemPreview() {
 }
 
 @Composable
-fun SessionListHeader(text: String, darkMode: Boolean) {
-    val color = if (darkMode) R.color.session_list_header_text else R.color.session_list_header_text_inverted
+fun SessionListHeader(text: String) {
     Text(
         modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp),
         text = text,
         fontWeight = Bold,
         fontSize = 22.sp,
-        color = colorResource(color),
     )
 }
 
 @Preview
 @Composable
 private fun SessionListHeaderScheduleChangesPreview() {
-    SessionListHeader(stringResource(R.string.schedule_changes), darkMode = true)
+    SessionListHeader(stringResource(R.string.schedule_changes))
 }

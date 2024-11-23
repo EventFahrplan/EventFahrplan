@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <bool name="dark_mode_enabled">false</bool>
     <bool name="bundle_key_schedule_url_updated_default_value">false</bool>
     <bool name="bundle_key_engelsystem_shifts_url_updated_default_value">false</bool>
 
