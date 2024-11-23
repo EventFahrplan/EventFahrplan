@@ -1,6 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.changes
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement.SpaceBetween
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -31,6 +32,7 @@ import androidx.compose.ui.unit.sp
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.changes.SessionChangeParameter.Separator
 import nerd.tuxmobil.fahrplan.congress.changes.SessionChangeParameter.SessionChange
+import nerd.tuxmobil.fahrplan.congress.changes.SessionChangeProperty.ChangeState
 import nerd.tuxmobil.fahrplan.congress.changes.SessionChangeProperty.ChangeState.CANCELED
 import nerd.tuxmobil.fahrplan.congress.changes.SessionChangeProperty.ChangeState.CHANGED
 import nerd.tuxmobil.fahrplan.congress.changes.SessionChangeProperty.ChangeState.NEW
@@ -50,12 +52,11 @@ import nerd.tuxmobil.fahrplan.congress.commons.VideoRecordingState.Drawable.Unav
 
 @Composable
 internal fun SessionChangesScreen(
-    darkMode: Boolean,
     state: SessionChangeState,
     showInSidePane: Boolean,
     onViewEvent: (SessionChangeViewEvent) -> Unit,
 ) {
-    EventFahrplanTheme(darkMode = darkMode) {
+    EventFahrplanTheme {
         Scaffold { contentPadding ->
             Box(
                 Modifier
@@ -69,7 +70,6 @@ internal fun SessionChangesScreen(
                             NoScheduleChanges()
                         } else {
                             SessionChangesList(
-                                darkMode = darkMode,
                                 parameters = parameters,
                                 showInSidePane = showInSidePane,
                                 onViewEvent = onViewEvent,
@@ -93,7 +93,6 @@ private fun NoScheduleChanges() {
 
 @Composable
 private fun SessionChangesList(
-    @Suppress("SameParameterValue") darkMode: Boolean,
     parameters: List<SessionChangeParameter>,
     showInSidePane: Boolean,
     onViewEvent: (SessionChangeViewEvent) -> Unit,
@@ -101,14 +100,14 @@ private fun SessionChangesList(
     LazyColumn(state = rememberLazyListState()) {
         if (showInSidePane) {
             item {
-                SessionListHeader(stringResource(R.string.schedule_changes), darkMode)
+                SessionListHeader(stringResource(R.string.schedule_changes))
             }
         }
         itemsIndexed(parameters) { index, parameter ->
             when (parameter) {
                 is Separator -> DayDateSeparatorItem(parameter.text)
                 is SessionChange -> {
-                    SessionChangeItem(darkMode, parameter, Modifier.clickable {
+                    SessionChangeItem(parameter, Modifier.clickable {
                         if (!parameter.isCanceled) {
                             onViewEvent(OnSessionChangeItemClick(parameter.id))
                         }
@@ -125,7 +124,6 @@ private fun SessionChangesList(
 
 @Composable
 fun SessionChangeItem(
-    darkMode: Boolean,
     session: SessionChange,
     modifier: Modifier = Modifier,
 ) {
@@ -139,10 +137,7 @@ fun SessionChangeItem(
             horizontalArrangement = SpaceBetween,
             verticalAlignment = CenterVertically,
         ) {
-            val titleColor = when (darkMode) {
-                true -> session.title.changeState.colorOnDark
-                false -> session.title.changeState.colorOnLight
-            }
+            val titleColor = session.title.changeState.color()
             val textDecoration = textDecorationOf(session.title)
             Text(
                 modifier = Modifier
@@ -158,50 +153,40 @@ fun SessionChangeItem(
                 maxLines = 1,
                 overflow = Ellipsis,
             )
-            val iconColor = when (darkMode) {
-                true -> session.videoRecordingState.changeState.colorOnDark
-                false -> session.videoRecordingState.changeState.colorOnLight
-            }
+            val iconColor = session.videoRecordingState.changeState.color()
             VideoRecordingIcon(
                 session.videoRecordingState.value,
                 iconColor,
             )
         }
         SecondaryText(
-            darkMode,
             session.subtitle
         )
         SecondaryText(
             modifier = Modifier.padding(top = 4.dp),
-            darkMode = darkMode,
             property = session.speakerNames,
         )
         Row {
             SecondaryText(
                 modifier = Modifier.padding(end = 8.dp),
-                darkMode = darkMode,
                 property = session.dayText,
             )
             SecondaryText(
                 modifier = Modifier.padding(end = 8.dp),
-                darkMode = darkMode,
                 property = session.startsAt,
             )
             SecondaryText(
                 modifier = Modifier
                     .widthIn(55.dp)
                     .padding(end = 8.dp),
-                darkMode = darkMode,
                 property = session.duration,
             )
             SecondaryText(
                 modifier = Modifier.weight(1f),
-                darkMode = darkMode,
                 property = session.roomName,
             )
             SecondaryText(
                 modifier = Modifier.padding(start = 16.dp),
-                darkMode = darkMode,
                 property = session.languages,
             )
         }
@@ -210,15 +195,11 @@ fun SessionChangeItem(
 
 @Composable
 private fun SecondaryText(
-    darkMode: Boolean,
     property: SessionChangeProperty<String>,
     modifier: Modifier = Modifier,
 ) {
     if (property.value.isNotEmpty()) {
-        val color = when (darkMode) {
-            true -> property.changeState.colorOnDark
-            false -> property.changeState.colorOnLight
-        }
+        val color = property.changeState.color()
         val textDecoration = textDecorationOf(property)
         Text(
             modifier = modifier.semantics {
@@ -235,6 +216,14 @@ private fun SecondaryText(
 }
 
 @Composable
+private fun ChangeState.color() = with(this) {
+    when (isSystemInDarkTheme()) { // TODO Move into theme
+        true -> colorOnDark
+        false -> colorOnLight
+    }
+}
+
+@Composable
 private fun textDecorationOf(property: SessionChangeProperty<String>) =
     if (property.changeState == CANCELED) LineThrough else TextDecoration.None
 
@@ -242,7 +231,6 @@ private fun textDecorationOf(property: SessionChangeProperty<String>) =
 @Composable
 private fun SessionChangesScreenPreview() {
     SessionChangesScreen(
-        darkMode = false,
         Success(
             listOf(
                 Separator("Day 1 - 31.02.2023"),
@@ -342,7 +330,6 @@ private fun SessionChangesScreenPreview() {
 @Composable
 private fun SessionChangesScreenEmptyPreview() {
     SessionChangesScreen(
-        darkMode = false,
         Success(emptyList()),
         showInSidePane = false,
         onViewEvent = {},
@@ -353,7 +340,6 @@ private fun SessionChangesScreenEmptyPreview() {
 @Composable
 private fun SessionChangesScreenLoadingPreview() {
     SessionChangesScreen(
-        darkMode = false,
         state = Loading,
         showInSidePane = false,
         onViewEvent = {},

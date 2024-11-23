@@ -13,7 +13,6 @@ import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import androidx.fragment.compose.content
 import info.metadude.android.eventfahrplan.commons.flow.observe
-import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.base.AbstractListFragment.OnSessionListClick
 import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolver
 import nerd.tuxmobil.fahrplan.congress.commons.ScreenNavigation
@@ -86,7 +85,6 @@ class SearchFragment : Fragment() {
     ) = content {
         with(viewModel) {
             SearchScreen(
-                darkMode = resources.getBoolean(R.bool.dark_mode_enabled),
                 searchQuery = searchQuery,
                 searchHistory = searchHistory.collectAsState(emptyList()).value,
                 state = searchResultsState.collectAsState().value,

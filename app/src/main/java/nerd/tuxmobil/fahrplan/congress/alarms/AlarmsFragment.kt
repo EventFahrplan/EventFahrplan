@@ -90,7 +90,6 @@ class AlarmsFragment : Fragment(), MenuProvider {
         savedInstanceState: Bundle?
     ) = content {
         AlarmsScreen(
-            darkMode = resources.getBoolean(R.bool.dark_mode_enabled),
             state = viewModel.alarmsState.collectAsState().value,
             showInSidePane = sidePane,
         )

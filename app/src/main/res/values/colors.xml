@@ -27,14 +27,6 @@
     <color name="tool_bar_icon">#fff</color>
     <color name="day_menu_text">@color/text_primary</color>
 
-    <!-- About -->
-    <color name="about_window_background">@color/windowBackground</color>
-    <color name="about_horizontal_line">#606060</color>
-    <color name="about_title">@android:color/primary_text_dark</color>
-    <color name="about_subtitle">@android:color/primary_text_dark</color>
-    <color name="about_text">@android:color/secondary_text_dark</color>
-    <color name="about_text_link">@color/text_link_on_light</color>
-
     <!-- Alarms -->
     <color name="session_alarm_item_bell_icon_fill">@color/colorAccent</color>
     <color name="session_alarm_item_bell_icon_text">#000000</color>
@@ -72,7 +64,6 @@
 
     <!-- Session item (favorites + schedule changes) -->
     <color name="session_list_header_text">@color/text_primary</color>
-    <color name="session_list_header_text_inverted">@color/text_primary_inverted</color>
     <color name="session_list_item_text">@color/text_primary</color>
     <color name="session_list_item_text_inverted">@color/text_primary_inverted</color>
     <color name="session_list_empty_text">@color/text_primary</color>
@@ -93,17 +84,5 @@
     <color name="schedule_statistic_bar_background_warning_level_2">#FF9800</color>
     <color name="schedule_statistic_bar_background_warning_level_3">#FF5722</color>
     <color name="schedule_statistic_bar_background_no_warning">#8BC34A</color>
-
-    <!-- Search -->
-    <color name="search_background_dark">@color/windowBackground</color>
-    <color name="search_background_light">@color/window_background_inverted</color>
-    <color name="search_divider_dark">@color/colorAccent</color>
-    <color name="search_divider_light">@color/colorAccent</color>
-    <color name="search_icon_dark">@color/text_primary</color>
-    <color name="search_icon_light">@color/text_primary_inverted</color>
-    <color name="search_query_text_dark">@color/text_primary</color>
-    <color name="search_query_text_light">@color/text_primary_inverted</color>
-    <color name="search_history_clear_dark">@color/text_link_on_light</color>
-    <color name="search_history_clear_light">@color/text_link_on_dark</color>
 
 </resources>

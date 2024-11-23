@@ -34,16 +34,16 @@ import nerd.tuxmobil.fahrplan.congress.alarms.AlarmsState.Loading
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmsState.Success
 import nerd.tuxmobil.fahrplan.congress.commons.EventFahrplanTheme
 import nerd.tuxmobil.fahrplan.congress.commons.Loading
+import nerd.tuxmobil.fahrplan.congress.commons.MultiDevicePreview
 import nerd.tuxmobil.fahrplan.congress.commons.NoData
 import nerd.tuxmobil.fahrplan.congress.commons.SessionListHeader
 
 @Composable
 internal fun AlarmsScreen(
-    darkMode: Boolean,
     state: AlarmsState,
     showInSidePane: Boolean,
 ) {
-    EventFahrplanTheme(darkMode = darkMode) {
+    EventFahrplanTheme {
         Scaffold { contentPadding ->
             Box(
                 Modifier
@@ -57,7 +57,6 @@ internal fun AlarmsScreen(
                             NoAlarms()
                         } else {
                             SessionAlarmsList(
-                                darkMode = darkMode,
                                 parameters = parameters,
                                 showInSidePane = showInSidePane,
                                 onItemClick = state.onItemClick,
@@ -82,7 +81,6 @@ private fun NoAlarms() {
 
 @Composable
 private fun SessionAlarmsList(
-    @Suppress("SameParameterValue") darkMode: Boolean,
     parameters: List<SessionAlarmParameter>,
     showInSidePane: Boolean,
     onItemClick: (SessionAlarmParameter) -> Unit,
@@ -91,7 +89,7 @@ private fun SessionAlarmsList(
     LazyColumn(state = rememberLazyListState()) {
         if (showInSidePane) {
             item {
-                SessionListHeader(stringResource(R.string.reminders), darkMode)
+                SessionListHeader(stringResource(R.string.reminders))
             }
         }
         itemsIndexed(parameters) { index, item ->
@@ -204,11 +202,10 @@ private fun DeleteIcon(
     }
 }
 
-@Preview
+@MultiDevicePreview
 @Composable
 private fun AlarmsScreenPreview() {
     AlarmsScreen(
-        darkMode = false,
         Success(
             listOf(
                 SessionAlarmParameter(
@@ -262,7 +259,6 @@ private fun AlarmsScreenPreview() {
 @Composable
 private fun AlarmsScreenEmptyPreview() {
     AlarmsScreen(
-        darkMode = false,
         state = Success(
             emptyList(),
             onItemClick = { _ -> },
@@ -276,7 +272,6 @@ private fun AlarmsScreenEmptyPreview() {
 @Composable
 private fun AlarmsScreenLoadingPreview() {
     AlarmsScreen(
-        darkMode = false,
         state = Loading,
         showInSidePane = false,
     )
