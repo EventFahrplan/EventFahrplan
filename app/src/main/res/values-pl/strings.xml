@@ -65,10 +65,10 @@
         <item quantity="other">anulowanych</item>
     </plurals>
     <plurals name="schedule_changes_dialog_number_of_sessions">
-        <item quantity="one"><xliff:g example="1" id="count">%d</xliff:g> wykładzie</item>
+        <item quantity="one"><xliff:g example="1" id="count">%d</xliff:g> sesja</item>
         <item quantity="few"><xliff:g example="3" id="count">%d</xliff:g> wykładach</item>
         <item quantity="many"><xliff:g example="12" id="count">%d</xliff:g> wykładach</item>
-        <item quantity="other"><xliff:g example="12" id="count">%d</xliff:g> wykładach</item>
+        <item quantity="other"><xliff:g example="9" id="count">%d</xliff:g> sesji</item>
     </plurals>
     <plurals name="schedule_changes_dialog_being">
         <item quantity="one"><xliff:g example="1" id="count">%d</xliff:g> jest</item>
@@ -173,10 +173,10 @@
     </string>
     <string name="notifications_schedule_update_channel_name">Aktualizacje grafiku</string>
     <plurals name="notifications_schedule_changes">
-        <item quantity="one"><xliff:g example="1" id="count">%d</xliff:g> wykład został zmieniony.</item>
+        <item quantity="one"><xliff:g example="1" id="count">%d</xliff:g> sesja uległa zmianie.</item>
         <item quantity="few"><xliff:g example="3" id="count">%d</xliff:g> wykłady zostały zmienione.</item>
         <item quantity="many"><xliff:g example="12" id="count">%d</xliff:g> wykładów zostało zmienionych.</item>
-        <item quantity="other"><xliff:g example="12" id="count">%d</xliff:g> wykładów zostało zmienionych.</item>
+        <item quantity="other"><xliff:g example="3" id="count">%d</xliff:g> sesji uległo zmianie.</item>
     </plurals>
     <!-- Schedule refresh interval picker -->
     <!-- Alarm time picker -->
