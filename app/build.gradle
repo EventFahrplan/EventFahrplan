@@ -235,8 +235,14 @@ def gitSha() {
     return res
 }
 
-static def buildTime() {
-    return new Date().format("yyyy-MM-dd'T'HH:mm'Z'", TimeZone.getTimeZone("UTC"))
+def buildTime() {
+    // https://reproducible-builds.org/docs/source-date-epoch/
+    def timestamp = System.getenv('SOURCE_DATE_EPOCH')
+    if (timestamp == null || timestamp.length() == 0) {
+         timestamp = "git log -1 --format=%ct".execute([], project.rootDir).text.trim()
+    }
+    def date = new Date(Long.parseLong(timestamp) * 1000)
+    return date.format("yyyy-MM-dd'T'HH:mm'Z'", TimeZone.getTimeZone("UTC"))
 }
 
 def hasSigningConfig(String flavor) {
