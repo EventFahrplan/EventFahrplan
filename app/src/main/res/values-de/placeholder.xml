@@ -84,7 +84,7 @@
     <string name="placeholder_session_location">
         SEHR LANGER RAUM
     </string>
-    <string name="placeholder_session_id">
+    <string name="placeholder_guid">
         ID: 5610
     </string>
 
