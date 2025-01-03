@@ -86,22 +86,20 @@ abstract class SessionsAdapter protected constructor(
                     viewHolderSeparator.text = rowView.requireViewByIdCompat(R.id.session_list_separator_title_view)
                     rowView.tag = viewHolderSeparator
                 }
-                else -> {
-                    error("Unknown type: $type")
-                }
+                else -> throw UnknownViewTypeException(type)
             }
         } else {
             rowView = convertView
             when (type) {
                 TYPE_ITEM -> viewHolder = rowView.tag as ViewHolder
                 TYPE_SEPARATOR -> viewHolderSeparator = rowView.tag as ViewHolderSeparator
-                else -> error("Unknown type: $type")
+                else -> throw UnknownViewTypeException(type)
             }
         }
         when (type) {
             TYPE_ITEM -> setItemContent(position, viewHolder!!)
             TYPE_SEPARATOR -> setSeparatorContent(position, viewHolderSeparator!!)
-            else -> error("Unknown type: $type")
+            else -> throw UnknownViewTypeException(type)
         }
         return rowView
     }
@@ -193,3 +191,7 @@ abstract class SessionsAdapter protected constructor(
     }
 
 }
+
+private class UnknownViewTypeException(type: Int) : IllegalStateException(
+    "Unknown view type: $type."
+)

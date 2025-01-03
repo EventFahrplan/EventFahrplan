@@ -202,7 +202,7 @@ internal class RealSessionsDatabaseRepository(
             }.first()
         } catch (e: NoSuchElementException) {
             logging.report(LOG_TAG, "Sessions table does not contain a session with ID '$sessionId'. ${e.message}")
-            throw e
+            throw NoSuchSessionException(sessionId, e.message)
         }
     }
 
@@ -444,3 +444,7 @@ internal class RealSessionsDatabaseRepository(
         get() = this != 0
 
 }
+
+private class NoSuchSessionException(sessionId: String, exceptionMessage: String?) : IllegalArgumentException(
+    """Sessions table does not contain a session with ID "$sessionId". $exceptionMessage"""
+)

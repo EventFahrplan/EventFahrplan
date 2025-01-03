@@ -49,16 +49,19 @@ class UriParser {
         val queryPart = query ?: throw ParsingException("Query is missing")
         val keyValuePairs = queryPart.split("=")
         if (keyValuePairs.size % 2 != 0) {
-            throw ParsingException("API key is missing: $query")
+            throw ApiKeyMissingException(query)
         }
         keyValuePairs.last()
     } catch (e: NoSuchElementException) {
-        throw ParsingException("API key is missing: $query")
+        throw ApiKeyMissingException(query)
     } catch (e: IllegalArgumentException) {
-        throw ParsingException("API key is missing: $query")
+        throw ApiKeyMissingException(query)
     }
 
-    internal class ParsingException(messageSuffix: String)
-        : URISyntaxException(messageSuffix, "Parsing failure")
-
 }
+
+private class ApiKeyMissingException(query: String?)
+    : ParsingException("API key is missing: $query")
+
+private open class ParsingException(messageSuffix: String)
+    : URISyntaxException(messageSuffix, "Parsing failure")

@@ -88,7 +88,7 @@ internal class SessionViewDrawer(
         @ColorInt val backgroundColor = try {
             ContextCompat.getColor(context, backgroundColorResId)
         } catch (e: NotFoundException) {
-            throw NotFoundException("Missing color for track \"$track\". Entries in track_resource_names.xml must be present in track_background_* colors.")
+            throw MissingTrackColorException(track)
         }
         val sessionDrawable = if (isFavored && isAlternativeHighlightingEnabled()) {
             SessionDrawable(
@@ -144,3 +144,8 @@ internal class SessionViewDrawer(
         }
     }
 }
+
+private class MissingTrackColorException(trackName: String) : NotFoundException(
+    """Missing color for track "$trackName". Entries in track_resource_names.xml
+        | must be present in track_background_* colors.""".trimMargin()
+)
