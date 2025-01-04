@@ -240,7 +240,10 @@ class SessionDetailsFragment : Fragment(), MenuProvider {
             showAlarmTimePicker()
         }
         viewModel.navigateToRoom.observe(viewLifecycleOwner) { uri ->
-            startActivity(Intent(Intent.ACTION_VIEW, uri))
+            val intent = Intent(Intent.ACTION_VIEW, uri).apply {
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
+            startActivity(intent)
         }
         viewModel.closeDetails.observe(viewLifecycleOwner) {
             val activity = requireActivity()
