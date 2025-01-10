@@ -158,6 +158,7 @@
     <style name="SessionDetailsSection.Header" parent="SessionDetailsSection">
         <item name="android:textStyle">bold</item>
         <item name="android:paddingBottom">@dimen/session_details_section_margin_bottom</item>
+        <item name="android:visibility">invisible</item>
     </style>
 
     <style name="SessionDetailsSection.Header.Long" parent="SessionDetailsSection.Header">
