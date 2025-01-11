@@ -211,12 +211,12 @@ fun SessionNetworkModel.sanitize(): SessionNetworkModel {
         tempTrack = type
     }
     return this.copy(
-        title = tempTitle,
-        subtitle = tempSubtitle,
-        abstractt = tempAbstract,
-        description = tempDescription,
-        track = tempTrack,
-        language = tempLanguage,
+        title = tempTitle.trim(),
+        subtitle = tempSubtitle.trim(),
+        abstractt = tempAbstract.trim(),
+        description = tempDescription.trim(),
+        track = tempTrack.trim(),
+        language = tempLanguage.trim(),
     )
 }
 

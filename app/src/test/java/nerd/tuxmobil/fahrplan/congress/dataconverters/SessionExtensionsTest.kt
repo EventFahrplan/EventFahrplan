@@ -482,4 +482,29 @@ class SessionExtensionsTest {
         assertThat(session).isEqualTo(expected)
     }
 
+    @Test
+    fun `sanitize trims each property value`() {
+        val session = SessionNetworkModel(
+            sessionId = "",
+            title = " My title ",
+            subtitle = " My subtitle ",
+            abstractt = " Lorem ipsum ",
+            description = " Dolor sit amet ",
+            track = "",
+            type = "Workshop",
+            language = " EN ",
+        ).sanitize()
+        val expected = SessionNetworkModel(
+            sessionId = "",
+            title = "My title",
+            subtitle = "My subtitle",
+            abstractt = "Lorem ipsum",
+            description = "Dolor sit amet",
+            track = "Workshop",
+            type = "Workshop",
+            language = "en",
+        )
+        assertThat(session).isEqualTo(expected)
+    }
+
 }
