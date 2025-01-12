@@ -145,7 +145,7 @@ Matthias Geisler, Matthias Hunstock, Matthias Mair, MichaelRocks, Miguel Beltran
 mtpa, Muha Aliss, Nghiem Xuan Hien, NiciDieNase, Noemis, Oguz Yuksel, Omicron,
 ozgurbaykal, Poschi, Qwertele, Róbert Papp, rotrot, Sjors van Mierlo, Smarzaro,
 Stefan Medack, SubOptimal, Su Jade, taseret, Teeranai.P, Torsten Grote,
-Victor Herasme, Vladimir Alabov, Yanicka
+Victor Herasme, Vladimir Alabov, Yanicka, zadintuvas
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

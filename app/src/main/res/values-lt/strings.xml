@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Menu items -->
-    <string name="menu_item_title_about">Apie</string>
+    <string name="menu_item_title_about">Info</string>
     <string name="menu_item_title_add_to_calendar">Pridėti į kalendorių</string>
     <string name="menu_item_title_alarms">Įspėjimai</string>
-    <string name="menu_item_title_close_session_details">Uždaryti įvykio detales</string>
+    <string name="menu_item_title_close_session_details">Uždaryti paskaitos detales</string>
     <string name="menu_item_title_flag_as_favorite">Pridėti į mėgstamiausius</string>
     <string name="menu_item_title_unflag_as_favorite">Pašalinti iš mėgstamiausių</string>
     <string name="menu_item_title_delete_favorite">Ištrinti</string>
@@ -15,7 +15,7 @@
     <string name="menu_item_title_feedback">Atsiliepimas</string>
     <string name="menu_item_title_navigate">Naviguoti</string>
     <string name="menu_item_title_refresh">Atnaujinti</string>
-    <string name="menu_item_title_share_session">Dalintis įvykiu</string>
+    <string name="menu_item_title_share_session">Dalintis paskaita</string>
     <string name="menu_item_title_share_favorites">Dalintis mėgstamiausiais</string>
     <string name="menu_item_title_share_session_text">kaip tekstu</string>
     <string name="menu_item_title_share_session_json">kaip JSON (Chaosflix\'ui)</string>
@@ -24,14 +24,13 @@
     <!-- AlertDialog -->
     <string name="OK">Gerai</string>
     <!-- CertificateErrorFragment -->
-    <string name="certificate_error_message">
-        Nepavyko užmegzti saugaus ryšio.\n
-        (<xliff:g example="Nežinoma klaida" id="error">%s</xliff:g>)
+    <string name="certificate_error_message">        Nepavyko užmegzti saugaus ryšio.\n
+        (<xliff:g example="Unknown Error" id="error">%s</xliff:g>)
     </string>
     <string name="certificate_error_title">Nepavyko pridėti sertifikato.</string>
     <!-- Error messages -->
     <string name="dlg_err_connection_failed">Ryšio sutrikimas</string>
-    <string name="dlg_err_failed_unknown_host">Nežinomas adresas:\n%s</string>
+    <string name="dlg_err_failed_unknown_host">Nežinomas adresas:\n<xliff:g example="http://example.com" id="url">%s</xliff:g></string>
     <string name="dlg_err_failed_wrong_http_credentials">Neteisingas HTTP autentifikavimas</string>
     <string name="dlg_err_failed_timeout">Serveris neatsako (timeout).</string>
     <string name="dlg_err_failed_connect_failure">Nežinoma prisijungimo klaida</string>
@@ -46,16 +45,16 @@
     <!-- Schedule changes dialog -->
     <string name="schedule_changes_dialog_title">Tvarkaraščio atnaujinimas</string>
     <string name="schedule_changes_dialog_updated_to_text">Tvarkaraštis buvo atnaujintas į\u0020</string>
-    <string name="schedule_changes_dialog_changed_new_cancelled_text">. Pasikeitė <xliff:g example="3 paskaitose" id="num_changes">%1$s</xliff:g>, <xliff:g example="2 yra" id="num_new">%2$s</xliff:g> <xliff:g example="naujos" id="phrase_new">%3$s</xliff:g>, <xliff:g example="1 yra" id="num_canceled">%4$s</xliff:g> <xliff:g example="atšauktos" id="phrase_cancelled">%5$s</xliff:g>.</string>
+    <string name="schedule_changes_dialog_changed_new_cancelled_text">. Yra pakeitimų <xliff:g example="3 sessions" id="num_changes">%1$s</xliff:g>, <xliff:g example="2 are" id="num_new">%2$s</xliff:g> <xliff:g example="new" id="phrase_new">%3$s</xliff:g>, <xliff:g example="1 is" id="num_canceled">%4$s</xliff:g> <xliff:g example="cancelled" id="phrase_cancelled">%5$s</xliff:g>.</string>
     <string name="schedule_changes_dialog_affected_text">Pakeitimai paveikė <xliff:g example="2" id="num_marked">%1$d</xliff:g> jūsų mėgstamiausias paskaitas.</string>
     <plurals name="schedule_changes_dialog_phrase_new">
-        <item quantity="one" tools:ignore="ImpliedQuantity">nauja</item>
+        <item quantity="one">nauja</item>
         <item quantity="few">naujos</item>
         <item quantity="many">naujos</item>
         <item quantity="other">naujų</item>
     </plurals>
     <plurals name="schedule_changes_dialog_phrase_cancelled">
-        <item quantity="one" tools:ignore="ImpliedQuantity">atšaukta</item>
+        <item quantity="one">atšaukta</item>
         <item quantity="few">atšauktos</item>
         <item quantity="many">atšauktos</item>
         <item quantity="other">atšauktų</item>
@@ -74,13 +73,16 @@
     </plurals>
     <string name="schedule_changes_dialog_browse">Naršyti</string>
     <string name="schedule_changes_dialog_later">Vėliau</string>
+    <string name="navigate_back_content_description">Atgal</string>
     <string name="progress_loading_data">Kraunamas tvarkaraštis &#8230;</string>
     <string name="progress_processing_data">Apdorojamas tvarkaraštis &#8230;</string>
     <string name="load_data">Užkrauti</string>
     <string name="choose_day">Pasirinkite dieną</string>
     <string name="day">Diena</string>
     <string name="fahrplan">Tvarkaraštis</string>
-    <string name="appVersion">Programėlės versija %s</string>
+    <string name="schedule_no_schedule_data_title">Dar nėra tvarkaraščio</string>
+    <string name="schedule_no_schedule_data_subtitle">Sugrįžkite vėliau</string>
+    <string name="appVersion">Programėlės versija <xliff:g example="1.40.2" id="appVersion">%s</xliff:g></string>
     <string name="schedule_updated_to">        Atnaujinta į <xliff:g example="Mildenberg 2018-01-16 16:50" id="version">%s</xliff:g>
     </string>
     <string name="schedule_updated">        Tvarkaraštis atnaujintas.
@@ -91,7 +93,7 @@
     <string name="session_details_section_title_links">Nuorodos</string>
     <string name="choose_alarm_time">Pasirinkite įspėjimo laiką</string>
     <string name="reminders">Įspėjimai</string>
-    <string name="usage">Patarimas:\n\nPaspauskite ir palaikykite ant paskaitos, kad nustatytumėte įspėjimą.</string>
+    <string name="usage">Pastaba:\n\nIlgai paspauskite ant paskaitos, kad nustatytumėte įspėjimą.</string>
     <string name="about_libraries_statement">        Ši programėlė naudoja šias bibliotekas: <xliff:g example="Kotlin, Espresso" id="libs">%s</xliff:g>
     </string>
     <string name="about_data_privacy_statement_german">Duomenų privatumas (vokiečių kalba)</string>
@@ -99,20 +101,23 @@
     <string name="about_google_play_listing">Google Play parduotuvėje</string>
     <string name="about_issues_or_feature_requests">Problemos ir funkcijų užklausos</string>
     <string name="about_source_code">Šaltinio kodas</string>
+    <string name="about_translation_platform">Vertimų platforma</string>
     <string name="today">šiandien</string>
     <string name="schedule_parsing_error_generic">Nežinoma klaida analizuojant tvarkaraštį</string>
     <string name="schedule_parsing_error_with_version">Klaida analizuojant <xliff:g example="0.99a" id="scheduleVersion">%s</xliff:g> tvarkaraštį</string>
     <string name="engelsystem_shifts_parsing_error_generic">Klaida analizuojant <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g> pamainas</string>
     <string name="engelsystem_shifts_parsing_error_forbidden">Neteisingas API raktas <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g> pamainoms</string>
     <string name="engelsystem_shifts_parsing_error_not_found">Neteisingas URL <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g> pamainoms</string>
-    <string name="add_to_calendar_failed">Nepavyko pridėti įvykio į kalendorių.</string>
-    <string name="schedule_changes_no_changes_title">Nėra tvarkaraščio pasikeitimų</string>
+    <string name="add_to_calendar_failed">Nepavyko pridėti paskaitos į kalendorių.</string>
+    <string name="schedule_changes_no_changes_title">Nėra pokyčių tvarkaraščiuose</string>
+    <string name="schedule_changes_no_changes_subtitle">Programėlė reguliariai tikrina atnaujinimus</string>
     <string name="favorites_no_favorites_title">Nėra mėgstamų paskaitų</string>
+    <string name="favorites_no_favorites_subtitle">Paspauskite ant žvaigždutės meniu juostoje, kad pažymėtumėte mėgstamas</string>
     <string name="schedule_changes">Tvarkaraščio pasikeitimai</string>
     <string name="general_settings">Bendra</string>
     <string name="starred_sessions">Mėgstamos</string>
     <string name="invalid_url">Neteisingas URL</string>
-    <string name="choose_to_delete">Pasirinkite paskaitas</string>
+    <string name="choose_to_delete">Pasirinkti paskaitas</string>
     <string name="day_separator"><xliff:g example="2" id="day_of_congress">%1$d</xliff:g> diena - <xliff:g example="29.12.2014" id="date_of_congress_day">%2$s</xliff:g></string>
     <string name="dlg_delete_all_favorites">Ištrinti visas mėgstamas?</string>
     <string name="dlg_delete_all_favorites_delete_all">Ištrinti visas</string>
@@ -134,13 +139,12 @@
     <string name="snack_engage_rate_action">Įvertinkite programėlę</string>
     <string name="snack_engage_google_play_beta_testing_title">Patyręs naudotojas?</string>
     <string name="snack_engage_google_play_beta_testing_action">Tapkite beta testuotoju</string>
-    <string name="snack_engage_c3nav_title">Navigacija patalpoje @ <xliff:g example="35C3" id="conferenceName">%s</xliff:g>! Su c3nav programėle</string>
+    <string name="snack_engage_c3nav_title"><xliff:g example="35C3" id="conferenceName">%s</xliff:g> navigacija viduje su c3nav programėle</string>
     <string name="snack_engage_c3nav_action">Gaukite dabar!</string>
     <string name="snack_engage_landscape_orientation_title">Bandėte horizontalų režimą?</string>
     <string name="snack_engage_landscape_orientation_action">Paverskite savo įrenginį!</string>
     <!-- TraceDroid -->
-    <string name="trace_droid_dialog_title">
-        Nusiųsti <xliff:g example="33C3 Fahrplan" id="appName">%s</xliff:g> pranešimą apie klaidą &#8230;
+    <string name="trace_droid_dialog_title">        Nusiųsti <xliff:g example="33C3 Schedule" id="appName">%s</xliff:g> strikdžių ataskaitą &#8230;
     </string>
     <string name="trace_droid_dialog_message">        Buvo aptikta <xliff:g example="33C3 Schedule" id="appName">%s</xliff:g> programėlės problema
         Būtų naudinga, jei jūs galėtumėte nusiųsti klaidos ataskaitą ir mes galėtume išsiaiškinti
@@ -155,10 +159,10 @@
     <string name="trace_droid_button_title_later">        Gal vėliau
     </string>
     <!-- Notifications -->
-    <string name="notifications_session_alarm_channel_description">        Vartotojo sukurti įspėjimai apie įvykius.
+    <string name="notifications_session_alarm_channel_description">        Vartotojo sukurti įspėjimai įvairioms paskaitoms.
     </string>
-    <string name="notifications_session_alarm_channel_name">Įspėjimai apie įvykius</string>
-    <string name="notifications_session_alarm_content_text">Įspėjimai apie įvykį</string>
+    <string name="notifications_session_alarm_channel_name">Įspėjimai paskaitoms</string>
+    <string name="notifications_session_alarm_content_text">Įspėjimas paskaitai</string>
     <string name="notifications_schedule_update_channel_description">        Automatiniai tvarkaraščio nustatymai, konfigūruojami programėlės nustatymuose.
     </string>
     <string name="notifications_schedule_update_channel_name">Tvarkaraščio atnaujinimai</string>
@@ -179,6 +183,8 @@
     <string name="alarm_time_title_45_minutes_before">prieš 45 minutes</string>
     <string name="alarm_time_title_60_minutes_before">prieš 60 minučių</string>
     <string name="alarms_disabled_notifications_permission_missing">Įspėjimai išjungti. Prašome suteikti \"Pranešimai\" leidimą.</string>
+    <string name="alarms_disabled_notifications_are_disabled">Įspėjimai yra išjungti. Prašome įjungti programėlės pranešimus.</string>
+    <string name="alarms_disabled_schedule_exact_alarm_permission_missing">Įspėjimai yra išjungti. Prašome \"Leisti nustatyti priminimus\".</string>
     <!-- Session list item -->
     <string name="session_list_item_duration_text"><xliff:g example="45" id="duration">%d</xliff:g> min.</string>
     <string name="session_list_item_duration_content_description">Trukmė: <xliff:g example="45" id="duration">%d</xliff:g> minutės</string>
@@ -198,6 +204,7 @@
     <string name="session_list_item_no_video_content_description">Nebus įrašinėjama</string>
     <string name="session_list_item_video_content_description">Bus įrašinėjama</string>
     <string name="session_list_item_without_video_content_description">Nebus daromas vaizdo įrašas</string>
+    <string name="session_list_item_zero_speakers_content_description">Nėra pranešėjų</string>
     <plurals name="session_list_item_speakers_content_description">
         <item quantity="zero" tools:ignore="UnusedQuantity">Nėra pranešėjų</item>
         <item quantity="one">Pranešėjas: <xliff:g example="Jane Doe" id="name">%s</xliff:g></item>
@@ -208,8 +215,9 @@
     <!-- Session item -->
     <string name="session_item_has_alarm_content_description">turi nustatytą įspėjimą</string>
     <!-- Alarms -->
-    <string name="alarms_no_alarms_title">        Nėra jokių įspėjimų. Jūs galite nustatyti įspėjimą kiekvienai paskaitai atskirai.
-        Kad tai padarytumėte, atidarykite paskaitos aprašymą ir paspauskite skambučio piktogramą meniu juostoje.
+    <string name="alarms_no_alarms_title">        Nėra nustatytų įspėjimų
+    </string>
+    <string name="alarms_no_alarms_subtitle">        Paspauskite ant varpelio piktogramos meniu juostoje, kad nustatyti įspėjimą
     </string>
     <string name="alarms_item_on_click_label">        Atverti detalių ekraną
     </string>
@@ -226,4 +234,21 @@
     <string name="validation_error_url_without_query"><xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL be query dalies.</string>
     <string name="validation_error_url_with_incomplete_query"><xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL su nepilna query dalimi.</string>
     <string name="validation_error_url_without_api_key"><xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL be API rakto.</string>
+    <!-- Schedule statistic -->
+    <string name="schedule_statistic_no_statistic_data_title">Paskaitos statistikos dar nėra</string>
+    <string name="schedule_statistic_title">Tvarkaraščio statistika</string>
+    <string name="schedule_statistic_description">Rodo neįvestų arba tuščių ir ne tuščių laukų pasiskirstymą \"sessions\" duomenų bazės lentelėje.</string>
+    <string name="schedule_statistic_toggle_sorting">Pakeisti rikiavimo tvarką</string>
+    <string name="schedule_statistic_column_name">Stulpelio pavadinimas</string>
+    <string name="schedule_statistic_null_empty">nėra/tuščia</string>
+    <string name="schedule_statistic_null_empty_content_description">nėra arba tuščia</string>
+    <string name="schedule_statistic_non_empty">ne tuščia</string>
+    <!-- Search -->
+    <string name="search_title">Ieškoti</string>
+    <string name="search_no_search_result_title">Nerasta paskaitų</string>
+    <string name="search_no_search_result_subtitle">Pabandykite pakeisti paieškos tekstą</string>
+    <string name="search_query_hint">Ieškoti paskaitų</string>
+    <string name="search_clear_search_query_content_description">Išvalyti paiešką</string>
+    <string name="search_history_title">Paskutinės paieškos</string>
+    <string name="search_history_clear">Išvalyti</string>
 </resources>
