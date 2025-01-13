@@ -21,7 +21,7 @@ fun Shift.toSessionNetworkModel(
         dayRanges: List<DayRange>
 
 ) = SessionNetworkModel(
-    sessionId = "${SHIFT_ID_OFFSET + sID}",
+    guid = "17363248-3847-${"%04x".format(sID)}-e734-2389e8437483", // Create GUID for Shifts
     abstractt = "",
     dateText = startsAtLocalDateString,
     dateUTC = dateUtcMs,

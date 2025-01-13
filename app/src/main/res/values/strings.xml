@@ -95,8 +95,8 @@
         The schedule has been updated.
     </string>
     <string name="settings">Settings</string>
-    <string name="session_details_session_id" translatable="false">
-        ID: <xliff:g example="5001a" id="id">%s</xliff:g>
+    <string name="session_details_guid" translatable="false">
+        GUID: <xliff:g example="5001a" id="id">%s</xliff:g>
     </string>
     <string name="session_details_section_title_track">Subject area</string>
     <string name="session_details_section_title_session_online">Event online</string>

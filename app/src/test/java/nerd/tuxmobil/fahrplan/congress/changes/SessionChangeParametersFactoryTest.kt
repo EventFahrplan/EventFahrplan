@@ -367,7 +367,7 @@ class SessionChangeParametersFactoryTest {
 }
 
 private fun createUnchangedSession(dayIndex: Int = 0) = Session(
-    sessionId = "2342",
+    guid = "11111111-1111-1111-1111-111111112342",
     title = "Title",
     subtitle = "Subtitle",
     recordingOptOut = false,
@@ -393,7 +393,7 @@ private fun createUnchangedSession(dayIndex: Int = 0) = Session(
 )
 
 private fun createNewSession() = Session(
-    sessionId = "2342",
+    guid = "11111111-1111-1111-1111-111111112342",
     title = "Title",
     subtitle = "Subtitle",
     recordingOptOut = false,
@@ -418,7 +418,7 @@ private fun createNewSession() = Session(
 )
 
 private fun createCanceledSession() = Session(
-    sessionId = "2342",
+    guid = "11111111-1111-1111-1111-111111112342",
     title = "Title",
     subtitle = "Subtitle",
     recordingOptOut = false,
@@ -443,7 +443,7 @@ private fun createCanceledSession() = Session(
 )
 
 private fun createChangedSession() = Session(
-    sessionId = "2342",
+    guid = "11111111-1111-1111-1111-111111112342",
     title = "Title",
     subtitle = "Subtitle",
     recordingOptOut = false,
@@ -468,7 +468,7 @@ private fun createChangedSession() = Session(
 )
 
 private fun createChangedEmptySession() = Session(
-    sessionId = "2342",
+    guid = "11111111-1111-1111-1111-111111112342",
     title = "",
     subtitle = "",
     recordingOptOut = true,

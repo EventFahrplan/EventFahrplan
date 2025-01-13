@@ -54,7 +54,7 @@ class ChangeListViewModelTest {
     @Test
     fun `sessionChangesState emits Success state with converted sessions`() = runTest {
         val session = Session(
-            sessionId = "18",
+            guid = "11111111-1111-1111-1111-111111111118",
             title = "Title",
             subtitle = "Subtitle",
             recordingOptOut = false,
@@ -136,8 +136,8 @@ class ChangeListViewModelTest {
         val screenNavigation = mock<ScreenNavigation>()
         val viewModel = createViewModel(createRepository())
         viewModel.screenNavigation = screenNavigation
-        viewModel.onViewEvent(OnSessionChangeItemClick(sessionId = "42"))
-        verifyInvokedOnce(screenNavigation).navigateToSessionDetails(sessionId = "42")
+        viewModel.onViewEvent(OnSessionChangeItemClick(guid = "11111111-1111-1111-1111-111111111142"))
+        verifyInvokedOnce(screenNavigation).navigateToSessionDetails(guid = "11111111-1111-1111-1111-111111111142")
     }
 
     @Test
@@ -154,7 +154,7 @@ class ChangeListViewModelTest {
     private fun createFactory(sessions: List<Session>): SessionChangeParametersFactory {
         val parameters = sessions.map {
             SessionChangeParameter.SessionChange(
-                id = it.sessionId,
+                id = it.guid,
                 title = SessionChangeProperty(
                     value = it.title,
                     contentDescription = "",

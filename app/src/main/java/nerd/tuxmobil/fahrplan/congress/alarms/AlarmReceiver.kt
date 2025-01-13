@@ -47,15 +47,15 @@ class AlarmReceiver : BroadcastReceiver() {
             ALARM_DISMISSED -> onSessionAlarmNotificationDismissed(intent)
             ALARM_UPDATE -> UpdateService.start(context)
             ALARM_SESSION -> {
-                val sessionId = intent.getStringExtra(BundleKeys.ALARM_SESSION_ID)!!
+                val guid = intent.getStringExtra(BundleKeys.ALARM_GUID)!!
                 val day = intent.getIntExtra(BundleKeys.ALARM_DAY, 1)
                 val start = intent.getLongExtra(BundleKeys.ALARM_START_TIME, System.currentTimeMillis())
                 val title = intent.getStringExtra(BundleKeys.ALARM_TITLE)!!
-                logging.report(LOG_TAG, "sessionId = $sessionId, intent = $intent")
+                logging.report(LOG_TAG, "guid = $guid, intent = $intent")
                 //Toast.makeText(context, "Alarm worked.", Toast.LENGTH_LONG).show();
 
-                val uniqueNotificationId = AppRepository.createSessionAlarmNotificationId(sessionId)
-                val launchIntent = createLaunchIntent(context, sessionId, day, uniqueNotificationId)
+                val uniqueNotificationId = AppRepository.createSessionAlarmNotificationId(guid)
+                val launchIntent = createLaunchIntent(context, guid, day, uniqueNotificationId)
                 val contentIntent = PendingIntentProvider.getPendingIntentActivity(context, launchIntent)
 
                 val notificationHelper = NotificationHelper(context)
@@ -72,7 +72,7 @@ class AlarmReceiver : BroadcastReceiver() {
                 val isInsistentAlarmsEnabled = AppRepository.readInsistentAlarmsEnabled()
                 notificationHelper.notify(uniqueNotificationId, builder, isInsistentAlarmsEnabled)
 
-                AppRepository.deleteAlarmForSessionId(sessionId)
+                AppRepository.deleteAlarmForGuid(guid)
             }
         }
     }
@@ -87,7 +87,7 @@ class AlarmReceiver : BroadcastReceiver() {
 
     internal class AlarmIntentFactory(
         val context: Context,
-        val sessionId: String,
+        val guid: String,
         val title: String,
         val day: Int,
         val startTime: Long,
@@ -95,13 +95,13 @@ class AlarmReceiver : BroadcastReceiver() {
 
         fun getIntent(isAddAlarmIntent: Boolean) = Intent(context, AlarmReceiver::class.java)
             .withExtras(
-                BundleKeys.ALARM_SESSION_ID to sessionId,
+                BundleKeys.ALARM_GUID to guid,
                 BundleKeys.ALARM_DAY to day,
                 BundleKeys.ALARM_TITLE to title,
                 BundleKeys.ALARM_START_TIME to startTime
             ).apply {
                 action = if (isAddAlarmIntent) ALARM_SESSION else ALARM_DELETE
-                data = "alarm://$sessionId".toUri()
+                data = "alarm://$guid".toUri()
             }
 
         companion object {

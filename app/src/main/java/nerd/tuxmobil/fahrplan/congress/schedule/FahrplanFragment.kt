@@ -86,7 +86,7 @@ class FahrplanFragment : Fragment(), MenuProvider, SessionViewEventsHandler {
         /**
          * Called when the session view has been clicked.
          */
-        fun onSessionClick(sessionId: String)
+        fun onSessionClick(guid: String)
     }
 
     companion object {
@@ -271,8 +271,8 @@ class FahrplanFragment : Fragment(), MenuProvider, SessionViewEventsHandler {
             val boxHeight = getNormalizedBoxHeight()
             scrollToCurrent(boxHeight, scheduleData, dateInfos)
         }
-        viewModel.scrollToSessionParameter.observe(viewLifecycleOwner) { (sessionId, verticalPosition, roomIndex) ->
-            scrollTo(sessionId, verticalPosition, roomIndex)
+        viewModel.scrollToSessionParameter.observe(viewLifecycleOwner) { (guid, verticalPosition, roomIndex) ->
+            scrollTo(guid, verticalPosition, roomIndex)
         }
         viewModel.requestPostNotificationsPermission.observe(viewLifecycleOwner) {
             postNotificationsPermissionRequestLauncher.launch(POST_NOTIFICATIONS)
@@ -296,12 +296,12 @@ class FahrplanFragment : Fragment(), MenuProvider, SessionViewEventsHandler {
         activity.invalidateOptionsMenu()
         val intent = activity.intent
         // TODO Consume session alarm in MainActivity and let it orchestrate its fragments
-        val sessionId = intent.getStringExtra(BundleKeys.SESSION_ALARM_SESSION_ID)
-        if (sessionId != null) {
+        val guid = intent.getStringExtra(BundleKeys.SESSION_ALARM_GUID)
+        if (guid != null) {
             val sessionAlarmDayIndex = intent.getIntExtra(BundleKeys.SESSION_ALARM_DAY_INDEX, -1)
             viewModel.saveSelectedDayIndex(sessionAlarmDayIndex)
-            viewModel.scrollToSession(sessionId, getNormalizedBoxHeight())
-            intent.removeExtra(BundleKeys.SESSION_ALARM_SESSION_ID) // jump to given sessionId only once
+            viewModel.scrollToSession(guid, getNormalizedBoxHeight())
+            intent.removeExtra(BundleKeys.SESSION_ALARM_GUID) // jump to given guid only once
         }
     }
 
@@ -476,7 +476,7 @@ class FahrplanFragment : Fragment(), MenuProvider, SessionViewEventsHandler {
         }
     }
 
-    private fun scrollTo(sessionId: String, verticalPosition: Int, roomIndex: Int) {
+    private fun scrollTo(guid: String, verticalPosition: Int, roomIndex: Int) {
         val layoutRootView = requireView()
         layoutRootView.requireViewByIdCompat<NestedScrollView>(R.id.verticalScrollView).apply {
             post { scrollTo(0, verticalPosition) }
@@ -486,7 +486,7 @@ class FahrplanFragment : Fragment(), MenuProvider, SessionViewEventsHandler {
         val activity = requireActivity()
         val sidePaneView = activity.findViewById<FragmentContainerView?>(R.id.detail)
         if (sidePaneView != null && onSessionClickListener != null) {
-            onSessionClickListener!!.onSessionClick(sessionId)
+            onSessionClickListener!!.onSessionClick(guid)
         }
     }
 
@@ -519,7 +519,7 @@ class FahrplanFragment : Fragment(), MenuProvider, SessionViewEventsHandler {
             "A session must be assigned to the 'tag' attribute of the session view."
         } as Session
         logging.d(LOG_TAG, """Click on: "${session.title}"""")
-        onSessionClickListener?.onSessionClick(session.sessionId)
+        onSessionClickListener?.onSessionClick(session.guid)
     }
 
     /**

@@ -31,7 +31,7 @@ class SearchResultParameterFactoryTest {
         val factory = createFactory()
         val sessions = listOf(
             Session(
-                sessionId = "123",
+                guid  = "11111111-1111-1111-1111-111111111123",
                 title = "Session 123",
                 speakers = listOf("Jane Doe", "John Doe"),
                 dateUTC = 1683981000000,
@@ -55,7 +55,7 @@ class SearchResultParameterFactoryTest {
         val factory = createFactory()
         val sessions = listOf(
             Session(
-                sessionId = "123",
+                guid  = "11111111-1111-1111-1111-111111111123",
                 title = "",
                 speakers = emptyList(),
                 dateUTC = 1683981000000,

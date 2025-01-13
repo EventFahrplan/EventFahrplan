@@ -51,8 +51,8 @@ internal class DateFieldValidation(
         val dateUtcInMilliseconds = session.dateUTC
         val sessionDate = Moment.ofEpochMilli(dateUtcInMilliseconds).toZonedDateTime(ZoneOffset.UTC)
         if (!dateRange.contains(sessionDate)) {
-            val sessionId = session.sessionId
-            val errorMessage = ("Field <date> '$sessionDate' of session '$sessionId' exceeds range: [ ${dateRange.startsAt} : ${dateRange.endsAt} ]")
+            val guid = session.guid
+            val errorMessage = ("Field <date> '$sessionDate' of session '$guid' exceeds range: [ ${dateRange.startsAt} : ${dateRange.endsAt} ]")
             val error = ValidationError(errorMessage)
             validationErrors.add(error)
         }

@@ -33,15 +33,15 @@ class FeedbackUrlComposer(
         return if (session.originatesFromPretalx) {
             session.pretalxScheduleFeedbackUrl
         } else {
-            getFrabScheduleFeedbackUrl(session.sessionId, frabScheduleFeedbackUrlFormatString)
+            getFrabScheduleFeedbackUrl(session.guid, frabScheduleFeedbackUrlFormatString)
         }
     }
 
-    private fun getFrabScheduleFeedbackUrl(sessionId: String, frabScheduleFeedbackUrlFormatString: String): String {
+    private fun getFrabScheduleFeedbackUrl(guid: String, frabScheduleFeedbackUrlFormatString: String): String {
         return if (frabScheduleFeedbackUrlFormatString.isEmpty()) {
             NO_URL
         } else {
-            String.format(frabScheduleFeedbackUrlFormatString, sessionId)
+            String.format(frabScheduleFeedbackUrlFormatString, guid)
         }
     }
 

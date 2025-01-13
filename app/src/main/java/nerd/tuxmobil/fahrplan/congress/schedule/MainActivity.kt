@@ -79,22 +79,22 @@ class MainActivity : BaseActivity(),
 
         /**
          * Returns a unique intent to be used to launch this activity.
-         * The given parameters [sessionId] and [dayIndex] are passed along as bundle extras.
-         * The [sessionId] is also used to ensure this intent is unique by definition of
+         * The given parameters [guid] and [dayIndex] are passed along as bundle extras.
+         * The [guid] is also used to ensure this intent is unique by definition of
          * [Intent.filterEquals].
          */
         fun createLaunchIntent(
             context: Context,
-            sessionId: String,
+            guid: String,
             dayIndex: Int,
             notificationId: Int
         ) = Intent(context, MainActivity::class.java)
             .apply {
-                data = "fake://$sessionId".toUri()
+                data = "fake://$guid".toUri()
                 flags = FLAG_ACTIVITY_CLEAR_TOP or FLAG_ACTIVITY_RESET_TASK_IF_NEEDED
             }
             .withExtras(
-                BundleKeys.SESSION_ALARM_SESSION_ID to sessionId,
+                BundleKeys.SESSION_ALARM_GUID to guid,
                 BundleKeys.SESSION_ALARM_DAY_INDEX to dayIndex,
                 BundleKeys.SESSION_ALARM_NOTIFICATION_ID to notificationId
             )
@@ -336,12 +336,12 @@ class MainActivity : BaseActivity(),
         }
     }
 
-    override fun onSessionListClick(sessionId: String) {
-        viewModel.openSessionDetails(sessionId)
+    override fun onSessionListClick(guid: String) {
+        viewModel.openSessionDetails(guid)
     }
 
-    override fun onSessionClick(sessionId: String) {
-        viewModel.openSessionDetails(sessionId)
+    override fun onSessionClick(guid: String) {
+        viewModel.openSessionDetails(guid)
     }
 
     override fun onBackStackChanged() {
@@ -434,7 +434,7 @@ class MainActivity : BaseActivity(),
         shouldScrollToCurrent = true
     }
 
-    override fun onSessionItemClick(sessionId: String) {
-        viewModel.openSessionDetails(sessionId)
+    override fun onSessionItemClick(guid: String) {
+        viewModel.openSessionDetails(guid)
     }
 }

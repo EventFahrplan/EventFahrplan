@@ -20,6 +20,7 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Se
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DESCR
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DURATION
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.FEEDBACK_URL
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.GUID
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.LANG
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.LINKS
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.REC_LICENSE
@@ -28,7 +29,7 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Se
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.ROOM_IDENTIFIER
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.ROOM_INDEX
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.ROOM_NAME
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.SESSION_ID
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.GUID
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.SLUG
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.SPEAKERS
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.START
@@ -45,7 +46,7 @@ class SessionExtensionsTest {
     @Test
     fun toContentValues() {
         val session = Session(
-                sessionId = "7331",
+                guid = "11111111-1111-1111-1111-111111117331",
                 abstractt = "Lorem ipsum",
                 dayIndex = 3,
                 dateText = "2015-08-13",
@@ -86,7 +87,8 @@ class SessionExtensionsTest {
                 changedTrack = true
         )
         val values = session.toContentValues()
-        assertThat(values.getAsInteger(SESSION_ID)).isEqualTo(7331)
+        assertThat(values.getAsInteger(GUID)).isEqualTo(7331)
+        assertThat(values.getAsString(GUID)).isEqualTo("11111111-1111-1111-1111-111111111111")
         assertThat(values.getAsString(ABSTRACT)).isEqualTo("Lorem ipsum")
         assertThat(values.getAsInteger(DAY)).isEqualTo(3)
         assertThat(values.getAsString(DATE_TEXT)).isEqualTo("2015-08-13")

@@ -43,8 +43,8 @@ class StarredListActivity :
         }
     }
 
-    override fun onSessionListClick(sessionId: String) {
-        if (AppRepository.updateSelectedSessionId(sessionId)) {
+    override fun onSessionListClick(guid: String) {
+        if (AppRepository.updateSelectedGuid(guid)) {
             SessionDetailsActivity.start(this)
         }
     }

@@ -8,7 +8,8 @@ import info.metadude.android.eventfahrplan.network.serialization.FahrplanParser
  */
 data class Session(
 
-        var sessionId: String = "",
+        var guid: String = "",
+
         var abstractt: String = "",
         var dayIndex: Int = 0, // XML values start with 1
         var dateText: String = "",

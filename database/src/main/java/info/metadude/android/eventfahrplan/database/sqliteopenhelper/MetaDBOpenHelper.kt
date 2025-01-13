@@ -24,7 +24,7 @@ internal class MetaDBOpenHelper(context: Context) : SQLiteOpenHelper(
 ) {
 
     private companion object {
-        const val DATABASE_VERSION = 10
+        const val DATABASE_VERSION = 1
         const val DATABASE_NAME = "meta"
 
         // language=sql
@@ -44,43 +44,6 @@ internal class MetaDBOpenHelper(context: Context) : SQLiteOpenHelper(
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) = with(db) {
-        if (oldVersion < 3 && newVersion >= 3) {
-            addTextColumn(ETAG, default = ETAG_DEFAULT)
-        }
-        if (oldVersion < 6 && newVersion >= 6) {
-            addTextColumn(TIME_ZONE_NAME, default = null)
-        }
-        if (oldVersion < 4) {
-            // Clear database from 34C3.
-            dropTableIfExist(NAME)
-            onCreate(this)
-        }
-        if (oldVersion < 5) {
-            // Clear database from 35C3 & Camp 2019.
-            dropTableIfExist(NAME)
-            onCreate(this)
-        }
-        if (oldVersion < 7) {
-            // Clear database from rC3 12/2020.
-            dropTableIfExist(NAME)
-            onCreate(this)
-        }
-        if (oldVersion < 8) {
-            // Clear database from rC3 NOWHERE 12/2021 & 36C3 2019.
-            dropTableIfExist(NAME)
-            onCreate(this)
-        }
-        if (oldVersion < 9) {
-            if (!columnExists(NAME, SCHEDULE_LAST_MODIFIED)) {
-                addTextColumn(SCHEDULE_LAST_MODIFIED, default = "")
-            }
-        }
-        if (oldVersion < 10) {
-            // Clear database from Camp 2023 & 37C3 2023.
-            dropTableIfExist(NAME)
-            onCreate(this)
-        }
-
     }
 }
 

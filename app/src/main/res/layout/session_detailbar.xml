@@ -47,13 +47,13 @@
         app:drawableLeftCompat="@drawable/ic_room"
         app:drawableStartCompat="@drawable/ic_room"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/session_detailbar_session_id_view"
+        app:layout_constraintEnd_toStartOf="@+id/session_detailbar_guid_view"
         app:layout_constraintStart_toEndOf="@+id/session_detailbar_date_time_view"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="@string/placeholder_session_location" />
 
     <TextView
-        android:id="@+id/session_detailbar_session_id_view"
+        android:id="@+id/session_detailbar_guid_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="8dp"
@@ -62,9 +62,10 @@
         android:textColor="@color/session_detailbar_text"
         android:textSize="@dimen/session_detailbar_text"
         android:typeface="normal"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="@string/placeholder_session_id" />
+        tools:text="@string/placeholder_guid" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

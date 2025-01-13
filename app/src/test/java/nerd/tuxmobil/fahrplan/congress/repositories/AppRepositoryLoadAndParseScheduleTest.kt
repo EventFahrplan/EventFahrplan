@@ -207,7 +207,11 @@ class AppRepositoryLoadAndParseScheduleTest {
 
             // onUpdateSessions
             whenever(sessionsDatabaseRepository.querySessionsOrderedByDateUtc()) doReturn listOf(
-                DatabaseSession(sessionId = "55", isHighlight = true, changedLanguage = true)
+                DatabaseSession(
+                    guid = "11111111-1111-1111-1111-111111111111",
+                    isHighlight = true,
+                    changedLanguage = true
+                )
             )
             whenever(highlightsDatabaseRepository.query()) doReturn emptyList()
             whenever(alarmsDatabaseRepository.query()) doReturn emptyList()
@@ -215,7 +219,7 @@ class AppRepositoryLoadAndParseScheduleTest {
             scheduleNetworkRepository.onUpdateSessions(emptyList())
 
             verifyInvokedOnce(sharedPreferencesRepository).setChangesSeen(any())
-            verifyInvokedOnce(sessionsDatabaseRepository).updateSessions(any(), any())
+            verifyInvokedOnce(sessionsDatabaseRepository).upsertSessions(any(), any())
 
             assertStarredSessionsProperty()
             assertChangedSessionsProperty()
@@ -236,7 +240,7 @@ class AppRepositoryLoadAndParseScheduleTest {
 
     private suspend fun assertStarredSessionsProperty() {
         testableAppRepository.starredSessions.test {
-            val session = AppSession(sessionId = "55", isHighlight = true)
+            val session = AppSession(isHighlight = true, guid = "11111111-1111-1111-1111-111111111155")
             assertThat(awaitItem()).isEqualTo(listOf(session))
         }
     }
@@ -244,27 +248,24 @@ class AppRepositoryLoadAndParseScheduleTest {
     private suspend fun assertChangedSessionsProperty() {
         testableAppRepository.changedSessions.test {
             val session = AppSession(
-                sessionId = "55",
                 isHighlight = true,
                 changedLanguage = true,
+                guid = "11111111-1111-1111-1111-111111111155",
             )
             assertThat(awaitItem()).isEqualTo(listOf(session))
         }
     }
 
     private suspend fun assertSelectedSessionProperty() {
-        whenever(sessionsDatabaseRepository.querySessionBySessionId(any())) doReturn DatabaseSession(
-            "23"
+        whenever(sessionsDatabaseRepository.querySessionByGuid(any())) doReturn DatabaseSession(
+            guid = "11111111-1111-1111-1111-111111111123",
         )
-        whenever(highlightsDatabaseRepository.queryBySessionId(any())) doReturn DatabaseHighlight(
-            sessionId = 23,
+        whenever(highlightsDatabaseRepository.queryByGuid(any())) doReturn DatabaseHighlight(
+            guid = "11111111-1111-1111-1111-111111111123",
             isHighlight = false
         )
         whenever(alarmsDatabaseRepository.query(anyString())) doReturn emptyList()
-        whenever(sharedPreferencesRepository.getSelectedSessionId()) doReturn "23"
-        testableAppRepository.selectedSession.test {
-            assertThat(awaitItem()).isEqualTo(AppSession("23"))
-        }
+        whenever(sharedPreferencesRepository.getSelectedGuid()) doReturn "11111111-1111-1111-1111-111111111123"
     }
 
     private suspend fun assertUncanceledSessionsForDayIndexProperty() {

@@ -83,8 +83,8 @@
     <string name="placeholder_session_location">
         REALLY LARGE ROOM
     </string>
-    <string name="placeholder_session_id">
-        ID: 5193
+    <string name="placeholder_guid">
+        GUID: 11111111-1111-1111-1111-111111111111
     </string>
 
     <!-- Separators -->

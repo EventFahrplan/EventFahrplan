@@ -10,11 +10,11 @@ import org.junit.jupiter.api.Test
 
 class LayoutCalculatorTest {
     private val conferenceDate = "2020-03-30"
-    private var sessionId = 0
+    private var guid = "11111111-1111-1111-1111-111111111111"
     private val layoutCalculator = LayoutCalculator(standardHeight = 1, logging = NoLogging)
 
     private fun createSession(date: String? = null, startTime: Int = 0, duration: Int = 0): Session {
-        var session = Session((sessionId++).toString(), duration = duration)
+        var session = Session(guid, duration = duration)
 
         if (date != null) {
             val dateUTC = Moment.parseDate(date).plusMinutes(startTime.toLong())
@@ -33,7 +33,7 @@ class LayoutCalculatorTest {
         val roomData = sessions.toRoomData()
 
         val layoutParams = layoutCalculator.calculateLayoutParams(roomData, conference)
-        val sessionParams = layoutParams[sessions.first().sessionId]
+        val sessionParams = layoutParams[sessions.first().guid]
 
         assertMargins(sessionParams, 0, 0)
     }
@@ -46,7 +46,7 @@ class LayoutCalculatorTest {
         val roomData = sessions.toRoomData()
 
         val layoutParams = layoutCalculator.calculateLayoutParams(roomData, conference)
-        val sessionParams = layoutParams[sessions.first().sessionId]
+        val sessionParams = layoutParams[sessions.first().guid]
 
         assertMargins(sessionParams, 0, 0)
     }
@@ -65,8 +65,8 @@ class LayoutCalculatorTest {
         val roomData = sessions.toRoomData()
 
         val layoutParams = layoutCalculator.calculateLayoutParams(roomData, conference)
-        val session1Params = layoutParams[session1.sessionId]
-        val session2Params = layoutParams[session2.sessionId]
+        val session1Params = layoutParams[session1.guid]
+        val session2Params = layoutParams[session2.guid]
 
         assertMargins(session1Params, 0, gapMinutes)
         assertMargins(session2Params, 0, 0)
@@ -100,7 +100,7 @@ class LayoutCalculatorTest {
         val roomData = listOf(session2).toRoomData()
 
         val layoutParams = layoutCalculator.calculateLayoutParams(roomData, conference)
-        val session2Params = layoutParams[session2.sessionId]
+        val session2Params = layoutParams[session2.guid]
         val gapMinutes = 60
 
         assertMargins(session2Params, gapMinutes, 0)
@@ -122,8 +122,8 @@ class LayoutCalculatorTest {
 
         val layoutParamsRoom1 = layoutCalculator.calculateLayoutParams(roomData1, conference)
         val layoutParamsRoom2 = layoutCalculator.calculateLayoutParams(roomData2, conference)
-        val session1Params = layoutParamsRoom1[session1.sessionId]
-        val session2Params = layoutParamsRoom2[session2.sessionId]
+        val session1Params = layoutParamsRoom1[session1.guid]
+        val session2Params = layoutParamsRoom2[session2.guid]
         val gapMinutes = 5 + 60 // 5 minutes in new day. 60 minutes on previous day, from session1, which starts at 11am
 
         assertMargins(session1Params, 0, 0)
@@ -143,8 +143,8 @@ class LayoutCalculatorTest {
         val roomData = sessions.toRoomData()
 
         val layoutParams = layoutCalculator.calculateLayoutParams(roomData, conference)
-        val session1Params = layoutParams[session1.sessionId]
-        val session2Params = layoutParams[session2.sessionId]
+        val session1Params = layoutParams[session1.guid]
+        val session2Params = layoutParams[session2.guid]
         val gapMinutes = 30
 
         assertMargins(session1Params, 0, gapMinutes)
@@ -164,8 +164,8 @@ class LayoutCalculatorTest {
         val roomData = sessions.toRoomData()
 
         val layoutParams = layoutCalculator.calculateLayoutParams(roomData, conference)
-        val session1Params = layoutParams[session1.sessionId]
-        val session2Params = layoutParams[session2.sessionId]
+        val session1Params = layoutParams[session1.guid]
+        val session2Params = layoutParams[session2.guid]
 
         assertMargins(session1Params, 0, 0)
         assertMargins(session2Params, 0, 0)
@@ -187,8 +187,8 @@ class LayoutCalculatorTest {
 
         val layoutParamsRoom1 = layoutCalculator.calculateLayoutParams(roomData1, conference)
         val layoutParamsRoom2 = layoutCalculator.calculateLayoutParams(roomData2, conference)
-        val session1Params = layoutParamsRoom1[session1.sessionId]
-        val session2Params = layoutParamsRoom2[session2.sessionId]
+        val session1Params = layoutParamsRoom1[session1.guid]
+        val session2Params = layoutParamsRoom2[session2.guid]
 
         assertMargins(session1Params, 0, 0)
         assertMargins(session2Params, 35, 0)

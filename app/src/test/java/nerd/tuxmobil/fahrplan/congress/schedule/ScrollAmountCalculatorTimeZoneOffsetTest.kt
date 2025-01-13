@@ -56,13 +56,13 @@ class ScrollAmountCalculatorTimeZoneOffsetTest {
         withTimeZone(deviceTimeZoneId) {
             val targetSessionStartsAtDateTime = DateParser.getDateTime(sessionStartsAtDateTimeIso8601)
             val targetSessionStartsAt = Moment.ofEpochMilli(targetSessionStartsAtDateTime)
-            val targetSession = createBaseSession(sessionId = "target", moment = targetSessionStartsAt)
+            val targetSession = createBaseSession(guid = "11111111-1111-1111-1111-111111111112", moment = targetSessionStartsAt)
 
             val sessions = if (conferenceStartedHoursAgo == 0) {
                 listOf(targetSession)
             } else {
                 val firstSessionStartsAt = targetSessionStartsAt.minusHours(conferenceStartedHoursAgo.toLong())
-                val firstSession = createBaseSession(sessionId = "first", moment = firstSessionStartsAt)
+                val firstSession = createBaseSession(guid = "11111111-1111-1111-1111-111111111111", moment = firstSessionStartsAt)
                 listOf(firstSession, targetSession)
             }
 
@@ -72,8 +72,8 @@ class ScrollAmountCalculatorTimeZoneOffsetTest {
         }
     }
 
-    private fun createBaseSession(sessionId: String, moment: Moment) = Session(
-        sessionId = sessionId,
+    private fun createBaseSession(guid: String, moment: Moment) = Session(
+        guid = guid,
         dayIndex = 0,
         dateText = moment.toZonedDateTime(ZoneOffset.UTC).toLocalDate().toString(),
         dateUTC = moment.toMilliseconds(),

@@ -120,8 +120,8 @@ class ScrollAmountCalculatorTest {
             Moment.ofEpochMilli(1583019000000L) // February 29, 2020 11:30:00 PM GMT
     )
 
-    private fun createBaseSession(sessionId: String, moment: Moment) = Session(
-        sessionId = sessionId,
+    private fun createBaseSession(guid: String, moment: Moment) = Session(
+        guid = guid,
         dayIndex = 0,
         dateText = moment.toZonedDateTime(ZoneOffset.UTC).toLocalDate().toString(),
         dateUTC = moment.toMilliseconds(),

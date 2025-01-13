@@ -120,7 +120,7 @@ class CalendarDescriptionComposerTest {
     private class FakeSessionUrlComposer : SessionUrlComposition {
 
         override fun getSessionUrl(session: Session): String {
-            return "https://events.ccc.de/congress/2021/Fahrplan/events/${session.sessionId}.html"
+            return "https://events.ccc.de/congress/2021/Fahrplan/events/${session.guid}.html"
         }
 
     }
@@ -132,7 +132,7 @@ class CalendarDescriptionComposerTest {
         description: String = "",
         links: String = ""
     ) = Session(
-        sessionId = "2342",
+        guid = "11111111-1111-1111-1111-111111112342",
         subtitle = subtitle,
         speakers = speakers,
         abstractt = abstract,

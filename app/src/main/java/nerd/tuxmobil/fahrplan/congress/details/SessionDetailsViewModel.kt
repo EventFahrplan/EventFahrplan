@@ -122,7 +122,7 @@ internal class SessionDetailsViewModel(
 
         return SelectedSessionParameter(
             // Details content
-            sessionId = sessionId,
+            guid = guid,
             hasDateUtc = dateUTC > 0,
             formattedZonedDateTimeShort = formattedZonedDateTimeShort,
             formattedZonedDateTimeLong = formattedZonedDateTimeLong,

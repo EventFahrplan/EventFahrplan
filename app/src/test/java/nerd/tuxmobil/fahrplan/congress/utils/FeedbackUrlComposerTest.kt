@@ -13,35 +13,35 @@ class FeedbackUrlComposerTest {
             "https://frab.cccv.de/en/35C3/public/events/%s/feedback/new"
 
         val HUB_PRETALX_SESSION = Session(
-            sessionId = "3723",
+            guid = "11111111-1111-1111-1111-111111113723",
             url = "https://fahrplan.events.ccc.de/congress/2023/hub/events/37c3_opening.html",
             slug = "37c3_opening",
             feedbackUrl = "https://talks.c3voc.de/2023/talk/7B2KMD/feedback/",
         )
 
         val HUB_SOS_SESSION = Session(
-            sessionId = "3724",
+            guid = "11111111-1111-1111-1111-111111113724",
             url = "https://fahrplan.events.ccc.de/congress/2023/hub/events/lockpicking_workshop.html",
             slug = "lockpicking_workshop",
             feedbackUrl = "",
         )
 
         val FRAB_SESSION = Session(
-            sessionId = "9985",
+            guid = "11111111-1111-1111-1111-111111119985",
             url = "https://fahrplan.events.ccc.de/congress/2018/Fahrplan/events/9985.html",
             slug = "35c3-9985-opening_ceremony",
             feedbackUrl = null,
         )
 
         val PRETALX_SESSION = Session(
-            sessionId = "202",
+            guid = "11111111-1111-1111-1111-111111111202",
             url = "https://talks.mrmcd.net/2019/talk/9XL7SP/",
             slug = "2019-202-board-games-of-medieval-europe",
             feedbackUrl = null,
         )
 
         val WIKI_SESSION = Session(
-            sessionId = "1346",
+            guid = "11111111-1111-1111-1111-111111111346",
             track = WIKI_SESSION_TRACK_NAME,
             url = "https://events.ccc.de/congress/2019/wiki/index.php/Session:Mobile_Apps",
             feedbackUrl = null,

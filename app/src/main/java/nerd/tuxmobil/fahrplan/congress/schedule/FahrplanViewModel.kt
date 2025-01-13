@@ -238,7 +238,7 @@ internal class FahrplanViewModel(
             roomData.copy(sessions = roomData.sessions.map { session ->
                 session.copy(
                     hasAlarm = alarms.any { alarm ->
-                        alarm.sessionId == session.sessionId
+                        alarm.guid == session.guid
                     }
                 )
             })
@@ -367,18 +367,18 @@ internal class FahrplanViewModel(
         }
     }
 
-    fun scrollToSession(sessionId: String, boxHeight: Int) {
+    fun scrollToSession(guid: String, boxHeight: Int) {
         launch {
             val scheduleData = repository.loadUncanceledSessionsForDayIndex()
             val sessions = scheduleData.allSessions
             if (sessions.isNotEmpty()) {
-                val session = scheduleData.findSession(sessionId)
+                val session = scheduleData.findSession(guid)
                 if (session != null) {
                     val conference = Conference.ofSessions(sessions)
                     val verticalPosition = scrollAmountCalculator.calculateScrollAmount(conference, session, boxHeight)
                     val roomIndex = scheduleData.findRoomIndex(session)
                     val parameter = ScrollToSessionParameter(
-                        sessionId = sessionId,
+                        guid = guid,
                         verticalPosition = verticalPosition,
                         roomIndex = roomIndex
                     )

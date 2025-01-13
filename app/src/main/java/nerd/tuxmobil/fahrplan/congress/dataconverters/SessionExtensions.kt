@@ -25,13 +25,13 @@ fun SessionAppModel.toRoom() = Room(identifier = roomIdentifier, name = roomName
 fun SessionDatabaseModel.toDateInfo(): DateInfo = DateInfo(dayIndex, Moment.parseDate(dateText))
 
 fun SessionAppModel.toHighlightDatabaseModel() = HighlightDatabaseModel(
-        sessionId = Integer.parseInt(sessionId),
+        guid = guid,
         isHighlight = isHighlight
 )
 
 fun SessionDatabaseModel.toSessionAppModel(): SessionAppModel {
     return SessionAppModel(
-        sessionId = sessionId,
+        guid = guid,
         abstractt = abstractt,
         dateText = dateText,
         dateUTC = dateUTC,
@@ -76,7 +76,7 @@ fun SessionDatabaseModel.toSessionAppModel(): SessionAppModel {
 
 fun SessionDatabaseModel.toSessionNetworkModel(): SessionNetworkModel {
     return SessionNetworkModel(
-        sessionId = sessionId,
+        guid = guid,
         abstractt = abstractt,
         dateText = dateText,
         dateUTC = dateUTC,
@@ -121,7 +121,7 @@ fun SessionDatabaseModel.toSessionNetworkModel(): SessionNetworkModel {
 
 fun SessionNetworkModel.toSessionDatabaseModel(): SessionDatabaseModel {
     return SessionDatabaseModel(
-        sessionId = sessionId,
+        guid = guid,
         abstractt = abstractt,
         dateText = dateText,
         dateUTC = dateUTC,

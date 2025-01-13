@@ -27,7 +27,7 @@ class SimpleSessionFormatTest {
     private val systemLocale = Locale.getDefault()
 
     private val session1 = Session(
-        sessionId = "S1",
+        guid = "11111111-1111-1111-1111-111111111111",
         title = "A talk which changes your life",
         roomName = "Yellow pavilion",
         dateText = "2019-12-27T11:00:00+01:00",
@@ -37,7 +37,7 @@ class SimpleSessionFormatTest {
     )
 
     private val session2 = Session(
-        sessionId = "S2",
+        guid = "11111111-1111-1111-1111-111111111112",
         title = "The most boring workshop ever",
         roomName = "Dark cellar",
         dateText = "2019-12-28T17:00:00+01:00",
@@ -47,7 +47,7 @@ class SimpleSessionFormatTest {
     )
 
     private val session3 = Session(
-        sessionId = "S3",
+        guid = "11111111-1111-1111-1111-111111111113",
         title = "Angel shifts planning",
         roomName = "Main hall",
         dateText = "2019-12-29T09:00:00+01:00",
@@ -58,7 +58,7 @@ class SimpleSessionFormatTest {
     )
 
     private val session4 = Session(
-        sessionId = "S4",
+        guid = "11111111-1111-1111-1111-111111111114",
         title = "Central european summer time",
         roomName = "Sunshine tent",
         dateText = "2019-09-01T16:00:00+02:00",

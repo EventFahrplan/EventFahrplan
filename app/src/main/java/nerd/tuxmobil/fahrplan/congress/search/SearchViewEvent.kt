@@ -8,5 +8,5 @@ sealed interface SearchViewEvent {
     data class OnSearchHistoryItemClick(val searchQuery: String) : SearchViewEvent
     data object OnSearchHistoryClear : SearchViewEvent
     data class OnSearchQueryChange(val updatedQuery: String) : SearchViewEvent
-    data class OnSearchResultItemClick(val sessionId: String) : SearchViewEvent
+    data class OnSearchResultItemClick(val guid: String) : SearchViewEvent
 }

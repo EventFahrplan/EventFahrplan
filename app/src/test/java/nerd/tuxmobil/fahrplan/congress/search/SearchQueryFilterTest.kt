@@ -21,7 +21,7 @@ class SearchQueryFilterTest {
     }
 
     @Test
-    fun `filterAll returns list with session when query at least partially matches sessionId`() {
+    fun `filterAll returns list with session when query at least partially matches guid`() {
         val result = filter.filterAll(listOf(Session("1056")), "56")
         assertThat(result).isEqualTo(listOf(Session("1056")))
     }

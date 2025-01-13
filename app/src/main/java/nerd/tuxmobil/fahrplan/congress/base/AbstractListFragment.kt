@@ -27,9 +27,9 @@ abstract class AbstractListFragment : ListFragment() {
          * to the activity and potentially other fragments contained in that
          * activity.
          *
-         * @param sessionId The ID of the session which was clicked.
+         * @param guid The ID of the session which was clicked.
          */
-        fun onSessionListClick(sessionId: String)
+        fun onSessionListClick(guid: String)
     }
 
     protected lateinit var appRepository: AppRepository

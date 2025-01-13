@@ -18,7 +18,7 @@ class AlarmsStateFactory(
         useDeviceTimeZone: Boolean,
     ): List<SessionAlarmParameter> = alarms.mapNotNull { alarm ->
         sessions
-            .find { session -> session.sessionId == alarm.sessionId }
+            .find { session -> session.guid == alarm.guid }
             ?.let { found ->
                 val titleContentDescription = resourceResolving.getString(
                     R.string.session_list_item_title_content_description,
@@ -48,7 +48,7 @@ class AlarmsStateFactory(
                 )
 
                 SessionAlarmParameter(
-                    sessionId = found.sessionId,
+                    guid = found.guid,
                     title = found.title,
                     titleContentDescription = titleContentDescription,
                     subtitle = found.subtitle,

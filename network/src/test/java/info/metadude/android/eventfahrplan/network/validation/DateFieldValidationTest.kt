@@ -17,8 +17,8 @@ class DateFieldValidationTest {
 
         val sessions = listOf(
                 // date and dateUTC do not represent the same
-                Session(dateText = "2019-01-02", dateUTC = start.toMilliseconds(), sessionId = "1"),
-                Session(dateText = "2019-01-01", dateUTC = end.toMilliseconds(), sessionId = "2")
+                Session(dateText = "2019-01-02", dateUTC = start.toMilliseconds(), guid = "11111111-1111-1111-1111-111111111111",),
+                Session(dateText = "2019-01-01", dateUTC = end.toMilliseconds(), guid = "11111111-1111-1111-1111-111111111112",)
         )
 
         val isValid = validation.validate(sessions)
@@ -38,10 +38,10 @@ class DateFieldValidationTest {
         val sessions = listOf(
                 // date=jan 2 does not correspond to dateUTC field value
                 // since session 1 defines range start, this leads to a problem, if another session has valid data, but is before session 1.
-                Session(dateText = "2019-01-02", dateUTC = start.toMilliseconds(), sessionId = "1"),
+                Session(dateText = "2019-01-02", dateUTC = start.toMilliseconds(), guid = "11111111-1111-1111-1111-111111111111"),
                 // range starts with session 1 => session 2 is outside of the range
-                Session(dateText = "2019-01-01", dateUTC = Moment.parseDate("2019-01-01").toMilliseconds(), sessionId = "2"),
-                Session(dateText = "2019-01-03", dateUTC = end.toMilliseconds(), sessionId = "3")
+                Session(dateText = "2019-01-01", dateUTC = Moment.parseDate("2019-01-01").toMilliseconds(), guid = "11111111-1111-1111-1111-111111111112"),
+                Session(dateText = "2019-01-03", dateUTC = end.toMilliseconds(), guid = "11111111-1111-1111-1111-111111111113")
         )
 
         val isValid = validation.validate(sessions)
@@ -59,9 +59,9 @@ class DateFieldValidationTest {
         val end = Moment.parseDate("2019-01-03")
 
         val sessions = listOf(
-                Session(dateText = "2019-01-01", dateUTC = start.toMilliseconds(), sessionId = "1"),
-                Session(dateText = "2019-01-02", dateUTC = Moment.parseDate("2019-01-02").toMilliseconds(), sessionId = "2"),
-                Session(dateText = "2019-01-03", dateUTC = end.toMilliseconds(), sessionId = "3")
+                Session(dateText = "2019-01-01", dateUTC = start.toMilliseconds(), guid = "11111111-1111-1111-1111-111111111111",),
+                Session(dateText = "2019-01-02", dateUTC = Moment.parseDate("2019-01-02").toMilliseconds(), guid = "11111111-1111-1111-1111-111111111112",),
+                Session(dateText = "2019-01-03", dateUTC = end.toMilliseconds(), guid = "11111111-1111-1111-1111-111111111113",)
         )
 
         val isValid = validation.validate(sessions)
@@ -92,8 +92,8 @@ class DateFieldValidationTest {
         val end = Moment.parseDate("2019-01-01")
 
         val sessions = listOf(
-                Session(dateText = "2019-01-01", dateUTC = start.toMilliseconds(), sessionId = "1"),
-                Session(dateText = "2019-01-01", dateUTC = end.toMilliseconds(), sessionId = "2")
+                Session(dateText = "2019-01-01", dateUTC = start.toMilliseconds(), guid = "11111111-1111-1111-1111-111111111111",),
+                Session(dateText = "2019-01-01", dateUTC = end.toMilliseconds(), guid = "11111111-1111-1111-1111-111111111112",)
         )
 
         val isValid = validation.validate(sessions)
@@ -111,8 +111,8 @@ class DateFieldValidationTest {
         val end = Moment.parseDate("2019-01-02")
 
         val sessions = listOf(
-                Session(dateText = "2019-01-01", dateUTC = start.toMilliseconds(), sessionId = "1"),
-                Session(dateText = "2019-01-02", dateUTC = end.toMilliseconds(), sessionId = "2")
+                Session(dateText = "2019-01-01", dateUTC = start.toMilliseconds(), guid = "11111111-1111-1111-1111-111111111111",),
+                Session(dateText = "2019-01-02", dateUTC = end.toMilliseconds(), guid = "11111111-1111-1111-1111-111111111112",)
         )
 
         val isValid = validation.validate(sessions)

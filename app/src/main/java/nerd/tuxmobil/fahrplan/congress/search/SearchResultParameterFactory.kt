@@ -31,7 +31,7 @@ class SearchResultParameterFactory(
         )
 
         return SearchResult(
-            id = session.sessionId,
+            id = session.guid,
             title = SearchResultProperty(
                 value = title,
                 contentDescription = contentDescriptionFormatter

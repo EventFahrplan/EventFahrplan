@@ -60,8 +60,8 @@ class AlarmsFragment : Fragment(), MenuProvider {
         appRepository = AppRepository
         resourceResolving = ResourceResolver(context)
         alarmServices = AlarmServices.newInstance(context, appRepository)
-        viewModel.screenNavigation = ScreenNavigation { sessionId ->
-            onSessionItemClickListener?.onSessionItemClick(sessionId)
+        viewModel.screenNavigation = ScreenNavigation { guid ->
+            onSessionItemClickListener?.onSessionItemClick(guid)
         }
         onSessionItemClickListener = try {
             context as OnSessionItemClickListener

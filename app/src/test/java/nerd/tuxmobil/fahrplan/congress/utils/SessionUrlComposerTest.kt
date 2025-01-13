@@ -20,31 +20,31 @@ class SessionUrlComposerTest {
         const val NO_SERVER_BACKEND_TYPE = ""
 
         val PENTABARF_SESSION = Session(
-            sessionId = "7294",
+            guid = "11111111-1111-1111-1111-111111117294",
             url = NO_URL,
             slug = "keynotes_welcome",
         )
 
         val FRAB_SESSION = Session(
-            sessionId = "9985",
+            guid = "11111111-1111-1111-1111-111111119985",
             url = "https://fahrplan.events.ccc.de/congress/2018/Fahrplan/events/9985.html",
             slug = "35c3-9985-opening_ceremony",
         )
 
         val PRETALX_SESSION = Session(
-            sessionId = "32",
+            guid = "11111111-1111-1111-1111-111111111132",
             url = "https://fahrplan.chaos-west.de/35c3chaoswest/talk/KDYQEB",
             slug = "KDYQEB",
         )
 
         val ENGELSYSTEM_SHIFT_SESSION_WITHOUT_URL = Session(
-            sessionId = "7771",
+            guid = "11111111-1111-1111-1111-111111117771",
             roomName = AppRepository.ENGELSYSTEM_ROOM_NAME,
             url = NO_URL,
         )
 
         val ENGELSYSTEM_SHIFT_SESSION_WITH_URL = Session(
-            sessionId = "7772",
+            guid = "11111111-1111-1111-1111-111111117772",
             roomName = AppRepository.ENGELSYSTEM_ROOM_NAME,
             url = "https://helpful.to/the/angel",
         )
@@ -58,7 +58,7 @@ class SessionUrlComposerTest {
     }
 
     @Test
-    fun `getSessionUrl returns Pentabarf URL if sessionId property and Pentabarf backend are set`() {
+    fun `getSessionUrl returns Pentabarf URL if guid property and Pentabarf backend are set`() {
         assertThat(SessionUrlComposer(PENTABARF_SESSION_URL_TEMPLATE, ServerBackendType.PENTABARF.name)
                 .getSessionUrl(PENTABARF_SESSION)).isEqualTo("https://fosdem.org/2018/schedule/event/keynotes_welcome/")
     }

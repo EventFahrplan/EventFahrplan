@@ -55,8 +55,8 @@ class SearchFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        viewModel.screenNavigation = ScreenNavigation { sessionId ->
-            onSessionListClickListener?.onSessionListClick(sessionId)
+        viewModel.screenNavigation = ScreenNavigation { guid ->
+            onSessionListClickListener?.onSessionListClick(guid)
         }
         if (context is OnSessionListClick) {
             onSessionListClickListener = context

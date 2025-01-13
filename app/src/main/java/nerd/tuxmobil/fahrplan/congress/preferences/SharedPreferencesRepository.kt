@@ -32,8 +32,8 @@ interface SharedPreferencesRepository {
     fun getLastEngelsystemShiftsHash(): Int
     fun setLastEngelsystemShiftsHash(hash: Int)
 
-    fun getSelectedSessionId(): String
-    fun setSelectedSessionId(sessionId: String): Boolean
+    fun getSelectedGuid(): String
+    fun setSelectedGuid(guid: String): Boolean
 
     fun getSearchHistory(): List<String>
     fun setSearchHistory(history: List<String>)

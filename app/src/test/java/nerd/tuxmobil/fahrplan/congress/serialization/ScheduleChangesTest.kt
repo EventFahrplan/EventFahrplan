@@ -76,7 +76,7 @@ class ScheduleChangesTest {
                 scenarioDescription = "Old and new sessions are the same",
                 oldSessions = listOf(
                     Session(
-                        sessionId = "",
+                        guid = "",
                         title = "title",
                         subtitle = "subtitle",
                         speakers = "speakers",
@@ -90,7 +90,7 @@ class ScheduleChangesTest {
                 ),
                 newSessions = listOf(
                     Session(
-                        sessionId = "",
+                        guid = "",
                         title = "title",
                         subtitle = "subtitle",
                         speakers = "speakers",
@@ -104,7 +104,7 @@ class ScheduleChangesTest {
                 ),
                 expectedSessions = listOf(
                     Session(
-                        sessionId = "",
+                        guid = "",
                         title = "title",
                         subtitle = "subtitle",
                         speakers = "speakers",
@@ -150,14 +150,14 @@ class ScheduleChangesTest {
             scenario1Of(
                 scenarioDescription = "Speakers differ in order",
                 oldSessions = listOf(
-                    Session(sessionId = "1", speakers = "speaker1, speaker2, speaker3")
+                    Session(guid = "11111111-1111-1111-1111-111111111111", speakers = "speaker1, speaker2, speaker3")
                 ),
                 newSessions = listOf(
-                    Session(sessionId = "1", speakers = "speaker3, speaker1, speaker2")
+                    Session(guid = "11111111-1111-1111-1111-111111111111", speakers = "speaker3, speaker1, speaker2")
                 ),
                 expectedSessions = listOf(
                     Session(
-                        sessionId = "1",
+                        guid = "11111111-1111-1111-1111-111111111111",
                         speakers = "speaker3, speaker1, speaker2",
                         changedSpeakers = true
                     )
@@ -229,11 +229,11 @@ class ScheduleChangesTest {
             ),
             scenario1Of(
                 scenarioDescription = "Old session is canceled, new session is added",
-                oldSessions = listOf(Session(sessionId = "s1")),
-                newSessions = listOf(Session(sessionId = "s2")),
+                oldSessions = listOf(Session(guid = "11111111-1111-1111-1111-111111111111")),
+                newSessions = listOf(Session(guid = "11111111-1111-1111-1111-111111111112")),
                 expectedSessions = listOf(
-                    Session(sessionId = "s2", changedIsNew = true),
-                    Session(sessionId = "s1", changedIsCanceled = true)
+                    Session(guid = "11111111-1111-1111-1111-111111111112", changedIsNew = true),
+                    Session(guid = "11111111-1111-1111-1111-111111111111", changedIsCanceled = true)
                 ),
                 expectedOldCanceledSessions = emptyList(),
                 expectedFoundNoteworthyChanges = true,
@@ -242,7 +242,7 @@ class ScheduleChangesTest {
                 scenarioDescription = "Multiple properties differ",
                 oldSessions = listOf(
                     Session(
-                        sessionId = "1",
+                        guid = "11111111-1111-1111-1111-111111111111",
                         title = "Old title",
                         subtitle = "Old subtitle",
                         speakers = "Old speakers",
@@ -267,7 +267,7 @@ class ScheduleChangesTest {
                 ),
                 newSessions = listOf(
                     Session(
-                        sessionId = "1",
+                        guid = "11111111-1111-1111-1111-111111111111",
                         title = "New title",
                         subtitle = "New subtitle",
                         speakers = "New speakers",
@@ -292,7 +292,7 @@ class ScheduleChangesTest {
                 ),
                 expectedSessions = listOf(
                     Session(
-                        sessionId = "1",
+                        guid = "11111111-1111-1111-1111-111111111111",
                         title = "New title",
                         subtitle = "New subtitle",
                         speakers = "New speakers",

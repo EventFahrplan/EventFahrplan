@@ -9,7 +9,7 @@ import org.threeten.bp.ZoneOffset
  * Application model representing a lecture, a workshop or any similar time-framed happening.
  */
 data class Session(
-    val sessionId: String,
+    val guid: String,
     val title: String = "",
     val subtitle: String = "",
     val abstractt: String = "",
@@ -104,7 +104,7 @@ data class Session(
 }
 
 private data class EssentialSession(
-    val sessionId: String,
+    val guid: String,
     val title: String,
     val subtitle: String,
     val feedbackUrl: String?,
@@ -124,7 +124,7 @@ private data class EssentialSession(
     val recordingOptOut: Boolean,
 ) {
     constructor(session: Session) : this(
-        sessionId = session.sessionId,
+        guid = session.guid,
         title = session.title,
         subtitle = session.subtitle,
         feedbackUrl = session.feedbackUrl,

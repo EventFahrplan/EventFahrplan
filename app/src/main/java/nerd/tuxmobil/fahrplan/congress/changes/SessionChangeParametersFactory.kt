@@ -63,7 +63,7 @@ class SessionChangeParametersFactory(
         val title = if (session.changedTitle && session.title.isEmpty()) dash else session.title
 
         return SessionChange(
-            id = session.sessionId,
+            id = session.guid,
             title = SessionChangeProperty(
                 value = title,
                 contentDescription = title,

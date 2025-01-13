@@ -67,7 +67,7 @@ class AlarmServices @VisibleForTesting constructor(
      * corresponding with the given [alarmTimesIndex].
      */
     fun addSessionAlarm(session: Session, alarmTimesIndex: Int) {
-        logging.d(LOG_TAG, "Add alarm for session = ${session.sessionId}, alarmTimesIndex = $alarmTimesIndex.")
+        logging.d(LOG_TAG, "Add alarm for session = ${session.guid}, alarmTimesIndex = $alarmTimesIndex.")
         val alarmTimeStrings = ArrayList(alarmTimeValues)
         val alarmTimes = ArrayList<Int>(alarmTimeStrings.size)
         for (alarmTimeString in alarmTimeStrings) {
@@ -78,13 +78,13 @@ class AlarmServices @VisibleForTesting constructor(
         val alarmTime = sessionStartTime - alarmTimeOffset
         val moment = Moment.ofEpochMilli(alarmTime)
         logging.d(LOG_TAG, "Add alarm: Time = ${moment.toUtcDateTime()}, in seconds = $alarmTime.")
-        val sessionId = session.sessionId
+        val guid = session.guid
         val sessionTitle = session.title
         val alarmTimeInMin = alarmTimes[alarmTimesIndex]
         val useDeviceTimeZone = repository.readUseDeviceTimeZoneEnabled()
         val timeText = formattingDelegate.getFormattedDateTimeShort(useDeviceTimeZone, alarmTime, session.timeZoneOffset)
         val day = session.dayIndex
-        val alarm = Alarm(alarmTimeInMin, day, sessionStartTime, sessionId, sessionTitle, alarmTime, timeText)
+        val alarm = Alarm(alarmTimeInMin, day, sessionStartTime, guid, sessionTitle, alarmTime, timeText)
         val schedulableAlarm = alarm.toSchedulableAlarm()
         scheduleSessionAlarm(schedulableAlarm, true)
         repository.updateAlarm(alarm)
@@ -94,14 +94,14 @@ class AlarmServices @VisibleForTesting constructor(
      * Deletes the alarm for the given [session].
      */
     fun deleteSessionAlarm(session: Session) {
-        val sessionId = session.sessionId
-        val alarms = repository.readAlarms(sessionId)
+        val guid = session.guid
+        val alarms = repository.readAlarms(guid)
         if (alarms.isNotEmpty()) {
             // Delete any previous alarms of this session.
             val alarm = alarms[0]
             val schedulableAlarm = alarm.toSchedulableAlarm()
             discardSessionAlarm(schedulableAlarm)
-            repository.deleteAlarmForSessionId(sessionId)
+            repository.deleteAlarmForGuid(guid)
         }
     }
 
@@ -122,7 +122,7 @@ class AlarmServices @VisibleForTesting constructor(
     fun scheduleSessionAlarm(alarm: SchedulableAlarm, discardExisting: Boolean = false) {
         val intent = AlarmReceiver.AlarmIntentFactory(
             context = context,
-            sessionId = alarm.sessionId,
+            guid = alarm.guid,
             title = alarm.sessionTitle,
             day = alarm.day,
             startTime = alarm.startTime
@@ -146,7 +146,7 @@ class AlarmServices @VisibleForTesting constructor(
     fun discardSessionAlarm(alarm: SchedulableAlarm) {
         val intent = AlarmReceiver.AlarmIntentFactory(
             context = context,
-            sessionId = alarm.sessionId,
+            guid = alarm.guid,
             title = alarm.sessionTitle,
             day = alarm.day,
             startTime = alarm.startTime

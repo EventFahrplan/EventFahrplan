@@ -5,8 +5,8 @@ import org.junit.jupiter.api.Test
 
 class ScheduleDataTest {
 
-    private val actualSession = Session(sessionId = "L42", roomName = "Room1")
-    private val oddSession = Session(sessionId = "L78", roomName = "Room78")
+    private val actualSession = Session(guid = "11111111-1111-1111-1111-111111111142", roomName = "Room1")
+    private val oddSession = Session(guid = "11111111-1111-1111-1111-111111111178", roomName = "Room78")
 
     @Test
     fun `roomDataList without rooms and sessions`() {
@@ -14,7 +14,7 @@ class ScheduleDataTest {
         assertThat(data.roomCount).isEqualTo(0)
         assertThat(data.roomNames).isEqualTo(emptyList<String>())
         assertThat(data.allSessions).isEqualTo(emptyList<Session>())
-        assertThat(data.findSession(actualSession.sessionId)).isNull()
+        assertThat(data.findSession(actualSession.guid)).isNull()
         assertThat(data.findRoomIndex(actualSession)).isEqualTo(ScheduleData.UNKNOWN_ROOM_INDEX)
     }
 
@@ -25,7 +25,7 @@ class ScheduleDataTest {
         assertThat(data.roomCount).isEqualTo(1)
         assertThat(data.roomNames).isEqualTo(listOf("Room1"))
         assertThat(data.allSessions).isEqualTo(emptyList<Session>())
-        assertThat(data.findSession(actualSession.sessionId)).isNull()
+        assertThat(data.findSession(actualSession.guid)).isNull()
         assertThat(data.findRoomIndex(actualSession)).isEqualTo(0)
     }
 
@@ -33,11 +33,11 @@ class ScheduleDataTest {
     fun `roomDataList with one room with one session queried for actual session`() {
         val roomDataList = listOf(RoomData(roomName = "Room1", sessions = listOf(actualSession)))
         val data = scheduleDataOf(roomDataList)
-        val expectedSession = Session(sessionId = "L42", roomName = "Room1")
+        val expectedSession = Session(guid = "11111111-1111-1111-1111-111111111142", roomName = "Room1")
         assertThat(data.roomCount).isEqualTo(1)
         assertThat(data.roomNames).isEqualTo(listOf("Room1"))
         assertThat(data.allSessions).isEqualTo(listOf(expectedSession))
-        assertThat(data.findSession(actualSession.sessionId)).isEqualTo(expectedSession)
+        assertThat(data.findSession(actualSession.guid)).isEqualTo(expectedSession)
         assertThat(data.findRoomIndex(actualSession)).isEqualTo(0)
     }
 
@@ -45,7 +45,7 @@ class ScheduleDataTest {
     fun `roomDataList with one room with one session queried for odd session`() {
         val roomDataList = listOf(RoomData(roomName = "Room1", sessions = listOf(actualSession)))
         val data = scheduleDataOf(roomDataList)
-        assertThat(data.findSession(oddSession.sessionId)).isNull()
+        assertThat(data.findSession(oddSession.guid)).isNull()
         assertThat(data.findRoomIndex(oddSession)).isEqualTo(ScheduleData.UNKNOWN_ROOM_INDEX)
     }
 
@@ -61,13 +61,13 @@ class ScheduleDataTest {
 
     @Test
     fun `allSessions returns sessions sorted by dateUTC ascending`() {
-        val session1 = Session(sessionId = "L1", dateUTC = 200)
-        val session2 = Session(sessionId = "L2", dateUTC = 100)
+        val session1 = Session(guid = "11111111-1111-1111-1111-111111111111", dateUTC = 200)
+        val session2 = Session(guid = "11111111-1111-1111-1111-111111111112", dateUTC = 100)
         val sessions = listOf(session1, session2)
         val roomDataList = listOf(RoomData(roomName = "Room1", sessions = sessions))
         val data = scheduleDataOf(roomDataList)
-        assertThat(data.allSessions.first().sessionId).isEqualTo("L2")
-        assertThat(data.allSessions.last().sessionId).isEqualTo("L1")
+        assertThat(data.allSessions.first().guid).isEqualTo("11111111-1111-1111-1111-111111111112")
+        assertThat(data.allSessions.last().guid).isEqualTo("11111111-1111-1111-1111-111111111111")
     }
 
     private fun scheduleDataOf(roomDataList: List<RoomData>): ScheduleData {

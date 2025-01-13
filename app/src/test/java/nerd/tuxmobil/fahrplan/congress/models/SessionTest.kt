@@ -13,7 +13,7 @@ class SessionTest {
     companion object {
 
         fun createSession() = Session(
-            sessionId = "s1",
+            guid = "11111111-1111-1111-1111-111111111111",
             title = "Lorem ipsum",
             subtitle = "Gravida arcu ac tortor",
             feedbackUrl = "https://example.com/feedback",
@@ -84,7 +84,7 @@ class SessionTest {
 
         @JvmStatic
         fun oddSessions() = listOf(
-            of("sessionId", createSession().copy(sessionId = "Odd session ID")),
+            of("guid", createSession().copy(guid = "Odd GUID")),
             of("title", createSession().copy(title = "Odd title")),
             of("subtitle", createSession().copy(subtitle = "Odd subtitle")),
             of("feedbackUrl", createSession().copy(feedbackUrl = "https://example.net/feedback")),
@@ -167,14 +167,14 @@ class SessionTest {
 
     @Test
     fun `startsAt returns the start date converted to Moment`() {
-        val session = Session(sessionId = "", dateUTC = 1582963200000L)
+        val session = Session(guid = "", dateUTC = 1582963200000L)
         assertThat(session.startsAt).isEqualTo(Moment.ofEpochMilli(1582963200000L))
     }
 
     @Test
     fun `startsAt throws exception if dateUTC is less then or equal to 0`() {
         val session = Session(
-            sessionId = "",
+            guid = "",
             dateUTC = 0,
         )
         try {
@@ -187,7 +187,7 @@ class SessionTest {
     @Test
     fun `endsAtDateUtc sums dateUTC and duration`() {
         val session = Session(
-            sessionId = "",
+            guid = "",
             dateUTC = 10_000,
             duration = 60,
         )
@@ -197,7 +197,7 @@ class SessionTest {
     @Test
     fun `getEndsAt sums dateUTC and duration`() {
         val session = Session(
-            sessionId = "",
+            guid = "",
             dateUTC = 1584662400000L,
             duration = 120,
         )

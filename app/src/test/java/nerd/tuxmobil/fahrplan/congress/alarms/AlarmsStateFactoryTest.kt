@@ -70,14 +70,14 @@ class AlarmsStateFactoryTest {
 
             val alarms = listOf(
                 createAlarm(
-                    sessionId = "s0",
+                    guid = "11111111-1111-1111-1111-111111111110",
                     alarmTimeInMin = alarmTimeInMin,
                     alarmStartsAt = alarmStartsAt,
                 )
             )
             val sessions = listOf(
                 Session(
-                    sessionId = "s0",
+                    guid = "11111111-1111-1111-1111-111111111110",
                     title = "Title",
                     subtitle = "Subtitle",
                     dateUTC = SESSION_STARTS_AT.toMilliseconds(),
@@ -88,7 +88,7 @@ class AlarmsStateFactoryTest {
 
             val expected = listOf(
                 SessionAlarmParameter(
-                    sessionId = "s0",
+                    guid = "11111111-1111-1111-1111-111111111110",
                     title = "Title",
                     titleContentDescription = "Title: Berlin stories",
                     subtitle = "Subtitle",
@@ -113,14 +113,14 @@ class AlarmsStateFactoryTest {
 
             val alarms = listOf(
                 createAlarm(
-                    sessionId = "s0",
+                    guid = "11111111-1111-1111-1111-111111111110",
                     alarmTimeInMin = alarmTimeInMin,
                     alarmStartsAt = alarmStartsAt,
                 )
             )
             val sessions = listOf(
                 Session(
-                    sessionId = "s0",
+                    guid = "11111111-1111-1111-1111-111111111110",
                     title = "Title",
                     subtitle = "Subtitle",
                     dateUTC = SESSION_STARTS_AT.toMilliseconds(),
@@ -131,7 +131,7 @@ class AlarmsStateFactoryTest {
 
             val expected = listOf(
                 SessionAlarmParameter(
-                    sessionId = "s0",
+                    guid = "11111111-1111-1111-1111-111111111110",
                     title = "Title",
                     titleContentDescription = "Title: Berlin stories",
                     subtitle = "Subtitle",
@@ -154,14 +154,14 @@ class AlarmsStateFactoryTest {
         AlarmsStateFactory(CompleteResourceResolver(alarmTimeInMin), DateFormatterDelegate)
 
     private fun createAlarm(
-        sessionId: String,
+        guid: String,
         alarmTimeInMin: Int = 10,
         alarmStartsAt: Long = 1620909000000,
     ) = Alarm(
         alarmTimeInMin = alarmTimeInMin,
         day = 2,
         displayTime = -1,
-        sessionId = sessionId,
+        guid = guid,
         sessionTitle = "Unused",
         startTime = alarmStartsAt,
         timeText = "Unused",

@@ -5,7 +5,7 @@ import android.database.sqlite.SQLiteException
 import androidx.core.database.sqlite.transaction
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.HighlightsTable
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.HighlightsTable.Columns.HIGHLIGHT
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.HighlightsTable.Columns.SESSION_ID
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.HighlightsTable.Columns.GUID
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.HighlightsTable.Values.HIGHLIGHT_STATE_OFF
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.HighlightsTable.Values.HIGHLIGHT_STATE_ON
 import info.metadude.android.eventfahrplan.database.extensions.delete
@@ -26,9 +26,9 @@ internal class RealHighlightsDatabaseRepository(
 
 ) : HighlightsDatabaseRepository {
 
-    override fun update(values: ContentValues, sessionId: String) = with(sqLiteOpenHelper) {
+    override fun update(values: ContentValues, guid: String) = with(sqLiteOpenHelper) {
         writableDatabase.upsert({
-            delete(HighlightsTable.NAME, SESSION_ID, sessionId)
+            delete(HighlightsTable.NAME, GUID, guid)
         }, {
             insert(HighlightsTable.NAME, values)
         })
@@ -39,29 +39,28 @@ internal class RealHighlightsDatabaseRepository(
         val database = sqLiteOpenHelper.readableDatabase
 
         val cursor = try {
-            database.read(HighlightsTable.NAME, orderBy = SESSION_ID)
+            database.read(HighlightsTable.NAME, orderBy = GUID)
         } catch (e: SQLiteException) {
             e.printStackTrace()
             return highlights.toList()
         }
 
         return cursor.map {
-            val sessionIdString = cursor.getString(SESSION_ID)
-            val sessionId = Integer.parseInt(sessionIdString)
+            val guid = cursor.getString(GUID)
             val highlightState = cursor.getInt(HIGHLIGHT)
             val isHighlighted = highlightState == HIGHLIGHT_STATE_ON
 
-            Highlight(sessionId, isHighlighted)
+            Highlight(guid, isHighlighted)
         }
     }
 
-    override fun queryBySessionId(sessionId: Int): Highlight? {
+    override fun queryByGuid(guid: String): Highlight? {
         val database = sqLiteOpenHelper.readableDatabase
         val cursor = try {
             database.read(
                 tableName = HighlightsTable.NAME,
-                selection = "$SESSION_ID=?",
-                selectionArgs = arrayOf(sessionId.toString())
+                selection = "$GUID=?",
+                selectionArgs = arrayOf(guid)
             )
         } catch (e: SQLiteException) {
             return null
@@ -71,7 +70,7 @@ internal class RealHighlightsDatabaseRepository(
             if (cursor.moveToFirst()) {
                 val highlightState = cursor.getInt(HIGHLIGHT)
                 val isHighlighted = highlightState == HIGHLIGHT_STATE_ON
-                Highlight(sessionId, isHighlighted)
+                Highlight(guid, isHighlighted)
             } else {
                 null
             }
@@ -80,17 +79,17 @@ internal class RealHighlightsDatabaseRepository(
 
     /**
      * Resets the value of the [HIGHLIGHT] column to [`false`][HIGHLIGHT_STATE_OFF] for the row
-     * with the given [sessionId].
+     * with the given [guid].
      */
-    override fun delete(sessionId: String): Int {
+    override fun delete(guid: String): Int {
         with(sqLiteOpenHelper) {
             return writableDatabase.updateRow(
                 tableName = HighlightsTable.NAME,
                 contentValues = ContentValues().apply {
                     put(HIGHLIGHT, HIGHLIGHT_STATE_OFF)
                 },
-                columnName = SESSION_ID,
-                columnValue = sessionId,
+                columnName = GUID,
+                columnValue = guid,
             )
         }
     }

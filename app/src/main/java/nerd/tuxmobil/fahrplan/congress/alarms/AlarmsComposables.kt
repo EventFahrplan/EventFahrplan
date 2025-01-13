@@ -209,7 +209,7 @@ private fun AlarmsScreenPreview() {
         Success(
             listOf(
                 SessionAlarmParameter(
-                    sessionId = "s1",
+                    guid = "11111111-1111-1111-1111-111111111111",
                     title = "Some random title",
                     titleContentDescription = "",
                     subtitle = "A longer subtitle to be displayed",
@@ -222,7 +222,7 @@ private fun AlarmsScreenPreview() {
                     dayIndex = 0,
                 ),
                 SessionAlarmParameter(
-                    sessionId = "s2",
+                    guid = "11111111-1111-1111-1111-111111111112",
                     title = "Second title",
                     titleContentDescription = "",
                     subtitle = "A longer subtitle to be displayed lorem ipsum",
@@ -235,7 +235,7 @@ private fun AlarmsScreenPreview() {
                     dayIndex = 0,
                 ),
                 SessionAlarmParameter(
-                    sessionId = "s3",
+                    guid = "11111111-1111-1111-1111-111111111113",
                     title = "No subtitle present for this item",
                     titleContentDescription = "",
                     subtitle = "",

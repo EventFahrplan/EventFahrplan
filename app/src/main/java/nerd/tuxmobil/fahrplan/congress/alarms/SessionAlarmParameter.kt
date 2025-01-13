@@ -7,7 +7,7 @@ import nerd.tuxmobil.fahrplan.congress.alarms.AlarmsState.Success
  * property in the [AlarmsViewModel] which is observed by the [AlarmsFragment].
  */
 data class SessionAlarmParameter(
-    val sessionId: String,
+    val guid: String,
     val title: String,
     val titleContentDescription: String,
     val subtitle: String,

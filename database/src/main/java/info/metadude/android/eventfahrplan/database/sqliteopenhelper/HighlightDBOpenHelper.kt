@@ -5,7 +5,7 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.HighlightsTable.Columns.HIGHLIGHT
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.HighlightsTable.Columns.ID
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.HighlightsTable.Columns.SESSION_ID
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.HighlightsTable.Columns.GUID
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.HighlightsTable.NAME
 import info.metadude.android.eventfahrplan.database.extensions.dropTableIfExist
 
@@ -17,13 +17,13 @@ internal class HighlightDBOpenHelper(context: Context) : SQLiteOpenHelper(
 ) {
 
     private companion object {
-        const val DATABASE_VERSION = 6
-        const val DATABASE_NAME = "highlight"
+        const val DATABASE_VERSION = 1
+        const val DATABASE_NAME = "highlights"
 
         // language=sql
         const val HIGHLIGHT_TABLE_CREATE = "CREATE TABLE $NAME (" +
                 "$ID INTEGER PRIMARY KEY, " +
-                "$SESSION_ID INTEGER, " +
+                "$GUID INTEGER, " +
                 "$HIGHLIGHT INTEGER" +
                 ");"
     }

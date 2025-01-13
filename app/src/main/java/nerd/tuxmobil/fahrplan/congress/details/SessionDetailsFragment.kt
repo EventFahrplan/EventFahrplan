@@ -281,8 +281,8 @@ class SessionDetailsFragment : Fragment(), MenuProvider {
         textView.text = model.roomName
         textView.contentDescription = contentDescriptionFormatter
             .getRoomNameContentDescription(model.roomName)
-        textView = view.requireViewByIdCompat(R.id.session_detailbar_session_id_view)
-        textView.text = if (model.sessionId.isEmpty()) "" else textView.context.getString(R.string.session_details_session_id, model.sessionId)
+        textView = view.requireViewByIdCompat(R.id.session_detailbar_guid_view)
+        textView.text = if (model.guid.isEmpty()) "" else textView.context.getString(R.string.session_details_guid, model.guid)
 
         // Title
         textView = view.requireViewByIdCompat(R.id.session_details_content_title_view)

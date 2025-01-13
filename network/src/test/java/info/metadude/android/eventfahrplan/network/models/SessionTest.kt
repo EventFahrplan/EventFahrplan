@@ -8,7 +8,7 @@ class SessionTest {
     @Test
     fun `cancel marks a session as canceled and resets all change other flags`() {
         val session = Session(
-            sessionId = "0",
+            guid = "11111111-1111-1111-1111-111111111111",
             changedTitle = true,
             changedSubtitle = true,
             changedRoomName = true,
@@ -23,7 +23,7 @@ class SessionTest {
             changedIsCanceled = false,
         )
         val comparableCanceledSession = Session(
-            sessionId = "0",
+            guid = "11111111-1111-1111-1111-111111111111",
             changedTitle = false,
             changedSubtitle = false,
             changedRoomName = false,
