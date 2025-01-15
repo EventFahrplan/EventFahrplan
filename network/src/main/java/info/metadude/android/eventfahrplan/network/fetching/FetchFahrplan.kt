@@ -79,7 +79,7 @@ internal class FetchFahrplanTask(
         val url = args[0]!!
         val eTag = args[1]!!
         val lastModified = args[2]!!
-        host = Uri.parse(url).host ?: throw NullPointerException("Host is null for url = '$url'")
+        host = Uri.parse(url).host ?: throw MissingHostException(url)
         return fetch(url, eTag, lastModified)
     }
 
@@ -206,3 +206,7 @@ internal class FetchFahrplanTask(
     }
 
 }
+
+private class MissingHostException(url: String) : NullPointerException(
+    """Host is null for url = "$url"."""
+)

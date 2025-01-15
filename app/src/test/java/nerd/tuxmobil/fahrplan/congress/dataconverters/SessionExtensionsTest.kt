@@ -331,6 +331,36 @@ class SessionExtensionsTest {
     }
 
     @Test
+    fun `sanitize keeps the description property value if the abstractt property value does not match the start of the former`() {
+        val session = SessionNetworkModel(
+            sessionId = "",
+            abstractt = "Lorem ipsum",
+            description = "Dolor sit amet. Lorem ipsum.",
+        ).sanitize()
+        val expected = SessionNetworkModel(
+            sessionId = "",
+            abstractt = "Lorem ipsum",
+            description = "Dolor sit amet. Lorem ipsum.",
+        )
+        assertThat(session).isEqualTo(expected)
+    }
+
+    @Test
+    fun `sanitize trims the start of the description property value if the abstractt property value does match the start of the former`() {
+        val session = SessionNetworkModel(
+            sessionId = "",
+            abstractt = "Lorem ipsum.",
+            description = "Lorem ipsum. Dolor sit amet.",
+        ).sanitize()
+        val expected = SessionNetworkModel(
+            sessionId = "",
+            abstractt = "Lorem ipsum.",
+            description = "Dolor sit amet.",
+        )
+        assertThat(session).isEqualTo(expected)
+    }
+
+    @Test
     fun `sanitize moves the abstractt property value to the description property value if empty`() {
         val session = SessionNetworkModel(
             sessionId = "",
@@ -478,6 +508,31 @@ class SessionExtensionsTest {
             sessionId = "",
             track = "Workshop",
             type = "Workshop",
+        )
+        assertThat(session).isEqualTo(expected)
+    }
+
+    @Test
+    fun `sanitize trims each property value`() {
+        val session = SessionNetworkModel(
+            sessionId = "",
+            title = " My title ",
+            subtitle = " My subtitle ",
+            abstractt = " Lorem ipsum ",
+            description = " Dolor sit amet ",
+            track = "",
+            type = "Workshop",
+            language = " EN ",
+        ).sanitize()
+        val expected = SessionNetworkModel(
+            sessionId = "",
+            title = "My title",
+            subtitle = "My subtitle",
+            abstractt = "Lorem ipsum",
+            description = "Dolor sit amet",
+            track = "Workshop",
+            type = "Workshop",
+            language = "en",
         )
         assertThat(session).isEqualTo(expected)
     }

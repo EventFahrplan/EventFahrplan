@@ -553,7 +553,7 @@ class FahrplanFragment : Fragment(), MenuProvider, SessionViewEventsHandler {
     private fun onAlarmTimesIndexPicked(alarmTimesIndex: Int) {
         if (lastSelectedSession == null) {
             logging.e(LOG_TAG, "onAlarmTimesIndexPicked: session: null. alarmTimesIndex: $alarmTimesIndex")
-            throw NullPointerException("Session is null.")
+            throw MissingLastSelectedSessionException(alarmTimesIndex)
         } else {
             viewModel.addAlarm(lastSelectedSession!!, alarmTimesIndex)
             updateMenuItems()
@@ -684,3 +684,7 @@ class FahrplanFragment : Fragment(), MenuProvider, SessionViewEventsHandler {
     }
 
 }
+
+private class MissingLastSelectedSessionException(alarmTimesIndex: Int) : NullPointerException(
+    "Last selected session is null for alarm times index = $alarmTimesIndex."
+)

@@ -57,7 +57,7 @@
     <color name="schedule_change_on_dark">#F57C00</color>
     <color name="schedule_change_on_light">#E65100</color>
     <color name="schedule_change_new_on_dark">#689F38</color>
-    <color name="schedule_change_new_on_light">#33691E</color>
+    <color name="schedule_change_new_on_light">#27a22d</color>
     <color name="schedule_change_canceled_on_dark">#D32F2F</color>
     <color name="schedule_change_canceled_on_light">#B71C1C</color>
 

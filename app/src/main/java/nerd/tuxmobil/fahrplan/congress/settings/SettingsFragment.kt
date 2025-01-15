@@ -185,6 +185,10 @@ class SettingsFragment : PreferenceFragmentCompat() {
      * if none can be found. Uses [findPreference].
      */
     private fun <T : Preference> requirePreference(key: CharSequence): T = findPreference(key)
-        ?: throw NullPointerException("Cannot find preference for '$key' key.")
+        ?: throw MissingPreferenceException("$key")
 
 }
+
+private class MissingPreferenceException(key: String) : NullPointerException(
+    """Cannot find preference for "$key" key."""
+)

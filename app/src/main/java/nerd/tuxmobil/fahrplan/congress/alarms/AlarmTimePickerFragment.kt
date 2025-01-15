@@ -21,8 +21,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentResultListener
 import nerd.tuxmobil.fahrplan.congress.extensions.withArguments
 
-import java.lang.NullPointerException
-
 class AlarmTimePickerFragment : DialogFragment() {
 
     companion object {
@@ -87,7 +85,7 @@ class AlarmTimePickerFragment : DialogFragment() {
     private fun passBackAlarmTimesIndex() {
         val alarmTimesIndex = spinner.selectedItemPosition
         val requestKey = requireArguments().getString(REQUEST_KEY_BUNDLE_KEY)
-            ?: throw NullPointerException("Request key must be passed via fragment arguments.")
+            ?: throw MissingRequestKeyException()
         val result = bundleOf(
             ALARM_TIMES_INDEX_BUNDLE_KEY to alarmTimesIndex
         )
@@ -95,3 +93,7 @@ class AlarmTimePickerFragment : DialogFragment() {
     }
 
 }
+
+private class MissingRequestKeyException : NullPointerException(
+    "Request key must be passed via fragment arguments."
+)

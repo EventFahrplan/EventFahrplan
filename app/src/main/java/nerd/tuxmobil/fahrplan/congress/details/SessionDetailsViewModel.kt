@@ -189,7 +189,7 @@ internal class SessionDetailsViewModel(
 
     fun unfavorSession() {
         loadSelectedSession { session ->
-            val unfavoredSession = session.copy (
+            val unfavoredSession = session.copy(
                 isHighlight = false // Required: Update property because updateHighlight refers to its value!
             )
             repository.updateHighlight(unfavoredSession)
