@@ -26,6 +26,7 @@ import androidx.annotation.CallSuper
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import androidx.annotation.MainThread
+import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.core.view.MenuProvider
@@ -112,6 +113,7 @@ class SessionDetailsFragment : Fragment(), MenuProvider {
     private val viewModel: SessionDetailsViewModel by viewModels {
         SessionDetailsViewModelFactory(
             appRepository = appRepository,
+            resourceResolving = ResourceResolver(requireContext()),
             alarmServices = alarmServices,
             notificationHelper = notificationHelper,
             defaultEngelsystemRoomName = AppRepository.ENGELSYSTEM_ROOM_NAME,
@@ -261,6 +263,21 @@ class SessionDetailsFragment : Fragment(), MenuProvider {
             val intent = Intent(ACTION_REQUEST_SCHEDULE_EXACT_ALARM)
                 .setData("package:${BuildConfig.APPLICATION_ID}".toUri())
             scheduleExactAlarmsPermissionRequestLauncher.launch(intent)
+        }
+        viewModel.roomStateMessage.observe(viewLifecycleOwner) { stateMessage ->
+            updateRoomState(stateMessage)
+        }
+    }
+
+    private fun updateRoomState(stateMessage: String) {
+        val view = requireView()
+        val cardView = view.requireViewByIdCompat<CardView>(R.id.session_details_content_room_state_card_view)
+        if (BuildConfig.ENABLE_FOSDEM_ROOM_STATES) {
+            cardView.isVisible = true
+            val textView = view.requireViewByIdCompat<TextView>(R.id.session_details_content_room_state_view)
+            textView.text = stateMessage
+        } else {
+            cardView.isVisible = false
         }
     }
 

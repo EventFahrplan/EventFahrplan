@@ -20,15 +20,24 @@ import info.metadude.android.eventfahrplan.network.models.HttpHeader
 import info.metadude.android.eventfahrplan.network.repositories.RealScheduleNetworkRepository
 import info.metadude.android.eventfahrplan.network.repositories.ScheduleNetworkRepository
 import info.metadude.kotlin.library.engelsystem.models.Shift
+import info.metadude.kotlin.library.roomstates.base.Api
+import info.metadude.kotlin.library.roomstates.base.models.Room
+import info.metadude.kotlin.library.roomstates.repositories.RoomStatesRepository
+import info.metadude.kotlin.library.roomstates.repositories.simple.SimpleRoomStatesRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.onStart
 import nerd.tuxmobil.fahrplan.congress.BuildConfig
+import nerd.tuxmobil.fahrplan.congress.BuildConfig.ENABLE_FOSDEM_ROOM_STATES
+import nerd.tuxmobil.fahrplan.congress.BuildConfig.FOSDEM_ROOM_STATES_PATH
+import nerd.tuxmobil.fahrplan.congress.BuildConfig.FOSDEM_ROOM_STATES_URL
 import nerd.tuxmobil.fahrplan.congress.dataconverters.cropToDayRangesExtent
 import nerd.tuxmobil.fahrplan.congress.dataconverters.sanitize
 import nerd.tuxmobil.fahrplan.congress.dataconverters.shiftRoomIndicesOfMainSchedule
@@ -111,6 +120,7 @@ object AppRepository : SearchRepository {
     private lateinit var scheduleNetworkRepository: ScheduleNetworkRepository
     private lateinit var engelsystemNetworkRepository: EngelsystemNetworkRepository
     private lateinit var sharedPreferencesRepository: SharedPreferencesRepository
+    private lateinit var roomStatesRepository: RoomStatesRepository
     private lateinit var sessionsTransformer: SessionsTransformer
 
     private val mutableLoadScheduleState = MutableSharedFlow<LoadScheduleState>(
@@ -342,6 +352,29 @@ object AppRepository : SearchRepository {
             .flowOn(executionContext.database)
     }
 
+    private val refreshRoomStatesSignal = MutableSharedFlow<Unit>()
+
+    private fun refreshRoomStates() {
+        if (ENABLE_FOSDEM_ROOM_STATES) {
+            logging.d(LOG_TAG, "Refreshing room states ...")
+            val requestIdentifier = "refreshRoomStates"
+            parentJobs[requestIdentifier] = networkScope.launchNamed(requestIdentifier) {
+                refreshRoomStatesSignal.emit(Unit)
+            }
+        }
+    }
+
+    /**
+     * Emits the room states from the live network request.
+     */
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val roomStates: Flow<Result<List<Room>>> by lazy {
+        refreshRoomStatesSignal
+            .onStart { emit(Unit) }
+            .flatMapLatest { if (ENABLE_FOSDEM_ROOM_STATES) roomStatesRepository.getRooms() else emptyFlow() }
+            .flowOn(executionContext.network)
+    }
+
     fun initialize(
             context: Context,
             logging: Logging,
@@ -356,6 +389,12 @@ object AppRepository : SearchRepository {
             scheduleNetworkRepository: ScheduleNetworkRepository = RealScheduleNetworkRepository(logging),
             engelsystemNetworkRepository: EngelsystemNetworkRepository = RealEngelsystemNetworkRepository(),
             sharedPreferencesRepository: SharedPreferencesRepository = RealSharedPreferencesRepository(context),
+            roomStatesRepository: RoomStatesRepository = SimpleRoomStatesRepository(
+                url = FOSDEM_ROOM_STATES_URL,
+                path = FOSDEM_ROOM_STATES_PATH,
+                httpClient = okHttpClient,
+                api = Api,
+            ),
             sessionsTransformer: SessionsTransformer = SessionsTransformer.createSessionsTransformer()
     ) {
         this.logging = logging
@@ -370,6 +409,7 @@ object AppRepository : SearchRepository {
         this.scheduleNetworkRepository = scheduleNetworkRepository
         this.engelsystemNetworkRepository = engelsystemNetworkRepository
         this.sharedPreferencesRepository = sharedPreferencesRepository
+        this.roomStatesRepository = roomStatesRepository
         this.sessionsTransformer = sessionsTransformer
     }
 
@@ -724,6 +764,7 @@ object AppRepository : SearchRepository {
         alarmsDatabaseRepository.deleteAll().also {
             refreshAlarms()
             refreshSelectedSession()
+            refreshRoomStates()
             refreshUncanceledSessions()
         }
 
@@ -732,6 +773,7 @@ object AppRepository : SearchRepository {
         alarmsDatabaseRepository.deleteForSessionId(sessionId).also {
             refreshAlarms()
             refreshSelectedSession()
+            refreshRoomStates()
             refreshUncanceledSessions()
         }
 
@@ -742,6 +784,7 @@ object AppRepository : SearchRepository {
         alarmsDatabaseRepository.update(values, alarm.sessionId)
         refreshAlarms()
         refreshSelectedSession()
+        refreshRoomStates()
         refreshUncanceledSessions()
     }
 
@@ -755,6 +798,7 @@ object AppRepository : SearchRepository {
         highlightsDatabaseRepository.update(values, session.sessionId)
         refreshStarredSessions()
         refreshSelectedSession()
+        refreshRoomStates()
         refreshUncanceledSessions()
     }
 
@@ -763,6 +807,7 @@ object AppRepository : SearchRepository {
         highlightsDatabaseRepository.delete(sessionId)
         refreshStarredSessions()
         refreshSelectedSession()
+        refreshRoomStates()
         refreshUncanceledSessions()
     }
 
@@ -771,6 +816,7 @@ object AppRepository : SearchRepository {
         highlightsDatabaseRepository.deleteAll()
         refreshStarredSessions()
         refreshSelectedSession()
+        refreshRoomStates()
         refreshUncanceledSessions()
     }
 
@@ -824,6 +870,7 @@ object AppRepository : SearchRepository {
         }
         return isSet.also {
             refreshSelectedSession()
+            refreshRoomStates()
         }
     }
 
@@ -850,6 +897,7 @@ object AppRepository : SearchRepository {
         refreshSessionsWithoutShifts()
         refreshChangedSessions()
         refreshSelectedSession()
+        refreshRoomStates()
         refreshUncanceledSessions()
         refreshScheduleStatistic()
     }

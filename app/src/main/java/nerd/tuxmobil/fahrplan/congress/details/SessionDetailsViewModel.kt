@@ -5,16 +5,22 @@ import android.os.Build
 import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import info.metadude.android.eventfahrplan.commons.logging.Logging
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices
 import nerd.tuxmobil.fahrplan.congress.alarms.SessionAlarmViewModelDelegate
+import nerd.tuxmobil.fahrplan.congress.commons.BuildConfigProvision
 import nerd.tuxmobil.fahrplan.congress.commons.FormattingDelegate
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toRoom
 import nerd.tuxmobil.fahrplan.congress.models.Session
@@ -22,6 +28,7 @@ import nerd.tuxmobil.fahrplan.congress.navigation.IndoorNavigation
 import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.repositories.ExecutionContext
+import nerd.tuxmobil.fahrplan.congress.roomstates.RoomStateFormatting
 import nerd.tuxmobil.fahrplan.congress.sharing.JsonSessionFormat
 import nerd.tuxmobil.fahrplan.congress.sharing.SimpleSessionFormat
 import nerd.tuxmobil.fahrplan.congress.utils.FeedbackUrlComposer
@@ -35,6 +42,8 @@ internal class SessionDetailsViewModel(
 
     private val repository: AppRepository,
     private val executionContext: ExecutionContext,
+    private val logging: Logging,
+    buildConfigProvision: BuildConfigProvision,
     alarmServices: AlarmServices,
     notificationHelper: NotificationHelper,
     private val sessionPropertiesFormatter: SessionPropertiesFormatter,
@@ -45,11 +54,16 @@ internal class SessionDetailsViewModel(
     private val indoorNavigation: IndoorNavigation,
     private val markdownConversion: MarkdownConversion,
     private val formattingDelegate: FormattingDelegate,
+    private val roomStateFormatting: RoomStateFormatting,
     private val defaultEngelsystemRoomName: String,
     private val customEngelsystemRoomName: String,
     runsAtLeastOnAndroidTiramisu: Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
 
-) : ViewModel(), FormattingDelegate by formattingDelegate {
+) : ViewModel(), FormattingDelegate by formattingDelegate, RoomStateFormatting by roomStateFormatting {
+
+    private companion object {
+        const val LOG_TAG = "SessionDetailsViewModel"
+    }
 
     private var sessionAlarmViewModelDelegate: SessionAlarmViewModelDelegate =
         SessionAlarmViewModelDelegate(
@@ -100,6 +114,16 @@ internal class SessionDetailsViewModel(
 
     val showAlarmTimePicker = sessionAlarmViewModelDelegate
         .showAlarmTimePicker
+
+    // TODO Cover by tests
+    private val mutableRoomStateMessage = MutableStateFlow(roomStateFormatting.getText(null))
+    val roomStateMessage = mutableRoomStateMessage.asStateFlow()
+
+    init {
+        if (buildConfigProvision.enableFosdemRoomStates) {
+            updateRoomState()
+        }
+    }
 
     private fun SelectedSessionParameter.customizeEngelsystemRoomName() = copy(
         roomName = if (roomName == defaultEngelsystemRoomName) customEngelsystemRoomName else roomName
@@ -232,6 +256,23 @@ internal class SessionDetailsViewModel(
         launch {
             onSessionLoaded(repository.loadSelectedSession())
         }
+    }
+
+    private fun updateRoomState() {
+        combine(repository.selectedSession, repository.roomStates) { session, result ->
+            result
+                .onSuccess { rooms ->
+                    val state = rooms.singleOrNull { it.name.trim().equals(session.roomName, ignoreCase = true) }?.state
+                    if (state == null) {
+                        logging.e(LOG_TAG, """Error matching room names. Unknown room name: "${session.roomName}".""")
+                    }
+                    mutableRoomStateMessage.value = roomStateFormatting.getText(state)
+                }
+                .onFailure {
+                    logging.e(LOG_TAG, "Error fetching room states: $it")
+                    mutableRoomStateMessage.value = roomStateFormatting.getFailureText(it)
+                }
+        }.launchIn(viewModelScope)
     }
 
     private fun launch(block: suspend CoroutineScope.() -> Unit) {

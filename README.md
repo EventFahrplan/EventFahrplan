@@ -67,6 +67,7 @@ Please read the instructions in the [contribution guide](CONTRIBUTING.md) in ord
 * [c3nav][c3nav-github] - An indoor navigation project
 * [Engelsystem][engelsystem-website] - Online tool for coordinating helpers and shifts at large events
 * [Chaosflix][chaosflix-github] - Android app for media.ccc.de, share Fahrplan favorites with Chaosflix to import them as bookmarks
+* [FOSDEM room status][fosdem-room-status-website] - Current status (full/empty) of a room at FOSDEM
 
 
 ## Android versions
@@ -177,6 +178,7 @@ limitations under the License.
 [eventfahrplan-github]: https://github.com/EventFahrplan/EventFahrplan
 [frab-schedule-xml-spec]: https://github.com/voc/schedule/tree/master/validator/xsd
 [frab-website]: https://frab.github.io/frab/
+[fosdem-room-status-website]: https://api.fosdem.org
 [issues-github]: https://github.com/EventFahrplan/EventFahrplan/issues
 [johnjohndoe-github]: https://github.com/johnjohndoe
 [pentabarf-github]: https://github.com/nevs/pentabarf
