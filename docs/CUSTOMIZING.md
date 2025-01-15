@@ -81,6 +81,7 @@ The following options can be enabled via a `buildConfigField` and configured in 
   - Customize the name for the Engelsystem shifts via `engelsystem_shifts_alias`
   - Customize Engelsystem shifts JSON export URL hint via `preference_hint_engelsystem_json_export_url`
 - Feedback system via `SCHEDULE_FEEDBACK_URL`
+- FOSDEM room status via `ENABLE_FOSDEM_ROOM_STATUS`, `FOSDEM_ROOM_STATES_URL`, `FOSDEM_ROOM_STATES_PATH`
 
 ## 5. Optional engagements
 

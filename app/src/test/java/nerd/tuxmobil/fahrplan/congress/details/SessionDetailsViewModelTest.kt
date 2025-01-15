@@ -524,6 +524,8 @@ class SessionDetailsViewModelTest {
     ) = SessionDetailsViewModel(
         repository = repository,
         executionContext = TestExecutionContext,
+        logging = mock(),
+        buildConfigProvision = mock(),
         alarmServices = alarmServices,
         notificationHelper = notificationHelper,
         sessionPropertiesFormatter = sessionPropertiesFormatter,
@@ -534,6 +536,7 @@ class SessionDetailsViewModelTest {
         indoorNavigation = indoorNavigation,
         markdownConversion = markdownConversion,
         formattingDelegate = formattingDelegate,
+        roomStateFormatting = mock(),
         defaultEngelsystemRoomName = defaultEngelsystemRoomName,
         customEngelsystemRoomName = customEngelsystemRoomName,
         runsAtLeastOnAndroidTiramisu = runsAtLeastOnAndroidTiramisu

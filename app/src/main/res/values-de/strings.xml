@@ -295,4 +295,12 @@
     <string name="search_history_title">Letzte Suchen</string>
     <string name="search_history_clear">Löschen</string>
 
+    <!-- Room state -->
+    <string name="room_state_text">Raumstatus: <xliff:g example="Too full" id="state">%s</xliff:g></string>
+    <string name="room_state_unknown">unbekannt</string>
+    <string name="room_state_empty">leer</string>
+    <string name="room_state_full">voll</string>
+    <string name="room_state_too_full">zu voll</string>
+    <string name="room_state_not_retrievable">nicht abrufbar</string>
+
 </resources>

@@ -14,4 +14,5 @@ class BuildConfigProvider : BuildConfigProvision {
     override val fDroidUrl: String = BuildConfig.F_DROID_URL
     override val googlePlayUrl: String = BuildConfig.GOOGLE_PLAY_URL
     override val dataPrivacyStatementDeUrl: String = BuildConfig.DATA_PRIVACY_STATEMENT_DE_URL
+    override val enableFosdemRoomStates: Boolean = BuildConfig.ENABLE_FOSDEM_ROOM_STATES
 }

@@ -51,6 +51,9 @@ android {
         buildConfigField "boolean", "ENGAGE_GOOGLE_BETA_TESTING", "true"
         buildConfigField "boolean", "ENGAGE_GOOGLE_PLAY_RATING", "true"
         buildConfigField "boolean", "ENGAGE_LANDSCAPE_ORIENTATION", "true"
+        buildConfigField "boolean", "ENABLE_FOSDEM_ROOM_STATES", "false"
+        buildConfigField "String", "FOSDEM_ROOM_STATES_URL", '""'
+        buildConfigField "String", "FOSDEM_ROOM_STATES_PATH", '""'
     }
 
     buildFeatures {
@@ -206,6 +209,7 @@ dependencies {
     implementation Libs.okhttp
     implementation Libs.okhttpLoggingInterceptor
     implementation Libs.preference
+    implementation Libs.roomStates
     implementation Libs.snackengagePlayrate
     implementation Libs.tracedroid
 
