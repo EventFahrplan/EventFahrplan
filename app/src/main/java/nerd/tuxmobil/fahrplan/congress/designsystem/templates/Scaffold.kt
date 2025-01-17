@@ -8,10 +8,12 @@ import androidx.compose.material3.Scaffold as Material3Scaffold
 @Composable
 fun Scaffold(
     modifier: Modifier = Modifier,
+    topBar: @Composable () -> Unit = {},
     content: @Composable (PaddingValues) -> Unit,
 ) {
     Material3Scaffold(
         content = content,
         modifier = modifier,
+        topBar = topBar,
     )
 }
