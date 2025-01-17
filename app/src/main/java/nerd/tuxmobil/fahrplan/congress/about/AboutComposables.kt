@@ -8,9 +8,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
@@ -32,6 +29,9 @@ import nerd.tuxmobil.fahrplan.congress.commons.TextResource
 import nerd.tuxmobil.fahrplan.congress.commons.TextResource.Empty
 import nerd.tuxmobil.fahrplan.congress.commons.TextResource.Html
 import nerd.tuxmobil.fahrplan.congress.commons.TextResource.PostalAddress
+import nerd.tuxmobil.fahrplan.congress.designsystem.dividers.DividerHorizontal
+import nerd.tuxmobil.fahrplan.congress.designsystem.templates.Scaffold
+import nerd.tuxmobil.fahrplan.congress.designsystem.texts.Text
 import nerd.tuxmobil.fahrplan.congress.extensions.toTextUnit
 
 @Composable
@@ -244,7 +244,7 @@ private fun AboutText(
 
 @Composable
 private fun SectionDivider() {
-    HorizontalDivider(
+    DividerHorizontal(
         modifier = Modifier.padding(vertical = 12.dp),
         thickness = dimensionResource(R.dimen.about_horizontal_line_height)
     )
