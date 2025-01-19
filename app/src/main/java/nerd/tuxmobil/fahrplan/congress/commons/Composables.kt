@@ -177,6 +177,7 @@ fun ClickableText(
     if (textResource is Html && textResource.html.isNotEmpty()) {
         vertical = 4.dp
     }
+    // TODO Replace with EventFahrplanTheme.colors...
     val textColor = LocalContentColor.current
     val textLinkColor = colorResource(
         when (isSystemInDarkTheme()) { // TODO Move into theme

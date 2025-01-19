@@ -23,7 +23,6 @@ import nerd.tuxmobil.fahrplan.congress.BuildConfig
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.about.AboutViewEvent.OnPostalAddressClick
 import nerd.tuxmobil.fahrplan.congress.commons.ClickableText
-import nerd.tuxmobil.fahrplan.congress.commons.EventFahrplanTheme
 import nerd.tuxmobil.fahrplan.congress.commons.MultiDevicePreview
 import nerd.tuxmobil.fahrplan.congress.commons.TextResource
 import nerd.tuxmobil.fahrplan.congress.commons.TextResource.Empty
@@ -32,6 +31,7 @@ import nerd.tuxmobil.fahrplan.congress.commons.TextResource.PostalAddress
 import nerd.tuxmobil.fahrplan.congress.designsystem.dividers.DividerHorizontal
 import nerd.tuxmobil.fahrplan.congress.designsystem.templates.Scaffold
 import nerd.tuxmobil.fahrplan.congress.designsystem.texts.Text
+import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
 import nerd.tuxmobil.fahrplan.congress.extensions.toTextUnit
 
 @Composable

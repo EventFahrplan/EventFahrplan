@@ -21,7 +21,6 @@ import androidx.compose.ui.unit.sp
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmsState.Loading
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmsState.Success
-import nerd.tuxmobil.fahrplan.congress.commons.EventFahrplanTheme
 import nerd.tuxmobil.fahrplan.congress.commons.Loading
 import nerd.tuxmobil.fahrplan.congress.commons.MultiDevicePreview
 import nerd.tuxmobil.fahrplan.congress.commons.NoData
@@ -36,6 +35,7 @@ import nerd.tuxmobil.fahrplan.congress.designsystem.texts.Text
 import nerd.tuxmobil.fahrplan.congress.designsystem.texts.TextHeadlineContent
 import nerd.tuxmobil.fahrplan.congress.designsystem.texts.TextOverline
 import nerd.tuxmobil.fahrplan.congress.designsystem.texts.TextSupportingContent
+import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
 
 @Composable
 internal fun AlarmsScreen(
