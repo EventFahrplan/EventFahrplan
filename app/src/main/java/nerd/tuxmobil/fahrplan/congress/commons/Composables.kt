@@ -40,7 +40,6 @@ import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.commons.TextResource.Empty
 import nerd.tuxmobil.fahrplan.congress.commons.TextResource.Html
 import nerd.tuxmobil.fahrplan.congress.commons.TextResource.PostalAddress
-import nerd.tuxmobil.fahrplan.congress.designsystem.dividers.DividerHorizontal
 import nerd.tuxmobil.fahrplan.congress.designsystem.indicators.IndicatorCircularProgress
 import nerd.tuxmobil.fahrplan.congress.designsystem.texts.Text
 import nerd.tuxmobil.fahrplan.congress.extensions.toSpanned
@@ -221,26 +220,4 @@ private fun ClickableTextHtmlPreview() {
         textAlign = TextAlign.Center,
         onClick = {},
     )
-}
-
-@Composable
-fun DayDateSeparatorItem(text: String) {
-    Column(
-        Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 8.dp),
-    ) {
-        val color = colorResource(R.color.text_link_on_light)
-        Text(
-            color = color,
-            text = text.uppercase(),
-            fontSize = 13.sp,
-            fontWeight = Bold,
-        )
-        DividerHorizontal(thickness = 1.dp, color = color)
-    }
-}
-
-@Preview
-@Composable
-private fun DayDateSeparatorItemPreview() {
-    DayDateSeparatorItem("Day 1 - 31.02.2023")
 }
