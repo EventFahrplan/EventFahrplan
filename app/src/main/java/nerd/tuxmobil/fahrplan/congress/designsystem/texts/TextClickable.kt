@@ -1,4 +1,4 @@
-package nerd.tuxmobil.fahrplan.congress.commons
+package nerd.tuxmobil.fahrplan.congress.designsystem.texts
 
 import android.view.Gravity.CENTER
 import android.view.Gravity.START
@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import nerd.tuxmobil.fahrplan.congress.R
+import nerd.tuxmobil.fahrplan.congress.commons.TextResource
 import nerd.tuxmobil.fahrplan.congress.commons.TextResource.Empty
 import nerd.tuxmobil.fahrplan.congress.commons.TextResource.Html
 import nerd.tuxmobil.fahrplan.congress.commons.TextResource.PostalAddress
@@ -32,7 +33,7 @@ import nerd.tuxmobil.fahrplan.congress.extensions.toSpanned
 import nerd.tuxmobil.fahrplan.congress.utils.LinkMovementMethodCompat
 
 @Composable
-fun ClickableText(
+fun TextClickable(
     textResource: TextResource,
     fontSize: TextUnit,
     textAlign: TextAlign,
@@ -57,7 +58,7 @@ fun ClickableText(
         when (textResource) {
             Empty -> Unit
             is PostalAddress -> {
-                GenericClickableText(
+                TextClickableGeneric(
                     text = textResource.text,
                     plainUrl = textResource.text,
                     fontSize = fontSize,
@@ -87,7 +88,7 @@ fun ClickableText(
 }
 
 @Composable
-private fun GenericClickableText(
+private fun TextClickableGeneric(
     text: String,
     plainUrl: String,
     fontSize: TextUnit,
@@ -132,8 +133,8 @@ private fun GenericClickableText(
 
 @Preview
 @Composable
-private fun ClickableTextPostalAddressPreview() {
-    ClickableText(
+private fun TextClickablePostalAddressPreview() {
+    TextClickable(
         textResource = PostalAddress("Congressplatz 1, 20355 Hamburg"),
         fontSize = 18.sp,
         textAlign = TextAlign.Center,
@@ -143,8 +144,8 @@ private fun ClickableTextPostalAddressPreview() {
 
 @Preview
 @Composable
-private fun ClickableTextHtmlPreview() {
-    ClickableText(
+private fun TextClickableHtmlPreview() {
+    TextClickable(
         textResource = Html("""Design by <a href="https://eventfahrplan.eu">eventfahrplan.eu</a>"""),
         fontSize = 18.sp,
         textAlign = TextAlign.Center,
