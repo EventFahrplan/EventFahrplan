@@ -24,9 +24,9 @@ import nerd.tuxmobil.fahrplan.congress.alarms.AlarmsState.Success
 import nerd.tuxmobil.fahrplan.congress.commons.Loading
 import nerd.tuxmobil.fahrplan.congress.commons.MultiDevicePreview
 import nerd.tuxmobil.fahrplan.congress.commons.NoData
-import nerd.tuxmobil.fahrplan.congress.commons.SessionListHeader
 import nerd.tuxmobil.fahrplan.congress.designsystem.buttons.ButtonIcon
 import nerd.tuxmobil.fahrplan.congress.designsystem.dividers.DividerHorizontal
+import nerd.tuxmobil.fahrplan.congress.designsystem.headers.HeaderSessionList
 import nerd.tuxmobil.fahrplan.congress.designsystem.icons.IconBoxed
 import nerd.tuxmobil.fahrplan.congress.designsystem.icons.IconDecorative
 import nerd.tuxmobil.fahrplan.congress.designsystem.templates.ListItem
@@ -88,7 +88,7 @@ private fun SessionAlarmsList(
     LazyColumn(state = rememberLazyListState()) {
         if (showInSidePane) {
             item {
-                SessionListHeader(stringResource(R.string.reminders))
+                HeaderSessionList(stringResource(R.string.reminders))
             }
         }
         itemsIndexed(parameters) { index, item ->

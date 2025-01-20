@@ -40,10 +40,10 @@ import nerd.tuxmobil.fahrplan.congress.commons.DayDateSeparatorItem
 import nerd.tuxmobil.fahrplan.congress.commons.Loading
 import nerd.tuxmobil.fahrplan.congress.commons.MultiDevicePreview
 import nerd.tuxmobil.fahrplan.congress.commons.NoData
-import nerd.tuxmobil.fahrplan.congress.commons.SessionListHeader
 import nerd.tuxmobil.fahrplan.congress.commons.VideoRecordingState.Drawable.Available
 import nerd.tuxmobil.fahrplan.congress.commons.VideoRecordingState.Drawable.Unavailable
 import nerd.tuxmobil.fahrplan.congress.designsystem.dividers.DividerHorizontal
+import nerd.tuxmobil.fahrplan.congress.designsystem.headers.HeaderSessionList
 import nerd.tuxmobil.fahrplan.congress.designsystem.icons.IconVideoRecording
 import nerd.tuxmobil.fahrplan.congress.designsystem.templates.Scaffold
 import nerd.tuxmobil.fahrplan.congress.designsystem.texts.TextHeadlineContent
@@ -100,7 +100,7 @@ private fun SessionChangesList(
     LazyColumn(state = rememberLazyListState()) {
         if (showInSidePane) {
             item {
-                SessionListHeader(stringResource(R.string.schedule_changes))
+                HeaderSessionList(stringResource(R.string.schedule_changes))
             }
         }
         itemsIndexed(parameters) { index, parameter ->

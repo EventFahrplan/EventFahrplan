@@ -244,19 +244,3 @@ fun DayDateSeparatorItem(text: String) {
 private fun DayDateSeparatorItemPreview() {
     DayDateSeparatorItem("Day 1 - 31.02.2023")
 }
-
-@Composable
-fun SessionListHeader(text: String) {
-    Text(
-        modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp),
-        text = text,
-        fontWeight = Bold,
-        fontSize = 22.sp,
-    )
-}
-
-@Preview
-@Composable
-private fun SessionListHeaderScheduleChangesPreview() {
-    SessionListHeader(stringResource(R.string.schedule_changes))
-}
