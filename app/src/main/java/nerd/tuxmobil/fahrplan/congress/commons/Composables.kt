@@ -9,12 +9,9 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement.Center
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.ClickableText
-import androidx.compose.material.icons.Icons.AutoMirrored.Default
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -26,13 +23,10 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.contentDescription
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight.Companion.Bold
-import androidx.compose.ui.text.font.FontWeight.Companion.SemiBold
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration.Companion.Underline
 import androidx.compose.ui.text.withStyle
@@ -46,60 +40,12 @@ import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.commons.TextResource.Empty
 import nerd.tuxmobil.fahrplan.congress.commons.TextResource.Html
 import nerd.tuxmobil.fahrplan.congress.commons.TextResource.PostalAddress
-import nerd.tuxmobil.fahrplan.congress.designsystem.bars.TopAppBar
-import nerd.tuxmobil.fahrplan.congress.designsystem.buttons.ButtonIcon
 import nerd.tuxmobil.fahrplan.congress.designsystem.dividers.DividerHorizontal
-import nerd.tuxmobil.fahrplan.congress.designsystem.icons.IconDecorativeVector
 import nerd.tuxmobil.fahrplan.congress.designsystem.indicators.IndicatorCircularProgress
 import nerd.tuxmobil.fahrplan.congress.designsystem.texts.Text
 import nerd.tuxmobil.fahrplan.congress.extensions.toSpanned
 import nerd.tuxmobil.fahrplan.congress.extensions.toTextUnit
 import nerd.tuxmobil.fahrplan.congress.utils.LinkMovementMethodCompat
-
-@Composable
-fun TopBar(
-    title: String,
-    onBack: () -> Unit,
-    actions: @Composable RowScope.() -> Unit = {},
-) {
-    TopAppBar(
-        title = {
-            Text(
-                text = title,
-                fontSize = 19.sp,
-                fontWeight = SemiBold,
-                color = colorResource(R.color.text_primary),
-            )
-        },
-        navigationIcon = {
-            val backContentDescription = stringResource(R.string.navigate_back_content_description)
-            ButtonIcon(
-                modifier = Modifier.semantics {
-                    contentDescription = backContentDescription
-                },
-                onClick = { onBack() },
-            ) {
-                IconDecorativeVector(
-                    imageVector = Default.ArrowBack,
-                    tint = colorResource(R.color.text_primary),
-                )
-            }
-        },
-        actions = {
-            actions()
-        },
-    )
-}
-
-@Preview
-@Composable
-private fun TopBarPreview() {
-    TopBar(
-        title = "TopBar Title",
-        onBack = {},
-        actions = {},
-    )
-}
 
 @Composable
 fun Loading() {
