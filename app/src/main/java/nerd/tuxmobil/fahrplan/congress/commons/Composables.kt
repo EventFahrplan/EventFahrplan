@@ -5,12 +5,10 @@ import android.view.Gravity.START
 import android.widget.TextView
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
@@ -30,19 +28,8 @@ import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.commons.TextResource.Empty
 import nerd.tuxmobil.fahrplan.congress.commons.TextResource.Html
 import nerd.tuxmobil.fahrplan.congress.commons.TextResource.PostalAddress
-import nerd.tuxmobil.fahrplan.congress.designsystem.indicators.IndicatorCircularProgress
 import nerd.tuxmobil.fahrplan.congress.extensions.toSpanned
 import nerd.tuxmobil.fahrplan.congress.utils.LinkMovementMethodCompat
-
-@Composable
-fun Loading() {
-    Box(
-        Modifier.fillMaxSize(),
-        Alignment.Center
-    ) {
-        IndicatorCircularProgress()
-    }
-}
 
 @Composable
 fun ClickableText(
