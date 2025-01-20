@@ -23,12 +23,12 @@ import nerd.tuxmobil.fahrplan.congress.alarms.AlarmsState.Loading
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmsState.Success
 import nerd.tuxmobil.fahrplan.congress.commons.Loading
 import nerd.tuxmobil.fahrplan.congress.commons.MultiDevicePreview
-import nerd.tuxmobil.fahrplan.congress.commons.NoData
 import nerd.tuxmobil.fahrplan.congress.designsystem.buttons.ButtonIcon
 import nerd.tuxmobil.fahrplan.congress.designsystem.dividers.DividerHorizontal
 import nerd.tuxmobil.fahrplan.congress.designsystem.headers.HeaderSessionList
 import nerd.tuxmobil.fahrplan.congress.designsystem.icons.IconBoxed
 import nerd.tuxmobil.fahrplan.congress.designsystem.icons.IconDecorative
+import nerd.tuxmobil.fahrplan.congress.designsystem.screenstates.NoData
 import nerd.tuxmobil.fahrplan.congress.designsystem.templates.ListItem
 import nerd.tuxmobil.fahrplan.congress.designsystem.templates.Scaffold
 import nerd.tuxmobil.fahrplan.congress.designsystem.texts.Text

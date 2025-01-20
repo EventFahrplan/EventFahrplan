@@ -28,10 +28,10 @@ import info.metadude.android.eventfahrplan.database.models.ColumnStatistic
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.commons.Loading
 import nerd.tuxmobil.fahrplan.congress.commons.MultiDevicePreview
-import nerd.tuxmobil.fahrplan.congress.commons.NoData
 import nerd.tuxmobil.fahrplan.congress.designsystem.bars.TopBar
 import nerd.tuxmobil.fahrplan.congress.designsystem.buttons.ButtonIcon
 import nerd.tuxmobil.fahrplan.congress.designsystem.icons.IconActionable
+import nerd.tuxmobil.fahrplan.congress.designsystem.screenstates.NoData
 import nerd.tuxmobil.fahrplan.congress.designsystem.templates.Scaffold
 import nerd.tuxmobil.fahrplan.congress.designsystem.texts.Text
 import nerd.tuxmobil.fahrplan.congress.designsystem.texts.TextTableHeader

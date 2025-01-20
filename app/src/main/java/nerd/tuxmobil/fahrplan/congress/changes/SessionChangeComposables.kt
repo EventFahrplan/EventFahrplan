@@ -38,13 +38,13 @@ import nerd.tuxmobil.fahrplan.congress.changes.SessionChangeState.Success
 import nerd.tuxmobil.fahrplan.congress.changes.SessionChangeViewEvent.OnSessionChangeItemClick
 import nerd.tuxmobil.fahrplan.congress.commons.Loading
 import nerd.tuxmobil.fahrplan.congress.commons.MultiDevicePreview
-import nerd.tuxmobil.fahrplan.congress.commons.NoData
 import nerd.tuxmobil.fahrplan.congress.commons.VideoRecordingState.Drawable.Available
 import nerd.tuxmobil.fahrplan.congress.commons.VideoRecordingState.Drawable.Unavailable
 import nerd.tuxmobil.fahrplan.congress.designsystem.dividers.DividerHorizontal
 import nerd.tuxmobil.fahrplan.congress.designsystem.headers.HeaderDayDate
 import nerd.tuxmobil.fahrplan.congress.designsystem.headers.HeaderSessionList
 import nerd.tuxmobil.fahrplan.congress.designsystem.icons.IconVideoRecording
+import nerd.tuxmobil.fahrplan.congress.designsystem.screenstates.NoData
 import nerd.tuxmobil.fahrplan.congress.designsystem.templates.Scaffold
 import nerd.tuxmobil.fahrplan.congress.designsystem.texts.TextHeadlineContent
 import nerd.tuxmobil.fahrplan.congress.designsystem.texts.TextSupportingContent

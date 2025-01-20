@@ -32,12 +32,12 @@ import androidx.compose.ui.unit.dp
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.commons.Loading
 import nerd.tuxmobil.fahrplan.congress.commons.MultiDevicePreview
-import nerd.tuxmobil.fahrplan.congress.commons.NoData
 import nerd.tuxmobil.fahrplan.congress.designsystem.buttons.ButtonIcon
 import nerd.tuxmobil.fahrplan.congress.designsystem.buttons.ButtonOutlined
 import nerd.tuxmobil.fahrplan.congress.designsystem.dividers.DividerHorizontal
 import nerd.tuxmobil.fahrplan.congress.designsystem.icons.IconDecorative
 import nerd.tuxmobil.fahrplan.congress.designsystem.icons.IconDecorativeVector
+import nerd.tuxmobil.fahrplan.congress.designsystem.screenstates.NoData
 import nerd.tuxmobil.fahrplan.congress.designsystem.search.InputField
 import nerd.tuxmobil.fahrplan.congress.designsystem.search.SearchBar
 import nerd.tuxmobil.fahrplan.congress.designsystem.templates.ListItem
