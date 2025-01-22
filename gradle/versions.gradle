@@ -11,6 +11,6 @@ dependencyUpdates {
         return !stableKeyword && !(version ==~ regex)
     }
     rejectVersionIf {
-        return isNonStable(it.candidate.version)
+        return isNonStable(it.candidate.version) && !isNonStable(it.currentVersion)
     }
 }

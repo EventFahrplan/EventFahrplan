@@ -1,6 +1,8 @@
 package nerd.tuxmobil.fahrplan.congress.schedule
 
 import android.content.Context
+import android.content.res.Resources.NotFoundException
+import android.util.TypedValue.COMPLEX_UNIT_PX
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -71,8 +73,8 @@ internal class SessionViewDrawer(
         }
         ViewCompat.setStateDescription(sessionView, contentDescriptionFormatter
             .getStateContentDescription(session, useDeviceTimeZone))
-        setSessionBackground(session.highlight, session.track, sessionView)
-        setSessionTextColor(session.highlight, sessionView)
+        setSessionBackground(session.isHighlight, session.track, sessionView)
+        setSessionTextColor(session.isHighlight, sessionView)
         sessionView.tag = session
     }
 
@@ -83,7 +85,11 @@ internal class SessionViewDrawer(
         } else {
             trackNameBackgroundColorDefaultPairs[track] ?: R.color.track_background_default
         }
-        @ColorInt val backgroundColor = ContextCompat.getColor(context, backgroundColorResId)
+        @ColorInt val backgroundColor = try {
+            ContextCompat.getColor(context, backgroundColorResId)
+        } catch (e: NotFoundException) {
+            throw MissingTrackColorException(track)
+        }
         val sessionDrawable = if (isFavored && isAlternativeHighlightingEnabled()) {
             SessionDrawable(
                     backgroundColor,
@@ -107,9 +113,10 @@ internal class SessionViewDrawer(
                 sessionDrawableInsetTop,
                 sessionDrawableInsetRight,
                 0)
-        ViewCompat.setBackground(sessionView, sessionDrawable)
+        sessionView.background = sessionDrawable
         val padding = getSessionPadding()
-        sessionView.setPadding(padding, padding, padding, padding)
+        val verticalPadding = (padding * 0.3).toInt()
+        sessionView.setPadding(padding, verticalPadding, padding, verticalPadding)
     }
 
     companion object {
@@ -125,10 +132,20 @@ internal class SessionViewDrawer(
             else
                 R.color.session_item_text_on_default_background
             val textColor = ContextCompat.getColor(view.context, colorResId)
+            val resources = view.resources
+            title.setTextSize(COMPLEX_UNIT_PX, resources.getDimension(R.dimen.session_drawable_title))
             title.setTextColor(textColor)
+            subtitle.setTextSize(COMPLEX_UNIT_PX, resources.getDimension(R.dimen.session_drawable_subtitle))
             subtitle.setTextColor(textColor)
+            speakers.setTextSize(COMPLEX_UNIT_PX, resources.getDimension(R.dimen.session_drawable_speakers))
             speakers.setTextColor(textColor)
+            track.setTextSize(COMPLEX_UNIT_PX, resources.getDimension(R.dimen.session_drawable_track))
             track.setTextColor(textColor)
         }
     }
 }
+
+private class MissingTrackColorException(trackName: String) : NotFoundException(
+    """Missing color for track "$trackName". Entries in track_resource_names.xml
+        | must be present in track_background_* colors.""".trimMargin()
+)

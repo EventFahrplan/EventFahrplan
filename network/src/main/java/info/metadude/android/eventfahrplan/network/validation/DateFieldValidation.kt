@@ -16,11 +16,7 @@ internal class DateFieldValidation(
         const val LOG_TAG = "DateFieldValidation"
     }
 
-    private val validationErrors: MutableList<ValidationError>
-
-    init {
-        validationErrors = ArrayList()
-    }
+    private val validationErrors: MutableList<ValidationError> = ArrayList()
 
     fun printValidationErrors() {
         for (validationError in validationErrors) {
@@ -29,8 +25,8 @@ internal class DateFieldValidation(
     }
 
     /**
-     * Returns true if the timestamps in the [Session.date] fields of each session are within a valid time range.
-     * The time range is defined by the [Session.date] fields of first and last session (which are sorted by [Session.dateUTC]).
+     * Returns true if the timestamps in the [Session.dateText] fields of each session are within a valid time range.
+     * The time range is defined by the [Session.dateText] fields of first and last session (which are sorted by [Session.dateUTC]).
      */
     fun validate(sessions: List<Session>): Boolean {
         val sortedSessions = sessions.sortedBy { it.dateUTC }
@@ -39,8 +35,8 @@ internal class DateFieldValidation(
             return true
         }
 
-        val firstDateString = sortedSessions[0].date
-        val lastDateString = sortedSessions.last().date
+        val firstDateString = sortedSessions[0].dateText
+        val lastDateString = sortedSessions.last().dateText
         val range = DayRange(Moment.parseDate(firstDateString), Moment.parseDate(lastDateString))
 
         // Check if the time stamp in <date> is within the time range (first : last day)

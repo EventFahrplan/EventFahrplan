@@ -36,6 +36,7 @@ Please read the instructions in the [contribution guide](CONTRIBUTING.md) in ord
 * View program by day and rooms (side by side)
 * Custom grid layout for smartphones (**try landscape mode**) and tablets
 * Read detailed descriptions (speaker names, start time, room name, links, ...) of events
+* Search through all events
 * Add events to favorites list
 * Export favorites list
 * Setup alarms for individual events
@@ -57,7 +58,8 @@ Please read the instructions in the [contribution guide](CONTRIBUTING.md) in ord
 - Japanese 🇯🇵
 - Lithuanian 🇱🇹
 - Polish 🇵🇱
-- Portuguese 🇵🇹
+- Portuguese, Brazil 🇧🇷
+- Portuguese, Portugal 🇵🇹
 - Russian 🇷🇺
 - Spanish 🇪🇸
 - Swedish 🇸🇪
@@ -124,7 +126,6 @@ schedule for thousands of users.
 started to re-deploy the app for other events like FOSSGIS, FrOSCon, MRMCD and
 other conferences.
 * In August 2017 the project moved to a new location and was renamed to
-["EventFahrplan"][eventfahrplan-github] to acknowledge its broader use.
   ["EventFahrplan"][eventfahrplan-github] to acknowledge its broader usage.
 * In 2022 the project was forked to be used for the Grazer Linuxtage.
 
@@ -145,19 +146,20 @@ Portions Copyright 2008-2011 The K-9 Dog Walkers and 2006-2011 the Android Open 
 
 
 ```
-Copyright 2013-2024 johnjohndoe
+Copyright 2013-2025 johnjohndoe
 Copyright 2011-2015 Daniel Dorau
 Contributions from 0x5ubt13, Adriano Pereira Junior, Akarsh Seggemu,
-Александр Рознятовский, aligoush, Andrea Marziali, Andy Scherzinger,
+Александр Рознятовский, aligoush, Andrea Marziali, Andrulko, Andy Scherzinger,
 Andreas Schildbach, Animesh Verma, bashtian, bjoernb, Björn Olsson Jarl,
 ButterflyOfFire, cacarrara, Caio Volpato, Chase, cketti, codingcatgirl,
 Dominik Stadler, entropynil, erebion, ideadapt, isi_ko404, IsoLinearCHiP,
 Jasper van der Graaf, Joergi, Julius Vitkauskas, koelnkalkverbot, Larissa Yasin,
 lepawa, ligi, lucadelu, Luis Azcuaga, María Arias de Reyna, Mateus Baptista,
 Matthias Geisler, Matthias Hunstock, Matthias Mair, MichaelRocks, Miguel Beltran,
-mtpa, Nghiem Xuan Hien, NiciDieNase, Noemis, Omicron, Poschi, Qwertele,
-Róbert Papp,rotrot, Sjors van Mierlo, Stefan Medack, SubOptimal, taseret,
-Teeranai.P, Torsten Grote, Victor Herasme, Vladimir Alabov, Yanicka
+mtpa, Muha Aliss, Nghiem Xuan Hien, NiciDieNase, Noemis, Oguz Yuksel, Omicron,
+ozgurbaykal, Poschi, Qwertele, Róbert Papp, rotrot, Sjors van Mierlo, Smarzaro,
+Stefan Medack, SubOptimal, Su Jade, taseret, Teeranai.P, Torsten Grote,
+Victor Herasme, Vladimir Alabov, Yanicka, zadintuvas
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

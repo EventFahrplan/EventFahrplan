@@ -5,7 +5,7 @@
     <string name="menu_item_title_about">Info</string>
     <string name="menu_item_title_add_to_calendar">Add to calendar</string>
     <string name="menu_item_title_alarms">Alarms</string>
-    <string name="menu_item_title_close_session_details">Close event details</string>
+    <string name="menu_item_title_close_session_details">Close session details</string>
     <string name="menu_item_title_flag_as_favorite">Add to favorites</string>
     <string name="menu_item_title_unflag_as_favorite">Remove from favorites</string>
     <string name="menu_item_title_delete_favorite">Delete</string>
@@ -17,8 +17,9 @@
     <string name="menu_item_title_navigate">Navigate</string>
     <string name="menu_item_title_refresh">Refresh</string>
     <string name="menu_item_title_schedule_changes" translatable="false">@string/schedule_changes</string>
+    <string name="menu_item_title_search" translatable="false">@string/search_title</string>
     <string name="menu_item_title_settings" translatable="false">@string/settings</string>
-    <string name="menu_item_title_share_session">Share event</string>
+    <string name="menu_item_title_share_session">Share session</string>
     <string name="menu_item_title_share_favorites">Share favorites</string>
     <string name="menu_item_title_share_session_text">as text</string>
     <string name="menu_item_title_share_session_json">as JSON (for Chaosflix)</string>
@@ -58,8 +59,8 @@
     <!-- Schedule changes dialog -->
     <string name="schedule_changes_dialog_title">Schedule update</string>
     <string name="schedule_changes_dialog_updated_to_text">The schedule has been updated to\u0020</string>
-    <string name="schedule_changes_dialog_changed_new_cancelled_text">. There are changes in <xliff:g example="3 lectures" id="num_changes">%1$s</xliff:g>, <xliff:g example="2 are" id="num_new">%2$s</xliff:g> <xliff:g example="new" id="phrase_new">%3$s</xliff:g>, <xliff:g example="1 is" id="num_canceled">%4$s</xliff:g> <xliff:g example="cancelled" id="phrase_cancelled">%5$s</xliff:g>.</string>
-    <string name="schedule_changes_dialog_affected_text">The changes affect <xliff:g example="2" id="num_marked">%1$d</xliff:g> of your favored lectures.</string>
+    <string name="schedule_changes_dialog_changed_new_cancelled_text">. There are changes in <xliff:g example="3 sessions" id="num_changes">%1$s</xliff:g>, <xliff:g example="2 are" id="num_new">%2$s</xliff:g> <xliff:g example="new" id="phrase_new">%3$s</xliff:g>, <xliff:g example="1 is" id="num_canceled">%4$s</xliff:g> <xliff:g example="cancelled" id="phrase_cancelled">%5$s</xliff:g>.</string>
+    <string name="schedule_changes_dialog_affected_text">The changes affect <xliff:g example="2" id="num_marked">%1$d</xliff:g> of your favored sessions.</string>
     <plurals name="schedule_changes_dialog_phrase_new">
         <item quantity="other">new</item>
     </plurals>
@@ -67,8 +68,8 @@
         <item quantity="other">cancelled</item>
     </plurals>
     <plurals name="schedule_changes_dialog_number_of_sessions">
-        <item quantity="one"><xliff:g example="1" id="count">%d</xliff:g> lecture</item>
-        <item quantity="other"><xliff:g example="9" id="count">%d</xliff:g> lectures</item>
+        <item quantity="one"><xliff:g example="1" id="count">%d</xliff:g> session</item>
+        <item quantity="other"><xliff:g example="9" id="count">%d</xliff:g> sessions</item>
     </plurals>
     <plurals name="schedule_changes_dialog_being">
         <item quantity="one"><xliff:g example="1" id="count">%d</xliff:g> is</item>
@@ -77,12 +78,15 @@
     <string name="schedule_changes_dialog_browse">Browse</string>
     <string name="schedule_changes_dialog_later">Later</string>
 
+    <string name="navigate_back_content_description">Back</string>
     <string name="progress_loading_data">Get schedule &#8230;</string>
     <string name="progress_processing_data">Processing schedule &#8230;</string>
     <string name="load_data">Load</string>
     <string name="choose_day">Choose day</string>
     <string name="day">Day</string>
     <string name="fahrplan">Schedule</string>
+    <string name="schedule_no_schedule_data_title">No schedule to display yet</string>
+    <string name="schedule_no_schedule_data_subtitle">Please come back later</string>
     <string name="appVersion">App Version <xliff:g example="1.40.2" id="appVersion">%s</xliff:g></string>
     <string name="schedule_updated_to">
         Updated to <xliff:g example="Mildenberg 2018-01-16 16:50" id="version">%s</xliff:g>
@@ -99,7 +103,7 @@
     <string name="session_details_section_title_links">Links</string>
     <string name="choose_alarm_time">Choose alarm time</string>
     <string name="reminders">Alarms</string>
-    <string name="usage">Note:\n\nLong-press on a lecture to set an alarm.</string>
+    <string name="usage">Note:\n\nLong-press on a session to set an alarm.</string>
     <string name="about_libraries_statement">
         This application uses the following libraries: <xliff:g example="Kotlin, Espresso" id="libs">%s</xliff:g>
     </string>
@@ -115,9 +119,9 @@
     <string name="about_source_code">Source code</string>
     <string name="about_translation_platform">Translation platform</string>
     <string name="copyright_notes" translatable="false">
-        Copyright 2013-2024 johnjohndoe.
+        Copyright 2013-2025 johnjohndoe.
         \nCopyright 2011-2015 Daniel Dorau.
-        \n\nContributions from 0x5ubt13, Adriano Pereira Junior, Akarsh Seggemu, Александр Рознятовский, aligoush, Andrea Marziali, Andy Scherzinger, Andreas Schildbach, Animesh Verma, bashtian, bjoernb, Björn Olsson Jarl, ButterflyOfFire, cacarrara, Caio Volpato, Chase, cketti, codingcatgirl, Dominik Stadler, entropynil, erebion, ideadapt, isi_ko404, IsoLinearCHiP, Jasper van der Graaf, Joergi, Julius Vitkauskas, koelnkalkverbot, Larissa Yasin, lepawa, ligi, lucadelu, Luis Azcuaga, María Arias de Reyna, Mateus Baptista, Matthias Geisler, Matthias Hunstock, Matthias Mair, MichaelRocks, Miguel Beltran, mtpa, Nghiem Xuan Hien, NiciDieNase, Noemis, Omicron, Poschi, Qwertele, Róbert Papp, rotrot, Sjors van Mierlo, Stefan Medack, SubOptimal, taseret, Teeranai.P, Torsten Grote, Victor Herasme, Vladimir Alabov, Yanicka.
+        \n\nContributions from 0x5ubt13, Adriano Pereira Junior, Akarsh Seggemu, Александр Рознятовский, aligoush, Andrea Marziali, Andrulko, Andy Scherzinger, Andreas Schildbach, Animesh Verma, bashtian, bjoernb, Björn Olsson Jarl, ButterflyOfFire, cacarrara, Caio Volpato, Chase, cketti, codingcatgirl, Dominik Stadler, entropynil, erebion, ideadapt, isi_ko404, IsoLinearCHiP, Jasper van der Graaf, Joergi, Julius Vitkauskas, koelnkalkverbot, Larissa Yasin, lepawa, ligi, lucadelu, Luis Azcuaga, María Arias de Reyna, Mateus Baptista, Matthias Geisler, Matthias Hunstock, Matthias Mair, MichaelRocks, Miguel Beltran, mtpa, Muha Aliss, Nghiem Xuan Hien, NiciDieNase, Noemis, Oguz Yuksel, Omicron, ozgurbaykal, Poschi, Qwertele, Róbert Papp, rotrot, Sjors van Mierlo, Smarzaro, Stefan Medack, SubOptimal, Su Jade, taseret, Teeranai.P, Torsten Grote, Victor Herasme, Vladimir Alabov, Yanicka, zadintuvas.
         \n\nPortions copyright 2008-2011 The K-9 Dog Walkers and 2006-2013 the Android Open Source Project.
     </string>
     <string name="today">today</string>
@@ -126,9 +130,11 @@
     <string name="engelsystem_shifts_parsing_error_generic">Unknown error while parsing <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g> shifts</string>
     <string name="engelsystem_shifts_parsing_error_forbidden">Invalid API key for <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g> shifts</string>
     <string name="engelsystem_shifts_parsing_error_not_found">Wrong URL for <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g> shifts</string>
-    <string name="add_to_calendar_failed">Adding event to calendar failed.</string>
-    <string name="no_changes">No schedule changes</string>
-    <string name="no_favorites">No favorite lectures</string>
+    <string name="add_to_calendar_failed">Adding session to calendar failed.</string>
+    <string name="schedule_changes_no_changes_title">No schedule changes</string>
+    <string name="schedule_changes_no_changes_subtitle">The app regularly checks for updates</string>
+    <string name="favorites_no_favorites_title">No favorite sessions</string>
+    <string name="favorites_no_favorites_subtitle">Tap on the star in the menu bar to set a favorite</string>
     <string name="schedule_changes">Schedule changes</string>
 
     <string name="dash" translatable="false"><xliff:g id="dash">—</xliff:g></string>
@@ -136,7 +142,7 @@
     <string name="general_settings">General</string>
     <string name="starred_sessions">Favorites</string>
     <string name="invalid_url">Invalid URL</string>
-    <string name="choose_to_delete">Select lectures</string>
+    <string name="choose_to_delete">Select sessions</string>
     <string name="day_separator">Day <xliff:g example="2" id="day_of_congress">%1$d</xliff:g> - <xliff:g example="29.12.2014" id="date_of_congress_day">%2$s</xliff:g></string>
     <string name="dlg_delete_all_favorites">Delete all favorites?</string>
     <string name="dlg_delete_all_favorites_delete_all">Delete all</string>
@@ -202,18 +208,18 @@
 
     <!-- Notifications -->
     <string name="notifications_session_alarm_channel_description">
-        Alarms created by the user for various events.
+        Alarms created by the user for various sessions.
     </string>
-    <string name="notifications_session_alarm_channel_name">Alarms for events</string>
-    <string name="notifications_session_alarm_content_text">Alarm for event</string>
+    <string name="notifications_session_alarm_channel_name">Alarms for sessions</string>
+    <string name="notifications_session_alarm_content_text">Alarm for session</string>
     <string name="notifications_session_alarm_content_title" translatable="false">@string/app_name</string>
     <string name="notifications_schedule_update_channel_description">
         Automatic updates of the schedule which can be configured in the app settings.
     </string>
     <string name="notifications_schedule_update_channel_name">Schedule updates</string>
     <plurals name="notifications_schedule_changes">
-        <item quantity="one"><xliff:g example="1" id="count">%d</xliff:g> lecture has changed.</item>
-        <item quantity="other"><xliff:g example="3" id="count">%d</xliff:g> lectures have been changed.</item>
+        <item quantity="one"><xliff:g example="1" id="count">%d</xliff:g> session has changed.</item>
+        <item quantity="other"><xliff:g example="3" id="count">%d</xliff:g> sessions have been changed.</item>
     </plurals>
 
     <!-- Schedule refresh interval picker -->
@@ -256,8 +262,8 @@
     <string name="session_list_item_no_video_content_description">Without video recording</string>
     <string name="session_list_item_video_content_description">With video recording</string>
     <string name="session_list_item_without_video_content_description">Without video recording</string>
+    <string name="session_list_item_zero_speakers_content_description">No speakers</string>
     <plurals name="session_list_item_speakers_content_description">
-        <item quantity="zero">No speakers</item>
         <item quantity="one">Speaker: <xliff:g example="Jane Doe" id="name">%s</xliff:g></item>
         <item quantity="other">Speakers: <xliff:g example="Jane Doe, John Doe" id="names">%s</xliff:g></item>
     </plurals>
@@ -267,10 +273,11 @@
     <string name="session_item_has_alarm_content_description">has alarm set</string>
 
     <!-- Alarms -->
-    <string name="alarms_empty">
-        There are no alarms to display. Please note that you
-        can set up an individual alarm for each session in the schedule.
-        To do so tap the alarm icon in the menu bar of the session screen.
+    <string name="alarms_no_alarms_title">
+        No alarms set
+    </string>
+    <string name="alarms_no_alarms_subtitle">
+        Tap on the bell icon in the menu bar to set an alarm
     </string>
     <string name="alarms_item_on_click_label">
         Open details screen
@@ -301,5 +308,33 @@
     <string name="validation_error_url_without_api_key">
         <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL without API key.
     </string>
+
+    <!-- Schedule statistic -->
+    <string name="schedule_statistic_no_statistic_data_title">No schedule statistic available yet</string>
+    <string name="schedule_statistic_no_statistic_data_subtitle" translatable="false">@string/schedule_no_schedule_data_subtitle</string>
+    <string name="schedule_statistic_title">Schedule statistic</string>
+    <string name="schedule_statistic_description">Shows the distribution of null or empty and non-empty fields in the \"sessions\" database table.</string>
+    <string name="schedule_statistic_toggle_sorting">Toggle sorting</string>
+    <string name="schedule_statistic_column_name">Column name</string>
+    <string name="schedule_statistic_null_empty">null/empty</string>
+    <string name="schedule_statistic_null_empty_content_description">null or empty</string>
+    <string name="schedule_statistic_non_empty">non-empty</string>
+
+    <!-- Search -->
+    <string name="search_title">Search</string>
+    <string name="search_no_search_result_title">No sessions found</string>
+    <string name="search_no_search_result_subtitle">Try refining your search</string>
+    <string name="search_query_hint">Search for sessions</string>
+    <string name="search_clear_search_query_content_description">Clear search</string>
+    <string name="search_history_title">Recent searches</string>
+    <string name="search_history_clear">Clear</string>
+
+    <!-- Room state -->
+    <string name="room_state_text">Room state: <xliff:g example="Too full" id="state">%s</xliff:g></string>
+    <string name="room_state_unknown">unknown</string>
+    <string name="room_state_empty">empty</string>
+    <string name="room_state_full">full</string>
+    <string name="room_state_too_full">too full</string>
+    <string name="room_state_not_retrievable">not retrievable</string>
 
 </resources>

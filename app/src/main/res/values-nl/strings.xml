@@ -91,8 +91,8 @@
     <string name="engelsystem_shifts_parsing_error_forbidden">Invalide API sleutel voor <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g> tijden</string>
     <string name="engelsystem_shifts_parsing_error_not_found">Verkeerde URL voor <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g> tijden</string>
     <string name="add_to_calendar_failed">Evenement toevoegen aan kalender is mislukt.</string>
-    <string name="no_changes">Geen tijdschema veranderingen</string>
-    <string name="no_favorites">Geen favorieten evenementen</string>
+    <string name="schedule_changes_no_changes_title">Geen tijdschema veranderingen</string>
+    <string name="favorites_no_favorites_title">Geen favorieten evenementen</string>
     <string name="schedule_changes">Tijdschema veranderingen</string>
     <string name="general_settings">Algemeen</string>
     <string name="starred_sessions">Favorieten</string>

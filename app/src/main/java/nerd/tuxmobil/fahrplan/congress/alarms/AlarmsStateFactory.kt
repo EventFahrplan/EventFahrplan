@@ -1,41 +1,16 @@
 package nerd.tuxmobil.fahrplan.congress.alarms
 
-import info.metadude.android.eventfahrplan.commons.temporal.DateFormatter
 import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MILLISECONDS_OF_ONE_MINUTE
 import nerd.tuxmobil.fahrplan.congress.R
+import nerd.tuxmobil.fahrplan.congress.commons.FormattingDelegate
 import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolving
 import nerd.tuxmobil.fahrplan.congress.models.Alarm
 import nerd.tuxmobil.fahrplan.congress.models.Session
-import org.threeten.bp.ZoneOffset
 
 class AlarmsStateFactory(
     private val resourceResolving: ResourceResolving,
-    private val formattingDelegate: FormattingDelegate = DateFormatterDelegate,
-) {
-    /**
-     * Delegate to get a formatted date/time.
-     */
-    fun interface FormattingDelegate {
-        fun getFormattedDateTimeShort(
-            useDeviceTimeZone: Boolean,
-            alarmTime: Long,
-            timeZoneOffset: ZoneOffset?,
-        ): String
-    }
-
-    /**
-     * [DateFormatter] delegate to handle calls to get a formatted date/time.
-     * Do not introduce any business logic here because this class is not unit tested.
-     */
-    @Suppress("kotlin:S6516")
-    private object DateFormatterDelegate : FormattingDelegate {
-        override fun getFormattedDateTimeShort(
-            useDeviceTimeZone: Boolean,
-            alarmTime: Long,
-            timeZoneOffset: ZoneOffset?,
-        ) = DateFormatter.newInstance(useDeviceTimeZone)
-            .getFormattedDateTimeLong(alarmTime, timeZoneOffset)
-    }
+    private val formattingDelegate: FormattingDelegate,
+) : FormattingDelegate by formattingDelegate {
 
     fun createAlarmsState(
         alarms: List<Alarm>,
@@ -62,7 +37,7 @@ class AlarmsStateFactory(
                         alarmOffset
                     )
                 }
-                val firesAtText = formattingDelegate.getFormattedDateTimeShort(
+                val firesAtText = formattingDelegate.getFormattedDateTimeLong(
                     useDeviceTimeZone,
                     alarm.startTime,
                     found.timeZoneOffset,

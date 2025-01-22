@@ -40,6 +40,10 @@
     <!-- Progress bar -->
     <dimen name="progress_bar_elevation">@dimen/tool_bar_elevation</dimen>
 
+    <!-- Horizontal scrolling progress line -->
+    <dimen name="schedule_horizontal_scrolling_progress_line_height">2dp</dimen>
+    <dimen name="schedule_horizontal_scrolling_progress_line_width">50dp</dimen>
+
     <!-- SnackEngage -->
     <dimen name="snack_engage_c3nav_pixel_offset">20dp</dimen>
 
@@ -59,6 +63,10 @@
     <dimen name="session_drawable_inset_left">3dp</dimen>
     <dimen name="session_drawable_inset_right">1dp</dimen>
     <dimen name="session_drawable_selection_stroke_width">2dp</dimen>
+    <dimen name="session_drawable_title">16sp</dimen>
+    <dimen name="session_drawable_subtitle">13sp</dimen>
+    <dimen name="session_drawable_speakers">12sp</dimen>
+    <dimen name="session_drawable_track">12sp</dimen>
 
     <!-- Alert dialogs -->
     <!-- See: https://www.google.de/design/spec/components/dialogs.html#dialogs-specs -->
@@ -76,5 +84,12 @@
     <dimen name="session_details_subtitle">16sp</dimen>
     <dimen name="session_details_speakers">13sp</dimen>
     <dimen name="session_detailbar_icon_padding">3dp</dimen>
+
+    <!-- Empty screen  -->
+    <dimen name="empty_screen_text">16sp</dimen>
+    <dimen name="empty_screen_line_spacing_extra">6sp</dimen>
+    <dimen name="empty_screen_subtitle_padding_top">16dp</dimen>
+    <dimen name="empty_screen_drawable_padding">16dp</dimen>
+    <dimen name="empty_screen_padding">16dp</dimen>
 
 </resources>

@@ -13,8 +13,8 @@ import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedOnce
 import nerd.tuxmobil.fahrplan.congress.NoLogging
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmReceiver.AlarmIntentFactory.Companion.ALARM_DELETE
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmReceiver.AlarmIntentFactory.Companion.ALARM_SESSION
-import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices.FormattingDelegate
-import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices.PendingIntentDelegate
+import nerd.tuxmobil.fahrplan.congress.commons.FormattingDelegate
+import nerd.tuxmobil.fahrplan.congress.commons.PendingIntentDelegate
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
 import nerd.tuxmobil.fahrplan.congress.models.Alarm
 import nerd.tuxmobil.fahrplan.congress.models.SchedulableAlarm
@@ -122,49 +122,13 @@ class AlarmServicesTest {
     }
 
     @Test
-    fun `canScheduleExactAlarms returns true before SnowCone 1`() {
+    fun `canScheduleExactAlarms returns true because alarmManager returns true in unit test context`() {
         val alarmManager = mock<AlarmManager> {
-            on { canScheduleExactAlarms() } doReturn false // not relevant
-        }
-        val alarmServices = createAlarmServices(
-            alarmManager = alarmManager,
-            runsAtLeastOnAndroidSnowCone = false,
-        )
-        assertThat(alarmServices.canScheduleExactAlarms).isTrue()
-    }
-
-    @Test
-    fun `canScheduleExactAlarms returns true before SnowCone 2`() {
-        val alarmManager = mock<AlarmManager> {
-            on { canScheduleExactAlarms() } doReturn true // not relevant
-        }
-        val alarmServices = createAlarmServices(
-            alarmManager = alarmManager,
-            runsAtLeastOnAndroidSnowCone = false,
-        )
-        assertThat(alarmServices.canScheduleExactAlarms).isTrue()
-    }
-
-    @Test
-    fun `canScheduleExactAlarms returns false as of SnowCone and alarmManager returns false`() {
-        val alarmManager = mock<AlarmManager> {
-            on { canScheduleExactAlarms() } doReturn false
-        }
-        val alarmServices = createAlarmServices(
-            alarmManager = alarmManager,
-            runsAtLeastOnAndroidSnowCone = true,
-        )
-        assertThat(alarmServices.canScheduleExactAlarms).isFalse()
-    }
-
-    @Test
-    fun `canScheduleExactAlarms returns true as of SnowCone and alarmManager returns true`() {
-        val alarmManager = mock<AlarmManager> {
+            // always true because SDK_INT = 0 in tests, see AlarmManagerCompat#canScheduleExactAlarms
             on { canScheduleExactAlarms() } doReturn true
         }
         val alarmServices = createAlarmServices(
             alarmManager = alarmManager,
-            runsAtLeastOnAndroidSnowCone = true,
         )
         assertThat(alarmServices.canScheduleExactAlarms).isTrue()
     }
@@ -172,44 +136,38 @@ class AlarmServicesTest {
     @Test
     fun `scheduleSessionAlarm invokes cancel then set when discardExisting is true`() {
         val pendingIntent = mock<PendingIntent>()
-        val pendingIntentDelegate = object : PendingIntentDelegate {
-            override fun onPendingIntentBroadcast(context: Context, intent: Intent): PendingIntent {
-                assertThat(context).isEqualTo(mockContext)
-                assertIntentExtras(intent, ALARM_SESSION)
-                return pendingIntent
-            }
+        val pendingIntentDelegate = PendingIntentBroadcastProvider { context, intent ->
+            assertThat(context).isEqualTo(mockContext)
+            assertIntentExtras(intent, ALARM_SESSION)
+            pendingIntent
         }
         val alarmServices = createAlarmServices(pendingIntentDelegate)
         alarmServices.scheduleSessionAlarm(alarm, true)
         verifyInvokedOnce(alarmManager).cancel(pendingIntent)
-        verifyInvokedOnce(alarmManager).set(AlarmManager.RTC_WAKEUP, alarm.startTime, pendingIntent)
+        verifyInvokedOnce(alarmManager).setExact(AlarmManager.RTC_WAKEUP, alarm.startTime, pendingIntent)
     }
 
     @Test
     fun `scheduleSessionAlarm only invokes set when discardExisting is false`() {
         val pendingIntent = mock<PendingIntent>()
-        val pendingIntentDelegate = object : PendingIntentDelegate {
-            override fun onPendingIntentBroadcast(context: Context, intent: Intent): PendingIntent {
-                assertThat(context).isEqualTo(mockContext)
-                assertIntentExtras(intent, ALARM_SESSION)
-                return pendingIntent
-            }
+        val pendingIntentDelegate = PendingIntentBroadcastProvider { context, intent ->
+            assertThat(context).isEqualTo(mockContext)
+            assertIntentExtras(intent, ALARM_SESSION)
+            pendingIntent
         }
         val alarmServices = createAlarmServices(pendingIntentDelegate)
         alarmServices.scheduleSessionAlarm(alarm, false)
         verifyInvokedNever(alarmManager).cancel(pendingIntent)
-        verifyInvokedOnce(alarmManager).set(AlarmManager.RTC_WAKEUP, alarm.startTime, pendingIntent)
+        verifyInvokedOnce(alarmManager).setExact(AlarmManager.RTC_WAKEUP, alarm.startTime, pendingIntent)
     }
 
     @Test
     fun `discardSessionAlarm invokes cancel`() {
         val pendingIntent = mock<PendingIntent>()
-        val pendingIntentDelegate = object : PendingIntentDelegate {
-            override fun onPendingIntentBroadcast(context: Context, intent: Intent): PendingIntent {
-                assertThat(context).isEqualTo(mockContext)
-                assertIntentExtras(intent, ALARM_DELETE)
-                return pendingIntent
-            }
+        val pendingIntentDelegate = PendingIntentBroadcastProvider { context, intent ->
+            assertThat(context).isEqualTo(mockContext)
+            assertIntentExtras(intent, ALARM_DELETE)
+            pendingIntent
         }
         val alarmServices = createAlarmServices(pendingIntentDelegate)
         alarmServices.discardSessionAlarm(alarm)
@@ -220,14 +178,13 @@ class AlarmServicesTest {
     @Test
     fun `discardAutoUpdateAlarm invokes cancel`() {
         val pendingIntent = mock<PendingIntent>()
-        val pendingIntentDelegate = object : PendingIntentDelegate {
-            override fun onPendingIntentBroadcast(context: Context, intent: Intent): PendingIntent {
-                assertThat(context).isEqualTo(mockContext)
-                assertThat(intent.component!!.className).isEqualTo(AlarmReceiver::class.java.name)
-                assertThat(intent.action).isEqualTo(AlarmReceiver.ALARM_UPDATE)
-                return pendingIntent
-            }
+        val pendingIntentDelegate = PendingIntentBroadcastProvider { context, intent ->
+            assertThat(context).isEqualTo(mockContext)
+            assertThat(intent.component!!.className).isEqualTo(AlarmReceiver::class.java.name)
+            assertThat(intent.action).isEqualTo(AlarmReceiver.ALARM_UPDATE)
+            pendingIntent
         }
+
         val alarmServices = createAlarmServices(pendingIntentDelegate)
         alarmServices.discardAutoUpdateAlarm()
         verifyInvokedOnce(alarmManager).cancel(pendingIntent)
@@ -248,7 +205,6 @@ class AlarmServicesTest {
         pendingIntentDelegate: PendingIntentDelegate = mock(),
         formattingDelegate: FormattingDelegate = mock(),
         alarmManager: AlarmManager = this.alarmManager,
-        runsAtLeastOnAndroidSnowCone: Boolean = true,
     ) = AlarmServices(
         context = mockContext,
         repository = repository,
@@ -257,7 +213,20 @@ class AlarmServicesTest {
         logging = NoLogging,
         pendingIntentDelegate = pendingIntentDelegate,
         formattingDelegate = formattingDelegate,
-        runsAtLeastOnAndroidSnowCone = runsAtLeastOnAndroidSnowCone,
     )
+
+}
+
+private class PendingIntentBroadcastProvider(
+    val action: (context: Context, intent: Intent) -> PendingIntent,
+) : PendingIntentDelegate {
+
+    override fun getPendingIntentActivity(context: Context, intent: Intent): PendingIntent {
+        throw NotImplementedError("Not needed for this test.")
+    }
+
+    override fun getPendingIntentBroadcast(context: Context, intent: Intent): PendingIntent {
+        return action(context, intent)
+    }
 
 }

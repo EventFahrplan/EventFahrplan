@@ -12,4 +12,5 @@ interface BuildConfigProvision {
     val fDroidUrl: String
     val googlePlayUrl: String
     val dataPrivacyStatementDeUrl: String
+    val enableFosdemRoomStates: Boolean
 }

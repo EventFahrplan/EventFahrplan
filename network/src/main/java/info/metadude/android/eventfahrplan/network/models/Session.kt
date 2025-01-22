@@ -11,7 +11,7 @@ data class Session(
         var sessionId: String = "",
         var abstractt: String = "",
         var dayIndex: Int = 0, // XML values start with 1
-        var date: String = "",
+        var dateText: String = "",
         var dateUTC: Long = 0,
         var description: String = "",
         var duration: Int = 0, // minutes
@@ -55,5 +55,24 @@ data class Session(
         const val RECORDING_OPT_OUT_OFF = false
 
     }
+
+    /**
+     * Returns a new session with [changedIsCanceled] set to `true`
+     * and all other change flags set to `false`.
+     */
+    fun cancel() = copy(
+        changedIsCanceled = true,
+        changedIsNew = false,
+        changedTitle = false,
+        changedSubtitle = false,
+        changedRoomName = false,
+        changedDayIndex = false,
+        changedStartTime = false,
+        changedDuration = false,
+        changedSpeakers = false,
+        changedLanguage = false,
+        changedRecordingOptOut = false,
+        changedTrack = false,
+    )
 
 }

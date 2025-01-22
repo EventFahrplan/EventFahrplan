@@ -81,8 +81,6 @@ class StarredListAdapter internal constructor(
             duration.contentDescription = contentDescriptionFormatter
                 .getDurationContentDescription(session.duration)
 
-            video.isVisible = false
-            noVideo.isVisible = false
             withoutVideoRecording.isVisible = session.recordingOptOut
         }
     }

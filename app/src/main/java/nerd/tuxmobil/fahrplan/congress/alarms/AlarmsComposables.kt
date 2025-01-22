@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
@@ -34,11 +34,14 @@ import nerd.tuxmobil.fahrplan.congress.alarms.AlarmsState.Loading
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmsState.Success
 import nerd.tuxmobil.fahrplan.congress.commons.EventFahrplanTheme
 import nerd.tuxmobil.fahrplan.congress.commons.Loading
+import nerd.tuxmobil.fahrplan.congress.commons.MultiDevicePreview
 import nerd.tuxmobil.fahrplan.congress.commons.NoData
+import nerd.tuxmobil.fahrplan.congress.commons.SessionListHeader
 
 @Composable
 internal fun AlarmsScreen(
     state: AlarmsState,
+    showInSidePane: Boolean,
 ) {
     EventFahrplanTheme {
         Scaffold { contentPadding ->
@@ -55,6 +58,7 @@ internal fun AlarmsScreen(
                         } else {
                             SessionAlarmsList(
                                 parameters = parameters,
+                                showInSidePane = showInSidePane,
                                 onItemClick = state.onItemClick,
                                 onDeleteItemClick = state.onDeleteItemClick
                             )
@@ -68,16 +72,26 @@ internal fun AlarmsScreen(
 
 @Composable
 private fun NoAlarms() {
-    NoData(stringResource(R.string.alarms_empty))
+    NoData(
+        emptyContent = R.drawable.no_alarms,
+        title = stringResource(R.string.alarms_no_alarms_title),
+        subtitle = stringResource(R.string.alarms_no_alarms_subtitle),
+    )
 }
 
 @Composable
 private fun SessionAlarmsList(
     parameters: List<SessionAlarmParameter>,
+    showInSidePane: Boolean,
     onItemClick: (SessionAlarmParameter) -> Unit,
     onDeleteItemClick: (SessionAlarmParameter) -> Unit
 ) {
     LazyColumn(state = rememberLazyListState()) {
+        if (showInSidePane) {
+            item {
+                SessionListHeader(stringResource(R.string.reminders))
+            }
+        }
         itemsIndexed(parameters) { index, item ->
             SessionAlarmItem(
                 parameter = item,
@@ -85,7 +99,7 @@ private fun SessionAlarmsList(
                 onDeleteClick = onDeleteItemClick
             )
             if (index < parameters.size - 1) {
-                Divider(Modifier.padding(horizontal = 12.dp))
+                HorizontalDivider(Modifier.padding(horizontal = 12.dp))
             }
         }
     }
@@ -188,7 +202,7 @@ private fun DeleteIcon(
     }
 }
 
-@Preview
+@MultiDevicePreview
 @Composable
 private fun AlarmsScreenPreview() {
     AlarmsScreen(
@@ -237,6 +251,7 @@ private fun AlarmsScreenPreview() {
             onItemClick = { _ -> },
             onDeleteItemClick = {},
         ),
+        showInSidePane = true,
     )
 }
 
@@ -248,7 +263,8 @@ private fun AlarmsScreenEmptyPreview() {
             emptyList(),
             onItemClick = { _ -> },
             onDeleteItemClick = {},
-        )
+        ),
+        showInSidePane = false,
     )
 }
 
@@ -257,5 +273,6 @@ private fun AlarmsScreenEmptyPreview() {
 private fun AlarmsScreenLoadingPreview() {
     AlarmsScreen(
         state = Loading,
+        showInSidePane = false,
     )
 }

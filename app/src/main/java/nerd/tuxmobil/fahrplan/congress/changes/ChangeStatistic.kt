@@ -6,7 +6,7 @@ import nerd.tuxmobil.fahrplan.congress.models.Session
 /**
  * Statistic about session changes (canceled, changed, new).
  */
-@Suppress("DataClassPrivateConstructor")
+@ConsistentCopyVisibility
 data class ChangeStatistic private constructor(
 
         private val sessions: List<Session>,
@@ -50,7 +50,7 @@ data class ChangeStatistic private constructor(
      * [changed][Session.isChanged] or [new][Session.changedIsNew].
      */
     fun getChangedFavoritesCount() = sessions
-            .count { it.highlight && (it.changedIsCanceled || it.isChanged || it.changedIsNew) }
+            .count { it.isHighlight && (it.changedIsCanceled || it.isChanged || it.changedIsNew) }
             .also { log("$it changed favorites") }
 
     private fun log(message: String) = logging.d(LOG_TAG, message)

@@ -9,6 +9,7 @@ import android.content.Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
@@ -19,11 +20,13 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
 import androidx.core.net.toUri
+import androidx.core.view.MenuProvider
 import androidx.core.view.isVisible
 import androidx.core.widget.ContentLoadingProgressBar
 import androidx.fragment.app.FragmentContainerView
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentManager.OnBackStackChangedListener
+import androidx.lifecycle.Lifecycle.State.RESUMED
 import info.metadude.android.eventfahrplan.commons.flow.observe
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.about.AboutDialog
@@ -40,6 +43,7 @@ import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsActivity
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsFragment
 import nerd.tuxmobil.fahrplan.congress.engagements.initUserEngagement
+import nerd.tuxmobil.fahrplan.congress.extensions.isLandscape
 import nerd.tuxmobil.fahrplan.congress.extensions.withExtras
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListActivity
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListFragment
@@ -51,12 +55,15 @@ import nerd.tuxmobil.fahrplan.congress.reporting.TraceDroidEmailSender
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanFragment.OnSessionClickListener
 import nerd.tuxmobil.fahrplan.congress.schedule.observables.LoadScheduleUiState
+import nerd.tuxmobil.fahrplan.congress.search.SearchActivity
+import nerd.tuxmobil.fahrplan.congress.search.SearchFragment
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsActivity
 import nerd.tuxmobil.fahrplan.congress.sidepane.OnSidePaneCloseListener
 import nerd.tuxmobil.fahrplan.congress.utils.ConfirmationDialog.OnConfirmationDialogClicked
 import nerd.tuxmobil.fahrplan.congress.utils.showWhenLockedCompat
 
 class MainActivity : BaseActivity(),
+    MenuProvider,
     OnSidePaneCloseListener,
     OnSessionListClick,
     OnSessionClickListener,
@@ -105,6 +112,7 @@ class MainActivity : BaseActivity(),
     private var isScreenLocked = false
     private var isAlarmsInSidePane = false
     private var isFavoritesInSidePane = false
+    private var isSearchInSidePane = false
     private var shouldScrollToCurrent = true
 
     override fun onAttachedToWindow() {
@@ -116,6 +124,7 @@ class MainActivity : BaseActivity(),
         super.onCreate(savedInstanceState)
         instance = this
         setContentView(R.layout.main_layout)
+        addMenuProvider(this, this, RESUMED)
 
         notificationHelper = NotificationHelper(this)
 
@@ -125,7 +134,7 @@ class MainActivity : BaseActivity(),
         progressBar = requireViewByIdCompat(R.id.progress)
 
         setSupportActionBar(toolbar)
-        supportActionBar!!.setTitle(R.string.fahrplan)
+        supportActionBar!!.title = if (isLandscape()) getString(R.string.app_name) else ""
         supportActionBar!!.setDisplayShowHomeEnabled(true)
         supportActionBar!!.setDefaultDisplayHomeAsUpEnabled(true)
         val actionBarColor = ContextCompat.getColor(this, R.color.colorActionBar)
@@ -229,12 +238,6 @@ class MainActivity : BaseActivity(),
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        super.onCreateOptionsMenu(menu)
-        menuInflater.inflate(R.menu.mainmenu, menu)
-        return true
-    }
-
     private fun showChangesDialog(scheduleVersion: String, changeStatistic: ChangeStatistic) {
         val fragment = findFragment(ChangesDialog.FRAGMENT_TAG)
         if (fragment == null) {
@@ -250,23 +253,21 @@ class MainActivity : BaseActivity(),
         AboutDialog().show(transaction, AboutDialog.FRAGMENT_TAG)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val functionByOptionItemId = mapOf(
-            R.id.menu_item_about to { viewModel.showAboutDialog() },
-            R.id.menu_item_alarms to { openAlarms() },
-            R.id.menu_item_settings to { SettingsActivity.startForResult(this) },
-            R.id.menu_item_schedule_changes to { openSessionChanges() },
-            R.id.menu_item_favorites to { openFavorites() }
-        )
-        return when (val function = functionByOptionItemId[item.itemId]) {
-            null -> {
-                super.onOptionsItemSelected(item)
-            }
-            else -> {
-                function.invoke()
-                true
-            }
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+        menuInflater.inflate(R.menu.mainmenu, menu)
+    }
+
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+        when (menuItem.itemId) {
+            R.id.menu_item_about -> viewModel.showAboutDialog()
+            R.id.menu_item_alarms -> openAlarms()
+            R.id.menu_item_settings -> SettingsActivity.startForResult(this)
+            R.id.menu_item_search -> openSearch()
+            R.id.menu_item_schedule_changes -> openSessionChanges()
+            R.id.menu_item_favorites -> openFavorites()
+            else -> return false
         }
+        return true
     }
 
     private fun openSessionDetails() {
@@ -282,8 +283,14 @@ class MainActivity : BaseActivity(),
         findViewById<View>(R.id.detail)?.let {
             it.isVisible = false
         }
+        if (fragmentTag == AlarmsFragment.FRAGMENT_TAG) {
+            isAlarmsInSidePane = false
+        }
         if (fragmentTag == StarredListFragment.FRAGMENT_TAG) {
             isFavoritesInSidePane = false
+        }
+        if (fragmentTag == SearchFragment.FRAGMENT_TAG) {
+            isSearchInSidePane = false
         }
         removeFragment(fragmentTag)
     }
@@ -364,7 +371,8 @@ class MainActivity : BaseActivity(),
         findViewById<View>(detailView)?.let { view ->
             isAlarmsInSidePane = hasFragment && fragment is AlarmsFragment
             isFavoritesInSidePane = hasFragment && fragment is StarredListFragment
-            view.isVisible = (!isAlarmsInSidePane || !isFavoritesInSidePane || !isScreenLocked) && hasFragment
+            isSearchInSidePane = hasFragment && fragment is SearchFragment
+            view.isVisible = (!isAlarmsInSidePane || !isFavoritesInSidePane || !isScreenLocked || !isSearchInSidePane) && hasFragment
         }
     }
 
@@ -375,7 +383,7 @@ class MainActivity : BaseActivity(),
         } else if (!isScreenLocked) {
             sidePaneView.isVisible = true
             isAlarmsInSidePane = true
-            AlarmsFragment.replace(supportFragmentManager, R.id.detail, true)
+            AlarmsFragment.replaceAtBackStack(supportFragmentManager, R.id.detail, true)
         }
     }
 
@@ -386,7 +394,7 @@ class MainActivity : BaseActivity(),
         } else if (!isScreenLocked) {
             sidePaneView.isVisible = true
             isFavoritesInSidePane = true
-            StarredListFragment.replace(supportFragmentManager, R.id.detail, true)
+            StarredListFragment.replaceAtBackStack(supportFragmentManager, R.id.detail, true)
         }
     }
 
@@ -396,7 +404,18 @@ class MainActivity : BaseActivity(),
             ChangeListActivity.start(this)
         } else {
             sidePaneView.isVisible = true
-            ChangeListFragment.replace(supportFragmentManager, R.id.detail, true)
+            ChangeListFragment.replaceAtBackStack(supportFragmentManager, R.id.detail, true)
+        }
+    }
+
+    private fun openSearch() {
+        val sidePaneView = findViewById<FragmentContainerView>(R.id.detail)
+        if (sidePaneView == null) {
+            SearchActivity.start(this)
+        } else {
+            sidePaneView.isVisible = true
+            isSearchInSidePane = true
+            SearchFragment.replaceAtBackStack(supportFragmentManager, R.id.detail, true)
         }
     }
 

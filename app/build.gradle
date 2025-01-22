@@ -7,6 +7,7 @@ ext.set("APP_VERSION", "${gitSha()}")
 
 apply plugin: "com.android.application"
 apply plugin: "kotlin-android"
+apply plugin: "org.jetbrains.kotlin.plugin.compose"
 apply plugin: "com.google.devtools.ksp"
 apply plugin: "de.mobilej.unmock"
 apply plugin: "com.getkeepsafe.dexcount"
@@ -23,7 +24,7 @@ android {
         versionName "1.8.21"
         minSdk Android.minSdkVersion
         targetSdk Android.targetSdkVersion
-        archivesBaseName = "Fahrplan-$versionName"
+        base.archivesName = "Fahrplan-$versionName"
 
         vectorDrawables.useSupportLibrary = true // allows using fillColor, fillType, strokeColor functionalities below Android 7.0 (API 24)
 
@@ -50,15 +51,14 @@ android {
         buildConfigField "boolean", "ENGAGE_GOOGLE_BETA_TESTING", "true"
         buildConfigField "boolean", "ENGAGE_GOOGLE_PLAY_RATING", "true"
         buildConfigField "boolean", "ENGAGE_LANDSCAPE_ORIENTATION", "true"
+        buildConfigField "boolean", "ENABLE_FOSDEM_ROOM_STATES", "false"
+        buildConfigField "String", "FOSDEM_ROOM_STATES_URL", '""'
+        buildConfigField "String", "FOSDEM_ROOM_STATES_PATH", '""'
     }
 
     buildFeatures {
         buildConfig true
         compose true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = Compose.Versions.compiler
     }
 
     buildTypes {
@@ -170,11 +170,13 @@ dependencies {
 
     implementation Compose.material
 
+    implementation Libs.activityCompose
     implementation Libs.appCompat
     implementation Libs.betterLinkMovementMethod
     implementation Libs.constraintLayout
     implementation Libs.coreKtx
     implementation Libs.emailIntentBuilder
+    implementation Libs.fragmentCompose
     implementation Libs.kotlinCoroutinesAndroid
     implementation Libs.kotlinCoroutinesCore
     implementation Libs.lifecycleViewModel
@@ -186,6 +188,7 @@ dependencies {
     implementation Libs.okhttp
     implementation Libs.okhttpLoggingInterceptor
     implementation Libs.preference
+    implementation Libs.roomStates
     implementation Libs.snackengagePlayrate
     implementation Libs.tracedroid
 

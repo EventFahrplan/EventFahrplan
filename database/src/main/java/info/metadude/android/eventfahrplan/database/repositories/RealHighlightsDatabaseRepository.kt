@@ -20,7 +20,7 @@ import info.metadude.android.eventfahrplan.database.extensions.upsert
 import info.metadude.android.eventfahrplan.database.models.Highlight
 import info.metadude.android.eventfahrplan.database.sqliteopenhelper.HighlightDBOpenHelper
 
-class RealHighlightsDatabaseRepository(
+internal class RealHighlightsDatabaseRepository(
 
         private val sqLiteOpenHelper: HighlightDBOpenHelper
 

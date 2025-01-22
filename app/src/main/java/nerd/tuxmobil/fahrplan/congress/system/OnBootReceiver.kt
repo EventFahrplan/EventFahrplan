@@ -27,7 +27,12 @@ class OnBootReceiver : BroadcastReceiver() {
 
         logging.report(LOG_TAG, "onReceive (reboot)")
         val nowMoment = Moment.now().plusSeconds(15)
-        val appRepository = AppRepository
+        val appRepository = AppRepository.apply {
+            initialize(
+                context = context.applicationContext,
+                logging = logging,
+            )
+        }
         val alarmServices = AlarmServices.newInstance(context, appRepository)
         val alarms = appRepository.readAlarms()
         for (alarm in alarms) {

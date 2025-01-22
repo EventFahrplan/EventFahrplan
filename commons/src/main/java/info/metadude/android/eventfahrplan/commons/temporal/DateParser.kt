@@ -1,5 +1,6 @@
 package info.metadude.android.eventfahrplan.commons.temporal
 
+import androidx.annotation.VisibleForTesting
 import org.threeten.bp.Instant
 import org.threeten.bp.ZoneOffset
 import org.threeten.bp.ZonedDateTime
@@ -31,9 +32,14 @@ object DateParser {
         val zonedDateTime = try {
             ZonedDateTime.parse(text, DateTimeFormatter.ISO_DATE_TIME)
         } catch (e: DateTimeParseException) {
-            throw IllegalArgumentException("Error parsing time zone offset from: '$text'.")
+            throw TimeZoneOffsetParsingException(text)
         }
         return zonedDateTime.offset.totalSeconds
     }
 
 }
+
+@VisibleForTesting
+internal class TimeZoneOffsetParsingException(text: String) : IllegalArgumentException(
+    """Error parsing time zone offset from: "$text"."""
+)

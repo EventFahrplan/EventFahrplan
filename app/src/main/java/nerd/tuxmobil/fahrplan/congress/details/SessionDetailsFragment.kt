@@ -9,6 +9,8 @@ import android.content.Intent
 import android.graphics.Typeface
 import android.os.Bundle
 import android.provider.Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM
+import android.text.util.Linkify.EMAIL_ADDRESSES
+import android.text.util.Linkify.WEB_URLS
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -24,12 +26,16 @@ import androidx.annotation.CallSuper
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import androidx.annotation.MainThread
+import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
+import androidx.core.view.MenuProvider
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle.State.RESUMED
 import info.metadude.android.eventfahrplan.commons.flow.observe
 import io.noties.markwon.AbstractMarkwonPlugin
 import io.noties.markwon.Markwon
@@ -40,6 +46,7 @@ import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmTimePickerFragment
 import nerd.tuxmobil.fahrplan.congress.calendar.CalendarSharing
+import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolver
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
 import nerd.tuxmobil.fahrplan.congress.extensions.replaceFragment
 import nerd.tuxmobil.fahrplan.congress.extensions.requireViewByIdCompat
@@ -55,7 +62,7 @@ import nerd.tuxmobil.fahrplan.congress.utils.LinkMovementMethodCompat
 import nerd.tuxmobil.fahrplan.congress.utils.ServerBackendType
 import nerd.tuxmobil.fahrplan.congress.utils.TypefaceFactory
 
-class SessionDetailsFragment : Fragment() {
+class SessionDetailsFragment : Fragment(), MenuProvider {
 
     companion object {
 
@@ -86,8 +93,10 @@ class SessionDetailsFragment : Fragment() {
             val fragment = SessionDetailsFragment().withArguments(
                 BundleKeys.SIDEPANE to sidePane
             )
-            fragmentManager.popBackStack(FRAGMENT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-            fragmentManager.replaceFragment(containerViewId, fragment, FRAGMENT_TAG, FRAGMENT_TAG)
+            fragmentManager.commit {
+                fragmentManager.popBackStack(FRAGMENT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+                fragmentManager.replaceFragment(containerViewId, fragment, FRAGMENT_TAG, FRAGMENT_TAG)
+            }
         }
 
         fun replace(fragmentManager: FragmentManager, @IdRes containerViewId: Int) {
@@ -104,6 +113,7 @@ class SessionDetailsFragment : Fragment() {
     private val viewModel: SessionDetailsViewModel by viewModels {
         SessionDetailsViewModelFactory(
             appRepository = appRepository,
+            resourceResolving = ResourceResolver(requireContext()),
             alarmServices = alarmServices,
             notificationHelper = notificationHelper,
             defaultEngelsystemRoomName = AppRepository.ENGELSYSTEM_ROOM_NAME,
@@ -137,11 +147,11 @@ class SessionDetailsFragment : Fragment() {
         appRepository = AppRepository
         alarmServices = AlarmServices.newInstance(context, appRepository)
         notificationHelper = NotificationHelper(context)
-        contentDescriptionFormatter = ContentDescriptionFormatter(context)
+        contentDescriptionFormatter = ContentDescriptionFormatter(ResourceResolver(context))
         markwon = Markwon.builder(context)
             .usePlugin(HEADINGS_PLUGIN)
             .usePlugin(createListItemsPlugin(context))
-            .usePlugin(LinkifyPlugin.create())
+            .usePlugin(LinkifyPlugin.create(EMAIL_ADDRESSES or WEB_URLS, true))
             .build()
     }
 
@@ -176,7 +186,7 @@ class SessionDetailsFragment : Fragment() {
                 }
             }
 
-        setHasOptionsMenu(true)
+        requireActivity().addMenuProvider(this, this, RESUMED)
     }
 
     override fun onCreateView(inflater: LayoutInflater,
@@ -232,7 +242,10 @@ class SessionDetailsFragment : Fragment() {
             showAlarmTimePicker()
         }
         viewModel.navigateToRoom.observe(viewLifecycleOwner) { uri ->
-            startActivity(Intent(Intent.ACTION_VIEW, uri))
+            val intent = Intent(Intent.ACTION_VIEW, uri).apply {
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
+            startActivity(intent)
         }
         viewModel.closeDetails.observe(viewLifecycleOwner) {
             val activity = requireActivity()
@@ -250,6 +263,21 @@ class SessionDetailsFragment : Fragment() {
             val intent = Intent(ACTION_REQUEST_SCHEDULE_EXACT_ALARM)
                 .setData("package:${BuildConfig.APPLICATION_ID}".toUri())
             scheduleExactAlarmsPermissionRequestLauncher.launch(intent)
+        }
+        viewModel.roomStateMessage.observe(viewLifecycleOwner) { stateMessage ->
+            updateRoomState(stateMessage)
+        }
+    }
+
+    private fun updateRoomState(stateMessage: String) {
+        val view = requireView()
+        val cardView = view.requireViewByIdCompat<CardView>(R.id.session_details_content_room_state_card_view)
+        if (BuildConfig.ENABLE_FOSDEM_ROOM_STATES) {
+            cardView.isVisible = true
+            val textView = view.requireViewByIdCompat<TextView>(R.id.session_details_content_room_state_view)
+            textView.text = stateMessage
+        } else {
+            cardView.isVisible = false
         }
     }
 
@@ -424,13 +452,12 @@ class SessionDetailsFragment : Fragment() {
         requireActivity().invalidateOptionsMenu()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
         if (!::model.isInitialized) {
             // Skip if lifecycle is faster than ViewModel.
             return
         }
-        inflater.inflate(R.menu.detailmenu, menu)
+        menuInflater.inflate(R.menu.detailmenu, menu)
         if (model.isFlaggedAsFavorite) {
             menu.setMenuItemVisibility(R.id.menu_item_flag_as_favorite, false)
             menu.setMenuItemVisibility(R.id.menu_item_unflag_as_favorite, true)
@@ -453,17 +480,12 @@ class SessionDetailsFragment : Fragment() {
         item?.let { it.isVisible = true }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val itemId = item.itemId
-        return when (val function = viewModelFunctionByMenuItemId[itemId]) {
-            null -> {
-                return super.onOptionsItemSelected(item)
-            }
-            else -> {
-                function.invoke(viewModel)
-                true
-            }
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+        when (val menuFunction = viewModelFunctionByMenuItemId[menuItem.itemId]) {
+            null -> return false
+            else -> menuFunction(viewModel)
         }
+        return true
     }
 
     private fun Menu.setMenuItemVisibility(itemId: Int, isVisible: Boolean) {

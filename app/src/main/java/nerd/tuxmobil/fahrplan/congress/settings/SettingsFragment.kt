@@ -31,6 +31,7 @@ import nerd.tuxmobil.fahrplan.congress.extensions.toSpanned
 import nerd.tuxmobil.fahrplan.congress.extensions.withExtras
 import nerd.tuxmobil.fahrplan.congress.preferences.AlarmTonePreference
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
+import nerd.tuxmobil.fahrplan.congress.schedulestatistic.ScheduleStatisticActivity
 import nerd.tuxmobil.fahrplan.congress.utils.FahrplanMisc
 
 class SettingsFragment : PreferenceFragmentCompat() {
@@ -61,6 +62,13 @@ class SettingsFragment : PreferenceFragmentCompat() {
             }
             true
         }
+
+        requirePreference<Preference>(getString(R.string.preference_key_schedule_statistic))
+            .onPreferenceClickListener = OnPreferenceClickListener { preference: Preference ->
+            launchScheduleStatistic(preference.context)
+            true
+        }
+
         if (!BuildConfig.DEBUG) {
             screen.removePreference(developmentCategory)
         }
@@ -168,11 +176,19 @@ class SettingsFragment : PreferenceFragmentCompat() {
         startActivity(intent)
     }
 
+    private fun launchScheduleStatistic(context: Context) {
+        ScheduleStatisticActivity.start(context)
+    }
+
     /**
      * Returns a [Preference] for the given key or throws a [NullPointerException]
      * if none can be found. Uses [findPreference].
      */
     private fun <T : Preference> requirePreference(key: CharSequence): T = findPreference(key)
-        ?: throw NullPointerException("Cannot find preference for '$key' key.")
+        ?: throw MissingPreferenceException("$key")
 
 }
+
+private class MissingPreferenceException(key: String) : NullPointerException(
+    """Cannot find preference for "$key" key."""
+)

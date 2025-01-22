@@ -2,18 +2,16 @@
 <resources>
 
     <color name="text_primary">@android:color/primary_text_dark</color>
+    <color name="text_primary_inverted">@android:color/primary_text_light</color>
     <color name="text_secondary">@android:color/secondary_text_dark</color>
     <color name="text_tertiary">@android:color/tertiary_text_dark</color>
     <color name="windowBackground">#003339</color>
+    <color name="window_background_inverted">#fff</color>
     <color name="popupBackground">@color/colorPrimaryDark</color>
     <color name="foreground">#888</color>
     <color name="text_link_on_light">@color/colorAccent</color>
     <color name="text_link_on_dark">@color/colorAccent</color>
     <color name="text_link_pressed_background_on_light">#aafec700</color>
-    <color name="text_link_pressed_background_on_dark">#33fec700</color>
-    <color name="session_alarm_item_bell_icon_fill">#ddd</color>
-    <color name="session_alarm_item_bell_icon_text">#000000</color>
-    <color name="session_background">#ffffff</color>
 
     <!-- Scrollbar -->
     <color name="scrollbar_background">@color/colorAccent</color>
@@ -21,18 +19,17 @@
     <!-- MainActivity layout -->
     <color name="main_background">@android:color/transparent</color>
 
+    <!-- Empty screen illustrations -->
+    <color name="empty_screen_illustration_fill">@color/colorAccent</color>
+
     <!-- Tool bar -->
     <color name="tool_bar_background">@color/colorPrimary</color>
     <color name="tool_bar_icon">#fff</color>
     <color name="day_menu_text">@color/text_primary</color>
 
-    <!-- About -->
-    <color name="about_window_background">@color/windowBackground</color>
-    <color name="about_horizontal_line">#606060</color>
-    <color name="about_title">@android:color/primary_text_dark</color>
-    <color name="about_subtitle">@android:color/primary_text_dark</color>
-    <color name="about_text">@android:color/secondary_text_dark</color>
-    <color name="about_text_link">@color/text_link_on_light</color>
+    <!-- Alarms -->
+    <color name="session_alarm_item_bell_icon_fill">@color/colorAccent</color>
+    <color name="session_alarm_item_bell_icon_text">#000000</color>
 
     <!-- Alarm dialogs -->
     <color name="alert_dialog_button_text">@color/colorAccent</color>
@@ -43,6 +40,7 @@
     <color name="schedule_time_column_item_background_emphasized">#fff</color>
     <color name="schedule_time_column_item_text_normal">#fff</color>
     <color name="schedule_time_column_item_text_emphasized">#000</color>
+    <color name="schedule_horizontal_scrolling_progress_line">@color/colorAccent</color>
     <color name="schedule_room_name_header_background">#000</color>
     <color name="schedule_room_name_header_text">#fff</color>
     <color name="session_item_alarm_icon">#fff</color>
@@ -51,13 +49,17 @@
     <color name="session_item_video_without_recording_took_place">#656565</color>
 
     <!-- Schedule changes dialog -->
+    <color name="schedule_changes_dialog_body_text">@color/text_secondary</color>
     <color name="schedule_changes_dialog_new_version_text">@color/colorAccent</color>
 
     <!-- Schedule changes -->
     <color name="schedule_changes_background">@color/windowBackground</color>
-    <color name="schedule_change">#F57C00</color>
-    <color name="schedule_change_new">#689F38</color>
-    <color name="schedule_change_canceled">#D32F2F</color>
+    <color name="schedule_change_on_dark">#F57C00</color>
+    <color name="schedule_change_on_light">#E65100</color>
+    <color name="schedule_change_new_on_dark">#689F38</color>
+    <color name="schedule_change_new_on_light">#27a22d</color>
+    <color name="schedule_change_canceled_on_dark">#D32F2F</color>
+    <color name="schedule_change_canceled_on_light">#B71C1C</color>
 
     <!-- Favorites -->
     <color name="favorites_past_session_text">#808080</color>
@@ -66,17 +68,26 @@
     <!-- Session item (favorites + schedule changes) -->
     <color name="session_list_header_text">@color/text_primary</color>
     <color name="session_list_item_text">@color/text_primary</color>
+    <color name="session_list_item_text_inverted">@color/text_primary_inverted</color>
     <color name="session_list_empty_text">@color/text_primary</color>
 
     <!-- Spinner -->
     <color name="spinner_drop_down_text">#cc0000</color>
 
     <!-- Session details -->
-    <color name="session_details_background">@color/session_background</color>
+    <color name="session_details_room_state_info_text">@color/text_primary</color>
+    <color name="session_details_room_state_info_background">@color/colorAccent</color>
+    <color name="session_details_background">#ffffff</color>
     <color name="session_details_text">@android:color/black</color>
-    <color name="session_details_list_item">@color/session_details_text</color>
+    <color name="session_details_list_item">@color/colorPrimary</color>
     <color name="session_detailbar_background">#eee</color>
     <color name="session_detailbar_text">#999</color>
     <color name="session_detailbar_icon">@color/colorAccent</color>
+
+    <!-- Schedule statistic -->
+    <color name="schedule_statistic_bar_background_warning_level_1">#FFC107</color>
+    <color name="schedule_statistic_bar_background_warning_level_2">#FF9800</color>
+    <color name="schedule_statistic_bar_background_warning_level_3">#FF5722</color>
+    <color name="schedule_statistic_bar_background_no_warning">#8BC34A</color>
 
 </resources>

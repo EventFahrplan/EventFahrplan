@@ -1,4 +1,4 @@
-@file:Suppress("unused")
+@file:Suppress("unused", "ConstPropertyName")
 
 package nerd.tuxmobil.fahrplan.congress
 
@@ -9,17 +9,16 @@ object Config {
 }
 
 object Android {
-    const val buildToolsVersion = "34.0.0"
-    const val compileSdkVersion = 33
+    const val buildToolsVersion = "35.0.0"
+    const val compileSdkVersion = 34
     const val minSdkVersion = 21
-    const val targetSdkVersion = 33
+    const val targetSdkVersion = 34
 }
 
 object Compose {
 
-    object Versions {
-        internal const val bom = "2023.06.01" // compileSdk 34 is required as of 2023.08.00
-        const val compiler = "1.5.13"
+    private object Versions {
+        const val bom = "2024.12.01"
     }
 
     const val bom = "androidx.compose:compose-bom:${Versions.bom}"
@@ -32,16 +31,17 @@ object Compose {
 object Plugins {
 
     private object Versions {
-        const val android = "8.3.2"
+        const val android = "8.8.0"
         const val dexcount = "4.0.0"
-        const val kotlin = "1.9.23"
-        const val ksp = "1.9.23-1.0.19"
-        const val sonarQube = "5.0.0.4638"
-        const val unMock = "0.7.9"
+        const val kotlin = "2.1.0"
+        const val ksp = "2.1.0-1.0.29"
+        const val sonarQube = "5.1.0.4882" // Breaks CI build as of 6.x. See https://community.sonarsource.com/t/sonarqube-gradle-plugin-6-0-breaks-android-tasks/130863
+        const val unMock = "0.9.0"
         const val versions = "0.51.0"
     }
 
     const val android = "com.android.tools.build:gradle:${Versions.android}"
+    const val composeCompiler = "org.jetbrains.kotlin:compose-compiler-gradle-plugin:${Versions.kotlin}"
     const val dexcount = "com.getkeepsafe.dexcount:dexcount-gradle-plugin:${Versions.dexcount}"
     const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
     const val ksp = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin:${Versions.ksp}"
@@ -53,34 +53,38 @@ object Plugins {
 object Libs {
 
     private object Versions {
-        const val androidTest = "1.4.0"
-        const val annotation = "1.7.1"
-        const val appCompat = "1.6.1"
+        const val activityCompose = "1.9.3"
+        const val androidTest = "1.6.0"
+        const val annotation = "1.9.1"
+        const val appCompat = "1.7.0"
         const val betterLinkMovementMethod = "2.2.0"
-        const val constraintLayout = "2.1.4"
-        const val coreKtx = "1.9.0"
+        const val constraintLayout = "2.2.0"
+        const val coreKtx = "1.13.1" // compileSdk 35 is required as of 1.15.0
         const val coreTesting = "2.2.0"
         const val emailIntentBuilder = "2.0.0"
-        const val engelsystem = "8.1.0"
-        const val junitJupiter = "5.10.2"
-        const val kotlinCoroutines = "1.8.0"
-        const val lifecycle = "2.6.2" // compileSdk 34 is required as of 2.7.0
+        const val engelsystem = "9.2.0"
+        const val fragmentCompose = "1.8.5"
+        const val junitJupiter = "5.11.4"
+        const val kotlinCoroutines = "1.10.1"
+        const val lifecycle = "2.8.7"
         const val markwon = "4.6.2"
-        const val material = "1.9.0"
-        const val mockito = "5.11.0"
-        const val mockitoKotlin = "5.3.1"
-        const val moshi = "1.15.1"
+        const val material = "1.12.0"
+        const val mockito = "5.15.2"
+        const val mockitoKotlin = "5.4.0"
+        const val moshi = "1.15.2"
         const val okhttp = "4.12.0"
         const val preference = "1.2.1"
         const val retrofit = "2.11.0"
         const val robolectric = "4.3_r2-robolectric-0"
+        const val roomStates = "1.0.0"
         const val snackengage = "0.30"
-        const val threeTenBp = "1.6.9"
+        const val threeTenBp = "1.7.0"
         const val tracedroid = "3.1"
-        const val truth = "1.4.2"
-        const val turbine = "1.1.0"
+        const val truth = "1.4.4"
+        const val turbine = "1.2.0"
     }
 
+    const val activityCompose = "androidx.activity:activity-compose:${Versions.activityCompose}"
     const val androidTestCore = "de.mannodermaus.junit5:android-test-core:${Versions.androidTest}"
     const val androidTestRunner = "de.mannodermaus.junit5:android-test-runner:${Versions.androidTest}"
     const val annotation = "androidx.annotation:annotation:${Versions.annotation}"
@@ -91,6 +95,7 @@ object Libs {
     const val coreTesting = "androidx.arch.core:core-testing:${Versions.coreTesting}"
     const val emailIntentBuilder = "de.cketti.mailto:email-intent-builder:${Versions.emailIntentBuilder}"
     const val engelsystem = "info.metadude.kotlin.library.engelsystem:engelsystem-base:${Versions.engelsystem}"
+    const val fragmentCompose = "androidx.fragment:fragment-compose:${Versions.fragmentCompose}"
     const val junitJupiterApi = "org.junit.jupiter:junit-jupiter-api:${Versions.junitJupiter}"
     const val junitJupiterEngine = "org.junit.jupiter:junit-jupiter-engine:${Versions.junitJupiter}"
     const val junitJupiterParams = "org.junit.jupiter:junit-jupiter-params:${Versions.junitJupiter}"
@@ -113,6 +118,7 @@ object Libs {
     const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
     const val retrofitConverterMoshi = "com.squareup.retrofit2:converter-moshi:${Versions.retrofit}"
     const val robolectric = "org.robolectric:android-all:${Versions.robolectric}"
+    const val roomStates = "info.metadude.kotlin.library.roomstates:room-states-repositories:${Versions.roomStates}"
     const val snackengagePlayrate = "com.github.ligi.snackengage:snackengage-playrate:${Versions.snackengage}"
     const val threeTenBp = "org.threeten:threetenbp:${Versions.threeTenBp}"
     const val tracedroid = "com.github.ligi:tracedroid:${Versions.tracedroid}"

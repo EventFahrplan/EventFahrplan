@@ -14,6 +14,9 @@
     Synchronize with @strings/preference_default_value_schedule_refresh_interval_value
     and @integers/preference_default_value_schedule_refresh_interval_index
     -->
+    <!-- Schedule statistic -->
+    <string name="preference_title_schedule_statistic">Statystyki harmonogramu</string>
+    <string name="preference_summary_schedule_statistic">Sprawdź wartości kolumny harmonogramu</string>
     <!-- Category general -->
     <!-- Automatic schedule updates -->
     <string name="preference_title_auto_update_enabled">Włącz automatyczne aktualizacje</string>
@@ -51,10 +54,10 @@
     <string name="preference_title_insistent_alarms_enabled">Włącz natarczywe przypomnienie</string>
     <string name="preference_summary_insistent_alarms_enabled">Utrzymuje przypomnienie w nieskończoność.</string>
     <!-- Category Engelsystem -->
-    <string name="preference_summary_engelsystem_json_export_url"><![CDATA[Aby widzieć swoje zmiany, podaj tu <u>swój osobisty</u> URL.<br/><br/>
-        1. Zaloguj się na swoje konto w <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g>.<br/>
-        2. Skopiuj URL pod przyciskiem <u>JSON Export</u> na swojej stronie profilowej.<br/>
-        3. Wklej tu skopiowany URL.<br/><br/>
-        Zmiany przed oraz po głównych dniach konferencji <u>nie są</u> wyświetlane.]]></string>
+    <string name="preference_summary_engelsystem_json_export_url"><![CDATA[Aby zobaczyć swoje zmiany, wprowadź tutaj swój <u>osobisty</u> URL.<br/><br/>
+        1. Zaloguj się do swojego konta <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g>.<br/>
+        2. Skopiuj URL znajdujący się za przyciskiem <u>Eksportuj JSON</u> na swojej stronie profilowej.<br/>
+        3. Wklej tutaj URL.<br/><br/>
+        Zmiany przed i po głównych dniach konferencji <u>nie</u> są wyświetlane.]]></string>
     <string name="preference_title_engelsystem_json_export_url">Skonfiguruj URL eksportu JSON</string>
 </resources>

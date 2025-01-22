@@ -20,6 +20,7 @@ class IsInstalledViaGooglePlay : SnackCondition {
     private fun getInstallerPackageName(context: Context): String? {
         val packageName = context.packageName
         val installerPackageName = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
+            @Suppress("DEPRECATION")
             context.packageManager.getInstallerPackageName(packageName)
         } else {
             context.packageManager.getInstallSourceInfo(packageName).installingPackageName

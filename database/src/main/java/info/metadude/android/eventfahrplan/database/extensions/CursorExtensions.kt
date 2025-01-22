@@ -18,7 +18,8 @@ import androidx.core.database.getStringOrNull
  * @see Cursor.getColumnIndexOrThrow
  * @see Cursor.getInt
  */
-inline fun Cursor.getInt(columnName: String): Int = getInt(getColumnIndexOrThrow(columnName))
+internal inline fun Cursor.getInt(columnName: String): Int =
+    getInt(getColumnIndexOrThrow(columnName))
 
 /**
  * Returns the value of the requested column as an int or null.
@@ -29,7 +30,8 @@ inline fun Cursor.getInt(columnName: String): Int = getInt(getColumnIndexOrThrow
  * @see Cursor.getColumnIndexOrThrow
  * @see Cursor.getIntOrNull
  */
-inline fun Cursor.getIntOrNull(columnName: String): Int? = getIntOrNull(getColumnIndexOrThrow(columnName))
+internal inline fun Cursor.getIntOrNull(columnName: String): Int? =
+    getIntOrNull(getColumnIndexOrThrow(columnName))
 
 /**
  * Returns the value of the requested column as a long.
@@ -40,7 +42,8 @@ inline fun Cursor.getIntOrNull(columnName: String): Int? = getIntOrNull(getColum
  * @see Cursor.getColumnIndexOrThrow
  * @see Cursor.getLong
  */
-inline fun Cursor.getLong(columnName: String): Long = getLong(getColumnIndexOrThrow(columnName))
+internal inline fun Cursor.getLong(columnName: String): Long =
+    getLong(getColumnIndexOrThrow(columnName))
 
 /**
  * Returns the value of the requested column as a string.
@@ -51,7 +54,8 @@ inline fun Cursor.getLong(columnName: String): Long = getLong(getColumnIndexOrTh
  * @see Cursor.getColumnIndexOrThrow
  * @see Cursor.getString
  */
-inline fun Cursor.getString(columnName: String): String = getString(getColumnIndexOrThrow(columnName))
+internal inline fun Cursor.getString(columnName: String): String =
+    getString(getColumnIndexOrThrow(columnName))
 
 /**
  * Returns the value of the requested column as a string or null.
@@ -62,13 +66,14 @@ inline fun Cursor.getString(columnName: String): String = getString(getColumnInd
  * @see Cursor.getColumnIndexOrThrow
  * @see Cursor.getStringOrNull
  */
-inline fun Cursor.getStringOrNull(columnName: String): String? = getStringOrNull(getColumnIndexOrThrow(columnName))
+internal inline fun Cursor.getStringOrNull(columnName: String): String? =
+    getStringOrNull(getColumnIndexOrThrow(columnName))
 
 /**
  * Returns a list containing the results of applying the given [transform] function to each row
  * in the [Cursor]. Closes the Cursor afterwards.
  */
-inline fun <T> Cursor.map(transform: (Cursor) -> T): List<T> = this.use {
+internal inline fun <T> Cursor.map(transform: (Cursor) -> T): List<T> = this.use {
     List(count) { index ->
         moveToPosition(index)
         transform(this)

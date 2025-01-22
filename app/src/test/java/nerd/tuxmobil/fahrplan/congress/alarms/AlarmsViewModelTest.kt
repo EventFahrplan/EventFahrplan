@@ -99,7 +99,8 @@ class AlarmsViewModelTest {
         )
         val screenNavigation = mock<ScreenNavigation>()
         doNothing().`when`(screenNavigation).navigateToSessionDetails(any())
-        val viewModel = createViewModel(repository, screenNavigation = screenNavigation)
+        val viewModel = createViewModel(repository)
+        viewModel.screenNavigation = screenNavigation
         viewModel.alarmsState.take(1).collect { state ->
             assertThat(state).isInstanceOf(Success::class.java)
             val success = state as Success
@@ -187,12 +188,10 @@ class AlarmsViewModelTest {
     private fun createViewModel(
         repository: AppRepository,
         alarmServices: AlarmServices = mock(),
-        screenNavigation: ScreenNavigation = mock(),
     ) = AlarmsViewModel(
         repository = repository,
         executionContext = TestExecutionContext,
         alarmServices = alarmServices,
-        screenNavigation = screenNavigation,
         alarmsStateFactory = createAlarmsStateFactory(),
     )
 

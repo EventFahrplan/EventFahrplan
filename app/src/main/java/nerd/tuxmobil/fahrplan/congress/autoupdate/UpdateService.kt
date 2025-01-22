@@ -1,7 +1,5 @@
 package nerd.tuxmobil.fahrplan.congress.autoupdate
 
-import android.app.PendingIntent
-import android.app.PendingIntent.FLAG_ONE_SHOT
 import android.content.Context
 import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP
@@ -10,6 +8,7 @@ import androidx.core.app.SafeJobIntentService
 import info.metadude.android.eventfahrplan.commons.logging.Logging
 import nerd.tuxmobil.fahrplan.congress.MyApp
 import nerd.tuxmobil.fahrplan.congress.R
+import nerd.tuxmobil.fahrplan.congress.commons.PendingIntentProvider
 import nerd.tuxmobil.fahrplan.congress.net.ConnectivityObserver
 import nerd.tuxmobil.fahrplan.congress.net.FetchScheduleResult
 import nerd.tuxmobil.fahrplan.congress.net.HttpStatus
@@ -20,7 +19,6 @@ import nerd.tuxmobil.fahrplan.congress.net.ParseShiftsResult
 import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.schedule.MainActivity
-import nerd.tuxmobil.fahrplan.congress.utils.PendingIntentCompat.FLAG_IMMUTABLE
 import java.util.concurrent.CountDownLatch
 
 class UpdateService : SafeJobIntentService() {
@@ -53,7 +51,7 @@ class UpdateService : SafeJobIntentService() {
     private fun showScheduleUpdateNotification(version: String, changesCount: Int) {
         val notificationIntent = Intent(this, MainActivity::class.java)
         notificationIntent.flags = FLAG_ACTIVITY_CLEAR_TOP or FLAG_ACTIVITY_RESET_TASK_IF_NEEDED
-        val contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, FLAG_ONE_SHOT or FLAG_IMMUTABLE)
+        val contentIntent = PendingIntentProvider.getPendingIntentActivity(this, notificationIntent)
 
         val contentText = if (version.isEmpty()) {
             getString(R.string.schedule_updated)

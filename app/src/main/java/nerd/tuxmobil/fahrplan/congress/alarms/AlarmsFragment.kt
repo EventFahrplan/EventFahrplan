@@ -6,15 +6,16 @@ import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.IdRes
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.platform.ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
+import androidx.fragment.compose.content
+import androidx.lifecycle.Lifecycle.State.RESUMED
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.base.OnSessionItemClickListener
 import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolver
@@ -25,12 +26,12 @@ import nerd.tuxmobil.fahrplan.congress.extensions.replaceFragment
 import nerd.tuxmobil.fahrplan.congress.extensions.withArguments
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 
-class AlarmsFragment : Fragment() {
+class AlarmsFragment : Fragment(), MenuProvider {
 
     companion object {
         const val FRAGMENT_TAG = "ALARMS_FRAGMENT_TAG"
 
-        fun replace(
+        fun replaceAtBackStack(
             fragmentManager: FragmentManager,
             @IdRes containerViewId: Int,
             sidePane: Boolean
@@ -38,16 +39,18 @@ class AlarmsFragment : Fragment() {
             val fragment = AlarmsFragment().withArguments(
                 BundleKeys.SIDEPANE to sidePane
             )
-            fragmentManager.replaceFragment(containerViewId, fragment, FRAGMENT_TAG, FRAGMENT_TAG)
+            fragmentManager.commit {
+                fragmentManager.popBackStack(FRAGMENT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+                fragmentManager.replaceFragment(containerViewId, fragment, FRAGMENT_TAG, FRAGMENT_TAG)
+            }
         }
     }
 
     private lateinit var appRepository: AppRepository
     private lateinit var resourceResolving: ResourceResolving
     private lateinit var alarmServices: AlarmServices
-    private lateinit var screenNavigation: ScreenNavigation
     private val viewModel: AlarmsViewModel by viewModels {
-        AlarmsViewModelFactory(appRepository, resourceResolving, alarmServices, screenNavigation)
+        AlarmsViewModelFactory(appRepository, resourceResolving, alarmServices)
     }
     private var sidePane = false
     private var onSessionItemClickListener: OnSessionItemClickListener? = null
@@ -57,18 +60,19 @@ class AlarmsFragment : Fragment() {
         appRepository = AppRepository
         resourceResolving = ResourceResolver(context)
         alarmServices = AlarmServices.newInstance(context, appRepository)
-        screenNavigation = ScreenNavigation { sessionId ->
+        viewModel.screenNavigation = ScreenNavigation { sessionId ->
             onSessionItemClickListener?.onSessionItemClick(sessionId)
         }
         onSessionItemClickListener = try {
             context as OnSessionItemClickListener
         } catch (e: ClassCastException) {
-            throw ClassCastException("$context must implement ClassCastException")
+            error("$context must implement OnSessionItemClickListener")
         }
     }
 
     override fun onDetach() {
         onSessionItemClickListener = null
+        viewModel.screenNavigation = null
         super.onDetach()
     }
 
@@ -77,37 +81,30 @@ class AlarmsFragment : Fragment() {
         arguments?.let {
             sidePane = it.getBoolean(BundleKeys.SIDEPANE)
         }
-        setHasOptionsMenu(true)
+        requireActivity().addMenuProvider(this, this, RESUMED)
     }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View = inflater.inflate(R.layout.fragment_alarms, container, false).apply {
-        findViewById<ComposeView>(R.id.alarms_view).apply {
-            setViewCompositionStrategy(DisposeOnViewTreeLifecycleDestroyed)
-            setContent {
-                AlarmsScreen(
-                    state = viewModel.alarmsState.collectAsState().value,
-                )
-            }
-            isClickable = true
-        }
+    ) = content {
+        AlarmsScreen(
+            state = viewModel.alarmsState.collectAsState().value,
+            showInSidePane = sidePane,
+        )
+    }.also { it.isClickable = true }
+
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+        menuInflater.inflate(R.menu.alarms_menu, menu)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.alarms_menu, menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
-        R.id.menu_item_delete_all_alarms -> {
-            viewModel.onDeleteAllClick()
-            true
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+        when (menuItem.itemId) {
+            R.id.menu_item_delete_all_alarms -> viewModel.onDeleteAllClick()
+            else -> return false
         }
-
-        else -> super.onOptionsItemSelected(item)
+        return true
     }
 
 }
