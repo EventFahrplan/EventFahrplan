@@ -7,6 +7,7 @@
     <color name="text_tertiary">@android:color/tertiary_text_dark</color>
     <color name="windowBackground">#003339</color>
     <color name="window_background_inverted">#fff</color>
+    <color name="multi_choice_background">@color/colorAccent</color>
     <color name="popupBackground">@color/colorPrimaryDark</color>
     <color name="foreground">#888</color>
     <color name="text_link_on_light">@color/colorAccent</color>
