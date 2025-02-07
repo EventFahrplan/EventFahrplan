@@ -53,7 +53,7 @@ object Plugins {
 object Libs {
 
     private object Versions {
-        const val activityCompose = "1.9.3"
+        const val activityCompose = "1.9.3" // compileSdk 35 is required as of 1.10.0
         const val androidTest = "1.6.0"
         const val annotation = "1.9.1"
         const val appCompat = "1.7.0"
