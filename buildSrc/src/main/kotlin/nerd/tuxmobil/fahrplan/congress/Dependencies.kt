@@ -76,7 +76,7 @@ object Libs {
         const val preference = "1.2.1"
         const val retrofit = "2.11.0"
         const val robolectric = "4.3_r2-robolectric-0"
-        const val roomStates = "1.0.0"
+        const val roomStates = "1.0.1"
         const val snackengage = "0.30"
         const val threeTenBp = "1.7.0"
         const val tracedroid = "3.1"
