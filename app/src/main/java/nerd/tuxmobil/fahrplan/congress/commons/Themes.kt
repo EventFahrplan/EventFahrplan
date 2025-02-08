@@ -20,18 +20,18 @@ fun EventFahrplanTheme(
 
 @Composable
 private fun darkColorScheme() = androidx.compose.material3.darkColorScheme(
+    primary = colorResource(R.color.text_primary),
     background = colorResource(R.color.windowBackground),
     surface = colorResource(android.R.color.transparent), // used by ListItem background
-    surfaceContainerHigh = colorResource(android.R.color.transparent), // used by SearchBarDefaults.InputField container background
     outline = colorResource(R.color.colorAccent), // used by SearchBarDefaults.InputField divider
-    primary = colorResource(R.color.text_primary),
+    surfaceContainerHigh = colorResource(android.R.color.transparent), // used by SearchBarDefaults.InputField container background
 )
 
 @Composable
 private fun lightColorScheme() = androidx.compose.material3.lightColorScheme(
+    primary = colorResource(R.color.text_primary_inverted),
     background = colorResource(R.color.window_background_inverted),
     surface = colorResource(android.R.color.transparent),
-    surfaceContainerHigh = colorResource(android.R.color.transparent),
     outline = colorResource(R.color.colorAccent),
-    primary = colorResource(R.color.text_primary_inverted),
+    surfaceContainerHigh = colorResource(android.R.color.transparent),
 )
