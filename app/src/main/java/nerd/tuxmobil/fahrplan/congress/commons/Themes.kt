@@ -20,10 +20,14 @@ fun EventFahrplanTheme(
 
 @Composable
 private fun darkColorScheme() = androidx.compose.material3.darkColorScheme(
-    primary = colorResource(R.color.text_primary),
+    primary = colorResource(R.color.text_primary), // used by CircularProgressIndicator, OutlinedButton -> Text, SearchBarDefaults.InputField cursor
     background = colorResource(R.color.windowBackground),
+    onBackground = colorResource(R.color.text_primary), // used by LazyColumn -> Text header
     surface = colorResource(android.R.color.transparent), // used by ListItem background
+    onSurface = colorResource(R.color.text_primary), // used by ListItem -> headlineContent
+    onSurfaceVariant = colorResource(R.color.text_secondary), // used by SearchBarDefaults.InputField placeholder, ListItem -> overlineContent
     outline = colorResource(R.color.colorAccent), // used by SearchBarDefaults.InputField divider
+    outlineVariant = colorResource(R.color.outline_variant), // used by HorizontalDivider
     surfaceContainerHigh = colorResource(android.R.color.transparent), // used by SearchBarDefaults.InputField container background
 )
 
@@ -31,7 +35,11 @@ private fun darkColorScheme() = androidx.compose.material3.darkColorScheme(
 private fun lightColorScheme() = androidx.compose.material3.lightColorScheme(
     primary = colorResource(R.color.text_primary_inverted),
     background = colorResource(R.color.window_background_inverted),
+    onBackground = colorResource(R.color.text_primary_inverted),
     surface = colorResource(android.R.color.transparent),
+    onSurface = colorResource(R.color.text_primary_inverted),
+    onSurfaceVariant = colorResource(R.color.text_secondary_inverted),
     outline = colorResource(R.color.colorAccent),
+    outlineVariant = colorResource(R.color.outline_variant),
     surfaceContainerHigh = colorResource(android.R.color.transparent),
 )

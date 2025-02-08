@@ -8,10 +8,8 @@
     <color name="windowBackground">#aa0f000a</color>
     <color name="window_background_inverted">#E7BFBDDB</color>
     <color name="multi_choice_background">#80181A</color>
+    <color name="outline_variant">#33ff5053</color>
     <color name="session_alarm_item_bell_icon_text">#fef2ff</color>
-
-    <!-- About -->
-    <color name="about_horizontal_line">#33ff5053</color>
 
     <!-- Alarm dialogs -->
     <color name="alert_dialog_button_text">#fef2ff</color>

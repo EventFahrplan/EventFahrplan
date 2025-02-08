@@ -4,7 +4,9 @@
     <color name="text_primary">@android:color/primary_text_dark</color>
     <color name="text_primary_inverted">@android:color/primary_text_light</color>
     <color name="text_secondary">@android:color/secondary_text_dark</color>
+    <color name="text_secondary_inverted">@android:color/secondary_text_light</color>
     <color name="text_tertiary">@android:color/tertiary_text_dark</color>
+    <color name="text_tertiary_inverted">@android:color/tertiary_text_light</color>
     <color name="colorActionBar">@color/colorPrimary</color>
     <color name="windowBackground">#003339</color>
     <color name="window_background_inverted">#fff</color>
@@ -14,6 +16,7 @@
     <color name="text_link_on_light">@color/colorAccent</color>
     <color name="text_link_on_dark">@color/colorAccent</color>
     <color name="text_link_pressed_background_on_light">#aafec700</color>
+    <color name="outline_variant">#88ffffff</color>
 
     <!-- Scrollbar -->
     <color name="scrollbar_background">@color/colorAccent</color>
