@@ -5,7 +5,6 @@
     <color name="colorPrimary">#ff5053</color>
     <color name="colorPrimaryDark">#FF5D5F</color>
     <color name="colorAccent">#6a5fdb</color>
-    <color name="colorActionBar">@color/colorPrimary</color>
     <color name="windowBackground">#aa0f000a</color>
     <color name="window_background_inverted">#E7BFBDDB</color>
     <color name="multi_choice_background">#80181A</color>
