@@ -11,6 +11,9 @@ class SessionPropertiesFormatterTest {
 
     private companion object {
 
+        const val DEFAULT_ENGELSYSTEM_ROOM_NAME = "Engelshifts"
+        const val CUSTOM_ENGELSYSTEM_ROOM_NAME = "Trollshifts"
+
         @JvmStatic
         fun getLanguageTextData() = listOf(
             of("-formal", ""),
@@ -113,15 +116,53 @@ class SessionPropertiesFormatterTest {
         assertThat(formatter.getLanguageText(session)).isEqualTo(expected)
     }
 
+    @Test
+    fun `getRoomName returns empty string if room name is empty`() {
+        val session = createSession(roomName = "")
+        assertThat(
+            formatter.getRoomName(
+                roomName = session.roomName,
+                defaultEngelsystemRoomName = DEFAULT_ENGELSYSTEM_ROOM_NAME,
+                customEngelsystemRoomName = CUSTOM_ENGELSYSTEM_ROOM_NAME,
+            )
+        ).isEmpty()
+    }
+
+    @Test
+    fun `getRoomName returns original room name if room name does not match default Engelsystem room name`() {
+        val session = createSession(roomName = "Hall 1")
+        assertThat(
+            formatter.getRoomName(
+                roomName = session.roomName,
+                defaultEngelsystemRoomName = DEFAULT_ENGELSYSTEM_ROOM_NAME,
+                customEngelsystemRoomName = CUSTOM_ENGELSYSTEM_ROOM_NAME,
+            )
+        ).isEqualTo("Hall 1")
+    }
+
+    @Test
+    fun `getRoomName returns custom Engelsystem room name if room name matches default Engelsystem room name`() {
+        val session = createSession(roomName = DEFAULT_ENGELSYSTEM_ROOM_NAME)
+        assertThat(
+            formatter.getRoomName(
+                roomName = session.roomName,
+                defaultEngelsystemRoomName = DEFAULT_ENGELSYSTEM_ROOM_NAME,
+                customEngelsystemRoomName = CUSTOM_ENGELSYSTEM_ROOM_NAME,
+            )
+        ).isEqualTo(CUSTOM_ENGELSYSTEM_ROOM_NAME)
+    }
+
     private fun createSession(
         speakers: List<String> = emptyList(),
         track: String = "",
         language: String = "",
+        roomName: String = "",
     ) = Session(
         sessionId = "",
         speakers = speakers,
         track = track,
         language = language,
+        roomName = roomName,
     )
 
 }
