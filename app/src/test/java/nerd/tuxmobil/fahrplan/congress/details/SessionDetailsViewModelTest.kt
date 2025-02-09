@@ -100,6 +100,7 @@ class SessionDetailsViewModelTest {
             on { getFormattedLinks(any()) } doReturn "not relevant"
             on { getFormattedUrl(any()) } doReturn """<a href="$SAMPLE_SESSION_URL">$SAMPLE_SESSION_URL</a>"""
             on { getFormattedSpeakers(any()) } doReturn "Jane Doe, John Doe"
+            on { getRoomName(any(), any(), any()) } doReturn "Main hall"
         }
         val fakeSessionUrlComposition = mock<SessionUrlComposition> {
             on { getSessionUrl(any()) } doReturn SAMPLE_SESSION_URL
@@ -176,6 +177,7 @@ class SessionDetailsViewModelTest {
             on { getFormattedLinks(any()) } doReturn "not relevant"
             on { getFormattedUrl(any()) } doReturn ""
             on { getFormattedSpeakers(any()) } doReturn ""
+            on { getRoomName(any(), any(), any()) } doReturn ""
         }
         val fakeSessionUrlComposition = mock<SessionUrlComposition> {
             on { getSessionUrl(any()) } doReturn ""
@@ -461,6 +463,7 @@ class SessionDetailsViewModelTest {
             on { getFormattedLinks(any()) } doReturn "not relevant"
             on { getFormattedUrl(any()) } doReturn ""
             on { getFormattedSpeakers(any()) } doReturn "not relevant"
+            on { getRoomName(any(), any(), any()) } doReturn "Zengelshifts"
         }
         val fakeSessionUrlComposition = mock<SessionUrlComposition> {
             on { getSessionUrl(any()) } doReturn ""

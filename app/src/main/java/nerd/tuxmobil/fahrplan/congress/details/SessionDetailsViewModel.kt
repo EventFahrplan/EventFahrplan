@@ -126,7 +126,11 @@ internal class SessionDetailsViewModel(
     }
 
     private fun SelectedSessionParameter.customizeEngelsystemRoomName() = copy(
-        roomName = if (roomName == defaultEngelsystemRoomName) customEngelsystemRoomName else roomName
+        roomName = sessionPropertiesFormatter.getRoomName(
+            roomName = roomName,
+            defaultEngelsystemRoomName = defaultEngelsystemRoomName,
+            customEngelsystemRoomName = customEngelsystemRoomName,
+        )
     )
 
     private fun Session.toSelectedSessionParameter(): SelectedSessionParameter {

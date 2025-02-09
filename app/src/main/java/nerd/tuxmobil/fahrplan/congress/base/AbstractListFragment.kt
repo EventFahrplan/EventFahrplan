@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.annotation.CallSuper
 import androidx.annotation.MainThread
 import androidx.fragment.app.ListFragment
-import nerd.tuxmobil.fahrplan.congress.base.AbstractListFragment.OnSessionListClick
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 
 /**

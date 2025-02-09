@@ -53,4 +53,13 @@ class SessionPropertiesFormatter {
                 .replace("englisch", "en")
         }
 
+    fun getRoomName(
+        roomName: String,
+        defaultEngelsystemRoomName: String,
+        customEngelsystemRoomName: String,
+    ) = when (roomName == defaultEngelsystemRoomName) {
+        true -> customEngelsystemRoomName
+        false -> roomName
+    }
+
 }

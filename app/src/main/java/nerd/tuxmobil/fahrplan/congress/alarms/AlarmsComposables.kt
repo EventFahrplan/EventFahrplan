@@ -24,6 +24,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.onClick
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow.Companion.Ellipsis
 import androidx.compose.ui.tooling.preview.Preview
@@ -172,9 +173,9 @@ private fun AlarmIcon(alarmOffset: Int, alarmIconContentDescription: String) {
     ) {
         Text(
             "$alarmOffset",
-            modifier = Modifier.padding(end = 2.dp), // to center text
             color = colorResource(R.color.session_alarm_item_bell_icon_text),
             textAlign = TextAlign.Center,
+            fontWeight = Bold,
             fontSize = 12.sp,
         )
     }

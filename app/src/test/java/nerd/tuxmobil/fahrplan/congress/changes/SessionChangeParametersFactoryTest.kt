@@ -29,7 +29,7 @@ class SessionChangeParametersFactoryTest {
     fun `createSessionChangeParameters returns empty list when sessions is empty`() {
         val factory = SessionChangeParametersFactory(
             CompleteResourceResolver,
-            SessionPropertiesFormatter(),
+            createSessionPropertiesFormatter(),
             ContentDescriptionFormatter(mock()),
             DateFormatterCallback,
         )
@@ -41,7 +41,7 @@ class SessionChangeParametersFactoryTest {
     fun `createSessionChangeParameters returns UNCHANGED parameter when session is unchanged`() {
         val factory = SessionChangeParametersFactory(
             CompleteResourceResolver,
-            SessionPropertiesFormatter(),
+            createSessionPropertiesFormatter(),
             createContentDescriptionFormatter(),
             DateFormatterCallback,
         )
@@ -103,7 +103,7 @@ class SessionChangeParametersFactoryTest {
     fun `createSessionChangeParameters returns NEW parameter when session is new`() {
         val factory = SessionChangeParametersFactory(
             CompleteResourceResolver,
-            SessionPropertiesFormatter(),
+            createSessionPropertiesFormatter(),
             createContentDescriptionFormatter(),
             DateFormatterCallback,
         )
@@ -165,7 +165,7 @@ class SessionChangeParametersFactoryTest {
     fun `createSessionChangeParameters returns CANCELED parameter when session is canceled`() {
         val factory = SessionChangeParametersFactory(
             CompleteResourceResolver,
-            SessionPropertiesFormatter(),
+            createSessionPropertiesFormatter(),
             createContentDescriptionFormatter(),
             DateFormatterCallback,
         )
@@ -227,7 +227,7 @@ class SessionChangeParametersFactoryTest {
     fun `createSessionChangeParameters returns CHANGED parameter when session is changed`() {
         val factory = SessionChangeParametersFactory(
             CompleteResourceResolver,
-            SessionPropertiesFormatter(),
+            createSessionPropertiesFormatter(),
             createContentDescriptionFormatter(),
             DateFormatterCallback,
         )
@@ -289,7 +289,7 @@ class SessionChangeParametersFactoryTest {
     fun `createSessionChangeParameters returns CHANGED parameter with dashes when session is changed and empty`() {
         val factory = SessionChangeParametersFactory(
             CompleteResourceResolver,
-            SessionPropertiesFormatter(),
+            createSessionPropertiesFormatter(),
             createContentDescriptionFormatter(),
             DateFormatterCallback,
         )
@@ -351,7 +351,7 @@ class SessionChangeParametersFactoryTest {
     fun `createSessionChangeParameters returns day separator when session span two days`() {
         val factory = SessionChangeParametersFactory(
             CompleteResourceResolver,
-            SessionPropertiesFormatter(),
+            createSessionPropertiesFormatter(),
             createContentDescriptionFormatter(),
             DateFormatterCallback,
         )
@@ -491,6 +491,10 @@ private fun createChangedEmptySession() = Session(
     changedIsNew = false,
     changedIsCanceled = false,
 )
+
+private fun createSessionPropertiesFormatter(): SessionPropertiesFormatter {
+    return SessionPropertiesFormatter()
+}
 
 private fun createContentDescriptionFormatter() = mock<ContentDescriptionFormatter> {
     on { getDurationContentDescription(anyOrNull()) } doReturn ""
