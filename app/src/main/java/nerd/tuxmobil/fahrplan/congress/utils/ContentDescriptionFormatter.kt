@@ -35,7 +35,7 @@ class ContentDescriptionFormatter(val resourceResolving: ResourceResolving) {
             )
         }
 
-    fun getFormattedTrackContentDescription(trackName: String, languageCode: String) =
+    fun getTrackNameAndLanguageContentDescription(trackName: String, languageCode: String) =
         buildString {
             append(
                 resourceResolving.getString(

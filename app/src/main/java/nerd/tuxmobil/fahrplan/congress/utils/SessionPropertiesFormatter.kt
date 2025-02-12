@@ -24,7 +24,7 @@ class SessionPropertiesFormatter {
     fun getFormattedSpeakers(session: Session) =
         session.speakers.joinToString(", ")
 
-    fun getFormattedTrackLanguageText(session: Session) =
+    fun getFormattedTrackNameAndLanguageText(session: Session) =
         buildString {
             append(session.track)
             if (session.track.isNotEmpty() && session.language.isNotEmpty()) {

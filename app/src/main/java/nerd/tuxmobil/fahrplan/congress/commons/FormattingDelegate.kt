@@ -9,14 +9,14 @@ interface FormattingDelegate {
 
     fun getFormattedDateTimeShort(
         useDeviceTimeZone: Boolean,
-        alarmTime: Long,
+        dateUtc: Long,
         timeZoneOffset: ZoneOffset?,
     ): String
 
     fun getFormattedDateTimeLong(
         useDeviceTimeZone: Boolean,
         dateUtc: Long,
-        sessionTimeZoneOffset: ZoneOffset?,
+        timeZoneOffset: ZoneOffset?,
     ): String
 
 }

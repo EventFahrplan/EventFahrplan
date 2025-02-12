@@ -86,21 +86,21 @@ class SessionPropertiesFormatterTest {
     }
 
     @Test
-    fun `getFormattedTrackLanguageText returns track name if language is empty`() {
+    fun `getFormattedTrackNameAndLanguageText returns track name if language is empty`() {
         val session = createSession(track = "Track", language = "")
-        assertThat(formatter.getFormattedTrackLanguageText(session)).isEqualTo("Track")
+        assertThat(formatter.getFormattedTrackNameAndLanguageText(session)).isEqualTo("Track")
     }
 
     @Test
-    fun `getFormattedTrackLanguageText returns track name and language if track and language is not empty`() {
+    fun `getFormattedTrackNameAndLanguageText returns track name and language if track and language is not empty`() {
         val session = createSession(track = "Track", language = "de-formal")
-        assertThat(formatter.getFormattedTrackLanguageText(session)).isEqualTo("Track [de]")
+        assertThat(formatter.getFormattedTrackNameAndLanguageText(session)).isEqualTo("Track [de]")
     }
 
     @Test
-    fun `getFormattedTrackLanguageText returns language if track is empty and language is not empty`() {
+    fun `getFormattedTrackNameAndLanguageText returns language if track is empty and language is not empty`() {
         val session = createSession(track = "", language = "de-formal")
-        assertThat(formatter.getFormattedTrackLanguageText(session)).isEqualTo("[de]")
+        assertThat(formatter.getFormattedTrackNameAndLanguageText(session)).isEqualTo("[de]")
     }
 
     @Test
