@@ -5,26 +5,26 @@ import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolving
 import nerd.tuxmobil.fahrplan.congress.models.Session
 
-class ContentDescriptionFormatter(val resourceResolving: ResourceResolving) {
+class ContentDescriptionFormatter(val resourceResolving: ResourceResolving) : ContentDescriptionFormatting {
 
-    fun getDurationContentDescription(duration: Int) =
+    override fun getDurationContentDescription(duration: Int) =
         resourceResolving.getString(R.string.session_list_item_duration_content_description, duration)
 
-    fun getTitleContentDescription(title: String) =
+    override fun getTitleContentDescription(title: String) =
         if (title.isEmpty()) "" else resourceResolving.getString(
             R.string.session_list_item_title_content_description, title
         )
 
-    fun getSubtitleContentDescription(subtitle: String): String =
+    override fun getSubtitleContentDescription(subtitle: String): String =
         if (subtitle.isEmpty()) "" else resourceResolving.getString(
             R.string.session_list_item_subtitle_content_description, subtitle
         )
 
-    fun getRoomNameContentDescription(roomName: String): String {
+    override fun getRoomNameContentDescription(roomName: String): String {
         return resourceResolving.getString(R.string.session_list_item_room_content_description, roomName)
     }
 
-    fun getSpeakersContentDescription(speakersCount: Int, formattedSpeakerNames: String): String =
+    override fun getSpeakersContentDescription(speakersCount: Int, formattedSpeakerNames: String): String =
         if (speakersCount == 0 || formattedSpeakerNames.isEmpty()) {
             resourceResolving.getString(R.string.session_list_item_zero_speakers_content_description)
         } else {
@@ -35,7 +35,7 @@ class ContentDescriptionFormatter(val resourceResolving: ResourceResolving) {
             )
         }
 
-    fun getTrackNameAndLanguageContentDescription(trackName: String, languageCode: String) =
+    override fun getTrackNameAndLanguageContentDescription(trackName: String, languageCode: String) =
         buildString {
             append(
                 resourceResolving.getString(
@@ -49,7 +49,7 @@ class ContentDescriptionFormatter(val resourceResolving: ResourceResolving) {
             }
         }
 
-    fun getLanguageContentDescription(languageCode: String): String {
+    override fun getLanguageContentDescription(languageCode: String): String {
         if (languageCode.isEmpty()) {
             return resourceResolving.getString(R.string.session_list_item_language_unknown_content_description)
         }
@@ -65,7 +65,7 @@ class ContentDescriptionFormatter(val resourceResolving: ResourceResolving) {
         )
     }
 
-    fun getStartTimeContentDescription(startTimeText: String) =
+    override fun getStartTimeContentDescription(startTimeText: String) =
         resourceResolving.getString(R.string.session_list_item_start_time_content_description, startTimeText)
 
     private fun getHighlightContentDescription(isHighlighted: Boolean): String {
@@ -76,7 +76,7 @@ class ContentDescriptionFormatter(val resourceResolving: ResourceResolving) {
         return resourceResolving.getString(stringResource)
     }
 
-    fun getStateContentDescription(session: Session, useDeviceTimeZone: Boolean): String {
+    override fun getStateContentDescription(session: Session, useDeviceTimeZone: Boolean): String {
         val roomNameContentDescription: String = getRoomNameContentDescription(session.roomName)
         val startsAtText = DateFormatter
             .newInstance(useDeviceTimeZone)
