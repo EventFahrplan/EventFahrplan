@@ -6,14 +6,14 @@ import info.metadude.android.eventfahrplan.commons.temporal.DateFormatter
 import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolving
 import nerd.tuxmobil.fahrplan.congress.repositories.AppExecutionContext
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
-import nerd.tuxmobil.fahrplan.congress.utils.ContentDescriptionFormatter
+import nerd.tuxmobil.fahrplan.congress.utils.ContentDescriptionFormatting
 import nerd.tuxmobil.fahrplan.congress.utils.SessionPropertiesFormatter
 
 class ChangeListViewModelFactory(
     private val appRepository: AppRepository,
     private val resourceResolving: ResourceResolving,
     private val sessionPropertiesFormatter: SessionPropertiesFormatter,
-    private val contentDescriptionFormatter: ContentDescriptionFormatter,
+    private val contentDescriptionFormatting: ContentDescriptionFormatting,
 ) : Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -24,7 +24,7 @@ class ChangeListViewModelFactory(
             sessionChangeParametersFactory = SessionChangeParametersFactory(
                 resourceResolving = resourceResolving,
                 sessionPropertiesFormatter = sessionPropertiesFormatter,
-                contentDescriptionFormatter = contentDescriptionFormatter,
+                contentDescriptionFormatting = contentDescriptionFormatting,
                 onDateFormatter = { useDeviceTimeZone -> DateFormatter.newInstance(useDeviceTimeZone) }
             )
         ) as T

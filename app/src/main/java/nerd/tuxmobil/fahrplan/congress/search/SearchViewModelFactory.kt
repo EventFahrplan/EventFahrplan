@@ -5,14 +5,14 @@ import androidx.lifecycle.ViewModelProvider.Factory
 import nerd.tuxmobil.fahrplan.congress.commons.DateFormatterDelegate
 import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolving
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
-import nerd.tuxmobil.fahrplan.congress.utils.ContentDescriptionFormatter
+import nerd.tuxmobil.fahrplan.congress.utils.ContentDescriptionFormatting
 import nerd.tuxmobil.fahrplan.congress.utils.SessionPropertiesFormatter
 
 class SearchViewModelFactory(
     private val appRepository: AppRepository,
     private val resourceResolving: ResourceResolving,
     private val sessionPropertiesFormatter: SessionPropertiesFormatter,
-    private val contentDescriptionFormatter: ContentDescriptionFormatter,
+    private val contentDescriptionFormatting: ContentDescriptionFormatting,
 ) : Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -24,7 +24,7 @@ class SearchViewModelFactory(
             searchResultParameterFactory = SearchResultParameterFactory(
                 resourceResolving = resourceResolving,
                 sessionPropertiesFormatter = sessionPropertiesFormatter,
-                contentDescriptionFormatter = contentDescriptionFormatter,
+                contentDescriptionFormatting = contentDescriptionFormatting,
                 formattingDelegate = DateFormatterDelegate,
             ),
         ) as T

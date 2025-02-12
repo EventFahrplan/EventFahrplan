@@ -11,7 +11,7 @@ import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.base.SessionsAdapter
 import nerd.tuxmobil.fahrplan.congress.extensions.textOrHide
 import nerd.tuxmobil.fahrplan.congress.models.Session
-import nerd.tuxmobil.fahrplan.congress.utils.ContentDescriptionFormatter
+import nerd.tuxmobil.fahrplan.congress.utils.ContentDescriptionFormatting
 import nerd.tuxmobil.fahrplan.congress.utils.SessionPropertiesFormatter
 
 class StarredListAdapter internal constructor(
@@ -21,7 +21,7 @@ class StarredListAdapter internal constructor(
         numDays: Int,
         useDeviceTimeZone: Boolean,
         private val sessionPropertiesFormatter: SessionPropertiesFormatter,
-        private val contentDescriptionFormatter: ContentDescriptionFormatter,
+        private val contentDescriptionFormatting: ContentDescriptionFormatting,
 
 ) : SessionsAdapter(
 
@@ -55,30 +55,30 @@ class StarredListAdapter internal constructor(
 
             title.textOrHide = session.title
             subtitle.textOrHide = session.subtitle
-            subtitle.contentDescription = contentDescriptionFormatter
+            subtitle.contentDescription = contentDescriptionFormatting
                 .getSubtitleContentDescription(session.subtitle)
 
             val speakerNames = sessionPropertiesFormatter.getFormattedSpeakers(session)
             speakers.textOrHide = speakerNames
-            speakers.contentDescription = contentDescriptionFormatter
+            speakers.contentDescription = contentDescriptionFormatting
                 .getSpeakersContentDescription(session.speakers.size, speakerNames)
             val languageText = sessionPropertiesFormatter.getLanguageText(session)
             lang.textOrHide = languageText
-            lang.contentDescription = contentDescriptionFormatter
+            lang.contentDescription = contentDescriptionFormatting
                 .getLanguageContentDescription(languageText)
 
             day.isVisible = false
             val timeText = DateFormatter.newInstance(useDeviceTimeZone).getFormattedTime(session.dateUTC, session.timeZoneOffset)
             time.textOrHide = timeText
-            time.contentDescription = contentDescriptionFormatter
+            time.contentDescription = contentDescriptionFormatting
                 .getStartTimeContentDescription(timeText)
 
             room.textOrHide = session.roomName
-            room.contentDescription = contentDescriptionFormatter
+            room.contentDescription = contentDescriptionFormatting
                 .getRoomNameContentDescription(session.roomName)
             val durationText = duration.context.getString(R.string.session_list_item_duration_text, session.duration)
             duration.textOrHide = durationText
-            duration.contentDescription = contentDescriptionFormatter
+            duration.contentDescription = contentDescriptionFormatting
                 .getDurationContentDescription(session.duration)
 
             withoutVideoRecording.isVisible = session.recordingOptOut

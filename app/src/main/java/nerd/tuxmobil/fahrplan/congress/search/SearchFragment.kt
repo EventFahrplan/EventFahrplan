@@ -47,7 +47,7 @@ class SearchFragment : Fragment() {
             appRepository = AppRepository,
             resourceResolving = resourceResolving,
             sessionPropertiesFormatter = SessionPropertiesFormatter(),
-            contentDescriptionFormatter = ContentDescriptionFormatter(resourceResolving),
+            contentDescriptionFormatting = ContentDescriptionFormatter(resourceResolving),
         )
 
     }

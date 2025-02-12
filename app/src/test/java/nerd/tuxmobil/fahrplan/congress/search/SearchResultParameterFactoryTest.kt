@@ -78,7 +78,7 @@ class SearchResultParameterFactoryTest {
         return SearchResultParameterFactory(
             resourceResolving = CompleteResourceResolver,
             sessionPropertiesFormatter = sessionPropertiesFormatter,
-            contentDescriptionFormatter = ContentDescriptionFormatter(CompleteResourceResolver),
+            contentDescriptionFormatting = ContentDescriptionFormatter(CompleteResourceResolver),
             formattingDelegate = formattingDelegate,
         )
     }

@@ -146,7 +146,7 @@ class StarredListFragment :
                 numDays = numDays,
                 useDeviceTimeZone = useDeviceTimeZone,
                 sessionPropertiesFormatter = SessionPropertiesFormatter(),
-                contentDescriptionFormatter = ContentDescriptionFormatter(ResourceResolver(activity)),
+                contentDescriptionFormatting = ContentDescriptionFormatter(ResourceResolver(activity)),
             )
             currentListView.adapter = adapter
             activity.invalidateOptionsMenu()

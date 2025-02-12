@@ -188,7 +188,7 @@ class FahrplanFragment : Fragment(), MenuProvider, SessionViewEventsHandler {
         sessionViewDrawer = SessionViewDrawer(
             context = context,
             sessionPropertiesFormatter = SessionPropertiesFormatter(),
-            contentDescriptionFormatter = ContentDescriptionFormatter(ResourceResolver((context))),
+            contentDescriptionFormatting = ContentDescriptionFormatter(ResourceResolver((context))),
             getSessionPadding = { sessionPadding },
         )
         errorMessageFactory = ErrorMessage.Factory(context)
