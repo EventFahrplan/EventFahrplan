@@ -31,7 +31,7 @@ import nerd.tuxmobil.fahrplan.congress.repositories.ExecutionContext
 import nerd.tuxmobil.fahrplan.congress.roomstates.RoomStateFormatting
 import nerd.tuxmobil.fahrplan.congress.sharing.JsonSessionFormat
 import nerd.tuxmobil.fahrplan.congress.sharing.SimpleSessionFormat
-import nerd.tuxmobil.fahrplan.congress.utils.FeedbackUrlComposer
+import nerd.tuxmobil.fahrplan.congress.utils.FeedbackUrlComposition
 import nerd.tuxmobil.fahrplan.congress.utils.Font
 import nerd.tuxmobil.fahrplan.congress.utils.MarkdownConversion
 import nerd.tuxmobil.fahrplan.congress.utils.SessionPropertiesFormatter
@@ -49,7 +49,7 @@ internal class SessionDetailsViewModel(
     private val sessionPropertiesFormatter: SessionPropertiesFormatter,
     private val simpleSessionFormat: SimpleSessionFormat,
     private val jsonSessionFormat: JsonSessionFormat,
-    private val feedbackUrlComposer: FeedbackUrlComposer,
+    private val feedbackUrlComposition: FeedbackUrlComposition,
     private val sessionUrlComposition: SessionUrlComposition,
     private val indoorNavigation: IndoorNavigation,
     private val markdownConversion: MarkdownConversion,
@@ -143,7 +143,7 @@ internal class SessionDetailsViewModel(
         val formattedLinks = markdownConversion.markdownLinksToHtmlLinks(linksHtml)
         val sessionUrl = sessionUrlComposition.getSessionUrl(this)
         val sessionLink = sessionPropertiesFormatter.getFormattedUrl(sessionUrl)
-        val isFeedbackUrlEmpty = feedbackUrlComposer.getFeedbackUrl(this).isEmpty()
+        val isFeedbackUrlEmpty = feedbackUrlComposition.getFeedbackUrl(this).isEmpty()
         val supportsIndoorNavigation = indoorNavigation.isSupported(this.toRoom())
         val isEngelshift = roomName == defaultEngelsystemRoomName
         val supportsFeedback = !isFeedbackUrlEmpty && !isEngelshift
@@ -178,7 +178,7 @@ internal class SessionDetailsViewModel(
 
     fun openFeedback() {
         loadSelectedSession { session ->
-            val uri = feedbackUrlComposer.getFeedbackUrl(session).toUri()
+            val uri = feedbackUrlComposition.getFeedbackUrl(session).toUri()
             mutableOpenFeedBack.sendOneTimeEvent(uri)
         }
     }

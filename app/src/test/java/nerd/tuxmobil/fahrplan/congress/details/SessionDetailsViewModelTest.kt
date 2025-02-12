@@ -23,7 +23,7 @@ import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.sharing.JsonSessionFormat
 import nerd.tuxmobil.fahrplan.congress.sharing.SimpleSessionFormat
-import nerd.tuxmobil.fahrplan.congress.utils.FeedbackUrlComposer
+import nerd.tuxmobil.fahrplan.congress.utils.FeedbackUrlComposition
 import nerd.tuxmobil.fahrplan.congress.utils.MarkdownConversion
 import nerd.tuxmobil.fahrplan.congress.utils.SessionPropertiesFormatter
 import nerd.tuxmobil.fahrplan.congress.utils.SessionUrlComposition
@@ -60,7 +60,7 @@ class SessionDetailsViewModelTest {
         val fakeMarkdownConversion = mock<MarkdownConversion> {
             on { markdownLinksToHtmlLinks(any()) } doReturn "Markdown"
         }
-        val fakeFeedbackUrlComposer = mock<FeedbackUrlComposer> {
+        val fakeFeedbackUrlComposition = mock<FeedbackUrlComposition> {
             on { getFeedbackUrl(any()) } doReturn SAMPLE_FEEDBACK_URL
         }
         val viewModel = createViewModel(
@@ -69,7 +69,7 @@ class SessionDetailsViewModelTest {
             sessionUrlComposition = fakeSessionUrlComposition,
             formattingDelegate = fakeFormattingDelegate,
             markdownConversion = fakeMarkdownConversion,
-            feedbackUrlComposer = fakeFeedbackUrlComposer,
+            feedbackUrlComposition = fakeFeedbackUrlComposition,
             indoorNavigation = SupportedIndoorNavigation,
         )
         viewModel.selectedSessionParameter.test {
@@ -112,7 +112,7 @@ class SessionDetailsViewModelTest {
         val fakeMarkdownConversion = mock<MarkdownConversion> {
             on { markdownLinksToHtmlLinks(any()) } doReturn "Markdown"
         }
-        val fakeFeedbackUrlComposer = mock<FeedbackUrlComposer> {
+        val fakeFeedbackUrlComposition = mock<FeedbackUrlComposition> {
             on { getFeedbackUrl(any()) } doReturn SAMPLE_FEEDBACK_URL
         }
         val viewModel = createViewModel(
@@ -121,7 +121,7 @@ class SessionDetailsViewModelTest {
             sessionUrlComposition = fakeSessionUrlComposition,
             formattingDelegate = fakeFormattingDelegate,
             markdownConversion = fakeMarkdownConversion,
-            feedbackUrlComposer = fakeFeedbackUrlComposer,
+            feedbackUrlComposition = fakeFeedbackUrlComposition,
             indoorNavigation = SupportedIndoorNavigation,
         )
         val selectedSessionParameter = SelectedSessionParameter(
@@ -189,7 +189,7 @@ class SessionDetailsViewModelTest {
         val fakeMarkdownConversion = mock<MarkdownConversion> {
             on { markdownLinksToHtmlLinks(any()) } doReturn ""
         }
-        val fakeFeedbackUrlComposer = mock<FeedbackUrlComposer> {
+        val fakeFeedbackUrlComposition = mock<FeedbackUrlComposition> {
             on { getFeedbackUrl(any()) } doReturn ""
         }
         val viewModel = createViewModel(
@@ -198,7 +198,7 @@ class SessionDetailsViewModelTest {
             sessionUrlComposition = fakeSessionUrlComposition,
             formattingDelegate = fakeFormattingDelegate,
             markdownConversion = fakeMarkdownConversion,
-            feedbackUrlComposer = fakeFeedbackUrlComposer,
+            feedbackUrlComposition = fakeFeedbackUrlComposition,
             indoorNavigation = UnsupportedIndoorNavigation,
         )
         val selectedSessionParameter = SelectedSessionParameter(
@@ -236,10 +236,10 @@ class SessionDetailsViewModelTest {
     @Test
     fun `openFeedback() posts to openFeedback`() = runTest {
         val repository = createRepository()
-        val fakeFeedbackUrlComposer = mock<FeedbackUrlComposer> {
+        val fakeFeedbackUrlComposition = mock<FeedbackUrlComposition> {
             on { getFeedbackUrl(any()) } doReturn SAMPLE_FEEDBACK_URL
         }
-        val viewModel = createViewModel(repository, feedbackUrlComposer = fakeFeedbackUrlComposer)
+        val viewModel = createViewModel(repository, feedbackUrlComposition = fakeFeedbackUrlComposition)
         viewModel.openFeedback()
         viewModel.openFeedBack.test {
             assertThat(awaitItem()).isEqualTo(SAMPLE_FEEDBACK_URL.toUri())
@@ -475,7 +475,7 @@ class SessionDetailsViewModelTest {
         val fakeMarkdownConversion = mock<MarkdownConversion> {
             on { markdownLinksToHtmlLinks(any()) } doReturn ""
         }
-        val fakeFeedbackUrlComposer = mock<FeedbackUrlComposer> {
+        val fakeFeedbackUrlComposition = mock<FeedbackUrlComposition> {
             on { getFeedbackUrl(any()) } doReturn ""
         }
         val viewModel = createViewModel(
@@ -484,7 +484,7 @@ class SessionDetailsViewModelTest {
             sessionUrlComposition = fakeSessionUrlComposition,
             formattingDelegate = fakeFormattingDelegate,
             markdownConversion = fakeMarkdownConversion,
-            feedbackUrlComposer = fakeFeedbackUrlComposer,
+            feedbackUrlComposition = fakeFeedbackUrlComposition,
             indoorNavigation = UnsupportedIndoorNavigation,
             defaultEngelsystemRoomName = "Engelshifts",
             customEngelsystemRoomName = "Zengelshifts",
@@ -516,7 +516,7 @@ class SessionDetailsViewModelTest {
         sessionPropertiesFormatter: SessionPropertiesFormatter = SessionPropertiesFormatter(),
         simpleSessionFormat: SimpleSessionFormat = mock(),
         jsonSessionFormat: JsonSessionFormat = mock(),
-        feedbackUrlComposer: FeedbackUrlComposer = mock(),
+        feedbackUrlComposition: FeedbackUrlComposition = mock(),
         sessionUrlComposition: SessionUrlComposition = mock(),
         markdownConversion: MarkdownConversion = mock(),
         formattingDelegate: FormattingDelegate = mock(),
@@ -534,7 +534,7 @@ class SessionDetailsViewModelTest {
         sessionPropertiesFormatter = sessionPropertiesFormatter,
         simpleSessionFormat = simpleSessionFormat,
         jsonSessionFormat = jsonSessionFormat,
-        feedbackUrlComposer = feedbackUrlComposer,
+        feedbackUrlComposition = feedbackUrlComposition,
         sessionUrlComposition = sessionUrlComposition,
         indoorNavigation = indoorNavigation,
         markdownConversion = markdownConversion,
