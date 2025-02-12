@@ -26,6 +26,7 @@ import nerd.tuxmobil.fahrplan.congress.sharing.SimpleSessionFormat
 import nerd.tuxmobil.fahrplan.congress.utils.FeedbackUrlComposition
 import nerd.tuxmobil.fahrplan.congress.utils.MarkdownConversion
 import nerd.tuxmobil.fahrplan.congress.utils.SessionPropertiesFormatter
+import nerd.tuxmobil.fahrplan.congress.utils.SessionPropertiesFormatting
 import nerd.tuxmobil.fahrplan.congress.utils.SessionUrlComposition
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -46,7 +47,7 @@ class SessionDetailsViewModelTest {
     @Test
     fun `selectedSessionParameter does not emit SelectedSessionParameter`() = runTest {
         val repository = createRepository(selectedSessionFlow = emptyFlow())
-        val fakePropertiesFormatter = mock<SessionPropertiesFormatter> {
+        val fakePropertiesFormatting = mock<SessionPropertiesFormatting> {
             on { getFormattedLinks(any()) } doReturn "not relevant"
             on { getFormattedUrl(any()) } doReturn """<a href="$SAMPLE_SESSION_URL">$SAMPLE_SESSION_URL</a>"""
         }
@@ -65,7 +66,7 @@ class SessionDetailsViewModelTest {
         }
         val viewModel = createViewModel(
             repository = repository,
-            sessionPropertiesFormatter = fakePropertiesFormatter,
+            sessionPropertiesFormatting = fakePropertiesFormatting,
             sessionUrlComposition = fakeSessionUrlComposition,
             formattingDelegate = fakeFormattingDelegate,
             markdownConversion = fakeMarkdownConversion,
@@ -96,7 +97,7 @@ class SessionDetailsViewModelTest {
             isHighlight = true,
         )
         val repository = createRepository(selectedSessionFlow = flowOf(session))
-        val fakeSessionPropertiesFormatter = mock<SessionPropertiesFormatter> {
+        val fakeSessionPropertiesFormatting = mock<SessionPropertiesFormatting> {
             on { getFormattedLinks(any()) } doReturn "not relevant"
             on { getFormattedUrl(any()) } doReturn """<a href="$SAMPLE_SESSION_URL">$SAMPLE_SESSION_URL</a>"""
             on { getFormattedSpeakers(any()) } doReturn "Jane Doe, John Doe"
@@ -117,7 +118,7 @@ class SessionDetailsViewModelTest {
         }
         val viewModel = createViewModel(
             repository = repository,
-            sessionPropertiesFormatter = fakeSessionPropertiesFormatter,
+            sessionPropertiesFormatting = fakeSessionPropertiesFormatting,
             sessionUrlComposition = fakeSessionUrlComposition,
             formattingDelegate = fakeFormattingDelegate,
             markdownConversion = fakeMarkdownConversion,
@@ -173,7 +174,7 @@ class SessionDetailsViewModelTest {
             isHighlight = false,
         )
         val repository = createRepository(selectedSessionFlow = flowOf(session))
-        val fakeSessionPropertiesFormatter = mock<SessionPropertiesFormatter> {
+        val fakeSessionPropertiesFormatting = mock<SessionPropertiesFormatting> {
             on { getFormattedLinks(any()) } doReturn "not relevant"
             on { getFormattedUrl(any()) } doReturn ""
             on { getFormattedSpeakers(any()) } doReturn ""
@@ -194,7 +195,7 @@ class SessionDetailsViewModelTest {
         }
         val viewModel = createViewModel(
             repository = repository,
-            sessionPropertiesFormatter = fakeSessionPropertiesFormatter,
+            sessionPropertiesFormatting = fakeSessionPropertiesFormatting,
             sessionUrlComposition = fakeSessionUrlComposition,
             formattingDelegate = fakeFormattingDelegate,
             markdownConversion = fakeMarkdownConversion,
@@ -459,7 +460,7 @@ class SessionDetailsViewModelTest {
             roomIdentifier = "88888888-4444-4444-4444-121212121212",
         )
         val repository = createRepository(selectedSessionFlow = flowOf(session))
-        val fakeSessionPropertiesFormatter = mock<SessionPropertiesFormatter> {
+        val fakeSessionPropertiesFormatting = mock<SessionPropertiesFormatting> {
             on { getFormattedLinks(any()) } doReturn "not relevant"
             on { getFormattedUrl(any()) } doReturn ""
             on { getFormattedSpeakers(any()) } doReturn "not relevant"
@@ -480,7 +481,7 @@ class SessionDetailsViewModelTest {
         }
         val viewModel = createViewModel(
             repository = repository,
-            sessionPropertiesFormatter = fakeSessionPropertiesFormatter,
+            sessionPropertiesFormatting = fakeSessionPropertiesFormatting,
             sessionUrlComposition = fakeSessionUrlComposition,
             formattingDelegate = fakeFormattingDelegate,
             markdownConversion = fakeMarkdownConversion,
@@ -513,7 +514,7 @@ class SessionDetailsViewModelTest {
         repository: AppRepository,
         alarmServices: AlarmServices = mock(),
         notificationHelper: NotificationHelper = mock(),
-        sessionPropertiesFormatter: SessionPropertiesFormatter = SessionPropertiesFormatter(),
+        sessionPropertiesFormatting: SessionPropertiesFormatting = SessionPropertiesFormatter(),
         simpleSessionFormat: SimpleSessionFormat = mock(),
         jsonSessionFormat: JsonSessionFormat = mock(),
         feedbackUrlComposition: FeedbackUrlComposition = mock(),
@@ -531,7 +532,7 @@ class SessionDetailsViewModelTest {
         buildConfigProvision = mock(),
         alarmServices = alarmServices,
         notificationHelper = notificationHelper,
-        sessionPropertiesFormatter = sessionPropertiesFormatter,
+        sessionPropertiesFormatting = sessionPropertiesFormatting,
         simpleSessionFormat = simpleSessionFormat,
         jsonSessionFormat = jsonSessionFormat,
         feedbackUrlComposition = feedbackUrlComposition,

@@ -7,12 +7,12 @@ import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolving
 import nerd.tuxmobil.fahrplan.congress.repositories.AppExecutionContext
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.utils.ContentDescriptionFormatting
-import nerd.tuxmobil.fahrplan.congress.utils.SessionPropertiesFormatter
+import nerd.tuxmobil.fahrplan.congress.utils.SessionPropertiesFormatting
 
 class ChangeListViewModelFactory(
     private val appRepository: AppRepository,
     private val resourceResolving: ResourceResolving,
-    private val sessionPropertiesFormatter: SessionPropertiesFormatter,
+    private val sessionPropertiesFormatting: SessionPropertiesFormatting,
     private val contentDescriptionFormatting: ContentDescriptionFormatting,
 ) : Factory {
 
@@ -23,7 +23,7 @@ class ChangeListViewModelFactory(
             executionContext = AppExecutionContext,
             sessionChangeParametersFactory = SessionChangeParametersFactory(
                 resourceResolving = resourceResolving,
-                sessionPropertiesFormatter = sessionPropertiesFormatter,
+                sessionPropertiesFormatting = sessionPropertiesFormatting,
                 contentDescriptionFormatting = contentDescriptionFormatting,
                 onDateFormatter = { useDeviceTimeZone -> DateFormatter.newInstance(useDeviceTimeZone) }
             )

@@ -6,12 +6,12 @@ import nerd.tuxmobil.fahrplan.congress.commons.DateFormatterDelegate
 import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolving
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.utils.ContentDescriptionFormatting
-import nerd.tuxmobil.fahrplan.congress.utils.SessionPropertiesFormatter
+import nerd.tuxmobil.fahrplan.congress.utils.SessionPropertiesFormatting
 
 class SearchViewModelFactory(
     private val appRepository: AppRepository,
     private val resourceResolving: ResourceResolving,
-    private val sessionPropertiesFormatter: SessionPropertiesFormatter,
+    private val sessionPropertiesFormatting: SessionPropertiesFormatting,
     private val contentDescriptionFormatting: ContentDescriptionFormatting,
 ) : Factory {
 
@@ -23,7 +23,7 @@ class SearchViewModelFactory(
             searchHistoryManager = SearchHistoryManager(appRepository),
             searchResultParameterFactory = SearchResultParameterFactory(
                 resourceResolving = resourceResolving,
-                sessionPropertiesFormatter = sessionPropertiesFormatter,
+                sessionPropertiesFormatting = sessionPropertiesFormatting,
                 contentDescriptionFormatting = contentDescriptionFormatting,
                 formattingDelegate = DateFormatterDelegate,
             ),

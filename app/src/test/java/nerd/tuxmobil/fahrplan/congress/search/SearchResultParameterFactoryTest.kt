@@ -6,7 +6,7 @@ import nerd.tuxmobil.fahrplan.congress.commons.FormattingDelegate
 import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolving
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.utils.ContentDescriptionFormatter
-import nerd.tuxmobil.fahrplan.congress.utils.SessionPropertiesFormatter
+import nerd.tuxmobil.fahrplan.congress.utils.SessionPropertiesFormatting
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.fail
 import org.mockito.kotlin.anyOrNull
@@ -77,13 +77,13 @@ class SearchResultParameterFactoryTest {
     private fun createFactory(): SearchResultParameterFactory {
         return SearchResultParameterFactory(
             resourceResolving = CompleteResourceResolver,
-            sessionPropertiesFormatter = sessionPropertiesFormatter,
+            sessionPropertiesFormatting = sessionPropertiesFormatting,
             contentDescriptionFormatting = ContentDescriptionFormatter(CompleteResourceResolver),
             formattingDelegate = formattingDelegate,
         )
     }
 
-    private val sessionPropertiesFormatter = mock<SessionPropertiesFormatter> {
+    private val sessionPropertiesFormatting = mock<SessionPropertiesFormatting> {
         on { getFormattedSpeakers(anyOrNull()) } doReturn "Jane Doe; John Doe"
     }
 

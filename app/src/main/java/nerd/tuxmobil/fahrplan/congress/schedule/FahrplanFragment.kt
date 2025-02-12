@@ -187,7 +187,7 @@ class FahrplanFragment : Fragment(), MenuProvider, SessionViewEventsHandler {
         roomTitleTypeFace = TypefaceFactory.getNewInstance(context).getTypeface(Font.Roboto.Light)
         sessionViewDrawer = SessionViewDrawer(
             context = context,
-            sessionPropertiesFormatter = SessionPropertiesFormatter(),
+            sessionPropertiesFormatting = SessionPropertiesFormatter(),
             contentDescriptionFormatting = ContentDescriptionFormatter(ResourceResolver((context))),
             getSessionPadding = { sessionPadding },
         )

@@ -12,7 +12,7 @@ import nerd.tuxmobil.fahrplan.congress.base.SessionsAdapter
 import nerd.tuxmobil.fahrplan.congress.extensions.textOrHide
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.utils.ContentDescriptionFormatting
-import nerd.tuxmobil.fahrplan.congress.utils.SessionPropertiesFormatter
+import nerd.tuxmobil.fahrplan.congress.utils.SessionPropertiesFormatting
 
 class StarredListAdapter internal constructor(
 
@@ -20,7 +20,7 @@ class StarredListAdapter internal constructor(
         list: List<Session>,
         numDays: Int,
         useDeviceTimeZone: Boolean,
-        private val sessionPropertiesFormatter: SessionPropertiesFormatter,
+        private val sessionPropertiesFormatting: SessionPropertiesFormatting,
         private val contentDescriptionFormatting: ContentDescriptionFormatting,
 
 ) : SessionsAdapter(
@@ -58,11 +58,11 @@ class StarredListAdapter internal constructor(
             subtitle.contentDescription = contentDescriptionFormatting
                 .getSubtitleContentDescription(session.subtitle)
 
-            val speakerNames = sessionPropertiesFormatter.getFormattedSpeakers(session)
+            val speakerNames = sessionPropertiesFormatting.getFormattedSpeakers(session)
             speakers.textOrHide = speakerNames
             speakers.contentDescription = contentDescriptionFormatting
                 .getSpeakersContentDescription(session.speakers.size, speakerNames)
-            val languageText = sessionPropertiesFormatter.getLanguageText(session)
+            val languageText = sessionPropertiesFormatting.getLanguageText(session)
             lang.textOrHide = languageText
             lang.contentDescription = contentDescriptionFormatting
                 .getLanguageContentDescription(languageText)

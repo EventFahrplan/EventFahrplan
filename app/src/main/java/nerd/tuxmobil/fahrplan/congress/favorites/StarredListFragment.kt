@@ -145,7 +145,7 @@ class StarredListFragment :
                 list = sessions,
                 numDays = numDays,
                 useDeviceTimeZone = useDeviceTimeZone,
-                sessionPropertiesFormatter = SessionPropertiesFormatter(),
+                sessionPropertiesFormatting = SessionPropertiesFormatter(),
                 contentDescriptionFormatting = ContentDescriptionFormatter(ResourceResolver(activity)),
             )
             currentListView.adapter = adapter

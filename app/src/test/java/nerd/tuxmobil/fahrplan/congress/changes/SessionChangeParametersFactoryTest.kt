@@ -14,6 +14,7 @@ import nerd.tuxmobil.fahrplan.congress.commons.VideoRecordingState.None
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.utils.ContentDescriptionFormatter
 import nerd.tuxmobil.fahrplan.congress.utils.SessionPropertiesFormatter
+import nerd.tuxmobil.fahrplan.congress.utils.SessionPropertiesFormatting
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.fail
 import org.mockito.kotlin.anyOrNull
@@ -492,7 +493,7 @@ private fun createChangedEmptySession() = Session(
     changedIsCanceled = false,
 )
 
-private fun createSessionPropertiesFormatter(): SessionPropertiesFormatter {
+private fun createSessionPropertiesFormatter(): SessionPropertiesFormatting {
     return SessionPropertiesFormatter()
 }
 

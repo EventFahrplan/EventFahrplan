@@ -34,7 +34,7 @@ import nerd.tuxmobil.fahrplan.congress.sharing.SimpleSessionFormat
 import nerd.tuxmobil.fahrplan.congress.utils.FeedbackUrlComposition
 import nerd.tuxmobil.fahrplan.congress.utils.Font
 import nerd.tuxmobil.fahrplan.congress.utils.MarkdownConversion
-import nerd.tuxmobil.fahrplan.congress.utils.SessionPropertiesFormatter
+import nerd.tuxmobil.fahrplan.congress.utils.SessionPropertiesFormatting
 import nerd.tuxmobil.fahrplan.congress.utils.SessionUrlComposition
 import nerd.tuxmobil.fahrplan.congress.wiki.containsWikiLink
 
@@ -46,7 +46,7 @@ internal class SessionDetailsViewModel(
     buildConfigProvision: BuildConfigProvision,
     alarmServices: AlarmServices,
     notificationHelper: NotificationHelper,
-    private val sessionPropertiesFormatter: SessionPropertiesFormatter,
+    private val sessionPropertiesFormatting: SessionPropertiesFormatting,
     private val simpleSessionFormat: SimpleSessionFormat,
     private val jsonSessionFormat: JsonSessionFormat,
     private val feedbackUrlComposition: FeedbackUrlComposition,
@@ -126,7 +126,7 @@ internal class SessionDetailsViewModel(
     }
 
     private fun SelectedSessionParameter.customizeEngelsystemRoomName() = copy(
-        roomName = sessionPropertiesFormatter.getRoomName(
+        roomName = sessionPropertiesFormatting.getRoomName(
             roomName = roomName,
             defaultEngelsystemRoomName = defaultEngelsystemRoomName,
             customEngelsystemRoomName = customEngelsystemRoomName,
@@ -139,10 +139,10 @@ internal class SessionDetailsViewModel(
         val formattedZonedDateTimeLong = formattingDelegate.getFormattedDateTimeLong(useDeviceTimeZone, dateUTC, timeZoneOffset)
         val formattedAbstract = markdownConversion.markdownLinksToHtmlLinks(abstractt)
         val formattedDescription = markdownConversion.markdownLinksToHtmlLinks(description)
-        val linksHtml = sessionPropertiesFormatter.getFormattedLinks(links)
+        val linksHtml = sessionPropertiesFormatting.getFormattedLinks(links)
         val formattedLinks = markdownConversion.markdownLinksToHtmlLinks(linksHtml)
         val sessionUrl = sessionUrlComposition.getSessionUrl(this)
-        val sessionLink = sessionPropertiesFormatter.getFormattedUrl(sessionUrl)
+        val sessionLink = sessionPropertiesFormatting.getFormattedUrl(sessionUrl)
         val isFeedbackUrlEmpty = feedbackUrlComposition.getFeedbackUrl(this).isEmpty()
         val supportsIndoorNavigation = indoorNavigation.isSupported(this.toRoom())
         val isEngelshift = roomName == defaultEngelsystemRoomName
@@ -156,7 +156,7 @@ internal class SessionDetailsViewModel(
             formattedZonedDateTimeLong = formattedZonedDateTimeLong,
             title = title,
             subtitle = subtitle,
-            speakerNames = sessionPropertiesFormatter.getFormattedSpeakers(this),
+            speakerNames = sessionPropertiesFormatting.getFormattedSpeakers(this),
             speakersCount = speakers.size,
             abstract = abstractt,
             formattedAbstract = formattedAbstract,

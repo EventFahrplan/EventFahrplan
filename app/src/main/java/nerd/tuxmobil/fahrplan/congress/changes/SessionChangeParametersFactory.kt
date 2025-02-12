@@ -14,11 +14,11 @@ import nerd.tuxmobil.fahrplan.congress.commons.VideoRecordingState.Drawable.Unav
 import nerd.tuxmobil.fahrplan.congress.commons.VideoRecordingState.None
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.utils.ContentDescriptionFormatting
-import nerd.tuxmobil.fahrplan.congress.utils.SessionPropertiesFormatter
+import nerd.tuxmobil.fahrplan.congress.utils.SessionPropertiesFormatting
 
 class SessionChangeParametersFactory(
     private val resourceResolving: ResourceResolving,
-    private val sessionPropertiesFormatter: SessionPropertiesFormatter,
+    private val sessionPropertiesFormatting: SessionPropertiesFormatting,
     private val contentDescriptionFormatting: ContentDescriptionFormatting,
     private val onDateFormatter: (useDeviceTimeZone: Boolean) -> DateFormatter,
 ) {
@@ -50,7 +50,7 @@ class SessionChangeParametersFactory(
     private fun sessionChangeOf(session: Session, dayText: String, dash: String, useDeviceTimeZone: Boolean): SessionChange {
         val startsAt = onDateFormatter(useDeviceTimeZone).getFormattedTime(session.dateUTC, session.timeZoneOffset)
         val duration = resourceResolving.getString(R.string.session_list_item_duration_text, session.duration)
-        val languages = sessionPropertiesFormatter.getLanguageText(session)
+        val languages = sessionPropertiesFormatting.getLanguageText(session)
         val videoState = when {
             session.changedRecordingOptOut -> when {
                 session.recordingOptOut -> Unavailable
@@ -59,7 +59,7 @@ class SessionChangeParametersFactory(
 
             else -> None
         }
-        val speakerNames = sessionPropertiesFormatter.getFormattedSpeakers(session)
+        val speakerNames = sessionPropertiesFormatting.getFormattedSpeakers(session)
         val title = if (session.changedTitle && session.title.isEmpty()) dash else session.title
 
         return SessionChange(
