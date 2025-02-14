@@ -16,8 +16,10 @@ import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.roomstates.RoomStateFormatter
 import nerd.tuxmobil.fahrplan.congress.sharing.JsonSessionFormat
 import nerd.tuxmobil.fahrplan.congress.sharing.SimpleSessionFormat
+import nerd.tuxmobil.fahrplan.congress.utils.ContentDescriptionFormatter
 import nerd.tuxmobil.fahrplan.congress.utils.FeedbackUrlComposer
 import nerd.tuxmobil.fahrplan.congress.utils.MarkdownConverter
+import nerd.tuxmobil.fahrplan.congress.utils.ServerBackendType
 import nerd.tuxmobil.fahrplan.congress.utils.SessionPropertiesFormatter
 import nerd.tuxmobil.fahrplan.congress.utils.SessionUrlComposer
 
@@ -34,25 +36,36 @@ internal class SessionDetailsViewModelFactory(
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         val logging = Logging.get()
+        val buildConfigProvision = BuildConfigProvider()
         @Suppress("UNCHECKED_CAST")
         return SessionDetailsViewModel(
             repository = appRepository,
             executionContext = AppExecutionContext,
             logging = logging,
-            buildConfigProvision = BuildConfigProvider(),
+            buildConfigProvision = buildConfigProvision,
             alarmServices = alarmServices,
             notificationHelper = notificationHelper,
-            sessionPropertiesFormatting = SessionPropertiesFormatter(),
+            sessionDetailsParameterFactory = SessionDetailsParameterFactory(
+                repository = appRepository,
+                markupLanguage = ServerBackendType.getMarkupLanguage(buildConfigProvision.serverBackendType),
+                sessionPropertiesFormatting = SessionPropertiesFormatter(resourceResolving),
+                contentDescriptionFormatting = ContentDescriptionFormatter(resourceResolving),
+                formattingDelegate = DateFormatterDelegate,
+                markdownConversion = MarkdownConverter,
+                sessionUrlComposition = SessionUrlComposer(),
+                defaultEngelsystemRoomName = defaultEngelsystemRoomName,
+                customEngelsystemRoomName = customEngelsystemRoomName,
+            ),
+            selectedSessionParameterFactory = SelectedSessionParameterFactory(
+                indoorNavigation = C3nav(BuildConfig.C3NAV_URL, RoomForC3NavConverter()),
+                feedbackUrlComposition = FeedbackUrlComposer(),
+                defaultEngelsystemRoomName = defaultEngelsystemRoomName,
+            ),
             simpleSessionFormat = SimpleSessionFormat(),
             jsonSessionFormat = JsonSessionFormat(),
             feedbackUrlComposition = FeedbackUrlComposer(),
-            sessionUrlComposition = SessionUrlComposer(),
             indoorNavigation = C3nav(BuildConfig.C3NAV_URL, RoomForC3NavConverter()),
-            markdownConversion = MarkdownConverter,
-            formattingDelegate = DateFormatterDelegate,
             roomStateFormatting = RoomStateFormatter(resourceResolving),
-            defaultEngelsystemRoomName = defaultEngelsystemRoomName,
-            customEngelsystemRoomName = customEngelsystemRoomName
         ) as T
     }
 

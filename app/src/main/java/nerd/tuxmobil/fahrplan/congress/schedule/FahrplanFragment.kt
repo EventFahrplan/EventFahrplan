@@ -184,11 +184,12 @@ class FahrplanFragment : Fragment(), MenuProvider, SessionViewEventsHandler {
 
         requireActivity().addMenuProvider(this, this, RESUMED)
         val context = requireContext()
+        val resourceResolving = ResourceResolver(context)
         roomTitleTypeFace = TypefaceFactory.getNewInstance(context).getTypeface(Font.Roboto.Light)
         sessionViewDrawer = SessionViewDrawer(
             context = context,
-            sessionPropertiesFormatting = SessionPropertiesFormatter(),
-            contentDescriptionFormatting = ContentDescriptionFormatter(ResourceResolver((context))),
+            sessionPropertiesFormatting = SessionPropertiesFormatter(resourceResolving),
+            contentDescriptionFormatting = ContentDescriptionFormatter(resourceResolving),
             getSessionPadding = { sessionPadding },
         )
         errorMessageFactory = ErrorMessage.Factory(context)

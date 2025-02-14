@@ -6,41 +6,31 @@ import android.app.Activity
 import android.app.Activity.RESULT_OK
 import android.content.Context
 import android.content.Intent
-import android.graphics.Typeface
 import android.os.Bundle
 import android.provider.Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM
-import android.text.util.Linkify.EMAIL_ADDRESSES
-import android.text.util.Linkify.WEB_URLS
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.annotation.CallSuper
 import androidx.annotation.IdRes
-import androidx.annotation.LayoutRes
 import androidx.annotation.MainThread
-import androidx.cardview.widget.CardView
-import androidx.core.content.ContextCompat
+import androidx.compose.runtime.collectAsState
 import androidx.core.net.toUri
 import androidx.core.view.MenuProvider
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
+import androidx.fragment.compose.content
 import androidx.lifecycle.Lifecycle.State.RESUMED
 import info.metadude.android.eventfahrplan.commons.flow.observe
-import io.noties.markwon.AbstractMarkwonPlugin
-import io.noties.markwon.Markwon
-import io.noties.markwon.core.MarkwonTheme
-import io.noties.markwon.linkify.LinkifyPlugin
 import nerd.tuxmobil.fahrplan.congress.BuildConfig
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices
@@ -49,9 +39,7 @@ import nerd.tuxmobil.fahrplan.congress.calendar.CalendarSharing
 import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolver
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
 import nerd.tuxmobil.fahrplan.congress.extensions.replaceFragment
-import nerd.tuxmobil.fahrplan.congress.extensions.requireViewByIdCompat
 import nerd.tuxmobil.fahrplan.congress.extensions.startActivity
-import nerd.tuxmobil.fahrplan.congress.extensions.toSpanned
 import nerd.tuxmobil.fahrplan.congress.extensions.withArguments
 import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
@@ -59,9 +47,6 @@ import nerd.tuxmobil.fahrplan.congress.sharing.SessionSharer
 import nerd.tuxmobil.fahrplan.congress.sidepane.OnSidePaneCloseListener
 import nerd.tuxmobil.fahrplan.congress.utils.ContentDescriptionFormatter
 import nerd.tuxmobil.fahrplan.congress.utils.ContentDescriptionFormatting
-import nerd.tuxmobil.fahrplan.congress.utils.LinkMovementMethodCompat
-import nerd.tuxmobil.fahrplan.congress.utils.ServerBackendType
-import nerd.tuxmobil.fahrplan.congress.utils.TypefaceFactory
 
 class SessionDetailsFragment : Fragment(), MenuProvider {
 
@@ -69,26 +54,6 @@ class SessionDetailsFragment : Fragment(), MenuProvider {
 
         const val FRAGMENT_TAG = "detail"
         private const val SESSION_DETAILS_FRAGMENT_REQUEST_KEY = "SESSION_DETAILS_FRAGMENT_REQUEST_KEY"
-
-        // Custom heading text size multipliers for each heading level.
-        // Docs: https://noties.io/Markwon/docs/v4/core/theme.html#typeface
-        private val HEADING_TEXT_SIZE_MULTIPLIERS = floatArrayOf(1.25f, 1.18f, 1.07F, 1.0f, .83F, .67F)
-        private val HEADINGS_PLUGIN = object : AbstractMarkwonPlugin() {
-            override fun configureTheme(builder: MarkwonTheme.Builder) {
-                builder.headingTextSizeMultipliers(HEADING_TEXT_SIZE_MULTIPLIERS)
-            }
-        }
-
-        // Custom list items.
-        // Docs: https://noties.io/Markwon/docs/v4/core/theme.html#list
-        private fun createListItemsPlugin(context: Context) = object : AbstractMarkwonPlugin() {
-            override fun configureTheme(builder: MarkwonTheme.Builder) {
-                val itemColor = ContextCompat.getColor(context, R.color.session_details_list_item)
-                builder
-                    .bulletWidth(16)
-                    .listItemColor(itemColor)
-            }
-        }
 
         fun replaceAtBackStack(fragmentManager: FragmentManager, @IdRes containerViewId: Int, sidePane: Boolean) {
             val fragment = SessionDetailsFragment().withArguments(
@@ -123,7 +88,6 @@ class SessionDetailsFragment : Fragment(), MenuProvider {
     }
     private lateinit var model: SelectedSessionParameter
     private lateinit var contentDescriptionFormatting: ContentDescriptionFormatting
-    private lateinit var markwon: Markwon
     private var sidePane = false
     private var hasArguments = false
 
@@ -149,11 +113,6 @@ class SessionDetailsFragment : Fragment(), MenuProvider {
         alarmServices = AlarmServices.newInstance(context, appRepository)
         notificationHelper = NotificationHelper(context)
         contentDescriptionFormatting = ContentDescriptionFormatter(ResourceResolver(context))
-        markwon = Markwon.builder(context)
-            .usePlugin(HEADINGS_PLUGIN)
-            .usePlugin(createListItemsPlugin(context))
-            .usePlugin(LinkifyPlugin.create(EMAIL_ADDRESSES or WEB_URLS, true))
-            .build()
     }
 
     @MainThread
@@ -190,12 +149,20 @@ class SessionDetailsFragment : Fragment(), MenuProvider {
         requireActivity().addMenuProvider(this, this, RESUMED)
     }
 
-    override fun onCreateView(inflater: LayoutInflater,
-                              container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        @LayoutRes val layout = if (sidePane) R.layout.detail_narrow else R.layout.detail
-        return inflater.inflate(layout, container, false)
-    }
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?,
+    ) = content {
+        with(viewModel) {
+            @Suppress("KotlinConstantConditions")
+            SessionDetailsScreen(
+                sessionDetailsState = sessionDetailsState.collectAsState().value,
+                showRoomState = showRoomState,
+                roomStateMessage = roomStateMessage.collectAsState().value,
+            )
+        }
+    }.also { it.isClickable = true }
 
     override fun setArguments(args: Bundle?) {
         super.setArguments(args)
@@ -219,7 +186,6 @@ class SessionDetailsFragment : Fragment(), MenuProvider {
     private fun observeViewModel() {
         viewModel.selectedSessionParameter.observe(this) { model ->
             this.model = model
-            updateView()
             updateOptionsMenu()
         }
         viewModel.openFeedBack.observe(viewLifecycleOwner) { uri ->
@@ -265,165 +231,6 @@ class SessionDetailsFragment : Fragment(), MenuProvider {
                 .setData("package:${BuildConfig.APPLICATION_ID}".toUri())
             scheduleExactAlarmsPermissionRequestLauncher.launch(intent)
         }
-        viewModel.roomStateMessage.observe(viewLifecycleOwner) { stateMessage ->
-            updateRoomState(stateMessage)
-        }
-    }
-
-    private fun updateRoomState(stateMessage: String) {
-        val view = requireView()
-        val cardView = view.requireViewByIdCompat<CardView>(R.id.session_details_content_room_state_card_view)
-        if (BuildConfig.ENABLE_FOSDEM_ROOM_STATES) {
-            cardView.isVisible = true
-            val textView = view.requireViewByIdCompat<TextView>(R.id.session_details_content_room_state_view)
-            textView.text = stateMessage
-        } else {
-            cardView.isVisible = false
-        }
-    }
-
-    private fun updateView() {
-        val view = requireView()
-        val activity = requireActivity()
-        val typefaceFactory = TypefaceFactory.getNewInstance(activity)
-
-        // Detailbar
-        var textView: TextView = view.requireViewByIdCompat(R.id.session_detailbar_date_time_view)
-        textView.text = if (model.hasDateUtc) model.formattedZonedDateTimeShort else ""
-        if (model.hasDateUtc) {
-            textView.contentDescription = contentDescriptionFormatting
-                .getStartTimeContentDescription(model.formattedZonedDateTimeLong)
-        }
-
-        textView = view.requireViewByIdCompat(R.id.session_detailbar_location_view)
-        textView.text = model.roomName
-        textView.contentDescription = contentDescriptionFormatting
-            .getRoomNameContentDescription(model.roomName)
-        textView = view.requireViewByIdCompat(R.id.session_detailbar_session_id_view)
-        textView.text = if (model.sessionId.isEmpty()) "" else textView.context.getString(R.string.session_details_session_id, model.sessionId)
-
-        // Title
-        textView = view.requireViewByIdCompat(R.id.session_details_content_title_view)
-        var typeface = typefaceFactory.getTypeface(viewModel.titleFont)
-        textView.applyText(typeface, model.title)
-
-        // Subtitle
-        textView = view.requireViewByIdCompat(R.id.session_details_content_subtitle_view)
-        if (model.subtitle.isEmpty()) {
-            textView.isVisible = false
-        } else {
-            typeface = typefaceFactory.getTypeface(viewModel.subtitleFont)
-            textView.applyText(typeface, model.subtitle, contentDescriptionFormatting
-                .getSubtitleContentDescription(model.subtitle))
-        }
-
-        // Speakers
-        textView = view.requireViewByIdCompat(R.id.session_details_content_speakers_view)
-        if (model.speakerNames.isEmpty()) {
-            textView.isVisible = false
-        } else {
-            typeface = typefaceFactory.getTypeface(viewModel.speakersFont)
-            val speakerNamesContentDescription = contentDescriptionFormatting
-                .getSpeakersContentDescription(model.speakersCount, model.speakerNames)
-            textView.applyText(typeface, model.speakerNames, speakerNamesContentDescription)
-        }
-
-        // Abstract
-        textView = view.requireViewByIdCompat(R.id.session_details_content_abstract_view)
-        if (model.abstract.isEmpty()) {
-            textView.isVisible = false
-        } else {
-            typeface = typefaceFactory.getTypeface(viewModel.abstractFont)
-            if (ServerBackendType.PENTABARF.name == BuildConfig.SERVER_BACKEND_TYPE) {
-                textView.applyHtml(typeface, model.formattedAbstract)
-            } else {
-                textView.applyMarkdown(typeface, model.abstract)
-            }
-        }
-
-        // Description
-        textView = view.requireViewByIdCompat(R.id.session_details_content_description_view)
-        if (model.description.isEmpty()) {
-            textView.isVisible = false
-        } else {
-            typeface = typefaceFactory.getTypeface(viewModel.descriptionFont)
-            if (ServerBackendType.PENTABARF.name == BuildConfig.SERVER_BACKEND_TYPE) {
-                textView.applyHtml(typeface, model.formattedDescription)
-            } else {
-                textView.applyMarkdown(typeface, model.description)
-            }
-        }
-
-        // Links
-        val linksView = view.requireViewByIdCompat<TextView>(R.id.session_details_content_links_section_view)
-        textView = view.requireViewByIdCompat(R.id.session_details_content_links_view)
-        if (model.hasLinks) {
-            typeface = typefaceFactory.getTypeface(viewModel.linksSectionFont)
-            linksView.typeface = typeface
-            linksView.isVisible = true
-            typeface = typefaceFactory.getTypeface(viewModel.linksFont)
-            textView.applyHtml(typeface, model.formattedLinks)
-        } else {
-            linksView.isVisible = false
-            textView.isVisible = false
-        }
-
-        // Track
-        val trackSectionView = view.requireViewByIdCompat<TextView>(R.id.session_details_content_track_name_section_view)
-        typeface = typefaceFactory.getTypeface(viewModel.trackSectionFont)
-        trackSectionView.typeface = typeface
-        val trackView = view.requireViewByIdCompat<TextView>(R.id.session_details_content_track_name_view)
-        val trackText = model.track
-        if (trackText.isEmpty()) {
-            trackSectionView.isVisible = false
-            trackView.isVisible = false
-        } else {
-            trackSectionView.isVisible = true
-            trackView.isVisible = true
-            typeface = typefaceFactory.getTypeface(viewModel.trackFont)
-            trackView.applyText(typeface, trackText)
-        }
-
-        // Session online
-        val sessionOnlineSectionView = view.requireViewByIdCompat<TextView>(R.id.session_details_content_session_online_section_view)
-        typeface = typefaceFactory.getTypeface(viewModel.sessionOnlineSectionFont)
-        sessionOnlineSectionView.typeface = typeface
-        val sessionOnlineLinkView = view.requireViewByIdCompat<TextView>(R.id.session_details_content_session_online_view)
-        val sessionLink = model.sessionLink
-        if (model.hasWikiLinks || sessionLink.isEmpty()) {
-            sessionOnlineSectionView.isVisible = false
-            sessionOnlineLinkView.isVisible = false
-        } else {
-            sessionOnlineSectionView.isVisible = true
-            sessionOnlineLinkView.isVisible = true
-            typeface = typefaceFactory.getTypeface(viewModel.sessionOnlineFont)
-            sessionOnlineLinkView.applyHtml(typeface, sessionLink)
-        }
-    }
-
-    private fun TextView.applyText(typeface: Typeface, text: String, contentDescription: String? = null) {
-        this.typeface = typeface
-        this.text = text
-        if (contentDescription != null) {
-            this.contentDescription = contentDescription
-        }
-        this.isVisible = true
-    }
-
-    private fun TextView.applyHtml(typeface: Typeface, text: String) {
-        this.typeface = typeface
-        this.setText(text.toSpanned(), TextView.BufferType.SPANNABLE)
-        this.setLinkTextColor(ContextCompat.getColor(context, R.color.text_link_on_light))
-        this.movementMethod = LinkMovementMethodCompat.getInstance()
-        this.isVisible = true
-    }
-
-    private fun TextView.applyMarkdown(typeface: Typeface, markdown: String) {
-        markwon.setMarkdown(this, markdown)
-        this.typeface = typeface
-        this.setLinkTextColor(ContextCompat.getColor(context, R.color.text_link_on_light))
-        this.movementMethod = LinkMovementMethodCompat.getInstance()
-        this.isVisible = true
     }
 
     private fun showAlarmTimePicker() {

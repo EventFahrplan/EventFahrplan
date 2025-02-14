@@ -2,8 +2,10 @@ package nerd.tuxmobil.fahrplan.congress.designsystem.themes
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Typography
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.ReadOnlyComposable
 import nerd.tuxmobil.fahrplan.congress.designsystem.colors.LocalColorScheme
 import nerd.tuxmobil.fahrplan.congress.designsystem.colors.darkColorScheme
 import nerd.tuxmobil.fahrplan.congress.designsystem.colors.lightColorScheme
@@ -20,9 +22,18 @@ fun EventFahrplanTheme(
     ) {
         MaterialTheme(
             colorScheme = colorScheme,
-            // typography = Material Design's default type scale uses Roboto, see "main/assets" folder
+            typography = MaterialTheme.typography,
             content = content,
         )
     }
+
+}
+
+object EventFahrplanTheme {
+
+    val typography: Typography
+        @Composable
+        @ReadOnlyComposable
+        get() = MaterialTheme.typography
 
 }

@@ -189,6 +189,7 @@ private object CompleteBuildConfigProvider : BuildConfigProvision {
     override val googlePlayUrl: String = "https://play.google.com/store/apps/details?id=info.metadude.android.congress.schedule"
     override val dataPrivacyStatementDeUrl: String = "https://github.com/EventFahrplan/EventFahrplan/blob/master/DATA-PRIVACY-DE.md"
     override val enableFosdemRoomStates: Boolean = false
+    override val serverBackendType: String = "pretalx"
 }
 
 private object IncompleteBuildConfigProvider : BuildConfigProvision {
@@ -204,4 +205,5 @@ private object IncompleteBuildConfigProvider : BuildConfigProvision {
     override val googlePlayUrl: String = "https://play.google.com/store/apps/details?id=info.metadude.android.congress.schedule"
     override val dataPrivacyStatementDeUrl: String = "https://github.com/EventFahrplan/EventFahrplan/blob/master/DATA-PRIVACY-DE.md"
     override val enableFosdemRoomStates: Boolean = false
+    override val serverBackendType: String = "pretalx"
 }

@@ -140,13 +140,14 @@ class StarredListFragment :
         viewModel.starredListParameter.observe(this) { (sessions, numDays, useDeviceTimeZone) ->
             starredList = sessions
             val activity = requireActivity()
+            val resourceResolving = ResourceResolver(activity)
             val adapter = StarredListAdapter(
                 context = activity,
                 list = sessions,
                 numDays = numDays,
                 useDeviceTimeZone = useDeviceTimeZone,
-                sessionPropertiesFormatting = SessionPropertiesFormatter(),
-                contentDescriptionFormatting = ContentDescriptionFormatter(ResourceResolver(activity)),
+                sessionPropertiesFormatting = SessionPropertiesFormatter(resourceResolving),
+                contentDescriptionFormatting = ContentDescriptionFormatter(resourceResolving),
             )
             currentListView.adapter = adapter
             activity.invalidateOptionsMenu()

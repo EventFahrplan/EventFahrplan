@@ -4,6 +4,8 @@ import nerd.tuxmobil.fahrplan.congress.models.Session
 
 interface ContentDescriptionFormatting {
 
+    fun getSessionIdContentDescription(sessionId: String): String
+
     fun getDurationContentDescription(duration: Int): String
 
     fun getTitleContentDescription(title: String): String
@@ -14,6 +16,8 @@ interface ContentDescriptionFormatting {
 
     fun getSpeakersContentDescription(speakersCount: Int, formattedSpeakerNames: String): String
 
+    fun getTrackNameContentDescription(trackName: String): String
+
     fun getTrackNameAndLanguageContentDescription(trackName: String, languageCode: String): String
 
     fun getLanguageContentDescription(languageCode: String): String
@@ -21,4 +25,5 @@ interface ContentDescriptionFormatting {
     fun getStartTimeContentDescription(startTimeText: String): String
 
     fun getStateContentDescription(session: Session, useDeviceTimeZone: Boolean): String
+
 }

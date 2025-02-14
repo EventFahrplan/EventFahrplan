@@ -7,6 +7,11 @@ import nerd.tuxmobil.fahrplan.congress.models.Session
 
 class ContentDescriptionFormatter(val resourceResolving: ResourceResolving) : ContentDescriptionFormatting {
 
+    override fun getSessionIdContentDescription(sessionId: String) =
+        if (sessionId.isEmpty()) "" else resourceResolving.getString(
+            R.string.session_list_item_session_id_content_description, sessionId
+        )
+
     override fun getDurationContentDescription(duration: Int) =
         resourceResolving.getString(R.string.session_list_item_duration_content_description, duration)
 
@@ -35,14 +40,16 @@ class ContentDescriptionFormatter(val resourceResolving: ResourceResolving) : Co
             )
         }
 
+    override fun getTrackNameContentDescription(trackName: String): String {
+        return resourceResolving.getString(
+            R.string.session_list_item_track_content_description,
+            trackName,
+        )
+    }
+
     override fun getTrackNameAndLanguageContentDescription(trackName: String, languageCode: String) =
         buildString {
-            append(
-                resourceResolving.getString(
-                    R.string.session_list_item_track_content_description,
-                    trackName
-                )
-            )
+            append(getTrackNameContentDescription(trackName))
             if (languageCode.isNotEmpty()) {
                 append("; ")
                 append(getLanguageContentDescription(languageCode))

@@ -55,6 +55,7 @@ import nerd.tuxmobil.fahrplan.congress.dataconverters.toSessionAppModel
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toSessionsAppModel
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toSessionsDatabaseModel
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toSessionsNetworkModel
+import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsRepository
 import nerd.tuxmobil.fahrplan.congress.exceptions.AppExceptionHandler
 import nerd.tuxmobil.fahrplan.congress.models.Alarm
 import nerd.tuxmobil.fahrplan.congress.models.ConferenceTimeFrame
@@ -92,7 +93,8 @@ import info.metadude.android.eventfahrplan.network.models.Meta as MetaNetworkMod
 import nerd.tuxmobil.fahrplan.congress.models.Meta as MetaAppModel
 import nerd.tuxmobil.fahrplan.congress.models.Session as SessionAppModel
 
-object AppRepository : SearchRepository {
+object AppRepository : SearchRepository,
+    SessionDetailsRepository {
 
     /**
      * Name used as the display title for the Engelsystem column and
@@ -958,7 +960,7 @@ object AppRepository : SearchRepository {
     }
 
     @WorkerThread
-    fun readUseDeviceTimeZoneEnabled() =
+    override fun readUseDeviceTimeZoneEnabled() =
         sharedPreferencesRepository.isUseDeviceTimeZoneEnabled()
 
     fun readAlternativeHighlightingEnabled() =
