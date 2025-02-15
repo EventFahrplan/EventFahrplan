@@ -95,6 +95,7 @@
         The schedule has been updated.
     </string>
     <string name="settings">Settings</string>
+    <string name="session_details_screen_name">Details</string>
     <string name="session_details_session_id" translatable="false">
         ID: <xliff:g example="5001a" id="id">%s</xliff:g>
     </string>
