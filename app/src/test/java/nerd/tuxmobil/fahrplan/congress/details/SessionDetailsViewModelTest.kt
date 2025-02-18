@@ -4,15 +4,18 @@ import android.net.Uri
 import androidx.core.net.toUri
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
+import info.metadude.android.eventfahrplan.commons.logging.Logging
 import info.metadude.android.eventfahrplan.commons.testing.MainDispatcherTestExtension
 import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedNever
 import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedOnce
+import info.metadude.kotlin.library.roomstates.base.models.State
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import nerd.tuxmobil.fahrplan.congress.TestExecutionContext
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices
+import nerd.tuxmobil.fahrplan.congress.commons.BuildConfigProvision
 import nerd.tuxmobil.fahrplan.congress.commons.FormattingDelegate
 import nerd.tuxmobil.fahrplan.congress.models.Alarm
 import nerd.tuxmobil.fahrplan.congress.models.Meta
@@ -21,6 +24,7 @@ import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.navigation.IndoorNavigation
 import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
+import nerd.tuxmobil.fahrplan.congress.roomstates.RoomStateFormatting
 import nerd.tuxmobil.fahrplan.congress.sharing.JsonSessionFormat
 import nerd.tuxmobil.fahrplan.congress.sharing.SimpleSessionFormat
 import nerd.tuxmobil.fahrplan.congress.utils.FeedbackUrlComposition
@@ -34,6 +38,9 @@ import org.mockito.kotlin.any
 import org.mockito.kotlin.anyOrNull
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
+import org.mockito.kotlin.times
+import org.mockito.kotlin.verify
+import info.metadude.kotlin.library.roomstates.base.models.Room as FosdemRoom
 
 @ExtendWith(MainDispatcherTestExtension::class)
 class SessionDetailsViewModelTest {
@@ -403,7 +410,7 @@ class SessionDetailsViewModelTest {
     fun `addAlarm() persists the alarm deletion`() {
         val repository = createRepository(selectedSession = Session("S5"))
         val alarmServices = mock<AlarmServices>()
-        val viewModel = createViewModel(repository, alarmServices)
+        val viewModel = createViewModel(repository, alarmServices = alarmServices)
         viewModel.addAlarm(alarmTimesIndex = 1)
         verifyInvokedOnce(repository).loadSelectedSession()
         verifyInvokedOnce(alarmServices).addSessionAlarm(any(), any())
@@ -416,7 +423,7 @@ class SessionDetailsViewModelTest {
             alarms = emptyList()
         )
         val alarmServices = mock<AlarmServices>()
-        val viewModel = createViewModel(repository, alarmServices)
+        val viewModel = createViewModel(repository, alarmServices = alarmServices)
         viewModel.deleteAlarm()
         verifyInvokedOnce(repository).loadSelectedSession()
         verifyInvokedOnce(alarmServices).deleteSessionAlarm(any())
@@ -498,13 +505,134 @@ class SessionDetailsViewModelTest {
         }
     }
 
+    @Test
+    fun `roomStateMessage emits unknown when feature is disabled`() = runTest {
+        val repository = createRepository(
+            selectedSessionFlow = emptyFlow(),
+            roomStatesFlow = emptyFlow()
+        )
+        val logging = mock<Logging>()
+        val viewModel = createViewModel(
+            repository = repository,
+            logging = logging,
+            buildConfigProvision = mock<BuildConfigProvision>(), // disables room states feature
+            roomStateFormatting = UnknownRoomStateFormatter
+        )
+        viewModel.roomStateMessage.test {
+            assertThat(awaitItem()).isEqualTo("Unknown")
+        }
+        verifyInvokedOnce(repository).selectedSession
+        verifyInvokedNever(repository).roomStates
+        verifyInvokedNever(logging).e(any(), any())
+    }
+
+    @Test
+    fun `roomStateMessage emits unknown state message per default`() = runTest {
+        val repository = createRepository(
+            selectedSessionFlow = emptyFlow(),
+            roomStatesFlow = emptyFlow()
+        )
+        val logging = mock<Logging>()
+        val viewModel = createViewModel(
+            repository = repository,
+            logging = logging,
+            buildConfigProvision = EnableFosdemRoomStatesBuildConfig,
+            roomStateFormatting = UnknownRoomStateFormatter
+        )
+        viewModel.roomStateMessage.test {
+            assertThat(awaitItem()).isEqualTo("Unknown")
+        }
+        verify(repository, times(2)).selectedSession
+        verifyInvokedOnce(repository).roomStates
+        verifyInvokedNever(logging).e(any(), any())
+    }
+
+    @Test
+    fun `roomStateMessage emits room state message when room names match`() = runTest {
+        val session = Session(
+            sessionId = "S1",
+            roomName = "Main hall",
+        )
+        val roomState = State.TOO_FULL
+        val repository = createRepository(
+            selectedSessionFlow = flowOf(session),
+            roomStatesFlow = flowOf(Result.success(listOf(FosdemRoom("Main hall", roomState))))
+        )
+        val logging = mock<Logging>()
+        val viewModel = createViewModel(
+            repository = repository,
+            logging = logging,
+            buildConfigProvision = EnableFosdemRoomStatesBuildConfig,
+            roomStateFormatting = CrowdedRoomStateFormatter
+        )
+        viewModel.roomStateMessage.test {
+            assertThat(awaitItem()).isEqualTo("Crowded")
+        }
+        verify(repository, times(2)).selectedSession
+        verifyInvokedOnce(repository).roomStates
+        verifyInvokedNever(logging).e(any(), any())
+    }
+
+    @Test
+    fun `roomStateMessage emits unknown state message when room names do not match`() = runTest {
+        val session = Session(
+            sessionId = "S1",
+            roomName = "Unknown room",
+        )
+        val roomState = State.TOO_FULL
+        val repository = createRepository(
+            selectedSessionFlow = flowOf(session),
+            roomStatesFlow = flowOf(Result.success(listOf(FosdemRoom("Main hall", roomState))))
+        )
+        val logging = mock<Logging>()
+        val viewModel = createViewModel(
+            repository = repository,
+            logging = logging,
+            buildConfigProvision = EnableFosdemRoomStatesBuildConfig,
+            roomStateFormatting = UnknownRoomStateFormatter
+        )
+        viewModel.roomStateMessage.test {
+            assertThat(awaitItem()).isEqualTo("Unknown")
+        }
+        verify(repository, times(2)).selectedSession
+        verifyInvokedOnce(repository).roomStates
+        verifyInvokedOnce(logging).e(any(), any())
+    }
+
+    @Test
+    fun `roomStateMessage emits failure state message when room states cannot be fetched`() = runTest {
+        val session = Session(
+            sessionId = "S1",
+            roomName = "Unknown room",
+        )
+        val repository = createRepository(
+            selectedSessionFlow = flowOf(session),
+            roomStatesFlow = flowOf(Result.failure(RuntimeException()))
+        )
+        val logging = mock<Logging>()
+        val viewModel = createViewModel(
+            repository = repository,
+            logging = logging,
+            buildConfigProvision = EnableFosdemRoomStatesBuildConfig,
+            roomStateFormatting = UnknownRoomStateFormatter
+        )
+        viewModel.roomStateMessage.test {
+            assertThat(awaitItem()).isEqualTo("Failure")
+        }
+        verify(repository, times(2)).selectedSession
+        verifyInvokedOnce(repository).roomStates
+        verifyInvokedOnce(logging).e(any(), any())
+    }
+
     private fun createRepository(
         selectedSessionFlow: Flow<Session> = emptyFlow(),
+        roomStatesFlow: Flow<Result<List<FosdemRoom>>> = emptyFlow(),
         selectedSession: Session = Session("S0"),
         meta: Meta = Meta(numDays = 0, timeZoneId = NO_TIME_ZONE_ID),
         alarms: List<Alarm> = emptyList()
     ) = mock<AppRepository> {
         on { this.selectedSession } doReturn selectedSessionFlow
+        on { this.roomStates } doReturn roomStatesFlow
         on { loadSelectedSession() } doReturn selectedSession
         on { readMeta() } doReturn meta
         on { readAlarms(any()) } doReturn alarms
@@ -512,6 +640,8 @@ class SessionDetailsViewModelTest {
 
     private fun createViewModel(
         repository: AppRepository,
+        logging: Logging = mock(),
+        buildConfigProvision: BuildConfigProvision = mock(),
         alarmServices: AlarmServices = mock(),
         notificationHelper: NotificationHelper = mock(),
         sessionPropertiesFormatting: SessionPropertiesFormatting = SessionPropertiesFormatter(),
@@ -521,6 +651,7 @@ class SessionDetailsViewModelTest {
         sessionUrlComposition: SessionUrlComposition = mock(),
         markdownConversion: MarkdownConversion = mock(),
         formattingDelegate: FormattingDelegate = mock(),
+        roomStateFormatting: RoomStateFormatting = mock(),
         indoorNavigation: IndoorNavigation = mock(),
         defaultEngelsystemRoomName: String = "Engelshifts",
         customEngelsystemRoomName: String = "Trollshifts",
@@ -528,8 +659,8 @@ class SessionDetailsViewModelTest {
     ) = SessionDetailsViewModel(
         repository = repository,
         executionContext = TestExecutionContext,
-        logging = mock(),
-        buildConfigProvision = mock(),
+        logging = logging,
+        buildConfigProvision = buildConfigProvision,
         alarmServices = alarmServices,
         notificationHelper = notificationHelper,
         sessionPropertiesFormatting = sessionPropertiesFormatting,
@@ -540,7 +671,7 @@ class SessionDetailsViewModelTest {
         indoorNavigation = indoorNavigation,
         markdownConversion = markdownConversion,
         formattingDelegate = formattingDelegate,
-        roomStateFormatting = mock(),
+        roomStateFormatting = roomStateFormatting,
         defaultEngelsystemRoomName = defaultEngelsystemRoomName,
         customEngelsystemRoomName = customEngelsystemRoomName,
         runsAtLeastOnAndroidTiramisu = runsAtLeastOnAndroidTiramisu
@@ -554,6 +685,32 @@ class SessionDetailsViewModelTest {
     private object UnsupportedIndoorNavigation : IndoorNavigation {
         override fun isSupported(room: Room) = false
         override fun getUri(room: Room): Uri = Uri.EMPTY
+    }
+
+    private object UnknownRoomStateFormatter : RoomStateFormatting {
+        override fun getText(roomState: State?) = "Unknown"
+        override fun getFailureText(throwable: Throwable) = "Failure"
+    }
+
+    private object CrowdedRoomStateFormatter : RoomStateFormatting {
+        override fun getText(roomState: State?) = "Crowded"
+        override fun getFailureText(throwable: Throwable) = "Failure"
+    }
+
+    private object EnableFosdemRoomStatesBuildConfig : BuildConfigProvision {
+        override val versionName: String = ""
+        override val versionCode: Int = 0
+        override val eventPostalAddress: String = ""
+        override val eventWebsiteUrl: String = ""
+        override val showAppDisclaimer: Boolean = false
+        override val translationPlatformUrl: String = ""
+        override val sourceCodeUrl: String = ""
+        override val issuesUrl: String = ""
+        override val fDroidUrl: String = ""
+        override val googlePlayUrl: String = ""
+        override val dataPrivacyStatementDeUrl: String = ""
+        override val enableFosdemRoomStates: Boolean = true
+
     }
 
 }

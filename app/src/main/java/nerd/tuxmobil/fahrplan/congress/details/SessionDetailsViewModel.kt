@@ -115,7 +115,6 @@ internal class SessionDetailsViewModel(
     val showAlarmTimePicker = sessionAlarmViewModelDelegate
         .showAlarmTimePicker
 
-    // TODO Cover by tests
     private val mutableRoomStateMessage = MutableStateFlow(roomStateFormatting.getText(null))
     val roomStateMessage = mutableRoomStateMessage.asStateFlow()
 
