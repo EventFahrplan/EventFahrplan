@@ -2,13 +2,13 @@ package nerd.tuxmobil.fahrplan.congress.details
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.base.BaseActivity
 import nerd.tuxmobil.fahrplan.congress.utils.showWhenLockedCompat
+import androidx.core.graphics.drawable.toDrawable
 
 class SessionDetailsActivity : BaseActivity(R.layout.detail_frame) {
 
@@ -38,7 +38,7 @@ class SessionDetailsActivity : BaseActivity(R.layout.detail_frame) {
         super.onCreate(savedInstanceState)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         val actionBarColor = ContextCompat.getColor(this, R.color.colorActionBar)
-        supportActionBar!!.setBackgroundDrawable(ColorDrawable(actionBarColor))
+        supportActionBar!!.setBackgroundDrawable(actionBarColor.toDrawable())
 
         val intent = this.intent
         if (intent == null) {

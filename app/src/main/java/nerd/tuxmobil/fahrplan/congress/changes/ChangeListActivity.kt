@@ -2,7 +2,6 @@ package nerd.tuxmobil.fahrplan.congress.changes
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
@@ -11,6 +10,7 @@ import nerd.tuxmobil.fahrplan.congress.base.AbstractListFragment.OnSessionListCl
 import nerd.tuxmobil.fahrplan.congress.base.BaseActivity
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsActivity
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
+import androidx.core.graphics.drawable.toDrawable
 
 class ChangeListActivity :
     BaseActivity(),
@@ -39,7 +39,7 @@ class ChangeListActivity :
         val toolbar = requireViewByIdCompat<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         val actionBarColor = ContextCompat.getColor(this, R.color.colorActionBar)
-        supportActionBar!!.setBackgroundDrawable(ColorDrawable(actionBarColor))
+        supportActionBar!!.setBackgroundDrawable(actionBarColor.toDrawable())
     }
 
     override fun onSessionListClick(sessionId: String) {
