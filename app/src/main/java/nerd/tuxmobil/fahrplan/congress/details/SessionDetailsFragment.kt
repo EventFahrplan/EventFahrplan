@@ -58,6 +58,7 @@ import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.sharing.SessionSharer
 import nerd.tuxmobil.fahrplan.congress.sidepane.OnSidePaneCloseListener
 import nerd.tuxmobil.fahrplan.congress.utils.ContentDescriptionFormatter
+import nerd.tuxmobil.fahrplan.congress.utils.ContentDescriptionFormatting
 import nerd.tuxmobil.fahrplan.congress.utils.LinkMovementMethodCompat
 import nerd.tuxmobil.fahrplan.congress.utils.ServerBackendType
 import nerd.tuxmobil.fahrplan.congress.utils.TypefaceFactory
@@ -121,7 +122,7 @@ class SessionDetailsFragment : Fragment(), MenuProvider {
         )
     }
     private lateinit var model: SelectedSessionParameter
-    private lateinit var contentDescriptionFormatter: ContentDescriptionFormatter
+    private lateinit var contentDescriptionFormatting: ContentDescriptionFormatting
     private lateinit var markwon: Markwon
     private var sidePane = false
     private var hasArguments = false
@@ -147,7 +148,7 @@ class SessionDetailsFragment : Fragment(), MenuProvider {
         appRepository = AppRepository
         alarmServices = AlarmServices.newInstance(context, appRepository)
         notificationHelper = NotificationHelper(context)
-        contentDescriptionFormatter = ContentDescriptionFormatter(ResourceResolver(context))
+        contentDescriptionFormatting = ContentDescriptionFormatter(ResourceResolver(context))
         markwon = Markwon.builder(context)
             .usePlugin(HEADINGS_PLUGIN)
             .usePlugin(createListItemsPlugin(context))
@@ -290,13 +291,13 @@ class SessionDetailsFragment : Fragment(), MenuProvider {
         var textView: TextView = view.requireViewByIdCompat(R.id.session_detailbar_date_time_view)
         textView.text = if (model.hasDateUtc) model.formattedZonedDateTimeShort else ""
         if (model.hasDateUtc) {
-            textView.contentDescription = contentDescriptionFormatter
+            textView.contentDescription = contentDescriptionFormatting
                 .getStartTimeContentDescription(model.formattedZonedDateTimeLong)
         }
 
         textView = view.requireViewByIdCompat(R.id.session_detailbar_location_view)
         textView.text = model.roomName
-        textView.contentDescription = contentDescriptionFormatter
+        textView.contentDescription = contentDescriptionFormatting
             .getRoomNameContentDescription(model.roomName)
         textView = view.requireViewByIdCompat(R.id.session_detailbar_session_id_view)
         textView.text = if (model.sessionId.isEmpty()) "" else textView.context.getString(R.string.session_details_session_id, model.sessionId)
@@ -312,7 +313,7 @@ class SessionDetailsFragment : Fragment(), MenuProvider {
             textView.isVisible = false
         } else {
             typeface = typefaceFactory.getTypeface(viewModel.subtitleFont)
-            textView.applyText(typeface, model.subtitle, contentDescriptionFormatter
+            textView.applyText(typeface, model.subtitle, contentDescriptionFormatting
                 .getSubtitleContentDescription(model.subtitle))
         }
 
@@ -322,7 +323,7 @@ class SessionDetailsFragment : Fragment(), MenuProvider {
             textView.isVisible = false
         } else {
             typeface = typefaceFactory.getTypeface(viewModel.speakersFont)
-            val speakerNamesContentDescription = contentDescriptionFormatter
+            val speakerNamesContentDescription = contentDescriptionFormatting
                 .getSpeakersContentDescription(model.speakersCount, model.speakerNames)
             textView.applyText(typeface, model.speakerNames, speakerNamesContentDescription)
         }

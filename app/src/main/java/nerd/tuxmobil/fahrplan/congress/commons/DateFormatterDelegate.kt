@@ -12,18 +12,18 @@ object DateFormatterDelegate : FormattingDelegate {
 
     override fun getFormattedDateTimeShort(
         useDeviceTimeZone: Boolean,
-        alarmTime: Long,
+        dateUtc: Long,
         timeZoneOffset: ZoneOffset?,
     ) = DateFormatter
         .newInstance(useDeviceTimeZone)
-        .getFormattedDateTimeShort(alarmTime, timeZoneOffset)
+        .getFormattedDateTimeShort(dateUtc, timeZoneOffset)
 
     override fun getFormattedDateTimeLong(
         useDeviceTimeZone: Boolean,
         dateUtc: Long,
-        sessionTimeZoneOffset: ZoneOffset?,
+        timeZoneOffset: ZoneOffset?,
     ) = DateFormatter
         .newInstance(useDeviceTimeZone)
-        .getFormattedDateTimeLong(dateUtc, sessionTimeZoneOffset)
+        .getFormattedDateTimeLong(dateUtc, timeZoneOffset)
 
 }

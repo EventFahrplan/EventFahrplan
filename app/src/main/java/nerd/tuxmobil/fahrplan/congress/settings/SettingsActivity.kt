@@ -2,13 +2,13 @@ package nerd.tuxmobil.fahrplan.congress.settings
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.commit
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.base.BaseActivity
+import androidx.core.graphics.drawable.toDrawable
 
 class SettingsActivity : BaseActivity(R.layout.settings) {
 
@@ -28,7 +28,7 @@ class SettingsActivity : BaseActivity(R.layout.settings) {
         val toolbar = requireViewByIdCompat<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         val actionBarColor = ContextCompat.getColor(this, R.color.colorActionBar)
-        supportActionBar!!.setBackgroundDrawable(ColorDrawable(actionBarColor))
+        supportActionBar!!.setBackgroundDrawable(actionBarColor.toDrawable())
 
         if (savedInstanceState == null) {
             supportFragmentManager.commit {

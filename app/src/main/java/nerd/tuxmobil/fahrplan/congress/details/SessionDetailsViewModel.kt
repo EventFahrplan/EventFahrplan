@@ -31,10 +31,10 @@ import nerd.tuxmobil.fahrplan.congress.repositories.ExecutionContext
 import nerd.tuxmobil.fahrplan.congress.roomstates.RoomStateFormatting
 import nerd.tuxmobil.fahrplan.congress.sharing.JsonSessionFormat
 import nerd.tuxmobil.fahrplan.congress.sharing.SimpleSessionFormat
-import nerd.tuxmobil.fahrplan.congress.utils.FeedbackUrlComposer
+import nerd.tuxmobil.fahrplan.congress.utils.FeedbackUrlComposition
 import nerd.tuxmobil.fahrplan.congress.utils.Font
 import nerd.tuxmobil.fahrplan.congress.utils.MarkdownConversion
-import nerd.tuxmobil.fahrplan.congress.utils.SessionPropertiesFormatter
+import nerd.tuxmobil.fahrplan.congress.utils.SessionPropertiesFormatting
 import nerd.tuxmobil.fahrplan.congress.utils.SessionUrlComposition
 import nerd.tuxmobil.fahrplan.congress.wiki.containsWikiLink
 
@@ -46,10 +46,10 @@ internal class SessionDetailsViewModel(
     buildConfigProvision: BuildConfigProvision,
     alarmServices: AlarmServices,
     notificationHelper: NotificationHelper,
-    private val sessionPropertiesFormatter: SessionPropertiesFormatter,
+    private val sessionPropertiesFormatting: SessionPropertiesFormatting,
     private val simpleSessionFormat: SimpleSessionFormat,
     private val jsonSessionFormat: JsonSessionFormat,
-    private val feedbackUrlComposer: FeedbackUrlComposer,
+    private val feedbackUrlComposition: FeedbackUrlComposition,
     private val sessionUrlComposition: SessionUrlComposition,
     private val indoorNavigation: IndoorNavigation,
     private val markdownConversion: MarkdownConversion,
@@ -115,7 +115,6 @@ internal class SessionDetailsViewModel(
     val showAlarmTimePicker = sessionAlarmViewModelDelegate
         .showAlarmTimePicker
 
-    // TODO Cover by tests
     private val mutableRoomStateMessage = MutableStateFlow(roomStateFormatting.getText(null))
     val roomStateMessage = mutableRoomStateMessage.asStateFlow()
 
@@ -126,7 +125,7 @@ internal class SessionDetailsViewModel(
     }
 
     private fun SelectedSessionParameter.customizeEngelsystemRoomName() = copy(
-        roomName = sessionPropertiesFormatter.getRoomName(
+        roomName = sessionPropertiesFormatting.getRoomName(
             roomName = roomName,
             defaultEngelsystemRoomName = defaultEngelsystemRoomName,
             customEngelsystemRoomName = customEngelsystemRoomName,
@@ -139,11 +138,11 @@ internal class SessionDetailsViewModel(
         val formattedZonedDateTimeLong = formattingDelegate.getFormattedDateTimeLong(useDeviceTimeZone, dateUTC, timeZoneOffset)
         val formattedAbstract = markdownConversion.markdownLinksToHtmlLinks(abstractt)
         val formattedDescription = markdownConversion.markdownLinksToHtmlLinks(description)
-        val linksHtml = sessionPropertiesFormatter.getFormattedLinks(links)
+        val linksHtml = sessionPropertiesFormatting.getFormattedLinks(links)
         val formattedLinks = markdownConversion.markdownLinksToHtmlLinks(linksHtml)
         val sessionUrl = sessionUrlComposition.getSessionUrl(this)
-        val sessionLink = sessionPropertiesFormatter.getFormattedUrl(sessionUrl)
-        val isFeedbackUrlEmpty = feedbackUrlComposer.getFeedbackUrl(this).isEmpty()
+        val sessionLink = sessionPropertiesFormatting.getFormattedUrl(sessionUrl)
+        val isFeedbackUrlEmpty = feedbackUrlComposition.getFeedbackUrl(this).isEmpty()
         val supportsIndoorNavigation = indoorNavigation.isSupported(this.toRoom())
         val isEngelshift = roomName == defaultEngelsystemRoomName
         val supportsFeedback = !isFeedbackUrlEmpty && !isEngelshift
@@ -156,7 +155,7 @@ internal class SessionDetailsViewModel(
             formattedZonedDateTimeLong = formattedZonedDateTimeLong,
             title = title,
             subtitle = subtitle,
-            speakerNames = sessionPropertiesFormatter.getFormattedSpeakers(this),
+            speakerNames = sessionPropertiesFormatting.getFormattedSpeakers(this),
             speakersCount = speakers.size,
             abstract = abstractt,
             formattedAbstract = formattedAbstract,
@@ -178,7 +177,7 @@ internal class SessionDetailsViewModel(
 
     fun openFeedback() {
         loadSelectedSession { session ->
-            val uri = feedbackUrlComposer.getFeedbackUrl(session).toUri()
+            val uri = feedbackUrlComposition.getFeedbackUrl(session).toUri()
             mutableOpenFeedBack.sendOneTimeEvent(uri)
         }
     }
