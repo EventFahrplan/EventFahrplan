@@ -4,6 +4,7 @@ import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.utils.MarkdownConversion
 import nerd.tuxmobil.fahrplan.congress.utils.MarkdownConverter
 import nerd.tuxmobil.fahrplan.congress.utils.SessionPropertiesFormatter
+import nerd.tuxmobil.fahrplan.congress.utils.SessionPropertiesFormatting
 import nerd.tuxmobil.fahrplan.congress.utils.SessionUrlComposer
 import nerd.tuxmobil.fahrplan.congress.utils.SessionUrlComposition
 import nerd.tuxmobil.fahrplan.congress.wiki.containsWikiLink
@@ -16,7 +17,7 @@ import nerd.tuxmobil.fahrplan.congress.wiki.containsWikiLink
 class CalendarDescriptionComposer(
 
     private val sessionOnlineText: String,
-    private val sessionPropertiesFormatter: SessionPropertiesFormatter = SessionPropertiesFormatter(),
+    private val sessionPropertiesFormatting: SessionPropertiesFormatting = SessionPropertiesFormatter(),
     private val markdownConversion: MarkdownConversion = MarkdownConverter,
     private val sessionUrlComposition: SessionUrlComposition = SessionUrlComposer()
 
@@ -46,7 +47,7 @@ class CalendarDescriptionComposer(
     }
 
     private fun StringBuilder.appendSpeakers(session: Session) {
-        appendParagraphIfNotEmpty(sessionPropertiesFormatter.getFormattedSpeakers(session))
+        appendParagraphIfNotEmpty(sessionPropertiesFormatting.getFormattedSpeakers(session))
     }
 
     private fun StringBuilder.appendAbstract(session: Session) {

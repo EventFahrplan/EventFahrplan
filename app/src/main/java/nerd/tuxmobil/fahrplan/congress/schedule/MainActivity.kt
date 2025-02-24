@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP
 import android.content.Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -61,6 +60,7 @@ import nerd.tuxmobil.fahrplan.congress.settings.SettingsActivity
 import nerd.tuxmobil.fahrplan.congress.sidepane.OnSidePaneCloseListener
 import nerd.tuxmobil.fahrplan.congress.utils.ConfirmationDialog.OnConfirmationDialogClicked
 import nerd.tuxmobil.fahrplan.congress.utils.showWhenLockedCompat
+import androidx.core.graphics.drawable.toDrawable
 
 class MainActivity : BaseActivity(),
     MenuProvider,
@@ -138,7 +138,7 @@ class MainActivity : BaseActivity(),
         supportActionBar!!.setDisplayShowHomeEnabled(true)
         supportActionBar!!.setDefaultDisplayHomeAsUpEnabled(true)
         val actionBarColor = ContextCompat.getColor(this, R.color.colorActionBar)
-        supportActionBar!!.setBackgroundDrawable(ColorDrawable(actionBarColor))
+        supportActionBar!!.setBackgroundDrawable(actionBarColor.toDrawable())
 
         TraceDroidEmailSender.sendStackTraces(this)
         resetProgressDialog()

@@ -5,13 +5,13 @@ import nerd.tuxmobil.fahrplan.congress.commons.FormattingDelegate
 import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolving
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.search.SearchResultParameter.SearchResult
-import nerd.tuxmobil.fahrplan.congress.utils.ContentDescriptionFormatter
-import nerd.tuxmobil.fahrplan.congress.utils.SessionPropertiesFormatter
+import nerd.tuxmobil.fahrplan.congress.utils.ContentDescriptionFormatting
+import nerd.tuxmobil.fahrplan.congress.utils.SessionPropertiesFormatting
 
 class SearchResultParameterFactory(
     private val resourceResolving: ResourceResolving,
-    private val sessionPropertiesFormatter: SessionPropertiesFormatter,
-    private val contentDescriptionFormatter: ContentDescriptionFormatter,
+    private val sessionPropertiesFormatting: SessionPropertiesFormatting,
+    private val contentDescriptionFormatting: ContentDescriptionFormatting,
     private val formattingDelegate: FormattingDelegate
 ) : FormattingDelegate by formattingDelegate {
 
@@ -22,7 +22,7 @@ class SearchResultParameterFactory(
     private fun createSearchResult(session: Session, useDeviceTimeZone: Boolean): SearchResult {
         val dash = resourceResolving.getString(R.string.dash)
         val title = session.title.ifEmpty { dash }
-        val formattedSpeakerNames = sessionPropertiesFormatter.getFormattedSpeakers(session)
+        val formattedSpeakerNames = sessionPropertiesFormatting.getFormattedSpeakers(session)
         val speakers = if (session.speakers.isEmpty()) dash else formattedSpeakerNames
         val startsAtText = formattingDelegate.getFormattedDateTimeLong(
             useDeviceTimeZone,
@@ -34,17 +34,17 @@ class SearchResultParameterFactory(
             id = session.sessionId,
             title = SearchResultProperty(
                 value = title,
-                contentDescription = contentDescriptionFormatter
+                contentDescription = contentDescriptionFormatting
                     .getTitleContentDescription(session.title),
             ),
             speakerNames = SearchResultProperty(
                 value = speakers,
-                contentDescription = contentDescriptionFormatter
+                contentDescription = contentDescriptionFormatting
                     .getSpeakersContentDescription(session.speakers.size, formattedSpeakerNames),
             ),
             startsAt = SearchResultProperty(
                 value = startsAtText,
-                contentDescription = contentDescriptionFormatter.getStartTimeContentDescription(startsAtText),
+                contentDescription = contentDescriptionFormatting.getStartTimeContentDescription(startsAtText),
             ),
         )
     }

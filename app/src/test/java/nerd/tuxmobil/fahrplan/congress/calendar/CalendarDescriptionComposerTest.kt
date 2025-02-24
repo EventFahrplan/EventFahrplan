@@ -113,7 +113,7 @@ class CalendarDescriptionComposerTest {
             """.trimIndent())
     }
 
-    private fun createComposer(): CalendarDescriptionComposer {
+    private fun createComposer(): CalendarDescriptionComposition {
         return CalendarDescriptionComposer("Session online", sessionUrlComposition = FakeSessionUrlComposer())
     }
 

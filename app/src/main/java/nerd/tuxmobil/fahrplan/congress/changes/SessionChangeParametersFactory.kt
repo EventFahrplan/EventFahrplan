@@ -13,13 +13,13 @@ import nerd.tuxmobil.fahrplan.congress.commons.VideoRecordingState.Drawable.Avai
 import nerd.tuxmobil.fahrplan.congress.commons.VideoRecordingState.Drawable.Unavailable
 import nerd.tuxmobil.fahrplan.congress.commons.VideoRecordingState.None
 import nerd.tuxmobil.fahrplan.congress.models.Session
-import nerd.tuxmobil.fahrplan.congress.utils.ContentDescriptionFormatter
-import nerd.tuxmobil.fahrplan.congress.utils.SessionPropertiesFormatter
+import nerd.tuxmobil.fahrplan.congress.utils.ContentDescriptionFormatting
+import nerd.tuxmobil.fahrplan.congress.utils.SessionPropertiesFormatting
 
 class SessionChangeParametersFactory(
     private val resourceResolving: ResourceResolving,
-    private val sessionPropertiesFormatter: SessionPropertiesFormatter,
-    private val contentDescriptionFormatter: ContentDescriptionFormatter,
+    private val sessionPropertiesFormatting: SessionPropertiesFormatting,
+    private val contentDescriptionFormatting: ContentDescriptionFormatting,
     private val onDateFormatter: (useDeviceTimeZone: Boolean) -> DateFormatter,
 ) {
 
@@ -50,7 +50,7 @@ class SessionChangeParametersFactory(
     private fun sessionChangeOf(session: Session, dayText: String, dash: String, useDeviceTimeZone: Boolean): SessionChange {
         val startsAt = onDateFormatter(useDeviceTimeZone).getFormattedTime(session.dateUTC, session.timeZoneOffset)
         val duration = resourceResolving.getString(R.string.session_list_item_duration_text, session.duration)
-        val languages = sessionPropertiesFormatter.getLanguageText(session)
+        val languages = sessionPropertiesFormatting.getLanguageText(session)
         val videoState = when {
             session.changedRecordingOptOut -> when {
                 session.recordingOptOut -> Unavailable
@@ -59,7 +59,7 @@ class SessionChangeParametersFactory(
 
             else -> None
         }
-        val speakerNames = sessionPropertiesFormatter.getFormattedSpeakers(session)
+        val speakerNames = sessionPropertiesFormatting.getFormattedSpeakers(session)
         val title = if (session.changedTitle && session.title.isEmpty()) dash else session.title
 
         return SessionChange(
@@ -71,7 +71,7 @@ class SessionChangeParametersFactory(
             ),
             subtitle = SessionChangeProperty(
                 value = if (session.changedSubtitle && session.subtitle.isEmpty()) dash else session.subtitle,
-                contentDescription = contentDescriptionFormatter
+                contentDescription = contentDescriptionFormatting
                     .getSubtitleContentDescription(session.subtitle),
                 changeState = changeStateOf(session, session.changedSubtitle),
             ),
@@ -82,7 +82,7 @@ class SessionChangeParametersFactory(
             ),
             speakerNames = SessionChangeProperty(
                 value = if (session.changedSpeakers && session.speakers.isEmpty()) dash else speakerNames,
-                contentDescription = contentDescriptionFormatter
+                contentDescription = contentDescriptionFormatting
                     .getSpeakersContentDescription(session.speakers.size, speakerNames),
                 changeState = changeStateOf(session, session.changedSpeakers),
             ),
@@ -93,19 +93,19 @@ class SessionChangeParametersFactory(
             ),
             startsAt = SessionChangeProperty(
                 value = startsAt,
-                contentDescription = contentDescriptionFormatter
+                contentDescription = contentDescriptionFormatting
                     .getStartTimeContentDescription(startsAt),
                 changeState = changeStateOf(session, session.changedStartTime),
             ),
             duration = SessionChangeProperty(
                 value = duration,
-                contentDescription = contentDescriptionFormatter
+                contentDescription = contentDescriptionFormatting
                     .getDurationContentDescription(session.duration),
                 changeState = changeStateOf(session, session.changedDuration),
             ),
             roomName = SessionChangeProperty(
                 value = session.roomName,
-                contentDescription = contentDescriptionFormatter
+                contentDescription = contentDescriptionFormatting
                     .getRoomNameContentDescription(session.roomName),
                 changeState = changeStateOf(session, session.changedRoomName),
             ),
@@ -114,7 +114,7 @@ class SessionChangeParametersFactory(
                 contentDescription = if (session.changedLanguage && session.language.isEmpty()) {
                     resourceResolving.getString(R.string.session_list_item_language_removed_content_description)
                 } else {
-                    contentDescriptionFormatter.getLanguageContentDescription(languages)
+                    contentDescriptionFormatting.getLanguageContentDescription(languages)
                 },
                 changeState = changeStateOf(session, session.changedLanguage),
             ),

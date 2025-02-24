@@ -2,7 +2,6 @@ package nerd.tuxmobil.fahrplan.congress.favorites
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
@@ -13,6 +12,7 @@ import nerd.tuxmobil.fahrplan.congress.base.BaseActivity
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsActivity
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.utils.ConfirmationDialog.OnConfirmationDialogClicked
+import androidx.core.graphics.drawable.toDrawable
 
 class StarredListActivity :
     BaseActivity(),
@@ -37,7 +37,7 @@ class StarredListActivity :
         val toolbar = requireViewByIdCompat<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         val actionBarColor = ContextCompat.getColor(this, R.color.colorActionBar)
-        supportActionBar!!.setBackgroundDrawable(ColorDrawable(actionBarColor))
+        supportActionBar!!.setBackgroundDrawable(actionBarColor.toDrawable())
         if (savedInstanceState == null) {
             addFragment(R.id.container, StarredListFragment(), StarredListFragment.FRAGMENT_TAG)
         }

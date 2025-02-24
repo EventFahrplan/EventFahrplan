@@ -31,7 +31,7 @@
         <activity
                 android:name=".details.SessionDetailsActivity"
                 android:configChanges="keyboardHidden|orientation"
-                android:label="@string/fahrplan"
+                android:label="@string/session_details_screen_name"
                 android:uiOptions="splitActionBarWhenNarrow"
                 android:resizeableActivity="true"
                 android:parentActivityName="nerd.tuxmobil.fahrplan.congress.schedule.MainActivity">

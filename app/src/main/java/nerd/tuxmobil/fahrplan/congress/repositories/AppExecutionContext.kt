@@ -1,13 +1,13 @@
 package nerd.tuxmobil.fahrplan.congress.repositories
 
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
+import kotlin.coroutines.CoroutineContext
 
 object AppExecutionContext : ExecutionContext {
 
-    override val ui: CoroutineDispatcher = Main
-    override val network: CoroutineDispatcher = IO
-    override val database: CoroutineDispatcher = IO
+    override val ui: CoroutineContext = Main
+    override val network: CoroutineContext = IO
+    override val database: CoroutineContext = IO
 
 }

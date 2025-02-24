@@ -9,7 +9,7 @@ class FeedbackUrlComposer(
 
         private val frabScheduleFeedbackUrlFormatString: String = BuildConfig.SCHEDULE_FEEDBACK_URL
 
-) {
+) : FeedbackUrlComposition {
 
     /**
      * Returns the feedback URL for the [session] if it is available or can be composed otherwise
@@ -22,7 +22,7 @@ class FeedbackUrlComposer(
      * For sessions extracted from the wiki of the Chaos Communication Congress aka. "self organized
      * sessions" an empty string is returned because there is no feedback system for them.
      */
-    fun getFeedbackUrl(session: Session): String {
+    override fun getFeedbackUrl(session: Session): String {
         if (session.originatesFromWiki) {
             return NO_URL
         }
