@@ -6,6 +6,7 @@ import android.content.Intent
 import androidx.annotation.VisibleForTesting
 import androidx.core.net.toUri
 import info.metadude.android.eventfahrplan.commons.logging.Logging
+import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmReceiver.AlarmIntentFactory.Companion.ALARM_SESSION
 import nerd.tuxmobil.fahrplan.congress.autoupdate.UpdateService
 import nerd.tuxmobil.fahrplan.congress.commons.PendingIntentProvider
@@ -45,7 +46,10 @@ class AlarmReceiver : BroadcastReceiver() {
 
         when (intent.action) {
             ALARM_DISMISSED -> onSessionAlarmNotificationDismissed(intent)
-            ALARM_UPDATE -> UpdateService.start(context)
+            ALARM_UPDATE -> {
+                updateScheduleNextFetch()
+                UpdateService.start(context)
+            }
             ALARM_SESSION -> {
                 val sessionId = intent.getStringExtra(BundleKeys.ALARM_SESSION_ID)!!
                 val day = intent.getIntExtra(BundleKeys.ALARM_DAY, 1)
@@ -83,6 +87,15 @@ class AlarmReceiver : BroadcastReceiver() {
             "Bundle does not contain NOTIFICATION_ID."
         }
         AppRepository.deleteSessionAlarmNotificationId(notificationId)
+    }
+
+    private fun updateScheduleNextFetch() {
+        val nextFetch = AppRepository.readScheduleNextFetch()
+        if (nextFetch.isValid()) {
+            // Calculating rough next alarm time here because AlarmManager does not expose repetitive alarms.
+            val estimatedNextAlarmTime = Moment.now().plusDuration(nextFetch.interval)
+            AppRepository.updateScheduleNextFetch(nextFetch.copy(nextFetchAt = estimatedNextAlarmTime))
+        }
     }
 
     internal class AlarmIntentFactory(

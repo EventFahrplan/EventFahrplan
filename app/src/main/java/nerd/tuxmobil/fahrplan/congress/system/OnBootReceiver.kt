@@ -50,7 +50,14 @@ class OnBootReceiver : BroadcastReceiver() {
         if (appRepository.readAutoUpdateEnabled()) { // Check if auto update is enabled
             val lastFetchedAt = appRepository.readScheduleLastFetchedAt()
             val nowMillis = Moment.now().toMilliseconds()
-            val interval = FahrplanMisc.setUpdateAlarm(context, appRepository.loadConferenceTimeFrame(), isInitial = true, logging)
+            val interval = FahrplanMisc.setUpdateAlarm(
+                context = context,
+                conferenceTimeFrame = appRepository.loadConferenceTimeFrame(),
+                isInitial = true,
+                logging = logging,
+                onCancelScheduleNextFetch = appRepository::deleteScheduleNextFetch,
+                onUpdateScheduleNextFetch = appRepository::updateScheduleNextFetch,
+            )
 
             logging.d(LOG_TAG, "now: $nowMillis, lastFetchedAt: $lastFetchedAt")
 

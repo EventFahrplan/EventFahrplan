@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
     <!-- App notification settings -->
     <string name="preference_title_app_notification_settings">Benachrichtigungen anpassen</string>
@@ -8,6 +8,26 @@
     <!-- Automatic schedule updates -->
     <string name="preference_title_auto_update_enabled">Automatische Aktualisierung anschalten</string>
     <string name="preference_summary_auto_update_enabled">Lädt den Fahrplan regelmäßig herunter.</string>
+    <string name="preference_summary_auto_update_next_fetch_approximately_at">
+         Ungefähre nächste Aktualisierung: <xliff:g example="26.02.25 13:00" id="nextFetchAt">%1$s</xliff:g>
+        (<xliff:g example="jede 1,5 Stunden" id="interval">%2$s</xliff:g>)
+    </string>
+    <plurals name="preference_summary_auto_update_interval_days">
+        <item quantity="one">jeden Tag</item>
+        <item quantity="other">jede <xliff:g example="5" id="days">%s</xliff:g> Tage</item>
+    </plurals>
+    <plurals name="preference_summary_auto_update_interval_hours">
+        <item quantity="one">jede Stunde</item>
+        <item quantity="other">jede <xliff:g example="5" id="hours">%s</xliff:g> Stunden</item>
+    </plurals>
+    <plurals name="preference_summary_auto_update_interval_minutes">
+        <item quantity="one">jede Minute</item>
+        <item quantity="other">jede <xliff:g example="5" id="minutes">%s</xliff:g> Minuten</item>
+    </plurals>
+    <plurals name="preference_summary_auto_update_interval_seconds">
+        <item quantity="one">jede Sekunde</item>
+        <item quantity="other">jede <xliff:g example="5" id="seconds">%s</xliff:g> Sekunden</item>
+    </plurals>
 
     <!-- Alarm time index -->
     <string name="preference_dialog_title_alarm_time">Wähle eine Standard-Alarmzeit</string>

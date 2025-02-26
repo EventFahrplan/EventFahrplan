@@ -254,7 +254,14 @@ class FahrplanFragment : Fragment(), MenuProvider, SessionViewEventsHandler {
             errorMessage.show(requireContext(), shouldShowLong = false)
         }
         viewModel.activateScheduleUpdateAlarm.observe(viewLifecycleOwner) { conferenceTimeFrame ->
-            FahrplanMisc.setUpdateAlarm(requireContext(), conferenceTimeFrame, isInitial = false, logging)
+            FahrplanMisc.setUpdateAlarm(
+                context = requireContext(),
+                conferenceTimeFrame = conferenceTimeFrame,
+                isInitial = false,
+                logging = logging,
+                onCancelScheduleNextFetch = AppRepository::deleteScheduleNextFetch,
+                onUpdateScheduleNextFetch = AppRepository::updateScheduleNextFetch ,
+            )
         }
         viewModel.shareSimple.observe(viewLifecycleOwner) { formattedSession ->
             SessionSharer.shareSimple(requireContext(), formattedSession)

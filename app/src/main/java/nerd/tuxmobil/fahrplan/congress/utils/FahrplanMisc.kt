@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import info.metadude.android.eventfahrplan.commons.logging.Logging
 import info.metadude.android.eventfahrplan.commons.temporal.DateFormatter
+import info.metadude.android.eventfahrplan.commons.temporal.Duration
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmReceiver
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmUpdater
@@ -13,6 +14,7 @@ import nerd.tuxmobil.fahrplan.congress.extensions.getAlarmManager
 import nerd.tuxmobil.fahrplan.congress.models.ConferenceTimeFrame
 import nerd.tuxmobil.fahrplan.congress.models.DateInfo
 import nerd.tuxmobil.fahrplan.congress.models.DateInfos
+import nerd.tuxmobil.fahrplan.congress.models.NextFetch
 
 
 object FahrplanMisc {
@@ -33,7 +35,14 @@ object FahrplanMisc {
         return infos
     }
 
-    fun setUpdateAlarm(context: Context, conferenceTimeFrame: ConferenceTimeFrame, isInitial: Boolean, logging: Logging): Long {
+    fun setUpdateAlarm(
+        context: Context,
+        conferenceTimeFrame: ConferenceTimeFrame,
+        isInitial: Boolean,
+        logging: Logging,
+        onCancelScheduleNextFetch: () -> Unit,
+        onUpdateScheduleNextFetch: (NextFetch) -> Unit,
+    ): Long {
         val alarmManager = context.getAlarmManager()
         val alarmIntent = Intent(context, AlarmReceiver::class.java)
             .apply { action = AlarmReceiver.ALARM_UPDATE }
@@ -46,6 +55,7 @@ object FahrplanMisc {
 
             override fun onCancelUpdateAlarm() {
                 logging.d(LOG_TAG, "Canceling alarm.")
+                onCancelScheduleNextFetch()
                 alarmManager.cancel(pendingIntent)
             }
 
@@ -56,6 +66,7 @@ object FahrplanMisc {
                 logging.d(LOG_TAG, "Scheduling update alarm to interval $interval, next in ~$next ms, at $nextDateTime")
                 // Redesign might be needed as of Android 12 (API level 31)
                 // See https://developer.android.com/training/scheduling/alarms
+                onUpdateScheduleNextFetch(NextFetch(nextFetch, Duration.ofMilliseconds(interval)))
                 alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, nextFetch.toMilliseconds(), interval, pendingIntent)
             }
 
