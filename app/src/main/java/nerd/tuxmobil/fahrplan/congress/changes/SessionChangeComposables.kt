@@ -12,9 +12,6 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
@@ -25,7 +22,6 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextDecoration.Companion.LineThrough
-import androidx.compose.ui.text.style.TextOverflow.Companion.Ellipsis
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -40,15 +36,19 @@ import nerd.tuxmobil.fahrplan.congress.changes.SessionChangeProperty.ChangeState
 import nerd.tuxmobil.fahrplan.congress.changes.SessionChangeState.Loading
 import nerd.tuxmobil.fahrplan.congress.changes.SessionChangeState.Success
 import nerd.tuxmobil.fahrplan.congress.changes.SessionChangeViewEvent.OnSessionChangeItemClick
-import nerd.tuxmobil.fahrplan.congress.commons.DayDateSeparatorItem
-import nerd.tuxmobil.fahrplan.congress.commons.EventFahrplanTheme
-import nerd.tuxmobil.fahrplan.congress.commons.Loading
 import nerd.tuxmobil.fahrplan.congress.commons.MultiDevicePreview
-import nerd.tuxmobil.fahrplan.congress.commons.NoData
-import nerd.tuxmobil.fahrplan.congress.commons.SessionListHeader
-import nerd.tuxmobil.fahrplan.congress.commons.VideoRecordingIcon
 import nerd.tuxmobil.fahrplan.congress.commons.VideoRecordingState.Drawable.Available
 import nerd.tuxmobil.fahrplan.congress.commons.VideoRecordingState.Drawable.Unavailable
+import nerd.tuxmobil.fahrplan.congress.designsystem.dividers.DividerHorizontal
+import nerd.tuxmobil.fahrplan.congress.designsystem.headers.HeaderDayDate
+import nerd.tuxmobil.fahrplan.congress.designsystem.headers.HeaderSessionList
+import nerd.tuxmobil.fahrplan.congress.designsystem.icons.IconVideoRecording
+import nerd.tuxmobil.fahrplan.congress.designsystem.screenstates.Loading
+import nerd.tuxmobil.fahrplan.congress.designsystem.screenstates.NoData
+import nerd.tuxmobil.fahrplan.congress.designsystem.templates.Scaffold
+import nerd.tuxmobil.fahrplan.congress.designsystem.texts.TextHeadlineContent
+import nerd.tuxmobil.fahrplan.congress.designsystem.texts.TextSupportingContent
+import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
 
 @Composable
 internal fun SessionChangesScreen(
@@ -100,12 +100,12 @@ private fun SessionChangesList(
     LazyColumn(state = rememberLazyListState()) {
         if (showInSidePane) {
             item {
-                SessionListHeader(stringResource(R.string.schedule_changes))
+                HeaderSessionList(stringResource(R.string.schedule_changes))
             }
         }
         itemsIndexed(parameters) { index, parameter ->
             when (parameter) {
-                is Separator -> DayDateSeparatorItem(parameter.text)
+                is Separator -> HeaderDayDate(parameter.text)
                 is SessionChange -> {
                     SessionChangeItem(parameter, Modifier.clickable {
                         if (!parameter.isCanceled) {
@@ -114,7 +114,7 @@ private fun SessionChangesList(
                     })
                     val next = parameters.getOrNull(index + 1)
                     if (index < parameters.size - 1 && (next != null && next !is Separator)) {
-                        HorizontalDivider(Modifier.padding(horizontal = 12.dp))
+                        DividerHorizontal(Modifier.padding(horizontal = 12.dp))
                     }
                 }
             }
@@ -139,7 +139,7 @@ fun SessionChangeItem(
         ) {
             val titleColor = session.title.changeState.color()
             val textDecoration = textDecorationOf(session.title)
-            Text(
+            TextHeadlineContent(
                 modifier = Modifier
                     .weight(1f)
                     .semantics {
@@ -150,11 +150,9 @@ fun SessionChangeItem(
                 fontWeight = Bold,
                 color = colorResource(titleColor),
                 textDecoration = textDecoration,
-                maxLines = 1,
-                overflow = Ellipsis,
             )
             val iconColor = session.videoRecordingState.changeState.color()
-            VideoRecordingIcon(
+            IconVideoRecording(
                 session.videoRecordingState.value,
                 iconColor,
             )
@@ -201,7 +199,7 @@ private fun SecondaryText(
     if (property.value.isNotEmpty()) {
         val color = property.changeState.color()
         val textDecoration = textDecorationOf(property)
-        Text(
+        TextSupportingContent(
             modifier = modifier.semantics {
                 contentDescription = property.contentDescription
             },
@@ -209,8 +207,6 @@ private fun SecondaryText(
             fontSize = 13.sp,
             color = colorResource(color),
             textDecoration = textDecoration,
-            maxLines = 1,
-            overflow = Ellipsis,
         )
     }
 }

@@ -13,16 +13,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.ListItem
-import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SearchBar
-import androidx.compose.material3.SearchBarDefaults
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -32,20 +22,31 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.traversalIndex
 import androidx.compose.ui.text.font.FontWeight.Companion.Bold
-import androidx.compose.ui.text.style.TextOverflow.Companion.Ellipsis
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import nerd.tuxmobil.fahrplan.congress.R
-import nerd.tuxmobil.fahrplan.congress.commons.EventFahrplanTheme
-import nerd.tuxmobil.fahrplan.congress.commons.Loading
 import nerd.tuxmobil.fahrplan.congress.commons.MultiDevicePreview
-import nerd.tuxmobil.fahrplan.congress.commons.NoData
+import nerd.tuxmobil.fahrplan.congress.designsystem.buttons.ButtonIcon
+import nerd.tuxmobil.fahrplan.congress.designsystem.buttons.ButtonOutlined
+import nerd.tuxmobil.fahrplan.congress.designsystem.dividers.DividerHorizontal
+import nerd.tuxmobil.fahrplan.congress.designsystem.icons.IconDecorative
+import nerd.tuxmobil.fahrplan.congress.designsystem.icons.IconDecorativeVector
+import nerd.tuxmobil.fahrplan.congress.designsystem.screenstates.Loading
+import nerd.tuxmobil.fahrplan.congress.designsystem.screenstates.NoData
+import nerd.tuxmobil.fahrplan.congress.designsystem.search.InputField
+import nerd.tuxmobil.fahrplan.congress.designsystem.search.SearchBar
+import nerd.tuxmobil.fahrplan.congress.designsystem.templates.ListItem
+import nerd.tuxmobil.fahrplan.congress.designsystem.templates.Scaffold
+import nerd.tuxmobil.fahrplan.congress.designsystem.texts.Text
+import nerd.tuxmobil.fahrplan.congress.designsystem.texts.TextHeadlineContent
+import nerd.tuxmobil.fahrplan.congress.designsystem.texts.TextOverline
+import nerd.tuxmobil.fahrplan.congress.designsystem.texts.TextSupportingContent
+import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
 import nerd.tuxmobil.fahrplan.congress.search.SearchResultParameter.SearchResult
 import nerd.tuxmobil.fahrplan.congress.search.SearchResultState.Loading
 import nerd.tuxmobil.fahrplan.congress.search.SearchResultState.Success
@@ -58,7 +59,6 @@ import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnSearchQueryClear
 import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnSearchResultItemClick
 import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnSearchSubScreenBackPress
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreen(
     searchQuery: String,
@@ -132,7 +132,6 @@ private fun SearchBarContent(
 }
 
 @Composable
-@OptIn(ExperimentalMaterial3Api::class)
 private fun SearchQueryInputField(
     @Suppress("SameParameterValue") expanded: Boolean,
     searchQuery: String,
@@ -141,7 +140,7 @@ private fun SearchQueryInputField(
     val focusRequester = remember { FocusRequester() }
     val keyboardController = LocalSoftwareKeyboardController.current
 
-    SearchBarDefaults.InputField(
+    InputField(
         modifier = Modifier.focusRequester(focusRequester),
         query = searchQuery,
         onQueryChange = { onViewEvent(OnSearchQueryChange(it)) },
@@ -153,14 +152,26 @@ private fun SearchQueryInputField(
             if (searchQuery.isEmpty()) {
                 SearchIcon()
             } else {
-                IconButton(onClick = { onViewEvent(OnBackIconClick) }) {
+                val backContentDescription = stringResource(R.string.navigate_back_content_description)
+                ButtonIcon(
+                    modifier = Modifier.semantics {
+                        contentDescription = backContentDescription
+                    },
+                    onClick = { onViewEvent(OnBackIconClick) }
+                ) {
                     BackIcon()
                 }
             }
         },
         trailingIcon = {
             if (searchQuery.isNotEmpty()) {
-                IconButton(onClick = { onViewEvent(OnSearchQueryClear) }) {
+                val clearContentDescription = stringResource(R.string.search_clear_search_query_content_description)
+                ButtonIcon(
+                    modifier = Modifier.semantics {
+                        contentDescription = clearContentDescription
+                    },
+                    onClick = { onViewEvent(OnSearchQueryClear) }
+                ) {
                     ClearSearchQueryIcon()
                 }
             }
@@ -174,25 +185,22 @@ private fun SearchQueryInputField(
 
 @Composable
 private fun SearchIcon() {
-    Icon(
+    IconDecorativeVector(
         Icons.Default.Search,
-        contentDescription = null,
     )
 }
 
 @Composable
 private fun BackIcon() {
-    Icon(
+    IconDecorativeVector(
         Icons.AutoMirrored.Default.ArrowBack,
-        contentDescription = stringResource(R.string.navigate_back_content_description),
     )
 }
 
 @Composable
 private fun ClearSearchQueryIcon() {
-    Icon(
+    IconDecorativeVector(
         Icons.Default.Close,
-        contentDescription = stringResource(R.string.search_clear_search_query_content_description),
     )
 }
 
@@ -222,7 +230,7 @@ private fun SearchResultList(
                     })
                     val next = parameters.getOrNull(index + 1)
                     if (index < parameters.size - 1 && (next != null)) {
-                        HorizontalDivider(Modifier.padding(horizontal = 12.dp))
+                        DividerHorizontal(Modifier.padding(horizontal = 12.dp))
                     }
                 }
             }
@@ -241,7 +249,7 @@ private fun SearchResultItem(
     ListItem(
         modifier = modifier,
         overlineContent = {
-            Text(
+            TextOverline(
                 modifier = Modifier.semantics {
                     contentDescription = searchResult.startsAt.contentDescription
                 },
@@ -249,24 +257,20 @@ private fun SearchResultItem(
             )
         },
         headlineContent = {
-            Text(
+            TextHeadlineContent(
                 modifier = Modifier.semantics {
                     contentDescription = searchResult.title.contentDescription
                 },
                 text = searchResult.title.value,
-                overflow = Ellipsis,
-                maxLines = 1,
             )
         },
         supportingContent = {
             if (searchResult.speakerNames.value.isNotEmpty()) {
-                Text(
+                TextSupportingContent(
                     modifier = Modifier.semantics {
                         contentDescription = searchResult.speakerNames.contentDescription
                     },
                     text = searchResult.speakerNames.value,
-                    overflow = Ellipsis,
-                    maxLines = 1,
                 )
             }
         },
@@ -289,7 +293,7 @@ private fun SearchHistoryList(
             fontWeight = Bold,
             modifier = Modifier.weight(1f),
         )
-        OutlinedButton(onClick = { onViewEvent(OnSearchHistoryClear) }) {
+        ButtonOutlined(onClick = { onViewEvent(OnSearchHistoryClear) }) {
             Text(
                 stringResource(R.string.search_history_clear),
             )
@@ -302,7 +306,7 @@ private fun SearchHistoryList(
             })
             val next = searchQueries.getOrNull(index + 1)
             if (index < searchQueries.size - 1 && (next != null)) {
-                HorizontalDivider(Modifier.padding(horizontal = 12.dp))
+                DividerHorizontal(Modifier.padding(horizontal = 12.dp))
             }
         }
     }
@@ -316,10 +320,8 @@ private fun SearchHistoryItem(
     ListItem(
         modifier = modifier,
         headlineContent = {
-            Text(
+            TextHeadlineContent(
                 text = searchQuery,
-                overflow = Ellipsis,
-                maxLines = 1,
             )
         },
         trailingContent = { InsertSearchHistoryIcon() },
@@ -328,9 +330,8 @@ private fun SearchHistoryItem(
 
 @Composable
 private fun InsertSearchHistoryIcon() {
-    Icon(
-        painterResource(R.drawable.ic_arrow_north_west),
-        contentDescription = null,
+    IconDecorative(
+        icon = R.drawable.ic_arrow_north_west,
     )
 }
 

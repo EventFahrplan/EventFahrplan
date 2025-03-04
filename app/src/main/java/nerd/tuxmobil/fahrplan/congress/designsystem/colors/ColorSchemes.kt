@@ -1,26 +1,13 @@
-package nerd.tuxmobil.fahrplan.congress.commons
+package nerd.tuxmobil.fahrplan.congress.designsystem.colors
 
-import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.res.colorResource
 import nerd.tuxmobil.fahrplan.congress.R
 
 @Composable
-fun EventFahrplanTheme(
-    darkMode: Boolean = isSystemInDarkTheme(),
-    content: @Composable () -> Unit,
-) {
-    MaterialTheme(
-        colorScheme = if (darkMode) darkColorScheme() else lightColorScheme(),
-        // typography = Material Design's default type scale uses Roboto, see "main/assets" folder
-        content = content
-    )
-}
-
-@Composable
-private fun darkColorScheme() = androidx.compose.material3.darkColorScheme(
-    primary = colorResource(R.color.text_primary), // used by CircularProgressIndicator, OutlinedButton -> Text, SearchBarDefaults.InputField cursor
+internal fun darkColorScheme() = androidx.compose.material3.darkColorScheme(
     background = colorResource(R.color.windowBackground),
     onBackground = colorResource(R.color.text_primary), // used by LazyColumn -> Text header
     surface = colorResource(android.R.color.transparent), // used by ListItem background
@@ -32,7 +19,7 @@ private fun darkColorScheme() = androidx.compose.material3.darkColorScheme(
 )
 
 @Composable
-private fun lightColorScheme() = androidx.compose.material3.lightColorScheme(
+internal fun lightColorScheme() = androidx.compose.material3.lightColorScheme(
     primary = colorResource(R.color.text_primary_inverted),
     background = colorResource(R.color.window_background_inverted),
     onBackground = colorResource(R.color.text_primary_inverted),
@@ -43,3 +30,7 @@ private fun lightColorScheme() = androidx.compose.material3.lightColorScheme(
     outlineVariant = colorResource(R.color.outline_variant),
     surfaceContainerHigh = colorResource(android.R.color.transparent),
 )
+
+internal val LocalColorScheme = staticCompositionLocalOf<ColorScheme> {
+    error("No ColorScheme provided")
+}

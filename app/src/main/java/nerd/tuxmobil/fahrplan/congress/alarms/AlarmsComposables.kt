@@ -3,41 +3,39 @@ package nerd.tuxmobil.fahrplan.congress.alarms
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.ListItem
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.paint
-import androidx.compose.ui.layout.ContentScale.Companion.FillBounds
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.onClick
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow.Companion.Ellipsis
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmsState.Loading
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmsState.Success
-import nerd.tuxmobil.fahrplan.congress.commons.EventFahrplanTheme
-import nerd.tuxmobil.fahrplan.congress.commons.Loading
 import nerd.tuxmobil.fahrplan.congress.commons.MultiDevicePreview
-import nerd.tuxmobil.fahrplan.congress.commons.NoData
-import nerd.tuxmobil.fahrplan.congress.commons.SessionListHeader
+import nerd.tuxmobil.fahrplan.congress.designsystem.buttons.ButtonIcon
+import nerd.tuxmobil.fahrplan.congress.designsystem.dividers.DividerHorizontal
+import nerd.tuxmobil.fahrplan.congress.designsystem.headers.HeaderSessionList
+import nerd.tuxmobil.fahrplan.congress.designsystem.icons.IconBoxed
+import nerd.tuxmobil.fahrplan.congress.designsystem.icons.IconDecorative
+import nerd.tuxmobil.fahrplan.congress.designsystem.screenstates.Loading
+import nerd.tuxmobil.fahrplan.congress.designsystem.screenstates.NoData
+import nerd.tuxmobil.fahrplan.congress.designsystem.templates.ListItem
+import nerd.tuxmobil.fahrplan.congress.designsystem.templates.Scaffold
+import nerd.tuxmobil.fahrplan.congress.designsystem.texts.Text
+import nerd.tuxmobil.fahrplan.congress.designsystem.texts.TextHeadlineContent
+import nerd.tuxmobil.fahrplan.congress.designsystem.texts.TextOverline
+import nerd.tuxmobil.fahrplan.congress.designsystem.texts.TextSupportingContent
+import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
 
 @Composable
 internal fun AlarmsScreen(
@@ -90,7 +88,7 @@ private fun SessionAlarmsList(
     LazyColumn(state = rememberLazyListState()) {
         if (showInSidePane) {
             item {
-                SessionListHeader(stringResource(R.string.reminders))
+                HeaderSessionList(stringResource(R.string.reminders))
             }
         }
         itemsIndexed(parameters) { index, item ->
@@ -100,7 +98,7 @@ private fun SessionAlarmsList(
                 onDeleteClick = onDeleteItemClick
             )
             if (index < parameters.size - 1) {
-                HorizontalDivider(Modifier.padding(horizontal = 12.dp))
+                DividerHorizontal(Modifier.padding(horizontal = 12.dp))
             }
         }
     }
@@ -122,7 +120,7 @@ private fun SessionAlarmItem(
             AlarmIcon(parameter.alarmOffsetInMin, parameter.alarmOffsetContentDescription)
         },
         overlineContent = {
-            Text(
+            TextOverline(
                 modifier = Modifier.semantics {
                     contentDescription = parameter.firesAtContentDescription
                 },
@@ -130,24 +128,20 @@ private fun SessionAlarmItem(
             )
         },
         headlineContent = {
-            Text(
+            TextHeadlineContent(
                 modifier = Modifier.semantics {
                     contentDescription = parameter.titleContentDescription
                 },
                 text = parameter.title,
-                overflow = Ellipsis,
-                maxLines = 1,
             )
         },
         supportingContent = {
             if (parameter.subtitle.isNotEmpty()) {
-                Text(
+                TextSupportingContent(
                     modifier = Modifier.semantics {
                         contentDescription = parameter.subtitleContentDescription
                     },
                     text = parameter.subtitle,
-                    overflow = Ellipsis,
-                    maxLines = 1,
                 )
             }
         },
@@ -159,22 +153,16 @@ private fun SessionAlarmItem(
 
 @Composable
 private fun AlarmIcon(alarmOffset: Int, alarmIconContentDescription: String) {
-    Box(
-        Modifier
-            .semantics {
-                contentDescription = alarmIconContentDescription
-            }
-            .size(36.dp)
-            .paint(
-                painter = painterResource(R.drawable.ic_bell_on_session_alarm),
-                contentScale = FillBounds,
-            ),
-        contentAlignment = Alignment.Center,
+    IconBoxed(
+        icon = R.drawable.ic_bell_on_session_alarm,
+        modifier = Modifier.semantics {
+            contentDescription = alarmIconContentDescription
+        }
     ) {
         Text(
-            "$alarmOffset",
-            color = colorResource(R.color.session_alarm_item_bell_icon_text),
+            text = "$alarmOffset",
             textAlign = TextAlign.Center,
+            color = colorResource(R.color.session_alarm_item_bell_icon_text),
             fontWeight = Bold,
             fontSize = 12.sp,
         )
@@ -187,7 +175,7 @@ private fun DeleteIcon(
     onButtonClick: (SessionAlarmParameter) -> Unit,
 ) {
     val label = stringResource(R.string.alarms_item_delete_icon_on_click_label)
-    IconButton(
+    ButtonIcon(
         onClick = { onButtonClick(parameter) },
         modifier = Modifier.semantics {
             onClick(label) {
@@ -196,9 +184,8 @@ private fun DeleteIcon(
             }
         }
     ) {
-        Icon(
-            painter = painterResource(R.drawable.ic_delete),
-            contentDescription = null
+        IconDecorative(
+            icon = R.drawable.ic_delete,
         )
     }
 }
