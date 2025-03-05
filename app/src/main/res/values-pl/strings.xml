@@ -93,6 +93,7 @@
     <string name="schedule_updated">        Grafik został zaktualizowany.
     </string>
     <string name="settings">Ustawienia</string>
+    <string name="session_details_screen_name">Szczegóły</string>
     <string name="session_details_section_title_track">Tematyka</string>
     <string name="session_details_section_title_session_online">Wydarzenie online</string>
     <string name="session_details_section_title_links">Odnośniki</string>
@@ -260,4 +261,11 @@
     <string name="search_clear_search_query_content_description">Wyczyść wyszukiwanie</string>
     <string name="search_history_title">Ostatnie wyszukiwania</string>
     <string name="search_history_clear">Wyczyść</string>
+    <!-- Room state -->
+    <string name="room_state_text">Status pokoju: <xliff:g example="Too full" id="state">%s</xliff:g></string>
+    <string name="room_state_unknown">nieznany</string>
+    <string name="room_state_empty">pusty</string>
+    <string name="room_state_full">pełny</string>
+    <string name="room_state_too_full">zbyt pełny</string>
+    <string name="room_state_not_retrievable">nie można pobrać</string>
 </resources>
