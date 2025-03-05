@@ -688,12 +688,12 @@ class SessionDetailsViewModelTest {
     }
 
     private object UnknownRoomStateFormatter : RoomStateFormatting {
-        override fun getText(roomState: State?) = "Unknown"
+        override fun getText(state: State?) = "Unknown"
         override fun getFailureText(throwable: Throwable) = "Failure"
     }
 
     private object CrowdedRoomStateFormatter : RoomStateFormatting {
-        override fun getText(roomState: State?) = "Crowded"
+        override fun getText(state: State?) = "Crowded"
         override fun getFailureText(throwable: Throwable) = "Failure"
     }
 
