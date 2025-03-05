@@ -34,7 +34,7 @@ object Plugins {
         const val android = "8.8.0"
         const val dexcount = "4.0.0"
         const val kotlin = "2.1.10"
-        const val ksp = "2.1.10-1.0.29"
+        const val ksp = "2.1.10-1.0.31"
         const val sonarQube = "5.1.0.4882" // Breaks CI build as of 6.x. See https://community.sonarsource.com/t/sonarqube-gradle-plugin-6-0-breaks-android-tasks/130863
         const val unMock = "0.9.0"
         const val versions = "0.52.0"
