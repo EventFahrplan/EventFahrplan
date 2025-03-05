@@ -494,7 +494,7 @@ private fun createChangedEmptySession() = Session(
 )
 
 private fun createSessionPropertiesFormatter(): SessionPropertiesFormatting {
-    return SessionPropertiesFormatter()
+    return SessionPropertiesFormatter(mock())
 }
 
 private fun createContentDescriptionFormatter() = mock<ContentDescriptionFormatter> {

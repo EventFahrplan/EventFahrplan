@@ -110,8 +110,9 @@
     </string>
     <string name="about_libraries_names" translatable="false">
 		Kotlin, Google AndroidX, Jetpack Compose, BetterLinkMovementMethod,
-		Email Intent Builder, Engelsystem, Espresso, Markwon, Material Components,
-		Moshi, OkHttp, Retrofit, Room states, SnackEngage, ThreeTenBp, TraceDroid
+		Email Intent Builder, Engelsystem, Espresso, HTML Converter for Compose Multiplatform,
+		Kotlin Multiplatform Markdown Renderer, Material Components, Moshi, OkHttp,
+		Retrofit, Room states, SnackEngage, ThreeTenBp, TraceDroid
 	</string>
     <string name="about_data_privacy_statement_german">Data privacy statement (German)</string>
     <string name="about_f_droid_listing">F-Droid listing</string>
@@ -250,6 +251,7 @@
     <string name="session_list_item_favored_content_description">favored</string>
     <string name="session_list_item_not_favored_content_description">not favored</string>
     <string name="session_list_item_room_content_description">Room: <xliff:g example="Main hall" id="room">%s</xliff:g></string>
+    <string name="session_list_item_session_id_content_description" translatable="false">@string/session_details_session_id</string>
     <string name="session_list_item_start_time_content_description">Start time: <xliff:g example="16:30" id="startTime">%s</xliff:g></string>
     <string name="session_list_item_title_content_description">Title: <xliff:g example="Berlin stories" id="title">%s</xliff:g></string>
     <string name="session_list_item_subtitle_content_description">Subtitle: <xliff:g example="News from Berlin" id="subtitle">%s</xliff:g></string>

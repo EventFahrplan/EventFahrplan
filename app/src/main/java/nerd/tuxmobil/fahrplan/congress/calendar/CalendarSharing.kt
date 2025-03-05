@@ -6,6 +6,7 @@ import android.provider.CalendarContract
 import android.widget.Toast
 import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MILLISECONDS_OF_ONE_MINUTE
 import nerd.tuxmobil.fahrplan.congress.R
+import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolver
 import nerd.tuxmobil.fahrplan.congress.extensions.startActivity
 import nerd.tuxmobil.fahrplan.congress.extensions.withExtras
 import nerd.tuxmobil.fahrplan.congress.models.Session
@@ -14,7 +15,8 @@ class CalendarSharing(
 
     val context: Context,
     private val calendarDescriptionComposition: CalendarDescriptionComposition = CalendarDescriptionComposer(
-        context.getString(R.string.session_details_section_title_session_online)
+        context.getString(R.string.session_details_section_title_session_online),
+        ResourceResolver(context),
     ),
     val onFailure: () -> Unit = {
         Toast.makeText(context, R.string.add_to_calendar_failed, Toast.LENGTH_LONG).show()
