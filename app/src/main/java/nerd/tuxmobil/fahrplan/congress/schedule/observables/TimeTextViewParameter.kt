@@ -1,10 +1,8 @@
 package nerd.tuxmobil.fahrplan.congress.schedule.observables
 
-import androidx.annotation.LayoutRes
 import androidx.annotation.VisibleForTesting
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MINUTES_OF_ONE_DAY
-import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.schedule.Conference
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanFragment
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanFragment.Companion.BOX_HEIGHT_MULTIPLIER
@@ -19,12 +17,9 @@ import nerd.tuxmobil.fahrplan.congress.schedule.TimeSegment
  */
 @Suppress("DataClassPrivateConstructor")
 internal data class TimeTextViewParameter @VisibleForTesting constructor(
-
-        @LayoutRes
-        val layout: Int,
-        val height: Int,
-        val titleText: String
-
+    val height: Int,
+    val titleText: String,
+    val isNow: Boolean,
 ) {
 
     companion object {
@@ -54,13 +49,13 @@ internal data class TimeTextViewParameter @VisibleForTesting constructor(
             while (sessionStartsAtMinutes < lastSessionEndsAtMinutes) {
                 timeSegment = TimeSegment.ofMoment(sessionStartsAt)
                 val isToday = nowMoment in conference.timeFrame
-                val timeTextLayout = if (isToday && timeSegment.isMatched(nowMoment, FIFTEEN_MINUTES)) {
-                    R.layout.schedule_time_column_time_text_now
-                } else {
-                    R.layout.schedule_time_column_time_text
-                }
+                val isNow = isToday && timeSegment.isMatched(nowMoment, FIFTEEN_MINUTES)
                 val titleText = timeSegment.getFormattedText(conference.timeZoneOffset, useDeviceTimeZone)
-                val parameter = TimeTextViewParameter(timeTextLayout, timeTextViewHeight, titleText)
+                val parameter = TimeTextViewParameter(
+                    height = timeTextViewHeight,
+                    titleText = titleText,
+                    isNow = isNow,
+                )
                 parameters.add(parameter)
                 sessionStartsAt = sessionStartsAt.plusMinutes(FIFTEEN_MINUTES.toLong())
                 sessionStartsAtMinutes += FIFTEEN_MINUTES

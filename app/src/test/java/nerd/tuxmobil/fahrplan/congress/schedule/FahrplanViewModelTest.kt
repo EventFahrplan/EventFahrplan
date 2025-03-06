@@ -374,8 +374,8 @@ class FahrplanViewModelTest {
             val viewModel = createViewModel(repository)
             viewModel.fillTimes(nowMoment = mock(), normalizedBoxHeight = 42)
             val expected = listOf(
-                TimeTextViewParameter(R.layout.schedule_time_column_time_text, height = 126, titleText = "08:00"),
-                TimeTextViewParameter(R.layout.schedule_time_column_time_text, height = 126, titleText = "08:15")
+                TimeTextViewParameter(height = 126, titleText = "08:00", isNow = false),
+                TimeTextViewParameter(height = 126, titleText = "08:15", isNow = false),
             )
             viewModel.timeTextViewParameters.test {
                 assertThat(awaitItem()).isEqualTo(expected)
