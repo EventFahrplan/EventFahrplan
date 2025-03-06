@@ -499,7 +499,7 @@ class FahrplanFragment : Fragment(), MenuProvider, SessionViewEventsHandler {
         for ((layout, height, titleText) in parameters) {
             timeTextView = inflater.inflate(layout, null)
             timeTextColumn.addView(timeTextView, MATCH_PARENT, height)
-            timeTextView.requireViewByIdCompat<TextView>(R.id.time).apply {
+            timeTextView.requireViewByIdCompat<TextView>(R.id.schedule_time_column_time_text_view).apply {
                 text = titleText
             }
         }
