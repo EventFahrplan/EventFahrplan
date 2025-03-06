@@ -23,4 +23,9 @@
     <dimen name="session_details_subtitle">18sp</dimen>
     <dimen name="session_details_speakers">14sp</dimen>
 
+    <!-- Schedule screen -->
+    <dimen name="schedule_time_column_layout_width">40dp</dimen>
+    <dimen name="schedule_time_column_padding">2dp</dimen>
+    <dimen name="schedule_time_column_text_size">13sp</dimen>
+
 </resources>

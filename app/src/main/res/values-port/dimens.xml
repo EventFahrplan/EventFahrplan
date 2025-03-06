@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Schedule screen -->
+    <dimen name="schedule_time_column_padding">3dp</dimen>
+    <dimen name="schedule_time_column_text_size">11sp</dimen>
+
+</resources>
