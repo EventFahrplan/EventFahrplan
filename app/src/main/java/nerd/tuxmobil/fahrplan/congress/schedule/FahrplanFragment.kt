@@ -507,7 +507,7 @@ class FahrplanFragment : Fragment(), MenuProvider, SessionViewEventsHandler {
                 if (isNow) {
                     setBackgroundColor(ContextCompat.getColor(timeTextView.context, R.color.schedule_time_column_item_background_emphasized))
                 } else {
-                    setBackgroundResource(R.drawable.border)
+                    setBackgroundResource(R.drawable.schedule_time_column_time_text_background_normal)
                 }
             }
         }

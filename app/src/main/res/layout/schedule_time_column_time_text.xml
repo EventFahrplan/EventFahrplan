@@ -7,6 +7,6 @@
     android:gravity="top|center"
     android:padding="@dimen/schedule_time_column_padding"
     android:textSize="@dimen/schedule_time_column_text_size"
-    tools:background="@drawable/border"
+    tools:background="@drawable/schedule_time_column_time_text_background_normal"
     tools:text="@string/placeholder_schedule_time"
     tools:textColor="@color/schedule_time_column_item_text_normal" />
