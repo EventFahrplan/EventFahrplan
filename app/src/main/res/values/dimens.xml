@@ -98,7 +98,7 @@
 
     <!-- Schedule screen -->
     <dimen name="schedule_time_column_layout_width">38dp</dimen>
-    <dimen name="schedule_time_column_padding">2dp</dimen>
-    <dimen name="schedule_time_column_text_size">8sp</dimen>
+    <dimen name="schedule_time_column_padding">3dp</dimen>
+    <dimen name="schedule_time_column_text_size">11sp</dimen>
 
 </resources>
