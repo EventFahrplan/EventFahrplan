@@ -496,11 +496,19 @@ class FahrplanFragment : Fragment(), MenuProvider, SessionViewEventsHandler {
         timeTextColumn.importantForAccessibility = IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS
         timeTextColumn.removeAllViews()
         var timeTextView: View
-        for ((layout, height, titleText) in parameters) {
-            timeTextView = inflater.inflate(layout, null)
+        for ((height, titleText, isNow) in parameters) {
+            timeTextView = inflater.inflate(R.layout.schedule_time_column_time_text, null)
             timeTextColumn.addView(timeTextView, MATCH_PARENT, height)
-            timeTextView.requireViewByIdCompat<TextView>(R.id.time).apply {
+            val textColorRes = if (isNow) R.color.schedule_time_column_item_text_emphasized else R.color.schedule_time_column_item_text_normal
+            val textColor = ContextCompat.getColor(timeTextView.context, textColorRes)
+            timeTextView.requireViewByIdCompat<TextView>(R.id.schedule_time_column_time_text_view).apply {
                 text = titleText
+                setTextColor(textColor)
+                if (isNow) {
+                    setBackgroundColor(ContextCompat.getColor(timeTextView.context, R.color.schedule_time_column_item_background_emphasized))
+                } else {
+                    setBackgroundResource(R.drawable.schedule_time_column_time_text_background_normal)
+                }
             }
         }
     }

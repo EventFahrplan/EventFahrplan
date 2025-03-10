@@ -25,7 +25,7 @@
         android:orientation="horizontal">
 
         <Space
-            android:layout_width="@dimen/time_width"
+            android:layout_width="@dimen/schedule_time_column_layout_width"
             android:layout_height="wrap_content"
             tools:layout_height="22dp" />
 
