@@ -55,9 +55,9 @@ internal data class TimeTextViewParameter @VisibleForTesting constructor(
                 timeSegment = TimeSegment.ofMoment(sessionStartsAt)
                 val isToday = nowMoment in conference.timeFrame
                 val timeTextLayout = if (isToday && timeSegment.isMatched(nowMoment, FIFTEEN_MINUTES)) {
-                    R.layout.time_layout_now
+                    R.layout.schedule_time_column_time_text_now
                 } else {
-                    R.layout.time_layout
+                    R.layout.schedule_time_column_time_text
                 }
                 val titleText = timeSegment.getFormattedText(conference.timeZoneOffset, useDeviceTimeZone)
                 val parameter = TimeTextViewParameter(timeTextLayout, timeTextViewHeight, titleText)

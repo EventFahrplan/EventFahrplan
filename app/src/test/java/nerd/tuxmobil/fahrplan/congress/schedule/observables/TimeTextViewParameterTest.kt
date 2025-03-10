@@ -40,10 +40,10 @@ class TimeTextViewParameterTest {
         val nowMoment = moment.plusDays(1)
         val parameters = parametersOf(nowMoment, moment, 60)
         assertThat(parameters.size).isEqualTo(4)
-        parameters[0].assert(R.layout.time_layout, "08:00")
-        parameters[1].assert(R.layout.time_layout, "08:15")
-        parameters[2].assert(R.layout.time_layout, "08:30")
-        parameters[3].assert(R.layout.time_layout, "08:45")
+        parameters[0].assert(R.layout.schedule_time_column_time_text, "08:00")
+        parameters[1].assert(R.layout.schedule_time_column_time_text, "08:15")
+        parameters[2].assert(R.layout.schedule_time_column_time_text, "08:30")
+        parameters[3].assert(R.layout.schedule_time_column_time_text, "08:45")
     }
 
     @Test
@@ -53,10 +53,10 @@ class TimeTextViewParameterTest {
         val nowMoment = momentInMarch.plusMinutes(30)
         val parameters = parametersOf(nowMoment, momentInFebruary, 60)
         assertThat(parameters.size).isEqualTo(4)
-        parameters[0].assert(R.layout.time_layout, "08:00")
-        parameters[1].assert(R.layout.time_layout, "08:15")
-        parameters[2].assert(R.layout.time_layout, "08:30")
-        parameters[3].assert(R.layout.time_layout, "08:45")
+        parameters[0].assert(R.layout.schedule_time_column_time_text, "08:00")
+        parameters[1].assert(R.layout.schedule_time_column_time_text, "08:15")
+        parameters[2].assert(R.layout.schedule_time_column_time_text, "08:30")
+        parameters[3].assert(R.layout.schedule_time_column_time_text, "08:45")
     }
 
     @Test
@@ -65,10 +65,10 @@ class TimeTextViewParameterTest {
         val nowMoment = moment.plusMinutes(30)
         val parameters = parametersOf(nowMoment, moment, 60)
         assertThat(parameters.size).isEqualTo(4)
-        parameters[0].assert(R.layout.time_layout, "08:00")
-        parameters[1].assert(R.layout.time_layout, "08:15")
-        parameters[2].assert(R.layout.time_layout_now, "08:30")
-        parameters[3].assert(R.layout.time_layout, "08:45")
+        parameters[0].assert(R.layout.schedule_time_column_time_text, "08:00")
+        parameters[1].assert(R.layout.schedule_time_column_time_text, "08:15")
+        parameters[2].assert(R.layout.schedule_time_column_time_text_now, "08:30")
+        parameters[3].assert(R.layout.schedule_time_column_time_text, "08:45")
     }
 
     @Test
@@ -77,10 +77,10 @@ class TimeTextViewParameterTest {
         val nowMoment = moment.plusDays(1)
         val parameters = parametersOf(nowMoment, moment, 60)
         assertThat(parameters.size).isEqualTo(4)
-        parameters[0].assert(R.layout.time_layout, "23:30")
-        parameters[1].assert(R.layout.time_layout, "23:45")
-        parameters[2].assert(R.layout.time_layout, "00:00")
-        parameters[3].assert(R.layout.time_layout, "00:15")
+        parameters[0].assert(R.layout.schedule_time_column_time_text, "23:30")
+        parameters[1].assert(R.layout.schedule_time_column_time_text, "23:45")
+        parameters[2].assert(R.layout.schedule_time_column_time_text, "00:00")
+        parameters[3].assert(R.layout.schedule_time_column_time_text, "00:15")
     }
 
     @Test
@@ -89,10 +89,10 @@ class TimeTextViewParameterTest {
         val nowMoment = moment.plusMinutes(45) // March 1, 2020 00:15:00 AM GMT
         val parameters = parametersOf(nowMoment, moment, 60)
         assertThat(parameters.size).isEqualTo(4)
-        parameters[0].assert(R.layout.time_layout, "23:30")
-        parameters[1].assert(R.layout.time_layout, "23:45")
-        parameters[2].assert(R.layout.time_layout, "00:00")
-        parameters[3].assert(R.layout.time_layout_now, "00:15")
+        parameters[0].assert(R.layout.schedule_time_column_time_text, "23:30")
+        parameters[1].assert(R.layout.schedule_time_column_time_text, "23:45")
+        parameters[2].assert(R.layout.schedule_time_column_time_text, "00:00")
+        parameters[3].assert(R.layout.schedule_time_column_time_text_now, "00:15")
     }
 
     @Test
@@ -101,15 +101,15 @@ class TimeTextViewParameterTest {
         val nowMoment = moment.plusDays(1) // March 29, 2021 12:00:00 AM GMT
         val parameters = parametersOf(nowMoment, moment, 300)
         assertThat(parameters.size).isEqualTo(20)
-        parameters[0].assert(R.layout.time_layout, "00:00")
-        parameters[2].assert(R.layout.time_layout, "00:30")
-        parameters[4].assert(R.layout.time_layout, "01:00")
-        parameters[6].assert(R.layout.time_layout, "01:30")
-        parameters[8].assert(R.layout.time_layout, "02:00") // Clock turns to 03:00 summer time, currently not supported, see Conference class
-        parameters[10].assert(R.layout.time_layout, "02:30")
-        parameters[12].assert(R.layout.time_layout, "03:00")
-        parameters[14].assert(R.layout.time_layout, "03:30")
-        parameters[16].assert(R.layout.time_layout, "04:00")
+        parameters[0].assert(R.layout.schedule_time_column_time_text, "00:00")
+        parameters[2].assert(R.layout.schedule_time_column_time_text, "00:30")
+        parameters[4].assert(R.layout.schedule_time_column_time_text, "01:00")
+        parameters[6].assert(R.layout.schedule_time_column_time_text, "01:30")
+        parameters[8].assert(R.layout.schedule_time_column_time_text, "02:00") // Clock turns to 03:00 summer time, currently not supported, see Conference class
+        parameters[10].assert(R.layout.schedule_time_column_time_text, "02:30")
+        parameters[12].assert(R.layout.schedule_time_column_time_text, "03:00")
+        parameters[14].assert(R.layout.schedule_time_column_time_text, "03:30")
+        parameters[16].assert(R.layout.schedule_time_column_time_text, "04:00")
     }
 
     @Test
@@ -118,15 +118,15 @@ class TimeTextViewParameterTest {
         val nowMoment = moment.plusDays(1) // November 1, 2021 12:00:00 AM GMT
         val parameters = parametersOf(nowMoment, moment, 300)
         assertThat(parameters.size).isEqualTo(20)
-        parameters[0].assert(R.layout.time_layout, "00:00")
-        parameters[2].assert(R.layout.time_layout, "00:30")
-        parameters[4].assert(R.layout.time_layout, "01:00")
-        parameters[6].assert(R.layout.time_layout, "01:30")
-        parameters[8].assert(R.layout.time_layout, "02:00")
-        parameters[10].assert(R.layout.time_layout, "02:30")
-        parameters[12].assert(R.layout.time_layout, "03:00") // Clock turns to 02:00 winter time, currently not supported, see Conference class
-        parameters[14].assert(R.layout.time_layout, "03:30")
-        parameters[16].assert(R.layout.time_layout, "04:00")
+        parameters[0].assert(R.layout.schedule_time_column_time_text, "00:00")
+        parameters[2].assert(R.layout.schedule_time_column_time_text, "00:30")
+        parameters[4].assert(R.layout.schedule_time_column_time_text, "01:00")
+        parameters[6].assert(R.layout.schedule_time_column_time_text, "01:30")
+        parameters[8].assert(R.layout.schedule_time_column_time_text, "02:00")
+        parameters[10].assert(R.layout.schedule_time_column_time_text, "02:30")
+        parameters[12].assert(R.layout.schedule_time_column_time_text, "03:00") // Clock turns to 02:00 winter time, currently not supported, see Conference class
+        parameters[14].assert(R.layout.schedule_time_column_time_text, "03:30")
+        parameters[16].assert(R.layout.schedule_time_column_time_text, "04:00")
     }
 
     private fun parametersOf(nowMoment: Moment, moment: Moment, duration: Int): List<TimeTextViewParameter> {
