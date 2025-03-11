@@ -27,7 +27,6 @@
 
     <!-- Session details -->
     <color name="session_details_background">@color/windowBackground</color>
-    <color name="session_details_text">#fef2ff</color>
     <color name="session_detailbar_background">#190b2f</color>
     <color name="session_detailbar_text">#fef2ff</color>
     <color name="session_detailbar_icon">@color/colorPrimary</color>

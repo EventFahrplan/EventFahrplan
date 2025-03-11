@@ -65,7 +65,7 @@ class ChangeListFragment : Fragment() {
         ChangeListViewModelFactory(
             AppRepository,
             resourceResolving,
-            SessionPropertiesFormatter(),
+            SessionPropertiesFormatter(resourceResolving),
             ContentDescriptionFormatter(resourceResolving),
         )
     }

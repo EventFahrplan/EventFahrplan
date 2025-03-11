@@ -15,7 +15,6 @@
 <resources>
     <item name="box_height" type="integer">13</item>
     <item name="max_cols" type="integer">1</item>
-    <dimen name="time_width">38dp</dimen>
     <item name="min_width_dip" type="integer">160</item>
     <item name="room_title_size" type="integer">14</item>
     <dimen name="list_pane_leftright_padding">16dp</dimen>
@@ -73,16 +72,21 @@
     <dimen name="alert_dialog_content_margin">24dp</dimen>
 
     <!-- Session details white space -->
-    <dimen name="session_details_section_margin_bottom">8dp</dimen>
-    <dimen name="session_details_section_margin_top">16dp</dimen>
-    <item name="session_details_line_spacing_multiplier" format="float" type="dimen">1.1</item>
+    <dimen name="session_details_common_space_between_sections">8dp</dimen>
+    <dimen name="session_details_extra_space_above_speaker_names">12dp</dimen>
+    <dimen name="session_details_extra_space_above_section_header">8dp</dimen>
 
     <!-- Session details text sizes -->
     <dimen name="session_detailbar_text">13sp</dimen>
     <dimen name="session_details_text">16sp</dimen>
+    <dimen name="session_details_text_bullet">16dp</dimen>
     <dimen name="session_details_title">24sp</dimen>
+    <item name="session_details_title_line_spacing_multiplier" format="float" type="dimen">1.15</item>
     <dimen name="session_details_subtitle">16sp</dimen>
     <dimen name="session_details_speakers">13sp</dimen>
+    <dimen name="session_details_headline1">22sp</dimen>
+    <dimen name="session_details_headline2">20sp</dimen>
+    <dimen name="session_details_headline3">18sp</dimen>
     <dimen name="session_detailbar_icon_padding">3dp</dimen>
 
     <!-- Empty screen  -->
@@ -91,5 +95,10 @@
     <dimen name="empty_screen_subtitle_padding_top">16dp</dimen>
     <dimen name="empty_screen_drawable_padding">16dp</dimen>
     <dimen name="empty_screen_padding">16dp</dimen>
+
+    <!-- Schedule screen -->
+    <dimen name="schedule_time_column_layout_width">38dp</dimen>
+    <dimen name="schedule_time_column_padding">3dp</dimen>
+    <dimen name="schedule_time_column_text_size">11sp</dimen>
 
 </resources>

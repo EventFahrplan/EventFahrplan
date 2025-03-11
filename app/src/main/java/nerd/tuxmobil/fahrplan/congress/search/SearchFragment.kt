@@ -46,7 +46,7 @@ class SearchFragment : Fragment() {
         SearchViewModelFactory(
             appRepository = AppRepository,
             resourceResolving = resourceResolving,
-            sessionPropertiesFormatting = SessionPropertiesFormatter(),
+            sessionPropertiesFormatting = SessionPropertiesFormatter(resourceResolving),
             contentDescriptionFormatting = ContentDescriptionFormatter(resourceResolving),
         )
 

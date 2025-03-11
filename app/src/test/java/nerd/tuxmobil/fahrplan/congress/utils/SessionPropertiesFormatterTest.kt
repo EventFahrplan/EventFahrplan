@@ -1,8 +1,11 @@
 package nerd.tuxmobil.fahrplan.congress.utils
 
 import com.google.common.truth.Truth.assertThat
+import nerd.tuxmobil.fahrplan.congress.R
+import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolving
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.fail
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments.of
 import org.junit.jupiter.params.provider.MethodSource
@@ -30,7 +33,17 @@ class SessionPropertiesFormatterTest {
 
     }
 
-    private val formatter = SessionPropertiesFormatter()
+    private val formatter = SessionPropertiesFormatter(CompleteResourceResolver)
+
+    @Test
+    fun `getFormattedSessionId returns an empty string`() {
+        assertThat(formatter.getFormattedSessionId("")).isEmpty()
+    }
+
+    @Test
+    fun `getFormattedSessionId returns formatted session id string`() {
+        assertThat(formatter.getFormattedSessionId("S4223")).isEqualTo("ID: S4223")
+    }
 
     @Test
     fun `getFormattedLinks returns an empty string`() {
@@ -165,4 +178,17 @@ class SessionPropertiesFormatterTest {
         roomName = roomName,
     )
 
+    private object CompleteResourceResolver : ResourceResolving {
+        override fun getString(id: Int, vararg formatArgs: Any): String {
+            return when (id) {
+                R.string.session_details_session_id -> "ID: ${formatArgs.first()}"
+                else -> fail("Unknown string id : $id")
+            }
+        }
+
+        override fun getQuantityString(id: Int, quantity: Int, vararg formatArgs: Any): Nothing {
+            throw NotImplementedError("Not needed for this test.")
+        }
+
+    }
 }

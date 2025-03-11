@@ -177,11 +177,11 @@ dependencies {
     implementation Libs.coreKtx
     implementation Libs.emailIntentBuilder
     implementation Libs.fragmentCompose
+    implementation Libs.htmlConverter
     implementation Libs.kotlinCoroutinesAndroid
     implementation Libs.kotlinCoroutinesCore
     implementation Libs.lifecycleViewModel
-    implementation Libs.markwonCore
-    implementation Libs.markwonLinkify
+    implementation Libs.markdownRender
     implementation Libs.material
     implementation Libs.moshi
     ksp Libs.moshiCodeGen

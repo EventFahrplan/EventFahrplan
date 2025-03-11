@@ -4,6 +4,8 @@ import nerd.tuxmobil.fahrplan.congress.models.Session
 
 interface SessionPropertiesFormatting {
 
+    fun getFormattedSessionId(id: String): String
+
     fun getFormattedLinks(links: String): String
 
     fun getFormattedUrl(url: String): String
@@ -14,5 +16,10 @@ interface SessionPropertiesFormatting {
 
     fun getLanguageText(session: Session): String
 
-    fun getRoomName(roomName: String, defaultEngelsystemRoomName: String, customEngelsystemRoomName: String): String
+    fun getRoomName(
+        roomName: String,
+        defaultEngelsystemRoomName: String,
+        customEngelsystemRoomName: String,
+    ): String
+
 }

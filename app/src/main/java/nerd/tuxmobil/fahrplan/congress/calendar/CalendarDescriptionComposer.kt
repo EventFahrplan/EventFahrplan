@@ -1,5 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress.calendar
 
+import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolving
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.utils.MarkdownConversion
 import nerd.tuxmobil.fahrplan.congress.utils.MarkdownConverter
@@ -17,7 +18,9 @@ import nerd.tuxmobil.fahrplan.congress.wiki.containsWikiLink
 class CalendarDescriptionComposer(
 
     private val sessionOnlineText: String,
-    private val sessionPropertiesFormatting: SessionPropertiesFormatting = SessionPropertiesFormatter(),
+    private val resourceResolving: ResourceResolving,
+    private val sessionPropertiesFormatting: SessionPropertiesFormatting =
+        SessionPropertiesFormatter(resourceResolving),
     private val markdownConversion: MarkdownConversion = MarkdownConverter,
     private val sessionUrlComposition: SessionUrlComposition = SessionUrlComposer()
 

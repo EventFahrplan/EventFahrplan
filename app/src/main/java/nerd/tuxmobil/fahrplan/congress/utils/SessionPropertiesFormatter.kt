@@ -1,8 +1,21 @@
 package nerd.tuxmobil.fahrplan.congress.utils
 
+import nerd.tuxmobil.fahrplan.congress.R
+import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolving
 import nerd.tuxmobil.fahrplan.congress.models.Session
 
-class SessionPropertiesFormatter : SessionPropertiesFormatting {
+class SessionPropertiesFormatter(
+    private val resourceResolving: ResourceResolving,
+) : SessionPropertiesFormatting {
+
+    /**
+     * Returns the formatted session [sessionId].
+     * An empty string is returned if the [sessionId] is empty itself.
+     */
+    override fun getFormattedSessionId(sessionId: String) = when (sessionId.isEmpty()) {
+        true -> ""
+        false -> resourceResolving.getString(R.string.session_details_session_id, sessionId)
+    }
 
     /**
      * Returns the given [links] separated by HTML `br` entities.
