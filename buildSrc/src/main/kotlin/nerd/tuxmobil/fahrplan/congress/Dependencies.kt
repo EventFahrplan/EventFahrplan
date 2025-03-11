@@ -5,7 +5,7 @@ package nerd.tuxmobil.fahrplan.congress
 import org.gradle.api.JavaVersion
 
 object Config {
-    val compatibleJavaVersion = JavaVersion.VERSION_17
+    val compatibleJavaVersion = JavaVersion.VERSION_21
 }
 
 object Android {
