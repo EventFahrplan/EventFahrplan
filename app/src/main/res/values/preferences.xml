@@ -31,9 +31,9 @@
     -->
     <string-array name="preference_entry_values_schedule_refresh_interval" translatable="false">
         <item>-1</item>
-        <item>3000</item>
-        <item>6000</item>
-        <item>12000</item>
+        <item>30000</item>
+        <item>60000</item>
+        <item>120000</item>
     </string-array>
 
     <!-- Schedule statistic -->
