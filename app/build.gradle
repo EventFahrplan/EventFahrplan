@@ -106,6 +106,7 @@ android {
             buildConfigField "String", "SOCIAL_MEDIA_HASHTAGS_HANDLES", '"#glt25 #glt @linuxtage @gltlive"'
             buildConfigField "String", "TRACE_DROID_EMAIL_ADDRESS", '"glt25@linuxtage.at"'
             buildConfigField "String", "SCHEDULE_FEEDBACK_URL", '"https://pretalx.linuxtage.at/glt25/talk/%s/feedback/"' //TODO change to NN
+
         }
     }
 

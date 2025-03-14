@@ -16,7 +16,6 @@ jobs:
         with:
           distribution: 'adopt'
           java-version: '17'
-
       - name: Build
         run: ./gradlew assemble
 
