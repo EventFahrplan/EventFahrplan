@@ -6,6 +6,7 @@ import androidx.annotation.VisibleForTesting
 import androidx.annotation.WorkerThread
 import info.metadude.android.eventfahrplan.commons.extensions.onFailure
 import info.metadude.android.eventfahrplan.commons.logging.Logging
+import info.metadude.android.eventfahrplan.commons.temporal.Duration
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import info.metadude.android.eventfahrplan.database.extensions.toContentValues
 import info.metadude.android.eventfahrplan.database.models.ColumnStatistic
@@ -61,6 +62,7 @@ import nerd.tuxmobil.fahrplan.congress.models.Alarm
 import nerd.tuxmobil.fahrplan.congress.models.ConferenceTimeFrame
 import nerd.tuxmobil.fahrplan.congress.models.ConferenceTimeFrame.Known
 import nerd.tuxmobil.fahrplan.congress.models.ConferenceTimeFrame.Unknown
+import nerd.tuxmobil.fahrplan.congress.models.NextFetch
 import nerd.tuxmobil.fahrplan.congress.models.ScheduleData
 import nerd.tuxmobil.fahrplan.congress.net.CustomHttpClient
 import nerd.tuxmobil.fahrplan.congress.net.FetchScheduleResult
@@ -363,6 +365,27 @@ object AppRepository : SearchRepository,
             parentJobs[requestIdentifier] = networkScope.launchNamed(requestIdentifier) {
                 refreshRoomStatesSignal.emit(Unit)
             }
+        }
+    }
+
+    /**
+     * Emits the schedule [next fetch][NextFetch].
+     */
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val scheduleNextFetch: Flow<NextFetch> by lazy {
+        refreshScheduleNextFetchSignal
+            .onStart { emit(Unit) }
+            .mapLatest { readScheduleNextFetch() }
+            .flowOn(executionContext.database)
+    }
+
+    private val refreshScheduleNextFetchSignal = MutableSharedFlow<Unit>()
+
+    private fun refreshScheduleNextFetch() {
+        logging.d(LOG_TAG, "Refreshing schedule next fetch ...")
+        val requestIdentifier = "refreshScheduleNextFetch"
+        parentJobs[requestIdentifier] = databaseScope.launchNamed(requestIdentifier) {
+            refreshScheduleNextFetchSignal.emit(Unit)
         }
     }
 
@@ -985,6 +1008,25 @@ object AppRepository : SearchRepository,
 
     private fun updateScheduleLastFetchedAt() = with(Moment.now()) {
         sharedPreferencesRepository.setScheduleLastFetchedAt(toMilliseconds())
+    }
+
+    fun readScheduleNextFetch(): NextFetch {
+        return NextFetch(
+            Moment.ofEpochMilli(sharedPreferencesRepository.getScheduleNextFetchAt()),
+            Duration.ofMilliseconds(sharedPreferencesRepository.getScheduleNextFetchInterval()),
+        )
+    }
+
+    fun updateScheduleNextFetch(nextFetch: NextFetch) {
+        sharedPreferencesRepository.setScheduleNextFetchAt(nextFetch.nextFetchAt.toMilliseconds())
+        sharedPreferencesRepository.setScheduleNextFetchInterval(nextFetch.interval.toWholeMilliseconds())
+        refreshScheduleNextFetch()
+    }
+
+    fun deleteScheduleNextFetch() {
+        sharedPreferencesRepository.resetScheduleNextFetchAt()
+        sharedPreferencesRepository.resetScheduleNextFetchInterval()
+        refreshScheduleNextFetch()
     }
 
     @WorkerThread

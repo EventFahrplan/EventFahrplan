@@ -1,6 +1,6 @@
 package info.metadude.android.eventfahrplan.commons.temporal
 
-import org.threeten.bp.Duration
+import org.threeten.bp.Duration as ThreeTenDuration
 import org.threeten.bp.Instant
 import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalDateTime
@@ -120,6 +120,11 @@ class Moment private constructor(private val time: Instant) : Comparable<Moment>
     fun plusDays(days: Long): Moment = Moment(time.plus(days, ChronoUnit.DAYS))
 
     /**
+     * Returns a moment with the given [duration] added.
+     */
+    fun plusDuration(duration: Duration) = Moment(time.plusMillis(duration.toWholeMilliseconds()))
+
+    /**
      * Returns true if this moment is before the given [moment].
      */
     fun isBefore(moment: Moment): Boolean = time.toEpochMilli() < moment.toMilliseconds()
@@ -135,10 +140,15 @@ class Moment private constructor(private val time: Instant) : Comparable<Moment>
     fun isAfter(moment: Moment): Boolean = moment.isBefore(this)
 
     /**
+     * Returns true if this moment equals [Instant.EPOCH].
+     */
+    fun isEpoch(): Boolean = time == Instant.EPOCH
+
+    /**
      * Returns the duration in minutes between this and the given [moment].
      */
     fun minutesUntil(moment: Moment): Long {
-        return Duration.between(time, moment.time).toMinutes()
+        return ThreeTenDuration.between(time, moment.time).toMinutes()
     }
 
     override fun compareTo(other: Moment): Int {
