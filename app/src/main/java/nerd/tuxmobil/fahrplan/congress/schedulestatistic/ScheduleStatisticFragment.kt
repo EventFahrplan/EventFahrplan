@@ -5,11 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.platform.ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed
 import androidx.fragment.app.Fragment
+import androidx.fragment.compose.content
 import info.metadude.android.eventfahrplan.commons.flow.observe
-import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 
 class ScheduleStatisticFragment : Fragment() {
@@ -24,18 +22,12 @@ class ScheduleStatisticFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View = inflater.inflate(R.layout.fragment_schedule_statistic, container, false).apply {
-        findViewById<ComposeView>(R.id.schedule_statistic_view).apply {
-            setViewCompositionStrategy(DisposeOnViewTreeLifecycleDestroyed)
-            setContent {
-                ScheduleStatisticScreen(
-                    state = viewModel.scheduleStatisticState.collectAsState().value,
-                    onViewEvent = viewModel::onViewEvent,
-                )
-            }
-            isClickable = true
-        }
-    }
+    ) = content {
+        ScheduleStatisticScreen(
+            state = viewModel.scheduleStatisticState.collectAsState().value,
+            onViewEvent = viewModel::onViewEvent,
+        )
+    }.also { it.isClickable = true }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

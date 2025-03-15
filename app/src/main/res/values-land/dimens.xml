@@ -19,12 +19,16 @@
     <dimen name="actionbar_item_width">35dip</dimen>
     <item type="integer" name="box_height">10</item>
     <item type="integer" name="max_cols">4</item>
-    <dimen name="time_width">30dp</dimen>
     <item type="integer" name="min_width_dip">140</item>
     <item type="integer" name="room_title_size">12</item>
 
     <!-- About -->
     <item name="about_percentage_width" type="integer">70</item>
     <dimen name="about_padding_horizontal">32dp</dimen>
+
+    <!-- Schedule screen -->
+    <dimen name="schedule_time_column_layout_width">30dp</dimen>
+    <dimen name="schedule_time_column_padding">2dp</dimen>
+    <dimen name="schedule_time_column_text_size">8sp</dimen>
 
 </resources>

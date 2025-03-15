@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">38C3 Schedule</string>
+    <string name="app_hardcoded_subtitle">
+        27–30 december 2024, Congress Center Hamburg
+    </string>
+    <string name="copyright_logo">
+        38C3 Illegal instructions. Design av Robokid + Luis F. Masallera + Euler Void
+    </string>
+    <string name="about_logo_content_description">
+        38C3 Illegal instructions logotyp
+    </string>
+</resources>

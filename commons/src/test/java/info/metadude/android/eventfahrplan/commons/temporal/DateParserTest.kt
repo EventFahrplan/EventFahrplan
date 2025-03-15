@@ -81,8 +81,8 @@ class DateParserTest {
         try {
             DateParser.parseTimeZoneOffset("1970-01-01T03:00:00")
             fail("Failure expected because malformed date string should not be parsed.")
-        } catch (e: IllegalArgumentException) {
-            assertThat(e.message).startsWith("Error parsing time zone offset from: '1970-01-01T03:00:00'.")
+        } catch (e: TimeZoneOffsetParsingException) {
+            assertThat(e.message).startsWith("""Error parsing time zone offset from: "1970-01-01T03:00:00".""")
         }
     }
 

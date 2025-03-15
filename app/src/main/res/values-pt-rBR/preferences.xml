@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Screen -->
+    <!-- Category development -->
+    <!-- Schedule refresh interval -->
+    <!--
+    Synchronize with @strings/preference_default_value_schedule_refresh_interval_value
+    -->
+    <!--
+    Synchronize with @integers/preference_default_value_schedule_refresh_interval_index
+    and string-array/preference_entry_values_schedule_refresh
+    -->
+    <!--
+    Synchronize with @strings/preference_default_value_schedule_refresh_interval_value
+    and @integers/preference_default_value_schedule_refresh_interval_index
+    -->
+    <!-- Schedule statistic -->
+    <string name="preference_title_schedule_statistic">Estatísticas do Cronograma</string>
+    <string name="preference_summary_schedule_statistic">Inspecionar valores da coluna do cronograma</string>
+    <!-- Category general -->
+    <!-- Automatic schedule updates -->
+    <string name="preference_title_auto_update_enabled">Ativar atualizações automáticas</string>
+    <string name="preference_summary_auto_update_enabled">Baixa o cronograma periodicamente.</string>
+    <!-- Alarm time index -->
+    <!--
+    Synchronize with @strings/preference_default_value_alarm_time_value
+    -->
+    <!--
+    Synchronize with @integers/preference_default_value_alarm_time_index
+    and string-array/preference_entry_values_alarm_time
+    -->
+    <string name="preference_dialog_title_alarm_time">Escolha um tempo padrão para os alertas</string>
+    <string name="preference_title_alarm_time">Escolha um tempo padrão para os alertas</string>
+    <!--
+    Synchronize with @strings/preference_default_value_alarm_time_value
+    and @integers/preference_default_value_alarm_time_index
+    -->
+    <!-- Alarm tone -->
+    <string name="preference_title_alarm_tone">Escolher toque do alerta</string>
+    <string name="preference_summary_alarm_tone">Abrir a tela de seleção de toques daqui.</string>
+    <!-- Device time zone -->
+    <string name="preference_title_use_device_time_zone_enabled">Use o fuso horário do dispositivo</string>
+    <string name="preference_summary_use_device_time_zone_enabled">Exibe datas e horários adequados.</string>
+    <!-- Alternative highlighting -->
+    <string name="preference_title_alternative_highlighting_enabled">Ativar o realce alternativo</string>
+    <string name="preference_summary_alternative_highlighting_enabled">Adiciona uma borda ao redor das sessões favoritas.</string>
+    <!-- Alternative schedule URL -->
+    <string name="preference_title_alternative_schedule_url">Configurar URL alternativa para o cronograma</string>
+    <string name="preference_summary_alternative_schedule_url">Insira URL secundária caso o servidor pré-configurado não puder ser alcançado.</string>
+    <!-- App notification settings -->
+    <string name="preference_title_app_notification_settings">Personalizar as notificações</string>
+    <string name="preference_summary_app_notification_settings">Abrir a tela de configurações do sistema daqui.</string>
+    <!-- Insistent session alarms -->
+    <string name="preference_title_insistent_alarms_enabled">Ativar alerta persistente</string>
+    <string name="preference_summary_insistent_alarms_enabled">Mantém um alerta ligado indefinidamente.</string>
+    <!-- Category Engelsystem -->
+    <string name="preference_summary_engelsystem_json_export_url"><![CDATA[Para visualizar seus turnos, por favor, insira o sua URL <u>pessoal</u> aqui.<br/><br/>
+        1. Faça login em sua conta <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g>.<br/>
+        2. Copie a URL atrás do botão <u>JSON Exportar</u> em sua página de perfil.<br/>
+        3. Cole a URL aqui.<br/><br/>
+        Turnos antes e depois dos dias principais da conferência <u>não</u> são exibidos.]]></string>
+    <string name="preference_title_engelsystem_json_export_url">Configurar a URL de exportação do JSON</string>
+</resources>

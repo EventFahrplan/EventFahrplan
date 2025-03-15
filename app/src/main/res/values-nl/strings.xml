@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Menu items -->
+    <string name="menu_item_title_about">Info</string>
     <string name="menu_item_title_add_to_calendar">Toevoegen aan kalender</string>
     <string name="menu_item_title_alarms">Alarmen</string>
-    <string name="menu_item_title_close_session_details">Sluit detail weergave</string>
+    <string name="menu_item_title_close_session_details">Sessie details sluiten</string>
     <string name="menu_item_title_flag_as_favorite">Toevoegen aan favorieten</string>
     <string name="menu_item_title_unflag_as_favorite">Verwijder van favorieten</string>
     <string name="menu_item_title_delete_favorite">Verwijderen</string>
@@ -11,15 +12,17 @@
     <string name="menu_item_title_delete_alarm">Alarm verwijderen</string>
     <string name="menu_item_title_delete_all">Alles verwijderen</string>
     <string name="menu_item_title_favorites">Favorieten</string>
+    <string name="menu_item_title_feedback">Feedback</string>
     <string name="menu_item_title_navigate">Navigeren</string>
     <string name="menu_item_title_refresh">Verversen</string>
-    <string name="menu_item_title_share_session">Deel evenement</string>
+    <string name="menu_item_title_share_session">Sessie delen</string>
     <string name="menu_item_title_share_favorites">Deel favorieten</string>
     <string name="menu_item_title_share_session_text">als tekst</string>
     <string name="menu_item_title_share_session_json">als JSON (voor Chaosflix)</string>
     <string name="share_as_text">Deel als tekst</string>
     <string name="share_as_json">Deel als JSON (voor Chaosflix)</string>
     <!-- AlertDialog -->
+    <string name="OK">OK</string>
     <!-- CertificateErrorFragment -->
     <string name="certificate_error_message">        Kan geen veilige verbinding tot stand brengen.\n
         (<xliff:g example="Onbekende error" id="error">%s</xliff:g>)
@@ -42,41 +45,47 @@
     <!-- Schedule changes dialog -->
     <string name="schedule_changes_dialog_title">Tijdschema update</string>
     <string name="schedule_changes_dialog_updated_to_text">Tijdschema is geupdate naar versie\u0020</string>
-    <string name="schedule_changes_dialog_changed_new_cancelled_text">. Er zijn updates voor <xliff:g example="3 evenementen" id="num_changes">%1$s</xliff:g>, <xliff:g example="2 zijn" id="num_new">%2$s</xliff:g> <xliff:g example="nieuw" id="phrase_new">%3$s</xliff:g>, <xliff:g example="1 is" id="num_canceled">%4$s</xliff:g> <xliff:g example="geannuleerd" id="phrase_cancelled">%5$s</xliff:g>.</string>
-    <string name="schedule_changes_dialog_affected_text">De update betreft <xliff:g example="2" id="num_marked">%1$d</xliff:g> van uw favorieten evenementen.</string>
+    <string name="schedule_changes_dialog_changed_new_cancelled_text">. Er zijn wijzigingen in <xliff:g example="3 sessions" id="num_changes">%1$s</xliff:g>, <xliff:g example="2 are" id="num_new">%2$s</xliff:g> <xliff:g example="new" id="phrase_new">%3$s</xliff:g>, <xliff:g example="1 is" id="num_canceled">%4$s</xliff:g> <xliff:g example="cancelled" id="phrase_cancelled">%5$s</xliff:g>.</string>
+    <string name="schedule_changes_dialog_affected_text">De wijzigingen hebben invloed op <xliff:g example="2" id="num_marked">%1$d</xliff:g> van uw favoriete sessies.</string>
     <plurals name="schedule_changes_dialog_phrase_new">
         <item quantity="one">nieuw</item>
-        <item quantity="other">new</item>
+        <item quantity="other">nieuw</item>
     </plurals>
     <plurals name="schedule_changes_dialog_phrase_cancelled">
         <item quantity="one">geannuleerd</item>
-        <item quantity="other">cancelled</item>
+        <item quantity="other">geannuleerd</item>
     </plurals>
     <plurals name="schedule_changes_dialog_number_of_sessions">
-        <item quantity="one">%d evenement</item>
-        <item quantity="other">%d evenementen</item>
+        <item quantity="one"><xliff:g example="1" id="count">%d</xliff:g> sessie</item>
+        <item quantity="other"><xliff:g example="9" id="count">%d</xliff:g> sessies</item>
     </plurals>
     <plurals name="schedule_changes_dialog_being">
         <item quantity="one">%d is</item>
         <item quantity="other">%d zijn</item>
     </plurals>
     <string name="schedule_changes_dialog_browse">Bladeren</string>
+    <string name="schedule_changes_dialog_later">Niet nu</string>
+    <string name="navigate_back_content_description">Terug</string>
     <string name="progress_loading_data">Tijdschema ophalen &#8230;</string>
     <string name="progress_processing_data">Tijdschema verwerken &#8230;</string>
     <string name="load_data">Laden</string>
     <string name="choose_day">Kies dag</string>
     <string name="day">Dag</string>
     <string name="fahrplan">Tijdschema</string>
+    <string name="schedule_no_schedule_data_title">Nog geen programma om weer te geven</string>
+    <string name="schedule_no_schedule_data_subtitle">Kom later nog eens terug</string>
     <string name="appVersion">App Versie %s</string>
     <string name="schedule_updated_to">        Aangepast naar <xliff:g example="Mildenberg 2018-01-16 16:50" id="version">%s</xliff:g>
     </string>
     <string name="schedule_updated">        Tijdschema is bijgewerkt.
     </string>
     <string name="settings">Instellingen</string>
+    <string name="session_details_section_title_track">Onderwerp categorie</string>
     <string name="session_details_section_title_session_online">Evenement online</string>
+    <string name="session_details_section_title_links">Links</string>
     <string name="choose_alarm_time">Kies alarmtijd</string>
     <string name="reminders">Alarmen</string>
-    <string name="usage">Tip:\n\nLang indrukken op een evenement om een alarm aan te zetten.</string>
+    <string name="usage">Opmerking:\n\nHoud een sessie lang ingedrukt om een alarm in te stellen.</string>
     <string name="about_libraries_statement">        Deze applicatie gebruikt de volgende software-bibliotheken: <xliff:g example="Kotlin, Espresso" id="libs">%s</xliff:g>
     </string>
     <string name="about_data_privacy_statement_german">Data privacy verklaring (Duits)</string>
@@ -84,20 +93,23 @@
     <string name="about_google_play_listing">Google Play vermelding</string>
     <string name="about_issues_or_feature_requests">Problemen of functie verzoeken</string>
     <string name="about_source_code">Bron-code</string>
+    <string name="about_translation_platform">Vertaal platform</string>
     <string name="today">vandaag</string>
     <string name="schedule_parsing_error_generic">Onbekende fout tijdens verwerken tijdschema</string>
     <string name="schedule_parsing_error_with_version">Verwerkings fout voor tijdschema versie %s</string>
     <string name="engelsystem_shifts_parsing_error_generic">Onbekende fout gedurende het ontleden <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g> tijden</string>
     <string name="engelsystem_shifts_parsing_error_forbidden">Invalide API sleutel voor <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g> tijden</string>
     <string name="engelsystem_shifts_parsing_error_not_found">Verkeerde URL voor <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g> tijden</string>
-    <string name="add_to_calendar_failed">Evenement toevoegen aan kalender is mislukt.</string>
-    <string name="schedule_changes_no_changes_title">Geen tijdschema veranderingen</string>
-    <string name="favorites_no_favorites_title">Geen favorieten evenementen</string>
+    <string name="add_to_calendar_failed">Toevoegen van sessie aan kalender is mislukt.</string>
+    <string name="schedule_changes_no_changes_title">Geen programma wijzigingen</string>
+    <string name="schedule_changes_no_changes_subtitle">De app controleert regelmatig op updates</string>
+    <string name="favorites_no_favorites_title">Geen favoriete sessies</string>
+    <string name="favorites_no_favorites_subtitle">Tik op de ster in de menubalk om een favoriet in te stellen</string>
     <string name="schedule_changes">Tijdschema veranderingen</string>
     <string name="general_settings">Algemeen</string>
     <string name="starred_sessions">Favorieten</string>
     <string name="invalid_url">Ongeldige URL</string>
-    <string name="choose_to_delete">Kies evenementen</string>
+    <string name="choose_to_delete">Selecteer sessies</string>
     <string name="day_separator">Dag <xliff:g example="2" id="day_of_congress">%1$d</xliff:g> - <xliff:g example="29.12.2014" id="date_of_congress_day">%2$s</xliff:g></string>
     <string name="dlg_delete_all_favorites">Alle favorieten verwijderen?</string>
     <string name="dlg_delete_all_favorites_delete_all">Alles verwijderen</string>
@@ -121,6 +133,8 @@
     <string name="snack_engage_google_play_beta_testing_action">Wordt een Beta-Tester</string>
     <string name="snack_engage_c3nav_title">Indoor-navigatie @ <xliff:g example="35C3" id="conferenceName">%s</xliff:g>! Met de c3nav-App</string>
     <string name="snack_engage_c3nav_action">Installeer nu!</string>
+    <string name="snack_engage_landscape_orientation_title">Landschapsmodus al geprobeerd?</string>
+    <string name="snack_engage_landscape_orientation_action">Roteer je apparaat!</string>
     <!-- TraceDroid -->
     <string name="trace_droid_dialog_title">        <xliff:g example="33C3 Fahrplan" id="appName">%s</xliff:g> crash-rapport versturen &#8230;
     </string>
@@ -137,16 +151,16 @@
     <string name="trace_droid_button_title_later">        Later
     </string>
     <!-- Notifications -->
-    <string name="notifications_session_alarm_channel_description">        Door de gebruiker aangemaakte alarmen voor verschillende evenementen.
+    <string name="notifications_session_alarm_channel_description">        Alarmen gecreëerd door de gebruiker voor verschillende sessies.
     </string>
-    <string name="notifications_session_alarm_channel_name">Alarmen voor evenementen</string>
-    <string name="notifications_session_alarm_content_text">Alarm voor evenement</string>
+    <string name="notifications_session_alarm_channel_name">Alarmen voor sessies</string>
+    <string name="notifications_session_alarm_content_text">Melding voor sessie</string>
     <string name="notifications_schedule_update_channel_description">        Automatische updates voor het tijdschema kunnen worden ingesteld in de instellingen.
     </string>
     <string name="notifications_schedule_update_channel_name">Tijdschema veranderingen</string>
     <plurals name="notifications_schedule_changes">
-        <item quantity="one"><xliff:g example="1" id="count">%d</xliff:g> evenement is aangepast.</item>
-        <item quantity="other"><xliff:g example="3" id="count">%d</xliff:g> evenementen zijn aangepast.</item>
+        <item quantity="one"><xliff:g example="1" id="count">%d</xliff:g> sessie is gewijzigd.</item>
+        <item quantity="other"><xliff:g example="3" id="count">%d</xliff:g> sessies zijn gewijzigd.</item>
     </plurals>
     <!-- Schedule refresh interval picker -->
     <!-- Alarm time picker -->
@@ -158,13 +172,19 @@
     <string name="alarm_time_title_30_minutes_before">30 minuten eerder</string>
     <string name="alarm_time_title_45_minutes_before">45 minuten eerder</string>
     <string name="alarm_time_title_60_minutes_before">60 minuten eerder</string>
+    <string name="alarms_disabled_notifications_permission_missing">Alarmen zijn uitgeschakeld. Gelieve de machtiging \"Meldingen\" te verlenen.</string>
+    <string name="alarms_disabled_notifications_are_disabled">Alarmen zijn uitgeschakeld. Gelieve meldingen in te schakelen.</string>
+    <string name="alarms_disabled_schedule_exact_alarm_permission_missing">Alarmen zijn uitgeschakeld. Gelieve het instellen van \"alarmen &amp; herinneringen\" toe te staan.</string>
     <!-- Session list item -->
+    <string name="session_list_item_duration_text"><xliff:g example="45" id="duration">%d</xliff:g> min.</string>
     <string name="session_list_item_duration_content_description">Duur: <xliff:g example="45" id="duration">%d</xliff:g> minuten</string>
     <string name="session_list_item_favored_content_description">favoriet</string>
     <string name="session_list_item_not_favored_content_description">geen favoriet</string>
     <string name="session_list_item_room_content_description">Kamer: <xliff:g example="Main hall" id="room">%s</xliff:g></string>
     <string name="session_list_item_start_time_content_description">Starttijd: <xliff:g example="16:30" id="startTime">%s</xliff:g></string>
+    <string name="session_list_item_title_content_description">Titel: <xliff:g example="Berlin stories" id="title">%s</xliff:g></string>
     <string name="session_list_item_subtitle_content_description">Ondertitel: <xliff:g example="News from Berlin" id="subtitle">%s</xliff:g></string>
+    <string name="session_list_item_track_content_description">Track: <xliff:g example="Security" id="trackName">%s</xliff:g></string>
     <string name="session_list_item_language_content_description">Taal: <xliff:g example="English" id="language">%s</xliff:g></string>
     <string name="session_list_item_language_portuguese_content_description">Portugees</string>
     <string name="session_list_item_language_german_content_description">Duits</string>
@@ -174,14 +194,48 @@
     <string name="session_list_item_no_video_content_description">Geen video-opname</string>
     <string name="session_list_item_video_content_description">Met video-opname</string>
     <string name="session_list_item_without_video_content_description">Zonder video-opname</string>
+    <string name="session_list_item_zero_speakers_content_description">Geen sprekers</string>
     <plurals name="session_list_item_speakers_content_description">
         <item quantity="one">Spreker: <xliff:g example="Jane Doe" id="name">%s</xliff:g></item>
         <item quantity="other">Sprekers: <xliff:g example="Jane Doe, John Doe" id="names">%s</xliff:g></item>
     </plurals>
+    <!-- Session item -->
+    <string name="session_item_has_alarm_content_description">heeft melding ingesteld</string>
     <!-- Alarms -->
+    <string name="alarms_no_alarms_title">        Geen alarmen ingesteld
+    </string>
+    <string name="alarms_no_alarms_subtitle">        Tik op het belpictogram in de menubalk om een melding in te stellen
+    </string>
+    <string name="alarms_item_on_click_label">        Open details scherm
+    </string>
+    <string name="alarms_item_delete_icon_on_click_label">        Verwijder melding
+    </string>
+    <string name="alarms_item_alarm_time_zero_minutes_content_description">        Melding: bij aanvangstijd
+    </string>
+    <string name="alarms_item_alarm_time_minutes_content_description">        Melding: <xliff:g example="5" id="minutes">%d</xliff:g> minuten voor
+    </string>
+    <string name="alarms_item_fires_at_content_description">        Uitvoeren om: <xliff:g example="16:20" id="alarmTime">%s</xliff:g>
+    </string>
     <!-- Validation errors -->
     <string name="validation_error_invalid_url">Invalide <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL.</string>
     <string name="validation_error_url_without_query"><xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL zonder query gedeelte.</string>
     <string name="validation_error_url_with_incomplete_query"><xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL met incompleet query gedeelte.</string>
     <string name="validation_error_url_without_api_key"><xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL zonder API sleutel.</string>
+    <!-- Schedule statistic -->
+    <string name="schedule_statistic_no_statistic_data_title">Nog geen programma statistieken beschikbaar</string>
+    <string name="schedule_statistic_title">Programma statistieken</string>
+    <string name="schedule_statistic_description">Toont de verdeling van null of lege en niet lege velden in de \"sessies\" database tabel.</string>
+    <string name="schedule_statistic_toggle_sorting">Rangschikking aanpassen</string>
+    <string name="schedule_statistic_column_name">Kolomnaam</string>
+    <string name="schedule_statistic_null_empty">null/leeg</string>
+    <string name="schedule_statistic_null_empty_content_description">null of leeg</string>
+    <string name="schedule_statistic_non_empty">niet leeg</string>
+    <!-- Search -->
+    <string name="search_title">Zoeken</string>
+    <string name="search_no_search_result_title">Geen sessies gevonden</string>
+    <string name="search_no_search_result_subtitle">Probeer je zoekopdracht te verfijnen</string>
+    <string name="search_query_hint">Zoek naar sessies</string>
+    <string name="search_clear_search_query_content_description">Zoekopdracht wissen</string>
+    <string name="search_history_title">Recente zoekopdrachten</string>
+    <string name="search_history_clear">Wissen</string>
 </resources>

@@ -17,6 +17,7 @@
     <string name="menu_item_title_navigate">Navigate</string>
     <string name="menu_item_title_refresh">Refresh</string>
     <string name="menu_item_title_schedule_changes" translatable="false">@string/schedule_changes</string>
+    <string name="menu_item_title_search" translatable="false">@string/search_title</string>
     <string name="menu_item_title_settings" translatable="false">@string/settings</string>
     <string name="menu_item_title_share_session">Share session</string>
     <string name="menu_item_title_share_favorites">Share favorites</string>
@@ -94,6 +95,7 @@
         The schedule has been updated.
     </string>
     <string name="settings">Settings</string>
+    <string name="session_details_screen_name">Details</string>
     <string name="session_details_session_id" translatable="false">
         ID: <xliff:g example="5001a" id="id">%s</xliff:g>
     </string>
@@ -108,8 +110,9 @@
     </string>
     <string name="about_libraries_names" translatable="false">
 		Kotlin, Google AndroidX, Jetpack Compose, BetterLinkMovementMethod,
-		Email Intent Builder, Engelsystem, Espresso, Markwon, Material Components,
-		Moshi, OkHttp, Retrofit, SnackEngage, ThreeTenBp, TraceDroid
+		Email Intent Builder, Engelsystem, Espresso, HTML Converter for Compose Multiplatform,
+		Kotlin Multiplatform Markdown Renderer, Material Components, Moshi, OkHttp,
+		Retrofit, Room states, SnackEngage, ThreeTenBp, TraceDroid
 	</string>
     <string name="about_data_privacy_statement_german">Data privacy statement (German)</string>
     <string name="about_f_droid_listing">F-Droid listing</string>
@@ -118,9 +121,9 @@
     <string name="about_source_code">Source code</string>
     <string name="about_translation_platform">Translation platform</string>
     <string name="copyright_notes" translatable="false">
-        Copyright 2013-2024 johnjohndoe.
+        Copyright 2013-2025 johnjohndoe.
         \nCopyright 2011-2015 Daniel Dorau.
-        \n\nContributions from 0x5ubt13, Adriano Pereira Junior, Akarsh Seggemu, Александр Рознятовский, aligoush, Andrea Marziali, Andrulko, Andy Scherzinger, Andreas Schildbach, Animesh Verma, bashtian, bjoernb, Björn Olsson Jarl, ButterflyOfFire, cacarrara, Caio Volpato, Chase, cketti, codingcatgirl, Dominik Stadler, entropynil, erebion, ideadapt, isi_ko404, IsoLinearCHiP, Jasper van der Graaf, Joergi, Julius Vitkauskas, koelnkalkverbot, Larissa Yasin, lepawa, ligi, lucadelu, Luis Azcuaga, María Arias de Reyna, Mateus Baptista, Matthias Geisler, Matthias Hunstock, Matthias Mair, MichaelRocks, Miguel Beltran, mtpa, Muha Aliss, Nghiem Xuan Hien, NiciDieNase, Noemis, Oguz Yuksel, Omicron, ozgurbaykal, Poschi, Qwertele, Róbert Papp, rotrot, Sjors van Mierlo, Smarzaro, Stefan Medack, SubOptimal, Su Jade, taseret, Teeranai.P, Torsten Grote, Victor Herasme, Vladimir Alabov, Yanicka.
+        \n\nContributions from 0x5ubt13, Adriano Pereira Junior, Akarsh Seggemu, Александр Рознятовский, aligoush, Andrea Marziali, Andrulko, Andy Scherzinger, Andreas Schildbach, Animesh Verma, bashtian, bjoernb, Björn Olsson Jarl, ButterflyOfFire, cacarrara, Caio Volpato, Chase, cketti, codingcatgirl, Dominik Stadler, entropynil, erebion, ideadapt, isi_ko404, IsoLinearCHiP, Jasper van der Graaf, Joergi, Julius Vitkauskas, koelnkalkverbot, Larissa Yasin, lepawa, ligi, lucadelu, Luis Azcuaga, María Arias de Reyna, Mateus Baptista, Matthias Geisler, Matthias Hunstock, Matthias Mair, MichaelRocks, Miguel Beltran, mtpa, Muha Aliss, Nghiem Xuan Hien, NiciDieNase, Noemis, Oguz Yuksel, Omicron, ozgurbaykal, Poschi, Qwertele, Róbert Papp, Robin Janssens, rotrot, Sjors van Mierlo, Smarzaro, Stefan Medack, SubOptimal, Su Jade, taseret, Teeranai.P, Torsten Grote, Victor Herasme, Vladimir Alabov, Yanicka, zadintuvas.
         \n\nPortions copyright 2008-2011 The K-9 Dog Walkers and 2006-2013 the Android Open Source Project.
     </string>
     <string name="today">today</string>
@@ -248,6 +251,7 @@
     <string name="session_list_item_favored_content_description">favored</string>
     <string name="session_list_item_not_favored_content_description">not favored</string>
     <string name="session_list_item_room_content_description">Room: <xliff:g example="Main hall" id="room">%s</xliff:g></string>
+    <string name="session_list_item_session_id_content_description" translatable="false">@string/session_details_session_id</string>
     <string name="session_list_item_start_time_content_description">Start time: <xliff:g example="16:30" id="startTime">%s</xliff:g></string>
     <string name="session_list_item_title_content_description">Title: <xliff:g example="Berlin stories" id="title">%s</xliff:g></string>
     <string name="session_list_item_subtitle_content_description">Subtitle: <xliff:g example="News from Berlin" id="subtitle">%s</xliff:g></string>
@@ -261,8 +265,8 @@
     <string name="session_list_item_no_video_content_description">Without video recording</string>
     <string name="session_list_item_video_content_description">With video recording</string>
     <string name="session_list_item_without_video_content_description">Without video recording</string>
+    <string name="session_list_item_zero_speakers_content_description">No speakers</string>
     <plurals name="session_list_item_speakers_content_description">
-        <item quantity="zero">No speakers</item>
         <item quantity="one">Speaker: <xliff:g example="Jane Doe" id="name">%s</xliff:g></item>
         <item quantity="other">Speakers: <xliff:g example="Jane Doe, John Doe" id="names">%s</xliff:g></item>
     </plurals>
@@ -318,5 +322,22 @@
     <string name="schedule_statistic_null_empty">null/empty</string>
     <string name="schedule_statistic_null_empty_content_description">null or empty</string>
     <string name="schedule_statistic_non_empty">non-empty</string>
+
+    <!-- Search -->
+    <string name="search_title">Search</string>
+    <string name="search_no_search_result_title">No sessions found</string>
+    <string name="search_no_search_result_subtitle">Try refining your search</string>
+    <string name="search_query_hint">Search for sessions</string>
+    <string name="search_clear_search_query_content_description">Clear search</string>
+    <string name="search_history_title">Recent searches</string>
+    <string name="search_history_clear">Clear</string>
+
+    <!-- Room state -->
+    <string name="room_state_text">Room state: <xliff:g example="Too full" id="state">%s</xliff:g></string>
+    <string name="room_state_unknown">unknown</string>
+    <string name="room_state_empty">empty</string>
+    <string name="room_state_full">full</string>
+    <string name="room_state_too_full">too full</string>
+    <string name="room_state_not_retrievable">not retrievable</string>
 
 </resources>

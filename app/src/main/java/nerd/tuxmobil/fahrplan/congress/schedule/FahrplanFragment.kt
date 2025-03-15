@@ -20,6 +20,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS
 import android.view.ViewGroup
+import android.view.ViewTreeObserver.OnScrollChangedListener
 import android.widget.ArrayAdapter
 import android.widget.HorizontalScrollView
 import android.widget.LinearLayout
@@ -35,12 +36,15 @@ import androidx.appcompat.app.ActionBar.OnNavigationListener
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
+import androidx.core.view.MenuProvider
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import androidx.core.widget.NestedScrollView
 import androidx.core.widget.NestedScrollView.OnScrollChangeListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
+import androidx.lifecycle.Lifecycle.State.RESUMED
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -53,6 +57,7 @@ import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmTimePickerFragment
 import nerd.tuxmobil.fahrplan.congress.calendar.CalendarSharing
+import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolver
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
 import nerd.tuxmobil.fahrplan.congress.extensions.getLayoutInflater
 import nerd.tuxmobil.fahrplan.congress.extensions.isLandscape
@@ -72,7 +77,7 @@ import nerd.tuxmobil.fahrplan.congress.utils.Font
 import nerd.tuxmobil.fahrplan.congress.utils.SessionPropertiesFormatter
 import nerd.tuxmobil.fahrplan.congress.utils.TypefaceFactory
 
-class FahrplanFragment : Fragment(), SessionViewEventsHandler {
+class FahrplanFragment : Fragment(), MenuProvider, SessionViewEventsHandler {
 
     /**
      * Interface definition for a callback to be invoked when a session view is clicked.
@@ -114,6 +119,7 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
     private lateinit var viewModel: FahrplanViewModel
 
     private val logging = Logging.get()
+    private var onHorizontalScrollChangeListener: OnScrollChangedListener? = null
     private var onSessionClickListener: OnSessionClickListener? = null
     private var lastSelectedSession: Session? = null
     private var displayDensityScale = 0f
@@ -176,13 +182,14 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
                 }
             }
 
-        setHasOptionsMenu(true)
+        requireActivity().addMenuProvider(this, this, RESUMED)
         val context = requireContext()
+        val resourceResolving = ResourceResolver(context)
         roomTitleTypeFace = TypefaceFactory.getNewInstance(context).getTypeface(Font.Roboto.Light)
         sessionViewDrawer = SessionViewDrawer(
             context = context,
-            sessionPropertiesFormatter = SessionPropertiesFormatter(),
-            contentDescriptionFormatter = ContentDescriptionFormatter(context),
+            sessionPropertiesFormatting = SessionPropertiesFormatter(resourceResolving),
+            contentDescriptionFormatting = ContentDescriptionFormatter(resourceResolving),
             getSessionPadding = { sessionPadding },
         )
         errorMessageFactory = ErrorMessage.Factory(context)
@@ -212,7 +219,21 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
         snapScroller.setChildScroller(roomScroller)
         roomScroller.setOnTouchListener { _, _ -> true }
 
+        onHorizontalScrollChangeListener = OnScrollChangedListener {
+            if (getView() != null) {
+                updateHorizontalScrollingProgressLine(snapScroller.scrollX)
+            }
+        }
+        snapScroller.viewTreeObserver.addOnScrollChangedListener(onHorizontalScrollChangeListener)
+
         inflater = view.context.getLayoutInflater()
+    }
+
+    override fun onDestroyView() {
+        val snapScroller = requireView().requireViewByIdCompat<HorizontalSnapScrollView>(R.id.horizScroller)
+        snapScroller.viewTreeObserver.removeOnScrollChangedListener(onHorizontalScrollChangeListener)
+        onHorizontalScrollChangeListener = null
+        super.onDestroyView()
     }
 
     @SuppressLint("InlinedApi")
@@ -223,7 +244,11 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
                 buildNavigationMenu(menuEntries, numDays)
                 viewModel.fillTimes(Moment.now(), getNormalizedBoxHeight())
                 viewDay(scheduleData, useDeviceTimeZone, numDays, dayIndex)
+                updateHorizontalScrollingProgressLine(0)
             }
+        viewModel.showHorizontalScrollingProgressLine.observe(this) { shouldShow ->
+            updateHorizontalScrollingProgressLine(shouldShow)
+        }
         viewModel.fahrplanEmptyParameter.observe(viewLifecycleOwner) { (scheduleVersion) ->
             val errorMessage = errorMessageFactory.getMessageForEmptySchedule(scheduleVersion)
             errorMessage.show(requireContext(), shouldShowLong = false)
@@ -284,6 +309,33 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
     override fun onDestroy() {
         connectivityObserver.stop()
         super.onDestroy()
+    }
+
+    private fun updateHorizontalScrollingProgressLine(scrollX: Int) {
+        val roomNameView = requireView().requireViewByIdCompat<LinearLayout>(R.id.roomNameLandscape)
+        val horizontalScrollView = requireView().requireViewByIdCompat<HorizontalSnapScrollView>(R.id.horizScroller)
+        val lineView = requireView().requireViewByIdCompat<View>(R.id.horizontalScrollingProgressLine)
+
+        // Get the width of the content inside the scrollView and the width of the scrollView itself
+        val contentWidth = horizontalScrollView.getChildAt(0).width
+        val roomNameViewWidth = roomNameView.width
+
+        // Calculate the scrollable width (total content width minus the visible part of the scrollView)
+        val scrollableWidth = contentWidth - roomNameViewWidth
+
+        if (scrollableWidth > 0) {
+            val maxTranslationX = roomNameViewWidth - lineView.width
+            val scrollRatio = scrollX.toFloat() / scrollableWidth
+            val newPosition = scrollRatio * maxTranslationX
+            lineView.translationX = newPosition
+        } else {
+            lineView.translationX = 0f
+        }
+    }
+
+    private fun updateHorizontalScrollingProgressLine(visible: Boolean) {
+        val lineView = requireView().requireViewByIdCompat<View>(R.id.horizontalScrollingProgressLine)
+        lineView.isInvisible = !visible
     }
 
     /**
@@ -444,11 +496,19 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
         timeTextColumn.importantForAccessibility = IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS
         timeTextColumn.removeAllViews()
         var timeTextView: View
-        for ((layout, height, titleText) in parameters) {
-            timeTextView = inflater.inflate(layout, null)
+        for ((height, titleText, isNow) in parameters) {
+            timeTextView = inflater.inflate(R.layout.schedule_time_column_time_text, null)
             timeTextColumn.addView(timeTextView, MATCH_PARENT, height)
-            timeTextView.requireViewByIdCompat<TextView>(R.id.time).apply {
+            val textColorRes = if (isNow) R.color.schedule_time_column_item_text_emphasized else R.color.schedule_time_column_item_text_normal
+            val textColor = ContextCompat.getColor(timeTextView.context, textColorRes)
+            timeTextView.requireViewByIdCompat<TextView>(R.id.schedule_time_column_time_text_view).apply {
                 text = titleText
+                setTextColor(textColor)
+                if (isNow) {
+                    setBackgroundColor(ContextCompat.getColor(timeTextView.context, R.color.schedule_time_column_item_background_emphasized))
+                } else {
+                    setBackgroundResource(R.drawable.schedule_time_column_time_text_background_normal)
+                }
             }
         }
     }
@@ -502,7 +562,7 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
     private fun onAlarmTimesIndexPicked(alarmTimesIndex: Int) {
         if (lastSelectedSession == null) {
             logging.e(LOG_TAG, "onAlarmTimesIndexPicked: session: null. alarmTimesIndex: $alarmTimesIndex")
-            throw NullPointerException("Session is null.")
+            throw MissingLastSelectedSessionException(alarmTimesIndex)
         } else {
             viewModel.addAlarm(lastSelectedSession!!, alarmTimesIndex)
             updateMenuItems()
@@ -522,24 +582,30 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
                 SessionViewDrawer.setSessionTextColor(updatedSession.isHighlight, contextMenuView)
                 updateMenuItems()
             }
+
             CONTEXT_MENU_ITEM_ID_SET_ALARM -> {
                 viewModel.addAlarmWithChecks()
             }
+
             CONTEXT_MENU_ITEM_ID_DELETE_ALARM -> {
                 viewModel.deleteAlarm(session)
                 updateMenuItems()
             }
+
             CONTEXT_MENU_ITEM_ID_ADD_TO_CALENDAR -> {
                 CalendarSharing(context).addToCalendar(session)
             }
+
             CONTEXT_MENU_ITEM_ID_SHARE -> {
                 if (!BuildConfig.ENABLE_CHAOSFLIX_EXPORT) {
                     viewModel.share(session)
                 }
             }
+
             CONTEXT_MENU_ITEM_ID_SHARE_TEXT -> {
                 viewModel.share(session)
             }
+
             CONTEXT_MENU_ITEM_ID_SHARE_JSON -> {
                 viewModel.shareToChaosflix(session)
             }
@@ -547,18 +613,16 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
         return true
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.fahrplan_menu, menu)
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+        menuInflater.inflate(R.menu.fahrplan_menu, menu)
     }
 
-    override fun onOptionsItemSelected(menuItem: MenuItem): Boolean {
-        return if (menuItem.itemId == R.id.menu_item_refresh) {
-            viewModel.requestScheduleUpdate(isUserRequest = true)
-            true
-        } else {
-            super.onOptionsItemSelected(menuItem)
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+        when (menuItem.itemId) {
+            R.id.menu_item_refresh -> viewModel.requestScheduleUpdate(isUserRequest = true)
+            else -> return false
         }
+        return true
     }
 
     private fun updateMenuItems() {
@@ -629,3 +693,7 @@ class FahrplanFragment : Fragment(), SessionViewEventsHandler {
     }
 
 }
+
+private class MissingLastSelectedSessionException(alarmTimesIndex: Int) : NullPointerException(
+    "Last selected session is null for alarm times index = $alarmTimesIndex."
+)

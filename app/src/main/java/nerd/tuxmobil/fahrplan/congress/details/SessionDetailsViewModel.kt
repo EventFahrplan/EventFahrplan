@@ -5,75 +5,57 @@ import android.os.Build
 import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import info.metadude.android.eventfahrplan.commons.temporal.DateFormatter
+import info.metadude.android.eventfahrplan.commons.logging.Logging
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices
 import nerd.tuxmobil.fahrplan.congress.alarms.SessionAlarmViewModelDelegate
+import nerd.tuxmobil.fahrplan.congress.commons.BuildConfigProvision
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toRoom
+import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsState.Loading
+import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsState.Success
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.navigation.IndoorNavigation
 import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.repositories.ExecutionContext
+import nerd.tuxmobil.fahrplan.congress.roomstates.RoomStateFormatting
 import nerd.tuxmobil.fahrplan.congress.sharing.JsonSessionFormat
 import nerd.tuxmobil.fahrplan.congress.sharing.SimpleSessionFormat
-import nerd.tuxmobil.fahrplan.congress.utils.FeedbackUrlComposer
-import nerd.tuxmobil.fahrplan.congress.utils.Font
-import nerd.tuxmobil.fahrplan.congress.utils.MarkdownConversion
-import nerd.tuxmobil.fahrplan.congress.utils.SessionPropertiesFormatter
-import nerd.tuxmobil.fahrplan.congress.utils.SessionUrlComposition
-import nerd.tuxmobil.fahrplan.congress.wiki.containsWikiLink
-import org.threeten.bp.ZoneOffset
+import nerd.tuxmobil.fahrplan.congress.utils.FeedbackUrlComposition
 
 internal class SessionDetailsViewModel(
 
     private val repository: AppRepository,
     private val executionContext: ExecutionContext,
+    private val logging: Logging,
+    buildConfigProvision: BuildConfigProvision,
     alarmServices: AlarmServices,
     notificationHelper: NotificationHelper,
-    private val sessionPropertiesFormatter: SessionPropertiesFormatter,
+    private val sessionDetailsParameterFactory: SessionDetailsParameterFactory,
+    private val selectedSessionParameterFactory: SelectedSessionParameterFactory,
     private val simpleSessionFormat: SimpleSessionFormat,
     private val jsonSessionFormat: JsonSessionFormat,
-    private val feedbackUrlComposer: FeedbackUrlComposer,
-    private val sessionUrlComposition: SessionUrlComposition,
+    private val feedbackUrlComposition: FeedbackUrlComposition,
     private val indoorNavigation: IndoorNavigation,
-    private val markdownConversion: MarkdownConversion,
-    private val formattingDelegate: FormattingDelegate = DateFormattingDelegate(),
-    private val defaultEngelsystemRoomName: String,
-    private val customEngelsystemRoomName: String,
+    private val roomStateFormatting: RoomStateFormatting,
     runsAtLeastOnAndroidTiramisu: Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
 
-) : ViewModel() {
+) : ViewModel(), RoomStateFormatting by roomStateFormatting {
 
-    /**
-     * Delegate to get a formatted date/time.
-     */
-    interface FormattingDelegate {
-        fun getFormattedDateTimeShort(useDeviceTimeZone: Boolean, dateUtc: Long, sessionTimeZoneOffset: ZoneOffset?): String
-        fun getFormattedDateTimeLong(useDeviceTimeZone: Boolean, dateUtc: Long, sessionTimeZoneOffset: ZoneOffset?): String
-    }
-
-    /**
-     * [DateFormatter] delegate handling calls to get a formatted date/time.
-     * Do not introduce any business logic here because this class is not unit tested.
-     */
-    private class DateFormattingDelegate : FormattingDelegate {
-
-        override fun getFormattedDateTimeShort(useDeviceTimeZone: Boolean, dateUtc: Long, sessionTimeZoneOffset: ZoneOffset?): String {
-            return DateFormatter.newInstance(useDeviceTimeZone).getFormattedDateTimeShort(dateUtc, sessionTimeZoneOffset)
-        }
-
-        override fun getFormattedDateTimeLong(useDeviceTimeZone: Boolean, dateUtc: Long, sessionTimeZoneOffset: ZoneOffset?): String {
-            return DateFormatter.newInstance(useDeviceTimeZone).getFormattedDateTimeLong(dateUtc, sessionTimeZoneOffset)
-        }
-
+    private companion object {
+        const val LOG_TAG = "SessionDetailsViewModel"
     }
 
     private var sessionAlarmViewModelDelegate: SessionAlarmViewModelDelegate =
@@ -84,22 +66,12 @@ internal class SessionDetailsViewModel(
             runsAtLeastOnAndroidTiramisu,
         )
 
-    val abstractFont = Font.Roboto.Bold
-    val descriptionFont = Font.Roboto.Regular
-    val linksFont = Font.Roboto.Regular
-    val linksSectionFont = Font.Roboto.Bold
-    val trackFont = Font.Roboto.Regular
-    val trackSectionFont = Font.Roboto.Black
-    val sessionOnlineFont = Font.Roboto.Regular
-    val sessionOnlineSectionFont = Font.Roboto.Black
-    val speakersFont = Font.Roboto.Black
-    val subtitleFont = Font.Roboto.Light
-    val titleFont = Font.Roboto.BoldCondensed
-
     val selectedSessionParameter: Flow<SelectedSessionParameter> = repository.selectedSession
-        .map { it.toSelectedSessionParameter() }
-        .map { it.customizeEngelsystemRoomName() } // Do not rename before preparing parameter!
+        .map { selectedSessionParameterFactory.createSelectedSessionParameter(it) }
         .flowOn(executionContext.database)
+
+    private val mutableSessionDetailsState = MutableStateFlow<SessionDetailsState>(Loading)
+    val sessionDetailsState = mutableSessionDetailsState.asStateFlow()
 
     private val mutableOpenFeedBack = Channel<Uri>()
     val openFeedBack = mutableOpenFeedBack.receiveAsFlow()
@@ -126,56 +98,29 @@ internal class SessionDetailsViewModel(
     val showAlarmTimePicker = sessionAlarmViewModelDelegate
         .showAlarmTimePicker
 
-    private fun SelectedSessionParameter.customizeEngelsystemRoomName() = copy(
-        roomName = if (roomName == defaultEngelsystemRoomName) customEngelsystemRoomName else roomName
-    )
+    private val mutableRoomStateMessage = MutableStateFlow(roomStateFormatting.getText(null))
+    val roomStateMessage = mutableRoomStateMessage.asStateFlow()
 
-    private fun Session.toSelectedSessionParameter(): SelectedSessionParameter {
-        val useDeviceTimeZone = repository.readUseDeviceTimeZoneEnabled()
-        val formattedZonedDateTimeShort = formattingDelegate.getFormattedDateTimeShort(useDeviceTimeZone, dateUTC, timeZoneOffset)
-        val formattedZonedDateTimeLong = formattingDelegate.getFormattedDateTimeLong(useDeviceTimeZone, dateUTC, timeZoneOffset)
-        val formattedAbstract = markdownConversion.markdownLinksToHtmlLinks(abstractt)
-        val formattedDescription = markdownConversion.markdownLinksToHtmlLinks(description)
-        val linksHtml = sessionPropertiesFormatter.getFormattedLinks(links)
-        val formattedLinks = markdownConversion.markdownLinksToHtmlLinks(linksHtml)
-        val sessionUrl = sessionUrlComposition.getSessionUrl(this)
-        val sessionLink = sessionPropertiesFormatter.getFormattedUrl(sessionUrl)
-        val isFeedbackUrlEmpty = feedbackUrlComposer.getFeedbackUrl(this).isEmpty()
-        val supportsIndoorNavigation = indoorNavigation.isSupported(this.toRoom())
-        val isEngelshift = roomName == defaultEngelsystemRoomName
-        val supportsFeedback = !isFeedbackUrlEmpty && !isEngelshift
+    val showRoomState = buildConfigProvision.enableFosdemRoomStates
 
-        return SelectedSessionParameter(
-            // Details content
-            sessionId = sessionId,
-            hasDateUtc = dateUTC > 0,
-            formattedZonedDateTimeShort = formattedZonedDateTimeShort,
-            formattedZonedDateTimeLong = formattedZonedDateTimeLong,
-            title = title,
-            subtitle = subtitle,
-            speakerNames = sessionPropertiesFormatter.getFormattedSpeakers(this),
-            speakersCount = speakers.size,
-            abstract = abstractt,
-            formattedAbstract = formattedAbstract,
-            description = description,
-            formattedDescription = formattedDescription,
-            roomName = roomName,
-            track = track,
-            hasLinks = links.isNotEmpty(),
-            formattedLinks = formattedLinks,
-            hasWikiLinks = links.containsWikiLink(),
-            sessionLink = sessionLink,
-            // Options menu
-            isFlaggedAsFavorite = isHighlight,
-            hasAlarm = hasAlarm,
-            supportsFeedback = supportsFeedback,
-            supportsIndoorNavigation = supportsIndoorNavigation,
-        )
+    init {
+        if (buildConfigProvision.enableFosdemRoomStates) {
+            updateRoomState()
+        }
+        updateSessionDetailsState()
+    }
+
+    private fun updateSessionDetailsState() {
+        repository.selectedSession
+            .map { sessionDetailsParameterFactory.createSessionDetailsParameters(it) }
+            .map { Success(it) }
+            .onEach { mutableSessionDetailsState.value = it }
+            .launchIn(viewModelScope)
     }
 
     fun openFeedback() {
         loadSelectedSession { session ->
-            val uri = feedbackUrlComposer.getFeedbackUrl(session).toUri()
+            val uri = feedbackUrlComposition.getFeedbackUrl(session).toUri()
             mutableOpenFeedBack.sendOneTimeEvent(uri)
         }
     }
@@ -214,7 +159,7 @@ internal class SessionDetailsViewModel(
 
     fun unfavorSession() {
         loadSelectedSession { session ->
-            val unfavoredSession = session.copy (
+            val unfavoredSession = session.copy(
                 isHighlight = false // Required: Update property because updateHighlight refers to its value!
             )
             repository.updateHighlight(unfavoredSession)
@@ -257,6 +202,23 @@ internal class SessionDetailsViewModel(
         launch {
             onSessionLoaded(repository.loadSelectedSession())
         }
+    }
+
+    private fun updateRoomState() {
+        combine(repository.selectedSession, repository.roomStates) { session, result ->
+            result
+                .onSuccess { rooms ->
+                    val state = rooms.singleOrNull { it.name.trim().equals(session.roomName, ignoreCase = true) }?.state
+                    if (state == null) {
+                        logging.e(LOG_TAG, """Error matching room names. Unknown room name: "${session.roomName}".""")
+                    }
+                    mutableRoomStateMessage.value = roomStateFormatting.getText(state)
+                }
+                .onFailure {
+                    logging.e(LOG_TAG, "Error fetching room states: $it")
+                    mutableRoomStateMessage.value = roomStateFormatting.getFailureText(it)
+                }
+        }.launchIn(viewModelScope)
     }
 
     private fun launch(block: suspend CoroutineScope.() -> Unit) {

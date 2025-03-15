@@ -109,7 +109,7 @@ internal class SessionsDBOpenHelper(context: Context) : SQLiteOpenHelper(
 ) {
 
     private companion object {
-        const val DATABASE_VERSION = 16
+        const val DATABASE_VERSION = 18
         const val DATABASE_NAME = "lectures" // Keep table name to avoid database migration.
 
         // language=sql
@@ -297,6 +297,18 @@ internal class SessionsDBOpenHelper(context: Context) : SQLiteOpenHelper(
         }
         if (oldVersion < 16) {
             execSQL(SCHEDULE_STATISTIC_VIEW_CREATE)
+        }
+        if (oldVersion < 17) {
+            // Clear database from Camp 2023 & 37C3 2023.
+            dropTableIfExist(SessionsTable.NAME)
+            dropTableIfExist(SessionByNotificationIdTable.NAME)
+            onCreate(this)
+        }
+        if (oldVersion < 18) {
+            // Clear database from glt24 to prepare for glt25
+            dropTableIfExist(SessionsTable.NAME)
+            dropTableIfExist(SessionByNotificationIdTable.NAME)
+            onCreate(this)
         }
     }
 

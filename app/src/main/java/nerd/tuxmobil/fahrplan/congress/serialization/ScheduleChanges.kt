@@ -2,7 +2,7 @@ package nerd.tuxmobil.fahrplan.congress.serialization
 
 import info.metadude.android.eventfahrplan.network.models.Session as SessionNetworkModel
 
-@Suppress("DataClassPrivateConstructor")
+@ConsistentCopyVisibility
 data class ScheduleChanges private constructor(
 
         val sessionsWithChangeFlags: List<SessionNetworkModel>,

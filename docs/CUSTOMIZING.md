@@ -61,10 +61,11 @@ In some of the steps it is the easiest to copy and adapt configuration settings,
 9. Add track resource names in *res/xml/track_resource_names.xml*
 10. Customize track colors in *res/values/colors_congress.xml*
 11. Customize app colors in *res/values/colors.xml*
-12. Add a launcher icon in different resolutions as *res/mipmap-[...]/ic_launcher.png*
-13. Add a notification icon in different resolutions as *res/drawable-[...]/ic_notification.png*
-14. Add an about dialog logo as *res/drawable/dialog_logo.xml*
-15. Customize bell and video recording icons in *res/drawable/* (optional)
+12. Verify colors both in light and dark mode (not all screens switch colors!)
+13. Add a launcher icon in different resolutions as *res/mipmap-[...]/ic_launcher.png*
+14. Add a notification icon in different resolutions as *res/drawable-[...]/ic_notification.png*
+15. Add an about dialog logo as *res/drawable/dialog_logo.xml*
+16. Customize bell and video recording icons in *res/drawable/* (optional)
 
 ## 4. Optional customization
 
@@ -80,6 +81,7 @@ The following options can be enabled via a `buildConfigField` and configured in 
   - Customize the name for the Engelsystem shifts via `engelsystem_shifts_alias`
   - Customize Engelsystem shifts JSON export URL hint via `preference_hint_engelsystem_json_export_url`
 - Feedback system via `SCHEDULE_FEEDBACK_URL`
+- FOSDEM room status via `ENABLE_FOSDEM_ROOM_STATUS`, `FOSDEM_ROOM_STATES_URL`, `FOSDEM_ROOM_STATES_PATH`
 
 ## 5. Optional engagements
 

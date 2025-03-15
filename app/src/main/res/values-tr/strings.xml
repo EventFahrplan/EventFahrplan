@@ -58,12 +58,16 @@
         <item quantity="one">iptal edildi</item>
         <item quantity="other">iptal edildi</item>
     </plurals>
+    <plurals name="schedule_changes_dialog_number_of_sessions">
+        <item quantity="other"><xliff:g example="9" id="count">%d</xliff:g> oturum</item>
+    </plurals>
     <plurals name="schedule_changes_dialog_being">
         <item quantity="one"><xliff:g example="1" id="count">%d</xliff:g> </item>
         <item quantity="other"><xliff:g example="9" id="count">%d</xliff:g></item>
     </plurals>
     <string name="schedule_changes_dialog_browse">Görüntüle</string>
     <string name="schedule_changes_dialog_later">Sonra</string>
+    <string name="navigate_back_content_description">Geri</string>
     <string name="progress_loading_data">Planı indir &#8230;</string>
     <string name="progress_processing_data">Plan işleniyor &#8230;</string>
     <string name="load_data">Yükle</string>
@@ -148,6 +152,9 @@ Hatanın nasıl ve ne zaman olduğunu açıklayabilirsen bu bize hayli yardım e
     <string name="notifications_session_alarm_content_text">Oturum için alarm</string>
     <string name="notifications_schedule_update_channel_description">Uygulama ayarlarında yapılandırılabilen programın otomatik güncellemeleri.    </string>
     <string name="notifications_schedule_update_channel_name">Program güncellemeleri</string>
+    <plurals name="notifications_schedule_changes">
+        <item quantity="other"><xliff:g example="3" id="count">%d</xliff:g> oturum düzenlendi.</item>
+    </plurals>
     <!-- Schedule refresh interval picker -->
     <!-- Alarm time picker -->
     <string name="alarm_time_title_at_start_time">başlangıç zamanında</string>
@@ -180,6 +187,7 @@ Hatanın nasıl ve ne zaman olduğunu açıklayabilirsen bu bize hayli yardım e
     <string name="session_list_item_no_video_content_description">Video kaydı yok</string>
     <string name="session_list_item_video_content_description">Video kaydı var</string>
     <string name="session_list_item_without_video_content_description">Video kaydı yok</string>
+    <string name="session_list_item_zero_speakers_content_description">Konuşmacı yok</string>
     <plurals name="session_list_item_speakers_content_description">
         <item quantity="one">Konuşmacı: <xliff:g example="Jane Doe" id="name">%s</xliff:g></item>
         <item quantity="other">Konuşmacılar: <xliff:g example="Jane Doe, John Doe" id="names">%s</xliff:g></item>
@@ -200,4 +208,20 @@ Hatanın nasıl ve ne zaman olduğunu açıklayabilirsen bu bize hayli yardım e
     <string name="validation_error_url_without_query"><xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL sorgusu bulunamadı.    </string>
     <string name="validation_error_url_with_incomplete_query"><xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL sorgusu eksik.    </string>
     <string name="validation_error_url_without_api_key"><xliff:g example="Engelsystem" id="urlType">%s</xliff:g> API anahtarı olmayan URL.    </string>
+    <!-- Schedule statistic -->
+    <string name="schedule_statistic_no_statistic_data_title">Program istatistiği henüz hazır değil</string>
+    <string name="schedule_statistic_title">Program istatistiği</string>
+    <string name="schedule_statistic_toggle_sorting">Sırala</string>
+    <string name="schedule_statistic_column_name">Sütun adı</string>
+    <string name="schedule_statistic_null_empty">null/boş</string>
+    <string name="schedule_statistic_null_empty_content_description">null ya da boş</string>
+    <string name="schedule_statistic_non_empty">doluluk</string>
+    <!-- Search -->
+    <string name="search_title">Arama</string>
+    <string name="search_no_search_result_title">Oturum bulunamadı</string>
+    <string name="search_no_search_result_subtitle">Aramanızı yeniden gözden geçirin</string>
+    <string name="search_query_hint">Oturum ara</string>
+    <string name="search_clear_search_query_content_description">Aramayı temizle</string>
+    <string name="search_history_title">Son aramalar</string>
+    <string name="search_history_clear">Temizle</string>
 </resources>

@@ -2,8 +2,6 @@ package nerd.tuxmobil.fahrplan.congress.models
 
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 
-import java.util.ArrayList
-
 class DateInfos : ArrayList<DateInfo>() {
 
     fun sameDay(timestamp: Moment, sessionListDay: Int): Boolean {

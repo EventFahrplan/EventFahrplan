@@ -19,15 +19,18 @@ import android.widget.Toast
 import androidx.annotation.CallSuper
 import androidx.annotation.IdRes
 import androidx.annotation.MainThread
+import androidx.core.view.MenuProvider
 import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle.State.RESUMED
 import info.metadude.android.eventfahrplan.commons.flow.observe
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.BuildConfig
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.base.AbstractListFragment
-import nerd.tuxmobil.fahrplan.congress.base.AbstractListFragment.OnSessionListClick
+import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolver
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
 import nerd.tuxmobil.fahrplan.congress.extensions.replaceFragment
 import nerd.tuxmobil.fahrplan.congress.extensions.requireViewByIdCompat
@@ -51,6 +54,7 @@ import nerd.tuxmobil.fahrplan.congress.utils.SessionPropertiesFormatter
  */
 class StarredListFragment :
     AbstractListFragment(),
+    MenuProvider,
     MultiChoiceModeListener,
     AbsListView.OnScrollListener {
 
@@ -59,11 +63,14 @@ class StarredListFragment :
         const val FRAGMENT_TAG = "starred"
         const val DELETE_ALL_FAVORITES_REQUEST_CODE = 19126
 
-        fun replace(fragmentManager: FragmentManager, @IdRes containerViewId: Int, sidePane: Boolean) {
+        fun replaceAtBackStack(fragmentManager: FragmentManager, @IdRes containerViewId: Int, sidePane: Boolean) {
             val fragment = StarredListFragment().withArguments(
                 BundleKeys.SIDEPANE to sidePane
             )
-            fragmentManager.replaceFragment(containerViewId, fragment, FRAGMENT_TAG, FRAGMENT_TAG)
+            fragmentManager.commit {
+                fragmentManager.popBackStack(FRAGMENT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+                fragmentManager.replaceFragment(containerViewId, fragment, FRAGMENT_TAG, FRAGMENT_TAG)
+            }
         }
 
     }
@@ -96,7 +103,7 @@ class StarredListFragment :
         arguments?.let {
             sidePane = it.getBoolean(BundleKeys.SIDEPANE)
         }
-        setHasOptionsMenu(true)
+        requireActivity().addMenuProvider(this, this, RESUMED)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -133,13 +140,14 @@ class StarredListFragment :
         viewModel.starredListParameter.observe(this) { (sessions, numDays, useDeviceTimeZone) ->
             starredList = sessions
             val activity = requireActivity()
+            val resourceResolving = ResourceResolver(activity)
             val adapter = StarredListAdapter(
                 context = activity,
                 list = sessions,
                 numDays = numDays,
                 useDeviceTimeZone = useDeviceTimeZone,
-                sessionPropertiesFormatter = SessionPropertiesFormatter(),
-                contentDescriptionFormatter = ContentDescriptionFormatter(activity),
+                sessionPropertiesFormatting = SessionPropertiesFormatter(resourceResolving),
+                contentDescriptionFormatting = ContentDescriptionFormatter(resourceResolving),
             )
             currentListView.adapter = adapter
             activity.invalidateOptionsMenu()
@@ -216,9 +224,8 @@ class StarredListFragment :
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.starred_list_menu, menu)
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+        menuInflater.inflate(R.menu.starred_list_menu, menu)
         var item = menu.findItem(R.id.menu_item_delete_all_favorites)
         if (item != null && (!::starredList.isInitialized || starredList.isEmpty())) {
             item.isVisible = false
@@ -232,8 +239,8 @@ class StarredListFragment :
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+        when (menuItem.itemId) {
             R.id.menu_item_share_favorites,
             R.id.menu_item_share_favorites_text -> {
                 viewModel.share()
@@ -251,7 +258,7 @@ class StarredListFragment :
                 return requireActivity().navigateUp()
             }
         }
-        return super.onOptionsItemSelected(item)
+        return false
     }
 
     override fun onItemCheckedStateChanged(

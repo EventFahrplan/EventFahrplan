@@ -1,6 +1,8 @@
 package nerd.tuxmobil.fahrplan.congress.schedule
 
 import android.content.Context
+import android.content.res.Resources.NotFoundException
+import android.util.TypedValue.COMPLEX_UNIT_PX
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -13,16 +15,16 @@ import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.extensions.requireViewByIdCompat
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
-import nerd.tuxmobil.fahrplan.congress.utils.ContentDescriptionFormatter
+import nerd.tuxmobil.fahrplan.congress.utils.ContentDescriptionFormatting
 import nerd.tuxmobil.fahrplan.congress.utils.Font
-import nerd.tuxmobil.fahrplan.congress.utils.SessionPropertiesFormatter
+import nerd.tuxmobil.fahrplan.congress.utils.SessionPropertiesFormatting
 import nerd.tuxmobil.fahrplan.congress.utils.TypefaceFactory
 
 internal class SessionViewDrawer(
 
         context: Context,
-        private val sessionPropertiesFormatter: SessionPropertiesFormatter,
-        private val contentDescriptionFormatter: ContentDescriptionFormatter,
+        private val sessionPropertiesFormatting: SessionPropertiesFormatting,
+        private val contentDescriptionFormatting: ContentDescriptionFormatting,
         private val getSessionPadding: () -> Int,
         private val isAlternativeHighlightingEnabled: () -> Boolean = {
             // Must load the latest alternative highlighting value every time a session is redrawn.
@@ -50,26 +52,26 @@ internal class SessionViewDrawer(
         var textView = sessionView.requireViewByIdCompat<TextView>(R.id.session_title_view)
         textView.typeface = boldCondensed
         textView.text = session.title
-        textView.contentDescription = contentDescriptionFormatter
+        textView.contentDescription = contentDescriptionFormatting
             .getTitleContentDescription(session.title)
         textView = sessionView.requireViewByIdCompat(R.id.session_subtitle_view)
         textView.text = session.subtitle
-        textView.contentDescription = contentDescriptionFormatter
+        textView.contentDescription = contentDescriptionFormatting
             .getSubtitleContentDescription(session.subtitle)
         textView = sessionView.requireViewByIdCompat(R.id.session_speakers_view)
-        val speakerNames = sessionPropertiesFormatter.getFormattedSpeakers(session)
+        val speakerNames = sessionPropertiesFormatting.getFormattedSpeakers(session)
         textView.text = speakerNames
-        textView.contentDescription = contentDescriptionFormatter
+        textView.contentDescription = contentDescriptionFormatting
             .getSpeakersContentDescription(session.speakers.size, speakerNames)
         textView = sessionView.requireViewByIdCompat(R.id.session_track_view)
-        textView.text = sessionPropertiesFormatter.getFormattedTrackLanguageText(session)
-        textView.contentDescription = contentDescriptionFormatter
-            .getFormattedTrackContentDescription(session.track, sessionPropertiesFormatter.getLanguageText(session))
+        textView.text = sessionPropertiesFormatting.getFormattedTrackNameAndLanguageText(session)
+        textView.contentDescription = contentDescriptionFormatting
+            .getTrackNameAndLanguageContentDescription(session.track, sessionPropertiesFormatting.getLanguageText(session))
         val recordingOptOut = sessionView.findViewById<View>(R.id.session_no_video_view)
         if (recordingOptOut != null) {
             recordingOptOut.isVisible = session.recordingOptOut
         }
-        ViewCompat.setStateDescription(sessionView, contentDescriptionFormatter
+        ViewCompat.setStateDescription(sessionView, contentDescriptionFormatting
             .getStateContentDescription(session, useDeviceTimeZone))
         setSessionBackground(session.isHighlight, session.track, sessionView)
         setSessionTextColor(session.isHighlight, sessionView)
@@ -83,7 +85,11 @@ internal class SessionViewDrawer(
         } else {
             trackNameBackgroundColorDefaultPairs[track] ?: R.color.track_background_default
         }
-        @ColorInt val backgroundColor = ContextCompat.getColor(context, backgroundColorResId)
+        @ColorInt val backgroundColor = try {
+            ContextCompat.getColor(context, backgroundColorResId)
+        } catch (e: NotFoundException) {
+            throw MissingTrackColorException(track)
+        }
         val sessionDrawable = if (isFavored && isAlternativeHighlightingEnabled()) {
             SessionDrawable(
                     backgroundColor,
@@ -109,7 +115,8 @@ internal class SessionViewDrawer(
                 0)
         sessionView.background = sessionDrawable
         val padding = getSessionPadding()
-        sessionView.setPadding(padding, padding, padding, padding)
+        val verticalPadding = (padding * 0.3).toInt()
+        sessionView.setPadding(padding, verticalPadding, padding, verticalPadding)
     }
 
     companion object {
@@ -125,10 +132,20 @@ internal class SessionViewDrawer(
             else
                 R.color.session_item_text_on_default_background
             val textColor = ContextCompat.getColor(view.context, colorResId)
+            val resources = view.resources
+            title.setTextSize(COMPLEX_UNIT_PX, resources.getDimension(R.dimen.session_drawable_title))
             title.setTextColor(textColor)
+            subtitle.setTextSize(COMPLEX_UNIT_PX, resources.getDimension(R.dimen.session_drawable_subtitle))
             subtitle.setTextColor(textColor)
+            speakers.setTextSize(COMPLEX_UNIT_PX, resources.getDimension(R.dimen.session_drawable_speakers))
             speakers.setTextColor(textColor)
+            track.setTextSize(COMPLEX_UNIT_PX, resources.getDimension(R.dimen.session_drawable_track))
             track.setTextColor(textColor)
         }
     }
 }
+
+private class MissingTrackColorException(trackName: String) : NotFoundException(
+    """Missing color for track "$trackName". Entries in track_resource_names.xml
+        | must be present in track_background_* colors.""".trimMargin()
+)

@@ -1,7 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress.about
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,13 +8,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -27,13 +22,16 @@ import androidx.compose.ui.unit.dp
 import nerd.tuxmobil.fahrplan.congress.BuildConfig
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.about.AboutViewEvent.OnPostalAddressClick
-import nerd.tuxmobil.fahrplan.congress.commons.ClickableText
-import nerd.tuxmobil.fahrplan.congress.commons.EventFahrplanTheme
 import nerd.tuxmobil.fahrplan.congress.commons.MultiDevicePreview
 import nerd.tuxmobil.fahrplan.congress.commons.TextResource
 import nerd.tuxmobil.fahrplan.congress.commons.TextResource.Empty
 import nerd.tuxmobil.fahrplan.congress.commons.TextResource.Html
 import nerd.tuxmobil.fahrplan.congress.commons.TextResource.PostalAddress
+import nerd.tuxmobil.fahrplan.congress.designsystem.dividers.DividerHorizontal
+import nerd.tuxmobil.fahrplan.congress.designsystem.templates.Scaffold
+import nerd.tuxmobil.fahrplan.congress.designsystem.texts.Text
+import nerd.tuxmobil.fahrplan.congress.designsystem.texts.TextClickable
+import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
 import nerd.tuxmobil.fahrplan.congress.extensions.toTextUnit
 
 @Composable
@@ -45,7 +43,6 @@ internal fun AboutScreen(
         Scaffold { contentPadding ->
             Box(
                 Modifier
-                    .background(colorResource(R.color.about_window_background))
                     .padding(contentPadding)
                     .fillMaxSize() // Prevent background flickering on load
                     .verticalScroll(rememberScrollState())
@@ -87,7 +84,6 @@ private fun EventInfo(parameter: AboutParameter, onViewEvent: (AboutViewEvent) -
         if (parameter.title.isNotEmpty()) {
             Text(
                 modifier = Modifier.padding(bottom = 4.dp),
-                color = colorResource(R.color.about_title),
                 fontSize = dimensionResource(R.dimen.about_title).toTextUnit(),
                 fontWeight = FontWeight.Bold,
                 text = parameter.title,
@@ -101,7 +97,6 @@ private fun EventInfo(parameter: AboutParameter, onViewEvent: (AboutViewEvent) -
                 fontSize = dimensionResource(R.dimen.about_subtitle).toTextUnit(),
                 fontStyle = FontStyle.Italic,
                 fontFamily = FontFamily.Serif,
-                color = colorResource(R.color.about_subtitle),
                 textAlign = horizontalTextAlign,
             )
         }
@@ -222,12 +217,10 @@ private fun AboutClickableText(
     textAlign: TextAlign = TextAlign.Start,
     onClick: (String) -> Unit = {},
 ) {
-    ClickableText(
+    TextClickable(
         textResource = textResource,
         fontSize = dimensionResource(R.dimen.about_text).toTextUnit(), // To match font size of AboutText
         textAlign = textAlign,
-        textColor = R.color.about_text,
-        textLinkColor = R.color.about_text_link,
         onClick = onClick,
     )
 }
@@ -245,16 +238,14 @@ private fun AboutText(
             text = text,
             fontSize = dimensionResource(R.dimen.about_text).toTextUnit(),
             textAlign = textAlign,
-            color = colorResource(R.color.about_text),
         )
     }
 }
 
 @Composable
 private fun SectionDivider() {
-    HorizontalDivider(
+    DividerHorizontal(
         modifier = Modifier.padding(vertical = 12.dp),
-        color = colorResource(R.color.about_horizontal_line),
         thickness = dimensionResource(R.dimen.about_horizontal_line_height)
     )
 }

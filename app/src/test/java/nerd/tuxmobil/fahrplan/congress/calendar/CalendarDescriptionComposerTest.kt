@@ -5,6 +5,7 @@ import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.utils.MarkdownConversion
 import nerd.tuxmobil.fahrplan.congress.utils.SessionUrlComposition
 import org.junit.jupiter.api.Test
+import org.mockito.Mockito.mock
 
 /**
  * Covers [CalendarDescriptionComposer.getCalendarDescription].
@@ -113,8 +114,12 @@ class CalendarDescriptionComposerTest {
             """.trimIndent())
     }
 
-    private fun createComposer(): CalendarDescriptionComposer {
-        return CalendarDescriptionComposer("Session online", sessionUrlComposition = FakeSessionUrlComposer())
+    private fun createComposer(): CalendarDescriptionComposition {
+        return CalendarDescriptionComposer(
+            sessionOnlineText = "Session online",
+            resourceResolving = mock(),
+            sessionUrlComposition = FakeSessionUrlComposer(),
+        )
     }
 
     private class FakeSessionUrlComposer : SessionUrlComposition {

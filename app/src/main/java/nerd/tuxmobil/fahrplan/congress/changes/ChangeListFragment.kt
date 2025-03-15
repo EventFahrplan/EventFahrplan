@@ -14,6 +14,7 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import info.metadude.android.eventfahrplan.commons.flow.observe
 import nerd.tuxmobil.fahrplan.congress.R
@@ -46,24 +47,26 @@ class ChangeListFragment : Fragment() {
             return ChangeListFragment().withArguments(BundleKeys.SIDEPANE to sidePane)
         }
 
-        fun replace(fragmentManager: FragmentManager, @IdRes containerViewId: Int, sidePane: Boolean) {
+        fun replaceAtBackStack(fragmentManager: FragmentManager, @IdRes containerViewId: Int, sidePane: Boolean) {
             val fragment = ChangeListFragment().withArguments(
                 BundleKeys.SIDEPANE to sidePane
             )
-            fragmentManager.replaceFragment(containerViewId, fragment, FRAGMENT_TAG, FRAGMENT_TAG)
+            fragmentManager.commit {
+                fragmentManager.popBackStack(FRAGMENT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+                fragmentManager.replaceFragment(containerViewId, fragment, FRAGMENT_TAG, FRAGMENT_TAG)
+            }
         }
 
     }
 
     private var onSessionListClickListener: OnSessionListClick? = null
-    private lateinit var screenNavigation: ScreenNavigation
     private val viewModelFactory by lazy {
+        val resourceResolving = ResourceResolver(requireContext())
         ChangeListViewModelFactory(
             AppRepository,
-            ResourceResolver(requireContext()),
-            screenNavigation,
-            SessionPropertiesFormatter(),
-            ContentDescriptionFormatter(requireContext()),
+            resourceResolving,
+            SessionPropertiesFormatter(resourceResolving),
+            ContentDescriptionFormatter(resourceResolving),
         )
     }
     private val viewModel: ChangeListViewModel by viewModels { viewModelFactory }
@@ -109,11 +112,11 @@ class ChangeListFragment : Fragment() {
     @CallSuper
     override fun onAttach(context: Context) {
         super.onAttach(context)
+        viewModel.screenNavigation = ScreenNavigation { sessionId ->
+            onSessionListClickListener?.onSessionListClick(sessionId)
+        }
         if (context is OnSessionListClick) {
             onSessionListClickListener = context
-            screenNavigation = ScreenNavigation { sessionId ->
-                onSessionListClickListener?.onSessionListClick(sessionId)
-            }
         } else {
             error("$context must implement OnSessionListClick")
         }
@@ -124,6 +127,7 @@ class ChangeListFragment : Fragment() {
     override fun onDetach() {
         super.onDetach()
         onSessionListClickListener = null
+        viewModel.screenNavigation = null
     }
 
 }

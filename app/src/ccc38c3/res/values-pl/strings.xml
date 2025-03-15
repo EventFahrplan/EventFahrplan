@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Grafik 38C3</string>
+    <string name="app_hardcoded_subtitle">
+        27–30 grudnia 2024, Congress Center Hamburg
+    </string>
+    <string name="copyright_logo">
+        38C3 Illegal instructions. Projekt Robokid + Luis F. Masallera + Euler Void
+    </string>
+    <string name="about_logo_content_description">
+        Logo 38C3 Illegal instructions
+    </string>
+</resources>

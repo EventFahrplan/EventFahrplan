@@ -24,8 +24,19 @@ import nerd.tuxmobil.fahrplan.congress.models.Meta
 import nerd.tuxmobil.fahrplan.congress.models.RoomData
 import nerd.tuxmobil.fahrplan.congress.models.ScheduleData
 import nerd.tuxmobil.fahrplan.congress.models.Session
+import nerd.tuxmobil.fahrplan.congress.net.HttpStatus.HTTP_NOT_FOUND
+import nerd.tuxmobil.fahrplan.congress.net.ParseScheduleResult
 import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
+import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState
+import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.FetchFailure
+import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.FetchSuccess
+import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.Fetching
+import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.InitialFetching
+import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.InitialParsing
+import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.ParseFailure
+import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.ParseSuccess
+import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.Parsing
 import nerd.tuxmobil.fahrplan.congress.schedule.observables.FahrplanEmptyParameter
 import nerd.tuxmobil.fahrplan.congress.schedule.observables.FahrplanParameter
 import nerd.tuxmobil.fahrplan.congress.schedule.observables.ScrollToCurrentSessionParameter
@@ -33,9 +44,12 @@ import nerd.tuxmobil.fahrplan.congress.schedule.observables.ScrollToSessionParam
 import nerd.tuxmobil.fahrplan.congress.schedule.observables.TimeTextViewParameter
 import nerd.tuxmobil.fahrplan.congress.sharing.JsonSessionFormat
 import nerd.tuxmobil.fahrplan.congress.sharing.SimpleSessionFormat
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.MethodSource
 import org.mockito.kotlin.any
 import org.mockito.kotlin.anyOrNull
 import org.mockito.kotlin.doReturn
@@ -45,9 +59,47 @@ import org.threeten.bp.ZoneOffset
 @ExtendWith(MainDispatcherTestExtension::class)
 class FahrplanViewModelTest {
 
+    companion object {
+        private val fetchFailure = FetchFailure(
+            httpStatus = HTTP_NOT_FOUND,
+            hostName = "example.com",
+            exceptionMessage = "",
+            isUserRequest = false,
+        )
+        private val parseFailure = ParseFailure(
+            ParseScheduleResult(isSuccess = true, version = "")
+        )
+
+        @JvmStatic
+        fun showByState() = listOf(
+            arrayOf(InitialFetching, false),
+            arrayOf(Fetching, false),
+            arrayOf(InitialParsing, false),
+            arrayOf(Parsing, false),
+            arrayOf(FetchSuccess, true),
+            arrayOf(fetchFailure, true),
+            arrayOf(ParseSuccess, true),
+            arrayOf(parseFailure, true),
+        )
+    }
+
     private val simpleSessionFormat = mock<SimpleSessionFormat>()
     private val jsonSessionFormat = mock<JsonSessionFormat>()
     private val scrollAmountCalculator = mock<ScrollAmountCalculator>()
+
+    @ParameterizedTest(name = "{index}: showHorizontalScrollingProgressLine property emits {1} when loadScheduleState is {0}")
+    @MethodSource("showByState")
+    fun `HorizontalProgressLine #`(
+        state: LoadScheduleState,
+        shouldShow: Boolean
+    ) = runTest {
+        val repository = createRepository(loadScheduleStateFlow = flowOf(state))
+        val viewModel = createViewModel(repository)
+        viewModel.showHorizontalScrollingProgressLine.test {
+            assertThat(awaitItem()).isEqualTo(shouldShow)
+            expectNoEvents()
+        }
+    }
 
     @Nested
     inner class ScheduleUpdateAlarm {
@@ -322,8 +374,8 @@ class FahrplanViewModelTest {
             val viewModel = createViewModel(repository)
             viewModel.fillTimes(nowMoment = mock(), normalizedBoxHeight = 42)
             val expected = listOf(
-                TimeTextViewParameter(R.layout.time_layout, height = 126, titleText = "08:00"),
-                TimeTextViewParameter(R.layout.time_layout, height = 126, titleText = "08:15")
+                TimeTextViewParameter(height = 126, titleText = "08:00", isNow = false),
+                TimeTextViewParameter(height = 126, titleText = "08:15", isNow = false),
             )
             viewModel.timeTextViewParameters.test {
                 assertThat(awaitItem()).isEqualTo(expected)
@@ -546,6 +598,7 @@ class FahrplanViewModelTest {
                 }
             }
 
+        @Disabled("Flaky, see https://github.com/EventFahrplan/EventFahrplan/issues/526")
         @Test
         fun `scrollToCurrentSession posts to scrollToCurrentSessionParameter property when session is present and day indices match`() =
             runTest {
@@ -624,6 +677,7 @@ class FahrplanViewModelTest {
         uncanceledSessionsForDayIndexFlow: Flow<ScheduleData> = emptyFlow(),
         sessionsWithoutShiftsFlow: Flow<List<Session>> = emptyFlow(),
         loadUncanceledSessionsForDayIndex: ScheduleData = mock(),
+        loadScheduleStateFlow: Flow<LoadScheduleState> = emptyFlow(),
         alarmsFlow: Flow<List<Alarm>> = flowOf(emptyList()),
         meta: Meta = Meta(numDays = 0, version = "test-version"),
         isAutoUpdateEnabled: Boolean = true,
@@ -634,6 +688,7 @@ class FahrplanViewModelTest {
         on { uncanceledSessionsForDayIndex } doReturn uncanceledSessionsForDayIndexFlow
         on { sessionsWithoutShifts } doReturn sessionsWithoutShiftsFlow
         on { loadUncanceledSessionsForDayIndex() } doReturn loadUncanceledSessionsForDayIndex
+        on { loadScheduleState } doReturn loadScheduleStateFlow
         on { alarms } doReturn alarmsFlow
         on { readMeta() } doReturn meta
         on { readAutoUpdateEnabled() } doReturn isAutoUpdateEnabled

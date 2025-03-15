@@ -4,8 +4,7 @@
              android:id="@+id/detail"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             tools:context=".details.SessionDetailsActivity"
-             tools:layout="@layout/detail">
+             tools:context=".details.SessionDetailsActivity">
 
 
 </androidx.fragment.app.FragmentContainerView>

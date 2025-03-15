@@ -1,6 +1,5 @@
 package nerd.tuxmobil.fahrplan.congress.schedulestatistic
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -11,34 +10,32 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.text.font.FontStyle.Companion.Italic
-import androidx.compose.ui.text.font.FontWeight.Companion.SemiBold
 import androidx.compose.ui.text.style.TextAlign.Companion.Center
 import androidx.compose.ui.text.style.TextAlign.Companion.End
 import androidx.compose.ui.text.style.TextAlign.Companion.Start
-import androidx.compose.ui.text.style.TextOverflow.Companion.Ellipsis
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import info.metadude.android.eventfahrplan.database.models.ColumnStatistic
 import nerd.tuxmobil.fahrplan.congress.R
-import nerd.tuxmobil.fahrplan.congress.commons.EventFahrplanTheme
-import nerd.tuxmobil.fahrplan.congress.commons.Loading
 import nerd.tuxmobil.fahrplan.congress.commons.MultiDevicePreview
-import nerd.tuxmobil.fahrplan.congress.commons.NoData
-import nerd.tuxmobil.fahrplan.congress.commons.TopBar
+import nerd.tuxmobil.fahrplan.congress.designsystem.bars.TopBar
+import nerd.tuxmobil.fahrplan.congress.designsystem.buttons.ButtonIcon
+import nerd.tuxmobil.fahrplan.congress.designsystem.icons.IconActionable
+import nerd.tuxmobil.fahrplan.congress.designsystem.screenstates.Loading
+import nerd.tuxmobil.fahrplan.congress.designsystem.screenstates.NoData
+import nerd.tuxmobil.fahrplan.congress.designsystem.templates.Scaffold
+import nerd.tuxmobil.fahrplan.congress.designsystem.texts.Text
+import nerd.tuxmobil.fahrplan.congress.designsystem.texts.TextTableHeader
+import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
 import nerd.tuxmobil.fahrplan.congress.schedulestatistic.ScheduleStatisticState.Loading
 import nerd.tuxmobil.fahrplan.congress.schedulestatistic.ScheduleStatisticState.Success
 import nerd.tuxmobil.fahrplan.congress.schedulestatistic.ScheduleStatisticViewEvent.OnBackClick
@@ -86,13 +83,13 @@ private fun TopBar(showActions: Boolean, onViewEvent: (ScheduleStatisticViewEven
         onBack = { onViewEvent(OnBackClick) },
         actions = {
             if (showActions) {
-                IconButton(
+                ButtonIcon(
                     onClick = { onViewEvent(OnToggleSorting) },
                 ) {
-                    Icon(
-                        painter = painterResource(R.drawable.ic_sort),
-                        tint = colorResource(R.color.tool_bar_icon),
-                        contentDescription = stringResource(R.string.schedule_statistic_toggle_sorting),
+                    IconActionable(
+                        icon = R.drawable.ic_sort,
+                        tint = R.color.tool_bar_icon,
+                        contentDescription = R.string.schedule_statistic_toggle_sorting,
                     )
                 }
             }
@@ -110,7 +107,6 @@ private fun NoScheduleStatistic() {
 }
 
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun ScheduleStatisticList(scheduleStatistic: List<ColumnStatistic>) {
     LazyColumn(
@@ -128,7 +124,7 @@ private fun ScheduleStatisticList(scheduleStatistic: List<ColumnStatistic>) {
             ColumnStatisticHeader()
         }
         items(scheduleStatistic, key = { it.name }) {
-            ColumnStatisticItem(it, Modifier.animateItemPlacement())
+            ColumnStatisticItem(it, Modifier.animateItem())
         }
     }
 }
@@ -141,30 +137,21 @@ private fun ColumnStatisticHeader() {
             .clearAndSetSemantics { },
         verticalAlignment = CenterVertically,
     ) {
-        Text(
+        TextTableHeader(
             modifier = Modifier.defaultMinSize(minWidth = 140.dp),
             text = stringResource(R.string.schedule_statistic_column_name),
-            fontWeight = SemiBold,
-            maxLines = 1,
-            overflow = Ellipsis,
         )
-        Text(
+        TextTableHeader(
             text = stringResource(R.string.schedule_statistic_null_empty),
             textAlign = End,
-            fontWeight = SemiBold,
-            maxLines = 1,
-            overflow = Ellipsis,
             modifier = Modifier
                 .defaultMinSize(minWidth = 50.dp)
                 .padding(horizontal = 8.dp),
         )
         Spacer(modifier = Modifier.weight(1f))
-        Text(
+        TextTableHeader(
             text = stringResource(R.string.schedule_statistic_non_empty),
             textAlign = Start,
-            fontWeight = SemiBold,
-            maxLines = 1,
-            overflow = Ellipsis,
             modifier = Modifier
                 .defaultMinSize(minWidth = 50.dp)
                 .padding(start = 8.dp)

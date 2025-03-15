@@ -20,15 +20,24 @@ import info.metadude.android.eventfahrplan.network.models.HttpHeader
 import info.metadude.android.eventfahrplan.network.repositories.RealScheduleNetworkRepository
 import info.metadude.android.eventfahrplan.network.repositories.ScheduleNetworkRepository
 import info.metadude.kotlin.library.engelsystem.models.Shift
+import info.metadude.kotlin.library.roomstates.base.Api
+import info.metadude.kotlin.library.roomstates.base.models.Room
+import info.metadude.kotlin.library.roomstates.repositories.RoomStatesRepository
+import info.metadude.kotlin.library.roomstates.repositories.simple.SimpleRoomStatesRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.onStart
 import nerd.tuxmobil.fahrplan.congress.BuildConfig
+import nerd.tuxmobil.fahrplan.congress.BuildConfig.ENABLE_FOSDEM_ROOM_STATES
+import nerd.tuxmobil.fahrplan.congress.BuildConfig.FOSDEM_ROOM_STATES_PATH
+import nerd.tuxmobil.fahrplan.congress.BuildConfig.FOSDEM_ROOM_STATES_URL
 import nerd.tuxmobil.fahrplan.congress.dataconverters.cropToDayRangesExtent
 import nerd.tuxmobil.fahrplan.congress.dataconverters.sanitize
 import nerd.tuxmobil.fahrplan.congress.dataconverters.shiftRoomIndicesOfMainSchedule
@@ -46,6 +55,7 @@ import nerd.tuxmobil.fahrplan.congress.dataconverters.toSessionAppModel
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toSessionsAppModel
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toSessionsDatabaseModel
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toSessionsNetworkModel
+import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsRepository
 import nerd.tuxmobil.fahrplan.congress.exceptions.AppExceptionHandler
 import nerd.tuxmobil.fahrplan.congress.models.Alarm
 import nerd.tuxmobil.fahrplan.congress.models.ConferenceTimeFrame
@@ -72,6 +82,7 @@ import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.ParseSucce
 import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.Parsing
 import nerd.tuxmobil.fahrplan.congress.schedule.Conference
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewModel
+import nerd.tuxmobil.fahrplan.congress.search.SearchRepository
 import nerd.tuxmobil.fahrplan.congress.serialization.ScheduleChanges.Companion.computeSessionsWithChangeFlags
 import nerd.tuxmobil.fahrplan.congress.utils.AlarmToneConversion
 import nerd.tuxmobil.fahrplan.congress.validation.MetaValidation.validate
@@ -82,7 +93,8 @@ import info.metadude.android.eventfahrplan.network.models.Meta as MetaNetworkMod
 import nerd.tuxmobil.fahrplan.congress.models.Meta as MetaAppModel
 import nerd.tuxmobil.fahrplan.congress.models.Session as SessionAppModel
 
-object AppRepository {
+object AppRepository : SearchRepository,
+    SessionDetailsRepository {
 
     /**
      * Name used as the display title for the Engelsystem column and
@@ -110,6 +122,7 @@ object AppRepository {
     private lateinit var scheduleNetworkRepository: ScheduleNetworkRepository
     private lateinit var engelsystemNetworkRepository: EngelsystemNetworkRepository
     private lateinit var sharedPreferencesRepository: SharedPreferencesRepository
+    private lateinit var roomStatesRepository: RoomStatesRepository
     private lateinit var sessionsTransformer: SessionsTransformer
 
     private val mutableLoadScheduleState = MutableSharedFlow<LoadScheduleState>(
@@ -320,6 +333,50 @@ object AppRepository {
             .flowOn(executionContext.database)
     }
 
+    private val refreshSearchHistorySignal = MutableSharedFlow<Unit>()
+
+    private fun refreshSearchHistory() {
+        logging.d(LOG_TAG, "Refreshing search history ...")
+        val requestIdentifier = "refreshSearchHistory"
+        parentJobs[requestIdentifier] = databaseScope.launchNamed(requestIdentifier) {
+            refreshSearchHistorySignal.emit(Unit)
+        }
+    }
+
+    /**
+     * Emits the search history from the database.
+     */
+    @OptIn(ExperimentalCoroutinesApi::class)
+    override val searchHistory: Flow<List<String>> by lazy {
+        refreshSearchHistorySignal
+            .onStart { emit(Unit) }
+            .mapLatest { readSearchHistory() }
+            .flowOn(executionContext.database)
+    }
+
+    private val refreshRoomStatesSignal = MutableSharedFlow<Unit>()
+
+    private fun refreshRoomStates() {
+        if (ENABLE_FOSDEM_ROOM_STATES) {
+            logging.d(LOG_TAG, "Refreshing room states ...")
+            val requestIdentifier = "refreshRoomStates"
+            parentJobs[requestIdentifier] = networkScope.launchNamed(requestIdentifier) {
+                refreshRoomStatesSignal.emit(Unit)
+            }
+        }
+    }
+
+    /**
+     * Emits the room states from the live network request.
+     */
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val roomStates: Flow<Result<List<Room>>> by lazy {
+        refreshRoomStatesSignal
+            .onStart { emit(Unit) }
+            .flatMapLatest { if (ENABLE_FOSDEM_ROOM_STATES) roomStatesRepository.getRooms() else emptyFlow() }
+            .flowOn(executionContext.network)
+    }
+
     fun initialize(
             context: Context,
             logging: Logging,
@@ -334,6 +391,12 @@ object AppRepository {
             scheduleNetworkRepository: ScheduleNetworkRepository = RealScheduleNetworkRepository(logging),
             engelsystemNetworkRepository: EngelsystemNetworkRepository = RealEngelsystemNetworkRepository(),
             sharedPreferencesRepository: SharedPreferencesRepository = RealSharedPreferencesRepository(context),
+            roomStatesRepository: RoomStatesRepository = SimpleRoomStatesRepository(
+                url = FOSDEM_ROOM_STATES_URL,
+                path = FOSDEM_ROOM_STATES_PATH,
+                httpClient = okHttpClient,
+                api = Api,
+            ),
             sessionsTransformer: SessionsTransformer = SessionsTransformer.createSessionsTransformer()
     ) {
         this.logging = logging
@@ -348,6 +411,7 @@ object AppRepository {
         this.scheduleNetworkRepository = scheduleNetworkRepository
         this.engelsystemNetworkRepository = engelsystemNetworkRepository
         this.sharedPreferencesRepository = sharedPreferencesRepository
+        this.roomStatesRepository = roomStatesRepository
         this.sessionsTransformer = sessionsTransformer
     }
 
@@ -702,6 +766,7 @@ object AppRepository {
         alarmsDatabaseRepository.deleteAll().also {
             refreshAlarms()
             refreshSelectedSession()
+            refreshRoomStates()
             refreshUncanceledSessions()
         }
 
@@ -710,6 +775,7 @@ object AppRepository {
         alarmsDatabaseRepository.deleteForSessionId(sessionId).also {
             refreshAlarms()
             refreshSelectedSession()
+            refreshRoomStates()
             refreshUncanceledSessions()
         }
 
@@ -720,6 +786,7 @@ object AppRepository {
         alarmsDatabaseRepository.update(values, alarm.sessionId)
         refreshAlarms()
         refreshSelectedSession()
+        refreshRoomStates()
         refreshUncanceledSessions()
     }
 
@@ -733,6 +800,7 @@ object AppRepository {
         highlightsDatabaseRepository.update(values, session.sessionId)
         refreshStarredSessions()
         refreshSelectedSession()
+        refreshRoomStates()
         refreshUncanceledSessions()
     }
 
@@ -741,6 +809,7 @@ object AppRepository {
         highlightsDatabaseRepository.delete(sessionId)
         refreshStarredSessions()
         refreshSelectedSession()
+        refreshRoomStates()
         refreshUncanceledSessions()
     }
 
@@ -749,6 +818,7 @@ object AppRepository {
         highlightsDatabaseRepository.deleteAll()
         refreshStarredSessions()
         refreshSelectedSession()
+        refreshRoomStates()
         refreshUncanceledSessions()
     }
 
@@ -802,6 +872,7 @@ object AppRepository {
         }
         return isSet.also {
             refreshSelectedSession()
+            refreshRoomStates()
         }
     }
 
@@ -828,6 +899,7 @@ object AppRepository {
         refreshSessionsWithoutShifts()
         refreshChangedSessions()
         refreshSelectedSession()
+        refreshRoomStates()
         refreshUncanceledSessions()
         refreshScheduleStatistic()
     }
@@ -888,7 +960,7 @@ object AppRepository {
     }
 
     @WorkerThread
-    fun readUseDeviceTimeZoneEnabled() =
+    override fun readUseDeviceTimeZoneEnabled() =
         sharedPreferencesRepository.isUseDeviceTimeZoneEnabled()
 
     fun readAlternativeHighlightingEnabled() =
@@ -935,5 +1007,14 @@ object AppRepository {
 
     fun readInsistentAlarmsEnabled() =
             sharedPreferencesRepository.isInsistentAlarmsEnabled()
+
+    private fun readSearchHistory(): List<String> {
+        return sharedPreferencesRepository.getSearchHistory()
+    }
+
+    override fun updateSearchHistory(history: List<String>) {
+        sharedPreferencesRepository.setSearchHistory(history)
+        refreshSearchHistory()
+    }
 
 }

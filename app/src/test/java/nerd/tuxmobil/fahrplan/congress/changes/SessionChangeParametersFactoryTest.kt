@@ -14,6 +14,7 @@ import nerd.tuxmobil.fahrplan.congress.commons.VideoRecordingState.None
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.utils.ContentDescriptionFormatter
 import nerd.tuxmobil.fahrplan.congress.utils.SessionPropertiesFormatter
+import nerd.tuxmobil.fahrplan.congress.utils.SessionPropertiesFormatting
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.fail
 import org.mockito.kotlin.anyOrNull
@@ -29,7 +30,7 @@ class SessionChangeParametersFactoryTest {
     fun `createSessionChangeParameters returns empty list when sessions is empty`() {
         val factory = SessionChangeParametersFactory(
             CompleteResourceResolver,
-            SessionPropertiesFormatter(),
+            createSessionPropertiesFormatter(),
             ContentDescriptionFormatter(mock()),
             DateFormatterCallback,
         )
@@ -41,7 +42,7 @@ class SessionChangeParametersFactoryTest {
     fun `createSessionChangeParameters returns UNCHANGED parameter when session is unchanged`() {
         val factory = SessionChangeParametersFactory(
             CompleteResourceResolver,
-            SessionPropertiesFormatter(),
+            createSessionPropertiesFormatter(),
             createContentDescriptionFormatter(),
             DateFormatterCallback,
         )
@@ -103,7 +104,7 @@ class SessionChangeParametersFactoryTest {
     fun `createSessionChangeParameters returns NEW parameter when session is new`() {
         val factory = SessionChangeParametersFactory(
             CompleteResourceResolver,
-            SessionPropertiesFormatter(),
+            createSessionPropertiesFormatter(),
             createContentDescriptionFormatter(),
             DateFormatterCallback,
         )
@@ -165,7 +166,7 @@ class SessionChangeParametersFactoryTest {
     fun `createSessionChangeParameters returns CANCELED parameter when session is canceled`() {
         val factory = SessionChangeParametersFactory(
             CompleteResourceResolver,
-            SessionPropertiesFormatter(),
+            createSessionPropertiesFormatter(),
             createContentDescriptionFormatter(),
             DateFormatterCallback,
         )
@@ -227,7 +228,7 @@ class SessionChangeParametersFactoryTest {
     fun `createSessionChangeParameters returns CHANGED parameter when session is changed`() {
         val factory = SessionChangeParametersFactory(
             CompleteResourceResolver,
-            SessionPropertiesFormatter(),
+            createSessionPropertiesFormatter(),
             createContentDescriptionFormatter(),
             DateFormatterCallback,
         )
@@ -289,7 +290,7 @@ class SessionChangeParametersFactoryTest {
     fun `createSessionChangeParameters returns CHANGED parameter with dashes when session is changed and empty`() {
         val factory = SessionChangeParametersFactory(
             CompleteResourceResolver,
-            SessionPropertiesFormatter(),
+            createSessionPropertiesFormatter(),
             createContentDescriptionFormatter(),
             DateFormatterCallback,
         )
@@ -351,7 +352,7 @@ class SessionChangeParametersFactoryTest {
     fun `createSessionChangeParameters returns day separator when session span two days`() {
         val factory = SessionChangeParametersFactory(
             CompleteResourceResolver,
-            SessionPropertiesFormatter(),
+            createSessionPropertiesFormatter(),
             createContentDescriptionFormatter(),
             DateFormatterCallback,
         )
@@ -492,13 +493,17 @@ private fun createChangedEmptySession() = Session(
     changedIsCanceled = false,
 )
 
+private fun createSessionPropertiesFormatter(): SessionPropertiesFormatting {
+    return SessionPropertiesFormatter(mock())
+}
+
 private fun createContentDescriptionFormatter() = mock<ContentDescriptionFormatter> {
     on { getDurationContentDescription(anyOrNull()) } doReturn ""
     on { getTitleContentDescription(anyOrNull()) } doReturn ""
     on { getSubtitleContentDescription(anyOrNull()) } doReturn ""
     on { getRoomNameContentDescription(anyOrNull()) } doReturn ""
     on { getSpeakersContentDescription(anyOrNull(), anyOrNull()) } doReturn ""
-    on { getFormattedTrackContentDescription(anyOrNull(), anyOrNull()) } doReturn ""
+    on { getTrackNameAndLanguageContentDescription(anyOrNull(), anyOrNull()) } doReturn ""
     on { getLanguageContentDescription(anyOrNull()) } doReturn ""
     on { getStartTimeContentDescription(anyOrNull()) } doReturn ""
     on { getStateContentDescription(anyOrNull(), anyOrNull()) } doReturn ""
@@ -518,5 +523,9 @@ private object CompleteResourceResolver : ResourceResolving {
         R.string.dash -> "-"
         R.string.session_list_item_language_removed_content_description -> "Language information has been removed"
         else -> fail("Unknown string id : $id")
+    }
+
+    override fun getQuantityString(id: Int, quantity: Int, vararg formatArgs: Any): String {
+        throw NotImplementedError("Not needed for this test.")
     }
 }

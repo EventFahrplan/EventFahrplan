@@ -1,8 +1,11 @@
 package nerd.tuxmobil.fahrplan.congress.utils
 
 import com.google.common.truth.Truth.assertThat
+import nerd.tuxmobil.fahrplan.congress.R
+import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolving
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.fail
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments.of
 import org.junit.jupiter.params.provider.MethodSource
@@ -10,6 +13,9 @@ import org.junit.jupiter.params.provider.MethodSource
 class SessionPropertiesFormatterTest {
 
     private companion object {
+
+        const val DEFAULT_ENGELSYSTEM_ROOM_NAME = "Engelshifts"
+        const val CUSTOM_ENGELSYSTEM_ROOM_NAME = "Trollshifts"
 
         @JvmStatic
         fun getLanguageTextData() = listOf(
@@ -27,7 +33,17 @@ class SessionPropertiesFormatterTest {
 
     }
 
-    private val formatter = SessionPropertiesFormatter()
+    private val formatter = SessionPropertiesFormatter(CompleteResourceResolver)
+
+    @Test
+    fun `getFormattedSessionId returns an empty string`() {
+        assertThat(formatter.getFormattedSessionId("")).isEmpty()
+    }
+
+    @Test
+    fun `getFormattedSessionId returns formatted session id string`() {
+        assertThat(formatter.getFormattedSessionId("S4223")).isEqualTo("ID: S4223")
+    }
 
     @Test
     fun `getFormattedLinks returns an empty string`() {
@@ -83,21 +99,21 @@ class SessionPropertiesFormatterTest {
     }
 
     @Test
-    fun `getFormattedTrackLanguageText returns track name if language is empty`() {
+    fun `getFormattedTrackNameAndLanguageText returns track name if language is empty`() {
         val session = createSession(track = "Track", language = "")
-        assertThat(formatter.getFormattedTrackLanguageText(session)).isEqualTo("Track")
+        assertThat(formatter.getFormattedTrackNameAndLanguageText(session)).isEqualTo("Track")
     }
 
     @Test
-    fun `getFormattedTrackLanguageText returns track name and language if track and language is not empty`() {
+    fun `getFormattedTrackNameAndLanguageText returns track name and language if track and language is not empty`() {
         val session = createSession(track = "Track", language = "de-formal")
-        assertThat(formatter.getFormattedTrackLanguageText(session)).isEqualTo("Track [de]")
+        assertThat(formatter.getFormattedTrackNameAndLanguageText(session)).isEqualTo("Track [de]")
     }
 
     @Test
-    fun `getFormattedTrackLanguageText returns language if track is empty and language is not empty`() {
+    fun `getFormattedTrackNameAndLanguageText returns language if track is empty and language is not empty`() {
         val session = createSession(track = "", language = "de-formal")
-        assertThat(formatter.getFormattedTrackLanguageText(session)).isEqualTo("[de]")
+        assertThat(formatter.getFormattedTrackNameAndLanguageText(session)).isEqualTo("[de]")
     }
 
     @Test
@@ -113,15 +129,66 @@ class SessionPropertiesFormatterTest {
         assertThat(formatter.getLanguageText(session)).isEqualTo(expected)
     }
 
+    @Test
+    fun `getRoomName returns empty string if room name is empty`() {
+        val session = createSession(roomName = "")
+        assertThat(
+            formatter.getRoomName(
+                roomName = session.roomName,
+                defaultEngelsystemRoomName = DEFAULT_ENGELSYSTEM_ROOM_NAME,
+                customEngelsystemRoomName = CUSTOM_ENGELSYSTEM_ROOM_NAME,
+            )
+        ).isEmpty()
+    }
+
+    @Test
+    fun `getRoomName returns original room name if room name does not match default Engelsystem room name`() {
+        val session = createSession(roomName = "Hall 1")
+        assertThat(
+            formatter.getRoomName(
+                roomName = session.roomName,
+                defaultEngelsystemRoomName = DEFAULT_ENGELSYSTEM_ROOM_NAME,
+                customEngelsystemRoomName = CUSTOM_ENGELSYSTEM_ROOM_NAME,
+            )
+        ).isEqualTo("Hall 1")
+    }
+
+    @Test
+    fun `getRoomName returns custom Engelsystem room name if room name matches default Engelsystem room name`() {
+        val session = createSession(roomName = DEFAULT_ENGELSYSTEM_ROOM_NAME)
+        assertThat(
+            formatter.getRoomName(
+                roomName = session.roomName,
+                defaultEngelsystemRoomName = DEFAULT_ENGELSYSTEM_ROOM_NAME,
+                customEngelsystemRoomName = CUSTOM_ENGELSYSTEM_ROOM_NAME,
+            )
+        ).isEqualTo(CUSTOM_ENGELSYSTEM_ROOM_NAME)
+    }
+
     private fun createSession(
         speakers: List<String> = emptyList(),
         track: String = "",
         language: String = "",
+        roomName: String = "",
     ) = Session(
         sessionId = "",
         speakers = speakers,
         track = track,
         language = language,
+        roomName = roomName,
     )
 
+    private object CompleteResourceResolver : ResourceResolving {
+        override fun getString(id: Int, vararg formatArgs: Any): String {
+            return when (id) {
+                R.string.session_details_session_id -> "ID: ${formatArgs.first()}"
+                else -> fail("Unknown string id : $id")
+            }
+        }
+
+        override fun getQuantityString(id: Int, quantity: Int, vararg formatArgs: Any): Nothing {
+            throw NotImplementedError("Not needed for this test.")
+        }
+
+    }
 }

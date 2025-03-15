@@ -7,11 +7,9 @@
     <color name="colorPrimary">#FB48C4</color>
     <color name="colorPrimaryDark">#CC3BA1</color>
     <color name="colorAccent">#3FFF21</color>
-    <color name="colorActionBar">@color/colorPrimary</color>
     <color name="windowBackground">#1a1a1a</color>
     <color name="text_link_on_light">#32CC1B</color>
     <color name="multi_choice_background">#ffc600</color>
-    <color name="session_background">#ffffff</color>
     <color name="session_details_list_item">@color/colorPrimaryDark</color>
     <color name="session_detailbar_background">@color/colorPrimaryDark</color>
     <color name="session_detailbar_text">#fff</color>

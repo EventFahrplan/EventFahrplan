@@ -14,6 +14,7 @@
     Synchronize with @strings/preference_default_value_schedule_refresh_interval_value
     and @integers/preference_default_value_schedule_refresh_interval_index
     -->
+    <!-- Schedule statistic -->
     <!-- Category general -->
     <!-- Automatic schedule updates -->
     <string name="preference_title_auto_update_enabled">Otomatik güncellemeleri etkinleştir</string>

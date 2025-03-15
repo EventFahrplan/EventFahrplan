@@ -4,7 +4,7 @@
     <string name="menu_item_title_about">Informacje</string>
     <string name="menu_item_title_add_to_calendar">Dodaj do kalendarza</string>
     <string name="menu_item_title_alarms">Przypomnienia</string>
-    <string name="menu_item_title_close_session_details">Zamknij szczegóły wydarzenia</string>
+    <string name="menu_item_title_close_session_details">Zamknij szczegóły sesji</string>
     <string name="menu_item_title_flag_as_favorite">Dodaj do ulubionych</string>
     <string name="menu_item_title_unflag_as_favorite">Usuń z ulubionych</string>
     <string name="menu_item_title_delete_favorite">Usuń</string>
@@ -15,7 +15,7 @@
     <string name="menu_item_title_feedback">Informacja zwrotna</string>
     <string name="menu_item_title_navigate">Przejdź</string>
     <string name="menu_item_title_refresh">Odśwież</string>
-    <string name="menu_item_title_share_session">Udostępnij wydarzenie</string>
+    <string name="menu_item_title_share_session">Udostępnij sesję</string>
     <string name="menu_item_title_share_favorites">Udostępnij ulubione</string>
     <string name="menu_item_title_share_session_text">jako tekst</string>
     <string name="menu_item_title_share_session_json">jako JSON (dla Chaosflix)</string>
@@ -50,8 +50,8 @@
     <!-- Schedule changes dialog -->
     <string name="schedule_changes_dialog_title">Aktualizacja grafiku</string>
     <string name="schedule_changes_dialog_updated_to_text">Zaktualizowano grafik do wersji\u0020</string>
-    <string name="schedule_changes_dialog_changed_new_cancelled_text">. Są zmiany w <xliff:g example="3 wykładach" id="num_changes">%1$s</xliff:g>, <xliff:g example="2 są" id="num_new">%2$s</xliff:g> <xliff:g example="nowe" id="phrase_new">%3$s</xliff:g>, <xliff:g example="1 jest" id="num_canceled">%4$s</xliff:g> <xliff:g example="anulowany" id="phrase_cancelled">%5$s</xliff:g>.</string>
-    <string name="schedule_changes_dialog_affected_text">Zmiany dotyczą <xliff:g example="2" id="num_marked">%1$d</xliff:g> twoich ulubionych wykładów.</string>
+    <string name="schedule_changes_dialog_changed_new_cancelled_text">. Są zmiany w <xliff:g example="3 sessions" id="num_changes">%1$s</xliff:g>, <xliff:g example="2 are" id="num_new">%2$s</xliff:g> <xliff:g example="new" id="phrase_new">%3$s</xliff:g>, <xliff:g example="1 is" id="num_canceled">%4$s</xliff:g> <xliff:g example="cancelled" id="phrase_cancelled">%5$s</xliff:g>.</string>
+    <string name="schedule_changes_dialog_affected_text">Zmiany dotyczą <xliff:g example="2" id="num_marked">%1$d</xliff:g> Twoich sesji oznaczonych jako ulubione.</string>
     <plurals name="schedule_changes_dialog_phrase_new">
         <item quantity="one">nowy</item>
         <item quantity="few">nowe</item>
@@ -65,10 +65,10 @@
         <item quantity="other">anulowanych</item>
     </plurals>
     <plurals name="schedule_changes_dialog_number_of_sessions">
-        <item quantity="one"><xliff:g example="1" id="count">%d</xliff:g> wykładzie</item>
-        <item quantity="few"><xliff:g example="3" id="count">%d</xliff:g> wykładach</item>
-        <item quantity="many"><xliff:g example="12" id="count">%d</xliff:g> wykładach</item>
-        <item quantity="other"><xliff:g example="12" id="count">%d</xliff:g> wykładach</item>
+        <item quantity="one"><xliff:g example="1" id="count">%d</xliff:g> sesja</item>
+        <item quantity="few"><xliff:g example="9" id="count">%d</xliff:g> sesji</item>
+        <item quantity="many"><xliff:g example="9" id="count">%d</xliff:g> sesji</item>
+        <item quantity="other"><xliff:g example="9" id="count">%d</xliff:g> sesji</item>
     </plurals>
     <plurals name="schedule_changes_dialog_being">
         <item quantity="one"><xliff:g example="1" id="count">%d</xliff:g> jest</item>
@@ -78,24 +78,28 @@
     </plurals>
     <string name="schedule_changes_dialog_browse">Przeglądaj</string>
     <string name="schedule_changes_dialog_later">Później</string>
+    <string name="navigate_back_content_description">Wstecz</string>
     <string name="progress_loading_data">Pobierz grafik &#8230;</string>
     <string name="progress_processing_data">Przetwarzanie grafiku &#8230;</string>
     <string name="load_data">Ładowanie</string>
     <string name="choose_day">Wybierz dzień</string>
     <string name="day">Dzień</string>
     <string name="fahrplan">Grafik</string>
+    <string name="schedule_no_schedule_data_title">Brak harmonogramu do wyświetlenia</string>
+    <string name="schedule_no_schedule_data_subtitle">Proszę wrócić później</string>
     <string name="appVersion">Wersja aplikacji <xliff:g example="1.40.2" id="appVersion">%s</xliff:g></string>
     <string name="schedule_updated_to">        Zaktualizowano do <xliff:g example="Mildenberg 2018-01-16 16:50" id="version">%s</xliff:g>
     </string>
     <string name="schedule_updated">        Grafik został zaktualizowany.
     </string>
     <string name="settings">Ustawienia</string>
+    <string name="session_details_screen_name">Szczegóły</string>
     <string name="session_details_section_title_track">Tematyka</string>
     <string name="session_details_section_title_session_online">Wydarzenie online</string>
     <string name="session_details_section_title_links">Odnośniki</string>
     <string name="choose_alarm_time">Wybierz czas przypomnienia</string>
     <string name="reminders">Przypomnienia</string>
-    <string name="usage">Wskazówka:\n\nPrzytrzymaj dłużej na wykładzie aby ustawić przypomnienie.</string>
+    <string name="usage">Wskazówka:\n\nPrzytrzymaj dłużej na sesji, aby ustawić przypomnienie.</string>
     <string name="about_libraries_statement">        Ten program używa następujących bibliotek: <xliff:g example="Kotlin, Espresso" id="libs">%s</xliff:g>
     </string>
     <string name="about_data_privacy_statement_german">Oświadczenie o prywatności danych (w języku niemieckim)</string>
@@ -110,14 +114,16 @@
     <string name="engelsystem_shifts_parsing_error_generic">Nieznany błąd w trakcie parsowania zmian z <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g></string>
     <string name="engelsystem_shifts_parsing_error_forbidden">Błędny klucz API dla zmian w <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g></string>
     <string name="engelsystem_shifts_parsing_error_not_found">Błędny URL dla zmian w <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g></string>
-    <string name="add_to_calendar_failed">Nie udało się dodać wydarzenia do kalendarza.</string>
-    <string name="schedule_changes_no_changes_title">Brak zmian w grafiku</string>
-    <string name="favorites_no_favorites_title">Brak ulubionych wykładów</string>
+    <string name="add_to_calendar_failed">Dodawanie sesji do kalendarza nie powiodło się.</string>
+    <string name="schedule_changes_no_changes_title">Brak zmian harmonogramu</string>
+    <string name="schedule_changes_no_changes_subtitle">Aplikacja okresowo sprawdza dostępność aktualizacji</string>
+    <string name="favorites_no_favorites_title">Brak ulubionych sesji</string>
+    <string name="favorites_no_favorites_subtitle">Dotknij gwiazdki na pasku menu, aby ustawić ulubione</string>
     <string name="schedule_changes">Zmiany grafiku</string>
     <string name="general_settings">Ogólne</string>
     <string name="starred_sessions">Ulubione</string>
     <string name="invalid_url">Błędny URL</string>
-    <string name="choose_to_delete">Wybierz wykłady</string>
+    <string name="choose_to_delete">Wybierz sesje</string>
     <string name="day_separator">Dzień <xliff:g example="2" id="day_of_congress">%1$d</xliff:g> - <xliff:g example="29.12.2014" id="date_of_congress_day">%2$s</xliff:g></string>
     <string name="dlg_delete_all_favorites">Skasować wszystkie ulubione?</string>
     <string name="dlg_delete_all_favorites_delete_all">Skasuj wszystkie</string>
@@ -160,18 +166,18 @@
     <string name="trace_droid_button_title_later">        Może później
     </string>
     <!-- Notifications -->
-    <string name="notifications_session_alarm_channel_description">        Przypomnienia stworzone przez użytkownika dla różnych wydarzeń.
+    <string name="notifications_session_alarm_channel_description">        Przypomienia stworzone przez użytkownika dla różnych sesji.
     </string>
-    <string name="notifications_session_alarm_channel_name">Przypomnienia dla wydarzeń</string>
-    <string name="notifications_session_alarm_content_text">Przypomnienie dla wydarzenia</string>
+    <string name="notifications_session_alarm_channel_name">Przypomnienia sesji</string>
+    <string name="notifications_session_alarm_content_text">Przypomnienie o sesji</string>
     <string name="notifications_schedule_update_channel_description">        Automatyczne aktualizacje grafiku mogą być skonfigurowane w ustawieniach programu.
     </string>
     <string name="notifications_schedule_update_channel_name">Aktualizacje grafiku</string>
     <plurals name="notifications_schedule_changes">
-        <item quantity="one"><xliff:g example="1" id="count">%d</xliff:g> wykład został zmieniony.</item>
-        <item quantity="few"><xliff:g example="3" id="count">%d</xliff:g> wykłady zostały zmienione.</item>
-        <item quantity="many"><xliff:g example="12" id="count">%d</xliff:g> wykładów zostało zmienionych.</item>
-        <item quantity="other"><xliff:g example="12" id="count">%d</xliff:g> wykładów zostało zmienionych.</item>
+        <item quantity="one"><xliff:g example="1" id="count">%d</xliff:g> sesja uległa zmianie.</item>
+        <item quantity="few"><xliff:g example="3" id="count">%d</xliff:g> sesji uległo zmianie.</item>
+        <item quantity="many"><xliff:g example="9" id="count">%d</xliff:g> sesji uległo zmianie.</item>
+        <item quantity="other"><xliff:g example="12" id="count">%d</xliff:g> sesji uległo zmianie.</item>
     </plurals>
     <!-- Schedule refresh interval picker -->
     <!-- Alarm time picker -->
@@ -205,18 +211,19 @@
     <string name="session_list_item_no_video_content_description">Bez nagrania</string>
     <string name="session_list_item_video_content_description">Z nagraniem</string>
     <string name="session_list_item_without_video_content_description">Bez nagrania</string>
+    <string name="session_list_item_zero_speakers_content_description">Brak prelegentów</string>
     <plurals name="session_list_item_speakers_content_description">
         <item quantity="one">Prelegent: <xliff:g example="Jane Doe" id="name">%s</xliff:g></item>
-        <item quantity="few">Kilkoro prelegentów</item>
-        <item quantity="many">Wielu prelegentów</item>
+        <item quantity="few">Prelegenci: <xliff:g example="Jane Doe, John Doe" id="names">%s</xliff:g></item>
+        <item quantity="many">Prelegenci: <xliff:g example="Jane Doe, John Doe" id="names">%s</xliff:g></item>
         <item quantity="other">Prelegenci: <xliff:g example="Jane Doe, John Doe" id="names">%s</xliff:g></item>
     </plurals>
     <!-- Session item -->
     <string name="session_item_has_alarm_content_description">ma ustawiony alarm</string>
     <!-- Alarms -->
-    <string name="alarms_no_alarms_title">        Nie ma żadnych alarmów do wyświetlenia. Pamiętaj, że możesz ustawić
-        pojedynczy alarm dla każdej sesji w programie. Aby tak zrobić,
-        naciśnij ikonkę w pasku menu ekranu danej sesji.
+    <string name="alarms_no_alarms_title">        Nie ustawiono powiadomień
+    </string>
+    <string name="alarms_no_alarms_subtitle">        Naciśnij ikonę dzwonka w menu, aby ustawić przypomnienie
     </string>
     <string name="alarms_item_on_click_label">        Otwórz ekran szczegółów
     </string>
@@ -237,4 +244,28 @@
     </string>
     <string name="validation_error_url_without_api_key">        <xliff:g example="Engelsystem" id="urlType">%s</xliff:g> URL bez klucza API.
     </string>
+    <!-- Schedule statistic -->
+    <string name="schedule_statistic_no_statistic_data_title">Brak dostępnych statystyk harmonogramu</string>
+    <string name="schedule_statistic_title">Statystyki harmonogramu</string>
+    <string name="schedule_statistic_description">Pokazuje rozkład brakujących lub pustych i niepustych pól w tabeli \"sesje\" bazy danych.</string>
+    <string name="schedule_statistic_toggle_sorting">Ustaw sortowanie</string>
+    <string name="schedule_statistic_column_name">Nazwa kolumny</string>
+    <string name="schedule_statistic_null_empty">brak/puste</string>
+    <string name="schedule_statistic_null_empty_content_description">brak lub puste</string>
+    <string name="schedule_statistic_non_empty">niepuste</string>
+    <!-- Search -->
+    <string name="search_title">Wyszukaj</string>
+    <string name="search_no_search_result_title">Nie znaleziono żadnych sesji</string>
+    <string name="search_no_search_result_subtitle">Spróbuj dopracować wyszukiwanie</string>
+    <string name="search_query_hint">Szukaj sesji</string>
+    <string name="search_clear_search_query_content_description">Wyczyść wyszukiwanie</string>
+    <string name="search_history_title">Ostatnie wyszukiwania</string>
+    <string name="search_history_clear">Wyczyść</string>
+    <!-- Room state -->
+    <string name="room_state_text">Status pokoju: <xliff:g example="Too full" id="state">%s</xliff:g></string>
+    <string name="room_state_unknown">nieznany</string>
+    <string name="room_state_empty">pusty</string>
+    <string name="room_state_full">pełny</string>
+    <string name="room_state_too_full">zbyt pełny</string>
+    <string name="room_state_not_retrievable">nie można pobrać</string>
 </resources>

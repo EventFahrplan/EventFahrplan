@@ -31,7 +31,7 @@
         <activity
                 android:name=".details.SessionDetailsActivity"
                 android:configChanges="keyboardHidden|orientation"
-                android:label="@string/fahrplan"
+                android:label="@string/session_details_screen_name"
                 android:uiOptions="splitActionBarWhenNarrow"
                 android:resizeableActivity="true"
                 android:parentActivityName="nerd.tuxmobil.fahrplan.congress.schedule.MainActivity">
@@ -93,6 +93,13 @@
             android:name="nerd.tuxmobil.fahrplan.congress.schedulestatistic.ScheduleStatisticActivity"
             android:theme="@style/Theme.Congress.NoActionBar"
             android:label="@string/schedule_statistic_title"
+            android:resizeableActivity="true" >
+        </activity>
+        <activity
+            android:name="nerd.tuxmobil.fahrplan.congress.search.SearchActivity"
+            android:theme="@style/Theme.Congress.NoActionBar"
+            android:parentActivityName="nerd.tuxmobil.fahrplan.congress.schedule.MainActivity"
+            android:label="@string/search_title"
             android:resizeableActivity="true" >
         </activity>
     </application>

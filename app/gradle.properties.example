@@ -1,14 +1,9 @@
-signing.ccc37c3-release.keystoreFilePath=/home/USERNAME/.android/ccc37c3-release-key.keystore
-signing.ccc37c3-release.keystorePassword="PASSWORD"
-signing.ccc37c3-release.keyAlias="ccc37c3"
-signing.ccc37c3-release.keyPassword="ANOTHERPASSWORD"
-
 signing.cccamp2023-release.keystoreFilePath=/home/USERNAME/.android/cccamp2023-release-key.keystore
 signing.cccamp2023-release.keystorePassword="PASSWORD"
 signing.cccamp2023-release.keyAlias="cccamp2023"
 signing.cccamp2023-release.keyPassword="ANOTHERPASSWORD"
 
-signing.jev2022-release.keystoreFilePath=/home/USERNAME/.android/jev2022-release-key.keystore
-signing.jev2022-release.keystorePassword="PASSWORD"
-signing.jev2022-release.keyAlias=jev2022
-signing.jev2022-release.keyPassword="ANOTHERPASSWORD"
+signing.ccc38c3-release.keystoreFilePath=/home/USERNAME/.android/ccc38c3-release-key.keystore
+signing.ccc38c3-release.keystorePassword="PASSWORD"
+signing.ccc38c3-release.keyAlias="ccc38c3"
+signing.ccc38c3-release.keyPassword="ANOTHERPASSWORD"

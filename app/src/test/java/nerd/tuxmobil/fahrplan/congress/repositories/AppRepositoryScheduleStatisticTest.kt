@@ -53,7 +53,7 @@ class AppRepositoryScheduleStatisticTest {
     }
 
     @Test
-    fun `scheduleStatistic emits empty Meta model`() = runTest {
+    fun `scheduleStatistic emits list of ColumnStatistic items`() = runTest {
         testableAppRepository.updateSessions(emptyList(), emptyList())
         val expected = listOf(
             ColumnStatistic("title", countNone = 100, countPresent = 0),

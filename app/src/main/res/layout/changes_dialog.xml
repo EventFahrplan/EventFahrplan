@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:padding="@dimen/alert_dialog_content_margin"
-              >
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/alert_dialog_content_margin">
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/schedule_changes_dialog_updated_to_text"
         android:id="@+id/schedule_changes_dialog_updated_to_text_view"
-        android:layout_marginBottom="8dp"/>
-
-    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="@string/schedule_changes_dialog_updated_to_text"
         android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/schedule_changes_dialog_body_text" />
+
+    <TextView
+        android:id="@+id/schedule_changes_dialog_changes_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="@string/schedule_changes_dialog_affected_text"
-        android:id="@+id/schedule_changes_dialog_changes_text_view" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/schedule_changes_dialog_body_text" />
 
 </LinearLayout>

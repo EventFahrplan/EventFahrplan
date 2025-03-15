@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
     <!-- Menu items -->
     <string name="menu_item_title_about">Info</string>
@@ -92,6 +92,7 @@
         Der Fahrplan wurde aktualisiert.
     </string>
     <string name="settings">Einstellungen</string>
+    <string name="session_details_screen_name">Details</string>
     <string name="session_details_section_title_track">Themenfeld</string>
     <string name="session_details_section_title_session_online">Event online</string>
     <string name="session_details_section_title_links">Links</string>
@@ -230,8 +231,8 @@
     <string name="session_list_item_no_video_content_description">Ohne Videoaufzeichnung</string>
     <string name="session_list_item_video_content_description">Mit Videoaufzeichnung</string>
     <string name="session_list_item_without_video_content_description">Ohne Videoaufzeichnung</string>
-    <plurals name="session_list_item_speakers_content_description" tools:ignore="UnusedQuantity">
-        <item quantity="zero">Keine Sprecher innen</item>
+    <string name="session_list_item_zero_speakers_content_description">Keine Sprecher innen</string>
+    <plurals name="session_list_item_speakers_content_description">
         <item quantity="one">Sprecher in: <xliff:g example="Jane Doe" id="name">%s</xliff:g></item>
         <item quantity="other">Sprecher innen: <xliff:g example="Jane Doe, John Doe" id="names">%s</xliff:g></item>
     </plurals>
@@ -285,5 +286,22 @@
     <string name="schedule_statistic_null_empty">null/leer</string>
     <string name="schedule_statistic_null_empty_content_description">null oder leer</string>
     <string name="schedule_statistic_non_empty">nicht leer</string>
+
+    <!-- Search -->
+    <string name="search_title">Suche</string>
+    <string name="search_no_search_result_title">Keine Beiträge gefunden</string>
+    <string name="search_no_search_result_subtitle">Versuche, deinen Suchbegriff zu ändern</string>
+    <string name="search_query_hint">Suche nach Beiträgen</string>
+    <string name="search_clear_search_query_content_description">Suchbegriff löschen</string>
+    <string name="search_history_title">Letzte Suchen</string>
+    <string name="search_history_clear">Löschen</string>
+
+    <!-- Room state -->
+    <string name="room_state_text">Raumstatus: <xliff:g example="Too full" id="state">%s</xliff:g></string>
+    <string name="room_state_unknown">unbekannt</string>
+    <string name="room_state_empty">leer</string>
+    <string name="room_state_full">voll</string>
+    <string name="room_state_too_full">zu voll</string>
+    <string name="room_state_not_retrievable">nicht abrufbar</string>
 
 </resources>

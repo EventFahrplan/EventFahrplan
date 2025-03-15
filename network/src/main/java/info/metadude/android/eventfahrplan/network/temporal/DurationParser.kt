@@ -18,7 +18,7 @@ object DurationParser {
                 minutesString = parts[2]
             )
 
-            else -> error("Unknown duration format: $durationString")
+            else -> throw UnknownDurationFormatException(durationString)
         }
     }
 
@@ -44,3 +44,7 @@ object DurationParser {
             .toInt()
     }
 }
+
+private class UnknownDurationFormatException(durationString: String) : IllegalStateException(
+    """Unknown duration format: "$durationString"."""
+)
