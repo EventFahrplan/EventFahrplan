@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Grazer Linuxtage Programm</string>
-    <string name="app_hardcoded_subtitle">05.-06. April 2024, TU Graz</string>
+    <string name="app_hardcoded_subtitle">25.-26. April 2025, TU Graz</string>
     <string name="copyright_logo"></string>
     <string name="about_logo_content_description"></string>
 </resources>
