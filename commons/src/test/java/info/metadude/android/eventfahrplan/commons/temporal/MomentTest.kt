@@ -204,6 +204,12 @@ class MomentTest {
     }
 
     @Test
+    fun isEpoch() {
+        val moment = Moment.ofEpochMilli(0)
+        assertThat(moment.isEpoch()).isTrue()
+    }
+
+    @Test
     fun minutesUntil() {
         val momentOne = Moment.now()
         val momentTwo = momentOne.plusMinutes(1)
@@ -247,6 +253,12 @@ class MomentTest {
 
         val momentTwo = Moment.ofEpochMilli(MILLISECONDS_OF_ONE_DAY).plusDays(-1)
         assertThat(momentTwo.toMilliseconds()).isEqualTo(0)
+    }
+
+    @Test
+    fun plusDuration() {
+        val momentOne = Moment.ofEpochMilli(0).plusDuration(Duration.ofMilliseconds(MILLISECONDS_OF_ONE_HOUR))
+        assertThat(momentOne.toMilliseconds()).isEqualTo(MILLISECONDS_OF_ONE_HOUR)
     }
 
     @Test

@@ -28,6 +28,9 @@ android {
 
         vectorDrawables.useSupportLibrary = true // allows using fillColor, fillType, strokeColor functionalities below Android 7.0 (API 24)
 
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunnerArguments runnerBuilder: "de.mannodermaus.junit5.AndroidJUnit5Builder"
+
         // Build information
         resValue("string", "build_time", "\"${buildTime()}\"")
         resValue("string", "git_sha", "\"${gitSha()}\"")
@@ -133,6 +136,16 @@ android {
                 "-opt-in=kotlin.RequiresOptIn"
         ]
     }
+
+    packagingOptions {
+        resources {
+            excludes += [
+                    "META-INF/LICENSE.md",
+                    "META-INF/LICENSE-notice.md",
+            ]
+        }
+    }
+
 }
 
 unMock {
@@ -207,6 +220,12 @@ dependencies {
     testImplementation Libs.turbine
 
     unmock Libs.robolectric
+
+    androidTestImplementation Libs.androidTestCore
+    androidTestRuntimeOnly Libs.androidTestRunner
+    androidTestImplementation Libs.junitJupiterApi
+    androidTestImplementation Libs.junitJupiterParams
+    androidTestImplementation Libs.truth
 }
 
 def gitSha() {

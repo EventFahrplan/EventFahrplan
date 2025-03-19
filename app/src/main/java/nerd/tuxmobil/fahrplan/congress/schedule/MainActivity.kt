@@ -123,7 +123,7 @@ class MainActivity : BaseActivity(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         instance = this
-        setContentView(R.layout.main_layout)
+        setContentView(R.layout.main)
         addMenuProvider(this, this, RESUMED)
 
         notificationHelper = NotificationHelper(this)

@@ -22,6 +22,14 @@ interface SharedPreferencesRepository {
     fun getScheduleLastFetchedAt(): Long
     fun setScheduleLastFetchedAt(fetchedAt: Long)
 
+    fun getScheduleNextFetchAt(): Long
+    fun setScheduleNextFetchAt(fetchAt: Long)
+    fun resetScheduleNextFetchAt()
+
+    fun getScheduleNextFetchInterval(): Long
+    fun setScheduleNextFetchInterval(interval: Long)
+    fun resetScheduleNextFetchInterval()
+
     fun getChangesSeen(): Boolean
     fun setChangesSeen(changesSeen: Boolean)
 
