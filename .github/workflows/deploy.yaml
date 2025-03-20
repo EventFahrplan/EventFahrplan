@@ -17,7 +17,7 @@ jobs:
           distribution: 'adopt'
           java-version: '17'
       - name: Build
-        run: ./gradlew assemble
+        run: ./gradlew assembleGlt22Release
 
       - name: Assemble Release Bundle
         run: |
@@ -28,6 +28,17 @@ jobs:
         id: sign_app
         with:
           releaseDirectory: app/build/outputs/bundle/glt22Release
+          signingKeyBase64: ${{ secrets.KEYSTORE }}
+          alias: ${{ secrets.KEY_ALIAS }}
+          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+          keyPassword: ${{ secrets.KEY_PASSWORD }}
+
+      - name: Sign APK
+        uses: r0adkll/sign-android-release@v1
+        # ID used to access action output
+        id: sign_apk
+        with:
+          releaseDirectory: app/build/outputs/apk/glt22/release
           signingKeyBase64: ${{ secrets.KEYSTORE }}
           alias: ${{ secrets.KEY_ALIAS }}
           keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
@@ -51,3 +62,10 @@ jobs:
           releaseFiles: ${{steps.sign_app.outputs.signedReleaseFile}}
           track: production
 
+      - name: Upload binaries to release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          file: ${{steps.sign_apk.outputs.signedReleaseFile}}
+          asset_name: GLT_app.apk
+          tag: ${{ github.ref }}
+          overwrite: true
