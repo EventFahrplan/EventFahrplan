@@ -14,7 +14,6 @@
      limitations under the License.
 -->
 <resources>
-    <item type="integer" name="box_height">18</item>
     <item type="integer" name="max_cols">4</item>
     <dimen name="list_pane_leftright_padding">64dp</dimen>
     <dimen name="header_height">16dp</dimen>

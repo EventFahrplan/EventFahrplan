@@ -14,7 +14,6 @@
      limitations under the License.
 -->
 <resources>
-    <item type="integer" name="box_height">13</item>
 
     <!-- Session details text sizes -->
     <dimen name="session_detailbar_text">14sp</dimen>

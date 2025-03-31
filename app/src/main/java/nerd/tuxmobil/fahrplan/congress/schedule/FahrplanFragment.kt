@@ -527,7 +527,7 @@ class FahrplanFragment : Fragment(), MenuProvider, SessionViewEventsHandler {
         }
 
     private fun getNormalizedBoxHeight(): Int {
-        return (resources.getInteger(R.integer.box_height) * displayDensityScale).toInt()
+        return resources.getDimension(R.dimen.schedule_time_column_box_height).toInt()
     }
 
     override fun onClick(view: View) {

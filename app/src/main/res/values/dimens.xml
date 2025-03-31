@@ -13,7 +13,6 @@
      limitations under the License.
 -->
 <resources>
-    <item name="box_height" type="integer">13</item>
     <item name="max_cols" type="integer">1</item>
     <item name="min_width_dip" type="integer">160</item>
     <item name="room_title_size" type="integer">14</item>
@@ -100,5 +99,6 @@
     <dimen name="schedule_time_column_layout_width">38dp</dimen>
     <dimen name="schedule_time_column_padding">3dp</dimen>
     <dimen name="schedule_time_column_text_size">11sp</dimen>
+    <dimen name="schedule_time_column_box_height">19dp</dimen> <!-- 56/3 -->
 
 </resources>
