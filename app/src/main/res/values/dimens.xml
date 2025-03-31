@@ -96,6 +96,7 @@
     <dimen name="empty_screen_padding">16dp</dimen>
 
     <!-- Schedule screen -->
+    <dimen name="schedule_horizontal_time_line_height">1dp</dimen>
     <dimen name="schedule_time_column_layout_width">38dp</dimen>
     <dimen name="schedule_time_column_padding">3dp</dimen>
     <dimen name="schedule_time_column_text_size">11sp</dimen>

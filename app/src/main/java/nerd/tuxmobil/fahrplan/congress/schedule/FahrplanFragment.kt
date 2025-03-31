@@ -18,6 +18,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.view.View.IMPORTANT_FOR_ACCESSIBILITY_NO
 import android.view.View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS
 import android.view.ViewGroup
 import android.view.ViewTreeObserver.OnScrollChangedListener
@@ -502,10 +503,16 @@ class FahrplanFragment : Fragment(), MenuProvider, SessionViewEventsHandler {
         val timeTextColumn = requireView().requireViewByIdCompat<LinearLayout>(R.id.times_layout)
         timeTextColumn.importantForAccessibility = IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS
         timeTextColumn.removeAllViews()
+        val timeLinesLayout = requireView().requireViewByIdCompat<LinearLayout>(R.id.schedule_horizontal_times_lines_layout)
+        timeLinesLayout.importantForAccessibility = IMPORTANT_FOR_ACCESSIBILITY_NO
+        timeLinesLayout.removeAllViews()
         var timeTextView: View
+        var timeLineView: View
         for ((height, titleText, isNow) in parameters) {
             timeTextView = inflater.inflate(R.layout.schedule_time_column_time_text, null)
             timeTextColumn.addView(timeTextView, MATCH_PARENT, height)
+            timeLineView = inflater.inflate(R.layout.schedule_horizontal_time_line, null)
+            timeLinesLayout.addView(timeLineView, MATCH_PARENT, height)
             val textColorRes = if (isNow) R.color.schedule_time_column_item_text_emphasized else R.color.schedule_time_column_item_text_normal
             val textColor = ContextCompat.getColor(timeTextView.context, textColorRes)
             timeTextView.requireViewByIdCompat<TextView>(R.id.schedule_time_column_time_text_view).apply {
