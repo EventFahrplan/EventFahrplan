@@ -13,7 +13,6 @@
      limitations under the License.
 -->
 <resources>
-    <item name="box_height" type="integer">13</item>
     <item name="max_cols" type="integer">1</item>
     <item name="min_width_dip" type="integer">160</item>
     <item name="room_title_size" type="integer">14</item>
@@ -57,15 +56,20 @@
     <dimen name="about_text">14sp</dimen>
 
     <!-- Session drawable parameters -->
+    <dimen name="session_drawable_inner_padding">8dp</dimen>
     <dimen name="session_drawable_corner_radius">6dp</dimen>
     <dimen name="session_drawable_inset_top">1dp</dimen>
-    <dimen name="session_drawable_inset_left">3dp</dimen>
-    <dimen name="session_drawable_inset_right">1dp</dimen>
+    <dimen name="session_drawable_inset_bottom">0dp</dimen>
+    <dimen name="session_drawable_inset_start">3dp</dimen>
+    <dimen name="session_drawable_inset_end">1dp</dimen>
     <dimen name="session_drawable_selection_stroke_width">2dp</dimen>
     <dimen name="session_drawable_title">16sp</dimen>
-    <dimen name="session_drawable_subtitle">13sp</dimen>
+    <dimen name="session_drawable_subtitle">12sp</dimen>
     <dimen name="session_drawable_speakers">12sp</dimen>
-    <dimen name="session_drawable_track">12sp</dimen>
+    <dimen name="session_drawable_languages">12sp</dimen>
+    <dimen name="session_drawable_track">11sp</dimen>
+    <dimen name="session_drawable_icon_padding">3dp</dimen>
+    <dimen name="session_drawable_icon_size">22sp</dimen>
 
     <!-- Alert dialogs -->
     <!-- See: https://www.google.de/design/spec/components/dialogs.html#dialogs-specs -->
@@ -97,8 +101,10 @@
     <dimen name="empty_screen_padding">16dp</dimen>
 
     <!-- Schedule screen -->
+    <dimen name="schedule_horizontal_time_line_height">1dp</dimen>
     <dimen name="schedule_time_column_layout_width">38dp</dimen>
     <dimen name="schedule_time_column_padding">3dp</dimen>
     <dimen name="schedule_time_column_text_size">11sp</dimen>
+    <dimen name="schedule_time_column_box_height">19dp</dimen> <!-- 56/3 -->
 
 </resources>

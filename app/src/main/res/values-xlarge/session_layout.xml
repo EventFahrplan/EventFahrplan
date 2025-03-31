@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <item type="layout" name="session_layout">
-        @layout/session_layout_land_large
-    </item>
-
-</resources>
