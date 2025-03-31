@@ -503,7 +503,6 @@ private fun createContentDescriptionFormatter() = mock<ContentDescriptionFormatt
     on { getSubtitleContentDescription(anyOrNull()) } doReturn ""
     on { getRoomNameContentDescription(anyOrNull()) } doReturn ""
     on { getSpeakersContentDescription(anyOrNull(), anyOrNull()) } doReturn ""
-    on { getTrackNameAndLanguageContentDescription(anyOrNull(), anyOrNull()) } doReturn ""
     on { getLanguageContentDescription(anyOrNull()) } doReturn ""
     on { getStartTimeContentDescription(anyOrNull()) } doReturn ""
     on { getStateContentDescription(anyOrNull(), anyOrNull()) } doReturn ""

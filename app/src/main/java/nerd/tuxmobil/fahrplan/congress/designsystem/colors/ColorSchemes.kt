@@ -13,8 +13,10 @@ internal fun darkColorScheme() = androidx.compose.material3.darkColorScheme(
     surface = colorResource(android.R.color.transparent), // used by ListItem background
     onSurface = colorResource(R.color.text_primary), // used by ListItem -> headlineContent
     onSurfaceVariant = colorResource(R.color.text_secondary), // used by SearchBarDefaults.InputField placeholder, ListItem -> overlineContent
+    inverseOnSurface = colorResource(R.color.session_item_text_on_highlight_background), // used by SessionCard
     outline = colorResource(R.color.colorAccent), // used by SearchBarDefaults.InputField divider
     outlineVariant = colorResource(R.color.outline_variant), // used by HorizontalDivider
+    surfaceContainer = colorResource(R.color.colorPrimaryDark), // used by DropdownMenu
     surfaceContainerHigh = colorResource(android.R.color.transparent), // used by SearchBarDefaults.InputField container background
 )
 
@@ -26,8 +28,10 @@ internal fun lightColorScheme() = androidx.compose.material3.lightColorScheme(
     surface = colorResource(android.R.color.transparent),
     onSurface = colorResource(R.color.text_primary_inverted),
     onSurfaceVariant = colorResource(R.color.text_secondary_inverted),
+    inverseOnSurface = colorResource(R.color.session_item_text_on_highlight_background),
     outline = colorResource(R.color.colorAccent),
     outlineVariant = colorResource(R.color.outline_variant),
+    surfaceContainer = colorResource(R.color.colorPrimaryDark),
     surfaceContainerHigh = colorResource(android.R.color.transparent),
 )
 

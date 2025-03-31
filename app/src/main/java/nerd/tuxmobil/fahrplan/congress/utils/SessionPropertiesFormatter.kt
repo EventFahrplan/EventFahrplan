@@ -35,20 +35,7 @@ class SessionPropertiesFormatter(
     }
 
     override fun getFormattedSpeakers(session: Session) =
-        session.speakers.joinToString(", ")
-
-    override fun getFormattedTrackNameAndLanguageText(session: Session) =
-        buildString {
-            append(session.track)
-            if (session.track.isNotEmpty() && session.language.isNotEmpty()) {
-                append(" ")
-            }
-            if (session.language.isNotEmpty()) {
-                append("[")
-                append(getLanguageText(session))
-                append("]")
-            }
-        }
+        if (session.speakers.isEmpty()) "" else session.speakers.joinToString(", ")
 
     override fun getLanguageText(session: Session) =
         if (session.language.isEmpty()) {

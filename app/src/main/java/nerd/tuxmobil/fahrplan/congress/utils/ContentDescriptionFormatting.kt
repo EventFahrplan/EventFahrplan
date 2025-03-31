@@ -18,8 +18,6 @@ interface ContentDescriptionFormatting {
 
     fun getTrackNameContentDescription(trackName: String): String
 
-    fun getTrackNameAndLanguageContentDescription(trackName: String, languageCode: String): String
-
     fun getLanguageContentDescription(languageCode: String): String
 
     fun getStartTimeContentDescription(startTimeText: String): String

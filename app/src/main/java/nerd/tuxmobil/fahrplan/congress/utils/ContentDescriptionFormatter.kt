@@ -47,15 +47,6 @@ class ContentDescriptionFormatter(val resourceResolving: ResourceResolving) : Co
         )
     }
 
-    override fun getTrackNameAndLanguageContentDescription(trackName: String, languageCode: String) =
-        buildString {
-            append(getTrackNameContentDescription(trackName))
-            if (languageCode.isNotEmpty()) {
-                append("; ")
-                append(getLanguageContentDescription(languageCode))
-            }
-        }
-
     override fun getLanguageContentDescription(languageCode: String): String {
         if (languageCode.isEmpty()) {
             return resourceResolving.getString(R.string.session_list_item_language_unknown_content_description)

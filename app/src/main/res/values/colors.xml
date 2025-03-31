@@ -50,9 +50,11 @@
     <color name="schedule_room_name_header_background">#000</color>
     <color name="schedule_room_name_header_text">#fff</color>
     <color name="session_item_alarm_icon">#fff</color>
-    <color name="session_item_text_on_default_background">#a0ffffff</color>
+    <color name="session_item_text_on_default_background">#dbffffff</color>
     <color name="session_item_text_on_highlight_background">#fff</color>
     <color name="session_item_video_without_recording_took_place">#656565</color>
+    <color name="session_item_track_name_text">#db000000</color>
+    <color name="session_item_track_name_background">#99ffffff</color>
 
     <!-- Schedule changes dialog -->
     <color name="schedule_changes_dialog_body_text">@color/text_secondary</color>

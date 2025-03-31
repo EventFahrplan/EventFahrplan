@@ -56,15 +56,20 @@
     <dimen name="about_text">14sp</dimen>
 
     <!-- Session drawable parameters -->
+    <dimen name="session_drawable_inner_padding">8dp</dimen>
     <dimen name="session_drawable_corner_radius">6dp</dimen>
     <dimen name="session_drawable_inset_top">1dp</dimen>
-    <dimen name="session_drawable_inset_left">3dp</dimen>
-    <dimen name="session_drawable_inset_right">1dp</dimen>
+    <dimen name="session_drawable_inset_bottom">0dp</dimen>
+    <dimen name="session_drawable_inset_start">3dp</dimen>
+    <dimen name="session_drawable_inset_end">1dp</dimen>
     <dimen name="session_drawable_selection_stroke_width">2dp</dimen>
     <dimen name="session_drawable_title">16sp</dimen>
-    <dimen name="session_drawable_subtitle">13sp</dimen>
+    <dimen name="session_drawable_subtitle">12sp</dimen>
     <dimen name="session_drawable_speakers">12sp</dimen>
-    <dimen name="session_drawable_track">12sp</dimen>
+    <dimen name="session_drawable_languages">12sp</dimen>
+    <dimen name="session_drawable_track">11sp</dimen>
+    <dimen name="session_drawable_icon_padding">3dp</dimen>
+    <dimen name="session_drawable_icon_size">22sp</dimen>
 
     <!-- Alert dialogs -->
     <!-- See: https://www.google.de/design/spec/components/dialogs.html#dialogs-specs -->

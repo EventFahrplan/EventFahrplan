@@ -13,11 +13,12 @@ fun IconDecorative(
     @DrawableRes icon: Int,
     modifier: Modifier = Modifier,
     tint: Color = LocalContentColor.current,
+    contentDescription: String? = null,
 ) {
     Material3Icon(
         modifier = modifier,
         painter = painterResource(icon),
         tint = tint,
-        contentDescription = null
+        contentDescription = contentDescription,
     )
 }
