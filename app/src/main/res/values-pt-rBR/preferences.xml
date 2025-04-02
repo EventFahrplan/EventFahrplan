@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Screen -->
     <!-- Category development -->
     <!-- Schedule refresh interval -->
@@ -21,6 +21,25 @@
     <!-- Automatic schedule updates -->
     <string name="preference_title_auto_update_enabled">Ativar atualizações automáticas</string>
     <string name="preference_summary_auto_update_enabled">Baixa o cronograma periodicamente.</string>
+    <string name="preference_summary_auto_update_next_fetch_approximately_at">        Próxima atualização aproximadamente em: <xliff:g example="2/26/25 13:00" id="nextFetchAt">%1$s</xliff:g>
+        (<xliff:g example="every 1.5 hours" id="interval">%2$s</xliff:g>)
+    </string>
+    <plurals name="preference_summary_auto_update_interval_days">
+        <item quantity="one">todos os dias</item>
+        <item quantity="other">a cada <xliff:g example="5" id="days">%s</xliff:g> dias</item>
+    </plurals>
+    <plurals name="preference_summary_auto_update_interval_hours">
+        <item quantity="one">a cada hora</item>
+        <item quantity="other">a cada <xliff:g example="5" id="days">%s</xliff:g> horas</item>
+    </plurals>
+    <plurals name="preference_summary_auto_update_interval_minutes">
+        <item quantity="one">a cada minuto</item>
+        <item quantity="other">a cada <xliff:g example="5" id="minutes">%s</xliff:g> minutos</item>
+    </plurals>
+    <plurals name="preference_summary_auto_update_interval_seconds">
+        <item quantity="one">a cada segundo</item>
+        <item quantity="other">a cada <xliff:g example="5" id="seconds">%s</xliff:g> segundos</item>
+    </plurals>
     <!-- Alarm time index -->
     <!--
     Synchronize with @strings/preference_default_value_alarm_time_value
