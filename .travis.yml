@@ -82,14 +82,27 @@ before_script:
   # Ensure signing configuration is present
   - mv app/gradle.properties.example app/gradle.properties
 
+  # Prevent build failures due to directories being altered illegally by the cache..
+  - sudo rm -rf /home/travis/.gradle/caches/transforms-*
+
   # Reduce memory usage / avoid OutOfMemoryError with Gradle 4.10.3
   - echo "org.gradle.jvmargs=-Xmx2048m -Xms512m -XX:MaxMetaspaceSize=768m" >> gradle.properties
 
   # Enable Gradle's build cache. To be disabled for an Android RELEASE build.
   - echo "org.gradle.caching=true" >> $HOME/.gradle/gradle.properties
 
-script:
-  # Prevent build failures due to directories being altered illegally by the cache..
-  - sudo rm -rf /home/travis/.gradle/caches/transforms-*
+  # Improve Gradle build performance
+  - echo "org.gradle.parallel=true" >> $HOME/.gradle/gradle.properties
 
-  - ./gradlew testDebugUnitTest :engelsystem:test testCcc38c3DebugUnitTest assembleCcc38c3Debug
+jobs:
+  include:
+    - stage: test
+      name: "Unit tests"
+      script: ./gradlew testDebugUnitTest :engelsystem:test testCcc38c3DebugUnitTest
+    - stage: build
+      name: "Debug build"
+      script: ./gradlew assembleCcc38c3Debug
+
+stages:
+  - test
+  - build
