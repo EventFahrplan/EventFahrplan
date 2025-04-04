@@ -30,6 +30,7 @@ dependencies {
     implementation project(":commons")
 
     implementation Libs.annotation
+    implementation Libs.coreKtx
     implementation Libs.okhttp
 
     testImplementation Libs.junitJupiterApi
