@@ -14,7 +14,7 @@ The app is available for Android devices.
 Bug reports, feature requests can be submitted as an [issue][issues-github].
 Please read the instructions in the [contribution guide](CONTRIBUTING.md) in order to contribute to this project.
 
-![Picture of the Camp2023 Schedule on tablet and phone](gfx/EventFahrplan-Camp2023-tablet-phone.png)
+![Picture of the 38C3 Schedule on tablet and phone](gfx/EventFahrplan-38C3-tablet-phone.png)
 
 ## Table of contents
 
