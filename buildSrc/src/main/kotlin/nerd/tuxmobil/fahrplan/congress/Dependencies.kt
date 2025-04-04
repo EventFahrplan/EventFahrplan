@@ -18,7 +18,7 @@ object Android {
 object Compose {
 
     private object Versions {
-        const val bom = "2025.03.00"
+        const val bom = "2025.03.01"
     }
 
     const val bom = "androidx.compose:compose-bom:${Versions.bom}"
@@ -31,10 +31,10 @@ object Compose {
 object Plugins {
 
     private object Versions {
-        const val android = "8.9.0"
+        const val android = "8.9.1"
         const val dexcount = "4.0.0"
-        const val kotlin = "2.1.10"
-        const val ksp = "2.1.10-1.0.31"
+        const val kotlin = "2.1.20"
+        const val ksp = "2.1.20-1.0.32"
         const val sonarQube = "5.1.0.4882" // Breaks CI build as of 6.x. See https://community.sonarsource.com/t/sonarqube-gradle-plugin-6-0-breaks-android-tasks/130863
         const val unMock = "0.9.0"
         const val versions = "0.52.0"
@@ -68,9 +68,9 @@ object Libs {
         const val junitJupiter = "5.11.4"
         const val kotlinCoroutines = "1.10.1"
         const val lifecycle = "2.8.7"
-        const val markdownRenderer = "0.31.0"
+        const val markdownRenderer = "0.32.0"
         const val material = "1.12.0"
-        const val mockito = "5.16.0"
+        const val mockito = "5.17.0"
         const val mockitoKotlin = "5.4.0"
         const val moshi = "1.15.2"
         const val okhttp = "4.12.0"
