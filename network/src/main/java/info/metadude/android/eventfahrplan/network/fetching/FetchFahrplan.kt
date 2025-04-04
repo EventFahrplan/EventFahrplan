@@ -1,6 +1,5 @@
 package info.metadude.android.eventfahrplan.network.fetching
 
-import android.net.Uri
 import android.os.AsyncTask
 import android.os.Build
 
@@ -17,6 +16,7 @@ import info.metadude.android.eventfahrplan.network.models.HttpHeader
 
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import androidx.core.net.toUri
 
 internal class FetchFahrplan(private val logging: Logging) {
 
@@ -79,7 +79,7 @@ internal class FetchFahrplanTask(
         val url = args[0]!!
         val eTag = args[1]!!
         val lastModified = args[2]!!
-        host = Uri.parse(url).host ?: throw MissingHostException(url)
+        host = url.toUri().host ?: throw MissingHostException(url)
         return fetch(url, eTag, lastModified)
     }
 

@@ -1,5 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress.preferences
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
@@ -143,6 +144,7 @@ class RealSharedPreferencesRepository(val context: Context) : SharedPreferencesR
     override fun getSelectedSessionId() =
         preferences.getString(SELECTED_SESSION_ID_KEY, "")!!
 
+    @SuppressLint("UseKtx")
     override fun setSelectedSessionId(sessionId: String): Boolean = preferences.edit()
         .putString(SELECTED_SESSION_ID_KEY, sessionId)
         .commit()
