@@ -20,7 +20,6 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices
 import nerd.tuxmobil.fahrplan.congress.alarms.SessionAlarmViewModelDelegate
-import nerd.tuxmobil.fahrplan.congress.models.Alarm
 import nerd.tuxmobil.fahrplan.congress.models.ConferenceTimeFrame
 import nerd.tuxmobil.fahrplan.congress.models.ConferenceTimeFrame.Known
 import nerd.tuxmobil.fahrplan.congress.models.ConferenceTimeFrame.Unknown
@@ -76,12 +75,10 @@ internal class FahrplanViewModel(
     val fahrplanParameter = combine(
         repository.uncanceledSessionsForDayIndex.filter { it.allSessions.isNotEmpty() },
         repository.sessionsWithoutShifts.filterNotNull(),
-        repository.alarms.filterNotNull()
-    ) { scheduleDataForDayIndex, allSessionsForAllDaysWithoutShifts, alarms ->
+    ) { scheduleDataForDayIndex, allSessionsForAllDaysWithoutShifts ->
         createFahrplanParameter(
             scheduleData = scheduleDataForDayIndex.customizeEngelsystemRoomName(),
             allSessionsForAllDaysWithoutShifts = allSessionsForAllDaysWithoutShifts,
-            alarms = alarms
         )
     }
 
@@ -207,7 +204,6 @@ internal class FahrplanViewModel(
     private fun createFahrplanParameter(
         scheduleData: ScheduleData,
         allSessionsForAllDaysWithoutShifts: List<Session>,
-        alarms: List<Alarm>
     ): FahrplanParameter {
         val dayIndex = repository.readDisplayDayIndex()
         val numDays = repository.readMeta().numDays
@@ -221,9 +217,8 @@ internal class FahrplanViewModel(
         }
         val useDeviceTimeZone = repository.readUseDeviceTimeZoneEnabled()
 
-        val scheduleDataWithAlarmFlags = createScheduleDataWithAlarmFlags(scheduleData, alarms)
         return FahrplanParameter(
-            scheduleData = scheduleDataWithAlarmFlags,
+            scheduleData = scheduleData,
             useDeviceTimeZone = useDeviceTimeZone,
             numDays = numDays,
             dayIndex = dayIndex,
@@ -232,17 +227,6 @@ internal class FahrplanViewModel(
             logging.d(LOG_TAG, "Loaded ${it.scheduleData.allSessions.size} uncanceled sessions.")
         }
     }
-
-    private fun createScheduleDataWithAlarmFlags(scheduleData: ScheduleData, alarms: List<Alarm>) =
-        scheduleData.copy(roomDataList = scheduleData.roomDataList.map { roomData ->
-            roomData.copy(sessions = roomData.sessions.map { session ->
-                session.copy(
-                    hasAlarm = alarms.any { alarm ->
-                        alarm.sessionId == session.sessionId
-                    }
-                )
-            })
-        })
 
     /**
      * Requests loading the schedule from the [AppRepository] to update the UI. UI components must

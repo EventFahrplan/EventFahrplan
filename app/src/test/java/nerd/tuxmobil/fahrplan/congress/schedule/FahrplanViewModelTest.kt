@@ -14,7 +14,6 @@ import kotlinx.coroutines.test.runTest
 import nerd.tuxmobil.fahrplan.congress.NoLogging
 import nerd.tuxmobil.fahrplan.congress.TestExecutionContext
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices
-import nerd.tuxmobil.fahrplan.congress.models.Alarm
 import nerd.tuxmobil.fahrplan.congress.models.ConferenceTimeFrame.Known
 import nerd.tuxmobil.fahrplan.congress.models.ConferenceTimeFrame.Unknown
 import nerd.tuxmobil.fahrplan.congress.models.DateInfo
@@ -255,19 +254,18 @@ class FahrplanViewModelTest {
         }
 
         @Test
-        fun `fahrplanParameter property emits FahrplanParameter containing session with alarm flag`() =
+        fun `fahrplanParameter property emits FahrplanParameter containing session with hasAlarm and isHighlight flags being set`() =
             runTest {
                 val repository = createRepository(
-                    uncanceledSessionsForDayIndexFlow = flowOf(createScheduleData("session-01")),
+                    uncanceledSessionsForDayIndexFlow = flowOf(createScheduleData("session-01", hasAlarm = true, isHighlight = true)),
                     sessionsWithoutShiftsFlow = flowOf(listOf(Session("not relevant"))),
                     meta = Meta(numDays = 1),
-                    alarmsFlow = flowOf(listOf(createAlarm("session-01"))),
                     displayDayIndex = 2
                 )
                 val menuEntriesGenerator = mock<NavigationMenuEntriesGenerator>()
                 val viewModel = createViewModel(repository, navigationMenuEntriesGenerator = menuEntriesGenerator)
                 val expected = FahrplanParameter(
-                    scheduleData = createScheduleData("session-01", hasAlarm = true),
+                    scheduleData = createScheduleData("session-01", hasAlarm = true, isHighlight = true),
                     useDeviceTimeZone = false,
                     numDays = 1,
                     dayIndex = 2,
@@ -677,7 +675,6 @@ class FahrplanViewModelTest {
         sessionsWithoutShiftsFlow: Flow<List<Session>> = emptyFlow(),
         loadUncanceledSessionsForDayIndex: ScheduleData = mock(),
         loadScheduleStateFlow: Flow<LoadScheduleState> = emptyFlow(),
-        alarmsFlow: Flow<List<Alarm>> = flowOf(emptyList()),
         meta: Meta = Meta(numDays = 0, version = "test-version"),
         isAutoUpdateEnabled: Boolean = true,
         displayDayIndex: Int = 0,
@@ -688,15 +685,14 @@ class FahrplanViewModelTest {
         on { sessionsWithoutShifts } doReturn sessionsWithoutShiftsFlow
         on { loadUncanceledSessionsForDayIndex() } doReturn loadUncanceledSessionsForDayIndex
         on { loadScheduleState } doReturn loadScheduleStateFlow
-        on { alarms } doReturn alarmsFlow
         on { readMeta() } doReturn meta
         on { readAutoUpdateEnabled() } doReturn isAutoUpdateEnabled
         on { readDisplayDayIndex() } doReturn displayDayIndex
         on { readDateInfos() } doReturn dateInfos
     }
 
-    private fun createScheduleData(sessionId: String? = null, hasAlarm: Boolean = false): ScheduleData {
-        val session = if (sessionId == null) null else Session(sessionId = sessionId, hasAlarm = hasAlarm)
+    private fun createScheduleData(sessionId: String? = null, hasAlarm: Boolean = false, isHighlight: Boolean = false): ScheduleData {
+        val session = if (sessionId == null) null else Session(sessionId = sessionId, hasAlarm = hasAlarm, isHighlight = isHighlight)
         return createScheduleData(session)
     }
 
@@ -727,16 +723,6 @@ class FahrplanViewModelTest {
         defaultEngelsystemRoomName = "Engelshifts",
         customEngelsystemRoomName = "Trollshifts",
         runsAtLeastOnAndroidTiramisu = runsAtLeastOnAndroidTiramisu
-    )
-
-    private fun createAlarm(@Suppress("SameParameterValue") sessionId: String) = Alarm(
-        alarmTimeInMin = 10,
-        day = 2,
-        displayTime = 0,
-        sessionId = sessionId,
-        sessionTitle = "Title",
-        startTime = 1536332400000L,
-        timeText = "Lorem ipsum"
     )
 
 }
