@@ -15,5 +15,6 @@
     <color name="session_detailbar_text">@color/colorPrimary</color>
     <color name="session_detailbar_icon">@color/colorAccent</color>
     <color name="outline_variant">#88007618</color>
+    <color name="schedule_horizontal_scrolling_progress_line">#ffffff</color>
 
 </resources>
