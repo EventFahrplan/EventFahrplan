@@ -782,6 +782,9 @@ object AppRepository : SearchRepository,
     fun deleteAlarmForAlarmId(alarmId: Int) =
             alarmsDatabaseRepository.deleteForAlarmId(alarmId).also {
                 refreshAlarms()
+                refreshSelectedSession()
+                refreshRoomStates()
+                refreshUncanceledSessions()
             }
 
     @WorkerThread
