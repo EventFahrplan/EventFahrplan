@@ -30,6 +30,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOn
@@ -266,8 +267,7 @@ object AppRepository : SearchRepository,
         refreshUncanceledSessionsSignal
             .onStart { emit(Unit) }
             .mapLatest { loadUncanceledSessionsForDayIndex() }
-            // Don't use distinctUntilChanged() here unless Session highlight and hasAlarm are
-            // part of equals and hashcode. Otherwise the schedule screen does not update.
+            .distinctUntilChanged() // If server does not respond with HTTP 304 (Not modified).
             .flowOn(executionContext.database)
     }
 

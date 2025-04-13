@@ -274,8 +274,6 @@ class FahrplanViewModelTest {
                 viewModel.fahrplanParameter.test {
                     val actual = awaitItem()
                     assertThat(actual).isEqualTo(expected)
-                    // Obsolete once Session#hasAlarm is part of isEqual and hashCode
-                    assertThat(actual.scheduleData.allSessions.first().hasAlarm).isEqualTo(true)
                     awaitComplete()
                 }
                 viewModel.fahrplanEmptyParameter.test {
