@@ -239,6 +239,22 @@ class ScheduleChangesTest {
                 expectedFoundNoteworthyChanges = true,
             ),
             scenario1Of(
+                scenarioDescription = "Alarm flags differ",
+                oldSessions = listOf(Session("1", hasAlarm = true)),
+                newSessions = listOf(Session("1", hasAlarm = false)),
+                expectedSessions = listOf(Session("1", hasAlarm = false)),
+                expectedOldCanceledSessions = emptyList(),
+                expectedFoundNoteworthyChanges = false,
+            ),
+            scenario1Of(
+                scenarioDescription = "Highlight flags differ",
+                oldSessions = listOf(Session("1", isHighlight = true)),
+                newSessions = listOf(Session("1", isHighlight = false)),
+                expectedSessions = listOf(Session("1", isHighlight = false)),
+                expectedOldCanceledSessions = emptyList(),
+                expectedFoundNoteworthyChanges = false,
+            ),
+            scenario1Of(
                 scenarioDescription = "Multiple properties differ",
                 oldSessions = listOf(
                     Session(
