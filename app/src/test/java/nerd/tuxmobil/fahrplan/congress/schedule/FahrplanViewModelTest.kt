@@ -251,7 +251,6 @@ class FahrplanViewModelTest {
             }
             verifyInvokedNever(menuEntriesGenerator).getDayMenuEntries(any(), anyOrNull(), any())
             verifyInvokedOnce(repository).readDisplayDayIndex()
-            verifyInvokedOnce(repository).readMeta()
         }
 
         @Test
@@ -279,7 +278,6 @@ class FahrplanViewModelTest {
                 }
                 verifyInvokedNever(menuEntriesGenerator).getDayMenuEntries(any(), anyOrNull(), any())
                 verifyInvokedOnce(repository).readDisplayDayIndex()
-                verifyInvokedOnce(repository).readMeta()
             }
 
     }
@@ -291,7 +289,10 @@ class FahrplanViewModelTest {
         fun `dayMenuEntries property emits and generates navigation menu entries`() = runTest {
             val repository = createRepository(
                 uncanceledSessionsForDayIndexFlow = flowOf(createScheduleData("session-01")),
-                sessionsWithoutShiftsFlow = flowOf(listOf(Session("session-01"))),
+                sessionsWithoutShiftsFlow = flowOf(listOf(
+                    Session("session-01", dateText = "2025-04-15"),
+                    Session("session-02", dateText = "2025-04-16")
+                )),
                 meta = Meta(numDays = 2),
                 displayDayIndex = 1,
             )
@@ -304,7 +305,6 @@ class FahrplanViewModelTest {
                 expectNoEvents()
             }
             verifyInvokedOnce(menuEntriesGenerator).getDayMenuEntries(any(), anyOrNull(), any())
-            verifyInvokedOnce(repository).readMeta()
         }
 
     }

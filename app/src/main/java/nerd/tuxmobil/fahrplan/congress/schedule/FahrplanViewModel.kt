@@ -21,6 +21,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices
 import nerd.tuxmobil.fahrplan.congress.alarms.SessionAlarmViewModelDelegate
+import nerd.tuxmobil.fahrplan.congress.dataconverters.toNumDays
 import nerd.tuxmobil.fahrplan.congress.models.ConferenceTimeFrame
 import nerd.tuxmobil.fahrplan.congress.models.ConferenceTimeFrame.Known
 import nerd.tuxmobil.fahrplan.congress.models.ConferenceTimeFrame.Unknown
@@ -129,7 +130,7 @@ internal class FahrplanViewModel(
         launch {
             repository.sessionsWithoutShifts.filterNotNull().collectLatest { sessions ->
                 val displayDayIndex = repository.readDisplayDayIndex()
-                val numDays = repository.readMeta().numDays
+                val numDays = sessions.toNumDays()
                 val dayMenuEntries = if (numDays > 1) {
                     navigationMenuEntriesGenerator.getDayMenuEntries(numDays, sessions)
                 } else {

@@ -32,6 +32,10 @@ fun List<SessionAppModel>.toVirtualDays(): List<VirtualDay> {
         }
 }
 
+fun List<SessionAppModel>.toNumDays(): Int {
+    return map(SessionAppModel::dateText).distinct().size
+}
+
 fun List<SessionDatabaseModel>.toDateInfos() = map(SessionDatabaseModel::toDateInfo)
 
 fun List<SessionDatabaseModel>.toDayRanges(): List<DayRange> {
