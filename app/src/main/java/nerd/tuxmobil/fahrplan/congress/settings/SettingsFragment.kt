@@ -23,6 +23,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import nerd.tuxmobil.fahrplan.congress.BuildConfig
 import nerd.tuxmobil.fahrplan.congress.R
@@ -210,7 +211,7 @@ class SettingsFragment(
         val autoUpdatePreference = requirePreference<SwitchPreferenceCompat>(resources.getString(R.string.preference_key_auto_update_enabled))
         coroutineScope.launch {
             AppRepository.scheduleNextFetch
-                .collect { nextFetch ->
+                .collectLatest { nextFetch ->
                     val text = when (autoUpdatePreference.isChecked && nextFetch.isValid()) {
                         true -> {
                             val (nextFetchAt, interval) = nextFetch

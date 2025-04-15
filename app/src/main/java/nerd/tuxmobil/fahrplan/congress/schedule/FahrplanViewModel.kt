@@ -142,7 +142,7 @@ internal class FahrplanViewModel(
 
     private fun updateSchedule() {
         launch {
-            repository.uncanceledSessionsForDayIndex.collect { scheduleData ->
+            repository.uncanceledSessionsForDayIndex.collectLatest { scheduleData ->
                 if (scheduleData.allSessions.isEmpty()) {
                     val scheduleVersion = repository.readMeta().version
                     if (scheduleVersion.isNotEmpty()) {
@@ -161,7 +161,7 @@ internal class FahrplanViewModel(
 
     private fun updateHorizontalScrollingProgressLineVisibility() {
         launch {
-            repository.loadScheduleState.collect { state ->
+            repository.loadScheduleState.collectLatest { state ->
                 val shouldShow = state.toShowHorizontalScrollingProgressLine()
                 if (shouldShow) {
                     delay(PROGRESS_BAR_HIDING_DELAY)
@@ -193,7 +193,7 @@ internal class FahrplanViewModel(
                 .map { if (it.isEmpty()) null else Conference.ofSessions(it).timeFrame }
                 .distinctUntilChanged()
                 .map { if (it == null) Unknown else Known(it.start, it.endInclusive) }
-                .collect { mutableActivateScheduleUpdateAlarm.sendOneTimeEvent(it) }
+                .collectLatest { mutableActivateScheduleUpdateAlarm.sendOneTimeEvent(it) }
         }
     }
 
@@ -251,7 +251,7 @@ internal class FahrplanViewModel(
 
     fun fillTimes(nowMoment: Moment, normalizedBoxHeight: Int) {
         launch {
-            repository.uncanceledSessionsForDayIndex.collect { scheduleData ->
+            repository.uncanceledSessionsForDayIndex.collectLatest { scheduleData ->
                 val sessions = scheduleData.allSessions
                 if (sessions.isNotEmpty()) {
                     val parameters = sessions.toTimeTextViewParameters(nowMoment, normalizedBoxHeight)
