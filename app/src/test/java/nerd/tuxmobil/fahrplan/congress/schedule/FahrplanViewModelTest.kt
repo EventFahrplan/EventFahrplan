@@ -35,6 +35,7 @@ import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.InitialPar
 import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.ParseFailure
 import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.ParseSuccess
 import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.Parsing
+import nerd.tuxmobil.fahrplan.congress.schedule.observables.DayMenuParameter
 import nerd.tuxmobil.fahrplan.congress.schedule.observables.FahrplanEmptyParameter
 import nerd.tuxmobil.fahrplan.congress.schedule.observables.FahrplanParameter
 import nerd.tuxmobil.fahrplan.congress.schedule.observables.ScrollToCurrentSessionParameter
@@ -52,6 +53,8 @@ import org.mockito.kotlin.any
 import org.mockito.kotlin.anyOrNull
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
+import org.mockito.kotlin.times
+import org.mockito.kotlin.verify
 import org.threeten.bp.ZoneOffset
 
 @ExtendWith(MainDispatcherTestExtension::class)
@@ -175,7 +178,7 @@ class FahrplanViewModelTest {
                 val repository = createRepository(uncanceledSessionsForDayIndexFlow = emptyFlow())
                 val viewModel = createViewModel(repository)
                 viewModel.fahrplanParameter.test {
-                    awaitComplete()
+                    expectNoEvents()
                 }
                 viewModel.fahrplanEmptyParameter.test {
                     expectNoEvents()
@@ -197,9 +200,10 @@ class FahrplanViewModelTest {
                 val expected = FahrplanEmptyParameter("test-version")
                 viewModel.fahrplanEmptyParameter.test {
                     assertThat(awaitItem()).isEqualTo(expected)
+                    expectNoEvents()
                 }
                 viewModel.fahrplanParameter.test {
-                    awaitComplete()
+                    expectNoEvents()
                 }
                 verifyInvokedOnce(repository).readMeta()
                 verifyInvokedNever(repository).readDisplayDayIndex()
@@ -218,7 +222,7 @@ class FahrplanViewModelTest {
                     expectNoEvents()
                 }
                 viewModel.fahrplanParameter.test {
-                    awaitComplete()
+                    expectNoEvents()
                 }
                 verifyInvokedOnce(repository).readMeta()
                 verifyInvokedNever(repository).readDisplayDayIndex()
@@ -237,13 +241,10 @@ class FahrplanViewModelTest {
             val expected = FahrplanParameter(
                 scheduleData = createScheduleData("session-01"),
                 useDeviceTimeZone = false,
-                numDays = 1,
-                dayIndex = 2,
-                dayMenuEntries = emptyList()
             )
             viewModel.fahrplanParameter.test {
                 assertThat(awaitItem()).isEqualTo(expected)
-                awaitComplete()
+                expectNoEvents()
             }
             viewModel.fahrplanEmptyParameter.test {
                 expectNoEvents()
@@ -267,14 +268,11 @@ class FahrplanViewModelTest {
                 val expected = FahrplanParameter(
                     scheduleData = createScheduleData("session-01", hasAlarm = true, isHighlight = true),
                     useDeviceTimeZone = false,
-                    numDays = 1,
-                    dayIndex = 2,
-                    dayMenuEntries = emptyList()
                 )
                 viewModel.fahrplanParameter.test {
                     val actual = awaitItem()
                     assertThat(actual).isEqualTo(expected)
-                    awaitComplete()
+                    expectNoEvents()
                 }
                 viewModel.fahrplanEmptyParameter.test {
                     expectNoEvents()
@@ -290,33 +288,22 @@ class FahrplanViewModelTest {
     inner class NavigationMenu {
 
         @Test
-        fun `fahrplanParameter property emits and generates navigation menu entries`() = runTest {
+        fun `dayMenuEntries property emits and generates navigation menu entries`() = runTest {
             val repository = createRepository(
                 uncanceledSessionsForDayIndexFlow = flowOf(createScheduleData("session-01")),
-                sessionsWithoutShiftsFlow = flowOf(listOf(Session("not relevant"))),
+                sessionsWithoutShiftsFlow = flowOf(listOf(Session("session-01"))),
                 meta = Meta(numDays = 2),
-                displayDayIndex = 0
+                displayDayIndex = 1,
             )
             val menuEntriesGenerator = mock<NavigationMenuEntriesGenerator> {
                 on { getDayMenuEntries(any(), anyOrNull(), any()) } doReturn listOf("Day 1", "Day 2")
             }
             val viewModel = createViewModel(repository, navigationMenuEntriesGenerator = menuEntriesGenerator)
-            val expected = FahrplanParameter(
-                scheduleData = createScheduleData("session-01"),
-                useDeviceTimeZone = false,
-                numDays = 2,
-                dayIndex = 0,
-                dayMenuEntries = listOf("Day 1", "Day 2")
-            )
-            viewModel.fahrplanParameter.test {
-                assertThat(awaitItem()).isEqualTo(expected)
-                awaitComplete()
-            }
-            viewModel.fahrplanEmptyParameter.test {
+            viewModel.dayMenuParameter.test {
+                assertThat(awaitItem()).isEqualTo(DayMenuParameter(listOf("Day 1", "Day 2"), 1))
                 expectNoEvents()
             }
             verifyInvokedOnce(menuEntriesGenerator).getDayMenuEntries(any(), anyOrNull(), any())
-            verifyInvokedOnce(repository).readDisplayDayIndex()
             verifyInvokedOnce(repository).readMeta()
         }
 
@@ -375,7 +362,7 @@ class FahrplanViewModelTest {
             viewModel.timeTextViewParameters.test {
                 assertThat(awaitItem()).isEqualTo(expected)
             }
-            verifyInvokedOnce(repository).readUseDeviceTimeZoneEnabled()
+            verify(repository, times(2)).readUseDeviceTimeZoneEnabled()
         }
 
     }
