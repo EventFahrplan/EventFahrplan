@@ -122,6 +122,8 @@ private data class EssentialSession(
     val language: String,
     val recordingLicense: String,
     val recordingOptOut: Boolean,
+    val isHighlight: Boolean,
+    val hasAlarm: Boolean,
 ) {
     constructor(session: Session) : this(
         sessionId = session.sessionId,
@@ -142,5 +144,7 @@ private data class EssentialSession(
         language = session.language,
         recordingLicense = session.recordingLicense,
         recordingOptOut = session.recordingOptOut,
+        isHighlight = session.isHighlight,
+        hasAlarm = session.hasAlarm,
     )
 }

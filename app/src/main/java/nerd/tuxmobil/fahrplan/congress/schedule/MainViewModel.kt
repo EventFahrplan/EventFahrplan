@@ -6,6 +6,7 @@ import info.metadude.android.eventfahrplan.commons.logging.Logging
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.SendChannel
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import nerd.tuxmobil.fahrplan.congress.changes.ChangeStatistic
@@ -62,7 +63,7 @@ internal class MainViewModel(
 
     private fun observeLoadScheduleState() {
         launch {
-            repository.loadScheduleState.collect { state ->
+            repository.loadScheduleState.collectLatest { state ->
                 val uiState = state.toUiState()
                 mutableLoadScheduleUiState.sendOneTimeEvent(uiState)
                 state.handleFailureStates()

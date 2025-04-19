@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import nerd.tuxmobil.fahrplan.congress.about.AboutViewEvent.OnPostalAddressClick
 import nerd.tuxmobil.fahrplan.congress.commons.ExternalNavigation
@@ -23,7 +24,7 @@ class AboutViewModel(
 
     init {
         launch {
-            repository.meta.collect { meta ->
+            repository.meta.collectLatest { meta ->
                 mutableAboutParameter.value = aboutParameterFactory.createAboutParameter(meta)
             }
         }

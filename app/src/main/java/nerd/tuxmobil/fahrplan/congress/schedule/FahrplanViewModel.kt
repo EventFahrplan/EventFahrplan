@@ -11,7 +11,8 @@ import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
@@ -20,7 +21,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices
 import nerd.tuxmobil.fahrplan.congress.alarms.SessionAlarmViewModelDelegate
-import nerd.tuxmobil.fahrplan.congress.models.Alarm
+import nerd.tuxmobil.fahrplan.congress.dataconverters.toNumDays
 import nerd.tuxmobil.fahrplan.congress.models.ConferenceTimeFrame
 import nerd.tuxmobil.fahrplan.congress.models.ConferenceTimeFrame.Known
 import nerd.tuxmobil.fahrplan.congress.models.ConferenceTimeFrame.Unknown
@@ -34,6 +35,7 @@ import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.Fetching
 import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.InitialFetching
 import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.InitialParsing
 import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.Parsing
+import nerd.tuxmobil.fahrplan.congress.schedule.observables.DayMenuParameter
 import nerd.tuxmobil.fahrplan.congress.schedule.observables.FahrplanEmptyParameter
 import nerd.tuxmobil.fahrplan.congress.schedule.observables.FahrplanParameter
 import nerd.tuxmobil.fahrplan.congress.schedule.observables.ScrollToCurrentSessionParameter
@@ -73,17 +75,11 @@ internal class FahrplanViewModel(
             runsAtLeastOnAndroidTiramisu,
         )
 
-    val fahrplanParameter = combine(
-        repository.uncanceledSessionsForDayIndex.filter { it.allSessions.isNotEmpty() },
-        repository.sessionsWithoutShifts.filterNotNull(),
-        repository.alarms.filterNotNull()
-    ) { scheduleDataForDayIndex, allSessionsForAllDaysWithoutShifts, alarms ->
-        createFahrplanParameter(
-            scheduleData = scheduleDataForDayIndex.customizeEngelsystemRoomName(),
-            allSessionsForAllDaysWithoutShifts = allSessionsForAllDaysWithoutShifts,
-            alarms = alarms
-        )
-    }
+    private val mutableDayMenuParameter = MutableStateFlow(DayMenuParameter())
+    val dayMenuParameter = mutableDayMenuParameter.asStateFlow().filter { it.isValid }
+
+    private val mutableFahrplanParameter = MutableStateFlow<FahrplanParameter?>(null)
+    val fahrplanParameter = mutableFahrplanParameter.asStateFlow().filterNotNull()
 
     private val mutableFahrplanEmptyParameter = Channel<FahrplanEmptyParameter>()
     val fahrplanEmptyParameter = mutableFahrplanEmptyParameter.receiveAsFlow()
@@ -124,20 +120,41 @@ internal class FahrplanViewModel(
     var preserveVerticalScrollPosition: Boolean = false
 
     init {
-        updateUncanceledSessions()
+        updateDayMenu()
+        updateSchedule()
         requestScheduleUpdateAlarm()
         updateHorizontalScrollingProgressLineVisibility()
     }
 
-    private fun updateUncanceledSessions() {
+    private fun updateDayMenu() {
         launch {
-            repository.uncanceledSessionsForDayIndex.collect { scheduleData ->
-                val sessions = scheduleData.allSessions
-                if (sessions.isEmpty()) {
+            repository.sessionsWithoutShifts.filterNotNull().collectLatest { sessions ->
+                val displayDayIndex = repository.readDisplayDayIndex()
+                val numDays = sessions.toNumDays()
+                val dayMenuEntries = if (numDays > 1) {
+                    navigationMenuEntriesGenerator.getDayMenuEntries(numDays, sessions)
+                } else {
+                    emptyList()
+                }
+                mutableDayMenuParameter.value = DayMenuParameter(dayMenuEntries, displayDayIndex)
+            }
+        }
+    }
+
+    private fun updateSchedule() {
+        launch {
+            repository.uncanceledSessionsForDayIndex.collectLatest { scheduleData ->
+                if (scheduleData.allSessions.isEmpty()) {
                     val scheduleVersion = repository.readMeta().version
                     if (scheduleVersion.isNotEmpty()) {
                         mutableFahrplanEmptyParameter.sendOneTimeEvent(FahrplanEmptyParameter(scheduleVersion))
                     } // else: Nothing to do because schedule has not been loaded yet
+                } else {
+                    val useDeviceTimeZone = repository.readUseDeviceTimeZoneEnabled()
+                    val customizedScheduleData = scheduleData.customizeEngelsystemRoomName()
+                    val parameter = FahrplanParameter(customizedScheduleData, useDeviceTimeZone)
+                    logging.d(LOG_TAG, "Loaded ${parameter.scheduleData.allSessions.size} uncanceled sessions.")
+                    mutableFahrplanParameter.value = parameter
                 }
             }
         }
@@ -145,7 +162,7 @@ internal class FahrplanViewModel(
 
     private fun updateHorizontalScrollingProgressLineVisibility() {
         launch {
-            repository.loadScheduleState.collect { state ->
+            repository.loadScheduleState.collectLatest { state ->
                 val shouldShow = state.toShowHorizontalScrollingProgressLine()
                 if (shouldShow) {
                     delay(PROGRESS_BAR_HIDING_DELAY)
@@ -177,7 +194,7 @@ internal class FahrplanViewModel(
                 .map { if (it.isEmpty()) null else Conference.ofSessions(it).timeFrame }
                 .distinctUntilChanged()
                 .map { if (it == null) Unknown else Known(it.start, it.endInclusive) }
-                .collect { mutableActivateScheduleUpdateAlarm.sendOneTimeEvent(it) }
+                .collectLatest { mutableActivateScheduleUpdateAlarm.sendOneTimeEvent(it) }
         }
     }
 
@@ -203,46 +220,6 @@ internal class FahrplanViewModel(
             roomData.copy(roomName = customRoomName, sessions = customSessions)
         }
     )
-
-    private fun createFahrplanParameter(
-        scheduleData: ScheduleData,
-        allSessionsForAllDaysWithoutShifts: List<Session>,
-        alarms: List<Alarm>
-    ): FahrplanParameter {
-        val dayIndex = repository.readDisplayDayIndex()
-        val numDays = repository.readMeta().numDays
-        val dayMenuEntries = if (numDays > 1) {
-            navigationMenuEntriesGenerator.getDayMenuEntries(
-                numDays,
-                allSessionsForAllDaysWithoutShifts
-            )
-        } else {
-            emptyList()
-        }
-        val useDeviceTimeZone = repository.readUseDeviceTimeZoneEnabled()
-
-        val scheduleDataWithAlarmFlags = createScheduleDataWithAlarmFlags(scheduleData, alarms)
-        return FahrplanParameter(
-            scheduleData = scheduleDataWithAlarmFlags,
-            useDeviceTimeZone = useDeviceTimeZone,
-            numDays = numDays,
-            dayIndex = dayIndex,
-            dayMenuEntries = dayMenuEntries
-        ).also {
-            logging.d(LOG_TAG, "Loaded ${it.scheduleData.allSessions.size} uncanceled sessions.")
-        }
-    }
-
-    private fun createScheduleDataWithAlarmFlags(scheduleData: ScheduleData, alarms: List<Alarm>) =
-        scheduleData.copy(roomDataList = scheduleData.roomDataList.map { roomData ->
-            roomData.copy(sessions = roomData.sessions.map { session ->
-                session.copy(
-                    hasAlarm = alarms.any { alarm ->
-                        alarm.sessionId == session.sessionId
-                    }
-                )
-            })
-        })
 
     /**
      * Requests loading the schedule from the [AppRepository] to update the UI. UI components must
@@ -275,7 +252,7 @@ internal class FahrplanViewModel(
 
     fun fillTimes(nowMoment: Moment, normalizedBoxHeight: Int) {
         launch {
-            repository.uncanceledSessionsForDayIndex.collect { scheduleData ->
+            repository.uncanceledSessionsForDayIndex.collectLatest { scheduleData ->
                 val sessions = scheduleData.allSessions
                 if (sessions.isNotEmpty()) {
                     val parameters = sessions.toTimeTextViewParameters(nowMoment, normalizedBoxHeight)

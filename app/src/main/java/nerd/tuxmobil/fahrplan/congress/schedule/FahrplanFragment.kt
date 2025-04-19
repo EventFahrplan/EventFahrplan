@@ -230,13 +230,16 @@ class FahrplanFragment : Fragment(), MenuProvider {
     @SuppressLint("InlinedApi")
     private fun observeViewModel() {
         viewModel.fahrplanParameter
-            .observe(this) { (scheduleData, useDeviceTimeZone, numDays, dayIndex, menuEntries) ->
+            .observe(this) { (scheduleData, useDeviceTimeZone) ->
                 hideNoScheduleView()
-                buildNavigationMenu(menuEntries, numDays)
                 viewModel.fillTimes(Moment.now(), getNormalizedBoxHeight())
-                viewDay(scheduleData, useDeviceTimeZone, numDays, dayIndex)
+                viewDay(scheduleData, useDeviceTimeZone)
                 updateHorizontalScrollingProgressLine(0)
             }
+        viewModel.dayMenuParameter.observe(this) { parameter ->
+            buildNavigationMenu(parameter.dayMenuEntries)
+            updateNavigationMenuSelection(numDays = parameter.dayMenuEntries.size, dayIndex = parameter.displayDayIndex)
+        }
         viewModel.showHorizontalScrollingProgressLine.observe(this) { shouldShow ->
             updateHorizontalScrollingProgressLine(shouldShow)
         }
@@ -339,7 +342,7 @@ class FahrplanFragment : Fragment(), MenuProvider {
     /**
      * Updates the session data in the schedule view.
      */
-    private fun viewDay(scheduleData: ScheduleData, useDeviceTimeZone: Boolean, numDays: Int, dayIndex: Int) {
+    private fun viewDay(scheduleData: ScheduleData, useDeviceTimeZone: Boolean) {
         val layoutRoot = requireView()
         val horizontalScroller = layoutRoot.requireViewByIdCompat<HorizontalSnapScrollView>(R.id.horizScroller)
         horizontalScroller.scrollTo(0, 0)
@@ -359,7 +362,6 @@ class FahrplanFragment : Fragment(), MenuProvider {
                 viewModel.preserveVerticalScrollPosition = false
             }
         }
-        updateNavigationMenuSelection(numDays, dayIndex)
     }
 
     private fun updateNavigationMenuSelection(numDays: Int, dayIndex: Int) {
@@ -598,7 +600,7 @@ class FahrplanFragment : Fragment(), MenuProvider {
      * The [dayMenuEntries] can be passed both as an empty list or a list with entries.
      * The empty list is important for [updateNavigationMenuSelection] to work correctly.
      */
-    private fun buildNavigationMenu(dayMenuEntries: List<String>, numDays: Int) {
+    private fun buildNavigationMenu(dayMenuEntries: List<String>) {
         val actionBar = (requireActivity() as AppCompatActivity).supportActionBar
         actionBar!!.navigationMode = NAVIGATION_MODE_LIST
         val arrayAdapter = ArrayAdapter(
@@ -607,7 +609,7 @@ class FahrplanFragment : Fragment(), MenuProvider {
             dayMenuEntries
         )
         arrayAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_list_item)
-        actionBar.setListNavigationCallbacks(arrayAdapter, OnDaySelectedListener(numDays))
+        actionBar.setListNavigationCallbacks(arrayAdapter, OnDaySelectedListener(dayMenuEntries.size))
     }
 
     private fun showAlarmTimePicker() {
