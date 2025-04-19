@@ -138,8 +138,6 @@ object AppRepository : SearchRepository,
      */
     val loadScheduleState: Flow<LoadScheduleState> = mutableLoadScheduleState
 
-    private val refreshMetaSignal = MutableSharedFlow<Unit>()
-
     private fun refreshMeta() {
         logging.d(LOG_TAG, "Refreshing meta ...")
         val requestIdentifier = "refreshMeta"
@@ -147,6 +145,8 @@ object AppRepository : SearchRepository,
             refreshMetaSignal.emit(Unit)
         }
     }
+
+    private val refreshMetaSignal = MutableSharedFlow<Unit>()
 
     /**
      * Emits meta from the database.
@@ -369,14 +369,14 @@ object AppRepository : SearchRepository,
     }
 
     /**
-     * Emits the schedule [next fetch][NextFetch].
+     * Emits the room states from the live network request.
      */
     @OptIn(ExperimentalCoroutinesApi::class)
-    val scheduleNextFetch: Flow<NextFetch> by lazy {
-        refreshScheduleNextFetchSignal
+    val roomStates: Flow<Result<List<Room>>> by lazy {
+        refreshRoomStatesSignal
             .onStart { emit(Unit) }
-            .mapLatest { readScheduleNextFetch() }
-            .flowOn(executionContext.database)
+            .flatMapLatest { if (ENABLE_FOSDEM_ROOM_STATES) roomStatesRepository.getRooms() else emptyFlow() }
+            .flowOn(executionContext.network)
     }
 
     private val refreshScheduleNextFetchSignal = MutableSharedFlow<Unit>()
@@ -390,14 +390,14 @@ object AppRepository : SearchRepository,
     }
 
     /**
-     * Emits the room states from the live network request.
+     * Emits the schedule [next fetch][NextFetch].
      */
     @OptIn(ExperimentalCoroutinesApi::class)
-    val roomStates: Flow<Result<List<Room>>> by lazy {
-        refreshRoomStatesSignal
+    val scheduleNextFetch: Flow<NextFetch> by lazy {
+        refreshScheduleNextFetchSignal
             .onStart { emit(Unit) }
-            .flatMapLatest { if (ENABLE_FOSDEM_ROOM_STATES) roomStatesRepository.getRooms() else emptyFlow() }
-            .flowOn(executionContext.network)
+            .mapLatest { readScheduleNextFetch() }
+            .flowOn(executionContext.database)
     }
 
     fun initialize(
