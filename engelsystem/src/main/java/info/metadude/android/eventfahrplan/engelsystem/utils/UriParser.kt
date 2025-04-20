@@ -43,7 +43,7 @@ class UriParser {
             else path.trimStart('/')
 
     /**
-     * The API key provides as a query parameter value, as in: ?key=a1b2c3
+     * The API key provided as a query parameter value, as in: ?key=a1b2c3
      */
     private fun parseApiKey(query: String?) = try {
         val queryPart = query ?: throw ParsingException("Query is missing")
