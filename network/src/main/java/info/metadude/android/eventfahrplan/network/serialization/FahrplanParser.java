@@ -15,9 +15,11 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 import info.metadude.android.eventfahrplan.commons.logging.Logging;
 import info.metadude.android.eventfahrplan.network.models.HttpHeader;
@@ -73,6 +75,8 @@ public class FahrplanParser {
 }
 
 class ParserTask extends AsyncTask<String, Void, Boolean> {
+
+    private static final String LOG_TAG = "ParserTask";
 
     @NonNull
     private final Logging logging;
@@ -143,6 +147,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
             int day = 0;
             int dayChangeTime = 600; // Only provided by Pentabarf; corresponds to 10:00 am.
             String dateText = "";
+            Set<String> uniqueDateTexts = new HashSet<>();
             int roomIndex = 0;
             int roomMapIndex = 0;
             boolean scheduleComplete = false;
@@ -171,6 +176,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                             String index = parser.getAttributeValue(null, "index");
                             day = Integer.parseInt(index);
                             dateText = parser.getAttributeValue(null, "date");
+                            uniqueDateTexts.add(dateText);
                             String end = parser.getAttributeValue(null, "end");
                             if (end == null) {
                                 throw new MissingXmlAttributeException("day", "end");
@@ -205,6 +211,9 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
             }
             if (isCancelled()) {
                 return false;
+            }
+            if (uniqueDateTexts.size() != numdays) {
+                logging.e(LOG_TAG, "Count of dateTexts " + uniqueDateTexts + " and numdays " + numdays + " mismatch.");
             }
             meta.setNumDays(numdays);
             return true;
