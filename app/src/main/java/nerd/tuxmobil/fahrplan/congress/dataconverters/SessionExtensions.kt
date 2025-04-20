@@ -25,7 +25,7 @@ fun SessionAppModel.toRoom() = Room(identifier = roomIdentifier, name = roomName
 fun SessionDatabaseModel.toDateInfo(): DateInfo = DateInfo(dayIndex, Moment.parseDate(dateText))
 
 fun SessionAppModel.toHighlightDatabaseModel() = HighlightDatabaseModel(
-        sessionId = Integer.parseInt(sessionId),
+        sessionId = sessionId,
         isHighlight = isHighlight
 )
 

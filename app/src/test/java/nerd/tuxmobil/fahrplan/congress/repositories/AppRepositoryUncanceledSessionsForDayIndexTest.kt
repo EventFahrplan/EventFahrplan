@@ -340,7 +340,7 @@ private class InMemoryHighlightsDatabaseRepository : HighlightsDatabaseRepositor
 
     override fun update(values: ContentValues, sessionId: String): Long {
         val highlight = Highlight(
-            sessionId = sessionId.toInt(),
+            sessionId = sessionId,
             isHighlight = true,
         )
         highlights = listOf(highlight)
@@ -351,7 +351,7 @@ private class InMemoryHighlightsDatabaseRepository : HighlightsDatabaseRepositor
         return highlights
     }
 
-    override fun queryBySessionId(sessionId: Int): Highlight? {
+    override fun queryBySessionId(sessionId: String): Highlight? {
         return highlights.singleOrNull { it.sessionId == sessionId }
     }
 
