@@ -83,10 +83,10 @@ class AlarmServices @VisibleForTesting constructor(
         val alarmTimeInMin = alarmTimes[alarmTimesIndex]
         val useDeviceTimeZone = repository.readUseDeviceTimeZoneEnabled()
         val timeText = formattingDelegate.getFormattedDateTimeShort(useDeviceTimeZone, alarmTime, session.timeZoneOffset)
-        val day = session.dayIndex
+        val dayIndex = session.dayIndex
         val alarm = Alarm(
             alarmTimeInMin = alarmTimeInMin,
-            day = day,
+            dayIndex = dayIndex,
             displayTime = sessionStartTime,
             sessionId = sessionId,
             sessionTitle = sessionTitle,
@@ -132,7 +132,7 @@ class AlarmServices @VisibleForTesting constructor(
             context = context,
             sessionId = alarm.sessionId,
             title = alarm.sessionTitle,
-            day = alarm.day,
+            dayIndex = alarm.dayIndex,
             startTime = alarm.startTime
         ).getIntent(isAddAlarmIntent = true)
 
@@ -156,7 +156,7 @@ class AlarmServices @VisibleForTesting constructor(
             context = context,
             sessionId = alarm.sessionId,
             title = alarm.sessionTitle,
-            day = alarm.day,
+            dayIndex = alarm.dayIndex,
             startTime = alarm.startTime
         ).getIntent(isAddAlarmIntent = false)
         discardAlarm(context, intent)

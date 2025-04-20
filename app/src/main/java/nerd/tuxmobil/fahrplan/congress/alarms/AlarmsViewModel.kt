@@ -52,7 +52,7 @@ internal class AlarmsViewModel(
         launch {
             repository.deleteAlarmForSessionId(value.sessionId)
             val alarm = SchedulableAlarm(
-                day = value.dayIndex,
+                dayIndex = value.dayIndex,
                 sessionId = value.sessionId,
                 sessionTitle = value.title,
                 startTime = value.firesAt,

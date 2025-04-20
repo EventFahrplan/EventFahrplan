@@ -258,7 +258,7 @@ class AppRepositoryUncanceledSessionsForDayIndexTest {
 
     private fun createAlarm() = AlarmAppModel(
         alarmTimeInMin = 0,
-        day = dayIndex,
+        dayIndex = dayIndex,
         displayTime = 0,
         sessionId = sessionId,
         sessionTitle = "",

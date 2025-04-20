@@ -6,7 +6,7 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Al
 data class Alarm(
     val id: Int = DEFAULT_VALUE_ID,
     val alarmTimeInMin: Int = ALARM_TIME_IN_MIN_DEFAULT,
-    val day: Int = -1,
+    val dayIndex: Int = -1,
     val displayTime: Long = -1, // will be stored as signed integer
     val sessionId: String = "",
     val time: Long = -1, // will be stored as signed integer

@@ -16,7 +16,7 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Se
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_TRACK
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DATE_TEXT
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DATE_UTC
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DAY
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DAY_INDEX
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DESCR
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DURATION
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.FEEDBACK_URL
@@ -88,7 +88,7 @@ class SessionExtensionsTest {
         val values = session.toContentValues()
         assertThat(values.getAsInteger(SESSION_ID)).isEqualTo(7331)
         assertThat(values.getAsString(ABSTRACT)).isEqualTo("Lorem ipsum")
-        assertThat(values.getAsInteger(DAY)).isEqualTo(3)
+        assertThat(values.getAsInteger(DAY_INDEX)).isEqualTo(3)
         assertThat(values.getAsString(DATE_TEXT)).isEqualTo("2015-08-13")
         assertThat(values.getAsLong(DATE_UTC)).isEqualTo(1439478900000L)
         assertThat(values.getAsString(DESCR)).isEqualTo("Lorem ipsum dolor sit amet")

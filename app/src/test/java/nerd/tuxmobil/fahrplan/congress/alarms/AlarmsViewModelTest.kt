@@ -210,7 +210,7 @@ class AlarmsViewModelTest {
         alarmStartsAt: Long = 1620909000000
     ) = Alarm(
         alarmTimeInMin = alarmTimeInMin,
-        day = 2,
+        dayIndex = 2,
         displayTime = -1,
         sessionId = sessionId,
         sessionTitle = "Unused",

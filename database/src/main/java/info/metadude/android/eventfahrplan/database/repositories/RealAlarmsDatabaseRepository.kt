@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteException
 import info.metadude.android.eventfahrplan.commons.logging.Logging
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.DAY
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.DAY_INDEX
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.ID
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.SESSION_ID
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.SESSION_TITLE
@@ -63,7 +63,7 @@ internal class RealAlarmsDatabaseRepository(
         val alarms = cursor.map {
             Alarm(
                 id = cursor.getInt(ID),
-                day = cursor.getInt(DAY),
+                dayIndex = cursor.getInt(DAY_INDEX),
                 sessionId = cursor.getString(SESSION_ID),
                 time = cursor.getLong(TIME),
                 title = cursor.getString(SESSION_TITLE),

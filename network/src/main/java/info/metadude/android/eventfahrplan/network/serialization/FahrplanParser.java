@@ -144,7 +144,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
             int numdays = 0;
             String roomName = null;
             String roomGuid = "";
-            int day = 0;
+            int dayIndex = 0;
             int dayChangeTime = 600; // Only provided by Pentabarf; corresponds to 10:00 am.
             String dateText = "";
             Set<String> uniqueDateTexts = new HashSet<>();
@@ -174,7 +174,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                         }
                         if (name.equals("day")) {
                             String index = parser.getAttributeValue(null, "index");
-                            day = Integer.parseInt(index);
+                            dayIndex = Integer.parseInt(index);
                             dateText = parser.getAttributeValue(null, "date");
                             uniqueDateTexts.add(dateText);
                             String end = parser.getAttributeValue(null, "end");
@@ -182,8 +182,8 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                                 throw new MissingXmlAttributeException("day", "end");
                             }
                             dayChangeTime = DateParser.getDayChange(end);
-                            if (day > numdays) {
-                                numdays = day;
+                            if (dayIndex > numdays) {
+                                numdays = dayIndex;
                             }
                         }
                         if (name.equals("room")) {
@@ -198,7 +198,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                             roomGuid = parser.getAttributeValue(null, "guid");
                         }
                         if (name.equalsIgnoreCase("event")) {
-                            parseEvent(parser, day, dayChangeTime, roomMapIndex, roomName, roomGuid, dateText);
+                            parseEvent(parser, dayIndex, dayChangeTime, roomMapIndex, roomName, roomGuid, dateText);
                         } else if (name.equalsIgnoreCase("conference")) {
                             dayChangeTime = parseConference(parser, dayChangeTime);
                         }
@@ -273,7 +273,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
 
     private void parseEvent(
             XmlPullParser parser,
-            int day,
+            int dayIndex,
             int dayChangeTime,
             int roomMapIndex,
             String roomName,
@@ -285,7 +285,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
         String id = parser.getAttributeValue(null, "id");
         Session session = new Session();
         session.setSessionId(id);
-        session.setDayIndex(day);
+        session.setDayIndex(dayIndex);
         session.setRoomName(Objects.requireNonNullElse(roomName, ""));
         session.setRoomGuid(Objects.requireNonNullElse(roomGuid, ""));
         session.setDateText(dateText);

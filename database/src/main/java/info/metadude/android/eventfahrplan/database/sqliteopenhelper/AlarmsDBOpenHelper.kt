@@ -4,7 +4,7 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.ALARM_TIME_IN_MIN
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.DAY
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.DAY_INDEX
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.DISPLAY_TIME
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.ID
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.SESSION_ID
@@ -36,7 +36,7 @@ internal class AlarmsDBOpenHelper(context: Context) : SQLiteOpenHelper(
                 "$TIME_TEXT TEXT, " +
                 "$SESSION_ID INTEGER, " +
                 "$DISPLAY_TIME INTEGER, " +
-                "$DAY INTEGER" +
+                "$DAY_INDEX INTEGER" +
                 ");"
     }
 

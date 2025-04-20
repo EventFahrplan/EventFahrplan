@@ -5,7 +5,7 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract
 data class Alarm(
     val id: Int,
     val alarmTimeInMin: Int,
-    val day: Int,
+    val dayIndex: Int,
     val displayTime: Long,
     val sessionId: String,
     val sessionTitle: String,
@@ -15,7 +15,7 @@ data class Alarm(
 
     constructor(
         alarmTimeInMin: Int,
-        day: Int,
+        dayIndex: Int,
         displayTime: Long,
         sessionId: String,
         sessionTitle: String,
@@ -24,7 +24,7 @@ data class Alarm(
     ) : this(
         id = DEFAULT_VALUE_ID,
         alarmTimeInMin = alarmTimeInMin,
-        day = day,
+        dayIndex = dayIndex,
         displayTime = displayTime,
         sessionId = sessionId,
         sessionTitle = sessionTitle,
