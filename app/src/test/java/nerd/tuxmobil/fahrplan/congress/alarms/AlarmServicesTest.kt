@@ -35,7 +35,12 @@ class AlarmServicesTest {
     private var mockContext = mock<Context>()
     private var repository = mock<AppRepository>()
     private val alarmTimesValues = listOf("0", "10", "60")
-    private val alarm = SchedulableAlarm(3, "1001", "Welcome", 700)
+    private val alarm = SchedulableAlarm(
+        day = 3,
+        sessionId = "1001",
+        sessionTitle = "Welcome",
+        startTime = 700,
+    )
 
     @Test
     fun `newInstance returns a new preconfigured instance of the AlarmServices class`() {

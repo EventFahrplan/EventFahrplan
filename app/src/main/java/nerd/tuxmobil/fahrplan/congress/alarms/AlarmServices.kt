@@ -84,7 +84,15 @@ class AlarmServices @VisibleForTesting constructor(
         val useDeviceTimeZone = repository.readUseDeviceTimeZoneEnabled()
         val timeText = formattingDelegate.getFormattedDateTimeShort(useDeviceTimeZone, alarmTime, session.timeZoneOffset)
         val day = session.dayIndex
-        val alarm = Alarm(alarmTimeInMin, day, sessionStartTime, sessionId, sessionTitle, alarmTime, timeText)
+        val alarm = Alarm(
+            alarmTimeInMin = alarmTimeInMin,
+            day = day,
+            displayTime = sessionStartTime,
+            sessionId = sessionId,
+            sessionTitle = sessionTitle,
+            startTime = alarmTime,
+            timeText = timeText,
+        )
         val schedulableAlarm = alarm.toSchedulableAlarm()
         scheduleSessionAlarm(schedulableAlarm, true)
         repository.updateAlarm(alarm)

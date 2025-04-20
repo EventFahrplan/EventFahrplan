@@ -62,11 +62,11 @@ internal class RealAlarmsDatabaseRepository(
 
         val alarms = cursor.map {
             Alarm(
-                    id = cursor.getInt(ID),
-                    day = cursor.getInt(DAY),
-                    sessionId = cursor.getString(SESSION_ID),
-                    time = cursor.getLong(TIME),
-                    title = cursor.getString(SESSION_TITLE)
+                id = cursor.getInt(ID),
+                day = cursor.getInt(DAY),
+                sessionId = cursor.getString(SESSION_ID),
+                time = cursor.getLong(TIME),
+                title = cursor.getString(SESSION_TITLE),
             )
         }
 

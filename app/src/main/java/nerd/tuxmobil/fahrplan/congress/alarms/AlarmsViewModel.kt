@@ -55,7 +55,7 @@ internal class AlarmsViewModel(
                 day = value.dayIndex,
                 sessionId = value.sessionId,
                 sessionTitle = value.title,
-                startTime = value.firesAt
+                startTime = value.firesAt,
             )
             alarmServices.discardSessionAlarm(alarm)
         }

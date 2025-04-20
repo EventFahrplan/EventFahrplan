@@ -59,7 +59,7 @@ class AlarmReceiver : BroadcastReceiver() {
                 //Toast.makeText(context, "Alarm worked.", Toast.LENGTH_LONG).show();
 
                 val uniqueNotificationId = AppRepository.createSessionAlarmNotificationId(sessionId)
-                val launchIntent = createLaunchIntent(context, sessionId, day, uniqueNotificationId)
+                val launchIntent = createLaunchIntent(context, sessionId, dayIndex = day, notificationId = uniqueNotificationId)
                 val contentIntent = PendingIntentProvider.getPendingIntentActivity(context, launchIntent)
 
                 val notificationHelper = NotificationHelper(context)
