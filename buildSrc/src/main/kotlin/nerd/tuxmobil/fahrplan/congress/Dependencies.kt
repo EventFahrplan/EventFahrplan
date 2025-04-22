@@ -66,7 +66,7 @@ object Libs {
         const val fragmentCompose = "1.8.6"
         const val htmlConverter = "1.0.3"
         const val junitJupiter = "5.11.4"
-        const val kotlinCoroutines = "1.10.1"
+        const val kotlinCoroutines = "1.10.2"
         const val lifecycle = "2.8.7"
         const val markdownRenderer = "0.32.0"
         const val material = "1.12.0"
