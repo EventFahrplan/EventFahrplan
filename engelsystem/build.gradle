@@ -14,6 +14,7 @@ dependencies {
 
     testImplementation Libs.junitJupiterApi
     testRuntimeOnly Libs.junitJupiterEngine
+    testRuntimeOnly Libs.junitPlatformLauncher
     testImplementation Libs.kotlinCoroutinesTest
     testImplementation Libs.mockitoCore
     testImplementation Libs.okhttpMockWebServer

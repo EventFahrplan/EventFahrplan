@@ -231,6 +231,7 @@ dependencies {
     testImplementation Libs.coreTesting
     testImplementation Libs.junitJupiterApi
     testRuntimeOnly Libs.junitJupiterEngine
+    testRuntimeOnly Libs.junitPlatformLauncher
     testImplementation Libs.junitJupiterParams
     testImplementation(Libs.kotlinCoroutinesTest) {
         // workaround for https://github.com/Kotlin/kotlinx.coroutines/issues/2023

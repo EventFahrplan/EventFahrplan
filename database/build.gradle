@@ -46,6 +46,7 @@ dependencies {
     testImplementation project(":commons-testing")
     testImplementation Libs.junitJupiterApi
     testRuntimeOnly Libs.junitJupiterEngine
+    testRuntimeOnly Libs.junitPlatformLauncher
     testImplementation Libs.junitJupiterParams
     testImplementation Libs.truth
 
