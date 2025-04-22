@@ -22,7 +22,7 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Se
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_TRACK
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DATE_TEXT
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DATE_UTC
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DAY
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DAY_INDEX
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DESCR
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DURATION
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.FEEDBACK_URL
@@ -117,7 +117,7 @@ internal class SessionsDBOpenHelper(context: Context) : SQLiteOpenHelper(
                 "$SESSION_ID TEXT, " +
                 "$TITLE TEXT, " +
                 "$SUBTITLE TEXT, " +
-                "$DAY INTEGER, " +
+                "$DAY_INDEX INTEGER, " +
                 "$ROOM_NAME TEXT, " +
                 "$ROOM_IDENTIFIER TEXT DEFAULT '', " +
                 "$SLUG TEXT, " +
@@ -169,8 +169,8 @@ internal class SessionsDBOpenHelper(context: Context) : SQLiteOpenHelper(
                     "COUNT(CASE WHEN $TITLE IS NOT NULL AND $TITLE != '' THEN 1 END) AS $TITLE_PRESENT, " +
                     "COUNT(CASE WHEN $SUBTITLE IS NULL OR $SUBTITLE = '' THEN 1 END) AS $SUBTITLE_NONE, " +
                     "COUNT(CASE WHEN $SUBTITLE IS NOT NULL AND $SUBTITLE != '' THEN 1 END) AS $SUBTITLE_PRESENT, " +
-                    "COUNT(CASE WHEN $DAY IS NULL OR $DAY = '' THEN 1 END) AS $DAY_INDEX_NONE, " +
-                    "COUNT(CASE WHEN $DAY IS NOT NULL AND $DAY != '' THEN 1 END) AS $DAY_INDEX_PRESENT, " +
+                    "COUNT(CASE WHEN $DAY_INDEX IS NULL OR $DAY_INDEX = '' THEN 1 END) AS $DAY_INDEX_NONE, " +
+                    "COUNT(CASE WHEN $DAY_INDEX IS NOT NULL AND $DAY_INDEX != '' THEN 1 END) AS $DAY_INDEX_PRESENT, " +
                     "COUNT(CASE WHEN $ROOM_NAME IS NULL OR $ROOM_NAME = '' THEN 1 END) AS $ROOM_NAME_NONE, " +
                     "COUNT(CASE WHEN $ROOM_NAME IS NOT NULL AND $ROOM_NAME != '' THEN 1 END) AS $ROOM_NAME_PRESENT, " +
                     "COUNT(CASE WHEN $START IS NULL OR $START = '' THEN 1 END) AS $START_TIME_NONE, " +

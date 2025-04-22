@@ -753,7 +753,7 @@ object AppRepository : SearchRepository,
         val highlightedSessionIds = readHighlights()
             .asSequence()
             .filter { it.isHighlight }
-            .map { it.sessionId.toString() }
+            .map { it.sessionId }
             .toSet()
 
         val highlightedSessions = sessions.map { session ->
@@ -866,7 +866,7 @@ object AppRepository : SearchRepository,
             .querySessionBySessionId(sessionId)
 
         val isHighlighted = highlightsDatabaseRepository
-            .queryBySessionId(sessionId.toInt())
+            .queryBySessionId(sessionId)
             ?.isHighlight ?: false
 
         val hasAlarm = alarmsDatabaseRepository

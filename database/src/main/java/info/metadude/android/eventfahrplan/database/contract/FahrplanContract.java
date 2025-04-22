@@ -42,7 +42,7 @@ public interface FahrplanContract {
             /* 4 */ String TIME_TEXT = "timeText";
             /* 5 */ String SESSION_ID = "eventid"; // Keep column name to avoid database migration.
             /* 6 */ String DISPLAY_TIME = "displayTime";
-            /* 7 */ String DAY = "day";
+            /* 7 */ String DAY_INDEX = "day";
         }
 
         interface Defaults {
@@ -93,7 +93,7 @@ public interface FahrplanContract {
             /* 00 */ String SESSION_ID = "event_id"; // Keep column name to avoid database migration.
             /* 01 */ String TITLE = "title";
             /* 02 */ String SUBTITLE = "subtitle";
-            /* 03 */ String DAY = "day";
+            /* 03 */ String DAY_INDEX = "day";
             /* 04 */ String ROOM_NAME = "room";
             /* 05 */ String START = "start";
             /* 06 */ String DURATION = "duration";

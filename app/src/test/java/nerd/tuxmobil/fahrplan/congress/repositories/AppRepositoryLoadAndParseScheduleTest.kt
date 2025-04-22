@@ -257,7 +257,7 @@ class AppRepositoryLoadAndParseScheduleTest {
             "23"
         )
         whenever(highlightsDatabaseRepository.queryBySessionId(any())) doReturn DatabaseHighlight(
-            sessionId = 23,
+            sessionId = "23",
             isHighlight = false
         )
         whenever(alarmsDatabaseRepository.query(anyString())) doReturn emptyList()

@@ -144,21 +144,21 @@ abstract class SessionsAdapter protected constructor(
         separatorStrings = mutableListOf()
         mapper = mutableListOf()
 
-        var day: Int
-        var lastDay = 0
+        var dayIndex: Int
+        var lastDayIndex = 0
         var sepCount = 0
 
         val daySeparator = context.getString(R.string.day_separator)
         for (index in list.indices) {
             val session = list[index]
-            day = session.dayIndex
+            dayIndex = session.dayIndex
             val formattedDate = DateFormatter.newInstance(useDeviceTimeZone)
                 .getFormattedDate(session.dateUTC, session.timeZoneOffset)
 
-            if (day != lastDay) {
-                lastDay = day
+            if (dayIndex != lastDayIndex) {
+                lastDayIndex = dayIndex
                 if (numDays > 1) {
-                    val dayDateSeparator = String.format(daySeparator, day, formattedDate)
+                    val dayDateSeparator = String.format(daySeparator, dayIndex, formattedDate)
                     separatorStrings.add(dayDateSeparator)
                     separatorsSet.add(index + sepCount)
                     mapper.add(sepCount)

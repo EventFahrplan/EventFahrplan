@@ -23,7 +23,7 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Se
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.CHANGED_TRACK
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DATE_TEXT
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DATE_UTC
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DAY
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DAY_INDEX
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DESCR
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.DURATION
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.FEEDBACK_URL
@@ -208,7 +208,7 @@ internal class RealSessionsDatabaseRepository(
 
     override fun querySessionsForDayIndexOrderedByDateUtc(dayIndex: Int) = query {
         read(SessionsTable.NAME,
-                selection = "$DAY=?",
+                selection = "$DAY_INDEX=?",
                 selectionArgs = arrayOf(String.format("%d", dayIndex)),
                 orderBy = DATE_UTC)
     }
@@ -253,7 +253,7 @@ internal class RealSessionsDatabaseRepository(
                     abstractt = cursor.getString(ABSTRACT),
                     dateText = cursor.getString(DATE_TEXT),
                     dateUTC = cursor.getLong(DATE_UTC),
-                    dayIndex = cursor.getInt(DAY),
+                    dayIndex = cursor.getInt(DAY_INDEX),
                     description = cursor.getString(DESCR),
                     duration = cursor.getInt(DURATION),
                     feedbackUrl = cursor.getStringOrNull(FEEDBACK_URL),
@@ -313,7 +313,7 @@ internal class RealSessionsDatabaseRepository(
                             columnNamePresent = SUBTITLE_PRESENT,
                         ),
                         cursor.toColumnStatistic(
-                            name = DAY,
+                            name = DAY_INDEX,
                             columnNameNone = DAY_INDEX_NONE,
                             columnNamePresent = DAY_INDEX_PRESENT,
                         ),
