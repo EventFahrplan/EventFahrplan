@@ -9,7 +9,7 @@ object Config {
 }
 
 object Android {
-    const val buildToolsVersion = "35.0.0"
+    const val buildToolsVersion = "36.0.0"
     const val compileSdkVersion = 34
     const val minSdkVersion = 21
     const val targetSdkVersion = 34
@@ -18,7 +18,7 @@ object Android {
 object Compose {
 
     private object Versions {
-        const val bom = "2025.03.01"
+        const val bom = "2025.04.00"
     }
 
     const val bom = "androidx.compose:compose-bom:${Versions.bom}"
@@ -34,8 +34,8 @@ object Plugins {
         const val android = "8.9.1"
         const val dexcount = "4.0.0"
         const val kotlin = "2.1.20"
-        const val ksp = "2.1.20-1.0.32"
-        const val sonarQube = "5.1.0.4882" // Breaks CI build as of 6.x. See https://community.sonarsource.com/t/sonarqube-gradle-plugin-6-0-breaks-android-tasks/130863
+        const val ksp = "2.1.20-2.0.0"
+        const val sonarQube = "6.1.0.5360"
         const val unMock = "0.9.0"
         const val versions = "0.52.0"
     }
@@ -65,8 +65,9 @@ object Libs {
         const val engelsystem = "9.2.0"
         const val fragmentCompose = "1.8.6"
         const val htmlConverter = "1.0.3"
-        const val junitJupiter = "5.11.4"
-        const val kotlinCoroutines = "1.10.1"
+        const val junitJupiter = "5.12.2"
+        const val junitPlatform = "1.12.2"
+        const val kotlinCoroutines = "1.10.2"
         const val lifecycle = "2.8.7"
         const val markdownRenderer = "0.32.0"
         const val material = "1.12.0"
@@ -100,6 +101,7 @@ object Libs {
     const val junitJupiterApi = "org.junit.jupiter:junit-jupiter-api:${Versions.junitJupiter}"
     const val junitJupiterEngine = "org.junit.jupiter:junit-jupiter-engine:${Versions.junitJupiter}"
     const val junitJupiterParams = "org.junit.jupiter:junit-jupiter-params:${Versions.junitJupiter}"
+    const val junitPlatformLauncher = "org.junit.platform:junit-platform-launcher:${Versions.junitPlatform}"
     const val htmlConverter = "be.digitalia.compose.htmlconverter:htmlconverter:${Versions.htmlConverter}"
     const val kotlinCoroutinesAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.kotlinCoroutines}"
     const val kotlinCoroutinesCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinCoroutines}"
