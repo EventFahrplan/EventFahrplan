@@ -33,6 +33,7 @@ android {
 
         // Build information
         resValue("string", "build_time", "\"${buildTime()}\"")
+        resValue("string", "modification_time", "\"${modificationTime()}\"")
         resValue("string", "git_sha", "\"${gitSha()}\"")
 
         // Build configuration / feature flags
@@ -259,8 +260,22 @@ def gitSha() {
     return res
 }
 
+def modificationTime() {
+    // https://reproducible-builds.org/docs/source-date-epoch/
+    // Set based on the current commit that is being built.
+    def committedAt = System.getenv('SOURCE_DATE_EPOCH')
+    if (committedAt == null || committedAt.length() == 0) {
+        committedAt = "git log -1 --format=%ct".execute([], project.rootDir).text.trim()
+    }
+    return getFormattedDate(new Date(Long.parseLong(committedAt) * 1000))
+}
+
 static def buildTime() {
-    return new Date().format("yyyy-MM-dd'T'HH:mm'Z'", TimeZone.getTimeZone("UTC"))
+    return getFormattedDate(new Date())
+}
+
+static def getFormattedDate(Date date) {
+    return date.format("yyyy-MM-dd'T'HH:mm'Z'", TimeZone.getTimeZone("UTC"))
 }
 
 def hasSigningConfig(String flavor) {

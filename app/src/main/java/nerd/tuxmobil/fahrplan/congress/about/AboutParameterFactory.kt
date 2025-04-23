@@ -61,6 +61,10 @@ class AboutParameterFactory(
                 R.string.build_info_time,
                 resourceResolving.getString(R.string.build_time)
             ),
+            modifiedAt = resourceResolving.getString(
+                R.string.modified_at,
+                resourceResolving.getString(R.string.modification_time),
+            ),
             buildVersion = resourceResolving.getString(
                 R.string.build_info_version_code,
                 "${buildConfig.versionCode}"

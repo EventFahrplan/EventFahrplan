@@ -155,6 +155,9 @@
     <string name="build_info_time">
         Build time: <xliff:g example="2015-12-27T13:42Z" id="build_time">%s</xliff:g>
     </string>
+    <string name="modified_at">
+        Modification time: <xliff:g example="2015-12-26T23:24Z" id="modification_time">%s</xliff:g>
+    </string>
     <string name="build_info_version_code">
         Version code: <xliff:g example="42" id="version_code">%s</xliff:g>
     </string>
