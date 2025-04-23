@@ -32,7 +32,6 @@ android {
         testInstrumentationRunnerArguments runnerBuilder: "de.mannodermaus.junit5.AndroidJUnit5Builder"
 
         // Build information
-        resValue("string", "build_time", "\"${buildTime()}\"")
         resValue("string", "modification_time", "\"${modificationTime()}\"")
         resValue("string", "git_sha", "\"${gitSha()}\"")
 
@@ -67,11 +66,13 @@ android {
 
     buildTypes {
         debug {
+            resValue("string", "build_time", "\"${buildTime()}\"")
             versionNameSuffix "-DEBUG"
             applicationIdSuffix ".debug"
             debuggable true
         }
         release {
+            resValue("string", "build_time", "")
             minifyEnabled true
             proguardFiles getDefaultProguardFile("proguard-android.txt"),
                     "proguard-rules/proguard-project.txt",

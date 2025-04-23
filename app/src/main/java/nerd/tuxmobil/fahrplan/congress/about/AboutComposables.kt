@@ -206,7 +206,9 @@ private fun CopyrightNotes(parameter: AboutParameter) {
 
 @Composable
 private fun BuildInfo(parameter: AboutParameter) {
-    AboutText(text = parameter.buildTime)
+    if (parameter.buildTime.isNotEmpty()) {
+        AboutText(text = parameter.buildTime)
+    }
     AboutText(text = parameter.modifiedAt)
     AboutText(text = parameter.buildVersion)
     AboutText(text = parameter.buildHash)
