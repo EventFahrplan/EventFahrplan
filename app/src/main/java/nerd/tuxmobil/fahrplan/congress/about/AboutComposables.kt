@@ -206,7 +206,10 @@ private fun CopyrightNotes(parameter: AboutParameter) {
 
 @Composable
 private fun BuildInfo(parameter: AboutParameter) {
-    AboutText(text = parameter.buildTime)
+    if (parameter.buildTime.isNotEmpty()) {
+        AboutText(text = parameter.buildTime)
+    }
+    AboutText(text = parameter.modifiedAt)
     AboutText(text = parameter.buildVersion)
     AboutText(text = parameter.buildHash)
 }
@@ -273,6 +276,7 @@ private fun AboutScreenPreview() {
             dataPrivacyStatement = Html.of(BuildConfig.DATA_PRIVACY_STATEMENT_DE_URL, stringResource(R.string.about_data_privacy_statement_german)),
             copyrightNotes = stringResource(R.string.copyright_notes),
             buildTime = stringResource(R.string.build_info_time),
+            modifiedAt = stringResource(R.string.modified_at),
             buildVersion = stringResource(R.string.build_info_version_code),
             buildHash = stringResource(R.string.build_info_hash),
         ),

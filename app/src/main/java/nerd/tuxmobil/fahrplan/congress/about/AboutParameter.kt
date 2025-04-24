@@ -22,6 +22,7 @@ data class AboutParameter(
     val dataPrivacyStatement: TextResource = Empty,
     val copyrightNotes: String = "",
     val buildTime: String = "",
+    val modifiedAt: String = "",
     val buildVersion: String = "",
     val buildHash: String = "",
 )
