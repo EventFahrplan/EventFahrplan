@@ -132,7 +132,7 @@ No. [101069594](https://cordis.europa.eu/project/id/101069594).
 
 ![Logo NLnet: abstract logo of four people seen from above](gfx/nlnet-banner-160x60.png)
 
-![Logo NGI Zero: letterlogo shaped like a tag](gfx/ngi0entrust-banner-191x60.png)
+![Logo NGI Zero Core: letterlogo shaped like a tag](gfx/ngi0core-banner-191x60.png) ![Logo NGI Zero Entrust: letterlogo shaped like a tag](gfx/ngi0entrust-banner-191x60.png)
 
 ## Licenses
 
