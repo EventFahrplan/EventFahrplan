@@ -59,6 +59,7 @@
         <item quantity="other">iptal edildi</item>
     </plurals>
     <plurals name="schedule_changes_dialog_number_of_sessions">
+        <item quantity="one"><xliff:g example="1" id="count">%d</xliff:g> oturum</item>
         <item quantity="other"><xliff:g example="9" id="count">%d</xliff:g> oturum</item>
     </plurals>
     <plurals name="schedule_changes_dialog_being">
@@ -82,6 +83,7 @@
     <string name="schedule_updated">Program güncellendi.
     </string>
     <string name="settings">Ayarlar</string>
+    <string name="session_details_screen_name">Detaylar</string>
     <string name="session_details_section_title_track">Konu alanı</string>
     <string name="session_details_section_title_session_online">Online etkinlik</string>
     <string name="session_details_section_title_links">Bağlantılar</string>
@@ -153,6 +155,7 @@ Hatanın nasıl ve ne zaman olduğunu açıklayabilirsen bu bize hayli yardım e
     <string name="notifications_schedule_update_channel_description">Uygulama ayarlarında yapılandırılabilen programın otomatik güncellemeleri.    </string>
     <string name="notifications_schedule_update_channel_name">Program güncellemeleri</string>
     <plurals name="notifications_schedule_changes">
+        <item quantity="one"><xliff:g example="1" id="count">%d</xliff:g> oturum düzenlendi.</item>
         <item quantity="other"><xliff:g example="3" id="count">%d</xliff:g> oturum düzenlendi.</item>
     </plurals>
     <!-- Schedule refresh interval picker -->
@@ -211,6 +214,7 @@ Hatanın nasıl ve ne zaman olduğunu açıklayabilirsen bu bize hayli yardım e
     <!-- Schedule statistic -->
     <string name="schedule_statistic_no_statistic_data_title">Program istatistiği henüz hazır değil</string>
     <string name="schedule_statistic_title">Program istatistiği</string>
+    <string name="schedule_statistic_description">\'sessions\' veritabanı tablosundaki boş ve dolu veya null alanların dağılımını gösterir.</string>
     <string name="schedule_statistic_toggle_sorting">Sırala</string>
     <string name="schedule_statistic_column_name">Sütun adı</string>
     <string name="schedule_statistic_null_empty">null/boş</string>
@@ -224,4 +228,11 @@ Hatanın nasıl ve ne zaman olduğunu açıklayabilirsen bu bize hayli yardım e
     <string name="search_clear_search_query_content_description">Aramayı temizle</string>
     <string name="search_history_title">Son aramalar</string>
     <string name="search_history_clear">Temizle</string>
+    <!-- Room state -->
+    <string name="room_state_text">Oda durumu: <xliff:g example="Too full" id="state">%s</xliff:g></string>
+    <string name="room_state_unknown">bilinmiyor</string>
+    <string name="room_state_empty">boş</string>
+    <string name="room_state_full">dolu</string>
+    <string name="room_state_too_full">çok dolu</string>
+    <string name="room_state_not_retrievable">alınamıyor</string>
 </resources>
