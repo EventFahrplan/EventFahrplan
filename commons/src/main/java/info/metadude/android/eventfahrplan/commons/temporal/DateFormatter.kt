@@ -34,7 +34,7 @@ class DateFormatter private constructor(
      * without AM or PM postfix - in 24 hours format.
      */
     fun getFormattedTime24Hour(moment: Moment, sessionZoneOffset: ZoneOffset?): String {
-        val zoneOffset = getAvailableZoneOffset(sessionZoneOffset)
+        val zoneOffset = getAvailableZoneOffset(Instant.ofEpochMilli(moment.toMilliseconds()), sessionZoneOffset)
         return timeShortNumberOnlyFormatter.format(moment.toZonedDateTime(zoneOffset))
     }
 
@@ -47,8 +47,9 @@ class DateFormatter private constructor(
      * current time zone offset of the device.
      */
     fun getFormattedTime(time: Long, sessionZoneOffset: ZoneOffset?): String {
-        val zoneOffset = getAvailableZoneOffset(sessionZoneOffset)
-        return timeShortFormatter.withZone(zoneOffset).format(Instant.ofEpochMilli(time))
+        val timeInstant = Instant.ofEpochMilli(time)
+        val zoneOffset = getAvailableZoneOffset(timeInstant, sessionZoneOffset)
+        return timeShortFormatter.withZone(zoneOffset).format(timeInstant)
     }
 
     /**
@@ -60,8 +61,9 @@ class DateFormatter private constructor(
      * current time zone offset of the device.
      */
     fun getFormattedDate(time: Long, sessionZoneOffset: ZoneOffset?): String {
-        val zoneOffset = getAvailableZoneOffset(sessionZoneOffset)
-        return dateShortFormatter.withZone(zoneOffset).format(Instant.ofEpochMilli(time))
+        val timeInstant = Instant.ofEpochMilli(time)
+        val zoneOffset = getAvailableZoneOffset(timeInstant, sessionZoneOffset)
+        return dateShortFormatter.withZone(zoneOffset).format(timeInstant)
     }
 
     /**
@@ -94,7 +96,7 @@ class DateFormatter private constructor(
      * E.g. 1/22/19, 1:00 AM
      */
     fun getFormattedDateTimeShort(time: Long, sessionZoneOffset: ZoneOffset?): String {
-        val zoneOffset = getAvailableZoneOffset(sessionZoneOffset)
+        val zoneOffset = getAvailableZoneOffset(Instant.ofEpochMilli(time), sessionZoneOffset)
         val toZonedDateTime: ZonedDateTime = Moment.ofEpochMilli(time).toZonedDateTime(zoneOffset)
         return dateShortTimeShortFormatter.format(toZonedDateTime)
     }
@@ -107,7 +109,7 @@ class DateFormatter private constructor(
      * E.g. January 22, 2019, 1:00 AM
      */
     fun getFormattedDateTimeLong(time: Long, sessionZoneOffset: ZoneOffset?): String {
-        val zoneOffset = getAvailableZoneOffset(sessionZoneOffset)
+        val zoneOffset = getAvailableZoneOffset(Instant.ofEpochMilli(time), sessionZoneOffset)
         val toZonedDateTime = Moment.ofEpochMilli(time).toZonedDateTime(zoneOffset)
         return dateLongTimeShortFormatter.format(toZonedDateTime)
     }
@@ -116,8 +118,8 @@ class DateFormatter private constructor(
      * Returns the available zone offset - either the given [sessionZoneOffset] or the zone offset
      * of the device. The user can overrule the logic by setting [useDeviceTimeZone].
      */
-    private fun getAvailableZoneOffset(sessionZoneOffset: ZoneOffset?): ZoneOffset {
-        val deviceZoneOffset = OffsetDateTime.now().offset
+    private fun getAvailableZoneOffset(time: Instant, sessionZoneOffset: ZoneOffset?): ZoneOffset {
+        val deviceZoneOffset = OffsetDateTime.ofInstant(time, sessionZoneOffset).offset
         val useDeviceZoneOffset = sessionZoneOffset == null || sessionZoneOffset == deviceZoneOffset
         return if (useDeviceTimeZone || useDeviceZoneOffset) deviceZoneOffset else sessionZoneOffset!!
     }
