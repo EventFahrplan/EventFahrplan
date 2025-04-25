@@ -28,6 +28,11 @@ class AboutParameterFactory(
             resourceResolving.getString(R.string.app_hardcoded_subtitle).ifEmpty { "" }
         }
 
+        val builtAt = resourceResolving.getString(R.string.build_time)
+        val buildTimeText = if (builtAt.isEmpty()) "" else resourceResolving.getString(
+            R.string.build_info_time,
+            builtAt
+        )
         return AboutParameter(
             title = titleText,
             subtitle = subtitleText,
@@ -57,9 +62,10 @@ class AboutParameterFactory(
             dataPrivacyStatement = textResourceOf(R.string.about_data_privacy_statement_german, buildConfig.dataPrivacyStatementDeUrl),
             copyrightNotes = resourceResolving.getString(R.string.copyright_notes),
 
-            buildTime = resourceResolving.getString(
-                R.string.build_info_time,
-                resourceResolving.getString(R.string.build_time)
+            buildTime = buildTimeText,
+            modifiedAt = resourceResolving.getString(
+                R.string.modified_at,
+                resourceResolving.getString(R.string.modification_time),
             ),
             buildVersion = resourceResolving.getString(
                 R.string.build_info_version_code,

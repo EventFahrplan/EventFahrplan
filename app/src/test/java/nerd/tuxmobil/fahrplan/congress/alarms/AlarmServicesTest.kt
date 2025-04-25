@@ -35,7 +35,12 @@ class AlarmServicesTest {
     private var mockContext = mock<Context>()
     private var repository = mock<AppRepository>()
     private val alarmTimesValues = listOf("0", "10", "60")
-    private val alarm = SchedulableAlarm(3, "1001", "Welcome", 700)
+    private val alarm = SchedulableAlarm(
+        dayIndex = 3,
+        sessionId = "1001",
+        sessionTitle = "Welcome",
+        startTime = 700,
+    )
 
     @Test
     fun `newInstance returns a new preconfigured instance of the AlarmServices class`() {
@@ -67,7 +72,7 @@ class AlarmServicesTest {
         // AlarmServices invokes scheduleSessionAlarm() which is tested separately.
         val expectedAlarm = Alarm(
             alarmTimeInMin = 60,
-            day = 1,
+            dayIndex = 1,
             displayTime = 1536332400000,
             sessionId = "S1",
             sessionTitle = "Title",
@@ -192,7 +197,7 @@ class AlarmServicesTest {
 
     // TODO Move into a unit test for AlarmReceiver once it is written.
     private fun assertIntentExtras(intent: Intent, action: String) {
-        assertThat(intent.getIntExtra(BundleKeys.ALARM_DAY, 9)).isEqualTo(alarm.day)
+        assertThat(intent.getIntExtra(BundleKeys.ALARM_DAY_INDEX, 9)).isEqualTo(alarm.dayIndex)
         assertThat(intent.getStringExtra(BundleKeys.ALARM_SESSION_ID)).isEqualTo(alarm.sessionId)
         assertThat(intent.getLongExtra(BundleKeys.ALARM_START_TIME, 0)).isEqualTo(alarm.startTime)
         assertThat(intent.getStringExtra(BundleKeys.ALARM_TITLE)).isEqualTo(alarm.sessionTitle)

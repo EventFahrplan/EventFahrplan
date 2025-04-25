@@ -3,35 +3,33 @@ package nerd.tuxmobil.fahrplan.congress.models
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract
 
 data class Alarm(
-
-        val id: Int,
-        val alarmTimeInMin: Int,
-        val day: Int,
-        val displayTime: Long,
-        val sessionId: String,
-        val sessionTitle: String,
-        val startTime: Long,
-        val timeText: String
-
+    val id: Int,
+    val alarmTimeInMin: Int,
+    val dayIndex: Int,
+    val displayTime: Long,
+    val sessionId: String,
+    val sessionTitle: String,
+    val startTime: Long,
+    val timeText: String,
 ) {
 
     constructor(
-            alarmTimeInMin: Int,
-            day: Int,
-            displayTime: Long,
-            sessionId: String,
-            sessionTitle: String,
-            startTime: Long,
-            timeText: String
+        alarmTimeInMin: Int,
+        dayIndex: Int,
+        displayTime: Long,
+        sessionId: String,
+        sessionTitle: String,
+        startTime: Long,
+        timeText: String,
     ) : this(
-            DEFAULT_VALUE_ID,
-            alarmTimeInMin,
-            day,
-            displayTime,
-            sessionId,
-            sessionTitle,
-            startTime,
-            timeText
+        id = DEFAULT_VALUE_ID,
+        alarmTimeInMin = alarmTimeInMin,
+        dayIndex = dayIndex,
+        displayTime = displayTime,
+        sessionId = sessionId,
+        sessionTitle = sessionTitle,
+        startTime = startTime,
+        timeText = timeText,
     )
 
     companion object {

@@ -1,5 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress.schedule
 
+import android.annotation.SuppressLint
 import android.content.Context
 import nerd.tuxmobil.fahrplan.congress.R
 import org.xmlpull.v1.XmlPullParser
@@ -51,6 +52,7 @@ object TrackBackgrounds {
         return map
     }
 
+    @SuppressLint("DiscouragedApi")
     private fun buildTrackBackgroundHashMap(
         trackNamesMap: Map<String?, String?>,
         prefix: String,

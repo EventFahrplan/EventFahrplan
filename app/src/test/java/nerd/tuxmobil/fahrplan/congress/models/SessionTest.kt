@@ -30,6 +30,8 @@ class SessionTest {
             language = "cz",
             recordingLicense = "CC-0",
             recordingOptOut = true,
+            isHighlight = true,
+            hasAlarm = true,
 
             // Not considered in equal nor hashCode.
             url = "https://example.com",
@@ -39,8 +41,6 @@ class SessionTest {
             abstractt = "Sodales ut etiam sit amet nisl purus",
             description = "Lorem ipsum dolor sit amet",
             links = "http://sample.com",
-            isHighlight = true,
-            hasAlarm = true,
 
             // Not considered in equal nor hashCode, too.
             changedTitle = true,
@@ -65,8 +65,6 @@ class SessionTest {
             abstractt = "Foo abstract",
             description = "Foo description",
             links = "https://foobar-links.org",
-            isHighlight = false,
-            hasAlarm = false,
 
             changedTitle = false,
             changedSubtitle = false,
@@ -101,6 +99,8 @@ class SessionTest {
             of("language", createSession().copy(language = "Odd language")),
             of("recordingLicense", createSession().copy(recordingLicense = "Odd recording license")),
             of("recordingOptOut", createSession().copy(recordingOptOut = false)),
+            of("isHighlight", createSession().copy(isHighlight = false)),
+            of("hasAlarm", createSession().copy(hasAlarm = false)),
         )
 
     }

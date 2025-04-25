@@ -1,12 +1,12 @@
 package nerd.tuxmobil.fahrplan.congress.settings
 
-import android.annotation.TargetApi
 import android.app.Activity.RESULT_OK
 import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import androidx.annotation.RequiresApi
 import androidx.preference.EditTextPreference
 import androidx.preference.ListPreference
 import androidx.preference.Preference
@@ -23,6 +23,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import nerd.tuxmobil.fahrplan.congress.BuildConfig
 import nerd.tuxmobil.fahrplan.congress.R
@@ -194,7 +195,7 @@ class SettingsFragment(
         requireNotNull(activity).setResult(RESULT_OK, redrawIntent)
     }
 
-    @TargetApi(Build.VERSION_CODES.O)
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun launchAppNotificationSettings(context: Context) {
         val intent = Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS).withExtras(
             Settings.EXTRA_APP_PACKAGE to context.packageName
@@ -210,7 +211,7 @@ class SettingsFragment(
         val autoUpdatePreference = requirePreference<SwitchPreferenceCompat>(resources.getString(R.string.preference_key_auto_update_enabled))
         coroutineScope.launch {
             AppRepository.scheduleNextFetch
-                .collect { nextFetch ->
+                .collectLatest { nextFetch ->
                     val text = when (autoUpdatePreference.isChecked && nextFetch.isValid()) {
                         true -> {
                             val (nextFetchAt, interval) = nextFetch

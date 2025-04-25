@@ -7,6 +7,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -56,7 +57,7 @@ class StarredListViewModel(
     fun share() {
         launch {
             val timeZoneId = repository.readMeta().timeZoneId
-            repository.starredSessions.collect { sessions ->
+            repository.starredSessions.collectLatest { sessions ->
                 simpleSessionFormat.format(sessions, timeZoneId)?.let { formattedSessions ->
                     mutableShareSimple.sendOneTimeEvent(formattedSessions)
                 }
@@ -66,7 +67,7 @@ class StarredListViewModel(
 
     fun shareToChaosflix() {
         launch {
-            repository.starredSessions.collect { sessions ->
+            repository.starredSessions.collectLatest { sessions ->
                 jsonSessionFormat.format(sessions)?.let { formattedSessions ->
                     mutableShareJson.sendOneTimeEvent(formattedSessions)
                 }

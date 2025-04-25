@@ -81,6 +81,7 @@
     <string name="schedule_updated_to">        Atualizado para <xliff:g example="Mildenberg 2018-01-16 16:50" id="version">%s</xliff:g>    </string>
     <string name="schedule_updated">O cronograma foi atualizado.    </string>
     <string name="settings">Configurações</string>
+    <string name="session_details_screen_name">Detalhes</string>
     <string name="session_details_section_title_track">Área temática</string>
     <string name="session_details_section_title_session_online">Evento online</string>
     <string name="session_details_section_title_links">Links</string>
@@ -195,6 +196,7 @@
     <string name="session_list_item_no_video_content_description">Sem gravação de vídeo</string>
     <string name="session_list_item_video_content_description">Com gravação de vídeo</string>
     <string name="session_list_item_without_video_content_description">Sem gravação de vídeo</string>
+    <string name="session_list_item_zero_speakers_content_description">Nenhum palestrante</string>
     <plurals name="session_list_item_speakers_content_description">
         <item quantity="one">Palestrante: <xliff:g example="Jane Doe" id="name">%s</xliff:g></item>
         <item quantity="other">Palestrantes: <xliff:g example="Jane Doe, John Doe" id="names">%s</xliff:g></item>
@@ -242,4 +244,11 @@
     <string name="search_clear_search_query_content_description">Limpar pesquisa</string>
     <string name="search_history_title">Pesquisas recentes</string>
     <string name="search_history_clear">Limpar</string>
+    <!-- Room state -->
+    <string name="room_state_text">Status da sala: <xliff:g example="Too full" id="state">%s</xliff:g></string>
+    <string name="room_state_unknown">desconhecido</string>
+    <string name="room_state_empty">vazia</string>
+    <string name="room_state_full">cheia</string>
+    <string name="room_state_too_full">muito cheia</string>
+    <string name="room_state_not_retrievable">não recuperável</string>
 </resources>

@@ -95,7 +95,6 @@ class SessionDetailsParameterFactoryTest {
         override fun getFormattedLinks(links: String) = ""
         override fun getFormattedUrl(url: String) = SAMPLE_SESSION_URL
         override fun getFormattedSpeakers(session: Session) = "Jane Doe, John Doe"
-        override fun getFormattedTrackNameAndLanguageText(session: Session) = ""
         override fun getLanguageText(session: Session) = ""
         override fun getRoomName(
             roomName: String,
@@ -116,11 +115,6 @@ class SessionDetailsParameterFactoryTest {
         ) = ""
 
         override fun getTrackNameContentDescription(trackName: String) = ""
-        override fun getTrackNameAndLanguageContentDescription(
-            trackName: String,
-            languageCode: String,
-        ) = ""
-
         override fun getLanguageContentDescription(languageCode: String) = ""
         override fun getStartTimeContentDescription(startTimeText: String) = ""
         override fun getStateContentDescription(session: Session, useDeviceTimeZone: Boolean) = ""

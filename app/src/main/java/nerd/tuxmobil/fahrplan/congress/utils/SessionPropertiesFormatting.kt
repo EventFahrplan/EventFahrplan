@@ -12,8 +12,6 @@ interface SessionPropertiesFormatting {
 
     fun getFormattedSpeakers(session: Session): String
 
-    fun getFormattedTrackNameAndLanguageText(session: Session): String
-
     fun getLanguageText(session: Session): String
 
     fun getRoomName(
