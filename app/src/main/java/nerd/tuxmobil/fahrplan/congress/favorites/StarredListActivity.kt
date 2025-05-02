@@ -34,7 +34,8 @@ class StarredListActivity : BaseActivity(R.layout.activity_generic), OnSessionLi
         applyToolbar(toolbar) {
             setDisplayHomeAsUpEnabled(true)
         }
-
+        // Enable UP navigation
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         if (savedInstanceState == null) {
             addFragment(R.id.fragment_container_view, StarredListFragment(), StarredListFragment.FRAGMENT_TAG)
         }

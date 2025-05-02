@@ -3,6 +3,7 @@ package info.metadude.android.eventfahrplan.database.repositories
 import android.content.ContentValues
 import android.database.sqlite.SQLiteException
 import androidx.core.database.sqlite.transaction
+import info.metadude.android.eventfahrplan.commons.logging.Logging
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.HighlightsTable
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.HighlightsTable.Columns.HIGHLIGHT
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.HighlightsTable.Columns.SESSION_ID
@@ -82,6 +83,7 @@ internal class RealHighlightsDatabaseRepository(
      * with the given [sessionId].
      */
     override fun delete(sessionId: String): Int {
+        Logging.get().d("DB", "sessionId: $sessionId")
         with(sqLiteOpenHelper) {
             return writableDatabase.updateRow(
                 tableName = HighlightsTable.NAME,
@@ -90,6 +92,24 @@ internal class RealHighlightsDatabaseRepository(
                 },
                 columnName = SESSION_ID,
                 columnValue = sessionId,
+            )
+        }
+    }
+
+    /**
+     * Resets the value of the [HIGHLIGHT] column to [`false`][HIGHLIGHT_STATE_OFF] for the rows
+     * with the given [sessionIds].
+     */
+    override fun delete(sessionIds: Set<String>): Int {
+        Logging.get().d("DB", "sessionIds: $sessionIds")
+        with(sqLiteOpenHelper) {
+            return writableDatabase.updateRows(
+                tableName = HighlightsTable.NAME,
+                contentValues = ContentValues().apply {
+                    put(HIGHLIGHT, HIGHLIGHT_STATE_OFF)
+                },
+                columnName = SESSION_ID,
+                columnValues = sessionIds,
             )
         }
     }
