@@ -16,6 +16,7 @@ interface HighlightsDatabaseRepository {
     fun query(): List<Highlight>
     fun queryBySessionId(sessionId: String): Highlight?
     fun delete(sessionId: String): Int
+    fun delete(sessionIds: Set<String>): Int
     fun deleteAll(): Int
 
 }

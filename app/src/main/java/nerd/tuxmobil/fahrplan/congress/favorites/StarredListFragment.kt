@@ -4,7 +4,6 @@ import android.content.Context
 import android.os.Bundle
 import android.util.SparseBooleanArray
 import android.view.ActionMode
-import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -13,37 +12,41 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AbsListView
 import android.widget.AbsListView.MultiChoiceModeListener
-import android.widget.HeaderViewListAdapter
-import android.widget.ListView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.CallSuper
 import androidx.annotation.IdRes
 import androidx.annotation.MainThread
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.ComposeView
 import androidx.core.view.MenuProvider
-import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle.State.RESUMED
+import androidx.lifecycle.lifecycleScope
 import info.metadude.android.eventfahrplan.commons.flow.observe
+import info.metadude.android.eventfahrplan.commons.logging.Logging
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
-import nerd.tuxmobil.fahrplan.congress.BuildConfig
 import nerd.tuxmobil.fahrplan.congress.R
-import nerd.tuxmobil.fahrplan.congress.base.AbstractListFragment
+import nerd.tuxmobil.fahrplan.congress.base.AbstractListFragment.OnSessionListClick
 import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolver
+import nerd.tuxmobil.fahrplan.congress.commons.ScreenNavigation
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
-import nerd.tuxmobil.fahrplan.congress.extensions.applyBottomPadding
 import nerd.tuxmobil.fahrplan.congress.extensions.applyHorizontalInsets
 import nerd.tuxmobil.fahrplan.congress.extensions.replaceFragment
-import nerd.tuxmobil.fahrplan.congress.extensions.requireViewByIdCompat
 import nerd.tuxmobil.fahrplan.congress.extensions.withArguments
 import nerd.tuxmobil.fahrplan.congress.models.Session
+import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.sharing.SessionSharer
+import nerd.tuxmobil.fahrplan.congress.sidepane.OnSidePaneCloseListener
 import nerd.tuxmobil.fahrplan.congress.utils.ActivityHelper.navigateUp
 import nerd.tuxmobil.fahrplan.congress.utils.ConfirmationDialog
 import nerd.tuxmobil.fahrplan.congress.utils.ContentDescriptionFormatter
 import nerd.tuxmobil.fahrplan.congress.utils.SessionPropertiesFormatter
+import kotlinx.coroutines.launch
 
 /**
  * A fragment representing a list of Items.
@@ -56,7 +59,7 @@ import nerd.tuxmobil.fahrplan.congress.utils.SessionPropertiesFormatter
  * screen orientation changes).
  */
 class StarredListFragment :
-    AbstractListFragment(),
+    Fragment(),
     MenuProvider,
     MultiChoiceModeListener,
     AbsListView.OnScrollListener {
@@ -81,25 +84,35 @@ class StarredListFragment :
     private var onSessionListClickListener: OnSessionListClick? = null
     private lateinit var starredList: List<Session>
     private var sidePane = false
+    private var actionMode: ActionMode? = null
 
     /**
      * The fragment's ListView/GridView.
      */
-    private lateinit var currentListView: ListView
+//    private lateinit var currentListView: ListView
 
     private var headerView: TextView? = null
 
-    private lateinit var loadingSpinnerView: View
+//    private lateinit var loadingSpinnerView: View
 
-    private val starredListAdapter: StarredListAdapter
-        get() {
-            val headerViewListAdapter = currentListView.adapter as HeaderViewListAdapter
-            return headerViewListAdapter.wrappedAdapter as StarredListAdapter
-        }
+//    private val starredListAdapter: StarredListAdapter
+//        get() {
+//            val headerViewListAdapter = currentListView.adapter as HeaderViewListAdapter
+//            return headerViewListAdapter.wrappedAdapter as StarredListAdapter
+//        }
 
     private var preserveScrollPosition = false
 
-    private val viewModel: StarredListViewModel by viewModels { StarredListViewModelFactory(appRepository) }
+    private val viewModelFactory by lazy {
+        val resourceResolving = ResourceResolver(requireContext())
+        StarredListViewModelFactory(
+            appRepository = AppRepository,
+            resourceResolving = resourceResolving,
+            sessionPropertiesFormatting = SessionPropertiesFormatter(resourceResolving),
+            contentDescriptionFormatting = ContentDescriptionFormatter(resourceResolving),
+        )
+    }
+    private val viewModel: StarredListViewModel by viewModels { viewModelFactory }
 
     @MainThread
     @CallSuper
@@ -112,33 +125,71 @@ class StarredListFragment :
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val contextThemeWrapper = ContextThemeWrapper(requireContext(), R.style.Theme_Congress)
-        val localInflater = inflater.cloneInContext(contextThemeWrapper)
-        val view: View
-        val header: View
-        if (sidePane) {
-            view = localInflater.inflate(R.layout.fragment_favorites_list_narrow, container, false)
-            currentListView = view.requireViewByIdCompat(android.R.id.list)
-            header = localInflater.inflate(R.layout.starred_header, null, false)
-            headerView = header.requireViewByIdCompat(R.id.header_view)
-        } else {
-            view = localInflater.inflate(R.layout.fragment_favorites_list, container, false)
-            currentListView = view.requireViewByIdCompat(android.R.id.list)
-            header = localInflater.inflate(R.layout.header_empty, null, false)
-            headerView = null
+        return ComposeView(requireContext()).apply {
+            setContent {
+                // Collect all state needed for the UI
+                val searchResultState by viewModel.searchResultsState.collectAsState()
+                val isMultiSelectMode by viewModel.isMultiSelectMode.collectAsState()
+                val checkedStates by viewModel.checkedStates.collectAsState()
+                
+                // Create the UI state
+                val uiState = FavoredSessionsUiState(
+                    searchResultState = searchResultState,
+                    isMultiSelectMode = isMultiSelectMode,
+                    checkedSessionIds = checkedStates
+                )
+                
+                // Render the UI with state and event handler
+                FavoredSessionsScreen(
+                    uiState = uiState,
+                    onViewEvent = { event -> handleViewEvent(event) }
+                )
+            }
+            isClickable = true
+            applyHorizontalInsets()
+            //currentListView.applyBottomPadding()
         }
-        currentListView.addHeaderView(header, null, false)
-        currentListView.setHeaderDividersEnabled(false)
-        currentListView.choiceMode = AbsListView.CHOICE_MODE_MULTIPLE_MODAL
-        currentListView.setMultiChoiceModeListener(this)
-        currentListView.setOnScrollListener(this)
-
-        view.applyHorizontalInsets()
-        currentListView.applyBottomPadding()
-
-        loadingSpinnerView = view.requireViewByIdCompat(R.id.loading_spinner_view)
-
-        return view
+    }
+    
+    private fun handleViewEvent(event: FavoredSessionsViewEvent) {
+        when (event) {
+            is FavoredSessionsViewEvent.OnBackClick -> {
+                if (viewModel.isMultiSelectMode.value) {
+                    viewModel.exitMultiSelectMode()
+                } else {
+                    navigateBack()
+                }
+            }
+            is FavoredSessionsViewEvent.OnItemClick -> {
+                viewModel.onViewEvent(event)
+            }
+            is FavoredSessionsViewEvent.OnCheckedStateChange -> {
+                viewModel.toggleCheckedState(event.sessionId)
+            }
+            is FavoredSessionsViewEvent.OnCheckedSessionsChange -> {
+                viewModel.onViewEvent(event)
+            }
+            is FavoredSessionsViewEvent.OnShareClick -> {
+                viewModel.onViewEvent(event)
+            }
+            is FavoredSessionsViewEvent.OnDeleteClick -> {
+                viewModel.onViewEvent(event)
+            }
+            is FavoredSessionsViewEvent.OnMultiSelectToggle -> {
+                viewModel.onViewEvent(event)
+            }
+        }
+    }
+    
+    private fun navigateBack() {
+        val activity = requireActivity()
+        if (activity is OnSidePaneCloseListener) {
+            // Handle specialized side pane behavior
+            activity.onSidePaneClose(FRAGMENT_TAG)
+        } else {
+            // Let the system handle standard back navigation
+            activity.onBackPressedDispatcher.onBackPressed()
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -159,12 +210,39 @@ class StarredListFragment :
                 sessionPropertiesFormatting = SessionPropertiesFormatter(resourceResolving),
                 contentDescriptionFormatting = ContentDescriptionFormatter(resourceResolving),
             )
-            currentListView.adapter = adapter
             updateHeaderOrTitleText(sessions.size)
+//            currentListView.adapter = adapter
             activity.invalidateOptionsMenu()
 
-            loadingSpinnerView.isVisible = false
+//            loadingSpinnerView.isVisible = false
             jumpOverPastSessions()
+        }
+        viewModel.navigateBack.observe(viewLifecycleOwner) {
+            // Always make sure action mode is destroyed before navigating back
+            ensureActionModeDestroyed("navigateBack event")
+            navigateBack()
+        }
+        viewModel.multiSelectToggled.observe(viewLifecycleOwner) {
+            Logging.get().d("StarredListFragment", "multiSelectToggled observed")
+            
+            // Get the current checked session count
+            val hasCheckedSessions = viewModel.getCheckedSessionCount() > 0
+            
+            // Only toggle action mode if there are checked sessions or if we need to exit existing action mode
+            if (actionMode == null) {
+                // Only start action mode if there are checked sessions
+                if (hasCheckedSessions) {
+                    actionMode = requireActivity().startActionMode(this)
+                    Logging.get().d("StarredListFragment", "Starting action mode: $actionMode")
+                } else {
+                    Logging.get().d("StarredListFragment", "Not starting action mode because there are no checked sessions")
+                }
+            } else {
+                // Always finish action mode if it exists
+                actionMode?.finish()
+                actionMode = null
+                Logging.get().d("StarredListFragment", "Finishing existing action mode")
+            }
         }
         viewModel.shareSimple.observe(viewLifecycleOwner) { formattedSession ->
             SessionSharer.shareSimple(requireContext(), formattedSession)
@@ -174,6 +252,35 @@ class StarredListFragment :
             if (!SessionSharer.shareJson(context, formattedSession)) {
                 Toast.makeText(context, R.string.share_error_activity_not_found, Toast.LENGTH_SHORT).show()
             }
+        }
+        // Observe multiselect state to keep action mode in sync
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.isMultiSelectMode.collect { isMultiSelectMode ->
+                if (isMultiSelectMode && actionMode == null) {
+                    // If we should be in multiselect but action mode is null, start it
+                    if (viewModel.hasCheckedSessions()) {
+                        actionMode = requireActivity().startActionMode(this@StarredListFragment)
+                        Logging.get().d("StarredListFragment", "Starting action mode from state collection")
+                    }
+                } else if (!isMultiSelectMode && actionMode != null) {
+                    // If we shouldn't be in multiselect but action mode exists, finish it
+                    actionMode?.finish()
+                    actionMode = null
+                    Logging.get().d("StarredListFragment", "Finishing action mode from state collection")
+                }
+            }
+        }
+    }
+    
+    /**
+     * Helper method to ensure action mode is destroyed with proper ViewModel cleanup
+     */
+    private fun ensureActionModeDestroyed(reason: String) {
+        if (actionMode != null) {
+            Logging.get().d("StarredListFragment", "Finishing action mode due to: $reason")
+            actionMode?.finish()
+            actionMode = null
+            viewModel.onActionModeDestroyed()
         }
     }
 
@@ -193,6 +300,36 @@ class StarredListFragment :
         if (!preserveScrollPosition) {
             jumpOverPastSessions()
         }
+        // Notify ViewModel to ensure clean state
+        viewModel.onFragmentResume()
+    }
+
+    @MainThread
+    @CallSuper
+    override fun onPause() {
+        super.onPause()
+        // Ensure action mode is always destroyed when leaving the fragment
+        if (actionMode != null) {
+            Logging.get().d("StarredListFragment", "Finishing action mode on pause")
+            actionMode?.finish()
+            actionMode = null
+            viewModel.onActionModeDestroyed()
+        }
+        // Notify ViewModel about lifecycle
+        viewModel.onFragmentPause()
+    }
+
+    @MainThread
+    @CallSuper
+    override fun onStop() {
+        super.onStop()
+        // Extra guarantee to ensure action mode doesn't persist
+        if (actionMode != null) {
+            Logging.get().d("StarredListFragment", "Finishing action mode on stop")
+            actionMode?.finish()
+            actionMode = null
+            viewModel.onActionModeDestroyed()
+        }
     }
 
     private fun jumpOverPastSessions() {
@@ -210,15 +347,18 @@ class StarredListFragment :
             }
             i++
         }
-        if (i > 0 && i < starredList.size) {
-            currentListView.setSelection(i + 1 + numSeparators)
-        }
+//        if (i > 0 && i < starredList.size) {
+//            currentListView.setSelection(i + 1 + numSeparators)
+//        }
     }
 
     @MainThread
     @CallSuper
     override fun onAttach(context: Context) {
         super.onAttach(context)
+        viewModel.screenNavigation = ScreenNavigation { sessionId ->
+            onSessionListClickListener?.onSessionListClick(sessionId)
+        }
         onSessionListClickListener = try {
             context as OnSessionListClick
         } catch (e: ClassCastException) {
@@ -231,18 +371,19 @@ class StarredListFragment :
     override fun onDetach() {
         super.onDetach()
         onSessionListClickListener = null
+        viewModel.screenNavigation = null
     }
 
-    override fun onListItemClick(listView: ListView, view: View, listPosition: Int, rowId: Long) {
-        var currentPosition = listPosition
-        if (onSessionListClickListener != null) {
-            // Notify the active callbacks interface (the activity, if the
-            // fragment is attached to one) that an item has been selected.
-            currentPosition--
-            val clicked = starredListAdapter.getSession(currentPosition)
-            onSessionListClickListener?.onSessionListClick(clicked.sessionId)
-        }
-    }
+//    override fun onListItemClick(listView: ListView, view: View, listPosition: Int, rowId: Long) {
+//        var currentPosition = listPosition
+//        if (onSessionListClickListener != null) {
+//            // Notify the active callbacks interface (the activity, if the
+//            // fragment is attached to one) that an item has been selected.
+//            currentPosition--
+//            val clicked = starredListAdapter.getSession(currentPosition)
+//            onSessionListClickListener?.onSessionListClick(clicked.sessionId)
+//        }
+//    }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
         menuInflater.inflate(R.menu.starred_list_menu, menu)
@@ -250,7 +391,7 @@ class StarredListFragment :
         if (item != null && (!::starredList.isInitialized || starredList.isEmpty())) {
             item.isVisible = false
         }
-        val shareFavoritesItemRes = if (BuildConfig.ENABLE_CHAOSFLIX_EXPORT)
+        val shareFavoritesItemRes = if (viewModel.isChaosflixExportEnabled())
             R.id.menu_item_share_favorites_menu else
             R.id.menu_item_share_favorites
         item = menu.findItem(shareFavoritesItemRes)
@@ -278,6 +419,13 @@ class StarredListFragment :
             }
 
             android.R.id.home -> {
+                // Ensure action mode is destroyed when navigating up via toolbar
+                if (actionMode != null) {
+                    Logging.get().d("StarredListFragment", "Finishing action mode on up navigation")
+                    actionMode?.finish()
+                    actionMode = null
+                    viewModel.onActionModeDestroyed()
+                }
                 return requireActivity().navigateUp()
             }
         }
@@ -313,8 +461,10 @@ class StarredListFragment :
     override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.menu_item_delete_favorite -> {
-                deleteItems(currentListView.checkedItemPositions)
+                Logging.get().d("StarredListFragment", "menu_item_delete_favorite")
+                viewModel.unfavorCheckedSessions()
                 mode.finish()
+                actionMode = null
                 true
             }
 
@@ -323,16 +473,19 @@ class StarredListFragment :
     }
 
     private fun deleteItems(checkedItemPositions: SparseBooleanArray) {
-        val itemsCount = currentListView.adapter.count
-        for (itemId in itemsCount - 1 downTo 0) {
-            if (checkedItemPositions[itemId]) {
-                val session = starredListAdapter.getSession(itemId - 1)
-                viewModel.unfavorSession(session)
-            }
-        }
+//        val itemsCount = currentListView.adapter.count
+//        for (itemId in itemsCount - 1 downTo 0) {
+//            if (checkedItemPositions[itemId]) {
+//                val session = starredListAdapter.getSession(itemId - 1)
+//                viewModel.unfavorSession(session)
+//            }
+//        }
     }
 
-    override fun onDestroyActionMode(mode: ActionMode) = Unit
+    override fun onDestroyActionMode(mode: ActionMode) {
+        actionMode = null
+        viewModel.onActionModeDestroyed()
+    }
 
     private fun askToDeleteAllFavorites() {
         val fragmentManager = parentFragmentManager

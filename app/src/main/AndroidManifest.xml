@@ -44,6 +44,7 @@
         <activity
             android:name="nerd.tuxmobil.fahrplan.congress.favorites.StarredListActivity"
             android:label="@string/favorites_screen_default_title"
+            android:parentActivityName="nerd.tuxmobil.fahrplan.congress.schedule.MainActivity"
             android:resizeableActivity="true"
             tools:targetApi="24">
             <meta-data
