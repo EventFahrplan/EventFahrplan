@@ -46,6 +46,18 @@ internal fun SQLiteDatabase.updateRow(
 internal fun SQLiteDatabase.updateRows(
         tableName: String,
         contentValues: ContentValues,
+        columnName: String,
+        columnValues: Set<String>
+): Int = updateRows(
+        tableName = tableName,
+        contentValues = contentValues,
+        whereClause = if (columnValues.isEmpty()) null else "$columnName IN (${columnValues.joinToString { "?" }})",
+        whereArgs = columnValues.toTypedArray()
+)
+
+internal fun SQLiteDatabase.updateRows(
+        tableName: String,
+        contentValues: ContentValues,
         whereClause: String? = null,
         whereArgs: Array<String>? = null
 ): Int = update(

@@ -7,7 +7,8 @@ import androidx.core.app.TaskStackBuilder
 object ActivityHelper {
 
     fun Activity.navigateUp(): Boolean {
-        val upIntent = NavUtils.getParentActivityIntent(this)!!
+        val upIntent = NavUtils.getParentActivityIntent(this)
+        requireNotNull(upIntent)
         if (NavUtils.shouldUpRecreateTask(this, upIntent)) {
             // This activity is NOT part of this app's task, so create a new task
             // when navigating up, with a synthesized back stack.

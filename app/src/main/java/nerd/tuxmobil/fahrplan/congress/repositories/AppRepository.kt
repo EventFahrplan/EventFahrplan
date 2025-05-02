@@ -866,7 +866,19 @@ object AppRepository : SearchRepository,
 
     @WorkerThread
     fun deleteHighlight(sessionId: String) {
+        logging.d(LOG_TAG, "Deleting highlight for sessionId = $sessionId")
         if (highlightsDatabaseRepository.delete(sessionId) > 0) {
+            refreshStarredSessions()
+            refreshSelectedSession()
+            refreshRoomStates()
+            refreshUncanceledSessions()
+        }
+    }
+
+    @WorkerThread
+    fun deleteHighlights(sessionIds: Set<String>) {
+        logging.d(LOG_TAG, "Deleting highlight for sessionIds = $sessionIds")
+        if (highlightsDatabaseRepository.delete(sessionIds) > 0) {
             refreshStarredSessions()
             refreshSelectedSession()
             refreshRoomStates()
@@ -1104,5 +1116,11 @@ object AppRepository : SearchRepository,
         sharedPreferencesRepository.setSearchHistory(history)
         refreshSearchHistory()
     }
+
+    /**
+     * Returns whether Chaosflix export is enabled in the app.
+     * Abstracts the BuildConfig flag so other components don't need to access it directly.
+     */
+    fun isChaosflixExportEnabled() = BuildConfig.ENABLE_CHAOSFLIX_EXPORT
 
 }

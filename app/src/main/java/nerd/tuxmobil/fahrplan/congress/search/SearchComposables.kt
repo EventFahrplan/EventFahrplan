@@ -262,7 +262,7 @@ private fun NoSearchResult(onBack: () -> Unit) {
 }
 
 @Composable
-private fun SearchResultList(
+fun SearchResultList(
     parameters: List<SearchResultParameter>,
     onViewEvent: (SearchViewEvent) -> Unit,
 ) {
@@ -298,7 +298,7 @@ private fun SearchResultList(
 }
 
 @Composable
-private fun SearchResultItem(
+fun SearchResultItem(
     searchResult: SearchResult,
     modifier: Modifier = Modifier,
 ) {
