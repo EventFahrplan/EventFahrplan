@@ -56,7 +56,7 @@ class AppRepositoryUncanceledSessionsForDayIndexTest {
                 sessionsDatabaseRepository = createSessionsDatabaseRepository(),
                 highlightsDatabaseRepository = highlightsDatabaseRepository,
                 scheduleNetworkRepository = mock(),
-                engelsystemNetworkRepository = mock(),
+                engelsystemRepository = mock(),
                 sharedPreferencesRepository = createSharedPreferencesRepository(),
                 sessionsTransformer = sessionsTransformer,
             )

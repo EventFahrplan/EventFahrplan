@@ -195,7 +195,6 @@ dependencies {
     implementation project(":commons")
     implementation project(":database")
     implementation project(":network")
-    implementation project(":engelsystem")
 
     def composeBom = platform(Compose.bom)
     implementation composeBom
@@ -212,6 +211,7 @@ dependencies {
     implementation Libs.constraintLayout
     implementation Libs.coreKtx
     implementation Libs.emailIntentBuilder
+    implementation Libs.engelsystem
     implementation Libs.fragmentCompose
     implementation Libs.htmlConverter
     implementation Libs.kotlinCoroutinesAndroid

@@ -34,7 +34,7 @@ class AppRepositoryScheduleNextFetchTest {
                 alarmsDatabaseRepository = mock(),
                 sessionsDatabaseRepository = mock(),
                 scheduleNetworkRepository = mock(),
-                engelsystemNetworkRepository = mock(),
+                engelsystemRepository = mock(),
                 sharedPreferencesRepository = sharedPreferencesRepository,
                 sessionsTransformer = mock(),
             )

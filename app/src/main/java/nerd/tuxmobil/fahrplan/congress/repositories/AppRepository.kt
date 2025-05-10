@@ -14,14 +14,12 @@ import info.metadude.android.eventfahrplan.database.repositories.AlarmsDatabaseR
 import info.metadude.android.eventfahrplan.database.repositories.HighlightsDatabaseRepository
 import info.metadude.android.eventfahrplan.database.repositories.MetaDatabaseRepository
 import info.metadude.android.eventfahrplan.database.repositories.SessionsDatabaseRepository
-import info.metadude.android.eventfahrplan.engelsystem.EngelsystemNetworkRepository
-import info.metadude.android.eventfahrplan.engelsystem.RealEngelsystemNetworkRepository
-import info.metadude.android.eventfahrplan.engelsystem.models.ShiftsResult
-import info.metadude.android.eventfahrplan.network.models.HttpHeader
 import info.metadude.android.eventfahrplan.network.repositories.RealScheduleNetworkRepository
 import info.metadude.android.eventfahrplan.network.repositories.ScheduleNetworkRepository
 import info.metadude.kotlin.library.engelsystem.models.Shift
-import info.metadude.kotlin.library.roomstates.base.Api
+import info.metadude.kotlin.library.engelsystem.repositories.EngelsystemRepository
+import info.metadude.kotlin.library.engelsystem.repositories.models.GetShiftsState
+import info.metadude.kotlin.library.engelsystem.repositories.simple.SimpleEngelsystemRepository
 import info.metadude.kotlin.library.roomstates.base.models.Room
 import info.metadude.kotlin.library.roomstates.repositories.RoomStatesRepository
 import info.metadude.kotlin.library.roomstates.repositories.simple.SimpleRoomStatesRepository
@@ -30,6 +28,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flatMapLatest
@@ -58,6 +57,8 @@ import nerd.tuxmobil.fahrplan.congress.dataconverters.toSessionsAppModel
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toSessionsDatabaseModel
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toSessionsNetworkModel
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsRepository
+import nerd.tuxmobil.fahrplan.congress.engelsystem.EngelsystemUri
+import nerd.tuxmobil.fahrplan.congress.engelsystem.EngelsystemUriParser
 import nerd.tuxmobil.fahrplan.congress.exceptions.AppExceptionHandler
 import nerd.tuxmobil.fahrplan.congress.models.Alarm
 import nerd.tuxmobil.fahrplan.congress.models.ConferenceTimeFrame
@@ -92,7 +93,11 @@ import nerd.tuxmobil.fahrplan.congress.validation.MetaValidation.validate
 import okhttp3.OkHttpClient
 import info.metadude.android.eventfahrplan.database.models.Meta as MetaDatabaseModel
 import info.metadude.android.eventfahrplan.database.models.Session as SessionDatabaseModel
+import info.metadude.android.eventfahrplan.network.models.HttpHeader as HttpHeaderNetworkModel
 import info.metadude.android.eventfahrplan.network.models.Meta as MetaNetworkModel
+import info.metadude.kotlin.library.engelsystem.Api as EngelsystemApi
+import info.metadude.kotlin.library.roomstates.base.Api as RoomStatesApi
+import nerd.tuxmobil.fahrplan.congress.models.HttpHeader as HttpHeaderAppModel
 import nerd.tuxmobil.fahrplan.congress.models.Meta as MetaAppModel
 import nerd.tuxmobil.fahrplan.congress.models.Session as SessionAppModel
 
@@ -129,7 +134,7 @@ object AppRepository : SearchRepository,
     private lateinit var metaDatabaseRepository: MetaDatabaseRepository
 
     private lateinit var scheduleNetworkRepository: ScheduleNetworkRepository
-    private lateinit var engelsystemNetworkRepository: EngelsystemNetworkRepository
+    private lateinit var engelsystemRepository: EngelsystemRepository
     private lateinit var sharedPreferencesRepository: SharedPreferencesRepository
     private lateinit var roomStatesRepository: RoomStatesRepository
     private lateinit var sessionsTransformer: SessionsTransformer
@@ -418,13 +423,16 @@ object AppRepository : SearchRepository,
             sessionsDatabaseRepository: SessionsDatabaseRepository = SessionsDatabaseRepository.get(context, logging),
             metaDatabaseRepository: MetaDatabaseRepository = MetaDatabaseRepository.get(context),
             scheduleNetworkRepository: ScheduleNetworkRepository = RealScheduleNetworkRepository(logging),
-            engelsystemNetworkRepository: EngelsystemNetworkRepository = RealEngelsystemNetworkRepository(),
+            engelsystemRepository: EngelsystemRepository = SimpleEngelsystemRepository(
+                callFactory = okHttpClient,
+                api = EngelsystemApi,
+            ),
             sharedPreferencesRepository: SharedPreferencesRepository = RealSharedPreferencesRepository(context),
             roomStatesRepository: RoomStatesRepository = SimpleRoomStatesRepository(
                 url = FOSDEM_ROOM_STATES_URL,
                 path = FOSDEM_ROOM_STATES_PATH,
                 httpClient = okHttpClient,
-                api = Api,
+                api = RoomStatesApi,
             ),
             sessionsTransformer: SessionsTransformer = SessionsTransformer.createSessionsTransformer()
     ) {
@@ -438,7 +446,7 @@ object AppRepository : SearchRepository,
         this.sessionsDatabaseRepository = sessionsDatabaseRepository
         this.metaDatabaseRepository = metaDatabaseRepository
         this.scheduleNetworkRepository = scheduleNetworkRepository
-        this.engelsystemNetworkRepository = engelsystemNetworkRepository
+        this.engelsystemRepository = engelsystemRepository
         this.sharedPreferencesRepository = sharedPreferencesRepository
         this.roomStatesRepository = roomStatesRepository
         this.sessionsTransformer = sessionsTransformer
@@ -508,7 +516,7 @@ object AppRepository : SearchRepository,
     }
 
     private fun parseSchedule(scheduleXml: String,
-                              httpHeader: HttpHeader,
+                              httpHeader: HttpHeaderNetworkModel,
                               oldMeta: MetaNetworkModel,
                               onParsingDone: (parseScheduleResult: ParseResult) -> Unit,
                               onLoadingShiftsDone: (loadShiftsResult: LoadShiftsResult) -> Unit) {
@@ -531,7 +539,7 @@ object AppRepository : SearchRepository,
                 },
                 onParsingDone = { isSuccess: Boolean, version: String ->
                     if (!isSuccess) {
-                        updateMeta(oldMeta.copy(httpHeader = HttpHeader(eTag = "", lastModified = "")).toMetaDatabaseModel())
+                        updateMeta(oldMeta.copy(httpHeader = HttpHeaderNetworkModel(eTag = "", lastModified = "")).toMetaDatabaseModel())
                     }
                     val parseResult = ParseScheduleResult(isSuccess, version)
                     val parseScheduleStatus = if (isSuccess) ParseSuccess else ParseFailure(parseResult)
@@ -550,8 +558,8 @@ object AppRepository : SearchRepository,
         if (!BuildConfig.ENABLE_ENGELSYSTEM_SHIFTS) {
             return
         }
-        val url = readEngelsystemShiftsUrl()
-        if (url.isEmpty()) {
+        val uri = readEngelsystemShiftsUri()
+        if (uri == null) {
             logging.d(LOG_TAG, "Engelsystem shifts URL is empty.")
             deleteAllEngelsystemShiftsForAllDays()
             return
@@ -563,25 +571,45 @@ object AppRepository : SearchRepository,
                     onLoadingShiftsDone(loadShiftsResult)
                 }
             }
-            when (val result = engelsystemNetworkRepository.load(okHttpClient, url)) {
-                is ShiftsResult.Success -> {
-                    updateShifts(result.shifts)
-                    notifyLoadingShiftsDone(LoadShiftsResult.Success)
-                    updateLastEngelsystemShiftsHash()
-                }
-                is ShiftsResult.Error -> {
-                    logging.e(LOG_TAG, "ShiftsResult.Error: $result")
-                    loadingFailed(requestIdentifier)
-                    val loadShiftsError = LoadShiftsResult.Error(result.httpStatusCode, result.exceptionMessage)
-                    mutableLoadScheduleState.tryEmit(ParseFailure(ParseShiftsResult.of(loadShiftsError)))
-                    notifyLoadingShiftsDone(loadShiftsError)
-                }
-                is ShiftsResult.Exception -> {
-                    logging.e(LOG_TAG, "ShiftsResult.Exception: ${result.throwable.message}")
-                    result.throwable.printStackTrace()
-                    val loadShiftsException = LoadShiftsResult.Exception(result.throwable)
-                    mutableLoadScheduleState.tryEmit(ParseFailure(ParseShiftsResult.of(loadShiftsException)))
-                    notifyLoadingShiftsDone(loadShiftsException)
+            val requestHttpHeader = readEngelsystemHttpHeader()
+            engelsystemRepository.getShiftsState(
+                requestETag = requestHttpHeader.eTag,
+                requestLastModifiedAt = requestHttpHeader.lastModified,
+                baseUrl = uri.baseUrl,
+                path = uri.pathPart,
+                apiKey = uri.apiKey,
+            ).collectLatest { state ->
+                when (state) {
+                    is GetShiftsState.Success -> {
+                        updateShifts(state.shifts)
+                        updateEngelsystemHttpHeader(HttpHeaderAppModel(eTag = state.responseETag, lastModified = state.responseLastModifiedAt))
+                        notifyLoadingShiftsDone(LoadShiftsResult.Success)
+                        updateLastEngelsystemShiftsHash()
+                    }
+
+                    is GetShiftsState.Error -> {
+                        if (state.isNotModified) {
+                            logging.d(LOG_TAG, "Error: $state")
+                            loadingFailed(requestIdentifier)
+                            val loadShiftsResult = LoadShiftsResult.Success
+                            mutableLoadScheduleState.tryEmit(ParseSuccess)
+                            notifyLoadingShiftsDone(loadShiftsResult)
+                        } else {
+                            logging.e(LOG_TAG, "Error: $state")
+                            loadingFailed(requestIdentifier)
+                            val loadShiftsError = LoadShiftsResult.Error(httpStatusCode = state.httpStatusCode, exceptionMessage = state.errorMessage)
+                            mutableLoadScheduleState.tryEmit(ParseFailure(ParseShiftsResult.of(loadShiftsError)))
+                            notifyLoadingShiftsDone(loadShiftsError)
+                        }
+                    }
+
+                    is GetShiftsState.Failure -> {
+                        logging.e(LOG_TAG, "Failure: ${state.throwable.message}")
+                        state.throwable.printStackTrace()
+                        val loadShiftsException = LoadShiftsResult.Exception(state.throwable)
+                        mutableLoadScheduleState.tryEmit(ParseFailure(ParseShiftsResult.of(loadShiftsException)))
+                        notifyLoadingShiftsDone(loadShiftsException)
+                    }
                 }
             }
         }
@@ -915,6 +943,16 @@ object AppRepository : SearchRepository,
         }
     }
 
+    private fun readEngelsystemHttpHeader() = HttpHeaderAppModel(
+        eTag = sharedPreferencesRepository.getEngelsystemETag(),
+        lastModified = sharedPreferencesRepository.getEngelsystemLastModified(),
+    )
+
+    private fun updateEngelsystemHttpHeader(httpHeader: HttpHeaderAppModel) {
+        sharedPreferencesRepository.setEngelsystemETag(httpHeader.eTag)
+        sharedPreferencesRepository.setEngelsystemLastModified(httpHeader.lastModified)
+    }
+
     private fun readLastEngelsystemShiftsHash() =
             sharedPreferencesRepository.getLastEngelsystemShiftsHash()
 
@@ -1017,8 +1055,10 @@ object AppRepository : SearchRepository,
         }
     }
 
-    private fun readEngelsystemShiftsUrl() =
-            sharedPreferencesRepository.getEngelsystemShiftsUrl()
+    private fun readEngelsystemShiftsUri(): EngelsystemUri? {
+        val url = sharedPreferencesRepository.getEngelsystemShiftsUrl()
+        return if (url.isEmpty()) null else EngelsystemUriParser().parseUri(url)
+    }
 
     fun readScheduleLastFetchedAt() =
             sharedPreferencesRepository.getScheduleLastFetchedAt()

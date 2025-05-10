@@ -1,10 +1,9 @@
-package info.metadude.android.eventfahrplan.engelsystem.utils
+package nerd.tuxmobil.fahrplan.congress.engelsystem
 
-import info.metadude.android.eventfahrplan.engelsystem.models.EngelsystemUri
 import java.net.URI
 import java.net.URISyntaxException
 
-class UriParser {
+class EngelsystemUriParser {
 
     private companion object {
         const val NO_PORT_DEFINED = -1
@@ -20,9 +19,9 @@ class UriParser {
         }
         val uri = URI.create(url)
         return EngelsystemUri(
-                parseBaseUrl(uri),
-                parsePathPart(uri.path),
-                parseApiKey(uri.query))
+            parseBaseUrl(uri),
+            parsePathPart(uri.path),
+            parseApiKey(uri.query))
     }
 
     /**
@@ -39,8 +38,8 @@ class UriParser {
      * The URL path, e.g. /some/folder/file.json
      */
     private fun parsePathPart(path: String?) =
-            if (path.isNullOrEmpty()) throw ParsingException("Path is missing")
-            else path.trimStart('/')
+        if (path.isNullOrEmpty()) throw ParsingException("Path is missing")
+        else path.trimStart('/')
 
     /**
      * The API key provided as a query parameter value, as in: ?key=a1b2c3
