@@ -66,6 +66,7 @@ class ValidateableEditTextPreference : StyleableEditTextPreference {
             requireNotNull(editable)
             val url = editable.toString().trim()
             val validation = validationType.toValidation(url)
+            // TODO Disable the "OK" button if the URL is invalid.
             // Allow users to wipe their URL
             editText.error = if (url.isEmpty() || validation.isValid()) {
                 null

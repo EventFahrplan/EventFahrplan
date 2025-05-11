@@ -35,7 +35,7 @@ class AppRepositoryScheduleStatisticTest {
                 sessionsDatabaseRepository = sessionsDatabaseRepository,
                 metaDatabaseRepository = mock(),
                 scheduleNetworkRepository = mock(),
-                engelsystemNetworkRepository = mock(),
+                engelsystemRepository = mock(),
                 sharedPreferencesRepository = mock(),
                 sessionsTransformer = mock()
             )

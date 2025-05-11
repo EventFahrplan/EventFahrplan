@@ -92,4 +92,4 @@ script:
   # Prevent build failures due to directories being altered illegally by the cache..
   - sudo rm -rf /home/travis/.gradle/caches/transforms-*
 
-  - ./gradlew testDebugUnitTest :engelsystem:test testCcc38c3DebugUnitTest assembleCcc38c3Debug
+  - ./gradlew testDebugUnitTest testCcc38c3DebugUnitTest assembleCcc38c3Debug
