@@ -55,17 +55,17 @@ In some of the steps it is the easiest to copy and adapt configuration settings,
 3. Add a new product flavor in *app/build.gradle* e.g. `awesome2021` and the corresponding folder e.g. `app/src/awesome2021`
 4. Configure all required properties in your flavor (`applicationId`, `versionName`, `buildConfigField`, `resValue`)
 5. Enable showing the app disclaimer via `SHOW_APP_DISCLAIMER` to acknowledge its origin
-6. Add a new signing config in *app/gradle.properties*
+6. Add a new signing config in `app/gradle.properties`
 7. Customize texts for the languages which you want to offer (`values/strings.xml`, `values-de/strings.xml`, ...)
-8. Add the name/s (and website/s) of the authors of the logo(s) in *copyright_logo*
-9. Add track resource names in *res/xml/track_resource_names.xml*
-10. Customize track colors in *res/values/colors_congress.xml*
-11. Customize app colors in *res/values/colors.xml*
+8. Add the name/s (and website/s) of the authors of the logo(s) in `copyright_logo`
+9. Add track resource names in `res/xml/track_resource_names.xml`
+10. Customize track colors in `res/values/colors_congress.xml`
+11. Customize app colors in `res/values/colors.xml`
 12. Verify colors both in light and dark mode (not all screens switch colors!)
-13. Add a launcher icon in different resolutions as *res/mipmap-[...]/ic_launcher.png*
-14. Add a notification icon in different resolutions as *res/drawable-[...]/ic_notification.png*
-15. Add an about dialog logo as *res/drawable/dialog_logo.xml*
-16. Customize bell and video recording icons in *res/drawable/* (optional)
+13. Add a launcher icon in different resolutions as `res/mipmap-[...]/ic_launcher.png`
+14. Add a notification icon in different resolutions as `res/drawable-[...]/ic_notification.png`
+15. Add an about dialog logo as `res/drawable/dialog_logo.xml`
+16. Customize bell and video recording icons in `res/drawable/` (optional)
 
 ## 4. Optional customization
 
