@@ -67,6 +67,23 @@ In some of the steps it is the easiest to copy and adapt configuration settings,
 15. Add an about dialog logo as `res/drawable/dialog_logo.xml`
 16. Customize bell and video recording icons in `res/drawable/` (optional)
 
+### 3.1. Customizing illustrations shown at empty screens
+
+The app shows illustrations on empty screens. You can customize these illustrations which fit the
+look and feel of your event by importing **your own SVG files** as vector drawables to the
+`res/drawable/` folder of **your product flavor**, e.g. `app/src/awesome2021/res/drawable/`.
+If the same file names are used than your illustrations will replace the default ones in `main`.
+The following default illustrations (vector drawables) are present in the app:
+
+- No alarms: `app/src/main/res/drawable/no_alarms.xml`
+- No favorites: `app/src/main/res/drawable/no_favorites.xml`
+- No schedule: `app/src/main/res/drawable/no_schedule.xml`
+- No schedule changes: `app/src/main/res/drawable/no_schedule_changes.xml`
+- No search results: `app/src/main/res/drawable/no_search_results.xml`
+
+The original raw SVG files can be found in `assets/empty-states/`, more information is available in the
+associated [README](../assets/empty-states/README.md).
+
 ## 4. Optional customization
 
 The following options can be enabled via a `buildConfigField` and configured in *app/build.gradle* as needed.
