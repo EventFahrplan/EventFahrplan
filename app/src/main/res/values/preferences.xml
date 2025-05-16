@@ -17,8 +17,8 @@
     and string-array/preference_entry_values_schedule_refresh
     -->
     <string name="preference_default_value_schedule_refresh_interval_value" translatable="false">-1</string>
-    <string name="preference_dialog_title_schedule_refresh_interval" translatable="false">Choose a schedule refresh interval</string>
-    <string name="preference_title_schedule_refresh_interval" translatable="false">Choose schedule refresh interval</string>
+    <string name="preference_dialog_title_schedule_refresh_interval">Choose a schedule refresh interval</string>
+    <string name="preference_title_schedule_refresh_interval">Choose schedule refresh interval</string>
     <string-array name="preference_entries_schedule_refresh_interval_titles" translatable="false">
         <item>@string/schedule_refresh_interval_title_unmodified</item>
         <item>@string/schedule_refresh_interval_title_every_30_seconds</item>
@@ -35,6 +35,12 @@
         <item>60000</item>
         <item>120000</item>
     </string-array>
+
+    <string name="schedule_refresh_interval_picker_title">Choose schedule refresh interval</string>
+    <string name="schedule_refresh_interval_title_unmodified">leave unmodified</string>
+    <string name="schedule_refresh_interval_title_every_30_seconds">every 30 seconds</string>
+    <string name="schedule_refresh_interval_title_every_60_seconds">every minute</string>
+    <string name="schedule_refresh_interval_title_every_120_seconds">every 2 minutes</string>
 
     <!-- Schedule statistic -->
     <string name="preference_key_schedule_statistic" translatable="false">schedule_statistic</string>

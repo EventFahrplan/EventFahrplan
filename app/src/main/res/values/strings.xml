@@ -227,13 +227,6 @@
         <item quantity="other"><xliff:g example="3" id="count">%d</xliff:g> sessions have been changed.</item>
     </plurals>
 
-    <!-- Schedule refresh interval picker -->
-    <string name="schedule_refresh_interval_picker_title" translatable="false">Choose schedule refresh interval</string>
-    <string name="schedule_refresh_interval_title_unmodified" translatable="false">leave unmodified</string>
-    <string name="schedule_refresh_interval_title_every_30_seconds" translatable="false">every 30 seconds</string>
-    <string name="schedule_refresh_interval_title_every_60_seconds" translatable="false">every minute</string>
-    <string name="schedule_refresh_interval_title_every_120_seconds" translatable="false">every 2 minutes</string>
-
     <!-- Alarm time picker -->
     <string name="alarm_time_title_at_start_time">at start time</string>
     <string name="alarm_time_title_5_minutes_before">5 minutes before</string>
