@@ -115,6 +115,25 @@ The following features are available when the build type is "debug". They are lo
 "Development" section of the "Settings" screen. They are intended for the preparation phase of the
 app to verify that the schedule data is loaded and processed correctly.
 
+![Settings screen: Development category](gfx/settings-development-category.png)
+
+### Schedule refresh interval
+
+The "Choose schedule refresh interval" option allows to overwrite the default refresh interval
+which is configured internally. This can be useful to test if schedule loading and processing works
+in general. Additionally, the correct recognition of schedule changes can quickly be verified
+without waiting for the next scheduled refresh.
+
+![Settings screen: Choose a schedule refresh interval dialog](gfx/settings-choose-a-schedule-interval-dialog.png)
+
+To simulate a schedule change, this
+[Python script](https://gist.github.com/johnjohndoe/b2a067c0557dd1122b16b09650498adb) becomes handy.
+
+1. Prepare two schedule files with different session information
+2. Put the script and the two schedule files on a webserver of your choice
+3. Let a cronjob run the script to copy one of the two files to a specified public webserver directory
+4. Configure the webserver URL as the `SCHEDULE_URL` for the correct build flavor in the `app/build.gradle` file
+
 ### Schedule statistic
 
 The "Schedule statistic" screen shows the distribution of null or empty and non-empty fields in
