@@ -118,4 +118,4 @@ app to verify that the schedule data is loaded and processed correctly.
 ### Schedule statistic
 
 The "Schedule statistic" screen shows the distribution of null or empty and non-empty fields in
-the "sessions" database table. This can be useful for identify missing data in the schedule.
+the "sessions" database table. This can be useful for identifying missing data in the schedule.
