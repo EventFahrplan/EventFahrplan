@@ -152,7 +152,6 @@
         <item quantity="one"><xliff:g example="1" id="count">%d</xliff:g> föreläsning har ändrats.</item>
         <item quantity="other"><xliff:g example="3" id="count">%d</xliff:g> föreläsningar har ändrats.</item>
     </plurals>
-    <!-- Schedule refresh interval picker -->
     <!-- Alarm time picker -->
     <string name="alarm_time_title_at_start_time">vid starttid</string>
     <string name="alarm_time_title_5_minutes_before">5 minuter innan</string>

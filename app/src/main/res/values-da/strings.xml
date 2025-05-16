@@ -111,7 +111,6 @@
     </string>
     <string name="notifications_schedule_update_channel_description">        Automatic updates of the schedule which can be configured in the app settings.
     </string>
-    <!-- Schedule refresh interval picker -->
     <!-- Alarm time picker -->
     <!-- Session list item -->
     <!-- Alarms -->
