@@ -11,8 +11,9 @@ or [Chaos Communication Congress][congress-website].
 
 The app is available for Android devices.
 
-Bug reports, feature requests can be submitted as an [issue][issues-github].
-Please read the instructions in the [contribution guide](CONTRIBUTING.md) in order to contribute to this project.
+Bug reports, feature requests can be submitted as an [issue][issues-github]. Please mind the
+[limitations][limitations]. Please read the instructions in the [contribution guide](CONTRIBUTING.md)
+in order to contribute to this project.
 
 ![Picture of the 38C3 Schedule on tablet and phone](gfx/EventFahrplan-38C3-tablet-phone.png)
 
@@ -188,6 +189,7 @@ limitations under the License.
 [fosdem-room-status-website]: https://api.fosdem.org
 [issues-github]: https://github.com/EventFahrplan/EventFahrplan/issues
 [johnjohndoe-github]: https://github.com/johnjohndoe
+[limitations]: docs/LIMITATIONS.md
 [pentabarf-github]: https://github.com/nevs/pentabarf
 [pretalx-website]: https://pretalx.com
 [tuxmobil-github]: https://github.com/tuxmobil
