@@ -41,6 +41,7 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Se
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.URL
 import info.metadude.android.eventfahrplan.database.models.Session
 import org.junit.jupiter.api.Test
+import info.metadude.android.eventfahrplan.commons.temporal.Duration
 
 class SessionExtensionsTest {
 
