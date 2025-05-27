@@ -1,6 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.models
 
 import com.google.common.truth.Truth.assertThat
+import info.metadude.android.eventfahrplan.commons.temporal.Duration
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MILLISECONDS_OF_ONE_MINUTE
 import org.junit.jupiter.api.Test
@@ -20,8 +21,8 @@ class SessionTest {
             dayIndex = 3,
             dateText = "2020-02-29",
             dateUTC = 1439478900000L,
-            startTime = 1125,
-            duration = 60,
+            startTime = Duration.ofMinutes(1125),
+            duration = Duration.ofMinutes(60),
             roomName = "Main hall",
             roomIdentifier = "88888888-4444-4444-4444-121212121212",
             speakers = listOf("Janet"),
@@ -35,7 +36,7 @@ class SessionTest {
 
             // Not considered in equal nor hashCode.
             url = "https://example.com",
-            relativeStartTime = 500,
+            relativeStartTime = Duration.ofMinutes(500),
             roomIndex = 6,
             slug = "lorem-ipsum",
             abstractt = "Sodales ut etiam sit amet nisl purus",
@@ -59,7 +60,7 @@ class SessionTest {
 
         fun createSessionModifyingNonConsideredFields() = createSession().copy(
             url = "https://foobar-url.org",
-            relativeStartTime = 999,
+            relativeStartTime = Duration.ofMinutes(999),
             roomIndex = 13,
             slug = "foo-bar",
             abstractt = "Foo abstract",
@@ -89,8 +90,8 @@ class SessionTest {
             of("dayIndex", createSession().copy(dayIndex = 2)),
             of("dateText", createSession().copy(dateText = "1999-12-23")),
             of("dateUTC", createSession().copy(dateUTC = 1439471100000L)),
-            of("startTime", createSession().copy(startTime = 1350)),
-            of("duration", createSession().copy(duration = 45)),
+            of("startTime", createSession().copy(startTime = Duration.ofMinutes(1350))),
+            of("duration", createSession().copy(duration = Duration.ofMinutes(45))),
             of("roomName", createSession().copy(roomName = "Odd room name")),
             of("roomIdentifier", createSession().copy(roomIdentifier = "Odd room identifier")),
             of("speakers", createSession().copy(speakers = listOf("Odd speakers"))),
@@ -189,7 +190,7 @@ class SessionTest {
         val session = Session(
             sessionId = "",
             dateUTC = 10_000,
-            duration = 60,
+            duration = Duration.ofMinutes(60),
         )
         assertThat(session.endsAt.toMilliseconds()).isEqualTo(3_610_000L)
     }
@@ -199,7 +200,7 @@ class SessionTest {
         val session = Session(
             sessionId = "",
             dateUTC = 1584662400000L,
-            duration = 120,
+            duration = Duration.ofMinutes(120),
         )
         val endsAt = Moment.ofEpochMilli(1584662400000L + 120 * MILLISECONDS_OF_ONE_MINUTE)
         assertThat(session.endsAt).isEqualTo(endsAt)

@@ -1,6 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.schedule
 
 import com.google.common.truth.Truth.assertThat
+import info.metadude.android.eventfahrplan.commons.temporal.Duration
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import info.metadude.android.eventfahrplan.commons.testing.withTimeZone
 import info.metadude.android.eventfahrplan.network.temporal.DateParser
@@ -77,9 +78,9 @@ class ScrollAmountCalculatorTimeZoneOffsetTest {
         dayIndex = 0,
         dateText = moment.toZonedDateTime(ZoneOffset.UTC).toLocalDate().toString(),
         dateUTC = moment.toMilliseconds(),
-        startTime = moment.minuteOfDay,
-        relativeStartTime = moment.minuteOfDay, // This might now always be the case, see ParserTask.parseFahrplan
-        duration = 60,
+        startTime = Duration.ofMinutes(moment.minuteOfDay),
+        relativeStartTime = Duration.ofMinutes(moment.minuteOfDay), // This might now always be the case, see ParserTask.parseFahrplan
+        duration = Duration.ofMinutes(60),
         roomName = "Main hall",
     )
 

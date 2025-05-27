@@ -49,7 +49,7 @@ class SessionChangeParametersFactory(
 
     private fun sessionChangeOf(session: Session, dayText: String, dash: String, useDeviceTimeZone: Boolean): SessionChange {
         val startsAt = onDateFormatter(useDeviceTimeZone).getFormattedTime(session.dateUTC, session.timeZoneOffset)
-        val duration = resourceResolving.getString(R.string.session_list_item_duration_text, session.duration)
+        val duration = resourceResolving.getString(R.string.session_list_item_duration_text, session.duration.toWholeMinutes().toInt())
         val languages = sessionPropertiesFormatting.getLanguageText(session)
         val videoState = when {
             session.changedRecordingOptOut -> when {

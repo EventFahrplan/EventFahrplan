@@ -2,6 +2,7 @@ package nerd.tuxmobil.fahrplan.congress.dataconverters
 
 import com.google.common.truth.Truth.assertThat
 import info.metadude.android.eventfahrplan.commons.temporal.DayRange
+import info.metadude.android.eventfahrplan.commons.temporal.Duration
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import info.metadude.kotlin.library.engelsystem.models.Shift
 import nerd.tuxmobil.fahrplan.congress.NoLogging
@@ -85,18 +86,19 @@ class ShiftExtensionsTest {
         )
         val dayRange = DayRange(day)
         val session = shift.toSessionNetworkModel(NoLogging, "", listOf(dayRange))
-        assertThat(session.startTime).isEqualTo(0) // nevertheless, we still expect sessions time data to be based on UTC
-        assertThat(session.relativeStartTime).isEqualTo(0)
+        assertThat(session.startTime).isEqualTo(Duration.ZERO) // nevertheless, we still expect sessions time data to be based on UTC
+        assertThat(session.relativeStartTime).isEqualTo(Duration.ZERO)
     }
 
     @Test
-    fun `toSessionNetworkModel sessionizes a shift and duration returns correct value in minutes`() {
+    fun `toSessionNetworkModel sessionizes a shift and duration returns correct value as Duration`() {
         val day = Moment.parseDate("2019-08-25")
         val startsAtDate = ZonedDateTime.of(2019, 8, 25, 12, 0, 0, 0, ZoneOffset.UTC)
         val endsAtDate = ZonedDateTime.of(2019, 8, 25, 12, 30, 13, 0, ZoneOffset.UTC)
         val dayRange = DayRange(day)
         val shift = Shift(startsAtDate = startsAtDate, endsAtDate = endsAtDate)
-        assertThat(shift.toSessionNetworkModel(NoLogging, "", listOf(dayRange)).duration).isEqualTo(30)
+        val expectedDuration = Duration.ofMinutes(30).plus(Duration.ofSeconds(13))
+        assertThat(shift.toSessionNetworkModel(NoLogging, "", listOf(dayRange)).duration).isEqualTo(expectedDuration)
     }
 
 }
