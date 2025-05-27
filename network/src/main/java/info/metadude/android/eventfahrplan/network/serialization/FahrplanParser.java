@@ -200,7 +200,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                         if (name.equalsIgnoreCase("event")) {
                             parseEvent(parser, dayIndex, dayChangeTime, roomMapIndex, roomName, roomGuid, dateText);
                         } else if (name.equalsIgnoreCase("conference")) {
-                            dayChangeTime = parseConference(parser, dayChangeTime);
+                            dayChangeTime = parseConference(parser);
                         }
                         break;
                 }
@@ -223,13 +223,11 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
         }
     }
 
-    private int parseConference(
-            XmlPullParser parser,
-            int dayChangeTime
-    ) throws IOException, XmlPullParserException {
+    private int parseConference(XmlPullParser parser) throws IOException, XmlPullParserException {
         String name;
         int eventType;
         boolean confDone = false;
+        int dayChangeTime = 0;
         eventType = parser.next();
         while (eventType != XmlPullParser.END_DOCUMENT && !confDone) {
             switch (eventType) {
