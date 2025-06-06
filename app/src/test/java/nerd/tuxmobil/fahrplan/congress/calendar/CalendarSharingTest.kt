@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.provider.CalendarContract
+import info.metadude.android.eventfahrplan.commons.temporal.Duration
 import nerd.tuxmobil.fahrplan.congress.extensions.startActivity
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import org.junit.jupiter.api.AfterEach
@@ -69,7 +70,7 @@ class CalendarSharingTest {
         links = "Links",
         roomName = "Room",
         dateUTC = 1439478900000L,
-        duration = 30,
+        duration = Duration.ofMinutes(30),
     )
 
 }

@@ -1,6 +1,7 @@
 package info.metadude.android.eventfahrplan.network.temporal
 
 import info.metadude.android.eventfahrplan.commons.temporal.DateParser
+import info.metadude.android.eventfahrplan.commons.temporal.Duration
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MILLISECONDS_OF_ONE_SECOND
 import org.threeten.bp.LocalDate
@@ -50,8 +51,12 @@ class DateParser {
          * - 23:59 -> 1439
          */
         @JvmStatic
-        fun getMinutes(hoursMinutes: String): Int {
-            return DateTimeFormatter.ofPattern("H:mm[:ss]").parse(hoursMinutes).get(ChronoField.MINUTE_OF_DAY)
+        fun getMinutes(hoursMinutes: String): Duration {
+            val minutes = DateTimeFormatter
+                .ofPattern("H:mm[:ss]")
+                .parse(hoursMinutes)
+                .get(ChronoField.MINUTE_OF_DAY)
+            return Duration.ofMinutes(minutes)
         }
 
     }

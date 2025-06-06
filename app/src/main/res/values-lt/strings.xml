@@ -172,7 +172,6 @@
         <item quantity="many"><xliff:g example="3" id="count">%d</xliff:g> paskaitos pasikeitė.</item>
         <item quantity="other"><xliff:g example="3" id="count">%d</xliff:g> paskaitų pasikeitė.</item>
     </plurals>
-    <!-- Schedule refresh interval picker -->
     <!-- Alarm time picker -->
     <string name="alarm_time_title_at_start_time">pradžios laiku</string>
     <string name="alarm_time_title_5_minutes_before">prieš 5 minutes</string>

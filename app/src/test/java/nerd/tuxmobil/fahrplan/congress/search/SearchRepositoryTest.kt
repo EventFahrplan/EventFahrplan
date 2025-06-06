@@ -35,7 +35,7 @@ class SearchRepositoryTest {
                 sessionsDatabaseRepository = mock(),
                 metaDatabaseRepository = mock(),
                 scheduleNetworkRepository = mock(),
-                engelsystemNetworkRepository = mock(),
+                engelsystemRepository = mock(),
                 sharedPreferencesRepository = sharedPreferencesRepository,
                 sessionsTransformer = mock()
             )

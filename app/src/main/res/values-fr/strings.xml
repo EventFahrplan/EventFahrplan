@@ -142,7 +142,6 @@
         <item quantity="one">            <xliff:g example="1" id="count">%d</xliff:g> conférence a été modifiée.</item>
         <item quantity="other">            <xliff:g example="3" id="count">%d</xliff:g> conférences ont été modifiées.</item>
     </plurals>
-    <!-- Schedule refresh interval picker -->
     <!-- Alarm time picker -->
     <string name="alarm_time_title_at_start_time">à l’heure de début</string>
     <string name="alarm_time_title_5_minutes_before">5 minutes avant</string>

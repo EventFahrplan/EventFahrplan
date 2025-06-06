@@ -13,6 +13,8 @@ class RealSharedPreferencesRepository(val context: Context) : SharedPreferencesR
 
         const val CHANGES_SEEN_KEY = "nerd.tuxmobil.fahrplan.congress.Prefs.CHANGES_SEEN"
         const val DISPLAY_DAY_INDEX_KEY = "nerd.tuxmobil.fahrplan.congress.Prefs.DISPLAY_DAY_INDEX"
+        const val ENGELSYSTEM_ETAG_KEY = "nerd.tuxmobil.fahrplan.congress.Prefs.ENGELSYSTEM_ETAG"
+        const val ENGELSYSTEM_LAST_MODIFIED_KEY = "nerd.tuxmobil.fahrplan.congress.Prefs.ENGELSYSTEM_LAST_MODIFIED"
         const val ENGELSYSTEM_SHIFTS_HASH_KEY = "nerd.tuxmobil.fahrplan.congress.Prefs.ENGELSYSTEM_SHIFTS_HASH"
         const val SCHEDULE_LAST_FETCHED_AT_KEY = "nerd.tuxmobil.fahrplan.congress.Prefs.SCHEDULE_LAST_FETCHED_AT"
         const val SCHEDULE_NEXT_FETCH_AT_KEY = "nerd.tuxmobil.fahrplan.congress.Prefs.SCHEDULE_NEXT_FETCH_AT_KEY"
@@ -132,6 +134,22 @@ class RealSharedPreferencesRepository(val context: Context) : SharedPreferencesR
         val key = context.getString(R.string.preference_key_engelsystem_json_export_url)
         val defaultValue = context.getString(R.string.preference_default_value_engelsystem_json_export_url)
         return preferences.getString(key, defaultValue)!!
+    }
+
+    override fun getEngelsystemETag(): String {
+        return preferences.getString(ENGELSYSTEM_ETAG_KEY, "")!!
+    }
+
+    override fun setEngelsystemETag(eTag: String) = preferences.edit {
+        putString(ENGELSYSTEM_ETAG_KEY, eTag)
+    }
+
+    override fun getEngelsystemLastModified(): String {
+        return preferences.getString(ENGELSYSTEM_LAST_MODIFIED_KEY, "")!!
+    }
+
+    override fun setEngelsystemLastModified(lastModified: String) = preferences.edit {
+        putString(ENGELSYSTEM_LAST_MODIFIED_KEY, lastModified)
     }
 
     override fun getLastEngelsystemShiftsHash() =

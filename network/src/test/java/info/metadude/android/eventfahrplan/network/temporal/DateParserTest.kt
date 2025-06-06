@@ -1,6 +1,7 @@
 package info.metadude.android.eventfahrplan.network.temporal
 
 import com.google.common.truth.Truth.assertThat
+import info.metadude.android.eventfahrplan.commons.temporal.Duration
 import info.metadude.android.eventfahrplan.network.temporal.DateParser.Companion.getDateTime
 import info.metadude.android.eventfahrplan.network.temporal.DateParser.Companion.getDayChange
 import info.metadude.android.eventfahrplan.network.temporal.DateParser.Companion.getMinutes
@@ -60,43 +61,43 @@ class DateParserTest {
 
     @Test
     fun `getMinutes returns 0 minutes for 00_00`() {
-        assertThat(getMinutes("00:00")).isEqualTo(0)
+        assertThat(getMinutes("00:00")).isEqualTo(Duration.ZERO)
     }
 
     @Test
     fun `getMinutes returns 30 minutes for 00_30`() {
-        assertThat(getMinutes("00:30")).isEqualTo(30)
+        assertThat(getMinutes("00:30")).isEqualTo(Duration.ofMinutes(30))
     }
 
     @Test
     fun `getMinutes returns 90 minutes for 1_30`() {
-        assertThat(getMinutes("1:30")).isEqualTo(90)
+        assertThat(getMinutes("1:30")).isEqualTo(Duration.ofMinutes(90))
     }
 
     @Test
     fun `getMinutes returns 135 minutes for 2_15_00`() {
-        assertThat(getMinutes("2:15:00")).isEqualTo(135)
+        assertThat(getMinutes("2:15:00")).isEqualTo(Duration.ofMinutes(135))
     }
 
     @Test
     fun `getMinutes returns 300 minutes for 05_00`() {
-        assertThat(getMinutes("05:00")).isEqualTo(300)
+        assertThat(getMinutes("05:00")).isEqualTo(Duration.ofMinutes(300))
     }
 
     @Test
     fun `getMinutes returns 540 minutes for 09_00_00`() {
         // <day_change> value from Pentabarf schedule.xml
-        assertThat(getMinutes("09:00:00")).isEqualTo(540)
+        assertThat(getMinutes("09:00:00")).isEqualTo(Duration.ofMinutes(540))
     }
 
     @Test
     fun `getMinutes returns 1020 minutes for 17_00`() {
-        assertThat(getMinutes("17:00")).isEqualTo(1020)
+        assertThat(getMinutes("17:00")).isEqualTo(Duration.ofMinutes(1020))
     }
 
     @Test
     fun `getMinutes returns 1439 minutes for 23_59`() {
-        assertThat(getMinutes("23:59")).isEqualTo(1439)
+        assertThat(getMinutes("23:59")).isEqualTo(Duration.ofMinutes(1439))
     }
 
 }

@@ -22,6 +22,7 @@ import java.util.Objects;
 import java.util.Set;
 
 import info.metadude.android.eventfahrplan.commons.logging.Logging;
+import info.metadude.android.eventfahrplan.commons.temporal.Duration;
 import info.metadude.android.eventfahrplan.network.models.HttpHeader;
 import info.metadude.android.eventfahrplan.network.models.Meta;
 import info.metadude.android.eventfahrplan.network.models.Session;
@@ -200,7 +201,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                         if (name.equalsIgnoreCase("event")) {
                             parseEvent(parser, dayIndex, dayChangeTime, roomMapIndex, roomName, roomGuid, dateText);
                         } else if (name.equalsIgnoreCase("conference")) {
-                            dayChangeTime = parseConference(parser, dayChangeTime);
+                            dayChangeTime = parseConference(parser);
                         }
                         break;
                 }
@@ -223,13 +224,11 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
         }
     }
 
-    private int parseConference(
-            XmlPullParser parser,
-            int dayChangeTime
-    ) throws IOException, XmlPullParserException {
+    private int parseConference(XmlPullParser parser) throws IOException, XmlPullParserException {
         String name;
         int eventType;
         boolean confDone = false;
+        int dayChangeTime = 0;
         eventType = parser.next();
         while (eventType != XmlPullParser.END_DOCUMENT && !confDone) {
             switch (eventType) {
@@ -255,7 +254,7 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                     }
                     if (name.equals("day_change")) {
                         parser.next();
-                        dayChangeTime = DateParser.getMinutes(XmlPullParsers.getSanitizedText(parser));
+                        dayChangeTime = (int) DateParser.getMinutes(XmlPullParsers.getSanitizedText(parser)).toWholeMinutes();
                     }
                     if (name.equals("time_zone_name")) {
                         parser.next();
@@ -359,12 +358,12 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                         parser.next();
                         session.setStartTime(DateParser.getMinutes(XmlPullParsers.getSanitizedText(parser)));
                         session.setRelativeStartTime(session.getStartTime());
-                        if (session.getRelativeStartTime() < dayChangeTime) {
-                            session.setRelativeStartTime(session.getRelativeStartTime() + MINUTES_OF_ONE_DAY);
+                        if (((int) session.getRelativeStartTime().toWholeMinutes()) < dayChangeTime) {
+                            session.setRelativeStartTime(session.getRelativeStartTime().plus(Duration.ofDays(1)));
                         }
                     } else if (name.equals("duration")) {
                         parser.next();
-                        int minutes = DurationParser.getMinutes(XmlPullParsers.getSanitizedText(parser));
+                        Duration minutes = DurationParser.getMinutes(XmlPullParsers.getSanitizedText(parser));
                         session.setDuration(minutes);
                     } else if (name.equals("date")) {
                         parser.next();

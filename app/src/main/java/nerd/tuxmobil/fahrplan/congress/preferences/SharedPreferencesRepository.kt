@@ -37,6 +37,12 @@ interface SharedPreferencesRepository {
 
     fun getEngelsystemShiftsUrl(): String
 
+    fun getEngelsystemETag(): String
+    fun setEngelsystemETag(eTag: String)
+
+    fun getEngelsystemLastModified(): String
+    fun setEngelsystemLastModified(lastModified: String)
+
     fun getLastEngelsystemShiftsHash(): Int
     fun setLastEngelsystemShiftsHash(hash: Int)
 

@@ -18,7 +18,7 @@ jobs:
         run: ./gradlew assembleCcc38c3
 
       - name: Unit Tests
-        run: ./gradlew testDebugUnitTest :engelsystem:test testCcc38c3DebugUnitTest assembleCcc38c3Debug lintAnalyzeCcc38c3Debug
+        run: ./gradlew testDebugUnitTest testCcc38c3DebugUnitTest assembleCcc38c3Debug lintAnalyzeCcc38c3Debug
 
       - name: Publish unit-test results
         uses: EnricoMi/publish-unit-test-result-action@v2

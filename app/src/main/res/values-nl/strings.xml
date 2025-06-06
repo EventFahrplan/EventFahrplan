@@ -162,7 +162,6 @@
         <item quantity="one"><xliff:g example="1" id="count">%d</xliff:g> sessie is gewijzigd.</item>
         <item quantity="other"><xliff:g example="3" id="count">%d</xliff:g> sessies zijn gewijzigd.</item>
     </plurals>
-    <!-- Schedule refresh interval picker -->
     <!-- Alarm time picker -->
     <string name="alarm_time_title_at_start_time">bij aanvangstijd</string>
     <string name="alarm_time_title_5_minutes_before">5 minuten eerder</string>

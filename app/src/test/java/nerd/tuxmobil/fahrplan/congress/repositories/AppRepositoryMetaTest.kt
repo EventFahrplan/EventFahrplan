@@ -4,8 +4,8 @@ import android.content.ContentValues
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import info.metadude.android.eventfahrplan.commons.testing.MainDispatcherTestExtension
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.ETAG
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.NUM_DAYS
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.SCHEDULE_ETAG
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.SCHEDULE_LAST_MODIFIED
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.SUBTITLE
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.TIME_ZONE_NAME
@@ -45,7 +45,7 @@ class AppRepositoryMetaTest {
                 sessionsDatabaseRepository = mock(),
                 metaDatabaseRepository = metaDatabaseRepository,
                 scheduleNetworkRepository = mock(),
-                engelsystemNetworkRepository = mock(),
+                engelsystemRepository = mock(),
                 sharedPreferencesRepository = mock(),
                 sessionsTransformer = mock()
             )
@@ -119,7 +119,7 @@ private fun ContentValues.toMeta() = MetaDatabaseModel(
     title = get(TITLE) as String,
     subtitle = get(SUBTITLE) as String,
     httpHeader = HttpHeaderDatabaseModel(
-        eTag = get(ETAG) as String,
+        eTag = get(SCHEDULE_ETAG) as String,
         lastModified = get(SCHEDULE_LAST_MODIFIED) as String,
     ),
 )

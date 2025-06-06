@@ -589,7 +589,7 @@ class FahrplanFragment : Fragment(), MenuProvider {
 
     private fun calculateSessionHeight(session: Session): Int {
         // This uses the same formula as LayoutCalculator.calculateDisplayDistance
-        return standardHeight * session.duration / LAYOUT_CALCULATOR_DIVISOR
+        return standardHeight * session.duration.toWholeMinutes().toInt() / LAYOUT_CALCULATOR_DIVISOR
     }
 
     private val standardHeight: Int

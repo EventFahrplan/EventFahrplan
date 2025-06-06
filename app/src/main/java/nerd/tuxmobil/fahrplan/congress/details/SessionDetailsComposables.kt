@@ -30,6 +30,7 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextLinkStyles
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign.Companion.End
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow.Companion.Ellipsis
 import androidx.compose.ui.tooling.preview.Preview
@@ -157,16 +158,19 @@ private fun DetailBar(
         TextLeadingIcon(
             property = sessionDetails.roomName,
             icon = R.drawable.ic_room,
-            modifier = Modifier.weight(1f),
         )
         Text(
             modifier = Modifier
+                .weight(1f)
                 .semantics {
                     contentDescription = sessionDetails.id.contentDescription
                 },
             text = sessionDetails.id.value.uppercase(),
             fontSize = dimensionResource(R.dimen.session_detailbar_text).toTextUnit(),
             color = colorResource(R.color.session_detailbar_text),
+            overflow = Ellipsis,
+            maxLines = 1,
+            textAlign = End,
         )
     }
 }

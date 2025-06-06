@@ -15,7 +15,7 @@ class NextFetchTest {
 
     @Test
     fun `isValid returns false if nextFetchAt is epoch and interval is zero`() {
-        val nextFetch = NextFetch(Moment.ofEpochMilli(0), Duration.ofMilliseconds(0))
+        val nextFetch = NextFetch(Moment.ofEpochMilli(0), Duration.ZERO)
         assertThat(nextFetch.isValid()).isFalse()
     }
 
@@ -27,7 +27,7 @@ class NextFetchTest {
 
     @Test
     fun `isValid returns false if interval is zero`() {
-        val nextFetch = NextFetch(Moment.ofEpochMilli(1), Duration.ofMilliseconds(0))
+        val nextFetch = NextFetch(Moment.ofEpochMilli(1), Duration.ZERO)
         assertThat(nextFetch.isValid()).isFalse()
     }
 

@@ -1,5 +1,6 @@
 package info.metadude.android.eventfahrplan.network.models
 
+import info.metadude.android.eventfahrplan.commons.temporal.Duration
 import info.metadude.android.eventfahrplan.network.serialization.FahrplanParser
 
 /**
@@ -14,20 +15,20 @@ data class Session(
         var dateText: String = "",
         var dateUTC: Long = 0,
         var description: String = "",
-        var duration: Int = 0, // minutes
+        var duration: Duration = Duration.ZERO, // minutes
         var feedbackUrl: String? = null,
         var hasAlarm: Boolean = false,
         var isHighlight: Boolean = false,
         var language: String = "",
         var links: String = "",
-        var relativeStartTime: Int = 0,
+        var relativeStartTime: Duration = Duration.ZERO,
         var recordingLicense: String = "",
         var recordingOptOut: Boolean = RECORDING_OPT_OUT_OFF,
         var roomName: String = "",
         var roomGuid: String = "",
         var roomIndex: Int = 0,
         var speakers: String = "",
-        var startTime: Int = 0, // minutes since day start
+        var startTime: Duration = Duration.ZERO, // minutes since day start
         var slug: String = "",
         var subtitle: String = "",
         var timeZoneOffset: Int? = null, // seconds

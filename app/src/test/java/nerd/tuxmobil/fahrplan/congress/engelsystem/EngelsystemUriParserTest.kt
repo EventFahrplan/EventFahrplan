@@ -1,14 +1,13 @@
-package info.metadude.android.eventfahrplan.engelsystem.utils
+package nerd.tuxmobil.fahrplan.congress.engelsystem
 
 import com.google.common.truth.Truth.assertThat
-import info.metadude.android.eventfahrplan.engelsystem.models.EngelsystemUri
 import org.junit.jupiter.api.Assertions.fail
 import org.junit.jupiter.api.Test
 import java.net.URISyntaxException
 
-class UriParserTest {
+class EngelsystemUriParserTest {
 
-    private val uriParser = UriParser()
+    private val uriParser = EngelsystemUriParser()
 
     @Test
     fun `parseUri throws exception if url is empty`() {

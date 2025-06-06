@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.provider.CalendarContract
 import android.widget.Toast
-import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MILLISECONDS_OF_ONE_MINUTE
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolver
 import nerd.tuxmobil.fahrplan.congress.extensions.startActivity
@@ -35,11 +34,11 @@ class CalendarSharing(
     }
 
     private fun Session.toCalendarInsertIntent(): Intent {
-        val title = this.title
+        val title = title
         val description = calendarDescriptionComposition.getCalendarDescription(this)
-        val location = this.roomName
+        val location = roomName
         val startTime = startsAt.toMilliseconds()
-        val endTime = startTime + this.duration * MILLISECONDS_OF_ONE_MINUTE
+        val endTime = endsAt.toMilliseconds()
         return Intent(Intent.ACTION_INSERT, CalendarContract.Events.CONTENT_URI).withExtras(
             CalendarContract.Events.TITLE to title,
             CalendarContract.Events.DESCRIPTION to description,

@@ -1,12 +1,13 @@
 package nerd.tuxmobil.fahrplan.congress.utils
 
+import info.metadude.android.eventfahrplan.commons.temporal.Duration
 import nerd.tuxmobil.fahrplan.congress.models.Session
 
 interface ContentDescriptionFormatting {
 
     fun getSessionIdContentDescription(sessionId: String): String
 
-    fun getDurationContentDescription(duration: Int): String
+    fun getDurationContentDescription(duration: Duration): String
 
     fun getTitleContentDescription(title: String): String
 

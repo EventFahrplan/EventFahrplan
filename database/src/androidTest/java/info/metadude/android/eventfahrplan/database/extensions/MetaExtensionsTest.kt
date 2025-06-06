@@ -1,8 +1,8 @@
 package info.metadude.android.eventfahrplan.database.extensions
 
 import com.google.common.truth.Truth.assertThat
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.ETAG
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.NUM_DAYS
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.SCHEDULE_ETAG
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.SCHEDULE_LAST_MODIFIED
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.SUBTITLE
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.TIME_ZONE_NAME
@@ -25,7 +25,7 @@ class MetaExtensionsTest {
                 version = "v.9.9.9"
         )
         val values = meta.toContentValues()
-        assertThat(values.getAsString(ETAG)).isEqualTo("abc123")
+        assertThat(values.getAsString(SCHEDULE_ETAG)).isEqualTo("abc123")
         assertThat(values.getAsString(SCHEDULE_LAST_MODIFIED)).isEqualTo("2023-12-31T23:59:59+01:00")
         assertThat(values.getAsInteger(NUM_DAYS)).isEqualTo(23)
         assertThat(values.getAsString(SUBTITLE)).isEqualTo("My subtitle")

@@ -34,7 +34,7 @@ class AppRepositoryScheduleNextFetchTest {
                 alarmsDatabaseRepository = mock(),
                 sessionsDatabaseRepository = mock(),
                 scheduleNetworkRepository = mock(),
-                engelsystemNetworkRepository = mock(),
+                engelsystemRepository = mock(),
                 sharedPreferencesRepository = sharedPreferencesRepository,
                 sessionsTransformer = mock(),
             )
@@ -46,7 +46,7 @@ class AppRepositoryScheduleNextFetchTest {
         whenever(sharedPreferencesRepository.getScheduleNextFetchAt()).thenReturn(0L)
         testableAppRepository.scheduleNextFetch.test {
             val actual = awaitItem()
-            assertThat(actual).isEqualTo(NextFetch(Moment.ofEpochMilli(0), Duration.ofMilliseconds(0)))
+            assertThat(actual).isEqualTo(NextFetch(Moment.ofEpochMilli(0), Duration.ZERO))
         }
     }
 

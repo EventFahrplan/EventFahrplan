@@ -11,8 +11,9 @@ or [Chaos Communication Congress][congress-website].
 
 The app is available for Android devices.
 
-Bug reports, feature requests can be submitted as an [issue][issues-github].
-Please read the instructions in the [contribution guide](CONTRIBUTING.md) in order to contribute to this project.
+Bug reports, feature requests can be submitted as an [issue][issues-github]. Please mind the
+[limitations][limitations]. Please read the instructions in the [contribution guide](CONTRIBUTING.md)
+in order to contribute to this project.
 
 ![Picture of the 38C3 Schedule on tablet and phone](gfx/EventFahrplan-38C3-tablet-phone.png)
 
@@ -31,19 +32,19 @@ Please read the instructions in the [contribution guide](CONTRIBUTING.md) in ord
 
 * View program by day and rooms (side by side)
 * Custom grid layout for smartphones (**try landscape mode**) and tablets
-* Read detailed descriptions (speaker names, start time, room name, links, ...) of events
-* Search through all events
-* Add events to favorites list
+* Read detailed descriptions (speaker names, start time, room name, links, ...) of sessions
+* Search through all sessions
+* Add sessions to favorites list
 * Export favorites list
-* Setup alarms for individual events
-* Add events to your personal calendar
-* Share a link to an event with others
+* Setup alarms for individual sessions
+* Add sessions to your personal calendar
+* Share a link to a session with others
 * Keep track of program changes
 * Automatic program updates (configurable in settings)
 
 
 ### Supported languages
-*Event descriptions excluded*
+*Session descriptions excluded*
 - Danish 🇩🇰
 - Dutch 🇳🇱
 - English 🇺🇸
@@ -188,6 +189,7 @@ limitations under the License.
 [fosdem-room-status-website]: https://api.fosdem.org
 [issues-github]: https://github.com/EventFahrplan/EventFahrplan/issues
 [johnjohndoe-github]: https://github.com/johnjohndoe
+[limitations]: docs/LIMITATIONS.md
 [pentabarf-github]: https://github.com/nevs/pentabarf
 [pretalx-website]: https://pretalx.com
 [tuxmobil-github]: https://github.com/tuxmobil

@@ -76,7 +76,7 @@ class StarredListAdapter internal constructor(
             room.textOrHide = session.roomName
             room.contentDescription = contentDescriptionFormatting
                 .getRoomNameContentDescription(session.roomName)
-            val durationText = duration.context.getString(R.string.session_list_item_duration_text, session.duration)
+            val durationText = duration.context.getString(R.string.session_list_item_duration_text, session.duration.toWholeMinutes().toInt())
             duration.textOrHide = durationText
             duration.contentDescription = contentDescriptionFormatting
                 .getDurationContentDescription(session.duration)

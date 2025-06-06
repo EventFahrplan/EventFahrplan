@@ -220,6 +220,16 @@ class MomentTest {
     }
 
     @Test
+    fun durationUntil() {
+        val momentOne = Moment.now()
+        val momentTwo = momentOne.plusMilliseconds(MILLISECONDS_OF_ONE_SECOND.toLong())
+
+        assertThat(momentOne.durationUntil(momentOne).toWholeMilliseconds()).isEqualTo(0)
+        assertThat(momentOne.durationUntil(momentTwo).toWholeMilliseconds()).isEqualTo(MILLISECONDS_OF_ONE_SECOND.toLong())
+        assertThat(momentTwo.durationUntil(momentOne).toWholeMilliseconds()).isEqualTo(-MILLISECONDS_OF_ONE_SECOND.toLong())
+    }
+
+    @Test
     fun plusMilliseconds() {
         val momentOne = Moment.ofEpochMilli(0).plusMilliseconds(1)
         assertThat(momentOne.toMilliseconds()).isEqualTo(1)

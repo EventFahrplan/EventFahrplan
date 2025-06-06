@@ -1,6 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.serialization
 
 import com.google.common.truth.Truth.assertThat
+import info.metadude.android.eventfahrplan.commons.temporal.Duration
 import info.metadude.android.eventfahrplan.network.models.Session
 import nerd.tuxmobil.fahrplan.congress.serialization.ScheduleChanges.Companion.computeSessionsWithChangeFlags
 import org.junit.jupiter.params.ParameterizedTest
@@ -84,8 +85,8 @@ class ScheduleChangesTest {
                         roomName = "room",
                         recordingOptOut = true,
                         dayIndex = 3,
-                        startTime = 200,
-                        duration = 90,
+                        startTime = Duration.ofMinutes(200),
+                        duration = Duration.ofMinutes(90),
                     )
                 ),
                 newSessions = listOf(
@@ -98,8 +99,8 @@ class ScheduleChangesTest {
                         roomName = "room",
                         recordingOptOut = true,
                         dayIndex = 3,
-                        startTime = 200,
-                        duration = 90,
+                        startTime = Duration.ofMinutes(200),
+                        duration = Duration.ofMinutes(90),
                     )
                 ),
                 expectedSessions = listOf(
@@ -112,8 +113,8 @@ class ScheduleChangesTest {
                         roomName = "room",
                         recordingOptOut = true,
                         dayIndex = 3,
-                        startTime = 200,
-                        duration = 90,
+                        startTime = Duration.ofMinutes(200),
+                        duration = Duration.ofMinutes(90),
                     )
                 ),
                 expectedOldCanceledSessions = emptyList(),
@@ -213,17 +214,17 @@ class ScheduleChangesTest {
             ),
             scenario1Of(
                 scenarioDescription = "Start times differ",
-                oldSessions = listOf(Session("1", startTime = 100)),
-                newSessions = listOf(Session("1", startTime = 200)),
-                expectedSessions = listOf(Session("1", startTime = 200, changedStartTime = true)),
+                oldSessions = listOf(Session("1", startTime = Duration.ofMinutes(100))),
+                newSessions = listOf(Session("1", startTime = Duration.ofMinutes(200))),
+                expectedSessions = listOf(Session("1", startTime = Duration.ofMinutes(200), changedStartTime = true)),
                 expectedOldCanceledSessions = emptyList(),
                 expectedFoundNoteworthyChanges = true,
             ),
             scenario1Of(
                 scenarioDescription = "Durations differ",
-                oldSessions = listOf(Session("1", duration = 45)),
-                newSessions = listOf(Session("1", duration = 60)),
-                expectedSessions = listOf(Session("1", duration = 60, changedDuration = true)),
+                oldSessions = listOf(Session("1", duration = Duration.ofMinutes(45))),
+                newSessions = listOf(Session("1", duration = Duration.ofMinutes(60))),
+                expectedSessions = listOf(Session("1", duration = Duration.ofMinutes(60), changedDuration = true)),
                 expectedOldCanceledSessions = emptyList(),
                 expectedFoundNoteworthyChanges = true,
             ),
@@ -267,8 +268,8 @@ class ScheduleChangesTest {
                         dayIndex = 2,
                         track = "Old track",
                         recordingOptOut = false,
-                        startTime = 200,
-                        duration = 30,
+                        startTime = Duration.ofMinutes(200),
+                        duration = Duration.ofMinutes(30),
                         changedTitle = false,
                         changedSubtitle = false,
                         changedSpeakers = false,
@@ -292,8 +293,8 @@ class ScheduleChangesTest {
                         dayIndex = 3,
                         track = "New track",
                         recordingOptOut = true,
-                        startTime = 300,
-                        duration = 45,
+                        startTime = Duration.ofMinutes(300),
+                        duration = Duration.ofMinutes(45),
                         changedTitle = false,
                         changedSubtitle = false,
                         changedSpeakers = false,
@@ -317,8 +318,8 @@ class ScheduleChangesTest {
                         dayIndex = 3,
                         track = "New track",
                         recordingOptOut = true,
-                        startTime = 300,
-                        duration = 45,
+                        startTime = Duration.ofMinutes(300),
+                        duration = Duration.ofMinutes(45),
                         changedTitle = true,
                         changedSubtitle = true,
                         changedSpeakers = true,
@@ -377,9 +378,9 @@ class ScheduleChangesTest {
             ),
             scenario2Of(
                 scenarioDescription = "Relative start times differ",
-                oldSessions = listOf(Session("1", relativeStartTime = 500)),
-                newSessions = listOf(Session("1", relativeStartTime = 600)),
-                expectedSessions = listOf(Session("1", relativeStartTime = 600)),
+                oldSessions = listOf(Session("1", relativeStartTime = Duration.ofMinutes(500))),
+                newSessions = listOf(Session("1", relativeStartTime = Duration.ofMinutes(600))),
+                expectedSessions = listOf(Session("1", relativeStartTime = Duration.ofMinutes(600))),
                 expectedOldCanceledSessions = emptyList(),
                 expectedFoundNoteworthyChanges = false,
                 expectedFoundChanges = true,

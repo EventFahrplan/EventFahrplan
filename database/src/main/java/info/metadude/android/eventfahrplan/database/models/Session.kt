@@ -1,5 +1,7 @@
 package info.metadude.android.eventfahrplan.database.models
 
+import info.metadude.android.eventfahrplan.commons.temporal.Duration
+
 /**
  * Database model representing a lecture, a workshop or any similar time-framed happening.
  */
@@ -11,20 +13,20 @@ data class Session(
         val dateText: String = "",
         val dateUTC: Long = 0,
         val description: String = "",
-        val duration: Int = 0,          // minutes
+        val duration: Duration = Duration.ZERO, // minutes
         val feedbackUrl: String? = null,
         val hasAlarm: Boolean = false,
         val isHighlight: Boolean = false,
         val language: String = "",
         val links: String = "",
-        val relativeStartTime: Int = 0, // minutes since conference start
+        val relativeStartTime: Duration = Duration.ZERO, // minutes since conference start
         val recordingLicense: String = "",
         val recordingOptOut: Boolean = RECORDING_OPT_OUT_OFF,
         val roomName: String = "",
         val roomIdentifier: String = "",
         val roomIndex: Int = 0,
         val speakers: String = "",
-        val startTime: Int = 0,         // minutes since day start
+        val startTime: Duration = Duration.ZERO, // minutes since day start
         val slug: String = "",
         val subtitle: String = "",
         val timeZoneOffset: Int? = null, // seconds

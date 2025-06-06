@@ -150,7 +150,6 @@
     <plurals name="notifications_schedule_changes">
         <item quantity="other"><xliff:g example="3" id="count">%d</xliff:g> 個の講義が変更しました。</item>
     </plurals>
-    <!-- Schedule refresh interval picker -->
     <!-- Alarm time picker -->
     <string name="alarm_time_title_at_start_time">開始時</string>
     <string name="alarm_time_title_5_minutes_before">5分前</string>

@@ -164,7 +164,6 @@
         <item quantity="one"><xliff:g example="1" id="count">%d</xliff:g> sessão foi alterada.</item>
         <item quantity="other"><xliff:g example="3" id="count">%d</xliff:g> sessões foram alteradas.</item>
     </plurals>
-    <!-- Schedule refresh interval picker -->
     <!-- Alarm time picker -->
     <string name="alarm_time_title_at_start_time">na hora de início</string>
     <string name="alarm_time_title_5_minutes_before">5 minutos antes</string>

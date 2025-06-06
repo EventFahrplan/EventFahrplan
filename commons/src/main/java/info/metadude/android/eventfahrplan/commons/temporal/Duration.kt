@@ -35,6 +35,20 @@ class Duration private constructor(private val duration: ThreeTenDuration) : Com
     fun isPositive() = !duration.isZero && !duration.isNegative
 
     /**
+     * Returns a copy of this duration with the specified [duration][other] added.
+     */
+    operator fun plus(other: Duration): Duration {
+        return Duration(duration.plus(other.duration))
+    }
+
+    /**
+     * Returns a copy of this duration with the specified [duration][other] subtracted.
+     */
+    operator fun minus(other: Duration): Duration {
+        return Duration(duration.minus(other.duration))
+    }
+
+    /**
      * Returns the absolute days of this duration.
      */
     fun toWholeDays() = duration.toDays()
@@ -99,9 +113,43 @@ class Duration private constructor(private val duration: ThreeTenDuration) : Com
     companion object {
 
         /**
+         * Constant representing a duration of zero milliseconds.
+         */
+        val ZERO: Duration = ofMilliseconds(ThreeTenDuration.ZERO.toMillis())
+
+        /**
+         * Creates a [Duration] instance from the given [days].
+         */
+        @JvmStatic
+        fun ofDays(days: Long) =
+            Duration(ThreeTenDuration.ofDays(days))
+
+        /**
+         * Creates a [Duration] instance from the given [hours].
+         */
+        fun ofHours(hours: Long) =
+            Duration(ThreeTenDuration.ofHours(hours))
+
+        /**
+         * Creates a [Duration] instance from the given [minutes].
+         */
+        fun ofMinutes(minutes: Long) =
+            Duration(ThreeTenDuration.ofMinutes(minutes))
+
+        /**
+         * Creates a [Duration] instance from the given [minutes].
+         */
+        fun ofMinutes(minutes: Int) =
+            ofMinutes(minutes.toLong())
+
+        /**
+         * Creates a [Duration] instance from the given [seconds].
+         */
+        fun ofSeconds(seconds: Long) =
+            Duration(ThreeTenDuration.ofSeconds(seconds))
+
+        /**
          * Creates a [Duration] instance from the given [milliseconds].
-         *
-         * @param milliseconds epoch millis to create instance from
          */
         fun ofMilliseconds(milliseconds: Long) =
             Duration(ThreeTenDuration.ofMillis(milliseconds))

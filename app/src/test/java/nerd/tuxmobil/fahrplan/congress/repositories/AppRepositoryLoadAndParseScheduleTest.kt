@@ -91,7 +91,7 @@ class AppRepositoryLoadAndParseScheduleTest {
                 sessionsDatabaseRepository = sessionsDatabaseRepository,
                 metaDatabaseRepository = metaDatabaseRepository,
                 scheduleNetworkRepository = scheduleNetworkRepository,
-                engelsystemNetworkRepository = mock(),
+                engelsystemRepository = mock(),
                 sharedPreferencesRepository = sharedPreferencesRepository,
                 sessionsTransformer = sessionsTransformer
             )

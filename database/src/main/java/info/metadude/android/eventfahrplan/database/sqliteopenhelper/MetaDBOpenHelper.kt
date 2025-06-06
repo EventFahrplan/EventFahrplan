@@ -3,8 +3,8 @@ package info.metadude.android.eventfahrplan.database.sqliteopenhelper
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.ETAG
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.NUM_DAYS
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.SCHEDULE_ETAG
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.SCHEDULE_LAST_MODIFIED
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.SUBTITLE
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.TIME_ZONE_NAME
@@ -33,7 +33,7 @@ internal class MetaDBOpenHelper(context: Context) : SQLiteOpenHelper(
                 "$VERSION TEXT, " +
                 "$TITLE TEXT, " +
                 "$SUBTITLE TEXT, " +
-                "$ETAG TEXT, " +
+                "$SCHEDULE_ETAG TEXT, " +
                 "$TIME_ZONE_NAME TEXT, " +
                 "$SCHEDULE_LAST_MODIFIED TEXT DEFAULT ''" +
                 ");"
@@ -45,7 +45,7 @@ internal class MetaDBOpenHelper(context: Context) : SQLiteOpenHelper(
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) = with(db) {
         if (oldVersion < 3 && newVersion >= 3) {
-            addTextColumn(ETAG, default = ETAG_DEFAULT)
+            addTextColumn(SCHEDULE_ETAG, default = ETAG_DEFAULT)
         }
         if (oldVersion < 6 && newVersion >= 6) {
             addTextColumn(TIME_ZONE_NAME, default = null)

@@ -62,9 +62,10 @@ internal class ScrollAmountCalculator(
                 for (session in roomData.sessions) {
                     if (session.startsAt.minuteOfDay <= time && session.endsAt.minuteOfDay > time) {
                         logging.d(LOG_TAG, session.title)
-                        logging.d(LOG_TAG, "$time ${session.startTime}/${session.duration}")
-                        scrollAmount -= (time - session.startTime) / TIME_GRID_MINIMUM_SEGMENT_HEIGHT * boxHeight
-                        time = session.startTime
+                        val startTime = session.startTime.toWholeMinutes().toInt()
+                        logging.d(LOG_TAG, "$time $startTime/${session.duration.toWholeMinutes().toInt()}")
+                        scrollAmount -= (time - startTime) / TIME_GRID_MINIMUM_SEGMENT_HEIGHT * boxHeight
+                        time = startTime
                     }
                 }
             }
