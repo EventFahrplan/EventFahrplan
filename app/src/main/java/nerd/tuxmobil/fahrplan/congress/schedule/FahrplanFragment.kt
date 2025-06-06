@@ -392,7 +392,6 @@ class FahrplanFragment : Fragment(), MenuProvider {
         useDeviceTimeZone: Boolean,
     ) {
         val columnsLayout = horizontalScroller.getChildAt(0) as LinearLayout
-        //columnsLayout.removeAllViews()
         val context = horizontalScroller.context
         val roomDataList = scheduleData.roomDataList
 
@@ -496,6 +495,7 @@ class FahrplanFragment : Fragment(), MenuProvider {
         columnWidth: Int,
         roomNames: List<String>
     ) {
+        roomTitlesRowLayout.removeAllViews()
         val titleTextSize = resources.getInteger(R.integer.room_title_size).toFloat()
         val params = LinearLayout.LayoutParams(columnWidth, WRAP_CONTENT, 1f).apply {
             gravity = CENTER
