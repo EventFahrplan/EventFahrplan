@@ -15,9 +15,7 @@
     <color name="alert_dialog_button_text">#fef2ff</color>
 
     <!-- Schedule screen -->
-    <color name="schedule_time_column_background">@color/colorAccent</color>
     <color name="schedule_time_column_item_background_normal">@color/windowBackground</color>
-    <color name="schedule_time_column_item_background_emphasized">@color/colorAccent</color>
     <color name="schedule_time_column_item_text_normal">#fef2ff</color>
     <color name="schedule_time_column_item_text_emphasized">#fef2ff</color>
     <color name="schedule_horizontal_scrolling_progress_line">#fef2ff</color>

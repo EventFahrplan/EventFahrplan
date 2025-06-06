@@ -16,7 +16,7 @@
     <color name="text_link_on_light">@color/colorAccent</color>
     <color name="text_link_on_dark">@color/colorAccent</color>
     <color name="text_link_pressed_background_on_light">#aafec700</color>
-    <color name="outline_variant">#88ffffff</color>
+    <color name="outline_variant">#88888888</color>
 
     <!-- Scrollbar -->
     <color name="scrollbar_background">@color/colorAccent</color>
@@ -40,9 +40,9 @@
     <color name="alert_dialog_button_text">@color/colorAccent</color>
 
     <!-- Schedule screen -->
-    <color name="schedule_time_column_background">#000000</color>
+    <color name="schedule_time_column_background">@color/colorAccent</color>
     <color name="schedule_time_column_item_background_normal">#000</color>
-    <color name="schedule_time_column_item_background_emphasized">#fff</color>
+    <color name="schedule_time_column_item_background_emphasized">@color/colorAccent</color>
     <color name="schedule_time_column_item_text_normal">#fff</color>
     <color name="schedule_time_column_item_text_emphasized">#000</color>
     <color name="schedule_horizontal_time_line">#4dffffff</color>

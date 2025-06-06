@@ -479,6 +479,7 @@ private fun AlarmIcon(
             .size(dimensionResource(R.dimen.session_drawable_icon_size))
             .padding(dimensionResource(R.dimen.session_drawable_icon_padding)),
         icon = R.drawable.ic_bell_on_session,
+        tint = colorResource(R.color.session_item_alarm_icon),
         contentDescription = stringResource(R.string.session_item_has_alarm_content_description),
     )
 }
