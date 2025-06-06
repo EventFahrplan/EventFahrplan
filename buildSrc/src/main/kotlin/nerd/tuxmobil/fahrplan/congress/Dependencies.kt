@@ -64,7 +64,7 @@ object Libs {
         const val emailIntentBuilder = "2.0.0"
         const val engelsystem = "10.0.0"
         const val fragmentCompose = "1.8.8"
-        const val htmlConverter = "1.0.3"
+        const val htmlConverter = "1.0.4"
         const val junitJupiter = "5.13.0"
         const val junitPlatform = "1.13.0"
         const val kotlinCoroutines = "1.10.2"
