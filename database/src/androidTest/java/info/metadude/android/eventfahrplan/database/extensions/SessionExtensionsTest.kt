@@ -39,6 +39,7 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Se
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.URL
 import info.metadude.android.eventfahrplan.database.models.Session
 import org.junit.jupiter.api.Test
+import info.metadude.android.eventfahrplan.commons.temporal.Duration
 
 class SessionExtensionsTest {
 
@@ -51,20 +52,20 @@ class SessionExtensionsTest {
                 dateText = "2015-08-13",
                 dateUTC = 1439478900000L,
                 description = "Lorem ipsum dolor sit amet",
-                duration = 45,
+                duration = Duration.ofMinutes(45),
                 feedbackUrl = "https://talks.mrmcd.net/2018/talk/V3FUNG/feedback",
                 hasAlarm = true,
                 isHighlight = true,
                 language = "en",
                 links = "[Website](https://www.example.com/path)",
-                relativeStartTime = 1035,
+                relativeStartTime = Duration.ofMinutes(1035),
                 recordingLicense = "CC 0",
                 recordingOptOut = Session.RECORDING_OPT_OUT_ON,
                 roomName = "Simulacron-3",
                 roomIdentifier = "88888888-4444-4444-4444-121212121212",
                 roomIndex = 17,
                 speakers = "John Doe; Noah Doe",
-                startTime = 1036,
+                startTime = Duration.ofMinutes(1036),
                 slug = "lorem",
                 subtitle = "My subtitle",
                 title = "My title",

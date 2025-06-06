@@ -2,6 +2,7 @@ package nerd.tuxmobil.fahrplan.congress.schedule
 
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
+import info.metadude.android.eventfahrplan.commons.temporal.Duration
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import info.metadude.android.eventfahrplan.commons.testing.MainDispatcherTestExtension
 import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedNever
@@ -347,7 +348,7 @@ class FahrplanViewModelTest {
             val session = Session(
                 sessionId = "session-01",
                 dateUTC = startsAt,
-                duration = 30,
+                duration = Duration.ofMinutes(30),
                 timeZoneOffset = ZoneOffset.UTC,
             )
             val repository = createRepository(

@@ -4,9 +4,9 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.annotation.VisibleForTesting
 import info.metadude.android.eventfahrplan.commons.logging.Logging
+import info.metadude.android.eventfahrplan.commons.temporal.Duration
 import nerd.tuxmobil.fahrplan.congress.models.RoomData
 import nerd.tuxmobil.fahrplan.congress.models.Session
-import org.threeten.bp.Duration
 import kotlin.collections.set
 
 private typealias SessionId = String
@@ -63,7 +63,7 @@ data class LayoutCalculator(
             }
 
             layoutParamsBySession[sessionId]!!.topMargin = margin
-            previousSessionEndsAt = startTime + adjustedSession.duration
+            previousSessionEndsAt = startTime + adjustedSession.duration.toWholeMinutes().toInt()
             previousSession = adjustedSession
         }
 
@@ -71,7 +71,7 @@ data class LayoutCalculator(
     }
 
     private fun createLayoutParams(session: Session): LinearLayout.LayoutParams {
-        val height = calculateDisplayDistance(session.duration)
+        val height = calculateDisplayDistance(session.duration.toWholeMinutes().toInt())
         val marginLayoutParams = ViewGroup.MarginLayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height)
         return LinearLayout.LayoutParams(marginLayoutParams)
     }
@@ -81,10 +81,10 @@ data class LayoutCalculator(
         if (session.dateUTC > 0) {
             startTime = session.startsAt.minuteOfDay
             if (startTime < previousSessionEndsAt) {
-                startTime += Duration.ofDays(1).toMinutes().toInt()
+                startTime += Duration.ofDays(1).toWholeMinutes().toInt()
             }
         } else {
-            startTime = session.relativeStartTime
+            startTime = session.relativeStartTime.toWholeMinutes().toInt()
         }
         return startTime
     }
@@ -94,7 +94,7 @@ data class LayoutCalculator(
         return if (next.dateUTC > 0 && next.startsAt.isBefore(session.endsAt)) {
             logging.d(LOG_TAG, """Collision: "${session.title}" + "${next.title}"""")
             // cut current at the end, to match next sessions start time
-            val newDuration = session.startsAt.minutesUntil(next.startsAt).toInt()
+            val newDuration = session.startsAt.durationUntil(next.startsAt)
             session.copy(duration = newDuration)
         } else {
             session

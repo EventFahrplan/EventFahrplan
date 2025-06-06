@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteException
 import androidx.core.database.sqlite.transaction
 import info.metadude.android.eventfahrplan.commons.logging.Logging
+import info.metadude.android.eventfahrplan.commons.temporal.Duration
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionByNotificationIdTable
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.SessionsTable.Columns.ABSTRACT
@@ -255,19 +256,19 @@ internal class RealSessionsDatabaseRepository(
                     dateUTC = cursor.getLong(DATE_UTC),
                     dayIndex = cursor.getInt(DAY_INDEX),
                     description = cursor.getString(DESCR),
-                    duration = cursor.getInt(DURATION),
+                    duration = cursor.toDuration(DURATION),
                     feedbackUrl = cursor.getStringOrNull(FEEDBACK_URL),
                     language = cursor.getString(LANG),
                     links = cursor.getString(LINKS),
                     recordingLicense = cursor.getString(REC_LICENSE),
-                    relativeStartTime = cursor.getInt(REL_START),
+                    relativeStartTime = cursor.toDuration(REL_START),
                     roomName = cursor.getString(ROOM_NAME),
                     roomIdentifier = cursor.getString(ROOM_IDENTIFIER),
                     roomIndex = cursor.getInt(ROOM_INDEX),
                     slug = cursor.getString(SLUG),
                     speakers = cursor.getString(SPEAKERS),
                     subtitle = cursor.getString(SUBTITLE),
-                    startTime = cursor.getInt(START),
+                    startTime = cursor.toDuration(START),
                     timeZoneOffset = cursor.getIntOrNull(TIME_ZONE_OFFSET),
                     title = cursor.getString(TITLE),
                     track = cursor.getString(TRACK),
@@ -439,6 +440,9 @@ internal class RealSessionsDatabaseRepository(
         countNone = getInt(columnNameNone),
         countPresent = getInt(columnNamePresent),
     )
+
+    private fun Cursor.toDuration(columnName: String) =
+        Duration.ofMinutes(getInt(columnName))
 
     private val Int.isChanged
         get() = this != 0

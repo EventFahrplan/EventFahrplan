@@ -1,6 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.schedule
 
 import com.google.common.truth.Truth.assertThat
+import info.metadude.android.eventfahrplan.commons.temporal.Duration
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.NoLogging
 import nerd.tuxmobil.fahrplan.congress.models.DateInfo
@@ -125,8 +126,8 @@ class ScrollAmountCalculatorTest {
         dayIndex = 0,
         dateText = moment.toZonedDateTime(ZoneOffset.UTC).toLocalDate().toString(),
         dateUTC = moment.toMilliseconds(),
-        startTime = moment.minuteOfDay,
-        duration = 60,
+        startTime = Duration.ofMinutes(moment.minuteOfDay),
+        duration = Duration.ofMinutes(60),
         roomName = "Main hall",
     )
 

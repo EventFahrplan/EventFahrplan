@@ -1,6 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.models
 
 import com.google.common.truth.Truth.assertThat
+import info.metadude.android.eventfahrplan.commons.temporal.Duration
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import org.junit.jupiter.api.Test
 
@@ -35,9 +36,9 @@ class VirtualDayTest {
         val virtualDay = VirtualDay(
             index = 1,
             sessions = listOf(
-                createSession("2023-12-27", 1703671200000, 60), // 2023-12-27T10:00:00Z
-                createSession("2023-12-27", 1703692800000, 30), // 2023-12-27T16:00:00Z
-                createSession("2023-12-27", 1703728800000, 45), // 2023-12-28T02:00:00Z
+                createSession("2023-12-27", 1703671200000, Duration.ofMinutes(60)), // 2023-12-27T10:00:00Z
+                createSession("2023-12-27", 1703692800000, Duration.ofMinutes(30)), // 2023-12-27T16:00:00Z
+                createSession("2023-12-27", 1703728800000, Duration.ofMinutes(45)), // 2023-12-28T02:00:00Z
             )
         )
         assertThat(virtualDay.index).isEqualTo(1)
@@ -52,8 +53,8 @@ class VirtualDayTest {
         val virtualDay = VirtualDay(
             index = 4,
             sessions = listOf(
-                createSession("2023-12-30", 1703926800000, 90), // 2023-12-30T09:00:00Z
-                createSession("2023-12-30", 1703959200000, 30), // 2023-12-30T18:00:00Z
+                createSession("2023-12-30", 1703926800000, Duration.ofMinutes(90)), // 2023-12-30T09:00:00Z
+                createSession("2023-12-30", 1703959200000, Duration.ofMinutes(30)), // 2023-12-30T18:00:00Z
             )
         )
         assertThat("$virtualDay").isEqualTo(
@@ -61,7 +62,7 @@ class VirtualDayTest {
         )
     }
 
-    private fun createSession(dateText: String, startsAt: Long, duration: Int) =
+    private fun createSession(dateText: String, startsAt: Long, duration: Duration) =
         Session(
             sessionId = "",
             dateText = dateText,

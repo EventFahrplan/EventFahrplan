@@ -151,6 +151,13 @@ class Moment private constructor(private val time: Instant) : Comparable<Moment>
         return ThreeTenDuration.between(time, moment.time).toMinutes()
     }
 
+    /**
+     * Returns the duration between this and the given [moment] in milliseconds precision.
+     */
+    fun durationUntil(moment: Moment): Duration {
+        return Duration.ofMilliseconds(ThreeTenDuration.between(time, moment.time).toMillis())
+    }
+
     override fun compareTo(other: Moment): Int {
         return time.compareTo(other.time)
     }

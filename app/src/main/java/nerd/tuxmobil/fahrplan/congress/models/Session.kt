@@ -1,7 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.models
 
+import info.metadude.android.eventfahrplan.commons.temporal.Duration
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
-import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MILLISECONDS_OF_ONE_MINUTE
 import nerd.tuxmobil.fahrplan.congress.schedule.Conference
 import org.threeten.bp.ZoneOffset
 
@@ -27,9 +27,9 @@ data class Session(
     val dateText: String = "", // YYYY-MM-DD
     val dateUTC: Long = 0, // milliseconds
     val timeZoneOffset: ZoneOffset? = null,
-    val startTime: Int = 0, // minutes since day start
-    val relativeStartTime: Int = 0, // minutes since conference start
-    val duration: Int = 0, // minutes
+    val startTime: Duration = Duration.ZERO, // minutes since day start
+    val relativeStartTime: Duration = Duration.ZERO, // minutes since conference start
+    val duration: Duration = Duration.ZERO, // minutes
     val roomName: String = "",
     val roomIdentifier: String = "", // Unique identifier of a room, e.g. "bccb6a5b-b26b-4f17-90b9-b5966f5e34d8"
     val roomIndex: Int = 0,
@@ -84,7 +84,7 @@ data class Session(
      * Returns a moment based on summing up the start time milliseconds and the duration.
      */
     val endsAt: Moment
-        get() = Moment.ofEpochMilli(dateUTC + duration.toLong() * MILLISECONDS_OF_ONE_MINUTE)
+        get() = Moment.ofEpochMilli(dateUTC).plusDuration(duration)
 
     /**
      * Keep in sync with [info.metadude.android.eventfahrplan.database.models.Session.isChanged].
@@ -112,8 +112,8 @@ private data class EssentialSession(
     val dateText: String,
     val dateUTC: Long,
     val timeZoneOffset: ZoneOffset?,
-    val startTime: Int,
-    val duration: Int,
+    val startTime: Duration,
+    val duration: Duration,
     val roomName: String,
     val roomIdentifier: String,
     val speakers: List<String>,

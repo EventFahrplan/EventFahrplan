@@ -1,6 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.utils
 
 import info.metadude.android.eventfahrplan.commons.temporal.DateFormatter
+import info.metadude.android.eventfahrplan.commons.temporal.Duration
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolving
 import nerd.tuxmobil.fahrplan.congress.models.Session
@@ -12,8 +13,8 @@ class ContentDescriptionFormatter(val resourceResolving: ResourceResolving) : Co
             R.string.session_list_item_session_id_content_description, sessionId
         )
 
-    override fun getDurationContentDescription(duration: Int) =
-        resourceResolving.getString(R.string.session_list_item_duration_content_description, duration)
+    override fun getDurationContentDescription(duration: Duration) =
+        resourceResolving.getString(R.string.session_list_item_duration_content_description, duration.toWholeMinutes().toInt())
 
     override fun getTitleContentDescription(title: String) =
         if (title.isEmpty()) "" else resourceResolving.getString(

@@ -3,10 +3,10 @@ package nerd.tuxmobil.fahrplan.congress.dataconverters
 import androidx.annotation.VisibleForTesting
 import info.metadude.android.eventfahrplan.commons.logging.Logging
 import info.metadude.android.eventfahrplan.commons.temporal.DayRange
+import info.metadude.android.eventfahrplan.commons.temporal.Duration
 import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MILLISECONDS_OF_ONE_SECOND
 import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.toMoment
 import info.metadude.kotlin.library.engelsystem.models.Shift
-import org.threeten.bp.Duration
 import info.metadude.android.eventfahrplan.network.models.Session as SessionNetworkModel
 
 private const val LOG_TAG = "ShiftsExtensions"
@@ -90,10 +90,10 @@ val Shift.descriptionText: String
     }
 
 private val Shift.minuteOfDay
-    get() = startsAtDate.toMoment().minuteOfDay
+    get() = Duration.ofMinutes(startsAtDate.toMoment().minuteOfDay)
 
 private val Shift.shiftDuration
-    get() = Duration.between(startsAtDate, endsAtDate).toMinutes().toInt()
+    get() = startsAtDate.toMoment().durationUntil(endsAtDate.toMoment())
 
 private val Shift.startsAtLocalDate
     get() = startsAtDate.toLocalDate()

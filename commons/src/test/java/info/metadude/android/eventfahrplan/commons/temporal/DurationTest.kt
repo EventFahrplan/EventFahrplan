@@ -45,7 +45,7 @@ class DurationTest {
 
     @Test
     fun `isPositive returns false for zero duration`() {
-        val duration = Duration.ofMilliseconds(0)
+        val duration = Duration.ZERO
         assertThat(duration.isPositive()).isFalse()
     }
 
@@ -53,6 +53,22 @@ class DurationTest {
     fun `isPositive returns true for positive duration`() {
         val duration = Duration.ofMilliseconds(1)
         assertThat(duration.isPositive()).isTrue()
+    }
+
+    @Test
+    fun `plus returns the sum of two durations`() {
+        val durationOne = Duration.ofMilliseconds(MILLISECONDS_OF_ONE_DAY)
+        val durationTwo = Duration.ofMilliseconds(MILLISECONDS_OF_ONE_HOUR)
+        val sum = durationOne + durationTwo
+        assertThat(sum.toWholeMilliseconds()).isEqualTo(MILLISECONDS_OF_ONE_DAY + MILLISECONDS_OF_ONE_HOUR)
+    }
+
+    @Test
+    fun `minus returns the difference of two durations`() {
+        val durationOne = Duration.ofMilliseconds(MILLISECONDS_OF_ONE_DAY)
+        val durationTwo = Duration.ofMilliseconds(MILLISECONDS_OF_ONE_HOUR)
+        val difference = durationOne - durationTwo
+        assertThat(difference.toWholeMilliseconds()).isEqualTo(MILLISECONDS_OF_ONE_DAY - MILLISECONDS_OF_ONE_HOUR)
     }
 
     @Test
@@ -173,6 +189,49 @@ class DurationTest {
     fun `toString returns toString representation of internal duration`() {
         val duration = Duration.ofMilliseconds(MILLISECONDS_OF_ONE_DAY)
         assertThat(duration.toString()).isEqualTo("PT24H")
+    }
+
+    @Test
+    fun `ofDays creates Duration from one day`() {
+        val duration = Duration.ofDays(1)
+        assertThat(duration.toWholeMilliseconds()).isEqualTo(MILLISECONDS_OF_ONE_DAY)
+        assertThat(duration.toWholeDays()).isEqualTo(1)
+    }
+
+    @Test
+    fun `ofHours creates Duration from one hour`() {
+        val duration = Duration.ofHours(1)
+        assertThat(duration.toWholeMilliseconds()).isEqualTo(MILLISECONDS_OF_ONE_HOUR)
+        assertThat(duration.toWholeHours()).isEqualTo(1)
+    }
+
+    @Test
+    fun `ofMinutes creates Duration from one minute`() {
+        val duration = Duration.ofMinutes(1)
+        assertThat(duration.toWholeMilliseconds()).isEqualTo(MILLISECONDS_OF_ONE_MINUTE)
+        assertThat(duration.toWholeMinutes()).isEqualTo(1)
+    }
+
+    @Test
+    fun `ofSeconds creates Duration from one second`() {
+        val duration = Duration.ofSeconds(1)
+        assertThat(duration.toWholeMilliseconds()).isEqualTo(MILLISECONDS_OF_ONE_SECOND)
+        assertThat(duration.toWholeSeconds()).isEqualTo(1)
+    }
+
+    @Test
+    fun `ofMilliseconds creates Duration from milliseconds of one day`() {
+        val duration = Duration.ofMilliseconds(MILLISECONDS_OF_ONE_DAY)
+        assertThat(duration.toWholeMilliseconds()).isEqualTo(MILLISECONDS_OF_ONE_DAY)
+    }
+
+    @Test
+    fun `ZERO is a Duration of zero days, hours, minutes, milliseconds`() {
+        assertThat(Duration.ZERO.toWholeDays()).isEqualTo(0)
+        assertThat(Duration.ZERO.toWholeHours()).isEqualTo(0)
+        assertThat(Duration.ZERO.toWholeMinutes()).isEqualTo(0)
+        assertThat(Duration.ZERO.toWholeSeconds()).isEqualTo(0)
+        assertThat(Duration.ZERO.toWholeMilliseconds()).isEqualTo(0)
     }
 
 }

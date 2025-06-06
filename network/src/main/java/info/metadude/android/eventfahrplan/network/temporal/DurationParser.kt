@@ -1,13 +1,13 @@
 package info.metadude.android.eventfahrplan.network.temporal
 
-import org.threeten.bp.Duration
+import info.metadude.android.eventfahrplan.commons.temporal.Duration
 
 /**
  * Parser for the duration string used in the schedule.
  */
 object DurationParser {
     @JvmStatic
-    fun getMinutes(durationString: String): Int {
+    fun getMinutes(durationString: String): Duration {
         val parts = durationString.split(':')
         return when (parts.size) {
             1 -> extractMinutesOnly(minutesString = parts[0])
@@ -22,26 +22,23 @@ object DurationParser {
         }
     }
 
-    private fun extractMinutesOnly(minutesString: String): Int {
-        return minutesString.toInt()
+    private fun extractMinutesOnly(minutesString: String): Duration {
+        return Duration.ofMinutes(minutesString.toLong())
     }
 
-    private fun extractHoursAndMinutes(hoursString: String, minutesString: String): Int {
+    private fun extractHoursAndMinutes(hoursString: String, minutesString: String): Duration {
         return Duration
             .ofHours(hoursString.toLong())
-            .plusMinutes(extractMinutesOnly(minutesString).toLong())
-            .toMinutes()
-            .toInt()
+            .plus(Duration.ofMinutes(minutesString.toLong()))
     }
 
     // This format was introduced for the CCCamp 2023 schedule. Hopefully support for it can be removed soon.
     // See https://github.com/EventFahrplan/EventFahrplan/pull/561
-    private fun extractDaysAndHoursAndMinutes(daysString: String, hoursString: String, minutesString: String): Int {
+    private fun extractDaysAndHoursAndMinutes(daysString: String, hoursString: String, minutesString: String): Duration {
         return Duration
             .ofDays(daysString.toLong())
-            .plusMinutes(extractHoursAndMinutes(hoursString, minutesString).toLong())
-            .toMinutes()
-            .toInt()
+            .plus(Duration.ofHours(hoursString.toLong()))
+            .plus(Duration.ofMinutes(minutesString.toLong()))
     }
 }
 

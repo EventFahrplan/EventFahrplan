@@ -2,6 +2,7 @@ package nerd.tuxmobil.fahrplan.congress.changes
 
 import com.google.common.truth.Truth.assertThat
 import info.metadude.android.eventfahrplan.commons.temporal.DateFormatter
+import info.metadude.android.eventfahrplan.commons.temporal.Duration
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.changes.SessionChangeProperty.ChangeState.CANCELED
 import nerd.tuxmobil.fahrplan.congress.changes.SessionChangeProperty.ChangeState.CHANGED
@@ -374,7 +375,7 @@ private fun createUnchangedSession(dayIndex: Int = 0) = Session(
     recordingOptOut = false,
     speakers = listOf("Jane Doe", "John Doe"),
     dateUTC = 1439478900000L,
-    duration = 30,
+    duration = Duration.ofMinutes(30),
     roomName = "Main room",
     language = "de, en",
     dayIndex = dayIndex,
@@ -400,7 +401,7 @@ private fun createNewSession() = Session(
     recordingOptOut = false,
     speakers = listOf("Jane Doe", "John Doe"),
     dateUTC = 1439478900000L,
-    duration = 30,
+    duration = Duration.ofMinutes(30),
     roomName = "Main room",
     language = "de, en",
 
@@ -425,7 +426,7 @@ private fun createCanceledSession() = Session(
     recordingOptOut = false,
     speakers = listOf("Jane Doe", "John Doe"),
     dateUTC = 1439478900000L,
-    duration = 30,
+    duration = Duration.ofMinutes(30),
     roomName = "Main room",
     language = "de, en",
 
@@ -450,7 +451,7 @@ private fun createChangedSession() = Session(
     recordingOptOut = false,
     speakers = listOf("Jane Doe", "John Doe"),
     dateUTC = 1439478900000L,
-    duration = 30,
+    duration = Duration.ofMinutes(30),
     roomName = "Main room",
     language = "de, en",
 
@@ -475,7 +476,7 @@ private fun createChangedEmptySession() = Session(
     recordingOptOut = true,
     speakers = emptyList(),
     dateUTC = 1439478900000L,
-    duration = 30,
+    duration = Duration.ofMinutes(30),
     roomName = "",
     language = "",
 
