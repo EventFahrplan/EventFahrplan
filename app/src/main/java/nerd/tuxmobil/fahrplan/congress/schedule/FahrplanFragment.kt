@@ -10,6 +10,7 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM
 import android.text.TextUtils.TruncateAt
+import android.util.Log
 import android.view.Gravity.CENTER
 import android.view.LayoutInflater
 import android.view.Menu
@@ -401,6 +402,7 @@ class FahrplanFragment : Fragment(), MenuProvider {
         val sessionPropertiesFormatter = SessionPropertiesFormatter(ResourceResolver(context))
         val isAlternativeHighlightingEnabled = AppRepository.readAlternativeHighlightingEnabled()
 
+        Log.e("LOL", "Skipped") //First render takes forever
         for (roomIndex in roomDataList.indices) {
             val roomData = roomDataList[roomIndex]
             if (oldScheduleData[roomData.roomName] == roomData) continue
