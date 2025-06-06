@@ -68,7 +68,7 @@ object Libs {
         const val junitJupiter = "5.12.2"
         const val junitPlatform = "1.12.2"
         const val kotlinCoroutines = "1.10.2"
-        const val lifecycle = "2.8.7"
+        const val lifecycle = "2.8.7" // compileSdk 35 is required as of 2.9.0
         const val markdownRenderer = "0.32.0"
         const val material = "1.12.0"
         const val mockitoKotlin = "5.4.0"
