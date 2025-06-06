@@ -457,10 +457,9 @@ object AppRepository : SearchRepository,
     }
 
     fun cancelLoading() {
-        parentJobs.values.forEach {
-            it.cancel()
-        }
+        val jobs = parentJobs.values.toList()
         parentJobs.clear()
+        jobs.forEach(Job::cancel)
     }
 
     /**
