@@ -39,6 +39,7 @@ import androidx.core.net.toUri
 import androidx.core.view.MenuProvider
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
+import androidx.core.view.size
 import androidx.core.view.updatePadding
 import androidx.core.widget.NestedScrollView
 import androidx.core.widget.NestedScrollView.OnScrollChangeListener
@@ -61,6 +62,7 @@ import nerd.tuxmobil.fahrplan.congress.extensions.getLayoutInflater
 import nerd.tuxmobil.fahrplan.congress.extensions.isLandscape
 import nerd.tuxmobil.fahrplan.congress.extensions.requireViewByIdCompat
 import nerd.tuxmobil.fahrplan.congress.models.DateInfos
+import nerd.tuxmobil.fahrplan.congress.models.RoomData
 import nerd.tuxmobil.fahrplan.congress.models.ScheduleData
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.net.ConnectivityObserver
@@ -373,6 +375,12 @@ class FahrplanFragment : Fragment(), MenuProvider {
     }
 
     /**
+     * Cache of the already rendered RoomData
+     * Used to redraw only the rooms that really changed
+     */
+    val roomDataCache: MutableMap<String, RoomData> = mutableMapOf()
+
+    /**
      * Adds `roomCount` room column views as child views to the first child
      * (which is a row layout) of the given [horizontalScroller] layout.
      * Previously added child views are removed.
@@ -384,7 +392,6 @@ class FahrplanFragment : Fragment(), MenuProvider {
         useDeviceTimeZone: Boolean,
     ) {
         val columnsLayout = horizontalScroller.getChildAt(0) as LinearLayout
-        columnsLayout.removeAllViews()
         val context = horizontalScroller.context
         val roomDataList = scheduleData.roomDataList
 
@@ -398,6 +405,8 @@ class FahrplanFragment : Fragment(), MenuProvider {
 
         for (roomIndex in roomDataList.indices) {
             val roomData = roomDataList[roomIndex]
+            if (roomDataCache[roomData.roomName] == roomData) continue //Only redraw rooms that changed
+
             val layoutParamsBySession = layoutCalculator.calculateLayoutParams(roomData, conference)
 
             // Prepare the room column data with all necessary conversions done up front
@@ -430,7 +439,12 @@ class FahrplanFragment : Fragment(), MenuProvider {
                     )
                 }
             }
-            columnsLayout.addView(roomColumnView)
+
+            if (columnsLayout.size > roomIndex) {
+                columnsLayout.removeViewAt(roomIndex)
+            }
+            columnsLayout.addView(roomColumnView, roomIndex)
+            roomDataCache[roomData.roomName] = roomData
         }
     }
 
