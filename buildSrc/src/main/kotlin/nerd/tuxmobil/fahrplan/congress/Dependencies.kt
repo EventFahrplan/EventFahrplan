@@ -56,7 +56,7 @@ object Libs {
         const val activityCompose = "1.9.3" // compileSdk 35 is required as of 1.10.0
         const val androidTest = "1.7.0"
         const val annotation = "1.9.1"
-        const val appCompat = "1.7.0"
+        const val appCompat = "1.7.1"
         const val betterLinkMovementMethod = "2.2.0"
         const val constraintLayout = "2.2.1"
         const val coreKtx = "1.13.1" // compileSdk 35 is required as of 1.15.0
