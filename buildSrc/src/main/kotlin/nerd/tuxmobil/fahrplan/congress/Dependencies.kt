@@ -63,7 +63,7 @@ object Libs {
         const val coreTesting = "2.2.0"
         const val emailIntentBuilder = "2.0.0"
         const val engelsystem = "10.0.0"
-        const val fragmentCompose = "1.8.6"
+        const val fragmentCompose = "1.8.8"
         const val htmlConverter = "1.0.3"
         const val junitJupiter = "5.13.0"
         const val junitPlatform = "1.13.0"
