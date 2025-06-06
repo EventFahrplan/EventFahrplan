@@ -10,7 +10,6 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM
 import android.text.TextUtils.TruncateAt
-import android.util.Log
 import android.view.Gravity.CENTER
 import android.view.LayoutInflater
 import android.view.Menu
@@ -375,8 +374,11 @@ class FahrplanFragment : Fragment(), MenuProvider {
         }
     }
 
-    val oldScheduleData: MutableMap<String, RoomData> = mutableMapOf()
-
+    /**
+     * Cache of the already rendered RoomData
+     * Used to redraw only the rooms that really changed
+     */
+    val roomDataCache: MutableMap<String, RoomData> = mutableMapOf()
 
     /**
      * Adds `roomCount` room column views as child views to the first child
@@ -402,12 +404,9 @@ class FahrplanFragment : Fragment(), MenuProvider {
         val sessionPropertiesFormatter = SessionPropertiesFormatter(ResourceResolver(context))
         val isAlternativeHighlightingEnabled = AppRepository.readAlternativeHighlightingEnabled()
 
-        Log.e("LOL", "Skipped") //First render takes forever
         for (roomIndex in roomDataList.indices) {
             val roomData = roomDataList[roomIndex]
-            if (oldScheduleData[roomData.roomName] == roomData) continue
-
-
+            if (roomDataCache[roomData.roomName] == roomData) continue //Only redraw rooms that changed
 
             val layoutParamsBySession = layoutCalculator.calculateLayoutParams(roomData, conference)
 
@@ -441,11 +440,12 @@ class FahrplanFragment : Fragment(), MenuProvider {
                     )
                 }
             }
+
             if (columnsLayout.size > roomIndex) {
                 columnsLayout.removeViewAt(roomIndex)
             }
             columnsLayout.addView(roomColumnView, roomIndex)
-            oldScheduleData[roomData.roomName] = roomData
+            roomDataCache[roomData.roomName] = roomData
         }
     }
 
@@ -496,7 +496,6 @@ class FahrplanFragment : Fragment(), MenuProvider {
         columnWidth: Int,
         roomNames: List<String>
     ) {
-        roomTitlesRowLayout.removeAllViews()
         val titleTextSize = resources.getInteger(R.integer.room_title_size).toFloat()
         val params = LinearLayout.LayoutParams(columnWidth, WRAP_CONTENT, 1f).apply {
             gravity = CENTER
