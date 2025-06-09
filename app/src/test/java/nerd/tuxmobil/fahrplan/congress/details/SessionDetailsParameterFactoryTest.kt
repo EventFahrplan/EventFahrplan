@@ -70,7 +70,7 @@ class SessionDetailsParameterFactoryTest {
     private class FakeFormattingDelegate : FormattingDelegate {
         override fun getFormattedDateTimeShort(
             useDeviceTimeZone: Boolean,
-            dateUtc: Long,
+            moment: Moment,
             timeZoneOffset: ZoneOffset?,
         ) = "01.11.2021 13:00"
 

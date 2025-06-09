@@ -10,7 +10,7 @@ interface FormattingDelegate {
 
     fun getFormattedDateTimeShort(
         useDeviceTimeZone: Boolean,
-        dateUtc: Long,
+        moment: Moment,
         timeZoneOffset: ZoneOffset?,
     ): String
 
