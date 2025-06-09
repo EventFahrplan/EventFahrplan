@@ -1,5 +1,6 @@
 package info.metadude.android.eventfahrplan.commons.temporal
 
+import org.threeten.bp.Clock
 import org.threeten.bp.Instant
 import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.ZoneId
@@ -12,9 +13,7 @@ import org.threeten.bp.format.FormatStyle
  * Format timestamps according to system locale and system time zone.
  */
 class DateFormatter private constructor(
-
-    val useDeviceTimeZone: Boolean
-
+    private val zoneOffsetProvider: ZoneOffsetProvider,
 ) {
 
     private val timeShortNumberOnlyFormatter = DateTimeFormatter.ofPattern("HH:mm")
@@ -34,7 +33,7 @@ class DateFormatter private constructor(
      * without AM or PM postfix - in 24 hours format.
      */
     fun getFormattedTime24Hour(moment: Moment, sessionZoneOffset: ZoneOffset?): String {
-        val zoneOffset = getAvailableZoneOffset(sessionZoneOffset)
+        val zoneOffset = zoneOffsetProvider.getAvailableZoneOffset(sessionZoneOffset)
         return timeShortNumberOnlyFormatter.format(moment.toZonedDateTime(zoneOffset))
     }
 
@@ -47,7 +46,7 @@ class DateFormatter private constructor(
      * current time zone offset of the device.
      */
     fun getFormattedTime(time: Long, sessionZoneOffset: ZoneOffset?): String {
-        val zoneOffset = getAvailableZoneOffset(sessionZoneOffset)
+        val zoneOffset = zoneOffsetProvider.getAvailableZoneOffset(sessionZoneOffset)
         return timeShortFormatter.withZone(zoneOffset).format(Instant.ofEpochMilli(time))
     }
 
@@ -60,7 +59,7 @@ class DateFormatter private constructor(
      * current time zone offset of the device.
      */
     fun getFormattedDate(time: Long, sessionZoneOffset: ZoneOffset?): String {
-        val zoneOffset = getAvailableZoneOffset(sessionZoneOffset)
+        val zoneOffset = zoneOffsetProvider.getAvailableZoneOffset(sessionZoneOffset)
         return dateShortFormatter.withZone(zoneOffset).format(Instant.ofEpochMilli(time))
     }
 
@@ -94,7 +93,7 @@ class DateFormatter private constructor(
      * E.g. 1/22/19, 1:00 AM
      */
     fun getFormattedDateTimeShort(time: Long, sessionZoneOffset: ZoneOffset?): String {
-        val zoneOffset = getAvailableZoneOffset(sessionZoneOffset)
+        val zoneOffset = zoneOffsetProvider.getAvailableZoneOffset(sessionZoneOffset)
         val toZonedDateTime: ZonedDateTime = Moment.ofEpochMilli(time).toZonedDateTime(zoneOffset)
         return dateShortTimeShortFormatter.format(toZonedDateTime)
     }
@@ -107,25 +106,16 @@ class DateFormatter private constructor(
      * E.g. January 22, 2019, 1:00 AM
      */
     fun getFormattedDateTimeLong(time: Long, sessionZoneOffset: ZoneOffset?): String {
-        val zoneOffset = getAvailableZoneOffset(sessionZoneOffset)
+        val zoneOffset = zoneOffsetProvider.getAvailableZoneOffset(sessionZoneOffset)
         val toZonedDateTime = Moment.ofEpochMilli(time).toZonedDateTime(zoneOffset)
         return dateLongTimeShortFormatter.format(toZonedDateTime)
-    }
-
-    /**
-     * Returns the available zone offset - either the given [sessionZoneOffset] or the zone offset
-     * of the device. The user can overrule the logic by setting [useDeviceTimeZone].
-     */
-    private fun getAvailableZoneOffset(sessionZoneOffset: ZoneOffset?): ZoneOffset {
-        val deviceZoneOffset = OffsetDateTime.now().offset
-        val useDeviceZoneOffset = sessionZoneOffset == null || sessionZoneOffset == deviceZoneOffset
-        return if (useDeviceTimeZone || useDeviceZoneOffset) deviceZoneOffset else sessionZoneOffset!!
     }
 
     companion object {
 
         fun newInstance(useDeviceTimeZone: Boolean): DateFormatter {
-            return DateFormatter(useDeviceTimeZone)
+            val zoneOffsetProvider = ZoneOffsetProvider(Clock.systemDefaultZone(), useDeviceTimeZone)
+            return DateFormatter(zoneOffsetProvider)
         }
     }
 }
