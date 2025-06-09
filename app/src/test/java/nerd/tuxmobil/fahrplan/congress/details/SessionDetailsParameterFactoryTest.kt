@@ -2,6 +2,7 @@ package nerd.tuxmobil.fahrplan.congress.details
 
 import com.google.common.truth.Truth.assertThat
 import info.metadude.android.eventfahrplan.commons.temporal.Duration
+import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.commons.FormattingDelegate
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsProperty.MarkupLanguage.Markdown
 import nerd.tuxmobil.fahrplan.congress.models.MarkupLanguage
@@ -75,7 +76,7 @@ class SessionDetailsParameterFactoryTest {
 
         override fun getFormattedDateTimeLong(
             useDeviceTimeZone: Boolean,
-            dateUtc: Long,
+            moment: Moment,
             timeZoneOffset: ZoneOffset?,
         ) = ""
     }

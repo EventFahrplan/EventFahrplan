@@ -35,7 +35,7 @@ class SessionDetailsParameterFactory(
         )
         val formattedZonedDateTimeLong = formattingDelegate.getFormattedDateTimeLong(
             useDeviceTimeZone = useDeviceTimeZone,
-            dateUtc = session.dateUTC,
+            moment = session.startsAt,
             timeZoneOffset = session.timeZoneOffset,
         )
         val formattedSessionId = sessionPropertiesFormatting.getFormattedSessionId(session.sessionId)

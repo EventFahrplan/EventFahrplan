@@ -113,10 +113,10 @@ class DateFormatterTest {
     @Test
     fun getFormattedDateTimeLong() {
         Locale.setDefault(Locale.US)
-        assertThat(createDateFormatter().getFormattedDateTimeLong(timestamp, getTimeZoneOffsetNow())).isEqualTo("January 22, 2019, 1:00 AM")
+        assertThat(createDateFormatter().getFormattedDateTimeLong(moment, getTimeZoneOffsetNow())).isEqualTo("January 22, 2019, 1:00 AM")
 
         Locale.setDefault(Locale.GERMANY)
-        assertThat(createDateFormatter().getFormattedDateTimeLong(timestamp, getTimeZoneOffsetNow())).isEqualTo("22. Januar 2019, 01:00")
+        assertThat(createDateFormatter().getFormattedDateTimeLong(moment, getTimeZoneOffsetNow())).isEqualTo("22. Januar 2019, 01:00")
     }
 
     private fun createDateFormatter(): DateFormatter {

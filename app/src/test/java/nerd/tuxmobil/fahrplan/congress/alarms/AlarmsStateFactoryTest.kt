@@ -181,11 +181,11 @@ private class FakeFormattingDelegate : FormattingDelegate {
 
     override fun getFormattedDateTimeLong(
         useDeviceTimeZone: Boolean,
-        dateUtc: Long,
+        moment: Moment,
         timeZoneOffset: ZoneOffset?,
-    ) = when (dateUtc) {
-        1683980400000L -> "May 13, 2023, 12:20 PM"  // 10 minutes before
-        1683981000000L -> "May 13, 2023, 12:30 PM"  // session start
+    ) = when (moment) {
+        Moment.ofEpochMilli(1683980400000) -> "May 13, 2023, 12:20 PM"  // 10 minutes before
+        Moment.ofEpochMilli(1683981000000) -> "May 13, 2023, 12:30 PM"  // session start
         else -> ""
     }
 }

@@ -1,5 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress.commons
 
+import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import org.threeten.bp.ZoneOffset
 
 /**
@@ -15,7 +16,7 @@ interface FormattingDelegate {
 
     fun getFormattedDateTimeLong(
         useDeviceTimeZone: Boolean,
-        dateUtc: Long,
+        moment: Moment,
         timeZoneOffset: ZoneOffset?,
     ): String
 

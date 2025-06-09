@@ -104,9 +104,9 @@ class DateFormatter private constructor(
      *
      * E.g. January 22, 2019, 1:00 AM
      */
-    fun getFormattedDateTimeLong(time: Long, sessionZoneOffset: ZoneOffset?): String {
+    fun getFormattedDateTimeLong(moment: Moment, sessionZoneOffset: ZoneOffset?): String {
         val zoneOffset = zoneOffsetProvider.getAvailableZoneOffset(sessionZoneOffset)
-        val toZonedDateTime = Moment.ofEpochMilli(time).toZonedDateTime(zoneOffset)
+        val toZonedDateTime = moment.toZonedDateTime(zoneOffset)
         return dateLongTimeShortFormatter.format(toZonedDateTime)
     }
 
