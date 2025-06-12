@@ -44,9 +44,9 @@ class DateFormatter private constructor(
      * into account. If [sessionZoneOffset] is missing then formatting falls back to using the
      * current time zone offset of the device.
      */
-    fun getFormattedTime(time: Long, sessionZoneOffset: ZoneOffset?): String {
+    fun getFormattedTime(moment: Moment, sessionZoneOffset: ZoneOffset?): String {
         val zoneOffset = zoneOffsetProvider.getAvailableZoneOffset(sessionZoneOffset)
-        return timeShortFormatter.withZone(zoneOffset).format(Instant.ofEpochMilli(time))
+        return timeShortFormatter.format(moment.toZonedDateTime(zoneOffset))
     }
 
     /**

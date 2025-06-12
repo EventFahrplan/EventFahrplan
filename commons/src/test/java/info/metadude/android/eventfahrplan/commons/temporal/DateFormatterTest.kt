@@ -37,16 +37,16 @@ class DateFormatterTest {
     fun getFormattedTime() {
         Locale.setDefault(Locale("en", "US"))
         TimeZone.setDefault(TimeZone.getTimeZone("GMT+1"))
-        assertThat(createDateFormatter().getFormattedTime(timestamp, getTimeZoneOffsetNow())).isEqualTo("1:00 AM")
+        assertThat(createDateFormatter().getFormattedTime(moment, getTimeZoneOffsetNow())).isEqualTo("1:00 AM")
 
         TimeZone.setDefault(TimeZone.getTimeZone("GMT+14"))
-        assertThat(createDateFormatter().getFormattedTime(timestamp, getTimeZoneOffsetNow())).isEqualTo("2:00 PM")
+        assertThat(createDateFormatter().getFormattedTime(moment, getTimeZoneOffsetNow())).isEqualTo("2:00 PM")
 
         Locale.setDefault(Locale("de", "DE"))
-        assertThat(createDateFormatter().getFormattedTime(timestamp, getTimeZoneOffsetNow())).isEqualTo("14:00")
+        assertThat(createDateFormatter().getFormattedTime(moment, getTimeZoneOffsetNow())).isEqualTo("14:00")
 
         TimeZone.setDefault(TimeZone.getTimeZone("GMT+6"))
-        assertThat(createDateFormatter().getFormattedTime(timestamp, getTimeZoneOffsetNow())).isEqualTo("06:00")
+        assertThat(createDateFormatter().getFormattedTime(moment, getTimeZoneOffsetNow())).isEqualTo("06:00")
     }
 
     @Test
