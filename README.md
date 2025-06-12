@@ -151,7 +151,7 @@ Dominik Stadler, entropynil, erebion, ideadapt, isi_ko404, IsoLinearCHiP,
 Jasper van der Graaf, Joergi, Julius Vitkauskas, koelnkalkverbot, Larissa Yasin,
 lepawa, ligi, lucadelu, Luis Azcuaga, María Arias de Reyna, Mateus Baptista,
 Matthias Geisler, Matthias Hunstock, Matthias Mair, MichaelRocks, Miguel Beltran,
-mtpa, Muha Aliss, Nghiem Xuan Hien, NiciDieNase, Noemis, Oguz Yuksel, Omicron,
+mtpa, Muha Aliss, Nghiem Xuan Hien, NiciDieNase, Noemis, NWuensche, Oguz Yuksel, Omicron,
 ozgurbaykal, Poschi, Qwertele, Róbert Papp, Robin Janssens, rotrot, Sjors van Mierlo,
 Smarzaro, Stefan Medack, SubOptimal, Su Jade, taseret, Teeranai.P, Torsten Grote,
 Victor Herasme, Vladimir Alabov, Yanicka, zadintuvas
