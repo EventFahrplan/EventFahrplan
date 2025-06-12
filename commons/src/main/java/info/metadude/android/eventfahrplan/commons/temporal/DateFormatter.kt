@@ -2,7 +2,6 @@ package info.metadude.android.eventfahrplan.commons.temporal
 
 import org.threeten.bp.Clock
 import org.threeten.bp.Instant
-import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.ZoneId
 import org.threeten.bp.ZoneOffset
 import org.threeten.bp.ZonedDateTime
