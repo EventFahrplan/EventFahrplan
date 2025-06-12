@@ -20,7 +20,6 @@ class DateFormatterTest {
     private val systemTimezone = TimeZone.getDefault()
     private val systemLocale = Locale.getDefault()
     private val moment = Moment.parseDate("2019-01-22")
-    private val timestamp = moment.toMilliseconds()
 
     @BeforeEach
     fun resetTimeZone() {
@@ -80,21 +79,20 @@ class DateFormatterTest {
     @Test
     fun getFormattedShareable() {
         Locale.setDefault(Locale.US)
-        assertThat(createDateFormatter().getFormattedShareable(timestamp, NO_TIME_ZONE_ID))
+        assertThat(createDateFormatter().getFormattedShareable(moment, NO_TIME_ZONE_ID))
                 .isEqualTo("Tuesday, January 22, 2019, 1:00 AM GMT+01:00")
 
         Locale.setDefault(Locale.GERMANY)
-        assertThat(createDateFormatter().getFormattedShareable(timestamp, NO_TIME_ZONE_ID))
+        assertThat(createDateFormatter().getFormattedShareable(moment, NO_TIME_ZONE_ID))
                 .isEqualTo("Dienstag, 22. Januar 2019, 01:00 GMT+01:00")
 
         Locale.setDefault(Locale.US)
-        assertThat(createDateFormatter().getFormattedShareable(timestamp, TIME_ZONE_EUROPE_BERLIN))
+        assertThat(createDateFormatter().getFormattedShareable(moment, TIME_ZONE_EUROPE_BERLIN))
                 .isEqualTo("Tuesday, January 22, 2019, 1:00 AM CET (Europe/Berlin)")
 
         Locale.setDefault(Locale.GERMANY)
-        assertThat(createDateFormatter().getFormattedShareable(timestamp, TIME_ZONE_EUROPE_BERLIN))
+        assertThat(createDateFormatter().getFormattedShareable(moment, TIME_ZONE_EUROPE_BERLIN))
                 .isEqualTo("Dienstag, 22. Januar 2019, 01:00 MEZ (Europe/Berlin)")
-
     }
 
     // This test only passes when being executed in a JDK 9+ environment.

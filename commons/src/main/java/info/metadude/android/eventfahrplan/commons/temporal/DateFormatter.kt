@@ -72,9 +72,9 @@ class DateFormatter private constructor(
      * Formatting example:
      * Tuesday, January 22, 2019, 1:00 AM CET (Europe/Berlin)
      */
-    fun getFormattedShareable(time: Long, timeZoneId: ZoneId?): String {
+    fun getFormattedShareable(moment: Moment, timeZoneId: ZoneId?): String {
         val displayTimeZone = timeZoneId ?: ZoneId.systemDefault()
-        val sessionStartTime = Instant.ofEpochMilli(time)
+        val sessionStartTime = Instant.ofEpochMilli(moment.toMilliseconds())
         val timeZoneOffset = timeZoneOffsetFormatter.withZone(displayTimeZone).format(sessionStartTime)
         val sessionDateTime = dateFullTimeShortFormatter.withZone(displayTimeZone).format(sessionStartTime)
         var shareableText = "$sessionDateTime $timeZoneOffset"

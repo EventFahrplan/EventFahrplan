@@ -52,9 +52,8 @@ class SimpleSessionFormat {
     }
 
     private fun StringBuilder.appendSession(session: Session, timeZoneId: ZoneId?) {
-        val startTime = session.startsAt.toMilliseconds()
         val useDeviceTimeZone = false // Always share in the original session time zone.
-        val shareableStartTime = DateFormatter.newInstance(useDeviceTimeZone).getFormattedShareable(startTime, timeZoneId)
+        val shareableStartTime = DateFormatter.newInstance(useDeviceTimeZone).getFormattedShareable(session.startsAt, timeZoneId)
         append(session.title)
         append(LINE_BREAK)
         append(shareableStartTime)
