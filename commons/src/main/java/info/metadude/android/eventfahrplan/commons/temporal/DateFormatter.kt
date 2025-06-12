@@ -70,7 +70,7 @@ class DateFormatter private constructor(
      * The human readable name '{area}/{city}' of the time zone ID is appended if available.
      *
      * Formatting example:
-     * Tuesday, January 22, 2019, 1:00 AM GMT+01:00 (Europe/Berlin)
+     * Tuesday, January 22, 2019, 1:00 AM CET (Europe/Berlin)
      */
     fun getFormattedShareable(time: Long, timeZoneId: ZoneId?): String {
         val displayTimeZone = timeZoneId ?: ZoneId.systemDefault()
