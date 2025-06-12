@@ -3,7 +3,7 @@ package nerd.tuxmobil.fahrplan.congress.alarms
 import com.google.common.truth.Truth.assertThat
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.R
-import nerd.tuxmobil.fahrplan.congress.commons.DateFormatterDelegate
+import nerd.tuxmobil.fahrplan.congress.commons.FormattingDelegate
 import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolving
 import nerd.tuxmobil.fahrplan.congress.models.Alarm
 import nerd.tuxmobil.fahrplan.congress.models.Session
@@ -151,7 +151,7 @@ class AlarmsStateFactoryTest {
     }
 
     private fun createAlarmsStateFactory(alarmTimeInMin: Int) =
-        AlarmsStateFactory(CompleteResourceResolver(alarmTimeInMin), DateFormatterDelegate)
+        AlarmsStateFactory(CompleteResourceResolver(alarmTimeInMin), FakeFormattingDelegate())
 
     private fun createAlarm(
         sessionId: String,
@@ -170,6 +170,24 @@ class AlarmsStateFactoryTest {
     private fun calculateAlarmStartsAt(alarmTimeInMin: Int) =
         SESSION_STARTS_AT.minusMinutes(alarmTimeInMin.toLong())
 
+}
+
+private class FakeFormattingDelegate : FormattingDelegate {
+    override fun getFormattedDateTimeShort(
+        useDeviceTimeZone: Boolean,
+        dateUtc: Long,
+        timeZoneOffset: ZoneOffset?,
+    ) = throw NotImplementedError("Not needed for this test.")
+
+    override fun getFormattedDateTimeLong(
+        useDeviceTimeZone: Boolean,
+        dateUtc: Long,
+        timeZoneOffset: ZoneOffset?,
+    ) = when (dateUtc) {
+        1683980400000L -> "May 13, 2023, 12:20 PM"  // 10 minutes before
+        1683981000000L -> "May 13, 2023, 12:30 PM"  // session start
+        else -> ""
+    }
 }
 
 private class CompleteResourceResolver(val alarmTimeInMin: Int) : ResourceResolving {
