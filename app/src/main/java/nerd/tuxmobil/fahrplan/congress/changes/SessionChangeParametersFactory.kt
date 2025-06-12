@@ -34,7 +34,7 @@ class SessionChangeParametersFactory(
         val parameters = mutableListOf<SessionChangeParameter>()
         sessions.forEach {
             dayIndex = it.dayIndex
-            val dayText = onDateFormatter(useDeviceTimeZone).getFormattedDate(it.dateUTC, it.timeZoneOffset)
+            val dayText = onDateFormatter(useDeviceTimeZone).getFormattedDate(it.startsAt, it.timeZoneOffset)
             if (dayIndex != lastDayIndex) {
                 lastDayIndex = dayIndex
                 if (numDays > 1) {

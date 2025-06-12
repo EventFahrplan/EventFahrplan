@@ -69,10 +69,10 @@ class DateFormatterTest {
     @Test
     fun getFormattedDate() {
         Locale.setDefault(Locale.US)
-        assertThat(createDateFormatter().getFormattedDate(timestamp, getTimeZoneOffsetNow())).isEqualTo("1/22/19")
+        assertThat(createDateFormatter().getFormattedDate(moment, getTimeZoneOffsetNow())).isEqualTo("1/22/19")
 
         Locale.setDefault(Locale.GERMANY)
-        assertThat(createDateFormatter().getFormattedDate(timestamp, getTimeZoneOffsetNow())).isEqualTo("22.01.19")
+        assertThat(createDateFormatter().getFormattedDate(moment, getTimeZoneOffsetNow())).isEqualTo("22.01.19")
     }
 
     // This test only passes when being executed in a JDK 9+ environment.
