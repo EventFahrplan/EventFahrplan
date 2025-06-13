@@ -62,7 +62,7 @@ object FahrplanMisc {
             override fun onScheduleUpdateAlarm(interval: Long, nextFetch: Moment) {
                 val next = nextFetch.minusMilliseconds(now.toMilliseconds()).toMilliseconds()
                 val nextDateTime = DateFormatter.newInstance(useDeviceTimeZone = false)
-                    .getFormattedDateTimeLong(nextFetch.toMilliseconds(), sessionZoneOffset = null)
+                    .getFormattedDateTimeLong(nextFetch, sessionZoneOffset = null)
                 logging.d(LOG_TAG, "Scheduling update alarm to interval $interval, next in ~$next ms, at $nextDateTime")
                 // Redesign might be needed as of Android 12 (API level 31)
                 // See https://developer.android.com/training/scheduling/alarms

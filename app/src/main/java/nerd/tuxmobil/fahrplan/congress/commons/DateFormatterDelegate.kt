@@ -1,6 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.commons
 
 import info.metadude.android.eventfahrplan.commons.temporal.DateFormatter
+import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import org.threeten.bp.ZoneOffset
 
 /**
@@ -12,18 +13,18 @@ object DateFormatterDelegate : FormattingDelegate {
 
     override fun getFormattedDateTimeShort(
         useDeviceTimeZone: Boolean,
-        dateUtc: Long,
+        moment: Moment,
         timeZoneOffset: ZoneOffset?,
     ) = DateFormatter
         .newInstance(useDeviceTimeZone)
-        .getFormattedDateTimeShort(dateUtc, timeZoneOffset)
+        .getFormattedDateTimeShort(moment, timeZoneOffset)
 
     override fun getFormattedDateTimeLong(
         useDeviceTimeZone: Boolean,
-        dateUtc: Long,
+        moment: Moment,
         timeZoneOffset: ZoneOffset?,
     ) = DateFormatter
         .newInstance(useDeviceTimeZone)
-        .getFormattedDateTimeLong(dateUtc, timeZoneOffset)
+        .getFormattedDateTimeLong(moment, timeZoneOffset)
 
 }

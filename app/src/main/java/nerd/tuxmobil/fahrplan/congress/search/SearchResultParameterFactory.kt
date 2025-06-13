@@ -26,7 +26,7 @@ class SearchResultParameterFactory(
         val speakers = if (session.speakers.isEmpty()) dash else formattedSpeakerNames
         val startsAtText = formattingDelegate.getFormattedDateTimeLong(
             useDeviceTimeZone,
-            session.startsAt.toMilliseconds(),
+            session.startsAt,
             session.timeZoneOffset,
         )
 

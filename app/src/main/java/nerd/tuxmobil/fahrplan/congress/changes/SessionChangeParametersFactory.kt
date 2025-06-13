@@ -34,7 +34,7 @@ class SessionChangeParametersFactory(
         val parameters = mutableListOf<SessionChangeParameter>()
         sessions.forEach {
             dayIndex = it.dayIndex
-            val dayText = onDateFormatter(useDeviceTimeZone).getFormattedDate(it.dateUTC, it.timeZoneOffset)
+            val dayText = onDateFormatter(useDeviceTimeZone).getFormattedDate(it.startsAt, it.timeZoneOffset)
             if (dayIndex != lastDayIndex) {
                 lastDayIndex = dayIndex
                 if (numDays > 1) {
@@ -48,7 +48,7 @@ class SessionChangeParametersFactory(
     }
 
     private fun sessionChangeOf(session: Session, dayText: String, dash: String, useDeviceTimeZone: Boolean): SessionChange {
-        val startsAt = onDateFormatter(useDeviceTimeZone).getFormattedTime(session.dateUTC, session.timeZoneOffset)
+        val startsAt = onDateFormatter(useDeviceTimeZone).getFormattedTime(session.startsAt, session.timeZoneOffset)
         val duration = resourceResolving.getString(R.string.session_list_item_duration_text, session.duration.toWholeMinutes().toInt())
         val languages = sessionPropertiesFormatting.getLanguageText(session)
         val videoState = when {

@@ -215,7 +215,7 @@ class SettingsFragment(
                     val text = when (autoUpdatePreference.isChecked && nextFetch.isValid()) {
                         true -> {
                             val (nextFetchAt, interval) = nextFetch
-                            val nextFetchAtText = dateFormatter.getFormattedDateTimeShort(nextFetchAt.toMilliseconds(), sessionZoneOffset = null)
+                            val nextFetchAtText = dateFormatter.getFormattedDateTimeShort(nextFetchAt, sessionZoneOffset = null)
                             val intervalText = intervalFormatter.getFormattedInterval(interval)
                             resources.getString(R.string.preference_summary_auto_update_next_fetch_approximately_at, nextFetchAtText, intervalText)
                         }

@@ -82,7 +82,7 @@ class AlarmServices @VisibleForTesting constructor(
         val sessionTitle = session.title
         val alarmTimeInMin = alarmTimes[alarmTimesIndex]
         val useDeviceTimeZone = repository.readUseDeviceTimeZoneEnabled()
-        val timeText = formattingDelegate.getFormattedDateTimeShort(useDeviceTimeZone, alarmTime, session.timeZoneOffset)
+        val timeText = formattingDelegate.getFormattedDateTimeShort(useDeviceTimeZone, moment, session.timeZoneOffset)
         val dayIndex = session.dayIndex
         val alarm = Alarm(
             alarmTimeInMin = alarmTimeInMin,

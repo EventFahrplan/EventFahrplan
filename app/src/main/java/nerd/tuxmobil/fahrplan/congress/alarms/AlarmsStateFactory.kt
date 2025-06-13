@@ -1,5 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress.alarms
 
+import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MILLISECONDS_OF_ONE_MINUTE
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.commons.FormattingDelegate
@@ -39,7 +40,7 @@ class AlarmsStateFactory(
                 }
                 val firesAtText = formattingDelegate.getFormattedDateTimeLong(
                     useDeviceTimeZone,
-                    alarm.startTime,
+                    Moment.ofEpochMilli(alarm.startTime),
                     found.timeZoneOffset,
                 )
                 val firesAtContentDescription = resourceResolving.getString(
