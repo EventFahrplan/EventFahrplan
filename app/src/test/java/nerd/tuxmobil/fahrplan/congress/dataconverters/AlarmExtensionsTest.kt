@@ -16,7 +16,7 @@ class AlarmExtensionsTest {
             dayIndex = 4,
             displayTime = 1509617700000L,
             sessionId = "5237",
-            time = 1509617700001L,
+            time = Moment.ofEpochMilli(1509617700001L),
             timeText = "02/11/2017 11:05",
             title = "My title",
         )

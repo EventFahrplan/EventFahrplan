@@ -1,6 +1,7 @@
 package info.metadude.android.eventfahrplan.database.extensions
 
 import com.google.common.truth.Truth.assertThat
+import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.ALARM_TIME_IN_MIN
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.DAY_INDEX
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.DISPLAY_TIME
@@ -20,7 +21,7 @@ class AlarmExtensionsTest {
             dayIndex = 4,
             displayTime = 1509617700000L,
             sessionId = "5237",
-            time = 1509617700001L,
+            time = Moment.ofEpochMilli(1509617700001L),
             timeText = "02/11/2017 11:05",
             title = "My title",
         )

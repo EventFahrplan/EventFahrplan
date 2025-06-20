@@ -2,7 +2,6 @@
 
 package nerd.tuxmobil.fahrplan.congress.dataconverters
 
-import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.models.Alarm
 import nerd.tuxmobil.fahrplan.congress.models.SchedulableAlarm
 import info.metadude.android.eventfahrplan.database.models.Alarm as DatabaseAlarm
@@ -14,7 +13,7 @@ fun Alarm.toAlarmDatabaseModel() = DatabaseAlarm(
     displayTime = displayTime,
     sessionId = sessionId,
     title = sessionTitle,
-    time = startTime.toMilliseconds(),
+    time = startTime,
     timeText = timeText,
 )
 
@@ -32,6 +31,6 @@ fun DatabaseAlarm.toAlarmAppModel() = Alarm(
     displayTime = displayTime,
     sessionId = sessionId,
     sessionTitle = title,
-    startTime = Moment.ofEpochMilli(time),
+    startTime = time,
     timeText = timeText,
 )

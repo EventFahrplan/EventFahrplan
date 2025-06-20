@@ -5,6 +5,7 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteException
 import info.metadude.android.eventfahrplan.commons.logging.Logging
+import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.DAY_INDEX
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.AlarmsTable.Columns.ID
@@ -65,7 +66,7 @@ internal class RealAlarmsDatabaseRepository(
                 id = cursor.getInt(ID),
                 dayIndex = cursor.getInt(DAY_INDEX),
                 sessionId = cursor.getString(SESSION_ID),
-                time = cursor.getLong(TIME),
+                time = cursor.getMoment(TIME),
                 title = cursor.getString(SESSION_TITLE),
             )
         }
@@ -94,4 +95,8 @@ internal class RealAlarmsDatabaseRepository(
                 writableDatabase.delete(query)
             }
 
+}
+
+private fun Cursor.getMoment(columnName: String): Moment {
+    return Moment.ofEpochMilli(getLong(columnName))
 }
