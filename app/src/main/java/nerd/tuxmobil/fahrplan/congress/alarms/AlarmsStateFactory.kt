@@ -1,7 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress.alarms
 
-import info.metadude.android.eventfahrplan.commons.temporal.Moment
-import info.metadude.android.eventfahrplan.commons.temporal.Moment.Companion.MILLISECONDS_OF_ONE_MINUTE
+import info.metadude.android.eventfahrplan.commons.temporal.Duration.Companion.ZERO
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.commons.FormattingDelegate
 import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolving
@@ -29,18 +28,17 @@ class AlarmsStateFactory(
                     R.string.session_list_item_subtitle_content_description,
                     found.subtitle
                 )
-                val alarmOffset =
-                    (found.startsAt.toMilliseconds() - alarm.startTime).toMinutes()
-                val alarmOffsetContentDescription = when (alarmOffset == 0) {
+                val alarmOffset = alarm.startTime.durationUntil(found.startsAt)
+                val alarmOffsetContentDescription = when (alarmOffset == ZERO) {
                     true -> resourceResolving.getString(R.string.alarms_item_alarm_time_zero_minutes_content_description)
                     false -> resourceResolving.getString(
                         R.string.alarms_item_alarm_time_minutes_content_description,
-                        alarmOffset
+                        alarmOffset.toWholeMinutes(),
                     )
                 }
                 val firesAtText = getFormattedDateTimeLong(
                     useDeviceTimeZone,
-                    Moment.ofEpochMilli(alarm.startTime),
+                    alarm.startTime,
                     found.timeZoneOffset,
                 )
                 val firesAtContentDescription = resourceResolving.getString(
@@ -54,9 +52,9 @@ class AlarmsStateFactory(
                     titleContentDescription = titleContentDescription,
                     subtitle = found.subtitle,
                     subtitleContentDescription = subtitleContentDescription,
-                    alarmOffsetInMin = alarmOffset,
+                    alarmOffsetInMin = alarmOffset.toWholeMinutes().toInt(),
                     alarmOffsetContentDescription = alarmOffsetContentDescription,
-                    firesAt = alarm.startTime,
+                    firesAt = alarm.startTime.toMilliseconds(),
                     firesAtText = firesAtText,
                     firesAtContentDescription = firesAtContentDescription,
                     dayIndex = found.dayIndex,
@@ -65,5 +63,3 @@ class AlarmsStateFactory(
     }
 
 }
-
-private fun Long.toMinutes() = (this / MILLISECONDS_OF_ONE_MINUTE).toInt()

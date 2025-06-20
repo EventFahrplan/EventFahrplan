@@ -1,6 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.dataconverters
 
 import com.google.common.truth.Truth.assertThat
+import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.models.Alarm
 import nerd.tuxmobil.fahrplan.congress.models.SchedulableAlarm
 import org.junit.jupiter.api.Test
@@ -30,7 +31,7 @@ class AlarmExtensionsTest {
             displayTime = 1509617700000L,
             sessionId = "5237",
             sessionTitle = "My title",
-            startTime = 1509617700001L,
+            startTime = Moment.ofEpochMilli(1509617700001L),
             timeText = "02/11/2017 11:05",
         )
         val schedulableAlarm = SchedulableAlarm(

@@ -90,7 +90,7 @@ class AlarmServices @VisibleForTesting constructor(
             displayTime = sessionStartTime,
             sessionId = sessionId,
             sessionTitle = sessionTitle,
-            startTime = alarmTime,
+            startTime = moment,
             timeText = timeText,
         )
         val schedulableAlarm = alarm.toSchedulableAlarm()

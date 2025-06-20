@@ -1,5 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress.models
 
+import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract
 
 data class Alarm(
@@ -9,7 +10,7 @@ data class Alarm(
     val displayTime: Long,
     val sessionId: String,
     val sessionTitle: String,
-    val startTime: Long,
+    val startTime: Moment,
     val timeText: String,
 ) {
 
@@ -19,7 +20,7 @@ data class Alarm(
         displayTime: Long,
         sessionId: String,
         sessionTitle: String,
-        startTime: Long,
+        startTime: Moment,
         timeText: String,
     ) : this(
         id = DEFAULT_VALUE_ID,

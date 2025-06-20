@@ -163,7 +163,7 @@ class AlarmsStateFactoryTest {
         displayTime = -1,
         sessionId = sessionId,
         sessionTitle = "Unused",
-        startTime = alarmStartsAt,
+        startTime = Moment.ofEpochMilli(alarmStartsAt),
         timeText = "Unused",
     )
 

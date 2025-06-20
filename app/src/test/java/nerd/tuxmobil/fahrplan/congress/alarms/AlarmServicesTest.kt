@@ -8,6 +8,7 @@ import android.content.res.Resources
 import androidx.core.content.getSystemService
 import androidx.core.net.toUri
 import com.google.common.truth.Truth.assertThat
+import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedNever
 import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedOnce
 import nerd.tuxmobil.fahrplan.congress.NoLogging
@@ -76,7 +77,7 @@ class AlarmServicesTest {
             displayTime = 1536332400000,
             sessionId = "S1",
             sessionTitle = "Title",
-            startTime = 1536328800000,
+            startTime = Moment.ofEpochMilli(1536328800000),
             timeText = "not relevant"
         )
         verifyInvokedOnce(repository).updateAlarm(expectedAlarm)
@@ -103,7 +104,15 @@ class AlarmServicesTest {
     fun `deleteSessionAlarm discards a session alarm when the alarm was scheduled`() {
         val formattingDelegate = mock<FormattingDelegate>()
         val alarmServices = createAlarmServices(formattingDelegate = formattingDelegate)
-        val alarm = Alarm(10, 2, 0, "S3", "Title", 1536332400000L, "Lorem ipsum")
+        val alarm = Alarm(
+            alarmTimeInMin = 10,
+            dayIndex = 2,
+            displayTime = 0,
+            sessionId = "S3",
+            sessionTitle = "Title",
+            startTime = Moment.ofEpochMilli(1536332400000L),
+            timeText = "Lorem ipsum",
+        )
         whenever(repository.readAlarms(any())) doReturn listOf(alarm)
         val session = Session(sessionId = "S3", hasAlarm = true)
 

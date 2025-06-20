@@ -37,7 +37,7 @@ class OnBootReceiver : BroadcastReceiver() {
         val alarms = appRepository.readAlarms()
         for (alarm in alarms) {
             // Check if the alarm time has passed
-            if (nowMoment.isBefore(Moment.ofEpochMilli(alarm.startTime))) {
+            if (nowMoment.isBefore(alarm.startTime)) {
                 logging.d(LOG_TAG, "Scheduling alarm for session: ${alarm.sessionTitle}, ${alarm.sessionTitle}")
                 alarmServices.scheduleSessionAlarm(alarm.toSchedulableAlarm())
             } else {
