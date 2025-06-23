@@ -18,7 +18,6 @@
 -->
 
 <resources>
-    <color name="pressed_congress">#CCffffff</color>
     <color name="session_drawable_selection_stroke">@android:color/white</color>
     <color name="session_drawable_ripple">#aaffffff</color>
 </resources>

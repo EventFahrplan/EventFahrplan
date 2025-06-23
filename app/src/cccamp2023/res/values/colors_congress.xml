@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="pressed_congress">#CC0099AB</color>
-
     <!-- Default state -->
     <color name="track_background_default">#808080</color>
     <color name="track_background_default_art_culture">#596580</color>
