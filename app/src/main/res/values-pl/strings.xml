@@ -81,7 +81,6 @@
     <string name="navigate_back_content_description">Wstecz</string>
     <string name="progress_loading_data">Pobierz grafik &#8230;</string>
     <string name="progress_processing_data">Przetwarzanie grafiku &#8230;</string>
-    <string name="choose_day">Wybierz dzień</string>
     <string name="day">Dzień</string>
     <string name="fahrplan">Grafik</string>
     <string name="schedule_no_schedule_data_title">Brak harmonogramu do wyświetlenia</string>

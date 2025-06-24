@@ -64,7 +64,6 @@
     <string name="schedule_changes_dialog_later">Позже</string>
     <string name="progress_loading_data">Загрузка расписания &#8230;</string>
     <string name="progress_processing_data">Обработка расписания &#8230;</string>
-    <string name="choose_day">Выбрать день</string>
     <string name="day">День</string>
     <string name="fahrplan">Расписание</string>
     <string name="appVersion">Версия приложения %s</string>

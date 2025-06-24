@@ -54,7 +54,6 @@
     <string name="schedule_changes_dialog_browse">Gennemse</string>
     <string name="schedule_changes_dialog_later">Senere</string>
     <string name="progress_loading_data">Få tidsplan &#8230;</string>
-    <string name="choose_day">Vælg dag</string>
     <string name="day">Dag</string>
     <string name="fahrplan">Tidsplan</string>
     <string name="schedule_updated_to">        Updated to <xliff:g example="Mildenberg 2018-01-16 16:50" id="version">%s</xliff:g>

@@ -71,7 +71,6 @@
     <string name="navigate_back_content_description">Voltar</string>
     <string name="progress_loading_data">Obter o cronograma &#8230;</string>
     <string name="progress_processing_data">Processando o cronograma &#8230;</string>
-    <string name="choose_day">Escolha o dia</string>
     <string name="day">Dia</string>
     <string name="fahrplan">Cronograma</string>
     <string name="schedule_no_schedule_data_title">Não há programação para exibir</string>

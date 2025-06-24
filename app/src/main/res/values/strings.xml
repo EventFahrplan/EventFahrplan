@@ -81,7 +81,6 @@
     <string name="navigate_back_content_description">Back</string>
     <string name="progress_loading_data">Get schedule &#8230;</string>
     <string name="progress_processing_data">Processing schedule &#8230;</string>
-    <string name="choose_day">Choose day</string>
     <string name="day">Day</string>
     <string name="fahrplan">Schedule</string>
     <string name="schedule_no_schedule_data_title">No schedule to display yet</string>

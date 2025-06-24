@@ -70,7 +70,6 @@
     <string name="schedule_changes_dialog_later">Más tarde</string>
     <string name="progress_loading_data">Obtener calendario &#8230;</string>
     <string name="progress_processing_data">Procesando calendario &#8230;</string>
-    <string name="choose_day">Escoja el día</string>
     <string name="day">Día</string>
     <string name="fahrplan">Calendario</string>
     <string name="appVersion">Versión %s de la aplicación</string>
@@ -87,7 +86,6 @@
     <string name="about_libraries_statement">        Esta aplicación utiliza las siguientes librerías: <xliff:g example="Kotlin, Espresso" id="libs">%s</xliff:g>
     </string>
     <string name="about_data_privacy_statement_german">Declaración de privacidad de datos (Alemán)</string>
-    <string name="about_f_droid_listing">Listado de F-Droid</string>
     <string name="about_google_play_listing">Listado de Google Play</string>
     <string name="about_issues_or_feature_requests">Problemas o sugerencias</string>
     <string name="about_source_code">Código fuente</string>

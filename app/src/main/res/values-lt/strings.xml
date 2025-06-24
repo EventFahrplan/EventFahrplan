@@ -76,7 +76,6 @@
     <string name="navigate_back_content_description">Atgal</string>
     <string name="progress_loading_data">Kraunamas tvarkaraštis &#8230;</string>
     <string name="progress_processing_data">Apdorojamas tvarkaraštis &#8230;</string>
-    <string name="choose_day">Pasirinkite dieną</string>
     <string name="day">Diena</string>
     <string name="fahrplan">Tvarkaraštis</string>
     <string name="schedule_no_schedule_data_title">Dar nėra tvarkaraščio</string>

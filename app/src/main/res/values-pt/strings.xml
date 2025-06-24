@@ -67,7 +67,6 @@
     <string name="schedule_changes_dialog_later">Mais tarde</string>
     <string name="progress_loading_data">Obtendo cronograma &#8230;</string>
     <string name="progress_processing_data">Processando cronograma &#8230;</string>
-    <string name="choose_day">Escolha o dia</string>
     <string name="day">Dia</string>
     <string name="fahrplan">Cronograma</string>
     <string name="appVersion">Versão do App %s</string>

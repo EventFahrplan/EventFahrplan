@@ -78,7 +78,6 @@
     <string name="navigate_back_content_description">Zurück</string>
     <string name="progress_loading_data">Hole Fahrplan &#8230;</string>
     <string name="progress_processing_data">Verarbeite Fahrplan &#8230;</string>
-    <string name="choose_day">Tag wählen</string>
     <string name="day">Tag</string>
     <string name="fahrplan">Fahrplan</string>
     <string name="schedule_no_schedule_data_title">Noch kein Fahrplan zum Anzeigen</string>
