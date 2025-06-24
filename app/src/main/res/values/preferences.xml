@@ -36,7 +36,6 @@
         <item>120000</item>
     </string-array>
 
-    <string name="schedule_refresh_interval_picker_title">Choose schedule refresh interval</string>
     <string name="schedule_refresh_interval_title_unmodified">leave unmodified</string>
     <string name="schedule_refresh_interval_title_every_30_seconds">every 30 seconds</string>
     <string name="schedule_refresh_interval_title_every_60_seconds">every minute</string>
