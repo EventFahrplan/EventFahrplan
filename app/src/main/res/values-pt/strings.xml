@@ -95,7 +95,6 @@
     <string name="schedule_changes">Mudanças no cronograma</string>
     <string name="general_settings">Geral</string>
     <string name="starred_sessions">Favoritos</string>
-    <string name="invalid_url">URL inválida</string>
     <string name="choose_to_delete">Selecionar palestras</string>
     <string name="day_separator">Dia <xliff:g example="2" id="day_of_congress">%1$d</xliff:g> - <xliff:g example="29.12.2014" id="date_of_congress_day">%2$s</xliff:g></string>
     <string name="dlg_delete_all_favorites">Excluir todos os favoritos?</string>

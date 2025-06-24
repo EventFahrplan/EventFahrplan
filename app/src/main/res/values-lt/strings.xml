@@ -114,7 +114,6 @@
     <string name="schedule_changes">Tvarkaraščio pasikeitimai</string>
     <string name="general_settings">Bendra</string>
     <string name="starred_sessions">Mėgstamos</string>
-    <string name="invalid_url">Neteisingas URL</string>
     <string name="choose_to_delete">Pasirinkti paskaitas</string>
     <string name="day_separator"><xliff:g example="2" id="day_of_congress">%1$d</xliff:g> diena - <xliff:g example="29.12.2014" id="date_of_congress_day">%2$s</xliff:g></string>
     <string name="dlg_delete_all_favorites">Ištrinti visas mėgstamas?</string>

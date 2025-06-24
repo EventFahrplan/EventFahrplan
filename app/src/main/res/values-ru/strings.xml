@@ -93,7 +93,6 @@
     <string name="schedule_changes">Изменения в расписании</string>
     <string name="general_settings">Основное</string>
     <string name="starred_sessions">Избранное</string>
-    <string name="invalid_url">Некорректный URL</string>
     <string name="choose_to_delete">Выбрать лекции</string>
     <string name="day_separator">День <xliff:g example="2" id="day_of_congress">%1$d</xliff:g> - <xliff:g example="29.12.2014" id="date_of_congress_day">%2$s</xliff:g></string>
     <string name="dlg_delete_all_favorites">Удалить всё избранное?</string>
