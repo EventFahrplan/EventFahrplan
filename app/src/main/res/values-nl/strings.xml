@@ -68,7 +68,6 @@
     <string name="navigate_back_content_description">Terug</string>
     <string name="progress_loading_data">Tijdschema ophalen &#8230;</string>
     <string name="progress_processing_data">Tijdschema verwerken &#8230;</string>
-    <string name="load_data">Laden</string>
     <string name="choose_day">Kies dag</string>
     <string name="day">Dag</string>
     <string name="fahrplan">Tijdschema</string>

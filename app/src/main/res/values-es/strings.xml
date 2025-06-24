@@ -70,7 +70,6 @@
     <string name="schedule_changes_dialog_later">Más tarde</string>
     <string name="progress_loading_data">Obtener calendario &#8230;</string>
     <string name="progress_processing_data">Procesando calendario &#8230;</string>
-    <string name="load_data">Cargar</string>
     <string name="choose_day">Escoja el día</string>
     <string name="day">Día</string>
     <string name="fahrplan">Calendario</string>

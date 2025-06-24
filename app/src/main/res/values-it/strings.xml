@@ -66,7 +66,6 @@
     <string name="schedule_changes_dialog_later">Dopo</string>
     <string name="progress_loading_data">Caricamento del programma &#8230;</string>
     <string name="progress_processing_data">Elaborazione del programma &#8230;</string>
-    <string name="load_data">Caricare</string>
     <string name="choose_day">Seleziona il giorno</string>
     <string name="day">Giorno</string>
     <string name="fahrplan">Programma</string>

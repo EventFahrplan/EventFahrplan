@@ -64,7 +64,6 @@
     <string name="schedule_changes_dialog_later">後で</string>
     <string name="progress_loading_data">&#8230;スケジュールを取得</string>
     <string name="progress_processing_data">&#8230;スケジュールを処理中</string>
-    <string name="load_data">ロード</string>
     <string name="choose_day">日付を選択</string>
     <string name="day">日付</string>
     <string name="fahrplan">スケジュール</string>

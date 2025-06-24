@@ -54,7 +54,6 @@
     <string name="schedule_changes_dialog_browse">Gennemse</string>
     <string name="schedule_changes_dialog_later">Senere</string>
     <string name="progress_loading_data">Få tidsplan &#8230;</string>
-    <string name="load_data">Indlæs</string>
     <string name="choose_day">Vælg dag</string>
     <string name="day">Dag</string>
     <string name="fahrplan">Tidsplan</string>

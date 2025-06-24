@@ -71,7 +71,6 @@
     <string name="navigate_back_content_description">Geri</string>
     <string name="progress_loading_data">Planı indir &#8230;</string>
     <string name="progress_processing_data">Plan işleniyor &#8230;</string>
-    <string name="load_data">Yükle</string>
     <string name="choose_day">Gün seç</string>
     <string name="day">Gün</string>
     <string name="fahrplan">Plan</string>

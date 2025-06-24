@@ -69,7 +69,6 @@
     <string name="schedule_changes_dialog_later">Plus tard</string>
     <string name="progress_loading_data">Récupération du programme &#8230;</string>
     <string name="progress_processing_data">Traitement du programme &#8230;</string>
-    <string name="load_data">Charger</string>
     <string name="choose_day">Choisissez une journée</string>
     <string name="day">Jour</string>
     <string name="fahrplan">Programme</string>
