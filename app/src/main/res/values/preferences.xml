@@ -9,12 +9,7 @@
     <!-- Schedule refresh interval -->
     <string name="preference_key_schedule_refresh_interval_index" translatable="false">schedule_refresh_interval</string>
     <!--
-    Synchronize with @strings/preference_default_value_schedule_refresh_interval_value
-    -->
-    <integer name="preference_default_value_schedule_refresh_interval_index">0</integer>
-    <!--
-    Synchronize with @integers/preference_default_value_schedule_refresh_interval_index
-    and string-array/preference_entry_values_schedule_refresh
+    Synchronize with string-array/preference_entry_values_schedule_refresh
     -->
     <string name="preference_default_value_schedule_refresh_interval_value" translatable="false">-1</string>
     <string name="preference_dialog_title_schedule_refresh_interval">Choose a schedule refresh interval</string>
@@ -27,7 +22,6 @@
     </string-array>
     <!--
     Synchronize with @strings/preference_default_value_schedule_refresh_interval_value
-    and @integers/preference_default_value_schedule_refresh_interval_index
     -->
     <string-array name="preference_entry_values_schedule_refresh_interval" translatable="false">
         <item>-1</item>
