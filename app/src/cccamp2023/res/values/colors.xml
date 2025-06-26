@@ -3,7 +3,6 @@
 
     <color name="text_primary">#fff</color>
     <color name="text_secondary">#E6E6E6</color>
-    <color name="text_tertiary">#CCCCCC</color>
     <color name="colorPrimary">#FB48C4</color>
     <color name="colorPrimaryDark">#CC3BA1</color>
     <color name="colorAccent">#3FFF21</color>
