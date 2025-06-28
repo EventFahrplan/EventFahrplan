@@ -70,8 +70,6 @@
     <string name="schedule_changes_dialog_later">Myöhemmin</string>
     <string name="progress_loading_data">Nouda aikataulu &#8230;</string>
     <string name="progress_processing_data">Käsitellään aikataulua &#8230;</string>
-    <string name="load_data">Lataa</string>
-    <string name="choose_day">Valitse päivä</string>
     <string name="day">Päivä</string>
     <string name="fahrplan">Aikataulu</string>
     <string name="appVersion">Sovelluksen julkaisu <xliff:g example="1.40.2" id="sovellusJulkaisu">%s</xliff:g></string>
@@ -105,7 +103,6 @@
     <string name="schedule_changes">Aikataulumuutokset</string>
     <string name="general_settings">Yleiset</string>
     <string name="starred_sessions">Suosikit</string>
-    <string name="invalid_url">Epäkelpo URL</string>
     <string name="choose_to_delete">Valitse luennot</string>
     <string name="day_separator">Päivä <xliff:g esimerkki="2" id="kongressi_päivä">%1$d</xliff:g> - <xliff:g esimerkki="29.12.2014" id="kongressipäivän_päivämäärä">%2$s</xliff:g></string>
     <string name="dlg_delete_all_favorites">Poista kaikki suosikit?</string>

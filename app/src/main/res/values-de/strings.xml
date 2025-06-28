@@ -78,8 +78,6 @@
     <string name="navigate_back_content_description">Zurück</string>
     <string name="progress_loading_data">Hole Fahrplan &#8230;</string>
     <string name="progress_processing_data">Verarbeite Fahrplan &#8230;</string>
-    <string name="load_data">Laden</string>
-    <string name="choose_day">Tag wählen</string>
     <string name="day">Tag</string>
     <string name="fahrplan">Fahrplan</string>
     <string name="schedule_no_schedule_data_title">Noch kein Fahrplan zum Anzeigen</string>
@@ -121,7 +119,6 @@
 
     <string name="general_settings">Allgemein</string>
     <string name="starred_sessions">Favoriten</string>
-    <string name="invalid_url">Ungültige URL</string>
     <string name="favorites_no_favorites_title">Keine favorisierten Vorträge</string>
     <string name="favorites_no_favorites_subtitle">Tippe auf den Stern in der Menüleiste, um einen Favoriten zu setzen</string>
     <string name="choose_to_delete">Wähle Vorträge</string>

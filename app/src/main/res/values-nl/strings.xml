@@ -68,8 +68,6 @@
     <string name="navigate_back_content_description">Terug</string>
     <string name="progress_loading_data">Tijdschema ophalen &#8230;</string>
     <string name="progress_processing_data">Tijdschema verwerken &#8230;</string>
-    <string name="load_data">Laden</string>
-    <string name="choose_day">Kies dag</string>
     <string name="day">Dag</string>
     <string name="fahrplan">Tijdschema</string>
     <string name="schedule_no_schedule_data_title">Nog geen programma om weer te geven</string>
@@ -108,7 +106,6 @@
     <string name="schedule_changes">Tijdschema veranderingen</string>
     <string name="general_settings">Algemeen</string>
     <string name="starred_sessions">Favorieten</string>
-    <string name="invalid_url">Ongeldige URL</string>
     <string name="choose_to_delete">Selecteer sessies</string>
     <string name="day_separator">Dag <xliff:g example="2" id="day_of_congress">%1$d</xliff:g> - <xliff:g example="29.12.2014" id="date_of_congress_day">%2$s</xliff:g></string>
     <string name="dlg_delete_all_favorites">Alle favorieten verwijderen?</string>

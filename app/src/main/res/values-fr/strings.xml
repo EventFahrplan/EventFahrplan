@@ -69,8 +69,6 @@
     <string name="schedule_changes_dialog_later">Plus tard</string>
     <string name="progress_loading_data">Récupération du programme &#8230;</string>
     <string name="progress_processing_data">Traitement du programme &#8230;</string>
-    <string name="load_data">Charger</string>
-    <string name="choose_day">Choisissez une journée</string>
     <string name="day">Jour</string>
     <string name="fahrplan">Programme</string>
     <string name="appVersion">Version de l’application %s</string>
@@ -101,7 +99,6 @@
     <string name="schedule_changes">Changements du programme</string>
     <string name="general_settings">Général</string>
     <string name="starred_sessions">Favoris</string>
-    <string name="invalid_url">URL invalide</string>
     <string name="choose_to_delete">Sélectionnez des conférences</string>
     <string name="day_separator">Jour <xliff:g example="2" id="day_of_congress">%1$d</xliff:g> - <xliff:g example="29.12.2014" id="date_of_congress_day">%2$s</xliff:g>
     </string>

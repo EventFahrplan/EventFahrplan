@@ -81,8 +81,6 @@
     <string name="navigate_back_content_description">Back</string>
     <string name="progress_loading_data">Get schedule &#8230;</string>
     <string name="progress_processing_data">Processing schedule &#8230;</string>
-    <string name="load_data">Load</string>
-    <string name="choose_day">Choose day</string>
     <string name="day">Day</string>
     <string name="fahrplan">Schedule</string>
     <string name="schedule_no_schedule_data_title">No schedule to display yet</string>
@@ -143,7 +141,6 @@
     <string name="development_settings" translatable="false">Development</string>
     <string name="general_settings">General</string>
     <string name="starred_sessions">Favorites</string>
-    <string name="invalid_url">Invalid URL</string>
     <string name="choose_to_delete">Select sessions</string>
     <string name="day_separator">Day <xliff:g example="2" id="day_of_congress">%1$d</xliff:g> - <xliff:g example="29.12.2014" id="date_of_congress_day">%2$s</xliff:g></string>
     <string name="dlg_delete_all_favorites">Delete all favorites?</string>

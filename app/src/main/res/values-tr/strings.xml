@@ -71,8 +71,6 @@
     <string name="navigate_back_content_description">Geri</string>
     <string name="progress_loading_data">Planı indir &#8230;</string>
     <string name="progress_processing_data">Plan işleniyor &#8230;</string>
-    <string name="load_data">Yükle</string>
-    <string name="choose_day">Gün seç</string>
     <string name="day">Gün</string>
     <string name="fahrplan">Plan</string>
     <string name="schedule_no_schedule_data_title">Henüz gösterilecek bir şey yok</string>
@@ -112,7 +110,6 @@
     <string name="schedule_changes">Plan değişiklikleri</string>
     <string name="general_settings">Genel</string>
     <string name="starred_sessions">Favoriler</string>
-    <string name="invalid_url">Geçersiz URL</string>
     <string name="choose_to_delete">Oturumları seç</string>
     <string name="day_separator">Gün <xliff:g example="2" id="day_of_congress">%1$d</xliff:g> - <xliff:g example="29.12.2014" id="date_of_congress_day">%2$s</xliff:g></string>
     <string name="dlg_delete_all_favorites">Tüm favorileri silmek mi istiyorsun?</string>

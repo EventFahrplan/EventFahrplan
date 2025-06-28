@@ -64,8 +64,6 @@
     <string name="schedule_changes_dialog_later">Позже</string>
     <string name="progress_loading_data">Загрузка расписания &#8230;</string>
     <string name="progress_processing_data">Обработка расписания &#8230;</string>
-    <string name="load_data">Загрузить</string>
-    <string name="choose_day">Выбрать день</string>
     <string name="day">День</string>
     <string name="fahrplan">Расписание</string>
     <string name="appVersion">Версия приложения %s</string>
@@ -95,7 +93,6 @@
     <string name="schedule_changes">Изменения в расписании</string>
     <string name="general_settings">Основное</string>
     <string name="starred_sessions">Избранное</string>
-    <string name="invalid_url">Некорректный URL</string>
     <string name="choose_to_delete">Выбрать лекции</string>
     <string name="day_separator">День <xliff:g example="2" id="day_of_congress">%1$d</xliff:g> - <xliff:g example="29.12.2014" id="date_of_congress_day">%2$s</xliff:g></string>
     <string name="dlg_delete_all_favorites">Удалить всё избранное?</string>

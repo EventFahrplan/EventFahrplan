@@ -66,8 +66,6 @@
     <string name="schedule_changes_dialog_later">Senare</string>
     <string name="progress_loading_data">Hämta schema &#8230;</string>
     <string name="progress_processing_data">Hanterar schema &#8230;</string>
-    <string name="load_data">Ladda</string>
-    <string name="choose_day">Välj dag</string>
     <string name="day">Dag</string>
     <string name="fahrplan">Schema</string>
     <string name="appVersion">App Version %s</string>
@@ -100,7 +98,6 @@
     <string name="schedule_changes">Schemalägg ändringar</string>
     <string name="general_settings">Allmän</string>
     <string name="starred_sessions">Favoriter</string>
-    <string name="invalid_url">Ogiltlig URL</string>
     <string name="choose_to_delete">Välj föreläsningar</string>
     <string name="day_separator">Dag <xliff:g example="2" id="day_of_congress">%1$d</xliff:g> - <xliff:g example="29.12.2014" id="date_of_congress_day">%2$s</xliff:g></string>
     <string name="dlg_delete_all_favorites">Ta bort alla favoriter?</string>

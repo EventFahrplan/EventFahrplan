@@ -81,8 +81,6 @@
     <string name="navigate_back_content_description">Wstecz</string>
     <string name="progress_loading_data">Pobierz grafik &#8230;</string>
     <string name="progress_processing_data">Przetwarzanie grafiku &#8230;</string>
-    <string name="load_data">Ładowanie</string>
-    <string name="choose_day">Wybierz dzień</string>
     <string name="day">Dzień</string>
     <string name="fahrplan">Grafik</string>
     <string name="schedule_no_schedule_data_title">Brak harmonogramu do wyświetlenia</string>
@@ -122,7 +120,6 @@
     <string name="schedule_changes">Zmiany grafiku</string>
     <string name="general_settings">Ogólne</string>
     <string name="starred_sessions">Ulubione</string>
-    <string name="invalid_url">Błędny URL</string>
     <string name="choose_to_delete">Wybierz sesje</string>
     <string name="day_separator">Dzień <xliff:g example="2" id="day_of_congress">%1$d</xliff:g> - <xliff:g example="29.12.2014" id="date_of_congress_day">%2$s</xliff:g></string>
     <string name="dlg_delete_all_favorites">Skasować wszystkie ulubione?</string>
