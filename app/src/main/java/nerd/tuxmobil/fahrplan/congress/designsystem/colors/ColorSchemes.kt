@@ -8,6 +8,7 @@ import nerd.tuxmobil.fahrplan.congress.R
 
 @Composable
 internal fun darkColorScheme() = androidx.compose.material3.darkColorScheme(
+    primary = colorResource(R.color.text_primary), // used by search clear history button text and text cursor
     background = colorResource(R.color.windowBackground),
     onBackground = colorResource(R.color.text_primary), // used by LazyColumn -> Text header
     surface = colorResource(android.R.color.transparent), // used by ListItem background
