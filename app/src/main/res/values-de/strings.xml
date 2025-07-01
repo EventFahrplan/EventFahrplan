@@ -130,7 +130,10 @@
 
     <!-- Build information -->
     <string name="build_info_time">
-        Build-Zeit: <xliff:g example="2015-12-27T13:42Z" id="build_time">%s</xliff:g>
+        Gebaut am: <xliff:g example="2015-12-27T13:42Z" id="build_time">%s</xliff:g>
+    </string>
+    <string name="modified_at">
+        Geändert am: <xliff:g example="2015-12-26T23:24Z" id="modification_time">%s</xliff:g>
     </string>
     <string name="build_info_version_code">
         Versions-Code: <xliff:g example="42" id="version_code">%s</xliff:g>

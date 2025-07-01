@@ -23,6 +23,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -110,7 +111,7 @@ fun SessionCard(
     var showContextMenu by remember { mutableStateOf(false) }
     var pressPosition by remember { mutableStateOf(Offset.Zero) }
     var cardPosition by remember { mutableStateOf(Offset.Zero) }
-    var cardWidth by remember { mutableStateOf(0f) }
+    var cardWidth by remember { mutableFloatStateOf(0f) }
     val interactionSource = remember { MutableInteractionSource() }
 
     Box {
