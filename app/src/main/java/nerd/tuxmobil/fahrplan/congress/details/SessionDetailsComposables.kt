@@ -339,9 +339,7 @@ private fun TextMarkdown(
     isAbstract: Boolean,
     modifier: Modifier = Modifier,
 ) {
-    CompositionLocalProvider(LocalMarkdownColors provides markdownColor(
-        linkText = colorResource(R.color.text_link_on_light),
-    )) {
+    CompositionLocalProvider(LocalMarkdownColors provides markdownColor()) {
         Markdown(
             modifier = modifier
                 .semantics {
@@ -551,25 +549,23 @@ private fun TextSection(
     )
 }
 
-private val unorderedList: @Composable ColumnScope.(MarkdownComponentModel) -> Unit = { model ->
-    val style = LocalMarkdownTypography.current.bullet
-    MarkdownListItems(model.content, model.node, style, level = 0) { _, _ ->
+private val unorderedList: @Composable (MarkdownComponentModel) -> Unit = { model ->
+    MarkdownListItems(model.content, model.node, bullet = { _, _, _ ->
         Text(
             text = "⦁ ",
             color = colorResource(R.color.session_details_list_item),
             modifier = Modifier.size(dimensionResource(R.dimen.session_details_text_bullet)),
         )
-    }
+    })
 }
 
-private val orderedList: @Composable ColumnScope.(MarkdownComponentModel) -> Unit = {
-    val style = LocalMarkdownTypography.current.ordered
-    MarkdownListItems(it.content, it.node, style, level = 0) { index, _ ->
+private val orderedList: @Composable (MarkdownComponentModel) -> Unit = {
+    MarkdownListItems(it.content, it.node, bullet = { index, _, _ ->
         Text(
             text = "${index + 1}. ",
             color = colorResource(R.color.session_details_list_item),
         )
-    }
+    })
 }
 
 private fun getAnnotatedString(html: String, htmlStyle: HtmlStyle) =
