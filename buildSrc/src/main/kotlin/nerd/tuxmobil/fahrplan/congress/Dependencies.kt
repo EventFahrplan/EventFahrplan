@@ -82,7 +82,7 @@ object Libs {
         const val threeTenBp = "1.7.1"
         const val tracedroid = "3.1"
         const val truth = "1.4.4"
-        const val turbine = "1.2.0"
+        const val turbine = "1.2.1"
     }
 
     const val activityCompose = "androidx.activity:activity-compose:${Versions.activityCompose}"
