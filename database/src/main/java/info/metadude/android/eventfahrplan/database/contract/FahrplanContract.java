@@ -10,15 +10,15 @@ public interface FahrplanContract {
 
         interface Columns {
 
-            /* 0 */ String VERSION = "version";
-            /* 1 */ String TITLE = "title";
-            /* 2 */ String SUBTITLE = "subtitle";
-            /* 3 */ // Zombie: Former "day_change_hour" column.
-            /* 4 */ // Zombie: Former "day_change_minute" column.
-            /* 5 */ String SCHEDULE_ETAG = "etag";
-            /* 6 */ String NUM_DAYS = "numdays";
-            /* 7 */ String TIME_ZONE_NAME = "time_zone_name";
-            /* 8 */ String SCHEDULE_LAST_MODIFIED = "schedule_last_modified";
+            /* 00 */ String VERSION = "version";
+            /* 01 */ String TITLE = "title";
+            /* 02 */ String SUBTITLE = "subtitle";
+            /* 03 */ // Zombie: Former "day_change_hour" column.
+            /* 04 */ // Zombie: Former "day_change_minute" column.
+            /* 05 */ String SCHEDULE_ETAG = "etag";
+            /* 06 */ String NUM_DAYS = "numdays";
+            /* 07 */ String TIME_ZONE_NAME = "time_zone_name";
+            /* 08 */ String SCHEDULE_LAST_MODIFIED = "schedule_last_modified";
         }
 
         interface Defaults {
@@ -35,14 +35,14 @@ public interface FahrplanContract {
 
         interface Columns {
 
-            /* 0 */ String ID = "_id";
-            /* 1 */ String SESSION_TITLE = "title";
-            /* 2 */ String ALARM_TIME_IN_MIN = "alarm_time_in_min";
-            /* 3 */ String TIME = "time";
-            /* 4 */ String TIME_TEXT = "timeText";
-            /* 5 */ String SESSION_ID = "eventid"; // Keep column name to avoid database migration.
-            /* 6 */ String DISPLAY_TIME = "displayTime";
-            /* 7 */ String DAY_INDEX = "day";
+            /* 00 */ String ID = "_id";
+            /* 01 */ String SESSION_TITLE = "title";
+            /* 02 */ String ALARM_TIME_IN_MIN = "alarm_time_in_min";
+            /* 03 */ String TIME = "time";
+            /* 04 */ String TIME_TEXT = "timeText";
+            /* 05 */ String SESSION_ID = "eventid"; // Keep column name to avoid database migration.
+            /* 06 */ String DISPLAY_TIME = "displayTime";
+            /* 07 */ String DAY_INDEX = "day";
         }
 
         interface Defaults {
@@ -59,9 +59,9 @@ public interface FahrplanContract {
 
         interface Columns {
 
-            /* 0 */ String SESSION_ID = "eventid"; // Keep column name to avoid database migration.
-            /* 1 */ String HIGHLIGHT = "highlight";
-            /* 2 */ String ID = "_id";
+            /* 00 */ String SESSION_ID = "eventid"; // Keep column name to avoid database migration.
+            /* 01 */ String HIGHLIGHT = "highlight";
+            /* 02 */ String ID = "_id";
         }
 
         interface Values {

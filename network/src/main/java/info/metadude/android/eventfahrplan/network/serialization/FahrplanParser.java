@@ -1,7 +1,5 @@
 package info.metadude.android.eventfahrplan.network.serialization;
 
-import static info.metadude.android.eventfahrplan.commons.temporal.Moment.MINUTES_OF_ONE_DAY;
-
 import android.os.AsyncTask;
 import android.util.Xml;
 

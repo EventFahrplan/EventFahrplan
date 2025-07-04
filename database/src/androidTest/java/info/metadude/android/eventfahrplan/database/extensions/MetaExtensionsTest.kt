@@ -22,7 +22,7 @@ class MetaExtensionsTest {
                 subtitle = "My subtitle",
                 timeZoneName = "Europe/Berlin",
                 title = "My title",
-                version = "v.9.9.9"
+                version = "v.9.9.9",
         )
         val values = meta.toContentValues()
         assertThat(values.getAsString(SCHEDULE_ETAG)).isEqualTo("abc123")

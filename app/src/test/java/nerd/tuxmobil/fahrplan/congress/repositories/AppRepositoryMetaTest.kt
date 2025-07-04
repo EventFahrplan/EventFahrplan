@@ -87,7 +87,7 @@ class AppRepositoryMetaTest {
             timeZoneId = ZoneId.of("Europe/Berlin"),
             title = "37C3",
             subtitle = "Unlocked",
-            httpHeader = HttpHeaderAppModel(eTag = "abc", lastModified = "9000")
+            httpHeader = HttpHeaderAppModel(eTag = "abc", lastModified = "9000"),
         )
         testableAppRepository.meta.test {
             val actual = awaitItem()
