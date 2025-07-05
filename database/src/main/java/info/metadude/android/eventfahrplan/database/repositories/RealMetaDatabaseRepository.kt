@@ -1,6 +1,7 @@
 package info.metadude.android.eventfahrplan.database.repositories
 
 import android.content.ContentValues
+import android.database.Cursor
 import android.database.sqlite.SQLiteException
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.NUM_DAYS
@@ -53,10 +54,7 @@ internal class RealMetaDatabaseRepository(
                         timeZoneName = cursor.getStringOrNull(TIME_ZONE_NAME),
                         title = cursor.getString(TITLE),
                         subtitle = cursor.getString(SUBTITLE),
-                        httpHeader = HttpHeader(
-                            eTag = cursor.getString(SCHEDULE_ETAG),
-                            lastModified = cursor.getString(SCHEDULE_LAST_MODIFIED),
-                        ),
+                        httpHeader = cursor.getHttpHeader(),
                 )
             } else {
                 Meta()
@@ -67,3 +65,8 @@ internal class RealMetaDatabaseRepository(
     }
 
 }
+
+private fun Cursor.getHttpHeader() = HttpHeader(
+    eTag = getString(SCHEDULE_ETAG),
+    lastModified = getString(SCHEDULE_LAST_MODIFIED),
+)
