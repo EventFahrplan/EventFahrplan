@@ -356,6 +356,10 @@ class FahrplanFragment : Fragment(), MenuProvider {
         val roomCount = scheduleData.roomCount
         horizontalScroller.setRoomsCount(roomCount)
 
+        // Clear the room hash cache when the day changes to ensure fresh data is loaded
+        // fixes https://github.com/EventFahrplan/EventFahrplan/issues/767
+        renderedRoomHashByRoomName.clear()
+
         val roomScroller = layoutRoot.requireViewByIdCompat<HorizontalScrollView>(R.id.roomScroller)
         roomScroller.importantForAccessibility = IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS
         val roomTitlesRowLayout = roomScroller.getChildAt(0) as LinearLayout
