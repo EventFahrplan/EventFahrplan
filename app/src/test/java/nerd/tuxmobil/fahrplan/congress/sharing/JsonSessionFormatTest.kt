@@ -18,7 +18,7 @@ class JsonSessionFormatTest {
         val sessions = listOf(
                 Session("session1"),
                 Session("session2"),
-                Session("session3"))
+                Session("session3", recordingOptOut = true))
         val json = JsonSessionFormat().format(sessions)
         assertThat(json).isEqualTo(EXPECTED_JSON_LIST)
     }
@@ -29,20 +29,20 @@ class JsonSessionFormatTest {
                 "\"title\":\"\",\"subtitle\":\"\",\"day\":0,\"room\":\"\",\"slug\":\"\"," +
                 "\"url\":\"\",\"speakers\":\"\",\"track\":\"\",\"type\":\"\",\"lang\":\"\"," +
                 "\"abstract\":\"\",\"description\":\"\",\"links\":\"\"," +
-                "\"starts_at\":\"1970-01-01T00:00:00Z\"}]}"
+                "\"starts_at\":\"1970-01-01T00:00:00Z\",\"recorded\":true}]}"
         const val EXPECTED_JSON_LIST = "{\"lectures\":[{\"lecture_id\":\"session1\"," +
                 "\"title\":\"\",\"subtitle\":\"\",\"day\":0,\"room\":\"\",\"slug\":\"\"" +
                 ",\"url\":\"\",\"speakers\":\"\",\"track\":\"\",\"type\":\"\",\"lang\":\"\"" +
                 ",\"abstract\":\"\",\"description\":\"\",\"links\":\"\"," +
-                "\"starts_at\":\"1970-01-01T00:00:00Z\"}," +
+                "\"starts_at\":\"1970-01-01T00:00:00Z\",\"recorded\":true}," +
                 "{\"lecture_id\":\"session2\",\"title\":\"\",\"subtitle\":\"\",\"day\":0," +
                 "\"room\":\"\",\"slug\":\"\",\"url\":\"\",\"speakers\":\"\",\"track\":\"\"," +
                 "\"type\":\"\",\"lang\":\"\",\"abstract\":\"\",\"description\":\"\"," +
-                "\"links\":\"\",\"starts_at\":\"1970-01-01T00:00:00Z\"}," +
+                "\"links\":\"\",\"starts_at\":\"1970-01-01T00:00:00Z\",\"recorded\":true}," +
                 "{\"lecture_id\":\"session3\",\"title\":\"\",\"subtitle\":\"\",\"day\":0," +
                 "\"room\":\"\",\"slug\":\"\",\"url\":\"\",\"speakers\":\"\",\"track\":\"\"," +
                 "\"type\":\"\",\"lang\":\"\",\"abstract\":\"\",\"description\":\"\",\"links\":\"\"," +
-                "\"starts_at\":\"1970-01-01T00:00:00Z\"}]}"
+                "\"starts_at\":\"1970-01-01T00:00:00Z\",\"recorded\":false}]}"
 
     }
 

@@ -24,6 +24,7 @@ data class SessionExport(
         var links: String? = null,
         @Json(name = "starts_at")
         var startsAt: String? = null,
+        var recorded: Boolean = false,
 ) {
     constructor(session: Session) : this(
             sessionId = session.sessionId,
@@ -40,6 +41,7 @@ data class SessionExport(
             abstract = session.abstractt,
             description = session.description,
             links = session.links,
-            startsAt = Moment.ofEpochMilli(session.dateUTC).toString()
+            startsAt = Moment.ofEpochMilli(session.dateUTC).toString(),
+            recorded = !session.recordingOptOut,
     )
 }
