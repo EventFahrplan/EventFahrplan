@@ -125,6 +125,12 @@
     <string name="preference_title_alternative_highlighting_enabled">Enable alternative highlighting</string>
     <string name="preference_summary_alternative_highlighting_enabled">Adds a border around favored sessions.</string>
 
+    <!-- Fast swiping -->
+    <string name="preference_key_fast_swiping_enabled" translatable="false">fast_swiping</string>
+    <bool name="preference_default_value_fast_swiping_enabled">true</bool>
+    <string name="preference_title_fast_swiping_enabled">Enable fast swiping</string>
+    <string name="preference_summary_fast_swiping_enabled">Allows swiping over multiple rooms.</string>
+
     <!-- Alternative schedule URL -->
     <string name="preference_key_alternative_schedule_url" translatable="false">
         schedule_url

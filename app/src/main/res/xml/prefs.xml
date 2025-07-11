@@ -73,6 +73,13 @@
             app:iconSpaceReserved="false"
             app:summary="@string/preference_summary_alternative_highlighting_enabled" />
 
+        <SwitchPreferenceCompat
+            android:defaultValue="@bool/preference_default_value_fast_swiping_enabled"
+            android:key="@string/preference_key_fast_swiping_enabled"
+            android:title="@string/preference_title_fast_swiping_enabled"
+            app:iconSpaceReserved="false"
+            app:summary="@string/preference_summary_fast_swiping_enabled" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

@@ -18,8 +18,8 @@ import androidx.core.view.get
 import androidx.core.view.updateLayoutParams
 import info.metadude.android.eventfahrplan.commons.logging.Logging
 import nerd.tuxmobil.fahrplan.congress.R
-import nerd.tuxmobil.fahrplan.congress.schedule.HorizontalSnapScrollView.Companion.SWIPE_MIN_DISTANCE
-import nerd.tuxmobil.fahrplan.congress.schedule.HorizontalSnapScrollView.Companion.SWIPE_THRESHOLD_VELOCITY
+import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
+import kotlin.Int.Companion.MAX_VALUE
 import kotlin.math.abs
 import kotlin.math.ceil
 import kotlin.math.floor
@@ -32,10 +32,13 @@ class HorizontalSnapScrollView(context: Context, attrs: AttributeSet) : Horizont
         private const val FLING_COLUMN_MULTIPLIER = 3
 
         @VisibleForTesting
-        const val SWIPE_MIN_DISTANCE = 5
+        const val SWIPE_DISTANCE_THRESHOLD = 5
 
         @VisibleForTesting
-        const val SWIPE_THRESHOLD_VELOCITY = 2800
+        const val SWIPE_VELOCITY_THRESHOLD = 2800
+
+        @VisibleForTesting
+        const val SWIPE_VELOCITY_THRESHOLD_UNREACHABLE = MAX_VALUE
 
         /**
          * Calculates the number of columns to display at a time based on the physical dimensions and
@@ -64,6 +67,8 @@ class HorizontalSnapScrollView(context: Context, attrs: AttributeSet) : Horizont
     private val logging = Logging.get()
     private val gestureDetector: GestureDetector
     private var horizontalSnapScrollState = HorizontalSnapScrollState(logging)
+    private val swipeThresholdVelocity
+        get() = if (AppRepository.readFastSwipingEnabled()) SWIPE_VELOCITY_THRESHOLD else SWIPE_VELOCITY_THRESHOLD_UNREACHABLE
     private lateinit var roomNames: HorizontalScrollView
 
     /**
@@ -82,7 +87,7 @@ class HorizontalSnapScrollView(context: Context, attrs: AttributeSet) : Horizont
             columnWidth = 0,
             activeColumnIndex = horizontalSnapScrollState.activeColumnIndex
         )
-        overScrollMode = View.OVER_SCROLL_NEVER
+        overScrollMode = OVER_SCROLL_NEVER
         gestureDetector = GestureDetector(context, YScrollDetector())
         setOnTouchListener(OnTouchListener())
     }
@@ -111,11 +116,11 @@ class HorizontalSnapScrollView(context: Context, attrs: AttributeSet) : Horizont
         ): Boolean {
             if (start != null) {
                 val normalizedVelocityX = velocityX / resources.displayMetrics.density
-                val columns = ceil((normalizedVelocityX / SWIPE_THRESHOLD_VELOCITY * FLING_COLUMN_MULTIPLIER).toDouble()).toInt()
+                val columns = ceil((normalizedVelocityX / swipeThresholdVelocity * FLING_COLUMN_MULTIPLIER).toDouble()).toInt()
 
                 logging.d(LOG_TAG, "onFling -> $velocityX/$velocityY $normalizedVelocityX $columns")
 
-                if (checkScrollDistance(start.x, end.x) && checkFlingVelocity(normalizedVelocityX)) {
+                if (isLongEnough(start = start.x, end = end.x, SWIPE_DISTANCE_THRESHOLD) && isFastEnough(velocity = normalizedVelocityX, swipeThresholdVelocity)) {
                     scrollToColumn(horizontalSnapScrollState.activeColumnIndex - columns, fast = false)
                     return true
                 }
@@ -276,16 +281,15 @@ private val ViewGroup.firstChild
     get() = get(0) as ViewGroup
 
 /**
- * Checks if the velocity of a fling event was big enough to initiate a fling-scroll.
- * @param normalizedVelocity the x velocity of the fling independent from the display pixel density
+ * Returns a boolean indicating if the velocity is fast enough for a fling-scroll.
  */
 @VisibleForTesting
-fun checkFlingVelocity(normalizedVelocity: Float) =
-    abs(normalizedVelocity) > SWIPE_THRESHOLD_VELOCITY
+fun isFastEnough(velocity: Float, threshold: Int) =
+    abs(velocity) > threshold
 
 /**
- * Checks if the distance between two x-values is big enough for a fling-scroll.
+ * Returns a boolean indicating if the absolute distance between two values is big enough for a fling-scroll.
  */
 @VisibleForTesting
-fun checkScrollDistance(startX: Float, endX: Float) =
-    abs(startX - endX) > SWIPE_MIN_DISTANCE
+fun isLongEnough(start: Float, end: Float, threshold: Int) =
+    abs(start - end) > threshold

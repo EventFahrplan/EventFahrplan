@@ -12,6 +12,8 @@ interface SharedPreferencesRepository {
 
     fun isAlternativeHighlightingEnabled(): Boolean
 
+    fun isFastSwipingEnabled(): Boolean
+
     fun isAutoUpdateEnabled(): Boolean
 
     fun getDisplayDayIndex(): Int
