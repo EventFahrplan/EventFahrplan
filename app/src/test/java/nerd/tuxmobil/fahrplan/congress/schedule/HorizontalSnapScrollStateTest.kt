@@ -4,7 +4,7 @@ import com.google.common.truth.Truth.assertThat
 import nerd.tuxmobil.fahrplan.congress.NoLogging
 import nerd.tuxmobil.fahrplan.congress.schedule.HorizontalSnapScrollState.Companion.SCROLL_THRESHOLD_FACTOR
 import nerd.tuxmobil.fahrplan.congress.schedule.HorizontalSnapScrollView.Companion.SWIPE_DISTANCE_THRESHOLD
-import nerd.tuxmobil.fahrplan.congress.schedule.HorizontalSnapScrollView.Companion.SWIPE_THRESHOLD_VELOCITY
+import nerd.tuxmobil.fahrplan.congress.schedule.HorizontalSnapScrollView.Companion.SWIPE_VELOCITY_THRESHOLD
 import org.junit.jupiter.api.Test
 
 class HorizontalSnapScrollStateTest {
@@ -402,39 +402,39 @@ class HorizontalSnapScrollStateTest {
     }
 
     @Test
-    fun `checkFlingVelocity returns false if the absolute normalizedVelocity is less than the SWIPE_THRESHOLD_VELOCITY`() {
-        assertThat(checkFlingVelocity((SWIPE_THRESHOLD_VELOCITY - 1).toFloat())).isEqualTo(false)
-        assertThat(checkFlingVelocity(-(SWIPE_THRESHOLD_VELOCITY - 1).toFloat())).isEqualTo(false)
+    fun `isFastEnough returns false if the absolute velocity is less than the threshold`() {
+        assertThat(isFastEnough((SWIPE_VELOCITY_THRESHOLD - 1).toFloat(), SWIPE_VELOCITY_THRESHOLD)).isEqualTo(false)
+        assertThat(isFastEnough(-(SWIPE_VELOCITY_THRESHOLD - 1).toFloat(), SWIPE_VELOCITY_THRESHOLD)).isEqualTo(false)
     }
 
     @Test
-    fun `checkFlingVelocity returns false if the absolute normalizedVelocity is equal to the SWIPE_THRESHOLD_VELOCITY`() {
-        assertThat(checkFlingVelocity((SWIPE_THRESHOLD_VELOCITY).toFloat())).isEqualTo(false)
-        assertThat(checkFlingVelocity(-(SWIPE_THRESHOLD_VELOCITY).toFloat())).isEqualTo(false)
+    fun `isFastEnough returns false if the absolute velocity is equal to the threshold`() {
+        assertThat(isFastEnough((SWIPE_VELOCITY_THRESHOLD).toFloat(), SWIPE_VELOCITY_THRESHOLD)).isEqualTo(false)
+        assertThat(isFastEnough(-(SWIPE_VELOCITY_THRESHOLD).toFloat(), SWIPE_VELOCITY_THRESHOLD)).isEqualTo(false)
     }
 
     @Test
-    fun `checkFlingVelocity returns true if the absolute normalizedVelocity is greater than the SWIPE_THRESHOLD_VELOCITY`() {
-        assertThat(checkFlingVelocity((SWIPE_THRESHOLD_VELOCITY + 1).toFloat())).isEqualTo(true)
-        assertThat(checkFlingVelocity(-(SWIPE_THRESHOLD_VELOCITY + 1).toFloat())).isEqualTo(true)
+    fun `isFastEnough returns true if the absolute velocity is greater than the threshold`() {
+        assertThat(isFastEnough((SWIPE_VELOCITY_THRESHOLD + 1).toFloat(), SWIPE_VELOCITY_THRESHOLD)).isEqualTo(true)
+        assertThat(isFastEnough(-(SWIPE_VELOCITY_THRESHOLD + 1).toFloat(), SWIPE_VELOCITY_THRESHOLD)).isEqualTo(true)
     }
 
     @Test
     fun `isLongEnough returns false if the absolute distance is less than the threshold`() {
-        assertThat(isLongEnough(start = +(SWIPE_DISTANCE_THRESHOLD).toFloat(), end = +1.0f, SWIPE_DISTANCE_THRESHOLD)).isEqualTo(false)
-        assertThat(isLongEnough(start = -(SWIPE_DISTANCE_THRESHOLD).toFloat(), end = -1.0f, SWIPE_DISTANCE_THRESHOLD)).isEqualTo(false)
+        assertThat(isLongEnough(+(SWIPE_DISTANCE_THRESHOLD).toFloat(), +1.0f, SWIPE_DISTANCE_THRESHOLD)).isEqualTo(false)
+        assertThat(isLongEnough(-(SWIPE_DISTANCE_THRESHOLD).toFloat(), -1.0f, SWIPE_DISTANCE_THRESHOLD)).isEqualTo(false)
     }
 
     @Test
     fun `isLongEnough returns false if the absolute distance is equal to the threshold`() {
-        assertThat(isLongEnough(start = +(SWIPE_DISTANCE_THRESHOLD + 1).toFloat(), end = +1.0f, SWIPE_DISTANCE_THRESHOLD)).isEqualTo(false)
-        assertThat(isLongEnough(start = -(SWIPE_DISTANCE_THRESHOLD + 1).toFloat(), end = -1.0f, SWIPE_DISTANCE_THRESHOLD)).isEqualTo(false)
+        assertThat(isLongEnough(+(SWIPE_DISTANCE_THRESHOLD + 1).toFloat(), +1.0f, SWIPE_DISTANCE_THRESHOLD)).isEqualTo(false)
+        assertThat(isLongEnough(-(SWIPE_DISTANCE_THRESHOLD + 1).toFloat(), -1.0f, SWIPE_DISTANCE_THRESHOLD)).isEqualTo(false)
     }
 
     @Test
     fun `isLongEnough returns true if the absolute distance is greater than the threshold`() {
-        assertThat(isLongEnough(start = +(SWIPE_DISTANCE_THRESHOLD + 2).toFloat(), end = +1.0f, SWIPE_DISTANCE_THRESHOLD)).isEqualTo(true)
-        assertThat(isLongEnough(start = -(SWIPE_DISTANCE_THRESHOLD + 2).toFloat(), end = -1.0f, SWIPE_DISTANCE_THRESHOLD)).isEqualTo(true)
+        assertThat(isLongEnough(+(SWIPE_DISTANCE_THRESHOLD + 2).toFloat(), +1.0f, SWIPE_DISTANCE_THRESHOLD)).isEqualTo(true)
+        assertThat(isLongEnough(-(SWIPE_DISTANCE_THRESHOLD + 2).toFloat(), -1.0f, SWIPE_DISTANCE_THRESHOLD)).isEqualTo(true)
     }
 
     private fun createState() = HorizontalSnapScrollState(
