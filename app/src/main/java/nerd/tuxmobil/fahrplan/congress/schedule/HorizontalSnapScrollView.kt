@@ -18,6 +18,8 @@ import androidx.core.view.get
 import androidx.core.view.updateLayoutParams
 import info.metadude.android.eventfahrplan.commons.logging.Logging
 import nerd.tuxmobil.fahrplan.congress.R
+import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
+import kotlin.Int.Companion.MAX_VALUE
 import kotlin.math.abs
 import kotlin.math.ceil
 import kotlin.math.floor
@@ -34,6 +36,9 @@ class HorizontalSnapScrollView(context: Context, attrs: AttributeSet) : Horizont
 
         @VisibleForTesting
         const val SWIPE_VELOCITY_THRESHOLD = 2800
+
+        @VisibleForTesting
+        const val SWIPE_VELOCITY_THRESHOLD_UNREACHABLE = MAX_VALUE
 
         /**
          * Calculates the number of columns to display at a time based on the physical dimensions and
@@ -62,6 +67,8 @@ class HorizontalSnapScrollView(context: Context, attrs: AttributeSet) : Horizont
     private val logging = Logging.get()
     private val gestureDetector: GestureDetector
     private var horizontalSnapScrollState = HorizontalSnapScrollState(logging)
+    private val swipeThresholdVelocity
+        get() = if (AppRepository.readFastSwipingEnabled()) SWIPE_VELOCITY_THRESHOLD else SWIPE_VELOCITY_THRESHOLD_UNREACHABLE
     private lateinit var roomNames: HorizontalScrollView
 
     /**
@@ -109,11 +116,11 @@ class HorizontalSnapScrollView(context: Context, attrs: AttributeSet) : Horizont
         ): Boolean {
             if (start != null) {
                 val normalizedVelocityX = velocityX / resources.displayMetrics.density
-                val columns = ceil((normalizedVelocityX / SWIPE_VELOCITY_THRESHOLD * FLING_COLUMN_MULTIPLIER).toDouble()).toInt()
+                val columns = ceil((normalizedVelocityX / swipeThresholdVelocity * FLING_COLUMN_MULTIPLIER).toDouble()).toInt()
 
                 logging.d(LOG_TAG, "onFling -> $velocityX/$velocityY $normalizedVelocityX $columns")
 
-                if (isLongEnough(start = start.x, end = end.x, SWIPE_DISTANCE_THRESHOLD) && isFastEnough(velocity = normalizedVelocityX, SWIPE_VELOCITY_THRESHOLD)) {
+                if (isLongEnough(start = start.x, end = end.x, SWIPE_DISTANCE_THRESHOLD) && isFastEnough(velocity = normalizedVelocityX, swipeThresholdVelocity)) {
                     scrollToColumn(horizontalSnapScrollState.activeColumnIndex - columns, fast = false)
                     return true
                 }

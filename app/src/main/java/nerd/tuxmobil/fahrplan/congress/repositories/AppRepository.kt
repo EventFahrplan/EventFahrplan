@@ -1043,6 +1043,9 @@ object AppRepository : SearchRepository,
     fun readAlternativeHighlightingEnabled() =
             sharedPreferencesRepository.isAlternativeHighlightingEnabled()
 
+    fun readFastSwipingEnabled() =
+        sharedPreferencesRepository.isFastSwipingEnabled()
+
     @WorkerThread
     fun readAutoUpdateEnabled() =
             sharedPreferencesRepository.isAutoUpdateEnabled()

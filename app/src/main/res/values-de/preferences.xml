@@ -45,6 +45,10 @@
     <string name="preference_title_alternative_highlighting_enabled">Alternative Hervorhebung anschalten</string>
     <string name="preference_summary_alternative_highlighting_enabled">Fügt favorisierten Vorträgen eine Umrandung hinzu.</string>
 
+    <!-- Fast swiping -->
+    <string name="preference_title_fast_swiping_enabled">Schnelles Wischen anschalten</string>
+    <string name="preference_summary_fast_swiping_enabled">Ermöglicht das Wischen über mehrere Räume.</string>
+
     <!-- Alternative schedule URL -->
     <string name="preference_title_alternative_schedule_url">Alternative Fahrplan URL festlegen</string>
     <string name="preference_summary_alternative_schedule_url">Füge eine Ausweich-URL ein, wenn der voreingestellte Server nicht erreichbar ist.</string>
