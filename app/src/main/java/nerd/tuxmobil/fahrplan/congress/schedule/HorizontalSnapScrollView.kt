@@ -18,7 +18,6 @@ import androidx.core.view.get
 import androidx.core.view.updateLayoutParams
 import info.metadude.android.eventfahrplan.commons.logging.Logging
 import nerd.tuxmobil.fahrplan.congress.R
-import nerd.tuxmobil.fahrplan.congress.schedule.HorizontalSnapScrollView.Companion.SWIPE_MIN_DISTANCE
 import nerd.tuxmobil.fahrplan.congress.schedule.HorizontalSnapScrollView.Companion.SWIPE_THRESHOLD_VELOCITY
 import kotlin.math.abs
 import kotlin.math.ceil
@@ -32,7 +31,7 @@ class HorizontalSnapScrollView(context: Context, attrs: AttributeSet) : Horizont
         private const val FLING_COLUMN_MULTIPLIER = 3
 
         @VisibleForTesting
-        const val SWIPE_MIN_DISTANCE = 5
+        const val SWIPE_DISTANCE_THRESHOLD = 5
 
         @VisibleForTesting
         const val SWIPE_THRESHOLD_VELOCITY = 2800
@@ -115,7 +114,7 @@ class HorizontalSnapScrollView(context: Context, attrs: AttributeSet) : Horizont
 
                 logging.d(LOG_TAG, "onFling -> $velocityX/$velocityY $normalizedVelocityX $columns")
 
-                if (checkScrollDistance(start.x, end.x) && checkFlingVelocity(normalizedVelocityX)) {
+                if (isLongEnough(start = start.x, end = end.x, SWIPE_DISTANCE_THRESHOLD) && checkFlingVelocity(normalizedVelocityX)) {
                     scrollToColumn(horizontalSnapScrollState.activeColumnIndex - columns, fast = false)
                     return true
                 }
@@ -284,8 +283,8 @@ fun checkFlingVelocity(normalizedVelocity: Float) =
     abs(normalizedVelocity) > SWIPE_THRESHOLD_VELOCITY
 
 /**
- * Checks if the distance between two x-values is big enough for a fling-scroll.
+ * Returns a boolean indicating if the absolute distance between two values is big enough for a fling-scroll.
  */
 @VisibleForTesting
-fun checkScrollDistance(startX: Float, endX: Float) =
-    abs(startX - endX) > SWIPE_MIN_DISTANCE
+fun isLongEnough(start: Float, end: Float, threshold: Int) =
+    abs(start - end) > threshold
