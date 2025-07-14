@@ -12,7 +12,7 @@ class SearchResultParameterFactory(
     private val resourceResolving: ResourceResolving,
     private val sessionPropertiesFormatting: SessionPropertiesFormatting,
     private val contentDescriptionFormatting: ContentDescriptionFormatting,
-    private val formattingDelegate: FormattingDelegate
+    private val formattingDelegate: FormattingDelegate,
 ) : FormattingDelegate by formattingDelegate {
 
     fun createSearchResults(sessions: List<Session>, useDeviceTimeZone: Boolean): List<SearchResult> {
@@ -24,7 +24,7 @@ class SearchResultParameterFactory(
         val title = session.title.ifEmpty { dash }
         val formattedSpeakerNames = sessionPropertiesFormatting.getFormattedSpeakers(session)
         val speakers = if (session.speakers.isEmpty()) dash else formattedSpeakerNames
-        val startsAtText = formattingDelegate.getFormattedDateTimeLong(
+        val startsAtText = getFormattedDateTimeLong(
             useDeviceTimeZone,
             session.startsAt,
             session.timeZoneOffset,
