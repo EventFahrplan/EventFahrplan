@@ -1,13 +1,16 @@
 package nerd.tuxmobil.fahrplan.congress.changes
 
 import com.google.common.truth.Truth.assertThat
-import info.metadude.android.eventfahrplan.commons.temporal.DateFormatter
 import info.metadude.android.eventfahrplan.commons.temporal.Duration
+import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.changes.SessionChangeProperty.ChangeState.CANCELED
 import nerd.tuxmobil.fahrplan.congress.changes.SessionChangeProperty.ChangeState.CHANGED
 import nerd.tuxmobil.fahrplan.congress.changes.SessionChangeProperty.ChangeState.NEW
 import nerd.tuxmobil.fahrplan.congress.changes.SessionChangeProperty.ChangeState.UNCHANGED
+import nerd.tuxmobil.fahrplan.congress.commons.DaySeparatorFactory
+import nerd.tuxmobil.fahrplan.congress.commons.DaySeparatorProperty
+import nerd.tuxmobil.fahrplan.congress.commons.FormattingDelegate
 import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolving
 import nerd.tuxmobil.fahrplan.congress.commons.VideoRecordingState.Drawable.Available
 import nerd.tuxmobil.fahrplan.congress.commons.VideoRecordingState.Drawable.Unavailable
@@ -21,9 +24,11 @@ import org.junit.jupiter.api.fail
 import org.mockito.kotlin.anyOrNull
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
+import org.threeten.bp.ZoneOffset
 
 private const val SOME_DATE = "8/13/15"
 private const val SOME_TIME = "5:15 PM"
+private const val SOME_DAY_SEPARATOR_TEXT = "Day 1 - 8/13/2015"
 
 class SessionChangeParametersFactoryTest {
 
@@ -33,9 +38,10 @@ class SessionChangeParametersFactoryTest {
             CompleteResourceResolver,
             createSessionPropertiesFormatter(),
             ContentDescriptionFormatter(mock()),
-            DateFormatterCallback,
+            createDaySeparatorFactory(),
+            FakeFormattingDelegate(),
         )
-        val actual = factory.createSessionChangeParameters(emptyList(), numDays = 0, useDeviceTimeZone = true)
+        val actual = factory.createSessionChangeParameters(emptyList(), useDeviceTimeZone = true)
         assertThat(actual).isEmpty()
     }
 
@@ -45,11 +51,18 @@ class SessionChangeParametersFactoryTest {
             CompleteResourceResolver,
             createSessionPropertiesFormatter(),
             createContentDescriptionFormatter(),
-            DateFormatterCallback,
+            createDaySeparatorFactory(),
+            FakeFormattingDelegate(),
         )
         val sessions = listOf(createUnchangedSession())
-        val actual = factory.createSessionChangeParameters(sessions, numDays = 1, useDeviceTimeZone = true)
-        val expected = SessionChangeParameter.SessionChange(
+        val actual = factory.createSessionChangeParameters(sessions, useDeviceTimeZone = true)
+        val expectedSeparator = SessionChangeParameter.Separator(
+            daySeparator = DaySeparatorProperty(
+                value = SOME_DAY_SEPARATOR_TEXT,
+                contentDescription = "",
+            )
+        )
+        val expectedSessionChange = SessionChangeParameter.SessionChange(
             id = "2342",
             title = SessionChangeProperty(
                 value = "Title",
@@ -98,7 +111,7 @@ class SessionChangeParametersFactoryTest {
             ),
             isCanceled = false,
         )
-        assertThat(actual).containsExactly(expected)
+        assertThat(actual).containsExactly(expectedSeparator, expectedSessionChange)
     }
 
     @Test
@@ -107,11 +120,18 @@ class SessionChangeParametersFactoryTest {
             CompleteResourceResolver,
             createSessionPropertiesFormatter(),
             createContentDescriptionFormatter(),
-            DateFormatterCallback,
+            createDaySeparatorFactory(),
+            FakeFormattingDelegate(),
         )
         val sessions = listOf(createNewSession())
-        val actual = factory.createSessionChangeParameters(sessions, numDays = 1, useDeviceTimeZone = true)
-        val expected = SessionChangeParameter.SessionChange(
+        val actual = factory.createSessionChangeParameters(sessions, useDeviceTimeZone = true)
+        val expectedSeparator = SessionChangeParameter.Separator(
+            daySeparator = DaySeparatorProperty(
+                value = SOME_DAY_SEPARATOR_TEXT,
+                contentDescription = "",
+            )
+        )
+        val expectedSessionChange = SessionChangeParameter.SessionChange(
             id = "2342",
             title = SessionChangeProperty(
                 value = "Title",
@@ -160,7 +180,7 @@ class SessionChangeParametersFactoryTest {
             ),
             isCanceled = false,
         )
-        assertThat(actual).containsExactly(expected)
+        assertThat(actual).containsExactly(expectedSeparator, expectedSessionChange)
     }
 
     @Test
@@ -169,11 +189,18 @@ class SessionChangeParametersFactoryTest {
             CompleteResourceResolver,
             createSessionPropertiesFormatter(),
             createContentDescriptionFormatter(),
-            DateFormatterCallback,
+            createDaySeparatorFactory(),
+            FakeFormattingDelegate(),
         )
         val sessions = listOf(createCanceledSession())
-        val actual = factory.createSessionChangeParameters(sessions, numDays = 1, useDeviceTimeZone = true)
-        val expected = SessionChangeParameter.SessionChange(
+        val actual = factory.createSessionChangeParameters(sessions, useDeviceTimeZone = true)
+        val expectedSeparator = SessionChangeParameter.Separator(
+            daySeparator = DaySeparatorProperty(
+                value = SOME_DAY_SEPARATOR_TEXT,
+                contentDescription = "",
+            )
+        )
+        val expectedSessionChange = SessionChangeParameter.SessionChange(
             id = "2342",
             title = SessionChangeProperty(
                 value = "Title",
@@ -222,7 +249,7 @@ class SessionChangeParametersFactoryTest {
             ),
             isCanceled = true,
         )
-        assertThat(actual).containsExactly(expected)
+        assertThat(actual).containsExactly(expectedSeparator, expectedSessionChange)
     }
 
     @Test
@@ -231,11 +258,18 @@ class SessionChangeParametersFactoryTest {
             CompleteResourceResolver,
             createSessionPropertiesFormatter(),
             createContentDescriptionFormatter(),
-            DateFormatterCallback,
+            createDaySeparatorFactory(),
+            FakeFormattingDelegate(),
         )
         val sessions = listOf(createChangedSession())
-        val actual = factory.createSessionChangeParameters(sessions, numDays = 1, useDeviceTimeZone = true)
-        val expected = SessionChangeParameter.SessionChange(
+        val actual = factory.createSessionChangeParameters(sessions, useDeviceTimeZone = true)
+        val expectedSeparator = SessionChangeParameter.Separator(
+            daySeparator = DaySeparatorProperty(
+                value = SOME_DAY_SEPARATOR_TEXT,
+                contentDescription = "",
+            )
+        )
+        val expectedSessionChange = SessionChangeParameter.SessionChange(
             id = "2342",
             title = SessionChangeProperty(
                 value = "Title",
@@ -284,7 +318,7 @@ class SessionChangeParametersFactoryTest {
             ),
             isCanceled = false,
         )
-        assertThat(actual).containsExactly(expected)
+        assertThat(actual).containsExactly(expectedSeparator, expectedSessionChange)
     }
 
     @Test
@@ -293,11 +327,18 @@ class SessionChangeParametersFactoryTest {
             CompleteResourceResolver,
             createSessionPropertiesFormatter(),
             createContentDescriptionFormatter(),
-            DateFormatterCallback,
+            createDaySeparatorFactory(),
+            FakeFormattingDelegate(),
         )
         val sessions = listOf(createChangedEmptySession())
-        val actual = factory.createSessionChangeParameters(sessions, numDays = 1, useDeviceTimeZone = true)
-        val expected = SessionChangeParameter.SessionChange(
+        val actual = factory.createSessionChangeParameters(sessions, useDeviceTimeZone = true)
+        val expectedSeparator = SessionChangeParameter.Separator(
+            daySeparator = DaySeparatorProperty(
+                value = SOME_DAY_SEPARATOR_TEXT,
+                contentDescription = "",
+            )
+        )
+        val expectedSessionChange = SessionChangeParameter.SessionChange(
             id = "2342",
             title = SessionChangeProperty(
                 value = "-",
@@ -346,7 +387,7 @@ class SessionChangeParametersFactoryTest {
             ),
             isCanceled = false,
         )
-        assertThat(actual).containsExactly(expected)
+        assertThat(actual).containsExactly(expectedSeparator, expectedSessionChange)
     }
 
     @Test
@@ -355,15 +396,22 @@ class SessionChangeParametersFactoryTest {
             CompleteResourceResolver,
             createSessionPropertiesFormatter(),
             createContentDescriptionFormatter(),
-            DateFormatterCallback,
+            createDaySeparatorFactory(),
+            FakeFormattingDelegate(),
         )
         val sessions = listOf(
             createUnchangedSession(dayIndex = 0),
             createUnchangedSession(dayIndex = 1),
         )
-        val actual = factory.createSessionChangeParameters(sessions, numDays = 2, useDeviceTimeZone = true)
+        val actual = factory.createSessionChangeParameters(sessions, useDeviceTimeZone = true)
         assertThat(actual).hasSize(3)
-        assertThat(actual).contains(SessionChangeParameter.Separator("Day 1 ..."))
+        val expectedSeparator = SessionChangeParameter.Separator(
+            daySeparator = DaySeparatorProperty(
+                value = SOME_DAY_SEPARATOR_TEXT,
+                contentDescription = "",
+            )
+        )
+        assertThat(actual).contains(expectedSeparator)
     }
 
 }
@@ -509,11 +557,43 @@ private fun createContentDescriptionFormatter() = mock<ContentDescriptionFormatt
     on { getStateContentDescription(anyOrNull(), anyOrNull()) } doReturn ""
 }
 
-private object DateFormatterCallback : (Boolean) -> DateFormatter {
-    override fun invoke(useDeviceTimeZone: Boolean) = mock<DateFormatter> {
-        on { getFormattedDate(anyOrNull(), anyOrNull()) } doReturn SOME_DATE
-        on { getFormattedTime(anyOrNull(), anyOrNull()) } doReturn SOME_TIME
-    }
+private fun createDaySeparatorFactory() = mock<DaySeparatorFactory> {
+    on { createDaySeparatorText(anyOrNull(), anyOrNull(), anyOrNull()) } doReturn SOME_DAY_SEPARATOR_TEXT
+    on { createDaySeparatorContentDescription(anyOrNull(), anyOrNull(), anyOrNull()) } doReturn ""
+}
+
+private class FakeFormattingDelegate : FormattingDelegate {
+
+    override fun getFormattedTimeShort(
+        useDeviceTimeZone: Boolean,
+        moment: Moment,
+        timeZoneOffset: ZoneOffset?,
+    ) = SOME_TIME
+
+    override fun getFormattedDateShort(
+        useDeviceTimeZone: Boolean,
+        moment: Moment,
+        timeZoneOffset: ZoneOffset?,
+    ) = SOME_DATE
+
+    override fun getFormattedDateLong(
+        useDeviceTimeZone: Boolean,
+        moment: Moment,
+        timeZoneOffset: ZoneOffset?,
+    ) = throw NotImplementedError("Not needed for this test.")
+
+    override fun getFormattedDateTimeShort(
+        useDeviceTimeZone: Boolean,
+        moment: Moment,
+        timeZoneOffset: ZoneOffset?,
+    ) = throw NotImplementedError("Not needed for this test.")
+
+    override fun getFormattedDateTimeLong(
+        useDeviceTimeZone: Boolean,
+        moment: Moment,
+        timeZoneOffset: ZoneOffset?,
+    ) = throw NotImplementedError("Not needed for this test.")
+
 }
 
 private object CompleteResourceResolver : ResourceResolving {

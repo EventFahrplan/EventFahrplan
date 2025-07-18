@@ -30,10 +30,12 @@ import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import nerd.tuxmobil.fahrplan.congress.R
+import nerd.tuxmobil.fahrplan.congress.commons.DaySeparatorProperty
 import nerd.tuxmobil.fahrplan.congress.commons.MultiDevicePreview
 import nerd.tuxmobil.fahrplan.congress.designsystem.buttons.ButtonIcon
 import nerd.tuxmobil.fahrplan.congress.designsystem.buttons.ButtonOutlined
 import nerd.tuxmobil.fahrplan.congress.designsystem.dividers.DividerHorizontal
+import nerd.tuxmobil.fahrplan.congress.designsystem.headers.HeaderDayDate
 import nerd.tuxmobil.fahrplan.congress.designsystem.icons.IconDecorative
 import nerd.tuxmobil.fahrplan.congress.designsystem.icons.IconDecorativeVector
 import nerd.tuxmobil.fahrplan.congress.designsystem.screenstates.Loading
@@ -48,6 +50,7 @@ import nerd.tuxmobil.fahrplan.congress.designsystem.texts.TextOverline
 import nerd.tuxmobil.fahrplan.congress.designsystem.texts.TextSupportingContent
 import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
 import nerd.tuxmobil.fahrplan.congress.search.SearchResultParameter.SearchResult
+import nerd.tuxmobil.fahrplan.congress.search.SearchResultParameter.Separator
 import nerd.tuxmobil.fahrplan.congress.search.SearchResultState.Loading
 import nerd.tuxmobil.fahrplan.congress.search.SearchResultState.Success
 import nerd.tuxmobil.fahrplan.congress.search.SearchViewEvent.OnBackIconClick
@@ -224,12 +227,16 @@ private fun SearchResultList(
     LazyColumn(state = rememberLazyListState()) {
         itemsIndexed(parameters) { index, parameter ->
             when (parameter) {
+                is Separator -> HeaderDayDate(
+                    text = parameter.daySeparator.value,
+                    contentDescription = parameter.daySeparator.contentDescription,
+                )
                 is SearchResult -> {
                     SearchResultItem(parameter, Modifier.clickable {
                         onViewEvent(OnSearchResultItemClick(parameter.id))
                     })
                     val next = parameters.getOrNull(index + 1)
-                    if (index < parameters.size - 1 && (next != null)) {
+                    if (index < parameters.size - 1 && next is SearchResult) {
                         DividerHorizontal(Modifier.padding(horizontal = 12.dp))
                     }
                 }
@@ -343,17 +350,29 @@ private fun SearchScreenPreview() {
         searchHistory = emptyList(),
         state = Success(
             listOf(
+                Separator(
+                    DaySeparatorProperty(
+                        value = "DAY 1 - 12/27/2024",
+                        contentDescription = "Day 1 - December 27, 2024",
+                    )
+                ),
                 SearchResult(
                     id = "1",
                     title = SearchResultProperty("Lorem ipsum dolor sit amet", ""),
                     speakerNames = SearchResultProperty("Hedy Llamar", ""),
                     startsAt = SearchResultProperty("December 27, 2024 10:00", ""),
                 ),
+                Separator(
+                    DaySeparatorProperty(
+                        value = "DAY 2 - 12/28/2024",
+                        contentDescription = "Day 2 - December 28, 2024",
+                    )
+                ),
                 SearchResult(
                     id = "3",
                     title = SearchResultProperty("Lorem ipsum dolor sit amet, consectetur adipiscing elit.", ""),
                     speakerNames = SearchResultProperty("Jane Doe", ""),
-                    startsAt = SearchResultProperty("December 27, 2024 18:30", "")
+                    startsAt = SearchResultProperty("December 28, 2024 18:30", "")
                 ),
             )
         ),

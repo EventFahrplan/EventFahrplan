@@ -25,4 +25,6 @@ interface ContentDescriptionFormatting {
 
     fun getStateContentDescription(session: Session, useDeviceTimeZone: Boolean): String
 
+    fun getDaySeparatorContentDescription(dayIndex: Int, formattedDate: String): String
+
 }

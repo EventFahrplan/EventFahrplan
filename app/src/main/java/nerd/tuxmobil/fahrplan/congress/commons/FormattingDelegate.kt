@@ -8,6 +8,24 @@ import org.threeten.bp.ZoneOffset
  */
 interface FormattingDelegate {
 
+    fun getFormattedTimeShort(
+        useDeviceTimeZone: Boolean,
+        moment: Moment,
+        timeZoneOffset: ZoneOffset?,
+    ): String
+
+    fun getFormattedDateShort(
+        useDeviceTimeZone: Boolean,
+        moment: Moment,
+        timeZoneOffset: ZoneOffset?,
+    ): String
+
+    fun getFormattedDateLong(
+        useDeviceTimeZone: Boolean,
+        moment: Moment,
+        timeZoneOffset: ZoneOffset?,
+    ): String
+
     fun getFormattedDateTimeShort(
         useDeviceTimeZone: Boolean,
         moment: Moment,

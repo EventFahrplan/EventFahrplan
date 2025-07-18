@@ -142,7 +142,8 @@
     <string name="general_settings">General</string>
     <string name="starred_sessions">Favorites</string>
     <string name="choose_to_delete">Select sessions</string>
-    <string name="day_separator">Day <xliff:g example="2" id="day_of_congress">%1$d</xliff:g> - <xliff:g example="29.12.2014" id="date_of_congress_day">%2$s</xliff:g></string>
+    <string name="day_separator">Day <xliff:g example="2" id="day_of_congress">%1$d</xliff:g> - <xliff:g example="12/29/14" id="date_of_congress_day">%2$s</xliff:g></string>
+    <string name="day_separator_content_description">Day <xliff:g example="2" id="day_of_congress">%1$d</xliff:g>, <xliff:g example="December 29, 2014" id="date_of_congress_day">%2$s</xliff:g></string>
     <string name="dlg_delete_all_favorites">Delete all favorites?</string>
     <string name="dlg_delete_all_favorites_delete_all">Delete all</string>
 

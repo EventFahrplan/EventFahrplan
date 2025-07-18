@@ -68,7 +68,7 @@ class StarredListAdapter internal constructor(
                 .getLanguageContentDescription(languageText)
 
             day.isVisible = false
-            val timeText = DateFormatter.newInstance(useDeviceTimeZone).getFormattedTime(session.startsAt, session.timeZoneOffset)
+            val timeText = DateFormatter.newInstance(useDeviceTimeZone).getFormattedTimeShort(session.startsAt, session.timeZoneOffset)
             time.textOrHide = timeText
             time.contentDescription = contentDescriptionFormatting
                 .getStartTimeContentDescription(timeText)

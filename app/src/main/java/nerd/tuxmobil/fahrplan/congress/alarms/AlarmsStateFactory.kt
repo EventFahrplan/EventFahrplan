@@ -38,7 +38,7 @@ class AlarmsStateFactory(
                         alarmOffset
                     )
                 }
-                val firesAtText = formattingDelegate.getFormattedDateTimeLong(
+                val firesAtText = getFormattedDateTimeLong(
                     useDeviceTimeZone,
                     Moment.ofEpochMilli(alarm.startTime),
                     found.timeZoneOffset,

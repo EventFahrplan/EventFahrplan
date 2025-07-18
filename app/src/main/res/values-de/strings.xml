@@ -123,6 +123,7 @@
     <string name="favorites_no_favorites_subtitle">Tippe auf den Stern in der Menüleiste, um einen Favoriten zu setzen</string>
     <string name="choose_to_delete">Wähle Vorträge</string>
     <string name="day_separator">Tag <xliff:g example="2" id="day_of_congress">%1$d</xliff:g> - <xliff:g example="29.12.2014" id="date_of_congress_day">%2$s</xliff:g></string>
+    <string name="day_separator_content_description">Tag <xliff:g example="2" id="day_of_congress">%1$d</xliff:g>, <xliff:g example="29. December 2014" id="date_of_congress_day">%2$s</xliff:g></string>
     <string name="dlg_delete_all_favorites">Alle Favoriten löschen?</string>
     <string name="dlg_delete_all_favorites_delete_all">Alle löschen</string>
 

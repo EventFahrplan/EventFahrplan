@@ -1,11 +1,12 @@
 package nerd.tuxmobil.fahrplan.congress.changes
 
+import nerd.tuxmobil.fahrplan.congress.commons.DaySeparatorProperty
 import nerd.tuxmobil.fahrplan.congress.commons.VideoRecordingState
 
 sealed interface SessionChangeParameter {
 
     data class Separator(
-        val text: String,
+        val daySeparator: DaySeparatorProperty<String>,
     ) : SessionChangeParameter
 
     data class SessionChange(

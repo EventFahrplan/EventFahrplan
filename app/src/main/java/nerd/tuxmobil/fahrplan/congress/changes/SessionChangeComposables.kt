@@ -36,6 +36,7 @@ import nerd.tuxmobil.fahrplan.congress.changes.SessionChangeProperty.ChangeState
 import nerd.tuxmobil.fahrplan.congress.changes.SessionChangeState.Loading
 import nerd.tuxmobil.fahrplan.congress.changes.SessionChangeState.Success
 import nerd.tuxmobil.fahrplan.congress.changes.SessionChangeViewEvent.OnSessionChangeItemClick
+import nerd.tuxmobil.fahrplan.congress.commons.DaySeparatorProperty
 import nerd.tuxmobil.fahrplan.congress.commons.MultiDevicePreview
 import nerd.tuxmobil.fahrplan.congress.commons.VideoRecordingState.Drawable.Available
 import nerd.tuxmobil.fahrplan.congress.commons.VideoRecordingState.Drawable.Unavailable
@@ -105,7 +106,10 @@ private fun SessionChangesList(
         }
         itemsIndexed(parameters) { index, parameter ->
             when (parameter) {
-                is Separator -> HeaderDayDate(parameter.text)
+                is Separator -> HeaderDayDate(
+                    text = parameter.daySeparator.value,
+                    contentDescription = parameter.daySeparator.contentDescription,
+                )
                 is SessionChange -> {
                     SessionChangeItem(parameter, Modifier.clickable {
                         if (!parameter.isCanceled) {
@@ -229,7 +233,12 @@ private fun SessionChangesScreenPreview() {
     SessionChangesScreen(
         Success(
             listOf(
-                Separator("Day 1 - 31.02.2023"),
+                Separator(
+                    DaySeparatorProperty(
+                        value = "Day 1 - 31.02.2023",
+                        contentDescription = "",
+                    )
+                ),
                 SessionChange(
                     id = "changed",
                     title = SessionChangeProperty(stringResource(R.string.placeholder_session_title), "", UNCHANGED),
@@ -266,7 +275,12 @@ private fun SessionChangesScreenPreview() {
                     roomName = SessionChangeProperty(stringResource(R.string.placeholder_session_room), "", UNCHANGED),
                     languages = SessionChangeProperty(stringResource(R.string.placeholder_session_language), "", UNCHANGED),
                 ),
-                Separator("Day 2 - 01.03.2023"),
+                Separator(
+                    DaySeparatorProperty(
+                        value = "Day 2 - 01.03.2023",
+                        contentDescription = "",
+                    )
+                ),
                 SessionChange(
                     id = "new with video",
                     title = SessionChangeProperty(stringResource(R.string.placeholder_session_title), "", NEW),

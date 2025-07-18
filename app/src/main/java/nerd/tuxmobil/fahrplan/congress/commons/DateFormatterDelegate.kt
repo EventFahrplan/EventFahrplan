@@ -11,6 +11,30 @@ import org.threeten.bp.ZoneOffset
 @Suppress("kotlin:S6516")
 object DateFormatterDelegate : FormattingDelegate {
 
+    override fun getFormattedTimeShort(
+        useDeviceTimeZone: Boolean,
+        moment: Moment,
+        timeZoneOffset: ZoneOffset?,
+    ) = DateFormatter
+        .newInstance(useDeviceTimeZone)
+        .getFormattedTimeShort(moment, timeZoneOffset)
+
+    override fun getFormattedDateShort(
+        useDeviceTimeZone: Boolean,
+        moment: Moment,
+        timeZoneOffset: ZoneOffset?,
+    ) = DateFormatter
+        .newInstance(useDeviceTimeZone)
+        .getFormattedDateShort(moment, timeZoneOffset)
+
+    override fun getFormattedDateLong(
+        useDeviceTimeZone: Boolean,
+        moment: Moment,
+        timeZoneOffset: ZoneOffset?,
+    ) = DateFormatter
+        .newInstance(useDeviceTimeZone)
+        .getFormattedDateLong(moment, timeZoneOffset)
+
     override fun getFormattedDateTimeShort(
         useDeviceTimeZone: Boolean,
         moment: Moment,

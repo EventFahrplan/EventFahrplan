@@ -3,6 +3,7 @@ package nerd.tuxmobil.fahrplan.congress.search
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider.Factory
 import nerd.tuxmobil.fahrplan.congress.commons.DateFormatterDelegate
+import nerd.tuxmobil.fahrplan.congress.commons.DaySeparatorFactory
 import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolving
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.utils.ContentDescriptionFormatting
@@ -16,6 +17,7 @@ class SearchViewModelFactory(
 ) : Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        val formattingDelegate = DateFormatterDelegate
         @Suppress("UNCHECKED_CAST")
         return SearchViewModel(
             repository = appRepository,
@@ -25,7 +27,12 @@ class SearchViewModelFactory(
                 resourceResolving = resourceResolving,
                 sessionPropertiesFormatting = sessionPropertiesFormatting,
                 contentDescriptionFormatting = contentDescriptionFormatting,
-                formattingDelegate = DateFormatterDelegate,
+                daySeparatorFactory = DaySeparatorFactory(
+                    resourceResolving = resourceResolving,
+                    formattingDelegate = formattingDelegate,
+                    contentDescriptionFormatting = contentDescriptionFormatting,
+                ),
+                formattingDelegate = formattingDelegate,
             ),
         ) as T
     }
