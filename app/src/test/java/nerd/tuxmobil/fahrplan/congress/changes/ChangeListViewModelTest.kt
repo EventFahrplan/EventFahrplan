@@ -128,7 +128,6 @@ class ChangeListViewModelTest {
             assertThat(awaitItem()).isEqualTo(expectedState)
             expectNoEvents()
         }
-        verifyInvokedOnce(repository).readMeta()
         verifyInvokedOnce(repository).readUseDeviceTimeZoneEnabled()
     }
 
@@ -205,7 +204,7 @@ class ChangeListViewModelTest {
             )
         }
         return mock<SessionChangeParametersFactory> {
-            on { createSessionChangeParameters(anyOrNull(), anyOrNull(), anyOrNull()) } doReturn parameters
+            on { createSessionChangeParameters(anyOrNull(), anyOrNull()) } doReturn parameters
         }
     }
 

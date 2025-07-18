@@ -7,11 +7,14 @@ import nerd.tuxmobil.fahrplan.congress.changes.SessionChangeProperty.ChangeState
 import nerd.tuxmobil.fahrplan.congress.changes.SessionChangeProperty.ChangeState.CHANGED
 import nerd.tuxmobil.fahrplan.congress.changes.SessionChangeProperty.ChangeState.NEW
 import nerd.tuxmobil.fahrplan.congress.changes.SessionChangeProperty.ChangeState.UNCHANGED
+import nerd.tuxmobil.fahrplan.congress.commons.DaySeparatorFactory
+import nerd.tuxmobil.fahrplan.congress.commons.DaySeparatorProperty
 import nerd.tuxmobil.fahrplan.congress.commons.FormattingDelegate
 import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolving
 import nerd.tuxmobil.fahrplan.congress.commons.VideoRecordingState.Drawable.Available
 import nerd.tuxmobil.fahrplan.congress.commons.VideoRecordingState.Drawable.Unavailable
 import nerd.tuxmobil.fahrplan.congress.commons.VideoRecordingState.None
+import nerd.tuxmobil.fahrplan.congress.dataconverters.toVirtualDays
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.utils.ContentDescriptionFormatting
 import nerd.tuxmobil.fahrplan.congress.utils.SessionPropertiesFormatting
@@ -20,34 +23,45 @@ class SessionChangeParametersFactory(
     private val resourceResolving: ResourceResolving,
     private val sessionPropertiesFormatting: SessionPropertiesFormatting,
     private val contentDescriptionFormatting: ContentDescriptionFormatting,
+    private val daySeparatorFactory: DaySeparatorFactory,
     private val formattingDelegate: FormattingDelegate,
 ) : FormattingDelegate by formattingDelegate {
 
     fun createSessionChangeParameters(
         sessions: List<Session>,
-        numDays: Int,
         useDeviceTimeZone: Boolean,
     ): List<SessionChangeParameter> {
-        var dayIndex: Int
-        var lastDayIndex = 0
         val dash = resourceResolving.getString(R.string.dash)
         val parameters = mutableListOf<SessionChangeParameter>()
-        sessions.forEach {
-            dayIndex = it.dayIndex
-            val dayText = formattingDelegate.getFormattedDateShort(useDeviceTimeZone, it.startsAt, it.timeZoneOffset)
-            if (dayIndex != lastDayIndex) {
-                lastDayIndex = dayIndex
-                if (numDays > 1) {
-                    val dayDateSeparator = resourceResolving.getString(R.string.day_separator, dayIndex, dayText)
-                    parameters += Separator(dayDateSeparator)
+        sessions
+            .toVirtualDays()
+            .filter { it.sessions.isNotEmpty() }
+            .forEach { virtualDay ->
+                val dayIndex = virtualDay.index
+                val session = virtualDay.sessions.first()
+                parameters += Separator(
+                    DaySeparatorProperty(
+                        value = daySeparatorFactory.createDaySeparatorText(
+                            dayIndex = dayIndex,
+                            session = session,
+                            useDeviceTimeZone = useDeviceTimeZone,
+                        ),
+                        contentDescription = daySeparatorFactory.createDaySeparatorContentDescription(
+                            dayIndex = dayIndex,
+                            session = session,
+                            useDeviceTimeZone = useDeviceTimeZone,
+                        )
+                    )
+                )
+                virtualDay.sessions.forEach {
+                    parameters += sessionChangeOf(it, dash, useDeviceTimeZone)
                 }
             }
-            parameters += sessionChangeOf(it, dayText = dayText, dash = dash, useDeviceTimeZone)
-        }
         return parameters
     }
 
-    private fun sessionChangeOf(session: Session, dayText: String, dash: String, useDeviceTimeZone: Boolean): SessionChange {
+    private fun sessionChangeOf(session: Session, dash: String, useDeviceTimeZone: Boolean): SessionChange {
+        val dayText = getFormattedDateShort(useDeviceTimeZone, session.startsAt, session.timeZoneOffset)
         val startsAt = getFormattedTimeShort(useDeviceTimeZone, session.startsAt, session.timeZoneOffset)
         val duration = resourceResolving.getString(R.string.session_list_item_duration_text, session.duration.toWholeMinutes().toInt())
         val languages = sessionPropertiesFormatting.getLanguageText(session)

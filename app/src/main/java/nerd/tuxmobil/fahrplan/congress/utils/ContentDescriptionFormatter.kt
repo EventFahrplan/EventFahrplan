@@ -85,4 +85,8 @@ class ContentDescriptionFormatter(val resourceResolving: ResourceResolving) : Co
         return "$isHighlightContentDescription, $startsAtContentDescription, $roomNameContentDescription"
     }
 
+    override fun getDaySeparatorContentDescription(dayIndex: Int, formattedDate: String): String {
+        return resourceResolving.getString(R.string.day_separator_content_description, dayIndex, formattedDate)
+    }
+
 }

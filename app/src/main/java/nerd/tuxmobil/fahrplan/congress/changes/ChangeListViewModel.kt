@@ -35,7 +35,6 @@ class ChangeListViewModel(
                 mutableSessionChangeState.value = Success(
                     sessionChangeParametersFactory.createSessionChangeParameters(
                         sessions = sessions,
-                        numDays = if (sessions.isEmpty()) 0 else repository.readMeta().numDays,
                         useDeviceTimeZone = repository.readUseDeviceTimeZoneEnabled(),
                     )
                 )

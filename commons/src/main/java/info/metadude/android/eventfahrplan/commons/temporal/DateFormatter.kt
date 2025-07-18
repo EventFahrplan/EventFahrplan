@@ -18,6 +18,7 @@ class DateFormatter private constructor(
     private val timeShortNumberOnlyFormatter = DateTimeFormatter.ofPattern("HH:mm")
     private val timeShortFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)
     private val dateShortFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)
+    private val dateLongFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG)
     private val dateShortTimeShortFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT, FormatStyle.SHORT)
     private val dateLongTimeShortFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.LONG, FormatStyle.SHORT)
     private val dateFullTimeShortFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL, FormatStyle.SHORT)
@@ -60,6 +61,19 @@ class DateFormatter private constructor(
     fun getFormattedDateShort(moment: Moment, sessionZoneOffset: ZoneOffset?): String {
         val zoneOffset = zoneOffsetProvider.getAvailableZoneOffset(sessionZoneOffset)
         return dateShortFormatter.format(moment.toZonedDateTime(zoneOffset))
+    }
+
+    /**
+     * Returns day, month and year in current system locale in long format.
+     * E.g. January 22, 2019 or 22. Januar 2019
+     *
+     * Formatting happens by taking the [original time zone of the associated session][sessionZoneOffset]
+     * into account. If [sessionZoneOffset] is missing then formatting falls back to using the
+     * current time zone offset of the device.
+     */
+    fun getFormattedDateLong(moment: Moment, sessionZoneOffset: ZoneOffset?): String {
+        val zoneOffset = zoneOffsetProvider.getAvailableZoneOffset(sessionZoneOffset)
+        return dateLongFormatter.format(moment.toZonedDateTime(zoneOffset))
     }
 
     /**

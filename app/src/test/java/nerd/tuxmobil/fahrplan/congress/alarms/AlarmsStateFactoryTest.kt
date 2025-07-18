@@ -186,6 +186,12 @@ private class FakeFormattingDelegate : FormattingDelegate {
         timeZoneOffset: ZoneOffset?,
     ) = throw NotImplementedError("Not needed for this test.")
 
+    override fun getFormattedDateLong(
+        useDeviceTimeZone: Boolean,
+        moment: Moment,
+        timeZoneOffset: ZoneOffset?,
+    ) = throw NotImplementedError("Not needed for this test.")
+
     override fun getFormattedDateTimeShort(
         useDeviceTimeZone: Boolean,
         moment: Moment,

@@ -27,6 +27,14 @@ object DateFormatterDelegate : FormattingDelegate {
         .newInstance(useDeviceTimeZone)
         .getFormattedDateShort(moment, timeZoneOffset)
 
+    override fun getFormattedDateLong(
+        useDeviceTimeZone: Boolean,
+        moment: Moment,
+        timeZoneOffset: ZoneOffset?,
+    ) = DateFormatter
+        .newInstance(useDeviceTimeZone)
+        .getFormattedDateLong(moment, timeZoneOffset)
+
     override fun getFormattedDateTimeShort(
         useDeviceTimeZone: Boolean,
         moment: Moment,

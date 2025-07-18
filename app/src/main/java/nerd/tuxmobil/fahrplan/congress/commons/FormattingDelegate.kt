@@ -20,6 +20,12 @@ interface FormattingDelegate {
         timeZoneOffset: ZoneOffset?,
     ): String
 
+    fun getFormattedDateLong(
+        useDeviceTimeZone: Boolean,
+        moment: Moment,
+        timeZoneOffset: ZoneOffset?,
+    ): String
+
     fun getFormattedDateTimeShort(
         useDeviceTimeZone: Boolean,
         moment: Moment,
