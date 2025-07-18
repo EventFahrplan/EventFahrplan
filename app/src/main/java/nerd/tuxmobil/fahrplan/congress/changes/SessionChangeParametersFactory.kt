@@ -1,6 +1,5 @@
 package nerd.tuxmobil.fahrplan.congress.changes
 
-import info.metadude.android.eventfahrplan.commons.temporal.DateFormatter
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.changes.SessionChangeParameter.Separator
 import nerd.tuxmobil.fahrplan.congress.changes.SessionChangeParameter.SessionChange
@@ -8,6 +7,7 @@ import nerd.tuxmobil.fahrplan.congress.changes.SessionChangeProperty.ChangeState
 import nerd.tuxmobil.fahrplan.congress.changes.SessionChangeProperty.ChangeState.CHANGED
 import nerd.tuxmobil.fahrplan.congress.changes.SessionChangeProperty.ChangeState.NEW
 import nerd.tuxmobil.fahrplan.congress.changes.SessionChangeProperty.ChangeState.UNCHANGED
+import nerd.tuxmobil.fahrplan.congress.commons.FormattingDelegate
 import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolving
 import nerd.tuxmobil.fahrplan.congress.commons.VideoRecordingState.Drawable.Available
 import nerd.tuxmobil.fahrplan.congress.commons.VideoRecordingState.Drawable.Unavailable
@@ -20,8 +20,8 @@ class SessionChangeParametersFactory(
     private val resourceResolving: ResourceResolving,
     private val sessionPropertiesFormatting: SessionPropertiesFormatting,
     private val contentDescriptionFormatting: ContentDescriptionFormatting,
-    private val onDateFormatter: (useDeviceTimeZone: Boolean) -> DateFormatter,
-) {
+    private val formattingDelegate: FormattingDelegate,
+) : FormattingDelegate by formattingDelegate {
 
     fun createSessionChangeParameters(
         sessions: List<Session>,
@@ -34,7 +34,7 @@ class SessionChangeParametersFactory(
         val parameters = mutableListOf<SessionChangeParameter>()
         sessions.forEach {
             dayIndex = it.dayIndex
-            val dayText = onDateFormatter(useDeviceTimeZone).getFormattedDateShort(it.startsAt, it.timeZoneOffset)
+            val dayText = formattingDelegate.getFormattedDateShort(useDeviceTimeZone, it.startsAt, it.timeZoneOffset)
             if (dayIndex != lastDayIndex) {
                 lastDayIndex = dayIndex
                 if (numDays > 1) {
@@ -48,7 +48,7 @@ class SessionChangeParametersFactory(
     }
 
     private fun sessionChangeOf(session: Session, dayText: String, dash: String, useDeviceTimeZone: Boolean): SessionChange {
-        val startsAt = onDateFormatter(useDeviceTimeZone).getFormattedTimeShort(session.startsAt, session.timeZoneOffset)
+        val startsAt = getFormattedTimeShort(useDeviceTimeZone, session.startsAt, session.timeZoneOffset)
         val duration = resourceResolving.getString(R.string.session_list_item_duration_text, session.duration.toWholeMinutes().toInt())
         val languages = sessionPropertiesFormatting.getLanguageText(session)
         val videoState = when {

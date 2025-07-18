@@ -68,6 +68,19 @@ class SessionDetailsParameterFactoryTest {
     }
 
     private class FakeFormattingDelegate : FormattingDelegate {
+
+        override fun getFormattedTimeShort(
+            useDeviceTimeZone: Boolean,
+            moment: Moment,
+            timeZoneOffset: ZoneOffset?,
+        ) = throw NotImplementedError("Not needed for this test.")
+
+        override fun getFormattedDateShort(
+            useDeviceTimeZone: Boolean,
+            moment: Moment,
+            timeZoneOffset: ZoneOffset?,
+        ) = throw NotImplementedError("Not needed for this test.")
+
         override fun getFormattedDateTimeShort(
             useDeviceTimeZone: Boolean,
             moment: Moment,

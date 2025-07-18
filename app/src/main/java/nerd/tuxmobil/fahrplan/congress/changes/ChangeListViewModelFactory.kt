@@ -2,7 +2,7 @@ package nerd.tuxmobil.fahrplan.congress.changes
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider.Factory
-import info.metadude.android.eventfahrplan.commons.temporal.DateFormatter
+import nerd.tuxmobil.fahrplan.congress.commons.DateFormatterDelegate
 import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolving
 import nerd.tuxmobil.fahrplan.congress.repositories.AppExecutionContext
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
@@ -25,7 +25,7 @@ class ChangeListViewModelFactory(
                 resourceResolving = resourceResolving,
                 sessionPropertiesFormatting = sessionPropertiesFormatting,
                 contentDescriptionFormatting = contentDescriptionFormatting,
-                onDateFormatter = { useDeviceTimeZone -> DateFormatter.newInstance(useDeviceTimeZone) }
+                formattingDelegate = DateFormatterDelegate,
             )
         ) as T
     }

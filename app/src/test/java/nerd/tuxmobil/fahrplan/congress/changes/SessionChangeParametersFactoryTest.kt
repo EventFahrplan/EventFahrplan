@@ -1,13 +1,14 @@
 package nerd.tuxmobil.fahrplan.congress.changes
 
 import com.google.common.truth.Truth.assertThat
-import info.metadude.android.eventfahrplan.commons.temporal.DateFormatter
 import info.metadude.android.eventfahrplan.commons.temporal.Duration
+import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.changes.SessionChangeProperty.ChangeState.CANCELED
 import nerd.tuxmobil.fahrplan.congress.changes.SessionChangeProperty.ChangeState.CHANGED
 import nerd.tuxmobil.fahrplan.congress.changes.SessionChangeProperty.ChangeState.NEW
 import nerd.tuxmobil.fahrplan.congress.changes.SessionChangeProperty.ChangeState.UNCHANGED
+import nerd.tuxmobil.fahrplan.congress.commons.FormattingDelegate
 import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolving
 import nerd.tuxmobil.fahrplan.congress.commons.VideoRecordingState.Drawable.Available
 import nerd.tuxmobil.fahrplan.congress.commons.VideoRecordingState.Drawable.Unavailable
@@ -21,6 +22,7 @@ import org.junit.jupiter.api.fail
 import org.mockito.kotlin.anyOrNull
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
+import org.threeten.bp.ZoneOffset
 
 private const val SOME_DATE = "8/13/15"
 private const val SOME_TIME = "5:15 PM"
@@ -33,7 +35,7 @@ class SessionChangeParametersFactoryTest {
             CompleteResourceResolver,
             createSessionPropertiesFormatter(),
             ContentDescriptionFormatter(mock()),
-            DateFormatterCallback,
+            FakeFormattingDelegate(),
         )
         val actual = factory.createSessionChangeParameters(emptyList(), numDays = 0, useDeviceTimeZone = true)
         assertThat(actual).isEmpty()
@@ -45,7 +47,7 @@ class SessionChangeParametersFactoryTest {
             CompleteResourceResolver,
             createSessionPropertiesFormatter(),
             createContentDescriptionFormatter(),
-            DateFormatterCallback,
+            FakeFormattingDelegate(),
         )
         val sessions = listOf(createUnchangedSession())
         val actual = factory.createSessionChangeParameters(sessions, numDays = 1, useDeviceTimeZone = true)
@@ -107,7 +109,7 @@ class SessionChangeParametersFactoryTest {
             CompleteResourceResolver,
             createSessionPropertiesFormatter(),
             createContentDescriptionFormatter(),
-            DateFormatterCallback,
+            FakeFormattingDelegate(),
         )
         val sessions = listOf(createNewSession())
         val actual = factory.createSessionChangeParameters(sessions, numDays = 1, useDeviceTimeZone = true)
@@ -169,7 +171,7 @@ class SessionChangeParametersFactoryTest {
             CompleteResourceResolver,
             createSessionPropertiesFormatter(),
             createContentDescriptionFormatter(),
-            DateFormatterCallback,
+            FakeFormattingDelegate(),
         )
         val sessions = listOf(createCanceledSession())
         val actual = factory.createSessionChangeParameters(sessions, numDays = 1, useDeviceTimeZone = true)
@@ -231,7 +233,7 @@ class SessionChangeParametersFactoryTest {
             CompleteResourceResolver,
             createSessionPropertiesFormatter(),
             createContentDescriptionFormatter(),
-            DateFormatterCallback,
+            FakeFormattingDelegate(),
         )
         val sessions = listOf(createChangedSession())
         val actual = factory.createSessionChangeParameters(sessions, numDays = 1, useDeviceTimeZone = true)
@@ -293,7 +295,7 @@ class SessionChangeParametersFactoryTest {
             CompleteResourceResolver,
             createSessionPropertiesFormatter(),
             createContentDescriptionFormatter(),
-            DateFormatterCallback,
+            FakeFormattingDelegate(),
         )
         val sessions = listOf(createChangedEmptySession())
         val actual = factory.createSessionChangeParameters(sessions, numDays = 1, useDeviceTimeZone = true)
@@ -355,7 +357,7 @@ class SessionChangeParametersFactoryTest {
             CompleteResourceResolver,
             createSessionPropertiesFormatter(),
             createContentDescriptionFormatter(),
-            DateFormatterCallback,
+            FakeFormattingDelegate(),
         )
         val sessions = listOf(
             createUnchangedSession(dayIndex = 0),
@@ -509,11 +511,32 @@ private fun createContentDescriptionFormatter() = mock<ContentDescriptionFormatt
     on { getStateContentDescription(anyOrNull(), anyOrNull()) } doReturn ""
 }
 
-private object DateFormatterCallback : (Boolean) -> DateFormatter {
-    override fun invoke(useDeviceTimeZone: Boolean) = mock<DateFormatter> {
-        on { getFormattedDateShort(anyOrNull(), anyOrNull()) } doReturn SOME_DATE
-        on { getFormattedTimeShort(anyOrNull(), anyOrNull()) } doReturn SOME_TIME
-    }
+private class FakeFormattingDelegate : FormattingDelegate {
+
+    override fun getFormattedTimeShort(
+        useDeviceTimeZone: Boolean,
+        moment: Moment,
+        timeZoneOffset: ZoneOffset?,
+    ) = SOME_TIME
+
+    override fun getFormattedDateShort(
+        useDeviceTimeZone: Boolean,
+        moment: Moment,
+        timeZoneOffset: ZoneOffset?,
+    ) = SOME_DATE
+
+    override fun getFormattedDateTimeShort(
+        useDeviceTimeZone: Boolean,
+        moment: Moment,
+        timeZoneOffset: ZoneOffset?,
+    ) = throw NotImplementedError("Not needed for this test.")
+
+    override fun getFormattedDateTimeLong(
+        useDeviceTimeZone: Boolean,
+        moment: Moment,
+        timeZoneOffset: ZoneOffset?,
+    ) = throw NotImplementedError("Not needed for this test.")
+
 }
 
 private object CompleteResourceResolver : ResourceResolving {
