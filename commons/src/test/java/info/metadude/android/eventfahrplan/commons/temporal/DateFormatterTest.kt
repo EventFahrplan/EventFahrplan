@@ -33,19 +33,19 @@ class DateFormatterTest {
     }
 
     @Test
-    fun getFormattedTime() {
+    fun getFormattedTimeShort() {
         Locale.setDefault(Locale("en", "US"))
         TimeZone.setDefault(TimeZone.getTimeZone("GMT+1"))
-        assertThat(createDateFormatter().getFormattedTime(moment, getTimeZoneOffsetNow())).isEqualTo("1:00 AM")
+        assertThat(createDateFormatter().getFormattedTimeShort(moment, getTimeZoneOffsetNow())).isEqualTo("1:00 AM")
 
         TimeZone.setDefault(TimeZone.getTimeZone("GMT+14"))
-        assertThat(createDateFormatter().getFormattedTime(moment, getTimeZoneOffsetNow())).isEqualTo("2:00 PM")
+        assertThat(createDateFormatter().getFormattedTimeShort(moment, getTimeZoneOffsetNow())).isEqualTo("2:00 PM")
 
         Locale.setDefault(Locale("de", "DE"))
-        assertThat(createDateFormatter().getFormattedTime(moment, getTimeZoneOffsetNow())).isEqualTo("14:00")
+        assertThat(createDateFormatter().getFormattedTimeShort(moment, getTimeZoneOffsetNow())).isEqualTo("14:00")
 
         TimeZone.setDefault(TimeZone.getTimeZone("GMT+6"))
-        assertThat(createDateFormatter().getFormattedTime(moment, getTimeZoneOffsetNow())).isEqualTo("06:00")
+        assertThat(createDateFormatter().getFormattedTimeShort(moment, getTimeZoneOffsetNow())).isEqualTo("06:00")
     }
 
     @Test
@@ -66,12 +66,12 @@ class DateFormatterTest {
     }
 
     @Test
-    fun getFormattedDate() {
+    fun getFormattedDateShort() {
         Locale.setDefault(Locale.US)
-        assertThat(createDateFormatter().getFormattedDate(moment, getTimeZoneOffsetNow())).isEqualTo("1/22/19")
+        assertThat(createDateFormatter().getFormattedDateShort(moment, getTimeZoneOffsetNow())).isEqualTo("1/22/19")
 
         Locale.setDefault(Locale.GERMANY)
-        assertThat(createDateFormatter().getFormattedDate(moment, getTimeZoneOffsetNow())).isEqualTo("22.01.19")
+        assertThat(createDateFormatter().getFormattedDateShort(moment, getTimeZoneOffsetNow())).isEqualTo("22.01.19")
     }
 
     // This test only passes when being executed in a JDK 9+ environment.

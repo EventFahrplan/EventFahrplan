@@ -38,26 +38,26 @@ class DateFormatter private constructor(
 
     /**
      * Returns 01:00 AM, 02:00 PM, 14:00 etc, depending on current system locale either
-     * in 24 or 12 hour format. The latter featuring AM or PM postfixes.
+     * in 24 or 12 hour short format. The latter featuring AM or PM postfixes.
      *
      * Formatting happens by taking the [original time zone of the associated session][sessionZoneOffset]
      * into account. If [sessionZoneOffset] is missing then formatting falls back to using the
      * current time zone offset of the device.
      */
-    fun getFormattedTime(moment: Moment, sessionZoneOffset: ZoneOffset?): String {
+    fun getFormattedTimeShort(moment: Moment, sessionZoneOffset: ZoneOffset?): String {
         val zoneOffset = zoneOffsetProvider.getAvailableZoneOffset(sessionZoneOffset)
         return timeShortFormatter.format(moment.toZonedDateTime(zoneOffset))
     }
 
     /**
-     * Returns day, month and year in current system locale.
+     * Returns day, month and year in current system locale in short format.
      * E.g. 1/22/19 or 22.01.19
      *
      * Formatting happens by taking the [original time zone of the associated session][sessionZoneOffset]
      * into account. If [sessionZoneOffset] is missing then formatting falls back to using the
      * current time zone offset of the device.
      */
-    fun getFormattedDate(moment: Moment, sessionZoneOffset: ZoneOffset?): String {
+    fun getFormattedDateShort(moment: Moment, sessionZoneOffset: ZoneOffset?): String {
         val zoneOffset = zoneOffsetProvider.getAvailableZoneOffset(sessionZoneOffset)
         return dateShortFormatter.format(moment.toZonedDateTime(zoneOffset))
     }

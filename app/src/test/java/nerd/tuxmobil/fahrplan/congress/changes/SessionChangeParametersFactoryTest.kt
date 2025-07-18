@@ -511,8 +511,8 @@ private fun createContentDescriptionFormatter() = mock<ContentDescriptionFormatt
 
 private object DateFormatterCallback : (Boolean) -> DateFormatter {
     override fun invoke(useDeviceTimeZone: Boolean) = mock<DateFormatter> {
-        on { getFormattedDate(anyOrNull(), anyOrNull()) } doReturn SOME_DATE
-        on { getFormattedTime(anyOrNull(), anyOrNull()) } doReturn SOME_TIME
+        on { getFormattedDateShort(anyOrNull(), anyOrNull()) } doReturn SOME_DATE
+        on { getFormattedTimeShort(anyOrNull(), anyOrNull()) } doReturn SOME_TIME
     }
 }
 
