@@ -36,5 +36,6 @@ dependencies {
     testImplementation Libs.junitJupiterApi
     testRuntimeOnly Libs.junitJupiterEngine
     testRuntimeOnly Libs.junitPlatformLauncher
+    testImplementation Libs.mockitoKotlin
     testImplementation Libs.truth
 }
