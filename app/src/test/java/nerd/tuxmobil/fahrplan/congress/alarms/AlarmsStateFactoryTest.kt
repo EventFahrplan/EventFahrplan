@@ -173,6 +173,25 @@ class AlarmsStateFactoryTest {
 }
 
 private class FakeFormattingDelegate : FormattingDelegate {
+
+    override fun getFormattedTimeShort(
+        useDeviceTimeZone: Boolean,
+        moment: Moment,
+        timeZoneOffset: ZoneOffset?,
+    ) = throw NotImplementedError("Not needed for this test.")
+
+    override fun getFormattedDateShort(
+        useDeviceTimeZone: Boolean,
+        moment: Moment,
+        timeZoneOffset: ZoneOffset?,
+    ) = throw NotImplementedError("Not needed for this test.")
+
+    override fun getFormattedDateLong(
+        useDeviceTimeZone: Boolean,
+        moment: Moment,
+        timeZoneOffset: ZoneOffset?,
+    ) = throw NotImplementedError("Not needed for this test.")
+
     override fun getFormattedDateTimeShort(
         useDeviceTimeZone: Boolean,
         moment: Moment,

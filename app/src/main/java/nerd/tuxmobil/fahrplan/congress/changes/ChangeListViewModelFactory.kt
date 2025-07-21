@@ -2,7 +2,8 @@ package nerd.tuxmobil.fahrplan.congress.changes
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider.Factory
-import info.metadude.android.eventfahrplan.commons.temporal.DateFormatter
+import nerd.tuxmobil.fahrplan.congress.commons.DateFormatterDelegate
+import nerd.tuxmobil.fahrplan.congress.commons.DaySeparatorFactory
 import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolving
 import nerd.tuxmobil.fahrplan.congress.repositories.AppExecutionContext
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
@@ -17,6 +18,7 @@ class ChangeListViewModelFactory(
 ) : Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        val formattingDelegate = DateFormatterDelegate
         @Suppress("UNCHECKED_CAST")
         return ChangeListViewModel(
             repository = appRepository,
@@ -25,7 +27,12 @@ class ChangeListViewModelFactory(
                 resourceResolving = resourceResolving,
                 sessionPropertiesFormatting = sessionPropertiesFormatting,
                 contentDescriptionFormatting = contentDescriptionFormatting,
-                onDateFormatter = { useDeviceTimeZone -> DateFormatter.newInstance(useDeviceTimeZone) }
+                daySeparatorFactory = DaySeparatorFactory(
+                    resourceResolving = resourceResolving,
+                    formattingDelegate = formattingDelegate,
+                    contentDescriptionFormatting = contentDescriptionFormatting,
+                ),
+                formattingDelegate = formattingDelegate,
             )
         ) as T
     }
