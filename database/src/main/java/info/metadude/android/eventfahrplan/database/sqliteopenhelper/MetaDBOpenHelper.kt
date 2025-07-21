@@ -5,6 +5,8 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.NUM_DAYS
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.SCHEDULE_ETAG
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.SCHEDULE_GENERATOR_NAME
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.SCHEDULE_GENERATOR_VERSION
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.SCHEDULE_LAST_MODIFIED
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.SUBTITLE
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.TIME_ZONE_NAME
@@ -24,7 +26,7 @@ internal class MetaDBOpenHelper(context: Context) : SQLiteOpenHelper(
 ) {
 
     private companion object {
-        const val DATABASE_VERSION = 10
+        const val DATABASE_VERSION = 11
         const val DATABASE_NAME = "meta"
 
         // language=sql
@@ -35,7 +37,9 @@ internal class MetaDBOpenHelper(context: Context) : SQLiteOpenHelper(
                 "$SUBTITLE TEXT, " +
                 "$SCHEDULE_ETAG TEXT, " +
                 "$TIME_ZONE_NAME TEXT, " +
-                "$SCHEDULE_LAST_MODIFIED TEXT DEFAULT ''" +
+                "$SCHEDULE_LAST_MODIFIED TEXT DEFAULT ''," +
+                "$SCHEDULE_GENERATOR_NAME TEXT DEFAULT NULL," +
+                "$SCHEDULE_GENERATOR_VERSION TEXT DEFAULT NULL" +
                 ");"
     }
 
@@ -79,6 +83,14 @@ internal class MetaDBOpenHelper(context: Context) : SQLiteOpenHelper(
             // Clear database from Camp 2023 & 37C3 2023.
             dropTableIfExist(NAME)
             onCreate(this)
+        }
+        if (oldVersion < 11) {
+            if (!columnExists(NAME, SCHEDULE_GENERATOR_NAME)) {
+                addTextColumn(SCHEDULE_GENERATOR_NAME, default = null)
+            }
+            if (!columnExists(NAME, SCHEDULE_GENERATOR_VERSION)) {
+                addTextColumn(SCHEDULE_GENERATOR_VERSION, default = null)
+            }
         }
 
     }

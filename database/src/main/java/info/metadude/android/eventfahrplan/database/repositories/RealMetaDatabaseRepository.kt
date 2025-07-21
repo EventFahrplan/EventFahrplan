@@ -6,6 +6,8 @@ import android.database.sqlite.SQLiteException
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.NUM_DAYS
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.SCHEDULE_ETAG
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.SCHEDULE_GENERATOR_NAME
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.SCHEDULE_GENERATOR_VERSION
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.SCHEDULE_LAST_MODIFIED
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.SUBTITLE
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.TIME_ZONE_NAME
@@ -20,6 +22,7 @@ import info.metadude.android.eventfahrplan.database.extensions.read
 import info.metadude.android.eventfahrplan.database.extensions.upsert
 import info.metadude.android.eventfahrplan.database.models.HttpHeader
 import info.metadude.android.eventfahrplan.database.models.Meta
+import info.metadude.android.eventfahrplan.database.models.ScheduleGenerator
 import info.metadude.android.eventfahrplan.database.sqliteopenhelper.MetaDBOpenHelper
 
 internal class RealMetaDatabaseRepository(
@@ -55,6 +58,7 @@ internal class RealMetaDatabaseRepository(
                         title = cursor.getString(TITLE),
                         subtitle = cursor.getString(SUBTITLE),
                         httpHeader = cursor.getHttpHeader(),
+                        scheduleGenerator = cursor.getScheduleGenerator(),
                 )
             } else {
                 Meta()
@@ -69,4 +73,9 @@ internal class RealMetaDatabaseRepository(
 private fun Cursor.getHttpHeader() = HttpHeader(
     eTag = getString(SCHEDULE_ETAG),
     lastModified = getString(SCHEDULE_LAST_MODIFIED),
+)
+
+private fun Cursor.getScheduleGenerator() = ScheduleGenerator(
+    name = getStringOrNull(SCHEDULE_GENERATOR_NAME),
+    version = getStringOrNull(SCHEDULE_GENERATOR_VERSION),
 )

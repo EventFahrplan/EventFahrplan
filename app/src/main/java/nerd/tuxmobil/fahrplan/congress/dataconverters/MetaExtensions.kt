@@ -10,6 +10,7 @@ import nerd.tuxmobil.fahrplan.congress.models.Meta as MetaAppModel
 fun MetaAppModel.toMetaNetworkModel() = MetaNetworkModel(
         httpHeader = httpHeader.toHttpHeaderNetworkModel(),
         numDays = numDays,
+        scheduleGenerator = scheduleGenerator?.toScheduleGeneratorNetworkModel(),
         subtitle = subtitle,
         timeZoneName = timeZoneId?.id,
         title = title,
@@ -19,6 +20,7 @@ fun MetaAppModel.toMetaNetworkModel() = MetaNetworkModel(
 fun MetaDatabaseModel.toMetaAppModel() = MetaAppModel(
         httpHeader = httpHeader.toHttpHeaderAppModel(),
         numDays = numDays,
+        scheduleGenerator = scheduleGenerator?.toScheduleGeneratorAppModel(),
         subtitle = subtitle,
         timeZoneId = timeZoneName?.let {
             try {
@@ -36,6 +38,7 @@ fun MetaDatabaseModel.toMetaAppModel() = MetaAppModel(
 fun MetaNetworkModel.toMetaDatabaseModel() = MetaDatabaseModel(
         httpHeader = httpHeader.toHttpHeaderDatabaseModel(),
         numDays = numDays,
+        scheduleGenerator = scheduleGenerator?.toScheduleGeneratorDatabaseModel(),
         subtitle = subtitle,
         timeZoneName = timeZoneName,
         title = title,

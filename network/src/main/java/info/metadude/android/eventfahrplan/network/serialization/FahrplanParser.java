@@ -23,6 +23,7 @@ import info.metadude.android.eventfahrplan.commons.logging.Logging;
 import info.metadude.android.eventfahrplan.commons.temporal.Duration;
 import info.metadude.android.eventfahrplan.network.models.HttpHeader;
 import info.metadude.android.eventfahrplan.network.models.Meta;
+import info.metadude.android.eventfahrplan.network.models.ScheduleGenerator;
 import info.metadude.android.eventfahrplan.network.models.Session;
 import info.metadude.android.eventfahrplan.network.serialization.exceptions.MissingXmlAttributeException;
 import info.metadude.android.eventfahrplan.network.temporal.DateParser;
@@ -167,6 +168,9 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
                         break;
                     case XmlPullParser.START_TAG:
                         name = parser.getName();
+                        if (name.equalsIgnoreCase("generator")) {
+                            parseGenerator(parser);
+                        }
                         if (name.equals("version")) {
                             parser.next();
                             meta.setVersion(XmlPullParsers.getSanitizedText(parser));
@@ -220,6 +224,12 @@ class ParserTask extends AsyncTask<String, Void, Boolean> {
             e.printStackTrace();
             return false;
         }
+    }
+
+    private void parseGenerator(XmlPullParser parser) {
+        String name = XmlPullParsers.getSanitizedAttributeNullableValue(parser, "name");
+        String version = XmlPullParsers.getSanitizedAttributeNullableValue(parser, "version");
+        meta.setScheduleGenerator(new ScheduleGenerator(name, version));
     }
 
     private int parseConference(XmlPullParser parser) throws IOException, XmlPullParserException {

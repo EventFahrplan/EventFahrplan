@@ -44,7 +44,59 @@ class XmlPullParsersTest {
 
     }
 
+    @Nested
+    inner class GetSanitizedAttributeNullableValue {
+
+        @Test
+        fun `getSanitizedAttributeNullableValue returns null if attribute is not present`() {
+            val parser = createParser(
+                text = "  foobar  ",
+                attributeName = "",
+            )
+            assertThat(parser.getSanitizedAttributeNullableValue("")).isEqualTo(null)
+        }
+
+        @Test
+        fun `getSanitizedAttributeNullableValue returns null if text is empty`() {
+            val parser = createParser(
+                text = "   ",
+                attributeName = "name",
+            )
+            assertThat(parser.getSanitizedAttributeNullableValue("name")).isEqualTo(null)
+        }
+
+        @Test
+        fun `getSanitizedAttributeNullableValue text without leading and trailing whitespace`() {
+            val parser = createParser(
+                text = "  foobar  ",
+                attributeName = "name",
+            )
+            assertThat(parser.getSanitizedAttributeNullableValue("name")).isEqualTo("foobar")
+        }
+
+        @Test
+        fun `getSanitizedAttributeNullableValue text without zero with no break space`() {
+            val parser = createParser(
+                text = "$ZERO_WIDTH_NO_BREAK_SPACE  foobar$ZERO_WIDTH_NO_BREAK_SPACE$ZERO_WIDTH_NO_BREAK_SPACE",
+                attributeName = "name",
+            )
+            assertThat(parser.getSanitizedAttributeNullableValue("name")).isEqualTo("foobar")
+        }
+
+        @Test
+        fun `getSanitizedAttributeNullableValue text without with cleaned up line breaks`() {
+            val parser = createParser(
+                text = "\r\nfoobar\r\n\r\n",
+                attributeName = "name",
+            )
+            assertThat(parser.getSanitizedAttributeNullableValue("name")).isEqualTo("foobar")
+        }
+
+    }
+
     private fun createParser(text: String, attributeName: String = "") = mock<XmlPullParser> {
+        val textValue = if (attributeName.isEmpty()) null else text
+        on { this.getAttributeValue(null, attributeName) } doReturn textValue
         on { this.text } doReturn text
     }
 

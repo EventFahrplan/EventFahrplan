@@ -19,6 +19,8 @@ public interface FahrplanContract {
             /* 06 */ String NUM_DAYS = "numdays";
             /* 07 */ String TIME_ZONE_NAME = "time_zone_name";
             /* 08 */ String SCHEDULE_LAST_MODIFIED = "schedule_last_modified";
+            /* 09 */ String SCHEDULE_GENERATOR_NAME = "schedule_generator_name";
+            /* 10 */ String SCHEDULE_GENERATOR_VERSION = "schedule_generator_version";
         }
 
         interface Defaults {
