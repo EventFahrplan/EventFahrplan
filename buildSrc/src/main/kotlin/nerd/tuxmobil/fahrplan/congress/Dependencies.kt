@@ -31,10 +31,10 @@ object Compose {
 object Plugins {
 
     private object Versions {
-        const val android = "8.10.1"
+        const val android = "8.11.1"
         const val dexcount = "4.0.0"
-        const val kotlin = "2.1.21"
-        const val ksp = "2.1.21-2.0.1"
+        const val kotlin = "2.2.0"
+        const val ksp = "2.2.0-2.0.2"
         const val sonarQube = "6.2.0.5505"
         const val unMock = "0.9.0"
         const val versions = "0.52.0"
@@ -54,7 +54,7 @@ object Libs {
 
     private object Versions {
         const val activityCompose = "1.9.3" // compileSdk 35 is required as of 1.10.0
-        const val androidTest = "1.7.0"
+        const val androidTest = "1.7.0" // compileSdk 35 is required as of 1.8.0
         const val annotation = "1.9.1"
         const val appCompat = "1.7.1"
         const val betterLinkMovementMethod = "2.2.0"
@@ -64,14 +64,14 @@ object Libs {
         const val emailIntentBuilder = "2.0.0"
         const val engelsystem = "10.0.0"
         const val fragmentCompose = "1.8.8"
-        const val htmlConverter = "1.0.4"
-        const val junitJupiter = "5.13.0"
-        const val junitPlatform = "1.13.0"
+        const val htmlConverter = "1.0.4" // compose 2025.04.01 is required as of 1.1.0
+        const val junitJupiter = "5.13.4"
+        const val junitPlatform = "1.13.4"
         const val kotlinCoroutines = "1.10.2"
         const val lifecycle = "2.8.7" // compileSdk 35 is required as of 2.9.0
-        const val markdownRenderer = "0.32.0"
+        const val markdownRenderer = "0.33.0" // compose 2025.04.01 is required as of 0.35.0
         const val material = "1.12.0"
-        const val mockitoKotlin = "5.4.0"
+        const val mockitoKotlin = "6.0.0"
         const val moshi = "1.15.2"
         const val okhttp = "4.12.0"
         const val preference = "1.2.1"
@@ -82,7 +82,7 @@ object Libs {
         const val threeTenBp = "1.7.1"
         const val tracedroid = "3.1"
         const val truth = "1.4.4"
-        const val turbine = "1.2.0"
+        const val turbine = "1.2.1"
     }
 
     const val activityCompose = "androidx.activity:activity-compose:${Versions.activityCompose}"
