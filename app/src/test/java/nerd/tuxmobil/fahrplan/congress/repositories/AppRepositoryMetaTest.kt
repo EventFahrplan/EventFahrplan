@@ -6,6 +6,8 @@ import com.google.common.truth.Truth.assertThat
 import info.metadude.android.eventfahrplan.commons.testing.MainDispatcherTestExtension
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.NUM_DAYS
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.SCHEDULE_ETAG
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.SCHEDULE_GENERATOR_NAME
+import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.SCHEDULE_GENERATOR_VERSION
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.SCHEDULE_LAST_MODIFIED
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.SUBTITLE
 import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.MetasTable.Columns.TIME_ZONE_NAME
@@ -20,8 +22,10 @@ import org.mockito.kotlin.mock
 import org.threeten.bp.ZoneId
 import info.metadude.android.eventfahrplan.database.models.HttpHeader as HttpHeaderDatabaseModel
 import info.metadude.android.eventfahrplan.database.models.Meta as MetaDatabaseModel
+import info.metadude.android.eventfahrplan.database.models.ScheduleGenerator as ScheduleGeneratorDatabaseModel
 import nerd.tuxmobil.fahrplan.congress.models.HttpHeader as HttpHeaderAppModel
 import nerd.tuxmobil.fahrplan.congress.models.Meta as MetaAppModel
+import nerd.tuxmobil.fahrplan.congress.models.ScheduleGenerator as ScheduleGeneratorAppModel
 
 /**
  * Covers [AppRepository.meta] and [AppRepository.updateMeta].
@@ -63,8 +67,12 @@ class AppRepositoryMetaTest {
 
     @Test
     fun `meta emits empty Meta model`() = runTest {
-        testableAppRepository.updateMeta(MetaDatabaseModel())
-        val expected = MetaAppModel()
+        testableAppRepository.updateMeta(MetaDatabaseModel(
+            scheduleGenerator = ScheduleGeneratorDatabaseModel(name = "", version = "")),
+        )
+        val expected = MetaAppModel(
+            scheduleGenerator = ScheduleGeneratorAppModel(name = "", version = ""),
+        )
         testableAppRepository.meta.test {
             val actual = awaitItem()
             assertThat(actual).isEqualTo(expected)
@@ -80,6 +88,7 @@ class AppRepositoryMetaTest {
             title = "37C3",
             subtitle = "Unlocked",
             httpHeader = HttpHeaderDatabaseModel(eTag = "abc", lastModified = "9000"),
+            scheduleGenerator = ScheduleGeneratorDatabaseModel(name = "pretalx", version = "2024.1.0"),
         ))
         val expected = MetaAppModel(
             numDays = 4,
@@ -87,7 +96,8 @@ class AppRepositoryMetaTest {
             timeZoneId = ZoneId.of("Europe/Berlin"),
             title = "37C3",
             subtitle = "Unlocked",
-            httpHeader = HttpHeaderAppModel(eTag = "abc", lastModified = "9000")
+            httpHeader = HttpHeaderAppModel(eTag = "abc", lastModified = "9000"),
+            scheduleGenerator = ScheduleGeneratorAppModel(name = "pretalx", version = "2024.1.0"),
         )
         testableAppRepository.meta.test {
             val actual = awaitItem()
@@ -121,5 +131,9 @@ private fun ContentValues.toMeta() = MetaDatabaseModel(
     httpHeader = HttpHeaderDatabaseModel(
         eTag = get(SCHEDULE_ETAG) as String,
         lastModified = get(SCHEDULE_LAST_MODIFIED) as String,
+    ),
+    scheduleGenerator = ScheduleGeneratorDatabaseModel(
+        name = get(SCHEDULE_GENERATOR_NAME) as String,
+        version = get(SCHEDULE_GENERATOR_VERSION) as String,
     ),
 )

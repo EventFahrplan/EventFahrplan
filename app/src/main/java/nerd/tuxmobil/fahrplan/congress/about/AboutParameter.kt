@@ -9,6 +9,7 @@ data class AboutParameter(
     val eventLocation: TextResource = Empty,
     val eventUrl: TextResource = Empty,
     val scheduleVersion: String = "",
+    val generatedBy: String = "",
     val appVersion: String = "",
     val usageNote: String = "",
     val appDisclaimer: String = "",

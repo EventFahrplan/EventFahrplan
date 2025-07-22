@@ -20,6 +20,12 @@ class AboutParameterFactory(
         val scheduleVersionText = if (scheduleVersion.isEmpty()) ""
         else "${resourceResolving.getString(R.string.fahrplan)} $scheduleVersion"
 
+        val generator = meta.scheduleGenerator
+        val generatedByText = when (generator == null || !generator.isValid()) {
+            true -> ""
+            false -> resourceResolving.getString(R.string.schedule_generated_by, generator.name, generator.version)
+        }
+
         val title = meta.title
         val titleText = title.ifEmpty { resourceResolving.getString(R.string.app_name) }
 
@@ -39,6 +45,7 @@ class AboutParameterFactory(
             eventLocation = PostalAddress(buildConfig.eventPostalAddress),
             eventUrl = textResourceOf(url = buildConfig.eventWebsiteUrl),
             scheduleVersion = scheduleVersionText,
+            generatedBy = generatedByText,
             appVersion = if (buildConfig.versionName.isEmpty()) "" else resourceResolving.getString(
                 R.string.appVersion,
                 buildConfig.versionName

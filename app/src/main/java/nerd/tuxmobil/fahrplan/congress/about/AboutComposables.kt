@@ -114,6 +114,10 @@ private fun EventInfo(parameter: AboutParameter, onViewEvent: (AboutViewEvent) -
             textAlign = horizontalTextAlign,
         )
         AboutText(
+            text = parameter.generatedBy,
+            textAlign = horizontalTextAlign,
+        )
+        AboutText(
             text = parameter.appVersion,
             textAlign = horizontalTextAlign,
         )

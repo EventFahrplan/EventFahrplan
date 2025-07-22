@@ -8,6 +8,7 @@ data class Meta(
         @Deprecated("To be removed. Access from AppRepository only. Left here only for data transfer.")
         var httpHeader: HttpHeader = HttpHeader(),
         var numDays: Int = MetasTable.Defaults.NUM_DAYS_DEFAULT,
+        var scheduleGenerator: ScheduleGenerator? = null,
         var subtitle: String = "",
         var timeZoneId: ZoneId? = null,
         var title: String = "",

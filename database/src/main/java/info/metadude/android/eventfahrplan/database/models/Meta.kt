@@ -4,6 +4,7 @@ import info.metadude.android.eventfahrplan.database.contract.FahrplanContract.Me
 
 data class Meta(
 
+        val scheduleGenerator: ScheduleGenerator? = null,
         val httpHeader: HttpHeader = HttpHeader(),
         val numDays: Int = NUM_DAYS_DEFAULT,
         val subtitle: String = "",
