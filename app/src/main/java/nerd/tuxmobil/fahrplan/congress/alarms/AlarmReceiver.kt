@@ -103,7 +103,7 @@ class AlarmReceiver : BroadcastReceiver() {
         val sessionId: String,
         val title: String,
         val dayIndex: Int,
-        val startTime: Long,
+        val startTime: Moment,
     ) {
 
         fun getIntent(isAddAlarmIntent: Boolean) = Intent(context, AlarmReceiver::class.java)
@@ -111,7 +111,7 @@ class AlarmReceiver : BroadcastReceiver() {
                 BundleKeys.ALARM_SESSION_ID to sessionId,
                 BundleKeys.ALARM_DAY_INDEX to dayIndex,
                 BundleKeys.ALARM_TITLE to title,
-                BundleKeys.ALARM_START_TIME to startTime
+                BundleKeys.ALARM_START_TIME to startTime.toMilliseconds()
             ).apply {
                 action = if (isAddAlarmIntent) ALARM_SESSION else ALARM_DELETE
                 data = "alarm://$sessionId".toUri()

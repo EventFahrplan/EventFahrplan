@@ -133,7 +133,7 @@ class AlarmServices @VisibleForTesting constructor(
             sessionId = alarm.sessionId,
             title = alarm.sessionTitle,
             dayIndex = alarm.dayIndex,
-            startTime = alarm.startTime.toMilliseconds()
+            startTime = alarm.startTime
         ).getIntent(isAddAlarmIntent = true)
 
         val pendingIntent = pendingIntentDelegate.getPendingIntentBroadcast(context, intent)
@@ -157,7 +157,7 @@ class AlarmServices @VisibleForTesting constructor(
             sessionId = alarm.sessionId,
             title = alarm.sessionTitle,
             dayIndex = alarm.dayIndex,
-            startTime = alarm.startTime.toMilliseconds()
+            startTime = alarm.startTime
         ).getIntent(isAddAlarmIntent = false)
         discardAlarm(context, intent)
     }
