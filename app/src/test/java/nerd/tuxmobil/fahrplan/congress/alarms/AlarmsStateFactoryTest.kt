@@ -65,14 +65,14 @@ class AlarmsStateFactoryTest {
         @Test
         fun `createAlarmsState returns values list when alarm and session are associated, 10 min`() {
             val alarmTimeInMin = 10
-            val alarmStartsAt = calculateAlarmStartsAt(alarmTimeInMin).toMilliseconds()
+            val alarmStartsAt = calculateAlarmStartsAt(alarmTimeInMin)
             val factory = createAlarmsStateFactory(alarmTimeInMin)
 
             val alarms = listOf(
                 createAlarm(
                     sessionId = "s0",
                     alarmTimeInMin = alarmTimeInMin,
-                    alarmStartsAt = alarmStartsAt,
+                    alarmStartsAt = alarmStartsAt.toMilliseconds(),
                 )
             )
             val sessions = listOf(
@@ -108,14 +108,14 @@ class AlarmsStateFactoryTest {
         @Test
         fun `createAlarmsState returns values list when alarm and session are associated, 0 min`() {
             val alarmTimeInMin = 0
-            val alarmStartsAt = calculateAlarmStartsAt(alarmTimeInMin).toMilliseconds()
+            val alarmStartsAt = calculateAlarmStartsAt(alarmTimeInMin)
             val factory = createAlarmsStateFactory(alarmTimeInMin)
 
             val alarms = listOf(
                 createAlarm(
                     sessionId = "s0",
                     alarmTimeInMin = alarmTimeInMin,
-                    alarmStartsAt = alarmStartsAt,
+                    alarmStartsAt = alarmStartsAt.toMilliseconds(),
                 )
             )
             val sessions = listOf(

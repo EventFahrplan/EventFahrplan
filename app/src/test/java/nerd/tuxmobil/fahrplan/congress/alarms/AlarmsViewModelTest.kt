@@ -197,6 +197,7 @@ class AlarmsViewModelTest {
         val parameter = mock<SessionAlarmParameter> {
             on { sessionId } doReturn "not asserted in this test"
             on { title } doReturn "not asserted in this test"
+            on { firesAt } doReturn Moment.ofEpochMilli(-1) // not asserted in this test
         }
         return mock<AlarmsStateFactory> {
             // See AlarmsStateFactoryTest for real return values

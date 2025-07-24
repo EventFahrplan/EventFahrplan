@@ -54,7 +54,7 @@ class AlarmsStateFactory(
                     subtitleContentDescription = subtitleContentDescription,
                     alarmOffsetInMin = alarmOffset.toWholeMinutes().toInt(),
                     alarmOffsetContentDescription = alarmOffsetContentDescription,
-                    firesAt = alarm.startTime.toMilliseconds(),
+                    firesAt = alarm.startTime,
                     firesAtText = firesAtText,
                     firesAtContentDescription = firesAtContentDescription,
                     dayIndex = found.dayIndex,

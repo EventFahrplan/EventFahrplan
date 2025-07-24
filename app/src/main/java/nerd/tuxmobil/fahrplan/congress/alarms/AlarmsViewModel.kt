@@ -2,7 +2,6 @@ package nerd.tuxmobil.fahrplan.congress.alarms
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -56,7 +55,7 @@ internal class AlarmsViewModel(
                 dayIndex = value.dayIndex,
                 sessionId = value.sessionId,
                 sessionTitle = value.title,
-                startTime = Moment.ofEpochMilli(value.firesAt),
+                startTime = value.firesAt,
             )
             alarmServices.discardSessionAlarm(alarm)
         }

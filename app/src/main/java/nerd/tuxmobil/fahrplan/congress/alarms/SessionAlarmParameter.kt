@@ -1,5 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress.alarms
 
+import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmsState.Success
 
 /**
@@ -14,7 +15,7 @@ data class SessionAlarmParameter(
     val subtitleContentDescription: String,
     val alarmOffsetInMin: Int,
     val alarmOffsetContentDescription: String,
-    val firesAt: Long,
+    val firesAt: Moment,
     val firesAtText: String,
     val firesAtContentDescription: String,
     val dayIndex: Int,
