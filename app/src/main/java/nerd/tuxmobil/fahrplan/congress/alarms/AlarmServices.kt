@@ -133,7 +133,7 @@ class AlarmServices @VisibleForTesting constructor(
             sessionId = alarm.sessionId,
             title = alarm.sessionTitle,
             dayIndex = alarm.dayIndex,
-            startTime = alarm.startTime
+            startTime = alarm.startTime.toMilliseconds()
         ).getIntent(isAddAlarmIntent = true)
 
         val pendingIntent = pendingIntentDelegate.getPendingIntentBroadcast(context, intent)
@@ -143,7 +143,7 @@ class AlarmServices @VisibleForTesting constructor(
         AlarmManagerCompat.setExactAndAllowWhileIdle(
             alarmManager,
             AlarmManager.RTC_WAKEUP,
-            alarm.startTime,
+            alarm.startTime.toMilliseconds(),
             pendingIntent
         )
     }
@@ -157,7 +157,7 @@ class AlarmServices @VisibleForTesting constructor(
             sessionId = alarm.sessionId,
             title = alarm.sessionTitle,
             dayIndex = alarm.dayIndex,
-            startTime = alarm.startTime
+            startTime = alarm.startTime.toMilliseconds()
         ).getIntent(isAddAlarmIntent = false)
         discardAlarm(context, intent)
     }

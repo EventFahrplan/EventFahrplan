@@ -38,7 +38,7 @@ class AlarmExtensionsTest {
             dayIndex = 4,
             sessionId = "5237",
             sessionTitle = "My title",
-            startTime = 1509617700001L,
+            startTime = Moment.ofEpochMilli(1509617700001L),
         )
         assertThat(alarm.toSchedulableAlarm()).isEqualTo(schedulableAlarm)
     }

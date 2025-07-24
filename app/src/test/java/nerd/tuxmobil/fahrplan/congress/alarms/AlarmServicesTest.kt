@@ -40,7 +40,7 @@ class AlarmServicesTest {
         dayIndex = 3,
         sessionId = "1001",
         sessionTitle = "Welcome",
-        startTime = 700,
+        startTime = Moment.ofEpochMilli(700),
     )
 
     @Test
@@ -158,7 +158,7 @@ class AlarmServicesTest {
         val alarmServices = createAlarmServices(pendingIntentDelegate)
         alarmServices.scheduleSessionAlarm(alarm, true)
         verifyInvokedOnce(alarmManager).cancel(pendingIntent)
-        verifyInvokedOnce(alarmManager).setExact(AlarmManager.RTC_WAKEUP, alarm.startTime, pendingIntent)
+        verifyInvokedOnce(alarmManager).setExact(AlarmManager.RTC_WAKEUP, alarm.startTime.toMilliseconds(), pendingIntent)
     }
 
     @Test
@@ -172,7 +172,7 @@ class AlarmServicesTest {
         val alarmServices = createAlarmServices(pendingIntentDelegate)
         alarmServices.scheduleSessionAlarm(alarm, false)
         verifyInvokedNever(alarmManager).cancel(pendingIntent)
-        verifyInvokedOnce(alarmManager).setExact(AlarmManager.RTC_WAKEUP, alarm.startTime, pendingIntent)
+        verifyInvokedOnce(alarmManager).setExact(AlarmManager.RTC_WAKEUP, alarm.startTime.toMilliseconds(), pendingIntent)
     }
 
     @Test
@@ -208,7 +208,7 @@ class AlarmServicesTest {
     private fun assertIntentExtras(intent: Intent, action: String) {
         assertThat(intent.getIntExtra(BundleKeys.ALARM_DAY_INDEX, 9)).isEqualTo(alarm.dayIndex)
         assertThat(intent.getStringExtra(BundleKeys.ALARM_SESSION_ID)).isEqualTo(alarm.sessionId)
-        assertThat(intent.getLongExtra(BundleKeys.ALARM_START_TIME, 0)).isEqualTo(alarm.startTime)
+        assertThat(intent.getLongExtra(BundleKeys.ALARM_START_TIME, 0)).isEqualTo(alarm.startTime.toMilliseconds())
         assertThat(intent.getStringExtra(BundleKeys.ALARM_TITLE)).isEqualTo(alarm.sessionTitle)
         assertThat(intent.component!!.className).isEqualTo(AlarmReceiver::class.java.name)
         assertThat(intent.action).isEqualTo(action)

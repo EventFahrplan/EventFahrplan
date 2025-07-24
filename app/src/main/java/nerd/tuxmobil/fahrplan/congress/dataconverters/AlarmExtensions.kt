@@ -21,7 +21,7 @@ fun Alarm.toSchedulableAlarm() = SchedulableAlarm(
     dayIndex = dayIndex,
     sessionId = sessionId,
     sessionTitle = sessionTitle,
-    startTime = startTime.toMilliseconds(),
+    startTime = startTime,
 )
 
 fun DatabaseAlarm.toAlarmAppModel() = Alarm(
