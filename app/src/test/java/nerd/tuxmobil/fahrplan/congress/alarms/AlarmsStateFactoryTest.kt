@@ -71,7 +71,6 @@ class AlarmsStateFactoryTest {
             val alarms = listOf(
                 createAlarm(
                     sessionId = "s0",
-                    alarmTimeInMin = alarmTimeInMin,
                     alarmStartsAt = alarmStartsAt.toMilliseconds(),
                 )
             )
@@ -114,7 +113,6 @@ class AlarmsStateFactoryTest {
             val alarms = listOf(
                 createAlarm(
                     sessionId = "s0",
-                    alarmTimeInMin = alarmTimeInMin,
                     alarmStartsAt = alarmStartsAt.toMilliseconds(),
                 )
             )
@@ -155,16 +153,12 @@ class AlarmsStateFactoryTest {
 
     private fun createAlarm(
         sessionId: String,
-        alarmTimeInMin: Int = 10,
         alarmStartsAt: Long = 1620909000000,
     ) = Alarm(
-        alarmTimeInMin = alarmTimeInMin,
         dayIndex = 2,
-        displayTime = -1,
         sessionId = sessionId,
         sessionTitle = "Unused",
         startTime = Moment.ofEpochMilli(alarmStartsAt),
-        timeText = "Unused",
     )
 
     private fun calculateAlarmStartsAt(alarmTimeInMin: Int) =
