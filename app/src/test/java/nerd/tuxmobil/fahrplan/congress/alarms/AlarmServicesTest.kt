@@ -8,6 +8,7 @@ import android.content.res.Resources
 import androidx.core.content.getSystemService
 import androidx.core.net.toUri
 import com.google.common.truth.Truth.assertThat
+import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedNever
 import info.metadude.android.eventfahrplan.commons.testing.verifyInvokedOnce
 import nerd.tuxmobil.fahrplan.congress.NoLogging
@@ -16,6 +17,7 @@ import nerd.tuxmobil.fahrplan.congress.alarms.AlarmReceiver.AlarmIntentFactory.C
 import nerd.tuxmobil.fahrplan.congress.commons.FormattingDelegate
 import nerd.tuxmobil.fahrplan.congress.commons.PendingIntentDelegate
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
+import nerd.tuxmobil.fahrplan.congress.extensions.getMomentExtra
 import nerd.tuxmobil.fahrplan.congress.models.Alarm
 import nerd.tuxmobil.fahrplan.congress.models.SchedulableAlarm
 import nerd.tuxmobil.fahrplan.congress.models.Session
@@ -39,7 +41,7 @@ class AlarmServicesTest {
         dayIndex = 3,
         sessionId = "1001",
         sessionTitle = "Welcome",
-        startTime = 700,
+        startTime = Moment.ofEpochMilli(700),
     )
 
     @Test
@@ -76,7 +78,7 @@ class AlarmServicesTest {
             displayTime = 1536332400000,
             sessionId = "S1",
             sessionTitle = "Title",
-            startTime = 1536328800000,
+            startTime = Moment.ofEpochMilli(1536328800000),
             timeText = "not relevant"
         )
         verifyInvokedOnce(repository).updateAlarm(expectedAlarm)
@@ -103,7 +105,15 @@ class AlarmServicesTest {
     fun `deleteSessionAlarm discards a session alarm when the alarm was scheduled`() {
         val formattingDelegate = mock<FormattingDelegate>()
         val alarmServices = createAlarmServices(formattingDelegate = formattingDelegate)
-        val alarm = Alarm(10, 2, 0, "S3", "Title", 1536332400000L, "Lorem ipsum")
+        val alarm = Alarm(
+            alarmTimeInMin = 10,
+            dayIndex = 2,
+            displayTime = 0,
+            sessionId = "S3",
+            sessionTitle = "Title",
+            startTime = Moment.ofEpochMilli(1536332400000L),
+            timeText = "Lorem ipsum",
+        )
         whenever(repository.readAlarms(any())) doReturn listOf(alarm)
         val session = Session(sessionId = "S3", hasAlarm = true)
 
@@ -149,7 +159,7 @@ class AlarmServicesTest {
         val alarmServices = createAlarmServices(pendingIntentDelegate)
         alarmServices.scheduleSessionAlarm(alarm, true)
         verifyInvokedOnce(alarmManager).cancel(pendingIntent)
-        verifyInvokedOnce(alarmManager).setExact(AlarmManager.RTC_WAKEUP, alarm.startTime, pendingIntent)
+        verifyInvokedOnce(alarmManager).setExact(AlarmManager.RTC_WAKEUP, alarm.startTime.toMilliseconds(), pendingIntent)
     }
 
     @Test
@@ -163,7 +173,7 @@ class AlarmServicesTest {
         val alarmServices = createAlarmServices(pendingIntentDelegate)
         alarmServices.scheduleSessionAlarm(alarm, false)
         verifyInvokedNever(alarmManager).cancel(pendingIntent)
-        verifyInvokedOnce(alarmManager).setExact(AlarmManager.RTC_WAKEUP, alarm.startTime, pendingIntent)
+        verifyInvokedOnce(alarmManager).setExact(AlarmManager.RTC_WAKEUP, alarm.startTime.toMilliseconds(), pendingIntent)
     }
 
     @Test
@@ -199,7 +209,7 @@ class AlarmServicesTest {
     private fun assertIntentExtras(intent: Intent, action: String) {
         assertThat(intent.getIntExtra(BundleKeys.ALARM_DAY_INDEX, 9)).isEqualTo(alarm.dayIndex)
         assertThat(intent.getStringExtra(BundleKeys.ALARM_SESSION_ID)).isEqualTo(alarm.sessionId)
-        assertThat(intent.getLongExtra(BundleKeys.ALARM_START_TIME, 0)).isEqualTo(alarm.startTime)
+        assertThat(intent.getMomentExtra(BundleKeys.ALARM_START_TIME, Moment.ofEpochMilli(0))).isEqualTo(alarm.startTime)
         assertThat(intent.getStringExtra(BundleKeys.ALARM_TITLE)).isEqualTo(alarm.sessionTitle)
         assertThat(intent.component!!.className).isEqualTo(AlarmReceiver::class.java.name)
         assertThat(intent.action).isEqualTo(action)

@@ -90,7 +90,7 @@ class AlarmServices @VisibleForTesting constructor(
             displayTime = sessionStartTime,
             sessionId = sessionId,
             sessionTitle = sessionTitle,
-            startTime = alarmTime,
+            startTime = moment,
             timeText = timeText,
         )
         val schedulableAlarm = alarm.toSchedulableAlarm()
@@ -143,7 +143,7 @@ class AlarmServices @VisibleForTesting constructor(
         AlarmManagerCompat.setExactAndAllowWhileIdle(
             alarmManager,
             AlarmManager.RTC_WAKEUP,
-            alarm.startTime,
+            alarm.startTime.toMilliseconds(),
             pendingIntent
         )
     }

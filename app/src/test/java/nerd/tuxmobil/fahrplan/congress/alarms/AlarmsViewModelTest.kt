@@ -54,7 +54,7 @@ class AlarmsViewModelTest {
                 createAlarm(
                     sessionId = "s0",
                     alarmTimeInMin = ALARM_TIME_IN_MIN,
-                    alarmStartsAt = ALARM_STARTS_AT.toMilliseconds()
+                    alarmStartsAt = ALARM_STARTS_AT
                 )
             ),
             sessionsFlow = flowOf(
@@ -83,7 +83,7 @@ class AlarmsViewModelTest {
                 createAlarm(
                     sessionId = "s0",
                     alarmTimeInMin = ALARM_TIME_IN_MIN,
-                    alarmStartsAt = ALARM_STARTS_AT.toMilliseconds()
+                    alarmStartsAt = ALARM_STARTS_AT
                 )
             ),
             sessionsFlow = flowOf(
@@ -118,7 +118,7 @@ class AlarmsViewModelTest {
                     createAlarm(
                         sessionId = "s0",
                         alarmTimeInMin = ALARM_TIME_IN_MIN,
-                        alarmStartsAt = ALARM_STARTS_AT.toMilliseconds()
+                        alarmStartsAt = ALARM_STARTS_AT
                     )
                 ),
                 sessionsFlow = flowOf(
@@ -197,6 +197,7 @@ class AlarmsViewModelTest {
         val parameter = mock<SessionAlarmParameter> {
             on { sessionId } doReturn "not asserted in this test"
             on { title } doReturn "not asserted in this test"
+            on { firesAt } doReturn Moment.ofEpochMilli(-1) // not asserted in this test
         }
         return mock<AlarmsStateFactory> {
             // See AlarmsStateFactoryTest for real return values
@@ -207,7 +208,7 @@ class AlarmsViewModelTest {
     private fun createAlarm(
         sessionId: String,
         alarmTimeInMin: Int = 10,
-        alarmStartsAt: Long = 1620909000000
+        alarmStartsAt: Moment = Moment.ofEpochMilli(1620909000000)
     ) = Alarm(
         alarmTimeInMin = alarmTimeInMin,
         dayIndex = 2,

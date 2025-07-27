@@ -18,6 +18,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmsState.Loading
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmsState.Success
@@ -204,7 +205,7 @@ private fun AlarmsScreenPreview() {
                     subtitleContentDescription = "",
                     alarmOffsetInMin = 45,
                     alarmOffsetContentDescription = "",
-                    firesAt = 0L,
+                    firesAt = Moment.ofEpochMilli(0),
                     firesAtText = "28.02.2023 14:00",
                     firesAtContentDescription = "",
                     dayIndex = 0,
@@ -217,7 +218,7 @@ private fun AlarmsScreenPreview() {
                     subtitleContentDescription = "",
                     alarmOffsetInMin = 10,
                     alarmOffsetContentDescription = "",
-                    firesAt = 0L,
+                    firesAt = Moment.ofEpochMilli(0),
                     firesAtText = "01.03.2023 09:00",
                     firesAtContentDescription = "",
                     dayIndex = 0,
@@ -230,7 +231,7 @@ private fun AlarmsScreenPreview() {
                     subtitleContentDescription = "",
                     alarmOffsetInMin = 0,
                     alarmOffsetContentDescription = "",
-                    firesAt = 0L,
+                    firesAt = Moment.ofEpochMilli(0),
                     firesAtText = "01.03.2023 17:00",
                     firesAtContentDescription = "",
                     dayIndex = 0,

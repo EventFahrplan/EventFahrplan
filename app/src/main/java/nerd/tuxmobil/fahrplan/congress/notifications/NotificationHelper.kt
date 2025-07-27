@@ -9,6 +9,7 @@ import androidx.core.app.NotificationChannelCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
+import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.extensions.getNotificationManager
 
@@ -38,7 +39,7 @@ internal class NotificationHelper(context: Context) : ContextWrapper(context) {
     fun getSessionAlarmNotificationBuilder(
             contentIntent: PendingIntent,
             contentTitle: String,
-            occurredAt: Long,
+            occurredAt: Moment,
             sound: Uri?,
             deleteIntent: PendingIntent
     ): NotificationCompat.Builder =
@@ -46,7 +47,7 @@ internal class NotificationHelper(context: Context) : ContextWrapper(context) {
                     .setCategory(NotificationCompat.CATEGORY_REMINDER)
                     .setContentTitle(contentTitle)
                     .setDefaults(Notification.DEFAULT_LIGHTS or Notification.DEFAULT_VIBRATE)
-                    .setWhen(occurredAt)
+                    .setWhen(occurredAt.toMilliseconds())
                     .setDeleteIntent(deleteIntent)
 
     fun getScheduleUpdateNotificationBuilder(

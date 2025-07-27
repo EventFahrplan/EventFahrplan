@@ -11,6 +11,7 @@ import nerd.tuxmobil.fahrplan.congress.alarms.AlarmReceiver.AlarmIntentFactory.C
 import nerd.tuxmobil.fahrplan.congress.autoupdate.UpdateService
 import nerd.tuxmobil.fahrplan.congress.commons.PendingIntentProvider
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
+import nerd.tuxmobil.fahrplan.congress.extensions.getMomentExtra
 import nerd.tuxmobil.fahrplan.congress.extensions.withExtras
 import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
@@ -53,7 +54,7 @@ class AlarmReceiver : BroadcastReceiver() {
             ALARM_SESSION -> {
                 val sessionId = intent.getStringExtra(BundleKeys.ALARM_SESSION_ID)!!
                 val dayIndex = intent.getIntExtra(BundleKeys.ALARM_DAY_INDEX, 1)
-                val start = intent.getLongExtra(BundleKeys.ALARM_START_TIME, System.currentTimeMillis())
+                val start = intent.getMomentExtra(BundleKeys.ALARM_START_TIME, Moment.ofEpochMilli(System.currentTimeMillis()))
                 val title = intent.getStringExtra(BundleKeys.ALARM_TITLE)!!
                 logging.report(LOG_TAG, "sessionId = $sessionId, intent = $intent")
                 //Toast.makeText(context, "Alarm worked.", Toast.LENGTH_LONG).show();
@@ -103,7 +104,7 @@ class AlarmReceiver : BroadcastReceiver() {
         val sessionId: String,
         val title: String,
         val dayIndex: Int,
-        val startTime: Long,
+        val startTime: Moment,
     ) {
 
         fun getIntent(isAddAlarmIntent: Boolean) = Intent(context, AlarmReceiver::class.java)
@@ -111,7 +112,7 @@ class AlarmReceiver : BroadcastReceiver() {
                 BundleKeys.ALARM_SESSION_ID to sessionId,
                 BundleKeys.ALARM_DAY_INDEX to dayIndex,
                 BundleKeys.ALARM_TITLE to title,
-                BundleKeys.ALARM_START_TIME to startTime
+                BundleKeys.ALARM_START_TIME to startTime.toMilliseconds()
             ).apply {
                 action = if (isAddAlarmIntent) ALARM_SESSION else ALARM_DELETE
                 data = "alarm://$sessionId".toUri()

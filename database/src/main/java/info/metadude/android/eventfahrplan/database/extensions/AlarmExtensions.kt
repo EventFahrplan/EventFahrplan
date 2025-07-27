@@ -16,6 +16,6 @@ fun Alarm.toContentValues() = contentValuesOf(
         DISPLAY_TIME to displayTime,
         SESSION_ID to sessionId,
         SESSION_TITLE to title,
-        TIME to time,
+        TIME to time.toMilliseconds(),
         TIME_TEXT to timeText
 )
