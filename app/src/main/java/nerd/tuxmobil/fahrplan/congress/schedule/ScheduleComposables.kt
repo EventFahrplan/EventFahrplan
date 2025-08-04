@@ -327,7 +327,7 @@ private fun Title(
             fontFamily = FontFamily(Font(R.font.roboto_condensed_medium)),
             fontSize = dimensionResource(R.dimen.session_drawable_title).toTextUnit(),
             color = textColor,
-            maxLines = 2,
+            maxLines = property.maxLines,
             overflow = Ellipsis,
         )
     }
