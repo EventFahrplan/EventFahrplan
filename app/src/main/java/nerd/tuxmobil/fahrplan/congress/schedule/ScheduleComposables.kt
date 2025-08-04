@@ -261,22 +261,7 @@ private fun SessionCardLayout(data: SessionCardData) {
                 }
             }.firstOrNull()?.measure(constraints)
 
-            // Calculate the total height of all placeables
-            var placeablesHeight = 0
-            if (titlePlaceable != null) {
-                placeablesHeight += titlePlaceable.height
-            }
-            if (subtitlePlaceable != null) {
-                placeablesHeight += subtitlePlaceable.height
-            }
-            if (speakerNamesAndLanguagesPlaceable != null) {
-                placeablesHeight += speakerNamesAndLanguagesPlaceable.height
-            }
-            if (trackNamePlaceable != null) {
-                placeablesHeight += trackNamePlaceable.height
-            }
-
-            layout(constraints.maxWidth, placeablesHeight) {
+            layout(constraints.maxWidth, cardHeightPx) {
                 var yPosition = 0
                 yPosition += innerPaddingPx
 
@@ -342,7 +327,7 @@ private fun Title(
             fontFamily = FontFamily(Font(R.font.roboto_condensed_medium)),
             fontSize = dimensionResource(R.dimen.session_drawable_title).toTextUnit(),
             color = textColor,
-            maxLines = 2,
+            maxLines = property.maxLines,
             overflow = Ellipsis,
         )
     }

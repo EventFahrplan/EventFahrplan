@@ -50,6 +50,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView.LayoutParams
 import info.metadude.android.eventfahrplan.commons.flow.observe
 import info.metadude.android.eventfahrplan.commons.logging.Logging
+import info.metadude.android.eventfahrplan.commons.temporal.Duration
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.BuildConfig
 import nerd.tuxmobil.fahrplan.congress.R
@@ -750,6 +751,7 @@ class FahrplanFragment : Fragment(), MenuProvider {
             val heightPx = layoutParams?.height ?: calculateSessionHeight(session)
             val heightDp = (heightPx / context.resources.displayMetrics.density).toInt()
             val showBorder = session.isHighlight && isAlternativeHighlightingEnabled
+            val shortSession = session.duration.toWholeMinutes() <= Duration.ofMinutes(15).toWholeMinutes()
 
             val titleContentDescription = contentDescriptionFormatter
                 .getTitleContentDescription(session.title)
@@ -772,6 +774,7 @@ class FahrplanFragment : Fragment(), MenuProvider {
                 title = SessionProperty(
                     value = session.title,
                     contentDescription = titleContentDescription,
+                    maxLines = if (shortSession) 1 else 2,
                 ),
                 subtitle = SessionProperty(
                     value = session.subtitle,
