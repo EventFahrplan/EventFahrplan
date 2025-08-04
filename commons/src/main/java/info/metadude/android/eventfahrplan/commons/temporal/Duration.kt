@@ -99,6 +99,7 @@ class Duration private constructor(private val duration: ThreeTenDuration) : Com
     fun toPartialMilliseconds() = duration.toMillis().toDouble()
 
     override fun compareTo(other: Duration): Int {
+        // TODO: Make comparison more generic to allow directly comparing Duration instances.
         return duration.compareTo(other.duration) / 1_000_000
     }
 
