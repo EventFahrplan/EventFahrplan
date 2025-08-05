@@ -73,6 +73,7 @@
     <string name="progress_processing_data">Processando o cronograma &#8230;</string>
     <string name="day">Dia</string>
     <string name="fahrplan">Cronograma</string>
+    <string name="schedule_generated_by">Cronograma gerado por: <xliff:g example="pretalx" id="name">%s</xliff:g>, <xliff:g example="2024.1.0" id="version">%s</xliff:g></string>
     <string name="schedule_no_schedule_data_title">Não há programação para exibir</string>
     <string name="schedule_no_schedule_data_subtitle">Por favor, volte mais tarde</string>
     <string name="appVersion">Versão do Aplicativo <xliff:g example="1.40.2" id="appVersion">%s</xliff:g></string>
@@ -109,12 +110,15 @@
     <string name="general_settings">Geral</string>
     <string name="starred_sessions">Favoritos</string>
     <string name="choose_to_delete">Selecione as sessões</string>
-    <string name="day_separator">Dia <xliff:g example="2" id="day_of_congress">%1$d</xliff:g> - <xliff:g example="29.12.2014" id="date_of_congress_day">%2$s</xliff:g></string>
+    <string name="day_separator">Dia <xliff:g example="2" id="day_of_congress">%1$d</xliff:g> - <xliff:g example="12/29/14" id="date_of_congress_day">%2$s</xliff:g></string>
+    <string name="day_separator_content_description">Dia <xliff:g example="2" id="day_of_congress">%1$d</xliff:g>, <xliff:g example="December 29, 2014" id="date_of_congress_day">%2$s</xliff:g></string>
     <string name="dlg_delete_all_favorites">Apagar todos os favoritos?</string>
     <string name="dlg_delete_all_favorites_delete_all">Apagar tudo</string>
     <string name="share_error_activity_not_found">Nenhum aplicativo adequado instalado.</string>
     <!-- Build information -->
     <string name="build_info_time">Tempo de build: <xliff:g example="2015-12-27T13:42Z" id="build_time">%s</xliff:g>
+    </string>
+    <string name="modified_at">        Hora da modificação: <xliff:g example="2015-12-26T23:24Z" id="modification_time">%s</xliff:g>
     </string>
     <string name="build_info_version_code">Versão do código: <xliff:g example="42" id="version_code">%s</xliff:g>
     </string>

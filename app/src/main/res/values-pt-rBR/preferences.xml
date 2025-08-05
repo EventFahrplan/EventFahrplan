@@ -6,9 +6,14 @@
     <!--
     Synchronize with string-array/preference_entry_values_schedule_refresh
     -->
+    <string name="preference_dialog_title_schedule_refresh_interval">Escolher um intervalo de atualização do cronograma</string>
     <!--
     Synchronize with @strings/preference_default_value_schedule_refresh_interval_value
     -->
+    <string name="schedule_refresh_interval_title_unmodified">deixar sem modificação</string>
+    <string name="schedule_refresh_interval_title_every_30_seconds">a cada 30 segundos</string>
+    <string name="schedule_refresh_interval_title_every_60_seconds">a cada minuto</string>
+    <string name="schedule_refresh_interval_title_every_120_seconds">a cada 2 minutos</string>
     <!-- Schedule statistic -->
     <string name="preference_title_schedule_statistic">Estatísticas do Cronograma</string>
     <string name="preference_summary_schedule_statistic">Inspecionar valores da coluna do cronograma</string>
@@ -58,6 +63,9 @@
     <!-- Alternative highlighting -->
     <string name="preference_title_alternative_highlighting_enabled">Ativar o realce alternativo</string>
     <string name="preference_summary_alternative_highlighting_enabled">Adiciona uma borda ao redor das sessões favoritas.</string>
+    <!-- Fast swiping -->
+    <string name="preference_title_fast_swiping_enabled">Habilitar deslizar rápido</string>
+    <string name="preference_summary_fast_swiping_enabled">Permite deslizar por várias salas.</string>
     <!-- Alternative schedule URL -->
     <string name="preference_title_alternative_schedule_url">Configurar URL alternativa para o cronograma</string>
     <string name="preference_summary_alternative_schedule_url">Insira URL secundária caso o servidor pré-configurado não puder ser alcançado.</string>
