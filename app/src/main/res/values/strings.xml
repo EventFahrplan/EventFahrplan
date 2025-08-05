@@ -139,7 +139,7 @@
     <string name="schedule_changes">Schedule changes</string>
 
     <string name="dash" translatable="false"><xliff:g id="dash">—</xliff:g></string>
-    <string name="development_settings" translatable="false">Development</string>
+    <string name="development_settings">Development</string>
     <string name="general_settings">General</string>
     <string name="starred_sessions">Favorites</string>
     <string name="choose_to_delete">Select sessions</string>
