@@ -6,9 +6,11 @@ import androidx.compose.material3.Typography
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
+import nerd.tuxmobil.fahrplan.congress.designsystem.colors.ColorScheme
 import nerd.tuxmobil.fahrplan.congress.designsystem.colors.LocalColorScheme
 import nerd.tuxmobil.fahrplan.congress.designsystem.colors.darkColorScheme
 import nerd.tuxmobil.fahrplan.congress.designsystem.colors.lightColorScheme
+import nerd.tuxmobil.fahrplan.congress.designsystem.colors.toMaterial3ColorScheme
 
 @Composable
 fun EventFahrplanTheme(
@@ -21,7 +23,7 @@ fun EventFahrplanTheme(
         LocalColorScheme provides colorScheme,
     ) {
         MaterialTheme(
-            colorScheme = colorScheme,
+            colorScheme = colorScheme.toMaterial3ColorScheme(),
             typography = MaterialTheme.typography,
             content = content,
         )
@@ -30,6 +32,11 @@ fun EventFahrplanTheme(
 }
 
 object EventFahrplanTheme {
+
+    val colorScheme: ColorScheme
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalColorScheme.current
 
     val typography: Typography
         @Composable
