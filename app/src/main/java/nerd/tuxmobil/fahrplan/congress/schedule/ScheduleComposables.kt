@@ -23,18 +23,17 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterVertically
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInteropFilter
 import androidx.compose.ui.layout.SubcomposeLayout
-import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.layout.positionInRoot
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
@@ -99,7 +98,7 @@ fun RoomColumn(
 }
 
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalComposeUiApi::class)
 @Composable
 fun SessionCard(
     data: SessionCardData,
@@ -110,8 +109,6 @@ fun SessionCard(
 ) {
     var showContextMenu by remember { mutableStateOf(false) }
     var pressPosition by remember { mutableStateOf(Offset.Zero) }
-    var cardPosition by remember { mutableStateOf(Offset.Zero) }
-    var cardWidth by remember { mutableFloatStateOf(0f) }
     val interactionSource = remember { MutableInteractionSource() }
 
     Box {
@@ -119,18 +116,15 @@ fun SessionCard(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(data.cardHeight.dp)
-                .onGloballyPositioned { coordinates ->
-                    cardPosition = coordinates.positionInRoot()
-                    cardWidth = coordinates.size.width.toFloat()
+                .pointerInteropFilter {
+                    pressPosition = Offset(it.x, it.y)
+                    false
                 }
                 .combinedClickable(
                     interactionSource = interactionSource,
                     indication = ripple(),
                     onClick = onClick,
-                    onLongClick = {
-                        pressPosition = Offset(cardPosition.x + (cardWidth / 2), cardPosition.y)
-                        showContextMenu = true
-                    }
+                    onLongClick = { showContextMenu = true },
                 )
                 .padding(
                     start = dimensionResource(R.dimen.session_drawable_inset_start),
@@ -158,17 +152,25 @@ fun SessionCard(
             shape = RoundedCornerShape(dimensionResource(R.dimen.session_drawable_corner_radius)),
             content = { sessionCardLayout() },
         )
-        ContextMenu(
-            expanded = showContextMenu,
-            isFavored = data.isFavored,
-            hasAlarm = data.hasAlarm,
-            shouldShowShareSubMenu = data.shouldShowShareSubMenu,
-            textColor = contextMenuTextColor,
-            cardPosition = cardPosition,
-            pressPosition = pressPosition,
-            onMenuItemClick = onMenuItemClick,
-            onCollapseRequest = { showContextMenu = false },
-        )
+
+        // We wrap ContextMenu in a container so it doesn't dynamically adjust its position based on
+        // the position of its sibling.
+        Box {
+            val menuOffset = with(LocalDensity.current) {
+                DpOffset(pressPosition.x.toDp(), pressPosition.y.toDp())
+            }
+
+            ContextMenu(
+                expanded = showContextMenu,
+                isFavored = data.isFavored,
+                hasAlarm = data.hasAlarm,
+                shouldShowShareSubMenu = data.shouldShowShareSubMenu,
+                textColor = contextMenuTextColor,
+                menuOffset = menuOffset,
+                onMenuItemClick = onMenuItemClick,
+                onCollapseRequest = { showContextMenu = false },
+            )
+        }
     }
 }
 
@@ -478,32 +480,11 @@ private fun ContextMenu(
     hasAlarm: Boolean,
     shouldShowShareSubMenu: Boolean,
     textColor: Color,
-    cardPosition: Offset,
-    pressPosition: Offset,
+    menuOffset: DpOffset,
     onMenuItemClick: (SessionInteractionType) -> Unit,
     onCollapseRequest: () -> Unit,
 ) {
     var showShareSubMenu by remember { mutableStateOf(false) }
-
-    // The UI stack above the schedule content includes:
-    // 1. System status bar (~24dp)
-    // 2. App toolbar (~56dp)
-    // 3. Progress bar (variable) or horizontal scrolling line
-    // 4. Room names header
-    val systemUiOffset = 132.dp // Combined height of all UI elements above schedule
-
-    // Times layout column width
-    val timeColumnWidth = dimensionResource(R.dimen.schedule_time_column_layout_width)
-
-    val density = LocalDensity.current
-    val relativeX = with(density) { pressPosition.x.toDp() }
-    val relativeY = with(density) { pressPosition.y.toDp() }
-    val cardPositionX = with(density) { cardPosition.x.toDp() }
-    val cardPositionY = with(density) { cardPosition.y.toDp() }
-
-    val menuXOffset = cardPositionX + relativeX - timeColumnWidth
-    val menuYOffset = cardPositionY + relativeY - systemUiOffset
-    val menuOffset = DpOffset(menuXOffset, menuYOffset)
 
     if (expanded && !showShareSubMenu) {
         DropdownMenu(
