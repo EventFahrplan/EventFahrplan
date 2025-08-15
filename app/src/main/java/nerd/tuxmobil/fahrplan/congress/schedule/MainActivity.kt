@@ -16,7 +16,6 @@ import androidx.activity.viewModels
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
 import androidx.appcompat.widget.Toolbar
-import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
 import androidx.core.net.toUri
 import androidx.core.view.MenuProvider
@@ -28,6 +27,7 @@ import androidx.fragment.app.FragmentManager.OnBackStackChangedListener
 import androidx.lifecycle.Lifecycle.State.RESUMED
 import info.metadude.android.eventfahrplan.commons.flow.observe
 import nerd.tuxmobil.fahrplan.congress.R
+import nerd.tuxmobil.fahrplan.congress.R.id.root_layout
 import nerd.tuxmobil.fahrplan.congress.about.AboutDialog
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmsActivity
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmsFragment
@@ -42,6 +42,8 @@ import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsActivity
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsFragment
 import nerd.tuxmobil.fahrplan.congress.engagements.initUserEngagement
+import nerd.tuxmobil.fahrplan.congress.extensions.applyToolbar
+import nerd.tuxmobil.fahrplan.congress.extensions.applyTopAndSideInsets
 import nerd.tuxmobil.fahrplan.congress.extensions.isLandscape
 import nerd.tuxmobil.fahrplan.congress.extensions.withExtras
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListActivity
@@ -60,7 +62,6 @@ import nerd.tuxmobil.fahrplan.congress.settings.SettingsActivity
 import nerd.tuxmobil.fahrplan.congress.sidepane.OnSidePaneCloseListener
 import nerd.tuxmobil.fahrplan.congress.utils.ConfirmationDialog.OnConfirmationDialogClicked
 import nerd.tuxmobil.fahrplan.congress.utils.showWhenLockedCompat
-import androidx.core.graphics.drawable.toDrawable
 
 class MainActivity : BaseActivity(),
     MenuProvider,
@@ -133,12 +134,14 @@ class MainActivity : BaseActivity(),
         val toolbar = requireViewByIdCompat<Toolbar>(R.id.toolbar)
         progressBar = requireViewByIdCompat(R.id.progress)
 
-        setSupportActionBar(toolbar)
-        supportActionBar!!.title = if (isLandscape()) getString(R.string.app_name) else ""
-        supportActionBar!!.setDisplayShowHomeEnabled(true)
-        supportActionBar!!.setDefaultDisplayHomeAsUpEnabled(true)
-        val actionBarColor = ContextCompat.getColor(this, R.color.colorActionBar)
-        supportActionBar!!.setBackgroundDrawable(actionBarColor.toDrawable())
+        applyToolbar(toolbar) {
+            title = if (isLandscape()) getString(R.string.app_name) else ""
+            setDisplayShowHomeEnabled(true)
+            setDefaultDisplayHomeAsUpEnabled(true)
+        }
+
+        val rootLayout = requireViewByIdCompat<View>(root_layout)
+        rootLayout.applyTopAndSideInsets(viewToApplyTo = toolbar)
 
         TraceDroidEmailSender.sendStackTraces(this)
         resetProgressDialog()

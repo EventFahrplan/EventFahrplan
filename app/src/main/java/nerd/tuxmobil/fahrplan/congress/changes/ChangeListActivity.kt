@@ -3,17 +3,20 @@ package nerd.tuxmobil.fahrplan.congress.changes
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.widget.Toolbar
-import androidx.core.content.ContextCompat
 import nerd.tuxmobil.fahrplan.congress.R
+import nerd.tuxmobil.fahrplan.congress.R.id.root_layout
+import nerd.tuxmobil.fahrplan.congress.R.id.toolbar
 import nerd.tuxmobil.fahrplan.congress.base.AbstractListFragment.OnSessionListClick
 import nerd.tuxmobil.fahrplan.congress.base.BaseActivity
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsActivity
+import nerd.tuxmobil.fahrplan.congress.extensions.applyToolbar
+import nerd.tuxmobil.fahrplan.congress.extensions.applyTopAndSideInsets
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
-import androidx.core.graphics.drawable.toDrawable
 
 class ChangeListActivity :
-    BaseActivity(),
+    BaseActivity(R.layout.activity_generic),
     OnSessionListClick {
 
     companion object {
@@ -27,19 +30,16 @@ class ChangeListActivity :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_change_list)
-        initToolbar()
+        val toolbar = requireViewByIdCompat<Toolbar>(toolbar)
+        applyToolbar(toolbar)
+
+        val rootLayout = requireViewByIdCompat<View>(root_layout)
+        rootLayout.applyTopAndSideInsets(viewToApplyTo = toolbar)
+
         if (savedInstanceState == null) {
             val fragment = ChangeListFragment.newInstance(sidePane = false)
-            addFragment(R.id.container, fragment, ChangeListFragment.FRAGMENT_TAG)
+            addFragment(R.id.fragment_container_view, fragment, ChangeListFragment.FRAGMENT_TAG)
         }
-    }
-
-    private fun initToolbar() {
-        val toolbar = requireViewByIdCompat<Toolbar>(R.id.toolbar)
-        setSupportActionBar(toolbar)
-        val actionBarColor = ContextCompat.getColor(this, R.color.colorActionBar)
-        supportActionBar!!.setBackgroundDrawable(actionBarColor.toDrawable())
     }
 
     override fun onSessionListClick(sessionId: String) {
