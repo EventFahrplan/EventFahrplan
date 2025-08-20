@@ -21,16 +21,3 @@ fun FragmentManager.replaceFragment(
         addToBackStack(backStackStateName)
     }
 }
-
-/**
- * Replaces the [containerViewId] with the given [fragment].
- */
-fun FragmentManager.replaceFragment(
-    @IdRes containerViewId: Int,
-    fragment: Fragment,
-    fragmentTag: String
-) {
-    commit {
-        replace(containerViewId, fragment, fragmentTag)
-    }
-}
