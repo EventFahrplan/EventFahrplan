@@ -35,6 +35,7 @@
             android:label="@string/session_details_screen_name"
             android:parentActivityName="nerd.tuxmobil.fahrplan.congress.schedule.MainActivity"
             android:resizeableActivity="true"
+            android:theme="@style/Theme.Congress.NoActionBar"
             android:uiOptions="splitActionBarWhenNarrow"
             tools:targetApi="24">
             <meta-data
@@ -53,6 +54,7 @@
             android:label="@string/reminders"
             android:parentActivityName="nerd.tuxmobil.fahrplan.congress.schedule.MainActivity"
             android:resizeableActivity="true"
+            android:theme="@style/Theme.Congress.NoActionBar"
             tools:targetApi="n">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

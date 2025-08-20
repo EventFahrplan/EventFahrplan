@@ -3,15 +3,14 @@ package nerd.tuxmobil.fahrplan.congress.details
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
-import androidx.core.content.ContextCompat
+import androidx.appcompat.widget.Toolbar
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.base.BaseActivity
+import nerd.tuxmobil.fahrplan.congress.extensions.applyToolbar
 import nerd.tuxmobil.fahrplan.congress.extensions.isLandscape
 import nerd.tuxmobil.fahrplan.congress.utils.showWhenLockedCompat
-import androidx.core.graphics.drawable.toDrawable
 
-class SessionDetailsActivity : BaseActivity(R.layout.detail_frame) {
+class SessionDetailsActivity : BaseActivity(R.layout.activity_generic) {
 
     companion object {
 
@@ -37,17 +36,15 @@ class SessionDetailsActivity : BaseActivity(R.layout.detail_frame) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        supportActionBar!!.title = if (isLandscape()) getString(R.string.session_details_screen_name) else ""
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        val actionBarColor = ContextCompat.getColor(this, R.color.colorActionBar)
-        supportActionBar!!.setBackgroundDrawable(actionBarColor.toDrawable())
 
-        val intent = this.intent
-        if (intent == null) {
-            finish()
+        val toolbar = requireViewByIdCompat<Toolbar>(R.id.toolbar)
+        applyToolbar(toolbar) {
+            title = if (isLandscape()) getString(R.string.session_details_screen_name) else ""
+            setDisplayHomeAsUpEnabled(true)
         }
-        if (intent != null && findViewById<View?>(R.id.detail) != null) {
-            SessionDetailsFragment.replace(supportFragmentManager, R.id.detail)
+
+        if (savedInstanceState == null) {
+            addFragment(R.id.fragment_container_view, SessionDetailsFragment(), SessionDetailsFragment.FRAGMENT_TAG)
         }
     }
 

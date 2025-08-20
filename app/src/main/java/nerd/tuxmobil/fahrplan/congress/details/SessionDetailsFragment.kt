@@ -65,12 +65,8 @@ class SessionDetailsFragment : Fragment(), MenuProvider {
             }
         }
 
-        fun replace(fragmentManager: FragmentManager, @IdRes containerViewId: Int) {
-            val fragment = SessionDetailsFragment()
-            fragmentManager.replaceFragment(containerViewId, fragment, FRAGMENT_TAG)
-        }
-
     }
+
     private lateinit var postNotificationsPermissionRequestLauncher: ActivityResultLauncher<String>
     private lateinit var scheduleExactAlarmsPermissionRequestLauncher: ActivityResultLauncher<Intent>
     private lateinit var appRepository: AppRepository
