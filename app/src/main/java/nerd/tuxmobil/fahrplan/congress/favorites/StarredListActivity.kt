@@ -31,7 +31,9 @@ class StarredListActivity : BaseActivity(R.layout.activity_generic), OnSessionLi
         super.onCreate(savedInstanceState)
 
         val toolbar = requireViewByIdCompat<Toolbar>(R.id.toolbar)
-        applyToolbar(toolbar)
+        applyToolbar(toolbar) {
+            setDisplayHomeAsUpEnabled(true)
+        }
 
         if (savedInstanceState == null) {
             addFragment(R.id.fragment_container_view, StarredListFragment(), StarredListFragment.FRAGMENT_TAG)

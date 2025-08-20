@@ -26,7 +26,9 @@ class ChangeListActivity : BaseActivity(R.layout.activity_generic), OnSessionLis
         super.onCreate(savedInstanceState)
 
         val toolbar = requireViewByIdCompat<Toolbar>(R.id.toolbar)
-        applyToolbar(toolbar)
+        applyToolbar(toolbar) {
+            setDisplayHomeAsUpEnabled(true)
+        }
 
         if (savedInstanceState == null) {
             val fragment = ChangeListFragment.newInstance(sidePane = false)

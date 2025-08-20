@@ -25,7 +25,9 @@ class SettingsActivity : BaseActivity(R.layout.activity_generic) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val toolbar = requireViewByIdCompat<Toolbar>(R.id.toolbar)
-        applyToolbar(toolbar)
+        applyToolbar(toolbar) {
+            setDisplayHomeAsUpEnabled(true)
+        }
 
         if (savedInstanceState == null) {
             supportFragmentManager.commit {

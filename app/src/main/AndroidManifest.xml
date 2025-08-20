@@ -47,7 +47,11 @@
             android:label="@string/starred_sessions"
             android:resizeableActivity="true"
             android:theme="@style/Theme.Congress.NoActionBar"
-            tools:targetApi="24" />
+            tools:targetApi="24">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="nerd.tuxmobil.fahrplan.congress.schedule.MainActivity" />
+        </activity>
         <activity
             android:name=".alarms.AlarmsActivity"
             android:configChanges="keyboardHidden|orientation"
@@ -65,7 +69,11 @@
             android:label="@string/schedule_changes"
             android:resizeableActivity="true"
             android:theme="@style/Theme.Congress.NoActionBar"
-            tools:targetApi="24" />
+            tools:targetApi="24">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="nerd.tuxmobil.fahrplan.congress.schedule.MainActivity" />
+        </activity>
         <activity
             android:name="nerd.tuxmobil.fahrplan.congress.search.SearchActivity"
             android:label="@string/search_title"
@@ -78,7 +86,11 @@
             android:label="@string/settings"
             android:resizeableActivity="true"
             android:theme="@style/Theme.Congress.NoActionBar"
-            tools:targetApi="24" />
+            tools:targetApi="24">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="nerd.tuxmobil.fahrplan.congress.schedule.MainActivity" />
+        </activity>
         <activity
             android:name="nerd.tuxmobil.fahrplan.congress.schedulestatistic.ScheduleStatisticActivity"
             android:label="@string/schedule_statistic_title"
@@ -106,6 +118,5 @@
             android:name=".autoupdate.UpdateService"
             android:exported="false"
             android:permission="android.permission.BIND_JOB_SERVICE" />
-
     </application>
 </manifest>
