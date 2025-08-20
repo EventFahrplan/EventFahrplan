@@ -47,6 +47,7 @@ data class ColorScheme(
 
     // Custom colors
     val topAppBarContainer: Color,
+    val divider: Color,
 
 )
 
