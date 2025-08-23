@@ -39,18 +39,17 @@ public interface FahrplanContract {
 
             /* 00 */ String ID = "_id";
             /* 01 */ String SESSION_TITLE = "title";
-            /* 02 */ String ALARM_TIME_IN_MIN = "alarm_time_in_min";
+            /* 02 */ // Zombie: Former "alarm_time_in_min" column.
             /* 03 */ String TIME = "time";
-            /* 04 */ String TIME_TEXT = "timeText";
+            /* 04 */ // Zombie: Former "timeText" column.
             /* 05 */ String SESSION_ID = "eventid"; // Keep column name to avoid database migration.
-            /* 06 */ String DISPLAY_TIME = "displayTime";
+            /* 06 */ // Zombie: Former "displayTime" column.
             /* 07 */ String DAY_INDEX = "day";
         }
 
         interface Defaults {
 
             int DEFAULT_VALUE_ID = 0;
-            int ALARM_TIME_IN_MIN_DEFAULT = -1;
         }
 
     }

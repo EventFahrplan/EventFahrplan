@@ -8,13 +8,10 @@ import info.metadude.android.eventfahrplan.database.models.Alarm as DatabaseAlar
 
 fun Alarm.toAlarmDatabaseModel() = DatabaseAlarm(
     id = id,
-    alarmTimeInMin = alarmTimeInMin,
     dayIndex = dayIndex,
-    displayTime = displayTime,
     sessionId = sessionId,
     title = sessionTitle,
     time = startTime,
-    timeText = timeText,
 )
 
 fun Alarm.toSchedulableAlarm() = SchedulableAlarm(
@@ -26,11 +23,8 @@ fun Alarm.toSchedulableAlarm() = SchedulableAlarm(
 
 fun DatabaseAlarm.toAlarmAppModel() = Alarm(
     id = id,
-    alarmTimeInMin = alarmTimeInMin,
     dayIndex = dayIndex,
-    displayTime = displayTime,
     sessionId = sessionId,
     sessionTitle = title,
     startTime = time,
-    timeText = timeText,
 )

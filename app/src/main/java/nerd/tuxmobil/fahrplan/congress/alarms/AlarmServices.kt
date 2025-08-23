@@ -8,8 +8,6 @@ import androidx.core.app.AlarmManagerCompat
 import info.metadude.android.eventfahrplan.commons.logging.Logging
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
 import nerd.tuxmobil.fahrplan.congress.R
-import nerd.tuxmobil.fahrplan.congress.commons.DateFormatterDelegate
-import nerd.tuxmobil.fahrplan.congress.commons.FormattingDelegate
 import nerd.tuxmobil.fahrplan.congress.commons.PendingIntentDelegate
 import nerd.tuxmobil.fahrplan.congress.commons.PendingIntentProvider
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toSchedulableAlarm
@@ -31,9 +29,7 @@ class AlarmServices @VisibleForTesting constructor(
         private val alarmTimeValues: List<String>,
         private val logging: Logging,
         private val pendingIntentDelegate: PendingIntentDelegate,
-        private val formattingDelegate: FormattingDelegate,
 ) :
-    FormattingDelegate by formattingDelegate,
     PendingIntentDelegate by pendingIntentDelegate {
 
     companion object {
@@ -56,7 +52,6 @@ class AlarmServices @VisibleForTesting constructor(
                 alarmTimesArray.toList(),
                 logging = logging,
                 pendingIntentDelegate = PendingIntentProvider,
-                formattingDelegate = DateFormatterDelegate,
             )
         }
     }
@@ -80,18 +75,12 @@ class AlarmServices @VisibleForTesting constructor(
         logging.d(LOG_TAG, "Add alarm: Time = ${moment.toUtcDateTime()}, in seconds = $alarmTime.")
         val sessionId = session.sessionId
         val sessionTitle = session.title
-        val alarmTimeInMin = alarmTimes[alarmTimesIndex]
-        val useDeviceTimeZone = repository.readUseDeviceTimeZoneEnabled()
-        val timeText = formattingDelegate.getFormattedDateTimeShort(useDeviceTimeZone, moment, session.timeZoneOffset)
         val dayIndex = session.dayIndex
         val alarm = Alarm(
-            alarmTimeInMin = alarmTimeInMin,
             dayIndex = dayIndex,
-            displayTime = sessionStartTime,
             sessionId = sessionId,
             sessionTitle = sessionTitle,
             startTime = moment,
-            timeText = timeText,
         )
         val schedulableAlarm = alarm.toSchedulableAlarm()
         scheduleSessionAlarm(schedulableAlarm, true)

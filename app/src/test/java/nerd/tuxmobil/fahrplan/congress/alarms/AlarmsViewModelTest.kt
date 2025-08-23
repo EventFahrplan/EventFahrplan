@@ -53,7 +53,6 @@ class AlarmsViewModelTest {
             alarmsList = listOf(
                 createAlarm(
                     sessionId = "s0",
-                    alarmTimeInMin = ALARM_TIME_IN_MIN,
                     alarmStartsAt = ALARM_STARTS_AT
                 )
             ),
@@ -82,7 +81,6 @@ class AlarmsViewModelTest {
             alarmsList = listOf(
                 createAlarm(
                     sessionId = "s0",
-                    alarmTimeInMin = ALARM_TIME_IN_MIN,
                     alarmStartsAt = ALARM_STARTS_AT
                 )
             ),
@@ -117,7 +115,6 @@ class AlarmsViewModelTest {
                 alarmsList = listOf(
                     createAlarm(
                         sessionId = "s0",
-                        alarmTimeInMin = ALARM_TIME_IN_MIN,
                         alarmStartsAt = ALARM_STARTS_AT
                     )
                 ),
@@ -207,16 +204,12 @@ class AlarmsViewModelTest {
 
     private fun createAlarm(
         sessionId: String,
-        alarmTimeInMin: Int = 10,
         alarmStartsAt: Moment = Moment.ofEpochMilli(1620909000000)
     ) = Alarm(
-        alarmTimeInMin = alarmTimeInMin,
         dayIndex = 2,
-        displayTime = -1,
         sessionId = sessionId,
         sessionTitle = "Unused",
         startTime = alarmStartsAt,
-        timeText = "Unused"
     )
 
 }
