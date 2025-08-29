@@ -36,6 +36,7 @@ import nerd.tuxmobil.fahrplan.congress.designsystem.templates.Scaffold
 import nerd.tuxmobil.fahrplan.congress.designsystem.texts.Text
 import nerd.tuxmobil.fahrplan.congress.designsystem.texts.TextTableHeader
 import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
+import nerd.tuxmobil.fahrplan.congress.extensions.safeDisplayCutoutHorizontalPadding
 import nerd.tuxmobil.fahrplan.congress.schedulestatistic.ScheduleStatisticState.Loading
 import nerd.tuxmobil.fahrplan.congress.schedulestatistic.ScheduleStatisticState.Success
 import nerd.tuxmobil.fahrplan.congress.schedulestatistic.ScheduleStatisticViewEvent.OnBackClick
@@ -57,7 +58,7 @@ internal fun ScheduleStatisticScreen(
             content = { contentPadding ->
                 Box(
                     Modifier
-                        .padding(contentPadding)
+                        .padding(top = contentPadding.calculateTopPadding())
                 ) {
                     when (state) {
                         Loading -> Loading()
@@ -110,7 +111,9 @@ private fun NoScheduleStatistic() {
 @Composable
 private fun ScheduleStatisticList(scheduleStatistic: List<ColumnStatistic>) {
     LazyColumn(
-        Modifier.padding(16.dp),
+        Modifier
+            .padding(16.dp)
+            .safeDisplayCutoutHorizontalPadding(),
         state = rememberLazyListState(),
         horizontalAlignment = CenterHorizontally,
     ) {

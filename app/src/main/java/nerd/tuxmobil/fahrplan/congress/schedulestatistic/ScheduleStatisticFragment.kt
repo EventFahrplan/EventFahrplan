@@ -4,6 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsCompat.Type.displayCutout
+import androidx.core.view.WindowInsetsCompat.Type.ime
+import androidx.core.view.WindowInsetsCompat.Type.systemBars
 import androidx.compose.runtime.collectAsState
 import androidx.fragment.app.Fragment
 import androidx.fragment.compose.content
@@ -31,6 +36,13 @@ class ScheduleStatisticFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setOnApplyWindowInsetsListener(view) { v, windowInsets ->
+            val typeMask = systemBars() or displayCutout() or ime()
+            val insets = windowInsets.getInsets(typeMask)
+            WindowInsetsCompat.Builder()
+                .setInsets(typeMask, insets)
+                .build()
+        }
         observeViewModel()
     }
 
