@@ -10,4 +10,4 @@ import androidx.core.view.ViewCompat
  * See [ViewCompat.requireViewById].
  */
 fun <T : View> View.requireViewByIdCompat(@IdRes id: Int): T =
-        ViewCompat.requireViewById(this, id)
+    ViewCompat.requireViewById(this, id)
