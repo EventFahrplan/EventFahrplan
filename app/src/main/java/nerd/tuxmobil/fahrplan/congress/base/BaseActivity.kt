@@ -1,7 +1,9 @@
 package nerd.tuxmobil.fahrplan.congress.base
 
+import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import androidx.activity.enableEdgeToEdge
 import androidx.annotation.ContentView
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
@@ -16,6 +18,11 @@ abstract class BaseActivity : AppCompatActivity {
 
     @ContentView
     constructor(@LayoutRes contentLayoutId: Int) : super(contentLayoutId)
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdge()
+        super.onCreate(savedInstanceState)
+    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {

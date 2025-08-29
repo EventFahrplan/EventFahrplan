@@ -42,6 +42,7 @@ import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsActivity
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsFragment
 import nerd.tuxmobil.fahrplan.congress.engagements.initUserEngagement
 import nerd.tuxmobil.fahrplan.congress.extensions.applyToolbar
+import nerd.tuxmobil.fahrplan.congress.extensions.applyTopAndSideInsets
 import nerd.tuxmobil.fahrplan.congress.extensions.isLandscape
 import nerd.tuxmobil.fahrplan.congress.extensions.withExtras
 import nerd.tuxmobil.fahrplan.congress.favorites.StarredListActivity
@@ -136,6 +137,9 @@ class MainActivity : BaseActivity(),
             setDefaultDisplayHomeAsUpEnabled(true)
         }
         progressBar = requireViewByIdCompat(R.id.progress)
+
+        val rootLayout = requireViewByIdCompat<View>(R.id.root_layout)
+        rootLayout.applyTopAndSideInsets(viewToApplyTo = toolbar)
 
         TraceDroidEmailSender.sendStackTraces(this)
         resetProgressDialog()
