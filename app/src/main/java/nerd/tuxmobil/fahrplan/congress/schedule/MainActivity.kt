@@ -62,6 +62,19 @@ import nerd.tuxmobil.fahrplan.congress.sidepane.OnSidePaneCloseListener
 import nerd.tuxmobil.fahrplan.congress.utils.ConfirmationDialog.OnConfirmationDialogClicked
 import nerd.tuxmobil.fahrplan.congress.utils.showWhenLockedCompat
 
+// TODO Edge-to-edge / window insets
+// [ ] Check landscape mode on all screens
+// [ ] Check tablet in all orientations, especially the details screen when rotating back from portrait to landscape
+// [ ] Check navigation bar transparency: currently not: Statistics screen
+// [ ] Schedule screen: Apply horizontal insets
+// [ ] Schedule screen: Extend time column to prevent interference with navigation bar
+// [ ] Favorites screen: Add bottom padding to prevent interference with navigation bar
+// [ ] Settings screen: Add bottom padding to prevent interference with navigation bar
+// [ ] Clean up ViewExtensions.kt & ids
+// [ ] Drop targetSdk 35 from this branch
+// [ ] Test with Android 14 (API 34)
+// [ ] Test with Android 16 (API 36)
+
 class MainActivity : BaseActivity(),
     MenuProvider,
     OnSidePaneCloseListener,
