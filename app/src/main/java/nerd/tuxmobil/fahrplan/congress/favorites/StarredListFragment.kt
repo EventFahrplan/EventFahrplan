@@ -246,14 +246,17 @@ class StarredListFragment :
                 viewModel.share()
                 return true
             }
+
             R.id.menu_item_share_favorites_json -> {
                 viewModel.shareToChaosflix()
                 return true
             }
+
             R.id.menu_item_delete_all_favorites -> {
                 askToDeleteAllFavorites()
                 return true
             }
+
             android.R.id.home -> {
                 return requireActivity().navigateUp()
             }
@@ -294,6 +297,7 @@ class StarredListFragment :
                 mode.finish()
                 true
             }
+
             else -> false
         }
     }

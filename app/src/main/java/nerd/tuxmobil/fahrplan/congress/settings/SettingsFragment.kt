@@ -72,7 +72,7 @@ class SettingsFragment(
                     conferenceTimeFrame = AppRepository.loadConferenceTimeFrame(),
                     isInitial = true,
                     logging = logging,
-                    onCancelScheduleNextFetch = AppRepository::deleteScheduleNextFetch ,
+                    onCancelScheduleNextFetch = AppRepository::deleteScheduleNextFetch,
                     onUpdateScheduleNextFetch = AppRepository::updateScheduleNextFetch,
                 )
             }
