@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.sp
 import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.designsystem.dividers.DividerHorizontal
 import nerd.tuxmobil.fahrplan.congress.designsystem.texts.Text
+import nerd.tuxmobil.fahrplan.congress.extensions.safeContentHorizontalPadding
 
 @Composable
 fun HeaderDayDate(text: String, contentDescription: String) {
@@ -22,9 +23,11 @@ fun HeaderDayDate(text: String, contentDescription: String) {
     ) {
         val color = colorResource(R.color.text_link_on_light)
         Text(
-            modifier = Modifier.semantics {
-                this.contentDescription = contentDescription
-            },
+            modifier = Modifier
+                .safeContentHorizontalPadding()
+                .semantics {
+                    this.contentDescription = contentDescription
+                },
             color = color,
             text = text.uppercase(),
             fontSize = 13.sp,

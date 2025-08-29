@@ -50,6 +50,7 @@ import nerd.tuxmobil.fahrplan.congress.designsystem.templates.Scaffold
 import nerd.tuxmobil.fahrplan.congress.designsystem.texts.TextHeadlineContent
 import nerd.tuxmobil.fahrplan.congress.designsystem.texts.TextSupportingContent
 import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
+import nerd.tuxmobil.fahrplan.congress.extensions.safeContentHorizontalPadding
 
 @Composable
 internal fun SessionChangesScreen(
@@ -59,10 +60,7 @@ internal fun SessionChangesScreen(
 ) {
     EventFahrplanTheme {
         Scaffold { contentPadding ->
-            Box(
-                Modifier
-                    .padding(contentPadding)
-            ) {
+            Box {
                 when (state) {
                     Loading -> Loading()
                     is Success -> {
@@ -110,12 +108,18 @@ private fun SessionChangesList(
                     text = parameter.daySeparator.value,
                     contentDescription = parameter.daySeparator.contentDescription,
                 )
+
                 is SessionChange -> {
-                    SessionChangeItem(parameter, Modifier.clickable {
-                        if (!parameter.isCanceled) {
-                            onViewEvent(OnSessionChangeItemClick(parameter.id))
-                        }
-                    })
+                    SessionChangeItem(
+                        session = parameter,
+                        modifier = Modifier
+                            .safeContentHorizontalPadding()
+                            .clickable {
+                                if (!parameter.isCanceled) {
+                                    onViewEvent(OnSessionChangeItemClick(parameter.id))
+                                }
+                            }
+                    )
                     val next = parameters.getOrNull(index + 1)
                     if (index < parameters.size - 1 && (next != null && next !is Separator)) {
                         DividerHorizontal(Modifier.padding(horizontal = 12.dp))
