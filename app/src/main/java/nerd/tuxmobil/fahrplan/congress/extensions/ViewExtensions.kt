@@ -35,6 +35,19 @@ fun View.applyEdgeToEdgeInsets(
     }
 }
 
+fun View.applyHorizontalInsets(
+    typeMask: Int = systemBars() or displayCutout() or ime(),
+) {
+    ViewCompat.setOnApplyWindowInsetsListener(this) { view, windowInsets ->
+        val insets = windowInsets.getInsets(typeMask)
+        view.updateLayoutParams<MarginLayoutParams> {
+            leftMargin = insets.left
+            rightMargin = insets.right
+        }
+        windowInsets
+    }
+}
+
 fun View.applyEdgeToEdgeInsets(
     typeMask: Int = systemBars() or displayCutout() or ime(),
     propagateInsets: Boolean = false,
