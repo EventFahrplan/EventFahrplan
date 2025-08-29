@@ -3,11 +3,41 @@
 package nerd.tuxmobil.fahrplan.congress.extensions
 
 import android.view.View
+import android.view.ViewGroup.MarginLayoutParams
 import androidx.annotation.IdRes
 import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsCompat.Type.displayCutout
+import androidx.core.view.WindowInsetsCompat.Type.ime
+import androidx.core.view.WindowInsetsCompat.Type.systemBars
+import androidx.core.view.updateLayoutParams
 
 /**
  * See [ViewCompat.requireViewById].
  */
 fun <T : View> View.requireViewByIdCompat(@IdRes id: Int): T =
     ViewCompat.requireViewById(this, id)
+
+fun View.applyEdgeToEdgeInsets(
+    typeMask: Int = systemBars() or displayCutout() or ime(),
+) {
+    ViewCompat.setOnApplyWindowInsetsListener(this) { _, windowInsets ->
+        val insets = windowInsets.getInsets(typeMask)
+        WindowInsetsCompat.Builder()
+            .setInsets(typeMask, insets)
+            .build()
+    }
+}
+
+fun View.applyHorizontalInsets(
+    typeMask: Int = systemBars() or displayCutout() or ime(),
+) {
+    ViewCompat.setOnApplyWindowInsetsListener(this) { view, windowInsets ->
+        val insets = windowInsets.getInsets(typeMask)
+        view.updateLayoutParams<MarginLayoutParams> {
+            leftMargin = insets.left
+            rightMargin = insets.right
+        }
+        windowInsets
+    }
+}

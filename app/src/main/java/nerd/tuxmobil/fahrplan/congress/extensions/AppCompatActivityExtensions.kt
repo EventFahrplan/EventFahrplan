@@ -15,4 +15,5 @@ fun AppCompatActivity.applyToolbar(
     block(supportActionBar!!)
     val actionBarColor = ContextCompat.getColor(this, R.color.colorActionBar)
     supportActionBar!!.setBackgroundDrawable(actionBarColor.toDrawable())
+    toolbar.applyHorizontalInsets()
 }
