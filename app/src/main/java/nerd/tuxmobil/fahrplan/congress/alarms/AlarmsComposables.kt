@@ -37,6 +37,7 @@ import nerd.tuxmobil.fahrplan.congress.designsystem.texts.TextHeadlineContent
 import nerd.tuxmobil.fahrplan.congress.designsystem.texts.TextOverline
 import nerd.tuxmobil.fahrplan.congress.designsystem.texts.TextSupportingContent
 import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
+import nerd.tuxmobil.fahrplan.congress.extensions.safeContentHorizontalPadding
 
 @Composable
 internal fun AlarmsScreen(
@@ -45,10 +46,7 @@ internal fun AlarmsScreen(
 ) {
     EventFahrplanTheme {
         Scaffold { contentPadding ->
-            Box(
-                Modifier
-                    .padding(contentPadding)
-            ) {
+            Box {
                 when (state) {
                     Loading -> Loading()
                     is Success -> {
@@ -94,6 +92,7 @@ private fun SessionAlarmsList(
         }
         itemsIndexed(parameters) { index, item ->
             SessionAlarmItem(
+                modifier = Modifier.safeContentHorizontalPadding(),
                 parameter = item,
                 onClick = onItemClick,
                 onDeleteClick = onDeleteItemClick
@@ -107,12 +106,13 @@ private fun SessionAlarmsList(
 
 @Composable
 private fun SessionAlarmItem(
+    modifier: Modifier = Modifier,
     parameter: SessionAlarmParameter,
     onClick: (SessionAlarmParameter) -> Unit,
     onDeleteClick: (SessionAlarmParameter) -> Unit
 ) {
     ListItem(
-        modifier = Modifier
+        modifier = modifier
             .clickable(
                 onClickLabel = stringResource(R.string.alarms_item_on_click_label),
                 onClick = { onClick(parameter) }
