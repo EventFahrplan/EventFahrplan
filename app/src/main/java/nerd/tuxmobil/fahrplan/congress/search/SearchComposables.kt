@@ -49,6 +49,7 @@ import nerd.tuxmobil.fahrplan.congress.designsystem.texts.TextHeadlineContent
 import nerd.tuxmobil.fahrplan.congress.designsystem.texts.TextOverline
 import nerd.tuxmobil.fahrplan.congress.designsystem.texts.TextSupportingContent
 import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
+import nerd.tuxmobil.fahrplan.congress.extensions.safeDisplayCutoutHorizontalPadding
 import nerd.tuxmobil.fahrplan.congress.search.SearchResultParameter.SearchResult
 import nerd.tuxmobil.fahrplan.congress.search.SearchResultParameter.Separator
 import nerd.tuxmobil.fahrplan.congress.search.SearchResultState.Loading
@@ -71,10 +72,7 @@ fun SearchScreen(
 ) {
     EventFahrplanTheme {
         Scaffold { contentPadding ->
-            Box(
-                Modifier
-                    .padding(contentPadding)
-            ) {
+            Box {
                 val expanded = true
                 SearchBar(
                     modifier = Modifier
@@ -144,7 +142,9 @@ private fun SearchQueryInputField(
     val keyboardController = LocalSoftwareKeyboardController.current
 
     InputField(
-        modifier = Modifier.focusRequester(focusRequester),
+        modifier = Modifier
+            .focusRequester(focusRequester)
+            .safeDisplayCutoutHorizontalPadding(),
         query = searchQuery,
         onQueryChange = { onViewEvent(OnSearchQueryChange(it)) },
         onSearch = { keyboardController?.hide() },
@@ -231,10 +231,14 @@ private fun SearchResultList(
                     text = parameter.daySeparator.value,
                     contentDescription = parameter.daySeparator.contentDescription,
                 )
+
                 is SearchResult -> {
-                    SearchResultItem(parameter, Modifier.clickable {
-                        onViewEvent(OnSearchResultItemClick(parameter.id))
-                    })
+                    SearchResultItem(
+                        searchResult = parameter,
+                        modifier = Modifier
+                            .clickable { onViewEvent(OnSearchResultItemClick(parameter.id)) }
+                            .safeDisplayCutoutHorizontalPadding()
+                    )
                     val next = parameters.getOrNull(index + 1)
                     if (index < parameters.size - 1 && next is SearchResult) {
                         DividerHorizontal(Modifier.padding(horizontal = 12.dp))
@@ -292,7 +296,8 @@ private fun SearchHistoryList(
     Row(
         Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp),
+            .padding(horizontal = 16.dp, vertical = 8.dp)
+            .safeDisplayCutoutHorizontalPadding(),
         verticalAlignment = CenterVertically,
     ) {
         Text(
@@ -308,9 +313,12 @@ private fun SearchHistoryList(
     }
     LazyColumn(state = rememberLazyListState()) {
         itemsIndexed(searchQueries) { index, searchQuery ->
-            SearchHistoryItem(searchQuery, Modifier.clickable {
-                onViewEvent(OnSearchHistoryItemClick(searchQuery))
-            })
+            SearchHistoryItem(
+                searchQuery = searchQuery,
+                modifier = Modifier
+                    .clickable { onViewEvent(OnSearchHistoryItemClick(searchQuery)) }
+                    .safeDisplayCutoutHorizontalPadding()
+            )
             val next = searchQueries.getOrNull(index + 1)
             if (index < searchQueries.size - 1 && (next != null)) {
                 DividerHorizontal(Modifier.padding(horizontal = 12.dp))
