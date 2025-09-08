@@ -32,6 +32,8 @@ import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.base.AbstractListFragment
 import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolver
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
+import nerd.tuxmobil.fahrplan.congress.extensions.applyBottomPadding
+import nerd.tuxmobil.fahrplan.congress.extensions.applyHorizontalInsets
 import nerd.tuxmobil.fahrplan.congress.extensions.replaceFragment
 import nerd.tuxmobil.fahrplan.congress.extensions.requireViewByIdCompat
 import nerd.tuxmobil.fahrplan.congress.extensions.withArguments
@@ -125,6 +127,9 @@ class StarredListFragment :
         currentListView.choiceMode = AbsListView.CHOICE_MODE_MULTIPLE_MODAL
         currentListView.setMultiChoiceModeListener(this)
         currentListView.setOnScrollListener(this)
+
+        view.applyHorizontalInsets()
+        currentListView.applyBottomPadding()
 
         loadingSpinnerView = view.requireViewByIdCompat(R.id.loading_spinner_view)
 
