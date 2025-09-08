@@ -2,11 +2,15 @@ package nerd.tuxmobil.fahrplan.congress.schedulestatistic
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeContent
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -36,6 +40,7 @@ import nerd.tuxmobil.fahrplan.congress.designsystem.templates.Scaffold
 import nerd.tuxmobil.fahrplan.congress.designsystem.texts.Text
 import nerd.tuxmobil.fahrplan.congress.designsystem.texts.TextTableHeader
 import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
+import nerd.tuxmobil.fahrplan.congress.extensions.safeContentHorizontalPadding
 import nerd.tuxmobil.fahrplan.congress.schedulestatistic.ScheduleStatisticState.Loading
 import nerd.tuxmobil.fahrplan.congress.schedulestatistic.ScheduleStatisticState.Success
 import nerd.tuxmobil.fahrplan.congress.schedulestatistic.ScheduleStatisticViewEvent.OnBackClick
@@ -57,7 +62,7 @@ internal fun ScheduleStatisticScreen(
             content = { contentPadding ->
                 Box(
                     Modifier
-                        .padding(contentPadding)
+                        .padding(top = contentPadding.calculateTopPadding())
                 ) {
                     when (state) {
                         Loading -> Loading()
@@ -109,9 +114,16 @@ private fun NoScheduleStatistic() {
 
 @Composable
 private fun ScheduleStatisticList(scheduleStatistic: List<ColumnStatistic>) {
+    val safeContentPadding = WindowInsets.safeContent.asPaddingValues()
     LazyColumn(
-        Modifier.padding(16.dp),
+        modifier = Modifier.safeContentHorizontalPadding(),
         state = rememberLazyListState(),
+        contentPadding = PaddingValues(
+            start = 16.dp,
+            end = 16.dp,
+            top = 16.dp,
+            bottom = 16.dp + safeContentPadding.calculateBottomPadding(),
+        ),
         horizontalAlignment = CenterHorizontally,
     ) {
         item {
