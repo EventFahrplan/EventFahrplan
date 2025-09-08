@@ -2,6 +2,11 @@ package nerd.tuxmobil.fahrplan.congress.alarms
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides.Companion.Bottom
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -37,6 +42,7 @@ import nerd.tuxmobil.fahrplan.congress.designsystem.texts.TextHeadlineContent
 import nerd.tuxmobil.fahrplan.congress.designsystem.texts.TextOverline
 import nerd.tuxmobil.fahrplan.congress.designsystem.texts.TextSupportingContent
 import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
+import nerd.tuxmobil.fahrplan.congress.extensions.safeContentHorizontalPadding
 
 @Composable
 internal fun AlarmsScreen(
@@ -44,11 +50,8 @@ internal fun AlarmsScreen(
     showInSidePane: Boolean,
 ) {
     EventFahrplanTheme {
-        Scaffold { contentPadding ->
-            Box(
-                Modifier
-                    .padding(contentPadding)
-            ) {
+        Scaffold {
+            Box {
                 when (state) {
                     Loading -> Loading()
                     is Success -> {
@@ -86,7 +89,10 @@ private fun SessionAlarmsList(
     onItemClick: (SessionAlarmParameter) -> Unit,
     onDeleteItemClick: (SessionAlarmParameter) -> Unit
 ) {
-    LazyColumn(state = rememberLazyListState()) {
+    LazyColumn(
+        state = rememberLazyListState(),
+        contentPadding = WindowInsets.navigationBars.only(Bottom).asPaddingValues(),
+    ) {
         if (showInSidePane) {
             item {
                 HeaderSessionList(stringResource(R.string.reminders))
@@ -94,6 +100,7 @@ private fun SessionAlarmsList(
         }
         itemsIndexed(parameters) { index, item ->
             SessionAlarmItem(
+                modifier = Modifier.safeContentHorizontalPadding(),
                 parameter = item,
                 onClick = onItemClick,
                 onDeleteClick = onDeleteItemClick
@@ -107,12 +114,13 @@ private fun SessionAlarmsList(
 
 @Composable
 private fun SessionAlarmItem(
+    modifier: Modifier = Modifier,
     parameter: SessionAlarmParameter,
     onClick: (SessionAlarmParameter) -> Unit,
     onDeleteClick: (SessionAlarmParameter) -> Unit
 ) {
     ListItem(
-        modifier = Modifier
+        modifier = modifier
             .clickable(
                 onClickLabel = stringResource(R.string.alarms_item_on_click_label),
                 onClick = { onClick(parameter) }
