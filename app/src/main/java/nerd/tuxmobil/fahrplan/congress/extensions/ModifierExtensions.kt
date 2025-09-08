@@ -10,6 +10,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
 @Composable
+fun Modifier.safeContentHorizontalPadding(): Modifier {
+    return windowInsetsPadding(WindowInsets.safeContent.only(Horizontal))
+}
+
+@Composable
 fun Modifier.safeContentHorizontalAndBottomPadding(): Modifier {
     return windowInsetsPadding(WindowInsets.safeContent.only(Horizontal + Bottom))
 }
