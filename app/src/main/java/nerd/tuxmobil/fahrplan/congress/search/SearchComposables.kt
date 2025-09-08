@@ -4,7 +4,12 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides.Companion.Bottom
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -49,6 +54,7 @@ import nerd.tuxmobil.fahrplan.congress.designsystem.texts.TextHeadlineContent
 import nerd.tuxmobil.fahrplan.congress.designsystem.texts.TextOverline
 import nerd.tuxmobil.fahrplan.congress.designsystem.texts.TextSupportingContent
 import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
+import nerd.tuxmobil.fahrplan.congress.extensions.safeContentHorizontalPadding
 import nerd.tuxmobil.fahrplan.congress.search.SearchResultParameter.SearchResult
 import nerd.tuxmobil.fahrplan.congress.search.SearchResultParameter.Separator
 import nerd.tuxmobil.fahrplan.congress.search.SearchResultState.Loading
@@ -70,11 +76,8 @@ fun SearchScreen(
     onViewEvent: (SearchViewEvent) -> Unit,
 ) {
     EventFahrplanTheme {
-        Scaffold { contentPadding ->
-            Box(
-                Modifier
-                    .padding(contentPadding)
-            ) {
+        Scaffold {
+            Box {
                 val expanded = true
                 SearchBar(
                     modifier = Modifier
@@ -144,7 +147,9 @@ private fun SearchQueryInputField(
     val keyboardController = LocalSoftwareKeyboardController.current
 
     InputField(
-        modifier = Modifier.focusRequester(focusRequester),
+        modifier = Modifier
+            .focusRequester(focusRequester)
+            .safeContentHorizontalPadding(),
         query = searchQuery,
         onQueryChange = { onViewEvent(OnSearchQueryChange(it)) },
         onSearch = { keyboardController?.hide() },
@@ -224,17 +229,24 @@ private fun SearchResultList(
     parameters: List<SearchResultParameter>,
     onViewEvent: (SearchViewEvent) -> Unit,
 ) {
-    LazyColumn(state = rememberLazyListState()) {
+    LazyColumn(
+        state = rememberLazyListState(),
+        contentPadding = WindowInsets.navigationBars.only(Bottom).asPaddingValues(),
+    ) {
         itemsIndexed(parameters) { index, parameter ->
             when (parameter) {
                 is Separator -> HeaderDayDate(
                     text = parameter.daySeparator.value,
                     contentDescription = parameter.daySeparator.contentDescription,
                 )
+
                 is SearchResult -> {
-                    SearchResultItem(parameter, Modifier.clickable {
-                        onViewEvent(OnSearchResultItemClick(parameter.id))
-                    })
+                    SearchResultItem(
+                        searchResult = parameter,
+                        modifier = Modifier
+                            .clickable { onViewEvent(OnSearchResultItemClick(parameter.id)) }
+                            .safeContentHorizontalPadding()
+                    )
                     val next = parameters.getOrNull(index + 1)
                     if (index < parameters.size - 1 && next is SearchResult) {
                         DividerHorizontal(Modifier.padding(horizontal = 12.dp))
@@ -292,7 +304,8 @@ private fun SearchHistoryList(
     Row(
         Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp),
+            .padding(horizontal = 16.dp, vertical = 8.dp)
+            .safeContentHorizontalPadding(),
         verticalAlignment = CenterVertically,
     ) {
         Text(
@@ -306,11 +319,17 @@ private fun SearchHistoryList(
             )
         }
     }
-    LazyColumn(state = rememberLazyListState()) {
+    LazyColumn(
+        state = rememberLazyListState(),
+        contentPadding = WindowInsets.navigationBars.only(Bottom).asPaddingValues(),
+    ) {
         itemsIndexed(searchQueries) { index, searchQuery ->
-            SearchHistoryItem(searchQuery, Modifier.clickable {
-                onViewEvent(OnSearchHistoryItemClick(searchQuery))
-            })
+            SearchHistoryItem(
+                searchQuery = searchQuery,
+                modifier = Modifier
+                    .clickable { onViewEvent(OnSearchHistoryItemClick(searchQuery)) }
+                    .safeContentHorizontalPadding()
+            )
             val next = searchQueries.getOrNull(index + 1)
             if (index < searchQueries.size - 1 && (next != null)) {
                 DividerHorizontal(Modifier.padding(horizontal = 12.dp))
