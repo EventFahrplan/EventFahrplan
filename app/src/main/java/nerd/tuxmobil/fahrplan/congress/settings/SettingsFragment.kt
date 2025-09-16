@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.preference.EditTextPreference
 import androidx.preference.ListPreference
@@ -30,6 +31,7 @@ import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmServices
 import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolver
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
+import nerd.tuxmobil.fahrplan.congress.extensions.applyHorizontalInsetsAndBottomPadding
 import nerd.tuxmobil.fahrplan.congress.extensions.toSpanned
 import nerd.tuxmobil.fahrplan.congress.extensions.withExtras
 import nerd.tuxmobil.fahrplan.congress.preferences.AlarmTonePreference
@@ -72,7 +74,7 @@ class SettingsFragment(
                     conferenceTimeFrame = AppRepository.loadConferenceTimeFrame(),
                     isInitial = true,
                     logging = logging,
-                    onCancelScheduleNextFetch = AppRepository::deleteScheduleNextFetch ,
+                    onCancelScheduleNextFetch = AppRepository::deleteScheduleNextFetch,
                     onUpdateScheduleNextFetch = AppRepository::updateScheduleNextFetch,
                 )
             }
@@ -166,6 +168,11 @@ class SettingsFragment(
             screen.removePreference(engelsystemCategory)
         }
         updateAutoUpdateSummary()
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        view.applyHorizontalInsetsAndBottomPadding()
     }
 
     override fun onStop() {

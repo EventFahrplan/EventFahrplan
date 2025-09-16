@@ -6,7 +6,12 @@ import androidx.compose.foundation.layout.Arrangement.SpaceBetween
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides.Companion.Bottom
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
@@ -50,6 +55,7 @@ import nerd.tuxmobil.fahrplan.congress.designsystem.templates.Scaffold
 import nerd.tuxmobil.fahrplan.congress.designsystem.texts.TextHeadlineContent
 import nerd.tuxmobil.fahrplan.congress.designsystem.texts.TextSupportingContent
 import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
+import nerd.tuxmobil.fahrplan.congress.extensions.safeContentHorizontalPadding
 
 @Composable
 internal fun SessionChangesScreen(
@@ -58,11 +64,8 @@ internal fun SessionChangesScreen(
     onViewEvent: (SessionChangeViewEvent) -> Unit,
 ) {
     EventFahrplanTheme {
-        Scaffold { contentPadding ->
-            Box(
-                Modifier
-                    .padding(contentPadding)
-            ) {
+        Scaffold {
+            Box {
                 when (state) {
                     Loading -> Loading()
                     is Success -> {
@@ -98,7 +101,10 @@ private fun SessionChangesList(
     showInSidePane: Boolean,
     onViewEvent: (SessionChangeViewEvent) -> Unit,
 ) {
-    LazyColumn(state = rememberLazyListState()) {
+    LazyColumn(
+        state = rememberLazyListState(),
+        contentPadding = WindowInsets.navigationBars.only(Bottom).asPaddingValues(),
+    ) {
         if (showInSidePane) {
             item {
                 HeaderSessionList(stringResource(R.string.schedule_changes))
@@ -110,12 +116,18 @@ private fun SessionChangesList(
                     text = parameter.daySeparator.value,
                     contentDescription = parameter.daySeparator.contentDescription,
                 )
+
                 is SessionChange -> {
-                    SessionChangeItem(parameter, Modifier.clickable {
-                        if (!parameter.isCanceled) {
-                            onViewEvent(OnSessionChangeItemClick(parameter.id))
-                        }
-                    })
+                    SessionChangeItem(
+                        session = parameter,
+                        modifier = Modifier
+                            .safeContentHorizontalPadding()
+                            .clickable {
+                                if (!parameter.isCanceled) {
+                                    onViewEvent(OnSessionChangeItemClick(parameter.id))
+                                }
+                            }
+                    )
                     val next = parameters.getOrNull(index + 1)
                     if (index < parameters.size - 1 && (next != null && next !is Separator)) {
                         DividerHorizontal(Modifier.padding(horizontal = 12.dp))

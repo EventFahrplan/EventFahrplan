@@ -55,6 +55,10 @@ class SessionDetailsFragment : Fragment(), MenuProvider {
         const val FRAGMENT_TAG = "detail"
         private const val SESSION_DETAILS_FRAGMENT_REQUEST_KEY = "SESSION_DETAILS_FRAGMENT_REQUEST_KEY"
 
+        fun newInstance(sidePane: Boolean): SessionDetailsFragment {
+            return SessionDetailsFragment().withArguments(BundleKeys.SIDEPANE to sidePane)
+        }
+
         fun replaceAtBackStack(fragmentManager: FragmentManager, @IdRes containerViewId: Int, sidePane: Boolean) {
             val fragment = SessionDetailsFragment().withArguments(
                 BundleKeys.SIDEPANE to sidePane

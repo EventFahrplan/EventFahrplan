@@ -10,6 +10,7 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM
 import android.text.TextUtils.TruncateAt
+import android.view.Gravity
 import android.view.Gravity.CENTER
 import android.view.LayoutInflater
 import android.view.Menu
@@ -40,6 +41,7 @@ import androidx.core.view.MenuProvider
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.core.view.size
+import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
 import androidx.core.widget.NestedScrollView
 import androidx.core.widget.NestedScrollView.OnScrollChangeListener
@@ -123,6 +125,9 @@ class FahrplanFragment : Fragment(), MenuProvider {
     private var onSessionClickListener: OnSessionClickListener? = null
     private var lastSelectedSession: Session? = null
     private var displayDensityScale = 0f
+    private val timeTextColumnEdgeToEdge = TimeTextColumnEdgeToEdge {
+        resources.getDimensionPixelSize(R.dimen.schedule_time_column_layout_width)
+    }
 
     /**
      * Cache of the already rendered RoomData
@@ -226,6 +231,9 @@ class FahrplanFragment : Fragment(), MenuProvider {
         snapScroller.viewTreeObserver.addOnScrollChangedListener(onHorizontalScrollChangeListener)
 
         inflater = view.context.getLayoutInflater()
+
+        val timeTextColumn = view.requireViewByIdCompat<LinearLayout>(R.id.times_layout)
+        timeTextColumnEdgeToEdge.applyInsets(view, timeTextColumn)
     }
 
     override fun onDestroyView() {
@@ -570,6 +578,10 @@ class FahrplanFragment : Fragment(), MenuProvider {
     private fun fillTimes(parameters: List<TimeTextViewParameter>) {
         val timeTextColumn = requireView().requireViewByIdCompat<LinearLayout>(R.id.times_layout)
         timeTextColumn.importantForAccessibility = IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS
+
+        // Preserve the bottom extension view before removing all views
+        val bottomViewExtension = timeTextColumnEdgeToEdge.findBottomViewExtension(timeTextColumn)
+
         timeTextColumn.removeAllViews()
         val timeLinesLayout = requireView().requireViewByIdCompat<LinearLayout>(R.id.schedule_horizontal_times_lines_layout)
         timeLinesLayout.importantForAccessibility = IMPORTANT_FOR_ACCESSIBILITY_NO
@@ -586,12 +598,24 @@ class FahrplanFragment : Fragment(), MenuProvider {
             timeTextView.requireViewByIdCompat<TextView>(R.id.schedule_time_column_time_text_view).apply {
                 text = titleText
                 setTextColor(textColor)
+                gravity = Gravity.TOP or Gravity.END
+                updateLayoutParams {
+                    width = resources.getDimensionPixelSize(R.dimen.schedule_time_column_layout_width) + timeTextColumnEdgeToEdge.leftWindowInset
+                }
                 if (isNow) {
                     setBackgroundColor(ContextCompat.getColor(timeTextView.context, R.color.schedule_time_column_item_background_emphasized))
                 } else {
                     setBackgroundResource(R.drawable.schedule_time_column_time_text_background_normal)
                 }
             }
+        }
+
+        if (bottomViewExtension == null) {
+            // Create the bottom extension if it doesn't exist yet
+            timeTextColumnEdgeToEdge.appendBottomViewExtension(timeTextColumn)
+        } else {
+            // Re-add the bottom extension view if it existed
+            timeTextColumn.addView(bottomViewExtension)
         }
     }
 

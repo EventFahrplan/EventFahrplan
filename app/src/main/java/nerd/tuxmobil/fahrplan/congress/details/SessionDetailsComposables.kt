@@ -6,10 +6,15 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides.Companion.Horizontal
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeContent
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.selection.SelectionContainer
@@ -63,6 +68,7 @@ import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsProperty.MarkupLang
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsProperty.MarkupLanguage.Markdown
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsState.Loading
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsState.Success
+import nerd.tuxmobil.fahrplan.congress.extensions.safeContentHorizontalAndBottomPadding
 import nerd.tuxmobil.fahrplan.congress.extensions.toTextUnit
 
 @Composable
@@ -72,11 +78,10 @@ internal fun SessionDetailsScreen(
     roomStateMessage: String,
 ) {
     EventFahrplanTheme {
-        Scaffold { contentPadding ->
+        Scaffold {
             val contentAlignment = if (sessionDetailsState is Loading) Alignment.Center else Alignment.TopStart
             Box(
                 Modifier
-                    .padding(contentPadding)
                     .fillMaxHeight()
                     .verticalScroll(rememberScrollState()),
                 contentAlignment = contentAlignment,
@@ -119,7 +124,9 @@ fun SessionDetails(session: SessionDetails, showRoomState: Boolean, roomStateMes
             with(session) {
                 DetailBar(this)
                 Column(
-                    modifier = Modifier.padding(24.dp),
+                    modifier = Modifier
+                        .padding(24.dp)
+                        .safeContentHorizontalAndBottomPadding(),
                     verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.session_details_common_space_between_sections)),
                 ) {
                     RoomState(showRoomState, roomStateMessage)
@@ -146,7 +153,8 @@ private fun DetailBar(
         modifier = modifier
             .background(colorResource(R.color.session_detailbar_background))
             .padding(horizontal = 16.dp, vertical = 4.dp)
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .windowInsetsPadding(WindowInsets.safeContent.only(Horizontal)),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         TextLeadingIcon(
