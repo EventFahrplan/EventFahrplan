@@ -62,6 +62,7 @@ import nerd.tuxmobil.fahrplan.congress.calendar.CalendarSharing
 import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolver
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
 import nerd.tuxmobil.fahrplan.congress.extensions.applyHorizontalInsets
+import nerd.tuxmobil.fahrplan.congress.extensions.applyRightInsets
 import nerd.tuxmobil.fahrplan.congress.extensions.getLayoutInflater
 import nerd.tuxmobil.fahrplan.congress.extensions.isLandscape
 import nerd.tuxmobil.fahrplan.congress.extensions.requireViewByIdCompat
@@ -362,6 +363,7 @@ class FahrplanFragment : Fragment(), MenuProvider {
     private fun viewDay(scheduleData: ScheduleData, useDeviceTimeZone: Boolean) {
         val layoutRoot = requireView()
         val horizontalScroller = layoutRoot.requireViewByIdCompat<HorizontalSnapScrollView>(R.id.horizScroller)
+        horizontalScroller.applyRightInsets()
         horizontalScroller.scrollTo(0, 0)
         val roomCount = scheduleData.roomCount
         horizontalScroller.setRoomsCount(roomCount)
