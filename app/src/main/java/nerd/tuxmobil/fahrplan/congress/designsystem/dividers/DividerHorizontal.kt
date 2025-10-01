@@ -5,13 +5,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
+import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
 import androidx.compose.material3.HorizontalDivider as Material3HorizontalDivider
 
 @Composable
 fun DividerHorizontal(
     modifier: Modifier = Modifier,
     thickness: Dp = DividerDefaults.Thickness,
-    color: Color = DividerDefaults.color,
+    color: Color = EventFahrplanTheme.colorScheme.divider,
 ) {
     Material3HorizontalDivider(
         modifier = modifier,

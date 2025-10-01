@@ -14,7 +14,7 @@
     <color name="text_link_on_light">@color/colorAccent</color>
     <color name="text_link_on_dark">@color/colorAccent</color>
     <color name="text_link_pressed_background_on_light">#aafec700</color>
-    <color name="outline_variant">#88888888</color>
+    <color name="divider">#88888888</color>
 
     <!-- Scrollbar -->
     <color name="scrollbar_background">@color/colorAccent</color>

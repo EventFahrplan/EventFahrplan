@@ -381,6 +381,12 @@ private fun SearchScreenPreview() {
                     speakerNames = SearchResultProperty("Hedy Llamar", ""),
                     startsAt = SearchResultProperty("December 27, 2024 10:00", ""),
                 ),
+                SearchResult(
+                    id = "2",
+                    title = SearchResultProperty("Dolor sit amet", ""),
+                    speakerNames = SearchResultProperty("Hedy Llamar", ""),
+                    startsAt = SearchResultProperty("December 27, 2024 12:00", ""),
+                ),
                 Separator(
                     DaySeparatorProperty(
                         value = "DAY 2 - 12/28/2024",
