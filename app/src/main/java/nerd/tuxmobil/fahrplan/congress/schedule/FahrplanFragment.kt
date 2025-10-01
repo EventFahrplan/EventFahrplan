@@ -61,6 +61,7 @@ import nerd.tuxmobil.fahrplan.congress.alarms.AlarmTimePickerFragment
 import nerd.tuxmobil.fahrplan.congress.calendar.CalendarSharing
 import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolver
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
+import nerd.tuxmobil.fahrplan.congress.extensions.applyHorizontalInsets
 import nerd.tuxmobil.fahrplan.congress.extensions.getLayoutInflater
 import nerd.tuxmobil.fahrplan.congress.extensions.isLandscape
 import nerd.tuxmobil.fahrplan.congress.extensions.requireViewByIdCompat
@@ -372,6 +373,7 @@ class FahrplanFragment : Fragment(), MenuProvider {
         val roomScroller = layoutRoot.requireViewByIdCompat<HorizontalScrollView>(R.id.roomScroller)
         roomScroller.importantForAccessibility = IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS
         val roomTitlesRowLayout = roomScroller.getChildAt(0) as LinearLayout
+        roomTitlesRowLayout.applyHorizontalInsets()
         val columnWidth = horizontalScroller.columnWidth
         addRoomTitleViews(roomTitlesRowLayout, columnWidth, scheduleData.roomNames)
         addRoomColumns(horizontalScroller, columnWidth, scheduleData, useDeviceTimeZone)
