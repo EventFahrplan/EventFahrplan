@@ -33,6 +33,15 @@ class OnBootReceiver : BroadcastReceiver() {
                 logging = logging,
             )
         }
+        configureSessionAlarms(context, appRepository, nowMoment)
+        configureScheduleUpdates(context, appRepository)
+    }
+
+    private fun configureSessionAlarms(
+        context: Context,
+        appRepository: AppRepository,
+        nowMoment: Moment,
+    ) {
         val alarms = appRepository.readAlarms()
         if (alarms.isNotEmpty()) {
             val alarmServices = AlarmServices.newInstance(context, appRepository)
@@ -47,8 +56,12 @@ class OnBootReceiver : BroadcastReceiver() {
                 }
             }
         }
+    }
 
-        // Start auto updates
+    private fun configureScheduleUpdates(
+        context: Context,
+        appRepository: AppRepository,
+    ) {
         if (appRepository.readAutoUpdateEnabled()) { // Check if auto update is enabled
             val lastFetchedAt = appRepository.readScheduleLastFetchedAt()
             val nowMillis = Moment.now().toMilliseconds()
