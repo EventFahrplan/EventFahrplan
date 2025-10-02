@@ -33,16 +33,18 @@ class OnBootReceiver : BroadcastReceiver() {
                 logging = logging,
             )
         }
-        val alarmServices = AlarmServices.newInstance(context, appRepository)
         val alarms = appRepository.readAlarms()
-        for (alarm in alarms) {
-            // Check if the alarm time has passed
-            if (nowMoment.isBefore(alarm.startTime)) {
-                logging.d(LOG_TAG, "Scheduling alarm for session: ${alarm.sessionTitle}, ${alarm.sessionTitle}")
-                alarmServices.scheduleSessionAlarm(alarm.toSchedulableAlarm())
-            } else {
-                logging.d(LOG_TAG, "Deleting alarm from database: $alarm")
-                appRepository.deleteAlarmForAlarmId(alarm.id)
+        if (alarms.isNotEmpty()) {
+            val alarmServices = AlarmServices.newInstance(context, appRepository)
+            for (alarm in alarms) {
+                // Check if the alarm time has passed
+                if (nowMoment.isBefore(alarm.startTime)) {
+                    logging.d(LOG_TAG, "Scheduling alarm for session: ${alarm.sessionTitle}, ${alarm.sessionTitle}")
+                    alarmServices.scheduleSessionAlarm(alarm.toSchedulableAlarm())
+                } else {
+                    logging.d(LOG_TAG, "Deleting alarm from database: $alarm")
+                    appRepository.deleteAlarmForAlarmId(alarm.id)
+                }
             }
         }
 
