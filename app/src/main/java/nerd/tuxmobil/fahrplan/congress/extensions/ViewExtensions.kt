@@ -43,6 +43,18 @@ fun View.applyHorizontalInsets(
     }
 }
 
+fun View.applyRightInsets(
+    typeMask: Int = systemBars() or displayCutout() or ime(),
+) {
+    ViewCompat.setOnApplyWindowInsetsListener(this) { view, windowInsets ->
+        val insets = windowInsets.getInsets(typeMask)
+        view.updateLayoutParams<MarginLayoutParams> {
+            rightMargin = insets.right
+        }
+        windowInsets
+    }
+}
+
 fun View.applyBottomPadding(
     typeMask: Int = systemBars() or displayCutout() or ime(),
 ) {
