@@ -48,13 +48,13 @@ object FahrplanMisc {
             .apply { action = AlarmReceiver.ALARM_UPDATE }
         val pendingIntent = PendingIntentProvider.getPendingIntentBroadcast(context, alarmIntent)
 
-        logging.d(LOG_TAG, "set update alarm")
+        logging.d(LOG_TAG, "Set schedule update alarm")
         val now = Moment.now()
 
         return AlarmUpdater(conferenceTimeFrame, object : AlarmUpdater.OnAlarmUpdateListener {
 
             override fun onCancelUpdateAlarm() {
-                logging.d(LOG_TAG, "Canceling alarm.")
+                logging.d(LOG_TAG, "Canceling schedule update alarm.")
                 onCancelScheduleNextFetch()
                 alarmManager.cancel(pendingIntent)
             }
@@ -63,7 +63,7 @@ object FahrplanMisc {
                 val next = nextFetch.minusMilliseconds(now.toMilliseconds()).toMilliseconds()
                 val nextDateTime = DateFormatter.newInstance(useDeviceTimeZone = false)
                     .getFormattedDateTimeLong(nextFetch, sessionZoneOffset = null)
-                logging.d(LOG_TAG, "Scheduling update alarm to interval $interval, next in ~$next ms, at $nextDateTime")
+                logging.d(LOG_TAG, "Scheduling schedule update alarm to interval $interval, next in ~$next ms, at $nextDateTime")
                 // Redesign might be needed as of Android 12 (API level 31)
                 // See https://developer.android.com/training/scheduling/alarms
                 onUpdateScheduleNextFetch(NextFetch(nextFetch, Duration.ofMilliseconds(interval)))
