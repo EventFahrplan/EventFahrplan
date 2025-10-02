@@ -1,7 +1,9 @@
 package nerd.tuxmobil.fahrplan.congress.preferences
 
 import android.content.Context
+import android.os.Build
 import android.util.AttributeSet
+import android.view.View.CONTENT_SENSITIVITY_SENSITIVE
 import android.widget.EditText
 import androidx.annotation.CallSuper
 import androidx.core.content.withStyledAttributes
@@ -65,6 +67,9 @@ open class StyleableEditTextPreference : EditTextPreference {
 
     @CallSuper
     protected open fun onBindEditText(editText: EditText) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
+            editText.contentSensitivity = CONTENT_SENSITIVITY_SENSITIVE
+        }
         editText.hint = hint
         editText.isSingleLine = singleLine
         editText.maxLines = maxLines
