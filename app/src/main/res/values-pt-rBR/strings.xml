@@ -73,7 +73,7 @@
     <string name="progress_processing_data">Processando o cronograma &#8230;</string>
     <string name="day">Dia</string>
     <string name="fahrplan">Cronograma</string>
-    <string name="schedule_generated_by">Cronograma gerado por: <xliff:g example="pretalx" id="name">%s</xliff:g>, <xliff:g example="2024.1.0" id="version">%s</xliff:g></string>
+    <string name="schedule_generated_by">Cronograma gerado por: <xliff:g example="pretalx" id="name">%1$s</xliff:g>, <xliff:g example="2024.1.0" id="version">%2$s</xliff:g></string>
     <string name="schedule_no_schedule_data_title">Não há programação para exibir</string>
     <string name="schedule_no_schedule_data_subtitle">Por favor, volte mais tarde</string>
     <string name="appVersion">Versão do Aplicativo <xliff:g example="1.40.2" id="appVersion">%s</xliff:g></string>
