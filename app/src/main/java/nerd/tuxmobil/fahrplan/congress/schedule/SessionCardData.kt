@@ -18,6 +18,6 @@ data class SessionCardData(
     val hasAlarm: Boolean,
     val showBorder: Boolean,
     val shouldShowShareSubMenu: Boolean,
-    @ColorRes val backgroundColor: Int,
-    @ColorRes val textColor: Int,
+    @param:ColorRes val backgroundColor: Int,
+    @param:ColorRes val textColor: Int,
 )

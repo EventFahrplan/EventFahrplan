@@ -10,7 +10,7 @@ data class SessionChangeProperty<T>(
 ) {
 
     // TODO Move into theme
-    enum class ChangeState(@ColorRes val colorOnLight: Int, @ColorRes val colorOnDark: Int) {
+    enum class ChangeState(@param:ColorRes val colorOnLight: Int, @param:ColorRes val colorOnDark: Int) {
         UNCHANGED(R.color.session_list_item_text_inverted, R.color.session_list_item_text),
         NEW(R.color.schedule_change_new_on_light, R.color.schedule_change_new_on_dark),
         CANCELED(R.color.schedule_change_canceled_on_light, R.color.schedule_change_canceled_on_dark),

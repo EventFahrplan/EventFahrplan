@@ -4,7 +4,7 @@ import nerd.tuxmobil.fahrplan.congress.models.Session
 
 interface SessionPropertiesFormatting {
 
-    fun getFormattedSessionId(id: String): String
+    fun getFormattedSessionId(sessionId: String): String
 
     fun getFormattedLinks(links: String): String
 

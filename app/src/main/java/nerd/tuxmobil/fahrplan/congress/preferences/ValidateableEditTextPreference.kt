@@ -7,6 +7,7 @@ import androidx.core.content.withStyledAttributes
 import androidx.core.widget.doAfterTextChanged
 import androidx.preference.EditTextPreference
 import nerd.tuxmobil.fahrplan.congress.R
+import nerd.tuxmobil.fahrplan.congress.extensions.enableContentSensitivitySensitive
 import nerd.tuxmobil.fahrplan.congress.preferences.ValidateableEditTextPreference.ValidationType
 import nerd.tuxmobil.fahrplan.congress.utils.EngelsystemUrlValidator
 import nerd.tuxmobil.fahrplan.congress.utils.UrlValidator
@@ -62,6 +63,7 @@ class ValidateableEditTextPreference : StyleableEditTextPreference {
 
     override fun onBindEditText(editText: EditText) {
         super.onBindEditText(editText)
+        editText.enableContentSensitivitySensitive()
         editText.doAfterTextChanged { editable ->
             requireNotNull(editable)
             val url = editable.toString().trim()

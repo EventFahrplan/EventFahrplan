@@ -697,7 +697,7 @@ object AppRepository : SearchRepository,
      */
     @WorkerThread
     private fun loadSessionsForAllDays() = loadSessionsForAllDays(true)
-        .also { logging.d(LOG_TAG, "${it.size} sessions with alarm.") }
+        .also { logging.d(LOG_TAG, "${it.size} sessions with alarm flag.") }
 
     /**
      * Load all sessions for the currently configured day from the database which have not been
