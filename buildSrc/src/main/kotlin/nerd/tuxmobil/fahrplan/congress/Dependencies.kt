@@ -70,7 +70,7 @@ object Libs {
         const val kotlinCoroutines = "1.10.2"
         const val lifecycle = "2.9.4"
         const val markdownRenderer = "0.38.1"
-        const val material = "1.12.0"
+        const val material = "1.13.0"
         const val mockitoKotlin = "6.1.0"
         const val moshi = "1.15.2"
         const val navigation = "2.9.2"
