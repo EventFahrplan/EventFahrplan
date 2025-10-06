@@ -33,8 +33,8 @@ object Plugins {
     private object Versions {
         const val android = "8.11.1"
         const val dexcount = "4.0.0"
-        const val kotlin = "2.2.0"
-        const val ksp = "2.2.0-2.0.2"
+        const val kotlin = "2.2.21"
+        const val ksp = "2.3.2"
         const val sonarQube = "6.3.1.5724"
         const val unMock = "0.9.0"
         const val versions = "0.53.0"
