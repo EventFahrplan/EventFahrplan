@@ -220,6 +220,7 @@ dependencies {
     implementation Libs.lifecycleViewModelCompose
     implementation Libs.markdownRender
     implementation Libs.material
+    implementation Libs.materialIconsCore
     implementation Libs.moshi
     ksp Libs.moshiCodeGen
     implementation Libs.navigation

@@ -18,7 +18,7 @@ object Android {
 object Compose {
 
     private object Versions {
-        const val bom = "2025.05.00"
+        const val bom = "2025.11.00"
     }
 
     const val bom = "androidx.compose:compose-bom:${Versions.bom}"
@@ -71,6 +71,7 @@ object Libs {
         const val lifecycle = "2.9.4"
         const val markdownRenderer = "0.38.1"
         const val material = "1.13.0"
+        const val materialIconsCore = "1.7.8"
         const val mockitoKotlin = "6.1.0"
         const val moshi = "1.15.2"
         const val navigation = "2.9.2"
@@ -111,6 +112,7 @@ object Libs {
     const val lifecycleRuntime = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.lifecycle}"
     const val markdownRender = "com.mikepenz:multiplatform-markdown-renderer-m3:${Versions.markdownRenderer}"
     const val material = "com.google.android.material:material:${Versions.material}"
+    const val materialIconsCore = "androidx.compose.material:material-icons-core:${Versions.materialIconsCore}"
     const val mockitoKotlin = "org.mockito.kotlin:mockito-kotlin:${Versions.mockitoKotlin}"
     const val moshi = "com.squareup.moshi:moshi:${Versions.moshi}"
     const val moshiCodeGen = "com.squareup.moshi:moshi-kotlin-codegen:${Versions.moshi}"
