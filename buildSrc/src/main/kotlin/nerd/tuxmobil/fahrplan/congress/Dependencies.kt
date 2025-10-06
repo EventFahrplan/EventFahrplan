@@ -65,8 +65,8 @@ object Libs {
         const val engelsystem = "10.0.0"
         const val fragmentCompose = "1.8.8"
         const val htmlConverter = "1.0.4" // compose 2025.04.01 is required as of 1.1.0
-        const val junitJupiter = "5.13.4"
-        const val junitPlatform = "1.13.4"
+        const val junitJupiter = "5.14.0"
+        const val junitPlatform = "1.14.0"
         const val kotlinCoroutines = "1.10.2"
         const val lifecycle = "2.8.7" // compileSdk 35 is required as of 2.9.0
         const val markdownRenderer = "0.33.0" // compose 2025.04.01 is required as of 0.35.0
