@@ -17,6 +17,7 @@ internal fun darkColorScheme() = androidx.compose.material3.darkColorScheme(
     onSurfaceVariant = colorResource(R.color.text_secondary), // used by SearchBarDefaults.InputField placeholder, ListItem -> overlineContent
     inverseOnSurface = colorResource(R.color.session_item_text_on_highlight_background), // used by SessionCard
     outline = colorResource(R.color.colorAccent), // used by SearchBarDefaults.InputField divider
+    outlineVariant = colorResource(R.color.colorAccent), // used by SearchHistoryList -> ButtonOutlined -> border
     surfaceContainer = colorResource(R.color.colorPrimaryDark), // used by DropdownMenu
     surfaceContainerHigh = colorResource(android.R.color.transparent), // used by SearchBarDefaults.InputField container background
 ).toColorScheme(
@@ -34,6 +35,7 @@ internal fun lightColorScheme() = androidx.compose.material3.lightColorScheme(
     onSurfaceVariant = colorResource(R.color.text_secondary_inverted),
     inverseOnSurface = colorResource(R.color.session_item_text_on_highlight_background),
     outline = colorResource(R.color.colorAccent),
+    outlineVariant = colorResource(R.color.colorAccent),
     surfaceContainer = colorResource(R.color.colorPrimaryDark),
     surfaceContainerHigh = colorResource(android.R.color.transparent),
 ).toColorScheme(
@@ -86,6 +88,20 @@ private fun Material3ColorScheme.toColorScheme(
         surfaceContainerHighest = surfaceContainerHighest,
         surfaceContainerLow = surfaceContainerLow,
         surfaceContainerLowest = surfaceContainerLowest,
+        primaryFixed = primaryFixed,
+        primaryFixedDim = primaryFixedDim,
+        onPrimaryFixed = onPrimaryFixed,
+        onPrimaryFixedVariant = onPrimaryFixedVariant,
+        secondaryFixed = secondaryFixed,
+        secondaryFixedDim = secondaryFixedDim,
+        onSecondaryFixed = onSecondaryFixed,
+        onSecondaryFixedVariant = onSecondaryFixedVariant,
+        tertiaryFixed = tertiaryFixed,
+        tertiaryFixedDim = tertiaryFixedDim,
+        onTertiaryFixed = onTertiaryFixed,
+        onTertiaryFixedVariant = onTertiaryFixedVariant,
+
+        // Custom colors
         topAppBarContainer = topAppBarContainer,
         divider = divider,
     )
