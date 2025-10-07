@@ -462,6 +462,14 @@ class FahrplanFragment : Fragment(), MenuProvider {
             columnsLayout.addView(roomColumnView, roomIndex)
             renderedRoomHashByRoomName[roomData.roomName] = roomData.hashCode()
         }
+
+        // Remove unused columns from end of list,
+        // Fixes https://github.com/EventFahrplan/EventFahrplan/issues/783
+        val usedColumnCount = roomDataList.size
+        val unusedColumnCount = columnsLayout.size - usedColumnCount
+        if (unusedColumnCount > 0) {
+            columnsLayout.removeViews(usedColumnCount, unusedColumnCount)
+        }
     }
 
     private fun handleSessionInteraction(session: Session, sessionInteractionType: SessionInteractionType) =
