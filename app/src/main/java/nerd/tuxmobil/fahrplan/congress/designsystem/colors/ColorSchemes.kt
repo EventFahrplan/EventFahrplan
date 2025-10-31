@@ -9,7 +9,7 @@ import androidx.compose.material3.ColorScheme as Material3ColorScheme
 
 @Composable
 internal fun darkColorScheme() = androidx.compose.material3.darkColorScheme(
-    primary = colorResource(R.color.text_primary), // used by search clear history button text and text cursor
+    primary = colorResource(R.color.colorAccent),
     background = colorResource(R.color.windowBackground),
     onBackground = colorResource(R.color.text_primary), // used by LazyColumn -> Text header
     surface = colorResource(android.R.color.transparent), // used by ListItem background
@@ -25,7 +25,7 @@ internal fun darkColorScheme() = androidx.compose.material3.darkColorScheme(
 
 @Composable
 internal fun lightColorScheme() = androidx.compose.material3.lightColorScheme(
-    primary = colorResource(R.color.text_primary_inverted),
+    primary = colorResource(R.color.colorAccent),
     background = colorResource(R.color.window_background_inverted),
     onBackground = colorResource(R.color.text_primary_inverted),
     surface = colorResource(android.R.color.transparent),
