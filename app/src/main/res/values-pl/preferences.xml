@@ -1,21 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Screen -->
     <!-- Category development -->
     <!-- Schedule refresh interval -->
     <!--
     Synchronize with string-array/preference_entry_values_schedule_refresh
     -->
+    <string name="preference_dialog_title_schedule_refresh_interval">Wybierz częstotliwość odświeżania agendy</string>
+    <string name="preference_title_schedule_refresh_interval">Wybierz częstotliwość odświeżania agendy</string>
     <!--
     Synchronize with @strings/preference_default_value_schedule_refresh_interval_value
     -->
+    <string name="schedule_refresh_interval_title_unmodified">bez zmian</string>
+    <string name="schedule_refresh_interval_title_every_30_seconds">co 30 sekund</string>
+    <string name="schedule_refresh_interval_title_every_60_seconds">co minutę</string>
+    <string name="schedule_refresh_interval_title_every_120_seconds">co 2 minuty</string>
     <!-- Schedule statistic -->
-    <string name="preference_title_schedule_statistic">Statystyki harmonogramu</string>
-    <string name="preference_summary_schedule_statistic">Sprawdź wartości kolumny harmonogramu</string>
+    <string name="preference_title_schedule_statistic">Statystyki agendy</string>
+    <string name="preference_summary_schedule_statistic">Zbadaj wartości kolumn w agendzie</string>
     <!-- Category general -->
     <!-- Automatic schedule updates -->
     <string name="preference_title_auto_update_enabled">Włącz automatyczne aktualizacje</string>
-    <string name="preference_summary_auto_update_enabled">Okresowo pobiera grafik.</string>
+    <string name="preference_summary_auto_update_enabled">Okresowo pobiera agendę.</string>
+    <string name="preference_summary_auto_update_next_fetch_approximately_at">        Przybliżony czas następnej aktualizacji: <xliff:g example="2/26/25 13:00" id="nextFetchAt">%1$s</xliff:g>
+        (<xliff:g example="every 1.5 hours" id="interval">%2$s</xliff:g>)
+    </string>
+    <plurals name="preference_summary_auto_update_interval_days">
+        <item quantity="one">codziennie</item>
+        <item quantity="few">co <xliff:g example="5" id="days">%s</xliff:g> dni</item>
+        <item quantity="many">co <xliff:g example="5" id="days">%s</xliff:g> dni</item>
+        <item quantity="other">co <xliff:g example="5" id="days">%s</xliff:g> dni</item>
+    </plurals>
+    <plurals name="preference_summary_auto_update_interval_hours">
+        <item quantity="one">co godzinę</item>
+        <item quantity="few">co <xliff:g example="5" id="days">%s</xliff:g> godziny</item>
+        <item quantity="many">co <xliff:g example="5" id="days">%s</xliff:g> godzin</item>
+        <item quantity="other">co <xliff:g example="5" id="days">%s</xliff:g> godzin</item>
+    </plurals>
+    <plurals name="preference_summary_auto_update_interval_minutes">
+        <item quantity="one">co minutę</item>
+        <item quantity="few">co <xliff:g example="5" id="days">%s</xliff:g> minuty</item>
+        <item quantity="many">co <xliff:g example="5" id="days">%s</xliff:g> minut</item>
+        <item quantity="other">co <xliff:g example="5" id="days">%s</xliff:g> minut</item>
+    </plurals>
+    <plurals name="preference_summary_auto_update_interval_seconds">
+        <item quantity="one">co sekundę</item>
+        <item quantity="few">co <xliff:g example="5" id="days">%s</xliff:g> sekundy</item>
+        <item quantity="many">co <xliff:g example="5" id="days">%s</xliff:g> sekund</item>
+        <item quantity="other">co <xliff:g example="5" id="days">%s</xliff:g> sekund</item>
+    </plurals>
     <!-- Alarm time index -->
     <!--
     Synchronize with @strings/preference_default_value_alarm_time_value
@@ -32,21 +65,24 @@
     -->
     <!-- Alarm tone -->
     <string name="preference_title_alarm_tone">Wybierz dźwięk przypomnienia</string>
-    <string name="preference_summary_alarm_tone">Otwórz ekran wyboru dźwięków z tego miejsca.</string>
+    <string name="preference_summary_alarm_tone">Otwiera ekran wyboru dźwięku.</string>
     <!-- Device time zone -->
     <string name="preference_title_use_device_time_zone_enabled">Użyj strefy czasowej urządzenia</string>
     <string name="preference_summary_use_device_time_zone_enabled">Odpowiednio wyświetla daty i godziny.</string>
     <!-- Alternative highlighting -->
     <string name="preference_title_alternative_highlighting_enabled">Włącz alternatywne podświetlanie</string>
     <string name="preference_summary_alternative_highlighting_enabled">Dodaje ramkę wokół ulubionych sesji.</string>
+    <!-- Fast swiping -->
+    <string name="preference_title_fast_swiping_enabled">Włącz szybkie przesuwanie palcem</string>
+    <string name="preference_summary_fast_swiping_enabled">Pozwala na przesuwanie palcem po wielu salach</string>
     <!-- Alternative schedule URL -->
-    <string name="preference_title_alternative_schedule_url">Skonfiguruj alternatywny URL grafiku</string>
-    <string name="preference_summary_alternative_schedule_url">Podaj zapasowy URL na wypadek gdyby podstawowy nie był osiągalny.</string>
+    <string name="preference_title_alternative_schedule_url">Skonfiguruj alternatywny URL agendy</string>
+    <string name="preference_summary_alternative_schedule_url">Podaj zapasowy URL na wypadek, gdyby podstawowy nie był osiągalny.</string>
     <!-- App notification settings -->
-    <string name="preference_title_app_notification_settings">Dostosuj przypomnienia</string>
-    <string name="preference_summary_app_notification_settings">Otwórz stąd powiązany ekran ustawień systemowych.</string>
+    <string name="preference_title_app_notification_settings">Dostosuj powiadomienia</string>
+    <string name="preference_summary_app_notification_settings">Otwiera ekran powiązanych ustawień systemowych.</string>
     <!-- Insistent session alarms -->
-    <string name="preference_title_insistent_alarms_enabled">Włącz natarczywe przypomnienie</string>
+    <string name="preference_title_insistent_alarms_enabled">Włącz przypomnienie na stałe</string>
     <string name="preference_summary_insistent_alarms_enabled">Utrzymuje przypomnienie w nieskończoność.</string>
     <!-- Category Engelsystem -->
     <string name="preference_summary_engelsystem_json_export_url"><![CDATA[Aby zobaczyć swoje zmiany, wprowadź tutaj swój <u>osobisty</u> URL.<br/><br/>
@@ -54,5 +90,5 @@
         2. Skopiuj URL znajdujący się za przyciskiem <u>Eksportuj JSON</u> na swojej stronie profilowej.<br/>
         3. Wklej tutaj URL.<br/><br/>
         Zmiany przed i po głównych dniach konferencji <u>nie</u> są wyświetlane.]]></string>
-    <string name="preference_title_engelsystem_json_export_url">Skonfiguruj URL eksportu JSON</string>
+    <string name="preference_title_engelsystem_json_export_url">Skonfiguruj adres URL eksportu JSON</string>
 </resources>
