@@ -137,6 +137,8 @@ class FahrplanFragment : Fragment(), MenuProvider {
      */
     private val renderedRoomHashByRoomName = mutableMapOf<String, Int>()
 
+    private var currentDayIndex = -1
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         val notificationHelper = NotificationHelper(context)
@@ -370,7 +372,9 @@ class FahrplanFragment : Fragment(), MenuProvider {
 
         // Clear the room hash cache when the day changes to ensure fresh data is loaded
         // fixes https://github.com/EventFahrplan/EventFahrplan/issues/767
-        renderedRoomHashByRoomName.clear()
+        if (currentDayIndex != scheduleData.dayIndex) {
+            renderedRoomHashByRoomName.clear()
+        }
 
         val roomScroller = layoutRoot.requireViewByIdCompat<HorizontalScrollView>(R.id.roomScroller)
         roomScroller.importantForAccessibility = IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS
@@ -399,7 +403,9 @@ class FahrplanFragment : Fragment(), MenuProvider {
     /**
      * Adds `roomCount` room column views as child views to the first child
      * (which is a row layout) of the given [horizontalScroller] layout.
-     * Previously added child views are removed.
+     * To improve performance, rooms that have not changed are not re-rendered.
+     * This is controlled by the [renderedRoomHashByRoomName] hash map.
+     * Furthermore, when the day changes, previously added child views are removed.
      */
     private fun addRoomColumns(
         horizontalScroller: HorizontalSnapScrollView,
@@ -418,6 +424,14 @@ class FahrplanFragment : Fragment(), MenuProvider {
         val contentDescriptionFormatter = ContentDescriptionFormatter(ResourceResolver(context))
         val sessionPropertiesFormatter = SessionPropertiesFormatter(ResourceResolver(context))
         val isAlternativeHighlightingEnabled = AppRepository.readAlternativeHighlightingEnabled()
+
+        // Remove room columns when you change day.
+        // Fixes https://github.com/EventFahrplan/EventFahrplan/issues/783
+        if (currentDayIndex != scheduleData.dayIndex) {
+            columnsLayout.removeAllViews()
+        }
+
+        currentDayIndex = scheduleData.dayIndex
 
         for (roomIndex in roomDataList.indices) {
             val roomData = roomDataList[roomIndex]
