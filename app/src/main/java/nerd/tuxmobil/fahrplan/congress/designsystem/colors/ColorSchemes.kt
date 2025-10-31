@@ -16,12 +16,11 @@ internal fun darkColorScheme() = androidx.compose.material3.darkColorScheme(
     onSurface = colorResource(R.color.text_primary), // used by ListItem -> headlineContent
     onSurfaceVariant = colorResource(R.color.text_secondary), // used by SearchBarDefaults.InputField placeholder, ListItem -> overlineContent
     inverseOnSurface = colorResource(R.color.session_item_text_on_highlight_background), // used by SessionCard
-    outline = colorResource(R.color.colorAccent), // used by SearchBarDefaults.InputField divider
     surfaceContainer = colorResource(R.color.colorPrimaryDark), // used by DropdownMenu
-    surfaceContainerHigh = colorResource(android.R.color.transparent), // used by SearchBarDefaults.InputField container background
 ).toColorScheme(
     topAppBarContainer = colorResource(R.color.colorPrimary),
     divider = colorResource(R.color.divider),
+    searchBarDivider = colorResource(R.color.colorAccent),
 )
 
 @Composable
@@ -33,12 +32,11 @@ internal fun lightColorScheme() = androidx.compose.material3.lightColorScheme(
     onSurface = colorResource(R.color.text_primary_inverted),
     onSurfaceVariant = colorResource(R.color.text_secondary_inverted),
     inverseOnSurface = colorResource(R.color.session_item_text_on_highlight_background),
-    outline = colorResource(R.color.colorAccent),
     surfaceContainer = colorResource(R.color.colorPrimaryDark),
-    surfaceContainerHigh = colorResource(android.R.color.transparent),
 ).toColorScheme(
     topAppBarContainer = colorResource(R.color.colorPrimary),
     divider = colorResource(R.color.divider),
+    searchBarDivider = colorResource(R.color.colorAccent),
 )
 
 internal val LocalColorScheme = staticCompositionLocalOf<ColorScheme> {
@@ -48,6 +46,7 @@ internal val LocalColorScheme = staticCompositionLocalOf<ColorScheme> {
 private fun Material3ColorScheme.toColorScheme(
     topAppBarContainer: Color,
     divider: Color,
+    searchBarDivider: Color,
 ): ColorScheme {
     return ColorScheme(
         primary = primary,
@@ -88,5 +87,6 @@ private fun Material3ColorScheme.toColorScheme(
         surfaceContainerLowest = surfaceContainerLowest,
         topAppBarContainer = topAppBarContainer,
         divider = divider,
+        searchBarDivider = searchBarDivider,
     )
 }
