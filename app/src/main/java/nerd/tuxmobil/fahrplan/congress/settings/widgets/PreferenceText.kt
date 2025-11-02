@@ -15,7 +15,7 @@ internal fun PreferenceText(
     Column(modifier) {
         Text(
             text = title,
-            style = EventFahrplanTheme.typography.titleLarge,
+            style = EventFahrplanTheme.typography.preferenceTitle,
         )
 
         if (subtitle != null) {
