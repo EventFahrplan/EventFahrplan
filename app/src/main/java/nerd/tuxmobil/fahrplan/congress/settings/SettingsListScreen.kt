@@ -21,6 +21,7 @@ import nerd.tuxmobil.fahrplan.congress.settings.widgets.SwitchPreference
 @Composable
 internal fun SettingsListScreen(
     state: SettingsUiState,
+    onViewEvent: (SettingsEvent) -> Unit,
     onBack: () -> Unit,
 ) {
     Scaffold(
@@ -38,7 +39,7 @@ internal fun SettingsListScreen(
                 .verticalScroll(rememberScrollState())
                 .padding(contentPadding)
         ) {
-            CategoryGeneral(state)
+            CategoryGeneral(state, onViewEvent)
         }
     }
 }
@@ -46,13 +47,14 @@ internal fun SettingsListScreen(
 @Composable
 private fun CategoryGeneral(
     state: SettingsUiState,
+    onViewEvent: (SettingsEvent) -> Unit,
 ) {
     PreferenceCategory(text = stringResource(R.string.general_settings)) {
         SwitchPreference(
             title = stringResource(R.string.preference_title_use_device_time_zone_enabled),
             subtitle = stringResource(R.string.preference_summary_use_device_time_zone_enabled),
             checked = state.settings.isUseDeviceTimeZoneEnabled,
-            onCheckedChange = { /* TODO: communicate change to viewmodel */ },
+            onCheckedChange = { onViewEvent(SettingsEvent.DeviceTimezoneClicked) },
         )
     }
 }
@@ -63,6 +65,7 @@ internal fun SettingsListScreenPreview() {
     EventFahrplanTheme {
         SettingsListScreen(
             state = SettingsUiState(),
+            onViewEvent = {},
             onBack = {},
         )
     }
