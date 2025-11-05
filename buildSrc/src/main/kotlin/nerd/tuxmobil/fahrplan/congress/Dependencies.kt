@@ -106,6 +106,7 @@ object Libs {
     const val kotlinCoroutinesCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinCoroutines}"
     const val kotlinCoroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.kotlinCoroutines}"
     const val lifecycleViewModel = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycle}"
+    const val lifecycleViewModelCompose = "androidx.lifecycle:lifecycle-viewmodel-compose-android:${Versions.lifecycle}"
     const val lifecycleRuntime = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.lifecycle}"
     const val markdownRender = "com.mikepenz:multiplatform-markdown-renderer-m3:${Versions.markdownRenderer}"
     const val material = "com.google.android.material:material:${Versions.material}"

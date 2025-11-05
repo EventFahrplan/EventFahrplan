@@ -217,6 +217,7 @@ dependencies {
     implementation Libs.kotlinCoroutinesAndroid
     implementation Libs.kotlinCoroutinesCore
     implementation Libs.lifecycleViewModel
+    implementation Libs.lifecycleViewModelCompose
     implementation Libs.markdownRender
     implementation Libs.material
     implementation Libs.moshi
