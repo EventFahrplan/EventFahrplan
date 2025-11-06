@@ -2,11 +2,17 @@ package nerd.tuxmobil.fahrplan.congress.settings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
+import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys.USE_DEVICE_TIME_ZONE_UPDATED
 import nerd.tuxmobil.fahrplan.congress.preferences.SettingsRepository
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsEffect.SetActivityResult
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.DeviceTimezoneClicked
 
 internal class SettingsViewModel(
@@ -22,16 +28,29 @@ internal class SettingsViewModel(
             initialValue = SettingsUiState()
         )
 
-    fun onViewEvent(event: SettingsEvent) {
-        handleEvent(event)
-    }
+    private val mutableEffects = Channel<SettingsEffect>()
+    val effects = mutableEffects.receiveAsFlow()
 
-    private fun handleEvent(event: SettingsEvent) = when (event) {
+    private val activityResultKeys = mutableSetOf<String>()
+
+    fun onViewEvent(event: SettingsEvent) = when (event) {
         DeviceTimezoneClicked -> toggleUseDeviceTimeZoneEnabled()
     }
 
     private fun toggleUseDeviceTimeZoneEnabled() {
         val enabled = uiState.value.settings.isUseDeviceTimeZoneEnabled
         settingsRepository.setUseDeviceTimeZone(!enabled)
+        updateActivityResult(USE_DEVICE_TIME_ZONE_UPDATED)
+    }
+
+    private fun updateActivityResult(key: String) {
+        activityResultKeys.add(key)
+        sendEffect(SetActivityResult(activityResultKeys.toImmutableList()))
+    }
+
+    private fun sendEffect(event: SettingsEffect) {
+        viewModelScope.launch {
+            mutableEffects.send(event)
+        }
     }
 }
