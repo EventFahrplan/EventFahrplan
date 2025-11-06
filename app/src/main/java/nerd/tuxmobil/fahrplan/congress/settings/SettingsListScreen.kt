@@ -15,6 +15,9 @@ import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.designsystem.bars.TopBar
 import nerd.tuxmobil.fahrplan.congress.designsystem.templates.Scaffold
 import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.DeviceTimezoneClicked
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.ScheduleStatisticClicked
+import nerd.tuxmobil.fahrplan.congress.settings.widgets.ClickPreference
 import nerd.tuxmobil.fahrplan.congress.settings.widgets.PreferenceCategory
 import nerd.tuxmobil.fahrplan.congress.settings.widgets.SwitchPreference
 
@@ -39,8 +42,25 @@ internal fun SettingsListScreen(
                 .verticalScroll(rememberScrollState())
                 .padding(contentPadding)
         ) {
+            if (state.isDevelopmentCategoryVisible) {
+                CategoryDevelopment(onViewEvent)
+            }
+
             CategoryGeneral(state, onViewEvent)
         }
+    }
+}
+
+@Composable
+private fun CategoryDevelopment(
+    onViewEvent: (SettingsEvent) -> Unit,
+) {
+    PreferenceCategory(stringResource(R.string.development_settings)) {
+        ClickPreference(
+            title = stringResource(R.string.preference_title_schedule_statistic),
+            subtitle = stringResource(R.string.preference_summary_schedule_statistic),
+            onClick = { onViewEvent(ScheduleStatisticClicked) },
+        )
     }
 }
 
@@ -49,12 +69,12 @@ private fun CategoryGeneral(
     state: SettingsUiState,
     onViewEvent: (SettingsEvent) -> Unit,
 ) {
-    PreferenceCategory(text = stringResource(R.string.general_settings)) {
+    PreferenceCategory(stringResource(R.string.general_settings)) {
         SwitchPreference(
             title = stringResource(R.string.preference_title_use_device_time_zone_enabled),
             subtitle = stringResource(R.string.preference_summary_use_device_time_zone_enabled),
             checked = state.settings.isUseDeviceTimeZoneEnabled,
-            onCheckedChange = { onViewEvent(SettingsEvent.DeviceTimezoneClicked) },
+            onCheckedChange = { onViewEvent(DeviceTimezoneClicked) },
         )
     }
 }
