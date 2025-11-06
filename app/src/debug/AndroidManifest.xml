@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- TODO: Only for testing purposes. Remove once new settings screen replaces the old one. -->
+    <application>
+        <activity
+            android:name=".settings.NewSettingsActivity"
+            android:label="New settings"
+            android:exported="true"
+            android:theme="@style/Theme.Congress.NoActionBar"
+            android:taskAffinity=".settings.NewSettingsActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>
