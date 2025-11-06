@@ -1,5 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress.settings
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -15,8 +16,19 @@ class NewSettingsActivity : BaseActivity() {
             EventFahrplanTheme {
                 SettingsScreen(
                     onBack = { onBackPressedDispatcher.onBackPressed() },
+                    onSetActivityResult = ::setActivityResult
                 )
             }
         }
+    }
+
+    private fun setActivityResult(keys: List<String>) {
+        val resultIntent = Intent().apply {
+            for (key in keys) {
+                putExtra(key, true)
+            }
+        }
+
+        setResult(RESULT_OK, resultIntent)
     }
 }
