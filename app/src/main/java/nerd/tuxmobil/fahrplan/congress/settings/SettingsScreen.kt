@@ -10,11 +10,15 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.activity
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.dialog
 import androidx.navigation.compose.rememberNavController
 import info.metadude.android.eventfahrplan.commons.flow.observe
 import nerd.tuxmobil.fahrplan.congress.schedulestatistic.ScheduleStatisticActivity
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsEffect.NavigateBack
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEffect.NavigateTo
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEffect.SetActivityResult
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.SetAlarmTime
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsNavigationDestination.AlarmTime
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsNavigationDestination.ScheduleStatistic
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsNavigationDestination.SettingsList
 
@@ -34,6 +38,7 @@ internal fun SettingsScreen(
         viewModel.effects.observe(lifecycleOwner) { effect ->
             when (effect) {
                 is NavigateTo -> navController.navigate(effect.destination.route)
+                NavigateBack -> navController.popBackStack()
                 is SetActivityResult -> onSetActivityResult(effect.keys)
             }
         }
@@ -48,6 +53,13 @@ internal fun SettingsScreen(
         }
         activity(route = ScheduleStatistic.route) {
             activityClass = ScheduleStatisticActivity::class
+        }
+        dialog(route = AlarmTime.route) {
+            AlarmTimeDialog(
+                currentValue = state.settings.alarmTime,
+                onOptionSelected = { viewModel.onViewEvent(SetAlarmTime(it)) },
+                onDismiss = { navController.popBackStack() },
+            )
         }
     }
 }
