@@ -12,9 +12,11 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys.USE_DEVICE_TIME_ZONE_UPDATED
 import nerd.tuxmobil.fahrplan.congress.preferences.SettingsRepository
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsEffect.NavigateTo
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEffect.SetActivityResult
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.DeviceTimezoneClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.ScheduleStatisticClicked
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsNavigationDestination.ScheduleStatistic
 
 internal class SettingsViewModel(
     private val settingsRepository: SettingsRepository,
@@ -35,7 +37,7 @@ internal class SettingsViewModel(
     private val activityResultKeys = mutableSetOf<String>()
 
     fun onViewEvent(event: SettingsEvent) = when (event) {
-        ScheduleStatisticClicked -> TODO("navigate to schedule statistic screen")
+        ScheduleStatisticClicked -> navigateTo(ScheduleStatistic)
         DeviceTimezoneClicked -> toggleUseDeviceTimeZoneEnabled()
     }
 
@@ -48,6 +50,10 @@ internal class SettingsViewModel(
     private fun updateActivityResult(key: String) {
         activityResultKeys.add(key)
         sendEffect(SetActivityResult(activityResultKeys.toImmutableList()))
+    }
+
+    private fun navigateTo(destination: SettingsNavigationDestination) {
+        sendEffect(NavigateTo(destination))
     }
 
     private fun sendEffect(event: SettingsEffect) {

@@ -222,6 +222,7 @@ dependencies {
     implementation Libs.material
     implementation Libs.moshi
     ksp Libs.moshiCodeGen
+    implementation Libs.navigation
     implementation Libs.okhttp
     implementation Libs.okhttpLoggingInterceptor
     implementation Libs.preference
