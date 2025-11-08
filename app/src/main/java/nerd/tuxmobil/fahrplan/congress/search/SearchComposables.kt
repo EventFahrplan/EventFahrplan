@@ -1,6 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.search
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -313,7 +314,10 @@ private fun SearchHistoryList(
             fontWeight = Bold,
             modifier = Modifier.weight(1f),
         )
-        ButtonOutlined(onClick = { onViewEvent(OnSearchHistoryClear) }) {
+        ButtonOutlined(
+            border = BorderStroke(1.dp, EventFahrplanTheme.colorScheme.primary),
+            onClick = { onViewEvent(OnSearchHistoryClear) }
+        ) {
             Text(
                 stringResource(R.string.search_history_clear),
             )

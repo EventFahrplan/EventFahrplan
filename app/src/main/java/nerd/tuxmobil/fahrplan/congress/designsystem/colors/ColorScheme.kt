@@ -44,12 +44,23 @@ data class ColorScheme(
     val surfaceContainerHighest: Color,
     val surfaceContainerLow: Color,
     val surfaceContainerLowest: Color,
+    val primaryFixed: Color,
+    val primaryFixedDim: Color,
+    val onPrimaryFixed: Color,
+    val onPrimaryFixedVariant: Color,
+    val secondaryFixed: Color,
+    val secondaryFixedDim: Color,
+    val onSecondaryFixed: Color,
+    val onSecondaryFixedVariant: Color,
+    val tertiaryFixed: Color,
+    val tertiaryFixedDim: Color,
+    val onTertiaryFixed: Color,
+    val onTertiaryFixedVariant: Color,
 
     // Custom colors
     val topAppBarContainer: Color,
     val divider: Color,
     val searchBarDivider: Color,
-
 )
 
 internal fun ColorScheme.toMaterial3ColorScheme(): Material3ColorScheme {
@@ -90,5 +101,17 @@ internal fun ColorScheme.toMaterial3ColorScheme(): Material3ColorScheme {
         surfaceContainerHighest = surfaceContainerHighest,
         surfaceContainerLow = surfaceContainerLow,
         surfaceContainerLowest = surfaceContainerLowest,
+        primaryFixed = primaryFixed,
+        primaryFixedDim = primaryFixedDim,
+        onPrimaryFixed = onPrimaryFixed,
+        onPrimaryFixedVariant = onPrimaryFixedVariant,
+        secondaryFixed = secondaryFixed,
+        secondaryFixedDim = secondaryFixedDim,
+        onSecondaryFixed = onSecondaryFixed,
+        onSecondaryFixedVariant = onSecondaryFixedVariant,
+        tertiaryFixed = tertiaryFixed,
+        tertiaryFixedDim = tertiaryFixedDim,
+        onTertiaryFixed = onTertiaryFixed,
+        onTertiaryFixedVariant = onTertiaryFixedVariant,
     )
 }
