@@ -1,5 +1,9 @@
 package nerd.tuxmobil.fahrplan.congress.settings
 
+import android.content.Context
+import android.content.Intent
+import android.os.Build
+import android.provider.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -14,6 +18,7 @@ import androidx.navigation.compose.dialog
 import androidx.navigation.compose.rememberNavController
 import info.metadude.android.eventfahrplan.commons.flow.observe
 import nerd.tuxmobil.fahrplan.congress.schedulestatistic.ScheduleStatisticActivity
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsEffect.LaunchNotificationSettingsScreen
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEffect.NavigateBack
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEffect.NavigateTo
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEffect.SetActivityResult
@@ -34,11 +39,13 @@ internal fun SettingsScreen(
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
     val lifecycleOwner = LocalLifecycleOwner.current
+    val context = LocalContext.current
     LaunchedEffect(lifecycleOwner) {
         viewModel.effects.observe(lifecycleOwner) { effect ->
             when (effect) {
                 is NavigateTo -> navController.navigate(effect.destination.route)
                 NavigateBack -> navController.popBackStack()
+                LaunchNotificationSettingsScreen -> context.launchSystemNotificationScreen()
                 is SetActivityResult -> onSetActivityResult(effect.keys)
             }
         }
@@ -61,5 +68,16 @@ internal fun SettingsScreen(
                 onDismiss = { navController.popBackStack() },
             )
         }
+    }
+}
+
+private fun Context.launchSystemNotificationScreen() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        val intent = Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS).apply {
+            putExtra(Settings.EXTRA_APP_PACKAGE, packageName)
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
+
+        startActivity(intent)
     }
 }
