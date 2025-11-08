@@ -12,10 +12,12 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys.USE_DEVICE_TIME_ZONE_UPDATED
 import nerd.tuxmobil.fahrplan.congress.preferences.SettingsRepository
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsEffect.LaunchNotificationSettingsScreen
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEffect.NavigateBack
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEffect.NavigateTo
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEffect.SetActivityResult
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.AlarmTimeClicked
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.CustomizeNotificationsClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.DeviceTimezoneClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.ScheduleStatisticClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.SetAlarmTime
@@ -43,6 +45,7 @@ internal class SettingsViewModel(
     fun onViewEvent(event: SettingsEvent) = when (event) {
         ScheduleStatisticClicked -> navigateTo(ScheduleStatistic)
         DeviceTimezoneClicked -> toggleUseDeviceTimeZoneEnabled()
+        CustomizeNotificationsClicked -> launchNotificationSettingsScreen()
         AlarmTimeClicked -> navigateTo(AlarmTime)
         is SetAlarmTime -> updateAlarmTime(event.alarmTime)
     }
@@ -51,6 +54,10 @@ internal class SettingsViewModel(
         val enabled = uiState.value.settings.isUseDeviceTimeZoneEnabled
         settingsRepository.setUseDeviceTimeZone(!enabled)
         updateActivityResult(USE_DEVICE_TIME_ZONE_UPDATED)
+    }
+
+    private fun launchNotificationSettingsScreen() {
+        sendEffect(LaunchNotificationSettingsScreen)
     }
 
     private fun updateAlarmTime(alarmTime: Int) {

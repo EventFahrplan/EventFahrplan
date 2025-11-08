@@ -16,9 +16,11 @@ import nerd.tuxmobil.fahrplan.congress.designsystem.bars.TopBar
 import nerd.tuxmobil.fahrplan.congress.designsystem.templates.Scaffold
 import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.AlarmTimeClicked
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.CustomizeNotificationsClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.DeviceTimezoneClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.ScheduleStatisticClicked
 import nerd.tuxmobil.fahrplan.congress.settings.widgets.ClickPreference
+import nerd.tuxmobil.fahrplan.congress.settings.widgets.ExternalClickPreference
 import nerd.tuxmobil.fahrplan.congress.settings.widgets.PreferenceCategory
 import nerd.tuxmobil.fahrplan.congress.settings.widgets.SwitchPreference
 
@@ -78,6 +80,14 @@ private fun CategoryGeneral(
             checked = state.settings.isUseDeviceTimeZoneEnabled,
             onCheckedChange = { onViewEvent(DeviceTimezoneClicked) },
         )
+
+        if (state.isNotificationSettingsVisible) {
+            ExternalClickPreference(
+                title = stringResource(R.string.preference_title_app_notification_settings),
+                subtitle = stringResource(R.string.preference_summary_app_notification_settings),
+                onClick = { onViewEvent(CustomizeNotificationsClicked) },
+            )
+        }
     }
 }
 

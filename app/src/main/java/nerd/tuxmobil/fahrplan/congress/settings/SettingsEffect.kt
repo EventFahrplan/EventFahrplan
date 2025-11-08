@@ -5,5 +5,6 @@ import kotlinx.collections.immutable.ImmutableList
 internal sealed interface SettingsEffect {
     data class NavigateTo(val destination: SettingsNavigationDestination) : SettingsEffect
     data object NavigateBack : SettingsEffect
+    data object LaunchNotificationSettingsScreen : SettingsEffect
     data class SetActivityResult(val keys: ImmutableList<String>) : SettingsEffect
 }
