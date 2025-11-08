@@ -12,10 +12,14 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys.USE_DEVICE_TIME_ZONE_UPDATED
 import nerd.tuxmobil.fahrplan.congress.preferences.SettingsRepository
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsEffect.NavigateBack
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEffect.NavigateTo
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEffect.SetActivityResult
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.AlarmTimeClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.DeviceTimezoneClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.ScheduleStatisticClicked
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.SetAlarmTime
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsNavigationDestination.AlarmTime
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsNavigationDestination.ScheduleStatistic
 
 internal class SettingsViewModel(
@@ -39,12 +43,19 @@ internal class SettingsViewModel(
     fun onViewEvent(event: SettingsEvent) = when (event) {
         ScheduleStatisticClicked -> navigateTo(ScheduleStatistic)
         DeviceTimezoneClicked -> toggleUseDeviceTimeZoneEnabled()
+        AlarmTimeClicked -> navigateTo(AlarmTime)
+        is SetAlarmTime -> updateAlarmTime(event.alarmTime)
     }
 
     private fun toggleUseDeviceTimeZoneEnabled() {
         val enabled = uiState.value.settings.isUseDeviceTimeZoneEnabled
         settingsRepository.setUseDeviceTimeZone(!enabled)
         updateActivityResult(USE_DEVICE_TIME_ZONE_UPDATED)
+    }
+
+    private fun updateAlarmTime(alarmTime: Int) {
+        settingsRepository.setAlarmTime(alarmTime)
+        navigateBack()
     }
 
     private fun updateActivityResult(key: String) {
@@ -54,6 +65,10 @@ internal class SettingsViewModel(
 
     private fun navigateTo(destination: SettingsNavigationDestination) {
         sendEffect(NavigateTo(destination))
+    }
+
+    private fun navigateBack() {
+        sendEffect(NavigateBack)
     }
 
     private fun sendEffect(event: SettingsEffect) {

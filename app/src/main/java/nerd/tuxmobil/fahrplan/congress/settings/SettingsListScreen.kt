@@ -15,6 +15,7 @@ import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.designsystem.bars.TopBar
 import nerd.tuxmobil.fahrplan.congress.designsystem.templates.Scaffold
 import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.AlarmTimeClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.DeviceTimezoneClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.ScheduleStatisticClicked
 import nerd.tuxmobil.fahrplan.congress.settings.widgets.ClickPreference
@@ -47,6 +48,7 @@ internal fun SettingsListScreen(
             }
 
             CategoryGeneral(state, onViewEvent)
+            CategoryAlarms(state, onViewEvent)
         }
     }
 }
@@ -75,6 +77,20 @@ private fun CategoryGeneral(
             subtitle = stringResource(R.string.preference_summary_use_device_time_zone_enabled),
             checked = state.settings.isUseDeviceTimeZoneEnabled,
             onCheckedChange = { onViewEvent(DeviceTimezoneClicked) },
+        )
+    }
+}
+
+@Composable
+private fun CategoryAlarms(
+    state: SettingsUiState,
+    onViewEvent: (SettingsEvent) -> Unit,
+) {
+    PreferenceCategory(stringResource(R.string.reminders)) {
+        ClickPreference(
+            title = stringResource(R.string.preference_dialog_title_alarm_time),
+            subtitle = state.settings.alarmTimeToUiString(),
+            onClick = { onViewEvent(AlarmTimeClicked) },
         )
     }
 }
