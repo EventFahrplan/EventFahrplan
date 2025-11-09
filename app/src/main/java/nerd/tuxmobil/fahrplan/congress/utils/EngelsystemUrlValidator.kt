@@ -3,42 +3,46 @@ package nerd.tuxmobil.fahrplan.congress.utils
 import androidx.annotation.StringRes
 import androidx.core.net.toUri
 import nerd.tuxmobil.fahrplan.congress.R
+import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolving
+import nerd.tuxmobil.fahrplan.congress.utils.Validation.ValidationResult
+import nerd.tuxmobil.fahrplan.congress.utils.Validation.ValidationResult.Error
+import nerd.tuxmobil.fahrplan.congress.utils.Validation.ValidationResult.Success
 
 class EngelsystemUrlValidator(
-
-        private val url: String
-
+    private val resourceResolver: ResourceResolving,
+    private val urlTypeName: String,
 ) : Validation {
+    private val urlValidator = UrlValidator(resourceResolver, urlTypeName)
 
-    @StringRes
-    private var errorMessage: Int? = null
+    private val noQueryError = validationError(R.string.validation_error_url_without_query)
+    private val noApiKeyError = validationError(R.string.validation_error_url_without_api_key)
+    private val incompleteQueryPartError = validationError(R.string.validation_error_url_with_incomplete_query)
 
-    @StringRes
-    override fun getErrorMessage(): Int? = errorMessage
-
-    override fun isValid(): Boolean {
-        val urlValidator = UrlValidator(url)
-        if (!urlValidator.isValid()) {
-            errorMessage = urlValidator.getErrorMessage()
-            return false
+    override fun validate(input: String): ValidationResult {
+        val urlValidationResult = urlValidator.validate(input)
+        if (urlValidationResult !== Success) {
+            return urlValidationResult
         }
-        val uri = url.toUri()
+
+        val uri = input.toUri()
         val query = uri.query
         if (query.isNullOrEmpty()) {
-            errorMessage = R.string.validation_error_url_without_query
-            return false
+            return noQueryError
         }
+
         if (query.isNotEmpty()) {
             if (query.endsWith("=")) {
-                errorMessage = R.string.validation_error_url_without_api_key
-                return false
+                return noApiKeyError
             }
             if (!query.contains("=")) {
-                errorMessage = R.string.validation_error_url_with_incomplete_query
-                return false
+                return incompleteQueryPartError
             }
         }
-        return true
+
+        return Success
     }
 
+    private fun validationError(@StringRes errorResId: Int): Error {
+        return Error(errorMessage = resourceResolver.getString(errorResId, urlTypeName))
+    }
 }

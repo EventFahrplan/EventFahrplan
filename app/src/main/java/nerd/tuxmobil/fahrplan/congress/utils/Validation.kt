@@ -1,12 +1,10 @@
 package nerd.tuxmobil.fahrplan.congress.utils
 
-import androidx.annotation.StringRes
-
 interface Validation {
+    fun validate(input: String): ValidationResult
 
-    fun isValid(): Boolean
-
-    @StringRes
-    fun getErrorMessage(): Int?
-
+    sealed interface ValidationResult {
+        data object Success : ValidationResult
+        data class Error(val errorMessage: String) : ValidationResult
+    }
 }

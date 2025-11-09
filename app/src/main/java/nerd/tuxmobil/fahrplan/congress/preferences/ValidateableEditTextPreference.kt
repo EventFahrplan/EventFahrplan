@@ -7,10 +7,15 @@ import androidx.core.content.withStyledAttributes
 import androidx.core.widget.doAfterTextChanged
 import androidx.preference.EditTextPreference
 import nerd.tuxmobil.fahrplan.congress.R
+import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolver
 import nerd.tuxmobil.fahrplan.congress.extensions.enableContentSensitivitySensitive
-import nerd.tuxmobil.fahrplan.congress.preferences.ValidateableEditTextPreference.ValidationType
+import nerd.tuxmobil.fahrplan.congress.preferences.ValidateableEditTextPreference.ValidationType.EngelsystemUrl
+import nerd.tuxmobil.fahrplan.congress.preferences.ValidateableEditTextPreference.ValidationType.Url
 import nerd.tuxmobil.fahrplan.congress.utils.EngelsystemUrlValidator
 import nerd.tuxmobil.fahrplan.congress.utils.UrlValidator
+import nerd.tuxmobil.fahrplan.congress.utils.Validation.ValidationResult.Error
+import nerd.tuxmobil.fahrplan.congress.utils.Validation.ValidationResult.Success
+import nerd.tuxmobil.fahrplan.congress.utils.Validation
 
 /**
  * A dialog based [EditTextPreference] that shows an [EditText] in the dialog.
@@ -20,13 +25,11 @@ import nerd.tuxmobil.fahrplan.congress.utils.UrlValidator
 class ValidateableEditTextPreference : StyleableEditTextPreference {
 
     private companion object {
-
         const val URL_TYPE_FRIENDLY_NAME_DEFAULT_VALUE = ""
-
+        const val UNKNOWN_VALIDATION_TYPE = 0
     }
 
-    private lateinit var validationType: ValidationType
-    private lateinit var urlTypeFriendlyName: String
+    private lateinit var validator: Validation
 
     @Suppress("unused")
     constructor(context: Context) : super(context)
@@ -51,13 +54,15 @@ class ValidateableEditTextPreference : StyleableEditTextPreference {
     private fun applyAttributes(context: Context, attrs: AttributeSet?) {
         context.withStyledAttributes(attrs, R.styleable.ValidateableEditTextPreference) {
             val type = getInt(
-                    R.styleable.ValidateableEditTextPreference_validationType,
-                    ValidationType.Unknown.value
+                R.styleable.ValidateableEditTextPreference_validationType,
+                UNKNOWN_VALIDATION_TYPE
             )
-            validationType = ValidationType.of(type)
-            urlTypeFriendlyName = getString(
-                    R.styleable.ValidateableEditTextPreference_urlTypeFriendlyName)
-                    ?: URL_TYPE_FRIENDLY_NAME_DEFAULT_VALUE
+            val validationType = ValidationType.of(type)
+            val urlTypeFriendlyName = getString(
+                R.styleable.ValidateableEditTextPreference_urlTypeFriendlyName
+            ) ?: URL_TYPE_FRIENDLY_NAME_DEFAULT_VALUE
+
+            validator = validationType.getValidator(urlTypeFriendlyName)
         }
     }
 
@@ -67,14 +72,15 @@ class ValidateableEditTextPreference : StyleableEditTextPreference {
         editText.doAfterTextChanged { editable ->
             requireNotNull(editable)
             val url = editable.toString().trim()
-            val validation = validationType.toValidation(url)
-            // TODO Disable the "OK" button if the URL is invalid.
             // Allow users to wipe their URL
-            editText.error = if (url.isEmpty() || validation.isValid()) {
+            editText.error = if (url.isEmpty()) {
                 null
             } else {
-                if (validation.getErrorMessage() == null) "General validation error"
-                else editText.resources.getString(validation.getErrorMessage()!!, urlTypeFriendlyName)
+                // TODO Disable the "OK" button if the URL is invalid.
+                when (val validationResult = validator.validate(url)) {
+                    Success -> null
+                    is Error -> validationResult.errorMessage
+                }
             }
         }
     }
@@ -82,9 +88,8 @@ class ValidateableEditTextPreference : StyleableEditTextPreference {
     /**
      * The [value] has to match one the enum values in attrs.xml -> validationType.
      */
-    sealed class ValidationType(val value: Int) {
+    private sealed class ValidationType(val value: Int) {
 
-        data object Unknown : ValidationType(0)
         data object Url : ValidationType(1)
         data object EngelsystemUrl : ValidationType(2)
 
@@ -98,19 +103,16 @@ class ValidateableEditTextPreference : StyleableEditTextPreference {
         }
     }
 
-    private fun ValidationType.toValidation(url: String) = when (this) {
-        ValidationType.Url -> UrlValidator(url)
-        ValidationType.EngelsystemUrl -> EngelsystemUrlValidator(url)
-        // Fails once the user submits their input. Late, but still good to know.
-        else -> throw UnknownValidationTypeException(this)
-    }
+    private fun ValidationType.getValidator(urlTypeFriendlyName: String): Validation {
+        val resourceResolver = ResourceResolver(context)
 
+        return when (this) {
+            Url -> UrlValidator(resourceResolver, urlTypeFriendlyName)
+            EngelsystemUrl -> EngelsystemUrlValidator(resourceResolver, urlTypeFriendlyName)
+        }
+    }
 }
 
 private class UnknownUrlTypeException(type: Int) : IllegalArgumentException(
     "Unknown url type: $type."
-)
-
-private class UnknownValidationTypeException(type: ValidationType) : IllegalArgumentException(
-    "Unknown validation type: $type."
 )
