@@ -1,6 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.preferences
 
 import android.content.Context
+import android.net.Uri
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -12,7 +13,7 @@ interface SettingsRepository {
     fun setUseDeviceTimeZone(enable: Boolean)
     fun setAlternativeHighlighting(enable: Boolean)
     fun setFastSwiping(enable: Boolean)
-    fun setAlarmTone(alarmToneUri: String?)
+    fun setAlarmTone(alarmTone: Uri?)
     fun setInsistentAlarms(enable: Boolean)
     fun setAlarmTime(alarmTime: Int)
 

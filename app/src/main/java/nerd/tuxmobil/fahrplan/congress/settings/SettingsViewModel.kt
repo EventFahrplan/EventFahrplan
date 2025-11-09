@@ -1,7 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress.settings
 
 import android.net.Uri
-import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.collections.immutable.toImmutableList
@@ -68,12 +67,12 @@ internal class SettingsViewModel(
     }
 
     private fun pickAlarmTone() {
-        val currentAlarmTone = uiState.value.settings.alarmTone?.toUri()
+        val currentAlarmTone = uiState.value.settings.alarmTone
         sendEffect(PickAlarmTone(currentAlarmTone))
     }
 
     private fun updateAlarmTone(alarmTone: Uri?) {
-        settingsRepository.setAlarmTone(alarmTone?.toString())
+        settingsRepository.setAlarmTone(alarmTone)
     }
 
     private fun updateAlarmTime(alarmTime: Int) {
