@@ -1,5 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress.settings
 
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.collections.immutable.toImmutableList
@@ -15,12 +16,15 @@ import nerd.tuxmobil.fahrplan.congress.preferences.SettingsRepository
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEffect.LaunchNotificationSettingsScreen
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEffect.NavigateBack
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEffect.NavigateTo
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsEffect.PickAlarmTone
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEffect.SetActivityResult
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.AlarmTimeClicked
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.AlarmToneClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.CustomizeNotificationsClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.DeviceTimezoneClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.ScheduleStatisticClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.SetAlarmTime
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.SetAlarmTone
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsNavigationDestination.AlarmTime
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsNavigationDestination.ScheduleStatistic
 
@@ -46,6 +50,8 @@ internal class SettingsViewModel(
         ScheduleStatisticClicked -> navigateTo(ScheduleStatistic)
         DeviceTimezoneClicked -> toggleUseDeviceTimeZoneEnabled()
         CustomizeNotificationsClicked -> launchNotificationSettingsScreen()
+        AlarmToneClicked -> pickAlarmTone()
+        is SetAlarmTone -> updateAlarmTone(event.alarmTone)
         AlarmTimeClicked -> navigateTo(AlarmTime)
         is SetAlarmTime -> updateAlarmTime(event.alarmTime)
     }
@@ -58,6 +64,15 @@ internal class SettingsViewModel(
 
     private fun launchNotificationSettingsScreen() {
         sendEffect(LaunchNotificationSettingsScreen)
+    }
+
+    private fun pickAlarmTone() {
+        val currentAlarmTone = uiState.value.settings.alarmTone
+        sendEffect(PickAlarmTone(currentAlarmTone))
+    }
+
+    private fun updateAlarmTone(alarmTone: Uri?) {
+        settingsRepository.setAlarmTone(alarmTone)
     }
 
     private fun updateAlarmTime(alarmTime: Int) {

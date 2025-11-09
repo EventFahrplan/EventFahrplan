@@ -16,6 +16,7 @@ import nerd.tuxmobil.fahrplan.congress.designsystem.bars.TopBar
 import nerd.tuxmobil.fahrplan.congress.designsystem.templates.Scaffold
 import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.AlarmTimeClicked
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.AlarmToneClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.CustomizeNotificationsClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.DeviceTimezoneClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.ScheduleStatisticClicked
@@ -97,6 +98,12 @@ private fun CategoryAlarms(
     onViewEvent: (SettingsEvent) -> Unit,
 ) {
     PreferenceCategory(stringResource(R.string.reminders)) {
+        ExternalClickPreference(
+            title = stringResource(R.string.preference_title_alarm_tone),
+            subtitle = stringResource(R.string.preference_summary_alarm_tone),
+            onClick = { onViewEvent(AlarmToneClicked) },
+        )
+
         ClickPreference(
             title = stringResource(R.string.preference_dialog_title_alarm_time),
             subtitle = state.settings.alarmTimeToUiString(),

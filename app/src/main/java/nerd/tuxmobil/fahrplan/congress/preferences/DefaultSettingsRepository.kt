@@ -2,6 +2,7 @@ package nerd.tuxmobil.fahrplan.congress.preferences
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.net.Uri
 import androidx.core.content.edit
 import androidx.preference.PreferenceManager
 import kotlinx.coroutines.channels.awaitClose
@@ -10,6 +11,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import nerd.tuxmobil.fahrplan.congress.R
+import nerd.tuxmobil.fahrplan.congress.utils.AlarmToneConversion
 
 internal class DefaultSettingsRepository(
     private val context: Context,
@@ -58,10 +60,11 @@ internal class DefaultSettingsRepository(
         }
     }
 
-    override fun setAlarmTone(alarmToneUri: String?) {
+    override fun setAlarmTone(alarmTone: Uri?) {
         preferences.edit {
             val key = context.getString(R.string.preference_key_alarm_tone)
-            putString(key, alarmToneUri)
+            val value = AlarmToneConversion.getPersistableString(alarmTone)
+            putString(key, value)
         }
     }
 
@@ -136,10 +139,11 @@ internal class DefaultSettingsRepository(
         return value.toInt()
     }
 
-    private fun getAlarmTone(): String? {
+    private fun getAlarmTone(): Uri? {
         val key = context.getString(R.string.preference_key_alarm_tone)
         val defaultValue = AlarmTonePreference.DEFAULT_VALUE_STRING
-        return preferences.getString(key, defaultValue)
+        val value = preferences.getString(key, defaultValue)!!
+        return AlarmToneConversion.getPickerIntentUri(value)
     }
 
     private fun isUseDeviceTimeZoneEnabled(): Boolean {
