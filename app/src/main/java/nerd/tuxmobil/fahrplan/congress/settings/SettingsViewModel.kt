@@ -11,6 +11,8 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
+import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys.ENGELSYSTEM_SHIFTS_URL_UPDATED
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys.USE_DEVICE_TIME_ZONE_UPDATED
 import nerd.tuxmobil.fahrplan.congress.preferences.SettingsRepository
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEffect.LaunchNotificationSettingsScreen
@@ -22,10 +24,13 @@ import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.AlarmTimeClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.AlarmToneClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.CustomizeNotificationsClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.DeviceTimezoneClicked
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.EngelsystemUrlClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.ScheduleStatisticClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.SetAlarmTime
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.SetAlarmTone
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.SetEngelsystemShiftsUrl
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsNavigationDestination.AlarmTime
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsNavigationDestination.EngelSystemUrl
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsNavigationDestination.ScheduleStatistic
 
 internal class SettingsViewModel(
@@ -54,6 +59,8 @@ internal class SettingsViewModel(
         is SetAlarmTone -> updateAlarmTone(event.alarmTone)
         AlarmTimeClicked -> navigateTo(AlarmTime)
         is SetAlarmTime -> updateAlarmTime(event.alarmTime)
+        EngelsystemUrlClicked -> navigateTo(EngelSystemUrl)
+        is SetEngelsystemShiftsUrl -> updateEngelsystemShiftsUrl(event.url)
     }
 
     private fun toggleUseDeviceTimeZoneEnabled() {
@@ -77,6 +84,12 @@ internal class SettingsViewModel(
 
     private fun updateAlarmTime(alarmTime: Int) {
         settingsRepository.setAlarmTime(alarmTime)
+        navigateBack()
+    }
+
+    private fun updateEngelsystemShiftsUrl(url: String) {
+        settingsRepository.setEngelsystemShiftsUrl(url)
+        updateActivityResult(ENGELSYSTEM_SHIFTS_URL_UPDATED)
         navigateBack()
     }
 

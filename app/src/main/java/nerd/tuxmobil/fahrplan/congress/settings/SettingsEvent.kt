@@ -12,4 +12,7 @@ internal sealed interface SettingsEvent {
     data class SetAlarmTone(val alarmTone: Uri?): SettingsEvent
     data object AlarmTimeClicked : SettingsEvent
     data class SetAlarmTime(val alarmTime: Int) : SettingsEvent
+
+    data object EngelsystemUrlClicked : SettingsEvent
+    data class SetEngelsystemShiftsUrl(val url: String) : SettingsEvent
 }

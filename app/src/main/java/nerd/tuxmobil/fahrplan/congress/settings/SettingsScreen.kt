@@ -27,7 +27,9 @@ import nerd.tuxmobil.fahrplan.congress.settings.SettingsEffect.PickAlarmTone
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEffect.SetActivityResult
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.SetAlarmTone
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.SetAlarmTime
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.SetEngelsystemShiftsUrl
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsNavigationDestination.AlarmTime
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsNavigationDestination.EngelSystemUrl
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsNavigationDestination.ScheduleStatistic
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsNavigationDestination.SettingsList
 
@@ -77,6 +79,13 @@ internal fun SettingsScreen(
                 currentValue = state.settings.alarmTime,
                 onOptionSelected = { viewModel.onViewEvent(SetAlarmTime(it)) },
                 onDismiss = { navController.popBackStack() },
+            )
+        }
+        dialog(route = EngelSystemUrl.route) {
+            EngelsystemUrlDialog(
+                currentValue = state.settings.engelsystemShiftsUrl,
+                onValueChanged = { viewModel.onViewEvent(SetEngelsystemShiftsUrl(it)) },
+                onDismiss = { navController.popBackStack() }
             )
         }
     }

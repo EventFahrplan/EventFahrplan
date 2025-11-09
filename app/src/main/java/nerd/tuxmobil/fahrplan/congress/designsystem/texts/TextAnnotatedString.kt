@@ -1,9 +1,11 @@
 package nerd.tuxmobil.fahrplan.congress.designsystem.texts
 
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -26,6 +28,7 @@ fun Text(
     lineHeight: TextUnit = TextUnit.Unspecified,
     overflow: TextOverflow = TextOverflow.Clip,
     maxLines: Int = Int.MAX_VALUE,
+    style: TextStyle = LocalTextStyle.current,
 ) {
     Material3Text(
         modifier = modifier,
@@ -39,5 +42,6 @@ fun Text(
         lineHeight = lineHeight,
         overflow = overflow,
         maxLines = maxLines,
+        style = style,
     )
 }
