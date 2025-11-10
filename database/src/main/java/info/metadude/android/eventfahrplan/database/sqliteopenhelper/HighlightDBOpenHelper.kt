@@ -17,7 +17,7 @@ internal class HighlightDBOpenHelper(context: Context) : SQLiteOpenHelper(
 ) {
 
     private companion object {
-        const val DATABASE_VERSION = 6
+        const val DATABASE_VERSION = 7
         const val DATABASE_NAME = "highlight"
 
         // language=sql
@@ -33,7 +33,7 @@ internal class HighlightDBOpenHelper(context: Context) : SQLiteOpenHelper(
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) = with(db) {
-        // Clear database from Camp 2023 & 37C3 2023.
+        // Clear database from Camp 2023 & 38C3 2024.
         dropTableIfExist(NAME)
         onCreate(this)
     }
