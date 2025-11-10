@@ -25,6 +25,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
@@ -130,7 +131,7 @@ fun SessionDetails(session: SessionDetails, showRoomState: Boolean, roomStateMes
                     verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.session_details_common_space_between_sections)),
                 ) {
                     RoomState(showRoomState, roomStateMessage)
-                    Title(title)
+                    Title(title, showTitleBoxed)
                     Subtitle(subtitle)
                     SpeakerNames(speakerNames, Modifier.padding(top = dimensionResource(R.dimen.session_details_extra_space_above_speaker_names)))
                     Abstract(abstract, htmlStyle)
@@ -205,18 +206,25 @@ private fun RoomState(showRoomState: Boolean, roomStateMessage: String) {
 @Composable
 private fun Title(
     property: SessionDetailsProperty<String>,
+    showBoxed: Boolean,
     modifier: Modifier = Modifier,
 ) {
     if (property.value.isNotEmpty()) {
         val fontSize = dimensionResource(R.dimen.session_details_title).toTextUnit()
         val multiplier = floatResource(R.dimen.session_details_title_line_spacing_multiplier)
         val lineHeight = fontSize.times(multiplier)
+        val backgroundColor = if (showBoxed) EventFahrplanTheme.colorScheme.onBackground else Color.Transparent
+        val padding = if (showBoxed) 8.dp else 0.dp
+        val textColor = if (showBoxed) EventFahrplanTheme.colorScheme.background else EventFahrplanTheme.colorScheme.onBackground
         TextSectionHeader(
             modifier = modifier
+                .background(backgroundColor)
+                .padding(padding)
                 .semantics {
                     contentDescription = property.contentDescription
                 },
             text = property.value,
+            color = textColor,
             fontSize = fontSize,
             lineHeight = lineHeight,
         )
@@ -525,12 +533,14 @@ private fun TextSectionHeader(
 private fun TextSectionHeader(
     text: String,
     modifier: Modifier = Modifier,
+    color: Color = Color.Unspecified,
     fontSize: TextUnit = TextUnit.Unspecified,
     lineHeight: TextUnit = TextUnit.Unspecified,
 ) {
     TextSection(
         modifier = modifier,
         text = text,
+        color = color,
         fontSize = fontSize,
         fontWeight = FontWeight.Bold,
         lineHeight = lineHeight,
@@ -558,6 +568,7 @@ private fun TextSection(
 private fun TextSection(
     text: String,
     modifier: Modifier = Modifier,
+    color: Color = Color.Unspecified,
     fontSize: TextUnit = TextUnit.Unspecified,
     fontWeight: FontWeight? = null,
     lineHeight: TextUnit = TextUnit.Unspecified,
@@ -565,6 +576,7 @@ private fun TextSection(
     Text(
         modifier = modifier,
         text = text,
+        color = color,
         fontSize = if (fontSize == TextUnit.Unspecified) dimensionResource(R.dimen.session_details_text).toTextUnit() else fontSize,
         fontWeight = fontWeight,
         lineHeight = lineHeight,

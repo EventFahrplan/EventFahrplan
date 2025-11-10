@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">39C3 Fahrplan</string>
+    <string name="app_hardcoded_subtitle">
+        27.-30. Dezember 2025, Congress Center Hamburg
+    </string>
+    <string name="copyright_logo">
+        39C3 Power Cycles. Design von Nina Bender und Bernd Volmer
+    </string>
+    <string name="about_logo_content_description">
+        39C3 Power Cycles Logo
+    </string>
+</resources>

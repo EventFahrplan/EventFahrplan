@@ -2,3 +2,8 @@ signing.cccamp2023-release.keystoreFilePath=/home/USERNAME/.android/cccamp2023-r
 signing.cccamp2023-release.keystorePassword="PASSWORD"
 signing.cccamp2023-release.keyAlias="cccamp2023"
 signing.cccamp2023-release.keyPassword="ANOTHERPASSWORD"
+
+signing.ccc39c3-release.keystoreFilePath=/home/USERNAME/.android/ccc39c3-release-key.keystore
+signing.ccc39c3-release.keystorePassword="PASSWORD"
+signing.ccc39c3-release.keyAlias="ccc39c3"
+signing.ccc39c3-release.keyPassword="ANOTHERPASSWORD"

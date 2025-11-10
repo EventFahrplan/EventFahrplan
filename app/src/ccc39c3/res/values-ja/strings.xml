@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">39C3 Schedule</string>
+    <string name="app_hardcoded_subtitle">
+        2025年12月27日〜30日, Congress Center Hamburg
+    </string>
+    <string name="copyright_logo">
+        39C3 Power Cycles. Nina Bender + Bernd Volmer によるデザイン
+    </string>
+    <string name="about_logo_content_description">
+        39C3 Power Cyclesのロゴ
+    </string>
+</resources>

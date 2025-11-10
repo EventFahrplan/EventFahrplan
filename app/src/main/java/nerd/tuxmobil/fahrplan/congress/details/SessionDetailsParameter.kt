@@ -1,5 +1,7 @@
 package nerd.tuxmobil.fahrplan.congress.details
 
+import nerd.tuxmobil.fahrplan.congress.BuildConfig
+
 sealed interface SessionDetailsParameter {
     data class SessionDetails(
         val id: SessionDetailsProperty<String>,
@@ -13,5 +15,7 @@ sealed interface SessionDetailsParameter {
         val startsAt: SessionDetailsProperty<String>,
         val roomName: SessionDetailsProperty<String>,
         val sessionLink: String,
+        @Suppress("KotlinConstantConditions", "SimplifyBooleanWithConstants")
+        val showTitleBoxed: Boolean = BuildConfig.FLAVOR == "ccc39c3"
     ) : SessionDetailsParameter
 }

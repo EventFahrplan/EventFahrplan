@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Grafik 39C3</string>
+    <string name="app_hardcoded_subtitle">
+        27–30 grudnia 2025, Congress Center Hamburg
+    </string>
+    <string name="copyright_logo">
+        39C3 Power Cycles. Projekt Nina Bender + Bernd Volmer
+    </string>
+    <string name="about_logo_content_description">
+        Logo 39C3 Power Cycles
+    </string>
+</resources>
