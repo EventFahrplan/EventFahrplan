@@ -7,6 +7,8 @@ internal sealed interface SettingsEvent {
 
     data object DeviceTimezoneClicked : SettingsEvent
     data object CustomizeNotificationsClicked : SettingsEvent
+    data object AlternativeScheduleUrlClicked : SettingsEvent
+    data class SetAlternativeScheduleUrl(val url: String) : SettingsEvent
 
     data object AlarmToneClicked : SettingsEvent
     data class SetAlarmTone(val alarmTone: Uri?): SettingsEvent

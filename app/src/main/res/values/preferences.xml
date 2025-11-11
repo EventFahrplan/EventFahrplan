@@ -141,6 +141,7 @@
     </string>
     <string name="preference_title_alternative_schedule_url">Configure alternative schedule URL</string>
     <string name="preference_summary_alternative_schedule_url">Enter a backup URL if the preconfigured server cannot be reached.</string>
+    <string name="preference_url_type_friendly_name_alternative_schedule">alternative schedule</string>
 
     <!-- App notification settings -->
     <string name="preference_key_app_notification_settings" translatable="false">app_notification_settings</string>

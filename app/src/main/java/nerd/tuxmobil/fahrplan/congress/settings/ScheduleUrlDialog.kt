@@ -9,28 +9,28 @@ import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.commons.ResourceResolver
 import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
 import nerd.tuxmobil.fahrplan.congress.settings.widgets.PreferenceTextInputDialog
-import nerd.tuxmobil.fahrplan.congress.utils.EngelsystemUrlValidator
+import nerd.tuxmobil.fahrplan.congress.utils.UrlValidator
 
 @Composable
-internal fun EngelsystemUrlDialog(
+internal fun ScheduleUrlDialog(
     currentValue: String?,
     onValueChanged: (String) -> Unit,
     onDismiss: () -> Unit,
 ) {
     val context = LocalContext.current
-    val urlTypeName = stringResource(R.string.preference_url_type_friendly_name_engelsystem_json_export)
-    val validator = remember(context, urlTypeName) {
-        EngelsystemUrlValidator(
+    val urlTypeName = stringResource(R.string.preference_url_type_friendly_name_alternative_schedule)
+    val urlValidator = remember(context, urlTypeName) {
+        UrlValidator(
             resourceResolver = ResourceResolver(context),
             urlTypeName = urlTypeName,
         )
     }
 
     PreferenceTextInputDialog(
-        title = stringResource(R.string.preference_title_engelsystem_json_export_url),
+        title = stringResource(R.string.preference_title_alternative_schedule_url),
         value = currentValue.orEmpty(),
-        placeholder = stringResource(R.string.preference_hint_engelsystem_json_export_url),
-        validator = validator,
+        placeholder = stringResource(R.string.preference_hint_alternative_schedule_url),
+        validator = urlValidator,
         onValueChanged = onValueChanged,
         onDismiss = onDismiss,
     )
@@ -38,9 +38,9 @@ internal fun EngelsystemUrlDialog(
 
 @PreviewLightDark
 @Composable
-internal fun EngelsystemUrlDialogPreview() {
+internal fun ScheduleUrlDialogPreview() {
     EventFahrplanTheme {
-        EngelsystemUrlDialog(
+        ScheduleUrlDialog(
             currentValue = "",
             onValueChanged = {},
             onDismiss = {},

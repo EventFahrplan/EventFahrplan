@@ -21,6 +21,7 @@ import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.CustomizeNotificat
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.DeviceTimezoneClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.EngelsystemUrlClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.ScheduleStatisticClicked
+import nerd.tuxmobil.fahrplan.congress.settings.widgets.AlternativeScheduleUrlPreference
 import nerd.tuxmobil.fahrplan.congress.settings.widgets.ClickPreference
 import nerd.tuxmobil.fahrplan.congress.settings.widgets.EngelsystemShiftsUrlPreference
 import nerd.tuxmobil.fahrplan.congress.settings.widgets.ExternalClickPreference
@@ -93,6 +94,13 @@ private fun CategoryGeneral(
                 title = stringResource(R.string.preference_title_app_notification_settings),
                 subtitle = stringResource(R.string.preference_summary_app_notification_settings),
                 onClick = { onViewEvent(CustomizeNotificationsClicked) },
+            )
+        }
+
+        if (state.isAlternativeScheduleUrlVisible) {
+            AlternativeScheduleUrlPreference(
+                alternativeScheduleUrl = state.settings.alternativeScheduleUrl,
+                onViewEvent = onViewEvent,
             )
         }
     }

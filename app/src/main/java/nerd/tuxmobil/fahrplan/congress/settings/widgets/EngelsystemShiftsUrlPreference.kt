@@ -32,7 +32,7 @@ internal fun EngelsystemShiftsUrlPreference(
     ) {
         Text(
             text = stringResource(R.string.preference_title_engelsystem_json_export_url),
-            style = EventFahrplanTheme.typography.titleLarge,
+            style = EventFahrplanTheme.typography.preferenceTitle,
         )
 
         Text(
