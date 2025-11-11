@@ -25,13 +25,18 @@ class EngelsystemUrlValidatorTest {
         )
     }
 
+    private val validator = EngelsystemUrlValidator(
+        resourceResolver = createFakeResourceResolver(),
+        urlTypeName = "Engelsystem",
+    )
+
     @ParameterizedTest(name = "{index}: url = {0} -> isValid = {1}")
     @MethodSource("data")
     fun isValid(
         url: String,
         isValid: Boolean
     ) {
-        assertThat(EngelsystemUrlValidator(url).isValid()).isEqualTo(isValid)
+        assertThat(validator.validate(url).isValid()).isEqualTo(isValid)
     }
 
 }

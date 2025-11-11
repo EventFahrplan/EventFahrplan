@@ -19,8 +19,10 @@ import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.AlarmTimeClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.AlarmToneClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.CustomizeNotificationsClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.DeviceTimezoneClicked
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.EngelsystemUrlClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.ScheduleStatisticClicked
 import nerd.tuxmobil.fahrplan.congress.settings.widgets.ClickPreference
+import nerd.tuxmobil.fahrplan.congress.settings.widgets.EngelsystemShiftsUrlPreference
 import nerd.tuxmobil.fahrplan.congress.settings.widgets.ExternalClickPreference
 import nerd.tuxmobil.fahrplan.congress.settings.widgets.PreferenceCategory
 import nerd.tuxmobil.fahrplan.congress.settings.widgets.SwitchPreference
@@ -52,6 +54,10 @@ internal fun SettingsListScreen(
 
             CategoryGeneral(state, onViewEvent)
             CategoryAlarms(state, onViewEvent)
+
+            if (state.isEngelsystemCategoryVisible) {
+                CategoryEngelsystem(state, onViewEvent)
+            }
         }
     }
 }
@@ -108,6 +114,19 @@ private fun CategoryAlarms(
             title = stringResource(R.string.preference_dialog_title_alarm_time),
             subtitle = state.settings.alarmTimeToUiString(),
             onClick = { onViewEvent(AlarmTimeClicked) },
+        )
+    }
+}
+
+@Composable
+private fun CategoryEngelsystem(
+    state: SettingsUiState,
+    onViewEvent: (SettingsEvent) -> Unit,
+) {
+    PreferenceCategory(stringResource(R.string.preference_engelsystem_category_title)) {
+        EngelsystemShiftsUrlPreference(
+            engelsystemShiftsUrl = state.settings.engelsystemShiftsUrl,
+            onClick = { onViewEvent(EngelsystemUrlClicked) },
         )
     }
 }

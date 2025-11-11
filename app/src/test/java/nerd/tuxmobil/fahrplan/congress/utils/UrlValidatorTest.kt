@@ -22,13 +22,18 @@ class UrlValidatorTest {
         )
     }
 
+    private val validator = UrlValidator(
+        resourceResolver = createFakeResourceResolver(),
+        urlTypeName = "",
+    )
+
     @ParameterizedTest(name = "{index}: url = {0} -> isValid = {1}")
     @MethodSource("data")
     fun isValid(
         url: String,
         isValid: Boolean
     ) {
-        assertThat(UrlValidator(url).isValid()).isEqualTo(isValid)
+        assertThat(validator.validate(url).isValid()).isEqualTo(isValid)
     }
 
 }
