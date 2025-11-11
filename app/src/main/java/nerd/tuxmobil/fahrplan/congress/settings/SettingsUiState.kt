@@ -8,6 +8,7 @@ import nerd.tuxmobil.fahrplan.congress.preferences.Settings
 internal data class SettingsUiState(
     val isDevelopmentCategoryVisible: Boolean = BuildConfig.DEBUG,
     val isNotificationSettingsVisible: Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O,
+    val isAlternativeScheduleUrlVisible: Boolean = BuildConfig.ENABLE_ALTERNATIVE_SCHEDULE_URL,
     val isEngelsystemCategoryVisible: Boolean = BuildConfig.ENABLE_ENGELSYSTEM_SHIFTS,
 
     val settings: Settings = Settings(),
