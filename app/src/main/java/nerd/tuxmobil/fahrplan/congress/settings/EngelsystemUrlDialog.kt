@@ -18,10 +18,11 @@ internal fun EngelsystemUrlDialog(
     onDismiss: () -> Unit,
 ) {
     val context = LocalContext.current
-    val validator = remember(context) {
+    val urlTypeName = stringResource(R.string.preference_url_type_friendly_name_engelsystem_json_export)
+    val validator = remember(context, urlTypeName) {
         EngelsystemUrlValidator(
             resourceResolver = ResourceResolver(context),
-            urlTypeName = "Engelsystem",
+            urlTypeName = urlTypeName,
         )
     }
 
