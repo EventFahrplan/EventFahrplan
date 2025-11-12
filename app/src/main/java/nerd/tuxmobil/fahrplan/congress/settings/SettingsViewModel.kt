@@ -28,14 +28,17 @@ import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.AutoUpdateClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.CustomizeNotificationsClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.DeviceTimezoneClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.EngelsystemUrlClicked
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.ScheduleRefreshIntervalClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.ScheduleStatisticClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.SetAlarmTime
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.SetAlarmTone
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.SetAlternativeScheduleUrl
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.SetEngelsystemShiftsUrl
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.SetScheduleRefreshInterval
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsNavigationDestination.AlarmTime
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsNavigationDestination.AlternativeScheduleUrl
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsNavigationDestination.EngelSystemUrl
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsNavigationDestination.ScheduleRefreshInterval
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsNavigationDestination.ScheduleStatistic
 
 internal class SettingsViewModel(
@@ -62,6 +65,8 @@ internal class SettingsViewModel(
     private val activityResultKeys = mutableSetOf<String>()
 
     fun onViewEvent(event: SettingsEvent) = when (event) {
+        ScheduleRefreshIntervalClicked -> navigateTo(ScheduleRefreshInterval)
+        is SetScheduleRefreshInterval -> updateScheduleRefreshInterval(event.refreshInterval)
         ScheduleStatisticClicked -> navigateTo(ScheduleStatistic)
         AutoUpdateClicked -> toggleAutoUpdateEnabled()
         DeviceTimezoneClicked -> toggleUseDeviceTimeZoneEnabled()
@@ -74,6 +79,13 @@ internal class SettingsViewModel(
         is SetAlarmTime -> updateAlarmTime(event.alarmTime)
         EngelsystemUrlClicked -> navigateTo(EngelSystemUrl)
         is SetEngelsystemShiftsUrl -> updateEngelsystemShiftsUrl(event.url)
+    }
+
+    private fun updateScheduleRefreshInterval(refreshInterval: Int) {
+        settingsRepository.setScheduleRefreshInterval(refreshInterval)
+        val isAutoUpdateEnabled = uiState.value.settings.isAutoUpdateEnabled
+        scheduleNextFetchUpdater.update(isAutoUpdateEnabled)
+        navigateBack()
     }
 
     private fun toggleAutoUpdateEnabled() {
