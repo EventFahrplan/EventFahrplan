@@ -7,15 +7,15 @@ import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys.ENGELSYSTEM_SHIFTS_URL_UPDATED
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys.SCHEDULE_URL_UPDATED
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys.USE_DEVICE_TIME_ZONE_UPDATED
 import nerd.tuxmobil.fahrplan.congress.preferences.SettingsRepository
+import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEffect.LaunchNotificationSettingsScreen
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEffect.NavigateBack
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEffect.NavigateTo
@@ -24,6 +24,7 @@ import nerd.tuxmobil.fahrplan.congress.settings.SettingsEffect.SetActivityResult
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.AlarmTimeClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.AlarmToneClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.AlternativeScheduleUrlClicked
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.AutoUpdateClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.CustomizeNotificationsClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.DeviceTimezoneClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.EngelsystemUrlClicked
@@ -38,11 +39,16 @@ import nerd.tuxmobil.fahrplan.congress.settings.SettingsNavigationDestination.En
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsNavigationDestination.ScheduleStatistic
 
 internal class SettingsViewModel(
+    appRepository: AppRepository,
     private val settingsRepository: SettingsRepository,
+    private val scheduleNextFetchUpdater: ScheduleNextFetchUpdater,
 ) : ViewModel() {
     val uiState: StateFlow<SettingsUiState> = settingsRepository.settingsStream
-        .map { settings ->
-            SettingsUiState(settings = settings)
+        .combine(appRepository.scheduleNextFetch) { settings, nextFetch ->
+            SettingsUiState(
+                settings = settings,
+                nextFetch = nextFetch,
+            )
         }
         .stateIn(
             scope = viewModelScope,
@@ -57,6 +63,7 @@ internal class SettingsViewModel(
 
     fun onViewEvent(event: SettingsEvent) = when (event) {
         ScheduleStatisticClicked -> navigateTo(ScheduleStatistic)
+        AutoUpdateClicked -> toggleAutoUpdateEnabled()
         DeviceTimezoneClicked -> toggleUseDeviceTimeZoneEnabled()
         CustomizeNotificationsClicked -> launchNotificationSettingsScreen()
         AlternativeScheduleUrlClicked -> navigateTo(AlternativeScheduleUrl)
@@ -67,6 +74,12 @@ internal class SettingsViewModel(
         is SetAlarmTime -> updateAlarmTime(event.alarmTime)
         EngelsystemUrlClicked -> navigateTo(EngelSystemUrl)
         is SetEngelsystemShiftsUrl -> updateEngelsystemShiftsUrl(event.url)
+    }
+
+    private fun toggleAutoUpdateEnabled() {
+        val isAutoUpdateEnabled = !uiState.value.settings.isAutoUpdateEnabled
+        settingsRepository.setAutoUpdateEnabled(isAutoUpdateEnabled)
+        scheduleNextFetchUpdater.update(isAutoUpdateEnabled)
     }
 
     private fun toggleUseDeviceTimeZoneEnabled() {

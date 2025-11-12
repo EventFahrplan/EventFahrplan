@@ -5,6 +5,7 @@ import android.net.Uri
 internal sealed interface SettingsEvent {
     data object ScheduleStatisticClicked : SettingsEvent
 
+    data object AutoUpdateClicked : SettingsEvent
     data object DeviceTimezoneClicked : SettingsEvent
     data object CustomizeNotificationsClicked : SettingsEvent
     data object AlternativeScheduleUrlClicked : SettingsEvent

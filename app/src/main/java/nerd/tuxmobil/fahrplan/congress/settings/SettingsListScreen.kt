@@ -23,6 +23,7 @@ import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.EngelsystemUrlClic
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.ScheduleStatisticClicked
 import nerd.tuxmobil.fahrplan.congress.settings.widgets.AlternativeScheduleUrlPreference
 import nerd.tuxmobil.fahrplan.congress.settings.widgets.ClickPreference
+import nerd.tuxmobil.fahrplan.congress.settings.widgets.EnableAutomaticUpdatesPreference
 import nerd.tuxmobil.fahrplan.congress.settings.widgets.EngelsystemShiftsUrlPreference
 import nerd.tuxmobil.fahrplan.congress.settings.widgets.ExternalClickPreference
 import nerd.tuxmobil.fahrplan.congress.settings.widgets.PreferenceCategory
@@ -82,6 +83,12 @@ private fun CategoryGeneral(
     onViewEvent: (SettingsEvent) -> Unit,
 ) {
     PreferenceCategory(stringResource(R.string.general_settings)) {
+        EnableAutomaticUpdatesPreference(
+            isAutoUpdateEnabled = state.settings.isAutoUpdateEnabled,
+            nextFetch = state.nextFetch,
+            onViewEvent = onViewEvent,
+        )
+
         SwitchPreference(
             title = stringResource(R.string.preference_title_use_device_time_zone_enabled),
             subtitle = stringResource(R.string.preference_summary_use_device_time_zone_enabled),

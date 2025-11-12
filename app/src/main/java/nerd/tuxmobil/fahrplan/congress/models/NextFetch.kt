@@ -15,4 +15,8 @@ data class NextFetch(
      * and [SCHEDULE_NEXT_FETCH_INTERVAL_DEFAULT_VALUE][RealSharedPreferencesRepository.SCHEDULE_NEXT_FETCH_INTERVAL_DEFAULT_VALUE]
      */
     fun isValid() = !nextFetchAt.isEpoch() && interval.isPositive()
+
+    companion object {
+        val INVALID = NextFetch(Moment.ofEpochMilli(0), Duration.ZERO)
+    }
 }
