@@ -41,6 +41,7 @@ import nerd.tuxmobil.fahrplan.congress.settings.SettingsNavigationDestination.Sc
 internal class SettingsViewModel(
     appRepository: AppRepository,
     private val settingsRepository: SettingsRepository,
+    private val scheduleNextFetchUpdater: ScheduleNextFetchUpdater,
 ) : ViewModel() {
     val uiState: StateFlow<SettingsUiState> = settingsRepository.settingsStream
         .combine(appRepository.scheduleNextFetch) { settings, nextFetch ->
@@ -78,7 +79,7 @@ internal class SettingsViewModel(
     private fun toggleAutoUpdateEnabled() {
         val isAutoUpdateEnabled = !uiState.value.settings.isAutoUpdateEnabled
         settingsRepository.setAutoUpdateEnabled(isAutoUpdateEnabled)
-        // TODO: Update schedule fetch mechanism
+        scheduleNextFetchUpdater.update(isAutoUpdateEnabled)
     }
 
     private fun toggleUseDeviceTimeZoneEnabled() {

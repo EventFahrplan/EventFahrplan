@@ -15,6 +15,7 @@ class SettingsViewModelFactory(
         return SettingsViewModel(
             appRepository = AppRepository,
             settingsRepository = SettingsRepository.getInstance(context),
+            scheduleNextFetchUpdater = ScheduleNextFetchUpdater.newInstance(context),
         ) as T
     }
 }
