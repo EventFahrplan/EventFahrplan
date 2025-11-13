@@ -21,6 +21,7 @@ import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.AlternativeHighlig
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.CustomizeNotificationsClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.DeviceTimezoneClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.EngelsystemUrlClicked
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.FastSwipingClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.ScheduleRefreshIntervalClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.ScheduleStatisticClicked
 import nerd.tuxmobil.fahrplan.congress.settings.widgets.AlternativeScheduleUrlPreference
@@ -125,6 +126,13 @@ private fun CategoryGeneral(
             subtitle = stringResource(R.string.preference_summary_alternative_highlighting_enabled),
             checked = state.settings.isAlternativeHighlightingEnabled,
             onCheckedChange = { onViewEvent(AlternativeHighlightingClicked) },
+        )
+
+        SwitchPreference(
+            title = stringResource(R.string.preference_title_fast_swiping_enabled),
+            subtitle = stringResource(R.string.preference_summary_fast_swiping_enabled),
+            checked = state.settings.isFastSwipingEnabled,
+            onCheckedChange = { onViewEvent(FastSwipingClicked) },
         )
     }
 }

@@ -30,6 +30,7 @@ import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.AutoUpdateClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.CustomizeNotificationsClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.DeviceTimezoneClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.EngelsystemUrlClicked
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.FastSwipingClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.ScheduleRefreshIntervalClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.ScheduleStatisticClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.SetAlarmTime
@@ -76,6 +77,7 @@ internal class SettingsViewModel(
         AlternativeScheduleUrlClicked -> navigateTo(AlternativeScheduleUrl)
         is SetAlternativeScheduleUrl -> updateAlternativeScheduleUrl(event.url)
         AlternativeHighlightingClicked -> toggleAlternativeHighlightingEnabled()
+        FastSwipingClicked -> toggleFastSwipingEnabled()
         AlarmToneClicked -> pickAlarmTone()
         is SetAlarmTone -> updateAlarmTone(event.alarmTone)
         AlarmTimeClicked -> navigateTo(AlarmTime)
@@ -117,6 +119,11 @@ internal class SettingsViewModel(
         val enabled = uiState.value.settings.isAlternativeHighlightingEnabled
         settingsRepository.setAlternativeHighlighting(!enabled)
         updateActivityResult(ALTERNATIVE_HIGHLIGHTING_UPDATED)
+    }
+
+    private fun toggleFastSwipingEnabled() {
+        val enabled = uiState.value.settings.isFastSwipingEnabled
+        settingsRepository.setFastSwiping(!enabled)
     }
 
     private fun pickAlarmTone() {
