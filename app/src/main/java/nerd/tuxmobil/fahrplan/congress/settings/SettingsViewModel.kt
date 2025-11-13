@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys.ALTERNATIVE_HIGHLIGHTING_UPDATED
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys.ENGELSYSTEM_SHIFTS_URL_UPDATED
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys.SCHEDULE_URL_UPDATED
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys.USE_DEVICE_TIME_ZONE_UPDATED
@@ -23,6 +24,7 @@ import nerd.tuxmobil.fahrplan.congress.settings.SettingsEffect.PickAlarmTone
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEffect.SetActivityResult
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.AlarmTimeClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.AlarmToneClicked
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.AlternativeHighlightingClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.AlternativeScheduleUrlClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.AutoUpdateClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.CustomizeNotificationsClicked
@@ -73,6 +75,7 @@ internal class SettingsViewModel(
         CustomizeNotificationsClicked -> launchNotificationSettingsScreen()
         AlternativeScheduleUrlClicked -> navigateTo(AlternativeScheduleUrl)
         is SetAlternativeScheduleUrl -> updateAlternativeScheduleUrl(event.url)
+        AlternativeHighlightingClicked -> toggleAlternativeHighlightingEnabled()
         AlarmToneClicked -> pickAlarmTone()
         is SetAlarmTone -> updateAlarmTone(event.alarmTone)
         AlarmTimeClicked -> navigateTo(AlarmTime)
@@ -108,6 +111,12 @@ internal class SettingsViewModel(
         settingsRepository.setAlternativeScheduleUrl(url)
         updateActivityResult(SCHEDULE_URL_UPDATED)
         navigateBack()
+    }
+
+    private fun toggleAlternativeHighlightingEnabled() {
+        val enabled = uiState.value.settings.isAlternativeHighlightingEnabled
+        settingsRepository.setAlternativeHighlighting(!enabled)
+        updateActivityResult(ALTERNATIVE_HIGHLIGHTING_UPDATED)
     }
 
     private fun pickAlarmTone() {

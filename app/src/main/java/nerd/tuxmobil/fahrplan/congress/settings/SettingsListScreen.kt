@@ -17,6 +17,7 @@ import nerd.tuxmobil.fahrplan.congress.designsystem.templates.Scaffold
 import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.AlarmTimeClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.AlarmToneClicked
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.AlternativeHighlightingClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.CustomizeNotificationsClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.DeviceTimezoneClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.EngelsystemUrlClicked
@@ -118,6 +119,13 @@ private fun CategoryGeneral(
                 onViewEvent = onViewEvent,
             )
         }
+
+        SwitchPreference(
+            title = stringResource(R.string.preference_title_alternative_highlighting_enabled),
+            subtitle = stringResource(R.string.preference_summary_alternative_highlighting_enabled),
+            checked = state.settings.isAlternativeHighlightingEnabled,
+            onCheckedChange = { onViewEvent(AlternativeHighlightingClicked) },
+        )
     }
 }
 
