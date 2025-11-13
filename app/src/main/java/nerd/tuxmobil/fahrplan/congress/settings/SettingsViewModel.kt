@@ -31,6 +31,7 @@ import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.CustomizeNotificat
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.DeviceTimezoneClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.EngelsystemUrlClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.FastSwipingClicked
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.InsistentAlarmClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.ScheduleRefreshIntervalClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.ScheduleStatisticClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.SetAlarmTime
@@ -80,6 +81,7 @@ internal class SettingsViewModel(
         FastSwipingClicked -> toggleFastSwipingEnabled()
         AlarmToneClicked -> pickAlarmTone()
         is SetAlarmTone -> updateAlarmTone(event.alarmTone)
+        InsistentAlarmClicked -> toggleInsistentAlarmsEnabled()
         AlarmTimeClicked -> navigateTo(AlarmTime)
         is SetAlarmTime -> updateAlarmTime(event.alarmTime)
         EngelsystemUrlClicked -> navigateTo(EngelSystemUrl)
@@ -133,6 +135,11 @@ internal class SettingsViewModel(
 
     private fun updateAlarmTone(alarmTone: Uri?) {
         settingsRepository.setAlarmTone(alarmTone)
+    }
+
+    private fun toggleInsistentAlarmsEnabled() {
+        val enabled = uiState.value.settings.isInsistentAlarmsEnabled
+        settingsRepository.setInsistentAlarms(!enabled)
     }
 
     private fun updateAlarmTime(alarmTime: Int) {

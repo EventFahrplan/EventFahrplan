@@ -22,6 +22,7 @@ import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.CustomizeNotificat
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.DeviceTimezoneClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.EngelsystemUrlClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.FastSwipingClicked
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.InsistentAlarmClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.ScheduleRefreshIntervalClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.ScheduleStatisticClicked
 import nerd.tuxmobil.fahrplan.congress.settings.widgets.AlternativeScheduleUrlPreference
@@ -147,6 +148,13 @@ private fun CategoryAlarms(
             title = stringResource(R.string.preference_title_alarm_tone),
             subtitle = stringResource(R.string.preference_summary_alarm_tone),
             onClick = { onViewEvent(AlarmToneClicked) },
+        )
+
+        SwitchPreference(
+            title = stringResource(R.string.preference_title_insistent_alarms_enabled),
+            subtitle = stringResource(R.string.preference_summary_insistent_alarms_enabled),
+            checked = state.settings.isInsistentAlarmsEnabled,
+            onCheckedChange = { onViewEvent(InsistentAlarmClicked) },
         )
 
         ClickPreference(

@@ -17,6 +17,7 @@ internal sealed interface SettingsEvent {
 
     data object AlarmToneClicked : SettingsEvent
     data class SetAlarmTone(val alarmTone: Uri?): SettingsEvent
+    data object InsistentAlarmClicked : SettingsEvent
     data object AlarmTimeClicked : SettingsEvent
     data class SetAlarmTime(val alarmTime: Int) : SettingsEvent
 
