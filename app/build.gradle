@@ -226,7 +226,6 @@ dependencies {
     implementation Libs.navigation
     implementation Libs.okhttp
     implementation Libs.okhttpLoggingInterceptor
-    implementation Libs.preference
     implementation Libs.roomStates
     implementation Libs.snackengagePlayrate
     implementation Libs.tracedroid

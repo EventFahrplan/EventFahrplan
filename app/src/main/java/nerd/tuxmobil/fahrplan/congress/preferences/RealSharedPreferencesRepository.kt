@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
-import androidx.preference.PreferenceManager
 import nerd.tuxmobil.fahrplan.congress.R
 
 class RealSharedPreferencesRepository(val context: Context) : SharedPreferencesRepository {
@@ -27,11 +26,7 @@ class RealSharedPreferencesRepository(val context: Context) : SharedPreferencesR
 
     }
 
-    private val preferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context.applicationContext)
-
-    init {
-        PreferenceManager.setDefaultValues(context, R.xml.prefs, false)
-    }
+    private val preferences: SharedPreferences = DefaultSettingsRepository.getDefaultSharedPreferences(context.applicationContext)
 
     override fun getScheduleRefreshIntervalDefaultValue(): Int {
         return context.getString(R.string.preference_default_value_schedule_refresh_interval_value).toInt()
