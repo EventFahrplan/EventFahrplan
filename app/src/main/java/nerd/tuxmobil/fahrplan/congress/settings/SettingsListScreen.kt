@@ -17,9 +17,12 @@ import nerd.tuxmobil.fahrplan.congress.designsystem.templates.Scaffold
 import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.AlarmTimeClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.AlarmToneClicked
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.AlternativeHighlightingClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.CustomizeNotificationsClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.DeviceTimezoneClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.EngelsystemUrlClicked
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.FastSwipingClicked
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.InsistentAlarmClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.ScheduleRefreshIntervalClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.ScheduleStatisticClicked
 import nerd.tuxmobil.fahrplan.congress.settings.widgets.AlternativeScheduleUrlPreference
@@ -118,6 +121,20 @@ private fun CategoryGeneral(
                 onViewEvent = onViewEvent,
             )
         }
+
+        SwitchPreference(
+            title = stringResource(R.string.preference_title_alternative_highlighting_enabled),
+            subtitle = stringResource(R.string.preference_summary_alternative_highlighting_enabled),
+            checked = state.settings.isAlternativeHighlightingEnabled,
+            onCheckedChange = { onViewEvent(AlternativeHighlightingClicked) },
+        )
+
+        SwitchPreference(
+            title = stringResource(R.string.preference_title_fast_swiping_enabled),
+            subtitle = stringResource(R.string.preference_summary_fast_swiping_enabled),
+            checked = state.settings.isFastSwipingEnabled,
+            onCheckedChange = { onViewEvent(FastSwipingClicked) },
+        )
     }
 }
 
@@ -131,6 +148,13 @@ private fun CategoryAlarms(
             title = stringResource(R.string.preference_title_alarm_tone),
             subtitle = stringResource(R.string.preference_summary_alarm_tone),
             onClick = { onViewEvent(AlarmToneClicked) },
+        )
+
+        SwitchPreference(
+            title = stringResource(R.string.preference_title_insistent_alarms_enabled),
+            subtitle = stringResource(R.string.preference_summary_insistent_alarms_enabled),
+            checked = state.settings.isInsistentAlarmsEnabled,
+            onCheckedChange = { onViewEvent(InsistentAlarmClicked) },
         )
 
         ClickPreference(
