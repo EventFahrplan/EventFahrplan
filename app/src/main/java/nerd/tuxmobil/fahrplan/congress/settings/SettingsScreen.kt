@@ -25,13 +25,15 @@ import nerd.tuxmobil.fahrplan.congress.settings.SettingsEffect.NavigateBack
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEffect.NavigateTo
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEffect.PickAlarmTone
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEffect.SetActivityResult
-import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.SetAlarmTone
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.SetAlarmTime
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.SetAlarmTone
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.SetAlternativeScheduleUrl
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.SetEngelsystemShiftsUrl
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.SetScheduleRefreshInterval
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsNavigationDestination.AlarmTime
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsNavigationDestination.AlternativeScheduleUrl
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsNavigationDestination.EngelSystemUrl
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsNavigationDestination.ScheduleRefreshInterval
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsNavigationDestination.ScheduleStatistic
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsNavigationDestination.SettingsList
 
@@ -72,6 +74,13 @@ internal fun SettingsScreen(
     ) {
         composable(route = SettingsList.route) {
             SettingsListScreen(state, onViewEvent = viewModel::onViewEvent, onBack = onBack)
+        }
+        dialog(route = ScheduleRefreshInterval.route) {
+            ScheduleRefreshIntervalDialog(
+                currentValue = state.settings.scheduleRefreshInterval,
+                onOptionSelected = { viewModel.onViewEvent(SetScheduleRefreshInterval(it)) },
+                onDismiss = { navController.popBackStack() },
+            )
         }
         activity(route = ScheduleStatistic.route) {
             activityClass = ScheduleStatisticActivity::class

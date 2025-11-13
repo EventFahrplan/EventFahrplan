@@ -20,6 +20,7 @@ import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.AlarmToneClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.CustomizeNotificationsClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.DeviceTimezoneClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.EngelsystemUrlClicked
+import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.ScheduleRefreshIntervalClicked
 import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.ScheduleStatisticClicked
 import nerd.tuxmobil.fahrplan.congress.settings.widgets.AlternativeScheduleUrlPreference
 import nerd.tuxmobil.fahrplan.congress.settings.widgets.ClickPreference
@@ -51,7 +52,7 @@ internal fun SettingsListScreen(
                 .padding(contentPadding)
         ) {
             if (state.isDevelopmentCategoryVisible) {
-                CategoryDevelopment(onViewEvent)
+                CategoryDevelopment(state, onViewEvent)
             }
 
             CategoryGeneral(state, onViewEvent)
@@ -66,9 +67,16 @@ internal fun SettingsListScreen(
 
 @Composable
 private fun CategoryDevelopment(
+    state: SettingsUiState,
     onViewEvent: (SettingsEvent) -> Unit,
 ) {
     PreferenceCategory(stringResource(R.string.development_settings)) {
+        ClickPreference(
+            title = stringResource(R.string.preference_title_schedule_refresh_interval),
+            subtitle = state.settings.scheduleRefreshIntervalToUiString(),
+            onClick = { onViewEvent(ScheduleRefreshIntervalClicked) },
+        )
+
         ClickPreference(
             title = stringResource(R.string.preference_title_schedule_statistic),
             subtitle = stringResource(R.string.preference_summary_schedule_statistic),

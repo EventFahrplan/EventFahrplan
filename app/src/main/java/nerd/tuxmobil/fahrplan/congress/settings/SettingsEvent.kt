@@ -3,6 +3,8 @@ package nerd.tuxmobil.fahrplan.congress.settings
 import android.net.Uri
 
 internal sealed interface SettingsEvent {
+    data object ScheduleRefreshIntervalClicked : SettingsEvent
+    data class SetScheduleRefreshInterval(val refreshInterval: Int) : SettingsEvent
     data object ScheduleStatisticClicked : SettingsEvent
 
     data object AutoUpdateClicked : SettingsEvent
