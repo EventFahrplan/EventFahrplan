@@ -89,12 +89,6 @@ class RealSharedPreferencesRepository(val context: Context) : SharedPreferencesR
         putBoolean(CHANGES_SEEN_KEY, changesSeen)
     }
 
-    override fun getEngelsystemShiftsUrl(): String {
-        val key = context.getString(R.string.preference_key_engelsystem_json_export_url)
-        val defaultValue = context.getString(R.string.preference_default_value_engelsystem_json_export_url)
-        return preferences.getString(key, defaultValue)!!
-    }
-
     override fun getEngelsystemETag(): String {
         return preferences.getString(ENGELSYSTEM_ETAG_KEY, "")!!
     }

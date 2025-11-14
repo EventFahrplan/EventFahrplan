@@ -185,7 +185,7 @@ internal class DefaultSettingsRepository(
         return preferences.getString(key, defaultValue)!!
     }
 
-    private fun getEngelsystemShiftsUrl(): String {
+    override fun getEngelsystemShiftsUrl(): String {
         val key = context.getString(R.string.preference_key_engelsystem_json_export_url)
         val defaultValue = context.getString(R.string.preference_default_value_engelsystem_json_export_url)
         return preferences.getString(key, defaultValue)!!

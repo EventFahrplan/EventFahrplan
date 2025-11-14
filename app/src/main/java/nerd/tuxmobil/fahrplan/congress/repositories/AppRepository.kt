@@ -1055,7 +1055,7 @@ object AppRepository : SearchRepository,
     }
 
     private fun readEngelsystemShiftsUri(): EngelsystemUri? {
-        val url = sharedPreferencesRepository.getEngelsystemShiftsUrl()
+        val url = settingsRepository.getEngelsystemShiftsUrl()
         return if (url.isEmpty()) null else EngelsystemUriParser().parseUri(url)
     }
 

@@ -19,6 +19,7 @@ import nerd.tuxmobil.fahrplan.congress.net.FetchScheduleResult
 import nerd.tuxmobil.fahrplan.congress.net.HttpStatus
 import nerd.tuxmobil.fahrplan.congress.net.ParseResult
 import nerd.tuxmobil.fahrplan.congress.net.ParseScheduleResult
+import nerd.tuxmobil.fahrplan.congress.preferences.SettingsRepository
 import nerd.tuxmobil.fahrplan.congress.preferences.SharedPreferencesRepository
 import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.FetchFailure
 import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.Fetching
@@ -75,6 +76,7 @@ class AppRepositoryLoadAndParseScheduleTest {
     private val metaDatabaseRepository = mock<MetaDatabaseRepository>()
     private val scheduleNetworkRepository = TestScheduleNetworkRepository()
     private val sharedPreferencesRepository = mock<SharedPreferencesRepository>()
+    private val settingsRepository = mock<SettingsRepository>()
     private val sessionsTransformer = mock<SessionsTransformer>()
 
     private val testableAppRepository: AppRepository
@@ -93,7 +95,7 @@ class AppRepositoryLoadAndParseScheduleTest {
                 scheduleNetworkRepository = scheduleNetworkRepository,
                 engelsystemRepository = mock(),
                 sharedPreferencesRepository = sharedPreferencesRepository,
-                settingsRepository = mock(),
+                settingsRepository = settingsRepository,
                 sessionsTransformer = sessionsTransformer
             )
             return this
@@ -159,7 +161,7 @@ class AppRepositoryLoadAndParseScheduleTest {
     fun `loadScheduleState emits FetchFailure HTTP 304 when schedule has not been modified`() =
         runTest {
             whenever(metaDatabaseRepository.query()) doReturn DatabaseMeta(numDays = 1)
-            whenever(sharedPreferencesRepository.getEngelsystemShiftsUrl()) doReturn EMPTY_ENGELSYSTEM_URL // early exit to bypass here
+            whenever(settingsRepository.getEngelsystemShiftsUrl()) doReturn EMPTY_ENGELSYSTEM_URL // early exit to bypass here
             val notModified = createFetchScheduleResult(NetworkHttpStatus.HTTP_NOT_MODIFIED)
             val onFetchingDone: OnFetchingDone = { result ->
                 assertThat(result).isEqualTo(notModified.toAppFetchScheduleResult())
@@ -228,7 +230,7 @@ class AppRepositoryLoadAndParseScheduleTest {
             verify(metaDatabaseRepository, times(2)).insert(any())
 
             // onParsingDone
-            whenever(sharedPreferencesRepository.getEngelsystemShiftsUrl()) doReturn EMPTY_ENGELSYSTEM_URL // early exit to bypass here
+            whenever(settingsRepository.getEngelsystemShiftsUrl()) doReturn EMPTY_ENGELSYSTEM_URL // early exit to bypass here
             scheduleNetworkRepository.onParsingDone(true, "1.0.0")
             testableAppRepository.loadScheduleState.test {
                 assertThat(awaitItem()).isEqualTo(ParseSuccess)
@@ -295,7 +297,7 @@ class AppRepositoryLoadAndParseScheduleTest {
             scheduleNetworkRepository.onFetchScheduleFinished(success)
 
             // onParsingDone
-            whenever(sharedPreferencesRepository.getEngelsystemShiftsUrl()) doReturn EMPTY_ENGELSYSTEM_URL // early exit to bypass here
+            whenever(settingsRepository.getEngelsystemShiftsUrl()) doReturn EMPTY_ENGELSYSTEM_URL // early exit to bypass here
             scheduleNetworkRepository.onParsingDone(false, "1.0.0")
             testableAppRepository.loadScheduleState.test {
                 assertThat(awaitItem()).isEqualTo(ParseFailure(ParseScheduleResult(false, "1.0.0")))
@@ -316,7 +318,7 @@ class AppRepositoryLoadAndParseScheduleTest {
             scheduleNetworkRepository.onFetchScheduleFinished(success)
 
             // onParsingDone
-            whenever(sharedPreferencesRepository.getEngelsystemShiftsUrl()) doReturn EMPTY_ENGELSYSTEM_URL // early exit to bypass here
+            whenever(settingsRepository.getEngelsystemShiftsUrl()) doReturn EMPTY_ENGELSYSTEM_URL // early exit to bypass here
             scheduleNetworkRepository.onParsingDone(false, "1.0.0")
             testableAppRepository.loadScheduleState.test {
                 assertThat(awaitItem()).isEqualTo(ParseFailure(ParseScheduleResult(false, "1.0.0")))

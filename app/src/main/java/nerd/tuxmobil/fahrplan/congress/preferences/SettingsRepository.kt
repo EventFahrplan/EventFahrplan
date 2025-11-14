@@ -27,6 +27,7 @@ interface SettingsRepository {
     fun setAutoUpdateEnabled(enable: Boolean)
     fun getAlternativeScheduleUrl(): String
     fun setAlternativeScheduleUrl(url: String)
+    fun getEngelsystemShiftsUrl(): String
     fun setEngelsystemShiftsUrl(url: String)
 
     companion object {

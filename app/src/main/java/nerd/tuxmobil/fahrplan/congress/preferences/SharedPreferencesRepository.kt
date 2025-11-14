@@ -24,8 +24,6 @@ interface SharedPreferencesRepository {
     fun getChangesSeen(): Boolean
     fun setChangesSeen(changesSeen: Boolean)
 
-    fun getEngelsystemShiftsUrl(): String
-
     fun getEngelsystemETag(): String
     fun setEngelsystemETag(eTag: String)
 
