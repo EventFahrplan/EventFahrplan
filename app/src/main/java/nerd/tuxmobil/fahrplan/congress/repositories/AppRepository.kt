@@ -1045,8 +1045,7 @@ object AppRepository : SearchRepository,
     fun readFastSwipingEnabled() = settingsRepository.isFastSwipingEnabled()
 
     @WorkerThread
-    fun readAutoUpdateEnabled() =
-            sharedPreferencesRepository.isAutoUpdateEnabled()
+    fun readAutoUpdateEnabled() = settingsRepository.isAutoUpdateEnabled()
 
     fun readScheduleUrl(): String {
         val alternateScheduleUrl = sharedPreferencesRepository.getAlternativeScheduleUrl()

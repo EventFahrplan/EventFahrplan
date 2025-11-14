@@ -49,12 +49,6 @@ class RealSharedPreferencesRepository(val context: Context) : SharedPreferencesR
         return if (index == -1) defaultIndex else index
     }
 
-    override fun isAutoUpdateEnabled(): Boolean {
-        val key = context.getString(R.string.preference_key_auto_update_enabled)
-        val defaultValue = context.resources.getBoolean(R.bool.preference_default_value_auto_update_enabled)
-        return preferences.getBoolean(key, defaultValue)
-    }
-
     override fun getDisplayDayIndex() = preferences.getInt(DISPLAY_DAY_INDEX_KEY, 1)
 
     override fun setDisplayDayIndex(displayDayIndex: Int) = preferences.edit {

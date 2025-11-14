@@ -7,8 +7,6 @@ interface SharedPreferencesRepository {
 
     fun getAlarmTimeIndex(): Int
 
-    fun isAutoUpdateEnabled(): Boolean
-
     fun getDisplayDayIndex(): Int
     fun setDisplayDayIndex(displayDayIndex: Int)
 

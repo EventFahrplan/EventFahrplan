@@ -22,6 +22,7 @@ interface SettingsRepository {
     fun setAlarmTime(alarmTime: Int)
 
     fun setScheduleRefreshInterval(interval: Int)
+    fun isAutoUpdateEnabled(): Boolean
     fun setAutoUpdateEnabled(enable: Boolean)
     fun setAlternativeScheduleUrl(url: String)
     fun setEngelsystemShiftsUrl(url: String)

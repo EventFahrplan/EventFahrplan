@@ -167,7 +167,7 @@ internal class DefaultSettingsRepository(
         return preferences.getBoolean(key, defaultValue)
     }
 
-    private fun isAutoUpdateEnabled(): Boolean {
+    override fun isAutoUpdateEnabled(): Boolean {
         val key = context.getString(R.string.preference_key_auto_update_enabled)
         val defaultValue = context.resources.getBoolean(R.bool.preference_default_value_auto_update_enabled)
         return preferences.getBoolean(key, defaultValue)
