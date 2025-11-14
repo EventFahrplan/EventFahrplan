@@ -10,8 +10,6 @@ interface SharedPreferencesRepository {
     fun getDisplayDayIndex(): Int
     fun setDisplayDayIndex(displayDayIndex: Int)
 
-    fun isInsistentAlarmsEnabled(): Boolean
-
     fun getScheduleLastFetchedAt(): Long
     fun setScheduleLastFetchedAt(fetchedAt: Long)
 

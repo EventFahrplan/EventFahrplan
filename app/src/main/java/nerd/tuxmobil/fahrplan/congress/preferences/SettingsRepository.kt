@@ -18,6 +18,7 @@ interface SettingsRepository {
     fun setFastSwiping(enable: Boolean)
     fun getAlarmTone(): Uri?
     fun setAlarmTone(alarmTone: Uri?)
+    fun isInsistentAlarmsEnabled(): Boolean
     fun setInsistentAlarms(enable: Boolean)
     fun setAlarmTime(alarmTime: Int)
 

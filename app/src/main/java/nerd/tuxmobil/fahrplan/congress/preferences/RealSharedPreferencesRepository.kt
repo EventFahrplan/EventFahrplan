@@ -55,12 +55,6 @@ class RealSharedPreferencesRepository(val context: Context) : SharedPreferencesR
         putInt(DISPLAY_DAY_INDEX_KEY, displayDayIndex)
     }
 
-    override fun isInsistentAlarmsEnabled(): Boolean {
-        val key = context.getString(R.string.preference_key_insistent_alarms_enabled)
-        val defaultValue = context.resources.getBoolean(R.bool.preference_default_value_insistent_alarms_enabled)
-        return preferences.getBoolean(key, defaultValue)
-    }
-
     override fun getScheduleLastFetchedAt() =
             preferences.getLong(SCHEDULE_LAST_FETCHED_AT_KEY, 0)
 

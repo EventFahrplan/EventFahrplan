@@ -1104,8 +1104,7 @@ object AppRepository : SearchRepository,
         refreshSessionsWithoutShifts()
     }
 
-    fun readInsistentAlarmsEnabled() =
-            sharedPreferencesRepository.isInsistentAlarmsEnabled()
+    fun readInsistentAlarmsEnabled() = settingsRepository.isInsistentAlarmsEnabled()
 
     private fun readSearchHistory(): List<String> {
         return sharedPreferencesRepository.getSearchHistory()

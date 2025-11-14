@@ -173,7 +173,7 @@ internal class DefaultSettingsRepository(
         return preferences.getBoolean(key, defaultValue)
     }
 
-    private fun isInsistentAlarmsEnabled(): Boolean {
+    override fun isInsistentAlarmsEnabled(): Boolean {
         val key = context.getString(R.string.preference_key_insistent_alarms_enabled)
         val defaultValue = context.resources.getBoolean(R.bool.preference_default_value_insistent_alarms_enabled)
         return preferences.getBoolean(key, defaultValue)
