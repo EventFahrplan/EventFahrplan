@@ -155,7 +155,7 @@ internal class DefaultSettingsRepository(
         return preferences.getBoolean(key, defaultValue)
     }
 
-    private fun isAlternativeHighlightingEnabled(): Boolean {
+    override fun isAlternativeHighlightingEnabled(): Boolean {
         val key = context.getString(R.string.preference_key_alternative_highlighting_enabled)
         val defaultValue = context.resources.getBoolean(R.bool.preference_default_value_alternative_highlighting_enabled)
         return preferences.getBoolean(key, defaultValue)

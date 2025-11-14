@@ -49,12 +49,6 @@ class RealSharedPreferencesRepository(val context: Context) : SharedPreferencesR
         return if (index == -1) defaultIndex else index
     }
 
-    override fun isAlternativeHighlightingEnabled(): Boolean {
-        val key = context.getString(R.string.preference_key_alternative_highlighting_enabled)
-        val defaultValue = context.resources.getBoolean(R.bool.preference_default_value_alternative_highlighting_enabled)
-        return preferences.getBoolean(key, defaultValue)
-    }
-
     override fun isFastSwipingEnabled(): Boolean {
         val key = context.getString(R.string.preference_key_fast_swiping_enabled)
         val defaultValue = context.resources.getBoolean(R.bool.preference_default_value_fast_swiping_enabled)

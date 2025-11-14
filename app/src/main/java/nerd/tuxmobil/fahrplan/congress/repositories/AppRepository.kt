@@ -1040,8 +1040,7 @@ object AppRepository : SearchRepository,
     @WorkerThread
     override fun readUseDeviceTimeZoneEnabled() = settingsRepository.isUseDeviceTimeZoneEnabled()
 
-    fun readAlternativeHighlightingEnabled() =
-            sharedPreferencesRepository.isAlternativeHighlightingEnabled()
+    fun readAlternativeHighlightingEnabled() = settingsRepository.isAlternativeHighlightingEnabled()
 
     fun readFastSwipingEnabled() =
         sharedPreferencesRepository.isFastSwipingEnabled()

@@ -7,8 +7,6 @@ interface SharedPreferencesRepository {
 
     fun getAlarmTimeIndex(): Int
 
-    fun isAlternativeHighlightingEnabled(): Boolean
-
     fun isFastSwipingEnabled(): Boolean
 
     fun isAutoUpdateEnabled(): Boolean
