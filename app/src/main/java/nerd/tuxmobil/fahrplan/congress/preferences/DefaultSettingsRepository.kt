@@ -161,7 +161,7 @@ internal class DefaultSettingsRepository(
         return preferences.getBoolean(key, defaultValue)
     }
 
-    private fun isFastSwipingEnabled(): Boolean {
+    override fun isFastSwipingEnabled(): Boolean {
         val key = context.getString(R.string.preference_key_fast_swiping_enabled)
         val defaultValue = context.resources.getBoolean(R.bool.preference_default_value_fast_swiping_enabled)
         return preferences.getBoolean(key, defaultValue)

@@ -49,12 +49,6 @@ class RealSharedPreferencesRepository(val context: Context) : SharedPreferencesR
         return if (index == -1) defaultIndex else index
     }
 
-    override fun isFastSwipingEnabled(): Boolean {
-        val key = context.getString(R.string.preference_key_fast_swiping_enabled)
-        val defaultValue = context.resources.getBoolean(R.bool.preference_default_value_fast_swiping_enabled)
-        return preferences.getBoolean(key, defaultValue)
-    }
-
     override fun isAutoUpdateEnabled(): Boolean {
         val key = context.getString(R.string.preference_key_auto_update_enabled)
         val defaultValue = context.resources.getBoolean(R.bool.preference_default_value_auto_update_enabled)
