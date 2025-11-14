@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.net.Uri
 import androidx.core.content.edit
-import androidx.preference.PreferenceManager
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.channels.trySendBlocking
 import kotlinx.coroutines.flow.Flow
@@ -17,11 +16,15 @@ internal class DefaultSettingsRepository(
     private val context: Context,
 ) : SettingsRepository {
 
-    private val preferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context.applicationContext)
-
-    init {
-        PreferenceManager.setDefaultValues(context, R.xml.prefs, false)
+    companion object {
+        // For backwards-compatibility we copy the behavior of PreferenceManager.getDefaultSharedPreferences()
+        fun getDefaultSharedPreferences(context: Context): SharedPreferences {
+            val defaultSharedPreferencesName = "${context.packageName}_preferences"
+            return context.getSharedPreferences(defaultSharedPreferencesName, Context.MODE_PRIVATE)
+        }
     }
+
+    private val preferences = getDefaultSharedPreferences(context.applicationContext)
 
     private val userPreferencesFlow = callbackFlow {
         trySendBlocking(getSettings())
