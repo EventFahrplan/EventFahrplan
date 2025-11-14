@@ -75,6 +75,7 @@ import nerd.tuxmobil.fahrplan.congress.net.ParseScheduleResult
 import nerd.tuxmobil.fahrplan.congress.net.ParseShiftsResult
 import nerd.tuxmobil.fahrplan.congress.preferences.AlarmTonePreference
 import nerd.tuxmobil.fahrplan.congress.preferences.RealSharedPreferencesRepository
+import nerd.tuxmobil.fahrplan.congress.preferences.SettingsRepository
 import nerd.tuxmobil.fahrplan.congress.preferences.SharedPreferencesRepository
 import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.FetchFailure
 import nerd.tuxmobil.fahrplan.congress.repositories.LoadScheduleState.FetchSuccess
@@ -136,6 +137,7 @@ object AppRepository : SearchRepository,
     private lateinit var scheduleNetworkRepository: ScheduleNetworkRepository
     private lateinit var engelsystemRepository: EngelsystemRepository
     private lateinit var sharedPreferencesRepository: SharedPreferencesRepository
+    private lateinit var settingsRepository: SettingsRepository
     private lateinit var roomStatesRepository: RoomStatesRepository
     private lateinit var sessionsTransformer: SessionsTransformer
 
@@ -428,6 +430,7 @@ object AppRepository : SearchRepository,
                 api = EngelsystemApi,
             ),
             sharedPreferencesRepository: SharedPreferencesRepository = RealSharedPreferencesRepository(context),
+            settingsRepository: SettingsRepository = SettingsRepository.getInstance(context),
             roomStatesRepository: RoomStatesRepository = SimpleRoomStatesRepository(
                 url = FOSDEM_ROOM_STATES_URL,
                 path = FOSDEM_ROOM_STATES_PATH,
@@ -448,6 +451,7 @@ object AppRepository : SearchRepository,
         this.scheduleNetworkRepository = scheduleNetworkRepository
         this.engelsystemRepository = engelsystemRepository
         this.sharedPreferencesRepository = sharedPreferencesRepository
+        this.settingsRepository = settingsRepository
         this.roomStatesRepository = roomStatesRepository
         this.sessionsTransformer = sessionsTransformer
     }
@@ -1031,10 +1035,7 @@ object AppRepository : SearchRepository,
     /**
      * Returns the alarm tone `Uri` or `null` for silent alarms to be used for notifications.
      */
-    fun readAlarmToneUri(): Uri? {
-        val alarmTone = sharedPreferencesRepository.getAlarmTone()
-        return AlarmToneConversion.getNotificationIntentUri(alarmTone, AlarmTonePreference.DEFAULT_VALUE_URI)
-    }
+    fun readAlarmToneUri(): Uri? = settingsRepository.getAlarmTone()
 
     @WorkerThread
     override fun readUseDeviceTimeZoneEnabled() =

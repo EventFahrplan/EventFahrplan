@@ -54,6 +54,7 @@ class AlarmUpdaterTest {
                 scheduleNetworkRepository = mock(),
                 engelsystemRepository = mock(),
                 sharedPreferencesRepository = sharedPreferencesRepository,
+                settingsRepository = mock(),
                 sessionsTransformer = mock()
             )
             return this

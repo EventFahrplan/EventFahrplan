@@ -142,7 +142,7 @@ internal class DefaultSettingsRepository(
         return value.toInt()
     }
 
-    private fun getAlarmTone(): Uri? {
+    override fun getAlarmTone(): Uri? {
         val key = context.getString(R.string.preference_key_alarm_tone)
         val defaultValue = AlarmTonePreference.DEFAULT_VALUE_STRING
         val value = preferences.getString(key, defaultValue)!!

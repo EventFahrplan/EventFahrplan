@@ -13,6 +13,7 @@ interface SettingsRepository {
     fun setUseDeviceTimeZone(enable: Boolean)
     fun setAlternativeHighlighting(enable: Boolean)
     fun setFastSwiping(enable: Boolean)
+    fun getAlarmTone(): Uri?
     fun setAlarmTone(alarmTone: Uri?)
     fun setInsistentAlarms(enable: Boolean)
     fun setAlarmTime(alarmTime: Int)

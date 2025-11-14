@@ -93,6 +93,7 @@ class AppRepositoryLoadAndParseScheduleTest {
                 scheduleNetworkRepository = scheduleNetworkRepository,
                 engelsystemRepository = mock(),
                 sharedPreferencesRepository = sharedPreferencesRepository,
+                settingsRepository = mock(),
                 sessionsTransformer = sessionsTransformer
             )
             return this

@@ -49,12 +49,6 @@ class RealSharedPreferencesRepository(val context: Context) : SharedPreferencesR
         return if (index == -1) defaultIndex else index
     }
 
-    override fun getAlarmTone(): String? {
-        val key = context.getString(R.string.preference_key_alarm_tone)
-        val defaultValue = AlarmTonePreference.DEFAULT_VALUE_STRING
-        return preferences.getString(key, defaultValue)
-    }
-
     override fun isUseDeviceTimeZoneEnabled(): Boolean {
         val key = context.getString(R.string.preference_key_use_device_time_zone_enabled)
         val defaultValue = context.resources.getBoolean(R.bool.preference_default_value_use_device_time_zone_enabled)

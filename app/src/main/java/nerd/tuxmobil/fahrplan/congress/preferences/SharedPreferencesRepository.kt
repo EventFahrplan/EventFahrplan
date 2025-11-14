@@ -6,7 +6,6 @@ interface SharedPreferencesRepository {
     fun getScheduleRefreshInterval(): Int
 
     fun getAlarmTimeIndex(): Int
-    fun getAlarmTone(): String?
 
     fun isUseDeviceTimeZoneEnabled(): Boolean
 

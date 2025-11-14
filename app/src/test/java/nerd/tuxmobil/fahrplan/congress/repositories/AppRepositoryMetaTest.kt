@@ -51,6 +51,7 @@ class AppRepositoryMetaTest {
                 scheduleNetworkRepository = mock(),
                 engelsystemRepository = mock(),
                 sharedPreferencesRepository = mock(),
+                settingsRepository = mock(),
                 sessionsTransformer = mock()
             )
             return this
