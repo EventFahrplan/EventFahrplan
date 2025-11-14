@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.Flow
 interface SettingsRepository {
     val settingsStream: Flow<Settings>
 
+    fun isUseDeviceTimeZoneEnabled(): Boolean
     fun setUseDeviceTimeZone(enable: Boolean)
     fun setAlternativeHighlighting(enable: Boolean)
     fun setFastSwiping(enable: Boolean)

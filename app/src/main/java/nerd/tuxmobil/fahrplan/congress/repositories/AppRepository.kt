@@ -1038,8 +1038,7 @@ object AppRepository : SearchRepository,
     fun readAlarmToneUri(): Uri? = settingsRepository.getAlarmTone()
 
     @WorkerThread
-    override fun readUseDeviceTimeZoneEnabled() =
-        sharedPreferencesRepository.isUseDeviceTimeZoneEnabled()
+    override fun readUseDeviceTimeZoneEnabled() = settingsRepository.isUseDeviceTimeZoneEnabled()
 
     fun readAlternativeHighlightingEnabled() =
             sharedPreferencesRepository.isAlternativeHighlightingEnabled()

@@ -7,8 +7,6 @@ interface SharedPreferencesRepository {
 
     fun getAlarmTimeIndex(): Int
 
-    fun isUseDeviceTimeZoneEnabled(): Boolean
-
     fun isAlternativeHighlightingEnabled(): Boolean
 
     fun isFastSwipingEnabled(): Boolean

@@ -149,7 +149,7 @@ internal class DefaultSettingsRepository(
         return AlarmToneConversion.getPickerIntentUri(value)
     }
 
-    private fun isUseDeviceTimeZoneEnabled(): Boolean {
+    override fun isUseDeviceTimeZoneEnabled(): Boolean {
         val key = context.getString(R.string.preference_key_use_device_time_zone_enabled)
         val defaultValue = context.resources.getBoolean(R.bool.preference_default_value_use_device_time_zone_enabled)
         return preferences.getBoolean(key, defaultValue)
