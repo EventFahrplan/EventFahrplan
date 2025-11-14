@@ -25,6 +25,7 @@ interface SettingsRepository {
     fun setScheduleRefreshInterval(interval: Int)
     fun isAutoUpdateEnabled(): Boolean
     fun setAutoUpdateEnabled(enable: Boolean)
+    fun getAlternativeScheduleUrl(): String
     fun setAlternativeScheduleUrl(url: String)
     fun setEngelsystemShiftsUrl(url: String)
 

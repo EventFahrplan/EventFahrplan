@@ -179,7 +179,7 @@ internal class DefaultSettingsRepository(
         return preferences.getBoolean(key, defaultValue)
     }
 
-    private fun getAlternativeScheduleUrl(): String {
+    override fun getAlternativeScheduleUrl(): String {
         val key = context.getString(R.string.preference_key_alternative_schedule_url)
         val defaultValue = context.getString(R.string.preference_default_value_alternative_schedule_url)
         return preferences.getString(key, defaultValue)!!

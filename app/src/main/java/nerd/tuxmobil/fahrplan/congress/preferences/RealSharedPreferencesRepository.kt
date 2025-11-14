@@ -89,12 +89,6 @@ class RealSharedPreferencesRepository(val context: Context) : SharedPreferencesR
         putBoolean(CHANGES_SEEN_KEY, changesSeen)
     }
 
-    override fun getAlternativeScheduleUrl(): String {
-        val key = context.getString(R.string.preference_key_alternative_schedule_url)
-        val defaultValue = context.getString(R.string.preference_default_value_alternative_schedule_url)
-        return preferences.getString(key, defaultValue)!!
-    }
-
     override fun getEngelsystemShiftsUrl(): String {
         val key = context.getString(R.string.preference_key_engelsystem_json_export_url)
         val defaultValue = context.getString(R.string.preference_default_value_engelsystem_json_export_url)

@@ -1048,7 +1048,7 @@ object AppRepository : SearchRepository,
     fun readAutoUpdateEnabled() = settingsRepository.isAutoUpdateEnabled()
 
     fun readScheduleUrl(): String {
-        val alternateScheduleUrl = sharedPreferencesRepository.getAlternativeScheduleUrl()
+        val alternateScheduleUrl = settingsRepository.getAlternativeScheduleUrl()
         return alternateScheduleUrl.ifEmpty {
             BuildConfig.SCHEDULE_URL
         }
