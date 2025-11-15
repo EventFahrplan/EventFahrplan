@@ -18,9 +18,10 @@ internal fun darkColorScheme() = androidx.compose.material3.darkColorScheme(
     inverseOnSurface = colorResource(R.color.session_item_text_on_highlight_background), // used by SessionCard
     surfaceContainer = colorResource(R.color.colorPrimaryDark), // used by DropdownMenu
 ).toColorScheme(
-    topAppBarContainer = colorResource(R.color.colorPrimary),
     divider = colorResource(R.color.divider),
     searchBarDivider = colorResource(R.color.colorAccent),
+    // TopAppBar
+    topAppBarContainer = colorResource(R.color.colorPrimary),
 )
 
 @Composable
@@ -34,9 +35,10 @@ internal fun lightColorScheme() = androidx.compose.material3.lightColorScheme(
     inverseOnSurface = colorResource(R.color.session_item_text_on_highlight_background),
     surfaceContainer = colorResource(R.color.colorPrimaryDark),
 ).toColorScheme(
-    topAppBarContainer = colorResource(R.color.colorPrimary),
     divider = colorResource(R.color.divider),
     searchBarDivider = colorResource(R.color.colorAccent),
+    // TopAppBar
+    topAppBarContainer = colorResource(R.color.colorPrimary),
 )
 
 internal val LocalColorScheme = staticCompositionLocalOf<ColorScheme> {
@@ -44,9 +46,9 @@ internal val LocalColorScheme = staticCompositionLocalOf<ColorScheme> {
 }
 
 private fun Material3ColorScheme.toColorScheme(
-    topAppBarContainer: Color,
     divider: Color,
     searchBarDivider: Color,
+    topAppBarContainer: Color,
 ): ColorScheme {
     return ColorScheme(
         primary = primary,
@@ -99,8 +101,8 @@ private fun Material3ColorScheme.toColorScheme(
         onTertiaryFixedVariant = onTertiaryFixedVariant,
 
         // Custom colors
-        topAppBarContainer = topAppBarContainer,
         divider = divider,
         searchBarDivider = searchBarDivider,
+        topAppBarContainer = topAppBarContainer,
     )
 }

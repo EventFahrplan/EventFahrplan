@@ -58,9 +58,9 @@ data class ColorScheme(
     val onTertiaryFixedVariant: Color,
 
     // Custom colors
-    val topAppBarContainer: Color,
     val divider: Color,
     val searchBarDivider: Color,
+    val topAppBarContainer: Color,
 )
 
 internal fun ColorScheme.toMaterial3ColorScheme(): Material3ColorScheme {
