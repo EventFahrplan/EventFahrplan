@@ -58,6 +58,7 @@ data class ColorScheme(
     val onTertiaryFixedVariant: Color,
 
     // Custom colors
+    val listItemPrefixSymbol: Color,
     val divider: Color,
     val searchBarDivider: Color,
     val topAppBarContainer: Color,

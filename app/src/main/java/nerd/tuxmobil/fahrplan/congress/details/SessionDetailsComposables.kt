@@ -559,7 +559,7 @@ private val unorderedList: @Composable (MarkdownComponentModel) -> Unit = { mode
     MarkdownListItems(model.content, model.node, bullet = { _, _, _ ->
         Text(
             text = "⦁ ",
-            color = colorResource(R.color.session_details_list_item),
+            color = EventFahrplanTheme.colorScheme.listItemPrefixSymbol,
             modifier = Modifier.size(dimensionResource(R.dimen.session_details_text_bullet)),
         )
     })
@@ -569,7 +569,7 @@ private val orderedList: @Composable (MarkdownComponentModel) -> Unit = {
     MarkdownListItems(it.content, it.node, bullet = { index, _, _ ->
         Text(
             text = "${index + 1}. ",
-            color = colorResource(R.color.session_details_list_item),
+            color = EventFahrplanTheme.colorScheme.listItemPrefixSymbol,
         )
     })
 }
