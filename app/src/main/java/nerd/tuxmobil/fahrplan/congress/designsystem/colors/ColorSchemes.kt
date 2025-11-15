@@ -34,6 +34,11 @@ internal fun darkColorScheme() = androidx.compose.material3.darkColorScheme(
     sessionDetailBarIcon = colorResource(R.color.session_detailbar_icon),
     sessionDetailsRoomStateInfoBackground = colorResource(R.color.session_details_room_state_info_background),
     sessionDetailsRoomStateInfoText = colorResource(R.color.session_details_room_state_info_text),
+    // Session card
+    sessionCardSelectionStroke = colorResource(R.color.session_drawable_selection_stroke),
+    sessionCardBellIcon = colorResource(R.color.session_item_alarm_icon),
+    sessionCardTrackNameBackground = colorResource(R.color.session_item_track_name_background),
+    sessionCardTrackNameText = colorResource(R.color.session_item_track_name_text),
 )
 
 @Composable
@@ -63,6 +68,11 @@ internal fun lightColorScheme() = androidx.compose.material3.lightColorScheme(
     sessionDetailBarIcon = colorResource(R.color.session_detailbar_icon),
     sessionDetailsRoomStateInfoBackground = colorResource(R.color.session_details_room_state_info_background),
     sessionDetailsRoomStateInfoText = colorResource(R.color.session_details_room_state_info_text),
+    // Session card
+    sessionCardSelectionStroke = colorResource(R.color.session_drawable_selection_stroke),
+    sessionCardBellIcon = colorResource(R.color.session_item_alarm_icon),
+    sessionCardTrackNameBackground = colorResource(R.color.session_item_track_name_background),
+    sessionCardTrackNameText = colorResource(R.color.session_item_track_name_text),
 )
 
 internal val LocalColorScheme = staticCompositionLocalOf<ColorScheme> {
@@ -83,6 +93,10 @@ private fun Material3ColorScheme.toColorScheme(
     sessionDetailBarIcon: Color,
     sessionDetailsRoomStateInfoBackground: Color,
     sessionDetailsRoomStateInfoText: Color,
+    sessionCardSelectionStroke: Color,
+    sessionCardBellIcon: Color,
+    sessionCardTrackNameBackground: Color,
+    sessionCardTrackNameText: Color,
 ): ColorScheme {
     return ColorScheme(
         primary = primary,
@@ -148,5 +162,9 @@ private fun Material3ColorScheme.toColorScheme(
         sessionDetailBarIcon = sessionDetailBarIcon,
         sessionDetailsRoomStateInfoBackground = sessionDetailsRoomStateInfoBackground,
         sessionDetailsRoomStateInfoText = sessionDetailsRoomStateInfoText,
+        sessionCardSelectionStroke = sessionCardSelectionStroke,
+        sessionCardBellIcon = sessionCardBellIcon,
+        sessionCardTrackNameBackground = sessionCardTrackNameBackground,
+        sessionCardTrackNameText = sessionCardTrackNameText,
     )
 }
