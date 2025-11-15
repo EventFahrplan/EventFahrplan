@@ -21,8 +21,11 @@ internal fun darkColorScheme() = androidx.compose.material3.darkColorScheme(
     listItemPrefixSymbol = colorResource(R.color.session_details_list_item_prefix_symbol),
     divider = colorResource(R.color.divider),
     searchBarDivider = colorResource(R.color.colorAccent),
-    // TopAppBar
-    topAppBarContainer = colorResource(R.color.colorPrimary),
+    // AppBar
+    appBarContainer = colorResource(R.color.colorPrimary),
+    appBarTitleText = colorResource(R.color.text_primary),
+    appBarNavigationIcon = colorResource(R.color.text_primary),
+    appBarActionIcon = colorResource(R.color.app_bar_action_icon),
 )
 
 @Composable
@@ -39,8 +42,11 @@ internal fun lightColorScheme() = androidx.compose.material3.lightColorScheme(
     listItemPrefixSymbol = colorResource(R.color.session_details_list_item_prefix_symbol),
     divider = colorResource(R.color.divider),
     searchBarDivider = colorResource(R.color.colorAccent),
-    // TopAppBar
-    topAppBarContainer = colorResource(R.color.colorPrimary),
+    // AppBar
+    appBarContainer = colorResource(R.color.colorPrimary),
+    appBarTitleText = colorResource(R.color.text_primary),
+    appBarNavigationIcon = colorResource(R.color.text_primary),
+    appBarActionIcon = colorResource(R.color.app_bar_action_icon),
 )
 
 internal val LocalColorScheme = staticCompositionLocalOf<ColorScheme> {
@@ -51,7 +57,10 @@ private fun Material3ColorScheme.toColorScheme(
     listItemPrefixSymbol: Color,
     divider: Color,
     searchBarDivider: Color,
-    topAppBarContainer: Color,
+    appBarContainer: Color,
+    appBarTitleText: Color,
+    appBarNavigationIcon: Color,
+    appBarActionIcon: Color,
 ): ColorScheme {
     return ColorScheme(
         primary = primary,
@@ -107,6 +116,9 @@ private fun Material3ColorScheme.toColorScheme(
         listItemPrefixSymbol = listItemPrefixSymbol,
         divider = divider,
         searchBarDivider = searchBarDivider,
-        topAppBarContainer = topAppBarContainer,
+        appBarContainer = appBarContainer,
+        appBarTitleText = appBarTitleText,
+        appBarNavigationIcon = appBarNavigationIcon,
+        appBarActionIcon = appBarActionIcon,
     )
 }

@@ -93,7 +93,7 @@ private fun TopBar(showActions: Boolean, onViewEvent: (ScheduleStatisticViewEven
                 ) {
                     IconActionable(
                         icon = R.drawable.ic_sort,
-                        tint = R.color.tool_bar_icon,
+                        tint = EventFahrplanTheme.colorScheme.appBarActionIcon,
                         contentDescription = R.string.schedule_statistic_toggle_sorting,
                     )
                 }

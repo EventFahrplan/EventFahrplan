@@ -24,7 +24,7 @@ fun TopAppBar(
     Material3TopAppBar(
         modifier = modifier,
         colors = Material3TopAppBarDefaults.topAppBarColors(
-            containerColor = EventFahrplanTheme.colorScheme.topAppBarContainer,
+            containerColor = EventFahrplanTheme.colorScheme.appBarContainer,
         ),
         title = title,
         navigationIcon = navigationIcon,

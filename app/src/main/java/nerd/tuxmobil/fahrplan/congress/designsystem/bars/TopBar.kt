@@ -5,7 +5,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -16,6 +15,7 @@ import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.designsystem.buttons.ButtonIcon
 import nerd.tuxmobil.fahrplan.congress.designsystem.icons.IconDecorativeVector
 import nerd.tuxmobil.fahrplan.congress.designsystem.texts.Text
+import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
 
 @Composable
 fun TopBar(
@@ -29,7 +29,7 @@ fun TopBar(
                 text = title,
                 fontSize = 19.sp,
                 fontWeight = FontWeight.SemiBold,
-                color = colorResource(R.color.text_primary),
+                color = EventFahrplanTheme.colorScheme.appBarTitleText,
             )
         },
         navigationIcon = {
@@ -42,7 +42,7 @@ fun TopBar(
             ) {
                 IconDecorativeVector(
                     imageVector = Icons.AutoMirrored.Default.ArrowBack,
-                    tint = colorResource(R.color.text_primary),
+                    tint = EventFahrplanTheme.colorScheme.appBarNavigationIcon,
                 )
             }
         },

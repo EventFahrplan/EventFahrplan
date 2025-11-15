@@ -61,7 +61,10 @@ data class ColorScheme(
     val listItemPrefixSymbol: Color,
     val divider: Color,
     val searchBarDivider: Color,
-    val topAppBarContainer: Color,
+    val appBarContainer: Color,
+    val appBarTitleText: Color,
+    val appBarNavigationIcon: Color,
+    val appBarActionIcon: Color,
 )
 
 internal fun ColorScheme.toMaterial3ColorScheme(): Material3ColorScheme {
