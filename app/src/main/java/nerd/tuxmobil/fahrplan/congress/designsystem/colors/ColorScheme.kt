@@ -65,6 +65,7 @@ data class ColorScheme(
     val appBarTitleText: Color,
     val appBarNavigationIcon: Color,
     val appBarActionIcon: Color,
+    val sessionAlarmItemBellIconText: Color,
 )
 
 internal fun ColorScheme.toMaterial3ColorScheme(): Material3ColorScheme {
