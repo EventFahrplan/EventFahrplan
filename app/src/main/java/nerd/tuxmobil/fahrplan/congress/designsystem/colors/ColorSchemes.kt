@@ -39,6 +39,11 @@ internal fun darkColorScheme() = androidx.compose.material3.darkColorScheme(
     sessionCardBellIcon = colorResource(R.color.session_item_alarm_icon),
     sessionCardTrackNameBackground = colorResource(R.color.session_item_track_name_background),
     sessionCardTrackNameText = colorResource(R.color.session_item_track_name_text),
+    // Schedule statistic screen
+    scheduleStatisticBarWarningLevel1Background = colorResource(R.color.schedule_statistic_bar_background_warning_level_1),
+    scheduleStatisticBarWarningLevel2Background = colorResource(R.color.schedule_statistic_bar_background_warning_level_2),
+    scheduleStatisticBarWarningLevel3Background = colorResource(R.color.schedule_statistic_bar_background_warning_level_3),
+    scheduleStatisticBarNoWarningBackground = colorResource(R.color.schedule_statistic_bar_background_no_warning),
 )
 
 @Composable
@@ -73,6 +78,11 @@ internal fun lightColorScheme() = androidx.compose.material3.lightColorScheme(
     sessionCardBellIcon = colorResource(R.color.session_item_alarm_icon),
     sessionCardTrackNameBackground = colorResource(R.color.session_item_track_name_background),
     sessionCardTrackNameText = colorResource(R.color.session_item_track_name_text),
+    // Schedule statistic screen
+    scheduleStatisticBarWarningLevel1Background = colorResource(R.color.schedule_statistic_bar_background_warning_level_1),
+    scheduleStatisticBarWarningLevel2Background = colorResource(R.color.schedule_statistic_bar_background_warning_level_2),
+    scheduleStatisticBarWarningLevel3Background = colorResource(R.color.schedule_statistic_bar_background_warning_level_3),
+    scheduleStatisticBarNoWarningBackground = colorResource(R.color.schedule_statistic_bar_background_no_warning),
 )
 
 internal val LocalColorScheme = staticCompositionLocalOf<ColorScheme> {
@@ -97,6 +107,10 @@ private fun Material3ColorScheme.toColorScheme(
     sessionCardBellIcon: Color,
     sessionCardTrackNameBackground: Color,
     sessionCardTrackNameText: Color,
+    scheduleStatisticBarWarningLevel1Background: Color,
+    scheduleStatisticBarWarningLevel2Background: Color,
+    scheduleStatisticBarWarningLevel3Background: Color,
+    scheduleStatisticBarNoWarningBackground: Color,
 ): ColorScheme {
     return ColorScheme(
         primary = primary,
@@ -166,5 +180,9 @@ private fun Material3ColorScheme.toColorScheme(
         sessionCardBellIcon = sessionCardBellIcon,
         sessionCardTrackNameBackground = sessionCardTrackNameBackground,
         sessionCardTrackNameText = sessionCardTrackNameText,
+        scheduleStatisticBarWarningLevel1Background = scheduleStatisticBarWarningLevel1Background,
+        scheduleStatisticBarWarningLevel2Background = scheduleStatisticBarWarningLevel2Background,
+        scheduleStatisticBarWarningLevel3Background = scheduleStatisticBarWarningLevel3Background,
+        scheduleStatisticBarNoWarningBackground = scheduleStatisticBarNoWarningBackground,
     )
 }

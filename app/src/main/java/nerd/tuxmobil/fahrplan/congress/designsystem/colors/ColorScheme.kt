@@ -75,6 +75,10 @@ data class ColorScheme(
     val sessionCardBellIcon: Color,
     val sessionCardTrackNameBackground: Color,
     val sessionCardTrackNameText: Color,
+    val scheduleStatisticBarWarningLevel1Background: Color,
+    val scheduleStatisticBarWarningLevel2Background: Color,
+    val scheduleStatisticBarWarningLevel3Background: Color,
+    val scheduleStatisticBarNoWarningBackground: Color,
 )
 
 internal fun ColorScheme.toMaterial3ColorScheme(): Material3ColorScheme {
