@@ -79,6 +79,10 @@ data class ColorScheme(
     val scheduleStatisticBarWarningLevel2Background: Color,
     val scheduleStatisticBarWarningLevel3Background: Color,
     val scheduleStatisticBarNoWarningBackground: Color,
+    val scheduleChangeUnchangedText: Color,
+    val scheduleChangeNew: Color,
+    val scheduleChangeCanceled: Color,
+    val scheduleChangeChanged: Color,
 )
 
 internal fun ColorScheme.toMaterial3ColorScheme(): Material3ColorScheme {

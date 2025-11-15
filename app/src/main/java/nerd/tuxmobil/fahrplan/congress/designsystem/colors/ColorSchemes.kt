@@ -44,6 +44,11 @@ internal fun darkColorScheme() = androidx.compose.material3.darkColorScheme(
     scheduleStatisticBarWarningLevel2Background = colorResource(R.color.schedule_statistic_bar_background_warning_level_2),
     scheduleStatisticBarWarningLevel3Background = colorResource(R.color.schedule_statistic_bar_background_warning_level_3),
     scheduleStatisticBarNoWarningBackground = colorResource(R.color.schedule_statistic_bar_background_no_warning),
+    // Schedule changes screen
+    scheduleChangeUnchangedText = colorResource(R.color.session_list_item_text),
+    scheduleChangeNewText = colorResource(R.color.schedule_change_new_on_dark),
+    scheduleChangeCanceledText = colorResource(R.color.schedule_change_canceled_on_dark),
+    scheduleChangeChangedText = colorResource(R.color.schedule_change_on_dark),
 )
 
 @Composable
@@ -83,6 +88,11 @@ internal fun lightColorScheme() = androidx.compose.material3.lightColorScheme(
     scheduleStatisticBarWarningLevel2Background = colorResource(R.color.schedule_statistic_bar_background_warning_level_2),
     scheduleStatisticBarWarningLevel3Background = colorResource(R.color.schedule_statistic_bar_background_warning_level_3),
     scheduleStatisticBarNoWarningBackground = colorResource(R.color.schedule_statistic_bar_background_no_warning),
+    // Schedule changes screen
+    scheduleChangeUnchangedText = colorResource(R.color.session_list_item_text),
+    scheduleChangeNewText = colorResource(R.color.schedule_change_new_on_light),
+    scheduleChangeCanceledText = colorResource(R.color.schedule_change_canceled_on_light),
+    scheduleChangeChangedText = colorResource(R.color.schedule_change_on_light),
 )
 
 internal val LocalColorScheme = staticCompositionLocalOf<ColorScheme> {
@@ -111,6 +121,10 @@ private fun Material3ColorScheme.toColorScheme(
     scheduleStatisticBarWarningLevel2Background: Color,
     scheduleStatisticBarWarningLevel3Background: Color,
     scheduleStatisticBarNoWarningBackground: Color,
+    scheduleChangeUnchangedText: Color,
+    scheduleChangeNewText: Color,
+    scheduleChangeCanceledText: Color,
+    scheduleChangeChangedText: Color,
 ): ColorScheme {
     return ColorScheme(
         primary = primary,
@@ -184,5 +198,9 @@ private fun Material3ColorScheme.toColorScheme(
         scheduleStatisticBarWarningLevel2Background = scheduleStatisticBarWarningLevel2Background,
         scheduleStatisticBarWarningLevel3Background = scheduleStatisticBarWarningLevel3Background,
         scheduleStatisticBarNoWarningBackground = scheduleStatisticBarNoWarningBackground,
+        scheduleChangeUnchangedText = scheduleChangeUnchangedText,
+        scheduleChangeNew = scheduleChangeNewText,
+        scheduleChangeCanceled = scheduleChangeCanceledText,
+        scheduleChangeChanged = scheduleChangeChangedText,
     )
 }
