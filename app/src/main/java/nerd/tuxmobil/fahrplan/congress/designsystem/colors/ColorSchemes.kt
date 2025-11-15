@@ -28,6 +28,12 @@ internal fun darkColorScheme() = androidx.compose.material3.darkColorScheme(
     appBarActionIcon = colorResource(R.color.app_bar_action_icon),
     // Alarms screen
     sessionAlarmItemBellIconText = colorResource(R.color.session_alarm_item_bell_icon_text),
+    // Session details screen
+    sessionDetailBarBackground = colorResource(R.color.session_detailbar_background),
+    sessionDetailBarText = colorResource(R.color.session_detailbar_text),
+    sessionDetailBarIcon = colorResource(R.color.session_detailbar_icon),
+    sessionDetailsRoomStateInfoBackground = colorResource(R.color.session_details_room_state_info_background),
+    sessionDetailsRoomStateInfoText = colorResource(R.color.session_details_room_state_info_text),
 )
 
 @Composable
@@ -51,6 +57,12 @@ internal fun lightColorScheme() = androidx.compose.material3.lightColorScheme(
     appBarActionIcon = colorResource(R.color.app_bar_action_icon),
     // Alarms screen
     sessionAlarmItemBellIconText = colorResource(R.color.session_alarm_item_bell_icon_text),
+    // Session details screen
+    sessionDetailBarBackground = colorResource(R.color.session_detailbar_background),
+    sessionDetailBarText = colorResource(R.color.session_detailbar_text),
+    sessionDetailBarIcon = colorResource(R.color.session_detailbar_icon),
+    sessionDetailsRoomStateInfoBackground = colorResource(R.color.session_details_room_state_info_background),
+    sessionDetailsRoomStateInfoText = colorResource(R.color.session_details_room_state_info_text),
 )
 
 internal val LocalColorScheme = staticCompositionLocalOf<ColorScheme> {
@@ -66,6 +78,11 @@ private fun Material3ColorScheme.toColorScheme(
     appBarNavigationIcon: Color,
     appBarActionIcon: Color,
     sessionAlarmItemBellIconText: Color,
+    sessionDetailBarBackground: Color,
+    sessionDetailBarText: Color,
+    sessionDetailBarIcon: Color,
+    sessionDetailsRoomStateInfoBackground: Color,
+    sessionDetailsRoomStateInfoText: Color,
 ): ColorScheme {
     return ColorScheme(
         primary = primary,
@@ -126,5 +143,10 @@ private fun Material3ColorScheme.toColorScheme(
         appBarNavigationIcon = appBarNavigationIcon,
         appBarActionIcon = appBarActionIcon,
         sessionAlarmItemBellIconText = sessionAlarmItemBellIconText,
+        sessionDetailBarBackground = sessionDetailBarBackground,
+        sessionDetailBarText = sessionDetailBarText,
+        sessionDetailBarIcon = sessionDetailBarIcon,
+        sessionDetailsRoomStateInfoBackground = sessionDetailsRoomStateInfoBackground,
+        sessionDetailsRoomStateInfoText = sessionDetailsRoomStateInfoText,
     )
 }

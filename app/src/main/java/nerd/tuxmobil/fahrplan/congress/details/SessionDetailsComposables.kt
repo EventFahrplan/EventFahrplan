@@ -151,7 +151,7 @@ private fun DetailBar(
 ) {
     Row(
         modifier = modifier
-            .background(colorResource(R.color.session_detailbar_background))
+            .background(EventFahrplanTheme.colorScheme.sessionDetailBarBackground)
             .padding(horizontal = 16.dp, vertical = 4.dp)
             .fillMaxWidth()
             .windowInsetsPadding(WindowInsets.safeContent.only(Horizontal)),
@@ -173,7 +173,7 @@ private fun DetailBar(
                 },
             text = sessionDetails.id.value.uppercase(),
             fontSize = dimensionResource(R.dimen.session_detailbar_text).toTextUnit(),
-            color = colorResource(R.color.session_detailbar_text),
+            color = EventFahrplanTheme.colorScheme.sessionDetailBarText,
             overflow = Ellipsis,
             maxLines = 1,
             textAlign = End,
@@ -188,7 +188,7 @@ private fun RoomState(showRoomState: Boolean, roomStateMessage: String) {
             modifier = Modifier
                 .padding(bottom = 16.dp)
                 .background(
-                    colorResource(R.color.session_details_room_state_info_background),
+                    color = EventFahrplanTheme.colorScheme.sessionDetailsRoomStateInfoBackground,
                     shape = RoundedCornerShape(6.dp),
                 )
         ) {
@@ -196,7 +196,7 @@ private fun RoomState(showRoomState: Boolean, roomStateMessage: String) {
                 modifier = Modifier
                     .padding(horizontal = 8.dp, vertical = 4.dp),
                 text = roomStateMessage,
-                color = colorResource(R.color.session_details_room_state_info_text),
+                color = EventFahrplanTheme.colorScheme.sessionDetailsRoomStateInfoText,
             )
         }
     }
@@ -473,7 +473,7 @@ private fun TextLeadingIcon(
             modifier = Modifier
                 .padding(start = iconPadding, end = iconPadding, bottom = iconPadding),
             icon = icon,
-            tint = colorResource(R.color.session_detailbar_icon),
+            tint = EventFahrplanTheme.colorScheme.sessionDetailBarIcon,
         )
         Text(
             modifier = Modifier
@@ -482,7 +482,7 @@ private fun TextLeadingIcon(
                 },
             text = property.value.uppercase(),
             fontSize = dimensionResource(R.dimen.session_detailbar_text).toTextUnit(),
-            color = colorResource(R.color.session_detailbar_text),
+            color = EventFahrplanTheme.colorScheme.sessionDetailBarText,
             overflow = Ellipsis,
             maxLines = 1,
         )
