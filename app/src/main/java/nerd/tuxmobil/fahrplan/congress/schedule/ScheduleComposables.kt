@@ -559,14 +559,14 @@ private fun ContextMenu(
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp, vertical = 8.dp),
                 text = stringResource(R.string.menu_item_title_share_session),
-                color = colorResource(R.color.colorAccent),
+                color = EventFahrplanTheme.colorScheme.primary,
             )
             DividerHorizontal(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(8.dp),
                 thickness = 1.dp,
-                color = colorResource(R.color.colorAccent),
+                color = EventFahrplanTheme.colorScheme.primary,
             )
             DropdownMenuItem(
                 text = { Text(stringResource(R.string.menu_item_title_share_session_text), color = textColor) },
