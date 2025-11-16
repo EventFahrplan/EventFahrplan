@@ -21,6 +21,7 @@ internal fun darkColorScheme() = androidx.compose.material3.darkColorScheme(
     listItemPrefixSymbol = colorResource(R.color.session_details_list_item_prefix_symbol),
     divider = colorResource(R.color.divider),
     searchBarDivider = colorResource(R.color.colorAccent),
+    sessionListHeaderDayDate = colorResource(R.color.session_list_header_day_date),
     // AppBar
     appBarContainer = colorResource(R.color.colorPrimary),
     appBarTitleText = colorResource(R.color.text_primary),
@@ -65,6 +66,7 @@ internal fun lightColorScheme() = androidx.compose.material3.lightColorScheme(
     listItemPrefixSymbol = colorResource(R.color.session_details_list_item_prefix_symbol),
     divider = colorResource(R.color.divider),
     searchBarDivider = colorResource(R.color.colorAccent),
+    sessionListHeaderDayDate = colorResource(R.color.session_list_header_day_date),
     // AppBar
     appBarContainer = colorResource(R.color.colorPrimary),
     appBarTitleText = colorResource(R.color.text_primary),
@@ -103,6 +105,7 @@ private fun Material3ColorScheme.toColorScheme(
     listItemPrefixSymbol: Color,
     divider: Color,
     searchBarDivider: Color,
+    sessionListHeaderDayDate: Color,
     appBarContainer: Color,
     appBarTitleText: Color,
     appBarNavigationIcon: Color,
@@ -180,6 +183,7 @@ private fun Material3ColorScheme.toColorScheme(
         listItemPrefixSymbol = listItemPrefixSymbol,
         divider = divider,
         searchBarDivider = searchBarDivider,
+        sessionListHeaderDayDate = sessionListHeaderDayDate,
         appBarContainer = appBarContainer,
         appBarTitleText = appBarTitleText,
         appBarNavigationIcon = appBarNavigationIcon,

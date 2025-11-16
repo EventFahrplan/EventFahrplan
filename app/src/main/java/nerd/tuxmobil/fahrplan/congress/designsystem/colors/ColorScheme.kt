@@ -61,6 +61,7 @@ data class ColorScheme(
     val listItemPrefixSymbol: Color,
     val divider: Color,
     val searchBarDivider: Color,
+    val sessionListHeaderDayDate: Color,
     val appBarContainer: Color,
     val appBarTitleText: Color,
     val appBarNavigationIcon: Color,
