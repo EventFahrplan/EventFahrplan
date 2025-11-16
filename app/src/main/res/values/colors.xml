@@ -26,7 +26,6 @@
     <color name="empty_screen_illustration_fill">@color/colorAccent</color>
 
     <!-- Tool bar -->
-    <color name="tool_bar_background">@color/colorPrimary</color>
     <color name="tool_bar_icon">#fff</color>
     <color name="day_menu_text">@color/text_primary</color>
 
@@ -84,7 +83,6 @@
     <!-- Session details -->
     <color name="session_details_room_state_info_text">@color/text_primary</color>
     <color name="session_details_room_state_info_background">@color/colorAccent</color>
-    <color name="session_details_background">#ffffff</color>
     <color name="session_details_list_item">@color/colorPrimary</color>
     <color name="session_detailbar_background">#eee</color>
     <color name="session_detailbar_text">#999</color>

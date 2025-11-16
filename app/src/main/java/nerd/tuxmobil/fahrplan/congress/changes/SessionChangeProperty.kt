@@ -14,7 +14,7 @@ data class SessionChangeProperty<T>(
         UNCHANGED(R.color.session_list_item_text_inverted, R.color.session_list_item_text),
         NEW(R.color.schedule_change_new_on_light, R.color.schedule_change_new_on_dark),
         CANCELED(R.color.schedule_change_canceled_on_light, R.color.schedule_change_canceled_on_dark),
-        CHANGED(R.color.schedule_change_on_light, R.color.schedule_change_canceled_on_dark),
+        CHANGED(R.color.schedule_change_on_light, R.color.schedule_change_on_dark),
     }
 
 }
