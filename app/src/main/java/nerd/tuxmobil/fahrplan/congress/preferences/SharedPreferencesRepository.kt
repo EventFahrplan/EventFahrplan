@@ -6,20 +6,9 @@ interface SharedPreferencesRepository {
     fun getScheduleRefreshInterval(): Int
 
     fun getAlarmTimeIndex(): Int
-    fun getAlarmTone(): String?
-
-    fun isUseDeviceTimeZoneEnabled(): Boolean
-
-    fun isAlternativeHighlightingEnabled(): Boolean
-
-    fun isFastSwipingEnabled(): Boolean
-
-    fun isAutoUpdateEnabled(): Boolean
 
     fun getDisplayDayIndex(): Int
     fun setDisplayDayIndex(displayDayIndex: Int)
-
-    fun isInsistentAlarmsEnabled(): Boolean
 
     fun getScheduleLastFetchedAt(): Long
     fun setScheduleLastFetchedAt(fetchedAt: Long)
@@ -34,10 +23,6 @@ interface SharedPreferencesRepository {
 
     fun getChangesSeen(): Boolean
     fun setChangesSeen(changesSeen: Boolean)
-
-    fun getAlternativeScheduleUrl(): String
-
-    fun getEngelsystemShiftsUrl(): String
 
     fun getEngelsystemETag(): String
     fun setEngelsystemETag(eTag: String)

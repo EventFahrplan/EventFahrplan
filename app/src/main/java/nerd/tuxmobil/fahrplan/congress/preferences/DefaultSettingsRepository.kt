@@ -142,50 +142,50 @@ internal class DefaultSettingsRepository(
         return value.toInt()
     }
 
-    private fun getAlarmTone(): Uri? {
+    override fun getAlarmTone(): Uri? {
         val key = context.getString(R.string.preference_key_alarm_tone)
         val defaultValue = AlarmTonePreference.DEFAULT_VALUE_STRING
         val value = preferences.getString(key, defaultValue)!!
         return AlarmToneConversion.getPickerIntentUri(value)
     }
 
-    private fun isUseDeviceTimeZoneEnabled(): Boolean {
+    override fun isUseDeviceTimeZoneEnabled(): Boolean {
         val key = context.getString(R.string.preference_key_use_device_time_zone_enabled)
         val defaultValue = context.resources.getBoolean(R.bool.preference_default_value_use_device_time_zone_enabled)
         return preferences.getBoolean(key, defaultValue)
     }
 
-    private fun isAlternativeHighlightingEnabled(): Boolean {
+    override fun isAlternativeHighlightingEnabled(): Boolean {
         val key = context.getString(R.string.preference_key_alternative_highlighting_enabled)
         val defaultValue = context.resources.getBoolean(R.bool.preference_default_value_alternative_highlighting_enabled)
         return preferences.getBoolean(key, defaultValue)
     }
 
-    private fun isFastSwipingEnabled(): Boolean {
+    override fun isFastSwipingEnabled(): Boolean {
         val key = context.getString(R.string.preference_key_fast_swiping_enabled)
         val defaultValue = context.resources.getBoolean(R.bool.preference_default_value_fast_swiping_enabled)
         return preferences.getBoolean(key, defaultValue)
     }
 
-    private fun isAutoUpdateEnabled(): Boolean {
+    override fun isAutoUpdateEnabled(): Boolean {
         val key = context.getString(R.string.preference_key_auto_update_enabled)
         val defaultValue = context.resources.getBoolean(R.bool.preference_default_value_auto_update_enabled)
         return preferences.getBoolean(key, defaultValue)
     }
 
-    private fun isInsistentAlarmsEnabled(): Boolean {
+    override fun isInsistentAlarmsEnabled(): Boolean {
         val key = context.getString(R.string.preference_key_insistent_alarms_enabled)
         val defaultValue = context.resources.getBoolean(R.bool.preference_default_value_insistent_alarms_enabled)
         return preferences.getBoolean(key, defaultValue)
     }
 
-    private fun getAlternativeScheduleUrl(): String {
+    override fun getAlternativeScheduleUrl(): String {
         val key = context.getString(R.string.preference_key_alternative_schedule_url)
         val defaultValue = context.getString(R.string.preference_default_value_alternative_schedule_url)
         return preferences.getString(key, defaultValue)!!
     }
 
-    private fun getEngelsystemShiftsUrl(): String {
+    override fun getEngelsystemShiftsUrl(): String {
         val key = context.getString(R.string.preference_key_engelsystem_json_export_url)
         val defaultValue = context.getString(R.string.preference_default_value_engelsystem_json_export_url)
         return preferences.getString(key, defaultValue)!!

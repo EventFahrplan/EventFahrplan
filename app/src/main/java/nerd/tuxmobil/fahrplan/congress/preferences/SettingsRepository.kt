@@ -10,16 +10,24 @@ import kotlinx.coroutines.flow.Flow
 interface SettingsRepository {
     val settingsStream: Flow<Settings>
 
+    fun isUseDeviceTimeZoneEnabled(): Boolean
     fun setUseDeviceTimeZone(enable: Boolean)
+    fun isAlternativeHighlightingEnabled(): Boolean
     fun setAlternativeHighlighting(enable: Boolean)
+    fun isFastSwipingEnabled(): Boolean
     fun setFastSwiping(enable: Boolean)
+    fun getAlarmTone(): Uri?
     fun setAlarmTone(alarmTone: Uri?)
+    fun isInsistentAlarmsEnabled(): Boolean
     fun setInsistentAlarms(enable: Boolean)
     fun setAlarmTime(alarmTime: Int)
 
     fun setScheduleRefreshInterval(interval: Int)
+    fun isAutoUpdateEnabled(): Boolean
     fun setAutoUpdateEnabled(enable: Boolean)
+    fun getAlternativeScheduleUrl(): String
     fun setAlternativeScheduleUrl(url: String)
+    fun getEngelsystemShiftsUrl(): String
     fun setEngelsystemShiftsUrl(url: String)
 
     companion object {

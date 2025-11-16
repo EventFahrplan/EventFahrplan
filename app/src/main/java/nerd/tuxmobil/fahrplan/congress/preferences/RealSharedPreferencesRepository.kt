@@ -49,46 +49,10 @@ class RealSharedPreferencesRepository(val context: Context) : SharedPreferencesR
         return if (index == -1) defaultIndex else index
     }
 
-    override fun getAlarmTone(): String? {
-        val key = context.getString(R.string.preference_key_alarm_tone)
-        val defaultValue = AlarmTonePreference.DEFAULT_VALUE_STRING
-        return preferences.getString(key, defaultValue)
-    }
-
-    override fun isUseDeviceTimeZoneEnabled(): Boolean {
-        val key = context.getString(R.string.preference_key_use_device_time_zone_enabled)
-        val defaultValue = context.resources.getBoolean(R.bool.preference_default_value_use_device_time_zone_enabled)
-        return preferences.getBoolean(key, defaultValue)
-    }
-
-    override fun isAlternativeHighlightingEnabled(): Boolean {
-        val key = context.getString(R.string.preference_key_alternative_highlighting_enabled)
-        val defaultValue = context.resources.getBoolean(R.bool.preference_default_value_alternative_highlighting_enabled)
-        return preferences.getBoolean(key, defaultValue)
-    }
-
-    override fun isFastSwipingEnabled(): Boolean {
-        val key = context.getString(R.string.preference_key_fast_swiping_enabled)
-        val defaultValue = context.resources.getBoolean(R.bool.preference_default_value_fast_swiping_enabled)
-        return preferences.getBoolean(key, defaultValue)
-    }
-
-    override fun isAutoUpdateEnabled(): Boolean {
-        val key = context.getString(R.string.preference_key_auto_update_enabled)
-        val defaultValue = context.resources.getBoolean(R.bool.preference_default_value_auto_update_enabled)
-        return preferences.getBoolean(key, defaultValue)
-    }
-
     override fun getDisplayDayIndex() = preferences.getInt(DISPLAY_DAY_INDEX_KEY, 1)
 
     override fun setDisplayDayIndex(displayDayIndex: Int) = preferences.edit {
         putInt(DISPLAY_DAY_INDEX_KEY, displayDayIndex)
-    }
-
-    override fun isInsistentAlarmsEnabled(): Boolean {
-        val key = context.getString(R.string.preference_key_insistent_alarms_enabled)
-        val defaultValue = context.resources.getBoolean(R.bool.preference_default_value_insistent_alarms_enabled)
-        return preferences.getBoolean(key, defaultValue)
     }
 
     override fun getScheduleLastFetchedAt() =
@@ -123,18 +87,6 @@ class RealSharedPreferencesRepository(val context: Context) : SharedPreferencesR
 
     override fun setChangesSeen(changesSeen: Boolean) = preferences.edit {
         putBoolean(CHANGES_SEEN_KEY, changesSeen)
-    }
-
-    override fun getAlternativeScheduleUrl(): String {
-        val key = context.getString(R.string.preference_key_alternative_schedule_url)
-        val defaultValue = context.getString(R.string.preference_default_value_alternative_schedule_url)
-        return preferences.getString(key, defaultValue)!!
-    }
-
-    override fun getEngelsystemShiftsUrl(): String {
-        val key = context.getString(R.string.preference_key_engelsystem_json_export_url)
-        val defaultValue = context.getString(R.string.preference_default_value_engelsystem_json_export_url)
-        return preferences.getString(key, defaultValue)!!
     }
 
     override fun getEngelsystemETag(): String {

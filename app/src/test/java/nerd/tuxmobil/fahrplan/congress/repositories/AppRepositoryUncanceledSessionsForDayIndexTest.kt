@@ -59,6 +59,7 @@ class AppRepositoryUncanceledSessionsForDayIndexTest {
                 scheduleNetworkRepository = mock(),
                 engelsystemRepository = mock(),
                 sharedPreferencesRepository = createSharedPreferencesRepository(),
+                settingsRepository = mock(),
                 sessionsTransformer = sessionsTransformer,
             )
             return this
