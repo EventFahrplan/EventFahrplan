@@ -128,11 +128,15 @@ internal class DefaultSettingsRepository(
         )
     }
 
-    private fun getScheduleRefreshInterval(): Int {
+    override fun getScheduleRefreshInterval(): Int {
         val key = context.getString(R.string.preference_key_schedule_refresh_interval_index)
         val defaultValue = context.getString(R.string.preference_default_value_schedule_refresh_interval_value)
         val value = preferences.getString(key, defaultValue)!!
         return value.toInt()
+    }
+
+    override fun getScheduleRefreshIntervalDefaultValue(): Int {
+        return context.getString(R.string.preference_default_value_schedule_refresh_interval_value).toInt()
     }
 
     override fun getAlarmTime(): Int {

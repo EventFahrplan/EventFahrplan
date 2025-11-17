@@ -8,7 +8,7 @@ import nerd.tuxmobil.fahrplan.congress.NoLogging
 import nerd.tuxmobil.fahrplan.congress.alarms.AlarmUpdater.OnAlarmUpdateListener
 import nerd.tuxmobil.fahrplan.congress.models.ConferenceTimeFrame
 import nerd.tuxmobil.fahrplan.congress.models.ConferenceTimeFrame.Unknown
-import nerd.tuxmobil.fahrplan.congress.preferences.SharedPreferencesRepository
+import nerd.tuxmobil.fahrplan.congress.preferences.SettingsRepository
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -36,7 +36,7 @@ class AlarmUpdaterTest {
         val conferenceTimeFrame = ConferenceTimeFrame.Known(FIRST_DAY_START_TIME, LAST_DAY_END_TIME)
     }
 
-    private val sharedPreferencesRepository = mock<SharedPreferencesRepository>()
+    private val settingsRepository = mock<SettingsRepository>()
 
     private val testableAppRepository: AppRepository
         get() = with(AppRepository) {
@@ -53,8 +53,8 @@ class AlarmUpdaterTest {
                 metaDatabaseRepository = mock(),
                 scheduleNetworkRepository = mock(),
                 engelsystemRepository = mock(),
-                sharedPreferencesRepository = sharedPreferencesRepository,
-                settingsRepository = mock(),
+                sharedPreferencesRepository = mock(),
+                settingsRepository = settingsRepository,
                 sessionsTransformer = mock()
             )
             return this
@@ -72,7 +72,7 @@ class AlarmUpdaterTest {
 
     @Test
     fun `calculateInterval schedules alarm with development interval`() {
-        whenever(sharedPreferencesRepository.getScheduleRefreshInterval()).doReturn(THREE_SECONDS)
+        whenever(settingsRepository.getScheduleRefreshInterval()).doReturn(THREE_SECONDS)
         val interval = alarmUpdater.calculateInterval(LAST_DAY_END_TIME, false)
         assertThat(interval).isEqualTo(THREE_SECONDS)
         verifyInvokedOnce(mockListener).onCancelUpdateAlarm()
@@ -81,7 +81,7 @@ class AlarmUpdaterTest {
 
     @Test
     fun `calculateInterval schedules initial alarm with development interval`() {
-        whenever(sharedPreferencesRepository.getScheduleRefreshInterval()).doReturn(THREE_SECONDS)
+        whenever(settingsRepository.getScheduleRefreshInterval()).doReturn(THREE_SECONDS)
         val interval = alarmUpdater.calculateInterval(LAST_DAY_END_TIME, true)
         assertThat(interval).isEqualTo(THREE_SECONDS)
         verifyInvokedOnce(mockListener).onCancelUpdateAlarm()

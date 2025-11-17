@@ -23,6 +23,8 @@ interface SettingsRepository {
     fun getAlarmTime(): Int
     fun setAlarmTime(alarmTime: Int)
 
+    fun getScheduleRefreshInterval(): Int
+    fun getScheduleRefreshIntervalDefaultValue(): Int
     fun setScheduleRefreshInterval(interval: Int)
     fun isAutoUpdateEnabled(): Boolean
     fun setAutoUpdateEnabled(enable: Boolean)
