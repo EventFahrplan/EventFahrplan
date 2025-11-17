@@ -15,5 +15,5 @@ data class Settings(
     val scheduleRefreshInterval: Int = -1,
     val isAutoUpdateEnabled: Boolean = true,
     val alternativeScheduleUrl: String = "",
-    val engelsystemShiftsUrl: String? = null,
+    val engelsystemShiftsUrl: String = "",
 )
