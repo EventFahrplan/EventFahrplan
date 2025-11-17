@@ -17,6 +17,8 @@ internal class DefaultSettingsRepository(
 ) : SettingsRepository {
 
     companion object {
+        private val settingsDefaults = Settings()
+
         // For backwards-compatibility we copy the behavior of PreferenceManager.getDefaultSharedPreferences()
         fun getDefaultSharedPreferences(context: Context): SharedPreferences {
             val defaultSharedPreferencesName = "${context.packageName}_preferences"
@@ -130,68 +132,68 @@ internal class DefaultSettingsRepository(
 
     override fun getScheduleRefreshInterval(): Int {
         val key = context.getString(R.string.preference_key_schedule_refresh_interval_index)
-        val defaultValue = context.getString(R.string.preference_default_value_schedule_refresh_interval_value)
+        val defaultValue = settingsDefaults.scheduleRefreshInterval.toString()
         val value = preferences.getString(key, defaultValue)!!
         return value.toInt()
     }
 
     override fun getScheduleRefreshIntervalDefaultValue(): Int {
-        return context.getString(R.string.preference_default_value_schedule_refresh_interval_value).toInt()
+        return settingsDefaults.scheduleRefreshInterval
     }
 
     override fun getAlarmTime(): Int {
         val key = context.getString(R.string.preference_key_alarm_time_index)
-        val defaultValue = context.getString(R.string.preference_default_value_alarm_time_value)
+        val defaultValue = settingsDefaults.alarmTime.toString()
         val value = preferences.getString(key, defaultValue)!!
         return value.toInt()
     }
 
     override fun getAlarmTone(): Uri? {
         val key = context.getString(R.string.preference_key_alarm_tone)
-        val defaultValue = AlarmTonePreference.DEFAULT_VALUE_STRING
+        val defaultValue = AlarmToneConversion.getPersistableString(settingsDefaults.alarmTone)
         val value = preferences.getString(key, defaultValue)!!
         return AlarmToneConversion.getPickerIntentUri(value)
     }
 
     override fun isUseDeviceTimeZoneEnabled(): Boolean {
         val key = context.getString(R.string.preference_key_use_device_time_zone_enabled)
-        val defaultValue = context.resources.getBoolean(R.bool.preference_default_value_use_device_time_zone_enabled)
+        val defaultValue = settingsDefaults.isUseDeviceTimeZoneEnabled
         return preferences.getBoolean(key, defaultValue)
     }
 
     override fun isAlternativeHighlightingEnabled(): Boolean {
         val key = context.getString(R.string.preference_key_alternative_highlighting_enabled)
-        val defaultValue = context.resources.getBoolean(R.bool.preference_default_value_alternative_highlighting_enabled)
+        val defaultValue = settingsDefaults.isAlternativeHighlightingEnabled
         return preferences.getBoolean(key, defaultValue)
     }
 
     override fun isFastSwipingEnabled(): Boolean {
         val key = context.getString(R.string.preference_key_fast_swiping_enabled)
-        val defaultValue = context.resources.getBoolean(R.bool.preference_default_value_fast_swiping_enabled)
+        val defaultValue = settingsDefaults.isFastSwipingEnabled
         return preferences.getBoolean(key, defaultValue)
     }
 
     override fun isAutoUpdateEnabled(): Boolean {
         val key = context.getString(R.string.preference_key_auto_update_enabled)
-        val defaultValue = context.resources.getBoolean(R.bool.preference_default_value_auto_update_enabled)
+        val defaultValue = settingsDefaults.isAutoUpdateEnabled
         return preferences.getBoolean(key, defaultValue)
     }
 
     override fun isInsistentAlarmsEnabled(): Boolean {
         val key = context.getString(R.string.preference_key_insistent_alarms_enabled)
-        val defaultValue = context.resources.getBoolean(R.bool.preference_default_value_insistent_alarms_enabled)
+        val defaultValue = settingsDefaults.isInsistentAlarmsEnabled
         return preferences.getBoolean(key, defaultValue)
     }
 
     override fun getAlternativeScheduleUrl(): String {
         val key = context.getString(R.string.preference_key_alternative_schedule_url)
-        val defaultValue = context.getString(R.string.preference_default_value_alternative_schedule_url)
+        val defaultValue = settingsDefaults.alternativeScheduleUrl
         return preferences.getString(key, defaultValue)!!
     }
 
     override fun getEngelsystemShiftsUrl(): String {
         val key = context.getString(R.string.preference_key_engelsystem_json_export_url)
-        val defaultValue = context.getString(R.string.preference_default_value_engelsystem_json_export_url)
+        val defaultValue = settingsDefaults.engelsystemShiftsUrl
         return preferences.getString(key, defaultValue)!!
     }
 }
