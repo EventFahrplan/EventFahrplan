@@ -3,7 +3,7 @@ package nerd.tuxmobil.fahrplan.congress.designsystem.texts
 import android.view.Gravity.CENTER
 import android.view.Gravity.START
 import android.widget.TextView
-import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.ClickableText
@@ -12,23 +12,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration.Companion.Underline
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
-import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.commons.TextResource
 import nerd.tuxmobil.fahrplan.congress.commons.TextResource.Empty
 import nerd.tuxmobil.fahrplan.congress.commons.TextResource.Html
 import nerd.tuxmobil.fahrplan.congress.commons.TextResource.PostalAddress
+import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
 import nerd.tuxmobil.fahrplan.congress.extensions.toSpanned
 import nerd.tuxmobil.fahrplan.congress.utils.LinkMovementMethodCompat
 
@@ -46,14 +45,8 @@ fun TextClickable(
     if (textResource is Html && textResource.html.isNotEmpty()) {
         vertical = 4.dp
     }
-    // TODO Replace with EventFahrplanTheme.colors...
     val textColor = LocalContentColor.current
-    val textLinkColor = colorResource(
-        when (isSystemInDarkTheme()) { // TODO Move into theme
-            true -> R.color.text_link_on_dark
-            false -> R.color.text_link_on_light
-        }
-    )
+    val textLinkColor = EventFahrplanTheme.colorScheme.textLink
     Box(Modifier.padding(horizontal = 16.dp, vertical = vertical)) {
         when (textResource) {
             Empty -> Unit
@@ -131,24 +124,32 @@ private fun TextClickableGeneric(
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun TextClickablePostalAddressPreview() {
-    TextClickable(
-        textResource = PostalAddress("Congressplatz 1, 20355 Hamburg"),
-        fontSize = 18.sp,
-        textAlign = TextAlign.Center,
-        onClick = {},
-    )
+    EventFahrplanTheme {
+        Box(Modifier.background(EventFahrplanTheme.colorScheme.background)) {
+            TextClickable(
+                textResource = PostalAddress("Congressplatz 1, 20355 Hamburg"),
+                fontSize = 18.sp,
+                textAlign = TextAlign.Center,
+                onClick = {},
+            )
+        }
+    }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun TextClickableHtmlPreview() {
-    TextClickable(
-        textResource = Html("""Design by <a href="https://eventfahrplan.eu">eventfahrplan.eu</a>"""),
-        fontSize = 18.sp,
-        textAlign = TextAlign.Center,
-        onClick = {},
-    )
+    EventFahrplanTheme {
+        Box(Modifier.background(EventFahrplanTheme.colorScheme.background)) {
+            TextClickable(
+                textResource = Html("""Design by <a href="https://eventfahrplan.eu">eventfahrplan.eu</a>"""),
+                fontSize = 18.sp,
+                textAlign = TextAlign.Center,
+                onClick = {},
+            )
+        }
+    }
 }
