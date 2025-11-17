@@ -275,7 +275,7 @@ class SessionDetailsViewModelTest {
         val repository = createRepository(selectedSession = Session("S5"))
         val alarmServices = mock<AlarmServices>()
         val viewModel = createViewModel(repository, alarmServices = alarmServices)
-        viewModel.addAlarm(alarmTimesIndex = 1)
+        viewModel.addAlarm(alarmTime = 5)
         verifyInvokedOnce(repository).loadSelectedSession()
         verifyInvokedOnce(alarmServices).addSessionAlarm(any(), any())
     }

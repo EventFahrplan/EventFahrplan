@@ -73,7 +73,6 @@ import nerd.tuxmobil.fahrplan.congress.net.LoadShiftsResult
 import nerd.tuxmobil.fahrplan.congress.net.ParseResult
 import nerd.tuxmobil.fahrplan.congress.net.ParseScheduleResult
 import nerd.tuxmobil.fahrplan.congress.net.ParseShiftsResult
-import nerd.tuxmobil.fahrplan.congress.preferences.AlarmTonePreference
 import nerd.tuxmobil.fahrplan.congress.preferences.RealSharedPreferencesRepository
 import nerd.tuxmobil.fahrplan.congress.preferences.SettingsRepository
 import nerd.tuxmobil.fahrplan.congress.preferences.SharedPreferencesRepository
@@ -89,7 +88,6 @@ import nerd.tuxmobil.fahrplan.congress.schedule.Conference
 import nerd.tuxmobil.fahrplan.congress.schedule.FahrplanViewModel
 import nerd.tuxmobil.fahrplan.congress.search.SearchRepository
 import nerd.tuxmobil.fahrplan.congress.serialization.ScheduleChanges.Companion.computeSessionsWithChangeFlags
-import nerd.tuxmobil.fahrplan.congress.utils.AlarmToneConversion
 import nerd.tuxmobil.fahrplan.congress.validation.MetaValidation.validate
 import okhttp3.OkHttpClient
 import info.metadude.android.eventfahrplan.database.models.Meta as MetaDatabaseModel
@@ -1029,8 +1027,7 @@ object AppRepository : SearchRepository,
     fun readScheduleRefreshInterval() =
         sharedPreferencesRepository.getScheduleRefreshInterval()
 
-    fun readAlarmTimeIndex() =
-            sharedPreferencesRepository.getAlarmTimeIndex()
+    fun readAlarmTime() = settingsRepository.getAlarmTime()
 
     /**
      * Returns the alarm tone `Uri` or `null` for silent alarms to be used for notifications.

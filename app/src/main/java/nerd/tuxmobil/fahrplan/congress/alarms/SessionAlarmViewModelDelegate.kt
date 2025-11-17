@@ -55,8 +55,8 @@ internal class SessionAlarmViewModelDelegate(
         }
     }
 
-    fun addAlarm(session: Session, alarmTimesIndex: Int) =
-        alarmServices.addSessionAlarm(session, alarmTimesIndex)
+    fun addAlarm(session: Session, alarmTime: Int) =
+        alarmServices.addSessionAlarm(session, alarmTime)
 
     fun deleteAlarm(session: Session) = alarmServices.deleteSessionAlarm(session)
 

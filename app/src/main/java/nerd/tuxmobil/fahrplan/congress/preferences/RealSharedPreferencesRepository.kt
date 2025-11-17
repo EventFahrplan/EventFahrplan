@@ -39,16 +39,6 @@ class RealSharedPreferencesRepository(val context: Context) : SharedPreferencesR
         return value.toInt()
     }
 
-    override fun getAlarmTimeIndex(): Int {
-        val key = context.getString(R.string.preference_key_alarm_time_index)
-        val defaultValue = context.getString(R.string.preference_default_value_alarm_time_value)
-        val value = preferences.getString(key, defaultValue)!!
-        val entryValues = context.resources.getStringArray(R.array.preference_entry_values_alarm_time)
-        val defaultIndex = context.resources.getInteger(R.integer.preference_default_value_alarm_time_index)
-        val index = entryValues.indexOf(value)
-        return if (index == -1) defaultIndex else index
-    }
-
     override fun getDisplayDayIndex() = preferences.getInt(DISPLAY_DAY_INDEX_KEY, 1)
 
     override fun setDisplayDayIndex(displayDayIndex: Int) = preferences.edit {

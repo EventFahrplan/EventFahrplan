@@ -135,7 +135,7 @@ internal class DefaultSettingsRepository(
         return value.toInt()
     }
 
-    private fun getAlarmTime(): Int {
+    override fun getAlarmTime(): Int {
         val key = context.getString(R.string.preference_key_alarm_time_index)
         val defaultValue = context.getString(R.string.preference_default_value_alarm_time_value)
         val value = preferences.getString(key, defaultValue)!!

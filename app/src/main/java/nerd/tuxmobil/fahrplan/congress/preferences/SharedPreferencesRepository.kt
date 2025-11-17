@@ -5,8 +5,6 @@ interface SharedPreferencesRepository {
     fun getScheduleRefreshIntervalDefaultValue(): Int
     fun getScheduleRefreshInterval(): Int
 
-    fun getAlarmTimeIndex(): Int
-
     fun getDisplayDayIndex(): Int
     fun setDisplayDayIndex(displayDayIndex: Int)
 

@@ -481,8 +481,8 @@ class FahrplanViewModelTest {
             val alarmServices = mock<AlarmServices>()
             val viewModel = createViewModel(repository, alarmServices)
             val session = Session("session-97")
-            viewModel.addAlarm(session, alarmTimesIndex = 0)
-            verifyInvokedOnce(alarmServices).addSessionAlarm(session, alarmTimesIndex = 0)
+            viewModel.addAlarm(session, alarmTime = 0)
+            verifyInvokedOnce(alarmServices).addSessionAlarm(session, alarmTimeOffset = 0)
         }
 
         @Test

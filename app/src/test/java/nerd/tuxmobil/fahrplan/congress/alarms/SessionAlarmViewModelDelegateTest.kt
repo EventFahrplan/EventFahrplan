@@ -24,8 +24,8 @@ class SessionAlarmViewModelDelegateTest {
     fun `addAlarm() invokes addSessionAlarm() function`() = runTest {
         val alarmServices = mock<AlarmServices>()
         val delegate = createDelegate(alarmServices = alarmServices)
-        delegate.addAlarm(SESSION, alarmTimesIndex = 0)
-        verifyInvokedOnce(alarmServices).addSessionAlarm(SESSION, alarmTimesIndex = 0)
+        delegate.addAlarm(SESSION, alarmTime = 0)
+        verifyInvokedOnce(alarmServices).addSessionAlarm(SESSION, alarmTimeOffset = 0)
     }
 
     @Test

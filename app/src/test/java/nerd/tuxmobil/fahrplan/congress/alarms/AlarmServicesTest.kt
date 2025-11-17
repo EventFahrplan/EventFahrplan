@@ -21,7 +21,6 @@ import nerd.tuxmobil.fahrplan.congress.models.Alarm
 import nerd.tuxmobil.fahrplan.congress.models.SchedulableAlarm
 import nerd.tuxmobil.fahrplan.congress.models.Session
 import nerd.tuxmobil.fahrplan.congress.repositories.AppRepository
-import org.junit.jupiter.api.Assertions.fail
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.any
 import org.mockito.kotlin.doReturn
@@ -35,7 +34,6 @@ class AlarmServicesTest {
     private var alarmManager = mock<AlarmManager>()
     private var mockContext = mock<Context>()
     private var repository = mock<AppRepository>()
-    private val alarmTimesValues = listOf("0", "10", "60")
     private val alarm = SchedulableAlarm(
         dayIndex = 3,
         sessionId = "1001",
@@ -67,7 +65,7 @@ class AlarmServicesTest {
             timeZoneOffset = ZoneOffset.of("+02:00"),
         )
 
-        alarmServices.addSessionAlarm(session, alarmTimesValues.indexOf("60"))
+        alarmServices.addSessionAlarm(session, 60)
         // AlarmServices invokes scheduleSessionAlarm() which is tested separately.
         val expectedAlarm = Alarm(
             dayIndex = 1,
@@ -76,21 +74,6 @@ class AlarmServicesTest {
             startTime = Moment.ofEpochMilli(1536328800000),
         )
         verifyInvokedOnce(repository).updateAlarm(expectedAlarm)
-    }
-
-    @Test
-    fun `addSessionAlarm throws exception if alarm time index exceeds `() {
-        val pendingIntentDelegate = mock<PendingIntentDelegate>()
-        val alarmServices = createAlarmServices(pendingIntentDelegate)
-        val session = Session(sessionId = "S2", dateUTC = 1536332400000L) // 2018-09-07T17:00:00+02:00
-
-        try {
-            alarmServices.addSessionAlarm(session, alarmTimesValues.size) // Out of bounds!
-            fail("Expect an IndexOutOfBoundsException to be thrown.")
-        } catch (e: IndexOutOfBoundsException) {
-            assertThat(e.message).isEqualTo("Index 3 out of bounds for length 3")
-        }
-        verifyNoInteractions(pendingIntentDelegate)
     }
 
     @Test
@@ -208,7 +191,6 @@ class AlarmServicesTest {
         context = mockContext,
         repository = repository,
         alarmManager = alarmManager,
-        alarmTimeValues = alarmTimesValues,
         logging = NoLogging,
         pendingIntentDelegate = pendingIntentDelegate,
     )
