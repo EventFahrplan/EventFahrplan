@@ -287,9 +287,9 @@ internal class FahrplanViewModel(
         sessionAlarmViewModelDelegate.addAlarmWithChecks()
     }
 
-    fun addAlarm(session: Session, alarmTimesIndex: Int) {
+    fun addAlarm(session: Session, alarmTime: Int) {
         launch {
-            sessionAlarmViewModelDelegate.addAlarm(session, alarmTimesIndex)
+            sessionAlarmViewModelDelegate.addAlarm(session, alarmTime)
         }
     }
 

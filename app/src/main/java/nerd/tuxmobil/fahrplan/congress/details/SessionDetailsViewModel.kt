@@ -174,9 +174,9 @@ internal class SessionDetailsViewModel(
         sessionAlarmViewModelDelegate.addAlarmWithChecks()
     }
 
-    fun addAlarm(alarmTimesIndex: Int) {
+    fun addAlarm(alarmTime: Int) {
         loadSelectedSession { session ->
-            sessionAlarmViewModelDelegate.addAlarm(session, alarmTimesIndex)
+            sessionAlarmViewModelDelegate.addAlarm(session, alarmTime)
         }
     }
 

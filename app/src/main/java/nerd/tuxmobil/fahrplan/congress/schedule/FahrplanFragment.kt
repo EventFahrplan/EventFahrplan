@@ -675,20 +675,20 @@ class FahrplanFragment : Fragment(), MenuProvider {
     private fun showAlarmTimePicker() {
         AlarmTimePickerFragment.show(this, FAHRPLAN_FRAGMENT_REQUEST_KEY) { requestKey, result ->
             if (requestKey == FAHRPLAN_FRAGMENT_REQUEST_KEY &&
-                result.containsKey(AlarmTimePickerFragment.ALARM_TIMES_INDEX_BUNDLE_KEY)
+                result.containsKey(AlarmTimePickerFragment.ALARM_TIME_BUNDLE_KEY)
             ) {
-                val alarmTimesIndex = result.getInt(AlarmTimePickerFragment.ALARM_TIMES_INDEX_BUNDLE_KEY)
-                onAlarmTimesIndexPicked(alarmTimesIndex)
+                val alarmTime = result.getInt(AlarmTimePickerFragment.ALARM_TIME_BUNDLE_KEY)
+                onAlarmTimePicked(alarmTime)
             }
         }
     }
 
-    private fun onAlarmTimesIndexPicked(alarmTimesIndex: Int) {
+    private fun onAlarmTimePicked(alarmTime: Int) {
         if (lastSelectedSession == null) {
-            logging.e(LOG_TAG, "onAlarmTimesIndexPicked: session: null. alarmTimesIndex: $alarmTimesIndex")
-            throw MissingLastSelectedSessionException(alarmTimesIndex)
+            logging.e(LOG_TAG, "onAlarmTimePicked: session: null. alarmTime: $alarmTime")
+            throw MissingLastSelectedSessionException(alarmTime)
         } else {
-            viewModel.addAlarm(lastSelectedSession!!, alarmTimesIndex)
+            viewModel.addAlarm(lastSelectedSession!!, alarmTime)
             updateMenuItems()
         }
     }
@@ -866,6 +866,6 @@ class FahrplanFragment : Fragment(), MenuProvider {
 
 }
 
-private class MissingLastSelectedSessionException(alarmTimesIndex: Int) : NullPointerException(
-    "Last selected session is null for alarm times index = $alarmTimesIndex."
+private class MissingLastSelectedSessionException(alarmTime: Int) : NullPointerException(
+    "Last selected session is null for alarm time = $alarmTime."
 )

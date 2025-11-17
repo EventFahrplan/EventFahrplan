@@ -7,7 +7,6 @@ import androidx.annotation.VisibleForTesting
 import androidx.core.app.AlarmManagerCompat
 import info.metadude.android.eventfahrplan.commons.logging.Logging
 import info.metadude.android.eventfahrplan.commons.temporal.Moment
-import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.commons.PendingIntentDelegate
 import nerd.tuxmobil.fahrplan.congress.commons.PendingIntentProvider
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toSchedulableAlarm
@@ -26,7 +25,6 @@ class AlarmServices @VisibleForTesting constructor(
         private val context: Context,
         private val repository: AppRepository,
         private val alarmManager: AlarmManager,
-        private val alarmTimeValues: List<String>,
         private val logging: Logging,
         private val pendingIntentDelegate: PendingIntentDelegate,
 ) :
@@ -44,12 +42,10 @@ class AlarmServices @VisibleForTesting constructor(
             logging: Logging = Logging.get()
         ): AlarmServices {
             val alarmManager = context.getAlarmManager()
-            val alarmTimesArray = context.resources.getStringArray(R.array.preference_entry_values_alarm_time)
             return AlarmServices(
                 context = context,
                 repository = repository,
                 alarmManager = alarmManager,
-                alarmTimesArray.toList(),
                 logging = logging,
                 pendingIntentDelegate = PendingIntentProvider,
             )
@@ -57,20 +53,13 @@ class AlarmServices @VisibleForTesting constructor(
     }
 
     /**
-     * Adds an alarm for the given [session] with the
-     * [alarm time][R.array.preference_entries_alarm_time_titles]
-     * corresponding with the given [alarmTimesIndex].
+     * Adds an alarm for the given [session] with the given alarm time offset.
      */
-    fun addSessionAlarm(session: Session, alarmTimesIndex: Int) {
-        logging.d(LOG_TAG, "Add alarm for session = ${session.sessionId}, alarmTimesIndex = $alarmTimesIndex.")
-        val alarmTimeStrings = ArrayList(alarmTimeValues)
-        val alarmTimes = ArrayList<Int>(alarmTimeStrings.size)
-        for (alarmTimeString in alarmTimeStrings) {
-            alarmTimes.add(alarmTimeString.toInt())
-        }
+    fun addSessionAlarm(session: Session, alarmTimeOffset: Int) {
+        logging.d(LOG_TAG, "Add alarm for session = ${session.sessionId}, alarmTimeOffset = $alarmTimeOffset.")
         val sessionStartTime = session.startsAt.toMilliseconds()
-        val alarmTimeOffset = alarmTimes[alarmTimesIndex] * Moment.MILLISECONDS_OF_ONE_MINUTE.toLong()
-        val alarmTime = sessionStartTime - alarmTimeOffset
+        val alarmTimeOffsetMs = alarmTimeOffset * Moment.MILLISECONDS_OF_ONE_MINUTE.toLong()
+        val alarmTime = sessionStartTime - alarmTimeOffsetMs
         val moment = Moment.ofEpochMilli(alarmTime)
         logging.d(LOG_TAG, "Add alarm: Time = ${moment.toUtcDateTime()}, in seconds = $alarmTime.")
         val sessionId = session.sessionId

@@ -236,10 +236,10 @@ class SessionDetailsFragment : Fragment(), MenuProvider {
     private fun showAlarmTimePicker() {
         AlarmTimePickerFragment.show(this, SESSION_DETAILS_FRAGMENT_REQUEST_KEY) { requestKey, result ->
             if (requestKey == SESSION_DETAILS_FRAGMENT_REQUEST_KEY &&
-                result.containsKey(AlarmTimePickerFragment.ALARM_TIMES_INDEX_BUNDLE_KEY)
+                result.containsKey(AlarmTimePickerFragment.ALARM_TIME_BUNDLE_KEY)
             ) {
-                val alarmTimesIndex = result.getInt(AlarmTimePickerFragment.ALARM_TIMES_INDEX_BUNDLE_KEY)
-                viewModel.addAlarm(alarmTimesIndex)
+                val alarmTime = result.getInt(AlarmTimePickerFragment.ALARM_TIME_BUNDLE_KEY)
+                viewModel.addAlarm(alarmTime)
             }
         }
     }

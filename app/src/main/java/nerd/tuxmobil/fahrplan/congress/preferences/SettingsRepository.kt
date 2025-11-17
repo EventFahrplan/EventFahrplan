@@ -20,6 +20,7 @@ interface SettingsRepository {
     fun setAlarmTone(alarmTone: Uri?)
     fun isInsistentAlarmsEnabled(): Boolean
     fun setInsistentAlarms(enable: Boolean)
+    fun getAlarmTime(): Int
     fun setAlarmTime(alarmTime: Int)
 
     fun setScheduleRefreshInterval(interval: Int)
