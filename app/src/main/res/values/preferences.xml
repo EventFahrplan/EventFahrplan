@@ -4,8 +4,6 @@
     <!-- Category development -->
 
     <!-- Schedule refresh interval -->
-    <string name="preference_key_schedule_refresh_interval_index" translatable="false">schedule_refresh_interval</string>
-
     <string name="preference_dialog_title_schedule_refresh_interval">Choose a schedule refresh interval</string>
     <string name="preference_title_schedule_refresh_interval">Choose schedule refresh interval</string>
 
@@ -21,7 +19,6 @@
     <!-- Category general -->
 
     <!-- Automatic schedule updates -->
-    <string name="preference_key_auto_update_enabled" translatable="false">auto_update</string>
     <string name="preference_title_auto_update_enabled">Enable automatic updates</string>
     <string name="preference_summary_auto_update_enabled">Downloads the schedule periodically.</string>
     <string name="preference_summary_auto_update_next_fetch_approximately_at">
@@ -46,34 +43,26 @@
     </plurals>
 
     <!-- Alarm time -->
-    <string name="preference_key_alarm_time_index" translatable="false">default_alarm_time</string>
     <string name="preference_dialog_title_alarm_time">Choose a default alarm time</string>
     <string name="preference_title_alarm_time">Choose default alarm time</string>
 
     <!-- Alarm tone -->
-    <string name="preference_key_alarm_tone" translatable="false">reminder_tone</string>
     <string name="preference_title_alarm_tone">Choose alarm tone</string>
     <string name="preference_summary_alarm_tone">Open the sounds selection screen from here.</string>
 
     <!-- Device time zone -->
-    <string name="preference_key_use_device_time_zone_enabled" translatable="false">use_device_time_zone</string>
     <string name="preference_title_use_device_time_zone_enabled">Use device time zone</string>
     <string name="preference_summary_use_device_time_zone_enabled">Displays dates and times accordingly.</string>
 
     <!-- Alternative highlighting -->
-    <string name="preference_key_alternative_highlighting_enabled" translatable="false">alternative_highlight</string>
     <string name="preference_title_alternative_highlighting_enabled">Enable alternative highlighting</string>
     <string name="preference_summary_alternative_highlighting_enabled">Adds a border around favored sessions.</string>
 
     <!-- Fast swiping -->
-    <string name="preference_key_fast_swiping_enabled" translatable="false">fast_swiping</string>
     <string name="preference_title_fast_swiping_enabled">Enable fast swiping</string>
     <string name="preference_summary_fast_swiping_enabled">Allows swiping over multiple rooms.</string>
 
     <!-- Alternative schedule URL -->
-    <string name="preference_key_alternative_schedule_url" translatable="false">
-        schedule_url
-    </string>
     <string name="preference_hint_alternative_schedule_url" translatable="false">
         https://yourhost/schedule.xml
     </string>
@@ -86,16 +75,12 @@
     <string name="preference_summary_app_notification_settings">Open the associated system settings screen from here.</string>
 
     <!-- Insistent session alarms -->
-    <string name="preference_key_insistent_alarms_enabled" translatable="false">insistent</string>
     <string name="preference_title_insistent_alarms_enabled">Enable insistent alarm</string>
     <string name="preference_summary_insistent_alarms_enabled">Keeps an alarm on infinitely.</string>
 
     <!-- Category Engelsystem -->
 
     <string name="preference_engelsystem_category_title" translatable="false">@string/engelsystem_alias</string>
-    <string name="preference_key_engelsystem_json_export_url" translatable="false">
-        preference_key_engelsystem_json_export_url
-    </string>
     <string name="preference_summary_engelsystem_json_export_url">
         <![CDATA[In order to see your shifts please enter your <u>personal</u> URL here.<br/><br/>
         1. Login to your <xliff:g example="Engelsystem" id="engelsystemAlias">%s</xliff:g> account.<br/>
