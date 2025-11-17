@@ -2,9 +2,6 @@ package nerd.tuxmobil.fahrplan.congress.preferences
 
 interface SharedPreferencesRepository {
 
-    fun getScheduleRefreshIntervalDefaultValue(): Int
-    fun getScheduleRefreshInterval(): Int
-
     fun getDisplayDayIndex(): Int
     fun setDisplayDayIndex(displayDayIndex: Int)
 

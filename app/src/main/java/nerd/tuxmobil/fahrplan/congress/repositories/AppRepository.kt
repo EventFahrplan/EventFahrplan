@@ -1022,10 +1022,9 @@ object AppRepository : SearchRepository,
     }
 
     fun readScheduleRefreshIntervalDefaultValue() =
-        sharedPreferencesRepository.getScheduleRefreshIntervalDefaultValue()
+        settingsRepository.getScheduleRefreshIntervalDefaultValue()
 
-    fun readScheduleRefreshInterval() =
-        sharedPreferencesRepository.getScheduleRefreshInterval()
+    fun readScheduleRefreshInterval() = settingsRepository.getScheduleRefreshInterval()
 
     fun readAlarmTime() = settingsRepository.getAlarmTime()
 
