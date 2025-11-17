@@ -13,7 +13,7 @@ import nerd.tuxmobil.fahrplan.congress.utils.UrlValidator
 
 @Composable
 internal fun ScheduleUrlDialog(
-    currentValue: String?,
+    currentValue: String,
     onValueChanged: (String) -> Unit,
     onDismiss: () -> Unit,
 ) {
@@ -28,7 +28,7 @@ internal fun ScheduleUrlDialog(
 
     PreferenceTextInputDialog(
         title = stringResource(R.string.preference_title_alternative_schedule_url),
-        value = currentValue.orEmpty(),
+        value = currentValue,
         placeholder = stringResource(R.string.preference_hint_alternative_schedule_url),
         validator = urlValidator,
         onValueChanged = onValueChanged,

@@ -14,6 +14,6 @@ data class Settings(
     // Backend preferences
     val scheduleRefreshInterval: Int = -1,
     val isAutoUpdateEnabled: Boolean = true,
-    val alternativeScheduleUrl: String? = null,
+    val alternativeScheduleUrl: String = "",
     val engelsystemShiftsUrl: String? = null,
 )
