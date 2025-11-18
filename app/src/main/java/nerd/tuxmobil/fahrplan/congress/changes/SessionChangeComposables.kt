@@ -1,7 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress.changes
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement.SpaceBetween
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,7 +19,6 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -164,7 +162,7 @@ fun SessionChangeItem(
                 text = session.title.value,
                 fontSize = 16.sp,
                 fontWeight = Bold,
-                color = colorResource(titleColor),
+                color = titleColor,
                 textDecoration = textDecoration,
             )
             val iconColor = session.videoRecordingState.changeState.color()
@@ -221,18 +219,18 @@ private fun SecondaryText(
             },
             text = property.value,
             fontSize = 13.sp,
-            color = colorResource(color),
+            color = color,
             textDecoration = textDecoration,
         )
     }
 }
 
 @Composable
-private fun ChangeState.color() = with(this) {
-    when (isSystemInDarkTheme()) { // TODO Move into theme
-        true -> colorOnDark
-        false -> colorOnLight
-    }
+private fun ChangeState.color() = when (this) {
+    UNCHANGED -> EventFahrplanTheme.colorScheme.scheduleChangeUnchangedText
+    NEW -> EventFahrplanTheme.colorScheme.scheduleChangeNew
+    CANCELED -> EventFahrplanTheme.colorScheme.scheduleChangeCanceled
+    CHANGED -> EventFahrplanTheme.colorScheme.scheduleChangeChanged
 }
 
 @Composable

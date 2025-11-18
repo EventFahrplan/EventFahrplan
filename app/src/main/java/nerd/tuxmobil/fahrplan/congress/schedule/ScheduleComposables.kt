@@ -144,7 +144,7 @@ fun SessionCard(
             border = if (data.showBorder) {
                 BorderStroke(
                     dimensionResource(R.dimen.session_drawable_selection_stroke_width),
-                    colorResource(R.color.session_drawable_selection_stroke),
+                    EventFahrplanTheme.colorScheme.sessionCardSelectionStroke,
                 )
             } else {
                 null
@@ -422,7 +422,7 @@ private fun TrackName(
         Box(
             modifier = modifier
                 .background(
-                    color = colorResource(R.color.session_item_track_name_background),
+                    color = EventFahrplanTheme.colorScheme.sessionCardTrackNameBackground,
                     shape = RoundedCornerShape(12.dp),
                 )
                 .defaultMinSize(minHeight = 20.dp)
@@ -437,7 +437,7 @@ private fun TrackName(
                 text = property.value,
                 fontFamily = FontFamily(Font(R.font.roboto_condensed_medium)),
                 fontSize = dimensionResource(R.dimen.session_drawable_track).toTextUnit(),
-                color = colorResource(R.color.session_item_track_name_text),
+                color = EventFahrplanTheme.colorScheme.sessionCardTrackNameText,
                 maxLines = 1,
                 overflow = Ellipsis,
             )
@@ -467,7 +467,7 @@ private fun AlarmIcon(
             .size(dimensionResource(R.dimen.session_drawable_icon_size))
             .padding(dimensionResource(R.dimen.session_drawable_icon_padding)),
         icon = R.drawable.ic_bell_on_session,
-        tint = colorResource(R.color.session_item_alarm_icon),
+        tint = EventFahrplanTheme.colorScheme.sessionCardBellIcon,
         contentDescription = stringResource(R.string.session_item_has_alarm_content_description),
     )
 }
@@ -559,14 +559,14 @@ private fun ContextMenu(
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp, vertical = 8.dp),
                 text = stringResource(R.string.menu_item_title_share_session),
-                color = colorResource(R.color.colorAccent),
+                color = EventFahrplanTheme.colorScheme.primary,
             )
             DividerHorizontal(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(8.dp),
                 thickness = 1.dp,
-                color = colorResource(R.color.colorAccent),
+                color = EventFahrplanTheme.colorScheme.primary,
             )
             DropdownMenuItem(
                 text = { Text(stringResource(R.string.menu_item_title_share_session_text), color = textColor) },

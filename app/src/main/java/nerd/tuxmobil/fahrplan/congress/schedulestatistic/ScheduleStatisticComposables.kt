@@ -18,7 +18,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
@@ -93,7 +92,7 @@ private fun TopBar(showActions: Boolean, onViewEvent: (ScheduleStatisticViewEven
                 ) {
                     IconActionable(
                         icon = R.drawable.ic_sort,
-                        tint = R.color.tool_bar_icon,
+                        tint = EventFahrplanTheme.colorScheme.appBarActionIcon,
                         contentDescription = R.string.schedule_statistic_toggle_sorting,
                     )
                 }
@@ -233,7 +232,7 @@ private fun StackedHorizontalBar(
                 modifier = Modifier
                     .weight(value1Fraction)
                     .height(20.dp)
-                    .background(colorResource(colorOf(value1Percentage)))
+                    .background(colorOf(value1Percentage))
             )
         }
         if (value2 > 0) {
@@ -241,7 +240,7 @@ private fun StackedHorizontalBar(
                 modifier = Modifier
                     .weight(value2Fraction)
                     .height(20.dp)
-                    .background(colorResource(R.color.schedule_statistic_bar_background_no_warning))
+                    .background(EventFahrplanTheme.colorScheme.scheduleStatisticBarNoWarningBackground)
             )
         }
         Text(
@@ -254,10 +253,11 @@ private fun StackedHorizontalBar(
     }
 }
 
+@Composable
 private fun colorOf(percentage: Float) = when {
-    percentage < 34 -> R.color.schedule_statistic_bar_background_warning_level_1
-    percentage < 67 -> R.color.schedule_statistic_bar_background_warning_level_2
-    else -> R.color.schedule_statistic_bar_background_warning_level_3
+    percentage < 34 -> EventFahrplanTheme.colorScheme.scheduleStatisticBarWarningLevel1Background
+    percentage < 67 -> EventFahrplanTheme.colorScheme.scheduleStatisticBarWarningLevel2Background
+    else -> EventFahrplanTheme.colorScheme.scheduleStatisticBarWarningLevel3Background
 }
 
 @MultiDevicePreview

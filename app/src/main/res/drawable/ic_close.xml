@@ -4,6 +4,6 @@
     android:viewportWidth="24"
     android:viewportHeight="24">
     <path
-        android:fillColor="@color/tool_bar_icon"
+        android:fillColor="@color/app_bar_action_icon"
         android:pathData="M6.4,19 L5,17.6l5.6,-5.6L5,6.4 6.4,5l5.6,5.6L17.6,5 19,6.4 13.4,12l5.6,5.6 -1.4,1.4 -5.6,-5.6Z" />
 </vector>

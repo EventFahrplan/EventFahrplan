@@ -18,9 +18,39 @@ internal fun darkColorScheme() = androidx.compose.material3.darkColorScheme(
     inverseOnSurface = colorResource(R.color.session_item_text_on_highlight_background), // used by SessionCard
     surfaceContainer = colorResource(R.color.colorPrimaryDark), // used by DropdownMenu
 ).toColorScheme(
-    topAppBarContainer = colorResource(R.color.colorPrimary),
+    listItemPrefixSymbol = colorResource(R.color.session_details_list_item_prefix_symbol),
     divider = colorResource(R.color.divider),
     searchBarDivider = colorResource(R.color.colorAccent),
+    sessionListHeaderDayDate = colorResource(R.color.session_list_header_day_date),
+    textLink = colorResource(R.color.text_link_on_dark),
+    // AppBar
+    appBarContainer = colorResource(R.color.colorPrimary),
+    appBarTitleText = colorResource(R.color.text_primary),
+    appBarNavigationIcon = colorResource(R.color.text_primary),
+    appBarActionIcon = colorResource(R.color.app_bar_action_icon),
+    // Alarms screen
+    sessionAlarmItemBellIconText = colorResource(R.color.session_alarm_item_bell_icon_text),
+    // Session details screen
+    sessionDetailBarBackground = colorResource(R.color.session_detailbar_background),
+    sessionDetailBarText = colorResource(R.color.session_detailbar_text),
+    sessionDetailBarIcon = colorResource(R.color.session_detailbar_icon),
+    sessionDetailsRoomStateInfoBackground = colorResource(R.color.session_details_room_state_info_background),
+    sessionDetailsRoomStateInfoText = colorResource(R.color.session_details_room_state_info_text),
+    // Session card
+    sessionCardSelectionStroke = colorResource(R.color.session_drawable_selection_stroke),
+    sessionCardBellIcon = colorResource(R.color.session_item_alarm_icon),
+    sessionCardTrackNameBackground = colorResource(R.color.session_item_track_name_background),
+    sessionCardTrackNameText = colorResource(R.color.session_item_track_name_text),
+    // Schedule statistic screen
+    scheduleStatisticBarWarningLevel1Background = colorResource(R.color.schedule_statistic_bar_background_warning_level_1),
+    scheduleStatisticBarWarningLevel2Background = colorResource(R.color.schedule_statistic_bar_background_warning_level_2),
+    scheduleStatisticBarWarningLevel3Background = colorResource(R.color.schedule_statistic_bar_background_warning_level_3),
+    scheduleStatisticBarNoWarningBackground = colorResource(R.color.schedule_statistic_bar_background_no_warning),
+    // Schedule changes screen
+    scheduleChangeUnchangedText = colorResource(R.color.session_list_item_text),
+    scheduleChangeNewText = colorResource(R.color.schedule_change_new_on_dark),
+    scheduleChangeCanceledText = colorResource(R.color.schedule_change_canceled_on_dark),
+    scheduleChangeChangedText = colorResource(R.color.schedule_change_on_dark),
 )
 
 @Composable
@@ -34,9 +64,39 @@ internal fun lightColorScheme() = androidx.compose.material3.lightColorScheme(
     inverseOnSurface = colorResource(R.color.session_item_text_on_highlight_background),
     surfaceContainer = colorResource(R.color.colorPrimaryDark),
 ).toColorScheme(
-    topAppBarContainer = colorResource(R.color.colorPrimary),
+    listItemPrefixSymbol = colorResource(R.color.session_details_list_item_prefix_symbol),
     divider = colorResource(R.color.divider),
     searchBarDivider = colorResource(R.color.colorAccent),
+    sessionListHeaderDayDate = colorResource(R.color.session_list_header_day_date),
+    textLink = colorResource(R.color.text_link_on_light),
+    // AppBar
+    appBarContainer = colorResource(R.color.colorPrimary),
+    appBarTitleText = colorResource(R.color.text_primary),
+    appBarNavigationIcon = colorResource(R.color.text_primary),
+    appBarActionIcon = colorResource(R.color.app_bar_action_icon),
+    // Alarms screen
+    sessionAlarmItemBellIconText = colorResource(R.color.session_alarm_item_bell_icon_text),
+    // Session details screen
+    sessionDetailBarBackground = colorResource(R.color.session_detailbar_background),
+    sessionDetailBarText = colorResource(R.color.session_detailbar_text),
+    sessionDetailBarIcon = colorResource(R.color.session_detailbar_icon),
+    sessionDetailsRoomStateInfoBackground = colorResource(R.color.session_details_room_state_info_background),
+    sessionDetailsRoomStateInfoText = colorResource(R.color.session_details_room_state_info_text),
+    // Session card
+    sessionCardSelectionStroke = colorResource(R.color.session_drawable_selection_stroke),
+    sessionCardBellIcon = colorResource(R.color.session_item_alarm_icon),
+    sessionCardTrackNameBackground = colorResource(R.color.session_item_track_name_background),
+    sessionCardTrackNameText = colorResource(R.color.session_item_track_name_text),
+    // Schedule statistic screen
+    scheduleStatisticBarWarningLevel1Background = colorResource(R.color.schedule_statistic_bar_background_warning_level_1),
+    scheduleStatisticBarWarningLevel2Background = colorResource(R.color.schedule_statistic_bar_background_warning_level_2),
+    scheduleStatisticBarWarningLevel3Background = colorResource(R.color.schedule_statistic_bar_background_warning_level_3),
+    scheduleStatisticBarNoWarningBackground = colorResource(R.color.schedule_statistic_bar_background_no_warning),
+    // Schedule changes screen
+    scheduleChangeUnchangedText = colorResource(R.color.session_list_item_text),
+    scheduleChangeNewText = colorResource(R.color.schedule_change_new_on_light),
+    scheduleChangeCanceledText = colorResource(R.color.schedule_change_canceled_on_light),
+    scheduleChangeChangedText = colorResource(R.color.schedule_change_on_light),
 )
 
 internal val LocalColorScheme = staticCompositionLocalOf<ColorScheme> {
@@ -44,9 +104,33 @@ internal val LocalColorScheme = staticCompositionLocalOf<ColorScheme> {
 }
 
 private fun Material3ColorScheme.toColorScheme(
-    topAppBarContainer: Color,
+    listItemPrefixSymbol: Color,
     divider: Color,
     searchBarDivider: Color,
+    sessionListHeaderDayDate: Color,
+    textLink: Color,
+    appBarContainer: Color,
+    appBarTitleText: Color,
+    appBarNavigationIcon: Color,
+    appBarActionIcon: Color,
+    sessionAlarmItemBellIconText: Color,
+    sessionDetailBarBackground: Color,
+    sessionDetailBarText: Color,
+    sessionDetailBarIcon: Color,
+    sessionDetailsRoomStateInfoBackground: Color,
+    sessionDetailsRoomStateInfoText: Color,
+    sessionCardSelectionStroke: Color,
+    sessionCardBellIcon: Color,
+    sessionCardTrackNameBackground: Color,
+    sessionCardTrackNameText: Color,
+    scheduleStatisticBarWarningLevel1Background: Color,
+    scheduleStatisticBarWarningLevel2Background: Color,
+    scheduleStatisticBarWarningLevel3Background: Color,
+    scheduleStatisticBarNoWarningBackground: Color,
+    scheduleChangeUnchangedText: Color,
+    scheduleChangeNewText: Color,
+    scheduleChangeCanceledText: Color,
+    scheduleChangeChangedText: Color,
 ): ColorScheme {
     return ColorScheme(
         primary = primary,
@@ -99,8 +183,32 @@ private fun Material3ColorScheme.toColorScheme(
         onTertiaryFixedVariant = onTertiaryFixedVariant,
 
         // Custom colors
-        topAppBarContainer = topAppBarContainer,
+        listItemPrefixSymbol = listItemPrefixSymbol,
         divider = divider,
         searchBarDivider = searchBarDivider,
+        sessionListHeaderDayDate = sessionListHeaderDayDate,
+        textLink = textLink,
+        appBarContainer = appBarContainer,
+        appBarTitleText = appBarTitleText,
+        appBarNavigationIcon = appBarNavigationIcon,
+        appBarActionIcon = appBarActionIcon,
+        sessionAlarmItemBellIconText = sessionAlarmItemBellIconText,
+        sessionDetailBarBackground = sessionDetailBarBackground,
+        sessionDetailBarText = sessionDetailBarText,
+        sessionDetailBarIcon = sessionDetailBarIcon,
+        sessionDetailsRoomStateInfoBackground = sessionDetailsRoomStateInfoBackground,
+        sessionDetailsRoomStateInfoText = sessionDetailsRoomStateInfoText,
+        sessionCardSelectionStroke = sessionCardSelectionStroke,
+        sessionCardBellIcon = sessionCardBellIcon,
+        sessionCardTrackNameBackground = sessionCardTrackNameBackground,
+        sessionCardTrackNameText = sessionCardTrackNameText,
+        scheduleStatisticBarWarningLevel1Background = scheduleStatisticBarWarningLevel1Background,
+        scheduleStatisticBarWarningLevel2Background = scheduleStatisticBarWarningLevel2Background,
+        scheduleStatisticBarWarningLevel3Background = scheduleStatisticBarWarningLevel3Background,
+        scheduleStatisticBarNoWarningBackground = scheduleStatisticBarNoWarningBackground,
+        scheduleChangeUnchangedText = scheduleChangeUnchangedText,
+        scheduleChangeNew = scheduleChangeNewText,
+        scheduleChangeCanceled = scheduleChangeCanceledText,
+        scheduleChangeChanged = scheduleChangeChangedText,
     )
 }

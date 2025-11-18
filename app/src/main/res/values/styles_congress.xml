@@ -116,7 +116,7 @@
 
     <style name="ScheduleListSeparator" parent="@android:style/TextAppearance.Small">
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/text_link_on_light</item>
+        <item name="android:textColor">@color/session_list_header_day_date</item>
         <item name="android:textAllCaps">true</item>
     </style>
 

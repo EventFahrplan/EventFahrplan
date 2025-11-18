@@ -13,7 +13,6 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.onClick
@@ -171,7 +170,7 @@ private fun AlarmIcon(alarmOffset: Int, alarmIconContentDescription: String) {
         Text(
             text = "$alarmOffset",
             textAlign = TextAlign.Center,
-            color = colorResource(R.color.session_alarm_item_bell_icon_text),
+            color = EventFahrplanTheme.colorScheme.sessionAlarmItemBellIconText,
             fontWeight = Bold,
             fontSize = 12.sp,
         )

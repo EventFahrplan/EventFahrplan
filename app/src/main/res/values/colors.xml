@@ -25,8 +25,8 @@
     <!-- Empty screen illustrations -->
     <color name="empty_screen_illustration_fill">@color/colorAccent</color>
 
-    <!-- Tool bar -->
-    <color name="tool_bar_icon">#fff</color>
+    <!-- App bar -->
+    <color name="app_bar_action_icon">#fff</color>
     <color name="day_menu_text">@color/text_primary</color>
 
     <!-- Alarms -->
@@ -73,6 +73,7 @@
 
     <!-- Session item (favorites + schedule changes) -->
     <color name="session_list_header_text">@color/text_primary</color>
+    <color name="session_list_header_day_date">@color/colorAccent</color>
     <color name="session_list_item_text">@color/text_primary</color>
     <color name="session_list_item_text_inverted">@color/text_primary_inverted</color>
     <color name="session_list_empty_text">@color/text_primary</color>
@@ -83,7 +84,7 @@
     <!-- Session details -->
     <color name="session_details_room_state_info_text">@color/text_primary</color>
     <color name="session_details_room_state_info_background">@color/colorAccent</color>
-    <color name="session_details_list_item">@color/colorPrimary</color>
+    <color name="session_details_list_item_prefix_symbol">@color/colorPrimary</color>
     <color name="session_detailbar_background">#eee</color>
     <color name="session_detailbar_text">#999</color>
     <color name="session_detailbar_icon">@color/colorAccent</color>
