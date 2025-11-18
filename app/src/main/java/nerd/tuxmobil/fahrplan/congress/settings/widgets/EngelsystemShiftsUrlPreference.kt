@@ -17,7 +17,7 @@ import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
 
 @Composable
 internal fun EngelsystemShiftsUrlPreference(
-    engelsystemShiftsUrl: String?,
+    engelsystemShiftsUrl: String,
     onClick: () -> Unit,
 ) {
     Column(
@@ -36,7 +36,7 @@ internal fun EngelsystemShiftsUrlPreference(
         )
 
         Text(
-            text = if (engelsystemShiftsUrl.isNullOrEmpty()) {
+            text = if (engelsystemShiftsUrl.isEmpty()) {
                 AnnotatedString.fromHtml(
                     stringResource(
                         R.string.preference_summary_engelsystem_json_export_url,

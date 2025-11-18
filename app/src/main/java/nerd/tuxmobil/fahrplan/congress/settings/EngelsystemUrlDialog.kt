@@ -13,7 +13,7 @@ import nerd.tuxmobil.fahrplan.congress.utils.EngelsystemUrlValidator
 
 @Composable
 internal fun EngelsystemUrlDialog(
-    currentValue: String?,
+    currentValue: String,
     onValueChanged: (String) -> Unit,
     onDismiss: () -> Unit,
 ) {
@@ -28,7 +28,7 @@ internal fun EngelsystemUrlDialog(
 
     PreferenceTextInputDialog(
         title = stringResource(R.string.preference_title_engelsystem_json_export_url),
-        value = currentValue.orEmpty(),
+        value = currentValue,
         placeholder = stringResource(R.string.preference_hint_engelsystem_json_export_url),
         validator = validator,
         onValueChanged = onValueChanged,

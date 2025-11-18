@@ -8,13 +8,11 @@ import nerd.tuxmobil.fahrplan.congress.settings.SettingsEvent.AlternativeSchedul
 
 @Composable
 internal fun AlternativeScheduleUrlPreference(
-    alternativeScheduleUrl: String?,
+    alternativeScheduleUrl: String,
     onViewEvent: (SettingsEvent) -> Unit,
 ) {
-    val subtitle = if (alternativeScheduleUrl.isNullOrEmpty()) {
+    val subtitle = alternativeScheduleUrl.ifEmpty {
         stringResource(R.string.preference_summary_alternative_schedule_url)
-    } else {
-        alternativeScheduleUrl
     }
 
     ClickPreference(
