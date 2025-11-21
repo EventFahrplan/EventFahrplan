@@ -15,6 +15,7 @@ import android.widget.AbsListView
 import android.widget.AbsListView.MultiChoiceModeListener
 import android.widget.HeaderViewListAdapter
 import android.widget.ListView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.CallSuper
 import androidx.annotation.IdRes
@@ -86,6 +87,8 @@ class StarredListFragment :
      */
     private lateinit var currentListView: ListView
 
+    private var headerView: TextView? = null
+
     private lateinit var loadingSpinnerView: View
 
     private val starredListAdapter: StarredListAdapter
@@ -117,10 +120,12 @@ class StarredListFragment :
             view = localInflater.inflate(R.layout.fragment_favorites_list_narrow, container, false)
             currentListView = view.requireViewByIdCompat(android.R.id.list)
             header = localInflater.inflate(R.layout.starred_header, null, false)
+            headerView = header.requireViewByIdCompat(R.id.header_view)
         } else {
             view = localInflater.inflate(R.layout.fragment_favorites_list, container, false)
             currentListView = view.requireViewByIdCompat(android.R.id.list)
             header = localInflater.inflate(R.layout.header_empty, null, false)
+            headerView = null
         }
         currentListView.addHeaderView(header, null, false)
         currentListView.setHeaderDividersEnabled(false)
@@ -155,6 +160,7 @@ class StarredListFragment :
                 contentDescriptionFormatting = ContentDescriptionFormatter(resourceResolving),
             )
             currentListView.adapter = adapter
+            updateHeaderOrTitleText(sessions.size)
             activity.invalidateOptionsMenu()
 
             loadingSpinnerView.isVisible = false
@@ -169,6 +175,15 @@ class StarredListFragment :
                 Toast.makeText(context, R.string.share_error_activity_not_found, Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    private fun updateHeaderOrTitleText(sessionsSize: Int) {
+        val headerOrTitleText = when (sessionsSize == 0) {
+            true -> getString(R.string.favorites_screen_default_title)
+            false -> resources.getQuantityString(R.plurals.favorites_screen_title, sessionsSize, sessionsSize)
+        }
+        headerView?.text = headerOrTitleText
+        requireActivity().title = headerOrTitleText
     }
 
     @MainThread

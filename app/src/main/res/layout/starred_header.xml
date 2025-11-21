@@ -6,6 +6,7 @@
               android:layout_height="match_parent">
 
     <TextView
+        android:id="@+id/header_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="@android:style/TextAppearance.Large"
@@ -14,7 +15,7 @@
         android:paddingRight="16dp"
         android:paddingTop="32dp"
         android:fontFamily="sans-serif-light"
-        android:text="@string/starred_sessions"
+        android:text="@string/favorites_screen_default_title"
         tools:background="@android:color/holo_blue_dark"
         />
 

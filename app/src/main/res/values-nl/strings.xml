@@ -105,7 +105,7 @@
     <string name="favorites_no_favorites_subtitle">Tik op de ster in de menubalk om een favoriet in te stellen</string>
     <string name="schedule_changes">Tijdschema veranderingen</string>
     <string name="general_settings">Algemeen</string>
-    <string name="starred_sessions">Favorieten</string>
+    <string name="favorites_screen_default_title">Favorieten</string>
     <string name="choose_to_delete">Selecteer sessies</string>
     <string name="day_separator">Dag <xliff:g example="2" id="day_of_congress">%1$d</xliff:g> - <xliff:g example="29.12.2014" id="date_of_congress_day">%2$s</xliff:g></string>
     <string name="dlg_delete_all_favorites">Alle favorieten verwijderen?</string>
