@@ -141,7 +141,11 @@
     <string name="dash" translatable="false"><xliff:g id="dash">—</xliff:g></string>
     <string name="development_settings">Development</string>
     <string name="general_settings">General</string>
-    <string name="starred_sessions">Favorites</string>
+    <string name="favorites_screen_default_title">Favorites</string>
+    <plurals name="favorites_screen_title">
+        <item quantity="one"><xliff:g example="1" id="count">%d</xliff:g> favorite</item>
+        <item quantity="other"><xliff:g example="3" id="count">%d</xliff:g> favorites</item>
+    </plurals>
     <string name="choose_to_delete">Select sessions</string>
     <string name="day_separator">Day <xliff:g example="2" id="day_of_congress">%1$d</xliff:g> - <xliff:g example="12/29/14" id="date_of_congress_day">%2$s</xliff:g></string>
     <string name="day_separator_content_description">Day <xliff:g example="2" id="day_of_congress">%1$d</xliff:g>, <xliff:g example="December 29, 2014" id="date_of_congress_day">%2$s</xliff:g></string>

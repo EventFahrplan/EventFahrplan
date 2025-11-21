@@ -119,7 +119,11 @@
     <string name="schedule_changes">Fahrplanänderungen</string>
 
     <string name="general_settings">Allgemein</string>
-    <string name="starred_sessions">Favoriten</string>
+    <string name="favorites_screen_default_title">Favoriten</string>
+    <plurals name="favorites_screen_title">
+        <item quantity="one"><xliff:g example="1" id="count">%d</xliff:g> Favorite</item>
+        <item quantity="other"><xliff:g example="3" id="count">%d</xliff:g> Favoriten</item>
+    </plurals>
     <string name="favorites_no_favorites_title">Keine favorisierten Vorträge</string>
     <string name="favorites_no_favorites_subtitle">Tippe auf den Stern in der Menüleiste, um einen Favoriten zu setzen</string>
     <string name="choose_to_delete">Wähle Vorträge</string>

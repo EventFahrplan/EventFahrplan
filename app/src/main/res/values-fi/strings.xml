@@ -102,7 +102,7 @@
     <string name="favorites_no_favorites_title">Ei lempiluentoja</string>
     <string name="schedule_changes">Aikataulumuutokset</string>
     <string name="general_settings">Yleiset</string>
-    <string name="starred_sessions">Suosikit</string>
+    <string name="favorites_screen_default_title">Suosikit</string>
     <string name="choose_to_delete">Valitse luennot</string>
     <string name="day_separator">Päivä <xliff:g esimerkki="2" id="kongressi_päivä">%1$d</xliff:g> - <xliff:g esimerkki="29.12.2014" id="kongressipäivän_päivämäärä">%2$s</xliff:g></string>
     <string name="dlg_delete_all_favorites">Poista kaikki suosikit?</string>

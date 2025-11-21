@@ -119,7 +119,7 @@
     <string name="schedule_changes">Zmiany w agendzie</string>
     <string name="development_settings">Dla deweloperów</string>
     <string name="general_settings">Ogólne</string>
-    <string name="starred_sessions">Ulubione</string>
+    <string name="favorites_screen_default_title">Ulubione</string>
     <string name="choose_to_delete">Wybierz sesje</string>
     <string name="day_separator">Dzień <xliff:g example="2" id="day_of_congress">%1$d</xliff:g> - <xliff:g example="12/29/14" id="date_of_congress_day">%2$s</xliff:g></string>
     <string name="day_separator_content_description">Dzień <xliff:g example="2" id="day_of_congress">%1$d</xliff:g>, <xliff:g example="December 29, 2014" id="date_of_congress_day">%2$s</xliff:g></string>

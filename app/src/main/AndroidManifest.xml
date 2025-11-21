@@ -45,7 +45,7 @@
         </activity>
         <activity
             android:name="nerd.tuxmobil.fahrplan.congress.favorites.StarredListActivity"
-            android:label="@string/starred_sessions"
+            android:label="@string/favorites_screen_default_title"
             android:resizeableActivity="true"
             android:theme="@style/Theme.Congress.NoActionBar"
             tools:targetApi="24">
