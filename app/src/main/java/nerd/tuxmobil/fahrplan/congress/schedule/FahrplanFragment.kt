@@ -10,7 +10,6 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM
 import android.text.TextUtils.TruncateAt
-import android.view.Gravity
 import android.view.Gravity.CENTER
 import android.view.LayoutInflater
 import android.view.Menu
@@ -616,15 +615,15 @@ class FahrplanFragment : Fragment(), MenuProvider {
             timeTextView.requireViewByIdCompat<TextView>(R.id.schedule_time_column_time_text_view).apply {
                 text = titleText
                 setTextColor(textColor)
-                gravity = Gravity.TOP or Gravity.END
                 updateLayoutParams {
                     width = resources.getDimensionPixelSize(R.dimen.schedule_time_column_layout_width) + timeTextColumnEdgeToEdge.leftWindowInset
                 }
-                if (isNow) {
-                    setBackgroundColor(ContextCompat.getColor(timeTextView.context, R.color.schedule_time_column_item_background_emphasized))
+                val color = if (isNow) {
+                    R.color.schedule_time_column_item_background_emphasized
                 } else {
-                    setBackgroundResource(R.drawable.schedule_time_column_time_text_background_normal)
+                    R.color.schedule_time_column_item_background_normal
                 }
+                setBackgroundColor(ContextCompat.getColor(timeTextView.context, color))
             }
         }
 

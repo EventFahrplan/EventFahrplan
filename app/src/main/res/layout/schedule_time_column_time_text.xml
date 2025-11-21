@@ -1,12 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/schedule_time_column_time_text_view"
-    android:layout_width="@dimen/schedule_time_column_layout_width"
-    android:layout_height="match_parent"
-    android:gravity="top|center"
-    android:padding="@dimen/schedule_time_column_padding"
-    android:textSize="@dimen/schedule_time_column_text_size"
-    tools:background="@drawable/schedule_time_column_time_text_background_normal"
-    tools:text="@string/placeholder_schedule_time"
-    tools:textColor="@color/schedule_time_column_item_text_normal" />
+    android:layout_width="wrap_content"
+    android:layout_height="@dimen/schedule_time_column_box_height"
+    android:orientation="vertical"
+    tools:background="@color/schedule_time_column_background">
+
+    <TextView
+        android:id="@+id/schedule_time_column_time_text_view"
+        android:layout_width="@dimen/schedule_time_column_layout_width"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="top|end"
+        android:padding="@dimen/schedule_time_column_padding"
+        android:textSize="@dimen/schedule_time_column_text_size"
+        tools:text="@string/placeholder_schedule_time"
+        tools:textColor="@color/schedule_time_column_item_text_normal"
+        tools:background="@color/schedule_time_column_item_background_normal" />
+
+    <!-- TODO: Use a color resource to explicitly specify the divider color instead of indirectly using the background color of the parent(s) -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/schedule_horizontal_time_line_height"
+        android:background="@android:color/transparent" />
+
+</LinearLayout>
