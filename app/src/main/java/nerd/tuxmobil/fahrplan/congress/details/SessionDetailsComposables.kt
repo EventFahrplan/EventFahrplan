@@ -623,11 +623,13 @@ private const val EXAMPLE_MARKDOWN = """# About
 @Preview(showBackground = true, backgroundColor = 0xFFFFFFFF)
 @Composable
 private fun TextMarkdownPreview() {
-    TextMarkdown(
-        text = EXAMPLE_MARKDOWN,
-        contentDescription = "",
-        isAbstract = false,
-    )
+    EventFahrplanTheme {
+        TextMarkdown(
+            text = EXAMPLE_MARKDOWN,
+            contentDescription = "",
+            isAbstract = false,
+        )
+    }
 }
 
 private const val EXAMPLE_HTML = """<h1>About</h1>
@@ -660,13 +662,15 @@ private const val EXAMPLE_HTML = """<h1>About</h1>
 @Preview(showBackground = true, backgroundColor = 0xFFFFFFFF)
 @Composable
 private fun DescriptionHtmlPreview() {
-    DescriptionHtml(
-        text = EXAMPLE_HTML,
-        contentDescription = "",
-        htmlStyle = HtmlStyle(
-            textLinkStyles = textLinkStyles,
-        ),
-    )
+    EventFahrplanTheme {
+        DescriptionHtml(
+            text = EXAMPLE_HTML,
+            contentDescription = "",
+            htmlStyle = HtmlStyle(
+                textLinkStyles = textLinkStyles,
+            ),
+        )
+    }
 }
 
 @Preview
