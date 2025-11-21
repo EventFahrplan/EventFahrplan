@@ -610,7 +610,7 @@ private fun createRoomColumnData() = RoomColumnData(
     spacings = listOf(20, 80, 0, 8, 0),
 )
 
-@Preview()
+@Preview
 @Composable
 private fun SessionCardPreview() {
     val data = createSessionCardData(height = 200, isFavored = true, hasAlarm = true, isRecorded = false)
