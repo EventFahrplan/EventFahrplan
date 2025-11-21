@@ -270,7 +270,11 @@ private fun SessionCardLayout(data: SessionCardData) {
                 // Title
                 var showTitle = true
                 titlePlaceable?.let {
-                    showTitle = yPosition + it.height + innerPaddingPx < cardHeightPx
+                    val fitsWithBottomPadding = yPosition + it.height + innerPaddingPx < cardHeightPx
+                    val fitsWithoutBottomPadding = yPosition + it.height <= cardHeightPx
+                    // Always prioritize showing the title; relax the bottom whitespace
+                    // requirement for very short cards as long as the title fits vertically.
+                    showTitle = fitsWithBottomPadding || fitsWithoutBottomPadding
                     if (showTitle) {
                         it.placeRelative(0, yPosition)
                         yPosition += it.height
@@ -610,17 +614,19 @@ private fun createRoomColumnData() = RoomColumnData(
     spacings = listOf(20, 80, 0, 8, 0),
 )
 
-@Preview()
+@Preview
 @Composable
 private fun SessionCardPreview() {
     val data = createSessionCardData(height = 200, isFavored = true, hasAlarm = true, isRecorded = false)
-    SessionCard(
-        data = data,
-        sessionCardLayout = { SessionCardLayout(data) },
-        contextMenuTextColor = Color.White,
-        onClick = {},
-        onMenuItemClick = {},
-    )
+    EventFahrplanTheme {
+        SessionCard(
+            data = data,
+            sessionCardLayout = { SessionCardLayout(data) },
+            contextMenuTextColor = Color.White,
+            onClick = {},
+            onMenuItemClick = {},
+        )
+    }
 }
 
 @Composable
@@ -836,27 +842,29 @@ private fun createSessionCard(
     backgroundColor: Int = R.color.track_background_default,
     textColor: Int = R.color.text_primary,
 ) {
-    SessionCard(
-        SessionCardData(
-            sessionId = stringResource(R.string.placeholder_session_id),
-            title = SessionProperty(title, ""),
-            subtitle = SessionProperty(subtitle, ""),
-            speakerNames = SessionProperty(speakerNames, ""),
-            languages = SessionProperty(languages, ""),
-            trackName = SessionProperty(trackName, ""),
-            recordingOptOut = SessionProperty(recordingOptOut, ""),
-            stateContentDescription = "",
-            innerHorizontalPadding = 8f,
-            innerVerticalPadding = 4f,
-            cardHeight = cardHeight,
-            isFavored = isFavored,
-            hasAlarm = hasAlarm,
-            showBorder = showBorder,
-            shouldShowShareSubMenu = shouldShowShareSubMenu,
-            backgroundColor = backgroundColor,
-            textColor = textColor,
+    EventFahrplanTheme {
+        SessionCard(
+            SessionCardData(
+                sessionId = stringResource(R.string.placeholder_session_id),
+                title = SessionProperty(title, ""),
+                subtitle = SessionProperty(subtitle, ""),
+                speakerNames = SessionProperty(speakerNames, ""),
+                languages = SessionProperty(languages, ""),
+                trackName = SessionProperty(trackName, ""),
+                recordingOptOut = SessionProperty(recordingOptOut, ""),
+                stateContentDescription = "",
+                innerHorizontalPadding = 8f,
+                innerVerticalPadding = 4f,
+                cardHeight = cardHeight,
+                isFavored = isFavored,
+                hasAlarm = hasAlarm,
+                showBorder = showBorder,
+                shouldShowShareSubMenu = shouldShowShareSubMenu,
+                backgroundColor = backgroundColor,
+                textColor = textColor,
+            )
         )
-    )
+    }
 }
 
 @Composable
