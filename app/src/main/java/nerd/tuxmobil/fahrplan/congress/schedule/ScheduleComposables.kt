@@ -270,7 +270,11 @@ private fun SessionCardLayout(data: SessionCardData) {
                 // Title
                 var showTitle = true
                 titlePlaceable?.let {
-                    showTitle = yPosition + it.height + innerPaddingPx < cardHeightPx
+                    val fitsWithBottomPadding = yPosition + it.height + innerPaddingPx < cardHeightPx
+                    val fitsWithoutBottomPadding = yPosition + it.height <= cardHeightPx
+                    // Always prioritize showing the title; relax the bottom whitespace
+                    // requirement for very short cards as long as the title fits vertically.
+                    showTitle = fitsWithBottomPadding || fitsWithoutBottomPadding
                     if (showTitle) {
                         it.placeRelative(0, yPosition)
                         yPosition += it.height
