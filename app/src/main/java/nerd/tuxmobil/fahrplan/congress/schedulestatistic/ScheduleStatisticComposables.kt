@@ -1,6 +1,5 @@
 package nerd.tuxmobil.fahrplan.congress.schedulestatistic
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -8,7 +7,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.defaultMinSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeContent
 import androidx.compose.foundation.lazy.LazyColumn
@@ -32,6 +30,9 @@ import nerd.tuxmobil.fahrplan.congress.R
 import nerd.tuxmobil.fahrplan.congress.commons.MultiDevicePreview
 import nerd.tuxmobil.fahrplan.congress.designsystem.bars.TopBar
 import nerd.tuxmobil.fahrplan.congress.designsystem.buttons.ButtonIcon
+import nerd.tuxmobil.fahrplan.congress.designsystem.graphs.StackedHorizontalBar
+import nerd.tuxmobil.fahrplan.congress.designsystem.graphs.StackedHorizontalBar.Colors
+import nerd.tuxmobil.fahrplan.congress.designsystem.graphs.StackedHorizontalBar.Item
 import nerd.tuxmobil.fahrplan.congress.designsystem.icons.IconActionable
 import nerd.tuxmobil.fahrplan.congress.designsystem.screenstates.Loading
 import nerd.tuxmobil.fahrplan.congress.designsystem.screenstates.NoData
@@ -195,9 +196,14 @@ private fun ColumnStatisticItem(
             modifier = Modifier.defaultMinSize(minWidth = 140.dp),
             text = "${statistic.name}:",
         )
+        val item = itemOf(statistic)
         StackedHorizontalBar(
-            value1 = statistic.countNone,
-            value2 = statistic.countPresent,
+            item = item,
+            contentDescription = "",
+            colors = Colors(
+                value1 = colorOf(item.value1Percentage),
+                value2 = EventFahrplanTheme.colorScheme.scheduleStatisticBarNoWarningBackground,
+            ),
             modifier = Modifier
                 .weight(1f)
                 .padding(start = 8.dp),
@@ -206,52 +212,11 @@ private fun ColumnStatisticItem(
 }
 
 @Composable
-private fun StackedHorizontalBar(
-    value1: Int,
-    value2: Int,
-    modifier: Modifier
-) {
-    val totalValue = value1 + value2
-    val value1Fraction = if (totalValue == 0) 0f else value1.toFloat() / totalValue
-    val value2Fraction = if (totalValue == 0) 0f else value2.toFloat() / totalValue
-    val value1Percentage = value1Fraction * 100
-
-    Row(
-        modifier = modifier,
-        verticalAlignment = CenterVertically,
-    ) {
-        Text(
-            text = "$value1",
-            textAlign = End,
-            modifier = Modifier
-                .defaultMinSize(minWidth = 50.dp)
-                .padding(end = 8.dp),
-        )
-        if (value1 > 0) {
-            Box(
-                modifier = Modifier
-                    .weight(value1Fraction)
-                    .height(20.dp)
-                    .background(colorOf(value1Percentage))
-            )
-        }
-        if (value2 > 0) {
-            Box(
-                modifier = Modifier
-                    .weight(value2Fraction)
-                    .height(20.dp)
-                    .background(EventFahrplanTheme.colorScheme.scheduleStatisticBarNoWarningBackground)
-            )
-        }
-        Text(
-            text = "$value2",
-            textAlign = Start,
-            modifier = Modifier
-                .defaultMinSize(minWidth = 50.dp)
-                .padding(start = 8.dp)
-        )
-    }
-}
+private fun itemOf(statistic: ColumnStatistic) = Item(
+    value1 = statistic.countNone,
+    value2 = statistic.countPresent,
+    totalValue = statistic.countNone + statistic.countPresent,
+)
 
 @Composable
 private fun colorOf(percentage: Float) = when {
