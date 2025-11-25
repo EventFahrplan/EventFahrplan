@@ -1,12 +1,12 @@
 package nerd.tuxmobil.fahrplan.congress.changes
 
 import nerd.tuxmobil.fahrplan.congress.R
+import nerd.tuxmobil.fahrplan.congress.changes.ChangeType.CANCELED
+import nerd.tuxmobil.fahrplan.congress.changes.ChangeType.CHANGED
+import nerd.tuxmobil.fahrplan.congress.changes.ChangeType.NEW
+import nerd.tuxmobil.fahrplan.congress.changes.ChangeType.UNCHANGED
 import nerd.tuxmobil.fahrplan.congress.changes.SessionChangeParameter.Separator
 import nerd.tuxmobil.fahrplan.congress.changes.SessionChangeParameter.SessionChange
-import nerd.tuxmobil.fahrplan.congress.changes.SessionChangeProperty.ChangeState.CANCELED
-import nerd.tuxmobil.fahrplan.congress.changes.SessionChangeProperty.ChangeState.CHANGED
-import nerd.tuxmobil.fahrplan.congress.changes.SessionChangeProperty.ChangeState.NEW
-import nerd.tuxmobil.fahrplan.congress.changes.SessionChangeProperty.ChangeState.UNCHANGED
 import nerd.tuxmobil.fahrplan.congress.commons.DaySeparatorFactory
 import nerd.tuxmobil.fahrplan.congress.commons.DaySeparatorProperty
 import nerd.tuxmobil.fahrplan.congress.commons.FormattingDelegate
@@ -81,47 +81,47 @@ class SessionChangeParametersFactory(
             title = SessionChangeProperty(
                 value = title,
                 contentDescription = title,
-                changeState = changeStateOf(session, session.changedTitle),
+                changeType = changeTypeOf(session, session.changedTitle),
             ),
             subtitle = SessionChangeProperty(
                 value = if (session.changedSubtitle && session.subtitle.isEmpty()) dash else session.subtitle,
                 contentDescription = contentDescriptionFormatting
                     .getSubtitleContentDescription(session.subtitle),
-                changeState = changeStateOf(session, session.changedSubtitle),
+                changeType = changeTypeOf(session, session.changedSubtitle),
             ),
             videoRecordingState = SessionChangeProperty(
                 value = videoState,
                 contentDescription = "", // The VideoRecordingState drawable provides its own content description.
-                changeState = changeStateOf(session, session.changedRecordingOptOut),
+                changeType = changeTypeOf(session, session.changedRecordingOptOut),
             ),
             speakerNames = SessionChangeProperty(
                 value = if (session.changedSpeakers && session.speakers.isEmpty()) dash else speakerNames,
                 contentDescription = contentDescriptionFormatting
                     .getSpeakersContentDescription(session.speakers.size, speakerNames),
-                changeState = changeStateOf(session, session.changedSpeakers),
+                changeType = changeTypeOf(session, session.changedSpeakers),
             ),
             dayText = SessionChangeProperty(
                 value = dayText,
                 contentDescription = dayText,
-                changeState = changeStateOf(session, session.changedDayIndex),
+                changeType = changeTypeOf(session, session.changedDayIndex),
             ),
             startsAt = SessionChangeProperty(
                 value = startsAt,
                 contentDescription = contentDescriptionFormatting
                     .getStartTimeContentDescription(startsAt),
-                changeState = changeStateOf(session, session.changedStartTime),
+                changeType = changeTypeOf(session, session.changedStartTime),
             ),
             duration = SessionChangeProperty(
                 value = duration,
                 contentDescription = contentDescriptionFormatting
                     .getDurationContentDescription(session.duration),
-                changeState = changeStateOf(session, session.changedDuration),
+                changeType = changeTypeOf(session, session.changedDuration),
             ),
             roomName = SessionChangeProperty(
                 value = session.roomName,
                 contentDescription = contentDescriptionFormatting
                     .getRoomNameContentDescription(session.roomName),
-                changeState = changeStateOf(session, session.changedRoomName),
+                changeType = changeTypeOf(session, session.changedRoomName),
             ),
             languages = SessionChangeProperty(
                 value = if (session.changedLanguage && session.language.isEmpty()) dash else languages,
@@ -130,13 +130,13 @@ class SessionChangeParametersFactory(
                 } else {
                     contentDescriptionFormatting.getLanguageContentDescription(languages)
                 },
-                changeState = changeStateOf(session, session.changedLanguage),
+                changeType = changeTypeOf(session, session.changedLanguage),
             ),
             isCanceled = session.changedIsCanceled,
         )
     }
 
-    private fun changeStateOf(session: Session, propertyChanged: Boolean) = when {
+    private fun changeTypeOf(session: Session, propertyChanged: Boolean) = when {
         session.changedIsNew -> NEW
         session.changedIsCanceled -> CANCELED
         propertyChanged -> CHANGED

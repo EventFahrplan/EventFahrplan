@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import nerd.tuxmobil.fahrplan.congress.TestExecutionContext
-import nerd.tuxmobil.fahrplan.congress.changes.SessionChangeProperty.ChangeState.UNCHANGED
+import nerd.tuxmobil.fahrplan.congress.changes.ChangeType.UNCHANGED
 import nerd.tuxmobil.fahrplan.congress.changes.SessionChangeState.Loading
 import nerd.tuxmobil.fahrplan.congress.changes.SessionChangeState.Success
 import nerd.tuxmobil.fahrplan.congress.changes.SessionChangeViewEvent.OnSessionChangeItemClick
@@ -78,47 +78,47 @@ class ChangeListViewModelTest {
             title = SessionChangeProperty(
                 value = "Title",
                 contentDescription = "",
-                changeState = UNCHANGED
+                changeType = UNCHANGED
             ),
             subtitle = SessionChangeProperty(
                 value = "Subtitle",
                 contentDescription = "",
-                changeState = UNCHANGED
+                changeType = UNCHANGED
             ),
             speakerNames = SessionChangeProperty(
                 value = "Jane Doe, John Doe",
                 contentDescription = "",
-                changeState = UNCHANGED,
+                changeType = UNCHANGED,
             ),
             roomName = SessionChangeProperty(
                 value = "Main room",
                 contentDescription = "",
-                changeState = UNCHANGED,
+                changeType = UNCHANGED,
             ),
             dayText = SessionChangeProperty(
                 value = "",
                 contentDescription = "",
-                changeState = UNCHANGED,
+                changeType = UNCHANGED,
             ),
             startsAt = SessionChangeProperty(
                 value = "",
                 contentDescription = "",
-                changeState = UNCHANGED,
+                changeType = UNCHANGED,
             ),
             duration = SessionChangeProperty(
                 value = "30 min",
                 contentDescription = "",
-                changeState = UNCHANGED,
+                changeType = UNCHANGED,
             ),
             languages = SessionChangeProperty(
                 value = "de, en",
                 contentDescription = "",
-                changeState = UNCHANGED,
+                changeType = UNCHANGED,
             ),
             videoRecordingState = SessionChangeProperty(
                 value = None,
                 contentDescription = "",
-                changeState = UNCHANGED,
+                changeType = UNCHANGED,
             ),
             isCanceled = false,
         )
@@ -158,47 +158,47 @@ class ChangeListViewModelTest {
                 title = SessionChangeProperty(
                     value = it.title,
                     contentDescription = "",
-                    changeState = UNCHANGED
+                    changeType = UNCHANGED
                 ),
                 subtitle = SessionChangeProperty(
                     value = it.subtitle,
                     contentDescription = "",
-                    changeState = UNCHANGED
+                    changeType = UNCHANGED
                 ),
                 speakerNames = SessionChangeProperty(
                     value = it.speakers.joinToString(),
                     contentDescription = "",
-                    changeState = UNCHANGED,
+                    changeType = UNCHANGED,
                 ),
                 roomName = SessionChangeProperty(
                     value = it.roomName,
                     contentDescription = "",
-                    changeState = UNCHANGED,
+                    changeType = UNCHANGED,
                 ),
                 dayText = SessionChangeProperty(
                     value = "",
                     contentDescription = "",
-                    changeState = UNCHANGED,
+                    changeType = UNCHANGED,
                 ),
                 startsAt = SessionChangeProperty(
                     value = "",
                     contentDescription = "",
-                    changeState = UNCHANGED,
+                    changeType = UNCHANGED,
                 ),
                 duration = SessionChangeProperty(
                     value = "${it.duration.toWholeMinutes()} min",
                     contentDescription = "",
-                    changeState = UNCHANGED,
+                    changeType = UNCHANGED,
                 ),
                 languages = SessionChangeProperty(
                     value = it.language,
                     contentDescription = "",
-                    changeState = UNCHANGED,
+                    changeType = UNCHANGED,
                 ),
                 videoRecordingState = SessionChangeProperty(
                     value = None,
                     contentDescription = "",
-                    changeState = UNCHANGED,
+                    changeType = UNCHANGED,
                 ),
                 isCanceled = false,
             )
