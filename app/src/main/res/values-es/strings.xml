@@ -45,29 +45,6 @@
     <string name="dlg_err_schedule_data_empty_without_version">        Nada para mostrar. El horario no contiene ninguna sesión.
     </string>
     <string name="uptodate">El calendario está actualizado.</string>
-    <!-- Schedule changes dialog -->
-    <string name="schedule_changes_dialog_title">Actualización de calendario</string>
-    <string name="schedule_changes_dialog_updated_to_text">El calendario ha sido actualizado a\u0020</string>
-    <string name="schedule_changes_dialog_changed_new_cancelled_text">. Hay cambios en <xliff:g example="3 lectures" id="num_changes">%1$s</xliff:g>, <xliff:g example="2 are" id="num_new">%2$s</xliff:g> <xliff:g example="nuevas" id="phrase_new">%3$s</xliff:g>, <xliff:g example="1 is" id="num_canceled">%4$s</xliff:g> <xliff:g example="cancelada" id="phrase_cancelled">%5$s</xliff:g>.</string>
-    <string name="schedule_changes_dialog_affected_text">Los cambios afectan <xliff:g example="2" id="num_marked">%1$d</xliff:g> de tus clases favoritas</string>
-    <plurals name="schedule_changes_dialog_phrase_new">
-        <item quantity="one">nuevas</item>
-        <item quantity="other">new</item>
-    </plurals>
-    <plurals name="schedule_changes_dialog_phrase_cancelled">
-        <item quantity="one">cancelada</item>
-        <item quantity="other">cancelled</item>
-    </plurals>
-    <plurals name="schedule_changes_dialog_number_of_sessions">
-        <item quantity="one"><xliff:g example="1" id="count">%d</xliff:g> clase</item>
-        <item quantity="other"><xliff:g example="9" id="count">%d</xliff:g> clases</item>
-    </plurals>
-    <plurals name="schedule_changes_dialog_being">
-        <item quantity="one"><xliff:g example="1" id="count">%d</xliff:g> es</item>
-        <item quantity="other"><xliff:g example="9" id="count">%d</xliff:g> son</item>
-    </plurals>
-    <string name="schedule_changes_dialog_browse">Explorar</string>
-    <string name="schedule_changes_dialog_later">Más tarde</string>
     <string name="navigate_back_content_description">Atrás</string>
     <string name="progress_loading_data">Obtener calendario &#8230;</string>
     <string name="progress_processing_data">Procesando calendario &#8230;</string>
@@ -99,6 +76,10 @@
     <string name="schedule_changes_no_changes_title">Sin cambios en el calendario</string>
     <string name="favorites_no_favorites_title">No hay clases favoritas</string>
     <string name="schedule_changes">Cambios en el calendario</string>
+    <!-- Schedule changes statistic -->
+    <string name="schedule_changes_statistic_title">Actualización de calendario</string>
+    <string name="schedule_changes_statistic_browse">Explorar</string>
+    <string name="schedule_changes_statistic_later">Más tarde</string>
     <string name="favorites_screen_default_title">Favoritos</string>
     <string name="choose_to_delete">Seleccione las clases</string>
     <string name="day_separator">Día <xliff:g example="2" id="day_of_congress">%1$d</xliff:g> - <xliff:g example="29.12.2014" id="date_of_congress_day">%2$s</xliff:g></string>

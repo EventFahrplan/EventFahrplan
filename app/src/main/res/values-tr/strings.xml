@@ -45,29 +45,6 @@
     <string name="dlg_err_schedule_data_empty_without_version">        Gösterilecek hiçbir şey yok. Takvim herhangi bir oturum içermiyor.
     </string>
     <string name="uptodate">Takvim güncel.</string>
-    <!-- Schedule changes dialog -->
-    <string name="schedule_changes_dialog_title">Takvim güncellemesi</string>
-    <string name="schedule_changes_dialog_updated_to_text">Takvim \u0020 olarak güncellendi</string>
-    <string name="schedule_changes_dialog_changed_new_cancelled_text"><xliff:g example="3 sessions" id="num_changes">%1$s</xliff:g>,<xliff:g example="2 are" id="num_new">%2$s</xliff:g><xliff:g example="new" id="phrase_new">%3$s</xliff:g>,<xliff:g example="1 is" id="num_canceled">%4$s</xliff:g><xliff:g example="cancelled" id="phrase_cancelled">%5$s</xliff:g> değişiklikler var.</string>
-    <string name="schedule_changes_dialog_affected_text">Değişiklikler <xliff:g example="2" id="num_marked">%1$d</xliff:g> favori oturumunu etkiliyor.</string>
-    <plurals name="schedule_changes_dialog_phrase_new">
-        <item quantity="one">yeni</item>
-        <item quantity="other">yeni</item>
-    </plurals>
-    <plurals name="schedule_changes_dialog_phrase_cancelled">
-        <item quantity="one">iptal edildi</item>
-        <item quantity="other">iptal edildi</item>
-    </plurals>
-    <plurals name="schedule_changes_dialog_number_of_sessions">
-        <item quantity="one"><xliff:g example="1" id="count">%d</xliff:g> oturum</item>
-        <item quantity="other"><xliff:g example="9" id="count">%d</xliff:g> oturum</item>
-    </plurals>
-    <plurals name="schedule_changes_dialog_being">
-        <item quantity="one"><xliff:g example="1" id="count">%d</xliff:g> </item>
-        <item quantity="other"><xliff:g example="9" id="count">%d</xliff:g></item>
-    </plurals>
-    <string name="schedule_changes_dialog_browse">Görüntüle</string>
-    <string name="schedule_changes_dialog_later">Sonra</string>
     <string name="navigate_back_content_description">Geri</string>
     <string name="progress_loading_data">Planı indir &#8230;</string>
     <string name="progress_processing_data">Plan işleniyor &#8230;</string>
@@ -108,6 +85,10 @@
     <string name="favorites_no_favorites_title">Favoriler yok</string>
     <string name="favorites_no_favorites_subtitle">Favori eklemek için menü çubuğundaki yıldıza tıklayın</string>
     <string name="schedule_changes">Plan değişiklikleri</string>
+    <!-- Schedule changes statistic -->
+    <string name="schedule_changes_statistic_title">Takvim güncellemesi</string>
+    <string name="schedule_changes_statistic_browse">Görüntüle</string>
+    <string name="schedule_changes_statistic_later">Sonra</string>
     <string name="general_settings">Genel</string>
     <string name="favorites_screen_default_title">Favoriler</string>
     <string name="choose_to_delete">Oturumları seç</string>

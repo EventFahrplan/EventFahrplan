@@ -698,7 +698,7 @@ object AppRepository : SearchRepository,
      * The returned list might be empty.
      */
     @WorkerThread
-    private fun loadSessionsForAllDays() = loadSessionsForAllDays(true)
+    fun loadSessionsForAllDays() = loadSessionsForAllDays(true)
         .also { logging.d(LOG_TAG, "${it.size} sessions with alarm flag.") }
 
     /**

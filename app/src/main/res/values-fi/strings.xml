@@ -45,29 +45,6 @@
     <string name="dlg_err_schedule_data_empty_without_version">        Ei mitään näytettävää. Aikataulu ei sisällä yhtäkään istuntoa.
     </string>
     <string name="uptodate">Aikataulu on ajan tasalla.</string>
-    <!-- Schedule changes dialog -->
-    <string name="schedule_changes_dialog_title">Aikataulupäivitys</string>
-    <string name="schedule_changes_dialog_updated_to_text">Aikataulu on päivitetty määreeseen\u0020</string>
-    <string name="schedule_changes_dialog_changed_new_cancelled_text">. Ilmeni muutoksia kohteessa <xliff:g esimerkki="3 luennot" id="num_muutokset">%1$s</xliff:g>, <xliff:g esimerkki="2 ovat" id="num_uusi">%2$s</xliff:g> <xliff:g esimerkki="uusi" id="sananparsi_uusi">%3$s</xliff:g>, <xliff:g esimerkki="1 is" id="num_peruutettu">%4$s</xliff:g> <xliff:g esimerkki="peruutettu" id="sananparsi_peruutettu">%5$s</xliff:g>.</string>
-    <string name="schedule_changes_dialog_affected_text">Muutokset vaikuttavat <xliff:g esimerkki="2" id="num_merkitty">%1$d</xliff:g> suosimiisi luentoihin.</string>
-    <plurals name="schedule_changes_dialog_phrase_new">
-        <item quantity="one">uusi</item>
-        <item quantity="other">uusi</item>
-    </plurals>
-    <plurals name="schedule_changes_dialog_phrase_cancelled">
-        <item quantity="one">peruutettu</item>
-        <item quantity="other">peruutettu</item>
-    </plurals>
-    <plurals name="schedule_changes_dialog_number_of_sessions">
-        <item quantity="one"><xliff:g esimerkki="1" id="lukumäärä">%d</xliff:g> luento</item>
-        <item quantity="other"><xliff:g esimerkki="9" id="lukumäärä">%d</xliff:g> luennot</item>
-    </plurals>
-    <plurals name="schedule_changes_dialog_being">
-        <item quantity="one"><xliff:g esimerkki="1" id="lukumäärä">%d</xliff:g> on</item>
-        <item quantity="other"><xliff:g esimerkki="9" id="lukumäärät">%d</xliff:g> ovat</item>
-    </plurals>
-    <string name="schedule_changes_dialog_browse">Selaa</string>
-    <string name="schedule_changes_dialog_later">Myöhemmin</string>
     <string name="progress_loading_data">Nouda aikataulu &#8230;</string>
     <string name="progress_processing_data">Käsitellään aikataulua &#8230;</string>
     <string name="day">Päivä</string>
@@ -101,6 +78,10 @@
     <string name="schedule_changes_no_changes_title">Ei aikataulumuutoksia</string>
     <string name="favorites_no_favorites_title">Ei lempiluentoja</string>
     <string name="schedule_changes">Aikataulumuutokset</string>
+    <!-- Schedule changes statistic -->
+    <string name="schedule_changes_statistic_title">Aikataulupäivitys</string>
+    <string name="schedule_changes_statistic_browse">Selaa</string>
+    <string name="schedule_changes_statistic_later">Myöhemmin</string>
     <string name="general_settings">Yleiset</string>
     <string name="favorites_screen_default_title">Suosikit</string>
     <string name="choose_to_delete">Valitse luennot</string>

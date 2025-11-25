@@ -45,29 +45,6 @@
     <string name="dlg_err_schedule_data_empty_without_version">        Nada para exibir. O cronograma não contém nenhuma sessão.
     </string>
     <string name="uptodate">O cronograma está atualizado.</string>
-    <!-- Schedule changes dialog -->
-    <string name="schedule_changes_dialog_title">Atualização do cronograma</string>
-    <string name="schedule_changes_dialog_updated_to_text">O cronograma foi atualizado para\u0020</string>
-    <string name="schedule_changes_dialog_changed_new_cancelled_text">. Há alterações em <xliff:g example="3 sessions" id="num_changes">%1$s</xliff:g> <xliff:g example="2 are" id="num_new">%2$s</xliff:g> <xliff:g example="new" id="phrase_new">%3$s</xliff:g> <xliff:g example="1 is" id="num_canceled">%4$s</xliff:g> <xliff:g example="cancelled" id="phrase_cancelled">%5$s</xliff:g>.</string>
-    <string name="schedule_changes_dialog_affected_text">As alterações afetaram <xliff:g example="2" id="num_marked">%1$d</xliff:g> de suas sessões favoritas.</string>
-    <plurals name="schedule_changes_dialog_phrase_new">
-        <item quantity="one">novo</item>
-        <item quantity="other">novos</item>
-    </plurals>
-    <plurals name="schedule_changes_dialog_phrase_cancelled">
-        <item quantity="one">cancelado</item>
-        <item quantity="other">cancelados</item>
-    </plurals>
-    <plurals name="schedule_changes_dialog_number_of_sessions">
-        <item quantity="one"><xliff:g example="1" id="count">%d</xliff:g> sessão</item>
-        <item quantity="other"><xliff:g example="9" id="count">%d</xliff:g> sessões</item>
-    </plurals>
-    <plurals name="schedule_changes_dialog_being">
-        <item quantity="one"><xliff:g example="1" id="count">%d</xliff:g> é</item>
-        <item quantity="other"><xliff:g example="9" id="count">%d</xliff:g> são</item>
-    </plurals>
-    <string name="schedule_changes_dialog_browse">Explorar</string>
-    <string name="schedule_changes_dialog_later">Mais tarde</string>
     <string name="navigate_back_content_description">Voltar</string>
     <string name="progress_loading_data">Obter o cronograma &#8230;</string>
     <string name="progress_processing_data">Processando o cronograma &#8230;</string>
@@ -107,6 +84,10 @@
     <string name="favorites_no_favorites_title">Não há sessões favoritas</string>
     <string name="favorites_no_favorites_subtitle">Toque na estrela na barra de menu para definir um favorito</string>
     <string name="schedule_changes">Alterações no cronograma</string>
+    <!-- Schedule changes statistic -->
+    <string name="schedule_changes_statistic_title">Atualização do cronograma</string>
+    <string name="schedule_changes_statistic_browse">Explorar</string>
+    <string name="schedule_changes_statistic_later">Mais tarde</string>
     <string name="general_settings">Geral</string>
     <string name="favorites_screen_default_title">Favoritos</string>
     <string name="choose_to_delete">Selecione as sessões</string>

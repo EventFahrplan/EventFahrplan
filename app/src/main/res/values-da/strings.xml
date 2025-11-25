@@ -42,17 +42,6 @@
     <string name="dlg_err_schedule_data_empty_without_version">        Intet at vise. Tidsplanen indeholder ikke nogen session.
     </string>
     <string name="uptodate">Tidsplan er opdateret.</string>
-    <!-- Schedule changes dialog -->
-    <string name="schedule_changes_dialog_title">Tidsplan opdatering</string>
-    <string name="schedule_changes_dialog_updated_to_text">Tidsplanen er blevet opdateret til\u0020</string>
-    <string name="schedule_changes_dialog_changed_new_cancelled_text">. Der er ændringer i <xliff:g example="3 lectures" id="num_changes">%1$s</xliff:g>, <xliff:g example="2 are" id="num_new">%2$s</xliff:g> <xliff:g example="new" id="phrase_new">%3$s</xliff:g>, <xliff:g example="1 is" id="num_canceled">%4$s</xliff:g> <xliff:g example="cancelled" id="phrase_cancelled">%5$s</xliff:g>.</string>
-    <string name="schedule_changes_dialog_affected_text">Ændringerne påvirker <xliff:g example="2" id="num_marked">%1$d</xliff:g> af dine foretrukne foredrag.</string>
-    <plurals name="schedule_changes_dialog_phrase_cancelled">
-        <item quantity="one">annulleret</item>
-        <item quantity="other">annulleret</item>
-    </plurals>
-    <string name="schedule_changes_dialog_browse">Gennemse</string>
-    <string name="schedule_changes_dialog_later">Senere</string>
     <string name="progress_loading_data">Få tidsplan &#8230;</string>
     <string name="day">Dag</string>
     <string name="fahrplan">Tidsplan</string>
@@ -74,6 +63,10 @@
     <string name="schedule_changes_no_changes_title">Ingen tidsplan ændringer</string>
     <string name="favorites_no_favorites_title">Ingen favoritforedrag</string>
     <string name="schedule_changes">Tidsplan ændringer</string>
+    <!-- Schedule changes statistic -->
+    <string name="schedule_changes_statistic_title">Tidsplan opdatering</string>
+    <string name="schedule_changes_statistic_browse">Gennemse</string>
+    <string name="schedule_changes_statistic_later">Senere</string>
     <string name="dlg_delete_all_favorites">Slet alle favoritter?</string>
     <!-- Build information -->
     <string name="build_info_time">        Build time: <xliff:g example="2015-12-27T13:42Z" id="build_time">%s</xliff:g>

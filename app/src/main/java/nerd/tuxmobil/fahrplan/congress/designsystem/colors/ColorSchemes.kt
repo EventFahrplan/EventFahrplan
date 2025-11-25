@@ -51,6 +51,7 @@ internal fun darkColorScheme() = androidx.compose.material3.darkColorScheme(
     scheduleChangeNewText = colorResource(R.color.schedule_change_new_on_dark),
     scheduleChangeCanceledText = colorResource(R.color.schedule_change_canceled_on_dark),
     scheduleChangeChangedText = colorResource(R.color.schedule_change_on_dark),
+    scheduleChangeBarBackground = colorResource(R.color.schedule_changes_statistic_bar_background_on_dark),
 )
 
 @Composable
@@ -97,6 +98,7 @@ internal fun lightColorScheme() = androidx.compose.material3.lightColorScheme(
     scheduleChangeNewText = colorResource(R.color.schedule_change_new_on_light),
     scheduleChangeCanceledText = colorResource(R.color.schedule_change_canceled_on_light),
     scheduleChangeChangedText = colorResource(R.color.schedule_change_on_light),
+    scheduleChangeBarBackground = colorResource(R.color.schedule_changes_statistic_bar_background_on_light),
 )
 
 internal val LocalColorScheme = staticCompositionLocalOf<ColorScheme> {
@@ -131,6 +133,7 @@ private fun Material3ColorScheme.toColorScheme(
     scheduleChangeNewText: Color,
     scheduleChangeCanceledText: Color,
     scheduleChangeChangedText: Color,
+    scheduleChangeBarBackground: Color,
 ): ColorScheme {
     return ColorScheme(
         primary = primary,
@@ -210,5 +213,6 @@ private fun Material3ColorScheme.toColorScheme(
         scheduleChangeNew = scheduleChangeNewText,
         scheduleChangeCanceled = scheduleChangeCanceledText,
         scheduleChangeChanged = scheduleChangeChangedText,
+        scheduleChangeBarBackground = scheduleChangeBarBackground,
     )
 }

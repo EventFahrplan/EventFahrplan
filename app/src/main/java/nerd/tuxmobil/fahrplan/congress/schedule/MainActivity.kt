@@ -16,6 +16,8 @@ import androidx.activity.viewModels
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
 import androidx.appcompat.widget.Toolbar
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.ComposeView
 import androidx.core.content.getSystemService
 import androidx.core.net.toUri
 import androidx.core.view.MenuProvider
@@ -35,9 +37,10 @@ import nerd.tuxmobil.fahrplan.congress.base.BaseActivity
 import nerd.tuxmobil.fahrplan.congress.base.OnSessionItemClickListener
 import nerd.tuxmobil.fahrplan.congress.changes.ChangeListActivity
 import nerd.tuxmobil.fahrplan.congress.changes.ChangeListFragment
-import nerd.tuxmobil.fahrplan.congress.changes.ChangesDialog
-import nerd.tuxmobil.fahrplan.congress.changes.statistic.ChangeStatistic
+import nerd.tuxmobil.fahrplan.congress.changes.statistic.ChangeStatisticsUiState
+import nerd.tuxmobil.fahrplan.congress.changes.statistic.ChangeStatisticScreen
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
+import nerd.tuxmobil.fahrplan.congress.designsystem.themes.EventFahrplanTheme
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsActivity
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsFragment
 import nerd.tuxmobil.fahrplan.congress.engagements.initUserEngagement
@@ -157,6 +160,17 @@ class MainActivity : BaseActivity(),
         viewModel.checkPostNotificationsPermission()
     }
 
+    @Composable
+    private fun ScheduleChangeStatistics(state: ChangeStatisticsUiState) {
+        EventFahrplanTheme {
+            ChangeStatisticScreen(
+                uiState = state,
+                onConfirm = { viewModel.onCloseChangeStatisticsScreen(shouldOpenSessionChanges = true) },
+                onDismiss = { viewModel.onCloseChangeStatisticsScreen(shouldOpenSessionChanges = false) },
+            )
+        }
+    }
+
     private fun observeViewModel() {
         viewModel.loadScheduleUiState.observe(this) {
             updateUi(it)
@@ -172,8 +186,13 @@ class MainActivity : BaseActivity(),
                 errorMessage.show(this, shouldShowLong = true)
             }
         }
-        viewModel.scheduleChangesParameter.observe(this) { (scheduleVersion, changeStatistic) ->
-            showChangesDialog(scheduleVersion, changeStatistic)
+        viewModel.changeStatisticsUiState.observe(this) { state ->
+            requireViewByIdCompat<ComposeView>(R.id.schedule_changes_statistic_view).setContent {
+                state?.let { ScheduleChangeStatistics(it) }
+            }
+        }
+        viewModel.openSessionChanges.observe(this) {
+            openSessionChanges()
         }
         viewModel.showAbout.observe(this) {
             showAboutDialog()
@@ -236,15 +255,6 @@ class MainActivity : BaseActivity(),
         }
         if (sidePaneView != null && isFavoritesInSidePane) {
             sidePaneView.isVisible = !isScreenLocked
-        }
-    }
-
-    private fun showChangesDialog(scheduleVersion: String, changeStatistic: ChangeStatistic) {
-        val fragment = findFragment(ChangesDialog.FRAGMENT_TAG)
-        if (fragment == null) {
-            ChangesDialog
-                .newInstance(scheduleVersion, changeStatistic)
-                .show(supportFragmentManager, ChangesDialog.FRAGMENT_TAG)
         }
     }
 
@@ -399,7 +409,7 @@ class MainActivity : BaseActivity(),
         }
     }
 
-    fun openSessionChanges() {
+    private fun openSessionChanges() {
         val sidePaneView = findViewById<FragmentContainerView>(R.id.detail)
         if (sidePaneView == null) {
             ChangeListActivity.start(this)

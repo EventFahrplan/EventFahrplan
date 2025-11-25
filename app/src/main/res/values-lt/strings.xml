@@ -42,37 +42,6 @@
     <string name="dlg_err_schedule_data_empty">Nėra ką rodyti. <xliff:g example="0.99" id="version">%s</xliff:g> versijos tvarkaraštis neturi jokių sesijų.</string>
     <string name="dlg_err_schedule_data_empty_without_version">Nėra ką rodyti. Tvarkaraštis neturi jokių sesijų.</string>
     <string name="uptodate">Tvarkaraštis jau yra naujausios versijos.</string>
-    <!-- Schedule changes dialog -->
-    <string name="schedule_changes_dialog_title">Tvarkaraščio atnaujinimas</string>
-    <string name="schedule_changes_dialog_updated_to_text">Tvarkaraštis buvo atnaujintas į\u0020</string>
-    <string name="schedule_changes_dialog_changed_new_cancelled_text">. Yra pakeitimų <xliff:g example="3 sessions" id="num_changes">%1$s</xliff:g>, <xliff:g example="2 are" id="num_new">%2$s</xliff:g> <xliff:g example="new" id="phrase_new">%3$s</xliff:g>, <xliff:g example="1 is" id="num_canceled">%4$s</xliff:g> <xliff:g example="cancelled" id="phrase_cancelled">%5$s</xliff:g>.</string>
-    <string name="schedule_changes_dialog_affected_text">Pakeitimai paveikė <xliff:g example="2" id="num_marked">%1$d</xliff:g> jūsų mėgstamiausias paskaitas.</string>
-    <plurals name="schedule_changes_dialog_phrase_new">
-        <item quantity="one">nauja</item>
-        <item quantity="few">naujos</item>
-        <item quantity="many">naujos</item>
-        <item quantity="other">naujų</item>
-    </plurals>
-    <plurals name="schedule_changes_dialog_phrase_cancelled">
-        <item quantity="one">atšaukta</item>
-        <item quantity="few">atšauktos</item>
-        <item quantity="many">atšauktos</item>
-        <item quantity="other">atšauktų</item>
-    </plurals>
-    <plurals name="schedule_changes_dialog_number_of_sessions">
-        <item quantity="one">%d paskaita</item>
-        <item quantity="few">%d paskaitos</item>
-        <item quantity="many">%d paskaitos</item>
-        <item quantity="other">%d paskaitų</item>
-    </plurals>
-    <plurals name="schedule_changes_dialog_being">
-        <item quantity="one">%d yra</item>
-        <item quantity="few">%d yra</item>
-        <item quantity="many">%d yra</item>
-        <item quantity="other">%d yra</item>
-    </plurals>
-    <string name="schedule_changes_dialog_browse">Naršyti</string>
-    <string name="schedule_changes_dialog_later">Vėliau</string>
     <string name="navigate_back_content_description">Atgal</string>
     <string name="progress_loading_data">Kraunamas tvarkaraštis &#8230;</string>
     <string name="progress_processing_data">Apdorojamas tvarkaraštis &#8230;</string>
@@ -112,6 +81,10 @@
     <string name="favorites_no_favorites_title">Nėra mėgstamų paskaitų</string>
     <string name="favorites_no_favorites_subtitle">Paspauskite ant žvaigždutės meniu juostoje, kad pažymėtumėte mėgstamas</string>
     <string name="schedule_changes">Tvarkaraščio pasikeitimai</string>
+    <!-- Schedule changes statistic -->
+    <string name="schedule_changes_statistic_title">Tvarkaraščio atnaujinimas</string>
+    <string name="schedule_changes_statistic_browse">Naršyti</string>
+    <string name="schedule_changes_statistic_later">Vėliau</string>
     <string name="general_settings">Bendra</string>
     <string name="favorites_screen_default_title">Mėgstamos</string>
     <string name="choose_to_delete">Pasirinkti paskaitas</string>

@@ -20,9 +20,6 @@
     <color name="schedule_time_column_item_text_emphasized">#fef2ff</color>
     <color name="schedule_horizontal_scrolling_progress_line">#fef2ff</color>
 
-    <!-- Schedule changes dialog -->
-    <color name="schedule_changes_dialog_new_version_text">#ffffff</color>
-
     <!-- Session details -->
     <color name="session_detailbar_background">#190b2f</color>
     <color name="session_detailbar_text">#fef2ff</color>

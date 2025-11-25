@@ -45,37 +45,6 @@
     <string name="dlg_err_schedule_data_empty_without_version">        Nie ma nic do wyświetlenia. Agenda nie zawiera żadnych sesji.
     </string>
     <string name="uptodate">Agenda jest aktualna.</string>
-    <!-- Schedule changes dialog -->
-    <string name="schedule_changes_dialog_title">Aktualizacja agendy</string>
-    <string name="schedule_changes_dialog_updated_to_text">Zaktualizowano agendę do wersji\u0020</string>
-    <string name="schedule_changes_dialog_changed_new_cancelled_text">. Są zmiany w <xliff:g example="3 sessions" id="num_changes">%1$s</xliff:g>, <xliff:g example="2 are" id="num_new">%2$s</xliff:g> <xliff:g example="new" id="phrase_new">%3$s</xliff:g>, <xliff:g example="1 is" id="num_canceled">%4$s</xliff:g> <xliff:g example="cancelled" id="phrase_cancelled">%5$s</xliff:g>.</string>
-    <string name="schedule_changes_dialog_affected_text">Zmiany dotyczą <xliff:g example="2" id="num_marked">%1$d</xliff:g> sesji oznaczonych przez Ciebie jako ulubione.</string>
-    <plurals name="schedule_changes_dialog_phrase_new">
-        <item quantity="one">nowy</item>
-        <item quantity="few">nowe</item>
-        <item quantity="many">nowych</item>
-        <item quantity="other">nowych</item>
-    </plurals>
-    <plurals name="schedule_changes_dialog_phrase_cancelled">
-        <item quantity="one">anulowany</item>
-        <item quantity="few">anulowane</item>
-        <item quantity="many">anulowanych</item>
-        <item quantity="other">anulowanych</item>
-    </plurals>
-    <plurals name="schedule_changes_dialog_number_of_sessions">
-        <item quantity="one"><xliff:g example="1" id="count">%d</xliff:g> sesja</item>
-        <item quantity="few"><xliff:g example="9" id="count">%d</xliff:g> sesji</item>
-        <item quantity="many"><xliff:g example="9" id="count">%d</xliff:g> sesji</item>
-        <item quantity="other"><xliff:g example="9" id="count">%d</xliff:g> sesji</item>
-    </plurals>
-    <plurals name="schedule_changes_dialog_being">
-        <item quantity="one"><xliff:g example="1" id="count">%d</xliff:g> jest</item>
-        <item quantity="few"><xliff:g example="3" id="count">%d</xliff:g> są</item>
-        <item quantity="many"><xliff:g example="12" id="count">%d</xliff:g> jest</item>
-        <item quantity="other"><xliff:g example="12" id="count">%d</xliff:g> jest</item>
-    </plurals>
-    <string name="schedule_changes_dialog_browse">Przeglądaj</string>
-    <string name="schedule_changes_dialog_later">Później</string>
     <string name="navigate_back_content_description">Wstecz</string>
     <string name="progress_loading_data">Pobieranie agendy &#8230;</string>
     <string name="progress_processing_data">Przetwarzanie agendy &#8230;</string>
@@ -117,6 +86,10 @@
     <string name="favorites_no_favorites_title">Brak ulubionych sesji</string>
     <string name="favorites_no_favorites_subtitle">Dotknij gwiazdki na pasku menu, aby polubić daną sesję</string>
     <string name="schedule_changes">Zmiany w agendzie</string>
+    <!-- Schedule changes statistic -->
+    <string name="schedule_changes_statistic_title">Aktualizacja agendy</string>
+    <string name="schedule_changes_statistic_browse">Przeglądaj</string>
+    <string name="schedule_changes_statistic_later">Później</string>
     <string name="development_settings">Dla deweloperów</string>
     <string name="general_settings">Ogólne</string>
     <string name="favorites_screen_default_title">Ulubione</string>

@@ -54,9 +54,9 @@
     <color name="session_item_track_name_text">#db000000</color>
     <color name="session_item_track_name_background">#99ffffff</color>
 
-    <!-- Schedule changes dialog -->
-    <color name="schedule_changes_dialog_body_text">@color/text_secondary</color>
-    <color name="schedule_changes_dialog_new_version_text">@color/colorAccent</color>
+    <!-- Schedule changes statistic -->
+    <color name="schedule_changes_statistic_bar_background_on_dark">#444444</color>
+    <color name="schedule_changes_statistic_bar_background_on_light">#cccccc</color>
 
     <!-- Schedule changes -->
     <color name="schedule_changes_background">@color/windowBackground</color>

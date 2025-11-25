@@ -42,29 +42,6 @@
     <string name="dlg_err_schedule_data_empty_without_version">        Nothing to display. The schedule does not contain any session.
     </string>
     <string name="uptodate">Cronograma está atualizado</string>
-    <!-- Schedule changes dialog -->
-    <string name="schedule_changes_dialog_title">Atualização de cronograma</string>
-    <string name="schedule_changes_dialog_updated_to_text">O cronograma foi atualizado para\u0020</string>
-    <string name="schedule_changes_dialog_changed_new_cancelled_text">. Há alterações em <xliff:g example="3 lectures" id="num_changes">%1$s</xliff:g>, <xliff:g example="2 are" id="num_new">%2$s</xliff:g> <xliff:g example="novos" id="phrase_new">%3$s</xliff:g>, <xliff:g example="1 is" id="num_canceled">%4$s</xliff:g> <xliff:g example="cancelados" id="phrase_cancelled">%5$s</xliff:g>.</string>
-    <string name="schedule_changes_dialog_affected_text">As alterações afetam <xliff:g example="2" id="num_marked">%1$d</xliff:g> das suas palestras favoritas.</string>
-    <plurals name="schedule_changes_dialog_phrase_new">
-        <item quantity="one">novos</item>
-        <item quantity="other">new</item>
-    </plurals>
-    <plurals name="schedule_changes_dialog_phrase_cancelled">
-        <item quantity="one">cancelados</item>
-        <item quantity="other">cancelled</item>
-    </plurals>
-    <plurals name="schedule_changes_dialog_number_of_sessions">
-        <item quantity="one">%d palestra</item>
-        <item quantity="other">%d palestras</item>
-    </plurals>
-    <plurals name="schedule_changes_dialog_being">
-        <item quantity="one">%d é</item>
-        <item quantity="other">%d são</item>
-    </plurals>
-    <string name="schedule_changes_dialog_browse">Explorar</string>
-    <string name="schedule_changes_dialog_later">Mais tarde</string>
     <string name="progress_loading_data">Obtendo cronograma &#8230;</string>
     <string name="progress_processing_data">Processando cronograma &#8230;</string>
     <string name="day">Dia</string>
@@ -93,6 +70,10 @@
     <string name="schedule_changes_no_changes_title">Nenhuma mudança de cronograma</string>
     <string name="favorites_no_favorites_title">Nenhuma palestra favorita</string>
     <string name="schedule_changes">Mudanças no cronograma</string>
+    <!-- Schedule changes statistic -->
+    <string name="schedule_changes_statistic_title">Atualização de cronograma</string>
+    <string name="schedule_changes_statistic_browse">Explorar</string>
+    <string name="schedule_changes_statistic_later">Mais tarde</string>
     <string name="general_settings">Geral</string>
     <string name="favorites_screen_default_title">Favoritos</string>
     <string name="choose_to_delete">Selecionar palestras</string>
