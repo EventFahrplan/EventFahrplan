@@ -9,7 +9,7 @@ import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
-import nerd.tuxmobil.fahrplan.congress.changes.ChangeStatistic
+import nerd.tuxmobil.fahrplan.congress.changes.statistic.ChangeStatistic
 import nerd.tuxmobil.fahrplan.congress.dataconverters.toSessionsAppModel
 import nerd.tuxmobil.fahrplan.congress.net.ParseResult
 import nerd.tuxmobil.fahrplan.congress.notifications.NotificationHelper

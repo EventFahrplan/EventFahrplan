@@ -35,8 +35,8 @@ import nerd.tuxmobil.fahrplan.congress.base.BaseActivity
 import nerd.tuxmobil.fahrplan.congress.base.OnSessionItemClickListener
 import nerd.tuxmobil.fahrplan.congress.changes.ChangeListActivity
 import nerd.tuxmobil.fahrplan.congress.changes.ChangeListFragment
-import nerd.tuxmobil.fahrplan.congress.changes.ChangeStatistic
 import nerd.tuxmobil.fahrplan.congress.changes.ChangesDialog
+import nerd.tuxmobil.fahrplan.congress.changes.statistic.ChangeStatistic
 import nerd.tuxmobil.fahrplan.congress.contract.BundleKeys
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsActivity
 import nerd.tuxmobil.fahrplan.congress.details.SessionDetailsFragment

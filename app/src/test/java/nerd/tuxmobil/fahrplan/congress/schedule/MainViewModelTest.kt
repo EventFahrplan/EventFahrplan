@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import nerd.tuxmobil.fahrplan.congress.NoLogging
 import nerd.tuxmobil.fahrplan.congress.TestExecutionContext
-import nerd.tuxmobil.fahrplan.congress.changes.ChangeStatistic
+import nerd.tuxmobil.fahrplan.congress.changes.statistic.ChangeStatistic
 import nerd.tuxmobil.fahrplan.congress.models.Alarm
 import nerd.tuxmobil.fahrplan.congress.models.Meta
 import nerd.tuxmobil.fahrplan.congress.net.HttpStatus

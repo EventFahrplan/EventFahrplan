@@ -1,6 +1,6 @@
 package nerd.tuxmobil.fahrplan.congress.schedule.observables
 
-import nerd.tuxmobil.fahrplan.congress.changes.ChangeStatistic
+import nerd.tuxmobil.fahrplan.congress.changes.statistic.ChangeStatistic
 import nerd.tuxmobil.fahrplan.congress.schedule.MainActivity
 import nerd.tuxmobil.fahrplan.congress.schedule.MainViewModel
 
